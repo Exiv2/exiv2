@@ -1,31 +1,31 @@
-# ***************************************************** -*- Makefile -*-
+# ************************************************************* -*- Makefile -*-
 #
-# Copyright (c) 2003, 2004 Andreas Huggel
-# All rights reserved. This program and the accompanying materials 
-# are made available under the terms of the Common Public License v1.0
-# which accompanies this distribution, and is available at
-# http://www.ibm.com/developerworks/oss/CPLv1.0.htm
+# Copyright (C) 2004 Andreas Huggel <ahuggel@gmx.net>
 #
-# Author(s): Andreas Huggel (ahu)
+# This Makefile is part of the Exiv2 distribution.
 #
-# RCS information
-#  $Name:  $
-#  $Revision: 1.1 $
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+# 02111-1307, USA.
+#
+# File:      Makefile
+# Version:   $Name:  $ $Revision: 1.2 $
+# Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
+# History:   10-Dec-03, ahu: created
 #
 # Description:
-#  Do NOT change this file! All system specific settings and configs
-#  go into config.mk.
-#
-#  This makefile contains (supposedly) generic build rules to build a
-#  library and applications. It includes all system specific settings
-#  from config.mk. The idea is that configuring and porting the 
-#  software to a new platform should only require changes in config.mk.
-#
-#  Adding new source files or applications: Just add an entry with the
-#  name of the new file in the section 'Source files' below.
-#
-# Restrictions:
-#  Requires GNU make.
+#  Simple Makefile to build the doxygen documentation
 #
 
 # Default make target
