@@ -3,13 +3,13 @@
   Abstract:  Print a simple comma separated list of tags defined in Exiv2
 
   File:      taglist.cpp
-  Version:   $Name:  $ $Revision: 1.10 $
+  Version:   $Name:  $ $Revision: 1.11 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   07-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.10 $ $RCSfile: taglist.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.11 $ $RCSfile: taglist.cpp,v $");
 
 #include "makernote.hpp"
 #include "tags.hpp"
@@ -28,18 +28,15 @@ try {
     switch (argc) {
     case 2:
     {
-        MakerNote* pMakerNote = 0;
         std::string item(argv[1]);
         if (item == "Iptc") {
             IptcDataSets::dataSetList(std::cout);
             break;
         }
         
-        pMakerNote = MakerNoteFactory::instance().create(item);
-        if (pMakerNote) {
-            pMakerNote->taglist(std::cout);
-            delete pMakerNote;
-            pMakerNote = 0;
+        MakerNote::AutoPtr makerNote = MakerNoteFactory::instance().create(item);
+        if (makerNote.get() != 0) {
+            makerNote->taglist(std::cout);
         }
         else {
             rc = 2;

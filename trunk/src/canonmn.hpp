@@ -23,7 +23,7 @@
   @brief   Canon MakerNote implemented according to the specification
            <a href="http://www.burren.cx/david/canon.html">
            EXIF MakerNote of Canon</a> by David Burren
-  @version $Name:  $ $Revision: 1.12 $
+  @version $Name:  $ $Revision: 1.13 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created<BR>
@@ -40,6 +40,7 @@
 // + standard includes
 #include <string>
 #include <iosfwd>
+#include <memory>
 
 // *****************************************************************************
 // namespace extensions
@@ -53,9 +54,10 @@ namespace Exiv2 {
 // free functions
 
     /*!
-      @brief Return a pointer to a newly created empty MakerNote initialized to
-             operate in the memory management model indicated.  The caller owns
-             this copy and is responsible to delete it!
+      @brief Return an auto-pointer to a newly created empty MakerNote
+             initialized to operate in the memory management model indicated.
+             The caller owns this copy and the auto-pointer ensures that it
+             will be deleted.
       
       @param alloc Memory management model for the new MakerNote. Determines if
              memory required to store data should be allocated and deallocated
@@ -69,14 +71,15 @@ namespace Exiv2 {
       @param offset Offset from the start of the TIFF header of the makernote
              buffer (not used).
       
-      @return A pointer to a newly created empty MakerNote. The caller owns
-             this copy and is responsible to delete it!
+      @return An auto-pointer to a newly created empty MakerNote. The caller
+             owns this copy and the auto-pointer ensures that it will be
+             deleted.
      */
-    MakerNote* createCanonMakerNote(bool alloc,
-                                    const byte* buf, 
-                                    long len, 
-                                    ByteOrder byteOrder, 
-                                    long offset);
+    MakerNote::AutoPtr createCanonMakerNote(bool alloc,
+                                            const byte* buf, 
+                                            long len, 
+                                            ByteOrder byteOrder, 
+                                            long offset);
 
 // *****************************************************************************
 // class definitions
@@ -84,6 +87,9 @@ namespace Exiv2 {
     //! MakerNote for Canon cameras
     class CanonMakerNote : public IfdMakerNote {
     public:
+        //! Shortcut for a %CanonMakerNote auto pointer.
+        typedef std::auto_ptr<CanonMakerNote> AutoPtr;
+
         //! @name Creators
         //@{
         /*!
@@ -96,8 +102,8 @@ namespace Exiv2 {
         //@}
 
         //! @name Accessors
-        //@{        
-        CanonMakerNote* clone(bool alloc =true) const;
+        //@{
+        CanonMakerNote::AutoPtr clone(bool alloc =true) const;
         //! Return the name of the makernote item ("Canon")
         std::string ifdItem() const { return ifdItem_; }
         std::ostream& printTag(std::ostream& os,
@@ -170,6 +176,9 @@ namespace Exiv2 {
         //@}
 
     private:
+        //! Internal virtual copy constructor.
+        CanonMakerNote* clone_(bool alloc =true) const;
+
         //! Structure used to auto-register the MakerNote.
         struct RegisterMakerNote {
             //! Default constructor
@@ -177,7 +186,7 @@ namespace Exiv2 {
             {
                 MakerNoteFactory& mnf = MakerNoteFactory::instance();
                 mnf.registerMakerNote("Canon", "*", createCanonMakerNote); 
-                mnf.registerMakerNote(new CanonMakerNote);
+                mnf.registerMakerNote(MakerNote::AutoPtr(new CanonMakerNote));
             }
         };
         /*!

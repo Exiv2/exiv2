@@ -21,7 +21,7 @@
 /*!
   @file    tags.hpp
   @brief   Exif tag and type information
-  @version $Name:  $ $Revision: 1.28 $
+  @version $Name:  $ $Revision: 1.29 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    15-Jan-04, ahu: created<BR>
@@ -39,6 +39,7 @@
 #include <string>
 #include <utility>                              // for std::pair
 #include <iosfwd>
+#include <memory>
 
 // *****************************************************************************
 // namespace extensions
@@ -288,7 +289,8 @@ namespace Exiv2 {
         IfdId ifdId_;                   //!< The IFD associated with this tag
         std::string ifdItem_;           //!< The IFD item 
         int idx_;                       //!< Unique id of an entry within one IFD
-        MakerNote* pMakerNote_;         //!< Pointer to the associated MakerNote
+        //! Auto-pointer to the associated MakerNote
+        std::auto_ptr<MakerNote> makerNote_; 
         std::string key_;               //!< Key
     }; // class ExifKey
 

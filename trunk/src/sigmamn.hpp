@@ -23,7 +23,7 @@
   @brief   Sigma and Foveon MakerNote implemented according to the specification
            <a href="http://www.x3f.info/technotes/FileDocs/MakerNoteDoc.html">
            SIGMA and FOVEON EXIF MakerNote Documentation</a> by Foveon.           
-  @version $Name:  $ $Revision: 1.9 $
+  @version $Name:  $ $Revision: 1.10 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    02-Apr-04, ahu: created
@@ -39,6 +39,7 @@
 // + standard includes
 #include <string>
 #include <iosfwd>
+#include <memory>
 
 // *****************************************************************************
 // namespace extensions
@@ -52,9 +53,10 @@ namespace Exiv2 {
 // free functions
 
     /*!
-      @brief Return a pointer to a newly created empty MakerNote initialized to
-             operate in the memory management model indicated.  The caller owns
-             this copy and is responsible to delete it!
+      @brief Return an auto-pointer to a newly created empty MakerNote
+             initialized to operate in the memory management model indicated.
+             The caller owns this copy and the auto-pointer ensures that it
+             will be deleted.
       
       @param alloc Memory management model for the new MakerNote. Determines if
              memory required to store data should be allocated and deallocated
@@ -68,14 +70,15 @@ namespace Exiv2 {
       @param offset Offset from the start of the TIFF header of the makernote
              buffer (not used).
       
-      @return A pointer to a newly created empty MakerNote. The caller owns
-             this copy and is responsible to delete it!
+      @return An auto-pointer to a newly created empty MakerNote. The caller
+             owns this copy and the auto-pointer ensures that it will be
+             deleted.
      */
-    MakerNote* createSigmaMakerNote(bool alloc,
-                                    const byte* buf, 
-                                    long len, 
-                                    ByteOrder byteOrder, 
-                                    long offset);
+    MakerNote::AutoPtr createSigmaMakerNote(bool alloc,
+                                            const byte* buf, 
+                                            long len, 
+                                            ByteOrder byteOrder, 
+                                            long offset);
 
 // *****************************************************************************
 // class definitions
@@ -83,6 +86,9 @@ namespace Exiv2 {
     //! MakerNote for Sigma (Foveon) cameras
     class SigmaMakerNote : public IfdMakerNote {
     public:
+        //! Shortcut for a %SigmaMakerNote auto pointer.
+        typedef std::auto_ptr<SigmaMakerNote> AutoPtr;
+
         //! @name Creators
         //@{
         /*!
@@ -104,7 +110,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         int checkHeader() const;
-        SigmaMakerNote* clone(bool alloc =true) const;
+        SigmaMakerNote::AutoPtr clone(bool alloc =true) const;
         //! Return the name of the makernote item ("Sigma")
         std::string ifdItem() const { return ifdItem_; }
         std::ostream& printTag(std::ostream& os,
@@ -123,6 +129,9 @@ namespace Exiv2 {
         //@}
 
     private:
+        //! Internal virtual copy constructor.
+        SigmaMakerNote* clone_(bool alloc =true) const;
+
         //! Structure used to auto-register the MakerNote.
         struct RegisterMakerNote {
             //! Default constructor
@@ -131,7 +140,7 @@ namespace Exiv2 {
                 MakerNoteFactory& mnf = MakerNoteFactory::instance();
                 mnf.registerMakerNote("SIGMA", "*", createSigmaMakerNote); 
                 mnf.registerMakerNote("FOVEON", "*", createSigmaMakerNote); 
-                mnf.registerMakerNote(new SigmaMakerNote);
+                mnf.registerMakerNote(MakerNote::AutoPtr(new SigmaMakerNote));
             }
         };
         // DATA

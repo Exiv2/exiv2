@@ -20,14 +20,14 @@
  */
 /*
   File:      nikonmn.cpp
-  Version:   $Name:  $ $Revision: 1.9 $
+  Version:   $Name:  $ $Revision: 1.10 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   17-May-04, ahu: created
              25-May-04, ahu: combined all Nikon formats in one component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.9 $ $RCSfile: nikonmn.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.10 $ $RCSfile: nikonmn.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -77,7 +77,12 @@ namespace Exiv2 {
     {
     }
 
-    Nikon1MakerNote* Nikon1MakerNote::clone(bool alloc) const 
+    Nikon1MakerNote::AutoPtr Nikon1MakerNote::clone(bool alloc) const
+    {
+        return AutoPtr(clone_(alloc));
+    }
+
+    Nikon1MakerNote* Nikon1MakerNote::clone_(bool alloc) const 
     {
         return new Nikon1MakerNote(alloc);
     }
@@ -232,12 +237,17 @@ namespace Exiv2 {
         return rc;
     }
 
-    Nikon2MakerNote* Nikon2MakerNote::clone(bool alloc) const 
+    Nikon2MakerNote::AutoPtr Nikon2MakerNote::clone(bool alloc) const
     {
-        Nikon2MakerNote* pMakerNote = new Nikon2MakerNote(alloc); 
-        assert(pMakerNote);
-        pMakerNote->readHeader(header_.pData_, header_.size_, byteOrder_);
-        return pMakerNote;
+        return AutoPtr(clone_(alloc));
+    }
+
+    Nikon2MakerNote* Nikon2MakerNote::clone_(bool alloc) const 
+    {
+        AutoPtr makerNote = AutoPtr(new Nikon2MakerNote(alloc)); 
+        assert(makerNote.get() != 0);
+        makerNote->readHeader(header_.pData_, header_.size_, byteOrder_);
+        return makerNote.release();
     }
 
     std::ostream& Nikon2MakerNote::printTag(std::ostream& os, 
@@ -428,12 +438,17 @@ namespace Exiv2 {
         return rc;
     }
 
-    Nikon3MakerNote* Nikon3MakerNote::clone(bool alloc) const 
+    Nikon3MakerNote::AutoPtr Nikon3MakerNote::clone(bool alloc) const
     {
-        Nikon3MakerNote* pMakerNote = new Nikon3MakerNote(alloc); 
-        assert(pMakerNote);
-        pMakerNote->readHeader(header_.pData_, header_.size_, byteOrder_);
-        return pMakerNote;
+        return AutoPtr(clone_(alloc));
+    }
+
+    Nikon3MakerNote* Nikon3MakerNote::clone_(bool alloc) const 
+    {
+        AutoPtr makerNote = AutoPtr(new Nikon3MakerNote(alloc)); 
+        assert(makerNote.get() != 0);
+        makerNote->readHeader(header_.pData_, header_.size_, byteOrder_);
+        return makerNote.release();
     }
 
     std::ostream& Nikon3MakerNote::printTag(std::ostream& os, 
@@ -535,26 +550,26 @@ namespace Exiv2 {
 // *****************************************************************************
 // free functions
 
-    MakerNote* createNikonMakerNote(bool alloc,
-                                    const byte* buf, 
-                                    long len, 
-                                    ByteOrder byteOrder, 
-                                    long offset)
+    MakerNote::AutoPtr createNikonMakerNote(bool alloc,
+                                            const byte* buf, 
+                                            long len, 
+                                            ByteOrder byteOrder, 
+                                            long offset)
     {
         // If there is no "Nikon" string it must be Nikon1 format
         if (len < 6 || std::string(reinterpret_cast<const char*>(buf), 6) 
                     != std::string("Nikon\0", 6)) {
-            return new Nikon1MakerNote(alloc);
+            return MakerNote::AutoPtr(new Nikon1MakerNote(alloc));
         }
         // If the "Nikon" string is not followed by a TIFF header, we assume
         // Nikon2 format
         TiffHeader tiffHeader;
         if (   len < 18 
             || tiffHeader.read(buf + 10) != 0 || tiffHeader.tag() != 0x002a) {
-            return new Nikon2MakerNote(alloc);            
+            return MakerNote::AutoPtr(new Nikon2MakerNote(alloc)); 
         }
         // Else we have a Nikon3 makernote
-        return new Nikon3MakerNote(alloc); 
+        return MakerNote::AutoPtr(new Nikon3MakerNote(alloc)); 
     }
 
 }                                       // namespace Exiv2

@@ -20,7 +20,7 @@
  */
 /*
   File:      canonmn.cpp
-  Version:   $Name:  $ $Revision: 1.14 $
+  Version:   $Name:  $ $Revision: 1.15 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
              07-Mar-04, ahu: isolated as a separate component
@@ -30,7 +30,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.14 $ $RCSfile: canonmn.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.15 $ $RCSfile: canonmn.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -72,7 +72,12 @@ namespace Exiv2 {
     {
     }
 
-    CanonMakerNote* CanonMakerNote::clone(bool alloc) const 
+    CanonMakerNote::AutoPtr CanonMakerNote::clone(bool alloc) const
+    {
+        return AutoPtr(clone_(alloc));
+    }
+
+    CanonMakerNote* CanonMakerNote::clone_(bool alloc) const 
     {
         return new CanonMakerNote(alloc); 
     }
@@ -656,13 +661,13 @@ namespace Exiv2 {
 // *****************************************************************************
 // free functions
 
-    MakerNote* createCanonMakerNote(bool alloc,
-                                    const byte* buf, 
-                                    long len, 
-                                    ByteOrder byteOrder, 
-                                    long offset)
+    MakerNote::AutoPtr createCanonMakerNote(bool alloc,
+                                            const byte* buf, 
+                                            long len, 
+                                            ByteOrder byteOrder, 
+                                            long offset)
     {
-        return new CanonMakerNote(alloc);         
+        return MakerNote::AutoPtr(new CanonMakerNote(alloc));
     }
 
 }                                       // namespace Exiv2

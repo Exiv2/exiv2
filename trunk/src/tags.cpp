@@ -20,13 +20,13 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.37 $
+  Version:   $Name:  $ $Revision: 1.38 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.37 $ $RCSfile: tags.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.38 $ $RCSfile: tags.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -396,38 +396,38 @@ namespace Exiv2 {
 
     ExifKey::ExifKey(const std::string& key)
         : tag_(0), ifdId_(ifdIdNotSet), ifdItem_(""),
-          idx_(0), pMakerNote_(0), key_(key)
+          idx_(0), key_(key)
     {
         decomposeKey();
     }
 
     ExifKey::ExifKey(uint16_t tag, const std::string& ifdItem)
         : tag_(0), ifdId_(ifdIdNotSet), ifdItem_(""),
-          idx_(0), pMakerNote_(0), key_("")
+          idx_(0), key_("")
     {
         IfdId ifdId = ExifTags::ifdIdByIfdItem(ifdItem);
         if (ifdId == makerIfdId) throw Error("Invalid key");
-        MakerNote* pMakerNote = 0; 
+        MakerNote::AutoPtr makerNote; 
         if (ifdId == ifdIdNotSet) {
-            pMakerNote = MakerNoteFactory::instance().create(ifdItem);
-            if (pMakerNote) ifdId = makerIfdId;
+            makerNote = MakerNoteFactory::instance().create(ifdItem);
+            if (makerNote.get() != 0) ifdId = makerIfdId;
             else throw Error("Invalid key");
         }
         tag_ = tag;
         ifdId_ = ifdId;
         ifdItem_ = ifdItem;
-        pMakerNote_ = pMakerNote;
+        makerNote_ = makerNote;
         makeKey();
     }
 
     ExifKey::ExifKey(const Entry& e)
         : tag_(e.tag()), ifdId_(e.ifdId()), ifdItem_(""),
-          idx_(e.idx()), pMakerNote_(0), key_("")
+          idx_(e.idx()), key_("")
     {
         if (ifdId_ == makerIfdId) {
             if (e.makerNote()) {
                 ifdItem_ = e.makerNote()->ifdItem();
-                pMakerNote_ = e.makerNote()->clone();
+                makerNote_ = e.makerNote()->clone();
             }
             else throw Error("Invalid Key");
         }
@@ -440,14 +440,14 @@ namespace Exiv2 {
     ExifKey::ExifKey(const ExifKey& rhs)
         : tag_(rhs.tag_), ifdId_(rhs.ifdId_), ifdItem_(rhs.ifdItem_),
           idx_(rhs.idx_), 
-          pMakerNote_(rhs.pMakerNote_ ? rhs.pMakerNote_->clone() : 0),
+          makerNote_(rhs.makerNote_.get() != 0 ? rhs.makerNote_->clone() 
+                                               : MakerNote::AutoPtr(0)),
           key_(rhs.key_)
     {
     }
 
     ExifKey::~ExifKey()
     {
-        delete pMakerNote_;
     }
 
     ExifKey& ExifKey::operator=(const ExifKey& rhs)
@@ -458,7 +458,8 @@ namespace Exiv2 {
         ifdId_ = rhs.ifdId_;
         ifdItem_ = rhs.ifdItem_;
         idx_ = rhs.idx_;
-        pMakerNote_ = rhs.pMakerNote_ ? rhs.pMakerNote_->clone() : 0;
+        makerNote_ = rhs.makerNote_.get() != 0 ? rhs.makerNote_->clone() 
+                                               : MakerNote::AutoPtr(0);
         key_ = rhs.key_;
         return *this;
     }
@@ -466,8 +467,8 @@ namespace Exiv2 {
     std::string ExifKey::tagName() const
     {
         if (ifdId_ == makerIfdId) {
-            assert(pMakerNote_);
-            return pMakerNote_->tagName(tag_);
+            assert(makerNote_.get() != 0);
+            return makerNote_->tagName(tag_);
         }
         return ExifTags::tagName(tag_, ifdId_); 
     }
@@ -480,8 +481,8 @@ namespace Exiv2 {
     std::string ExifKey::sectionName() const 
     {
         if (ifdId_ == makerIfdId) {
-            assert(pMakerNote_);
-            return pMakerNote_->ifdItem();
+            assert(makerNote_.get() != 0);
+            return makerNote_->ifdItem();
         }
         return ExifTags::sectionName(tag(), ifdId()); 
     }
@@ -506,24 +507,23 @@ namespace Exiv2 {
         // Find IfdId
         IfdId ifdId = ExifTags::ifdIdByIfdItem(ifdItem);
         if (ifdId == makerIfdId) throw Error("Invalid key");
-        MakerNote* pMakerNote = 0; 
+        MakerNote::AutoPtr makerNote; 
         if (ifdId == ifdIdNotSet) {
-            pMakerNote = MakerNoteFactory::instance().create(ifdItem);
-            if (pMakerNote) ifdId = makerIfdId;
+            makerNote = MakerNoteFactory::instance().create(ifdItem);
+            if (makerNote.get() != 0) ifdId = makerIfdId;
             else throw Error("Invalid key");
         }
 
         // Convert tag
-        uint16_t tag = pMakerNote ? 
-            pMakerNote->tag(tagName) : ExifTags::tag(tagName, ifdId);
+        uint16_t tag = makerNote.get() != 0 ? makerNote->tag(tagName)
+                                            : ExifTags::tag(tagName, ifdId);
         // Translate hex tag name (0xabcd) to a real tag name if there is one
-        tagName = pMakerNote ? 
-            pMakerNote->tagName(tag) : ExifTags::tagName(tag, ifdId);
-
+        tagName = makerNote.get() != 0 ? makerNote->tagName(tag) 
+                                       : ExifTags::tagName(tag, ifdId);
         tag_ = tag;
         ifdId_ = ifdId;
         ifdItem_ = ifdItem;
-        pMakerNote_ = pMakerNote;
+        makerNote_ = makerNote;
         key_ = familyName + "." + ifdItem + "." + tagName;
     }
 
@@ -531,15 +531,15 @@ namespace Exiv2 {
     {
         key_ = std::string(familyName_) 
             + "." + ifdItem_
-            + "." + (pMakerNote_ ?
-            pMakerNote_->tagName(tag_) : ExifTags::tagName(tag_, ifdId_));
+            + "." + (makerNote_.get() != 0 ? makerNote_->tagName(tag_) 
+                                           : ExifTags::tagName(tag_, ifdId_));
     }
 
     std::ostream& ExifKey::printTag(std::ostream& os, const Value& value) const
     {
         if (ifdId_ == makerIfdId) {
-            assert(pMakerNote_);
-            return pMakerNote_->printTag(os, tag(), value);
+            assert(makerNote_.get() != 0);
+            return makerNote_->printTag(os, tag(), value);
         }
         return ExifTags::printTag(os, tag(), ifdId(), value);
     }
