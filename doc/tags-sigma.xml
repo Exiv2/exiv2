@@ -47,7 +47,7 @@
       <taghex>0x0006</taghex>
       <ifd>Makernote</ifd>
       <key>Makernote.Sigma.FocusSetting</key>
-      <tagdesc>Foxus setting</tagdesc>
+      <tagdesc>Focus setting</tagdesc>
    </ROW>
    <ROW num="6">
       <tagname>WhiteBalance</tagname>

@@ -20,7 +20,7 @@
  */
 /*
   File:      fujimn.cpp
-  Version:   $Name:  $ $Revision: 1.4 $
+  Version:   $Name:  $ $Revision: 1.5 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
              07-Mar-04, ahu: isolated as a separate component
@@ -31,7 +31,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: fujimn.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: fujimn.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -70,7 +70,7 @@ namespace Exiv2 {
         MakerNote::MnTagInfo(0x1031, "PictureMode", "Picture mode setting"),
         MakerNote::MnTagInfo(0x1100, "Continuous", "Continuous shooting or auto bracketing setting"),
         MakerNote::MnTagInfo(0x1300, "BlurWarning", "Blur warning status"),
-        MakerNote::MnTagInfo(0x1301, "FoxusWarning", "Auto Focus warning status"),
+        MakerNote::MnTagInfo(0x1301, "FocusWarning", "Auto Focus warning status"),
         MakerNote::MnTagInfo(0x1302, "AeWarning", "Auto Exposure warning status"),
         // End of list marker
         MakerNote::MnTagInfo(0xffff, "(UnknownFujiMakerNoteTag)", "Unknown FujiMakerNote tag")
