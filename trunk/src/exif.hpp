@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.11 $
+  @version $Name:  $ $Revision: 1.12 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -127,19 +127,22 @@ namespace Exif {
     //! Type to express the byte order (little or big endian)
     enum ByteOrder { littleEndian, bigEndian };
 
-    //! Helper class modelling the Tiff header structure.
+    //! Helper class modelling the TIFF header structure.
     class TiffHeader {
     public:
-        //! Default constructor.
-        TiffHeader();
-        //! Read the Tiff header from a data buffer. Returns 0 if successful.
+        /*!
+          @brief Default constructor. Optionally sets the byte order 
+                 (default: little endian).
+         */
+        explicit TiffHeader(ByteOrder byteOrder =littleEndian);
+        //! Read the TIFF header from a data buffer. Returns 0 if successful.
         int read(const char* buf);
         /*!
-          @brief Write the Tiff header into buf as a data string, return number 
+          @brief Write the TIFF header into buf as a data string, return number 
                  of bytes copied.
          */
         long copy(char* buf) const;
-        //! Return the lengths of the Tiff header in bytes.
+        //! Return the lengths of the TIFF header in bytes.
         long size() const { return 8; }
         //! @name Accessors
         //@{
@@ -148,9 +151,9 @@ namespace Exif {
         //! Return the tag value.
         uint16 tag() const { return tag_; }
         /*!
-          @brief Return the offset to IFD0 from the start of the Tiff header.
+          @brief Return the offset to IFD0 from the start of the TIFF header.
                  The offset is 0x00000008 if IFD0 begins immediately after the 
-                 Tiff header.
+                 TIFF header.
          */
         uint32 offset() const { return offset_; }
         //@}
@@ -441,7 +444,7 @@ namespace Exif {
         /*!
           @brief Set the value. This method copies (clones) the value.
          */
-        void setValue(Value* value);
+        void setValue(const Value* value);
         /*!
           @brief Set the value to the string buf. 
                  Uses Value::read(const std::string& buf). If the metadatum does
@@ -493,6 +496,19 @@ namespace Exif {
         //! Return the value as a string.
         std::string toString() const 
             { return value_ == 0 ? "" : value_->toString(); }
+        /*!
+          @brief Write value to a character data buffer and return the number
+                 of characters (bytes) written.
+
+          The user must ensure that the buffer has enough memory. Otherwise
+          the call results in undefined behaviour.
+
+          @param buf Data buffer to write to.
+          @param byteOrder Applicable byte order (little or big endian).
+          @return Number of characters written.
+        */
+        long copy(char* buf, ByteOrder byteOrder) const 
+            { return value_ == 0 ? 0 : value_->copy(buf, byteOrder); }
         //! Return the IFD id
         IfdId ifdId() const { return ifdId_; }
         //! Return the position in the IFD (-1: not set)
@@ -576,6 +592,8 @@ namespace Exif {
             const char* typeName() const 
                 { return ExifTags::typeName(TypeId(type_)); }
 
+            //! The IFD id (redundant, it is also at the IFD itself)
+            IfdId ifdId_;
             //! Position in the IFD
             int ifdIdx_;
             //! Tag
@@ -607,6 +625,33 @@ namespace Exif {
         iterator begin() { return entries_.begin(); }
         //! End of the entries
         iterator end() { return entries_.end(); }
+        //! Find an IFD entry by tag, return a const iterator into the entries list
+        const_iterator findTag(uint16 tag) const;
+        //! Find an IFD entry by tag, return an iterator into the entries list
+        iterator findTag(uint16 tag);
+        //! Sort the IFD entries by tag
+        void sortByTag();
+        //! Delete the directory entry with the given tag
+        void erase(uint16 tag);
+        //! Delete the directory entry at iterator position pos
+        void erase(iterator pos);
+        /*!
+          @brief Add all metadata in the range from iterator position begin to
+                 iterator position end, which have an IFD id matching that of
+                 this IFD to the list of directory entries. Checks for
+                 duplicates: if an entry with the same tag already exists, the
+                 entry is overwritten.
+         */
+        void add(Metadata::const_iterator begin, 
+                 Metadata::const_iterator end,
+                 ByteOrder byteOrder);
+        /*!
+          @brief Add the metadatum to the list of directory entries. Does not
+                 check for a matching IFD id.  Checks for duplicates: if an
+                 entry with the same tag already exists, the entry is
+                 overwritten.
+         */
+        void add(const Metadatum& metadatum, ByteOrder byteOrder);
 
         //! Unary predicate that matches an Entry with a given tag
         class FindEntryByTag {
@@ -628,9 +673,9 @@ namespace Exif {
           @brief Read a complete IFD and its data from a data buffer
 
           @param buf Pointer to the data to decode. The buffer must start with the 
-                     IFD data (as opposed to readSubIfd).
+                     IFD data (unlike the readSubIfd() method).
           @param byteOrder Applicable byte order (little or big endian).
-          @param offset (Optional) offset of the IFD from the start of the Tiff
+          @param offset (Optional) offset of the IFD from the start of the TIFF
                  header, if known. If not given, the offset will be guessed
                  using the assumption that the smallest offset of all IFD
                  directory entries points to a data buffer immediately follwing
@@ -645,7 +690,7 @@ namespace Exif {
 
           @param dest References the destination IFD.
           @param buf The data buffer to read from. The buffer must contain all Exif 
-                     data starting from the Tiff header (as opposed to read).
+                     data starting from the TIFF header (unlike the read() method).
           @param byteOrder Applicable byte order (little or big endian).
           @param tag Tag to look for.
 
@@ -655,64 +700,93 @@ namespace Exif {
             Ifd& dest, const char* buf, ByteOrder byteOrder, uint16 tag
         ) const;
         /*!
-          @brief Copy the IFD to a data array, returns a reference to the
-                 data buffer. The pointer to the next IFD will be adjusted to an
-                 offset from the start of the Tiff header to the position
-                 immediately following the converted IFD.
+          @brief Copy the IFD to a data array, returns the number of bytes
+                 written. If the pointer to the next IFD is not 0, it will be
+                 adjusted to an offset from the start of the TIFF header to the
+                 position immediately following this IFD.
 
           @param buf    Pointer to the data buffer.
           @param byteOrder Applicable byte order (little or big endian).
-          @param offset Target offset from the start of the Tiff header of the
+          @param offset Target offset from the start of the TIFF header of the
                         data array. The IFD offsets will be adjusted as
                         necessary. If not given, then it is assumed that the IFD
-                        will remain at its original position.
+                        will remain at its original position, i.e., the offset 
+                        of the IFD will be used.
           @return       Returns the number of characters written.
          */
         long copy(char* buf, ByteOrder byteOrder, long offset =0) const;
-        /*!
-          @brief Print the IFD in human readable format to the given stream;
-                 begin each line with prefix.
-         */
-        void print(std::ostream& os, const std::string& prefix ="") const;
         //! @name Accessors
         //@{
         //! Ifd id of the IFD
         IfdId ifdId() const { return ifdId_; }
         //! Offset of the IFD from SOI
         long offset() const { return offset_; }
-        //! Find an IFD entry by tag, return a const iterator into the entries list
-        Entries::const_iterator findTag(uint16 tag) const;
-        //! Find an IFD entry by tag, return an iterator into the entries list
-        Entries::iterator findTag(uint16 tag);
-        //! Get the offset to the next IFD from the start of the Tiff header
+        //! Get the offset to the next IFD from the start of the TIFF header
         long next() const { return next_; }
-        //! Get the size of this IFD in bytes (IFD only, without data)
-        long size() const { return size_; }
         //@}
+        //! Get the size of this IFD in bytes (IFD only, without data)
+        long size() const { return 2 + 12 * entries_.size() + 4; }
+        /*!
+          @brief Return the total size of the data of this IFD in bytes,
+                 sums the size of all directory entries where size is greater
+                 than four (i.e., only data that requires memory outside the 
+                 IFD directory entries is counted).
+         */
+        long dataSize() const;
+        /*!
+          @brief Print the IFD in human readable format to the given stream;
+                 begin each line with prefix.
+         */
+        void print(std::ostream& os, const std::string& prefix ="") const;
 
     private:
         Entries entries_;                // IFD entries
 
         IfdId ifdId_;                    // IFD Id
         long offset_;                    // offset of the IFD from the start of 
-                                         // Tiff header
+                                         // TIFF header
         long next_;                      // offset of next IFD from the start of 
-                                         // the Tiff header
-        long size_;                      // size of the IFD in bytes
+                                         // the TIFF header
 
     }; // class Ifd
 
     //! %Thumbnail data Todo: implement this properly
     class Thumbnail {
     public:
-        //! Read the thumbnail from the data buffer, return 0 if successfull
-        int read(const char* buf, const ExifData& exifData, ByteOrder byteOrder);
+        //! %Thumbnail image types
+        enum Type { JPEG, TIFF };
+        /*!
+          @brief Read the thumbnail from the data buffer buf, using %Exif
+                 metadata exifData. Return 0 if successful. 
 
+          @param buf Data buffer containing the thumbnail data. The buffer must
+                 start with the TIFF header.  
+          @param exifData %Exif data corresponding to the data buffer.
+          @param byteOrder The byte order used for the encoding of TIFF
+                 thumbnails. It determines the byte order of the resulting
+                 thumbnail image, if it is in TIFF format. For JPEG thumbnails
+                 the byte order is not used.
+          @return 0 if successful<br>
+                 -1 if there is no thumbnail image according to the %Exif data<br>
+                  1 in case of inconsistent JPEG thumbnail %Exif data<br>
+                  2 in case of inconsistent TIFF thumbnail %Exif data<br>
+         */
+        int read(const char* buf, 
+                 const ExifData& exifData,
+                 ByteOrder byteOrder =littleEndian);
         //! Write thumbnail to file path, return 0 if successful
         int write(const std::string& path) const;
 
     private:
-        std::string thumbnail_;
+        //! Read a compressed (JPEG) thumbnail image from the data buffer
+        int readJpegImage(const char* buf, const ExifData& exifData);
+        //! Read an uncompressed (TIFF) thumbnail image from the data buffer
+        int readTiffImage(const char* buf,
+                          const ExifData& exifData,
+                          ByteOrder byteOrder);
+
+        std::string image_;
+        Type type_;
     }; // class Thumbnail
 
     /*!
@@ -728,7 +802,6 @@ namespace Exif {
 
       Todo:
       - A constructor which creates a minimal valid set of %Exif data
-      - Support to add, delete, edit, read data (maybe also in Metadata)
     */
     class ExifData {
     public:
@@ -752,16 +825,19 @@ namespace Exif {
         int read(const char* buf, long len);
         //! Write %Exif data to a data buffer, return number of bytes written
         long copy(char* buf) const;
-        //! Returns the size of all %Exif data (Tiff header plus metadata)
+        //! Returns the size of all %Exif data (TIFF header plus metadata)
         long size() const;
-        //! Returns the byte order as specified in the Tiff header
+        //! Returns the byte order as specified in the TIFF header
         ByteOrder byteOrder() const { return tiffHeader_.byteOrder(); }
         /*!
-          @brief Add all entries of an IFD to the Exif metadata. Checks for 
-                 duplicates: if a metadatum already exists, its value is 
+          @brief Add all IFD entries in the range from iterator position begin
+                 to iterator position end to the Exif metadata. Checks for
+                 duplicates: if a metadatum already exists, its value is
                  overwritten.
          */
-        void add(const Ifd& ifd, ByteOrder byteOrder);
+        void add(Ifd::const_iterator begin, 
+                 Ifd::const_iterator end,
+                 ByteOrder byteOrder);
         /*!
           @brief Add a metadatum from the supplied key and value pair.
                  This method copies (clones) the value. If a metadatum with the
@@ -769,6 +845,13 @@ namespace Exif {
                  metadatum is added.
          */
         void add(const std::string& key, Value* value);
+        /*! 
+          @brief Add a copy of the metadatum to the Exif metadata. If a
+                 metadatum with the given key already exists, its value is
+                 overwritten and no new metadatum is added.
+         */
+        void add(const Metadatum& metadatum);
+
         //! Metadata iterator type
         typedef Metadata::iterator iterator;
         //! Metadata const iterator type
@@ -790,17 +873,15 @@ namespace Exif {
         //! Delete the metadatum at iterator position pos
         void erase(iterator pos);
 
-        //! Write the thumbnail image to a file
+        /*!
+          @brief Write the thumbnail image to a file. The filename extension
+                 will be set according to the image type of the thumbnail, so
+                 the path should not include an extension.
+         */
         int writeThumbnail(const std::string& path) const 
             { return thumbnail_.write(path); }
 
     private:
-        /*!
-          @brief Add metadatum src to the Exif metadata. No duplicate check
-                 is done. (That's why the method is private.)
-         */
-        void add(const Metadatum& src);
-
         long offset_;                   // Original abs offset of the Exif data
         TiffHeader tiffHeader_;
         Metadata metadata_;
@@ -857,6 +938,20 @@ namespace Exif {
 
     //! Print len bytes from buf in hex and ASCII format to the given stream
     void hexdump(std::ostream& os, const char* buf, long len);
+
+    /*! 
+      @brief Compare two IFD entries by offset, taking care of special cases
+             where one or both of the entries don't have an offset.  Return true
+             if the offset of entry lhs is less than that of rhs, else false. By
+             definition, entries without an offset are greater than those with
+             an offset.
+     */
+    bool cmpOffset(const Ifd::Entry& lhs, const Ifd::Entry& rhs);        
+    /*!
+      @brief Compare two IFD entries by tag. Return true if the tag of entry
+             lhs is less than that of rhs.
+     */
+    bool cmpTag(const Ifd::Entry& lhs, const Ifd::Entry& rhs);
 
 // *****************************************************************************
 // template and inline definitions
