@@ -94,6 +94,19 @@ namespace Exiv2 {
           @param buf The string to read from.
          */
         virtual void read(const std::string& buf) =0;
+        /*!
+          @brief Set the data area, if the value has one by copying (cloning)
+                 the buffer pointed to by buf.
+
+          Values may have a data area, which can contain additional
+          information besides the actual value. This method is used to set such
+          a data area.
+
+          @param buf Pointer to the source data area
+          @param len Size of the data area
+          @return Return -1 if the value has no data area, else 0.
+         */
+        virtual int setDataArea(const byte* buf, long len) { return -1; }
         //@}
 
         //! @name Accessors
@@ -157,6 +170,21 @@ namespace Exiv2 {
           @return The converted value. 
          */
         virtual Rational toRational(long n =0) const =0;
+        //! Return the size of the data area, 0 if there is none.
+        virtual long sizeDataArea() const { return 0; }
+        /*!
+          @brief Return a copy of the data area if the value has one. The
+                 caller owns this copy and DataBuf ensures that it will be
+                 deleted. 
+
+          Values may have a data area, which can contain additional
+          information besides the actual value. This method is used to access
+          such a data area.
+
+          @return A DataBuf containing a copy of the data area or an empty
+                  DataBuf if the value does not have a data area assigned.
+         */
+        virtual DataBuf dataArea() const { return DataBuf(0, 0); };
         //@}
 
         /*!
@@ -702,14 +730,15 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor.
-        ValueType() : Value(getType<T>()) {}
+        ValueType() : Value(getType<T>()), pDataArea_(0), sizeDataArea_(0) {}
         //! Constructor
-        ValueType(const byte* buf, long len, ByteOrder byteOrder) 
-            : Value(getType<T>()) { read(buf, len, byteOrder); }
+        ValueType(const byte* buf, long len, ByteOrder byteOrder);
         //! Constructor
-        ValueType( const T& val, ByteOrder byteOrder =littleEndian);
+        ValueType(const T& val, ByteOrder byteOrder =littleEndian);
+        //! Copy constructor
+        ValueType(const ValueType<T>& rhs);
         //! Virtual destructor.
-        virtual ~ValueType() {}
+        virtual ~ValueType();
         //@}
 
         //! @name Manipulators
@@ -724,6 +753,11 @@ namespace Exiv2 {
                  produced by the write() method.
          */
         virtual void read(const std::string& buf);
+        /*!
+          @brief Set the data area. This method copies (clones) the buffer
+                 pointed to by buf.
+         */
+        virtual int setDataArea(const byte* buf, long len);
         //@}
 
         //! @name Accessors
@@ -736,6 +770,13 @@ namespace Exiv2 {
         virtual long toLong(long n =0) const;
         virtual float toFloat(long n =0) const;
         virtual Rational toRational(long n =0) const;
+        //! Return the size of the data area.
+        virtual long sizeDataArea() const { return sizeDataArea_; }
+        /*!
+          @brief Return a copy of the data area in a DataBuf. The caller owns
+                 this copy and DataBuf ensures that it will be deleted.
+         */
+        virtual DataBuf dataArea() const;
         //@}
 
         //! Container for values 
@@ -758,6 +799,11 @@ namespace Exiv2 {
         //! Internal virtual copy constructor.
         virtual ValueType<T>* clone_() const;
 
+        // DATA
+        //! Pointer to the buffer, 0 if none has been allocated
+        byte* pDataArea_;
+        //! The current size of the buffer
+        long sizeDataArea_; 
     }; // class ValueType
 
     //! Unsigned short value type
@@ -894,12 +940,36 @@ namespace Exiv2 {
     }
 
     template<typename T>
+    ValueType<T>::ValueType(const byte* buf, long len, ByteOrder byteOrder) 
+        : Value(getType<T>()), pDataArea_(0), sizeDataArea_(0)
+    {
+        read(buf, len, byteOrder);
+    }
+
+    template<typename T>
     ValueType<T>::ValueType(const T& val, ByteOrder byteOrder)
-        : Value(getType<T>()) 
+        : Value(getType<T>()), pDataArea_(0), sizeDataArea_(0) 
     {
         read(reinterpret_cast<const byte*>(&val), 
              TypeInfo::typeSize(typeId()), 
              byteOrder); 
+    }
+
+    template<typename T>
+    ValueType<T>::ValueType(const ValueType<T>& rhs)
+        : Value(rhs), value_(rhs.value_), pDataArea_(0), sizeDataArea_(0)
+    {
+        if (rhs.sizeDataArea_ > 0) {
+            pDataArea_ = new byte[rhs.sizeDataArea_];
+            memcpy(pDataArea_, rhs.pDataArea_, rhs.sizeDataArea_); 
+            sizeDataArea_ = rhs.sizeDataArea_;        
+        }
+    }
+
+    template<typename T>
+    ValueType<T>::~ValueType()
+    {
+        delete[] pDataArea_;
     }
 
     template<typename T>
@@ -908,6 +978,16 @@ namespace Exiv2 {
         if (this == &rhs) return *this;
         Value::operator=(rhs);
         value_ = rhs.value_;
+
+        byte* tmp = 0;
+        if (rhs.sizeDataArea_ > 0) {
+            tmp = new byte[rhs.sizeDataArea_];
+            memcpy(tmp, rhs.pDataArea_, rhs.sizeDataArea_); 
+        }
+        delete[] pDataArea_;
+        pDataArea_ = tmp;
+        sizeDataArea_ = rhs.sizeDataArea_;
+
         return *this;
     }
 
@@ -1018,6 +1098,26 @@ namespace Exiv2 {
     inline Rational ValueType<URational>::toRational(long n) const 
     {
         return Rational(value_[n].first, value_[n].second);
+    }
+
+    template<typename T>
+    inline DataBuf ValueType<T>::dataArea() const
+    {
+        return DataBuf(pDataArea_, sizeDataArea_);
+    }
+
+    template<typename T>
+    inline int ValueType<T>::setDataArea(const byte* buf, long len)
+    {
+        byte* tmp = 0;
+        if (len > 0) {
+            tmp = new byte[len];
+            memcpy(tmp, buf, len);
+        }
+        delete[] pDataArea_;
+        pDataArea_ = tmp;
+        sizeDataArea_ = len;
+        return 0;
     }
 
 }                                       // namespace Exiv2

@@ -64,7 +64,7 @@ namespace Exiv2 {
           data if alloc is true (the default), otherwise it remembers
           just the pointers into a read and writeable data buffer which
           it doesn't allocate or delete.
-        */ 
+         */ 
         explicit Entry(bool alloc =true);
         //! Destructor
         ~Entry();
@@ -98,7 +98,10 @@ namespace Exiv2 {
           contains a pointer to the Exif IFD). 
           <BR>This method cannot be used to set the value of a newly created
           %Entry in non-alloc mode.
-        */
+
+          @note This method is now deprecated, use data area related methods
+                instead.
+         */
         void setValue(uint32_t data, ByteOrder byteOrder);
         /*!
           @brief Set type, count, the data buffer and its size.
@@ -115,7 +118,7 @@ namespace Exiv2 {
           will be as indicated in the size argument. I.e., it is possible to
           allocate (set) a data buffer larger than required to hold count
           components of the given type.
-          
+
           @param type The type of the data.
           @param count Number of components in the buffer.
           @param data Pointer to the data buffer.
@@ -127,6 +130,33 @@ namespace Exiv2 {
                  count components of the given type.
          */
         void setValue(uint16_t type, uint32_t count, const byte* data, long size);
+        /*!
+          @brief Set the data area. Memory management as for 
+          setValue(uint16_t, uint32_t, const byte*, long)
+
+          For certain tags the regular value of an IFD entry is an offset to a
+          data area outside of the IFD. Examples are Exif tag 0x8769 in IFD0
+          (Exif.Image.ExifTag) or tag 0x0201 in IFD1
+          (Exif.Thumbnail.JPEGInterchangeFormat). The offset of ExifTag points
+          to a data area containing the Exif IFD. That of JPEGInterchangeFormat
+          contains the JPEG thumbnail image.  
+          This method sets the data area of a tag in accordance with the memory
+          allocation mode.
+
+          @param buf Pointer to the data area.
+          @param len Size of the data area.
+         */
+        void setDataArea(const byte* buf, long len);
+        /*!
+          @brief Set the offset(s) to the data area of an entry. 
+
+          Add @em offset to each data component of the entry. This is used by
+          Ifd::copy to convert the data components of an entry containing
+          offsets relative to the data area to become offsets from the start of
+          the TIFF header.  Usually, entries with a data area have exactly one 
+          unsigned long data component, which is 0.
+         */
+        void setDataAreaOffsets(uint32_t offset, ByteOrder byteOrder);
         //@}
 
         //! @name Accessors
@@ -158,9 +188,9 @@ namespace Exiv2 {
         //! Return the offset from the start of the IFD to the data of the entry
         uint32_t offset() const { return offset_; }
         /*!
-          @brief Return a pointer to the data area. Do not attempt to write
-          to this pointer.
-        */
+          @brief Return a pointer to the data buffer. Do not attempt to write
+                 to this pointer.
+         */
         const byte* data() const { return pData_; }
         /*!
           @brief Return a pointer to the n-th component, 0 if there is no 
@@ -169,6 +199,24 @@ namespace Exiv2 {
         const byte* component(uint32_t n) const;
         //! Get the memory allocation mode
         bool alloc() const { return alloc_; }
+        //! Return the size of the data area.
+        long sizeDataArea() const { return sizeDataArea_; }
+        /*!
+          @brief Return a pointer to the data area. Do not attempt to write to
+                 this pointer.
+
+          For certain tags the regular value of an IFD entry is an offset to a
+          data area outside of the IFD. Examples are Exif tag 0x8769 in IFD0
+          (Exif.Image.ExifTag) or tag 0x0201 in IFD1
+          (Exif.Thumbnail.JPEGInterchangeFormat). The offset of ExifTag points
+          to a data area containing the Exif IFD. That of JPEGInterchangeFormat
+          contains the JPEG thumbnail image.
+          Use this method to access (read-only) the data area of a tag. Use 
+          setDataArea() to write to the data area.
+
+          @return Return a pointer to the data area.
+         */
+        const byte* dataArea() const { return pDataArea_; }
         //@}
 
     private:
@@ -176,7 +224,7 @@ namespace Exiv2 {
         /*!
           True:  Requires memory allocation and deallocation,<BR>
           False: No memory management needed.
-        */
+         */
         bool alloc_;
         //! Redundant IFD id (it is also at the IFD)
         IfdId ifdId_;
@@ -199,6 +247,10 @@ namespace Exiv2 {
         long size_;
         //! Pointer to the data buffer
         byte* pData_;
+        //! Size of the data area
+        long sizeDataArea_;
+        //! Pointer to the data area
+        byte* pDataArea_;
                                
     }; // class Entry
 
@@ -264,7 +316,7 @@ namespace Exiv2 {
             assignment behaviours, with the first resulting in entirely separate
             classes and the second mode resulting in multiple classes using one
             and the same data buffer.
-    */
+     */
     class Ifd {
         //! @name Not implemented
         //@{
@@ -444,10 +496,10 @@ namespace Exiv2 {
         //! Get the size of this IFD in bytes (IFD only, without data)
         long size() const;
         /*!
-          @brief Return the total size of the data of this IFD in bytes,
-                 sums the size of all directory entries where size is greater
-                 than four (i.e., only data that requires memory outside the 
-                 IFD directory entries is counted).
+          @brief Return the total size of the data of this IFD in bytes; sums
+                 the size of all directory entries where size is greater than
+                 four plus the size of all data areas, i.e., all data that
+                 requires memory outside the IFD directory entries is counted.
          */
         long dataSize() const;
         /*!

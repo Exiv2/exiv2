@@ -78,6 +78,29 @@ namespace Exiv2 {
         return typeInfoTable_[ typeId < lastTypeId ? typeId : 0 ].size_;
     }
     
+    DataBuf::DataBuf(DataBuf& rhs)
+        : pData_(rhs.pData_), size_(rhs.size_)
+    {
+        rhs.release();
+    }
+
+    DataBuf::DataBuf(byte* pData, long size) 
+        : pData_(0), size_(0)
+    {
+        if (size > 0) {
+            pData_ = new byte[size];
+            memcpy(pData_, pData, size);
+            size_ = size;
+        }
+    }
+
+    DataBuf& DataBuf::operator=(DataBuf& rhs)
+    {
+        if (this == &rhs) return *this;
+        reset(rhs.release());
+        return *this;
+    }
+
     void DataBuf::alloc(long size)
     { 
         if (size > size_) {
@@ -87,12 +110,21 @@ namespace Exiv2 {
         } 
     }
 
-    byte* DataBuf::release()
+    std::pair<byte*, long> DataBuf::release()
     {
-        byte* p = pData_;
+        std::pair<byte*, long> p = std::make_pair(pData_, size_);
         pData_ = 0;
         size_ = 0;
         return p;
+    }
+
+    void DataBuf::reset(std::pair<byte*, long> p)
+    {
+        if (pData_ != p.first) {
+            delete[] pData_;
+            pData_ = p.first;
+        }
+        size_ = p.second;
     }
 
     // *************************************************************************
