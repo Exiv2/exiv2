@@ -21,7 +21,7 @@
 /*!
   @file    image.hpp
   @brief   Class JpegImage to access JPEG images
-  @version $Name:  $ $Revision: 1.3 $
+  @version $Name:  $ $Revision: 1.4 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -37,6 +37,7 @@
 // + standard includes
 #include <string>
 #include <iosfwd>
+#include <map>
 
 // *****************************************************************************
 // namespace extensions
@@ -45,29 +46,175 @@ namespace Exif {
 // *****************************************************************************
 // class definitions
 
+    /*!
+      @brief Abstract base class defining the interface for an image.
+     */
+    class Image {
+    public:
+        //! Supported image formats
+        enum Type { none, jpeg, exiv2 };
+
+        //! @name Creators
+        //@{
+        //! Default Constructor
+        Image() {}
+        //! Virtual Destructor
+        virtual ~Image() {}
+        //@}
+
+        //! @name Manipulators
+        //@{
+        /*!
+          @brief Read the %Exif data from the file path into the internal 
+                 data buffer.
+          @param path Path to the file.
+          @return 0 if successful.         
+         */
+        virtual int readExifData(const std::string& path) =0;
+        /*!
+          @brief Read the %Exif data from the stream into the internal 
+                 data buffer.
+          @param is Input stream to read from.
+          @return 0 if successful.
+         */
+        virtual int readExifData(std::istream& is) =0;
+        /*!
+          @brief Read the %Exif data from the buffer buf which has size bytes.
+          @param buf Pointer to the data buffer.
+          @param size Number of characters in the data buffer.
+         */
+        virtual void setExifData(const char* buf, long size) =0;
+        //@}
+
+        //! @name Accessors
+        //@{
+        //! Virtual copy construction
+        virtual Image* clone() const =0;
+        /*!
+          @brief Determine if the file path is of this type of image.
+          @return  0 if the type of the image matches that of this;<BR>
+                   1 if the type of the image is not that of this;<BR>
+                  -1 if the file cannot be opened.
+         */
+        virtual int isThisType(const std::string& path) const =0;
+        /*!
+          @brief Write the %Exif data to file path.
+          @param path Path to the file.
+          @return 0 if successful.
+         */
+        virtual int writeExifData(const std::string& path) const =0;
+        /*!
+          @brief Read from the image input stream is, add %Exif data to the
+                 image, replacing existing %Exif data, if there is any) and
+                 write the resulting image to the output stream os.
+          @param os Output stream to write to (e.g., a temporary file).
+          @param is Input stream with the image to which the %Exif data
+                 should be copied.
+          @return 0 if successful.
+         */
+        virtual int writeExifData(std::ostream& os, std::istream& is) const =0;
+        //! Return the size of the %Exif data in bytes.
+        virtual long sizeExifData() const =0;
+        /*!
+          @brief Return a read-only pointer to an %Exif data buffer. Do not
+                 attempt to write to this buffer.
+         */
+        virtual const char* exifData() const =0;
+        //@}
+
+    protected:
+        /*!
+          @brief Assignment operator. Protected so that it can only be used
+                 by subclasses but not directly.
+         */
+        Image& operator=(const Image& rhs) { return *this; }
+
+    }; // class Image
+
+    /*!
+      @brief Image factory.
+
+      Creates an instance of the image of the requested type.  The factory is
+      implemented as a singleton, which can be accessed only through the static
+      member function instance().
+    */
+    class ImageFactory {
+    public:
+        /*!
+          @brief Get access to the image factory.
+
+          Clients access the image factory exclusively through
+          this method.
+        */
+        static ImageFactory& instance();
+
+        /*!
+          @brief  Create an %Image of the appropriate type, derived from path.
+
+          @param  path Path to an image file (which may or may not exist). The
+                  path is used to determine the image type to create.
+          @return A pointer that owns an %Image of the type derived from path. 
+                  If no image type could be determined, the pointer is 0.
+         */
+        Image* create(const std::string& path);
+
+        /*!
+          @brief  Create an %Image of the requested type.
+
+          @param  type Type of the image to be created.
+          @return A pointer that owns an %Image of the requested type.
+                  If the image type is not supported, the pointer is 0.
+         */
+        Image* create(Image::Type type);
+
+        /*!
+          @brief Register an image prototype together with its type.
+
+          The image factory creates new images by cloning their associated
+          prototypes. Additional images can be added by registering a prototype
+          and its type. If called for a type which already exists in the list,
+          the corresponding prototype is replaced.
+
+          @param type Image type.
+          @param pImage Pointer to the prototype. Ownership is transfered to the
+                 factory.
+        */
+        void registerImage(Image::Type type, Image* pImage);
+
+    private:
+        //! Prevent construction other than through instance().
+        ImageFactory();
+        //! Prevent copy construction: not implemented.
+        ImageFactory(const ImageFactory& rhs);
+
+        //! Pointer to the one and only instance of this class.
+        static ImageFactory* pInstance_;
+        //! Type used to store Image prototype classes
+        typedef std::map<Image::Type, Image*> Registry;
+        //! List of image types and corresponding prototypes.
+        Registry registry_;
+
+    }; // class ImageFactory
+
     /*! 
       @brief Helper class to access JPEG images
      */
-    class JpegImage {
-        //! @name Not implemented
-        //@{
-        //! Copying not allowed
-        JpegImage(const JpegImage& rhs);
-        //! Assignment not allowed
-        JpegImage& operator=(const JpegImage& rhs);
-        //@}
-
+    class JpegImage : public Image {
     public:
         //! @name Creators
         //@{
         //! Default constructor
         JpegImage();
+        //! Copy constructor
+        JpegImage(const JpegImage& rhs);
         //! Destructor
         ~JpegImage();
         //@}
 
         //! @name Manipulators
         //@{
+        //! Assignment operator
+        JpegImage& operator=(const JpegImage& rhs);
         /*!
           @brief Read the %Exif data from the file path into the internal 
                  data buffer.
@@ -101,6 +248,13 @@ namespace Exif {
 
         //! @name Accessors
         //@{
+        //! Virtual copy construction
+        Image* clone() const;
+        /*!
+          @brief Determine if the file path contains a JPEG file. Return true if it
+                 does, false if not or if path cannot be opened or accessed.
+         */
+        int isThisType(const std::string& path) const;
         /*!
           @brief Write the %Exif data to file path, which must contain a JPEG
                  image. If an %Exif APP1 section exists in the file, it is

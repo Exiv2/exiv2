@@ -20,14 +20,14 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.3 $
+  Version:   $Name:  $ $Revision: 1.4 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: image.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: image.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -46,9 +46,71 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: image.cpp,v $")
 // class member definitions
 namespace Exif {
 
+    ImageFactory* ImageFactory::pInstance_ = 0;
+
+    ImageFactory& ImageFactory::instance()
+    {
+        if (0 == pInstance_) {
+            pInstance_ = new ImageFactory;
+        }
+        return *pInstance_;
+    } // ImageFactory::instance
+
+    void ImageFactory::registerImage(Image::Type type, Image* pImage)
+    {
+        Registry::iterator i = registry_.find(type);
+        if (i != registry_.end()) {
+            delete i->second;
+        }
+        registry_[type] = pImage;
+    } // ImageFactory::registerImage
+
+    ImageFactory::ImageFactory()
+    {
+        // Register a prototype of each known image
+        registerImage(Image::none, 0);
+        registerImage(Image::jpeg, new JpegImage);
+    } // ImageFactory c'tor
+
+    Image* ImageFactory::create(Image::Type type)
+    {
+        Registry::const_iterator i = registry_.find(type);
+        if (i != registry_.end() && i->second != 0) {
+            Image* pImage = i->second;
+            return pImage->clone();
+        }
+        return 0;
+    } // ImageFactory::create
+
     JpegImage::JpegImage()
         : sizeExifData_(0), pExifData_(0)
     {
+    }
+
+    JpegImage::JpegImage(const JpegImage& rhs)
+        : Image(rhs), sizeExifData_(0), pExifData_(0)
+    {
+        char* newExifData = 0;
+        if (rhs.sizeExifData_ > 0) {
+            char* newExifData = new char[rhs.sizeExifData_];
+            memcpy(newExifData, rhs.pExifData_, rhs.sizeExifData_);
+        }
+        pExifData_ = newExifData;
+        sizeExifData_ = rhs.sizeExifData_;
+    }
+
+    JpegImage& JpegImage::operator=(const JpegImage& rhs)
+    {
+        if (this == &rhs) return *this;
+        char* newExifData = 0;
+        if (rhs.sizeExifData_ > 0) {
+            char* newExifData = new char[rhs.sizeExifData_];
+            memcpy(newExifData, rhs.pExifData_, rhs.sizeExifData_);
+        }
+        Image::operator=(rhs);
+        pExifData_ = newExifData;
+        sizeExifData_ = rhs.sizeExifData_;
+        return *this;        
     }
 
     JpegImage::~JpegImage()
@@ -191,6 +253,21 @@ namespace Exif {
         delete[] pExifData_;
         pExifData_ = new char[size];
         memcpy(pExifData_, buf, size);
+    }
+
+    Image* JpegImage::clone() const
+    {
+        return new JpegImage(*this);
+    }
+
+    int JpegImage::isThisType(const std::string& path) const
+    {
+        std::ifstream file(path.c_str(), std::ios::binary);
+        if (!file) return -1;          // Couldn't open file
+        if (!isJpeg(file)) {
+            return 1;                  // not a Jpeg image
+        }
+        return 0;                      // this is a Jpeg image
     }
 
     TiffHeader::TiffHeader(ByteOrder byteOrder) 
