@@ -126,11 +126,6 @@ namespace Exiv2 {
                  from the actual file until writeMetadata is called.
          */
         virtual void clearMetadata() =0;
-        /*!
-          @brief Close associated image file but preserve buffered metadata.
-          @return 0 if successful.         
-         */
-        virtual int detach() =0;
         //@}
 
         //! @name Accessors
@@ -179,7 +174,7 @@ namespace Exiv2 {
 
     //! Type for function pointer that creates new Image instances
     typedef Image::AutoPtr (*NewInstanceFct)(const std::string& path, 
-                                                   FILE* ifp);
+                                                   bool create);
     //! Type for function pointer that checks image types
     typedef bool (*IsThisTypeFct)(FILE* ifp, bool advance);
 
@@ -325,7 +320,6 @@ namespace Exiv2 {
         void clearComment();
         void setMetadata(const Image& image);
         void clearMetadata();
-        int detach();
         //@}
 
         //! @name Accessors
@@ -341,13 +335,6 @@ namespace Exiv2 {
     protected:
         //! @name Creators
         //@{
-        /*! 
-          @brief Constructor for subclasses that have already opened a
-                 file stream on the specified path.
-          @param path Full path to image file.
-          @param fp File pointer to open file.
-         */
-        JpegBase(const std::string& path, FILE* fp);
         /*! 
           @brief Constructor that can either open an existing image or create
                  a new image from scratch. If a new image is to be created, any
@@ -409,7 +396,6 @@ namespace Exiv2 {
 
     private:
         // DATA
-        FILE* fp_;                              //!< Image file (read write)
         const std::string path_;                //!< Image file name
         long sizeExifData_;                     //!< Size of the Exif data buffer
         byte* pExifData_;                       //!< Exif data buffer
@@ -422,10 +408,11 @@ namespace Exiv2 {
           @brief Advances file stream to one byte past the next Jpeg marker
                  and returns the marker. This method should be called when the
                  file stream is positioned one byte past the end of a Jpeg segment.
+          @param fp File stream to advance
           @return the next Jpeg segment marker if successful;<BR>
                  -1 if a maker was not found before EOF;<BR>
          */
-        int advanceToMarker() const;
+        int advanceToMarker(FILE *fp) const;
         /*!
           @brief Locates Photoshop formated Iptc data in a memory buffer.
                  Operates on raw data (rather than file streams) to simplify reuse.
@@ -450,23 +437,25 @@ namespace Exiv2 {
                            uint16_t *const sizeHdr,
                            uint16_t *const sizeIptc) const;
         /*!
-          @brief Write to the associated file stream with the provided data.
+          @brief Write to the specified file stream with the provided data.
+          @param fp File stream to be written to (should be "w+b" mode)
           @param initData Data to be written to the associated file
           @param dataSize Size in bytes of data to be written
           @return 0 if successful;<BR>
                   4 if the output file can not be written to;<BR>
          */
-        int initFile(const byte initData[], size_t dataSize);
+        int initFile(FILE* fp, const byte initData[], size_t dataSize);
         /*!
           @brief Provides the main implementation of writeMetadata by 
                 writing all buffered metadata to associated file. 
-          @param os Output stream to write to (e.g., a temporary file).
+          @param ifp Input file stream. Non-metadata is copied to output file.
+          @param ofp Output file stream to write to (e.g., a temporary file).
           @return 0 if successful;<br>
-                  1 if reading from associated file failed;<BR>
-                  2 if the file does not contain a valid image;<BR>
-                  4 if the temporary output file can not be written to;<BR>
+                  1 if reading from input file failed;<BR>
+                  2 if the input file does not contain a valid image;<BR>
+                  4 if the output file can not be written to;<BR>
          */
-        int doWriteMetadata(FILE* ofp) const;
+        int doWriteMetadata(FILE *ifp, FILE* ofp) const;
 
         // NOT Implemented
         //! Default constructor.
@@ -481,7 +470,6 @@ namespace Exiv2 {
       @brief Helper class to access JPEG images
      */
     class JpegImage : public JpegBase {
-        friend Image::AutoPtr newJpegInstance(const std::string& path, FILE* fp);
         friend bool isJpegType(FILE* ifp, bool advance);
     public:
         //! @name Creators
@@ -528,17 +516,6 @@ namespace Exiv2 {
         static const byte soi_;          // SOI marker
         static const byte blank_[];      // Minimal Jpeg image
 
-        //! @name Creators
-        //@{
-        /*! 
-          @brief Constructor to be used when a Jpeg file has already
-                 been opened. Meant for internal factory use.
-          @param path Full path to opened image file.
-          @param fp File pointer to open file.
-         */
-        JpegImage(const std::string& path, FILE* fp) : JpegBase(path, fp) {}
-        //@}
-
         // NOT Implemented
         //! Default constructor
         JpegImage();
@@ -550,7 +527,6 @@ namespace Exiv2 {
 
     //! Helper class to access %Exiv2 files
     class ExvImage : public JpegBase {
-        friend Image::AutoPtr newExvInstance(const std::string& path, FILE* fp);
         friend bool isExvType(FILE* ifp, bool advance);
     public:
         //! @name Creators
@@ -596,17 +572,6 @@ namespace Exiv2 {
         // Constant data
         static const char exiv2Id_[];    // Exv identifier
         static const byte blank_[];      // Minimal exiv file
-
-        //! @name Creators
-        //@{
-        /*! 
-          @brief Constructor to be used when an Exv file has already
-                 been opened. Meant for internal factory use.
-          @param path Full path to opened image file.
-          @param fp File pointer to open file.
-         */
-        ExvImage(const std::string& path, FILE* fp) : JpegBase(path, fp) {}
-        //@}
 
         // NOT Implemented
         //! Default constructor

@@ -566,7 +566,6 @@ namespace Action {
             return -2;
         }
         int rc = image->readMetadata();
-        image->detach();
         if (rc) {
             std::cerr << path_
                       << ": Could not read metadata\n";
@@ -975,7 +974,6 @@ namespace {
             return -2;
         }
         int rc = sourceImage->readMetadata();
-        sourceImage->detach();
         if (rc) {
             std::cerr << source
                       << ": Could not read metadata\n";
