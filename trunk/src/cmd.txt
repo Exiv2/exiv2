@@ -1,0 +1,30 @@
+# Sample Exiv2 command file
+# Run exiv2 -m cmd.txt file ...
+# to apply the commands to each file.
+#
+# Command file format
+# Empty lines and lines starting with # are ignored
+# Each remaining line is a command. The format for command lines is
+# <cmd> <key> [[<type>] <value>] 
+# cmd = set|add|del
+#    set will set the value of an existing tag of the given key or add a tag
+#    add will add a tag (unless the key is a non-repeatable Iptc key)
+#    del will delete a tag 
+# key = Exiv2 Exif or Iptc key
+# type = Byte|Ascii|Short|Long|Rational|Undefined|SShort|SLong|SRational  for Exif
+#        String|Date|Time|Short|Undefined  for Iptc
+#    A default type is used if none is explicitely given. The default for Exif 
+#    keys is Ascii, that for Iptc keys is determined based on the key itself.
+# value 
+#    The remaining text on the line is the value. It can optionally be enclosed in 
+#    double quotes ("value")
+
+add  Iptc.Application2.Credit	String	"mee too! (1)"   
+add  Iptc.Application2.Credit		mee too! (2)	        
+del  Iptc.Application2.Headline	 
+
+add   Exif.Image.WhitePoint	Short	32 12 4 5 6 
+
+ set  Exif.Image.DateTime	Ascii	"Zwanzig nach fuenf"
+  set Exif.Image.Artist		Ascii	nobody
+  set Exif.Image.Artist			"Vincent van Gogh"

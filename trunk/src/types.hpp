@@ -46,6 +46,7 @@
 #include <iosfwd>
 #include <utility>
 #include <sstream>
+#include <cstdio>
 #ifdef HAVE_STDINT_H
 # include <stdint.h>
 #endif
@@ -113,6 +114,8 @@ namespace Exiv2 {
     public:
         //! Return the name of the type
         static const char* typeName(TypeId typeId);
+        //! Return the type id for a type name
+        static TypeId typeId(const std::string& typeName);
         //! Return the size in bytes of one element of this type
         static long typeSize(TypeId typeId);
 
