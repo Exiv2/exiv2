@@ -122,11 +122,11 @@
       <tagdesc>Blur warning status</tagdesc>
    </ROW>
    <ROW num="15">
-      <tagname>FoxusWarning</tagname>
+      <tagname>FocusWarning</tagname>
       <tagdec>4865</tagdec>
       <taghex>0x1301</taghex>
       <ifd>Makernote</ifd>
-      <key>Makernote.Fujifilm.FoxusWarning</key>
+      <key>Makernote.Fujifilm.FocusWarning</key>
       <tagdesc>Auto Focus warning status</tagdesc>
    </ROW>
    <ROW num="16">

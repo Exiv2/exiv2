@@ -20,7 +20,7 @@
  */
 /*
   File:      sigmamn.cpp
-  Version:   $Name:  $ $Revision: 1.3 $
+  Version:   $Name:  $ $Revision: 1.4 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   02-Apr-04, ahu: created
   Credits:   Sigma and Foveon MakerNote implemented according to the specification
@@ -29,7 +29,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: sigmamn.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: sigmamn.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -58,7 +58,7 @@ namespace Exiv2 {
         MakerNote::MnTagInfo(0x0003, "DriveMode", "Drive Mode"),
         MakerNote::MnTagInfo(0x0004, "ResolutionMode", "Resolution Mode"),
         MakerNote::MnTagInfo(0x0005, "AutofocusMode", "Autofocus mode"),
-        MakerNote::MnTagInfo(0x0006, "FocusSetting", "Foxus setting"),
+        MakerNote::MnTagInfo(0x0006, "FocusSetting", "Focus setting"),
         MakerNote::MnTagInfo(0x0007, "WhiteBalance", "White balance"),
         MakerNote::MnTagInfo(0x0008, "ExposureMode", "Exposure mode"),
         MakerNote::MnTagInfo(0x0009, "MeteringMode", "Metering mode"),
