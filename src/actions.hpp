@@ -278,7 +278,7 @@ namespace Action {
         AutoPtr clone() const;
 
         /*!
-          @brief Insert a Jpeg thumbnail image from a file into file \path.
+          @brief Insert a Jpeg thumbnail image from a file into file \em path.
                  The filename of the thumbanail is expected to be the image
                  filename (\em path) minus its suffix plus "-thumb.jpg".
          */
