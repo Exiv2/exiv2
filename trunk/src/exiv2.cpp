@@ -22,13 +22,13 @@
   Abstract:  Command line program to display and manipulate image %Exif data
 
   File:      exiv2.cpp
-  Version:   $Name:  $ $Revision: 1.5 $
+  Version:   $Name:  $ $Revision: 1.6 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   10-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: exiv2.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: exiv2.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -134,7 +134,7 @@ void Params::help(std::ostream& os) const
        << "\nOptions:\n"
        << "   -h      Display this help and exit.\n"
        << "   -V      Show the program version and exit.\n"
-       << "   -v      Be extra verbose during the program run.\n"
+       << "   -v      Be verbose during the program run.\n"
        << "   -f      Do not prompt before overwriting existing files (force).\n"
        << "   -a time Time adjustment in the format [-]HH[:MM[:SS]]. This option\n"
        << "           is only used with the `adjust' action.\n"
