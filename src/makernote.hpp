@@ -21,7 +21,7 @@
 /*!
   @file    makernote.hpp
   @brief   
-  @version $Name:  $ $Revision: 1.3 $
+  @version $Name:  $ $Revision: 1.4 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -77,15 +77,16 @@ namespace Exif {
             const char* desc_;          //!< Short tag description
         }; // struct MnTagInfo
 
+        //! @name Creators
+        //@{
         //! Constructor. Takes an optional MakerNote info tag array.
         MakerNote(const MnTagInfo* mnTagInfo =0) : mnTagInfo_(mnTagInfo) {}
         //! Virtual destructor.
         virtual ~MakerNote() {}
-        /*!
-          @brief Return a pointer to a copy of itself (deep copy).
-                 The caller owns this copy and is responsible to delete it!
-         */
-        virtual MakerNote* clone() const =0;
+        //@}
+
+        //! @name Manipulators
+        //@{
         /*!
           @brief Read the MakerNote from character buffer buf of length len at
                  position offset (from the start of the TIFF header) and encoded
@@ -102,19 +103,14 @@ namespace Exif {
                  Return the number of bytes written.
          */
         virtual long copy(char* buf, ByteOrder byteOrder, long offset) =0;
-
-        //! @name Accessors
-        //@{
-        //! Return the size of the makernote in bytes.
-        virtual long size() const =0;
-        //! The first %MakerNote entry
-        virtual Entries::const_iterator begin() const =0;
-        //! End of the %MakerNote entries
-        virtual Entries::const_iterator end() const =0;
         //! The first %MakerNote entry
         virtual Entries::iterator begin() =0;
         //! End of the %MakerNote entries
         virtual Entries::iterator end() =0;
+        //@}
+
+        //! @name Accessors
+        //@{
         //! Return the key for the tag.
         std::string makeKey(uint16 tag) const;
         //! Return the associated tag for a makernote key.
@@ -133,6 +129,19 @@ namespace Exif {
                  and converts them to unsigned integer.
          */
         virtual uint16 tag(const std::string& tagName) const;
+        /*!
+          @brief Return a pointer to a copy of itself (deep copy).
+                 The caller owns this copy and is responsible to delete it!
+         */
+        virtual MakerNote* clone() const =0;
+        //! The first %MakerNote entry
+        virtual Entries::const_iterator begin() const =0;
+        //! End of the %MakerNote entries
+        virtual Entries::const_iterator end() const =0;
+        //! Find an entry by idx, return a const iterator to the record
+        virtual Entries::const_iterator findIdx(int idx) const =0;
+        //! Return the size of the makernote in bytes.
+        virtual long size() const =0;
         //! Return the name of the makernote section
         virtual std::string sectionName(uint16 tag) const =0; 
         //! Interpret and print the value of a makernote tag
@@ -162,6 +171,35 @@ namespace Exif {
         */
         static MakerNoteFactory& instance();
 
+        //! @name Manipulators
+        //@{        
+        /*!
+          @brief Register a %MakerNote prototype for a camera make and model.
+
+          Registers a %MakerNote for a given make and model combination with the
+          factory. Both the make and model strings may contain wildcards ('*',
+          e.g., "Canon*").  The method adds a new makerNote pointer to the
+          registry with the make and model strings provided. It takes ownership
+          of the object pointed to by the maker note pointer provided. If the
+          make already exists, then a new branch for the model is added to the
+          registry. If the model also already exists, then the new makerNote
+          pointer replaces the old one and the maker note pointed to by the old
+          pointer is deleted.
+
+          @param make Camera manufacturer. (Typically the string from the %Exif
+                 make tag.)
+          @param model Camera model. (Typically the string from the %Exif
+                 model tag.)
+          @param makerNote Pointer to the prototype. Ownership is transfered to the
+                 %MakerNote factory.
+        */
+        void registerMakerNote(const std::string& make, 
+                               const std::string& model, 
+                               MakerNote* makerNote);
+        //@}
+
+        //! @name Accessors
+        //@{        
         /*!
           @brief Create the appropriate %MakerNote based on camera make and
                  model, return a pointer to the newly created MakerNote
@@ -191,30 +229,8 @@ namespace Exif {
          */
         MakerNote* create(const std::string& make, 
                           const std::string& model) const;
+        //@}
 
-        /*!
-          @brief Register a %MakerNote prototype for a camera make and model.
-
-          Registers a %MakerNote for a given make and model combination with the
-          factory. Both the make and model strings may contain wildcards ('*',
-          e.g., "Canon*").  The method adds a new makerNote pointer to the
-          registry with the make and model strings provided. It takes ownership
-          of the object pointed to by the maker note pointer provided. If the
-          make already exists, then a new branch for the model is added to the
-          registry. If the model also already exists, then the new makerNote
-          pointer replaces the old one and the maker note pointed to by the old
-          pointer is deleted.
-
-          @param make Camera manufacturer. (Typically the string from the %Exif
-                 make tag.)
-          @param model Camera model. (Typically the string from the %Exif
-                 model tag.)
-          @param makerNote Pointer to the prototype. Ownership is transfered to the
-                 %MakerNote factory.
-        */
-        void registerMakerNote(const std::string& make, 
-                               const std::string& model, 
-                               MakerNote* makerNote);
         /*!
           @brief Match a registry entry with a key (used for make and model).
 
@@ -230,17 +246,22 @@ namespace Exif {
                                           const std::string& key);
 
     private:
+        //! @name Creators
+        //@{                
         //! Prevent construction other than through instance().
         MakerNoteFactory();
         //! Prevent copy construction: not implemented.
         MakerNoteFactory(const MakerNoteFactory& rhs);
+        //@}
 
-        //! Pointer to the one and only instance of this class.
-        static MakerNoteFactory* instance_;
         //! Type used to store model labels and %MakerNote prototype classes
         typedef std::vector<std::pair<std::string, MakerNote*> > ModelRegistry;
         //! Type used to store a list of make labels and model registries
         typedef std::vector<std::pair<std::string, ModelRegistry*> > Registry;
+
+        // DATA
+        //! Pointer to the one and only instance of this class.
+        static MakerNoteFactory* instance_;
         //! List of makernote types and corresponding prototypes.
         Registry registry_;
 
@@ -254,23 +275,36 @@ namespace Exif {
      */
     class IfdMakerNote : public MakerNote {
     public:
+        //! @name Creators
+        //@{        
         //! Constructor. Takes an optional MakerNote info tag array.
         IfdMakerNote(const MakerNote::MnTagInfo* mnTagInfo =0)
             : MakerNote(mnTagInfo), ifd_(makerIfd, 0, false) {}
+        //! Virtual destructor
         virtual ~IfdMakerNote() {}
-        virtual MakerNote* clone() const =0;
+        //@}
 
+        //! @name Manipulators
+        //@{
         int read(const char* buf, long len, ByteOrder byteOrder, long offset);
         long copy(char* buf, ByteOrder byteOrder, long offset);
-        long size() const;
-        Entries::const_iterator begin() const { return ifd_.begin(); }
-        Entries::const_iterator end() const { return ifd_.end(); }
         Entries::iterator begin() { return ifd_.begin(); }
         Entries::iterator end() { return ifd_.end(); }
+        //@}
+
+        //! @name Accessors
+        //@{
+        Entries::const_iterator begin() const { return ifd_.begin(); }
+        Entries::const_iterator end() const { return ifd_.end(); }
+        Entries::const_iterator findIdx(int idx) const 
+            { return ifd_.findIdx(idx); }
+        long size() const;
+        virtual MakerNote* clone() const =0;
         virtual std::string sectionName(uint16 tag) const =0; 
         virtual std::ostream& printTag(std::ostream& os,
                                        uint16 tag, 
                                        const Value& value) const =0;
+        //@}
 
     protected:
         Ifd ifd_;                               //!< MakerNote IFD
@@ -280,15 +314,23 @@ namespace Exif {
     //! MakerNote for Canon cameras
     class CanonMakerNote : public IfdMakerNote {
     public:
+        //! @name Creators
+        //@{        
         //! Default constructor
         CanonMakerNote();
+        //! Virtual destructor
         virtual ~CanonMakerNote() {}
+        //@}
+
+        //! @name Accessors
+        //@{        
         MakerNote* clone() const;
         //! Return the name of the makernote section ("Canon")
         std::string sectionName(uint16 tag) const { return sectionName_; }
         std::ostream& printTag(std::ostream& os,
                                uint16 tag, 
                                const Value& value) const;
+        //@}
 
         //! @name Print functions for Canon %MakerNote tags 
         //@{
