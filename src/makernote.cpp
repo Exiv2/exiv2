@@ -20,16 +20,17 @@
  */
 /*
   File:      makernote.cpp
-  Version:   $Name:  $ $Revision: 1.18 $
+  Version:   $Name:  $ $Revision: 1.19 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.18 $ $RCSfile: makernote.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.19 $ $RCSfile: makernote.cpp,v $")
 
-// Define DEBUG_MAKERNOTE to output debug information to std::cerr
+// Define DEBUG_* to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
+#define DEBUG_REGISTRY
 
 // *****************************************************************************
 // included header files
@@ -42,13 +43,19 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.18 $ $RCSfile: makernote.cpp,v $")
 #include <sstream>
 #include <iomanip>
 
-#ifdef DEBUG_MAKERNOTE
+#if defined DEBUG_MAKERNOTE || defined DEBUG_REGISTRY
 #   include <iostream>
 #endif
 
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
+
+    MakerNote::MakerNote(const MnTagInfo* pMnTagInfo, bool alloc) 
+        : pMnTagInfo_(pMnTagInfo), alloc_(alloc),
+          offset_(0), byteOrder_(invalidByteOrder)
+    {
+    }
 
     std::string MakerNote::makeKey(uint16 tag) const
     {
@@ -150,6 +157,14 @@ namespace Exiv2 {
                   << tagDesc(tag);
     } // MakerNote::writeMnTagInfo
 
+
+    IfdMakerNote::IfdMakerNote(const MakerNote::MnTagInfo* pMnTagInfo,
+                               bool alloc)
+        : MakerNote(pMnTagInfo, alloc),
+          absOffset_(true), adjOffset_(0), ifd_(makerIfd, 0, alloc)
+    {
+    }
+
     int IfdMakerNote::read(const char* buf,
                            long len, 
                            ByteOrder byteOrder, 
@@ -159,24 +174,22 @@ namespace Exiv2 {
         offset_ = offset;
         // Set byte order if none is set yet
         if (byteOrder_ == invalidByteOrder) byteOrder_ = byteOrder;
-        int rc = 0;
-        if (!prefix_.empty()) {
-            // Check if makernote is long enough and starts with prefix
-            if (   len < static_cast<long>(prefix_.size())
-                || prefix_ != std::string(buf, prefix_.size())) rc = 2;
+        // Read and check the header (and set offset adjustment)
+        int rc = readHeader(buf, len, byteOrder);
+        if (rc == 0) {
+            rc = checkHeader();
         }
-        if (!absOffset_) {
-            // Use offsets relative to the start of the Makernote field
-            offset = 0;
+        // Adjust the offset
+        offset = absOffset_ ? offset + adjOffset_ : adjOffset_;
+        // Read the makernote IFD
+        if (rc == 0) {
+            rc = ifd_.read(buf + headerSize(), 
+                           len - headerSize(),
+                           byteOrder_,
+                           offset);
         }
         if (rc == 0) {
-            rc = ifd_.read(buf + prefix_.size(), 
-                           len - prefix_.size(),
-                           byteOrder_, 
-                           offset + prefix_.size());
-        }
-        if (rc == 0) {
-            // IfdMakerNote does not support multiple IFDs
+            // IfdMakerNote currently does not support multiple IFDs
             if (ifd_.next() != 0) rc = 3;
         }
         if (rc == 0) {
@@ -188,8 +201,8 @@ namespace Exiv2 {
 #ifdef DEBUG_MAKERNOTE
         hexdump(std::cerr, buf, len, offset);
         if (rc == 0) ifd_.print(std::cerr);
-        else std::cerr << "IfdMakerNote::read() failed, rc = " << rc << "\n";
 #endif
+
         return rc;
     } // IfdMakerNote::read
 
@@ -199,19 +212,38 @@ namespace Exiv2 {
         offset_ = offset;
         // Set byte order if none is set yet
         if (byteOrder_ == invalidByteOrder) byteOrder_ = byteOrder;
+
         long len = 0;
-        if (!prefix_.empty()) {
-            // Write the prefix string to the Makernote buffer
-            memcpy(buf, prefix_.data(), prefix_.size());
-            len += prefix_.size();
-        }
-        if (!absOffset_) {
-            // Use offsets relative to the start of the Makernote field
-            offset = 0;
-        }
-        len += ifd_.copy(buf + len, byteOrder_, offset + len);
+        len += copyHeader(buf);
+        len += ifd_.copy(buf + len, byteOrder_, offset_);
+
         return len;
     } // IfdMakerNote::copy
+
+    int IfdMakerNote::readHeader(const char* buf, 
+                                 long len,
+                                 ByteOrder byteOrder)
+    {
+        // Default implementation does nothing, assuming there is no header
+        return 0;
+    }
+
+    int IfdMakerNote::checkHeader() const
+    {
+        // Default implementation does nothing, assuming there is no header
+        return 0;
+    }
+
+    long IfdMakerNote::copyHeader(char* buf) const
+    {
+        if (header_.size_ != 0) memcpy(buf, header_.pData_, header_.size_);
+        return header_.size_;
+    }
+
+    long IfdMakerNote::headerSize() const
+    {
+        return header_.size_;
+    }
 
     Entries::const_iterator IfdMakerNote::findIdx(int idx) const 
     {
@@ -220,7 +252,7 @@ namespace Exiv2 {
 
     long IfdMakerNote::size() const
     {
-        return prefix_.size() + ifd_.size() + ifd_.dataSize();
+        return headerSize() + ifd_.size() + ifd_.dataSize();
     }
 
     MakerNoteFactory* MakerNoteFactory::pInstance_ = 0;
@@ -237,7 +269,7 @@ namespace Exiv2 {
                                              const std::string& model, 
                                              CreateFct createMakerNote)
     {
-#ifdef DEBUG_MAKERNOTE
+#ifdef DEBUG_REGISTRY
         std::cerr << "Registering MakerNote create function for \"" 
                   << make << "\" and \"" << model << "\".\n";
 #endif
@@ -276,42 +308,80 @@ namespace Exiv2 {
                                         const std::string& model,
                                         bool alloc) const
     {
+#ifdef DEBUG_REGISTRY
+        std::cerr << "Entering MakerNoteFactory::create(\"" 
+                  << make << "\", \"" << model << "\", "
+                  << (alloc == true ? "true" : "false") << ")\n";
+#endif
         // loop through each make of the registry to find the best matching make
-        int matchCount = -1;
+        int score = 0;
         ModelRegistry* modelRegistry = 0;
+#ifdef DEBUG_REGISTRY
+        std::string makeMatch;
+        std::cerr << "Searching make registry...\n"; 
+#endif
         Registry::const_iterator end1 = registry_.end();
         Registry::const_iterator pos1;
         for (pos1 = registry_.begin(); pos1 != end1; ++pos1) {
-            std::pair<bool, int> rc = match(pos1->first, make);
-            if (rc.first && rc.second > matchCount) {
-                matchCount = rc.second;
+            int rc = match(pos1->first, make);
+            if (rc > score) {
+                score = rc;
+#ifdef DEBUG_REGISTRY
+                makeMatch = pos1->first;
+#endif
                 modelRegistry = pos1->second;
             }
         }
         if (modelRegistry == 0) return 0;
+#ifdef DEBUG_REGISTRY
+        std::cerr << "Best match is \"" << makeMatch << "\".\n";
+#endif
 
         // loop through each model of the model registry to find the best match
-        matchCount = -1;
+        score = 0;
         CreateFct createMakerNote = 0;
+#ifdef DEBUG_REGISTRY
+        std::string modelMatch;
+        std::cerr << "Searching model registry...\n";
+#endif
         ModelRegistry::const_iterator end2 = modelRegistry->end();
         ModelRegistry::const_iterator pos2;
         for (pos2 = modelRegistry->begin(); pos2 != end2; ++pos2) {
-            std::pair<bool, int> rc = match(pos2->first, model);
-            if (rc.first && rc.second > matchCount) {
-                matchCount = rc.second;
+            int rc = match(pos2->first, model);
+            if (rc > score) {
+                score = rc;
+#ifdef DEBUG_REGISTRY
+                modelMatch = pos2->first;
+#endif
                 createMakerNote = pos2->second;
             }
         }
         if (createMakerNote == 0) return 0;
+#ifdef DEBUG_REGISTRY
+        std::cerr << "Best match is \"" << modelMatch << "\".\n";
+#endif
 
         return createMakerNote(alloc);
     } // MakerNoteFactory::create
 
-    std::pair<bool, int> MakerNoteFactory::match(const std::string& regEntry,
-                                                 const std::string& key)
+    int MakerNoteFactory::match(const std::string& regEntry,
+                                const std::string& key)
     {
+#ifdef DEBUG_REGISTRY
+        std::cerr << "   Matching registry entry \"" << regEntry << "\" (" 
+                  << regEntry.size() << ") with key \"" << key << "\" ("
+                  << key.size() << "): ";
+#endif
         // Todo: make the comparisons case insensitive
 
+        // Handle exact match (this is only necessary because of the different
+        // return value - the following algorithm also finds exact matches)
+        if (regEntry == key) {
+#ifdef DEBUG_REGISTRY
+            std::cerr << "Exact match (score: " << key.size() + 2 << ")\n";
+#endif
+            return key.size() + 2;
+        }
         std::string uKey = key;
         std::string uReg = regEntry;
 
@@ -327,7 +397,10 @@ namespace Exiv2 {
                     uReg.substr(ei) : uReg.substr(ei, pos - ei);
 
                 if (ki == std::string::npos) {
-                    return std::make_pair(false, 0);
+#ifdef DEBUG_REGISTRY
+                    std::cerr << "Not a match.\n";
+#endif
+                    return 0;
                 }
 
                 bool found = false;
@@ -372,15 +445,21 @@ namespace Exiv2 {
                     count += ss.size();
                 }
                 else {
-                    return std::make_pair(false, 0);
+#ifdef DEBUG_REGISTRY
+                    std::cerr << "Not a match.\n";
+#endif
+                    return 0;
                 }
             } // if the substr is not empty
 
             ei = pos == std::string::npos ? std::string::npos : pos + 1;
 
         } // while ei doesn't point to the end of the registry entry
-                                     
-        return std::make_pair(true, count);
+
+#ifdef DEBUG_REGISTRY
+        std::cerr << "Match (score: " << count + 1 << ")\n";
+#endif
+        return count + 1;
         
     } // MakerNoteFactory::match
 

@@ -22,7 +22,7 @@
   @file    makernote.hpp
   @brief   Contains the Exif %MakerNote interface, IFD %MakerNote and a 
            MakerNote factory
-  @version $Name:  $ $Revision: 1.17 $
+  @version $Name:  $ $Revision: 1.18 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -85,11 +85,17 @@ namespace Exiv2 {
 
       To implement a new IFD makernote, all that you need to do is 
       - subclass %IfdMakerNote, 
-      - implement the create function,
+      - implement methods to read and check the header (if any) as well as
+        clone and create functions,
       - add a list of tag descriptions and appropriate print functions and 
       - register the camera make/model and create function in the makernote factory. 
       .
-      See CanonMakerNote for an example.
+      See existing makernote implementations for examples, e.g., CanonMakerNote
+      or FujiMakerNote.
+
+      Finally, the implementation files should be named *mn.[ch]pp, so that the
+      magic, which ensures that the makernote is automatically registered 
+      in the factory, will pick it up (see mn.sh for details).
      */
     class MakerNote {
     public:
@@ -112,21 +118,18 @@ namespace Exiv2 {
                  allows to choose whether or not memory management is required
                  for the Entries.
          */
-        MakerNote(const MnTagInfo* pMnTagInfo =0, bool alloc =true) 
-            : pMnTagInfo_(pMnTagInfo), alloc_(alloc),
-              byteOrder_(invalidByteOrder), offset_(0) {}
+        explicit MakerNote(const MnTagInfo* pMnTagInfo =0, bool alloc =true);
         //! Virtual destructor.
         virtual ~MakerNote() {}
         //@}
 
         //! @name Manipulators
         //@{
-        //! Set the byte order (little or big endian).
-        void setByteOrder(ByteOrder byteOrder) { byteOrder_ = byteOrder; }
         /*!
-          @brief Read the makernote from character buffer buf of length len at
-                 position offset (from the start of the TIFF header) and encoded
-                 in byte order byteOrder.
+          @brief Read the makernote, including the makernote header, from
+                 character buffer buf of length len at position offset (from the
+                 start of the TIFF header) and encoded in byte order byteOrder.
+                 Return 0 if successful.
          */
         virtual int read(const char* buf, 
                          long len, 
@@ -231,13 +234,16 @@ namespace Exiv2 {
                  False: no memory management needed.
          */
         const bool alloc_; 
-        /*!  
+        /*! 
+          @brief Offset of the makernote from the start of the TIFF header 
+                 (for offset()).
+         */
+        long offset_;
+        /*!
           @brief Alternative byte order to use, invalid if the byte order of the
                  Exif block can be used
          */
         ByteOrder byteOrder_;
-        //! Offset of the makernote from the start of the TIFF header
-        long offset_;
 
     }; // class MakerNote
 
@@ -253,9 +259,8 @@ namespace Exiv2 {
                  allows to choose whether or not memory management is required
                  for the Entries.
          */
-        IfdMakerNote(const MakerNote::MnTagInfo* pMnTagInfo =0, bool alloc =true)
-            : MakerNote(pMnTagInfo, alloc), 
-              absOffset_(true), ifd_(makerIfd, 0, alloc) {}
+        explicit IfdMakerNote(const MakerNote::MnTagInfo* pMnTagInfo =0, 
+                              bool alloc =true);
         //! Virtual destructor
         virtual ~IfdMakerNote() {}
         //@}
@@ -266,6 +271,17 @@ namespace Exiv2 {
                          long len, 
                          ByteOrder byteOrder, 
                          long offset);
+        /*!
+          @brief Read the makernote header from the makernote databuffer.  This
+                 method must set the offset adjustment (adjOffset_), if needed
+                 (assuming that the required information is in the header).
+                 Return 0 if successful.          
+          @note  The default implementation does nothing, assuming there is no
+                 header
+         */
+        virtual int readHeader(const char* buf, 
+                               long len,
+                               ByteOrder byteOrder);
         virtual long copy(char* buf, ByteOrder byteOrder, long offset);
         void add(const Entry& entry) { ifd_.add(entry); }
         Entries::iterator begin() { return ifd_.begin(); }
@@ -278,7 +294,27 @@ namespace Exiv2 {
         Entries::const_iterator end() const { return ifd_.end(); }
         Entries::const_iterator findIdx(int idx) const;
         long size() const;
-        virtual MakerNote* clone(bool alloc =true) const =0;
+        /*!
+          @brief Check the makernote header. This will typically check if a
+                 required prefix string is present in the header. Return 0 if
+                 successful.
+          @note  The default implementation does nothing, assuming there is no
+                 header
+         */
+        virtual int checkHeader() const;
+        /*!
+          @brief Write the makernote header to a character buffer, return the 
+                 number of characters written.
+          @note  The default implementation copies the header_ buffer.
+         */
+        virtual long copyHeader(char* buf) const;
+        /*! 
+          @brief Return the size of the makernote header in bytes.
+          @note  The default implementation returns the size of the header_ 
+                 buffer.
+         */
+        virtual long headerSize() const;
+        virtual IfdMakerNote* clone(bool alloc =true) const =0;
         virtual std::string sectionName(uint16 tag) const =0; 
         virtual std::ostream& printTag(std::ostream& os,
                                        uint16 tag, 
@@ -287,14 +323,23 @@ namespace Exiv2 {
 
     protected:
         // DATA
-        //! String prefix at the beginning of the makernote, before the IFD
-        std::string prefix_;
         /*!
-          @brief True:  Offsets are from start of the TIFF header,
-                 False: Offsets are from start of the makernote
+          @brief True:  Adjustment of the IFD offsets is to be added to the
+                        offset from the start of the TIFF header,
+                 False: Adjustment of the IFD offsets is a suitable absolute 
+                        value. Ignore the offset from the start of the TIFF 
+                        header.
          */
-        bool absOffset_; 
-        //! MakerNote IFD
+        bool absOffset_;
+        /*!
+          @brief Adjustment of the IFD offsets relative to the start of the 
+                 TIFF header or to the start of the makernote, depending on 
+                 the setting of absOffset_.
+         */
+        long adjOffset_;
+        //! Data buffer for the makernote header
+        DataBuf header_;
+        //! The makernote IFD
         Ifd ifd_;
 
     }; // class IfdMakerNote
@@ -383,15 +428,20 @@ namespace Exiv2 {
           @brief Match a registry entry with a key (used for make and model).
 
           The matching algorithm is case insensitive and wildcards ('*') in the
-          registry entry are supported. The best match is the match with the
-          most matching characters.
+          registry entry are supported. The best match is an exact match, then
+          a match is rated according to the number of matching characters.
 
-          @return A pair of which the first component indicates whether or not
-                  the key matches and the second component contains the number
-                  of matching characters.
+          @return A score value indicating how good the key and registry entry 
+                  match. 0 means no match, values greater than 0 indicate a
+                  match, larger values are better matches:<BR>
+                  0: key and registry entry do not match<BR>
+                  1: a pure wildcard match, i.e., the registry entry is just 
+                     a wildcard.<BR>
+                  Score values greater than 1 are computed by adding 1 to the 
+                  number of matching characters, except for an exact match, 
+                  which scores 2 plus the number of matching characters.
          */
-        static std::pair<bool, int> match(const std::string& regEntry, 
-                                          const std::string& key);
+        static int match(const std::string& regEntry, const std::string& key);
 
     private:
         //! @name Creators
