@@ -12,6 +12,11 @@ Library Features:
 + Extended JPEG support (comments, actual resolution of the image)
 + Write an example using low level IFD classes to print summary Exif info
 + Implement proper error handling
++ Complete support to create Exif data from scratch:
+  + set makernote, write makernote tags
+  + set thumbnail, write thumbnail tags
+  + write unknown tags 
++ Make it possible to force write from metadata (just an optional arg to write?)
 
 Exiv2 functionality
 + Add offset to value for hexdump (requires metadata to have an offset)
