@@ -21,7 +21,7 @@
 /*!
   @file    value.hpp
   @brief   Value interface and concrete subclasses
-  @version $Name:  $ $Revision: 1.5 $
+  @version $Name:  $ $Revision: 1.6 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -57,10 +57,16 @@ namespace Exif {
      */
     class Value {
     public:
+        //! @name Creators
+        //@{
         //! Constructor, taking a type id to initialize the base class with
         explicit Value(TypeId typeId) : type_(typeId) {}
         //! Virtual destructor.
         virtual ~Value() {}
+        //@}
+
+        //! @name Manipulators
+        //@{
         /*!
           @brief Read the value from a character buffer.
 
@@ -78,6 +84,17 @@ namespace Exif {
           @param buf The string to read from.
          */
         virtual void read(const std::string& buf) =0;
+        //@}
+
+        //! @name Accessors
+        //@{
+        //! Return the type identifier (Exif data format type).
+        TypeId typeId() const { return TypeId(type_); }
+        /*!
+          @brief Return the value as a string. Implemented in terms of
+                 write(std::ostream& os) const of the concrete class. 
+         */
+        std::string toString() const;
         /*!
           @brief Write value to a character data buffer.
 
@@ -129,14 +146,7 @@ namespace Exif {
           @return The converted value. 
          */
         virtual Rational toRational(long n =0) const =0;
-        /*!
-          @brief Return the value as a string. Implemented in terms of
-                 write(std::ostream& os) const of the concrete class. 
-         */
-        std::string toString() const;
-
-        //! Return the type identifier (Exif data format type).
-        TypeId typeId() const { return TypeId(type_); }
+        //@}
 
         /*!
           @brief A (simple) factory to create a Value type.
@@ -185,10 +195,16 @@ namespace Exif {
     //! %Value for an undefined data type.
     class DataValue : public Value {
     public:
+        //! @name Creators
+        //@{
         //! Default constructor.
         DataValue(TypeId typeId =undefined) : Value(typeId) {}
         //! Virtual destructor.
         virtual ~DataValue() {}
+        //@}
+
+        //! @name Manipulators
+        //@{
         //! Assignment operator.
         DataValue& operator=(const DataValue& rhs);
         /*!
@@ -202,6 +218,10 @@ namespace Exif {
         virtual void read(const char* buf, long len, ByteOrder byteOrder);
         //! Set the data from a string of integer values (e.g., "0 1 2 3")
         virtual void read(const std::string& buf);
+        //@}
+
+        //! @name Accessors
+        //@{        
         /*!
           @brief Write value to a character data buffer. The byte order is
                  required by the interface but not used by this method.
@@ -222,6 +242,7 @@ namespace Exif {
         virtual float toFloat(long n =0) const { return value_[n]; }
         virtual Rational toRational(long n =0) const
             { return Rational(value_[n], 1); }
+        //@}
 
     private:
         std::string value_;
@@ -231,10 +252,16 @@ namespace Exif {
     //! %Value for an Ascii string type.
     class AsciiValue : public Value {
     public:
+        //! @name Creators
+        //@{
         //! Default constructor.
         AsciiValue() : Value(asciiString) {}
         //! Virtual destructor.
         virtual ~AsciiValue() {}
+        //@}
+
+        //! @name Manipulators
+        //@{
         //! Assignment operator.
         AsciiValue& operator=(const AsciiValue& rhs);
         /*!
@@ -252,6 +279,10 @@ namespace Exif {
                  end with '\\0'.
          */
         virtual void read(const std::string& buf);
+        //@}
+
+        //! @name Accessors
+        //@{
         /*!
           @brief Write value to a character data buffer. The byte order is
                  required by the interface but not used by this method.
@@ -277,6 +308,7 @@ namespace Exif {
         virtual float toFloat(long n =0) const { return value_[n]; }
         virtual Rational toRational(long n =0) const
             { return Rational(value_[n], 1); }
+        //@}
 
     private:
         std::string value_;
@@ -309,10 +341,16 @@ namespace Exif {
     template<typename T>
     class ValueType : public Value {
     public:
+        //! @name Creators
+        //@{
         //! Default constructor.
         ValueType() : Value(getType<T>()) {}
         //! Virtual destructor.
         virtual ~ValueType() {}
+        //@}
+
+        //! @name Manipulators
+        //@{
         //! Assignment operator.
         ValueType<T>& operator=(const ValueType<T>& rhs);
         virtual void read(const char* buf, long len, ByteOrder byteOrder);
@@ -323,6 +361,10 @@ namespace Exif {
                  produced by the write() method.
          */
         virtual void read(const std::string& buf);
+        //@}
+
+        //! @name Accessors
+        //@{
         virtual long copy(char* buf, ByteOrder byteOrder) const;
         virtual long count() const { return value_.size(); }
         virtual long size() const;
@@ -331,6 +373,7 @@ namespace Exif {
         virtual long toLong(long n =0) const;
         virtual float toFloat(long n =0) const;
         virtual Rational toRational(long n =0) const;
+        //@}
 
         //! Container for values 
         typedef std::vector<T> ValueList;
