@@ -21,7 +21,7 @@
 /*!
   @file    ifd.hpp
   @brief   Encoding and decoding of IFD (%Image File Directory) data
-  @version $Name:  $ $Revision: 1.18 $
+  @version $Name:  $ $Revision: 1.19 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -440,7 +440,7 @@ namespace Exiv2 {
         //! Get the offset to the next IFD from the start of the TIFF header
         uint32 next() const { return next_; }
         //! Get the number of directory entries in the IFD
-        long count() const { return entries_.size(); }
+        long count() const { return static_cast<long>(entries_.size()); }
         //! Get the size of this IFD in bytes (IFD only, without data)
         long size() const;
         /*!
