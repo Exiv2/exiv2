@@ -8,16 +8,12 @@ Library Features:
 + Support non-intrusive deletion of entries from an IFD.
 + Extended JPEG support (comments, actual resolution of the image)
 + Write an example using low level IFD classes to print summary Exif info
++ Implement proper error handling
 
 Exiv2 functionality
 + Add offset to value for hexdump (requires metadata to have an offset)
 
 Bugs:
-+ Robustness: Ifd::read needs a len argument and before accessing the buffer 
-  there should be a boundary check. Similarly in other functions that access
-  a data buffer. This should result in a more robust handling of corrupted Exif
-  data better (e.g., files with IFD1 but w/o thumbnail, as produced by jhead 
-  etc, etc)
 + Handle all Todo's
 + Cleanup and fix implementation of JpegImage (must be able to read any APP0/1),
   should be able to insert exv into extracted thumbs (usually w/o APP0/1)
