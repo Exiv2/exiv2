@@ -1,26 +1,26 @@
-# ***************************************************** -*- Makefile -*-
+# ************************************************************* -*- Makefile -*-
 #
 # Copyright (C) 2004 Andreas Huggel <ahuggel@gmx.net>
 #
 # This Makefile is part of the Exiv2 distribution.
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 # 02111-1307, USA.
 #
 # File:      Makefile
-# Version:   $Name:  $ $Revision: 1.9 $
+# Version:   $Name:  $ $Revision: 1.10 $
 # Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
 # History:   10-Dec-03, ahu: created
 #
@@ -44,14 +44,14 @@ all: lib bin
 top_srcdir = ..
 include $(top_srcdir)/config.mk
 
-# **********************************************************************
+# ******************************************************************************
 # Source files
 
 # Add standalone C++ header files to this list
-CCHDR = rcsid.hpp
+CCHDR = rcsid.hpp error.hpp
 
 # Add library C++ source files to this list
-CCSRC = exif.cpp tags.cpp utils.cpp
+CCSRC = exif.cpp ifd.cpp image.cpp tags.cpp types.cpp value.cpp
 
 # Add source files of simple applications to this list
 BINSRC = example1.cpp taglist.cpp exifprint.cpp exiftest.cpp
@@ -60,22 +60,22 @@ BINSRC = example1.cpp taglist.cpp exifprint.cpp exiftest.cpp
 EXIV2MAIN = exiv2.cpp
 
 # Add additional source files of the real application to this list
-EXIV2SRC = actions.cpp
+EXIV2SRC = actions.cpp utils.cpp 
 
-# **********************************************************************
+# ******************************************************************************
 # Library
 
 LIBNAME = exiv2
 
-# **********************************************************************
+# ******************************************************************************
 # Defines, Includes and Libraries
 CXXDEFS = $(DEFS)
 CXXINCS = $(INCS)
 LDLIBS  = $(LIBS) -l$(LIBNAME)
 
-# **********************************************************************
-# ======================================================================
-# **********************************************************************
+# ******************************************************************************
+# ==============================================================================
+# ******************************************************************************
 
 # Initialisations
 SHELL = /bin/sh
@@ -106,7 +106,7 @@ EXIV2BIN = $(EXIV2MAIN:.cpp=)
 ARCHIVE = lib$(LIBNAME)$(ARCHIVE_SUFFIX)
 SHAREDLIB = lib$(LIBNAME)$(SHAREDLIB_SUFFIX)
 
-# **********************************************************************
+# ******************************************************************************
 # Assemble the dependencies for the 'lib' target and corresponding 
 # (un)install targets. If neither STATIC_LIBS nor SHARED_LIBS is 
 # defined, 'lib' does nothing.
@@ -123,7 +123,7 @@ ifdef SHARED_LIBS
     UNINSTALL_LIB := $(UNINSTALL_LIB) uninstall-sharedlib
 endif
 
-# **********************************************************************
+# ******************************************************************************
 # Include `.*.d' files, but only if we need them, 
 # i.e., if no target was given...
 ifeq ($(strip $(MAKECMDGOALS)),)
@@ -138,7 +138,7 @@ ifneq ($(MAKECMDGOALS), $(filter $(MAKECMDGOALS), $(NOINCLUDE)))
 endif
 endif
 
-# **********************************************************************
+# ******************************************************************************
 # Rules
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS_STATIC) $(CXXDEFS) $(CXXINCS) -c $< -o $@
@@ -166,7 +166,7 @@ $(BINARY): %: %.o
 $(EXIV2BIN): %: %.o
 	$(CXX) $(CXXFLAGS) $(EXIV2OBJ) $(LDLIBS) $(LDFLAGS_BIN) -o $@
 
-# **********************************************************************
+# ******************************************************************************
 # Targets
 .PHONY: all archive sharedlib bin check doc                            \
         clean mostlyclean distclean maintainer-clean                   \

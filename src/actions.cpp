@@ -20,17 +20,16 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.1 $
+  Version:   $Name:  $ $Revision: 1.2 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.1 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
-
 #include "actions.hpp"
 #include "exiv2.hpp"
 #include "utils.hpp"

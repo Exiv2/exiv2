@@ -23,22 +23,20 @@
 
   File:      exifprint.cpp
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  Version  : $Name:  $ $Revision: 1.7 $
+  Version  : $Name:  $ $Revision: 1.8 $
   History  : 26-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.7 $ $RCSfile: exifprint.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.8 $ $RCSfile: exifprint.cpp,v $")
 
 // *****************************************************************************
 // included header files
 #include "exif.hpp"
-#include "utils.hpp"
 
 // + standard includes
 #include <iostream>
 #include <iomanip>
-
 #include <cstring>
 
 // *****************************************************************************

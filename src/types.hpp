@@ -1,0 +1,201 @@
+// ***************************************************************** -*- C++ -*-
+/*
+ * Copyright (C) 2004 Andreas Huggel <ahuggel@gmx.net>
+ * 
+ * This program is part of the Exiv2 distribution.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+/*!
+  @file    types.hpp
+  @brief   Type definitions for Exiv2 and related functionality
+  @version $Name:  $ $Revision: 1.1 $
+  @author  Andreas Huggel (ahu)
+           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
+  @date    09-Jan-04, ahu: created
+           11-Feb-04, ahu: isolated as a component
+ */
+#ifndef TYPES_HPP_
+#define TYPES_HPP_
+
+// *****************************************************************************
+// included header files
+
+// + standard includes
+#include <string>
+#include <iosfwd>
+#include <utility>
+#include <sstream>
+
+// *****************************************************************************
+// namespace extensions
+//! Provides classes and functions to encode and decode %Exif data.
+namespace Exif {
+
+// *****************************************************************************
+// type definitions
+
+    //! 2 byte unsigned integer type.
+    typedef unsigned short uint16;
+    //! 4 byte unsigned integer type.
+    typedef unsigned long  uint32;
+    //! 2 byte signed integer type.
+    typedef short          int16;
+    //! 4 byte signed integer type.
+    typedef long           int32;
+
+    //! 8 byte unsigned rational type.
+    typedef std::pair<uint32, uint32> URational;
+    //! 8 byte signed rational type.
+    typedef std::pair<int32, int32> Rational;
+
+    //! Type to express the byte order (little or big endian)
+    enum ByteOrder { littleEndian, bigEndian };
+
+    //! Type identifiers for IFD format types
+    enum TypeId { invalid, unsignedByte, asciiString, unsignedShort, 
+                  unsignedLong, unsignedRational, invalid6, undefined,
+                  signedShort, signedLong, signedRational };
+
+    //! Type to specify the IFD to which a metadata belongs
+    enum IfdId { ifdIdNotSet, 
+                 ifd0, exifIfd, gpsIfd, makerIfd, iopIfd, 
+                 ifd1, ifd1ExifIfd, ifd1GpsIfd, ifd1MakerIfd, ifd1IopIfd,
+                 lastIfdId};
+
+// *****************************************************************************
+// class definitions
+
+    //! Information pertaining to the defined types
+    struct TypeInfoTable {
+        //! Constructor
+        TypeInfoTable(TypeId typeId, const char* name, long size);
+        TypeId typeId_;                         //!< Type id
+        const char* name_;                      //!< Name of the type
+        long size_;                             //!< Bytes per data entry 
+    }; // struct TypeInfoTable
+
+    //! Type information lookup functions. Implemented as a static class.
+    class TypeInfo {
+        //! Prevent construction: not implemented.
+        TypeInfo() {}
+        //! Prevent copy-construction: not implemented.
+        TypeInfo(const TypeInfo& rhs);
+        //! Prevent assignment: not implemented.
+        TypeInfo& operator=(const TypeInfo& rhs);
+
+    public:
+        //! Return the name of the type
+        static const char* typeName(TypeId typeId);
+        //! Return the size in bytes of one element of this type
+        static long typeSize(TypeId typeId);
+
+    private:
+        static const TypeInfoTable typeInfoTable_[];
+    };
+
+// *****************************************************************************
+// free functions
+
+    //! Read a 2 byte unsigned short value from the data buffer
+    uint16 getUShort(const char* buf, ByteOrder byteOrder);
+    //! Read a 4 byte unsigned long value from the data buffer
+    uint32 getULong(const char* buf, ByteOrder byteOrder);
+    //! Read an 8 byte unsigned rational value from the data buffer
+    URational getURational(const char* buf, ByteOrder byteOrder);
+    //! Read a 2 byte signed short value from the data buffer
+    int16 getShort(const char* buf, ByteOrder byteOrder);
+    //! Read a 4 byte signed long value from the data buffer
+    int32 getLong(const char* buf, ByteOrder byteOrder);
+    //! Read an 8 byte signed rational value from the data buffer
+    Rational getRational(const char* buf, ByteOrder byteOrder);
+
+    //! Output operator for our fake rational
+    std::ostream& operator<<(std::ostream& os, const Rational& r);
+    //! Input operator for our fake rational
+    std::istream& operator>>(std::istream& is, Rational& r);
+    //! Output operator for our fake unsigned rational
+    std::ostream& operator<<(std::ostream& os, const URational& r);
+    //! Input operator for our fake unsigned rational
+    std::istream& operator>>(std::istream& is, URational& r);
+
+    /*!
+      @brief Convert an unsigned short to data, write the data to the buffer, 
+             return number of bytes written.
+     */
+    long us2Data(char* buf, uint16 s, ByteOrder byteOrder);
+    /*!
+      @brief Convert an unsigned long to data, write the data to the buffer,
+             return number of bytes written.
+     */
+    long ul2Data(char* buf, uint32 l, ByteOrder byteOrder);
+    /*!
+      @brief Convert an unsigned rational to data, write the data to the buffer,
+             return number of bytes written.
+     */
+    long ur2Data(char* buf, URational l, ByteOrder byteOrder);
+    /*!
+      @brief Convert a signed short to data, write the data to the buffer, 
+             return number of bytes written.
+     */
+    long s2Data(char* buf, int16 s, ByteOrder byteOrder);
+    /*!
+      @brief Convert a signed long to data, write the data to the buffer,
+             return number of bytes written.
+     */
+    long l2Data(char* buf, int32 l, ByteOrder byteOrder);
+    /*!
+      @brief Convert a signed rational to data, write the data to the buffer,
+             return number of bytes written.
+     */
+    long r2Data(char* buf, Rational l, ByteOrder byteOrder);
+
+    //! Print len bytes from buf in hex and ASCII format to the given stream
+    void hexdump(std::ostream& os, const char* buf, long len);
+   
+// *****************************************************************************
+// template and inline definitions
+
+    //! Template to determine the TypeId for a type T
+    template<typename T> TypeId getType();
+
+    //! Specialization for an unsigned short
+    template<> inline TypeId getType<uint16>() { return unsignedShort; }
+    //! Specialization for an unsigned long
+    template<> inline TypeId getType<uint32>() { return unsignedLong; }
+    //! Specialization for an unsigned rational
+    template<> inline TypeId getType<URational>() { return unsignedRational; }
+    //! Specialization for a signed short
+    template<> inline TypeId getType<int16>() { return signedShort; }
+    //! Specialization for a signed long
+    template<> inline TypeId getType<int32>() { return signedLong; }
+    //! Specialization for a signed rational
+    template<> inline TypeId getType<Rational>() { return signedRational; }
+
+    // No default implementation: let the compiler/linker complain
+//    template<typename T> inline TypeId getType() { return invalid; }
+
+    //! Utility function to convert the argument of any type to a string
+    template<typename T> 
+    std::string toString(T arg)
+    {
+        std::ostringstream os;
+        os << arg;
+        return os.str();
+    }
+
+}                                       // namespace Exif
+
+#endif                                  // #ifndef TYPES_HPP_
