@@ -33,10 +33,10 @@ try {
             IptcDataSets::dataSetList(std::cout);
             break;
         }
-        
-        MakerNote::AutoPtr makerNote = MakerNoteFactory::instance().create(item);
-        if (makerNote.get() != 0) {
-            makerNote->taglist(std::cout);
+
+        IfdId ifdId = ExifTags::ifdIdByIfdItem(item);
+        if (ExifTags::isMakerIfd(ifdId)) {
+            ExifTags::makerTaglist(std::cout, ifdId);
         }
         else {
             rc = 2;

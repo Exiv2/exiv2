@@ -48,6 +48,7 @@
 // included header files
 #include "types.hpp"
 #include "makernote.hpp"
+#include "tags.hpp"
 
 // + standard includes
 #include <string>
@@ -119,11 +120,6 @@ namespace Exiv2 {
         //@{
         AutoPtr create(bool alloc =true) const;
         AutoPtr clone() const;
-        //! Return the name of the makernote item ("Nikon1")
-        std::string ifdItem() const { return ifdItem_; }
-        std::ostream& printTag(std::ostream& os,
-                               uint16_t tag, 
-                               const Value& value) const;
         //@}
 
         //! @name Print functions for Nikon1 %MakerNote tags 
@@ -146,6 +142,9 @@ namespace Exiv2 {
         //! Internal virtual copy constructor.
         Nikon1MakerNote* clone_() const;
 
+        //! Tag information
+        static const TagInfo tagInfo_[];
+
         //! Structure used to auto-register the MakerNote.
         struct RegisterMakerNote {
             //! Default constructor
@@ -153,7 +152,9 @@ namespace Exiv2 {
             {
                 MakerNoteFactory& mnf = MakerNoteFactory::instance();
                 mnf.registerMakerNote("NIKON*", "*", createNikonMakerNote); 
-                mnf.registerMakerNote(MakerNote::AutoPtr(new Nikon1MakerNote));
+                mnf.registerMakerNote(nikon1IfdId,
+                                      MakerNote::AutoPtr(new Nikon1MakerNote));
+                ExifTags::registerMakerTagInfo(nikon1IfdId, tagInfo_);
             }
         };
         // DATA
@@ -170,8 +171,6 @@ namespace Exiv2 {
                 demand.
          */
         static const RegisterMakerNote register_; 
-        //! The item name (second part of the key) used for makernote tags
-        std::string ifdItem_;
 
     }; // class Nikon1MakerNote
 
@@ -209,11 +208,6 @@ namespace Exiv2 {
         int checkHeader() const;
         AutoPtr create(bool alloc =true) const;
         AutoPtr clone() const;
-        //! Return the name of the makernote item ("Nikon2")
-        std::string ifdItem() const { return ifdItem_; }
-        std::ostream& printTag(std::ostream& os,
-                               uint16_t tag, 
-                               const Value& value) const;
         //@}
 
         //! @name Print functions for Nikon2 %MakerNote tags 
@@ -238,13 +232,18 @@ namespace Exiv2 {
         //! Internal virtual copy constructor.
         Nikon2MakerNote* clone_() const;
 
+        //! Tag information
+        static const TagInfo tagInfo_[];
+
         //! Structure used to auto-register the MakerNote.
         struct RegisterMakerNote {
             //! Default constructor
             RegisterMakerNote() 
             {
                 MakerNoteFactory& mnf = MakerNoteFactory::instance();
-                mnf.registerMakerNote(MakerNote::AutoPtr(new Nikon2MakerNote));
+                mnf.registerMakerNote(nikon2IfdId,
+                                      MakerNote::AutoPtr(new Nikon2MakerNote));
+                ExifTags::registerMakerTagInfo(nikon2IfdId, tagInfo_);
             }
         };
         // DATA
@@ -261,9 +260,6 @@ namespace Exiv2 {
                 demand.
          */
         static const RegisterMakerNote register_; 
-
-        //! The item name (second part of the key) used for makernote tags
-        std::string ifdItem_;
 
     }; // class Nikon2MakerNote
 
@@ -288,10 +284,6 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        int read(const byte* buf,
-                 long len, 
-                 ByteOrder byteOrder, 
-                 long offset);
         int readHeader(const byte* buf, 
                        long len,
                        ByteOrder byteOrder);
@@ -302,11 +294,6 @@ namespace Exiv2 {
         int checkHeader() const;
         AutoPtr create(bool alloc =true) const;
         AutoPtr clone() const;
-        //! Return the name of the makernote item ("Nikon3")
-        std::string ifdItem() const { return ifdItem_; }
-        std::ostream& printTag(std::ostream& os,
-                               uint16_t tag, 
-                               const Value& value) const;
         //@}
 
         //! @name Print functions for Nikon3 %MakerNote tags 
@@ -331,15 +318,24 @@ namespace Exiv2 {
         //! Internal virtual copy constructor.
         Nikon3MakerNote* clone_() const;
 
-        //! Structure used to auto-register the MakerNote.
+        //! Tag information
+        static const TagInfo tagInfo_[];
+
+        //! Structure used to auto-register the MakerNote and %TagInfos
         struct RegisterMakerNote {
             //! Default constructor
             RegisterMakerNote() 
             {
                 MakerNoteFactory& mnf = MakerNoteFactory::instance();
-                mnf.registerMakerNote(MakerNote::AutoPtr(new Nikon3MakerNote));
+                mnf.registerMakerNote(nikon3IfdId,
+                                      MakerNote::AutoPtr(new Nikon3MakerNote));
+                mnf.registerMakerNote(nikon3ThumbIfdId,
+                                      MakerNote::AutoPtr(new Nikon3MakerNote));
+                ExifTags::registerMakerTagInfo(nikon3IfdId, tagInfo_);
+                ExifTags::registerBaseTagInfo(nikon3ThumbIfdId);
             }
         };
+
         // DATA
         /*!
           The static member variable is initialized before main (see note) and
@@ -355,8 +351,8 @@ namespace Exiv2 {
          */
         static const RegisterMakerNote register_; 
 
-        //! The item name (second part of the key) used for makernote tags
-        std::string ifdItem_;
+        //! All makernote entries 
+        Entries entries_;
 
     }; // class Nikon3MakerNote
 

@@ -50,7 +50,7 @@ EXIV2_RCSID("@(#) $Id$");
 namespace Exiv2 {
 
     Entry::Entry(bool alloc)
-        : alloc_(alloc), ifdId_(ifdIdNotSet), idx_(0), pMakerNote_(0), 
+        : alloc_(alloc), ifdId_(ifdIdNotSet), idx_(0), 
           tag_(0), type_(0), count_(0), offset_(0), size_(0), pData_(0),
           sizeDataArea_(0), pDataArea_(0)
     {
@@ -62,12 +62,11 @@ namespace Exiv2 {
             delete[] pData_;
             delete[] pDataArea_;
         }
-        // do *not* delete the MakerNote
     }
 
     Entry::Entry(const Entry& rhs)
         : alloc_(rhs.alloc_), ifdId_(rhs.ifdId_), idx_(rhs.idx_),
-          pMakerNote_(rhs.pMakerNote_), tag_(rhs.tag_), type_(rhs.type_), 
+          tag_(rhs.tag_), type_(rhs.type_), 
           count_(rhs.count_), offset_(rhs.offset_), size_(rhs.size_), pData_(0),
           sizeDataArea_(rhs.sizeDataArea_), pDataArea_(0)
     {
@@ -93,7 +92,6 @@ namespace Exiv2 {
         alloc_ = rhs.alloc_;
         ifdId_ = rhs.ifdId_;
         idx_ = rhs.idx_;
-        pMakerNote_ = rhs.pMakerNote_;
         tag_ = rhs.tag_;
         type_ = rhs.type_;
         count_ = rhs.count_;

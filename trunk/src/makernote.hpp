@@ -69,7 +69,6 @@ namespace Exiv2 {
       - read the makernote from a character buffer
       - copy the makernote to a character buffer
       - maintain a list of makernote entries (similar to IFD entries) 
-      - provide makernote specific tag names and tag information
       - interpret (print) the values of makernote tags
 
       Makernotes can be added to the system by subclassing %MakerNote and
@@ -104,25 +103,13 @@ namespace Exiv2 {
         //! Shortcut for a %MakerNote auto pointer.
         typedef std::auto_ptr<MakerNote> AutoPtr;
 
-        //! MakerNote Tag information
-        struct MnTagInfo {
-            //! Constructor
-            MnTagInfo(uint16_t tag, const char* name, const char* desc) 
-                : tag_(tag), name_(name), desc_(desc) {}
-
-            uint16_t tag_;                //!< Tag
-            const char* name_;          //!< One word tag label
-            const char* desc_;          //!< Short tag description
-        }; // struct MnTagInfo
-
         //! @name Creators
         //@{
         /*!
-          @brief Constructor. Takes an optional makernote info tag array and
-                 allows to choose whether or not memory management is required
-                 for the Entries.
+          @brief Constructor. Allows to choose whether or not memory management 
+                 is required for the Entries.
          */
-        explicit MakerNote(const MnTagInfo* pMnTagInfo =0, bool alloc =true);
+        explicit MakerNote(bool alloc =true);
         //! Virtual destructor.
         virtual ~MakerNote() {}
         //@}
@@ -197,36 +184,6 @@ namespace Exiv2 {
                  Use updateBase(byte* pNewBase) to adjust them.
          */
         AutoPtr clone() const;
-        /*!
-          @brief Return the name of a makernote tag. The default implementation
-                 looks up the makernote info tag array if one is set, else
-                 it translates the tag to a string with the hexadecimal value of
-                 the tag.
-         */
-        virtual std::string tagName(uint16_t tag) const;
-        /*!
-          @brief Return the tag associated with a makernote tag name. The
-                 default implementation looks up the makernote info tag array
-                 if one is set, else it expects tag names in the form "0x01ff"
-                 and converts them to unsigned integer.
-         */
-        virtual uint16_t tag(const std::string& tagName) const;
-        /*!
-          @brief Return the description of a makernote tag. The default
-                 implementation looks up the makernote info tag array if one is
-                 set, else it returns an empty string.
-         */
-        virtual std::string tagDesc(uint16_t tag) const;
-        /*!
-          @brief Print a list of all tags known by this MakerNote to the output 
-                 stream os. The default implementation prints all tags in the 
-                 makernote info tag array if one is set.
-         */
-        virtual void taglist(std::ostream& os) const;
-        /*!
-          @brief Write the makernote tag info of tag to the output stream os.
-         */
-        virtual std::ostream& writeMnTagInfo(std::ostream& os, uint16_t tag) const;
         //! The first makernote entry
         virtual Entries::const_iterator begin() const =0;
         //! End of the makernote entries
@@ -235,18 +192,10 @@ namespace Exiv2 {
         virtual Entries::const_iterator findIdx(int idx) const =0;
         //! Return the size of the makernote in bytes
         virtual long size() const =0;
-        //! Return the name of the makernote item
-        virtual std::string ifdItem() const =0; 
-        //! Interpret and print the value of a makernote tag
-        virtual std::ostream& printTag(std::ostream& os,
-                                       uint16_t tag, 
-                                       const Value& value) const =0;
         //@}
 
     protected:
         // DATA
-        //! Pointer to an array of makernote tag infos
-        const MnTagInfo* pMnTagInfo_;   
         /*!
           @brief Flag to control the memory management: <BR>
                  True:  requires memory allocation and deallocation, <BR>
@@ -274,6 +223,7 @@ namespace Exiv2 {
 
     //! Type for a pointer to a function creating a makernote
     typedef MakerNote::AutoPtr (*CreateFct)(bool, const byte*, long, ByteOrder, long);
+
     /*!
       @brief Interface for MakerNotes in IFD format. See MakerNote.
      */
@@ -291,12 +241,10 @@ namespace Exiv2 {
         //! @name Creators
         //@{        
         /*!
-          @brief Constructor. Takes an optional makernote info tag array and
-                 allows to choose whether or not memory management is required
-                 for the Entries.
-         */
-        explicit IfdMakerNote(const MakerNote::MnTagInfo* pMnTagInfo =0, 
-                              bool alloc =true);
+          @brief Constructor. Requires an %Ifd id and allows to choose whether 
+                 or not memory management is needed for the Entries.
+        */
+        explicit IfdMakerNote(IfdId ifdId, bool alloc =true);
         //! Copy constructor
         IfdMakerNote(const IfdMakerNote& rhs);
         //! Virtual destructor
@@ -321,18 +269,18 @@ namespace Exiv2 {
                                long len,
                                ByteOrder byteOrder);
         virtual long copy(byte* buf, ByteOrder byteOrder, long offset);
-        void add(const Entry& entry) { ifd_.add(entry); }
-        Entries::iterator begin() { return ifd_.begin(); }
-        Entries::iterator end() { return ifd_.end(); }
+        virtual void add(const Entry& entry) { ifd_.add(entry); }
+        virtual Entries::iterator begin() { return ifd_.begin(); }
+        virtual Entries::iterator end() { return ifd_.end(); }
         virtual void updateBase(byte* pNewBase);
         //@}
 
         //! @name Accessors
         //@{
-        Entries::const_iterator begin() const { return ifd_.begin(); }
-        Entries::const_iterator end() const { return ifd_.end(); }
-        Entries::const_iterator findIdx(int idx) const;
-        long size() const;
+        virtual Entries::const_iterator begin() const { return ifd_.begin(); }
+        virtual Entries::const_iterator end() const { return ifd_.end(); }
+        virtual Entries::const_iterator findIdx(int idx) const;
+        virtual long size() const;
         AutoPtr create(bool alloc =true) const;
         AutoPtr clone() const;
         /*!
@@ -355,10 +303,6 @@ namespace Exiv2 {
                  buffer.
          */
         virtual long headerSize() const;
-        virtual std::string ifdItem() const =0; 
-        virtual std::ostream& printTag(std::ostream& os,
-                                       uint16_t tag, 
-                                       const Value& value) const =0;
         //@}
 
     protected:
@@ -409,7 +353,8 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{        
         /*!
-          @brief Register a %MakerNote create function for a camera make and model.
+          @brief Register a %MakerNote create function for a camera make and
+                 model.
 
           Registers a create function for a %MakerNote for a given make and
           model combination with the factory. Both the make and model strings
@@ -429,8 +374,8 @@ namespace Exiv2 {
                                const std::string& model, 
                                CreateFct createMakerNote);
 
-        //! Register a %MakerNote prototype in the IFD item registry.
-        void registerMakerNote(MakerNote::AutoPtr makerNote);
+        //! Register a %MakerNote prototype in the IFD id registry.
+        void registerMakerNote(IfdId ifdId, MakerNote::AutoPtr makerNote);
         //@}
 
         //! @name Accessors
@@ -486,9 +431,8 @@ namespace Exiv2 {
                                   ByteOrder byteOrder, 
                                   long offset) const; 
 
-        //! Create a %MakerNote based on its IFD item string.
-        MakerNote::AutoPtr create(const std::string& ifdItem, 
-                                  bool alloc =true) const;
+        //! Create a %MakerNote for an IFD id.
+        MakerNote::AutoPtr create(IfdId ifdId, bool alloc =true) const;
         //@}
 
         /*!
@@ -523,16 +467,16 @@ namespace Exiv2 {
         typedef std::vector<std::pair<std::string, CreateFct> > ModelRegistry;
         //! Type used to store a list of make labels and model registries
         typedef std::vector<std::pair<std::string, ModelRegistry*> > Registry;
-        //! Type used to store a list of IFD items and %MakerNote prototypes
-        typedef std::map<std::string, MakerNote*> IfdItemRegistry;
+        //! Type used to store a list of IFD ids and %MakerNote prototypes
+        typedef std::map<IfdId, MakerNote*> IfdIdRegistry;
 
         // DATA
         //! Pointer to the one and only instance of this class.
         static MakerNoteFactory* pInstance_;
         //! List of makernote types and corresponding makernote create functions.
         Registry registry_;
-        //! List of makernote IfdItems and corresponding create functions.
-        IfdItemRegistry ifdItemRegistry_;
+        //! List of makernote IFD ids and corresponding create functions.
+        IfdIdRegistry ifdIdRegistry_;
 
     }; // class MakerNoteFactory
    

@@ -54,26 +54,26 @@ namespace Exiv2 {
     const CanonMakerNote::RegisterMakerNote CanonMakerNote::register_;
 
     // Canon MakerNote Tag Info
-    static const MakerNote::MnTagInfo canonMnTagInfo[] = {
-        MakerNote::MnTagInfo(0x0001, "CameraSettings1", "Various camera settings (1)"),
-        MakerNote::MnTagInfo(0x0004, "CameraSettings2", "Various camera settings (2)"),
-        MakerNote::MnTagInfo(0x0006, "ImageType", "Image type"),
-        MakerNote::MnTagInfo(0x0007, "FirmwareVersion", "Firmware version"),
-        MakerNote::MnTagInfo(0x0008, "ImageNumber", "Image number"),
-        MakerNote::MnTagInfo(0x0009, "OwnerName", "Owner Name"),
-        MakerNote::MnTagInfo(0x000c, "SerialNumber", "Camera serial number"),
-        MakerNote::MnTagInfo(0x000f, "EosD30Functions", "EOS D30 Custom Functions"),
+    const TagInfo CanonMakerNote::tagInfo_[] = {
+        TagInfo(0x0001, "CameraSettings1", "Various camera settings (1)", canonIfdId, makerTags, print0x0001),
+        TagInfo(0x0004, "CameraSettings2", "Various camera settings (2)", canonIfdId, makerTags, print0x0004),
+        TagInfo(0x0006, "ImageType", "Image type", canonIfdId, makerTags, printValue),
+        TagInfo(0x0007, "FirmwareVersion", "Firmware version", canonIfdId, makerTags, printValue),
+        TagInfo(0x0008, "ImageNumber", "Image number", canonIfdId, makerTags, print0x0008),
+        TagInfo(0x0009, "OwnerName", "Owner Name", canonIfdId, makerTags, printValue),
+        TagInfo(0x000c, "SerialNumber", "Camera serial number", canonIfdId, makerTags, print0x000c),
+        TagInfo(0x000f, "EosD30Functions", "EOS D30 Custom Functions", canonIfdId, makerTags, print0x000f),
         // End of list marker
-        MakerNote::MnTagInfo(0xffff, "(UnknownCanonMakerNoteTag)", "Unknown CanonMakerNote tag")
+        TagInfo(0xffff, "(UnknownCanonMakerNoteTag)", "Unknown CanonMakerNote tag", canonIfdId, makerTags, printValue)
     };
 
     CanonMakerNote::CanonMakerNote(bool alloc)
-        : IfdMakerNote(canonMnTagInfo, alloc), ifdItem_("Canon")
+        : IfdMakerNote(canonIfdId, alloc)
     {
     }
 
     CanonMakerNote::CanonMakerNote(const CanonMakerNote& rhs)
-        : IfdMakerNote(rhs), ifdItem_(rhs.ifdItem_)
+        : IfdMakerNote(rhs)
     {
     }
 
@@ -95,24 +95,6 @@ namespace Exiv2 {
     CanonMakerNote* CanonMakerNote::clone_() const 
     {
         return new CanonMakerNote(*this); 
-    }
-
-    std::ostream& CanonMakerNote::printTag(std::ostream& os, 
-                                           uint16_t tag, 
-                                           const Value& value) const
-    {
-        switch (tag) {
-        case 0x0001: print0x0001(os, value); break;
-        case 0x0004: print0x0004(os, value); break;
-        case 0x0008: print0x0008(os, value); break;
-        case 0x000c: print0x000c(os, value); break;
-        case 0x000f: print0x000f(os, value); break;
-        default:
-            // All other tags (known or unknown) go here
-            os << value;
-            break;
-        }
-        return os;
     }
 
     std::ostream& CanonMakerNote::print0x0001(std::ostream& os, 

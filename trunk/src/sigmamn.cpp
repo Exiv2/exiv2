@@ -54,36 +54,36 @@ namespace Exiv2 {
     const SigmaMakerNote::RegisterMakerNote SigmaMakerNote::register_;
 
     // Sigma (Foveon) MakerNote Tag Info
-    static const MakerNote::MnTagInfo sigmaMnTagInfo[] = {
-        MakerNote::MnTagInfo(0x0002, "SerialNumber", "Camera serial number"),
-        MakerNote::MnTagInfo(0x0003, "DriveMode", "Drive Mode"),
-        MakerNote::MnTagInfo(0x0004, "ResolutionMode", "Resolution Mode"),
-        MakerNote::MnTagInfo(0x0005, "AutofocusMode", "Autofocus mode"),
-        MakerNote::MnTagInfo(0x0006, "FocusSetting", "Focus setting"),
-        MakerNote::MnTagInfo(0x0007, "WhiteBalance", "White balance"),
-        MakerNote::MnTagInfo(0x0008, "ExposureMode", "Exposure mode"),
-        MakerNote::MnTagInfo(0x0009, "MeteringMode", "Metering mode"),
-        MakerNote::MnTagInfo(0x000a, "LensRange", "Lens focal length range"),
-        MakerNote::MnTagInfo(0x000b, "ColorSpace", "Color space"),
-        MakerNote::MnTagInfo(0x000c, "Exposure", "Exposure"),
-        MakerNote::MnTagInfo(0x000d, "Contrast", "Contrast"),
-        MakerNote::MnTagInfo(0x000e, "Shadow", "Shadow"),
-        MakerNote::MnTagInfo(0x000f, "Highlight", "Highlight"),
-        MakerNote::MnTagInfo(0x0010, "Saturation", "Saturation"),
-        MakerNote::MnTagInfo(0x0011, "Sharpness", "Sharpness"),
-        MakerNote::MnTagInfo(0x0012, "FillLight", "X3 Fill light"),
-        MakerNote::MnTagInfo(0x0014, "ColorAdjustment", "Color adjustment"),
-        MakerNote::MnTagInfo(0x0015, "AdjustmentMode", "Adjustment mode"),
-        MakerNote::MnTagInfo(0x0016, "Quality", "Quality"),
-        MakerNote::MnTagInfo(0x0017, "Firmware", "Firmware"),
-        MakerNote::MnTagInfo(0x0018, "Software", "Software"),
-        MakerNote::MnTagInfo(0x0019, "AutoBracket", "Auto bracket"),
+    const TagInfo SigmaMakerNote::tagInfo_[] = {
+        TagInfo(0x0002, "SerialNumber", "Camera serial number", sigmaIfdId, makerTags, printValue),
+        TagInfo(0x0003, "DriveMode", "Drive Mode", sigmaIfdId, makerTags, printValue),
+        TagInfo(0x0004, "ResolutionMode", "Resolution Mode", sigmaIfdId, makerTags, printValue),
+        TagInfo(0x0005, "AutofocusMode", "Autofocus mode", sigmaIfdId, makerTags, printValue),
+        TagInfo(0x0006, "FocusSetting", "Focus setting", sigmaIfdId, makerTags, printValue),
+        TagInfo(0x0007, "WhiteBalance", "White balance", sigmaIfdId, makerTags, printValue),
+        TagInfo(0x0008, "ExposureMode", "Exposure mode", sigmaIfdId, makerTags, print0x0008),
+        TagInfo(0x0009, "MeteringMode", "Metering mode", sigmaIfdId, makerTags, print0x0009),
+        TagInfo(0x000a, "LensRange", "Lens focal length range", sigmaIfdId, makerTags, printValue),
+        TagInfo(0x000b, "ColorSpace", "Color space", sigmaIfdId, makerTags, printValue),
+        TagInfo(0x000c, "Exposure", "Exposure", sigmaIfdId, makerTags, printStripLabel),
+        TagInfo(0x000d, "Contrast", "Contrast", sigmaIfdId, makerTags, printStripLabel),
+        TagInfo(0x000e, "Shadow", "Shadow", sigmaIfdId, makerTags, printStripLabel),
+        TagInfo(0x000f, "Highlight", "Highlight", sigmaIfdId, makerTags, printStripLabel),
+        TagInfo(0x0010, "Saturation", "Saturation", sigmaIfdId, makerTags, printStripLabel),
+        TagInfo(0x0011, "Sharpness", "Sharpness", sigmaIfdId, makerTags, printStripLabel),
+        TagInfo(0x0012, "FillLight", "X3 Fill light", sigmaIfdId, makerTags, printStripLabel),
+        TagInfo(0x0014, "ColorAdjustment", "Color adjustment", sigmaIfdId, makerTags, printStripLabel),
+        TagInfo(0x0015, "AdjustmentMode", "Adjustment mode", sigmaIfdId, makerTags, printValue),
+        TagInfo(0x0016, "Quality", "Quality", sigmaIfdId, makerTags, printStripLabel),
+        TagInfo(0x0017, "Firmware", "Firmware", sigmaIfdId, makerTags, printValue),
+        TagInfo(0x0018, "Software", "Software", sigmaIfdId, makerTags, printValue),
+        TagInfo(0x0019, "AutoBracket", "Auto bracket", sigmaIfdId, makerTags, printValue),
         // End of list marker
-        MakerNote::MnTagInfo(0xffff, "(UnknownSigmaMakerNoteTag)", "Unknown SigmaMakerNote tag")
+        TagInfo(0xffff, "(UnknownSigmaMakerNoteTag)", "Unknown SigmaMakerNote tag", sigmaIfdId, makerTags, printValue)
     };
 
     SigmaMakerNote::SigmaMakerNote(bool alloc)
-        : IfdMakerNote(sigmaMnTagInfo, alloc), ifdItem_("Sigma")
+        : IfdMakerNote(sigmaIfdId, alloc)
     {
         byte buf[] = {
             'S', 'I', 'G', 'M', 'A', '\0', '\0', '\0', 0x01, 0x00
@@ -92,7 +92,7 @@ namespace Exiv2 {
     }
 
     SigmaMakerNote::SigmaMakerNote(const SigmaMakerNote& rhs)
-        : IfdMakerNote(rhs), ifdItem_(rhs.ifdItem_)
+        : IfdMakerNote(rhs)
     {
     }
 
@@ -147,30 +147,6 @@ namespace Exiv2 {
     SigmaMakerNote* SigmaMakerNote::clone_() const
     {
         return new SigmaMakerNote(*this);
-    }
-
-    std::ostream& SigmaMakerNote::printTag(std::ostream& os, 
-                                           uint16_t tag, 
-                                           const Value& value) const
-    {
-        switch (tag) {
-        case 0x000c: // fallthrough
-        case 0x000d: // fallthrough
-        case 0x000e: // fallthrough
-        case 0x000f: // fallthrough
-        case 0x0010: // fallthrough
-        case 0x0011: // fallthrough
-        case 0x0012: // fallthrough
-        case 0x0014: // fallthrough
-        case 0x0016: printStripLabel(os, value); break;
-        case 0x0008: print0x0008(os, value); break;
-        case 0x0009: print0x0009(os, value); break;
-        default:
-            // All other tags (known or unknown) go here
-            os << value;
-            break;
-        }
-        return os;
     }
 
     std::ostream& SigmaMakerNote::printStripLabel(std::ostream& os,

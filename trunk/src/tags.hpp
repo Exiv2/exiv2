@@ -49,7 +49,6 @@ namespace Exiv2 {
 // class declarations
     class Value;
     class Entry;
-    class MakerNote;
 
 // *****************************************************************************
 // type definitions
@@ -64,7 +63,7 @@ namespace Exiv2 {
     enum SectionId { sectionIdNotSet, 
                      imgStruct, recOffset, imgCharacter, otherTags, exifFormat, 
                      exifVersion, imgConfig, userInfo, relatedFile, dateTime,
-                     captureCond, gpsTags, iopTags, 
+                     captureCond, gpsTags, iopTags, makerTags,
                      lastSectionId };
 
 // *****************************************************************************
@@ -100,7 +99,7 @@ namespace Exiv2 {
             SectionId sectionId,
             PrintFct printFct
         );
-        uint16_t tag_;                            //!< Tag
+        uint16_t tag_;                          //!< Tag
         const char* name_;                      //!< One word tag label
         const char* desc_;                      //!< Short tag description
         IfdId ifdId_;                           //!< Link to the (prefered) IFD
@@ -183,16 +182,36 @@ namespace Exiv2 {
                                       uint16_t tag, 
                                       IfdId ifdId,
                                       const Value& value);
-        //! Print a list of all tags to output stream
+        //! Print a list of all standard Exif tags to output stream
         static void taglist(std::ostream& os);
+        //! Print a list of all tags related to one makernote %IfdId
+        static void makerTaglist(std::ostream& os, IfdId ifdId);
+        //! Register an %IfdId with the base IFD %TagInfo list for a makernote
+        static void registerBaseTagInfo(IfdId ifdId);
+        //! Register an %IfdId and %TagInfo list for a makernote
+        static void registerMakerTagInfo(IfdId ifdId, const TagInfo* tagInfo);
+
+        /*!
+          @brief Return true if \em ifdId is an %Ifd Id which is registered
+                 as a makernote %Ifd id. Note: Calling this function with 
+                 makerIfd returns false.
+        */
+        static bool isMakerIfd(IfdId ifdId);
 
     private:
         static int tagInfoIdx(uint16_t tag, IfdId ifdId);
+        static const TagInfo* makerTagInfo(uint16_t tag, IfdId ifdId);
+        static const TagInfo* makerTagInfo(const std::string& tagName, 
+                                           IfdId ifdId);
 
         static const IfdInfo     ifdInfo_[];
         static const SectionInfo sectionInfo_[];
 
         static const TagInfo*    tagInfos_[];
+
+        static const int         MAX_MAKER_TAG_INFOS = 64;
+        static const TagInfo*    makerTagInfos_[MAX_MAKER_TAG_INFOS];
+        static IfdId             makerIfdIds_[MAX_MAKER_TAG_INFOS];
 
     }; // class ExifTags
 
@@ -252,8 +271,6 @@ namespace Exiv2 {
         virtual uint16_t tag() const { return tag_; }
 
         AutoPtr clone() const;
-        //! Interpret and print the value of an Exif tag
-        std::ostream& printTag(std::ostream& os, const Value& value) const;
         //! Return the IFD id
         IfdId ifdId() const { return ifdId_; }
         //! Return the name of the IFD
@@ -295,13 +312,19 @@ namespace Exiv2 {
         IfdId ifdId_;                   //!< The IFD associated with this tag
         std::string ifdItem_;           //!< The IFD item 
         int idx_;                       //!< Unique id of an entry within one IFD
-        //! Auto-pointer to the associated MakerNote
-        std::auto_ptr<MakerNote> makerNote_; 
         std::string key_;               //!< Key
     }; // class ExifKey
 
 // *****************************************************************************
 // free functions
+
+    /*!
+      @brief Return true if \em ifdId is an Exif %Ifd Id, i.e., one of
+             ifd0Id, exifIfdId, gpsIfdId, iopIfdId or ifd1Id, else false.
+             This is used to differentiate between standard Exif %Ifds
+             and %Ifds associated with the makernote.
+     */
+    bool isExifIfd(IfdId ifdId);
 
     //! Output operator for TagInfo
     std::ostream& operator<<(std::ostream& os, const TagInfo& ti);
