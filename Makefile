@@ -4,16 +4,16 @@
 #
 # RCS information
 #  $Name:  $
-#  $Revision: 1.3 $
+#  $Revision: 1.4 $
 #
 # Description:
-#  This makefile just forwards to src/Makefile.
+#  This makefile mainly forwards to makefiles in subdirectories.
 #
 # Restrictions:
 #  Requires GNU make.
 #
 
-.PHONY: all maintainer-clean doc
+.PHONY: all clean maintainer-clean doc
 
 all %:
 	cd src && $(MAKE) $(MAKECMDGOALS)
@@ -21,9 +21,14 @@ all %:
 doc:
 	cd doc && $(MAKE) $(MAKECMDGOALS)
 
-maintainer-clean:
+clean:
+	cd src && $(MAKE) $(MAKECMDGOALS)
+#	cd doc && $(MAKE) $(MAKECMDGOALS)
+	rm -f config.h config.mk config.log config.status
+	rm -rf autom4te.cache/
+
+maintainer-clean: clean
 	cd src && $(MAKE) $(MAKECMDGOALS)
 	cd doc && $(MAKE) $(MAKECMDGOALS)
-	rm -f *~ *#
-	rm -f config.h config.mk config.log configure
-	rm -rf autom4te.cache/
+	rm -f configure
+	rm -f *~ *.bak *#
