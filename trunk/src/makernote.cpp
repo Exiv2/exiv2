@@ -20,13 +20,16 @@
  */
 /*
   File:      makernote.cpp
-  Version:   $Name:  $ $Revision: 1.8 $
+  Version:   $Name:  $ $Revision: 1.9 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.8 $ $RCSfile: makernote.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.9 $ $RCSfile: makernote.cpp,v $")
+
+// Define DEBUG_MAKERNOTE to output debug information to std::cerr
+#define DEBUG_MAKERNOTE
 
 // *****************************************************************************
 // included header files
@@ -39,8 +42,9 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.8 $ $RCSfile: makernote.cpp,v $")
 #include <sstream>
 #include <iomanip>
 
-// Define DEBUG_MAKERNOTE to output debug information to std::cerr
-#undef DEBUG_MAKERNOTE
+#ifdef DEBUG_MAKERNOTE
+#   include <iostream>
+#endif
 
 // *****************************************************************************
 // class member definitions
