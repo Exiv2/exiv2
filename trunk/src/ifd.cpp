@@ -20,14 +20,14 @@
  */
 /*
   File:      ifd.cpp
-  Version:   $Name:  $ $Revision: 1.14 $
+  Version:   $Name:  $ $Revision: 1.15 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.14 $ $RCSfile: ifd.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.15 $ $RCSfile: ifd.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -50,30 +50,30 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.14 $ $RCSfile: ifd.cpp,v $")
 namespace Exif {
 
     Entry::Entry(bool alloc)
-        : alloc_(alloc), ifdId_(ifdIdNotSet), idx_(0), makerNote_(0), 
-          tag_(0), type_(0), count_(0), offset_(0), size_(0), data_(0)
+        : alloc_(alloc), ifdId_(ifdIdNotSet), idx_(0), pMakerNote_(0), 
+          tag_(0), type_(0), count_(0), offset_(0), size_(0), pData_(0)
     {
     }
 
     Entry::~Entry()
     {
-        if (alloc_) delete[] data_;
+        if (alloc_) delete[] pData_;
         // do *not* delete the MakerNote
     }
 
     Entry::Entry(const Entry& rhs)
         : alloc_(rhs.alloc_), ifdId_(rhs.ifdId_), idx_(rhs.idx_),
-          makerNote_(rhs.makerNote_), tag_(rhs.tag_), type_(rhs.type_), 
-          count_(rhs.count_), offset_(rhs.offset_), size_(rhs.size_), data_(0)
+          pMakerNote_(rhs.pMakerNote_), tag_(rhs.tag_), type_(rhs.type_), 
+          count_(rhs.count_), offset_(rhs.offset_), size_(rhs.size_), pData_(0)
     {
         if (alloc_) {
-            if (rhs.data_) {
-                data_ = new char[rhs.size()];
-                memcpy(data_, rhs.data_, rhs.size());
+            if (rhs.pData_) {
+                pData_ = new char[rhs.size()];
+                memcpy(pData_, rhs.pData_, rhs.size());
             }
         }
         else {
-            data_ = rhs.data_;
+            pData_ = rhs.pData_;
         }
     }
 
@@ -83,35 +83,35 @@ namespace Exif {
         alloc_ = rhs.alloc_;
         ifdId_ = rhs.ifdId_;
         idx_ = rhs.idx_;
-        makerNote_ = rhs.makerNote_;
+        pMakerNote_ = rhs.pMakerNote_;
         tag_ = rhs.tag_;
         type_ = rhs.type_;
         count_ = rhs.count_;
         offset_ = rhs.offset_;
         size_ = rhs.size_;
         if (alloc_) {
-            delete[] data_;
-            data_ = 0;
-            if (rhs.data_) {
-                data_ = new char[rhs.size()];
-                memcpy(data_, rhs.data_, rhs.size());
+            delete[] pData_;
+            pData_ = 0;
+            if (rhs.pData_) {
+                pData_ = new char[rhs.size()];
+                memcpy(pData_, rhs.pData_, rhs.size());
             }
         }
         else {
-            data_ = rhs.data_;
+            pData_ = rhs.pData_;
         }
         return *this;
     } // Entry::operator=
 
     void Entry::setValue(uint32 data, ByteOrder byteOrder)
     {
-        if (data_ == 0 || size_ < 4) {
+        if (pData_ == 0 || size_ < 4) {
             assert(alloc_);
             size_ = 4;
-            delete[] data_;
-            data_ = new char[size_];
+            delete[] pData_;
+            pData_ = new char[size_];
         }
-        ul2Data(data_, data, byteOrder);
+        ul2Data(pData_, data, byteOrder);
         // do not change size_
         type_ = unsignedLong;
         count_ = 1;
@@ -125,23 +125,23 @@ namespace Exif {
             throw Error("Size too small");
         }
         if (alloc_) {
-            delete[] data_;
-            data_ = new char[len];
-            memset(data_, 0x0, len);
-            memcpy(data_, buf, dataSize);
+            delete[] pData_;
+            pData_ = new char[len];
+            memset(pData_, 0x0, len);
+            memcpy(pData_, buf, dataSize);
             size_ = len;
         }
         else {
             if (size_ == 0) {
                 // Set the data pointer of a virgin entry
-                data_ = const_cast<char*>(buf);
+                pData_ = const_cast<char*>(buf);
                 size_ = len;
             }
             else {
                 // Overwrite existing data if it fits into the buffer
                 if (dataSize > size_) throw Error("Value too large");
-                memset(data_, 0x0, size_);
-                memcpy(data_, buf, dataSize);
+                memset(pData_, 0x0, size_);
+                memcpy(pData_, buf, dataSize);
                 // do not change size_
             }
         }

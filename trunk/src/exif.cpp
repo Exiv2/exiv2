@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.32 $
+  Version:   $Name:  $ $Revision: 1.33 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.32 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.33 $ $RCSfile: exif.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -74,18 +74,18 @@ namespace Exif {
 
     Metadatum::Metadatum(const Entry& e, ByteOrder byteOrder)
         : tag_(e.tag()), ifdId_(e.ifdId()), idx_(e.idx()), 
-          pMakerNote_(e.makerNote()), value_(0), key_(makeKey(e))
+          pMakerNote_(e.makerNote()), pValue_(0), key_(makeKey(e))
     {
-        value_ = Value::create(TypeId(e.type()));
-        value_->read(e.data(), e.count() * e.typeSize(), byteOrder);
+        pValue_ = Value::create(TypeId(e.type()));
+        pValue_->read(e.data(), e.count() * e.typeSize(), byteOrder);
     }
 
     Metadatum::Metadatum(const std::string& key, 
                          const Value* value, 
                          MakerNote* makerNote)
-        : idx_(0), pMakerNote_(makerNote), value_(0), key_(key)
+        : idx_(0), pMakerNote_(makerNote), pValue_(0), key_(key)
     {
-        if (value) value_ = value->clone();
+        if (value) pValue_ = value->clone();
         std::pair<uint16, IfdId> p = decomposeKey(key, makerNote);
         if (p.first == 0xffff) throw Error("Invalid key");
         tag_ = p.first;
@@ -95,15 +95,15 @@ namespace Exif {
 
     Metadatum::~Metadatum()
     {
-        delete value_;
+        delete pValue_;
         // do *not* delete the MakerNote
     }
 
     Metadatum::Metadatum(const Metadatum& rhs)
         : tag_(rhs.tag_), ifdId_(rhs.ifdId_), idx_(rhs.idx_),
-          pMakerNote_(rhs.pMakerNote_), value_(0), key_(rhs.key_)
+          pMakerNote_(rhs.pMakerNote_), pValue_(0), key_(rhs.key_)
     {
-        if (rhs.value_ != 0) value_ = rhs.value_->clone(); // deep copy
+        if (rhs.pValue_ != 0) pValue_ = rhs.pValue_->clone(); // deep copy
     }
 
     Metadatum& Metadatum::operator=(const Metadatum& rhs)
@@ -113,30 +113,30 @@ namespace Exif {
         ifdId_ = rhs.ifdId_;
         idx_ = rhs.idx_;
         pMakerNote_ = rhs.pMakerNote_;
-        delete value_;
-        value_ = 0;
-        if (rhs.value_ != 0) value_ = rhs.value_->clone(); // deep copy
+        delete pValue_;
+        pValue_ = 0;
+        if (rhs.pValue_ != 0) pValue_ = rhs.pValue_->clone(); // deep copy
         key_ = rhs.key_;
         return *this;
     } // Metadatum::operator=
     
-    void Metadatum::setValue(const Value* value)
+    void Metadatum::setValue(const Value* pValue)
     {
-        delete value_;
-        value_ = value->clone();
+        delete pValue_;
+        pValue_ = pValue->clone();
     }
 
     void Metadatum::setValue(const Entry& e, ByteOrder byteOrder)
     {
-        delete value_;
-        value_ = Value::create(TypeId(e.type()));
-        value_->read(e.data(), e.count() * e.typeSize(), byteOrder);
+        delete pValue_;
+        pValue_ = Value::create(TypeId(e.type()));
+        pValue_->read(e.data(), e.count() * e.typeSize(), byteOrder);
     }
 
     void Metadatum::setValue(const std::string& buf)
     {
-        if (value_ == 0) value_ = Value::create(asciiString);
-        value_->read(buf);
+        if (pValue_ == 0) pValue_ = Value::create(asciiString);
+        pValue_->read(buf);
     }
 
     std::string Metadatum::tagName() const
@@ -467,7 +467,7 @@ namespace Exif {
         : pThumbnail_(0), pMakerNote_(0), ifd0_(ifd0, 0, false), 
           exifIfd_(exifIfd, 0, false), iopIfd_(iopIfd, 0, false), 
           gpsIfd_(gpsIfd, 0, false), ifd1_(ifd1, 0, false), 
-          size_(0), data_(0)
+          size_(0), pData_(0)
     {
     }
 
@@ -475,7 +475,7 @@ namespace Exif {
     {
         delete pMakerNote_;
         delete pThumbnail_;
-        delete[] data_;
+        delete[] pData_;
     }
 
     int ExifData::read(const std::string& path)
@@ -489,23 +489,23 @@ namespace Exif {
     int ExifData::read(const char* buf, long len)
     {
         // Copy the data buffer
-        delete[] data_;
-        data_ = new char[len];
-        memcpy(data_, buf, len);
+        delete[] pData_;
+        pData_ = new char[len];
+        memcpy(pData_, buf, len);
         size_ = len;
 
         // Read the TIFF header
         int ret = 0;
-        int rc = tiffHeader_.read(data_);
+        int rc = tiffHeader_.read(pData_);
         if (rc) return rc;
 
         // Read IFD0
-        rc = ifd0_.read(data_ + tiffHeader_.offset(), 
+        rc = ifd0_.read(pData_ + tiffHeader_.offset(), 
                         byteOrder(), 
                         tiffHeader_.offset());
         if (rc) return rc;
         // Find and read ExifIFD sub-IFD of IFD0
-        rc = ifd0_.readSubIfd(exifIfd_, data_, byteOrder(), 0x8769);
+        rc = ifd0_.readSubIfd(exifIfd_, pData_, byteOrder(), 0x8769);
         if (rc) return rc;
         // Find MakerNote in ExifIFD, create a MakerNote class 
         Ifd::iterator pos = exifIfd_.findTag(0x927c);
@@ -533,14 +533,14 @@ namespace Exif {
             exifIfd_.erase(pos);
         }
         // Find and read Interoperability IFD in ExifIFD
-        rc = exifIfd_.readSubIfd(iopIfd_, data_, byteOrder(), 0xa005);
+        rc = exifIfd_.readSubIfd(iopIfd_, pData_, byteOrder(), 0xa005);
         if (rc) return rc;
         // Find and read GPSInfo sub-IFD in IFD0
-        rc = ifd0_.readSubIfd(gpsIfd_, data_, byteOrder(), 0x8825);
+        rc = ifd0_.readSubIfd(gpsIfd_, pData_, byteOrder(), 0x8825);
         if (rc) return rc;
         // Read IFD1
         if (ifd0_.next()) {
-            rc = ifd1_.read(data_ + ifd0_.next(), byteOrder(), ifd0_.next());
+            rc = ifd1_.read(pData_ + ifd0_.next(), byteOrder(), ifd0_.next());
             if (rc) return rc;
         }
         // Find and delete ExifIFD sub-IFD of IFD1
@@ -596,7 +596,7 @@ namespace Exif {
 //ahu Todo: remove debugging output
 std::cerr << "->>>>>> using non-intrusive writing <<<<<<-\n";
 
-            memcpy(buf, data_, size_);
+            memcpy(buf, pData_, size_);
             size = size_;
         }
         // Else we have to do it the hard way...
@@ -839,7 +839,7 @@ std::cerr << "->>>>>> writing from metadata <<<<<<-\n";
             else {
                 pThumbnail_ = new TiffThumbnail;
             }
-            rc = pThumbnail_->read(data_, *this, byteOrder());
+            rc = pThumbnail_->read(pData_, *this, byteOrder());
             if (rc != 0) {
                 delete pThumbnail_;
                 pThumbnail_ = 0;

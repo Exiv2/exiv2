@@ -20,13 +20,13 @@
  */
 /*
   File:      makernote.cpp
-  Version:   $Name:  $ $Revision: 1.12 $
+  Version:   $Name:  $ $Revision: 1.13 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.12 $ $RCSfile: makernote.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.13 $ $RCSfile: makernote.cpp,v $")
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -81,10 +81,10 @@ namespace Exif {
     std::string MakerNote::tagName(uint16 tag) const
     {
         std::string tagName;
-        if (mnTagInfo_) {
-            for (int i = 0; mnTagInfo_[i].tag_ != 0xffff; ++i) {
-                if (mnTagInfo_[i].tag_ == tag) {
-                    tagName = mnTagInfo_[i].name_;
+        if (pMnTagInfo_) {
+            for (int i = 0; pMnTagInfo_[i].tag_ != 0xffff; ++i) {
+                if (pMnTagInfo_[i].tag_ == tag) {
+                    tagName = pMnTagInfo_[i].name_;
                     break;
                 }
             }
@@ -101,10 +101,10 @@ namespace Exif {
     uint16 MakerNote::tag(const std::string& tagName) const
     {
         uint16 tag = 0xffff;
-        if (mnTagInfo_) {
-            for (int i = 0; mnTagInfo_[i].tag_ != 0xffff; ++i) {
-                if (mnTagInfo_[i].name_ == tagName) {
-                    tag = mnTagInfo_[i].tag_;
+        if (pMnTagInfo_) {
+            for (int i = 0; pMnTagInfo_[i].tag_ != 0xffff; ++i) {
+                if (pMnTagInfo_[i].name_ == tagName) {
+                    tag = pMnTagInfo_[i].tag_;
                     break;
                 }
             }
@@ -173,14 +173,14 @@ namespace Exif {
         return ifd_.size() + ifd_.dataSize();
     }
 
-    MakerNoteFactory* MakerNoteFactory::instance_ = 0;
+    MakerNoteFactory* MakerNoteFactory::pInstance_ = 0;
 
     MakerNoteFactory& MakerNoteFactory::instance()
     {
-        if (0 == instance_) {
-            instance_ = new MakerNoteFactory;
+        if (0 == pInstance_) {
+            pInstance_ = new MakerNoteFactory;
         }
-        return *instance_;
+        return *pInstance_;
     } // MakerNoteFactory::instance
 
     void MakerNoteFactory::registerMakerNote(const std::string& make, 

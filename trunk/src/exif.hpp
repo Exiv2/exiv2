@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.31 $
+  @version $Name:  $ $Revision: 1.32 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -93,9 +93,10 @@ namespace Exif {
         //! Assignment operator
         Metadatum& operator=(const Metadatum& rhs);
         /*!
-          @brief Set the value. This method copies (clones) the value.
+          @brief Set the value. This method copies (clones) the value pointed
+                 to by pValue.
          */
-        void setValue(const Value* value);
+        void setValue(const Value* pValue);
         /*!
           @brief Set the value from an IFD entry.
          */
@@ -122,7 +123,7 @@ namespace Exif {
           @return Number of characters written.
         */
         long copy(char* buf, ByteOrder byteOrder) const 
-            { return value_ == 0 ? 0 : value_->copy(buf, byteOrder); }
+            { return pValue_ == 0 ? 0 : pValue_->copy(buf, byteOrder); }
         /*!
           @brief Return the key of the metadatum. The key is of the form
                  'ifdItem.sectionName.tagName'. Note however that the key
@@ -139,15 +140,15 @@ namespace Exif {
         uint16 tag() const { return tag_; }
         //! Return the type id of the value
         TypeId typeId() const 
-            { return value_ == 0 ? invalidTypeId : value_->typeId(); }
+            { return pValue_ == 0 ? invalidTypeId : pValue_->typeId(); }
         //! Return the name of the type
         const char* typeName() const { return TypeInfo::typeName(typeId()); }
         //! Return the size in bytes of one component of this type
         long typeSize() const { return TypeInfo::typeSize(typeId()); }
         //! Return the number of components in the value
-        long count() const { return value_ == 0 ? 0 : value_->count(); }
+        long count() const { return pValue_ == 0 ? 0 : pValue_->count(); }
         //! Return the size of the value in bytes
-        long size() const { return value_ == 0 ? 0 : value_->size(); }
+        long size() const { return pValue_ == 0 ? 0 : pValue_->size(); }
         //! Return the IFD id
         IfdId ifdId() const { return ifdId_; }
         //! Return the name of the IFD
@@ -158,7 +159,7 @@ namespace Exif {
         MakerNote* makerNote() const { return pMakerNote_; }
         //! Return the value as a string.
         std::string toString() const 
-            { return value_ == 0 ? "" : value_->toString(); }
+            { return pValue_ == 0 ? "" : pValue_->toString(); }
         /*!
           @brief Return the n-th component of the value converted to long. The
                  return value is -1 if the value of the Metadatum is not set and
@@ -166,7 +167,7 @@ namespace Exif {
                  component.
          */
         long toLong(long n =0) const 
-            { return value_ == 0 ? -1 : value_->toLong(n); }
+            { return pValue_ == 0 ? -1 : pValue_->toLong(n); }
         /*!
           @brief Return the n-th component of the value converted to float.  The
                  return value is -1 if the value of the Metadatum is not set and
@@ -174,7 +175,7 @@ namespace Exif {
                  component.
          */
         float toFloat(long n =0) const 
-            { return value_ == 0 ? -1 : value_->toFloat(n); }
+            { return pValue_ == 0 ? -1 : pValue_->toFloat(n); }
         /*!
           @brief Return the n-th component of the value converted to
                  Rational. The return value is -1/1 if the value of the
@@ -182,7 +183,7 @@ namespace Exif {
                  undefined if there is no n-th component.
          */
         Rational toRational(long n =0) const 
-            { return value_ == 0 ? Rational(-1, 1) : value_->toRational(n); }
+            { return pValue_ == 0 ? Rational(-1, 1) : pValue_->toRational(n); }
         /*!
           @brief Return a pointer to a copy (clone) of the value. The caller
                  is responsible to delete this copy when it's no longer needed.
@@ -195,7 +196,7 @@ namespace Exif {
           @return A pointer to a copy (clone) of the value, 0 if the value is 
                   not set.
          */
-        Value* getValue() const { return value_ == 0 ? 0 : value_->clone(); }
+        Value* getValue() const { return pValue_ == 0 ? 0 : pValue_->clone(); }
         /*!
           @brief Return a constant reference to the value. 
 
@@ -216,15 +217,16 @@ namespace Exif {
           @throw Error ("Value not set") if the value is not set.
          */
         const Value& value() const 
-            { if (value_) return *value_; throw Error("Value not set"); }
+            { if (pValue_) return *pValue_; throw Error("Value not set"); }
         //@}
 
     private:
+        // DATA
         uint16 tag_;                   //!< Tag value
         IfdId ifdId_;                  //!< The IFD associated with this tag
         int idx_;                      //!< Unique id of an entry within one IFD
         MakerNote* pMakerNote_;        //!< Pointer to the associated MakerNote
-        Value* value_;                 //!< Pointer to the value
+        Value* pValue_;                //!< Pointer to the value
         std::string key_;              //!< Key
 
     }; // class Metadatum
@@ -278,12 +280,14 @@ namespace Exif {
                  there is no thumbnail image to write.
          */
         virtual int write(const std::string& path) const =0;
-        /*
-          @brief Return a short string for the format of the thumbnail (TIFF, JPEG).
+        /*!
+          @brief Return a short string for the format of the thumbnail 
+                 ("TIFF", "JPEG").
          */
         virtual const char* format() const =0;
-        /*
-          @brief Return the file extension for the format of the thumbnail.
+        /*!
+          @brief Return the file extension for the format of the thumbnail 
+                 (".tif", ".jpg").
          */
         virtual const char* extension() const =0;
         /*!
@@ -740,8 +744,8 @@ namespace Exif {
         Ifd gpsIfd_;
         Ifd ifd1_;
 
-        long size_;                       // Size of the Exif raw data in bytes
-        char* data_;                      // Exif raw data buffer
+        long size_;              //!< Size of the Exif raw data in bytes
+        char* pData_;            //!< Exif raw data buffer
 
     }; // class ExifData
 

@@ -21,7 +21,7 @@
 /*!
   @file    ifd.hpp
   @brief   Encoding and decoding of IFD (Image File Directory) data
-  @version $Name:  $ $Revision: 1.12 $
+  @version $Name:  $ $Revision: 1.13 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -83,7 +83,7 @@ namespace Exif {
         //! Set the index (unique id of an entry within one IFD)
         void setIdx(int idx) { idx_ = idx; }
         //! Set the pointer to the MakerNote
-        void setMakerNote(MakerNote* makerNote) { makerNote_ = makerNote; }
+        void setMakerNote(MakerNote* makerNote) { pMakerNote_ = makerNote; }
         //! Set the offset. The offset is relative to the start of the IFD.
         void setOffset(uint32 offset) { offset_ = offset; }
         /*!
@@ -146,7 +146,7 @@ namespace Exif {
         //! Return the index (unique id >0 of an entry within an IFD, 0 if not set)
         int idx() const { return idx_; }
         //! Return the pointer to the associated MakerNote
-        MakerNote* makerNote() const { return makerNote_; }
+        MakerNote* makerNote() const { return pMakerNote_; }
         //! Return the number of components in the value
         uint32 count() const { return count_; }
         /*!
@@ -161,7 +161,7 @@ namespace Exif {
           @brief Return a pointer to the data area. Do not attempt to write
           to this pointer.
         */
-        const char* data() const { return data_; }
+        const char* data() const { return pData_; }
         /*!
           @brief Return a pointer to the n-th component, 0 if there is no 
                  n-th component. Do not attempt to write to this pointer.
@@ -172,6 +172,7 @@ namespace Exif {
         //@}
 
     private:
+        // DATA
         /*!
           True:  Requires memory allocation and deallocation,<BR>
           False: No memory management needed.
@@ -182,7 +183,7 @@ namespace Exif {
         //! Unique id of an entry within an IFD (0 if not set)
         int idx_;
         //! Pointer to the associated MakerNote
-        MakerNote* makerNote_;
+        MakerNote* pMakerNote_;
         //! Tag
         uint16 tag_;
         //! Type
@@ -197,7 +198,7 @@ namespace Exif {
          */
         long size_;
         //! Pointer to the data buffer
-        char* data_;
+        char* pData_;
                                
     }; // class Entry
 
@@ -451,6 +452,7 @@ namespace Exif {
         //! Container for 'pre-entries'
         typedef std::vector<PreEntry> PreEntries;
 
+        // DATA
         /*!
           True:  requires memory allocation and deallocation,
           False: no memory management needed.
