@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.52 $
+  Version:   $Name:  $ $Revision: 1.53 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.52 $ $RCSfile: exif.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.53 $ $RCSfile: exif.cpp,v $");
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -534,6 +534,7 @@ namespace Exiv2 {
 
     int ExifData::read(const std::string& path)
     {
+        if (!fileExists(path, true)) return -1;
         Image* pImage = ImageFactory::instance().open(path);
         if (pImage) {
             int rc = pImage->readMetadata();
@@ -655,6 +656,7 @@ namespace Exiv2 {
 
     int ExifData::erase(const std::string& path) const
     {
+        if (!fileExists(path, true)) return -1;
         Image* pImage = ImageFactory::instance().open(path);
         if (pImage == 0) return -2;
 
@@ -673,6 +675,7 @@ namespace Exiv2 {
         // Remove the Exif section from the file if there is no metadata 
         if (count() == 0 && !pThumbnail_) return erase(path);
 
+        if (!fileExists(path, true)) return -1;
         Image* pImage = ImageFactory::instance().open(path);
         if (pImage == 0) return -2;
 
