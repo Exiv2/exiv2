@@ -20,14 +20,14 @@
  */
 /*
   File:      ifd.cpp
-  Version:   $Name:  $ $Revision: 1.21 $
+  Version:   $Name:  $ $Revision: 1.22 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.21 $ $RCSfile: ifd.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.22 $ $RCSfile: ifd.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -77,7 +77,7 @@ namespace Exiv2 {
         }
     }
 
-    Entry::Entry& Entry::operator=(const Entry& rhs)
+    Entry& Entry::operator=(const Entry& rhs)
     {
         if (this == &rhs) return *this;
         alloc_ = rhs.alloc_;
@@ -378,7 +378,7 @@ namespace Exiv2 {
         if (offset != 0) offset_ = offset;
 
         // Add the number of entries to the data buffer
-        us2Data(buf, entries_.size(), byteOrder);
+        us2Data(buf, static_cast<uint16>(entries_.size()), byteOrder);
         long o = 2;
 
         // Add all directory entries to the data buffer
@@ -472,7 +472,7 @@ namespace Exiv2 {
     long Ifd::size() const
     {
         if (entries_.size() == 0) return 0;
-        return 2 + 12 * entries_.size() + 4; 
+        return static_cast<long>(2 + 12 * entries_.size() + 4); 
     }
 
     long Ifd::dataSize() const
@@ -494,7 +494,7 @@ namespace Exiv2 {
            << offset_ 
            << ",   IFD Entries: " 
            << std::setfill(' ') << std::dec << std::right
-           << entries_.size() << "\n"
+           << static_cast<unsigned int>(entries_.size()) << "\n"
            << prefix << "Entry     Tag  Format   (Bytes each)  Number  Offset\n"
            << prefix << "-----  ------  ---------------------  ------  -----------\n";
         // Print IFD entries
@@ -515,7 +515,7 @@ namespace Exiv2 {
                 }
             }
             os << prefix << std::setw(5) << std::setfill(' ') << std::dec
-               << std::right << i - b
+               << std::right << static_cast<int>(i - b)
                << "  0x" << std::setw(4) << std::setfill('0') << std::hex 
                << std::right << i->tag()
                << "  " << std::setw(17) << std::setfill(' ') 
@@ -532,7 +532,7 @@ namespace Exiv2 {
         // Print data of IFD entries 
         for (i = b; i != e; ++i) {
             if (i->size() > 4) {
-                os << "Data of entry " << i - b << ":\n";
+                os << "Data of entry " << static_cast<int>(i - b) << ":\n";
                 hexdump(os, i->data(), i->size(), offset_ + i->offset());
             }
         }
