@@ -8,7 +8,7 @@
 #
 # RCS information
 #  $Name:  $
-#  $Revision: 1.1 $
+#  $Revision: 1.2 $
 #
 # Description:
 #  Do NOT change this file! All system specific settings and configs
@@ -40,7 +40,7 @@ include $(top_srcdir)/config.mk
 CCHDR = 
 
 # Add library C++ source files to this list
-CCSRC = exif.cc utils.cc
+CCSRC = exif.cc tags.cc utils.cc
 
 # Add source files of applications to this list
 BINSRC = exiftest.cc
