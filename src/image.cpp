@@ -20,14 +20,14 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.11 $
+  Version:   $Name:  $ $Revision: 1.12 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.11 $ $RCSfile: image.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.12 $ $RCSfile: image.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -38,9 +38,9 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.11 $ $RCSfile: image.cpp,v $")
 #include <iostream>
 #include <fstream>
 #include <cstring>
-#include <cstdio>                               // for rename
+#include <cstdio>                               // for rename, remove
 #include <sys/types.h>                          // for getpid
-#include <unistd.h>                             // for getpid, unlink
+#include <unistd.h>                             // for getpid
 
 // *****************************************************************************
 // class member definitions
@@ -189,13 +189,10 @@ namespace Exif {
 
     int JpegImage::eraseExifData(const std::string& path) const
     {
-        std::ifstream infile(path.c_str(), std::ios::binary);
-        if (!infile) return -1;
-        return eraseExifData(path, infile);
-    } // JpegImage::eraseExifData
+        // Open input file
+        std::ifstream is(path.c_str(), std::ios::binary);
+        if (!is) return -1;
 
-    int JpegImage::eraseExifData(const std::string& path, std::istream& is) const
-    {
         // Write the output to a temporary file
         pid_t pid = getpid();
         std::string tmpname = path + toString(pid);
@@ -204,13 +201,18 @@ namespace Exif {
 
         int rc = eraseExifData(os, is);
         os.close();
+        is.close();
+        if (rc == 0) {
+            // Workaround for MinGW rename that does not overwrite existing files
+            if (remove(path.c_str()) != 0) rc = -4;
+        }
         if (rc == 0) {
             // rename temporary file
             if (rename(tmpname.c_str(), path.c_str()) == -1) rc = -4;
         }
         if (rc != 0) {
             // remove temporary file
-            unlink(tmpname.c_str());
+            remove(tmpname.c_str());
         }
 
         return rc;
@@ -219,7 +221,6 @@ namespace Exif {
     // Todo: implement this properly: skip unknown APP0 and APP1 segments
     int JpegImage::eraseExifData(std::ostream& os, std::istream& is) const
     {
-
         // Check if this is a JPEG image in the first place
         if (!isThisType(is, true)) {
             if (!is.good()) return 1;
@@ -286,13 +287,10 @@ namespace Exif {
 
     int JpegImage::writeExifData(const std::string& path) const
     {
-        std::ifstream infile(path.c_str(), std::ios::binary);
-        if (!infile) return -1;
-        return writeExifData(path, infile);
-    } // JpegImage::writeExifData
+        // Open the input file
+        std::ifstream is(path.c_str(), std::ios::binary);
+        if (!is) return -1;
 
-    int JpegImage::writeExifData(const std::string& path, std::istream& is) const
-    {
         // Write the output to a temporary file
         pid_t pid = getpid();
         std::string tmpname = path + toString(pid);
@@ -301,13 +299,18 @@ namespace Exif {
 
         int rc = writeExifData(os, is);
         os.close();
+        is.close();
+        if (rc == 0) {
+            // Workaround for MinGW rename that does not overwrite existing files
+            if (remove(path.c_str()) != 0) rc = -4;
+        }
         if (rc == 0) {
             // rename temporary file
             if (rename(tmpname.c_str(), path.c_str()) == -1) rc = -4;
         }
         if (rc != 0) {
             // remove temporary file
-            unlink(tmpname.c_str());
+            remove(tmpname.c_str());
         }
 
         return rc;

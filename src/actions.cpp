@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.16 $
+  Version:   $Name:  $ $Revision: 1.17 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.16 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.17 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -495,8 +495,10 @@ namespace Action {
             std::cin >> s;
             if (s[0] != 'y' && s[0] != 'Y') return 0;
         }
+        // Workaround for MinGW rename which does not overwrite existing files
+        ::remove(newPath.c_str());
         if (::rename(path.c_str(), newPath.c_str()) == -1) {
-            std::cerr << Params::instance().progname()  
+            std::cerr << Params::instance().progname()
                       << ": Failed to rename "
                       << path << " to " << newPath << ": "
                       << Util::strError() << "\n";
@@ -756,7 +758,7 @@ namespace Action {
             return 1;
         }
         if (Params::instance().verbose_) {
-            std::cout << "Adjusting '" << md->tagName() << "' by" 
+            std::cout << path << ": Adjusting timestamp by" 
                       << (adjustment_ < 0 ? " " : " +")
                       << adjustment_ << " seconds to ";
         }
@@ -868,7 +870,7 @@ namespace {
             error = "Couldn't open temporary file";
             break;
         case -4:
-            error = "Renaming temporary file failed";
+            error = "Renaming temporary file failed: " + Util::strError();
             break;
         case 1:
             error = "Couldn't read from the input stream";
