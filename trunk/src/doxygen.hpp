@@ -8,7 +8,7 @@
   @date    07-Feb-04, ahu: created
  */
 /*!
-  @mainpage Exif and Iptc metadata manipulation library and tools v0.6
+  @mainpage Exif and Iptc metadata manipulation library and tools v0.6.2
 
   @section overview Exiv2 Overview
  
@@ -80,18 +80,18 @@
   
   <div class="fragment"><pre><span class="stringliteral">$ svn checkout svn://dev.robotbattle.com/exiv2/trunk .</span></pre></div>
   
-  <p>To download the test data and test drivers for version 0.6 from
-  the repository, change to your local exiv2-0.6 directory and use the
+  <p>To download the test data and test drivers for version 0.6.2 from
+  the repository, change to your local exiv2-0.6.2 directory and use the
   following command:
   </p>
   
-  <div class="fragment"><pre><span class="stringliteral">$ svn export svn://dev.robotbattle.com/exiv2/tags/Exiv2-0_6_041212/test</span></pre></div>
+  <div class="fragment"><pre><span class="stringliteral">$ svn export svn://dev.robotbattle.com/exiv2/tags/0.6.2/test</span></pre></div>
 
   <P>If you'd like to contribute code, please <A HREF="mailto:ahuggel@gmx.net">contact me</A>.
 
   @section license License
 
-  <P>Copyright (C) 2004 Andreas Huggel <ahuggel@gmx.net></P>
+  <P>Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net></P>
 
   <P>%Exiv2 is free software; you can redistribute it and/or modify it under the
   terms of the <a href="../gpl-license.html">GNU General Public License</a> as

@@ -208,11 +208,11 @@ install-header:
 	    else :; fi; \
 	done
 
-install-lib: install-header
+install-lib: lib install-header
 	$(INSTALL_DIRS) $(libdir)
 	@$(LIBTOOL) --mode=install $(INSTALL_DATA) $(LIBRARY) $(libdir)/$(LIBRARY)
 
-install: install-lib
+install: $(EXIV2BIN) install-lib
 	$(INSTALL_DIRS) $(bindir) 
 	@$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) $(EXIV2EXE) $(bindir)/$(EXIV2EXE)
 
