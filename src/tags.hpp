@@ -21,7 +21,7 @@
 /*!
   @file    tags.hpp
   @brief   %Exif tag and type information
-  @version $Name:  $ $Revision: 1.12 $
+  @version $Name:  $ $Revision: 1.13 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    15-Jan-04, ahu: created
@@ -218,6 +218,8 @@ namespace Exif {
     std::ostream& print0x0106(std::ostream& os, const Value& value);
     //! Print the YCbCrPositioning
     std::ostream& print0x0213(std::ostream& os, const Value& value);
+    //! Print the Copyright 
+    std::ostream& print0x8298(std::ostream& os, const Value& value);
     //! Print the Exposure time
     std::ostream& print0x829a(std::ostream& os, const Value& value);
     //! Print the F number
@@ -234,6 +236,8 @@ namespace Exif {
     std::ostream& print0x9209(std::ostream& os, const Value& value);
     //! Print the actual focal length of the lens
     std::ostream& print0x920a(std::ostream& os, const Value& value);
+    //! Print the user comment
+    std::ostream& print0x9286(std::ostream& os, const Value& value);
     //! Print color space information
     std::ostream& print0xa001(std::ostream& os, const Value& value);
     //! Print info on image sensor type on the camera or input device
@@ -246,10 +250,6 @@ namespace Exif {
     std::ostream& print0xa404(std::ostream& os, const Value& value);
     //! Print scene capture type
     std::ostream& print0xa406(std::ostream& os, const Value& value);
-
-    // Todo: Copyright       (0x8298)
-    // Todo: UserComment     (0x9286)
-
     //@}
 }                                       // namespace Exif
 
