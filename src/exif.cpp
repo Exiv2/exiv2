@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.60 $
+  Version:   $Name:  $ $Revision: 1.61 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.60 $ $RCSfile: exif.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.61 $ $RCSfile: exif.cpp,v $");
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -1031,6 +1031,16 @@ namespace Exiv2 {
 
     void ExifData::add(const Exifdatum& exifdatum)
     {
+        if (exifdatum.ifdId() == makerIfdId) {
+            if (   pMakerNote_ 
+                && pMakerNote_->ifdItem() != exifdatum.groupName()) {
+                throw Error("Inconsistent MakerNote");
+            }
+            if (!pMakerNote_) {
+                MakerNoteFactory& mnf = MakerNoteFactory::instance();
+                pMakerNote_ = mnf.create(exifdatum.groupName());
+            }
+        }
         // allow duplicates
         exifMetadata_.push_back(exifdatum);
     }

@@ -3,7 +3,7 @@
   Abstract : ExifData write unit tests for Exif data created from scratch
 
   File     : write2-test.cpp
-  Version  : $Name:  $ $Revision: 1.5 $
+  Version  : $Name:  $ $Revision: 1.6 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History  : 26-Jun-04, ahu: created
 
@@ -45,7 +45,89 @@ try {
     write(file, ed2);
     print(file);
 
-    // Todo: One Makernote tag for each Makernote
+    std::cout <<"\n----- One Canon MakerNote tag\n";
+    Exiv2::ExifData edMn1;
+    Exiv2::Exifdatum mdMn1(Exiv2::ExifKey("Exif.Image.Make"));
+    mdMn1.setValue("Canon");
+    edMn1.add(mdMn1);
+    Exiv2::Exifdatum mdMn2(Exiv2::ExifKey("Exif.Image.Model"));
+    mdMn2.setValue("Canon PowerShot S40");
+    edMn1.add(mdMn2);
+    Exiv2::Exifdatum mdMn3(Exiv2::ExifKey("Exif.Canon.0xabcd"));
+    mdMn3.setValue("A Canon makernote tag");
+    edMn1.add(mdMn3);
+    write(file, edMn1);
+    print(file);
+
+    std::cout <<"\n----- One Fujifilm MakerNote tag\n";
+    Exiv2::ExifData edMn2;
+    Exiv2::Exifdatum mdMn4(Exiv2::ExifKey("Exif.Image.Make"));
+    mdMn4.setValue("FUJIFILM");
+    edMn2.add(mdMn4);
+    Exiv2::Exifdatum mdMn5(Exiv2::ExifKey("Exif.Image.Model"));
+    mdMn5.setValue("FinePixS2Pro");
+    edMn2.add(mdMn5);
+    Exiv2::Exifdatum mdMn6(Exiv2::ExifKey("Exif.Fujifilm.0x1000"));
+    mdMn6.setValue("A Fujifilm QUALITY tag");
+    edMn2.add(mdMn6);
+    write(file, edMn2);
+    print(file);
+
+    std::cout <<"\n----- One Sigma/Foveon MakerNote tag\n";
+    Exiv2::ExifData edMn3;
+    Exiv2::Exifdatum mdMn7(Exiv2::ExifKey("Exif.Image.Make"));
+    mdMn7.setValue("SIGMA");
+    edMn3.add(mdMn7);
+    Exiv2::Exifdatum mdMn8(Exiv2::ExifKey("Exif.Image.Model"));
+    mdMn8.setValue("SIGMA SD10");
+    edMn3.add(mdMn8);
+    Exiv2::Exifdatum mdMn9(Exiv2::ExifKey("Exif.Sigma.0x0018"));
+    mdMn9.setValue("Software? Exiv2!");
+    edMn3.add(mdMn9);
+    write(file, edMn3);
+    print(file);
+
+    std::cout <<"\n----- One Nikon1 MakerNote tag\n";
+    Exiv2::ExifData edMn4;
+    Exiv2::Exifdatum mdMn10(Exiv2::ExifKey("Exif.Image.Make"));
+    mdMn10.setValue("NIKON");
+    edMn4.add(mdMn10);
+    Exiv2::Exifdatum mdMn11(Exiv2::ExifKey("Exif.Image.Model"));
+    mdMn11.setValue("E990");
+    edMn4.add(mdMn11);
+    Exiv2::Exifdatum mdMn12(Exiv2::ExifKey("Exif.Nikon1.0x0080"));
+    mdMn12.setValue("ImageAdjustment by Exiv2");
+    edMn4.add(mdMn12);
+    write(file, edMn4);
+    print(file);
+
+    std::cout <<"\n----- One Nikon2 MakerNote tag\n";
+    Exiv2::ExifData edMn5;
+    Exiv2::Exifdatum mdMn13(Exiv2::ExifKey("Exif.Image.Make"));
+    mdMn13.setValue("NIKON");
+    edMn5.add(mdMn13);
+    Exiv2::Exifdatum mdMn14(Exiv2::ExifKey("Exif.Image.Model"));
+    mdMn14.setValue("E950");
+    edMn5.add(mdMn14);
+    Exiv2::Exifdatum mdMn15(Exiv2::ExifKey("Exif.Nikon2.0xffff"));
+    mdMn15.setValue("An obscure Nikon2 tag");
+    edMn5.add(mdMn15);
+    write(file, edMn5);
+    print(file);
+
+    std::cout <<"\n----- One Nikon3 MakerNote tag\n";
+    Exiv2::ExifData edMn6;
+    Exiv2::Exifdatum mdMn16(Exiv2::ExifKey("Exif.Image.Make"));
+    mdMn16.setValue("NIKON CORPORATION");
+    edMn6.add(mdMn16);
+    Exiv2::Exifdatum mdMn17(Exiv2::ExifKey("Exif.Image.Model"));
+    mdMn17.setValue("NIKON D70");
+    edMn6.add(mdMn17);
+    Exiv2::Exifdatum mdMn18(Exiv2::ExifKey("Exif.Nikon3.0x0004"));
+    mdMn18.setValue("A boring Nikon3 Quality tag");
+    edMn6.add(mdMn18);
+    write(file, edMn6);
+    print(file);
 
     std::cout <<"\n----- One IOP tag\n";
     Exiv2::ExifData ed3;

@@ -20,7 +20,7 @@
  */
 /*
   File:      fujimn.cpp
-  Version:   $Name:  $ $Revision: 1.11 $
+  Version:   $Name:  $ $Revision: 1.12 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
              07-Mar-04, ahu: isolated as a separate component
@@ -31,7 +31,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.11 $ $RCSfile: fujimn.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.12 $ $RCSfile: fujimn.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -82,6 +82,10 @@ namespace Exiv2 {
     {
         byteOrder_ = littleEndian;
         absOffset_ = false;
+        byte buf[] = {
+            'F', 'U', 'J', 'I', 'F', 'I', 'L', 'M', 0x0c, 0x00, 0x00, 0x00
+        };
+        readHeader(buf, 12, byteOrder_);
     }
 
     int FujiMakerNote::readHeader(const byte* buf,

@@ -20,7 +20,7 @@
  */
 /*
   File:      sigmamn.cpp
-  Version:   $Name:  $ $Revision: 1.10 $
+  Version:   $Name:  $ $Revision: 1.11 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   02-Apr-04, ahu: created
   Credits:   Sigma and Foveon MakerNote implemented according to the specification
@@ -29,7 +29,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.10 $ $RCSfile: sigmamn.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.11 $ $RCSfile: sigmamn.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -85,6 +85,10 @@ namespace Exiv2 {
     SigmaMakerNote::SigmaMakerNote(bool alloc)
         : IfdMakerNote(sigmaMnTagInfo, alloc), ifdItem_("Sigma")
     {
+        byte buf[] = {
+            'S', 'I', 'G', 'M', 'A', '\0', '\0', '\0', 0x01, 0x00
+        };
+        readHeader(buf, 10, byteOrder_);
     }
 
     int SigmaMakerNote::readHeader(const byte* buf,
