@@ -20,13 +20,13 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.20 $
+  Version:   $Name:  $ $Revision: 1.21 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.20 $ $RCSfile: tags.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.21 $ $RCSfile: tags.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -188,7 +188,7 @@ namespace Exif {
         TagInfo(0xa402, "ExposureMode", "Exposure mode", exifIfd, captureCond, print0xa402),
         TagInfo(0xa403, "WhiteBalance", "White balance", exifIfd, captureCond, print0xa403),
         TagInfo(0xa404, "DigitalZoomRatio", "Digital zoom ratio", exifIfd, captureCond, print0xa404),
-        TagInfo(0xa405, "FocalLengthIn35mmFilm", "Focal length in 35 mm film", exifIfd, captureCond, printValue),
+        TagInfo(0xa405, "FocalLengthIn35mmFilm", "Focal length in 35 mm film", exifIfd, captureCond, print0xa405),
         TagInfo(0xa406, "SceneCaptureType", "Scene capture type", exifIfd, captureCond, print0xa406),
         TagInfo(0xa407, "GainControl", "Gain control", exifIfd, captureCond, print0xa407),
         TagInfo(0xa408, "Contrast", "Contrast", exifIfd, captureCond, print0xa408),
@@ -584,7 +584,7 @@ namespace Exif {
     {
         Rational fnumber = value.toRational();
         if (fnumber.second != 0) {
-            os << "f/" << (float)fnumber.first / fnumber.second;
+            os << "F" << (float)fnumber.first / fnumber.second;
         }
         else {
             os << "(" << value << ")";
@@ -846,6 +846,18 @@ namespace Exif {
             os << std::fixed << std::setprecision(1)
                << (float)zoom.first / zoom.second;
             os.copyfmt(oss);
+        }
+        return os;
+    }
+
+    std::ostream& print0xa405(std::ostream& os, const Value& value)
+    {
+        long length = value.toLong();
+        if (length == 0) {
+            os << "Unknown";
+        }
+        else {
+            os << length << ".0 mm";
         }
         return os;
     }
