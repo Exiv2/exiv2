@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.56 $
+  Version:   $Name:  $ $Revision: 1.57 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.56 $ $RCSfile: exif.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.57 $ $RCSfile: exif.cpp,v $");
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -288,7 +288,7 @@ namespace Exiv2 {
         // Copy the TIFF header
         TiffHeader tiffHeader(byteOrder);
         if (len < tiffHeader.size()) rc = 1;
-        Ifd ifd1(ifd1);
+        Ifd ifd1(ifd1Id);
         long ifdOffset = 0;
         if (rc == 0) {
             buflen += tiffHeader.copy(img.pData_);
