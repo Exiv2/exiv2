@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.21 $
+  Version:   $Name:  $ $Revision: 1.22 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.21 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.22 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -556,9 +556,7 @@ namespace Action {
         int rc = 0;
         std::string thumbExt = exifData.thumbnailExtension();
         if (thumbExt.empty()) {
-            if (Params::instance().verbose_) {
-                std::cout << "Image does not contain an Exif thumbnail\n"; 
-            }
+            std::cerr << path_ << ": Image does not contain an Exif thumbnail\n"; 
         }
         else {
             long delta = exifData.eraseThumbnail();
@@ -640,22 +638,20 @@ namespace Action {
 
     int Extract::writeThumbnail(const Exiv2::ExifData& exifData) const
     {
+        int rc = 0;
         std::string thumb =   Util::dirname(path_) + "/"
                             + Util::basename(path_, true) + "-thumb";
         std::string thumbExt = exifData.thumbnailExtension();
-        if (Params::instance().verbose_) {
-            if (thumbExt.empty()) {
-                std::cout << "Image does not contain an Exif thumbnail\n";
-            }
-            else {
+        if (thumbExt.empty()) {
+            std::cerr << path_ << ": Image does not contain an Exif thumbnail\n"; 
+        }
+        else {
+            if (Params::instance().verbose_) {
                 std::cout << "Writing "
                           << exifData.thumbnailFormat() << " thumbnail (" 
                           << exifData.thumbnailSize() << " Bytes) to file "
                           << thumb << thumbExt << "\n";
             }
-        }
-        int rc = 0;
-        if (!thumbExt.empty()) {
             if (!Params::instance().force_ && Util::fileExists(thumb + thumbExt)) {
                 std::cout << Params::instance().progname() 
                           << ": Overwrite `" << thumb + thumbExt << "'? ";
