@@ -71,8 +71,8 @@ namespace Exiv2 {
         //@{
         /*!
           @brief Constructor for new tags created by an application. The
-                 %Exifdatum is created from a key / value pair. %Exifdatum copies
-                 (clones) the key and value if one is provided. Alternatively, 
+                 %Exifdatum is created from a \em key / value pair. %Exifdatum copies
+                 (clones) the \em key and value if one is provided. Alternatively, 
                  a program can create an 'empty' %Exifdatum with only a key
                  and set the value using setValue().
 
@@ -95,7 +95,7 @@ namespace Exiv2 {
         Exifdatum& operator=(const Exifdatum& rhs);
         /*!
           @brief Set the value. This method copies (clones) the value pointed
-                 to by pValue.
+                 to by \em pValue.
          */
         void setValue(const Value* pValue);
         /*!
@@ -103,14 +103,14 @@ namespace Exiv2 {
          */
         void setValue(const Entry& e, ByteOrder byteOrder);
         /*!
-          @brief Set the value to the string buf. 
+          @brief Set the value to the string \em buf. 
                  Uses Value::read(const std::string& buf). If the %Exifdatum does
                  not have a value yet, then an AsciiValue is created.
          */
         void setValue(const std::string& buf);
         /*!
           @brief Set the data area by copying (cloning) the buffer pointed to 
-                 by buf.
+                 by \em buf.
 
           Values may have a data area, which can contain additional
           information besides the actual value. This method is used to set such
@@ -183,23 +183,23 @@ namespace Exiv2 {
         std::string toString() const 
             { return value_.get() == 0 ? "" : value_->toString(); }
         /*!
-          @brief Return the n-th component of the value converted to long. The
-                 return value is -1 if the value of the Exifdatum is not set and
-                 the behaviour of the method is undefined if there is no n-th
-                 component.
+          @brief Return the <EM>n</EM>-th component of the value converted to
+                 long. The return value is -1 if the value of the Exifdatum is
+                 not set and the behaviour of the method is undefined if there
+                 is no n-th component.
          */
         long toLong(long n =0) const 
             { return value_.get() == 0 ? -1 : value_->toLong(n); }
         /*!
-          @brief Return the n-th component of the value converted to float.  The
-                 return value is -1 if the value of the Exifdatum is not set and
-                 the behaviour of the method is undefined if there is no n-th
-                 component.
+          @brief Return the <EM>n</EM>-th component of the value converted to
+                 float.  The return value is -1 if the value of the Exifdatum is
+                 not set and the behaviour of the method is undefined if there
+                 is no n-th component.
          */
         float toFloat(long n =0) const 
             { return value_.get() == 0 ? -1 : value_->toFloat(n); }
         /*!
-          @brief Return the n-th component of the value converted to
+          @brief Return the <EM>n</EM>-th component of the value converted to
                  Rational. The return value is -1/1 if the value of the
                  Exifdatum is not set and the behaviour of the method is
                  undefined if there is no n-th component.
@@ -247,14 +247,14 @@ namespace Exiv2 {
             { return value_.get() == 0 ? 0 : value_->sizeDataArea(); }
         /*!
           @brief Return a copy of the data area of the value. The caller owns
-                 this copy and DataBuf ensures that it will be deleted.
+                 this copy and %DataBuf ensures that it will be deleted.
 
           Values may have a data area, which can contain additional
           information besides the actual value. This method is used to access
           such a data area.
 
-          @return A DataBuf containing a copy of the data area or an empty
-                  DataBuf if the value does not have a data area assigned or the
+          @return A %DataBuf containing a copy of the data area or an empty
+                  %DataBuf if the value does not have a data area assigned or the
                   value is not set.
          */
         DataBuf dataArea() const
@@ -278,64 +278,46 @@ namespace Exiv2 {
     /*!
       @brief Exif %Thumbnail image. This abstract base class provides the
              interface for the thumbnail image that is optionally embedded in
-             the Exif data.
+             the Exif data. This class is used internally by ExifData, it is
+             probably not useful for a client as a standalone class.  Instead,
+             use an instance of ExifData to access the Exif thumbnail image.
      */
     class Thumbnail {
     public:
+        //! Shortcut for a %Thumbnail auto pointer.
+        typedef std::auto_ptr<Thumbnail> AutoPtr;
+
         //! @name Creators
         //@{
         //! Virtual destructor
         virtual ~Thumbnail() {}
         //@}
 
-        //! @name Manipulators
-        //@{
-        /*!
-          @brief Read the thumbnail from the data buffer buf, using Exif
-                 metadata exifData. Return 0 if successful. 
-
-          @param buf Data buffer containing the thumbnail data. The buffer must
-                 start with the TIFF header.
-          @param len Number of bytes in the data buffer.
-          @param exifData Exif data corresponding to the data buffer.
-          @param byteOrder The byte order used for the encoding of TIFF
-                 thumbnails. It determines the byte order of the resulting
-                 thumbnail image, if it is in TIFF format. For JPEG thumbnails
-                 the byte order is not used.
-          @return 0 if successful<br>
-                 -1 if there is no thumbnail image in the Exif data<BR>
-                  1 in case of inconsistent JPEG thumbnail Exif data<BR>
-                  2 in case of inconsistent TIFF thumbnail Exif data
-         */
-        virtual int read(const byte* buf,
-                         long len,
-                         const ExifData& exifData,
-                         ByteOrder byteOrder =littleEndian) =0;
-        /*!
-          @brief Update the internal offset and the thumbnail data offsets 
-                 in IFD1 assuming the thumbnail data follows immediately after
-                 IFD1.  
-
-          If the type of the thumbnail image is JPEG, JPEGInterchangeFormat is
-          set to point directly behind the data area of IFD1. If the type is
-          TIFF, StripOffsets from the thumbnail image are adjusted to point to
-          the strips, which have to follow immediately after IFD1. Use copy() to
-          write the thumbnail image data. The offset of IFD1 must be set
-          correctly. Changing the size or data size of IFD1 invalidates the
-          thumbnail data offsets set by this method.
-         */
-        virtual void setOffsets(Ifd& ifd1, ByteOrder byteOrder) =0;
-        //@}
-
         //! @name Accessors
         //@{
         /*!
-          @brief  Write thumbnail to file path.
-          @return  0 if successful;<BR>
-                  -1 if the file couldn't be open;<BR>
-                   4 if writing to the output stream failed.
+          @brief Set the image data as data area of the appropriate Exif
+                 metadatum. Read the thumbnail image data from data buffer 
+                 \em buf. Return 0 if successful.
+
+          @param exifData Exif data corresponding to the data buffer.
+          @param ifd1 Corresponding raw IFD1.
+          @param buf Data buffer containing the thumbnail data. The buffer must
+                 start with the TIFF header.
+          @param len Number of bytes in the data buffer.
+          @return 0 if successful;<BR>
+                  1 in case of inconsistent thumbnail Exif data; or<BR>
+                  2 if the data area is outside of the data buffer
          */
-        virtual int write(const std::string& path) const =0;
+        virtual int setDataArea(ExifData& exifData, 
+                                Ifd& ifd1,
+                                const byte* buf,
+                                long len) const =0;
+        /*!
+          @brief Return the thumbnail image in a %DataBuf. The caller owns the
+                 data buffer and %DataBuf ensures that it will be deleted.
+         */
+        virtual DataBuf copy(const ExifData& exifData) const =0;
         /*!
           @brief Return a short string for the format of the thumbnail 
                  ("TIFF", "JPEG").
@@ -346,36 +328,6 @@ namespace Exiv2 {
                  (".tif", ".jpg").
          */
         virtual const char* extension() const =0;
-        /*!
-          @brief Copy the thumbnail image data (without the IFD, if any) to the
-                 data buffer buf. The user must ensure that the buffer has
-                 enough memory. Otherwise the call results in undefined
-                 behaviour. Return the number of characters written.
-         */
-        virtual long copy(byte* buf) const =0;
-        /*!
-          @brief Update the Exif data according to the actual thumbnail image.
-          
-          If the type of the thumbnail image is JPEG, JPEGInterchangeFormat is
-          set to 0. If the type is TIFF, StripOffsets are set to the offsets of
-          the IFD of the thumbnail image itself.
-         */
-        virtual void update(ExifData& exifData) const =0;
-        /*!
-          @brief Return the position of the thumbnail image data from the 
-                 start of the TIFF header in the original Exif data.
-         */
-        virtual long offset() const =0;
-        /*!
-          @brief Return the size of the thumbnail image (the size it
-                 would occupy when extracted from the Exif data)
-         */
-        virtual long size() const =0;
-        /*!
-          @brief Return the size of the thumbnail data (data only, without the 
-                 IFD, in case of a TIFF thumbnail).
-         */
-        virtual long dataSize() const =0;
         //@}
 
     protected:
@@ -393,92 +345,50 @@ namespace Exiv2 {
     //! Exif thumbnail image in TIFF format
     class TiffThumbnail : public Thumbnail {
     public:
-        //! @name Creators
-        //@{
-        //! Virtual destructor
-        TiffThumbnail();
-        //! Virtual destructor
-        virtual ~TiffThumbnail();
-        //! Copy constructor
-        TiffThumbnail(const TiffThumbnail& rhs);
-        //@}
+        //! Shortcut for a %TiffThumbnail auto pointer.
+        typedef std::auto_ptr<TiffThumbnail> AutoPtr;
 
         //! @name Manipulators
         //@{
         //! Assignment operator.
-        TiffThumbnail& operator=(const TiffThumbnail& rhs);
-        int read(const byte* buf,
-                 long len,
-                 const ExifData& exifData,
-                 ByteOrder byteOrder =littleEndian);
-        void setOffsets(Ifd& ifd1, ByteOrder byteOrder);
+        TiffThumbnail& operator=(const TiffThumbnail& rhs) { return *this; }
         //@}
 
         //! @name Accessors
         //@{
-        int write(const std::string& path) const;
+        int setDataArea(ExifData& exifData, 
+                        Ifd& ifd1, 
+                        const byte* buf,
+                        long len) const;
+        DataBuf copy(const ExifData& exifData) const;
         const char* format() const;
         const char* extension() const;
-        long copy(byte* buf) const;
-        void update(ExifData& exifData) const;
-        long offset() const;
-        long size() const;
-        long dataSize() const;
         //@}
-
-    private:
-        // DATA
-        long offset_;            // Original offset of the thumbnail data
-                                 // from the start of the TIFF header 
-        long size_;              //!< Size of the image data
-        byte* pImage_;           //!< Thumbnail image data
-        TiffHeader tiffHeader_;  //!< Thumbnail TIFF Header
-        Ifd ifd_;                //!< Thumbnail IFD (IFD1 of the Exif data)
 
     }; // class TiffThumbnail
 
     //! Exif thumbnail image in JPEG format
     class JpegThumbnail : public Thumbnail {
     public:
-        //! @name Creators
-        //@{
-        //! Virtual destructor
-        JpegThumbnail();
-        //! Virtual destructor
-        virtual ~JpegThumbnail();
-        //! Copy constructor
-        JpegThumbnail(const JpegThumbnail& rhs);
-        //@}
+        //! Shortcut for a %JpegThumbnail auto pointer.
+        typedef std::auto_ptr<JpegThumbnail> AutoPtr;
 
         //! @name Manipulators
         //@{
         //! Assignment operator.
-        JpegThumbnail& operator=(const JpegThumbnail& rhs);
-        int read(const byte* buf,
-                 long len,
-                 const ExifData& exifData,
-                 ByteOrder byteOrder =littleEndian);
-        void setOffsets(Ifd& ifd1, ByteOrder byteOrder);
+        JpegThumbnail& operator=(const JpegThumbnail& rhs) { return *this; }
         //@}
 
         //! @name Accessors
         //@{
-        int write(const std::string& path) const;
+        int setDataArea(ExifData& exifData, 
+                        Ifd& ifd1, 
+                        const byte* buf,
+                        long len) const;
+        DataBuf copy(const ExifData& exifData) const;
         const char* format() const;
         const char* extension() const;
-        long copy(byte* buf) const;
-        void update(ExifData& exifData) const;
-        long offset() const;
-        long size() const;
-        long dataSize() const;
         //@}
-
-    private:
-        // DATA
-        long offset_;            // Original offset of the thumbnail data 
-                                 // from the start of the TIFF header 
-        long size_;              // Size of the image data
-        byte* pImage_;           // Thumbnail image data
 
     }; // class JpegThumbnail
 
@@ -492,8 +402,8 @@ namespace Exiv2 {
         FindMetadatumByIfdIdIdx(IfdId ifdId, int idx)
             : ifdId_(ifdId), idx_(idx) {}
         /*!
-          @brief Returns true if the ifd id and idx of the argument Exifdatum 
-                 is equal to that of the object.
+          @brief Returns true if the ifd id and idx of the argument
+                 \em exifdatum is equal to that of the object.
         */
         bool operator()(const Exifdatum& exifdatum) const
             { return ifdId_ == exifdatum.ifdId() && idx_ == exifdatum.idx(); }
@@ -505,8 +415,8 @@ namespace Exiv2 {
     }; // class FindMetadatumByIfdIdIdx
 
     /*!
-      @brief A container for Exif data. This is a top-level class of 
-             the %Exiv2 library.
+      @brief A container for Exif data.  This is a top-level class of the %Exiv2
+             library. The container holds Exifdatum objects.
 
       Provide high-level access to the Exif data of an image:
       - read Exif information from JPEG files
@@ -541,7 +451,7 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         /*!
-          @brief Read the Exif data from file path.
+          @brief Read the Exif data from file \em path.
           @param path Path to the file
           @return  0 if successful;<BR>
                    3 if the file contains no Exif data;<BR>
@@ -560,7 +470,7 @@ namespace Exiv2 {
          */
         int read(const byte* buf, long len);
         /*!
-          @brief Write the Exif data to file path. If an Exif data section
+          @brief Write the Exif data to file \em path. If an Exif data section
                  already exists in the file, it is replaced.  If there is no
                  metadata and no thumbnail to write, the Exif data section is
                  deleted from the file.  Otherwise, an Exif data section is
@@ -579,8 +489,9 @@ namespace Exiv2 {
          */
         int writeExifData(const std::string& path);
         /*!
-          @brief Write the Exif data to a data buffer, return number of bytes 
-                 written. The copied data starts with the TIFF header.
+          @brief Write the Exif data to a data buffer, which is returned.  The
+                 caller owns this copy and %DataBuf ensures that it will be
+                 deleted.  The copied data starts with the TIFF header.
 
           Tries to update the original data buffer and write it back with
           minimal changes, in a 'non-intrusive' fashion, if possible. In this
@@ -595,12 +506,9 @@ namespace Exiv2 {
           the Exif data is updated with the metadata from the actual thumbnail
           image (overriding existing metadata).
 
-          @param buf The data buffer to write to.  The user must ensure that the
-                 buffer has enough memory. Otherwise the call results in
-                 undefined behaviour.
-          @return Number of characters written to the buffer.
+          @return A %DataBuf containing the Exif data.
          */
-        long copy(byte* buf);
+        DataBuf copy();
         /*!
           @brief Add all (IFD) entries in the range from iterator position begin
                  to iterator position end to the Exif metadata. No duplicate
@@ -618,17 +526,17 @@ namespace Exiv2 {
          */
         void add(const ExifKey& key, const Value* pValue);
         /*! 
-          @brief Add a copy of the Exifdatum to the Exif metadata.  No
+          @brief Add a copy of the \em exifdatum to the Exif metadata.  No
                  duplicate checks are performed, i.e., it is possible to add
                  multiple metadata with the same key.
-          @throw Error ("Inconsistent MakerNote") if Exifdatum is a MakerNote
-                 tag for a different MakerNote than that of the ExifData.
+          @throw Error ("Inconsistent MakerNote") if \em exifdatum is a MakerNote
+                 tag for a different %MakerNote than that of the %ExifData.
          */
-        void add(const Exifdatum& Exifdatum);
+        void add(const Exifdatum& exifdatum);
         /*!
-          @brief Delete the Exifdatum at iterator position pos, return the 
-                 position of the next Exifdatum. Note that iterators into
-                 the metadata, including pos, are potentially invalidated 
+          @brief Delete the Exifdatum at iterator position \em pos, return the 
+                 position of the next exifdatum. Note that iterators into
+                 the metadata, including \em pos, are potentially invalidated 
                  by this call.
          */
         iterator erase(iterator pos);
@@ -641,16 +549,16 @@ namespace Exiv2 {
         //! End of the metadata
         iterator end() { return exifMetadata_.end(); }
         /*!
-          @brief Find a Exifdatum with the given key, return an iterator to it.
-                 If multiple metadata with the same key exist, it is undefined 
-                 which of the matching metadata is found.
+          @brief Find a Exifdatum with the given \em key, return an iterator to
+                 it.  If multiple metadata with the same key exist, it is
+                 undefined which of the matching metadata is found.
          */
         iterator findKey(const ExifKey& key);
         /*!
-          @brief Find the Exifdatum with the given ifd id and idx, return an 
-                 iterator to it. 
+          @brief Find the Exifdatum with the given \em ifdId and \em idx,
+                 return an iterator to it. 
 
-          This method can be used to uniquely identify a Exifdatum that was
+          This method can be used to uniquely identify an exifdatum that was
           created from an IFD or from the makernote (with idx greater than
           0). Metadata created by an application (not read from an IFD or a
           makernote) all have their idx field set to 0, i.e., they cannot be
@@ -660,8 +568,8 @@ namespace Exiv2 {
          */
         iterator findIfdIdIdx(IfdId ifdId, int idx);
         /*!
-          @brief Delete the thumbnail from the Exif data. Removes all related
-                 (%Thumbnail.*.*, i.e., IFD1) metadata as well.
+          @brief Delete the thumbnail from the Exif data. Removes all
+                 Exif.%Thumbnail.*, i.e., IFD1 metadata.
 
           @return The number of bytes of thumbnail data erased from the original
                   Exif data. Note that the original image size may differ from
@@ -680,7 +588,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         /*!
-          @brief Erase the Exif data section from file path. 
+          @brief Erase the Exif data section from file \em path. 
           @param path Path to the file.
           @return 0 if successful.
          */
@@ -690,14 +598,14 @@ namespace Exiv2 {
         //! End of the metadata
         const_iterator end() const { return exifMetadata_.end(); }
         /*!
-          @brief Find a Exifdatum with the given key, return a const iterator to
-                 it.  If multiple metadata with the same key exist, it is
-                 undefined which of the matching metadata is found.
+          @brief Find an exifdatum with the given \em key, return a const
+                 iterator to it.  If multiple metadata with the same key exist,
+                 it is undefined which of the matching metadata is found.
          */
         const_iterator findKey(const ExifKey& key) const;
         /*!
-          @brief Find the Exifdatum with the given ifd id and idx, return an 
-                 iterator to it. 
+          @brief Find the exifdatum with the given \em ifdId and \em idx,
+                 return an iterator to it. 
 
           This method can be used to uniquely identify a Exifdatum that was
           created from an IFD or from the makernote (with idx greater than
@@ -710,50 +618,51 @@ namespace Exiv2 {
         const_iterator findIfdIdIdx(IfdId ifdId, int idx) const;
         //! Get the number of metadata entries
         long count() const { return static_cast<long>(exifMetadata_.size()); }
-        /*!
-          @brief Return the approximate size of all Exif data (TIFF header plus 
-                 metadata). The number returned may be bigger than the actual 
-                 size of the Exif data, but it is never smaller. Only copy()
-                 returns the exact size.
-         */
-        long size() const;
         //! Returns the byte order as specified in the TIFF header
         ByteOrder byteOrder() const { return tiffHeader_.byteOrder(); }
         /*!
           @brief Write the thumbnail image to a file. A filename extension
-                 is appended to path according to the image type of the
-                 thumbnail, so the path should not include an extension.
+                 is appended to \em path according to the image type of the
+                 thumbnail, so \em path should not include an extension.
                  This will overwrite an existing file of the same name.
+
+          @param  path Path of the filename without image type extension
+          @return 0 if successful;<BR>
+                 -1 if opening the file failed;<BR>
+                  4 if writing to the output stream failed;<BR>
+                  8 if the Exif data does not contain a thumbnail
          */
-        int writeThumbnail(const std::string& path) const 
-            { return pThumbnail_ ? pThumbnail_->write(path) : 0; }
+        int writeThumbnail(const std::string& path) const; 
+        /*!
+          @brief Return the thumbnail image in a %DataBuf. The caller owns the
+                 data buffer and %DataBuf ensures that it will be deleted.
+         */
+        DataBuf copyThumbnail() const;
         /*!
           @brief Return a short string describing the format of the Exif 
                  thumbnail ("TIFF", "JPEG").
          */
-        const char* thumbnailFormat() const
-            { return pThumbnail_ ? pThumbnail_->format() : ""; }
+        const char* thumbnailFormat() const;
         /*!
           @brief Return the file extension for the Exif thumbnail depending
                  on the format (".tif", ".jpg").
          */
-        const char* thumbnailExtension() const 
-            { return pThumbnail_ ? pThumbnail_->extension() : ""; }
+        const char* thumbnailExtension() const;
         /*!
-          @brief Return the size of the thumbnail image. This is the size that
-                 the thumbnail would occupy when extracted from the Exif data.
+          @brief Return a thumbnail object of the correct type, corresponding to
+                 the current Exif data. Caller owns this object and the auto
+                 pointer ensures that it will be deleted.
          */
-        long thumbnailSize() const 
-            { return pThumbnail_ ? pThumbnail_->size() : 0; }
+        Thumbnail::AutoPtr getThumbnail() const;
         //@}
 
         /*!
-          @brief Convert the return code from 
-                 int read(const std::string& path),
-                 int write(const std::string& path),
-                 int writeExifData(const std::string& path), 
-                 int writeThumbnail(const std::string& path) const and 
-                 int erase(const std::string& path) const 
+          @brief Convert the return code \em rc from \n 
+                 int read(const std::string& path); \n
+                 int write(const std::string& path); \n
+                 int writeExifData(const std::string& path); \n
+                 int writeThumbnail(const std::string& path) const; and \n
+                 int erase(const std::string& path) const \n
                  into an error message.
 
                  Todo: Implement global handling of error messages
@@ -764,8 +673,9 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         /*!
-          @brief Read the thumbnail from the data buffer. Return 0 if successful,
-                 otherwise the thumbnail is deleted.
+          @brief Read the thumbnail from the data buffer. Assigns the thumbnail
+                 data area with the appropriate Exif tags. Return 0 if successful,
+                 i.e., if there is a thumbnail.
          */
         int readThumbnail();
         /*!
@@ -790,16 +700,19 @@ namespace Exiv2 {
                          const Entries::iterator& end,
                          ByteOrder byteOrder);
         /*!
-          @brief Write Exif data to a data buffer the hard way, return number of
-                 bytes written.
+          @brief Write the Exif data to a data buffer the hard way, return the
+                 data buffer. The caller owns this data buffer and %DataBuf
+                 ensures that it will be deleted. 
 
           Rebuilds the Exif data from scratch, using the TIFF header, metadata
           container and thumbnail. In particular, the internal IFDs and the
           original data buffer are not used. Furthermore, this method updates
           the Exif data with the metadata from the actual thumbnail image
           (overriding existing metadata).
+
+          @return A %DataBuf containing the Exif data.
          */
-        long copyFromMetadata(byte* buf);
+        DataBuf copyFromMetadata();
         //@}
 
         //! @name Accessors
@@ -834,8 +747,6 @@ namespace Exiv2 {
         // DATA
         TiffHeader tiffHeader_;
         ExifMetadata exifMetadata_;
-        //! Pointer to the Exif thumbnail image
-        Thumbnail* pThumbnail_;  
         //! Pointer to the MakerNote
         std::auto_ptr<MakerNote> makerNote_;
 
