@@ -1,15 +1,29 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (c) 2004 Andreas Huggel. All rights reserved.
+ * Copyright (C) 2004 Andreas Huggel <ahuggel@gmx.net>
  * 
- * Todo: Insert license blabla here
+ * This program is part of the Exiv2 distribution.
  *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.4 $
+  @version $Name:  $ $Revision: 1.5 $
   @author  Andreas Huggel (ahu)
+           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-03, ahu: created
  */
 #ifndef _EXIF_HPP_
@@ -144,6 +158,7 @@ namespace Exif {
         ByteOrder byteOrder_;
         uint16 tag_;
         uint32 offset_;
+
     }; // class TiffHeader
 
     /*!
@@ -188,7 +203,12 @@ namespace Exif {
                  The caller owns this copy and is responsible to delete it!
          */
         virtual Value* clone() const =0;
-        //! Write the value to an output stream, return the stream
+        /*! 
+          @brief Write the value to an output stream. You do not usually have
+                 to use this function; it is used for the implementation of 
+                 the output operator for %Value, 
+                 operator<<(std::ostream &os, const Value &value).
+        */
         virtual std::ostream& write(std::ostream& os) const =0;
 
         /*!
@@ -203,7 +223,7 @@ namespace Exif {
     protected:
         const TypeId typeId_;                   //!< Format type identifier
 
-    };
+    }; // class Value
 
     //! Output operator for Value types
     inline std::ostream& operator<<(std::ostream& os, const Value& value)
@@ -216,8 +236,28 @@ namespace Exif {
     public:
         //! Default constructor.
         DataValue(TypeId typeId =undefined) : Value(typeId) {}
+        /*!
+          @brief Read the value from a character buffer. The byte order is
+                 required by the interface but not used by this method.
+
+          @param buf Pointer to the data buffer to read from
+          @param len Number of bytes in the data buffer 
+          @param byteOrder Byte order. Not used.
+         */
         virtual void read(const char* buf, long len, ByteOrder byteOrder);
+        //! Set the data from a string of integer values (e.g., "0 1 2 3")
         virtual void read(const std::string& buf);
+        /*!
+          @brief Write value to a character data buffer. The byte order is
+                 required by the interface but not used by this method.
+
+          The user must ensure that the buffer has enough memory. Otherwise
+          the call results in undefined behaviour.
+
+          @param buf Data buffer to write to.
+          @param byteOrder Byte order. Not used.
+          @return Number of characters written.
+        */
         virtual long copy(char* buf, ByteOrder byteOrder) const;
         virtual long size() const;
         virtual Value* clone() const;
@@ -226,15 +266,35 @@ namespace Exif {
     private:
         std::string value_;
 
-    };
+    }; // class DataValue
 
     //! %Value for an Ascii string type.
     class AsciiValue : public Value {
     public:
         //! Default constructor.
         AsciiValue() : Value(asciiString) {}
+        /*!
+          @brief Read the value from a character buffer. The byte order is
+                 required by the interface but not used by this method.
+
+          @param buf Pointer to the data buffer to read from
+          @param len Number of bytes in the data buffer 
+          @param byteOrder Byte order. Not used.
+         */
         virtual void read(const char* buf, long len, ByteOrder byteOrder);
+        //! Set the value to that of the supplied string
         virtual void read(const std::string& buf);
+        /*!
+          @brief Write value to a character data buffer. The byte order is
+                 required by the interface but not used by this method.
+
+          The user must ensure that the buffer has enough memory. Otherwise
+          the call results in undefined behaviour.
+
+          @param buf Data buffer to write to.
+          @param byteOrder Byte order. Not used.
+          @return Number of characters written.
+        */
         virtual long copy(char* buf, ByteOrder byteOrder) const;
         virtual long size() const;
         virtual Value* clone() const;
@@ -243,7 +303,7 @@ namespace Exif {
     private:
         std::string value_;
 
-    };
+    }; // class AsciiValue
 
     /*!
       @brief Template for a %Value for a basic Type. This is used for unsigned 
@@ -255,27 +315,77 @@ namespace Exif {
         //! Default constructor.
         ValueType() : Value(getType<T>()) {}
         virtual void read(const char* buf, long len, ByteOrder byteOrder);
+        /*!
+          @brief Set the data from a string of values of type T (e.g., 
+                 "0 1 2 3" or "1/2 1/3 1/4" depending on what T is). 
+                 Generally, the accepted input format is the same as that 
+                 produced by the write() method.
+         */
         virtual void read(const std::string& buf);
         virtual long copy(char* buf, ByteOrder byteOrder) const;
         virtual long size() const;
         virtual Value* clone() const;
         virtual std::ostream& write(std::ostream& os) const;
 
-    private:
+        //! Container for values 
         typedef std::vector<T> ValueList;
+        //! @name Accessors
+        //@{
+        //! Read access to the list of values
+        const ValueList& valueList() const { return value_; }
+        /*!
+          @brief Get the first value. If there is no value in the container,
+                 then the behaviour is undefined.
+         */
+        T value() const { return value_[0]; }
+        //@}
+
+    private:
         ValueList value_;
 
-    };
+    }; // class ValueType
+
+    //! Unsigned short value type
+    typedef ValueType<uint16> UShortValue;
+    //! Unsigned long value type
+    typedef ValueType<uint32> ULongValue;
+    //! Unsigned rational value type
+    typedef ValueType<URational> URationalValue;
+    //! Signed short value type
+    typedef ValueType<int16> ShortValue;
+    //! Signed long value type
+    typedef ValueType<int32> LongValue;
+    //! Signed rational value type
+    typedef ValueType<Rational> RationalValue;
 
     /*!
       @brief Information related to one %Exif tag.
      */
     class Metadatum {
     public:
-        Metadatum();                   //!< Constructor
-        ~Metadatum();                  //!< Destructor 
-        Metadatum(const Metadatum& rhs); //!< Copy constructor
-        Metadatum& operator=(const Metadatum& rhs); //!< Assignment operator
+        //! Default Constructor
+        Metadatum();
+        /*!
+          @brief Constructor for tag data read from an IFD, when all 
+                 information is available. The Metadatum takes ownership
+                 of the value pointer if one is provided, so the application
+                 must not delete it!
+         */
+        Metadatum(uint16 tag, uint16 type, uint32 count, uint32 offset, 
+                  IfdId ifdId, int ifdIdx, Value* value =0);
+        /*!
+          @brief Constructor for new tags created by an application,
+                 which doesn't know/care about the underlying IFD structure.
+                 We'll figure out the details for it.
+         */
+        // Todo: implement me!
+        Metadatum(const std::string& key, TypeId typeId, Value* value =0);
+        //! Destructor
+        ~Metadatum();
+        //! Copy constructor
+        Metadatum(const Metadatum& rhs);
+        //! Assignment operator
+        Metadatum& operator=(const Metadatum& rhs);
 
         //! Return the name of the type
         const char* tagName() const { return ExifTags::tagName(tag_, ifdId_); }
@@ -290,28 +400,43 @@ namespace Exif {
         //! Return the name of the section
         const char* sectionName() const 
             { return ExifTags::sectionName(tag_, ifdId_); }
-        //! Return a unique key of the tag (ifdItem.sectionName.tagName)
-        std::string key() const;
+        //! @name Accessors
+        //@{
+        //! Return the tag
+        uint16 tag() const { return tag_; }
+        //! Return the type
+        TypeId type() const { return TypeId(type_); }
+        //! Return the count
+        uint32 count() const { return count_; }
+        //! Return the IFD id
+        IfdId ifdId() const { return ifdId_; }
+        //! Return the position in the IFD (-1: not set)
+        int ifdIdx() const { return ifdIdx_; }
         /*!
-          @brief Return a reference the the value. The behaviour is undefined
-                 if the value has not been initialized.
-                 Todo: should we make sure there is a value?
+          @brief Return a constant reference to the value. Do not write to the 
+                 value through this reference. The behaviour is undefined if 
+                 value is not set.
          */
         const Value& value() const { return *value_; }
+        //! Return a unique key of the tag (ifdItem.sectionName.tagName)
+        std::string key() const { return key_; }
+        //@}
 
     public:
         uint16 tag_;                   //!< Tag value
-        uint16 type_;                  //!< Type of the data Todo: change to TypeId?
+        uint16 type_;                  //!< Type of the data
         uint32 count_;                 //!< Number of components
         uint32 offset_;                //!< Offset of the data from start of IFD
-        long size_;                    //!< Size of the data in bytes
 
         IfdId ifdId_;                  //!< The IFD associated with this tag
         int   ifdIdx_;                 //!< Position in the IFD (-1: not set)
 
         Value* value_;                 //!< Pointer to the value
 
-    }; // struct Metadatum
+        std::string key_;              //!< Unique key
+        long size_;                    //!< Size of the data in bytes
+
+    }; // class Metadatum
 
     //! Container type to hold all metadata
     typedef std::vector<Metadatum> Metadata;
@@ -330,7 +455,8 @@ namespace Exif {
 
     private:
         uint16 tag_;
-    };
+
+    }; // class FindMetadatumByTag
 
     /*!
       @brief Models an IFD (Image File Directory)
@@ -399,6 +525,8 @@ namespace Exif {
         long offset() const { return offset_; }
         //! Get the IFD entries
         const Metadata& entries() const { return entries_; }
+        //! Find an IFD entry by tag, return an iterator into the entries list
+        Metadata::const_iterator findTag(uint16 tag) const;
         //! Get the offset to the next IFD from the start of the Tiff header
         long next() const { return next_; }
         //! Get the size of this IFD in bytes (IFD only, without data)
@@ -413,7 +541,21 @@ namespace Exif {
         long next_;                      // offset of next IFD from the start of 
                                          // the Tiff header
         long size_;                      // size of the IFD in bytes
+
     }; // class Ifd
+
+    //! Thumbnail data Todo: implement this properly
+    class Thumbnail {
+    public:
+        //! Read the thumbnail from the data buffer, return 0 if succesfull
+        int read(const char* buf, const Ifd& ifd1, ByteOrder byteOrder);
+
+        //! Write thumbnail to file path, return 0 if successful
+        int write(const std::string& path) const;
+
+    private:
+        std::string thumbnail_;
+    }; // class Thumbnail
 
     /*!
       @brief A container for %Exif data
@@ -422,8 +564,9 @@ namespace Exif {
       - read and write access to all tags and data
       - iterators to access the %Exif data
       - decoding and encoding through the stream interface
-      - human readable 
+      - human readable output
       - XML input and output
+      - access to thumbnail (write, delete, re-calculate)
 
       Todo:
       - A constructor which creates a minimal valid set of %Exif data
@@ -468,10 +611,16 @@ namespace Exif {
         //! End of the metadata
         const_iterator end() const { return metadata_.end(); }
 
+        //! Write the thumbnail image to a file
+        int writeThumbnail(const std::string& path) const 
+            { return thumbnail_.write(path); }
+
     private:
         long offset_;                   // Original abs offset of the Exif data
         TiffHeader tiffHeader_;
         Metadata metadata_;
+        Thumbnail thumbnail_;
+        
     }; // class ExifData
 
 // *****************************************************************************
