@@ -20,13 +20,13 @@
  */
 /*
   File:      makernote.cpp
-  Version:   $Name:  $ $Revision: 1.9 $
+  Version:   $Name:  $ $Revision: 1.10 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.9 $ $RCSfile: makernote.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.10 $ $RCSfile: makernote.cpp,v $")
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #define DEBUG_MAKERNOTE
@@ -130,7 +130,7 @@ namespace Exif {
             }
         }
 #ifdef DEBUG_MAKERNOTE
-        hexdump(std::cerr, buf, len);
+        hexdump(std::cerr, buf, len, offset);
         if (rc == 0) ifd_.print(std::cerr);
 #endif
         return rc;
