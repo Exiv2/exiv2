@@ -20,7 +20,7 @@
  */
 /*
   File:      fujimn.cpp
-  Version:   $Name:  $ $Revision: 1.2 $
+  Version:   $Name:  $ $Revision: 1.3 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
              07-Mar-04, ahu: isolated as a separate component
@@ -31,7 +31,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: fujimn.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: fujimn.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -90,8 +90,8 @@ namespace Exif {
     }
 
     std::ostream& FujiMakerNote::printTag(std::ostream& os, 
-                                           uint16 tag, 
-                                           const Value& value) const
+                                          uint16 tag, 
+                                          const Value& value) const
     {
         switch (tag) {
         case 0x1020: // fallthrough
@@ -115,8 +115,8 @@ namespace Exif {
         return os;
     }
 
-    std::ostream& FujiMakerNote::printOffOn(
-        std::ostream& os, const Value& value) const
+    std::ostream& FujiMakerNote::printOffOn(std::ostream& os,
+                                            const Value& value)
     {
         switch (value.toLong()) {
         case 0: os << "Off"; break;
@@ -126,8 +126,8 @@ namespace Exif {
         return os;
     }
 
-    std::ostream& FujiMakerNote::print0x1001(
-        std::ostream& os, const Value& value) const
+    std::ostream& FujiMakerNote::print0x1001(std::ostream& os, 
+                                             const Value& value)
     {
         switch (value.toLong()) {
         case 1: // fallthrough
@@ -140,8 +140,8 @@ namespace Exif {
         return os;
     }
 
-    std::ostream& FujiMakerNote::print0x1002(
-        std::ostream& os, const Value& value) const
+    std::ostream& FujiMakerNote::print0x1002(std::ostream& os,
+                                             const Value& value)
     {
         switch (value.toLong()) {
         case    0: os << "Auto"; break;
@@ -157,8 +157,8 @@ namespace Exif {
         return os;
     }
 
-    std::ostream& FujiMakerNote::print0x1003(
-        std::ostream& os, const Value& value) const
+    std::ostream& FujiMakerNote::print0x1003(std::ostream& os,
+                                             const Value& value)
     {
         switch (value.toLong()) {
         case   0: os << "Standard"; break;
@@ -169,8 +169,8 @@ namespace Exif {
         return os;
     }
 
-    std::ostream& FujiMakerNote::print0x1004(
-        std::ostream& os, const Value& value) const
+    std::ostream& FujiMakerNote::print0x1004(std::ostream& os, 
+                                             const Value& value)
     {
         switch (value.toLong()) {
         case   0: os << "Standard"; break;
@@ -181,8 +181,8 @@ namespace Exif {
         return os;
     }
 
-    std::ostream& FujiMakerNote::print0x1010(
-        std::ostream& os, const Value& value) const
+    std::ostream& FujiMakerNote::print0x1010(std::ostream& os, 
+                                             const Value& value)
     {
         switch (value.toLong()) {
         case 0: os << "Auto"; break;
@@ -194,8 +194,8 @@ namespace Exif {
         return os;
     }
 
-    std::ostream& FujiMakerNote::print0x1021(
-        std::ostream& os, const Value& value) const
+    std::ostream& FujiMakerNote::print0x1021(std::ostream& os,
+                                             const Value& value)
     {
         switch (value.toLong()) {
         case 0: os << "Auto"; break;
@@ -205,8 +205,8 @@ namespace Exif {
         return os;
     }
 
-    std::ostream& FujiMakerNote::print0x1031(
-        std::ostream& os, const Value& value) const
+    std::ostream& FujiMakerNote::print0x1031(std::ostream& os,
+                                             const Value& value)
     {
         switch (value.toLong()) {
         case   0: os << "Auto"; break;
