@@ -21,7 +21,7 @@
 /*!
   @file    value.hpp
   @brief   Value interface and concrete subclasses
-  @version $Name:  $ $Revision: 1.12 $
+  @version $Name:  $ $Revision: 1.13 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -252,7 +252,7 @@ namespace Exiv2 {
         //@}
 
     private:
-        std::string value_;
+        std::vector<byte> value_;
 
     }; // class DataValue
 

@@ -3,13 +3,13 @@
   Abstract:  Print a simple comma separated list of tags defined in Exiv2
 
   File:      taglist.cpp
-  Version:   $Name:  $ $Revision: 1.6 $
+  Version:   $Name:  $ $Revision: 1.7 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   07-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: taglist.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.7 $ $RCSfile: taglist.cpp,v $")
 
 #include "makernote.hpp"
 #include "nikonmn.hpp"
@@ -17,6 +17,7 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: taglist.cpp,v $")
 #include "fujimn.hpp"
 #include "canonmn.hpp"
 #include "tags.hpp"
+#include "datasets.hpp"
 #include "error.hpp"
 
 #include <string>
@@ -33,22 +34,27 @@ try {
     {
         MakerNote* pMakerNote = 0;
         std::string section(argv[1]);
+        if (section == "Iptc") {
+            IptcDataSets::dataSetList(std::cout);
+            break;
+        }
+
         if (section == "Canon") {
             pMakerNote = new CanonMakerNote;
         }
-        if (section == "Fuji") {
+        else if (section == "Fuji") {
             pMakerNote = new FujiMakerNote;
         }
-        if (section == "Sigma") {
+        else if (section == "Sigma") {
             pMakerNote = new SigmaMakerNote;
         }
-        if (section == "Nikon1") {
+        else if (section == "Nikon1") {
             pMakerNote = new Nikon1MakerNote;
         }
-        if (section == "Nikon2") {
+        else if (section == "Nikon2") {
             pMakerNote = new Nikon2MakerNote;
         }
-        if (section == "Nikon3") {
+        else if (section == "Nikon3") {
             pMakerNote = new Nikon3MakerNote;
         }
 
@@ -70,8 +76,8 @@ try {
         break;
     }
     if (rc) {
-        std::cout << "Usage: " << argv[0] << " [SectionName]\n"
-                  << "Print Exif tags or MakerNote tags\n";
+        std::cout << "Usage: " << argv[0] << " [SectionName|Iptc]\n"
+                  << "Print Exif tags, MakerNote tags, or Iptc datasets\n";
     }
     return rc;
 }
