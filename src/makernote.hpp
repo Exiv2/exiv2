@@ -22,7 +22,7 @@
   @file    makernote.hpp
   @brief   Contains the %Exif %MakerNote interface, IFD %MakerNote and a 
            MakerNote factory
-  @version $Name:  $ $Revision: 1.12 $
+  @version $Name:  $ $Revision: 1.13 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -264,7 +264,7 @@ namespace Exif {
 
     protected:
         //! Prefix before the start of the IFD
-        std::string prefix_;  
+        std::string prefix_;
         /*!
           True:  Offsets are from start of the TIFF header
           False: Offsets are from start of the makernote
