@@ -3,7 +3,7 @@
   Abstract : ExifData write unit tests
 
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  Version  : $Name:  $ $Revision: 1.2 $
+  Version  : $Name:  $ $Revision: 1.3 $
 
   Test procedure: 
    $ rm -f test.jpg thumb.jpg iii ttt; 
@@ -231,7 +231,7 @@ std::string writeError(int rc, const char* file)
         error = "Writing to the output stream failed";
         break;
     default:
-        error = "Reading Exif data failed, rc = " + toString(rc);
+        error = "Writing Exif data failed, rc = " + toString(rc);
         break;
     }
     return error;
