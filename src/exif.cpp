@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.26 $
+  Version:   $Name:  $ $Revision: 1.27 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.26 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.27 $ $RCSfile: exif.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -505,9 +505,9 @@ namespace Exif {
         Ifd::iterator make = ifd0_.findTag(0x010f);
         Ifd::iterator model = ifd0_.findTag(0x0110);
         if (pos != exifIfd_.end() && make != ifd0_.end() && model != ifd0_.end()) {
-            MakerNoteFactory& makerNoteFactory = MakerNoteFactory::instance();
+            MakerNoteFactory& mnf = MakerNoteFactory::instance();
             // Todo: The conversion to string assumes that there is a \0 at the end
-            makerNote_ = makerNoteFactory.create(make->data(), model->data());
+            makerNote_ = mnf.create(make->data(), model->data(), false);
         }
         // Read the MakerNote
         if (makerNote_) {
@@ -622,7 +622,6 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
         if (makerNote_) {
             // Build MakerNote from metadata
             makerNote = makerNote_->clone();
-            makerNote->clear();
             addToMakerNote(makerNote, begin(), end(), byteOrder());
             // Create a placeholder MakerNote entry of the correct size and
             // add it to the Exif IFD (because we don't know the offset yet)
@@ -686,7 +685,9 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
         if (makerNote) {
             // Copy the MakerNote over the placeholder data
             Entries::iterator mn = exifIfd.findTag(0x927c);
-            makerNote->sortByTag();
+            // Do _not_ sort the makernote; vendors (at least Canon), don't seem
+            // to bother about this TIFF standard requirement, so writing the
+            // makernote as is might result in fewer deviations from the original
             makerNote->copy(buf + exifIfdOffset + mn->offset(),
                             byteOrder(),
                             exifIfdOffset + mn->offset());
