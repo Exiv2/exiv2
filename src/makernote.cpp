@@ -38,9 +38,6 @@ EXIV2_RCSID("@(#) $Id$");
 #include "tags.hpp"                         // for ExifTags::ifdItem
 #include "error.hpp"
 
-// Todo: remove circular dependency
-#include "exif.hpp"                         // for MakerNote::writeMnTagInfo
-
 // + standard includes
 #include <string>
 #include <sstream>
