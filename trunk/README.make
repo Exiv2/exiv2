@@ -35,6 +35,13 @@ Caveat
      correct compilation flags. The related variables in config.mk are
      CXXFLAGS_SHARED, LDFLAGS_SHARED and SHAREDLIB_SUFFIX.
 
+     The build environment does not support building Exiv2 as a DLL 
+     on MinGW. When building on MinGW, you need to unset SHARED_LIBS
+     and set STATIC_LIBS in config.mk (after running ./configure):
+       # Define which libraries (shared and/or static) to build
+       SHARED_LIBS = 
+       STATIC_LIBS = 1
+
      You should *not* need to modify any Makefile directly.
 
      If your compiler uses a repository for object files of templates,
