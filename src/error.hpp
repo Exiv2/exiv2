@@ -21,7 +21,7 @@
 /*!
   @file    error.hpp
   @brief   Error class for exceptions
-  @version $Name:  $ $Revision: 1.3 $
+  @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    15-Jan-04, ahu: created<BR>

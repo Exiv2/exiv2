@@ -22,8 +22,8 @@
   Abstract : Tester application for image file handling
 
   File     : metacopy.cpp
-  Version  : $Name:  $ $Revision: 1.2 $
-  Author(s): Brad Schick (brad) <schick@robotbattle.com>
+  Version  : $Rev$
+  Author(s): Brad Schick (brad) <brad@robotbattle.com>
   History  : 13-Jul-04, brad: created
  */
 // *****************************************************************************

@@ -21,11 +21,11 @@
 /*!
   @file    image.hpp
   @brief   Class JpegImage to access JPEG images
-  @version $Name:  $ $Revision: 1.22 $
+  @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @author  Brad Schick (brad) 
-           <a href="mailto:schick@robotbattle.com">schick@robotbattle.com</a>
+           <a href="mailto:brad@robotbattle.com">brad@robotbattle.com</a>
   @date    09-Jan-04, ahu: created<BR>
            11-Feb-04, ahu: isolated as a component<BR>
            19-Jul-04, brad: revamped to be more flexible and support Iptc

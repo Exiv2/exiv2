@@ -21,7 +21,7 @@
 /*!
   @file    tags.hpp
   @brief   Exif tag and type information
-  @version $Name:  $ $Revision: 1.30 $
+  @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    15-Jan-04, ahu: created<BR>

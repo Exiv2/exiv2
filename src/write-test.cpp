@@ -3,7 +3,7 @@
   Abstract : ExifData write unit tests
 
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  Version  : $Name:  $ $Revision: 1.8 $
+  Version  : $Rev$
 
   Test procedure: 
    $ rm -f test.jpg thumb.jpg iii ttt; 

@@ -3,8 +3,8 @@
   Abstract : Sample program to print the Iptc metadata of an image
 
   File     : iptcprint.cpp
-  Version  : $Name:  $ $Revision: 1.3 $
-  Author(s): Brad Schick (brad) <schick@robotbattle.com>
+  Version  : $Rev$
+  Author(s): Brad Schick (brad) <brad@robotbattle.com>
   History  : 31-Jul-04, brad: created
  */
 // *****************************************************************************

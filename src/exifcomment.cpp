@@ -3,7 +3,7 @@
   Abstract : Sample program showing how to set the Exif comment of an image
 
   File:      exifcomment.cpp
-  Version  : $Name:  $ $Revision: 1.5 $
+  Version  : $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History  : 10-May-04, ahu: created
  */

@@ -1,7 +1,7 @@
 /*!
   @file    localtime.c
   @brief   This file is from the tz distribution at ftp://elsie.nci.nih.gov/pub/
-  @version $Name:  $ $Revision: 1.2 $
+  @version $Rev$
 */
 #ifdef HAVE_CONFIG_H
 # include <config.h>

@@ -20,15 +20,15 @@
  */
 /*
   File:      metadatum.cpp
-  Version:   $Name:  $ $Revision: 1.2 $
+  Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-             Brad Schick (brad) <schick@robotbattle.com>
+             Brad Schick (brad) <brad@robotbattle.com>
   History:   26-Jan-04, ahu: created
              31-Jul-04, brad: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: metadatum.cpp,v $");
+EXIV2_RCSID("@(#) $Id$");
 
 // *****************************************************************************
 // included header files

@@ -1,7 +1,7 @@
 /*!
   @file    tzfile.h
   @brief   This file is from the tz distribution at ftp://elsie.nci.nih.gov/pub/
-  @version $Name:  $ $Revision: 1.1 $
+  @version $Rev$
 */
 #ifndef TZFILE_H
 

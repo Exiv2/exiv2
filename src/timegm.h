@@ -1,7 +1,7 @@
 /*!
   @file    timegm.h
   @brief   Declaration of timegm(). The implementation is in localtime.c
-  @version $Name:  $ $Revision: 1.1 $
+  @version $Rev$
 */
 #ifndef TIMEGM_H_
 #define TIMEGM_H_

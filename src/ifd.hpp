@@ -21,7 +21,7 @@
 /*!
   @file    ifd.hpp
   @brief   Encoding and decoding of IFD (%Image File Directory) data
-  @version $Name:  $ $Revision: 1.21 $
+  @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created<BR>

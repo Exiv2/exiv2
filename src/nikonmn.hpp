@@ -28,7 +28,7 @@
            <a href="http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html">
            Exif file format</a> by TsuruZoh Tachibanaya.<BR>
            Format 3: "EXIFutils Field Reference Guide".
-  @version $Name:  $ $Revision: 1.8 $
+  @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    17-May-04, ahu: created<BR>

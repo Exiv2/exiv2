@@ -20,13 +20,13 @@
  */
 /*
   File:      makernote.cpp
-  Version:   $Name:  $ $Revision: 1.29 $
+  Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.29 $ $RCSfile: makernote.cpp,v $");
+EXIV2_RCSID("@(#) $Id$");
 
 // Define DEBUG_* to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
