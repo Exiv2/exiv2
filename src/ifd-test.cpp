@@ -15,7 +15,7 @@
 
 int main()
 try {
-    long len = 75;
+    long len = 76;
     char buf[] 
         = { // No
             0x00,0x04, 
@@ -46,7 +46,9 @@ try {
         return 1;
     }
     char data[] = { 'T', 'H', 'R', 'E', 'E', '\0' };
-    pos->setValue(2, 5, data, 6);
+    
+    std::cout << "Setting value of entry 3...\n";
+    pos->setValue(2, 6, data, 6);
 
 
     ifd.print(std::cout);
