@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.27 $
+  Version:   $Name:  $ $Revision: 1.28 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.27 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.28 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -61,10 +61,10 @@ namespace {
     // returns 0 if successful
     int str2Tm(const std::string& timeStr, struct tm* tm);
 
-    // Convert a string "YYYY:MM:DD HH:MI:SS" to a time type, -1 on error
+    // Convert a string "YYYY:MM:DD HH:MI:SS" to a UTC time, -1 on error
     time_t str2Time(const std::string& timeStr);
 
-    // Convert a time type to a string "YYYY:MM:DD HH:MI:SS", "" on error
+    // Convert a UTC time to a string "YYYY:MM:DD HH:MI:SS", "" on error
     std::string time2Str(time_t time);
 
 }
@@ -527,7 +527,7 @@ namespace Action {
             if (s[0] != 'y' && s[0] != 'Y') return 0;
         }
         // Workaround for MinGW rename which does not overwrite existing files
-        ::remove(newPath.c_str());
+        remove(newPath.c_str());
         if (::rename(path.c_str(), newPath.c_str()) == -1) {
             std::cerr << Params::instance().progname()
                       << ": Failed to rename "
@@ -823,7 +823,7 @@ namespace {
         if (   timeStr[4]  != ':' || timeStr[7]  != ':' || timeStr[10] != ' '
             || timeStr[13] != ':' || timeStr[16] != ':') return 3;
         if (0 == tm) return 4;
-        ::memset(tm, 0x0, sizeof(struct tm));
+        memset(tm, 0x0, sizeof(struct tm));
 
         long tmp;
         if (!Util::strtol(timeStr.substr(0,4).c_str(), tmp)) return 5;
@@ -846,12 +846,13 @@ namespace {
     {
         struct tm tm;
         if (str2Tm(timeStr, &tm) != 0) return (time_t)-1;
-        return ::mktime(&tm);
+        time_t t = timegm(&tm);
+        return t;
     }
 
     std::string time2Str(time_t time)
     {
-        struct tm* tm = localtime(&time);
+        struct tm* tm = gmtime(&time);
         if (0 == tm) return "";
 
         std::ostringstream os;
