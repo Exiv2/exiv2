@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.46 $
+  Version:   $Name:  $ $Revision: 1.47 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.46 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.47 $ $RCSfile: exif.cpp,v $")
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -667,6 +667,9 @@ namespace Exiv2 {
 
     int ExifData::write(const std::string& path) 
     {
+        // Remove the Exif section from the file if there is no metadata 
+        if (count() == 0 && !pThumbnail_) return erase(path);
+
         std::ifstream is(path.c_str(), std::ios::binary);
         if (!is) return -1;
         Image* pImage = ImageFactory::instance().create(is);
@@ -954,7 +957,7 @@ namespace Exiv2 {
             pThumbnail_ = 0;
         }
         return delta;
-    }
+    } // ExifData::eraseThumbnail
 
     bool ExifData::stdThumbPosition() const
     {
@@ -986,7 +989,7 @@ namespace Exiv2 {
                 || maxOffset > pThumbnail_->offset()) rc = false;
         }
         return rc;
-    }
+    } // ExifData::stdThumbPosition
 
     int ExifData::readThumbnail()
     {
@@ -1111,7 +1114,7 @@ namespace Exiv2 {
             }
         }
         return rc;
-    }
+    } // ExifData::findEntry
 
     const Ifd* ExifData::getIfd(IfdId ifdId) const
     {
@@ -1137,7 +1140,7 @@ namespace Exiv2 {
             break;
         }
         return ifd;
-    }
+    } // ExifData::getIfd
 
     std::string ExifData::strError(int rc, const std::string& path)
     {
@@ -1241,7 +1244,8 @@ namespace Exiv2 {
 
         DataBuf buf(md.size());
         md.copy(buf.pData_, byteOrder);
-        e.setValue(static_cast<uint16>(md.typeId()), md.count(), buf.pData_, md.size()); 
+        e.setValue(static_cast<uint16>(md.typeId()), md.count(),
+                   buf.pData_, md.size()); 
         makerNote->add(e);
     } // addToMakerNote
 

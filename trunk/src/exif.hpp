@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of Exif data
-  @version $Name:  $ $Revision: 1.46 $
+  @version $Name:  $ $Revision: 1.47 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -546,9 +546,10 @@ namespace Exiv2 {
         int read(const char* buf, long len);
         /*!
           @brief Write the Exif data to file path. If an Exif data section
-                 already exists in the file, it is replaced. Otherwise, an
-                 Exif data section is created. See copy(char* buf) for further
-                 details.
+                 already exists in the file, it is replaced.  If there is no
+                 metadata and no thumbnail to write, the Exif data section is
+                 deleted from the file.  Otherwise, an Exif data section is
+                 created. See copy(char* buf) for further details.
 
           @return 0 if successful.
          */
