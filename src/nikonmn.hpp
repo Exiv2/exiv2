@@ -28,7 +28,7 @@
            <a href="http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html">
            Exif file format</a> by TsuruZoh Tachibanaya.<BR>
            Format 3: "EXIFutils Field Reference Guide".
-  @version $Name:  $ $Revision: 1.1 $
+  @version $Name:  $ $Revision: 1.2 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    17-May-04, ahu: created
@@ -189,7 +189,7 @@ namespace Exiv2 {
                                const Value& value) const;
         //@}
 
-        //! @name Print functions for Nikon1 %MakerNote tags 
+        //! @name Print functions for Nikon2 %MakerNote tags 
         //@{
         //! Print quality setting
         static std::ostream& print0x0003(std::ostream& os, const Value& value);
@@ -243,8 +243,10 @@ namespace Exiv2 {
                                const Value& value) const;
         //@}
 
-        //! @name Print functions for Nikon1 %MakerNote tags 
+        //! @name Print functions for Nikon3 %MakerNote tags 
         //@{
+        //! Print ISO setting
+        static std::ostream& print0x0002(std::ostream& os, const Value& value);
         //! Print lens type
         static std::ostream& print0x0083(std::ostream& os, const Value& value);
         //! Print lens information
