@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.47 $
+  Version:   $Name:  $ $Revision: 1.48 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.47 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.48 $ $RCSfile: exif.cpp,v $")
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -743,21 +743,36 @@ namespace Exiv2 {
         Ifd gpsIfd(gpsIfd);
         addToIfd(gpsIfd, begin(), end(), byteOrder());
 
-        // Compute the new IFD offsets and set offset tags
+        // Compute the new IFD offsets
         int exifIdx = ifd0.erase(0x8769);
         int gpsIdx  = ifd0.erase(0x8825);
         int iopIdx  = exifIfd.erase(0xa005);
 
-        long ifd0Offset    = tiffHeader_.size();
-        long exifIfdOffset = ifd0Offset + ifd0.size() 
-                             + (exifIfd.size() > 0 ? 12 : 0)
-                             + (gpsIfd.size()  > 0 ? 12 : 0)
-                             + ifd0.dataSize();
-        long iopIfdOffset  = exifIfdOffset + exifIfd.size() 
-                             + (iopIfd.size() > 0 ? 12 : 0)
-                             + exifIfd.dataSize();
-        long gpsIfdOffset  = iopIfdOffset + iopIfd.size() + iopIfd.dataSize();
-        long ifd1Offset    = gpsIfdOffset + gpsIfd.size() + gpsIfd.dataSize();
+        long ifd0Offset = tiffHeader_.size();
+        bool addOffsetTag = false;
+        long exifIfdOffset = ifd0Offset + ifd0.size() + ifd0.dataSize();
+        if (exifIfd.size() > 0 || iopIfd.size() > 0) {
+            exifIfdOffset += 12; 
+            addOffsetTag = true; 
+        }
+        if (gpsIfd.size() > 0) {
+            exifIfdOffset += 12; 
+            addOffsetTag = true; 
+        }
+        if (ifd0.size() == 0 && addOffsetTag) {
+            exifIfdOffset += 6; 
+        }
+        addOffsetTag = false;
+        long iopIfdOffset = exifIfdOffset + exifIfd.size() + exifIfd.dataSize(); 
+        if (iopIfd.size() > 0) {
+            iopIfdOffset += 12;
+            addOffsetTag = true; 
+        }
+        if (exifIfd.size() == 0 && addOffsetTag) {
+            iopIfdOffset += 6;
+        }
+        long gpsIfdOffset = iopIfdOffset + iopIfd.size() + iopIfd.dataSize();
+        long ifd1Offset   = gpsIfdOffset + gpsIfd.size() + gpsIfd.dataSize();
 
         // build IFD1 from updated metadata if there is a thumbnail
         Ifd ifd1(ifd1, ifd1Offset);
@@ -773,7 +788,7 @@ namespace Exiv2 {
         }
 
         // Set the offset to the Exif IFD in IFD0
-        if (exifIfd.size() > 0) {
+        if (exifIfd.size() > 0 || iopIfd.size() > 0) {
             setOffsetTag(ifd0, exifIdx, 0x8769, exifIfdOffset, byteOrder());
         }
         // Set the offset to the GPSInfo IFD in IFD0
