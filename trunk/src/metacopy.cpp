@@ -22,7 +22,7 @@
   Abstract : Tester application for image file handling
 
   File     : metacopy.cpp
-  Version  : $Name:  $ $Revision: 1.1 $
+  Version  : $Name:  $ $Revision: 1.2 $
   Author(s): Brad Schick (brad) <schick@robotbattle.com>
   History  : 13-Jul-04, brad: created
  */
@@ -50,8 +50,9 @@ try {
         return 2;
     }
 
-    Exiv2::Image* readImg = Exiv2::ImageFactory::instance().open(params.read_);
-    if (!readImg) {
+    Exiv2::Image::AutoPtr readImg 
+        = Exiv2::ImageFactory::instance().open(params.read_);
+    if (readImg.get() == 0) {
         std::cerr << params.progname() << 
             ": Could not read file (" << params.read_ << ")\n";
         return 4;
@@ -63,8 +64,9 @@ try {
     }
     readImg->detach();
 
-    Exiv2::Image* writeImg = Exiv2::ImageFactory::instance().open(params.write_);
-    if (!writeImg) {
+    Exiv2::Image::AutoPtr writeImg 
+        = Exiv2::ImageFactory::instance().open(params.write_);
+    if (writeImg.get() == 0) {
         std::cerr << params.progname() << 
             ": Could not read file (" << params.write_ << ")\n";
         return 6;
@@ -93,8 +95,6 @@ try {
         return 8;
     }
 
-    delete readImg;
-    delete writeImg;
     return 0;
 }
 catch (Exiv2::Error& e) {

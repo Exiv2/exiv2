@@ -20,7 +20,7 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.26 $
+  Version:   $Name:  $ $Revision: 1.27 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
              Brad Schick (brad) <schick@robotbattle.com>
   History:   26-Jan-04, ahu: created
@@ -29,7 +29,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.26 $ $RCSfile: image.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.27 $ $RCSfile: image.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -71,14 +71,14 @@ namespace Exiv2 {
       @brief Create a new ExvImage instance and return a pointer to it. Caller
              is responsible to delete the object when it is no longer needed.
      */
-    Image* newExvInstance(const std::string& path, FILE* fp);
+    Image::AutoPtr newExvInstance(const std::string& path, FILE* fp);
     //! Check if the file ifp is an EXV file.
     bool isExvType(FILE* ifp, bool advance);
     /*!
-      @brief Create a new JpegImage instance and return a pointer to it. Caller
-             is responsible to delete the object when it is no longer needed.
+      @brief Create a new JpegImage instance and return an auto-pointer to it.
+             Caller owns the returned object.
      */
-    Image* newJpegInstance(const std::string& path, FILE* fp);
+    Image::AutoPtr newJpegInstance(const std::string& path, FILE* fp);
     //! Check if the file ifp is a JPEG image.
     bool isJpegType(FILE* ifp, bool advance);
 
@@ -125,31 +125,33 @@ namespace Exiv2 {
         return type;
     } // ImageFactory::getType
 
-    Image* ImageFactory::open(const std::string& path) const
+    Image::AutoPtr ImageFactory::open(const std::string& path) const
     {
+        Image::AutoPtr image;
         FILE* ifp = fopen(path.c_str(), "rb");
-        if (!ifp) return 0;
+        if (!ifp) return image;
 
-        Image* pImage = 0;
         Registry::const_iterator b = registry_.begin();
         Registry::const_iterator e = registry_.end();
         for (Registry::const_iterator i = b; i != e; ++i)
         {
             if (i->second.isThisType(ifp, false)) {
-                pImage = i->second.newInstance(path, ifp);
+                image = Image::AutoPtr(i->second.newInstance(path, ifp));
                 break;
             }
         }
-        return pImage;
+        return image;
     } // ImageFactory::open
 
-    Image* ImageFactory::create(Image::Type type, const std::string& path) const
+    Image::AutoPtr ImageFactory::create(Image::Type type, 
+                                        const std::string& path) const
     {
         Registry::const_iterator i = registry_.find(type);
         if (i != registry_.end()) {
             return i->second.newInstance(path, 0);
         }
-        return 0;
+        Image::AutoPtr p;
+        return p;
     } // ImageFactory::create
 
 
@@ -709,20 +711,17 @@ namespace Exiv2 {
         return isJpegType(ifp, advance);
     }
 
-    Image* newJpegInstance(const std::string& path, FILE* fp)
+    Image::AutoPtr newJpegInstance(const std::string& path, FILE* fp)
     {
-        Image* pImage = 0;
+        Image::AutoPtr image;
         if (fp == 0) {
-            pImage = new JpegImage(path, true);
-            if (!pImage->good()) {
-                delete pImage;
-                pImage = 0;
-            }
+            image = Image::AutoPtr(new JpegImage(path, true));
+            if (!image->good()) delete image.release();
         }
         else {
-            pImage = new JpegImage(path, fp);
+            image = Image::AutoPtr(new JpegImage(path, fp));
         }
-        return pImage;
+        return image;
     }
 
     bool isJpegType(FILE* ifp, bool advance)
@@ -765,20 +764,17 @@ namespace Exiv2 {
         return isExvType(ifp, advance);
     }
 
-    Image* newExvInstance(const std::string& path, FILE* fp)
+    Image::AutoPtr newExvInstance(const std::string& path, FILE* fp)
     {
-        Image* pImage = 0;
+        Image::AutoPtr image;
         if (fp == 0) {
-            pImage = new ExvImage(path, true);
-            if (!pImage->good()) {
-                delete pImage;
-                pImage = 0;
-            }
+            image = Image::AutoPtr(new ExvImage(path, true));
+            if (!image->good()) delete image.release();
         }
         else {
-            pImage = new ExvImage(path, fp);
+            image = Image::AutoPtr(new ExvImage(path, fp));
         }
-        return pImage;
+        return image;
     }
 
     bool isExvType(FILE* ifp, bool advance)
