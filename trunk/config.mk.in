@@ -102,8 +102,8 @@ ARFLAGS = rcuv
 # **********************************************************************
 # Installation programs
 INSTALL_EXE = @INSTALL@
-INSTALL_PROGRAM = $(INSTALL_EXE) -c
-INSTALL_DATA = $(INSTALL_EXE) -c -m 644
+INSTALL_PROGRAM = $(INSTALL_EXE)
+INSTALL_DATA = $(INSTALL_EXE) -m 644
 INSTALL_DIRS = $(top_srcdir)/mkinstalldirs
 
 # **********************************************************************
@@ -120,5 +120,5 @@ srcdir = @srcdir@
 
 # Installation directories
 bindir = @bindir@
-incdir = @includedir@
+incdir = @includedir@/exiv2
 libdir = @libdir@
