@@ -20,14 +20,14 @@
  */
 /*
   File:      value.cpp
-  Version:   $Name:  $ $Revision: 1.9 $
+  Version:   $Name:  $ $Revision: 1.10 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.9 $ $RCSfile: value.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.10 $ $RCSfile: value.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -110,13 +110,18 @@ namespace Exiv2 {
 
     void DataValue::read(const byte* buf, long len, ByteOrder byteOrder)
     {
-        // byteOrder not needed 
-        value_.assign( len, *buf );
+        // byteOrder not needed
+        value_.assign(buf, buf + len);
     }
 
     void DataValue::read(const std::string& buf)
     {
-        value_.assign( buf.size(), *buf.data() );
+        std::istringstream is(buf);
+        int tmp;
+        value_.clear();
+        while (is >> tmp) {
+            value_.push_back(static_cast<char>(tmp));
+        }
     }
 
     long DataValue::copy(byte* buf, ByteOrder byteOrder) const
