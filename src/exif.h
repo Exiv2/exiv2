@@ -8,7 +8,7 @@
 /*!
   @file    exif.h
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.2 $
+  @version $Name:  $ $Revision: 1.3 $
   @author  Andreas Huggel (ahu)
   @date    09-Jan-03, ahu: created
  */
@@ -159,6 +159,11 @@ namespace Exif {
         const char* typeName() const { return ExifTags::typeName(type_); }
         //! Returns the size in bytes of one element of this type
         long typeSize() const { return ExifTags::typeSize(type_); }
+        //! Returns the name of the IFD
+        const char* ifdName() const { return ExifTags::ifdName(ifdId_); }
+        //! Returns the name of the section
+        const char* sectionName() const 
+            { return ExifTags::sectionName(tag_, ifdId_); }
 
     public:
         uint16 tag_;                   //!< Tag value

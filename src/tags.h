@@ -8,7 +8,7 @@
 /*!
   @file    tags.h
   @brief   %Exif tag and type information
-  @version $Name:  $ $Revision: 1.1 $
+  @version $Name:  $ $Revision: 1.2 $
   @author  Andreas Huggel (ahu)
   @date    15-Jan-03, ahu: created
  */
@@ -38,16 +38,32 @@ namespace Exif {
 
     //! Type to specify the IFD to which a metadata belongs
     enum IfdId { IfdIdNotSet, 
-                 ifd0, ifd1, exifIfd, gpsIfd, 
-                 makerNoteIfd, exifIopIfd, ifd1IopIfd };
+                 ifd0, exifIfd, gpsIfd, exifMakerIfd, exifIopIfd, 
+                 ifd1, ifd1ExifIfd, ifd1GpsIfd, ifd1MakerIfd, ifd1ExifIopIfd };
 
     //! Section identifiers to logically group tags 
-    enum TagSection { TagSectionNotSet, 
-                      ifd0Tiff, ifd1Section, exifIfdSection, gpsIfdSection, 
-                      exifIopIfdSection };
+    enum SectionId { SectionIdNotSet, 
+                     ifd0Tiff, exifIfdSection, gpsIfdSection, 
+                     exifIopIfdSection, ifd1Section };
 
 // *****************************************************************************
 // class definitions
+
+    //! Contains information pertaining to one IFD
+    struct IfdInfo {
+        //! Constructor
+        IfdInfo(IfdId ifdId, const char* name);
+        IfdId ifdId_;                           //!< IFD id
+        const char* name_;                      //!< IFD name
+    };
+
+    //! Contains information pertaining to one section
+    struct SectionInfo {
+        //! Constructor
+        SectionInfo(SectionId sectionId, const char* name);
+        SectionId sectionId_;                   //!< Section id
+        const char* name_;                      //!< Section name
+    };
 
     //! Description of the format of a metadatum
     struct TagFormat {
@@ -66,13 +82,13 @@ namespace Exif {
             const char* name,
             const char* desc, 
             IfdId ifdId,
-            TagSection section
+            SectionId sectionId
         );
         uint16 tag_;                            //!< Tag
         const char* name_;                      //!< One word tag label
         const char* desc_;                      //!< Short tag description
         IfdId ifdId_;                           //!< Link to the IFD
-        TagSection section_;                    //!< Section id
+        SectionId sectionId_;                   //!< Section id
     }; // struct TagInfo
 
     //! Container for Exif tag information. Implemented as a static class.
@@ -91,13 +107,20 @@ namespace Exif {
         static const char* typeName(uint16 type);
         //! Returns the size in bytes of one element of this type
         static long typeSize(uint16 type);
+        //! Returns the name of the IFD
+        static const char* ifdName(IfdId ifdId);
+        //! Returns the name of the section
+        static const char* sectionName(SectionId sectionId);
+        //! Returns the name of the section
+        static const char* sectionName(uint16 tag, IfdId ifdId);
 
     private:
         static int tagInfoIdx(uint16 tag, IfdId ifdId);
 
-        static const TagFormat tagFormat_[];
-        static const TagInfo   tagInfo_[];
-
+        static const IfdInfo     ifdInfo_[];
+        static const SectionInfo sectionInfo_[];
+        static const TagFormat   tagFormat_[];
+        static const TagInfo     tagInfo_[];
     };
 
 // *****************************************************************************
