@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.66 $
+  Version:   $Name:  $ $Revision: 1.67 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.66 $ $RCSfile: exif.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.67 $ $RCSfile: exif.cpp,v $");
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -74,28 +74,27 @@ namespace {
 namespace Exiv2 {
 
     Exifdatum::Exifdatum(const Entry& e, ByteOrder byteOrder)
-        : key_(ExifKey::AutoPtr(new ExifKey(e))), pValue_(0)
+        : key_(ExifKey::AutoPtr(new ExifKey(e)))
     {
-        pValue_ = Value::create(TypeId(e.type()));
-        pValue_->read(e.data(), e.count() * e.typeSize(), byteOrder);
+        value_ = Value::create(TypeId(e.type()));
+        value_->read(e.data(), e.count() * e.typeSize(), byteOrder);
     }
 
     Exifdatum::Exifdatum(const ExifKey& key, const Value* pValue) 
-        : key_(key.clone()), pValue_(0)
+        : key_(key.clone())
     {
-        if (pValue) pValue_ = pValue->clone();
+        if (pValue) value_ = pValue->clone();
     }
 
     Exifdatum::~Exifdatum()
     {
-        delete pValue_;
     }
 
     Exifdatum::Exifdatum(const Exifdatum& rhs)
-        : Metadatum(rhs), pValue_(0)
+        : Metadatum(rhs)
     {
         if (rhs.key_.get() != 0) key_ = rhs.key_->clone(); // deep copy
-        if (rhs.pValue_ != 0) pValue_ = rhs.pValue_->clone(); // deep copy
+        if (rhs.value_.get() != 0) value_ = rhs.value_->clone(); // deep copy
     }
 
     Exifdatum& Exifdatum::operator=(const Exifdatum& rhs)
@@ -106,30 +105,28 @@ namespace Exiv2 {
         key_.reset();
         if (rhs.key_.get() != 0) key_ = rhs.key_->clone(); // deep copy
 
-        delete pValue_;
-        pValue_ = 0;
-        if (rhs.pValue_ != 0) pValue_ = rhs.pValue_->clone(); // deep copy
+        value_.reset();
+        if (rhs.value_.get() != 0) value_ = rhs.value_->clone(); // deep copy
 
         return *this;
     } // Exifdatum::operator=
     
     void Exifdatum::setValue(const Value* pValue)
     {
-        delete pValue_;
-        pValue_ = pValue->clone();
+        value_.reset();
+        if (pValue) value_ = pValue->clone();
     }
 
     void Exifdatum::setValue(const Entry& e, ByteOrder byteOrder)
     {
-        delete pValue_;
-        pValue_ = Value::create(TypeId(e.type()));
-        pValue_->read(e.data(), e.count() * e.typeSize(), byteOrder);
+        value_ = Value::create(TypeId(e.type()));
+        value_->read(e.data(), e.count() * e.typeSize(), byteOrder);
     }
 
     void Exifdatum::setValue(const std::string& buf)
     {
-        if (pValue_ == 0) pValue_ = Value::create(asciiString);
-        pValue_->read(buf);
+        if (value_.get() == 0) value_ = Value::create(asciiString);
+        value_->read(buf);
     }
 
     TiffThumbnail::TiffThumbnail()
@@ -443,9 +440,8 @@ namespace Exiv2 {
         ExifKey key("Exif.Thumbnail.JPEGInterchangeFormat");
         ExifData::iterator pos = exifData.findKey(key);
         if (pos == exifData.end()) {
-            Value* value = Value::create(unsignedLong);
-            exifData.add(key, value);
-            delete value;
+            Value::AutoPtr value = Value::create(unsignedLong);
+            exifData.add(key, value.get());
             pos = exifData.findKey(key);
         }
         pos->setValue(toString(offset_));
@@ -453,9 +449,8 @@ namespace Exiv2 {
         ExifKey key2("Exif.Thumbnail.JPEGInterchangeFormatLength");
         pos = exifData.findKey(key2);
         if (pos == exifData.end()) {
-            Value *value = Value::create(unsignedLong);
-            exifData.add(key2, value);
-            delete value;            
+            Value::AutoPtr value = Value::create(unsignedLong);
+            exifData.add(key2, value.get());
             pos = exifData.findKey(key2);
         }
         pos->setValue(toString(size_));
@@ -866,7 +861,7 @@ namespace Exiv2 {
         }
     }
 
-    void ExifData::add(const ExifKey& key, Value* pValue)
+    void ExifData::add(const ExifKey& key, const Value* pValue)
     {
         add(Exifdatum(key, pValue));
     }

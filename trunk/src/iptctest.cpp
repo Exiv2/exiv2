@@ -4,7 +4,7 @@
              This is not designed to be a robust application.
 
   File     : iptctest.cpp
-  Version  : $Name:  $ $Revision: 1.4 $
+  Version  : $Name:  $ $Revision: 1.5 $
   Author(s): Brad Schick (brad) <schick@robotbattle.com>
   History  : 01-Aug-04, brad: created
  */
@@ -113,10 +113,10 @@ void processAdd(const std::string& line, int num)
         data = data.substr(1, data.size()-2);
     }
     TypeId type = IptcDataSets::dataSetType(iptcKey.tag(), iptcKey.record());
-    Value *val = Value::create(type);
-    val->read(data);
+    Value::AutoPtr value = Value::create(type);
+    value->read(data);
 
-    int rc = g_iptcData.add(iptcKey, val);
+    int rc = g_iptcData.add(iptcKey, value.get());
     if (rc) {
         std::string error = IptcData::strError(rc, "Input file");
         throw Error(error);
@@ -166,15 +166,15 @@ void processModify(const std::string& line, int num)
         data = data.substr(1, data.size()-2);
     }
     TypeId type = IptcDataSets::dataSetType(iptcKey.tag(), iptcKey.record());
-    Value *val = Value::create(type);
-    val->read(data);
+    Value::AutoPtr value = Value::create(type);
+    value->read(data);
 
     IptcData::iterator iter = g_iptcData.findId(iptcKey.tag(), iptcKey.record());
     if (iter != g_iptcData.end()) {
-        iter->setValue(val);
+        iter->setValue(value.get());
     }
     else {
-        int rc = g_iptcData.add(iptcKey, val);
+        int rc = g_iptcData.add(iptcKey, value.get());
         if (rc) {
             std::string error = IptcData::strError(rc, "Input file");
             throw Error(error);

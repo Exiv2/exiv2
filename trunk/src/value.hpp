@@ -21,7 +21,7 @@
 /*!
   @file    value.hpp
   @brief   Value interface and concrete subclasses
-  @version $Name:  $ $Revision: 1.16 $
+  @version $Name:  $ $Revision: 1.17 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -40,6 +40,7 @@
 #include <vector>
 #include <iostream>
 #include <sstream>
+#include <memory>
 
 // *****************************************************************************
 // namespace extensions
@@ -59,6 +60,9 @@ namespace Exiv2 {
      */
     class Value {
     public:
+        //! Shortcut for a %Value auto pointer.
+        typedef std::auto_ptr<Value> AutoPtr;
+
         //! @name Creators
         //@{
         //! Constructor, taking a type id to initialize the base class with
@@ -102,6 +106,12 @@ namespace Exiv2 {
          */
         std::string toString() const;
         /*!
+          @brief Return an auto-pointer to a copy of itself (deep copy).
+                 The caller owns this copy and the auto-pointer ensures that 
+                 it will be deleted.
+         */
+        AutoPtr clone() const { return AutoPtr(clone_()); }
+        /*!
           @brief Write value to a data buffer.
 
           The user must ensure that the buffer has enough memory. Otherwise
@@ -116,11 +126,6 @@ namespace Exiv2 {
         virtual long count() const =0;
         //! Return the size of the value in bytes
         virtual long size() const =0;
-        /*!
-          @brief Return a pointer to a copy of itself (deep copy).
-                 The caller owns this copy and is responsible to delete it!
-         */
-        virtual Value* clone() const =0;
         /*! 
           @brief Write the value to an output stream. You do not usually have
                  to use this function; it is used for the implementation of 
@@ -159,29 +164,29 @@ namespace Exiv2 {
 
           The following Value subclasses are created depending on typeId:<BR><BR>
           <TABLE>
-          <TR><TD><B>typeId</B></TD><TD><B>%Value subclass</B></TD></TR>
-          <TR><TD>invalidTypeId</TD><TD>%DataValue(invalidTypeId)</TD></TR>
-          <TR><TD>unsignedByte</TD><TD>%DataValue(unsignedByte)</TD></TR>
-          <TR><TD>asciiString</TD><TD>%AsciiValue</TD></TR>
-          <TR><TD>string</TD><TD>%StringValue</TD></TR>
-          <TR><TD>unsignedShort</TD><TD>%ValueType &lt; uint16_t &gt;</TD></TR>
-          <TR><TD>unsignedLong</TD><TD>%ValueType &lt; uint32_t &gt;</TD></TR>
-          <TR><TD>unsignedRational</TD><TD>%ValueType &lt; URational &gt;</TD></TR>
-          <TR><TD>invalid6</TD><TD>%DataValue(invalid6)</TD></TR>
-          <TR><TD>undefined</TD><TD>%DataValue</TD></TR>
-          <TR><TD>signedShort</TD><TD>%ValueType &lt; int16_t &gt;</TD></TR>
-          <TR><TD>signedLong</TD><TD>%ValueType &lt; int32_t &gt;</TD></TR>
-          <TR><TD>signedRational</TD><TD>%ValueType &lt; Rational &gt;</TD></TR>
-          <TR><TD>date</TD><TD>%DateValue</TD></TR>
-          <TR><TD>time</TD><TD>%TimeValue</TD></TR>
-          <TR><TD><EM>default:</EM></TD><TD>%DataValue(typeId)</TD></TR>
+          <TR><TD class="indexkey"><B>typeId</B></TD><TD class="indexvalue"><B>%Value subclass</B></TD></TR>
+          <TR><TD class="indexkey">invalidTypeId</TD><TD class="indexvalue">%DataValue(invalidTypeId)</TD></TR>
+          <TR><TD class="indexkey">unsignedByte</TD><TD class="indexvalue">%DataValue(unsignedByte)</TD></TR>
+          <TR><TD class="indexkey">asciiString</TD><TD class="indexvalue">%AsciiValue</TD></TR>
+          <TR><TD class="indexkey">string</TD><TD class="indexvalue">%StringValue</TD></TR>
+          <TR><TD class="indexkey">unsignedShort</TD><TD class="indexvalue">%ValueType &lt; uint16_t &gt;</TD></TR>
+          <TR><TD class="indexkey">unsignedLong</TD><TD class="indexvalue">%ValueType &lt; uint32_t &gt;</TD></TR>
+          <TR><TD class="indexkey">unsignedRational</TD><TD class="indexvalue">%ValueType &lt; URational &gt;</TD></TR>
+          <TR><TD class="indexkey">invalid6</TD><TD class="indexvalue">%DataValue(invalid6)</TD></TR>
+          <TR><TD class="indexkey">undefined</TD><TD class="indexvalue">%DataValue</TD></TR>
+          <TR><TD class="indexkey">signedShort</TD><TD class="indexvalue">%ValueType &lt; int16_t &gt;</TD></TR>
+          <TR><TD class="indexkey">signedLong</TD><TD class="indexvalue">%ValueType &lt; int32_t &gt;</TD></TR>
+          <TR><TD class="indexkey">signedRational</TD><TD class="indexvalue">%ValueType &lt; Rational &gt;</TD></TR>
+          <TR><TD class="indexkey">date</TD><TD class="indexvalue">%DateValue</TD></TR>
+          <TR><TD class="indexkey">time</TD><TD class="indexvalue">%TimeValue</TD></TR>
+          <TR><TD class="indexkey"><EM>default:</EM></TD><TD class="indexvalue">%DataValue(typeId)</TD></TR>
           </TABLE>
 
           @param typeId Type of the value.
-          @return Pointer to the newly created Value.
-                  The caller owns this copy and is responsible to delete it!
+          @return Auto-pointer to the newly created Value. The caller owns this
+                  copy and the auto-pointer ensures that it will be deleted.
          */
-        static Value* create(TypeId typeId);
+        static AutoPtr create(TypeId typeId);
 
     protected:
         /*!
@@ -191,6 +196,9 @@ namespace Exiv2 {
         Value& operator=(const Value& rhs);
 
     private:
+        //! Internal virtual copy constructor.
+        virtual Value* clone_() const =0;
+        // DATA
         TypeId type_;                           //!< Type of the data
 
     }; // class Value
@@ -204,6 +212,9 @@ namespace Exiv2 {
     //! %Value for an undefined data type.
     class DataValue : public Value {
     public:
+        //! Shortcut for a %DataValue auto pointer.
+        typedef std::auto_ptr<DataValue> AutoPtr;
+
         //! @name Creators
         //@{
         //! Default constructor.
@@ -239,7 +250,8 @@ namespace Exiv2 {
         //@}
 
         //! @name Accessors
-        //@{        
+        //@{
+        AutoPtr clone() const { return AutoPtr(clone_()); }
         /*!
           @brief Write value to a character data buffer. 
 
@@ -256,7 +268,6 @@ namespace Exiv2 {
         virtual long copy(byte* buf, ByteOrder byteOrder =invalidByteOrder) const;
         virtual long count() const { return size(); }
         virtual long size() const;
-        virtual DataValue* clone() const;
         virtual std::ostream& write(std::ostream& os) const;
         virtual long toLong(long n =0) const { return value_[n]; }
         virtual float toFloat(long n =0) const { return value_[n]; }
@@ -265,6 +276,9 @@ namespace Exiv2 {
         //@}
 
     private:
+        //! Internal virtual copy constructor.
+        virtual DataValue* clone_() const;
+        // DATA
         std::vector<byte> value_;
 
     }; // class DataValue
@@ -277,6 +291,9 @@ namespace Exiv2 {
      */
     class StringValueBase : public Value {
     public:
+        //! Shortcut for a %StringValueBase auto pointer.
+        typedef std::auto_ptr<StringValueBase> AutoPtr;
+
         //! @name Creators
         //@{
         //! Constructor for subclasses
@@ -316,6 +333,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
+        AutoPtr clone() const { return AutoPtr(clone_()); }
         /*!
           @brief Write value to a character data buffer.
 
@@ -337,11 +355,12 @@ namespace Exiv2 {
         virtual Rational toRational(long n =0) const
             { return Rational(value_[n], 1); }
         virtual std::ostream& write(std::ostream& os) const;
-
-        virtual StringValueBase* clone() const =0;
         //@}
 
     protected:
+        //! Internal virtual copy constructor.
+        virtual StringValueBase* clone_() const =0;
+        // DATA
         std::string value_;                     //!< Stores the string value. 
 
     }; // class StringValueBase
@@ -355,6 +374,9 @@ namespace Exiv2 {
     */
     class StringValue : public StringValueBase {
     public:
+        //! Shortcut for a %StringValue auto pointer.
+        typedef std::auto_ptr<StringValue> AutoPtr;
+
         //! @name Creators
         //@{
         //! Default constructor.
@@ -377,8 +399,12 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        virtual StringValue* clone() const;
+        AutoPtr clone() const { return AutoPtr(clone_()); }
         //@}
+
+    private:
+        //! Internal virtual copy constructor.
+        virtual StringValue* clone_() const;
 
     }; // class StringValue
 
@@ -390,6 +416,9 @@ namespace Exiv2 {
      */
     class AsciiValue : public StringValueBase {
     public:
+        //! Shortcut for a %AsciiValue auto pointer.
+        typedef std::auto_ptr<AsciiValue> AutoPtr;
+
         //! @name Creators
         //@{
         //! Default constructor.
@@ -433,7 +462,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        virtual AsciiValue* clone() const;
+        AutoPtr clone() const { return AutoPtr(clone_()); }
         /*! 
           @brief Write the value to an output stream. Any trailing '\\0'
                  characters of the ASCII value are stripped and not written to
@@ -441,6 +470,11 @@ namespace Exiv2 {
         */
         virtual std::ostream& write(std::ostream& os) const;
         //@}
+
+    private:
+        //! Internal virtual copy constructor.
+        virtual AsciiValue* clone_() const;
+
     }; // class AsciiValue
 
     /*! 
@@ -451,6 +485,9 @@ namespace Exiv2 {
      */
     class DateValue : public Value {
     public:
+        //! Shortcut for a %DateValue auto pointer.
+        typedef std::auto_ptr<DateValue> AutoPtr;
+
         //! @name Creators
         //@{
         //! Default constructor.
@@ -496,6 +533,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
+        AutoPtr clone() const { return AutoPtr(clone_()); }
         /*!
           @brief Write value to a character data buffer.
 
@@ -514,7 +552,6 @@ namespace Exiv2 {
         virtual const Date& getDate() const { return date_; }
         virtual long count() const { return size(); }
         virtual long size() const;
-        virtual DateValue* clone() const;
         /*! 
           @brief Write the value to an output stream. .
         */
@@ -527,6 +564,9 @@ namespace Exiv2 {
         //@}
 
     private:
+        //! Internal virtual copy constructor.
+        virtual DateValue* clone_() const;
+        // DATA
         Date date_;
 
     }; // class DateValue    
@@ -541,6 +581,9 @@ namespace Exiv2 {
      */
     class TimeValue : public Value {
     public:
+        //! Shortcut for a %TimeValue auto pointer.
+        typedef std::auto_ptr<TimeValue> AutoPtr;
+
         //! @name Creators
         //@{
         //! Default constructor.
@@ -590,6 +633,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
+        AutoPtr clone() const { return AutoPtr(clone_()); }
         /*!
           @brief Write value to a character data buffer.
 
@@ -608,7 +652,6 @@ namespace Exiv2 {
         virtual const Time& getTime() const { return time_; }
         virtual long count() const { return size(); }
         virtual long size() const;
-        virtual TimeValue* clone() const;
         /*! 
           @brief Write the value to an output stream. .
         */
@@ -621,6 +664,9 @@ namespace Exiv2 {
         //@}
 
     private:
+        //! Internal virtual copy constructor.
+        virtual TimeValue* clone_() const;
+        // DATA
         Time time_;
 
     }; // class TimeValue        
@@ -650,6 +696,9 @@ namespace Exiv2 {
     template<typename T>
     class ValueType : public Value {
     public:
+        //! Shortcut for a %ValueType<T> auto pointer.
+        typedef std::auto_ptr<ValueType<T> > AutoPtr;
+
         //! @name Creators
         //@{
         //! Default constructor.
@@ -679,10 +728,10 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
+        AutoPtr clone() const { return AutoPtr(clone_()); }
         virtual long copy(byte* buf, ByteOrder byteOrder) const;
         virtual long count() const { return static_cast<long>(value_.size()); }
         virtual long size() const;
-        virtual ValueType<T>* clone() const;
         virtual std::ostream& write(std::ostream& os) const;
         virtual long toLong(long n =0) const;
         virtual float toFloat(long n =0) const;
@@ -696,6 +745,7 @@ namespace Exiv2 {
         //! Const iterator type defined for convenience.
         typedef typename std::vector<T>::const_iterator const_iterator;
 
+        // DATA
         /*!
           @brief The container for all values. In your application, if you know 
                  what subclass of Value you're dealing with (and possibly the T)
@@ -703,6 +753,10 @@ namespace Exiv2 {
                  standard library functions.
          */
         ValueList value_;
+
+    private:
+        //! Internal virtual copy constructor.
+        virtual ValueType<T>* clone_() const;
 
     }; // class ValueType
 
@@ -895,7 +949,7 @@ namespace Exiv2 {
     }
 
     template<typename T>
-    ValueType<T>* ValueType<T>::clone() const
+    ValueType<T>* ValueType<T>::clone_() const
     {
         return new ValueType<T>(*this);
     }

@@ -3,7 +3,7 @@
   Abstract:  Sample program showing how to add, modify and delete Exif metadata.
 
   File:      addmoddel.cpp
-  Version:   $Name:  $ $Revision: 1.4 $
+  Version:   $Name:  $ $Revision: 1.5 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
  */
@@ -24,19 +24,16 @@ try {
     // Add to the Exif data
 
     // Create a ASCII string value (note the use of create)
-    Exiv2::Value* v = Exiv2::Value::create(Exiv2::asciiString);
+    Exiv2::Value::AutoPtr v = Exiv2::Value::create(Exiv2::asciiString);
     // Set the value to a string
     v->read("1999:12:31 23:59:59");
     // Add the value together with its key to the Exif data container
     Exiv2::ExifKey key("Exif.Photo.DateTimeOriginal");
-    exifData.add(key, v);
-
+    exifData.add(key, v.get());
     std::cout << "Added key \"" << key << "\", value \"" << *v << "\"\n";
-    // Delete the memory allocated by Value::create
-    delete v;
 
     // Now create a more interesting value (without using the create method)
-    Exiv2::URationalValue* rv = new Exiv2::URationalValue;
+    Exiv2::URationalValue::AutoPtr rv(new Exiv2::URationalValue);
     // Set two rational components from a string
     rv->read("1/2 1/3");
     // Add more elements through the extended interface of rational value 
@@ -44,11 +41,8 @@ try {
     rv->value_.push_back(std::make_pair(3,4));
     // Add the key and value pair to the Exif data
     key = Exiv2::ExifKey("Exif.Image.PrimaryChromaticities");
-    exifData.add(key, rv);
-
+    exifData.add(key, rv.get());
     std::cout << "Added key \"" << key << "\", value \"" << *rv << "\"\n";
-    // Delete memory allocated on the heap
-    delete rv;
 
     // *************************************************************************
     // Modify Exif data
@@ -59,8 +53,8 @@ try {
     if (pos == exifData.end()) throw Exiv2::Error("Key not found");
     // Modify the value
     std::string date = pos->toString();
-    date.replace(0,4,"2000");
-    pos->setValue(date); 
+    date.replace(0, 4, "2000");
+    pos->setValue(date);
     std::cout << "Modified key \"" << key 
               << "\", new value \"" << pos->value() << "\"\n";
 
@@ -71,14 +65,13 @@ try {
     // Get a pointer to a copy of the value
     v = pos->getValue();
     // Downcast the Value pointer to its actual type
-    rv = dynamic_cast<Exiv2::URationalValue*>(v);
-    if (rv == 0) throw Exiv2::Error("Downcast failed");
+    Exiv2::URationalValue* prv = dynamic_cast<Exiv2::URationalValue*>(v.release());
+    if (prv == 0) throw Exiv2::Error("Downcast failed");
+    rv = Exiv2::URationalValue::AutoPtr(prv);
     // Modify the value directly through the interface of URationalValue
     rv->value_[2] = std::make_pair(88,77);
     // Copy the modified value back to the metadatum
-    pos->setValue(rv);
-    // Delete the memory allocated by getValue
-    delete v;
+    pos->setValue(rv.get());
     std::cout << "Modified key \"" << key 
               << "\", new value \"" << pos->value() << "\"\n";
 

@@ -20,13 +20,13 @@
  */
 /*
   File:      iptc.cpp
-  Version:   $Name:  $ $Revision: 1.8 $
+  Version:   $Name:  $ $Revision: 1.9 $
   Author(s): Brad Schick (brad) <schick@robotbattle.com>
   History:   31-July-04, brad: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.8 $ $RCSfile: iptc.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.9 $ $RCSfile: iptc.cpp,v $");
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -49,22 +49,21 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.8 $ $RCSfile: iptc.cpp,v $");
 namespace Exiv2 {
 
     Iptcdatum::Iptcdatum(const IptcKey& key, 
-                         const Value* value)
-        : key_(key.clone()), pValue_(0), modified_(false)
+                         const Value* pValue)
+        : key_(key.clone()), modified_(false)
     {
-        if (value) pValue_ = value->clone();
+        if (pValue) value_ = pValue->clone();
     }
 
     Iptcdatum::Iptcdatum(const Iptcdatum& rhs)
-        : Metadatum(rhs), pValue_(0), modified_(false)
+        : Metadatum(rhs), modified_(false)
     {
         if (rhs.key_.get() != 0) key_ = rhs.key_->clone(); // deep copy
-        if (rhs.pValue_ != 0) pValue_ = rhs.pValue_->clone(); // deep copy
+        if (rhs.value_.get() != 0) value_ = rhs.value_->clone(); // deep copy
     }
 
     Iptcdatum::~Iptcdatum()
     {
-        delete pValue_;
     }
 
     Iptcdatum& Iptcdatum::operator=(const Iptcdatum& rhs)
@@ -76,9 +75,8 @@ namespace Exiv2 {
         key_.reset();
         if (rhs.key_.get() != 0) key_ = rhs.key_->clone(); // deep copy
 
-        delete pValue_;
-        pValue_ = 0;
-        if (rhs.pValue_ != 0) pValue_ = rhs.pValue_->clone(); // deep copy
+        value_.reset();
+        if (rhs.value_.get() != 0) value_ = rhs.value_->clone(); // deep copy
 
         return *this;
     } // Iptcdatum::operator=
@@ -86,15 +84,15 @@ namespace Exiv2 {
     void Iptcdatum::setValue(const Value* pValue)
     {
         modified_ = true;
-        delete pValue_;
-        pValue_ = pValue->clone();
+        value_.reset();
+        if (pValue) value_ = pValue->clone();
     }
 
     void Iptcdatum::setValue(const std::string& buf)
     {
         modified_ = true;
-        if (pValue_ == 0) pValue_ = Value::create(string);
-        pValue_->read(buf);
+        if (value_.get() == 0) value_ = Value::create(string);
+        value_->read(buf);
     }
 
     const byte IptcData::marker_ = 0x1C;          // Dataset marker
@@ -179,23 +177,21 @@ namespace Exiv2 {
     int IptcData::readData(uint16_t dataSet, uint16_t record, 
                            const byte* data, uint32_t sizeData)
     {
-        Value* val = 0;
+        Value::AutoPtr value;
         try {
-            // If the type is unknown or the parse failes then
+            // If the type is unknown or the parse fails then
             // default to undefined type below.
             TypeId type = IptcDataSets::dataSetType(dataSet, record);
-            val = Value::create(type);
-            val->read(data, sizeData, bigEndian);
+            value = Value::create(type);
+            value->read(data, sizeData, bigEndian);
         } 
         catch (const Error&) {
             // Default to loading as raw bytes
-            delete val;
-            val = Value::create(undefined);
-            val->read(data, sizeData, bigEndian);
+            value = Value::create(undefined);
+            value->read(data, sizeData, bigEndian);
         }
         IptcKey key(dataSet, record);
-        add(key, val);
-        delete val;
+        add(key, value.get());
         return 0;
     }
 
