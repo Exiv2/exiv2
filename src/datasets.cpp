@@ -20,13 +20,13 @@
  */
 /*
   File:      datasets.cpp
-  Version:   $Name:  $ $Revision: 1.7 $
+  Version:   $Name:  $ $Revision: 1.8 $
   Author(s): Brad Schick (brad) <schick@robotbattle.com>
   History:   24-Jul-04, brad: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.7 $ $RCSfile: datasets.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.8 $ $RCSfile: datasets.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -318,7 +318,12 @@ namespace Exiv2 {
         return *this;
     }
 
-    IptcKey* IptcKey::clone() const
+    IptcKey::AutoPtr IptcKey::clone() const
+    {
+        return AutoPtr(clone_());
+    }
+
+    IptcKey* IptcKey::clone_() const
     {
         return new IptcKey(*this);
     }

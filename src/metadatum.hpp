@@ -21,7 +21,7 @@
 /*!
   @file    metadatum.hpp
   @brief   Provides abstract base classes Metadatum and Key
-  @version $Name:  $ $Revision: 1.3 $
+  @version $Name:  $ $Revision: 1.4 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @author  Brad Schick (brad) 
@@ -40,6 +40,7 @@
 
 // + standard includes
 #include <string>
+#include <memory>
 
 // *****************************************************************************
 // namespace extensions
@@ -54,6 +55,9 @@ namespace Exiv2 {
     */
     class Key {
     public:
+        //! Shortcut for a %Key auto pointer.
+        typedef std::auto_ptr<Key> AutoPtr;
+
         //! @name Creators
         //@{
         //! Destructor
@@ -78,10 +82,11 @@ namespace Exiv2 {
         //! Return the tag number
         virtual uint16_t tag() const =0;
         /*!
-          @brief Return a pointer to a copy of itself (deep copy).
-                 The caller owns this copy and is responsible to delete it!
+          @brief Return an auto-pointer to a copy of itself (deep copy).
+                 The caller owns this copy and the auto-pointer ensures that it
+                 will be deleted.
          */
-        virtual Key* clone() const =0;
+        AutoPtr clone() const;
         /*! 
           @brief Write the key to an output stream. You do not usually have
                  to use this function; it is used for the implementation of 
@@ -100,6 +105,10 @@ namespace Exiv2 {
          */
         Key& operator=(const Key& rhs) { return *this; }
         //@}
+
+    private:
+        //! Internal virtual copy constructor.
+        virtual Key* clone_() const =0;
 
     }; // class Key
 
@@ -241,7 +250,7 @@ namespace Exiv2 {
                  by subclasses but not directly.
          */
         Metadatum& operator=(const Metadatum& rhs) { return *this; }
-        //@}        
+        //@}
 
     }; // class Metadatum
 

@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.65 $
+  Version:   $Name:  $ $Revision: 1.66 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.65 $ $RCSfile: exif.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.66 $ $RCSfile: exif.cpp,v $");
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -74,28 +74,27 @@ namespace {
 namespace Exiv2 {
 
     Exifdatum::Exifdatum(const Entry& e, ByteOrder byteOrder)
-        : pKey_(new ExifKey(e)), pValue_(0)
+        : key_(ExifKey::AutoPtr(new ExifKey(e))), pValue_(0)
     {
         pValue_ = Value::create(TypeId(e.type()));
         pValue_->read(e.data(), e.count() * e.typeSize(), byteOrder);
     }
 
     Exifdatum::Exifdatum(const ExifKey& key, const Value* pValue) 
-        : pKey_(key.clone()), pValue_(0)
+        : key_(key.clone()), pValue_(0)
     {
         if (pValue) pValue_ = pValue->clone();
     }
 
     Exifdatum::~Exifdatum()
     {
-        delete pKey_;
         delete pValue_;
     }
 
     Exifdatum::Exifdatum(const Exifdatum& rhs)
-        : Metadatum(rhs), pKey_(0), pValue_(0)
+        : Metadatum(rhs), pValue_(0)
     {
-        if (rhs.pKey_ != 0) pKey_ = rhs.pKey_->clone(); // deep copy
+        if (rhs.key_.get() != 0) key_ = rhs.key_->clone(); // deep copy
         if (rhs.pValue_ != 0) pValue_ = rhs.pValue_->clone(); // deep copy
     }
 
@@ -104,9 +103,8 @@ namespace Exiv2 {
         if (this == &rhs) return *this;
         Metadatum::operator=(rhs);
 
-        delete pKey_;
-        pKey_ = 0;
-        if (rhs.pKey_ != 0) pKey_ = rhs.pKey_->clone(); // deep copy
+        key_.reset();
+        if (rhs.key_.get() != 0) key_ = rhs.key_->clone(); // deep copy
 
         delete pValue_;
         pValue_ = 0;
@@ -1258,7 +1256,8 @@ namespace Exiv2 {
 
     std::ostream& operator<<(std::ostream& os, const Exifdatum& md)
     {
-        return md.pKey_->printTag(os, md.value());
+        assert(md.key_.get() != 0);
+        return md.key_->printTag(os, md.value());
     }
 
 }                                       // namespace Exiv2

@@ -20,13 +20,13 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.38 $
+  Version:   $Name:  $ $Revision: 1.39 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.38 $ $RCSfile: tags.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.39 $ $RCSfile: tags.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -473,7 +473,12 @@ namespace Exiv2 {
         return ExifTags::tagName(tag_, ifdId_); 
     }
     
-    ExifKey* ExifKey::clone() const
+    ExifKey::AutoPtr ExifKey::clone() const
+    {
+        return AutoPtr(clone_());
+    }
+
+    ExifKey* ExifKey::clone_() const
     {
         return new ExifKey(*this);
     }

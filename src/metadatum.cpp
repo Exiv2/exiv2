@@ -20,7 +20,7 @@
  */
 /*
   File:      metadatum.cpp
-  Version:   $Name:  $ $Revision: 1.1 $
+  Version:   $Name:  $ $Revision: 1.2 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
              Brad Schick (brad) <schick@robotbattle.com>
   History:   26-Jan-04, ahu: created
@@ -28,7 +28,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.1 $ $RCSfile: metadatum.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: metadatum.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -42,6 +42,11 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.1 $ $RCSfile: metadatum.cpp,v $");
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
+    
+    Key::AutoPtr Key::clone() const
+    {
+        return AutoPtr(clone_());
+    }
 
     std::ostream& operator<<(std::ostream& os, const Metadatum& md)
     {
@@ -55,7 +60,6 @@ namespace Exiv2 {
                   << "\n";
         return os;
     }
-
 
     bool cmpMetadataByTag(const Metadatum& lhs, const Metadatum& rhs)
     {
