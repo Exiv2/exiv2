@@ -20,14 +20,14 @@
  */
 /*
   File:      ifd.cpp
-  Version:   $Name:  $ $Revision: 1.25 $
+  Version:   $Name:  $ $Revision: 1.26 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.25 $ $RCSfile: ifd.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.26 $ $RCSfile: ifd.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -103,7 +103,7 @@ namespace Exiv2 {
         return *this;
     } // Entry::operator=
 
-    void Entry::setValue(uint32 data, ByteOrder byteOrder)
+    void Entry::setValue(uint32_t data, ByteOrder byteOrder)
     {
         if (pData_ == 0 || size_ < 4) {
             assert(alloc_);
@@ -117,7 +117,7 @@ namespace Exiv2 {
         count_ = 1;
     }
 
-    void Entry::setValue(uint16 type, uint32 count, const byte* buf, long len)
+    void Entry::setValue(uint16_t type, uint32_t count, const byte* buf, long len)
     {
         long dataSize = count * TypeInfo::typeSize(TypeId(type));
         // No minimum size requirement, but make sure the buffer can hold the data
@@ -149,7 +149,7 @@ namespace Exiv2 {
         count_ = count;
     } // Entry::setValue
 
-    const byte* Entry::component(uint32 n) const
+    const byte* Entry::component(uint32_t n) const
     {
         if (n >= count()) return 0;
         return data() + n * typeSize();
@@ -163,7 +163,7 @@ namespace Exiv2 {
         memset(pNext_, 0x0, 4);
     }
 
-    Ifd::Ifd(IfdId ifdId, uint32 offset)
+    Ifd::Ifd(IfdId ifdId, uint32_t offset)
         : alloc_(true), ifdId_(ifdId), offset_(offset), dataOffset_(0),
           pNext_(0), next_(0)
     {
@@ -171,7 +171,7 @@ namespace Exiv2 {
         memset(pNext_, 0x0, 4);
     }
 
-    Ifd::Ifd(IfdId ifdId, uint32 offset, bool alloc)
+    Ifd::Ifd(IfdId ifdId, uint32_t offset, bool alloc)
         : alloc_(alloc), ifdId_(ifdId), offset_(offset), dataOffset_(0),
           pNext_(0), next_(0)
     {
@@ -294,7 +294,7 @@ namespace Exiv2 {
                 e.setIfdId(ifdId_);
                 e.setIdx(++idx);
                 e.setTag(i->tag_);
-                uint32 tmpOffset = 
+                uint32_t tmpOffset = 
                     i->size_ > 4 ? i->offset_ - offset_ : i->offsetLoc_;
                 if (static_cast<unsigned long>(len) < tmpOffset + i->size_) {
                     // Todo: How to handle debug output like this
@@ -338,13 +338,13 @@ namespace Exiv2 {
                             FindEntryByIdx(idx));
     }
 
-    Ifd::const_iterator Ifd::findTag(uint16 tag) const 
+    Ifd::const_iterator Ifd::findTag(uint16_t tag) const 
     {
         return std::find_if(entries_.begin(), entries_.end(),
                             FindEntryByTag(tag));
     }
 
-    Ifd::iterator Ifd::findTag(uint16 tag)
+    Ifd::iterator Ifd::findTag(uint16_t tag)
     {
         return std::find_if(entries_.begin(), entries_.end(),
                             FindEntryByTag(tag));
@@ -356,7 +356,7 @@ namespace Exiv2 {
     }
 
     int Ifd::readSubIfd(
-        Ifd& dest, const byte* buf, long len, ByteOrder byteOrder, uint16 tag
+        Ifd& dest, const byte* buf, long len, ByteOrder byteOrder, uint16_t tag
     ) const
     {
         int rc = 0;
@@ -378,7 +378,7 @@ namespace Exiv2 {
         if (offset != 0) offset_ = offset;
 
         // Add the number of entries to the data buffer
-        us2Data(buf, static_cast<uint16>(entries_.size()), byteOrder);
+        us2Data(buf, static_cast<uint16_t>(entries_.size()), byteOrder);
         long o = 2;
 
         // Add all directory entries to the data buffer
@@ -438,7 +438,7 @@ namespace Exiv2 {
         dataOffset_ = 0;
     } // Ifd::clear
 
-    void Ifd::setNext(uint32 next, ByteOrder byteOrder)
+    void Ifd::setNext(uint32_t next, ByteOrder byteOrder)
     {
         assert(pNext_);
         ul2Data(pNext_, next, byteOrder);
@@ -453,7 +453,7 @@ namespace Exiv2 {
         entries_.push_back(entry);
     }
 
-    int Ifd::erase(uint16 tag)
+    int Ifd::erase(uint16_t tag)
     {
         int idx = 0;
         iterator pos = findTag(tag);

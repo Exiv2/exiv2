@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of Exif data
-  @version $Name:  $ $Revision: 1.50 $
+  @version $Name:  $ $Revision: 1.51 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -104,7 +104,7 @@ namespace Exiv2 {
           @brief Return the tag.
           @throw Error ("Invalid key") if the tag is not set.
         */
-        virtual uint16 tag() const;
+        virtual uint16_t tag() const;
         virtual ExifKey* clone() const;
 
         //! Interpret and print the value of an Exif tag
@@ -144,7 +144,7 @@ namespace Exiv2 {
 
     private:
         // DATA
-        uint16 tag_;                    //!< Tag value
+        uint16_t tag_;                    //!< Tag value
         IfdId ifdId_;                   //!< The IFD associated with this tag
         int idx_;                       //!< Unique id of an entry within one IFD
         MakerNote* pMakerNote_;         //!< Pointer to the associated MakerNote
@@ -212,7 +212,7 @@ namespace Exiv2 {
         std::string tagName() const
             { return pKey_ == 0 ? "" : pKey_->tagName(); }
         //! Return the tag
-        uint16 tag() const
+        uint16_t tag() const
             { return pKey_ == 0 ? 0xffff : pKey_->tag(); }
         //! Return the IFD id
         IfdId ifdId() const 
@@ -965,7 +965,7 @@ namespace Exiv2 {
       @throw Error ("Invalid key") if the key cannot be parsed into
       item item, section name and tag name parts.
     */
-    std::pair<uint16, IfdId> decomposeKey(const std::string& key,
+    std::pair<uint16_t, IfdId> decomposeKey(const std::string& key,
                                           const MakerNote* makerNote);
 
 }                                       // namespace Exiv2

@@ -22,7 +22,7 @@
   @file    makernote.hpp
   @brief   Contains the Exif %MakerNote interface, IFD %MakerNote and a 
            MakerNote factory
-  @version $Name:  $ $Revision: 1.22 $
+  @version $Name:  $ $Revision: 1.23 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -109,10 +109,10 @@ namespace Exiv2 {
         //! MakerNote Tag information
         struct MnTagInfo {
             //! Constructor
-            MnTagInfo(uint16 tag, const char* name, const char* desc) 
+            MnTagInfo(uint16_t tag, const char* name, const char* desc) 
                 : tag_(tag), name_(name), desc_(desc) {}
 
-            uint16 tag_;                //!< Tag
+            uint16_t tag_;                //!< Tag
             const char* name_;          //!< One word tag label
             const char* desc_;          //!< Short tag description
         }; // struct MnTagInfo
@@ -165,9 +165,9 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         //! Return the key for the tag.
-        std::string makeKey(uint16 tag) const;
+        std::string makeKey(uint16_t tag) const;
         //! Return the associated tag for a makernote key.
-        uint16 decomposeKey(const std::string& key) const;
+        uint16_t decomposeKey(const std::string& key) const;
         //! Return the byte order (little or big endian).
         ByteOrder byteOrder() const { return byteOrder_; }
         //! Return the offset of the makernote from the start of the TIFF header
@@ -178,19 +178,19 @@ namespace Exiv2 {
                  it translates the tag to a string with the hexadecimal value of
                  the tag.
          */
-        virtual std::string tagName(uint16 tag) const;
+        virtual std::string tagName(uint16_t tag) const;
         /*!
           @brief Return the description of a makernote tag. The default
                  implementation looks up the makernote info tag array if one is
                  set, else it returns an empty string.
          */
-        virtual uint16 tag(const std::string& tagName) const;
+        virtual uint16_t tag(const std::string& tagName) const;
         /*!
           @brief Print a list of all tags known by this MakerNote to the output 
                  stream os. The default implementation prints all tags in the 
                  makernote info tag array if one is set.
          */
-        virtual std::string tagDesc(uint16 tag) const;
+        virtual std::string tagDesc(uint16_t tag) const;
         /*!
           @brief Return the tag associated with a makernote tag name. The
                  default implementation looks up the makernote info tag array
@@ -201,7 +201,7 @@ namespace Exiv2 {
         /*!
           @brief Write the makernote tag info of tag to the output stream os.
          */
-        virtual std::ostream& writeMnTagInfo(std::ostream& os, uint16 tag) const;
+        virtual std::ostream& writeMnTagInfo(std::ostream& os, uint16_t tag) const;
         /*!
           @brief Return a pointer to an newly created, empty instance of the 
                  same type as this. The makernote entries are <B>not</B> copied.
@@ -226,7 +226,7 @@ namespace Exiv2 {
         virtual std::string ifdItem() const =0; 
         //! Interpret and print the value of a makernote tag
         virtual std::ostream& printTag(std::ostream& os,
-                                       uint16 tag, 
+                                       uint16_t tag, 
                                        const Value& value) const =0;
         //@}
 
@@ -329,7 +329,7 @@ namespace Exiv2 {
         virtual IfdMakerNote* clone(bool alloc =true) const =0;
         virtual std::string ifdItem() const =0; 
         virtual std::ostream& printTag(std::ostream& os,
-                                       uint16 tag, 
+                                       uint16_t tag, 
                                        const Value& value) const =0;
         //@}
 

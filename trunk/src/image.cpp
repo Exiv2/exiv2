@@ -20,7 +20,7 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.25 $
+  Version:   $Name:  $ $Revision: 1.26 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
              Brad Schick (brad) <schick@robotbattle.com>
   History:   26-Jan-04, ahu: created
@@ -29,7 +29,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.25 $ $RCSfile: image.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.26 $ $RCSfile: image.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -159,7 +159,7 @@ namespace Exiv2 {
     const byte JpegBase::app1_   = 0xe1;
     const byte JpegBase::app13_  = 0xed;
     const byte JpegBase::com_    = 0xfe;
-    const uint16 JpegBase::iptc_ = 0x0404;
+    const uint16_t JpegBase::iptc_ = 0x0404;
     const char JpegBase::exifId_[] = "Exif\0\0";
     const char JpegBase::jfifId_[] = "JFIF\0";
     const char JpegBase::ps3Id_[]  = "Photoshop 3.0\0";
@@ -317,7 +317,7 @@ namespace Exiv2 {
             // Read size and signature (ok if this hits EOF)
             bufRead = (long)fread(buf.pData_, 1, bufMinSize, fp_);
             if (ferror(fp_)) return 1;
-            uint16 size = getUShort(buf.pData_, bigEndian);
+            uint16_t size = getUShort(buf.pData_, bigEndian);
 
             if (marker == app1_ && memcmp(buf.pData_ + 2, exifId_, 6) == 0) {
                 if (size < 8) return 2;
@@ -343,8 +343,8 @@ namespace Exiv2 {
                 fread(psData.pData_, 1, psData.size_, fp_);
                 if (ferror(fp_) || feof(fp_)) return 1;
                 const byte *record = 0;
-                uint16 sizeIptc = 0;
-                uint16 sizeHdr = 0;
+                uint16_t sizeIptc = 0;
+                uint16_t sizeHdr = 0;
                 // Find actual Iptc data within the APP13 segment
                 if (!locateIptcData(psData.pData_, psData.size_, &record,
                             &sizeHdr, &sizeIptc)) {
@@ -389,8 +389,8 @@ namespace Exiv2 {
     int JpegBase::locateIptcData(const byte *pPsData, 
                                  long sizePsData,
                                  const byte **record, 
-                                 uint16 *const sizeHdr,
-                                 uint16 *const sizeIptc) const
+                                 uint16_t *const sizeHdr,
+                                 uint16_t *const sizeIptc) const
     {
         assert(record);
         assert(sizeHdr);
@@ -403,7 +403,7 @@ namespace Exiv2 {
                 memcmp(pPsData + position, bimId_, 4)==0) {
             const byte *hrd = pPsData + position;
             position += 4;
-            uint16 type = getUShort(pPsData+ position, bigEndian);
+            uint16_t type = getUShort(pPsData+ position, bigEndian);
             position += 2;
            
             // Pascal string is padded to have an even size (including size byte)
@@ -418,7 +418,7 @@ namespace Exiv2 {
             if (dataSize > sizePsData - position) return -2;
            
             if (type == iptc_) {
-                *sizeIptc = static_cast<uint16>(dataSize);
+                *sizeIptc = static_cast<uint16_t>(dataSize);
                 *sizeHdr = psSize + 10;
                 *record = hrd;
                 return 0;
@@ -496,7 +496,7 @@ namespace Exiv2 {
             // Read size and signature (ok if this hits EOF)
             bufRead = (long)fread(buf.pData_, 1, bufMinSize, fp_);
             if (ferror(fp_)) return 1;
-            uint16 size = getUShort(buf.pData_, bigEndian);
+            uint16_t size = getUShort(buf.pData_, bigEndian);
 
             if (marker == app0_) {
                 if (size < 2) return 2;
@@ -556,7 +556,7 @@ namespace Exiv2 {
             if (ferror(fp_)) return 1;
             // Careful, this can be a meaningless number for empty
             // images with only an eoi_ marker
-            uint16 size = getUShort(buf.pData_, bigEndian);
+            uint16_t size = getUShort(buf.pData_, bigEndian);
 
             if (insertPos == count) {
                 byte tmpBuf[18];
@@ -565,7 +565,7 @@ namespace Exiv2 {
                     tmpBuf[0] = 0xff;
                     tmpBuf[1] = com_;
                     us2Data(tmpBuf + 2, 
-                            static_cast<uint16>(comment_.length()+3), bigEndian);
+                            static_cast<uint16_t>(comment_.length()+3), bigEndian);
                     if (fwrite(tmpBuf, 1, 4, ofp) != 4) return 4;
                     if (fwrite(comment_.data(), 1, comment_.length(), ofp) != comment_.length()) return 4;
                     if (fputc(0, ofp)==EOF) return 4;
@@ -576,7 +576,7 @@ namespace Exiv2 {
                     // Write APP1 marker, size of APP1 field, Exif id and Exif data
                     tmpBuf[0] = 0xff;
                     tmpBuf[1] = app1_;
-                    us2Data(tmpBuf + 2, static_cast<uint16>(sizeExifData_+8), bigEndian);
+                    us2Data(tmpBuf + 2, static_cast<uint16_t>(sizeExifData_+8), bigEndian);
                     memcpy(tmpBuf + 4, exifId_, 6);
                     if (fwrite(tmpBuf, 1, 10, ofp) != 10) return 4;
                     if (fwrite(pExifData_, 1, sizeExifData_, ofp) != (size_t)sizeExifData_) return 4;
@@ -585,8 +585,8 @@ namespace Exiv2 {
                 }
                 
                 const byte *record = psData.pData_;
-                uint16 sizeIptc = 0;
-                uint16 sizeHdr = 0;
+                uint16_t sizeIptc = 0;
+                uint16_t sizeHdr = 0;
                 // Safe to call with zero psData.size_
                 locateIptcData(psData.pData_, psData.size_, &record, &sizeHdr, &sizeIptc);
 
@@ -599,7 +599,7 @@ namespace Exiv2 {
                     const int sizeNewData = sizeIptcData_ ? 
                             sizeIptcData_+(sizeIptcData_&1)+12 : 0;
                     us2Data(tmpBuf + 2, 
-                            static_cast<uint16>(psData.size_-sizeOldData+sizeNewData+16),
+                            static_cast<uint16_t>(psData.size_-sizeOldData+sizeNewData+16),
                             bigEndian);
                     memcpy(tmpBuf + 4, ps3Id_, 14);
                     if (fwrite(tmpBuf, 1, 18, ofp) != 18) return 4;

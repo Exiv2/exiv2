@@ -4,7 +4,7 @@
              This is not designed to be a robust application.
 
   File     : iptctest.cpp
-  Version  : $Name:  $ $Revision: 1.2 $
+  Version  : $Name:  $ $Revision: 1.3 $
   Author(s): Brad Schick (brad) <schick@robotbattle.com>
   History  : 01-Aug-04, brad: created
  */
@@ -105,7 +105,7 @@ void processAdd(const std::string& line, int num)
     }
 
     std::string key(line.substr(keyStart, keyEnd-keyStart));
-    std::pair<uint16, uint16> p = IptcDataSets::decomposeKey(key);
+    std::pair<uint16_t, uint16_t> p = IptcDataSets::decomposeKey(key);
     if (p.first == 0xffff) throw Error("Invalid key " + key);
     if (p.second == IptcDataSets::invalidRecord) throw Error("Invalid key " + key);
 
@@ -137,7 +137,7 @@ void processRemove(const std::string& line, int num)
     }
 
     const std::string key( line.substr(keyStart) );
-    std::pair<uint16, uint16> p = IptcDataSets::decomposeKey(key);
+    std::pair<uint16_t, uint16_t> p = IptcDataSets::decomposeKey(key);
     if (p.first == 0xffff) throw Error("Invalid key" + key);
     if (p.second == IptcDataSets::invalidRecord) throw Error("Invalid key" + key);
 
@@ -162,7 +162,7 @@ void processModify(const std::string& line, int num)
     }
 
     std::string key(line.substr(keyStart, keyEnd-keyStart));
-    std::pair<uint16, uint16> p = IptcDataSets::decomposeKey(key);
+    std::pair<uint16_t, uint16_t> p = IptcDataSets::decomposeKey(key);
     if (p.first == 0xffff) throw Error("Invalid key" + key);
     if (p.second == IptcDataSets::invalidRecord) throw Error("Invalid key" + key);
 

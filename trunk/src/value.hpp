@@ -21,7 +21,7 @@
 /*!
   @file    value.hpp
   @brief   Value interface and concrete subclasses
-  @version $Name:  $ $Revision: 1.15 $
+  @version $Name:  $ $Revision: 1.16 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -164,13 +164,13 @@ namespace Exiv2 {
           <TR><TD>unsignedByte</TD><TD>%DataValue(unsignedByte)</TD></TR>
           <TR><TD>asciiString</TD><TD>%AsciiValue</TD></TR>
           <TR><TD>string</TD><TD>%StringValue</TD></TR>
-          <TR><TD>unsignedShort</TD><TD>%ValueType &lt; uint16 &gt;</TD></TR>
-          <TR><TD>unsignedLong</TD><TD>%ValueType &lt; uint32 &gt;</TD></TR>
+          <TR><TD>unsignedShort</TD><TD>%ValueType &lt; uint16_t &gt;</TD></TR>
+          <TR><TD>unsignedLong</TD><TD>%ValueType &lt; uint32_t &gt;</TD></TR>
           <TR><TD>unsignedRational</TD><TD>%ValueType &lt; URational &gt;</TD></TR>
           <TR><TD>invalid6</TD><TD>%DataValue(invalid6)</TD></TR>
           <TR><TD>undefined</TD><TD>%DataValue</TD></TR>
-          <TR><TD>signedShort</TD><TD>%ValueType &lt; int16 &gt;</TD></TR>
-          <TR><TD>signedLong</TD><TD>%ValueType &lt; int32 &gt;</TD></TR>
+          <TR><TD>signedShort</TD><TD>%ValueType &lt; int16_t &gt;</TD></TR>
+          <TR><TD>signedLong</TD><TD>%ValueType &lt; int32_t &gt;</TD></TR>
           <TR><TD>signedRational</TD><TD>%ValueType &lt; Rational &gt;</TD></TR>
           <TR><TD>date</TD><TD>%DateValue</TD></TR>
           <TR><TD>time</TD><TD>%TimeValue</TD></TR>
@@ -628,15 +628,15 @@ namespace Exiv2 {
     template<typename T> TypeId getType();
 
     //! Specialization for an unsigned short
-    template<> inline TypeId getType<uint16>() { return unsignedShort; }
+    template<> inline TypeId getType<uint16_t>() { return unsignedShort; }
     //! Specialization for an unsigned long
-    template<> inline TypeId getType<uint32>() { return unsignedLong; }
+    template<> inline TypeId getType<uint32_t>() { return unsignedLong; }
     //! Specialization for an unsigned rational
     template<> inline TypeId getType<URational>() { return unsignedRational; }
     //! Specialization for a signed short
-    template<> inline TypeId getType<int16>() { return signedShort; }
+    template<> inline TypeId getType<int16_t>() { return signedShort; }
     //! Specialization for a signed long
-    template<> inline TypeId getType<int32>() { return signedLong; }
+    template<> inline TypeId getType<int32_t>() { return signedLong; }
     //! Specialization for a signed rational
     template<> inline TypeId getType<Rational>() { return signedRational; }
 
@@ -707,15 +707,15 @@ namespace Exiv2 {
     }; // class ValueType
 
     //! Unsigned short value type
-    typedef ValueType<uint16> UShortValue;
+    typedef ValueType<uint16_t> UShortValue;
     //! Unsigned long value type
-    typedef ValueType<uint32> ULongValue;
+    typedef ValueType<uint32_t> ULongValue;
     //! Unsigned rational value type
     typedef ValueType<URational> URationalValue;
     //! Signed short value type
-    typedef ValueType<int16> ShortValue;
+    typedef ValueType<int16_t> ShortValue;
     //! Signed long value type
-    typedef ValueType<int32> LongValue;
+    typedef ValueType<int32_t> LongValue;
     //! Signed rational value type
     typedef ValueType<Rational> RationalValue;
 
@@ -736,13 +736,13 @@ namespace Exiv2 {
     template<typename T> T getValue(const byte* buf, ByteOrder byteOrder);
     // Specialization for a 2 byte unsigned short value.
     template<> 
-    inline uint16 getValue(const byte* buf, ByteOrder byteOrder)
+    inline uint16_t getValue(const byte* buf, ByteOrder byteOrder)
     {
         return getUShort(buf, byteOrder);
     }
     // Specialization for a 4 byte unsigned long value.
     template<> 
-    inline uint32 getValue(const byte* buf, ByteOrder byteOrder)
+    inline uint32_t getValue(const byte* buf, ByteOrder byteOrder)
     {
         return getULong(buf, byteOrder);
     }
@@ -754,13 +754,13 @@ namespace Exiv2 {
     }
     // Specialization for a 2 byte signed short value.
     template<> 
-    inline int16 getValue(const byte* buf, ByteOrder byteOrder)
+    inline int16_t getValue(const byte* buf, ByteOrder byteOrder)
     {
         return getShort(buf, byteOrder);
     }
     // Specialization for a 4 byte signed long value.
     template<> 
-    inline int32 getValue(const byte* buf, ByteOrder byteOrder)
+    inline int32_t getValue(const byte* buf, ByteOrder byteOrder)
     {
         return getLong(buf, byteOrder);
     }
@@ -789,7 +789,7 @@ namespace Exiv2 {
              Return the number of bytes written.
      */
     template<> 
-    inline long toData(byte* buf, uint16 t, ByteOrder byteOrder)
+    inline long toData(byte* buf, uint16_t t, ByteOrder byteOrder)
     {
         return us2Data(buf, t, byteOrder);
     }
@@ -798,7 +798,7 @@ namespace Exiv2 {
              Return the number of bytes written.
      */
     template<> 
-    inline long toData(byte* buf, uint32 t, ByteOrder byteOrder)
+    inline long toData(byte* buf, uint32_t t, ByteOrder byteOrder)
     {
         return ul2Data(buf, t, byteOrder);
     }
@@ -816,7 +816,7 @@ namespace Exiv2 {
              Return the number of bytes written.
      */
     template<> 
-    inline long toData(byte* buf, int16 t, ByteOrder byteOrder)
+    inline long toData(byte* buf, int16_t t, ByteOrder byteOrder)
     {
         return s2Data(buf, t, byteOrder);
     }
@@ -825,7 +825,7 @@ namespace Exiv2 {
              Return the number of bytes written.
      */
     template<> 
-    inline long toData(byte* buf, int32 t, ByteOrder byteOrder)
+    inline long toData(byte* buf, int32_t t, ByteOrder byteOrder)
     {
         return l2Data(buf, t, byteOrder);
     }

@@ -20,7 +20,7 @@
  */
 /*
   File:      canonmn.cpp
-  Version:   $Name:  $ $Revision: 1.13 $
+  Version:   $Name:  $ $Revision: 1.14 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
              07-Mar-04, ahu: isolated as a separate component
@@ -30,7 +30,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.13 $ $RCSfile: canonmn.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.14 $ $RCSfile: canonmn.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -78,7 +78,7 @@ namespace Exiv2 {
     }
 
     std::ostream& CanonMakerNote::printTag(std::ostream& os, 
-                                           uint16 tag, 
+                                           uint16_t tag, 
                                            const Value& value) const
     {
         switch (tag) {
@@ -288,7 +288,7 @@ namespace Exiv2 {
                                               const Value& value)
     {
         std::istringstream is(value.toString());
-        uint32 l;
+        uint32_t l;
         is >> l;
         return os << std::setw(4) << std::setfill('0') << std::hex 
                   << ((l & 0xffff0000) >> 16)

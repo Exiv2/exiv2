@@ -21,7 +21,7 @@
 /*!
   @file    types.hpp
   @brief   Type definitions for %Exiv2 and related functionality
-  @version $Name:  $ $Revision: 1.20 $
+  @version $Name:  $ $Revision: 1.21 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created<BR>
@@ -33,13 +33,22 @@
 
 // *****************************************************************************
 // included header files
+#ifdef HAVE_CONFIG_H
+# include <config.h>
+#else
+# ifdef _MSC_VER
+#  include <config_win32.h>
+# endif
+#endif
 
 // + standard includes
 #include <string>
 #include <iosfwd>
 #include <utility>
 #include <sstream>
-
+#ifdef HAVE_STDINT_H
+# include <stdint.h>
+#endif
 
 #ifdef _MSC_VER
 // disable unreferenced formal parameter warning C4100
@@ -56,22 +65,12 @@ namespace Exiv2 {
 // type definitions
 
     //! 1 byte unsigned integer type.
-    typedef unsigned char byte;
-    //! 2 byte unsigned integer type.
-    typedef unsigned short uint16;
-    //! 4 byte unsigned integer type.
-    typedef unsigned long  uint32;
-    //! 2 byte signed integer type.
-    typedef short          int16;
-    //! 4 byte signed integer type.
-    typedef long           int32;
-
-
+    typedef uint8_t byte;
 
     //! 8 byte unsigned rational type.
-    typedef std::pair<uint32, uint32> URational;
+    typedef std::pair<uint32_t, uint32_t> URational;
     //! 8 byte signed rational type.
-    typedef std::pair<int32, int32> Rational;
+    typedef std::pair<int32_t, int32_t> Rational;
 
     //! Type to express the byte order (little or big endian)
     enum ByteOrder { invalidByteOrder, littleEndian, bigEndian };
@@ -152,15 +151,15 @@ namespace Exiv2 {
 // free functions
 
     //! Read a 2 byte unsigned short value from the data buffer
-    uint16 getUShort(const byte* buf, ByteOrder byteOrder);
+    uint16_t getUShort(const byte* buf, ByteOrder byteOrder);
     //! Read a 4 byte unsigned long value from the data buffer
-    uint32 getULong(const byte* buf, ByteOrder byteOrder);
+    uint32_t getULong(const byte* buf, ByteOrder byteOrder);
     //! Read an 8 byte unsigned rational value from the data buffer
     URational getURational(const byte* buf, ByteOrder byteOrder);
     //! Read a 2 byte signed short value from the data buffer
-    int16 getShort(const byte* buf, ByteOrder byteOrder);
+    int16_t getShort(const byte* buf, ByteOrder byteOrder);
     //! Read a 4 byte signed long value from the data buffer
-    int32 getLong(const byte* buf, ByteOrder byteOrder);
+    int32_t getLong(const byte* buf, ByteOrder byteOrder);
     //! Read an 8 byte signed rational value from the data buffer
     Rational getRational(const byte* buf, ByteOrder byteOrder);
 
@@ -177,12 +176,12 @@ namespace Exiv2 {
       @brief Convert an unsigned short to data, write the data to the buffer, 
              return number of bytes written.
      */
-    long us2Data(byte* buf, uint16 s, ByteOrder byteOrder);
+    long us2Data(byte* buf, uint16_t s, ByteOrder byteOrder);
     /*!
       @brief Convert an unsigned long to data, write the data to the buffer,
              return number of bytes written.
      */
-    long ul2Data(byte* buf, uint32 l, ByteOrder byteOrder);
+    long ul2Data(byte* buf, uint32_t l, ByteOrder byteOrder);
     /*!
       @brief Convert an unsigned rational to data, write the data to the buffer,
              return number of bytes written.
@@ -192,12 +191,12 @@ namespace Exiv2 {
       @brief Convert a signed short to data, write the data to the buffer, 
              return number of bytes written.
      */
-    long s2Data(byte* buf, int16 s, ByteOrder byteOrder);
+    long s2Data(byte* buf, int16_t s, ByteOrder byteOrder);
     /*!
       @brief Convert a signed long to data, write the data to the buffer,
              return number of bytes written.
      */
-    long l2Data(byte* buf, int32 l, ByteOrder byteOrder);
+    long l2Data(byte* buf, int32_t l, ByteOrder byteOrder);
     /*!
       @brief Convert a signed rational to data, write the data to the buffer,
              return number of bytes written.

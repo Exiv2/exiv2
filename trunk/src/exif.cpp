@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.57 $
+  Version:   $Name:  $ $Revision: 1.58 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.57 $ $RCSfile: exif.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.58 $ $RCSfile: exif.cpp,v $");
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -63,8 +63,8 @@ namespace {
      */
     void setOffsetTag(Exiv2::Ifd& ifd,
                       int idx,
-                      Exiv2::uint16 tag,
-                      Exiv2::uint32 offset, 
+                      uint16_t tag,
+                      uint32_t offset, 
                       Exiv2::ByteOrder byteOrder);
 
 }
@@ -119,7 +119,7 @@ namespace Exiv2 {
         return ExifTags::tagName(tag(), ifdId()); 
     }
 
-    uint16 ExifKey::tag() const
+    uint16_t ExifKey::tag() const
     {
         if (tag_ == 0xffff) throw Error("Invalid key");
         return tag_;
@@ -146,7 +146,7 @@ namespace Exiv2 {
 
     void ExifKey::decomposeKey()
     {
-        std::pair<uint16, IfdId> p;
+        std::pair<uint16_t, IfdId> p;
         if (ifdId_ == makerIfdId && pMakerNote_ != 0) {
             p.first = pMakerNote_->decomposeKey(key_);
             if (p.first == 0xffff) throw Error("Invalid key");
@@ -1160,7 +1160,7 @@ namespace Exiv2 {
             else {
                 DataBuf buf(md->size());
                 md->copy(buf.pData_, byteOrder);
-                entry->setValue(static_cast<uint16>(md->typeId()), md->count(), 
+                entry->setValue(static_cast<uint16_t>(md->typeId()), md->count(), 
                                 buf.pData_, md->size());
             }
         }
@@ -1316,7 +1316,7 @@ namespace Exiv2 {
 
         DataBuf buf(md.size());
         md.copy(buf.pData_, byteOrder);
-        e.setValue(static_cast<uint16>(md.typeId()), md.count(), buf.pData_, md.size()); 
+        e.setValue(static_cast<uint16_t>(md.typeId()), md.count(), buf.pData_, md.size()); 
         ifd.add(e);
     } // addToIfd
 
@@ -1345,7 +1345,7 @@ namespace Exiv2 {
 
         DataBuf buf(md.size());
         md.copy(buf.pData_, byteOrder);
-        e.setValue(static_cast<uint16>(md.typeId()), md.count(),
+        e.setValue(static_cast<uint16_t>(md.typeId()), md.count(),
                    buf.pData_, md.size()); 
         makerNote->add(e);
     } // addToMakerNote
@@ -1363,10 +1363,10 @@ namespace Exiv2 {
         return ExifTags::makeKey(entry.tag(), entry.ifdId());
     }
 
-    std::pair<uint16, IfdId> decomposeKey(const std::string& key,
+    std::pair<uint16_t, IfdId> decomposeKey(const std::string& key,
                                           const MakerNote* makerNote)
     {
-        std::pair<uint16, IfdId> p = ExifTags::decomposeKey(key);
+        std::pair<uint16_t, IfdId> p = ExifTags::decomposeKey(key);
         if (p.second == makerIfdId && makerNote != 0) {
             p.first = makerNote->decomposeKey(key);
         }
@@ -1381,8 +1381,8 @@ namespace {
 
     void setOffsetTag(Exiv2::Ifd& ifd,
                       int idx,
-                      Exiv2::uint16 tag,
-                      Exiv2::uint32 offset, 
+                      uint16_t tag,
+                      uint32_t offset, 
                       Exiv2::ByteOrder byteOrder)
     {
         Exiv2::Ifd::iterator pos = ifd.findTag(tag);
