@@ -20,13 +20,13 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.17 $
+  Version:   $Name:  $ $Revision: 1.18 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.17 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.18 $ $RCSfile: exif.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -541,6 +541,16 @@ namespace Exif {
         size_ = value.size();
         type_ = value.typeId();
         count_ = value.count();
+    } // Entry::setValue
+
+    Ifd::Ifd(IfdId ifdId)
+        : alloc_(true), ifdId_(ifdId), offset_(0), next_(0)
+    {
+    }
+
+    Ifd::Ifd(IfdId ifdId, uint32 offset)
+        : alloc_(true), ifdId_(ifdId), offset_(offset), next_(0)
+    {
     }
 
     Ifd::Ifd(IfdId ifdId, uint32 offset, bool alloc)
@@ -820,7 +830,7 @@ namespace Exif {
     } // Ifd::print
 
     Thumbnail::Thumbnail()
-        : type_(none), size_(0), image_(0), ifd_(ifd1, false)
+        : type_(none), size_(0), image_(0), ifd_(ifd1, 0, false)
     {
     }
 
@@ -830,7 +840,7 @@ namespace Exif {
     }
 
     Thumbnail::Thumbnail(const Thumbnail& rhs)
-        : type_(rhs.type_), size_(rhs.size_), image_(0), ifd_(ifd1, false)
+        : type_(rhs.type_), size_(rhs.size_), image_(0), ifd_(ifd1, 0, false)
     {
         if (rhs.image_ > 0 && rhs.size_ > 0) {
             image_ = new char[rhs.size_];
@@ -1126,9 +1136,9 @@ namespace Exif {
     } // Thumbnail::setTiffImageOffsets
 
     ExifData::ExifData() 
-        : ifd0_(ifd0, false), exifIfd_(exifIfd, false), iopIfd_(iopIfd, false), 
-          gpsIfd_(gpsIfd, false), ifd1_(ifd1, false), valid_(false), 
-          size_(0), data_(0)
+        : ifd0_(ifd0, 0, false), exifIfd_(exifIfd, 0, false), 
+          iopIfd_(iopIfd, 0, false), gpsIfd_(gpsIfd, 0, false),
+          ifd1_(ifd1, 0, false), valid_(false), size_(0), data_(0)
     {
     }
 
@@ -1407,14 +1417,24 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
         if (!this->compatible()) return false;
 
         bool compatible = true;
+        compatible |= updateIfd(ifd0_);
+        compatible |= updateIfd(exifIfd_);
+        compatible |= updateIfd(iopIfd_);
+        compatible |= updateIfd(gpsIfd_);
+        compatible |= updateIfd(ifd1_);
         
-        Ifd& ifd = ifd0_;
+        return compatible;
+    } // ExifData::updateIfds
+
+    bool ExifData::updateIfd(Ifd& ifd)
+    {
+        if (ifd.alloc()) throw Error("Invariant violated in ExifData::updateIfd");
+
+        bool compatible = true;
         Ifd::iterator end = ifd.end();
         for (Ifd::iterator entry = ifd.begin(); entry != end; ++entry) {
-
             // find the corresponding metadatum
             std::string key = ExifTags::makeKey(entry->tag(), entry->ifdId());
-
             const_iterator md = findKey(key);
             if (md == this->end()) {
                 // corresponding metadatum was deleted: this is not (yet) a
@@ -1424,9 +1444,8 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
             }
             entry->setValue(md->value(), byteOrder());
         }
-
         return compatible;
-    }
+    } // ExifData::updateIfd
 
     bool ExifData::compatible() const
     {
