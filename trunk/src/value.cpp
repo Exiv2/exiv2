@@ -20,14 +20,14 @@
  */
 /*
   File:      value.cpp
-  Version:   $Name:  $ $Revision: 1.8 $
+  Version:   $Name:  $ $Revision: 1.9 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.8 $ $RCSfile: value.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.9 $ $RCSfile: value.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -111,25 +111,20 @@ namespace Exiv2 {
     void DataValue::read(const byte* buf, long len, ByteOrder byteOrder)
     {
         // byteOrder not needed 
-        value_ = std::string(reinterpret_cast<const char*>(buf), len);
+        value_.assign( len, *buf );
     }
 
     void DataValue::read(const std::string& buf)
     {
-        std::istringstream is(buf);
-        int tmp;
-        value_.clear();
-        while (is >> tmp) {
-            value_ += static_cast<char>(tmp);
-        }
+        value_.assign( buf.size(), *buf.data() );
     }
 
     long DataValue::copy(byte* buf, ByteOrder byteOrder) const
     {
         // byteOrder not needed
         return static_cast<long>(
-                value_.copy(reinterpret_cast<char*>(buf), value_.size())
-                );
+            buf - std::copy(value_.begin(), value_.end(), buf)
+            );
     }
 
     long DataValue::size() const
@@ -144,10 +139,9 @@ namespace Exiv2 {
 
     std::ostream& DataValue::write(std::ostream& os) const
     {
-        std::string::size_type end = value_.size();
-        for (std::string::size_type i = 0; i != end; ++i) {
-            os << static_cast<int>(static_cast<byte>(value_[i])) 
-               << " ";
+        std::vector<byte>::size_type end = value_.size();
+        for (std::vector<byte>::size_type i = 0; i != end; ++i) {
+            os << static_cast<int>(value_[i]) << " ";
         }
         return os;
     }

@@ -20,13 +20,13 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.29 $
+  Version:   $Name:  $ $Revision: 1.30 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.29 $ $RCSfile: tags.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.30 $ $RCSfile: tags.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -267,22 +267,22 @@ namespace Exiv2 {
 
     int ExifTags::tagInfoIdx(uint16 tag, IfdId ifdId)
     {
-	const TagInfo* tagInfo = tagInfos_[ifdId];
+        const TagInfo* tagInfo = tagInfos_[ifdId];
         if (tagInfo == 0) return -1;
         int idx;
-        for (idx = 0; tagInfo[idx].tag_ != 0xffff; ++idx) {
-            if (tagInfo[idx].tag_ == tag) break;
+        for (idx = 0; tagInfo[idx].tag_ != tag; ++idx) {
+            if (tagInfo[idx].tag_ == 0xffff) return -1;
         }
         return idx;
     }
 
     int ExifTags::tagInfoIdx(const std::string& tagName, IfdId ifdId)
     {
-	const TagInfo* tagInfo = tagInfos_[ifdId];
+        const TagInfo* tagInfo = tagInfos_[ifdId];
         if (tagInfo == 0) return -1;
         int idx;
-        for (idx = 0; tagInfo[idx].tag_ != 0xffff; ++idx) {
-            if (tagInfo[idx].name_ == tagName) break;
+        for (idx = 0; tagInfo[idx].name_ != tagName; ++idx) {
+            if (tagInfo[idx].tag_ == 0xffff) return -1;
         }
         return idx;
     }
@@ -305,7 +305,7 @@ namespace Exiv2 {
     {
         int idx = tagInfoIdx(tag, ifdId);
         if (idx == -1) throw Error("No taginfo for IFD");
-	const TagInfo* tagInfo = tagInfos_[ifdId];
+        const TagInfo* tagInfo = tagInfos_[ifdId];
         return sectionInfo_[tagInfo[idx].sectionId_].name_;
     }
 
@@ -313,7 +313,7 @@ namespace Exiv2 {
     {
         int idx = tagInfoIdx(tag, ifdId);
         if (idx == -1) throw Error("No taginfo for IFD");
-	const TagInfo* tagInfo = tagInfos_[ifdId];
+        const TagInfo* tagInfo = tagInfos_[ifdId];
         return sectionInfo_[tagInfo[idx].sectionId_].desc_;
     }
 
