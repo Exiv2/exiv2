@@ -20,14 +20,14 @@
  */
 /*
   File:      value.cpp
-  Version:   $Name:  $ $Revision: 1.6 $
+  Version:   $Name:  $ $Revision: 1.7 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: value.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.7 $ $RCSfile: value.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -120,19 +120,19 @@ namespace Exiv2 {
         int tmp;
         value_.clear();
         while (is >> tmp) {
-            value_ += (char)tmp;
+            value_ += static_cast<char>(tmp);
         }
     }
 
     long DataValue::copy(char* buf, ByteOrder byteOrder) const
     {
         // byteOrder not needed
-        return value_.copy(buf, value_.size());
+        return static_cast<long>(value_.copy(buf, value_.size()));
     }
 
     long DataValue::size() const
     {
-        return value_.size();
+        return static_cast<long>(value_.size());
     }
 
     DataValue* DataValue::clone() const
@@ -144,7 +144,8 @@ namespace Exiv2 {
     {
         std::string::size_type end = value_.size();
         for (std::string::size_type i = 0; i != end; ++i) {
-            os << (int)(unsigned char)value_[i] << " ";
+            os << static_cast<int>(static_cast<unsigned char>(value_[i])) 
+               << " ";
         }
         return os;
     }
@@ -172,12 +173,12 @@ namespace Exiv2 {
     long AsciiValue::copy(char* buf, ByteOrder byteOrder) const
     {
         // byteOrder not needed
-        return value_.copy(buf, value_.size());
+        return static_cast<long>(value_.copy(buf, value_.size()));
     }
 
     long AsciiValue::size() const
     {
-        return value_.size();
+        return static_cast<long>(value_.size());
     }
 
     AsciiValue* AsciiValue::clone() const

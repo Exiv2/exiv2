@@ -21,7 +21,7 @@
 /*!
   @file    value.hpp
   @brief   Value interface and concrete subclasses
-  @version $Name:  $ $Revision: 1.9 $
+  @version $Name:  $ $Revision: 1.10 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -90,7 +90,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         //! Return the type identifier (Exif data format type).
-        TypeId typeId() const { return TypeId(type_); }
+        TypeId typeId() const { return type_; }
         /*!
           @brief Return the value as a string. Implemented in terms of
                  write(std::ostream& os) const of the concrete class. 
@@ -183,7 +183,7 @@ namespace Exiv2 {
         Value& operator=(const Value& rhs);
 
     private:
-        uint16 type_;                           //!< Type of the data
+        TypeId type_;                           //!< Type of the data
 
     }; // class Value
 
@@ -379,7 +379,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         virtual long copy(char* buf, ByteOrder byteOrder) const;
-        virtual long count() const { return value_.size(); }
+        virtual long count() const { return static_cast<long>(value_.size()); }
         virtual long size() const;
         virtual ValueType<T>* clone() const;
         virtual std::ostream& write(std::ostream& os) const;
@@ -581,7 +581,7 @@ namespace Exiv2 {
     template<typename T>
     long ValueType<T>::size() const
     {
-        return TypeInfo::typeSize(typeId()) * value_.size();
+        return static_cast<long>(TypeInfo::typeSize(typeId()) * value_.size());
     }
 
     template<typename T>
@@ -623,19 +623,19 @@ namespace Exiv2 {
     template<typename T>
     inline float ValueType<T>::toFloat(long n) const
     { 
-        return value_[n]; 
+        return static_cast<float>(value_[n]); 
     }
     // Specialization for rational
     template<>
     inline float ValueType<Rational>::toFloat(long n) const 
     {
-        return (float)value_[n].first / value_[n].second; 
+        return static_cast<float>(value_[n].first / value_[n].second); 
     }
     // Specialization for unsigned rational
     template<>
     inline float ValueType<URational>::toFloat(long n) const 
     {
-        return (float)value_[n].first / value_[n].second; 
+        return static_cast<float>(value_[n].first / value_[n].second); 
     }
     // Default implementation
     template<typename T>
@@ -655,7 +655,7 @@ namespace Exiv2 {
     {
         return Rational(value_[n].first, value_[n].second);
     }
-   
+
 }                                       // namespace Exiv2
 
 #endif                                  // #ifndef VALUE_HPP_
