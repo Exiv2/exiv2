@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of Exif data
-  @version $Name:  $ $Revision: 1.41 $
+  @version $Name:  $ $Revision: 1.42 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -131,7 +131,8 @@ namespace Exiv2 {
         /*!
           @brief Return the key of the metadatum. The key is of the form
                  'ifdItem.sectionName.tagName'. Note however that the key
-                 is not necessarily unique.
+                 is not necessarily unique, i.e., an ExifData may contain
+                 multiple metadata with the same key.
          */
         std::string key() const { return key_; }
         //! Return the related image item (the first part of the key)
