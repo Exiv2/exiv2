@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.23 $
+  Version:   $Name:  $ $Revision: 1.24 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.23 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.24 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -432,10 +432,10 @@ namespace Action {
 
     Print::AutoPtr Print::clone() const
     {
-        return AutoPtr(dynamic_cast<Print*>(clone_()));
+        return AutoPtr(clone_());
     }
 
-    Task* Print::clone_() const
+    Print* Print::clone_() const
     {
         return new Print(*this);
     }
@@ -515,10 +515,10 @@ namespace Action {
 
     Rename::AutoPtr Rename::clone() const
     {
-        return AutoPtr(dynamic_cast<Rename*>(clone_()));
+        return AutoPtr(clone_());
     }
 
-    Task* Rename::clone_() const
+    Rename* Rename::clone_() const
     {
         return new Rename(*this);
     }
@@ -579,10 +579,10 @@ namespace Action {
 
     Erase::AutoPtr Erase::clone() const
     {
-        return AutoPtr(dynamic_cast<Erase*>(clone_()));
+        return AutoPtr(clone_());
     }
 
-    Task* Erase::clone_() const
+    Erase* Erase::clone_() const
     {
         return new Erase(*this);
     }
@@ -663,10 +663,10 @@ namespace Action {
 
     Extract::AutoPtr Extract::clone() const
     {
-        return AutoPtr(dynamic_cast<Extract*>(clone_()));
+        return AutoPtr(clone_());
     }
 
-    Task* Extract::clone_() const
+    Extract* Extract::clone_() const
     {
         return new Extract(*this);
     }
@@ -699,10 +699,10 @@ namespace Action {
 
     Insert::AutoPtr Insert::clone() const
     {
-        return AutoPtr(dynamic_cast<Insert*>(clone_()));
+        return AutoPtr(clone_());
     }
 
-    Task* Insert::clone_() const
+    Insert* Insert::clone_() const
     {
         return new Insert(*this);
     }
@@ -736,10 +736,10 @@ namespace Action {
 
     Adjust::AutoPtr Adjust::clone() const
     {
-        return AutoPtr(dynamic_cast<Adjust*>(clone_()));
+        return AutoPtr(clone_());
     }
 
-    Task* Adjust::clone_() const
+    Adjust* Adjust::clone_() const
     {
         return new Adjust(*this);
     }
