@@ -25,9 +25,9 @@
    <tr> 
     <th width="8%"><b>Make</b></th>
     <th width="12%"><b>Models</b></th>
-    <th width="40%"><b>Format</b></th>
+    <th width="32%"><b>Format</b></th>
     <th width="8%"><b>Specs</b></th>
-    <th width="32%"><b>Remarks</b></th>
+    <th width="40%"><b>Remarks</b></th>
    </tr>
   </thead>
   <tbody>
@@ -52,16 +52,15 @@
     <td>IFD; starts with string &quot;FUJIFILM&quot; and an offset 
       to the first IFD, offsets are relative to the beginning of the MakerNote</td>
     <td><a href="#R1">[1]</a></td>
-    <td>Fujifilm's Exif data uses Motorola alignment, but the MakerNote 
-      uses Intel alignment</td>
+    <td>Fujifilm's Exif data uses big endian (MM) byte order, but the MakerNote 
+      uses little endian (II) alignment</td>
    </tr>
    <tr> 
     <td>Minolta</td>
     <td>&nbsp;</td>
     <td>IFD</td>
     <td><a href="#R5">[5]</a></td>
-    <td>MakerNote numbers are always stored in Motorola/Macintosh 
-      style</td>
+    <td>MakerNote numbers are always stored in big endian (MM) byte order</td>
    </tr>
    <tr> 
     <td>Nikon</td>
@@ -73,10 +72,19 @@
    <tr> 
     <td>Nikon</td>
     <td>E700, E800, E900, E900S, E910, E950</td>
-    <td>IFD; starts with string &quot;Nikon&quot;, IFD from offset 
+    <td>IFD; starts with string &quot;Nikon\0&quot;, IFD from offset 
       0x08</td>
     <td><a href="#R1">[1]</a></td>
     <td>&nbsp;</td>
+   </tr>
+   <tr> 
+    <td>Nikon</td>
+    <td>E5400, SQ, D2H, D70</td>
+    <td>IFD; starts with string &quot;Nikon\0&quot; and a TIFF header 
+      structure</td>
+    <td>&nbsp;</td>
+    <td>The TIFF header structure indicates the byte order and the start offset 
+      of the IFD. IFD offsets are relative to the start of the TIFF header.</td>
    </tr>
    <tr> 
     <td>Olympus </td>

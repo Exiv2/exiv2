@@ -30,18 +30,18 @@ pair. A key is just a well-formed string. The abstract base class
 interface to access tag information, from which concrete values are
 derived. The actual value used in a metadatum depends on the type of
 the Exif tag. It is usually determined when the Exif metadata is read
-from an image. It is also possible to manually create a Value and add
-together with a key add it to an ExifData container.</p>
+from an image. It is also possible to manually create a Value and together
+with a key add it to an ExifData container.</p>
 
 <h2><a href="html/examples.html">Examples</a></h2>
 
 <p>Two simple examples demonstrate the basic use of Exiv2
 functionality: <a href="html/exifprint_8cpp-example.html">Exifprint</a> 
-shows how the Exif data of an image can be written to the screen. 
+shows how the Exif data of an image can be read and written to the screen. 
 <a href="html/addmoddel_8cpp-example.html">Addmoddel</a> shows how to
-add, modify and delete Exif metadata. Have a look at the 
-implementation of the different actions of the Exiv2 utility 
-(actions.cpp) for more real-world code.</p>
+add, modify and delete Exif metadata. For more real-world code have a look 
+at the implementation of the different actions of the Exiv2 utility 
+(actions.cpp).</p>
 
 <h2><a href="makernote.html">Makernotes</a></h2>
 
@@ -59,7 +59,7 @@ encoded in IFD format however, is not. Please
 <a href="mailto:ahuggel@gmx.net"> contact me</a> if you have such a
 makernote specification and would like assistance adding it to Exiv2.</p>
   
-<h2>IFD (Image File Directory)</h2>
+<h2><a class="anchor">IFD (Image File Directory)</a></h2>
 
 <p><a class="el" href="html/classExiv2_1_1Ifd.html">Exiv2::Ifd</a> is a generic
 low-level class that models an image file directory as defined by TIFF
@@ -67,7 +67,7 @@ and used in the Exif standard.  Exiv2::Ifd could be used to implement
 read only as well as read/write access to Exif (or TIFF) data without
 the overhead (and convenience) of Exiv2::ExifData.</p>
 
-<h2>Components</h2>
+<h2><a class="anchor">Components</a></h2>
 
 <p>The following picture shows the components that make up the Exiv2
 library and how they depend on each other. The component names are the
