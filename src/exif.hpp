@@ -6,14 +6,14 @@
  *
  */
 /*!
-  @file    exif.h
+  @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.1 $
+  @version $Name:  $ $Revision: 1.2 $
   @author  Andreas Huggel (ahu)
   @date    09-Jan-03, ahu: created
  */
-#ifndef _EXIF_H_
-#define _EXIF_H_
+#ifndef _EXIF_HPP_
+#define _EXIF_HPP_
 
 // *****************************************************************************
 // included header files
@@ -161,9 +161,13 @@ namespace Exif {
         long typeSize() const { return ExifTags::typeSize(type_); }
         //! Returns the name of the IFD
         const char* ifdName() const { return ExifTags::ifdName(ifdId_); }
+        //! Returns the related image item (image or thumbnail)
+        const char* ifdItem() const { return ExifTags::ifdItem(ifdId_); }
         //! Returns the name of the section
         const char* sectionName() const 
             { return ExifTags::sectionName(tag_, ifdId_); }
+        //! Returns a unique key of the tag (ifdItem.sectionName.tagName)
+        std::string key() const;
 
     public:
         uint16 tag_;                   //!< Tag value
@@ -208,7 +212,7 @@ namespace Exif {
     class Ifd {
     public:
         //! Constructor. Allows to set the IFD identifier.
-        Ifd(IfdId ifdId =IfdIdNotSet);
+        explicit Ifd(IfdId ifdId =IfdIdNotSet);
         /*!
           @brief Read a complete IFD and its data from a data buffer
 
@@ -361,4 +365,4 @@ namespace Exif {
 
 }                                       // namespace Exif
 
-#endif                                  // #ifndef _EXIF_H_
+#endif                                  // #ifndef _EXIF_HPP_

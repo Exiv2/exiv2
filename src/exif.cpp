@@ -12,7 +12,7 @@
 
   RCS information
    $Name:  $
-   $Revision: 1.1 $
+   $Revision: 1.2 $
  */
 // *****************************************************************************
 // included header files
@@ -214,6 +214,14 @@ namespace Exif {
 
         return *this;
     } // Metadatum::operator=
+
+    std::string Metadatum::key() const
+    {
+        std::string key = std::string(ifdItem()) 
+                  + "." + std::string(sectionName()) 
+                  + "." + std::string(tagName());
+        return key;
+    }
 
     Ifd::Ifd(IfdId ifdId)
         : ifdId_(ifdId), offset_(0), next_(0), size_(0)
@@ -427,8 +435,8 @@ namespace Exif {
         if (rc) return rc;
 
         // Find and read Interoperability IFD in ExifIFD
-        Ifd exifIopIfd(exifIopIfd);
-        rc = exifIfd.readSubIfd(exifIopIfd, buf, byteOrder, 0xa005);
+        Ifd iopIfd(iopIfd);
+        rc = exifIfd.readSubIfd(iopIfd, buf, byteOrder, 0xa005);
         if (rc) return rc;
 
         // Find and read GPSInfo sub-IFD in IFD0
@@ -443,16 +451,31 @@ namespace Exif {
             if (rc) return rc;
         }
 
-        // Todo: Should we also look for Exif IFD and GPSInfo IFD in IFD1
-        //       and, if found, Interop. IFD in the Exif IFD???
+        // Find and read ExifIFD sub-IFD of IFD1
+        Ifd ifd1ExifIfd(ifd1ExifIfd);
+        rc = ifd1.readSubIfd(ifd1ExifIfd, buf, byteOrder, 0x8769);
+        if (rc) return rc;
+
+        // Find and read Interoperability IFD in ExifIFD of IFD1
+        Ifd ifd1IopIfd(ifd1IopIfd);
+        rc = ifd1ExifIfd.readSubIfd(ifd1IopIfd, buf, byteOrder, 0xa005);
+        if (rc) return rc;
+
+        // Find and read GPSInfo sub-IFD in IFD1
+        Ifd ifd1GpsIfd(ifd1GpsIfd);
+        rc = ifd1.readSubIfd(ifd1GpsIfd, buf, byteOrder, 0x8825);
+        if (rc) return rc;
 
         // Finally, copy all metadata from the IFDs to the internal metadata
         metadata_.clear();
         add(ifd0.entries());
         add(exifIfd.entries());
-        add(exifIopIfd.entries()); 
+        add(iopIfd.entries()); 
         add(gpsIfd.entries());
         add(ifd1.entries());
+        add(ifd1ExifIfd.entries());
+        add(ifd1IopIfd.entries());
+        add(ifd1GpsIfd.entries());
 
         return 0;
     } // ExifData::read

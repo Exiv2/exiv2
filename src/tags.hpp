@@ -6,14 +6,14 @@
  *
  */
 /*!
-  @file    tags.h
+  @file    tags.hpp
   @brief   %Exif tag and type information
-  @version $Name:  $ $Revision: 1.1 $
+  @version $Name:  $ $Revision: 1.2 $
   @author  Andreas Huggel (ahu)
   @date    15-Jan-03, ahu: created
  */
-#ifndef _TAGS_H_
-#define _TAGS_H_
+#ifndef _TAGS_HPP_
+#define _TAGS_HPP_
 
 // *****************************************************************************
 // included header files
@@ -38,13 +38,14 @@ namespace Exif {
 
     //! Type to specify the IFD to which a metadata belongs
     enum IfdId { IfdIdNotSet, 
-                 ifd0, exifIfd, gpsIfd, exifMakerIfd, exifIopIfd, 
-                 ifd1, ifd1ExifIfd, ifd1GpsIfd, ifd1MakerIfd, ifd1ExifIopIfd };
+                 ifd0, exifIfd, gpsIfd, makerIfd, iopIfd, 
+                 ifd1, ifd1ExifIfd, ifd1GpsIfd, ifd1MakerIfd, ifd1IopIfd };
 
     //! Section identifiers to logically group tags 
     enum SectionId { SectionIdNotSet, 
-                     ifd0Tiff, exifIfdSection, gpsIfdSection, 
-                     exifIopIfdSection, ifd1Section };
+                     imgStruct, recOffset, imgCharacter, otherTags, exifFormat, 
+                     exifVersion, imgConfig, userInfo, relatedFile, dateTime,
+                     captureCond, gpsTags, iopTags };
 
 // *****************************************************************************
 // class definitions
@@ -52,17 +53,19 @@ namespace Exif {
     //! Contains information pertaining to one IFD
     struct IfdInfo {
         //! Constructor
-        IfdInfo(IfdId ifdId, const char* name);
+        IfdInfo(IfdId ifdId, const char* name, const char* item);
         IfdId ifdId_;                           //!< IFD id
         const char* name_;                      //!< IFD name
+        const char* item_;                      //!< Related image item
     };
 
     //! Contains information pertaining to one section
     struct SectionInfo {
         //! Constructor
-        SectionInfo(SectionId sectionId, const char* name);
+        SectionInfo(SectionId sectionId, const char* name, const char* desc);
         SectionId sectionId_;                   //!< Section id
-        const char* name_;                      //!< Section name
+        const char* name_;                      //!< Section name (one word)
+        const char* desc_;                      //!< Section description
     };
 
     //! Description of the format of a metadatum
@@ -109,6 +112,8 @@ namespace Exif {
         static long typeSize(uint16 type);
         //! Returns the name of the IFD
         static const char* ifdName(IfdId ifdId);
+        //! Returns the related image item (image or thumbnail)
+        static const char* ifdItem(IfdId ifdId);
         //! Returns the name of the section
         static const char* sectionName(SectionId sectionId);
         //! Returns the name of the section
@@ -120,7 +125,9 @@ namespace Exif {
         static const IfdInfo     ifdInfo_[];
         static const SectionInfo sectionInfo_[];
         static const TagFormat   tagFormat_[];
-        static const TagInfo     tagInfo_[];
+
+        static const TagInfo*    tagInfos_[];
+
     };
 
 // *****************************************************************************
@@ -128,4 +135,4 @@ namespace Exif {
 
 }                                       // namespace Exif
 
-#endif                                  // #ifndef _TAGS_H_
+#endif                                  // #ifndef _TAGS_HPP_
