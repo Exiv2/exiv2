@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.33 $
+  Version:   $Name:  $ $Revision: 1.34 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.33 $ $RCSfile: actions.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.34 $ $RCSfile: actions.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -38,6 +38,7 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.33 $ $RCSfile: actions.cpp,v $");
 #include "types.hpp"
 #include "exif.hpp"
 #include "canonmn.hpp"
+#include "iptc.hpp"
 #ifndef HAVE_TIMEGM
 # include "timegm.h"
 #endif
@@ -126,29 +127,31 @@ namespace Action {
     int Print::run(const std::string& path)
     try {
         path_ = path;
-        Exiv2::ExifData exifData;
-        int rc = exifData.read(path);
-        if (rc) {
-            std::cerr << Exiv2::ExifData::strError(rc, path) << "\n";
-            return rc;
-        }
+        int rc = 0;
         switch (Params::instance().printMode_) {
-        case Params::summary:     printSummary(exifData); break;
-        case Params::interpreted: printInterpreted(exifData); break;
-        case Params::values:      printValues(exifData); break;
-        case Params::hexdump:     printHexdump(exifData); break;
+        case Params::summary:     rc = printSummary(); break;
+        case Params::interpreted: rc = printInterpreted(); break;
+        case Params::values:      rc = printValues(); break;
+        case Params::hexdump:     rc = printHexdump(); break;
+        case Params::iptc:        rc = printIptc(); break;
         }
-        return 0;
+        return rc;
     }
-    catch(const Exiv2::Error& e)
-    {
+    catch(const Exiv2::Error& e) {
         std::cerr << "Exif exception in print action for file " 
                   << path << ":\n" << e << "\n";
         return 1;
     } // Print::run
 
-    void Print::printSummary(const Exiv2::ExifData& exifData)
+    int Print::printSummary()
     {
+        Exiv2::ExifData exifData;
+        int rc = exifData.read(path_);
+        if (rc) {
+            std::cerr << Exiv2::ExifData::strError(rc, path_) << "\n";
+            return rc;
+        }
+
         align_ = 16;
 
         // Filename
@@ -394,6 +397,7 @@ namespace Action {
         printTag(exifData, "Exif.Photo.UserComment", "Exif comment");
         std::cout << std::endl;
 
+        return 0;
     } // Print::printSummary
 
     int Print::printTag(const Exiv2::ExifData& exifData,
@@ -416,8 +420,15 @@ namespace Action {
         return rc;
     } // Print::printTag
 
-    void Print::printInterpreted(const Exiv2::ExifData& exifData)
+    int Print::printInterpreted()
     {
+        Exiv2::ExifData exifData;
+        int rc = exifData.read(path_);
+        if (rc) {
+            std::cerr << Exiv2::ExifData::strError(rc, path_) << "\n";
+            return rc;
+        }
+
         Exiv2::ExifData::const_iterator md;
         for (md = exifData.begin(); md != exifData.end(); ++md) {
             std::cout << "0x" << std::setw(4) << std::setfill('0') << std::right
@@ -428,12 +439,22 @@ namespace Action {
                       << md->tagName() << " "
                       << std::dec << *md << "\n";
         }
+
+        return 0;
     } // Print::printInterpreted
 
-    void Print::printValues(const Exiv2::ExifData& exifData)
+    int Print::printValues()
     {
+        Exiv2::ExifData exifData;
+        int rc = exifData.read(path_);
+        if (rc) {
+            std::cerr << Exiv2::ExifData::strError(rc, path_) << "\n";
+            return rc;
+        }
+
+        Exiv2::ExifData::const_iterator end = exifData.end();
         Exiv2::ExifData::const_iterator md;
-        for (md = exifData.begin(); md != exifData.end(); ++md) {
+        for (md = exifData.begin(); md != end; ++md) {
             std::cout << "0x" << std::setw(4) << std::setfill('0') << std::right
                       << std::hex << md->tag() << " " 
                       << std::setw(9) << std::setfill(' ') << std::left
@@ -448,10 +469,50 @@ namespace Action {
                       << std::dec << md->value() 
                       << "\n";
         }
+
+        return 0;
     } // Print::printValues
 
-    void Print::printHexdump(const Exiv2::ExifData& exifData)
+    int Print::printIptc()
     {
+        Exiv2::IptcData iptcData;
+        int rc = iptcData.read(path_);
+        if (rc) {
+            std::cerr << Exiv2::IptcData::strError(rc, path_) << "\n";
+            return rc;
+        }
+
+        Exiv2::IptcData::const_iterator end = iptcData.end();
+        Exiv2::IptcData::const_iterator md;
+        for (md = iptcData.begin(); md != end; ++md) {
+            std::cout << "0x" << std::setw(4) << std::setfill('0') << std::right
+                      << std::hex << md->tag() << " " 
+                      << std::setw(9) << std::setfill(' ') << std::left
+                      << md->recordName() << " "
+                      << std::setw(9) << std::setfill(' ') << std::left
+                      << md->typeName() << " "
+                      << std::dec << std::setw(3) 
+                      << std::setfill(' ') << std::right
+                      << md->count() << " "
+                      << std::setw(27) << std::setfill(' ') << std::left
+                      << md->tagName() << " "
+                      << std::dec << md->value() 
+                      << "\n";
+        } 
+
+        return 0;
+    } // Print::printIptc
+
+
+    int Print::printHexdump()
+    {
+        Exiv2::ExifData exifData;
+        int rc = exifData.read(path_);
+        if (rc) {
+            std::cerr << Exiv2::ExifData::strError(rc, path_) << "\n";
+            return rc;
+        }
+
         Exiv2::ExifData::const_iterator md;
         for (md = exifData.begin(); md != exifData.end(); ++md) {
             std::cout << std::setw(4) << std::setfill(' ') << std::left
@@ -472,6 +533,8 @@ namespace Action {
             md->copy(buf.pData_, exifData.byteOrder());
             Exiv2::hexdump(std::cout, buf.pData_, buf.size_);
         }
+
+        return 0;
     } // Print::printHexdump
 
     Print::AutoPtr Print::clone() const
