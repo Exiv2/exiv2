@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.14 $
+  @version $Name:  $ $Revision: 1.15 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -838,7 +838,7 @@ namespace Exif {
           @return 0 if successful
         */
         int readSubIfd(
-            Ifd& dest, char* buf, ByteOrder byteOrder, uint16 tag
+            Ifd& dest, const char* buf, ByteOrder byteOrder, uint16 tag
         ) const;
         /*!
           @brief Copy the IFD to a data array, return the number of bytes
@@ -903,8 +903,16 @@ namespace Exif {
     //! %Thumbnail data Todo: add, create, rotate, delete
     class Thumbnail {
     public:
+        //! Default constructor
+        Thumbnail();
+        //! Destructor
+        ~Thumbnail();
+        //! Copy constructor
+        Thumbnail(const Thumbnail& rhs);
+        //! Assignment operator
+        Thumbnail& operator=(const Thumbnail& rhs);
         //! %Thumbnail image types
-        enum Type { JPEG, TIFF };
+        enum Type { none, jpeg, tiff };
         /*!
           @brief Read the thumbnail from the data buffer buf, using %Exif
                  metadata exifData. Return 0 if successful. 
@@ -924,7 +932,10 @@ namespace Exif {
         int read(const char* buf, 
                  const ExifData& exifData,
                  ByteOrder byteOrder =littleEndian);
-        //! Write thumbnail to file path, return 0 if successful
+        /*!
+          @brief Write thumbnail to file path, return 0 if successful, -1 if 
+                 there is no thumbnail image to write.
+         */
         int write(const std::string& path) const;
         /*!
           @brief Copy the thumbnail image data (without the IFD, if any) to the
@@ -976,8 +987,12 @@ namespace Exif {
         //! Update the offsets to the TIFF thumbnail image in the IFD
         void setTiffImageOffsets(Ifd& ifd1, ByteOrder byteOrder) const;
 
-        std::string image_;
-        Type type_;
+        Type type_;              // Type of thumbnail image
+        long size_;              // Size of the image data
+        char* image_;            // Thumbnail image data
+        TiffHeader tiffHeader_;  // Thumbnail TIFF Header, only for TIFF thumbs
+        Ifd ifd_;                // Thumbnail IFD, only for TIFF thumbnails
+       
     }; // class Thumbnail
 
     /*!
