@@ -23,12 +23,12 @@
 
   File:      exifprint.cpp
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  Version  : $Name:  $ $Revision: 1.8 $
+  Version  : $Name:  $ $Revision: 1.9 $
   History  : 26-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.8 $ $RCSfile: exifprint.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.9 $ $RCSfile: exifprint.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -67,12 +67,16 @@ try {
     for (ExifData::const_iterator i = exifData.begin(); i != end; ++i) {
         std::cout << "0x" << std::setw(4) << std::setfill('0') << std::right
                   << std::hex << i->tag() << " " 
-                  << std::setw(9) << std::setfill(' ') << std::left
-                  << i->ifdItem() << " "
+                  << std::setw(4) << std::setfill(' ') << std::left
+                  << i->ifdName() << " "
                   << std::setw(27) << std::setfill(' ') << std::left
                   << i->tagName() << " "
-//                  << std::dec << i->value() 
-                  << std::dec << *i 
+                  << std::setw(9) << std::setfill(' ') << std::left
+                  << i->typeName() << " "
+                  << std::dec << std::setw(3) 
+                  << std::setfill(' ') << std::right
+                  << i->count() << " "
+                  << std::dec << i->value() 
                   << "\n";
     }
 

@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.2 $
+  Version:   $Name:  $ $Revision: 1.3 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -129,7 +129,7 @@ namespace Action {
                       << md->ifdItem() << " "
                       << std::setw(27) << std::setfill(' ') << std::left
                       << md->tagName() << " "
-                      << std::dec << md->value() << "\n";
+                      << std::dec << *md << "\n";
         }
         return 0;
     }
