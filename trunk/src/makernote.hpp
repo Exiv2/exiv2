@@ -22,7 +22,7 @@
   @file    makernote.hpp
   @brief   Contains the %Exif %MakerNote interface, IFD %MakerNote and a 
            MakerNote factory
-  @version $Name:  $ $Revision: 1.10 $
+  @version $Name:  $ $Revision: 1.11 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -239,8 +239,11 @@ namespace Exif {
 
         //! @name Manipulators
         //@{
-        int read(const char* buf, long len, ByteOrder byteOrder, long offset);
-        long copy(char* buf, ByteOrder byteOrder, long offset);
+        virtual int read(const char* buf, 
+                         long len, 
+                         ByteOrder byteOrder, 
+                         long offset);
+        virtual long copy(char* buf, ByteOrder byteOrder, long offset);
         void add(const Entry& entry) { ifd_.add(entry); }
         Entries::iterator begin() { return ifd_.begin(); }
         Entries::iterator end() { return ifd_.end(); }
