@@ -20,14 +20,21 @@
  */
 /*!
   @file    nikonmn.hpp
-  @brief   Nikon MakerNote formats implemented according to the following
-           references:<BR>
-           Format 1: <a href="http://www.tawbaware.com/990exif.htm">MakerNote 
-           EXIF Tag of the Nikon 990</a> by Max Lyons.<BR>
-           Format 2: "Appendix 2: Makernote of Nikon" of the document 
-           <a href="http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html">
-           Exif file format</a> by TsuruZoh Tachibanaya.<BR>
-           Format 3: "EXIFutils Field Reference Guide".
+  @brief   Nikon MakerNote formats.
+
+  The Nikon MakerNote formats are implemented according to the following references<BR>
+  Format 1: 
+  <ul><li><a href="http://www.tawbaware.com/990exif.htm">MakerNote EXIF Tag of the Nikon 990</a> by Max Lyons</li></ul>
+  Format 2: 
+  <ul><li>"Appendix 2: Makernote of Nikon" of the document 
+  <a href="http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html">
+  Exif file format</a> by TsuruZoh Tachibanaya</li></ul>
+  Format 3: 
+  <ul><li>"EXIFutils Field Reference Guide"</li>
+  <li><a href="http://www.ozhiker.com/electronics/pjmt/jpeg_info/nikon_mn.html#Nikon_Type_3_Tags">Nikon Type 3 Makernote Tags Definition</a> 
+  of the PHP JPEG Metadata Toolkit by Evan Hunter</li>
+  <li>Nikon specification of <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a> by Phil Harvey</li></ul>
+
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
@@ -158,7 +165,6 @@ namespace Exiv2 {
                 demand.
          */
         static const RegisterMakerNote register_; 
-
         //! The item name (second part of the key) used for makernote tags
         std::string ifdItem_;
 
@@ -269,7 +275,11 @@ namespace Exiv2 {
         //@}
 
         //! @name Manipulators
-        //@{        
+        //@{
+        int read(const byte* buf,
+                 long len, 
+                 ByteOrder byteOrder, 
+                 long offset);
         int readHeader(const byte* buf, 
                        long len,
                        ByteOrder byteOrder);
@@ -290,12 +300,14 @@ namespace Exiv2 {
         //@{
         //! Print ISO setting
         static std::ostream& print0x0002(std::ostream& os, const Value& value);
-        //! Print lens type
-        static std::ostream& print0x0083(std::ostream& os, const Value& value);
+        //! Print flash compensation
+        static std::ostream& print0x0012(std::ostream& os, const Value& value);
         //! Print lens information
         static std::ostream& print0x0084(std::ostream& os, const Value& value);
         //! Print flash used information
         static std::ostream& print0x0087(std::ostream& os, const Value& value);
+        //! Print AF point
+        static std::ostream& print0x0088(std::ostream& os, const Value& value);
         //! Print bracketing information
         static std::ostream& print0x0089(std::ostream& os, const Value& value);
         //@}
