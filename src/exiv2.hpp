@@ -21,7 +21,7 @@
 /*!
   @file    exiv2.hpp
   @brief   Defines class Params, used for the command line handling of exiv2
-  @version $Name:  $ $Revision: 1.2 $
+  @version $Name:  $ $Revision: 1.3 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    08-Dec-03, ahu: created
@@ -87,6 +87,10 @@ public:
 
     //! Enumerates print modes
     enum PrintMode { summary, interpreted, values, hexdump };
+    //! Enumerates delete targets
+    enum DelTarget { delExif, delThumb };
+    //! Enumerates extract targets
+    enum ExtractTarget { extExif, extThumb };
 
     bool help_;                         //!< Help option flag.
     bool version_;                      //!< Version option flag.
@@ -94,6 +98,8 @@ public:
     bool force_;                        //!< Force overwrites flag. 
     bool adjust_;                       //!< Adjustment flag.
     PrintMode printMode_;               //!< Print mode. 
+    DelTarget delTarget_;               //!< What to delete.
+    ExtractTarget extractTarget_;       //!< What to extract.
     //! %Action (integer rather than TaskType to avoid dependency).
     int  action_;
 
@@ -110,13 +116,15 @@ private:
       @brief Default constructor. Note that optstring_ is initialized here.
              Private to force instantiation through instance().
      */
-    Params() : optstring_(":hVvfa:r:m:"),
+    Params() : optstring_(":hVvfa:r:p:d:e:"),
                help_(false), 
                version_(false),
                verbose_(false), 
                force_(false), 
                adjust_(false),
                printMode_(summary),
+               delTarget_(delExif),
+               extractTarget_(extExif),
                action_(0),
                adjustment_(0),
                format_("%Y%m%d_%H%M%S"),
