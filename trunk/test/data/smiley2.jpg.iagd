@@ -1,14 +1,14 @@
-Iptc.Application2.RecordVersion          0x0000  2
-Iptc.Application2.Caption                0x0078  A bunch of squares
-Iptc.Application2.Byline                 0x0050  Brad
-Iptc.Application2.ObjectName             0x0005  This is a title
-Iptc.Application2.Keywords               0x0019  nothing
-Iptc.Application2.Keywords               0x0019  really
-Iptc.Application2.Headline               0x0069  The headline I am
-Iptc.Application2.Keywords               0x0019  Yet another keyword
-Iptc.Application2.DateCreated            0x0037  2004-08-03
-Iptc.Application2.Urgency                0x000a  3
-Iptc.Application2.SuppCategory           0x0014  bla bla ba
-Iptc.Envelope.ModelVersion               0x0000  2
-Iptc.Envelope.TimeSent                   0x0050  14:41:00-05:00
-Iptc.Application2.RasterizedCaption      0x007d  230 42 34 2 90 84 23 146 
+Iptc.Application2.RecordVersion      0x0000  Short       1 2
+Iptc.Application2.Caption            0x0078  String     18 A bunch of squares
+Iptc.Application2.Byline             0x0050  String      4 Brad
+Iptc.Application2.ObjectName         0x0005  String     15 This is a title
+Iptc.Application2.Keywords           0x0019  String      7 nothing
+Iptc.Application2.Keywords           0x0019  String      6 really
+Iptc.Application2.Headline           0x0069  String     17 The headline I am
+Iptc.Application2.Keywords           0x0019  String     19 Yet another keyword
+Iptc.Application2.DateCreated        0x0037  Date        8 2004-08-03
+Iptc.Application2.Urgency            0x000a  String      1 3
+Iptc.Application2.SuppCategory       0x0014  String     10 bla bla ba
+Iptc.Envelope.ModelVersion           0x0000  Short       1 2
+Iptc.Envelope.TimeSent               0x0050  Time       11 14:41:00-05:00
+Iptc.Application2.RasterizedCaption  0x007d  Undefined   8 230 42 34 2 90 84 23 146 
