@@ -17,7 +17,7 @@ AC_PROG_RANLIB
 
 # Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS([malloc.h stdlib.h string.h unistd.h])
+AC_CHECK_HEADERS([malloc.h stdlib.h string.h unistd.h wchar.h libintl.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
@@ -28,8 +28,10 @@ AC_TYPE_SIZE_T
 AC_STRUCT_TM
 
 # Checks for library functions.
+AC_FUNC_ALLOCA
 AC_FUNC_MALLOC
 AC_FUNC_MEMCMP
+AC_FUNC_MKTIME
 AC_FUNC_STAT
 AC_FUNC_STRFTIME
 AC_CHECK_FUNCS([memset strchr strerror strtol])
