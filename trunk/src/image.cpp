@@ -20,7 +20,7 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.28 $
+  Version:   $Name:  $ $Revision: 1.29 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
              Brad Schick (brad) <schick@robotbattle.com>
   History:   26-Jan-04, ahu: created
@@ -29,7 +29,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.28 $ $RCSfile: image.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.29 $ $RCSfile: image.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -69,15 +69,16 @@ namespace Exiv2 {
     // subclasses but then ImageFactory needs to be made a friend. 
     /*!
       @brief Create a new ExvImage instance and return an auto-pointer to it. 
-             Caller owns the object and the auto-pointer ensures that it will
-             be deleted.
+             Caller owns the returned object and the auto-pointer ensures that 
+             it will be deleted.
      */
     Image::AutoPtr newExvInstance(const std::string& path, FILE* fp);
     //! Check if the file ifp is an EXV file.
     bool isExvType(FILE* ifp, bool advance);
     /*!
       @brief Create a new JpegImage instance and return an auto-pointer to it.
-             Caller owns the returned object.
+             Caller owns the returned object and the auto-pointer ensures that 
+             it will be deleted.
      */
     Image::AutoPtr newJpegInstance(const std::string& path, FILE* fp);
     //! Check if the file ifp is a JPEG image.
