@@ -1,3 +1,18 @@
+Changes from version 0.6 to 0.6.1
+---------------------------------
+
+* Exiv2 utility
+
+	* Added option to modify Iptc and Exif metadata based on a command file
+	
+* Exiv2 library
+
+	* Fixed bug #407: Writing metadata to image after modifications may
+	  loose thumbnail 
+	
+	* Added CommentValue
+
+
 Changes from version 0.5 to 0.6
 -------------------------------
 
