@@ -1,7 +1,7 @@
 /*!
   @file    private.h
   @brief   This file is from the tz distribution at ftp://elsie.nci.nih.gov/pub/
-  @version $Name:  $ $Revision: 1.2 $
+  @version $Name:  $ $Revision: 1.3 $
 */
 #ifndef PRIVATE_H
 
@@ -32,6 +32,12 @@ static char	privatehid[] = "@(#)private.h	7.53";
 
 /* ahu: moved required preprocessor symbols to config.h */
 
+/* ahu: disable warnings */
+#ifdef _MSC_VER
+// disable warning 'uses old-style declarator' C4131
+#pragma warning (disable: 4131)
+#endif
+
 /*
 ** Nested includes
 */
@@ -43,6 +49,11 @@ static char	privatehid[] = "@(#)private.h	7.53";
 #include "limits.h"	/* for CHAR_BIT */
 #include "time.h"
 #include "stdlib.h"
+
+/* ahu: added io.h for MSVC */
+#ifdef _MSC_VER
+# include "io.h"
+#endif
 
 /* ahu: deleted include libintl.h */
 
