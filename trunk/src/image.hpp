@@ -312,6 +312,15 @@ namespace Exiv2 {
                   -4 if renaming the temporary file fails;<br>
          */
         int writeMetadata();
+        /*!
+          @brief Set the Exif data. The data is copied into an internal data
+                 buffer and is not written until writeMetadata is called.
+          @param buf Pointer to the new Exif data.
+          @param size Size in bytes of new Exif data.
+
+          @throw Error ("Exif data too large") if the exif data is larger than
+                 65535 bytes (the maximum size of JPEG APP segments)
+         */
         void setExifData(const byte* buf, long size);
         void clearExifData();
         void setIptcData(const byte* buf, long size);
