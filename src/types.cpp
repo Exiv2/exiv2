@@ -66,6 +66,7 @@ namespace Exiv2 {
         TypeInfoTable(string,           "String",      1),
         TypeInfoTable(date,             "Date",        8),
         TypeInfoTable(time,             "Time",        11),
+        TypeInfoTable(comment,          "Comment",     1),
         // End of list marker
         TypeInfoTable(lastTypeId,       "(Unknown)",   0)
     };

@@ -82,7 +82,8 @@ namespace Exiv2 {
     enum TypeId { invalidTypeId, unsignedByte, asciiString, unsignedShort, 
                   unsignedLong, unsignedRational, invalid6, undefined, 
                   signedShort, signedLong, signedRational, 
-                  string, date, time,
+                  string, date, time, 
+                  comment,
                   lastTypeId };
 
     //! Type to specify the IFD to which a metadata belongs

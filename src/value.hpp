@@ -207,6 +207,7 @@ namespace Exiv2 {
           <TR><TD class="indexkey">signedRational</TD><TD class="indexvalue">%ValueType &lt; Rational &gt;</TD></TR>
           <TR><TD class="indexkey">date</TD><TD class="indexvalue">%DateValue</TD></TR>
           <TR><TD class="indexkey">time</TD><TD class="indexvalue">%TimeValue</TD></TR>
+          <TR><TD class="indexkey">comment</TD><TD class="indexvalue">%CommentValue</TD></TR>
           <TR><TD class="indexkey"><EM>default:</EM></TD><TD class="indexvalue">%DataValue(typeId)</TD></TR>
           </TABLE>
 
@@ -504,6 +505,108 @@ namespace Exiv2 {
         virtual AsciiValue* clone_() const;
 
     }; // class AsciiValue
+
+    /*!
+      @brief %Value for an Exif comment.
+
+      This can be a plain Ascii string or a multipe byte encoded string. The
+      comment is expected to be encoded in the character set indicated (default
+      undefined), but this is not checked. It is left to caller to decode and
+      encode the string to and from readable text if that is required.
+    */
+    class CommentValue : public StringValueBase {
+    public:
+        //! Character set identifiers for the character sets defined by %Exif
+        enum CharsetId { ascii, jis, unicode, undefined,
+                         invalidCharsetId, lastCharsetId };
+        //! Information pertaining to the defined character sets
+        struct CharsetTable {
+            //! Constructor
+            CharsetTable(CharsetId charsetId, 
+                         const char* name, 
+                         const char* code);
+            CharsetId charsetId_;                   //!< Charset id
+            const char* name_;                      //!< Name of the charset
+            const char* code_;                      //!< Code of the charset 
+        }; // struct CharsetTable
+        //! Charset information lookup functions. Implemented as a static class.
+        class CharsetInfo {
+            //! Prevent construction: not implemented.
+            CharsetInfo() {}
+            //! Prevent copy-construction: not implemented.
+            CharsetInfo(const CharsetInfo&);
+            //! Prevent assignment: not implemented.
+            CharsetInfo& operator=(const CharsetInfo&);
+            
+        public:
+            //! Return the name for a charset id
+            static const char* name(CharsetId charsetId);
+            //! Return the code for a charset id
+            static const char* code(CharsetId charsetId);
+            //! Return the charset id for a name
+            static CharsetId charsetIdByName(const std::string& name);
+            //! Return the charset id for a code
+            static CharsetId charsetIdByCode(const std::string& code);
+            
+        private:
+            static const CharsetTable charsetTable_[];
+        }; // class CharsetInfo
+
+        //! Shortcut for a %CommentValue auto pointer.
+        typedef std::auto_ptr<CommentValue> AutoPtr;
+
+        //! @name Creators
+        //@{
+        //! Default constructor.
+        CommentValue()
+            : StringValueBase(Exiv2::undefined) {}
+        //! Constructor, uses read(const std::string& comment)
+        CommentValue(const std::string& comment);
+        //! Copy constructor 
+        CommentValue(const CommentValue& rhs)
+            : StringValueBase(rhs) {}
+        //! Virtual destructor.
+        virtual ~CommentValue() {}
+        //@}
+
+        //! @name Manipulators
+        //@{
+        //! Assignment operator.
+        CommentValue& operator=(const CommentValue& rhs);
+        /*!
+          @brief Read the value from a comment
+ 
+          The format of \em comment is:
+          <BR>
+          <CODE>[charset=["]Ascii|Jis|Unicode|Undefined["] ]comment</CODE> 
+          <BR>
+          The default charset is Undefined.
+
+          @throw Error ("Invalid charset") if an invalid character set is 
+                 encountered
+        */
+        void read(const std::string& comment);
+        //@}
+
+        //! @name Accessors
+        //@{
+        AutoPtr clone() const { return AutoPtr(clone_()); }
+        /*!
+          @brief Write the comment in a format which can be read by 
+          read(const std::string& comment).
+         */
+        std::ostream& write(std::ostream& os) const;
+        //! Return the comment (without a charset="..." prefix)
+        std::string comment() const;
+        //! Return the charset id of the comment
+        CharsetId charsetId() const;
+        //@}
+
+    private:
+        //! Internal virtual copy constructor.
+        virtual CommentValue* clone_() const;
+
+    }; // class CommentValue
 
     /*! 
       @brief %Value for simple ISO 8601 dates
