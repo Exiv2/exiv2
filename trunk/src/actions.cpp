@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.6 $
+  Version:   $Name:  $ $Revision: 1.7 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.7 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -243,7 +243,7 @@ namespace Action {
         for (md = exifData.begin(); md != exifData.end(); ++md) {
             std::cout << "0x" << std::setw(4) << std::setfill('0') << std::right
                       << std::hex << md->tag() << " " 
-                      << std::setw(4) << std::setfill(' ') << std::left
+                      << std::setw(9) << std::setfill(' ') << std::left
                       << md->ifdName() << " "
                       << std::setw(9) << std::setfill(' ') << std::left
                       << md->typeName() << " "

@@ -4,7 +4,7 @@
 /*!
   @file    doxygen.hpp
   @brief   Additional documentation, this file contains no source code
-  @version $Name:  $ $Revision: 1.2 $
+  @version $Name:  $ $Revision: 1.3 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    07-Feb-04, ahu: created
@@ -24,7 +24,7 @@
   Exiv2 is also a C++ %Exif metadata library, providing high-level access to the
   %Exif data of an image. Supported functionality includes
   - read %Exif information from JPEG files
-  - access metadata through unique keys and standard C++ iterators
+  - access metadata through keys and standard C++ iterators
   - add, modify and delete metadata 
   - write %Exif data to JPEG files
   - extract %Exif metadata to files, insert from these files
