@@ -20,13 +20,13 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.15 $
+  Version:   $Name:  $ $Revision: 1.16 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.15 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.16 $ $RCSfile: exif.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -543,7 +543,7 @@ namespace Exif {
     }
 
     int Ifd::readSubIfd(
-        Ifd& dest, char* buf, ByteOrder byteOrder, uint16 tag
+        Ifd& dest, const char* buf, ByteOrder byteOrder, uint16 tag
     ) const
     {
         int rc = 0;
@@ -744,6 +744,48 @@ namespace Exif {
 
     } // Ifd::print
 
+    Thumbnail::Thumbnail()
+        : type_(none), size_(0), image_(0), ifd_(ifd1, false)
+    {
+    }
+
+    Thumbnail::~Thumbnail()
+    {
+        delete[] image_;
+    }
+
+    Thumbnail::Thumbnail(const Thumbnail& rhs)
+        : type_(rhs.type_), size_(rhs.size_), image_(0), ifd_(ifd1, false)
+    {
+        if (rhs.image_ > 0 && rhs.size_ > 0) {
+            image_ = new char[rhs.size_];
+            memcpy(image_, rhs.image_, rhs.size_);
+        }
+        if (image_ && type_ == tiff) {
+            tiffHeader_.read(image_);
+            ifd_.read(image_ + tiffHeader_.offset(),
+                      tiffHeader_.byteOrder(), tiffHeader_.offset());
+        }
+    }
+
+    Thumbnail& Thumbnail::operator=(const Thumbnail& rhs)
+    {
+        type_ = rhs.type_;
+        size_ = rhs.size_;
+        delete[] image_;
+        image_ = 0;
+        if (rhs.image_ > 0 && rhs.size_ > 0) {
+            image_ = new char[rhs.size_];
+            memcpy(image_, rhs.image_, rhs.size_);
+        }
+        if (image_ && type_ == tiff) {
+            tiffHeader_.read(image_);
+            ifd_.read(image_ + tiffHeader_.offset(), 
+                      tiffHeader_.byteOrder(), tiffHeader_.offset());
+        }
+        return *this;
+    }
+
     int Thumbnail::read(const char* buf,
                         const ExifData& exifData,
                         ByteOrder byteOrder)
@@ -772,8 +814,10 @@ namespace Exif {
         pos = exifData.findKey(key);
         if (pos == exifData.end()) return 1;
         long size = pos->toLong();
-        image_ = std::string(buf + offset, size);
-        type_ = JPEG;
+        image_ = new char[size];
+        memcpy(image_, buf + offset, size);
+        size_ = size;
+        type_ = jpeg;
         return 0;
     } // Thumbnail::readJpegImage
 
@@ -826,9 +870,14 @@ namespace Exif {
         ifd1.sortByTag();
         ifd1.copy(data + ifdOffset, tiffHeader.byteOrder(), ifdOffset);
 
-        image_ = std::string(data, len);
+        image_ = new char[len];
+        memcpy(image_, data, len);
+        size_ = len;
+        tiffHeader_.read(image_);
+        ifd_.read(image_ + tiffHeader_.offset(), 
+                  tiffHeader_.byteOrder(), tiffHeader_.offset());
+        type_ = tiff;
         delete[] data;
-        type_ = TIFF;
 
         return 0;
     } // Thumbnail::readTiffImage
@@ -837,16 +886,19 @@ namespace Exif {
     {
         std::string p;
         switch (type_) {
-        case JPEG: 
+        case jpeg: 
             p = path + ".jpg";
             break;
-        case TIFF:
+        case tiff:
             p = path + ".tif";
+            break;
+        case none:
+            return 1;
             break;
         }
         std::ofstream file(p.c_str(), std::ios::binary | std::ios::out);
         if (!file) return 1;
-        file.write(image_.data(), image_.size());
+        file.write(image_, size_);
         if (!file.good()) return 2;
         return 0;
     } // Thumbnail::write
@@ -857,11 +909,14 @@ namespace Exif {
         //       i.e., synch all relevant metadata
 
         switch (type_) {
-        case JPEG: 
+        case jpeg: 
             updateJpegImage(exifData);
             break;
-        case TIFF:
+        case tiff:
             updateTiffImage(exifData);
+            break;
+        case none:
+            /* do nothing */
             break;
         }
 
@@ -887,29 +942,21 @@ namespace Exif {
             delete value;            
             pos = exifData.findKey(key);
         }
-        std::ostringstream os;
-        os << image_.size();
-        pos->setValue(os.str());
+        pos->setValue(toString(size_));
 
     } // Thumbnail::updateJpegImage
 
     void Thumbnail::updateTiffImage(ExifData& exifData) const
     {
-        TiffHeader tiffHeader;
-        tiffHeader.read(image_.data());
-        long offset = tiffHeader.offset();
-        Ifd ifd1(ifd1);
-        ifd1.read(image_.data() + offset, tiffHeader.byteOrder(), offset);
-
         // Create metadata from the StripOffsets and StripByteCounts entries
         // and add these to the Exif data, replacing existing entries
-        Ifd::const_iterator pos = ifd1.findTag(0x0111);
-        if (pos == ifd1.end()) throw Error("Bad thumbnail (0x0111)");
-        exifData.add(Metadatum(*pos, tiffHeader.byteOrder()));
+        Ifd::const_iterator pos = ifd_.findTag(0x0111);
+        if (pos == ifd_.end()) throw Error("Bad thumbnail (0x0111)");
+        exifData.add(Metadatum(*pos, tiffHeader_.byteOrder()));
 
-        pos = ifd1.findTag(0x0117);
-        if (pos == ifd1.end()) throw Error("Bad thumbnail (0x0117)");
-        exifData.add(Metadatum(*pos, tiffHeader.byteOrder()));
+        pos = ifd_.findTag(0x0117);
+        if (pos == ifd_.end()) throw Error("Bad thumbnail (0x0117)");
+        exifData.add(Metadatum(*pos, tiffHeader_.byteOrder()));
 
     } // Thumbnail::updateTiffImage
 
@@ -917,11 +964,14 @@ namespace Exif {
     {
         long ret = 0;
         switch (type_) {
-        case JPEG: 
+        case jpeg: 
             ret = copyJpegImage(buf);
             break;
-        case TIFF:
+        case tiff:
             ret = copyTiffImage(buf);
+            break;
+        case none:
+            ret = 0;
             break;
         }
         return ret;
@@ -929,34 +979,29 @@ namespace Exif {
 
     long Thumbnail::copyJpegImage(char* buf) const
     {
-        memcpy(buf, image_.data(), image_.size());
-        return image_.size();
+        memcpy(buf, image_, size_);
+        return size_;
     }
 
     long Thumbnail::copyTiffImage(char* buf) const
     {
-        // Read the TIFF header and IFD from the thumbnail image
-        TiffHeader tiffHeader;
-        tiffHeader.read(image_.data());
-        long offset = tiffHeader.offset();
-        Ifd thumbIfd(ifd1);
-        thumbIfd.read(image_.data() + offset, tiffHeader.byteOrder(), offset);
-
-
-        offset = thumbIfd.offset() + thumbIfd.size() + thumbIfd.dataSize();
-        long size = image_.size() - offset;
-        memcpy(buf, image_.data() + offset, size);
+        long offset = ifd_.offset() + ifd_.size() + ifd_.dataSize();
+        long size = size_ - offset;
+        memcpy(buf, image_ + offset, size);
         return size;
     }
 
     void Thumbnail::setOffsets(Ifd& ifd1, ByteOrder byteOrder) const
     {
         switch (type_) {
-        case JPEG: 
+        case jpeg: 
             setJpegImageOffsets(ifd1, byteOrder);
             break;
-        case TIFF:
+        case tiff:
             setTiffImageOffsets(ifd1, byteOrder);
+            break;
+        case none:
+            /* do nothing */
             break;
         }        
     }
@@ -970,20 +1015,13 @@ namespace Exif {
 
     void Thumbnail::setTiffImageOffsets(Ifd& ifd1, ByteOrder byteOrder) const
     {
-        // Read the TIFF header and IFD from the thumbnail image
-        TiffHeader tiffHeader;
-        tiffHeader.read(image_.data());
-        long offset = tiffHeader.offset();
-        Ifd thumbIfd(ifd1);
-        thumbIfd.read(image_.data() + offset, tiffHeader.byteOrder(), offset);
-
         // Adjust the StripOffsets, assuming that the existing TIFF strips
         // start immediately after the thumbnail IFD
         long shift = ifd1.offset() + ifd1.size() + ifd1.dataSize() 
-            - thumbIfd.offset() - thumbIfd.size() - thumbIfd.dataSize();
-        Ifd::const_iterator pos = thumbIfd.findTag(0x0111);
-        if (pos == thumbIfd.end()) throw Error("Bad thumbnail (0x0111)");
-        Metadatum offsets(*pos, tiffHeader.byteOrder());
+            - ifd_.offset() - ifd_.size() - ifd_.dataSize();
+        Ifd::const_iterator pos = ifd_.findTag(0x0111);
+        if (pos == ifd_.end()) throw Error("Bad thumbnail (0x0111)");
+        Metadatum offsets(*pos, tiffHeader_.byteOrder());
         std::ostringstream os;
         for (long k = 0; k < offsets.count(); ++k) {
             os << offsets.toLong(k) + shift << " ";
