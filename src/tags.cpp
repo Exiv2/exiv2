@@ -20,13 +20,13 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.27 $
+  Version:   $Name:  $ $Revision: 1.28 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.27 $ $RCSfile: tags.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.28 $ $RCSfile: tags.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -473,7 +473,7 @@ namespace Exiv2 {
     std::ostream& printFloat(std::ostream& os, const Value& value)
     {
         Rational r = value.toRational();
-        if (r.second != 0) return os << (float)r.first / r.second;
+        if (r.second != 0) return os << static_cast<float>(r.first) / r.second;
         return os << "(" << value << ")";
     } // printFloat
 
