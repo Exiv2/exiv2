@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.25 $
+  @version $Name:  $ $Revision: 1.26 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -37,7 +37,6 @@
 #include "value.hpp"
 #include "ifd.hpp"
 #include "tags.hpp"
-#include "makernote.hpp"
 
 // + standard includes
 #include <string>
@@ -52,6 +51,7 @@ namespace Exif {
 // *****************************************************************************
 // class declarations
     class ExifData;
+    class MakerNote;
 
 // *****************************************************************************
 // class definitions
@@ -641,7 +641,8 @@ namespace Exif {
         TiffHeader tiffHeader_;
         Metadata metadata_;
         Thumbnail thumbnail_;
-        MakerNote* makerNote_;
+        MakerNote* makerNote_;   // Todo: implement reference counting instead
+                                 //       of making ExifData own this pointer
 
         Ifd ifd0_;
         Ifd exifIfd_;

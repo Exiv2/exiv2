@@ -20,7 +20,7 @@
  */
 /*
   File:      canonmn.cpp
-  Version:   $Name:  $ $Revision: 1.1 $
+  Version:   $Name:  $ $Revision: 1.2 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
              07-Mar-04, ahu: isolated as a separate component
@@ -30,11 +30,13 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.1 $ $RCSfile: canonmn.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: canonmn.cpp,v $")
 
 // *****************************************************************************
 // included header files
+#include "types.hpp"
 #include "canonmn.hpp"
+#include "makernote.hpp"
 #include "value.hpp"
 
 // + standard includes
@@ -48,6 +50,8 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.1 $ $RCSfile: canonmn.cpp,v $")
 // *****************************************************************************
 // class member definitions
 namespace Exif {
+
+    const CanonMakerNote::RegisterMakerNote CanonMakerNote::register_;
 
     // Canon MakerNote Tag Info
     static const MakerNote::MnTagInfo canonMnTagInfo[] = {
