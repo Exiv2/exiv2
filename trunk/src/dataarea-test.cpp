@@ -14,6 +14,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <cassert>
 
 void write(const std::string& file, Exiv2::ExifData& ed);
 void print(const std::string& file);
