@@ -20,14 +20,14 @@
  */
 /*
   File:      nikonmn.cpp
-  Version:   $Name:  $ $Revision: 1.10 $
+  Version:   $Name:  $ $Revision: 1.11 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   17-May-04, ahu: created
              25-May-04, ahu: combined all Nikon formats in one component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.10 $ $RCSfile: nikonmn.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.11 $ $RCSfile: nikonmn.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -244,7 +244,7 @@ namespace Exiv2 {
 
     Nikon2MakerNote* Nikon2MakerNote::clone_(bool alloc) const 
     {
-        AutoPtr makerNote = AutoPtr(new Nikon2MakerNote(alloc)); 
+        AutoPtr makerNote(new Nikon2MakerNote(alloc)); 
         assert(makerNote.get() != 0);
         makerNote->readHeader(header_.pData_, header_.size_, byteOrder_);
         return makerNote.release();
@@ -445,7 +445,7 @@ namespace Exiv2 {
 
     Nikon3MakerNote* Nikon3MakerNote::clone_(bool alloc) const 
     {
-        AutoPtr makerNote = AutoPtr(new Nikon3MakerNote(alloc)); 
+        AutoPtr makerNote(new Nikon3MakerNote(alloc)); 
         assert(makerNote.get() != 0);
         makerNote->readHeader(header_.pData_, header_.size_, byteOrder_);
         return makerNote.release();
