@@ -101,7 +101,7 @@ diffCheck()
     #run diff and check results
     diff -q $diffargs $test $good
     if [ $? -ne 0 ]; then
-       let ++errors
+       errors=`expr $errors + 1`
     else
        rm $test
     fi 
@@ -124,7 +124,7 @@ fi
 
 test_files="smiley1.jpg smiley2.jpg glider.exv table.jpg"
 
-let errors=0
+errors=0
 cd ./tmp
 echo
 
