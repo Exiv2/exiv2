@@ -1,0 +1,1004 @@
+<?xml version = '1.0'?>
+<?xml-stylesheet type="text/xsl" href="tags.xsl"?>
+<ROWSET>
+   <ROW num="1">
+      <tagname>ImageWidth</tagname>
+      <tagdec>256</tagdec>
+      <taghex>0x0100</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.ImageStructure.ImageWidth</key>
+      <tagdesc>Image width</tagdesc>
+   </ROW>
+   <ROW num="2">
+      <tagname>ImageLength</tagname>
+      <tagdec>257</tagdec>
+      <taghex>0x0101</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.ImageStructure.ImageLength</key>
+      <tagdesc>Image height</tagdesc>
+   </ROW>
+   <ROW num="3">
+      <tagname>BitsPerSample</tagname>
+      <tagdec>258</tagdec>
+      <taghex>0x0102</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.ImageStructure.BitsPerSample</key>
+      <tagdesc>Number of bits per component</tagdesc>
+   </ROW>
+   <ROW num="4">
+      <tagname>Compression</tagname>
+      <tagdec>259</tagdec>
+      <taghex>0x0103</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.ImageStructure.Compression</key>
+      <tagdesc>Compression scheme</tagdesc>
+   </ROW>
+   <ROW num="5">
+      <tagname>PhotometricInterpretation</tagname>
+      <tagdec>262</tagdec>
+      <taghex>0x0106</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.ImageStructure.PhotometricInterpretation</key>
+      <tagdesc>Pixel composition</tagdesc>
+   </ROW>
+   <ROW num="6">
+      <tagname>ImageDescription</tagname>
+      <tagdec>270</tagdec>
+      <taghex>0x010e</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.OtherTags.ImageDescription</key>
+      <tagdesc>Image title</tagdesc>
+   </ROW>
+   <ROW num="7">
+      <tagname>Make</tagname>
+      <tagdec>271</tagdec>
+      <taghex>0x010f</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.OtherTags.Make</key>
+      <tagdesc>Manufacturer of image input equipment</tagdesc>
+   </ROW>
+   <ROW num="8">
+      <tagname>Model</tagname>
+      <tagdec>272</tagdec>
+      <taghex>0x0110</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.OtherTags.Model</key>
+      <tagdesc>Model of image input equipment</tagdesc>
+   </ROW>
+   <ROW num="9">
+      <tagname>StripOffsets</tagname>
+      <tagdec>273</tagdec>
+      <taghex>0x0111</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.RecordingOffset.StripOffsets</key>
+      <tagdesc>Image data location</tagdesc>
+   </ROW>
+   <ROW num="10">
+      <tagname>Orientation</tagname>
+      <tagdec>274</tagdec>
+      <taghex>0x0112</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.ImageStructure.Orientation</key>
+      <tagdesc>Orientation of image</tagdesc>
+   </ROW>
+   <ROW num="11">
+      <tagname>SamplesPerPixel</tagname>
+      <tagdec>277</tagdec>
+      <taghex>0x0115</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.ImageStructure.SamplesPerPixel</key>
+      <tagdesc>Number of components</tagdesc>
+   </ROW>
+   <ROW num="12">
+      <tagname>RowsPerStrip</tagname>
+      <tagdec>278</tagdec>
+      <taghex>0x0116</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.RecordingOffset.RowsPerStrip</key>
+      <tagdesc>Number of rows per strip</tagdesc>
+   </ROW>
+   <ROW num="13">
+      <tagname>StripByteCounts</tagname>
+      <tagdec>279</tagdec>
+      <taghex>0x0117</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.RecordingOffset.StripByteCounts</key>
+      <tagdesc>Bytes per compressed strip</tagdesc>
+   </ROW>
+   <ROW num="14">
+      <tagname>XResolution</tagname>
+      <tagdec>282</tagdec>
+      <taghex>0x011a</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.ImageStructure.XResolution</key>
+      <tagdesc>Image resolution in width direction</tagdesc>
+   </ROW>
+   <ROW num="15">
+      <tagname>YResolution</tagname>
+      <tagdec>283</tagdec>
+      <taghex>0x011b</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.ImageStructure.YResolution</key>
+      <tagdesc>Image resolution in height direction</tagdesc>
+   </ROW>
+   <ROW num="16">
+      <tagname>PlanarConfiguration</tagname>
+      <tagdec>284</tagdec>
+      <taghex>0x011c</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.ImageStructure.PlanarConfiguration</key>
+      <tagdesc>Image data arrangement</tagdesc>
+   </ROW>
+   <ROW num="17">
+      <tagname>ResolutionUnit</tagname>
+      <tagdec>296</tagdec>
+      <taghex>0x0128</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.ImageStructure.ResolutionUnit</key>
+      <tagdesc>Unit of X and Y resolution</tagdesc>
+   </ROW>
+   <ROW num="18">
+      <tagname>TransferFunction</tagname>
+      <tagdec>301</tagdec>
+      <taghex>0x012d</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.ImageCharacteristics.TransferFunction</key>
+      <tagdesc>Transfer function</tagdesc>
+   </ROW>
+   <ROW num="19">
+      <tagname>Software</tagname>
+      <tagdec>305</tagdec>
+      <taghex>0x0131</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.OtherTags.Software</key>
+      <tagdesc>Software used</tagdesc>
+   </ROW>
+   <ROW num="20">
+      <tagname>DateTime</tagname>
+      <tagdec>306</tagdec>
+      <taghex>0x0132</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.OtherTags.DateTime</key>
+      <tagdesc>File change date and time</tagdesc>
+   </ROW>
+   <ROW num="21">
+      <tagname>Artist</tagname>
+      <tagdec>315</tagdec>
+      <taghex>0x013b</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.OtherTags.Artist</key>
+      <tagdesc>Person who created the image</tagdesc>
+   </ROW>
+   <ROW num="22">
+      <tagname>WhitePoint</tagname>
+      <tagdec>318</tagdec>
+      <taghex>0x013e</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.ImageCharacteristics.WhitePoint</key>
+      <tagdesc>White point chromaticity</tagdesc>
+   </ROW>
+   <ROW num="23">
+      <tagname>PrimaryChromaticities</tagname>
+      <tagdec>319</tagdec>
+      <taghex>0x013f</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.ImageCharacteristics.PrimaryChromaticities</key>
+      <tagdesc>Chromaticities of primaries</tagdesc>
+   </ROW>
+   <ROW num="24">
+      <tagname>JPEGInterchangeFormat</tagname>
+      <tagdec>513</tagdec>
+      <taghex>0x0201</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.RecordingOffset.JPEGInterchangeFormat</key>
+      <tagdesc>Offset to JPEG SOI</tagdesc>
+   </ROW>
+   <ROW num="25">
+      <tagname>JPEGInterchangeFormatLength</tagname>
+      <tagdec>514</tagdec>
+      <taghex>0x0202</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.RecordingOffset.JPEGInterchangeFormatLength</key>
+      <tagdesc>Bytes of JPEG data</tagdesc>
+   </ROW>
+   <ROW num="26">
+      <tagname>YCbCrCoefficients</tagname>
+      <tagdec>529</tagdec>
+      <taghex>0x0211</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.ImageCharacteristics.YCbCrCoefficients</key>
+      <tagdesc>Color space transformation matrix coefficients</tagdesc>
+   </ROW>
+   <ROW num="27">
+      <tagname>YCbCrSubSampling</tagname>
+      <tagdec>530</tagdec>
+      <taghex>0x0212</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.ImageStructure.YCbCrSubSampling</key>
+      <tagdesc>Subsampling ratio of Y to C</tagdesc>
+   </ROW>
+   <ROW num="28">
+      <tagname>YCbCrPositioning</tagname>
+      <tagdec>531</tagdec>
+      <taghex>0x0213</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.ImageStructure.YCbCrPositioning</key>
+      <tagdesc>Y and C positioning</tagdesc>
+   </ROW>
+   <ROW num="29">
+      <tagname>ReferenceBlackWhite</tagname>
+      <tagdec>532</tagdec>
+      <taghex>0x0214</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.ImageCharacteristics.ReferenceBlackWhite</key>
+      <tagdesc>Pair of black and white reference values</tagdesc>
+   </ROW>
+   <ROW num="30">
+      <tagname>Copyright</tagname>
+      <tagdec>33432</tagdec>
+      <taghex>0x8298</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.OtherTags.Copyright</key>
+      <tagdesc>Copyright holder</tagdesc>
+   </ROW>
+   <ROW num="31">
+      <tagname>ExifTag</tagname>
+      <tagdec>34665</tagdec>
+      <taghex>0x8769</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.ExifFormat.ExifTag</key>
+      <tagdesc>Exif IFD Pointer</tagdesc>
+   </ROW>
+   <ROW num="32">
+      <tagname>GPSTag</tagname>
+      <tagdec>34853</tagdec>
+      <taghex>0x8825</taghex>
+      <ifd>IFD0</ifd>
+      <key>Image.ExifFormat.GPSTag</key>
+      <tagdesc>GPSInfo IFD Pointer</tagdesc>
+   </ROW>
+   <ROW num="33">
+      <tagname>ExposureTime</tagname>
+      <tagdec>33434</tagdec>
+      <taghex>0x829a</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.ExposureTime</key>
+      <tagdesc>Exposure time</tagdesc>
+   </ROW>
+   <ROW num="34">
+      <tagname>FNumber</tagname>
+      <tagdec>33437</tagdec>
+      <taghex>0x829d</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.FNumber</key>
+      <tagdesc>F number</tagdesc>
+   </ROW>
+   <ROW num="35">
+      <tagname>ExposureProgram</tagname>
+      <tagdec>34850</tagdec>
+      <taghex>0x8822</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.ExposureProgram</key>
+      <tagdesc>Exposure program</tagdesc>
+   </ROW>
+   <ROW num="36">
+      <tagname>SpectralSensitivity</tagname>
+      <tagdec>34852</tagdec>
+      <taghex>0x8824</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.SpectralSensitivity</key>
+      <tagdesc>Spectral sensitivity</tagdesc>
+   </ROW>
+   <ROW num="37">
+      <tagname>ISOSpeedRatings</tagname>
+      <tagdec>34855</tagdec>
+      <taghex>0x8827</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.ISOSpeedRatings</key>
+      <tagdesc>ISO speed ratings</tagdesc>
+   </ROW>
+   <ROW num="38">
+      <tagname>OECF</tagname>
+      <tagdec>34856</tagdec>
+      <taghex>0x8828</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.OECF</key>
+      <tagdesc>Optoelectric coefficient</tagdesc>
+   </ROW>
+   <ROW num="39">
+      <tagname>ExifVersion</tagname>
+      <tagdec>36864</tagdec>
+      <taghex>0x9000</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.ExifVersion.ExifVersion</key>
+      <tagdesc>Exif Version</tagdesc>
+   </ROW>
+   <ROW num="40">
+      <tagname>DateTimeOriginal</tagname>
+      <tagdec>36867</tagdec>
+      <taghex>0x9003</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.DateTime.DateTimeOriginal</key>
+      <tagdesc>Date and time original image was generated</tagdesc>
+   </ROW>
+   <ROW num="41">
+      <tagname>DateTimeDigitized</tagname>
+      <tagdec>36868</tagdec>
+      <taghex>0x9004</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.DateTime.DateTimeDigitized</key>
+      <tagdesc>Date and time image was made digital data</tagdesc>
+   </ROW>
+   <ROW num="42">
+      <tagname>ComponentsConfiguration</tagname>
+      <tagdec>37121</tagdec>
+      <taghex>0x9101</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.ImageConfig.ComponentsConfiguration</key>
+      <tagdesc>Meaning of each component</tagdesc>
+   </ROW>
+   <ROW num="43">
+      <tagname>CompressedBitsPerPixel</tagname>
+      <tagdec>37122</tagdec>
+      <taghex>0x9102</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.ImageConfig.CompressedBitsPerPixel</key>
+      <tagdesc>Image compression mode</tagdesc>
+   </ROW>
+   <ROW num="44">
+      <tagname>ShutterSpeedValue</tagname>
+      <tagdec>37377</tagdec>
+      <taghex>0x9201</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.ShutterSpeedValue</key>
+      <tagdesc>Shutter speed</tagdesc>
+   </ROW>
+   <ROW num="45">
+      <tagname>ApertureValue</tagname>
+      <tagdec>37378</tagdec>
+      <taghex>0x9202</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.ApertureValue</key>
+      <tagdesc>Aperture</tagdesc>
+   </ROW>
+   <ROW num="46">
+      <tagname>BrightnessValue</tagname>
+      <tagdec>37379</tagdec>
+      <taghex>0x9203</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.BrightnessValue</key>
+      <tagdesc>Brightness</tagdesc>
+   </ROW>
+   <ROW num="47">
+      <tagname>ExposureBiasValue</tagname>
+      <tagdec>37380</tagdec>
+      <taghex>0x9204</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.ExposureBiasValue</key>
+      <tagdesc>Exposure bias</tagdesc>
+   </ROW>
+   <ROW num="48">
+      <tagname>MaxApertureValue</tagname>
+      <tagdec>37381</tagdec>
+      <taghex>0x9205</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.MaxApertureValue</key>
+      <tagdesc>Maximum lens aperture</tagdesc>
+   </ROW>
+   <ROW num="49">
+      <tagname>SubjectDistance</tagname>
+      <tagdec>37382</tagdec>
+      <taghex>0x9206</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.SubjectDistance</key>
+      <tagdesc>Subject distance</tagdesc>
+   </ROW>
+   <ROW num="50">
+      <tagname>MeteringMode</tagname>
+      <tagdec>37383</tagdec>
+      <taghex>0x9207</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.MeteringMode</key>
+      <tagdesc>Metering mode</tagdesc>
+   </ROW>
+   <ROW num="51">
+      <tagname>LightSource</tagname>
+      <tagdec>37384</tagdec>
+      <taghex>0x9208</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.LightSource</key>
+      <tagdesc>Light source</tagdesc>
+   </ROW>
+   <ROW num="52">
+      <tagname>Flash</tagname>
+      <tagdec>37385</tagdec>
+      <taghex>0x9209</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.Flash</key>
+      <tagdesc>Flash</tagdesc>
+   </ROW>
+   <ROW num="53">
+      <tagname>FocalLength</tagname>
+      <tagdec>37386</tagdec>
+      <taghex>0x920a</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.FocalLength</key>
+      <tagdesc>Lens focal length</tagdesc>
+   </ROW>
+   <ROW num="54">
+      <tagname>SubjectArea</tagname>
+      <tagdec>37396</tagdec>
+      <taghex>0x9214</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.SubjectArea</key>
+      <tagdesc>Subject area</tagdesc>
+   </ROW>
+   <ROW num="55">
+      <tagname>MakerNote</tagname>
+      <tagdec>37500</tagdec>
+      <taghex>0x927c</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.UserInfo.MakerNote</key>
+      <tagdesc>Manufacturer notes</tagdesc>
+   </ROW>
+   <ROW num="56">
+      <tagname>UserComment</tagname>
+      <tagdec>37510</tagdec>
+      <taghex>0x9286</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.UserInfo.UserComment</key>
+      <tagdesc>User comments</tagdesc>
+   </ROW>
+   <ROW num="57">
+      <tagname>SubSecTime</tagname>
+      <tagdec>37520</tagdec>
+      <taghex>0x9290</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.DateTime.SubSecTime</key>
+      <tagdesc>DateTime subseconds</tagdesc>
+   </ROW>
+   <ROW num="58">
+      <tagname>SubSecTimeOriginal</tagname>
+      <tagdec>37521</tagdec>
+      <taghex>0x9291</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.DateTime.SubSecTimeOriginal</key>
+      <tagdesc>DateTimeOriginal subseconds</tagdesc>
+   </ROW>
+   <ROW num="59">
+      <tagname>SubSecTimeDigitized</tagname>
+      <tagdec>37522</tagdec>
+      <taghex>0x9292</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.DateTime.SubSecTimeDigitized</key>
+      <tagdesc>DateTimeDigitized subseconds</tagdesc>
+   </ROW>
+   <ROW num="60">
+      <tagname>FlashpixVersion</tagname>
+      <tagdec>40960</tagdec>
+      <taghex>0xa000</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.ExifVersion.FlashpixVersion</key>
+      <tagdesc>Supported Flashpix version</tagdesc>
+   </ROW>
+   <ROW num="61">
+      <tagname>ColorSpace</tagname>
+      <tagdec>40961</tagdec>
+      <taghex>0xa001</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.ImageCharacteristics.ColorSpace</key>
+      <tagdesc>Color space information</tagdesc>
+   </ROW>
+   <ROW num="62">
+      <tagname>PixelXDimension</tagname>
+      <tagdec>40962</tagdec>
+      <taghex>0xa002</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.ImageConfig.PixelXDimension</key>
+      <tagdesc>Valid image width</tagdesc>
+   </ROW>
+   <ROW num="63">
+      <tagname>PixelYDimension</tagname>
+      <tagdec>40963</tagdec>
+      <taghex>0xa003</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.ImageConfig.PixelYDimension</key>
+      <tagdesc>Valid image height</tagdesc>
+   </ROW>
+   <ROW num="64">
+      <tagname>RelatedSoundFile</tagname>
+      <tagdec>40964</tagdec>
+      <taghex>0xa004</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.RelatedFile.RelatedSoundFile</key>
+      <tagdesc>Related audio file</tagdesc>
+   </ROW>
+   <ROW num="65">
+      <tagname>InteroperabilityTag</tagname>
+      <tagdec>40965</tagdec>
+      <taghex>0xa005</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.ExifFormat.InteroperabilityTag</key>
+      <tagdesc>Interoperability IFD Pointer</tagdesc>
+   </ROW>
+   <ROW num="66">
+      <tagname>FlashEnergy</tagname>
+      <tagdec>41483</tagdec>
+      <taghex>0xa20b</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.FlashEnergy</key>
+      <tagdesc>Flash energy</tagdesc>
+   </ROW>
+   <ROW num="67">
+      <tagname>SpatialFrequencyResponse</tagname>
+      <tagdec>41484</tagdec>
+      <taghex>0xa20c</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.SpatialFrequencyResponse</key>
+      <tagdesc>Spatial frequency response</tagdesc>
+   </ROW>
+   <ROW num="68">
+      <tagname>FocalPlaneXResolution</tagname>
+      <tagdec>41486</tagdec>
+      <taghex>0xa20e</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.FocalPlaneXResolution</key>
+      <tagdesc>Focal plane X resolution</tagdesc>
+   </ROW>
+   <ROW num="69">
+      <tagname>FocalPlaneYResolution</tagname>
+      <tagdec>41487</tagdec>
+      <taghex>0xa20f</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.FocalPlaneYResolution</key>
+      <tagdesc>Focal plane Y resolution</tagdesc>
+   </ROW>
+   <ROW num="70">
+      <tagname>FocalPlaneResolutionUnit</tagname>
+      <tagdec>41488</tagdec>
+      <taghex>0xa210</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.FocalPlaneResolutionUnit</key>
+      <tagdesc>Focal plane resolution unit</tagdesc>
+   </ROW>
+   <ROW num="71">
+      <tagname>SubjectLocation</tagname>
+      <tagdec>41492</tagdec>
+      <taghex>0xa214</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.SubjectLocation</key>
+      <tagdesc>Subject location</tagdesc>
+   </ROW>
+   <ROW num="72">
+      <tagname>ExposureIndex</tagname>
+      <tagdec>41493</tagdec>
+      <taghex>0xa215</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.ExposureIndex</key>
+      <tagdesc>Exposure index</tagdesc>
+   </ROW>
+   <ROW num="73">
+      <tagname>SensingMethod</tagname>
+      <tagdec>41495</tagdec>
+      <taghex>0xa217</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.SensingMethod</key>
+      <tagdesc>Sensing method</tagdesc>
+   </ROW>
+   <ROW num="74">
+      <tagname>FileSource</tagname>
+      <tagdec>41728</tagdec>
+      <taghex>0xa300</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.FileSource</key>
+      <tagdesc>File source</tagdesc>
+   </ROW>
+   <ROW num="75">
+      <tagname>SceneType</tagname>
+      <tagdec>41729</tagdec>
+      <taghex>0xa301</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.SceneType</key>
+      <tagdesc>Scene type</tagdesc>
+   </ROW>
+   <ROW num="76">
+      <tagname>CFAPattern</tagname>
+      <tagdec>41730</tagdec>
+      <taghex>0xa302</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.CFAPattern</key>
+      <tagdesc>CFA pattern</tagdesc>
+   </ROW>
+   <ROW num="77">
+      <tagname>CustomRendered</tagname>
+      <tagdec>41985</tagdec>
+      <taghex>0xa401</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.CustomRendered</key>
+      <tagdesc>Custom image processing</tagdesc>
+   </ROW>
+   <ROW num="78">
+      <tagname>ExposureMode</tagname>
+      <tagdec>41986</tagdec>
+      <taghex>0xa402</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.ExposureMode</key>
+      <tagdesc>Exposure mode</tagdesc>
+   </ROW>
+   <ROW num="79">
+      <tagname>WhiteBalance</tagname>
+      <tagdec>41987</tagdec>
+      <taghex>0xa403</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.WhiteBalance</key>
+      <tagdesc>White balance</tagdesc>
+   </ROW>
+   <ROW num="80">
+      <tagname>DigitalZoomRatio</tagname>
+      <tagdec>41988</tagdec>
+      <taghex>0xa404</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.DigitalZoomRatio</key>
+      <tagdesc>Digital zoom ratio</tagdesc>
+   </ROW>
+   <ROW num="81">
+      <tagname>FocalLengthIn35mmFilm</tagname>
+      <tagdec>41989</tagdec>
+      <taghex>0xa405</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.FocalLengthIn35mmFilm</key>
+      <tagdesc>Focal length in 35 mm film</tagdesc>
+   </ROW>
+   <ROW num="82">
+      <tagname>SceneCaptureType</tagname>
+      <tagdec>41990</tagdec>
+      <taghex>0xa406</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.SceneCaptureType</key>
+      <tagdesc>Scene capture type</tagdesc>
+   </ROW>
+   <ROW num="83">
+      <tagname>GainControl</tagname>
+      <tagdec>41991</tagdec>
+      <taghex>0xa407</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.GainControl</key>
+      <tagdesc>Gain control</tagdesc>
+   </ROW>
+   <ROW num="84">
+      <tagname>Contrast</tagname>
+      <tagdec>41992</tagdec>
+      <taghex>0xa408</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.Contrast</key>
+      <tagdesc>Contrast</tagdesc>
+   </ROW>
+   <ROW num="85">
+      <tagname>Saturation</tagname>
+      <tagdec>41993</tagdec>
+      <taghex>0xa409</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.Saturation</key>
+      <tagdesc>Saturation</tagdesc>
+   </ROW>
+   <ROW num="86">
+      <tagname>Sharpness</tagname>
+      <tagdec>41994</tagdec>
+      <taghex>0xa40a</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.Sharpness</key>
+      <tagdesc>Sharpness</tagdesc>
+   </ROW>
+   <ROW num="87">
+      <tagname>DeviceSettingDescription</tagname>
+      <tagdec>41995</tagdec>
+      <taghex>0xa40b</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.DeviceSettingDescription</key>
+      <tagdesc>Device settings description</tagdesc>
+   </ROW>
+   <ROW num="88">
+      <tagname>SubjectDistanceRange</tagname>
+      <tagdec>41996</tagdec>
+      <taghex>0xa40c</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.CaptureConditions.SubjectDistanceRange</key>
+      <tagdesc>Subject distance range</tagdesc>
+   </ROW>
+   <ROW num="89">
+      <tagname>ImageUniqueID</tagname>
+      <tagdec>42016</tagdec>
+      <taghex>0xa420</taghex>
+      <ifd>Exif</ifd>
+      <key>Image.OtherTags.ImageUniqueID</key>
+      <tagdesc>Unique image ID</tagdesc>
+   </ROW>
+   <ROW num="90">
+      <tagname>InteroperabilityIndex</tagname>
+      <tagdec>1</tagdec>
+      <taghex>0x0001</taghex>
+      <ifd>Iop</ifd>
+      <key>Image.Interoperability.InteroperabilityIndex</key>
+      <tagdesc>Interoperability Identification</tagdesc>
+   </ROW>
+   <ROW num="91">
+      <tagname>InteroperabilityVersion</tagname>
+      <tagdec>2</tagdec>
+      <taghex>0x0002</taghex>
+      <ifd>Iop</ifd>
+      <key>Image.Interoperability.InteroperabilityVersion</key>
+      <tagdesc>Interoperability version</tagdesc>
+   </ROW>
+   <ROW num="92">
+      <tagname>RelatedImageFileFormat</tagname>
+      <tagdec>4096</tagdec>
+      <taghex>0x1000</taghex>
+      <ifd>Iop</ifd>
+      <key>Image.Interoperability.RelatedImageFileFormat</key>
+      <tagdesc>File format of image file</tagdesc>
+   </ROW>
+   <ROW num="93">
+      <tagname>RelatedImageWidth</tagname>
+      <tagdec>4097</tagdec>
+      <taghex>0x1001</taghex>
+      <ifd>Iop</ifd>
+      <key>Image.Interoperability.RelatedImageWidth</key>
+      <tagdesc>Image width</tagdesc>
+   </ROW>
+   <ROW num="94">
+      <tagname>RelatedImageLength</tagname>
+      <tagdec>4098</tagdec>
+      <taghex>0x1002</taghex>
+      <ifd>Iop</ifd>
+      <key>Image.Interoperability.RelatedImageLength</key>
+      <tagdesc>Image height</tagdesc>
+   </ROW>
+   <ROW num="95">
+      <tagname>GPSVersionID</tagname>
+      <tagdec>0</tagdec>
+      <taghex>0x0000</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSVersionID</key>
+      <tagdesc>GPS tag version</tagdesc>
+   </ROW>
+   <ROW num="96">
+      <tagname>GPSLatitudeRef</tagname>
+      <tagdec>1</tagdec>
+      <taghex>0x0001</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSLatitudeRef</key>
+      <tagdesc>North or South Latitude</tagdesc>
+   </ROW>
+   <ROW num="97">
+      <tagname>GPSLatitude</tagname>
+      <tagdec>2</tagdec>
+      <taghex>0x0002</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSLatitude</key>
+      <tagdesc>Latitude</tagdesc>
+   </ROW>
+   <ROW num="98">
+      <tagname>GPSLongitudeRef</tagname>
+      <tagdec>3</tagdec>
+      <taghex>0x0003</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSLongitudeRef</key>
+      <tagdesc>East or West Longitude</tagdesc>
+   </ROW>
+   <ROW num="99">
+      <tagname>GPSLongitude</tagname>
+      <tagdec>4</tagdec>
+      <taghex>0x0004</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSLongitude</key>
+      <tagdesc>Longitude</tagdesc>
+   </ROW>
+   <ROW num="100">
+      <tagname>GPSAltitudeRef</tagname>
+      <tagdec>5</tagdec>
+      <taghex>0x0005</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSAltitudeRef</key>
+      <tagdesc>Altitude reference</tagdesc>
+   </ROW>
+   <ROW num="101">
+      <tagname>GPSAltitude</tagname>
+      <tagdec>6</tagdec>
+      <taghex>0x0006</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSAltitude</key>
+      <tagdesc>Altitude</tagdesc>
+   </ROW>
+   <ROW num="102">
+      <tagname>GPSTimeStamp</tagname>
+      <tagdec>7</tagdec>
+      <taghex>0x0007</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSTimeStamp</key>
+      <tagdesc>GPS time (atomic clock)</tagdesc>
+   </ROW>
+   <ROW num="103">
+      <tagname>GPSSatellites</tagname>
+      <tagdec>8</tagdec>
+      <taghex>0x0008</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSSatellites</key>
+      <tagdesc>GPS satellites used for measurement</tagdesc>
+   </ROW>
+   <ROW num="104">
+      <tagname>GPSStatus</tagname>
+      <tagdec>9</tagdec>
+      <taghex>0x0009</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSStatus</key>
+      <tagdesc>GPS receiver status</tagdesc>
+   </ROW>
+   <ROW num="105">
+      <tagname>GPSMeasureMode</tagname>
+      <tagdec>10</tagdec>
+      <taghex>0x000a</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSMeasureMode</key>
+      <tagdesc>GPS measurement mode</tagdesc>
+   </ROW>
+   <ROW num="106">
+      <tagname>GPSDOP</tagname>
+      <tagdec>11</tagdec>
+      <taghex>0x000b</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSDOP</key>
+      <tagdesc>Measurement precision</tagdesc>
+   </ROW>
+   <ROW num="107">
+      <tagname>GPSSpeedRef</tagname>
+      <tagdec>12</tagdec>
+      <taghex>0x000c</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSSpeedRef</key>
+      <tagdesc>Speed unit</tagdesc>
+   </ROW>
+   <ROW num="108">
+      <tagname>GPSSpeed</tagname>
+      <tagdec>13</tagdec>
+      <taghex>0x000d</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSSpeed</key>
+      <tagdesc>Speed of GPS receiver</tagdesc>
+   </ROW>
+   <ROW num="109">
+      <tagname>GPSTrackRef</tagname>
+      <tagdec>14</tagdec>
+      <taghex>0x000e</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSTrackRef</key>
+      <tagdesc>Reference for direction of movement</tagdesc>
+   </ROW>
+   <ROW num="110">
+      <tagname>GPSTrack</tagname>
+      <tagdec>15</tagdec>
+      <taghex>0x000f</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSTrack</key>
+      <tagdesc>Direction of movement</tagdesc>
+   </ROW>
+   <ROW num="111">
+      <tagname>GPSImgDirectionRef</tagname>
+      <tagdec>16</tagdec>
+      <taghex>0x0010</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSImgDirectionRef</key>
+      <tagdesc>Reference for direction of image</tagdesc>
+   </ROW>
+   <ROW num="112">
+      <tagname>GPSImgDirection</tagname>
+      <tagdec>17</tagdec>
+      <taghex>0x0011</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSImgDirection</key>
+      <tagdesc>Direction of image</tagdesc>
+   </ROW>
+   <ROW num="113">
+      <tagname>GPSMapDatum</tagname>
+      <tagdec>18</tagdec>
+      <taghex>0x0012</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSMapDatum</key>
+      <tagdesc>Geodetic survey data used</tagdesc>
+   </ROW>
+   <ROW num="114">
+      <tagname>GPSDestLatitudeRef</tagname>
+      <tagdec>19</tagdec>
+      <taghex>0x0013</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSDestLatitudeRef</key>
+      <tagdesc>Reference for latitude of destination</tagdesc>
+   </ROW>
+   <ROW num="115">
+      <tagname>GPSDestLatitude</tagname>
+      <tagdec>20</tagdec>
+      <taghex>0x0014</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSDestLatitude</key>
+      <tagdesc>Latitude of destination</tagdesc>
+   </ROW>
+   <ROW num="116">
+      <tagname>GPSDestLongitudeRef</tagname>
+      <tagdec>21</tagdec>
+      <taghex>0x0015</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSDestLongitudeRef</key>
+      <tagdesc>Reference for longitude of destination</tagdesc>
+   </ROW>
+   <ROW num="117">
+      <tagname>GPSDestLongitude</tagname>
+      <tagdec>22</tagdec>
+      <taghex>0x0016</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSDestLongitude</key>
+      <tagdesc>Longitude of destination</tagdesc>
+   </ROW>
+   <ROW num="118">
+      <tagname>GPSDestBearingRef</tagname>
+      <tagdec>23</tagdec>
+      <taghex>0x0017</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSDestBearingRef</key>
+      <tagdesc>Reference for bearing of destination</tagdesc>
+   </ROW>
+   <ROW num="119">
+      <tagname>GPSDestBearing</tagname>
+      <tagdec>24</tagdec>
+      <taghex>0x0018</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSDestBearing</key>
+      <tagdesc>Bearing of destination</tagdesc>
+   </ROW>
+   <ROW num="120">
+      <tagname>GPSDestDistanceRef</tagname>
+      <tagdec>25</tagdec>
+      <taghex>0x0019</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSDestDistanceRef</key>
+      <tagdesc>Reference for distance to destination</tagdesc>
+   </ROW>
+   <ROW num="121">
+      <tagname>GPSDestDistance</tagname>
+      <tagdec>26</tagdec>
+      <taghex>0x001a</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSDestDistance</key>
+      <tagdesc>Distance to destination</tagdesc>
+   </ROW>
+   <ROW num="122">
+      <tagname>GPSProcessingMethod</tagname>
+      <tagdec>27</tagdec>
+      <taghex>0x001b</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSProcessingMethod</key>
+      <tagdesc>Name of GPS processing method</tagdesc>
+   </ROW>
+   <ROW num="123">
+      <tagname>GPSAreaInformation</tagname>
+      <tagdec>28</tagdec>
+      <taghex>0x001c</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSAreaInformation</key>
+      <tagdesc>Name of GPS area</tagdesc>
+   </ROW>
+   <ROW num="124">
+      <tagname>GPSDateStamp</tagname>
+      <tagdec>29</tagdec>
+      <taghex>0x001d</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSDateStamp</key>
+      <tagdesc>GPS date</tagdesc>
+   </ROW>
+   <ROW num="125">
+      <tagname>GPSDifferential</tagname>
+      <tagdec>30</tagdec>
+      <taghex>0x001e</taghex>
+      <ifd>GPSInfo</ifd>
+      <key>Image.GPS.GPSDifferential</key>
+      <tagdesc>GPS differential correction</tagdesc>
+   </ROW>
+</ROWSET>
