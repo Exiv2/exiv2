@@ -21,8 +21,8 @@
 /*!
   @file    metacopy.hpp
   @brief   Defines class Params, used for the command line handling
-  @version $Name:  $ $Revision: 1.2 $
-  @author  Brad Schick (brad) <schick@robotbattle.com>
+  @version $Rev$
+  @author  Brad Schick (brad) <brad@robotbattle.com>
   @date    13-Jul-04, brad: created
  */
 #ifndef METACOPY_HPP_

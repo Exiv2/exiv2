@@ -3,7 +3,7 @@
   Abstract:  Sample program showing how to add, modify and delete Exif metadata.
 
   File:      addmoddel.cpp
-  Version:   $Name:  $ $Revision: 1.5 $
+  Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
  */

@@ -21,8 +21,8 @@
 /*!
   @file    datasets.hpp
   @brief   Iptc dataSet and type information
-  @version $Name:  $ $Revision: 1.7 $
-  @author  Brad Schick (brad) <schick@robotbattle.com>
+  @version $Rev$
+  @author  Brad Schick (brad) <brad@robotbattle.com>
   @date    24-Jul-04, brad: created
  */
 #ifndef DATASETS_HPP_

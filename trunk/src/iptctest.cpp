@@ -4,8 +4,8 @@
              This is not designed to be a robust application.
 
   File     : iptctest.cpp
-  Version  : $Name:  $ $Revision: 1.5 $
-  Author(s): Brad Schick (brad) <schick@robotbattle.com>
+  Version  : $Rev$
+  Author(s): Brad Schick (brad) <brad@robotbattle.com>
   History  : 01-Aug-04, brad: created
  */
 // *****************************************************************************
@@ -137,7 +137,7 @@ void processRemove(const std::string& line, int num)
     const std::string key( line.substr(keyStart) );
     IptcKey iptcKey(key);
 
-    IptcData::iterator iter = g_iptcData.findId(iptcKey.tag(), iptcKey.record());
+    IptcData::iterator iter = g_iptcData.findKey(iptcKey);
     if (iter != g_iptcData.end()) {
         g_iptcData.erase(iter);
     }
@@ -169,7 +169,7 @@ void processModify(const std::string& line, int num)
     Value::AutoPtr value = Value::create(type);
     value->read(data);
 
-    IptcData::iterator iter = g_iptcData.findId(iptcKey.tag(), iptcKey.record());
+    IptcData::iterator iter = g_iptcData.findKey(iptcKey);
     if (iter != g_iptcData.end()) {
         iter->setValue(value.get());
     }

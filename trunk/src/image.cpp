@@ -20,7 +20,7 @@
  */
 /*
   File:      image.cpp
-  Version:   $Rev$ $LastChangedBy$ 
+  Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
              Brad Schick (brad) <brad@robotbattle.com>
   History:   26-Jan-04, ahu: created

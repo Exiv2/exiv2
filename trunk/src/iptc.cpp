@@ -20,13 +20,13 @@
  */
 /*
   File:      iptc.cpp
-  Version:   $Name:  $ $Revision: 1.9 $
-  Author(s): Brad Schick (brad) <schick@robotbattle.com>
+  Version:   $Rev$
+  Author(s): Brad Schick (brad) <brad@robotbattle.com>
   History:   31-July-04, brad: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.9 $ $RCSfile: iptc.cpp,v $");
+EXIV2_RCSID("@(#) $Id$");
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -336,7 +336,7 @@ namespace Exiv2 {
     {
         if (!IptcDataSets::dataSetRepeatable(
                iptcDatum.tag(), iptcDatum.record()) && 
-             findId(iptcDatum.tag(), iptcDatum.record()) != end()) {
+               findId(iptcDatum.tag(), iptcDatum.record()) != end()) {
              return 6;
         }
         modified_ = true;
@@ -348,13 +348,13 @@ namespace Exiv2 {
     IptcData::const_iterator IptcData::findKey(const IptcKey& key) const
     {
         return std::find_if(iptcMetadata_.begin(), iptcMetadata_.end(),
-                            FindMetadatumByKey(key.key()));
+                            FindMetadatumById(key.tag(), key.record()));
     }
 
     IptcData::iterator IptcData::findKey(const IptcKey& key)
     {
         return std::find_if(iptcMetadata_.begin(), iptcMetadata_.end(),
-                            FindMetadatumByKey(key.key()));
+                            FindMetadatumById(key.tag(), key.record()));
     }
 
     IptcData::const_iterator IptcData::findId(uint16_t dataset, uint16_t record) const

@@ -3,7 +3,7 @@
   Abstract : Sample program to print the Exif metadata of an image
 
   File     : exifprint.cpp
-  Version  : $Name:  $ $Revision: 1.15 $
+  Version  : $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History  : 26-Jan-04, ahu: created
  */

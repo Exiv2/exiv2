@@ -21,11 +21,11 @@
 /*!
   @file    metadatum.hpp
   @brief   Provides abstract base classes Metadatum and Key
-  @version $Name:  $ $Revision: 1.5 $
+  @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @author  Brad Schick (brad) 
-           <a href="mailto:schick@robotbattle.com">schick@robotbattle.com</a>
+           <a href="mailto:brad@robotbattle.com">brad@robotbattle.com</a>
   @date    09-Jan-04, ahu: created<BR>
            31-Jul-04, brad: isolated as a component<BR>
            23-Aug-04, ahu: added Key

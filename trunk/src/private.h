@@ -1,7 +1,7 @@
 /*!
   @file    private.h
   @brief   This file is from the tz distribution at ftp://elsie.nci.nih.gov/pub/
-  @version $Name:  $ $Revision: 1.3 $
+  @version $Rev$
 */
 #ifndef PRIVATE_H
 
