@@ -58,9 +58,12 @@ enum DllTypeId { invalidTypeId, unsignedByte, asciiString, unsignedShort,
 
 typedef bool (CALLBACK* METAENUMPROC)(const char *key, const char *value, void *user);
 
-EXIVSIMPLE_API HIMAGE OpenImage(const char *file);
+EXIVSIMPLE_API HIMAGE OpenFileImage(const char *file);
+EXIVSIMPLE_API HIMAGE OpenMemImage(const BYTE *data, unsigned int size);
 EXIVSIMPLE_API void FreeImage(HIMAGE img);
 EXIVSIMPLE_API int SaveImage(HIMAGE img);
+EXIVSIMPLE_API int ImageSize(HIMAGE img);
+EXIVSIMPLE_API int ImageData(HIMAGE img, BYTE *buffer, unsigned int size);
 EXIVSIMPLE_API int ReadMeta(HIMAGE img, const char *key, char *buff, int buffsize);
 EXIVSIMPLE_API int EnumMeta(HIMAGE img, METAENUMPROC proc, void *user);
 EXIVSIMPLE_API int AddMeta(HIMAGE img, const char *key, const char *val, DllTypeId type);
