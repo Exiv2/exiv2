@@ -1,18 +1,28 @@
 ################################################################################
-#  File    tags.awk
-#  Brief   Awk script to convert a taglist to XML format used in the 
-#          documentation.
-#          $ taglist [make [model]] | awk -f tags.awk > tags.xml
-#  Version $Name:  $ $Revision: 1.2 $
-#  Author  Andreas Huggel (ahu)
-#          <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-#  Date    07-Feb-04, ahu: created
+# File     : tags.awk
+# Version  : $Name:  $ $Revision: 1.3 $
+# Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
+# History  : 07-Feb-04, ahu: created
+#
+# Description:
+#  Awk script to convert a taglist to XML format used in the documentation.
+#  $ taglist [SectionName] | awk -f tags.awk > tags.xml
 ################################################################################
 
 BEGIN {
    FS = ", "
    print "<?xml version = '1.0'?>";   
    print "<?xml-stylesheet type=\"text/xsl\" href=\"tags.xsl\"?>";
+
+   print "<TAGLIST>"
+   print "<HEADER>"
+   print "<title>XYZ MakerNote Tags defined in Exiv2</title>"
+   print "<text>"
+   print "<p>Tags found in the MakerNote of images taken with XYZ cameras. These tags "
+   print "are defined by Exiv2 in accordance with <a href=\"makernote.html#RX\">[X]</a>.</p>"
+   print "<p>Click on a column header to sort the table.</p>"
+   print "</text>"
+   print "</HEADER>"
    print "<ROWSET>"
 }
 
@@ -29,4 +39,5 @@ BEGIN {
 
 END {
    print "</ROWSET>"   
+   print "</TAGLIST>"
 }
