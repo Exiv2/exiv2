@@ -20,7 +20,7 @@
  */
 /*
   File:      makernote.cpp
-  Version:   $Name:  $ $Revision: 1.2 $
+  Version:   $Name:  $ $Revision: 1.3 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
   Credits:   Canon MakerNote implemented according to the specification
@@ -29,7 +29,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: makernote.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: makernote.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -298,7 +298,7 @@ namespace Exif {
         return rc;
     }
 
-    long IfdMakerNote::copy(char* buf, ByteOrder byteOrder, long offset) const
+    long IfdMakerNote::copy(char* buf, ByteOrder byteOrder, long offset)
     {
         return ifd_.copy(buf, byteOrder, offset);
     }

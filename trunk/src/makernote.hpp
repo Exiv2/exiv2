@@ -21,7 +21,7 @@
 /*!
   @file    makernote.hpp
   @brief   
-  @version $Name:  $ $Revision: 1.2 $
+  @version $Name:  $ $Revision: 1.3 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -98,9 +98,10 @@ namespace Exif {
         /*!
           @brief Copy (write) the makerNote to the character buffer buf at 
                  position offset (from the start of the TIFF header), encoded
-                 in byte order byteOrder. Return the number of bytes written.
+                 in byte order byteOrder. Update internal offsets if necessary.
+                 Return the number of bytes written.
          */
-        virtual long copy(char* buf, ByteOrder byteOrder, long offset) const =0;
+        virtual long copy(char* buf, ByteOrder byteOrder, long offset) =0;
 
         //! @name Accessors
         //@{
@@ -260,7 +261,7 @@ namespace Exif {
         virtual MakerNote* clone() const =0;
 
         int read(const char* buf, long len, ByteOrder byteOrder, long offset);
-        long copy(char* buf, ByteOrder byteOrder, long offset) const;
+        long copy(char* buf, ByteOrder byteOrder, long offset);
         long size() const;
         Entries::const_iterator begin() const { return ifd_.begin(); }
         Entries::const_iterator end() const { return ifd_.end(); }
