@@ -55,16 +55,20 @@ namespace Exiv2 {
 
     // Canon MakerNote Tag Info
     const TagInfo CanonMakerNote::tagInfo_[] = {
-        TagInfo(0x0001, "CameraSettings1", "Various camera settings (1)", canonIfdId, makerTags, print0x0001),
-        TagInfo(0x0004, "CameraSettings2", "Various camera settings (2)", canonIfdId, makerTags, print0x0004),
-        TagInfo(0x0006, "ImageType", "Image type", canonIfdId, makerTags, printValue),
-        TagInfo(0x0007, "FirmwareVersion", "Firmware version", canonIfdId, makerTags, printValue),
-        TagInfo(0x0008, "ImageNumber", "Image number", canonIfdId, makerTags, print0x0008),
-        TagInfo(0x0009, "OwnerName", "Owner Name", canonIfdId, makerTags, printValue),
-        TagInfo(0x000c, "SerialNumber", "Camera serial number", canonIfdId, makerTags, print0x000c),
-        TagInfo(0x000f, "EosD30Functions", "EOS D30 Custom Functions", canonIfdId, makerTags, print0x000f),
+        TagInfo(0x0000, "0x0000", "Unknown", canonIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0001, "CameraSettings1", "Various camera settings (1)", canonIfdId, makerTags, unsignedShort, print0x0001),
+        TagInfo(0x0002, "0x0002", "Unknown", canonIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0003, "0x0003", "Unknown", canonIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0004, "CameraSettings2", "Various camera settings (2)", canonIfdId, makerTags, unsignedShort, print0x0004),
+        TagInfo(0x0006, "ImageType", "Image type", canonIfdId, makerTags, asciiString, printValue),
+        TagInfo(0x0007, "FirmwareVersion", "Firmware version", canonIfdId, makerTags, asciiString, printValue),
+        TagInfo(0x0008, "ImageNumber", "Image number", canonIfdId, makerTags, unsignedLong, print0x0008),
+        TagInfo(0x0009, "OwnerName", "Owner Name", canonIfdId, makerTags, asciiString, printValue),
+        TagInfo(0x000c, "SerialNumber", "Camera serial number", canonIfdId, makerTags, unsignedLong, print0x000c),
+        TagInfo(0x000d, "0x000d", "Unknown", canonIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x000f, "EosD30Functions", "EOS D30 Custom Functions", canonIfdId, makerTags, unsignedShort, print0x000f),
         // End of list marker
-        TagInfo(0xffff, "(UnknownCanonMakerNoteTag)", "Unknown CanonMakerNote tag", canonIfdId, makerTags, printValue)
+        TagInfo(0xffff, "(UnknownCanonMakerNoteTag)", "Unknown CanonMakerNote tag", canonIfdId, makerTags, invalidTypeId, printValue)
     };
 
     CanonMakerNote::CanonMakerNote(bool alloc)

@@ -97,6 +97,7 @@ namespace Exiv2 {
             const char* desc, 
             IfdId ifdId,
             SectionId sectionId,
+            TypeId typeId,
             PrintFct printFct
         );
         uint16_t tag_;                          //!< Tag
@@ -104,6 +105,7 @@ namespace Exiv2 {
         const char* desc_;                      //!< Short tag description
         IfdId ifdId_;                           //!< Link to the (prefered) IFD
         SectionId sectionId_;                   //!< Section id
+        TypeId typeId_;                         //!< Type id
         PrintFct printFct_;                     //!< Pointer to tag print function
     }; // struct TagInfo
 
@@ -177,6 +179,8 @@ namespace Exiv2 {
         static const char* sectionDesc(uint16_t tag, IfdId ifdId);
         //! Return the section id for a section name
         static SectionId sectionId(const std::string& sectionName);
+        //! Return the type for tag and IFD id
+        static TypeId tagType(uint16_t tag, IfdId ifdId);
         //! Interpret and print the value of an Exif tag
         static std::ostream& printTag(std::ostream& os,
                                       uint16_t tag, 
@@ -190,7 +194,6 @@ namespace Exiv2 {
         static void registerBaseTagInfo(IfdId ifdId);
         //! Register an %IfdId and %TagInfo list for a makernote
         static void registerMakerTagInfo(IfdId ifdId, const TagInfo* tagInfo);
-
         /*!
           @brief Return true if \em ifdId is an %Ifd Id which is registered
                  as a makernote %Ifd id. Note: Calling this function with 

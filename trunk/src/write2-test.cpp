@@ -109,13 +109,13 @@ try {
 
     std::cout <<"\n----- One IOP tag\n";
     Exiv2::ExifData ed3;
-    ed3["Exif.Iop.InteroperabilityVersion"] = "Test 3";
+    ed3["Exif.Iop.InteroperabilityIndex"] = "Test 3";
     write(file, ed3);
     print(file);
 
     std::cout <<"\n----- One GPS tag\n";
     Exiv2::ExifData ed4;
-    ed4["Exif.GPSInfo.GPSVersionID"] = "Test 4";
+    ed4["Exif.GPSInfo.GPSVersionID"] = "19 20";
     write(file, ed4);
     print(file);
 
@@ -127,7 +127,7 @@ try {
 
     std::cout <<"\n----- One IOP and one IFD1 tag\n";
     Exiv2::ExifData ed6;
-    ed6["Exif.Iop.InteroperabilityVersion"] = "Test 6 Iop tag";
+    ed6["Exif.Iop.InteroperabilityIndex"] = "Test 6 Iop tag";
     ed6["Exif.Thumbnail.Artist"] = "Test 6 Ifd1 tag";
     write(file, ed6);
     print(file);

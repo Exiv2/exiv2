@@ -285,7 +285,7 @@ Exif.Iop.InteroperabilityVersion              0x0002 Iop          Undefined   4 
 Exif.Iop.RelatedImageWidth                    0x1001 Iop          Short       1 2272
 Exif.Iop.RelatedImageLength                   0x1002 Iop          Short       1 1704
 Exif.Thumbnail.Compression                    0x0103 IFD1         Short       1 6
-Exif.Thumbnail.Orientation                    0x0112 IFD1         Ascii      10 2 3 4 5 6
+Exif.Thumbnail.Orientation                    0x0112 IFD1         Short       5 2 3 4 5 6
 Exif.Thumbnail.XResolution                    0x011a IFD1         Rational    1 180/1
 Exif.Thumbnail.YResolution                    0x011b IFD1         Rational    1 180/1
 Exif.Thumbnail.ResolutionUnit                 0x0128 IFD1         Short       1 2
@@ -621,7 +621,7 @@ Exif.Nikon3.VariProgram                       0x00ab Makernote    Ascii      16
 Exif.Iop.InteroperabilityIndex                0x0001 Iop          Ascii       5 1234
 Exif.Iop.InteroperabilityVersion              0x0002 Iop          Undefined   4 48 49 48 48 
 Exif.Thumbnail.Compression                    0x0103 IFD1         Short       1 6
-Exif.Thumbnail.Orientation                    0x0112 IFD1         Ascii      10 2 3 4 5 6
+Exif.Thumbnail.Orientation                    0x0112 IFD1         Short       5 2 3 4 5 6
 Exif.Thumbnail.XResolution                    0x011a IFD1         Rational    1 300/1
 Exif.Thumbnail.YResolution                    0x011b IFD1         Rational    1 300/1
 Exif.Thumbnail.ResolutionUnit                 0x0128 IFD1         Short       1 2

@@ -141,9 +141,10 @@ namespace Exiv2 {
          */
         void setValue(const Value* pValue);
         /*!
-          @brief Set the value to the string \em value. 
-                 Uses Value::read(const std::string&). If the %Exifdatum
-                 does not have a value yet, then an AsciiValue is created.
+          @brief Set the value to the string \em value.  Uses Value::read(const
+                 std::string&).  If the %Exifdatum does not have a Value yet,
+                 then a %Value of the correct type for this %Exifdatum is
+                 created. An AsciiValue is created for unknown tags.
          */
         void setValue(const std::string& value);
         /*!
