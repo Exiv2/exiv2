@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.14 $
+  Version:   $Name:  $ $Revision: 1.15 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.14 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.15 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -145,97 +145,163 @@ namespace Action {
 
     void Print::printSummary(const Exif::ExifData& exifData)
     {
-        align_ = 15;
+        align_ = 16;
 
+        // Filename
         std::cout << std::setw(align_) << std::setfill(' ') << std::left
                   << "Filename" << ": " << path_ << "\n";
 
-        printTag(exifData, "Image.OtherTags.Make", "Camera make");
-        printTag(exifData, "Image.OtherTags.Model", "Camera model");
-        printTag(exifData, "Image.DateTime.DateTimeOriginal", "Image Timestamp");
+        // Todo: Filesize
+        std::cout << std::setw(align_) << std::setfill(' ') << std::left
+                  << "Filesize" << ": " << "\n";
 
-        // Exposure time: Try ExposureTime, failing that, try ShutterSpeedValue
+        // Camera make
+        printTag(exifData, "Image.OtherTags.Make", "Camera make");
+
+        // Camera model
+        printTag(exifData, "Image.OtherTags.Model", "Camera model");
+
+        // Image Timestamp
+        printTag(exifData, "Image.DateTime.DateTimeOriginal", "Image timestamp");
+
+        // Image number
+        // Todo: Image number for cameras other than Canon
+        printTag(exifData, "Makernote.Canon.ImageNumber", "Image number");
+
+        // Exposure time
+        // From ExposureTime, failing that, try ShutterSpeedValue
+        std::cout << std::setw(align_) << std::setfill(' ') << std::left
+                  << "Exposure time" << ": ";
         Exif::ExifData::const_iterator md;
-        std::ostringstream exposure;
-        md = exifData.findKey("Image.CaptureConditions.ExposureTime");
-        if (md != exifData.end()) {
-            exposure << *md;
-        }
-        else {
+        if (0 == printTag(exifData, "Image.CaptureConditions.ExposureTime")) {
             md = exifData.findKey("Image.CaptureConditions.ShutterSpeedValue");
             if (md != exifData.end()) {
                 float f = exp2f(md->toFloat()) + 0.5;
                 if (f > 1) {
-                    exposure << "1/" << static_cast<long>(f) << " s";
+                    std::cout << "1/" << static_cast<long>(f) << " s";
                 }
                 else {
-                    exposure << static_cast<long>(1/f) << " s";
+                    std::cout << static_cast<long>(1/f) << " s";
                 }
             }
         }
-        if (md != exifData.end()) {
-            std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                      << "Exposure time" << ": " << exposure.str() << "\n";
-        }
-        // Aperture, get if from FNumber and, failing that, try ApertureValue
-        std::ostringstream aperture;
-        md = exifData.findKey("Image.CaptureConditions.FNumber");
-        if (md != exifData.end()) {
-            aperture << *md;
-        }
-        else {
+        std::cout << "\n";
+
+        // Aperture
+        // Get if from FNumber and, failing that, try ApertureValue
+        std::cout << std::setw(align_) << std::setfill(' ') << std::left
+                  << "Aperture" << ": ";
+        if (0 == printTag(exifData, "Image.CaptureConditions.FNumber")) {
             md = exifData.findKey("Image.CaptureConditions.ApertureValue");
             if (md != exifData.end()) {
-                aperture << std::fixed << std::setprecision(1)
-                         << "F" << exp2f(md->toFloat()/2);
+                std::cout << std::fixed << std::setprecision(1)
+                          << "F" << exp2f(md->toFloat()/2);
             }
         }
-        if (md != exifData.end()) {
-            std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                      << "Aperture" << ": " << aperture.str() << "\n";
-        }
+        std::cout << "\n";
+
+        // Exposure bias
+        printTag(exifData, "Image.CaptureConditions.ExposureBiasValue", "Exposure bias");
+
+        // Flash
         printTag(exifData, "Image.CaptureConditions.Flash", "Flash");
-        // Focal length and 35 mm equivalent
+
+        // Todo: Flash bias, flash energy
+        // Todo: Implement this for other cameras
+        std::cout << std::setw(align_) << std::setfill(' ') << std::left
+                  << "Flash bias" << ": ";
+        md = exifData.findKey("Makernote.Canon.CameraSettings2");
+        if (md != exifData.end() && md->count() >= 15) {
+            Exif::CanonMakerNote::print0x0004_15(std::cout, md->toLong(15));
+        }
+        std::cout << "\n";
+
+        // Actual focal length and 35 mm equivalent
         // Todo: Calculate 35 mm equivalent a la jhead
-        md = exifData.findKey("Image.CaptureConditions.FocalLength");
-        if (md != exifData.end()) {
-            std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                      << "Focal length" << ": " << *md;
+        std::cout << std::setw(align_) << std::setfill(' ') << std::left
+                  << "Focal length" << ": ";
+        if (1 == printTag(exifData, "Image.CaptureConditions.FocalLength")) {
             md = exifData.findKey("Image.CaptureConditions.FocalLengthIn35mmFilm");
             if (md != exifData.end()) {
                 std::cout << " (35 mm equivalent: " << *md << ")";
             }
-            std::cout << "\n";
         }
-        // ISO speed, from ISOSpeedRatings or Canon Makernote
-        int rc = printTag(exifData, "Image.CaptureConditions.ISOSpeedRatings", "ISO speed");
-        if (rc == 0) {
+        std::cout << "\n";
+
+        // Subject distance
+        std::cout << std::setw(align_) << std::setfill(' ') << std::left
+                  << "Subject distance" << ": ";
+	if (0 == printTag(exifData, "Image.CaptureConditions.SubjectDistance")) {
+            md = exifData.findKey("Makernote.Canon.CameraSettings2");
+            if (md != exifData.end() && md->count() >= 19) {
+                Exif::CanonMakerNote::print0x0004_19(std::cout, md->toLong(19));
+            }
+        }
+        std::cout << "\n";
+
+        // ISO speed
+        // from ISOSpeedRatings or Canon Makernote
+        std::cout << std::setw(align_) << std::setfill(' ') << std::left
+                  << "ISO speed" << ": ";
+        if (0 == printTag(exifData, "Image.CaptureConditions.ISOSpeedRatings")) {
             md = exifData.findKey("Makernote.Canon.CameraSettings1");
             if (md != exifData.end() && md->count() >= 16) {
-                long iso = md->toLong(16);
-                std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                          << "ISO" << ": ";
-                Exif::CanonMakerNote::print0x0001_16(std::cout, iso);
-                std::cout << "\n";
+                Exif::CanonMakerNote::print0x0001_16(std::cout, md->toLong(16));
             }
         }
+        std::cout << "\n";
 
-        // Exposure mode from ExposureProgram or Canon Makernote
-        rc = printTag(exifData, "Image.CaptureConditions.ExposureProgram", "Exposure mode");
-        if (rc == 0) {
+        // Exposure mode 
+        // From ExposureProgram or Canon Makernote
+        std::cout << std::setw(align_) << std::setfill(' ') << std::left
+                  << "Exposure mode" << ": ";
+        if (0 == printTag(exifData, "Image.CaptureConditions.ExposureProgram")) {
             md = exifData.findKey("Makernote.Canon.CameraSettings1");
             if (md != exifData.end() && md->count() >= 20) {
-                long prg = md->toLong(20);
-                std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                          << "Exposure mode" << ": ";
-                Exif::CanonMakerNote::print0x0001_20(std::cout, prg);
-                std::cout << "\n";
+                Exif::CanonMakerNote::print0x0001_20(std::cout, md->toLong(20));
             }
         }
+        std::cout << "\n";
 
+        // Metering mode
         printTag(exifData, "Image.CaptureConditions.MeteringMode", "Metering mode");
 
+        // Macro mode
+        // Todo: Implement this for other cameras
+        std::cout << std::setw(align_) << std::setfill(' ') << std::left
+                  << "Macro mode" << ": ";
+        bool done = false;
+        md = exifData.findKey("Makernote.Canon.CameraSettings1");
+        if (md != exifData.end() && md->count() >= 1) {
+            Exif::CanonMakerNote::print0x0001_01(std::cout, md->toLong(1));
+            done = true;
+        }
+        if (!done) {
+            done = printTag(exifData, "Makernote.Fujifilm.Macro");
+        }            
+        std::cout << "\n";
+
+        // Image quality setting (compression)
+        // Todo: Implement this for other cameras
+        std::cout << std::setw(align_) << std::setfill(' ') << std::left
+                  << "Image quality" << ": ";
+        done = false;
+        md = exifData.findKey("Makernote.Canon.CameraSettings1");
+        if (md != exifData.end() && md->count() >= 3) {
+            Exif::CanonMakerNote::print0x0001_03(std::cout, md->toLong(3));
+            done = true;
+        }
+        if (!done) {
+            done = printTag(exifData, "Makernote.Fujifilm.Quality");
+        }            
+        if (!done) {
+            done = printTag(exifData, "Makernote.Sigma.Quality");
+        }            
+        std::cout << "\n";
+
         // Exif Resolution
+        std::cout << std::setw(align_) << std::setfill(' ') << std::left
+                  << "Exif Resolution" << ": ";
         long xdim = 0;
         long ydim = 0;
         md = exifData.findKey("Image.ImageConfig.PixelXDimension");
@@ -243,23 +309,47 @@ namespace Action {
         md = exifData.findKey("Image.ImageConfig.PixelYDimension");
         if (md != exifData.end()) ydim = md->toLong();
         if (xdim != 0 && ydim != 0) {
-            std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                      << "Exif Resolution" << ": " 
-                      << xdim << " x " << ydim << "\n";
+            std::cout << xdim << " x " << ydim;
         }
+        std::cout << "\n";
+
+        // White balance
+        // Todo: Implement this for other cameras
+        std::cout << std::setw(align_) << std::setfill(' ') << std::left
+                  << "White balance" << ": ";
+        done = false;
+        md = exifData.findKey("Makernote.Canon.CameraSettings2");
+        if (md != exifData.end() && md->count() >= 7) {
+            Exif::CanonMakerNote::print0x0004_07(std::cout, md->toLong(7));
+            done = true;
+        }
+        if (!done) {
+            done = printTag(exifData, "Makernote.Fujifilm.WhiteBalance");
+        }            
+        if (!done) {
+            done = printTag(exifData, "Makernote.Sigma.WhiteBalance");
+        }            
+        std::cout << "\n";
 
         // Thumbnail
         std::cout << std::setw(align_) << std::setfill(' ') << std::left
                   << "Thumbnail" << ": ";
         std::string thumbExt = exifData.thumbnailExtension();
         if (thumbExt.empty()) {
-            std::cout << "None\n";
+            std::cout << "None";
         } 
         else {
             std::cout << exifData.thumbnailFormat() << ", " 
-                      << exifData.thumbnailSize() << " Bytes\n";
+                      << exifData.thumbnailSize() << " Bytes";
         }
         std::cout << "\n";
+
+        // Copyright
+        printTag(exifData, "Image.OtherTags.Copyright", "Copyright");
+
+        // Exif Comment
+        printTag(exifData, "Image.UserInfo.UserComment", "Exif comment");
+        std::cout << std::endl;
 
     } // Print::printSummary
 
@@ -268,12 +358,17 @@ namespace Action {
                         const std::string& label) const
     {
         int rc = 0;
+        if (!label.empty()) {
+            // Print the label in any case for the moment (to see what's missing)
+            std::cout << std::setw(align_) << std::setfill(' ') << std::left
+                      << label << ": ";
+        }
         Exif::ExifData::const_iterator md = exifData.findKey(key);
         if (md != exifData.end()) {
-            std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                      << label << ": " << *md << "\n";
+            std::cout << *md;
             rc = 1;
         }
+        if (!label.empty()) std::cout << "\n";
         return rc;
     } // Print::printTag
 

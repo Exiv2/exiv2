@@ -22,7 +22,7 @@
   @file    actions.hpp
   @brief   Implements base class Task, TaskFactory and the various supported
            actions (derived from Task).
-  @version $Name:  $ $Revision: 1.6 $
+  @version $Name:  $ $Revision: 1.7 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    11-Dec-03, ahu: created
@@ -158,12 +158,13 @@ namespace Action {
         //! Print %Exif information in hexdump format
         void printHexdump(const Exif::ExifData& exifData);
         /*!
-          @brief Print one summary line with a label and requested data.
-                 Return 1 if a line was written, 0 if the key was not found.
+          @brief Print one summary line with a label (if provided) and requested
+                 data. A line break is printed only if a label is provided.
+          @return 1 if a line was written, 0 if the key was not found.
          */
         int printTag(const Exif::ExifData& exifData,
                      const std::string& key, 
-                     const std::string& label) const;
+                     const std::string& label ="") const;
 
     private:
         virtual Task* clone_() const;
