@@ -23,7 +23,7 @@
   @brief   Canon MakerNote implemented according to the specification
            "EXIF MakerNote of Canon" <http://www.burren.cx/david/canon.html>
            by David Burren
-  @version $Name:  $ $Revision: 1.1 $
+  @version $Name:  $ $Revision: 1.2 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -86,6 +86,30 @@ namespace Exif {
         //@}
 
     private:
+        //! Structure used to auto-register the MakerNote.
+        struct RegisterMakerNote {
+            //! Default constructor
+            RegisterMakerNote() 
+            {
+                MakerNoteFactory& mnf = MakerNoteFactory::instance();
+                mnf.registerMakerNote("Canon", "*", new CanonMakerNote); 
+            }
+        };
+        /*!
+          The static member variable is (see note) initialized before main and
+          will in the process register the MakerNote class. (Remember the
+          definition of the variable in the implementation file!)
+
+          @note The standard says that, if no function is explicitly called ever
+                in a module, then that module's static data might be never
+                initialized. This clause was introduced to allow dynamic link
+                libraries. The idea is, with this clause the loader is not
+                forced to eagerly load all modules, but load them only on
+                demand.
+         */
+        static const RegisterMakerNote register_; 
+
+        //! The section name (second part of the key) used for makernote tags
         std::string sectionName_;
 
     }; // class CanonMakerNote

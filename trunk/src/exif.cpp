@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.24 $
+  Version:   $Name:  $ $Revision: 1.25 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.24 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.25 $ $RCSfile: exif.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -39,7 +39,6 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.24 $ $RCSfile: exif.cpp,v $")
 #include "tags.hpp"
 #include "image.hpp"
 #include "makernote.hpp"
-#include "mnfactory.hpp"
 
 // + standard includes
 #include <iostream>
