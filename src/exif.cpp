@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.42 $
+  Version:   $Name:  $ $Revision: 1.43 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.42 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.43 $ $RCSfile: exif.cpp,v $")
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -590,6 +590,11 @@ namespace Exiv2 {
                                    byteOrder(),
                                    exifIfd_.offset() + pos->offset());
             if (rc) {
+                // Todo: How to handle debug output like this
+                std::cerr << "Warning: Failed to read " 
+                          << pMakerNote_->sectionName(0)
+                          << " Makernote, rc = " << rc << "\n";
+
                 delete pMakerNote_;
                 pMakerNote_ = 0;
             }
