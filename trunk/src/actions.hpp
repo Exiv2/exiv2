@@ -22,7 +22,7 @@
   @file    actions.hpp
   @brief   Implements base class Task, TaskFactory and the various supported
            actions (derived from Task).
-  @version $Name:  $ $Revision: 1.4 $
+  @version $Name:  $ $Revision: 1.5 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    11-Dec-03, ahu: created
@@ -52,13 +52,13 @@ namespace Exif {
 namespace Action {
 
     //! Enumerates all tasks
-    enum TaskType { none, adjust, print, rename };
+    enum TaskType { none, adjust, print, rename, erase, extract };
 
 // *****************************************************************************
 // class definitions
 
     /*!
-      @brief Base class for all concrete actions.
+      @brief Abstract base class for all concrete actions.
 
       Task provides a simple interface that actions must implement and a few
       commonly used helpers.
@@ -81,7 +81,7 @@ namespace Action {
         //! Internal virtual copy constructor.
         virtual Task* clone_() const =0;
 
-    };
+    }; // class Task
 
     /*!
       @brief Task factory.
@@ -163,14 +163,14 @@ namespace Action {
          */
         int printTag(const Exif::ExifData& exifData,
                      const std::string& key, 
-                     const std::string& label);
+                     const std::string& label) const;
 
     private:
         virtual Task* clone_() const;
 
         std::string path_;
         int align_;                // for the alignment of the summary output
-    };
+    }; // class Print
 
     /*!
       @brief %Rename a file to its metadate creation timestamp, 
@@ -178,17 +178,19 @@ namespace Action {
      */
     class Rename : public Task {
     public:
+        virtual ~Rename() {}
         virtual int run(const std::string& path);
         typedef std::auto_ptr<Rename> AutoPtr;
         AutoPtr clone() const;
 
     private:
         virtual Task* clone_() const;
-    };
+    }; // class Rename
 
     //! %Adjust the %Exif (or other metadata) timestamps
     class Adjust : public Task {
     public:
+        virtual ~Adjust() {}
         virtual int run(const std::string& path);
         typedef std::auto_ptr<Adjust> AutoPtr;
         AutoPtr clone() const;
@@ -200,8 +202,61 @@ namespace Action {
                            const std::string& path) const;
 
         long adjustment_;
-    };
+    }; // class Adjust
 
+    /*!
+      @brief %Erase the entire exif data or only the thumbnail section.
+     */
+    class Erase : public Task {
+    public:
+        virtual ~Erase() {}
+        virtual int run(const std::string& path);
+        typedef std::auto_ptr<Erase> AutoPtr;
+        AutoPtr clone() const;
+
+        /*!
+          @brief Delete the thumbnail image, incl IFD1 metadata from the file. 
+         */
+        int eraseThumbnail(Exif::ExifData& exifData) const; 
+        /*!
+          @brief Erase the complete %Exif data block from the file.
+         */
+        int eraseExifData(Exif::ExifData& exifData) const;
+
+    private:
+        virtual Task* clone_() const;
+        std::string path_;
+
+    }; // class Erase
+
+    /*!
+      @brief %Extract the entire exif data or only the thumbnail section.
+     */
+    class Extract : public Task {
+    public:
+        virtual ~Extract() {}
+        virtual int run(const std::string& path);
+        typedef std::auto_ptr<Extract> AutoPtr;
+        AutoPtr clone() const;
+
+        /*!
+          @brief Write the thumbnail image to a file. The filename is composed by
+                 removing the suffix from the image filename and appending
+                 "-thumb" and the appropriate suffix (".jpg" or ".tif"), depending
+                 on the format of the %Exif thumbnail image.
+         */
+        int writeThumbnail(const Exif::ExifData& exifData) const; 
+        /*!
+          @brief Write the %Exif data to a file. The filename is composed by
+                 replacing the suffix of the image filename with ".exf".
+         */
+        int writeExifData(const Exif::ExifData& exifData) const;
+
+    private:
+        virtual Task* clone_() const;
+        std::string path_;
+
+    }; // class Extract
 }                                       // namespace Action 
 
 #endif                                  // #ifndef ACTIONS_HPP_

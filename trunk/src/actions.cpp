@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.9 $
+  Version:   $Name:  $ $Revision: 1.10 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.9 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.10 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -103,6 +103,8 @@ namespace Action {
         registerTask(adjust,  Task::AutoPtr(new Adjust));
         registerTask(print,   Task::AutoPtr(new Print));
         registerTask(rename,  Task::AutoPtr(new Rename));
+        registerTask(erase,   Task::AutoPtr(new Erase));
+        registerTask(extract, Task::AutoPtr(new Extract));
     } // TaskFactory c'tor
 
     Task::AutoPtr TaskFactory::create(TaskType type)
@@ -142,14 +144,16 @@ namespace Action {
     void Print::printSummary(const Exif::ExifData& exifData)
     {
         align_ = 15;
+
         std::cout << std::setw(align_) << std::setfill(' ') << std::left
                   << "Filename" << ": " << path_ << "\n";
 
         printTag(exifData, "Image.OtherTags.Make", "Camera make");
         printTag(exifData, "Image.OtherTags.Model", "Camera model");
         printTag(exifData, "Image.DateTime.DateTimeOriginal", "Image Timestamp");
-        Exif::ExifData::const_iterator md;
+
         // Exposure time: Try ExposureTime, failing that, try ShutterSpeedValue
+        Exif::ExifData::const_iterator md;
         std::ostringstream exposure;
         md = exifData.findKey("Image.CaptureConditions.ExposureTime");
         if (md != exifData.end()) {
@@ -181,7 +185,7 @@ namespace Action {
             md = exifData.findKey("Image.CaptureConditions.ApertureValue");
             if (md != exifData.end()) {
                 aperture << std::fixed << std::setprecision(1)
-                         << "f/" << exp2f(md->toFloat()/2);
+                         << "F" << exp2f(md->toFloat()/2);
             }
         }
         if (md != exifData.end()) {
@@ -189,8 +193,20 @@ namespace Action {
                       << "Aperture" << ": " << aperture.str() << "\n";
         }
         printTag(exifData, "Image.CaptureConditions.Flash", "Flash");
+        // Focal length and 35 mm equivalent
+        // Todo: Calculate 35 mm equivalent a la jhead
+        md = exifData.findKey("Image.CaptureConditions.FocalLength");
+        if (md != exifData.end()) {
+            std::cout << std::setw(align_) << std::setfill(' ') << std::left
+                      << "Focal length" << ": " << *md;
+            md = exifData.findKey("Image.CaptureConditions.FocalLengthIn35mmFilm");
+            if (md != exifData.end()) {
+                std::cout << " (35 mm equivalent: " << *md << ")";
+            }
+            std::cout << "\n";
+        }
         // ISO speed, from ISOSpeedRatings or Canon Makernote
-        int rc = printTag(exifData, "Image.CaptureConditions.ISOSpeedRatings", "ISO");
+        int rc = printTag(exifData, "Image.CaptureConditions.ISOSpeedRatings", "ISO speed");
         if (rc == 0) {
             md = exifData.findKey("Makernote.Canon.CameraSettings1");
             if (md != exifData.end() && md->count() >= 16) {
@@ -201,6 +217,7 @@ namespace Action {
                 std::cout << "\n";
             }
         }
+
         // Exposure program from ExposureProgram or Canon Makernote
         rc = printTag(exifData, "Image.CaptureConditions.ExposureProgram", "Exposure");
         if (rc == 0) {
@@ -213,20 +230,32 @@ namespace Action {
                 std::cout << "\n";
             }
         }
-        printTag(exifData, "Image.CaptureConditions.FocalLength", "Focal length");
+
         printTag(exifData, "Image.CaptureConditions.MeteringMode", "Metering mode");
 
-        // Todo: Add size of IFD1 to thumbnail data size
+        // Exif Resolution
+        long xdim = 0;
+        long ydim = 0;
+        md = exifData.findKey("Image.ImageConfig.PixelXDimension");
+        if (md != exifData.end()) xdim = md->toLong();
+        md = exifData.findKey("Image.ImageConfig.PixelYDimension");
+        if (md != exifData.end()) ydim = md->toLong();
+        if (xdim != 0 && ydim != 0) {
+            std::cout << std::setw(align_) << std::setfill(' ') << std::left
+                      << "Exif Resolution" << ": " 
+                      << xdim << " x " << ydim << "\n";
+        }
+
+        // Thumbnail
         std::cout << std::setw(align_) << std::setfill(' ') << std::left
                   << "Thumbnail" << ": ";
-	switch (exifData.thumbnailType()) {
-        case Exif::Thumbnail::none: std::cout << "None\n"; break;
-        case Exif::Thumbnail::jpeg: 
-            std::cout << "JPEG, " << exifData.thumbnailSize() << " Bytes\n";
-            break;
-        case Exif::Thumbnail::tiff:
-            std::cout << "TIFF, " << exifData.thumbnailSize() << " Bytes\n";
-            break;
+        std::string thumbExt = exifData.thumbnailExtension();
+        if (thumbExt.empty()) {
+            std::cout << "None\n";
+        } 
+        else {
+            std::cout << exifData.thumbnailFormat() << ", " 
+                      << exifData.thumbnailSize() << " Bytes\n";
         }
         std::cout << "\n";
 
@@ -234,7 +263,7 @@ namespace Action {
 
     int Print::printTag(const Exif::ExifData& exifData,
                         const std::string& key,
-                        const std::string& label)
+                        const std::string& label) const
     {
         int rc = 0;
         Exif::ExifData::const_iterator md = exifData.findKey(key);
@@ -394,6 +423,124 @@ namespace Action {
     Task* Rename::clone_() const
     {
         return new Rename(*this);
+    }
+
+    int Erase::run(const std::string& path)
+    try {
+        path_ = path;
+        Exif::ExifData exifData;
+        int rc = exifData.read(path);
+        if (rc) {
+            std::cerr << exifReadError(rc, path) << "\n";
+            return rc;
+        }
+        switch (Params::instance().delTarget_) {
+        case Params::delExif:  rc = eraseExifData(exifData); break;
+        case Params::delThumb: rc = eraseThumbnail(exifData); break;
+        }
+        return rc;
+    }
+    catch(const Exif::Error& e)
+    {
+        std::cerr << "Exif exception in erase action for file " << path
+                  << ":\n" << e << "\n";
+        return 1;
+    } // Erase::run
+
+    int Erase::eraseThumbnail(Exif::ExifData& exifData) const
+    {
+        long delta = exifData.eraseThumbnail();
+        if (Params::instance().verbose_) {
+            std::cout << "Erasing " << delta << " Bytes of thumbnail data\n"; 
+        }
+        int rc = exifData.write(path_);
+        if (rc) {
+            std::cerr << exifWriteError(rc, path_) << "\n";
+        }
+        return rc;
+    }
+
+    int Erase::eraseExifData(Exif::ExifData& exifData) const
+    {
+        // Todo: implement me!
+        std::cout << "Sorry, the erase action for Exif data has not been implemented yet.\n";
+        return 0;
+    }
+
+    Erase::AutoPtr Erase::clone() const
+    {
+        return AutoPtr(dynamic_cast<Erase*>(clone_()));
+    }
+
+    Task* Erase::clone_() const
+    {
+        return new Erase(*this);
+    }
+
+    int Extract::run(const std::string& path)
+    try {
+        path_ = path;
+        Exif::ExifData exifData;
+        int rc = exifData.read(path);
+        if (rc) {
+            std::cerr << exifReadError(rc, path) << "\n";
+            return rc;
+        }
+        switch (Params::instance().extractTarget_) {
+        case Params::extExif:  rc = writeExifData(exifData); break;
+        case Params::extThumb: rc = writeThumbnail(exifData); break;
+        }
+        return rc;
+    }
+    catch(const Exif::Error& e)
+    {
+        std::cerr << "Exif exception in extract action for file " << path
+                  << ":\n" << e << "\n";
+        return 1;
+    } // Extract::run
+
+    int Extract::writeExifData(const Exif::ExifData& exifData) const
+    {
+        // Todo: implement me!
+        std::cout << "Sorry, the extract action for Exif data has not been implemented yet.\n";
+        return 0;
+    }
+
+    int Extract::writeThumbnail(const Exif::ExifData& exifData) const
+    {
+        std::string thumb =   Util::dirname(path_) + "/"
+                            + Util::basename(path_, true) + "-thumb";
+        if (Params::instance().verbose_) {
+            std::string thumbExt = exifData.thumbnailExtension();
+            if (thumbExt.empty()) {
+                std::cout << "Image does not contain an Exif thumbnail\n";
+            }
+            else {
+                std::cout << "Writing "
+                          << exifData.thumbnailFormat() << " thumbnail (" 
+                          << exifData.thumbnailSize() << " Bytes) to file "
+                          << thumb << thumbExt << "\n";
+            }
+        }
+        if (!Params::instance().force_ && Util::fileExists(thumb)) {
+            std::cout << Params::instance().progname() 
+                      << ": Overwrite `" << thumb << "'? ";
+            std::string s;
+            std::cin >> s;
+            if (s[0] != 'y' && s[0] != 'Y') return 0;
+        }
+        int rc = exifData.writeThumbnail(thumb);
+        return rc;
+    }
+
+    Extract::AutoPtr Extract::clone() const
+    {
+        return AutoPtr(dynamic_cast<Extract*>(clone_()));
+    }
+
+    Task* Extract::clone_() const
+    {
+        return new Extract(*this);
     }
 
     int Adjust::run(const std::string& path)

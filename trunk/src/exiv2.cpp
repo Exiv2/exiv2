@@ -22,13 +22,13 @@
   Abstract:  Command line program to display and manipulate image %Exif data
 
   File:      exiv2.cpp
-  Version:   $Name:  $ $Revision: 1.3 $
+  Version:   $Name:  $ $Revision: 1.4 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   10-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: exiv2.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: exiv2.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -40,7 +40,7 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: exiv2.cpp,v $")
 #include <iostream>
 #include <iomanip>
 #include <cstring>
-#include <assert.h>
+#include <cassert>
 
 // *********************************************************************
 // local declarations
@@ -115,7 +115,7 @@ void Params::version(std::ostream& os) const
 void Params::usage(std::ostream& os) const
 {
     os << "Usage: " << progname() 
-       << " [ -hVvf ][ -a time ][ -r format ] action file ...\n\n"
+       << " [ options ] action file ...\n\n"
        << "Manipulate the Exif metadata of images.\n";
 }
 
@@ -125,20 +125,28 @@ void Params::help(std::ostream& os) const
     os << "\nOptions:\n"
        << "   -h      Display this help and exit.\n"
        << "   -V      Show the program version and exit.\n"
-       << "   -v      Be more verbose during the program run.\n"
+       << "   -v      Be extra verbose during the program run.\n"
        << "   -f      Do not prompt before overwriting existing files (force).\n"
        << "   -a time Time adjustment in the format [-]HH[:MM[:SS]]. This option\n"
        << "           is only used with the `adjust' action.\n"
-       << "   -m mode Print mode for the `print' action. Possible modes are `s'\n"
+       << "   -p mode Print mode for the `print' action. Possible modes are `s'\n"
        << "           for a summary (the default), `i' for interpreted data, `v'\n"
-       << "           for uninterpreted data values and `h' for a hexdump\n"
+       << "           for uninterpreted data values and `h' for a hexdump.\n"
+       << "   -d tgt  Delete target for the `delete' action. Possible targets are\n"
+       << "           `e' to delete the whole Exif section (the default) and `t'\n"
+       << "           to delete only the Exif thumbnail from the files.\n"
+       << "   -e tgt  Extract target for the `extract' action. Possible targets\n"
+       << "           are `e' to extract the Exif data to a binary file (the\n"
+       << "           default) and `t' to extract only the Exif thumbnail.\n"
        << "   -r fmt  Filename format for the `rename' action. The format string\n"
        << "           follows strftime(3). Default filename format is " 
-       << format_ << ".\n"
+       <<             format_ << ".\n"
        << "Actions:\n"
        << "  adjust   Adjust the metadata timestamp by the given time. This action\n"
        << "           requires the option -a time.\n"
        << "  print    Print the Exif (or other) image metadata.\n"
+       << "  delete   Delete the Exif section or Exif thumbnail from the files.\n"
+       << "  extract  Extract the Exif data or Exif thumbnail to files.\n"
        << "  rename   Rename files according to the metadata create timestamp. The\n"
        << "           filename format can be set with the option -r format.\n\n";
 } // Params::help
@@ -160,7 +168,7 @@ int Params::option(int opt, const std::string& optarg, int optopt)
             rc = 1;
         }
         break;
-    case 'm':
+    case 'p':
         switch (optarg[0]) {
         case 's': printMode_ = summary; break;
         case 'i': printMode_ = interpreted; break;
@@ -168,6 +176,26 @@ int Params::option(int opt, const std::string& optarg, int optopt)
         case 'h': printMode_ = hexdump; break;
         default:
             std::cerr << progname() << ": Unrecognized print mode `"
+                      << optarg << "'\n";
+            rc = 1;
+        }
+        break;
+    case 'd':
+        switch (optarg[0]) {
+        case 'e': delTarget_ = delExif; break;
+        case 't': delTarget_ = delThumb; break;
+        default:
+            std::cerr << progname() << ": Unrecognized delete target `"
+                      << optarg << "'\n";
+            rc = 1;
+        }
+        break;
+    case 'e':
+        switch (optarg[0]) {
+        case 'e': extractTarget_ = extExif; break;
+        case 't': extractTarget_ = extThumb; break;
+        default:
+            std::cerr << progname() << ": Unrecognized extract target `"
                       << optarg << "'\n";
             rc = 1;
         }
@@ -199,6 +227,8 @@ int Params::nonoption(const std::string& argv)
         first_ = false;
         if (argv == "adjust") action_ = Action::adjust;
         if (argv == "print") action_ = Action::print;
+        if (argv == "delete") action_ = Action::erase;
+        if (argv == "extract") action_ = Action::extract;
         if (argv == "rename") action_ = Action::rename;
         if (action_ == Action::none) {
             std::cerr << progname() << ": Unrecognized action `" 
