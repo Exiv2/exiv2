@@ -20,14 +20,14 @@
  */
 /*
   File:      ifd.cpp
-  Version:   $Name:  $ $Revision: 1.9 $
+  Version:   $Name:  $ $Revision: 1.10 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.9 $ $RCSfile: ifd.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.10 $ $RCSfile: ifd.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -144,6 +144,12 @@ namespace Exif {
         count_ = count;
         size_ = newSize;
     } // Entry::setValue
+
+    const char* Entry::component(uint32 n) const
+    {
+        if (n >= count()) return 0;
+        return data_ + n * typeSize();
+    } // Entry::component
 
     Ifd::Ifd(IfdId ifdId)
         : alloc_(true), ifdId_(ifdId), offset_(0), next_(0)
