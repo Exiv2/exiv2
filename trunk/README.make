@@ -11,11 +11,16 @@ Configuration and Build Strategy                      06-May-2004, ahu
 
      $ make install 
 
-     from this directory. On other platforms you may need to make 
-     changes to config.mk before running make. Possibly you will also
-     need to change some code. However, you should *not* need to 
-     modify any Makefile directly. Please let me know what changes
-     were needed.
+     from this directory. To install the library and header files, use 
+
+     $ make install-lib
+
+     There are corresponding uninstall and uninstall-lib targets.
+
+     To install to locations different from the default (/usr/local)
+     and to build Exiv2 on other platforms you may need to make changes
+     to the file config.mk before running make. However, you should 
+     *not* need to modify any Makefile directly. 
 
 ----- Concepts described below this line are not implemented yet -----
 
