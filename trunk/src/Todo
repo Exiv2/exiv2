@@ -1,4 +1,6 @@
 Library Features:
++ rename erase* methods that access a file to remove* 
++ add ExifData::erase(tag)
 + Thumbnail support: set (re-calculate)
 + operator>> for Value, since we already have read()?
 + Use auto_ptr where applicable
@@ -15,8 +17,6 @@ Exiv2 functionality
 + Add offset to value for hexdump (requires metadata to have an offset)
 
 Bugs:
-+ ExifData::copyFromMetadata: wrong offsets if no ExifTag exists. Same problem
-  probably occurs when GPSTag or InteroperabilityTag are missing.
 + Handle all Todo's
 + Cleanup and fix implementation of JpegImage (must be able to read any APP0/1),
   should be able to insert exv into extracted thumbs (usually w/o APP0/1)
@@ -30,4 +30,4 @@ Bugs:
 + Review: Exception safety
 + Review: Ifd1 only at Thumbnail, do we really need Thumbnail::update() ?
 + Is the hexdump output of exiv2 byte-swapped??
-+ Writing an empty Exif data section should have the same effect as deleting it
+
