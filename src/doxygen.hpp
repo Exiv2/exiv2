@@ -2,7 +2,7 @@
 /*!
   @file    doxygen.hpp
   @brief   Additional documentation, this file contains no source code
-  @version $Name:  $ $Revision: 1.6 $
+  @version $Name:  $ $Revision: 1.7 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    07-Feb-04, ahu: created
@@ -62,6 +62,8 @@
 
 */
 /*!
-  @example example1.cpp
+  @example addmoddel.cpp
   Sample usage of high-level metadata operations.
+  @example exifprint.cpp
+  Sample program to print %Exif data from an image.
 */
