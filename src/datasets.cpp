@@ -156,6 +156,8 @@ namespace Exiv2 {
         DataSet(0xffff, "(Invalid)", "(Invalid)", false, false, 0, 0, Exiv2::unsignedShort, IptcDataSets::application2, "")
     };
 
+    static const DataSet unknownDataSet(0xffff, "Unknown dataset", "Unknown dataset", false, true, 0, 0xffffffff, Exiv2::string, IptcDataSets::invalidRecord, "Unknown dataset");
+
     // Dataset lookup lists.This is an array with pointers to one list per IIM4 Record. 
     // The record id is used as the index into the array.
     const DataSet* IptcDataSets::records_[] = {
@@ -191,7 +193,7 @@ namespace Exiv2 {
     TypeId IptcDataSets::dataSetType(uint16_t number, uint16_t recordId)
     {
         int idx = dataSetIdx(number, recordId);
-        if (idx == -1) throw Error("No dataSet for record Id");
+        if (idx == -1) return unknownDataSet.type_;
         return records_[recordId][idx].type_;
     }
 
@@ -209,21 +211,21 @@ namespace Exiv2 {
     const char* IptcDataSets::dataSetDesc(uint16_t number, uint16_t recordId)
     {
         int idx = dataSetIdx(number, recordId);
-        if (idx == -1) throw Error("No dataSet for record Id");
+        if (idx == -1) return unknownDataSet.desc_;
         return records_[recordId][idx].desc_;
     }
 
     const char* IptcDataSets::dataSetPsName(uint16_t number, uint16_t recordId)
     {
         int idx = dataSetIdx(number, recordId);
-        if (idx == -1) throw Error("No dataSet for record Id");
+        if (idx == -1) return unknownDataSet.photoshop_;
         return records_[recordId][idx].photoshop_;
     }
 
     bool IptcDataSets::dataSetRepeatable(uint16_t number, uint16_t recordId)
     {
         int idx = dataSetIdx(number, recordId);
-        if (idx == -1) throw Error("No dataSet for record Id");
+        if (idx == -1) return unknownDataSet.repeatable_;
         return records_[recordId][idx].repeatable_;
     }
 
@@ -237,7 +239,7 @@ namespace Exiv2 {
             dataSet = records_[recordId][idx].number_;
         }
         else {
-            // Todo: Check format of tagName
+            if (!isHex(dataSetName, 4, "0x")) throw Error("Invalid dataset name");
             std::istringstream is(dataSetName);
             is >> std::hex >> dataSet;
         }
@@ -258,8 +260,8 @@ namespace Exiv2 {
 
     const char* IptcDataSets::recordDesc(uint16_t recordId)
     {
-        if( recordId != envelope && recordId != application2 ) {
-            throw Error("Unknown record");
+        if (recordId != envelope && recordId != application2) {
+            return unknownDataSet.desc_;
         }
         return recordInfo_[recordId].desc_;
     }

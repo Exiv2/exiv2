@@ -260,6 +260,9 @@ namespace Exiv2 {
         TagInfo(0xffff, "(UnknownMakerNoteTag)", "Unknown MakerNote tag", ifdIdNotSet, sectionIdNotSet, printValue)
     };
 
+    // Unknown Tag
+    static const TagInfo unknownTag(0xffff, "Unknown tag", "Unknown tag", ifdIdNotSet, sectionIdNotSet, printValue);
+
     // Tag lookup lists with tag names, desc and where they (preferably) belong to;
     // this is an array with pointers to one list per IFD. The IfdId is used as the
     // index into the array.
@@ -294,14 +297,14 @@ namespace Exiv2 {
     const char* ExifTags::tagDesc(uint16_t tag, IfdId ifdId)
     {
         int idx = tagInfoIdx(tag, ifdId);
-        if (idx == -1) throw Error("No taginfo for IFD");
+        if (idx == -1) return unknownTag.desc_;
         return tagInfos_[ifdId][idx].desc_;
     }
 
     const char* ExifTags::sectionName(uint16_t tag, IfdId ifdId)
     {
         int idx = tagInfoIdx(tag, ifdId);
-        if (idx == -1) throw Error("No taginfo for IFD");
+        if (idx == -1) return sectionInfo_[unknownTag.sectionId_].name_;
         const TagInfo* tagInfo = tagInfos_[ifdId];
         return sectionInfo_[tagInfo[idx].sectionId_].name_;
     }
@@ -309,7 +312,7 @@ namespace Exiv2 {
     const char* ExifTags::sectionDesc(uint16_t tag, IfdId ifdId)
     {
         int idx = tagInfoIdx(tag, ifdId);
-        if (idx == -1) throw Error("No taginfo for IFD");
+        if (idx == -1) return sectionInfo_[unknownTag.sectionId_].desc_;
         const TagInfo* tagInfo = tagInfos_[ifdId];
         return sectionInfo_[tagInfo[idx].sectionId_].desc_;
     }
