@@ -20,14 +20,14 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.16 $
+  Version:   $Name:  $ $Revision: 1.17 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.16 $ $RCSfile: image.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.17 $ $RCSfile: image.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -256,7 +256,7 @@ namespace Exiv2 {
             marker = getUShort(tmpbuf, bigEndian);
             size = getUShort(tmpbuf + 2, bigEndian);
         }
-        // Todo: Should we return 0 here (no Exif data found)
+        // No Exif data found
         if (!(marker == app1_ && memcmp(tmpbuf + 4, exifId_, 6) == 0)) return 3;
         // Skip the rest of the Exif APP1 segment
         is.seekg(size - 8, std::ios::cur);
