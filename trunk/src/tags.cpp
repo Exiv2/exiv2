@@ -20,13 +20,13 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.23 $
+  Version:   $Name:  $ $Revision: 1.24 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.23 $ $RCSfile: tags.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.24 $ $RCSfile: tags.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -415,7 +415,6 @@ namespace Exif {
             os << gpsTagInfo[i] << "\n";
         }
     } // ExifTags::taglist
-
     
     // *************************************************************************
     // free functions

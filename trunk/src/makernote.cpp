@@ -20,13 +20,13 @@
  */
 /*
   File:      makernote.cpp
-  Version:   $Name:  $ $Revision: 1.14 $
+  Version:   $Name:  $ $Revision: 1.15 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.14 $ $RCSfile: makernote.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.15 $ $RCSfile: makernote.cpp,v $")
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -115,6 +115,40 @@ namespace Exif {
         }
         return tag;
     } // MakerNote::tag
+
+    std::string MakerNote::tagDesc(uint16 tag) const
+    {
+        std::string tagDesc;
+        if (pMnTagInfo_) {
+            for (int i = 0; pMnTagInfo_[i].tag_ != 0xffff; ++i) {
+                if (pMnTagInfo_[i].tag_ == tag) {
+                    tagDesc = pMnTagInfo_[i].desc_;
+                    break;
+                }
+            }
+        }
+        return tagDesc;
+    } // MakerNote::tagDesc
+
+    void MakerNote::taglist(std::ostream& os) const
+    {
+        if (pMnTagInfo_) {
+            for (int i = 0; pMnTagInfo_[i].tag_ != 0xffff; ++i) {
+                writeMnTagInfo(os, pMnTagInfo_[i].tag_) << std::endl;
+            }
+        }
+    } // MakerNote::taglist
+
+    std::ostream& MakerNote::writeMnTagInfo(std::ostream& os, uint16 tag) const
+    {
+        return os << tagName(tag) << ", "
+                  << std::dec << tag << ", "
+                  << "0x" << std::setw(4) << std::setfill('0') 
+                  << std::right << std::hex << tag << ", "
+                  << ExifTags::ifdItem(makerIfd) << ", "
+                  << makeKey(tag) << ", " 
+                  << tagDesc(tag);
+    } // MakerNote::writeMnTagInfo
 
     int IfdMakerNote::read(const char* buf,
                            long len, 
