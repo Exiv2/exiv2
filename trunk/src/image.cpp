@@ -137,7 +137,7 @@ namespace Exiv2 {
         for (Registry::const_iterator i = b; i != e; ++i)
         {
             if (i->second.isThisType(closer.fp_, false)) {
-                image = Image::AutoPtr(i->second.newInstance(path, false));
+                image = i->second.newInstance(path, false);
                 break;
             }
         }
@@ -547,7 +547,8 @@ namespace Exiv2 {
                     us2Data(tmpBuf + 2, 
                             static_cast<uint16_t>(comment_.length()+3), bigEndian);
                     if (fwrite(tmpBuf, 1, 4, ofp) != 4) return 4;
-                    if (fwrite(comment_.data(), 1, comment_.length(), ofp) != comment_.length()) return 4;
+                    if (   fwrite(comment_.data(), 1, comment_.length(), ofp)
+                        != comment_.length()) return 4;
                     if (fputc(0, ofp)==EOF) return 4;
                     if (ferror(ofp)) return 4;
                     --search;
@@ -556,10 +557,13 @@ namespace Exiv2 {
                     // Write APP1 marker, size of APP1 field, Exif id and Exif data
                     tmpBuf[0] = 0xff;
                     tmpBuf[1] = app1_;
-                    us2Data(tmpBuf + 2, static_cast<uint16_t>(sizeExifData_+8), bigEndian);
+                    us2Data(tmpBuf + 2, 
+                            static_cast<uint16_t>(sizeExifData_+8), 
+                            bigEndian);
                     memcpy(tmpBuf + 4, exifId_, 6);
                     if (fwrite(tmpBuf, 1, 10, ofp) != 10) return 4;
-                    if (fwrite(pExifData_, 1, sizeExifData_, ofp) != (size_t)sizeExifData_) return 4;
+                    if (   fwrite(pExifData_, 1, sizeExifData_, ofp) 
+                        != (size_t)sizeExifData_) return 4;
                     if (ferror(ofp)) return 4;
                     --search;
                 }
@@ -598,7 +602,8 @@ namespace Exiv2 {
                         tmpBuf[7] = 0;
                         ul2Data(tmpBuf + 8, sizeIptcData_, bigEndian);
                         if (fwrite(tmpBuf, 1, 12, ofp) != 12) return 4;
-                        if (fwrite(pIptcData_, 1, sizeIptcData_ , ofp) != (size_t)sizeIptcData_) return 4;
+                        if (   fwrite(pIptcData_, 1, sizeIptcData_ , ofp) 
+                            != (size_t)sizeIptcData_) return 4;
                         // data is padded to be even (but not included in size)
                         if (sizeIptcData_ & 1) {
                             if (fputc(0, ofp)==EOF) return 4;
@@ -608,7 +613,8 @@ namespace Exiv2 {
                     }
                     
                     // write existing stuff after record
-                    if (fwrite(record+sizeOldData, 1, sizeEnd, ofp) != (size_t)sizeEnd) return 4;
+                    if (   fwrite(record+sizeOldData, 1, sizeEnd, ofp) 
+                        != (size_t)sizeEnd) return 4;
                     if (ferror(ofp)) return 4;
                 }
             }
@@ -698,7 +704,9 @@ namespace Exiv2 {
         else {
             image = Image::AutoPtr(new JpegImage(path, false));
         }
-        if (!image->good()) image.reset();
+        if (!image->good()) {
+            image.reset();
+        }
         return image;
     }
 
@@ -716,7 +724,6 @@ namespace Exiv2 {
         return result;
     }
    
-
     const char ExvImage::exiv2Id_[] = "Exiv2";
     const byte ExvImage::blank_[] = { 0xff,0x01,'E','x','i','v','2',0xff,0xd9 };
 
