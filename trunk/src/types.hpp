@@ -270,6 +270,15 @@ namespace Exiv2 {
              Both parameters must be greater than 0.
      */
     long lgcd(long a, long b);
+
+    /*!
+      @brief Return true if str is a hex number starting with prefix followed
+             by size hex digits, false otherwise. If size is 0, any number of 
+             digits is allowed and all are checked.
+     */
+    bool isHex(const std::string& str, 
+               size_t size =0,
+               const std::string& prefix ="");
    
 // *****************************************************************************
 // template and inline definitions

@@ -39,6 +39,7 @@ EXIV2_RCSID("@(#) $Id$");
 #include <iomanip>
 #include <sstream>
 #include <utility>
+#include <cctype>
 
 // *****************************************************************************
 // class member definitions
@@ -281,5 +282,18 @@ namespace Exiv2 {
         }
         return b;
     } // lgcd
+
+    bool isHex(const std::string& str, size_t size, const std::string& prefix)
+    {
+        if (   str.size() <= prefix.size() 
+            || str.substr(0, prefix.size()) != prefix) return false;
+        if (   size > 0
+            && str.size() != size + prefix.size()) return false;
+        
+        for (size_t i = prefix.size(); i < str.size(); ++i) {
+            if (!isxdigit(str[i])) return false;
+        }
+        return true;
+    } // isHex
 
 }                                       // namespace Exiv2

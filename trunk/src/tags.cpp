@@ -326,7 +326,7 @@ namespace Exiv2 {
             tag = tagInfo[idx].tag_;
         }
         if (tag == 0xffff) {
-            // Todo: Check format of tagName
+            if (!isHex(tagName, 4, "0x")) throw Error("Invalid tag name");
             std::istringstream is(tagName);
             is >> std::hex >> tag;
         }
@@ -371,9 +371,11 @@ namespace Exiv2 {
                                      IfdId ifdId,
                                      const Value& value)
     {
+        PrintFct fct = printValue;
         int idx = tagInfoIdx(tag, ifdId);
-        if (idx == -1) throw Error("No taginfo for IFD");
-        PrintFct fct = tagInfos_[ifdId][idx].printFct_;
+        if (idx != -1) {
+            fct = tagInfos_[ifdId][idx].printFct_;
+        }
         return fct(os, value);
     }
 

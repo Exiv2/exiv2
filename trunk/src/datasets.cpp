@@ -271,7 +271,7 @@ namespace Exiv2 {
             if (recordInfo_[i].name_ == recordName) break;
         }
         if (i == 0) {
-            // Todo: Check format of recordName
+            if (!isHex(recordName, 4, "0x")) throw Error("Invalid record name");
             std::istringstream is(recordName);
             is >> std::hex >> i;
         }
