@@ -22,7 +22,7 @@
   @file    actions.hpp
   @brief   Implements base class Task, TaskFactory and the various supported
            actions (derived from Task).
-  @version $Name:  $ $Revision: 1.2 $
+  @version $Name:  $ $Revision: 1.3 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    11-Dec-03, ahu: created
@@ -157,9 +157,9 @@ namespace Action {
         //! Print %Exif information in hexdump format
         void printHexdump(const Exif::ExifData& exifData);
         //! Print one summary line with a label and requested data
-        void Print::printTag(const Exif::ExifData& exifData,
-                             const std::string& key, 
-                             const std::string& label);
+        void printTag(const Exif::ExifData& exifData,
+                      const std::string& key, 
+                      const std::string& label);
 
     private:
         virtual Task* clone_() const;
