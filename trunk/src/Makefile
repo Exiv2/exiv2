@@ -1,14 +1,29 @@
 # ***************************************************** -*- Makefile -*-
 #
-# Copyright (c) 2004 Andreas Huggel
+# Copyright (C) 2004 Andreas Huggel <ahuggel@gmx.net>
 # 
-# Todo: Insert the license blabla here
+# This Makefile is part of the Exiv2 distribution.
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
 # 
-# Author(s): Andreas Huggel (ahu)
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
+# 02111-1307, USA.
+# 
+# Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
 #
 # RCS information
 #  $Name:  $
-#  $Revision: 1.3 $
+#  $Revision: 1.4 $
 #
 # Description:
 #  Do NOT change this file! All system specific settings and configs
