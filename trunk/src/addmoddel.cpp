@@ -15,13 +15,28 @@
 
 // *****************************************************************************
 // Main
-int main()
+int main(int argc, char* const argv[])
 try {
+    if (argc != 2) {
+        std::cout << "Usage: " << argv[0] << " file\n";
+        return 1;
+    }
+    std::string file(argv[1]);
+
     // Container for all metadata
     Exiv2::ExifData exifData;
 
     // *************************************************************************
     // Add to the Exif data
+
+    // This is the quickest way to add (simple) Exif data. If a metadatum for
+    // a given key already exists, its value is overwritten (without changing
+    // the type of the value). Otherwise a new tag is added.
+    exifData["Exif.Image.Model"] = "Test 1";                     // AsciiValue
+    exifData["Exif.Image.SamplesPerPixel"] = uint16_t(162);      // UShortValue
+    exifData["Exif.Image.XResolution"] = int32_t(-2);            // LongValue
+    exifData["Exif.Image.YResolution"] = Exiv2::Rational(-2, 3); // RationalValue
+    std::cout << "Added a few tags the quick way.\n";
 
     // Create a ASCII string value (note the use of create)
     Exiv2::Value::AutoPtr v = Exiv2::Value::create(Exiv2::asciiString);
@@ -47,20 +62,18 @@ try {
     // *************************************************************************
     // Modify Exif data
 
-    // Find the timestamp metadatum by its key
-    key = Exiv2::ExifKey("Exif.Photo.DateTimeOriginal");
-    Exiv2::ExifData::iterator pos = exifData.findKey(key);
-    if (pos == exifData.end()) throw Exiv2::Error("Key not found");
-    // Modify the value
-    std::string date = pos->toString();
+    // Since we know that the metadatum exists (or we don't mind creating a new
+    // tag if it doesn't), we can simply do this:
+    Exiv2::Exifdatum& tag = exifData["Exif.Photo.DateTimeOriginal"];
+    std::string date = tag.toString();
     date.replace(0, 4, "2000");
-    pos->setValue(date);
+    tag.setValue(date);
     std::cout << "Modified key \"" << key 
-              << "\", new value \"" << pos->value() << "\"\n";
+              << "\", new value \"" << tag.value() << "\"\n";
 
-    // Find the other key
+    // Alternatively, we can use findKey()
     key = Exiv2::ExifKey("Exif.Image.PrimaryChromaticities");
-    pos = exifData.findKey(key);
+    Exiv2::ExifData::iterator pos = exifData.findKey(key);
     if (pos == exifData.end()) throw Exiv2::Error("Key not found");
     // Get a pointer to a copy of the value
     v = pos->getValue();
@@ -87,9 +100,9 @@ try {
 
     // *************************************************************************
     // Finally, write the remaining Exif data to an image file
-    int rc = exifData.write("img_2158.jpg");
+    int rc = exifData.write(file);
     if (rc) {
-        std::string error = Exiv2::ExifData::strError(rc, "img_2158.jpg");
+        std::string error = Exiv2::ExifData::strError(rc, file);
         throw Exiv2::Error(error);
     }
 
