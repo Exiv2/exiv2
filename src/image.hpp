@@ -21,7 +21,7 @@
 /*!
   @file    image.hpp
   @brief   Class JpegImage to access JPEG images
-  @version $Name:  $ $Revision: 1.8 $
+  @version $Name:  $ $Revision: 1.9 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -111,6 +111,35 @@ namespace Exif {
                    false if the type of the image does not match.
          */
         virtual bool isThisType(std::istream& is, bool advance =false) const =0;
+        /*!
+          @brief Erase the %Exif data from file path.
+          @param path Path to the file.
+          @return 0 if successful.
+         */
+        virtual int eraseExifData(const std::string& path) const =0;
+        /*!
+          @brief Erase the %Exif data from the image provided in the input
+                 stream is and write the result to file path.
+          @param path Path to the file.
+          @param is Input stream with the image to erase the %Exif data from.
+          @return 0 if successful.
+         */
+        virtual int eraseExifData(const std::string& path, 
+                                  std::istream& is) const =0;
+
+
+        /*!
+          @brief Read from the image input stream is, erase %Exif data from the
+                 image, if there is any, and write the resulting image to the
+                 output stream os.
+          @param os Output stream to write to (e.g., a temporary file).
+          @param is Input stream with the image from which the %Exif data
+                 should be erased.
+          @return 0 if successful.
+         */
+        virtual int eraseExifData(std::ostream& os, std::istream& is) const =0;
+
+
         /*!
           @brief Write the %Exif data to file path.
           @param path Path to the file.
@@ -301,6 +330,50 @@ namespace Exif {
                   characters.
          */
         bool isThisType(std::istream& is, bool advance) const;
+        /*!
+          @brief Erase the %Exif data from file path, which must contain a JPEG
+                 image. If an %Exif APP1 section exists in the file, it is
+                 erased. 
+          @param path Path to the file.
+          @return 0 if successful;<br>
+                 -1 if the input file cannot be opened;<br>
+                 the return code of 
+                    eraseExifData(const std::string& path, std::istream& is) const
+                    if the call to this function fails.
+         */
+        int eraseExifData(const std::string& path) const;
+        /*!
+          @brief Erase the %Exif data from the JPEG image provided in the input
+                 stream is and write the result to file path. If an %Exif APP1
+                 section exists in input stream, it is erased.
+          @param path Path to the file.
+          @param is Input stream with the JPEG image to erase the %Exif data from.
+          @return 0 if successful;<br>
+                 -3 if the temporary file cannot be opened;<br>
+                 -4 if renaming the temporary file fails.
+         */
+        int eraseExifData(const std::string& path, std::istream& is) const;
+
+
+        /*!
+          @brief Erase %Exif data from the JPEG image is, write the resulting
+                 image to the output stream os. If an %Exif APP1 section exists
+                 in the input file, it is erased.
+          @param os Output stream to write to (e.g., a temporary file).
+          @param is Input stream with the JPEG image from which the %Exif data
+                 should be erased.
+          @return 0 if successful;<BR>
+                  1 if reading from the input stream failed (consult the stream 
+                    state for more information);<BR>
+                  2 if the input stream does not contain a JPEG image;<BR>
+                  3 if neither a JFIF APP0 segment nor a %Exif APP1 segment was
+                    found after SOI at the beginning of the input stream;<BR>
+                  4 if writing to the output stream failed (consult the stream 
+                    state for more information).
+         */
+        int eraseExifData(std::ostream& os, std::istream& is) const;
+
+
         /*!
           @brief Write the %Exif data to file path, which must contain a JPEG
                  image. If an %Exif APP1 section exists in the file, it is
