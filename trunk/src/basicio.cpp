@@ -196,6 +196,19 @@ namespace Exiv2 {
         return ftell(fp_);
     }
 
+
+    long FileIo::size() const
+    {
+        if (fp_ != 0) {
+            fflush(fp_);
+        }
+        struct stat buf;
+        int ret = stat(path_.c_str(), &buf);
+        
+        if (ret == 0) return -1;
+        return buf.st_size; 
+    }
+
     int FileIo::open()
     {
         // Default open is in read-write binary mode
@@ -370,6 +383,11 @@ namespace Exiv2 {
     long MemIo::tell() const
     {
         return (long)idx_;
+    }
+
+    long MemIo::size() const
+    {
+        return (long)data_.size();
     }
     
     int MemIo::open()

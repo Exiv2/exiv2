@@ -184,6 +184,12 @@ namespace Exiv2 {
                  -l if failure;
          */
         virtual long tell() const = 0;
+        /*!
+          @brief Get the current size of the IO source in bytes.
+          @return Size of the IO source in bytes;<BR>
+                 -l if failure;
+         */
+        virtual long size() const = 0;
         //!Returns true if the IO source is open, otherwise false.
         virtual bool isopen() const = 0;
         //!Returns 0 if the IO source is in a valid state, otherwise nonzero.
@@ -394,6 +400,13 @@ namespace Exiv2 {
                  -l if failure;
          */
         virtual long tell() const;
+        /*!
+          @brief Flush any buffered writes and get the current file size
+              in bytes. 
+          @return Size of the file in bytes;<BR>
+                 -l if failure;
+         */
+        virtual long size() const;
         //!Returns true if the file is open, otherwise false.
         virtual bool isopen() const;
         //!Returns 0 if the file is in a valid state, otherwise nonzero.
@@ -568,6 +581,12 @@ namespace Exiv2 {
           @return Offset from the start of the memory block
          */
         virtual long tell() const;
+        /*!
+          @brief Get the current memory buffer size in bytes. 
+          @return Size of the in memory data in bytes;<BR>
+                 -l if failure;
+         */
+        virtual long size() const;
         //!Always returns true
         virtual bool isopen() const;
         //!Always returns 0
