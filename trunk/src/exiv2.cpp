@@ -378,6 +378,7 @@ int Params::nonoption(const std::string& argv)
             }
             action = true;
             action_ = Action::erase;
+            target_ = ctExif;
         }
         if (argv == "ex" || argv == "extract") {
             if (action_ != Action::none && action_ != Action::extract) {
