@@ -54,6 +54,7 @@ namespace Exiv2 {
     {
     }
 
+    // Todo: Allow to register new IfdInfo entries from elsewhere (the makernotes)
     // Important: IFD item must be unique!
     const IfdInfo ExifTags::ifdInfo_[] = {
         IfdInfo(ifdIdNotSet, "(Unknown IFD)", "(Unknown item)"),
@@ -68,6 +69,7 @@ namespace Exiv2 {
         IfdInfo(nikon2IfdId, "Makernote", "Nikon2"),
         IfdInfo(nikon3IfdId, "Makernote", "Nikon3"),
         IfdInfo(nikon3ThumbIfdId, "Makernote", "Nikon3Thumb"),
+        IfdInfo(olympusIfdId, "Makernote", "Olympus"),
         IfdInfo(sigmaIfdId, "Makernote", "Sigma"),
         IfdInfo(lastIfdId, "(Last IFD info)", "(Last IFD item)")
     };

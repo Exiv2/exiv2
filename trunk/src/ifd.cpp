@@ -289,6 +289,9 @@ namespace Exiv2 {
 
     int Ifd::read(const byte* buf, long len, ByteOrder byteOrder, long offset)
     {
+        // Todo: This is a hack to work around bug #424 - fix it properly!
+        if (ifdId_ == olympusIfdId) len = 65535;
+
         int rc = 0;
         long o = 0;
         Ifd::PreEntries preEntries;
