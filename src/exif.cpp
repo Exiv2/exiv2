@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.59 $
+  Version:   $Name:  $ $Revision: 1.60 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.59 $ $RCSfile: exif.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.60 $ $RCSfile: exif.cpp,v $");
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -1026,9 +1026,7 @@ namespace Exiv2 {
 
     void ExifData::add(const ExifKey& key, Value* pValue)
     {
-        // Todo: Implement a more suitable ExifKey c'tor
-        ExifKey k(key);
-        add(Exifdatum(k, pValue));
+        add(Exifdatum(key, pValue));
     }
 
     void ExifData::add(const Exifdatum& exifdatum)
