@@ -21,7 +21,7 @@
 /*!
   @file    tags.hpp
   @brief   %Exif tag and type information
-  @version $Name:  $ $Revision: 1.9 $
+  @version $Name:  $ $Revision: 1.10 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    15-Jan-04, ahu: created
@@ -170,6 +170,16 @@ namespace Exif {
                  data for the given IFD id in the lookup tables.
          */
         static const char* tagName(uint16 tag, IfdId ifdId);
+        /*!
+          @brief Return the description of the tag.
+          @param tag The tag
+          @param ifdId IFD id
+          @return The description of the tag or a string indicating that
+                 the tag is unknown. 
+          @throw Error ("No taginfo for IFD") if there is no tag info
+                 data for the given IFD id in the lookup tables.
+         */
+        static const char* tagDesc(uint16 tag, IfdId ifdId);
         //! Return the tag for one combination of IFD id and tagName
         static uint16 tag(const std::string& tagName, IfdId ifdId);
         //! Return the name of the type
@@ -193,6 +203,17 @@ namespace Exif {
                  data for the given IFD id in the lookup tables.
          */
         static const char* sectionName(uint16 tag, IfdId ifdId);
+        /*!
+          @brief Return the description of the section for a combination of 
+                 tag and IFD id.
+          @param tag The tag
+          @param ifdId IFD id
+          @return The description of the section or a string indicating that
+                 the section or the tag is unknown. 
+          @throw Error ("No taginfo for IFD") if there is no tag info
+                 data for the given IFD id in the lookup tables.
+         */
+        static const char* sectionDesc(uint16 tag, IfdId ifdId);
         //! Return the section id for a section name
         static SectionId sectionId(const std::string& sectionName);
         /*!
@@ -208,6 +229,9 @@ namespace Exif {
          */
         static std::pair<uint16, IfdId> decomposeKey(const std::string& key);
 
+        //! Print a list of all tags to standart output
+        static void taglist();
+
     private:
         static int tagInfoIdx(uint16 tag, IfdId ifdId);
         static int tagInfoIdx(const std::string& tagName, IfdId ifdId);
@@ -222,6 +246,9 @@ namespace Exif {
 
 // *****************************************************************************
 // free functions
+
+    //! Output operator for TagInfo
+    std::ostream& operator<<(std::ostream& os, const TagInfo& ti);
 
     //! Output operator for our fake rational
     std::ostream& operator<<(std::ostream& os, const Rational& r);
