@@ -80,14 +80,26 @@ namespace Exiv2 {
         //! Assignment operator
         Iptcdatum& operator=(const Iptcdatum& rhs);
         /*!
+          @brief Assign \em value to the %Iptcdatum. The type of the new value
+                 is determined from %Iptcdatum. If that fails, a StringValue is
+                 used. Calls setValue(const std::string&).
+         */
+        Iptcdatum& operator=(const std::string& value);
+        /*!
+          @brief Assign \em value to the %Iptcdatum. The type of the new value
+                 is set to UShortValue.
+         */
+        Iptcdatum& operator=(const uint16_t& value);
+        /*!
           @brief Set the value. This method copies (clones) the value pointed
                  to by pValue.
          */
         void setValue(const Value* pValue);
         /*!
-          @brief Set the value to the string buf. 
-                 Uses Value::read(const std::string& buf). If the Iptcdatum does
-                 not have a value yet, then an StringValue is created.
+          @brief Set the value to the string buf. Uses Value::read(const
+                 std::string& buf). If the %Iptcdatum does not have a value yet,
+                 then a value of the correct type for this %Iptcdatum is
+                 created. If that fails, a StringValue is created.
          */
         void setValue(const std::string& buf);
         //@}
@@ -342,6 +354,15 @@ namespace Exiv2 {
           @return Data buffer containing the Iptc data.
          */
         DataBuf copy();
+        /*!
+          @brief Returns a reference to the %Iptcdatum that is associated with a
+                 particular \em key. If %IptcData does not already contain such
+                 an %Iptcdatum, operator[] adds object \em Iptcdatum(key).
+
+          @note  Since operator[] might insert a new element, it can't be a const
+                 member function.
+         */
+        Iptcdatum& operator[](const std::string& key);
         /*!
           @brief Add an %Iptcdatum from the supplied key and value pair. This
                  method copies (clones) the value. A check for non-repeatable

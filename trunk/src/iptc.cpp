@@ -81,6 +81,21 @@ namespace Exiv2 {
         return *this;
     } // Iptcdatum::operator=
     
+    Iptcdatum& Iptcdatum::operator=(const uint16_t& value)
+    {
+        UShortValue::AutoPtr v = UShortValue::AutoPtr(new UShortValue);
+        v->value_.push_back(value);
+        value_ = v;
+        modified_ = true;
+        return *this;
+    }
+
+    Iptcdatum& Iptcdatum::operator=(const std::string& value)
+    {
+        setValue(value);
+        return *this;
+    }
+
     void Iptcdatum::setValue(const Value* pValue)
     {
         modified_ = true;
@@ -90,9 +105,18 @@ namespace Exiv2 {
 
     void Iptcdatum::setValue(const std::string& buf)
     {
+        Value::AutoPtr value;
+        try {
+            TypeId type = IptcDataSets::dataSetType(tag(), record());
+            value = Value::create(type);
+        }
+        catch (const Error&) {
+            // Default to a StringValue if the type is unknown or the parse fails
+            value = Value::create(string);
+        }
+        value->read(buf);
+        value_ = value;
         modified_ = true;
-        if (value_.get() == 0) value_ = Value::create(string);
-        value_->read(buf);
     }
 
     const byte IptcData::marker_ = 0x1C;          // Dataset marker
@@ -105,6 +129,17 @@ namespace Exiv2 {
     IptcData::~IptcData()
     {
         delete[] pData_;
+    }
+
+    Iptcdatum& IptcData::operator[](const std::string& key)
+    {
+        IptcKey iptcKey(key);
+        iterator pos = findKey(iptcKey);
+        if (pos == end()) {
+            add(Iptcdatum(iptcKey));
+            pos = findKey(iptcKey);
+        }
+        return *pos;
     }
 
     int IptcData::read(const std::string& path)
