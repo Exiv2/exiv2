@@ -20,22 +20,25 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.11 $
+  Version:   $Name:  $ $Revision: 1.12 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.11 $ $RCSfile: tags.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.12 $ $RCSfile: tags.cpp,v $")
 
 // *****************************************************************************
 // included header files
 #include "tags.hpp"
-#include "exif.hpp"                // Todo: resolve this unwanted dependency
+#include "error.hpp"
+#include "types.hpp"
+#include "value.hpp"
 
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <utility>
 
 // *****************************************************************************
 // class member definitions
@@ -86,26 +89,6 @@ namespace Exif {
         SectionInfo(gpsTags, "GPS", "GPS information"),
         SectionInfo(iopTags, "Interoperability", "Interoperability information"),
         SectionInfo(lastSectionId, "(LastSection)", "Last section")
-    };
-
-    TagFormat::TagFormat(TypeId typeId, const char* name, long size)
-        : typeId_(typeId), name_(name), size_(size)
-    {
-    }
-
-    //! Lookup list of IFD tag data formats and their properties
-    const TagFormat ExifTags::tagFormat_[] = {
-        TagFormat(invalid,          "invalid",           0),
-        TagFormat(unsignedByte,     "unsigned byte",     1),
-        TagFormat(asciiString,      "ascii strings",     1),
-        TagFormat(unsignedShort,    "unsigned short",    2),
-        TagFormat(unsignedLong,     "unsigned long",     4),
-        TagFormat(unsignedRational, "unsigned rational", 8),
-        TagFormat(invalid6,         "invalid (6)",       1),
-        TagFormat(undefined,        "undefined",         1),
-        TagFormat(signedShort,      "signed short",      2),
-        TagFormat(signedLong,       "signed long",       4),
-        TagFormat(signedRational,   "signed rational",   8)
     };
 
     TagInfo::TagInfo(
@@ -329,16 +312,6 @@ namespace Exif {
         if (idx == -1) throw Error("No taginfo for IFD");
 	const TagInfo* tagInfo = tagInfos_[ifdId];
         return sectionInfo_[tagInfo[idx].sectionId_].desc_;
-    }
-
-    const char* ExifTags::typeName(TypeId typeId)
-    {
-        return tagFormat_[typeId].name_;
-    }
-
-    long ExifTags::typeSize(TypeId typeId)
-    {
-        return tagFormat_[typeId].size_;
     }
 
     const char* ExifTags::ifdName(IfdId ifdId)
@@ -709,9 +682,9 @@ namespace Exif {
     {
         long space = value.toLong();
         switch (space) {
-        case 1:       os << "sRGB"; break;
-        case 0xffff:  os << "Uncalibrated"; break;
-        default:      os << space; break;
+        case 1:      os << "sRGB"; break;
+        case 0xffff: os << "Uncalibrated"; break;
+        default:     os << space; break;
         }
         return os;
     }

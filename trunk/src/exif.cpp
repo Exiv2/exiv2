@@ -20,18 +20,24 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.19 $
+  Version:   $Name:  $ $Revision: 1.20 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
+             11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.19 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.20 $ $RCSfile: exif.cpp,v $")
 
 // *****************************************************************************
 // included header files
 #include "exif.hpp"
+#include "types.hpp"
+#include "error.hpp"
+#include "value.hpp"
+#include "ifd.hpp"
 #include "tags.hpp"
+#include "image.hpp"
 
 // + standard includes
 #include <iostream>
@@ -41,333 +47,11 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.19 $ $RCSfile: exif.cpp,v $")
 #include <utility>
 #include <algorithm>
 #include <map>
-
 #include <cstring>
-#include <cstdio>                               // for rename
-
-#include <sys/types.h>                          // for getpid
-#include <unistd.h>                             // for getpid, unlink
 
 // *****************************************************************************
 // class member definitions
 namespace Exif {
-
-    JpegImage::JpegImage()
-        : sizeExifData_(0), exifData_(0)
-    {
-    }
-
-    JpegImage::~JpegImage()
-    {
-        delete[] exifData_;
-    }
-
-    const uint16 JpegImage::soi_    = 0xffd8;
-    const uint16 JpegImage::app0_   = 0xffe0;
-    const uint16 JpegImage::app1_   = 0xffe1;
-    const char JpegImage::exifId_[] = "Exif\0\0";
-    const char JpegImage::jfifId_[] = "JFIF\0";
-
-    bool JpegImage::isJpeg(std::istream& is)
-    {
-        char c;
-        is.get(c);
-        if (!is.good()) return false;
-        if (static_cast<char>((soi_ & 0xff00) >> 8) != c) {
-            is.unget();
-            return false;
-        }
-        is.get(c);
-        if (!is.good()) return false;
-        if (static_cast<char>(soi_ & 0x00ff) != c) {
-            is.unget();
-            return false;
-        }
-        return true;
-    }
-
-    int JpegImage::readExifData(const std::string& path)
-    {
-        std::ifstream file(path.c_str(), std::ios::binary);
-        if (!file) return -1;
-        return readExifData(file);
-    }
-
-    // Todo: implement this properly: skip unknown APP0 and APP1 segments
-    int JpegImage::readExifData(std::istream& is)
-    {
-        // Check if this is a JPEG image in the first place
-        if (!isJpeg(is)) {
-            if (!is.good()) return 1;
-            return 2;
-        }
-
-        // Read and check section marker and size
-        char tmpbuf[10];
-        is.read(tmpbuf, 10);
-        if (!is.good()) return 1;
-        uint16 marker = getUShort(tmpbuf, bigEndian);
-        uint16 size = getUShort(tmpbuf + 2, bigEndian);
-        if (size < 8) return 3;
-        if (!(marker == app1_ && memcmp(tmpbuf + 4, exifId_, 6) == 0)) return 3;
-
-        // Read the rest of the APP1 field (Exif data)
-        long sizeExifData = size - 8;
-        exifData_ = new char[sizeExifData];
-        is.read(exifData_, sizeExifData);
-        if (!is.good()) {
-            delete[] exifData_;
-            exifData_ = 0;
-            return 1;
-        }
-        // Finally, set the size and offset of the Exif data buffer
-        sizeExifData_ = sizeExifData;
-
-        return 0;
-    } // JpegImage::readExifData
-
-    int JpegImage::writeExifData(const std::string& path) const
-    {
-        std::ifstream infile(path.c_str(), std::ios::binary);
-        if (!infile) return -1;
-
-        // Write the output to a temporary file
-        pid_t pid = getpid();
-        std::string tmpname = path + toString(pid);
-        std::ofstream outfile(tmpname.c_str(), std::ios::binary);
-        if (!outfile) return -2;
-
-        int rc = writeExifData(outfile, infile);
-        infile.close();
-        outfile.close();
-        if (rc == 0) {
-            // rename temporary file
-            if (rename(tmpname.c_str(), path.c_str()) == -1) rc = -3;
-        }
-        if (rc != 0) {
-            // remove temporary file
-            unlink(tmpname.c_str());
-        }
-
-        return rc;
-    } // JpegImage::writeExifData
-
-    // Todo: implement this properly: skip unknown APP0 and APP1 segments
-    int JpegImage::writeExifData(std::ostream& os, std::istream& is) const
-    {
-        // Check if this is a JPEG image in the first place
-        if (!isJpeg(is)) {
-            if (!is.good()) return 1;
-            return 2;
-        }
-
-        // Read and check section marker and size
-        char tmpbuf[12];
-        is.read(tmpbuf, 10);
-        if (!is.good()) return 1;
-        uint16 marker = getUShort(tmpbuf, bigEndian);
-        uint16 size = getUShort(tmpbuf + 2, bigEndian);
-        if (size < 8) return 3;
-        if (!(   (marker == app0_ && memcmp(tmpbuf + 4, jfifId_, 5) == 0)
-              || (marker == app1_ && memcmp(tmpbuf + 4, exifId_, 6) == 0))) {
-            return 3;
-        }
-
-        // Write SOI and APP1 markers, size of APP1 field, Exif id and Exif data
-        us2Data(tmpbuf, soi_, bigEndian);
-        us2Data(tmpbuf + 2, app1_, bigEndian);
-        us2Data(tmpbuf + 4, sizeExifData_ + 8, bigEndian);
-        memcpy(tmpbuf + 6, exifId_, 6);
-        os.write(tmpbuf, 12);
-        os.write(exifData_, sizeExifData_);
-        if (!os.good()) return 4;
-        // Copy rest of the stream
-        is.ignore(size - 8);
-        if (!is.good()) return 1;
-        os.flush();
-        is >> os.rdbuf();
-        if (!os.good()) return 4;
-
-        return 0;
-    } // JpegImage::writeExifData
-
-    void JpegImage::setExifData(const char* buf, long size)
-    {
-        sizeExifData_ = size;
-        delete[] exifData_;
-        exifData_ = new char[size];
-        memcpy(exifData_, buf, size);
-    }
-
-    TiffHeader::TiffHeader(ByteOrder byteOrder) 
-        : byteOrder_(byteOrder), tag_(0x002a), offset_(0x00000008)
-    {
-    }
-
-    int TiffHeader::read(const char* buf)
-    {
-        if (buf[0] == 0x49 && buf[1] == 0x49) {
-            byteOrder_ = littleEndian;
-        }
-        else if (buf[0] == 0x4d && buf[1] == 0x4d) {
-            byteOrder_ = bigEndian;
-        }
-        else {
-            return 1;
-        }
-        tag_ = getUShort(buf+2, byteOrder_);
-        offset_ = getULong(buf+4, byteOrder_);
-        return 0;
-    }
-
-    long TiffHeader::copy(char* buf) const
-    {
-        switch (byteOrder_) {
-        case littleEndian:
-            buf[0] = 0x49;
-            buf[1] = 0x49;
-            break;
-        case bigEndian:
-            buf[0] = 0x4d;
-            buf[1] = 0x4d;
-            break;
-        }
-        us2Data(buf+2, 0x002a, byteOrder_);
-        ul2Data(buf+4, 0x00000008, byteOrder_);
-        return size();
-    }
-
-    Value* Value::create(TypeId typeId)
-    {
-        Value* value = 0;
-        switch (typeId) {
-        case invalid:
-            value = new DataValue(invalid);
-            break;
-        case unsignedByte:
-            value = new DataValue(unsignedByte);
-            break;
-        case asciiString:
-            value =  new AsciiValue;
-            break;
-        case unsignedShort:
-            value = new ValueType<uint16>;
-            break;
-        case unsignedLong:
-            value = new ValueType<uint32>;
-            break;
-        case unsignedRational:
-            value = new ValueType<URational>;
-            break;
-        case invalid6:
-            value = new DataValue(invalid6);
-            break;
-        case undefined:
-            value = new DataValue;
-            break;
-        case signedShort:
-            value = new ValueType<int16>;
-            break;
-        case signedLong:
-            value = new ValueType<int32>;
-            break;
-        case signedRational:
-            value = new ValueType<Rational>;
-            break;
-        default:
-            value = new DataValue(typeId);
-            break;
-        }
-        return value;
-    } // Value::create
-
-    std::string Value::toString() const
-    {
-        std::ostringstream os;
-        write(os);
-        return os.str();
-    }
-
-    void DataValue::read(const char* buf, long len, ByteOrder byteOrder)
-    {
-        // byteOrder not needed 
-        value_ = std::string(buf, len);
-    }
-
-    void DataValue::read(const std::string& buf)
-    {
-        std::istringstream is(buf);
-        int tmp;
-        value_.clear();
-        while (is >> tmp) {
-            value_ += (char)tmp;
-        }
-    }
-
-    long DataValue::copy(char* buf, ByteOrder byteOrder) const
-    {
-        // byteOrder not needed
-        return value_.copy(buf, value_.size());
-    }
-
-    long DataValue::size() const
-    {
-        return value_.size();
-    }
-
-    Value* DataValue::clone() const
-    {
-        return new DataValue(*this);
-    }
-
-    std::ostream& DataValue::write(std::ostream& os) const
-    {
-        std::string::size_type end = value_.size();
-        for (std::string::size_type i = 0; i != end; ++i) {
-            os << (int)(unsigned char)value_[i] << " ";
-        }
-        return os;
-    }
-
-    void AsciiValue::read(const char* buf, long len, ByteOrder byteOrder)
-    {
-        // byteOrder not needed 
-        value_ = std::string(buf, len);
-    }
-
-    void AsciiValue::read(const std::string& buf)
-    {
-        value_ = buf;
-        if (value_[value_.size()-1] != '\0') value_ += '\0';
-    }
-
-    long AsciiValue::copy(char* buf, ByteOrder byteOrder) const
-    {
-        // byteOrder not needed
-        return value_.copy(buf, value_.size());
-    }
-
-    long AsciiValue::size() const
-    {
-        return value_.size();
-    }
-
-    Value* AsciiValue::clone() const
-    {
-        return new AsciiValue(*this);
-    }
-
-    std::ostream& AsciiValue::write(std::ostream& os) const
-    {
-        // Strip trailing '\0', if any
-        if (value_.size() > 0 && value_[value_.size() - 1] == '\0') {
-            os << value_.substr(0, value_.size() - 1);
-        }
-        else {
-            os << value_;
-        }
-        return os;
-    }
 
     Metadatum::Metadatum(const Entry& e, ByteOrder byteOrder)
         : tag_(e.tag()), ifdId_(e.ifdId()), ifdIdx_(e.ifdIdx()), value_(0)
@@ -424,417 +108,6 @@ namespace Exif {
         if (value_ == 0) value_ = Value::create(asciiString);
         value_->read(buf);
     }
-
-    RawEntry::RawEntry()
-        : ifdId_(ifdIdNotSet), ifdIdx_(-1),
-          tag_(0), type_(0), count_(0), offset_(0), size_(0)
-    {
-        memset(offsetData_, 0x0, 4);
-    }
-
-    Entry::Entry(bool alloc)
-        : alloc_(alloc), ifdId_(ifdIdNotSet), ifdIdx_(-1),
-          tag_(0), type_(0), count_(0), offset_(0), size_(0), data_(0)
-    {
-        memset(offsetData_, 0x0, 4);
-    }
-
-    Entry::Entry(const RawEntry& e, const char* buf, bool alloc)
-        : alloc_(alloc), ifdId_(e.ifdId_), ifdIdx_(e.ifdIdx_),
-          tag_(e.tag_), type_(e.type_), count_(e.count_), offset_(e.offset_), 
-          size_(e.size_), data_(0)
-    {
-        if (size_ > 4) {
-            if (alloc_) {
-                data_ = new char[size_]; 
-                memcpy(data_, buf + offset_, size_);
-            }
-            else {
-                data_ = const_cast<char*>(buf) + offset_;
-            }
-        }
-        else {
-            memcpy(offsetData_, e.offsetData_, 4);
-        }
-    }
-
-    Entry::~Entry()
-    {
-        if (alloc_) delete[] data_;
-    }
-
-    Entry::Entry(const Entry& rhs)
-        : alloc_(rhs.alloc_), ifdId_(rhs.ifdId_),
-          ifdIdx_(rhs.ifdIdx_), tag_(rhs.tag_), type_(rhs.type_), 
-          count_(rhs.count_), offset_(rhs.offset_), size_(rhs.size_), data_(0)
-    {
-        memcpy(offsetData_, rhs.offsetData_, 4);
-        if (alloc_) {
-            if (rhs.data_) {
-                data_ = new char[rhs.size()];
-                memcpy(data_, rhs.data_, rhs.size());
-            }
-        }
-        else {
-            data_ = rhs.data_;
-        }
-    }
-
-    Entry::Entry& Entry::operator=(const Entry& rhs)
-    {
-        if (this == &rhs) return *this;
-        alloc_ = rhs.alloc_;
-        ifdId_ = rhs.ifdId_;
-        ifdIdx_ = rhs.ifdIdx_;
-        tag_ = rhs.tag_;
-        type_ = rhs.type_;
-        count_ = rhs.count_;
-        offset_ = rhs.offset_;
-        memcpy(offsetData_, rhs.offsetData_, 4);
-        size_ = rhs.size_;
-        if (alloc_) {
-            delete[] data_;
-            data_ = 0;
-            if (rhs.data_) {
-                data_ = new char[rhs.size()];
-                memcpy(data_, rhs.data_, rhs.size());
-            }
-        }
-        else {
-            data_ = rhs.data_;
-        }
-        return *this;
-    } // Entry::operator=
-
-    const char* Entry::data() const
-    {
-        if (size_ > 4) return data_;
-        return offsetData_;
-    }
-
-    void Entry::setOffset(uint32 offset, ByteOrder byteOrder)
-    {
-        if (size_ > 4) {
-            offset_ = offset;
-        }
-        else {
-            ul2Data(offsetData_, offset, byteOrder);
-        }
-    }
-
-    void Entry::setValue(const Value& value, ByteOrder byteOrder)
-    {
-        if (value.size() > 4 && alloc_) {
-            delete[] data_;
-            data_ = new char[value.size()];
-            value.copy(data_, byteOrder);
-        }
-        if (value.size() <= 4 && alloc_) {
-            delete[] data_;
-            data_ = 0;
-            memset(offsetData_, 0x0, 4);
-            value.copy(offsetData_, byteOrder);
-        }
-        if (value.size() > 4 && !alloc_) {
-            if (value.size() > size_) throw Error("Size too large");
-            memset(data_, 0x0, size_);
-            value.copy(data_, byteOrder);
-        }
-        if (value.size() <= 4 && !alloc_) {
-            data_ = 0;
-            memset(offsetData_, 0x0, 4);
-            value.copy(offsetData_, byteOrder); 
-        }
-        size_ = value.size();
-        type_ = value.typeId();
-        count_ = value.count();
-    } // Entry::setValue
-
-    Ifd::Ifd(IfdId ifdId)
-        : alloc_(true), ifdId_(ifdId), offset_(0), next_(0)
-    {
-    }
-
-    Ifd::Ifd(IfdId ifdId, uint32 offset)
-        : alloc_(true), ifdId_(ifdId), offset_(offset), next_(0)
-    {
-    }
-
-    Ifd::Ifd(IfdId ifdId, uint32 offset, bool alloc)
-        : alloc_(alloc), ifdId_(ifdId), offset_(offset), next_(0)
-    {
-    }
-
-    int Ifd::read(const char* buf, ByteOrder byteOrder, long offset)
-    {
-        offset_ = offset;
-        int n = getUShort(buf, byteOrder);
-        long o = 2;
-
-        // Create an array of raw entries
-        RawEntries rawEntries;
-        for (int i = 0; i < n; ++i) {
-            RawEntry e; 
-            e.ifdId_ = ifdId_;
-            e.ifdIdx_ = i;
-            e.tag_ = getUShort(buf+o, byteOrder);
-            e.type_ = getUShort(buf+o+2, byteOrder);
-            e.count_ = getULong(buf+o+4, byteOrder);
-            e.size_ = e.count_ * ExifTags::typeSize(TypeId(e.type_));
-            e.offset_ = e.size_ > 4 ? getULong(buf+o+8, byteOrder) : 0;
-            memcpy(e.offsetData_, buf+o+8, 4);
-            rawEntries.push_back(e);
-            o += 12;
-        }
-        next_ = getULong(buf+o, byteOrder);
-
-        // Guess the offset of the IFD, if it was not given. The guess is based
-        // on the assumption that the smallest offset points to a data buffer
-        // directly following the IFD. Subsequently all offsets of IFD entries
-        // will need to be recalculated.
-        if (offset_ == 0 && rawEntries.size() > 0) {
-            // Find the entry with the smallest offset
-            RawEntries::const_iterator i;
-            i = std::min_element(
-                rawEntries.begin(), rawEntries.end(), cmpRawEntriesByOffset);
-            // Set the 'guessed' IFD offset, the test is needed for the case when
-            // all entries have data sizes not exceeding 4.
-            if (i->size_ > 4) {
-                offset_ = i->offset_ - size();
-            }
-        }
-
-        // Convert 'raw' IFD entries to the actual entries, assign the data
-        // to each IFD entry and calculate relative offsets, relative to the
-        // start of the IFD
-        entries_.clear();
-        const RawEntries::iterator begin = rawEntries.begin();
-        const RawEntries::iterator end = rawEntries.end();
-        for (RawEntries::iterator i = begin; i != end; ++i) {
-            if (i->size_ > 4) {
-                i->offset_ = i->offset_ - offset_;
-            }
-            entries_.push_back(Entry(*i, buf, alloc_));
-        }
-
-        return 0;
-    } // Ifd::read
-
-    Ifd::const_iterator Ifd::findTag(uint16 tag) const 
-    {
-        return std::find_if(entries_.begin(), entries_.end(),
-                            FindEntryByTag(tag));
-    }
-
-    Ifd::iterator Ifd::findTag(uint16 tag)
-    {
-        return std::find_if(entries_.begin(), entries_.end(),
-                            FindEntryByTag(tag));
-    }
-
-    void Ifd::sortByTag()
-    {
-        std::sort(entries_.begin(), entries_.end(), cmpEntriesByTag);
-    }
-
-    int Ifd::readSubIfd(
-        Ifd& dest, const char* buf, ByteOrder byteOrder, uint16 tag
-    ) const
-    {
-        int rc = 0;
-        const_iterator pos = findTag(tag);
-        if (pos != entries_.end()) {
-            uint32 offset = getULong(pos->data(), byteOrder);
-            rc = dest.read(buf + offset, byteOrder, offset);
-        }
-        return rc;
-    } // Ifd::readSubIfd
-
-    long Ifd::copy(char* buf, ByteOrder byteOrder, long offset) const
-    {
-        if (offset == 0) offset = offset_;
-
-        // Add the number of entries to the data buffer
-        us2Data(buf, entries_.size(), byteOrder);
-        long o = 2;
-
-        // Add all directory entries to the data buffer
-        long dataSize = 0;
-        const const_iterator b = entries_.begin();
-        const const_iterator e = entries_.end();
-        const_iterator i = b;
-        for (; i != e; ++i) {
-            us2Data(buf+o, i->tag(), byteOrder);
-            us2Data(buf+o+2, i->type(), byteOrder);
-            ul2Data(buf+o+4, i->count(), byteOrder);
-            if (i->size() > 4) {
-                // Calculate offset, data immediately follows the IFD
-                ul2Data(buf+o+8, offset + size() + dataSize, byteOrder);
-                dataSize += i->size();
-            }
-            else {
-                // Copy data into the offset field
-                memcpy(buf+o+8, i->data(), 4);
-            }
-            o += 12;
-        }
-
-        // Add the offset to the next IFD to the data buffer
-        o += ul2Data(buf+o, next_, byteOrder);
-
-        // Add the data of all IFD entries to the data buffer
-        for (i = b; i != e; ++i) {
-            if (i->size() > 4) {
-                memcpy(buf + o, i->data(), i->size());
-                o += i->size();
-            }
-        }
-
-        return o;
-    } // Ifd::copy
-
-    void Ifd::add(Metadata::const_iterator begin, 
-                  Metadata::const_iterator end,
-                  ByteOrder byteOrder)
-    {
-        for (Metadata::const_iterator i = begin; i != end; ++i) {
-            // add only metadata with matching IFD id
-            if (i->ifdId() == ifdId_) {
-                add(*i, byteOrder);
-            }
-        }
-    } // Ifd::add
-
-    void Ifd::add(const Metadatum& metadatum, ByteOrder byteOrder)
-    {
-        // Todo: Implement Assert (Stroustup 24.3.7.2)
-        if (!alloc_) throw Error("Invariant violated in Ifd::add");
-
-        RawEntry e;
-        e.ifdId_ = metadatum.ifdId();
-        e.ifdIdx_ = metadatum.ifdIdx();
-        e.tag_ = metadatum.tag();
-        e.type_ = metadatum.typeId();
-        e.count_ = metadatum.count();
-        e.size_ = metadatum.size();
-        e.offset_ = 0;  // will be calculated when the IFD is written
-        char* buf = 0;
-        if (e.size_ > 4) {
-            buf = new char[e.size_];
-            metadatum.copy(buf, byteOrder);
-        }
-        else {
-            metadatum.copy(e.offsetData_, byteOrder);
-        }
-        erase(metadatum.tag());
-        entries_.push_back(Entry(e, buf, alloc_));
-        delete[] buf;
-    }
-
-    void Ifd::erase(uint16 tag)
-    {
-        iterator pos = findTag(tag);
-        if (pos != end()) erase(pos);
-    }
-
-    void Ifd::erase(iterator pos)
-    {
-        if (alloc_) {
-            entries_.erase(pos);
-        }
-    }
-
-    void Ifd::setOffset(uint16 tag, uint32 offset, ByteOrder byteOrder)
-    {
-        iterator pos = findTag(tag);
-        if (pos == entries_.end()) {
-            RawEntry e;
-            e.ifdId_ = ifdId_;
-            e.ifdIdx_ = 0;
-            e.tag_ = tag;
-            e.type_ = unsignedLong;
-            e.count_ = 1;
-            e.offset_ = 0;
-            e.size_ = 4;
-            entries_.push_back(Entry(e, 0, alloc_));
-            pos = findTag(tag);
-        }
-        pos->setOffset(offset, byteOrder);
-    } // Ifd::setOffset
-
-    long Ifd::size() const
-    {
-        if (entries_.size() == 0) return 0;
-        return 2 + 12 * entries_.size() + 4; 
-    }
-
-    long Ifd::dataSize() const
-    {
-        long dataSize = 0;
-        const_iterator end = this->end();
-        for (const_iterator i = begin(); i != end; ++i) {
-            if (i->size() > 4) dataSize += i->size();
-        }
-        return dataSize;
-    }
-
-    void Ifd::print(std::ostream& os, const std::string& prefix) const
-    {
-        if (entries_.size() == 0) return;
-        // Print a header
-        os << prefix << "IFD Offset: 0x"
-           << std::setw(8) << std::setfill('0') << std::hex << std::right 
-           << offset_ 
-           << ",   IFD Entries: " 
-           << std::setfill(' ') << std::dec << std::right
-           << entries_.size() << "\n"
-           << prefix << "Entry     Tag  Format   (Bytes each)  Number  Offset\n"
-           << prefix << "-----  ------  ---------------------  ------  -----------\n";
-        // Print IFD entries
-        const const_iterator b = entries_.begin();
-        const const_iterator e = entries_.end();
-        const_iterator i = b;
-        for (; i != e; ++i) {
-            std::ostringstream offset;
-            if (i->size() > 4) {
-                offset << " 0x" << std::setw(8) << std::setfill('0') 
-                       << std::hex << std::right << i->offset();
-            }
-            else {
-                unsigned char* data = (unsigned char*)i->data();
-                offset << std::setw(2) << std::setfill('0') << std::hex
-                       << (int)data[0] << " "
-                       << std::setw(2) << std::setfill('0') << std::hex
-                       << (int)data[1] << " "
-                       << std::setw(2) << std::setfill('0') << std::hex
-                       << (int)data[2] << " "
-                       << std::setw(2) << std::setfill('0') << std::hex
-                       << (int)data[3] << " ";
-            }
-            os << prefix << std::setw(5) << std::setfill(' ') << std::dec
-               << std::right << i - b
-               << "  0x" << std::setw(4) << std::setfill('0') << std::hex 
-               << std::right << i->tag()
-               << "  " << std::setw(17) << std::setfill(' ') 
-               << std::left << i->typeName() 
-               << " (" << std::dec << i->typeSize() << ")"
-               << "  " << std::setw(6) << std::setfill(' ') << std::dec
-               << std::right << i->count()
-               << "  " << offset.str()
-               << "\n";
-        }
-        os << prefix << "Next IFD: 0x" 
-           << std::setw(8) << std::setfill('0') << std::hex
-           << std::right << next_ << "\n";
-        // Print data of IFD entries 
-        for (i = b; i != e; ++i) {
-            if (i->size() > 4) {
-                os << "Data of entry " << i - b << ":\n";
-                hexdump(os, i->data(), i->size());
-            }
-        }
-
-    } // Ifd::print
 
     Thumbnail::Thumbnail()
         : type_(none), size_(0), image_(0), ifd_(ifd1, 0, false)
@@ -927,7 +200,7 @@ namespace Exif {
 
         // Create IFD (without Exif and GPS tags) from metadata
         Ifd ifd1(ifd1);
-        ifd1.add(exifData.begin(), exifData.end(), tiffHeader.byteOrder());
+        addToIfd(ifd1, exifData.begin(), exifData.end(), tiffHeader.byteOrder());
         Ifd::iterator i = ifd1.findTag(0x8769);
         if (i != ifd1.end()) ifd1.erase(i);
         i = ifd1.findTag(0x8825);
@@ -956,7 +229,7 @@ namespace Exif {
         // Update the IFD with the actual strip offsets (replace existing entry)
         Metadatum newOffsets(*offsets);
         newOffsets.setValue(os.str());
-        ifd1.add(newOffsets, tiffHeader.byteOrder());
+        addToIfd(ifd1, newOffsets, tiffHeader.byteOrder());
 
         // Finally, sort and copy the IFD
         ifd1.sortByTag();
@@ -1138,7 +411,7 @@ namespace Exif {
         offsets.setValue(os.str());
 
         // Write the offsets to IFD1, encoded in the corresponding byte order
-        ifd1.add(offsets, byteOrder);
+        addToIfd(ifd1, offsets, byteOrder);
 
     } // Thumbnail::setTiffImageOffsets
 
@@ -1268,12 +541,12 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
 
         // Build IFD0
         Ifd ifd0(ifd0, ifd0Offset);
-        ifd0.add(begin(), end(), byteOrder());
+        addToIfd(ifd0, begin(), end(), byteOrder());
 
         // Build Exif IFD from metadata
         long exifIfdOffset = ifd0Offset + ifd0.size() + ifd0.dataSize();
         Ifd exifIfd(exifIfd, exifIfdOffset);
-        exifIfd.add(begin(), end(), byteOrder());
+        addToIfd(exifIfd, begin(), end(), byteOrder());
 
         // Set the offset to the Exif IFD in IFD0
         ifd0.erase(0x8769);
@@ -1284,7 +557,7 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
         // Build Interoperability IFD from metadata
         long iopIfdOffset = exifIfdOffset + exifIfd.size() + exifIfd.dataSize();
         Ifd iopIfd(iopIfd, iopIfdOffset);
-        iopIfd.add(begin(), end(), byteOrder());
+        addToIfd(iopIfd, begin(), end(), byteOrder());
 
         // Set the offset to the Interoperability IFD in Exif IFD
         exifIfd.erase(0xa005);
@@ -1295,7 +568,7 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
         // Build GPSInfo IFD from metadata
         long gpsIfdOffset = iopIfdOffset + iopIfd.size() + iopIfd.dataSize();
         Ifd gpsIfd(gpsIfd, gpsIfdOffset);
-        gpsIfd.add(begin(), end(), byteOrder());
+        addToIfd(gpsIfd, begin(), end(), byteOrder());
 
         // Set the offset to the GPSInfo IFD in IFD0
         ifd0.erase(0x8825);
@@ -1307,7 +580,7 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
         thumbnail_.update(*this);
         long ifd1Offset = gpsIfdOffset + gpsIfd.size() + gpsIfd.dataSize();
         Ifd ifd1(ifd1, ifd1Offset);
-        ifd1.add(begin(), end(), byteOrder());
+        addToIfd(ifd1, begin(), end(), byteOrder());
         thumbnail_.setOffsets(ifd1, byteOrder());
         long thumbOffset = ifd1Offset + ifd1.size() + ifd1.dataSize();
 
@@ -1449,7 +722,10 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
                 compatible = false;
                 continue;
             }
-            entry->setValue(md->value(), byteOrder());
+            char* buf = new char[md->size()];
+            md->copy(buf, byteOrder());
+            entry->setValue(md->typeId(), buf, md->size());
+            delete[] buf;
         }
         return compatible;
     } // ExifData::updateIfd
@@ -1508,179 +784,43 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
     // *************************************************************************
     // free functions
 
-    uint16 getUShort(const char* buf, ByteOrder byteOrder)
+    void addToIfd(Ifd& ifd, 
+                  Metadata::const_iterator begin, 
+                  Metadata::const_iterator end, 
+                  ByteOrder byteOrder)
     {
-        if (byteOrder == littleEndian) {
-            return (unsigned char)buf[1] << 8 | (unsigned char)buf[0];
+        for (Metadata::const_iterator i = begin; i != end; ++i) {
+            // add only metadata with matching IFD id
+            if (i->ifdId() == ifd.ifdId()) {
+                addToIfd(ifd, *i, byteOrder);
+            }
+        }
+    } // addToIfd
+
+    void addToIfd(Ifd& ifd, const Metadatum& metadatum, ByteOrder byteOrder)
+    {
+        // Todo: Implement Assert (Stroustup 24.3.7.2)
+        if (!ifd.alloc()) throw Error("Invariant violated in addToIfd");
+
+        RawEntry e;
+        e.ifdId_ = metadatum.ifdId();
+        e.ifdIdx_ = metadatum.ifdIdx();
+        e.tag_ = metadatum.tag();
+        e.type_ = metadatum.typeId();
+        e.count_ = metadatum.count();
+        e.size_ = metadatum.size();
+        e.offset_ = 0;  // will be calculated when the IFD is written
+        char* buf = 0;
+        if (e.size_ > 4) {
+            buf = new char[e.size_];
+            metadatum.copy(buf, byteOrder);
         }
         else {
-            return (unsigned char)buf[0] << 8 | (unsigned char)buf[1];
+            metadatum.copy(e.offsetData_, byteOrder);
         }
-    }
-
-    uint32 getULong(const char* buf, ByteOrder byteOrder)
-    {
-        if (byteOrder == littleEndian) {
-            return   (unsigned char)buf[3] << 24 | (unsigned char)buf[2] << 16 
-                   | (unsigned char)buf[1] <<  8 | (unsigned char)buf[0];
-        }
-        else {
-            return   (unsigned char)buf[0] << 24 | (unsigned char)buf[1] << 16 
-                   | (unsigned char)buf[2] <<  8 | (unsigned char)buf[3];
-        }
-    }
-
-    URational getURational(const char* buf, ByteOrder byteOrder)
-    {
-        uint32 nominator = getULong(buf, byteOrder);
-        uint32 denominator = getULong(buf + 4, byteOrder);
-        return std::make_pair(nominator, denominator);
-    }
-
-    int16 getShort(const char* buf, ByteOrder byteOrder)
-    {
-        if (byteOrder == littleEndian) {
-            return (unsigned char)buf[1] << 8 | (unsigned char)buf[0];
-        }
-        else {
-            return (unsigned char)buf[0] << 8 | (unsigned char)buf[1];
-        }
-    }
-
-    int32 getLong(const char* buf, ByteOrder byteOrder)
-    {
-        if (byteOrder == littleEndian) {
-            return   (unsigned char)buf[3] << 24 | (unsigned char)buf[2] << 16 
-                   | (unsigned char)buf[1] <<  8 | (unsigned char)buf[0];
-        }
-        else {
-            return   (unsigned char)buf[0] << 24 | (unsigned char)buf[1] << 16 
-                   | (unsigned char)buf[2] <<  8 | (unsigned char)buf[3];
-        }
-    }
-
-    Rational getRational(const char* buf, ByteOrder byteOrder)
-    {
-        int32 nominator = getLong(buf, byteOrder);
-        int32 denominator = getLong(buf + 4, byteOrder);
-        return std::make_pair(nominator, denominator);
-    }
-
-    long us2Data(char* buf, uint16 s, ByteOrder byteOrder)
-    {
-        if (byteOrder == littleEndian) {
-            buf[0] =  s & 0x00ff;
-            buf[1] = (s & 0xff00) >> 8;
-        }
-        else {
-            buf[0] = (s & 0xff00) >> 8;
-            buf[1] =  s & 0x00ff;
-        }
-        return 2;
-    }
-
-    long ul2Data(char* buf, uint32 l, ByteOrder byteOrder)
-    {
-        if (byteOrder == littleEndian) {
-            buf[0] =  l & 0x000000ff;
-            buf[1] = (l & 0x0000ff00) >> 8;
-            buf[2] = (l & 0x00ff0000) >> 16;
-            buf[3] = (l & 0xff000000) >> 24;
-        }
-        else {
-            buf[0] = (l & 0xff000000) >> 24;
-            buf[1] = (l & 0x00ff0000) >> 16;
-            buf[2] = (l & 0x0000ff00) >> 8;
-            buf[3] =  l & 0x000000ff;
-        }
-        return 4;
-    }
-
-    long ur2Data(char* buf, URational l, ByteOrder byteOrder)
-    {
-        long o = ul2Data(buf, l.first, byteOrder);
-        o += ul2Data(buf+o, l.second, byteOrder);
-        return o;
-    }
-
-    long s2Data(char* buf, int16 s, ByteOrder byteOrder)
-    {
-        if (byteOrder == littleEndian) {
-            buf[0] =  s & 0x00ff;
-            buf[1] = (s & 0xff00) >> 8;
-        }
-        else {
-            buf[0] = (s & 0xff00) >> 8;
-            buf[1] =  s & 0x00ff;
-        }
-        return 2;
-    }
-
-    long l2Data(char* buf, int32 l, ByteOrder byteOrder)
-    {
-        if (byteOrder == littleEndian) {
-            buf[0] =  l & 0x000000ff;
-            buf[1] = (l & 0x0000ff00) >> 8;
-            buf[2] = (l & 0x00ff0000) >> 16;
-            buf[3] = (l & 0xff000000) >> 24;
-        }
-        else {
-            buf[0] = (l & 0xff000000) >> 24;
-            buf[1] = (l & 0x00ff0000) >> 16;
-            buf[2] = (l & 0x0000ff00) >> 8;
-            buf[3] =  l & 0x000000ff;
-        }
-        return 4;
-    }
-
-    long r2Data(char* buf, Rational l, ByteOrder byteOrder)
-    {
-        long o = l2Data(buf, l.first, byteOrder);
-        o += l2Data(buf+o, l.second, byteOrder);
-        return o;
-    }
-
-    void hexdump(std::ostream& os, const char* buf, long len)
-    {
-        const std::string::size_type pos = 9 + 16 * 3; 
-        const std::string align(pos, ' '); 
-
-        long i = 0;
-        while (i < len) {
-            os << "   " 
-               << std::setw(4) << std::setfill('0') << std::hex 
-               << i << "  ";
-            std::ostringstream ss;
-            do {
-                unsigned char c = buf[i];
-                os << std::setw(2) << std::setfill('0') 
-                   << std::hex << (int)c << " ";
-                ss << ((int)c >= 31 && (int)c < 127 ? buf[i] : '.');
-            } while (++i < len && i%16 != 0);
-            std::string::size_type width = 9 + ((i-1)%16 + 1) * 3;
-            os << (width > pos ? "" : align.substr(width)) << ss.str() << "\n";
-        }
-        os << std::dec << std::setfill(' ');
-    } // hexdump
-
-    bool cmpRawEntriesByOffset(const RawEntry& lhs, const RawEntry& rhs)
-    {
-        // We need to ignore entries with size <= 4, so by definition,
-        // entries with size <= 4 are greater than those with size > 4
-        // when compared by their offset.
-        if (lhs.size_ <= 4) {
-            return false; // lhs is greater by definition, or they are equal
-        }
-        if (rhs.size_ <= 4) {
-            return true; // rhs is greater by definition (they cannot be equal)
-        }
-        return lhs.offset_ < rhs.offset_;
-    }
-
-    bool cmpEntriesByTag(const Entry& lhs, const Entry& rhs)
-    {
-        return lhs.tag() < rhs.tag();
-    }
+        ifd.add(Entry(e, buf, ifd.alloc()));
+        delete[] buf;
+    } // addToIfd
 
     bool cmpMetadataByTag(const Metadatum& lhs, const Metadatum& rhs)
     {
