@@ -8,7 +8,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.2 $
+  @version $Name:  $ $Revision: 1.3 $
   @author  Andreas Huggel (ahu)
   @date    09-Jan-03, ahu: created
  */
@@ -116,20 +116,23 @@ namespace Exif {
     public:
         //! Default constructor.
         TiffHeader();
-        //! Reads the Tiff header from a data buffer. Returns 0 if successful.
+        //! Read the Tiff header from a data buffer. Returns 0 if successful.
         int read(const char* buf);
-        //! Writes the Tiff header into buf as a data string.
-        void data(char* buf) const;
-        //! Returns the lengths of the Tiff header in bytes.
+        /*!
+          @brief Write the Tiff header into buf as a data string, return number 
+                 of bytes copied.
+         */
+        long copy(char* buf) const;
+        //! Return the lengths of the Tiff header in bytes.
         long size() const { return 8; }
         //! @name Accessors
         //@{
-        //! Returns the byte order (little or big endian). 
+        //! Return the byte order (little or big endian). 
         ByteOrder byteOrder() const { return byteOrder_; }
-        //! Returns the tag value.
+        //! Return the tag value.
         uint16 tag() const { return tag_; }
         /*!
-          @brief Returns the offset to IFD0 from the start of the Tiff header.
+          @brief Return the offset to IFD0 from the start of the Tiff header.
                  The offset is 0x00000008 if IFD0 begins immediately after the 
                  Tiff header.
          */
@@ -142,9 +145,102 @@ namespace Exif {
         uint32 offset_;
     }; // class TiffHeader
 
+    //! Common interface for all values 
+    class Value {
+    public:
+        //! Constructor, taking a type id to initialize the base class with
+        explicit Value(TypeId typeId) : typeId_(typeId) {}
+        //! Virtual destructor.
+        virtual ~Value() {}
+        /*!
+          @brief Read the value from a character buffer.
+
+          @param buf Pointer to the data buffer to read from
+          @param len Number of bytes in the data buffer 
+         */
+        virtual void read(const char* buf, long len) =0;
+        //! Set the value from a string buffer
+        virtual void read(const std::string& buf) =0;
+        /*!
+          @brief Write value to a character data buffer.
+
+          The user must ensure that the buffer has enough memory. Otherwise
+          the call results in undefined behaviour.
+
+          @param buf Data buffer to write to.
+          @return Number of characters written.
+        */
+        virtual long copy(char* buf) const =0;
+        //! Returns the size of the value in bytes
+        virtual long size() const =0;
+        /*!
+          @brief Returns a pointer to a copy of itself (deep copy).
+                 The caller owns this copy and is responsible to delete it!
+         */
+        virtual Value* clone() const =0;
+        //! Write the value to an output stream, return the stream
+        virtual std::ostream& write(std::ostream& os) const =0;
+
+        /*!
+          @brief A (simple) factory to create a Value type.
+
+          @param typeId Type of the value.
+          @param byteOrder Applicable byte order (little or big endian).
+
+          @return Pointer to the newly created Value.
+                  The caller owns this copy and is responsible to delete it!
+         */
+        static Value* create(TypeId typeId, ByteOrder byteOrder);
+
+    protected:
+        const TypeId typeId_;                   //!< Format type identifier
+
+    };
+
+    //! Output operator for Value types
+    inline std::ostream& operator<<(std::ostream& os, const Value& value)
+    {
+        return value.write(os);
+    }
+
+    //! %Value representing an Ascii string type.
+    class AsciiValue : public Value {
+    public:
+        //! Default constructor.
+        AsciiValue() : Value(asciiString) {}
+        virtual void read(const char* buf, long len);
+        virtual void read(const std::string& buf);
+        virtual long copy(char* buf) const;
+        virtual long size() const;
+        virtual Value* clone() const;
+        virtual std::ostream& write(std::ostream& os) const;
+
+    private:
+        std::string value_;
+
+    };
+
+    //! %Value representing one unsigned short type.
+    class UShortValue : public Value {
+    public:
+        //! Constructor, taking the byte order (endianness) as argument
+        UShortValue(ByteOrder byteOrder)
+            : Value(unsignedShort), byteOrder_(byteOrder) {}
+        virtual void read(const char* buf, long len);
+        virtual void read(const std::string& buf);
+        virtual long copy(char* buf) const;
+        virtual long size() const;
+        virtual Value* clone() const;
+        virtual std::ostream& write(std::ostream& os) const;
+
+    private:
+        ByteOrder byteOrder_;
+        uint16 value_;
+
+    };
+
     /*!
       @brief Information related to one %Exif tag.
-
      */
     class Metadatum {
     public:
@@ -153,21 +249,27 @@ namespace Exif {
         Metadatum(const Metadatum& rhs); //!< Copy constructor
         Metadatum& operator=(const Metadatum& rhs); //!< Assignment operator
 
-        //! Returns the name of the type
+        //! Return the name of the type
         const char* tagName() const { return ExifTags::tagName(tag_, ifdId_); }
-        //! Returns the name of the type
+        //! Return the name of the type
         const char* typeName() const { return ExifTags::typeName(type_); }
-        //! Returns the size in bytes of one element of this type
+        //! Return the size in bytes of one element of this type
         long typeSize() const { return ExifTags::typeSize(type_); }
-        //! Returns the name of the IFD
+        //! Return the name of the IFD
         const char* ifdName() const { return ExifTags::ifdName(ifdId_); }
-        //! Returns the related image item (image or thumbnail)
+        //! Return the related image item (image or thumbnail)
         const char* ifdItem() const { return ExifTags::ifdItem(ifdId_); }
-        //! Returns the name of the section
+        //! Return the name of the section
         const char* sectionName() const 
             { return ExifTags::sectionName(tag_, ifdId_); }
-        //! Returns a unique key of the tag (ifdItem.sectionName.tagName)
+        //! Return a unique key of the tag (ifdItem.sectionName.tagName)
         std::string key() const;
+        /*!
+          @brief Return a reference the the value. The behaviour is undefined
+                 if the value has not been initialized.
+                 Todo: should we make sure there is a value?
+         */
+        const Value& value() const { return *value_; }
 
     public:
         uint16 tag_;                   //!< Tag value
@@ -179,7 +281,7 @@ namespace Exif {
         IfdId ifdId_;                  //!< The IFD associated with this tag
         int   ifdIdx_;                 //!< Position in the IFD (-1: not set)
 
-        char* data_;                   //!< Pointer to the data
+        Value* value_;                 //!< Pointer to the value
 
     }; // struct Metadatum
 
@@ -244,7 +346,7 @@ namespace Exif {
             Ifd& dest, const char* buf, ByteOrder byteOrder, uint16 tag
         ) const;
         /*!
-          @brief Convert the IFD to a data array, returns a reference to the
+          @brief Copy the IFD to a data array, returns a reference to the
                  data buffer. The pointer to the next IFD will be adjusted to an
                  offset from the start of the Tiff header to the position
                  immediately following the converted IFD.
@@ -255,9 +357,9 @@ namespace Exif {
                         data array. The IFD offsets will be adjusted as
                         necessary. If not given, then it is assumed that the IFD
                         will remain at its original position.
-          @return       Returns buf
+          @return       Returns the number of characters written.
          */
-        char* data(char* buf, ByteOrder byteOrder, long offset =0) const;
+        long copy(char* buf, ByteOrder byteOrder, long offset =0) const;
         /*!
           @brief Print the IFD in human readable format to the given stream;
                  begin each line with prefix.
@@ -319,10 +421,12 @@ namespace Exif {
           @return 0 if successful
          */
         int read(const char* buf, long len);
-        //! Write %Exif data to a data buffer
-        void data(char* buf) const;
-        //! Returns the size of all %Exif data (Tiff Header plus metadata)
+        //! Write %Exif data to a data buffer, return number of bytes written
+        long copy(char* buf) const;
+        //! Returns the size of all %Exif data (Tiff header plus metadata)
         long size() const;
+        //! Returns the byte order as specified in the Tiff header
+        ByteOrder byteOrder() const { return tiffHeader_.byteOrder(); }
 
         //! Add all entries of src to the Exif metadata
         void add(const Metadata& src);

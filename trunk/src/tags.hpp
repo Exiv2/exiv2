@@ -8,7 +8,7 @@
 /*!
   @file    tags.hpp
   @brief   %Exif tag and type information
-  @version $Name:  $ $Revision: 1.2 $
+  @version $Name:  $ $Revision: 1.3 $
   @author  Andreas Huggel (ahu)
   @date    15-Jan-03, ahu: created
  */
@@ -19,6 +19,7 @@
 // included header files
 
 // + standard includes
+#include <utility>                              // for std::pair
 
 // *****************************************************************************
 // namespace extensions
@@ -35,6 +36,17 @@ namespace Exif {
     typedef short          int16;
     //! 4 byte signed integer type.
     typedef long           int32;
+
+    //! 8 byte unsigned rational type.
+    typedef std::pair<uint32, uint32> URational;
+    //! 8 byte signed rational type.
+    typedef std::pair<int32, int32> Rational;
+
+    //! Type identifiers for IFD format types
+    enum TypeId { invalid, unsignedByte, asciiString, unsignedShort, 
+                  unsignedLong, unsignedRational, signedByte, undefined,
+                  signedShort, signedLong, signedRational, singleFloat, 
+                  doubleFloat };
 
     //! Type to specify the IFD to which a metadata belongs
     enum IfdId { IfdIdNotSet, 
@@ -71,8 +83,8 @@ namespace Exif {
     //! Description of the format of a metadatum
     struct TagFormat {
         //! Constructor
-        TagFormat(uint16 type, const char* name, long size);
-        uint16 type_;                           //!< Format type id
+        TagFormat(TypeId typeId, const char* name, long size);
+        TypeId typeId_;                         //!< Format type id
         const char* name_;                      //!< Name of the format 
         long size_;                             //!< Bytes per data entry 
     }; // struct TagFormat

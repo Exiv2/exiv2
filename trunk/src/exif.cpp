@@ -12,7 +12,7 @@
 
   RCS information
    $Name:  $
-   $Revision: 1.2 $
+   $Revision: 1.3 $
  */
 // *****************************************************************************
 // included header files
@@ -149,7 +149,7 @@ namespace Exif {
         return 0;
     }
 
-    void TiffHeader::data(char* buf) const
+    long TiffHeader::copy(char* buf) const
     {
         switch (byteOrder_) {
         case littleEndian:
@@ -163,17 +163,111 @@ namespace Exif {
         }
         us2Data(buf+2, tag_, byteOrder_);
         ul2Data(buf+4, offset_, byteOrder_);
+        return size();
+    }
+
+    Value* Value::create(TypeId typeId, ByteOrder byteOrder)
+    {
+        Value* value = 0;
+        switch (typeId) {
+        case invalid:
+            break;
+        case unsignedByte:
+            value = new AsciiValue;
+            break;
+        case asciiString:
+            value =  new AsciiValue;
+            break;
+        case unsignedShort:
+            value = new UShortValue(byteOrder);
+            break;
+        case unsignedLong:
+        case unsignedRational:
+        case signedByte:
+        case undefined:
+        case signedShort:
+        case signedLong:
+        case signedRational:
+        case singleFloat:
+        case doubleFloat:
+            value = new AsciiValue;
+            break;
+        }
+        return value;
+    } // Value::create
+
+    void AsciiValue::read(const char* buf, long len)
+    {
+        value_ = std::string(buf, len);
+    }
+
+    void AsciiValue::read(const std::string& buf)
+    {
+        value_ = buf;
+    }
+
+    long AsciiValue::copy(char* buf) const
+    {
+        return value_.copy(buf, value_.size());
+    }
+
+    long AsciiValue::size() const
+    {
+        return value_.size();
+    }
+
+    Value* AsciiValue::clone() const
+    {
+        return new AsciiValue(*this);
+    }
+
+    std::ostream& AsciiValue::write(std::ostream& os) const
+    {
+        return os << value_;
+    }
+
+    void UShortValue::read(const char* buf, long len)
+    {
+        // Todo: Should we check to make sure that len is 2
+        value_ = getUShort(buf, byteOrder_);
+    }
+
+    void UShortValue::read(const std::string& buf)
+    {
+        std::istringstream is(buf);
+        is >> value_;
+    }
+
+    long UShortValue::copy(char* buf) const
+    {
+        us2Data(buf, value_, byteOrder_);
+        return size();
+    }
+
+    long UShortValue::size() const
+    {
+        return 2;
+    }
+
+    Value* UShortValue::clone() const
+    {
+        return new UShortValue(*this);
+    }
+
+    std::ostream& UShortValue::write(std::ostream& os) const
+    {
+        return os << value_;
     }
 
     Metadatum::Metadatum()
         : tag_(0), type_(0), count_(0), offset_(0), size_(0), 
-          ifdId_(IfdIdNotSet), ifdIdx_(-1), data_(0)
+          ifdId_(IfdIdNotSet), ifdIdx_(-1), value_(0)
     {
     }
 
     Metadatum::~Metadatum()
     {
-        delete[] data_;
+        delete value_;
     }
 
     Metadatum::Metadatum(const Metadatum& rhs)
@@ -187,12 +281,8 @@ namespace Exif {
         ifdId_ = rhs.ifdId_;
         ifdIdx_ = rhs.ifdIdx_;
 
-        // deep copy
-        data_ = 0;
-        if (rhs.data_ != 0) {
-            data_ = new char[rhs.size_];
-            ::memcpy(data_, rhs.data_, rhs.size_);
-        }
+        value_ = 0;
+        if (rhs.value_ != 0) value_ = rhs.value_->clone(); // deep copy
     }
 
     Metadatum& Metadatum::operator=(const Metadatum& rhs)
@@ -206,11 +296,9 @@ namespace Exif {
         ifdId_ = rhs.ifdId_;
         ifdIdx_ = rhs.ifdIdx_;
 
-        delete[] data_;
-        if (rhs.data_ != 0) {
-            data_ = new char[rhs.size_];
-            ::memcpy(data_, rhs.data_, rhs.size_);
-        }
+        delete value_;
+        value_ = 0;
+        if (rhs.value_ != 0) value_ = rhs.value_->clone(); // deep copy
 
         return *this;
     } // Metadatum::operator=
@@ -245,7 +333,7 @@ namespace Exif {
             // offset will be converted to a relative offset below
             e.offset_ = getULong(buf+o+8, byteOrder); 
             e.size_ = e.count_ * e.typeSize();
-            // data_ is set later, see below
+            // value_ is set later, see below
             entries_.push_back(e);
             o += 12;
         }
@@ -268,19 +356,20 @@ namespace Exif {
             }
         }
 
-        // Assign the data to each IFD entry and 
+        // Assign the values to each IFD entry and 
         // calculate offsets relative to the start of the IFD
         for (i = eb; i != ee; ++i) {
-            delete[] i->data_;
-            i->data_ = 0;
+            delete i->value_;
+            //! Todo: Create the correct type here, once we have them
+            i->value_ = Value::create(TypeId(i->type_), byteOrder);
             if (i->size_ > 4) {
                 i->offset_ = i->offset_ - offset_;
-                i->data_ = new char[i->size_];
-                ::memcpy(i->data_, buf + i->offset_, i->size_);
+                i->value_->read(buf + i->offset_, i->size_);
             }
             else {
-                i->data_ = new char[4];
-                ul2Data(i->data_, i->offset_, byteOrder);
+                char value[4];
+                ul2Data(value, i->offset_, byteOrder);
+                i->value_->read(value, 4);
             }
         }
         return 0;
@@ -300,7 +389,7 @@ namespace Exif {
         return rc;
     } // Ifd::readSubIfd
 
-    char* Ifd::data(char* buf, ByteOrder byteOrder, long offset) const
+    long Ifd::copy(char* buf, ByteOrder byteOrder, long offset) const
     {
         if (offset == 0) offset = offset_;
 
@@ -340,12 +429,14 @@ namespace Exif {
         // Add the data of all IFD entries to the data buffer
         for (i = b; i != e; ++i) {
             if (i->size_ > 4) {
-                ::memcpy(buf+o, i->data_, i->size_);
-                o += i->size_;
+                // Todo: Check this! There seems to be an inconsistency
+                // in the use of size_ and the return value of copy() here
+                // Todo: And can value_ be 0?
+                o += i->value_->copy(buf+o);
             }
         }
 
-        return buf;
+        return o;
     } // Ifd::data
 
     void Ifd::print(std::ostream& os, const std::string& prefix) const
@@ -367,16 +458,19 @@ namespace Exif {
         for (; i != e; ++i) {
             std::ostringstream offset;
             if (i->typeSize() * i->count_ <= 4) {
-                // Minor cheat here: we use data_ instead of offset_ to avoid
+                // Minor cheat here: we use value_ instead of offset_ to avoid
                 // having to invoke ul2Data() which would require byte order.
+                // Todo: can value_ be 0 here?
+                char tmpbuf[4];
+                i->value_->copy(tmpbuf);
                 offset << std::setw(2) << std::setfill('0') << std::hex
-                       << (int)*(unsigned char*)i->data_ << " "
+                       << (int)*(unsigned char*)tmpbuf << " "
                        << std::setw(2) << std::setfill('0') << std::hex
-                       << (int)*(unsigned char*)(i->data_+1) << " "
+                       << (int)*(unsigned char*)(tmpbuf+1) << " "
                        << std::setw(2) << std::setfill('0') << std::hex 
-                       << (int)*(unsigned char*)(i->data_+2) << " "
+                       << (int)*(unsigned char*)(tmpbuf+2) << " "
                        << std::setw(2) << std::setfill('0') << std::hex
-                       << (int)*(unsigned char*)(i->data_+3) << " ";
+                       << (int)*(unsigned char*)(tmpbuf+3) << " ";
             }
             else {
                 offset << " 0x" << std::setw(8) << std::setfill('0') << std::hex
@@ -399,12 +493,13 @@ namespace Exif {
            << std::setw(8) << std::setfill('0') << std::hex
            << std::right << next_ << "\n";
 
-        for (i = b; i != e; ++i) {
-            if (i->size_ > 4) {
-                os << "Data of entry " << i-b << ":\n";
-                hexdump(os, i->data_, i->size_);
-            }
-        }
+// Todo: Fix me! This does not work with Value anymore 
+//        for (i = b; i != e; ++i) {
+//            if (i->size_ > 4) {
+//                os << "Data of entry " << i-b << ":\n";
+//                hexdump(os, i->data_, i->size_);
+//            }
+//        }
 
     } // Ifd::print
 
@@ -422,48 +517,48 @@ namespace Exif {
         int rc = tiffHeader_.read(buf);
         if (rc) return rc;
 
-        const ByteOrder byteOrder = tiffHeader_.byteOrder(); // shortcut
-
         // Read IFD0
         Ifd ifd0(ifd0);
-        rc = ifd0.read(buf + tiffHeader_.offset(), byteOrder, tiffHeader_.offset());
+        rc = ifd0.read(buf + tiffHeader_.offset(), 
+                       byteOrder(), 
+                       tiffHeader_.offset());
         if (rc) return rc;
 
         // Find and read ExifIFD sub-IFD of IFD0
         Ifd exifIfd(exifIfd);
-        rc = ifd0.readSubIfd(exifIfd, buf, byteOrder, 0x8769);
+        rc = ifd0.readSubIfd(exifIfd, buf, byteOrder(), 0x8769);
         if (rc) return rc;
 
         // Find and read Interoperability IFD in ExifIFD
         Ifd iopIfd(iopIfd);
-        rc = exifIfd.readSubIfd(iopIfd, buf, byteOrder, 0xa005);
+        rc = exifIfd.readSubIfd(iopIfd, buf, byteOrder(), 0xa005);
         if (rc) return rc;
 
         // Find and read GPSInfo sub-IFD in IFD0
         Ifd gpsIfd(gpsIfd);
-        rc = ifd0.readSubIfd(gpsIfd, buf, byteOrder, 0x8825);
+        rc = ifd0.readSubIfd(gpsIfd, buf, byteOrder(), 0x8825);
         if (rc) return rc;
 
         // Read IFD1
         Ifd ifd1(ifd1);
         if (ifd0.next()) {
-            rc = ifd1.read(buf + ifd0.next(), byteOrder, ifd0.next());
+            rc = ifd1.read(buf + ifd0.next(), byteOrder(), ifd0.next());
             if (rc) return rc;
         }
 
         // Find and read ExifIFD sub-IFD of IFD1
         Ifd ifd1ExifIfd(ifd1ExifIfd);
-        rc = ifd1.readSubIfd(ifd1ExifIfd, buf, byteOrder, 0x8769);
+        rc = ifd1.readSubIfd(ifd1ExifIfd, buf, byteOrder(), 0x8769);
         if (rc) return rc;
 
         // Find and read Interoperability IFD in ExifIFD of IFD1
         Ifd ifd1IopIfd(ifd1IopIfd);
-        rc = ifd1ExifIfd.readSubIfd(ifd1IopIfd, buf, byteOrder, 0xa005);
+        rc = ifd1ExifIfd.readSubIfd(ifd1IopIfd, buf, byteOrder(), 0xa005);
         if (rc) return rc;
 
         // Find and read GPSInfo sub-IFD in IFD1
         Ifd ifd1GpsIfd(ifd1GpsIfd);
-        rc = ifd1.readSubIfd(ifd1GpsIfd, buf, byteOrder, 0x8825);
+        rc = ifd1.readSubIfd(ifd1GpsIfd, buf, byteOrder(), 0x8825);
         if (rc) return rc;
 
         // Finally, copy all metadata from the IFDs to the internal metadata
@@ -480,9 +575,10 @@ namespace Exif {
         return 0;
     } // ExifData::read
 
-    void ExifData::data(char* buf) const
+    long ExifData::copy(char* buf) const
     {
         // Todo: implement me!
+        return 0;
     }
 
     long ExifData::size() const
