@@ -736,8 +736,8 @@ namespace {
         }
 
         std::string value;
-        Exiv2::TypeId type = Exiv2::invalidTypeId;
-        bool explicitType = true;
+        Exiv2::TypeId type = defaultType;
+        bool explicitType = false;
         if (cmdId != del) {
             // Get type and value
             std::string::size_type typeStart 
@@ -749,28 +749,23 @@ namespace {
 
             if (   keyEnd == std::string::npos 
                 || typeStart == std::string::npos
-                || typeEnd == std::string::npos
                 || valStart == std::string::npos) {
                 throw Exiv2::Error(Exiv2::toString(num) 
-                                   + ": Invalid command line");
+                                   + ": Invalid command line ");
             }
 
-            std::string typeStr(line.substr(typeStart, typeEnd-typeStart));
-            type = Exiv2::TypeInfo::typeId(typeStr);
-            if (type != Exiv2::invalidTypeId) {
-                valStart = line.find_first_not_of(delim, typeEnd+1);
-                if (valStart == std::string::npos) {
-                    throw Exiv2::Error(Exiv2::toString(num) 
-                                       + ": Invalid command line");
+            if (typeEnd != std::string::npos) {
+                std::string typeStr(line.substr(typeStart, typeEnd-typeStart));
+                Exiv2::TypeId tmpType = Exiv2::TypeInfo::typeId(typeStr);
+                if (tmpType != Exiv2::invalidTypeId) {
+                    valStart = line.find_first_not_of(delim, typeEnd+1);
+                    if (valStart == std::string::npos) {
+                        throw Exiv2::Error(Exiv2::toString(num) 
+                                           + ": Invalid command line  ");
+                    }
+                    type = tmpType;
+                    explicitType = true;
                 }
-            }
-            else {
-                type = defaultType;
-                explicitType = false;
-            }
-            if (type == Exiv2::invalidTypeId) {
-                throw Exiv2::Error(Exiv2::toString(num) 
-                                   + ": Invalid type");
             }
 
             value = line.substr(valStart, valEnd+1-valStart);

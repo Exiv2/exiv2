@@ -1,0 +1,1 @@
+set  Exif.Image.Software	Ascii	"Exiv2 utility!!"

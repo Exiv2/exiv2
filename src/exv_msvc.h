@@ -1,6 +1,6 @@
-// ******************************************************************* -*- C -*-
+/* ***************************************************************** -*- C -*- */
 /*!
-  @file    exv_msvc.hpp
+  @file    exv_msvc.h
   @brief   Configuration settings for MSVC
   @version $Rev$
   @author  Andreas Huggel (ahu)
@@ -23,13 +23,13 @@
 #define PACKAGE_NAME "Exiv2"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "Exiv2 0.6.1"
+#define PACKAGE_STRING "Exiv2 0.6.2"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "exiv2"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.6.1"
+#define PACKAGE_VERSION "0.6.2"
 
 /* Define to `int' if <sys/types.h> does not define pid_t. */
 #define pid_t int
