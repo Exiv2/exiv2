@@ -10,6 +10,7 @@
  */
 // *****************************************************************************
 // included header files
+#include "image.hpp"
 #include "exif.hpp"
 #include <iostream>
 #include <iomanip>

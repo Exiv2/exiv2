@@ -34,7 +34,6 @@
 #include "metadatum.hpp"
 #include "types.hpp"
 #include "error.hpp"
-#include "image.hpp"
 #include "value.hpp"
 #include "ifd.hpp"
 #include "tags.hpp"
@@ -57,6 +56,7 @@ namespace Exiv2 {
 // class declarations
     class ExifData;
     class MakerNote;
+    class TiffHeader;
 
 // *****************************************************************************
 // class definitions
@@ -708,8 +708,10 @@ namespace Exiv2 {
         bool empty() const { return count() == 0; }
         //! Get the number of metadata entries
         long count() const { return static_cast<long>(exifMetadata_.size()); }
-        //! Returns the byte order as specified in the TIFF header
-        ByteOrder byteOrder() const { return tiffHeader_.byteOrder(); }
+        /*!
+          @brief Returns the byte order. Default is little endian.
+         */
+        ByteOrder byteOrder() const;
         /*!
           @brief Write the thumbnail image to a file. A filename extension
                  is appended to \em path according to the image type of the
@@ -834,12 +836,11 @@ namespace Exiv2 {
         //@}
 
         // DATA
-        TiffHeader tiffHeader_;
         ExifMetadata exifMetadata_;
 
+        TiffHeader* pTiffHeader_;      //! Pointer to the TIFF header
         //! Pointer to the MakerNote
         std::auto_ptr<MakerNote> makerNote_;
-
         Ifd* pIfd0_;                   //! Pointer to Ifd0
         Ifd* pExifIfd_;                //! Pointer to ExifIfd
         Ifd* pIopIfd_;                 //! Pointer to IopIfd
