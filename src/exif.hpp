@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of Exif data
-  @version $Name:  $ $Revision: 1.42 $
+  @version $Name:  $ $Revision: 1.43 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -269,9 +269,9 @@ namespace Exiv2 {
                  thumbnail image, if it is in TIFF format. For JPEG thumbnails
                  the byte order is not used.
           @return 0 if successful<br>
-                 -1 if there is no thumbnail image in the Exif data<br>
-                  1 in case of inconsistent JPEG thumbnail Exif data
-                  2 in case of inconsistent TIFF thumbnail Exif data<br>
+                 -1 if there is no thumbnail image in the Exif data<BR>
+                  1 in case of inconsistent JPEG thumbnail Exif data<BR>
+                  2 in case of inconsistent TIFF thumbnail Exif data
          */
         virtual int read(const char* buf,
                          const ExifData& exifData,
@@ -527,9 +527,9 @@ namespace Exiv2 {
                   -1 if the file couldn't be opened;<BR>
                   -2 if the file type is unknown;<BR>
                   the return code of Image::readExifData(std::istream& is)
-                    if the call to this function fails<br>
+                    if the call to this function fails<BR>
                   the return code of read(const char* buf, long len)
-                    if the call to this function fails<br>
+                    if the call to this function fails
          */
         int read(const std::string& path);
         /*!
@@ -537,7 +537,7 @@ namespace Exiv2 {
                  must start with the TIFF header.
           @param buf Pointer to the data buffer to read from
           @param len Number of bytes in the data buffer 
-          @return 0 if successful
+          @return 0 if successful.
          */
         int read(const char* buf, long len);
         /*!
