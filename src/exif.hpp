@@ -838,14 +838,15 @@ namespace Exiv2 {
         // DATA
         ExifMetadata exifMetadata_;
 
+        // The pointers below are used only if Exif data is read from a
+        // raw data buffer 
         TiffHeader* pTiffHeader_;      //! Pointer to the TIFF header
-        //! Pointer to the MakerNote
-        std::auto_ptr<MakerNote> makerNote_;
         Ifd* pIfd0_;                   //! Pointer to Ifd0
         Ifd* pExifIfd_;                //! Pointer to ExifIfd
         Ifd* pIopIfd_;                 //! Pointer to IopIfd
         Ifd* pGpsIfd_;                 //! Pointer to GpsIfd
         Ifd* pIfd1_;                   //! Pointer to Ifd1
+        MakerNote* pMakerNote_;        //! Pointer to the MakerNote, if any
 
         long size_;                    //!< Size of the Exif raw data in bytes
         byte* pData_;                  //!< Exif raw data buffer
