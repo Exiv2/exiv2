@@ -22,7 +22,7 @@
   @file    makernote.hpp
   @brief   Contains the Exif %MakerNote interface, IFD %MakerNote and a 
            MakerNote factory
-  @version $Name:  $ $Revision: 1.25 $
+  @version $Name:  $ $Revision: 1.26 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -177,7 +177,7 @@ namespace Exiv2 {
                  provided to read() will be kept. See Ifd for more background on 
                  this concept.
          */
-        MakerNote::AutoPtr clone(bool alloc =true) const;
+        AutoPtr clone(bool alloc =true) const;
         /*!
           @brief Return the name of a makernote tag. The default implementation
                  looks up the makernote info tag array if one is set, else
@@ -309,7 +309,7 @@ namespace Exiv2 {
         Entries::const_iterator end() const { return ifd_.end(); }
         Entries::const_iterator findIdx(int idx) const;
         long size() const;
-        IfdMakerNote::AutoPtr clone(bool alloc =true) const;
+        AutoPtr clone(bool alloc =true) const;
         /*!
           @brief Check the makernote header. This will typically check if a
                  required prefix string is present in the header. Return 0 if

@@ -28,7 +28,7 @@
            <a href="http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html">
            Exif file format</a> by TsuruZoh Tachibanaya.<BR>
            Format 3: "EXIFutils Field Reference Guide".
-  @version $Name:  $ $Revision: 1.7 $
+  @version $Name:  $ $Revision: 1.8 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    17-May-04, ahu: created<BR>
@@ -108,7 +108,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        Nikon1MakerNote::AutoPtr clone(bool alloc =true) const;
+        AutoPtr clone(bool alloc =true) const;
         //! Return the name of the makernote item ("Nikon1")
         std::string ifdItem() const { return ifdItem_; }
         std::ostream& printTag(std::ostream& os,
@@ -194,7 +194,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         int checkHeader() const;
-        Nikon2MakerNote::AutoPtr clone(bool alloc =true) const;
+        AutoPtr clone(bool alloc =true) const;
         //! Return the name of the makernote item ("Nikon2")
         std::string ifdItem() const { return ifdItem_; }
         std::ostream& printTag(std::ostream& os,
@@ -278,7 +278,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         int checkHeader() const;
-        Nikon3MakerNote::AutoPtr clone(bool alloc =true) const;
+        AutoPtr clone(bool alloc =true) const;
         //! Return the name of the makernote item ("Nikon3")
         std::string ifdItem() const { return ifdItem_; }
         std::ostream& printTag(std::ostream& os,
