@@ -123,18 +123,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\datasets.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\exif.cpp">
@@ -197,6 +185,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\src\iptc.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\makernote.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -210,6 +201,9 @@
 						Name="VCCLCompilerTool"
 						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\metadatum.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\mn.cpp">
@@ -319,7 +313,13 @@
 				RelativePath="..\..\src\image.hpp">
 			</File>
 			<File
+				RelativePath="..\..\src\iptc.hpp">
+			</File>
+			<File
 				RelativePath="..\..\src\makernote.hpp">
+			</File>
+			<File
+				RelativePath="..\..\src\metadatum.hpp">
 			</File>
 			<File
 				RelativePath="..\..\src\nikonmn.hpp">

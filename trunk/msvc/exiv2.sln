@@ -48,6 +48,16 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "makernote-test", "makernote
 		{831EF580-92C8-4CA8-B0CE-3D906280A54D} = {831EF580-92C8-4CA8-B0CE-3D906280A54D}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iptcprint", "iptcprint\iptcprint.vcproj", "{52034F65-28AA-4E3F-A44D-C91F6F0922F8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{831EF580-92C8-4CA8-B0CE-3D906280A54D} = {831EF580-92C8-4CA8-B0CE-3D906280A54D}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iptctest", "iptctest\iptctest.vcproj", "{C8F41CDA-76AA-4053-A8DE-F80892C1C2FC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{831EF580-92C8-4CA8-B0CE-3D906280A54D} = {831EF580-92C8-4CA8-B0CE-3D906280A54D}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -94,6 +104,14 @@ Global
 		{AB0BA03E-2B09-4DCE-966F-3F5CCA01355C}.Debug.Build.0 = Debug|Win32
 		{AB0BA03E-2B09-4DCE-966F-3F5CCA01355C}.Release.ActiveCfg = Release|Win32
 		{AB0BA03E-2B09-4DCE-966F-3F5CCA01355C}.Release.Build.0 = Release|Win32
+		{52034F65-28AA-4E3F-A44D-C91F6F0922F8}.Debug.ActiveCfg = Debug|Win32
+		{52034F65-28AA-4E3F-A44D-C91F6F0922F8}.Debug.Build.0 = Debug|Win32
+		{52034F65-28AA-4E3F-A44D-C91F6F0922F8}.Release.ActiveCfg = Release|Win32
+		{52034F65-28AA-4E3F-A44D-C91F6F0922F8}.Release.Build.0 = Release|Win32
+		{C8F41CDA-76AA-4053-A8DE-F80892C1C2FC}.Debug.ActiveCfg = Debug|Win32
+		{C8F41CDA-76AA-4053-A8DE-F80892C1C2FC}.Debug.Build.0 = Debug|Win32
+		{C8F41CDA-76AA-4053-A8DE-F80892C1C2FC}.Release.ActiveCfg = Release|Win32
+		{C8F41CDA-76AA-4053-A8DE-F80892C1C2FC}.Release.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
