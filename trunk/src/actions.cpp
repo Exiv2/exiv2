@@ -676,16 +676,38 @@ namespace Action {
     int Erase::run(const std::string& path)
     try {
         path_ = path;
-        Exiv2::ExifData exifData;
-        int rc = exifData.read(path);
+
+        Exiv2::Image::AutoPtr image 
+            = Exiv2::ImageFactory::instance().open(path_);
+        if (image.get() == 0) {
+            std::cerr << path_
+                      << ": The file contains data of an unknown image type\n";
+            return -2;
+        }
+        int rc = image->readMetadata();
         if (rc) {
-            std::cerr << Exiv2::ExifData::strError(rc, path) << "\n";
-            return rc;
+            std::cerr << Exiv2::ExifData::strError(rc, path_) << "\n";
         }
-        switch (Params::instance().target_) {
-        case Params::ctExif:  rc = eraseExifData(exifData); break;
-        case Params::ctThumb: rc = eraseThumbnail(exifData); break;
+        // Thumbnail must be before Exif
+        if (0 == rc && Params::instance().target_ & Params::ctThumb) {
+            rc = eraseThumbnail(image.get());
         }
+        if (0 == rc && Params::instance().target_ & Params::ctExif) {
+            rc = eraseExifData(image.get());
+        }
+        if (0 == rc && Params::instance().target_ & Params::ctIptc) {
+            rc = eraseIptcData(image.get());
+        }
+        if (0 == rc && Params::instance().target_ & Params::ctComment) {
+            rc = eraseComment(image.get());
+        }
+        if (0 == rc) {
+            rc = image->writeMetadata();
+            if (rc) {
+                std::cerr << Exiv2::ExifData::strError(rc, path_) << "\n";
+            }
+        }
+
         return rc;
     }
     catch(const Exiv2::Error& e)
@@ -695,37 +717,57 @@ namespace Action {
         return 1;
     } // Erase::run
 
-    int Erase::eraseThumbnail(Exiv2::ExifData& exifData) const
+    int Erase::eraseThumbnail(Exiv2::Image* image) const
     {
-        int rc = 0;
-        std::string thumbExt = exifData.thumbnailExtension();
-        if (thumbExt.empty()) {
-            std::cerr << path_ << ": Image does not contain an Exif thumbnail\n";
+        if (image->sizeExifData() == 0) {
+            return 0;
         }
-        else {
-            long delta = exifData.eraseThumbnail();
-            if (Params::instance().verbose_) {
-                std::cout << "Erasing " << delta << " Bytes of thumbnail data"
-                          << std::endl;
-            }
-            rc = exifData.write(path_);
-            if (rc) {
-                std::cerr << Exiv2::ExifData::strError(rc, path_) << "\n";
+        int rc = 0;
+        Exiv2::ExifData exifData;
+        rc = exifData.read(image->exifData(), image->sizeExifData());
+        if (rc) {
+            std::cerr << Exiv2::ExifData::strError(rc, path_) << "\n";
+        }
+        if (0 == rc) {
+            std::string thumbExt = exifData.thumbnailExtension();
+            if (!thumbExt.empty()) {
+                long delta = exifData.eraseThumbnail();
+                if (Params::instance().verbose_) {
+                    std::cout << "Erasing " << delta 
+                              << " Bytes of thumbnail data" << std::endl;
+                }
+                Exiv2::DataBuf buf(exifData.copy());
+                image->setExifData(buf.pData_, buf.size_);
             }
         }
         return rc;
     }
 
-    int Erase::eraseExifData(Exiv2::ExifData& exifData) const
+    int Erase::eraseExifData(Exiv2::Image* image) const
     {
-        if (Params::instance().verbose_) {
+        if (Params::instance().verbose_ && image->sizeExifData() > 0) {
             std::cout << "Erasing Exif data from the file" << std::endl; 
         }
-        int rc = exifData.erase(path_);
-        if (rc) {
-            std::cerr << Exiv2::ExifData::strError(rc, path_) << "\n";
+        image->clearExifData();
+        return 0;
+    }
+
+    int Erase::eraseIptcData(Exiv2::Image* image) const
+    {
+        if (Params::instance().verbose_ && image->sizeIptcData() > 0) {
+            std::cout << "Erasing Iptc data from the file" << std::endl; 
         }
-        return rc;
+        image->clearIptcData();
+        return 0;
+    }
+
+    int Erase::eraseComment(Exiv2::Image* image) const
+    {
+        if (Params::instance().verbose_ && image->comment().size() > 0) {
+            std::cout << "Erasing Jpeg comment from the file" << std::endl; 
+        }
+        image->clearComment();
+        return 0;
     }
 
     Erase::AutoPtr Erase::clone() const
@@ -815,9 +857,19 @@ namespace Action {
 
     int Insert::run(const std::string& path)
     try {
-        std::string exvPath =   Util::dirname(path) + SEPERATOR_STR
-                              + Util::basename(path, true) + ".exv";
-        return metacopy(exvPath, path);
+        int rc = 0;
+        if (Params::instance().target_ & Params::ctThumb) {
+            rc = insertThumbnail(path);
+        }
+        if (   rc == 0
+            && Params::instance().target_ & Params::ctExif
+            || Params::instance().target_ & Params::ctIptc
+            || Params::instance().target_ & Params::ctComment) {
+            std::string exvPath =   Util::dirname(path) + SEPERATOR_STR
+                                  + Util::basename(path, true) + ".exv";
+            rc = metacopy(exvPath, path);
+        }
+        return rc;
     }
     catch(const Exiv2::Error& e)
     {
@@ -825,6 +877,26 @@ namespace Action {
                   << ":\n" << e << "\n";
         return 1;
     } // Insert::run
+
+    int Insert::insertThumbnail(const std::string& path) const
+    {
+        std::string thumbPath =   Util::dirname(path) + SEPERATOR_STR
+                                + Util::basename(path, true) + "-thumb.jpg";
+        if (!Util::fileExists(thumbPath, true)) {
+            std::cerr << thumbPath
+                      << ": Failed to open the file\n";
+            return -1;
+        }
+        Exiv2::ExifData exifData;
+        int rc = exifData.read(path);
+        if (rc) {
+            std::cerr << Exiv2::ExifData::strError(rc, path) << "\n";
+            return rc;
+        }
+        exifData.setJpegThumbnail(thumbPath);
+        return exifData.write(path);
+
+    } // Insert::insertThumbnail
 
     Insert::AutoPtr Insert::clone() const
     {

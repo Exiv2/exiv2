@@ -42,6 +42,7 @@
 
 namespace Exiv2 {
     class ExifData;
+    class Image;
 }
 
 // *****************************************************************************
@@ -222,11 +223,19 @@ namespace Action {
         /*!
           @brief Delete the thumbnail image, incl IFD1 metadata from the file. 
          */
-        int eraseThumbnail(Exiv2::ExifData& exifData) const; 
+        int eraseThumbnail(Exiv2::Image* image) const; 
         /*!
           @brief Erase the complete Exif data block from the file.
          */
-        int eraseExifData(Exiv2::ExifData& exifData) const;
+        int eraseExifData(Exiv2::Image* image) const;
+        /*!
+          @brief Erase all Iptc data from the file.
+         */
+        int eraseIptcData(Exiv2::Image* image) const;
+        /*!
+          @brief Erase Jpeg comment from the file.
+         */
+        int eraseComment(Exiv2::Image* image) const;
 
     private:
         virtual Erase* clone_() const;
@@ -267,6 +276,13 @@ namespace Action {
         virtual int run(const std::string& path);
         typedef std::auto_ptr<Insert> AutoPtr;
         AutoPtr clone() const;
+
+        /*!
+          @brief Insert a Jpeg thumbnail image from a file into file \path.
+                 The filename of the thumbanail is expected to be the image
+                 filename (\em path) minus its suffix plus "-thumb.jpg".
+         */
+        int insertThumbnail(const std::string& path) const;
 
     private:
         virtual Insert* clone_() const;
