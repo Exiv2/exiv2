@@ -13,7 +13,7 @@
 #  Requires GNU make.
 #
 
-.PHONY: all clean distclean doc
+.PHONY: all doc clean distclean maintainer-clean
 
 all:
 	cd src && $(MAKE) $(MAKECMDGOALS)
@@ -44,4 +44,3 @@ maintainer-clean: distclean
 # Catch-all
 %:
 	cd src && $(MAKE) $(MAKECMDGOALS)
-	

@@ -145,7 +145,6 @@ ifdef SHARED_LIBS
     UNINSTALL := uninstall-sharedlib
     INSTALL_LIB := $(INSTALL_LIB) install-sharedlib
     UNINSTALL_LIB := $(UNINSTALL_LIB) uninstall-sharedlib
-
 endif
 
 # ******************************************************************************
@@ -191,18 +190,12 @@ endif
 $(BINARY): %: %.o
 	$(CXX) $(CXXFLAGS) $< $(LDLIBS) $(LDFLAGS_BIN) -o $@
 
-$(EXIV2BIN): %: %.o
-	$(CXX) $(CXXFLAGS) $(EXIV2OBJ) $(LDLIBS) $(LDFLAGS_BIN) -o $@
-
-$(MCBIN): %: %.o
-	$(CXX) $(CXXFLAGS) $(MCOBJ) $(LDLIBS) $(LDFLAGS_BIN) -o $@
-
 mn.cpp: ./mn.sh
 	./mn.sh
 
 # ******************************************************************************
 # Targets
-.PHONY: all archive sharedlib bin check ctags doc                      \
+.PHONY: all bin check ctags doc                  \
         clean mostlyclean distclean maintainer-clean                   \
         install install-archive install-header                         \
         install-sharedlib install-lib                                  \
@@ -220,13 +213,16 @@ $(ARCHIVE): $(ARCHIVE)($(OBJ))
 	$(RANLIB) $@
 
 archive: $(ARCHIVE)
+	touch archive
 
 $(SHAREDLIB): $(SOBJ)
 	$(CXX) $^ $(LDFLAGS_SHARED) -o $@
 
 sharedlib: $(SHAREDLIB)
+	@touch sharedlib
 
 lib: $(LIBRARY)
+	@touch lib
 
 # Re-link executables whenever the static library changes
 ifdef STATIC_LIBS
@@ -234,8 +230,10 @@ $(BINARY): $(ARCHIVE) mn.o
 endif
 
 $(EXIV2BIN): lib $(EXIV2OBJ)
+	$(CXX) $(CXXFLAGS) $(EXIV2OBJ) $(LDLIBS) $(LDFLAGS_BIN) -o $@
 
 $(MCBIN): lib $(MCOBJ)
+	$(CXX) $(CXXFLAGS) $(MCOBJ) $(LDLIBS) $(LDFLAGS_BIN) -o $@
 
 bin: lib $(BINARY) $(EXIV2BIN) $(MCBIN)
 
@@ -298,6 +296,7 @@ check:
 mostlyclean:
 	$(RM) core
 	$(RM) $(CCSRC:.cpp=.ii)
+	$(RM) lib archive sharedlib
 	$(RM) $(OBJ) $(SOBJ) $(BINOBJ) $(EXIV2OBJ) $(MCOBJ)
 	$(RM) mn.o
 	@if test -n "$(CXX_REPOSITORY)"; then \
