@@ -2,7 +2,7 @@
 /*!
   @file    doxygen.hpp
   @brief   Additional documentation, this file contains no source code
-  @version $Name:  $ $Revision: 1.13 $
+  @version $Name:  $ $Revision: 1.14 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    07-Feb-04, ahu: created
@@ -23,7 +23,6 @@
                             needs to be moved (for known IFD MakerNotes)
       - new camera make/model specific MakerNotes can be added to the library
         with minimum effort in OO-fashion (by subclassing MakerNote or IfdMakerNote)
-
   - extract and delete methods for Exif thumbnails (both, JPEG and TIFF thumbnails)
   - extensive Doxygen documentation
   - generic lower-level classes to access IFD (Image File Directory) data structures
