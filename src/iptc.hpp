@@ -21,7 +21,7 @@
 /*!
   @file    iptc.hpp
   @brief   Encoding and decoding of Iptc data
-  @version $Name:  $ $Revision: 1.6 $
+  @version $Name:  $ $Revision: 1.7 $
   @author  Brad Schick (brad) 
            <a href="mailto:schick@robotbattle.com">schick@robotbattle.com</a>
   @date    31-Jul-04, brad: created
@@ -47,87 +47,6 @@ namespace Exiv2 {
 
 // *****************************************************************************
 // class definitions
-
-    //! Concrete keys for Iptc metadata.
-    class IptcKey : public Key {
-    public:
-        //! @name Creators
-        //@{
-        /*!
-          @brief Constructor to create an Iptc key from a key string. 
-
-          @param key The key string.
-          @throw Error ("Invalid key") if the first part of the key is not 
-                 'Iptc' or the remaining parts of the key cannot be parsed and
-                 converted to a record name and a dataset name.
-        */
-        explicit IptcKey(const std::string& key);
-        /*!
-          @brief Constructor to create an Iptc key from dataset and record ids.
-          @param tag Dataset id
-          @param record Record id
-         */
-        IptcKey(uint16_t tag, uint16_t record);
-        //! Copy constructor
-        IptcKey(const IptcKey& rhs);
-        //@}
-
-        //! @name Manipulators
-        //@{
-        /*!
-          @brief Assignment operator.
-         */
-        IptcKey& operator=(const IptcKey& rhs);
-        //@}
-
-        //! @name Accessors
-        //@{
-        virtual std::string key() const { return key_; }
-        virtual const char* familyName() const { return familyName_; }
-        /*!
-          @brief Return the name of the group (the second part of the key).
-                 For Iptc keys, the group name is the record name.
-        */
-        virtual std::string groupName() const { return recordName(); }
-        virtual std::string tagName() const
-            { return IptcDataSets::dataSetName(tag_, record_); }
-        virtual uint16_t tag() const { return tag_; }
-        virtual IptcKey* clone() const;
-
-        //! Return the name of the record
-        std::string recordName() const
-            { return IptcDataSets::recordName(record_); }
-        //! Return the record id
-        uint16_t record() const { return record_; }
-        //@}
-
-    protected:
-        //! @name Manipulators
-        //@{
-        /*!
-          @brief Set the key corresponding to the dataset and record id. 
-                 The key is of the form '<b>Iptc</b>.recordName.dataSetName'.
-         */
-        void makeKey();
-        /*!
-          @brief Parse and convert the key string into dataset and record id.
-                 Updates data members if the string can be decomposed, or throws
-                 Error ("Invalid key").
-
-          @throw Error ("Invalid key") if the key cannot be decomposed.
-         */
-        void decomposeKey();
-        //@}
-
-    private:
-        // DATA
-        static const char* familyName_;
-
-        uint16_t tag_;                 //!< Tag value
-        uint16_t record_;              //!< Record value 
-        std::string key_;              //!< Key
-
-    }; // class IptcKey
 
     /*!
       @brief Information related to one Iptc dataset.

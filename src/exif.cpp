@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.62 $
+  Version:   $Name:  $ $Revision: 1.63 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.62 $ $RCSfile: exif.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.63 $ $RCSfile: exif.cpp,v $");
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -72,158 +72,6 @@ namespace {
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-
-    const char* ExifKey::familyName_ = "Exif";
-
-    ExifKey::ExifKey(const std::string& key)
-        : tag_(0), ifdId_(ifdIdNotSet), ifdItem_(""),
-          idx_(0), pMakerNote_(0), key_(key)
-    {
-        decomposeKey();
-    }
-
-    ExifKey::ExifKey(uint16_t tag, const std::string& ifdItem)
-        : tag_(0), ifdId_(ifdIdNotSet), ifdItem_(""),
-          idx_(0), pMakerNote_(0), key_("")
-    {
-        IfdId ifdId = ExifTags::ifdIdByIfdItem(ifdItem);
-        if (ifdId == makerIfdId) throw Error("Invalid key");
-        MakerNote* pMakerNote = 0; 
-        if (ifdId == ifdIdNotSet) {
-            pMakerNote = MakerNoteFactory::instance().create(ifdItem);
-            if (pMakerNote) ifdId = makerIfdId;
-            else throw Error("Invalid key");
-        }
-        tag_ = tag;
-        ifdId_ = ifdId;
-        ifdItem_ = ifdItem;
-        pMakerNote_ = pMakerNote;
-        makeKey();
-    }
-
-    ExifKey::ExifKey(const Entry& e)
-        : tag_(e.tag()), ifdId_(e.ifdId()), ifdItem_(""),
-          idx_(e.idx()), pMakerNote_(0), key_("")
-    {
-        if (ifdId_ == makerIfdId) {
-            if (e.makerNote()) {
-                ifdItem_ = e.makerNote()->ifdItem();
-                pMakerNote_ = e.makerNote()->clone();
-            }
-            else throw Error("Invalid Key");
-        }
-        else {
-            ifdItem_ = ExifTags::ifdItem(ifdId_);
-        }
-        makeKey();
-    }
-
-    ExifKey::ExifKey(const ExifKey& rhs)
-        : tag_(rhs.tag_), ifdId_(rhs.ifdId_), ifdItem_(rhs.ifdItem_),
-          idx_(rhs.idx_), 
-          pMakerNote_(rhs.pMakerNote_ ? rhs.pMakerNote_->clone() : 0),
-          key_(rhs.key_)
-    {
-    }
-
-    ExifKey::~ExifKey()
-    {
-        delete pMakerNote_;
-    }
-
-    ExifKey& ExifKey::operator=(const ExifKey& rhs)
-    {
-        if (this == &rhs) return *this;
-        Key::operator=(rhs);
-        tag_ = rhs.tag_;
-        ifdId_ = rhs.ifdId_;
-        ifdItem_ = rhs.ifdItem_;
-        idx_ = rhs.idx_;
-        pMakerNote_ = rhs.pMakerNote_ ? rhs.pMakerNote_->clone() : 0;
-        key_ = rhs.key_;
-        return *this;
-    }
-
-    std::string ExifKey::tagName() const
-    {
-        if (ifdId_ == makerIfdId) {
-            assert(pMakerNote_);
-            return pMakerNote_->tagName(tag_);
-        }
-        return ExifTags::tagName(tag_, ifdId_); 
-    }
-    
-    ExifKey* ExifKey::clone() const
-    {
-        return new ExifKey(*this);
-    }
-
-    std::string ExifKey::sectionName() const 
-    {
-        if (ifdId_ == makerIfdId) {
-            assert(pMakerNote_);
-            return pMakerNote_->ifdItem();
-        }
-        return ExifTags::sectionName(tag(), ifdId()); 
-    }
-
-    void ExifKey::decomposeKey()
-    {
-        // Get the family name, IFD name and tag name parts of the key
-        std::string::size_type pos1 = key_.find('.');
-        if (pos1 == std::string::npos) throw Error("Invalid key");
-        std::string familyName = key_.substr(0, pos1);
-        if (familyName != std::string(familyName_)) {
-            throw Error("Invalid key");
-        }
-        std::string::size_type pos0 = pos1 + 1;
-        pos1 = key_.find('.', pos0);
-        if (pos1 == std::string::npos) throw Error("Invalid key");
-        std::string ifdItem = key_.substr(pos0, pos1 - pos0);
-        if (ifdItem == "") throw Error("Invalid key");
-        std::string tagName = key_.substr(pos1 + 1);
-        if (tagName == "") throw Error("Invalid key");
-
-        // Find IfdId
-        IfdId ifdId = ExifTags::ifdIdByIfdItem(ifdItem);
-        if (ifdId == makerIfdId) throw Error("Invalid key");
-        MakerNote* pMakerNote = 0; 
-        if (ifdId == ifdIdNotSet) {
-            pMakerNote = MakerNoteFactory::instance().create(ifdItem);
-            if (pMakerNote) ifdId = makerIfdId;
-            else throw Error("Invalid key");
-        }
-
-        // Convert tag
-        uint16_t tag = pMakerNote ? 
-            pMakerNote->tag(tagName) : ExifTags::tag(tagName, ifdId);
-        // Translate hex tag name (0xabcd) to a real tag name if there is one
-        tagName = pMakerNote ? 
-            pMakerNote->tagName(tag) : ExifTags::tagName(tag, ifdId);
-
-        tag_ = tag;
-        ifdId_ = ifdId;
-        ifdItem_ = ifdItem;
-        pMakerNote_ = pMakerNote;
-        key_ = familyName + "." + ifdItem + "." + tagName;
-    }
-
-    void ExifKey::makeKey()
-    {
-        key_ = std::string(familyName_) 
-            + "." + ifdItem_
-            + "." + (pMakerNote_ ?
-            pMakerNote_->tagName(tag_) : ExifTags::tagName(tag_, ifdId_));
-    }
-
-    std::ostream& ExifKey::printTag(std::ostream& os, const Value& value) const
-    {
-        if (ifdId_ == makerIfdId) {
-            assert(pMakerNote_);
-            return pMakerNote_->printTag(os, tag(), value);
-        }
-        return ExifTags::printTag(os, tag(), ifdId(), value);
-    }
 
     Exifdatum::Exifdatum(const Entry& e, ByteOrder byteOrder)
         : pKey_(new ExifKey(e)), pValue_(0)

@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of Exif data
-  @version $Name:  $ $Revision: 1.54 $
+  @version $Name:  $ $Revision: 1.55 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -59,101 +59,6 @@ namespace Exiv2 {
 
 // *****************************************************************************
 // class definitions
-
-    //! Concrete keys for Exif metadata.
-    class ExifKey : public Key {
-    public:
-        //! @name Creators
-        //@{
-        /*!
-          @brief Constructor to create an Exif key from a key string.
-
-          @param key The key string.
-          @throw Error ("Invalid key") if the key cannot be parsed into three
-                 parts or the first part of the key is not '<b>Exif</b>'.
-        */
-        explicit ExifKey(const std::string& key);
-        /*!
-          @brief Constructor to create an Exif key from a tag and IFD item 
-                 string.
-          @param tag The tag value
-          @param ifdItem The IFD string. For MakerNote tags, this must be the 
-                 IFD item of the specific MakerNote. "MakerNote" is not allowed.
-          @throw Error ("Invalid key") if the key cannot be constructed from
-                 the tag and IFD item parameters.
-         */
-        ExifKey(uint16_t tag, const std::string& ifdItem);
-        //! Constructor to build an ExifKey from an IFD entry.
-        explicit ExifKey(const Entry& e);
-        //! Copy constructor
-        ExifKey(const ExifKey& rhs);
-        virtual ~ExifKey();
-        //@}
-
-        //! @name Manipulators
-        //@{
-        /*!
-          @brief Assignment operator.
-         */
-        ExifKey& operator=(const ExifKey& rhs);
-        //@}
-
-        //! @name Accessors
-        //@{
-        virtual std::string key() const { return key_; }
-        virtual const char* familyName() const { return familyName_; }
-        /*!
-          @brief Return the name of the group (the second part of the key).
-                 For Exif keys, the group name is the IFD item.
-        */ 
-        virtual std::string groupName() const { return ifdItem(); }
-        virtual std::string tagName() const;
-        virtual uint16_t tag() const { return tag_; }
-        virtual ExifKey* clone() const;
-
-        //! Interpret and print the value of an Exif tag
-        std::ostream& printTag(std::ostream& os, const Value& value) const;
-        //! Return the IFD id
-        IfdId ifdId() const { return ifdId_; }
-        //! Return the name of the IFD
-        const char* ifdName() const { return ExifTags::ifdName(ifdId()); }
-        //! Return the related image item
-        std::string ifdItem() const { return ifdItem_; }
-        //! Return the name of the Exif section (deprecated) 
-        std::string sectionName() const;
-        //! Return the index (unique id of this key within the original IFD)
-        int idx() const { return idx_; }
-        //@}
-
-    protected:
-        //! @name Manipulators
-        //@{
-        /*!
-          @brief Set the key corresponding to the tag and IFD id. 
-                 The key is of the form '<b>Exif</b>.ifdItem.tagName'.
-         */
-        void makeKey();
-        /*!
-          @brief Parse and convert the key string into tag and IFD Id. 
-                 Updates data members if the string can be decomposed,
-                 or throws Error ("Invalid key").
-
-          @throw Error ("Invalid key") if the key cannot be decomposed.
-         */
-        void decomposeKey();
-        //@}
-
-    private:
-        // DATA
-        static const char* familyName_;
-
-        uint16_t tag_;                  //!< Tag value
-        IfdId ifdId_;                   //!< The IFD associated with this tag
-        std::string ifdItem_;           //!< The IFD item 
-        int idx_;                       //!< Unique id of an entry within one IFD
-        MakerNote* pMakerNote_;         //!< Pointer to the associated MakerNote
-        std::string key_;               //!< Key
-    }; // class ExifKey
 
     /*!
       @brief Information related to one Exif tag.
