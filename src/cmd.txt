@@ -11,8 +11,10 @@
 #    add will add a tag (unless the key is a non-repeatable Iptc key)
 #    del will delete a tag 
 # key = Exiv2 Exif or Iptc key
-# type = Byte|Ascii|Short|Long|Rational|Undefined|SShort|SLong|SRational  for Exif
-#        String|Date|Time|Short|Undefined  for Iptc
+# type = 
+#    Byte|Ascii|Short|Long|Rational|Undefined|SShort|SLong|SRational|Comment
+#       for Exif keys, and
+#    String|Date|Time|Short|Undefined  for Iptc keys
 #    A default type is used if none is explicitely given. The default for Exif 
 #    keys is Ascii, that for Iptc keys is determined based on the key itself.
 # value 
@@ -29,4 +31,4 @@ add   Exif.Image.WhitePoint	Short	32 12 4 5 6
   set Exif.Image.Artist		Ascii	nobody
   set Exif.Image.Artist			"Vincent van Gogh"
 
-set Exif.Photo.UserComment      Comment "charset=Ascii This is an ASCII Exif comment"
+set Exif.Photo.UserComment      Comment charset=Ascii This is an ASCII Exif comment
