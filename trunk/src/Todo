@@ -3,14 +3,12 @@ Library Features:
 + add ExifData::erase(tag)
 + Thumbnail support: set (re-calculate)
 + operator>> for Value, since we already have read()?
-+ Use auto_ptr and DataBuf where applicable
 + Use size_t where appropriate
 + Support TIFF type ids
 + Support for broken IFD makernotes (which have corrupted IFD offsets)
-+ Support TIFF images (TiffImage)
 + Support non-intrusive deletion of entries from an IFD.
-+ Extended JPEG support (comments, actual resolution of the image)
 + Write an example using low level IFD classes to print summary Exif info
++ Extended JPEG support (actual resolution of the image)
 + Implement proper error handling
 + Complete support to create Exif data from scratch:
   + set thumbnail, write thumbnail tags
@@ -19,7 +17,6 @@ Library Features:
 + Get rid of Image::detach and make Image open files on-demand 
 + Make Image::doWriteMetadata do its work in a single pass
 
-+ Make sure IptcData supports unknown dataset (with Key class that handles Ids)
 + Revise Image and IptcData+ExifData API (aka turn it inside out)
 + Add PSD images support (and TIFF, NEF, CRW...)
 + Add support for XML metadata files
