@@ -22,7 +22,7 @@
   @file    makernote.hpp
   @brief   Contains the %Exif %MakerNote interface, IFD %MakerNote and a 
            MakerNote factory
-  @version $Name:  $ $Revision: 1.6 $
+  @version $Name:  $ $Revision: 1.7 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -53,11 +53,35 @@ namespace Exif {
     /*!
       @brief %Exif makernote interface
 
-      Defines methods to
+      %MakerNote is a low-level container for makernote entries. The ExifData
+      container uses makernote entries just like the other %Exif metadata. Thus,
+      clients can access %Exif and makernote tags and their values uniformly
+      through the %ExifData interface. The role of %MakerNote is very similar to
+      that of class Ifd (but makernotes do not need to be in IFD format, see
+      below). In addition, it provides %MakerNote specific tag descriptions and
+      print functions to interpret the makernote values.
+
+      MakerNote holds methods and functionality to
       - read the makernote from a character buffer
       - copy the makernote to a character buffer
-      - add the makernote tags to the %Exif metadata
-      - access Makernote specific tag descriptions and print functions
+      - maintain a list of makernote entries (similar to IFD entries) 
+      - provide makernote specific tag names and keys
+      - interpret (print) the values of makernote tags
+
+      Makernotes can be added to the system by subclassing %MakerNote and
+      registering a prototye of the new subclass together with the camera make
+      and model (which may contain wildcards) in the MakerNoteFactory. Since the
+      majority of makernotes are in IFD format, subclass IfdMakerNote is
+      provided. It contains an IFD container and implements all interface
+      methods related to the makernote entries. <BR>
+
+      To implement a new IFD makernote, all that you need to do is 
+      - subclass %IfdMakerNote, 
+      - implement the clone method, 
+      - add a list of tag descriptions and appropriate print functions and 
+      - register the subclass in the makernote factory. 
+      .
+      See CanonMakerNote for an example.
      */
     class MakerNote {
     public:
@@ -75,7 +99,7 @@ namespace Exif {
 
         //! @name Creators
         //@{
-        //! Constructor. Takes an optional MakerNote info tag array.
+        //! Constructor. Takes an optional makernote info tag array.
         MakerNote(const MnTagInfo* mnTagInfo =0) : mnTagInfo_(mnTagInfo) {}
         //! Virtual destructor.
         virtual ~MakerNote() {}
@@ -84,7 +108,7 @@ namespace Exif {
         //! @name Manipulators
         //@{
         /*!
-          @brief Read the MakerNote from character buffer buf of length len at
+          @brief Read the makernote from character buffer buf of length len at
                  position offset (from the start of the TIFF header) and encoded
                  in byte order byteOrder.
          */
@@ -99,9 +123,24 @@ namespace Exif {
                  Return the number of bytes written.
          */
         virtual long copy(char* buf, ByteOrder byteOrder, long offset) =0;
-        //! The first %MakerNote entry
+        /*!
+          @brief Reset the makernote. Delete all makernote entries from the
+                 class and put the object in a state where it can accept
+                 completely new entries.
+         */
+        virtual void clear() =0;
+        /*!
+          @brief Add the entry to the makernote. No duplicate-check is performed,
+                 i.e., it is possible to add multiple entries with the same tag.
+                 The memory allocation mode of the entry to be added must be true
+                 and the IFD id of the entry must be set to 'makerIfd'.
+         */
+        virtual void add(const Entry& entry) =0;
+        //! Sort the makernote entries by tag
+        virtual void sortByTag() =0;
+        //! The first makernote entry
         virtual Entries::iterator begin() =0;
-        //! End of the %MakerNote entries
+        //! End of the makernote entries
         virtual Entries::iterator end() =0;
         //@}
 
@@ -113,14 +152,14 @@ namespace Exif {
         uint16 decomposeKey(const std::string& key) const;
         /*!
           @brief Return the name of a makernote tag. The default implementation
-                 looks up the %MakerNote info tag array if one is set, else
+                 looks up the makernote info tag array if one is set, else
                  it translates the tag to a string with the hexadecimal value of
                  the tag.
          */
         virtual std::string tagName(uint16 tag) const;
         /*!
           @brief Return the tag associated with a makernote tag name. The
-                 default implementation looks up the %MakerNote info tag array
+                 default implementation looks up the makernote info tag array
                  if one is set, else it expects tag names in the form \"0x01ff\"
                  and converts them to unsigned integer.
          */
@@ -130,9 +169,9 @@ namespace Exif {
                  The caller owns this copy and is responsible to delete it!
          */
         virtual MakerNote* clone() const =0;
-        //! The first %MakerNote entry
+        //! The first makernote entry
         virtual Entries::const_iterator begin() const =0;
-        //! End of the %MakerNote entries
+        //! End of the makernote entries
         virtual Entries::const_iterator end() const =0;
         //! Find an entry by idx, return a const iterator to the record
         virtual Entries::const_iterator findIdx(int idx) const =0;
@@ -147,13 +186,13 @@ namespace Exif {
         //@}
 
     protected:
-        //! Pointer to an array of MakerNote tag infos
+        //! Pointer to an array of makernote tag infos
         const MnTagInfo* mnTagInfo_;   
 
     }; // class MakerNote
 
     /*!
-      @brief Interface for MakerNotes in IFD format
+      @brief Interface for MakerNotes in IFD format. See MakerNote.
 
       Todo: Allow for a 'prefix' before the IFD (OLYMP, etc)
             Cater for offsets from start of TIFF header as well as relative to Mn
@@ -162,7 +201,7 @@ namespace Exif {
     public:
         //! @name Creators
         //@{        
-        //! Constructor. Takes an optional MakerNote info tag array.
+        //! Constructor. Takes an optional makernote info tag array.
         IfdMakerNote(const MakerNote::MnTagInfo* mnTagInfo =0)
             : MakerNote(mnTagInfo), ifd_(makerIfd, 0, false) {}
         //! Virtual destructor
@@ -173,6 +212,9 @@ namespace Exif {
         //@{
         int read(const char* buf, long len, ByteOrder byteOrder, long offset);
         long copy(char* buf, ByteOrder byteOrder, long offset);
+        void clear() { ifd_.clear(); }
+        void add(const Entry& entry) { ifd_.add(entry); }
+        void sortByTag() { ifd_.sortByTag(); }
         Entries::iterator begin() { return ifd_.begin(); }
         Entries::iterator end() { return ifd_.end(); }
         //@}
@@ -181,8 +223,7 @@ namespace Exif {
         //@{
         Entries::const_iterator begin() const { return ifd_.begin(); }
         Entries::const_iterator end() const { return ifd_.end(); }
-        Entries::const_iterator findIdx(int idx) const 
-            { return ifd_.findIdx(idx); }
+        Entries::const_iterator findIdx(int idx) const;
         long size() const;
         virtual MakerNote* clone() const =0;
         virtual std::string sectionName(uint16 tag) const =0; 
@@ -197,16 +238,17 @@ namespace Exif {
     }; // class IfdMakerNote
 
     /*!
-      @brief %MakerNote factory.
+      @brief Factory for MakerNote objects.
 
-      Creates an instance of the %MakerNote for one camera model. The factory is
-      implemented as a singleton, which can be accessed only through the static
-      member function instance().
+      Maintains an associative list (tree) of camera makes/models and
+      corresponding %MakerNote prototypes. Creates an instance of the %MakerNote
+      for one camera make/model. The factory is implemented as a singleton,
+      which can be accessed only through the static member function instance().
     */
     class MakerNoteFactory {
     public:
         /*!
-          @brief Access the makerNote factory. Clients access the task factory
+          @brief Access the MakerNote factory. Clients access the task factory
                  exclusively through this method.
         */
         static MakerNoteFactory& instance();
