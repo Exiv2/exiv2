@@ -20,7 +20,7 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.23 $
+  Version:   $Name:  $ $Revision: 1.24 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
              Brad Schick (brad) <schick@robotbattle.com>
   History:   26-Jan-04, ahu: created
@@ -29,7 +29,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.23 $ $RCSfile: image.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.24 $ $RCSfile: image.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -43,16 +43,17 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.23 $ $RCSfile: image.cpp,v $");
 #include <cstring>
 #include <cstdio>                               // for rename, remove
 #include <cassert>
+#include <sys/types.h>
+#include <sys/stat.h>
 #ifdef _MSC_VER
-#include <process.h>
-typedef int pid_t;
+# define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
+# include <process.h>
+  typedef int pid_t;
 #else
-#include <sys/types.h>                          // for getpid
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>                             // for getpid
+# ifdef HAVE_UNISTD_H
+#  include <unistd.h>                           // for getpid, stat
+# endif
 #endif
-#endif
-
 
 // *****************************************************************************
 // class member definitions
@@ -359,7 +360,8 @@ namespace Exiv2 {
                 fread(buf.pData_, 1, size-2, fp_);
                 if (ferror(fp_) || feof(fp_)) return 1;
                 comment_.assign(reinterpret_cast<char*>(buf.pData_), size-2);
-                while (comment_.length() && comment_.at(comment_.length()-1) == '\0') {
+                while (   comment_.length()
+                       && comment_.at(comment_.length()-1) == '\0') {
                     comment_.erase(comment_.length()-1);
                 }
                 --search;
@@ -426,7 +428,8 @@ namespace Exiv2 {
         rewind(fp_);
 
         // Write the output to a temporary file
-        std::string tmpname(tmpnam(0));
+        pid_t pid = getpid();
+        std::string tmpname = path_ + toString(pid);
         FILE* ofl = fopen(tmpname.c_str(), "wb");
         if (!ofl) return -3;
 
@@ -704,7 +707,7 @@ namespace Exiv2 {
     {
         Image* pImage = 0;
         if (fp == 0) {
-            pImage = new JpegImage(path,true);
+            pImage = new JpegImage(path, true);
             if (!pImage->good()) {
                 delete pImage;
                 pImage = 0;
@@ -828,5 +831,16 @@ namespace Exiv2 {
         return size();
     } // TiffHeader::copy
 
-}                                       // namespace Exiv2
+// *****************************************************************************
+// free functions
 
+    bool fileExists(const std::string& path, bool ct)
+    {
+        struct stat buf;
+        int ret = stat(path.c_str(), &buf);
+        if (0 != ret)                    return false;
+        if (ct && !S_ISREG(buf.st_mode)) return false;
+        return true;
+    } // fileExists
+
+}                                       // namespace Exiv2
