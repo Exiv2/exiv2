@@ -21,7 +21,7 @@
 /*!
   @file    ifd.hpp
   @brief   Encoding and decoding of IFD (Image File Directory) data
-  @version $Name:  $ $Revision: 1.3 $
+  @version $Name:  $ $Revision: 1.4 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -250,11 +250,11 @@ namespace Exif {
         //! Set the offset of the next IFD
         void setNext(uint32 next) { next_ = next; }
         /*!
-          @brief Add the Entry to the IFD. No duplicate-check is performed, i.e.,
-                 it is possible to add multiple entries with the same tag.
-                 with the same tag already exists, the entry is overwritten. The
-                 memory allocation mode of the entry to be added must match that
-                 of the IFD and the IFD ids of the IFD and Entry must match.
+          @brief Add the Entry to the IFD. No duplicate-check is performed,
+                 i.e., it is possible to add multiple entries with the same tag.
+                 The memory allocation mode of the entry to be added must match
+                 that of the IFD and the IFD ids of the IFD and Entry must
+                 match.
          */
         void add(const Entry& entry);
         /*!
