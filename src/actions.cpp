@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.29 $
+  Version:   $Name:  $ $Revision: 1.30 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.29 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.30 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -38,6 +38,9 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.29 $ $RCSfile: actions.cpp,v $")
 #include "types.hpp"
 #include "exif.hpp"
 #include "canonmn.hpp"
+#ifndef HAVE_TIMEGM
+# include "timegm.h"
+#endif
 
 // + standard includes
 #include <string>
@@ -52,7 +55,7 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.29 $ $RCSfile: actions.cpp,v $")
 #include <sys/types.h>                  // for stat()
 #include <sys/stat.h>                   // for stat()
 #if defined HAVE_UNISTD_H && !defined _MSC_VER
-#include <unistd.h>                     // for stat()
+# include <unistd.h>                    // for stat()
 #endif
 
 // *****************************************************************************
