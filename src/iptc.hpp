@@ -21,7 +21,7 @@
 /*!
   @file    iptc.hpp
   @brief   Encoding and decoding of Iptc data
-  @version $Name:  $ $Revision: 1.5 $
+  @version $Name:  $ $Revision: 1.6 $
   @author  Brad Schick (brad) 
            <a href="mailto:schick@robotbattle.com">schick@robotbattle.com</a>
   @date    31-Jul-04, brad: created
@@ -83,8 +83,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         virtual std::string key() const { return key_; }
-        virtual const char* familyName() const 
-            { return IptcDataSets::familyName(); }
+        virtual const char* familyName() const { return familyName_; }
         /*!
           @brief Return the name of the group (the second part of the key).
                  For Iptc keys, the group name is the record name.
@@ -96,7 +95,7 @@ namespace Exiv2 {
         virtual IptcKey* clone() const;
 
         //! Return the name of the record
-        const char* recordName() const
+        std::string recordName() const
             { return IptcDataSets::recordName(record_); }
         //! Return the record id
         uint16_t record() const { return record_; }
@@ -106,20 +105,26 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         /*!
-          @brief Parse and convert the key string into dataset and record id. 
-                 Updates tag_ and record_ if the string can be decomposed,
-                 or throws Error ("Invalid key").
+          @brief Set the key corresponding to the dataset and record id. 
+                 The key is of the form '<b>Iptc</b>.recordName.dataSetName'.
+         */
+        void makeKey();
+        /*!
+          @brief Parse and convert the key string into dataset and record id.
+                 Updates data members if the string can be decomposed, or throws
+                 Error ("Invalid key").
 
-          @throw Error ("Invalid key") if the key cannot be parsed into
-                 family name, group name and tag name parts.
+          @throw Error ("Invalid key") if the key cannot be decomposed.
          */
         void decomposeKey();
         //@}
 
     private:
         // DATA
-        uint16_t tag_;                   //!< Tag value
-        uint16_t record_;                //!< Record value 
+        static const char* familyName_;
+
+        uint16_t tag_;                 //!< Tag value
+        uint16_t record_;              //!< Record value 
         std::string key_;              //!< Key
 
     }; // class IptcKey
@@ -195,7 +200,7 @@ namespace Exiv2 {
            @return record name
            @throw Error("Unknown record");
          */
-        const char* recordName() const
+        std::string recordName() const
             { return pKey_ == 0 ? "" : pKey_->recordName(); }
         /*!
            @brief Return the record id 

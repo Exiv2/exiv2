@@ -4,7 +4,7 @@
              This is not designed to be a robust application.
 
   File     : iptctest.cpp
-  Version  : $Name:  $ $Revision: 1.3 $
+  Version  : $Name:  $ $Revision: 1.4 $
   Author(s): Brad Schick (brad) <schick@robotbattle.com>
   History  : 01-Aug-04, brad: created
  */
@@ -105,20 +105,18 @@ void processAdd(const std::string& line, int num)
     }
 
     std::string key(line.substr(keyStart, keyEnd-keyStart));
-    std::pair<uint16_t, uint16_t> p = IptcDataSets::decomposeKey(key);
-    if (p.first == 0xffff) throw Error("Invalid key " + key);
-    if (p.second == IptcDataSets::invalidRecord) throw Error("Invalid key " + key);
+    IptcKey iptcKey(key);
 
     std::string data(line.substr(dataStart));
     // if data starts and ends with quotes, remove them
     if (data.at(0) == '\"' && data.at(data.size()-1) == '\"') {
         data = data.substr(1, data.size()-2);
     }
-    TypeId type = IptcDataSets::dataSetType(p.first, p.second);
+    TypeId type = IptcDataSets::dataSetType(iptcKey.tag(), iptcKey.record());
     Value *val = Value::create(type);
     val->read(data);
 
-    int rc = g_iptcData.add(IptcKey(key), val);
+    int rc = g_iptcData.add(iptcKey, val);
     if (rc) {
         std::string error = IptcData::strError(rc, "Input file");
         throw Error(error);
@@ -137,11 +135,9 @@ void processRemove(const std::string& line, int num)
     }
 
     const std::string key( line.substr(keyStart) );
-    std::pair<uint16_t, uint16_t> p = IptcDataSets::decomposeKey(key);
-    if (p.first == 0xffff) throw Error("Invalid key" + key);
-    if (p.second == IptcDataSets::invalidRecord) throw Error("Invalid key" + key);
+    IptcKey iptcKey(key);
 
-    IptcData::iterator iter = g_iptcData.findId(p.first, p.second);
+    IptcData::iterator iter = g_iptcData.findId(iptcKey.tag(), iptcKey.record());
     if (iter != g_iptcData.end()) {
         g_iptcData.erase(iter);
     }
@@ -162,25 +158,23 @@ void processModify(const std::string& line, int num)
     }
 
     std::string key(line.substr(keyStart, keyEnd-keyStart));
-    std::pair<uint16_t, uint16_t> p = IptcDataSets::decomposeKey(key);
-    if (p.first == 0xffff) throw Error("Invalid key" + key);
-    if (p.second == IptcDataSets::invalidRecord) throw Error("Invalid key" + key);
+    IptcKey iptcKey(key);
 
     std::string data(line.substr(dataStart));
     // if data starts and ends with quotes, remove them
     if (data.at(0) == '\"' && data.at(data.size()-1) == '\"') {
         data = data.substr(1, data.size()-2);
     }
-    TypeId type = IptcDataSets::dataSetType(p.first, p.second);
+    TypeId type = IptcDataSets::dataSetType(iptcKey.tag(), iptcKey.record());
     Value *val = Value::create(type);
     val->read(data);
 
-    IptcData::iterator iter = g_iptcData.findId(p.first, p.second);
+    IptcData::iterator iter = g_iptcData.findId(iptcKey.tag(), iptcKey.record());
     if (iter != g_iptcData.end()) {
         iter->setValue(val);
     }
     else {
-        int rc = g_iptcData.add(IptcKey(key), val);
+        int rc = g_iptcData.add(iptcKey, val);
         if (rc) {
             std::string error = IptcData::strError(rc, "Input file");
             throw Error(error);

@@ -3,7 +3,7 @@
   Abstract : Key unit tests 
 
   File     : key-test.cpp
-  Version  : $Name:  $ $Revision: 1.3 $
+  Version  : $Name:  $ $Revision: 1.4 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History  : 24-Aug-04, ahu: created
 
@@ -11,6 +11,7 @@
 // *****************************************************************************
 // included header files
 #include "exif.hpp"
+#include "iptc.hpp"
 #include <iostream>
 #include <string>
 
@@ -224,6 +225,44 @@ int main()
     tc += 1;
     if (ek5.tagName() != "Focus") {
         std::cout << "Testcase failed (converted tagName)" << std::endl;
+        rc += 1; 
+    }
+
+    // -----
+
+    IptcKey ik1("Iptc.Envelope.0x0005");
+    tc += 1;
+    if (ik1.key() != "Iptc.Envelope.Destination") {
+        std::cout << "Testcase failed (converted Iptc key)" << std::endl;
+        rc += 1; 
+    }
+    tc += 1;
+    if (ik1.tagName() != "Destination") {
+        std::cout << "Testcase failed (converted tagName)" << std::endl;
+        rc += 1; 
+    }
+    tc += 1;
+    if (ik1.recordName() != "Envelope") {
+        std::cout << "Testcase failed (converted recordName)" << std::endl;
+        rc += 1; 
+    }
+
+    // -----
+
+    IptcKey ik2(0xabcd, 0x1234);
+    tc += 1;
+    if (ik2.key() != "Iptc.0x1234.0xabcd") {
+        std::cout << "Testcase failed (unknown Iptc key)" << std::endl;
+        rc += 1; 
+    }
+    tc += 1;
+    if (ik2.tagName() != "0xabcd") {
+        std::cout << "Testcase failed (converted tagName)" << std::endl;
+        rc += 1; 
+    }
+    tc += 1;
+    if (ik2.recordName() != "0x1234") {
+        std::cout << "Testcase failed (converted recordName)" << std::endl;
         rc += 1; 
     }
 
