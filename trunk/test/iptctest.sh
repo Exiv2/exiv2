@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 # Test driver for Iptc metadata
 
 printTest()
@@ -99,7 +99,7 @@ diffCheck()
     good=$2
     
     #run diff and check results
-    diff -q --strip-trailing-cr $test $good
+    diff -q $diffargs $test $good
     if [ $? -ne 0 ]; then
        let ++errors
     else
@@ -113,6 +113,13 @@ diffCheck()
 LD_LIBRARY_PATH=../../src:$LD_LIBRARY_PATH
 binpath="../../src"
 datapath="../data"
+diffargs="--strip-trailing-cr"
+tmpfile=tmp/ttt
+touch $tmpfile
+diff -q $diffargs $tmpfile $tmpfile 2>/dev/null
+if [ $? -ne 0 ] ; then
+    diffargs=""
+fi
 
 test_files="smiley1.jpg smiley2.jpg glider.exv table.jpg"
 

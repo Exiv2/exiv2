@@ -34,6 +34,13 @@ runTestCase()
 LD_LIBRARY_PATH=../../src:$LD_LIBRARY_PATH
 binpath="../../src"
 datapath="."
+diffargs="--strip-trailing-cr"
+tmpfile=tmp/ttt
+touch $tmpfile
+diff -q $diffargs $tmpfile $tmpfile 2>/dev/null
+if [ $? -ne 0 ] ; then
+    diffargs=""
+fi
 
 images="exiv2-canon-powershot-s40.jpg \
         exiv2-kodak-dc210.jpg \
@@ -60,10 +67,10 @@ runTestCase 11 $datapath/exiv2-nikon-d70.jpg
 
 ) > tmp/write-test.out 2>&1
 
-diff -q --strip-trailing-cr tmp/write-test.out data/write-test.out
+diff -q -w $diffargs tmp/write-test.out data/write-test.out
 rc=$?
 if [ $rc -eq 0 ] ; then
     echo "All testcases passed."
 else
-    diff --strip-trailing-cr tmp/write-test.out data/write-test.out
+    diff -w $diffargs tmp/write-test.out data/write-test.out
 fi

@@ -2,6 +2,13 @@
 # Test driver for write unit tests to build Exif metadata from scratch
 results="./tmp/write2-test.out"
 good="./data/write2-test.out"
+diffargs="--strip-trailing-cr"
+tmpfile=tmp/ttt
+touch $tmpfile
+diff -q $diffargs $tmpfile $tmpfile 2>/dev/null
+if [ $? -ne 0 ] ; then
+    diffargs=""
+fi
 (
 LD_LIBRARY_PATH=../../src:$LD_LIBRARY_PATH
 binpath="../../src"
@@ -10,10 +17,10 @@ cd ./tmp
 $binpath/write2-test exiv2-empty.jpg
 ) > $results
 
-diff -q $results $good
+diff -q $diffargs $results $good
 rc=$?
 if [ $rc -eq 0 ] ; then
     echo "All testcases passed."
 else
-    diff $results $good
+    diff $diffargs $results $good
 fi
