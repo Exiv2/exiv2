@@ -21,7 +21,7 @@
 /*!
   @file    tags.hpp
   @brief   %Exif tag and type information
-  @version $Name:  $ $Revision: 1.18 $
+  @version $Name:  $ $Revision: 1.19 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    15-Jan-04, ahu: created
@@ -259,6 +259,8 @@ namespace Exif {
     std::ostream& print0xa403(std::ostream& os, const Value& value);
     //! Print digital zoom ratio
     std::ostream& print0xa404(std::ostream& os, const Value& value);
+    //! Print 35mm equivalent focal length 
+    std::ostream& print0xa405(std::ostream& os, const Value& value);
     //! Print scene capture type
     std::ostream& print0xa406(std::ostream& os, const Value& value);
     //! Print overall image gain adjustment
