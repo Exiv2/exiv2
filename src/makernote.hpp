@@ -22,7 +22,7 @@
   @file    makernote.hpp
   @brief   Contains the %Exif %MakerNote interface, IFD %MakerNote and a 
            MakerNote factory
-  @version $Name:  $ $Revision: 1.15 $
+  @version $Name:  $ $Revision: 1.16 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -43,7 +43,7 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exif {
+namespace Exiv2 {
 
 // *****************************************************************************
 // class declarations
@@ -415,6 +415,6 @@ namespace Exif {
 
     }; // class MakerNoteFactory
    
-}                                       // namespace Exif
+}                                       // namespace Exiv2
 
 #endif                                  // #ifndef MAKERNOTE_HPP_

@@ -23,7 +23,7 @@
   @brief   Sigma and Foveon MakerNote implemented according to the specification
            in "SIGMA and FOVEON EXIF MakerNote Documentation" by Foveon.
            <http://www.x3f.info/technotes/FileDocs/MakerNoteDoc.html>
-  @version $Name:  $ $Revision: 1.2 $
+  @version $Name:  $ $Revision: 1.3 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    02-Apr-04, ahu: created
@@ -42,7 +42,7 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exif {
+namespace Exiv2 {
 
 // *****************************************************************************
 // class declarations
@@ -130,6 +130,6 @@ namespace Exif {
 
     }; // class SigmaMakerNote
 
-}                                       // namespace Exif
+}                                       // namespace Exiv2
 
 #endif                                  // #ifndef SIGMAMN_HPP_

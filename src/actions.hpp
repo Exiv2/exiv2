@@ -22,7 +22,7 @@
   @file    actions.hpp
   @brief   Implements base class Task, TaskFactory and the various supported
            actions (derived from Task).
-  @version $Name:  $ $Revision: 1.7 $
+  @version $Name:  $ $Revision: 1.8 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    11-Dec-03, ahu: created
@@ -40,7 +40,7 @@
 // *****************************************************************************
 // class declarations
 
-namespace Exif {
+namespace Exiv2 {
     class ExifData;
 }
 
@@ -150,19 +150,19 @@ namespace Action {
         AutoPtr clone() const;
 
         //! Print %Exif summary information
-        void printSummary(const Exif::ExifData& exifData); 
+        void printSummary(const Exiv2::ExifData& exifData); 
         //! Print the interpreted value for each %Exif tag
-        void printInterpreted(const Exif::ExifData& exifData);
+        void printInterpreted(const Exiv2::ExifData& exifData);
         //! Print uninterpreted %Exif information
-        void printValues(const Exif::ExifData& exifData);
+        void printValues(const Exiv2::ExifData& exifData);
         //! Print %Exif information in hexdump format
-        void printHexdump(const Exif::ExifData& exifData);
+        void printHexdump(const Exiv2::ExifData& exifData);
         /*!
           @brief Print one summary line with a label (if provided) and requested
                  data. A line break is printed only if a label is provided.
           @return 1 if a line was written, 0 if the key was not found.
          */
-        int printTag(const Exif::ExifData& exifData,
+        int printTag(const Exiv2::ExifData& exifData,
                      const std::string& key, 
                      const std::string& label ="") const;
 
@@ -198,7 +198,7 @@ namespace Action {
 
     private:
         virtual Task* clone_() const;
-        int adjustDateTime(Exif::ExifData& exifData,
+        int adjustDateTime(Exiv2::ExifData& exifData,
                            const std::string& key, 
                            const std::string& path) const;
 
@@ -218,11 +218,11 @@ namespace Action {
         /*!
           @brief Delete the thumbnail image, incl IFD1 metadata from the file. 
          */
-        int eraseThumbnail(Exif::ExifData& exifData) const; 
+        int eraseThumbnail(Exiv2::ExifData& exifData) const; 
         /*!
           @brief Erase the complete %Exif data block from the file.
          */
-        int eraseExifData(Exif::ExifData& exifData) const;
+        int eraseExifData(Exiv2::ExifData& exifData) const;
 
     private:
         virtual Task* clone_() const;
@@ -246,12 +246,12 @@ namespace Action {
                  "-thumb" and the appropriate suffix (".jpg" or ".tif"), depending
                  on the format of the %Exif thumbnail image.
          */
-        int writeThumbnail(const Exif::ExifData& exifData) const; 
+        int writeThumbnail(const Exiv2::ExifData& exifData) const; 
         /*!
           @brief Write the %Exif data to a file. The filename is composed by
                  replacing the suffix of the image filename with ".exf".
          */
-        int writeExifData(Exif::ExifData& exifData) const;
+        int writeExifData(Exiv2::ExifData& exifData) const;
 
     private:
         virtual Task* clone_() const;

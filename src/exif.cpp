@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.40 $
+  Version:   $Name:  $ $Revision: 1.41 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.40 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.41 $ $RCSfile: exif.cpp,v $")
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -63,17 +63,17 @@ namespace {
       with the value of offset. If no entry with this tag exists in ifd, an
       entry of type unsigned long with one component is created.
      */
-    void setOffsetTag(Exif::Ifd& ifd,
+    void setOffsetTag(Exiv2::Ifd& ifd,
                       int idx,
-                      Exif::uint16 tag,
-                      Exif::uint32 offset, 
-                      Exif::ByteOrder byteOrder);
+                      Exiv2::uint16 tag,
+                      Exiv2::uint32 offset, 
+                      Exiv2::ByteOrder byteOrder);
 
 }
 
 // *****************************************************************************
 // class member definitions
-namespace Exif {
+namespace Exiv2 {
 
     Metadatum::Metadatum(const Entry& e, ByteOrder byteOrder)
         : tag_(e.tag()), ifdId_(e.ifdId()), idx_(e.idx()), 
@@ -1186,21 +1186,21 @@ namespace Exif {
         return p;
     }
 
-}                                       // namespace Exif
+}                                       // namespace Exiv2
 
 // *****************************************************************************
 // local definitions
 namespace {
 
-    void setOffsetTag(Exif::Ifd& ifd,
+    void setOffsetTag(Exiv2::Ifd& ifd,
                       int idx,
-                      Exif::uint16 tag,
-                      Exif::uint32 offset, 
-                      Exif::ByteOrder byteOrder)
+                      Exiv2::uint16 tag,
+                      Exiv2::uint32 offset, 
+                      Exiv2::ByteOrder byteOrder)
     {
-        Exif::Ifd::iterator pos = ifd.findTag(tag);
+        Exiv2::Ifd::iterator pos = ifd.findTag(tag);
         if (pos == ifd.end()) {
-            Exif::Entry e(ifd.alloc());
+            Exiv2::Entry e(ifd.alloc());
             e.setIfdId(ifd.ifdId());
             e.setIdx(idx);
             e.setTag(tag);

@@ -20,14 +20,14 @@
  */
 /*
   File:      types.cpp
-  Version:   $Name:  $ $Revision: 1.6 $
+  Version:   $Name:  $ $Revision: 1.7 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: types.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.7 $ $RCSfile: types.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -42,7 +42,7 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: types.cpp,v $")
 
 // *****************************************************************************
 // class member definitions
-namespace Exif {
+namespace Exiv2 {
 
     TypeInfoTable::TypeInfoTable(TypeId typeId, const char* name, long size)
         : typeId_(typeId), name_(name), size_(size)
@@ -262,4 +262,4 @@ namespace Exif {
         return b;
     } // lgcd
 
-}                                       // namespace Exif
+}                                       // namespace Exiv2

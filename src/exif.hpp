@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.39 $
+  @version $Name:  $ $Revision: 1.40 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -45,8 +45,12 @@
 
 // *****************************************************************************
 // namespace extensions
-//! Provides classes and functions to encode and decode %Exif data.
-namespace Exif {
+/*!
+  @brief Provides classes and functions to encode and decode %Exif data.
+         This namespace corresponds to the <b>libexiv2</b> library. 
+
+ */
+namespace Exiv2 {
 
 // *****************************************************************************
 // class declarations
@@ -882,6 +886,6 @@ namespace Exif {
     std::pair<uint16, IfdId> decomposeKey(const std::string& key,
                                           const MakerNote* makerNote);
 
-}                                       // namespace Exif
+}                                       // namespace Exiv2
 
 #endif                                  // #ifndef EXIF_HPP_

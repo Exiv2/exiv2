@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.20 $
+  Version:   $Name:  $ $Revision: 1.21 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.20 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.21 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -65,10 +65,10 @@ namespace {
     // Convert a time type to a string "YYYY:MM:DD HH:MI:SS", "" on error
     std::string time2Str(time_t time);
 
-    // Return an error message for the return code of Exif::ExifData::read
+    // Return an error message for the return code of Exiv2::ExifData::read
     std::string exifReadError(int rc, const std::string& path);
 
-    // Return an error message for the return code of Exif::ExifData::write
+    // Return an error message for the return code of Exiv2::ExifData::write
     std::string exifWriteError(int rc, const std::string& path);
 
 }
@@ -125,7 +125,7 @@ namespace Action {
     int Print::run(const std::string& path)
     try {
         path_ = path;
-        Exif::ExifData exifData;
+        Exiv2::ExifData exifData;
         int rc = exifData.read(path);
         if (rc) {
             std::cerr << exifReadError(rc, path) << "\n";
@@ -139,14 +139,14 @@ namespace Action {
         }
         return 0;
     }
-    catch(const Exif::Error& e)
+    catch(const Exiv2::Error& e)
     {
         std::cerr << "Exif exception in print action for file " 
                   << path << ":\n" << e << "\n";
         return 1;
     } // Print::run
 
-    void Print::printSummary(const Exif::ExifData& exifData)
+    void Print::printSummary(const Exiv2::ExifData& exifData)
     {
         align_ = 16;
 
@@ -178,7 +178,7 @@ namespace Action {
         // From ExposureTime, failing that, try ShutterSpeedValue
         std::cout << std::setw(align_) << std::setfill(' ') << std::left
                   << "Exposure time" << ": ";
-        Exif::ExifData::const_iterator md;
+        Exiv2::ExifData::const_iterator md;
         if (0 == printTag(exifData, "Image.CaptureConditions.ExposureTime")) {
             md = exifData.findKey("Image.CaptureConditions.ShutterSpeedValue");
             if (md != exifData.end()) {
@@ -218,7 +218,7 @@ namespace Action {
                   << "Flash bias" << ": ";
         md = exifData.findKey("Makernote.Canon.CameraSettings2");
         if (md != exifData.end() && md->count() >= 15) {
-            Exif::CanonMakerNote::print0x0004_15(std::cout, md->toLong(15));
+            Exiv2::CanonMakerNote::print0x0004_15(std::cout, md->toLong(15));
         }
         std::cout << "\n";
 
@@ -240,7 +240,7 @@ namespace Action {
 	if (0 == printTag(exifData, "Image.CaptureConditions.SubjectDistance")) {
             md = exifData.findKey("Makernote.Canon.CameraSettings2");
             if (md != exifData.end() && md->count() >= 19) {
-                Exif::CanonMakerNote::print0x0004_19(std::cout, md->toLong(19));
+                Exiv2::CanonMakerNote::print0x0004_19(std::cout, md->toLong(19));
             }
         }
         std::cout << "\n";
@@ -252,7 +252,7 @@ namespace Action {
         if (0 == printTag(exifData, "Image.CaptureConditions.ISOSpeedRatings")) {
             md = exifData.findKey("Makernote.Canon.CameraSettings1");
             if (md != exifData.end() && md->count() >= 16) {
-                Exif::CanonMakerNote::print0x0001_16(std::cout, md->toLong(16));
+                Exiv2::CanonMakerNote::print0x0001_16(std::cout, md->toLong(16));
             }
         }
         std::cout << "\n";
@@ -264,7 +264,7 @@ namespace Action {
         if (0 == printTag(exifData, "Image.CaptureConditions.ExposureProgram")) {
             md = exifData.findKey("Makernote.Canon.CameraSettings1");
             if (md != exifData.end() && md->count() >= 20) {
-                Exif::CanonMakerNote::print0x0001_20(std::cout, md->toLong(20));
+                Exiv2::CanonMakerNote::print0x0001_20(std::cout, md->toLong(20));
             }
         }
         std::cout << "\n";
@@ -279,7 +279,7 @@ namespace Action {
         bool done = false;
         md = exifData.findKey("Makernote.Canon.CameraSettings1");
         if (md != exifData.end() && md->count() >= 1) {
-            Exif::CanonMakerNote::print0x0001_01(std::cout, md->toLong(1));
+            Exiv2::CanonMakerNote::print0x0001_01(std::cout, md->toLong(1));
             done = true;
         }
         if (!done) {
@@ -294,7 +294,7 @@ namespace Action {
         done = false;
         md = exifData.findKey("Makernote.Canon.CameraSettings1");
         if (md != exifData.end() && md->count() >= 3) {
-            Exif::CanonMakerNote::print0x0001_03(std::cout, md->toLong(3));
+            Exiv2::CanonMakerNote::print0x0001_03(std::cout, md->toLong(3));
             done = true;
         }
         if (!done) {
@@ -326,7 +326,7 @@ namespace Action {
         done = false;
         md = exifData.findKey("Makernote.Canon.CameraSettings2");
         if (md != exifData.end() && md->count() >= 7) {
-            Exif::CanonMakerNote::print0x0004_07(std::cout, md->toLong(7));
+            Exiv2::CanonMakerNote::print0x0004_07(std::cout, md->toLong(7));
             done = true;
         }
         if (!done) {
@@ -359,7 +359,7 @@ namespace Action {
 
     } // Print::printSummary
 
-    int Print::printTag(const Exif::ExifData& exifData,
+    int Print::printTag(const Exiv2::ExifData& exifData,
                         const std::string& key,
                         const std::string& label) const
     {
@@ -369,7 +369,7 @@ namespace Action {
             std::cout << std::setw(align_) << std::setfill(' ') << std::left
                       << label << ": ";
         }
-        Exif::ExifData::const_iterator md = exifData.findKey(key);
+        Exiv2::ExifData::const_iterator md = exifData.findKey(key);
         if (md != exifData.end()) {
             std::cout << *md;
             rc = 1;
@@ -378,9 +378,9 @@ namespace Action {
         return rc;
     } // Print::printTag
 
-    void Print::printInterpreted(const Exif::ExifData& exifData)
+    void Print::printInterpreted(const Exiv2::ExifData& exifData)
     {
-        Exif::ExifData::const_iterator md;
+        Exiv2::ExifData::const_iterator md;
         for (md = exifData.begin(); md != exifData.end(); ++md) {
             std::cout << "0x" << std::setw(4) << std::setfill('0') << std::right
                       << std::hex << md->tag() << " " 
@@ -392,9 +392,9 @@ namespace Action {
         }
     } // Print::printInterpreted
 
-    void Print::printValues(const Exif::ExifData& exifData)
+    void Print::printValues(const Exiv2::ExifData& exifData)
     {
-        Exif::ExifData::const_iterator md;
+        Exiv2::ExifData::const_iterator md;
         for (md = exifData.begin(); md != exifData.end(); ++md) {
             std::cout << "0x" << std::setw(4) << std::setfill('0') << std::right
                       << std::hex << md->tag() << " " 
@@ -412,9 +412,9 @@ namespace Action {
         }
     } // Print::printValues
 
-    void Print::printHexdump(const Exif::ExifData& exifData)
+    void Print::printHexdump(const Exiv2::ExifData& exifData)
     {
-        Exif::ExifData::const_iterator md;
+        Exiv2::ExifData::const_iterator md;
         for (md = exifData.begin(); md != exifData.end(); ++md) {
             std::cout << std::setw(4) << std::setfill(' ') << std::left
                       << md->ifdName() << " "
@@ -430,9 +430,9 @@ namespace Action {
                       << md->size() << " "
                       << std::setw(27) << std::setfill(' ') << std::left
                       << md->tagName() << "\n";
-            Exif::DataBuf buf(md->size());
+            Exiv2::DataBuf buf(md->size());
             md->copy(buf.pData_, exifData.byteOrder());
-            Exif::hexdump(std::cout, buf.pData_, buf.size_);
+            Exiv2::hexdump(std::cout, buf.pData_, buf.size_);
         }
     } // Print::printHexdump
 
@@ -448,14 +448,14 @@ namespace Action {
 
     int Rename::run(const std::string& path)
     try {
-        Exif::ExifData exifData;
+        Exiv2::ExifData exifData;
         int rc = exifData.read(path);
         if (rc) {
             std::cerr << exifReadError(rc, path) << "\n";
             return rc;
         }
         std::string key = "Image.DateTime.DateTimeOriginal";
-        Exif::ExifData::iterator md = exifData.findKey(key);
+        Exiv2::ExifData::iterator md = exifData.findKey(key);
         if (md == exifData.end()) {
             std::cerr << "Metadatum with key `" << key << "' "
                       << "not found in the file " << path << "\n";
@@ -512,7 +512,7 @@ namespace Action {
         }
         return 0;
     }
-    catch(const Exif::Error& e)
+    catch(const Exiv2::Error& e)
     {
         std::cerr << "Exif exception in rename action for file " << path
                   << ":\n" << e << "\n";
@@ -532,7 +532,7 @@ namespace Action {
     int Erase::run(const std::string& path)
     try {
         path_ = path;
-        Exif::ExifData exifData;
+        Exiv2::ExifData exifData;
         int rc = exifData.read(path);
         if (rc) {
             std::cerr << exifReadError(rc, path) << "\n";
@@ -544,14 +544,14 @@ namespace Action {
         }
         return rc;
     }
-    catch(const Exif::Error& e)
+    catch(const Exiv2::Error& e)
     {
         std::cerr << "Exif exception in erase action for file " << path
                   << ":\n" << e << "\n";
         return 1;
     } // Erase::run
 
-    int Erase::eraseThumbnail(Exif::ExifData& exifData) const
+    int Erase::eraseThumbnail(Exiv2::ExifData& exifData) const
     {
         int rc = 0;
         std::string thumbExt = exifData.thumbnailExtension();
@@ -573,7 +573,7 @@ namespace Action {
         return rc;
     }
 
-    int Erase::eraseExifData(Exif::ExifData& exifData) const
+    int Erase::eraseExifData(Exiv2::ExifData& exifData) const
     {
         if (Params::instance().verbose_) {
             std::cout << "Erasing Exif data from the file\n"; 
@@ -598,7 +598,7 @@ namespace Action {
     int Extract::run(const std::string& path)
     try {
         path_ = path;
-        Exif::ExifData exifData;
+        Exiv2::ExifData exifData;
         int rc = exifData.read(path);
         if (rc) {
             std::cerr << exifReadError(rc, path) << "\n";
@@ -610,14 +610,14 @@ namespace Action {
         }
         return rc;
     }
-    catch(const Exif::Error& e)
+    catch(const Exiv2::Error& e)
     {
         std::cerr << "Exif exception in extract action for file " << path
                   << ":\n" << e << "\n";
         return 1;
     } // Extract::run
 
-    int Extract::writeExifData(Exif::ExifData& exifData) const
+    int Extract::writeExifData(Exiv2::ExifData& exifData) const
     {
         std::string exvPath =   Util::dirname(path_) + "/"
                               + Util::basename(path_, true) + ".exv";
@@ -638,7 +638,7 @@ namespace Action {
         return rc;
     }
 
-    int Extract::writeThumbnail(const Exif::ExifData& exifData) const
+    int Extract::writeThumbnail(const Exiv2::ExifData& exifData) const
     {
         std::string thumb =   Util::dirname(path_) + "/"
                             + Util::basename(path_, true) + "-thumb";
@@ -685,7 +685,7 @@ namespace Action {
     try {
         std::string exvPath =   Util::dirname(path) + "/"
                               + Util::basename(path, true) + ".exv";
-        Exif::ExifData exifData;
+        Exiv2::ExifData exifData;
         int rc = exifData.read(exvPath);
         if (rc) {
             std::cerr << exifReadError(rc, exvPath) << "\n";
@@ -700,7 +700,7 @@ namespace Action {
         }
         return rc;
     }
-    catch(const Exif::Error& e)
+    catch(const Exiv2::Error& e)
     {
         std::cerr << "Exif exception in insert action for file " << path
                   << ":\n" << e << "\n";
@@ -721,7 +721,7 @@ namespace Action {
     try {
         adjustment_ = Params::instance().adjustment_;
 
-        Exif::ExifData exifData;
+        Exiv2::ExifData exifData;
         int rc = exifData.read(path);
         if (rc) {
             std::cerr << exifReadError(rc, path) << "\n";
@@ -737,7 +737,7 @@ namespace Action {
         }
         return rc;
     }
-    catch(const Exif::Error& e)
+    catch(const Exiv2::Error& e)
     {
         std::cerr << "Exif exception in adjust action for file " << path
                   << ":\n" << e << "\n";
@@ -754,11 +754,11 @@ namespace Action {
         return new Adjust(*this);
     }
 
-    int Adjust::adjustDateTime(Exif::ExifData& exifData,
+    int Adjust::adjustDateTime(Exiv2::ExifData& exifData,
                                const std::string& key, 
                                const std::string& path) const
     {
-        Exif::ExifData::iterator md = exifData.findKey(key);
+        Exiv2::ExifData::iterator md = exifData.findKey(key);
         if (md == exifData.end()) {
             // Key not found. That's ok, we do nothing.
             return 0;
@@ -868,7 +868,7 @@ namespace {
             error = path + ": Unsupported Exif or GPS data found in IFD 1";
             break;
         default:
-            error = path + ": Reading Exif data failed, rc = " + Exif::toString(rc);
+            error = path + ": Reading Exif data failed, rc = " + Exiv2::toString(rc);
             break;
         }
         return error;
@@ -903,7 +903,7 @@ namespace {
             error = path + ": Writing to the output stream failed";
             break;
         default:
-            error = path + ": Reading Exif data failed, rc = " + Exif::toString(rc);
+            error = path + ": Reading Exif data failed, rc = " + Exiv2::toString(rc);
             break;
         }
         return error;

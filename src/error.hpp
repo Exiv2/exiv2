@@ -21,7 +21,7 @@
 /*!
   @file    error.hpp
   @brief   Error class for exceptions
-  @version $Name:  $ $Revision: 1.1 $
+  @version $Name:  $ $Revision: 1.2 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    15-Jan-04, ahu: created
@@ -39,7 +39,7 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exif {
+namespace Exiv2 {
 
 // *****************************************************************************
 // class definitions
@@ -68,6 +68,6 @@ namespace Exif {
         return os << error.message();
     }
 
-}                                       // namespace Exif
+}                                       // namespace Exiv2
 
 #endif                                  // #ifndef ERROR_HPP_

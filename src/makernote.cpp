@@ -20,13 +20,13 @@
  */
 /*
   File:      makernote.cpp
-  Version:   $Name:  $ $Revision: 1.16 $
+  Version:   $Name:  $ $Revision: 1.17 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.16 $ $RCSfile: makernote.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.17 $ $RCSfile: makernote.cpp,v $")
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -48,7 +48,7 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.16 $ $RCSfile: makernote.cpp,v $")
 
 // *****************************************************************************
 // class member definitions
-namespace Exif {
+namespace Exiv2 {
 
     std::string MakerNote::makeKey(uint16 tag) const
     {
@@ -383,4 +383,4 @@ namespace Exif {
         
     } // MakerNoteFactory::match
 
-}                                       // namespace Exif
+}                                       // namespace Exiv2

@@ -3,7 +3,7 @@
   Abstract : ExifData write unit tests
 
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  Version  : $Name:  $ $Revision: 1.3 $
+  Version  : $Name:  $ $Revision: 1.4 $
 
   Test procedure: 
    $ rm -f test.jpg thumb.jpg iii ttt; 
@@ -27,7 +27,7 @@
 // *****************************************************************************
 // local declarations
 
-using namespace Exif;
+using namespace Exiv2;
 
 void testCase(const std::string& file1,
               const std::string& file2,
@@ -129,7 +129,7 @@ void testCase(const std::string& file1,
     }
 
     std::cerr << "---> Modifying Exif data\n";
-    Exif::ExifData::iterator pos = ed1.findKey(key);
+    Exiv2::ExifData::iterator pos = ed1.findKey(key);
     if (pos == ed1.end()) {
         throw Error("Metadatum with key = " + key + " not found");
     }

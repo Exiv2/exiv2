@@ -3,13 +3,13 @@
   Abstract:  Print a simple comma separated list of tags defined in Exiv2
 
   File:      taglist.cpp
-  Version:   $Name:  $ $Revision: 1.4 $
+  Version:   $Name:  $ $Revision: 1.5 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   07-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: taglist.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: taglist.cpp,v $")
 
 #include "makernote.hpp"
 #include "tags.hpp"
@@ -18,7 +18,7 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: taglist.cpp,v $")
 #include <string>
 #include <iostream>
 
-using namespace Exif;
+using namespace Exiv2;
 
 int main(int argc, char* argv[])
 try {

@@ -21,7 +21,7 @@
 /*!
   @file    image.hpp
   @brief   Class JpegImage to access JPEG images
-  @version $Name:  $ $Revision: 1.11 $
+  @version $Name:  $ $Revision: 1.12 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -41,7 +41,7 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exif {
+namespace Exiv2 {
 
 // *****************************************************************************
 // class definitions
@@ -531,6 +531,6 @@ namespace Exif {
 
     }; // class ExvFile
    
-}                                       // namespace Exif
+}                                       // namespace Exiv2
 
 #endif                                  // #ifndef IMAGE_HPP_

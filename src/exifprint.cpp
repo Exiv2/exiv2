@@ -3,7 +3,7 @@
   Abstract : Sample program to print the Exif metadata of an image
 
   File:      exifprint.cpp
-  Version  : $Name:  $ $Revision: 1.12 $
+  Version  : $Name:  $ $Revision: 1.13 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History  : 26-Jan-04, ahu: created
  */
@@ -29,15 +29,15 @@ try {
         return 1;
     }
 
-    Exif::ExifData exifData;
+    Exiv2::ExifData exifData;
     int rc = exifData.read(argv[1]);
     if (rc) {
         std::string error = readError(rc, argv[1]);
-        throw Exif::Error(error);
+        throw Exiv2::Error(error);
     }
 
-    Exif::ExifData::const_iterator end = exifData.end();
-    for (Exif::ExifData::const_iterator i = exifData.begin(); i != end; ++i) {
+    Exiv2::ExifData::const_iterator end = exifData.end();
+    for (Exiv2::ExifData::const_iterator i = exifData.begin(); i != end; ++i) {
         std::cout << std::setw(53) << std::setfill(' ') << std::left
                   << i->key() << " "
                   << "0x" << std::setw(4) << std::setfill('0') << std::right
@@ -48,7 +48,7 @@ try {
 
     return rc;
 }
-catch (Exif::Error& e) {
+catch (Exiv2::Error& e) {
     std::cout << "Caught Exif exception '" << e << "'\n";
     return -1;
 }
@@ -79,7 +79,7 @@ std::string readError(int rc, const char* file)
         error = "Unsupported Exif or GPS data found in IFD 1";
         break;
     default:
-        error = "Reading Exif data failed, rc = " + Exif::toString(rc);
+        error = "Reading Exif data failed, rc = " + Exiv2::toString(rc);
         break;
     }
     return error;
