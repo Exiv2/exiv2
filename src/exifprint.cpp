@@ -21,13 +21,14 @@
 /*
   Abstract : Sample program to print the Exif metadata of an image
 
+  File:      exifprint.cpp
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  Version  : $Name:  $ $Revision: 1.5 $
+  Version  : $Name:  $ $Revision: 1.6 $
   History  : 26-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: exifprint.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: exifprint.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -66,17 +67,12 @@ try {
 
     ExifData::const_iterator end = exifData.end();
     for (ExifData::const_iterator i = exifData.begin(); i != end; ++i) {
-        std::cout << "0x" 
-                  << std::hex << std::setw(4) << std::setfill('0') << std::right
-                  << i->tag() << " " 
+        std::cout << "0x" << std::setw(4) << std::setfill('0') << std::right
+                  << std::hex << i->tag() << " " 
+                  << std::setw(9) << std::setfill(' ') << std::left
+                  << i->ifdItem() << " "
                   << std::setw(27) << std::setfill(' ') << std::left
                   << i->tagName() << " "
-//                  << i->key() << " "
-                  << std::setw(17) << std::setfill(' ') << std::left
-                  << i->typeName() << " "
-                  << std::dec << std::setw(3) 
-                  << std::setfill(' ') << std::right
-                  << i->count() << "   " 
                   << std::dec << i->value() << "\n";
     }
 
