@@ -20,7 +20,7 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.27 $
+  Version:   $Name:  $ $Revision: 1.28 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
              Brad Schick (brad) <schick@robotbattle.com>
   History:   26-Jan-04, ahu: created
@@ -29,7 +29,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.27 $ $RCSfile: image.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.28 $ $RCSfile: image.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -68,8 +68,9 @@ namespace Exiv2 {
     // Local functions. These could be static private functions on Image
     // subclasses but then ImageFactory needs to be made a friend. 
     /*!
-      @brief Create a new ExvImage instance and return a pointer to it. Caller
-             is responsible to delete the object when it is no longer needed.
+      @brief Create a new ExvImage instance and return an auto-pointer to it. 
+             Caller owns the object and the auto-pointer ensures that it will
+             be deleted.
      */
     Image::AutoPtr newExvInstance(const std::string& path, FILE* fp);
     //! Check if the file ifp is an EXV file.
@@ -716,7 +717,7 @@ namespace Exiv2 {
         Image::AutoPtr image;
         if (fp == 0) {
             image = Image::AutoPtr(new JpegImage(path, true));
-            if (!image->good()) delete image.release();
+            if (!image->good()) image.reset();
         }
         else {
             image = Image::AutoPtr(new JpegImage(path, fp));
@@ -769,7 +770,7 @@ namespace Exiv2 {
         Image::AutoPtr image;
         if (fp == 0) {
             image = Image::AutoPtr(new ExvImage(path, true));
-            if (!image->good()) delete image.release();
+            if (!image->good()) image.reset();
         }
         else {
             image = Image::AutoPtr(new ExvImage(path, fp));
