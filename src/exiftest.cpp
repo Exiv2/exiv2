@@ -3,11 +3,11 @@
   Abstract : This is playground code, do what you want with it.
 
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  Version  : $Name:  $ $Revision: 1.13 $
+  Version  : $Name:  $ $Revision: 1.14 $
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.13 $ $RCSfile: exiftest.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.14 $ $RCSfile: exiftest.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -22,6 +22,8 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.13 $ $RCSfile: exiftest.cpp,v $")
 using namespace Exif;
 
 void exifPrint(const ExifData& exifData);
+std::string readError(int rc, const char* file);
+std::string writeError(int rc, const char* file);
 
 // *****************************************************************************
 // Main
@@ -36,33 +38,19 @@ try {
     ExifData exifData;
     int rc = exifData.read(argv[1]);
     if (rc) {
-        std::string error = "Reading Exif data failed: ";
-        switch (rc) {
-        case -1:
-            error += "Couldn't open file `" + std::string(argv[1]) + "'";
-            break;
-        case 1:
-            error += "Couldn't read from the input stream";
-            break;
-        case 2:
-            error += "This does not look like a JPEG image";
-            break;
-        case 3:
-        case 4:
-            error += "No Exif data found in the file";
-            break;
-        case -99:
-            error += "Unsupported Exif or GPS data found in IFD 1";
-            break;
-        default:
-            error += "rc = " + toString(rc);
-            break;
-        }
+        std::string error = readError(rc, argv[1]);
         throw Error(error);
     }
 
     exifPrint(exifData);
     exifData.writeThumbnail("thumb");
+
+    std::string key = "Image.OtherTags.Copyright";
+
+    Value* value = Value::create(asciiString);
+    value->read("Chan Yee Send");
+    exifData.add(key, value);
+    delete value;
 
     char* buf = new char[1024*128];
     long siz = exifData.copy(buf);
@@ -75,6 +63,13 @@ try {
     
     exifPrint(e2);
     e2.writeThumbnail("t2");
+
+    // Assumes that such a file exists...
+    rc = e2.write("test.jpg");
+    if (rc) {
+        std::string error = writeError(rc, "test.jpg");
+        throw Error(error);
+    }
 
     return rc;
 }
@@ -110,4 +105,62 @@ void exifPrint(const ExifData& exifData)
 
                   << "\n";
     }
+}
+
+std::string readError(int rc, const char* file)
+{
+    std::string error;
+    switch (rc) {
+    case -1:
+        error = "Couldn't open file `" + std::string(file) + "'";
+        break;
+    case 1:
+        error = "Couldn't read from the input stream";
+        break;
+    case 2:
+        error = "This does not look like a JPEG image";
+        break;
+    case 3:
+        error = "No Exif data found in the file";
+        break;
+    case -99:
+        error = "Unsupported Exif or GPS data found in IFD 1";
+        break;
+    default:
+        error = "Reading Exif data failed, rc = " + toString(rc);
+        break;
+    }
+    return error;
+}
+
+std::string writeError(int rc, const char* file)
+{
+    std::string error;
+    switch (rc) {
+    case -1:
+        error = "Couldn't open file `" + std::string(file) + "'";
+        break;
+    case -2:
+        error = "Couldn't open temporary file";
+        break;
+    case -3:
+        error = "Renaming temporary file failed";
+        break;
+    case 1:
+        error = "Couldn't read from the input stream";
+        break;
+    case 2:
+        error = "This does not look like a JPEG image";
+        break;
+    case 3:
+        error = "No JFIF APP0 or Exif APP1 segment found in the file";
+        break;
+    case 4:
+        error = "Writing to the output stream failed";
+        break;
+    default:
+        error = "Reading Exif data failed, rc = " + toString(rc);
+        break;
+    }
+    return error;
 }
