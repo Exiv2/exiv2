@@ -8,7 +8,7 @@
 #
 # RCS information
 #  $Name:  $
-#  $Revision: 1.2 $
+#  $Revision: 1.3 $
 #
 # Description:
 #  Do NOT change this file! All system specific settings and configs
@@ -40,10 +40,10 @@ include $(top_srcdir)/config.mk
 CCHDR = 
 
 # Add library C++ source files to this list
-CCSRC = exif.cc tags.cc utils.cc
+CCSRC = exif.cpp tags.cpp utils.cpp
 
 # Add source files of applications to this list
-BINSRC = exiftest.cc
+BINSRC = exiftest.cpp
 
 # **********************************************************************
 # Library
@@ -64,23 +64,23 @@ LDLIBS  = $(LIBS) -l$(LIBNAME)
 SHELL = /bin/sh
 
 .SUFFIXES:
-.SUFFIXES: .cc .o .so
+.SUFFIXES: .cpp .o .so
 
-.PRECIOUS: %.cc
+.PRECIOUS: %.cpp
 
 # Generic variables
-CCHDR := $(CCHDR) $(CCSRC:.cc=.h)
-CCOBJ = $(CCSRC:.cc=.o)
-CCSOBJ = $(CCSRC:.cc=.so)
+CCHDR := $(CCHDR) $(CCSRC:.cpp=.hpp)
+CCOBJ = $(CCSRC:.cpp=.o)
+CCSOBJ = $(CCSRC:.cpp=.so)
 
 SRC = $(CCSRC)
 HDR = $(CCHDR)
 OBJ = $(CCOBJ)
 SOBJ = $(CCSOBJ)
-DEP = $(CCSRC:%.cc=.%.d) $(BINSRC:%.cc=.%.d)
+DEP = $(CCSRC:%.cpp=.%.d) $(BINSRC:%.cpp=.%.d)
 
-BINOBJ = $(BINSRC:.cc=.o)
-BINARY = $(BINSRC:.cc=)
+BINOBJ = $(BINSRC:.cpp=.o)
+BINARY = $(BINSRC:.cpp=)
 
 ARCHIVE = lib$(LIBNAME)$(ARCHIVE_SUFFIX)
 SHAREDLIB = lib$(LIBNAME)$(SHAREDLIB_SUFFIX)
@@ -119,20 +119,20 @@ endif
 
 # **********************************************************************
 # Rules
-%.o: %.cc
+%.o: %.cpp
 	$(CXX) $(CXXFLAGS_STATIC) $(CXXDEFS) $(CXXINCS) -c $< -o $@
 
-%.so: %.cc
+%.so: %.cpp
 	$(CXX) $(CXXFLAGS_SHARED) $(CXXDEFS) $(CXXINCS) -c $< -o $@
 
-%.ii: %.cc
+%.ii: %.cpp
 	set -e; \
 	$(CXXCPP) $(CPPFLAGS) $(CXXDEFS) $(CXXINCS) $< \
 	| sed '/^[ 	]*$$/d' > $@
 
 # generate a makefile with the prerequisites for each source file
 # (see `info make' for details)
-.%.d: %.cc
+.%.d: %.cpp
 	@echo generating $@
 	@set -e; \
 	$(CXXDEP) $(CPPFLAGS) $(CXXDEFS) $(CXXINCS) $< \
@@ -230,7 +230,7 @@ check:
 
 mostlyclean:
 	$(RM) core
-	$(RM) $(CCSRC:.cc=.ii)
+	$(RM) $(CCSRC:.cpp=.ii)
 	$(RM) $(OBJ) $(SOBJ) $(BINOBJ)
 	@if test -n "$(CXX_REPOSITORY)"; then \
 	    echo "rm -rf $(CXX_REPOSITORY)"; \
@@ -251,4 +251,3 @@ distclean: clean
 # This command is intended for maintainers to use; it deletes files
 # that may need special tools to rebuild.
 maintainer-clean: uninstall uninstall-lib distclean
-	rm -rf $(top_srcdir)/html/*

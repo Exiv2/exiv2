@@ -12,11 +12,11 @@
 
   RCS information
    $Name:  $
-   $Revision: 1.2 $
+   $Revision: 1.1 $
  */
 // *****************************************************************************
 // included header files
-#include "tags.h"
+#include "tags.hpp"
 
 // + standard includes
 
