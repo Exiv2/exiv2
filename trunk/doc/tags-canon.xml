@@ -1,0 +1,68 @@
+<?xml version = '1.0'?>
+<?xml-stylesheet type="text/xsl" href="tags.xsl"?>
+<ROWSET>
+   <ROW num="1">
+      <tagname>CameraSettings1</tagname>
+      <tagdec>1</tagdec>
+      <taghex>0x0001</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Canon.CameraSettings1</key>
+      <tagdesc>Various camera settings (1)</tagdesc>
+   </ROW>
+   <ROW num="2">
+      <tagname>CameraSettings2</tagname>
+      <tagdec>4</tagdec>
+      <taghex>0x0004</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Canon.CameraSettings2</key>
+      <tagdesc>Various camera settings (2)</tagdesc>
+   </ROW>
+   <ROW num="3">
+      <tagname>ImageType</tagname>
+      <tagdec>6</tagdec>
+      <taghex>0x0006</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Canon.ImageType</key>
+      <tagdesc>Image type</tagdesc>
+   </ROW>
+   <ROW num="4">
+      <tagname>FirmwareVersion</tagname>
+      <tagdec>7</tagdec>
+      <taghex>0x0007</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Canon.FirmwareVersion</key>
+      <tagdesc>Firmware version</tagdesc>
+   </ROW>
+   <ROW num="5">
+      <tagname>ImageNumber</tagname>
+      <tagdec>8</tagdec>
+      <taghex>0x0008</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Canon.ImageNumber</key>
+      <tagdesc>Image number</tagdesc>
+   </ROW>
+   <ROW num="6">
+      <tagname>OwnerName</tagname>
+      <tagdec>9</tagdec>
+      <taghex>0x0009</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Canon.OwnerName</key>
+      <tagdesc>Owner Name</tagdesc>
+   </ROW>
+   <ROW num="7">
+      <tagname>SerialNumber</tagname>
+      <tagdec>12</tagdec>
+      <taghex>0x000c</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Canon.SerialNumber</key>
+      <tagdesc>Camera serial number</tagdesc>
+   </ROW>
+   <ROW num="8">
+      <tagname>EosD30Functions</tagname>
+      <tagdec>15</tagdec>
+      <taghex>0x000f</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Canon.EosD30Functions</key>
+      <tagdesc>EOS D30 Custom Functions</tagdesc>
+   </ROW>
+</ROWSET>
