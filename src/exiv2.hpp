@@ -21,7 +21,7 @@
 /*!
   @file    exiv2.hpp
   @brief   Defines class Params, used for the command line handling of exiv2
-  @version $Name:  $ $Revision: 1.1 $
+  @version $Name:  $ $Revision: 1.2 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    08-Dec-03, ahu: created
@@ -85,13 +85,17 @@ public:
     */
     static Params& instance();
 
+    //! Enumerates print modes
+    enum PrintMode { summary, interpreted, values, hexdump };
+
     bool help_;                         //!< Help option flag.
     bool version_;                      //!< Version option flag.
     bool verbose_;                      //!< Verbose (talkative) option flag.
     bool force_;                        //!< Force overwrites flag. 
     bool adjust_;                       //!< Adjustment flag.
+    PrintMode printMode_;               //!< Print mode. 
     //! %Action (integer rather than TaskType to avoid dependency).
-    int  action_;                       
+    int  action_;
 
     long adjustment_;                   //!< Adjustment in seconds.
     std::string format_;                //!< Filename format (-r option arg).
@@ -106,12 +110,13 @@ private:
       @brief Default constructor. Note that optstring_ is initialized here.
              Private to force instantiation through instance().
      */
-    Params() : optstring_(":hVvfa:r:"),
+    Params() : optstring_(":hVvfa:r:m:"),
                help_(false), 
                version_(false),
                verbose_(false), 
                force_(false), 
                adjust_(false),
+               printMode_(summary),
                action_(0),
                adjustment_(0),
                format_("%Y%m%d_%H%M%S"),

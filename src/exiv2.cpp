@@ -22,13 +22,13 @@
   Abstract:  Command line program to display and manipulate image %Exif data
 
   File:      exiv2.cpp
-  Version:   $Name:  $ $Revision: 1.2 $
+  Version:   $Name:  $ $Revision: 1.3 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   10-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: exiv2.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: exiv2.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -129,6 +129,9 @@ void Params::help(std::ostream& os) const
        << "   -f      Do not prompt before overwriting existing files (force).\n"
        << "   -a time Time adjustment in the format [-]HH[:MM[:SS]]. This option\n"
        << "           is only used with the `adjust' action.\n"
+       << "   -m mode Print mode for the `print' action. Possible modes are `s'\n"
+       << "           for a summary (the default), `i' for interpreted data, `v'\n"
+       << "           for uninterpreted data values and `h' for a hexdump\n"
        << "   -r fmt  Filename format for the `rename' action. The format string\n"
        << "           follows strftime(3). Default filename format is " 
        << format_ << ".\n"
@@ -144,22 +147,11 @@ int Params::option(int opt, const std::string& optarg, int optopt)
 {
     int rc = 0;
     switch (opt) {
-    case 'h':
-        help_ = true;
-        break;
-
-    case 'V':
-        version_ = true;
-        break;
-
-    case 'v':
-        verbose_ = true;
-        break;
-
-    case 'f':
-        force_ = true;
-        break;
-
+    case 'h': help_ = true; break;
+    case 'V': version_ = true; break;
+    case 'v': verbose_ = true; break;
+    case 'f': force_ = true; break;
+    case 'r': format_ = optarg; break;
     case 'a':
         adjust_ = parseTime(optarg, adjustment_);
         if (!adjust_) {
@@ -168,30 +160,34 @@ int Params::option(int opt, const std::string& optarg, int optopt)
             rc = 1;
         }
         break;
-
-    case 'r':
-        format_ = optarg;
+    case 'm':
+        switch (optarg[0]) {
+        case 's': printMode_ = summary; break;
+        case 'i': printMode_ = interpreted; break;
+        case 'v': printMode_ = values; break;
+        case 'h': printMode_ = hexdump; break;
+        default:
+            std::cerr << progname() << ": Unrecognized print mode `"
+                      << optarg << "'\n";
+            rc = 1;
+        }
         break;
-
     case ':':
         std::cerr << progname() << ": Option -" << static_cast<char>(optopt) 
                   << " requires an argument\n";
         rc = 1;
         break;
-
     case '?':
         std::cerr << progname() << ": Unrecognized option -" 
                   << static_cast<char>(optopt) << "\n";
         rc = 1;
         break;
-
     default:
         std::cerr << progname() 
                   << ": getopt returned unexpected character code " 
                   << std::hex << opt << "\n";
         rc = 1;
     }
-
     return rc;
 } // Params::option
 
