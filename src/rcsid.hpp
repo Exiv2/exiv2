@@ -20,14 +20,13 @@
  */
 /*!
   @file    rcsid.hpp
-  @brief   Define an RCS id string in every file that includes rcsid.hpp.
+  @brief   Define an RCS id string in every object file compiled from a source 
+           file that includes rcsid.hpp.
 
-  This hack has the following purposes:
-  1. To define the RCS id string variable in the local namespace, so
-     that there won't be any duplicate extern symbols at link time.
-  2. To avoid warnings of the type "variable declared and never used".
+  This is a simplified version of the ACE_RCSID macro that is used in the 
+  <a href="http://www.cs.wustl.edu/~schmidt/ACE.html">ACE(TM)</a> distribution.
 
-  @version $Name:  $ $Revision: 1.2 $
+  @version $Name:  $ $Revision: 1.3 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    02-Feb-04, ahu: created
@@ -37,21 +36,25 @@
 
 #if !defined (EXIV2_RCSID)
 /*!
-  @brief Macro to store version information in each object file.
-         Include the following two lines at the beginning of each *.cpp file.
-         See the ident(1) manual pages for more information.
+  @brief Macro to store version information in each object file. 
+
+         Use this macro by including the following two lines at the beginning of
+         each *.cpp file.  See the ident(1) manual pages for more information.
 
          @code
          #include "rcsid.hpp"
-         EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: rcsid.hpp,v $")
+         EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: rcsid.hpp,v $")
          @endcode
+
+         The macro hack itself has the following purposes:
+         -# To define the RCS id string variable in the local namespace, so
+            that there won't be any duplicate extern symbols at link time.
+         -# To avoid warnings of the type "variable declared and never used".
+
  */
 #define EXIV2_RCSID(id) \
     namespace { \
-        inline const char* getRcsId(const char*) \
-        { \
-            return id ; \
-        } \
+        inline const char* getRcsId(const char*) { return id ; } \
         const char* rcsId = getRcsId(rcsId); \
     }
 
