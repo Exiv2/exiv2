@@ -232,7 +232,7 @@ namespace Exiv2 {
 
     void JpegBase::setExifData(const byte* buf, long size)
     {
-        if (size > 0xffff) throw Error("Exif data too large");
+        if (size > 0xfffd) throw Error("Exif data too large");
         clearExifData();
         if (size) {
             sizeExifData_ = size;
