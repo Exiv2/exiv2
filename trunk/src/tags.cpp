@@ -20,13 +20,13 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.26 $
+  Version:   $Name:  $ $Revision: 1.27 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.26 $ $RCSfile: tags.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.27 $ $RCSfile: tags.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -771,15 +771,17 @@ namespace Exiv2 {
         return os;
     }
 
+    // Todo: Implement this properly
     std::ostream& print0x9286(std::ostream& os, const Value& value)
     {
         if (value.size() > 8) {
             DataBuf buf(value.size());
             value.copy(buf.pData_, bigEndian);
-            // Hack: Simply skip the leading 8-Byte character code and let
-            // the stream handle the comment
+            // Hack: Skip the leading 8-Byte character code, truncate
+            // trailing '\0's and let the stream take care of the remainder
             std::string userComment(buf.pData_ + 8, buf.size_ - 8);
-            os << userComment;
+            std::string::size_type pos = userComment.find_last_not_of('\0');
+            os << userComment.substr(0, pos + 1);
         }
         return os;
     }
