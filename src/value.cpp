@@ -224,13 +224,6 @@ namespace Exiv2 {
         return *this;
     }
 
-    void AsciiValue::read(const byte* buf, long len, ByteOrder byteOrder)
-    {
-        // byteOrder not needed 
-        value_ = std::string(reinterpret_cast<const char*>(buf), len);
-        if (value_[value_.size()-1] != '\0') value_ += '\0';
-    }
-
     void AsciiValue::read(const std::string& buf)
     {
         value_ = buf;
