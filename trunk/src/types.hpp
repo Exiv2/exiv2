@@ -21,7 +21,7 @@
 /*!
   @file    types.hpp
   @brief   Type definitions for %Exiv2 and related functionality
-  @version $Name:  $ $Revision: 1.18 $
+  @version $Name:  $ $Revision: 1.19 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created<BR>
@@ -77,10 +77,10 @@ namespace Exiv2 {
     enum ByteOrder { invalidByteOrder, littleEndian, bigEndian };
 
     //! Type identifiers for IFD format types
-    enum TypeId { invalidTypeId, unsignedByte, asciiString, string,
-                  unsignedShort, unsignedLong, unsignedRational, invalid6,
-                  undefined, signedShort, signedLong, signedRational, 
-                  date, time,
+    enum TypeId { invalidTypeId, unsignedByte, asciiString, unsignedShort, 
+                  unsignedLong, unsignedRational, invalid6, undefined, 
+                  signedShort, signedLong, signedRational, 
+                  string, date, time,
                   lastTypeId };
 
     //! Type to specify the IFD to which a metadata belongs
