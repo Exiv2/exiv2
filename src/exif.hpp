@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.22 $
+  @version $Name:  $ $Revision: 1.23 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -37,6 +37,7 @@
 #include "value.hpp"
 #include "ifd.hpp"
 #include "tags.hpp"
+#include "makernote.hpp"
 
 // + standard includes
 #include <string>
@@ -73,10 +74,14 @@ namespace Exif {
 
           @param key The key of the metadatum.
           @param value Pointer to a metadatum value.
+          @param makerNote Pointer to the associated MakerNote (only needed for 
+                 MakerNote tags).
           @throw Error ("Invalid key") if the key cannot be parsed and converted
                  to a tag number and an IFD id or the section name does not match.
          */
-        explicit Metadatum(const std::string& key, Value* value =0);
+        explicit Metadatum(const std::string& key, 
+                           const Value* value =0, 
+                           MakerNote* makerNote =0);
         //! Destructor
         ~Metadatum();
         //! Copy constructor
@@ -94,41 +99,52 @@ namespace Exif {
          */
         void setValue(const std::string& buf);
         /*!
-          @brief Return a pointer to a copy (clone) of the value. The caller
-                 is responsible to delete this copy when it's no longer needed.
+          @brief Write value to a character data buffer and return the number
+                 of characters (bytes) written.
 
-          This method is provided for users who need full control over the 
-          value. A caller may, e.g., downcast the pointer to the appropriate
-          subclass of Value to make use of the interface of the subclass to set
-          or modify its contents.
-          
-          @return A pointer to a copy (clone) of the value, 0 if the value is 
-                  not set.
-         */
-        Value* getValue() const { return value_ == 0 ? 0 : value_->clone(); }
-        //! Return the name of the tag
-        const char* tagName() const { return ExifTags::tagName(tag_, ifdId_); }
-        //! Return the name of the type
-        const char* typeName() const { return TypeInfo::typeName(typeId()); }
-        //! Return the size in bytes of one component of this type
-        long typeSize() const { return TypeInfo::typeSize(typeId()); }
-        //! Return the name of the IFD
-        const char* ifdName() const { return ExifTags::ifdName(ifdId_); }
-        //! Return the related image item (image or thumbnail)
-        const char* ifdItem() const { return ExifTags::ifdItem(ifdId_); }
-        //! Return the name of the section
-        const char* sectionName() const 
-            { return ExifTags::sectionName(tag_, ifdId_); }
+          The user must ensure that the buffer has enough memory. Otherwise
+          the call results in undefined behaviour.
+
+          @param buf Data buffer to write to.
+          @param byteOrder Applicable byte order (little or big endian).
+          @return Number of characters written.
+        */
+        long copy(char* buf, ByteOrder byteOrder) const 
+            { return value_ == 0 ? 0 : value_->copy(buf, byteOrder); }
         //! @name Accessors
         //@{
+        /*!
+          @brief Return a key for the tag. The key is of the form
+                 'ifdItem.sectionName.tagName'.
+         */
+        std::string key() const { return key_; }
+        //! Return the related image item
+        const char* ifdItem() const { return ExifTags::ifdItem(ifdId_); }
+        //! Return the name of the section
+        std::string sectionName() const;
+        //! Return the name of the tag
+        std::string tagName() const;
         //! Return the tag
         uint16 tag() const { return tag_; }
         //! Return the type id.
         TypeId typeId() const { return value_ == 0 ? invalid : value_->typeId(); }
+        //! Return the name of the type
+        const char* typeName() const { return TypeInfo::typeName(typeId()); }
+        //! Return the size in bytes of one component of this type
+        long typeSize() const { return TypeInfo::typeSize(typeId()); }
         //! Return the number of components in the value
         long count() const { return value_ == 0 ? 0 : value_->count(); }
         //! Return the size of the value in bytes
         long size() const { return value_ == 0 ? 0 : value_->size(); }
+        //! Return the IFD id
+        IfdId ifdId() const { return ifdId_; }
+        //! Return the name of the IFD
+        const char* ifdName() const { return ExifTags::ifdName(ifdId_); }
+        //! Return the pointer to the associated MakerNote
+        MakerNote* makerNote() const { return makerNote_; }
+        //! Return the value as a string.
+        std::string toString() const 
+            { return value_ == 0 ? "" : value_->toString(); }
         /*!
           @brief Return the n-th component of the value converted to long. The
                  return value is -1 if the value of the Metadatum is not set and
@@ -153,26 +169,19 @@ namespace Exif {
          */
         Rational toRational(long n =0) const 
             { return value_ == 0 ? Rational(-1, 1) : value_->toRational(n); }
-        //! Return the value as a string.
-        std::string toString() const 
-            { return value_ == 0 ? "" : value_->toString(); }
         /*!
-          @brief Write value to a character data buffer and return the number
-                 of characters (bytes) written.
+          @brief Return a pointer to a copy (clone) of the value. The caller
+                 is responsible to delete this copy when it's no longer needed.
 
-          The user must ensure that the buffer has enough memory. Otherwise
-          the call results in undefined behaviour.
-
-          @param buf Data buffer to write to.
-          @param byteOrder Applicable byte order (little or big endian).
-          @return Number of characters written.
-        */
-        long copy(char* buf, ByteOrder byteOrder) const 
-            { return value_ == 0 ? 0 : value_->copy(buf, byteOrder); }
-        //! Return the IFD id
-        IfdId ifdId() const { return ifdId_; }
-        //! Return the position in the IFD (-1: not set)
-        int ifdIdx() const { return ifdIdx_; }
+          This method is provided for users who need full control over the 
+          value. A caller may, e.g., downcast the pointer to the appropriate
+          subclass of Value to make use of the interface of the subclass to set
+          or modify its contents.
+          
+          @return A pointer to a copy (clone) of the value, 0 if the value is 
+                  not set.
+         */
+        Value* getValue() const { return value_ == 0 ? 0 : value_->clone(); }
         /*!
           @brief Return a constant reference to the value. 
 
@@ -194,19 +203,14 @@ namespace Exif {
          */
         const Value& value() const 
             { if (value_) return *value_; throw Error("Value not set"); }
-        /*!
-          @brief Return a unique key for the tag. The key is of the form
-                 'ifdItem.sectionName.tagName'.
-         */
-        std::string key() const { return key_; }
         //@}
 
     private:
         uint16 tag_;                   //!< Tag value
         IfdId ifdId_;                  //!< The IFD associated with this tag
-        int   ifdIdx_;                 //!< Position in the IFD (-1: not set)
+        MakerNote* makerNote_;         //!< Pointer to the associated MakerNote
         Value* value_;                 //!< Pointer to the value
-        std::string key_;              //!< Unique key
+        std::string key_;              //!< Key
 
     }; // class Metadatum
 
@@ -344,7 +348,7 @@ namespace Exif {
 
       Provide high-level access to the %Exif data of an image:
       - read %Exif information from JPEG files
-      - access metadata through unique keys and standard C++ iterators
+      - access metadata through keys and standard C++ iterators
       - add, modify and delete metadata 
       - write %Exif data to JPEG files
       - extract %Exif metadata to files, insert from these files
@@ -411,25 +415,25 @@ namespace Exif {
          */ 
         long copy(char* buf);
         /*!
-          @brief Add all IFD entries in the range from iterator position begin
-                 to iterator position end to the %Exif metadata. Checks for
-                 duplicates: if a metadatum already exists, its value is
-                 overwritten.
+          @brief Add all (IFD) entries in the range from iterator position begin
+                 to iterator position end to the %Exif metadata. No duplicate
+                 checks are performed, i.e., it is possible to add multiple
+                 metadata with the same key.
          */
-        void add(Ifd::const_iterator begin, 
-                 Ifd::const_iterator end,
+        void add(Entries::const_iterator begin, 
+                 Entries::const_iterator end,
                  ByteOrder byteOrder);
         /*!
-          @brief Add a metadatum from the supplied key and value pair.
-                 This method copies (clones) the value. If a metadatum with the
-                 given key already exists, its value is overwritten and no new
-                 metadatum is added.
+          @brief Add a metadatum from the supplied key and value pair.  This
+                 method copies (clones) the value.  No duplicate checks are
+                 performed, i.e., it is possible to add multiple metadata with
+                 the same key.
          */
         void add(const std::string& key, Value* value);
         /*! 
-          @brief Add a copy of the metadatum to the %Exif metadata. If a
-                 metadatum with the given key already exists, its value is
-                 overwritten and no new metadatum is added.
+          @brief Add a copy of the metadatum to the %Exif metadata.  No
+                 duplicate checks are performed, i.e., it is possible to add
+                 multiple metadata with the same key.
          */
         void add(const Metadatum& metadatum);
 
@@ -455,16 +459,22 @@ namespace Exif {
         iterator begin() { return metadata_.begin(); }
         //! End of the metadata
         iterator end() { return metadata_.end(); }
-        //! Find a metadatum by its key, return an iterator to it
+        /*!
+          @brief Find a metadatum with the given key, return an iterator to it.
+                 If multiple metadata with the same key exist, it is undefined 
+                 which of the matching metadata is found.
+         */
         iterator findKey(const std::string& key);
-        //! Find a metadatum by its key, return a const iterator to it
+        /*!
+          @brief Find a metadatum with the given key, return a const iterator to
+                 it.  If multiple metadata with the same key exist, it is
+                 undefined which of the matching metadata is found.
+         */
         const_iterator findKey(const std::string& key) const;
         //! Sort metadata by key
         void sortByKey();
         //! Sort metadata by tag
         void sortByTag();
-        //! Delete the metadatum with a given key
-        void erase(const std::string& key);
         //! Delete the metadatum at iterator position pos
         void erase(iterator pos);
 
@@ -520,6 +530,7 @@ namespace Exif {
         TiffHeader tiffHeader_;
         Metadata metadata_;
         Thumbnail thumbnail_;
+        MakerNote* makerNote_;
 
         Ifd ifd0_;
         Ifd exifIfd_;
@@ -539,17 +550,18 @@ namespace Exif {
     /*!
       @brief Add all metadata in the range from iterator position begin to
              iterator position end, which have an IFD id matching that of the
-             IFD to the list of directory entries of ifd. Checks for duplicates:
-             if an entry with the same tag already exists, the entry is
-             overwritten.
+             IFD to the list of directory entries of ifd.  No duplicate checks
+             are performed, i.e., it is possible to add multiple metadata with
+             the same key to an IFD.
      */
     void addToIfd(Ifd& ifd,
                   Metadata::const_iterator begin, 
                   Metadata::const_iterator end, 
                   ByteOrder byteOrder);
     /*!
-      @brief Add the metadatum to the IFD. Checks for duplicates: if an entry
-             with the same tag already exists, the entry is overwritten.
+      @brief Add the metadatum to the IFD.  No duplicate checks are performed,
+             i.e., it is possible to add multiple metadata with the same key to
+             an IFD.
      */
     void addToIfd(Ifd& ifd, const Metadatum& metadatum, ByteOrder byteOrder);
     /*!
@@ -562,7 +574,23 @@ namespace Exif {
              lhs is less than that of rhs.
      */
     bool cmpMetadataByKey(const Metadatum& lhs, const Metadatum& rhs);
-   
+    /*!
+      @brief Return a key for the tag and IFD id.  The key is of the form
+             'ifdItem.sectionName.tagName'.  This function knows about
+             MakerNotes, i.e., it will invoke MakerNote::makeKey if necessary.
+    */
+    std::string makeKey(uint16 tag, IfdId ifdId, const MakerNote* makerNote);
+    /*!
+      @brief Return the tag and IFD id pair for the key. This function knows
+             about MakerNotes, i.e., it will forward the request to
+             MakerNote::decomposeKey if necessary.
+      @return A pair consisting of the tag and IFD id.
+      @throw Error ("Invalid key") if the key cannot be parsed into
+      item item, section name and tag name parts.
+    */
+    std::pair<uint16, IfdId> decomposeKey(const std::string& key,
+                                          const MakerNote* makerNote);
+
 }                                       // namespace Exif
 
 #endif                                  // #ifndef EXIF_HPP_

@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.20 $
+  Version:   $Name:  $ $Revision: 1.21 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.20 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.21 $ $RCSfile: exif.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -38,6 +38,7 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.20 $ $RCSfile: exif.cpp,v $")
 #include "ifd.hpp"
 #include "tags.hpp"
 #include "image.hpp"
+#include "makernote.hpp"
 
 // + standard includes
 #include <iostream>
@@ -50,22 +51,41 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.20 $ $RCSfile: exif.cpp,v $")
 #include <cstring>
 
 // *****************************************************************************
+// local declarations
+namespace {
+
+    /*
+      Set the data of the entry identified by tag in ifd to an unsigned long
+      with the value of offset. If no entry with this tag exists in ifd, an
+      entry of type unsigned long with one component is created.
+     */
+    void setOffsetTag(Exif::Ifd& ifd,
+                      Exif::uint16 tag,
+                      Exif::uint32 offset, 
+                      Exif::ByteOrder byteOrder);
+
+}
+
+// *****************************************************************************
 // class member definitions
 namespace Exif {
 
     Metadatum::Metadatum(const Entry& e, ByteOrder byteOrder)
-        : tag_(e.tag()), ifdId_(e.ifdId()), ifdIdx_(e.ifdIdx()), value_(0)
+        : tag_(e.tag()), ifdId_(e.ifdId()), makerNote_(e.makerNote()),
+          value_(0)
     {
         value_ = Value::create(TypeId(e.type()));
         value_->read(e.data(), e.size(), byteOrder);
-        key_ = ExifTags::makeKey(tag_, ifdId_);
+        key_ = makeKey(tag_, ifdId_, makerNote_);
     }
 
-    Metadatum::Metadatum(const std::string& key, Value* value)
-        : ifdIdx_(-1), value_(0), key_(key)
+    Metadatum::Metadatum(const std::string& key, 
+                         const Value* value, 
+                         MakerNote* makerNote)
+        : makerNote_(makerNote), value_(0), key_(key)
     {
         if (value) value_ = value->clone();
-        std::pair<uint16, IfdId> p = ExifTags::decomposeKey(key);
+        std::pair<uint16, IfdId> p = decomposeKey(key, makerNote);
         if (p.first == 0xffff) throw Error("Invalid key");
         tag_ = p.first;
         if (p.second == ifdIdNotSet) throw Error("Invalid key");
@@ -75,11 +95,12 @@ namespace Exif {
     Metadatum::~Metadatum()
     {
         delete value_;
+        // do *not* delete the MakerNote
     }
 
     Metadatum::Metadatum(const Metadatum& rhs)
-        : tag_(rhs.tag_), ifdId_(rhs.ifdId_), 
-          ifdIdx_(rhs.ifdIdx_), value_(0), key_(rhs.key_)
+        : tag_(rhs.tag_), ifdId_(rhs.ifdId_), makerNote_(rhs.makerNote_),
+          value_(0), key_(rhs.key_)
     {
         if (rhs.value_ != 0) value_ = rhs.value_->clone(); // deep copy
     }
@@ -89,7 +110,7 @@ namespace Exif {
         if (this == &rhs) return *this;
         tag_ = rhs.tag_;
         ifdId_ = rhs.ifdId_;
-        ifdIdx_ = rhs.ifdIdx_;
+        makerNote_ = rhs.makerNote_;
         delete value_;
         value_ = 0;
         if (rhs.value_ != 0) value_ = rhs.value_->clone(); // deep copy
@@ -107,6 +128,22 @@ namespace Exif {
     {
         if (value_ == 0) value_ = Value::create(asciiString);
         value_->read(buf);
+    }
+
+    std::string Metadatum::tagName() const
+    {
+        if (ifdId_ == makerIfd && makerNote_ != 0) {
+            return makerNote_->tagName(tag_);
+        }
+        return ExifTags::tagName(tag_, ifdId_); 
+    }
+
+    std::string Metadatum::sectionName() const 
+    {
+        if (ifdId_ == makerIfd && makerNote_ != 0) {
+            return makerNote_->sectionName(tag_);
+        }        
+        return ExifTags::sectionName(tag_, ifdId_); 
     }
 
     Thumbnail::Thumbnail()
@@ -392,7 +429,7 @@ namespace Exif {
     {
         Ifd::iterator pos = ifd1.findTag(0x0201);
         if (pos == ifd1.end()) throw Error("Bad thumbnail (0x0201)");
-        pos->setOffset(ifd1.offset() + ifd1.size() + ifd1.dataSize(), byteOrder);
+        pos->setValue(ifd1.offset() + ifd1.size() + ifd1.dataSize(), byteOrder);
     }
 
     void Thumbnail::setTiffImageOffsets(Ifd& ifd1, ByteOrder byteOrder) const
@@ -416,7 +453,7 @@ namespace Exif {
     } // Thumbnail::setTiffImageOffsets
 
     ExifData::ExifData() 
-        : ifd0_(ifd0, 0, false), exifIfd_(exifIfd, 0, false), 
+        : makerNote_(0), ifd0_(ifd0, 0, false), exifIfd_(exifIfd, 0, false), 
           iopIfd_(iopIfd, 0, false), gpsIfd_(gpsIfd, 0, false),
           ifd1_(ifd1, 0, false), valid_(false), size_(0), data_(0)
     {
@@ -424,6 +461,7 @@ namespace Exif {
 
     ExifData::~ExifData()
     {
+        delete makerNote_;
         delete[] data_;
     }
 
@@ -469,8 +507,34 @@ namespace Exif {
             if (rc) return rc;
         }
 
+        // Find MakerNote in ExifIFD, create a MakerNote class 
+        Ifd::iterator pos = exifIfd_.findTag(0x927c);
+        Ifd::iterator make = ifd0_.findTag(0x010f);
+        Ifd::iterator model = ifd0_.findTag(0x0110);
+        if (pos != exifIfd_.end() && make != ifd0_.end() && model != ifd0_.end()) {
+            MakerNoteFactory& makerNoteFactory = MakerNoteFactory::instance();
+            // Todo: The conversion to string assumes that there is a \0 at the end
+            makerNote_ = makerNoteFactory.create(make->data(), model->data());
+        }
+        // Read the MakerNote
+        if (makerNote_) {
+            rc = makerNote_->read(pos->data(), 
+                                  pos->size(),
+                                  byteOrder(),
+                                  exifIfd_.offset() + pos->offset());
+            if (rc) {
+                delete makerNote_;
+                makerNote_ = 0;
+            }
+        }
+        // If we successfully parsed the MakerNote, delete the raw MakerNote,
+        // the parsed MakerNote is the primary MakerNote from now on
+        if (makerNote_) {
+            exifIfd_.erase(pos);
+        }
+
         // Find and delete ExifIFD sub-IFD of IFD1
-        Ifd::iterator pos = ifd1_.findTag(0x8769);
+        pos = ifd1_.findTag(0x8769);
         if (pos != ifd1_.end()) {
             ifd1_.erase(pos);
             ret = -99;
@@ -482,10 +546,13 @@ namespace Exif {
             ret = -99;
         }
 
-        // Copy all entries from the IFDs to the internal metadata
+        // Copy all entries from the IFDs and the MakerNote to the metadata
         metadata_.clear();
         add(ifd0_.begin(), ifd0_.end(), byteOrder());
         add(exifIfd_.begin(), exifIfd_.end(), byteOrder());
+        if (makerNote_) {
+            add(makerNote_->begin(), makerNote_->end(), byteOrder());
+        }
         add(iopIfd_.begin(), iopIfd_.end(), byteOrder()); 
         add(gpsIfd_.begin(), gpsIfd_.end(), byteOrder());
         add(ifd1_.begin(), ifd1_.end(), byteOrder());
@@ -506,6 +573,7 @@ namespace Exif {
         }
         JpegImage img;
         img.setExifData(buf, actualSize);
+        delete[] buf;
         return img.writeExifData(path);
     } // ExifData::write
 
@@ -551,7 +619,7 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
         // Set the offset to the Exif IFD in IFD0
         ifd0.erase(0x8769);
         if (exifIfd.size() > 0) {
-            ifd0.setOffset(0x8769, exifIfdOffset, byteOrder());
+            setOffsetTag(ifd0, 0x8769, exifIfdOffset, byteOrder());
         }
 
         // Build Interoperability IFD from metadata
@@ -562,7 +630,7 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
         // Set the offset to the Interoperability IFD in Exif IFD
         exifIfd.erase(0xa005);
         if (iopIfd.size() > 0) {
-            exifIfd.setOffset(0xa005, iopIfdOffset, byteOrder());
+            setOffsetTag(exifIfd, 0xa005, iopIfdOffset, byteOrder());
         }
 
         // Build GPSInfo IFD from metadata
@@ -573,7 +641,7 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
         // Set the offset to the GPSInfo IFD in IFD0
         ifd0.erase(0x8825);
         if (gpsIfd.size() > 0) {
-            ifd0.setOffset(0x8825, gpsIfdOffset, byteOrder());
+            setOffsetTag(ifd0, 0x8825, gpsIfdOffset, byteOrder());
         }
 
         // Update Exif data from thumbnail, build IFD1 from updated metadata
@@ -633,11 +701,11 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
         return size;
     }
 
-    void ExifData::add(Ifd::const_iterator begin, 
-                       Ifd::const_iterator end,
+    void ExifData::add(Entries::const_iterator begin, 
+                       Entries::const_iterator end,
                        ByteOrder byteOrder)
     {
-        Ifd::const_iterator i = begin;
+        Entries::const_iterator i = begin;
         for (; i != end; ++i) {
             add(Metadatum(*i, byteOrder));
         }
@@ -650,13 +718,8 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
 
     void ExifData::add(const Metadatum& metadatum)
     {
-        iterator i = findKey(metadatum.key());
-        if (i != end()) {
-            i->setValue(&metadatum.value());
-        }
-        else {
-            metadata_.push_back(metadatum);
-        }
+        // allow duplicates
+        metadata_.push_back(metadatum);
     }
 
     ExifData::const_iterator ExifData::findKey(const std::string& key) const
@@ -679,12 +742,6 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
     void ExifData::sortByTag()
     {
         std::sort(metadata_.begin(), metadata_.end(), cmpMetadataByTag);
-    }
-
-    void ExifData::erase(const std::string& key)
-    {
-        iterator pos = findKey(key);
-        if (pos != end()) erase(pos);
     }
 
     void ExifData::erase(ExifData::iterator pos)
@@ -714,7 +771,8 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
         Ifd::iterator end = ifd.end();
         for (Ifd::iterator entry = ifd.begin(); entry != end; ++entry) {
             // find the corresponding metadatum
-            std::string key = ExifTags::makeKey(entry->tag(), entry->ifdId());
+            std::string key = 
+                makeKey(entry->tag(), entry->ifdId(), entry->makerNote());
             const_iterator md = findKey(key);
             if (md == this->end()) {
                 // corresponding metadatum was deleted: this is not (yet) a
@@ -724,7 +782,7 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
             }
             char* buf = new char[md->size()];
             md->copy(buf, byteOrder());
-            entry->setValue(md->typeId(), buf, md->size());
+            entry->setValue(md->typeId(), md->count(), buf, md->size());
             delete[] buf;
         }
         return compatible;
@@ -802,23 +860,14 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
         // Todo: Implement Assert (Stroustup 24.3.7.2)
         if (!ifd.alloc()) throw Error("Invariant violated in addToIfd");
 
-        RawEntry e;
-        e.ifdId_ = metadatum.ifdId();
-        e.ifdIdx_ = metadatum.ifdIdx();
-        e.tag_ = metadatum.tag();
-        e.type_ = metadatum.typeId();
-        e.count_ = metadatum.count();
-        e.size_ = metadatum.size();
-        e.offset_ = 0;  // will be calculated when the IFD is written
-        char* buf = 0;
-        if (e.size_ > 4) {
-            buf = new char[e.size_];
-            metadatum.copy(buf, byteOrder);
-        }
-        else {
-            metadatum.copy(e.offsetData_, byteOrder);
-        }
-        ifd.add(Entry(e, buf, ifd.alloc()));
+        Entry e(ifd.alloc());
+        e.setIfdId(metadatum.ifdId());
+        e.setTag(metadatum.tag());
+        e.setOffset(0);  // will be calculated when the IFD is written
+        char* buf = new char[metadatum.size()];
+        metadatum.copy(buf, byteOrder);
+        e.setValue(metadatum.typeId(), metadatum.count(), buf, metadatum.size()); 
+        ifd.add(e);
         delete[] buf;
     } // addToIfd
 
@@ -834,8 +883,51 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
 
     std::ostream& operator<<(std::ostream& os, const Metadatum& md)
     {
-        PrintFct fct = ExifTags::printFct(md.tag(), md.ifdId());
-        return fct(os, md.value());
+        if (md.ifdId() == makerIfd && md.makerNote() != 0) {
+            return md.makerNote()->printTag(os, md.tag(), md.value());
+        }
+        return ExifTags::printTag(os, md.tag(), md.ifdId(), md.value());
+    }
+
+    std::string makeKey(uint16 tag, IfdId ifdId, const MakerNote* makerNote)
+    {
+        if (ifdId == makerIfd && makerNote != 0) {
+            return makerNote->makeKey(tag);
+        }
+        return ExifTags::makeKey(tag, ifdId);
+    }
+
+    std::pair<uint16, IfdId> decomposeKey(const std::string& key,
+                                          const MakerNote* makerNote)
+    {
+        std::pair<uint16, IfdId> p = ExifTags::decomposeKey(key);
+        if (p.second == makerIfd && makerNote != 0) {
+            p.first = makerNote->decomposeKey(key);
+        }
+        return p;
     }
 
 }                                       // namespace Exif
+
+// *****************************************************************************
+// local definitions
+namespace {
+
+    void setOffsetTag(Exif::Ifd& ifd,
+                      Exif::uint16 tag,
+                      Exif::uint32 offset, 
+                      Exif::ByteOrder byteOrder)
+    {
+        Exif::Ifd::iterator pos = ifd.findTag(tag);
+        if (pos == ifd.end()) {
+            Exif::Entry e(ifd.alloc());
+            e.setIfdId(ifd.ifdId());
+            e.setTag(tag);
+            e.setOffset(0);  // will be calculated when the IFD is written
+            ifd.add(e);
+            pos = ifd.findTag(tag);
+        }
+        pos->setValue(offset, byteOrder);
+    }
+
+}
