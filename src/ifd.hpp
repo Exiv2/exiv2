@@ -21,7 +21,7 @@
 /*!
   @file    ifd.hpp
   @brief   Encoding and decoding of IFD (Image File Directory) data
-  @version $Name:  $ $Revision: 1.6 $
+  @version $Name:  $ $Revision: 1.7 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -55,6 +55,8 @@ namespace Exif {
     */
     class Entry {
     public:
+        //! @name Creators
+        //@{
         /*!
           @brief Default constructor. The entry allocates memory for its 
           data if alloc is true (the default), otherwise it remembers
@@ -66,13 +68,18 @@ namespace Exif {
         ~Entry();
         //! Copy constructor
         Entry(const Entry& rhs);
+        //@}
+
+        //! @name Manipulators
+        //@{
         //! Assignment operator
         Entry& operator=(const Entry& rhs);
-
         //! Set the tag
         void setTag(uint16 tag) { tag_ = tag; }
         //! Set the IFD id
         void setIfdId(IfdId ifdId) { ifdId_ = ifdId; }
+        //! Set the index (unique id of an entry within one IFD)
+        void setIdx(int idx) { idx_ = idx; }
         //! Set the pointer to the MakerNote
         void setMakerNote(MakerNote* makerNote) { makerNote_ = makerNote; }
         //! Set the offset. The offset is relative to the start of the IFD.
@@ -113,6 +120,7 @@ namespace Exif {
                  %Entry in non-alloc mode with a buffer with size less than four.
          */
         void setValue(uint16 type, uint32 count, const char* data, long size);
+        //@}
 
         //! @name Accessors
         //@{
@@ -128,6 +136,8 @@ namespace Exif {
             { return TypeInfo::typeSize(TypeId(type_)); }
         //! Return the IFD id
         IfdId ifdId() const { return ifdId_; }
+        //! Return the index (unique id >0 of an entry within an IFD, 0 if not set)
+        int idx() const { return idx_; }
         //! Return the pointer to the associated MakerNote
         MakerNote* makerNote() const { return makerNote_; }
         //! Return the number of components in the value
@@ -155,6 +165,7 @@ namespace Exif {
         */
         bool alloc_;
         IfdId ifdId_;          // Redundant IFD id (it is also at the IFD)
+        int idx_;              // Unique id of an entry within an IFD (0 if not set)
         MakerNote* makerNote_; // Pointer to the associated MakerNote
         uint16 tag_;           // Tag
         uint16 type_;          // Type
@@ -168,6 +179,23 @@ namespace Exif {
     //! Container type to hold all IFD directory entries
     typedef std::vector<Entry> Entries;
 
+    //! Unary predicate that matches an Entry with a given index
+    class FindEntryByIdx {
+    public:
+        //! Constructor, initializes the object with the index to look for
+        FindEntryByIdx(int idx) : idx_(idx) {}
+        /*!
+          @brief Returns true if the idx of the argument entry is equal
+                 to that of the object.
+        */
+        bool operator()(const Entry& entry) const
+            { return idx_ == entry.idx(); }
+
+    private:
+        int idx_;
+
+    }; // class FindEntryByIdx
+
     //! Unary predicate that matches an Entry with a given tag
     class FindEntryByTag {
     public:
@@ -175,7 +203,7 @@ namespace Exif {
         FindEntryByTag(uint16 tag) : tag_(tag) {}
         /*!
           @brief Returns true if the tag of the argument entry is equal
-          to that of the object.
+                 to that of the object.
         */
         bool operator()(const Entry& entry) const
             { return tag_ == entry.tag(); }
@@ -188,24 +216,33 @@ namespace Exif {
     /*!
       @brief Models an IFD (Image File Directory)
 
-      This class operates in two modes, one that allocates and deallocates the
-      memory required to store the data, and one that doesn't perform such
-      memory management and which is suitable in the case where a global data
-      buffer is available and only pointers into this buffer need to be
-      remembered.  Note that the different modes imply completely different copy
-      and assignment behaviours, with the first resulting in entirely separate
-      classes and the second mode resulting in multiple classes using one and
-      the same data buffer. Use the default mode (with memory management) if
-      possible. <BR>
-      The mode without memory management is used to make "non-intrusive write
-      support" possible. This allows writing to %Exif data of an image without
-      changing the data layout of the %Exif data, to maximize chances that tag
-      data, which the %Exif reader may not understand (e.g., the Makernote)
-      remains valid. A "non-intrusive write operation" is the modification of 
-      tag data without increasing the data size. 
+      This class models an IFD as described in the TIFF 6.0 specification. 
+
+      An instance of class %Ifd can operate in two modes, one that allocates and
+      deallocates the memory required to store data, and one that doesn't
+      perform such memory management.
+      <BR>An external data buffer (not managed by %Ifd) is needed for an instance
+      of %Ifd which operates in no memory management mode. The %Ifd will
+      maintain only pointers into this buffer.
+      <BR> The mode without memory management is used to make "non-intrusive
+      write support" possible. This allows writing to %Exif data of an image
+      without changing the data layout of the %Exif data, to maximize chances
+      that tag data, which the %Exif reader may not understand (e.g., the
+      Makernote) remains valid. A "non-intrusive write operation" is the
+      modification of tag data without increasing the data size.
+   
+      @note Use the mode with memory management (the default) if you are unsure 
+            or if these memory management considerations are of no concern to you.
+
+      @note The two different modes imply completely different copy and
+            assignment behaviours, with the first resulting in entirely separate
+            classes and the second mode resulting in multiple classes using one
+            and the same data buffer.
     */
     class Ifd {
     public:
+        //! @name Creators
+        //@{
         /*!
           @brief Constructor. Allows to set the IFD identifier. Memory management
                  is enabled, offset is set to 0. Serves as default constructor.
@@ -223,40 +260,15 @@ namespace Exif {
                  memory management is required for the Entries.
          */
         Ifd(IfdId ifdId, uint32 offset, bool alloc);
+        //@}
 
         //! Entries const iterator type
         typedef Entries::const_iterator const_iterator;
         //! Entries iterator type
         typedef Entries::iterator iterator;
-        //! The first entry
-        const_iterator begin() const { return entries_.begin(); }
-        //! End of the entries
-        const_iterator end() const { return entries_.end(); }
-        //! The first entry
-        iterator begin() { return entries_.begin(); }
-        //! End of the entries
-        iterator end() { return entries_.end(); }
-        //! Find an IFD entry by tag, return a const iterator into the entries list
-        const_iterator findTag(uint16 tag) const;
-        //! Find an IFD entry by tag, return an iterator into the entries list
-        iterator findTag(uint16 tag);
-        //! Sort the IFD entries by tag
-        void sortByTag();
-        //! Delete the directory entry with the given tag
-        void erase(uint16 tag);
-        //! Delete the directory entry at iterator position pos
-        void erase(iterator pos);
 
-        //! Set the offset of the next IFD
-        void setNext(uint32 next) { next_ = next; }
-        /*!
-          @brief Add the Entry to the IFD. No duplicate-check is performed,
-                 i.e., it is possible to add multiple entries with the same tag.
-                 The memory allocation mode of the entry to be added must match
-                 that of the IFD and the IFD ids of the IFD and Entry must
-                 match.
-         */
-        void add(const Entry& entry);
+        //! @name Manipulators
+        //@{
         /*!
           @brief Read a complete IFD and its data from a data buffer
 
@@ -313,17 +325,55 @@ namespace Exif {
           @return Returns the number of characters written.
          */
         long copy(char* buf, ByteOrder byteOrder, long offset =0);
+        //! Set the offset of the next IFD
+        void setNext(uint32 next) { next_ = next; }
+        /*!
+          @brief Add the entry to the IFD. No duplicate-check is performed,
+                 i.e., it is possible to add multiple entries with the same tag.
+                 The memory allocation mode of the entry to be added must match
+                 that of the IFD and the IFD ids of the IFD and entry must
+                 match.
+         */
+        void add(const Entry& entry);
+        /*!
+          @brief Delete the directory entry with the given tag. Return the index 
+                 of the deleted entry or 0 if no entry with tag was found.
+         */
+        int erase(uint16 tag);
+        //! Delete the directory entry at iterator position pos
+        void erase(iterator pos);
+        //! Sort the IFD entries by tag
+        void sortByTag();
+        //! The first entry
+        iterator begin() { return entries_.begin(); }
+        //! End of the entries
+        iterator end() { return entries_.end(); }
+        //! Find an IFD entry by idx, return an iterator into the entries list
+        iterator findIdx(int idx);
+        //! Find an IFD entry by tag, return an iterator into the entries list
+        iterator findTag(uint16 tag);
+        //@}
+
         //! @name Accessors
         //@{
-        //! Ifd id of the IFD
+        //! Get the memory allocation mode, see the Ifd class description for details
+        bool alloc() const { return alloc_; }
+        //! The first entry
+        const_iterator begin() const { return entries_.begin(); }
+        //! End of the entries
+        const_iterator end() const { return entries_.end(); }
+        //! Find an IFD entry by idx, return a const iterator into the entries list
+        const_iterator findIdx(int idx) const;
+        //! Find an IFD entry by tag, return a const iterator into the entries list
+        const_iterator findTag(uint16 tag) const;
+        //! Get the IfdId of the IFD
         IfdId ifdId() const { return ifdId_; }
-        //! Offset of the IFD from the start of the TIFF header
+        //! Get the offset of the IFD from the start of the TIFF header
         long offset() const { return offset_; }
         //! Get the offset to the next IFD from the start of the TIFF header
         long next() const { return next_; }
-        //! Get the memory allocation mode
-        bool alloc() const { return alloc_; }
-        //@}
+        //! Get the number of directory entries in the IFD
+        long count() const { return entries_.size(); }
         //! Get the size of this IFD in bytes (IFD only, without data)
         long size() const;
         /*!
@@ -338,22 +388,23 @@ namespace Exif {
                  begin each line with prefix.
          */
         void print(std::ostream& os, const std::string& prefix ="") const;
+        //@}
 
     private:
-        // Helper structure to build IFD entries
+        //! Helper structure to build IFD entries
         struct PreEntry {
-            Exif::uint16 tag_;
-            Exif::uint16 type_; 
-            Exif::uint32 count_;
+            uint16 tag_;
+            uint16 type_; 
+            uint32 count_;
             long size_;
             long offsetLoc_;
-            Exif::uint32 offset_;
+            uint32 offset_;
         };
 
-        // cmpPreEntriesByOffset needs to know about PreEntry, that's all.
+        //! cmpPreEntriesByOffset needs to know about PreEntry, that's all.
         friend bool cmpPreEntriesByOffset(const PreEntry&, const PreEntry&);
     
-        // Container for 'pre-entries'
+        //! Container for 'pre-entries'
         typedef std::vector<PreEntry> PreEntries;
 
         const bool alloc_; // True:  requires memory allocation and deallocation,
@@ -374,7 +425,7 @@ namespace Exif {
      */
     bool cmpEntriesByTag(const Entry& lhs, const Entry& rhs);
 
-    /*
+    /*!
       @brief Compare two 'pre-IFD entries' by offset, taking care of special
              cases where one or both of the entries don't have an offset.
              Return true if the offset of entry lhs is less than that of rhs,
