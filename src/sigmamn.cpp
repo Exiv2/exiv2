@@ -91,6 +91,11 @@ namespace Exiv2 {
         readHeader(buf, 10, byteOrder_);
     }
 
+    SigmaMakerNote::SigmaMakerNote(const SigmaMakerNote& rhs)
+        : IfdMakerNote(rhs), ifdItem_(rhs.ifdItem_)
+    {
+    }
+
     int SigmaMakerNote::readHeader(const byte* buf,
                                    long len, 
                                    ByteOrder byteOrder)
@@ -121,17 +126,27 @@ namespace Exiv2 {
         return rc;
     }
 
-    SigmaMakerNote::AutoPtr SigmaMakerNote::clone(bool alloc) const
+    SigmaMakerNote::AutoPtr SigmaMakerNote::create(bool alloc) const
     {
-        return AutoPtr(clone_(alloc));
+        return AutoPtr(create_(alloc));
     }
 
-    SigmaMakerNote* SigmaMakerNote::clone_(bool alloc) const
+    SigmaMakerNote* SigmaMakerNote::create_(bool alloc) const
     {
         AutoPtr makerNote = AutoPtr(new SigmaMakerNote(alloc));
         assert(makerNote.get() != 0);
         makerNote->readHeader(header_.pData_, header_.size_, byteOrder_);
         return makerNote.release();
+    }
+
+    SigmaMakerNote::AutoPtr SigmaMakerNote::clone() const
+    {
+        return AutoPtr(clone_());
+    }
+
+    SigmaMakerNote* SigmaMakerNote::clone_() const
+    {
+        return new SigmaMakerNote(*this);
     }
 
     std::ostream& SigmaMakerNote::printTag(std::ostream& os, 

@@ -72,14 +72,29 @@ namespace Exiv2 {
     {
     }
 
-    CanonMakerNote::AutoPtr CanonMakerNote::clone(bool alloc) const
+    CanonMakerNote::CanonMakerNote(const CanonMakerNote& rhs)
+        : IfdMakerNote(rhs), ifdItem_(rhs.ifdItem_)
     {
-        return AutoPtr(clone_(alloc));
     }
 
-    CanonMakerNote* CanonMakerNote::clone_(bool alloc) const 
+    CanonMakerNote::AutoPtr CanonMakerNote::create(bool alloc) const
+    {
+        return AutoPtr(create_(alloc));
+    }
+
+    CanonMakerNote* CanonMakerNote::create_(bool alloc) const 
     {
         return new CanonMakerNote(alloc); 
+    }
+
+    CanonMakerNote::AutoPtr CanonMakerNote::clone() const
+    {
+        return AutoPtr(clone_());
+    }
+
+    CanonMakerNote* CanonMakerNote::clone_() const 
+    {
+        return new CanonMakerNote(*this); 
     }
 
     std::ostream& CanonMakerNote::printTag(std::ostream& os, 

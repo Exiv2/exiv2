@@ -88,6 +88,11 @@ namespace Exiv2 {
         readHeader(buf, 12, byteOrder_);
     }
 
+    FujiMakerNote::FujiMakerNote(const FujiMakerNote& rhs)
+        : IfdMakerNote(rhs), ifdItem_(rhs.ifdItem_)
+    {
+    }
+
     int FujiMakerNote::readHeader(const byte* buf,
                                   long len, 
                                   ByteOrder byteOrder)
@@ -114,17 +119,27 @@ namespace Exiv2 {
         return rc;
     }
 
-    FujiMakerNote::AutoPtr FujiMakerNote::clone(bool alloc) const
+    FujiMakerNote::AutoPtr FujiMakerNote::create(bool alloc) const
     {
-        return AutoPtr(clone_(alloc));
+        return AutoPtr(create_(alloc));
     }
 
-    FujiMakerNote* FujiMakerNote::clone_(bool alloc) const 
+    FujiMakerNote* FujiMakerNote::create_(bool alloc) const 
     {
         AutoPtr makerNote = AutoPtr(new FujiMakerNote(alloc));
         assert(makerNote.get() != 0);
         makerNote->readHeader(header_.pData_, header_.size_, byteOrder_);
         return makerNote.release();
+    }
+
+    FujiMakerNote::AutoPtr FujiMakerNote::clone() const
+    {
+        return AutoPtr(clone_());
+    }
+
+    FujiMakerNote* FujiMakerNote::clone_() const 
+    {
+        return new FujiMakerNote(*this);
     }
 
     std::ostream& FujiMakerNote::printTag(std::ostream& os, 

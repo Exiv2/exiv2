@@ -77,14 +77,29 @@ namespace Exiv2 {
     {
     }
 
-    Nikon1MakerNote::AutoPtr Nikon1MakerNote::clone(bool alloc) const
+    Nikon1MakerNote::Nikon1MakerNote(const Nikon1MakerNote& rhs)
+        : IfdMakerNote(rhs), ifdItem_(rhs.ifdItem_)
     {
-        return AutoPtr(clone_(alloc));
     }
 
-    Nikon1MakerNote* Nikon1MakerNote::clone_(bool alloc) const 
+    Nikon1MakerNote::AutoPtr Nikon1MakerNote::create(bool alloc) const
+    {
+        return AutoPtr(create_(alloc));
+    }
+
+    Nikon1MakerNote* Nikon1MakerNote::create_(bool alloc) const 
     {
         return new Nikon1MakerNote(alloc);
+    }
+
+    Nikon1MakerNote::AutoPtr Nikon1MakerNote::clone() const
+    {
+        return AutoPtr(clone_());
+    }
+
+    Nikon1MakerNote* Nikon1MakerNote::clone_() const 
+    {
+        return new Nikon1MakerNote(*this);
     }
 
     std::ostream& Nikon1MakerNote::printTag(std::ostream& os, 
@@ -213,6 +228,11 @@ namespace Exiv2 {
         readHeader(buf, 8, byteOrder_);
     }
 
+    Nikon2MakerNote::Nikon2MakerNote(const Nikon2MakerNote& rhs)
+        : IfdMakerNote(rhs), ifdItem_(rhs.ifdItem_)
+    {
+    }
+
     int Nikon2MakerNote::readHeader(const byte* buf,
                                     long len, 
                                     ByteOrder byteOrder)
@@ -237,17 +257,27 @@ namespace Exiv2 {
         return rc;
     }
 
-    Nikon2MakerNote::AutoPtr Nikon2MakerNote::clone(bool alloc) const
+    Nikon2MakerNote::AutoPtr Nikon2MakerNote::create(bool alloc) const
     {
-        return AutoPtr(clone_(alloc));
+        return AutoPtr(create_(alloc));
     }
 
-    Nikon2MakerNote* Nikon2MakerNote::clone_(bool alloc) const 
+    Nikon2MakerNote* Nikon2MakerNote::create_(bool alloc) const 
     {
         AutoPtr makerNote(new Nikon2MakerNote(alloc)); 
         assert(makerNote.get() != 0);
         makerNote->readHeader(header_.pData_, header_.size_, byteOrder_);
         return makerNote.release();
+    }
+
+    Nikon2MakerNote::AutoPtr Nikon2MakerNote::clone() const
+    {
+        return AutoPtr(clone_());
+    }
+
+    Nikon2MakerNote* Nikon2MakerNote::clone_() const 
+    {
+        return new Nikon2MakerNote(*this);
     }
 
     std::ostream& Nikon2MakerNote::printTag(std::ostream& os, 
@@ -429,6 +459,11 @@ namespace Exiv2 {
         readHeader(buf, 18, byteOrder_);
     }
 
+    Nikon3MakerNote::Nikon3MakerNote(const Nikon3MakerNote& rhs)
+        : IfdMakerNote(rhs), ifdItem_(rhs.ifdItem_)
+    {
+    }
+
     int Nikon3MakerNote::read(const byte* buf,
                               long len, 
                               ByteOrder byteOrder, 
@@ -478,17 +513,27 @@ namespace Exiv2 {
         return rc;
     }
 
-    Nikon3MakerNote::AutoPtr Nikon3MakerNote::clone(bool alloc) const
+    Nikon3MakerNote::AutoPtr Nikon3MakerNote::create(bool alloc) const
     {
-        return AutoPtr(clone_(alloc));
+        return AutoPtr(create_(alloc));
     }
 
-    Nikon3MakerNote* Nikon3MakerNote::clone_(bool alloc) const 
+    Nikon3MakerNote* Nikon3MakerNote::create_(bool alloc) const 
     {
         AutoPtr makerNote(new Nikon3MakerNote(alloc)); 
         assert(makerNote.get() != 0);
         makerNote->readHeader(header_.pData_, header_.size_, byteOrder_);
         return makerNote.release();
+    }
+
+    Nikon3MakerNote::AutoPtr Nikon3MakerNote::clone() const
+    {
+        return AutoPtr(clone_());
+    }
+
+    Nikon3MakerNote* Nikon3MakerNote::clone_() const 
+    {
+        return new Nikon3MakerNote(*this);
     }
 
     std::ostream& Nikon3MakerNote::printTag(std::ostream& os, 

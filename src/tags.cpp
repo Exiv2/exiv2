@@ -433,7 +433,7 @@ namespace Exiv2 {
         if (ifdId_ == makerIfdId) {
             if (e.makerNote()) {
                 ifdItem_ = e.makerNote()->ifdItem();
-                makerNote_ = e.makerNote()->clone();
+                makerNote_ = e.makerNote()->create();
             }
             else throw Error("Invalid Key");
         }
@@ -446,7 +446,7 @@ namespace Exiv2 {
     ExifKey::ExifKey(const ExifKey& rhs)
         : tag_(rhs.tag_), ifdId_(rhs.ifdId_), ifdItem_(rhs.ifdItem_),
           idx_(rhs.idx_), 
-          makerNote_(rhs.makerNote_.get() != 0 ? rhs.makerNote_->clone() 
+          makerNote_(rhs.makerNote_.get() != 0 ? rhs.makerNote_->create() 
                                                : MakerNote::AutoPtr(0)),
           key_(rhs.key_)
     {
@@ -464,7 +464,7 @@ namespace Exiv2 {
         ifdId_ = rhs.ifdId_;
         ifdItem_ = rhs.ifdItem_;
         idx_ = rhs.idx_;
-        makerNote_ = rhs.makerNote_.get() != 0 ? rhs.makerNote_->clone() 
+        makerNote_ = rhs.makerNote_.get() != 0 ? rhs.makerNote_->create() 
                                                : MakerNote::AutoPtr(0);
         key_ = rhs.key_;
         return *this;

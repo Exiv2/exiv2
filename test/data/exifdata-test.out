@@ -1,0 +1,420 @@
+Copy construction, non-intrusive changes
+Exif.Image.ImageDescription                   0x010e IFD0         Ascii      18 Exif JPEG        
+Exif.Image.Make                               0x010f IFD0         Ascii       8 Camera 
+Exif.Image.Model                              0x0110 IFD0         Ascii      16 DC-4300        
+Exif.Image.Orientation                        0x0112 IFD0         Short       1 2
+Exif.Image.XResolution                        0x011a IFD0         Rational    1 72/1
+Exif.Image.YResolution                        0x011b IFD0         Rational    1 72/1
+Exif.Image.ResolutionUnit                     0x0128 IFD0         Short       1 2
+Exif.Image.Software                           0x0131 IFD0         Ascii      22 DC-4300 Ver1.03
+Exif.Image.DateTime                           0x0132 IFD0         Ascii      20 Sunday, 11am
+Exif.Image.YCbCrPositioning                   0x0213 IFD0         Short       1 2
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 6480
+Exif.Photo.ExposureTime                       0x829a Exif         Rational    1 1/95
+Exif.Photo.FNumber                            0x829d Exif         Rational    1 91/10
+Exif.Photo.ExposureProgram                    0x8822 Exif         Short       1 8
+Exif.Photo.ISOSpeedRatings                    0x8827 Exif         Short       1 100
+Exif.Photo.ExifVersion                        0x9000 Exif         Undefined   4 48 50 49 48 
+Exif.Photo.DateTimeOriginal                   0x9003 Exif         Ascii      20 Sunday, 11am
+Exif.Photo.DateTimeDigitized                  0x9004 Exif         Ascii      20 2004:06:08 16:04:50
+Exif.Photo.ComponentsConfiguration            0x9101 Exif         Undefined   4 1 2 3 0 
+Exif.Photo.ShutterSpeedValue                  0x9201 Exif         SRational   1 66/10
+Exif.Photo.ApertureValue                      0x9202 Exif         Rational    1 64/10
+Exif.Photo.ExposureBiasValue                  0x9204 Exif         SRational   1 0/10
+Exif.Photo.MaxApertureValue                   0x9205 Exif         Rational    1 31/10
+Exif.Photo.MeteringMode                       0x9207 Exif         Short       1 1
+Exif.Photo.LightSource                        0x9208 Exif         Short       1 0
+Exif.Photo.Flash                              0x9209 Exif         Short       1 0
+Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 48 49 48 48 
+Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 1
+Exif.Photo.PixelXDimension                    0xa002 Exif         Long        1 1600
+Exif.Photo.PixelYDimension                    0xa003 Exif         Long        1 2400
+Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 6738
+Exif.Photo.FileSource                         0xa300 Exif         Undefined   1 3 
+Exif.Iop.InteroperabilityIndex                0x0001 Iop          Ascii       4 123
+Exif.Iop.InteroperabilityVersion              0x0002 Iop          Undefined   4 48 49 48 48 
+Exif.Thumbnail.ImageWidth                     0x0100 IFD1         Long        1 133
+Exif.Thumbnail.ImageLength                    0x0101 IFD1         Long        1 200
+Exif.Thumbnail.Compression                    0x0103 IFD1         Short       1 6
+Exif.Thumbnail.Orientation                    0x0112 IFD1         Short       1 1
+Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 0
+Exif.Thumbnail.JPEGInterchangeFormatLength    0x0202 IFD1         Long        1 6144
+----------------------------------------------
+Copy construction, intrusive changes
+Exif.Image.ImageDescription                   0x010e IFD0         Ascii      18 Exif JPEG        
+Exif.Image.Make                               0x010f IFD0         Ascii       8 Camera 
+Exif.Image.Model                              0x0110 IFD0         Ascii      16 DC-4300        
+Exif.Image.Orientation                        0x0112 IFD0         Short       4 2 3 4 5
+Exif.Image.XResolution                        0x011a IFD0         Rational    1 72/1
+Exif.Image.YResolution                        0x011b IFD0         Rational    1 72/1
+Exif.Image.ResolutionUnit                     0x0128 IFD0         Short       1 2
+Exif.Image.Software                           0x0131 IFD0         Ascii      22 DC-4300 Ver1.03
+Exif.Image.DateTime                           0x0132 IFD0         Ascii      29 Sunday, 11am and ten minutes
+Exif.Image.YCbCrPositioning                   0x0213 IFD0         Short       1 2
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 263
+Exif.Photo.ExposureTime                       0x829a Exif         Rational    1 1/95
+Exif.Photo.FNumber                            0x829d Exif         Rational    1 91/10
+Exif.Photo.ExposureProgram                    0x8822 Exif         Short       1 8
+Exif.Photo.ISOSpeedRatings                    0x8827 Exif         Short       1 100
+Exif.Photo.ExifVersion                        0x9000 Exif         Undefined   4 48 50 49 48 
+Exif.Photo.DateTimeOriginal                   0x9003 Exif         Ascii      29 Sunday, 11am and ten minutes
+Exif.Photo.DateTimeDigitized                  0x9004 Exif         Ascii      20 2004:06:08 16:04:50
+Exif.Photo.ComponentsConfiguration            0x9101 Exif         Undefined   4 1 2 3 0 
+Exif.Photo.ShutterSpeedValue                  0x9201 Exif         SRational   1 66/10
+Exif.Photo.ApertureValue                      0x9202 Exif         Rational    1 64/10
+Exif.Photo.ExposureBiasValue                  0x9204 Exif         SRational   1 0/10
+Exif.Photo.MaxApertureValue                   0x9205 Exif         Rational    1 31/10
+Exif.Photo.MeteringMode                       0x9207 Exif         Short       6 1 2 3 4 5 6
+Exif.Photo.LightSource                        0x9208 Exif         Short       1 0
+Exif.Photo.Flash                              0x9209 Exif         Short       1 0
+Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 48 49 48 48 
+Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 1
+Exif.Photo.PixelXDimension                    0xa002 Exif         Long        1 1600
+Exif.Photo.PixelYDimension                    0xa003 Exif         Long        1 2400
+Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 630
+Exif.Photo.FileSource                         0xa300 Exif         Undefined   1 3 
+Exif.Iop.InteroperabilityIndex                0x0001 Iop          Ascii       5 1234
+Exif.Iop.InteroperabilityVersion              0x0002 Iop          Undefined   4 48 49 48 48 
+Exif.Thumbnail.ImageWidth                     0x0100 IFD1         Long        1 133
+Exif.Thumbnail.ImageLength                    0x0101 IFD1         Long        1 200
+Exif.Thumbnail.Compression                    0x0103 IFD1         Short       1 6
+Exif.Thumbnail.Orientation                    0x0112 IFD1         Short       5 2 3 4 5 6
+Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 0
+Exif.Thumbnail.JPEGInterchangeFormatLength    0x0202 IFD1         Long        1 6144
+----------------------------------------------
+Assignment, non-intrusive changes
+Exif.Image.ImageDescription                   0x010e IFD0         Ascii      18 Exif JPEG        
+Exif.Image.Make                               0x010f IFD0         Ascii       8 Camera 
+Exif.Image.Model                              0x0110 IFD0         Ascii      16 DC-4300        
+Exif.Image.Orientation                        0x0112 IFD0         Short       1 2
+Exif.Image.XResolution                        0x011a IFD0         Rational    1 72/1
+Exif.Image.YResolution                        0x011b IFD0         Rational    1 72/1
+Exif.Image.ResolutionUnit                     0x0128 IFD0         Short       1 2
+Exif.Image.Software                           0x0131 IFD0         Ascii      22 DC-4300 Ver1.03
+Exif.Image.DateTime                           0x0132 IFD0         Ascii      20 Sunday, 11am
+Exif.Image.YCbCrPositioning                   0x0213 IFD0         Short       1 2
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 6480
+Exif.Photo.ExposureTime                       0x829a Exif         Rational    1 1/95
+Exif.Photo.FNumber                            0x829d Exif         Rational    1 91/10
+Exif.Photo.ExposureProgram                    0x8822 Exif         Short       1 8
+Exif.Photo.ISOSpeedRatings                    0x8827 Exif         Short       1 100
+Exif.Photo.ExifVersion                        0x9000 Exif         Undefined   4 48 50 49 48 
+Exif.Photo.DateTimeOriginal                   0x9003 Exif         Ascii      20 Sunday, 11am
+Exif.Photo.DateTimeDigitized                  0x9004 Exif         Ascii      20 2004:06:08 16:04:50
+Exif.Photo.ComponentsConfiguration            0x9101 Exif         Undefined   4 1 2 3 0 
+Exif.Photo.ShutterSpeedValue                  0x9201 Exif         SRational   1 66/10
+Exif.Photo.ApertureValue                      0x9202 Exif         Rational    1 64/10
+Exif.Photo.ExposureBiasValue                  0x9204 Exif         SRational   1 0/10
+Exif.Photo.MaxApertureValue                   0x9205 Exif         Rational    1 31/10
+Exif.Photo.MeteringMode                       0x9207 Exif         Short       1 1
+Exif.Photo.LightSource                        0x9208 Exif         Short       1 0
+Exif.Photo.Flash                              0x9209 Exif         Short       1 0
+Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 48 49 48 48 
+Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 1
+Exif.Photo.PixelXDimension                    0xa002 Exif         Long        1 1600
+Exif.Photo.PixelYDimension                    0xa003 Exif         Long        1 2400
+Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 6738
+Exif.Photo.FileSource                         0xa300 Exif         Undefined   1 3 
+Exif.Iop.InteroperabilityIndex                0x0001 Iop          Ascii       4 123
+Exif.Iop.InteroperabilityVersion              0x0002 Iop          Undefined   4 48 49 48 48 
+Exif.Thumbnail.ImageWidth                     0x0100 IFD1         Long        1 133
+Exif.Thumbnail.ImageLength                    0x0101 IFD1         Long        1 200
+Exif.Thumbnail.Compression                    0x0103 IFD1         Short       1 6
+Exif.Thumbnail.Orientation                    0x0112 IFD1         Short       1 1
+Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 0
+Exif.Thumbnail.JPEGInterchangeFormatLength    0x0202 IFD1         Long        1 6144
+----------------------------------------------
+Assignment, intrusive changes
+Exif.Image.ImageDescription                   0x010e IFD0         Ascii      18 Exif JPEG        
+Exif.Image.Make                               0x010f IFD0         Ascii       8 Camera 
+Exif.Image.Model                              0x0110 IFD0         Ascii      16 DC-4300        
+Exif.Image.Orientation                        0x0112 IFD0         Short       4 2 3 4 5
+Exif.Image.XResolution                        0x011a IFD0         Rational    1 72/1
+Exif.Image.YResolution                        0x011b IFD0         Rational    1 72/1
+Exif.Image.ResolutionUnit                     0x0128 IFD0         Short       1 2
+Exif.Image.Software                           0x0131 IFD0         Ascii      22 DC-4300 Ver1.03
+Exif.Image.DateTime                           0x0132 IFD0         Ascii      29 Sunday, 11am and ten minutes
+Exif.Image.YCbCrPositioning                   0x0213 IFD0         Short       1 2
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 263
+Exif.Photo.ExposureTime                       0x829a Exif         Rational    1 1/95
+Exif.Photo.FNumber                            0x829d Exif         Rational    1 91/10
+Exif.Photo.ExposureProgram                    0x8822 Exif         Short       1 8
+Exif.Photo.ISOSpeedRatings                    0x8827 Exif         Short       1 100
+Exif.Photo.ExifVersion                        0x9000 Exif         Undefined   4 48 50 49 48 
+Exif.Photo.DateTimeOriginal                   0x9003 Exif         Ascii      29 Sunday, 11am and ten minutes
+Exif.Photo.DateTimeDigitized                  0x9004 Exif         Ascii      20 2004:06:08 16:04:50
+Exif.Photo.ComponentsConfiguration            0x9101 Exif         Undefined   4 1 2 3 0 
+Exif.Photo.ShutterSpeedValue                  0x9201 Exif         SRational   1 66/10
+Exif.Photo.ApertureValue                      0x9202 Exif         Rational    1 64/10
+Exif.Photo.ExposureBiasValue                  0x9204 Exif         SRational   1 0/10
+Exif.Photo.MaxApertureValue                   0x9205 Exif         Rational    1 31/10
+Exif.Photo.MeteringMode                       0x9207 Exif         Short       1 1
+Exif.Photo.LightSource                        0x9208 Exif         Short       1 0
+Exif.Photo.Flash                              0x9209 Exif         Short       1 0
+Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 48 49 48 48 
+Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 1
+Exif.Photo.PixelXDimension                    0xa002 Exif         Long        1 1600
+Exif.Photo.PixelYDimension                    0xa003 Exif         Long        1 2400
+Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 618
+Exif.Photo.FileSource                         0xa300 Exif         Undefined   1 3 
+Exif.Iop.InteroperabilityIndex                0x0001 Iop          Ascii       4 123
+Exif.Iop.InteroperabilityVersion              0x0002 Iop          Undefined   4 48 49 48 48 
+Exif.Thumbnail.ImageWidth                     0x0100 IFD1         Long        1 133
+Exif.Thumbnail.ImageLength                    0x0101 IFD1         Long        1 200
+Exif.Thumbnail.Compression                    0x0103 IFD1         Short       1 6
+Exif.Thumbnail.Orientation                    0x0112 IFD1         Short       1 2
+Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 0
+Exif.Thumbnail.JPEGInterchangeFormatLength    0x0202 IFD1         Long        1 6144
+Copy construction, non-intrusive changes
+Exif.Image.Make                               0x010f IFD0         Ascii       6 Canon
+Exif.Image.Model                              0x0110 IFD0         Ascii      20 Canon PowerShot S40
+Exif.Image.Orientation                        0x0112 IFD0         Short       1 2
+Exif.Image.XResolution                        0x011a IFD0         Rational    1 180/1
+Exif.Image.YResolution                        0x011b IFD0         Rational    1 180/1
+Exif.Image.ResolutionUnit                     0x0128 IFD0         Short       1 2
+Exif.Image.DateTime                           0x0132 IFD0         Ascii      20 Sunday, 11am
+Exif.Image.YCbCrPositioning                   0x0213 IFD0         Short       1 1
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 196
+Exif.Photo.ExposureTime                       0x829a Exif         Rational    1 1/500
+Exif.Photo.FNumber                            0x829d Exif         Rational    1 49/10
+Exif.Photo.ExifVersion                        0x9000 Exif         Undefined   4 48 50 50 48 
+Exif.Photo.DateTimeOriginal                   0x9003 Exif         Ascii      20 Sunday, 11am
+Exif.Photo.DateTimeDigitized                  0x9004 Exif         Ascii      20 2003:12:14 12:01:44
+Exif.Photo.ComponentsConfiguration            0x9101 Exif         Undefined   4 1 2 3 0 
+Exif.Photo.CompressedBitsPerPixel             0x9102 Exif         Rational    1 5/1
+Exif.Photo.ShutterSpeedValue                  0x9201 Exif         SRational   1 287/32
+Exif.Photo.ApertureValue                      0x9202 Exif         Rational    1 149/32
+Exif.Photo.ExposureBiasValue                  0x9204 Exif         SRational   1 0/3
+Exif.Photo.MaxApertureValue                   0x9205 Exif         Rational    1 194698/65536
+Exif.Photo.MeteringMode                       0x9207 Exif         Short       1 1
+Exif.Photo.Flash                              0x9209 Exif         Short       1 24
+Exif.Photo.FocalLength                        0x920a Exif         Rational    1 682/32
+Exif.Photo.UserComment                        0x9286 Exif         Undefined 264 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 48 49 48 48 
+Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 1
+Exif.Photo.PixelXDimension                    0xa002 Exif         Short       1 2272
+Exif.Photo.PixelYDimension                    0xa003 Exif         Short       1 1704
+Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 1416
+Exif.Photo.FocalPlaneXResolution              0xa20e Exif         Rational    1 2272000/280
+Exif.Photo.FocalPlaneYResolution              0xa20f Exif         Rational    1 1704000/210
+Exif.Photo.FocalPlaneResolutionUnit           0xa210 Exif         Short       1 2
+Exif.Photo.SensingMethod                      0xa217 Exif         Short       1 2
+Exif.Photo.FileSource                         0xa300 Exif         Undefined   1 3 
+Exif.Photo.CustomRendered                     0xa401 Exif         Short       1 0
+Exif.Photo.ExposureMode                       0xa402 Exif         Short       1 0
+Exif.Photo.WhiteBalance                       0xa403 Exif         Short       1 0
+Exif.Photo.DigitalZoomRatio                   0xa404 Exif         Rational    1 2272/2272
+Exif.Photo.SceneCaptureType                   0xa406 Exif         Short       1 0
+Exif.Canon.CameraSettings1                    0x0001 Makernote    Short      40 80 2 0 5 1 0 0 4 0 1 0 1 0 0 0 0 17 5 1 12291 1 65535 65535 682 227 32 149 192 0 0 0 0 0 0 65535 49 2272 2272 0 1
+Exif.Canon.0x0002                             0x0002 Makernote    Short       4 2 682 286 215
+Exif.Canon.0x0003                             0x0003 Makernote    Short       4 0 0 0 0
+Exif.Canon.CameraSettings2                    0x0004 Makernote    Short      27 54 0 160 276 149 287 0 0 0 0 6 0 0 0 12290 0 0 0 1 782 0 149 289 0 0 0 250
+Exif.Canon.0x0000                             0x0000 Makernote    Short       6 0 0 0 0 0 0
+Exif.Canon.0x0000                             0x0000 Makernote    Short       4 0 0 0 0
+Exif.Canon.ImageType                          0x0006 Makernote    Ascii      32 IMG:PowerShot S40 JPEG
+Exif.Canon.FirmwareVersion                    0x0007 Makernote    Ascii      24 Firmware Version 1.10
+Exif.Canon.ImageNumber                        0x0008 Makernote    Long        1 1171771
+Exif.Canon.OwnerName                          0x0009 Makernote    Ascii      32 Andreas Huggel
+Exif.Canon.0x0010                             0x0010 Makernote    Long        1 17891328
+Exif.Canon.0x000d                             0x000d Makernote    Short      21 42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
+Exif.Iop.InteroperabilityIndex                0x0001 Iop          Ascii       4 123
+Exif.Iop.InteroperabilityVersion              0x0002 Iop          Undefined   4 48 49 48 48 
+Exif.Iop.RelatedImageWidth                    0x1001 Iop          Short       1 2272
+Exif.Iop.RelatedImageLength                   0x1002 Iop          Short       1 1704
+Exif.Thumbnail.Compression                    0x0103 IFD1         Short       1 6
+Exif.Thumbnail.XResolution                    0x011a IFD1         Rational    1 180/1
+Exif.Thumbnail.YResolution                    0x011b IFD1         Rational    1 180/1
+Exif.Thumbnail.ResolutionUnit                 0x0128 IFD1         Short       1 2
+Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 0
+Exif.Thumbnail.JPEGInterchangeFormatLength    0x0202 IFD1         Long        1 5448
+----------------------------------------------
+Copy construction, intrusive changes
+Exif.Image.Make                               0x010f IFD0         Ascii       6 Canon
+Exif.Image.Model                              0x0110 IFD0         Ascii      20 Canon PowerShot S40
+Exif.Image.Orientation                        0x0112 IFD0         Short       4 2 3 4 5
+Exif.Image.XResolution                        0x011a IFD0         Rational    1 180/1
+Exif.Image.YResolution                        0x011b IFD0         Rational    1 180/1
+Exif.Image.ResolutionUnit                     0x0128 IFD0         Short       1 2
+Exif.Image.DateTime                           0x0132 IFD0         Ascii      29 Sunday, 11am and ten minutes
+Exif.Image.YCbCrPositioning                   0x0213 IFD0         Short       1 1
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 201
+Exif.Photo.ExposureTime                       0x829a Exif         Rational    1 1/500
+Exif.Photo.FNumber                            0x829d Exif         Rational    1 49/10
+Exif.Photo.ExifVersion                        0x9000 Exif         Undefined   4 48 50 50 48 
+Exif.Photo.DateTimeOriginal                   0x9003 Exif         Ascii      29 Sunday, 11am and ten minutes
+Exif.Photo.DateTimeDigitized                  0x9004 Exif         Ascii      20 2003:12:14 12:01:44
+Exif.Photo.ComponentsConfiguration            0x9101 Exif         Undefined   4 1 2 3 0 
+Exif.Photo.CompressedBitsPerPixel             0x9102 Exif         Rational    1 5/1
+Exif.Photo.ShutterSpeedValue                  0x9201 Exif         SRational   1 287/32
+Exif.Photo.ApertureValue                      0x9202 Exif         Rational    1 149/32
+Exif.Photo.ExposureBiasValue                  0x9204 Exif         SRational   1 0/3
+Exif.Photo.MaxApertureValue                   0x9205 Exif         Rational    1 194698/65536
+Exif.Photo.MeteringMode                       0x9207 Exif         Short       6 1 2 3 4 5 6
+Exif.Photo.Flash                              0x9209 Exif         Short       1 24
+Exif.Photo.FocalLength                        0x920a Exif         Rational    1 682/32
+Exif.Photo.UserComment                        0x9286 Exif         Undefined 264 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 48 49 48 48 
+Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 1
+Exif.Photo.PixelXDimension                    0xa002 Exif         Short       1 2272
+Exif.Photo.PixelYDimension                    0xa003 Exif         Short       1 1704
+Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 1442
+Exif.Photo.FocalPlaneXResolution              0xa20e Exif         Rational    1 2272000/280
+Exif.Photo.FocalPlaneYResolution              0xa20f Exif         Rational    1 1704000/210
+Exif.Photo.FocalPlaneResolutionUnit           0xa210 Exif         Short       1 2
+Exif.Photo.SensingMethod                      0xa217 Exif         Short       1 2
+Exif.Photo.FileSource                         0xa300 Exif         Undefined   1 3 
+Exif.Photo.CustomRendered                     0xa401 Exif         Short       1 0
+Exif.Photo.ExposureMode                       0xa402 Exif         Short       1 0
+Exif.Photo.WhiteBalance                       0xa403 Exif         Short       1 0
+Exif.Photo.DigitalZoomRatio                   0xa404 Exif         Rational    1 2272/2272
+Exif.Photo.SceneCaptureType                   0xa406 Exif         Short       1 0
+Exif.Canon.CameraSettings1                    0x0001 Makernote    Short      40 80 2 0 5 1 0 0 4 0 1 0 1 0 0 0 0 17 5 1 12291 1 65535 65535 682 227 32 149 192 0 0 0 0 0 0 65535 49 2272 2272 0 1
+Exif.Canon.0x0002                             0x0002 Makernote    Short       4 2 682 286 215
+Exif.Canon.0x0003                             0x0003 Makernote    Short       4 0 0 0 0
+Exif.Canon.CameraSettings2                    0x0004 Makernote    Short      27 54 0 160 276 149 287 0 0 0 0 6 0 0 0 12290 0 0 0 1 782 0 149 289 0 0 0 250
+Exif.Canon.0x0000                             0x0000 Makernote    Short       6 0 0 0 0 0 0
+Exif.Canon.0x0000                             0x0000 Makernote    Short       4 0 0 0 0
+Exif.Canon.ImageType                          0x0006 Makernote    Ascii      32 IMG:PowerShot S40 JPEG
+Exif.Canon.FirmwareVersion                    0x0007 Makernote    Ascii      24 Firmware Version 1.10
+Exif.Canon.ImageNumber                        0x0008 Makernote    Long        1 1171771
+Exif.Canon.OwnerName                          0x0009 Makernote    Ascii      32 Andreas Huggel
+Exif.Canon.0x0010                             0x0010 Makernote    Long        1 17891328
+Exif.Canon.0x000d                             0x000d Makernote    Short      21 42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
+Exif.Iop.InteroperabilityIndex                0x0001 Iop          Ascii       5 1234
+Exif.Iop.InteroperabilityVersion              0x0002 Iop          Undefined   4 48 49 48 48 
+Exif.Iop.RelatedImageWidth                    0x1001 Iop          Short       1 2272
+Exif.Iop.RelatedImageLength                   0x1002 Iop          Short       1 1704
+Exif.Thumbnail.Compression                    0x0103 IFD1         Short       1 6
+Exif.Thumbnail.Orientation                    0x0112 IFD1         Ascii      10 2 3 4 5 6
+Exif.Thumbnail.XResolution                    0x011a IFD1         Rational    1 180/1
+Exif.Thumbnail.YResolution                    0x011b IFD1         Rational    1 180/1
+Exif.Thumbnail.ResolutionUnit                 0x0128 IFD1         Short       1 2
+Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 0
+Exif.Thumbnail.JPEGInterchangeFormatLength    0x0202 IFD1         Long        1 5448
+----------------------------------------------
+Assignment, non-intrusive changes
+Exif.Image.Make                               0x010f IFD0         Ascii       6 Canon
+Exif.Image.Model                              0x0110 IFD0         Ascii      20 Canon PowerShot S40
+Exif.Image.Orientation                        0x0112 IFD0         Short       1 2
+Exif.Image.XResolution                        0x011a IFD0         Rational    1 180/1
+Exif.Image.YResolution                        0x011b IFD0         Rational    1 180/1
+Exif.Image.ResolutionUnit                     0x0128 IFD0         Short       1 2
+Exif.Image.DateTime                           0x0132 IFD0         Ascii      20 Sunday, 11am
+Exif.Image.YCbCrPositioning                   0x0213 IFD0         Short       1 1
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 196
+Exif.Photo.ExposureTime                       0x829a Exif         Rational    1 1/500
+Exif.Photo.FNumber                            0x829d Exif         Rational    1 49/10
+Exif.Photo.ExifVersion                        0x9000 Exif         Undefined   4 48 50 50 48 
+Exif.Photo.DateTimeOriginal                   0x9003 Exif         Ascii      20 Sunday, 11am
+Exif.Photo.DateTimeDigitized                  0x9004 Exif         Ascii      20 2003:12:14 12:01:44
+Exif.Photo.ComponentsConfiguration            0x9101 Exif         Undefined   4 1 2 3 0 
+Exif.Photo.CompressedBitsPerPixel             0x9102 Exif         Rational    1 5/1
+Exif.Photo.ShutterSpeedValue                  0x9201 Exif         SRational   1 287/32
+Exif.Photo.ApertureValue                      0x9202 Exif         Rational    1 149/32
+Exif.Photo.ExposureBiasValue                  0x9204 Exif         SRational   1 0/3
+Exif.Photo.MaxApertureValue                   0x9205 Exif         Rational    1 194698/65536
+Exif.Photo.MeteringMode                       0x9207 Exif         Short       1 1
+Exif.Photo.Flash                              0x9209 Exif         Short       1 24
+Exif.Photo.FocalLength                        0x920a Exif         Rational    1 682/32
+Exif.Photo.UserComment                        0x9286 Exif         Undefined 264 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 48 49 48 48 
+Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 1
+Exif.Photo.PixelXDimension                    0xa002 Exif         Short       1 2272
+Exif.Photo.PixelYDimension                    0xa003 Exif         Short       1 1704
+Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 1416
+Exif.Photo.FocalPlaneXResolution              0xa20e Exif         Rational    1 2272000/280
+Exif.Photo.FocalPlaneYResolution              0xa20f Exif         Rational    1 1704000/210
+Exif.Photo.FocalPlaneResolutionUnit           0xa210 Exif         Short       1 2
+Exif.Photo.SensingMethod                      0xa217 Exif         Short       1 2
+Exif.Photo.FileSource                         0xa300 Exif         Undefined   1 3 
+Exif.Photo.CustomRendered                     0xa401 Exif         Short       1 0
+Exif.Photo.ExposureMode                       0xa402 Exif         Short       1 0
+Exif.Photo.WhiteBalance                       0xa403 Exif         Short       1 0
+Exif.Photo.DigitalZoomRatio                   0xa404 Exif         Rational    1 2272/2272
+Exif.Photo.SceneCaptureType                   0xa406 Exif         Short       1 0
+Exif.Canon.CameraSettings1                    0x0001 Makernote    Short      40 80 2 0 5 1 0 0 4 0 1 0 1 0 0 0 0 17 5 1 12291 1 65535 65535 682 227 32 149 192 0 0 0 0 0 0 65535 49 2272 2272 0 1
+Exif.Canon.0x0002                             0x0002 Makernote    Short       4 2 682 286 215
+Exif.Canon.0x0003                             0x0003 Makernote    Short       4 0 0 0 0
+Exif.Canon.CameraSettings2                    0x0004 Makernote    Short      27 54 0 160 276 149 287 0 0 0 0 6 0 0 0 12290 0 0 0 1 782 0 149 289 0 0 0 250
+Exif.Canon.0x0000                             0x0000 Makernote    Short       6 0 0 0 0 0 0
+Exif.Canon.0x0000                             0x0000 Makernote    Short       4 0 0 0 0
+Exif.Canon.ImageType                          0x0006 Makernote    Ascii      32 IMG:PowerShot S40 JPEG
+Exif.Canon.FirmwareVersion                    0x0007 Makernote    Ascii      24 Firmware Version 1.10
+Exif.Canon.ImageNumber                        0x0008 Makernote    Long        1 1171771
+Exif.Canon.OwnerName                          0x0009 Makernote    Ascii      32 Andreas Huggel
+Exif.Canon.0x0010                             0x0010 Makernote    Long        1 17891328
+Exif.Canon.0x000d                             0x000d Makernote    Short      21 42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
+Exif.Iop.InteroperabilityIndex                0x0001 Iop          Ascii       4 123
+Exif.Iop.InteroperabilityVersion              0x0002 Iop          Undefined   4 48 49 48 48 
+Exif.Iop.RelatedImageWidth                    0x1001 Iop          Short       1 2272
+Exif.Iop.RelatedImageLength                   0x1002 Iop          Short       1 1704
+Exif.Thumbnail.Compression                    0x0103 IFD1         Short       1 6
+Exif.Thumbnail.XResolution                    0x011a IFD1         Rational    1 180/1
+Exif.Thumbnail.YResolution                    0x011b IFD1         Rational    1 180/1
+Exif.Thumbnail.ResolutionUnit                 0x0128 IFD1         Short       1 2
+Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 0
+Exif.Thumbnail.JPEGInterchangeFormatLength    0x0202 IFD1         Long        1 5448
+----------------------------------------------
+Assignment, intrusive changes
+Exif.Image.Make                               0x010f IFD0         Ascii       6 Canon
+Exif.Image.Model                              0x0110 IFD0         Ascii      20 Canon PowerShot S40
+Exif.Image.Orientation                        0x0112 IFD0         Short       4 2 3 4 5
+Exif.Image.XResolution                        0x011a IFD0         Rational    1 180/1
+Exif.Image.YResolution                        0x011b IFD0         Rational    1 180/1
+Exif.Image.ResolutionUnit                     0x0128 IFD0         Short       1 2
+Exif.Image.DateTime                           0x0132 IFD0         Ascii      29 Sunday, 11am and ten minutes
+Exif.Image.YCbCrPositioning                   0x0213 IFD0         Short       1 1
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 201
+Exif.Photo.ExposureTime                       0x829a Exif         Rational    1 1/500
+Exif.Photo.FNumber                            0x829d Exif         Rational    1 49/10
+Exif.Photo.ExifVersion                        0x9000 Exif         Undefined   4 48 50 50 48 
+Exif.Photo.DateTimeOriginal                   0x9003 Exif         Ascii      29 Sunday, 11am and ten minutes
+Exif.Photo.DateTimeDigitized                  0x9004 Exif         Ascii      20 2003:12:14 12:01:44
+Exif.Photo.ComponentsConfiguration            0x9101 Exif         Undefined   4 1 2 3 0 
+Exif.Photo.CompressedBitsPerPixel             0x9102 Exif         Rational    1 5/1
+Exif.Photo.ShutterSpeedValue                  0x9201 Exif         SRational   1 287/32
+Exif.Photo.ApertureValue                      0x9202 Exif         Rational    1 149/32
+Exif.Photo.ExposureBiasValue                  0x9204 Exif         SRational   1 0/3
+Exif.Photo.MaxApertureValue                   0x9205 Exif         Rational    1 194698/65536
+Exif.Photo.MeteringMode                       0x9207 Exif         Short       1 1
+Exif.Photo.Flash                              0x9209 Exif         Short       1 24
+Exif.Photo.FocalLength                        0x920a Exif         Rational    1 682/32
+Exif.Photo.UserComment                        0x9286 Exif         Undefined 264 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 48 49 48 48 
+Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 1
+Exif.Photo.PixelXDimension                    0xa002 Exif         Short       1 2272
+Exif.Photo.PixelYDimension                    0xa003 Exif         Short       1 1704
+Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 1430
+Exif.Photo.FocalPlaneXResolution              0xa20e Exif         Rational    1 2272000/280
+Exif.Photo.FocalPlaneYResolution              0xa20f Exif         Rational    1 1704000/210
+Exif.Photo.FocalPlaneResolutionUnit           0xa210 Exif         Short       1 2
+Exif.Photo.SensingMethod                      0xa217 Exif         Short       1 2
+Exif.Photo.FileSource                         0xa300 Exif         Undefined   1 3 
+Exif.Photo.CustomRendered                     0xa401 Exif         Short       1 0
+Exif.Photo.ExposureMode                       0xa402 Exif         Short       1 0
+Exif.Photo.WhiteBalance                       0xa403 Exif         Short       1 0
+Exif.Photo.DigitalZoomRatio                   0xa404 Exif         Rational    1 2272/2272
+Exif.Photo.SceneCaptureType                   0xa406 Exif         Short       1 0
+Exif.Canon.CameraSettings1                    0x0001 Makernote    Short      40 80 2 0 5 1 0 0 4 0 1 0 1 0 0 0 0 17 5 1 12291 1 65535 65535 682 227 32 149 192 0 0 0 0 0 0 65535 49 2272 2272 0 1
+Exif.Canon.0x0002                             0x0002 Makernote    Short       4 2 682 286 215
+Exif.Canon.0x0003                             0x0003 Makernote    Short       4 0 0 0 0
+Exif.Canon.CameraSettings2                    0x0004 Makernote    Short      27 54 0 160 276 149 287 0 0 0 0 6 0 0 0 12290 0 0 0 1 782 0 149 289 0 0 0 250
+Exif.Canon.0x0000                             0x0000 Makernote    Short       6 0 0 0 0 0 0
+Exif.Canon.0x0000                             0x0000 Makernote    Short       4 0 0 0 0
+Exif.Canon.ImageType                          0x0006 Makernote    Ascii      32 IMG:PowerShot S40 JPEG
+Exif.Canon.FirmwareVersion                    0x0007 Makernote    Ascii      24 Firmware Version 1.10
+Exif.Canon.ImageNumber                        0x0008 Makernote    Long        1 1171771
+Exif.Canon.OwnerName                          0x0009 Makernote    Ascii      32 Andreas Huggel
+Exif.Canon.0x0010                             0x0010 Makernote    Long        1 17891328
+Exif.Canon.0x000d                             0x000d Makernote    Short      21 42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
+Exif.Iop.InteroperabilityIndex                0x0001 Iop          Ascii       4 123
+Exif.Iop.InteroperabilityVersion              0x0002 Iop          Undefined   4 48 49 48 48 
+Exif.Iop.RelatedImageWidth                    0x1001 Iop          Short       1 2272
+Exif.Iop.RelatedImageLength                   0x1002 Iop          Short       1 1704
+Exif.Thumbnail.Compression                    0x0103 IFD1         Short       1 6
+Exif.Thumbnail.Orientation                    0x0112 IFD1         Short       1 2
+Exif.Thumbnail.XResolution                    0x011a IFD1         Rational    1 180/1
+Exif.Thumbnail.YResolution                    0x011b IFD1         Rational    1 180/1
+Exif.Thumbnail.ResolutionUnit                 0x0128 IFD1         Short       1 2
+Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 0
+Exif.Thumbnail.JPEGInterchangeFormatLength    0x0202 IFD1         Long        1 5448

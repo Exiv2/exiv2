@@ -48,19 +48,20 @@ include $(top_srcdir)/config.mk
 # Source files
 
 # Add standalone C++ header files to this list
-CCHDR = rcsid.hpp error.hpp
+CCHDR = error.hpp rcsid.hpp 
 
 # Add library C++ source files to this list
-CCSRC = canonmn.cpp datasets.cpp exif.cpp fujimn.cpp ifd.cpp basicio.cpp iptc.cpp \
-        makernote.cpp metadatum.cpp nikonmn.cpp sigmamn.cpp tags.cpp types.cpp \
-        image.cpp jpgimage.cpp value.cpp
+CCSRC = basicio.cpp canonmn.cpp datasets.cpp exif.cpp fujimn.cpp ifd.cpp \
+        image.cpp iptc.cpp jpgimage.cpp makernote.cpp metadatum.cpp nikonmn.cpp \
+        sigmamn.cpp tags.cpp types.cpp value.cpp 
 
 # Add source files of simple applications to this list
-BINSRC = addmoddel.cpp exifcomment.cpp exifprint.cpp ifd-test.cpp iptcprint.cpp \
+BINSRC = addmoddel.cpp dataarea-test.cpp exifcomment.cpp exifdata-test.cpp \
+         exifprint.cpp ifd-test.cpp iotest.cpp iptceasy.cpp iptcprint.cpp \
          iptctest.cpp key-test.cpp makernote-test.cpp taglist.cpp write-test.cpp \
-         iotest.cpp write2-test.cpp dataarea-test.cpp iptceasy.cpp 
+         write2-test.cpp 
 
-# State the main source file of the Exiv2 application here
+# Main source file of the Exiv2 application
 EXIV2MAIN = exiv2.cpp
 
 # Add additional source files of the Exiv2 application to this list
