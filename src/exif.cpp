@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.45 $
+  Version:   $Name:  $ $Revision: 1.46 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.45 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.46 $ $RCSfile: exif.cpp,v $")
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -708,17 +708,12 @@ namespace Exiv2 {
 
     long ExifData::copyFromMetadata(char* buf)
     {
-        // Copy the TIFF header
-        long ifd0Offset = tiffHeader_.copy(buf);
-
         // Build IFD0
-        Ifd ifd0(ifd0, ifd0Offset);
+        Ifd ifd0(ifd0);
         addToIfd(ifd0, begin(), end(), byteOrder());
 
         // Build Exif IFD from metadata
-        int idx = ifd0.erase(0x8769);
-        long exifIfdOffset = ifd0Offset + ifd0.size() + 12 + ifd0.dataSize();
-        Ifd exifIfd(exifIfd, exifIfdOffset);
+        Ifd exifIfd(exifIfd);
         addToIfd(exifIfd, begin(), end(), byteOrder());
         MakerNote* pMakerNote = 0;
         if (pMakerNote_) {
@@ -732,39 +727,36 @@ namespace Exiv2 {
             e.setTag(0x927c);
             DataBuf buf(pMakerNote->size());
             memset(buf.pData_, 0x0, buf.size_);
-            e.setValue(undefined, buf.size_, buf.pData_, buf.size_); 
+            e.setValue(undefined, buf.size_, buf.pData_, buf.size_);
+            exifIfd.erase(0x927c);
             exifIfd.add(e);
         }
 
-        // Set the offset to the Exif IFD in IFD0
-        if (exifIfd.size() > 0) {
-            setOffsetTag(ifd0, idx, 0x8769, exifIfdOffset, byteOrder());
-        }
-
         // Build Interoperability IFD from metadata
-        idx = exifIfd.erase(0xa005);
-        long iopIfdOffset = exifIfdOffset + exifIfd.size() + 12 + exifIfd.dataSize();
-        Ifd iopIfd(iopIfd, iopIfdOffset);
+        Ifd iopIfd(iopIfd);
         addToIfd(iopIfd, begin(), end(), byteOrder());
 
-        // Set the offset to the Interoperability IFD in Exif IFD
-        if (iopIfd.size() > 0) {
-            setOffsetTag(exifIfd, idx, 0xa005, iopIfdOffset, byteOrder());
-        }
-
         // Build GPSInfo IFD from metadata
-        idx = ifd0.erase(0x8825);
-        long gpsIfdOffset = iopIfdOffset + 12 + iopIfd.size() + iopIfd.dataSize();
-        Ifd gpsIfd(gpsIfd, gpsIfdOffset);
+        Ifd gpsIfd(gpsIfd);
         addToIfd(gpsIfd, begin(), end(), byteOrder());
 
-        // Set the offset to the GPSInfo IFD in IFD0
-        if (gpsIfd.size() > 0) {
-            setOffsetTag(ifd0, idx, 0x8825, gpsIfdOffset, byteOrder());
-        }
+        // Compute the new IFD offsets and set offset tags
+        int exifIdx = ifd0.erase(0x8769);
+        int gpsIdx  = ifd0.erase(0x8825);
+        int iopIdx  = exifIfd.erase(0xa005);
+
+        long ifd0Offset    = tiffHeader_.size();
+        long exifIfdOffset = ifd0Offset + ifd0.size() 
+                             + (exifIfd.size() > 0 ? 12 : 0)
+                             + (gpsIfd.size()  > 0 ? 12 : 0)
+                             + ifd0.dataSize();
+        long iopIfdOffset  = exifIfdOffset + exifIfd.size() 
+                             + (iopIfd.size() > 0 ? 12 : 0)
+                             + exifIfd.dataSize();
+        long gpsIfdOffset  = iopIfdOffset + iopIfd.size() + iopIfd.dataSize();
+        long ifd1Offset    = gpsIfdOffset + gpsIfd.size() + gpsIfd.dataSize();
 
         // build IFD1 from updated metadata if there is a thumbnail
-        long ifd1Offset = gpsIfdOffset + gpsIfd.size() + gpsIfd.dataSize();
         Ifd ifd1(ifd1, ifd1Offset);
         if (pThumbnail_) {
             // Update Exif data from thumbnail
@@ -777,7 +769,21 @@ namespace Exiv2 {
             }
         }
 
-        // Copy all IFDs, the MakerNote data and the thumbnail to the data buffer
+        // Set the offset to the Exif IFD in IFD0
+        if (exifIfd.size() > 0) {
+            setOffsetTag(ifd0, exifIdx, 0x8769, exifIfdOffset, byteOrder());
+        }
+        // Set the offset to the GPSInfo IFD in IFD0
+        if (gpsIfd.size() > 0) {
+            setOffsetTag(ifd0, gpsIdx, 0x8825, gpsIfdOffset, byteOrder());
+        }
+        // Set the offset to the Interoperability IFD in Exif IFD
+        if (iopIfd.size() > 0) {
+            setOffsetTag(exifIfd, iopIdx, 0xa005, iopIfdOffset, byteOrder());
+        }
+
+        // Copy the TIFF header, all IFDs, MakerNote and thumbnail to the buffer
+        tiffHeader_.copy(buf);
         ifd0.sortByTag();
         ifd0.copy(buf + ifd0Offset, byteOrder(), ifd0Offset);
         exifIfd.sortByTag();
@@ -806,6 +812,7 @@ namespace Exiv2 {
             len = thumbOffset;
             len += pThumbnail_->copy(buf + thumbOffset);
         }
+
         return len;
 
     } // ExifData::copyFromMetadata
@@ -1010,17 +1017,17 @@ namespace Exiv2 {
         if (!this->compatible()) return false;
 
         bool compatible = true;
-        compatible |= updateRange(ifd0_.begin(), ifd0_.end(), byteOrder());
-        compatible |= updateRange(exifIfd_.begin(), exifIfd_.end(), byteOrder());
+        compatible &= updateRange(ifd0_.begin(), ifd0_.end(), byteOrder());
+        compatible &= updateRange(exifIfd_.begin(), exifIfd_.end(), byteOrder());
         if (pMakerNote_) {
-            compatible |= updateRange(pMakerNote_->begin(), 
+            compatible &= updateRange(pMakerNote_->begin(), 
                                       pMakerNote_->end(), 
                                       pMakerNote_->byteOrder());
         }
-        compatible |= updateRange(iopIfd_.begin(), iopIfd_.end(), byteOrder());
-        compatible |= updateRange(gpsIfd_.begin(), gpsIfd_.end(), byteOrder());
+        compatible &= updateRange(iopIfd_.begin(), iopIfd_.end(), byteOrder());
+        compatible &= updateRange(gpsIfd_.begin(), gpsIfd_.end(), byteOrder());
         if (pThumbnail_) {
-            compatible |= updateRange(ifd1_.begin(), ifd1_.end(), byteOrder());
+            compatible &= updateRange(ifd1_.begin(), ifd1_.end(), byteOrder());
         }
 
         return compatible;
@@ -1049,7 +1056,8 @@ namespace Exiv2 {
             else {
                 DataBuf buf(md->size());
                 md->copy(buf.pData_, byteOrder);
-                entry->setValue(md->typeId(), md->count(), buf.pData_, md->size());
+                entry->setValue(static_cast<uint16>(md->typeId()), md->count(), 
+                                buf.pData_, md->size());
             }
         }
         return compatible;
@@ -1204,7 +1212,7 @@ namespace Exiv2 {
 
         DataBuf buf(md.size());
         md.copy(buf.pData_, byteOrder);
-        e.setValue(md.typeId(), md.count(), buf.pData_, md.size()); 
+        e.setValue(static_cast<uint16>(md.typeId()), md.count(), buf.pData_, md.size()); 
         ifd.add(e);
     } // addToIfd
 
@@ -1233,7 +1241,7 @@ namespace Exiv2 {
 
         DataBuf buf(md.size());
         md.copy(buf.pData_, byteOrder);
-        e.setValue(md.typeId(), md.count(), buf.pData_, md.size()); 
+        e.setValue(static_cast<uint16>(md.typeId()), md.count(), buf.pData_, md.size()); 
         makerNote->add(e);
     } // addToMakerNote
 
