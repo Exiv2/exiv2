@@ -1,5 +1,16 @@
 <?xml version = '1.0'?>
 <?xml-stylesheet type="text/xsl" href="tags.xsl"?>
+<TAGLIST>
+<HEADER>
+<title>Exif Tags supported by Exiv2</title>
+<text>
+
+  <p>These are the Exif tags as defined in the <a title="The Exif 2.2 standard (PDF)" href="http://tsc.jeita.or.jp/avs/data/cp3451.pdf">Exif 2.2 standard</a>.</p>
+  <p>IFD1 tags are not listed seperately. All IFD0 tags may also be present in IFD1, according to the standard. The first part of the Exiv2 key of an IFD1 tag is <i>Thumbnail</i> (instead of <i>Image</i>), the other two parts of the key are the same as for IFD0 tags.</p>
+
+  <p>Click on a column header to sort the table.</p>
+</text>
+</HEADER>
 <ROWSET>
    <ROW num="1">
       <tagname>ImageWidth</tagname>
@@ -1002,3 +1013,4 @@
       <tagdesc>GPS differential correction</tagdesc>
    </ROW>
 </ROWSET>
+</TAGLIST>
