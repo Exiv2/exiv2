@@ -1,3 +1,61 @@
+Changes from version 0.5 to 0.6
+-------------------------------
+
+* Exiv2 utility
+
+	* Added the ability to extract/insert different types of metadata 
+
+	* Added option to print the Jpeg comment 
+
+	* Changed semantics of print option `i' to Iptc 
+	  (`t' for translated Exif data)
+
+	* Replaced std::cout << "\n" with std::endl to flush and get the 
+	  sequence with error output right
+	
+* Exiv2 library
+
+	* Added support to build Makernotes from scratch
+
+	* Added support to build IFD1 (Thumbnail) entries from scratch
+	
+	* Open image files on demand rather than keeping them open. Bug #393 (Brad)
+	
+	* Added data area concept to Value, ValueType, Entry, Ifd. Feature #395
+	
+	* Revamped Thumbnail classes to use the new data area feature. Feature #398
+
+	* Added ExifData::setJpegThumbnail 
+	
+	* Improved implementation of Exif and Iptc keys, added support for
+          keys with unknown tag names
+		
+	* Added ExifData::op[] and Exifdatum op= and similar operators to 
+	  IptcData and Iptcdatum. This operator stuff allows for things like: 
+	  exifData["Exif.Thumbnail.Compression"] = uint16_t(6);
+	
+	* Converted class hierarchies to use std::auto_ptr where appropriate
+
+	* Replaced custom integer types with C99 types
+
+	* Added test data and drivers to the repository
+	
+	* Right align output stream for date and time writes. Bug #397 (Brad)
+		
+	* Updated documentation
+
+* MSVC related (Thanks to Brad Schick)
+	
+	* Added exivsimple (win32 only dll) and write2-test projects to MSVC 
+	  build (Brad)
+	
+	* Added mn.cpp to all MSVC projects. Fixes bug #396 (Brad)
+	
+	* Fixed various MSVC 7.1 build errors. Bug #394 (Brad)
+	
+	* Added write-test to MSVC build project (Brad)
+
+
 Changes from version 0.4 to 0.5
 -------------------------------
 
