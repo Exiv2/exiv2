@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.7 $
+  Version:   $Name:  $ $Revision: 1.8 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.7 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.8 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -188,8 +188,45 @@ namespace Action {
                       << "Aperture" << ": " << aperture.str() << "\n";
         }
         printTag(exifData, "Image.CaptureConditions.Flash", "Flash");
-        printTag(exifData, "Image.CaptureConditions.ISOSpeedRatings", "ISO");
-        printTag(exifData, "Image.CaptureConditions.ExposureProgram", "Program");
+        // ISO speed, from ISOSpeedRatings or Canon Makernote
+        int rc = printTag(exifData, "Image.CaptureConditions.ISOSpeedRatings", "ISO");
+        if (rc == 0) {
+            md = exifData.findKey("Makernote.Canon.CameraSettings1");
+            if (md != exifData.end() && md->count() >= 16) {
+                long iso = md->toLong(16);
+                std::cout << std::setw(align_) << std::setfill(' ') << std::left
+                          << "ISO" << ": ";
+                switch (iso) {
+                case 15: std::cout << "Auto"; break;
+                case 16: std::cout << "50"; break;
+                case 17: std::cout << "100"; break;
+                case 18: std::cout << "200"; break;
+                case 19: std::cout << "400"; break;
+                default: std::cout << "(" << iso << ")"; break;
+                }
+                std::cout << "\n";
+            }
+        }
+        // Exposure program from ExposureProgram or Canon Makernote
+        rc = printTag(exifData, "Image.CaptureConditions.ExposureProgram", "Exposure");
+        if (rc == 0) {
+            md = exifData.findKey("Makernote.Canon.CameraSettings1");
+            if (md != exifData.end() && md->count() >= 20) {
+                long prg = md->toLong(20);
+                std::cout << std::setw(align_) << std::setfill(' ') << std::left
+                          << "Exposure" << ": ";
+                switch (prg) {
+                case 0: std::cout << "Easy shooting"; break;
+                case 1: std::cout << "Program"; break;
+                case 2: std::cout << "Shutter priority"; break;
+                case 3: std::cout << "Aperture priority"; break;
+                case 4: std::cout << "Manual"; break;
+                case 5: std::cout << "A-DEP"; break;
+                default: std::cout << "(" << prg << ")"; break;
+                }
+                std::cout << "\n";
+            }
+        }
         printTag(exifData, "Image.CaptureConditions.FocalLength", "Focal length");
         printTag(exifData, "Image.CaptureConditions.MeteringMode", "Metering mode");
 
