@@ -4,7 +4,7 @@
 #
 # RCS information
 #  $Name:  $
-#  $Revision: 1.5 $
+#  $Revision: 1.6 $
 #
 # Description:
 #  This makefile mainly forwards to makefiles in subdirectories.
@@ -25,5 +25,6 @@ clean:
 	cd src && $(MAKE) $(MAKECMDGOALS)
 #	cd doc && $(MAKE) $(MAKECMDGOALS)
 	rm -f config.h config.mk config.log config.status
+	rm -f configure.scan autoscan.log
 	rm -rf autom4te.cache/
 	rm -f *~ *.bak *#
