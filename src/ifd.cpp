@@ -20,14 +20,14 @@
  */
 /*
   File:      ifd.cpp
-  Version:   $Name:  $ $Revision: 1.13 $
+  Version:   $Name:  $ $Revision: 1.14 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.13 $ $RCSfile: ifd.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.14 $ $RCSfile: ifd.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -156,18 +156,41 @@ namespace Exif {
     } // Entry::component
 
     Ifd::Ifd(IfdId ifdId)
-        : alloc_(true), ifdId_(ifdId), offset_(0), next_(0)
+        : alloc_(true), ifdId_(ifdId), offset_(0), pNext_(0), next_(0)
     {
+        pNext_ = new char[4];
+        memset(pNext_, 0x0, 4);
     }
 
     Ifd::Ifd(IfdId ifdId, uint32 offset)
-        : alloc_(true), ifdId_(ifdId), offset_(offset), next_(0)
+        : alloc_(true), ifdId_(ifdId), offset_(offset), pNext_(0), next_(0)
     {
+        pNext_ = new char[4];
+        memset(pNext_, 0x0, 4);
     }
 
     Ifd::Ifd(IfdId ifdId, uint32 offset, bool alloc)
-        : alloc_(alloc), ifdId_(ifdId), offset_(offset), next_(0)
+        : alloc_(alloc), ifdId_(ifdId), offset_(offset), pNext_(0), next_(0)
     {
+        if (alloc_) {
+            pNext_ = new char[4];
+            memset(pNext_, 0x0, 4);
+        }
+    }
+
+    Ifd::~Ifd()
+    {
+        if (alloc_) delete[] pNext_;
+    }
+
+    Ifd::Ifd(const Ifd& rhs)
+        : alloc_(rhs.alloc_), entries_(rhs.entries_), ifdId_(rhs.ifdId_),
+          offset_(rhs.offset_), pNext_(rhs.pNext_), next_(rhs.next_)
+    {
+        if (alloc_ && rhs.pNext_) {
+            pNext_ = new char[4];
+            memcpy(pNext_, rhs.pNext_, 4); 
+        }
     }
 
     int Ifd::read(const char* buf, ByteOrder byteOrder, long offset)
@@ -189,6 +212,12 @@ namespace Exif {
             pe.offset_ = pe.size_ > 4 ? getULong(buf+o+8, byteOrder) : 0;
             preEntries.push_back(pe);
             o += 12;
+        }
+        if (alloc_) {
+            memcpy(pNext_, buf + o, 4);
+        }
+        else {
+            pNext_ = const_cast<char*>(buf + o);
         }
         next_ = getULong(buf+o, byteOrder);
 
@@ -304,7 +333,13 @@ namespace Exif {
         }
 
         // Add the offset to the next IFD to the data buffer
-        o += ul2Data(buf + o, next_, byteOrder);
+        if (pNext_) {
+            memcpy(buf + o, pNext_, 4);
+        }
+        else {
+            memset(buf + o, 0x0, 4);
+        }
+        o += 4;
 
         // Add the data of all IFD entries to the data buffer
         for (i = b; i != e; ++i) {
@@ -320,9 +355,21 @@ namespace Exif {
     void Ifd::clear()
     {
         entries_.clear();
-        next_ = 0;
+        if (alloc_) {
+            memset(pNext_, 0x0, 4);
+        }
+        else {
+            pNext_ = 0;
+        }
         offset_ = 0;
     } // Ifd::clear
+
+    void Ifd::setNext(uint32 next, ByteOrder byteOrder)
+    {
+        assert(pNext_);
+        ul2Data(pNext_, next, byteOrder);
+        next_ = next;
+    }
 
     void Ifd::add(const Entry& entry)
     {
@@ -407,7 +454,7 @@ namespace Exif {
         }
         os << prefix << "Next IFD: 0x" 
            << std::setw(8) << std::setfill('0') << std::hex
-           << std::right << next_ << "\n";
+           << std::right << next() << "\n";
         // Print data of IFD entries 
         for (i = b; i != e; ++i) {
             if (i->size() > 4) {

@@ -21,7 +21,7 @@
 /*!
   @file    ifd.hpp
   @brief   Encoding and decoding of IFD (Image File Directory) data
-  @version $Name:  $ $Revision: 1.11 $
+  @version $Name:  $ $Revision: 1.12 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -265,6 +265,12 @@ namespace Exif {
             and the same data buffer.
     */
     class Ifd {
+        //! @name Not implemented
+        //@{
+        //! Assignment not allowed (memory management mode alloc_ is const)
+        Ifd& operator=(const Ifd& rhs);
+        //@}
+
     public:
         //! @name Creators
         //@{
@@ -285,6 +291,10 @@ namespace Exif {
                  memory management is required for the Entries.
          */
         Ifd(IfdId ifdId, uint32 offset, bool alloc);
+        //! Copy constructor
+        Ifd(const Ifd& rhs);
+        //! Destructor
+        ~Ifd();
         //@}
 
         //! Entries const iterator type
@@ -356,8 +366,11 @@ namespace Exif {
                  entries.
          */
         void clear();
-        //! Set the offset of the next IFD
-        void setNext(uint32 next) { next_ = next; }
+        /*!
+          @brief Set the offset of the next IFD. Byte order is needed to update
+                 the underlying data buffer in non-alloc mode.
+         */
+        void setNext(uint32 next, ByteOrder byteOrder);
         /*!
           @brief Add the entry to the IFD. No duplicate-check is performed,
                  i.e., it is possible to add multiple entries with the same tag.
@@ -402,7 +415,7 @@ namespace Exif {
         //! Get the offset of the IFD from the start of the TIFF header
         long offset() const { return offset_; }
         //! Get the offset to the next IFD from the start of the TIFF header
-        long next() const { return next_; }
+        uint32 next() const { return next_; }
         //! Get the number of directory entries in the IFD
         long count() const { return entries_.size(); }
         //! Get the size of this IFD in bytes (IFD only, without data)
@@ -438,12 +451,21 @@ namespace Exif {
         //! Container for 'pre-entries'
         typedef std::vector<PreEntry> PreEntries;
 
-        const bool alloc_; // True:  requires memory allocation and deallocation,
-                           // False: no memory management needed.
-        Entries entries_;  // IFD entries
-        IfdId ifdId_;      // IFD Id
-        long offset_;      // offset of the IFD from the start of TIFF header
-        long next_;        // offset of next IFD from the start of the TIFF header
+        /*!
+          True:  requires memory allocation and deallocation,
+          False: no memory management needed.
+        */
+        const bool alloc_;
+        //! IFD entries
+        Entries entries_;
+        //! IFD Id
+        IfdId ifdId_;
+        //! offset of the IFD from the start of TIFF header
+        long offset_;
+        // Pointer to the offset of next IFD from the start of the TIFF header
+        char* pNext_;
+        // The offset of the next IFD as data value (always in sync with *pNext_)
+        uint32 next_;
 
     }; // class Ifd
 
