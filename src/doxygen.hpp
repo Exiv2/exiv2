@@ -13,18 +13,18 @@
   @section overview Exiv2 Overview
  
   Exiv2 is a C++ library that provides
-  - full read and write access to the Exif and Iptc IIM metadata of an image 
+  - read and write access to the Exif and Iptc IIM metadata of an image 
     through %Exiv2 keys and standard C++ iterators 
   - Exif MakerNote support:
       - MakerNote tags can be accessed just like any other metadata
       - a sophisticated write algorithm avoids corrupting the MakerNote: 
-         <BR>&nbsp;&nbsp;1) the MakerNote is not re-located if possible at all, and 
+         <BR>&nbsp;&nbsp;1) the MakerNote is not re-located if possible, and 
          <BR>&nbsp;&nbsp;2) MakerNote IFD offsets are re-calculated if the MakerNote
                             needs to be moved (for known IFD MakerNotes)
       - new camera make/model specific MakerNotes can be added to the library
         with minimum effort in OO-fashion (by subclassing MakerNote or IfdMakerNote)
   - extract and delete methods for Exif thumbnails (both, JPEG and TIFF thumbnails)
-  - extensive Doxygen API documentation
+  - Doxygen API documentation
   - generic lower-level classes to access IFD (Image File Directory) data structures
 
   %Exiv2 is also a command line program to
@@ -33,9 +33,10 @@
   - print the Iptc metadata of JPEG images
   - adjust the Exif timestamp (that's how it all started...)
   - rename Exif image files according to the Exif timestamp
-  - extract Exif metadata from image files and insert it again
+  - extract a certain type of metadata or all metadata from image files
+  - insert metadata back into image files
   - extract the thumbnail image embedded in the Exif metadata
-  - delete the thumbnail or the complete Exif metadata from an image
+  - delete the thumbnail or specific metadata from an image
 
   @section getting-started Getting started
 
@@ -57,6 +58,23 @@
 
   A summary of <A HREF="../makernote.html">MakerNote structures</A> with links to 
   publicly available specifications.
+
+  @section devel Development
+
+  <P>%Exiv2 is maintained in a publicly available subversion repository. 
+  You can 
+  <A TITLE="Online source code repository" HREF="http://dev.robotbattle.com/~cvsuser/cgi-bin/ns_viewcvs.cgi/exiv2/trunk/">browse the code online</A>, 
+  see a list of 
+  <A TITLE="Last 50 commits" HREF="http://dev.robotbattle.com/cmtinfo_svn.php?r=10">recent code changes</A>, 
+  browse the 
+  <A title="Issue tracker" HREF="http://dev.robotbattle.com/bugs/main_page.php">bug tracking system</A> 
+  and report bugs.</P>
+  <P>To download the source code directly from the repository, you need a 
+  <A title="Subversion distributions" HREF="http://subversion.tigris.org/project_packages.html">subversion client</A>. 
+  If you use a command line client, change to the directory where you want to keep 
+  the source code and type <CODE>svn co svn://dev.robotbattle.com/exiv2/trunk .</CODE>
+  </P>
+  <P>If you'd like to contribute code, please <A HREF="mailto:ahuggel@gmx.net">contact me</A>.
 
   @section license License
 
