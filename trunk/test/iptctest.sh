@@ -5,10 +5,10 @@ printTest()
 {
     src=$1
     test=${src}.iptst
-    good=${src}.ipgd
+    good=$datapath/${src}.ipgd
 
     #run tests
-    ../src/iptcprint $src > $test
+    $binpath/iptcprint $datapath/$src > $test
 
     #check results
     diffCheck $test $good
@@ -20,13 +20,13 @@ removeTest()
     src=$1
     tmp="temp"
     test=${src}.irtst
-    good=${src}.irgd
+    good=$datapath/${src}.irgd
 
     #setup
-    cp $src $tmp
+    cp $datapath/$src $tmp
 
     #run tests
-    ../src/iptctest $tmp <<-eoc
+    $binpath/iptctest $tmp <<-eoc
 		r Iptc.Application2.Byline
 		r Iptc.Application2.Caption
 		r Iptc.Application2.Keywords
@@ -34,7 +34,7 @@ removeTest()
 		r Iptc.Application2.Keywords
 		r Iptc.Application2.CountryName
 eoc
-    ../src/iptcprint $tmp > $test
+    $binpath/iptcprint $tmp > $test
 
     #check results
     diffCheck $test $good
@@ -47,13 +47,13 @@ addModTest()
     src=$1
     tmp="temp"
     test=${src}.iatst
-    good=${src}.iagd
+    good=$datapath/${src}.iagd
 
     #setup
-    cp $src $tmp
+    cp $datapath/$src $tmp
 
     #run tests
-    ../src/iptctest $tmp <<-eoc
+    $binpath/iptctest $tmp <<-eoc
 		a Iptc.Application2.Headline          The headline I am
 		a Iptc.Application2.Keywords          Yet another keyword
 		m Iptc.Application2.DateCreated       2004-8-3
@@ -63,7 +63,7 @@ addModTest()
 		a Iptc.Envelope.TimeSent              14:41:0-05:00
 		a Iptc.Application2.RasterizedCaption 230 42 34 2 90 84 23 146
 eoc
-    ../src/iptcprint $tmp > $test
+    $binpath/iptcprint $tmp > $test
 
     #check results
     diffCheck $test $good
@@ -76,14 +76,14 @@ extendedTest()
     src=$1
     tmp="temp"
     test=${src}.ixtst
-    good=${src}.ixgd
+    good=$datapath/${src}.ixgd
 
     #setup
-    cp $src $tmp
+    cp $datapath/$src $tmp
 
     #run tests
-    ../src/iptctest $tmp < ext.dat
-    ../src/iptcprint $tmp > $test
+    $binpath/iptctest $tmp < $datapath/ext.dat
+    $binpath/iptcprint $tmp > $test
 
     #check results
     diffCheck $test $good
@@ -107,10 +107,16 @@ diffCheck()
     fi 
 }
 
+# **********************************************************************
+# main
+
+binpath="../../src"
+datapath="../data"
+
 test_files="smiley1.jpg smiley2.jpg glider.exv table.jpg"
 
 let errors=0
-cd ../test
+cd ./tmp
 echo
 
 echo -n "Read tests"

@@ -8,46 +8,51 @@
 #     file  : Input file
 # Abstract:
 # Run the requested test case number with the given file
+
 runTestCase()
 {
     rtc_number=$1
     rtc_infile=$2
 
-    rtc_outfile=test${rtc_number}.jpg
-    rtc_jpgthumb=thumb${rtc_number}.jpg
-    rtc_tifthumb=thumb${rtc_number}.tif
+    rtc_outfile=$datapath/test${rtc_number}.jpg
+    rtc_jpgthumb=$datapath/thumb${rtc_number}.jpg
+    rtc_tifthumb=$datapath/thumb${rtc_number}.tif
 
     rm -f $rtc_outfile $rtc_jpgthumb $rtc_tifthumb
-    rm -f iii ttt; 
+    rm -f $datapath/iii $datapath/ttt; 
 
     echo "------------------------------------------------------------"
-    ./exifprint $rtc_infile > iii;
+    $binpath/exifprint $rtc_infile > $datapath/iii;
     cp $rtc_infile $rtc_outfile; 
-    ./write-test $rtc_infile $rtc_number > ttt; 
-    diff iii ttt
+    $binpath/write-test $rtc_infile $rtc_number > $datapath/ttt; 
+    diff $datapath/iii $datapath/ttt
 }
 
 # **********************************************************************
 # main
 
-images="img_1771.jpg \
-        kodak-dc210.jpg \
-        dscf0176.jpg \
-        sigma-d10-IMG10086.jpg \
-        nikon-coolpix-990-DSCN1180.jpg \
-        nikon-d70-dsc_0063.jpg \
-        nikon-e950.jpg"
+binpath="../../src"
+datapath="."
 
-for i in $images; do cp -f ../test/images/$i ./; done
+images="exiv2-canon-powershot-s40.jpg \
+        exiv2-kodak-dc210.jpg \
+        exiv2-fujifilm-finepix-s2pro.jpg \
+        exiv2-sigma-d10.jpg \
+        exiv2-nikon-e990.jpg \
+        exiv2-nikon-d70.jpg \
+        exiv2-nikon-e950.jpg"
 
-runTestCase  1 ./img_1771.jpg
-runTestCase  2 ./img_1771.jpg
-runTestCase  3 ./kodak-dc210.jpg
-runTestCase  4 ./img_1771.jpg
-runTestCase  5 ./img_1771.jpg
-runTestCase  6 ./kodak-dc210.jpg
-runTestCase  7 ./dscf0176.jpg
-runTestCase  8 ./sigma-d10-IMG10086.jpg
-runTestCase  9 ./nikon-coolpix-990-DSCN1180.jpg
-runTestCase 10 ./nikon-e950.jpg
-runTestCase 11 ./nikon-d70-dsc_0063.jpg
+for i in $images; do cp -f ./data/$i ./tmp; done
+cd ./tmp
+
+runTestCase  1 $datapath/exiv2-canon-powershot-s40.jpg
+runTestCase  2 $datapath/exiv2-canon-powershot-s40.jpg
+runTestCase  3 $datapath/exiv2-kodak-dc210.jpg
+runTestCase  4 $datapath/exiv2-canon-powershot-s40.jpg
+runTestCase  5 $datapath/exiv2-canon-powershot-s40.jpg
+runTestCase  6 $datapath/exiv2-kodak-dc210.jpg
+runTestCase  7 $datapath/exiv2-fujifilm-finepix-s2pro.jpg
+runTestCase  8 $datapath/exiv2-sigma-d10.jpg
+runTestCase  9 $datapath/exiv2-nikon-e990.jpg
+runTestCase 10 $datapath/exiv2-nikon-e950.jpg
+runTestCase 11 $datapath/exiv2-nikon-d70.jpg

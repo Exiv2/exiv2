@@ -5,13 +5,13 @@ eraseTest()
 {
     src=$1
     test=${src}.etst
-    good=${src}.egd
+    good=$datapath/${src}.egd
 
     #setup
-    cp $src $test
+    cp $datapath/$src $test
 
     #run tests
-    ../src/metacopy $test $test
+    $binpath/metacopy $test $test
 
     #check results
     diffCheck $test $good
@@ -24,13 +24,13 @@ copyTest()
     src=$2
     dst=$3
     test=${dst}.c${num}tst
-    good=${dst}.c${num}gd
+    good=$datapath/${dst}.c${num}gd
 
     #setup
-    cp $dst $test
+    cp $datapath/$dst $test
 
     #run tests
-    ../src/metacopy -a $src $test
+    $binpath/metacopy -a $datapath/$src $test
 
     #check results
     diffCheck $test $good
@@ -43,13 +43,13 @@ iptcTest()
     src=$2
     dst=$3
     test=${dst}.i${num}tst
-    good=${dst}.i${num}gd
+    good=$datapath/${dst}.i${num}gd
 
     #setup
-    cp $dst $test
+    cp $datapath/$dst $test
 
     #run tests
-    ../src/metacopy -ip $src $test
+    $binpath/metacopy -ip $datapath/$src $test
 
     #check results
     diffCheck $test $good
@@ -72,10 +72,16 @@ diffCheck()
     fi 
 }
 
+# **********************************************************************
+# main
+
+binpath="../../src"
+datapath="../data"
+
 test_files="table.jpg smiley1.jpg smiley2.jpg"
 
 let errors=0
-cd ../test
+cd ./tmp
 echo
 
 echo -n "Erase all tests"
