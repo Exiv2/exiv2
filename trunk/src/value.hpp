@@ -21,7 +21,7 @@
 /*!
   @file    value.hpp
   @brief   Value interface and concrete subclasses
-  @version $Name:  $ $Revision: 1.2 $
+  @version $Name:  $ $Revision: 1.3 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -256,6 +256,25 @@ namespace Exif {
         std::string value_;
 
     }; // class AsciiValue
+
+    //! Template to determine the TypeId for a type T
+    template<typename T> TypeId getType();
+
+    //! Specialization for an unsigned short
+    template<> inline TypeId getType<uint16>() { return unsignedShort; }
+    //! Specialization for an unsigned long
+    template<> inline TypeId getType<uint32>() { return unsignedLong; }
+    //! Specialization for an unsigned rational
+    template<> inline TypeId getType<URational>() { return unsignedRational; }
+    //! Specialization for a signed short
+    template<> inline TypeId getType<int16>() { return signedShort; }
+    //! Specialization for a signed long
+    template<> inline TypeId getType<int32>() { return signedLong; }
+    //! Specialization for a signed rational
+    template<> inline TypeId getType<Rational>() { return signedRational; }
+
+    // No default implementation: let the compiler/linker complain
+//    template<typename T> inline TypeId getType() { return invalid; }
 
     /*!
       @brief Template for a %Value of a basic type. This is used for unsigned 
