@@ -20,14 +20,14 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.7 $
+  Version:   $Name:  $ $Revision: 1.8 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.7 $ $RCSfile: image.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.8 $ $RCSfile: image.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -161,6 +161,15 @@ namespace Exif {
         uint16 marker = getUShort(tmpbuf, bigEndian);
         uint16 size = getUShort(tmpbuf + 2, bigEndian);
         if (size < 8) return 3;
+        if (marker == app0_ && memcmp(tmpbuf + 4, jfifId_, 5) == 0) {
+            // Skip the remainder of the JFIF APP0 segment
+            is.seekg(size - 8, std::ios::cur);
+            // Read the beginning of the next segment
+            is.read(tmpbuf, 10);
+            if (!is.good()) return 1;
+            marker = getUShort(tmpbuf, bigEndian);
+            size = getUShort(tmpbuf + 2, bigEndian);
+        }
         if (!(marker == app1_ && memcmp(tmpbuf + 4, exifId_, 6) == 0)) return 3;
 
         // Read the rest of the APP1 field (Exif data)
