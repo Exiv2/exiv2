@@ -12,12 +12,12 @@
 
   RCS information
    $Name:  $
-   $Revision: 1.3 $
+   $Revision: 1.1 $
  */
 // *****************************************************************************
 // included header files
-#include "exif.h"
-#include "tags.h"
+#include "exif.hpp"
+#include "tags.hpp"
 
 // + standard includes
 #include <iostream>

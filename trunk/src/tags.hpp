@@ -8,7 +8,7 @@
 /*!
   @file    tags.h
   @brief   %Exif tag and type information
-  @version $Name:  $ $Revision: 1.2 $
+  @version $Name:  $ $Revision: 1.1 $
   @author  Andreas Huggel (ahu)
   @date    15-Jan-03, ahu: created
  */

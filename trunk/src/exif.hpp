@@ -8,7 +8,7 @@
 /*!
   @file    exif.h
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.3 $
+  @version $Name:  $ $Revision: 1.1 $
   @author  Andreas Huggel (ahu)
   @date    09-Jan-03, ahu: created
  */
@@ -17,7 +17,7 @@
 
 // *****************************************************************************
 // included header files
-#include "tags.h"
+#include "tags.hpp"
 
 // + standard includes
 #include <string>
