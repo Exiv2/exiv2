@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.6 $
+  @version $Name:  $ $Revision: 1.7 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-03, ahu: created
@@ -473,10 +473,14 @@ namespace Exif {
             const char* typeName() const 
                 { return ExifTags::typeName(TypeId(type_)); }
 
-            int ifdIdx_;                        //!< Position in the IFD
-            uint16 tag_;                        //!< Tag
-            uint16 type_;                       //!< Type
-            uint32 count_;                      //!< Number of components
+            //! Position in the IFD
+            int ifdIdx_;
+            //! Tag
+            uint16 tag_;
+            //! Type
+            uint16 type_;
+            //! Number of components
+            uint32 count_;
             //! Offset from the start of the IFD
             uint32 offset_;
             //! Pointer to the data buffer
