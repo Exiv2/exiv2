@@ -20,7 +20,7 @@
  */
 /*
   File:      fujimn.cpp
-  Version:   $Name:  $ $Revision: 1.9 $
+  Version:   $Name:  $ $Revision: 1.10 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
              07-Mar-04, ahu: isolated as a separate component
@@ -31,7 +31,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.9 $ $RCSfile: fujimn.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.10 $ $RCSfile: fujimn.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -78,7 +78,7 @@ namespace Exiv2 {
     };
 
     FujiMakerNote::FujiMakerNote(bool alloc)
-        : IfdMakerNote(fujiMnTagInfo, alloc), sectionName_("Fujifilm")
+        : IfdMakerNote(fujiMnTagInfo, alloc), ifdItem_("Fujifilm")
     {
         byteOrder_ = littleEndian;
         absOffset_ = false;

@@ -3,7 +3,7 @@
   Abstract : Sample program showing how to set the Exif comment of an image
 
   File:      exifcomment.cpp
-  Version  : $Name:  $ $Revision: 1.3 $
+  Version  : $Name:  $ $Revision: 1.4 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History  : 10-May-04, ahu: created
  */
@@ -33,7 +33,7 @@ try {
 
     /*
       There are two pitfalls that we need to consider when setting the Exif user
-      comment (Image.UserInfo.UserComment) of an image:
+      comment (Exif.Photo.UserComment) of an image:
 
       First, the type of the Exif user comment tag is "undefined" (and not
       ASCII) according to the Exif standard. This means that in Exiv2, we have
@@ -60,7 +60,7 @@ try {
                 8 + static_cast<long>(comment.size()));
 
     // Set the Exif comment
-    std::string key = "Image.UserInfo.UserComment";
+    Exiv2::ExifKey key("Exif.Photo.UserComment");
     Exiv2::ExifData::iterator pos = exifData.findKey(key);
     if (pos != exifData.end()) {
         // Use the existing Exif UserComment metadatum if there is one

@@ -3,7 +3,7 @@
   Abstract:  Sample program showing how to add, modify and delete Exif metadata.
 
   File:      addmoddel.cpp
-  Version:   $Name:  $ $Revision: 1.3 $
+  Version:   $Name:  $ $Revision: 1.4 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
  */
@@ -28,7 +28,7 @@ try {
     // Set the value to a string
     v->read("1999:12:31 23:59:59");
     // Add the value together with its key to the Exif data container
-    std::string key = "Image.DateTime.DateTimeOriginal";
+    Exiv2::ExifKey key("Exif.Photo.DateTimeOriginal");
     exifData.add(key, v);
 
     std::cout << "Added key \"" << key << "\", value \"" << *v << "\"\n";
@@ -43,7 +43,7 @@ try {
     rv->value_.push_back(std::make_pair(2,3));
     rv->value_.push_back(std::make_pair(3,4));
     // Add the key and value pair to the Exif data
-    key = "Image.ImageCharacteristics.PrimaryChromaticities";
+    key = Exiv2::ExifKey("Exif.Image.PrimaryChromaticities");
     exifData.add(key, rv);
 
     std::cout << "Added key \"" << key << "\", value \"" << *rv << "\"\n";
@@ -54,7 +54,7 @@ try {
     // Modify Exif data
 
     // Find the timestamp metadatum by its key
-    key = "Image.DateTime.DateTimeOriginal";
+    key = Exiv2::ExifKey("Exif.Photo.DateTimeOriginal");
     Exiv2::ExifData::iterator pos = exifData.findKey(key);
     if (pos == exifData.end()) throw Exiv2::Error("Key not found");
     // Modify the value
@@ -65,7 +65,7 @@ try {
               << "\", new value \"" << pos->value() << "\"\n";
 
     // Find the other key
-    key = "Image.ImageCharacteristics.PrimaryChromaticities";
+    key = Exiv2::ExifKey("Exif.Image.PrimaryChromaticities");
     pos = exifData.findKey(key);
     if (pos == exifData.end()) throw Exiv2::Error("Key not found");
     // Get a pointer to a copy of the value
@@ -86,7 +86,7 @@ try {
     // Delete metadata from the Exif data container
 
     // Delete the metadatum at iterator position pos
-    key = "Image.ImageCharacteristics.PrimaryChromaticities";
+    key = Exiv2::ExifKey("Exif.Image.PrimaryChromaticities");
     pos = exifData.findKey(key);
     if (pos == exifData.end()) throw Exiv2::Error("Key not found");
     exifData.erase(pos);

@@ -24,7 +24,7 @@
            in Appendix 4: Makernote of Fujifilm of the document 
            <a href="http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html">
            Exif file format</a> by TsuruZoh Tachibanaya
-  @version $Name:  $ $Revision: 1.6 $
+  @version $Name:  $ $Revision: 1.7 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    11-Feb-04, ahu: created
@@ -106,8 +106,8 @@ namespace Exiv2 {
         //@{
         int checkHeader() const;
         FujiMakerNote* clone(bool alloc =true) const;
-        //! Return the name of the makernote section ("Fujifilm")
-        std::string sectionName(uint16 tag) const { return sectionName_; }
+        //! Return the name of the makernote item ("Fujifilm")
+        std::string ifdItem() const { return ifdItem_; }
         std::ostream& printTag(std::ostream& os,
                                uint16 tag, 
                                const Value& value) const;
@@ -157,8 +157,8 @@ namespace Exiv2 {
          */
         static const RegisterMakerNote register_; 
 
-        //! The section name (second part of the key) used for makernote tags
-        std::string sectionName_;
+        //! The item name (second part of the key) used for makernote tags
+        std::string ifdItem_;
 
     }; // class FujiMakerNote
 

@@ -23,7 +23,7 @@
   @brief   Canon MakerNote implemented according to the specification
            <a href="http://www.burren.cx/david/canon.html">
            EXIF MakerNote of Canon</a> by David Burren
-  @version $Name:  $ $Revision: 1.9 $
+  @version $Name:  $ $Revision: 1.10 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created<BR>
@@ -98,8 +98,8 @@ namespace Exiv2 {
         //! @name Accessors
         //@{        
         CanonMakerNote* clone(bool alloc =true) const;
-        //! Return the name of the makernote section ("Canon")
-        std::string sectionName(uint16 tag) const { return sectionName_; }
+        //! Return the name of the makernote item ("Canon")
+        std::string ifdItem() const { return ifdItem_; }
         std::ostream& printTag(std::ostream& os,
                                uint16 tag, 
                                const Value& value) const;
@@ -193,8 +193,8 @@ namespace Exiv2 {
          */
         static const RegisterMakerNote register_; 
 
-        //! The section name (second part of the key) used for makernote tags
-        std::string sectionName_;
+        //! The item name (second part of the key) used for makernote tags
+        std::string ifdItem_;
 
     }; // class CanonMakerNote
 

@@ -20,13 +20,13 @@
  */
 /*
   File:      iptc.cpp
-  Version:   $Name:  $ $Revision: 1.2 $
+  Version:   $Name:  $ $Revision: 1.3 $
   Author(s): Brad Schick (brad) <schick@robotbattle.com>
   History:   31-July-04, brad: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: iptc.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: iptc.cpp,v $");
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -48,27 +48,63 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: iptc.cpp,v $");
 // class member definitions
 namespace Exiv2 {
 
-    Iptcdatum::Iptcdatum(const std::string& key, 
-                         const Value* value)
-        : pValue_(0), key_(key), modified_(false)
+    IptcKey::IptcKey(const std::string& key)
+        : key_(key)
     {
-        if (value) pValue_ = value->clone();
-        std::pair<uint16, uint16> p = decomposeKey(key);
+        decomposeKey();
+    }
+
+    IptcKey::IptcKey(uint16 tag, uint16 record)
+        : tag_(tag), record_(record), key_(IptcDataSets::makeKey(tag, record))
+    {
+    }
+
+    IptcKey::IptcKey(const IptcKey& rhs)
+        : tag_(rhs.tag_), record_(rhs.record_), key_(rhs.key_)
+    {
+    }
+
+    IptcKey& IptcKey::operator=(const IptcKey& rhs)
+    {
+        if (this == &rhs) return *this;
+        Key::operator=(rhs);
+        tag_ = rhs.tag_;
+        record_ = rhs.record_;
+        key_ = rhs.key_;
+        return *this;
+    }
+
+    IptcKey* IptcKey::clone() const
+    {
+        return new IptcKey(*this);
+    }
+
+    void IptcKey::decomposeKey()
+    {
+        std::pair<uint16, uint16> p = IptcDataSets::decomposeKey(key_);
         if (p.first == 0xffff) throw Error("Invalid key");
-        tag_ = p.first;
         if (p.second == IptcDataSets::invalidRecord) throw Error("Invalid key");
+        tag_ = p.first;
         record_ = p.second;
     }
 
-    Iptcdatum::Iptcdatum(const Iptcdatum& rhs)
-        : Metadatum(rhs), tag_(rhs.tag_), record_(rhs.record_), 
-         pValue_(0), key_(rhs.key_), modified_(false)
+    Iptcdatum::Iptcdatum(const IptcKey& key, 
+                         const Value* value)
+        : pKey_(key.clone()), pValue_(0), modified_(false)
     {
+        if (value) pValue_ = value->clone();
+    }
+
+    Iptcdatum::Iptcdatum(const Iptcdatum& rhs)
+        : Metadatum(rhs), pKey_(0), pValue_(0), modified_(false)
+    {
+        if (rhs.pKey_ != 0) pKey_ = rhs.pKey_->clone(); // deep copy
         if (rhs.pValue_ != 0) pValue_ = rhs.pValue_->clone(); // deep copy
     }
 
     Iptcdatum::~Iptcdatum()
     {
+        delete pKey_;
         delete pValue_;
     }
 
@@ -77,12 +113,15 @@ namespace Exiv2 {
         if (this == &rhs) return *this;
         Metadatum::operator=(rhs);
         modified_ = true;
-        tag_ = rhs.tag_;
-        record_ = rhs.record_;
+
+        delete pKey_;
+        pKey_ = 0;
+        if (rhs.pKey_ != 0) pKey_ = rhs.pKey_->clone(); // deep copy
+
         delete pValue_;
         pValue_ = 0;
         if (rhs.pValue_ != 0) pValue_ = rhs.pValue_->clone(); // deep copy
-        key_ = rhs.key_;
+
         return *this;
     } // Iptcdatum::operator=
     
@@ -98,16 +137,6 @@ namespace Exiv2 {
         modified_ = true;
         if (pValue_ == 0) pValue_ = Value::create(string);
         pValue_->read(buf);
-    }
-
-    std::string Iptcdatum::tagName() const
-    {
-        return IptcDataSets::dataSetName(tag_, record_); 
-    }
-
-    std::string Iptcdatum::recordName() const 
-    {
-        return IptcDataSets::recordName(record_); 
     }
 
     const byte IptcData::marker_ = 0x1C;          // Dataset marker
@@ -206,7 +235,7 @@ namespace Exiv2 {
             val = Value::create(undefined);
             val->read(data, sizeData, bigEndian);
         }
-        std::string key = makeKey(dataSet, record);
+        IptcKey key(dataSet, record);
         add(key, val);
         delete val;
         return 0;
@@ -346,7 +375,7 @@ namespace Exiv2 {
         return exvImage.writeMetadata();
     } // IptcData::writeIptcData
 
-    int IptcData::add(const std::string& key, Value* value)
+    int IptcData::add(const IptcKey& key, Value* value)
     {
         return add(Iptcdatum(key, value));
     }
@@ -364,16 +393,16 @@ namespace Exiv2 {
         return 0;
     }
 
-    IptcData::const_iterator IptcData::findKey(const std::string& key) const
+    IptcData::const_iterator IptcData::findKey(const IptcKey& key) const
     {
         return std::find_if(iptcMetadata_.begin(), iptcMetadata_.end(),
-                            FindMetadatumByKey(key));
+                            FindMetadatumByKey(key.key()));
     }
 
-    IptcData::iterator IptcData::findKey(const std::string& key)
+    IptcData::iterator IptcData::findKey(const IptcKey& key)
     {
         return std::find_if(iptcMetadata_.begin(), iptcMetadata_.end(),
-                            FindMetadatumByKey(key));
+                            FindMetadatumByKey(key.key()));
     }
 
     IptcData::const_iterator IptcData::findId(uint16 dataset, uint16 record) const
@@ -451,16 +480,6 @@ namespace Exiv2 {
     std::ostream& operator<<(std::ostream& os, const Iptcdatum& md)
     {
         return os << md.value();
-    }
-
-    std::string makeKey(uint16 number, uint16 record)
-    {
-        return IptcDataSets::makeKey(number, record);
-    }
-
-    std::pair<uint16, uint16> decomposeKey(const std::string& key)
-    {
-        return IptcDataSets::decomposeKey(key);
     }
 
 }                                       // namespace Exiv2

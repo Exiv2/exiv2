@@ -22,7 +22,7 @@
   @file    makernote.hpp
   @brief   Contains the Exif %MakerNote interface, IFD %MakerNote and a 
            MakerNote factory
-  @version $Name:  $ $Revision: 1.21 $
+  @version $Name:  $ $Revision: 1.22 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -222,8 +222,8 @@ namespace Exiv2 {
         virtual Entries::const_iterator findIdx(int idx) const =0;
         //! Return the size of the makernote in bytes
         virtual long size() const =0;
-        //! Return the name of the makernote section
-        virtual std::string sectionName(uint16 tag) const =0; 
+        //! Return the name of the makernote item
+        virtual std::string ifdItem() const =0; 
         //! Interpret and print the value of a makernote tag
         virtual std::ostream& printTag(std::ostream& os,
                                        uint16 tag, 
@@ -327,7 +327,7 @@ namespace Exiv2 {
          */
         virtual long headerSize() const;
         virtual IfdMakerNote* clone(bool alloc =true) const =0;
-        virtual std::string sectionName(uint16 tag) const =0; 
+        virtual std::string ifdItem() const =0; 
         virtual std::ostream& printTag(std::ostream& os,
                                        uint16 tag, 
                                        const Value& value) const =0;

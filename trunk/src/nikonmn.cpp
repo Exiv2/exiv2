@@ -20,14 +20,14 @@
  */
 /*
   File:      nikon1mn.cpp
-  Version:   $Name:  $ $Revision: 1.4 $
+  Version:   $Name:  $ $Revision: 1.5 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   17-May-04, ahu: created
              25-May-04, ahu: combined all Nikon formats in one component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: nikonmn.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: nikonmn.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -73,7 +73,7 @@ namespace Exiv2 {
     };
 
     Nikon1MakerNote::Nikon1MakerNote(bool alloc)
-        : IfdMakerNote(nikon1MnTagInfo, alloc), sectionName_("Nikon1")
+        : IfdMakerNote(nikon1MnTagInfo, alloc), ifdItem_("Nikon1")
     {
     }
 
@@ -198,7 +198,7 @@ namespace Exiv2 {
     };
 
     Nikon2MakerNote::Nikon2MakerNote(bool alloc)
-        : IfdMakerNote(nikon2MnTagInfo, alloc), sectionName_("Nikon2")
+        : IfdMakerNote(nikon2MnTagInfo, alloc), ifdItem_("Nikon2")
     {
     }
 
@@ -383,7 +383,7 @@ namespace Exiv2 {
     };
 
     Nikon3MakerNote::Nikon3MakerNote(bool alloc)
-        : IfdMakerNote(nikon3MnTagInfo, alloc), sectionName_("Nikon3")
+        : IfdMakerNote(nikon3MnTagInfo, alloc), ifdItem_("Nikon3")
     {
         absOffset_ = false;
     }

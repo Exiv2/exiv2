@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.53 $
+  Version:   $Name:  $ $Revision: 1.54 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.53 $ $RCSfile: exif.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.54 $ $RCSfile: exif.cpp,v $");
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -73,37 +73,127 @@ namespace {
 // class member definitions
 namespace Exiv2 {
 
-    Exifdatum::Exifdatum(const Entry& e, ByteOrder byteOrder)
+    ExifKey::ExifKey(const std::string& key)
+        : idx_(0), pMakerNote_(0), key_(key)
+    {
+        decomposeKey();
+    }
+
+    ExifKey::ExifKey(const Entry& e)
         : tag_(e.tag()), ifdId_(e.ifdId()), idx_(e.idx()), 
-          pMakerNote_(e.makerNote()), pValue_(0), key_(makeKey(e))
+          pMakerNote_(e.makerNote()), key_(makeKey(e))
+    {
+    }
+
+    ExifKey::ExifKey(const ExifKey& rhs)
+        : tag_(rhs.tag_), ifdId_(rhs.ifdId_), idx_(rhs.idx_), 
+          pMakerNote_(rhs.pMakerNote_), key_(rhs.key_)
+    {
+    }
+
+    ExifKey& ExifKey::operator=(const ExifKey& rhs)
+    {
+        if (this == &rhs) return *this;
+        Key::operator=(rhs);
+        tag_ = rhs.tag_;
+        ifdId_ = rhs.ifdId_;
+        idx_ = rhs.idx_;
+        pMakerNote_ = rhs.pMakerNote_;
+        key_ = rhs.key_;
+        return *this;
+    }
+
+    void ExifKey::setMakerNote(MakerNote* pMakerNote)
+    { 
+        if (ifdId_ == makerIfd && pMakerNote_ != pMakerNote) {
+            pMakerNote_ = pMakerNote;
+            decomposeKey();
+        }
+    }
+
+    std::string ExifKey::tagName() const
+    {
+        if (ifdId_ == makerIfd && pMakerNote_ != 0) {
+            return pMakerNote_->tagName(tag_);
+        }
+        return ExifTags::tagName(tag(), ifdId()); 
+    }
+
+    uint16 ExifKey::tag() const
+    {
+        if (tag_ == 0xffff) throw Error("Invalid key");
+        return tag_;
+    }
+
+    IfdId ExifKey::ifdId() const 
+    {
+        if (ifdId_ == ifdIdNotSet) throw Error("Invalid key");
+        return ifdId_;
+    }
+
+    ExifKey* ExifKey::clone() const
+    {
+        return new ExifKey(*this);
+    }
+
+    std::string ExifKey::sectionName() const 
+    {
+        if (ifdId_ == makerIfd && pMakerNote_ != 0) {
+            return pMakerNote_->ifdItem();
+        }
+        return ExifTags::sectionName(tag(), ifdId()); 
+    }
+
+    void ExifKey::decomposeKey()
+    {
+        std::pair<uint16, IfdId> p;
+        if (ifdId_ == makerIfd && pMakerNote_ != 0) {
+            p.first = pMakerNote_->decomposeKey(key_);
+            if (p.first == 0xffff) throw Error("Invalid key");
+            p.second = makerIfd;
+        }
+        else {
+            p = ExifTags::decomposeKey(key_);
+            // If it's couldn't be parsed, we assume it is an incomplete 
+            // makernote key (pMakerNote_ not set)
+            if (p.second == ifdIdNotSet) p.second = makerIfd;
+            // No checks as this could still be an incomplete makernote key
+        }
+        tag_ = p.first;
+        ifdId_ = p.second;
+    }
+
+    std::ostream& ExifKey::printTag(std::ostream& os, const Value& value) const
+    {
+        if (ifdId_ == makerIfd && pMakerNote_ != 0) {
+            return pMakerNote_->printTag(os, tag(), value);
+        }
+        return ExifTags::printTag(os, tag(), ifdId(), value);
+    }
+
+    Exifdatum::Exifdatum(const Entry& e, ByteOrder byteOrder)
+        : pKey_(new ExifKey(e)), pValue_(0)
     {
         pValue_ = Value::create(TypeId(e.type()));
         pValue_->read(e.data(), e.count() * e.typeSize(), byteOrder);
     }
 
-    Exifdatum::Exifdatum(const std::string& key, 
-                         const Value* value, 
-                         MakerNote* makerNote)
-        : idx_(0), pMakerNote_(makerNote), pValue_(0), key_(key)
+    Exifdatum::Exifdatum(const ExifKey& key, const Value* pValue) 
+        : pKey_(key.clone()), pValue_(0)
     {
-        if (value) pValue_ = value->clone();
-        std::pair<uint16, IfdId> p = decomposeKey(key, makerNote);
-        if (p.first == 0xffff) throw Error("Invalid key");
-        tag_ = p.first;
-        if (p.second == ifdIdNotSet) throw Error("Invalid key");
-        ifdId_ = p.second;
+        if (pValue) pValue_ = pValue->clone();
     }
 
     Exifdatum::~Exifdatum()
     {
+        delete pKey_;
         delete pValue_;
-        // do *not* delete the MakerNote
     }
 
     Exifdatum::Exifdatum(const Exifdatum& rhs)
-        : Metadatum(rhs), tag_(rhs.tag_), ifdId_(rhs.ifdId_), idx_(rhs.idx_),
-          pMakerNote_(rhs.pMakerNote_), pValue_(0), key_(rhs.key_)
+        : Metadatum(rhs), pKey_(0), pValue_(0)
     {
+        if (rhs.pKey_ != 0) pKey_ = rhs.pKey_->clone(); // deep copy
         if (rhs.pValue_ != 0) pValue_ = rhs.pValue_->clone(); // deep copy
     }
 
@@ -111,14 +201,15 @@ namespace Exiv2 {
     {
         if (this == &rhs) return *this;
         Metadatum::operator=(rhs);
-        tag_ = rhs.tag_;
-        ifdId_ = rhs.ifdId_;
-        idx_ = rhs.idx_;
-        pMakerNote_ = rhs.pMakerNote_;
+
+        delete pKey_;
+        pKey_ = 0;
+        if (rhs.pKey_ != 0) pKey_ = rhs.pKey_->clone(); // deep copy
+
         delete pValue_;
         pValue_ = 0;
         if (rhs.pValue_ != 0) pValue_ = rhs.pValue_->clone(); // deep copy
-        key_ = rhs.key_;
+
         return *this;
     } // Exifdatum::operator=
     
@@ -139,22 +230,6 @@ namespace Exiv2 {
     {
         if (pValue_ == 0) pValue_ = Value::create(asciiString);
         pValue_->read(buf);
-    }
-
-    std::string Exifdatum::tagName() const
-    {
-        if (ifdId_ == makerIfd && pMakerNote_ != 0) {
-            return pMakerNote_->tagName(tag_);
-        }
-        return ExifTags::tagName(tag_, ifdId_); 
-    }
-
-    std::string Exifdatum::sectionName() const 
-    {
-        if (ifdId_ == makerIfd && pMakerNote_ != 0) {
-            return pMakerNote_->sectionName(tag_);
-        }        
-        return ExifTags::sectionName(tag_, ifdId_); 
     }
 
     TiffThumbnail::TiffThumbnail()
@@ -229,17 +304,16 @@ namespace Exiv2 {
             buflen += ifd1.size() + ifd1.dataSize();
             if (len < buflen) rc = 1;
         }
-        std::string key;
         ExifData::const_iterator offsets;
         ExifData::const_iterator sizes;
         if (rc == 0) {
             // Copy thumbnail image data, remember the offsets used
-            key = "Thumbnail.RecordingOffset.StripOffsets";
+            ExifKey key("Exif.Thumbnail.StripOffsets");
             offsets = exifData.findKey(key);
             if (offsets == exifData.end()) rc = 2;
         }
         if (rc == 0) {
-            key = "Thumbnail.RecordingOffset.StripByteCounts";
+            ExifKey key("Exif.Thumbnail.StripByteCounts");
             sizes = exifData.findKey(key);
             if (sizes == exifData.end()) rc = 2;
         }
@@ -426,12 +500,12 @@ namespace Exiv2 {
                             const ExifData& exifData,
                             ByteOrder byteOrder) 
     {
-        std::string key = "Thumbnail.RecordingOffset.JPEGInterchangeFormat";
+        ExifKey key("Exif.Thumbnail.JPEGInterchangeFormat");
         ExifData::const_iterator pos = exifData.findKey(key);
         if (pos == exifData.end()) return 2;
         long offset = pos->toLong();
-        key = "Thumbnail.RecordingOffset.JPEGInterchangeFormatLength";
-        pos = exifData.findKey(key);
+        ExifKey key2("Exif.Thumbnail.JPEGInterchangeFormatLength");
+        pos = exifData.findKey(key2);
         if (pos == exifData.end()) return 2;
         long size = pos->toLong();
         if (len < offset + size) return 1;
@@ -466,7 +540,7 @@ namespace Exiv2 {
 
     void JpegThumbnail::update(ExifData& exifData) const
     {
-        std::string key = "Thumbnail.RecordingOffset.JPEGInterchangeFormat";
+        ExifKey key("Exif.Thumbnail.JPEGInterchangeFormat");
         ExifData::iterator pos = exifData.findKey(key);
         if (pos == exifData.end()) {
             Value* value = Value::create(unsignedLong);
@@ -476,13 +550,13 @@ namespace Exiv2 {
         }
         pos->setValue(toString(offset_));
 
-        key = "Thumbnail.RecordingOffset.JPEGInterchangeFormatLength";
-        pos = exifData.findKey(key);
+        ExifKey key2("Exif.Thumbnail.JPEGInterchangeFormatLength");
+        pos = exifData.findKey(key2);
         if (pos == exifData.end()) {
             Value *value = Value::create(unsignedLong);
-            exifData.add(key, value);
+            exifData.add(key2, value);
             delete value;            
-            pos = exifData.findKey(key);
+            pos = exifData.findKey(key2);
         }
         pos->setValue(toString(size_));
 
@@ -600,7 +674,7 @@ namespace Exiv2 {
             if (rc) {
                 // Todo: How to handle debug output like this
                 std::cerr << "Warning: Failed to read " 
-                          << pMakerNote_->sectionName(0)
+                          << pMakerNote_->ifdItem()
                           << " Makernote, rc = " << rc << "\n";
 
                 delete pMakerNote_;
@@ -896,9 +970,12 @@ namespace Exiv2 {
         }
     }
 
-    void ExifData::add(const std::string& key, Value* value)
+    void ExifData::add(const ExifKey& key, Value* pValue)
     {
-        add(Exifdatum(key, value));
+        // Todo: Implement a more suitable ExifKey c'tor
+        ExifKey k(key);
+        k.setMakerNote(pMakerNote_);
+        add(Exifdatum(k, pValue));
     }
 
     void ExifData::add(const Exifdatum& exifdatum)
@@ -907,16 +984,16 @@ namespace Exiv2 {
         exifMetadata_.push_back(exifdatum);
     }
 
-    ExifData::const_iterator ExifData::findKey(const std::string& key) const
+    ExifData::const_iterator ExifData::findKey(const ExifKey& key) const
     {
         return std::find_if(exifMetadata_.begin(), exifMetadata_.end(),
-                            FindMetadatumByKey(key));
+                            FindMetadatumByKey(key.key()));
     }
 
-    ExifData::iterator ExifData::findKey(const std::string& key)
+    ExifData::iterator ExifData::findKey(const ExifKey& key)
     {
         return std::find_if(exifMetadata_.begin(), exifMetadata_.end(),
-                            FindMetadatumByKey(key));
+                            FindMetadatumByKey(key.key()));
     }
 
     ExifData::const_iterator ExifData::findIfdIdIdx(IfdId ifdId, int idx) const
@@ -1019,7 +1096,8 @@ namespace Exiv2 {
         delete pThumbnail_;
         pThumbnail_ = 0;
         int rc = -1;
-        const_iterator pos = findKey("Thumbnail.ImageStructure.Compression");
+        const_iterator pos 
+            = findKey(ExifKey("Exif.Thumbnail.Compression"));
         if (pos != end()) {
             long compression = pos->toLong();
             if (compression == 6) {
@@ -1200,7 +1278,7 @@ namespace Exiv2 {
             error += "Exif data contains a broken IFD";
             break;
         case 7:
-            error += "Unsupported Exif or GPS data found in IFD 1";
+            error += "Unsupported Exif or GPS data found in IFD1";
             break;
 
         default:
@@ -1272,13 +1350,9 @@ namespace Exiv2 {
         makerNote->add(e);
     } // addToMakerNote
 
-
     std::ostream& operator<<(std::ostream& os, const Exifdatum& md)
     {
-        if (md.ifdId() == makerIfd && md.makerNote() != 0) {
-            return md.makerNote()->printTag(os, md.tag(), md.value());
-        }
-        return ExifTags::printTag(os, md.tag(), md.ifdId(), md.value());
+        return md.pKey_->printTag(os, md.value());
     }
 
     std::string makeKey(const Entry& entry)

@@ -20,13 +20,13 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.32 $
+  Version:   $Name:  $ $Revision: 1.33 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.32 $ $RCSfile: tags.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.33 $ $RCSfile: tags.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -50,15 +50,16 @@ namespace Exiv2 {
     {
     }
 
+    // Important: IFD item must be unique!
     const IfdInfo ExifTags::ifdInfo_[] = {
-        IfdInfo(ifdIdNotSet, "(Unknown IFD)", "(Unknown data area)"),
+        IfdInfo(ifdIdNotSet, "(Unknown IFD)", "(Unknown item)"),
         IfdInfo(ifd0, "IFD0", "Image"),
-        IfdInfo(exifIfd, "Exif", "Image"),
-        IfdInfo(gpsIfd, "GPSInfo", "Image"),
+        IfdInfo(exifIfd, "Exif", "Photo"),  // just to avoid 'Exif.Exif.*' keys
+        IfdInfo(gpsIfd, "GPSInfo", "GPSInfo"),
         IfdInfo(makerIfd, "Makernote", "Makernote"),
-        IfdInfo(iopIfd, "Iop", "Image"),
+        IfdInfo(iopIfd, "Iop", "Iop"),
         IfdInfo(ifd1, "IFD1", "Thumbnail"),
-        IfdInfo(lastIfdId, "(Last IFD info)", "(Last IFD info)")
+        IfdInfo(lastIfdId, "(Last IFD info)", "(Last IFD item)")
     };
 
     SectionInfo::SectionInfo(
@@ -265,6 +266,8 @@ namespace Exiv2 {
         0
     };
 
+    const char* ExifTags::familyName_ = "Exif";
+
     int ExifTags::tagInfoIdx(uint16 tag, IfdId ifdId)
     {
         const TagInfo* tagInfo = tagInfos_[ifdId];
@@ -272,17 +275,6 @@ namespace Exiv2 {
         int idx;
         for (idx = 0; tagInfo[idx].tag_ != 0xffff; ++idx) {
             if (tagInfo[idx].tag_ == tag) break;
-        }
-        return idx;
-    }
-
-    int ExifTags::tagInfoIdx(const std::string& tagName, IfdId ifdId)
-    {
-        const TagInfo* tagInfo = tagInfos_[ifdId];
-        if (tagInfo == 0) return -1;
-        int idx;
-        for (idx = 0; tagInfo[idx].tag_ != 0xffff; ++idx) {
-            if (tagInfo[idx].name_ == tagName) break;
         }
         return idx;
     }
@@ -317,6 +309,17 @@ namespace Exiv2 {
         return sectionInfo_[tagInfo[idx].sectionId_].desc_;
     }
 
+    uint16 ExifTags::tag(const std::string& tagName, IfdId ifdId)
+    {
+        const TagInfo* tagInfo = tagInfos_[ifdId];
+        if (tagInfo == 0) return 0xffff;
+        int idx;
+        for (idx = 0; tagInfo[idx].tag_ != 0xffff; ++idx) {
+            if (tagInfo[idx].name_ == tagName) break;
+        }
+        return tagInfo[idx].tag_;
+    }
+
     const char* ExifTags::ifdName(IfdId ifdId)
     {
         return ifdInfo_[ifdId].name_;
@@ -343,8 +346,8 @@ namespace Exiv2 {
 
     std::string ExifTags::makeKey(uint16 tag, IfdId ifdId)
     {
-        return std::string(ifdItem(ifdId)) 
-            + "." + std::string(sectionName(tag, ifdId)) 
+        return std::string(familyName()) 
+            + "." + std::string(ifdItem(ifdId)) 
             + "." + std::string(tagName(tag, ifdId));
     }
 
@@ -352,41 +355,31 @@ namespace Exiv2 {
     // we find, it doesn't verify whether this is the only match.
     std::pair<uint16, IfdId> ExifTags::decomposeKey(const std::string& key)
     {
-        // Get the IFD, section name and tag name parts of the key
+        // Get the family name, IFD name and tag name parts of the key
         std::string::size_type pos1 = key.find('.');
         if (pos1 == std::string::npos) throw Error("Invalid key");
-        std::string ifdItem = key.substr(0, pos1);
+        std::string familyName = key.substr(0, pos1);
+        if (familyName != std::string(ExifTags::familyName())) {
+            throw Error("Invalid key");
+        }
         std::string::size_type pos0 = pos1 + 1;
         pos1 = key.find('.', pos0);
         if (pos1 == std::string::npos) throw Error("Invalid key");
-        std::string sectionName = key.substr(pos0, pos1 - pos0);
+        std::string ifdItem = key.substr(pos0, pos1 - pos0);
         pos0 = pos1 + 1;
         std::string tagName = key.substr(pos0);
         if (tagName == "") throw Error("Invalid key");
 
-        // Check if this is a MakerNote key, stop processing if it is
-        if (ifdItem == ifdInfo_[makerIfd].item_) {
-            return std::make_pair(0xffff, makerIfd);
+        // Find IfdId
+        int i;
+        for (i = int(lastIfdId) - 1; i > 0; --i) {
+            if (ifdInfo_[i].item_ == ifdItem) break;
         }
+        IfdId ifdId = IfdId(i);
 
-        // Use the parts of the key to find tag and IFD id
-        IfdId ifdId = ifdIdNotSet;
-        uint16 tag = 0xffff;
+        if (ifdId == ifdIdNotSet) return std::make_pair(0xffff, ifdId);
 
-        SectionId s = sectionId(sectionName);
-        if (s == sectionIdNotSet) return std::make_pair(tag, ifdId);
-
-        for (int i = 0; i < lastIfdId; ++i) {
-            if (ifdInfo_[i].item_ == ifdItem) {
-                ifdId = ifdInfo_[i].ifdId_;
-                int k = tagInfoIdx(tagName, ifdId);
-                if (k != -1 && tagInfos_[ifdId][k].sectionId_ == s) {
-                    tag = tagInfos_[ifdId][k].tag_;
-                    break;
-                }
-            }
-        }
-        return std::make_pair(tag, ifdId);
+        return std::make_pair(tag(tagName, ifdId), ifdId);
     } // ExifTags::decomposeKey
 
     std::ostream& ExifTags::printTag(std::ostream& os,

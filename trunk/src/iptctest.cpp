@@ -4,7 +4,7 @@
              This is not designed to be a robust application.
 
   File     : iptctest.cpp
-  Version  : $Name:  $ $Revision: 1.1 $
+  Version  : $Name:  $ $Revision: 1.2 $
   Author(s): Brad Schick (brad) <schick@robotbattle.com>
   History  : 01-Aug-04, brad: created
  */
@@ -118,7 +118,7 @@ void processAdd(const std::string& line, int num)
     Value *val = Value::create(type);
     val->read(data);
 
-    int rc = g_iptcData.add(key, val);
+    int rc = g_iptcData.add(IptcKey(key), val);
     if (rc) {
         std::string error = IptcData::strError(rc, "Input file");
         throw Error(error);
@@ -180,7 +180,7 @@ void processModify(const std::string& line, int num)
         iter->setValue(val);
     }
     else {
-        int rc = g_iptcData.add(key, val);
+        int rc = g_iptcData.add(IptcKey(key), val);
         if (rc) {
             std::string error = IptcData::strError(rc, "Input file");
             throw Error(error);

@@ -3,13 +3,13 @@
   Abstract:  Print a simple comma separated list of tags defined in Exiv2
 
   File:      taglist.cpp
-  Version:   $Name:  $ $Revision: 1.8 $
+  Version:   $Name:  $ $Revision: 1.9 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   07-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.8 $ $RCSfile: taglist.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.9 $ $RCSfile: taglist.cpp,v $");
 
 #include "makernote.hpp"
 #include "nikonmn.hpp"
@@ -33,28 +33,28 @@ try {
     case 2:
     {
         MakerNote* pMakerNote = 0;
-        std::string section(argv[1]);
-        if (section == "Iptc") {
+        std::string item(argv[1]);
+        if (item == "Iptc") {
             IptcDataSets::dataSetList(std::cout);
             break;
         }
 
-        if (section == "Canon") {
+        if (item == "Canon") {
             pMakerNote = new CanonMakerNote;
         }
-        else if (section == "Fuji") {
+        else if (item == "Fujifilm") {
             pMakerNote = new FujiMakerNote;
         }
-        else if (section == "Sigma") {
+        else if (item == "Sigma") {
             pMakerNote = new SigmaMakerNote;
         }
-        else if (section == "Nikon1") {
+        else if (item == "Nikon1") {
             pMakerNote = new Nikon1MakerNote;
         }
-        else if (section == "Nikon2") {
+        else if (item == "Nikon2") {
             pMakerNote = new Nikon2MakerNote;
         }
-        else if (section == "Nikon3") {
+        else if (item == "Nikon3") {
             pMakerNote = new Nikon3MakerNote;
         }
 
@@ -76,7 +76,8 @@ try {
         break;
     }
     if (rc) {
-        std::cout << "Usage: " << argv[0] << " [SectionName|Iptc]\n"
+        std::cout << "Usage: " << argv[0] 
+                  << " [Canon|Fujifilm|Nikon1|Nikon2|Nikon3|Sigma|Iptc]\n"
                   << "Print Exif tags, MakerNote tags, or Iptc datasets\n";
     }
     return rc;
