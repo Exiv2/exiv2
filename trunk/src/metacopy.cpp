@@ -62,7 +62,6 @@ try {
             ": Could not read metadata from (" << params.read_ << ")\n";
         return 5;
     }
-    readImg->detach();
 
     Exiv2::Image::AutoPtr writeImg 
         = Exiv2::ImageFactory::instance().open(params.write_);

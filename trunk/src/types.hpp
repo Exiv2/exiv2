@@ -153,6 +153,30 @@ namespace Exiv2 {
         byte* pData_;
     }; // class DataBuf
 
+    /*!
+      @brief Utility class that closes a file stream pointer upon destruction. 
+           Its primary use is to be a stack variable in functions that need
+           to ensure files get closed. Useful when functions return errors
+           from many locations.
+     */
+    class FileCloser {
+        // Not implemented
+        //! Copy constructor
+        FileCloser(const FileCloser&);
+        //! Assignment operator
+        FileCloser& operator=(const FileCloser&);
+    public:
+        //! Default constructor
+        FileCloser() : fp_(0) {}
+        //! Constructor with an initial buffer size 
+        FileCloser(FILE *fp) : fp_(fp) {}
+        //! Destructor, deletes the allocated buffer
+        ~FileCloser() { close(); }
+        void close() { if (fp_) fclose(fp_); fp_ = 0; }
+        //! The file stream pointer
+        FILE *fp_; 
+    }; // class FileCloser
+
 // *****************************************************************************
 // free functions
 

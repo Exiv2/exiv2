@@ -72,7 +72,7 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that 
              it will be deleted.
      */
-    Image::AutoPtr newExvInstance(const std::string& path, FILE* fp);
+    Image::AutoPtr newExvInstance(const std::string& path, bool create);
     //! Check if the file ifp is an EXV file.
     bool isExvType(FILE* ifp, bool advance);
     /*!
@@ -80,7 +80,7 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that 
              it will be deleted.
      */
-    Image::AutoPtr newJpegInstance(const std::string& path, FILE* fp);
+    Image::AutoPtr newJpegInstance(const std::string& path, bool create);
     //! Check if the file ifp is a JPEG image.
     bool isJpegType(FILE* ifp, bool advance);
 
@@ -110,35 +110,34 @@ namespace Exiv2 {
 
     Image::Type ImageFactory::getType(const std::string& path) const
     {
-        FILE* ifp = fopen(path.c_str(), "rb");
-        if (!ifp) return Image::none;
+        FileCloser closer(fopen(path.c_str(), "rb"));
+        if (!closer.fp_) return Image::none;
 
         Image::Type type = Image::none;
         Registry::const_iterator b = registry_.begin();
         Registry::const_iterator e = registry_.end();
         for (Registry::const_iterator i = b; i != e; ++i)
         {
-            if (i->second.isThisType(ifp, false)) {
+            if (i->second.isThisType(closer.fp_, false)) {
                 type = i->first;
                 break;
             }
         }
-        fclose(ifp);
         return type;
     } // ImageFactory::getType
 
     Image::AutoPtr ImageFactory::open(const std::string& path) const
     {
         Image::AutoPtr image;
-        FILE* ifp = fopen(path.c_str(), "rb");
-        if (!ifp) return image;
+        FileCloser closer(fopen(path.c_str(), "rb"));
+        if (!closer.fp_) return image;
 
         Registry::const_iterator b = registry_.begin();
         Registry::const_iterator e = registry_.end();
         for (Registry::const_iterator i = b; i != e; ++i)
         {
-            if (i->second.isThisType(ifp, false)) {
-                image = Image::AutoPtr(i->second.newInstance(path, ifp));
+            if (i->second.isThisType(closer.fp_, false)) {
+                image = Image::AutoPtr(i->second.newInstance(path, false));
                 break;
             }
         }
@@ -150,10 +149,9 @@ namespace Exiv2 {
     {
         Registry::const_iterator i = registry_.find(type);
         if (i != registry_.end()) {
-            return i->second.newInstance(path, 0);
+            return i->second.newInstance(path, true);
         }
-        Image::AutoPtr p;
-        return p;
+        return Image::AutoPtr();
     } // ImageFactory::create
 
 
@@ -171,33 +169,22 @@ namespace Exiv2 {
 
     JpegBase::JpegBase(const std::string& path, bool create, 
                        const byte initData[], size_t dataSize) 
-        : fp_(0), path_(path), 
-          sizeExifData_(0), pExifData_(0), sizeIptcData_(0), pIptcData_(0)
+        : path_(path), sizeExifData_(0), pExifData_(0),
+          sizeIptcData_(0), pIptcData_(0)
     {
         if (create) {
-            fp_ = fopen(path.c_str(), "w+b");
-            if (fp_) initFile(initData, dataSize);
+            FILE* fp = fopen(path.c_str(), "w+b");
+            if (fp) {
+                initFile(fp, initData, dataSize);
+                fclose(fp);
+            }
         }
-        else {
-            fp_ = fopen(path.c_str(), "rb");
-        }
-    }
-    
-    JpegBase::JpegBase(const std::string& path, FILE* fp)
-        : fp_(fp), path_(path), sizeExifData_(0), 
-         pExifData_(0), sizeIptcData_(0), pIptcData_(0)
-    {
-        assert(fp_);
     }
 
-    int JpegBase::initFile(const byte initData[], size_t dataSize)
+    int JpegBase::initFile(FILE* fp, const byte initData[], size_t dataSize)
     {
-        if (!fp_ || ferror(fp_)) return 4;
-        if (fwrite(initData, 1, dataSize, fp_) != dataSize) {
-            return 4;
-        }
-        fseek(fp_, 0, SEEK_SET);
-        if (ferror(fp_)) {
+        if (!fp || ferror(fp)) return 4;
+        if (fwrite(initData, 1, dataSize, fp) != dataSize) {
             return 4;
         }
         return 0;
@@ -205,23 +192,15 @@ namespace Exiv2 {
 
     JpegBase::~JpegBase()
     {
-        if (fp_) fclose(fp_);
         delete[] pExifData_;
         delete[] pIptcData_;
     }
 
-    int JpegBase::detach()
-    {
-        if (fp_) fclose(fp_); 
-        fp_ = 0; 
-        return 0; 
-    }
-
     bool JpegBase::good() const
     {
-        if (fp_ == 0) return false;
-        rewind(fp_);
-        return isThisType(fp_, false);
+        FileCloser closer(fopen(path_.c_str(), "rb"));
+        if (closer.fp_ == 0 ) return false;
+        return isThisType(closer.fp_, false);
     }
 
     void JpegBase::clearMetadata()
@@ -282,16 +261,16 @@ namespace Exiv2 {
         setComment(image.comment());
     }
 
-    int JpegBase::advanceToMarker() const
+    int JpegBase::advanceToMarker(FILE *fp) const
     {
         int c = -1;
         // Skips potential padding between markers
-        while ((c=fgetc(fp_)) != 0xff) {
+        while ((c=fgetc(fp)) != 0xff) {
             if (c == EOF) return -1;
         }
             
         // Markers can start with any number of 0xff
-        while ((c=fgetc(fp_)) == 0xff) {
+        while ((c=fgetc(fp)) == 0xff) {
             if (c == EOF) return -1;
         }
         return c;
@@ -299,12 +278,12 @@ namespace Exiv2 {
 
     int JpegBase::readMetadata()
     {
-        if (!fp_) return 1;
-        rewind(fp_);
+        FileCloser closer(fopen(path_.c_str(), "rb"));
+        if (!closer.fp_) return 1;
 
         // Ensure that this is the correct image type
-        if (!isThisType(fp_, true)) {
-            if (ferror(fp_) || feof(fp_)) return 1;
+        if (!isThisType(closer.fp_, true)) {
+            if (ferror(closer.fp_) || feof(closer.fp_)) return 1;
             return 2;
         }
         clearMetadata();
@@ -314,23 +293,23 @@ namespace Exiv2 {
         DataBuf buf(bufMinSize);
 
         // Read section marker
-        int marker = advanceToMarker();
+        int marker = advanceToMarker(closer.fp_);
         if (marker < 0) return 2;
         
         while (marker != sos_ && marker != eoi_ && search > 0) {
             // Read size and signature (ok if this hits EOF)
-            bufRead = (long)fread(buf.pData_, 1, bufMinSize, fp_);
-            if (ferror(fp_)) return 1;
+            bufRead = (long)fread(buf.pData_, 1, bufMinSize, closer.fp_);
+            if (ferror(closer.fp_)) return 1;
             uint16_t size = getUShort(buf.pData_, bigEndian);
 
             if (marker == app1_ && memcmp(buf.pData_ + 2, exifId_, 6) == 0) {
                 if (size < 8) return 2;
                 // Seek to begining and read the Exif data
-                fseek(fp_, 8-bufRead, SEEK_CUR); 
+                fseek(closer.fp_, 8-bufRead, SEEK_CUR); 
                 long sizeExifData = size - 8;
                 pExifData_ = new byte[sizeExifData];
-                fread(pExifData_, 1, sizeExifData, fp_);
-                if (ferror(fp_) || feof(fp_)) {
+                fread(pExifData_, 1, sizeExifData, closer.fp_);
+                if (ferror(closer.fp_) || feof(closer.fp_)) {
                     delete[] pExifData_;
                     pExifData_ = 0;
                     return 1;
@@ -342,10 +321,10 @@ namespace Exiv2 {
             else if (marker == app13_ && memcmp(buf.pData_ + 2, ps3Id_, 14) == 0) {
                 if (size < 16) return 2;
                 // Read the rest of the APP13 segment
-                // needed if bufMinSize!=16: fseek(fp_, 16-bufRead, SEEK_CUR);
+                // needed if bufMinSize!=16: fseek(closer.fp_, 16-bufRead, SEEK_CUR);
                 DataBuf psData(size - 16);
-                fread(psData.pData_, 1, psData.size_, fp_);
-                if (ferror(fp_) || feof(fp_)) return 1;
+                fread(psData.pData_, 1, psData.size_, closer.fp_);
+                if (ferror(closer.fp_) || feof(closer.fp_)) return 1;
                 const byte *record = 0;
                 uint16_t sizeIptc = 0;
                 uint16_t sizeHdr = 0;
@@ -365,10 +344,10 @@ namespace Exiv2 {
                 // Jpegs can have multiple comments, but for now only read
                 // the first one (most jpegs only have one anyway). Comments
                 // are simple single byte ISO-8859-1 strings.
-                fseek(fp_, 2-bufRead, SEEK_CUR);
+                fseek(closer.fp_, 2-bufRead, SEEK_CUR);
                 buf.alloc(size-2);
-                fread(buf.pData_, 1, size-2, fp_);
-                if (ferror(fp_) || feof(fp_)) return 1;
+                fread(buf.pData_, 1, size-2, closer.fp_);
+                if (ferror(closer.fp_) || feof(closer.fp_)) return 1;
                 comment_.assign(reinterpret_cast<char*>(buf.pData_), size-2);
                 while (   comment_.length()
                        && comment_.at(comment_.length()-1) == '\0') {
@@ -379,10 +358,10 @@ namespace Exiv2 {
             else {
                 if (size < 2) return 2;
                 // Skip the remainder of the unknown segment
-                if (fseek(fp_, size-bufRead, SEEK_CUR)) return 2;
+                if (fseek(closer.fp_, size-bufRead, SEEK_CUR)) return 2;
             }
             // Read the beginning of the next segment
-            marker = advanceToMarker();
+            marker = advanceToMarker(closer.fp_);
             if (marker < 0) return 2;
         }
         return 0;
@@ -434,18 +413,18 @@ namespace Exiv2 {
 
     int JpegBase::writeMetadata()
     {
-        if (!fp_) return 1;
-        rewind(fp_);
+        FileCloser reader(fopen(path_.c_str(), "rb"));
+        if (!reader.fp_) return 1;
 
         // Write the output to a temporary file
         pid_t pid = getpid();
         std::string tmpname = path_ + toString(pid);
-        FILE* ofl = fopen(tmpname.c_str(), "wb");
-        if (!ofl) return -3;
+        FileCloser writer(fopen(tmpname.c_str(), "wb"));
+        if (!writer.fp_) return -3;
 
-        int rc = doWriteMetadata(ofl);
-        fclose(ofl);
-        fclose(fp_);
+        int rc = doWriteMetadata(reader.fp_, writer.fp_);
+        writer.close();
+        reader.close();
         if (rc == 0) {
             // Workaround for MSVCRT rename that does not overwrite existing files
             if (remove(path_.c_str()) != 0) rc = -4;
@@ -458,26 +437,24 @@ namespace Exiv2 {
             // remove temporary file
             remove(tmpname.c_str());
         }
-        // Reopen the file
-        fp_ = fopen(path_.c_str(), "rb");
-        if (!fp_) return -1;
-
         return rc;
     } // JpegBase::writeMetadata
 
-    int JpegBase::doWriteMetadata(FILE* ofp) const
+    int JpegBase::doWriteMetadata(FILE *ifp, FILE* ofp) const
     {
-        if (!fp_) return 1;
+        if (!ifp) return 1;
+        if (!ofp) return 4;
+
         // Ensure that this is the correct image type
-        if (!isThisType(fp_, true)) {
-            if (ferror(fp_) || feof(fp_)) return 1;
+        if (!isThisType(ifp, true)) {
+            if (ferror(ifp) || feof(ifp)) return 1;
             return 2;
         }
         
         const long bufMinSize = 16;
         long bufRead = 0;
         DataBuf buf(bufMinSize);
-        const long seek = ftell(fp_);
+        const long seek = ftell(ifp);
         int count = 0;
         int search = 0;
         int insertPos = 0;
@@ -490,7 +467,7 @@ namespace Exiv2 {
         if (writeHeader(ofp)) return 4;
 
         // Read section marker
-        int marker = advanceToMarker();
+        int marker = advanceToMarker(ifp);
         if (marker < 0) return 2;
         
         // First find segments of interest. Normally app0 is first and we want
@@ -498,45 +475,44 @@ namespace Exiv2 {
         // don't bother.
         while (marker != sos_ && marker != eoi_ && search < 3) {
             // Read size and signature (ok if this hits EOF)
-            bufRead = (long)fread(buf.pData_, 1, bufMinSize, fp_);
-            if (ferror(fp_)) return 1;
+            bufRead = (long)fread(buf.pData_, 1, bufMinSize, ifp);
+            if (ferror(ifp)) return 1;
             uint16_t size = getUShort(buf.pData_, bigEndian);
 
             if (marker == app0_) {
                 if (size < 2) return 2;
                 insertPos = count + 1;
-                if (fseek(fp_, size-bufRead, SEEK_CUR)) return 2;
+                if (fseek(ifp, size-bufRead, SEEK_CUR)) return 2;
             }
             else if (marker == app1_ && memcmp(buf.pData_ + 2, exifId_, 6) == 0) {
                 if (size < 8) return 2;
                 skipApp1Exif = count;
                 ++search;
-                if (fseek(fp_, size-bufRead, SEEK_CUR)) return 2;
+                if (fseek(ifp, size-bufRead, SEEK_CUR)) return 2;
             }
             else if (marker == app13_ && memcmp(buf.pData_ + 2, ps3Id_, 14) == 0) {
                 if (size < 16) return 2;
                 skipApp13Ps3 = count;
                 ++search;
-                // needed if bufMinSize!=16: fseek(fp_, 16-bufRead, SEEK_CUR);
+                // needed if bufMinSize!=16: fseek(ifp, 16-bufRead, SEEK_CUR);
                 psData.alloc(size - 16);
                 // Load PS data now to allow reinsertion at any point
-                fread(psData.pData_, 1, psData.size_, fp_);
-                if (ferror(fp_) || feof(fp_)) return 1;
+                fread(psData.pData_, 1, psData.size_, ifp);
+                if (ferror(ifp) || feof(ifp)) return 1;
             }
-            else if (marker == com_ && skipCom == -1)
-            {
+            else if (marker == com_ && skipCom == -1) {
                 if (size < 2) return 2;
                 // Jpegs can have multiple comments, but for now only handle
                 // the first one (most jpegs only have one anyway).
                 skipCom = count;
                 ++search;
-                if (fseek(fp_, size-bufRead, SEEK_CUR)) return 2;
+                if (fseek(ifp, size-bufRead, SEEK_CUR)) return 2;
             }
             else {
                 if (size < 2) return 2;
-                if (fseek(fp_, size-bufRead, SEEK_CUR)) return 2;
+                if (fseek(ifp, size-bufRead, SEEK_CUR)) return 2;
             }
-            marker = advanceToMarker();
+            marker = advanceToMarker(ifp);
             if (marker < 0) return 2;
             ++count;
         }
@@ -545,9 +521,9 @@ namespace Exiv2 {
         if (pIptcData_) ++search;
         if (!comment_.empty()) ++search;
 
-        fseek(fp_, seek, SEEK_SET);
+        fseek(ifp, seek, SEEK_SET);
         count = 0;
-        marker = advanceToMarker();
+        marker = advanceToMarker(ifp);
         if (marker < 0) return 2;
         
         // To simplify this a bit, new segments are inserts at either the start
@@ -556,8 +532,8 @@ namespace Exiv2 {
         // Segments are erased if there is no assigned metadata.
         while (marker != sos_ && search > 0) {
             // Read size and signature (ok if this hits EOF)
-            bufRead = (long)fread(buf.pData_, 1, bufMinSize, fp_);
-            if (ferror(fp_)) return 1;
+            bufRead = (long)fread(buf.pData_, 1, bufMinSize, ifp);
+            if (ferror(ifp)) return 1;
             // Careful, this can be a meaningless number for empty
             // images with only an eoi_ marker
             uint16_t size = getUShort(buf.pData_, bigEndian);
@@ -624,7 +600,7 @@ namespace Exiv2 {
                         if (fwrite(tmpBuf, 1, 12, ofp) != 12) return 4;
                         if (fwrite(pIptcData_, 1, sizeIptcData_ , ofp) != (size_t)sizeIptcData_) return 4;
                         // data is padded to be even (but not included in size)
-                        if (sizeIptcData_ & 1 ) {
+                        if (sizeIptcData_ & 1) {
                             if (fputc(0, ofp)==EOF) return 4;
                         }
                         if (ferror(ofp)) return 4;
@@ -636,35 +612,35 @@ namespace Exiv2 {
                     if (ferror(ofp)) return 4;
                 }
             }
-            if( marker == eoi_ ) {
+            if (marker == eoi_) {
                 break;
             }
             else if (skipApp1Exif==count || skipApp13Ps3==count || skipCom==count) {
                 --search;
-                fseek(fp_, size-bufRead, SEEK_CUR);
+                fseek(ifp, size-bufRead, SEEK_CUR);
             }
             else {
                 if (size < 2) return 2;
                 buf.alloc(size+2);
-                fseek(fp_, -bufRead-2, SEEK_CUR);
-                fread(buf.pData_, 1, size+2, fp_);
-                if (ferror(fp_) || feof(fp_)) return 1;
+                fseek(ifp, -bufRead-2, SEEK_CUR);
+                fread(buf.pData_, 1, size+2, ifp);
+                if (ferror(ifp) || feof(ifp)) return 1;
                 if (fwrite(buf.pData_, 1, size+2, ofp) != (size_t)size+2) return 4;
                 if (ferror(ofp)) return 4;
             }
 
             // Next marker
-            marker = advanceToMarker();
+            marker = advanceToMarker(ifp);
             if (marker < 0) return 2;
             ++count;
         }
 
         // Copy rest of the stream
-        fseek(fp_, -2, SEEK_CUR);
+        fseek(ifp, -2, SEEK_CUR);
         fflush( ofp );
         buf.alloc(4096);
         size_t readSize = 0;
-        while ((readSize=fread(buf.pData_, 1, buf.size_, fp_))) {
+        while ((readSize=fread(buf.pData_, 1, buf.size_, ifp))) {
             if (fwrite(buf.pData_, 1, readSize, ofp) != readSize) return 4;
         }
         if (ferror(ofp)) return 4;
@@ -713,16 +689,16 @@ namespace Exiv2 {
         return isJpegType(ifp, advance);
     }
 
-    Image::AutoPtr newJpegInstance(const std::string& path, FILE* fp)
+    Image::AutoPtr newJpegInstance(const std::string& path, bool create)
     {
         Image::AutoPtr image;
-        if (fp == 0) {
+        if (create) {
             image = Image::AutoPtr(new JpegImage(path, true));
-            if (!image->good()) image.reset();
         }
         else {
-            image = Image::AutoPtr(new JpegImage(path, fp));
+            image = Image::AutoPtr(new JpegImage(path, false));
         }
+        if (!image->good()) image.reset();
         return image;
     }
 
@@ -766,16 +742,16 @@ namespace Exiv2 {
         return isExvType(ifp, advance);
     }
 
-    Image::AutoPtr newExvInstance(const std::string& path, FILE* fp)
+    Image::AutoPtr newExvInstance(const std::string& path, bool create)
     {
         Image::AutoPtr image;
-        if (fp == 0) {
+        if (create) {
             image = Image::AutoPtr(new ExvImage(path, true));
-            if (!image->good()) image.reset();
         }
         else {
-            image = Image::AutoPtr(new ExvImage(path, fp));
+            image = Image::AutoPtr(new ExvImage(path, false));
         }
+        if (!image->good()) image.reset();
         return image;
     }
 
