@@ -20,7 +20,7 @@
  */
 /*
   File:      fujimn.cpp
-  Version:   $Name:  $ $Revision: 1.1 $
+  Version:   $Name:  $ $Revision: 1.2 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
              07-Mar-04, ahu: isolated as a separate component
@@ -31,7 +31,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.1 $ $RCSfile: fujimn.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: fujimn.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -215,8 +215,8 @@ namespace Exif {
         case   4: os << "Sports"; break;
         case   5: os << "Night"; break;
         case   6: os << "Program"; break;
-        case 256: os << "Av priority"; break;
-        case 512: os << "Tv priority"; break;
+        case 256: os << "Aperture priority"; break;
+        case 512: os << "Shutter priority"; break;
         case 768: os << "Manual"; break;
         default: os << "(" << value << ")"; break;
         }

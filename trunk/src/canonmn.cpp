@@ -20,7 +20,7 @@
  */
 /*
   File:      canonmn.cpp
-  Version:   $Name:  $ $Revision: 1.3 $
+  Version:   $Name:  $ $Revision: 1.4 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
              07-Mar-04, ahu: isolated as a separate component
@@ -30,7 +30,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: canonmn.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: canonmn.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -297,8 +297,8 @@ namespace Exif {
         switch (s) {
         case 0: os << "Easy shooting"; break;
         case 1: os << "Program"; break;
-        case 2: os << "Tv priority"; break;
-        case 3: os << "Av priority"; break;
+        case 2: os << "Shutter priority"; break;
+        case 3: os << "Aperture priority"; break;
         case 4: os << "Manual"; break;
         case 5: os << "A-DEP"; break;
         default: os << "(" << s << ")"; break;
