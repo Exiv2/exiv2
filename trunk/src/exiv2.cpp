@@ -22,13 +22,13 @@
   Abstract:  Command line program to display and manipulate image %Exif data
 
   File:      exiv2.cpp
-  Version:   $Name:  $ $Revision: 1.7 $
+  Version:   $Name:  $ $Revision: 1.8 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   10-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.7 $ $RCSfile: exiv2.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.8 $ $RCSfile: exiv2.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -42,7 +42,7 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.7 $ $RCSfile: exiv2.cpp,v $")
 #include <cstring>
 #include <cassert>
 
-// *********************************************************************
+// *****************************************************************************
 // local declarations
 namespace {
 
@@ -115,7 +115,7 @@ void Params::version(std::ostream& os) const
 void Params::usage(std::ostream& os) const
 {
     os << "Usage: " << progname() 
-       << " [ options ] action file ...\n\n"
+       << " [ options ] [ action ] file ...\n\n"
        << "Manipulate the Exif metadata of images.\n";
 }
 
@@ -123,14 +123,14 @@ void Params::help(std::ostream& os) const
 {
     usage(os);
     os << "\nActions:\n"
-       << "  adjust   Adjust the metadata timestamp by the given time. This action\n"
-       << "           requires the option -a time.\n"
-       << "  print    Print the Exif (or other) image metadata.\n"
-       << "  delete   Delete the Exif section or Exif thumbnail from the files.\n"
-       << "  extract  Extract the Exif data or Exif thumbnail to files.\n"
-       << "  insert   Insert the Exif data from corresponding *.exv files.\n"
-       << "  rename   Rename files according to the metadata create timestamp. The\n"
-       << "           filename format can be set with the option -r format.\n"
+       << "  ad | adjust   Adjust the metadata timestamp by the given time. This\n"
+       << "                action requires the option -a time.\n"
+       << "  pr | print    Print the Exif (or other) image metadata.\n"
+       << "  rm | delete   Delete the Exif section or thumbnail from the files.\n"
+       << "  ex | extract  Extract the Exif data or Exif thumbnail to files.\n"
+       << "  in | insert   Insert the Exif data from corresponding *.exv files.\n"
+       << "  mv | rename   Rename files according to the Exif create timestamp.\n"
+       << "                The filename format can be set with -r format.\n"
        << "\nOptions:\n"
        << "   -h      Display this help and exit.\n"
        << "   -V      Show the program version and exit.\n"
@@ -160,45 +160,119 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     case 'V': version_ = true; break;
     case 'v': verbose_ = true; break;
     case 'f': force_ = true; break;
-    case 'r': format_ = optarg; break;
-    case 'a':
-        adjust_ = parseTime(optarg, adjustment_);
-        if (!adjust_) {
-            std::cerr << progname() << ": Error parsing -a option argument `" 
-                      << optarg << "'\n";
+    case 'r': 
+        switch (action_) {
+        case Action::none:
+            action_ = Action::rename;
+            format_ = optarg; 
+            break;
+        case Action::rename:
+            std::cerr << progname() 
+                      << ": Ignoring surplus option -r \"" << optarg << "\"\n";
+            break;
+        default:
+            std::cerr << progname() 
+                      << ": Option -r is not compatible with a previous option\n";
             rc = 1;
+            break;
+        }
+        break;
+    case 'a':
+        switch (action_) {
+        case Action::none:
+            action_ = Action::adjust;
+            adjust_ = parseTime(optarg, adjustment_);
+            if (!adjust_) {
+                std::cerr << progname() << ": Error parsing -a option argument `" 
+                          << optarg << "'\n";
+                rc = 1;
+            }
+            break;
+        case Action::adjust:
+            std::cerr << progname() 
+                      << ": Ignoring surplus option -a " << optarg << "\n";
+            break;
+        default:
+            std::cerr << progname() 
+                      << ": Option -a is not compatible with a previous option\n";
+            rc = 1;
+            break;
         }
         break;
     case 'p':
-        switch (optarg[0]) {
-        case 's': printMode_ = summary; break;
-        case 'i': printMode_ = interpreted; break;
-        case 'v': printMode_ = values; break;
-        case 'h': printMode_ = hexdump; break;
+        switch (action_) {
+        case Action::none:
+            action_ = Action::print;
+            switch (optarg[0]) {
+            case 's': printMode_ = summary; break;
+            case 'i': printMode_ = interpreted; break;
+            case 'v': printMode_ = values; break;
+            case 'h': printMode_ = hexdump; break;
+            default:
+                std::cerr << progname() << ": Unrecognized print mode `"
+                          << optarg << "'\n";
+                rc = 1;
+                break;
+            }
+            break;
+        case Action::print:
+            std::cerr << progname() 
+                      << ": Ignoring surplus option -p" << optarg << "\n";
+            break;
         default:
-            std::cerr << progname() << ": Unrecognized print mode `"
-                      << optarg << "'\n";
+            std::cerr << progname() 
+                      << ": Option -p is not compatible with a previous option\n";
             rc = 1;
+            break;
         }
         break;
     case 'd':
-        switch (optarg[0]) {
-        case 'e': delTarget_ = delExif; break;
-        case 't': delTarget_ = delThumb; break;
+        switch (action_) {
+        case Action::none:
+            action_ = Action::erase;
+            switch (optarg[0]) {
+            case 'e': delTarget_ = delExif; break;
+            case 't': delTarget_ = delThumb; break;
+            default:
+                std::cerr << progname() << ": Unrecognized delete target `"
+                          << optarg << "'\n";
+                rc = 1;
+                break;
+            }
+            break;
+        case Action::erase:
+            std::cerr << progname() 
+                      << ": Ignoring surplus option -d" << optarg << "\n";
+            break;
         default:
-            std::cerr << progname() << ": Unrecognized delete target `"
-                      << optarg << "'\n";
+            std::cerr << progname() 
+                      << ": Option -d is not compatible with a previous option\n";
             rc = 1;
+            break;
         }
         break;
     case 'e':
-        switch (optarg[0]) {
-        case 'e': extractTarget_ = extExif; break;
-        case 't': extractTarget_ = extThumb; break;
+        switch (action_) {
+        case Action::none:
+            action_ = Action::extract;
+            switch (optarg[0]) {
+            case 'e': extractTarget_ = extExif; break;
+            case 't': extractTarget_ = extThumb; break;
+            default:
+                std::cerr << progname() << ": Unrecognized extract target `"
+                          << optarg << "'\n";
+                rc = 1;
+                break;
+            }
+        case Action::extract:
+            std::cerr << progname() 
+                      << ": Ignoring surplus option -e" << optarg << "\n";
+            break;
         default:
-            std::cerr << progname() << ": Unrecognized extract target `"
-                      << optarg << "'\n";
+            std::cerr << progname() 
+                      << ": Option -e is not compatible with a previous option\n";
             rc = 1;
+            break;
         }
         break;
     case ':':
@@ -216,6 +290,7 @@ int Params::option(int opt, const std::string& optarg, int optopt)
                   << ": getopt returned unexpected character code " 
                   << std::hex << opt << "\n";
         rc = 1;
+        break;
     }
     return rc;
 } // Params::option
@@ -223,22 +298,70 @@ int Params::option(int opt, const std::string& optarg, int optopt)
 int Params::nonoption(const std::string& argv)
 {
     int rc = 0;
+    bool action = false;
     if (first_) {
         // The first non-option argument must be the action
         first_ = false;
-        if (argv == "adjust") action_ = Action::adjust;
-        if (argv == "print") action_ = Action::print;
-        if (argv == "delete") action_ = Action::erase;
-        if (argv == "extract") action_ = Action::extract;
-        if (argv == "insert") action_ = Action::insert;
-        if (argv == "rename") action_ = Action::rename;
+        if (argv == "ad" || argv == "adjust") {
+            if (action_ != Action::none && action_ != Action::adjust) {
+                std::cerr << progname() << ": Action adjust is not "
+                          << "compatible with the given options\n";
+                rc = 1;
+            }
+            action = true;
+            action_ = Action::adjust;
+        }
+        if (argv == "pr" || argv == "print") {
+            if (action_ != Action::none && action_ != Action::print) {
+                std::cerr << progname() << ": Action print is not "
+                          << "compatible with the given options\n";
+                rc = 1;
+            }
+            action = true;
+            action_ = Action::print;
+        }
+        if (argv == "rm" || argv == "delete") {
+            if (action_ != Action::none && action_ != Action::erase) {
+                std::cerr << progname() << ": Action delete is not "
+                          << "compatible with the given options\n";
+                rc = 1;
+            }
+            action = true;
+            action_ = Action::erase;
+        }
+        if (argv == "ex" || argv == "extract") {
+            if (action_ != Action::none && action_ != Action::extract) {
+                std::cerr << progname() << ": Action extract is not "
+                          << "compatible with the given options\n";
+                rc = 1;
+            }
+            action = true;
+            action_ = Action::extract;
+        }
+        if (argv == "in" || argv == "insert") {
+            if (action_ != Action::none && action_ != Action::insert) {
+                std::cerr << progname() << ": Action insert is not "
+                          << "compatible with the given options\n";
+                rc = 1;
+            }
+            action = true;
+            action_ = Action::insert;
+        }
+        if (argv == "mv" || argv == "rename") {
+            if (action_ != Action::none && action_ != Action::rename) {
+                std::cerr << progname() << ": Action rename is not "
+                          << "compatible with the given options\n";
+                rc = 1;
+            }
+            action = true;
+            action_ = Action::rename;
+        }
         if (action_ == Action::none) {
-            std::cerr << progname() << ": Unrecognized action `" 
-                      << argv << "'\n";
-            rc = 1;
+            // if everything else fails, assume print as the default action
+            action_ = Action::print;
         }
     }
-    else {
+    if (!action) {
         files_.push_back(argv);
     }
     return rc;
@@ -250,6 +373,7 @@ int Params::getopt(int argc, char* const argv[])
     // Further consistency checks
     if (help_ || version_) return 0;
     if (action_ == Action::none) {
+        // This shouldn't happen since print is taken as default action
         std::cerr << progname() << ": An action must be specified\n";
         rc = 1;
     }
@@ -265,7 +389,7 @@ int Params::getopt(int argc, char* const argv[])
     return rc;
 } // Params::getopt
 
-// *********************************************************************
+// *****************************************************************************
 // local implementations
 namespace {
 
