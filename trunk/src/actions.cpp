@@ -172,13 +172,14 @@ namespace Action {
 
         // Filename
         std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                  << "Filename" << ": " << path_ << "\n";
+                  << "Filename" << ": " << path_ << std::endl;
 
         // Filesize
         struct stat buf;
         if (0 == stat(path_.c_str(), &buf)) {
             std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                      << "Filesize" << ": " << buf.st_size << " Bytes\n";
+                      << "Filesize" << ": " << buf.st_size << " Bytes"
+                      << std::endl;
         }
 
         // Camera make
@@ -212,7 +213,7 @@ namespace Action {
                 }
             }
         }
-        std::cout << "\n";
+        std::cout << std::endl;
 
         // Aperture
         // Get if from FNumber and, failing that, try ApertureValue
@@ -226,7 +227,7 @@ namespace Action {
                           << "F" << exp(log(2.0) * md->toFloat() / 2);
             }
         }
-        std::cout << "\n";
+        std::cout << std::endl;
 
         // Exposure bias
         printTag(exifData, "Exif.Photo.ExposureBiasValue", "Exposure bias");
@@ -242,7 +243,7 @@ namespace Action {
         if (md != exifData.end() && md->count() >= 15) {
             Exiv2::CanonMakerNote::print0x0004_15(std::cout, md->toLong(15));
         }
-        std::cout << "\n";
+        std::cout << std::endl;
 
         // Actual focal length and 35 mm equivalent
         // Todo: Calculate 35 mm equivalent a la jhead
@@ -255,7 +256,7 @@ namespace Action {
                 std::cout << " (35 mm equivalent: " << *md << ")";
             }
         }
-        std::cout << "\n";
+        std::cout << std::endl;
 
         // Subject distance
         std::cout << std::setw(align_) << std::setfill(' ') << std::left
@@ -267,7 +268,7 @@ namespace Action {
                 Exiv2::CanonMakerNote::print0x0004_19(std::cout, md->toLong(19));
             }
         }
-        std::cout << "\n";
+        std::cout << std::endl;
 
         // ISO speed
         // from ISOSpeedRatings or the Makernote
@@ -291,7 +292,7 @@ namespace Action {
                 done = 0 != printTag(exifData, "Exif.Nikon3.ISOSpeed");
             }
         }
-        std::cout << "\n";
+        std::cout << std::endl;
 
         // Exposure mode 
         // From ExposureProgram or Canon Makernote
@@ -304,7 +305,7 @@ namespace Action {
                 Exiv2::CanonMakerNote::print0x0001_20(std::cout, md->toLong(20));
             }
         }
-        std::cout << "\n";
+        std::cout << std::endl;
 
         // Metering mode
         printTag(exifData, "Exif.Photo.MeteringMode", "Metering mode");
@@ -323,7 +324,7 @@ namespace Action {
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Fujifilm.Macro");
         }            
-        std::cout << "\n";
+        std::cout << std::endl;
 
         // Image quality setting (compression)
         // Todo: Implement this for other cameras
@@ -350,7 +351,7 @@ namespace Action {
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Nikon3.Quality");
         }
-        std::cout << "\n";
+        std::cout << std::endl;
 
         // Exif Resolution
         std::cout << std::setw(align_) << std::setfill(' ') << std::left
@@ -364,7 +365,7 @@ namespace Action {
         if (xdim != 0 && ydim != 0) {
             std::cout << xdim << " x " << ydim;
         }
-        std::cout << "\n";
+        std::cout << std::endl;
 
         // White balance
         // Todo: Implement this for other cameras
@@ -391,7 +392,7 @@ namespace Action {
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Nikon3.WhiteBalance");
         }
-        std::cout << "\n";
+        std::cout << std::endl;
 
         // Thumbnail
         std::cout << std::setw(align_) << std::setfill(' ') << std::left
@@ -405,7 +406,7 @@ namespace Action {
             std::cout << exifData.thumbnailFormat() << ", " 
                       << buf.size_ << " Bytes";
         }
-        std::cout << "\n";
+        std::cout << std::endl;
 
         // Copyright
         printTag(exifData, "Exif.Image.Copyright", "Copyright");
@@ -433,7 +434,7 @@ namespace Action {
             std::cout << *md;
             rc = 1;
         }
-        if (!label.empty()) std::cout << "\n";
+        if (!label.empty()) std::cout << std::endl;
         return rc;
     } // Print::printTag
 
@@ -454,7 +455,7 @@ namespace Action {
                       << md->ifdName() << " "
                       << std::setw(27) << std::setfill(' ') << std::left
                       << md->tagName() << " "
-                      << std::dec << *md << "\n";
+                      << std::dec << *md << std::endl;
         }
 
         return 0;
@@ -484,7 +485,7 @@ namespace Action {
                       << std::setw(27) << std::setfill(' ') << std::left
                       << md->tagName() << " "
                       << std::dec << md->value() 
-                      << "\n";
+                      << std::endl;
         }
 
         return 0;
@@ -514,7 +515,7 @@ namespace Action {
                       << std::setw(27) << std::setfill(' ') << std::left
                       << md->tagName() << " "
                       << std::dec << md->value() 
-                      << "\n";
+                      << std::endl;
         } 
 
         return 0;
@@ -544,7 +545,7 @@ namespace Action {
                       << std::setfill(' ') << std::right
                       << md->size() << " "
                       << std::setw(27) << std::setfill(' ') << std::left
-                      << md->tagName() << "\n";
+                      << md->tagName() << std::endl;
             Exiv2::DataBuf buf(md->size());
             md->copy(buf.pData_, exifData.byteOrder());
             Exiv2::hexdump(std::cout, buf.pData_, buf.size_);
@@ -556,7 +557,7 @@ namespace Action {
     int Print::printComment()
     {
         if (!Util::fileExists(path_, true)) {
-            std::cerr << path_
+            std::cerr << path_ 
                       << ": Failed to open the file\n";
             return -1;
         }
@@ -575,7 +576,7 @@ namespace Action {
         if (Params::instance().verbose_) {
             std::cout << "Jpeg comment: ";
         }
-        std::cout << image->comment() << "\n";
+        std::cout << image->comment() << std::endl;
         return 0;
     } // Print::printComment
 
@@ -630,12 +631,12 @@ namespace Action {
         if (   Util::dirname(newPath)  == Util::dirname(path)
             && Util::basename(newPath) == Util::basename(path)) {
             if (Params::instance().verbose_) {
-                std::cout << "This file already has the correct name\n";
+                std::cout << "This file already has the correct name" << std::endl;
             }
             return 0;
         }
         if (Params::instance().verbose_) {
-            std::cout << "Renaming file to " << newPath << "\n";
+            std::cout << "Renaming file to " << newPath << std::endl;
         }
         if (!Params::instance().force_ && Util::fileExists(newPath)) {
             std::cout << Params::instance().progname() 
@@ -699,12 +700,13 @@ namespace Action {
         int rc = 0;
         std::string thumbExt = exifData.thumbnailExtension();
         if (thumbExt.empty()) {
-            std::cerr << path_ << ": Image does not contain an Exif thumbnail\n"; 
+            std::cerr << path_ << ": Image does not contain an Exif thumbnail\n";
         }
         else {
             long delta = exifData.eraseThumbnail();
             if (Params::instance().verbose_) {
-                std::cout << "Erasing " << delta << " Bytes of thumbnail data\n"; 
+                std::cout << "Erasing " << delta << " Bytes of thumbnail data"
+                          << std::endl;
             }
             rc = exifData.write(path_);
             if (rc) {
@@ -717,7 +719,7 @@ namespace Action {
     int Erase::eraseExifData(Exiv2::ExifData& exifData) const
     {
         if (Params::instance().verbose_) {
-            std::cout << "Erasing Exif data from the file\n"; 
+            std::cout << "Erasing Exif data from the file" << std::endl; 
         }
         int rc = exifData.erase(path_);
         if (rc) {
@@ -784,7 +786,7 @@ namespace Action {
                 std::cout << "Writing "
                           << exifData.thumbnailFormat() << " thumbnail (" 
                           << buf.size_ << " Bytes) to file "
-                          << thumb << thumbExt << "\n";
+                          << thumb << thumbExt << std::endl;
             }
             if (!Params::instance().force_ && Util::fileExists(thumb + thumbExt)) {
                 std::cout << Params::instance().progname() 
@@ -901,7 +903,7 @@ namespace Action {
         time += adjustment_;
         timeStr = time2Str(time);
         if (Params::instance().verbose_) {
-            std::cout << timeStr << "\n";
+            std::cout << timeStr << std::endl;
         }
         md->setValue(timeStr);
         return 0;
@@ -999,7 +1001,7 @@ namespace {
             && sourceImage->sizeExifData() > 0) {
             if (Params::instance().verbose_) {
                 std::cout << "Writing Exif data from " << source 
-                          << " to " << target << "\n";
+                          << " to " << target << std::endl;
             }
             targetImage->setExifData(sourceImage->exifData(), 
                                      sourceImage->sizeExifData());
@@ -1008,7 +1010,7 @@ namespace {
             && sourceImage->sizeIptcData() > 0) {
             if (Params::instance().verbose_) {
                 std::cout << "Writing Iptc data from " << source 
-                          << " to " << target << "\n";
+                          << " to " << target << std::endl;
             }
             targetImage->setIptcData(sourceImage->iptcData(), 
                                      sourceImage->sizeIptcData());
@@ -1017,7 +1019,7 @@ namespace {
             && !sourceImage->comment().empty()) {
             if (Params::instance().verbose_) {
                 std::cout << "Writing Jpeg comment from " << source 
-                          << " to " << target << "\n";
+                          << " to " << target << std::endl;
             }
             targetImage->setComment(sourceImage->comment());
         }
