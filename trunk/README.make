@@ -1,35 +1,54 @@
-Configuration and Build Strategy                      06-May-2004, ahu
+Configuration and Build Strategy                      12-Jul-2004, ahu
 --------------------------------
 
----> Currently, the installation procedure of Exiv2 does not use 
-     autoconf. If you build on a Linux platform, it should be enough
-     to simply run 
+Building and Installing
+-----------------------
 
-     $ make 
+Exiv2 now comes with a rudimentary configuration script. Run the 
+following commands from the top directory (containing this file) to 
+build the library and utility:
+
+     $ ./configure
+
+     Check the generated config.mk and config.h files, particularly
+     if you want to build a shared library with a compiler other than 
+     gcc (g++). See caveat, below.
+
+     $ make
 
      and, if you wish,
 
      $ make install 
 
-     from this directory. To install the library and header files, use 
+     To install the library and header files, use 
 
      $ make install-lib
 
      There are corresponding uninstall and uninstall-lib targets.
 
-     To install to locations different from the default (/usr/local)
-     and to build Exiv2 on other platforms you may need to make changes
-     to the file config.mk before running make. However, you should 
-     *not* need to modify any Makefile directly. 
+Caveat
+------
 
------ Concepts described below this line are not implemented yet -----
+     The configuration script does not support checks to test how to 
+     build a shared library. If you are not using gcc (g++), you will
+     need to check the generated config.mk file and manually set the 
+     correct compilation flags. The related variables in config.mk are
+     CXXFLAGS_SHARED, LDFLAGS_SHARED and SHAREDLIB_SUFFIX.
 
-This is *not* an installation manual. See README and INSTALL for that.
+     You should *not* need to modify any Makefile directly.
 
-This document describes the main guidelines used for the configuration
-and build system of this software package and summarizes the steps for
-the involved processes.
+     If your compiler uses a repository for object files of templates,
+     try setting CXX_REPOSITORY. 
 
+----------------------------------------------------------------------
+
+Summary of Concepts Used
+------------------------
+
+The following sections are *not* an installation manual. They 
+summarise the guidelines used for the configuration and build system 
+of this package. The information contained in the following sections
+may be outdated and concepts described may not be implemented
 
 1. Overview and Rationale
    ----------------------
@@ -42,10 +61,10 @@ files, respectively.
 System configuration is done from the top level of the directory tree.
 Usually, `./configure' is enough to create all system configuration
 files and Makefiles. In turn, `make distclean' issued from the top
-level directory will remove all files created by the configuration and
-build processes (while `make distclean' issued in a subdirectory will
-only remove files created by the build process but no configuration
-files).
+level directory should remove all files created by the configuration
+and build processes (while `make distclean' issued in a subdirectory
+will only remove files created by the build process but no
+configuration files).
 
 Makefiles should follow GNU Makefile conventions (see `info make').
 
@@ -83,21 +102,21 @@ should be enough to configure and build the entire package.
        Input:  source files
        Output: `configure.scan'
     2. Manually examine and fix `configure.scan'
-    3. Rename `configure.scan' to `configure.in'
+    3. Rename `configure.scan' to `configure.ac'
     4. Manually create `acconfig.h' for additional AC_DEFINE'd symbols
     5. Run `autoheader'
-       Input:  `configure.in' `acconfig.h'
+       Input:  `configure.ac' `acconfig.h'
        Output: `config.h.in'
     6. Run `autoconf'
-       Input:  `configure.in' `acconfig.h'
+       Input:  `configure.ac' `acconfig.h'
        Output: `configure'
     7. Manually create `Makefile.in' template
 
     Here is a complete diagram showing this process (from `info autoconf'):
 
-       source files --> [autoscan*] --> [configure.scan] --> configure.in
+       source files --> [autoscan*] --> [configure.scan] --> configure.ac
 
-       configure.in --.   .------> autoconf* -----> configure
+       configure.ac --.   .------> autoconf* -----> configure
                       +---+
        [aclocal.m4] --+   `---.
        [acsite.m4] ---'       |
@@ -123,7 +142,7 @@ by the `configure' script. Therefore, if a change to a `Makefile' is
 needed, it must be done in the `Makefile.in' template and the
 `configure' script must be run to re-generate the `Makefile'.
 
-2.2.2 `configure.in' and `acconfig.h' updates
+2.2.2 `configure.ac' and `acconfig.h' updates
       ---------------------------------------
 
 Such updates may be required to add a new feature or test to the
