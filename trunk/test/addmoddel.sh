@@ -3,6 +3,8 @@
 results="./tmp/addmoddel.out"
 good="./data/addmoddel.out"
 (
+LD_LIBRARY_PATH=../../src:$LD_LIBRARY_PATH
+exiv2="../../src/exiv2"
 binpath="../../src"
 cp -f ./data/exiv2-empty.jpg ./tmp
 cd ./tmp

@@ -3,6 +3,7 @@
 results="./tmp/makernote-test.out"
 good="./data/makernote-test.out"
 (
+LD_LIBRARY_PATH=../../src:$LD_LIBRARY_PATH
 binpath="../../src"
 cd ./tmp
 $binpath/makernote-test

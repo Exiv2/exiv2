@@ -3,6 +3,7 @@
 results="./tmp/write2-test.out"
 good="./data/write2-test.out"
 (
+LD_LIBRARY_PATH=../../src:$LD_LIBRARY_PATH
 binpath="../../src"
 cp -f ./data/exiv2-empty.jpg ./tmp
 cd ./tmp
