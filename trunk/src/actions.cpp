@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.22 $
+  Version:   $Name:  $ $Revision: 1.23 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.22 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.23 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -64,12 +64,6 @@ namespace {
 
     // Convert a time type to a string "YYYY:MM:DD HH:MI:SS", "" on error
     std::string time2Str(time_t time);
-
-    // Return an error message for the return code of Exiv2::ExifData::read
-    std::string exifReadError(int rc, const std::string& path);
-
-    // Return an error message for the return code of Exiv2::ExifData::write
-    std::string exifWriteError(int rc, const std::string& path);
 
 }
 
@@ -128,7 +122,7 @@ namespace Action {
         Exiv2::ExifData exifData;
         int rc = exifData.read(path);
         if (rc) {
-            std::cerr << exifReadError(rc, path) << "\n";
+            std::cerr << Exiv2::ExifData::strError(rc, path) << "\n";
             return rc;
         }
         switch (Params::instance().printMode_) {
@@ -451,7 +445,7 @@ namespace Action {
         Exiv2::ExifData exifData;
         int rc = exifData.read(path);
         if (rc) {
-            std::cerr << exifReadError(rc, path) << "\n";
+            std::cerr << Exiv2::ExifData::strError(rc, path) << "\n";
             return rc;
         }
         std::string key = "Image.DateTime.DateTimeOriginal";
@@ -535,7 +529,7 @@ namespace Action {
         Exiv2::ExifData exifData;
         int rc = exifData.read(path);
         if (rc) {
-            std::cerr << exifReadError(rc, path) << "\n";
+            std::cerr << Exiv2::ExifData::strError(rc, path) << "\n";
             return rc;
         }
         switch (Params::instance().delTarget_) {
@@ -565,7 +559,7 @@ namespace Action {
             }
             rc = exifData.write(path_);
             if (rc) {
-                std::cerr << exifWriteError(rc, path_) << "\n";
+                std::cerr << Exiv2::ExifData::strError(rc, path_) << "\n";
             }
         }
         return rc;
@@ -578,7 +572,7 @@ namespace Action {
         }
         int rc = exifData.erase(path_);
         if (rc) {
-            std::cerr << exifWriteError(rc, path_) << "\n";
+            std::cerr << Exiv2::ExifData::strError(rc, path_) << "\n";
         }
         return rc;
     }
@@ -599,7 +593,7 @@ namespace Action {
         Exiv2::ExifData exifData;
         int rc = exifData.read(path);
         if (rc) {
-            std::cerr << exifReadError(rc, path) << "\n";
+            std::cerr << Exiv2::ExifData::strError(rc, path) << "\n";
             return rc;
         }
         switch (Params::instance().extractTarget_) {
@@ -631,7 +625,7 @@ namespace Action {
         }
         int rc = exifData.writeExifData(exvPath);
         if (rc) {
-            std::cerr << exifWriteError(rc, exvPath) << "\n";
+            std::cerr << Exiv2::ExifData::strError(rc, exvPath) << "\n";
         }
         return rc;
     }
@@ -661,7 +655,7 @@ namespace Action {
             }
             rc = exifData.writeThumbnail(thumb);
             if (rc) {
-                std::cerr << exifWriteError(rc, thumb) << "\n";
+                std::cerr << Exiv2::ExifData::strError(rc, thumb) << "\n";
             }
         }
         return rc;
@@ -684,7 +678,7 @@ namespace Action {
         Exiv2::ExifData exifData;
         int rc = exifData.read(exvPath);
         if (rc) {
-            std::cerr << exifReadError(rc, exvPath) << "\n";
+            std::cerr << Exiv2::ExifData::strError(rc, exvPath) << "\n";
             return rc;
         }
         if (Params::instance().verbose_) {
@@ -692,7 +686,7 @@ namespace Action {
         }
         rc = exifData.write(path);
         if (rc) {
-            std::cerr << exifWriteError(rc, path) << "\n";
+            std::cerr << Exiv2::ExifData::strError(rc, path) << "\n";
         }
         return rc;
     }
@@ -720,7 +714,7 @@ namespace Action {
         Exiv2::ExifData exifData;
         int rc = exifData.read(path);
         if (rc) {
-            std::cerr << exifReadError(rc, path) << "\n";
+            std::cerr << Exiv2::ExifData::strError(rc, path) << "\n";
             return rc;
         }
         rc  = adjustDateTime(exifData, "Image.OtherTags.DateTime", path);
@@ -729,7 +723,7 @@ namespace Action {
         if (rc) return 1;
         rc = exifData.write(path);
         if (rc) {
-            std::cerr << exifWriteError(rc, path) << "\n";
+            std::cerr << Exiv2::ExifData::strError(rc, path) << "\n";
         }
         return rc;
     }
@@ -840,68 +834,4 @@ namespace {
 
         return os.str();
     } // time2Str
-
-    std::string exifReadError(int rc, const std::string& path)
-    {
-        std::string error;
-        switch (rc) {
-        case -1:
-            error = path + ": Failed to open the file";
-            break;
-        case -2:
-            error = path + ": The file contains data of an unknown image type";
-            break;
-        case 1:
-            error = path + ": Couldn't read from the input stream";
-            break;
-        case 2:
-            error = path + ": This does not look like a JPEG image";
-            break;
-        case 3:
-            error = path + ": No Exif data found in the file";
-            break;
-        case -99:
-            error = path + ": Unsupported Exif or GPS data found in IFD 1";
-            break;
-        default:
-            error = path + ": Reading Exif data failed, rc = " + Exiv2::toString(rc);
-            break;
-        }
-        return error;
-    } // exifReadError
-
-    std::string exifWriteError(int rc, const std::string& path)
-    {
-        std::string error;
-        switch (rc) {
-        case -1:
-            error = path + ": Failed to open the file";
-            break;
-        case -2:
-            error = path + ": The file contains data of an unknown image type";
-            break;
-        case -3:
-            error = path + ": Couldn't open temporary file";
-            break;
-        case -4:
-            error = path + ": Renaming temporary file failed: " + Util::strError();
-            break;
-        case 1:
-            error = path + ": Couldn't read from the input stream";
-            break;
-        case 2:
-            error = path + ": This does not look like a JPEG image";
-            break;
-        case 3:
-            error = path + ": No JFIF APP0 or Exif APP1 segment found in the file";
-            break;
-        case 4:
-            error = path + ": Writing to the output stream failed";
-            break;
-        default:
-            error = path + ": Reading Exif data failed, rc = " + Exiv2::toString(rc);
-            break;
-        }
-        return error;
-    } // exifWriteError
 }
