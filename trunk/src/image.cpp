@@ -20,14 +20,14 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.5 $
+  Version:   $Name:  $ $Revision: 1.6 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: image.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: image.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -153,6 +153,8 @@ namespace Exif {
             if (!is.good()) return 1;
             return 2;
         }
+        // isThisType does not advance the stream, so do this now
+        is.seekg(2, std::ios::cur);
 
         // Read and check section marker and size
         char tmpbuf[10];
@@ -182,16 +184,19 @@ namespace Exif {
     {
         std::ifstream infile(path.c_str(), std::ios::binary);
         if (!infile) return -1;
+        return writeExifData(path, infile);
+    } // JpegImage::writeExifData
 
+    int JpegImage::writeExifData(const std::string& path, std::istream& is) const
+    {
         // Write the output to a temporary file
         pid_t pid = getpid();
         std::string tmpname = path + toString(pid);
-        std::ofstream outfile(tmpname.c_str(), std::ios::binary);
-        if (!outfile) return -3;
+        std::ofstream os(tmpname.c_str(), std::ios::binary);
+        if (!os) return -3;
 
-        int rc = writeExifData(outfile, infile);
-        infile.close();
-        outfile.close();
+        int rc = writeExifData(os, is);
+        os.close();
         if (rc == 0) {
             // rename temporary file
             if (rename(tmpname.c_str(), path.c_str()) == -1) rc = -4;
@@ -212,6 +217,8 @@ namespace Exif {
             if (!is.good()) return 1;
             return 2;
         }
+        // isThisType does not advance the stream, so do this now
+        is.seekg(2, std::ios::cur);
 
         // Read and check section marker and size
         char tmpbuf[12];
@@ -268,9 +275,10 @@ namespace Exif {
         is.get(c);
         if (!is.good()) return false;
         if (static_cast<char>(soi_ & 0x00ff) != c) {
-            is.unget();
+            is.seekg(-2, std::ios::cur);
             return false;
         }
+        is.seekg(-2, std::ios::cur);
         return true;
     }
 
