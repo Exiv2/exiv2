@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.4 $
+  Version:   $Name:  $ $Revision: 1.5 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -114,13 +114,68 @@ namespace Action {
     } // TaskFactory::create
 
     int Print::run(const std::string& path)
-    try {
+        try {
         Exif::ExifData exifData;
         int rc = exifData.read(path);
         if (rc) {
             std::cerr << exifReadError(rc, path) << "\n";
             return rc;
         }
+        switch (Params::instance().printMode_) {
+        case Params::summary:     printSummary(exifData); break;
+        case Params::interpreted: printInterpreted(exifData); break;
+        case Params::values:      printValues(exifData); break;
+        case Params::hexdump:     printHexdump(exifData); break;
+        }
+        return 0;
+    }
+    catch(const Exif::Error& e)
+    {
+        std::cerr << "Exif exception in print action for file " 
+                  << path << ":\n" << e << "\n";
+        return 1;
+    } // Print::run
+
+    void Print::printSummary(const Exif::ExifData& exifData)
+    {
+        printTag(exifData, "Image.OtherTags.Make", "Camera make");
+        printTag(exifData, "Image.OtherTags.Model", "Camera model");
+        printTag(exifData, "Image.DateTime.DateTimeOriginal", "Image Timestamp");
+        printTag(exifData, "Image.CaptureConditions.ExposureTime", "Exposure time");
+        printTag(exifData, "Image.CaptureConditions.FNumber", "Aperture");
+        printTag(exifData, "Image.CaptureConditions.Flash", "Flash");
+        printTag(exifData, "Image.CaptureConditions.FocalLength", "Focal length");
+        printTag(exifData, "Image.CaptureConditions.MeteringMode", "Metering mode");
+
+        // Todo: Add size of IFD1 to thumbnail data size
+        std::cout << std::setw(15) << std::setfill(' ') << std::left
+                  << "Thumbnail" << ": ";
+	switch (exifData.thumbnailType()) {
+        case Exif::Thumbnail::none: std::cout << "None\n"; break;
+        case Exif::Thumbnail::jpeg: 
+            std::cout << "JPEG, " << exifData.thumbnailSize() << " Bytes\n";
+            break;
+        case Exif::Thumbnail::tiff:
+            std::cout << "TIFF, " << exifData.thumbnailSize() << " Bytes\n";
+            break;
+        }
+
+    } // Print::printSummary
+
+    void Print::printTag(const Exif::ExifData& exifData,
+                         const std::string& key, 
+                         const std::string& label)
+    {
+        Exif::ExifData::const_iterator md = exifData.findKey(key);
+        if (md != exifData.end()) {
+            std::cout << std::setw(15) << std::setfill(' ') << std::left
+                      << label << ": " << *md << "\n";
+        }
+    } // Print::printTag
+
+
+    void Print::printInterpreted(const Exif::ExifData& exifData)
+    {
         Exif::ExifData::const_iterator md;
         for (md = exifData.begin(); md != exifData.end(); ++md) {
             std::cout << "0x" << std::setw(4) << std::setfill('0') << std::right
@@ -131,14 +186,52 @@ namespace Action {
                       << md->tagName() << " "
                       << std::dec << *md << "\n";
         }
-        return 0;
-    }
-    catch(const Exif::Error& e)
+    } // Print::printInterpreted
+
+    void Print::printValues(const Exif::ExifData& exifData)
     {
-        std::cerr << "Exif exception in print action for file " 
-                  << path << ":\n" << e << "\n";
-        return 1;
-    } // Print::run
+        Exif::ExifData::const_iterator md;
+        for (md = exifData.begin(); md != exifData.end(); ++md) {
+            std::cout << "0x" << std::setw(4) << std::setfill('0') << std::right
+                      << std::hex << md->tag() << " " 
+                      << std::setw(4) << std::setfill(' ') << std::left
+                      << md->ifdName() << " "
+                      << std::setw(9) << std::setfill(' ') << std::left
+                      << md->typeName() << " "
+                      << std::dec << std::setw(3) 
+                      << std::setfill(' ') << std::right
+                      << md->count() << " "
+                      << std::setw(27) << std::setfill(' ') << std::left
+                      << md->tagName() << " "
+                      << std::dec << md->value() 
+                      << "\n";
+        }
+    } // Print::printValues
+
+    void Print::printHexdump(const Exif::ExifData& exifData)
+    {
+        Exif::ExifData::const_iterator md;
+        for (md = exifData.begin(); md != exifData.end(); ++md) {
+            char *buf = new char[md->size()];
+            md->copy(buf, exifData.byteOrder());
+            std::cout << std::setw(4) << std::setfill(' ') << std::left
+                      << md->ifdName() << " "
+                      << "0x" << std::setw(4) << std::setfill('0') << std::right
+                      << std::hex << md->tag() << " " 
+                      << std::setw(9) << std::setfill(' ') << std::left
+                      << md->typeName() << " "
+                      << std::dec << std::setw(3) 
+                      << std::setfill(' ') << std::right
+                      << md->count() << " "
+                      << std::dec << std::setw(3) 
+                      << std::setfill(' ') << std::right
+                      << md->size() << " "
+                      << std::setw(27) << std::setfill(' ') << std::left
+                      << md->tagName() << "\n";
+            Exif::hexdump(std::cout, buf, md->size());
+            delete[] buf;
+        }
+    } // Print::printHexdump
 
     Print::AutoPtr Print::clone() const
     {

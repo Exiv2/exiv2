@@ -22,7 +22,7 @@
   @file    actions.hpp
   @brief   Implements base class Task, TaskFactory and the various supported
            actions (derived from Task).
-  @version $Name:  $ $Revision: 1.1 $
+  @version $Name:  $ $Revision: 1.2 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    11-Dec-03, ahu: created
@@ -147,6 +147,19 @@ namespace Action {
         virtual int run(const std::string& path);
         typedef std::auto_ptr<Print> AutoPtr;
         AutoPtr clone() const;
+
+        //! Print %Exif summary information
+        void printSummary(const Exif::ExifData& exifData);
+        //! Print the interpreted value for each %Exif tag
+        void printInterpreted(const Exif::ExifData& exifData);
+        //! Print uninterpreted %Exif information
+        void printValues(const Exif::ExifData& exifData);
+        //! Print %Exif information in hexdump format
+        void printHexdump(const Exif::ExifData& exifData);
+        //! Print one summary line with a label and requested data
+        void Print::printTag(const Exif::ExifData& exifData,
+                             const std::string& key, 
+                             const std::string& label);
 
     private:
         virtual Task* clone_() const;
