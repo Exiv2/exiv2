@@ -22,7 +22,7 @@
   @file    actions.hpp
   @brief   Implements base class Task, TaskFactory and the various supported
            actions (derived from Task).
-  @version $Name:  $ $Revision: 1.9 $
+  @version $Name:  $ $Revision: 1.10 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    11-Dec-03, ahu: created
@@ -167,7 +167,7 @@ namespace Action {
                      const std::string& label ="") const;
 
     private:
-        virtual Task* clone_() const;
+        virtual Print* clone_() const;
 
         std::string path_;
         int align_;                // for the alignment of the summary output
@@ -185,7 +185,7 @@ namespace Action {
         AutoPtr clone() const;
 
     private:
-        virtual Task* clone_() const;
+        virtual Rename* clone_() const;
     }; // class Rename
 
     //! %Adjust the Exif (or other metadata) timestamps
@@ -197,7 +197,7 @@ namespace Action {
         AutoPtr clone() const;
 
     private:
-        virtual Task* clone_() const;
+        virtual Adjust* clone_() const;
         int adjustDateTime(Exiv2::ExifData& exifData,
                            const std::string& key, 
                            const std::string& path) const;
@@ -225,7 +225,7 @@ namespace Action {
         int eraseExifData(Exiv2::ExifData& exifData) const;
 
     private:
-        virtual Task* clone_() const;
+        virtual Erase* clone_() const;
         std::string path_;
 
     }; // class Erase
@@ -254,7 +254,7 @@ namespace Action {
         int writeExifData(Exiv2::ExifData& exifData) const;
 
     private:
-        virtual Task* clone_() const;
+        virtual Extract* clone_() const;
         std::string path_;
 
     }; // class Extract
@@ -270,7 +270,7 @@ namespace Action {
         AutoPtr clone() const;
 
     private:
-        virtual Task* clone_() const;
+        virtual Insert* clone_() const;
 
     }; // class Insert
 
