@@ -144,12 +144,22 @@ private:
     //! Get a system error message and the error code. See %strerror(2).
     std::string strError();
 
-    //! Get the directory component from the path string. See %dirname(3).
+    /*!
+      @brief Get the directory component from the \em path string. 
+             See %dirname(3).
+
+      This function can handle Windows paths to some extent: c:\\bar should 
+      be fine, \\\\bigsrv\\foo also, but \\\\bigsrv alone doesn't work.
+     */
     std::string dirname(const std::string& path);
 
     /*!
-      @brief Get the filename component from the path string. See %basename(3).
-             If the delsuffix parameter is true, the suffix will be removed.
+      @brief Get the filename component from the \em path string. 
+             See %basename(3). If the \em delsuffix parameter is true,
+             the suffix will be removed.
+
+      This function can handle Windows paths to some extent: c:\\bar should 
+      be fine, \\\\bigsrv\\foo also, but \\\\bigsrv alone doesn't work. 
      */
     std::string basename(const std::string& path, bool delsuffix =false);
 
