@@ -3,7 +3,7 @@
   Abstract : ExifData write unit tests
 
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  Version  : $Name:  $ $Revision: 1.4 $
+  Version  : $Name:  $ $Revision: 1.5 $
 
   Test procedure: 
    $ rm -f test.jpg thumb.jpg iii ttt; 
@@ -35,8 +35,6 @@ void testCase(const std::string& file1,
               const std::string& key,
               const std::string& value);
 void exifPrint(const ExifData& exifData);
-std::string readError(int rc, const char* file);
-std::string writeError(int rc, const char* file);
 
 // *****************************************************************************
 // Main
@@ -124,7 +122,7 @@ void testCase(const std::string& file1,
     std::cerr << "---> Reading file " << file1 << "\n";
     int rc = ed1.read(file1);
     if (rc) {
-        std::string error = readError(rc, file1.c_str());
+        std::string error = ExifData::strError(rc, file1.c_str());
         throw Error(error);
     }
 
@@ -138,7 +136,7 @@ void testCase(const std::string& file1,
     std::cerr << "---> Writing Exif data to file " << file2 << "\n";
     rc = ed1.write(file2);
     if (rc) {
-        std::string error = writeError(rc, file2.c_str());
+        std::string error = ExifData::strError(rc, file2.c_str());
         throw Error(error);
     }
 
@@ -147,7 +145,7 @@ void testCase(const std::string& file1,
     std::cerr << "---> Reading file " << file2 << "\n";
     rc = ed2.read(file2);
     if (rc) {
-        std::string error = readError(rc, file2.c_str());
+        std::string error = ExifData::strError(rc, file2.c_str());
         throw Error(error);
     }
 
@@ -171,68 +169,4 @@ void exifPrint(const ExifData& exifData)
                   << std::dec << i->value() 
                   << "\n";
     }
-}
-
-std::string readError(int rc, const char* file)
-{
-    std::string error;
-    switch (rc) {
-    case -1:
-        error = "Couldn't open file `" + std::string(file) + "'";
-        break;
-    case -2:
-        error = "The file contains data of an unknown image type";
-        break;
-    case 1:
-        error = "Couldn't read from the input stream";
-        break;
-    case 2:
-        error = "This does not look like a JPEG image";
-        break;
-    case 3:
-        error = "No Exif data found in the file";
-        break;
-    case -99:
-        error = "Unsupported Exif or GPS data found in IFD 1";
-        break;
-    default:
-        error = "Reading Exif data failed, rc = " + toString(rc);
-        break;
-    }
-    return error;
-}
-
-std::string writeError(int rc, const char* file)
-{
-    std::string error;
-    switch (rc) {
-    case -1:
-        error = "Couldn't open file `" + std::string(file) + "'";
-        break;
-    case -2:
-        error = "The file contains data of an unknown image type";
-        break;
-    case -3:
-        error = "Couldn't open temporary file";
-        break;
-    case -4:
-        error = "Renaming temporary file failed";
-        break;
-    case 1:
-        error = "Couldn't read from the input stream";
-        break;
-    case 2:
-        error = "This does not look like a JPEG image";
-        break;
-    case 3:
-        error = "No JFIF APP0 or Exif APP1 segment found in the file";
-        break;
-    case 4:
-        error = "Writing to the output stream failed";
-        break;
-    default:
-        error = "Writing Exif data failed, rc = " + toString(rc);
-        break;
-    }
-    return error;
 }
