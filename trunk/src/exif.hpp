@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.29 $
+  @version $Name:  $ $Revision: 1.30 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -312,10 +312,15 @@ namespace Exif {
          */
         void setOffsets(Ifd& ifd1, ByteOrder byteOrder) const;
         /*!
-          @brief Return the size of the thumbnail data (data only, without the 
-                 IFD, in case of a TIFF thumbnail.
+          @brief Return the size of the thumbnail image (the size it
+                 would occupy when extracted from the %Exif data)
          */
         long size() const;
+        /*!
+          @brief Return the size of the thumbnail data (data only, without the 
+                 IFD, in case of a TIFF thumbnail).
+         */
+        long dataSize() const;
         //! Return the type of the thumbnail
         Type type() const { return type_; }
         //@}
@@ -579,7 +584,10 @@ namespace Exif {
             { return thumbnail_.write(path); }
         //! Return the type of the thumbnail
         Thumbnail::Type thumbnailType() const { return thumbnail_.type(); }
-        //! Return the size of the thumbnail data
+        /*!
+          @brief Return the size of the thumbnail image. This is the size it
+                 would occupy when extracted from the %Exif data).
+         */
         long thumbnailSize() const { return thumbnail_.size(); }
         //@}
 
