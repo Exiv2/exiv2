@@ -139,7 +139,7 @@ namespace Exiv2 {
         uint32_t sizeData = 0;
         byte extTest = 0;
 
-        while (pRead < buf + len) {
+        while (pRead + 3 < buf + len) {
             if (*pRead++ != marker_) return 5;
             record = *pRead++;
             dataSet = *pRead++;
