@@ -22,7 +22,7 @@
   Abstract : Sample program to print the Exif metadata of an image
 
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  Version  : $Name:  $ $Revision: 1.2 $
+  Version  : $Name:  $ $Revision: 1.3 $
   History  : 26-Jan-04, ahu: created
  */
 // *****************************************************************************
@@ -45,7 +45,7 @@ using namespace Exif;
 // *****************************************************************************
 // Main
 int main(int argc, char* const argv[])
-{
+try {
     // Handle command line arguments
     Params& params = Params::instance();
     if (params.getopt(argc, argv)) {
@@ -85,6 +85,10 @@ int main(int argc, char* const argv[])
     }
 
     return rc;
+}
+catch (Error& e) {
+    std::cout << "Caught Exif exception '" << e << "'\n";
+    return -1;
 }
 
 // *****************************************************************************

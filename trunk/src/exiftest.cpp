@@ -3,13 +3,14 @@
   Abstract : This is playground code, do what you want with it.
 
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  Version  : $Name:  $ $Revision: 1.9 $
+  Version  : $Name:  $ $Revision: 1.10 $
  */
 // *****************************************************************************
 // included header files
 #include "exif.hpp"
 #include <iostream>
 #include <iomanip>
+#include <sstream>
 
 // *****************************************************************************
 // local declarations
@@ -17,21 +18,47 @@
 using namespace Exif;
 
 void exifPrint(const ExifData& exifData);
+template<typename T> 
+std::string toString(T arg);
 
 // *****************************************************************************
 // Main
 int main(int argc, char* const argv[])
 try {
-    ExifData exifData;
 
     if (argc != 2) {
         std::cout << "Usage: exiftest file\n";
         return 1;
     }
 
+    ExifData exifData;
     int rc = exifData.read(argv[1]);
-    if (rc) throw Error("Reading Exif data failed");
-    
+    if (rc) {
+        std::string error = "Reading Exif data failed: ";
+        switch (rc) {
+        case -1:
+            error += "Couldn't open file `" + std::string(argv[1]) + "'";
+            break;
+        case 1:
+            error += "Couldn't read from the input stream";
+            break;
+        case 2:
+            error += "This does not look like a JPEG image";
+            break;
+        case 3:
+        case 4:
+            error += "No Exif data found in the file";
+            break;
+        case -99:
+            error += "Unsupported Exif or GPS data found in IFD 1";
+            break;
+        default:
+            error += "rc = " + toString(rc);
+            break;
+        }
+        throw Error(error);
+    }
+
     exifPrint(exifData);
     
     exifData.writeThumbnail("thumb");
@@ -70,4 +97,12 @@ void exifPrint(const ExifData& exifData)
 
                   << "\n";
     }
+}
+
+template<typename T> 
+std::string toString(T arg)
+{
+    std::ostringstream os;
+    os << arg;
+    return os.str();
 }
