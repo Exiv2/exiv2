@@ -59,6 +59,7 @@ EXIV2_RCSID("@(#) $Id$");
 #include <cstdio>
 #include <ctime>
 #include <cmath>
+#include <cassert>
 #include <sys/types.h>                  // for stat()
 #include <sys/stat.h>                   // for stat()
 #ifdef HAVE_UNISTD_H
@@ -131,6 +132,7 @@ namespace Action {
         registerTask(erase,   Task::AutoPtr(new Erase));
         registerTask(extract, Task::AutoPtr(new Extract));
         registerTask(insert,  Task::AutoPtr(new Insert));
+        registerTask(modify,  Task::AutoPtr(new Modify));
     } // TaskFactory c'tor
 
     Task::AutoPtr TaskFactory::create(TaskType type)
@@ -915,6 +917,129 @@ namespace Action {
     Insert* Insert::clone_() const
     {
         return new Insert(*this);
+    }
+
+    int Modify::run(const std::string& path)
+    try {
+        if (!Util::fileExists(path, true)) {
+            std::cerr << path
+                      << ": Failed to open the file\n";
+            return -1;
+        }
+
+        // Read both exif and iptc metadata (ignore return code)
+        exifData_.read(path);
+        iptcData_.read(path);
+
+        // loop through command table and apply each command
+        ModifyCmds& modifyCmds = Params::instance().modifyCmds_;
+        ModifyCmds::const_iterator i = modifyCmds.begin();
+        ModifyCmds::const_iterator end = modifyCmds.end();
+        for (; i != end; ++i) {
+            switch (i->cmdId_) {
+            case add:
+                addMetadatum(*i);
+                break;
+            case set:
+                setMetadatum(*i);
+                break;
+            case del:
+                delMetadatum(*i);
+                break;
+            default:
+                // Todo: complain
+                break;
+            }
+        }
+
+        // Save both exif and iptc metadata
+        int rc = exifData_.write(path);
+        if (rc) {
+            std::cerr << Exiv2::ExifData::strError(rc, path) << "\n";
+        }
+        rc = iptcData_.write(path);
+        if (rc) {
+            std::cerr << Exiv2::IptcData::strError(rc, path) << "\n";
+        }
+        return rc;
+    }
+    catch(const Exiv2::Error& e)
+    {
+        std::cerr << "Exif exception in modify action for file " << path
+                  << ":\n" << e << "\n";
+        return 1;
+    } // Modify::run
+
+    void Modify::addMetadatum(const ModifyCmd& modifyCmd)
+    {
+        if (Params::instance().verbose_) {
+            std::cout << "Add " << modifyCmd.key_ << " \""
+                      << modifyCmd.value_ << "\" (" 
+                      << Exiv2::TypeInfo::typeName(modifyCmd.typeId_) 
+                      << ")" << std::endl; 
+        }
+        Exiv2::Value::AutoPtr value = Exiv2::Value::create(modifyCmd.typeId_);
+        value->read(modifyCmd.value_);
+        if (modifyCmd.metadataId_ == exif) {
+            exifData_.add(Exiv2::ExifKey(modifyCmd.key_), value.get());
+        }
+        if (modifyCmd.metadataId_ == iptc) {
+            iptcData_.add(Exiv2::IptcKey(modifyCmd.key_), value.get());
+        }
+    }
+
+    void Modify::setMetadatum(const ModifyCmd& modifyCmd)
+    {
+        if (Params::instance().verbose_) {
+            std::cout << "Set " << modifyCmd.key_ << " \""
+                      << modifyCmd.value_ << "\" (" 
+                      << Exiv2::TypeInfo::typeName(modifyCmd.typeId_) 
+                      << ")" << std::endl; 
+        }
+        Exiv2::Metadatum* metadatum = 0;
+        if (modifyCmd.metadataId_ == exif) {
+            metadatum = &exifData_[modifyCmd.key_];
+        }
+        if (modifyCmd.metadataId_ == iptc) {
+            metadatum = &iptcData_[modifyCmd.key_];
+        }
+        assert(metadatum);
+        Exiv2::Value::AutoPtr value = metadatum->getValue();
+        // If a type was explicitly requested, use it; else
+        // use the current type of the metadatum, if any;
+        // or the default type
+        if (modifyCmd.explicitType_ || value.get() == 0) {
+            value = Exiv2::Value::create(modifyCmd.typeId_);
+        }
+        value->read(modifyCmd.value_);
+        metadatum->setValue(value.get());
+    }
+
+    void Modify::delMetadatum(const ModifyCmd& modifyCmd)
+    {
+        if (Params::instance().verbose_) {
+            std::cout << "Del " << modifyCmd.key_ << std::endl; 
+        }
+        if (modifyCmd.metadataId_ == exif) {
+            Exiv2::ExifData::iterator pos =
+                exifData_.findKey(Exiv2::ExifKey(modifyCmd.key_));
+            if (pos != exifData_.end()) exifData_.erase(pos);
+        }
+        if (modifyCmd.metadataId_ == iptc) {
+            Exiv2::IptcData::iterator pos =
+                iptcData_.findKey(Exiv2::IptcKey(modifyCmd.key_));
+            if (pos != iptcData_.end()) iptcData_.erase(pos);
+        }
+    }
+
+    Modify::AutoPtr Modify::clone() const
+    {
+        return AutoPtr(clone_());
+    }
+
+    Modify* Modify::clone_() const
+    {
+        return new Modify(*this);
     }
 
     int Adjust::run(const std::string& path)

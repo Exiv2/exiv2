@@ -46,6 +46,7 @@ EXIV2_RCSID("@(#) $Id$");
 
 #include <string>
 #include <iostream>
+#include <fstream>
 #include <iomanip>
 #include <cstring>
 #include <cassert>
@@ -53,6 +54,17 @@ EXIV2_RCSID("@(#) $Id$");
 // *****************************************************************************
 // local declarations
 namespace {
+
+    //! List of all command itentifiers and corresponding strings
+    static const CmdIdAndString cmdIdAndString[] = {
+        add, "add", 
+        set, "set", 
+        del, "del", 
+        invalidCmdId, "invalidCmd"                  // End of list marker
+    };
+
+    // Return a command Id for a command string 
+    CmdId commandId(const std::string& cmdString);
 
     // Evaluate [-]HH[:MM[:SS]], returns true and sets time to the value
     // in seconds if successful, else returns false.
@@ -66,6 +78,25 @@ namespace {
      */
     int parseCommonTargets(const std::string& optarg,
                            const std::string& action);
+
+    /*!
+      @brief Parse metadata modification commands from a file
+      @param modifyCmds Reference to a structure to store the parsed commands
+      @param filename Name of the command file
+     */
+    bool parseCommands(ModifyCmds& modifyCmds, 
+                       const std::string& filename);
+
+    /*!
+      @brief Parse one line of the command file
+      @param modifyCmd Reference to a command structure to store the parsed 
+             command
+      @param line Input line
+      @param num Line number (used for error output)
+     */
+    bool parseLine(ModifyCmd& modifyCmd,
+                   const std::string& line, int num);
+
 }
 
 // *****************************************************************************
@@ -123,7 +154,7 @@ Params& Params::instance()
 void Params::version(std::ostream& os) const
 {
     os << PACKAGE_STRING << ", " 
-       << "Copyright (C) 2004 Andreas Huggel.\n\n"
+       << "Copyright (C) 2004, 2005 Andreas Huggel.\n\n"
        << "This is free software; see the source for copying conditions.  "
        << "There is NO \nwarranty; not even for MERCHANTABILITY or FITNESS FOR "
        << "A PARTICULAR PURPOSE.\n";
@@ -148,6 +179,8 @@ void Params::help(std::ostream& os) const
        << "  ex | extract  Extract metadata to *.exv and thumbnail image files.\n"
        << "  mv | rename   Rename files according to the Exif create timestamp.\n"
        << "                The filename format can be set with -r format.\n"
+       << "  mo | modify   Apply commands to modify (add, set, delete) the Exif\n"
+       << "                and Iptc metadata of image files. Requires option -m\n"
        << "\nOptions:\n"
        << "   -h      Display this help and exit.\n"
        << "   -V      Show the program version and exit.\n"
@@ -175,7 +208,9 @@ void Params::help(std::ostream& os) const
        << "           are the same as those for the -d option.\n"
        << "   -r fmt  Filename format for the `rename' action. The format string\n"
        << "           follows strftime(3). Default filename format is " 
-       <<             format_ << ".\n\n";
+       <<             format_ << ".\n"
+       << "   -m file Command file for the modify action. The format for the commands\n"
+       << "           set|add|del <key> [[<Type>] <value>].\n\n";
 } // Params::help
 
 int Params::option(int opt, const std::string& optarg, int optopt)
@@ -323,6 +358,23 @@ int Params::option(int opt, const std::string& optarg, int optopt)
             break;
         }
         break;
+    case 'm':
+        switch (action_) {
+        case Action::none:
+            action_ = Action::modify;
+            cmdFile_ = optarg;                  // parse the file later
+            break;
+        case Action::modify:
+            std::cerr << progname() 
+                      << ": Ignoring surplus option -m " << optarg << "\n";
+            break;
+        default:
+            std::cerr << progname() 
+                      << ": Option -m is not compatible with a previous option\n";
+            rc = 1;
+            break;
+        }
+        break;
     case ':':
         std::cerr << progname() << ": Option -" << static_cast<char>(optopt) 
                   << " requires an argument\n";
@@ -404,6 +456,15 @@ int Params::nonoption(const std::string& argv)
             action = true;
             action_ = Action::rename;
         }
+        if (argv == "mo" || argv == "modify") {
+            if (action_ != Action::none && action_ != Action::modify) {
+                std::cerr << progname() << ": Action modify is not "
+                          << "compatible with the given options\n";
+                rc = 1;
+            }
+            action = true;
+            action_ = Action::modify;
+        }
         if (action_ == Action::none) {
             // if everything else fails, assume print as the default action
             action_ = Action::print;
@@ -430,9 +491,21 @@ int Params::getopt(int argc, char* const argv[])
                   << ": Adjust action requires option -a time\n";
         rc = 1;
     }
+    if (action_ == Action::modify && cmdFile_.empty()) {
+        std::cerr << progname() 
+                  << ": Modify action requires option -m file\n";
+        rc = 1;
+    }
     if (0 == files_.size()) {
         std::cerr << progname() << ": At least one file is required\n";
         rc = 1;
+    }
+    if (rc == 0 && action_ == Action::modify) {
+        if (!parseCommands(modifyCmds_, cmdFile_)) {
+            std::cerr << progname() << ": Error parsing -m option argument `" 
+                      << cmdFile_ << "'\n";
+            rc = 1;
+        }
     }
     return rc;
 } // Params::getopt
@@ -504,5 +577,148 @@ namespace {
         }
         return rc ? rc : target;
     } // parseCommonTargets
+
+    bool parseCommands(ModifyCmds& modifyCmds, 
+                      const std::string& filename)
+    {
+        try {
+            std::ifstream file(filename.c_str());
+            if (!file) {
+                std::cerr << filename 
+                          << ": Failed to open command file for reading\n";
+                return false;
+            }
+            int num = 0;
+            std::string line;
+            while (std::getline(file, line)) {
+                ModifyCmd modifyCmd;
+                if (parseLine(modifyCmd, line, ++num)) {
+                    modifyCmds.push_back(modifyCmd);
+                }
+            }
+            return true;
+        }
+        catch (const Exiv2::Error& error) {
+            std::cerr << filename << ", " << error << "\n";
+            return false;
+	}
+    } // parseCommands
+
+    bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num)
+    {
+        const std::string delim = " \t";
+
+        // Skip empty lines and comments
+        std::string::size_type cmdStart = line.find_first_not_of(delim);
+        if (cmdStart == std::string::npos || line[cmdStart] == '#') return false;
+
+        // Get command and key 
+        std::string::size_type cmdEnd = line.find_first_of(delim, cmdStart+1);
+        std::string::size_type keyStart = line.find_first_not_of(delim, cmdEnd+1);
+        std::string::size_type keyEnd = line.find_first_of(delim, keyStart+1);
+        if (   cmdStart == std::string::npos
+            || cmdEnd == std::string::npos
+            || keyStart == std::string::npos) {
+            throw Exiv2::Error("line " + Exiv2::toString(num) 
+                               + ": Invalid command line");
+        }
+
+        std::string cmd(line.substr(cmdStart, cmdEnd-cmdStart));
+        CmdId cmdId = commandId(cmd);
+        if (cmdId == invalidCmdId) {
+            throw Exiv2::Error("line " + Exiv2::toString(num) 
+                               + ": Invalid command `" + cmd + "'");
+        }
+
+        Exiv2::TypeId defaultType = Exiv2::invalidTypeId;
+        std::string key(line.substr(keyStart, keyEnd-keyStart));
+        MetadataId metadataId = invalidMetadataId;
+        try {
+            Exiv2::IptcKey iptcKey(key);
+            metadataId = iptc;
+            defaultType = Exiv2::IptcDataSets::dataSetType(iptcKey.tag(), 
+                                                           iptcKey.record());
+        }
+        catch (const Exiv2::Error&) {}
+        if (metadataId == invalidMetadataId) {
+            try {
+                Exiv2::ExifKey exifKey(key);
+                metadataId = exif;
+                defaultType = Exiv2::asciiString;
+            }
+            catch (const Exiv2::Error&) {}
+        }
+        if (metadataId == invalidMetadataId) {
+            throw Exiv2::Error("line " + Exiv2::toString(num) 
+                               + ": Invalid key `" + key + "'");
+        }
+
+        std::string value;
+        Exiv2::TypeId type = Exiv2::invalidTypeId;
+        bool explicitType = true;
+        if (cmdId != del) {
+            // Get type and value
+            std::string::size_type typeStart 
+                = line.find_first_not_of(delim, keyEnd+1);
+            std::string::size_type typeEnd 
+                = line.find_first_of(delim, typeStart+1);
+            std::string::size_type valStart = typeStart;
+            std::string::size_type valEnd = line.find_last_not_of(delim);
+
+            if (   keyEnd == std::string::npos 
+                || typeStart == std::string::npos
+                || typeEnd == std::string::npos
+                || valStart == std::string::npos) {
+                throw Exiv2::Error("line " + Exiv2::toString(num) 
+                                   + ": Invalid command line");
+            }
+
+            std::string typeStr(line.substr(typeStart, typeEnd-typeStart));
+            type = Exiv2::TypeInfo::typeId(typeStr);
+            if (type != Exiv2::invalidTypeId) {
+                valStart = line.find_first_not_of(delim, typeEnd+1);
+                if (valStart == std::string::npos) {
+                    throw Exiv2::Error("line " + Exiv2::toString(num) 
+                                       + ": Invalid command line");
+                }
+            }
+            else {
+                type = defaultType;
+                explicitType = false;
+            }
+            if (type == Exiv2::invalidTypeId) {
+                throw Exiv2::Error("line " + Exiv2::toString(num) 
+                                   + ": Invalid type");
+            }
+
+            value = line.substr(valStart, valEnd+1-valStart);
+            std::string::size_type last = value.length()-1;
+            if (  (value[0] == '"' || value[last] == '"') 
+                && value[0] != value[last]) {
+                throw Exiv2::Error("line " + Exiv2::toString(num) 
+                                   + ": Unbalanced quotes");
+            }
+            if (value[0] == '"') {
+                value = value.substr(1, value.length()-2);
+            }
+        }
+
+        modifyCmd.cmdId_ = cmdId;
+        modifyCmd.key_ = key;
+        modifyCmd.metadataId_ = metadataId;
+        modifyCmd.typeId_ = type;
+        modifyCmd.explicitType_ = explicitType;
+        modifyCmd.value_ = value;
+
+        return true;
+    } // parseLine
+
+    CmdId commandId(const std::string& cmdString)
+    {
+        int i = 0;
+        for (;   cmdIdAndString[i].cmdId_ != invalidCmdId
+                 && cmdIdAndString[i].cmdString_ != cmdString; ++i) {}
+        return cmdIdAndString[i].cmdId_;
+    }
 
 }

@@ -58,19 +58,30 @@ namespace Exiv2 {
         TypeInfoTable(unsignedShort,    "Short",       2),
         TypeInfoTable(unsignedLong,     "Long",        4),
         TypeInfoTable(unsignedRational, "Rational",    8),
-        TypeInfoTable(invalid6,         "Invalid (6)", 1),
+        TypeInfoTable(invalid6,         "Invalid(6)",  1),
         TypeInfoTable(undefined,        "Undefined",   1),
         TypeInfoTable(signedShort,      "SShort",      2),
         TypeInfoTable(signedLong,       "SLong",       4),
         TypeInfoTable(signedRational,   "SRational",   8),
         TypeInfoTable(string,           "String",      1),
         TypeInfoTable(date,             "Date",        8),
-        TypeInfoTable(time,             "Time",        11)
+        TypeInfoTable(time,             "Time",        11),
+        // End of list marker
+        TypeInfoTable(lastTypeId,       "(Unknown)",   0)
     };
 
     const char* TypeInfo::typeName(TypeId typeId)
     {
         return typeInfoTable_[ typeId < lastTypeId ? typeId : 0 ].name_;
+    }
+
+    TypeId TypeInfo::typeId(const std::string& typeName)
+    {
+        int i = 0;
+        for (;    typeInfoTable_[i].typeId_ != lastTypeId
+               && typeInfoTable_[i].name_ != typeName; ++i) {}
+        return typeInfoTable_[i].typeId_ == lastTypeId ?
+               invalidTypeId : typeInfoTable_[i].typeId_;
     }
 
     long TypeInfo::typeSize(TypeId typeId)
