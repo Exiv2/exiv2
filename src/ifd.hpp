@@ -21,7 +21,7 @@
 /*!
   @file    ifd.hpp
   @brief   Encoding and decoding of IFD (Image File Directory) data
-  @version $Name:  $ $Revision: 1.1 $
+  @version $Name:  $ $Revision: 1.2 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -41,7 +41,6 @@
 
 // *****************************************************************************
 // namespace extensions
-//! Provides classes and functions to encode and decode %Exif data.
 namespace Exif {
 
 // *****************************************************************************
@@ -152,9 +151,9 @@ namespace Exif {
         void setOffset(uint32 offset, ByteOrder byteOrder);
         /*!
           @brief Set type, count and the data of the entry. 
-          @throw Error ("Size too large") if no memory allocation is allowed
-                 and the size of the data of value is larger than that 
-                 available for the data of the entry.
+          @throw Error ("Size too large") if no memory allocation is allowed and
+                 the size of the data in buf is greater than the existing size
+                 of the data of the entry.
          */
         void setValue(uint16 type, const char* buf, long size);
 
