@@ -11,6 +11,7 @@ if [ $? -ne 0 ] ; then
 fi
 (
 LD_LIBRARY_PATH=../../src:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH
 binpath="../../src"
 cd ./tmp
 $binpath/makernote-test
