@@ -3,7 +3,7 @@
   Abstract:  Example showing how to add, modify and delete Exif metadata
 
   File:      example1.cpp
-  Version:   $Name:  $ $Revision: 1.4 $
+  Version:   $Name:  $ $Revision: 1.5 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
  */
@@ -67,6 +67,8 @@ try {
     std::string date = pos->toString();
     date.replace(0,4,"2000");
     pos->setValue(date); 
+    std::cout << "Modified key \"" << key 
+              << "\", new value \"" << pos->value() << "\"\n";
 
     // Find the other key
     key = "Image.ImageCharacteristics.PrimaryChromaticities";
@@ -83,6 +85,8 @@ try {
     pos->setValue(rv);
     // Delete the memory allocated by getValue
     delete v;
+    std::cout << "Modified key \"" << key 
+              << "\", new value \"" << pos->value() << "\"\n";
 
     std::cout << "---\n";
     exifPrint(exifData);
@@ -90,16 +94,13 @@ try {
     // *************************************************************************
     // Delete metadata from the Exif data container
 
-    // Delete a metadatum by its key
-    key = "Image.DateTime.DateTimeOriginal";
-    exifData.erase(key);
-
     // Delete the metadatum at iterator position pos
     key = "Image.ImageCharacteristics.PrimaryChromaticities";
     pos = exifData.findKey(key);
     if (pos == exifData.end()) throw Exif::Error("Key not found");
     exifData.erase(pos);
 
+    std::cout << "Deleted key \"" << key << "\"\n";
     std::cout << "---\n";
     exifPrint(exifData);
 
