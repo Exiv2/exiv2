@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of Exif data
-  @version $Name:  $ $Revision: 1.45 $
+  @version $Name:  $ $Revision: 1.46 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -691,7 +691,7 @@ namespace Exiv2 {
          */
         const_iterator findIfdIdIdx(IfdId ifdId, int idx) const;
         //! Get the number of metadata entries
-        long count() const { return metadata_.size(); }
+        long count() const { return static_cast<long>(metadata_.size()); }
         /*!
           @brief Return the approximate size of all Exif data (TIFF header plus 
                  metadata). The number returned may be bigger than the actual 

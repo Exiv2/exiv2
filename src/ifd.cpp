@@ -20,14 +20,14 @@
  */
 /*
   File:      ifd.cpp
-  Version:   $Name:  $ $Revision: 1.22 $
+  Version:   $Name:  $ $Revision: 1.23 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.22 $ $RCSfile: ifd.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.23 $ $RCSfile: ifd.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -300,7 +300,7 @@ namespace Exiv2 {
                     // Todo: How to handle debug output like this
                     std::cerr << "Warning: Upper boundary of data for " 
                               << ExifTags::ifdName(ifdId_) 
-                              << " entry " << i - begin 
+                              << " entry " << static_cast<int>(i - begin) 
                               << " is out of bounds:\n"
                               << " Offset = " << tmpOffset
                               << ", size = " << i->size_ 
