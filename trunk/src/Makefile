@@ -20,7 +20,7 @@
 # 02111-1307, USA.
 #
 # File:      Makefile
-# Version:   $Name:  $ $Revision: 1.13 $
+# Version:   $Name:  $ $Revision: 1.14 $
 # Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
 # History:   10-Dec-03, ahu: created
 #
@@ -61,7 +61,7 @@ BINSRC = example1.cpp taglist.cpp exifprint.cpp exiftest.cpp makernote-test.cpp
 EXIV2MAIN = exiv2.cpp
 
 # Add additional source files of the real application to this list
-EXIV2SRC = actions.cpp utils.cpp 
+EXIV2SRC = actions.cpp utils.cpp
 
 # ******************************************************************************
 # Library
@@ -116,6 +116,7 @@ ifdef STATIC_LIBS
     INSTALL = bin
     INSTALL_LIB = install-archive
     UNINSTALL_LIB = uninstall-archive
+    LDLIBS := mn.o $(LDLIBS)
 endif
 ifdef SHARED_LIBS
     LIBRARY := $(LIBRARY) sharedlib
@@ -167,6 +168,9 @@ $(BINARY): %: %.o
 $(EXIV2BIN): %: %.o
 	$(CXX) $(CXXFLAGS) $(EXIV2OBJ) $(LDLIBS) $(LDFLAGS_BIN) -o $@
 
+mn.cpp: ./mn.sh
+	./mn.sh
+
 # ******************************************************************************
 # Targets
 .PHONY: all archive sharedlib bin check ctags doc                      \
@@ -189,7 +193,7 @@ $(ARCHIVE): $(ARCHIVE)($(OBJ))
 archive: $(ARCHIVE)
 
 $(SHAREDLIB): $(SOBJ)
-	$(CXX) $^ $(PMTLIBS) $(LDFLAGS_SHARED) -o $@
+	$(CXX) $^ $(LDFLAGS_SHARED) -o $@
 
 sharedlib: $(SHAREDLIB)
 
@@ -197,7 +201,7 @@ lib: $(LIBRARY)
 
 # Re-link executables whenever the static library changes
 ifdef STATIC_LIBS
-$(BINARY): $(ARCHIVE)
+$(BINARY): $(ARCHIVE) mn.o
 endif
 
 $(EXIV2BIN): $(EXIV2OBJ)
@@ -262,6 +266,7 @@ check:
 mostlyclean:
 	$(RM) core
 	$(RM) $(CCSRC:.cpp=.ii)
+	$(RM) .mn.d mn.cpp mn.o
 	$(RM) $(OBJ) $(SOBJ) $(BINOBJ) $(EXIV2OBJ)
 	@if test -n "$(CXX_REPOSITORY)"; then \
 	    echo "rm -rf $(CXX_REPOSITORY)"; \
