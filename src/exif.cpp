@@ -12,7 +12,7 @@
 
   RCS information
    $Name:  $
-   $Revision: 1.3 $
+   $Revision: 1.4 $
  */
 // *****************************************************************************
 // included header files
@@ -24,6 +24,7 @@
 #include <iomanip>
 #include <sstream>
 #include <fstream>
+#include <utility>
 
 #include <cstring>
 
@@ -101,15 +102,15 @@ namespace Exif {
         if (getUShort(marker, bigEndian) != app1_) return 3;
 
         // Read the length of the APP1 field and the Exif identifier
-        char buf[8];
-        ::memset(buf, 0x0, 8);
-        is.read(buf, 8);
+        char tmpbuf[8];
+        ::memset(tmpbuf, 0x0, 8);
+        is.read(tmpbuf, 8);
         if (!is.good()) return 1;
         // Get the length of the APP1 field and do a plausibility check
-        long app1Length = getUShort(buf, bigEndian);
+        long app1Length = getUShort(tmpbuf, bigEndian);
         if (app1Length < 8) return 4;
         // Check the Exif identifier
-        if (::memcmp(buf+2, exifId_, 6) != 0) return 4;
+        if (::memcmp(tmpbuf+2, exifId_, 6) != 0) return 4;
  
         // Read the rest of the APP1 field (Exif data)
         long sizeExifData = app1Length - 8;
@@ -166,38 +167,87 @@ namespace Exif {
         return size();
     }
 
-    Value* Value::create(TypeId typeId, ByteOrder byteOrder)
+    Value* Value::create(TypeId typeId)
     {
         Value* value = 0;
         switch (typeId) {
         case invalid:
+            value = new DataValue(invalid);
             break;
         case unsignedByte:
-            value = new AsciiValue;
+            value = new DataValue(unsignedByte);
             break;
         case asciiString:
             value =  new AsciiValue;
             break;
         case unsignedShort:
-            value = new UShortValue(byteOrder);
+            value = new ValueType<uint16>;
             break;
         case unsignedLong:
+            value = new ValueType<uint32>;
+            break;
         case unsignedRational:
-        case signedByte:
+            value = new ValueType<URational>;
+            break;
+        case invalid6:
+            value = new DataValue(invalid6);
+            break;
         case undefined:
+            value = new DataValue;
+            break;
         case signedShort:
+            value = new ValueType<int16>;
+            break;
         case signedLong:
+            value = new ValueType<int32>;
+            break;
         case signedRational:
-        case singleFloat:
-        case doubleFloat:
-            value = new AsciiValue;
+            value = new ValueType<Rational>;
             break;
         }
         return value;
     } // Value::create
 
-    void AsciiValue::read(const char* buf, long len)
+    void DataValue::read(const char* buf, long len, ByteOrder byteOrder)
     {
+        // byteOrder not needed 
+        value_ = std::string(buf, len);
+    }
+
+    void DataValue::read(const std::string& buf)
+    {
+        // Todo: read from a string of bytes??
+        value_ = buf;
+    }
+
+    long DataValue::copy(char* buf, ByteOrder byteOrder) const
+    {
+        // byteOrder not needed
+        return value_.copy(buf, value_.size());
+    }
+
+    long DataValue::size() const
+    {
+        return value_.size();
+    }
+
+    Value* DataValue::clone() const
+    {
+        return new DataValue(*this);
+    }
+
+    std::ostream& DataValue::write(std::ostream& os) const
+    {
+        std::string::size_type end = value_.size();
+        for (std::string::size_type i = 0; i != end; ++i) {
+            os << (int)(unsigned char)value_[i] << " ";
+        }
+        return os;
+    }
+
+    void AsciiValue::read(const char* buf, long len, ByteOrder byteOrder)
+    {
+        // byteOrder not needed 
         value_ = std::string(buf, len);
     }
 
@@ -206,8 +256,9 @@ namespace Exif {
         value_ = buf;
     }
 
-    long AsciiValue::copy(char* buf) const
+    long AsciiValue::copy(char* buf, ByteOrder byteOrder) const
     {
+        // byteOrder not needed
         return value_.copy(buf, value_.size());
     }
 
@@ -222,39 +273,6 @@ namespace Exif {
     }
 
     std::ostream& AsciiValue::write(std::ostream& os) const
-    {
-        return os << value_;
-    }
-
-    void UShortValue::read(const char* buf, long len)
-    {
-        // Todo: Should we check to make sure that len is 2
-        value_ = getUShort(buf, byteOrder_);
-    }
-
-    void UShortValue::read(const std::string& buf)
-    {
-        std::istringstream is(buf);
-        is >> value_;
-    }
-
-    long UShortValue::copy(char* buf) const
-    {
-        us2Data(buf, value_, byteOrder_);
-        return size();
-    }
-
-    long UShortValue::size() const
-    {
-        return 2;
-    }
-
-    Value* UShortValue::clone() const
-    {
-        return new UShortValue(*this);
-    }
-
-    std::ostream& UShortValue::write(std::ostream& os) const
     {
         return os << value_;
     }
@@ -287,6 +305,8 @@ namespace Exif {
 
     Metadatum& Metadatum::operator=(const Metadatum& rhs)
     {
+        if (this == &rhs) return *this;
+
         tag_ = rhs.tag_;
         type_ = rhs.type_;
         count_ = rhs.count_;
@@ -361,15 +381,15 @@ namespace Exif {
         for (i = eb; i != ee; ++i) {
             delete i->value_;
             //! Todo: Create the correct type here, once we have them
-            i->value_ = Value::create(TypeId(i->type_), byteOrder);
+            i->value_ = Value::create(TypeId(i->type_));
             if (i->size_ > 4) {
                 i->offset_ = i->offset_ - offset_;
-                i->value_->read(buf + i->offset_, i->size_);
+                i->value_->read(buf + i->offset_, i->size_, byteOrder);
             }
             else {
-                char value[4];
-                ul2Data(value, i->offset_, byteOrder);
-                i->value_->read(value, 4);
+                char tmpbuf[4];
+                ul2Data(tmpbuf, i->offset_, byteOrder);
+                i->value_->read(tmpbuf, i->size_, byteOrder);
             }
         }
         return 0;
@@ -411,7 +431,10 @@ namespace Exif {
                 dataSize += i->size_;
             }
             else {
-                ul2Data(buf+o+8, i->offset_, byteOrder);
+                char tmpbuf[4];
+                ::memset(tmpbuf, 0x0, 4);
+                i->value_->copy(tmpbuf, byteOrder);
+                ::memcpy(buf+o+8, tmpbuf, 4);
             }
             o += 12;
         }
@@ -432,7 +455,7 @@ namespace Exif {
                 // Todo: Check this! There seems to be an inconsistency
                 // in the use of size_ and the return value of copy() here
                 // Todo: And can value_ be 0?
-                o += i->value_->copy(buf+o);
+                o += i->value_->copy(buf+o, byteOrder);
             }
         }
 
@@ -449,7 +472,7 @@ namespace Exif {
            << ",   IFD Entries: " 
            << std::setfill(' ') << std::dec << std::right
            << entries_.size() << "\n"
-           << prefix << "Entry     Tag  Format   (Bytes each)  Number  Offset/Data\n"
+           << prefix << "Entry     Tag  Format   (Bytes each)  Number  Offset\n"
            << prefix << "-----  ------  ---------------------  ------  -----------\n";
 
         const Metadata::const_iterator b = entries_.begin();
@@ -458,19 +481,22 @@ namespace Exif {
         for (; i != e; ++i) {
             std::ostringstream offset;
             if (i->typeSize() * i->count_ <= 4) {
-                // Minor cheat here: we use value_ instead of offset_ to avoid
-                // having to invoke ul2Data() which would require byte order.
-                // Todo: can value_ be 0 here?
-                char tmpbuf[4];
-                i->value_->copy(tmpbuf);
-                offset << std::setw(2) << std::setfill('0') << std::hex
-                       << (int)*(unsigned char*)tmpbuf << " "
-                       << std::setw(2) << std::setfill('0') << std::hex
-                       << (int)*(unsigned char*)(tmpbuf+1) << " "
-                       << std::setw(2) << std::setfill('0') << std::hex 
-                       << (int)*(unsigned char*)(tmpbuf+2) << " "
-                       << std::setw(2) << std::setfill('0') << std::hex
-                       << (int)*(unsigned char*)(tmpbuf+3) << " ";
+
+// Todo: Fix me! This doesn't work with Value anymore because we do not know
+// the byte order here. (Wait for Ifd to use a more special type)
+//
+//              char tmpbuf[4];
+//              i->value_->copy(tmpbuf, byteOrder);
+//              offset << std::setw(2) << std::setfill('0') << std::hex
+//                     << (int)*(unsigned char*)tmpbuf << " "
+//                     << std::setw(2) << std::setfill('0') << std::hex
+//                     << (int)*(unsigned char*)(tmpbuf+1) << " "
+//                     << std::setw(2) << std::setfill('0') << std::hex
+//                     << (int)*(unsigned char*)(tmpbuf+2) << " "
+//                     << std::setw(2) << std::setfill('0') << std::hex
+//                     << (int)*(unsigned char*)(tmpbuf+3) << " ";
+
+                offset << "n/a";
             }
             else {
                 offset << " 0x" << std::setw(8) << std::setfill('0') << std::hex
@@ -622,13 +648,43 @@ namespace Exif {
         }
     }
 
-    std::string getString(const char* buf, long len)
+    URational getURational(const char* buf, ByteOrder byteOrder)
     {
-        std::string txt(buf, len);
-        return txt;
+        uint32 nominator = getULong(buf, byteOrder);
+        uint32 denominator = getULong(buf + 4, byteOrder);
+        return std::make_pair(nominator, denominator);
     }
 
-    char* us2Data(char* buf, uint16 s, ByteOrder byteOrder)
+    int16 getShort(const char* buf, ByteOrder byteOrder)
+    {
+        if (byteOrder == littleEndian) {
+            return (unsigned char)buf[1] << 8 | (unsigned char)buf[0];
+        }
+        else {
+            return (unsigned char)buf[0] << 8 | (unsigned char)buf[1];
+        }
+    }
+
+    int32 getLong(const char* buf, ByteOrder byteOrder)
+    {
+        if (byteOrder == littleEndian) {
+            return   (unsigned char)buf[3] << 24 | (unsigned char)buf[2] << 16 
+                   | (unsigned char)buf[1] <<  8 | (unsigned char)buf[0];
+        }
+        else {
+            return   (unsigned char)buf[0] << 24 | (unsigned char)buf[1] << 16 
+                   | (unsigned char)buf[2] <<  8 | (unsigned char)buf[3];
+        }
+    }
+
+    Rational getRational(const char* buf, ByteOrder byteOrder)
+    {
+        int32 nominator = getLong(buf, byteOrder);
+        int32 denominator = getLong(buf + 4, byteOrder);
+        return std::make_pair(nominator, denominator);
+    }
+
+    long us2Data(char* buf, uint16 s, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
             buf[0] =  s & 0x00ff;
@@ -638,10 +694,10 @@ namespace Exif {
             buf[0] = (s & 0xff00) >> 8;
             buf[1] =  s & 0x00ff;
         }
-        return buf;
+        return 2;
     }
 
-    char* ul2Data(char* buf, uint32 l, ByteOrder byteOrder)
+    long ul2Data(char* buf, uint32 l, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
             buf[0] =  l & 0x000000ff;
@@ -655,7 +711,51 @@ namespace Exif {
             buf[2] = (l & 0x0000ff00) >> 8;
             buf[3] =  l & 0x000000ff;
         }
-        return buf;
+        return 4;
+    }
+
+    long ur2Data(char* buf, URational l, ByteOrder byteOrder)
+    {
+        long o = ul2Data(buf, l.first, byteOrder);
+        o += ul2Data(buf+o, l.second, byteOrder);
+        return o;
+    }
+
+    long s2Data(char* buf, int16 s, ByteOrder byteOrder)
+    {
+        if (byteOrder == littleEndian) {
+            buf[0] =  s & 0x00ff;
+            buf[1] = (s & 0xff00) >> 8;
+        }
+        else {
+            buf[0] = (s & 0xff00) >> 8;
+            buf[1] =  s & 0x00ff;
+        }
+        return 2;
+    }
+
+    long l2Data(char* buf, int32 l, ByteOrder byteOrder)
+    {
+        if (byteOrder == littleEndian) {
+            buf[0] =  l & 0x000000ff;
+            buf[1] = (l & 0x0000ff00) >> 8;
+            buf[2] = (l & 0x00ff0000) >> 16;
+            buf[3] = (l & 0xff000000) >> 24;
+        }
+        else {
+            buf[0] = (l & 0xff000000) >> 24;
+            buf[1] = (l & 0x00ff0000) >> 16;
+            buf[2] = (l & 0x0000ff00) >> 8;
+            buf[3] =  l & 0x000000ff;
+        }
+        return 4;
+    }
+
+    long r2Data(char* buf, Rational l, ByteOrder byteOrder)
+    {
+        long o = l2Data(buf, l.first, byteOrder);
+        o += l2Data(buf+o, l.second, byteOrder);
+        return o;
     }
 
     void hexdump(std::ostream& os, const char* buf, long len)

@@ -8,7 +8,7 @@
 /*!
   @file    tags.hpp
   @brief   %Exif tag and type information
-  @version $Name:  $ $Revision: 1.3 $
+  @version $Name:  $ $Revision: 1.4 $
   @author  Andreas Huggel (ahu)
   @date    15-Jan-03, ahu: created
  */
@@ -20,6 +20,7 @@
 
 // + standard includes
 #include <utility>                              // for std::pair
+#include <iosfwd>
 
 // *****************************************************************************
 // namespace extensions
@@ -44,16 +45,18 @@ namespace Exif {
 
     //! Type identifiers for IFD format types
     enum TypeId { invalid, unsignedByte, asciiString, unsignedShort, 
-                  unsignedLong, unsignedRational, signedByte, undefined,
-                  signedShort, signedLong, signedRational, singleFloat, 
-                  doubleFloat };
+                  unsignedLong, unsignedRational, invalid6, undefined,
+                  signedShort, signedLong, signedRational };
 
     //! Type to specify the IFD to which a metadata belongs
     enum IfdId { IfdIdNotSet, 
                  ifd0, exifIfd, gpsIfd, makerIfd, iopIfd, 
                  ifd1, ifd1ExifIfd, ifd1GpsIfd, ifd1MakerIfd, ifd1IopIfd };
 
-    //! Section identifiers to logically group tags 
+    /*!
+      @brief Section identifiers to logically group tags. A section consists
+             of nothing more than a name, based on the Exif standard.
+     */
     enum SectionId { SectionIdNotSet, 
                      imgStruct, recOffset, imgCharacter, otherTags, exifFormat, 
                      exifVersion, imgConfig, userInfo, relatedFile, dateTime,
@@ -119,9 +122,9 @@ namespace Exif {
         //! Returns the name of the tag
         static const char* tagName(uint16 tag, IfdId ifdId);
         //! Returns the name of the type
-        static const char* typeName(uint16 type);
+        static const char* typeName(TypeId typeId);
         //! Returns the size in bytes of one element of this type
-        static long typeSize(uint16 type);
+        static long typeSize(TypeId typeId);
         //! Returns the name of the IFD
         static const char* ifdName(IfdId ifdId);
         //! Returns the related image item (image or thumbnail)
@@ -144,6 +147,34 @@ namespace Exif {
 
 // *****************************************************************************
 // free functions
+
+    //! Output operator for our fake rational
+    std::ostream& operator<<(std::ostream& os, const Rational& r);
+    //! Input operator for our fake rational
+    std::istream& operator>>(std::istream& is, Rational& r);
+    //! Output operator for our fake unsigned rational
+    std::ostream& operator<<(std::ostream& os, const URational& r);
+    //! Input operator for our fake unsigned rational
+    std::istream& operator>>(std::istream& is, URational& r);
+
+    //! Template to determine the TypeId for a type T
+    template<typename T> TypeId getType();
+
+    //! Specialization for an unsigned short
+    template<> inline TypeId getType<uint16>() { return unsignedShort; }
+    //! Specialization for an unsigned long
+    template<> inline TypeId getType<uint32>() { return unsignedLong; }
+    //! Specialization for an unsigned rational
+    template<> inline TypeId getType<URational>() { return unsignedRational; }
+    //! Specialization for a signed short
+    template<> inline TypeId getType<int16>() { return signedShort; }
+    //! Specialization for a signed long
+    template<> inline TypeId getType<int32>() { return signedLong; }
+    //! Specialization for a signed rational
+    template<> inline TypeId getType<Rational>() { return signedRational; }
+
+    // No default implementation: let the compiler/linker complain
+//    template<typename T> inline TypeId getType() { return invalid; }
 
 }                                       // namespace Exif
 
