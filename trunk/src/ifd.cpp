@@ -353,7 +353,8 @@ namespace Exiv2 {
             if (i->size_ > 4) {
                 if (offset_ == 0) {
                     // Set the 'guessed' IFD offset
-                    offset_ = i->offset_ - (2 + 12 * preEntries.size() + 4);
+                    offset_ = i->offset_ 
+		      - (2 + 12 * static_cast<long>(preEntries.size()) + 4);
                 }
                 // Set the offset of the first data entry outside of the IFD
                 if (i->offset_ - offset_ >= len) {
