@@ -20,13 +20,13 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.22 $
+  Version:   $Name:  $ $Revision: 1.23 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.22 $ $RCSfile: tags.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.23 $ $RCSfile: tags.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -39,6 +39,7 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.22 $ $RCSfile: tags.cpp,v $")
 #include <iomanip>
 #include <sstream>
 #include <utility>
+#include <cstdlib>
 
 // *****************************************************************************
 // class member definitions
@@ -154,7 +155,7 @@ namespace Exif {
         TagInfo(0x9201, "ShutterSpeedValue", "Shutter speed", exifIfd, captureCond, printFloat),
         TagInfo(0x9202, "ApertureValue", "Aperture", exifIfd, captureCond, printFloat),
         TagInfo(0x9203, "BrightnessValue", "Brightness", exifIfd, captureCond, printFloat),
-        TagInfo(0x9204, "ExposureBiasValue", "Exposure bias", exifIfd, captureCond, printFloat),
+        TagInfo(0x9204, "ExposureBiasValue", "Exposure bias", exifIfd, captureCond, print0x9204),
         TagInfo(0x9205, "MaxApertureValue", "Maximum lens aperture", exifIfd, captureCond, printFloat),
         TagInfo(0x9206, "SubjectDistance", "Subject distance", exifIfd, captureCond, print0x9206),
         TagInfo(0x9207, "MeteringMode", "Metering mode", exifIfd, captureCond, print0x9207),
@@ -629,6 +630,19 @@ namespace Exif {
             case 6:  os << "B"; break;
             default: os << "(" << l << ")"; break;
             }
+        }
+        return os;
+    }
+
+    std::ostream& print0x9204(std::ostream& os, const Value& value)
+    {
+        Rational bias = value.toRational();
+        if (bias.first == 0) {
+            os << "+/- 0";
+        }
+        else {
+            os << (bias.first < 0 ? "- " : "+ ");
+            os << labs(bias.first) << "/" << bias.second;
         }
         return os;
     }

@@ -21,7 +21,7 @@
 /*!
   @file    tags.hpp
   @brief   %Exif tag and type information
-  @version $Name:  $ $Revision: 1.19 $
+  @version $Name:  $ $Revision: 1.20 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    15-Jan-04, ahu: created
@@ -233,6 +233,8 @@ namespace Exif {
     std::ostream& print0x8827(std::ostream& os, const Value& value);
     //! Print components configuration specific to compressed data
     std::ostream& print0x9101(std::ostream& os, const Value& value);
+    //! Print the exposure bias value
+    std::ostream& print0x9204(std::ostream& os, const Value& value);
     //! Print the subject distance
     std::ostream& print0x9206(std::ostream& os, const Value& value);
     //! Print the metering mode
