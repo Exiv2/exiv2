@@ -1,0 +1,58 @@
+Changes from version 0.3 to 0.4
+-------------------------------
+
+* Exiv2 utility
+
+	* Less rigid command line argument parsing: Guess the action from the 
+          option given and use print as the default action.
+
+	* Print Nikon makernote values for ISO Speed, Quality and WhiteBalance
+          in the summary.
+
+* Exiv2 library
+
+	* Fixed MSVC errors and warnings. Thanks to Steven R. King for his work
+	  to get Exiv2 to compile cleanly on MSVC.
+
+	* Fixed ExifData::copyFromMetadata to automatically add missing
+          offset tags. Thanks to XYZ for identifying this bug.
+
+	* Added three different Nikon makernote formats.
+
+	* IfdMakerNote: Replaced too simple prefix with a more general concept 
+          of a makernote header. 
+
+	* Added the makernote buffer to the arguments passed to the makernote 
+	  create function. This allows the makernote create function to 
+          determine the exact makernote needed based on its content. The new 
+          concept is used to automatically determine which of the three Nikon 
+          makernotes to create.
+
+	* Fixed MakerNoteFactory::match() to prefer an exact match over a 
+          wildcard match with the same number of matching characters (Key 
+          "Nikon" now prefers registry entry "Nikon" over "Nikon*"), simplified
+          the return value of match() to an integer score value.
+
+	* Sigma makernote: Added "FOVEON" and "*" to registry. 
+
+	* Added len argument and boundary checks to various read functions,
+	  in particular, the IFD read method. 
+
+	* Improved handling of corrupt IFDs: Truncate field if offset points 
+	  outside of the available buffer.
+
+	* Slightly improved error handling: strError() is now a static member 
+	  of ExifData.
+
+	* Added warning when makernote cannot be read.
+
+	* Added exifcomment example program.
+
+	* Fixed an embarassing bug in ExifData::updateEntries, which caused 
+	  write after erasing metadata to write back the original metadata.
+
+	* Fixed TypeInfoTable to return invalid if typeId is too large.
+
+	* Makefile: (un)install targets now only (un)install exiv2.
+
+	* Code cleanup, documentation updates and miscellaneous bug fixes.
