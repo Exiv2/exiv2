@@ -21,9 +21,9 @@
 /*!
   @file    sigmamn.hpp
   @brief   Sigma and Foveon MakerNote implemented according to the specification
-           in "SIGMA and FOVEON EXIF MakerNote Documentation" by Foveon.
-           <http://www.x3f.info/technotes/FileDocs/MakerNoteDoc.html>
-  @version $Name:  $ $Revision: 1.3 $
+           <a href="http://www.x3f.info/technotes/FileDocs/MakerNoteDoc.html">
+           SIGMA and FOVEON EXIF MakerNote Documentation</a> by Foveon.           
+  @version $Name:  $ $Revision: 1.4 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    02-Apr-04, ahu: created
@@ -81,9 +81,17 @@ namespace Exiv2 {
         virtual ~SigmaMakerNote() {}
         //@}
 
-        //! @name Accessors
+        //! @name Manipulators
         //@{        
-        MakerNote* clone(bool alloc =true) const;
+        int readHeader(const char* buf, 
+                       long len,
+                       ByteOrder byteOrder);
+        //@}
+
+        //! @name Accessors
+        //@{
+        int checkHeader() const;
+        SigmaMakerNote* clone(bool alloc =true) const;
         //! Return the name of the makernote section ("Sigma")
         std::string sectionName(uint16 tag) const { return sectionName_; }
         std::ostream& printTag(std::ostream& os,
@@ -109,8 +117,10 @@ namespace Exiv2 {
             {
                 MakerNoteFactory& mnf = MakerNoteFactory::instance();
                 mnf.registerMakerNote("SIGMA", "*", createSigmaMakerNote); 
+                mnf.registerMakerNote("FOVEON", "*", createSigmaMakerNote); 
             }
         };
+        // DATA
         /*!
           The static member variable is initialized before main (see note) and
           will in the process register the MakerNote class. (Remember the
