@@ -20,7 +20,7 @@
 # 02111-1307, USA.
 #
 # File:      Makefile
-# Version:   $Name:  $ $Revision: 1.11 $
+# Version:   $Name:  $ $Revision: 1.12 $
 # Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
 # History:   10-Dec-03, ahu: created
 #
@@ -51,10 +51,11 @@ include $(top_srcdir)/config.mk
 CCHDR = rcsid.hpp error.hpp
 
 # Add library C++ source files to this list
-CCSRC = exif.cpp ifd.cpp image.cpp makernote.cpp tags.cpp types.cpp value.cpp
+CCSRC = canonmn.cpp exif.cpp ifd.cpp image.cpp makernote.cpp mnfactory.cpp     \
+        tags.cpp types.cpp value.cpp
 
 # Add source files of simple applications to this list
-BINSRC = example1.cpp taglist.cpp exifprint.cpp exiftest.cpp
+BINSRC = example1.cpp taglist.cpp exifprint.cpp exiftest.cpp makernote-test.cpp
 
 # State the main source file of the Exiv2 application here
 EXIV2MAIN = exiv2.cpp
