@@ -23,7 +23,7 @@
   @brief   Canon MakerNote implemented according to the specification
            <a href="http://www.burren.cx/david/canon.html">
            EXIF MakerNote of Canon</a> by David Burren
-  @version $Name:  $ $Revision: 1.7 $
+  @version $Name:  $ $Revision: 1.8 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -119,55 +119,54 @@ namespace Exiv2 {
         static std::ostream& print0x000f(std::ostream& os, const Value& value);
 
         //! Macro mode
-        static std::ostream& print0x0001_01(std::ostream& os, uint16 s);
+        static std::ostream& print0x0001_01(std::ostream& os, long l);
         //! Self timer
-        static std::ostream& print0x0001_02(std::ostream& os, uint16 s);
+        static std::ostream& print0x0001_02(std::ostream& os, long l);
         //! Quality
-        static std::ostream& print0x0001_03(std::ostream& os, uint16 s);
+        static std::ostream& print0x0001_03(std::ostream& os, long l);
         //! Flash mode
-        static std::ostream& print0x0001_04(std::ostream& os, uint16 s);
+        static std::ostream& print0x0001_04(std::ostream& os, long l);
         //! Drive mode
-        static std::ostream& print0x0001_05(std::ostream& os, uint16 s);
+        static std::ostream& print0x0001_05(std::ostream& os, long l);
         //! Focus mode (G1 seems to use field 32 in preference to this)
-        static std::ostream& print0x0001_07(std::ostream& os, uint16 s);
+        static std::ostream& print0x0001_07(std::ostream& os, long l);
         //! Image size
-        static std::ostream& print0x0001_10(std::ostream& os, uint16 s);
+        static std::ostream& print0x0001_10(std::ostream& os, long l);
         //! Easy shooting
-        static std::ostream& print0x0001_11(std::ostream& os, uint16 s);
+        static std::ostream& print0x0001_11(std::ostream& os, long l);
         //! Digital zoom
-        static std::ostream& print0x0001_12(std::ostream& os, uint16 s);
+        static std::ostream& print0x0001_12(std::ostream& os, long l);
         //! ISO
-        static std::ostream& print0x0001_16(std::ostream& os, uint16 s);
+        static std::ostream& print0x0001_16(std::ostream& os, long l);
         //! Metering mode
-        static std::ostream& print0x0001_17(std::ostream& os, uint16 s);
+        static std::ostream& print0x0001_17(std::ostream& os, long l);
         //! Focus type
-        static std::ostream& print0x0001_18(std::ostream& os, uint16 s);
+        static std::ostream& print0x0001_18(std::ostream& os, long l);
         //! AF point selected
-        static std::ostream& print0x0001_19(std::ostream& os, uint16 s);
+        static std::ostream& print0x0001_19(std::ostream& os, long l);
         //! Exposure mode
-        static std::ostream& print0x0001_20(std::ostream& os, uint16 s);
+        static std::ostream& print0x0001_20(std::ostream& os, long l);
         //! Flash activity
-        static std::ostream& print0x0001_28(std::ostream& os, uint16 s);
+        static std::ostream& print0x0001_28(std::ostream& os, long l);
         //! Flash details 
-        static std::ostream& print0x0001_29(std::ostream& os, uint16 s);
+        static std::ostream& print0x0001_29(std::ostream& os, long l);
         //! Focus mode (G1 seems to use this in preference to field 7)
-        static std::ostream& print0x0001_32(std::ostream& os, uint16 s);
+        static std::ostream& print0x0001_32(std::ostream& os, long l);
         //! Low, normal, high print function
-        static std::ostream& print0x0001_lnh(std::ostream& os, uint16 s);
+        static std::ostream& print0x0001_lnh(std::ostream& os, long l);
         //! Camera lens information
         static std::ostream& print0x0001_Lens(std::ostream& os, 
                                               const Value& value);
         //! White balance
-        static std::ostream& print0x0004_07(std::ostream& os, uint16 s);
+        static std::ostream& print0x0004_07(std::ostream& os, long l);
         //! Sequence number
-        static std::ostream& print0x0004_09(std::ostream& os, uint16 s);
+        static std::ostream& print0x0004_09(std::ostream& os, long l);
         //! AF point used
-        static std::ostream& print0x0004_14(std::ostream& os, uint16 s);
+        static std::ostream& print0x0004_14(std::ostream& os, long l);
         //! Flash bias
-        static std::ostream& print0x0004_15(std::ostream& os, uint16 s);
+        static std::ostream& print0x0004_15(std::ostream& os, long l);
         //! Subject distance
-        static std::ostream& print0x0004_19(std::ostream& os, uint16 s);
-
+        static std::ostream& print0x0004_19(std::ostream& os, long l);
         //@}
 
     private:
