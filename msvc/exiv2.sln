@@ -65,10 +65,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "exivsimple", "exivsimple\ex
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "write2-test", "write2-test\write2-test.vcproj", "{BBDB5742-0A55-4C2C-973C-E876AAED6ABE}"
 	ProjectSection(ProjectDependencies) = postProject
+		{831EF580-92C8-4CA8-B0CE-3D906280A54D} = {831EF580-92C8-4CA8-B0CE-3D906280A54D}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "write-test", "write-test\write-test.vcproj", "{94A7505B-3A53-40F0-95A2-2ECB1CEC7C57}"
 	ProjectSection(ProjectDependencies) = postProject
+		{831EF580-92C8-4CA8-B0CE-3D906280A54D} = {831EF580-92C8-4CA8-B0CE-3D906280A54D}
 	EndProjectSection
 EndProject
 Global
