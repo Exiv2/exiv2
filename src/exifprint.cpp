@@ -2,8 +2,8 @@
 /*
   Abstract : Sample program to print the Exif metadata of an image
 
-  File:      exifprint.cpp
-  Version  : $Name:  $ $Revision: 1.14 $
+  File     : exifprint.cpp
+  Version  : $Name:  $ $Revision: 1.15 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History  : 26-Jan-04, ahu: created
  */
@@ -12,7 +12,6 @@
 #include "exif.hpp"
 #include <iostream>
 #include <iomanip>
-#include <cstring>
 
 // *****************************************************************************
 // Main
@@ -44,6 +43,6 @@ try {
     return rc;
 }
 catch (Exiv2::Error& e) {
-    std::cout << "Caught Exif exception '" << e << "'\n";
+    std::cout << "Caught Exiv2 exception '" << e << "'\n";
     return -1;
 }

@@ -3,7 +3,7 @@
   Abstract:  Sample program showing how to add, modify and delete Exif metadata.
 
   File:      addmoddel.cpp
-  Version:   $Name:  $ $Revision: 1.2 $
+  Version:   $Name:  $ $Revision: 1.3 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
  */
@@ -23,7 +23,7 @@ try {
     // *************************************************************************
     // Add to the Exif data
 
-    // Create a value of the required type
+    // Create a ASCII string value (note the use of create)
     Exiv2::Value* v = Exiv2::Value::create(Exiv2::asciiString);
     // Set the value to a string
     v->read("1999:12:31 23:59:59");
@@ -35,7 +35,7 @@ try {
     // Delete the memory allocated by Value::create
     delete v;
 
-    // Now create a more interesting value
+    // Now create a more interesting value (without using the create method)
     Exiv2::URationalValue* rv = new Exiv2::URationalValue;
     // Set two rational components from a string
     rv->read("1/2 1/3");
@@ -73,7 +73,7 @@ try {
     // Downcast the Value pointer to its actual type
     rv = dynamic_cast<Exiv2::URationalValue*>(v);
     if (rv == 0) throw Exiv2::Error("Downcast failed");
-    // Modify elements through the extended interface of the actual type
+    // Modify the value directly through the interface of URationalValue
     rv->value_[2] = std::make_pair(88,77);
     // Copy the modified value back to the metadatum
     pos->setValue(rv);
@@ -92,9 +92,17 @@ try {
     exifData.erase(pos);
     std::cout << "Deleted key \"" << key << "\"\n";
 
+    // *************************************************************************
+    // Finally, write the remaining Exif data to an image file
+    int rc = exifData.write("img_2158.jpg");
+    if (rc) {
+        std::string error = Exiv2::ExifData::strError(rc, "img_2158.jpg");
+        throw Exiv2::Error(error);
+    }
+
     return 0;
 }
 catch (Exiv2::Error& e) {
-    std::cout << "Caught Exif exception '" << e << "'\n";
-    return 1;
+    std::cout << "Caught Exiv2 exception '" << e << "'\n";
+    return -1;
 }
