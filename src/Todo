@@ -15,8 +15,19 @@ Library Features:
 + Complete support to create Exif data from scratch:
   + set makernote, write makernote tags
   + set thumbnail, write thumbnail tags
-  + write unknown tags 
+  + read and write unknown tags 
 + Make it possible to force write from metadata (just an optional arg to write?)
+
++ change Exif keys to "'Exif'.IfdName.TagName"
++ Get rid of Image::detach and make Image open files on-demand 
++ Make Image::doWriteMetadata do its work in a single pass
+
++ Add Key class hierarchy, undo Metadaum hierarchy
++ Make sure IptcData supports unknown dataset (best done with Key class that handles
+  Ids)
++ Revise Image and IptcData+ExifData API (aka turn it inside out)
++ Add PSD images support (and TIFF, NEF, CRW...)
++ Add support for XML metadata files
 
 Exiv2 functionality
 + Add offset to value for hexdump (requires metadata to have an offset)
@@ -35,4 +46,3 @@ Bugs:
 + Review: Exception safety
 + Review: Ifd1 only at Thumbnail, do we really need Thumbnail::update() ?
 + Is the hexdump output of exiv2 byte-swapped??
-
