@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.19 $
+  Version:   $Name:  $ $Revision: 1.20 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.19 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.20 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -553,13 +553,22 @@ namespace Action {
 
     int Erase::eraseThumbnail(Exif::ExifData& exifData) const
     {
-        long delta = exifData.eraseThumbnail();
-        if (Params::instance().verbose_) {
-            std::cout << "Erasing " << delta << " Bytes of thumbnail data\n"; 
+        int rc = 0;
+        std::string thumbExt = exifData.thumbnailExtension();
+        if (thumbExt.empty()) {
+            if (Params::instance().verbose_) {
+                std::cout << "Image does not contain an Exif thumbnail\n"; 
+            }
         }
-        int rc = exifData.write(path_);
-        if (rc) {
-            std::cerr << exifWriteError(rc, path_) << "\n";
+        else {
+            long delta = exifData.eraseThumbnail();
+            if (Params::instance().verbose_) {
+                std::cout << "Erasing " << delta << " Bytes of thumbnail data\n"; 
+            }
+            rc = exifData.write(path_);
+            if (rc) {
+                std::cerr << exifWriteError(rc, path_) << "\n";
+            }
         }
         return rc;
     }
@@ -633,8 +642,8 @@ namespace Action {
     {
         std::string thumb =   Util::dirname(path_) + "/"
                             + Util::basename(path_, true) + "-thumb";
+        std::string thumbExt = exifData.thumbnailExtension();
         if (Params::instance().verbose_) {
-            std::string thumbExt = exifData.thumbnailExtension();
             if (thumbExt.empty()) {
                 std::cout << "Image does not contain an Exif thumbnail\n";
             }
@@ -645,16 +654,19 @@ namespace Action {
                           << thumb << thumbExt << "\n";
             }
         }
-        if (!Params::instance().force_ && Util::fileExists(thumb)) {
-            std::cout << Params::instance().progname() 
-                      << ": Overwrite `" << thumb << "'? ";
-            std::string s;
-            std::cin >> s;
-            if (s[0] != 'y' && s[0] != 'Y') return 0;
-        }
-        int rc = exifData.writeThumbnail(thumb);
-        if (rc) {
-            std::cerr << exifWriteError(rc, thumb) << "\n";
+        int rc = 0;
+        if (!thumbExt.empty()) {
+            if (!Params::instance().force_ && Util::fileExists(thumb + thumbExt)) {
+                std::cout << Params::instance().progname() 
+                          << ": Overwrite `" << thumb + thumbExt << "'? ";
+                std::string s;
+                std::cin >> s;
+                if (s[0] != 'y' && s[0] != 'Y') return 0;
+            }
+            rc = exifData.writeThumbnail(thumb);
+            if (rc) {
+                std::cerr << exifWriteError(rc, thumb) << "\n";
+            }
         }
         return rc;
     }
