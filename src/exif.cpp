@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.44 $
+  Version:   $Name:  $ $Revision: 1.45 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.44 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.45 $ $RCSfile: exif.cpp,v $")
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -716,49 +716,49 @@ namespace Exiv2 {
         addToIfd(ifd0, begin(), end(), byteOrder());
 
         // Build Exif IFD from metadata
-        long exifIfdOffset = ifd0Offset + ifd0.size() + ifd0.dataSize();
+        int idx = ifd0.erase(0x8769);
+        long exifIfdOffset = ifd0Offset + ifd0.size() + 12 + ifd0.dataSize();
         Ifd exifIfd(exifIfd, exifIfdOffset);
         addToIfd(exifIfd, begin(), end(), byteOrder());
-        MakerNote* makerNote = 0;
+        MakerNote* pMakerNote = 0;
         if (pMakerNote_) {
             // Build MakerNote from metadata
-            makerNote = pMakerNote_->clone();
-            addToMakerNote(makerNote, begin(), end(), pMakerNote_->byteOrder());
+            pMakerNote = pMakerNote_->clone();
+            addToMakerNote(pMakerNote, begin(), end(), pMakerNote_->byteOrder());
             // Create a placeholder MakerNote entry of the correct size and
             // add it to the Exif IFD (because we don't know the offset yet)
             Entry e;
             e.setIfdId(exifIfd.ifdId());
             e.setTag(0x927c);
-            DataBuf buf(makerNote->size());
+            DataBuf buf(pMakerNote->size());
             memset(buf.pData_, 0x0, buf.size_);
             e.setValue(undefined, buf.size_, buf.pData_, buf.size_); 
             exifIfd.add(e);
         }
 
         // Set the offset to the Exif IFD in IFD0
-        int idx = ifd0.erase(0x8769);
         if (exifIfd.size() > 0) {
             setOffsetTag(ifd0, idx, 0x8769, exifIfdOffset, byteOrder());
         }
 
         // Build Interoperability IFD from metadata
-        long iopIfdOffset = exifIfdOffset + exifIfd.size() + exifIfd.dataSize();
+        idx = exifIfd.erase(0xa005);
+        long iopIfdOffset = exifIfdOffset + exifIfd.size() + 12 + exifIfd.dataSize();
         Ifd iopIfd(iopIfd, iopIfdOffset);
         addToIfd(iopIfd, begin(), end(), byteOrder());
 
         // Set the offset to the Interoperability IFD in Exif IFD
-        idx = exifIfd.erase(0xa005);
         if (iopIfd.size() > 0) {
             setOffsetTag(exifIfd, idx, 0xa005, iopIfdOffset, byteOrder());
         }
 
         // Build GPSInfo IFD from metadata
-        long gpsIfdOffset = iopIfdOffset + iopIfd.size() + iopIfd.dataSize();
+        idx = ifd0.erase(0x8825);
+        long gpsIfdOffset = iopIfdOffset + 12 + iopIfd.size() + iopIfd.dataSize();
         Ifd gpsIfd(gpsIfd, gpsIfdOffset);
         addToIfd(gpsIfd, begin(), end(), byteOrder());
 
         // Set the offset to the GPSInfo IFD in IFD0
-        idx = ifd0.erase(0x8825);
         if (gpsIfd.size() > 0) {
             setOffsetTag(ifd0, idx, 0x8825, gpsIfdOffset, byteOrder());
         }
@@ -782,17 +782,17 @@ namespace Exiv2 {
         ifd0.copy(buf + ifd0Offset, byteOrder(), ifd0Offset);
         exifIfd.sortByTag();
         exifIfd.copy(buf + exifIfdOffset, byteOrder(), exifIfdOffset);
-        if (makerNote) {
+        if (pMakerNote) {
             // Copy the MakerNote over the placeholder data
             Entries::iterator mn = exifIfd.findTag(0x927c);
             // Do _not_ sort the makernote; vendors (at least Canon), don't seem
             // to bother about this TIFF standard requirement, so writing the
             // makernote as is might result in fewer deviations from the original
-            makerNote->copy(buf + exifIfdOffset + mn->offset(),
-                            byteOrder(),
-                            exifIfdOffset + mn->offset());
-            delete makerNote;
-            makerNote = 0;
+            pMakerNote->copy(buf + exifIfdOffset + mn->offset(),
+                             byteOrder(),
+                             exifIfdOffset + mn->offset());
+            delete pMakerNote;
+            pMakerNote = 0;
         }
         iopIfd.sortByTag();
         iopIfd.copy(buf + iopIfdOffset, byteOrder(), iopIfdOffset);
