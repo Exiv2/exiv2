@@ -53,7 +53,7 @@ EXIV2_RCSID("@(#) $Id$");
 // local declarations
 namespace {
 
-    //! List of all command itentifiers and corresponding strings
+    //! List of all command identifiers and corresponding strings
     static const CmdIdAndString cmdIdAndString[] = {
         add, "add", 
         set, "set", 
@@ -179,8 +179,8 @@ void Params::help(std::ostream& os) const
     os << "\nActions:\n"
        << "  ad | adjust   Adjust Exif timestamps by the given time. This\n"
        << "                action requires the option -a time.\n"
-       << "  pr | print    Print Exif or Iptc image metadata.\n"
-       << "  rm | delete   Delete the Exif section or thumbnail from the files.\n"
+       << "  pr | print    Print image metadata.\n"
+       << "  rm | delete   Delete image metadata from the files.\n"
        << "  in | insert   Insert metadata from corresponding *.exv files.\n"
        << "  ex | extract  Extract metadata to *.exv and thumbnail image files.\n"
        << "  mv | rename   Rename files according to the Exif create timestamp.\n"
@@ -217,8 +217,9 @@ void Params::help(std::ostream& os) const
        <<             format_ << ".\n"
        << "   -m file Command file for the modify action. The format for commands is\n"
        << "           set|add|del <key> [[<type>] <value>].\n"
-       << "   -M cmd  One command line for the modify action. The format for the\n"
-       << "           commands is the same as that of the lines of a command file.\n\n";
+       << "   -M cmd  Command line for the modify action. The format for the\n"
+       << "           commands is the same as that of the lines of a command file.\n"
+       << "   -l dir  Location (directory) for files to be inserted or extracted.\n\n";
 } // Params::help
 
 int Params::option(int opt, const std::string& optarg, int optopt)
@@ -237,6 +238,7 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     case 'i': rc = evalInsert(optarg); break;
     case 'm': rc = evalModify(opt, optarg); break;
     case 'M': rc = evalModify(opt, optarg); break;
+    case 'l': directory_ = optarg; break;
     case ':':
         std::cerr << progname() << ": Option -" << static_cast<char>(optopt) 
                   << " requires an argument\n";
@@ -557,6 +559,10 @@ int Params::getopt(int argc, char* const argv[])
             std::cerr << progname() << ": Error parsing -M option arguments\n";
             rc = 1;
         }
+    }
+    if (!directory_.empty() && !(action_ == Action::insert || action_ == Action::extract)) {
+        std::cerr << progname() << ": -l option can only be used with extract or insert actions\n"; 
+        rc = 1; 
     }
     return rc;
 } // Params::getopt

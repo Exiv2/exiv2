@@ -9,15 +9,15 @@ This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 Exiv2 help ---------------------------------------------------------------
-Usage: lt-exiv2 [ options ] [ action ] file ...
+Usage: exiv2 [ options ] [ action ] file ...
 
 Manipulate the Exif metadata of images.
 
 Actions:
   ad | adjust   Adjust Exif timestamps by the given time. This
                 action requires the option -a time.
-  pr | print    Print Exif or Iptc image metadata.
-  rm | delete   Delete the Exif section or thumbnail from the files.
+  pr | print    Print image metadata.
+  rm | delete   Delete image metadata from the files.
   in | insert   Insert metadata from corresponding *.exv files.
   ex | extract  Extract metadata to *.exv and thumbnail image files.
   mv | rename   Rename files according to the Exif create timestamp.
@@ -54,8 +54,9 @@ Options:
            follows strftime(3). Default filename format is %Y%m%d_%H%M%S.
    -m file Command file for the modify action. The format for commands is
            set|add|del <key> [[<type>] <value>].
-   -M cmd  One command line for the modify action. The format for the
+   -M cmd  Command line for the modify action. The format for the
            commands is the same as that of the lines of a command file.
+   -l dir  Location (directory) for files to be inserted or extracted.
 
 
 Adjust -------------------------------------------------------------------

@@ -878,7 +878,9 @@ namespace Action {
             rc = writeThumbnail(); 
         }
         if (Params::instance().target_ & ~Params::ctThumb) {
-            std::string exvPath =   Util::dirname(path_) + SEPERATOR_STR
+            std::string directory = Params::instance().directory_;
+            if (directory.empty()) directory = Util::dirname(path_);
+            std::string exvPath =   directory + SEPERATOR_STR
                                   + Util::basename(path_, true) + ".exv";
             if (!Params::instance().force_ && Util::fileExists(exvPath)) {
                 std::cout << Params::instance().progname() 
@@ -923,7 +925,9 @@ namespace Action {
             return -3;
         }
 
-        std::string thumb =   Util::dirname(path_) + SEPERATOR_STR
+        std::string directory = Params::instance().directory_;
+        if (directory.empty()) directory = Util::dirname(path_);
+        std::string thumb =   directory + SEPERATOR_STR
                             + Util::basename(path_, true) + "-thumb";
         std::string thumbExt = exifData.thumbnailExtension();
         if (thumbExt.empty()) {
@@ -977,7 +981,9 @@ namespace Action {
             && Params::instance().target_ & Params::ctExif
             || Params::instance().target_ & Params::ctIptc
             || Params::instance().target_ & Params::ctComment) {
-            std::string exvPath =   Util::dirname(path) + SEPERATOR_STR
+            std::string directory = Params::instance().directory_;
+            if (directory.empty()) directory = Util::dirname(path);
+            std::string exvPath =   directory + SEPERATOR_STR
                                   + Util::basename(path, true) + ".exv";
             rc = metacopy(exvPath, path, true);
         }
@@ -992,7 +998,9 @@ namespace Action {
 
     int Insert::insertThumbnail(const std::string& path) const
     {
-        std::string thumbPath =   Util::dirname(path) + SEPERATOR_STR
+        std::string directory = Params::instance().directory_;
+        if (directory.empty()) directory = Util::dirname(path);
+        std::string thumbPath =   directory + SEPERATOR_STR
                                 + Util::basename(path, true) + "-thumb.jpg";
         if (!Util::fileExists(thumbPath, true)) {
             std::cerr << thumbPath
