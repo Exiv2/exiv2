@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004 Andreas Huggel <ahuggel@gmx.net>
+ * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
  * 
  * This program is part of the Exiv2 distribution.
  *
@@ -445,7 +445,7 @@ namespace Exiv2 {
         iterator findIdx(int idx);
         //! Find an IFD entry by tag, return an iterator into the entries list
         iterator findTag(uint16_t tag);
-        /*
+        /*!
           @brief Update the base pointer of the Ifd and all entries to \em pNewBase.
 
           Allows to re-locate the underlying data buffer to a new location
