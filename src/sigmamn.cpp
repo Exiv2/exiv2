@@ -20,7 +20,7 @@
  */
 /*
   File:      sigmamn.cpp
-  Version:   $Name:  $ $Revision: 1.4 $
+  Version:   $Name:  $ $Revision: 1.5 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   02-Apr-04, ahu: created
   Credits:   Sigma and Foveon MakerNote implemented according to the specification
@@ -29,7 +29,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: sigmamn.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: sigmamn.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -42,6 +42,7 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: sigmamn.cpp,v $")
 #include <string>
 #include <sstream>
 #include <iomanip>
+#include <cassert>
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -84,15 +85,42 @@ namespace Exiv2 {
     SigmaMakerNote::SigmaMakerNote(bool alloc)
         : IfdMakerNote(sigmaMnTagInfo, alloc), sectionName_("Sigma")
     {
-        // My one and only Sigma sample has two undocumented extra bytes 
-        // (0x01, 0x00) between the ID string and the start of the
-        // Makernote IFD. Adding them to the ID string is a hack...
-        prefix_ = std::string("SIGMA\0\0\0\x1\0", 10);
     }
 
-    MakerNote* SigmaMakerNote::clone(bool alloc) const 
+    int SigmaMakerNote::readHeader(const char* buf,
+                                   long len, 
+                                   ByteOrder byteOrder)
     {
-        return createSigmaMakerNote(alloc); 
+        if (len < 10) return 1;
+
+        // Copy the header. My one and only Sigma sample has two undocumented
+        // extra bytes (0x01, 0x00) between the ID string and the start of the
+        // Makernote IFD. So we copy 10 bytes into the header.
+        header_.alloc(10);
+        memcpy(header_.pData_, buf, header_.size_);
+        // Adjust the offset of the IFD for the prefix
+        adjOffset_ = 10;
+        return 0;
+    }
+
+    int SigmaMakerNote::checkHeader() const
+    {
+        int rc = 0;
+        // Check the SIGMA or FOVEON prefix
+        if (   header_.size_ < 10
+            || std::string(header_.pData_, 8) != std::string("SIGMA\0\0\0", 8)
+            && std::string(header_.pData_, 8) != std::string("FOVEON\0\0", 8)) {
+            rc = 2;
+        }
+        return rc;
+    }
+
+    SigmaMakerNote* SigmaMakerNote::clone(bool alloc) const 
+    {
+        SigmaMakerNote* pMakerNote = new SigmaMakerNote(alloc);
+        assert(pMakerNote);
+        pMakerNote->readHeader(header_.pData_, header_.size_, byteOrder_);
+        return pMakerNote;
     }
 
     std::ostream& SigmaMakerNote::printTag(std::ostream& os, 
@@ -161,7 +189,7 @@ namespace Exiv2 {
 
     MakerNote* createSigmaMakerNote(bool alloc)
     {
-        return new SigmaMakerNote(alloc);         
+        return new SigmaMakerNote(alloc);
     }
 
 }                                       // namespace Exiv2
