@@ -44,7 +44,7 @@ EXIV2_RCSID("@(#) $Id$");
 #include "exif.hpp"
 #include "canonmn.hpp"
 #include "iptc.hpp"
-#ifndef HAVE_TIMEGM
+#ifndef EXV_HAVE_TIMEGM
 # include "timegm.h"
 #endif
 
@@ -61,7 +61,7 @@ EXIV2_RCSID("@(#) $Id$");
 #include <cassert>
 #include <sys/types.h>                  // for stat()
 #include <sys/stat.h>                   // for stat()
-#ifdef HAVE_UNISTD_H
+#ifdef EXV_HAVE_UNISTD_H
 # include <unistd.h>                    // for stat()
 #endif
 
@@ -723,7 +723,7 @@ namespace Action {
             return 1;
         }
         std::string newPath 
-            = Util::dirname(path) + SEPERATOR_STR + basename + Util::suffix(path);
+            = Util::dirname(path) + EXV_SEPERATOR_STR + basename + Util::suffix(path);
         if (   Util::dirname(newPath)  == Util::dirname(path)
             && Util::basename(newPath) == Util::basename(path)) {
             if (Params::instance().verbose_) {
@@ -880,7 +880,7 @@ namespace Action {
         if (Params::instance().target_ & ~Params::ctThumb) {
             std::string directory = Params::instance().directory_;
             if (directory.empty()) directory = Util::dirname(path_);
-            std::string exvPath =   directory + SEPERATOR_STR
+            std::string exvPath =   directory + EXV_SEPERATOR_STR
                                   + Util::basename(path_, true) + ".exv";
             if (!Params::instance().force_ && Util::fileExists(exvPath)) {
                 std::cout << Params::instance().progname() 
@@ -927,7 +927,7 @@ namespace Action {
 
         std::string directory = Params::instance().directory_;
         if (directory.empty()) directory = Util::dirname(path_);
-        std::string thumb =   directory + SEPERATOR_STR
+        std::string thumb =   directory + EXV_SEPERATOR_STR
                             + Util::basename(path_, true) + "-thumb";
         std::string thumbExt = exifData.thumbnailExtension();
         if (thumbExt.empty()) {
@@ -983,7 +983,7 @@ namespace Action {
             || Params::instance().target_ & Params::ctComment) {
             std::string directory = Params::instance().directory_;
             if (directory.empty()) directory = Util::dirname(path);
-            std::string exvPath =   directory + SEPERATOR_STR
+            std::string exvPath =   directory + EXV_SEPERATOR_STR
                                   + Util::basename(path, true) + ".exv";
             rc = metacopy(exvPath, path, true);
         }
@@ -1000,7 +1000,7 @@ namespace Action {
     {
         std::string directory = Params::instance().directory_;
         if (directory.empty()) directory = Util::dirname(path);
-        std::string thumbPath =   directory + SEPERATOR_STR
+        std::string thumbPath =   directory + EXV_SEPERATOR_STR
                                 + Util::basename(path, true) + "-thumb.jpg";
         if (!Util::fileExists(thumbPath, true)) {
             std::cerr << thumbPath

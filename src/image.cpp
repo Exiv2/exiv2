@@ -56,7 +56,7 @@ EXIV2_RCSID("@(#) $Id$");
 #ifdef _MSC_VER
 # define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
 #endif
-#ifdef HAVE_UNISTD_H
+#ifdef EXV_HAVE_UNISTD_H
 # include <unistd.h>                            // stat
 #endif
 

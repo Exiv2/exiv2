@@ -32,12 +32,10 @@ EXIV2_RCSID("@(#) $Id$");
 
 // *****************************************************************************
 // included header files
-#ifdef HAVE_CONFIG_H
-# include <config.h>
+#ifdef _MSC_VER
+# include "exv_msvc.h"
 #else
-# ifdef _MSC_VER
-#  include <config_win32.h>
-# endif
+# include "exv_conf.h"
 #endif
 
 #include "jpgimage.hpp"

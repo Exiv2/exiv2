@@ -59,18 +59,18 @@ static char	privatehid[] = "@(#)private.h	7.53";
 
 /* ahu: deleted include sys/wait.h and WIFEXITED, WEXITSTATUS macros */
 
-#if HAVE_UNISTD_H - 0
+#if EXV_HAVE_UNISTD_H - 0
 #include "unistd.h"	/* for F_OK and R_OK */
-#endif /* HAVE_UNISTD_H - 0 */
+#endif /* EXV_HAVE_UNISTD_H - 0 */
 
-#if !(HAVE_UNISTD_H - 0)
+#if !(EXV_HAVE_UNISTD_H - 0)
 #ifndef F_OK
 #define F_OK	0
 #endif /* !defined F_OK */
 #ifndef R_OK
 #define R_OK	4
 #endif /* !defined R_OK */
-#endif /* !(HAVE_UNISTD_H - 0) */
+#endif /* !(EXV_HAVE_UNISTD_H - 0) */
 
 /* Unlike <ctype.h>'s isdigit, this also works if c < 0 | c > UCHAR_MAX.  */
 #define is_digit(c) ((unsigned)(c) - '0' <= 9)

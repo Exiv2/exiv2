@@ -45,7 +45,7 @@
 #include <utility>
 #include <sstream>
 #include <cstdio>
-#ifdef HAVE_STDINT_H
+#ifdef EXV_HAVE_STDINT_H
 # include <stdint.h>
 #endif
 
