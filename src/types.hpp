@@ -21,7 +21,7 @@
 /*!
   @file    types.hpp
   @brief   Type definitions for %Exiv2 and related functionality
-  @version $Name:  $ $Revision: 1.13 $
+  @version $Name:  $ $Revision: 1.14 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -39,6 +39,13 @@
 #include <utility>
 #include <sstream>
 
+
+#ifdef _MSC_VER
+// disable unreferenced formal parameter warning C4100
+// disable truncation of constant value warning C4309
+#pragma warning (disable: 4100 4309)
+#endif
+
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
@@ -54,6 +61,8 @@ namespace Exiv2 {
     typedef short          int16;
     //! 4 byte signed integer type.
     typedef long           int32;
+
+
 
     //! 8 byte unsigned rational type.
     typedef std::pair<uint32, uint32> URational;
