@@ -20,7 +20,7 @@
 # 02111-1307, USA.
 #
 # File:      Makefile
-# Version:   $Name:  $ $Revision: 1.21 $
+# Version:   $Name:  $ $Revision: 1.22 $
 # Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
 # History:   10-Dec-03, ahu: created
 #
@@ -55,8 +55,8 @@ CCSRC = canonmn.cpp exif.cpp fujimn.cpp ifd.cpp image.cpp makernote.cpp \
         sigmamn.cpp tags.cpp types.cpp value.cpp
 
 # Add source files of simple applications to this list
-BINSRC = addmoddel.cpp exifprint.cpp makernote-test.cpp taglist.cpp \
-         write-test.cpp
+BINSRC = addmoddel.cpp exifcomment.cpp exifprint.cpp makernote-test.cpp \
+         taglist.cpp write-test.cpp 
 
 # State the main source file of the Exiv2 application here
 EXIV2MAIN = exiv2.cpp
@@ -115,6 +115,7 @@ SHAREDLIB = lib$(LIBNAME)$(SHAREDLIB_SUFFIX)
 ifdef STATIC_LIBS
     LIBRARY = archive
     INSTALL = bin
+    UNINSTALL = bin
     INSTALL_LIB = install-archive
     UNINSTALL_LIB = uninstall-archive
     LDLIBS := mn.o $(LDLIBS)
@@ -122,8 +123,10 @@ endif
 ifdef SHARED_LIBS
     LIBRARY := $(LIBRARY) sharedlib
     INSTALL = bin install-sharedlib
+    UNINSTALL := uninstall-sharedlib
     INSTALL_LIB := $(INSTALL_LIB) install-sharedlib
     UNINSTALL_LIB := $(UNINSTALL_LIB) uninstall-sharedlib
+
 endif
 
 # ******************************************************************************
@@ -209,8 +212,8 @@ $(EXIV2BIN): lib $(EXIV2OBJ)
 
 bin: lib $(BINARY) $(EXIV2BIN)
 
-install install-bin: $(INSTALL)
-	mkinstalldirs $(bindir) 
+install: $(INSTALL)
+	$(INSTALL_DIRS) $(bindir) 
 	@list='$(BINARY) $(EXIV2BIN)'; for p in $$list; do \
 	    if test -f $$p; then \
 	        echo "$(INSTALL_PROGRAM) $$p $(bindir)/$$p"; \
@@ -219,7 +222,7 @@ install install-bin: $(INSTALL)
 	done
 
 install-header:
-	mkinstalldirs $(incdir)
+	$(INSTALL_DIRS) $(incdir)
 	@list='$(HDR)'; for p in $$list; do \
 	    if test -f $$p; then \
 	        echo "$(INSTALL_DATA) $$p $(incdir)/$$p"; \
@@ -228,16 +231,16 @@ install-header:
 	done
 
 install-archive: archive
-	mkinstalldirs $(libdir)
+	$(INSTALL_DIRS) $(libdir)
 	$(INSTALL_DATA) $(ARCHIVE) $(libdir)/$(ARCHIVE)
 
 install-sharedlib: sharedlib
-	mkinstalldirs $(libdir)
+	$(INSTALL_DIRS) $(libdir)
 	$(INSTALL_DATA) $(SHAREDLIB) $(libdir)/$(SHAREDLIB)
 
 install-lib: $(INSTALL_LIB) install-header
 
-uninstall:
+uninstall: $(UNINSTALL)
 	@list='$(BINARY) $(EXIV2BIN)'; for p in $$list; do \
 	    echo "rm -f $(bindir)/$$p"; \
 	    rm -f $(bindir)/$$p; \
