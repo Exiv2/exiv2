@@ -100,6 +100,9 @@ namespace Exiv2 {
         case time:
             value = AutoPtr(new TimeValue);
             break;
+        case comment:
+            value = AutoPtr(new CommentValue);
+            break;
         default:
             value = AutoPtr(new DataValue(typeId));
             break;
@@ -244,6 +247,115 @@ namespace Exiv2 {
         // Strip all trailing '\0's (if any)
         std::string::size_type pos = value_.find_last_not_of('\0');
         return os << value_.substr(0, pos + 1);
+    }
+
+    CommentValue::CharsetTable::CharsetTable(CharsetId charsetId,
+                                             const char* name, 
+                                             const char* code)
+        : charsetId_(charsetId), name_(name), code_(code)
+    {
+    }
+
+    //! Lookup list of supported IFD type information
+    const CommentValue::CharsetTable CommentValue::CharsetInfo::charsetTable_[] = {
+        CharsetTable(ascii,            "Ascii",            "ASCII\0\0\0"),
+        CharsetTable(jis,              "Jis",              "JIS\0\0\0\0\0"),
+        CharsetTable(unicode,          "Unicode",          "UNICODE\0"),
+        CharsetTable(undefined,        "Undefined",        "\0\0\0\0\0\0\0\0"),
+        CharsetTable(invalidCharsetId, "InvalidCharsetId", "\0\0\0\0\0\0\0\0"),
+        CharsetTable(lastCharsetId,    "InvalidCharsetId", "\0\0\0\0\0\0\0\0")
+    };
+
+    const char* CommentValue::CharsetInfo::name(CharsetId charsetId)
+    {
+        return charsetTable_[ charsetId < lastCharsetId ? charsetId : undefined ].name_;
+    }
+
+    const char* CommentValue::CharsetInfo::code(CharsetId charsetId)
+    {
+        return charsetTable_[ charsetId < lastCharsetId ? charsetId : undefined ].code_;
+    }
+
+    CommentValue::CharsetId CommentValue::CharsetInfo::charsetIdByName(
+        const std::string& name)
+    {
+        int i = 0;
+        for (;    charsetTable_[i].charsetId_ != lastCharsetId
+               && charsetTable_[i].name_ != name; ++i) {}
+        return charsetTable_[i].charsetId_ == lastCharsetId ?
+               invalidCharsetId : charsetTable_[i].charsetId_;
+    }
+
+    CommentValue::CharsetId CommentValue::CharsetInfo::charsetIdByCode(
+        const std::string& code)
+    {
+        int i = 0;
+        for (;    charsetTable_[i].charsetId_ != lastCharsetId
+               && std::string(charsetTable_[i].code_, 8) != code; ++i) {}
+        return charsetTable_[i].charsetId_ == lastCharsetId ?
+               invalidCharsetId : charsetTable_[i].charsetId_;
+    }
+
+    CommentValue::CommentValue(const std::string& comment)
+        : StringValueBase(Exiv2::undefined)
+    {
+        read(comment);
+    }
+
+    CommentValue& CommentValue::operator=(const CommentValue& rhs)
+    {
+        if (this == &rhs) return *this;
+        StringValueBase::operator=(rhs);
+        return *this;
+    }
+
+    void CommentValue::read(const std::string& comment)
+    {
+        std::string c = comment;
+        CharsetId charsetId = undefined;
+        if (comment.length() > 8 && comment.substr(0, 8) == "charset=") {
+            std::string::size_type pos = comment.find_first_of(' ');
+            std::string name = comment.substr(8, pos-8);
+            // Strip quotes (so you can also to specify the charset without quotes)
+            if (name[0] == '"') name = name.substr(1);
+            if (name[name.length()-1] == '"') name = name.substr(0, name.length()-1);
+            charsetId = CharsetInfo::charsetIdByName(name);
+            if (charsetId == invalidCharsetId) throw Error("Invalid charset");
+            c.clear();
+            if (pos != std::string::npos) c = comment.substr(pos+1);
+        }
+        const std::string code(CharsetInfo::code(charsetId), 8);
+        StringValueBase::read(code + c);
+    }
+
+    std::ostream& CommentValue::write(std::ostream& os) const
+    {
+        CharsetId charsetId = this->charsetId();
+        if (charsetId != undefined) {
+            os << "charset=\"" << CharsetInfo::name(charsetId) << "\" ";
+        }
+        return os << comment();
+    }
+
+    std::string CommentValue::comment() const
+    {
+        if (value_.length() >= 8) return value_.substr(8);
+        return "";
+    }
+
+    CommentValue::CharsetId CommentValue::charsetId() const
+    {
+        CharsetId charsetId = undefined;
+        if (value_.length() >= 8) {
+            const std::string code = value_.substr(0, 8);
+            charsetId = CharsetInfo::charsetIdByCode(code);
+        }
+        return charsetId;        
+    }
+
+    CommentValue* CommentValue::clone_() const
+    {
+        return new CommentValue(*this);        
     }
 
     DateValue::DateValue(int year, int month, int day) 
