@@ -20,7 +20,7 @@
  */
 /*
   File:      canonmn.cpp
-  Version:   $Name:  $ $Revision: 1.6 $
+  Version:   $Name:  $ $Revision: 1.7 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
              07-Mar-04, ahu: isolated as a separate component
@@ -30,7 +30,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: canonmn.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.7 $ $RCSfile: canonmn.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -49,7 +49,7 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: canonmn.cpp,v $")
 
 // *****************************************************************************
 // class member definitions
-namespace Exif {
+namespace Exiv2 {
 
     const CanonMakerNote::RegisterMakerNote CanonMakerNote::register_;
 
@@ -663,4 +663,4 @@ namespace Exif {
         return new CanonMakerNote(alloc);         
     }
 
-}                                       // namespace Exif
+}                                       // namespace Exiv2

@@ -21,7 +21,7 @@
 /*!
   @file    tags.hpp
   @brief   %Exif tag and type information
-  @version $Name:  $ $Revision: 1.20 $
+  @version $Name:  $ $Revision: 1.21 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    15-Jan-04, ahu: created
@@ -41,7 +41,7 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exif {
+namespace Exiv2 {
 
 // *****************************************************************************
 // class declarations
@@ -276,6 +276,6 @@ namespace Exif {
     //! Print subject distance range
     std::ostream& print0xa40c(std::ostream& os, const Value& value);
     //@}
-}                                       // namespace Exif
+}                                       // namespace Exiv2
 
 #endif                                  // #ifndef TAGS_HPP_

@@ -20,13 +20,13 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.25 $
+  Version:   $Name:  $ $Revision: 1.26 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.25 $ $RCSfile: tags.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.26 $ $RCSfile: tags.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -43,7 +43,7 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.25 $ $RCSfile: tags.cpp,v $")
 
 // *****************************************************************************
 // class member definitions
-namespace Exif {
+namespace Exiv2 {
 
     IfdInfo::IfdInfo(IfdId ifdId, const char* name, const char* item)
         : ifdId_(ifdId), name_(name), item_(item)
@@ -958,4 +958,4 @@ namespace Exif {
         return os;
     }
 
-}                                       // namespace Exif
+}                                       // namespace Exiv2

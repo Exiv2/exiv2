@@ -20,7 +20,7 @@
  */
 /*
   File:      fujimn.cpp
-  Version:   $Name:  $ $Revision: 1.3 $
+  Version:   $Name:  $ $Revision: 1.4 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
              07-Mar-04, ahu: isolated as a separate component
@@ -31,7 +31,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: fujimn.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: fujimn.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -50,7 +50,7 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: fujimn.cpp,v $")
 
 // *****************************************************************************
 // class member definitions
-namespace Exif {
+namespace Exiv2 {
 
     const FujiMakerNote::RegisterMakerNote FujiMakerNote::register_;
 
@@ -231,4 +231,4 @@ namespace Exif {
         return new FujiMakerNote(alloc);         
     }
 
-}                                       // namespace Exif
+}                                       // namespace Exiv2

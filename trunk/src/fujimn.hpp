@@ -24,7 +24,7 @@
            in "Appendix 4: Makernote of Fujifilm" of the document 
            "Exif file format" by TsuruZoh Tachibanaya
            <http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html>
-  @version $Name:  $ $Revision: 1.2 $
+  @version $Name:  $ $Revision: 1.3 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    11-Feb-04, ahu: created
@@ -43,7 +43,7 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exif {
+namespace Exiv2 {
 
 // *****************************************************************************
 // class declarations
@@ -141,6 +141,6 @@ namespace Exif {
 
     }; // class FujiMakerNote
 
-}                                       // namespace Exif
+}                                       // namespace Exiv2
 
 #endif                                  // #ifndef FUJIMN_HPP_

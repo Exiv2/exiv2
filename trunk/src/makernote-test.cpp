@@ -36,7 +36,7 @@ int main()
 
 void testMatch(const std::string& reg, const std::string& key)
 {
-    std::pair<bool, int> rc = Exif::MakerNoteFactory::match(reg, key);
+    std::pair<bool, int> rc = Exiv2::MakerNoteFactory::match(reg, key);
 
     if (rc.first) {
         std::cout << "Key '" << key << "' matches '" << reg << "' in " 

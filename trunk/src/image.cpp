@@ -20,14 +20,14 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.12 $
+  Version:   $Name:  $ $Revision: 1.13 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.12 $ $RCSfile: image.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.13 $ $RCSfile: image.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -44,7 +44,7 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.12 $ $RCSfile: image.cpp,v $")
 
 // *****************************************************************************
 // class member definitions
-namespace Exif {
+namespace Exiv2 {
 
     ImageFactory* ImageFactory::pInstance_ = 0;
 
@@ -574,4 +574,4 @@ namespace Exif {
         return 0;
     } // ExvFile::writeExifData
 
-}                                       // namespace Exif
+}                                       // namespace Exiv2

@@ -23,7 +23,7 @@
   @brief   Canon MakerNote implemented according to the specification
            "EXIF MakerNote of Canon" <http://www.burren.cx/david/canon.html>
            by David Burren
-  @version $Name:  $ $Revision: 1.4 $
+  @version $Name:  $ $Revision: 1.5 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -43,7 +43,7 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exif {
+namespace Exiv2 {
 
 // *****************************************************************************
 // class declarations
@@ -186,6 +186,6 @@ namespace Exif {
 
     }; // class CanonMakerNote
 
-}                                       // namespace Exif
+}                                       // namespace Exiv2
 
 #endif                                  // #ifndef CANONMN_HPP_

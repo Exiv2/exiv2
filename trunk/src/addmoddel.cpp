@@ -3,7 +3,7 @@
   Abstract:  Sample program showing how to add, modify and delete Exif metadata.
 
   File:      addmoddel.cpp
-  Version:   $Name:  $ $Revision: 1.1 $
+  Version:   $Name:  $ $Revision: 1.2 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
  */
@@ -18,13 +18,13 @@
 int main()
 try {
     // Container for all metadata
-    Exif::ExifData exifData;
+    Exiv2::ExifData exifData;
 
     // *************************************************************************
     // Add to the Exif data
 
     // Create a value of the required type
-    Exif::Value* v = Exif::Value::create(Exif::asciiString);
+    Exiv2::Value* v = Exiv2::Value::create(Exiv2::asciiString);
     // Set the value to a string
     v->read("1999:12:31 23:59:59");
     // Add the value together with its key to the Exif data container
@@ -36,7 +36,7 @@ try {
     delete v;
 
     // Now create a more interesting value
-    Exif::URationalValue* rv = new Exif::URationalValue;
+    Exiv2::URationalValue* rv = new Exiv2::URationalValue;
     // Set two rational components from a string
     rv->read("1/2 1/3");
     // Add more elements through the extended interface of rational value 
@@ -55,8 +55,8 @@ try {
 
     // Find the timestamp metadatum by its key
     key = "Image.DateTime.DateTimeOriginal";
-    Exif::ExifData::iterator pos = exifData.findKey(key);
-    if (pos == exifData.end()) throw Exif::Error("Key not found");
+    Exiv2::ExifData::iterator pos = exifData.findKey(key);
+    if (pos == exifData.end()) throw Exiv2::Error("Key not found");
     // Modify the value
     std::string date = pos->toString();
     date.replace(0,4,"2000");
@@ -67,12 +67,12 @@ try {
     // Find the other key
     key = "Image.ImageCharacteristics.PrimaryChromaticities";
     pos = exifData.findKey(key);
-    if (pos == exifData.end()) throw Exif::Error("Key not found");
+    if (pos == exifData.end()) throw Exiv2::Error("Key not found");
     // Get a pointer to a copy of the value
     v = pos->getValue();
     // Downcast the Value pointer to its actual type
-    rv = dynamic_cast<Exif::URationalValue*>(v);
-    if (rv == 0) throw Exif::Error("Downcast failed");
+    rv = dynamic_cast<Exiv2::URationalValue*>(v);
+    if (rv == 0) throw Exiv2::Error("Downcast failed");
     // Modify elements through the extended interface of the actual type
     rv->value_[2] = std::make_pair(88,77);
     // Copy the modified value back to the metadatum
@@ -88,13 +88,13 @@ try {
     // Delete the metadatum at iterator position pos
     key = "Image.ImageCharacteristics.PrimaryChromaticities";
     pos = exifData.findKey(key);
-    if (pos == exifData.end()) throw Exif::Error("Key not found");
+    if (pos == exifData.end()) throw Exiv2::Error("Key not found");
     exifData.erase(pos);
     std::cout << "Deleted key \"" << key << "\"\n";
 
     return 0;
 }
-catch (Exif::Error& e) {
+catch (Exiv2::Error& e) {
     std::cout << "Caught Exif exception '" << e << "'\n";
     return 1;
 }
