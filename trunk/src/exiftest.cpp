@@ -3,11 +3,11 @@
   Abstract : This is playground code, do what you want with it.
 
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  Version  : $Name:  $ $Revision: 1.12 $
+  Version  : $Name:  $ $Revision: 1.13 $
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.12 $ $RCSfile: exiftest.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.13 $ $RCSfile: exiftest.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -22,8 +22,6 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.12 $ $RCSfile: exiftest.cpp,v $")
 using namespace Exif;
 
 void exifPrint(const ExifData& exifData);
-template<typename T> 
-std::string toString(T arg);
 
 // *****************************************************************************
 // Main
@@ -112,12 +110,4 @@ void exifPrint(const ExifData& exifData)
 
                   << "\n";
     }
-}
-
-template<typename T> 
-std::string toString(T arg)
-{
-    std::ostringstream os;
-    os << arg;
-    return os.str();
 }
