@@ -20,7 +20,7 @@
 # 02111-1307, USA.
 #
 # File:      Makefile
-# Version:   $Name:  $ $Revision: 1.17 $
+# Version:   $Name:  $ $Revision: 1.18 $
 # Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
 # History:   10-Dec-03, ahu: created
 #
@@ -258,8 +258,9 @@ uninstall-sharedlib:
 uninstall-lib: $(UNINSTALL_LIB) uninstall-header
 
 ctags:
-	ctags-exuberant --extra=+q -e *
-	ctags-exuberant --extra=+q *
+	ebrowse $(CCHDR) $(CCSRC)
+#	ctags-exuberant --extra=+q -e *
+#	ctags-exuberant --extra=+q *
 
 check:
 	@echo "No checks available for this library."
