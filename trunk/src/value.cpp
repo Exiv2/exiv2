@@ -20,7 +20,7 @@
  */
 /*
   File:      value.cpp
-  Version:   $Name:  $ $Revision: 1.12 $
+  Version:   $Name:  $ $Revision: 1.13 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
@@ -28,7 +28,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.12 $ $RCSfile: value.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.13 $ $RCSfile: value.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -67,9 +67,6 @@ namespace Exiv2 {
         case asciiString:
             value = new AsciiValue;
             break;
-        case string:
-            value = new StringValue;
-            break;
         case unsignedShort:
             value = new ValueType<uint16>;
             break;
@@ -93,6 +90,9 @@ namespace Exiv2 {
             break;
         case signedRational:
             value = new ValueType<Rational>;
+            break;
+        case string:
+            value = new StringValue;
             break;
         case date:
             value = new DateValue;
