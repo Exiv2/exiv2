@@ -42,8 +42,11 @@ try {
         std::string error = Exiv2::Image::strError(rc, file);
         throw Exiv2::Error(error);
     }
-
     Exiv2::ExifData &ed = image->exifData();
+    if (ed.empty()) {
+        std::string error = file + ": No Exif data found in the file";
+        throw Exiv2::Error(error);
+    }
 
     std::cout << "Copy construction, non-intrusive changes\n";
     Exiv2::ExifData ed1(ed);

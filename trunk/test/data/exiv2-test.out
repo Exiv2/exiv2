@@ -3,7 +3,7 @@ tmp/
 
 Exiv2 version ------------------------------------------------------------
 ../../src/exiv2
-Exiv2 0.6, Copyright (C) 2004 Andreas Huggel.
+Exiv2 0.6, Copyright (C) 2004, 2005 Andreas Huggel.
 
 This is free software; see the source for copying conditions.  There is NO 
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
@@ -22,6 +22,8 @@ Actions:
   ex | extract  Extract metadata to *.exv and thumbnail image files.
   mv | rename   Rename files according to the Exif create timestamp.
                 The filename format can be set with -r format.
+  mo | modify   Apply commands to modify (add, set, delete) the Exif
+                and Iptc metadata of image files. Requires option -m or -M
 
 Options:
    -h      Display this help and exit.
@@ -50,6 +52,10 @@ Options:
            are the same as those for the -d option.
    -r fmt  Filename format for the `rename' action. The format string
            follows strftime(3). Default filename format is %Y%m%d_%H%M%S.
+   -m file Command file for the modify action. The format for commands is
+           set|add|del <key> [[<type>] <value>].
+   -M cmd  One command line for the modify action. The format for the
+           commands is the same as that of the lines of a command file.
 
 
 Adjust -------------------------------------------------------------------
@@ -73,7 +79,7 @@ Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2001:04:05 23:50:39
 Adjusting `Exif.Photo.DateTimeDigitized' by -43261 s to 2001:04:05 23:50:39
 File 6/9: exiv2-canon-eos-300d.jpg
 Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
- Offset = 1384, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
+ Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
 Adjusting `Exif.Image.DateTime' by -43261 s to 2003:09:25 20:18:50
 Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2003:09:25 20:18:50
 Adjusting `Exif.Photo.DateTimeDigitized' by -43261 s to 2003:09:25 20:18:50
@@ -101,7 +107,7 @@ File 5/9: exiv2-nikon-e950.jpg
 Renaming file to ./20010405_235039.jpg
 File 6/9: exiv2-canon-eos-300d.jpg
 Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
- Offset = 1384, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
+ Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
 Renaming file to ./20030925_201850.jpg
 File 7/9: exiv2-kodak-dc210.jpg
 Renaming file to ./20001026_044550.jpg
@@ -215,7 +221,7 @@ Exif comment    :
 
 File 6/9: 20030925_201850.jpg
 Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
- Offset = 1384, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
+ Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
 Filename        : 20030925_201850.jpg
 Filesize        : 17033 Bytes
 Camera make     : Canon
@@ -402,7 +408,7 @@ File 2/9: 20031214_000043.jpg
 0x011a IFD1      XResolution                 180
 0x011b IFD1      YResolution                 180
 0x0128 IFD1      ResolutionUnit              inch
-0x0201 IFD1      JPEGInterchangeFormat       2036
+0x0201 IFD1      JPEGInterchangeFormat       0
 0x0202 IFD1      JPEGInterchangeFormatLength 5448
 File 3/9: 20000506_020544.jpg
 0x010e IFD0      ImageDescription                      
@@ -461,7 +467,7 @@ File 3/9: 20000506_020544.jpg
 0x011a IFD1      XResolution                 300
 0x011b IFD1      YResolution                 300
 0x0128 IFD1      ResolutionUnit              inch
-0x0201 IFD1      JPEGInterchangeFormat       4084
+0x0201 IFD1      JPEGInterchangeFormat       0
 0x0202 IFD1      JPEGInterchangeFormatLength 7829
 File 4/9: 20040329_224245.jpg
 0x010f IFD0      Make                        NIKON CORPORATION
@@ -528,43 +534,43 @@ File 4/9: 20040329_224245.jpg
 0x000d Makernote 0x000d                      0 1 6 0 
 0x000e Makernote ExposureDiff                0 1 12 0 
 0x0011 Makernote ThumbOffset                 1430
-0x0012 Makernote FlashBias                   0 1 6 0 
-0x0013 Makernote 0x0013                      0 200
-0x0016 Makernote 0x0016                      0 0 3008 2000
+0x0012 Makernote FlashComp                   0.0 EV
+0x0013 Makernote ISOSetting                  200
+0x0016 Makernote ImageBoundry                0 0 3008 2000
 0x0017 Makernote 0x0017                      0 1 6 0 
-0x0018 Makernote 0x0018                      0 1 6 0 
-0x0019 Makernote 0x0019                      0/1
+0x0018 Makernote FlashBracketComp            0.0 EV
+0x0019 Makernote ExposureBracketComp         0/1
 0x0081 Makernote ToneComp                    AUTO    
-0x0083 Makernote LensType                    AF-D G
+0x0083 Makernote LensType                    6 
 0x0084 Makernote Lens                        18-70mm F3.5-4.5
-0x0087 Makernote FlashType                   None
-0x0088 Makernote AFFocusPos                  0 0 0 1 
-0x0089 Makernote Bracketing                  None
+0x0087 Makernote FlashType                   Not used
+0x0088 Makernote AFFocusPos                  Center
+0x0089 Makernote Bracketing                  Single
 0x008a Makernote 0x008a                      0
 0x008b Makernote 0x008b                      64 1 12 0 
 0x008d Makernote ColorMode                   MODE1a  
 0x0090 Makernote LightingType                NATURAL    
 0x0091 Makernote 0x0091                      48 49 48 51 0 0 0 124 0 0 5 13 113 0 0 0 0 1 0 0 11 0 0 0 0 0 20 0 0 31 0 0 0 0 0 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 32 0 0 31 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 0 0 0 0 0 0 0 45 0 0 0 0 0 1 0 0 0 0 89 1 2 205 51 206 179 54 56 53 54 48 51 0 218 0 214 0 167 0 171 0 50 0 51 0 5 0 0 0 0 0 0 0 0 0 1 0 5 0 0 3 194 0 0 0 100 30 161 200 95 222 59 231 63 201 147 36 178 108 51 110 51 142 15 205 20 205 255 24 187 172 35 200 39 84 41 220 51 68 39 136 59 158 49 239 176 221 55 206 242 77 6 206 51 212 169 76 179 220 17 174 50 140 159 228 51 220 49 78 186 201 119 196 225 223 50 196 178 204 146 204 17 54 56 53 54 48 49 0 101 0 161 0 172 172 169 163 163 168 169 169 168 168 170 171 164 152 149 5 249 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 38 72 0 8 1 78 226 1 0 72 49 38 48 0 0 0 3 7 252 11 226 0 4 169 1 72 0 128 16 0 0 3 151 96 196 12 145 80 60 0 0 4 190 3 111 0 0 9 186 0 0 4 197 0 0 4 190 3 111 0 0 0 0 3 0 0 0 0 200 0 60 52 62 143 63 0 0 4 176 0 0 4 162 0 0 4 177 0 0 4 126 255 127 255 127 255 127 255 127 8 128 3 111 3 28 2 157 18 17 1 0 0 0 0 72 240 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 64 0 0 0 0 64 
-0x0092 Makernote Hue                         0
+0x0092 Makernote HueAdjustment               0
 0x0095 Makernote NoiseReduction              OFF 
-0x0097 Makernote 0x0097                      48 49 48 51 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 2 4 1 0 1 163 1 0 0 0 1 8 1 0 0 0 0 0 0 112 0 12 0 24 0 3 1 140 255 109 0 7 255 216 1 90 255 206 255 251 255 222 1 39 255 255 255 255 255 255 128 0 0 0 0 0 0 0 0 0 10 0 0 0 2 128 0 0 3 0 0 0 2 128 0 0 0 0 16 16 0 255 0 255 0 77 0 150 0 29 255 204 255 186 0 122 0 127 255 150 255 235 0 0 5 0 0 8 108 18 223 51 5 89 1 63 240 240 0 26 
+0x0097 Makernote ColorBalance2               48 49 48 51 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 2 4 1 0 1 163 1 0 0 0 1 8 1 0 0 0 0 0 0 112 0 12 0 24 0 3 1 140 255 109 0 7 255 216 1 90 255 206 255 251 255 222 1 39 255 255 255 255 255 255 128 0 0 0 0 0 0 0 0 0 10 0 0 0 2 128 0 0 3 0 0 0 2 128 0 0 0 0 16 16 0 255 0 255 0 77 0 150 0 29 255 204 255 186 0 122 0 127 255 150 255 235 0 0 5 0 0 8 108 18 223 51 5 89 1 63 240 240 0 26 
 0x0098 Makernote 0x0098                      48 49 48 49 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 
 0x009a Makernote 0x009a                      78/10 78/10
-0x00a0 Makernote 0x00a0                      NO= 100005e5        
+0x00a0 Makernote SerialNumber                NO= 100005e5        
 0x00a2 Makernote 0x00a2                      2929656
 0x00a3 Makernote 0x00a3                      0 
-0x00a7 Makernote 0x00a7                      1193
+0x00a7 Makernote ShutterCount                1193
 0x00a8 Makernote 0x00a8                      48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
-0x00a9 Makernote 0x00a9                      NORMAL         
-0x00aa Makernote 0x00aa                      NORMAL         
-0x00ab Makernote 0x00ab                                     
+0x00a9 Makernote ImageOptimization           NORMAL         
+0x00aa Makernote Saturation                  NORMAL         
+0x00ab Makernote VariProgram                                
 0x0001 Iop       InteroperabilityIndex       R03
 0x0002 Iop       InteroperabilityVersion     48 49 48 48 
 0x0103 IFD1      Compression                 JPEG
 0x011a IFD1      XResolution                 300
 0x011b IFD1      YResolution                 300
 0x0128 IFD1      ResolutionUnit              inch
-0x0201 IFD1      JPEGInterchangeFormat       30444
+0x0201 IFD1      JPEGInterchangeFormat       0
 0x0202 IFD1      JPEGInterchangeFormatLength 8930
 0x0213 IFD1      YCbCrPositioning            Co-sited
 File 5/9: 20010405_235039.jpg
@@ -619,11 +625,11 @@ File 5/9: 20010405_235039.jpg
 0x011a IFD1      XResolution                 300
 0x011b IFD1      YResolution                 300
 0x0128 IFD1      ResolutionUnit              inch
-0x0201 IFD1      JPEGInterchangeFormat       2036
+0x0201 IFD1      JPEGInterchangeFormat       0
 0x0202 IFD1      JPEGInterchangeFormatLength 4662
 File 6/9: 20030925_201850.jpg
 Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
- Offset = 1384, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
+ Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
 0x010f IFD0      Make                        Canon
 0x0110 IFD0      Model                       Canon EOS 300D DIGITAL
 0x0112 IFD0      Orientation                 right, top
@@ -721,7 +727,7 @@ Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
 0x011a IFD1      XResolution                 180
 0x011b IFD1      YResolution                 180
 0x0128 IFD1      ResolutionUnit              inch
-0x0201 IFD1      JPEGInterchangeFormat       2548
+0x0201 IFD1      JPEGInterchangeFormat       0
 0x0202 IFD1      JPEGInterchangeFormatLength 9728
 File 7/9: 20001026_044550.jpg
 0x010e IFD0      ImageDescription            
@@ -835,7 +841,7 @@ File 8/9: 20030926_111535.jpg
 0x011a IFD1      XResolution                 72
 0x011b IFD1      YResolution                 72
 0x0128 IFD1      ResolutionUnit              inch
-0x0201 IFD1      JPEGInterchangeFormat       1204
+0x0201 IFD1      JPEGInterchangeFormat       0
 0x0202 IFD1      JPEGInterchangeFormatLength 9573
 0x0213 IFD1      YCbCrPositioning            Co-sited
 File 9/9: 20040316_075137.jpg
@@ -901,12 +907,12 @@ File 9/9: 20040316_075137.jpg
 0x011a IFD1      XResolution                 180
 0x011b IFD1      YResolution                 180
 0x0128 IFD1      ResolutionUnit              inch
-0x0201 IFD1      JPEGInterchangeFormat       303
+0x0201 IFD1      JPEGInterchangeFormat       0
 0x0202 IFD1      JPEGInterchangeFormatLength 11998
 0x0213 IFD1      YCbCrPositioning            Co-sited
 exiv2-empty.jpg: No Exif data found in the file
 Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
- Offset = 1384, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
+ Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
 
 Extract Exif data --------------------------------------------------------
 File 1/9: exiv2-empty.jpg
@@ -919,6 +925,8 @@ Writing Exif data from 20040329_224245.jpg to ./20040329_224245.exv
 File 5/9: 20010405_235039.jpg
 Writing Exif data from 20010405_235039.jpg to ./20010405_235039.exv
 File 6/9: 20030925_201850.jpg
+Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
+ Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
 Writing Exif data from 20030925_201850.jpg to ./20030925_201850.exv
 File 7/9: 20001026_044550.jpg
 Writing Exif data from 20001026_044550.jpg to ./20001026_044550.exv
@@ -941,7 +949,7 @@ File 5/9: 20010405_235039.jpg
 Writing JPEG thumbnail (4662 Bytes) to file ./20010405_235039-thumb.jpg
 File 6/9: 20030925_201850.jpg
 Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
- Offset = 1384, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
+ Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
 Writing JPEG thumbnail (9728 Bytes) to file ./20030925_201850-thumb.jpg
 File 7/9: 20001026_044550.jpg
 Writing TIFF thumbnail (20916 Bytes) to file ./20001026_044550-thumb.tif
@@ -951,7 +959,7 @@ File 9/9: 20040316_075137.jpg
 Writing JPEG thumbnail (11998 Bytes) to file ./20040316_075137-thumb.jpg
 exiv2-empty.exv: No Exif data found in the file
 Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
- Offset = 1384, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
+ Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
 
 Compare image data and extracted data ------------------------------------
 1,2c1,2
@@ -1001,7 +1009,7 @@ File 5/9: 20010405_235039.jpg
 Erasing 4756 Bytes of thumbnail data
 File 6/9: 20030925_201850.jpg
 Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
- Offset = 1384, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
+ Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
 Erasing 9858 Bytes of thumbnail data
 File 7/9: 20001026_044550.jpg
 Erasing 20910 Bytes of thumbnail data
@@ -1021,7 +1029,7 @@ File 5/9: 20010405_235039.jpg
 20010405_235039.jpg: Image does not contain an Exif thumbnail
 File 6/9: 20030925_201850.jpg
 Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
- Offset = 1384, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
+ Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
 20030925_201850.jpg: Image does not contain an Exif thumbnail
 File 7/9: 20001026_044550.jpg
 20001026_044550.jpg: Image does not contain an Exif thumbnail
@@ -1041,6 +1049,8 @@ Erasing Exif data from the file
 File 5/9: 20010405_235039.jpg
 Erasing Exif data from the file
 File 6/9: 20030925_201850.jpg
+Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
+ Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
 Erasing Exif data from the file
 File 7/9: 20001026_044550.jpg
 Erasing Exif data from the file
@@ -1079,6 +1089,8 @@ Writing Exif data from ./20040329_224245.exv to 20040329_224245.jpg
 File 5/9: 20010405_235039.jpg
 Writing Exif data from ./20010405_235039.exv to 20010405_235039.jpg
 File 6/9: 20030925_201850.jpg
+Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
+ Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
 Writing Exif data from ./20030925_201850.exv to 20030925_201850.jpg
 File 7/9: 20001026_044550.jpg
 Writing Exif data from ./20001026_044550.exv to 20001026_044550.jpg
@@ -1089,7 +1101,7 @@ File 9/9: 20040316_075137.jpg
 Writing Exif data from ./20040316_075137.exv to 20040316_075137.jpg
 exiv2-empty.exv: No Exif data found in the file
 Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
- Offset = 1384, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
+ Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
 
 Compare original and inserted image data ---------------------------------
 1,2c1,2

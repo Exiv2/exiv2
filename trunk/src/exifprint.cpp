@@ -28,8 +28,12 @@ try {
         std::string error = Exiv2::Image::strError(rc, argv[1]);
         throw Exiv2::Error(error);
     }
-
     Exiv2::ExifData &exifData = image->exifData();
+    if (exifData.empty()) {
+        std::string error(argv[1]);
+        error += ": No Exif data found in the file";
+        throw Exiv2::Error(error);
+    }
     Exiv2::ExifData::const_iterator end = exifData.end();
     for (Exiv2::ExifData::const_iterator i = exifData.begin(); i != end; ++i) {
         std::cout << std::setw(53) << std::setfill(' ') << std::left

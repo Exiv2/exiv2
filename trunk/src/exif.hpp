@@ -704,6 +704,8 @@ namespace Exiv2 {
           found.
          */
         const_iterator findIfdIdIdx(IfdId ifdId, int idx) const;
+        //! Return true if there is no Exif metadata
+        bool empty() const { return count() == 0; }
         //! Get the number of metadata entries
         long count() const { return static_cast<long>(exifMetadata_.size()); }
         //! Returns the byte order as specified in the TIFF header

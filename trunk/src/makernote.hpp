@@ -158,8 +158,8 @@ namespace Exiv2 {
         virtual Entries::iterator begin() =0;
         //! End of the makernote entries
         virtual Entries::iterator end() =0;
-        /*
-          @brief Update the base pointer of the MakerNote and all its entries 
+        /*!
+          @brief Update the base pointer of the %MakerNote and all its entries 
                  to \em pNewBase.
 
           Allows to re-locate the underlying data buffer to a new location
@@ -365,7 +365,8 @@ namespace Exiv2 {
         // DATA
         /*!
           @brief True:  Adjustment of the IFD offsets is to be added to the
-                        offset from the start of the TIFF header,
+                        offset from the start of the TIFF header (i.e., the
+                        start of the Exif data section),
                  False: Adjustment of the IFD offsets is a suitable absolute 
                         value. Ignore the offset from the start of the TIFF 
                         header.
