@@ -21,7 +21,7 @@
 /*!
   @file    types.hpp
   @brief   Type definitions for Exiv2 and related functionality
-  @version $Name:  $ $Revision: 1.7 $
+  @version $Name:  $ $Revision: 1.8 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -103,6 +103,35 @@ namespace Exif {
     private:
         static const TypeInfoTable typeInfoTable_[];
     };
+
+    /*!
+      @brief Utility class containing a character array. All it does is to take
+             care of memory allocation and deletion. Its primary use is meant to
+             be as a stack variable in functions that need a temporary data
+             buffer. Todo: this should be some sort of smart pointer,
+             essentially an std:auto_ptr for a character array. But it isn't.
+     */
+    class DataBuf {
+        // Not implemented
+        //! Copy constructor
+        DataBuf(const DataBuf&);
+        //! Assignment operator
+        DataBuf& operator=(const DataBuf&);
+    public:
+        //! Default constructor
+        DataBuf() : size_(0), pData_(0) {}
+        //! Constructor with an initial buffer size 
+        DataBuf(long size) : size_(size), pData_(new char[size]) {}
+        //! Destructor, deletes the allocated buffer
+        ~DataBuf() { delete[] pData_; }
+        //! Allocate a data buffer of the given size
+        void alloc(long size)
+            { delete pData_; size_ = size; pData_ = new char[size]; }
+        //! The current size of the buffer
+        long size_; 
+        //! Pointer to the buffer, 0 if none has been allocated
+        char* pData_;
+    }; // class DataBuf
 
 // *****************************************************************************
 // free functions
