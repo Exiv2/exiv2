@@ -85,9 +85,13 @@ namespace {
       @param source Source file path
       @param target Target file path. An *.exv file is created if target doesn't
                     exist.
+      @param preserve Indicates if existing metadata in the target file should 
+                    be kept.
       @return 0 if successful, else an error code
     */
-    int metacopy(const std::string& source, const std::string& target);
+    int metacopy(const std::string& source, 
+                 const std::string& target, 
+                 bool preserve);
 }
 
 // *****************************************************************************
@@ -797,7 +801,7 @@ namespace Action {
                 std::cin >> s;
                 if (s[0] != 'y' && s[0] != 'Y') return 0;
             }
-            rc = metacopy(path_, exvPath);
+            rc = metacopy(path_, exvPath, false);
         }
         return rc;
     }
@@ -857,6 +861,11 @@ namespace Action {
 
     int Insert::run(const std::string& path)
     try {
+        if (!Util::fileExists(path, true)) {
+            std::cerr << path
+                      << ": Failed to open the file\n";
+            return -1;
+        }
         int rc = 0;
         if (Params::instance().target_ & Params::ctThumb) {
             rc = insertThumbnail(path);
@@ -867,7 +876,7 @@ namespace Action {
             || Params::instance().target_ & Params::ctComment) {
             std::string exvPath =   Util::dirname(path) + SEPERATOR_STR
                                   + Util::basename(path, true) + ".exv";
-            rc = metacopy(exvPath, path);
+            rc = metacopy(exvPath, path, true);
         }
         return rc;
     }
@@ -1038,7 +1047,9 @@ namespace {
         return os.str();
     } // time2Str
 
-    int metacopy(const std::string& source, const std::string& target) 
+    int metacopy(const std::string& source, 
+                 const std::string& target, 
+                 bool preserve) 
     {
         if (!Util::fileExists(source, true)) {
             std::cerr << source
@@ -1060,6 +1071,13 @@ namespace {
         }
         Exiv2::Image::AutoPtr targetImage 
             = Exiv2::ImageFactory::instance().open(target);
+        if (preserve && targetImage.get() != 0) {
+            if (targetImage->readMetadata()) {
+                std::cerr << target
+                          << ": Could not read metadata\n";
+                return 1;
+            }
+        }
         if (targetImage.get() == 0) {
             targetImage 
                 = Exiv2::ImageFactory::instance().create(Exiv2::Image::exv, target);
