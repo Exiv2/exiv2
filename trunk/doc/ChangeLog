@@ -46,8 +46,10 @@ Changes from version 0.5 to 0.6
 
 * MSVC related (Thanks to Brad Schick)
 	
-	* Added exivsimple (win32 only dll) and write2-test projects to MSVC 
-	  build (Brad)
+	* Added exivsimple: a Windows dll that allows languages such as 
+	  C# and VB to access limited metadata capabilities (Brad)
+
+	* Added and write2-test projects to MSVC build (Brad)
 	
 	* Added mn.cpp to all MSVC projects. Fixes bug #396 (Brad)
 	
