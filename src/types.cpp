@@ -20,14 +20,14 @@
  */
 /*
   File:      types.cpp
-  Version:   $Name:  $ $Revision: 1.1 $
+  Version:   $Name:  $ $Revision: 1.2 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.1 $ $RCSfile: types.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: types.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -51,17 +51,17 @@ namespace Exif {
 
     //! Lookup list of supported IFD type information
     const TypeInfoTable TypeInfo::typeInfoTable_[] = {
-        TypeInfoTable(invalid,          "invalid",           0),
-        TypeInfoTable(unsignedByte,     "unsigned byte",     1),
-        TypeInfoTable(asciiString,      "ascii strings",     1),
-        TypeInfoTable(unsignedShort,    "unsigned short",    2),
-        TypeInfoTable(unsignedLong,     "unsigned long",     4),
-        TypeInfoTable(unsignedRational, "unsigned rational", 8),
-        TypeInfoTable(invalid6,         "invalid (6)",       1),
-        TypeInfoTable(undefined,        "undefined",         1),
-        TypeInfoTable(signedShort,      "signed short",      2),
-        TypeInfoTable(signedLong,       "signed long",       4),
-        TypeInfoTable(signedRational,   "signed rational",   8)
+        TypeInfoTable(invalid,          "Invalid",     0),
+        TypeInfoTable(unsignedByte,     "Byte",        1),
+        TypeInfoTable(asciiString,      "Ascii",       1),
+        TypeInfoTable(unsignedShort,    "Short",       2),
+        TypeInfoTable(unsignedLong,     "Long",        4),
+        TypeInfoTable(unsignedRational, "Rational",    8),
+        TypeInfoTable(invalid6,         "Invalid (6)", 1),
+        TypeInfoTable(undefined,        "Undefined",   1),
+        TypeInfoTable(signedShort,      "SShort",      2),
+        TypeInfoTable(signedLong,       "SLong",       4),
+        TypeInfoTable(signedRational,   "SRational",   8)
     };
 
     const char* TypeInfo::typeName(TypeId typeId)
