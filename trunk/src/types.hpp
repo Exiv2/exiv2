@@ -21,7 +21,7 @@
 /*!
   @file    types.hpp
   @brief   Type definitions for Exiv2 and related functionality
-  @version $Name:  $ $Revision: 1.5 $
+  @version $Name:  $ $Revision: 1.6 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -160,8 +160,12 @@ namespace Exif {
      */
     long r2Data(char* buf, Rational l, ByteOrder byteOrder);
 
-    //! Print len bytes from buf in hex and ASCII format to the given stream
-    void hexdump(std::ostream& os, const char* buf, long len);
+    /*!
+      @brief Print len bytes from buf in hex and ASCII format to the given
+             stream, prefixed with the position in the buffer adjusted by
+             offset.
+     */
+    void hexdump(std::ostream& os, const char* buf, long len, long offset =0);
    
 // *****************************************************************************
 // template and inline definitions
