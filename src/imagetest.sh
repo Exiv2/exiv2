@@ -57,7 +57,7 @@ iptcTest()
 }
 
 
-# Make sure to pass the test file first and the know good file second
+# Make sure to pass the test file first and the known good file second
 diffCheck() 
 {
     test=$1
