@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.15 $
+  Version:   $Name:  $ $Revision: 1.16 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.15 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.16 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -756,7 +756,7 @@ namespace Action {
             return 1;
         }
         if (Params::instance().verbose_) {
-            std::cout << path << ": Adjusting timestamp by" 
+            std::cout << "Adjusting '" << md->tagName() << "' by" 
                       << (adjustment_ < 0 ? " " : " +")
                       << adjustment_ << " seconds to ";
         }
