@@ -3,7 +3,7 @@
   Abstract:  Example showing how to add, modify and delete Exif metadata
 
   File:      example1.cpp
-  Version:   $Name:  $ $Revision: 1.3 $
+  Version:   $Name:  $ $Revision: 1.4 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
  */
@@ -42,22 +42,19 @@ try {
     delete v;
 
     // Now create a more interesting value
-    v = Exif::Value::create(Exif::unsignedRational);
+    Exif::URationalValue* rv = new Exif::URationalValue;
     // Set two rational components from a string
-    v->read("1/2 1/3");
-    // Downcast the Value to its actual type
-    Exif::URationalValue* rv = dynamic_cast<Exif::URationalValue*>(v);
-    if (rv == 0) throw Exif::Error("Downcast failed");
-    // Add more elements through the extended interface of the actual type
+    rv->read("1/2 1/3");
+    // Add more elements through the extended interface of rational value 
     rv->value_.push_back(std::make_pair(2,3));
     rv->value_.push_back(std::make_pair(3,4));
     // Add the key and value pair to the Exif data
     key = "Image.ImageCharacteristics.PrimaryChromaticities";
     exifData.add(key, rv);
 
-    std::cout << "Added key \"" << key << "\", value \"" << *v << "\"\n";
-    // Delete the memory allocated by Value::create
-    delete v;
+    std::cout << "Added key \"" << key << "\", value \"" << *rv << "\"\n";
+    // Delete memory allocated on the heap
+    delete rv;
 
     // *************************************************************************
     // Modify Exif data
