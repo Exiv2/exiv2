@@ -20,13 +20,13 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.19 $
+  Version:   $Name:  $ $Revision: 1.20 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.19 $ $RCSfile: tags.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.20 $ $RCSfile: tags.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -561,10 +561,15 @@ namespace Exif {
     std::ostream& print0x829a(std::ostream& os, const Value& value)
     {
         Rational t = value.toRational();
-        if (t.first > 1 && t.second > 1) {
+        if (t.first > 1 && t.second > 1 && t.second >= t.first) {
             t.second = static_cast<uint32>(
                 static_cast<float>(t.second) / t.first + 0.5);
             t.first = 1;
+        }
+        if (t.second > 1 && t.second < t.first) {
+            t.first = static_cast<uint32>(
+                static_cast<float>(t.first) / t.second + 0.5);
+            t.second = 1;
         }
         if (t.second == 1) {
             os << t.first << " s";
