@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of Exif data
-  @version $Name:  $ $Revision: 1.53 $
+  @version $Name:  $ $Revision: 1.54 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -135,10 +135,10 @@ namespace Exiv2 {
         void makeKey();
         /*!
           @brief Parse and convert the key string into tag and IFD Id. 
-                 Updates data memebers if the string can be decomposed,
+                 Updates data members if the string can be decomposed,
                  or throws Error ("Invalid key").
 
-          @throw Error ("Invalid key") Todo: add conditions
+          @throw Error ("Invalid key") if the key cannot be decomposed.
          */
         void decomposeKey();
         //@}
