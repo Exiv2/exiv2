@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.17 $
+  @version $Name:  $ $Revision: 1.18 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -784,10 +784,22 @@ namespace Exif {
     class Ifd {
     public:
         /*!
-          @brief Constructor. Allows to set the IFD identifier and choose
-                 whether or not memory management is required for the Entries.
+          @brief Constructor. Allows to set the IFD identifier. Memory management
+                 is enabled, offset is set to 0. Serves as default constructor.
          */
-        explicit Ifd(IfdId ifdId =ifdIdNotSet, uint32 offset =0, bool alloc =true);
+        explicit Ifd(IfdId ifdId =ifdIdNotSet);
+        /*!
+          @brief Constructor. Allows to set the IFD identifier and the offset of
+                 the IFD from the start of TIFF header. Memory management is
+                 enabled.
+         */
+        Ifd(IfdId ifdId, uint32 offset);
+        /*!
+          @brief Constructor. Allows to set the IFD identifier, offset of the
+                 IFD from the start of TIFF header and choose whether or not
+                 memory management is required for the Entries.
+         */
+        Ifd(IfdId ifdId, uint32 offset, bool alloc);
 
         //! Entries const iterator type
         typedef Entries::const_iterator const_iterator;
@@ -904,6 +916,8 @@ namespace Exif {
         long offset() const { return offset_; }
         //! Get the offset to the next IFD from the start of the TIFF header
         long next() const { return next_; }
+        //! Get the memory allocation mode
+        bool alloc() const { return alloc_; }
         //@}
         //! Get the size of this IFD in bytes (IFD only, without data)
         long size() const;
@@ -1046,6 +1060,10 @@ namespace Exif {
 
     */
     class ExifData {
+        // Copying not allowed (Todo: implement me!)
+        ExifData(const ExifData& rhs);
+        // Assignment not allowed (Todo: implement me!)
+        ExifData& operator=(const ExifData& rhs);
     public:
         //! Default constructor
         ExifData();
@@ -1179,6 +1197,11 @@ namespace Exif {
           modified in this case.
          */
         bool updateIfds();
+        /*
+          Update the metadata of one IFD. Called by updateIfds() for each
+          of the internal IFDs.
+         */
+        bool updateIfd(Ifd& ifd);
         /*
           Check if the metadata is compatible with the internal IFDs for
           non-intrusive writing. Return true if compatible, false if not.
