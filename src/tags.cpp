@@ -12,7 +12,7 @@
 
   RCS information
    $Name:  $
-   $Revision: 1.2 $
+   $Revision: 1.3 $
  */
 // *****************************************************************************
 // included header files
@@ -67,26 +67,26 @@ namespace Exif {
         SectionInfo(iopTags, "Interoperability", "Interoperability information")
     };
 
-    TagFormat::TagFormat(uint16 type, const char* name, long size)
-        : type_(type), name_(name), size_(size)
+    TagFormat::TagFormat(TypeId typeId, const char* name, long size)
+        : typeId_(typeId), name_(name), size_(size)
     {
     }
 
     //! Lookup list of IFD tag data formats and their properties
     const TagFormat ExifTags::tagFormat_[] = {
-        TagFormat( 0, "invalid",           0),
-        TagFormat( 1, "unsigned byte",     1),
-        TagFormat( 2, "ascii strings",     1),
-        TagFormat( 3, "unsigned short",    2),
-        TagFormat( 4, "unsigned long",     4),
-        TagFormat( 5, "unsigned rational", 8),
-        TagFormat( 6, "signed byte",       1),
-        TagFormat( 7, "undefined",         1),
-        TagFormat( 8, "signed short",      2),
-        TagFormat( 9, "signed long",       4),
-        TagFormat(10, "signed rational",   8),
-        TagFormat(11, "single float",      4),
-        TagFormat(12, "double float",      8)
+        TagFormat(invalid,          "invalid",           0),
+        TagFormat(unsignedByte,     "unsigned byte",     1),
+        TagFormat(asciiString,      "ascii strings",     1),
+        TagFormat(unsignedShort,    "unsigned short",    2),
+        TagFormat(unsignedLong,     "unsigned long",     4),
+        TagFormat(unsignedRational, "unsigned rational", 8),
+        TagFormat(signedByte,       "signed byte",       1),
+        TagFormat(undefined,        "undefined",         1),
+        TagFormat(signedShort,      "signed short",      2),
+        TagFormat(signedLong,       "signed long",       4),
+        TagFormat(signedRational,   "signed rational",   8),
+        TagFormat(singleFloat,      "single float",      4),
+        TagFormat(doubleFloat,      "double float",      8)
     };
 
     TagInfo::TagInfo(
