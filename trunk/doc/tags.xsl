@@ -3,7 +3,7 @@
 
   File    tags.xsl
   Brief   Create a sortable HTML table from the tags.xml list
-  Version $Name:  $ $Revision: 1.1 $
+  Version $Name:  $ $Revision: 1.2 $
   Author  Andreas Huggel (ahu)
           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   Date    07-Feb-04, ahu: created
@@ -90,7 +90,7 @@
   //<![CDATA[
   var t1 = new SortableTable(
     document.getElementById("report-1"),
-    ["String", "String", "String", "Number", "String", "String"]
+    ["String", "String", "Number", "String", "String", "String"]
   );
   t1.onsort = function () { 
 	var rows = t1.tBody.rows;
