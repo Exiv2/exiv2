@@ -45,7 +45,7 @@ EXIV2_RCSID("@(#) $Id$");
 # include "getopt_win32.h"
 # define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
 #endif
-#ifdef HAVE_UNISTD_H
+#ifdef EXV_HAVE_UNISTD_H
 # include <unistd.h>                     // for getopt(), stat()
 #endif
 #include <errno.h>
@@ -100,15 +100,15 @@ int Getopt::getopt(int argc, char* const argv[], const std::string& optstring)
         if (path == "") return ".";
         // Strip trailing slashes
         std::string p = path;
-        while (p.length() > 1 && p[p.length()-1] == SEPERATOR_CHR) {
+        while (p.length() > 1 && p[p.length()-1] == EXV_SEPERATOR_CHR) {
             p = p.substr(0, p.length()-1);
         }
-        if (p == SEPERATOR_STR) return SEPERATOR_STR;
-        std::string::size_type idx = p.rfind(SEPERATOR_CHR);
+        if (p == EXV_SEPERATOR_STR) return EXV_SEPERATOR_STR;
+        std::string::size_type idx = p.rfind(EXV_SEPERATOR_CHR);
         if (idx == std::string::npos) return ".";
-        if (idx == 0) return SEPERATOR_STR;
+        if (idx == 0) return EXV_SEPERATOR_STR;
         p = p.substr(0, idx);
-        while (p.length() > 1 && p[p.length()-1] == SEPERATOR_CHR) {
+        while (p.length() > 1 && p[p.length()-1] == EXV_SEPERATOR_CHR) {
             p = p.substr(0, p.length()-1);
         }
         return p;
@@ -119,11 +119,11 @@ int Getopt::getopt(int argc, char* const argv[], const std::string& optstring)
         if (path == "") return ".";
         // Strip trailing slashes
         std::string p = path;
-        while (p.length() > 1 && p[p.length()-1] == SEPERATOR_CHR) {
+        while (p.length() > 1 && p[p.length()-1] == EXV_SEPERATOR_CHR) {
             p = p.substr(0, p.length()-1);
         }
-        if (p == SEPERATOR_STR) return p;
-        std::string::size_type idx = p.rfind(SEPERATOR_CHR);
+        if (p == EXV_SEPERATOR_STR) return p;
+        std::string::size_type idx = p.rfind(EXV_SEPERATOR_CHR);
         if (idx != std::string::npos) p = p.substr(idx+1);
         if (delsuffix) p = p.substr(0, p.length() - suffix(p).length());
         return p;

@@ -159,7 +159,7 @@ Params& Params::instance()
 
 void Params::version(std::ostream& os) const
 {
-    os << PACKAGE_STRING << ", " 
+    os << EXV_PACKAGE_STRING << ", " 
        << "Copyright (C) 2004, 2005 Andreas Huggel.\n\n"
        << "This is free software; see the source for copying conditions.  "
        << "There is NO \nwarranty; not even for MERCHANTABILITY or FITNESS FOR "

@@ -40,10 +40,10 @@ EXIV2_RCSID("@(#) $Id$");
 #include <cassert>
 #include <sys/types.h>                  // for stat()
 #include <sys/stat.h>                   // for stat()
-#ifdef HAVE_PROCESS_H
+#ifdef EXV_HAVE_PROCESS_H
 # include <process.h>
 #endif
-#ifdef HAVE_UNISTD_H
+#ifdef EXV_HAVE_UNISTD_H
 # include <unistd.h>                    // for getpid, stat
 #endif
 

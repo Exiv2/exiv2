@@ -134,7 +134,7 @@ ifeq ($(strip $(MAKECMDGOALS)),)
 else
 # ...or the target is _not_ one in the list of targets below.
 NOINCLUDE = uninstall uninstall-lib check doc ctags mostlyclean clean  \
-            install-header uninstall-header distclean maintainer-clean 
+            install-header uninstall-header distclean maintainer-clean exv_conf.h 
 ifneq ($(MAKECMDGOALS), $(filter $(MAKECMDGOALS), $(NOINCLUDE)))
 -include $(DEP)
 endif
@@ -175,8 +175,11 @@ $(sort $(BINOBJ) $(EXIV2OBJ) $(MCOBJ) mn.o): %.o: %.cpp
 types.hpp: exv_conf.h 
 actions.cpp exiv2.cpp image.cpp utils.cpp: exv_conf.h 
 
+#exv_conf.h: $(top_srcdir)/config/config.h
+#	cp -f $(top_srcdir)/config/config.h exv_conf.h
+
 exv_conf.h: $(top_srcdir)/config/config.h
-	cp -f $(top_srcdir)/config/config.h exv_conf.h
+	sed 's/#define \([A-Z]\)/#define EXV_\1/; s/#undef \([A-Z]\)/#undef EXV_\1/' < $< > $@
 
 mn.cpp: ./mn.sh
 	./mn.sh
