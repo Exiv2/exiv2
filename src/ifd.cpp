@@ -465,6 +465,7 @@ namespace Exiv2 {
 
     long Ifd::copy(byte* buf, ByteOrder byteOrder, long offset)
     {
+        if (entries_.size() == 0 && next_ == 0) return 0;
         if (offset != 0) offset_ = offset;
 
         // Add the number of entries to the data buffer
@@ -581,7 +582,7 @@ namespace Exiv2 {
 
     long Ifd::size() const
     {
-        if (entries_.size() == 0) return 0;
+        if (entries_.size() == 0 && next_ == 0) return 0;
         return static_cast<long>(2 + 12 * entries_.size() + 4); 
     }
 
