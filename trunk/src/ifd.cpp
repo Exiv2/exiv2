@@ -20,14 +20,14 @@
  */
 /*
   File:      ifd.cpp
-  Version:   $Name:  $ $Revision: 1.4 $
+  Version:   $Name:  $ $Revision: 1.5 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: ifd.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: ifd.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -48,7 +48,7 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: ifd.cpp,v $")
 namespace Exif {
 
     Entry::Entry(bool alloc)
-        : alloc_(alloc), ifdId_(ifdIdNotSet), makerNote_(0), 
+        : alloc_(alloc), ifdId_(ifdIdNotSet), idx_(0), makerNote_(0), 
           tag_(0), type_(0), count_(0), offset_(0), size_(0), data_(0)
     {
     }
@@ -60,9 +60,9 @@ namespace Exif {
     }
 
     Entry::Entry(const Entry& rhs)
-        : alloc_(rhs.alloc_), ifdId_(rhs.ifdId_), makerNote_(rhs.makerNote_),
-          tag_(rhs.tag_), type_(rhs.type_), count_(rhs.count_),
-          offset_(rhs.offset_), size_(rhs.size_), data_(0)
+        : alloc_(rhs.alloc_), ifdId_(rhs.ifdId_), idx_(rhs.idx_),
+          makerNote_(rhs.makerNote_), tag_(rhs.tag_), type_(rhs.type_), 
+          count_(rhs.count_), offset_(rhs.offset_), size_(rhs.size_), data_(0)
     {
         if (alloc_) {
             if (rhs.data_) {
@@ -80,6 +80,7 @@ namespace Exif {
         if (this == &rhs) return *this;
         alloc_ = rhs.alloc_;
         ifdId_ = rhs.ifdId_;
+        idx_ = rhs.idx_;
         makerNote_ = rhs.makerNote_;
         tag_ = rhs.tag_;
         type_ = rhs.type_;
@@ -199,11 +200,13 @@ namespace Exif {
         // to each IFD entry and calculate relative offsets, relative to the
         // start of the IFD
         entries_.clear();
+        int idx = 0;
         const Ifd::PreEntries::iterator begin = preEntries.begin();
         const Ifd::PreEntries::iterator end = preEntries.end();
         for (Ifd::PreEntries::iterator i = begin; i != end; ++i) {
             Entry e(alloc_);
             e.setIfdId(ifdId_);
+            e.setIdx(++idx);
             e.setTag(i->tag_);
             // Set the offset to the data, relative to start of IFD
             e.setOffset(i->size_ > 4 ? i->offset_ - offset_ : i->offsetLoc_);
@@ -214,6 +217,18 @@ namespace Exif {
 
         return 0;
     } // Ifd::read
+
+    Ifd::const_iterator Ifd::findIdx(int idx) const 
+    {
+        return std::find_if(entries_.begin(), entries_.end(),
+                            FindEntryByIdx(idx));
+    }
+
+    Ifd::iterator Ifd::findIdx(int idx)
+    {
+        return std::find_if(entries_.begin(), entries_.end(),
+                            FindEntryByIdx(idx));
+    }
 
     Ifd::const_iterator Ifd::findTag(uint16 tag) const 
     {
@@ -302,10 +317,15 @@ namespace Exif {
         entries_.push_back(entry);
     }
 
-    void Ifd::erase(uint16 tag)
+    int Ifd::erase(uint16 tag)
     {
+        int idx = 0;
         iterator pos = findTag(tag);
-        if (pos != end()) erase(pos);
+        if (pos != end()) {
+            idx = pos->idx();
+            erase(pos);
+        }
+        return idx;
     }
 
     void Ifd::erase(iterator pos)
