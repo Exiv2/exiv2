@@ -23,7 +23,7 @@
   @brief   Sigma and Foveon MakerNote implemented according to the specification
            in "SIGMA and FOVEON EXIF MakerNote Documentation" by Foveon.
            <http://www.x3f.info/technotes/FileDocs/MakerNoteDoc.html>
-  @version $Name:  $ $Revision: 1.1 $
+  @version $Name:  $ $Revision: 1.2 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    02-Apr-04, ahu: created
@@ -93,6 +93,8 @@ namespace Exif {
 
         //! @name Print functions for Sigma (Foveon) %MakerNote tags 
         //@{
+        //! Strip the label from the value and print the remainder
+        static std::ostream& printStripLabel(std::ostream& os, const Value& value);
         //! Print exposure mode
         static std::ostream& print0x0008(std::ostream& os, const Value& value);
         //! Print metering mode

@@ -20,7 +20,7 @@
  */
 /*
   File:      sigmamn.cpp
-  Version:   $Name:  $ $Revision: 1.1 $
+  Version:   $Name:  $ $Revision: 1.2 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   02-Apr-04, ahu: created
   Credits:   Sigma and Foveon MakerNote implemented according to the specification
@@ -29,7 +29,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.1 $ $RCSfile: sigmamn.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: sigmamn.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -85,7 +85,7 @@ namespace Exif {
         : IfdMakerNote(sigmaMnTagInfo, alloc), sectionName_("Sigma")
     {
         // My one and only Sigma sample has two undocumented extra bytes 
-        // (0x01, 0x00) after the ID string and before the start of the
+        // (0x01, 0x00) between the ID string and the start of the
         // Makernote IFD. Adding them to the ID string is a hack...
         prefix_ = std::string("SIGMA\0\0\0\x1\0", 10);
     }
@@ -100,6 +100,15 @@ namespace Exif {
                                           const Value& value) const
     {
         switch (tag) {
+        case 0x000c: // fallthrough
+        case 0x000d: // fallthrough
+        case 0x000e: // fallthrough
+        case 0x000f: // fallthrough
+        case 0x0010: // fallthrough
+        case 0x0011: // fallthrough
+        case 0x0012: // fallthrough
+        case 0x0014: // fallthrough
+        case 0x0016: printStripLabel(os, value); break;
         case 0x0008: print0x0008(os, value); break;
         case 0x0009: print0x0009(os, value); break;
         default:
@@ -108,6 +117,18 @@ namespace Exif {
             break;
         }
         return os;
+    }
+
+    std::ostream& SigmaMakerNote::printStripLabel(std::ostream& os,
+                                                  const Value& value)
+    {
+        std::string v = value.toString();
+        std::string::size_type pos = v.find(':');
+        if (pos != std::string::npos) {
+            if (v[pos + 1] == ' ') ++pos;
+            v = v.substr(pos + 1);
+        }
+        return os << v;
     }
 
     std::ostream& SigmaMakerNote::print0x0008(std::ostream& os,
@@ -129,7 +150,7 @@ namespace Exif {
         switch (value.toString()[0]) {
         case 'A': os << "Average"; break;
         case 'C': os << "Center"; break;
-        case '8': os << "8-segment"; break;
+        case '8': os << "8-Segment"; break;
         default: os << "(" << value << ")"; break;
         }
         return os;
