@@ -14,7 +14,6 @@ Library Features:
   + set thumbnail, write thumbnail tags
 + Make it possible to force write from metadata (just an optional arg to write?)
 
-+ Get rid of Image::detach and make Image open files on-demand 
 + Make Image::doWriteMetadata do its work in a single pass
 
 + Revise Image and IptcData+ExifData API (aka turn it inside out)

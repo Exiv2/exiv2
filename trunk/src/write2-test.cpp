@@ -29,7 +29,7 @@ try {
     }
     std::string file(argv[1]);
 
-    std::cout <<"----- Two IFD0 tags\n";
+    std::cout <<"----- Some IFD0 tags\n";
     Exiv2::ExifData ed1;
     Exiv2::Exifdatum md1(Exiv2::ExifKey("Exif.Image.Model"));
     md1.setValue("Test 1");
@@ -162,18 +162,34 @@ try {
     write(file, ed4);
     print(file);
 
-    // Todo: Fix this
     std::cout <<"\n----- One IFD1 tag\n";
     Exiv2::ExifData ed5;
     Exiv2::Exifdatum md5(Exiv2::ExifKey("Exif.Thumbnail.Artist"));
     md5.setValue("Test 5");
     ed5.add(md5);
-
-    Exiv2::Exifdatum md6(Exiv2::ExifKey("Exif.Image.Model"));
-    md6.setValue("Test 5 (Fix me!)");
-    ed5.add(md6);
-
     write(file, ed5);
+    print(file);
+
+    std::cout <<"\n----- One IOP and one IFD1 tag\n";
+    Exiv2::ExifData ed6;
+    Exiv2::Exifdatum md6(Exiv2::ExifKey("Exif.Iop.InteroperabilityVersion"));
+    md6.setValue("Test 6 Iop tag");
+    ed6.add(md6);
+    Exiv2::Exifdatum md7(Exiv2::ExifKey("Exif.Thumbnail.Artist"));
+    md7.setValue("Test 6 Ifd1 tag");
+    ed6.add(md7);
+    write(file, ed6);
+    print(file);
+
+    std::cout <<"\n----- One IFD0 and one IFD1 tag\n";
+    Exiv2::ExifData ed7;
+    Exiv2::Exifdatum md8(Exiv2::ExifKey("Exif.Thumbnail.Artist"));
+    md8.setValue("Test 7");
+    ed7.add(md8);
+    Exiv2::Value::AutoPtr v5 = Exiv2::Value::create(Exiv2::unsignedShort);
+    v5->read("160 161 162 163");
+    ed7.add(Exiv2::ExifKey("Exif.Image.SamplesPerPixel"), v5.get());
+    write(file, ed7);
     print(file);
 
     return 0;

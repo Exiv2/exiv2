@@ -1,4 +1,4 @@
------ Two IFD0 tags
+----- Some IFD0 tags
 Exif.Image.Model                              0x0110 IFD0         Ascii       7 Test 1
 Exif.Image.SamplesPerPixel                    0x0115 IFD0         Short       4 160 161 162 163
 Exif.Image.XResolution                        0x011a IFD0         SLong       4 -2 -1 0 1
@@ -55,4 +55,14 @@ Exif.Image.GPSTag                             0x8825 IFD0         Long        1 
 Exif.GPSInfo.GPSVersionID                     0x0000 GPSInfo      Ascii       7 Test 4
 
 ----- One IFD1 tag
-Exif.Image.Model                              0x0110 IFD0         Ascii      17 Test 5 (Fix me!)
+Exif.Thumbnail.Artist                         0x013b IFD1         Ascii       7 Test 5
+
+----- One IOP and one IFD1 tag
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 26
+Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 44
+Exif.Iop.InteroperabilityVersion              0x0002 Iop          Ascii      15 Test 6 Iop tag
+Exif.Thumbnail.Artist                         0x013b IFD1         Ascii      16 Test 6 Ifd1 tag
+
+----- One IFD0 and one IFD1 tag
+Exif.Image.SamplesPerPixel                    0x0115 IFD0         Short       4 160 161 162 163
+Exif.Thumbnail.Artist                         0x013b IFD1         Ascii       7 Test 7
