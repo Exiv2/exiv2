@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.54 $
+  Version:   $Name:  $ $Revision: 1.55 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.54 $ $RCSfile: exif.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.55 $ $RCSfile: exif.cpp,v $");
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -793,11 +793,11 @@ namespace Exiv2 {
     long ExifData::copyFromMetadata(byte* buf)
     {
         // Build IFD0
-        Ifd ifd0(ifd0);
+        Ifd ifd0(Exiv2::ifd0);
         addToIfd(ifd0, begin(), end(), byteOrder());
 
         // Build Exif IFD from metadata
-        Ifd exifIfd(exifIfd);
+        Ifd exifIfd(Exiv2::exifIfd);
         addToIfd(exifIfd, begin(), end(), byteOrder());
         MakerNote* pMakerNote = 0;
         if (pMakerNote_) {
