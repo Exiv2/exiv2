@@ -21,7 +21,7 @@
 /*!
   @file    value.hpp
   @brief   Value interface and concrete subclasses
-  @version $Name:  $ $Revision: 1.4 $
+  @version $Name:  $ $Revision: 1.5 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -268,9 +268,9 @@ namespace Exif {
         virtual long size() const;
         virtual Value* clone() const;
         /*! 
-          @brief Write the value to an output stream. One trailing '\\0'
-                 character of the ASCII value is stripped if present and not
-                 written to the output stream.
+          @brief Write the value to an output stream. Any trailing '\\0'
+                 characters of the ASCII value are stripped and not written to
+                 the output stream.
         */
         virtual std::ostream& write(std::ostream& os) const;
         virtual long toLong(long n =0) const { return value_[n]; }
