@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.28 $
+  Version:   $Name:  $ $Revision: 1.29 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.28 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.29 $ $RCSfile: exif.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -573,7 +573,7 @@ namespace Exif {
         add(ifd0_.begin(), ifd0_.end(), byteOrder());
         add(exifIfd_.begin(), exifIfd_.end(), byteOrder());
         if (makerNote_) {
-            add(makerNote_->begin(), makerNote_->end(), byteOrder());
+            add(makerNote_->begin(), makerNote_->end(), makerNote_->byteOrder());
         }
         add(iopIfd_.begin(), iopIfd_.end(), byteOrder()); 
         add(gpsIfd_.begin(), gpsIfd_.end(), byteOrder());
@@ -641,7 +641,7 @@ std::cerr << "->>>>>> writing from metadata <<<<<<-\n";
         if (makerNote_) {
             // Build MakerNote from metadata
             makerNote = makerNote_->clone();
-            addToMakerNote(makerNote, begin(), end(), byteOrder());
+            addToMakerNote(makerNote, begin(), end(), makerNote_->byteOrder());
             // Create a placeholder MakerNote entry of the correct size and
             // add it to the Exif IFD (because we don't know the offset yet)
             Entry e;
@@ -817,20 +817,23 @@ std::cerr << "->>>>>> writing from metadata <<<<<<-\n";
         if (!this->compatible()) return false;
 
         bool compatible = true;
-        compatible |= updateRange(ifd0_.begin(), ifd0_.end());
-        compatible |= updateRange(exifIfd_.begin(), exifIfd_.end());
+        compatible |= updateRange(ifd0_.begin(), ifd0_.end(), byteOrder());
+        compatible |= updateRange(exifIfd_.begin(), exifIfd_.end(), byteOrder());
         if (makerNote_) {
-            compatible |= updateRange(makerNote_->begin(), makerNote_->end());
+            compatible |= updateRange(makerNote_->begin(), 
+                                      makerNote_->end(), 
+                                      makerNote_->byteOrder());
         }
-        compatible |= updateRange(iopIfd_.begin(), iopIfd_.end());
-        compatible |= updateRange(gpsIfd_.begin(), gpsIfd_.end());
-        compatible |= updateRange(ifd1_.begin(), ifd1_.end());
+        compatible |= updateRange(iopIfd_.begin(), iopIfd_.end(), byteOrder());
+        compatible |= updateRange(gpsIfd_.begin(), gpsIfd_.end(), byteOrder());
+        compatible |= updateRange(ifd1_.begin(), ifd1_.end(), byteOrder());
         
         return compatible;
     } // ExifData::updateEntries
 
     bool ExifData::updateRange(const Entries::iterator& begin, 
-                               const Entries::iterator& end)
+                               const Entries::iterator& end,
+                               ByteOrder byteOrder)
     {
         bool compatible = true;
         for (Entries::iterator entry = begin; entry != end; ++entry) {
@@ -850,7 +853,7 @@ std::cerr << "->>>>>> writing from metadata <<<<<<-\n";
             }
             else {
                 char* buf = new char[md->size()];
-                md->copy(buf, byteOrder());
+                md->copy(buf, byteOrder);
                 entry->setValue(md->typeId(), md->count(), buf, md->size());
                 delete[] buf;
             }

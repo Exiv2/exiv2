@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.28 $
+  @version $Name:  $ $Revision: 1.29 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -138,7 +138,8 @@ namespace Exif {
         //! Return the tag
         uint16 tag() const { return tag_; }
         //! Return the type id of the value
-        TypeId typeId() const { return value_ == 0 ? invalid : value_->typeId(); }
+        TypeId typeId() const 
+            { return value_ == 0 ? invalidTypeId : value_->typeId(); }
         //! Return the name of the type
         const char* typeName() const { return TypeInfo::typeName(typeId()); }
         //! Return the size in bytes of one component of this type
@@ -627,7 +628,8 @@ namespace Exif {
                  (if any).
          */
         bool updateRange(const Entries::iterator& begin,
-                         const Entries::iterator& end);
+                         const Entries::iterator& end,
+                         ByteOrder byteOrder);
         /*!
           @brief Write Exif data to a data buffer the hard way, return number of
                  bytes written.
