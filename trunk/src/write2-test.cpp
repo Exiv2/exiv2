@@ -3,7 +3,7 @@
   Abstract : ExifData write unit tests for Exif data created from scratch
 
   File     : write2-test.cpp
-  Version  : $Name:  $ $Revision: 1.1 $
+  Version  : $Name:  $ $Revision: 1.2 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History  : 26-Jun-04, ahu: created
 
@@ -71,7 +71,7 @@ try {
     ed5.add(md5);
 
     Exiv2::Metadatum md6("Image.OtherTags.Model");
-    md6.setValue("Test 1");
+    md6.setValue("Test 5 (Fix me!)");
     ed5.add(md6);
 
     write(file, ed5);

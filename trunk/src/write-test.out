@@ -1,6 +1,6 @@
 ------------------------------------------------------------
 Case 1: Non-intrusive change to the standard Exif metadata
----> Reading file ../test/img_1771.jpg
+---> Reading file ./img_1771.jpg
 ---> Modifying Exif data
 ---> Writing Exif data to file test1.jpg
 ->>>>>> using non-intrusive writing <<<<<<-
@@ -12,7 +12,7 @@ Case 1: Non-intrusive change to the standard Exif metadata
 > Image.DateTime.DateTimeOriginal                       0x9003  1999:11:22 00:11:22
 ------------------------------------------------------------
 Case 2: Non-intrusive change to the makernote metadata
----> Reading file ../test/img_1771.jpg
+---> Reading file ./img_1771.jpg
 ---> Modifying Exif data
 ---> Writing Exif data to file test2.jpg
 ->>>>>> using non-intrusive writing <<<<<<-
@@ -24,7 +24,7 @@ Case 2: Non-intrusive change to the makernote metadata
 > Makernote.Canon.OwnerName                             0x0009  Chan YeeSend
 ------------------------------------------------------------
 Case 3: Non-intrusive change to the Exif metadata (w/o makernote)
----> Reading file ../test/kodak-dc210.jpg
+---> Reading file ./kodak-dc210.jpg
 ---> Modifying Exif data
 ---> Writing Exif data to file test3.jpg
 ->>>>>> using non-intrusive writing <<<<<<-
@@ -36,7 +36,7 @@ Case 3: Non-intrusive change to the Exif metadata (w/o makernote)
 > Image.DateTime.DateTimeOriginal                       0x9003  1999:11:22 00:11:22
 ------------------------------------------------------------
 Case 4: Intrusive change to the standard Exif metadata
----> Reading file ../test/img_1771.jpg
+---> Reading file ./img_1771.jpg
 ---> Modifying Exif data
 ---> Writing Exif data to file test4.jpg
 ->>>>>> writing from metadata <<<<<<-
@@ -60,7 +60,7 @@ Case 4: Intrusive change to the standard Exif metadata
 > Thumbnail.RecordingOffset.JPEGInterchangeFormat       0x0201  1571
 ------------------------------------------------------------
 Case 5: Intrusive change to the Canon makernote metadata
----> Reading file ../test/img_1771.jpg
+---> Reading file ./img_1771.jpg
 ---> Modifying Exif data
 ---> Writing Exif data to file test5.jpg
 ->>>>>> writing from metadata <<<<<<-
@@ -84,7 +84,7 @@ Case 5: Intrusive change to the Canon makernote metadata
 > Thumbnail.RecordingOffset.JPEGInterchangeFormat       0x0201  1562
 ------------------------------------------------------------
 Case 6: Intrusive change to the Exif metadata (w/o makernote)
----> Reading file ../test/kodak-dc210.jpg
+---> Reading file ./kodak-dc210.jpg
 ---> Modifying Exif data
 ---> Writing Exif data to file test6.jpg
 ->>>>>> writing from metadata <<<<<<-
@@ -104,7 +104,7 @@ Case 6: Intrusive change to the Exif metadata (w/o makernote)
 > Thumbnail.RecordingOffset.StripOffsets                0x0111  765
 ------------------------------------------------------------
 Case 7: Intrusive change to the Fujifilm makernote metadata
----> Reading file ../test/dscf0176.jpg
+---> Reading file ./dscf0176.jpg
 ---> Modifying Exif data
 ---> Writing Exif data to file test7.jpg
 ->>>>>> writing from metadata <<<<<<-
@@ -128,7 +128,7 @@ Case 7: Intrusive change to the Fujifilm makernote metadata
 > Thumbnail.RecordingOffset.JPEGInterchangeFormat       0x0201  1218
 ------------------------------------------------------------
 Case 8: Intrusive change to the Sigma makernote metadata
----> Reading file ../test/sigma-d10-IMG10086.jpg
+---> Reading file ./sigma-d10-IMG10086.jpg
 ---> Modifying Exif data
 ---> Writing Exif data to file test8.jpg
 ->>>>>> writing from metadata <<<<<<-
@@ -148,7 +148,7 @@ Case 8: Intrusive change to the Sigma makernote metadata
 > Thumbnail.RecordingOffset.JPEGInterchangeFormat       0x0201  1239
 ------------------------------------------------------------
 Case 9: Intrusive change to the Nikon1 makernote metadata
----> Reading file ../test/nikon-coolpix-990-DSCN1180.jpg
+---> Reading file ./nikon-coolpix-990-DSCN1180.jpg
 ---> Modifying Exif data
 ---> Writing Exif data to file test9.jpg
 ->>>>>> writing from metadata <<<<<<-
@@ -172,7 +172,7 @@ Case 9: Intrusive change to the Nikon1 makernote metadata
 > Thumbnail.RecordingOffset.JPEGInterchangeFormat       0x0201  1338
 ------------------------------------------------------------
 Case 10: Intrusive change to the Nikon2 makernote metadata
----> Reading file ../test/nikon-e950.jpg
+---> Reading file ./nikon-e950.jpg
 ---> Modifying Exif data
 ---> Writing Exif data to file test10.jpg
 ->>>>>> writing from metadata <<<<<<-
@@ -196,7 +196,7 @@ Case 10: Intrusive change to the Nikon2 makernote metadata
 > Thumbnail.RecordingOffset.JPEGInterchangeFormat       0x0201  1162
 ------------------------------------------------------------
 Case 11: Intrusive change to the Nikon3 makernote metadata
----> Reading file ../test/nikon-d70-dsc_0063.jpg
+---> Reading file ./nikon-d70-dsc_0063.jpg
 ---> Modifying Exif data
 ---> Writing Exif data to file test11.jpg
 ->>>>>> writing from metadata <<<<<<-
