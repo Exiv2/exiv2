@@ -23,6 +23,8 @@
                             needs to be moved (for known IFD MakerNotes)
       - new camera make/model specific MakerNotes can be added to the library
         with minimum effort in OO-fashion (by subclassing MakerNote or IfdMakerNote)
+  - set methods for Exif thumbnails (Jpeg only, Tiff thumbnails can be set from 
+    individual tags)
   - extract and delete methods for Exif thumbnails (both, JPEG and TIFF thumbnails)
   - Doxygen API documentation
   - generic lower-level classes to access IFD (Image File Directory) data structures
@@ -31,12 +33,13 @@
   - print the Exif metadata of JPEG images (as summary info, interpreted values, or
     the plain data for each tag)
   - print the Iptc metadata of JPEG images
+  - print the Jpeg comment of JPEG images
   - adjust the Exif timestamp (that's how it all started...)
   - rename Exif image files according to the Exif timestamp
-  - extract a certain type of metadata or all metadata from image files
-  - insert metadata back into image files
+  - extract Exif metadata, Iptc metadata and Jpeg comments from image files and 
+    insert it again
   - extract the thumbnail image embedded in the Exif metadata
-  - delete the thumbnail or specific metadata from an image
+  - delete the thumbnail or the complete Exif metadata from an image
 
   @section getting-started Getting started
 
