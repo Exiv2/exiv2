@@ -20,13 +20,13 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.12 $
+  Version:   $Name:  $ $Revision: 1.13 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.12 $ $RCSfile: tags.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.13 $ $RCSfile: tags.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -135,7 +135,7 @@ namespace Exif {
         TagInfo(0x0212, "YCbCrSubSampling", "Subsampling ratio of Y to C", ifd0, imgStruct, printValue),
         TagInfo(0x0213, "YCbCrPositioning", "Y and C positioning", ifd0, imgStruct, print0x0213),
         TagInfo(0x0214, "ReferenceBlackWhite", "Pair of black and white reference values", ifd0, imgCharacter, printValue),
-        TagInfo(0x8298, "Copyright", "Copyright holder", ifd0, otherTags, printValue),
+        TagInfo(0x8298, "Copyright", "Copyright holder", ifd0, otherTags, print0x8298),
         TagInfo(0x8769, "ExifTag", "Exif IFD Pointer", ifd0, exifFormat, printValue),
         TagInfo(0x8825, "GPSTag", "GPSInfo IFD Pointer", ifd0, exifFormat, printValue),
         // End of list marker
@@ -167,7 +167,7 @@ namespace Exif {
         TagInfo(0x920a, "FocalLength", "Lens focal length", exifIfd, captureCond, print0x920a),
         TagInfo(0x9214, "SubjectArea", "Subject area", exifIfd, captureCond, printValue),
         TagInfo(0x927c, "MakerNote", "Manufacturer notes", exifIfd, userInfo, printValue),
-        TagInfo(0x9286, "UserComment", "User comments", exifIfd, userInfo, printValue),
+        TagInfo(0x9286, "UserComment", "User comments", exifIfd, userInfo, print0x9286),
         TagInfo(0x9290, "SubSecTime", "DateTime subseconds", exifIfd, dateTime, printValue),
         TagInfo(0x9291, "SubSecTimeOriginal", "DateTimeOriginal subseconds", exifIfd, dateTime, printValue),
         TagInfo(0x9292, "SubSecTimeDigitized", "DateTimeDigitized subseconds", exifIfd, dateTime, printValue),
@@ -465,7 +465,6 @@ namespace Exif {
         return os << value.toLong();
     }
 
-    // Todo: Cleanup needed
     std::ostream& printFloat(std::ostream& os, const Value& value)
     {
         const URationalValue* ur = dynamic_cast<const URationalValue*>(&value);
@@ -477,7 +476,6 @@ namespace Exif {
                 return os << value;
             }
         }
-
         const RationalValue* sr = dynamic_cast<const RationalValue*>(&value);
         if (sr) {
             if (sr->value_[0].second != 0) {
@@ -487,8 +485,18 @@ namespace Exif {
                 return os << value;
             }
         }
-
         return os << value;
+    } // printFloat
+
+    std::ostream& printUnit(std::ostream& os, const Value& value)
+    {
+        long unit = value.toLong();
+        switch (unit) {
+        case 2:  os << "Inch"; break;
+        case 3:  os << "Centimeter"; break;
+        default: os << unit; break;
+        }
+        return os;
     }
 
     std::ostream& print0x0103(std::ostream& os, const Value& value)
@@ -524,13 +532,22 @@ namespace Exif {
         return os;
     }
 
-    std::ostream& printUnit(std::ostream& os, const Value& value)
+    std::ostream& print0x8298(std::ostream& os, const Value& value)
     {
-        long unit = value.toLong();
-        switch (unit) {
-        case 2:  os << "Inch"; break;
-        case 3:  os << "Centimeter"; break;
-        default: os << unit; break;
+        // Print the copyright information in the format Photographer, Editor
+        std::string val = value.toString();
+        std::string::size_type pos = val.find('\0');
+        if (pos != std::string::npos) {
+            std::string photographer(val, 0, pos);
+            if (photographer != " ") os << photographer;
+            std::string editor(val, pos + 1);
+            if (editor != "") {
+                if (photographer != " ") os << ", ";
+                os << editor;
+            }
+        }
+        else {
+            os << val;
         }
         return os;
     }
@@ -674,6 +691,20 @@ namespace Exif {
         }
         else {
             os << value;
+        }
+        return os;
+    }
+
+    std::ostream& print0x9286(std::ostream& os, const Value& value)
+    {
+        if (value.size() > 8) {
+            char* buf = new char[value.size()];
+            value.copy(buf, bigEndian);
+            // Hack: Simply skip the leading 8-Byte character code and let
+            // the stream handle the comment
+            std::string userComment(buf+8, value.size() - 8);
+            os << userComment;
+            delete[] buf;
         }
         return os;
     }
