@@ -119,6 +119,42 @@ namespace Exiv2 {
         return *this;
     } // Exifdatum::operator=
     
+    Exifdatum& Exifdatum::operator=(const std::string& value)
+    { 
+        setValue(value); 
+        return *this; 
+    }
+
+    Exifdatum& Exifdatum::operator=(const uint16_t& value) 
+    {
+        return Exiv2::setValue(*this, value); 
+    }
+
+    Exifdatum& Exifdatum::operator=(const uint32_t& value)
+    {
+        return Exiv2::setValue(*this, value); 
+    }
+
+    Exifdatum& Exifdatum::operator=(const URational& value)
+    {
+        return Exiv2::setValue(*this, value); 
+    }
+
+    Exifdatum& Exifdatum::operator=(const int16_t& value)
+    {
+        return Exiv2::setValue(*this, value); 
+    }
+
+    Exifdatum& Exifdatum::operator=(const int32_t& value)
+    {
+        return Exiv2::setValue(*this, value); 
+    }
+
+    Exifdatum& Exifdatum::operator=(const Rational& value)
+    {
+        return Exiv2::setValue(*this, value); 
+    }
+
     void Exifdatum::setValue(const Value* pValue)
     {
         value_.reset();

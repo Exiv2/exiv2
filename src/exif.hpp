@@ -57,36 +57,7 @@ namespace Exiv2 {
 // class declarations
     class ExifData;
     class MakerNote;
-    class Exifdatum;
 
-// *****************************************************************************
-// template (definition needed before template use in msvc.net)
-    
-    /*!
-      @brief Set the value of \em exifDatum to \em value. If the object already
-             has a value, it is replaced. Otherwise a new ValueType\<T\> value
-             is created and set to \em value. 
-
-      This is a helper function, called from Exifdatum members. It is meant to
-      be used with T = (u)int16_t, (u)int32_t or (U)Rational. Do not use directly.
-    */
-    template<typename T>
-    Exifdatum& setValue(Exifdatum& exifDatum, const T& value)
-    {
-        if (exifDatum.value_.get() == 0) {
-            std::auto_ptr<ValueType<T> > v 
-                = std::auto_ptr<ValueType<T> >(new ValueType<T>);
-            v->value_.push_back(value);
-            exifDatum.value_ = v;
-        }
-        else {
-            exifDatum.value_->read(Exiv2::toString(value));
-        }
-        return exifDatum;
-    }
-
-    
-    
 // *****************************************************************************
 // class definitions
 
@@ -128,50 +99,43 @@ namespace Exiv2 {
                  value, it is replaced with \em value.  Otherwise a new
                  AsciiValue value is created and set to \em value.
          */
-        Exifdatum& operator=(const std::string& value)
-            { setValue(value); return *this; }
+        Exifdatum& operator=(const std::string& value);
         /*!
           @brief Assign \em value to the %Exifdatum. If the object already has a
                  value, it is replaced with \em value.  Otherwise a new
                  UShortValue value is created and set to \em value.
          */
-        Exifdatum& operator=(const uint16_t& value) 
-            { return Exiv2::setValue(*this, value); }
+        Exifdatum& operator=(const uint16_t& value); 
         /*!
           @brief Assign \em value to the %Exifdatum. If the object already has a
                  value, it is replaced with \em value.  Otherwise a new
                  ULongValue value is created and set to \em value.
          */
-        Exifdatum& operator=(const uint32_t& value)
-            { return Exiv2::setValue(*this, value); }
+        Exifdatum& operator=(const uint32_t& value);
         /*!
           @brief Assign \em value to the %Exifdatum. If the object already has a
                  value, it is replaced with \em value.  Otherwise a new
                  URational value is created and set to \em value.
          */
-        Exifdatum& operator=(const URational& value)
-            { return Exiv2::setValue(*this, value); }
+        Exifdatum& operator=(const URational& value);
         /*!
           @brief Assign \em value to the %Exifdatum. If the object already has a
                  value, it is replaced with \em value.  Otherwise a new
                  ShortValue value is created and set to \em value.
          */
-        Exifdatum& operator=(const int16_t& value)
-            { return Exiv2::setValue(*this, value); }
+        Exifdatum& operator=(const int16_t& value);
         /*!
           @brief Assign \em value to the %Exifdatum. If the object already has a
                  value, it is replaced with \em value.  Otherwise a new
                  LongValue value is created and set to \em value.
          */
-        Exifdatum& operator=(const int32_t& value)
-            { return Exiv2::setValue(*this, value); }
+        Exifdatum& operator=(const int32_t& value);
         /*!
           @brief Assign \em value to the %Exifdatum. If the object already has a
                  value, it is replaced with \em value.  Otherwise a new
                  Rational value is created and set to \em value.
          */
-        Exifdatum& operator=(const Rational& value)
-            { return Exiv2::setValue(*this, value); }
+        Exifdatum& operator=(const Rational& value);
         /*!
           @brief Set the value. This method copies (clones) the value pointed
                  to by \em pValue.
@@ -353,6 +317,17 @@ namespace Exiv2 {
              tag value.
      */
     std::ostream& operator<<(std::ostream& os, const Exifdatum& md);
+
+    /*!
+      @brief Set the value of \em exifDatum to \em value. If the object already
+             has a value, it is replaced. Otherwise a new ValueType\<T\> value
+             is created and set to \em value. 
+
+      This is a helper function, called from Exifdatum members. It is meant to
+      be used with T = (u)int16_t, (u)int32_t or (U)Rational. Do not use directly.
+    */
+    template<typename T>
+    Exifdatum& setValue(Exifdatum& exifDatum, const T& value);
 
     /*!
       @brief Exif %Thumbnail image. This abstract base class provides the
@@ -918,6 +893,20 @@ namespace Exiv2 {
 // *****************************************************************************
 // template, inline and free functions
     
+    template<typename T>
+    Exifdatum& setValue(Exifdatum& exifDatum, const T& value)
+    {
+        if (exifDatum.value_.get() == 0) {
+            std::auto_ptr<ValueType<T> > v 
+                = std::auto_ptr<ValueType<T> >(new ValueType<T>);
+            v->value_.push_back(value);
+            exifDatum.value_ = v;
+        }
+        else {
+            exifDatum.value_->read(Exiv2::toString(value));
+        }
+        return exifDatum;
+    }
     /*!
       @brief Add all metadata in the range from iterator position begin to
              iterator position end, which have an IFD id matching that of the
