@@ -10,6 +10,6 @@ done
 echo "namespace {" >> mn.cpp
 for file in *mn.hpp; do
     class=`grep 'class .*MakerNote.*:' $file | awk '{print $2}'`
-    echo "    Exif::"$class `basename $file .hpp`";" >> mn.cpp
+    echo "    Exiv2::"$class `basename $file .hpp`";" >> mn.cpp
 done
 echo "}" >> mn.cpp
