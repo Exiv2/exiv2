@@ -20,7 +20,7 @@
 # 02111-1307, USA.
 #
 # File:      config.mk
-# Version:   $Name:  $ $Revision: 1.2 $
+# Version:   $Name:  $ $Revision: 1.3 $
 # Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
 # History:   10-Dec-03, ahu: created
 #
@@ -85,9 +85,10 @@ ARFLAGS = rcuv
 
 # **********************************************************************
 # Installation programs
-INSTALL_EXE = /usr/bin/install
-INSTALL_PROGRAM = $(INSTALL_EXE) -c -p
-INSTALL_DATA = $(INSTALL_EXE) -c -m 644 -p
+INSTALL_EXE = $(top_srcdir)/install-sh
+INSTALL_PROGRAM = $(INSTALL_EXE) -c
+INSTALL_DATA = $(INSTALL_EXE) -c -m 644
+INSTALL_DIRS = $(top_srcdir)/mkinstalldirs
 
 # **********************************************************************
 # Other programs
@@ -96,8 +97,7 @@ RM = @rm -vf
 # **********************************************************************
 # Directories
 prefix = ..
-#exec_prefix = ${prefix}
-exec_prefix = ~
+exec_prefix = /usr/local
 
 # Source directory
 srcdir = .
@@ -105,11 +105,4 @@ srcdir = .
 # Installation directories
 bindir = ${exec_prefix}/bin
 incdir = ${exec_prefix}/include
-idldir = ${exec_prefix}/idl
 libdir = ${exec_prefix}/lib
-mandir = ${prefix}/man
-man1dir = $(mandir)/man1
-man1ext = 1
-man3dir = $(mandir)/man3
-man3ext = 3
-datadir = ${prefix}/share
