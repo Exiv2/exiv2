@@ -1,10 +1,9 @@
 # ***************************************************** -*- Makefile -*-
 #
-# AUTHOR(S): Andreas Huggel (ahu)
-#
-# RCS information
-#  $Name:  $
-#  $Revision: 1.6 $
+# File:      Makefile
+# Version:   $Rev$
+# Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
+# History:   15-Jan-04, ahu: created
 #
 # Description:
 #  This makefile mainly forwards to makefiles in subdirectories.

@@ -20,7 +20,7 @@
 # 02111-1307, USA.
 #
 # File:      Makefile
-# Version:   $Name:  $ $Revision: 1.32 $
+# Version:   $Rev$
 # Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
 # History:   10-Dec-03, ahu: created
 #

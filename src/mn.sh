@@ -1,7 +1,7 @@
 #! /bin/sh
 ################################################################################
 # File     : mn.sh
-# Version  : $Name:  $ $Revision: 1.4 $
+# Version  : $Rev$
 # Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
 # History  : 08-Mar-04, ahu: created
 #

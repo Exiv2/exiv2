@@ -1,12 +1,13 @@
 ################################################################################
-# File    exiv2.dot
-# Brief   Dot file for a graph showing the component dependencies 
-#         of the Exiv2 library. Run the following command to get the image:
-#         $ dot -Tgif -oexiv2.gif exiv2.dot
-# Version $Name:  $ $Revision: 1.5 $
-# Author  Andreas Huggel (ahu)
-#         <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-# Date    18-Feb-04, ahu: created
+# File     : exiv2.dot
+# Version  : $Rev$
+# Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
+# History  : 18-Feb-04, ahu: created
+#
+# Description:
+#  Dot file for a graph showing the component dependencies of the
+#  Exiv2 library. Run the following command to get the image: 
+#  $ dot -Tgif -oexiv2.gif exiv2.dot
 ################################################################################
 
 digraph G {
