@@ -20,13 +20,13 @@
  */
 /*
   File:      iptc.cpp
-  Version:   $Name:  $ $Revision: 1.7 $
+  Version:   $Name:  $ $Revision: 1.8 $
   Author(s): Brad Schick (brad) <schick@robotbattle.com>
   History:   31-July-04, brad: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.7 $ $RCSfile: iptc.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.8 $ $RCSfile: iptc.cpp,v $");
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -50,21 +50,20 @@ namespace Exiv2 {
 
     Iptcdatum::Iptcdatum(const IptcKey& key, 
                          const Value* value)
-        : pKey_(key.clone()), pValue_(0), modified_(false)
+        : key_(key.clone()), pValue_(0), modified_(false)
     {
         if (value) pValue_ = value->clone();
     }
 
     Iptcdatum::Iptcdatum(const Iptcdatum& rhs)
-        : Metadatum(rhs), pKey_(0), pValue_(0), modified_(false)
+        : Metadatum(rhs), pValue_(0), modified_(false)
     {
-        if (rhs.pKey_ != 0) pKey_ = rhs.pKey_->clone(); // deep copy
+        if (rhs.key_.get() != 0) key_ = rhs.key_->clone(); // deep copy
         if (rhs.pValue_ != 0) pValue_ = rhs.pValue_->clone(); // deep copy
     }
 
     Iptcdatum::~Iptcdatum()
     {
-        delete pKey_;
         delete pValue_;
     }
 
@@ -74,9 +73,8 @@ namespace Exiv2 {
         Metadatum::operator=(rhs);
         modified_ = true;
 
-        delete pKey_;
-        pKey_ = 0;
-        if (rhs.pKey_ != 0) pKey_ = rhs.pKey_->clone(); // deep copy
+        key_.reset();
+        if (rhs.key_.get() != 0) key_ = rhs.key_->clone(); // deep copy
 
         delete pValue_;
         pValue_ = 0;

@@ -21,7 +21,7 @@
 /*!
   @file    datasets.hpp
   @brief   Iptc dataSet and type information
-  @version $Name:  $ $Revision: 1.6 $
+  @version $Name:  $ $Revision: 1.7 $
   @author  Brad Schick (brad) <schick@robotbattle.com>
   @date    24-Jul-04, brad: created
  */
@@ -37,6 +37,7 @@
 #include <string>
 #include <utility>                              // for std::pair
 #include <iosfwd>
+#include <memory>
 
 // *****************************************************************************
 // namespace extensions
@@ -262,6 +263,9 @@ namespace Exiv2 {
      */
     class IptcKey : public Key {
     public:
+        //! Shortcut for an %IptcKey auto pointer.
+        typedef std::auto_ptr<IptcKey> AutoPtr;
+
         //! @name Creators
         //@{
         /*!
@@ -303,8 +307,8 @@ namespace Exiv2 {
         virtual std::string tagName() const
             { return IptcDataSets::dataSetName(tag_, record_); }
         virtual uint16_t tag() const { return tag_; }
-        virtual IptcKey* clone() const;
 
+        AutoPtr clone() const;
         //! Return the name of the record
         std::string recordName() const
             { return IptcDataSets::recordName(record_); }
@@ -331,6 +335,9 @@ namespace Exiv2 {
         //@}
 
     private:
+        //! Internal virtual copy constructor.
+        virtual IptcKey* clone_() const;
+
         // DATA
         static const char* familyName_;
 

@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of Exif data
-  @version $Name:  $ $Revision: 1.56 $
+  @version $Name:  $ $Revision: 1.57 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -114,28 +114,28 @@ namespace Exiv2 {
         //@{
         //! Return the key of the %Exifdatum. 
         std::string key() const 
-            { return pKey_ == 0 ? "" : pKey_->key(); }
+            { return key_.get() == 0 ? "" : key_->key(); }
         //! Return the name of the group (the second part of the key)
         std::string groupName() const
-            { return pKey_ == 0 ? "" : pKey_->groupName(); }
+            { return key_.get() == 0 ? "" : key_->groupName(); }
         //! Return the name of the tag (which is also the third part of the key)
         std::string tagName() const
-            { return pKey_ == 0 ? "" : pKey_->tagName(); }
+            { return key_.get() == 0 ? "" : key_->tagName(); }
         //! Return the tag
         uint16_t tag() const
-            { return pKey_ == 0 ? 0xffff : pKey_->tag(); }
+            { return key_.get() == 0 ? 0xffff : key_->tag(); }
         //! Return the IFD id
         IfdId ifdId() const 
-            { return pKey_ == 0 ? ifdIdNotSet : pKey_->ifdId(); }
+            { return key_.get() == 0 ? ifdIdNotSet : key_->ifdId(); }
         //! Return the name of the IFD
         const char* ifdName() const
-            { return pKey_ == 0 ? "" : pKey_->ifdName(); }
+            { return key_.get() == 0 ? "" : key_->ifdName(); }
         //! Return the related image item (deprecated)
         std::string ifdItem() const 
-            { return pKey_ == 0 ? "" : pKey_->ifdItem(); }
+            { return key_.get() == 0 ? "" : key_->ifdItem(); }
         //! Return the index (unique id of this key within the original IFD)
         int idx() const
-            { return pKey_ == 0 ? 0 : pKey_->idx(); }
+            { return key_.get() == 0 ? 0 : key_->idx(); }
         /*!
           @brief Write value to a data buffer and return the number
                  of bytes written.
@@ -230,7 +230,7 @@ namespace Exiv2 {
 
     private:
         // DATA
-        ExifKey* pKey_;                //!< Key 
+        ExifKey::AutoPtr key_;         //!< Key 
         Value* pValue_;                //!< Pointer to the value
 
     }; // class Exifdatum

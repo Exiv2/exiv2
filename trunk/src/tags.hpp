@@ -21,7 +21,7 @@
 /*!
   @file    tags.hpp
   @brief   Exif tag and type information
-  @version $Name:  $ $Revision: 1.29 $
+  @version $Name:  $ $Revision: 1.30 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    15-Jan-04, ahu: created<BR>
@@ -201,6 +201,9 @@ namespace Exiv2 {
      */
     class ExifKey : public Key {
     public:
+        //! Shortcut for an %ExifKey auto pointer.
+        typedef std::auto_ptr<ExifKey> AutoPtr;
+
         //! @name Creators
         //@{
         /*!
@@ -247,8 +250,8 @@ namespace Exiv2 {
         virtual std::string groupName() const { return ifdItem(); }
         virtual std::string tagName() const;
         virtual uint16_t tag() const { return tag_; }
-        virtual ExifKey* clone() const;
 
+        AutoPtr clone() const;
         //! Interpret and print the value of an Exif tag
         std::ostream& printTag(std::ostream& os, const Value& value) const;
         //! Return the IFD id
@@ -282,6 +285,9 @@ namespace Exiv2 {
         //@}
 
     private:
+        //! Internal virtual copy constructor.        
+        virtual ExifKey* clone_() const;
+
         // DATA
         static const char* familyName_;
 

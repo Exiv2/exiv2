@@ -21,7 +21,7 @@
 /*!
   @file    iptc.hpp
   @brief   Encoding and decoding of Iptc data
-  @version $Name:  $ $Revision: 1.7 $
+  @version $Name:  $ $Revision: 1.8 $
   @author  Brad Schick (brad) 
            <a href="mailto:schick@robotbattle.com">schick@robotbattle.com</a>
   @date    31-Jul-04, brad: created
@@ -113,30 +113,30 @@ namespace Exiv2 {
                  is not necessarily unique, i.e., an IptcData may contain
                  multiple metadata with the same key.
          */
-        std::string key() const { return pKey_ == 0 ? "" : pKey_->key(); }
+        std::string key() const { return key_.get() == 0 ? "" : key_->key(); }
         /*!
            @brief Return the name of the record
            @return record name
            @throw Error("Unknown record");
          */
         std::string recordName() const
-            { return pKey_ == 0 ? "" : pKey_->recordName(); }
+            { return key_.get() == 0 ? "" : key_->recordName(); }
         /*!
            @brief Return the record id 
            @return record id
          */
         uint16_t record() const 
-            { return pKey_ == 0 ? 0 : pKey_->record(); }
+            { return key_.get() == 0 ? 0 : key_->record(); }
         /*!
            @brief Return the name of the tag (aka dataset)
            @return tag name
            @throw Error("No dataSet for record Id") if tag is unknown
          */
         std::string tagName() const
-            { return pKey_ == 0 ? "" : pKey_->tagName(); }
+            { return key_.get() == 0 ? "" : key_->tagName(); }
         //! Return the tag (aka dataset) number
         uint16_t tag() const
-            { return pKey_ == 0 ? 0 : pKey_->tag(); }
+            { return key_.get() == 0 ? 0 : key_->tag(); }
         //! Return the type id of the value
         TypeId typeId() const 
             { return pValue_ == 0 ? invalidTypeId : pValue_->typeId(); }
@@ -221,7 +221,7 @@ namespace Exiv2 {
 
     private:
         // DATA
-        IptcKey* pKey_;                //!< Key
+        IptcKey::AutoPtr key_;         //!< Key
         Value* pValue_;                //!< Pointer to the value
         bool modified_;                //!< Change indicator
 
