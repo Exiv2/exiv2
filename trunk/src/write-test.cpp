@@ -3,7 +3,7 @@
   Abstract : ExifData write unit tests
 
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  Version  : $Name:  $ $Revision: 1.6 $
+  Version  : $Name:  $ $Revision: 1.7 $
 
   Test procedure: 
    $ rm -f test.jpg thumb.jpg iii ttt; 
@@ -44,7 +44,7 @@ try {
 
     if (argc != 3) {
         std::cout << "Usage: write-test file case\n\n"
-                  << "where case is an integer between 1 and 6\n";
+                  << "where case is an integer between 1 and 11\n";
         return 1;
     }
 
@@ -85,7 +85,7 @@ try {
         break;
     case 5:
         std::cerr << "Case 5: ";
-        std::cerr << "Intrusive change to the makernote metadata\n";
+        std::cerr << "Intrusive change to the Canon makernote metadata\n";
         testCase(testFile, "test5.jpg", "thumb5",
                  "Makernote.Canon.OwnerName",
                  "Frau Chan YeeSend und Herr Andreas Huggel");
@@ -97,9 +97,49 @@ try {
                  "Image.DateTime.DateTimeOriginal", 
                  "1999:11:22 00:11:22 and twenty seconds");
         break;
+    case 7:
+        std::cerr << "Case 7: ";
+        std::cerr << "Intrusive change to the Fujifilm makernote metadata\n";
+        testCase(testFile, "test7.jpg", "thumb7",
+                 "Makernote.Fujifilm.Quality",
+                 "Typical Fujifilm Quality");
+        break;
+    case 8:
+        std::cerr << "Case 8: ";
+        std::cerr << "Intrusive change to the Sigma makernote metadata\n";
+        testCase(testFile, "test8.jpg", "thumb8",
+                 "Makernote.Sigma.ResolutionMode",
+                 "Sigma HI resolution");
+        break;
+    case 9:
+        std::cerr << "Case 9: ";
+        std::cerr << "Intrusive change to the Nikon1 makernote metadata\n";
+        testCase(testFile, "test9.jpg", "thumb9",
+                 "Makernote.Nikon1.Quality",
+                 "Typical Nikon1 Quality");
+        break;
+    case 10:
+        std::cerr << "Case 10: ";
+        std::cerr << "Intrusive change to the Nikon2 makernote metadata\n";
+        testCase(testFile, "test10.jpg", "thumb10",
+                 "Makernote.Nikon2.0x0002",
+                 "Nikon2 Version 2");
+        break;
+    case 11:
+        std::cerr << "Case 11: ";
+        std::cerr << "Intrusive change to the Nikon3 makernote metadata\n";
+        testCase(testFile, "test11.jpg", "thumb11",
+                 "Makernote.Nikon3.Quality",
+                 "Typical Nikon3 Quality");
+        break;
+
+        // ToDo: Erase Sigma thumbnail
+
+        // ToDo: Write to a broken (truncated) IFD entry
+
     default:
         std::cout << "Usage: exiftest file case\n\n"
-                  << "where case is an integer between 1 and 6\n";
+                  << "where case is an integer between 1 and 11\n";
         rc = 1;
         break;
     }
