@@ -21,7 +21,7 @@
 /*!
   @file    tags.hpp
   @brief   %Exif tag and type information
-  @version $Name:  $ $Revision: 1.14 $
+  @version $Name:  $ $Revision: 1.15 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    15-Jan-04, ahu: created
@@ -216,6 +216,8 @@ namespace Exif {
     std::ostream& print0x0103(std::ostream& os, const Value& value);
     //! Print the pixel composition
     std::ostream& print0x0106(std::ostream& os, const Value& value);
+    //! Print the orientation
+    std::ostream& print0x0112(std::ostream& os, const Value& value);
     //! Print the YCbCrPositioning
     std::ostream& print0x0213(std::ostream& os, const Value& value);
     //! Print the Copyright 
