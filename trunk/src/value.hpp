@@ -21,7 +21,7 @@
 /*!
   @file    value.hpp
   @brief   Value interface and concrete subclasses
-  @version $Name:  $ $Revision: 1.10 $
+  @version $Name:  $ $Revision: 1.11 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -629,13 +629,13 @@ namespace Exiv2 {
     template<>
     inline float ValueType<Rational>::toFloat(long n) const 
     {
-        return static_cast<float>(value_[n].first / value_[n].second); 
+        return static_cast<float>(value_[n].first) / value_[n].second; 
     }
     // Specialization for unsigned rational
     template<>
     inline float ValueType<URational>::toFloat(long n) const 
     {
-        return static_cast<float>(value_[n].first / value_[n].second); 
+        return static_cast<float>(value_[n].first) / value_[n].second; 
     }
     // Default implementation
     template<typename T>
