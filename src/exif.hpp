@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of Exif data
-  @version $Name:  $ $Revision: 1.57 $
+  @version $Name:  $ $Revision: 1.58 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -148,10 +148,10 @@ namespace Exiv2 {
           @return Number of characters written.
         */
         long copy(byte* buf, ByteOrder byteOrder) const 
-            { return pValue_ == 0 ? 0 : pValue_->copy(buf, byteOrder); }
+            { return value_.get() == 0 ? 0 : value_->copy(buf, byteOrder); }
         //! Return the type id of the value
         TypeId typeId() const 
-            { return pValue_ == 0 ? invalidTypeId : pValue_->typeId(); }
+            { return value_.get() == 0 ? invalidTypeId : value_->typeId(); }
         //! Return the name of the type
         const char* typeName() const 
             { return TypeInfo::typeName(typeId()); }
@@ -160,13 +160,13 @@ namespace Exiv2 {
             { return TypeInfo::typeSize(typeId()); }
         //! Return the number of components in the value
         long count() const 
-            { return pValue_ == 0 ? 0 : pValue_->count(); }
+            { return value_.get() == 0 ? 0 : value_->count(); }
         //! Return the size of the value in bytes
         long size() const 
-            { return pValue_ == 0 ? 0 : pValue_->size(); }
+            { return value_.get() == 0 ? 0 : value_->size(); }
         //! Return the value as a string.
         std::string toString() const 
-            { return pValue_ == 0 ? "" : pValue_->toString(); }
+            { return value_.get() == 0 ? "" : value_->toString(); }
         /*!
           @brief Return the n-th component of the value converted to long. The
                  return value is -1 if the value of the Exifdatum is not set and
@@ -174,7 +174,7 @@ namespace Exiv2 {
                  component.
          */
         long toLong(long n =0) const 
-            { return pValue_ == 0 ? -1 : pValue_->toLong(n); }
+            { return value_.get() == 0 ? -1 : value_->toLong(n); }
         /*!
           @brief Return the n-th component of the value converted to float.  The
                  return value is -1 if the value of the Exifdatum is not set and
@@ -182,7 +182,7 @@ namespace Exiv2 {
                  component.
          */
         float toFloat(long n =0) const 
-            { return pValue_ == 0 ? -1 : pValue_->toFloat(n); }
+            { return value_.get() == 0 ? -1 : value_->toFloat(n); }
         /*!
           @brief Return the n-th component of the value converted to
                  Rational. The return value is -1/1 if the value of the
@@ -190,7 +190,7 @@ namespace Exiv2 {
                  undefined if there is no n-th component.
          */
         Rational toRational(long n =0) const 
-            { return pValue_ == 0 ? Rational(-1, 1) : pValue_->toRational(n); }
+            { return value_.get() == 0 ? Rational(-1, 1) : value_->toRational(n); }
         /*!
           @brief Return a pointer to a copy (clone) of the value. The caller
                  is responsible to delete this copy when it's no longer needed.
@@ -203,8 +203,8 @@ namespace Exiv2 {
           @return A pointer to a copy (clone) of the value, 0 if the value is 
                   not set.
          */
-        Value* getValue() const 
-            { return pValue_ == 0 ? 0 : pValue_->clone(); }
+        Value::AutoPtr getValue() const 
+            { return value_.get() == 0 ? Value::AutoPtr(0) : value_->clone(); }
         /*!
           @brief Return a constant reference to the value. 
 
@@ -225,13 +225,13 @@ namespace Exiv2 {
           @throw Error ("Value not set") if the value is not set.
          */
         const Value& value() const 
-            { if (pValue_) return *pValue_; throw Error("Value not set"); }
+            { if (value_.get() != 0) return *value_; throw Error("Value not set"); }
         //@}
 
     private:
         // DATA
-        ExifKey::AutoPtr key_;         //!< Key 
-        Value* pValue_;                //!< Pointer to the value
+        ExifKey::AutoPtr key_;                  //!< Key 
+        Value::AutoPtr   value_;                //!< Value
 
     }; // class Exifdatum
 
@@ -582,7 +582,7 @@ namespace Exiv2 {
                  performed, i.e., it is possible to add multiple metadata with
                  the same key.
          */
-        void add(const ExifKey& key, Value* pValue);
+        void add(const ExifKey& key, const Value* pValue);
         /*! 
           @brief Add a copy of the Exifdatum to the Exif metadata.  No
                  duplicate checks are performed, i.e., it is possible to add

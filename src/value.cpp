@@ -20,7 +20,7 @@
  */
 /*
   File:      value.cpp
-  Version:   $Name:  $ $Revision: 1.14 $
+  Version:   $Name:  $ $Revision: 1.15 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
@@ -28,7 +28,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.14 $ $RCSfile: value.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.15 $ $RCSfile: value.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -54,54 +54,54 @@ namespace Exiv2 {
         return *this;
     }
 
-    Value* Value::create(TypeId typeId)
+    Value::AutoPtr Value::create(TypeId typeId)
     {
-        Value* value = 0;
+        AutoPtr value;
         switch (typeId) {
         case invalidTypeId:
-            value = new DataValue(invalidTypeId);
+            value = AutoPtr(new DataValue(invalidTypeId));
             break;
         case unsignedByte:
-            value = new DataValue(unsignedByte);
+            value = AutoPtr(new DataValue(unsignedByte));
             break;
         case asciiString:
-            value = new AsciiValue;
+            value = AutoPtr(new AsciiValue);
             break;
         case unsignedShort:
-            value = new ValueType<uint16_t>;
+            value = AutoPtr(new ValueType<uint16_t>);
             break;
         case unsignedLong:
-            value = new ValueType<uint32_t>;
+            value = AutoPtr(new ValueType<uint32_t>);
             break;
         case unsignedRational:
-            value = new ValueType<URational>;
+            value = AutoPtr(new ValueType<URational>);
             break;
         case invalid6:
-            value = new DataValue(invalid6);
+            value = AutoPtr(new DataValue(invalid6));
             break;
         case undefined:
-            value = new DataValue;
+            value = AutoPtr(new DataValue);
             break;
         case signedShort:
-            value = new ValueType<int16_t>;
+            value = AutoPtr(new ValueType<int16_t>);
             break;
         case signedLong:
-            value = new ValueType<int32_t>;
+            value = AutoPtr(new ValueType<int32_t>);
             break;
         case signedRational:
-            value = new ValueType<Rational>;
+            value = AutoPtr(new ValueType<Rational>);
             break;
         case string:
-            value = new StringValue;
+            value = AutoPtr(new StringValue);
             break;
         case date:
-            value = new DateValue;
+            value = AutoPtr(new DateValue);
             break;
         case time:
-            value = new TimeValue;
+            value = AutoPtr(new TimeValue);
             break;
         default:
-            value = new DataValue(typeId);
+            value = AutoPtr(new DataValue(typeId));
             break;
         }
         return value;
@@ -151,7 +151,7 @@ namespace Exiv2 {
         return static_cast<long>(value_.size());
     }
 
-    DataValue* DataValue::clone() const
+    DataValue* DataValue::clone_() const
     {
         return new DataValue(*this);
     }
@@ -209,7 +209,7 @@ namespace Exiv2 {
         return *this;
     }
 
-    StringValue* StringValue::clone() const
+    StringValue* StringValue::clone_() const
     {
         return new StringValue(*this);
     }
@@ -234,7 +234,7 @@ namespace Exiv2 {
         if (value_[value_.size()-1] != '\0') value_ += '\0';
     }
 
-    AsciiValue* AsciiValue::clone() const
+    AsciiValue* AsciiValue::clone_() const
     {
         return new AsciiValue(*this);
     }
@@ -311,7 +311,7 @@ namespace Exiv2 {
         return 8;
     }
 
-    DateValue* DateValue::clone() const
+    DateValue* DateValue::clone_() const
     {
         return new DateValue(*this);
     }
@@ -419,7 +419,7 @@ namespace Exiv2 {
         return 11;
     }
 
-    TimeValue* TimeValue::clone() const
+    TimeValue* TimeValue::clone_() const
     {
         return new TimeValue(*this);
     }

@@ -21,7 +21,7 @@
 /*!
   @file    metadatum.hpp
   @brief   Provides abstract base classes Metadatum and Key
-  @version $Name:  $ $Revision: 1.4 $
+  @version $Name:  $ $Revision: 1.5 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @author  Brad Schick (brad) 
@@ -208,18 +208,19 @@ namespace Exiv2 {
          */
         virtual Rational toRational(long n =0) const =0;
         /*!
-          @brief Return a pointer to a copy (clone) of the value. The caller
-                 is responsible to delete this copy when it's no longer needed.
+          @brief Return an auto-pointer to a copy (clone) of the value. The
+                 caller owns this copy and the auto-poiner ensures that it will
+                 be deleted.
 
           This method is provided for users who need full control over the 
           value. A caller may, e.g., downcast the pointer to the appropriate
           subclass of Value to make use of the interface of the subclass to set
           or modify its contents.
           
-          @return A pointer to a copy (clone) of the value, 0 if the value is 
-                  not set.
+          @return An auto-pointer containing a pointer to a copy (clone) of the 
+                  value, 0 if the value is not set.
          */
-        virtual Value* getValue() const =0;
+        virtual Value::AutoPtr getValue() const =0;
         /*!
           @brief Return a constant reference to the value. 
 
