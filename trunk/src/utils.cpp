@@ -1,4 +1,4 @@
-// ********************************************************** -*- C++ -*-
+// ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004 Andreas Huggel <ahuggel@gmx.net>
  * 
@@ -20,12 +20,15 @@
  */
 /*
   File:      utils.cpp
-  Version:   $Name:  $ $Revision: 1.4 $
+  Version:   $Name:  $ $Revision: 1.5 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
+// *****************************************************************************
+#include "rcsid.hpp"
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: utils.cpp,v $")
 
-// *********************************************************************
+// *****************************************************************************
 // included header files
 #include "utils.hpp"
 
@@ -43,7 +46,7 @@
 
 namespace Util {
 
-// *********************************************************************
+// *****************************************************************************
 // class Getopt
 int Getopt::getopt(int argc, char* const argv[], const std::string& optstring)
 {
@@ -60,7 +63,7 @@ int Getopt::getopt(int argc, char* const argv[], const std::string& optstring)
     return errcnt_; 
 }
 
-// *********************************************************************
+// *****************************************************************************
 // free functions
 
     bool fileExists(const std::string& path, bool ct)

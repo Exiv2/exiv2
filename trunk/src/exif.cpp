@@ -20,10 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.12 $
+  Version:   $Name:  $ $Revision: 1.13 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
  */
+// *****************************************************************************
+#include "rcsid.hpp"
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.13 $ $RCSfile: exif.cpp,v $")
+
 // *****************************************************************************
 // included header files
 #include "exif.hpp"
@@ -35,6 +39,7 @@
 #include <sstream>
 #include <fstream>
 #include <utility>
+#include <algorithm>
 
 #include <cstring>
 
@@ -332,8 +337,8 @@ namespace Exif {
     }
 
     Metadatum::Metadatum(const Metadatum& rhs)
-        : tag_(rhs.tag_), ifdId_(rhs.ifdId_), ifdIdx_(rhs.ifdIdx_), 
-          value_(0), key_(rhs.key_)
+        : tag_(rhs.tag_), ifdId_(rhs.ifdId_), 
+          ifdIdx_(rhs.ifdIdx_), value_(0), key_(rhs.key_)
     {
         if (rhs.value_ != 0) value_ = rhs.value_->clone(); // deep copy
     }

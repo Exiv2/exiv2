@@ -22,10 +22,14 @@
   Abstract:  Sample code to add, modify and delete Exif metadata
 
   File:      example1.cpp
-  Version:   $Name:  $ $Revision: 1.1 $
+  Version:   $Name:  $ $Revision: 1.2 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
  */
+// *****************************************************************************
+#include "rcsid.hpp"
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: example1.cpp,v $")
+
 // *****************************************************************************
 // included header files
 #include "exif.hpp"

@@ -23,7 +23,7 @@
 #
 # RCS information
 #  $Name:  $
-#  $Revision: 1.6 $
+#  $Revision: 1.7 $
 #
 # Description:
 #  Do NOT change this file! All system specific settings and configs
@@ -52,7 +52,7 @@ include $(top_srcdir)/config.mk
 # Source files
 
 # Add standalone C++ header files to this list
-CCHDR = 
+CCHDR = rcsid.hpp
 
 # Add library C++ source files to this list
 CCSRC = exif.cpp tags.cpp utils.cpp
