@@ -21,7 +21,7 @@
 /*!
   @file    exiv2.hpp
   @brief   Defines class Params, used for the command line handling of exiv2
-  @version $Name:  $ $Revision: 1.5 $
+  @version $Name:  $ $Revision$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    08-Dec-03, ahu: created
