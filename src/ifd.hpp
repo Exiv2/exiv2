@@ -85,7 +85,7 @@ namespace Exiv2 {
         //! Set the pointer to the MakerNote
         void setMakerNote(MakerNote* makerNote) { pMakerNote_ = makerNote; }
         //! Set the offset. The offset is relative to the start of the IFD.
-        void setOffset(uint32_t offset) { offset_ = offset; }
+        void setOffset(long offset) { offset_ = offset; }
         /*!
           @brief Set the value of the entry to a single unsigned long component,
                  i.e., set the type of the entry to unsigned long, number of
@@ -186,7 +186,7 @@ namespace Exiv2 {
          */
         long size() const { return size_; }
         //! Return the offset from the start of the IFD to the data of the entry
-        uint32_t offset() const { return offset_; }
+        long offset() const { return offset_; }
         /*!
           @brief Return a pointer to the data buffer. Do not attempt to write
                  to this pointer.
@@ -239,7 +239,7 @@ namespace Exiv2 {
         //! Number of components
         uint32_t count_;
         //! Offset from the start of the IFD to the data
-        uint32_t offset_;
+        long offset_;
         /*!
           Size of the data buffer holding the value in bytes, there is 
           no minimum size.
@@ -251,7 +251,7 @@ namespace Exiv2 {
         long sizeDataArea_;
         //! Pointer to the data area
         byte* pDataArea_;
-                               
+
     }; // class Entry
 
     //! Container type to hold all IFD directory entries
@@ -337,13 +337,13 @@ namespace Exiv2 {
                  the IFD from the start of TIFF header. Memory management is
                  enabled.
          */
-        Ifd(IfdId ifdId, uint32_t offset);
+        Ifd(IfdId ifdId, long offset);
         /*!
           @brief Constructor. Allows to set the IFD identifier, offset of the
                  IFD from the start of TIFF header and choose whether or not
                  memory management is required for the Entries.
          */
-        Ifd(IfdId ifdId, uint32_t offset, bool alloc);
+        Ifd(IfdId ifdId, long offset, bool alloc);
         //! Copy constructor
         Ifd(const Ifd& rhs);
         //! Destructor
@@ -484,9 +484,9 @@ namespace Exiv2 {
         //! Get the offset of the IFD from the start of the TIFF header
         long offset() const { return offset_; }
         /*!
-          @brief Get the offset of the first data entry outside of the IFD, 
-                 return 0 if there is none. The data offset is determined when
-                 the IFD is read.
+          @brief Get the offset of the first data entry outside of the IFD from
+                 the start of the TIFF header, return 0 if there is none. The 
+                 data offset is determined when the IFD is read.
          */
         long dataOffset() const { return dataOffset_; }
         //! Get the offset to the next IFD from the start of the TIFF header
@@ -517,7 +517,7 @@ namespace Exiv2 {
             uint32_t count_;
             long size_;
             long offsetLoc_;
-            uint32_t offset_;
+            long offset_;
         };
 
         //! cmpPreEntriesByOffset needs to know about PreEntry, that's all.
@@ -536,7 +536,9 @@ namespace Exiv2 {
         Entries entries_;
         //! IFD Id
         IfdId ifdId_;
-        //! Offset of the IFD from the start of TIFF header
+        //! Pointer to IFD from the start of the TIFF header
+        byte* pBase_;
+        //! Offset of the IFD from the start of the TIFF header
         long offset_;
         //! Offset of the first data entry outside of the IFD directory
         long dataOffset_;
