@@ -32,6 +32,7 @@ runTestCase()
 # main
 
 LD_LIBRARY_PATH=../../src:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH
 binpath="../../src"
 datapath="."
 diffargs="--strip-trailing-cr"

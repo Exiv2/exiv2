@@ -1,6 +1,7 @@
 #! /bin/sh
 # Test driver for exiv2 utility tests
 LD_LIBRARY_PATH=../../src:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH
 exiv2="../../src/exiv2"
 results="./tmp/exiv2-test.out"
 good="./data/exiv2-test.out"
