@@ -25,7 +25,7 @@
   File     : iotest.cpp
   Version  : $Rev$
   Author(s): Brad Schick (brad) <brad@robotbattle.com>
-  History  : 13-Jul-04, brad: created
+  History  : 04-Dec-04, brad: created
  */
 // *****************************************************************************
 // included header files
@@ -73,6 +73,13 @@ try {
     memIo1.write(fileIn);
     memIo1.seek(0, BasicIo::beg);
     fileOut1.write(memIo1);
+
+    // Make sure they are all the same size
+    if(fileIn.size() != memIo1.size() || memIo1.size() != fileOut1.size()) {
+        std::cerr << argv[0] << 
+            ": Sizes do not match\n";
+        return 1;
+    }
 
     // Read writereadseek test on MemIo
     MemIo memIo2;
@@ -145,6 +152,12 @@ int WriteReadSeek(BasicIo &io)
         std::cerr << ": WRS initial write failed\n";
         return 2;
     }
+    
+    if (io.size() != len1) {
+        std::cerr << ": WRS size is not " << len1 << "\n";
+        return 2;
+    }
+
     io.seek(-len1, BasicIo::cur);
 
     int c = EOF;
