@@ -1,0 +1,35 @@
+Library Features:
++ Thumbnail support: set (re-calculate)
++ operator>> for Value, since we already have read()?
++ Use auto_ptr where applicable
++ Support TIFF type ids
++ Support for broken IFD makernotes (which have corrupted IFD offsets)
++ Support TIFF images (TiffImage)
++ Support non-intrusive deletion of entries from an IFD.
++ Extended JPEG support (comments, actual resolution of the image)
++ Write an example using low level IFD classes to print summary Exif info
+
+Exiv2 functionality
++ Add offset to value for hexdump (requires metadata to have an offset)
+
+Bugs:
++ Robustness: Ifd::read needs a len argument and before accessing the buffer 
+  there should be a boundary check. Similarly in other functions that access
+  a data buffer. This should result in a more robust handling of corrupted Exif
+  data better (e.g., files with IFD1 but w/o thumbnail, as produced by jhead 
+  etc, etc)
++ Handle all Todo's
++ Cleanup and fix implementation of JpegImage (must be able to read any APP0/1),
+  should be able to insert exv into extracted thumbs (usually w/o APP0/1)
++ Review Image interface. Is it really necessary to have so many functions there?
++ Review the handling of type ids? What if we encounter type 27 in an IFD?
++ Rational and other output operators (see Josuttis, p653)
++ Through ExifData::iterator and Metadatum::operator= it is possible to have 
+  multiple copies of one metadatum in the metadata container
++ Makernote assignment operators
++ Checks and non-intrusive updates must be atomic, i.e., not change anything
+  if the metadata is not compatible
++ Review: Exception safety
++ Review: Ifd1 only at Thumbnail, do we really need Thumbnail::update() ?
++ Is the hexdump output of exiv2 byte-swapped??
++ Writing an empty Exif data section should have the same effect as deleting it
