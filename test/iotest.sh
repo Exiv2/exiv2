@@ -10,7 +10,7 @@ ioTest()
     #run tests
     $binpath/iotest $src $out1 $out2
     if [ $? -ne 0 ]; then
-       let ++errors
+       errors=`expr $errors + 1`
        return
     fi 
 
@@ -29,7 +29,7 @@ diffCheck()
     #run diff and check results
     diff -q --binary $test $good
     if [ $? -ne 0 ]; then
-       let ++errors
+       errors=`expr $errors + 1`
     else
        rm $test
     fi 
@@ -45,7 +45,7 @@ datapath="../data"
 
 test_files="table.jpg smiley2.jpg ext.dat"
 
-let errors=0
+errors=0
 cd ./tmp
 echo
 

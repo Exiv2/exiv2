@@ -66,7 +66,7 @@ diffCheck()
     #run diff and check results
     diff -q --binary $test $good
     if [ $? -ne 0 ]; then
-       let ++errors
+       errors=`expr $errors + 1`
     else
        rm $test
     fi 
@@ -82,7 +82,7 @@ datapath="../data"
 
 test_files="table.jpg smiley1.jpg smiley2.jpg"
 
-let errors=0
+errors=0
 cd ./tmp
 echo
 
@@ -91,16 +91,16 @@ for i in $test_files; do eraseTest $i; done
 eraseTest "glider.exv" #extra test
 
 echo -ne "\nCopy all tests"
-let c=0
+c=0
 for src in $test_files; do
-    let ++c
+    c=`expr $c + 1`
     for dst in $test_files; do copyTest $c $src $dst; done
 done
 
 echo -ne "\nCopy iptc tests"
-let c=0
+c=0
 for src in $test_files; do
-    let ++c
+    c=`expr $c + 1`
     for dst in $test_files; do iptcTest $c $src $dst; done
 done
 
