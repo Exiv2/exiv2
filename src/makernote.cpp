@@ -20,13 +20,13 @@
  */
 /*
   File:      makernote.cpp
-  Version:   $Name:  $ $Revision: 1.7 $
+  Version:   $Name:  $ $Revision: 1.8 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.7 $ $RCSfile: makernote.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.8 $ $RCSfile: makernote.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -159,10 +159,10 @@ namespace Exif {
 
     void MakerNoteFactory::registerMakerNote(const std::string& make, 
                                              const std::string& model, 
-                                             MakerNote* makerNote)
+                                             CreateFct createMakerNote)
     {
 #ifdef DEBUG_MAKERNOTE
-        std::cerr << "Registering MakerNote prototype for \"" 
+        std::cerr << "Registering MakerNote create function for \"" 
                   << make << "\" and \"" << model << "\".\n";
 #endif
 
@@ -189,16 +189,16 @@ namespace Exif {
             if (pos2->first == model) break;
         }
         if (pos2 != end2) {
-            delete pos2->second;
-            pos2->second = makerNote;
+            pos2->second = createMakerNote;
         }
         else {
-            modelRegistry->push_back(std::make_pair(model, makerNote));
+            modelRegistry->push_back(std::make_pair(model, createMakerNote));
         }
     } // MakerNoteFactory::registerMakerNote
 
     MakerNote* MakerNoteFactory::create(const std::string& make, 
-                                        const std::string& model) const
+                                        const std::string& model,
+                                        bool alloc) const
     {
         // loop through each make of the registry to find the best matching make
         int matchCount = -1;
@@ -216,19 +216,19 @@ namespace Exif {
 
         // loop through each model of the model registry to find the best match
         matchCount = -1;
-        MakerNote* makerNote = 0;
+        CreateFct createMakerNote = 0;
         ModelRegistry::const_iterator end2 = modelRegistry->end();
         ModelRegistry::const_iterator pos2;
         for (pos2 = modelRegistry->begin(); pos2 != end2; ++pos2) {
             std::pair<bool, int> rc = match(pos2->first, model);
             if (rc.first && rc.second > matchCount) {
                 matchCount = rc.second;
-                makerNote = pos2->second;
+                createMakerNote = pos2->second;
             }
         }
-        if (makerNote == 0) return 0;
+        if (createMakerNote == 0) return 0;
 
-        return makerNote->clone();
+        return createMakerNote(alloc);
     } // MakerNoteFactory::create
 
     std::pair<bool, int> MakerNoteFactory::match(const std::string& regEntry,

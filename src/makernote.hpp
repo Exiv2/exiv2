@@ -22,7 +22,7 @@
   @file    makernote.hpp
   @brief   Contains the %Exif %MakerNote interface, IFD %MakerNote and a 
            MakerNote factory
-  @version $Name:  $ $Revision: 1.7 $
+  @version $Name:  $ $Revision: 1.8 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -45,7 +45,15 @@
 // namespace extensions
 namespace Exif {
 
+// *****************************************************************************
+// class declarations
     class Value;
+
+// *****************************************************************************
+// type definitions
+
+    //! Type for a pointer to a function creating a makernote
+    typedef MakerNote* (*CreateFct)(bool);
 
 // *****************************************************************************
 // class definitions
@@ -69,17 +77,17 @@ namespace Exif {
       - interpret (print) the values of makernote tags
 
       Makernotes can be added to the system by subclassing %MakerNote and
-      registering a prototye of the new subclass together with the camera make
-      and model (which may contain wildcards) in the MakerNoteFactory. Since the
-      majority of makernotes are in IFD format, subclass IfdMakerNote is
-      provided. It contains an IFD container and implements all interface
-      methods related to the makernote entries. <BR>
+      registering a create function for the new subclass together with the
+      camera make and model (which may contain wildcards) in the
+      MakerNoteFactory. Since the majority of makernotes are in IFD format,
+      subclass IfdMakerNote is provided. It contains an IFD container and
+      implements all interface methods related to the makernote entries. <BR>
 
       To implement a new IFD makernote, all that you need to do is 
       - subclass %IfdMakerNote, 
-      - implement the clone method, 
+      - implement the create function,
       - add a list of tag descriptions and appropriate print functions and 
-      - register the subclass in the makernote factory. 
+      - register the camera make/model and create function in the makernote factory. 
       .
       See CanonMakerNote for an example.
      */
@@ -99,8 +107,13 @@ namespace Exif {
 
         //! @name Creators
         //@{
-        //! Constructor. Takes an optional makernote info tag array.
-        MakerNote(const MnTagInfo* mnTagInfo =0) : mnTagInfo_(mnTagInfo) {}
+        /*!
+          @brief Constructor. Takes an optional makernote info tag array and
+                 allows to choose whether or not memory management is required
+                 for the Entries.
+         */
+        MakerNote(const MnTagInfo* mnTagInfo =0, bool alloc =true) 
+            : mnTagInfo_(mnTagInfo), alloc_(alloc) {}
         //! Virtual destructor.
         virtual ~MakerNote() {}
         //@}
@@ -124,20 +137,13 @@ namespace Exif {
          */
         virtual long copy(char* buf, ByteOrder byteOrder, long offset) =0;
         /*!
-          @brief Reset the makernote. Delete all makernote entries from the
-                 class and put the object in a state where it can accept
-                 completely new entries.
-         */
-        virtual void clear() =0;
-        /*!
           @brief Add the entry to the makernote. No duplicate-check is performed,
                  i.e., it is possible to add multiple entries with the same tag.
-                 The memory allocation mode of the entry to be added must be true
-                 and the IFD id of the entry must be set to 'makerIfd'.
+                 The memory allocation mode of the entry to be added must be the 
+                 same as that of the makernote and the IFD id of the entry must
+                 be set to 'makerIfd'.
          */
         virtual void add(const Entry& entry) =0;
-        //! Sort the makernote entries by tag
-        virtual void sortByTag() =0;
         //! The first makernote entry
         virtual Entries::iterator begin() =0;
         //! End of the makernote entries
@@ -165,10 +171,17 @@ namespace Exif {
          */
         virtual uint16 tag(const std::string& tagName) const;
         /*!
-          @brief Return a pointer to a copy of itself (deep copy).
-                 The caller owns this copy and is responsible to delete it!
+          @brief Return a pointer to an newly created, empty instance of the 
+                 same type as this. The makernote entries are <B>not</B> copied.
+                 The caller owns the new object and is responsible to delete it!
+
+          @param alloc Memory management model for the clone. Indicates if 
+                 memory required to store data should be allocated and deallocated
+                 (true) or not (false). If false, only pointers to the buffer
+                 provided to read() will be kept. See Ifd for more background on 
+                 this concept.
          */
-        virtual MakerNote* clone() const =0;
+        virtual MakerNote* clone(bool alloc =true) const =0;
         //! The first makernote entry
         virtual Entries::const_iterator begin() const =0;
         //! End of the makernote entries
@@ -188,6 +201,12 @@ namespace Exif {
     protected:
         //! Pointer to an array of makernote tag infos
         const MnTagInfo* mnTagInfo_;   
+        /*!
+          Memory management
+          True:  requires memory allocation and deallocation,
+          False: no memory management needed.
+         */
+        const bool alloc_; 
 
     }; // class MakerNote
 
@@ -201,9 +220,13 @@ namespace Exif {
     public:
         //! @name Creators
         //@{        
-        //! Constructor. Takes an optional makernote info tag array.
-        IfdMakerNote(const MakerNote::MnTagInfo* mnTagInfo =0)
-            : MakerNote(mnTagInfo), ifd_(makerIfd, 0, false) {}
+        /*!
+          @brief Constructor. Takes an optional makernote info tag array and
+                 allows to choose whether or not memory management is required
+                 for the Entries.
+         */
+        IfdMakerNote(const MakerNote::MnTagInfo* mnTagInfo =0, bool alloc =true)
+            : MakerNote(mnTagInfo, alloc), ifd_(makerIfd, 0, alloc) {}
         //! Virtual destructor
         virtual ~IfdMakerNote() {}
         //@}
@@ -212,9 +235,7 @@ namespace Exif {
         //@{
         int read(const char* buf, long len, ByteOrder byteOrder, long offset);
         long copy(char* buf, ByteOrder byteOrder, long offset);
-        void clear() { ifd_.clear(); }
         void add(const Entry& entry) { ifd_.add(entry); }
-        void sortByTag() { ifd_.sortByTag(); }
         Entries::iterator begin() { return ifd_.begin(); }
         Entries::iterator end() { return ifd_.end(); }
         //@}
@@ -225,7 +246,7 @@ namespace Exif {
         Entries::const_iterator end() const { return ifd_.end(); }
         Entries::const_iterator findIdx(int idx) const;
         long size() const;
-        virtual MakerNote* clone() const =0;
+        virtual MakerNote* clone(bool alloc =true) const =0;
         virtual std::string sectionName(uint16 tag) const =0; 
         virtual std::ostream& printTag(std::ostream& os,
                                        uint16 tag, 
@@ -241,9 +262,10 @@ namespace Exif {
       @brief Factory for MakerNote objects.
 
       Maintains an associative list (tree) of camera makes/models and
-      corresponding %MakerNote prototypes. Creates an instance of the %MakerNote
-      for one camera make/model. The factory is implemented as a singleton,
-      which can be accessed only through the static member function instance().
+      corresponding %MakerNote create functions. Creates an instance of the
+      %MakerNote for one camera make/model. The factory is implemented as a
+      singleton, which can be accessed only through the static member function
+      instance().
     */
     class MakerNoteFactory {
     public:
@@ -256,28 +278,25 @@ namespace Exif {
         //! @name Manipulators
         //@{        
         /*!
-          @brief Register a %MakerNote prototype for a camera make and model.
+          @brief Register a %MakerNote create function for a camera make and model.
 
-          Registers a %MakerNote for a given make and model combination with the
-          factory. Both the make and model strings may contain wildcards ('*',
-          e.g., "Canon*").  The method adds a new makerNote pointer to the
-          registry with the make and model strings provided. It takes ownership
-          of the object pointed to by the maker note pointer provided. If the
-          make already exists, then a new branch for the model is added to the
-          registry. If the model also already exists, then the new makerNote
-          pointer replaces the old one and the maker note pointed to by the old
-          pointer is deleted.
+          Registers a create function for a %MakerNote for a given make and
+          model combination with the factory. Both the make and model strings
+          may contain wildcards ('*', e.g., "Canon*").  If the make already
+          exists in the registry, then a new branch for the model is added. If
+          the model also already exists, then the new create function replaces
+          the old one.
 
           @param make Camera manufacturer. (Typically the string from the %Exif
                  make tag.)
           @param model Camera model. (Typically the string from the %Exif
                  model tag.)
-          @param makerNote Pointer to the prototype. Ownership is transfered to the
-                 %MakerNote factory.
+          @param createMakerNote Pointer to a function to create a new 
+                 %MakerNote of a particular type.
         */
         void registerMakerNote(const std::string& make, 
                                const std::string& model, 
-                               MakerNote* makerNote);
+                               CreateFct createMakerNote);
         //@}
 
         //! @name Accessors
@@ -296,21 +315,27 @@ namespace Exif {
           is searched. If there is no matching make or no matching model within
           the models registered for the best matching make, then no maker note
           is created and the function returns 0. If a match is found, the
-          function returns a pointer to a clone of the registered prototype. The
-          maker note pointed to is owned by the caller of the function, i.e.,
-          the caller is responsible to delete the returned make note when it is
-          no longer needed.
-          The best match is the match with the most matching characters.
+          function invokes the registered create function and returns a pointer
+          to the newly created MakerNote. The makernote pointed to is owned by
+          the caller of the function, i.e., the caller is responsible to delete
+          the returned makernote when it is no longer needed.  The best match is
+          the match with the most matching characters.
 
           @param make Camera manufacturer. (Typically the string from the %Exif
                  make tag.)
           @param model Camera model. (Typically the string from the %Exif
                  model tag.)
-          @return A pointer that owns a %MakerNote for the camera model.  If
-                 the camera is not supported, the pointer is 0.
+          @param alloc Memory management model for the new MakerNote. Determines
+                 if memory required to store data should be allocated and
+                 deallocated (true) or not (false). If false, only pointers to
+                 the buffer provided to read() will be kept. See Ifd for more
+                 background on this concept. 
+          @return A pointer that owns a %MakerNote for the camera model.  If the
+                 camera is not supported, the pointer is 0.
          */
         MakerNote* create(const std::string& make, 
-                          const std::string& model) const;
+                          const std::string& model,
+                          bool alloc =true) const;
         //@}
 
         /*!
@@ -336,15 +361,15 @@ namespace Exif {
         MakerNoteFactory(const MakerNoteFactory& rhs);
         //@}
 
-        //! Type used to store model labels and %MakerNote prototype classes
-        typedef std::vector<std::pair<std::string, MakerNote*> > ModelRegistry;
+        //! Type used to store model labels and %MakerNote create functions
+        typedef std::vector<std::pair<std::string, CreateFct> > ModelRegistry;
         //! Type used to store a list of make labels and model registries
         typedef std::vector<std::pair<std::string, ModelRegistry*> > Registry;
 
         // DATA
         //! Pointer to the one and only instance of this class.
         static MakerNoteFactory* instance_;
-        //! List of makernote types and corresponding prototypes.
+        //! List of makernote types and corresponding makernote create functions.
         Registry registry_;
 
     }; // class MakerNoteFactory
