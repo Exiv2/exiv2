@@ -53,10 +53,10 @@ doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
 <!-- *********************************************************************** -->
 <xsl:template name="column-group">
   <colgroup>
-    <col />
-    <col />
-    <col align="right" />
     <col align="center" />
+    <col align="right" />
+    <col />
+    <col />
     <col />
     <col />
   </colgroup>
@@ -65,12 +65,12 @@ doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
 <!-- *********************************************************************** -->
 <xsl:template name="header-row">
   <tr>
-    <th>Tag name</th>
-    <th>Tag description</th>
-    <th>Tag (dec)</th>
     <th>Tag (hex)</th>
+    <th>Tag (dec)</th>
     <th>IFD</th>
     <th>Key</th>
+    <th>Type</th>
+    <th>Tag description</th>
   </tr>
 </xsl:template>
 
@@ -92,12 +92,12 @@ doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
 <xsl:template name="data-row">
   <xsl:param name="rowClass" />
   <tr><xsl:attribute name="class"><xsl:value-of select="$rowClass" /></xsl:attribute>
-    <td><xsl:value-of select="tagname" /></td>
-    <td><xsl:value-of select="tagdesc" /></td>
-    <td><xsl:value-of select="tagdec" /></td>
     <td><xsl:value-of select="taghex" /></td>
+    <td><xsl:value-of select="tagdec" /></td>
     <td><xsl:value-of select="ifd" /></td>
     <td><xsl:value-of select="key" /></td>
+    <td><xsl:value-of select="type" /></td>
+    <td><xsl:value-of select="tagdesc" /></td>
   </tr>
 </xsl:template>
 
@@ -107,7 +107,7 @@ doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
   //<![CDATA[
   var t1 = new SortableTable(
     document.getElementById("report-1"),
-    ["String", "String", "Number", "String", "String", "String"]
+    ["String", "Number", "String", "String", "String", "String"]
   );
   t1.onsort = function () { 
 	var rows = t1.tBody.rows;

@@ -20,6 +20,7 @@
       <minbytes>2</minbytes>
       <maxbytes>2</maxbytes>
       <key>Iptc.Envelope.ModelVersion</key>
+      <type>Short</type>
       <tagdesc>Version of IIM part 1</tagdesc>
    </ROW>
    <ROW num="2">
@@ -32,6 +33,7 @@
       <minbytes>0</minbytes>
       <maxbytes>1024</maxbytes>
       <key>Iptc.Envelope.Destination</key>
+      <type>String</type>
       <tagdesc>Routing information</tagdesc>
    </ROW>
    <ROW num="3">
@@ -44,6 +46,7 @@
       <minbytes>2</minbytes>
       <maxbytes>2</maxbytes>
       <key>Iptc.Envelope.FileFormat</key>
+      <type>Short</type>
       <tagdesc>IIM appendix A file format</tagdesc>
    </ROW>
    <ROW num="4">
@@ -56,6 +59,7 @@
       <minbytes>2</minbytes>
       <maxbytes>2</maxbytes>
       <key>Iptc.Envelope.FileVersion</key>
+      <type>Short</type>
       <tagdesc>File format version</tagdesc>
    </ROW>
    <ROW num="5">
@@ -68,6 +72,7 @@
       <minbytes>0</minbytes>
       <maxbytes>10</maxbytes>
       <key>Iptc.Envelope.ServiceId</key>
+      <type>String</type>
       <tagdesc>Identifies the provider and product</tagdesc>
    </ROW>
    <ROW num="6">
@@ -80,6 +85,7 @@
       <minbytes>8</minbytes>
       <maxbytes>8</maxbytes>
       <key>Iptc.Envelope.EnvelopeNumber</key>
+      <type>String</type>
       <tagdesc>Combined unique identification</tagdesc>
    </ROW>
    <ROW num="7">
@@ -92,6 +98,7 @@
       <minbytes>0</minbytes>
       <maxbytes>32</maxbytes>
       <key>Iptc.Envelope.ProductId</key>
+      <type>String</type>
       <tagdesc>Identifies service subset</tagdesc>
    </ROW>
    <ROW num="8">
@@ -104,6 +111,7 @@
       <minbytes>1</minbytes>
       <maxbytes>1</maxbytes>
       <key>Iptc.Envelope.EnvelopePriority</key>
+      <type>String</type>
       <tagdesc>Envelope handling priority</tagdesc>
    </ROW>
    <ROW num="9">
@@ -116,6 +124,7 @@
       <minbytes>8</minbytes>
       <maxbytes>8</maxbytes>
       <key>Iptc.Envelope.DateSent</key>
+      <type>Date</type>
       <tagdesc>Date material was sent</tagdesc>
    </ROW>
    <ROW num="10">
@@ -128,6 +137,7 @@
       <minbytes>11</minbytes>
       <maxbytes>11</maxbytes>
       <key>Iptc.Envelope.TimeSent</key>
+      <type>Time</type>
       <tagdesc>Time material was sent</tagdesc>
    </ROW>
    <ROW num="11">
@@ -140,6 +150,7 @@
       <minbytes>0</minbytes>
       <maxbytes>32</maxbytes>
       <key>Iptc.Envelope.CharacterSet</key>
+      <type>Undefined</type>
       <tagdesc>Specifies character sets</tagdesc>
    </ROW>
    <ROW num="12">
@@ -152,6 +163,7 @@
       <minbytes>14</minbytes>
       <maxbytes>80</maxbytes>
       <key>Iptc.Envelope.UNO</key>
+      <type>String</type>
       <tagdesc>Unique Name of Object</tagdesc>
    </ROW>
    <ROW num="13">
@@ -164,6 +176,7 @@
       <minbytes>2</minbytes>
       <maxbytes>2</maxbytes>
       <key>Iptc.Envelope.ARMId</key>
+      <type>Short</type>
       <tagdesc>Abstract Relationship Method identifier</tagdesc>
    </ROW>
    <ROW num="14">
@@ -176,6 +189,7 @@
       <minbytes>2</minbytes>
       <maxbytes>2</maxbytes>
       <key>Iptc.Envelope.ARMVersion</key>
+      <type>Short</type>
       <tagdesc>Abstract Relationship Method version</tagdesc>
    </ROW>
    <ROW num="15">
@@ -188,6 +202,7 @@
       <minbytes>2</minbytes>
       <maxbytes>2</maxbytes>
       <key>Iptc.Application2.RecordVersion</key>
+      <type>Short</type>
       <tagdesc>Version of IIM part 2</tagdesc>
    </ROW>
    <ROW num="16">
@@ -200,6 +215,7 @@
       <minbytes>3</minbytes>
       <maxbytes>67</maxbytes>
       <key>Iptc.Application2.ObjectType</key>
+      <type>String</type>
       <tagdesc>IIM appendix G object type</tagdesc>
    </ROW>
    <ROW num="17">
@@ -212,6 +228,7 @@
       <minbytes>4</minbytes>
       <maxbytes>68</maxbytes>
       <key>Iptc.Application2.ObjectAttribute</key>
+      <type>String</type>
       <tagdesc>IIM appendix G object attribute</tagdesc>
    </ROW>
    <ROW num="18">
@@ -224,6 +241,7 @@
       <minbytes>0</minbytes>
       <maxbytes>64</maxbytes>
       <key>Iptc.Application2.ObjectName</key>
+      <type>String</type>
       <tagdesc>Shorthand reference of content</tagdesc>
    </ROW>
    <ROW num="19">
@@ -236,6 +254,7 @@
       <minbytes>0</minbytes>
       <maxbytes>64</maxbytes>
       <key>Iptc.Application2.EditStatus</key>
+      <type>String</type>
       <tagdesc>Content status</tagdesc>
    </ROW>
    <ROW num="20">
@@ -248,6 +267,7 @@
       <minbytes>2</minbytes>
       <maxbytes>2</maxbytes>
       <key>Iptc.Application2.EditorialUpdate</key>
+      <type>String</type>
       <tagdesc>Indicates the type of update</tagdesc>
    </ROW>
    <ROW num="21">
@@ -260,6 +280,7 @@
       <minbytes>1</minbytes>
       <maxbytes>1</maxbytes>
       <key>Iptc.Application2.Urgency</key>
+      <type>String</type>
       <tagdesc>Editorial urgency of content</tagdesc>
    </ROW>
    <ROW num="22">
@@ -272,6 +293,7 @@
       <minbytes>13</minbytes>
       <maxbytes>236</maxbytes>
       <key>Iptc.Application2.Subject</key>
+      <type>String</type>
       <tagdesc>Structured definition of the subject</tagdesc>
    </ROW>
    <ROW num="23">
@@ -284,6 +306,7 @@
       <minbytes>0</minbytes>
       <maxbytes>3</maxbytes>
       <key>Iptc.Application2.Category</key>
+      <type>String</type>
       <tagdesc>Identifies the subject</tagdesc>
    </ROW>
    <ROW num="24">
@@ -296,6 +319,7 @@
       <minbytes>0</minbytes>
       <maxbytes>32</maxbytes>
       <key>Iptc.Application2.SuppCategory</key>
+      <type>String</type>
       <tagdesc>Refines the subject</tagdesc>
    </ROW>
    <ROW num="25">
@@ -308,6 +332,7 @@
       <minbytes>0</minbytes>
       <maxbytes>32</maxbytes>
       <key>Iptc.Application2.FixtureId</key>
+      <type>String</type>
       <tagdesc>Identifies content that recurs</tagdesc>
    </ROW>
    <ROW num="26">
@@ -320,6 +345,7 @@
       <minbytes>0</minbytes>
       <maxbytes>64</maxbytes>
       <key>Iptc.Application2.Keywords</key>
+      <type>String</type>
       <tagdesc>Information retrieval words</tagdesc>
    </ROW>
    <ROW num="27">
@@ -332,6 +358,7 @@
       <minbytes>3</minbytes>
       <maxbytes>3</maxbytes>
       <key>Iptc.Application2.LocationCode</key>
+      <type>String</type>
       <tagdesc>ISO country code for content</tagdesc>
    </ROW>
    <ROW num="28">
@@ -344,6 +371,7 @@
       <minbytes>0</minbytes>
       <maxbytes>64</maxbytes>
       <key>Iptc.Application2.LocationName</key>
+      <type>String</type>
       <tagdesc>Full country name for content</tagdesc>
    </ROW>
    <ROW num="29">
@@ -356,6 +384,7 @@
       <minbytes>8</minbytes>
       <maxbytes>8</maxbytes>
       <key>Iptc.Application2.ReleaseDate</key>
+      <type>Date</type>
       <tagdesc>Earliest intended usable date</tagdesc>
    </ROW>
    <ROW num="30">
@@ -368,6 +397,7 @@
       <minbytes>11</minbytes>
       <maxbytes>11</maxbytes>
       <key>Iptc.Application2.ReleaseTime</key>
+      <type>Time</type>
       <tagdesc>Earliest intended usable time</tagdesc>
    </ROW>
    <ROW num="31">
@@ -380,6 +410,7 @@
       <minbytes>8</minbytes>
       <maxbytes>8</maxbytes>
       <key>Iptc.Application2.ExpirationDate</key>
+      <type>Date</type>
       <tagdesc>Latest intended usable date</tagdesc>
    </ROW>
    <ROW num="32">
@@ -392,6 +423,7 @@
       <minbytes>11</minbytes>
       <maxbytes>11</maxbytes>
       <key>Iptc.Application2.ExpirationTime</key>
+      <type>Time</type>
       <tagdesc>Latest intended usable time</tagdesc>
    </ROW>
    <ROW num="33">
@@ -404,6 +436,7 @@
       <minbytes>0</minbytes>
       <maxbytes>256</maxbytes>
       <key>Iptc.Application2.SpecialInstructions</key>
+      <type>String</type>
       <tagdesc>Editorial usage instructions</tagdesc>
    </ROW>
    <ROW num="34">
@@ -416,6 +449,7 @@
       <minbytes>2</minbytes>
       <maxbytes>2</maxbytes>
       <key>Iptc.Application2.ActionAdvised</key>
+      <type>String</type>
       <tagdesc>Action provided to previous data</tagdesc>
    </ROW>
    <ROW num="35">
@@ -428,6 +462,7 @@
       <minbytes>0</minbytes>
       <maxbytes>10</maxbytes>
       <key>Iptc.Application2.ReferenceService</key>
+      <type>String</type>
       <tagdesc>Service Identifier of a prior envelope</tagdesc>
    </ROW>
    <ROW num="36">
@@ -440,6 +475,7 @@
       <minbytes>8</minbytes>
       <maxbytes>8</maxbytes>
       <key>Iptc.Application2.ReferenceDate</key>
+      <type>Date</type>
       <tagdesc>Date of a prior envelope</tagdesc>
    </ROW>
    <ROW num="37">
@@ -452,6 +488,7 @@
       <minbytes>8</minbytes>
       <maxbytes>8</maxbytes>
       <key>Iptc.Application2.ReferenceNumber</key>
+      <type>String</type>
       <tagdesc>Envelope Number of a prior envelope</tagdesc>
    </ROW>
    <ROW num="38">
@@ -464,6 +501,7 @@
       <minbytes>8</minbytes>
       <maxbytes>8</maxbytes>
       <key>Iptc.Application2.DateCreated</key>
+      <type>Date</type>
       <tagdesc>Creation date of intellectual content</tagdesc>
    </ROW>
    <ROW num="39">
@@ -476,6 +514,7 @@
       <minbytes>11</minbytes>
       <maxbytes>11</maxbytes>
       <key>Iptc.Application2.TimeCreated</key>
+      <type>Time</type>
       <tagdesc>Creation time of intellectual content</tagdesc>
    </ROW>
    <ROW num="40">
@@ -488,6 +527,7 @@
       <minbytes>8</minbytes>
       <maxbytes>8</maxbytes>
       <key>Iptc.Application2.DigitizationDate</key>
+      <type>Date</type>
       <tagdesc>Creation date of digital representation</tagdesc>
    </ROW>
    <ROW num="41">
@@ -500,6 +540,7 @@
       <minbytes>11</minbytes>
       <maxbytes>11</maxbytes>
       <key>Iptc.Application2.DigitizationTime</key>
+      <type>Time</type>
       <tagdesc>Creation time of digital representation</tagdesc>
    </ROW>
    <ROW num="42">
@@ -512,6 +553,7 @@
       <minbytes>0</minbytes>
       <maxbytes>32</maxbytes>
       <key>Iptc.Application2.Program</key>
+      <type>String</type>
       <tagdesc>Content creation program</tagdesc>
    </ROW>
    <ROW num="43">
@@ -524,6 +566,7 @@
       <minbytes>0</minbytes>
       <maxbytes>10</maxbytes>
       <key>Iptc.Application2.ProgramVersion</key>
+      <type>String</type>
       <tagdesc>Content creation program version</tagdesc>
    </ROW>
    <ROW num="44">
@@ -536,6 +579,7 @@
       <minbytes>1</minbytes>
       <maxbytes>1</maxbytes>
       <key>Iptc.Application2.ObjectCycle</key>
+      <type>String</type>
       <tagdesc>Morning</tagdesc>
    </ROW>
    <ROW num="45">
@@ -548,6 +592,7 @@
       <minbytes>0</minbytes>
       <maxbytes>32</maxbytes>
       <key>Iptc.Application2.Byline</key>
+      <type>String</type>
       <tagdesc>Name of content creator</tagdesc>
    </ROW>
    <ROW num="46">
@@ -560,6 +605,7 @@
       <minbytes>0</minbytes>
       <maxbytes>32</maxbytes>
       <key>Iptc.Application2.BylineTitle</key>
+      <type>String</type>
       <tagdesc>Title of content creator</tagdesc>
    </ROW>
    <ROW num="47">
@@ -572,6 +618,7 @@
       <minbytes>0</minbytes>
       <maxbytes>32</maxbytes>
       <key>Iptc.Application2.City</key>
+      <type>String</type>
       <tagdesc>City of content origin</tagdesc>
    </ROW>
    <ROW num="48">
@@ -584,6 +631,7 @@
       <minbytes>0</minbytes>
       <maxbytes>32</maxbytes>
       <key>Iptc.Application2.SubLocation</key>
+      <type>String</type>
       <tagdesc>Location within city</tagdesc>
    </ROW>
    <ROW num="49">
@@ -596,6 +644,7 @@
       <minbytes>0</minbytes>
       <maxbytes>32</maxbytes>
       <key>Iptc.Application2.ProvinceState</key>
+      <type>String</type>
       <tagdesc>Province/State of content origin</tagdesc>
    </ROW>
    <ROW num="50">
@@ -608,6 +657,7 @@
       <minbytes>3</minbytes>
       <maxbytes>3</maxbytes>
       <key>Iptc.Application2.CountryCode</key>
+      <type>String</type>
       <tagdesc>ISO country code of content origin</tagdesc>
    </ROW>
    <ROW num="51">
@@ -620,6 +670,7 @@
       <minbytes>0</minbytes>
       <maxbytes>64</maxbytes>
       <key>Iptc.Application2.CountryName</key>
+      <type>String</type>
       <tagdesc>Full country name of content origin</tagdesc>
    </ROW>
    <ROW num="52">
@@ -632,6 +683,7 @@
       <minbytes>0</minbytes>
       <maxbytes>32</maxbytes>
       <key>Iptc.Application2.TransmissionReference</key>
+      <type>String</type>
       <tagdesc>Location of original transmission</tagdesc>
    </ROW>
    <ROW num="53">
@@ -644,6 +696,7 @@
       <minbytes>0</minbytes>
       <maxbytes>256</maxbytes>
       <key>Iptc.Application2.Headline</key>
+      <type>String</type>
       <tagdesc>Content synopsis</tagdesc>
    </ROW>
    <ROW num="54">
@@ -656,6 +709,7 @@
       <minbytes>0</minbytes>
       <maxbytes>32</maxbytes>
       <key>Iptc.Application2.Credit</key>
+      <type>String</type>
       <tagdesc>Content provider</tagdesc>
    </ROW>
    <ROW num="55">
@@ -668,6 +722,7 @@
       <minbytes>0</minbytes>
       <maxbytes>32</maxbytes>
       <key>Iptc.Application2.Source</key>
+      <type>String</type>
       <tagdesc>Original owner of content</tagdesc>
    </ROW>
    <ROW num="56">
@@ -680,6 +735,7 @@
       <minbytes>0</minbytes>
       <maxbytes>128</maxbytes>
       <key>Iptc.Application2.Copyright</key>
+      <type>String</type>
       <tagdesc>Necessary copyright notice</tagdesc>
    </ROW>
    <ROW num="57">
@@ -692,6 +748,7 @@
       <minbytes>0</minbytes>
       <maxbytes>128</maxbytes>
       <key>Iptc.Application2.Contact</key>
+      <type>String</type>
       <tagdesc>Person or organisation to contact</tagdesc>
    </ROW>
    <ROW num="58">
@@ -704,6 +761,7 @@
       <minbytes>0</minbytes>
       <maxbytes>2000</maxbytes>
       <key>Iptc.Application2.Caption</key>
+      <type>String</type>
       <tagdesc>Content description</tagdesc>
    </ROW>
    <ROW num="59">
@@ -716,6 +774,7 @@
       <minbytes>0</minbytes>
       <maxbytes>32</maxbytes>
       <key>Iptc.Application2.Writer</key>
+      <type>String</type>
       <tagdesc>Person responsible for caption</tagdesc>
    </ROW>
    <ROW num="60">
@@ -728,6 +787,7 @@
       <minbytes>7360</minbytes>
       <maxbytes>7360</maxbytes>
       <key>Iptc.Application2.RasterizedCaption</key>
+      <type>Undefined</type>
       <tagdesc>Black and white caption image</tagdesc>
    </ROW>
    <ROW num="61">
@@ -740,6 +800,7 @@
       <minbytes>2</minbytes>
       <maxbytes>2</maxbytes>
       <key>Iptc.Application2.ImageType</key>
+      <type>String</type>
       <tagdesc>Color components in an image</tagdesc>
    </ROW>
    <ROW num="62">
@@ -752,6 +813,7 @@
       <minbytes>1</minbytes>
       <maxbytes>1</maxbytes>
       <key>Iptc.Application2.ImageOrientation</key>
+      <type>String</type>
       <tagdesc>Indicates the layout of an image</tagdesc>
    </ROW>
    <ROW num="63">
@@ -764,6 +826,7 @@
       <minbytes>2</minbytes>
       <maxbytes>3</maxbytes>
       <key>Iptc.Application2.Language</key>
+      <type>String</type>
       <tagdesc>ISO 639:1988 language code</tagdesc>
    </ROW>
    <ROW num="64">
@@ -776,6 +839,7 @@
       <minbytes>2</minbytes>
       <maxbytes>2</maxbytes>
       <key>Iptc.Application2.AudioType</key>
+      <type>String</type>
       <tagdesc>Information about audio content</tagdesc>
    </ROW>
    <ROW num="65">
@@ -788,6 +852,7 @@
       <minbytes>6</minbytes>
       <maxbytes>6</maxbytes>
       <key>Iptc.Application2.AudioRate</key>
+      <type>String</type>
       <tagdesc>Sampling rate of audio content</tagdesc>
    </ROW>
    <ROW num="66">
@@ -800,6 +865,7 @@
       <minbytes>2</minbytes>
       <maxbytes>2</maxbytes>
       <key>Iptc.Application2.AudioResolution</key>
+      <type>String</type>
       <tagdesc>Sampling resolution of audio content</tagdesc>
    </ROW>
    <ROW num="67">
@@ -812,6 +878,7 @@
       <minbytes>6</minbytes>
       <maxbytes>6</maxbytes>
       <key>Iptc.Application2.AudioDuration</key>
+      <type>String</type>
       <tagdesc>Duration of audio content</tagdesc>
    </ROW>
    <ROW num="68">
@@ -824,6 +891,7 @@
       <minbytes>0</minbytes>
       <maxbytes>64</maxbytes>
       <key>Iptc.Application2.AudioOutcue</key>
+      <type>String</type>
       <tagdesc>Final words or sounds of audio content</tagdesc>
    </ROW>
    <ROW num="69">
@@ -836,6 +904,7 @@
       <minbytes>2</minbytes>
       <maxbytes>2</maxbytes>
       <key>Iptc.Application2.PreviewFormat</key>
+      <type>Short</type>
       <tagdesc>IIM appendix A file format of preview</tagdesc>
    </ROW>
    <ROW num="70">
@@ -848,6 +917,7 @@
       <minbytes>2</minbytes>
       <maxbytes>2</maxbytes>
       <key>Iptc.Application2.PreviewVersion</key>
+      <type>Short</type>
       <tagdesc>File format version of preview</tagdesc>
    </ROW>
    <ROW num="71">
@@ -860,6 +930,7 @@
       <minbytes>0</minbytes>
       <maxbytes>256000</maxbytes>
       <key>Iptc.Application2.Preview</key>
+      <type>Undefined</type>
       <tagdesc>Binary preview data</tagdesc>
    </ROW>
 </ROWSET>

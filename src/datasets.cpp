@@ -383,6 +383,9 @@ namespace Exiv2 {
                   << std::dec << dataSet.minbytes_ << ", "
                   << dataSet.maxbytes_ << ", "
                   << iptcKey.key() << ", "
+                  << TypeInfo::typeName(
+                      IptcDataSets::dataSetType(dataSet.number_, 
+                                                dataSet.recordId_)) << ", "
                   << dataSet.desc_;
     }
 

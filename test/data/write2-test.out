@@ -48,11 +48,11 @@ Exif.Nikon3.Quality                           0x0004 Makernote    Ascii      28 
 ----- One IOP tag
 Exif.Image.ExifTag                            0x8769 IFD0         Long        1 26
 Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 44
-Exif.Iop.InteroperabilityVersion              0x0002 Iop          Ascii       7 Test 3
+Exif.Iop.InteroperabilityIndex                0x0001 Iop          Ascii       7 Test 3
 
 ----- One GPS tag
 Exif.Image.GPSTag                             0x8825 IFD0         Long        1 26
-Exif.GPSInfo.GPSVersionID                     0x0000 GPSInfo      Ascii       7 Test 4
+Exif.GPSInfo.GPSVersionID                     0x0000 GPSInfo      Byte        2 19 20 
 
 ----- One IFD1 tag
 Exif.Thumbnail.Artist                         0x013b IFD1         Ascii       7 Test 5
@@ -60,7 +60,7 @@ Exif.Thumbnail.Artist                         0x013b IFD1         Ascii       7 
 ----- One IOP and one IFD1 tag
 Exif.Image.ExifTag                            0x8769 IFD0         Long        1 26
 Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 44
-Exif.Iop.InteroperabilityVersion              0x0002 Iop          Ascii      15 Test 6 Iop tag
+Exif.Iop.InteroperabilityIndex                0x0001 Iop          Ascii      15 Test 6 Iop tag
 Exif.Thumbnail.Artist                         0x013b IFD1         Ascii      16 Test 6 Ifd1 tag
 
 ----- One IFD0 and one IFD1 tag

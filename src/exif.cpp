@@ -177,7 +177,10 @@ namespace Exiv2 {
 
     void Exifdatum::setValue(const std::string& value)
     {
-        if (value_.get() == 0) value_ = Value::create(asciiString);
+        if (value_.get() == 0) {
+            TypeId type = ExifTags::tagType(tag(), ifdId());
+            value_ = Value::create(type);
+        }
         value_->read(value);
     }
 

@@ -15,6 +15,7 @@
       <taghex>0x0002</taghex>
       <ifd>Makernote</ifd>
       <key>Exif.Sigma.SerialNumber</key>
+      <type>Ascii</type>
       <tagdesc>Camera serial number</tagdesc>
    </ROW>
    <ROW num="2">
@@ -23,6 +24,7 @@
       <taghex>0x0003</taghex>
       <ifd>Makernote</ifd>
       <key>Exif.Sigma.DriveMode</key>
+      <type>Ascii</type>
       <tagdesc>Drive Mode</tagdesc>
    </ROW>
    <ROW num="3">
@@ -31,6 +33,7 @@
       <taghex>0x0004</taghex>
       <ifd>Makernote</ifd>
       <key>Exif.Sigma.ResolutionMode</key>
+      <type>Ascii</type>
       <tagdesc>Resolution Mode</tagdesc>
    </ROW>
    <ROW num="4">
@@ -39,6 +42,7 @@
       <taghex>0x0005</taghex>
       <ifd>Makernote</ifd>
       <key>Exif.Sigma.AutofocusMode</key>
+      <type>Ascii</type>
       <tagdesc>Autofocus mode</tagdesc>
    </ROW>
    <ROW num="5">
@@ -47,6 +51,7 @@
       <taghex>0x0006</taghex>
       <ifd>Makernote</ifd>
       <key>Exif.Sigma.FocusSetting</key>
+      <type>Ascii</type>
       <tagdesc>Focus setting</tagdesc>
    </ROW>
    <ROW num="6">
@@ -55,6 +60,7 @@
       <taghex>0x0007</taghex>
       <ifd>Makernote</ifd>
       <key>Exif.Sigma.WhiteBalance</key>
+      <type>Ascii</type>
       <tagdesc>White balance</tagdesc>
    </ROW>
    <ROW num="7">
@@ -63,6 +69,7 @@
       <taghex>0x0008</taghex>
       <ifd>Makernote</ifd>
       <key>Exif.Sigma.ExposureMode</key>
+      <type>Ascii</type>
       <tagdesc>Exposure mode</tagdesc>
    </ROW>
    <ROW num="8">
@@ -71,6 +78,7 @@
       <taghex>0x0009</taghex>
       <ifd>Makernote</ifd>
       <key>Exif.Sigma.MeteringMode</key>
+      <type>Ascii</type>
       <tagdesc>Metering mode</tagdesc>
    </ROW>
    <ROW num="9">
@@ -79,6 +87,7 @@
       <taghex>0x000a</taghex>
       <ifd>Makernote</ifd>
       <key>Exif.Sigma.LensRange</key>
+      <type>Ascii</type>
       <tagdesc>Lens focal length range</tagdesc>
    </ROW>
    <ROW num="10">
@@ -87,6 +96,7 @@
       <taghex>0x000b</taghex>
       <ifd>Makernote</ifd>
       <key>Exif.Sigma.ColorSpace</key>
+      <type>Ascii</type>
       <tagdesc>Color space</tagdesc>
    </ROW>
    <ROW num="11">
@@ -95,6 +105,7 @@
       <taghex>0x000c</taghex>
       <ifd>Makernote</ifd>
       <key>Exif.Sigma.Exposure</key>
+      <type>Ascii</type>
       <tagdesc>Exposure</tagdesc>
    </ROW>
    <ROW num="12">
@@ -103,6 +114,7 @@
       <taghex>0x000d</taghex>
       <ifd>Makernote</ifd>
       <key>Exif.Sigma.Contrast</key>
+      <type>Ascii</type>
       <tagdesc>Contrast</tagdesc>
    </ROW>
    <ROW num="13">
@@ -111,6 +123,7 @@
       <taghex>0x000e</taghex>
       <ifd>Makernote</ifd>
       <key>Exif.Sigma.Shadow</key>
+      <type>Ascii</type>
       <tagdesc>Shadow</tagdesc>
    </ROW>
    <ROW num="14">
@@ -119,6 +132,7 @@
       <taghex>0x000f</taghex>
       <ifd>Makernote</ifd>
       <key>Exif.Sigma.Highlight</key>
+      <type>Ascii</type>
       <tagdesc>Highlight</tagdesc>
    </ROW>
    <ROW num="15">
@@ -127,6 +141,7 @@
       <taghex>0x0010</taghex>
       <ifd>Makernote</ifd>
       <key>Exif.Sigma.Saturation</key>
+      <type>Ascii</type>
       <tagdesc>Saturation</tagdesc>
    </ROW>
    <ROW num="16">
@@ -135,6 +150,7 @@
       <taghex>0x0011</taghex>
       <ifd>Makernote</ifd>
       <key>Exif.Sigma.Sharpness</key>
+      <type>Ascii</type>
       <tagdesc>Sharpness</tagdesc>
    </ROW>
    <ROW num="17">
@@ -143,6 +159,7 @@
       <taghex>0x0012</taghex>
       <ifd>Makernote</ifd>
       <key>Exif.Sigma.FillLight</key>
+      <type>Ascii</type>
       <tagdesc>X3 Fill light</tagdesc>
    </ROW>
    <ROW num="18">
@@ -151,6 +168,7 @@
       <taghex>0x0014</taghex>
       <ifd>Makernote</ifd>
       <key>Exif.Sigma.ColorAdjustment</key>
+      <type>Ascii</type>
       <tagdesc>Color adjustment</tagdesc>
    </ROW>
    <ROW num="19">
@@ -159,6 +177,7 @@
       <taghex>0x0015</taghex>
       <ifd>Makernote</ifd>
       <key>Exif.Sigma.AdjustmentMode</key>
+      <type>Ascii</type>
       <tagdesc>Adjustment mode</tagdesc>
    </ROW>
    <ROW num="20">
@@ -167,6 +186,7 @@
       <taghex>0x0016</taghex>
       <ifd>Makernote</ifd>
       <key>Exif.Sigma.Quality</key>
+      <type>Ascii</type>
       <tagdesc>Quality</tagdesc>
    </ROW>
    <ROW num="21">
@@ -175,6 +195,7 @@
       <taghex>0x0017</taghex>
       <ifd>Makernote</ifd>
       <key>Exif.Sigma.Firmware</key>
+      <type>Ascii</type>
       <tagdesc>Firmware</tagdesc>
    </ROW>
    <ROW num="22">
@@ -183,6 +204,7 @@
       <taghex>0x0018</taghex>
       <ifd>Makernote</ifd>
       <key>Exif.Sigma.Software</key>
+      <type>Ascii</type>
       <tagdesc>Software</tagdesc>
    </ROW>
    <ROW num="23">
@@ -191,6 +213,7 @@
       <taghex>0x0019</taghex>
       <ifd>Makernote</ifd>
       <key>Exif.Sigma.AutoBracket</key>
+      <type>Ascii</type>
       <tagdesc>Auto bracket</tagdesc>
    </ROW>
 </ROWSET>
