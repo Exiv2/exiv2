@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.15 $
+  @version $Name:  $ $Revision: 1.16 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -54,8 +54,6 @@ namespace Exif {
 
     /*! 
       @brief Helper class to access JPEG images
-
-      Todo: define and implement write support
      */
     class JpegImage {
         // Copying not allowed
@@ -85,42 +83,82 @@ namespace Exif {
         /*!
           @brief Reads the %Exif data from the file path into the internal 
                  data buffer.
-          @param path Path to the file
-          @return 0 if successful<br>
-                 -1 if the file cannot be opened or<br>
-                  the return code of readExifData(std::istream& is)
-                    if the call to this function fails
+          @param path Path to the file.
+          @return 0 if successful;<BR>
+                 -1 if the file cannot be opened; or<BR>
+                    the return code of readExifData(std::istream& is)
+                    if the call to this function fails.
          */
         int readExifData(const std::string& path);
         /*!
           @brief Reads the %Exif data from the stream into the internal 
                  data buffer.
-          @param is Input stream to read from
-          @return 0 if successful<br>
-                  1 if reading from the stream failed. Consult the stream state 
-                    for more information.<br>
-                  2 if the stream does not contain a JPEG image<br>
-                  3 if the APP1 marker was not found<br>
-                  4 if the APP1 field does not contain %Exif data
+          @param is Input stream to read from.
+          @return 0 if successful;<BR>
+                  1 if reading from the stream failed (consult the stream state 
+                    for more information);<BR>
+                  2 if the stream does not contain a JPEG image;<BR>
+                  3 if no %Exif APP1 segment was found after SOI at the 
+                    beginning of the input stream.
          */
         int readExifData(std::istream& is);
+        /*!
+          @brief Write the %Exif data to file path, which must contain a JPEG
+                 image. If an %Exif APP1 section exists in the file, it is
+                 replaced. Otherwise, an %Exif data section is created.
+          @param path Path to the file.
+          @return 0 if successful;<br>
+                 -1 if the input file cannot be opened;<br>
+                 -2 if the temporary file cannot be opened;<br>
+                 -3 if renaming the temporary file fails; or<br>
+                 the return code of 
+                    writeExifData(std::ostream& os, std::istream& is) const
+                    if the call to this function fails.
+
+         */
+        int writeExifData(const std::string& path) const;
+        /*!
+          @brief Copy %Exif data into the JPEG image is, write the resulting
+                 image to the output stream os. If an %Exif APP1 section exists
+                 in the input file, it is replaced. Otherwise, an %Exif data
+                 section is created.
+          @param os Output stream to write to (e.g., a temporary file).
+          @param is Input stream with the JPEG image to which the %Exif data
+                 should be copied.
+          @return 0 if successful;<BR>
+                  1 if reading from the input stream failed (consult the stream 
+                    state for more information);<BR>
+                  2 if the input stream does not contain a JPEG image;<BR>
+                  3 if neither a JFIF APP0 segment nor a %Exif APP1 segment was
+                    found after SOI at the beginning of the input stream;<BR>
+                  4 if writing to the output stream failed (consult the stream 
+                    state for more information).
+         */
+        int writeExifData(std::ostream& os, std::istream& is) const;
+        /*!
+          @brief Set the %Exif data. The data is copied into the internal
+                 data buffer.
+          @param buf Pointer to the data buffer.
+          @param size Number of characters in the data buffer.
+         */
+        void setExifData(const char* buf, long size);
+
         //! @name Accessors
         //@{
         //! Returns the size of the %Exif data buffer
         long sizeExifData() const { return sizeExifData_; }
-        //! Returns the offset of the %Exif data buffer from SOI
-        long offsetExifData() const { return offsetExifData_; }
         //! Returns a read-only pointer to the %Exif data buffer 
         const char* exifData() const { return exifData_; }
         //@}
 
     private:
         static const uint16 soi_;               // SOI marker
+        static const uint16 app0_;              // APP0 marker
         static const uint16 app1_;              // APP1 marker
         static const char exifId_[];            // Exif identifier
+        static const char jfifId_[];            // JFIF identifier
 
         long sizeExifData_;                     // Size of the Exif data buffer
-        long offsetExifData_;                   // Offset from SOI
         char* exifData_;                        // Exif data buffer
 
     }; // class JpegImage
@@ -138,12 +176,20 @@ namespace Exif {
         explicit TiffHeader(ByteOrder byteOrder =littleEndian);
         //! Read the TIFF header from a data buffer. Returns 0 if successful.
         int read(const char* buf);
-        /*!
-          @brief Write the TIFF header into buf as a data string, return number 
-                 of bytes copied.
+        /*! 
+          @brief Write a standard TIFF header into buf as a data string, return
+                 number of bytes copied.
+
+          Only the byte order of the TIFF header varies, the values written for
+          offset and tag are constant, i.e., independent of the values possibly
+          read before a call to this function. The value 0x00000008 is written
+          for the offset, tag is set to 0x002a.
+
+          @param buf The data buffer to write to.
+          @return The number of bytes written.
          */
         long copy(char* buf) const;
-        //! Return the lengths of the TIFF header in bytes.
+        //! Return the size of the TIFF header in bytes.
         long size() const { return 8; }
         //! @name Accessors
         //@{
@@ -604,23 +650,6 @@ namespace Exif {
     */
     class Entry {
     public:
-        /*! 
-          @brief The status of an Entry for entries without memory management.
-
-          <TABLE BORDER=0>
-          <TR><TD>valid:</TD>
-          <TD>The entry is valid, including in particular, the data 
-          pointed to is valid and up to date.</TD></TR>
-          <TR><TD>invalid:</TD>
-          <TD>The entry is not valid, it has been invalidated by a 
-          modification of the corresponding metadata, which did not 
-          fit into the original data buffer.</TD></TR>
-          <TR><TD>erased:</TD>
-          <TD>The entry has been deleted.</TD></TR>
-          </TABLE>
-        */
-        enum Status { valid, invalid, erased };
-
         /*!
           @brief Default constructor. The entry allocates memory for its 
           data if alloc is true (the default), otherwise it remembers
@@ -653,8 +682,6 @@ namespace Exif {
         Entry& operator=(const Entry& rhs);
         //! @name Accessors
         //@{
-        //! Return the status
-        Status status() const { return status_; }
         //! Return the IFD id
         IfdId ifdId() const { return ifdId_; }
         //! Return the index in the IFD
@@ -689,16 +716,20 @@ namespace Exif {
           unsigned long using the byte order given to encode it.
         */
         void setOffset(uint32 offset, ByteOrder byteOrder);
-        //! Set the status 
-        void setStatus(Status status) { status_ = status; }
+        /*!
+          @brief Set type, count and the data to that of value.
+          @throw Error ("Size too large") if no memory allocation is allowed
+                 and the size of the data of value is larger than that 
+                 available for the data of the entry.
+         */
+        void setValue(const Value& value, ByteOrder byteOrder);
 
     private:
         /*!
-          @brief True:  requires memory allocation and deallocation,<BR>
-          False: no memory management needed.
+          @brief True: Requires memory allocation and deallocation,<BR>
+                 False: No memory management needed.
         */
         bool alloc_;
-        Status status_;      // Status of this entry
         IfdId ifdId_;        // Redundant IFD id (it is also at the IFD)
         int ifdIdx_;         // Position in the IFD
         uint16 tag_;         // Tag
@@ -714,6 +745,22 @@ namespace Exif {
     //! Container type to hold all IFD directory entries
     typedef std::vector<Entry> Entries;
 
+    //! Unary predicate that matches an Entry with a given tag
+    class FindEntryByTag {
+    public:
+        //! Constructor, initializes the object with the tag to look for
+        FindEntryByTag(uint16 tag) : tag_(tag) {}
+        /*!
+          @brief Returns true if the tag of the argument entry is equal
+          to that of the object.
+        */
+        bool operator()(const Entry& entry) const
+            { return tag_ == entry.tag(); }
+
+    private:
+        uint16 tag_;
+        
+    }; // class FindEntryByTag
 
     /*!
       @brief Models an IFD (Image File Directory)
@@ -731,9 +778,8 @@ namespace Exif {
       support" possible. This allows writing to %Exif data of an image without
       changing the data layout of the %Exif data, to maximize chances that tag
       data, which the %Exif reader may not understand (e.g., the Makernote)
-      remains valid. Permitted "non-intrusive write operations" include the
-      modification of tag data without increasing the data size and deletion of
-      entries from an IFD.
+      remains valid. A "non-intrusive write operation" is the modification of 
+      tag data without increasing the data size. 
     */
     class Ifd {
     public:
@@ -793,22 +839,6 @@ namespace Exif {
                  overwritten.
          */
         void add(const Metadatum& metadatum, ByteOrder byteOrder);
-
-        //! Unary predicate that matches an Entry with a given tag
-        class FindEntryByTag {
-        public:
-            //! Constructor, initializes the object with the tag to look for
-            FindEntryByTag(uint16 tag) : tag_(tag) {}
-            /*!
-              @brief Returns true if the tag of the argument entry is equal
-              to that of the object.
-            */
-            bool operator()(const Entry& entry) const
-                { return tag_ == entry.tag(); }
-        private:
-            uint16 tag_;
-            
-        }; // class FindEntryByTag
 
         /*!
           @brief Read a complete IFD and its data from a data buffer
@@ -945,6 +975,11 @@ namespace Exif {
          */
         long copy(char* buf) const;
         /*!
+          @brief Return the size of the thumbnail data (data only, without the 
+                 IFD, in case of a TIFF thumbnail.
+         */
+        long size() const;
+        /*!
           @brief Update the %Exif data according to the actual thumbnail image.
           
           If the type of the thumbnail image is JPEG, JPEGInterchangeFormat is
@@ -1034,12 +1069,43 @@ namespace Exif {
          */
         int read(const char* buf, long len);
         /*!
-          @brief Write %Exif data to a data buffer, return number of bytes 
-                 written. Updates %Exif data with the metadata from the actual
-                 thumbnail image (overriding existing metadata).
+          @brief Write the %Exif data to file path. If an %Exif data section
+                 already exists in the file, it is replaced. Otherwise, an
+                 %Exif data section is created. See copy(char* buf) for further
+                 details.
+
+          @return 0 if successful.
+         */
+        int write(const std::string& path);
+        /*!
+          @brief Write the %Exif data to a data buffer, return number of bytes 
+                 written. The copied data starts with the TIFF header.
+
+          Tries to update the original data buffer and write it back with
+          minimal changes, in a 'non-intrusive' fashion, if possible. In this
+          case, tag data that ExifData does not understand stand a good chance
+          to remain valid. (In particular, if the %Exif data contains a
+          Makernote in IFD format, the offsets in its IFD will remain valid.)
+          <BR>
+          If 'non-intrusive' writing is not possible, the Exif data will be
+          re-built from scratch, in which case the absolute position of the
+          metadata entries within the data buffer may (and in most cases will)
+          be different from their original position. Furthermore, in this case,
+          the Exif data is updated with the metadata from the actual thumbnail
+          image (overriding existing metadata).
+
+          @param buf The data buffer to write to.  The user must ensure that the
+                 buffer has enough memory. Otherwise the call results in
+                 undefined behaviour.
+          @return Number of characters written to the buffer.
          */ 
         long copy(char* buf);
-        //! Returns the size of all %Exif data (TIFF header plus metadata)
+        /*!
+          @brief Return the approximate size of all %Exif data (TIFF header plus 
+                 metadata). The number returned may be bigger than the actual 
+                 size of the %Exif data, but it is never smaller. Only copy()
+                 returns the exact size.
+         */
         long size() const;
         //! Returns the byte order as specified in the TIFF header
         ByteOrder byteOrder() const { return tiffHeader_.byteOrder(); }
@@ -1082,6 +1148,10 @@ namespace Exif {
         iterator findKey(const std::string& key);
         //! Find a metadatum by its key, return a const iterator to it
         const_iterator findKey(const std::string& key) const;
+        //! Sort metadata by key
+        void sortByKey();
+        //! Sort metadata by tag
+        void sortByTag();
         //! Delete the metadatum with a given key
         void erase(const std::string& key);
         //! Delete the metadatum at iterator position pos
@@ -1096,6 +1166,37 @@ namespace Exif {
             { return thumbnail_.write(path); }
 
     private:
+        // Return a pointer to the internal IFD identified by its IFD id
+        const Ifd* getIfd(IfdId ifdId) const;
+        /*
+          Check if the metadata changed and update the internal IFDs if the
+          changes are compatible with the existing data (non-intrusive write
+          support). Return true if only compatible changes were detected in the
+          metadata and the internal IFDs (i.e., data buffer) were updated
+          successfully. Return false, if non-intrusive writing is not
+          possible. The internal IFDs and the data buffer may or may not be
+          modified in this case.
+         */
+        bool updateIfds();
+        /*
+          Check if the metadata is compatible with the internal IFDs for
+          non-intrusive writing. Return true if compatible, false if not.
+
+          Note: This function does not detect deleted metadata as incompatible,
+          although the deletion of metadata is not (yet) a supported
+          non-intrusive write operation.
+         */
+        bool compatible() const;
+        /*
+          Write Exif data to a data buffer the hard way, return number of bytes
+          written. Rebuilds the Exif data from scratch, using the TIFF header,
+          metadata container and thumbnail. In particular, the internal IFDs and
+          the original data buffer are not used. Furthermore, this method
+          updates the Exif data with the metadata from the actual thumbnail
+          image (overriding existing metadata).
+         */
+        long copyFromMetadata(char* buf);
+
         TiffHeader tiffHeader_;
         Metadata metadata_;
         Thumbnail thumbnail_;
@@ -1169,12 +1270,22 @@ namespace Exif {
              else false. By definition, entries without an offset are greater
              than those with an offset.
      */
-    bool cmpOffset(const RawEntry& lhs, const RawEntry& rhs);        
+    bool cmpRawEntriesByOffset(const RawEntry& lhs, const RawEntry& rhs);        
     /*!
       @brief Compare two IFD entries by tag. Return true if the tag of entry
              lhs is less than that of rhs.
      */
-    bool cmpTag(const Entry& lhs, const Entry& rhs);
+    bool cmpEntriesByTag(const Entry& lhs, const Entry& rhs);
+    /*!
+      @brief Compare two metadata by tag. Return true if the tag of metadatum
+             lhs is less than that of rhs.
+     */
+    bool cmpMetadataByTag(const Metadatum& lhs, const Metadatum& rhs);
+    /*!
+      @brief Compare two metadata by key. Return true if the key of metadatum
+             lhs is less than that of rhs.
+     */
+    bool cmpMetadataByKey(const Metadatum& lhs, const Metadatum& rhs);
 
 // *****************************************************************************
 // template and inline definitions
