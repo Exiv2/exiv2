@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.26 $
+  Version:   $Name:  $ $Revision: 1.27 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.26 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.27 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -178,7 +178,7 @@ namespace Action {
         if (0 == printTag(exifData, "Image.CaptureConditions.ExposureTime")) {
             md = exifData.findKey("Image.CaptureConditions.ShutterSpeedValue");
             if (md != exifData.end()) {
-                double tmp = exp(log(2) * md->toFloat()) + 0.5;
+                double tmp = exp(log(2.0) * md->toFloat()) + 0.5;
                 if (tmp > 1) {
                     std::cout << "1/" << static_cast<long>(tmp) << " s";
                 }
@@ -197,7 +197,7 @@ namespace Action {
             md = exifData.findKey("Image.CaptureConditions.ApertureValue");
             if (md != exifData.end()) {
                 std::cout << std::fixed << std::setprecision(1)
-                          << "F" << exp(log(2) * md->toFloat() / 2);
+                          << "F" << exp(log(2.0) * md->toFloat() / 2);
             }
         }
         std::cout << "\n";
