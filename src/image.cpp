@@ -20,14 +20,14 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.1 $
+  Version:   $Name:  $ $Revision: 1.2 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.1 $ $RCSfile: image.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: image.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -224,6 +224,9 @@ namespace Exif {
         case bigEndian:
             buf[0] = 0x4d;
             buf[1] = 0x4d;
+            break;
+        case invalidByteOrder:
+            // do nothing
             break;
         }
         us2Data(buf+2, 0x002a, byteOrder_);
