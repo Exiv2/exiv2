@@ -134,12 +134,18 @@ namespace Exiv2 {
         //! Assignment operator
         DataBuf& operator=(const DataBuf&);
     public:
+        //! @name Creators
+        //@{
         //! Default constructor
         DataBuf() : size_(0), pData_(0) {}
         //! Constructor with an initial buffer size 
         DataBuf(long size) : size_(size), pData_(new byte[size]) {}
         //! Destructor, deletes the allocated buffer
         ~DataBuf() { delete[] pData_; }
+        //@}
+
+        //! @name Manipulators
+        //@{
         //! Allocate a data buffer of the given size
         void alloc(long size);
         /*!
@@ -147,6 +153,9 @@ namespace Exiv2 {
                  value, resets pData_ and size_ to 0.
          */
         byte* release();
+        //@}
+
+        // DATA
         //! The current size of the buffer
         long size_; 
         //! Pointer to the buffer, 0 if none has been allocated
@@ -154,10 +163,10 @@ namespace Exiv2 {
     }; // class DataBuf
 
     /*!
-      @brief Utility class that closes a file stream pointer upon destruction. 
-           Its primary use is to be a stack variable in functions that need
-           to ensure files get closed. Useful when functions return errors
-           from many locations.
+      @brief Utility class that closes a file stream pointer upon destruction.
+             Its primary use is to be a stack variable in functions that need to
+             ensure files get closed. Useful when functions return errors from
+             many locations.
      */
     class FileCloser {
         // Not implemented
@@ -166,13 +175,23 @@ namespace Exiv2 {
         //! Assignment operator
         FileCloser& operator=(const FileCloser&);
     public:
+        //! @name Creators
+        //@{
         //! Default constructor
         FileCloser() : fp_(0) {}
-        //! Constructor with an initial buffer size 
+        //! Constructor, takes a file stream pointer 
         FileCloser(FILE *fp) : fp_(fp) {}
-        //! Destructor, deletes the allocated buffer
+        //! Destructor, closes the file
         ~FileCloser() { close(); }
+        //@}
+
+        //! @name Manipulators
+        //@{
+        //! Close the file
         void close() { if (fp_) fclose(fp_); fp_ = 0; }
+        //@}
+
+        // DATA
         //! The file stream pointer
         FILE *fp_; 
     }; // class FileCloser
