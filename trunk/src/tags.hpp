@@ -21,7 +21,7 @@
 /*!
   @file    tags.hpp
   @brief   %Exif tag and type information
-  @version $Name:  $ $Revision: 1.13 $
+  @version $Name:  $ $Revision: 1.14 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    15-Jan-04, ahu: created
@@ -180,7 +180,7 @@ namespace Exif {
         //! Return the print function for the tag, IFD id combination
         static PrintFct printFct(uint16 tag, IfdId ifdId);
         //! Print a list of all tags to standart output
-        static void taglist();
+        static void taglist(std::ostream& os);
         
     private:
         static int tagInfoIdx(uint16 tag, IfdId ifdId);
