@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.36 $
+  @version $Name:  $ $Revision: 1.37 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -276,8 +276,10 @@ namespace Exif {
         //! @name Accessors
         //@{
         /*!
-          @brief Write thumbnail to file path, return 0 if successful, -1 if 
-                 there is no thumbnail image to write.
+          @brief  Write thumbnail to file path.
+          @return  0 if successful;<BR>
+                  -1 if the file couldn't be open;<BR>
+                   4 if writing to the output stream failed.
          */
         virtual int write(const std::string& path) const =0;
         /*!
@@ -530,6 +532,15 @@ namespace Exif {
           @return 0 if successful.
          */
         int write(const std::string& path);
+        /*!
+          @brief Write the %Exif data to a binary file. By convention, the
+                 filename extension should be ".exv". This file format contains
+                 the %Exif data as it is found in a JPEG file, starting with the
+                 APP1 marker 0xffe1, the size of the data and the string
+                 "Exif\0\0". Exv files can be read with 
+                 int read(const std::string& path) just like image %Exif data.
+         */
+        int writeExifData(const std::string& path);
         /*!
           @brief Write the %Exif data to a data buffer, return number of bytes 
                  written. The copied data starts with the TIFF header.

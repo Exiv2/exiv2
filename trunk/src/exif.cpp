@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.36 $
+  Version:   $Name:  $ $Revision: 1.37 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.36 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.37 $ $RCSfile: exif.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -270,9 +270,9 @@ namespace Exif {
     {
         std::string name = path + extension();
         std::ofstream file(name.c_str(), std::ios::binary);
-        if (!file) return 1;
+        if (!file) return -1;
         file.write(pImage_, size_);
-        if (!file.good()) return 2;
+        if (!file.good()) return 4;
         return 0;
     } // TiffThumbnail::write
 
@@ -410,9 +410,9 @@ namespace Exif {
     {
         std::string name = path + extension();
         std::ofstream file(name.c_str(), std::ios::binary);
-        if (!file) return 1;
+        if (!file) return -1;
         file.write(pImage_, size_);
-        if (!file.good()) return 2;
+        if (!file.good()) return 4;
         return 0;
     } // JpegThumbnail::write
 
@@ -483,11 +483,20 @@ namespace Exif {
         std::ifstream file(path.c_str(), std::ios::binary);
         if (!file) return -1;
         Image* pImage = ImageFactory::instance().create(file);
-        if (pImage == 0) return -2;
-        int rc = pImage->readExifData(file);
-        if (rc == 0) rc = read(pImage->exifData(), pImage->sizeExifData());
-        delete pImage;
-        return rc;
+        if (pImage) {
+            int rc = pImage->readExifData(file);
+            if (rc == 0) rc = read(pImage->exifData(), pImage->sizeExifData());
+            delete pImage;
+            return rc;
+        }
+        if (ExvFile::isThisType(file)) {
+            ExvFile exvFile;
+            int rc = exvFile.readExifData(file);
+            if (rc == 0) rc = read(exvFile.exifData(), exvFile.sizeExifData());
+            return rc;
+        }
+        // We don't know this type of file
+        return -2;
     }
 
     int ExifData::read(const char* buf, long len)
@@ -770,6 +779,19 @@ std::cerr << "->>>>>> writing from metadata <<<<<<-\n";
         }
         return size;
     } // ExifData::size
+
+    int ExifData::writeExifData(const std::string& path)
+    {
+        long size = this->size();
+        char* buf = new char[size];
+        long actualSize = copy(buf);
+        assert(actualSize <= size);
+
+        ExvFile exvFile;
+        exvFile.setExifData(buf, actualSize);
+        delete[] buf;
+        return exvFile.writeExifData(path);
+    } // ExifData::writeExifData
 
     void ExifData::add(Entries::const_iterator begin, 
                        Entries::const_iterator end,
