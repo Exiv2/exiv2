@@ -20,7 +20,7 @@
 # 02111-1307, USA.
 #
 # File:      Makefile
-# Version:   $Name:  $ $Revision: 1.19 $
+# Version:   $Name:  $ $Revision: 1.20 $
 # Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
 # History:   10-Dec-03, ahu: created
 #
@@ -28,7 +28,7 @@
 #  Do NOT change this file! All system specific settings and configs
 #  go into config.mk.
 #
-#  This makefile contains (supposedly) generic build rules to build a
+#  This makefile contains (supposedly) generic build rules to build the
 #  library and applications. It includes all system specific settings
 #  from config.mk. The idea is that configuring and porting the 
 #  software to a new platform should only require changes in config.mk.
@@ -205,7 +205,7 @@ ifdef STATIC_LIBS
 $(BINARY): $(ARCHIVE) mn.o
 endif
 
-$(EXIV2BIN): $(EXIV2OBJ)
+$(EXIV2BIN): lib $(EXIV2OBJ)
 
 bin: lib $(BINARY) $(EXIV2BIN)
 

@@ -6,12 +6,12 @@
 
   RCS information
    $Name:  $
-   $Revision: 1.2 $
+   $Revision: 1.3 $
  */
 
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: utiltest.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: utiltest.cpp,v $")
 
 // *********************************************************************
 // included header files
@@ -20,9 +20,20 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: utiltest.cpp,v $")
 #include <iostream>
 #include <iomanip>
 
+void testStrtol();
+void testStrError();
+void testPaths();
+void testPath(const std::string& path);
+
 // *********************************************************************
 // Main
 int main(int argc, char* const argv[])
+{
+    testPaths();
+    return 0;
+}
+
+void testStrtol()
 {
     bool rc;
     long n(0);
@@ -44,8 +55,6 @@ int main(int argc, char* const argv[])
     std::cout << "s = `" << s << "' rc = " << rc << " n = " << n << "\n";
     s = "12p"; rc = Util::strtol(s.c_str(), n);
     std::cout << "s = `" << s << "' rc = " << rc << " n = " << n << "\n";
-
-    return 0;
 }
 
 void testStrError()
@@ -63,7 +72,6 @@ void testStrError()
 void testPaths()
 {
     std::string path;
-    void testPath(const std::string path);
     path = "/usr/lib"; testPath(path);
     path = "/usr/";  testPath(path);
     path = "usr";  testPath(path);
@@ -76,6 +84,7 @@ void testPaths()
     path = "/usr/.emacs//";  testPath(path);
     path = "usr/.emacs";  testPath(path);
     path = ".emacs";  testPath(path);
+    path = ".emacs.gz";  testPath(path);
     path = "/tmp/image.jpg";  testPath(path);
     path = "/tmp/.image.jpg";  testPath(path);
     path = "/image.jpg";  testPath(path);
@@ -84,9 +93,10 @@ void testPaths()
     path = "/////image.jpg";  testPath(path);
     path = "/foo.bar/image";  testPath(path);
     path = "/foo.bar/images.tar.gz";  testPath(path);
+    path = "d:\\foo.bar\\images.tar.gz";  testPath(path);
 }
 
-void testPath(const std::string path)
+void testPath(const std::string& path)
 {
     std::cout << std::setw(15) << path << " " 
               << std::setw(15) << Util::dirname(path) << " " 
