@@ -20,7 +20,7 @@
  */
 /*
   File:      canonmn.cpp
-  Version:   $Name:  $ $Revision: 1.2 $
+  Version:   $Name:  $ $Revision: 1.3 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
              07-Mar-04, ahu: isolated as a separate component
@@ -30,7 +30,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: canonmn.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: canonmn.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -67,14 +67,14 @@ namespace Exif {
         MakerNote::MnTagInfo(0xffff, "(UnknownCanonMakerNoteTag)", "Unknown CanonMakerNote tag")
     };
 
-    CanonMakerNote::CanonMakerNote()
-        : IfdMakerNote(canonMnTagInfo), sectionName_("Canon")
+    CanonMakerNote::CanonMakerNote(bool alloc)
+        : IfdMakerNote(canonMnTagInfo, alloc), sectionName_("Canon")
     {
     }
 
-    MakerNote* CanonMakerNote::clone() const 
+    MakerNote* CanonMakerNote::clone(bool alloc) const 
     {
-        return new CanonMakerNote(*this); 
+        return createCanonMakerNote(alloc); 
     }
 
     std::ostream& CanonMakerNote::printTag(std::ostream& os, 
@@ -459,6 +459,14 @@ namespace Exif {
         // Todo: Decode EOS D30 Custom Functions
         return os << "EOS D30 Custom Functions "
                   << value << " (Todo: decode this field)";
+    }
+
+// *****************************************************************************
+// free functions
+
+    MakerNote* createCanonMakerNote(bool alloc)
+    {
+        return new CanonMakerNote(alloc);         
     }
 
 }                                       // namespace Exif

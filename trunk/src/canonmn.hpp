@@ -23,7 +23,7 @@
   @brief   Canon MakerNote implemented according to the specification
            "EXIF MakerNote of Canon" <http://www.burren.cx/david/canon.html>
            by David Burren
-  @version $Name:  $ $Revision: 1.2 $
+  @version $Name:  $ $Revision: 1.3 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -45,7 +45,25 @@
 // namespace extensions
 namespace Exif {
 
+// *****************************************************************************
+// class declarations
     class Value;
+
+// *****************************************************************************
+// free functions
+
+    /*!
+      @brief Return a pointer to a newly created empty MakerNote initialized to
+             operate in the memory management model indicated.  The caller owns
+             this copy and is responsible to delete it!
+      
+      @param alloc Memory management model for the new MakerNote. Determines if
+             memory required to store data should be allocated and deallocated
+             (true) or not (false). If false, only pointers to the buffer
+             provided to read() will be kept. See Ifd for more background on
+             this concept.
+     */
+    MakerNote* createCanonMakerNote(bool alloc =true);
 
 // *****************************************************************************
 // class definitions
@@ -54,16 +72,19 @@ namespace Exif {
     class CanonMakerNote : public IfdMakerNote {
     public:
         //! @name Creators
-        //@{        
-        //! Default constructor
-        CanonMakerNote();
+        //@{
+        /*!
+          @brief Constructor. Allows to choose whether or not memory management
+                 is required for the makernote entries.
+         */
+        CanonMakerNote(bool alloc =true);
         //! Virtual destructor
         virtual ~CanonMakerNote() {}
         //@}
 
         //! @name Accessors
         //@{        
-        MakerNote* clone() const;
+        MakerNote* clone(bool alloc =true) const;
         //! Return the name of the makernote section ("Canon")
         std::string sectionName(uint16 tag) const { return sectionName_; }
         std::ostream& printTag(std::ostream& os,
@@ -92,7 +113,7 @@ namespace Exif {
             RegisterMakerNote() 
             {
                 MakerNoteFactory& mnf = MakerNoteFactory::instance();
-                mnf.registerMakerNote("Canon", "*", new CanonMakerNote); 
+                mnf.registerMakerNote("Canon", "*", createCanonMakerNote); 
             }
         };
         /*!
@@ -113,7 +134,7 @@ namespace Exif {
         std::string sectionName_;
 
     }; // class CanonMakerNote
-   
+
 }                                       // namespace Exif
 
 #endif                                  // #ifndef CANONMN_HPP_
