@@ -20,14 +20,14 @@
  */
 /*
   File:      ifd.cpp
-  Version:   $Name:  $ $Revision: 1.12 $
+  Version:   $Name:  $ $Revision: 1.13 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.12 $ $RCSfile: ifd.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.13 $ $RCSfile: ifd.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -40,9 +40,10 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.12 $ $RCSfile: ifd.cpp,v $")
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <vector>
 #include <algorithm>
 #include <cstring>
-#include <vector>
+#include <cassert>
 
 // *****************************************************************************
 // class member definitions
@@ -105,9 +106,7 @@ namespace Exif {
     void Entry::setValue(uint32 data, ByteOrder byteOrder)
     {
         if (data_ == 0 || size_ < 4) {
-            if (!alloc_) {
-                throw Error("cannot allocate memory");
-            }
+            assert(alloc_);
             size_ = 4;
             delete[] data_;
             data_ = new char[size_];
@@ -327,13 +326,8 @@ namespace Exif {
 
     void Ifd::add(const Entry& entry)
     {
-        // Todo: Implement Assert (Stroustup 24.3.7.2)
-        if (alloc_ != entry.alloc()) {
-            throw Error("Ifd::add : alloc mismatch");
-        }
-        if (ifdId_ != entry.ifdId()) {
-            throw Error("Ifd::add : ifdId mismatch");
-        }
+        assert(alloc_ == entry.alloc());
+        assert(ifdId_ == entry.ifdId());
         // allow duplicates
         entries_.push_back(entry);
     }
