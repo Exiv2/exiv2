@@ -20,16 +20,18 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.28 $
+  Version:   $Name:  $ $Revision: 1.29 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.28 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.29 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
+#include <config.h>
+
 #include "actions.hpp"
 #include "exiv2.hpp"
 #include "utils.hpp"
@@ -49,7 +51,7 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.28 $ $RCSfile: actions.cpp,v $")
 #include <cmath>
 #include <sys/types.h>                  // for stat()
 #include <sys/stat.h>                   // for stat()
-#ifndef _MSC_VER
+#if defined HAVE_UNISTD_H && !defined _MSC_VER
 #include <unistd.h>                     // for stat()
 #endif
 

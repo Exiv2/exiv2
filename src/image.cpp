@@ -20,17 +20,19 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.17 $
+  Version:   $Name:  $ $Revision: 1.18 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.17 $ $RCSfile: image.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.18 $ $RCSfile: image.cpp,v $")
 
 // *****************************************************************************
 // included header files
+#include <config.h>
+
 #include "image.hpp"
 #include "types.hpp"
 
@@ -44,7 +46,9 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.17 $ $RCSfile: image.cpp,v $")
 typedef int pid_t;
 #else
 #include <sys/types.h>                          // for getpid
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>                             // for getpid
+#endif
 #endif
 
 // *****************************************************************************
