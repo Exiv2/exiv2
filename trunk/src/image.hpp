@@ -21,7 +21,7 @@
 /*!
   @file    image.hpp
   @brief   Class JpegImage to access JPEG images
-  @version $Name:  $ $Revision: 1.7 $
+  @version $Name:  $ $Revision: 1.8 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -286,6 +286,11 @@ namespace Exif {
         /*!
           @brief  Determine if the content of the stream is a JPEG image. 
           @param  is Input stream to test.
+          @param advance Flag indicating whether the read position in the stream
+                         should be advanced by the number of characters read to
+                         analyse the image stream (true) or left at its original
+                         position (false). This applies only if the image type 
+                         matches.
           @return true if the input stream starts with the JPEG SOI marker.
                   The stream is not advanced in this case.<BR>
                   false if the input stream does not begin with the JPEG SOI

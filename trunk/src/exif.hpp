@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.34 $
+  @version $Name:  $ $Revision: 1.35 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -658,6 +658,10 @@ namespace Exif {
         //! Return the file extension of the thumbnail image file
         const char* thumbnailFormat() const
             { return pThumbnail_ ? pThumbnail_->format() : ""; }
+        /*!
+          @brief Return the file extension for the format of the thumbnail 
+                 (".tif", ".jpg").
+         */
         const char* thumbnailExtension() const 
             { return pThumbnail_ ? pThumbnail_->extension() : ""; }
         /*!
