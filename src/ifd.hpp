@@ -21,7 +21,7 @@
 /*!
   @file    ifd.hpp
   @brief   Encoding and decoding of IFD (Image File Directory) data
-  @version $Name:  $ $Revision: 1.9 $
+  @version $Name:  $ $Revision: 1.10 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -156,6 +156,11 @@ namespace Exif {
           to this pointer.
         */
         const char* data() const { return data_; }
+        /*!
+          @brief Return a pointer to the n-th component, 0 if there is no 
+                 n-th component. Do not attempt to write to this pointer.
+         */
+        const char* component(uint32 n) const;
         //! Get the memory allocation mode
         bool alloc() const { return alloc_; }
         //@}
