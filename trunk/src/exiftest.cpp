@@ -3,11 +3,11 @@
   Abstract : This is playground code, do what you want with it.
 
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  Version  : $Name:  $ $Revision: 1.16 $
+  Version  : $Name:  $ $Revision: 1.17 $
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.16 $ $RCSfile: exiftest.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.17 $ $RCSfile: exiftest.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -44,23 +44,6 @@ try {
 
     exifPrint(exifData);
     exifData.writeThumbnail("thumb");
-
-    std::string key = "Image.UserInfo.UserComment";
-    Value* value = Value::create(undefined);
-    value->read("ASCII\0\0\0Chan Yee Send", 21, bigEndian);
-    exifData.add(key, value);
-    delete value;
-    key = "Image.OtherTags.Copyright";
-    value = Value::create(asciiString);
-    value->read(std::string("Photographer\0", 13));
-//    value->read(std::string(" \0Editor\0", 9));
-//    value->read(std::string("Photographer\0Editor\0", 20));
-    std::cout << "value size is (20) " << value->size() << "\n";
-    std::cout << "value is " << *value << "\n";
-
-    exifData.add(key, value);
-
-    delete value;
 
     char* buf = new char[1024*128];
     long siz = exifData.copy(buf);
@@ -112,7 +95,6 @@ void exifPrint(const ExifData& exifData)
 
 //                  << " | " << i->key() 
                   << " | " << i->ifdName()
-                  << " | " << i->ifdIdx()
 
                   << "\n";
     }
