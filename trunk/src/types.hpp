@@ -21,7 +21,7 @@
 /*!
   @file    types.hpp
   @brief   Type definitions for Exiv2 and related functionality
-  @version $Name:  $ $Revision: 1.4 $
+  @version $Name:  $ $Revision: 1.5 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -168,7 +168,7 @@ namespace Exif {
 
     //! Utility function to convert the argument of any type to a string
     template<typename T> 
-    std::string toString(T arg)
+    std::string toString(const T& arg)
     {
         std::ostringstream os;
         os << arg;
