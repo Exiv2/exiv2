@@ -20,7 +20,7 @@
 # 02111-1307, USA.
 #
 # File:      config.mk
-# Version:   $Name:  $ $Revision: 1.5 $
+# Version:   $Name:  $ $Revision: 1.6 $
 # Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
 # History:   10-Dec-03, ahu: created
 #
@@ -78,6 +78,10 @@ CFLAGS = $(CXXFLAGS)
 INCS = -I. -I$(top_srcdir) -I$(incdir)
 LIBS = -L. -L$(libdir) -L/usr/local/lib
 DEFS = 
+
+# **********************************************************************
+# Functions
+HAVE_TIMEGM = 1
 
 # **********************************************************************
 # Archive management

@@ -13,7 +13,7 @@
 #define PACKAGE_VERSION "0.4"
 
 /* Define as 1 if you have the timegm function */
-#undef HAVE_TIMEGM
+#define HAVE_TIMEGM 1
 
 /* Define as 1 if you have unistd.h */
 #define HAVE_UNISTD_H 1
