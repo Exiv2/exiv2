@@ -22,13 +22,13 @@
   Abstract:  Command line program to display and manipulate image %Exif data
 
   File:      exiv2.cpp
-  Version:   $Name:  $ $Revision: 1.14 $
+  Version:   $Name:  $ $Revision: 1.15 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   10-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.14 $ $RCSfile: exiv2.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.15 $ $RCSfile: exiv2.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -57,6 +57,15 @@ namespace {
     // Evaluate [-]HH[:MM[:SS]], returns true and sets time to the value
     // in seconds if successful, else returns false.
     bool parseTime(const std::string& ts, long& time);
+
+    /*!
+      @brief Parse the oparg string into a bitmap of common targets.
+      @param optarg Option arguments
+      @param action Action being processed
+      @return A bitmap of common targets or -1 in case of a parse error 
+     */
+    int parseCommonTargets(const std::string& optarg,
+                           const std::string& action);
 }
 
 // *****************************************************************************
@@ -131,12 +140,12 @@ void Params::help(std::ostream& os) const
 {
     usage(os);
     os << "\nActions:\n"
-       << "  ad | adjust   Adjust the metadata timestamp by the given time. This\n"
+       << "  ad | adjust   Adjust Exif timestamps by the given time. This\n"
        << "                action requires the option -a time.\n"
-       << "  pr | print    Print the Exif (or other) image metadata.\n"
+       << "  pr | print    Print Exif or Iptc image metadata.\n"
        << "  rm | delete   Delete the Exif section or thumbnail from the files.\n"
-       << "  ex | extract  Extract the Exif data or Exif thumbnail to files.\n"
-       << "  in | insert   Insert the Exif data from corresponding *.exv files.\n"
+       << "  in | insert   Insert metadata from corresponding *.exv files.\n"
+       << "  ex | extract  Extract metadata to *.exv and thumbnail image files.\n"
        << "  mv | rename   Rename files according to the Exif create timestamp.\n"
        << "                The filename format can be set with -r format.\n"
        << "\nOptions:\n"
@@ -146,16 +155,24 @@ void Params::help(std::ostream& os) const
        << "   -f      Do not prompt before overwriting existing files (force).\n"
        << "   -a time Time adjustment in the format [-]HH[:MM[:SS]]. This option\n"
        << "           is only used with the `adjust' action.\n"
-       << "   -p mode Print mode for the `print' action. Possible modes are `s'\n"
-       << "           for a summary (the default), `i' for interpreted Exif data,\n"
-       << "           `v' for plain Exif data values, `h' for a hexdump of the\n"
-       << "           Exif data and `I' for Iptc data values.\n"
+       << "   -p mode Print mode for the `print' action. Possible modes are:\n"
+       << "             s : print a summary of the Exif metadata (the default)\n"
+       << "             t : interpreted (translated) Exif data\n"
+       << "             v : plain Exif data values\n"
+       << "             h : hexdump of the Exif data\n"
+       << "             i : Iptc data values\n"
+       << "             c : Jpeg comment\n"
        << "   -d tgt  Delete target for the `delete' action. Possible targets are\n"
        << "           `e' to delete the whole Exif section (the default) and `t'\n"
        << "           to delete only the Exif thumbnail from the files.\n"
+       << "   -i tgt  Insert target for the `insert' action. Possible targets are:\n"
+       << "             a : all supported metadata (default)\n"
+       << "             e : Exif data\n"
+       << "             i : Iptc data\n"
+       << "             c : Jpeg comment\n"
        << "   -e tgt  Extract target for the `extract' action. Possible targets\n"
-       << "           are `e' to extract the Exif data to a binary file (the\n"
-       << "           default) and `t' to extract only the Exif thumbnail.\n"
+       << "           are the same as those for the -i option plus:\n"
+       << "             t : extract the Exif thumbnail to an image file\n"
        << "   -r fmt  Filename format for the `rename' action. The format string\n"
        << "           follows strftime(3). Default filename format is " 
        <<             format_ << ".\n\n";
@@ -213,11 +230,12 @@ int Params::option(int opt, const std::string& optarg, int optopt)
         case Action::none:
             action_ = Action::print;
             switch (optarg[0]) {
-            case 's': printMode_ = summary; break;
-            case 'i': printMode_ = interpreted; break;
-            case 'v': printMode_ = values; break;
-            case 'h': printMode_ = hexdump; break;
-            case 'I': printMode_ = iptc; break;
+            case 's': printMode_ = pmSummary; break;
+            case 't': printMode_ = pmInterpreted; break;
+            case 'v': printMode_ = pmValues; break;
+            case 'h': printMode_ = pmHexdump; break;
+            case 'i': printMode_ = pmIptc; break;
+            case 'c': printMode_ = pmComment; break;
             default:
                 std::cerr << progname() << ": Unrecognized print mode `"
                           << optarg << "'\n";
@@ -241,8 +259,8 @@ int Params::option(int opt, const std::string& optarg, int optopt)
         case Action::none:
             action_ = Action::erase;
             switch (optarg[0]) {
-            case 'e': delTarget_ = delExif; break;
-            case 't': delTarget_ = delThumb; break;
+            case 'e': target_ = ctExif; break;
+            case 't': target_ = ctThumb; break;
             default:
                 std::cerr << progname() << ": Unrecognized delete target `"
                           << optarg << "'\n";
@@ -265,23 +283,44 @@ int Params::option(int opt, const std::string& optarg, int optopt)
         switch (action_) {
         case Action::none:
             action_ = Action::extract;
-            switch (optarg[0]) {
-            case 'e': extractTarget_ = extExif; break;
-            case 't': extractTarget_ = extThumb; break;
-            default:
-                std::cerr << progname() << ": Unrecognized extract target `"
-                          << optarg << "'\n";
-                rc = 1;
-                break;
-            }
-            break;
+            target_ = 0;
+            // fallthrough
         case Action::extract:
-            std::cerr << progname() 
-                      << ": Ignoring surplus option -e" << optarg << "\n";
+            rc = parseCommonTargets(optarg, "extract");
+            if (rc > 0) {
+                target_ |= rc;
+                rc = 0;
+            }
+            else {    
+                rc = 1;
+            }
             break;
         default:
             std::cerr << progname() 
                       << ": Option -e is not compatible with a previous option\n";
+            rc = 1;
+            break;
+        }
+        break;
+    case 'i':
+        switch (action_) {
+        case Action::none:
+            action_ = Action::insert;
+            target_ = 0;
+            // fallthrough
+        case Action::insert:
+            rc = parseCommonTargets(optarg, "insert");
+            if (rc > 0) {
+                target_ |= rc;
+                rc = 0;
+            }
+            else {    
+                rc = 1;
+            }
+            break;
+        default:
+            std::cerr << progname() 
+                      << ": Option -i is not compatible with a previous option\n";
             rc = 1;
             break;
         }
@@ -443,5 +482,29 @@ namespace {
         time = sign * (hh * 3600 + mm * 60 + ss);
         return true;
     } // parseTime
+
+    int parseCommonTargets(const std::string& optarg, 
+                           const std::string& action)
+    {
+        int rc = 0;
+        int target = 0;
+        for (size_t i = 0; i < optarg.size(); ++i) {
+            switch (optarg[i]) {
+            case 'e': target |= Params::ctExif; break;
+            case 'i': target |= Params::ctIptc; break;
+            case 'c': target |= Params::ctComment; break;
+            case 't': target |= Params::ctThumb; break;
+            case 'a': target |=   Params::ctExif 
+                                | Params::ctIptc
+                                | Params::ctComment; break;
+            default:
+                std::cerr << Params::instance().progname() << ": Unrecognized " 
+                          << action << " target `" << optarg << "'\n";
+                rc = -1;
+                break;
+            }
+        }
+        return rc ? rc : target;
+    } // parseCommonTargets
 
 }

@@ -21,7 +21,7 @@
 /*!
   @file    exiv2.hpp
   @brief   Defines class Params, used for the command line handling of exiv2
-  @version $Name:  $ $Revision: 1.4 $
+  @version $Name:  $ $Revision: 1.5 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    08-Dec-03, ahu: created
@@ -86,11 +86,10 @@ public:
     static Params& instance();
 
     //! Enumerates print modes
-    enum PrintMode { summary, interpreted, values, hexdump, iptc };
-    //! Enumerates delete targets
-    enum DelTarget { delExif, delThumb };
-    //! Enumerates extract targets
-    enum ExtractTarget { extExif, extThumb };
+    enum PrintMode { pmSummary, pmInterpreted, pmValues, pmHexdump, pmIptc, 
+                     pmComment };
+    //! Enumerates common targets, bitmap
+    enum commonTarget { ctExif = 1, ctIptc = 2, ctComment = 4, ctThumb = 8 };
 
     bool help_;                         //!< Help option flag.
     bool version_;                      //!< Version option flag.
@@ -98,10 +97,9 @@ public:
     bool force_;                        //!< Force overwrites flag. 
     bool adjust_;                       //!< Adjustment flag.
     PrintMode printMode_;               //!< Print mode. 
-    DelTarget delTarget_;               //!< What to delete.
-    ExtractTarget extractTarget_;       //!< What to extract.
     //! %Action (integer rather than TaskType to avoid dependency).
     int  action_;
+    int  target_;                       //!< What common target to process.
 
     long adjustment_;                   //!< Adjustment in seconds.
     std::string format_;                //!< Filename format (-r option arg).
@@ -114,18 +112,17 @@ public:
 private:
     /*!
       @brief Default constructor. Note that optstring_ is initialized here.
-             Private to force instantiation through instance().
+             The c'tor is private to force instantiation through instance().
      */
-    Params() : optstring_(":hVvfa:r:p:d:e:"),
+    Params() : optstring_(":hVvfa:r:p:d:e:i:"),
                help_(false), 
                version_(false),
                verbose_(false), 
                force_(false), 
                adjust_(false),
-               printMode_(summary),
-               delTarget_(delExif),
-               extractTarget_(extExif),
+               printMode_(pmSummary),
                action_(0),
+               target_(ctExif|ctIptc|ctComment),
                adjustment_(0),
                format_("%Y%m%d_%H%M%S"),
                first_(true) {}

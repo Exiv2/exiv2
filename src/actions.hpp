@@ -22,7 +22,7 @@
   @file    actions.hpp
   @brief   Implements base class Task, TaskFactory and the various supported
            actions (derived from Task).
-  @version $Name:  $ $Revision: 1.11 $
+  @version $Name:  $ $Revision: 1.12 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    11-Dec-03, ahu: created
@@ -149,6 +149,8 @@ namespace Action {
         typedef std::auto_ptr<Print> AutoPtr;
         AutoPtr clone() const;
 
+        //! Print the Jpeg comment
+        int printComment();
         //! Print uninterpreted Iptc information 
         int printIptc();
         //! Print Exif summary information
@@ -248,12 +250,7 @@ namespace Action {
                  "-thumb" and the appropriate suffix (".jpg" or ".tif"), depending
                  on the format of the Exif thumbnail image.
          */
-        int writeThumbnail(const Exiv2::ExifData& exifData) const; 
-        /*!
-          @brief Write the Exif data to a file. The filename is composed by
-                 replacing the suffix of the image filename with ".exf".
-         */
-        int writeExifData(Exiv2::ExifData& exifData) const;
+        int writeThumbnail() const; 
 
     private:
         virtual Extract* clone_() const;

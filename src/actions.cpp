@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.36 $
+  Version:   $Name:  $ $Revision: 1.37 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.36 $ $RCSfile: actions.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.37 $ $RCSfile: actions.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -79,6 +79,15 @@ namespace {
     // Convert a UTC time to a string "YYYY:MM:DD HH:MI:SS", "" on error
     std::string time2Str(time_t time);
 
+    /*!
+      @brief Copy metadata from source to target according to Params::copyXyz
+
+      @param source Source file path
+      @param target Target file path. An *.exv file is created if target doesn't
+                    exist.
+      @return 0 if successful, else an error code
+    */
+    int metacopy(const std::string& source, const std::string& target);
 }
 
 // *****************************************************************************
@@ -135,11 +144,12 @@ namespace Action {
         path_ = path;
         int rc = 0;
         switch (Params::instance().printMode_) {
-        case Params::summary:     rc = printSummary(); break;
-        case Params::interpreted: rc = printInterpreted(); break;
-        case Params::values:      rc = printValues(); break;
-        case Params::hexdump:     rc = printHexdump(); break;
-        case Params::iptc:        rc = printIptc(); break;
+        case Params::pmSummary:     rc = printSummary(); break;
+        case Params::pmInterpreted: rc = printInterpreted(); break;
+        case Params::pmValues:      rc = printValues(); break;
+        case Params::pmHexdump:     rc = printHexdump(); break;
+        case Params::pmIptc:        rc = printIptc(); break;
+        case Params::pmComment:     rc = printComment(); break;
         }
         return rc;
     }
@@ -509,7 +519,6 @@ namespace Action {
         return 0;
     } // Print::printIptc
 
-
     int Print::printHexdump()
     {
         Exiv2::ExifData exifData;
@@ -542,6 +551,34 @@ namespace Action {
 
         return 0;
     } // Print::printHexdump
+
+    int Print::printComment()
+    {
+        if (!Util::fileExists(path_, true)) {
+            std::cerr << path_
+                      << ": Failed to open the file\n";
+            return -1;
+        }
+        Exiv2::Image* pImage = Exiv2::ImageFactory::instance().open(path_);
+        if (!pImage) {
+            std::cerr << path_
+                      << ": The file contains data of an unknown image type\n";
+            return -2;
+        }
+        int rc = pImage->readMetadata();
+        pImage->detach();
+        if (rc) {
+            std::cerr << path_
+                      << ": Could not read metadata\n";
+            return 1;
+        }
+        if (Params::instance().verbose_) {
+            std::cout << "Jpeg comment: ";
+        }
+        std::cout << pImage->comment() << "\n";
+        delete pImage;
+        return 0;
+    } // Print::printComment
 
     Print::AutoPtr Print::clone() const
     {
@@ -645,9 +682,9 @@ namespace Action {
             std::cerr << Exiv2::ExifData::strError(rc, path) << "\n";
             return rc;
         }
-        switch (Params::instance().delTarget_) {
-        case Params::delExif:  rc = eraseExifData(exifData); break;
-        case Params::delThumb: rc = eraseThumbnail(exifData); break;
+        switch (Params::instance().target_) {
+        case Params::ctExif:  rc = eraseExifData(exifData); break;
+        case Params::ctThumb: rc = eraseThumbnail(exifData); break;
         }
         return rc;
     }
@@ -703,17 +740,20 @@ namespace Action {
     int Extract::run(const std::string& path)
     try {
         path_ = path;
-        Exiv2::ExifData exifData;
-        int rc = exifData.read(path);
-        if (rc) {
-            std::cerr << Exiv2::ExifData::strError(rc, path) << "\n";
-            return rc;
+        int rc = 0;
+        if (Params::instance().target_ & Params::ctThumb) {
+            rc = writeThumbnail(); 
         }
-        switch (Params::instance().extractTarget_) {
-        case Params::extExif:  rc = writeExifData(exifData); break;
-        case Params::extThumb: rc = writeThumbnail(exifData); break;
+        std::string exvPath =   Util::dirname(path_) + SEPERATOR_STR
+                              + Util::basename(path_, true) + ".exv";
+        if (!Params::instance().force_ && Util::fileExists(exvPath)) {
+            std::cout << Params::instance().progname() 
+                      << ": Overwrite `" << exvPath << "'? ";
+            std::string s;
+            std::cin >> s;
+            if (s[0] != 'y' && s[0] != 'Y') return 0;
         }
-        return rc;
+        return metacopy(path_, exvPath);
     }
     catch(const Exiv2::Error& e)
     {
@@ -722,30 +762,14 @@ namespace Action {
         return 1;
     } // Extract::run
 
-    int Extract::writeExifData(Exiv2::ExifData& exifData) const
+    int Extract::writeThumbnail() const
     {
-        std::string exvPath =   Util::dirname(path_) + SEPERATOR_STR
-                              + Util::basename(path_, true) + ".exv";
-        if (Params::instance().verbose_) {
-            std::cout << "Writing Exif data to " << exvPath << "\n";
-        }
-        if (!Params::instance().force_ && Util::fileExists(exvPath)) {
-            std::cout << Params::instance().progname() 
-                      << ": Overwrite `" << exvPath << "'? ";
-            std::string s;
-            std::cin >> s;
-            if (s[0] != 'y' && s[0] != 'Y') return 0;
-        }
-        int rc = exifData.writeExifData(exvPath);
+        Exiv2::ExifData exifData;
+        int rc = exifData.read(path_);
         if (rc) {
-            std::cerr << Exiv2::ExifData::strError(rc, exvPath) << "\n";
+            std::cerr << Exiv2::ExifData::strError(rc, path_) << "\n";
+            return rc;
         }
-        return rc;
-    }
-
-    int Extract::writeThumbnail(const Exiv2::ExifData& exifData) const
-    {
-        int rc = 0;
         std::string thumb =   Util::dirname(path_) + SEPERATOR_STR
                             + Util::basename(path_, true) + "-thumb";
         std::string thumbExt = exifData.thumbnailExtension();
@@ -772,7 +796,7 @@ namespace Action {
             }
         }
         return rc;
-    }
+    } // Extract::writeThumbnail
 
     Extract::AutoPtr Extract::clone() const
     {
@@ -788,20 +812,7 @@ namespace Action {
     try {
         std::string exvPath =   Util::dirname(path) + SEPERATOR_STR
                               + Util::basename(path, true) + ".exv";
-        Exiv2::ExifData exifData;
-        int rc = exifData.read(exvPath);
-        if (rc) {
-            std::cerr << Exiv2::ExifData::strError(rc, exvPath) << "\n";
-            return rc;
-        }
-        if (Params::instance().verbose_) {
-            std::cout << "Inserting metadata from " << exvPath << "\n";
-        }
-        rc = exifData.write(path);
-        if (rc) {
-            std::cerr << Exiv2::ExifData::strError(rc, path) << "\n";
-        }
-        return rc;
+        return metacopy(exvPath, path);
     }
     catch(const Exiv2::Error& e)
     {
@@ -949,4 +960,69 @@ namespace {
 
         return os.str();
     } // time2Str
+
+    int metacopy(const std::string& source, const std::string& target) 
+    {
+        if (!Util::fileExists(source, true)) {
+            std::cerr << source
+                      << ": Failed to open the file\n";
+            return -1;
+        }
+        Exiv2::Image* pSource = Exiv2::ImageFactory::instance().open(source);
+        if (!pSource) {
+            std::cerr << source
+                      << ": The file contains data of an unknown image type\n";
+            return -2;
+        }
+        int rc = pSource->readMetadata();
+        pSource->detach();
+        if (rc) {
+            std::cerr << source
+                      << ": Could not read metadata\n";
+            return 1;
+        }
+        Exiv2::Image* pTarget = Exiv2::ImageFactory::instance().open(target);
+        if (!pTarget) {
+            pTarget = Exiv2::ImageFactory::instance().create(Exiv2::Image::exv, 
+                                                             target);
+        }
+        if (!pTarget) {
+            std::cerr << target 
+                      << ": Could not open nor create the file\n";
+            return 2;
+        }
+        if (   Params::instance().target_ & Params::ctExif
+            && pSource->sizeExifData() > 0) {
+            if (Params::instance().verbose_) {
+                std::cout << "Writing Exif data from " << source 
+                          << " to " << target << "\n";
+            }
+            pTarget->setExifData(pSource->exifData(), pSource->sizeExifData());
+        }
+        if (   Params::instance().target_ & Params::ctIptc
+            && pSource->sizeIptcData() > 0) {
+            if (Params::instance().verbose_) {
+                std::cout << "Writing Iptc data from " << source 
+                          << " to " << target << "\n";
+            }
+            pTarget->setIptcData(pSource->iptcData(), pSource->sizeIptcData());
+        }
+        if (   Params::instance().target_ & Params::ctComment
+            && !pSource->comment().empty()) {
+            if (Params::instance().verbose_) {
+                std::cout << "Writing Jpeg comment from " << source 
+                          << " to " << target << "\n";
+            }
+            pTarget->setComment(pSource->comment());
+        }
+        rc = pTarget->writeMetadata();
+        if (rc) {
+            std::cerr << target <<
+                ": Could not write metadata to file, rc = " << rc << "\n";
+        }
+        delete pSource;
+        delete pTarget;
+        return rc;
+
+    } // metacopy
 }
