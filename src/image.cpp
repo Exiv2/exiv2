@@ -20,14 +20,14 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.6 $
+  Version:   $Name:  $ $Revision: 1.7 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: image.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.7 $ $RCSfile: image.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -149,12 +149,10 @@ namespace Exif {
     int JpegImage::readExifData(std::istream& is)
     {
         // Check if this is a JPEG image in the first place
-        if (!isThisType(is)) {
+        if (!isThisType(is, true)) {
             if (!is.good()) return 1;
             return 2;
         }
-        // isThisType does not advance the stream, so do this now
-        is.seekg(2, std::ios::cur);
 
         // Read and check section marker and size
         char tmpbuf[10];
@@ -213,12 +211,10 @@ namespace Exif {
     int JpegImage::writeExifData(std::ostream& os, std::istream& is) const
     {
         // Check if this is a JPEG image in the first place
-        if (!isThisType(is)) {
+        if (!isThisType(is, true)) {
             if (!is.good()) return 1;
             return 2;
         }
-        // isThisType does not advance the stream, so do this now
-        is.seekg(2, std::ios::cur);
 
         // Read and check section marker and size
         char tmpbuf[12];
@@ -263,7 +259,7 @@ namespace Exif {
         return new JpegImage(*this);
     }
 
-    bool JpegImage::isThisType(std::istream& is) const
+    bool JpegImage::isThisType(std::istream& is, bool advance) const
     {
         char c;
         is.get(c);
@@ -278,7 +274,7 @@ namespace Exif {
             is.seekg(-2, std::ios::cur);
             return false;
         }
-        is.seekg(-2, std::ios::cur);
+        if (advance == false) is.seekg(-2, std::ios::cur);
         return true;
     }
 
