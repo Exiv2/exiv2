@@ -20,20 +20,21 @@
  */
 /*
   File:      ifd.cpp
-  Version:   $Name:  $ $Revision: 1.5 $
+  Version:   $Name:  $ $Revision: 1.6 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: ifd.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: ifd.cpp,v $")
 
 // *****************************************************************************
 // included header files
 #include "ifd.hpp"
 #include "types.hpp"
 #include "error.hpp"
+#include "tags.hpp"                             // for ExifTags::ifdName
 
 // + standard includes
 #include <iostream>
@@ -303,6 +304,13 @@ namespace Exif {
 
         return o;
     } // Ifd::copy
+
+    void Ifd::clear()
+    {
+        offset_ = 0;
+        next_ = 0;
+        entries_.clear();
+    } // Ifd::clear
 
     void Ifd::add(const Entry& entry)
     {

@@ -21,7 +21,7 @@
 /*!
   @file    ifd.hpp
   @brief   Encoding and decoding of IFD (Image File Directory) data
-  @version $Name:  $ $Revision: 1.7 $
+  @version $Name:  $ $Revision: 1.8 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -325,6 +325,12 @@ namespace Exif {
           @return Returns the number of characters written.
          */
         long copy(char* buf, ByteOrder byteOrder, long offset =0);
+        /*!
+          @brief Reset the IFD. Delete all IFD entries from the class and put
+                 the object in a state where it can accept completely new
+                 entries.
+         */
+        void clear();
         //! Set the offset of the next IFD
         void setNext(uint32 next) { next_ = next; }
         /*!
