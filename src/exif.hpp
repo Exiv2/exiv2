@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of Exif data
-  @version $Name:  $ $Revision: 1.43 $
+  @version $Name:  $ $Revision: 1.44 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -262,7 +262,8 @@ namespace Exiv2 {
                  metadata exifData. Return 0 if successful. 
 
           @param buf Data buffer containing the thumbnail data. The buffer must
-                 start with the TIFF header.  
+                 start with the TIFF header.
+          @param len Number of bytes in the data buffer.
           @param exifData Exif data corresponding to the data buffer.
           @param byteOrder The byte order used for the encoding of TIFF
                  thumbnails. It determines the byte order of the resulting
@@ -274,6 +275,7 @@ namespace Exiv2 {
                   2 in case of inconsistent TIFF thumbnail Exif data
          */
         virtual int read(const char* buf,
+                         long len,
                          const ExifData& exifData,
                          ByteOrder byteOrder =littleEndian) =0;
         /*!
@@ -373,6 +375,7 @@ namespace Exiv2 {
         //! Assignment operator.
         TiffThumbnail& operator=(const TiffThumbnail& rhs);
         int read(const char* buf,
+                 long len,
                  const ExifData& exifData,
                  ByteOrder byteOrder =littleEndian);
         void setOffsets(Ifd& ifd1, ByteOrder byteOrder);
@@ -419,6 +422,7 @@ namespace Exiv2 {
         //! Assignment operator.
         JpegThumbnail& operator=(const JpegThumbnail& rhs);
         int read(const char* buf,
+                 long len,
                  const ExifData& exifData,
                  ByteOrder byteOrder =littleEndian);
         void setOffsets(Ifd& ifd1, ByteOrder byteOrder);
@@ -725,11 +729,25 @@ namespace Exiv2 {
             { return pThumbnail_ ? pThumbnail_->size() : 0; }
         //@}
 
+        /*!
+          @brief Convert the return code from 
+                 int read(const std::string& path),
+                 int write(const std::string& path),
+                 int writeExifData(const std::string& path), 
+                 int writeThumbnail(const std::string& path) const and 
+                 int erase(const std::string& path) const 
+                 into an error message.
+
+                 Todo: Implement global handling of error messages
+         */
+        static std::string strError(int rc, const std::string& path);
+
     private:
         //! @name Manipulators
         //@{
         /*!
-          @brief Read the thumbnail from the data buffer. Return 0 if successful.
+          @brief Read the thumbnail from the data buffer. Return 0 if successful,
+                 otherwise the thumbnail is deleted.
          */
         int readThumbnail();
         /*!

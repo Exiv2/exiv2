@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.41 $
+  Version:   $Name:  $ $Revision: 1.42 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.41 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.42 $ $RCSfile: exif.cpp,v $")
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -177,6 +177,7 @@ namespace Exiv2 {
             memcpy(pImage_, rhs.pImage_, rhs.size_);
             tiffHeader_.read(pImage_);
             ifd_.read(pImage_ + tiffHeader_.offset(),
+                      size_ - tiffHeader_.offset(),
                       tiffHeader_.byteOrder(), tiffHeader_.offset());
         }
     }
@@ -189,6 +190,7 @@ namespace Exiv2 {
             memcpy(pNewImage, rhs.pImage_, rhs.size_);
             tiffHeader_.read(rhs.pImage_);
             ifd_.read(pNewImage + tiffHeader_.offset(), 
+                      rhs.size_ - tiffHeader_.offset(), 
                       tiffHeader_.byteOrder(), tiffHeader_.offset());
         }
         offset_ = rhs.offset_;
@@ -199,69 +201,92 @@ namespace Exiv2 {
     }
 
     int TiffThumbnail::read(const char* buf,
+                            long len,
                             const ExifData& exifData,
                             ByteOrder byteOrder)
     {
-        DataBuf img;                     // temporary buffer Todo: handle larger
-        img.alloc(64*1024);              // images (which violate the Exif Std)
+        DataBuf img;                        // temporary buffer
+        img.alloc(len);
         memset(img.pData_, 0x0, img.size_);
-        long len = 0;                    // number of bytes in the buffer
+        long buflen = 0;                    // actual number of bytes needed
 
+        int rc = 0;
         // Copy the TIFF header
         TiffHeader tiffHeader(byteOrder);
-        len += tiffHeader.copy(img.pData_);
-
-        // Create IFD (without Exif and GPS tags) from metadata
+        if (len < tiffHeader.size()) rc = 1;
         Ifd ifd1(ifd1);
-        addToIfd(ifd1, exifData.begin(), exifData.end(), tiffHeader.byteOrder());
-        ifd1.erase(0x8769);
-        ifd1.erase(0x8825);
+        long ifdOffset = 0;
+        if (rc == 0) {
+            buflen += tiffHeader.copy(img.pData_);
 
-        // Do not copy the IFD yet, remember the location and leave a gap
-        long ifdOffset = len;
-        len += ifd1.size() + ifd1.dataSize();
+            // Create IFD (without Exif and GPS tags) from metadata
+            addToIfd(ifd1, exifData.begin(), exifData.end(), 
+                     tiffHeader.byteOrder());
+            ifd1.erase(0x8769);
+            ifd1.erase(0x8825);
 
-        // Copy thumbnail image data, remember the offsets used
-        std::string key = "Thumbnail.RecordingOffset.StripOffsets";
-        ExifData::const_iterator offsets = exifData.findKey(key);
-        if (offsets == exifData.end()) return 2;
-        key = "Thumbnail.RecordingOffset.StripByteCounts";
-        ExifData::const_iterator sizes = exifData.findKey(key);
-        if (sizes == exifData.end()) return 2;
+            // Do not copy the IFD yet, remember the location and leave a gap
+            ifdOffset = buflen;
+            buflen += ifd1.size() + ifd1.dataSize();
+            if (len < buflen) rc = 1;
+        }
+        std::string key;
+        ExifData::const_iterator offsets;
+        ExifData::const_iterator sizes;
+        if (rc == 0) {
+            // Copy thumbnail image data, remember the offsets used
+            key = "Thumbnail.RecordingOffset.StripOffsets";
+            offsets = exifData.findKey(key);
+            if (offsets == exifData.end()) rc = 2;
+        }
+        if (rc == 0) {
+            key = "Thumbnail.RecordingOffset.StripByteCounts";
+            sizes = exifData.findKey(key);
+            if (sizes == exifData.end()) rc = 2;
+        }
         std::ostringstream os;                  // for the new strip offsets
         long minOffset = 0;
-        for (long k = 0; k < offsets->count(); ++k) {
-            long offset = offsets->toLong(k);
-            long size = sizes->toLong(k);
-            memcpy(img.pData_ + len, buf + offset, size);
-            os << len << " ";
-            len += size;
+        if (rc == 0) {
+            for (long k = 0; k < offsets->count(); ++k) {
+                long offset = offsets->toLong(k);
+                long size = sizes->toLong(k);
+                if (len < offset + size || len < buflen + size) {
+                    rc = 1;
+                    break;
+                }
+                memcpy(img.pData_ + buflen, buf + offset, size);
+                os << buflen << " ";
+                buflen += size;
 
-            minOffset = offset;                 // just to initialize minOffset
+                minOffset = offset;             // just to initialize minOffset
+            }
         }
-        for (long k = 0; k < offsets->count(); ++k) {
-            minOffset = std::min(minOffset, offsets->toLong(k));
+        if (rc == 0) {
+            for (long k = 0; k < offsets->count(); ++k) {
+                minOffset = std::min(minOffset, offsets->toLong(k));
+            }
+            // Update the IFD with the actual strip offsets (replace existing entry)
+            Metadatum newOffsets(*offsets);
+            newOffsets.setValue(os.str());
+            ifd1.erase(0x0111);
+            addToIfd(ifd1, newOffsets, tiffHeader.byteOrder());
+
+            // Finally, sort and copy the IFD
+            ifd1.sortByTag();
+            ifd1.copy(img.pData_ + ifdOffset, tiffHeader.byteOrder(), ifdOffset);
+
+            delete[] pImage_;
+            pImage_ = new char[buflen];
+            memcpy(pImage_, img.pData_, buflen);
+            size_ = buflen;
+            offset_ = minOffset;
+            tiffHeader_.read(pImage_);
+            rc = ifd_.read(pImage_ + tiffHeader_.offset(), 
+                           size_ - tiffHeader_.offset(), 
+                           tiffHeader_.byteOrder(), tiffHeader_.offset());
         }
-        // Update the IFD with the actual strip offsets (replace existing entry)
-        Metadatum newOffsets(*offsets);
-        newOffsets.setValue(os.str());
-        ifd1.erase(0x0111);
-        addToIfd(ifd1, newOffsets, tiffHeader.byteOrder());
 
-        // Finally, sort and copy the IFD
-        ifd1.sortByTag();
-        ifd1.copy(img.pData_ + ifdOffset, tiffHeader.byteOrder(), ifdOffset);
-
-        delete[] pImage_;
-        pImage_ = new char[len];
-        memcpy(pImage_, img.pData_, len);
-        size_ = len;
-        offset_ = minOffset;
-        tiffHeader_.read(pImage_);
-        ifd_.read(pImage_ + tiffHeader_.offset(), 
-                  tiffHeader_.byteOrder(), tiffHeader_.offset());
-
-        return 0;
+        return rc;
     } // TiffThumbnail::read
 
     const char* TiffThumbnail::format() const
@@ -397,17 +422,19 @@ namespace Exiv2 {
     }
 
     int JpegThumbnail::read(const char* buf, 
+                            long len,
                             const ExifData& exifData,
                             ByteOrder byteOrder) 
     {
         std::string key = "Thumbnail.RecordingOffset.JPEGInterchangeFormat";
         ExifData::const_iterator pos = exifData.findKey(key);
-        if (pos == exifData.end()) return 1;
+        if (pos == exifData.end()) return 2;
         long offset = pos->toLong();
         key = "Thumbnail.RecordingOffset.JPEGInterchangeFormatLength";
         pos = exifData.findKey(key);
-        if (pos == exifData.end()) return 1;
+        if (pos == exifData.end()) return 2;
         long size = pos->toLong();
+        if (len < offset + size) return 1;
         delete[] pImage_;
         pImage_ = new char[size];
         memcpy(pImage_, buf + offset, size);
@@ -540,11 +567,12 @@ namespace Exiv2 {
 
         // Read IFD0
         rc = ifd0_.read(pData_ + tiffHeader_.offset(), 
+                        size_ - tiffHeader_.offset(), 
                         byteOrder(), 
                         tiffHeader_.offset());
         if (rc) return rc;
         // Find and read ExifIFD sub-IFD of IFD0
-        rc = ifd0_.readSubIfd(exifIfd_, pData_, byteOrder(), 0x8769);
+        rc = ifd0_.readSubIfd(exifIfd_, pData_, size_, byteOrder(), 0x8769);
         if (rc) return rc;
         // Find MakerNote in ExifIFD, create a MakerNote class 
         Ifd::iterator pos = exifIfd_.findTag(0x927c);
@@ -572,27 +600,30 @@ namespace Exiv2 {
             exifIfd_.erase(pos);
         }
         // Find and read Interoperability IFD in ExifIFD
-        rc = exifIfd_.readSubIfd(iopIfd_, pData_, byteOrder(), 0xa005);
+        rc = exifIfd_.readSubIfd(iopIfd_, pData_, size_, byteOrder(), 0xa005);
         if (rc) return rc;
         // Find and read GPSInfo sub-IFD in IFD0
-        rc = ifd0_.readSubIfd(gpsIfd_, pData_, byteOrder(), 0x8825);
+        rc = ifd0_.readSubIfd(gpsIfd_, pData_, size_, byteOrder(), 0x8825);
         if (rc) return rc;
         // Read IFD1
         if (ifd0_.next()) {
-            rc = ifd1_.read(pData_ + ifd0_.next(), byteOrder(), ifd0_.next());
+            rc = ifd1_.read(pData_ + ifd0_.next(), 
+                            size_ - ifd0_.next(), 
+                            byteOrder(), 
+                            ifd0_.next());
             if (rc) return rc;
         }
         // Find and delete ExifIFD sub-IFD of IFD1
         pos = ifd1_.findTag(0x8769);
         if (pos != ifd1_.end()) {
             ifd1_.erase(pos);
-            ret = -99;
+            ret = 7;
         }
         // Find and delete GPSInfo sub-IFD in IFD1
         pos = ifd1_.findTag(0x8825);
         if (pos != ifd1_.end()) {
             ifd1_.erase(pos);
-            ret = -99;
+            ret = 7;
         }
         // Copy all entries from the IFDs and the MakerNote to the metadata
         metadata_.clear();
@@ -604,7 +635,7 @@ namespace Exiv2 {
         add(iopIfd_.begin(), iopIfd_.end(), byteOrder()); 
         add(gpsIfd_.begin(), gpsIfd_.end(), byteOrder());
         add(ifd1_.begin(), ifd1_.end(), byteOrder());
-        // Read the thumbnail
+        // Read the thumbnail (but don't worry whether it was successful or not)
         readThumbnail();
 
         return ret;
@@ -953,14 +984,14 @@ namespace Exiv2 {
             else {
                 pThumbnail_ = new TiffThumbnail;
             }
-            rc = pThumbnail_->read(pData_, *this, byteOrder());
+            rc = pThumbnail_->read(pData_, size_, *this, byteOrder());
             if (rc != 0) {
                 delete pThumbnail_;
                 pThumbnail_ = 0;
             }
         }
-        return rc;
 
+        return rc;
     } // ExifData::readThumbnail
 
     bool ExifData::updateEntries()
@@ -1088,6 +1119,51 @@ namespace Exiv2 {
         }
         return ifd;
     }
+
+    std::string ExifData::strError(int rc, const std::string& path)
+    {
+        std::string error = path + ": ";
+        switch (rc) {
+        case -1:
+            error += "Failed to open the file";
+            break;
+        case -2:
+            error += "The file contains data of an unknown image type";
+            break;
+        case -3:
+            error += "Couldn't open temporary file";
+            break;
+        case -4:
+            error += "Renaming temporary file failed";
+            break;
+        case 1:
+            error += "Couldn't read from the input stream";
+            break;
+        case 2:
+            error += "This does not look like a JPEG image";
+            break;
+        case 3:
+            error += "No Exif data found in the file";
+            break;
+        case 4:
+            error += "Writing to the output stream failed";
+            break;
+        case 5:
+            error += "No JFIF APP0 or Exif APP1 segment found in the file";
+            break;
+        case 6:
+            error += "Exif data contains a broken IFD";
+            break;
+        case 7:
+            error += "Unsupported Exif or GPS data found in IFD 1";
+            break;
+
+        default:
+            error += "Accessing Exif data failed, rc = " + toString(rc);
+            break;
+        }
+        return error;
+    } // ExifData::strError
 
     // *************************************************************************
     // free functions
