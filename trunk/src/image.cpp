@@ -20,14 +20,14 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.14 $
+  Version:   $Name:  $ $Revision: 1.15 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.14 $ $RCSfile: image.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.15 $ $RCSfile: image.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -38,9 +38,7 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.14 $ $RCSfile: image.cpp,v $")
 #include <iostream>
 #include <fstream>
 #include <cstring>
-#include <cstdio>                               // for rename, remove
-#include <sys/types.h>                          // for getpid
-#include <unistd.h>                             // for getpid
+#include <cstdio>                               // for rename, remove, tmpnam
 
 // *****************************************************************************
 // class member definitions
@@ -194,8 +192,7 @@ namespace Exiv2 {
         if (!is) return -1;
 
         // Write the output to a temporary file
-        pid_t pid = getpid();
-        std::string tmpname = path + toString(pid);
+        std::string tmpname = tmpnam(NULL);
         std::ofstream os(tmpname.c_str(), std::ios::binary);
         if (!os) return -3;
 
@@ -261,10 +258,10 @@ namespace Exiv2 {
         us2Data(tmpbuf, soi_, bigEndian);
         us2Data(tmpbuf + 2, app0_, bigEndian);
         if (jfif.pData_) {
-            us2Data(tmpbuf + 4, 7 + jfif.size_, bigEndian);
+            us2Data(tmpbuf + 4, static_cast<uint16>(7 + jfif.size_), bigEndian);
         }
         else {
-            us2Data(tmpbuf + 4, 7 + defaultJfifSize, bigEndian);
+            us2Data(tmpbuf + 4, static_cast<uint16>(7 + defaultJfifSize), bigEndian);
         }
         memcpy(tmpbuf + 6, jfifId_, 5);
         os.write(tmpbuf, 11);
@@ -292,8 +289,7 @@ namespace Exiv2 {
         if (!is) return -1;
 
         // Write the output to a temporary file
-        pid_t pid = getpid();
-        std::string tmpname = path + toString(pid);
+        std::string tmpname = tmpnam(NULL);
         std::ofstream os(tmpname.c_str(), std::ios::binary);
         if (!os) return -3;
 
@@ -365,7 +361,7 @@ namespace Exiv2 {
         if (jfif.pData_) {
             // Write APP0 marker, size of APP0 field and JFIF data
             us2Data(tmpbuf, app0_, bigEndian);
-            us2Data(tmpbuf + 2, 7 + jfif.size_, bigEndian);
+            us2Data(tmpbuf + 2, static_cast<uint16>(7 + jfif.size_), bigEndian);
             memcpy(tmpbuf + 4, jfifId_, 5);
             os.write(tmpbuf, 9);
             os.write(jfif.pData_, jfif.size_);
@@ -375,7 +371,7 @@ namespace Exiv2 {
         }
         // Write APP1 marker, size of APP1 field, Exif id and Exif data
         us2Data(tmpbuf, app1_, bigEndian);
-        us2Data(tmpbuf + 2, sizeExifData_ + 8, bigEndian);
+        us2Data(tmpbuf + 2, static_cast<uint16>(sizeExifData_ + 8), bigEndian);
         memcpy(tmpbuf + 4, exifId_, 6);
         os.write(tmpbuf, 10);
         os.write(pExifData_, sizeExifData_);
@@ -566,7 +562,7 @@ namespace Exiv2 {
         // Write APP1 marker, size of APP1 field, Exif id and Exif data
         char tmpbuf[10];
         us2Data(tmpbuf, app1_, bigEndian);
-        us2Data(tmpbuf + 2, sizeExifData_ + 8, bigEndian);
+        us2Data(tmpbuf + 2, static_cast<uint16>(sizeExifData_ + 8), bigEndian);
         memcpy(tmpbuf + 4, exifId_, 6);
         os.write(tmpbuf, 10);
         os.write(pExifData_, sizeExifData_);
