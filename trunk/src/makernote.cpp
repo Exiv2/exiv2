@@ -20,7 +20,7 @@
  */
 /*
   File:      makernote.cpp
-  Version:   $Name:  $ $Revision: 1.3 $
+  Version:   $Name:  $ $Revision: 1.4 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
   Credits:   Canon MakerNote implemented according to the specification
@@ -29,7 +29,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: makernote.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: makernote.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -44,7 +44,7 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: makernote.cpp,v $")
 #include <iomanip>
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
-#define DEBUG_MAKERNOTE
+#undef DEBUG_MAKERNOTE
 
 // *****************************************************************************
 // class member definitions
