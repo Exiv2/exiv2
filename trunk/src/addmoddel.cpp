@@ -1,9 +1,9 @@
 // ***************************************************************** -*- C++ -*-
 /*
-  Abstract:  Example showing how to add, modify and delete Exif metadata
+  Abstract:  Sample program showing how to add, modify and delete Exif metadata.
 
-  File:      example1.cpp
-  Version:   $Name:  $ $Revision: 1.5 $
+  File:      addmoddel.cpp
+  Version:   $Name:  $ $Revision: 1.1 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
  */
@@ -12,12 +12,6 @@
 #include "exif.hpp"
 #include <iostream>
 #include <iomanip>
-
-// *****************************************************************************
-// local declarations
-
-// Simple Exif data print function
-void exifPrint(const Exif::ExifData& exifData);
 
 // *****************************************************************************
 // Main
@@ -88,9 +82,6 @@ try {
     std::cout << "Modified key \"" << key 
               << "\", new value \"" << pos->value() << "\"\n";
 
-    std::cout << "---\n";
-    exifPrint(exifData);
-
     // *************************************************************************
     // Delete metadata from the Exif data container
 
@@ -99,37 +90,11 @@ try {
     pos = exifData.findKey(key);
     if (pos == exifData.end()) throw Exif::Error("Key not found");
     exifData.erase(pos);
-
     std::cout << "Deleted key \"" << key << "\"\n";
-    std::cout << "---\n";
-    exifPrint(exifData);
 
     return 0;
 }
 catch (Exif::Error& e) {
     std::cout << "Caught Exif exception '" << e << "'\n";
     return 1;
-}
-
-// *****************************************************************************
-// local definitions
-
-void exifPrint(const Exif::ExifData& exifData)
-{
-    Exif::ExifData::const_iterator beg = exifData.begin();
-    Exif::ExifData::const_iterator end = exifData.end();
-    Exif::ExifData::const_iterator i = beg;
-    for (; i != end; ++i) {
-        std::cout << "0x" 
-                  << std::hex << std::setw(4) << std::setfill('0') << std::right
-                  << i->tag() << " " 
-                  << std::setw(27) << std::setfill(' ') << std::left
-                  << i->tagName() << " "
-                  << std::setw(17) << std::setfill(' ') << std::left
-                  << i->typeName() << " "
-                  << std::dec << std::setw(3) 
-                  << std::setfill(' ') << std::right
-                  << i->count() << "   " 
-                  << std::dec << i->value() << "\n";
-    }
 }
