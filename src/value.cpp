@@ -20,7 +20,7 @@
  */
 /*
   File:      value.cpp
-  Version:   $Name:  $ $Revision: 1.11 $
+  Version:   $Name:  $ $Revision: 1.12 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
@@ -28,7 +28,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.11 $ $RCSfile: value.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.12 $ $RCSfile: value.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -65,10 +65,10 @@ namespace Exiv2 {
             value = new DataValue(unsignedByte);
             break;
         case asciiString:
-            value =  new AsciiValue;
+            value = new AsciiValue;
             break;
         case string:
-            value =  new StringValue;
+            value = new StringValue;
             break;
         case unsignedShort:
             value = new ValueType<uint16>;
@@ -165,7 +165,7 @@ namespace Exiv2 {
         return os;
     }
 
-    StringValue& StringValue::operator=(const StringValue& rhs)
+    StringValueBase& StringValueBase::operator=(const StringValueBase& rhs)
     {
         if (this == &rhs) return *this;
         Value::operator=(rhs);
@@ -173,28 +173,40 @@ namespace Exiv2 {
         return *this;
     }
 
-    void StringValue::read(const byte* buf, long len, ByteOrder byteOrder)
+    void StringValueBase::read(const std::string& buf)
+    {
+        value_ = buf;
+    }
+
+    void StringValueBase::read(const byte* buf, long len, ByteOrder byteOrder)
     {
         // byteOrder not needed 
         value_ = std::string(reinterpret_cast<const char*>(buf), len);
     }
 
-    void StringValue::read(const std::string& buf)
-    {
-        value_ = buf;
-    }
-
-    long StringValue::copy(byte* buf, ByteOrder byteOrder) const
+    long StringValueBase::copy(byte* buf, ByteOrder byteOrder) const
     {
         // byteOrder not needed
         return static_cast<long>(
-                value_.copy(reinterpret_cast<char*>(buf), value_.size())
-                );
+            value_.copy(reinterpret_cast<char*>(buf), value_.size())
+            );
     }
 
-    long StringValue::size() const
+    long StringValueBase::size() const
     {
         return static_cast<long>(value_.size());
+    }
+
+    std::ostream& StringValueBase::write(std::ostream& os) const
+    {
+        return os << value_;
+    }
+
+    StringValue& StringValue::operator=(const StringValue& rhs)
+    {
+        if (this == &rhs) return *this;
+        StringValueBase::operator=(rhs);
+        return *this;
     }
 
     StringValue* StringValue::clone() const
@@ -202,16 +214,24 @@ namespace Exiv2 {
         return new StringValue(*this);
     }
 
-    std::ostream& StringValue::write(std::ostream& os) const
+    AsciiValue& AsciiValue::operator=(const AsciiValue& rhs)
     {
-        return os << value_;
+        if (this == &rhs) return *this;
+        StringValueBase::operator=(rhs);
+        return *this;
+    }
+
+    void AsciiValue::read(const byte* buf, long len, ByteOrder byteOrder)
+    {
+        // byteOrder not needed 
+        value_ = std::string(reinterpret_cast<const char*>(buf), len);
+        if (value_[value_.size()-1] != '\0') value_ += '\0';
     }
 
     void AsciiValue::read(const std::string& buf)
     {
-        std::string temp(buf);
-        if (temp[temp.size()-1] != '\0') temp += '\0';
-        StringValue::read(temp);
+        value_ = buf;
+        if (value_[value_.size()-1] != '\0') value_ += '\0';
     }
 
     AsciiValue* AsciiValue::clone() const
@@ -221,10 +241,9 @@ namespace Exiv2 {
 
     std::ostream& AsciiValue::write(std::ostream& os) const
     {
-        std::string temp = StringValue::toString();
         // Strip all trailing '\0's (if any)
-        std::string::size_type pos = temp .find_last_not_of('\0');
-        return os << temp .substr(0, pos + 1);
+        std::string::size_type pos = value_.find_last_not_of('\0');
+        return os << value_.substr(0, pos + 1);
     }
 
     DateValue::DateValue(int year, int month, int day) 
