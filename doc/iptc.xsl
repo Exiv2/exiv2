@@ -7,13 +7,13 @@ doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
 <xsl:template match="TAGLIST">
 <html>
 <head>
-  <title>Exiv2 - Exif and IPTC metadata manipulation library and tools</title>
+  <title>Exiv2 - Exif and Iptc metadata manipulation library and tools</title>
   <link type="text/css" rel="stylesheet" href="include/sortabletable.css" />
   <script type="text/javascript" src="include/sortabletable.js"></script>
 </head>
 <body>
 
-<h1>Exif and IPTC metadata manipulation library and tools</h1>
+<h1>Exif and Iptc metadata manipulation library and tools</h1>
 
 <!-- content generated from XML -->
 <xsl:call-template name="header" />
@@ -57,7 +57,6 @@ doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
     <col />
     <col align="right" />
     <col align="center" />
-    <col />
     <col align="center" />
     <col align="center" />
     <col align="right" />
@@ -73,7 +72,6 @@ doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
     <th>Tag description</th>
     <th>Tag (dec)</th>
     <th>Tag (hex)</th>
-    <th>Record name</th>
     <th>Mandatory</th>
     <th>Repeatable</th>
     <th>Min. bytes</th>
@@ -104,9 +102,32 @@ doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
     <td><xsl:value-of select="tagdesc" /></td>
     <td><xsl:value-of select="tagdec" /></td>
     <td><xsl:value-of select="taghex" /></td>
-    <td><xsl:value-of select="recname" /></td>
-    <td><xsl:value-of select="mandatory" /></td>
-    <td><xsl:value-of select="repeatable" /></td>
+    <td>
+      <xsl:choose>
+        <xsl:when test="mandatory = 'true'">
+          <xsl:text>Yes</xsl:text>
+        </xsl:when>
+        <xsl:when test="mandatory = 'false'">
+          <xsl:text>No</xsl:text>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="mandatory" />
+        </xsl:otherwise>
+      </xsl:choose>
+    </td>
+    <td>
+      <xsl:choose>
+        <xsl:when test="repeatable = 'true'">
+          <xsl:text>Yes</xsl:text>
+        </xsl:when>
+        <xsl:when test="repeatable = 'false'">
+          <xsl:text>No</xsl:text>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="repeatable" />
+        </xsl:otherwise>
+      </xsl:choose>
+    </td>
     <td><xsl:value-of select="minbytes" /></td>
     <td><xsl:value-of select="maxbytes" /></td>
     <td><xsl:value-of select="key" /></td>
@@ -119,7 +140,7 @@ doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
   //<![CDATA[
   var t1 = new SortableTable(
     document.getElementById("report-1"),
-    ["String", "String", "Number", "String", "String", "String", "String", "Number", "Number", "String"]
+    ["String", "String", "Number", "String", "String", "String", "Number", "Number", "String"]
   );
   t1.onsort = function () { 
 	var rows = t1.tBody.rows;
