@@ -769,7 +769,7 @@
       <tagdec>0</tagdec>
       <taghex>0x0000</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSVersionID</key>
+      <key>Exif.GPSInfo.GPSVersionID</key>
       <tagdesc>GPS tag version</tagdesc>
    </ROW>
    <ROW num="96">
@@ -777,7 +777,7 @@
       <tagdec>1</tagdec>
       <taghex>0x0001</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSLatitudeRef</key>
+      <key>Exif.GPSInfo.GPSLatitudeRef</key>
       <tagdesc>North or South Latitude</tagdesc>
    </ROW>
    <ROW num="97">
@@ -785,7 +785,7 @@
       <tagdec>2</tagdec>
       <taghex>0x0002</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSLatitude</key>
+      <key>Exif.GPSInfo.GPSLatitude</key>
       <tagdesc>Latitude</tagdesc>
    </ROW>
    <ROW num="98">
@@ -793,7 +793,7 @@
       <tagdec>3</tagdec>
       <taghex>0x0003</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSLongitudeRef</key>
+      <key>Exif.GPSInfo.GPSLongitudeRef</key>
       <tagdesc>East or West Longitude</tagdesc>
    </ROW>
    <ROW num="99">
@@ -801,7 +801,7 @@
       <tagdec>4</tagdec>
       <taghex>0x0004</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSLongitude</key>
+      <key>Exif.GPSInfo.GPSLongitude</key>
       <tagdesc>Longitude</tagdesc>
    </ROW>
    <ROW num="100">
@@ -809,7 +809,7 @@
       <tagdec>5</tagdec>
       <taghex>0x0005</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSAltitudeRef</key>
+      <key>Exif.GPSInfo.GPSAltitudeRef</key>
       <tagdesc>Altitude reference</tagdesc>
    </ROW>
    <ROW num="101">
@@ -817,7 +817,7 @@
       <tagdec>6</tagdec>
       <taghex>0x0006</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSAltitude</key>
+      <key>Exif.GPSInfo.GPSAltitude</key>
       <tagdesc>Altitude</tagdesc>
    </ROW>
    <ROW num="102">
@@ -825,7 +825,7 @@
       <tagdec>7</tagdec>
       <taghex>0x0007</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSTimeStamp</key>
+      <key>Exif.GPSInfo.GPSTimeStamp</key>
       <tagdesc>GPS time (atomic clock)</tagdesc>
    </ROW>
    <ROW num="103">
@@ -833,7 +833,7 @@
       <tagdec>8</tagdec>
       <taghex>0x0008</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSSatellites</key>
+      <key>Exif.GPSInfo.GPSSatellites</key>
       <tagdesc>GPS satellites used for measurement</tagdesc>
    </ROW>
    <ROW num="104">
@@ -841,7 +841,7 @@
       <tagdec>9</tagdec>
       <taghex>0x0009</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSStatus</key>
+      <key>Exif.GPSInfo.GPSStatus</key>
       <tagdesc>GPS receiver status</tagdesc>
    </ROW>
    <ROW num="105">
@@ -849,7 +849,7 @@
       <tagdec>10</tagdec>
       <taghex>0x000a</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSMeasureMode</key>
+      <key>Exif.GPSInfo.GPSMeasureMode</key>
       <tagdesc>GPS measurement mode</tagdesc>
    </ROW>
    <ROW num="106">
@@ -857,7 +857,7 @@
       <tagdec>11</tagdec>
       <taghex>0x000b</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSDOP</key>
+      <key>Exif.GPSInfo.GPSDOP</key>
       <tagdesc>Measurement precision</tagdesc>
    </ROW>
    <ROW num="107">
@@ -865,7 +865,7 @@
       <tagdec>12</tagdec>
       <taghex>0x000c</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSSpeedRef</key>
+      <key>Exif.GPSInfo.GPSSpeedRef</key>
       <tagdesc>Speed unit</tagdesc>
    </ROW>
    <ROW num="108">
@@ -873,7 +873,7 @@
       <tagdec>13</tagdec>
       <taghex>0x000d</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSSpeed</key>
+      <key>Exif.GPSInfo.GPSSpeed</key>
       <tagdesc>Speed of GPS receiver</tagdesc>
    </ROW>
    <ROW num="109">
@@ -881,7 +881,7 @@
       <tagdec>14</tagdec>
       <taghex>0x000e</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSTrackRef</key>
+      <key>Exif.GPSInfo.GPSTrackRef</key>
       <tagdesc>Reference for direction of movement</tagdesc>
    </ROW>
    <ROW num="110">
@@ -889,7 +889,7 @@
       <tagdec>15</tagdec>
       <taghex>0x000f</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSTrack</key>
+      <key>Exif.GPSInfo.GPSTrack</key>
       <tagdesc>Direction of movement</tagdesc>
    </ROW>
    <ROW num="111">
@@ -897,7 +897,7 @@
       <tagdec>16</tagdec>
       <taghex>0x0010</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSImgDirectionRef</key>
+      <key>Exif.GPSInfo.GPSImgDirectionRef</key>
       <tagdesc>Reference for direction of image</tagdesc>
    </ROW>
    <ROW num="112">
@@ -905,7 +905,7 @@
       <tagdec>17</tagdec>
       <taghex>0x0011</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSImgDirection</key>
+      <key>Exif.GPSInfo.GPSImgDirection</key>
       <tagdesc>Direction of image</tagdesc>
    </ROW>
    <ROW num="113">
@@ -913,7 +913,7 @@
       <tagdec>18</tagdec>
       <taghex>0x0012</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSMapDatum</key>
+      <key>Exif.GPSInfo.GPSMapDatum</key>
       <tagdesc>Geodetic survey data used</tagdesc>
    </ROW>
    <ROW num="114">
@@ -921,7 +921,7 @@
       <tagdec>19</tagdec>
       <taghex>0x0013</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSDestLatitudeRef</key>
+      <key>Exif.GPSInfo.GPSDestLatitudeRef</key>
       <tagdesc>Reference for latitude of destination</tagdesc>
    </ROW>
    <ROW num="115">
@@ -929,7 +929,7 @@
       <tagdec>20</tagdec>
       <taghex>0x0014</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSDestLatitude</key>
+      <key>Exif.GPSInfo.GPSDestLatitude</key>
       <tagdesc>Latitude of destination</tagdesc>
    </ROW>
    <ROW num="116">
@@ -937,7 +937,7 @@
       <tagdec>21</tagdec>
       <taghex>0x0015</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSDestLongitudeRef</key>
+      <key>Exif.GPSInfo.GPSDestLongitudeRef</key>
       <tagdesc>Reference for longitude of destination</tagdesc>
    </ROW>
    <ROW num="117">
@@ -945,7 +945,7 @@
       <tagdec>22</tagdec>
       <taghex>0x0016</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSDestLongitude</key>
+      <key>Exif.GPSInfo.GPSDestLongitude</key>
       <tagdesc>Longitude of destination</tagdesc>
    </ROW>
    <ROW num="118">
@@ -953,7 +953,7 @@
       <tagdec>23</tagdec>
       <taghex>0x0017</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSDestBearingRef</key>
+      <key>Exif.GPSInfo.GPSDestBearingRef</key>
       <tagdesc>Reference for bearing of destination</tagdesc>
    </ROW>
    <ROW num="119">
@@ -961,7 +961,7 @@
       <tagdec>24</tagdec>
       <taghex>0x0018</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSDestBearing</key>
+      <key>Exif.GPSInfo.GPSDestBearing</key>
       <tagdesc>Bearing of destination</tagdesc>
    </ROW>
    <ROW num="120">
@@ -969,7 +969,7 @@
       <tagdec>25</tagdec>
       <taghex>0x0019</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSDestDistanceRef</key>
+      <key>Exif.GPSInfo.GPSDestDistanceRef</key>
       <tagdesc>Reference for distance to destination</tagdesc>
    </ROW>
    <ROW num="121">
@@ -977,7 +977,7 @@
       <tagdec>26</tagdec>
       <taghex>0x001a</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSDestDistance</key>
+      <key>Exif.GPSInfo.GPSDestDistance</key>
       <tagdesc>Distance to destination</tagdesc>
    </ROW>
    <ROW num="122">
@@ -985,7 +985,7 @@
       <tagdec>27</tagdec>
       <taghex>0x001b</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSProcessingMethod</key>
+      <key>Exif.GPSInfo.GPSProcessingMethod</key>
       <tagdesc>Name of GPS processing method</tagdesc>
    </ROW>
    <ROW num="123">
@@ -993,7 +993,7 @@
       <tagdec>28</tagdec>
       <taghex>0x001c</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSAreaInformation</key>
+      <key>Exif.GPSInfo.GPSAreaInformation</key>
       <tagdesc>Name of GPS area</tagdesc>
    </ROW>
    <ROW num="124">
@@ -1001,7 +1001,7 @@
       <tagdec>29</tagdec>
       <taghex>0x001d</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSDateStamp</key>
+      <key>Exif.GPSInfo.GPSDateStamp</key>
       <tagdesc>GPS date</tagdesc>
    </ROW>
    <ROW num="125">
@@ -1009,7 +1009,7 @@
       <tagdec>30</tagdec>
       <taghex>0x001e</taghex>
       <ifd>GPSInfo</ifd>
-      <key>Exif.GpsInfo.GPSDifferential</key>
+      <key>Exif.GPSInfo.GPSDifferential</key>
       <tagdesc>GPS differential correction</tagdesc>
    </ROW>
 </ROWSET>
