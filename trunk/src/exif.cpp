@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.49 $
+  Version:   $Name:  $ $Revision: 1.50 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.49 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.50 $ $RCSfile: exif.cpp,v $")
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -45,9 +45,7 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.49 $ $RCSfile: exif.cpp,v $")
 
 // + standard includes
 #include <iostream>
-#include <iomanip>
 #include <sstream>
-#include <fstream>
 #include <utility>
 #include <algorithm>
 #include <map>
@@ -536,7 +534,6 @@ namespace Exiv2 {
     int ExifData::read(const std::string& path)
     {
         Image* pImage = ImageFactory::instance().open(path);
-        // Todo: if (!pImage) return -1;
         if (pImage) {
             int rc = pImage->readMetadata();
             if (rc == 0 && pImage->sizeExifData() > 0 ) {
