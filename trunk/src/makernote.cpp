@@ -20,13 +20,13 @@
  */
 /*
   File:      makernote.cpp
-  Version:   $Name:  $ $Revision: 1.10 $
+  Version:   $Name:  $ $Revision: 1.11 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.10 $ $RCSfile: makernote.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.11 $ $RCSfile: makernote.cpp,v $")
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #define DEBUG_MAKERNOTE
@@ -121,14 +121,34 @@ namespace Exif {
                            ByteOrder byteOrder, 
                            long offset)
     {
-        int rc = ifd_.read(buf, byteOrder, offset);
+        // Set byte order if none is set yet
+        if (byteOrder_ == invalidByteOrder) byteOrder_ = byteOrder;
+        int rc = 0;
+        if (!prefix_.empty()) {
+            // Check if makernote is long enough and starts with prefix
+            if (   len <= static_cast<long>(prefix_.size())
+                   || prefix_ != std::string(buf, prefix_.size())) rc = 2;
+        }
+        if (!absOffset_) {
+            // Use offsets relative to the start of the Makernote field
+            offset = 0;
+        }
         if (rc == 0) {
-            // Todo: Make sure the Next field is 0, throw an error if it isn't
+            rc = ifd_.read(buf + prefix_.size(), 
+                           byteOrder_, 
+                           offset + prefix_.size());
+        }
+        if (rc == 0) {
+            // IfdMakerNote does not support multiple IFDs
+            if (ifd_.next() != 0) rc = 3;
+        }
+        if (rc == 0) {
             Entries::iterator end = ifd_.end();
             for (Entries::iterator i = ifd_.begin(); i != end; ++i) {
                 i->setMakerNote(this);
             }
         }
+
 #ifdef DEBUG_MAKERNOTE
         hexdump(std::cerr, buf, len, offset);
         if (rc == 0) ifd_.print(std::cerr);
@@ -138,7 +158,9 @@ namespace Exif {
 
     long IfdMakerNote::copy(char* buf, ByteOrder byteOrder, long offset)
     {
-        return ifd_.copy(buf, byteOrder, offset);
+        // Set byte order if none is set yet
+        if (byteOrder_ == invalidByteOrder) byteOrder_ = byteOrder;
+        return ifd_.copy(buf, byteOrder_, offset);
     }
 
     Entries::const_iterator IfdMakerNote::findIdx(int idx) const 
