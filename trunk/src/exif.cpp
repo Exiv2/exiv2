@@ -20,13 +20,13 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.18 $
+  Version:   $Name:  $ $Revision: 1.19 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.18 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.19 $ $RCSfile: exif.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -359,7 +359,14 @@ namespace Exif {
 
     std::ostream& AsciiValue::write(std::ostream& os) const
     {
-        return os << value_;
+        // Strip trailing '\0', if any
+        if (value_.size() > 0 && value_[value_.size() - 1] == '\0') {
+            os << value_.substr(0, value_.size() - 1);
+        }
+        else {
+            os << value_;
+        }
+        return os;
     }
 
     Metadatum::Metadatum(const Entry& e, ByteOrder byteOrder)
@@ -1683,6 +1690,12 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
     bool cmpMetadataByKey(const Metadatum& lhs, const Metadatum& rhs)
     {
         return lhs.key() < rhs.key();
+    }
+
+    std::ostream& operator<<(std::ostream& os, const Metadatum& md)
+    {
+        PrintFct fct = ExifTags::printFct(md.tag(), md.ifdId());
+        return fct(os, md.value());
     }
 
 }                                       // namespace Exif

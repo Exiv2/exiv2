@@ -3,11 +3,11 @@
   Abstract : This is playground code, do what you want with it.
 
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  Version  : $Name:  $ $Revision: 1.14 $
+  Version  : $Name:  $ $Revision: 1.15 $
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.14 $ $RCSfile: exiftest.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.15 $ $RCSfile: exiftest.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -97,7 +97,8 @@ void exifPrint(const ExifData& exifData)
                   << std::dec << std::setw(3) 
                   << std::setfill(' ') << std::right
                   << i->count() << "   " 
-                  << std::dec << i->value() 
+                  << std::dec << *i
+//                  << std::dec << i->value() 
 
 //                  << " | " << i->key() 
                   << " | " << i->ifdName()

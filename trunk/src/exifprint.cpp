@@ -23,12 +23,12 @@
 
   File:      exifprint.cpp
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  Version  : $Name:  $ $Revision: 1.6 $
+  Version  : $Name:  $ $Revision: 1.7 $
   History  : 26-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: exifprint.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.7 $ $RCSfile: exifprint.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -73,7 +73,9 @@ try {
                   << i->ifdItem() << " "
                   << std::setw(27) << std::setfill(' ') << std::left
                   << i->tagName() << " "
-                  << std::dec << i->value() << "\n";
+//                  << std::dec << i->value() 
+                  << std::dec << *i 
+                  << "\n";
     }
 
     return rc;
