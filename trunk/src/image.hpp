@@ -21,7 +21,7 @@
 /*!
   @file    image.hpp
   @brief   Class JpegImage to access JPEG images
-  @version $Name:  $ $Revision: 1.1 $
+  @version $Name:  $ $Revision: 1.2 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -49,32 +49,27 @@ namespace Exif {
       @brief Helper class to access JPEG images
      */
     class JpegImage {
-        // Copying not allowed
+        //! @name Not implemented
+        //@{
+        //! Copying not allowed
         JpegImage(const JpegImage& rhs);
-        // Assignment not allowed
+        //! Assignment not allowed
         JpegImage& operator=(const JpegImage& rhs);
+        //@}
 
     public:
+        //! @name Creators
+        //@{
         //! Default constructor
         JpegImage();
-        //! Default destructor
+        //! Destructor
         ~JpegImage();
+        //@}
 
+        //! @name Manipulators
+        //@{
         /*!
-          @brief Checks if the stream is the beginning of a JPEG image
-          @param is Input stream to test
-          @return true if the input stream starts the JPEG SOI marker.
-                  The stream is advanced by two characters in this case.<br>
-                  false if the input stream does not begin with the JPEG SOI
-                  marker. The stream is not advanced in this case.<br>
-                  false if reading the first two bytes from the stream fails.
-                  Consult the stream state for more information. In this case,
-                  the stream may or may not have been advanced by 1 or 2 
-                  characters.
-         */
-        static bool isJpeg(std::istream& is);
-        /*!
-          @brief Reads the %Exif data from the file path into the internal 
+          @brief Read the %Exif data from the file path into the internal 
                  data buffer.
           @param path Path to the file.
           @return 0 if successful;<BR>
@@ -84,7 +79,7 @@ namespace Exif {
          */
         int readExifData(const std::string& path);
         /*!
-          @brief Reads the %Exif data from the stream into the internal 
+          @brief Read the %Exif data from the stream into the internal 
                  data buffer.
           @param is Input stream to read from.
           @return 0 if successful;<BR>
@@ -95,6 +90,17 @@ namespace Exif {
                     beginning of the input stream.
          */
         int readExifData(std::istream& is);
+        /*!
+          @brief Set the %Exif data. The data is copied into the internal
+                 data buffer.
+          @param buf Pointer to the data buffer.
+          @param size Number of characters in the data buffer.
+         */
+        void setExifData(const char* buf, long size);
+        //@}
+
+        //! @name Accessors
+        //@{
         /*!
           @brief Write the %Exif data to file path, which must contain a JPEG
                  image. If an %Exif APP1 section exists in the file, it is
@@ -128,21 +134,25 @@ namespace Exif {
                     state for more information).
          */
         int writeExifData(std::ostream& os, std::istream& is) const;
-        /*!
-          @brief Set the %Exif data. The data is copied into the internal
-                 data buffer.
-          @param buf Pointer to the data buffer.
-          @param size Number of characters in the data buffer.
-         */
-        void setExifData(const char* buf, long size);
-
-        //! @name Accessors
-        //@{
-        //! Returns the size of the %Exif data buffer
+        //! Return the size of the %Exif data buffer
         long sizeExifData() const { return sizeExifData_; }
-        //! Returns a read-only pointer to the %Exif data buffer 
+        //! Return a read-only pointer to the %Exif data buffer 
         const char* exifData() const { return exifData_; }
         //@}
+
+        /*!
+          @brief Check if the stream is the beginning of a JPEG image.
+          @param is Input stream to test.
+          @return true if the input stream starts the JPEG SOI marker.
+                  The stream is advanced by two characters in this case.<br>
+                  false if the input stream does not begin with the JPEG SOI
+                  marker. The stream is not advanced in this case.<br>
+                  false if reading the first two bytes from the stream fails.
+                  Consult the stream state for more information. In this case,
+                  the stream may or may not have been advanced by 1 or 2 
+                  characters.
+         */
+        static bool isJpeg(std::istream& is);
 
     private:
         static const uint16 soi_;               // SOI marker
@@ -159,13 +169,23 @@ namespace Exif {
     //! Helper class modelling the TIFF header structure.
     class TiffHeader {
     public:
+        //! @name Creators
+        //@{
         /*!
           @brief Default constructor. Optionally sets the byte order 
                  (default: little endian).
          */
         explicit TiffHeader(ByteOrder byteOrder =littleEndian);
+        //@}
+
+        //! @name Manipulators
+        //@{
         //! Read the TIFF header from a data buffer. Returns 0 if successful.
         int read(const char* buf);
+        //@}
+
+        //! @name Accessors
+        //@{
         /*! 
           @brief Write a standard TIFF header into buf as a data string, return
                  number of bytes copied.
@@ -181,9 +201,7 @@ namespace Exif {
         long copy(char* buf) const;
         //! Return the size of the TIFF header in bytes.
         long size() const { return 8; }
-        //! @name Accessors
-        //@{
-        //! Return the byte order (little or big endian). 
+        //! Return the byte order (little or big endian).
         ByteOrder byteOrder() const { return byteOrder_; }
         //! Return the tag value.
         uint16 tag() const { return tag_; }
