@@ -2,13 +2,13 @@
 /*!
   @file    doxygen.hpp
   @brief   Additional documentation, this file contains no source code
-  @version $Name:  $ $Revision: 1.11 $
+  @version $Name:  $ $Revision: 1.12 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    07-Feb-04, ahu: created
  */
 /*!
-  @mainpage Exif metadata manipulation library and tools v0.3
+  @mainpage Exif metadata manipulation library and tools v0.4
 
   @section overview Exiv2 Overview
  
@@ -39,8 +39,8 @@
 
   @section getting-started Getting started
 
-  <A HREF="../getting-started.html">A few pointers</A> to help developers who would 
-  like to use the %Exiv2 library getting started.
+  <A HREF="../getting-started.html">A few pointers</A> to get you started with
+  the %Exiv2 library without delay.
 
   @section metadata Supported Exif and MakerNote tags
 
