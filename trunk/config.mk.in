@@ -71,6 +71,9 @@ CXX_REPOSITORY =
 SHAREDLIB_SUFFIX = .so
 ARCHIVE_SUFFIX = .a
 
+# Suffix of executables
+EXEEXT := @EXEEXT@
+
 # **********************************************************************
 # C Compiler
 CC = @CC@

@@ -114,13 +114,15 @@ DEP = $(CCSRC:%.cpp=.%.d) $(BINSRC:%.cpp=.%.d) \
 
 BINOBJ = $(BINSRC:.cpp=.o)
 BINARY = $(BINSRC:.cpp=)
+EXECUTABLE = $(BINSRC:.cpp=$(EXEEXT))
 
 EXIV2OBJ = $(EXIV2MAIN:.cpp=.o) $(EXIV2SRC:.cpp=.o) $(EXIVCSRC:.c=.o)
 EXIV2BIN = $(EXIV2MAIN:.cpp=)
+EXIV2EXE = $(EXIV2MAIN:.cpp=$(EXEEXT))
 
 MCOBJ = $(MCMAIN:.cpp=.o) $(MCSRC:.cpp=.o)
 MCBIN = $(MCMAIN:.cpp=)
-
+MCEXE = $(MCMAIN:.cpp=$(EXEEXT))
 
 ARCHIVE = lib$(LIBNAME)$(ARCHIVE_SUFFIX)
 SHAREDLIB = lib$(LIBNAME)$(SHAREDLIB_SUFFIX)
@@ -239,7 +241,7 @@ bin: lib $(BINARY) $(EXIV2BIN) $(MCBIN)
 
 install: $(INSTALL)
 	$(INSTALL_DIRS) $(bindir) 
-	@list='$(EXIV2BIN)'; for p in $$list; do \
+	@list='$(EXIV2EXE)'; for p in $$list; do \
 	    if test -f $$p; then \
 	        echo "$(INSTALL_PROGRAM) $$p $(bindir)/$$p"; \
 	        $(INSTALL_PROGRAM) $$p $(bindir)/$$p; \
@@ -266,7 +268,7 @@ install-sharedlib: sharedlib
 install-lib: $(INSTALL_LIB) install-header
 
 uninstall: $(UNINSTALL)
-	@list='$(EXIV2BIN)'; for p in $$list; do \
+	@list='$(EXIV2EXE)'; for p in $$list; do \
 	    echo "rm -f $(bindir)/$$p"; \
 	    rm -f $(bindir)/$$p; \
 	done
@@ -305,17 +307,17 @@ mostlyclean:
 
 clean: mostlyclean
 	$(RM) $(ARCHIVE) $(SHAREDLIB)
-	$(RM) $(BINARY) $(EXIV2BIN) $(MCBIN)
+	$(RM) $(EXECUTABLE) $(EXIV2EXE) $(MCEXE)
 
 # Run `make distclean' from the top source directory to also remove
 # files created by configuring the program.
 distclean: clean
 	$(RM) tags TAGS
-	$(RM) $(DEP)
-	$(RM) .mn.d
 	$(RM) *~ *#
 
 # This command is intended for maintainers to use; it deletes files
 # that may need special tools to rebuild.
 maintainer-clean: uninstall uninstall-lib distclean
+	$(RM) $(DEP)
+	$(RM) .mn.d
 	$(RM) mn.cpp

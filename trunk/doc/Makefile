@@ -46,10 +46,15 @@ SHELL = /bin/sh
 
 # **********************************************************************
 # Targets
-.PHONY: all doc maintainer-clean
+.PHONY: all clean distclean maintainer-clean doc
 
 doc:
 	doxygen $(top_srcdir)/Doxyfile
+
+clean:
+
+distclean:
+	$(RM) *~ *.bak *#	
 
 # This command is intended for maintainers to use; it deletes files
 # that may need special tools to rebuild.
