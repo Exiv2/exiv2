@@ -20,14 +20,14 @@
  */
 /*
   File:      nikon1mn.cpp
-  Version:   $Name:  $ $Revision: 1.2 $
+  Version:   $Name:  $ $Revision: 1.3 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   17-May-04, ahu: created
              25-May-04, ahu: combined all Nikon formats in one component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: nikonmn.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: nikonmn.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -202,7 +202,7 @@ namespace Exiv2 {
     {
     }
 
-    int Nikon2MakerNote::readHeader(const char* buf,
+    int Nikon2MakerNote::readHeader(const byte* buf,
                                     long len, 
                                     ByteOrder byteOrder)
     {
@@ -219,7 +219,8 @@ namespace Exiv2 {
         int rc = 0;
         // Check the Nikon prefix
         if (   header_.size_ < 8
-            || std::string(header_.pData_, 6) != std::string("Nikon\0", 6)) {
+            || std::string(reinterpret_cast<char*>(header_.pData_), 6) 
+                    != std::string("Nikon\0", 6)) {
             rc = 2;
         }
         return rc;
@@ -387,7 +388,7 @@ namespace Exiv2 {
         absOffset_ = false;
     }
 
-    int Nikon3MakerNote::readHeader(const char* buf,
+    int Nikon3MakerNote::readHeader(const byte* buf,
                                   long len, 
                                   ByteOrder byteOrder)
     {
@@ -407,7 +408,8 @@ namespace Exiv2 {
         int rc = 0;
         // Check the Nikon prefix
         if (   header_.size_ < 18
-            || std::string(header_.pData_, 6) != std::string("Nikon\0", 6)) {
+            || std::string(reinterpret_cast<char*>(header_.pData_), 6) 
+                    != std::string("Nikon\0", 6)) {
             rc = 2;
         }
         return rc;
@@ -521,13 +523,14 @@ namespace Exiv2 {
 // free functions
 
     MakerNote* createNikonMakerNote(bool alloc,
-                                    const char* buf, 
+                                    const byte* buf, 
                                     long len, 
                                     ByteOrder byteOrder, 
                                     long offset)
     {
         // If there is no "Nikon" string it must be Nikon1 format
-        if (len < 6 || std::string(buf, 6) != std::string("Nikon\0", 6)) {
+        if (len < 6 || std::string(reinterpret_cast<const char*>(buf), 6) 
+                    != std::string("Nikon\0", 6)) {
             return new Nikon1MakerNote(alloc);
         }
         // If the "Nikon" string is not followed by a TIFF header, we assume

@@ -21,10 +21,10 @@
 /*!
   @file    error.hpp
   @brief   Error class for exceptions
-  @version $Name:  $ $Revision: 1.2 $
+  @version $Name:  $ $Revision: 1.3 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    15-Jan-04, ahu: created
+  @date    15-Jan-04, ahu: created<BR>
            11-Feb-04, ahu: isolated as a component
  */
 #ifndef ERROR_HPP_

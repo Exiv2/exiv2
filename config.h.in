@@ -104,3 +104,12 @@
 
 /* Define to `unsigned' if <sys/types.h> does not define. */
 #undef size_t
+
+/* File path seperator */
+#ifdef _MSC_VER
+#define SEPERATOR_STR "\\"
+#define SEPERATOR_CHR '\\'
+#else
+#define SEPERATOR_STR "/"
+#define SEPERATOR_CHR '/'
+#endif

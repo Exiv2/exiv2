@@ -20,14 +20,16 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.18 $
+  Version:   $Name:  $ $Revision: 1.19 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
+             Brad Schick (brad) <schick@robotbattle.com>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
+             19-Jul-04, brad: revamped to be more flexible and support IPTC
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.18 $ $RCSfile: image.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.19 $ $RCSfile: image.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -37,10 +39,10 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.18 $ $RCSfile: image.cpp,v $")
 #include "types.hpp"
 
 // + standard includes
-#include <iostream>
-#include <fstream>
+#include <stdio.h>
 #include <cstring>
 #include <cstdio>                               // for rename, remove
+#include <cassert>
 #ifdef _MSC_VER
 #include <process.h>
 typedef int pid_t;
@@ -51,9 +53,18 @@ typedef int pid_t;
 #endif
 #endif
 
+
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
+
+    // Local functions. These could be static private functions on Image
+    // subclasses but then ImageFactory needs to be made a friend. 
+    Image* newExvInstance(const std::string& path, FILE* fp);
+    bool isExvType(FILE* ifp, bool advance);
+    Image* newJpegInstance(const std::string& path, FILE* fp);
+    bool isJpegType(FILE* ifp, bool advance);
+
 
     ImageFactory* ImageFactory::pInstance_ = 0;
 
@@ -65,376 +76,715 @@ namespace Exiv2 {
         return *pInstance_;
     } // ImageFactory::instance
 
-    void ImageFactory::registerImage(Image::Type type, Image* pImage)
+    void ImageFactory::registerImage(Image::Type type, 
+                NewInstanceFct newInst, IsThisTypeFct isType)
     {
-        Registry::iterator i = registry_.find(type);
-        if (i != registry_.end()) {
-            delete i->second;
-        }
-        registry_[type] = pImage;
+        assert (newInst && isType);
+        registry_[type] = ImageFcts(newInst, isType);
     } // ImageFactory::registerImage
 
     ImageFactory::ImageFactory()
     {
         // Register a prototype of each known image
-        registerImage(Image::none, 0);
-        registerImage(Image::jpeg, new JpegImage);
+        registerImage(Image::jpeg, newJpegInstance, isJpegType);
+        registerImage(Image::exv, newExvInstance, isExvType);
     } // ImageFactory c'tor
 
-    Image* ImageFactory::create(std::istream& is) const
+    Image::Type ImageFactory::getType(const std::string& path) const
     {
+        FILE* ifp = fopen(path.c_str(), "rb");
+        if (!ifp) return Image::none;
+
+        Image::Type type = Image::none;
         Registry::const_iterator b = registry_.begin();
         Registry::const_iterator e = registry_.end();
         for (Registry::const_iterator i = b; i != e; ++i)
         {
-            if (i->second != 0 && i->second->isThisType(is)) {
-                Image* pImage = i->second;
-                return pImage->clone();
+            if (i->second.isThisType(ifp, false)) {
+                type = i->first;
+                break;
             }
         }
-        return 0;
-    } // ImageFactory::create
+        fclose(ifp);
+        return type;
+    } // ImageFactory::getType
 
-    Image* ImageFactory::create(Image::Type type) const
+    Image* ImageFactory::open(const std::string& path) const
+    {
+        FILE* ifp = fopen(path.c_str(), "rb");
+        if (!ifp) return 0;
+
+        Image* pImage = 0;
+        Registry::const_iterator b = registry_.begin();
+        Registry::const_iterator e = registry_.end();
+        for (Registry::const_iterator i = b; i != e; ++i)
+        {
+            if (i->second.isThisType(ifp, false)) {
+                pImage = i->second.newInstance(path, ifp);
+                break;
+            }
+        }
+        return pImage;
+    } // ImageFactory::open
+
+    Image* ImageFactory::create(Image::Type type, const std::string& path) const
     {
         Registry::const_iterator i = registry_.find(type);
-        if (i != registry_.end() && i->second != 0) {
-            Image* pImage = i->second;
-            return pImage->clone();
+        if (i != registry_.end()) {
+            return i->second.newInstance(path, 0);
         }
         return 0;
     } // ImageFactory::create
 
-    JpegImage::JpegImage()
-        : sizeExifData_(0), pExifData_(0)
-    {
-    }
 
-    JpegImage::JpegImage(const JpegImage& rhs)
-        : Image(rhs), sizeExifData_(0), pExifData_(0)
+    const byte JpegBase::sos_    = 0xda;
+    const byte JpegBase::eoi_    = 0xd9;
+    const byte JpegBase::app0_   = 0xe0;
+    const byte JpegBase::app1_   = 0xe1;
+    const byte JpegBase::app13_  = 0xed;
+    const byte JpegBase::com_    = 0xfe;
+    const uint16 JpegBase::iptc_ = 0x0404;
+    const char JpegBase::exifId_[] = "Exif\0\0";
+    const char JpegBase::jfifId_[] = "JFIF\0";
+    const char JpegBase::ps3Id_[]  = "Photoshop 3.0\0";
+    const char JpegBase::bimId_[]  = "8BIM";
+
+    JpegBase::JpegBase(const std::string& path, const bool create, 
+        const byte initData[], const size_t dataSize) : fp_(0), path_(path), 
+        sizeExifData_(0), pExifData_(0), sizeIptcData_(0), pIptcData_(0)
     {
-        char* newExifData = 0;
-        if (rhs.sizeExifData_ > 0) {
-            char* newExifData = new char[rhs.sizeExifData_];
-            memcpy(newExifData, rhs.pExifData_, rhs.sizeExifData_);
+        if (create) {
+            fp_ = fopen(path.c_str(), "w+b");
+            if (fp_) initFile(initData, dataSize);
         }
-        pExifData_ = newExifData;
-        sizeExifData_ = rhs.sizeExifData_;
-    }
-
-    JpegImage& JpegImage::operator=(const JpegImage& rhs)
-    {
-        if (this == &rhs) return *this;
-        char* newExifData = 0;
-        if (rhs.sizeExifData_ > 0) {
-            char* newExifData = new char[rhs.sizeExifData_];
-            memcpy(newExifData, rhs.pExifData_, rhs.sizeExifData_);
+        else {
+            fp_ = fopen(path.c_str(), "rb");
         }
-        Image::operator=(rhs);
-        pExifData_ = newExifData;
-        sizeExifData_ = rhs.sizeExifData_;
-        return *this;        
+    }
+    
+    JpegBase::JpegBase(const std::string& path, FILE* fp)
+        : fp_(fp), path_(path), sizeExifData_(0), 
+         pExifData_(0), sizeIptcData_(0), pIptcData_(0)
+    {
+        assert(fp_);
     }
 
-    JpegImage::~JpegImage()
+    int JpegBase::initFile(const byte initData[], const size_t dataSize)
+    {
+        if (!fp_ || ferror(fp_)) return 3;
+        if (fwrite(initData, 1, dataSize, fp_) != dataSize) {
+            return 3;
+        }
+        fseek(fp_, 0, SEEK_SET);
+        if (ferror(fp_)) {
+            return 3;
+        }
+        return 0;
+    }
+
+    JpegBase::~JpegBase()
+    {
+        if (fp_) fclose(fp_);
+        delete[] pExifData_;
+        delete[] pIptcData_;
+    }
+
+    int JpegBase::detach()
+    {
+        if (fp_) fclose(fp_); 
+        fp_ = 0; 
+        return 0; 
+    }
+
+    bool JpegBase::good() const
+    {
+        if (fp_ == 0) return false;
+        rewind(fp_);
+        return isThisType(fp_, false);
+    }
+
+    void JpegBase::clearMetadata()
+    {
+        clearIptcData();
+        clearExifData();
+        clearComment();
+    }
+    
+    void JpegBase::clearIptcData()
+    {
+        delete[] pIptcData_;
+        pIptcData_ = 0;
+        sizeIptcData_ = 0;
+    }
+
+    void JpegBase::clearExifData()
     {
         delete[] pExifData_;
+        pExifData_ = 0;
+        sizeExifData_ = 0;
     }
 
-    const uint16 JpegImage::soi_    = 0xffd8;
-    const uint16 JpegImage::app0_   = 0xffe0;
-    const uint16 JpegImage::app1_   = 0xffe1;
-    const char JpegImage::exifId_[] = "Exif\0\0";
-    const char JpegImage::jfifId_[] = "JFIF\0";
-
-    int JpegImage::readExifData(const std::string& path)
+    void JpegBase::clearComment()
     {
-        std::ifstream file(path.c_str(), std::ios::binary);
-        if (!file) return -1;
-        return readExifData(file);
+        comment_.erase();
     }
 
-    // Todo: implement this properly: skip unknown APP0 and APP1 segments
-    int JpegImage::readExifData(std::istream& is)
+    void JpegBase::setExifData(const byte* buf, long size)
     {
-        // Check if this is a JPEG image in the first place
-        if (!isThisType(is, true)) {
-            if (!is.good()) return 1;
+        clearExifData();
+        if (size) {
+            sizeExifData_ = size;
+            pExifData_ = new byte[size];
+            memcpy(pExifData_, buf, size);
+        }
+    }
+
+    void JpegBase::setIptcData(const byte* buf, long size)
+    {
+        clearIptcData();
+        if (size) {
+            sizeIptcData_ = size;
+            pIptcData_ = new byte[size];
+            memcpy(pIptcData_, buf, size);
+        }
+    }
+
+    void JpegBase::setComment(const std::string& comment)
+    { 
+        comment_ = comment; 
+    }
+
+    void JpegBase::setMetadata(const Image& image)
+    {
+        setIptcData(image.iptcData(), image.sizeIptcData());
+        setExifData(image.exifData(), image.sizeExifData());
+        setComment(image.comment());
+    }
+
+    int JpegBase::advanceToMarker() const
+    {
+        int c = -1;
+        // Skips potential padding between markers
+        while ((c=fgetc(fp_)) != 0xff) {
+            if (c == EOF) return -1;
+        }
+            
+        // Markers can start with any number of 0xff
+        while ((c=fgetc(fp_)) == 0xff) {
+            if (c == EOF) return -1;
+        }
+        return c;
+    }
+
+    int JpegBase::readMetadata()
+    {
+        if (!fp_) return 1;
+        rewind(fp_);
+
+        // Ensure that this is the correct image type
+        if (!isThisType(fp_, true)) {
+            if (ferror(fp_) || feof(fp_)) return 1;
             return 2;
         }
+        clearMetadata();
+        int search = 3;
+        const long bufMinSize = 16;
+        long bufRead = 0;
+        DataBuf buf(bufMinSize);
 
-        // Read and check section marker and size
-        char tmpbuf[10];
-        is.read(tmpbuf, 10);
-        if (!is.good()) return 1;
-        uint16 marker = getUShort(tmpbuf, bigEndian);
-        uint16 size = getUShort(tmpbuf + 2, bigEndian);
-        if (size < 8) return 3;
-        if (marker == app0_ && memcmp(tmpbuf + 4, jfifId_, 5) == 0) {
-            // Skip the remainder of the JFIF APP0 segment
-            is.seekg(size - 8, std::ios::cur);
+        // Read section marker
+        int marker = advanceToMarker();
+        if (marker < 0) return 1;
+        
+        while (marker != sos_ && marker != eoi_ && search > 0) {
+            // Read size and signature (ok if this hits EOF)
+            bufRead = (long)fread(buf.pData_, 1, bufMinSize, fp_);
+            if (ferror(fp_)) return 1;
+            uint16 size = getUShort(buf.pData_, bigEndian);
+
+            if (marker == app1_ && memcmp(buf.pData_ + 2, exifId_, 6) == 0) {
+                if (size < 8) return 2;
+                // Seek to begining and read the Exif data
+                fseek(fp_, 8-bufRead, SEEK_CUR); 
+                long sizeExifData = size - 8;
+                pExifData_ = new byte[sizeExifData];
+                fread(pExifData_, 1, sizeExifData, fp_);
+                if (ferror(fp_) || feof(fp_)) {
+                    delete[] pExifData_;
+                    pExifData_ = 0;
+                    return 1;
+                }
+                // Set the size and offset of the Exif data buffer
+                sizeExifData_ = sizeExifData;
+                --search;
+            }
+            else if (marker == app13_ && memcmp(buf.pData_ + 2, ps3Id_, 14) == 0) {
+                if (size < 16) return 2;
+                // Read the rest of the APP13 segment
+                // needed if bufMinSize!=16: fseek(fp_, 16-bufRead, SEEK_CUR);
+                DataBuf psData(size - 16);
+                fread(psData.pData_, 1, psData.size_, fp_);
+                if (ferror(fp_) || feof(fp_)) return 1;
+                const byte *record = 0;
+                uint16 sizeIptc = 0;
+                uint16 sizeHdr = 0;
+                // Find actual Iptc data within the APP13 segment
+                if (!locateIptcData(psData.pData_, psData.size_, &record,
+                            &sizeHdr, &sizeIptc)) {
+                    assert(sizeIptc);
+                    sizeIptcData_ = sizeIptc;
+                    pIptcData_ = new byte[sizeIptc];
+                    memcpy( pIptcData_, record + sizeHdr, sizeIptc );
+                }
+                --search;
+            }
+            else if (marker == com_ && comment_.empty())
+            {
+                if (size < 2) return 2;
+                // Jpegs can have multiple comments, but for now only read
+                // the first one (most jpegs only have one anyway). Comments
+                // are simple single byte ISO-8859-1 strings.
+                fseek(fp_, 2-bufRead, SEEK_CUR);
+                buf.alloc(size-2);
+                fread(buf.pData_, 1, size-2, fp_);
+                if (ferror(fp_) || feof(fp_)) return 1;
+                comment_.assign(reinterpret_cast<char*>(buf.pData_), size-2);
+                while (comment_.length() && comment_.at(comment_.length()-1) == '\0') {
+                    comment_.erase(comment_.length()-1);
+                }
+                --search;
+            }
+            else {
+                if (size < 2) return 2;
+                // Skip the remainder of the unknown segment
+                if (fseek(fp_, size-bufRead, SEEK_CUR)) return 2;
+            }
             // Read the beginning of the next segment
-            is.read(tmpbuf, 10);
-            if (!is.good()) return 1;
-            marker = getUShort(tmpbuf, bigEndian);
-            size = getUShort(tmpbuf + 2, bigEndian);
+            marker = advanceToMarker();
+            if (marker < 0) return 1;
         }
-        if (!(marker == app1_ && memcmp(tmpbuf + 4, exifId_, 6) == 0)) return 3;
-
-        // Read the rest of the APP1 field (Exif data)
-        long sizeExifData = size - 8;
-        pExifData_ = new char[sizeExifData];
-        is.read(pExifData_, sizeExifData);
-        if (!is.good()) {
-            delete[] pExifData_;
-            pExifData_ = 0;
-            return 1;
-        }
-        // Finally, set the size and offset of the Exif data buffer
-        sizeExifData_ = sizeExifData;
-
         return 0;
-    } // JpegImage::readExifData
+    } // JpegBase::readMetadata
 
-    int JpegImage::eraseExifData(const std::string& path) const
+
+    // Operates on raw data (rather than file streams) to simplify reuse
+    int JpegBase::locateIptcData(const byte *pPSData, 
+                                 long sizePSData,
+                                 const byte **record, 
+                                 uint16 *const sizeHdr,
+                                 uint16 *const sizeIptc) const
     {
-        // Open input file
-        std::ifstream is(path.c_str(), std::ios::binary);
-        if (!is) return -1;
+        assert(record);
+        assert(sizeHdr);
+        assert(sizeIptc);
+        // Used for error checking
+        long position = 0;
+
+        // Data should follow Photoshop format, if not exit
+        while (position <= (sizePSData - 14) &&
+                memcmp(pPSData + position, bimId_, 4)==0) {
+            const byte *hrd = pPSData + position;
+            position += 4;
+            uint16 type = getUShort(pPSData+ position, bigEndian);
+            position += 2;
+           
+            // Pascal string is padded to have an even size (including size byte)
+            byte psSize = pPSData[position] + 1;
+            psSize += (psSize & 1);
+            position += psSize;
+            if (position >= sizePSData) return 1;
+
+            // Data is also padded to be even
+            long dataSize = getULong(pPSData + position, bigEndian);
+            position += 4;
+            if (dataSize > sizePSData - position) return 1;
+           
+            if (type == iptc_) {
+                *sizeIptc = static_cast<uint16>(dataSize);
+                *sizeHdr = psSize + 10;
+                *record = hrd;
+                return 0;
+            }
+            position += dataSize + (dataSize & 1);
+        }
+        return 2;
+    } // JpegBase::locateIptcData
+
+    int JpegBase::writeMetadata()
+    {
+        if (!fp_) return 1;
+        rewind(fp_);
 
         // Write the output to a temporary file
-        pid_t pid = getpid();
-        std::string tmpname = path + toString(pid);
-        std::ofstream os(tmpname.c_str(), std::ios::binary);
-        if (!os) return -3;
+        std::string tmpname(tmpnam(0));
+        FILE* ofl = fopen(tmpname.c_str(), "wb");
+        if (!ofl) return 3;
 
-        int rc = eraseExifData(os, is);
-        os.close();
-        is.close();
+        int rc = doWriteMetadata(ofl);
+        fclose(ofl);
+        fclose(fp_);
         if (rc == 0) {
-            // Workaround for MinGW rename that does not overwrite existing files
-            if (remove(path.c_str()) != 0) rc = -4;
+            // Workaround for MSVCRT rename that does not overwrite existing files
+            if (remove(path_.c_str()) != 0) rc = 4;
         }
         if (rc == 0) {
             // rename temporary file
-            if (rename(tmpname.c_str(), path.c_str()) == -1) rc = -4;
+            if (rename(tmpname.c_str(), path_.c_str()) == -1) rc = 4;
         }
         if (rc != 0) {
             // remove temporary file
             remove(tmpname.c_str());
         }
+        // Reopen the file
+        fp_ = fopen(path_.c_str(), "rb");
+        if (!fp_) return 1;
 
         return rc;
-    } // JpegImage::eraseExifData
+    } // JpegBase::writeMetadata
 
-    // Todo: implement this properly: skip unknown APP0 and APP1 segments
-    int JpegImage::eraseExifData(std::ostream& os, std::istream& is) const
+    int JpegBase::doWriteMetadata(FILE* ofp) const
     {
-        // Check if this is a JPEG image in the first place
-        if (!isThisType(is, true)) {
-            if (!is.good()) return 1;
+        if (!fp_) return 1;
+        // Ensure that this is the correct image type
+        if (!isThisType(fp_, true)) {
+            if (ferror(fp_) || feof(fp_)) return 1;
             return 2;
         }
-        // Read and check section marker and size
-        char tmpbuf[11];
-        is.read(tmpbuf, 10);
-        if (!is.good()) return 1;
-        uint16 marker = getUShort(tmpbuf, bigEndian);
-        uint16 size = getUShort(tmpbuf + 2, bigEndian);
-        if (size < 8) return 3;
+        
+        const long bufMinSize = 16;
+        long bufRead = 0;
+        DataBuf buf(bufMinSize);
+        const long seek = ftell(fp_);
+        int count = 0;
+        int search = 0;
+        int insertPos = 0;
+        int skipApp1Exif = -1;
+        int skipApp13Ps3 = -1;
+        int skipCom = -1;
+        DataBuf psData;
 
-        const long defaultJfifSize = 9;
-        static const char defaultJfifData[] = 
-            { 0x01, 0x01, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00 };
-        DataBuf jfif;
+        // Write image header
+        if (writeHeader(ofp)) return 3;
 
-        if (marker == app0_ && memcmp(tmpbuf + 4, jfifId_, 5) == 0) {
-            // Read the remainder of the JFIF APP0 segment
-            is.seekg(-1, std::ios::cur);
-            jfif.alloc(size - 7);
-            is.read(jfif.pData_, jfif.size_);
-            if (!is.good()) return 1;
-            // Read the beginning of the next segment
-            is.read(tmpbuf, 10);
-            if (!is.good()) return 1;
-            marker = getUShort(tmpbuf, bigEndian);
-            size = getUShort(tmpbuf + 2, bigEndian);
-        }
-        // No Exif data found
-        if (!(marker == app1_ && memcmp(tmpbuf + 4, exifId_, 6) == 0)) return 3;
-        // Skip the rest of the Exif APP1 segment
-        is.seekg(size - 8, std::ios::cur);
-        if (!is.good()) return 1;
+        // Read section marker
+        int marker = advanceToMarker();
+        if (marker < 0) return 1;
+        
+        // First find segments of interest. Normally app0 is first and we want
+        // to insert after it. But if app0 comes after com, app1 and app13 then
+        // don't bother.
+        while (marker != sos_ && marker != eoi_ && search < 3) {
+            // Read size and signature (ok if this hits EOF)
+            bufRead = (long)fread(buf.pData_, 1, bufMinSize, fp_);
+            if (ferror(fp_)) return 1;
+            uint16 size = getUShort(buf.pData_, bigEndian);
 
-        // Write SOI and APP0 markers, size of APP0 field
-        us2Data(tmpbuf, soi_, bigEndian);
-        us2Data(tmpbuf + 2, app0_, bigEndian);
-        if (jfif.pData_) {
-            us2Data(tmpbuf + 4, static_cast<uint16>(7 + jfif.size_), bigEndian);
+            if (marker == app0_) {
+                if (size < 2) return 2;
+                insertPos = count + 1;
+                if (fseek(fp_, size-bufRead, SEEK_CUR)) return 2;
+            }
+            else if (marker == app1_ && memcmp(buf.pData_ + 2, exifId_, 6) == 0) {
+                if (size < 8) return 2;
+                skipApp1Exif = count;
+                ++search;
+                if (fseek(fp_, size-bufRead, SEEK_CUR)) return 2;
+            }
+            else if (marker == app13_ && memcmp(buf.pData_ + 2, ps3Id_, 14) == 0) {
+                if (size < 16) return 2;
+                skipApp13Ps3 = count;
+                ++search;
+                // needed if bufMinSize!=16: fseek(fp_, 16-bufRead, SEEK_CUR);
+                psData.alloc(size - 16);
+                // Load PS data now to allow reinsertion at any point
+                fread(psData.pData_, 1, psData.size_, fp_);
+                if (ferror(fp_) || feof(fp_)) return 1;
+            }
+            else if (marker == com_ && skipCom == -1)
+            {
+                if (size < 2) return 2;
+                // Jpegs can have multiple comments, but for now only handle
+                // the first one (most jpegs only have one anyway).
+                skipCom = count;
+                ++search;
+                if (fseek(fp_, size-bufRead, SEEK_CUR)) return 2;
+            }
+            else {
+                if (size < 2) return 2;
+                if (fseek(fp_, size-bufRead, SEEK_CUR)) return 2;
+            }
+            marker = advanceToMarker();
+            if (marker < 0) return 1;
+            ++count;
         }
-        else {
-            us2Data(tmpbuf + 4, static_cast<uint16>(7 + defaultJfifSize), bigEndian);
-        }
-        memcpy(tmpbuf + 6, jfifId_, 5);
-        os.write(tmpbuf, 11);
-        // Write JFIF APP0 data, use that from the input stream if available
-        if (jfif.pData_) {
-            os.write(jfif.pData_, jfif.size_);
-        }
-        else {
-            os.write(defaultJfifData, defaultJfifSize);
-        }
-        if (!os.good()) return 4;
 
-        // Copy the rest of the input stream
-        os.flush();
-        is >> os.rdbuf();
-        if (!os.good()) return 4;
+        if (pExifData_) ++search;
+        if (pIptcData_) ++search;
+        if (!comment_.empty()) ++search;
 
+        fseek(fp_, seek, SEEK_SET);
+        count = 0;
+        marker = advanceToMarker();
+        if (marker < 0) return 1;
+        
+        // To simplify this a bit, new segments are inserts at either the start
+        // or right after app0. This is standard in most jpegs, but has the
+        // potential to change segment ordering (which is allowed).
+        // Segments are erased if there is no assigned metadata.
+        while (marker != sos_ && search > 0) {
+            // Read size and signature (ok if this hits EOF)
+            bufRead = (long)fread(buf.pData_, 1, bufMinSize, fp_);
+            if (ferror(fp_)) return 1;
+            // Careful, this can be a meaningless number for empty
+            // images with only an eoi_ marker
+            uint16 size = getUShort(buf.pData_, bigEndian);
+
+            if (insertPos == count) {
+                byte tmpBuf[18];
+                if (!comment_.empty()) {
+                    // Write COM marker, size of comment, and string
+                    tmpBuf[0] = 0xff;
+                    tmpBuf[1] = com_;
+                    us2Data(tmpBuf + 2, 
+                            static_cast<uint16>(comment_.length()+3), bigEndian);
+                    if (fwrite(tmpBuf, 1, 4, ofp) != 4) return 3;
+                    if (fwrite(comment_.data(), 1, comment_.length(), ofp) != comment_.length()) return 3;
+                    if (fputc(0, ofp)==EOF) return 3;
+                    if (ferror(ofp)) return 3;
+                    --search;
+                }
+                if (pExifData_) {
+                    // Write APP1 marker, size of APP1 field, Exif id and Exif data
+                    tmpBuf[0] = 0xff;
+                    tmpBuf[1] = app1_;
+                    us2Data(tmpBuf + 2, static_cast<uint16>(sizeExifData_+8), bigEndian);
+                    memcpy(tmpBuf + 4, exifId_, 6);
+                    if (fwrite(tmpBuf, 1, 10, ofp) != 10) return 3;
+                    if (fwrite(pExifData_, 1, sizeExifData_, ofp) != (size_t)sizeExifData_) return 3;
+                    if (ferror(ofp)) return 3;
+                    --search;
+                }
+                
+                const byte *record = psData.pData_;
+                uint16 sizeIptc = 0;
+                uint16 sizeHdr = 0;
+                // Safe to call with zero psData.size_
+                locateIptcData(psData.pData_, psData.size_, &record, &sizeHdr, &sizeIptc);
+
+                // Data is rounded to be even
+                const int sizeOldData = sizeHdr + sizeIptc + (sizeIptc & 1);
+                if (psData.size_ > sizeOldData || pIptcData_) {
+                    // write app13 marker, new size, and ps3Id
+                    tmpBuf[0] = 0xff;
+                    tmpBuf[1] = app13_;
+                    const int sizeNewData = sizeIptcData_ ? 
+                            sizeIptcData_+(sizeIptcData_&1)+12 : 0;
+                    us2Data(tmpBuf + 2, 
+                            static_cast<uint16>(psData.size_-sizeOldData+sizeNewData+16),
+                            bigEndian);
+                    memcpy(tmpBuf + 4, ps3Id_, 14);
+                    if (fwrite(tmpBuf, 1, 18, ofp) != 18) return 3;
+                    if (ferror(ofp)) return 3;
+
+                    const long sizeFront = (long)(record - psData.pData_);
+                    const long sizeEnd = psData.size_ - sizeFront - sizeOldData;
+                    // write data before old record.
+                    if (fwrite(psData.pData_, 1, sizeFront, ofp) != (size_t)sizeFront) return 3;
+
+                    // write new iptc record if we have it
+                    if (pIptcData_) {
+                        memcpy(tmpBuf, bimId_, 4);
+                        us2Data(tmpBuf+4, iptc_, bigEndian);
+                        tmpBuf[6] = 0;
+                        tmpBuf[7] = 0;
+                        ul2Data(tmpBuf + 8, sizeIptcData_, bigEndian);
+                        if (fwrite(tmpBuf, 1, 12, ofp) != 12) return 3;
+                        if (fwrite(pIptcData_, 1, sizeIptcData_ , ofp) != (size_t)sizeIptcData_) return 3;
+                        // data is padded to be even (but not included in size)
+                        if (sizeIptcData_ & 1 ) {
+                            if (fputc(0, ofp)==EOF) return 3;
+                        }
+                        if (ferror(ofp)) return 3;
+                        --search;
+                    }
+                    
+                    // write existing stuff after record
+                    if (fwrite(record+sizeOldData, 1, sizeEnd, ofp) != (size_t)sizeEnd) return 3;
+                    if (ferror(ofp)) return 3;
+                }
+            }
+            if( marker == eoi_ ) {
+                break;
+            }
+            else if (skipApp1Exif==count || skipApp13Ps3==count || skipCom==count) {
+                --search;
+                fseek(fp_, size-bufRead, SEEK_CUR);
+            }
+            else {
+                if (size < 2) return 2;
+                buf.alloc(size+2);
+                fseek(fp_, -bufRead-2, SEEK_CUR);
+                fread(buf.pData_, 1, size+2, fp_);
+                if (ferror(fp_) || feof(fp_)) return 1;
+                if (fwrite(buf.pData_, 1, size+2, ofp) != (size_t)size+2) return 3;
+                if (ferror(ofp)) return 3;
+            }
+
+            // Next marker
+            marker = advanceToMarker();
+            if (marker < 0) return 1;
+            ++count;
+        }
+
+        // Copy rest of the stream
+        fseek(fp_, -2, SEEK_CUR);
+        fflush( ofp );
+        buf.alloc(4096);
+        size_t readSize = 0;
+        while ((readSize=fread(buf.pData_, 1, buf.size_, fp_))) {
+            if (fwrite(buf.pData_, 1, readSize, ofp) != readSize) return 3;
+        }
+        if (ferror(ofp)) return 3;
+        
         return 0;
-    } // JpegImage::eraseExifData
+    }// JpegBase::doWriteMetadata
 
-    int JpegImage::writeExifData(const std::string& path) const
+
+    const byte JpegImage::soi_ = 0xd8;
+    const byte JpegImage::blank_[] = {
+        0xFF,0xD8,0xFF,0xDB,0x00,0x84,0x00,0x10,0x0B,0x0B,0x0B,0x0C,0x0B,0x10,0x0C,0x0C,
+        0x10,0x17,0x0F,0x0D,0x0F,0x17,0x1B,0x14,0x10,0x10,0x14,0x1B,0x1F,0x17,0x17,0x17,
+        0x17,0x17,0x1F,0x1E,0x17,0x1A,0x1A,0x1A,0x1A,0x17,0x1E,0x1E,0x23,0x25,0x27,0x25,
+        0x23,0x1E,0x2F,0x2F,0x33,0x33,0x2F,0x2F,0x40,0x40,0x40,0x40,0x40,0x40,0x40,0x40,
+        0x40,0x40,0x40,0x40,0x40,0x40,0x40,0x01,0x11,0x0F,0x0F,0x11,0x13,0x11,0x15,0x12,
+        0x12,0x15,0x14,0x11,0x14,0x11,0x14,0x1A,0x14,0x16,0x16,0x14,0x1A,0x26,0x1A,0x1A,
+        0x1C,0x1A,0x1A,0x26,0x30,0x23,0x1E,0x1E,0x1E,0x1E,0x23,0x30,0x2B,0x2E,0x27,0x27,
+        0x27,0x2E,0x2B,0x35,0x35,0x30,0x30,0x35,0x35,0x40,0x40,0x3F,0x40,0x40,0x40,0x40,
+        0x40,0x40,0x40,0x40,0x40,0x40,0x40,0x40,0xFF,0xC0,0x00,0x11,0x08,0x00,0x01,0x00,
+        0x01,0x03,0x01,0x22,0x00,0x02,0x11,0x01,0x03,0x11,0x01,0xFF,0xC4,0x00,0x4B,0x00,
+        0x01,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+        0x00,0x07,0x01,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+        0x00,0x00,0x00,0x00,0x10,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+        0x00,0x00,0x00,0x00,0x00,0x00,0x11,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+        0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xFF,0xDA,0x00,0x0C,0x03,0x01,0x00,0x02,
+        0x11,0x03,0x11,0x00,0x3F,0x00,0xA0,0x00,0x0F,0xFF,0xD9 };
+
+    JpegImage::JpegImage(const std::string& path, const bool create) 
+        : JpegBase(path, create, blank_, sizeof(blank_))
     {
-        // Open the input file
-        std::ifstream is(path.c_str(), std::ios::binary);
-        if (!is) return -1;
+    }
 
-        // Write the output to a temporary file
-        pid_t pid = getpid();
-        std::string tmpname = path + toString(pid);
-        std::ofstream os(tmpname.c_str(), std::ios::binary);
-        if (!os) return -3;
-
-        int rc = writeExifData(os, is);
-        os.close();
-        is.close();
-        if (rc == 0) {
-            // Workaround for MinGW rename that does not overwrite existing files
-            if (remove(path.c_str()) != 0) rc = -4;
-        }
-        if (rc == 0) {
-            // rename temporary file
-            if (rename(tmpname.c_str(), path.c_str()) == -1) rc = -4;
-        }
-        if (rc != 0) {
-            // remove temporary file
-            remove(tmpname.c_str());
-        }
-
-        return rc;
-    } // JpegImage::writeExifData
-
-    // Todo: implement this properly: skip unknown APP0 and APP1 segments
-    int JpegImage::writeExifData(std::ostream& os, std::istream& is) const
+    int JpegImage::writeHeader(FILE* ofp) const
     {
-        // Check if this is a JPEG image in the first place
-        if (!isThisType(is, true)) {
-            if (!is.good()) return 1;
-            return 2;
-        }
+        // Jpeg header
+        byte tmpBuf[2];
+        tmpBuf[0] = 0xff;
+        tmpBuf[1] = soi_;
+        if (fwrite(tmpBuf, 1, 2, ofp) != 2) return 3;
+        if (ferror(ofp)) return 3;
+        return 0;
+    }
 
-        // Read and check section marker and size
-        char tmpbuf[10];
-        is.read(tmpbuf, 10);
-        if (!is.good()) return 1;
-        uint16 marker = getUShort(tmpbuf, bigEndian);
-        uint16 size = getUShort(tmpbuf + 2, bigEndian);
-        if (size < 8) return 3;
+    bool JpegImage::isThisType(FILE* ifp, bool advance) const
+    {
+        return isJpegType(ifp, advance);
+    }
 
-        bool validFile = false;
-        DataBuf jfif;
-        if (marker == app0_ && memcmp(tmpbuf + 4, jfifId_, 5) == 0) {
-            // Read the remainder of the JFIF APP0 segment
-            is.seekg(-1, std::ios::cur);
-            jfif.alloc(size -7);
-            is.read(jfif.pData_, jfif.size_);
-            if (!is.good()) return 1;
-            // Read the beginning of the next segment
-            is.read(tmpbuf, 10);
-            if (!is.good()) return 1;
-            marker = getUShort(tmpbuf, bigEndian);
-            size = getUShort(tmpbuf + 2, bigEndian);
-            validFile = true;
-        }
-        if (marker == app1_ && memcmp(tmpbuf + 4, exifId_, 6) == 0) {
-            // Skip the rest of the Exif APP1 segment
-            is.seekg(size - 8, std::ios::cur);
-            if (!is.good()) return 1;
-            validFile = true;
-        }
-        else {
-            is.seekg(-10, std::ios::cur);
-        }
-        if (!validFile) return 5;
-        // Write SOI marker
-        us2Data(tmpbuf, soi_, bigEndian);
-        os.write(tmpbuf, 2);
-        if (!os.good()) return 4;
-        if (jfif.pData_) {
-            // Write APP0 marker, size of APP0 field and JFIF data
-            us2Data(tmpbuf, app0_, bigEndian);
-            us2Data(tmpbuf + 2, static_cast<uint16>(7 + jfif.size_), bigEndian);
-            memcpy(tmpbuf + 4, jfifId_, 5);
-            os.write(tmpbuf, 9);
-            os.write(jfif.pData_, jfif.size_);
-            if (!os.good()) {
-                return 4;
+    Image* newJpegInstance(const std::string& path, FILE* fp)
+    {
+        Image* pImage = 0;
+        if (fp == 0) {
+            pImage = new JpegImage(path,true);
+            if (!pImage->good()) {
+                delete pImage;
+                pImage = 0;
             }
         }
-        // Write APP1 marker, size of APP1 field, Exif id and Exif data
-        us2Data(tmpbuf, app1_, bigEndian);
-        us2Data(tmpbuf + 2, static_cast<uint16>(sizeExifData_ + 8), bigEndian);
-        memcpy(tmpbuf + 4, exifId_, 6);
-        os.write(tmpbuf, 10);
-        os.write(pExifData_, sizeExifData_);
-        if (!os.good()) return 4;
-        // Copy rest of the stream
-        os.flush();
-        is >> os.rdbuf();
-        if (!os.good()) return 4;
+        else {
+            pImage = new JpegImage(path, fp);
+        }
+        return pImage;
+    }
 
+    bool isJpegType(FILE* ifp, bool advance)
+    {
+        bool result = true;
+        byte tmpBuf[2];
+        fread(tmpBuf, 1, 2, ifp);
+        if (ferror(ifp) || feof(ifp)) return false;
+
+        if (0xff!=tmpBuf[0] || JpegImage::soi_!=tmpBuf[1]) {
+            result = false;
+        }
+        if (!advance || !result ) fseek(ifp, -2, SEEK_CUR);
+        return result;
+    }
+   
+
+    const char ExvImage::exiv2Id_[] = "Exiv2";
+    const byte ExvImage::blank_[] = { 0xff,0x01,'E','x','i','v','2',0xff,0xd9 };
+
+    ExvImage::ExvImage(const std::string& path, const bool create) 
+        : JpegBase(path, create, blank_, sizeof(blank_))
+    {
+    }
+
+    int ExvImage::writeHeader(FILE* ofp) const
+    {
+        // Exv header
+        byte tmpBuf[7];
+        tmpBuf[0] = 0xff;
+        tmpBuf[1] = 0x01;
+        memcpy(tmpBuf + 2, exiv2Id_, 5);
+        if (fwrite(tmpBuf, 1, 7, ofp) != 7) return 3;
+        if (ferror(ofp)) return 3;
         return 0;
-    } // JpegImage::writeExifData
-
-    void JpegImage::setExifData(const char* buf, long size)
-    {
-        sizeExifData_ = size;
-        delete[] pExifData_;
-        pExifData_ = new char[size];
-        memcpy(pExifData_, buf, size);
     }
 
-    Image* JpegImage::clone() const
+    bool ExvImage::isThisType(FILE* ifp, bool advance) const
     {
-        return new JpegImage(*this);
+        return isExvType(ifp, advance);
     }
 
-    bool JpegImage::isThisType(std::istream& is, bool advance) const
+    Image* newExvInstance(const std::string& path, FILE* fp)
     {
-        char c;
-        is.get(c);
-        if (!is.good()) return false;
-        if (static_cast<char>((soi_ & 0xff00) >> 8) != c) {
-            is.unget();
-            return false;
+        Image * pImage = 0;
+        if (fp == 0) {
+            pImage = new ExvImage(path,true);
+            if (!pImage->good()) {
+                delete pImage;
+                pImage = 0;
+            }
         }
-        is.get(c);
-        if (!is.good()) return false;
-        if (static_cast<char>(soi_ & 0x00ff) != c) {
-            is.seekg(-2, std::ios::cur);
-            return false;
+        else {
+            pImage = new ExvImage(path, fp);
         }
-        if (advance == false) is.seekg(-2, std::ios::cur);
-        return true;
+        return pImage;
     }
+
+    bool isExvType(FILE* ifp, bool advance)
+    {
+        bool result = true;
+        byte tmpBuf[7];
+        fread(tmpBuf, 1, 7, ifp);
+        if (ferror(ifp) || feof(ifp)) return false;
+
+        if (0xff!=tmpBuf[0] || 0x01!=tmpBuf[1] || 
+                    memcmp(tmpBuf + 2, ExvImage::exiv2Id_, 5) != 0) {
+            result = false;
+        }
+        if (!advance || !result ) fseek(ifp, -7, SEEK_CUR);
+        return result;
+    }
+
+
 
     TiffHeader::TiffHeader(ByteOrder byteOrder) 
         : byteOrder_(byteOrder), tag_(0x002a), offset_(0x00000008)
     {
     }
 
-    int TiffHeader::read(const char* buf)
+    int TiffHeader::read(const byte* buf)
     {
         if (buf[0] == 0x49 && buf[1] == 0x49) {
             byteOrder_ = littleEndian;
@@ -450,7 +800,7 @@ namespace Exiv2 {
         return 0;
     }
 
-    long TiffHeader::copy(char* buf) const
+    long TiffHeader::copy(byte* buf) const
     {
         switch (byteOrder_) {
         case littleEndian:
@@ -470,117 +820,5 @@ namespace Exiv2 {
         return size();
     } // TiffHeader::copy
 
-    const uint16 ExvFile::app1_   = 0xffe1;
-    const char ExvFile::exifId_[] = "Exif\0\0";
-
-    ExvFile::ExvFile()
-        : sizeExifData_(0), pExifData_(0)
-    {
-    } // ExvFile default constructor
-
-    ExvFile::ExvFile(const ExvFile& rhs)
-        : sizeExifData_(0), pExifData_(0)
-    {
-        char* newExifData = 0;
-        if (rhs.sizeExifData_ > 0) {
-            char* newExifData = new char[rhs.sizeExifData_];
-            memcpy(newExifData, rhs.pExifData_, rhs.sizeExifData_);
-        }
-        pExifData_ = newExifData;
-        sizeExifData_ = rhs.sizeExifData_;
-    } // ExvFile copy constructor
-
-    ExvFile& ExvFile::operator=(const ExvFile& rhs)
-    {
-        if (this == &rhs) return *this;
-        char* newExifData = 0;
-        if (rhs.sizeExifData_ > 0) {
-            char* newExifData = new char[rhs.sizeExifData_];
-            memcpy(newExifData, rhs.pExifData_, rhs.sizeExifData_);
-        }
-        pExifData_ = newExifData;
-        sizeExifData_ = rhs.sizeExifData_;
-        return *this;
-    } // ExvFile::operator=
-
-    ExvFile::~ExvFile()
-    {
-        delete[] pExifData_;
-    } // ExvFile destructor
-
-    int ExvFile::readExifData(const std::string& path)
-    {
-        std::ifstream file(path.c_str(), std::ios::binary);
-        if (!file) return -1;
-        return readExifData(file);
-    } // ExvFile::readExifData
-
-    int ExvFile::readExifData(std::istream& is)
-    {
-        // Check if this is an Exiv2 file in the first place
-        if (!isThisType(is, false)) {
-            if (!is.good()) return 1;
-            return 2;
-        }
-        // Read the first ten bytes and extract the size
-        char tmpbuf[10];
-        is.read(tmpbuf, 10);
-        if (!is.good()) return 1;
-        uint16 size = getUShort(tmpbuf + 2, bigEndian);
-        if (size < 8) return 3;
-
-        // Read the rest of the APP1 field (Exif data)
-        long sizeExifData = size - 8;
-        char* pExifData = new char[sizeExifData];
-        is.read(pExifData, sizeExifData);
-        if (!is.good()) {
-            delete[] pExifData;
-            return 1;
-        }
-        sizeExifData_ = sizeExifData;
-        pExifData_ = pExifData;
-
-        return 0;
-    } // ExvFile::readExifData
-
-    void ExvFile::setExifData(const char* buf, long size)
-    {
-        sizeExifData_ = size;
-        delete[] pExifData_;
-        pExifData_ = new char[size];
-        memcpy(pExifData_, buf, size);
-    } // ExvFile::setExifData
-
-    bool ExvFile::isThisType(std::istream& is, bool advance)
-    {
-        // Read and check section marker and size
-        char tmpbuf[10];
-        is.read(tmpbuf, 10);
-        if (!is.good()) return false;
-        bool rc = true;
-        uint16 marker = getUShort(tmpbuf, bigEndian);
-        uint16 size = getUShort(tmpbuf + 2, bigEndian);
-        if (size < 8) rc = false;
-        if (!(marker == app1_ && memcmp(tmpbuf + 4, exifId_, 6) == 0)) {
-            rc = false;
-        }
-        if (!advance) is.seekg(-10, std::ios::cur);
-        return rc;
-    } // ExvFile::isThisType
-
-    int ExvFile::writeExifData(const std::string& path) const
-    {
-        std::ofstream os(path.c_str(), std::ios::binary);
-        if (!os) return -1;
-        // Write APP1 marker, size of APP1 field, Exif id and Exif data
-        char tmpbuf[10];
-        us2Data(tmpbuf, app1_, bigEndian);
-        us2Data(tmpbuf + 2, static_cast<uint16>(sizeExifData_ + 8), bigEndian);
-        memcpy(tmpbuf + 4, exifId_, 6);
-        os.write(tmpbuf, 10);
-        os.write(pExifData_, sizeExifData_);
-        if (!os.good()) return 4;
-        return 0;
-    } // ExvFile::writeExifData
-
 }                                       // namespace Exiv2
+

@@ -28,10 +28,10 @@
            <a href="http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html">
            Exif file format</a> by TsuruZoh Tachibanaya.<BR>
            Format 3: "EXIFutils Field Reference Guide".
-  @version $Name:  $ $Revision: 1.2 $
+  @version $Name:  $ $Revision: 1.3 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    17-May-04, ahu: created
+  @date    17-May-04, ahu: created<BR>
            25-May-04, ahu: combined all Nikon formats in one component
  */
 #ifndef NIKONMN_HPP_
@@ -78,7 +78,7 @@ namespace Exiv2 {
              this copy and is responsible to delete it!
      */
     MakerNote* createNikonMakerNote(bool alloc,
-                                    const char* buf, 
+                                    const byte* buf, 
                                     long len, 
                                     ByteOrder byteOrder, 
                                     long offset);
@@ -173,7 +173,7 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{        
-        int readHeader(const char* buf, 
+        int readHeader(const byte* buf, 
                        long len,
                        ByteOrder byteOrder);
         //@}
@@ -227,7 +227,7 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{        
-        int readHeader(const char* buf, 
+        int readHeader(const byte* buf, 
                        long len,
                        ByteOrder byteOrder);
         //@}

@@ -23,10 +23,10 @@
   @brief   Canon MakerNote implemented according to the specification
            <a href="http://www.burren.cx/david/canon.html">
            EXIF MakerNote of Canon</a> by David Burren
-  @version $Name:  $ $Revision: 1.8 $
+  @version $Name:  $ $Revision: 1.9 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    18-Feb-04, ahu: created
+  @date    18-Feb-04, ahu: created<BR>
            07-Mar-04, ahu: isolated as a separate component
  */
 #ifndef CANONMN_HPP_
@@ -73,7 +73,7 @@ namespace Exiv2 {
              this copy and is responsible to delete it!
      */
     MakerNote* createCanonMakerNote(bool alloc,
-                                    const char* buf, 
+                                    const byte* buf, 
                                     long len, 
                                     ByteOrder byteOrder, 
                                     long offset);

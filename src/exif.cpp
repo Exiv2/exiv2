@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.48 $
+  Version:   $Name:  $ $Revision: 1.49 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.48 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.49 $ $RCSfile: exif.cpp,v $")
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -173,7 +173,7 @@ namespace Exiv2 {
           ifd_(ifd1, 0, false)
     {
         if (rhs.pImage_ && rhs.size_ > 0) {
-            pImage_ = new char[rhs.size_];
+            pImage_ = new byte[rhs.size_];
             memcpy(pImage_, rhs.pImage_, rhs.size_);
             tiffHeader_.read(pImage_);
             ifd_.read(pImage_ + tiffHeader_.offset(),
@@ -184,9 +184,9 @@ namespace Exiv2 {
 
     TiffThumbnail& TiffThumbnail::operator=(const TiffThumbnail& rhs)
     {
-        char* pNewImage = 0;
+        byte* pNewImage = 0;
         if (rhs.pImage_ && rhs.size_ > 0) {
-            pNewImage = new char[rhs.size_];
+            pNewImage = new byte[rhs.size_];
             memcpy(pNewImage, rhs.pImage_, rhs.size_);
             tiffHeader_.read(rhs.pImage_);
             ifd_.read(pNewImage + tiffHeader_.offset(), 
@@ -200,7 +200,7 @@ namespace Exiv2 {
         return *this;
     }
 
-    int TiffThumbnail::read(const char* buf,
+    int TiffThumbnail::read(const byte* buf,
                             long len,
                             const ExifData& exifData,
                             ByteOrder byteOrder)
@@ -276,7 +276,7 @@ namespace Exiv2 {
             ifd1.copy(img.pData_ + ifdOffset, tiffHeader.byteOrder(), ifdOffset);
 
             delete[] pImage_;
-            pImage_ = new char[buflen];
+            pImage_ = new byte[buflen];
             memcpy(pImage_, img.pData_, buflen);
             size_ = buflen;
             offset_ = minOffset;
@@ -302,11 +302,12 @@ namespace Exiv2 {
     int TiffThumbnail::write(const std::string& path) const
     {
         std::string name = path + extension();
-        std::ofstream file(name.c_str(), std::ios::binary);
-        if (!file) return -1;
-        file.write(pImage_, size_);
-        if (!file.good()) return 4;
-        return 0;
+        FILE *ofp = fopen(name.c_str(), "wb");
+        if (!ofp) return -1;
+        int rc = 0;
+        if (fwrite(pImage_, 1, size_, ofp) != (size_t)size_) rc = 4;
+        fclose(ofp);
+        return rc;
     } // TiffThumbnail::write
 
     void TiffThumbnail::update(ExifData& exifData) const
@@ -338,7 +339,7 @@ namespace Exiv2 {
 
     } // TiffThumbnail::update
 
-    long TiffThumbnail::copy(char* buf) const
+    long TiffThumbnail::copy(byte* buf) const
     {
         long offset = ifd_.offset() + ifd_.size() + ifd_.dataSize();
         long size = size_ - offset;
@@ -402,16 +403,16 @@ namespace Exiv2 {
         : offset_(rhs.offset_), size_(rhs.size_), pImage_(0)
     {
         if (rhs.pImage_ && rhs.size_ > 0) {
-            pImage_ = new char[rhs.size_];
+            pImage_ = new byte[rhs.size_];
             memcpy(pImage_, rhs.pImage_, rhs.size_);
         }
     }
 
     JpegThumbnail& JpegThumbnail::operator=(const JpegThumbnail& rhs)
     {
-        char* pNewImage = 0;
+        byte* pNewImage = 0;
         if (rhs.pImage_ && rhs.size_ > 0) {
-            pNewImage = new char[rhs.size_];
+            pNewImage = new byte[rhs.size_];
             memcpy(pNewImage, rhs.pImage_, rhs.size_);
         }
         offset_ = rhs.offset_;
@@ -421,7 +422,7 @@ namespace Exiv2 {
         return *this;
     }
 
-    int JpegThumbnail::read(const char* buf, 
+    int JpegThumbnail::read(const byte* buf, 
                             long len,
                             const ExifData& exifData,
                             ByteOrder byteOrder) 
@@ -436,7 +437,7 @@ namespace Exiv2 {
         long size = pos->toLong();
         if (len < offset + size) return 1;
         delete[] pImage_;
-        pImage_ = new char[size];
+        pImage_ = new byte[size];
         memcpy(pImage_, buf + offset, size);
         size_ = size;
         offset_ = offset;
@@ -456,11 +457,12 @@ namespace Exiv2 {
     int JpegThumbnail::write(const std::string& path) const
     {
         std::string name = path + extension();
-        std::ofstream file(name.c_str(), std::ios::binary);
-        if (!file) return -1;
-        file.write(pImage_, size_);
-        if (!file.good()) return 4;
-        return 0;
+        FILE *ofp = fopen(name.c_str(), "wb");
+        if (!ofp) return -1;
+        int rc = 0;
+        if (fwrite(pImage_, 1, size_, ofp) != (size_t)size_) rc = 4;
+        fclose(ofp);
+        return rc;
     } // JpegThumbnail::write
 
     void JpegThumbnail::update(ExifData& exifData) const
@@ -487,7 +489,7 @@ namespace Exiv2 {
 
     } // JpegThumbnail::update
 
-    long JpegThumbnail::copy(char* buf) const
+    long JpegThumbnail::copy(byte* buf) const
     {
         memcpy(buf, pImage_, size_);
         return size_;
@@ -533,30 +535,25 @@ namespace Exiv2 {
 
     int ExifData::read(const std::string& path)
     {
-        std::ifstream file(path.c_str(), std::ios::binary);
-        if (!file) return -1;
-        Image* pImage = ImageFactory::instance().create(file);
+        Image* pImage = ImageFactory::instance().open(path);
+        // Todo: if (!pImage) return -1;
         if (pImage) {
-            int rc = pImage->readExifData(file);
-            if (rc == 0) rc = read(pImage->exifData(), pImage->sizeExifData());
+            int rc = pImage->readMetadata();
+            if (rc == 0 && pImage->sizeExifData() > 0 ) {
+                rc = read(pImage->exifData(), pImage->sizeExifData());
+            }
             delete pImage;
-            return rc;
-        }
-        if (ExvFile::isThisType(file)) {
-            ExvFile exvFile;
-            int rc = exvFile.readExifData(file);
-            if (rc == 0) rc = read(exvFile.exifData(), exvFile.sizeExifData());
             return rc;
         }
         // We don't know this type of file
         return -2;
     }
 
-    int ExifData::read(const char* buf, long len)
+    int ExifData::read(const byte* buf, long len)
     {
         // Copy the data buffer
         delete[] pData_;
-        pData_ = new char[len];
+        pData_ = new byte[len];
         memcpy(pData_, buf, len);
         size_ = len;
 
@@ -581,8 +578,9 @@ namespace Exiv2 {
         if (pos != exifIfd_.end() && make != ifd0_.end() && model != ifd0_.end()) {
             MakerNoteFactory& mnf = MakerNoteFactory::instance();
             // Todo: The conversion to string assumes that there is a \0 at the end
-            pMakerNote_ = mnf.create(make->data(), 
-                                     model->data(), 
+            // Todo: How to avoid the cast (is that a MSVC thing?)
+            pMakerNote_ = mnf.create(reinterpret_cast<const char*>(make->data()), 
+                                     reinterpret_cast<const char*>(model->data()), 
                                      false,
                                      pos->data(), 
                                      pos->size(),
@@ -654,13 +652,15 @@ namespace Exiv2 {
 
     int ExifData::erase(const std::string& path) const
     {
-        std::ifstream is(path.c_str(), std::ios::binary);
-        if (!is) return -1;
-        Image* pImage = ImageFactory::instance().create(is);
-        is.close();
+        Image* pImage = ImageFactory::instance().open(path);
         if (pImage == 0) return -2;
 
-        int rc = pImage->eraseExifData(path);
+        // Read all metadata then erase only Exif data
+        int rc = pImage->readMetadata();
+        if (rc == 0) {
+            pImage->clearExifData();
+            rc = pImage->writeMetadata();
+        }
         delete pImage;
         return rc;
     } // ExifData::erase
@@ -670,23 +670,24 @@ namespace Exiv2 {
         // Remove the Exif section from the file if there is no metadata 
         if (count() == 0 && !pThumbnail_) return erase(path);
 
-        std::ifstream is(path.c_str(), std::ios::binary);
-        if (!is) return -1;
-        Image* pImage = ImageFactory::instance().create(is);
-        is.close();
+        Image* pImage = ImageFactory::instance().open(path);
         if (pImage == 0) return -2;
 
         DataBuf buf(size());
         long actualSize = copy(buf.pData_);
         assert(actualSize <= buf.size_);
 
-        pImage->setExifData(buf.pData_, actualSize);
-        int rc = pImage->writeExifData(path);
+        // Read all metadata to preserve non-Exif data
+        int rc = pImage->readMetadata();
+        if (rc == 0) {
+            pImage->setExifData(buf.pData_, actualSize);
+            rc = pImage->writeMetadata();
+        }
         delete pImage;
         return rc;
     } // ExifData::write
 
-    long ExifData::copy(char* buf)
+    long ExifData::copy(byte* buf)
     {
         long size = 0;
         // If we can update the internal IFDs and the underlying data buffer
@@ -709,7 +710,7 @@ namespace Exiv2 {
         return size;
     }
 
-    long ExifData::copyFromMetadata(char* buf)
+    long ExifData::copyFromMetadata(byte* buf)
     {
         // Build IFD0
         Ifd ifd0(ifd0);
@@ -873,9 +874,10 @@ namespace Exiv2 {
         long actualSize = copy(buf.pData_);
         assert(actualSize <= buf.size_);
 
-        ExvFile exvFile;
-        exvFile.setExifData(buf.pData_, actualSize);
-        return exvFile.writeExifData(path);
+        ExvImage exvImage(path, true);
+        if (!exvImage.good()) return -2;
+        exvImage.setExifData(buf.pData_, actualSize);
+        return exvImage.writeMetadata();
     } // ExifData::writeExifData
 
     void ExifData::add(Entries::const_iterator begin, 

@@ -20,13 +20,13 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.28 $
+  Version:   $Name:  $ $Revision: 1.29 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.28 $ $RCSfile: tags.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.29 $ $RCSfile: tags.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -779,7 +779,7 @@ namespace Exiv2 {
             value.copy(buf.pData_, bigEndian);
             // Hack: Skip the leading 8-Byte character code, truncate
             // trailing '\0's and let the stream take care of the remainder
-            std::string userComment(buf.pData_ + 8, buf.size_ - 8);
+            std::string userComment(reinterpret_cast<char*>(buf.pData_) + 8, buf.size_ - 8);
             std::string::size_type pos = userComment.find_last_not_of('\0');
             os << userComment.substr(0, pos + 1);
         }

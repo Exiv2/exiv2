@@ -20,13 +20,13 @@
  */
 /*
   File:      makernote.cpp
-  Version:   $Name:  $ $Revision: 1.22 $
+  Version:   $Name:  $ $Revision: 1.23 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.22 $ $RCSfile: makernote.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.23 $ $RCSfile: makernote.cpp,v $")
 
 // Define DEBUG_* to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -165,7 +165,7 @@ namespace Exiv2 {
     {
     }
 
-    int IfdMakerNote::read(const char* buf,
+    int IfdMakerNote::read(const byte* buf,
                            long len, 
                            ByteOrder byteOrder, 
                            long offset)
@@ -206,7 +206,7 @@ namespace Exiv2 {
         return rc;
     } // IfdMakerNote::read
 
-    long IfdMakerNote::copy(char* buf, ByteOrder byteOrder, long offset)
+    long IfdMakerNote::copy(byte* buf, ByteOrder byteOrder, long offset)
     {
         // Remember the new offset
         offset_ = offset;
@@ -222,7 +222,7 @@ namespace Exiv2 {
         return len;
     } // IfdMakerNote::copy
 
-    int IfdMakerNote::readHeader(const char* buf, 
+    int IfdMakerNote::readHeader(const byte* buf, 
                                  long len,
                                  ByteOrder byteOrder)
     {
@@ -236,7 +236,7 @@ namespace Exiv2 {
         return 0;
     }
 
-    long IfdMakerNote::copyHeader(char* buf) const
+    long IfdMakerNote::copyHeader(byte* buf) const
     {
         if (header_.size_ != 0) memcpy(buf, header_.pData_, header_.size_);
         return header_.size_;
@@ -309,7 +309,7 @@ namespace Exiv2 {
     MakerNote* MakerNoteFactory::create(const std::string& make, 
                                         const std::string& model,
                                         bool alloc,    
-                                        const char* buf, 
+                                        const byte* buf, 
                                         long len, 
                                         ByteOrder byteOrder, 
                                         long offset) const
@@ -386,7 +386,7 @@ namespace Exiv2 {
 #ifdef DEBUG_REGISTRY
             std::cerr << "Exact match (score: " << key.size() + 2 << ")\n";
 #endif
-            return key.size() + 2;
+            return static_cast<int>(key.size()) + 2;
         }
         std::string uKey = key;
         std::string uReg = regEntry;
@@ -448,7 +448,7 @@ namespace Exiv2 {
                 }
 
                 if (found) {
-                    count += ss.size();
+                    count += static_cast<int>(ss.size());
                 }
                 else {
 #ifdef DEBUG_REGISTRY

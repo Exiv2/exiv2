@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.30 $
+  Version:   $Name:  $ $Revision: 1.31 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.30 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.31 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -513,7 +513,7 @@ namespace Action {
             return 1;
         }
         std::string newPath 
-            = Util::dirname(path) + "/" + basename + Util::suffix(path);
+            = Util::dirname(path) + SEPERATOR_STR + basename + Util::suffix(path);
         if (   Util::dirname(newPath)  == Util::dirname(path)
             && Util::basename(newPath) == Util::basename(path)) {
             if (Params::instance().verbose_) {
@@ -647,7 +647,7 @@ namespace Action {
 
     int Extract::writeExifData(Exiv2::ExifData& exifData) const
     {
-        std::string exvPath =   Util::dirname(path_) + "/"
+        std::string exvPath =   Util::dirname(path_) + SEPERATOR_STR
                               + Util::basename(path_, true) + ".exv";
         if (Params::instance().verbose_) {
             std::cout << "Writing Exif data to " << exvPath << "\n";
@@ -669,7 +669,7 @@ namespace Action {
     int Extract::writeThumbnail(const Exiv2::ExifData& exifData) const
     {
         int rc = 0;
-        std::string thumb =   Util::dirname(path_) + "/"
+        std::string thumb =   Util::dirname(path_) + SEPERATOR_STR
                             + Util::basename(path_, true) + "-thumb";
         std::string thumbExt = exifData.thumbnailExtension();
         if (thumbExt.empty()) {
@@ -709,7 +709,7 @@ namespace Action {
 
     int Insert::run(const std::string& path)
     try {
-        std::string exvPath =   Util::dirname(path) + "/"
+        std::string exvPath =   Util::dirname(path) + SEPERATOR_STR
                               + Util::basename(path, true) + ".exv";
         Exiv2::ExifData exifData;
         int rc = exifData.read(exvPath);

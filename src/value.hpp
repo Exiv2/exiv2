@@ -21,7 +21,7 @@
 /*!
   @file    value.hpp
   @brief   Value interface and concrete subclasses
-  @version $Name:  $ $Revision: 1.11 $
+  @version $Name:  $ $Revision: 1.12 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -75,7 +75,7 @@ namespace Exiv2 {
           @param len Number of bytes in the data buffer 
           @param byteOrder Applicable byte order (little or big endian).
          */
-        virtual void read(const char* buf, long len, ByteOrder byteOrder) =0;
+        virtual void read(const byte* buf, long len, ByteOrder byteOrder) =0;
         /*! 
           @brief Set the value from a string buffer. The format of the string
                  corresponds to that of the write() method, i.e., a string
@@ -106,7 +106,7 @@ namespace Exiv2 {
           @param byteOrder Applicable byte order (little or big endian).
           @return Number of characters written.
         */
-        virtual long copy(char* buf, ByteOrder byteOrder) const =0;
+        virtual long copy(byte* buf, ByteOrder byteOrder) const =0;
         //! Return the number of components of the value
         virtual long count() const =0;
         //! Return the size of the value in bytes
@@ -218,7 +218,7 @@ namespace Exiv2 {
           @param len Number of bytes in the data buffer 
           @param byteOrder Byte order. Not needed.
          */
-        virtual void read(const char* buf,
+        virtual void read(const byte* buf,
                           long len, 
                           ByteOrder byteOrder =invalidByteOrder);
         //! Set the data from a string of integer values (e.g., "0 1 2 3")
@@ -240,7 +240,7 @@ namespace Exiv2 {
           @param byteOrder Byte order. Not needed.
           @return Number of characters written.
         */
-        virtual long copy(char* buf, ByteOrder byteOrder =invalidByteOrder) const;
+        virtual long copy(byte* buf, ByteOrder byteOrder =invalidByteOrder) const;
         virtual long count() const { return size(); }
         virtual long size() const;
         virtual DataValue* clone() const;
@@ -281,7 +281,7 @@ namespace Exiv2 {
           @param len Number of bytes in the data buffer 
           @param byteOrder Byte order. Not needed.
          */
-        virtual void read(const char* buf, 
+        virtual void read(const byte* buf, 
                           long len, 
                           ByteOrder byteOrder =invalidByteOrder);
         /*!
@@ -307,7 +307,7 @@ namespace Exiv2 {
           @param byteOrder Byte order. Not used.
           @return Number of characters written.
         */
-        virtual long copy(char* buf, ByteOrder byteOrder =invalidByteOrder) const;
+        virtual long copy(byte* buf, ByteOrder byteOrder =invalidByteOrder) const;
         virtual long count() const { return size(); }
         virtual long size() const;
         virtual AsciiValue* clone() const;
@@ -366,7 +366,7 @@ namespace Exiv2 {
         //@{
         //! Assignment operator.
         ValueType<T>& operator=(const ValueType<T>& rhs);
-        virtual void read(const char* buf, long len, ByteOrder byteOrder);
+        virtual void read(const byte* buf, long len, ByteOrder byteOrder);
         /*!
           @brief Set the data from a string of values of type T (e.g., 
                  "0 1 2 3" or "1/2 1/3 1/4" depending on what T is). 
@@ -378,7 +378,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        virtual long copy(char* buf, ByteOrder byteOrder) const;
+        virtual long copy(byte* buf, ByteOrder byteOrder) const;
         virtual long count() const { return static_cast<long>(value_.size()); }
         virtual long size() const;
         virtual ValueType<T>* clone() const;
@@ -432,40 +432,40 @@ namespace Exiv2 {
       @param byteOrder Applicable byte order (little or big endian).
       @return A value of type T.
      */
-    template<typename T> T getValue(const char* buf, ByteOrder byteOrder);
+    template<typename T> T getValue(const byte* buf, ByteOrder byteOrder);
     // Specialization for a 2 byte unsigned short value.
     template<> 
-    inline uint16 getValue(const char* buf, ByteOrder byteOrder)
+    inline uint16 getValue(const byte* buf, ByteOrder byteOrder)
     {
         return getUShort(buf, byteOrder);
     }
     // Specialization for a 4 byte unsigned long value.
     template<> 
-    inline uint32 getValue(const char* buf, ByteOrder byteOrder)
+    inline uint32 getValue(const byte* buf, ByteOrder byteOrder)
     {
         return getULong(buf, byteOrder);
     }
     // Specialization for an 8 byte unsigned rational value.
     template<> 
-    inline URational getValue(const char* buf, ByteOrder byteOrder)
+    inline URational getValue(const byte* buf, ByteOrder byteOrder)
     {
         return getURational(buf, byteOrder);
     }
     // Specialization for a 2 byte signed short value.
     template<> 
-    inline int16 getValue(const char* buf, ByteOrder byteOrder)
+    inline int16 getValue(const byte* buf, ByteOrder byteOrder)
     {
         return getShort(buf, byteOrder);
     }
     // Specialization for a 4 byte signed long value.
     template<> 
-    inline int32 getValue(const char* buf, ByteOrder byteOrder)
+    inline int32 getValue(const byte* buf, ByteOrder byteOrder)
     {
         return getLong(buf, byteOrder);
     }
     // Specialization for an 8 byte signed rational value.
     template<> 
-    inline Rational getValue(const char* buf, ByteOrder byteOrder)
+    inline Rational getValue(const byte* buf, ByteOrder byteOrder)
     {
         return getRational(buf, byteOrder);
     }
@@ -482,13 +482,13 @@ namespace Exiv2 {
       @param byteOrder Applicable byte order (little or big endian).
       @return The number of bytes written to the buffer.
      */
-    template<typename T> long toData(char* buf, T t, ByteOrder byteOrder);
+    template<typename T> long toData(byte* buf, T t, ByteOrder byteOrder);
     /*! 
       @brief Specialization to write an unsigned short to the data buffer.
              Return the number of bytes written.
      */
     template<> 
-    inline long toData(char* buf, uint16 t, ByteOrder byteOrder)
+    inline long toData(byte* buf, uint16 t, ByteOrder byteOrder)
     {
         return us2Data(buf, t, byteOrder);
     }
@@ -497,7 +497,7 @@ namespace Exiv2 {
              Return the number of bytes written.
      */
     template<> 
-    inline long toData(char* buf, uint32 t, ByteOrder byteOrder)
+    inline long toData(byte* buf, uint32 t, ByteOrder byteOrder)
     {
         return ul2Data(buf, t, byteOrder);
     }
@@ -506,7 +506,7 @@ namespace Exiv2 {
              Return the number of bytes written.
      */
     template<> 
-    inline long toData(char* buf, URational t, ByteOrder byteOrder)
+    inline long toData(byte* buf, URational t, ByteOrder byteOrder)
     {
         return ur2Data(buf, t, byteOrder);
     }
@@ -515,7 +515,7 @@ namespace Exiv2 {
              Return the number of bytes written.
      */
     template<> 
-    inline long toData(char* buf, int16 t, ByteOrder byteOrder)
+    inline long toData(byte* buf, int16 t, ByteOrder byteOrder)
     {
         return s2Data(buf, t, byteOrder);
     }
@@ -524,7 +524,7 @@ namespace Exiv2 {
              Return the number of bytes written.
      */
     template<> 
-    inline long toData(char* buf, int32 t, ByteOrder byteOrder)
+    inline long toData(byte* buf, int32 t, ByteOrder byteOrder)
     {
         return l2Data(buf, t, byteOrder);
     }
@@ -533,7 +533,7 @@ namespace Exiv2 {
              Return the number of bytes written.
      */
     template<> 
-    inline long toData(char* buf, Rational t, ByteOrder byteOrder)
+    inline long toData(byte* buf, Rational t, ByteOrder byteOrder)
     {
         return r2Data(buf, t, byteOrder);
     }
@@ -548,7 +548,7 @@ namespace Exiv2 {
     }
 
     template<typename T>
-    void ValueType<T>::read(const char* buf, long len, ByteOrder byteOrder)
+    void ValueType<T>::read(const byte* buf, long len, ByteOrder byteOrder)
     {
         value_.clear();
         for (long i = 0; i < len; i += TypeInfo::typeSize(typeId())) {
@@ -568,7 +568,7 @@ namespace Exiv2 {
     }
 
     template<typename T>
-    long ValueType<T>::copy(char* buf, ByteOrder byteOrder) const
+    long ValueType<T>::copy(byte* buf, ByteOrder byteOrder) const
     {
         long offset = 0;
         typename ValueList::const_iterator end = value_.end();

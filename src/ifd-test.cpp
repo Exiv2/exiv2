@@ -16,7 +16,7 @@
 int main()
 try {
     long len = 76;
-    char buf[] 
+    Exiv2::byte buf[] 
         = { // No
             0x00,0x04, 
             // Tag       Type          Components          Offset/Data
@@ -45,7 +45,7 @@ try {
         std::cout << "Tag not found!\n";
         return 1;
     }
-    char data[] = { 'T', 'H', 'R', 'E', 'E', '\0' };
+    Exiv2::byte data[] = { 'T', 'H', 'R', 'E', 'E', '\0' };
     
     std::cout << "Setting value of entry 3...\n";
     pos->setValue(2, 6, data, 6);

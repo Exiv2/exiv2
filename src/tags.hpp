@@ -21,10 +21,10 @@
 /*!
   @file    tags.hpp
   @brief   Exif tag and type information
-  @version $Name:  $ $Revision: 1.22 $
+  @version $Name:  $ $Revision: 1.23 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    15-Jan-04, ahu: created
+  @date    15-Jan-04, ahu: created<BR>
            11-Feb-04, ahu: isolated as a component
  */
 #ifndef TAGS_HPP_

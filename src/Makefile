@@ -61,12 +61,18 @@ BINSRC = addmoddel.cpp exifcomment.cpp exifprint.cpp ifd-test.cpp \
 # State the main source file of the Exiv2 application here
 EXIV2MAIN = exiv2.cpp
 
-# Add additional source files of the real application to this list
+# Add additional source files of the Exiv2 application to this list
 EXIV2SRC = actions.cpp utils.cpp 
-# C source files of the application
+# C source files of the Exiv2 application
 ifndef HAVE_TIMEGM
 EXIVCSRC = localtime.c
 endif
+
+# State the main source file of the metacopy application here
+MCMAIN = metacopy.cpp
+
+# Add additional source files of the metacopy application to this list
+MCSRC = utils.cpp
 
 # ******************************************************************************
 # Library
@@ -101,13 +107,18 @@ HDR = $(CCHDR)
 OBJ = $(CCOBJ)
 SOBJ = $(CCSOBJ)
 DEP = $(CCSRC:%.cpp=.%.d) $(BINSRC:%.cpp=.%.d) \
-      $(EXIV2MAIN:%.cpp=.%.d) $(EXIV2SRC:%.cpp=.%.d) $(EXIVCSRC:%.c=.%.d)
+      $(EXIV2MAIN:%.cpp=.%.d) $(EXIV2SRC:%.cpp=.%.d) $(EXIVCSRC:%.c=.%.d) \
+      $(MCMAIN:%.cpp=.%.d) $(MCSRC:%.cpp=.%.d)
 
 BINOBJ = $(BINSRC:.cpp=.o)
 BINARY = $(BINSRC:.cpp=)
 
 EXIV2OBJ = $(EXIV2MAIN:.cpp=.o) $(EXIV2SRC:.cpp=.o) $(EXIVCSRC:.c=.o)
 EXIV2BIN = $(EXIV2MAIN:.cpp=)
+
+MCOBJ = $(MCMAIN:.cpp=.o) $(MCSRC:.cpp=.o)
+MCBIN = $(MCMAIN:.cpp=)
+
 
 ARCHIVE = lib$(LIBNAME)$(ARCHIVE_SUFFIX)
 SHAREDLIB = lib$(LIBNAME)$(SHAREDLIB_SUFFIX)
@@ -179,6 +190,9 @@ $(BINARY): %: %.o
 $(EXIV2BIN): %: %.o
 	$(CXX) $(CXXFLAGS) $(EXIV2OBJ) $(LDLIBS) $(LDFLAGS_BIN) -o $@
 
+$(MCBIN): %: %.o
+	$(CXX) $(CXXFLAGS) $(MCOBJ) $(LDLIBS) $(LDFLAGS_BIN) -o $@
+
 mn.cpp: ./mn.sh
 	./mn.sh
 
@@ -217,7 +231,9 @@ endif
 
 $(EXIV2BIN): lib $(EXIV2OBJ)
 
-bin: lib $(BINARY) $(EXIV2BIN)
+$(MCBIN): lib $(MCOBJ)
+
+bin: lib $(BINARY) $(EXIV2BIN) $(MCBIN)
 
 install: $(INSTALL)
 	$(INSTALL_DIRS) $(bindir) 
@@ -278,7 +294,7 @@ check:
 mostlyclean:
 	$(RM) core
 	$(RM) $(CCSRC:.cpp=.ii)
-	$(RM) $(OBJ) $(SOBJ) $(BINOBJ) $(EXIV2OBJ)
+	$(RM) $(OBJ) $(SOBJ) $(BINOBJ) $(EXIV2OBJ) $(MCOBJ)
 	$(RM) mn.o
 	@if test -n "$(CXX_REPOSITORY)"; then \
 	    echo "rm -rf $(CXX_REPOSITORY)"; \
@@ -287,7 +303,7 @@ mostlyclean:
 
 clean: mostlyclean
 	$(RM) $(ARCHIVE) $(SHAREDLIB)
-	$(RM) $(BINARY) $(EXIV2BIN)
+	$(RM) $(BINARY) $(EXIV2BIN) $(MCBIN)
 
 # Run `make distclean' from the top source directory to also remove
 # files created by configuring the program.
