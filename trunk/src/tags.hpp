@@ -21,7 +21,7 @@
 /*!
   @file    tags.hpp
   @brief   %Exif tag and type information
-  @version $Name:  $ $Revision: 1.8 $
+  @version $Name:  $ $Revision: 1.9 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    15-Jan-04, ahu: created
@@ -196,16 +196,17 @@ namespace Exif {
         //! Return the section id for a section name
         static SectionId sectionId(const std::string& sectionName);
         /*!
-          @brief Return the unique combination of IFD id and tag for the
-                 components of a key.
-          @param ifdItem The IFD item part of the key (first part)
-          @param sectionName The section name part of the key (second part)
-          @param tagName The tag name part of the key (third part)
-          @return A pair consisting of the IFD id and the tag.
+          @brief Return a unique key for the tag and IFD id.
+                 The key is of the form 'ifdItem.sectionName.tagName'.
          */
-        static std::pair<IfdId, uint16> ifdAndTag(const std::string& ifdItem, 
-                                                  const std::string& sectionName, 
-                                                  const std::string& tagName);
+        static std::string makeKey(uint16 tag, IfdId ifdId);
+        /*!
+          @brief Return the unique tag and IFD id pair for the key.
+          @return A pair consisting of the tag and IFD id.
+          @throw Error ("Invalid key") if the key cannot be parsed into
+                 item item, section name and tag name parts.
+         */
+        static std::pair<uint16, IfdId> decomposeKey(const std::string& key);
 
     private:
         static int tagInfoIdx(uint16 tag, IfdId ifdId);
