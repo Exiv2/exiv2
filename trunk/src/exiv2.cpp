@@ -80,12 +80,20 @@ namespace {
                            const std::string& action);
 
     /*!
-      @brief Parse metadata modification commands from a file
+      @brief Parse metadata modification commands from multiple files
       @param modifyCmds Reference to a structure to store the parsed commands
-      @param filename Name of the command file
+      @param cmdFiles Container with the file names
      */
-    bool parseCommands(ModifyCmds& modifyCmds, 
-                       const std::string& filename);
+    bool parseCmdFiles(ModifyCmds& modifyCmds, 
+                       const Params::CmdFiles& cmdFiles);
+
+    /*!
+      @brief Parse metadata modification commands from a container of commands
+      @param modifyCmds Reference to a structure to store the parsed commands
+      @param cmdLines Container with the commands
+     */
+    bool parseCmdLines(ModifyCmds& modifyCmds, 
+                       const Params::CmdLines& cmdLines);
 
     /*!
       @brief Parse one line of the command file
@@ -180,7 +188,7 @@ void Params::help(std::ostream& os) const
        << "  mv | rename   Rename files according to the Exif create timestamp.\n"
        << "                The filename format can be set with -r format.\n"
        << "  mo | modify   Apply commands to modify (add, set, delete) the Exif\n"
-       << "                and Iptc metadata of image files. Requires option -m\n"
+       << "                and Iptc metadata of image files. Requires option -m or -M\n"
        << "\nOptions:\n"
        << "   -h      Display this help and exit.\n"
        << "   -V      Show the program version and exit.\n"
@@ -209,8 +217,10 @@ void Params::help(std::ostream& os) const
        << "   -r fmt  Filename format for the `rename' action. The format string\n"
        << "           follows strftime(3). Default filename format is " 
        <<             format_ << ".\n"
-       << "   -m file Command file for the modify action. The format for the commands\n"
-       << "           set|add|del <key> [[<Type>] <value>].\n\n";
+       << "   -m file Command file for the modify action. The format for commands is\n"
+       << "           set|add|del <key> [[<type>] <value>].\n"
+       << "   -M cmd  One command line for the modify action. The format for the\n"
+       << "           commands is the same as that of the lines of a command file.\n\n";
 } // Params::help
 
 int Params::option(int opt, const std::string& optarg, int optopt)
@@ -221,160 +231,14 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     case 'V': version_ = true; break;
     case 'v': verbose_ = true; break;
     case 'f': force_ = true; break;
-    case 'r': 
-        switch (action_) {
-        case Action::none:
-            action_ = Action::rename;
-            format_ = optarg; 
-            break;
-        case Action::rename:
-            std::cerr << progname() 
-                      << ": Ignoring surplus option -r \"" << optarg << "\"\n";
-            break;
-        default:
-            std::cerr << progname() 
-                      << ": Option -r is not compatible with a previous option\n";
-            rc = 1;
-            break;
-        }
-        break;
-    case 'a':
-        switch (action_) {
-        case Action::none:
-            action_ = Action::adjust;
-            adjust_ = parseTime(optarg, adjustment_);
-            if (!adjust_) {
-                std::cerr << progname() << ": Error parsing -a option argument `" 
-                          << optarg << "'\n";
-                rc = 1;
-            }
-            break;
-        case Action::adjust:
-            std::cerr << progname() 
-                      << ": Ignoring surplus option -a " << optarg << "\n";
-            break;
-        default:
-            std::cerr << progname() 
-                      << ": Option -a is not compatible with a previous option\n";
-            rc = 1;
-            break;
-        }
-        break;
-    case 'p':
-        switch (action_) {
-        case Action::none:
-            action_ = Action::print;
-            switch (optarg[0]) {
-            case 's': printMode_ = pmSummary; break;
-            case 't': printMode_ = pmInterpreted; break;
-            case 'v': printMode_ = pmValues; break;
-            case 'h': printMode_ = pmHexdump; break;
-            case 'i': printMode_ = pmIptc; break;
-            case 'c': printMode_ = pmComment; break;
-            default:
-                std::cerr << progname() << ": Unrecognized print mode `"
-                          << optarg << "'\n";
-                rc = 1;
-                break;
-            }
-            break;
-        case Action::print:
-            std::cerr << progname() 
-                      << ": Ignoring surplus option -p" << optarg << "\n";
-            break;
-        default:
-            std::cerr << progname() 
-                      << ": Option -p is not compatible with a previous option\n";
-            rc = 1;
-            break;
-        }
-        break;
-    case 'd':
-        switch (action_) {
-        case Action::none:
-            action_ = Action::erase;
-            target_ = 0;
-            // fallthrough
-        case Action::erase:
-            rc = parseCommonTargets(optarg, "erase");
-            if (rc > 0) {
-                target_ |= rc;
-                rc = 0;
-            }
-            else {    
-                rc = 1;
-            }
-            break;
-        default:
-            std::cerr << progname() 
-                      << ": Option -d is not compatible with a previous option\n";
-            rc = 1;
-            break;
-        }
-        break;
-    case 'e':
-        switch (action_) {
-        case Action::none:
-            action_ = Action::extract;
-            target_ = 0;
-            // fallthrough
-        case Action::extract:
-            rc = parseCommonTargets(optarg, "extract");
-            if (rc > 0) {
-                target_ |= rc;
-                rc = 0;
-            }
-            else {    
-                rc = 1;
-            }
-            break;
-        default:
-            std::cerr << progname() 
-                      << ": Option -e is not compatible with a previous option\n";
-            rc = 1;
-            break;
-        }
-        break;
-    case 'i':
-        switch (action_) {
-        case Action::none:
-            action_ = Action::insert;
-            target_ = 0;
-            // fallthrough
-        case Action::insert:
-            rc = parseCommonTargets(optarg, "insert");
-            if (rc > 0) {
-                target_ |= rc;
-                rc = 0;
-            }
-            else {    
-                rc = 1;
-            }
-            break;
-        default:
-            std::cerr << progname() 
-                      << ": Option -i is not compatible with a previous option\n";
-            rc = 1;
-            break;
-        }
-        break;
-    case 'm':
-        switch (action_) {
-        case Action::none:
-            action_ = Action::modify;
-            cmdFile_ = optarg;                  // parse the file later
-            break;
-        case Action::modify:
-            std::cerr << progname() 
-                      << ": Ignoring surplus option -m " << optarg << "\n";
-            break;
-        default:
-            std::cerr << progname() 
-                      << ": Option -m is not compatible with a previous option\n";
-            rc = 1;
-            break;
-        }
-        break;
+    case 'r': rc = evalRename(optarg); break;
+    case 'a': rc = evalAdjust(optarg); break;
+    case 'p': rc = evalPrint(optarg); break;
+    case 'd': rc = evalDelete(optarg); break;
+    case 'e': rc = evalExtract(optarg); break;
+    case 'i': rc = evalInsert(optarg); break;
+    case 'm': rc = evalModify(opt, optarg); break;
+    case 'M': rc = evalModify(opt, optarg); break;
     case ':':
         std::cerr << progname() << ": Option -" << static_cast<char>(optopt) 
                   << " requires an argument\n";
@@ -394,6 +258,188 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     }
     return rc;
 } // Params::option
+
+int Params::evalRename(const std::string& optarg)
+{
+    int rc = 0;
+    switch (action_) {
+    case Action::none:
+        action_ = Action::rename;
+        format_ = optarg; 
+        break;
+    case Action::rename:
+        std::cerr << progname() 
+                  << ": Ignoring surplus option -r \"" << optarg << "\"\n";
+        break;
+    default:
+        std::cerr << progname() 
+                  << ": Option -r is not compatible with a previous option\n";
+        rc = 1;
+        break;
+    }
+    return rc;
+} // Params::evalRename
+
+int Params::evalAdjust(const std::string& optarg)
+{
+    int rc = 0;
+    switch (action_) {
+    case Action::none:
+        action_ = Action::adjust;
+        adjust_ = parseTime(optarg, adjustment_);
+        if (!adjust_) {
+            std::cerr << progname() << ": Error parsing -a option argument `" 
+                      << optarg << "'\n";
+            rc = 1;
+        }
+        break;
+    case Action::adjust:
+        std::cerr << progname() 
+                  << ": Ignoring surplus option -a " << optarg << "\n";
+        break;
+    default:
+        std::cerr << progname() 
+                  << ": Option -a is not compatible with a previous option\n";
+        rc = 1;
+        break;
+    }
+    return rc;
+} // Params::evalAdjust
+
+int Params::evalPrint(const std::string& optarg)
+{
+    int rc = 0;
+    switch (action_) {
+    case Action::none:
+        action_ = Action::print;
+        switch (optarg[0]) {
+        case 's': printMode_ = pmSummary; break;
+        case 't': printMode_ = pmInterpreted; break;
+        case 'v': printMode_ = pmValues; break;
+        case 'h': printMode_ = pmHexdump; break;
+        case 'i': printMode_ = pmIptc; break;
+        case 'c': printMode_ = pmComment; break;
+        default:
+            std::cerr << progname() << ": Unrecognized print mode `"
+                      << optarg << "'\n";
+            rc = 1;
+            break;
+        }
+        break;
+    case Action::print:
+        std::cerr << progname() 
+                  << ": Ignoring surplus option -p" << optarg << "\n";
+        break;
+    default:
+        std::cerr << progname() 
+                  << ": Option -p is not compatible with a previous option\n";
+        rc = 1;
+        break;
+    }
+    return rc;
+} // Params::evalPrint
+
+int Params::evalDelete(const std::string& optarg)
+{
+    int rc = 0;
+    switch (action_) {
+    case Action::none:
+        action_ = Action::erase;
+        target_ = 0;
+        // fallthrough
+    case Action::erase:
+        rc = parseCommonTargets(optarg, "erase");
+        if (rc > 0) {
+            target_ |= rc;
+            rc = 0;
+        }
+        else {    
+            rc = 1;
+        }
+        break;
+    default:
+        std::cerr << progname() 
+                  << ": Option -d is not compatible with a previous option\n";
+        rc = 1;
+        break;
+    }
+    return rc;
+} // Params::evalDelete
+
+int Params::evalExtract(const std::string& optarg)
+{
+    int rc = 0;
+    switch (action_) {
+    case Action::none:
+        action_ = Action::extract;
+        target_ = 0;
+        // fallthrough
+    case Action::extract:
+        rc = parseCommonTargets(optarg, "extract");
+        if (rc > 0) {
+            target_ |= rc;
+            rc = 0;
+        }
+        else {    
+            rc = 1;
+        }
+        break;
+    default:
+        std::cerr << progname() 
+                  << ": Option -e is not compatible with a previous option\n";
+        rc = 1;
+        break;
+    }
+    return rc;
+} // Params::evalExtract
+
+int Params::evalInsert(const std::string& optarg)
+{
+    int rc = 0;
+    switch (action_) {
+    case Action::none:
+        action_ = Action::insert;
+        target_ = 0;
+        // fallthrough
+    case Action::insert:
+        rc = parseCommonTargets(optarg, "insert");
+        if (rc > 0) {
+            target_ |= rc;
+            rc = 0;
+        }
+        else {    
+            rc = 1;
+        }
+        break;
+    default:
+        std::cerr << progname() 
+                  << ": Option -i is not compatible with a previous option\n";
+        rc = 1;
+        break;
+    }
+    return rc;
+} // Params::evalInsert
+
+int Params::evalModify(int opt, const std::string& optarg)
+{
+    int rc = 0;
+    switch (action_) {
+    case Action::none:
+        action_ = Action::modify;
+        // fallthrough
+    case Action::modify:
+        if (opt == 'm') cmdFiles_.push_back(optarg);  // parse the files later
+        if (opt == 'M') cmdLines_.push_back(optarg);  // parse the commands later
+        break;
+    default:
+        std::cerr << progname() 
+                  << ": Option -" << (char)opt
+                  << " is not compatible with a previous option\n";
+        rc = 1;
+        break;
+    }
+    return rc;
+} // Params::evalModify
 
 int Params::nonoption(const std::string& argv)
 {
@@ -491,9 +537,9 @@ int Params::getopt(int argc, char* const argv[])
                   << ": Adjust action requires option -a time\n";
         rc = 1;
     }
-    if (action_ == Action::modify && cmdFile_.empty()) {
+    if (action_ == Action::modify && cmdFiles_.empty() && cmdLines_.empty()) {
         std::cerr << progname() 
-                  << ": Modify action requires option -m file\n";
+                  << ": Modify action requires at least one -m or -M option\n";
         rc = 1;
     }
     if (0 == files_.size()) {
@@ -501,9 +547,16 @@ int Params::getopt(int argc, char* const argv[])
         rc = 1;
     }
     if (rc == 0 && action_ == Action::modify) {
-        if (!parseCommands(modifyCmds_, cmdFile_)) {
-            std::cerr << progname() << ": Error parsing -m option argument `" 
-                      << cmdFile_ << "'\n";
+        // Parse command files
+        if (!parseCmdFiles(modifyCmds_, cmdFiles_)) {
+            std::cerr << progname() << ": Error parsing -m option arguments\n"; 
+            rc = 1;
+        }
+    }
+    if (rc ==0 && action_ == Action::modify) {
+        // Parse command lines
+        if (!parseCmdLines(modifyCmds_, cmdLines_)) {
+            std::cerr << progname() << ": Error parsing -M option arguments\n";
             rc = 1;
         }
     }
@@ -578,31 +631,56 @@ namespace {
         return rc ? rc : target;
     } // parseCommonTargets
 
-    bool parseCommands(ModifyCmds& modifyCmds, 
-                      const std::string& filename)
+    bool parseCmdFiles(ModifyCmds& modifyCmds, 
+                       const Params::CmdFiles& cmdFiles)
     {
-        try {
-            std::ifstream file(filename.c_str());
-            if (!file) {
-                std::cerr << filename 
-                          << ": Failed to open command file for reading\n";
+        Params::CmdFiles::const_iterator end = cmdFiles.end();
+        Params::CmdFiles::const_iterator filename = cmdFiles.begin();
+        for ( ; filename != end; ++filename) {
+            try {
+                std::ifstream file(filename->c_str());
+                if (!file) {
+                    std::cerr << *filename 
+                              << ": Failed to open command file for reading\n";
+                    return false;
+                }
+                int num = 0;
+                std::string line;
+                while (std::getline(file, line)) {
+                    ModifyCmd modifyCmd;
+                    if (parseLine(modifyCmd, line, ++num)) {
+                        modifyCmds.push_back(modifyCmd);
+                    }
+                }
+            }
+            catch (const Exiv2::Error& error) {
+                std::cerr << *filename << ", line " << error << "\n";
                 return false;
             }
+        }
+        return true;
+    } // parseCmdFile
+
+    bool parseCmdLines(ModifyCmds& modifyCmds, 
+                       const Params::CmdLines& cmdLines)
+    {
+        try {
             int num = 0;
-            std::string line;
-            while (std::getline(file, line)) {
+            Params::CmdLines::const_iterator end = cmdLines.end();
+            Params::CmdLines::const_iterator line = cmdLines.begin();
+            for ( ; line != end; ++line) {
                 ModifyCmd modifyCmd;
-                if (parseLine(modifyCmd, line, ++num)) {
+                if (parseLine(modifyCmd, *line, ++num)) {
                     modifyCmds.push_back(modifyCmd);
                 }
             }
             return true;
         }
         catch (const Exiv2::Error& error) {
-            std::cerr << filename << ", " << error << "\n";
+            std::cerr << "-M option " << error << "\n";
             return false;
 	}
-    } // parseCommands
+    } // parseCmdLines
 
     bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num)
     {
@@ -619,14 +697,14 @@ namespace {
         if (   cmdStart == std::string::npos
             || cmdEnd == std::string::npos
             || keyStart == std::string::npos) {
-            throw Exiv2::Error("line " + Exiv2::toString(num) 
+            throw Exiv2::Error(Exiv2::toString(num) 
                                + ": Invalid command line");
         }
 
         std::string cmd(line.substr(cmdStart, cmdEnd-cmdStart));
         CmdId cmdId = commandId(cmd);
         if (cmdId == invalidCmdId) {
-            throw Exiv2::Error("line " + Exiv2::toString(num) 
+            throw Exiv2::Error(Exiv2::toString(num) 
                                + ": Invalid command `" + cmd + "'");
         }
 
@@ -649,7 +727,7 @@ namespace {
             catch (const Exiv2::Error&) {}
         }
         if (metadataId == invalidMetadataId) {
-            throw Exiv2::Error("line " + Exiv2::toString(num) 
+            throw Exiv2::Error(Exiv2::toString(num) 
                                + ": Invalid key `" + key + "'");
         }
 
@@ -669,7 +747,7 @@ namespace {
                 || typeStart == std::string::npos
                 || typeEnd == std::string::npos
                 || valStart == std::string::npos) {
-                throw Exiv2::Error("line " + Exiv2::toString(num) 
+                throw Exiv2::Error(Exiv2::toString(num) 
                                    + ": Invalid command line");
             }
 
@@ -678,7 +756,7 @@ namespace {
             if (type != Exiv2::invalidTypeId) {
                 valStart = line.find_first_not_of(delim, typeEnd+1);
                 if (valStart == std::string::npos) {
-                    throw Exiv2::Error("line " + Exiv2::toString(num) 
+                    throw Exiv2::Error(Exiv2::toString(num) 
                                        + ": Invalid command line");
                 }
             }
@@ -687,7 +765,7 @@ namespace {
                 explicitType = false;
             }
             if (type == Exiv2::invalidTypeId) {
-                throw Exiv2::Error("line " + Exiv2::toString(num) 
+                throw Exiv2::Error(Exiv2::toString(num) 
                                    + ": Invalid type");
             }
 
@@ -695,7 +773,7 @@ namespace {
             std::string::size_type last = value.length()-1;
             if (  (value[0] == '"' || value[last] == '"') 
                 && value[0] != value[last]) {
-                throw Exiv2::Error("line " + Exiv2::toString(num) 
+                throw Exiv2::Error(Exiv2::toString(num) 
                                    + ": Unbalanced quotes");
             }
             if (value[0] == '"') {

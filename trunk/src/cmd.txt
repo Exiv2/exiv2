@@ -1,8 +1,17 @@
 # Sample Exiv2 command file
-# Run exiv2 -m cmd.txt file ...
-# to apply the commands to each file.
+# -------------------------
 #
+# $ exiv2 -m cmd.txt file ...
+#
+# to apply the commands in cmd.txt to each file. Alternatively, commands can be 
+# run from the command line directly, without a command file: 
+#
+# $ exiv2 -M'add Iptc.Application2.Credit String mee too!' file ...
+#
+# Note the quotes. Multiple -m and -M options are allowed and can be combined.
+# 
 # Command file format
+# -------------------
 # Empty lines and lines starting with # are ignored
 # Each remaining line is a command. The format for command lines is
 # <cmd> <key> [[<type>] <value>] 
@@ -20,6 +29,7 @@
 # value 
 #    The remaining text on the line is the value. It can optionally be enclosed in 
 #    double quotes ("value")
+#
 
 add  Iptc.Application2.Credit	String	"mee too! (1)"   
 add  Iptc.Application2.Credit		mee too! (2)	        
