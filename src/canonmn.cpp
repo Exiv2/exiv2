@@ -20,7 +20,7 @@
  */
 /*
   File:      canonmn.cpp
-  Version:   $Name:  $ $Revision: 1.4 $
+  Version:   $Name:  $ $Revision: 1.5 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
              07-Mar-04, ahu: isolated as a separate component
@@ -30,7 +30,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: canonmn.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: canonmn.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -95,8 +95,8 @@ namespace Exif {
         return os;
     }
 
-    std::ostream& CanonMakerNote::print0x0001(
-        std::ostream& os, const Value& value) const
+    std::ostream& CanonMakerNote::print0x0001(std::ostream& os, 
+                                              const Value& value)
     {
         if (0 == dynamic_cast<const UShortValue*>(&value)) {
             return os << value;
@@ -107,34 +107,237 @@ namespace Exif {
         if (count < 2) return os;
         uint16 s = val.value_[1];
         os << std::setw(30) << "\n   Macro mode ";
+        print0x0001_01(os, s);
+
+        if (count < 3) return os;
+        s = val.value_[2];
+        os << std::setw(30) << "\n   Self timer ";
+        print0x0001_02(os, s);
+
+        if (count < 4) return os;
+        s = val.value_[3];
+        os << std::setw(30) << "\n   Quality ";
+        print0x0001_03(os, s);
+
+        if (count < 5) return os;
+        s = val.value_[4];
+        os << std::setw(30) << "\n   Flash mode ";
+        print0x0001_04(os, s);
+
+        if (count < 6) return os;
+        s = val.value_[5];
+        os << std::setw(30) << "\n   Drive mode ";
+        print0x0001_05(os, s);
+
+        // Meaning of the 6th ushort is unknown - ignore it
+
+        if (count < 8) return os;
+        s = val.value_[7];
+        os << std::setw(30) << "\n   Focus mode ";
+        print0x0001_07(os, s);
+    
+        // Meaning of the 8th ushort is unknown - ignore it
+        // Meaning of the 9th ushort is unknown - ignore it
+
+        if (count < 11) return os;
+        s = val.value_[10];
+        os << std::setw(30) << "\n   Image size ";
+        print0x0001_10(os, s);
+
+        if (count < 12) return os;
+        s = val.value_[11];
+        os << std::setw(30) << "\n   Easy shooting mode ";
+        print0x0001_11(os, s);
+ 
+        if (count < 13) return os;
+        s = val.value_[12];
+        os << std::setw(30) << "\n   Digital zoom ";
+        print0x0001_12(os, s);
+
+        if (count < 14) return os;
+        s = val.value_[13];
+        os << std::setw(30) << "\n   Contrast ";
+        print0x0001_lnh(os, s);
+
+        if (count < 15) return os;
+        s = val.value_[14];
+        os << std::setw(30) << "\n   Saturation ";
+        print0x0001_lnh(os, s);
+
+        if (count < 16) return os;
+        s = val.value_[15];
+        os << std::setw(30) << "\n   Sharpness ";
+        print0x0001_lnh(os, s);
+
+        if (count < 17) return os;
+        s = val.value_[16];
+        if (s != 0) {
+            os << std::setw(30) << "\n   ISO ";
+            print0x0001_16(os, s);
+        }
+
+        if (count < 18) return os;
+        s = val.value_[17];
+        os << std::setw(30) << "\n   Metering mode ";
+        print0x0001_17(os, s);
+
+        if (count < 19) return os;
+        s = val.value_[18];
+        os << std::setw(30) << "\n   Focus type ";
+        print0x0001_18(os, s);
+
+        if (count < 20) return os;
+        s = val.value_[19];
+        os << std::setw(30) << "\n   AF point selected ";
+        print0x0001_19(os, s);
+
+        if (count < 21) return os;
+        s = val.value_[20];
+        os << std::setw(30) << "\n   Exposure mode ";
+        print0x0001_20(os, s);
+
+        // Meaning of the 21st ushort is unknown - ignore it
+        // Meaning of the 22nd ushort is unknown - ignore it
+
+        if (count < 26) return os;
+        os << std::setw(30) << "\n   Lens ";
+        print0x0001_Lens(os, value);
+
+        // Meaning of the 26th ushort is unknown - ignore it
+        // Meaning of the 27th ushort is unknown - ignore it
+
+        if (count < 29) return os;
+        s = val.value_[28];
+        os << std::setw(30) << "\n   Flash activity ";
+        print0x0001_28(os, s);
+
+        if (count < 30) return os;
+        s = val.value_[29];
+        os << std::setw(30) << "\n   Flash details ";
+        print0x0001_29(os, s);
+ 
+        // Meaning of the 30th ushort is unknown - ignore it
+        // Meaning of the 31st ushort is unknown - ignore it
+
+        if (count < 33) return os;
+        s = val.value_[32];
+        os << std::setw(30) << "\n   Focus mode ";
+        print0x0001_32(os, s);
+
+        // Meaning of any further ushorts is unknown - ignore them
+        
+        return os;
+
+    } // CanonMakerNote::print0x0001
+
+    std::ostream& CanonMakerNote::print0x0004(std::ostream& os, 
+                                              const Value& value)
+    {
+        if (0 == dynamic_cast<const UShortValue*>(&value)) {
+            return os << value;
+        }
+        const UShortValue& val = dynamic_cast<const UShortValue&>(value);
+        uint32 count = val.count();
+
+        // Meaning of ushorts 1-6 is unknown - ignore them
+
+        if (count < 8) return os;
+        uint16 s = val.value_[7];
+        os << std::setw(30) << "\n   White balance ";
+        print0x0004_07(os, s);
+
+        // Meaning of ushort 8 is unknown - ignore it
+
+        if (count < 10) return os;
+        s = val.value_[9];
+        os << std::setw(30) << "\n   Sequence number ";
+        print0x0004_09(os, s);
+
+        // Meaning of ushorts 10-13 is unknown - ignore them
+
+        if (count < 15) return os;
+        s = val.value_[14];
+        os << std::setw(30) << "\n   AF point used ";
+        print0x0004_14(os, s);
+
+        if (count < 16) return os;
+        s = val.value_[15];
+        os << std::setw(30) << "\n   Flash bias ";
+        print0x0004_15(os, s);
+
+        // Meaning of ushorts 16-18 is unknown - ignore them
+
+        if (count < 20) return os;
+        s = val.value_[19];
+        os << std::setw(30) << "\n   Subject distance (0.01m or 0.001m) ";
+        print0x0004_19(os, s);
+
+        return os;
+
+    } // CanonMakerNote::print0x0004
+
+    std::ostream& CanonMakerNote::print0x0008(std::ostream& os,
+                                              const Value& value)
+    {
+        std::string n = value.toString();
+        return os << n.substr(0, n.length() - 4) << "-" 
+                  << n.substr(n.length() - 4);
+    }
+
+    std::ostream& CanonMakerNote::print0x000c(std::ostream& os,
+                                              const Value& value)
+    {
+        std::istringstream is(value.toString());
+        uint32 l;
+        is >> l;
+        return os << std::setw(4) << std::setfill('0') << std::hex 
+                  << ((l & 0xffff0000) >> 16)
+                  << std::setw(5) << std::setfill('0') << std::dec
+                  << (l & 0x0000ffff);
+    }
+
+    std::ostream& CanonMakerNote::print0x000f(std::ostream& os, 
+                                              const Value& value)
+    {
+        // Todo: Decode EOS D30 Custom Functions
+        return os << "EOS D30 Custom Functions "
+                  << value << " (Todo: decode this field)";
+    }
+
+    std::ostream& CanonMakerNote::print0x0001_01(std::ostream& os, uint16 s)
+    {
         switch (s) {
         case 1: os << "On"; break;
         case 2: os << "Off"; break;
         default: os << "(" << s << ")"; break;
         }
+        return os;
+    }
 
-        if (count < 3) return os;
-        s = val.value_[2];
-        os << std::setw(30) << "\n   Self timer ";
+    std::ostream& CanonMakerNote::print0x0001_02(std::ostream& os, uint16 s)
+    {
         if (s == 0) {
             os << "Off";
         }
         else { 
             os << s / 10.0 << " s";
         }
-        if (count < 4) return os;
-        s = val.value_[3];
-        os << std::setw(30) << "\n   Quality ";
+        return os;
+    }
+
+    std::ostream& CanonMakerNote::print0x0001_03(std::ostream& os, uint16 s)
+    {
         switch (s) {
         case 2: os << "Normal"; break;
         case 3: os << "Fine"; break;
         case 5: os << "Superfine"; break;
         default: os << "(" << s << ")"; break;
         }
-        
-        if (count < 5) return os;
-        s = val.value_[4];
-        os << std::setw(30) << "\n   Flash mode ";
+        return os;
+    }
+
+    std::ostream& CanonMakerNote::print0x0001_04(std::ostream& os, uint16 s)
+    {
         switch (s) {
         case 0: os << "Off"; break;
         case 1: os << "Auto"; break;
@@ -146,21 +349,21 @@ namespace Exif {
         case 16: os << "External"; break;
         default: os << "(" << s << ")"; break;
         }
+        return os;
+    }
 
-        if (count < 6) return os;
-        s = val.value_[5];
-        os << std::setw(30) << "\n   Drive mode ";
+    std::ostream& CanonMakerNote::print0x0001_05(std::ostream& os, uint16 s)
+    {
         switch (s) {
         case 0: os << "Single / timer"; break;
         case 1: os << "Continuous"; break;
         default: os << "(" << s << ")"; break;
         }
-    
-        // Meaning of the 6th ushort is unknown - ignore it
+        return os;
+    }
 
-        if (count < 8) return os;
-        s = val.value_[7];
-        os << std::setw(30) << "\n   Focus mode ";
+    std::ostream& CanonMakerNote::print0x0001_07(std::ostream& os, uint16 s)
+    {
         switch (s) {
         case 0: os << "One shot"; break;
         case 1: os << "AI servo"; break;
@@ -171,23 +374,22 @@ namespace Exif {
         case 6: os << "MF"; break;
         default: os << "(" << s << ")"; break;
         }
-    
-        // Meaning of the 8th ushort is unknown - ignore it
-        // Meaning of the 9th ushort is unknown - ignore it
+        return os;
+    }
 
-        if (count < 11) return os;
-        s = val.value_[10];
-        os << std::setw(30) << "\n   Image size ";
+    std::ostream& CanonMakerNote::print0x0001_10(std::ostream& os, uint16 s)
+    {
         switch (s) {
         case 0: os << "Large"; break;
         case 1: os << "Medium"; break;
         case 2: os << "Small"; break;
         default: os << "(" << s << ")"; break;
         }
+        return os;
+    }
 
-        if (count < 12) return os;
-        s = val.value_[11];
-        os << std::setw(30) << "\n   Easy shooting mode ";
+    std::ostream& CanonMakerNote::print0x0001_11(std::ostream& os, uint16 s)
+    {
         switch (s) {
         case  0: os << "Full auto"; break;
         case  1: os << "Manual"; break;
@@ -203,74 +405,58 @@ namespace Exif {
         case 11: os << "Pan focus"; break;
         default: os << "(" << s << ")"; break;
         }
- 
-        if (count < 13) return os;
-        s = val.value_[12];
-        os << std::setw(30) << "\n   Digital zoom ";
+        return os;
+    }
+
+    std::ostream& CanonMakerNote::print0x0001_12(std::ostream& os, uint16 s)
+    {
         switch (s) {
         case 0: os << "None"; break;
         case 1: os << "2x"; break;
         case 2: os << "4x"; break;
         default: os << "(" << s << ")"; break;
         }
+        return os;
+    }
 
-        if (count < 14) return os;
-        s = val.value_[13];
-        os << std::setw(30) << "\n   Contrast ";
+    std::ostream& CanonMakerNote::print0x0001_lnh(std::ostream& os, uint16 s)
+    {
         switch (s) {
         case 0xffff: os << "Low"; break;
         case 0x0000: os << "Normal"; break;
         case 0x0001: os << "High"; break;
         default: os << "(" << s << ")"; break;
         }
+        return os;
+    }
 
-        if (count < 15) return os;
-        s = val.value_[14];
-        os << std::setw(30) << "\n   Saturation ";
+    std::ostream& CanonMakerNote::print0x0001_16(std::ostream& os, uint16 s)
+    {
         switch (s) {
-        case 0xffff: os << "Low"; break;
-        case 0x0000: os << "Normal"; break;
-        case 0x0001: os << "High"; break;
+        case  0: os << "n/a"; break;
+        case 15: os << "Auto"; break;
+        case 16: os << "50"; break;
+        case 17: os << "100"; break;
+        case 18: os << "200"; break;
+        case 19: os << "400"; break;
         default: os << "(" << s << ")"; break;
         }
+        return os;
+    }
 
-        if (count < 16) return os;
-        s = val.value_[15];
-        os << std::setw(30) << "\n   Sharpness ";
-        switch (s) {
-        case 0xffff: os << "Low"; break;
-        case 0x0000: os << "Normal"; break;
-        case 0x0001: os << "High"; break;
-        default: os << "(" << s << ")"; break;
-        }
-
-        if (count < 17) return os;
-        s = val.value_[16];
-        if (s != 0) {
-            os << std::setw(30) << "\n   ISO ";
-            switch (s) {
-            case 15: os << "Auto"; break;
-            case 16: os << "50"; break;
-            case 17: os << "100"; break;
-            case 18: os << "200"; break;
-            case 19: os << "400"; break;
-            default: os << "(" << s << ")"; break;
-            }
-        }
-
-        if (count < 18) return os;
-        s = val.value_[17];
-        os << std::setw(30) << "\n   Metering mode ";
+    std::ostream& CanonMakerNote::print0x0001_17(std::ostream& os, uint16 s)
+    {
         switch (s) {
         case 3: os << "Evaluative"; break;
         case 4: os << "Partial"; break;
         case 5: os << "Center weighted"; break;
         default: os << "(" << s << ")"; break;
         }
+        return os;
+    }
 
-        if (count < 19) return os;
-        s = val.value_[18];
-        os << std::setw(30) << "\n   Focus type ";
+    std::ostream& CanonMakerNote::print0x0001_18(std::ostream& os, uint16 s)
+    {
         switch (s) {
         case 0: os << "Manual"; break;
         case 1: os << "Auto"; break;
@@ -278,10 +464,11 @@ namespace Exif {
         case 8: os << "Locked (pan mode)"; break;
         default: os << "(" << s << ")"; break;
         }
+        return os;
+    }
 
-        if (count < 20) return os;
-        s = val.value_[19];
-        os << std::setw(30) << "\n   AF point selected ";
+    std::ostream& CanonMakerNote::print0x0001_19(std::ostream& os, uint16 s)
+    {
         switch (s) {
         case 0x3000: os << "None (MF)"; break;
         case 0x3001: os << "Auto-selected"; break;
@@ -290,10 +477,11 @@ namespace Exif {
         case 0x3004: os << "Left"; break;
         default: os << "(" << s << ")"; break;
         }
+        return os;
+    }
 
-        if (count < 21) return os;
-        s = val.value_[20];
-        os << std::setw(30) << "\n   Exposure mode ";
+    std::ostream& CanonMakerNote::print0x0001_20(std::ostream& os, uint16 s)
+    {
         switch (s) {
         case 0: os << "Easy shooting"; break;
         case 1: os << "Program"; break;
@@ -303,71 +491,58 @@ namespace Exif {
         case 5: os << "A-DEP"; break;
         default: os << "(" << s << ")"; break;
         }
+        return os;
+    }
 
-        // Meaning of the 21st ushort is unknown - ignore it
-        // Meaning of the 22nd ushort is unknown - ignore it
-
-        if (count < 26) return os;
-        float fu = val.value_[25];
-        float len1 = val.value_[23] / fu;
-        float len2 = val.value_[24] / fu;
-        std::ostringstream oss;
-        oss.copyfmt(os);
-        os << std::setw(30) << "\n   Lens "
-           << std::fixed << std::setprecision(1)
-           << len2 << " - " << len1 << " mm";
-        os.copyfmt(oss);
-
-        // Meaning of the 26th ushort is unknown - ignore it
-        // Meaning of the 27th ushort is unknown - ignore it
-
-        if (count < 29) return os;
-        s = val.value_[28];
-        os << std::setw(30) << "\n   Flash activity ";
+    std::ostream& CanonMakerNote::print0x0001_28(std::ostream& os, uint16 s)
+    {
         switch (s) {
         case 0: os << "Did not fire"; break;
         case 1: os << "Fired"; break;
         default: os << "(" << s << ")"; break;
         }
+        return os;
+    }
 
-        if (count < 30) return os;
-        s = val.value_[29];
+    std::ostream& CanonMakerNote::print0x0001_29(std::ostream& os, uint16 s)
+    {
         // Todo: decode bitmask
-        os << std::setw(30) << "\n   Flash details " 
-           << std::dec << s << " (Todo: decode bitmask)";
+        os << std::dec << s << " (Todo: decode bitmask)";
+        return os;
+    }
 
-        // Meaning of the 30th ushort is unknown - ignore it
-        // Meaning of the 31st ushort is unknown - ignore it
-
-        if (count < 33) return os;
-        s = val.value_[32];
-        os << std::setw(30) << "\n   Focus mode ";
+    std::ostream& CanonMakerNote::print0x0001_32(std::ostream& os, uint16 s)
+    {
         switch (s) {
         case 0: os << "Single"; break;
         case 1: os << "Continuous"; break;
         default: os << "(" << s << ")"; break;
         }
-
-        // Meaning of any further ushorts is unknown - ignore them
-        
         return os;
+    }
 
-    } // CanonMakerNote::print0x0001
-
-    std::ostream& CanonMakerNote::print0x0004(
-        std::ostream& os, const Value& value) const
+    std::ostream& CanonMakerNote::print0x0001_Lens(std::ostream& os, 
+                                                   const Value& value)
     {
         if (0 == dynamic_cast<const UShortValue*>(&value)) {
-            return os << value;
+            return os;
         }
         const UShortValue& val = dynamic_cast<const UShortValue&>(value);
-        uint32 count = val.count();
+        if (val.count() < 26) return os;
 
-        // Meaning of ushorts 1-6 is unknown - ignore them
+        float fu = val.value_[25];
+        float len1 = val.value_[23] / fu;
+        float len2 = val.value_[24] / fu;
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        os << std::fixed << std::setprecision(1)
+           << len2 << " - " << len1 << " mm";
+        os.copyfmt(oss);
+        return os;
+    }
 
-        if (count < 8) return os;
-        uint16 s = val.value_[7];
-        os << std::setw(30) << "\n   White balance ";
+    std::ostream& CanonMakerNote::print0x0004_07(std::ostream& os, uint16 s)
+    {
         switch (s) {
         case 0: os << "Auto"; break;
         case 1: os << "Sunny"; break;
@@ -378,24 +553,25 @@ namespace Exif {
         case 6: os << "Custom"; break;
         default: os << "(" << s << ")"; break;
         }
+        return os;
+    }
 
-        // Meaning of ushort 8 is unknown - ignore it
+    std::ostream& CanonMakerNote::print0x0004_09(std::ostream& os, uint16 s)
+    {
+        os << s << "";
+        // Todo: determine unit
+        return os;
+    }
 
-        if (count < 10) return os;
-        s = val.value_[9];
-        os << std::setw(30) << "\n   Sequence number " << s << "";
-
-        // Meaning of ushorts 10-13 is unknown - ignore them
-
-        if (count < 15) return os;
-        s = val.value_[14];
+    std::ostream& CanonMakerNote::print0x0004_14(std::ostream& os, uint16 s)
+    {
         // Todo: decode bitmask
-        os << std::setw(30) << "\n   AF point used " 
-           << s << " (Todo: decode bitmask)";
-        
-        if (count < 16) return os;
-        s = val.value_[15];
-        os << std::setw(30) << "\n   Flash bias ";
+        os << s << " (Todo: decode bitmask)";
+        return os;
+    }
+
+    std::ostream& CanonMakerNote::print0x0004_15(std::ostream& os, uint16 s)
+    {
         switch (s) {
         case 0xffc0: os << "-2 EV"; break;
         case 0xffcc: os << "-1.67 EV"; break;
@@ -416,49 +592,18 @@ namespace Exif {
         case 0x0040: os << "2 EV"; break;
         default: os << "(" << s << ")"; break;
         }
+        return os;
+    }
 
-        // Meaning of ushorts 16-18 is unknown - ignore them
-
-        if (count < 20) return os;
-        s = val.value_[19];
-        os << std::setw(30) << "\n   Subject distance (0.01m or 0.001m) ";
+    std::ostream& CanonMakerNote::print0x0004_19(std::ostream& os, uint16 s)
+    {
         if (s == 0xffff) {
             os << "Infinite";
         }
         else {
             os << s << "";
         }
-
         return os;
-
-    } // CanonMakerNote::print0x0004
-
-    std::ostream& CanonMakerNote::print0x0008(
-        std::ostream& os, const Value& value) const
-    {
-        std::string n = value.toString();
-        return os << n.substr(0, n.length() - 4) << "-" 
-                  << n.substr(n.length() - 4);
-    }
-
-    std::ostream& CanonMakerNote::print0x000c(
-        std::ostream& os, const Value& value) const
-    {
-        std::istringstream is(value.toString());
-        uint32 l;
-        is >> l;
-        return os << std::setw(4) << std::setfill('0') << std::hex 
-                  << ((l & 0xffff0000) >> 16)
-                  << std::setw(5) << std::setfill('0') << std::dec
-                  << (l & 0x0000ffff);
-    }
-
-    std::ostream& CanonMakerNote::print0x000f(
-        std::ostream& os, const Value& value) const
-    {
-        // Todo: Decode EOS D30 Custom Functions
-        return os << "EOS D30 Custom Functions "
-                  << value << " (Todo: decode this field)";
     }
 
 // *****************************************************************************
