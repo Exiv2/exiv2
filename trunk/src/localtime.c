@@ -1,9 +1,15 @@
 /*!
   @file    localtime.c
   @brief   This file is from the tz distribution at ftp://elsie.nci.nih.gov/pub/
-  @version $Name:  $ $Revision: 1.1 $
+  @version $Name:  $ $Revision: 1.2 $
 */
-#include <config.h>
+#ifdef HAVE_CONFIG_H
+# include <config.h>
+#else
+# ifdef _MSC_VER
+#  include <config_win32.h>
+# endif
+#endif
 #include "timegm.h"
 
 /*
