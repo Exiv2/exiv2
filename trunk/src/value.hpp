@@ -21,7 +21,7 @@
 /*!
   @file    value.hpp
   @brief   Value interface and concrete subclasses
-  @version $Name:  $ $Revision: 1.14 $
+  @version $Name:  $ $Revision: 1.15 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -62,7 +62,11 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor, taking a type id to initialize the base class with
-        explicit Value(TypeId typeId) : type_(typeId) {}
+        explicit Value(TypeId typeId) 
+            : type_(typeId) {}
+        //! Copy constructor
+        Value(const Value& rhs)
+            : type_(rhs.type_) {}
         //! Virtual destructor.
         virtual ~Value() {}
         //@}
@@ -266,29 +270,35 @@ namespace Exiv2 {
     }; // class DataValue
 
     /*!
-      @brief %Value for a string type. 
+      @brief Abstract base class for a string based %Value type. 
 
-      This can a plain Ascii string or a multipe by encoded string. It is
-      left to caller to decode and encode the string to and from readable
-      text if that is required.
-     */    
-    class StringValue : public Value {
+      Uses a std::string to store the value and implements defaults for 
+      most operations.
+     */
+    class StringValueBase : public Value {
     public:
         //! @name Creators
         //@{
-        //! Default constructor.
-        StringValue() : Value(string) {}
-        //! Constructor
-        StringValue(const std::string &buf) 
-            : Value(string) { read(buf); }
+        //! Constructor for subclasses
+        StringValueBase(TypeId typeId)
+            : Value(typeId) {}
+        //! Constructor for subclasses
+        StringValueBase(TypeId typeId, const std::string& buf)
+            : Value(typeId) { read(buf); }
+        //! Copy constructor
+        StringValueBase(const StringValueBase& rhs)
+            : Value(rhs), value_(rhs.value_) {}
+            
         //! Virtual destructor.
-        virtual ~StringValue() {}
+        virtual ~StringValueBase() {}
         //@}
 
         //! @name Manipulators
         //@{
         //! Assignment operator.
-        StringValue& operator=(const StringValue& rhs);
+        StringValueBase& operator=(const StringValueBase& rhs);
+        //! Read the value from buf. This default implementation uses buf as it is.
+        virtual void read(const std::string& buf);
         /*!
           @brief Read the value from a character buffer.
 
@@ -302,10 +312,6 @@ namespace Exiv2 {
         virtual void read(const byte* buf, 
                           long len, 
                           ByteOrder byteOrder =invalidByteOrder);
-        /*!
-          @brief Set the value to that of the string buf. 
-         */
-        virtual void read(const std::string& buf);
         //@}
 
         //! @name Accessors
@@ -326,66 +332,103 @@ namespace Exiv2 {
         virtual long copy(byte* buf, ByteOrder byteOrder =invalidByteOrder) const;
         virtual long count() const { return size(); }
         virtual long size() const;
-        virtual StringValue* clone() const;
-        /*! 
-          @brief Write the value to an output stream. .
-        */
-        virtual std::ostream& write(std::ostream& os) const;
         virtual long toLong(long n =0) const { return value_[n]; }
         virtual float toFloat(long n =0) const { return value_[n]; }
         virtual Rational toRational(long n =0) const
             { return Rational(value_[n], 1); }
+        virtual std::ostream& write(std::ostream& os) const;
+
+        virtual StringValueBase* clone() const =0;
         //@}
 
     protected:
+        std::string value_;                     //!< Stores the string value. 
+
+    }; // class StringValueBase
+
+    /*!
+      @brief %Value for string type.
+
+      This can be a plain Ascii string or a multipe byte encoded string. It is
+      left to caller to decode and encode the string to and from readable
+      text if that is required.
+    */
+    class StringValue : public StringValueBase {
+    public:
         //! @name Creators
         //@{
-        //! Constructor for subclasses
-        StringValue(TypeId typeId) : Value(typeId) {}
+        //! Default constructor.
+        StringValue() 
+            : StringValueBase(string) {}
+        //! Constructor
+        StringValue(const std::string& buf) 
+            : StringValueBase(string, buf) {}
+        //! Copy constructor 
+        StringValue(const StringValue& rhs)
+            : StringValueBase(rhs) {}
+        //! Virtual destructor.
+        virtual ~StringValue() {}
         //@}
 
-    private:
-        std::string value_;
+        //! @name Manipulators
+        //@{
+        StringValue& operator=(const StringValue& rhs);
+        //@}
+
+        //! @name Accessors
+        //@{
+        virtual StringValue* clone() const;
+        //@}
 
     }; // class StringValue
 
     /*!
       @brief %Value for an Ascii string type. 
 
-      This class is for null single byte Ascii strings. This class also
-      ensure that the string is null terminated.
-     */    
-    class AsciiValue : public StringValue {
+      This class is for null terminated single byte Ascii strings. 
+      This class also ensures that the string is null terminated.
+     */
+    class AsciiValue : public StringValueBase {
     public:
         //! @name Creators
         //@{
         //! Default constructor.
-        AsciiValue() : StringValue(asciiString) {}
+        AsciiValue() 
+            : StringValueBase(asciiString) {}
         //! Constructor
         AsciiValue(const std::string &buf) 
-            : StringValue(asciiString) { read(buf); }
+            : StringValueBase(asciiString, buf) {}
+        //! Copy constructor
+        AsciiValue(const AsciiValue& rhs)
+            : StringValueBase(rhs) {}
         //! Virtual destructor.
         virtual ~AsciiValue() {}
         //@}
 
         //! @name Manipulators
         //@{
-        //! Assignment operator.
-        AsciiValue& operator=(const AsciiValue& rhs) 
-            { StringValue::operator=(rhs); return *this; }
+        //! Assignment operator
+        AsciiValue& operator=(const AsciiValue& rhs);
+        /*!
+          @brief Read the value from a character buffer. Appends a terminating
+                 '\\0' character if buf doesn't end with 0.
 
+          @note The byte order is required by the interface but not used by this
+                method, so just use the default.
+
+          @param buf Pointer to the data buffer to read from
+          @param len Number of bytes in the data buffer 
+          @param byteOrder Byte order. Not needed.
+         */
+        virtual void read(const byte* buf, 
+                          long len, 
+                          ByteOrder byteOrder =invalidByteOrder);
         /*!
           @brief Set the value to that of the string buf. Overrides base class
                  to append a terminating '\\0' character if buf doesn't end
                  with '\\0'.
          */
         virtual void read(const std::string& buf);
-        /*!
-          @brief Just pass through to the base class.
-         */
-        virtual void read(const byte* buf, 
-                      long len, ByteOrder byteOrder =invalidByteOrder)
-            { StringValue::read(buf, len, byteOrder); }
         //@}
 
         //! @name Accessors
