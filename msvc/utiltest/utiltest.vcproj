@@ -127,6 +127,9 @@
 				RelativePath="..\..\src\getopt_win32.c">
 			</File>
 			<File
+				RelativePath="..\..\src\mn.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\utils.cpp">
 			</File>
 			<File

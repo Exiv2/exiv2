@@ -28,6 +28,7 @@
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
+				WarnAsError="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="4"/>
 			<Tool
@@ -76,6 +77,7 @@
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
+				WarnAsError="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="3"/>
 			<Tool
@@ -121,6 +123,9 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
 				RelativePath="..\..\src\makernote-test.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\mn.cpp">
 			</File>
 		</Filter>
 		<Filter
