@@ -20,14 +20,14 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.15 $
+  Version:   $Name:  $ $Revision: 1.16 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.15 $ $RCSfile: image.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.16 $ $RCSfile: image.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -38,7 +38,14 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.15 $ $RCSfile: image.cpp,v $")
 #include <iostream>
 #include <fstream>
 #include <cstring>
-#include <cstdio>                               // for rename, remove, tmpnam
+#include <cstdio>                               // for rename, remove
+#ifdef _MSC_VER
+#include <process.h>
+typedef int pid_t;
+#else
+#include <sys/types.h>                          // for getpid
+#include <unistd.h>                             // for getpid
+#endif
 
 // *****************************************************************************
 // class member definitions
@@ -192,7 +199,8 @@ namespace Exiv2 {
         if (!is) return -1;
 
         // Write the output to a temporary file
-        std::string tmpname = tmpnam(NULL);
+        pid_t pid = getpid();
+        std::string tmpname = path + toString(pid);
         std::ofstream os(tmpname.c_str(), std::ios::binary);
         if (!os) return -3;
 
@@ -289,7 +297,8 @@ namespace Exiv2 {
         if (!is) return -1;
 
         // Write the output to a temporary file
-        std::string tmpname = tmpnam(NULL);
+        pid_t pid = getpid();
+        std::string tmpname = path + toString(pid);
         std::ofstream os(tmpname.c_str(), std::ios::binary);
         if (!os) return -3;
 
