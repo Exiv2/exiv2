@@ -136,6 +136,9 @@
 				RelativePath="..\..\src\localtime.c">
 			</File>
 			<File
+				RelativePath="..\..\src\mn.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\utils.cpp">
 			</File>
 		</Filter>
@@ -156,13 +159,13 @@
 				RelativePath="..\..\src\private.h">
 			</File>
 			<File
-				RelativePath="..\..\src\utils.hpp">
-			</File>
-			<File
 				RelativePath="..\..\src\timegm.h">
 			</File>
 			<File
 				RelativePath="..\..\src\tzfile.h">
+			</File>
+			<File
+				RelativePath="..\..\src\utils.hpp">
 			</File>
 		</Filter>
 		<Filter

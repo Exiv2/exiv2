@@ -130,6 +130,9 @@
 				RelativePath="..\..\src\metacopy.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\mn.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\utils.cpp">
 			</File>
 		</Filter>

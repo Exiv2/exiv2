@@ -126,6 +126,9 @@
 			<File
 				RelativePath="..\..\src\exifcomment.cpp">
 			</File>
+			<File
+				RelativePath="..\..\src\mn.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
