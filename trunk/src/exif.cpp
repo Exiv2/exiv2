@@ -25,7 +25,7 @@
 
   RCS information
    $Name:  $
-   $Revision: 1.6 $
+   $Revision: 1.7 $
  */
 // *****************************************************************************
 // included header files
@@ -295,13 +295,13 @@ namespace Exif {
     }
 
     Metadatum::Metadatum()
-        : tag_(0), type_(0), ifdId_(IfdIdNotSet), ifdIdx_(-1), value_(0)
+        : tag_(0), ifdId_(IfdIdNotSet), ifdIdx_(-1), value_(0)
     {
     }
 
     Metadatum::Metadatum(uint16 tag, uint16 type, 
                          IfdId ifdId, int ifdIdx, Value* value)
-        : tag_(tag), type_(type), ifdId_(ifdId), ifdIdx_(ifdIdx), value_(value)
+        : tag_(tag), ifdId_(ifdId), ifdIdx_(ifdIdx), value_(value)
     {
         key_ = std::string(ifdItem()) 
             + "." + std::string(sectionName()) 
@@ -314,21 +314,16 @@ namespace Exif {
     }
 
     Metadatum::Metadatum(const Metadatum& rhs)
+        : tag_(rhs.tag_), ifdId_(rhs.ifdId_), ifdIdx_(rhs.ifdIdx_), 
+          value_(0), key_(rhs.key_)
     {
-        tag_ = rhs.tag_;
-        type_ = rhs.type_;
-        ifdId_ = rhs.ifdId_;
-        ifdIdx_ = rhs.ifdIdx_;
-        value_ = 0;
         if (rhs.value_ != 0) value_ = rhs.value_->clone(); // deep copy
-        key_ = rhs.key_;
     }
 
     Metadatum& Metadatum::operator=(const Metadatum& rhs)
     {
         if (this == &rhs) return *this;
         tag_ = rhs.tag_;
-        type_ = rhs.type_;
         ifdId_ = rhs.ifdId_;
         ifdIdx_ = rhs.ifdIdx_;
         delete value_;
@@ -356,18 +351,14 @@ namespace Exif {
     }
 
     Ifd::Entry::Entry(const Entry& rhs)
+        : ifdIdx_(rhs.ifdIdx_), tag_(rhs.tag_), type_(rhs.type_),
+          count_(rhs.count_), offset_(rhs.offset_), 
+          data_(0), size_(rhs.size_)
     {
-        ifdIdx_ = rhs.ifdIdx_;
-        tag_ = rhs.tag_;
-        type_ = rhs.type_;
-        count_ = rhs.count_;
-        offset_ = rhs.offset_;
-        data_ = 0;
         if (rhs.data_) {
             data_ = new char[rhs.size_];
             ::memcpy(data_, rhs.data_, rhs.size_);
         }
-        size_ = rhs.size_;
     }
 
     Ifd::Entry::Entry& Ifd::Entry::operator=(const Entry& rhs)
@@ -574,33 +565,35 @@ namespace Exif {
 
     } // Ifd::print
 
-    // Todo: implement this properly..
-    //       - Tag values 0x0201 and 0x0202 may be long OR short types...
-    //       - TIFF thumbnails
-    // Rewrite: it should use the higher level Metadata interface
-    int Thumbnail::read(const char* buf, const Ifd& ifd1, ByteOrder byteOrder)
+    // Todo: Finish the implementation (TIFF thumbnails)
+    //       - do we need to sum up the strips??
+    int Thumbnail::read(
+        const char* buf, const ExifData& exifData, ByteOrder byteOrder
+    )
     {
-//         Ifd::Entries::const_iterator pos = ifd1.findTag(0x0103);
-//         if (pos == ifd1.entries().end()) return 1;
-//         const UShortValue& compression = dynamic_cast<const UShortValue&>(pos->value());
-//         if (compression.value() == 6) {
-//             pos = ifd1.findTag(0x0201);
-//             if (pos == ifd1.entries().end()) return 2;
-//             const ULongValue& offset = dynamic_cast<const ULongValue&>(pos->value());
-//             pos = ifd1.findTag(0x0202);
-//             if (pos == ifd1.entries().end()) return 3;
-//             const ULongValue& size = dynamic_cast<const ULongValue&>(pos->value());
-
-//             thumbnail_ = std::string(buf + offset.value(), size.value());
-//         }
-//         else if (compression.value() == 1) {
-//             // Todo: to be continued...
-//             return 4;
-//         }
-//         else {
-//             // invalid compression value
-//             return 5;
-//         }
+        std::string key = "Thumbnail.ImageStructure.Compression";
+        ExifData::const_iterator pos = exifData.findKey(key);
+        if (pos == exifData.end()) return 1;
+        long compression = pos->toLong();
+        if (compression == 6) {
+            key = "Thumbnail.RecordingOffset.JPEGInterchangeFormat";
+            pos = exifData.findKey(key);
+            if (pos == exifData.end()) return 2;
+            long offset = pos->toLong();
+            key = "Thumbnail.RecordingOffset.JPEGInterchangeFormatLength";
+            pos = exifData.findKey(key);
+            if (pos == exifData.end()) return 3;
+            long size = pos->toLong();
+            thumbnail_ = std::string(buf + offset, size);
+        }
+        else if (compression == 1) {
+            // Todo: implement me!
+            return 4;
+        }
+        else {
+            // invalid compression value
+            return 5;
+        }
         return 0;
     }
 
@@ -683,7 +676,7 @@ namespace Exif {
         add(ifd1GpsIfd, byteOrder());
 
         // Read the thumbnail
-        thumbnail_.read(buf, ifd1, byteOrder());
+        thumbnail_.read(buf, *this, byteOrder());
 
         return 0;
     } // ExifData::read
@@ -715,6 +708,12 @@ namespace Exif {
     void ExifData::add(const Metadatum& src)
     {
         metadata_.push_back(src);
+    }
+
+    ExifData::const_iterator ExifData::findKey(const std::string& key) const
+    {
+        return std::find_if(metadata_.begin(), metadata_.end(),
+                            FindMetadatumByKey(key));
     }
 
     // *************************************************************************
