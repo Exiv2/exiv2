@@ -28,8 +28,13 @@ try {
         std::string error = Exiv2::Image::strError(rc, argv[1]);
         throw Exiv2::Error(error);
     }
-
     Exiv2::IptcData &iptcData = image->iptcData();
+    if (iptcData.empty()) {
+        std::string error(argv[1]);
+        error += ": No Iptc data found in the file";
+        throw Exiv2::Error(error);
+    }
+
     Exiv2::IptcData::iterator end = iptcData.end();
     for (Exiv2::IptcData::iterator md = iptcData.begin(); md != end; ++md) {
         std::cout << std::setw(36) << std::setfill(' ') << std::left

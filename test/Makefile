@@ -10,29 +10,20 @@ SHELL = /bin/sh
 
 .SUFFIXES:
 
-# **********************************************************************
+# ******************************************************************************
 # Targets
 .PHONY: all test clean distclean maintainer-clean
 
+# Add test drivers to this list
+TESTS = addmoddel.sh exifdata-test.sh exiv2-test.sh ifd-test.sh \
+        imagetest.sh iotest.sh iptctest.sh makernote-test.sh write-test.sh \
+        write2-test.sh
+
 test:
-	@echo Running addmoddel...
-	@./addmoddel.sh
-	@echo Running exiv2-test...
-	@./exiv2-test.sh
-	@echo Running ifd-test...
-	@./ifd-test.sh
-	@echo Running imagetest...
-	@./imagetest.sh
-	@echo Running iotest...
-	@./iotest.sh
-	@echo Running iptctest...
-	@./iptctest.sh
-	@echo Running makernote-test...
-	@./makernote-test.sh
-	@echo Running write-test...
-	@./write-test.sh
-	@echo Running write2-test...
-	@./write2-test.sh
+	@list='$(TESTS)'; for p in $$list; do \
+	    echo Running $$p ...; \
+	    ./$$p; \
+	done
 
 clean:
 	rm -rf $(top_srcdir)/test/tmp/*

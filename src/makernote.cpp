@@ -221,7 +221,9 @@ namespace Exiv2 {
 
     void IfdMakerNote::updateBase(byte* pNewBase)
     { 
-        ifd_.updateBase(pNewBase);
+        if (absOffset_) {
+            ifd_.updateBase(pNewBase);
+        }
         Entries::iterator end = ifd_.end();
         for (Entries::iterator i = ifd_.begin(); i != end; ++i) {
             i->setMakerNote(this);

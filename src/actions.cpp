@@ -184,8 +184,12 @@ namespace Action {
             std::cerr << Exiv2::Image::strError(rc, path_) << "\n";
             return rc;
         }
-
         Exiv2::ExifData &exifData = image->exifData();
+        if (exifData.empty()) {
+            std::cerr << path_
+                      << ": No Exif data found in the file\n";
+            return -3;
+        }
         align_ = 16;
 
         // Filename
@@ -474,8 +478,12 @@ namespace Action {
             std::cerr << Exiv2::Image::strError(rc, path_) << "\n";
             return rc;
         }
-
         Exiv2::ExifData &exifData = image->exifData();
+        if (exifData.empty()) {
+            std::cerr << path_
+                      << ": No Exif data found in the file\n";
+            return -3;
+        }
         Exiv2::ExifData::const_iterator md;
         for (md = exifData.begin(); md != exifData.end(); ++md) {
             std::cout << "0x" << std::setw(4) << std::setfill('0') << std::right
@@ -508,8 +516,12 @@ namespace Action {
             std::cerr << Exiv2::Image::strError(rc, path_) << "\n";
             return rc;
         }
-
         Exiv2::ExifData &exifData = image->exifData();
+        if (exifData.empty()) {
+            std::cerr << path_
+                      << ": No Exif data found in the file\n";
+            return -3;
+        }
         Exiv2::ExifData::const_iterator end = exifData.end();
         Exiv2::ExifData::const_iterator md;
         for (md = exifData.begin(); md != end; ++md) {
@@ -549,8 +561,12 @@ namespace Action {
             std::cerr << Exiv2::Image::strError(rc, path_) << "\n";
             return rc;
         }
-
         Exiv2::IptcData &iptcData = image->iptcData();
+        if (iptcData.empty()) {
+            std::cerr << path_
+                      << ": No Iptc data found in the file\n";
+            return -3;
+        }
         Exiv2::IptcData::const_iterator end = iptcData.end();
         Exiv2::IptcData::const_iterator md;
         for (md = iptcData.begin(); md != end; ++md) {
@@ -590,8 +606,12 @@ namespace Action {
             std::cerr << Exiv2::Image::strError(rc, path_) << "\n";
             return rc;
         }
-
         Exiv2::ExifData &exifData = image->exifData();
+        if (exifData.empty()) {
+            std::cerr << path_
+                      << ": No Exif data found in the file\n";
+            return -3;
+        }
         Exiv2::ExifData::const_iterator md;
         for (md = exifData.begin(); md != exifData.end(); ++md) {
             std::cout << std::setw(4) << std::setfill(' ') << std::left
@@ -670,8 +690,12 @@ namespace Action {
             std::cerr << Exiv2::Image::strError(rc, path) << "\n";
             return rc;
         }
-
         Exiv2::ExifData &exifData = image->exifData();
+        if (exifData.empty()) {
+            std::cerr << path
+                      << ": No Exif data found in the file\n";
+            return -3;
+        }
         Exiv2::ExifKey key("Exif.Photo.DateTimeOriginal");
         Exiv2::ExifData::iterator md = exifData.findKey(key);
         if (md == exifData.end()) {
@@ -895,6 +919,11 @@ namespace Action {
             return rc;
         }
         Exiv2::ExifData &exifData = image->exifData();
+        if (exifData.empty()) {
+            std::cerr << path_
+                      << ": No Exif data found in the file\n";
+            return -3;
+        }
 
         std::string thumb =   Util::dirname(path_) + SEPERATOR_STR
                             + Util::basename(path_, true) + "-thumb";
@@ -1157,8 +1186,12 @@ namespace Action {
             std::cerr << Exiv2::Image::strError(rc, path) << "\n";
             return rc;
         }
-
         Exiv2::ExifData &exifData = image->exifData();
+        if (exifData.empty()) {
+            std::cerr << path
+                      << ": No Exif data found in the file\n";
+            return -3;
+        }
         rc  = adjustDateTime(exifData, "Exif.Image.DateTime", path);
         rc += adjustDateTime(exifData, "Exif.Photo.DateTimeOriginal", path);
         rc += adjustDateTime(exifData, "Exif.Photo.DateTimeDigitized", path);
@@ -1320,7 +1353,7 @@ namespace {
             return 2;
         }
         if (   Params::instance().target_ & Params::ctExif
-            && sourceImage->exifData().count() > 0) {
+            && !sourceImage->exifData().empty()) {
             if (Params::instance().verbose_) {
                 std::cout << "Writing Exif data from " << source 
                           << " to " << target << std::endl;
@@ -1328,7 +1361,7 @@ namespace {
             targetImage->setExifData(sourceImage->exifData());
         }
         if (   Params::instance().target_ & Params::ctIptc
-            && sourceImage->iptcData().count() > 0) {
+            && !sourceImage->iptcData().empty()) {
             if (Params::instance().verbose_) {
                 std::cout << "Writing Iptc data from " << source 
                           << " to " << target << std::endl;

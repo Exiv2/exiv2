@@ -30,7 +30,7 @@
 EXIV2_RCSID("@(#) $Id$");
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
-#undef DEBUG_MAKERNOTE
+//#define DEBUG_MAKERNOTE
 
 // *****************************************************************************
 // included header files

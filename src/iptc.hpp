@@ -384,6 +384,8 @@ namespace Exiv2 {
          */
         const_iterator findId(uint16_t dataset, 
                               uint16_t record = IptcDataSets::application2) const;
+        //! Return true if there is no Iptc metadata
+        bool empty() const { return count() == 0; }
         //! Get the number of metadata entries
         long count() const { return static_cast<long>(iptcMetadata_.size()); }
         /*!

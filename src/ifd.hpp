@@ -450,6 +450,8 @@ namespace Exiv2 {
 
           Allows to re-locate the underlying data buffer to a new location
           \em pNewBase. This method only has an effect in non-alloc mode.
+
+          @param pNewBase Pointer to the new data buffer
          */
         void updateBase(byte* pNewBase);
         //@}
