@@ -468,20 +468,6 @@ namespace Exiv2 {
         //! Assignment operator
         AsciiValue& operator=(const AsciiValue& rhs);
         /*!
-          @brief Read the value from a character buffer. Appends a terminating
-                 '\\0' character if buf doesn't end with 0.
-
-          @note The byte order is required by the interface but not used by this
-                method, so just use the default.
-
-          @param buf Pointer to the data buffer to read from
-          @param len Number of bytes in the data buffer 
-          @param byteOrder Byte order. Not needed.
-         */
-        virtual void read(const byte* buf, 
-                          long len, 
-                          ByteOrder byteOrder =invalidByteOrder);
-        /*!
           @brief Set the value to that of the string buf. Overrides base class
                  to append a terminating '\\0' character if buf doesn't end
                  with '\\0'.
