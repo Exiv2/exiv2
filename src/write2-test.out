@@ -1,0 +1,18 @@
+----- One IFD0 tag
+Image.OtherTags.Model                                 IFD0         0x0110  Test 1
+
+----- One Exif tag
+Image.ExifFormat.ExifTag                              IFD0         0x8769  26
+Image.DateTime.DateTimeOriginal                       Exif         0x9003  Test 2
+
+----- One IOP tag
+Image.ExifFormat.ExifTag                              IFD0         0x8769  26
+Image.ExifFormat.InteroperabilityTag                  Exif         0xa005  44
+Image.Interoperability.InteroperabilityVersion        Iop          0x0002  Test 3
+
+----- One GPS tag
+Image.ExifFormat.GPSTag                               IFD0         0x8825  26
+Image.GPS.GPSVersionID                                GPSInfo      0x0000  Test 4
+
+----- One IFD1 tag
+Image.OtherTags.Model                                 IFD0         0x0110  Test 5 (Fix me!)
