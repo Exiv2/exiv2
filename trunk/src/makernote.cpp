@@ -376,8 +376,8 @@ namespace Exiv2 {
     {
 #ifdef DEBUG_REGISTRY
         std::cerr << "   Matching registry entry \"" << regEntry << "\" (" 
-                  << regEntry.size() << ") with key \"" << key << "\" ("
-                  << key.size() << "): ";
+                  << (int)regEntry.size() << ") with key \"" << key << "\" ("
+                  << (int)key.size() << "): ";
 #endif
         // Todo: make the comparisons case insensitive
 
@@ -385,7 +385,7 @@ namespace Exiv2 {
         // return value - the following algorithm also finds exact matches)
         if (regEntry == key) {
 #ifdef DEBUG_REGISTRY
-            std::cerr << "Exact match (score: " << key.size() + 2 << ")\n";
+            std::cerr << "Exact match (score: " << (int)key.size() + 2 << ")\n";
 #endif
             return static_cast<int>(key.size()) + 2;
         }
