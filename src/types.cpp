@@ -20,14 +20,14 @@
  */
 /*
   File:      types.cpp
-  Version:   $Name:  $ $Revision: 1.12 $
+  Version:   $Name:  $ $Revision: 1.13 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.12 $ $RCSfile: types.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.13 $ $RCSfile: types.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -80,7 +80,7 @@ namespace Exiv2 {
     // *************************************************************************
     // free functions
 
-    uint16 getUShort(const byte* buf, ByteOrder byteOrder)
+    uint16_t getUShort(const byte* buf, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
             return (byte)buf[1] << 8 | (byte)buf[0];
@@ -90,7 +90,7 @@ namespace Exiv2 {
         }
     }
 
-    uint32 getULong(const byte* buf, ByteOrder byteOrder)
+    uint32_t getULong(const byte* buf, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
             return   (byte)buf[3] << 24 | (byte)buf[2] << 16 
@@ -104,12 +104,12 @@ namespace Exiv2 {
 
     URational getURational(const byte* buf, ByteOrder byteOrder)
     {
-        uint32 nominator = getULong(buf, byteOrder);
-        uint32 denominator = getULong(buf + 4, byteOrder);
+        uint32_t nominator = getULong(buf, byteOrder);
+        uint32_t denominator = getULong(buf + 4, byteOrder);
         return std::make_pair(nominator, denominator);
     }
 
-    int16 getShort(const byte* buf, ByteOrder byteOrder)
+    int16_t getShort(const byte* buf, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
             return (byte)buf[1] << 8 | (byte)buf[0];
@@ -119,7 +119,7 @@ namespace Exiv2 {
         }
     }
 
-    int32 getLong(const byte* buf, ByteOrder byteOrder)
+    int32_t getLong(const byte* buf, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
             return   (byte)buf[3] << 24 | (byte)buf[2] << 16 
@@ -133,12 +133,12 @@ namespace Exiv2 {
 
     Rational getRational(const byte* buf, ByteOrder byteOrder)
     {
-        int32 nominator = getLong(buf, byteOrder);
-        int32 denominator = getLong(buf + 4, byteOrder);
+        int32_t nominator = getLong(buf, byteOrder);
+        int32_t denominator = getLong(buf + 4, byteOrder);
         return std::make_pair(nominator, denominator);
     }
 
-    long us2Data(byte* buf, uint16 s, ByteOrder byteOrder)
+    long us2Data(byte* buf, uint16_t s, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
             buf[0] =  (byte)(s & 0x00ff);
@@ -151,7 +151,7 @@ namespace Exiv2 {
         return 2;
     }
 
-    long ul2Data(byte* buf, uint32 l, ByteOrder byteOrder)
+    long ul2Data(byte* buf, uint32_t l, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
             buf[0] =  (byte)(l & 0x000000ff);
@@ -175,7 +175,7 @@ namespace Exiv2 {
         return o;
     }
 
-    long s2Data(byte* buf, int16 s, ByteOrder byteOrder)
+    long s2Data(byte* buf, int16_t s, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
             buf[0] =  (byte)(s & 0x00ff);
@@ -188,7 +188,7 @@ namespace Exiv2 {
         return 2;
     }
 
-    long l2Data(byte* buf, int32 l, ByteOrder byteOrder)
+    long l2Data(byte* buf, int32_t l, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
             buf[0] =  (byte)(l & 0x000000ff);

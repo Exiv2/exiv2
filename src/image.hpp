@@ -21,7 +21,7 @@
 /*!
   @file    image.hpp
   @brief   Class JpegImage to access JPEG images
-  @version $Name:  $ $Revision: 1.19 $
+  @version $Name:  $ $Revision: 1.20 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @author  Brad Schick (brad) 
@@ -405,7 +405,7 @@ namespace Exiv2 {
         static const char jfifId_[];            //!< JFIF identifier
         static const char ps3Id_[];             //!< Photoshop marker
         static const char bimId_[];             //!< Photoshop marker
-        static const uint16 iptc_;              //!< Photoshop Iptc marker
+        static const uint16_t iptc_;              //!< Photoshop Iptc marker
 
     private:
         // DATA
@@ -447,8 +447,8 @@ namespace Exiv2 {
         int locateIptcData(const byte *pPsData, 
                            long sizePsData,
                            const byte **record, 
-                           uint16 *const sizeHdr,
-                           uint16 *const sizeIptc) const;
+                           uint16_t *const sizeHdr,
+                           uint16_t *const sizeIptc) const;
         /*!
           @brief Write to the associated file stream with the provided data.
           @param initData Data to be written to the associated file
@@ -655,19 +655,19 @@ namespace Exiv2 {
         //! Return the byte order (little or big endian).
         ByteOrder byteOrder() const { return byteOrder_; }
         //! Return the tag value.
-        uint16 tag() const { return tag_; }
+        uint16_t tag() const { return tag_; }
         /*!
           @brief Return the offset to IFD0 from the start of the TIFF header.
                  The offset is 0x00000008 if IFD0 begins immediately after the 
                  TIFF header.
          */
-        uint32 offset() const { return offset_; }
+        uint32_t offset() const { return offset_; }
         //@}
 
     private:
         ByteOrder byteOrder_;
-        uint16 tag_;
-        uint32 offset_;
+        uint16_t tag_;
+        uint32_t offset_;
 
     }; // class TiffHeader   
 

@@ -21,7 +21,7 @@
 /*!
   @file    ifd.hpp
   @brief   Encoding and decoding of IFD (%Image File Directory) data
-  @version $Name:  $ $Revision: 1.20 $
+  @version $Name:  $ $Revision: 1.21 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created<BR>
@@ -77,7 +77,7 @@ namespace Exiv2 {
         //! Assignment operator
         Entry& operator=(const Entry& rhs);
         //! Set the tag
-        void setTag(uint16 tag) { tag_ = tag; }
+        void setTag(uint16_t tag) { tag_ = tag; }
         //! Set the IFD id
         void setIfdId(IfdId ifdId) { ifdId_ = ifdId; }
         //! Set the index (unique id of an entry within one IFD)
@@ -85,7 +85,7 @@ namespace Exiv2 {
         //! Set the pointer to the MakerNote
         void setMakerNote(MakerNote* makerNote) { pMakerNote_ = makerNote; }
         //! Set the offset. The offset is relative to the start of the IFD.
-        void setOffset(uint32 offset) { offset_ = offset; }
+        void setOffset(uint32_t offset) { offset_ = offset; }
         /*!
           @brief Set the value of the entry to a single unsigned long component,
                  i.e., set the type of the entry to unsigned long, number of
@@ -99,7 +99,7 @@ namespace Exiv2 {
           <BR>This method cannot be used to set the value of a newly created
           %Entry in non-alloc mode.
         */
-        void setValue(uint32 data, ByteOrder byteOrder);
+        void setValue(uint32_t data, ByteOrder byteOrder);
         /*!
           @brief Set type, count, the data buffer and its size.
 
@@ -126,15 +126,15 @@ namespace Exiv2 {
           @throw Error ("Size too small") if size is not large enough to hold
                  count components of the given type.
          */
-        void setValue(uint16 type, uint32 count, const byte* data, long size);
+        void setValue(uint16_t type, uint32_t count, const byte* data, long size);
         //@}
 
         //! @name Accessors
         //@{
         //! Return the tag
-        uint16 tag() const { return tag_; }
+        uint16_t tag() const { return tag_; }
         //! Return the type id.
-        uint16 type() const { return type_; }
+        uint16_t type() const { return type_; }
         //! Return the name of the type
         const char* typeName() const 
             { return TypeInfo::typeName(TypeId(type_)); }
@@ -148,7 +148,7 @@ namespace Exiv2 {
         //! Return the pointer to the associated MakerNote
         MakerNote* makerNote() const { return pMakerNote_; }
         //! Return the number of components in the value
-        uint32 count() const { return count_; }
+        uint32_t count() const { return count_; }
         /*!
           @brief Return the size of the data buffer in bytes.
           @note  There is no minimum size for the data buffer, except that it
@@ -156,7 +156,7 @@ namespace Exiv2 {
          */
         long size() const { return size_; }
         //! Return the offset from the start of the IFD to the data of the entry
-        uint32 offset() const { return offset_; }
+        uint32_t offset() const { return offset_; }
         /*!
           @brief Return a pointer to the data area. Do not attempt to write
           to this pointer.
@@ -166,7 +166,7 @@ namespace Exiv2 {
           @brief Return a pointer to the n-th component, 0 if there is no 
                  n-th component. Do not attempt to write to this pointer.
          */
-        const byte* component(uint32 n) const;
+        const byte* component(uint32_t n) const;
         //! Get the memory allocation mode
         bool alloc() const { return alloc_; }
         //@}
@@ -185,13 +185,13 @@ namespace Exiv2 {
         //! Pointer to the associated MakerNote
         MakerNote* pMakerNote_;
         //! Tag
-        uint16 tag_;
+        uint16_t tag_;
         //! Type
-        uint16 type_;
+        uint16_t type_;
         //! Number of components
-        uint32 count_;
+        uint32_t count_;
         //! Offset from the start of the IFD to the data
-        uint32 offset_;
+        uint32_t offset_;
         /*!
           Size of the data buffer holding the value in bytes, there is 
           no minimum size.
@@ -226,7 +226,7 @@ namespace Exiv2 {
     class FindEntryByTag {
     public:
         //! Constructor, initializes the object with the tag to look for
-        FindEntryByTag(uint16 tag) : tag_(tag) {}
+        FindEntryByTag(uint16_t tag) : tag_(tag) {}
         /*!
           @brief Returns true if the tag of the argument entry is equal
                  to that of the object.
@@ -235,7 +235,7 @@ namespace Exiv2 {
             { return tag_ == entry.tag(); }
 
     private:
-        uint16 tag_;
+        uint16_t tag_;
         
     }; // class FindEntryByTag
 
@@ -285,13 +285,13 @@ namespace Exiv2 {
                  the IFD from the start of TIFF header. Memory management is
                  enabled.
          */
-        Ifd(IfdId ifdId, uint32 offset);
+        Ifd(IfdId ifdId, uint32_t offset);
         /*!
           @brief Constructor. Allows to set the IFD identifier, offset of the
                  IFD from the start of TIFF header and choose whether or not
                  memory management is required for the Entries.
          */
-        Ifd(IfdId ifdId, uint32 offset, bool alloc);
+        Ifd(IfdId ifdId, uint32_t offset, bool alloc);
         //! Copy constructor
         Ifd(const Ifd& rhs);
         //! Destructor
@@ -344,7 +344,7 @@ namespace Exiv2 {
                 IFD. 0 is returned and no action is taken in this case.
         */
         int readSubIfd(
-            Ifd& dest, const byte* buf, long len, ByteOrder byteOrder, uint16 tag
+            Ifd& dest, const byte* buf, long len, ByteOrder byteOrder, uint16_t tag
         ) const;
         /*!
           @brief Copy the IFD to a data array, update the offsets of the IFD and
@@ -382,7 +382,7 @@ namespace Exiv2 {
           @brief Set the offset of the next IFD. Byte order is needed to update
                  the underlying data buffer in non-alloc mode.
          */
-        void setNext(uint32 next, ByteOrder byteOrder);
+        void setNext(uint32_t next, ByteOrder byteOrder);
         /*!
           @brief Add the entry to the IFD. No duplicate-check is performed,
                  i.e., it is possible to add multiple entries with the same tag.
@@ -395,7 +395,7 @@ namespace Exiv2 {
           @brief Delete the directory entry with the given tag. Return the index 
                  of the deleted entry or 0 if no entry with tag was found.
          */
-        int erase(uint16 tag);
+        int erase(uint16_t tag);
         /*!
           @brief Delete the directory entry at iterator position pos, return the
                  position of the next entry. Note that iterators into the
@@ -412,7 +412,7 @@ namespace Exiv2 {
         //! Find an IFD entry by idx, return an iterator into the entries list
         iterator findIdx(int idx);
         //! Find an IFD entry by tag, return an iterator into the entries list
-        iterator findTag(uint16 tag);
+        iterator findTag(uint16_t tag);
         //@}
 
         //! @name Accessors
@@ -426,7 +426,7 @@ namespace Exiv2 {
         //! Find an IFD entry by idx, return a const iterator into the entries list
         const_iterator findIdx(int idx) const;
         //! Find an IFD entry by tag, return a const iterator into the entries list
-        const_iterator findTag(uint16 tag) const;
+        const_iterator findTag(uint16_t tag) const;
         //! Get the IfdId of the IFD
         IfdId ifdId() const { return ifdId_; }
         //! Get the offset of the IFD from the start of the TIFF header
@@ -438,7 +438,7 @@ namespace Exiv2 {
          */
         long dataOffset() const { return dataOffset_; }
         //! Get the offset to the next IFD from the start of the TIFF header
-        uint32 next() const { return next_; }
+        uint32_t next() const { return next_; }
         //! Get the number of directory entries in the IFD
         long count() const { return static_cast<long>(entries_.size()); }
         //! Get the size of this IFD in bytes (IFD only, without data)
@@ -460,12 +460,12 @@ namespace Exiv2 {
     private:
         //! Helper structure to build IFD entries
         struct PreEntry {
-            uint16 tag_;
-            uint16 type_; 
-            uint32 count_;
+            uint16_t tag_;
+            uint16_t type_; 
+            uint32_t count_;
             long size_;
             long offsetLoc_;
-            uint32 offset_;
+            uint32_t offset_;
         };
 
         //! cmpPreEntriesByOffset needs to know about PreEntry, that's all.
@@ -491,7 +491,7 @@ namespace Exiv2 {
         //! Pointer to the offset of next IFD from the start of the TIFF header
         byte* pNext_;
         //! The offset of the next IFD as data value (always in sync with *pNext_)
-        uint32 next_;
+        uint32_t next_;
 
     }; // class Ifd
 

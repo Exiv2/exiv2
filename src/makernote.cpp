@@ -20,13 +20,13 @@
  */
 /*
   File:      makernote.cpp
-  Version:   $Name:  $ $Revision: 1.26 $
+  Version:   $Name:  $ $Revision: 1.27 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.26 $ $RCSfile: makernote.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.27 $ $RCSfile: makernote.cpp,v $");
 
 // Define DEBUG_* to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -57,14 +57,14 @@ namespace Exiv2 {
     {
     }
 
-    std::string MakerNote::makeKey(uint16 tag) const
+    std::string MakerNote::makeKey(uint16_t tag) const
     {
         return std::string(ExifTags::familyName())
             + "." + std::string(ifdItem())
             + "." + tagName(tag);
     } // MakerNote::makeKey
 
-    uint16 MakerNote::decomposeKey(const std::string& key) const
+    uint16_t MakerNote::decomposeKey(const std::string& key) const
     {
         // Get the family, item and tag name parts of the key
         std::string::size_type pos1 = key.find('.');
@@ -79,14 +79,14 @@ namespace Exiv2 {
         if (tagName == "") throw Error("Invalid key");
 
         if (familyName != ExifTags::familyName()) return 0xffff;
-        uint16 tag = this->tag(tagName);
+        uint16_t tag = this->tag(tagName);
         if (tag == 0xffff) return tag;
         if (ifdItem != this->ifdItem()) return 0xffff;
 
         return tag;
     } // MakerNote::decomposeKey
 
-    std::string MakerNote::tagName(uint16 tag) const
+    std::string MakerNote::tagName(uint16_t tag) const
     {
         std::string tagName;
         if (pMnTagInfo_) {
@@ -106,9 +106,9 @@ namespace Exiv2 {
         return tagName;
     } // MakerNote::tagName
 
-    uint16 MakerNote::tag(const std::string& tagName) const
+    uint16_t MakerNote::tag(const std::string& tagName) const
     {
-        uint16 tag = 0xffff;
+        uint16_t tag = 0xffff;
         if (pMnTagInfo_) {
             for (int i = 0; pMnTagInfo_[i].tag_ != 0xffff; ++i) {
                 if (pMnTagInfo_[i].name_ == tagName) {
@@ -124,7 +124,7 @@ namespace Exiv2 {
         return tag;
     } // MakerNote::tag
 
-    std::string MakerNote::tagDesc(uint16 tag) const
+    std::string MakerNote::tagDesc(uint16_t tag) const
     {
         std::string tagDesc;
         if (pMnTagInfo_) {
@@ -147,7 +147,7 @@ namespace Exiv2 {
         }
     } // MakerNote::taglist
 
-    std::ostream& MakerNote::writeMnTagInfo(std::ostream& os, uint16 tag) const
+    std::ostream& MakerNote::writeMnTagInfo(std::ostream& os, uint16_t tag) const
     {
         return os << tagName(tag) << ", "
                   << std::dec << tag << ", "

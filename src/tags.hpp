@@ -21,7 +21,7 @@
 /*!
   @file    tags.hpp
   @brief   Exif tag and type information
-  @version $Name:  $ $Revision: 1.25 $
+  @version $Name:  $ $Revision: 1.26 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    15-Jan-04, ahu: created<BR>
@@ -89,14 +89,14 @@ namespace Exiv2 {
     struct TagInfo {
         //! Constructor
         TagInfo(
-            uint16 tag, 
+            uint16_t tag, 
             const char* name,
             const char* desc, 
             IfdId ifdId,
             SectionId sectionId,
             PrintFct printFct
         );
-        uint16 tag_;                            //!< Tag
+        uint16_t tag_;                            //!< Tag
         const char* name_;                      //!< One word tag label
         const char* desc_;                      //!< Short tag description
         IfdId ifdId_;                           //!< Link to the (prefered) IFD
@@ -126,7 +126,7 @@ namespace Exiv2 {
           @throw Error ("No taginfo for IFD") if there is no tag info
                  data for the given IFD id in the lookup tables.
          */
-        static const char* tagName(uint16 tag, IfdId ifdId);
+        static const char* tagName(uint16_t tag, IfdId ifdId);
         /*!
           @brief Return the description of the tag.
           @param tag The tag
@@ -136,9 +136,9 @@ namespace Exiv2 {
           @throw Error ("No taginfo for IFD") if there is no tag info
                  data for the given IFD id in the lookup tables.
          */
-        static const char* tagDesc(uint16 tag, IfdId ifdId);
+        static const char* tagDesc(uint16_t tag, IfdId ifdId);
         //! Return the tag for one combination of IFD id and tagName
-        static uint16 tag(const std::string& tagName, IfdId ifdId);
+        static uint16_t tag(const std::string& tagName, IfdId ifdId);
         //! Return the name of the IFD
         static const char* ifdName(IfdId ifdId);
         //! Return the related image item (image or thumbnail)
@@ -155,7 +155,7 @@ namespace Exiv2 {
           @throw Error ("No taginfo for IFD") if there is no tag info
                  data for the given IFD id in the lookup tables.
          */
-        static const char* sectionName(uint16 tag, IfdId ifdId);
+        static const char* sectionName(uint16_t tag, IfdId ifdId);
         /*!
           @brief Return the description of the section for a combination of 
                  tag and IFD id.
@@ -166,31 +166,31 @@ namespace Exiv2 {
           @throw Error ("No taginfo for IFD") if there is no tag info
                  data for the given IFD id in the lookup tables.
          */
-        static const char* sectionDesc(uint16 tag, IfdId ifdId);
+        static const char* sectionDesc(uint16_t tag, IfdId ifdId);
         //! Return the section id for a section name
         static SectionId sectionId(const std::string& sectionName);
         /*!
           @brief Return the key for the tag and IFD id.  The key is of the form
                  '<b>Exif</b>.ifdItem.tagName'.
          */
-        static std::string makeKey(uint16 tag, IfdId ifdId);
+        static std::string makeKey(uint16_t tag, IfdId ifdId);
         /*!
           @brief Return tag and IFD id pair for the key.
           @return A pair consisting of the tag and IFD id.
           @throw Error ("Invalid key") if the key cannot be parsed into
                  item item, section name and tag name parts.
          */
-        static std::pair<uint16, IfdId> decomposeKey(const std::string& key);
+        static std::pair<uint16_t, IfdId> decomposeKey(const std::string& key);
         //! Interpret and print the value of an Exif tag
         static std::ostream& printTag(std::ostream& os,
-                                      uint16 tag, 
+                                      uint16_t tag, 
                                       IfdId ifdId,
                                       const Value& value);
         //! Print a list of all tags to output stream
         static void taglist(std::ostream& os);
 
     private:
-        static int tagInfoIdx(uint16 tag, IfdId ifdId);
+        static int tagInfoIdx(uint16_t tag, IfdId ifdId);
 
         static const char* familyName_;
 

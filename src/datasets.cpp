@@ -20,13 +20,13 @@
  */
 /*
   File:      datasets.cpp
-  Version:   $Name:  $ $Revision: 1.4 $
+  Version:   $Name:  $ $Revision: 1.5 $
   Author(s): Brad Schick (brad) <schick@robotbattle.com>
   History:   24-Jul-04, brad: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: datasets.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: datasets.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -43,15 +43,15 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: datasets.cpp,v $");
 namespace Exiv2 {
 
     DataSet::DataSet(
-        uint16 number, 
+        uint16_t number, 
         const char* name,
         const char* desc,
         bool mandatory,
         bool repeatable,
-        uint32 minbytes, 
-        uint32 maxbytes,
+        uint32_t minbytes, 
+        uint32_t maxbytes,
         TypeId type,
-        uint16 recordId,
+        uint16_t recordId,
         const char* photoshop
     )
         : number_(number), name_(name), desc_(desc), mandatory_(mandatory), 
@@ -61,7 +61,7 @@ namespace Exiv2 {
     }
 
     RecordInfo::RecordInfo(
-        uint16 recordId,
+        uint16_t recordId,
         const char* name,
         const char* desc
     )
@@ -164,7 +164,7 @@ namespace Exiv2 {
 
     const char* IptcDataSets::familyName_ = "Iptc";
 
-    int IptcDataSets::dataSetIdx(uint16 number, uint16 recordId)
+    int IptcDataSets::dataSetIdx(uint16_t number, uint16_t recordId)
     {
         if( recordId != envelope && recordId != application2 ) return -1;
         const DataSet* dataSet = records_[recordId];
@@ -176,7 +176,7 @@ namespace Exiv2 {
         return idx;
     }
 
-    int IptcDataSets::dataSetIdx(const std::string& dataSetName, uint16 recordId)
+    int IptcDataSets::dataSetIdx(const std::string& dataSetName, uint16_t recordId)
     {
         if( recordId != envelope && recordId != application2 ) return -1;
         const DataSet* dataSet = records_[recordId];
@@ -188,42 +188,42 @@ namespace Exiv2 {
         return idx;
     }
 
-    TypeId IptcDataSets::dataSetType(uint16 number, uint16 recordId)
+    TypeId IptcDataSets::dataSetType(uint16_t number, uint16_t recordId)
     {
         int idx = dataSetIdx(number, recordId);
         if (idx == -1) throw Error("No dataSet for record Id");
         return records_[recordId][idx].type_;
     }
 
-    const char* IptcDataSets::dataSetName(uint16 number, uint16 recordId)
+    const char* IptcDataSets::dataSetName(uint16_t number, uint16_t recordId)
     {
         int idx = dataSetIdx(number, recordId);
         if (idx == -1) throw Error("No dataSet for record Id");
         return records_[recordId][idx].name_;
     }
 
-    const char* IptcDataSets::dataSetDesc(uint16 number, uint16 recordId)
+    const char* IptcDataSets::dataSetDesc(uint16_t number, uint16_t recordId)
     {
         int idx = dataSetIdx(number, recordId);
         if (idx == -1) throw Error("No dataSet for record Id");
         return records_[recordId][idx].desc_;
     }
 
-    const char* IptcDataSets::dataSetPsName(uint16 number, uint16 recordId)
+    const char* IptcDataSets::dataSetPsName(uint16_t number, uint16_t recordId)
     {
         int idx = dataSetIdx(number, recordId);
         if (idx == -1) throw Error("No dataSet for record Id");
         return records_[recordId][idx].photoshop_;
     }
 
-    bool IptcDataSets::dataSetRepeatable(uint16 number, uint16 recordId)
+    bool IptcDataSets::dataSetRepeatable(uint16_t number, uint16_t recordId)
     {
         int idx = dataSetIdx(number, recordId);
         if (idx == -1) throw Error("No dataSet for record Id");
         return records_[recordId][idx].repeatable_;
     }
 
-    const char* IptcDataSets::recordName(uint16 recordId)
+    const char* IptcDataSets::recordName(uint16_t recordId)
     {
         if( recordId != envelope && recordId != application2 ) {
             throw Error("Unknown record");
@@ -231,7 +231,7 @@ namespace Exiv2 {
         return recordInfo_[recordId].name_;
     }
 
-    const char* IptcDataSets::recordDesc(uint16 recordId)
+    const char* IptcDataSets::recordDesc(uint16_t recordId)
     {
         if( recordId != envelope && recordId != application2 ) {
             throw Error("Unknown record");
@@ -239,9 +239,9 @@ namespace Exiv2 {
         return recordInfo_[recordId].desc_;
     }
 
-    uint16 IptcDataSets::recordId(const std::string& recordName)
+    uint16_t IptcDataSets::recordId(const std::string& recordName)
     {
-        uint16 i;
+        uint16_t i;
         for (i = application2; i > 0; --i) {
             if (recordInfo_[i].name_ == recordName) break;
         }
@@ -255,7 +255,7 @@ namespace Exiv2 {
             + "." + dataSet.name_;
     }
 
-    std::string IptcDataSets::makeKey(uint16 number, uint16 recordId)
+    std::string IptcDataSets::makeKey(uint16_t number, uint16_t recordId)
     {
         return std::string(familyName())
             + "." + std::string(recordName(recordId)) 
@@ -263,7 +263,7 @@ namespace Exiv2 {
     }
 
     // This 'database lookup' function returns a match if it exists
-    std::pair<uint16, uint16> IptcDataSets::decomposeKey(const std::string& key)
+    std::pair<uint16_t, uint16_t> IptcDataSets::decomposeKey(const std::string& key)
     {
         // Get the type, record name and dataSet name parts of the key
         std::string::size_type pos1 = key.find('.');
@@ -279,11 +279,11 @@ namespace Exiv2 {
         if (dataSetName == "") throw Error("Invalid key");
 
         // Use the parts of the key to find dataSet and recordInfo
-        uint16 recId = recordId(recordName);
-        if (recId == invalidRecord) return std::make_pair((uint16)0xffff, invalidRecord);
+        uint16_t recId = recordId(recordName);
+        if (recId == invalidRecord) return std::make_pair((uint16_t)0xffff, invalidRecord);
 
         int idx = dataSetIdx(dataSetName, recId);
-        if (idx == -1 ) return std::make_pair((uint16)0xffff, invalidRecord);
+        if (idx == -1 ) return std::make_pair((uint16_t)0xffff, invalidRecord);
 
         return std::make_pair(records_[recId][idx].number_, recId);
     } // IptcDataSets::decomposeKey

@@ -20,13 +20,13 @@
  */
 /*
   File:      iptc.cpp
-  Version:   $Name:  $ $Revision: 1.3 $
+  Version:   $Name:  $ $Revision: 1.4 $
   Author(s): Brad Schick (brad) <schick@robotbattle.com>
   History:   31-July-04, brad: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: iptc.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: iptc.cpp,v $");
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -54,7 +54,7 @@ namespace Exiv2 {
         decomposeKey();
     }
 
-    IptcKey::IptcKey(uint16 tag, uint16 record)
+    IptcKey::IptcKey(uint16_t tag, uint16_t record)
         : tag_(tag), record_(record), key_(IptcDataSets::makeKey(tag, record))
     {
     }
@@ -81,7 +81,7 @@ namespace Exiv2 {
 
     void IptcKey::decomposeKey()
     {
-        std::pair<uint16, uint16> p = IptcDataSets::decomposeKey(key_);
+        std::pair<uint16_t, uint16_t> p = IptcDataSets::decomposeKey(key_);
         if (p.first == 0xffff) throw Error("Invalid key");
         if (p.second == IptcDataSets::invalidRecord) throw Error("Invalid key");
         tag_ = p.first;
@@ -183,9 +183,9 @@ namespace Exiv2 {
         iptcMetadata_.clear();
 
         int rc = 0;
-        uint16 record = 0;
-        uint16 dataSet = 0;
-        uint32 sizeData = 0;
+        uint16_t record = 0;
+        uint16_t dataSet = 0;
+        uint32_t sizeData = 0;
         byte extTest = 0;
 
         while (pRead < pData_ + size_) {
@@ -196,7 +196,7 @@ namespace Exiv2 {
             extTest = *pRead;
             if (extTest & 0x80) {
                 // extended dataset
-                uint16 sizeOfSize = (getUShort(pRead, bigEndian) & 0x7FFF);
+                uint16_t sizeOfSize = (getUShort(pRead, bigEndian) & 0x7FFF);
                 if (sizeOfSize > 4) return 5;
                 pRead += 2;
                 sizeData = 0;
@@ -218,8 +218,8 @@ namespace Exiv2 {
         return rc;
     } // IptcData::read
 
-    int IptcData::readData(uint16 dataSet, uint16 record, 
-                           const byte* data, uint32 sizeData)
+    int IptcData::readData(uint16_t dataSet, uint16_t record, 
+                           const byte* data, uint32_t sizeData)
     {
         Value* val = 0;
         try {
@@ -330,14 +330,14 @@ namespace Exiv2 {
             long dataSize = iter->size();
             if (dataSize > 32767) {
                 // always use 4 bytes for extended length
-                uint16 sizeOfSize = 4 | 0x8000;
+                uint16_t sizeOfSize = 4 | 0x8000;
                 us2Data(pWrite, sizeOfSize, bigEndian);
                 pWrite += 2;
                 ul2Data(pWrite, dataSize, bigEndian);
                 pWrite += 4;
             }
             else {
-                us2Data(pWrite, static_cast<uint16>(dataSize), bigEndian);
+                us2Data(pWrite, static_cast<uint16_t>(dataSize), bigEndian);
                 pWrite += 2;
             }
 
@@ -405,13 +405,13 @@ namespace Exiv2 {
                             FindMetadatumByKey(key.key()));
     }
 
-    IptcData::const_iterator IptcData::findId(uint16 dataset, uint16 record) const
+    IptcData::const_iterator IptcData::findId(uint16_t dataset, uint16_t record) const
     {
         return std::find_if(iptcMetadata_.begin(), iptcMetadata_.end(),
                             FindMetadatumById(dataset, record));
     }
 
-    IptcData::iterator IptcData::findId(uint16 dataset, uint16 record)
+    IptcData::iterator IptcData::findId(uint16_t dataset, uint16_t record)
     {
         return std::find_if(iptcMetadata_.begin(), iptcMetadata_.end(),
                             FindMetadatumById(dataset, record));

@@ -21,7 +21,7 @@
 /*!
   @file    metadatum.hpp
   @brief   Provides abstract base classes Metadatum and Key
-  @version $Name:  $ $Revision: 1.2 $
+  @version $Name:  $ $Revision: 1.3 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @author  Brad Schick (brad) 
@@ -76,7 +76,7 @@ namespace Exiv2 {
         //! Return the name of the tag (which is also the third part of the key)
         virtual std::string tagName() const =0;
         //! Return the tag number
-        virtual uint16 tag() const =0;
+        virtual uint16_t tag() const =0;
         /*!
           @brief Return a pointer to a copy of itself (deep copy).
                  The caller owns this copy and is responsible to delete it!
@@ -164,7 +164,7 @@ namespace Exiv2 {
         //! Return the name of the tag (which is also the third part of the key)
         virtual std::string tagName() const =0;
         //! Return the tag
-        virtual uint16 tag() const =0;
+        virtual uint16_t tag() const =0;
         //! Return the type id of the value
         virtual TypeId typeId() const =0;
         //! Return the name of the type

@@ -24,7 +24,7 @@
            in Appendix 4: Makernote of Fujifilm of the document 
            <a href="http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html">
            Exif file format</a> by TsuruZoh Tachibanaya
-  @version $Name:  $ $Revision: 1.7 $
+  @version $Name:  $ $Revision: 1.8 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    11-Feb-04, ahu: created
@@ -109,7 +109,7 @@ namespace Exiv2 {
         //! Return the name of the makernote item ("Fujifilm")
         std::string ifdItem() const { return ifdItem_; }
         std::ostream& printTag(std::ostream& os,
-                               uint16 tag, 
+                               uint16_t tag, 
                                const Value& value) const;
         //@}
 

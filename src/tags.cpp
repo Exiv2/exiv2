@@ -20,13 +20,13 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.34 $
+  Version:   $Name:  $ $Revision: 1.35 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.34 $ $RCSfile: tags.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.35 $ $RCSfile: tags.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -90,7 +90,7 @@ namespace Exiv2 {
     };
 
     TagInfo::TagInfo(
-        uint16 tag, 
+        uint16_t tag, 
         const char* name, 
         const char* desc, 
         IfdId ifdId, 
@@ -268,7 +268,7 @@ namespace Exiv2 {
 
     const char* ExifTags::familyName_ = "Exif";
 
-    int ExifTags::tagInfoIdx(uint16 tag, IfdId ifdId)
+    int ExifTags::tagInfoIdx(uint16_t tag, IfdId ifdId)
     {
         const TagInfo* tagInfo = tagInfos_[ifdId];
         if (tagInfo == 0) return -1;
@@ -279,21 +279,21 @@ namespace Exiv2 {
         return idx;
     }
 
-    const char* ExifTags::tagName(uint16 tag, IfdId ifdId)
+    const char* ExifTags::tagName(uint16_t tag, IfdId ifdId)
     {
         int idx = tagInfoIdx(tag, ifdId);
         if (idx == -1) throw Error("No taginfo for IFD");
         return tagInfos_[ifdId][idx].name_;
     }
 
-    const char* ExifTags::tagDesc(uint16 tag, IfdId ifdId)
+    const char* ExifTags::tagDesc(uint16_t tag, IfdId ifdId)
     {
         int idx = tagInfoIdx(tag, ifdId);
         if (idx == -1) throw Error("No taginfo for IFD");
         return tagInfos_[ifdId][idx].desc_;
     }
 
-    const char* ExifTags::sectionName(uint16 tag, IfdId ifdId)
+    const char* ExifTags::sectionName(uint16_t tag, IfdId ifdId)
     {
         int idx = tagInfoIdx(tag, ifdId);
         if (idx == -1) throw Error("No taginfo for IFD");
@@ -301,7 +301,7 @@ namespace Exiv2 {
         return sectionInfo_[tagInfo[idx].sectionId_].name_;
     }
 
-    const char* ExifTags::sectionDesc(uint16 tag, IfdId ifdId)
+    const char* ExifTags::sectionDesc(uint16_t tag, IfdId ifdId)
     {
         int idx = tagInfoIdx(tag, ifdId);
         if (idx == -1) throw Error("No taginfo for IFD");
@@ -309,7 +309,7 @@ namespace Exiv2 {
         return sectionInfo_[tagInfo[idx].sectionId_].desc_;
     }
 
-    uint16 ExifTags::tag(const std::string& tagName, IfdId ifdId)
+    uint16_t ExifTags::tag(const std::string& tagName, IfdId ifdId)
     {
         const TagInfo* tagInfo = tagInfos_[ifdId];
         if (tagInfo == 0) return 0xffff;
@@ -344,7 +344,7 @@ namespace Exiv2 {
         return SectionId(i);
     }
 
-    std::string ExifTags::makeKey(uint16 tag, IfdId ifdId)
+    std::string ExifTags::makeKey(uint16_t tag, IfdId ifdId)
     {
         return std::string(familyName()) 
             + "." + std::string(ifdItem(ifdId)) 
@@ -353,7 +353,7 @@ namespace Exiv2 {
 
     // This 'database lookup' function returns the first match that
     // we find, it doesn't verify whether this is the only match.
-    std::pair<uint16, IfdId> ExifTags::decomposeKey(const std::string& key)
+    std::pair<uint16_t, IfdId> ExifTags::decomposeKey(const std::string& key)
     {
         // Get the family name, IFD name and tag name parts of the key
         std::string::size_type pos1 = key.find('.');
@@ -383,7 +383,7 @@ namespace Exiv2 {
     } // ExifTags::decomposeKey
 
     std::ostream& ExifTags::printTag(std::ostream& os,
-                                     uint16 tag, 
+                                     uint16_t tag, 
                                      IfdId ifdId,
                                      const Value& value)
     {
@@ -430,8 +430,8 @@ namespace Exiv2 {
 
     std::istream& operator>>(std::istream& is, Rational& r) 
     { 
-        int32 nominator;
-        int32 denominator;
+        int32_t nominator;
+        int32_t denominator;
         char c;
         is >> nominator >> c >> denominator; 
         if (is && c == '/') r = std::make_pair(nominator, denominator);
@@ -445,8 +445,8 @@ namespace Exiv2 {
 
     std::istream& operator>>(std::istream& is, URational& r) 
     {
-        uint32 nominator;
-        uint32 denominator;
+        uint32_t nominator;
+        uint32_t denominator;
         char c;
         is >> nominator >> c >> denominator; 
         if (is && c == '/') r = std::make_pair(nominator, denominator);
@@ -555,12 +555,12 @@ namespace Exiv2 {
     {
         Rational t = value.toRational();
         if (t.first > 1 && t.second > 1 && t.second >= t.first) {
-            t.second = static_cast<uint32>(
+            t.second = static_cast<uint32_t>(
                 static_cast<float>(t.second) / t.first + 0.5);
             t.first = 1;
         }
         if (t.second > 1 && t.second < t.first) {
-            t.first = static_cast<uint32>(
+            t.first = static_cast<uint32_t>(
                 static_cast<float>(t.first) / t.second + 0.5);
             t.second = 1;
         }
@@ -653,7 +653,7 @@ namespace Exiv2 {
         if (distance.first == 0) {
             os << "Unknown";
         }
-        else if (static_cast<uint32>(distance.first) == 0xffffffff) {
+        else if (static_cast<uint32_t>(distance.first) == 0xffffffff) {
             os << "Infinity";
         }
         else if (distance.second != 0) {

@@ -21,7 +21,7 @@
 /*!
   @file    iptc.hpp
   @brief   Encoding and decoding of Iptc data
-  @version $Name:  $ $Revision: 1.4 $
+  @version $Name:  $ $Revision: 1.5 $
   @author  Brad Schick (brad) 
            <a href="mailto:schick@robotbattle.com">schick@robotbattle.com</a>
   @date    31-Jul-04, brad: created
@@ -67,7 +67,7 @@ namespace Exiv2 {
           @param tag Dataset id
           @param record Record id
          */
-        IptcKey(uint16 tag, uint16 record);
+        IptcKey(uint16_t tag, uint16_t record);
         //! Copy constructor
         IptcKey(const IptcKey& rhs);
         //@}
@@ -92,14 +92,14 @@ namespace Exiv2 {
         virtual std::string groupName() const { return recordName(); }
         virtual std::string tagName() const
             { return IptcDataSets::dataSetName(tag_, record_); }
-        virtual uint16 tag() const { return tag_; }
+        virtual uint16_t tag() const { return tag_; }
         virtual IptcKey* clone() const;
 
         //! Return the name of the record
         const char* recordName() const
             { return IptcDataSets::recordName(record_); }
         //! Return the record id
-        uint16 record() const { return record_; }
+        uint16_t record() const { return record_; }
         //@}
 
     protected:
@@ -118,8 +118,8 @@ namespace Exiv2 {
 
     private:
         // DATA
-        uint16 tag_;                   //!< Tag value
-        uint16 record_;                //!< Record value 
+        uint16_t tag_;                   //!< Tag value
+        uint16_t record_;                //!< Record value 
         std::string key_;              //!< Key
 
     }; // class IptcKey
@@ -201,7 +201,7 @@ namespace Exiv2 {
            @brief Return the record id 
            @return record id
          */
-        uint16 record() const 
+        uint16_t record() const 
             { return pKey_ == 0 ? 0 : pKey_->record(); }
         /*!
            @brief Return the name of the tag (aka dataset)
@@ -211,7 +211,7 @@ namespace Exiv2 {
         std::string tagName() const
             { return pKey_ == 0 ? "" : pKey_->tagName(); }
         //! Return the tag (aka dataset) number
-        uint16 tag() const
+        uint16_t tag() const
             { return pKey_ == 0 ? 0 : pKey_->tag(); }
         //! Return the type id of the value
         TypeId typeId() const 
@@ -316,7 +316,7 @@ namespace Exiv2 {
     class FindMetadatumById {
     public:
         //! Constructor, initializes the object with the record and dataset id
-        FindMetadatumById(uint16 dataset, uint16 record)
+        FindMetadatumById(uint16_t dataset, uint16_t record)
             : dataset_(dataset), record_(record) {}
         /*!
           @brief Returns true if the record and dataset id of the argument
@@ -326,8 +326,8 @@ namespace Exiv2 {
             { return dataset_ == iptcdatum.tag() && record_ == iptcdatum.record(); }
 
     private:
-        uint16 dataset_;
-        uint16 record_;
+        uint16_t dataset_;
+        uint16_t record_;
     
     }; // class FindMetadatumById
 
@@ -460,8 +460,8 @@ namespace Exiv2 {
                 same Ids exists, it is undefined which of the matching
                 metadata is found.
          */
-        iterator findId(uint16 dataset, 
-                        uint16 record = IptcDataSets::application2);
+        iterator findId(uint16_t dataset, 
+                        uint16_t record = IptcDataSets::application2);
         //@}
 
         //! @name Accessors
@@ -493,8 +493,8 @@ namespace Exiv2 {
                 same Ids exist it is undefined which of the matching
                 metadata is found.
          */
-        const_iterator findId(uint16 dataset, 
-                              uint16 record = IptcDataSets::application2) const;
+        const_iterator findId(uint16_t dataset, 
+                              uint16_t record = IptcDataSets::application2) const;
         //! Get the number of metadata entries
         long count() const { return static_cast<long>(iptcMetadata_.size()); }
         /*!
@@ -525,8 +525,8 @@ namespace Exiv2 {
           @param sizeData Length in bytes of dataset payload
           @return 0 if successful.
          */
-        int readData(uint16 dataSet, uint16 record, 
-                     const byte* data, uint32 sizeData);
+        int readData(uint16_t dataSet, uint16_t record, 
+                     const byte* data, uint32_t sizeData);
 
         //! Resets modified flag
         void clearModified();
