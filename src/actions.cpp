@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.24 $
+  Version:   $Name:  $ $Revision: 1.25 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.24 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.25 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -240,13 +240,24 @@ namespace Action {
         std::cout << "\n";
 
         // ISO speed
-        // from ISOSpeedRatings or Canon Makernote
+        // from ISOSpeedRatings or the Makernote
         std::cout << std::setw(align_) << std::setfill(' ') << std::left
                   << "ISO speed" << ": ";
+        bool done = false;
         if (0 == printTag(exifData, "Image.CaptureConditions.ISOSpeedRatings")) {
             md = exifData.findKey("Makernote.Canon.CameraSettings1");
             if (md != exifData.end() && md->count() >= 16) {
                 Exiv2::CanonMakerNote::print0x0001_16(std::cout, md->toLong(16));
+                done = true;
+            }
+            if (!done) {
+                done = printTag(exifData, "Makernote.Nikon1.ISOSpeed");
+            }
+            if (!done) {
+                done = printTag(exifData, "Makernote.Nikon2.ISOSpeed");
+            }
+            if (!done) {
+                done = printTag(exifData, "Makernote.Nikon3.ISOSpeed");
             }
         }
         std::cout << "\n";
@@ -270,7 +281,7 @@ namespace Action {
         // Todo: Implement this for other cameras
         std::cout << std::setw(align_) << std::setfill(' ') << std::left
                   << "Macro mode" << ": ";
-        bool done = false;
+        done = false;
         md = exifData.findKey("Makernote.Canon.CameraSettings1");
         if (md != exifData.end() && md->count() >= 1) {
             Exiv2::CanonMakerNote::print0x0001_01(std::cout, md->toLong(1));
@@ -293,10 +304,19 @@ namespace Action {
         }
         if (!done) {
             done = printTag(exifData, "Makernote.Fujifilm.Quality");
-        }            
+        }
         if (!done) {
             done = printTag(exifData, "Makernote.Sigma.Quality");
-        }            
+        }
+        if (!done) {
+            done = printTag(exifData, "Makernote.Nikon1.Quality");
+        }
+        if (!done) {
+            done = printTag(exifData, "Makernote.Nikon2.Quality");
+        }
+        if (!done) {
+            done = printTag(exifData, "Makernote.Nikon3.Quality");
+        }
         std::cout << "\n";
 
         // Exif Resolution
@@ -325,10 +345,19 @@ namespace Action {
         }
         if (!done) {
             done = printTag(exifData, "Makernote.Fujifilm.WhiteBalance");
-        }            
+        }
         if (!done) {
             done = printTag(exifData, "Makernote.Sigma.WhiteBalance");
-        }            
+        }
+        if (!done) {
+            done = printTag(exifData, "Makernote.Nikon1.WhiteBalance");
+        }
+        if (!done) {
+            done = printTag(exifData, "Makernote.Nikon2.WhiteBalance");
+        }
+        if (!done) {
+            done = printTag(exifData, "Makernote.Nikon3.WhiteBalance");
+        }
         std::cout << "\n";
 
         // Thumbnail
