@@ -277,6 +277,7 @@ namespace Exiv2 {
         long size = length->toLong();
         if (len < offset + size) return 2;
         format->setDataArea(buf + offset, size);
+        format->setValue("0");
         Ifd::iterator pos = ifd1.findTag(0x0201);
         assert(pos != ifd1.end());
         pos->setDataArea(buf + offset, size);
