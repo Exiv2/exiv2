@@ -21,10 +21,10 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.9 $
+  @version $Name:  $ $Revision: 1.10 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    09-Jan-03, ahu: created
+  @date    09-Jan-04, ahu: created
  */
 #ifndef EXIF_HPP_
 #define EXIF_HPP_
@@ -44,10 +44,9 @@
 //! Provides classes and functions to encode and decode %Exif data.
 namespace Exif {
 
-    class ExifData;
-
 // *****************************************************************************
-// type definitions
+// class declarations
+    class ExifData;
 
 // *****************************************************************************
 // class definitions
@@ -168,8 +167,8 @@ namespace Exif {
              way to access values independent from their actual C++ type for
              simple tasks like reading the values from a string or data buffer.
              For other tasks, like modifying values you may need to downcast it
-             to the actual subclass of Value so that you can access the subclass
-             specific interface.
+             to the actual subclass of %Value so that you can access the
+             subclass specific interface.
      */
     class Value {
     public:
@@ -306,7 +305,11 @@ namespace Exif {
           @param byteOrder Byte order. Not used.
          */
         virtual void read(const char* buf, long len, ByteOrder byteOrder);
-        //! Set the value to that of the supplied string
+        /*!
+          @brief Set the value to that of the string buf. A terminating
+                 '\\0' character is appended to the value if buf doesn't 
+                 end with '\\0'.
+         */
         virtual void read(const std::string& buf);
         /*!
           @brief Write value to a character data buffer. The byte order is
@@ -358,9 +361,9 @@ namespace Exif {
         //! Container for values 
         typedef std::vector<T> ValueList;
         //! Iterator type defined for convenience.
-        typedef typename std::vector<T>::iterator ValueIter;
+        typedef typename std::vector<T>::iterator iterator;
         //! Const iterator type defined for convenience.
-        typedef typename std::vector<T>::const_iterator ValueCIter;
+        typedef typename std::vector<T>::const_iterator const_iterator;
 
         /*!
           @brief The container for all values. In your application, if you know 
@@ -392,18 +395,23 @@ namespace Exif {
     public:
         /*!
           @brief Constructor for tag data read from an IFD, when all 
-                 information is available. The Metadatum takes ownership
-                 of the value pointer if one is provided, so the application
-                 must not delete it!
+                 information is available. %Metadatum copies (clones) the value 
+                 if one is provided.
          */
         Metadatum(uint16 tag, uint16 type, 
                   IfdId ifdId, int ifdIdx, Value* value =0);
         /*!
-          @brief Constructor for new tags created by an application,
-                 which doesn't know/care about the underlying IFD structure.
-                 We'll figure out the details for it.
+          @brief Constructor for new tags created by an application, which only
+                 needs to provide a key / value pair. %Metadatum copies (clones)
+                 the value if one is provided. Alternatively, a program can
+                 create an 'empty' metadatum with only a key and set the value
+                 later, using setValue().
+
+          @param key The key of the metadatum.
+          @param value Pointer to a metadatum value.
+          @throw Error ("Invalid key") if the key cannot be parsed and converted
+                 to a tag number and an IFD id or the section name does not match.
          */
-        // Todo: implement me!
         explicit Metadatum(const std::string& key, Value* value =0);
         //! Destructor
         ~Metadatum();
@@ -411,13 +419,16 @@ namespace Exif {
         Metadatum(const Metadatum& rhs);
         //! Assignment operator
         Metadatum& operator=(const Metadatum& rhs);
-
         /*!
-          @brief Set the value. The Metadatum takes ownership of the value
-                 pointer, so the application must not delete it!
+          @brief Set the value. This method copies (clones) the value.
          */
         void setValue(Value* value);
-
+        /*!
+          @brief Set the value to the string buf. 
+                 Uses Value::read(const std::string& buf). If the metadatum does
+                 not have a value yet, then an AsciiValue is created.
+         */
+        void setValue(const std::string& buf);
         //! Return the name of the tag
         const char* tagName() const { return ExifTags::tagName(tag_, ifdId_); }
         //! Return the name of the type
@@ -453,9 +464,20 @@ namespace Exif {
         //! Return the position in the IFD (-1: not set)
         int ifdIdx() const { return ifdIdx_; }
         /*!
-          @brief Return a constant reference to the value. Do not write to the 
-                 value through this reference. The behaviour is undefined if 
-                 value is not set.
+          @brief Return a constant reference to the value. 
+
+          This method is provided mostly for convenient and versatile output
+          of the value, for example
+
+          @code
+          ExifData::const_iterator i = exifData.findKey(key);
+          if (i != exifData.end()) {
+              std::cout << i->key() << " " << std::hex << i->value() << "\n";
+          }
+          @endcode
+
+          Do not attempt to write to the value through this reference. 
+          The behaviour of the method is undefined if value is not set.
          */
         const Value& value() const { return *value_; }
         /*!
@@ -503,7 +525,7 @@ namespace Exif {
     class Ifd {
     public:
         //! Constructor. Allows to set the IFD identifier.
-        explicit Ifd(IfdId ifdId =IfdIdNotSet);
+        explicit Ifd(IfdId ifdId =ifdIdNotSet);
 
         //! Data structure for one IFD directory entry
         struct Entry {
@@ -538,12 +560,18 @@ namespace Exif {
         //! Container type to hold all IFD directory entries
         typedef std::vector<Entry> Entries;
 
-        //! Entries iterator type (const)
+        //! Entries const iterator type
         typedef Entries::const_iterator const_iterator;
+        //! Entries iterator type
+        typedef Entries::iterator iterator;
         //! The first entry
         const_iterator begin() const { return entries_.begin(); }
         //! End of the entries
         const_iterator end() const { return entries_.end(); }
+        //! The first entry
+        iterator begin() { return entries_.begin(); }
+        //! End of the entries
+        iterator end() { return entries_.end(); }
 
         //! Unary predicate that matches an Entry with a given tag
         class FindEntryByTag {
@@ -617,8 +645,10 @@ namespace Exif {
         IfdId ifdId() const { return ifdId_; }
         //! Offset of the IFD from SOI
         long offset() const { return offset_; }
-        //! Find an IFD entry by tag, return an iterator into the entries list
+        //! Find an IFD entry by tag, return a const iterator into the entries list
         Entries::const_iterator findTag(uint16 tag) const;
+        //! Find an IFD entry by tag, return an iterator into the entries list
+        Entries::iterator findTag(uint16 tag);
         //! Get the offset to the next IFD from the start of the Tiff header
         long next() const { return next_; }
         //! Get the size of this IFD in bytes (IFD only, without data)
@@ -637,7 +667,7 @@ namespace Exif {
 
     }; // class Ifd
 
-    //! Thumbnail data Todo: implement this properly
+    //! %Thumbnail data Todo: implement this properly
     class Thumbnail {
     public:
         //! Read the thumbnail from the data buffer, return 0 if successfull
@@ -691,26 +721,51 @@ namespace Exif {
         long size() const;
         //! Returns the byte order as specified in the Tiff header
         ByteOrder byteOrder() const { return tiffHeader_.byteOrder(); }
-
-        //! Add all entries of an IFD to the Exif metadata
+        /*!
+          @brief Add all entries of an IFD to the Exif metadata. Checks for 
+                 duplicates: if a metadatum already exists, its value is 
+                 overwritten.
+         */
         void add(const Ifd& ifd, ByteOrder byteOrder);
-        //! Add Metadatum src to the Exif metadata
-        void add(const Metadatum& src);
-
-        //! Metadata iterator type (const)
+        /*!
+          @brief Add a metadatum from the supplied key and value pair.
+                 This method copies (clones) the value. If a metadatum with the
+                 given key already exists, its value is overwritten and no new
+                 metadatum is added.
+         */
+        void add(const std::string& key, Value* value);
+        //! Metadata iterator type
+        typedef Metadata::iterator iterator;
+        //! Metadata const iterator type
         typedef Metadata::const_iterator const_iterator;
         //! Begin of the metadata
         const_iterator begin() const { return metadata_.begin(); }
         //! End of the metadata
         const_iterator end() const { return metadata_.end(); }
+        //! Begin of the metadata
+        iterator begin() { return metadata_.begin(); }
+        //! End of the metadata
+        iterator end() { return metadata_.end(); }
+        //! Find a metadatum by its key, return an iterator to it
+        iterator findKey(const std::string& key);
         //! Find a metadatum by its key, return a const iterator to it
         const_iterator findKey(const std::string& key) const;
+        //! Delete the metadatum with a given key
+        void erase(const std::string& key);
+        //! Delete the metadatum at iterator position pos
+        void erase(iterator pos);
 
         //! Write the thumbnail image to a file
         int writeThumbnail(const std::string& path) const 
             { return thumbnail_.write(path); }
 
     private:
+        /*!
+          @brief Add metadatum src to the Exif metadata. No duplicate check
+                 is done. (That's why the method is private.)
+         */
+        void add(const Metadatum& src);
+
         long offset_;                   // Original abs offset of the Exif data
         TiffHeader tiffHeader_;
         Metadata metadata_;
@@ -928,7 +983,7 @@ namespace Exif {
     template<typename T>
     Value* ValueType<T>::clone() const
     {
-        return new ValueType(*this);
+        return new ValueType<T>(*this);
     }
 
     template<typename T>

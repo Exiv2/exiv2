@@ -25,7 +25,7 @@
 
   RCS information
    $Name:  $
-   $Revision: 1.5 $
+   $Revision: 1.6 $
  */
 // *****************************************************************************
 // included header files
@@ -43,7 +43,7 @@ namespace Exif {
     }
 
     const IfdInfo ExifTags::ifdInfo_[] = {
-        IfdInfo(IfdIdNotSet, "(Unknown IFD)", "(Unknown data area)"),
+        IfdInfo(ifdIdNotSet, "(Unknown IFD)", "(Unknown data area)"),
         IfdInfo(ifd0, "IFD0", "Image"),
         IfdInfo(exifIfd, "Exif", "Image"),
         IfdInfo(gpsIfd, "GPSInfo", "Image"),
@@ -53,7 +53,8 @@ namespace Exif {
         IfdInfo(ifd1ExifIfd, "Exif", "Thumbnail"),
         IfdInfo(ifd1GpsIfd, "GPSInfo", "Thumbnail"),
         IfdInfo(ifd1MakerIfd, "MakerNote", "Thumbnail"),
-        IfdInfo(ifd1IopIfd, "Iop", "Thumbnail")
+        IfdInfo(ifd1IopIfd, "Iop", "Thumbnail"),
+        IfdInfo(lastIfdId, "(Last IFD info)", "(Last IFD info)")
     };
 
     SectionInfo::SectionInfo(
@@ -66,7 +67,7 @@ namespace Exif {
     }
 
     const SectionInfo ExifTags::sectionInfo_[] = {
-        SectionInfo(SectionIdNotSet, "(UnknownSection)", "Unknown section"),
+        SectionInfo(sectionIdNotSet, "(UnknownSection)", "Unknown section"),
         SectionInfo(imgStruct, "ImageStructure", "Image data structure"),
         SectionInfo(recOffset, "RecordingOffset", "Recording offset"),
         SectionInfo(imgCharacter, "ImageCharacteristics", "Image data characteristics"),
@@ -79,7 +80,8 @@ namespace Exif {
         SectionInfo(dateTime, "DateTime", "Date and time"),
         SectionInfo(captureCond, "CaptureConditions", "Picture taking conditions"),
         SectionInfo(gpsTags, "GPS", "GPS information"),
-        SectionInfo(iopTags, "Interoperability", "Interoperability information")
+        SectionInfo(iopTags, "Interoperability", "Interoperability information"),
+        SectionInfo(lastSectionId, "(LastSection)", "Last section")
     };
 
     TagFormat::TagFormat(TypeId typeId, const char* name, long size)
@@ -149,7 +151,7 @@ namespace Exif {
         TagInfo(0x8769, "ExifTag", "Exif IFD Pointer", ifd0, exifFormat),
         TagInfo(0x8825, "GPSTag", "GPSInfo IFD Pointer", ifd0, exifFormat),
         // End of list marker
-        TagInfo(0xffff, "(UnknownIfdTag)", "Unknown IFD tag", IfdIdNotSet, SectionIdNotSet)
+        TagInfo(0xffff, "(UnknownIfdTag)", "Unknown IFD tag", ifdIdNotSet, sectionIdNotSet)
     };
 
     // Exif IFD Tags
@@ -212,7 +214,7 @@ namespace Exif {
         TagInfo(0xa40c, "SubjectDistanceRange", "Subject distance range", exifIfd, captureCond),
         TagInfo(0xa420, "ImageUniqueID", "Unique image ID", exifIfd, otherTags),
         // End of list marker
-        TagInfo(0xffff, "(UnknownExifTag)", "Unknown Exif tag", IfdIdNotSet, SectionIdNotSet)
+        TagInfo(0xffff, "(UnknownExifTag)", "Unknown Exif tag", ifdIdNotSet, sectionIdNotSet)
     };
 
     // GPS Info Tags
@@ -249,7 +251,7 @@ namespace Exif {
         TagInfo(0x001d, "GPSDateStamp", "GPS date", gpsIfd, gpsTags),
         TagInfo(0x001e, "GPSDifferential", "GPS differential correction", gpsIfd, gpsTags),
         // End of list marker
-        TagInfo(0xffff, "(UnknownGpsTag)", "Unknown GPSInfo tag", IfdIdNotSet, SectionIdNotSet)
+        TagInfo(0xffff, "(UnknownGpsTag)", "Unknown GPSInfo tag", ifdIdNotSet, sectionIdNotSet)
     };
     
     // Exif Interoperability IFD Tags
@@ -260,10 +262,10 @@ namespace Exif {
         TagInfo(0x1001, "RelatedImageWidth", "Image width", iopIfd, iopTags),
         TagInfo(0x1002, "RelatedImageLength", "Image height", iopIfd, iopTags),
         // End of list marker
-        TagInfo(0xffff, "(UnknownIopTag)", "Unknown Exif Interoperability tag", IfdIdNotSet, SectionIdNotSet)
+        TagInfo(0xffff, "(UnknownIopTag)", "Unknown Exif Interoperability tag", ifdIdNotSet, sectionIdNotSet)
     };
 
-    // Tag lookup lists with tag names, desc and where they (preferrably) belong to;
+    // Tag lookup lists with tag names, desc and where they (preferably) belong to;
     // this is an array with pointers to one list per IFD. The IfdId is used as the
     // index into the array.
     const TagInfo* ExifTags::tagInfos_[] = {
@@ -274,8 +276,8 @@ namespace Exif {
 
     int ExifTags::tagInfoIdx(uint16 tag, IfdId ifdId)
     {
-        // Todo: implement a better (more efficient) algorithm
 	const TagInfo* tagInfo = tagInfos_[ifdId];
+        if (tagInfo == 0) return -1;
         int idx;
         for (idx = 0; tagInfo[idx].tag_ != 0xffff; ++idx) {
             if (tagInfo[idx].tag_ == tag) break;
@@ -283,15 +285,30 @@ namespace Exif {
         return idx;
     }
 
+    int ExifTags::tagInfoIdx(const std::string& tagName, IfdId ifdId)
+    {
+	const TagInfo* tagInfo = tagInfos_[ifdId];
+        if (tagInfo == 0) return -1;
+        int idx;
+        for (idx = 0; tagInfo[idx].tag_ != 0xffff; ++idx) {
+            if (tagInfo[idx].name_ == tagName) break;
+        }
+        return idx;
+    }
+
     const char* ExifTags::tagName(uint16 tag, IfdId ifdId)
     {
-        return tagInfos_[ifdId][tagInfoIdx(tag, ifdId)].name_;
+        int idx = tagInfoIdx(tag, ifdId);
+        if (idx == -1) throw Error("No taginfo for IFD");
+        return tagInfos_[ifdId][idx].name_;
     }
 
     const char* ExifTags::sectionName(uint16 tag, IfdId ifdId)
     {
+        int idx = tagInfoIdx(tag, ifdId);
+        if (idx == -1) throw Error("No taginfo for IFD");
 	const TagInfo* tagInfo = tagInfos_[ifdId];
-        return sectionInfo_[tagInfo[tagInfoIdx(tag, ifdId)].sectionId_].name_;
+        return sectionInfo_[tagInfo[idx].sectionId_].name_;
     }
 
     const char* ExifTags::typeName(TypeId typeId)
@@ -319,6 +336,40 @@ namespace Exif {
         return sectionInfo_[sectionId].name_;
     }
 
+    SectionId ExifTags::sectionId(const std::string& sectionName)
+    {
+        int i;
+        for (i = int(lastSectionId) - 1; i > 0; --i) {
+            if (sectionInfo_[i].name_ == sectionName) break;
+        }
+        return SectionId(i);
+    }
+
+    // The uniqueness that we promise in this 'database lookup' function
+    // holds only implicitely. The function returns the first match that
+    // we find, it doesn't verify the uniqueness.
+    std::pair<IfdId, uint16> ExifTags::ifdAndTag(const std::string& ifdItem, 
+                                                 const std::string& sectionName, 
+                                                 const std::string& tagName)
+    {
+        IfdId ifdId = ifdIdNotSet;
+        uint16 tag = 0xffff;
+        
+        SectionId s = sectionId(sectionName);
+        if (s == sectionIdNotSet) return std::make_pair(ifdId, tag);
+
+        for (int i = 0; i < lastIfdId; ++i) {
+            if (ifdInfo_[i].item_ == ifdItem) {
+                ifdId = ifdInfo_[i].ifdId_;
+                int k = tagInfoIdx(tagName, ifdId);
+                if (k != -1 && tagInfos_[ifdId][k].sectionId_ == s) {
+                    tag = tagInfos_[ifdId][k].tag_;
+                    break;
+                }
+            }
+        }
+        return std::make_pair(ifdId, tag);
+    }
 
     // *************************************************************************
     // free functions
