@@ -27,7 +27,7 @@
      that there won't be any duplicate extern symbols at link time.
   2. To avoid warnings of the type "variable declared and never used".
 
-  @version $Name:  $ $Revision: 1.1 $
+  @version $Name:  $ $Revision: 1.2 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    02-Feb-04, ahu: created
@@ -36,6 +36,16 @@
 #define RCSID_HPP_
 
 #if !defined (EXIV2_RCSID)
+/*!
+  @brief Macro to store version information in each object file.
+         Include the following two lines at the beginning of each *.cpp file.
+         See the ident(1) manual pages for more information.
+
+         @code
+         #include "rcsid.hpp"
+         EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: rcsid.hpp,v $")
+         @endcode
+ */
 #define EXIV2_RCSID(id) \
     namespace { \
         inline const char* getRcsId(const char*) \
