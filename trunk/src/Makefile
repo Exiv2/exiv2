@@ -20,7 +20,7 @@
 # 02111-1307, USA.
 #
 # File:      Makefile
-# Version:   $Name:  $ $Revision: 1.18 $
+# Version:   $Name:  $ $Revision: 1.19 $
 # Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
 # History:   10-Dec-03, ahu: created
 #
@@ -52,7 +52,7 @@ CCHDR = rcsid.hpp error.hpp
 
 # Add library C++ source files to this list
 CCSRC = canonmn.cpp exif.cpp fujimn.cpp ifd.cpp image.cpp makernote.cpp \
-        tags.cpp types.cpp value.cpp
+        sigmamn.cpp tags.cpp types.cpp value.cpp
 
 # Add source files of simple applications to this list
 BINSRC = addmoddel.cpp exifprint.cpp exiftest.cpp makernote-test.cpp \
