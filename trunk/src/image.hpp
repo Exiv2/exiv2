@@ -21,7 +21,7 @@
 /*!
   @file    image.hpp
   @brief   Class JpegImage to access JPEG images
-  @version $Name:  $ $Revision: 1.15 $
+  @version $Name:  $ $Revision: 1.16 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @author  Brad Schick (brad) 
@@ -428,11 +428,11 @@ namespace Exiv2 {
         /*!
           @brief Locates Photoshop formated IPTC data in a memory buffer.
                  Operates on raw data (rather than file streams) to simplify reuse.
-          @param pPSData Pointer to buffer containing entire payload of 
+          @param pPsData Pointer to buffer containing entire payload of 
                  Photoshop formated APP13 Jpeg segment.
-          @param sizePSData Size in bytes of pPSData.
+          @param sizePsData Size in bytes of pPsData.
           @param record Output value that is set to the start of the IPTC
-                 data block within pPSData (may not be null).
+                 data block within pPsData (may not be null).
           @param sizeHdr Output value that is set to the size of the header
                  within the IPTC data block pointed to by record (may not
                  be null).
@@ -440,11 +440,11 @@ namespace Exiv2 {
                  IPTC data within the IPTC data block pointed to by record
                  (may not be null).
           @return 0 if successful;<BR>
-                  1 if the pPSData buffer does not contain valid data;<BR>
-                  2 if no IPTC data was found in pPSData;<BR>
+                  1 if the pPsData buffer does not contain valid data;<BR>
+                  2 if no IPTC data was found in pPsData;<BR>
          */
-        int locateIptcData(const byte *pPSData, 
-                           long sizePSData,
+        int locateIptcData(const byte *pPsData, 
+                           long sizePsData,
                            const byte **record, 
                            uint16 *const sizeHdr,
                            uint16 *const sizeIptc) const;

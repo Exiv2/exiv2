@@ -20,7 +20,7 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.20 $
+  Version:   $Name:  $ $Revision: 1.21 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
              Brad Schick (brad) <schick@robotbattle.com>
   History:   26-Jan-04, ahu: created
@@ -29,7 +29,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.20 $ $RCSfile: image.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.21 $ $RCSfile: image.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -39,7 +39,7 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.20 $ $RCSfile: image.cpp,v $")
 #include "types.hpp"
 
 // + standard includes
-#include <stdio.h>
+#include <cstdio>
 #include <cstring>
 #include <cstdio>                               // for rename, remove
 #include <cassert>
@@ -369,8 +369,8 @@ namespace Exiv2 {
 
 
     // Operates on raw data (rather than file streams) to simplify reuse
-    int JpegBase::locateIptcData(const byte *pPSData, 
-                                 long sizePSData,
+    int JpegBase::locateIptcData(const byte *pPsData, 
+                                 long sizePsData,
                                  const byte **record, 
                                  uint16 *const sizeHdr,
                                  uint16 *const sizeIptc) const
@@ -382,23 +382,23 @@ namespace Exiv2 {
         long position = 0;
 
         // Data should follow Photoshop format, if not exit
-        while (position <= (sizePSData - 14) &&
-                memcmp(pPSData + position, bimId_, 4)==0) {
-            const byte *hrd = pPSData + position;
+        while (position <= (sizePsData - 14) &&
+                memcmp(pPsData + position, bimId_, 4)==0) {
+            const byte *hrd = pPsData + position;
             position += 4;
-            uint16 type = getUShort(pPSData+ position, bigEndian);
+            uint16 type = getUShort(pPsData+ position, bigEndian);
             position += 2;
            
             // Pascal string is padded to have an even size (including size byte)
-            byte psSize = pPSData[position] + 1;
+            byte psSize = pPsData[position] + 1;
             psSize += (psSize & 1);
             position += psSize;
-            if (position >= sizePSData) return 1;
+            if (position >= sizePsData) return 1;
 
             // Data is also padded to be even
-            long dataSize = getULong(pPSData + position, bigEndian);
+            long dataSize = getULong(pPsData + position, bigEndian);
             position += 4;
-            if (dataSize > sizePSData - position) return 1;
+            if (dataSize > sizePsData - position) return 1;
            
             if (type == iptc_) {
                 *sizeIptc = static_cast<uint16>(dataSize);
