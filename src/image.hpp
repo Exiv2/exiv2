@@ -21,7 +21,7 @@
 /*!
   @file    image.hpp
   @brief   Class JpegImage to access JPEG images
-  @version $Name:  $ $Revision: 1.18 $
+  @version $Name:  $ $Revision: 1.19 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @author  Brad Schick (brad) 
@@ -160,8 +160,7 @@ namespace Exiv2 {
          */
         virtual const byte* iptcData() const =0;
         /*!
-          @brief Return a read-only reference to the image comment. 
-                Do not attempt to write to this string. May be an empty string.
+          @brief Return a copy of the image comment. May be an empty string.
          */
         virtual std::string comment() const =0;
         //@}
@@ -671,6 +670,24 @@ namespace Exiv2 {
         uint32 offset_;
 
     }; // class TiffHeader   
+
+// *********************************************************************
+// free functions
+
+    /*!
+      @brief Test if a file exists.
+  
+      @param  path Name of file to verify.
+      @param  ct   Flag to check if <i>path</i> is a regular file.
+      @return true if <i>path</i> exists and, if <i>ct</i> is set,
+      is a regular file, else false.
+  
+      @note The function calls <b>stat()</b> test for <i>path</i>
+      and its type, see stat(2). <b>errno</b> is left unchanged 
+      in case of an error.
+     */
+    bool fileExists(const std::string& path, bool ct =false);
+
 }                                       // namespace Exiv2
 
 #endif                                  // #ifndef IMAGE_HPP_
