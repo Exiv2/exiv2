@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.26 $
+  @version $Name:  $ $Revision: 1.27 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -676,6 +676,25 @@ namespace Exif {
              an IFD.
      */
     void addToIfd(Ifd& ifd, const Metadatum& metadatum, ByteOrder byteOrder);
+    /*!
+      @brief Add all metadata in the range from iterator position begin to
+             iterator position end with IFD id 'makerIfd' to the list of
+             makernote entries of the object pointed to be makerNote.  No
+             duplicate checks are performed, i.e., it is possible to add
+             multiple metadata with the same key to a makernote.
+     */
+    void addToMakerNote(MakerNote* makerNote,
+                        Metadata::const_iterator begin,
+                        Metadata::const_iterator end, 
+                        ByteOrder byteOrder);
+    /*!
+      @brief Add the metadatum to makerNote, encoded in byte order byteOrder.
+             No duplicate checks are performed, i.e., it is possible to add
+             multiple metadata with the same key to a makernote.
+     */
+    void addToMakerNote(MakerNote* makerNote,
+                        const Metadatum& metadatum,
+                        ByteOrder byteOrder);
     /*!
       @brief Compare two metadata by tag. Return true if the tag of metadatum
              lhs is less than that of rhs.

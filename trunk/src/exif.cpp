@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.25 $
+  Version:   $Name:  $ $Revision: 1.26 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.25 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.26 $ $RCSfile: exif.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -618,13 +618,18 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
         long exifIfdOffset = ifd0Offset + ifd0.size() + ifd0.dataSize();
         Ifd exifIfd(exifIfd, exifIfdOffset);
         addToIfd(exifIfd, begin(), end(), byteOrder());
+        MakerNote* makerNote = 0;
         if (makerNote_) {
+            // Build MakerNote from metadata
+            makerNote = makerNote_->clone();
+            makerNote->clear();
+            addToMakerNote(makerNote, begin(), end(), byteOrder());
             // Create a placeholder MakerNote entry of the correct size and
-            // add it to the Exif IFD
+            // add it to the Exif IFD (because we don't know the offset yet)
             Entry e;
-            e.setIfdId(makerIfd);
+            e.setIfdId(exifIfd.ifdId());
             e.setTag(0x927c);
-            long size = makerNote_->size();
+            long size = makerNote->size();
             char* buf = new char[size];
             memset(buf, 0x0, size);
             e.setValue(undefined, size, buf, size); 
@@ -678,12 +683,15 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
         ifd0.copy(buf + ifd0Offset, byteOrder(), ifd0Offset);
         exifIfd.sortByTag();
         exifIfd.copy(buf + exifIfdOffset, byteOrder(), exifIfdOffset);
-        if (makerNote_) {
+        if (makerNote) {
             // Copy the MakerNote over the placeholder data
             Entries::iterator mn = exifIfd.findTag(0x927c);
-            makerNote_->copy(buf + exifIfdOffset + mn->offset(),
-                             byteOrder(), 
-                             exifIfdOffset + mn->offset());
+            makerNote->sortByTag();
+            makerNote->copy(buf + exifIfdOffset + mn->offset(),
+                            byteOrder(),
+                            exifIfdOffset + mn->offset());
+            delete makerNote;
+            makerNote = 0;
         }
         iopIfd.sortByTag();
         iopIfd.copy(buf + iopIfdOffset, byteOrder(), iopIfdOffset);
@@ -925,7 +933,7 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
         // Todo: Implement Assert (Stroustup 24.3.7.2)
         if (!ifd.alloc()) throw Error("Invariant violated in addToIfd");
 
-        Entry e(ifd.alloc());
+        Entry e;
         e.setIfdId(metadatum.ifdId());
         e.setIdx(metadatum.idx());
         e.setTag(metadatum.tag());
@@ -936,6 +944,35 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
         ifd.add(e);
         delete[] buf;
     } // addToIfd
+
+    void addToMakerNote(MakerNote* makerNote,
+                        Metadata::const_iterator begin,
+                        Metadata::const_iterator end, 
+                        ByteOrder byteOrder)
+    {
+        for (Metadata::const_iterator i = begin; i != end; ++i) {
+            // add only metadata with IFD id 'makerIfd'
+            if (i->ifdId() == makerIfd) {
+                addToMakerNote(makerNote, *i, byteOrder);
+            }
+        }
+    } // addToMakerNote
+
+    void addToMakerNote(MakerNote* makerNote,
+                        const Metadatum& metadatum,
+                        ByteOrder byteOrder)
+    {
+        Entry e;
+        e.setIfdId(metadatum.ifdId());
+        e.setIdx(metadatum.idx());
+        e.setTag(metadatum.tag());
+        e.setOffset(0);  // will be calculated when the makernote is written
+        char* buf = new char[metadatum.size()];
+        metadatum.copy(buf, byteOrder);
+        e.setValue(metadatum.typeId(), metadatum.count(), buf, metadatum.size()); 
+        makerNote->add(e);
+        delete[] buf;
+    } // addToMakerNote
 
     bool cmpMetadataByTag(const Metadatum& lhs, const Metadatum& rhs)
     {
