@@ -1,7 +1,7 @@
 /*!
   @file    private.h
   @brief   This file is from the tz distribution at ftp://elsie.nci.nih.gov/pub/
-  @version $Name:  $ $Revision: 1.1 $
+  @version $Name:  $ $Revision: 1.2 $
 */
 #ifndef PRIVATE_H
 
@@ -46,16 +46,7 @@ static char	privatehid[] = "@(#)private.h	7.53";
 
 /* ahu: deleted include libintl.h */
 
-#if HAVE_SYS_WAIT_H - 0
-#include <sys/wait.h>	/* for WIFEXITED and WEXITSTATUS */
-#endif /* HAVE_SYS_WAIT_H - 0 */
-
-#ifndef WIFEXITED
-#define WIFEXITED(status)	(((status) & 0xff) == 0)
-#endif /* !defined WIFEXITED */
-#ifndef WEXITSTATUS
-#define WEXITSTATUS(status)	(((status) >> 8) & 0xff)
-#endif /* !defined WEXITSTATUS */
+/* ahu: deleted include sys/wait.h and WIFEXITED, WEXITSTATUS macros */
 
 #if HAVE_UNISTD_H - 0
 #include "unistd.h"	/* for F_OK and R_OK */
