@@ -21,7 +21,7 @@
 /*!
   @file    tags.hpp
   @brief   %Exif tag and type information
-  @version $Name:  $ $Revision: 1.10 $
+  @version $Name:  $ $Revision: 1.11 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    15-Jan-04, ahu: created
@@ -42,6 +42,10 @@
 namespace Exif {
 
 // *****************************************************************************
+// class declarations
+    class Value;
+
+// *****************************************************************************
 // type definitions
 
     //! 2 byte unsigned integer type.
@@ -57,6 +61,9 @@ namespace Exif {
     typedef std::pair<uint32, uint32> URational;
     //! 8 byte signed rational type.
     typedef std::pair<int32, int32> Rational;
+
+    //! Type for a function pointer for functions interpreting the tag value
+    typedef std::ostream& (*PrintFct)(std::ostream&, const Value&);
 
     //! Type identifiers for IFD format types
     enum TypeId { invalid, unsignedByte, asciiString, unsignedShort, 
@@ -141,13 +148,15 @@ namespace Exif {
             const char* name,
             const char* desc, 
             IfdId ifdId,
-            SectionId sectionId
+            SectionId sectionId,
+            PrintFct printFct
         );
         uint16 tag_;                            //!< Tag
         const char* name_;                      //!< One word tag label
         const char* desc_;                      //!< Short tag description
         IfdId ifdId_;                           //!< Link to the (prefered) IFD
         SectionId sectionId_;                   //!< Section id
+        PrintFct printFct_;                     //!< Pointer to tag print function
     }; // struct TagInfo
 
     //! Container for %Exif tag information. Implemented as a static class.
@@ -228,10 +237,11 @@ namespace Exif {
                  item item, section name and tag name parts.
          */
         static std::pair<uint16, IfdId> decomposeKey(const std::string& key);
-
+        //! Return the print function for the tag, IFD id combination
+        static PrintFct printFct(uint16 tag, IfdId ifdId);
         //! Print a list of all tags to standart output
         static void taglist();
-
+        
     private:
         static int tagInfoIdx(uint16 tag, IfdId ifdId);
         static int tagInfoIdx(const std::string& tagName, IfdId ifdId);
@@ -287,6 +297,58 @@ namespace Exif {
         return os.str();
     }
 
+    //! @name Functions printing interpreted tag values
+    //@{
+    //! NULL print function, prints a constant error message
+    std::ostream& printNull(std::ostream& os, const Value& value);
+    //! Default print function, using the Value output operator
+    std::ostream& printValue(std::ostream& os, const Value& value);
+    //! Print the value converted to a long
+    std::ostream& printLong(std::ostream& os, const Value& value);
+    //! Print a Rational or URational value in floating point format
+    std::ostream& printFloat(std::ostream& os, const Value& value);
+    //! Print the unit for measuring X and Y resolution
+    std::ostream& printUnit(std::ostream& os, const Value& value);
+
+    //! Print the compression scheme used for the image data
+    std::ostream& print0x0103(std::ostream& os, const Value& value);
+    //! Print the pixel composition
+    std::ostream& print0x0106(std::ostream& os, const Value& value);
+    //! Print the YCbCrPositioning
+    std::ostream& print0x0213(std::ostream& os, const Value& value);
+    //! Print the Exposure time
+    std::ostream& print0x829a(std::ostream& os, const Value& value);
+    //! Print the F number
+    std::ostream& print0x829d(std::ostream& os, const Value& value);
+    //! Print the Exposure mode
+    std::ostream& print0x8822(std::ostream& os, const Value& value);
+    //! Print components configuration specific to compressed data
+    std::ostream& print0x9101(std::ostream& os, const Value& value);
+    //! Print the subject distance
+    std::ostream& print0x9206(std::ostream& os, const Value& value);
+    //! Print the metering mode
+    std::ostream& print0x9207(std::ostream& os, const Value& value);
+    //! Print the flash status
+    std::ostream& print0x9209(std::ostream& os, const Value& value);
+    //! Print the actual focal length of the lens
+    std::ostream& print0x920a(std::ostream& os, const Value& value);
+    //! Print color space information
+    std::ostream& print0xa001(std::ostream& os, const Value& value);
+    //! Print info on image sensor type on the camera or input device
+    std::ostream& print0xa217(std::ostream& os, const Value& value);
+    //! Print the exposure mode
+    std::ostream& print0xa402(std::ostream& os, const Value& value);
+    //! Print white balance information
+    std::ostream& print0xa403(std::ostream& os, const Value& value);
+    //! Print digital zoom ratio
+    std::ostream& print0xa404(std::ostream& os, const Value& value);
+    //! Print scene capture type
+    std::ostream& print0xa406(std::ostream& os, const Value& value);
+
+    // Todo: Copyright       (0x8298)
+    // Todo: UserComment     (0x9286)
+
+    //@}
 }                                       // namespace Exif
 
 #endif                                  // #ifndef TAGS_HPP_

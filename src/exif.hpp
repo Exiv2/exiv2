@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.18 $
+  @version $Name:  $ $Revision: 1.19 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -594,6 +594,12 @@ namespace Exif {
         std::string key_;              //!< Unique key
 
     }; // class Metadatum
+
+    /*!
+      @brief Output operator for Metadatum types, printing the interpreted
+             tag value.
+     */
+    std::ostream& operator<<(std::ostream& os, const Metadatum& md);
 
     //! Container type to hold all metadata
     typedef std::vector<Metadatum> Metadata;
