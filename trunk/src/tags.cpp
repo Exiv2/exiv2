@@ -20,13 +20,13 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.15 $
+  Version:   $Name:  $ $Revision: 1.16 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.15 $ $RCSfile: tags.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.16 $ $RCSfile: tags.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -139,7 +139,7 @@ namespace Exif {
         TagInfo(0x8769, "ExifTag", "Exif IFD Pointer", ifd0, exifFormat, printValue),
         TagInfo(0x8825, "GPSTag", "GPSInfo IFD Pointer", ifd0, exifFormat, printValue),
         // End of list marker
-        TagInfo(0xffff, "(UnknownIfdTag)", "Unknown IFD tag", ifdIdNotSet, sectionIdNotSet, printNull)
+        TagInfo(0xffff, "(UnknownIfdTag)", "Unknown IFD tag", ifdIdNotSet, sectionIdNotSet, printValue)
     };
 
     // Exif IFD Tags
@@ -162,7 +162,7 @@ namespace Exif {
         TagInfo(0x9205, "MaxApertureValue", "Maximum lens aperture", exifIfd, captureCond, printFloat),
         TagInfo(0x9206, "SubjectDistance", "Subject distance", exifIfd, captureCond, print0x9206),
         TagInfo(0x9207, "MeteringMode", "Metering mode", exifIfd, captureCond, print0x9207),
-        TagInfo(0x9208, "LightSource", "Light source", exifIfd, captureCond, printValue),
+        TagInfo(0x9208, "LightSource", "Light source", exifIfd, captureCond, print0x9208),
         TagInfo(0x9209, "Flash", "Flash", exifIfd, captureCond, print0x9209),
         TagInfo(0x920a, "FocalLength", "Lens focal length", exifIfd, captureCond, print0x920a),
         TagInfo(0x9214, "SubjectArea", "Subject area", exifIfd, captureCond, printValue),
@@ -185,8 +185,8 @@ namespace Exif {
         TagInfo(0xa214, "SubjectLocation", "Subject location", exifIfd, captureCond, printValue),
         TagInfo(0xa215, "ExposureIndex", "Exposure index", exifIfd, captureCond, printValue),
         TagInfo(0xa217, "SensingMethod", "Sensing method", exifIfd, captureCond, print0xa217),
-        TagInfo(0xa300, "FileSource", "File source", exifIfd, captureCond, printValue),
-        TagInfo(0xa301, "SceneType", "Scene type", exifIfd, captureCond, printValue),
+        TagInfo(0xa300, "FileSource", "File source", exifIfd, captureCond, print0xa300),
+        TagInfo(0xa301, "SceneType", "Scene type", exifIfd, captureCond, print0xa301),
         TagInfo(0xa302, "CFAPattern", "CFA pattern", exifIfd, captureCond, printValue),
         TagInfo(0xa401, "CustomRendered", "Custom image processing", exifIfd, captureCond, printValue),
         TagInfo(0xa402, "ExposureMode", "Exposure mode", exifIfd, captureCond, print0xa402),
@@ -194,15 +194,15 @@ namespace Exif {
         TagInfo(0xa404, "DigitalZoomRatio", "Digital zoom ratio", exifIfd, captureCond, print0xa404),
         TagInfo(0xa405, "FocalLengthIn35mmFilm", "Focal length in 35 mm film", exifIfd, captureCond, printValue),
         TagInfo(0xa406, "SceneCaptureType", "Scene capture type", exifIfd, captureCond, print0xa406),
-        TagInfo(0xa407, "GainControl", "Gain control", exifIfd, captureCond, printValue),
-        TagInfo(0xa408, "Contrast", "Contrast", exifIfd, captureCond, printValue),
-        TagInfo(0xa409, "Saturation", "Saturation", exifIfd, captureCond, printValue),
-        TagInfo(0xa40a, "Sharpness", "Sharpness", exifIfd, captureCond, printValue),
+        TagInfo(0xa407, "GainControl", "Gain control", exifIfd, captureCond, print0xa407),
+        TagInfo(0xa408, "Contrast", "Contrast", exifIfd, captureCond, print0xa408),
+        TagInfo(0xa409, "Saturation", "Saturation", exifIfd, captureCond, print0xa409),
+        TagInfo(0xa40a, "Sharpness", "Sharpness", exifIfd, captureCond, print0xa40a),
         TagInfo(0xa40b, "DeviceSettingDescription", "Device settings description", exifIfd, captureCond, printValue),
-        TagInfo(0xa40c, "SubjectDistanceRange", "Subject distance range", exifIfd, captureCond, printValue),
+        TagInfo(0xa40c, "SubjectDistanceRange", "Subject distance range", exifIfd, captureCond, print0xa40c),
         TagInfo(0xa420, "ImageUniqueID", "Unique image ID", exifIfd, otherTags, printValue),
         // End of list marker
-        TagInfo(0xffff, "(UnknownExifTag)", "Unknown Exif tag", ifdIdNotSet, sectionIdNotSet, printNull)
+        TagInfo(0xffff, "(UnknownExifTag)", "Unknown Exif tag", ifdIdNotSet, sectionIdNotSet, printValue)
     };
 
     // GPS Info Tags
@@ -239,7 +239,7 @@ namespace Exif {
         TagInfo(0x001d, "GPSDateStamp", "GPS date", gpsIfd, gpsTags, printValue),
         TagInfo(0x001e, "GPSDifferential", "GPS differential correction", gpsIfd, gpsTags, printValue),
         // End of list marker
-        TagInfo(0xffff, "(UnknownGpsTag)", "Unknown GPSInfo tag", ifdIdNotSet, sectionIdNotSet, printNull)
+        TagInfo(0xffff, "(UnknownGpsTag)", "Unknown GPSInfo tag", ifdIdNotSet, sectionIdNotSet, printValue)
     };
     
     // Exif Interoperability IFD Tags
@@ -250,7 +250,7 @@ namespace Exif {
         TagInfo(0x1001, "RelatedImageWidth", "Image width", iopIfd, iopTags, printValue),
         TagInfo(0x1002, "RelatedImageLength", "Image height", iopIfd, iopTags, printValue),
         // End of list marker
-        TagInfo(0xffff, "(UnknownIopTag)", "Unknown Exif Interoperability tag", ifdIdNotSet, sectionIdNotSet, printNull)
+        TagInfo(0xffff, "(UnknownIopTag)", "Unknown Exif Interoperability tag", ifdIdNotSet, sectionIdNotSet, printValue)
     };
 
     // Tag lookup lists with tag names, desc and where they (preferably) belong to;
@@ -450,11 +450,6 @@ namespace Exif {
         return is;
     }
 
-    std::ostream& printNull(std::ostream& os, const Value& value)
-    {
-        return os << "(NULL print function)";
-    }
-
     std::ostream& printValue(std::ostream& os, const Value& value)
     {
         return os << value;
@@ -473,7 +468,7 @@ namespace Exif {
                 return os << (float)ur->value_[0].first / ur->value_[0].second;
             }
             else {
-                return os << value;
+                return os << "(" << value << ")";
             }
         }
         const RationalValue* sr = dynamic_cast<const RationalValue*>(&value);
@@ -482,10 +477,10 @@ namespace Exif {
                 return os << (float)sr->value_[0].first / sr->value_[0].second;
             }
             else {
-                return os << value;
+                return os << "(" << value << ")";
             }
         }
-        return os << value;
+        return os << "(" << value << ")";
     } // printFloat
 
     std::ostream& printUnit(std::ostream& os, const Value& value)
@@ -494,7 +489,7 @@ namespace Exif {
         switch (unit) {
         case 2:  os << "inch"; break;
         case 3:  os << "cm"; break;
-        default: os << unit; break;
+        default: os << "(" << unit << ")"; break;
         }
         return os;
     }
@@ -503,9 +498,9 @@ namespace Exif {
     {
         long compression = value.toLong();
         switch (compression) {
-        case 1:  os << "Uncompressed"; break;
-        case 6:  os << "JPEG compression"; break;
-        default: os << compression; break;
+        case 1:  os << "TIFF"; break;
+        case 6:  os << "JPEG"; break;
+        default: os << "(" << compression << ")"; break;
         }
         return os;
     }
@@ -516,7 +511,7 @@ namespace Exif {
         switch (photo) {
         case 2:  os << "RGB"; break;
         case 6:  os << "YCbCr"; break;
-        default: os << photo; break;
+        default: os << "(" << photo << ")"; break;
         }
         return os;
     }
@@ -533,7 +528,7 @@ namespace Exif {
         case 6:  os << "right, top"; break;
         case 7:  os << "right, bottom"; break;
         case 8:  os << "left, bottom"; break;
-        default: os << orientation; break;
+        default: os << "(" << orientation << ")"; break;
         }
         return os;
     }
@@ -544,7 +539,7 @@ namespace Exif {
         switch (position) {
         case 1:  os << "Centered"; break;
         case 2:  os << "Co-sited"; break;
-        default: os << position; break;
+        default: os << "(" << position << ")"; break;
         }
         return os;
     }
@@ -577,12 +572,12 @@ namespace Exif {
     std::ostream& print0x829d(std::ostream& os, const Value& value)
     {
         const URationalValue* fnumber = dynamic_cast<const URationalValue*>(&value);
-        if (fnumber) {
+        if (fnumber && fnumber->value_[0].second != 0) {
             os << "f/" 
                << (float)fnumber->value_[0].first / fnumber->value_[0].second;
         }
         else {
-            os << value;
+            os << "(" << value << ")";
         }
         return os;
     }
@@ -600,7 +595,7 @@ namespace Exif {
         case 6:  os << "Action program"; break;
         case 7:  os << "Portrait mode"; break;
         case 8:  os << "Landscape mode"; break;
-        default: os << program; break;
+        default: os << "(" << program << ")"; break;
         }
         return os;
     }
@@ -617,7 +612,7 @@ namespace Exif {
             case 4:  os << "R"; break;
             case 5:  os << "G"; break;
             case 6:  os << "B"; break;
-            default: os << l; break;
+            default: os << "(" << l << ")"; break;
             }
         }
         return os;
@@ -633,7 +628,7 @@ namespace Exif {
             else if (distance->value_[0].first == 0xffffffff) {
                 os << "Infinity";
             }
-            else {
+            else if (distance->value_[0].second != 0) {
                 std::ostringstream oss;
                 oss.copyfmt(os);
                 os << std::fixed << std::setprecision(2)
@@ -641,9 +636,12 @@ namespace Exif {
                    << " m";
                 os.copyfmt(oss);
             }
+            else {
+                os << "(" << value << ")";
+            }
         }
         else {
-            os << value;
+            os << "(" << value << ")";
         }
         return os;        
     }
@@ -659,7 +657,37 @@ namespace Exif {
         case 4:  os << "Multispot"; break;
         case 5:  os << "Pattern"; break;
         case 6:  os << "Partial"; break;
-        default: os << mode; break;
+        default: os << "(" << mode << ")"; break;
+        }
+        return os;
+    }
+
+    std::ostream& print0x9208(std::ostream& os, const Value& value)
+    {
+        long source = value.toLong();
+        switch (source) {
+        case   0: os << "Unknown"; break;
+        case   1: os << "Daylight"; break;
+        case   2: os << "Fluorescent"; break;
+        case   3: os << "Tungsten (incandescent light)"; break;
+        case   4: os << "Flash"; break;
+        case   9: os << "Fine weather"; break;
+        case  10: os << "Cloudy weather"; break;
+        case  11: os << "Shade"; break;
+        case  12: os << "Daylight fluorescent (D 5700 - 7100K)"; break;
+        case  13: os << "Day white fluorescent (N 4600 - 5400K)"; break;
+        case  14: os << "Cool white fluorescent (W 3900 - 4500K)"; break;
+        case  15: os << "White fluorescent (WW 3200 - 3700K)"; break;
+        case  17: os << "Standard light A"; break;
+        case  18: os << "Standard light B"; break;
+        case  19: os << "Standard light C"; break;
+        case  20: os << "D55"; break;
+        case  21: os << "D65"; break;
+        case  22: os << "D75"; break;
+        case  23: os << "D50"; break;
+        case  24: os << "ISO studio tungsten"; break;
+        case 255: os << "other light source"; break;
+        default:  os << "(" << source << ")"; break;
         }
         return os;
     }
@@ -690,7 +718,7 @@ namespace Exif {
         case 0x59: os << "Yes, auto, red-eye reduction"; break;
         case 0x5d: os << "Yes, auto, red-eye reduction, return light not detected"; break;
         case 0x5f: os << "Yes, auto, red-eye reduction, return light detected"; break;
-        default:   os << flash; break;
+        default:   os << "(" << flash << ")"; break;
         }
         return os;
     }
@@ -698,7 +726,7 @@ namespace Exif {
     std::ostream& print0x920a(std::ostream& os, const Value& value)
     {
         const URationalValue* length = dynamic_cast<const URationalValue*>(&value);
-        if (length) {
+        if (length && length->value_[0].second != 0) {
             std::ostringstream oss;
             oss.copyfmt(os);
             os << std::fixed << std::setprecision(1)
@@ -707,7 +735,7 @@ namespace Exif {
             os.copyfmt(oss);
         }
         else {
-            os << value;
+            os << "(" << value << ")";
         }
         return os;
     }
@@ -732,7 +760,7 @@ namespace Exif {
         switch (space) {
         case 1:      os << "sRGB"; break;
         case 0xffff: os << "Uncalibrated"; break;
-        default:     os << space; break;
+        default:     os << "(" << space << ")"; break;
         }
         return os;
     }
@@ -748,7 +776,27 @@ namespace Exif {
         case 5:  os << "Color sequential area"; break;
         case 7:  os << "Trilinear sensor"; break;
         case 8:  os << "Color sequential linear"; break;
-        default: os << method; break;
+        default: os << "(" << method << ")"; break;
+        }
+        return os;
+    }
+
+    std::ostream& print0xa300(std::ostream& os, const Value& value)
+    {
+        long source = value.toLong();
+        switch (source) {
+        case 3:      os << "Digital still camera"; break;
+        default:     os << "(" << source << ")"; break;
+        }
+        return os;
+    }
+
+    std::ostream& print0xa301(std::ostream& os, const Value& value)
+    {
+        long scene = value.toLong();
+        switch (scene) {
+        case 1:      os << "Directly photographed"; break;
+        default:     os << "(" << scene << ")"; break;
         }
         return os;
     }
@@ -760,7 +808,7 @@ namespace Exif {
         case 0: os << "Auto"; break;
         case 1: os << "Manual"; break;
         case 2: os << "Auto bracket"; break;
-        default: os << mode; break;
+        default: os << "(" << mode << ")"; break;
         }
         return os;
     }
@@ -771,7 +819,7 @@ namespace Exif {
         switch (wb) {
         case 0: os << "Auto"; break;
         case 1: os << "Manual"; break;
-        default: os << wb; break;
+        default: os << "(" << wb << ")"; break;
         }
         return os;
     }
@@ -792,7 +840,7 @@ namespace Exif {
             }
         }
         else {
-            os << value;
+            os << "(" << value << ")";
         }
         return os;
 
@@ -806,7 +854,70 @@ namespace Exif {
         case 1: os << "Landscape"; break;
         case 2: os << "Portrait"; break;
         case 3: os << "Night scene"; break;
-        default: os << scene; break;
+        default: os << "(" << scene << ")"; break;
+        }
+        return os;
+    }
+
+    std::ostream& print0xa407(std::ostream& os, const Value& value)
+    {
+        long gain = value.toLong();
+        switch (gain) {
+        case 0: os << "None"; break;
+        case 1: os << "Low gain up"; break;
+        case 2: os << "High gain up"; break;
+        case 3: os << "Low gain down"; break;
+        case 4: os << "High gain down"; break;
+        default: os << "(" << gain << ")"; break;
+        }
+        return os;
+    }
+
+    std::ostream& print0xa408(std::ostream& os, const Value& value)
+    {
+        long contrast = value.toLong();
+        switch (contrast) {
+        case 0: os << "Normal"; break;
+        case 1: os << "Soft"; break;
+        case 2: os << "Hard"; break;
+        default: os << "(" << contrast << ")"; break;
+        }
+        return os;
+    }
+
+    std::ostream& print0xa409(std::ostream& os, const Value& value)
+    {
+        long saturation = value.toLong();
+        switch (saturation) {
+        case 0: os << "Normal"; break;
+        case 1: os << "Low"; break;
+        case 2: os << "High"; break;
+        default: os << "(" << saturation << ")"; break;
+        }
+        return os;
+    }
+
+    std::ostream& print0xa40a(std::ostream& os, const Value& value)
+    {
+        long sharpness = value.toLong();
+        switch (sharpness) {
+        case 0: os << "Normal"; break;
+        case 1: os << "Soft"; break;
+        case 2: os << "Hard"; break;
+        default: os << "(" << sharpness << ")"; break;
+        }
+        return os;
+    }
+
+    std::ostream& print0xa40c(std::ostream& os, const Value& value)
+    {
+        long distance = value.toLong();
+        switch (distance) {
+        case 0: os << "Unknown"; break;
+        case 1: os << "Macro"; break;
+        case 2: os << "Close view"; break;
+        case 3: os << "Distant view"; break;
+        default: os << "(" << distance << ")"; break;
         }
         return os;
     }

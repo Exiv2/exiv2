@@ -21,7 +21,7 @@
 /*!
   @file    tags.hpp
   @brief   %Exif tag and type information
-  @version $Name:  $ $Revision: 1.15 $
+  @version $Name:  $ $Revision: 1.16 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    15-Jan-04, ahu: created
@@ -201,8 +201,6 @@ namespace Exif {
 
     //! @name Functions printing interpreted tag values
     //@{
-    //! NULL print function, prints a constant error message
-    std::ostream& printNull(std::ostream& os, const Value& value);
     //! Default print function, using the Value output operator
     std::ostream& printValue(std::ostream& os, const Value& value);
     //! Print the value converted to a long
@@ -234,6 +232,8 @@ namespace Exif {
     std::ostream& print0x9206(std::ostream& os, const Value& value);
     //! Print the metering mode
     std::ostream& print0x9207(std::ostream& os, const Value& value);
+    //! Print the light source
+    std::ostream& print0x9208(std::ostream& os, const Value& value);
     //! Print the flash status
     std::ostream& print0x9209(std::ostream& os, const Value& value);
     //! Print the actual focal length of the lens
@@ -244,6 +244,10 @@ namespace Exif {
     std::ostream& print0xa001(std::ostream& os, const Value& value);
     //! Print info on image sensor type on the camera or input device
     std::ostream& print0xa217(std::ostream& os, const Value& value);
+    //! Print file source
+    std::ostream& print0xa300(std::ostream& os, const Value& value);
+    //! Print scene type
+    std::ostream& print0xa301(std::ostream& os, const Value& value);
     //! Print the exposure mode
     std::ostream& print0xa402(std::ostream& os, const Value& value);
     //! Print white balance information
@@ -252,6 +256,16 @@ namespace Exif {
     std::ostream& print0xa404(std::ostream& os, const Value& value);
     //! Print scene capture type
     std::ostream& print0xa406(std::ostream& os, const Value& value);
+    //! Print overall image gain adjustment
+    std::ostream& print0xa407(std::ostream& os, const Value& value);
+    //! Print contract adjustment
+    std::ostream& print0xa408(std::ostream& os, const Value& value);
+    //! Print saturation adjustment
+    std::ostream& print0xa409(std::ostream& os, const Value& value);
+    //! Print sharpness adjustment
+    std::ostream& print0xa40a(std::ostream& os, const Value& value);
+    //! Print subject distance range
+    std::ostream& print0xa40c(std::ostream& os, const Value& value);
     //@}
 }                                       // namespace Exif
 
