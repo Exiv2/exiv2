@@ -20,7 +20,7 @@
  */
 /*
   File:      canonmn.cpp
-  Version:   $Name:  $ $Revision: 1.5 $
+  Version:   $Name:  $ $Revision: 1.6 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
              07-Mar-04, ahu: isolated as a separate component
@@ -30,7 +30,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: canonmn.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: canonmn.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -213,9 +213,11 @@ namespace Exif {
 
         if (count < 30) return os;
         s = val.value_[29];
-        os << std::setw(30) << "\n   Flash details ";
-        print0x0001_29(os, s);
- 
+        if (s > 0) {
+            os << std::setw(30) << "\n   Flash details ";
+            print0x0001_29(os, s);
+        }
+
         // Meaning of the 30th ushort is unknown - ignore it
         // Meaning of the 31st ushort is unknown - ignore it
 
@@ -506,8 +508,32 @@ namespace Exif {
 
     std::ostream& CanonMakerNote::print0x0001_29(std::ostream& os, uint16 s)
     {
-        // Todo: decode bitmask
-        os << std::dec << s << " (Todo: decode bitmask)";
+        bool coma = false;
+        if (s & 0x4000) {
+            if (coma) os << ", ";
+            os << "External TTL";
+            coma = true;
+        }
+        if (s & 0x2000) {
+            if (coma) os << ", ";
+            os << "Internal flash";
+            coma = true;
+        }
+        if (s & 0x0800) {
+            if (coma) os << ", ";
+            os << "FP sync used";
+            coma = true;
+        }
+        if (s & 0x0080) {
+            if (coma) os << ", ";
+            os << "Rear curtain sync used";
+            coma = true;
+        }
+        if (s & 0x0010) {
+            if (coma) os << ", ";
+            os << "FP sync enabled";
+            coma = true;
+        }
         return os;
     }
 
@@ -565,8 +591,31 @@ namespace Exif {
 
     std::ostream& CanonMakerNote::print0x0004_14(std::ostream& os, uint16 s)
     {
-        // Todo: decode bitmask
-        os << s << " (Todo: decode bitmask)";
+        uint16 num = (s & 0xf000) >> 12;
+        os << num << " focus points; ";
+        uint16 used = s & 0x0fff;
+        if (used == 0) {
+            os << "none";
+        }
+        else {
+            bool coma = false;
+            if (s & 0x0004) {
+                if (coma) os << ", ";
+                os << "left";
+                coma = true;
+            }
+            if (s & 0x0002) {
+                if (coma) os << ", ";
+                os << "center";
+                coma = true;
+            }
+            if (s & 0x0001) {
+                if (coma) os << ", ";
+                os << "right";
+                coma = true;
+            }
+        }
+        os << " used";
         return os;
     }
 
