@@ -20,14 +20,14 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.10 $
+  Version:   $Name:  $ $Revision: 1.11 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.10 $ $RCSfile: image.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.11 $ $RCSfile: image.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -219,6 +219,7 @@ namespace Exif {
     // Todo: implement this properly: skip unknown APP0 and APP1 segments
     int JpegImage::eraseExifData(std::ostream& os, std::istream& is) const
     {
+
         // Check if this is a JPEG image in the first place
         if (!isThisType(is, true)) {
             if (!is.good()) return 1;
@@ -232,23 +233,17 @@ namespace Exif {
         uint16 size = getUShort(tmpbuf + 2, bigEndian);
         if (size < 8) return 3;
 
-        long sizeJfifData = 9;
-        static char defaultJfifData[] = 
+        const long defaultJfifSize = 9;
+        static const char defaultJfifData[] = 
             { 0x01, 0x01, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00 };
-        // Todo: Memory Leak! Use an auto pointer
-        char* pJfifData = 0;
+        DataBuf jfif;
 
         if (marker == app0_ && memcmp(tmpbuf + 4, jfifId_, 5) == 0) {
             // Read the remainder of the JFIF APP0 segment
             is.seekg(-1, std::ios::cur);
-            sizeJfifData = size - 7;
-            pJfifData = new char[sizeJfifData];
-            is.read(pJfifData, sizeJfifData);
-            if (!is.good()) {
-                delete[] pJfifData;
-                pJfifData = 0;
-                return 1;
-            }
+            jfif.alloc(size - 7);
+            is.read(jfif.pData_, jfif.size_);
+            if (!is.good()) return 1;
             // Read the beginning of the next segment
             is.read(tmpbuf, 10);
             if (!is.good()) return 1;
@@ -264,17 +259,20 @@ namespace Exif {
         // Write SOI and APP0 markers, size of APP0 field
         us2Data(tmpbuf, soi_, bigEndian);
         us2Data(tmpbuf + 2, app0_, bigEndian);
-        us2Data(tmpbuf + 4, 7 + sizeJfifData, bigEndian);
+        if (jfif.pData_) {
+            us2Data(tmpbuf + 4, 7 + jfif.size_, bigEndian);
+        }
+        else {
+            us2Data(tmpbuf + 4, 7 + defaultJfifSize, bigEndian);
+        }
         memcpy(tmpbuf + 6, jfifId_, 5);
         os.write(tmpbuf, 11);
         // Write JFIF APP0 data, use that from the input stream if available
-        if (pJfifData) {
-            os.write(pJfifData, sizeJfifData);
-            delete pJfifData;
-            pJfifData = 0;
+        if (jfif.pData_) {
+            os.write(jfif.pData_, jfif.size_);
         }
         else {
-            os.write(defaultJfifData, sizeJfifData);
+            os.write(defaultJfifData, defaultJfifSize);
         }
         if (!os.good()) return 4;
 
@@ -333,19 +331,13 @@ namespace Exif {
         if (size < 8) return 3;
 
         bool validFile = false;
-        long sizeJfifData = 0;
-        char* pJfifData = 0;           // Todo: Memory Leak! Use an auto pointer
+        DataBuf jfif;
         if (marker == app0_ && memcmp(tmpbuf + 4, jfifId_, 5) == 0) {
             // Read the remainder of the JFIF APP0 segment
             is.seekg(-1, std::ios::cur);
-            sizeJfifData = size - 7;
-            pJfifData = new char[sizeJfifData];
-            is.read(pJfifData, sizeJfifData);
-            if (!is.good()) {
-                delete[] pJfifData;
-                pJfifData = 0;
-                return 1;
-            }
+            jfif.alloc(size -7);
+            is.read(jfif.pData_, jfif.size_);
+            if (!is.good()) return 1;
             // Read the beginning of the next segment
             is.read(tmpbuf, 10);
             if (!is.good()) return 1;
@@ -363,21 +355,20 @@ namespace Exif {
             is.seekg(-10, std::ios::cur);
         }
         if (!validFile) return 3;
-
         // Write SOI marker
         us2Data(tmpbuf, soi_, bigEndian);
         os.write(tmpbuf, 2);
         if (!os.good()) return 4;
-        if (pJfifData) {
+        if (jfif.pData_) {
             // Write APP0 marker, size of APP0 field and JFIF data
             us2Data(tmpbuf, app0_, bigEndian);
-            us2Data(tmpbuf + 2, 7 + sizeJfifData, bigEndian);
+            us2Data(tmpbuf + 2, 7 + jfif.size_, bigEndian);
             memcpy(tmpbuf + 4, jfifId_, 5);
             os.write(tmpbuf, 9);
-            os.write(pJfifData, sizeJfifData);
-            if (!os.good()) return 4;
-            delete pJfifData;
-            pJfifData = 0;
+            os.write(jfif.pData_, jfif.size_);
+            if (!os.good()) {
+                return 4;
+            }
         }
         // Write APP1 marker, size of APP1 field, Exif id and Exif data
         us2Data(tmpbuf, app1_, bigEndian);

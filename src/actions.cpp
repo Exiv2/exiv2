@@ -20,19 +20,20 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.13 $
+  Version:   $Name:  $ $Revision: 1.14 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.13 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.14 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
 #include "actions.hpp"
 #include "exiv2.hpp"
 #include "utils.hpp"
+#include "types.hpp"
 #include "exif.hpp"
 #include "canonmn.hpp"
 
@@ -314,8 +315,6 @@ namespace Action {
     {
         Exif::ExifData::const_iterator md;
         for (md = exifData.begin(); md != exifData.end(); ++md) {
-            char *buf = new char[md->size()];
-            md->copy(buf, exifData.byteOrder());
             std::cout << std::setw(4) << std::setfill(' ') << std::left
                       << md->ifdName() << " "
                       << "0x" << std::setw(4) << std::setfill('0') << std::right
@@ -330,8 +329,9 @@ namespace Action {
                       << md->size() << " "
                       << std::setw(27) << std::setfill(' ') << std::left
                       << md->tagName() << "\n";
-            Exif::hexdump(std::cout, buf, md->size());
-            delete[] buf;
+            Exif::DataBuf buf(md->size());
+            md->copy(buf.pData_, exifData.byteOrder());
+            Exif::hexdump(std::cout, buf.pData_, buf.size_);
         }
     } // Print::printHexdump
 

@@ -20,14 +20,17 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.37 $
+  Version:   $Name:  $ $Revision: 1.38 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.37 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.38 $ $RCSfile: exif.cpp,v $")
+
+// Define DEBUG_MAKERNOTE to output debug information to std::cerr
+#undef DEBUG_MAKERNOTE
 
 // *****************************************************************************
 // included header files
@@ -197,13 +200,14 @@ namespace Exif {
                             const ExifData& exifData,
                             ByteOrder byteOrder)
     {
-        char* data = new char[64*1024];     // temporary buffer Todo: handle larger
-        memset(data, 0x0, 64*1024);         // images (which violate the Exif Std)
-        long len = 0;                       // number of bytes in the buffer
+        DataBuf img;                     // temporary buffer Todo: handle larger
+        img.alloc(64*1024);              // images (which violate the Exif Std)
+        memset(img.pData_, 0x0, img.size_);
+        long len = 0;                    // number of bytes in the buffer
 
         // Copy the TIFF header
         TiffHeader tiffHeader(byteOrder);
-        len += tiffHeader.copy(data);
+        len += tiffHeader.copy(img.pData_);
 
         // Create IFD (without Exif and GPS tags) from metadata
         Ifd ifd1(ifd1);
@@ -228,7 +232,7 @@ namespace Exif {
         for (long k = 0; k < offsets->count(); ++k) {
             long offset = offsets->toLong(k);
             long size = sizes->toLong(k);
-            memcpy(data + len, buf + offset, size);
+            memcpy(img.pData_ + len, buf + offset, size);
             os << len << " ";
             len += size;
         }
@@ -242,16 +246,15 @@ namespace Exif {
 
         // Finally, sort and copy the IFD
         ifd1.sortByTag();
-        ifd1.copy(data + ifdOffset, tiffHeader.byteOrder(), ifdOffset);
+        ifd1.copy(img.pData_ + ifdOffset, tiffHeader.byteOrder(), ifdOffset);
 
         delete[] pImage_;
         pImage_ = new char[len];
-        memcpy(pImage_, data, len);
+        memcpy(pImage_, img.pData_, len);
         size_ = len;
         tiffHeader_.read(pImage_);
         ifd_.read(pImage_ + tiffHeader_.offset(), 
                   tiffHeader_.byteOrder(), tiffHeader_.offset());
-        delete[] data;
 
         return 0;
     } // TiffThumbnail::read
@@ -605,13 +608,11 @@ namespace Exif {
         Image* pImage = ImageFactory::instance().create(is);
         if (pImage == 0) return -2;
 
-        long size = this->size();
-        char* buf = new char[size];
-        long actualSize = copy(buf);
-        assert(actualSize <= size);
+        DataBuf buf(size());
+        long actualSize = copy(buf.pData_);
+        assert(actualSize <= buf.size_);
 
-        pImage->setExifData(buf, actualSize);
-        delete[] buf;
+        pImage->setExifData(buf.pData_, actualSize);
         int rc = pImage->writeExifData(path, is);
         delete pImage;
         return rc;
@@ -624,19 +625,17 @@ namespace Exif {
         // from the metadata without changing the data size, then it is enough
         // to copy the data buffer.
         if (updateEntries()) {
-
-//ahu Todo: remove debugging output
-std::cerr << "->>>>>> using non-intrusive writing <<<<<<-\n";
-
+#ifdef DEBUG_MAKERNOTE
+            std::cerr << "->>>>>> using non-intrusive writing <<<<<<-\n";
+#endif
             memcpy(buf, pData_, size_);
             size = size_;
         }
         // Else we have to do it the hard way...
         else {
-
-//ahu Todo: remove debugging output
-std::cerr << "->>>>>> writing from metadata <<<<<<-\n";
-
+#ifdef DEBUG_MAKERNOTE
+            std::cerr << "->>>>>> writing from metadata <<<<<<-\n";
+#endif
             size = copyFromMetadata(buf);
         }
         return size;
@@ -665,12 +664,10 @@ std::cerr << "->>>>>> writing from metadata <<<<<<-\n";
             Entry e;
             e.setIfdId(exifIfd.ifdId());
             e.setTag(0x927c);
-            long size = makerNote->size();
-            char* buf = new char[size];
-            memset(buf, 0x0, size);
-            e.setValue(undefined, size, buf, size); 
+            DataBuf buf(makerNote->size());
+            memset(buf.pData_, 0x0, buf.size_);
+            e.setValue(undefined, buf.size_, buf.pData_, buf.size_); 
             exifIfd.add(e);
-            delete[] buf;
         }
 
         // Set the offset to the Exif IFD in IFD0
@@ -782,14 +779,12 @@ std::cerr << "->>>>>> writing from metadata <<<<<<-\n";
 
     int ExifData::writeExifData(const std::string& path)
     {
-        long size = this->size();
-        char* buf = new char[size];
-        long actualSize = copy(buf);
-        assert(actualSize <= size);
+        DataBuf buf(this->size());
+        long actualSize = copy(buf.pData_);
+        assert(actualSize <= buf.size_);
 
         ExvFile exvFile;
-        exvFile.setExifData(buf, actualSize);
-        delete[] buf;
+        exvFile.setExifData(buf.pData_, actualSize);
         return exvFile.writeExifData(path);
     } // ExifData::writeExifData
 
@@ -936,10 +931,9 @@ std::cerr << "->>>>>> writing from metadata <<<<<<-\n";
                 // if the metadatum was not changed.
             }
             else {
-                char* buf = new char[md->size()];
-                md->copy(buf, byteOrder);
-                entry->setValue(md->typeId(), md->count(), buf, md->size());
-                delete[] buf;
+                DataBuf buf(md->size());
+                md->copy(buf.pData_, byteOrder);
+                entry->setValue(md->typeId(), md->count(), buf.pData_, md->size());
             }
         }
         return compatible;
@@ -1037,20 +1031,20 @@ std::cerr << "->>>>>> writing from metadata <<<<<<-\n";
         }
     } // addToIfd
 
-    void addToIfd(Ifd& ifd, const Metadatum& metadatum, ByteOrder byteOrder)
+    void addToIfd(Ifd& ifd, const Metadatum& md, ByteOrder byteOrder)
     {
         assert(ifd.alloc());
 
         Entry e;
-        e.setIfdId(metadatum.ifdId());
-        e.setIdx(metadatum.idx());
-        e.setTag(metadatum.tag());
+        e.setIfdId(md.ifdId());
+        e.setIdx(md.idx());
+        e.setTag(md.tag());
         e.setOffset(0);  // will be calculated when the IFD is written
-        char* buf = new char[metadatum.size()];
-        metadatum.copy(buf, byteOrder);
-        e.setValue(metadatum.typeId(), metadatum.count(), buf, metadatum.size()); 
+
+        DataBuf buf(md.size());
+        md.copy(buf.pData_, byteOrder);
+        e.setValue(md.typeId(), md.count(), buf.pData_, md.size()); 
         ifd.add(e);
-        delete[] buf;
     } // addToIfd
 
     void addToMakerNote(MakerNote* makerNote,
@@ -1066,20 +1060,20 @@ std::cerr << "->>>>>> writing from metadata <<<<<<-\n";
         }
     } // addToMakerNote
 
-    void addToMakerNote(MakerNote* makerNote,
-                        const Metadatum& metadatum,
+    void addToMakerNote(MakerNote* makerNote, 
+                        const Metadatum& md, 
                         ByteOrder byteOrder)
     {
         Entry e;
-        e.setIfdId(metadatum.ifdId());
-        e.setIdx(metadatum.idx());
-        e.setTag(metadatum.tag());
+        e.setIfdId(md.ifdId());
+        e.setIdx(md.idx());
+        e.setTag(md.tag());
         e.setOffset(0);  // will be calculated when the makernote is written
-        char* buf = new char[metadatum.size()];
-        metadatum.copy(buf, byteOrder);
-        e.setValue(metadatum.typeId(), metadatum.count(), buf, metadatum.size()); 
+
+        DataBuf buf(md.size());
+        md.copy(buf.pData_, byteOrder);
+        e.setValue(md.typeId(), md.count(), buf.pData_, md.size()); 
         makerNote->add(e);
-        delete[] buf;
     } // addToMakerNote
 
     bool cmpMetadataByTag(const Metadatum& lhs, const Metadatum& rhs)
