@@ -20,13 +20,13 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.16 $
+  Version:   $Name:  $ $Revision: 1.17 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.16 $ $RCSfile: tags.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.17 $ $RCSfile: tags.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -462,24 +462,8 @@ namespace Exif {
 
     std::ostream& printFloat(std::ostream& os, const Value& value)
     {
-        const URationalValue* ur = dynamic_cast<const URationalValue*>(&value);
-        if (ur) {
-            if (ur->value_[0].second != 0) {
-                return os << (float)ur->value_[0].first / ur->value_[0].second;
-            }
-            else {
-                return os << "(" << value << ")";
-            }
-        }
-        const RationalValue* sr = dynamic_cast<const RationalValue*>(&value);
-        if (sr) {
-            if (sr->value_[0].second != 0) {
-                return os << (float)sr->value_[0].first / sr->value_[0].second;
-            }
-            else {
-                return os << "(" << value << ")";
-            }
-        }
+        Rational r = value.toRational();
+        if (r.second != 0) return os << (float)r.first / r.second;
         return os << "(" << value << ")";
     } // printFloat
 
@@ -566,15 +550,26 @@ namespace Exif {
 
     std::ostream& print0x829a(std::ostream& os, const Value& value)
     {
-        return os << value << " s";
+        Rational t = value.toRational();
+        if (t.first > 1 && t.second > 1) {
+            t.second = static_cast<uint32>(
+                static_cast<float>(t.second) / t.first + 0.5);
+            t.first = 1;
+        }
+        if (t.second == 1) {
+            os << t.first << " s";
+        }
+        else {
+            os << t.first << "/" << t.second << " s";
+        }
+        return os;
     }
 
     std::ostream& print0x829d(std::ostream& os, const Value& value)
     {
-        const URationalValue* fnumber = dynamic_cast<const URationalValue*>(&value);
-        if (fnumber && fnumber->value_[0].second != 0) {
-            os << "f/" 
-               << (float)fnumber->value_[0].first / fnumber->value_[0].second;
+        Rational fnumber = value.toRational();
+        if (fnumber.second != 0) {
+            os << "f/" << (float)fnumber.first / fnumber.second;
         }
         else {
             os << "(" << value << ")";
@@ -588,7 +583,7 @@ namespace Exif {
         switch (program) {
         case 0:  os << "Not defined"; break;
         case 1:  os << "Manual"; break;
-        case 2:  os << "Normal program"; break;
+        case 2:  os << "Auto"; break;
         case 3:  os << "Aperture priority"; break;
         case 4:  os << "Shutter priority"; break;
         case 5:  os << "Creative program"; break;
@@ -620,25 +615,20 @@ namespace Exif {
 
     std::ostream& print0x9206(std::ostream& os, const Value& value)
     {
-        const URationalValue* distance = dynamic_cast<const URationalValue*>(&value);
-        if (distance) {
-            if (distance->value_[0].first == 0) {
-                os << "Unknown";
-            }
-            else if (distance->value_[0].first == 0xffffffff) {
-                os << "Infinity";
-            }
-            else if (distance->value_[0].second != 0) {
-                std::ostringstream oss;
-                oss.copyfmt(os);
-                os << std::fixed << std::setprecision(2)
-                   << (float)distance->value_[0].first / distance->value_[0].second
-                   << " m";
-                os.copyfmt(oss);
-            }
-            else {
-                os << "(" << value << ")";
-            }
+        Rational distance = value.toRational();
+        if (distance.first == 0) {
+            os << "Unknown";
+        }
+        else if (static_cast<uint32>(distance.first) == 0xffffffff) {
+            os << "Infinity";
+        }
+        else if (distance.second != 0) {
+            std::ostringstream oss;
+            oss.copyfmt(os);
+            os << std::fixed << std::setprecision(2)
+               << (float)distance.first / distance.second
+               << " m";
+            os.copyfmt(oss);
         }
         else {
             os << "(" << value << ")";
@@ -655,7 +645,7 @@ namespace Exif {
         case 2:  os << "Center weighted"; break;
         case 3:  os << "Spot"; break;
         case 4:  os << "Multispot"; break;
-        case 5:  os << "Pattern"; break;
+        case 5:  os << "Matrix"; break;
         case 6:  os << "Partial"; break;
         default: os << "(" << mode << ")"; break;
         }
@@ -725,12 +715,12 @@ namespace Exif {
 
     std::ostream& print0x920a(std::ostream& os, const Value& value)
     {
-        const URationalValue* length = dynamic_cast<const URationalValue*>(&value);
-        if (length && length->value_[0].second != 0) {
+        Rational length = value.toRational();
+        if (length.second != 0) {
             std::ostringstream oss;
             oss.copyfmt(os);
             os << std::fixed << std::setprecision(1)
-               << (float)length->value_[0].first / length->value_[0].second
+               << (float)length.first / length.second
                << " mm";
             os.copyfmt(oss);
         }
@@ -826,24 +816,18 @@ namespace Exif {
 
     std::ostream& print0xa404(std::ostream& os, const Value& value)
     {
-        const URationalValue* zoom = dynamic_cast<const URationalValue*>(&value);
-        if (zoom) {
-            if (zoom->value_[0].second == 0) {
-                os << "Digital zoom not used";
-            }
-            else {
-                std::ostringstream oss;
-                oss.copyfmt(os);
-                os << std::fixed << std::setprecision(1)
-                   << (float)zoom->value_[0].first / zoom->value_[0].second;
-                os.copyfmt(oss);
-            }
+        Rational zoom = value.toRational();
+        if (zoom.second == 0) {
+            os << "Digital zoom not used";
         }
         else {
-            os << "(" << value << ")";
+            std::ostringstream oss;
+            oss.copyfmt(os);
+            os << std::fixed << std::setprecision(1)
+               << (float)zoom.first / zoom.second;
+            os.copyfmt(oss);
         }
         return os;
-
     }
 
     std::ostream& print0xa406(std::ostream& os, const Value& value)
