@@ -20,13 +20,13 @@
  */
 /*
   File:      makernote.cpp
-  Version:   $Name:  $ $Revision: 1.6 $
+  Version:   $Name:  $ $Revision: 1.7 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: makernote.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.7 $ $RCSfile: makernote.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -119,7 +119,7 @@ namespace Exif {
     {
         int rc = ifd_.read(buf, byteOrder, offset);
         if (rc == 0) {
-            // Todo: Make sure the Next field is 0.
+            // Todo: Make sure the Next field is 0, throw an error if it isn't
             Entries::iterator end = ifd_.end();
             for (Entries::iterator i = ifd_.begin(); i != end; ++i) {
                 i->setMakerNote(this);
@@ -137,9 +137,14 @@ namespace Exif {
         return ifd_.copy(buf, byteOrder, offset);
     }
 
+    Entries::const_iterator IfdMakerNote::findIdx(int idx) const 
+    {
+        return ifd_.findIdx(idx); 
+    }
+
     long IfdMakerNote::size() const
     {
-         return ifd_.size() + ifd_.dataSize();
+        return ifd_.size() + ifd_.dataSize();
     }
 
     MakerNoteFactory* MakerNoteFactory::instance_ = 0;
