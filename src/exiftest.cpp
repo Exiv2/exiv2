@@ -3,11 +3,11 @@
   Abstract : This is playground code, do what you want with it.
 
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  Version  : $Name:  $ $Revision: 1.11 $
+  Version  : $Name:  $ $Revision: 1.12 $
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.11 $ $RCSfile: exiftest.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.12 $ $RCSfile: exiftest.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -64,8 +64,19 @@ try {
     }
 
     exifPrint(exifData);
-    
     exifData.writeThumbnail("thumb");
+
+    char* buf = new char[1024*128];
+    long siz = exifData.copy(buf);
+
+    std::cout << siz << " Bytes written.\n" 
+              << "=======================\n";
+
+    ExifData e2;
+    e2.read(buf, siz);
+    
+    exifPrint(e2);
+    e2.writeThumbnail("t2");
 
     return rc;
 }

@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.13 $
+  @version $Name:  $ $Revision: 1.14 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -47,6 +47,7 @@ namespace Exif {
 // *****************************************************************************
 // class declarations
     class ExifData;
+    class Entry;
 
 // *****************************************************************************
 // class definitions
@@ -416,12 +417,9 @@ namespace Exif {
     class Metadatum {
     public:
         /*!
-          @brief Constructor for tag data read from an IFD, when all 
-                 information is available. %Metadatum copies (clones) the value 
-                 if one is provided.
+          @brief Constructor to build a metadatum from an IFD entry.
          */
-        Metadatum(uint16 tag, uint16 type, 
-                  IfdId ifdId, int ifdIdx, Value* value =0);
+        Metadatum(const Entry& e, ByteOrder byteOrder);
         /*!
           @brief Constructor for new tags created by an application, which only
                  needs to provide a key / value pair. %Metadatum copies (clones)
@@ -569,7 +567,153 @@ namespace Exif {
     private:
         std::string key_;
         
-    }; // class FindEntryByTag
+    }; // class FindMetadatumByTag
+
+    /*!
+      @brief Simple structure for 'raw' IFD directory entries (without any data
+             greater than four bytes)
+     */
+    struct RawEntry {
+        //! Default constructor
+        RawEntry();
+        //! The IFD id 
+        IfdId ifdId_;
+        //! Position in the IFD
+        int ifdIdx_;
+        //! Tag
+        uint16 tag_;
+        //! Type
+        uint16 type_;
+        //! Number of components
+        uint32 count_;
+        //! Offset, unprocessed
+        uint32 offset_;
+        //! Data from the IFD offset field if size is less or equal to four
+        char offsetData_[4];
+        //! Size of the data in bytes
+        long size_;
+    }; // struct RawEntry
+
+    //! Container type to hold 'raw' IFD directory entries
+    typedef std::vector<RawEntry> RawEntries;
+
+    /*!
+      @brief Data structure for one IFD directory entry. See the description of
+             class Ifd for an explanation of the supported modes for memory
+             allocation.
+    */
+    class Entry {
+    public:
+        /*! 
+          @brief The status of an Entry for entries without memory management.
+
+          <TABLE BORDER=0>
+          <TR><TD>valid:</TD>
+          <TD>The entry is valid, including in particular, the data 
+          pointed to is valid and up to date.</TD></TR>
+          <TR><TD>invalid:</TD>
+          <TD>The entry is not valid, it has been invalidated by a 
+          modification of the corresponding metadata, which did not 
+          fit into the original data buffer.</TD></TR>
+          <TR><TD>erased:</TD>
+          <TD>The entry has been deleted.</TD></TR>
+          </TABLE>
+        */
+        enum Status { valid, invalid, erased };
+
+        /*!
+          @brief Default constructor. The entry allocates memory for its 
+          data if alloc is true (the default), otherwise it remembers
+          just the pointers into a read and writeable data buffer which
+          it doesn't allocate or delete.
+        */ 
+        explicit Entry(bool alloc =true);
+        /*!
+          @brief Constructor to create an %Entry from a raw entry structure
+          and a data buffer. 
+
+          @param e 'Raw' entry structure filled with the relevant data. The 
+          offset_ field will only be used if size_ is greater than four.
+          @param buf Character buffer with the data of the tag. If size_ is 
+          less or equal four, the data from the original IFD offset 
+          field must be available in the field offsetData_. The buf is
+          not needed in this case and can be 0.
+          @param alloc Determines if memory management is required. If alloc
+          is true, a data buffer will be allocated to store data
+          of more than four bytes, else only the pointer will be 
+          stored. Data less or equal than four bytes is stored
+          locally in the %Entry.
+        */
+        Entry(const RawEntry& e, const char* buf, bool alloc =true);
+        //! Destructor
+        ~Entry();
+        //! Copy constructor
+        Entry(const Entry& rhs);
+        //! Assignment operator
+        Entry& operator=(const Entry& rhs);
+        //! @name Accessors
+        //@{
+        //! Return the status
+        Status status() const { return status_; }
+        //! Return the IFD id
+        IfdId ifdId() const { return ifdId_; }
+        //! Return the index in the IFD
+        int ifdIdx() const { return ifdIdx_; }
+        //! Return the tag
+        uint16 tag() const { return tag_; }
+        //! Return the type id.
+        uint16 type() const { return type_; }
+        //! Return the number of components in the value
+        uint32 count() const { return count_; }
+        //! Return the offset from the start of the IFD
+        uint32 offset() const { return offset_; }
+        //! Return the size of the value in bytes
+        long size() const { return size_; }
+        /*!
+          @brief Return a pointer to the data area. Do not attempt to write
+          to this pointer.
+        */
+        const char* data() const;
+        //@}
+
+        //! Return the size in bytes of one element of this type
+        long typeSize() const
+            { return ExifTags::typeSize(TypeId(type_)); }
+        //! Return the name of the type
+        const char* typeName() const 
+            { return ExifTags::typeName(TypeId(type_)); }
+
+        /*!
+          @brief Set the offset. If the size of the data is not greater than
+          four, the offset is written into the offset field as an
+          unsigned long using the byte order given to encode it.
+        */
+        void setOffset(uint32 offset, ByteOrder byteOrder);
+        //! Set the status 
+        void setStatus(Status status) { status_ = status; }
+
+    private:
+        /*!
+          @brief True:  requires memory allocation and deallocation,<BR>
+          False: no memory management needed.
+        */
+        bool alloc_;
+        Status status_;      // Status of this entry
+        IfdId ifdId_;        // Redundant IFD id (it is also at the IFD)
+        int ifdIdx_;         // Position in the IFD
+        uint16 tag_;         // Tag
+        uint16 type_;        // Type
+        uint32 count_;       // Number of components
+        uint32 offset_;      // Offset from the start of the IFD,
+        // 0 if size <=4, i.e., if there is no offset
+        char offsetData_[4]; // Data from the offset field if size <= 4
+        long size_;          // Size of the data in bytes
+        char* data_;         // Pointer to the data buffer
+    }; // class Entry
+
+    //! Container type to hold all IFD directory entries
+    typedef std::vector<Entry> Entries;
+
 
     /*!
       @brief Models an IFD (Image File Directory)
@@ -597,143 +741,7 @@ namespace Exif {
           @brief Constructor. Allows to set the IFD identifier and choose
                  whether or not memory management is required for the Entries.
          */
-        explicit Ifd(IfdId ifdId =ifdIdNotSet, bool alloc =true);
-
-        //! Simple structure for 'raw' IFD directory entries (without the data)
-        struct RawEntry {
-            //! Default constructor
-            RawEntry();
-            //! The IFD id 
-            IfdId ifdId_;
-            //! Position in the IFD
-            int ifdIdx_;
-            //! Tag
-            uint16 tag_;
-            //! Type
-            uint16 type_;
-            //! Number of components
-            uint32 count_;
-            //! Offset, unprocessed
-            uint32 offset_;
-            //! Data from the IFD offset field if size is less or equal to four
-            char offsetData_[4];
-            //! Size of the data in bytes
-            long size_;
-        }; // struct RawEntry
-
-        //! Container type to hold 'raw' IFD directory entries
-        typedef std::vector<RawEntry> RawEntries;
-
-        /*!
-          @brief Data structure for one IFD directory entry. See the description
-                 of class Ifd for an explanation of the supported modes for 
-                 memory allocation.
-         */
-        class Entry {
-        public:
-            /*! 
-              @brief The status of an Entry for entries without memory management.
-
-              <TABLE BORDER=0>
-              <TR><TD>valid:</TD>
-              <TD>The entry is valid, including in particular, the data 
-                  pointed to is valid and up to date.</TD></TR>
-              <TR><TD>invalid:</TD>
-              <TD>The entry is not valid, it has been invalidated by a 
-                  modification of the corresponding metadata, which did not 
-                  fit into the original data buffer.</TD></TR>
-              <TR><TD>erased:</TD>
-              <TD>The entry has been deleted.</TD></TR>
-              </TABLE>
-             */
-            enum Status { valid, invalid, erased };
-
-            /*!
-              @brief Default constructor. The entry allocates memory for its 
-                     data if alloc is true (the default), otherwise it remembers
-                     just the pointers into a read and writeable data buffer which
-                     it doesn't allocate or delete.
-             */ 
-            explicit Entry(bool alloc =true);
-            /*!
-              @brief Constructor to create an %Entry from a raw entry structure
-                     and a data buffer. 
-
-              @param e 'Raw' entry structure filled with the relevant data. The 
-                     offset_ field will only be used if size_ is greater than four.
-              @param buf Character buffer with the data of the tag. If size_ is 
-                     less or equal four, the data from the original IFD offset 
-                     field must be available in the field offsetData_. The buf is
-                     not needed in this case and can be 0.
-              @param alloc Determines if memory management is required. If alloc
-                     is true, a data buffer will be allocated to store data
-                     of more than four bytes, else only the pointer will be 
-                     stored. Data less or equal than four bytes is stored
-                     locally in the %Entry.
-             */
-            Entry(const RawEntry& e, char* buf, bool alloc =true);
-            //! Destructor
-            ~Entry();
-            //! Copy constructor
-            Entry(const Entry& rhs);
-            //! Assignment operator
-            Entry& operator=(const Entry& rhs);
-
-            //! @name Accessors
-            //@{
-            //! Return the status
-            Status status() const { return status_; }
-            //! Return the IFD id
-            IfdId ifdId() const { return ifdId_; }
-            //! Return the index in the IFD
-            int ifdIdx() const { return ifdIdx_; }
-            //! Return the tag
-            uint16 tag() const { return tag_; }
-            //! Return the type id.
-            uint16 type() const { return type_; }
-            //! Return the number of components in the value
-            uint32 count() const { return count_; }
-            //! Return the offset from the start of the IFD
-            uint32 offset() const { return offset_; }
-            //! Return the size of the value in bytes
-            long size() const { return size_; }
-            /*!
-              @brief Return a pointer to the data area. Do not attempt to write
-                     to this pointer.
-             */
-            const char* data() const;
-            //@}
-
-            //! Set the status 
-            void setStatus(Status status) { status_ = status; }
-            //! Return the size in bytes of one element of this type
-            long typeSize() const
-                { return ExifTags::typeSize(TypeId(type_)); }
-            //! Return the name of the type
-            const char* typeName() const 
-                { return ExifTags::typeName(TypeId(type_)); }
-
-        private:
-            /*!
-              @brief True:  requires memory allocation and deallocation,<BR>
-                     False: no memory management needed.
-             */
-            bool alloc_;
-            Status status_;      // Status of this entry
-            IfdId ifdId_;        // Redundant IFD id (it is also at the IFD)
-            int ifdIdx_;         // Position in the IFD
-            uint16 tag_;         // Tag
-            uint16 type_;        // Type
-            uint32 count_;       // Number of components
-            uint32 offset_;      // Offset from the start of the IFD,
-                                 // 0 if size <=4, i.e., if there is no offset
-            char offsetData_[4]; // Data from the offset field if size <= 4
-            long size_;          // Size of the data in bytes
-            char* data_;         // Pointer to the data buffer
-        }; // class Entry
-
-        //! Container type to hold all IFD directory entries
-        typedef std::vector<Entry> Entries;
+        explicit Ifd(IfdId ifdId =ifdIdNotSet, uint32 offset =0, bool alloc =true);
 
         //! Entries const iterator type
         typedef Entries::const_iterator const_iterator;
@@ -757,6 +765,17 @@ namespace Exif {
         void erase(uint16 tag);
         //! Delete the directory entry at iterator position pos
         void erase(iterator pos);
+        /*!
+          @brief Set the offset of the entry identified by tag. If no entry with
+                 this tag exists, an entry of type unsigned long with one
+                 component is created. If the size of the data is greater than
+                 four, the offset of the entry is set to the value provided in
+                 offset, else it is written to the offset field of the entry as
+                 an unsigned long, encoded according to the byte order.
+         */
+        void setOffset(uint16 tag, uint32 offset, ByteOrder byteOrder);
+        //! Set the offset of the next IFD
+        void setNext(uint32 next) { next_ = next; }
         /*!
           @brief Add all metadata in the range from iterator position begin to
                  iterator position end, which have an IFD id matching that of
@@ -784,7 +803,7 @@ namespace Exif {
               @brief Returns true if the tag of the argument entry is equal
               to that of the object.
             */
-            bool operator()(const Ifd::Entry& entry) const
+            bool operator()(const Entry& entry) const
                 { return tag_ == entry.tag(); }
         private:
             uint16 tag_;
@@ -795,7 +814,7 @@ namespace Exif {
           @brief Read a complete IFD and its data from a data buffer
 
           @param buf Pointer to the data to decode. The buffer must start with the 
-                     IFD data (unlike the readSubIfd() method).
+                 IFD data (unlike the readSubIfd() method).
           @param byteOrder Applicable byte order (little or big endian).
           @param offset (Optional) offset of the IFD from the start of the TIFF
                  header, if known. If not given, the offset will be guessed
@@ -805,7 +824,7 @@ namespace Exif {
 
           @return 0 if successful
          */
-        int read(char* buf, ByteOrder byteOrder, long offset =0);
+        int read(const char* buf, ByteOrder byteOrder, long offset =0);
         /*!
           @brief Read a sub-IFD from the location pointed to by the directory entry 
                  with the given tag.
@@ -822,18 +841,28 @@ namespace Exif {
             Ifd& dest, char* buf, ByteOrder byteOrder, uint16 tag
         ) const;
         /*!
-          @brief Copy the IFD to a data array, returns the number of bytes
-                 written. If the pointer to the next IFD is not 0, it will be
-                 adjusted to an offset from the start of the TIFF header to the
-                 position immediately following this IFD.
+          @brief Copy the IFD to a data array, return the number of bytes
+                 written. 
 
-          @param buf    Pointer to the data buffer.
+                 First the number of IFD entries is written (2 bytes), followed
+                 by all directory entries: tag (2), type (2), number of data
+                 components (4) and offset to the data or the data, if it
+                 occupies not more than four bytes (4). The directory entries
+                 are followed by the offset of the next IFD (4). All these
+                 fields are encoded according to the byte order argument. Data
+                 that doesn't fit into the offset fields follows immediately
+                 after the IFD entries. The offsets in the IFD are set to
+                 correctly point to the data fields, using the offset parameter
+                 or the offset of the IFD.
+
+          @param buf Pointer to the data buffer. The user must ensure that the
+                 buffer has enough memory. Otherwise the call results in
+                 undefined behaviour.
           @param byteOrder Applicable byte order (little or big endian).
           @param offset Target offset from the start of the TIFF header of the
-                        data array. The IFD offsets will be adjusted as
-                        necessary. If not given, then it is assumed that the IFD
-                        will remain at its original position, i.e., the offset 
-                        of the IFD will be used.
+                 data array. The IFD offsets will be adjusted as necessary. If
+                 not given, then it is assumed that the IFD will remain at its
+                 original position, i.e., the offset of the IFD will be used.
           @return       Returns the number of characters written.
          */
         long copy(char* buf, ByteOrder byteOrder, long offset =0) const;
@@ -847,7 +876,7 @@ namespace Exif {
         long next() const { return next_; }
         //@}
         //! Get the size of this IFD in bytes (IFD only, without data)
-        long size() const { return 2 + 12 * entries_.size() + 4; }
+        long size() const;
         /*!
           @brief Return the total size of the data of this IFD in bytes,
                  sums the size of all directory entries where size is greater
@@ -897,14 +926,55 @@ namespace Exif {
                  ByteOrder byteOrder =littleEndian);
         //! Write thumbnail to file path, return 0 if successful
         int write(const std::string& path) const;
+        /*!
+          @brief Copy the thumbnail image data (without the IFD, if any) to the
+                 data buffer buf. The user must ensure that the buffer has
+                 enough memory. Otherwise the call results in undefined
+                 behaviour. Return the number of characters written.
+         */
+        long copy(char* buf) const;
+        /*!
+          @brief Update the %Exif data according to the actual thumbnail image.
+          
+          If the type of the thumbnail image is JPEG, JPEGInterchangeFormat is
+          set to 0. If the type is TIFF, StripOffsets are set to the offsets of
+          the IFD of the thumbnail image itself.
+         */
+        void update(ExifData& exifData) const;
+        /*!
+          @brief Update the thumbnail data offsets in IFD1 assuming the
+                 thumbnail data follows immediately after IFD1.  
+
+          If the type of the thumbnail image is JPEG, JPEGInterchangeFormat is
+          set to point directly behind the data area of IFD1. If the type is
+          TIFF, StripOffsets from the thumbnail image are adjusted to point to
+          the strips, which have to follow immediately after IFD1. Use copy() to
+          write the thumbnail image data. The offset of IFD1 must be set
+          correctly. Changing the size of IFD1 invalidates the thumbnail data
+          offsets set by this method.
+         */
+        void setOffsets(Ifd& ifd1, ByteOrder byteOrder) const;
 
     private:
+
         //! Read a compressed (JPEG) thumbnail image from the data buffer
         int readJpegImage(const char* buf, const ExifData& exifData);
         //! Read an uncompressed (TIFF) thumbnail image from the data buffer
         int readTiffImage(const char* buf,
                           const ExifData& exifData,
                           ByteOrder byteOrder);
+        //! Update the Exif data according to the actual JPEG thumbnail image
+        void updateJpegImage(ExifData& exifData) const;
+        //! Update the Exif data according to the actual TIFF thumbnail image
+        void updateTiffImage(ExifData& exifData) const;
+        //! Copy the JPEG thumbnail image data to the data buffer buf
+        long copyJpegImage(char* buf) const;
+        //! Copy the TIFF thumbnail image data to the data buffer buf
+        long copyTiffImage(char* buf) const;
+        //! Update the offsets to the JPEG thumbnail image in the IFD
+        void setJpegImageOffsets(Ifd& ifd1, ByteOrder byteOrder) const;
+        //! Update the offsets to the TIFF thumbnail image in the IFD
+        void setTiffImageOffsets(Ifd& ifd1, ByteOrder byteOrder) const;
 
         std::string image_;
         Type type_;
@@ -948,15 +1018,19 @@ namespace Exif {
           @return 0 if successful
          */
         int read(const char* buf, long len);
-        //! Write %Exif data to a data buffer, return number of bytes written
-        long copy(char* buf) const;
+        /*!
+          @brief Write %Exif data to a data buffer, return number of bytes 
+                 written. Updates %Exif data with the metadata from the actual
+                 thumbnail image (overriding existing metadata).
+         */ 
+        long copy(char* buf);
         //! Returns the size of all %Exif data (TIFF header plus metadata)
         long size() const;
         //! Returns the byte order as specified in the TIFF header
         ByteOrder byteOrder() const { return tiffHeader_.byteOrder(); }
         /*!
           @brief Add all IFD entries in the range from iterator position begin
-                 to iterator position end to the Exif metadata. Checks for
+                 to iterator position end to the %Exif metadata. Checks for
                  duplicates: if a metadatum already exists, its value is
                  overwritten.
          */
@@ -971,7 +1045,7 @@ namespace Exif {
          */
         void add(const std::string& key, Value* value);
         /*! 
-          @brief Add a copy of the metadatum to the Exif metadata. If a
+          @brief Add a copy of the metadatum to the %Exif metadata. If a
                  metadatum with the given key already exists, its value is
                  overwritten and no new metadatum is added.
          */
@@ -1080,12 +1154,12 @@ namespace Exif {
              else false. By definition, entries without an offset are greater
              than those with an offset.
      */
-    bool cmpOffset(const Ifd::RawEntry& lhs, const Ifd::RawEntry& rhs);        
+    bool cmpOffset(const RawEntry& lhs, const RawEntry& rhs);        
     /*!
       @brief Compare two IFD entries by tag. Return true if the tag of entry
              lhs is less than that of rhs.
      */
-    bool cmpTag(const Ifd::Entry& lhs, const Ifd::Entry& rhs);
+    bool cmpTag(const Entry& lhs, const Entry& rhs);
 
 // *****************************************************************************
 // template and inline definitions
