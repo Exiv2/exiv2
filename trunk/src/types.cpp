@@ -20,14 +20,14 @@
  */
 /*
   File:      types.cpp
-  Version:   $Name:  $ $Revision: 1.5 $
+  Version:   $Name:  $ $Revision: 1.6 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: types.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: types.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -231,5 +231,35 @@ namespace Exif {
         }
         os << std::dec << std::setfill(' ');
     } // hexdump
+
+    int gcd(int a, int b)
+    {
+        int temp;
+        if (a < b) {
+            temp = a;
+            a = b; 
+            b = temp; 
+        }
+        while ((temp = a % b) != 0) {
+            a = b;
+            b = temp;
+        }
+        return b;
+    } // gcd
+
+    long lgcd(long a, long b)
+    {
+        long temp;
+        if (a < b) {
+            temp = a;
+            a = b; 
+            b = temp; 
+        }
+        while ((temp = a % b) != 0) {
+            a = b;
+            b = temp;
+        }
+        return b;
+    } // lgcd
 
 }                                       // namespace Exif
