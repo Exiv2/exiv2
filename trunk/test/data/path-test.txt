@@ -1,0 +1,24 @@
+dir/base dir base
+a/b/c a/b c
+a/b/c/ a/b c
+/ /
+/a / a
+foo . foo
+bar/ . bar
+bar\ . bar
+dir\base dir base
+a\b\c a\b c
+a\b\c\ a\b c
+c:\ c:
+c:\bar c: bar
+d:\foo\bar d:\foo bar 
+a . a
+/////////// /
+\\ \
+\\srvfile00\foo\bar \\srvfile00\foo bar
+\\srvfile01\foo \\srvfile01 foo
+\\srvfile02 \\srvfile02 
+\\srvfile03\ \\srvfile03 
+//srvfile04 / srvfile04 
+//srvfile03/foo //srvfile03 foo 
+//srvfile02/foo/bar //srvfile02/foo bar 

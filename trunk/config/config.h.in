@@ -143,8 +143,15 @@
 /* Define to `unsigned' if <sys/types.h> does not define. */
 #undef size_t
 
+#if defined __CYGWIN32__ && !defined __CYGWIN__
+   /* For backwards compatibility with Cygwin b19 and
+      earlier, we define __CYGWIN__ here, so that
+      we can rely on checking just for that macro. */
+#define __CYGWIN__  __CYGWIN32__
+#endif
+     
 /* File path seperator */
-#ifdef _MSC_VER
+#if defined WIN32 && !defined __CYGWIN__
 #define SEPERATOR_STR "\\"
 #define SEPERATOR_CHR '\\'
 #else

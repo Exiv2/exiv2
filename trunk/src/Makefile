@@ -184,11 +184,14 @@ mn.cpp: ./mn.sh
 $(LIBTOOL): $(LIBTOOL_DEPS)
 	$(SHELL) $(top_srcdir)/config.status --recheck
 
-bin: lib $(BINARY) $(EXIV2BIN) $(MCBIN)
+bin: lib $(BINARY) $(EXIV2BIN) $(MCBIN) path-test
 
 lib: $(OBJ)
 	$(LIBTOOL) --mode=link $(CXX) $(LDFLAGS) $(LOBJ) -o $(LIBRARY) -rpath $(libdir) -release $(EXIV2_VERSION) 
 	@touch lib
+
+path-test: path-test.o utils.o
+	$(CXX) $(CXXFLAGS) path-test.o utils.o -o $@
 
 $(BINARY): %: %.o lib mn.o
 	@$(LIBTOOL) --mode=link $(CXX) $(CXXFLAGS) $(LDLIBS) $@.o $(LDFLAGS) -o $@ -rpath $(libdir)
@@ -248,6 +251,7 @@ mostlyclean:
 clean: mostlyclean
 	@$(LIBTOOL) --mode=clean $(RM) $(LIBRARY)
 	@$(LIBTOOL) --mode=clean $(RM) $(EXECUTABLE) $(EXIV2EXE) $(MCEXE)
+	@$(LIBTOOL) --mode=clean $(RM) path-test$(EXEEXT)
 
 # Run `make distclean' from the top source directory to also remove
 # files created by configuring the program.
