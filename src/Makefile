@@ -20,7 +20,7 @@
 # 02111-1307, USA.
 #
 # File:      Makefile
-# Version:   $Name:  $ $Revision: 1.24 $
+# Version:   $Name:  $ $Revision: 1.25 $
 # Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
 # History:   10-Dec-03, ahu: created
 #
@@ -55,8 +55,8 @@ CCSRC = canonmn.cpp exif.cpp fujimn.cpp ifd.cpp image.cpp makernote.cpp \
         nikonmn.cpp sigmamn.cpp tags.cpp types.cpp value.cpp
 
 # Add source files of simple applications to this list
-BINSRC = addmoddel.cpp exifcomment.cpp exifprint.cpp makernote-test.cpp \
-         taglist.cpp write-test.cpp 
+BINSRC = addmoddel.cpp exifcomment.cpp exifprint.cpp ifd-test.cpp \
+         makernote-test.cpp taglist.cpp write-test.cpp 
 
 # State the main source file of the Exiv2 application here
 EXIV2MAIN = exiv2.cpp
@@ -115,7 +115,7 @@ SHAREDLIB = lib$(LIBNAME)$(SHAREDLIB_SUFFIX)
 ifdef STATIC_LIBS
     LIBRARY = archive
     INSTALL = bin
-    UNINSTALL = bin
+    UNINSTALL = 
     INSTALL_LIB = install-archive
     UNINSTALL_LIB = uninstall-archive
     LDLIBS := mn.o $(LDLIBS)
