@@ -7,13 +7,13 @@ doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
 <xsl:template match="TAGLIST">
 <html>
 <head>
-  <title>Exiv2 - Exif and IPTC metadata manipulation library and tools</title>
+  <title>Exiv2 - Exif and Iptc metadata manipulation library and tools</title>
   <link type="text/css" rel="stylesheet" href="include/sortabletable.css" />
   <script type="text/javascript" src="include/sortabletable.js"></script>
 </head>
 <body>
 
-<h1>Exif and IPTC metadata manipulation library and tools</h1>
+<h1>Exif and Iptc metadata manipulation library and tools</h1>
 
 <!-- content generated from XML -->
 <xsl:call-template name="header" />

@@ -2,9 +2,9 @@
 <?xml-stylesheet type="text/xsl" href="iptc.xsl"?>
 <TAGLIST>
 <HEADER>
-<title>IPTC datasets defined in Exiv2</title>
+<title>Iptc datasets defined in Exiv2</title>
 <text>
-<p>Datasets are defined according to the specification of the IPTC 
+<p>Datasets are defined according to the specification of the Iptc 
 <a href="http://www.iptc.org/IIM/">Information Interchange Model (IIM)</a>.</p>
 <p>Click on a column header to sort the table.</p>
 </text>
