@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.11 $
+  Version:   $Name:  $ $Revision: 1.12 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.11 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.12 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -218,14 +218,14 @@ namespace Action {
             }
         }
 
-        // Exposure program from ExposureProgram or Canon Makernote
-        rc = printTag(exifData, "Image.CaptureConditions.ExposureProgram", "Exposure");
+        // Exposure mode from ExposureProgram or Canon Makernote
+        rc = printTag(exifData, "Image.CaptureConditions.ExposureProgram", "Exposure mode");
         if (rc == 0) {
             md = exifData.findKey("Makernote.Canon.CameraSettings1");
             if (md != exifData.end() && md->count() >= 20) {
                 long prg = md->toLong(20);
                 std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                          << "Exposure" << ": ";
+                          << "Exposure mode" << ": ";
                 Exif::CanonMakerNote::print0x0001_20(std::cout, prg);
                 std::cout << "\n";
             }
