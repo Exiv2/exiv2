@@ -20,7 +20,7 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.11 $
+  Version:   $Name:  $ $Revision: 1.12 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
  */
@@ -363,104 +363,148 @@ namespace Exif {
         value_->read(buf);
     }
 
-    Ifd::Entry::Entry() 
-        : ifdId_(ifdIdNotSet), ifdIdx_(-1), tag_(0), type_(0), count_(0), 
-          offset_(0), data_(0), size_(0)
+    Ifd::RawEntry::RawEntry()
+        : ifdId_(ifdIdNotSet), ifdIdx_(-1),
+          tag_(0), type_(0), count_(0), offset_(0), size_(0)
     {
+        memset(offsetData_, 0x0, 4);
+    }
+
+    Ifd::Entry::Entry(bool alloc)
+        : alloc_(alloc), status_(valid), ifdId_(ifdIdNotSet), ifdIdx_(-1),
+          tag_(0), type_(0), count_(0), offset_(0), size_(0), data_(0)
+    {
+        memset(offsetData_, 0x0, 4);
+    }
+
+    Ifd::Entry::Entry(const RawEntry& e, char* buf, bool alloc)
+        : alloc_(alloc), status_(valid), ifdId_(e.ifdId_), ifdIdx_(e.ifdIdx_),
+          tag_(e.tag_), type_(e.type_), count_(e.count_), offset_(e.offset_), 
+          size_(e.size_), data_(0)
+    {
+        if (size_ > 4) {
+            if (alloc_) {
+                data_ = new char[size_]; 
+                memcpy(data_, buf + offset_, size_);
+            }
+            else {
+                data_ = buf + offset_;
+            }
+        }
+        else {
+            memcpy(offsetData_, e.offsetData_, 4);
+        }
     }
 
     Ifd::Entry::~Entry()
     {
-        delete[] data_;
+        if (alloc_) delete[] data_;
     }
 
     Ifd::Entry::Entry(const Entry& rhs)
-        : ifdId_(rhs.ifdId_), ifdIdx_(rhs.ifdIdx_), tag_(rhs.tag_),
-          type_(rhs.type_), count_(rhs.count_), offset_(rhs.offset_), 
-          data_(0), size_(rhs.size_)
+        : alloc_(rhs.alloc_), status_(rhs.status_), ifdId_(rhs.ifdId_),
+          ifdIdx_(rhs.ifdIdx_), tag_(rhs.tag_), type_(rhs.type_), 
+          count_(rhs.count_), offset_(rhs.offset_), size_(rhs.size_), data_(0)
     {
-        if (rhs.data_) {
-            data_ = new char[rhs.size_];
-            ::memcpy(data_, rhs.data_, rhs.size_);
+        memcpy(offsetData_, rhs.offsetData_, 4);
+        if (alloc_) {
+            if (rhs.data_) {
+                data_ = new char[rhs.size()];
+                memcpy(data_, rhs.data_, rhs.size());
+            }
+        }
+        else {
+            data_ = rhs.data_;
         }
     }
 
     Ifd::Entry::Entry& Ifd::Entry::operator=(const Entry& rhs)
     {
         if (this == &rhs) return *this;
+        alloc_ = rhs.alloc_;
+        status_ = rhs.status_;
         ifdId_ = rhs.ifdId_;
         ifdIdx_ = rhs.ifdIdx_;
         tag_ = rhs.tag_;
         type_ = rhs.type_;
         count_ = rhs.count_;
         offset_ = rhs.offset_;
-        delete data_;
-        data_ = 0;
-        if (rhs.data_) {
-            data_ = new char[rhs.size_];
-            ::memcpy(data_, rhs.data_, rhs.size_);
-        }
+        memcpy(offsetData_, rhs.offsetData_, 4);
         size_ = rhs.size_;
+        if (alloc_) {
+            delete data_;
+            data_ = 0;
+            if (rhs.data_) {
+                data_ = new char[rhs.size()];
+                memcpy(data_, rhs.data_, rhs.size());
+            }
+        }
+        else {
+            data_ = rhs.data_;
+        }
         return *this;
+    } // Ifd::Entry::operator=
+
+    const char* Ifd::Entry::data() const
+    {
+        if (size_ > 4) return data_;
+        return offsetData_;
     }
 
-    Ifd::Ifd(IfdId ifdId)
-        : ifdId_(ifdId), offset_(0), next_(0)
+    Ifd::Ifd(IfdId ifdId, bool alloc)
+        : alloc_(alloc), ifdId_(ifdId), offset_(0), next_(0)
     {
     }
 
-    int Ifd::read(const char* buf, ByteOrder byteOrder, long offset)
+    int Ifd::read(char* buf, ByteOrder byteOrder, long offset)
     {
         offset_ = offset;
         int n = getUShort(buf, byteOrder);
         long o = 2;
 
-        entries_.clear();
-        for (int i=0; i<n; ++i) {
-            Entry e;
+        // Create an array of raw entries
+        RawEntries rawEntries;
+        for (int i = 0; i < n; ++i) {
+            RawEntry e; 
             e.ifdId_ = ifdId_;
             e.ifdIdx_ = i;
             e.tag_ = getUShort(buf+o, byteOrder);
             e.type_ = getUShort(buf+o+2, byteOrder);
             e.count_ = getULong(buf+o+4, byteOrder);
-            // offset will be converted to a relative offset below
-            e.offset_ = getULong(buf+o+8, byteOrder); 
-            // data_ is set later, see below
-            e.size_ = e.count_ * e.typeSize();
-            entries_.push_back(e);
+            e.size_ = e.count_ * ExifTags::typeSize(TypeId(e.type_));
+            e.offset_ = e.size_ > 4 ? getULong(buf+o+8, byteOrder) : 0;
+            memcpy(e.offsetData_, buf+o+8, 4);
+            rawEntries.push_back(e);
             o += 12;
         }
         next_ = getULong(buf+o, byteOrder);
 
-        // Guess the offset if it was not given. The guess is based 
-        // on the assumption that the smallest offset points to a data 
-        // buffer directly following the IFD.
-        // Subsequently all offsets of IFD entries need to be recalculated.
-        const iterator eb = entries_.begin();
-        const iterator ee = entries_.end();
-        iterator i = eb;
-        if (offset_ == 0 && i != ee) {
+        // Guess the offset of the IFD, if it was not given. The guess is based
+        // on the assumption that the smallest offset points to a data buffer
+        // directly following the IFD. Subsequently all offsets of IFD entries
+        // will need to be recalculated.
+        if (offset_ == 0 && rawEntries.size() > 0) {
             // Find the entry with the smallest offset
-            i = std::min_element(eb, ee, cmpOffset);
-            // Set the guessed IFD offset
+            RawEntries::const_iterator i;
+            i = std::min_element(rawEntries.begin(), rawEntries.end(), cmpOffset);
+            // Set the 'guessed' IFD offset, the test is needed for the case when
+            // all entries have data sizes not exceeding 4.
             if (i->size_ > 4) {
                 offset_ = i->offset_ - size();
             }
         }
 
-        // Assign the values to each IFD entry and
-        // calculate offsets relative to the start of the IFD
-        for (i = eb; i != ee; ++i) {
-            delete[] i->data_;
+        // Convert 'raw' IFD entries to the actual entries, assign the data
+        // to each IFD entry and calculate relative offsets, relative to the
+        // start of the IFD
+        entries_.clear();
+        const RawEntries::iterator begin = rawEntries.begin();
+        const RawEntries::iterator end = rawEntries.end();
+        for (RawEntries::iterator i = begin; i != end; ++i) {
             if (i->size_ > 4) {
                 i->offset_ = i->offset_ - offset_;
-                i->data_ = new char[i->size_];
-                ::memcpy(i->data_, buf + i->offset_, i->size_);
             }
-            else {
-                i->data_ = new char[4];
-                ul2Data(i->data_, i->offset_, byteOrder);
-            }
+            entries_.push_back(Entry(*i, buf, alloc_));
         }
 
         return 0;
@@ -484,13 +528,14 @@ namespace Exif {
     }
 
     int Ifd::readSubIfd(
-        Ifd& dest, const char* buf, ByteOrder byteOrder, uint16 tag
+        Ifd& dest, char* buf, ByteOrder byteOrder, uint16 tag
     ) const
     {
         int rc = 0;
         const_iterator pos = findTag(tag);
         if (pos != entries_.end()) {
-            rc = dest.read(buf + pos->offset_, byteOrder, pos->offset_);
+            uint32 offset = getULong(pos->data(), byteOrder);
+            rc = dest.read(buf + offset, byteOrder, offset);
         }
         return rc;
     } // Ifd::readSubIfd
@@ -509,15 +554,17 @@ namespace Exif {
         const const_iterator e = entries_.end();
         const_iterator i = b;
         for (; i != e; ++i) {
-            us2Data(buf+o, i->tag_, byteOrder);
-            us2Data(buf+o+2, i->type_, byteOrder);
-            ul2Data(buf+o+4, i->count_, byteOrder);
-            if (i->size_ > 4) {
+            us2Data(buf+o, i->tag(), byteOrder);
+            us2Data(buf+o+2, i->type(), byteOrder);
+            ul2Data(buf+o+4, i->count(), byteOrder);
+            if (i->size() > 4) {
+                // Calculate offset, data immediately follows the IFD
                 ul2Data(buf+o+8, offset + size() + dataSize, byteOrder);
-                dataSize += i->size_;
+                dataSize += i->size();
             }
             else {
-                ::memcpy(buf+o+8, i->data_, 4);
+                // Copy data into the offset field
+                ::memcpy(buf+o+8, i->data(), 4);
             }
             o += 12;
         }
@@ -534,9 +581,9 @@ namespace Exif {
 
         // Add the data of all IFD entries to the data buffer
         for (i = b; i != e; ++i) {
-            if (i->size_ > 4) {
-                ::memcpy(buf + o, i->data_, i->size_);
-                o += i->size_;
+            if (i->size() > 4) {
+                ::memcpy(buf + o, i->data(), i->size());
+                o += i->size();
             }
         }
 
@@ -557,32 +604,44 @@ namespace Exif {
 
     void Ifd::add(const Metadatum& metadatum, ByteOrder byteOrder)
     {
-        Entry e;
+        // Todo: Implement Assert (Stroustup 24.3.7.2)
+        if (!alloc_) throw Error("Invariant violated in Ifd::add");
+
+        RawEntry e;
         e.ifdId_ = metadatum.ifdId();
         e.ifdIdx_ = metadatum.ifdIdx();
         e.tag_ = metadatum.tag();
         e.type_ = metadatum.typeId();
         e.count_ = metadatum.count();
-        e.offset_ = 0; // will be calculated when the IFD is written
-        long len = std::max(metadatum.size(), long(4));
-        e.data_ = new char[len];
-        ::memset(e.data_, 0x0, len);
-        metadatum.copy(e.data_, byteOrder);
         e.size_ = metadatum.size();
-
+        e.offset_ = 0;  // will be calculated when the IFD is written
+        char* buf = 0;
+        if (e.size_ > 4) {
+            buf = new char[e.size_];
+            metadatum.copy(buf, byteOrder);
+        }
+        else {
+            metadatum.copy(e.offsetData_, byteOrder);
+        }
         erase(metadatum.tag());
-        entries_.push_back(e);        
+        entries_.push_back(Entry(e, buf, alloc_));
+        delete[] buf;
     }
 
     void Ifd::erase(uint16 tag)
     {
         iterator pos = findTag(tag);
-        if (pos != end()) erase(pos); 
+        if (pos != end()) erase(pos);
     }
 
     void Ifd::erase(iterator pos)
     {
-        entries_.erase(pos);
+        if (alloc_) {
+            entries_.erase(pos);
+        } 
+        else {
+            pos->setStatus(Entry::erased);
+        }
     }
 
     long Ifd::dataSize() const
@@ -590,7 +649,7 @@ namespace Exif {
         long dataSize = 0;
         const_iterator end = this->end();
         for (const_iterator i = begin(); i != end; ++i) {
-            if (i->size_ > 4) dataSize += i->size_;
+            if (i->size() > 4) dataSize += i->size();
         }
         return dataSize;
     }
@@ -598,7 +657,7 @@ namespace Exif {
     void Ifd::print(std::ostream& os, const std::string& prefix) const
     {
         if (entries_.size() == 0) return;
-
+        // Print a header
         os << prefix << "IFD Offset: 0x"
            << std::setw(8) << std::setfill('0') << std::hex << std::right 
            << offset_ 
@@ -607,47 +666,47 @@ namespace Exif {
            << entries_.size() << "\n"
            << prefix << "Entry     Tag  Format   (Bytes each)  Number  Offset\n"
            << prefix << "-----  ------  ---------------------  ------  -----------\n";
-
+        // Print IFD entries
         const const_iterator b = entries_.begin();
         const const_iterator e = entries_.end();
         const_iterator i = b;
         for (; i != e; ++i) {
             std::ostringstream offset;
-            if (i->size_ <= 4) {
-                offset << std::setw(2) << std::setfill('0') << std::hex
-                       << (int)*(unsigned char*)i->data_ << " "
-                       << std::setw(2) << std::setfill('0') << std::hex
-                       << (int)*(unsigned char*)(i->data_+1) << " "
-                       << std::setw(2) << std::setfill('0') << std::hex
-                       << (int)*(unsigned char*)(i->data_+2) << " "
-                       << std::setw(2) << std::setfill('0') << std::hex
-                       << (int)*(unsigned char*)(i->data_+3) << " ";
+            if (i->size() > 4) {
+                offset << " 0x" << std::setw(8) << std::setfill('0') 
+                       << std::hex << std::right << i->offset();
             }
             else {
-                offset << " 0x" << std::setw(8) << std::setfill('0') << std::hex
-                       << std::right << i->offset_;
+                unsigned char* data = (unsigned char*)i->data();
+                offset << std::setw(2) << std::setfill('0') << std::hex
+                       << (int)data[0] << " "
+                       << std::setw(2) << std::setfill('0') << std::hex
+                       << (int)data[1] << " "
+                       << std::setw(2) << std::setfill('0') << std::hex
+                       << (int)data[2] << " "
+                       << std::setw(2) << std::setfill('0') << std::hex
+                       << (int)data[3] << " ";
             }
-
             os << prefix << std::setw(5) << std::setfill(' ') << std::dec
                << std::right << i - b
                << "  0x" << std::setw(4) << std::setfill('0') << std::hex 
-               << std::right << i->tag_ 
+               << std::right << i->tag()
                << "  " << std::setw(17) << std::setfill(' ') 
                << std::left << i->typeName() 
                << " (" << std::dec << i->typeSize() << ")"
                << "  " << std::setw(6) << std::setfill(' ') << std::dec
-               << std::right << i->count_
+               << std::right << i->count()
                << "  " << offset.str()
                << "\n";
         }
         os << prefix << "Next IFD: 0x" 
            << std::setw(8) << std::setfill('0') << std::hex
            << std::right << next_ << "\n";
-
+        // Print data of IFD entries 
         for (i = b; i != e; ++i) {
-            if (i->size_ > 4) {
-                os << "Data of entry " << i-b << ":\n";
-                hexdump(os, i->data_, i->size_);
+            if (i->size() > 4) {
+                os << "Data of entry " << i - b << ":\n";
+                hexdump(os, i->data(), i->size());
             }
         }
 
@@ -691,7 +750,7 @@ namespace Exif {
                                  ByteOrder byteOrder)
     {
         char* data = new char[64*1024];     // temporary buffer Todo: handle larger
-        ::memset(data, 0x0, 64*1024);       // images (which violate the Exif Std)
+        memset(data, 0x0, 64*1024);         // images (which violate the Exif Std)
         long len = 0;                       // number of bytes in the buffer
 
         // Copy the TIFF header
@@ -721,7 +780,7 @@ namespace Exif {
         for (long k = 0; k < offsets->count(); ++k) {
             long offset = offsets->toLong(k);
             long size = sizes->toLong(k);
-            ::memcpy(data + len, buf + offset, size);
+            memcpy(data + len, buf + offset, size);
             os << len << " ";
             len += size;
         }
@@ -730,6 +789,9 @@ namespace Exif {
         Metadatum newOffsets(*offsets);
         newOffsets.setValue(os.str());
         ifd1.add(newOffsets, tiffHeader.byteOrder());
+
+// ahu: Todo: remove this
+        ifd1.print(std::cout);
 
         // Finally, sort and copy the IFD
         ifd1.sortByTag();
@@ -741,7 +803,6 @@ namespace Exif {
 
         return 0;
     }
-
 
     int Thumbnail::write(const std::string& path) const
     {
@@ -761,84 +822,109 @@ namespace Exif {
         return 0;
     }
 
+    ExifData::ExifData() 
+        : ifd0_(ifd0, false), exifIfd_(exifIfd, false), iopIfd_(iopIfd, false), 
+          gpsIfd_(gpsIfd, false), ifd1_(ifd1, false), valid_(false), 
+          size_(0), data_(0)
+    {
+    }
+
+    ExifData::~ExifData()
+    {
+        delete[] data_;
+    }
+
     int ExifData::read(const std::string& path)
     {
         JpegImage img;
         int rc = img.readExifData(path);
         if (rc) return rc;
-        offset_ = img.offsetExifData();
         return read(img.exifData(), img.sizeExifData());
     }
 
     int ExifData::read(const char* buf, long len)
     {
-        int rc = tiffHeader_.read(buf);
+        // Copy the data buffer
+        delete[] data_;
+        data_ = new char[len];
+        ::memcpy(data_, buf, len);
+        size_ = len;
+        valid_ = true;
+
+        // Read the TIFF header
+        int ret = 0;
+        int rc = tiffHeader_.read(data_);
         if (rc) return rc;
 
         // Read IFD0
-        Ifd ifd0(ifd0);
-        rc = ifd0.read(buf + tiffHeader_.offset(), 
-                       byteOrder(), 
-                       tiffHeader_.offset());
+        rc = ifd0_.read(data_ + tiffHeader_.offset(), 
+                        byteOrder(), 
+                        tiffHeader_.offset());
         if (rc) return rc;
-
         // Find and read ExifIFD sub-IFD of IFD0
-        Ifd exifIfd(exifIfd);
-        rc = ifd0.readSubIfd(exifIfd, buf, byteOrder(), 0x8769);
+        rc = ifd0_.readSubIfd(exifIfd_, data_, byteOrder(), 0x8769);
         if (rc) return rc;
-
         // Find and read Interoperability IFD in ExifIFD
-        Ifd iopIfd(iopIfd);
-        rc = exifIfd.readSubIfd(iopIfd, buf, byteOrder(), 0xa005);
+        rc = exifIfd_.readSubIfd(iopIfd_, data_, byteOrder(), 0xa005);
         if (rc) return rc;
-
         // Find and read GPSInfo sub-IFD in IFD0
-        Ifd gpsIfd(gpsIfd);
-        rc = ifd0.readSubIfd(gpsIfd, buf, byteOrder(), 0x8825);
+        rc = ifd0_.readSubIfd(gpsIfd_, data_, byteOrder(), 0x8825);
         if (rc) return rc;
-
         // Read IFD1
-        Ifd ifd1(ifd1);
-        if (ifd0.next()) {
-            rc = ifd1.read(buf + ifd0.next(), byteOrder(), ifd0.next());
+        if (ifd0_.next()) {
+            rc = ifd1_.read(data_ + ifd0_.next(), byteOrder(), ifd0_.next());
             if (rc) return rc;
         }
 
-        // Find and read ExifIFD sub-IFD of IFD1
-        Ifd ifd1ExifIfd(ifd1ExifIfd);
-        rc = ifd1.readSubIfd(ifd1ExifIfd, buf, byteOrder(), 0x8769);
-        if (rc) return rc;
-
-        // Find and read Interoperability IFD in ExifIFD of IFD1
-        Ifd ifd1IopIfd(ifd1IopIfd);
-        rc = ifd1ExifIfd.readSubIfd(ifd1IopIfd, buf, byteOrder(), 0xa005);
-        if (rc) return rc;
-
-        // Find and read GPSInfo sub-IFD in IFD1
-        Ifd ifd1GpsIfd(ifd1GpsIfd);
-        rc = ifd1.readSubIfd(ifd1GpsIfd, buf, byteOrder(), 0x8825);
-        if (rc) return rc;
+        // Find and delete ExifIFD sub-IFD of IFD1
+        Ifd::iterator pos = ifd1_.findTag(0x8769);
+        if (pos != ifd1_.end()) {
+            ifd1_.erase(pos);
+            ret = -99;
+        }
+        // Find and delete GPSInfo sub-IFD in IFD1
+        pos = ifd1_.findTag(0x8825);
+        if (pos != ifd1_.end()) {
+            ifd1_.erase(pos);
+            ret = -99;
+        }
 
         // Copy all entries from the IFDs to the internal metadata
         metadata_.clear();
-        add(ifd0.begin(), ifd0.end(), byteOrder());
-        add(exifIfd.begin(), exifIfd.end(), byteOrder());
-        add(iopIfd.begin(), iopIfd.end(), byteOrder()); 
-        add(gpsIfd.begin(), gpsIfd.end(), byteOrder());
-        add(ifd1.begin(), ifd1.end(), byteOrder());
-        add(ifd1ExifIfd.begin(), ifd1ExifIfd.end(), byteOrder());
-        add(ifd1IopIfd.begin(), ifd1IopIfd.end(), byteOrder());
-        add(ifd1GpsIfd.begin(), ifd1GpsIfd.end(), byteOrder());
+        add(ifd0_.begin(), ifd0_.end(), byteOrder());
+        add(exifIfd_.begin(), exifIfd_.end(), byteOrder());
+        add(iopIfd_.begin(), iopIfd_.end(), byteOrder()); 
+        add(gpsIfd_.begin(), gpsIfd_.end(), byteOrder());
+        add(ifd1_.begin(), ifd1_.end(), byteOrder());
 
         // Read the thumbnail
-        thumbnail_.read(buf, *this, byteOrder());
+        thumbnail_.read(data_, *this, byteOrder());
 
-        return 0;
+        return ret;
     } // ExifData::read
 
     long ExifData::copy(char* buf) const
     {
-        // Todo: implement me!
+        // Todo: decide if we can just dump the buffer that we 
+        //       should have somewhere
+
+        // Copy the TIFF header
+        // Todo: What about the offset??
+//         len += tiffHeader_.copy(buf);
+
+//         // Create IFD (without Exif and GPS tags) from metadata
+//         Ifd ifd1(ifd1);
+//         ifd1.add(exifData.begin(), exifData.end(), tiffHeader.byteOrder());
+//         Ifd::iterator i = ifd1.findTag(0x8769);
+//         if (i != ifd1.end()) ifd1.erase(i);
+//         i = ifd1.findTag(0x8825);
+//         if (i != ifd1.end()) ifd1.erase(i);
+
+        // Copy all IFDs
+
+
+        // Copy thumbnail data
+
         return 0;
     }
 
@@ -854,9 +940,9 @@ namespace Exif {
     {
         Ifd::const_iterator i = begin;
         for (; i != end; ++i) {
-            Value* value = Value::create(TypeId(i->type_));
-            value->read(i->data_, i->size_, byteOrder);
-            Metadatum md(i->tag_, i->type_, i->ifdId_, i->ifdIdx_, value);
+            Value* value = Value::create(TypeId(i->type()));
+            value->read(i->data(), i->size(), byteOrder);
+            Metadatum md(i->tag(), i->type(), i->ifdId(), i->ifdIdx(), value);
             delete value;
             add(md);
         }
@@ -1059,7 +1145,7 @@ namespace Exif {
         os << std::dec << std::setfill(' ');
     }
 
-    bool cmpOffset(const Ifd::Entry& lhs, const Ifd::Entry& rhs)
+    bool cmpOffset(const Ifd::RawEntry& lhs, const Ifd::RawEntry& rhs)
     {
         // We need to ignore entries with size <= 4, so by definition,
         // entries with size <= 4 are greater than those with size > 4
@@ -1075,7 +1161,7 @@ namespace Exif {
 
     bool cmpTag(const Ifd::Entry& lhs, const Ifd::Entry& rhs)
     {
-        return lhs.tag_ < rhs.tag_;
+        return lhs.tag() < rhs.tag();
     }
 
 }                                       // namespace Exif
