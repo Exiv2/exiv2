@@ -20,13 +20,13 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.16 $
+  Version:   $Name:  $ $Revision: 1.17 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.16 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.17 $ $RCSfile: exif.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -40,15 +40,20 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.16 $ $RCSfile: exif.cpp,v $")
 #include <fstream>
 #include <utility>
 #include <algorithm>
+#include <map>
 
 #include <cstring>
+#include <cstdio>                               // for rename
+
+#include <sys/types.h>                          // for getpid
+#include <unistd.h>                             // for getpid, unlink
 
 // *****************************************************************************
 // class member definitions
 namespace Exif {
 
     JpegImage::JpegImage()
-        : sizeExifData_(0), offsetExifData_(0), exifData_(0)
+        : sizeExifData_(0), exifData_(0)
     {
     }
 
@@ -58,8 +63,10 @@ namespace Exif {
     }
 
     const uint16 JpegImage::soi_    = 0xffd8;
+    const uint16 JpegImage::app0_   = 0xffe0;
     const uint16 JpegImage::app1_   = 0xffe1;
     const char JpegImage::exifId_[] = "Exif\0\0";
+    const char JpegImage::jfifId_[] = "JFIF\0";
 
     bool JpegImage::isJpeg(std::istream& is)
     {
@@ -81,11 +88,12 @@ namespace Exif {
 
     int JpegImage::readExifData(const std::string& path)
     {
-        std::ifstream file(path.c_str());
+        std::ifstream file(path.c_str(), std::ios::binary);
         if (!file) return -1;
         return readExifData(file);
     }
 
+    // Todo: implement this properly: skip unknown APP0 and APP1 segments
     int JpegImage::readExifData(std::istream& is)
     {
         // Check if this is a JPEG image in the first place
@@ -94,33 +102,18 @@ namespace Exif {
             return 2;
         }
 
-        // Todo: implement this properly: the APP1 segment may not follow
-        //       immediately after SOI.
-        char marker[2];
-        marker[0] = '\0'; 
-        marker[1] = '\0';
-        long offsetApp1 = 2;
-        // Read the APP1 marker
-        is.read(marker, 2);
+        // Read and check section marker and size
+        char tmpbuf[10];
+        is.read(tmpbuf, 10);
         if (!is.good()) return 1;
-        // Check the APP1 marker
-        if (getUShort(marker, bigEndian) != app1_) return 3;
+        uint16 marker = getUShort(tmpbuf, bigEndian);
+        uint16 size = getUShort(tmpbuf + 2, bigEndian);
+        if (size < 8) return 3;
+        if (!(marker == app1_ && memcmp(tmpbuf + 4, exifId_, 6) == 0)) return 3;
 
-        // Read the length of the APP1 field and the Exif identifier
-        char tmpbuf[8];
-        ::memset(tmpbuf, 0x0, 8);
-        is.read(tmpbuf, 8);
-        if (!is.good()) return 1;
-        // Get the length of the APP1 field and do a plausibility check
-        long app1Length = getUShort(tmpbuf, bigEndian);
-        if (app1Length < 8) return 4;
-        // Check the Exif identifier
-        if (::memcmp(tmpbuf+2, exifId_, 6) != 0) return 4;
- 
         // Read the rest of the APP1 field (Exif data)
-        long sizeExifData = app1Length - 8;
+        long sizeExifData = size - 8;
         exifData_ = new char[sizeExifData];
-        ::memset(exifData_, 0x0, sizeExifData);
         is.read(exifData_, sizeExifData);
         if (!is.good()) {
             delete[] exifData_;
@@ -129,10 +122,82 @@ namespace Exif {
         }
         // Finally, set the size and offset of the Exif data buffer
         sizeExifData_ = sizeExifData;
-        offsetExifData_ = offsetApp1 + 10;
 
         return 0;
     } // JpegImage::readExifData
+
+    int JpegImage::writeExifData(const std::string& path) const
+    {
+        std::ifstream infile(path.c_str(), std::ios::binary);
+        if (!infile) return -1;
+
+        // Write the output to a temporary file
+        pid_t pid = getpid();
+        std::string tmpname = path + toString(pid);
+        std::ofstream outfile(tmpname.c_str(), std::ios::binary);
+        if (!outfile) return -2;
+
+        int rc = writeExifData(outfile, infile);
+        infile.close();
+        outfile.close();
+        if (rc == 0) {
+            // rename temporary file
+            if (rename(tmpname.c_str(), path.c_str()) == -1) rc = -3;
+        }
+        if (rc != 0) {
+            // remove temporary file
+            unlink(tmpname.c_str());
+        }
+
+        return rc;
+    } // JpegImage::writeExifData
+
+    // Todo: implement this properly: skip unknown APP0 and APP1 segments
+    int JpegImage::writeExifData(std::ostream& os, std::istream& is) const
+    {
+        // Check if this is a JPEG image in the first place
+        if (!isJpeg(is)) {
+            if (!is.good()) return 1;
+            return 2;
+        }
+
+        // Read and check section marker and size
+        char tmpbuf[12];
+        is.read(tmpbuf, 10);
+        if (!is.good()) return 1;
+        uint16 marker = getUShort(tmpbuf, bigEndian);
+        uint16 size = getUShort(tmpbuf + 2, bigEndian);
+        if (size < 8) return 3;
+        if (!(   (marker == app0_ && memcmp(tmpbuf + 4, jfifId_, 5) == 0)
+              || (marker == app1_ && memcmp(tmpbuf + 4, exifId_, 6) == 0))) {
+            return 3;
+        }
+
+        // Write SOI and APP1 markers, size of APP1 field, Exif id and Exif data
+        us2Data(tmpbuf, soi_, bigEndian);
+        us2Data(tmpbuf + 2, app1_, bigEndian);
+        us2Data(tmpbuf + 4, sizeExifData_ + 8, bigEndian);
+        memcpy(tmpbuf + 6, exifId_, 6);
+        os.write(tmpbuf, 12);
+        os.write(exifData_, sizeExifData_);
+        if (!os.good()) return 4;
+        // Copy rest of the stream
+        is.ignore(size - 8);
+        if (!is.good()) return 1;
+        os.flush();
+        is >> os.rdbuf();
+        if (!os.good()) return 4;
+
+        return 0;
+    } // JpegImage::writeExifData
+
+    void JpegImage::setExifData(const char* buf, long size)
+    {
+        sizeExifData_ = size;
+        delete[] exifData_;
+        exifData_ = new char[size];
+        memcpy(exifData_, buf, size);
+    }
 
     TiffHeader::TiffHeader(ByteOrder byteOrder) 
         : byteOrder_(byteOrder), tag_(0x002a), offset_(0x00000008)
@@ -167,8 +232,8 @@ namespace Exif {
             buf[1] = 0x4d;
             break;
         }
-        us2Data(buf+2, tag_, byteOrder_);
-        ul2Data(buf+4, offset_, byteOrder_);
+        us2Data(buf+2, 0x002a, byteOrder_);
+        ul2Data(buf+4, 0x00000008, byteOrder_);
         return size();
     }
 
@@ -302,33 +367,18 @@ namespace Exif {
     {
         value_ = Value::create(TypeId(e.type()));
         value_->read(e.data(), e.size(), byteOrder);
-
-        key_ = std::string(ifdItem()) 
-            + "." + std::string(sectionName()) 
-            + "." + std::string(tagName());
+        key_ = ExifTags::makeKey(tag_, ifdId_);
     }
 
     Metadatum::Metadatum(const std::string& key, Value* value)
         : ifdIdx_(-1), value_(0), key_(key)
     {
         if (value) value_ = value->clone();
-
-        std::string::size_type pos1 = key.find('.');
-        if (pos1 == std::string::npos) throw Error("Invalid key");
-        std::string ifdItem = key.substr(0, pos1);
-        std::string::size_type pos0 = pos1 + 1;
-        pos1 = key.find('.', pos0);
-        if (pos1 == std::string::npos) throw Error("Invalid key");
-        std::string sectionName = key.substr(pos0, pos1 - pos0);
-        pos0 = pos1 + 1;
-        std::string tagName = key.substr(pos0);
-        if (tagName == "") throw Error("Invalid key");
-        std::pair<IfdId, uint16> p
-            = ExifTags::ifdAndTag(ifdItem, sectionName, tagName);
-        if (p.first == ifdIdNotSet) throw Error("Invalid key");
-        ifdId_ = p.first;
-        if (p.second == 0xffff) throw Error("Invalid key");
-        tag_ = p.second;
+        std::pair<uint16, IfdId> p = ExifTags::decomposeKey(key);
+        if (p.first == 0xffff) throw Error("Invalid key");
+        tag_ = p.first;
+        if (p.second == ifdIdNotSet) throw Error("Invalid key");
+        ifdId_ = p.second;
     }
 
     Metadatum::~Metadatum()
@@ -376,14 +426,14 @@ namespace Exif {
     }
 
     Entry::Entry(bool alloc)
-        : alloc_(alloc), status_(valid), ifdId_(ifdIdNotSet), ifdIdx_(-1),
+        : alloc_(alloc), ifdId_(ifdIdNotSet), ifdIdx_(-1),
           tag_(0), type_(0), count_(0), offset_(0), size_(0), data_(0)
     {
         memset(offsetData_, 0x0, 4);
     }
 
     Entry::Entry(const RawEntry& e, const char* buf, bool alloc)
-        : alloc_(alloc), status_(valid), ifdId_(e.ifdId_), ifdIdx_(e.ifdIdx_),
+        : alloc_(alloc), ifdId_(e.ifdId_), ifdIdx_(e.ifdIdx_),
           tag_(e.tag_), type_(e.type_), count_(e.count_), offset_(e.offset_), 
           size_(e.size_), data_(0)
     {
@@ -407,7 +457,7 @@ namespace Exif {
     }
 
     Entry::Entry(const Entry& rhs)
-        : alloc_(rhs.alloc_), status_(rhs.status_), ifdId_(rhs.ifdId_),
+        : alloc_(rhs.alloc_), ifdId_(rhs.ifdId_),
           ifdIdx_(rhs.ifdIdx_), tag_(rhs.tag_), type_(rhs.type_), 
           count_(rhs.count_), offset_(rhs.offset_), size_(rhs.size_), data_(0)
     {
@@ -427,7 +477,6 @@ namespace Exif {
     {
         if (this == &rhs) return *this;
         alloc_ = rhs.alloc_;
-        status_ = rhs.status_;
         ifdId_ = rhs.ifdId_;
         ifdIdx_ = rhs.ifdIdx_;
         tag_ = rhs.tag_;
@@ -466,6 +515,34 @@ namespace Exif {
         }
     }
 
+    void Entry::setValue(const Value& value, ByteOrder byteOrder)
+    {
+        if (value.size() > 4 && alloc_) {
+            delete[] data_;
+            data_ = new char[value.size()];
+            value.copy(data_, byteOrder);
+        }
+        if (value.size() <= 4 && alloc_) {
+            delete[] data_;
+            data_ = 0;
+            memset(offsetData_, 0x0, 4);
+            value.copy(offsetData_, byteOrder);
+        }
+        if (value.size() > 4 && !alloc_) {
+            if (value.size() > size_) throw Error("Size too large");
+            memset(data_, 0x0, size_);
+            value.copy(data_, byteOrder);
+        }
+        if (value.size() <= 4 && !alloc_) {
+            data_ = 0;
+            memset(offsetData_, 0x0, 4);
+            value.copy(offsetData_, byteOrder); 
+        }
+        size_ = value.size();
+        type_ = value.typeId();
+        count_ = value.count();
+    }
+
     Ifd::Ifd(IfdId ifdId, uint32 offset, bool alloc)
         : alloc_(alloc), ifdId_(ifdId), offset_(offset), next_(0)
     {
@@ -501,7 +578,8 @@ namespace Exif {
         if (offset_ == 0 && rawEntries.size() > 0) {
             // Find the entry with the smallest offset
             RawEntries::const_iterator i;
-            i = std::min_element(rawEntries.begin(), rawEntries.end(), cmpOffset);
+            i = std::min_element(
+                rawEntries.begin(), rawEntries.end(), cmpRawEntriesByOffset);
             // Set the 'guessed' IFD offset, the test is needed for the case when
             // all entries have data sizes not exceeding 4.
             if (i->size_ > 4) {
@@ -539,7 +617,7 @@ namespace Exif {
 
     void Ifd::sortByTag()
     {
-        sort(entries_.begin(), entries_.end(), cmpTag);
+        std::sort(entries_.begin(), entries_.end(), cmpEntriesByTag);
     }
 
     int Ifd::readSubIfd(
@@ -579,7 +657,7 @@ namespace Exif {
             }
             else {
                 // Copy data into the offset field
-                ::memcpy(buf+o+8, i->data(), 4);
+                memcpy(buf+o+8, i->data(), 4);
             }
             o += 12;
         }
@@ -590,7 +668,7 @@ namespace Exif {
         // Add the data of all IFD entries to the data buffer
         for (i = b; i != e; ++i) {
             if (i->size() > 4) {
-                ::memcpy(buf + o, i->data(), i->size());
+                memcpy(buf + o, i->data(), i->size());
                 o += i->size();
             }
         }
@@ -646,9 +724,6 @@ namespace Exif {
     {
         if (alloc_) {
             entries_.erase(pos);
-        } 
-        else {
-            pos->setStatus(Entry::erased);
         }
     }
 
@@ -896,7 +971,7 @@ namespace Exif {
             return 1;
             break;
         }
-        std::ofstream file(p.c_str(), std::ios::binary | std::ios::out);
+        std::ofstream file(p.c_str(), std::ios::binary);
         if (!file) return 1;
         file.write(image_, size_);
         if (!file.good()) return 2;
@@ -988,6 +1063,23 @@ namespace Exif {
         long offset = ifd_.offset() + ifd_.size() + ifd_.dataSize();
         long size = size_ - offset;
         memcpy(buf, image_ + offset, size);
+        return size;
+    }
+
+    long Thumbnail::size() const
+    {
+        long size = 0;
+        switch (type_) {
+        case jpeg: 
+            size = size_;
+            break;
+        case tiff:
+            size = size_ - ifd_.offset() - ifd_.size() - ifd_.dataSize();
+            break;
+        case none:
+            size = 0;
+            break;
+        }
         return size;
     }
 
@@ -1114,13 +1206,46 @@ namespace Exif {
         return ret;
     } // ExifData::read
 
+    int ExifData::write(const std::string& path) 
+    {
+        long size = this->size();
+        char* buf = new char[size];
+        long actualSize = copy(buf);
+        if (actualSize > size) {
+            throw Error("Invariant violated in ExifData::write");
+        }
+        JpegImage img;
+        img.setExifData(buf, actualSize);
+        return img.writeExifData(path);
+    } // ExifData::write
+
     long ExifData::copy(char* buf)
     {
-        // Todo: Check if the internal IFDs, i.e., the data buffer, are valid;
-        //       if they are, update the IFDs and use the buffer
+        long size = 0;
+        // If we can update the internal IFDs and the underlying data buffer
+        // from the metadata without changing the data size, then it is enough
+        // to copy the data buffer.
+        if (updateIfds()) {
 
-        // Else do it the hard way...
+//ahu Todo: remove debugging output
+std::cout << "->>>>>> using non-intrusive writing <<<<<<-\n";
 
+            memcpy(buf, data_, size_);
+            size = size_;
+        }
+        // Else we have to do it the hard way...
+        else {
+
+//ahu Todo: remove debugging output
+std::cout << "->>>>>> writing from metadata <<<<<<-\n";
+
+            size = copyFromMetadata(buf);
+        }
+        return size;
+    }
+
+    long ExifData::copyFromMetadata(char* buf)
+    {
         // Copy the TIFF header
         long ifd0Offset = tiffHeader_.copy(buf);
 
@@ -1189,12 +1314,33 @@ namespace Exif {
 
         return len + thumbOffset;
 
-    } // ExifData::copy
+    } // ExifData::copyFromMetadata
 
     long ExifData::size() const
     {
-        // Todo: implement me!
-        return 0;
+        long size;
+        if (compatible()) {
+            size = size_;
+        }
+        else {
+            size = tiffHeader_.size();
+            std::map<IfdId, int> ifdEntries;
+            const_iterator mdEnd = this->end();
+            for (const_iterator md = begin(); md != mdEnd; ++md) {
+                size += md->size();
+                ifdEntries[md->ifdId()] += 1;
+            }
+            std::map<IfdId, int>::const_iterator eEnd = ifdEntries.end();
+            std::map<IfdId, int>::const_iterator e;
+            for (e = ifdEntries.begin(); e != eEnd; ++e) {
+                size += 2 + 12 * e->second + 4;
+            }
+            size += thumbnail_.size();
+            // Add 1k to account for the possibility that Thumbnail::update
+            // may add entries to IFD1
+            size += 1024;
+        }
+        return size;
     }
 
     void ExifData::add(Ifd::const_iterator begin, 
@@ -1235,6 +1381,16 @@ namespace Exif {
                             FindMetadatumByKey(key));
     }
 
+    void ExifData::sortByKey()
+    {
+        std::sort(metadata_.begin(), metadata_.end(), cmpMetadataByKey);
+    }
+
+    void ExifData::sortByTag()
+    {
+        std::sort(metadata_.begin(), metadata_.end(), cmpMetadataByTag);
+    }
+
     void ExifData::erase(const std::string& key)
     {
         iterator pos = findKey(key);
@@ -1244,6 +1400,83 @@ namespace Exif {
     void ExifData::erase(ExifData::iterator pos)
     {
         metadata_.erase(pos);
+    }
+
+    bool ExifData::updateIfds()
+    {
+        if (!this->compatible()) return false;
+
+        bool compatible = true;
+        
+        Ifd& ifd = ifd0_;
+        Ifd::iterator end = ifd.end();
+        for (Ifd::iterator entry = ifd.begin(); entry != end; ++entry) {
+
+            // find the corresponding metadatum
+            std::string key = ExifTags::makeKey(entry->tag(), entry->ifdId());
+
+            const_iterator md = findKey(key);
+            if (md == this->end()) {
+                // corresponding metadatum was deleted: this is not (yet) a
+                // supported non-intrusive write operation.
+                compatible = false;
+                continue;
+            }
+            entry->setValue(md->value(), byteOrder());
+        }
+
+        return compatible;
+    }
+
+    bool ExifData::compatible() const
+    {
+        bool compatible = true;
+        const_iterator end = this->end();
+        for (const_iterator md = begin(); md != end; ++md) {
+            // Check if the metadatum is compatible with the 
+            // corresponding IFD entry
+            const Ifd* ifd = getIfd(md->ifdId());
+            if (!ifd) {
+                compatible = false;
+                break;
+            }            
+            Ifd::const_iterator entry = ifd->findTag(md->tag());
+            if (entry == ifd->end()) {
+                compatible = false;
+                break;
+            }
+            if (md->size() > entry->size()) {
+                compatible = false;
+                break;
+            }
+        }
+        return compatible;
+    }
+
+    const Ifd* ExifData::getIfd(IfdId ifdId) const
+    {
+        const Ifd* ifd = 0;
+        switch (ifdId) {
+        case ifd0: 
+            ifd = &ifd0_;
+            break;
+        case exifIfd: 
+            ifd = &exifIfd_;
+            break;
+        case iopIfd: 
+            ifd = &iopIfd_;
+            break;
+        case gpsIfd: 
+            ifd = &gpsIfd_;
+            break;
+        case ifd1: 
+            ifd = &ifd1_;
+            break;
+        default:
+            ifd = 0;
+            break;
+        }
+        return ifd;
     }
 
     // *************************************************************************
@@ -1404,7 +1637,7 @@ namespace Exif {
         os << std::dec << std::setfill(' ');
     } // hexdump
 
-    bool cmpOffset(const RawEntry& lhs, const RawEntry& rhs)
+    bool cmpRawEntriesByOffset(const RawEntry& lhs, const RawEntry& rhs)
     {
         // We need to ignore entries with size <= 4, so by definition,
         // entries with size <= 4 are greater than those with size > 4
@@ -1418,9 +1651,19 @@ namespace Exif {
         return lhs.offset_ < rhs.offset_;
     }
 
-    bool cmpTag(const Entry& lhs, const Entry& rhs)
+    bool cmpEntriesByTag(const Entry& lhs, const Entry& rhs)
     {
         return lhs.tag() < rhs.tag();
+    }
+
+    bool cmpMetadataByTag(const Metadatum& lhs, const Metadatum& rhs)
+    {
+        return lhs.tag() < rhs.tag();
+    }
+
+    bool cmpMetadataByKey(const Metadatum& lhs, const Metadatum& rhs)
+    {
+        return lhs.key() < rhs.key();
     }
 
 }                                       // namespace Exif
