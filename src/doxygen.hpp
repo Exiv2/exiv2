@@ -2,7 +2,7 @@
 /*!
   @file    doxygen.hpp
   @brief   Additional documentation, this file contains no source code
-  @version $Name:  $ $Revision: 1.9 $
+  @version $Name:  $ $Revision: 1.10 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    07-Feb-04, ahu: created
@@ -75,4 +75,8 @@
 /*!
   @example exifprint.cpp
   Sample program to print Exif data from an image.
+ */
+/*!
+  @example exifcomment.cpp
+  Sample program showing how to set the Exif comment of an image.
  */
