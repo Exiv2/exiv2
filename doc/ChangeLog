@@ -1,3 +1,44 @@
+Changes from version 0.4 to 0.5
+-------------------------------
+
+* Exiv2 utility
+
+	* Added -pI print mode to print Iptc data.
+	
+	* Bugfix: Use timegm() and gmtime() instead of mktime() and
+	  localtime() to avoid problems when adjusting timestamps.
+	  ()
+
+	* Added timegm() from the tz distribution for platforms which
+	  do not have this function.
+
+* Exiv2 library
+
+	* Added full Iptc read and write support. (Brad Schick)
+
+	* Converted Metadatum to an abstract base class, added Exifdatum
+	  and Iptcdatum classes. Migration of existing programs: Use class
+	  Exifdatum instead of Metadatum. (Brad Schick)
+	
+	* Added Key, ExifKey and IptcKey class hierarchy. Requires changes
+	  to existing pograms: Use class ExifKey where plain std::string
+	  keys were used before (e.g., ExifData::findKey()).
+
+	* Changed Exif keys to 'Exif.ifdItem.tagName' to be consistent
+	  with the new Iptc keys. All keys of existing programs need to be
+	  updated. See the web pages or documentation for the new keys.
+	
+	* Revamped image and introduced byte* interface. (Brad Schick)
+	
+	* Added autoconf configure script.
+
+	* Added MSVC project files. (Brad Schick)
+	
+	* Appended 'Id' to Ifd ids to work around a g++-3.4 problem.
+
+	* Updated documentation.
+
+	
 Changes from version 0.3 to 0.4
 -------------------------------
 
