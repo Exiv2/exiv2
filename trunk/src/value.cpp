@@ -20,14 +20,14 @@
  */
 /*
   File:      value.cpp
-  Version:   $Name:  $ $Revision: 1.2 $
+  Version:   $Name:  $ $Revision: 1.3 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: value.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: value.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -187,14 +187,9 @@ namespace Exif {
 
     std::ostream& AsciiValue::write(std::ostream& os) const
     {
-        // Strip trailing '\0', if any
-        if (value_.size() > 0 && value_[value_.size() - 1] == '\0') {
-            os << value_.substr(0, value_.size() - 1);
-        }
-        else {
-            os << value_;
-        }
-        return os;
+        // Strip all trailing '\0's (if any)
+        std::string::size_type pos = value_.find_last_not_of('\0');
+        return os << value_.substr(0, pos + 1);
     }
 
 }                                       // namespace Exif
