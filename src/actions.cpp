@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.12 $
+  Version:   $Name:  $ $Revision: 1.13 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.12 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.13 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -105,6 +105,7 @@ namespace Action {
         registerTask(rename,  Task::AutoPtr(new Rename));
         registerTask(erase,   Task::AutoPtr(new Erase));
         registerTask(extract, Task::AutoPtr(new Extract));
+        registerTask(insert,  Task::AutoPtr(new Insert));
     } // TaskFactory c'tor
 
     Task::AutoPtr TaskFactory::create(TaskType type)
@@ -504,11 +505,25 @@ namespace Action {
         return 1;
     } // Extract::run
 
-    int Extract::writeExifData(const Exif::ExifData& exifData) const
+    int Extract::writeExifData(Exif::ExifData& exifData) const
     {
-        // Todo: implement me!
-        std::cout << "Sorry, the extract action for Exif data has not been implemented yet.\n";
-        return 0;
+        std::string exvPath =   Util::dirname(path_) + "/"
+                              + Util::basename(path_, true) + ".exv";
+        if (Params::instance().verbose_) {
+            std::cout << "Writing Exif data to " << exvPath << "\n";
+        }
+        if (!Params::instance().force_ && Util::fileExists(exvPath)) {
+            std::cout << Params::instance().progname() 
+                      << ": Overwrite `" << exvPath << "'? ";
+            std::string s;
+            std::cin >> s;
+            if (s[0] != 'y' && s[0] != 'Y') return 0;
+        }
+        int rc = exifData.writeExifData(exvPath);
+        if (rc) {
+            std::cerr << exifWriteError(rc, exvPath) << "\n";
+        }
+        return rc;
     }
 
     int Extract::writeThumbnail(const Exif::ExifData& exifData) const
@@ -535,6 +550,9 @@ namespace Action {
             if (s[0] != 'y' && s[0] != 'Y') return 0;
         }
         int rc = exifData.writeThumbnail(thumb);
+        if (rc) {
+            std::cerr << exifWriteError(rc, thumb) << "\n";
+        }
         return rc;
     }
 
@@ -546,6 +564,42 @@ namespace Action {
     Task* Extract::clone_() const
     {
         return new Extract(*this);
+    }
+
+    int Insert::run(const std::string& path)
+    try {
+        std::string exvPath =   Util::dirname(path) + "/"
+                              + Util::basename(path, true) + ".exv";
+        Exif::ExifData exifData;
+        int rc = exifData.read(exvPath);
+        if (rc) {
+            std::cerr << exifReadError(rc, exvPath) << "\n";
+            return rc;
+        }
+        if (Params::instance().verbose_) {
+            std::cout << "Inserting metadata from " << exvPath << "\n";
+        }
+        rc = exifData.write(path);
+        if (rc) {
+            std::cerr << exifWriteError(rc, path) << "\n";
+        }
+        return rc;
+    }
+    catch(const Exif::Error& e)
+    {
+        std::cerr << "Exif exception in insert action for file " << path
+                  << ":\n" << e << "\n";
+        return 1;
+    } // Insert::run
+
+    Insert::AutoPtr Insert::clone() const
+    {
+        return AutoPtr(dynamic_cast<Insert*>(clone_()));
+    }
+
+    Task* Insert::clone_() const
+    {
+        return new Insert(*this);
     }
 
     int Adjust::run(const std::string& path)
@@ -681,7 +735,7 @@ namespace {
         std::string error;
         switch (rc) {
         case -1:
-            error = "Couldn't open file `" + path + "'";
+            error = "Failed to open file `" + path + "'";
             break;
         case -2:
             error = "The file contains data of an unknown image type";
@@ -710,7 +764,7 @@ namespace {
         std::string error;
         switch (rc) {
         case -1:
-            error = "Couldn't open file `" + path + "'";
+            error = "Failed to open file `" + path + "'";
             break;
         case -2:
             error = "The file contains data of an unknown image type";
