@@ -1,60 +1,135 @@
-#include "tags.hpp"
+// ***************************************************************** -*- C++ -*-
+/*
+ * Copyright (C) 2004 Andreas Huggel <ahuggel@gmx.net>
+ * 
+ * This program is part of the Exiv2 distribution.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+/*
+  Abstract : Sample code to add, modify and delete Exif metadata
+
+  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
+  Version  : $Name:  $ $Revision: 1.8 $
+  History  : 26-Jan-04, ahu: created
+ */
+// *****************************************************************************
+// included header files
 #include "exif.hpp"
 #include <iostream>
 #include <iomanip>
+
+// *****************************************************************************
+// local declarations
 
 using namespace Exif;
 
 void exifPrint(const ExifData& exifData);
 
-int main(int argc, char* const argv[])
-{
-    if (argc != 2) {
-        std::cout << "Usage: exiftest path\n";
-        return 1;
-    }
+// *****************************************************************************
+// Main
+int main()
+try {
+    // ExifData is the container for all metadata
+    ExifData exifData;
 
-    int rc;
+    // *************************************************************************
+    // Add metadata to the Exif data
 
-    try {
-        // Add usecase
-        ExifData ed;
+    // Create a value of the required type
+    Value* v = Value::create(asciiString);
+    // Set the value to a string
+    v->read("1999:12:31 23:59:59");
+    // Add the value together with its key to the Exif data container
+    std::string key = "Image.DateTime.DateTimeOriginal";
+    exifData.add(key, v);
 
-        Value* v1 = Value::create(signedRational);
-        v1->read("1/2 1/3");
-        RationalValue* rv = dynamic_cast<RationalValue*>(v1);
-        if (rv == 0) return -1;
-        rv->value_.push_back(std::make_pair(2,3));
-        rv->value_.push_back(std::make_pair(-5,4));
-        std::string key = "Thumbnail.ImageStructure.Compression";
+    std::cout << "Added key \"" << key << "\", value \"" << *v << "\"\n";
+    // Delete the memory allocated by Value::create
+    delete v;
 
-        std::cout << "add(\"" << key << "\", " << *rv << ")\n";
-        ed.add(key, rv);
-        delete rv;
+    // Now create a more interesting value
+    v = Value::create(unsignedRational);
+    // Set two rational components from a string
+    v->read("1/2 1/3");
+    // Downcast the Value to its actual type
+    URationalValue* rv = dynamic_cast<URationalValue*>(v);
+    if (rv == 0) throw Error("Downcast failed");
+    // Add more elements through the extended interface of the actual type
+    rv->value_.push_back(std::make_pair(2,3));
+    rv->value_.push_back(std::make_pair(3,4));
+    // Add the key and value pair to the Exif data
+    key = "Image.ImageCharacteristics.PrimaryChromaticities";
+    exifData.add(key, rv);
 
-        key = "Image.DateTime.DateTimeOriginal";
-        Value* v2 = Value::create(asciiString);
-        v2->read("1999:12:31 23:59:59\0");
-        ed.add(key, v2);
-        std::cout << "add(\"" << key << "\", " << *v2 << ")\n";
-        delete v2;
+    std::cout << "Added key \"" << key << "\", value \"" << *v << "\"\n";
+    // Delete the memory allocated by Value::create
+    delete v;
 
-        // Modify usecase
-        key = "Image.DateTime.DateTimeOriginal";
-        ExifData::iterator md = ed.findKey(key);
-        if (md == ed.end()) return -2;
+    // *************************************************************************
+    // Modify Exif data
 
-        md->setValue("abcd"); 
+    // Find a metadatum by its key
+    key = "Image.DateTime.DateTimeOriginal";
+    ExifData::iterator pos = exifData.findKey(key);
+    if (pos == exifData.end()) throw Error("Key not found");
+    // Set the new value
+    pos->setValue("2000:01:01 00:00:00"); 
 
+    // Find another key
+    key = "Image.ImageCharacteristics.PrimaryChromaticities";
+    pos = exifData.findKey(key);
+    if (pos == exifData.end()) throw Error("Key not found");
+    // Get a pointer to a copy of the value
+    v = pos->getValue();
+    // Downcast the Value to its actual type
+    rv = dynamic_cast<URationalValue*>(v);
+    if (rv == 0) throw Error("Downcast failed");
+    // Modify elements through the extended interface of the actual type
+    rv->value_[2] = std::make_pair(88,77);
+    // Set the value of the metadatum to the modified value
+    pos->setValue(rv);
+    // Delete the memory allocated by getValue
+    delete v;
 
-        exifPrint(ed);
-    }
-    catch (Error& e) {
-        std::cout << "Caught Exif exception '" << e << "'\n";
-    }
+    exifPrint(exifData);
 
-    return rc;
+    // *************************************************************************
+    // Delete metadata from the Exif data container
+
+    // Delete a metadatum by its key
+    key = "Image.DateTime.DateTimeOriginal";
+    exifData.erase(key);
+
+    // Delete the metadatum at iterator position pos
+    key = "Image.ImageCharacteristics.PrimaryChromaticities";
+    pos = exifData.findKey(key);
+    if (pos == exifData.end()) throw Error("Key not found");
+    exifData.erase(pos);
+
+    exifPrint(exifData);
+
+    return 0;
 }
+catch (Error& e) {
+    std::cout << "Caught Exif exception '" << e << "'\n";
+    return 1;
+}
+
+// *****************************************************************************
+// local definitions
 
 void exifPrint(const ExifData& exifData)
 {
