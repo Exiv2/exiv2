@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.32 $
+  @version $Name:  $ $Revision: 1.33 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -538,11 +538,11 @@ namespace Exif {
           to remain valid. (In particular, if the %Exif data contains a
           Makernote in IFD format, the offsets in its IFD will remain valid.)
           <BR>
-          If 'non-intrusive' writing is not possible, the Exif data will be
+          If 'non-intrusive' writing is not possible, the %Exif data will be
           re-built from scratch, in which case the absolute position of the
           metadata entries within the data buffer may (and in most cases will)
           be different from their original position. Furthermore, in this case,
-          the Exif data is updated with the metadata from the actual thumbnail
+          the %Exif data is updated with the metadata from the actual thumbnail
           image (overriding existing metadata).
 
           @param buf The data buffer to write to.  The user must ensure that the
