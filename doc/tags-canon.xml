@@ -4,7 +4,7 @@
 <HEADER>
 <title>Canon MakerNote Tags defined in Exiv2</title>
 <text>
-  <p>Tags found in the MakerNote of images taken with Canon cameras. These tags are defined by Exiv2 in accordance with <a href="makernote.html#R5">[5]</a>.</p> 
+  <p>Tags found in the MakerNote of images taken with Canon cameras. These tags are defined by Exiv2 in accordance with <a href="makernote.html#R2">[2]</a>.</p> 
   <p>Click on a column header to sort the table.</p>
 </text>
 </HEADER>
@@ -14,7 +14,7 @@
       <tagdec>1</tagdec>
       <taghex>0x0001</taghex>
       <ifd>Makernote</ifd>
-      <key>Makernote.Canon.CameraSettings1</key>
+      <key>Exif.Canon.CameraSettings1</key>
       <tagdesc>Various camera settings (1)</tagdesc>
    </ROW>
    <ROW num="2">
@@ -22,7 +22,7 @@
       <tagdec>4</tagdec>
       <taghex>0x0004</taghex>
       <ifd>Makernote</ifd>
-      <key>Makernote.Canon.CameraSettings2</key>
+      <key>Exif.Canon.CameraSettings2</key>
       <tagdesc>Various camera settings (2)</tagdesc>
    </ROW>
    <ROW num="3">
@@ -30,7 +30,7 @@
       <tagdec>6</tagdec>
       <taghex>0x0006</taghex>
       <ifd>Makernote</ifd>
-      <key>Makernote.Canon.ImageType</key>
+      <key>Exif.Canon.ImageType</key>
       <tagdesc>Image type</tagdesc>
    </ROW>
    <ROW num="4">
@@ -38,7 +38,7 @@
       <tagdec>7</tagdec>
       <taghex>0x0007</taghex>
       <ifd>Makernote</ifd>
-      <key>Makernote.Canon.FirmwareVersion</key>
+      <key>Exif.Canon.FirmwareVersion</key>
       <tagdesc>Firmware version</tagdesc>
    </ROW>
    <ROW num="5">
@@ -46,7 +46,7 @@
       <tagdec>8</tagdec>
       <taghex>0x0008</taghex>
       <ifd>Makernote</ifd>
-      <key>Makernote.Canon.ImageNumber</key>
+      <key>Exif.Canon.ImageNumber</key>
       <tagdesc>Image number</tagdesc>
    </ROW>
    <ROW num="6">
@@ -54,7 +54,7 @@
       <tagdec>9</tagdec>
       <taghex>0x0009</taghex>
       <ifd>Makernote</ifd>
-      <key>Makernote.Canon.OwnerName</key>
+      <key>Exif.Canon.OwnerName</key>
       <tagdesc>Owner Name</tagdesc>
    </ROW>
    <ROW num="7">
@@ -62,7 +62,7 @@
       <tagdec>12</tagdec>
       <taghex>0x000c</taghex>
       <ifd>Makernote</ifd>
-      <key>Makernote.Canon.SerialNumber</key>
+      <key>Exif.Canon.SerialNumber</key>
       <tagdesc>Camera serial number</tagdesc>
    </ROW>
    <ROW num="8">
@@ -70,7 +70,7 @@
       <tagdec>15</tagdec>
       <taghex>0x000f</taghex>
       <ifd>Makernote</ifd>
-      <key>Makernote.Canon.EosD30Functions</key>
+      <key>Exif.Canon.EosD30Functions</key>
       <tagdesc>EOS D30 Custom Functions</tagdesc>
    </ROW>
 </ROWSET>

@@ -14,7 +14,7 @@
       <tagdec>0</tagdec>
       <taghex>0x0000</taghex>
       <ifd>Makernote</ifd>
-      <key>Makernote.Fujifilm.Version</key>
+      <key>Exif.Fujifilm.Version</key>
       <tagdesc>Fujifilm Makernote version</tagdesc>
    </ROW>
    <ROW num="2">
@@ -22,7 +22,7 @@
       <tagdec>4096</tagdec>
       <taghex>0x1000</taghex>
       <ifd>Makernote</ifd>
-      <key>Makernote.Fujifilm.Quality</key>
+      <key>Exif.Fujifilm.Quality</key>
       <tagdesc>Image quality setting</tagdesc>
    </ROW>
    <ROW num="3">
@@ -30,7 +30,7 @@
       <tagdec>4097</tagdec>
       <taghex>0x1001</taghex>
       <ifd>Makernote</ifd>
-      <key>Makernote.Fujifilm.Sharpness</key>
+      <key>Exif.Fujifilm.Sharpness</key>
       <tagdesc>Sharpness setting</tagdesc>
    </ROW>
    <ROW num="4">
@@ -38,7 +38,7 @@
       <tagdec>4098</tagdec>
       <taghex>0x1002</taghex>
       <ifd>Makernote</ifd>
-      <key>Makernote.Fujifilm.WhiteBalance</key>
+      <key>Exif.Fujifilm.WhiteBalance</key>
       <tagdesc>White balance setting</tagdesc>
    </ROW>
    <ROW num="5">
@@ -46,7 +46,7 @@
       <tagdec>4099</tagdec>
       <taghex>0x1003</taghex>
       <ifd>Makernote</ifd>
-      <key>Makernote.Fujifilm.Color</key>
+      <key>Exif.Fujifilm.Color</key>
       <tagdesc>Chroma saturation setting</tagdesc>
    </ROW>
    <ROW num="6">
@@ -54,7 +54,7 @@
       <tagdec>4100</tagdec>
       <taghex>0x1004</taghex>
       <ifd>Makernote</ifd>
-      <key>Makernote.Fujifilm.Tone</key>
+      <key>Exif.Fujifilm.Tone</key>
       <tagdesc>Contrast setting</tagdesc>
    </ROW>
    <ROW num="7">
@@ -62,7 +62,7 @@
       <tagdec>4112</tagdec>
       <taghex>0x1010</taghex>
       <ifd>Makernote</ifd>
-      <key>Makernote.Fujifilm.FlashMode</key>
+      <key>Exif.Fujifilm.FlashMode</key>
       <tagdesc>Flash firing mode setting</tagdesc>
    </ROW>
    <ROW num="8">
@@ -70,7 +70,7 @@
       <tagdec>4113</tagdec>
       <taghex>0x1011</taghex>
       <ifd>Makernote</ifd>
-      <key>Makernote.Fujifilm.FlashStrength</key>
+      <key>Exif.Fujifilm.FlashStrength</key>
       <tagdesc>Flash firing strength compensation setting</tagdesc>
    </ROW>
    <ROW num="9">
@@ -78,7 +78,7 @@
       <tagdec>4128</tagdec>
       <taghex>0x1020</taghex>
       <ifd>Makernote</ifd>
-      <key>Makernote.Fujifilm.Macro</key>
+      <key>Exif.Fujifilm.Macro</key>
       <tagdesc>Macro mode setting</tagdesc>
    </ROW>
    <ROW num="10">
@@ -86,7 +86,7 @@
       <tagdec>4129</tagdec>
       <taghex>0x1021</taghex>
       <ifd>Makernote</ifd>
-      <key>Makernote.Fujifilm.FocusMode</key>
+      <key>Exif.Fujifilm.FocusMode</key>
       <tagdesc>Focusing mode setting</tagdesc>
    </ROW>
    <ROW num="11">
@@ -94,7 +94,7 @@
       <tagdec>4144</tagdec>
       <taghex>0x1030</taghex>
       <ifd>Makernote</ifd>
-      <key>Makernote.Fujifilm.SlowSync</key>
+      <key>Exif.Fujifilm.SlowSync</key>
       <tagdesc>Slow synchro mode setting</tagdesc>
    </ROW>
    <ROW num="12">
@@ -102,7 +102,7 @@
       <tagdec>4145</tagdec>
       <taghex>0x1031</taghex>
       <ifd>Makernote</ifd>
-      <key>Makernote.Fujifilm.PictureMode</key>
+      <key>Exif.Fujifilm.PictureMode</key>
       <tagdesc>Picture mode setting</tagdesc>
    </ROW>
    <ROW num="13">
@@ -110,7 +110,7 @@
       <tagdec>4352</tagdec>
       <taghex>0x1100</taghex>
       <ifd>Makernote</ifd>
-      <key>Makernote.Fujifilm.Continuous</key>
+      <key>Exif.Fujifilm.Continuous</key>
       <tagdesc>Continuous shooting or auto bracketing setting</tagdesc>
    </ROW>
    <ROW num="14">
@@ -118,7 +118,7 @@
       <tagdec>4864</tagdec>
       <taghex>0x1300</taghex>
       <ifd>Makernote</ifd>
-      <key>Makernote.Fujifilm.BlurWarning</key>
+      <key>Exif.Fujifilm.BlurWarning</key>
       <tagdesc>Blur warning status</tagdesc>
    </ROW>
    <ROW num="15">
@@ -126,7 +126,7 @@
       <tagdec>4865</tagdec>
       <taghex>0x1301</taghex>
       <ifd>Makernote</ifd>
-      <key>Makernote.Fujifilm.FocusWarning</key>
+      <key>Exif.Fujifilm.FocusWarning</key>
       <tagdesc>Auto Focus warning status</tagdesc>
    </ROW>
    <ROW num="16">
@@ -134,7 +134,7 @@
       <tagdec>4866</tagdec>
       <taghex>0x1302</taghex>
       <ifd>Makernote</ifd>
-      <key>Makernote.Fujifilm.AeWarning</key>
+      <key>Exif.Fujifilm.AeWarning</key>
       <tagdesc>Auto Exposure warning status</tagdesc>
    </ROW>
 </ROWSET>
