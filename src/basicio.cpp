@@ -205,7 +205,7 @@ namespace Exiv2 {
         struct stat buf;
         int ret = stat(path_.c_str(), &buf);
         
-        if (ret == 0) return -1;
+        if (ret != 0) return -1;
         return buf.st_size; 
     }
 
