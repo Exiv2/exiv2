@@ -22,7 +22,7 @@
   @file    makernote.hpp
   @brief   Contains the Exif %MakerNote interface, IFD %MakerNote and a 
            MakerNote factory
-  @version $Name:  $ $Revision: 1.24 $
+  @version $Name:  $ $Revision: 1.25 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -41,6 +41,7 @@
 #include <utility>
 #include <vector>
 #include <map>
+#include <memory>
 
 // *****************************************************************************
 // namespace extensions
@@ -49,12 +50,6 @@ namespace Exiv2 {
 // *****************************************************************************
 // class declarations
     class Value;
-
-// *****************************************************************************
-// type definitions
-
-    //! Type for a pointer to a function creating a makernote
-    typedef MakerNote* (*CreateFct)(bool, const byte*, long, ByteOrder, long);
 
 // *****************************************************************************
 // class definitions
@@ -106,6 +101,8 @@ namespace Exiv2 {
         //@}
 
     public:
+        //! Shortcut for a %MakerNote auto pointer.
+        typedef std::auto_ptr<MakerNote> AutoPtr;
 
         //! MakerNote Tag information
         struct MnTagInfo {
@@ -170,6 +167,18 @@ namespace Exiv2 {
         //! Return the offset of the makernote from the start of the TIFF header
         long offset() const  { return offset_; }
         /*!
+          @brief Return a pointer to an newly created, empty instance of the 
+                 same type as this. The makernote entries are <B>not</B> copied.
+                 The caller owns the new object and is responsible to delete it!
+
+          @param alloc Memory management model for the clone. Indicates if 
+                 memory required to store data should be allocated and deallocated
+                 (true) or not (false). If false, only pointers to the buffer
+                 provided to read() will be kept. See Ifd for more background on 
+                 this concept.
+         */
+        MakerNote::AutoPtr clone(bool alloc =true) const;
+        /*!
           @brief Return the name of a makernote tag. The default implementation
                  looks up the makernote info tag array if one is set, else
                  it translates the tag to a string with the hexadecimal value of
@@ -199,18 +208,6 @@ namespace Exiv2 {
           @brief Write the makernote tag info of tag to the output stream os.
          */
         virtual std::ostream& writeMnTagInfo(std::ostream& os, uint16_t tag) const;
-        /*!
-          @brief Return a pointer to an newly created, empty instance of the 
-                 same type as this. The makernote entries are <B>not</B> copied.
-                 The caller owns the new object and is responsible to delete it!
-
-          @param alloc Memory management model for the clone. Indicates if 
-                 memory required to store data should be allocated and deallocated
-                 (true) or not (false). If false, only pointers to the buffer
-                 provided to read() will be kept. See Ifd for more background on 
-                 this concept.
-         */
-        virtual MakerNote* clone(bool alloc =true) const =0;
         //! The first makernote entry
         virtual Entries::const_iterator begin() const =0;
         //! End of the makernote entries
@@ -248,8 +245,14 @@ namespace Exiv2 {
          */
         ByteOrder byteOrder_;
 
+    private:
+        //! Internal virtual copy constructor.
+        virtual MakerNote* clone_(bool alloc =true) const =0;
+
     }; // class MakerNote
 
+    //! Type for a pointer to a function creating a makernote
+    typedef MakerNote::AutoPtr (*CreateFct)(bool, const byte*, long, ByteOrder, long);
     /*!
       @brief Interface for MakerNotes in IFD format. See MakerNote.
      */
@@ -261,6 +264,9 @@ namespace Exiv2 {
         //@}
 
     public:
+        //! Shortcut for an %IfdMakerNote auto pointer.
+        typedef std::auto_ptr<IfdMakerNote> AutoPtr;
+
         //! @name Creators
         //@{        
         /*!
@@ -303,6 +309,7 @@ namespace Exiv2 {
         Entries::const_iterator end() const { return ifd_.end(); }
         Entries::const_iterator findIdx(int idx) const;
         long size() const;
+        IfdMakerNote::AutoPtr clone(bool alloc =true) const;
         /*!
           @brief Check the makernote header. This will typically check if a
                  required prefix string is present in the header. Return 0 if
@@ -323,7 +330,6 @@ namespace Exiv2 {
                  buffer.
          */
         virtual long headerSize() const;
-        virtual IfdMakerNote* clone(bool alloc =true) const =0;
         virtual std::string ifdItem() const =0; 
         virtual std::ostream& printTag(std::ostream& os,
                                        uint16_t tag, 
@@ -350,6 +356,9 @@ namespace Exiv2 {
         DataBuf header_;
         //! The makernote IFD
         Ifd ifd_;
+
+    private:
+        virtual IfdMakerNote* clone_(bool alloc =true) const =0;
 
     }; // class IfdMakerNote
 
@@ -394,7 +403,7 @@ namespace Exiv2 {
                                CreateFct createMakerNote);
 
         //! Register a %MakerNote prototype in the IFD item registry.
-        void registerMakerNote(MakerNote* pMakerNote);
+        void registerMakerNote(MakerNote::AutoPtr makerNote);
         //@}
 
         //! @name Accessors
@@ -402,8 +411,8 @@ namespace Exiv2 {
         /*!
           @brief Create the appropriate %MakerNote based on camera make and
                  model and possibly the contents of the makernote itself, return
-                 a pointer to the newly created MakerNote instance. Return 0 if
-                 no %MakerNote is defined for the camera model.
+                 an auto-pointer to the newly created MakerNote instance. Return
+                 0 if no %MakerNote is defined for the camera model.
 
           The method searches the make-model tree for a make and model
           combination in the registry that matches the search key. The search is
@@ -411,17 +420,17 @@ namespace Exiv2 {
           wildcards in the registry entries are supported. First the best
           matching make is searched, then the best matching model for this make
           is searched. If there is no matching make or no matching model within
-          the models registered for the best matching make, then no maker note
+          the models registered for the best matching make, then no makernote
           is created and the function returns 0. If a match is found, the
-          function invokes the registered create function and returns a pointer
-          to the newly created MakerNote. The makernote pointed to is owned by
-          the caller of the function, i.e., the caller is responsible to delete
-          the returned makernote when it is no longer needed.  The best match is
-          an exact match, then a match is rated according to the number of
-          matching characters. The makernote buffer is passed on to the create
-          function, which can based on its content, automatically determine the
-          correct version or flavour of the makernote required. This is used,
-          e.g., to determine which of the three Nikon makernotes to create.
+          function invokes the registered create function and returns an
+          auto-pointer to the newly created MakerNote. The makernote pointed to
+          is owned by the caller of the function and the auto-pointer ensures
+          that it is deleted.  The best match is an exact match, then a match is
+          rated according to the number of matching characters. The makernote
+          buffer is passed on to the create function, which can based on its
+          content, automatically determine the correct version or flavour of the
+          makernote required. This is used, e.g., to determine which of the
+          three Nikon makernotes to create.
 
           @param make Camera manufacturer. (Typically the string from the Exif
                  make tag.)
@@ -439,19 +448,20 @@ namespace Exiv2 {
           @param offset Offset from the start of the TIFF header of the makernote
                  buffer.
 
-          @return A pointer that owns a %MakerNote for the camera model.  If the
-                 camera is not supported, the pointer is 0.
+          @return An auto-pointer that owns a %MakerNote for the camera model.  
+                 If the camera is not supported, the pointer is 0.
          */
-        MakerNote* create(const std::string& make, 
-                          const std::string& model, 
-                          bool alloc, 
-                          const byte* buf, 
-                          long len, 
-                          ByteOrder byteOrder, 
-                          long offset) const; 
+        MakerNote::AutoPtr create(const std::string& make, 
+                                  const std::string& model, 
+                                  bool alloc, 
+                                  const byte* buf, 
+                                  long len, 
+                                  ByteOrder byteOrder, 
+                                  long offset) const; 
 
         //! Create a %MakerNote based on its IFD item string.
-        MakerNote* create(const std::string& ifdItem, bool alloc =true) const;
+        MakerNote::AutoPtr create(const std::string& ifdItem, 
+                                  bool alloc =true) const;
         //@}
 
         /*!

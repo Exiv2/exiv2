@@ -28,7 +28,7 @@
            <a href="http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html">
            Exif file format</a> by TsuruZoh Tachibanaya.<BR>
            Format 3: "EXIFutils Field Reference Guide".
-  @version $Name:  $ $Revision: 1.6 $
+  @version $Name:  $ $Revision: 1.7 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    17-May-04, ahu: created<BR>
@@ -45,6 +45,7 @@
 // + standard includes
 #include <string>
 #include <iosfwd>
+#include <memory>
 
 // *****************************************************************************
 // namespace extensions
@@ -58,9 +59,10 @@ namespace Exiv2 {
 // free functions
 
     /*!
-      @brief Return a pointer to a newly created empty MakerNote initialized to
-             operate in the memory management model indicated.  The caller owns
-             this copy and is responsible to delete it!
+      @brief Return an auto-pointer to a newly created empty MakerNote
+             initialized to operate in the memory management model indicated.
+             The caller owns this copy and the auto-pointer ensures that it
+             will be deleted.
       
       @param alloc Memory management model for the new MakerNote. Determines if
              memory required to store data should be allocated and deallocated
@@ -74,14 +76,15 @@ namespace Exiv2 {
       @param offset Offset from the start of the TIFF header of the makernote
              buffer (not used).
       
-      @return A pointer to a newly created empty MakerNote. The caller owns
-             this copy and is responsible to delete it!
+      @return An auto-pointer to a newly created empty MakerNote. The caller
+             owns this copy and the auto-pointer ensures that it will be
+             deleted.
      */
-    MakerNote* createNikonMakerNote(bool alloc,
-                                    const byte* buf, 
-                                    long len, 
-                                    ByteOrder byteOrder, 
-                                    long offset);
+    MakerNote::AutoPtr createNikonMakerNote(bool alloc,
+                                            const byte* buf, 
+                                            long len, 
+                                            ByteOrder byteOrder, 
+                                            long offset);
 
 // *****************************************************************************
 // class definitions
@@ -89,6 +92,9 @@ namespace Exiv2 {
     //! A MakerNote format used by Nikon cameras, such as the E990 and D1.
     class Nikon1MakerNote : public IfdMakerNote {
     public:
+        //! Shortcut for a %Nikon1MakerNote auto pointer.
+        typedef std::auto_ptr<Nikon1MakerNote> AutoPtr;
+
         //! @name Creators
         //@{
         /*!
@@ -102,7 +108,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        Nikon1MakerNote* clone(bool alloc =true) const;
+        Nikon1MakerNote::AutoPtr clone(bool alloc =true) const;
         //! Return the name of the makernote item ("Nikon1")
         std::string ifdItem() const { return ifdItem_; }
         std::ostream& printTag(std::ostream& os,
@@ -125,6 +131,9 @@ namespace Exiv2 {
         //@}
 
     private:
+        //! Internal virtual copy constructor.
+        Nikon1MakerNote* clone_(bool alloc =true) const;
+
         //! Structure used to auto-register the MakerNote.
         struct RegisterMakerNote {
             //! Default constructor
@@ -132,7 +141,7 @@ namespace Exiv2 {
             {
                 MakerNoteFactory& mnf = MakerNoteFactory::instance();
                 mnf.registerMakerNote("NIKON*", "*", createNikonMakerNote); 
-                mnf.registerMakerNote(new Nikon1MakerNote);
+                mnf.registerMakerNote(MakerNote::AutoPtr(new Nikon1MakerNote));
             }
         };
         // DATA
@@ -161,6 +170,9 @@ namespace Exiv2 {
      */ 
     class Nikon2MakerNote : public IfdMakerNote {
     public:
+        //! Shortcut for a %Nikon2MakerNote auto pointer.
+        typedef std::auto_ptr<Nikon2MakerNote> AutoPtr;
+
         //! @name Creators
         //@{
         /*!
@@ -182,7 +194,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         int checkHeader() const;
-        Nikon2MakerNote* clone(bool alloc =true) const;
+        Nikon2MakerNote::AutoPtr clone(bool alloc =true) const;
         //! Return the name of the makernote item ("Nikon2")
         std::string ifdItem() const { return ifdItem_; }
         std::ostream& printTag(std::ostream& os,
@@ -207,13 +219,16 @@ namespace Exiv2 {
         //@}
 
     private:
+        //! Internal virtual copy constructor.
+        Nikon2MakerNote* clone_(bool alloc =true) const;
+
         //! Structure used to auto-register the MakerNote.
         struct RegisterMakerNote {
             //! Default constructor
             RegisterMakerNote() 
             {
                 MakerNoteFactory& mnf = MakerNoteFactory::instance();
-                mnf.registerMakerNote(new Nikon2MakerNote);
+                mnf.registerMakerNote(MakerNote::AutoPtr(new Nikon2MakerNote));
             }
         };
         // DATA
@@ -239,6 +254,9 @@ namespace Exiv2 {
     //! A third MakerNote format used by Nikon cameras, e.g., E5400, SQ, D2H, D70
     class Nikon3MakerNote : public IfdMakerNote {
     public:
+        //! Shortcut for a %Nikon3MakerNote auto pointer.
+        typedef std::auto_ptr<Nikon3MakerNote> AutoPtr;
+
         //! @name Creators
         //@{
         /*!
@@ -260,7 +278,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         int checkHeader() const;
-        Nikon3MakerNote* clone(bool alloc =true) const;
+        Nikon3MakerNote::AutoPtr clone(bool alloc =true) const;
         //! Return the name of the makernote item ("Nikon3")
         std::string ifdItem() const { return ifdItem_; }
         std::ostream& printTag(std::ostream& os,
@@ -283,13 +301,16 @@ namespace Exiv2 {
         //@}
 
     private:
+        //! Internal virtual copy constructor.
+        Nikon3MakerNote* clone_(bool alloc =true) const;
+
         //! Structure used to auto-register the MakerNote.
         struct RegisterMakerNote {
             //! Default constructor
             RegisterMakerNote() 
             {
                 MakerNoteFactory& mnf = MakerNoteFactory::instance();
-                mnf.registerMakerNote(new Nikon3MakerNote);
+                mnf.registerMakerNote(MakerNote::AutoPtr(new Nikon3MakerNote));
             }
         };
         // DATA

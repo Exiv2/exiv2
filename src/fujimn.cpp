@@ -20,7 +20,7 @@
  */
 /*
   File:      fujimn.cpp
-  Version:   $Name:  $ $Revision: 1.12 $
+  Version:   $Name:  $ $Revision: 1.13 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
              07-Mar-04, ahu: isolated as a separate component
@@ -31,7 +31,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.12 $ $RCSfile: fujimn.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.13 $ $RCSfile: fujimn.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -114,12 +114,17 @@ namespace Exiv2 {
         return rc;
     }
 
-    FujiMakerNote* FujiMakerNote::clone(bool alloc) const 
+    FujiMakerNote::AutoPtr FujiMakerNote::clone(bool alloc) const
     {
-        FujiMakerNote* pMakerNote = new FujiMakerNote(alloc);
-        assert(pMakerNote);
-        pMakerNote->readHeader(header_.pData_, header_.size_, byteOrder_);
-        return pMakerNote;
+        return AutoPtr(clone_(alloc));
+    }
+
+    FujiMakerNote* FujiMakerNote::clone_(bool alloc) const 
+    {
+        AutoPtr makerNote = AutoPtr(new FujiMakerNote(alloc));
+        assert(makerNote.get() != 0);
+        makerNote->readHeader(header_.pData_, header_.size_, byteOrder_);
+        return makerNote.release();
     }
 
     std::ostream& FujiMakerNote::printTag(std::ostream& os, 
@@ -259,13 +264,13 @@ namespace Exiv2 {
 // *****************************************************************************
 // free functions
 
-    MakerNote* createFujiMakerNote(bool alloc,
-                                   const byte* buf, 
-                                   long len, 
-                                   ByteOrder byteOrder, 
-                                   long offset)
+    MakerNote::AutoPtr createFujiMakerNote(bool alloc,
+                                           const byte* buf, 
+                                           long len, 
+                                           ByteOrder byteOrder, 
+                                           long offset)
     {
-        return new FujiMakerNote(alloc);         
+        return MakerNote::AutoPtr(new FujiMakerNote(alloc));
     }
 
 }                                       // namespace Exiv2

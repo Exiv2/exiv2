@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of Exif data
-  @version $Name:  $ $Revision: 1.55 $
+  @version $Name:  $ $Revision: 1.56 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -42,6 +42,7 @@
 // + standard includes
 #include <string>
 #include <vector>
+#include <memory>
 
 // *****************************************************************************
 // namespace extensions
@@ -799,10 +800,10 @@ namespace Exiv2 {
         // DATA
         TiffHeader tiffHeader_;
         ExifMetadata exifMetadata_;
-        Thumbnail* pThumbnail_;  //!< Pointer to the Exif thumbnail image
-        MakerNote* pMakerNote_;  //!< Pointer to the MakerNote
-                                 //   Todo: implement reference counting instead
-                                 //   of making ExifData own this pointer
+        //! Pointer to the Exif thumbnail image
+        Thumbnail* pThumbnail_;  
+        //! Pointer to the MakerNote
+        std::auto_ptr<MakerNote> makerNote_;
 
         Ifd ifd0_;
         Ifd exifIfd_;

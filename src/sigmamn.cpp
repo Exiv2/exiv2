@@ -20,7 +20,7 @@
  */
 /*
   File:      sigmamn.cpp
-  Version:   $Name:  $ $Revision: 1.11 $
+  Version:   $Name:  $ $Revision: 1.12 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   02-Apr-04, ahu: created
   Credits:   Sigma and Foveon MakerNote implemented according to the specification
@@ -29,7 +29,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.11 $ $RCSfile: sigmamn.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.12 $ $RCSfile: sigmamn.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -121,17 +121,22 @@ namespace Exiv2 {
         return rc;
     }
 
-    SigmaMakerNote* SigmaMakerNote::clone(bool alloc) const 
+    SigmaMakerNote::AutoPtr SigmaMakerNote::clone(bool alloc) const
     {
-        SigmaMakerNote* pMakerNote = new SigmaMakerNote(alloc);
-        assert(pMakerNote);
-        pMakerNote->readHeader(header_.pData_, header_.size_, byteOrder_);
-        return pMakerNote;
+        return AutoPtr(clone_(alloc));
+    }
+
+    SigmaMakerNote* SigmaMakerNote::clone_(bool alloc) const
+    {
+        AutoPtr makerNote = AutoPtr(new SigmaMakerNote(alloc));
+        assert(makerNote.get() != 0);
+        makerNote->readHeader(header_.pData_, header_.size_, byteOrder_);
+        return makerNote.release();
     }
 
     std::ostream& SigmaMakerNote::printTag(std::ostream& os, 
-                                          uint16_t tag, 
-                                          const Value& value) const
+                                           uint16_t tag, 
+                                           const Value& value) const
     {
         switch (tag) {
         case 0x000c: // fallthrough
@@ -193,13 +198,13 @@ namespace Exiv2 {
 // *****************************************************************************
 // free functions
 
-    MakerNote* createSigmaMakerNote(bool alloc,
-                                    const byte* buf, 
-                                    long len, 
-                                    ByteOrder byteOrder, 
-                                    long offset)
+    MakerNote::AutoPtr createSigmaMakerNote(bool alloc,
+                                            const byte* buf, 
+                                            long len, 
+                                            ByteOrder byteOrder, 
+                                            long offset)
     {
-        return new SigmaMakerNote(alloc);
+        return MakerNote::AutoPtr(new SigmaMakerNote(alloc));
     }
 
 }                                       // namespace Exiv2
