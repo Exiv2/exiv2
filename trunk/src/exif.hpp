@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of Exif data
-  @version $Name:  $ $Revision: 1.52 $
+  @version $Name:  $ $Revision: 1.53 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -118,7 +118,7 @@ namespace Exiv2 {
         //! Return the name of the IFD
         const char* ifdName() const { return ExifTags::ifdName(ifdId()); }
         //! Return the related image item
-        const char* ifdItem() const { return ExifTags::ifdItem(ifdId()); }
+        std::string ifdItem() const { return ifdItem_; }
         //! Return the name of the Exif section (deprecated) 
         std::string sectionName() const;
         //! Return the index (unique id of this key within the original IFD)
@@ -225,7 +225,7 @@ namespace Exiv2 {
         const char* ifdName() const
             { return pKey_ == 0 ? "" : pKey_->ifdName(); }
         //! Return the related image item (deprecated)
-        const char* ifdItem() const 
+        std::string ifdItem() const 
             { return pKey_ == 0 ? "" : pKey_->ifdItem(); }
         //! Return the index (unique id of this key within the original IFD)
         int idx() const
@@ -672,8 +672,7 @@ namespace Exiv2 {
                  ByteOrder byteOrder);
         /*!
           @brief Add a Exifdatum from the supplied key and value pair.  This
-                 method copies (clones) key and value and adds a pointer to
-                 the MakerNote to the cloned key. No duplicate checks are
+                 method copies (clones) key and value. No duplicate checks are
                  performed, i.e., it is possible to add multiple metadata with
                  the same key.
          */
@@ -682,6 +681,8 @@ namespace Exiv2 {
           @brief Add a copy of the Exifdatum to the Exif metadata.  No
                  duplicate checks are performed, i.e., it is possible to add
                  multiple metadata with the same key.
+          @throw Error ("Inconsistent MakerNote") if Exifdatum is a MakerNote
+                 tag for a different MakerNote than that of the ExifData.
          */
         void add(const Exifdatum& Exifdatum);
         /*!
