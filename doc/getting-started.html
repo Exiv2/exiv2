@@ -14,7 +14,7 @@
 <p>The <a href="html/index.html">Exiv2 library</a> is made up of all
 elements defined in the <a href="html/namespaceExiv2.html">Exiv2
 namespace</a>. The Action and Util namespaces are only used by the
-Exiv2 command line utility. To learn about the library, concentrate on
+Exiv2 command line utility. Thus, to learn about the library, concentrate on
 the members of the Exiv2 namespace.</p>
 
 <h2><a href="html/classes.html">Classes</a></h2>
@@ -24,8 +24,8 @@ and <a class="el" href="html/classExiv2_1_1IptcData.html">Exiv2::IptcData</a>
 are the top-level classes of the Exiv2 library. They hold a container
 of Exif and Iptc metadata, respectively, and define related methods to
 access and manipulate the metadata. The containers hold objects derived from
-<a class="el" href="html/classExiv2_1_1Metadatum.html">Exiv2::Metadatum</a>
-objects. Interface class Exiv2::Metadatum defines methods to access the
+<a class="el" href="html/classExiv2_1_1Metadatum.html">Exiv2::Metadatum</a>. 
+Interface class Exiv2::Metadatum defines methods to access the
 information of one Exif tag or Iptc dataset. It models the tag data as
 a key and value pair. 
 The abstract base class 
@@ -41,7 +41,7 @@ together with a key add it to an ExifData or IptcData container.</p>
 
 <h2><a href="html/examples.html">Examples</a></h2>
 
-<p>Several simple examples demonstrate the basic use of Exiv2
+<p>There are several simple examples that demonstrate the basic use of Exiv2
 functionality: <a href="html/exifprint_8cpp-example.html">Exifprint</a> 
 shows how the Exif data of an image can be read and written to the screen.
 <a href="html/iptcprint_8cpp-example.html">Iptcprint</a> is a similar 
@@ -65,7 +65,7 @@ the Makernote interface. Subclass
 models makernotes encoded in IFD format. 
 <a href="html/classExiv2_1_1MakerNote.html#_details">Implementing a new
 IFD makernote</a> is straightforward. Implementing a new makernote that is not
-encoded in IFD format however, is not. Please 
+encoded in IFD format however, is more difficult. Please 
 <a href="mailto:ahuggel@gmx.net"> contact me</a> if you have such a
 makernote specification and would like assistance adding it to Exiv2.</p>
   
