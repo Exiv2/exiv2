@@ -22,7 +22,7 @@
   @file    makernote.hpp
   @brief   Contains the Exif %MakerNote interface, IFD %MakerNote and a 
            MakerNote factory
-  @version $Name:  $ $Revision: 1.26 $
+  @version $Name:  $ $Revision: 1.27 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -167,9 +167,10 @@ namespace Exiv2 {
         //! Return the offset of the makernote from the start of the TIFF header
         long offset() const  { return offset_; }
         /*!
-          @brief Return a pointer to an newly created, empty instance of the 
-                 same type as this. The makernote entries are <B>not</B> copied.
-                 The caller owns the new object and is responsible to delete it!
+          @brief Return an auto-pointer to an newly created, empty instance of
+                 the same type as this. The makernote entries are <B>not</B>
+                 copied.  The caller owns the new object and the auto-pointer
+                 ensures that it will be deleted.
 
           @param alloc Memory management model for the clone. Indicates if 
                  memory required to store data should be allocated and deallocated

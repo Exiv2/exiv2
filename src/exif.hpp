@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of Exif data
-  @version $Name:  $ $Revision: 1.58 $
+  @version $Name:  $ $Revision: 1.59 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -192,16 +192,17 @@ namespace Exiv2 {
         Rational toRational(long n =0) const 
             { return value_.get() == 0 ? Rational(-1, 1) : value_->toRational(n); }
         /*!
-          @brief Return a pointer to a copy (clone) of the value. The caller
-                 is responsible to delete this copy when it's no longer needed.
+          @brief Return an auto-pointer to a copy (clone) of the value. The
+                 caller owns this copy and the auto-pointer ensures that it will
+                 be deleted.
 
           This method is provided for users who need full control over the 
           value. A caller may, e.g., downcast the pointer to the appropriate
           subclass of Value to make use of the interface of the subclass to set
           or modify its contents.
           
-          @return A pointer to a copy (clone) of the value, 0 if the value is 
-                  not set.
+          @return An auto-pointer to a copy (clone) of the value, 0 if the value
+                  is not set.
          */
         Value::AutoPtr getValue() const 
             { return value_.get() == 0 ? Value::AutoPtr(0) : value_->clone(); }

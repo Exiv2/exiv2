@@ -21,7 +21,7 @@
 /*!
   @file    iptc.hpp
   @brief   Encoding and decoding of Iptc data
-  @version $Name:  $ $Revision: 1.9 $
+  @version $Name:  $ $Revision: 1.10 $
   @author  Brad Schick (brad) 
            <a href="mailto:schick@robotbattle.com">schick@robotbattle.com</a>
   @date    31-Jul-04, brad: created
@@ -63,7 +63,7 @@ namespace Exiv2 {
                  set the value using setValue().
 
           @param key The key of the %Iptcdatum.
-          @param value Pointer to a %Iptcdatum value.
+          @param pValue Pointer to a %Iptcdatum value.
           @throw Error ("Invalid key") if the key cannot be parsed and converted
                  to a tag number and record id.
          */
@@ -178,16 +178,17 @@ namespace Exiv2 {
         Rational toRational(long n =0) const 
             { return value_.get() == 0 ? Rational(-1, 1) : value_->toRational(n); }
         /*!
-          @brief Return a pointer to a copy (clone) of the value. The caller
-                 is responsible to delete this copy when it's no longer needed.
+          @brief Return an auto-pointer to a copy (clone) of the value. The
+                 caller owns this copy and the auto-pointer ensures that it will
+                 be deleted.
 
           This method is provided for users who need full control over the 
           value. A caller may, e.g., downcast the pointer to the appropriate
           subclass of Value to make use of the interface of the subclass to set
           or modify its contents.
           
-          @return A pointer to a copy (clone) of the value, 0 if the value is 
-                  not set.
+          @return An auto-pointer to a copy (clone) of the value, 0 if the value
+                  is not set.
          */
         Value::AutoPtr getValue() const 
             { return value_.get() == 0 ? Value::AutoPtr(0) : value_->clone(); }
