@@ -121,6 +121,18 @@ namespace Exiv2 {
     };
 
     /*!
+      @brief Auxiliary type to enable copies and assignments, similar to
+             std::auto_ptr_ref. See http://www.josuttis.com/libbook/auto_ptr.html
+             for a discussion.
+     */
+    struct DataBufRef {
+        //! Constructor
+        DataBufRef(std::pair<byte*, long> rhs) : p(rhs) {}
+        //! Pointer to a byte array and its size
+        std::pair<byte*, long> p;
+    };
+
+    /*!
       @brief Utility class containing a character array. All it does is to take
              care of memory allocation and deletion. Its primary use is meant to
              be as a stack variable in functions that need a temporary data
@@ -128,38 +140,64 @@ namespace Exiv2 {
              essentially an std::auto_ptr for a character array. But it isn't...
      */
     class DataBuf {
-        // Not implemented
-        //! Copy constructor
-        DataBuf(const DataBuf&);
-        //! Assignment operator
-        DataBuf& operator=(const DataBuf&);
     public:
         //! @name Creators
         //@{
         //! Default constructor
-        DataBuf() : size_(0), pData_(0) {}
+        DataBuf() : pData_(0), size_(0) {}
         //! Constructor with an initial buffer size 
-        DataBuf(long size) : size_(size), pData_(new byte[size]) {}
+        explicit DataBuf(long size) : pData_(new byte[size]), size_(size) {}
+        //! Constructor, copies an existing buffer
+        DataBuf(byte* pData, long size);
+        /*! 
+          @brief Copy constructor. Transfers the buffer to the newly created 
+                 object similar to std::auto_ptr, i.e., the original object is
+                 modified.
+         */
+        DataBuf(DataBuf& rhs);
         //! Destructor, deletes the allocated buffer
         ~DataBuf() { delete[] pData_; }
         //@}
 
         //! @name Manipulators
         //@{
+        /*!
+          @brief Assignment operator. Transfers the buffer and releases the
+                 buffer at the original object similar to std::auto_ptr, i.e., 
+                 the original object is modified.
+         */
+        DataBuf& operator=(DataBuf& rhs);
         //! Allocate a data buffer of the given size
         void alloc(long size);
         /*!
-          @brief Release ownership of the buffer to the caller. Returns pointer
-                 value, resets pData_ and size_ to 0.
+          @brief Release ownership of the buffer to the caller. Returns the 
+                 buffer as a data pointer and size pair, resets the internal
+                 buffer.
          */
-        byte* release();
+        std::pair<byte*, long> release();
+        //! Reset value
+        void reset(std::pair<byte*, long> =std::make_pair(0,0));
+        //@}
+
+        /*!
+          @name Conversions
+
+          Special conversions with auxiliary type to enable copies 
+          and assignments, similar to those used for std::auto_ptr.
+          See http://www.josuttis.com/libbook/auto_ptr.html for a discussion.
+         */
+        //@{
+        DataBuf(DataBufRef rhs) : pData_(rhs.p.first), size_(rhs.p.second) {}
+        DataBuf& operator=(DataBufRef rhs) { reset(rhs.p); return *this; }
+        operator DataBufRef() { return DataBufRef(release()); }
+        operator DataBuf() { return DataBuf(release()); }
         //@}
 
         // DATA
-        //! The current size of the buffer
-        long size_; 
         //! Pointer to the buffer, 0 if none has been allocated
         byte* pData_;
+        //! The current size of the buffer
+        long size_; 
     }; // class DataBuf
 
     /*!

@@ -51,29 +51,39 @@ namespace Exiv2 {
 
     Entry::Entry(bool alloc)
         : alloc_(alloc), ifdId_(ifdIdNotSet), idx_(0), pMakerNote_(0), 
-          tag_(0), type_(0), count_(0), offset_(0), size_(0), pData_(0)
+          tag_(0), type_(0), count_(0), offset_(0), size_(0), pData_(0),
+          sizeDataArea_(0), pDataArea_(0)
     {
     }
 
     Entry::~Entry()
     {
-        if (alloc_) delete[] pData_;
+        if (alloc_) {
+            delete[] pData_;
+            delete[] pDataArea_;
+        }
         // do *not* delete the MakerNote
     }
 
     Entry::Entry(const Entry& rhs)
         : alloc_(rhs.alloc_), ifdId_(rhs.ifdId_), idx_(rhs.idx_),
           pMakerNote_(rhs.pMakerNote_), tag_(rhs.tag_), type_(rhs.type_), 
-          count_(rhs.count_), offset_(rhs.offset_), size_(rhs.size_), pData_(0)
+          count_(rhs.count_), offset_(rhs.offset_), size_(rhs.size_), pData_(0),
+          sizeDataArea_(rhs.sizeDataArea_), pDataArea_(0)
     {
         if (alloc_) {
             if (rhs.pData_) {
                 pData_ = new byte[rhs.size()];
                 memcpy(pData_, rhs.pData_, rhs.size());
             }
+            if (rhs.pDataArea_) {
+                pDataArea_ = new byte[rhs.sizeDataArea()];
+                memcpy(pDataArea_, rhs.pDataArea_, rhs.sizeDataArea());
+            }
         }
         else {
             pData_ = rhs.pData_;
+            pDataArea_ = rhs.pDataArea_;
         }
     }
 
@@ -89,6 +99,7 @@ namespace Exiv2 {
         count_ = rhs.count_;
         offset_ = rhs.offset_;
         size_ = rhs.size_;
+        sizeDataArea_ = rhs.sizeDataArea_;
         if (alloc_) {
             delete[] pData_;
             pData_ = 0;
@@ -96,9 +107,16 @@ namespace Exiv2 {
                 pData_ = new byte[rhs.size()];
                 memcpy(pData_, rhs.pData_, rhs.size());
             }
+            delete[] pDataArea_;
+            pDataArea_ = 0;
+            if (rhs.pDataArea_) {
+                pDataArea_ = new byte[rhs.sizeDataArea()];
+                memcpy(pDataArea_, rhs.pDataArea_, rhs.sizeDataArea());
+            }
         }
         else {
             pData_ = rhs.pData_;
+            pDataArea_ = rhs.pDataArea_;
         }
         return *this;
     } // Entry::operator=
@@ -148,6 +166,78 @@ namespace Exiv2 {
         type_ = type;
         count_ = count;
     } // Entry::setValue
+
+    void Entry::setDataArea(const byte* buf, long len)
+    {
+        if (alloc_) {
+            delete[] pDataArea_;
+            pDataArea_ = new byte[len];
+            memcpy(pDataArea_, buf, len);
+            sizeDataArea_ = len;
+        }
+        else {
+            if (sizeDataArea_ == 0) {
+                // Set the data area pointer of a virgin entry
+                pDataArea_ = const_cast<byte*>(buf);
+                sizeDataArea_ = len;
+            }
+            else {
+                // Overwrite existing data if it fits into the buffer
+                if (len > sizeDataArea_) throw Error("Value too large");
+                memset(pDataArea_, 0x0, sizeDataArea_);
+                memcpy(pDataArea_, buf, len);
+                // do not change sizeDataArea_
+            }
+        }
+    } // Entry::setDataArea
+
+    void Entry::setDataAreaOffsets(uint32_t offset, ByteOrder byteOrder)
+    {
+        for (uint32_t i = 0; i < count(); ++i) {
+            byte* buf = pData_ + i * typeSize();
+            switch(TypeId(type())) {
+            case unsignedShort: {
+                uint16_t d = getUShort(buf, byteOrder);
+                if (d + offset > 0xffff) {
+                    throw Error("Offset out of range");
+                }
+                us2Data(buf, d + static_cast<uint16_t>(offset), byteOrder);
+                break;
+            }
+            case unsignedLong: {
+                ul2Data(buf, getULong(buf, byteOrder) + offset, byteOrder); 
+                break;
+            }
+            case unsignedRational: {
+                URational d = getURational(buf, byteOrder);
+                d.first = d.first + offset * d.second;
+                ur2Data(buf, d, byteOrder);
+                break;
+            }
+            case signedShort: {
+                int16_t d = getShort(buf, byteOrder);
+                if (d + static_cast<int32_t>(offset) > 0xffff)
+                    throw Error("Offset out of range");
+                s2Data(buf, d + static_cast<int16_t>(offset), byteOrder);
+                break;
+            }
+            case signedLong: {
+                int32_t d = getLong(buf, byteOrder);
+                l2Data(buf, d + static_cast<int32_t>(offset), byteOrder);
+                break;
+            }
+            case signedRational: {
+                Rational d = getRational(buf, byteOrder);
+                d.first = d.first + static_cast<int32_t>(offset) * d.second;
+                r2Data(buf, d, byteOrder);
+                break;
+            }
+            default:
+                throw Error("Unsupported data area offset type");
+                break;
+            }
+        }
+    } // Entry::setDataAreaOffsets
 
     const byte* Entry::component(uint32_t n) const
     {
@@ -383,13 +473,25 @@ namespace Exiv2 {
 
         // Add all directory entries to the data buffer
         long dataSize = 0;
+        long dataAreaSize = 0;
+        long totalDataSize = 0;
         const iterator b = entries_.begin();
         const iterator e = entries_.end();
-        iterator i = b;
-        for (; i != e; ++i) {
+        iterator i;
+        for (i = b; i != e; ++i) {
+            if (i->size() > 4) {
+                totalDataSize += i->size();
+            }
+        }
+        for (i = b; i != e; ++i) {
             us2Data(buf + o, i->tag(), byteOrder);
             us2Data(buf + o + 2, i->type(), byteOrder);
             ul2Data(buf + o + 4, i->count(), byteOrder);
+            if (i->sizeDataArea() > 0) { 
+                long dataAreaOffset = offset_+size()+totalDataSize+dataAreaSize;
+                i->setDataAreaOffsets(dataAreaOffset, byteOrder);
+                dataAreaSize += i->sizeDataArea();
+            }
             if (i->size() > 4) {
                 // Set the offset of the entry, data immediately follows the IFD
                 i->setOffset(size() + dataSize);
@@ -418,6 +520,14 @@ namespace Exiv2 {
             if (i->size() > 4) {
                 memcpy(buf + o, i->data(), i->size());
                 o += i->size();
+            }
+        }
+
+        // Add all data areas to the data buffer
+        for (i = b; i != e; ++i) {
+            if (i->sizeDataArea() > 0) {
+                memcpy(buf + o, i->dataArea(), i->sizeDataArea());
+                o += i->sizeDataArea();
             }
         }
 
@@ -481,6 +591,7 @@ namespace Exiv2 {
         const_iterator end = this->end();
         for (const_iterator i = begin(); i != end; ++i) {
             if (i->size() > 4) dataSize += i->size();
+            dataSize += i->sizeDataArea();
         }
         return dataSize;
     }

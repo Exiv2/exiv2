@@ -76,8 +76,7 @@ namespace Exiv2 {
     Exifdatum::Exifdatum(const Entry& e, ByteOrder byteOrder)
         : key_(ExifKey::AutoPtr(new ExifKey(e)))
     {
-        value_ = Value::create(TypeId(e.type()));
-        value_->read(e.data(), e.count() * e.typeSize(), byteOrder);
+        setValue(e, byteOrder);
     }
 
     Exifdatum::Exifdatum(const ExifKey& key, const Value* pValue) 
@@ -121,6 +120,7 @@ namespace Exiv2 {
     {
         value_ = Value::create(TypeId(e.type()));
         value_->read(e.data(), e.count() * e.typeSize(), byteOrder);
+        value_->setDataArea(e.dataArea(), e.sizeDataArea());
     }
 
     void Exifdatum::setValue(const std::string& buf)
@@ -165,9 +165,10 @@ namespace Exiv2 {
                       tiffHeader_.byteOrder(), tiffHeader_.offset());
         }
         offset_ = rhs.offset_;
-        size_ = rhs.size_;
         delete[] pImage_;
-        pImage_ = newImage.release();
+        std::pair<byte*, long> p = newImage.release();
+        pImage_ = p.first;
+        size_ = p.second;
         return *this;
     }
 
@@ -386,9 +387,10 @@ namespace Exiv2 {
             memcpy(newImage.pData_, rhs.pImage_, rhs.size_);
         }
         offset_ = rhs.offset_;
-        size_ = rhs.size_;
         delete[] pImage_;
-        pImage_ = newImage.release();
+        std::pair<byte*, long> p = newImage.release();
+        pImage_ = p.first;
+        size_ = p.second;
         return *this;
     }
 
@@ -819,6 +821,7 @@ namespace Exiv2 {
             const_iterator mdEnd = this->end();
             for (const_iterator md = begin(); md != mdEnd; ++md) {
                 size += md->size();
+                size += md->sizeDataArea();
                 ifdEntries[md->ifdId()] += 1;
             }
             std::map<IfdId, int>::const_iterator eEnd = ifdEntries.end();
@@ -1060,6 +1063,10 @@ namespace Exiv2 {
                 md->copy(buf.pData_, byteOrder);
                 entry->setValue(static_cast<uint16_t>(md->typeId()), md->count(), 
                                 buf.pData_, md->size());
+
+                // Todo: Do this with less copying...
+                DataBuf dataArea(md->dataArea());
+                entry->setDataArea(dataArea.pData_, dataArea.size_);
             }
         }
         return compatible;
@@ -1215,7 +1222,11 @@ namespace Exiv2 {
         DataBuf buf(md.size());
         md.copy(buf.pData_, byteOrder);
         e.setValue(static_cast<uint16_t>(md.typeId()), md.count(), 
-                   buf.pData_, md.size()); 
+                   buf.pData_, buf.size_); 
+
+        DataBuf dataArea(md.dataArea());
+        e.setDataArea(dataArea.pData_, dataArea.size_);
+
         ifd.add(e);
     } // addToIfd
 
@@ -1246,6 +1257,10 @@ namespace Exiv2 {
         md.copy(buf.pData_, byteOrder);
         e.setValue(static_cast<uint16_t>(md.typeId()), md.count(),
                    buf.pData_, md.size()); 
+
+        DataBuf dataArea(md.dataArea());
+        e.setDataArea(dataArea.pData_, dataArea.size_);
+
         makerNote->add(e);
     } // addToMakerNote
 

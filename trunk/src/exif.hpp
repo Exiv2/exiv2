@@ -104,10 +104,25 @@ namespace Exiv2 {
         void setValue(const Entry& e, ByteOrder byteOrder);
         /*!
           @brief Set the value to the string buf. 
-                 Uses Value::read(const std::string& buf). If the Exifdatum does
+                 Uses Value::read(const std::string& buf). If the %Exifdatum does
                  not have a value yet, then an AsciiValue is created.
          */
         void setValue(const std::string& buf);
+        /*!
+          @brief Set the data area by copying (cloning) the buffer pointed to 
+                 by buf.
+
+          Values may have a data area, which can contain additional
+          information besides the actual value. This method is used to set such
+          a data area.
+
+          @param buf Pointer to the source data area
+          @param len Size of the data area
+          @return Return -1 if the %Exifdatum does not have a value yet or the
+                  value has no data area, else 0.
+         */
+        int setDataArea(const byte* buf, long len) 
+            { return value_.get() == 0 ? -1 : value_->setDataArea(buf, len); }
         //@}
 
         //! @name Accessors
@@ -227,6 +242,24 @@ namespace Exiv2 {
          */
         const Value& value() const 
             { if (value_.get() != 0) return *value_; throw Error("Value not set"); }
+        //! Return the size of the data area.
+        long sizeDataArea() const 
+            { return value_.get() == 0 ? 0 : value_->sizeDataArea(); }
+        /*!
+          @brief Return a copy of the data area of the value. The caller owns
+                 this copy and DataBuf ensures that it will be deleted.
+
+          Values may have a data area, which can contain additional
+          information besides the actual value. This method is used to access
+          such a data area.
+
+          @return A DataBuf containing a copy of the data area or an empty
+                  DataBuf if the value does not have a data area assigned or the
+                  value is not set.
+         */
+        DataBuf dataArea() const
+            { return value_.get() == 0 ? DataBuf(0, 0) : value_->dataArea(); }
+
         //@}
 
     private:

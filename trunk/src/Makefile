@@ -58,7 +58,7 @@ CCSRC = canonmn.cpp datasets.cpp exif.cpp fujimn.cpp ifd.cpp image.cpp iptc.cpp 
 # Add source files of simple applications to this list
 BINSRC = addmoddel.cpp exifcomment.cpp exifprint.cpp ifd-test.cpp iptcprint.cpp \
          iptctest.cpp key-test.cpp makernote-test.cpp taglist.cpp write-test.cpp \
-         write2-test.cpp 
+         write2-test.cpp dataarea-test.cpp
 
 # State the main source file of the Exiv2 application here
 EXIV2MAIN = exiv2.cpp
