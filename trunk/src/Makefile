@@ -20,7 +20,7 @@
 # 02111-1307, USA.
 #
 # File:      Makefile
-# Version:   $Name:  $ $Revision: 1.20 $
+# Version:   $Name:  $ $Revision: 1.21 $
 # Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
 # History:   10-Dec-03, ahu: created
 #
@@ -55,8 +55,8 @@ CCSRC = canonmn.cpp exif.cpp fujimn.cpp ifd.cpp image.cpp makernote.cpp \
         sigmamn.cpp tags.cpp types.cpp value.cpp
 
 # Add source files of simple applications to this list
-BINSRC = addmoddel.cpp exifprint.cpp exiftest.cpp makernote-test.cpp \
-         taglist.cpp write-test.cpp
+BINSRC = addmoddel.cpp exifprint.cpp makernote-test.cpp taglist.cpp \
+         write-test.cpp
 
 # State the main source file of the Exiv2 application here
 EXIV2MAIN = exiv2.cpp
