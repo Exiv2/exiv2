@@ -194,7 +194,6 @@ namespace Exiv2 {
         DataBuf(DataBufRef rhs) : pData_(rhs.p.first), size_(rhs.p.second) {}
         DataBuf& operator=(DataBufRef rhs) { reset(rhs.p); return *this; }
         operator DataBufRef() { return DataBufRef(release()); }
-        operator DataBuf() { return DataBuf(release()); }
         //@}
 
         // DATA
