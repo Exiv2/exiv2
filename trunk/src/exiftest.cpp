@@ -29,7 +29,7 @@ int main(int argc, char* const argv[])
                       << i->typeName() << " "
                       << std::dec << std::setw(3) 
                       << std::setfill(' ') << std::right
-                      << i->count_ << " " 
+                      << i->count_ << "   " 
                       << std::dec << i->value() << "\n";
         }
     }
@@ -49,11 +49,12 @@ int main(int argc, char* const argv[])
     ValueType<Rational> vr;
     ValueType<URational> vur;
 
-    std::string str(" 4 / 5 x2 5/3");
+    std::string str("1/ 2 4 / 5 2 5/3");
     vr.read(str);
     std::cout << "ValueType<Rational> vr  = " << vr 
               << ", size is " << vr.size() << "\n";
 
-    return rc;
+    rc = exifData.writeThumbnail("thumb.jpg");
 
+    return rc;
 }

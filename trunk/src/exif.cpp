@@ -1,18 +1,31 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (c) 2004 Andreas Huggel
+ * Copyright (C) 2004 Andreas Huggel <ahuggel@gmx.net>
+ * 
+ * This program is part of the Exiv2 distribution.
  *
- * Todo: Insert license blabla here
- *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 /*
-  Author(s): Andreas Huggel (ahu)
+  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:
    13-Jan-04, ahu: created
 
   RCS information
    $Name:  $
-   $Revision: 1.4 $
+   $Revision: 1.5 $
  */
 // *****************************************************************************
 // included header files
@@ -216,8 +229,12 @@ namespace Exif {
 
     void DataValue::read(const std::string& buf)
     {
-        // Todo: read from a string of bytes??
-        value_ = buf;
+        std::istringstream is(buf);
+        int tmp;
+        value_.clear();
+        while (is >> tmp) {
+            value_ += (char)tmp;
+        }
     }
 
     long DataValue::copy(char* buf, ByteOrder byteOrder) const
@@ -278,9 +295,21 @@ namespace Exif {
     }
 
     Metadatum::Metadatum()
-        : tag_(0), type_(0), count_(0), offset_(0), size_(0), 
-          ifdId_(IfdIdNotSet), ifdIdx_(-1), value_(0)
+        : tag_(0), type_(0), count_(0), offset_(0),
+          ifdId_(IfdIdNotSet), ifdIdx_(-1), value_(0), size_(0)
     {
+    }
+
+    Metadatum::Metadatum(uint16 tag, uint16 type, uint32 count, uint32 offset, 
+                         IfdId ifdId, int ifdIdx, Value* value)
+        : tag_(tag), type_(type), count_(count), offset_(offset),
+          ifdId_(ifdId), ifdIdx_(ifdIdx), value_(value)
+    {
+        key_ = std::string(ifdItem()) 
+            + "." + std::string(sectionName()) 
+            + "." + std::string(tagName());
+        
+        size_ = count_ * typeSize();
     }
 
     Metadatum::~Metadatum()
@@ -294,13 +323,15 @@ namespace Exif {
         type_ = rhs.type_;
         count_ = rhs.count_;
         offset_ = rhs.offset_;   
-        size_ = rhs.size_;
 
         ifdId_ = rhs.ifdId_;
         ifdIdx_ = rhs.ifdIdx_;
 
         value_ = 0;
         if (rhs.value_ != 0) value_ = rhs.value_->clone(); // deep copy
+
+        key_ = rhs.key_;
+        size_ = rhs.size_;
     }
 
     Metadatum& Metadatum::operator=(const Metadatum& rhs)
@@ -311,7 +342,6 @@ namespace Exif {
         type_ = rhs.type_;
         count_ = rhs.count_;
         offset_ = rhs.offset_;   
-        size_ = rhs.size_;
 
         ifdId_ = rhs.ifdId_;
         ifdIdx_ = rhs.ifdIdx_;
@@ -320,16 +350,11 @@ namespace Exif {
         value_ = 0;
         if (rhs.value_ != 0) value_ = rhs.value_->clone(); // deep copy
 
+        key_ = rhs.key_;
+        size_ = rhs.size_;
+
         return *this;
     } // Metadatum::operator=
-
-    std::string Metadatum::key() const
-    {
-        std::string key = std::string(ifdItem()) 
-                  + "." + std::string(sectionName()) 
-                  + "." + std::string(tagName());
-        return key;
-    }
 
     Ifd::Ifd(IfdId ifdId)
         : ifdId_(ifdId), offset_(0), next_(0), size_(0)
@@ -380,7 +405,6 @@ namespace Exif {
         // calculate offsets relative to the start of the IFD
         for (i = eb; i != ee; ++i) {
             delete i->value_;
-            //! Todo: Create the correct type here, once we have them
             i->value_ = Value::create(TypeId(i->type_));
             if (i->size_ > 4) {
                 i->offset_ = i->offset_ - offset_;
@@ -392,18 +416,23 @@ namespace Exif {
                 i->value_->read(tmpbuf, i->size_, byteOrder);
             }
         }
+
         return 0;
     } // Ifd::read
+
+    Metadata::const_iterator Ifd::findTag(uint16 tag) const 
+    {
+        return std::find_if(entries_.begin(), entries_.end(),
+                            FindMetadatumByTag(tag));
+    }
 
     int Ifd::readSubIfd(
         Ifd& dest, const char* buf, ByteOrder byteOrder, uint16 tag
     ) const
     {
         int rc = 0;
-        Metadata::const_iterator pos;
-        Metadata::const_iterator end = entries_.end();
-        pos = std::find_if(entries_.begin(), end, FindMetadatumByTag(tag));
-        if (pos != end) {
+        Metadata::const_iterator pos = findTag(tag);
+        if (pos != entries_.end()) {
             rc = dest.read(buf + pos->offset_, byteOrder, pos->offset_);
         }
         return rc;
@@ -529,6 +558,44 @@ namespace Exif {
 
     } // Ifd::print
 
+    // Todo: implement this properly..
+    //       - Tag values 0x0201 and 0x0202 may be long OR short types...
+    //       - TIFF thumbnails
+    int Thumbnail::read(const char* buf, const Ifd& ifd1, ByteOrder byteOrder)
+    {
+        Metadata::const_iterator pos = ifd1.findTag(0x0103);
+        if (pos == ifd1.entries().end()) return 1;
+        const UShortValue& compression = dynamic_cast<const UShortValue&>(pos->value());
+        if (compression.value() == 6) {
+            pos = ifd1.findTag(0x0201);
+            if (pos == ifd1.entries().end()) return 2;
+            const ULongValue& offset = dynamic_cast<const ULongValue&>(pos->value());
+            pos = ifd1.findTag(0x0202);
+            if (pos == ifd1.entries().end()) return 3;
+            const ULongValue& size = dynamic_cast<const ULongValue&>(pos->value());
+
+            thumbnail_ = std::string(buf + offset.value(), size.value());
+        }
+        else if (compression.value() == 1) {
+            // Todo: to be continued...
+            return 4;
+        }
+        else {
+            // invalid compression value
+            return 5;
+        }
+        return 0;
+    }
+
+    int Thumbnail::write(const std::string& path) const
+    {
+        std::ofstream file(path.c_str(), std::ios::binary | std::ios::out);
+        if (!file) return 1;
+        file.write(thumbnail_.data(), thumbnail_.size());
+        if (!file.good()) return 2;
+        return 0;
+    }
+
     int ExifData::read(const std::string& path)
     {
         JpegImage img;
@@ -587,7 +654,7 @@ namespace Exif {
         rc = ifd1.readSubIfd(ifd1GpsIfd, buf, byteOrder(), 0x8825);
         if (rc) return rc;
 
-        // Finally, copy all metadata from the IFDs to the internal metadata
+        // Copy all metadata from the IFDs to the internal metadata
         metadata_.clear();
         add(ifd0.entries());
         add(exifIfd.entries());
@@ -597,6 +664,9 @@ namespace Exif {
         add(ifd1ExifIfd.entries());
         add(ifd1IopIfd.entries());
         add(ifd1GpsIfd.entries());
+
+        // Read the thumbnail
+        thumbnail_.read(buf, ifd1, byteOrder());
 
         return 0;
     } // ExifData::read
