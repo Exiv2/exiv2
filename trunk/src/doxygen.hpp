@@ -8,7 +8,7 @@
   @date    07-Feb-04, ahu: created
  */
 /*!
-  @mainpage Exif and Iptc metadata manipulation library and tools v0.5
+  @mainpage Exif and Iptc metadata manipulation library and tools v0.6
 
   @section overview Exiv2 Overview
  
@@ -64,19 +64,29 @@
 
   @section devel Development
 
-  <P>%Exiv2 is maintained in a publicly available subversion repository. 
-  You can 
-  <A TITLE="Online source code repository" HREF="http://dev.robotbattle.com/~cvsuser/cgi-bin/ns_viewcvs.cgi/exiv2/trunk/">browse the code online</A>, 
-  see a list of 
-  <A TITLE="Last 50 commits" HREF="http://dev.robotbattle.com/cmtinfo_svn.php?r=10">recent code changes</A>, 
-  browse the 
-  <A title="Issue tracker" HREF="http://dev.robotbattle.com/bugs/main_page.php">bug tracking system</A> 
-  and report bugs.</P>
-  <P>To download the source code directly from the repository, you need a 
-  <A title="Subversion distributions" HREF="http://subversion.tigris.org/project_packages.html">subversion client</A>. 
+  <p>%Exiv2 is maintained in a publicly available subversion repository. 
+  You can see a <a title="Last 50 commits" href="http://dev.robotbattle.com/cmtinfo_svn.php?r=10">
+  live list with the latest commits</a> to the repository,
+  <a title="Online source code repository" href="http://dev.robotbattle.com/~cvsuser/cgi-bin/ns_viewcvs.cgi/exiv2/trunk/">
+  browse the source code</a> online, access the 
+  <a title="Issue tracker" href="http://dev.robotbattle.com/bugs/main_page.php">
+  bug tracking system</a> and report bugs.
+  </p>
+  <p>To check-out the current source code from the repository, you need a 
+  <a title="Get Subversion!"
+  href="http://subversion.tigris.org/project_packages.html">subversion client</a>. 
   If you use a command line client, change to the directory where you want to keep 
-  the source code and type <CODE>svn co svn://dev.robotbattle.com/exiv2/trunk .</CODE>
-  </P>
+  the source code and type:</p>
+  
+  <div class="fragment"><pre><span class="stringliteral">$ svn checkout svn://dev.robotbattle.com/exiv2/trunk .</span></pre></div>
+  
+  <p>To download the test data and test drivers for version 0.6 from
+  the repository, change to your local exiv2-0.6 directory and use the
+  following command:
+  </p>
+  
+  <div class="fragment"><pre><span class="stringliteral">$ svn export svn://dev.robotbattle.com/exiv2/tags/Exiv2-0_6_041212/test</span></pre></div>
+
   <P>If you'd like to contribute code, please <A HREF="mailto:ahuggel@gmx.net">contact me</A>.
 
   @section license License
