@@ -43,6 +43,7 @@ EXIV2_RCSID("@(#) $Id$");
 
 #include "image.hpp"
 #include "types.hpp"
+#include "error.hpp"
 
 // + standard includes
 #include <cstdio>
@@ -231,6 +232,7 @@ namespace Exiv2 {
 
     void JpegBase::setExifData(const byte* buf, long size)
     {
+        if (size > 0xffff) throw Error("Exif data too large");
         clearExifData();
         if (size) {
             sizeExifData_ = size;
