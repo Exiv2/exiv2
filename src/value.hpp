@@ -21,7 +21,7 @@
 /*!
   @file    value.hpp
   @brief   Value interface and concrete subclasses
-  @version $Name:  $ $Revision: 1.8 $
+  @version $Name:  $ $Revision: 1.9 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -243,7 +243,7 @@ namespace Exiv2 {
         virtual long copy(char* buf, ByteOrder byteOrder =invalidByteOrder) const;
         virtual long count() const { return size(); }
         virtual long size() const;
-        virtual Value* clone() const;
+        virtual DataValue* clone() const;
         virtual std::ostream& write(std::ostream& os) const;
         virtual long toLong(long n =0) const { return value_[n]; }
         virtual float toFloat(long n =0) const { return value_[n]; }
@@ -310,7 +310,7 @@ namespace Exiv2 {
         virtual long copy(char* buf, ByteOrder byteOrder =invalidByteOrder) const;
         virtual long count() const { return size(); }
         virtual long size() const;
-        virtual Value* clone() const;
+        virtual AsciiValue* clone() const;
         /*! 
           @brief Write the value to an output stream. Any trailing '\\0'
                  characters of the ASCII value are stripped and not written to
@@ -381,7 +381,7 @@ namespace Exiv2 {
         virtual long copy(char* buf, ByteOrder byteOrder) const;
         virtual long count() const { return value_.size(); }
         virtual long size() const;
-        virtual Value* clone() const;
+        virtual ValueType<T>* clone() const;
         virtual std::ostream& write(std::ostream& os) const;
         virtual long toLong(long n =0) const;
         virtual float toFloat(long n =0) const;
@@ -585,7 +585,7 @@ namespace Exiv2 {
     }
 
     template<typename T>
-    Value* ValueType<T>::clone() const
+    ValueType<T>* ValueType<T>::clone() const
     {
         return new ValueType<T>(*this);
     }
