@@ -22,7 +22,7 @@
   @file    makernote.hpp
   @brief   Contains the Exif %MakerNote interface, IFD %MakerNote and a 
            MakerNote factory
-  @version $Name:  $ $Revision: 1.19 $
+  @version $Name:  $ $Revision: 1.20 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -98,6 +98,12 @@ namespace Exiv2 {
       in the factory, will pick it up (see mn.sh for details).
      */
     class MakerNote {
+        //! @name Not implemented
+        //@{
+        //! Assignment not allowed (memory management mode alloc_ is const)
+        MakerNote& operator=(const MakerNote& rhs);
+        //@}
+
     public:
 
         //! MakerNote Tag information
@@ -251,6 +257,12 @@ namespace Exiv2 {
       @brief Interface for MakerNotes in IFD format. See MakerNote.
      */
     class IfdMakerNote : public MakerNote {
+        //! @name Not implemented
+        //@{
+        //! Assignment not allowed (Ifd does not have an assignment operator)
+        IfdMakerNote& operator=(const IfdMakerNote& rhs);
+        //@}
+
     public:
         //! @name Creators
         //@{        
