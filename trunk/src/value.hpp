@@ -21,7 +21,7 @@
 /*!
   @file    value.hpp
   @brief   Value interface and concrete subclasses
-  @version $Name:  $ $Revision: 1.1 $
+  @version $Name:  $ $Revision: 1.2 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -113,7 +113,10 @@ namespace Exif {
           @return The converted value. 
          */
         virtual long toLong(long n =0) const =0;
-        //! Return the value as a string
+        /*!
+          @brief Return the value as a string. Implemented in terms of
+                 write(std::ostream& os) const of the concrete class. 
+         */
         std::string toString() const;
 
         //! Return the type identifier (Exif data format type).
@@ -145,8 +148,15 @@ namespace Exif {
          */
         static Value* create(TypeId typeId);
 
+    protected:
+        /*!
+          @brief Assignment operator. Protected so that it can only be used
+                 by subclasses but not directly.
+         */
+        Value& operator=(const Value& rhs);
+
     private:
-        const uint16 type_;                     //!< Type of the data
+        uint16 type_;                           //!< Type of the data
 
     }; // class Value
 
@@ -161,6 +171,8 @@ namespace Exif {
     public:
         //! Default constructor.
         DataValue(TypeId typeId =undefined) : Value(typeId) {}
+        //! Assignment operator.
+        DataValue& operator=(const DataValue& rhs);
         /*!
           @brief Read the value from a character buffer. The byte order is
                  required by the interface but not used by this method.
@@ -200,6 +212,8 @@ namespace Exif {
     public:
         //! Default constructor.
         AsciiValue() : Value(asciiString) {}
+        //! Assignment operator.
+        AsciiValue& operator=(const AsciiValue& rhs);
         /*!
           @brief Read the value from a character buffer. The byte order is
                  required by the interface but not used by this method.
@@ -230,6 +244,11 @@ namespace Exif {
         virtual long count() const { return size(); }
         virtual long size() const;
         virtual Value* clone() const;
+        /*! 
+          @brief Write the value to an output stream. One trailing '\\0'
+                 character of the ASCII value is stripped if present and not
+                 written to the output stream.
+        */
         virtual std::ostream& write(std::ostream& os) const;
         virtual long toLong(long n =0) const { return value_[n]; }
 
@@ -247,6 +266,8 @@ namespace Exif {
     public:
         //! Default constructor.
         ValueType() : Value(getType<T>()) {}
+        //! Assignment operator.
+        ValueType<T>& operator=(const ValueType<T>& rhs);
         virtual void read(const char* buf, long len, ByteOrder byteOrder);
         /*!
           @brief Set the data from a string of values of type T (e.g., 
@@ -410,6 +431,15 @@ namespace Exif {
     inline long toData(char* buf, Rational t, ByteOrder byteOrder)
     {
         return r2Data(buf, t, byteOrder);
+    }
+
+    template<typename T>
+    ValueType<T>& ValueType<T>::operator=(const ValueType<T>& rhs)
+    {
+        if (this == &rhs) return *this;
+        Value::operator=(rhs);
+        value_ = rhs.value_;
+        return *this;
     }
 
     template<typename T>

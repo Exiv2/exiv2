@@ -20,14 +20,14 @@
  */
 /*
   File:      value.cpp
-  Version:   $Name:  $ $Revision: 1.1 $
+  Version:   $Name:  $ $Revision: 1.2 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.1 $ $RCSfile: value.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: value.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -41,6 +41,13 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.1 $ $RCSfile: value.cpp,v $")
 // *****************************************************************************
 // class member definitions
 namespace Exif {
+
+    Value& Value::operator=(const Value& rhs)
+    {
+        if (this == &rhs) return *this;
+        type_ = rhs.type_;
+        return *this;
+    }
 
     Value* Value::create(TypeId typeId)
     {
@@ -93,6 +100,14 @@ namespace Exif {
         return os.str();
     }
 
+    DataValue& DataValue::operator=(const DataValue& rhs)
+    {
+        if (this == &rhs) return *this;
+        Value::operator=(rhs);
+        value_ = rhs.value_;
+        return *this;
+    }
+
     void DataValue::read(const char* buf, long len, ByteOrder byteOrder)
     {
         // byteOrder not needed 
@@ -132,6 +147,14 @@ namespace Exif {
             os << (int)(unsigned char)value_[i] << " ";
         }
         return os;
+    }
+
+    AsciiValue& AsciiValue::operator=(const AsciiValue& rhs)
+    {
+        if (this == &rhs) return *this;
+        Value::operator=(rhs);
+        value_ = rhs.value_;
+        return *this;
     }
 
     void AsciiValue::read(const char* buf, long len, ByteOrder byteOrder)
