@@ -20,13 +20,13 @@
  */
 /*
   File:      utils.cpp
-  Version:   $Name:  $ $Revision: 1.5 $
+  Version:   $Name:  $ $Revision: 1.6 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: utils.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: utils.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -35,7 +35,12 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: utils.cpp,v $")
 // + standard includes
 #include <sys/types.h>
 #include <sys/stat.h>
+#ifdef _MSC_VER
+#include "getopt.h"
+#define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
+#else
 #include <unistd.h>                     // for getopt(), stat()
+#endif
 #include <errno.h>
 
 #include <cstdlib>
@@ -52,7 +57,7 @@ int Getopt::getopt(int argc, char* const argv[], const std::string& optstring)
 {
     progname_ = Util::basename(argv[0]);
 
-    while (true) {
+    for (;;) {
         int c = ::getopt(argc, argv, optstring.c_str());
         if (c == -1) break;
         errcnt_ += option(c, ::optarg == 0 ? "" : ::optarg, ::optopt);

@@ -22,13 +22,13 @@
   Abstract:  Command line program to display and manipulate image %Exif data
 
   File:      exiv2.cpp
-  Version:   $Name:  $ $Revision: 1.8 $
+  Version:   $Name:  $ $Revision: 1.9 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   10-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.8 $ $RCSfile: exiv2.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.9 $ $RCSfile: exiv2.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -78,7 +78,7 @@ int main(int argc, char* const argv[])
 
     // Process all files
     int n = 1;
-    int s = params.files_.size();
+    int s = static_cast<int>(params.files_.size());
     int w = s > 9 ? s > 99 ? 3 : 2 : 1;
     Params::Files::const_iterator e = params.files_.end();
     for (Params::Files::const_iterator i = params.files_.begin(); i != e; ++i) {

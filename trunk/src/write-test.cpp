@@ -3,7 +3,7 @@
   Abstract : ExifData write unit tests
 
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  Version  : $Name:  $ $Revision: 1.5 $
+  Version  : $Name:  $ $Revision: 1.6 $
 
   Test procedure: 
    $ rm -f test.jpg thumb.jpg iii ttt; 
@@ -39,6 +39,7 @@ void exifPrint(const ExifData& exifData);
 // *****************************************************************************
 // Main
 int main(int argc, char* const argv[])
+{
 try {
 
     if (argc != 3) {
@@ -108,6 +109,7 @@ try {
 catch (Error& e) {
     std::cerr << "Caught Exif exception '" << e << "'\n";
     return 1;
+}
 }
 
 // *****************************************************************************

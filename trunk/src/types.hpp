@@ -21,7 +21,7 @@
 /*!
   @file    types.hpp
   @brief   Type definitions for %Exiv2 and related functionality
-  @version $Name:  $ $Revision: 1.14 $
+  @version $Name:  $ $Revision: 1.15 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -43,7 +43,8 @@
 #ifdef _MSC_VER
 // disable unreferenced formal parameter warning C4100
 // disable truncation of constant value warning C4309
-#pragma warning (disable: 4100 4309)
+// disable warning conversion of int to bool C4800
+#pragma warning (disable: 4100 4309 4800)
 #endif
 
 // *****************************************************************************
