@@ -21,7 +21,7 @@
 /*!
   @file    types.hpp
   @brief   Type definitions for %Exiv2 and related functionality
-  @version $Name:  $ $Revision: 1.11 $
+  @version $Name:  $ $Revision: 1.12 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -126,7 +126,7 @@ namespace Exiv2 {
         ~DataBuf() { delete[] pData_; }
         //! Allocate a data buffer of the given size
         void alloc(long size)
-            { delete pData_; size_ = size; pData_ = new char[size]; }
+            { delete[] pData_; size_ = size; pData_ = new char[size]; }
         //! The current size of the buffer
         long size_; 
         //! Pointer to the buffer, 0 if none has been allocated
