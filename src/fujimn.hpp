@@ -24,7 +24,7 @@
            in "Appendix 4: Makernote of Fujifilm" of the document 
            "Exif file format" by TsuruZoh Tachibanaya
            <http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html>
-  @version $Name:  $ $Revision: 1.1 $
+  @version $Name:  $ $Revision: 1.2 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    11-Feb-04, ahu: created
@@ -95,21 +95,21 @@ namespace Exif {
         //! @name Print functions for Fujifilm %MakerNote tags 
         //@{
         //! Print Off or On status
-        std::ostream& printOffOn(std::ostream& os, const Value& value) const;
+        static std::ostream& printOffOn(std::ostream& os, const Value& value);
         //! Print sharpness
-        std::ostream& print0x1001(std::ostream& os, const Value& value) const;
+        static std::ostream& print0x1001(std::ostream& os, const Value& value);
         //! Print white balance
-        std::ostream& print0x1002(std::ostream& os, const Value& value) const;
+        static std::ostream& print0x1002(std::ostream& os, const Value& value);
         //! Print color
-        std::ostream& print0x1003(std::ostream& os, const Value& value) const;
+        static std::ostream& print0x1003(std::ostream& os, const Value& value);
         //! Print tone
-        std::ostream& print0x1004(std::ostream& os, const Value& value) const;
+        static std::ostream& print0x1004(std::ostream& os, const Value& value);
         //! Print flash mode
-        std::ostream& print0x1010(std::ostream& os, const Value& value) const;
+        static std::ostream& print0x1010(std::ostream& os, const Value& value);
         //! Print focus mode
-        std::ostream& print0x1021(std::ostream& os, const Value& value) const;
+        static std::ostream& print0x1021(std::ostream& os, const Value& value);
         //! Print picture mode
-        std::ostream& print0x1031(std::ostream& os, const Value& value) const;
+        static std::ostream& print0x1031(std::ostream& os, const Value& value);
         //@}
 
     private:
