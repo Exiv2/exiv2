@@ -20,14 +20,14 @@
  */
 /*
   File:      ifd.cpp
-  Version:   $Name:  $ $Revision: 1.15 $
+  Version:   $Name:  $ $Revision: 1.16 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.15 $ $RCSfile: ifd.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.16 $ $RCSfile: ifd.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -156,21 +156,24 @@ namespace Exif {
     } // Entry::component
 
     Ifd::Ifd(IfdId ifdId)
-        : alloc_(true), ifdId_(ifdId), offset_(0), pNext_(0), next_(0)
+        : alloc_(true), ifdId_(ifdId), offset_(0), dataOffset_(0),
+          pNext_(0), next_(0)
     {
         pNext_ = new char[4];
         memset(pNext_, 0x0, 4);
     }
 
     Ifd::Ifd(IfdId ifdId, uint32 offset)
-        : alloc_(true), ifdId_(ifdId), offset_(offset), pNext_(0), next_(0)
+        : alloc_(true), ifdId_(ifdId), offset_(offset), dataOffset_(0),
+          pNext_(0), next_(0)
     {
         pNext_ = new char[4];
         memset(pNext_, 0x0, 4);
     }
 
     Ifd::Ifd(IfdId ifdId, uint32 offset, bool alloc)
-        : alloc_(alloc), ifdId_(ifdId), offset_(offset), pNext_(0), next_(0)
+        : alloc_(alloc), ifdId_(ifdId), offset_(offset), dataOffset_(0),
+          pNext_(0), next_(0)
     {
         if (alloc_) {
             pNext_ = new char[4];
@@ -185,7 +188,8 @@ namespace Exif {
 
     Ifd::Ifd(const Ifd& rhs)
         : alloc_(rhs.alloc_), entries_(rhs.entries_), ifdId_(rhs.ifdId_),
-          offset_(rhs.offset_), pNext_(rhs.pNext_), next_(rhs.next_)
+          offset_(rhs.offset_), dataOffset_(rhs.dataOffset_),
+          pNext_(rhs.pNext_), next_(rhs.next_)
     {
         if (alloc_ && rhs.pNext_) {
             pNext_ = new char[4];
@@ -221,18 +225,24 @@ namespace Exif {
         }
         next_ = getULong(buf+o, byteOrder);
 
-        // Guess the offset of the IFD, if it was not given. The guess is based
-        // on the assumption that the smallest offset points to a data buffer
-        // directly following the IFD. Subsequently all offsets of IFD entries
-        // will need to be recalculated.
-        if (offset_ == 0 && preEntries.size() > 0) {
+        // Set the offset of the first data entry outside of the IFD.
+        // At the same time we guess the offset of the IFD, if it was not
+        // given. The guess is based on the assumption that the smallest offset
+        // points to a data buffer directly following the IFD. Subsequently all
+        // offsets of IFD entries will need to be recalculated.
+        if (preEntries.size() > 0) {
             // Find the entry with the smallest offset
             Ifd::PreEntries::const_iterator i = std::min_element(
                 preEntries.begin(), preEntries.end(), cmpPreEntriesByOffset);
-            // Set the 'guessed' IFD offset, the test is needed for the case when
-            // all entries have data sizes not exceeding 4.
+            // Only do something if there is at least one entry with data
+            // outside the IFD directory itself.
             if (i->size_ > 4) {
-                offset_ = i->offset_ - size();
+                if (offset_ == 0) {
+                    // Set the 'guessed' IFD offset
+                    offset_ = i->offset_ - size();
+                }
+                // Set the offset of the first data entry outside of the IFD
+                dataOffset_ = i->offset_;
             }
         }
 
@@ -362,6 +372,7 @@ namespace Exif {
             pNext_ = 0;
         }
         offset_ = 0;
+        dataOffset_ = 0;
     } // Ifd::clear
 
     void Ifd::setNext(uint32 next, ByteOrder byteOrder)
@@ -390,9 +401,9 @@ namespace Exif {
         return idx;
     }
 
-    void Ifd::erase(iterator pos)
+    Ifd::iterator Ifd::erase(iterator pos)
     {
-        entries_.erase(pos);
+        return entries_.erase(pos);
     }
 
     long Ifd::size() const

@@ -20,13 +20,13 @@
  */
 /*
   File:      makernote.cpp
-  Version:   $Name:  $ $Revision: 1.15 $
+  Version:   $Name:  $ $Revision: 1.16 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.15 $ $RCSfile: makernote.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.16 $ $RCSfile: makernote.cpp,v $")
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -155,6 +155,8 @@ namespace Exif {
                            ByteOrder byteOrder, 
                            long offset)
     {
+        // Remember the offset
+        offset_ = offset;
         // Set byte order if none is set yet
         if (byteOrder_ == invalidByteOrder) byteOrder_ = byteOrder;
         int rc = 0;
@@ -182,7 +184,6 @@ namespace Exif {
                 i->setMakerNote(this);
             }
         }
-
 #ifdef DEBUG_MAKERNOTE
         hexdump(std::cerr, buf, len, offset);
         if (rc == 0) ifd_.print(std::cerr);
@@ -193,10 +194,23 @@ namespace Exif {
 
     long IfdMakerNote::copy(char* buf, ByteOrder byteOrder, long offset)
     {
+        // Remember the new offset
+        offset_ = offset;
         // Set byte order if none is set yet
         if (byteOrder_ == invalidByteOrder) byteOrder_ = byteOrder;
-        return ifd_.copy(buf, byteOrder_, offset);
-    }
+        long len = 0;
+        if (!prefix_.empty()) {
+            // Write the prefix string to the Makernote buffer
+            memcpy(buf, prefix_.data(), prefix_.size());
+            len += prefix_.size();
+        }
+        if (!absOffset_) {
+            // Use offsets relative to the start of the Makernote field
+            offset = 0;
+        }
+        len += ifd_.copy(buf + len, byteOrder_, offset + len);
+        return len;
+    } // IfdMakerNote::copy
 
     Entries::const_iterator IfdMakerNote::findIdx(int idx) const 
     {
@@ -205,7 +219,7 @@ namespace Exif {
 
     long IfdMakerNote::size() const
     {
-        return ifd_.size() + ifd_.dataSize();
+        return prefix_.size() + ifd_.size() + ifd_.dataSize();
     }
 
     MakerNoteFactory* MakerNoteFactory::pInstance_ = 0;
@@ -229,7 +243,7 @@ namespace Exif {
 
         // Todo: use case insensitive make and model comparisons
 
-        // find or create a registry entry for make
+        // Find or create a registry entry for make
         ModelRegistry* modelRegistry = 0;
         Registry::const_iterator end1 = registry_.end();
         Registry::const_iterator pos1;
@@ -243,7 +257,7 @@ namespace Exif {
             modelRegistry = new ModelRegistry;
             registry_.push_back(std::make_pair(make, modelRegistry));
         }
-        // find or create a registry entry for model
+        // Find or create a registry entry for model
         ModelRegistry::iterator end2 = modelRegistry->end();
         ModelRegistry::iterator pos2;
         for (pos2 = modelRegistry->begin(); pos2 != end2; ++pos2) {

@@ -21,7 +21,7 @@
 /*!
   @file    ifd.hpp
   @brief   Encoding and decoding of IFD (Image File Directory) data
-  @version $Name:  $ $Revision: 1.13 $
+  @version $Name:  $ $Revision: 1.14 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -385,8 +385,13 @@ namespace Exif {
                  of the deleted entry or 0 if no entry with tag was found.
          */
         int erase(uint16 tag);
-        //! Delete the directory entry at iterator position pos
-        void erase(iterator pos);
+        /*!
+          @brief Delete the directory entry at iterator position pos, return the
+                 position of the next entry. Note that iterators into the
+                 directory, including pos, are potentially invalidated by this
+                 call.
+         */
+        iterator erase(iterator pos);
         //! Sort the IFD entries by tag
         void sortByTag();
         //! The first entry
@@ -415,6 +420,12 @@ namespace Exif {
         IfdId ifdId() const { return ifdId_; }
         //! Get the offset of the IFD from the start of the TIFF header
         long offset() const { return offset_; }
+        /*!
+          @brief Get the offset of the first data entry outside of the IFD, 
+                 return 0 if there is none. The data offset is determined when
+                 the IFD is read.
+         */
+        long dataOffset() const { return dataOffset_; }
         //! Get the offset to the next IFD from the start of the TIFF header
         uint32 next() const { return next_; }
         //! Get the number of directory entries in the IFD
@@ -462,11 +473,13 @@ namespace Exif {
         Entries entries_;
         //! IFD Id
         IfdId ifdId_;
-        //! offset of the IFD from the start of TIFF header
+        //! Offset of the IFD from the start of TIFF header
         long offset_;
-        // Pointer to the offset of next IFD from the start of the TIFF header
+        //! Offset of the first data entry outside of the IFD directory
+        long dataOffset_;
+        //! Pointer to the offset of next IFD from the start of the TIFF header
         char* pNext_;
-        // The offset of the next IFD as data value (always in sync with *pNext_)
+        //! The offset of the next IFD as data value (always in sync with *pNext_)
         uint32 next_;
 
     }; // class Ifd
