@@ -6,7 +6,7 @@
 # to apply the commands in cmd.txt to each file. Alternatively, commands can be
 # run from the command line directly, without a command file: 
 #
-# $ exiv2 -M'add Iptc.Application2.Credit String mee too!' file ...
+# $ exiv2 -M"add Iptc.Application2.Credit String mee too!" file ...
 #
 # Note the quotes. Multiple -m and -M options are allowed and can be combined.
 # 
