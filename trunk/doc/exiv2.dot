@@ -3,7 +3,7 @@
 # Brief   Dot file for a graph showing the component dependencies 
 #         of the Exiv2 library. Run the following command to get the image:
 #         $ dot -Tgif -oexiv2.gif exiv2.dot
-# Version $Name:  $ $Revision: 1.4 $
+# Version $Name:  $ $Revision: 1.5 $
 # Author  Andreas Huggel (ahu)
 #         <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
 # Date    18-Feb-04, ahu: created
@@ -15,8 +15,9 @@ L1 [shape=plaintext] ;
 L2 [shape=plaintext] ;
 L3 [shape=plaintext] ;
 L4 [shape=plaintext] ;
+L5 [shape=plaintext] ;
 
-"L4" -> "L3" -> "L2" -> "L1" [style=invis] ;
+"L5" -> "L4" -> "L3" -> "L2" -> "L1" [style=invis] ;
 
 "exif"      [shape=box] ;
 "iptc"      [shape=box] ;
@@ -30,11 +31,9 @@ L4 [shape=plaintext] ;
 "error"     [shape=box] ;
 "makernote" [shape=box] ;
 
-"exif" -> "metadatum" ;
 "exif" -> "tags" ;
 "exif" -> "makernote" ;
 "exif" -> "image" ;
-"iptc" -> "metadatum" ;
 "iptc" -> "datasets" ;
 "iptc" -> "image" ;
 "metadatum" -> "value" ;
@@ -44,10 +43,8 @@ L4 [shape=plaintext] ;
 "ifd" -> "error" ;  
 "ifd" -> "types" ;
 "image" -> "types" ;
-"tags" -> "error" ;
-"tags" -> "value" ;
-"datasets" -> "error" ;
-"datasets" -> "value" ;
+"tags" -> "metadatum";
+"datasets" -> "metadatum" ;
 "value" -> "types" ;
 
 { rank=same; L1 error types }

@@ -20,13 +20,13 @@
  */
 /*
   File:      datasets.cpp
-  Version:   $Name:  $ $Revision: 1.6 $
+  Version:   $Name:  $ $Revision: 1.7 $
   Author(s): Brad Schick (brad) <schick@robotbattle.com>
   History:   24-Jul-04, brad: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: datasets.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.7 $ $RCSfile: datasets.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -34,13 +34,11 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: datasets.cpp,v $");
 #include "error.hpp"
 #include "types.hpp"
 #include "value.hpp"
+#include "metadatum.hpp"
 
 #include <iostream>
 #include <iomanip>
 #include <sstream>
-
-// Todo: remove circular dependency
-#include "iptc.hpp"                             // for DataSet operator<<
 
 // *****************************************************************************
 // class member definitions
@@ -291,6 +289,77 @@ namespace Exiv2 {
         }
     } // IptcDataSets::dataSetList
     
+    const char* IptcKey::familyName_ = "Iptc";
+
+    IptcKey::IptcKey(const std::string& key)
+        : key_(key)
+    {
+        decomposeKey();
+    }
+
+    IptcKey::IptcKey(uint16_t tag, uint16_t record)
+        : tag_(tag), record_(record)
+    {
+        makeKey();
+    }
+
+    IptcKey::IptcKey(const IptcKey& rhs)
+        : tag_(rhs.tag_), record_(rhs.record_), key_(rhs.key_)
+    {
+    }
+
+    IptcKey& IptcKey::operator=(const IptcKey& rhs)
+    {
+        if (this == &rhs) return *this;
+        Key::operator=(rhs);
+        tag_ = rhs.tag_;
+        record_ = rhs.record_;
+        key_ = rhs.key_;
+        return *this;
+    }
+
+    IptcKey* IptcKey::clone() const
+    {
+        return new IptcKey(*this);
+    }
+
+    void IptcKey::decomposeKey()
+    {
+        // Get the family name, record name and dataSet name parts of the key
+        std::string::size_type pos1 = key_.find('.');
+        if (pos1 == std::string::npos) throw Error("Invalid key");
+        std::string familyName = key_.substr(0, pos1);
+        if (familyName != std::string(familyName_)) {
+            throw Error("Invalid key");
+        }
+        std::string::size_type pos0 = pos1 + 1;
+        pos1 = key_.find('.', pos0);
+        if (pos1 == std::string::npos) throw Error("Invalid key");
+        std::string recordName = key_.substr(pos0, pos1 - pos0);
+        if (recordName == "") throw Error("Invalid key");
+        std::string dataSetName = key_.substr(pos1 + 1);
+        if (dataSetName == "") throw Error("Invalid key");
+
+        // Use the parts of the key to find dataSet and recordId
+        uint16_t recId = IptcDataSets::recordId(recordName);
+        uint16_t dataSet = IptcDataSets::dataSet(dataSetName, recId);
+
+        // Possibly translate hex name parts (0xabcd) to real names 
+        recordName = IptcDataSets::recordName(recId);
+        dataSetName = IptcDataSets::dataSetName(dataSet, recId);
+
+        tag_ = dataSet;
+        record_ = recId;
+        key_ = familyName + "." + recordName + "." + dataSetName;
+    } // IptcKey::decomposeKey
+
+    void IptcKey::makeKey()
+    {
+        key_ = std::string(familyName_)
+            + "." + IptcDataSets::recordName(record_)
+            + "." + IptcDataSets::dataSetName(tag_, record_);
+    }
+
     // *************************************************************************
     // free functions
 
