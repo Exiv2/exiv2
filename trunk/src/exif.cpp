@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.50 $
+  Version:   $Name:  $ $Revision: 1.51 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.50 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.51 $ $RCSfile: exif.cpp,v $")
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -773,7 +773,7 @@ namespace Exiv2 {
         long ifd1Offset   = gpsIfdOffset + gpsIfd.size() + gpsIfd.dataSize();
 
         // build IFD1 from updated metadata if there is a thumbnail
-        Ifd ifd1(ifd1, ifd1Offset);
+        Ifd ifd1(Exiv2::ifd1, ifd1Offset);
         if (pThumbnail_) {
             // Update Exif data from thumbnail
             pThumbnail_->update(*this);
