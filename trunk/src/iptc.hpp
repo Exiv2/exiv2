@@ -167,8 +167,6 @@ namespace Exiv2 {
         long count() const { return value_.get() == 0 ? 0 : value_->count(); }
         //! Return the size of the value in bytes
         long size() const { return value_.get() == 0 ? 0 : value_->size(); }
-        //! Return true if value was modified, otherwise false
-        bool modified() const { return modified_; }
         //! Return the value as a string.
         std::string toString() const 
             { return value_.get() == 0 ? "" : value_->toString(); }
@@ -234,17 +232,10 @@ namespace Exiv2 {
             { if (value_.get() != 0) return *value_; throw Error("Value not set"); }
         //@}
 
-        /*! 
-          @brief Not really meant for public use, but public so IptcData doesn't
-                 have to be made a friend
-         */
-        void clearModified() { modified_ = false; }
-
     private:
         // DATA
         IptcKey::AutoPtr key_;                  //!< Key
         Value::AutoPtr   value_;                //!< Value
-        bool modified_;                         //!< Change indicator
 
     }; // class Iptcdatum
 
@@ -288,26 +279,13 @@ namespace Exiv2 {
       - extract Iptc metadata to files, insert from these files
     */
     class IptcData {
-        //! @name Not implemented
-        //@{
-        //! Copying not allowed
-        IptcData(const IptcData& rhs);
-        //! Assignment not allowed
-        IptcData& operator=(const IptcData& rhs);
-        //@}
     public:
         //! IptcMetadata iterator type
         typedef IptcMetadata::iterator iterator;
         //! IptcMetadata const iterator type
         typedef IptcMetadata::const_iterator const_iterator;
 
-        //! @name Creators
-        //@{
-        //! Default constructor
-        IptcData();
-        //! Destructor
-        ~IptcData();
-        //@}
+        // Use the compiler generated constructors and assignment operator
 
         //! @name Manipulators
         //@{
@@ -427,8 +405,6 @@ namespace Exiv2 {
                     if the call to this function fails;<BR>
          */
         int erase(const std::string& path) const;
-        //! Return true if any metadata was modified, added, or erased.
-        bool modified() const;
         //! Begin of the metadata
         const_iterator begin() const { return iptcMetadata_.begin(); }
         //! End of the metadata
@@ -480,27 +456,11 @@ namespace Exiv2 {
         int readData(uint16_t dataSet, uint16_t record, 
                      const byte* data, uint32_t sizeData);
 
-        //! Resets modified flag
-        void clearModified();
-        
-        //! @name Manipulators
-        //@{
-        /*!
-          @brief Rebuilds the Iptc data buffer from scratch using the current
-                metadata. After this method is called, pData_ points to the
-                updated data.
-         */
-        void updateBuffer();
-        //@}
-
         // Constant data
         static const byte marker_;          // Dataset marker
         
         // DATA
         IptcMetadata iptcMetadata_;
-        long size_;              //!< Size of the Iptc raw data in bytes
-        byte* pData_;            //!< Iptc raw data buffer
-        mutable bool modified_;
     }; // class IptcData
 
 }                                       // namespace Exiv2
