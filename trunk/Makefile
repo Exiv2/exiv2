@@ -16,7 +16,7 @@
 
 all:
 	cd src && $(MAKE) $(MAKECMDGOALS)
-	cd doc && $(MAKE) $(MAKECMDGOALS)
+#	cd doc && $(MAKE) $(MAKECMDGOALS)
 
 doc:
 	cd doc && $(MAKE) $(MAKECMDGOALS)
