@@ -21,7 +21,7 @@
 /*!
   @file    types.hpp
   @brief   Type definitions for Exiv2 and related functionality
-  @version $Name:  $ $Revision: 1.1 $
+  @version $Name:  $ $Revision: 1.2 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -41,7 +41,6 @@
 
 // *****************************************************************************
 // namespace extensions
-//! Provides classes and functions to encode and decode %Exif data.
 namespace Exif {
 
 // *****************************************************************************
