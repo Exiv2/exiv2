@@ -309,9 +309,38 @@ namespace Exiv2 {
     {
     }
 
+    ExifData::ExifData(const ExifData& rhs)
+        : tiffHeader_(rhs.tiffHeader_), exifMetadata_(rhs.exifMetadata_),
+          ifd0_(ifd0Id, 0, false), 
+          exifIfd_(exifIfdId, 0, false), iopIfd_(iopIfdId, 0, false), 
+          gpsIfd_(gpsIfdId, 0, false), ifd1_(ifd1Id, 0, false), 
+          size_(0), pData_(0), compatible_(false)
+    {
+        if (rhs.makerNote_.get() != 0) makerNote_ = rhs.makerNote_->clone();
+    }
+
     ExifData::~ExifData()
     {
         delete[] pData_;
+    }
+
+    ExifData& ExifData::operator=(const ExifData& rhs)
+    {
+        if (this == &rhs) return *this;
+        tiffHeader_ = rhs.tiffHeader_;
+        exifMetadata_ = rhs.exifMetadata_;
+        makerNote_.reset();
+        if (rhs.makerNote_.get() != 0) makerNote_ = rhs.makerNote_->clone();
+        ifd0_.clear();
+        exifIfd_.clear();
+        iopIfd_.clear();
+        gpsIfd_.clear();
+        ifd1_.clear();
+        size_ = 0;
+        delete[] pData_;
+        pData_ = 0;
+        compatible_ = false;
+        return *this;
     }
 
     Exifdatum& ExifData::operator[](const std::string& key)
