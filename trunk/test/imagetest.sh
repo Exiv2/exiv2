@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 # Test driver for image file i/o
 
 eraseTest()
@@ -90,14 +90,16 @@ echo -n "Erase all tests"
 for i in $test_files; do eraseTest $i; done
 eraseTest "glider.exv" #extra test
 
-echo -ne "\nCopy all tests"
+echo
+echo -n "Copy all tests"
 c=0
 for src in $test_files; do
     c=`expr $c + 1`
     for dst in $test_files; do copyTest $c $src $dst; done
 done
 
-echo -ne "\nCopy iptc tests"
+echo
+echo -n "Copy iptc tests"
 c=0
 for src in $test_files; do
     c=`expr $c + 1`

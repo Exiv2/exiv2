@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 # Test driver for image file i/o
 
 ioTest()

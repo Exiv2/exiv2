@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 # Test driver for Iptc metadata
 
 printTest()
@@ -131,13 +131,16 @@ echo
 echo -n "Read tests"
 for i in $test_files; do printTest $i; done
 
-echo -ne "\nRemove tests"
+echo
+echo -n "Remove tests"
 for i in $test_files; do removeTest $i; done
 
-echo -ne "\nAdd/Mod tests"
+echo
+echo -n "Add/Mod tests"
 for i in $test_files; do addModTest $i; done
 
-echo -ne "\nExtended tests"
+echo
+echo -n "Extended tests"
 for i in $test_files; do extendedTest $i; done
 
 echo -e "\n---------------------------------------------------------"
