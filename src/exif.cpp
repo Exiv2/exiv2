@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.30 $
+  Version:   $Name:  $ $Revision: 1.31 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.30 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.31 $ $RCSfile: exif.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -416,18 +416,34 @@ namespace Exif {
         return size;
     }
 
-    long Thumbnail::size() const
+    long Thumbnail::dataSize() const
     {
         long size = 0;
         switch (type_) {
         case jpeg: 
             size = size_;
             break;
-        case tiff:
+        case tiff: 
             size = size_ - ifd_.offset() - ifd_.size() - ifd_.dataSize();
             break;
-        case none:
-            size = 0;
+        case none: 
+            size = 0; 
+            break;
+        }
+        return size;
+    }
+
+    long Thumbnail::size() const
+    {
+        long size = 0;
+        switch (type_) {
+        case jpeg: 
+            // fallthrough
+        case tiff: 
+            size = size_; 
+            break;
+        case none: 
+            size = 0; 
             break;
         }
         return size;
@@ -743,13 +759,14 @@ std::cerr << "->>>>>> writing from metadata <<<<<<-\n";
             for (e = ifdEntries.begin(); e != eEnd; ++e) {
                 size += 2 + 12 * e->second + 4;
             }
-            size += thumbnail_.size();
+            // Add the size of the thumbnail image data (w/o IFD for TIFF thumbs)
+            size += thumbnail_.dataSize();
             // Add 1k to account for the possibility that Thumbnail::update
             // may add entries to IFD1
             size += 1024;
         }
         return size;
-    }
+    } // ExifData::size
 
     void ExifData::add(Entries::const_iterator begin, 
                        Entries::const_iterator end,
