@@ -114,3 +114,7 @@
   @example iptcprint.cpp
   Sample program to print the Iptc metadata of an image
  */
+/*!
+  @example iptceasy.cpp
+  The quickest way to access, set or modify Iptc metadata
+ */
