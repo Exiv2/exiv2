@@ -22,7 +22,7 @@
   @file    makernote.hpp
   @brief   Contains the %Exif %MakerNote interface, IFD %MakerNote and a 
            MakerNote factory
-  @version $Name:  $ $Revision: 1.14 $
+  @version $Name:  $ $Revision: 1.15 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -113,7 +113,8 @@ namespace Exif {
                  for the Entries.
          */
         MakerNote(const MnTagInfo* pMnTagInfo =0, bool alloc =true) 
-            : pMnTagInfo_(pMnTagInfo), alloc_(alloc), byteOrder_(invalidByteOrder) {}
+            : pMnTagInfo_(pMnTagInfo), alloc_(alloc),
+              byteOrder_(invalidByteOrder), offset_(0) {}
         //! Virtual destructor.
         virtual ~MakerNote() {}
         //@}
@@ -160,6 +161,8 @@ namespace Exif {
         uint16 decomposeKey(const std::string& key) const;
         //! Return the byte order (little or big endian).
         ByteOrder byteOrder() const { return byteOrder_; }
+        //! Return the offset of the makernote from the start of the TIFF header
+        long offset() const  { return offset_; }
         /*!
           @brief Return the name of a makernote tag. The default implementation
                  looks up the makernote info tag array if one is set, else
@@ -208,7 +211,7 @@ namespace Exif {
         virtual Entries::const_iterator end() const =0;
         //! Find an entry by idx, return a const iterator to the record
         virtual Entries::const_iterator findIdx(int idx) const =0;
-        //! Return the size of the makernote in bytes.
+        //! Return the size of the makernote in bytes
         virtual long size() const =0;
         //! Return the name of the makernote section
         virtual std::string sectionName(uint16 tag) const =0; 
@@ -219,19 +222,23 @@ namespace Exif {
         //@}
 
     protected:
+        // DATA
         //! Pointer to an array of makernote tag infos
         const MnTagInfo* pMnTagInfo_;   
         /*!
-          Memory management
-          True:  requires memory allocation and deallocation,
-          False: no memory management needed.
+          @brief Flag to control the memory management: <BR>
+                 True:  requires memory allocation and deallocation, <BR>
+                 False: no memory management needed.
          */
         const bool alloc_; 
         /*!  
-          Alternative byte order to use, invalid if the byte order of the
-          %Exif block can be used
+          @brief Alternative byte order to use, invalid if the byte order of the
+                 %Exif block can be used
          */
         ByteOrder byteOrder_;
+        //! Offset of the makernote from the start of the TIFF header
+        long offset_;
+
     }; // class MakerNote
 
     /*!
@@ -279,11 +286,12 @@ namespace Exif {
         //@}
 
     protected:
-        //! Prefix before the start of the IFD
+        // DATA
+        //! String prefix at the beginning of the makernote, before the IFD
         std::string prefix_;
         /*!
-          True:  Offsets are from start of the TIFF header
-          False: Offsets are from start of the makernote
+          @brief True:  Offsets are from start of the TIFF header,
+                 False: Offsets are from start of the makernote
          */
         bool absOffset_; 
         //! MakerNote IFD

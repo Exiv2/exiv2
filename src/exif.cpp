@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.39 $
+  Version:   $Name:  $ $Revision: 1.40 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.39 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.40 $ $RCSfile: exif.cpp,v $")
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -159,7 +159,7 @@ namespace Exif {
     }
 
     TiffThumbnail::TiffThumbnail()
-        : size_(0), pImage_(0), ifd_(ifd1, 0, false)
+        : offset_(0), size_(0), pImage_(0), ifd_(ifd1, 0, false)
     {
     }
 
@@ -169,7 +169,8 @@ namespace Exif {
     }
 
     TiffThumbnail::TiffThumbnail(const TiffThumbnail& rhs)
-        : size_(rhs.size_), pImage_(0), ifd_(ifd1, 0, false)
+        : offset_(rhs.offset_), size_(rhs.size_), pImage_(0), 
+          ifd_(ifd1, 0, false)
     {
         if (rhs.pImage_ && rhs.size_ > 0) {
             pImage_ = new char[rhs.size_];
@@ -190,6 +191,7 @@ namespace Exif {
             ifd_.read(pNewImage + tiffHeader_.offset(), 
                       tiffHeader_.byteOrder(), tiffHeader_.offset());
         }
+        offset_ = rhs.offset_;
         size_ = rhs.size_;
         delete[] pImage_;
         pImage_ = pNewImage;
@@ -212,10 +214,8 @@ namespace Exif {
         // Create IFD (without Exif and GPS tags) from metadata
         Ifd ifd1(ifd1);
         addToIfd(ifd1, exifData.begin(), exifData.end(), tiffHeader.byteOrder());
-        Ifd::iterator i = ifd1.findTag(0x8769);
-        if (i != ifd1.end()) ifd1.erase(i);
-        i = ifd1.findTag(0x8825);
-        if (i != ifd1.end()) ifd1.erase(i);
+        ifd1.erase(0x8769);
+        ifd1.erase(0x8825);
 
         // Do not copy the IFD yet, remember the location and leave a gap
         long ifdOffset = len;
@@ -229,19 +229,23 @@ namespace Exif {
         ExifData::const_iterator sizes = exifData.findKey(key);
         if (sizes == exifData.end()) return 2;
         std::ostringstream os;                  // for the new strip offsets
+        long minOffset = 0;
         for (long k = 0; k < offsets->count(); ++k) {
             long offset = offsets->toLong(k);
             long size = sizes->toLong(k);
             memcpy(img.pData_ + len, buf + offset, size);
             os << len << " ";
             len += size;
-        }
 
+            minOffset = offset;                 // just to initialize minOffset
+        }
+        for (long k = 0; k < offsets->count(); ++k) {
+            minOffset = std::min(minOffset, offsets->toLong(k));
+        }
         // Update the IFD with the actual strip offsets (replace existing entry)
         Metadatum newOffsets(*offsets);
         newOffsets.setValue(os.str());
-        i = ifd1.findTag(0x0111);
-        if (i != ifd1.end()) ifd1.erase(i);
+        ifd1.erase(0x0111);
         addToIfd(ifd1, newOffsets, tiffHeader.byteOrder());
 
         // Finally, sort and copy the IFD
@@ -252,6 +256,7 @@ namespace Exif {
         pImage_ = new char[len];
         memcpy(pImage_, img.pData_, len);
         size_ = len;
+        offset_ = minOffset;
         tiffHeader_.read(pImage_);
         ifd_.read(pImage_ + tiffHeader_.offset(), 
                   tiffHeader_.byteOrder(), tiffHeader_.offset());
@@ -326,7 +331,12 @@ namespace Exif {
         return size_;
     }
 
-    void TiffThumbnail::setOffsets(Ifd& ifd1, ByteOrder byteOrder) const
+    long TiffThumbnail::offset() const
+    {
+        return offset_;
+    }
+
+    void TiffThumbnail::setOffsets(Ifd& ifd1, ByteOrder byteOrder)
     {
         // Adjust the StripOffsets, assuming that the existing TIFF strips
         // start immediately after the thumbnail IFD
@@ -336,20 +346,25 @@ namespace Exif {
         if (pos == ifd_.end()) throw Error("Bad thumbnail (0x0111)");
         Metadatum offsets(*pos, tiffHeader_.byteOrder());
         std::ostringstream os;
+        long minOffset = 0;
         for (long k = 0; k < offsets.count(); ++k) {
             os << offsets.toLong(k) + shift << " ";
+            minOffset = offsets.toLong(k) + shift; // initialize minOffset
         }
         offsets.setValue(os.str());
+        for (long k = 0; k < offsets.count(); ++k) {
+            minOffset = std::min(minOffset, offsets.toLong(k));
+        }
+        offset_ = minOffset;
         // Update the IFD with the re-calculated strip offsets 
         // (replace existing entry)
-        Ifd::iterator i = ifd1.findTag(0x0111);
-        if (i != ifd1.end()) ifd1.erase(i);
+        ifd1.erase(0x0111);
         addToIfd(ifd1, offsets, byteOrder);
 
     } // TiffThumbnail::setOffsets
 
     JpegThumbnail::JpegThumbnail()
-        : size_(0), pImage_(0)
+        : offset_(0), size_(0), pImage_(0)
     {
     }
 
@@ -359,7 +374,7 @@ namespace Exif {
     }
 
     JpegThumbnail::JpegThumbnail(const JpegThumbnail& rhs)
-        : size_(rhs.size_), pImage_(0)
+        : offset_(rhs.offset_), size_(rhs.size_), pImage_(0)
     {
         if (rhs.pImage_ && rhs.size_ > 0) {
             pImage_ = new char[rhs.size_];
@@ -374,6 +389,7 @@ namespace Exif {
             pNewImage = new char[rhs.size_];
             memcpy(pNewImage, rhs.pImage_, rhs.size_);
         }
+        offset_ = rhs.offset_;
         size_ = rhs.size_;
         delete[] pImage_;
         pImage_ = pNewImage;
@@ -396,6 +412,7 @@ namespace Exif {
         pImage_ = new char[size];
         memcpy(pImage_, buf + offset, size);
         size_ = size;
+        offset_ = offset;
         return 0;
     } // JpegThumbnail::read
 
@@ -429,7 +446,7 @@ namespace Exif {
             delete value;
             pos = exifData.findKey(key);
         }
-        pos->setValue("0");
+        pos->setValue(toString(offset_));
 
         key = "Thumbnail.RecordingOffset.JPEGInterchangeFormatLength";
         pos = exifData.findKey(key);
@@ -459,18 +476,24 @@ namespace Exif {
         return size_;
     }
 
-    void JpegThumbnail::setOffsets(Ifd& ifd1, ByteOrder byteOrder) const
+    long JpegThumbnail::offset() const
+    {
+        return offset_;
+    }
+
+    void JpegThumbnail::setOffsets(Ifd& ifd1, ByteOrder byteOrder)
     {
         Ifd::iterator pos = ifd1.findTag(0x0201);
         if (pos == ifd1.end()) throw Error("Bad thumbnail (0x0201)");
-        pos->setValue(ifd1.offset() + ifd1.size() + ifd1.dataSize(), byteOrder);
+        offset_ = ifd1.offset() + ifd1.size() + ifd1.dataSize();
+        pos->setValue(offset_, byteOrder);
     }
 
     ExifData::ExifData() 
         : pThumbnail_(0), pMakerNote_(0), ifd0_(ifd0, 0, false), 
           exifIfd_(exifIfd, 0, false), iopIfd_(iopIfd, 0, false), 
           gpsIfd_(gpsIfd, 0, false), ifd1_(ifd1, 0, false), 
-          size_(0), pData_(0)
+          size_(0), pData_(0), compatible_(true)
     {
     }
 
@@ -571,7 +594,6 @@ namespace Exif {
             ifd1_.erase(pos);
             ret = -99;
         }
-
         // Copy all entries from the IFDs and the MakerNote to the metadata
         metadata_.clear();
         add(ifd0_.begin(), ifd0_.end(), byteOrder());
@@ -582,7 +604,6 @@ namespace Exif {
         add(iopIfd_.begin(), iopIfd_.end(), byteOrder()); 
         add(gpsIfd_.begin(), gpsIfd_.end(), byteOrder());
         add(ifd1_.begin(), ifd1_.end(), byteOrder());
-
         // Read the thumbnail
         readThumbnail();
 
@@ -626,7 +647,7 @@ namespace Exif {
         // If we can update the internal IFDs and the underlying data buffer
         // from the metadata without changing the data size, then it is enough
         // to copy the data buffer.
-        if (updateEntries()) {
+        if (compatible_ && updateEntries()) {
 #ifdef DEBUG_MAKERNOTE
             std::cerr << "->>>>>> using non-intrusive writing <<<<<<-\n";
 #endif
@@ -845,26 +866,77 @@ namespace Exif {
         std::sort(metadata_.begin(), metadata_.end(), cmpMetadataByTag);
     }
 
-    void ExifData::erase(ExifData::iterator pos)
+    ExifData::iterator ExifData::erase(ExifData::iterator pos)
     {
-        metadata_.erase(pos);
+        return metadata_.erase(pos);
     }
 
     long ExifData::eraseThumbnail()
     {
         // Delete all Thumbnail.*.* (IFD1) metadata 
-        for (Metadata::iterator i = begin(); i != end(); ++i) {
-            if (i->ifdId() == ifd1) erase(i);
+        Metadata::iterator i = begin(); 
+        while (i != end()) {
+            if (i->ifdId() == ifd1) {
+                i = erase(i);
+            }
+            else {
+                ++i;
+            }
         }
-        // Truncate IFD1 and thumbnail data from the data buffer
-        long delta = size_;
-        if (size_ > 0) size_ = ifd0_.next();
-        delta -= size_;
-        ifd0_.setNext(0, byteOrder());
+        long delta = 0;
+        if (stdThumbPosition()) {
+            delta = size_;
+            if (size_ > 0 && ifd0_.next() > 0) {
+                // Truncate IFD1 and thumbnail data from the data buffer
+                size_ = ifd0_.next();
+                ifd0_.setNext(0, byteOrder());
+            }
+            delta -= size_;
+        }
+        else {
+            // We will have to write the hard way and re-arrange the data
+            compatible_ = false;
+            delta = ifd1_.size() + ifd1_.dataSize() 
+                + pThumbnail_ ? pThumbnail_->size() : 0; 
+        }
         // Delete the thumbnail itself
-        delete pThumbnail_;
-        pThumbnail_ = 0;
+        if (pThumbnail_) {
+            delete pThumbnail_;
+            pThumbnail_ = 0;
+        }
         return delta;
+    }
+
+    bool ExifData::stdThumbPosition() const
+    {
+        // Todo: There is still an invalid assumption here: The data of an IFD
+        //       can be stored in multiple non-contiguous blocks. In this case,
+        //       dataOffset + dataSize does not point to the end of the IFD data.
+        //       in particular, this is potentially the case for the remaining Exif
+        //       data in the presence of a known Makernote.
+        bool rc = true;
+        if (pThumbnail_) {
+            long maxOffset;
+            maxOffset = std::max(ifd0_.offset(), ifd0_.dataOffset());
+            maxOffset = std::max(maxOffset, exifIfd_.offset());
+            maxOffset = std::max(maxOffset,   exifIfd_.dataOffset() 
+                                            + exifIfd_.dataSize());
+            if (pMakerNote_) {
+                maxOffset = std::max(maxOffset,   pMakerNote_->offset()
+                                                + pMakerNote_->size());
+            }
+            maxOffset = std::max(maxOffset, iopIfd_.offset());
+            maxOffset = std::max(maxOffset,   iopIfd_.dataOffset()
+                                            + iopIfd_.dataSize());
+            maxOffset = std::max(maxOffset, gpsIfd_.offset());
+            maxOffset = std::max(maxOffset,   gpsIfd_.dataOffset()
+                                            + gpsIfd_.dataSize());
+
+            if (   maxOffset > ifd1_.offset()
+                || maxOffset > ifd1_.dataOffset() && ifd1_.dataOffset() > 0
+                || maxOffset > pThumbnail_->offset()) rc = false;
+        }
+        return rc;
     }
 
     int ExifData::readThumbnail()

@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.37 $
+  @version $Name:  $ $Revision: 1.38 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -271,6 +271,20 @@ namespace Exif {
         virtual int read(const char* buf,
                          const ExifData& exifData,
                          ByteOrder byteOrder =littleEndian) =0;
+        /*!
+          @brief Update the internal offset and the thumbnail data offsets 
+                 in IFD1 assuming the thumbnail data follows immediately after
+                 IFD1.  
+
+          If the type of the thumbnail image is JPEG, JPEGInterchangeFormat is
+          set to point directly behind the data area of IFD1. If the type is
+          TIFF, StripOffsets from the thumbnail image are adjusted to point to
+          the strips, which have to follow immediately after IFD1. Use copy() to
+          write the thumbnail image data. The offset of IFD1 must be set
+          correctly. Changing the size or data size of IFD1 invalidates the
+          thumbnail data offsets set by this method.
+         */
+        virtual void setOffsets(Ifd& ifd1, ByteOrder byteOrder) =0;
         //@}
 
         //! @name Accessors
@@ -308,18 +322,10 @@ namespace Exif {
          */
         virtual void update(ExifData& exifData) const =0;
         /*!
-          @brief Update the thumbnail data offsets in IFD1 assuming the
-                 thumbnail data follows immediately after IFD1.  
-
-          If the type of the thumbnail image is JPEG, JPEGInterchangeFormat is
-          set to point directly behind the data area of IFD1. If the type is
-          TIFF, StripOffsets from the thumbnail image are adjusted to point to
-          the strips, which have to follow immediately after IFD1. Use copy() to
-          write the thumbnail image data. The offset of IFD1 must be set
-          correctly. Changing the size of IFD1 invalidates the thumbnail data
-          offsets set by this method.
+          @brief Return the position of the thumbnail image data from the 
+                 start of the TIFF header in the original %Exif data.
          */
-        virtual void setOffsets(Ifd& ifd1, ByteOrder byteOrder) const =0;
+        virtual long offset() const =0;
         /*!
           @brief Return the size of the thumbnail image (the size it
                  would occupy when extracted from the %Exif data)
@@ -364,6 +370,7 @@ namespace Exif {
         int read(const char* buf,
                  const ExifData& exifData,
                  ByteOrder byteOrder =littleEndian);
+        void setOffsets(Ifd& ifd1, ByteOrder byteOrder);
         //@}
 
         //! @name Accessors
@@ -373,13 +380,15 @@ namespace Exif {
         const char* extension() const;
         long copy(char* buf) const;
         void update(ExifData& exifData) const;
-        void setOffsets(Ifd& ifd1, ByteOrder byteOrder) const;
+        long offset() const;
         long size() const;
         long dataSize() const;
         //@}
 
     private:
         // DATA
+        long offset_;            // Original offset of the thumbnail data
+                                 // from the start of the TIFF header 
         long size_;              //!< Size of the image data
         char* pImage_;           //!< Thumbnail image data
         TiffHeader tiffHeader_;  //!< Thumbnail TIFF Header
@@ -407,6 +416,7 @@ namespace Exif {
         int read(const char* buf,
                  const ExifData& exifData,
                  ByteOrder byteOrder =littleEndian);
+        void setOffsets(Ifd& ifd1, ByteOrder byteOrder);
         //@}
 
         //! @name Accessors
@@ -416,13 +426,15 @@ namespace Exif {
         const char* extension() const;
         long copy(char* buf) const;
         void update(ExifData& exifData) const;
-        void setOffsets(Ifd& ifd1, ByteOrder byteOrder) const;
+        long offset() const;
         long size() const;
         long dataSize() const;
         //@}
 
     private:
         // DATA
+        long offset_;            // Original offset of the thumbnail data 
+                                 // from the start of the TIFF header 
         long size_;              // Size of the image data
         char* pImage_;           // Thumbnail image data
 
@@ -562,7 +574,7 @@ namespace Exif {
                  buffer has enough memory. Otherwise the call results in
                  undefined behaviour.
           @return Number of characters written to the buffer.
-         */ 
+         */
         long copy(char* buf);
         /*!
           @brief Add all (IFD) entries in the range from iterator position begin
@@ -586,8 +598,13 @@ namespace Exif {
                  multiple metadata with the same key.
          */
         void add(const Metadatum& metadatum);
-        //! Delete the metadatum at iterator position pos
-        void erase(iterator pos);
+        /*!
+          @brief Delete the metadatum at iterator position pos, return the 
+                 position of the next metadatum. Note that iterators into
+                 the metadata, including pos, are potentially invalidated 
+                 by this call.
+         */
+        iterator erase(iterator pos);
         //! Sort metadata by key
         void sortByKey();
         //! Sort metadata by tag
@@ -617,8 +634,8 @@ namespace Exif {
         iterator findIfdIdIdx(IfdId ifdId, int idx);
         /*!
           @brief Delete the thumbnail from the %Exif data. Removes all related
-                 (Thumbnail.*.*, i.e., IFD1) metadata as well.
-          @return The number of bytes truncated from the original %Exif data.
+                 (%Thumbnail.*.*, i.e., IFD1) metadata as well.
+          @return The number of bytes erased from the original %Exif data.
          */
         long eraseThumbnail();
         //@}
@@ -666,18 +683,21 @@ namespace Exif {
         //! Returns the byte order as specified in the TIFF header
         ByteOrder byteOrder() const { return tiffHeader_.byteOrder(); }
         /*!
-          @brief Write the thumbnail image to a file. The filename extension
-                 will be set according to the image type of the thumbnail, so
-                 the path should not include an extension.
+          @brief Write the thumbnail image to a file. A filename extension
+                 is appended to path according to the image type of the
+                 thumbnail, so the path should not include an extension.
          */
         int writeThumbnail(const std::string& path) const 
             { return pThumbnail_ ? pThumbnail_->write(path) : 0; }
-        //! Return the file extension of the thumbnail image file
+        /*!
+          @brief Return a short string describing the format of the %Exif 
+                 thumbnail ("TIFF", "JPEG").
+         */
         const char* thumbnailFormat() const
             { return pThumbnail_ ? pThumbnail_->format() : ""; }
         /*!
-          @brief Return the file extension for the format of the thumbnail 
-                 (".tif", ".jpg").
+          @brief Return the file extension for the %Exif thumbnail depending
+                 on the format (".tif", ".jpg").
          */
         const char* thumbnailExtension() const 
             { return pThumbnail_ ? pThumbnail_->extension() : ""; }
@@ -751,6 +771,12 @@ namespace Exif {
         findEntry(IfdId ifdId, int idx) const;
         //! Return a pointer to the internal IFD identified by its IFD id
         const Ifd* getIfd(IfdId ifdId) const;
+        /*! 
+          @brief Check if IFD1, the IFD1 data and thumbnail data are located at 
+                 the end of the Exif data. Return true, if they are or if there
+                 is no thumbnail at all, else return false.
+         */
+        bool stdThumbPosition() const;
         //@}
 
         // DATA
@@ -769,6 +795,13 @@ namespace Exif {
 
         long size_;              //!< Size of the Exif raw data in bytes
         char* pData_;            //!< Exif raw data buffer
+
+        /*!
+          Can be set to false to indicate that non-intrusive writing is not
+          possible. If it is true (the default), then the compatibility checks
+          will be performed to determine which writing method to use.
+         */
+        bool compatible_;
 
     }; // class ExifData
 
