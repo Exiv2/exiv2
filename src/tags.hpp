@@ -21,7 +21,7 @@
 /*!
   @file    tags.hpp
   @brief   %Exif tag and type information
-  @version $Name:  $ $Revision: 1.17 $
+  @version $Name:  $ $Revision: 1.18 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    15-Jan-04, ahu: created
@@ -229,6 +229,8 @@ namespace Exif {
     std::ostream& print0x829d(std::ostream& os, const Value& value);
     //! Print the Exposure mode
     std::ostream& print0x8822(std::ostream& os, const Value& value);
+    //! Print ISO speed ratings
+    std::ostream& print0x8827(std::ostream& os, const Value& value);
     //! Print components configuration specific to compressed data
     std::ostream& print0x9101(std::ostream& os, const Value& value);
     //! Print the subject distance

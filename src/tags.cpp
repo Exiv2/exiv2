@@ -20,13 +20,13 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.18 $
+  Version:   $Name:  $ $Revision: 1.19 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.18 $ $RCSfile: tags.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.19 $ $RCSfile: tags.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -144,7 +144,7 @@ namespace Exif {
         TagInfo(0x829d, "FNumber", "F number", exifIfd, captureCond, print0x829d),
         TagInfo(0x8822, "ExposureProgram", "Exposure program", exifIfd, captureCond, print0x8822),
         TagInfo(0x8824, "SpectralSensitivity", "Spectral sensitivity", exifIfd, captureCond, printValue),
-        TagInfo(0x8827, "ISOSpeedRatings", "ISO speed ratings", exifIfd, captureCond, printValue),
+        TagInfo(0x8827, "ISOSpeedRatings", "ISO speed ratings", exifIfd, captureCond, print0x8827),
         TagInfo(0x8828, "OECF", "Optoelectric coefficient", exifIfd, captureCond, printValue),
         TagInfo(0x9000, "ExifVersion", "Exif Version", exifIfd, exifVersion, printValue),
         TagInfo(0x9003, "DateTimeOriginal", "Date and time original image was generated", exifIfd, dateTime, printValue),
@@ -603,6 +603,11 @@ namespace Exif {
         default: os << "(" << program << ")"; break;
         }
         return os;
+    }
+
+    std::ostream& print0x8827(std::ostream& os, const Value& value)
+    {
+        return os << value.toLong();
     }
 
     std::ostream& print0x9101(std::ostream& os, const Value& value)
