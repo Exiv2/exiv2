@@ -21,7 +21,7 @@
 /*!
   @file    types.hpp
   @brief   Type definitions for Exiv2 and related functionality
-  @version $Name:  $ $Revision: 1.8 $
+  @version $Name:  $ $Revision: 1.9 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -195,6 +195,18 @@ namespace Exif {
              offset.
      */
     void hexdump(std::ostream& os, const char* buf, long len, long offset =0);
+
+    /*!
+      @brief Return the greatest common denominator of integers a and b.
+             Both parameters must be greater than 0.
+     */
+    int gcd(int a, int b);
+
+    /*!
+      @brief Return the greatest common denominator of long values a and b. 
+             Both parameters must be greater than 0.
+     */
+    long lgcd(long a, long b);
    
 // *****************************************************************************
 // template and inline definitions
