@@ -21,10 +21,10 @@
 /*!
   @file    fujimn.hpp
   @brief   Fujifilm MakerNote implemented according to the specification
-           in "Appendix 4: Makernote of Fujifilm" of the document 
-           "Exif file format" by TsuruZoh Tachibanaya
-           <http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html>
-  @version $Name:  $ $Revision: 1.3 $
+           in Appendix 4: Makernote of Fujifilm of the document 
+           <a href="http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html">
+           Exif file format</a> by TsuruZoh Tachibanaya
+  @version $Name:  $ $Revision: 1.4 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    11-Feb-04, ahu: created
@@ -82,9 +82,17 @@ namespace Exiv2 {
         virtual ~FujiMakerNote() {}
         //@}
 
-        //! @name Accessors
+        //! @name Manipulators
         //@{        
-        MakerNote* clone(bool alloc =true) const;
+        int readHeader(const char* buf, 
+                       long len,
+                       ByteOrder byteOrder);
+        //@}
+
+        //! @name Accessors
+        //@{
+        int checkHeader() const;
+        FujiMakerNote* clone(bool alloc =true) const;
         //! Return the name of the makernote section ("Fujifilm")
         std::string sectionName(uint16 tag) const { return sectionName_; }
         std::ostream& printTag(std::ostream& os,
