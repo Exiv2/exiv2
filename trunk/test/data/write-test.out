@@ -54,10 +54,6 @@ Case 4: Intrusive change to the standard Exif metadata
 < Exif.Photo.InteroperabilityTag                        0xa005  1416
 ---
 > Exif.Photo.InteroperabilityTag                        0xa005  1423
-60c60
-< Exif.Thumbnail.JPEGInterchangeFormat                  0x0201  2036
----
-> Exif.Thumbnail.JPEGInterchangeFormat                  0x0201  3607
 ------------------------------------------------------------
 Case 5: Intrusive change to the Canon makernote metadata
 ---> Reading file ./exiv2-canon-powershot-s40.jpg
@@ -78,10 +74,6 @@ Case 5: Intrusive change to the Canon makernote metadata
 < Exif.Canon.OwnerName                                  0x0009  Andreas Huggel
 ---
 > Exif.Canon.OwnerName                                  0x0009  Frau Chan YeeSend und Herr Andreas Huggel
-60c60
-< Exif.Thumbnail.JPEGInterchangeFormat                  0x0201  2036
----
-> Exif.Thumbnail.JPEGInterchangeFormat                  0x0201  3598
 ------------------------------------------------------------
 Case 6: Intrusive change to the Exif metadata (w/o makernote)
 ---> Reading file ./exiv2-kodak-dc210.jpg
@@ -118,10 +110,6 @@ Case 7: Intrusive change to the Fujifilm makernote metadata
 < Exif.Fujifilm.Quality                                 0x1000  NORMAL 
 ---
 > Exif.Fujifilm.Quality                                 0x1000  Typical Fujifilm Quality
-72c72
-< Exif.Thumbnail.JPEGInterchangeFormat                  0x0201  1204
----
-> Exif.Thumbnail.JPEGInterchangeFormat                  0x0201  2422
 ------------------------------------------------------------
 Case 8: Intrusive change to the Sigma makernote metadata
 ---> Reading file ./exiv2-sigma-d10.jpg
@@ -138,10 +126,6 @@ Case 8: Intrusive change to the Sigma makernote metadata
 < Exif.Sigma.ResolutionMode                             0x0004  HI
 ---
 > Exif.Sigma.ResolutionMode                             0x0004  Sigma HI resolution
-63c63
-< Exif.Thumbnail.JPEGInterchangeFormat                  0x0201  303
----
-> Exif.Thumbnail.JPEGInterchangeFormat                  0x0201  1542
 ------------------------------------------------------------
 Case 9: Intrusive change to the Nikon1 makernote metadata
 ---> Reading file ./exiv2-nikon-e990.jpg
@@ -162,10 +146,6 @@ Case 9: Intrusive change to the Nikon1 makernote metadata
 < Exif.Nikon1.Quality                                   0x0004  FINE  
 ---
 > Exif.Nikon1.Quality                                   0x0004  Typical Nikon1 Quality
-57c57
-< Exif.Thumbnail.JPEGInterchangeFormat                  0x0201  4084
----
-> Exif.Thumbnail.JPEGInterchangeFormat                  0x0201  5422
 ------------------------------------------------------------
 Case 10: Intrusive change to the Nikon2 makernote metadata
 ---> Reading file ./exiv2-nikon-e950.jpg
@@ -186,10 +166,6 @@ Case 10: Intrusive change to the Nikon2 makernote metadata
 < Exif.Nikon2.0x0002                                    0x0002  08.00
 ---
 > Exif.Nikon2.0x0002                                    0x0002  Nikon2 Version 2
-52c52
-< Exif.Thumbnail.JPEGInterchangeFormat                  0x0201  2036
----
-> Exif.Thumbnail.JPEGInterchangeFormat                  0x0201  3198
 ------------------------------------------------------------
 Case 11: Intrusive change to the Nikon3 makernote metadata
 ---> Reading file ./exiv2-nikon-d70.jpg
@@ -210,7 +186,3 @@ Case 11: Intrusive change to the Nikon3 makernote metadata
 < Exif.Nikon3.Quality                                   0x0004  FINE   
 ---
 > Exif.Nikon3.Quality                                   0x0004  Typical Nikon3 Quality
-101c101
-< Exif.Thumbnail.JPEGInterchangeFormat                  0x0201  30444
----
-> Exif.Thumbnail.JPEGInterchangeFormat                  0x0201  32982
