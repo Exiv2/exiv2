@@ -2,7 +2,7 @@
 /*!
   @file    doxygen.hpp
   @brief   Additional documentation, this file contains no source code
-  @version $Name:  $ $Revision: 1.10 $
+  @version $Name:  $ $Revision: 1.11 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    07-Feb-04, ahu: created
@@ -36,6 +36,11 @@
   - extract Exif metadata from image files and insert it again
   - extract the thumbnail image embedded in the Exif metadata
   - delete the thumbnail or the complete Exif metadata from an image
+
+  @section getting-started Getting started
+
+  <A HREF="../getting-started.html">A few pointers</A> to help developers who would 
+  like to use the %Exiv2 library getting started.
 
   @section metadata Supported Exif and MakerNote tags
 
