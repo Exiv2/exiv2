@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.29 $
+  Version:   $Name:  $ $Revision: 1.30 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.29 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.30 $ $RCSfile: exif.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -49,6 +49,7 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.29 $ $RCSfile: exif.cpp,v $")
 #include <algorithm>
 #include <map>
 #include <cstring>
+#include <cassert>
 
 // *****************************************************************************
 // local declarations
@@ -590,9 +591,7 @@ namespace Exif {
         long size = this->size();
         char* buf = new char[size];
         long actualSize = copy(buf);
-        if (actualSize > size) {
-            throw Error("Invariant violated in ExifData::write");
-        }
+        assert(actualSize <= size);
         JpegImage img;
         img.setExifData(buf, actualSize);
         delete[] buf;
@@ -953,8 +952,7 @@ std::cerr << "->>>>>> writing from metadata <<<<<<-\n";
 
     void addToIfd(Ifd& ifd, const Metadatum& metadatum, ByteOrder byteOrder)
     {
-        // Todo: Implement Assert (Stroustup 24.3.7.2)
-        if (!ifd.alloc()) throw Error("Invariant violated in addToIfd");
+        assert(ifd.alloc());
 
         Entry e;
         e.setIfdId(metadatum.ifdId());
