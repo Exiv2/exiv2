@@ -10,7 +10,6 @@ void printIptc(const Exiv2::IptcData& iptcData);
 
 int main()
 try {
-
     Exiv2::IptcData iptcData;
 
     iptcData["Iptc.Application2.Headline"] = "The headline I am";
@@ -21,10 +20,15 @@ try {
     iptcData["Iptc.Envelope.ModelVersion"] = 2;
     iptcData["Iptc.Envelope.TimeSent"] = "14:41:0-05:00";
     iptcData["Iptc.Application2.RasterizedCaption"] = "230 42 34 2 90 84 23 146";
+    iptcData["Iptc.0x0009.0x0001"] = "Who am I?";
+
+    Exiv2::StringValue value;
+    value.read("Hi there!");
+    iptcData["Iptc.Envelope.ModelVersion"] = value;
 
     std::cout << "Time sent: " << iptcData["Iptc.Envelope.TimeSent"] << "\n\n";
 
-    printIptc(iptcData);    
+    printIptc(iptcData);
 
     return 0;
 }
