@@ -4,7 +4,7 @@
 #
 # RCS information
 #  $Name:  $
-#  $Revision: 1.4 $
+#  $Revision: 1.5 $
 #
 # Description:
 #  This makefile mainly forwards to makefiles in subdirectories.
@@ -13,7 +13,7 @@
 #  Requires GNU make.
 #
 
-.PHONY: all clean maintainer-clean doc
+.PHONY: all clean doc
 
 all %:
 	cd src && $(MAKE) $(MAKECMDGOALS)
@@ -26,9 +26,4 @@ clean:
 #	cd doc && $(MAKE) $(MAKECMDGOALS)
 	rm -f config.h config.mk config.log config.status
 	rm -rf autom4te.cache/
-
-maintainer-clean: clean
-	cd src && $(MAKE) $(MAKECMDGOALS)
-	cd doc && $(MAKE) $(MAKECMDGOALS)
-	rm -f configure
 	rm -f *~ *.bak *#
