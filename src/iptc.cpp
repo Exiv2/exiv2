@@ -38,7 +38,7 @@ EXIV2_RCSID("@(#) $Id$");
 #include "error.hpp"
 #include "value.hpp"
 #include "datasets.hpp"
-#include "image.hpp"
+#include "jpgimage.hpp"
 
 // + standard includes
 #include <iostream>
@@ -128,28 +128,7 @@ namespace Exiv2 {
         return *pos;
     }
 
-    int IptcData::read(const std::string& path)
-    {
-        if (!fileExists(path, true)) return -1;
-        Image::AutoPtr image = ImageFactory::instance().open(path);
-        if (image.get() == 0) {
-            // We don't know this type of file
-            return -2;
-        }
-        
-        int rc = image->readMetadata();
-        if (rc == 0) {
-            if (image->sizeIptcData() > 0) {
-                rc = read(image->iptcData(), image->sizeIptcData());
-            }
-            else {
-                rc = 3;
-            }
-        }
-        return rc;
-    }
-
-    int IptcData::read(const byte* buf, long len)
+    int IptcData::load(const byte* buf, long len)
     {
         const byte* pRead = buf;
         iptcMetadata_.clear();
@@ -201,41 +180,6 @@ namespace Exiv2 {
         return 0;
     }
 
-    int IptcData::erase(const std::string& path) const
-    {
-        if (!fileExists(path, true)) return -1;
-        Image::AutoPtr image = ImageFactory::instance().open(path);
-        if (image.get() == 0) return -2;
-
-        // Read all metadata then erase only Iptc data
-        int rc = image->readMetadata();
-        if (rc == 0) {
-            image->clearIptcData();
-            rc = image->writeMetadata();
-        }
-        return rc;
-    } // IptcData::erase
-
-    int IptcData::write(const std::string& path) 
-    {
-        // Remove the Iptc section from the file if there is no metadata 
-        if (count() == 0) return erase(path);
-
-        if (!fileExists(path, true)) return -1;
-        Image::AutoPtr image = ImageFactory::instance().open(path);
-        if (image.get() == 0) return -2;
-
-        DataBuf buf(copy());
-
-        // Read all metadata to preserve non-Iptc data
-        int rc = image->readMetadata();
-        if (rc == 0) {
-            image->setIptcData(buf.pData_, buf.size_);
-            rc = image->writeMetadata();
-        }
-        return rc;
-    } // IptcData::write
-    
     DataBuf IptcData::copy()
     {
         DataBuf buf(size());
@@ -268,7 +212,7 @@ namespace Exiv2 {
         }
 
         return buf;
-    }
+    } // IptcData::updateBuffer
 
     long IptcData::size() const
     {
@@ -287,15 +231,6 @@ namespace Exiv2 {
         }
         return newSize;
     } // IptcData::size
-
-    int IptcData::writeIptcData(const std::string& path)
-    {
-        DataBuf buf(copy());
-        ExvImage exvImage(path, true);
-        if (!exvImage.good()) return -1;
-        exvImage.setIptcData(buf.pData_, buf.size_);
-        return exvImage.writeMetadata();
-    } // IptcData::writeIptcData
 
     int IptcData::add(const IptcKey& key, Value* value)
     {

@@ -28,61 +28,60 @@
 
 #include "stdafx.h"
 #include "exivsimple.h"
+#include "image.hpp"
 #include "exif.hpp"
 #include "iptc.hpp"
 #include <cassert>
 
-struct ExivImage
+struct ImageWrapper
 {
-    Exiv2::IptcData iptcData;
-    Exiv2::ExifData exifData;
-    std::string fileName;
+    Exiv2::Image::AutoPtr image;
 };
 
 // Returns 0 if failed.
 EXIVSIMPLE_API HIMAGE OpenImage(const char *file)
 {
     assert(file);
+    ImageWrapper *imgWrap = new ImageWrapper;
 
-    ExivImage *image = new ExivImage;
-    image->fileName = file;
-
-    // rc of 3 just means no iptc or exif data (not a real error)
-    int rc = image->iptcData.read( file );
-    if (rc==0 || rc==3)
-        rc = image->exifData.read( file );
-
-    if (rc!=0 && rc!=3)  {
-        delete image;
-        image = 0;
+    // See if file exists. Sorry for very bad error handling
+    if (INVALID_FILE_ATTRIBUTES == GetFileAttributes(file)) {
+        return 0;
     }
 
-    return (HIMAGE)image;
+    imgWrap->image = Exiv2::ImageFactory::open(file);
+    if (imgWrap->image.get() == 0) {
+        return 0;
+    }
+
+    // Load existing metadata
+    if (imgWrap->image->readMetadata()) {
+        delete imgWrap;
+        imgWrap = 0;
+    }
+
+    return (HIMAGE)imgWrap;
 }
 
 EXIVSIMPLE_API void FreeImage(HIMAGE img)
 {
     if (img) {
-        ExivImage *image = (ExivImage*)img;
-        delete image;
+        ImageWrapper *imgWrap = (ImageWrapper*)img;
+        delete imgWrap;
     }
 }
 
 EXIVSIMPLE_API int SaveImage(HIMAGE img)
 {
     assert(img);
-    ExivImage *image = (ExivImage*)img;
-
-    int rc = image->iptcData.write(image->fileName);
-    if (rc==0)
-        rc = image->exifData.write(image->fileName);
-
-    return rc;
+    ImageWrapper *imgWrap = (ImageWrapper*)img;
+    return imgWrap->image->writeMetadata();
 }
 
 // This is weird because iptc and exif have not been "unified". Once
-// the API is turned inside out, this DLL should not have to know
+// they are unified, this DLL should not have to know
 // about either... just generic images, keys, values, etc.
+//
 // buffsize should be the total size of *buff (including space for null)
 // Note that if there is more than one entry (for some IPTC datasets) this
 // returns the first one found. Currently no way to get the others.
@@ -90,14 +89,18 @@ EXIVSIMPLE_API int ReadMeta(HIMAGE img, const char *key, char *buff, int buffsiz
 {
     assert(img && key && buff);
     if (img==0 || key==0 || buff==0 || buffsize==0) return -1;
-    ExivImage *image = (ExivImage*)img;
+    ImageWrapper *imgWrap = (ImageWrapper*)img;
     int rc = 2;
 
+    Exiv2::IptcData &iptcData = imgWrap->image->iptcData();
+    Exiv2::ExifData &exifData = imgWrap->image->exifData();
+
     try {
+        // First try iptc
         Exiv2::IptcKey iptcKey(key);
         rc = 1;
-        Exiv2::IptcData::const_iterator iter = image->iptcData.findKey(iptcKey);
-        if (iter != image->iptcData.end()) {
+        Exiv2::IptcData::const_iterator iter = iptcData.findKey(iptcKey);
+        if (iter != iptcData.end()) {
             strncpy(buff, iter->value().toString().c_str(), buffsize);
             buff[buffsize-1] = 0;
             rc = 0;
@@ -111,8 +114,8 @@ EXIVSIMPLE_API int ReadMeta(HIMAGE img, const char *key, char *buff, int buffsiz
         try {
             Exiv2::ExifKey exifKey(key);
             rc = 1;
-            Exiv2::ExifData::const_iterator iter = image->exifData.findKey(exifKey);
-            if (iter != image->exifData.end()) {
+            Exiv2::ExifData::const_iterator iter = exifData.findKey(exifKey);
+            if (iter != exifData.end()) {
                 strncpy(buff, iter->value().toString().c_str(), buffsize);
                 buff[buffsize-1] = 0;
                 rc = 0;
@@ -132,8 +135,11 @@ EXIVSIMPLE_API int ModifyMeta(HIMAGE img, const char *key, const char *val, DllT
 {
     assert(img && key && val);
     if (img==0 || key==0 || val==0) return -1;
-    ExivImage *image = (ExivImage*)img;
+    ImageWrapper *imgWrap = (ImageWrapper*)img;
     int rc = 2;
+
+    Exiv2::IptcData &iptcData = imgWrap->image->iptcData();
+    Exiv2::ExifData &exifData = imgWrap->image->exifData();
 
     std::string data(val);
     // if data starts and ends with quotes, remove them
@@ -150,13 +156,13 @@ EXIVSIMPLE_API int ModifyMeta(HIMAGE img, const char *key, const char *val, DllT
         Exiv2::Value::AutoPtr value = Exiv2::Value::create((Exiv2::TypeId)type);
         value->read(data);
 
-        Exiv2::IptcData::iterator iter = image->iptcData.findKey(iptcKey);
-        if (iter != image->iptcData.end()) {
+        Exiv2::IptcData::iterator iter = iptcData.findKey(iptcKey);
+        if (iter != iptcData.end()) {
             iter->setValue(value.get());
             rc = 0;
         }
         else {
-            rc = image->iptcData.add(iptcKey, value.get());
+            rc = iptcData.add(iptcKey, value.get());
         }
     } 
     catch(const Exiv2::Error&) {
@@ -174,13 +180,13 @@ EXIVSIMPLE_API int ModifyMeta(HIMAGE img, const char *key, const char *val, DllT
             Exiv2::Value::AutoPtr value = Exiv2::Value::create((Exiv2::TypeId)type);
             value->read(data);
 
-            Exiv2::ExifData::iterator iter = image->exifData.findKey(exifKey);
-            if (iter != image->exifData.end()) {
+            Exiv2::ExifData::iterator iter = exifData.findKey(exifKey);
+            if (iter != exifData.end()) {
                 iter->setValue(value.get());
                 rc = 0;
             }
             else {
-                image->exifData.add(exifKey, value.get());
+                exifData.add(exifKey, value.get());
                 rc = 0;
             }
         }
@@ -198,8 +204,11 @@ EXIVSIMPLE_API int AddMeta(HIMAGE img, const char *key, const char *val, DllType
 {
     assert(img && key && val);
     if (img==0 || key==0 || val==0) return -1;
-    ExivImage *image = (ExivImage*)img;
+    ImageWrapper *imgWrap = (ImageWrapper*)img;
     int rc = 2;
+
+    Exiv2::IptcData &iptcData = imgWrap->image->iptcData();
+    Exiv2::ExifData &exifData = imgWrap->image->exifData();
 
     std::string data(val);
     // if data starts and ends with quotes, remove them
@@ -216,7 +225,7 @@ EXIVSIMPLE_API int AddMeta(HIMAGE img, const char *key, const char *val, DllType
         Exiv2::Value::AutoPtr value = Exiv2::Value::create((Exiv2::TypeId)type);
         value->read(data);
 
-        rc = image->iptcData.add(iptcKey, value.get());
+        rc = iptcData.add(iptcKey, value.get());
     } 
     catch(const Exiv2::Error&) {
     }
@@ -233,7 +242,7 @@ EXIVSIMPLE_API int AddMeta(HIMAGE img, const char *key, const char *val, DllType
             Exiv2::Value::AutoPtr value = Exiv2::Value::create((Exiv2::TypeId)type);
             value->read(data);
 
-            image->exifData.add(exifKey, value.get());
+            exifData.add(exifKey, value.get());
             rc = 0;
         }
         catch(const Exiv2::Error&) {
@@ -249,15 +258,18 @@ EXIVSIMPLE_API int RemoveMeta(HIMAGE img, const char *key)
 {
     assert(img && key);
     if (img==0 || key==0) return -1;
-    ExivImage *image = (ExivImage*)img;
+    ImageWrapper *imgWrap = (ImageWrapper*)img;
     int rc = 2;
+
+    Exiv2::IptcData &iptcData = imgWrap->image->iptcData();
+    Exiv2::ExifData &exifData = imgWrap->image->exifData();
 
     try {
         Exiv2::IptcKey iptcKey(key);
         rc = 1;
-        Exiv2::IptcData::iterator iter = image->iptcData.findKey(iptcKey);
-        if (iter != image->iptcData.end()) {
-            image->iptcData.erase(iter);
+        Exiv2::IptcData::iterator iter = iptcData.findKey(iptcKey);
+        if (iter != iptcData.end()) {
+            iptcData.erase(iter);
             rc = 0;
         }
     } 
@@ -269,9 +281,9 @@ EXIVSIMPLE_API int RemoveMeta(HIMAGE img, const char *key)
         try {
             Exiv2::ExifKey exifKey(key);
             rc = 1;
-            Exiv2::ExifData::iterator iter = image->exifData.findKey(exifKey);
-            if (iter != image->exifData.end()) {
-                image->exifData.erase(iter);
+            Exiv2::ExifData::iterator iter = exifData.findKey(exifKey);
+            if (iter != exifData.end()) {
+                exifData.erase(iter);
                 rc = 0;
             }
         }
@@ -286,17 +298,20 @@ EXIVSIMPLE_API int EnumMeta(HIMAGE img, METAENUMPROC proc, void *user)
 {
     assert(img && proc);
     if (img==0 || proc==0) return -1;
-    ExivImage *image = (ExivImage*)img;
+    ImageWrapper *imgWrap = (ImageWrapper*)img;
     bool more = true;
 
-    Exiv2::IptcData::const_iterator iend = image->iptcData.end();
-    for (Exiv2::IptcData::const_iterator i = image->iptcData.begin(); 
+    Exiv2::IptcData &iptcData = imgWrap->image->iptcData();
+    Exiv2::ExifData &exifData = imgWrap->image->exifData();
+
+    Exiv2::IptcData::const_iterator iend = iptcData.end();
+    for (Exiv2::IptcData::const_iterator i = iptcData.begin(); 
             i != iend && more; ++i) {
         more = proc(i->key().c_str(), i->value().toString().c_str(), user);
     }
 
-    Exiv2::ExifData::const_iterator eend = image->exifData.end();
-    for (Exiv2::ExifData::const_iterator e = image->exifData.begin();
+    Exiv2::ExifData::const_iterator eend = exifData.end();
+    for (Exiv2::ExifData::const_iterator e = exifData.begin();
             e != eend && more; ++e) {
         more = proc(e->key().c_str(), e->value().toString().c_str(), user);
     }

@@ -28,6 +28,8 @@
  */
 // *****************************************************************************
 // included header files
+#include "image.hpp"
+#include "iptc.hpp"
 #include "exif.hpp"
 #include "types.hpp"
 #include "metacopy.hpp"
@@ -50,8 +52,18 @@ try {
         return 2;
     }
 
+    // Use MemIo to increase test coverage.
+    Exiv2::BasicIo::AutoPtr fileIo(new Exiv2::FileIo(params.read_));
+    Exiv2::BasicIo::AutoPtr memIo(new Exiv2::MemIo);
+
+    if (memIo->transfer(*fileIo) != 0) {
+        std::cerr << params.progname() << 
+            ": Could not read file (" << params.read_ << ")\n";
+        return 4;
+    }
+    
     Exiv2::Image::AutoPtr readImg 
-        = Exiv2::ImageFactory::instance().open(params.read_);
+        = Exiv2::ImageFactory::open(memIo);
     if (readImg.get() == 0) {
         std::cerr << params.progname() << 
             ": Could not read file (" << params.read_ << ")\n";
@@ -64,7 +76,7 @@ try {
     }
 
     Exiv2::Image::AutoPtr writeImg 
-        = Exiv2::ImageFactory::instance().open(params.write_);
+        = Exiv2::ImageFactory::open(params.write_);
     if (writeImg.get() == 0) {
         std::cerr << params.progname() << 
             ": Could not read file (" << params.write_ << ")\n";
@@ -79,10 +91,10 @@ try {
         }
     }
     if (params.iptc_) {
-        writeImg->setIptcData(readImg->iptcData(), readImg->sizeIptcData());
+        writeImg->setIptcData(readImg->iptcData());
     }
     if (params.exif_) {
-        writeImg->setExifData(readImg->exifData(), readImg->sizeExifData());
+        writeImg->setExifData(readImg->exifData());
     }
     if (params.comment_) {
         writeImg->setComment(readImg->comment());

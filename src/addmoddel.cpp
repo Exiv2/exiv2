@@ -2,6 +2,7 @@
 // addmoddel.cpp, $Rev$
 // Sample program showing how to add, modify and delete Exif metadata.
 
+#include "image.hpp"
 #include "exif.hpp"
 #include <iostream>
 #include <iomanip>
@@ -14,7 +15,9 @@ try {
     }
     std::string file(argv[1]);
 
-    // Container for all metadata
+    // Container for exif metadata. This is an example of creating
+    // exif metadata from scratch. If you want to add, modify, delete
+    // metadata that exists in an image, start with ImageFactory::open
     Exiv2::ExifData exifData;
 
     // *************************************************************************
@@ -90,10 +93,18 @@ try {
     std::cout << "Deleted key \"" << key << "\"\n";
 
     // *************************************************************************
-    // Finally, write the remaining Exif data to an image file
-    int rc = exifData.write(file);
+    // Finally, write the remaining Exif data to the image file
+    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(file);
+    if (image.get() == 0) {
+        std::string error(file);
+        error += " : Could not read file or unknown image type";
+        throw Exiv2::Error(error);
+    }
+
+    image->setExifData(exifData);
+    int rc = image->writeMetadata();
     if (rc) {
-        std::string error = Exiv2::ExifData::strError(rc, file);
+        std::string error = Exiv2::Image::strError(rc, file);
         throw Exiv2::Error(error);
     }
 

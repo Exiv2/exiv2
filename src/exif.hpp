@@ -480,9 +480,6 @@ namespace Exiv2 {
       - extract and delete Exif thumbnail (JPEG and TIFF thumbnails)
     */
     class ExifData {
-        //! @name Not implemented
-        //@{
-        //@}
     public:
         //! ExifMetadata iterator type
         typedef ExifMetadata::iterator iterator;
@@ -504,43 +501,13 @@ namespace Exiv2 {
         //! Assignment operator (Todo: assign image data also)
         ExifData& operator=(const ExifData& rhs);
         /*!
-          @brief Read the Exif data from file \em path.
-          @param path Path to the file
-          @return  0 if successful;<BR>
-                   3 if the file contains no Exif data;<BR>
-                  the return code of Image::readMetadata()
-                    if the call to this function fails<BR>
-                  the return code of read(const char* buf, long len)
-                    if the call to this function fails
-         */
-        int read(const std::string& path);
-        /*!
-          @brief Read the Exif data from a byte buffer. The data buffer
+          @brief Load the Exif data from a byte buffer. The data buffer
                  must start with the TIFF header.
           @param buf Pointer to the data buffer to read from
           @param len Number of bytes in the data buffer 
           @return 0 if successful.
          */
-        int read(const byte* buf, long len);
-        /*!
-          @brief Write the Exif data to file \em path. If an Exif data section
-                 already exists in the file, it is replaced.  If there is no
-                 metadata and no thumbnail to write, the Exif data section is
-                 deleted from the file.  Otherwise, an Exif data section is
-                 created. See copy(byte* buf) for further details.
-
-          @return 0 if successful.
-         */
-        int write(const std::string& path);
-        /*!
-          @brief Write the Exif data to a binary file. By convention, the
-                 filename extension should be ".exv". This file format contains
-                 the Exif data as it is found in a JPEG file, starting with the
-                 APP1 marker 0xffe1, the size of the data and the string
-                 "Exif\0\0". Exv files can be read with 
-                 int read(const std::string& path) just like image Exif data.
-         */
-        int writeExifData(const std::string& path);
+        int load(const byte* buf, long len);
         /*!
           @brief Write the Exif data to a data buffer, which is returned.  The
                  caller owns this copy and %DataBuf ensures that it will be
@@ -603,6 +570,11 @@ namespace Exiv2 {
                  by this call.
          */
         iterator erase(iterator pos);
+        /*!
+          @brief Delete all Exifdatum instances resulting in an empty container.
+                 Note that this also removes thumbnails.
+         */
+        void clear() { eraseThumbnail(); exifMetadata_.clear(); }
         //! Sort metadata by key
         void sortByKey();
         //! Sort metadata by tag
@@ -709,12 +681,6 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        /*!
-          @brief Erase the Exif data section from file \em path. 
-          @param path Path to the file.
-          @return 0 if successful.
-         */
-        int erase(const std::string& path) const;
         //! Begin of the metadata
         const_iterator begin() const { return exifMetadata_.begin(); }
         //! End of the metadata
@@ -780,14 +746,13 @@ namespace Exiv2 {
 
         /*!
           @brief Convert the return code \em rc from \n 
-                 int read(const std::string& path); \n
-                 int write(const std::string& path); \n
-                 int writeExifData(const std::string& path); \n
-                 int writeThumbnail(const std::string& path) const; and \n
-                 int erase(const std::string& path) const \n
+                 int read(const byte* buf, long len), \n
                  into an error message.
+          @param rc Error code.
+          @param path %Image file or other identifying string.
+          @return String containing error message.
 
-                 Todo: Implement global handling of error messages
+          Todo: Implement global handling of error messages
          */
         static std::string strError(int rc, const std::string& path);
 
