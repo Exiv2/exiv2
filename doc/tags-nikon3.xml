@@ -4,7 +4,7 @@
 <HEADER>
 <title>Nikon (format 3) MakerNote Tags defined in Exiv2</title>
 <text>
-<p>Tags found in the MakerNote of images taken with newer Nikon cameras, e.g., the E5400, SQ, D2H, D70.</p>
+<p>Tags found in the MakerNote of images taken with newer Nikon cameras, e.g., the E5400, SQ, D2H, D70. Updated according to <a href="http://www.ozhiker.com/electronics/pjmt/jpeg_info/nikon_mn.html#Nikon_Type_3_Tags">Nikon Type 3 Makernote Tags Definition</a> of the PHP JPEG Metadata Toolkit by Evan Hunter and the Nikon makernote implementation of <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a> by Phil Harvey.</p>
 <p>Click on a column header to sort the table.</p>
 </text>
 </HEADER>
@@ -23,7 +23,7 @@
       <taghex>0x0002</taghex>
       <ifd>Makernote</ifd>
       <key>Exif.Nikon3.ISOSpeed</key>
-      <tagdesc>ISO speed setting</tagdesc>
+      <tagdesc>ISO speed used</tagdesc>
    </ROW>
    <ROW num="3">
       <tagname>ColorMode</tagname>
@@ -90,6 +90,14 @@
       <tagdesc>White balance bias</tagdesc>
    </ROW>
    <ROW num="11">
+      <tagname>ColorBalance1</tagname>
+      <tagdec>12</tagdec>
+      <taghex>0x000c</taghex>
+      <ifd>Makernote</ifd>
+      <key>Exif.Nikon3.ColorBalance1</key>
+      <tagdesc>Color balance 1</tagdesc>
+   </ROW>
+   <ROW num="12">
       <tagname>ExposureDiff</tagname>
       <tagdec>14</tagdec>
       <taghex>0x000e</taghex>
@@ -97,7 +105,7 @@
       <key>Exif.Nikon3.ExposureDiff</key>
       <tagdesc>Exposure difference</tagdesc>
    </ROW>
-   <ROW num="12">
+   <ROW num="13">
       <tagname>ISOSelection</tagname>
       <tagdec>15</tagdec>
       <taghex>0x000f</taghex>
@@ -105,7 +113,15 @@
       <key>Exif.Nikon3.ISOSelection</key>
       <tagdesc>ISO selection</tagdesc>
    </ROW>
-   <ROW num="13">
+   <ROW num="14">
+      <tagname>WhiteBalanceBias</tagname>
+      <tagdec>11</tagdec>
+      <taghex>0x000b</taghex>
+      <ifd>Makernote</ifd>
+      <key>Exif.Nikon3.WhiteBalanceBias</key>
+      <tagdesc>White balance bias</tagdesc>
+   </ROW>
+   <ROW num="15">
       <tagname>ThumbOffset</tagname>
       <tagdec>17</tagdec>
       <taghex>0x0011</taghex>
@@ -113,15 +129,47 @@
       <key>Exif.Nikon3.ThumbOffset</key>
       <tagdesc>Thumbnail IFD offset</tagdesc>
    </ROW>
-   <ROW num="14">
-      <tagname>FlashBias</tagname>
+   <ROW num="16">
+      <tagname>FlashComp</tagname>
       <tagdec>18</tagdec>
       <taghex>0x0012</taghex>
       <ifd>Makernote</ifd>
-      <key>Exif.Nikon3.FlashBias</key>
-      <tagdesc>Flash bias</tagdesc>
+      <key>Exif.Nikon3.FlashComp</key>
+      <tagdesc>Flash compensation setting</tagdesc>
    </ROW>
-   <ROW num="15">
+   <ROW num="17">
+      <tagname>ISOSetting</tagname>
+      <tagdec>19</tagdec>
+      <taghex>0x0013</taghex>
+      <ifd>Makernote</ifd>
+      <key>Exif.Nikon3.ISOSetting</key>
+      <tagdesc>ISO speed setting</tagdesc>
+   </ROW>
+   <ROW num="18">
+      <tagname>ImageBoundry</tagname>
+      <tagdec>22</tagdec>
+      <taghex>0x0016</taghex>
+      <ifd>Makernote</ifd>
+      <key>Exif.Nikon3.ImageBoundry</key>
+      <tagdesc>Image boundry</tagdesc>
+   </ROW>
+   <ROW num="19">
+      <tagname>FlashBracketComp</tagname>
+      <tagdec>24</tagdec>
+      <taghex>0x0018</taghex>
+      <ifd>Makernote</ifd>
+      <key>Exif.Nikon3.FlashBracketComp</key>
+      <tagdesc>Flash bracket compensation applied</tagdesc>
+   </ROW>
+   <ROW num="20">
+      <tagname>ExposureBracketComp</tagname>
+      <tagdec>25</tagdec>
+      <taghex>0x0019</taghex>
+      <ifd>Makernote</ifd>
+      <key>Exif.Nikon3.ExposureBracketComp</key>
+      <tagdesc>AE bracket compensation applied</tagdesc>
+   </ROW>
+   <ROW num="21">
       <tagname>ImageAdjustment</tagname>
       <tagdec>128</tagdec>
       <taghex>0x0080</taghex>
@@ -129,15 +177,23 @@
       <key>Exif.Nikon3.ImageAdjustment</key>
       <tagdesc>Image adjustment setting</tagdesc>
    </ROW>
-   <ROW num="16">
+   <ROW num="22">
       <tagname>ToneComp</tagname>
       <tagdec>129</tagdec>
       <taghex>0x0081</taghex>
       <ifd>Makernote</ifd>
       <key>Exif.Nikon3.ToneComp</key>
-      <tagdesc>Tone compensation setting</tagdesc>
+      <tagdesc>Tone compensation setting (contrast)</tagdesc>
    </ROW>
-   <ROW num="17">
+   <ROW num="23">
+      <tagname>AuxiliaryLens</tagname>
+      <tagdec>130</tagdec>
+      <taghex>0x0082</taghex>
+      <ifd>Makernote</ifd>
+      <key>Exif.Nikon3.AuxiliaryLens</key>
+      <tagdesc>Auxiliary lens (adapter)</tagdesc>
+   </ROW>
+   <ROW num="24">
       <tagname>LensType</tagname>
       <tagdec>131</tagdec>
       <taghex>0x0083</taghex>
@@ -145,7 +201,7 @@
       <key>Exif.Nikon3.LensType</key>
       <tagdesc>Lens type</tagdesc>
    </ROW>
-   <ROW num="18">
+   <ROW num="25">
       <tagname>Lens</tagname>
       <tagdec>132</tagdec>
       <taghex>0x0084</taghex>
@@ -153,7 +209,7 @@
       <key>Exif.Nikon3.Lens</key>
       <tagdesc>Lens</tagdesc>
    </ROW>
-   <ROW num="19">
+   <ROW num="26">
       <tagname>FocusDistance</tagname>
       <tagdec>133</tagdec>
       <taghex>0x0085</taghex>
@@ -161,7 +217,7 @@
       <key>Exif.Nikon3.FocusDistance</key>
       <tagdesc>Manual focus distance</tagdesc>
    </ROW>
-   <ROW num="20">
+   <ROW num="27">
       <tagname>DigitalZoom</tagname>
       <tagdec>134</tagdec>
       <taghex>0x0086</taghex>
@@ -169,7 +225,7 @@
       <key>Exif.Nikon3.DigitalZoom</key>
       <tagdesc>Digital zoom setting</tagdesc>
    </ROW>
-   <ROW num="21">
+   <ROW num="28">
       <tagname>FlashType</tagname>
       <tagdec>135</tagdec>
       <taghex>0x0087</taghex>
@@ -177,7 +233,7 @@
       <key>Exif.Nikon3.FlashType</key>
       <tagdesc>Type of flash used</tagdesc>
    </ROW>
-   <ROW num="22">
+   <ROW num="29">
       <tagname>AFFocusPos</tagname>
       <tagdec>136</tagdec>
       <taghex>0x0088</taghex>
@@ -185,7 +241,7 @@
       <key>Exif.Nikon3.AFFocusPos</key>
       <tagdesc>AF focus position</tagdesc>
    </ROW>
-   <ROW num="23">
+   <ROW num="30">
       <tagname>Bracketing</tagname>
       <tagdec>137</tagdec>
       <taghex>0x0089</taghex>
@@ -193,7 +249,15 @@
       <key>Exif.Nikon3.Bracketing</key>
       <tagdesc>Bracketing</tagdesc>
    </ROW>
-   <ROW num="24">
+   <ROW num="31">
+      <tagname>NEFCurve1</tagname>
+      <tagdec>140</tagdec>
+      <taghex>0x008c</taghex>
+      <ifd>Makernote</ifd>
+      <key>Exif.Nikon3.NEFCurve1</key>
+      <tagdesc>NEF curve 1</tagdesc>
+   </ROW>
+   <ROW num="32">
       <tagname>ColorMode</tagname>
       <tagdec>141</tagdec>
       <taghex>0x008d</taghex>
@@ -201,7 +265,15 @@
       <key>Exif.Nikon3.ColorMode</key>
       <tagdesc>Color mode</tagdesc>
    </ROW>
-   <ROW num="25">
+   <ROW num="33">
+      <tagname>SceneMode</tagname>
+      <tagdec>143</tagdec>
+      <taghex>0x008f</taghex>
+      <ifd>Makernote</ifd>
+      <key>Exif.Nikon3.SceneMode</key>
+      <tagdesc>Scene mode</tagdesc>
+   </ROW>
+   <ROW num="34">
       <tagname>LightingType</tagname>
       <tagdec>144</tagdec>
       <taghex>0x0090</taghex>
@@ -209,15 +281,15 @@
       <key>Exif.Nikon3.LightingType</key>
       <tagdesc>Lighting type</tagdesc>
    </ROW>
-   <ROW num="26">
-      <tagname>Hue</tagname>
+   <ROW num="35">
+      <tagname>HueAdjustment</tagname>
       <tagdec>146</tagdec>
       <taghex>0x0092</taghex>
       <ifd>Makernote</ifd>
-      <key>Exif.Nikon3.Hue</key>
+      <key>Exif.Nikon3.HueAdjustment</key>
       <tagdesc>Hue adjustment</tagdesc>
    </ROW>
-   <ROW num="27">
+   <ROW num="36">
       <tagname>Saturation</tagname>
       <tagdec>148</tagdec>
       <taghex>0x0094</taghex>
@@ -225,13 +297,85 @@
       <key>Exif.Nikon3.Saturation</key>
       <tagdesc>Saturation adjustment</tagdesc>
    </ROW>
-   <ROW num="28">
+   <ROW num="37">
       <tagname>NoiseReduction</tagname>
       <tagdec>149</tagdec>
       <taghex>0x0095</taghex>
       <ifd>Makernote</ifd>
       <key>Exif.Nikon3.NoiseReduction</key>
       <tagdesc>Noise reduction</tagdesc>
+   </ROW>
+   <ROW num="38">
+      <tagname>NEFCurve2</tagname>
+      <tagdec>150</tagdec>
+      <taghex>0x0096</taghex>
+      <ifd>Makernote</ifd>
+      <key>Exif.Nikon3.NEFCurve2</key>
+      <tagdesc>NEF curve 2</tagdesc>
+   </ROW>
+   <ROW num="39">
+      <tagname>ColorBalance2</tagname>
+      <tagdec>151</tagdec>
+      <taghex>0x0097</taghex>
+      <ifd>Makernote</ifd>
+      <key>Exif.Nikon3.ColorBalance2</key>
+      <tagdesc>Color balance 2</tagdesc>
+   </ROW>
+   <ROW num="40">
+      <tagname>NEFThumbnailSize</tagname>
+      <tagdec>153</tagdec>
+      <taghex>0x0099</taghex>
+      <ifd>Makernote</ifd>
+      <key>Exif.Nikon3.NEFThumbnailSize</key>
+      <tagdesc>NEF thumbnail size</tagdesc>
+   </ROW>
+   <ROW num="41">
+      <tagname>SerialNumber</tagname>
+      <tagdec>160</tagdec>
+      <taghex>0x00a0</taghex>
+      <ifd>Makernote</ifd>
+      <key>Exif.Nikon3.SerialNumber</key>
+      <tagdesc>Camera serial number</tagdesc>
+   </ROW>
+   <ROW num="42">
+      <tagname>ShutterCount</tagname>
+      <tagdec>167</tagdec>
+      <taghex>0x00a7</taghex>
+      <ifd>Makernote</ifd>
+      <key>Exif.Nikon3.ShutterCount</key>
+      <tagdesc>Number of shots taken by camera</tagdesc>
+   </ROW>
+   <ROW num="43">
+      <tagname>ImageOptimization</tagname>
+      <tagdec>169</tagdec>
+      <taghex>0x00a9</taghex>
+      <ifd>Makernote</ifd>
+      <key>Exif.Nikon3.ImageOptimization</key>
+      <tagdesc>Image optimization</tagdesc>
+   </ROW>
+   <ROW num="44">
+      <tagname>Saturation</tagname>
+      <tagdec>170</tagdec>
+      <taghex>0x00aa</taghex>
+      <ifd>Makernote</ifd>
+      <key>Exif.Nikon3.Saturation</key>
+      <tagdesc>Saturation</tagdesc>
+   </ROW>
+   <ROW num="45">
+      <tagname>VariProgram</tagname>
+      <tagdec>171</tagdec>
+      <taghex>0x00ab</taghex>
+      <ifd>Makernote</ifd>
+      <key>Exif.Nikon3.VariProgram</key>
+      <tagdesc>Vari program</tagdesc>
+   </ROW>
+   <ROW num="46">
+      <tagname>PrintIM</tagname>
+      <tagdec>3584</tagdec>
+      <taghex>0x0e00</taghex>
+      <ifd>Makernote</ifd>
+      <key>Exif.Nikon3.PrintIM</key>
+      <tagdesc>Print image matching</tagdesc>
    </ROW>
 </ROWSET>
 </TAGLIST>
