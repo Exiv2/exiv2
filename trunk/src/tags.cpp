@@ -20,13 +20,13 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.24 $
+  Version:   $Name:  $ $Revision: 1.25 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.24 $ $RCSfile: tags.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.25 $ $RCSfile: tags.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -636,12 +636,20 @@ namespace Exif {
     std::ostream& print0x9204(std::ostream& os, const Value& value)
     {
         Rational bias = value.toRational();
-        if (bias.first == 0) {
-            os << "+/- 0";
+        if (bias.second <= 0) {
+            os << "(" << bias.first << "/" << bias.second << ")";
+        }
+        else if (bias.first == 0) {
+            os << "0";
         }
         else {
-            os << (bias.first < 0 ? "- " : "+ ");
-            os << labs(bias.first) << "/" << bias.second;
+            long d = lgcd(labs(bias.first), bias.second);
+            long num = labs(bias.first) / d;
+            long den = bias.second / d;
+            os << (bias.first < 0 ? "-" : "+") << num;
+            if (den != 1) {
+                os << "/" << den;
+            }
         }
         return os;
     }
