@@ -20,13 +20,13 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.31 $
+  Version:   $Name:  $ $Revision: 1.32 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.31 $ $RCSfile: tags.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.32 $ $RCSfile: tags.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -270,8 +270,8 @@ namespace Exiv2 {
         const TagInfo* tagInfo = tagInfos_[ifdId];
         if (tagInfo == 0) return -1;
         int idx;
-        for (idx = 0; tagInfo[idx].tag_ != tag; ++idx) {
-            if (tagInfo[idx].tag_ == 0xffff) return -1;
+        for (idx = 0; tagInfo[idx].tag_ != 0xffff; ++idx) {
+            if (tagInfo[idx].tag_ == tag) break;
         }
         return idx;
     }
@@ -281,8 +281,8 @@ namespace Exiv2 {
         const TagInfo* tagInfo = tagInfos_[ifdId];
         if (tagInfo == 0) return -1;
         int idx;
-        for (idx = 0; tagInfo[idx].name_ != tagName; ++idx) {
-            if (tagInfo[idx].tag_ == 0xffff) return -1;
+        for (idx = 0; tagInfo[idx].tag_ != 0xffff; ++idx) {
+            if (tagInfo[idx].name_ == tagName) break;
         }
         return idx;
     }
