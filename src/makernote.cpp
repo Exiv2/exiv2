@@ -20,13 +20,13 @@
  */
 /*
   File:      makernote.cpp
-  Version:   $Name:  $ $Revision: 1.25 $
+  Version:   $Name:  $ $Revision: 1.26 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.25 $ $RCSfile: makernote.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.26 $ $RCSfile: makernote.cpp,v $");
 
 // Define DEBUG_* to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -153,7 +153,7 @@ namespace Exiv2 {
                   << std::dec << tag << ", "
                   << "0x" << std::setw(4) << std::setfill('0') 
                   << std::right << std::hex << tag << ", "
-                  << ExifTags::ifdItem(makerIfd) << ", "
+                  << ExifTags::ifdItem(makerIfdId) << ", "
                   << makeKey(tag) << ", " 
                   << tagDesc(tag);
     } // MakerNote::writeMnTagInfo
@@ -162,7 +162,7 @@ namespace Exiv2 {
     IfdMakerNote::IfdMakerNote(const MakerNote::MnTagInfo* pMnTagInfo,
                                bool alloc)
         : MakerNote(pMnTagInfo, alloc),
-          absOffset_(true), adjOffset_(0), ifd_(makerIfd, 0, alloc)
+          absOffset_(true), adjOffset_(0), ifd_(makerIfdId, 0, alloc)
     {
     }
 
