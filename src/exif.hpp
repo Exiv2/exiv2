@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.5 $
+  @version $Name:  $ $Revision: 1.6 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-03, ahu: created
@@ -196,6 +196,8 @@ namespace Exif {
           @return Number of characters written.
         */
         virtual long copy(char* buf, ByteOrder byteOrder) const =0;
+        //! Return the number of components of the value
+        virtual long count() const =0;
         //! Return the size of the value in bytes
         virtual long size() const =0;
         /*!
@@ -259,6 +261,7 @@ namespace Exif {
           @return Number of characters written.
         */
         virtual long copy(char* buf, ByteOrder byteOrder) const;
+        virtual long count() const { return size(); }
         virtual long size() const;
         virtual Value* clone() const;
         virtual std::ostream& write(std::ostream& os) const;
@@ -296,6 +299,7 @@ namespace Exif {
           @return Number of characters written.
         */
         virtual long copy(char* buf, ByteOrder byteOrder) const;
+        virtual long count() const { return size(); }
         virtual long size() const;
         virtual Value* clone() const;
         virtual std::ostream& write(std::ostream& os) const;
@@ -323,6 +327,7 @@ namespace Exif {
          */
         virtual void read(const std::string& buf);
         virtual long copy(char* buf, ByteOrder byteOrder) const;
+        virtual long count() const { return value_.size(); }
         virtual long size() const;
         virtual Value* clone() const;
         virtual std::ostream& write(std::ostream& os) const;
@@ -371,7 +376,7 @@ namespace Exif {
                  of the value pointer if one is provided, so the application
                  must not delete it!
          */
-        Metadatum(uint16 tag, uint16 type, uint32 count, uint32 offset, 
+        Metadatum(uint16 tag, uint16 type, 
                   IfdId ifdId, int ifdIdx, Value* value =0);
         /*!
           @brief Constructor for new tags created by an application,
@@ -387,7 +392,13 @@ namespace Exif {
         //! Assignment operator
         Metadatum& operator=(const Metadatum& rhs);
 
-        //! Return the name of the type
+        /*!
+          @brief Set the value. The Metadatum takes ownership of the value
+                 pointer, so the application must not delete it!
+         */
+        void setValue(Value* value);
+
+        //! Return the name of the tag
         const char* tagName() const { return ExifTags::tagName(tag_, ifdId_); }
         //! Return the name of the type
         const char* typeName() const { return ExifTags::typeName(TypeId(type_)); }
@@ -406,8 +417,10 @@ namespace Exif {
         uint16 tag() const { return tag_; }
         //! Return the type
         TypeId type() const { return TypeId(type_); }
-        //! Return the count
-        uint32 count() const { return count_; }
+        //! Return the number of components in the value
+        long count() const { return value_ == 0 ? 0 : value_->count(); }
+        //! Return the size of the value in bytes
+        long size() const { return value_ == 0 ? 0 : value_->size(); }
         //! Return the IFD id
         IfdId ifdId() const { return ifdId_; }
         //! Return the position in the IFD (-1: not set)
@@ -422,53 +435,82 @@ namespace Exif {
         std::string key() const { return key_; }
         //@}
 
-    public:
+    private:
         uint16 tag_;                   //!< Tag value
         uint16 type_;                  //!< Type of the data
-        uint32 count_;                 //!< Number of components
-        uint32 offset_;                //!< Offset of the data from start of IFD
-
         IfdId ifdId_;                  //!< The IFD associated with this tag
         int   ifdIdx_;                 //!< Position in the IFD (-1: not set)
-
         Value* value_;                 //!< Pointer to the value
-
         std::string key_;              //!< Unique key
-        long size_;                    //!< Size of the data in bytes
 
     }; // class Metadatum
 
     //! Container type to hold all metadata
     typedef std::vector<Metadatum> Metadata;
 
-    //! Unary predicate that matches a Metadatum with a given tag
-    class FindMetadatumByTag {
-    public:
-        //! Constructor, initializes the object with the tag to look for
-        FindMetadatumByTag(uint16 tag) : tag_(tag) {}
-        /*!
-          @brief Returns true if the tag of the argument metadatum is equal
-                 to that of the object.
-         */
-        bool operator()(const Metadatum& metadatum) const
-            { return tag_ == metadatum.tag_; } 
-
-    private:
-        uint16 tag_;
-
-    }; // class FindMetadatumByTag
-
     /*!
       @brief Models an IFD (Image File Directory)
 
       Todo:
       - make the data handling more intelligent
-      - should we return the size and do away with size() ?
     */
     class Ifd {
     public:
         //! Constructor. Allows to set the IFD identifier.
         explicit Ifd(IfdId ifdId =IfdIdNotSet);
+
+        //! Data structure for one IFD directory entry
+        struct Entry {
+            Entry();                            //!< Default constructor
+            ~Entry();                           //!< Destructor
+            Entry(const Entry& rhs);            //!< Copy constructor
+            Entry& operator=(const Entry& rhs); //!< Assignment operator
+
+            //! Return the size in bytes of one element of this type
+            long typeSize() const
+                { return ExifTags::typeSize(TypeId(type_)); }
+            //! Return the name of the type
+            const char* typeName() const 
+                { return ExifTags::typeName(TypeId(type_)); }
+
+            int ifdIdx_;                        //!< Position in the IFD
+            uint16 tag_;                        //!< Tag
+            uint16 type_;                       //!< Type
+            uint32 count_;                      //!< Number of components
+            //! Offset from the start of the IFD
+            uint32 offset_;
+            //! Pointer to the data buffer
+            char* data_;
+            //! Size of the data buffer in bytes
+            long size_; 
+        }; // struct Entry
+
+        //! Container type to hold all IFD directory entries
+        typedef std::vector<Entry> Entries;
+
+        //! Entries iterator type (const)
+        typedef Entries::const_iterator const_iterator;
+        //! The first entry
+        const_iterator begin() const { return entries_.begin(); }
+        //! End of the entries
+        const_iterator end() const { return entries_.end(); }
+
+        //! Unary predicate that matches an Entry with a given tag
+        class FindEntryByTag {
+        public:
+            //! Constructor, initializes the object with the tag to look for
+            FindEntryByTag(uint16 tag) : tag_(tag) {}
+            /*!
+              @brief Returns true if the tag of the argument metadatum is equal
+              to that of the object.
+            */
+            bool operator()(const Ifd::Entry& entry) const
+                { return tag_ == entry.tag_; }
+        private:
+            uint16 tag_;
+            
+        }; // class FindEntryByTag
+
         /*!
           @brief Read a complete IFD and its data from a data buffer
 
@@ -521,12 +563,12 @@ namespace Exif {
         void print(std::ostream& os, const std::string& prefix ="") const;
         //! @name Accessors
         //@{
+        //! Ifd id of the IFD
+        IfdId ifdId() const { return ifdId_; }
         //! Offset of the IFD from SOI
         long offset() const { return offset_; }
-        //! Get the IFD entries
-        const Metadata& entries() const { return entries_; }
         //! Find an IFD entry by tag, return an iterator into the entries list
-        Metadata::const_iterator findTag(uint16 tag) const;
+        Entries::const_iterator findTag(uint16 tag) const;
         //! Get the offset to the next IFD from the start of the Tiff header
         long next() const { return next_; }
         //! Get the size of this IFD in bytes (IFD only, without data)
@@ -534,10 +576,11 @@ namespace Exif {
         //@}
 
     private:
+        Entries entries_;                // IFD entries
+
         IfdId ifdId_;                    // IFD Id
         long offset_;                    // offset of the IFD from the start of 
                                          // Tiff header
-        Metadata entries_;               // IFD metadata entries
         long next_;                      // offset of next IFD from the start of 
                                          // the Tiff header
         long size_;                      // size of the IFD in bytes
@@ -599,8 +642,8 @@ namespace Exif {
         //! Returns the byte order as specified in the Tiff header
         ByteOrder byteOrder() const { return tiffHeader_.byteOrder(); }
 
-        //! Add all entries of src to the Exif metadata
-        void add(const Metadata& src);
+        //! Add all entries of an IFD to the Exif metadata
+        void add(const Ifd& ifd, ByteOrder byteOrder);
         //! Add Metadatum src to the Exif metadata
         void add(const Metadatum& src);
 
