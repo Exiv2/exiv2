@@ -22,14 +22,14 @@ int main(int argc, char* const argv[])
         for (; i != end; ++i) {
             std::cout << "0x" 
                       << std::hex << std::setw(4) << std::setfill('0') << std::right
-                      << i->tag_ << " " 
+                      << i->tag() << " " 
                       << std::setw(27) << std::setfill(' ') << std::left
                       << i->tagName() << " "
                       << std::setw(17) << std::setfill(' ') << std::left
                       << i->typeName() << " "
                       << std::dec << std::setw(3) 
                       << std::setfill(' ') << std::right
-                      << i->count_ << "   " 
+                      << i->count() << "   " 
                       << std::dec << i->value() << "\n";
         }
     }

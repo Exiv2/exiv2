@@ -25,7 +25,7 @@
 
   RCS information
    $Name:  $
-   $Revision: 1.5 $
+   $Revision: 1.6 $
  */
 // *****************************************************************************
 // included header files
@@ -47,7 +47,7 @@ namespace {
 
     // Compare two IFD entries by offset, taking care of special cases
     // where one or both of the entries don't have an offset.
-    bool cmpOffset(const Exif::Metadatum& lhs, const Exif::Metadatum& rhs);
+    bool cmpOffset(const Exif::Ifd::Entry& lhs, const Exif::Ifd::Entry& rhs);
 
 }
 
@@ -295,21 +295,17 @@ namespace Exif {
     }
 
     Metadatum::Metadatum()
-        : tag_(0), type_(0), count_(0), offset_(0),
-          ifdId_(IfdIdNotSet), ifdIdx_(-1), value_(0), size_(0)
+        : tag_(0), type_(0), ifdId_(IfdIdNotSet), ifdIdx_(-1), value_(0)
     {
     }
 
-    Metadatum::Metadatum(uint16 tag, uint16 type, uint32 count, uint32 offset, 
+    Metadatum::Metadatum(uint16 tag, uint16 type, 
                          IfdId ifdId, int ifdIdx, Value* value)
-        : tag_(tag), type_(type), count_(count), offset_(offset),
-          ifdId_(ifdId), ifdIdx_(ifdIdx), value_(value)
+        : tag_(tag), type_(type), ifdId_(ifdId), ifdIdx_(ifdIdx), value_(value)
     {
         key_ = std::string(ifdItem()) 
             + "." + std::string(sectionName()) 
             + "." + std::string(tagName());
-        
-        size_ = count_ * typeSize();
     }
 
     Metadatum::~Metadatum()
@@ -321,40 +317,76 @@ namespace Exif {
     {
         tag_ = rhs.tag_;
         type_ = rhs.type_;
-        count_ = rhs.count_;
-        offset_ = rhs.offset_;   
-
         ifdId_ = rhs.ifdId_;
         ifdIdx_ = rhs.ifdIdx_;
-
         value_ = 0;
         if (rhs.value_ != 0) value_ = rhs.value_->clone(); // deep copy
-
         key_ = rhs.key_;
-        size_ = rhs.size_;
     }
 
     Metadatum& Metadatum::operator=(const Metadatum& rhs)
     {
         if (this == &rhs) return *this;
-
         tag_ = rhs.tag_;
         type_ = rhs.type_;
-        count_ = rhs.count_;
-        offset_ = rhs.offset_;   
-
         ifdId_ = rhs.ifdId_;
         ifdIdx_ = rhs.ifdIdx_;
-
         delete value_;
         value_ = 0;
         if (rhs.value_ != 0) value_ = rhs.value_->clone(); // deep copy
-
         key_ = rhs.key_;
-        size_ = rhs.size_;
-
         return *this;
     } // Metadatum::operator=
+    
+    void Metadatum::setValue(Value* value)
+    {
+        delete value_;
+        value_ = value;
+    }
+
+    Ifd::Entry::Entry() 
+        : ifdIdx_(-1), tag_(0), type_(0), count_(0), offset_(0),
+          data_(0), size_(0)
+    {
+    }
+
+    Ifd::Entry::~Entry()
+    {
+        delete[] data_;
+    }
+
+    Ifd::Entry::Entry(const Entry& rhs)
+    {
+        ifdIdx_ = rhs.ifdIdx_;
+        tag_ = rhs.tag_;
+        type_ = rhs.type_;
+        count_ = rhs.count_;
+        offset_ = rhs.offset_;
+        data_ = 0;
+        if (rhs.data_) {
+            data_ = new char[rhs.size_];
+            ::memcpy(data_, rhs.data_, rhs.size_);
+        }
+        size_ = rhs.size_;
+    }
+
+    Ifd::Entry::Entry& Ifd::Entry::operator=(const Entry& rhs)
+    {
+        if (this == &rhs) return *this;
+        ifdIdx_ = rhs.ifdIdx_;
+        tag_ = rhs.tag_;
+        type_ = rhs.type_;
+        count_ = rhs.count_;
+        offset_ = rhs.offset_;
+        delete data_;
+        data_ = 0;
+        if (rhs.data_) {
+            data_ = new char[rhs.size_];
+            ::memcpy(data_, rhs.data_, rhs.size_);
+        }
+        size_ = rhs.size_;
+        return *this;
+    }
 
     Ifd::Ifd(IfdId ifdId)
         : ifdId_(ifdId), offset_(0), next_(0), size_(0)
@@ -369,16 +401,15 @@ namespace Exif {
 
         entries_.clear();
         for (int i=0; i<n; ++i) {
-            Metadatum e;
-            e.ifdId_ = ifdId_;
+            Entry e;
             e.ifdIdx_ = i;
             e.tag_ = getUShort(buf+o, byteOrder);
             e.type_ = getUShort(buf+o+2, byteOrder);
             e.count_ = getULong(buf+o+4, byteOrder);
             // offset will be converted to a relative offset below
             e.offset_ = getULong(buf+o+8, byteOrder); 
+            // data_ is set later, see below
             e.size_ = e.count_ * e.typeSize();
-            // value_ is set later, see below
             entries_.push_back(e);
             o += 12;
         }
@@ -389,9 +420,9 @@ namespace Exif {
         // on the assumption that the smallest offset points to a data 
         // buffer directly following the IFD.
         // Subsequently all offsets of IFD entries need to be recalculated.
-        const Metadata::iterator eb = entries_.begin();
-        const Metadata::iterator ee = entries_.end();
-        Metadata::iterator i = eb;
+        const Entries::iterator eb = entries_.begin();
+        const Entries::iterator ee = entries_.end();
+        Entries::iterator i = eb;
         if (offset_ == 0 && i != ee) {
             // Find the entry with the smallest offset
             i = std::min_element(eb, ee, cmpOffset);
@@ -401,29 +432,28 @@ namespace Exif {
             }
         }
 
-        // Assign the values to each IFD entry and 
+        // Assign the values to each IFD entry and
         // calculate offsets relative to the start of the IFD
         for (i = eb; i != ee; ++i) {
-            delete i->value_;
-            i->value_ = Value::create(TypeId(i->type_));
+            delete[] i->data_;
             if (i->size_ > 4) {
                 i->offset_ = i->offset_ - offset_;
-                i->value_->read(buf + i->offset_, i->size_, byteOrder);
+                i->data_ = new char[i->size_];
+                ::memcpy(i->data_, buf + i->offset_, i->size_);
             }
             else {
-                char tmpbuf[4];
-                ul2Data(tmpbuf, i->offset_, byteOrder);
-                i->value_->read(tmpbuf, i->size_, byteOrder);
+                i->data_ = new char[4];
+                ul2Data(i->data_, i->offset_, byteOrder);
             }
         }
 
         return 0;
     } // Ifd::read
 
-    Metadata::const_iterator Ifd::findTag(uint16 tag) const 
+    Ifd::Entries::const_iterator Ifd::findTag(uint16 tag) const 
     {
         return std::find_if(entries_.begin(), entries_.end(),
-                            FindMetadatumByTag(tag));
+                            FindEntryByTag(tag));
     }
 
     int Ifd::readSubIfd(
@@ -431,7 +461,7 @@ namespace Exif {
     ) const
     {
         int rc = 0;
-        Metadata::const_iterator pos = findTag(tag);
+        Entries::const_iterator pos = findTag(tag);
         if (pos != entries_.end()) {
             rc = dest.read(buf + pos->offset_, byteOrder, pos->offset_);
         }
@@ -448,9 +478,9 @@ namespace Exif {
 
         // Add all directory entries to the data buffer
         long dataSize = 0;
-        const Metadata::const_iterator b = entries_.begin();
-        const Metadata::const_iterator e = entries_.end();
-        Metadata::const_iterator i = b;
+        const Entries::const_iterator b = entries_.begin();
+        const Entries::const_iterator e = entries_.end();
+        Entries::const_iterator i = b;
         for (; i != e; ++i) {
             us2Data(buf+o, i->tag_, byteOrder);
             us2Data(buf+o+2, i->type_, byteOrder);
@@ -460,10 +490,7 @@ namespace Exif {
                 dataSize += i->size_;
             }
             else {
-                char tmpbuf[4];
-                ::memset(tmpbuf, 0x0, 4);
-                i->value_->copy(tmpbuf, byteOrder);
-                ::memcpy(buf+o+8, tmpbuf, 4);
+                ::memcpy(buf+o+8, i->data_, 4);
             }
             o += 12;
         }
@@ -481,10 +508,8 @@ namespace Exif {
         // Add the data of all IFD entries to the data buffer
         for (i = b; i != e; ++i) {
             if (i->size_ > 4) {
-                // Todo: Check this! There seems to be an inconsistency
-                // in the use of size_ and the return value of copy() here
-                // Todo: And can value_ be 0?
-                o += i->value_->copy(buf+o, byteOrder);
+                ::memcpy(buf + o, i->data_, i->size_);
+                o += i->size_;
             }
         }
 
@@ -504,28 +529,20 @@ namespace Exif {
            << prefix << "Entry     Tag  Format   (Bytes each)  Number  Offset\n"
            << prefix << "-----  ------  ---------------------  ------  -----------\n";
 
-        const Metadata::const_iterator b = entries_.begin();
-        const Metadata::const_iterator e = entries_.end();
-        Metadata::const_iterator i = b;
+        const Entries::const_iterator b = entries_.begin();
+        const Entries::const_iterator e = entries_.end();
+        Entries::const_iterator i = b;
         for (; i != e; ++i) {
             std::ostringstream offset;
-            if (i->typeSize() * i->count_ <= 4) {
-
-// Todo: Fix me! This doesn't work with Value anymore because we do not know
-// the byte order here. (Wait for Ifd to use a more special type)
-//
-//              char tmpbuf[4];
-//              i->value_->copy(tmpbuf, byteOrder);
-//              offset << std::setw(2) << std::setfill('0') << std::hex
-//                     << (int)*(unsigned char*)tmpbuf << " "
-//                     << std::setw(2) << std::setfill('0') << std::hex
-//                     << (int)*(unsigned char*)(tmpbuf+1) << " "
-//                     << std::setw(2) << std::setfill('0') << std::hex
-//                     << (int)*(unsigned char*)(tmpbuf+2) << " "
-//                     << std::setw(2) << std::setfill('0') << std::hex
-//                     << (int)*(unsigned char*)(tmpbuf+3) << " ";
-
-                offset << "n/a";
+            if (i->size_ <= 4) {
+                offset << std::setw(2) << std::setfill('0') << std::hex
+                       << (int)*(unsigned char*)i->data_ << " "
+                       << std::setw(2) << std::setfill('0') << std::hex
+                       << (int)*(unsigned char*)(i->data_+1) << " "
+                       << std::setw(2) << std::setfill('0') << std::hex
+                       << (int)*(unsigned char*)(i->data_+2) << " "
+                       << std::setw(2) << std::setfill('0') << std::hex
+                       << (int)*(unsigned char*)(i->data_+3) << " ";
             }
             else {
                 offset << " 0x" << std::setw(8) << std::setfill('0') << std::hex
@@ -548,42 +565,42 @@ namespace Exif {
            << std::setw(8) << std::setfill('0') << std::hex
            << std::right << next_ << "\n";
 
-// Todo: Fix me! This does not work with Value anymore 
-//        for (i = b; i != e; ++i) {
-//            if (i->size_ > 4) {
-//                os << "Data of entry " << i-b << ":\n";
-//                hexdump(os, i->data_, i->size_);
-//            }
-//        }
+        for (i = b; i != e; ++i) {
+            if (i->size_ > 4) {
+                os << "Data of entry " << i-b << ":\n";
+                hexdump(os, i->data_, i->size_);
+            }
+        }
 
     } // Ifd::print
 
     // Todo: implement this properly..
     //       - Tag values 0x0201 and 0x0202 may be long OR short types...
     //       - TIFF thumbnails
+    // Rewrite: it should use the higher level Metadata interface
     int Thumbnail::read(const char* buf, const Ifd& ifd1, ByteOrder byteOrder)
     {
-        Metadata::const_iterator pos = ifd1.findTag(0x0103);
-        if (pos == ifd1.entries().end()) return 1;
-        const UShortValue& compression = dynamic_cast<const UShortValue&>(pos->value());
-        if (compression.value() == 6) {
-            pos = ifd1.findTag(0x0201);
-            if (pos == ifd1.entries().end()) return 2;
-            const ULongValue& offset = dynamic_cast<const ULongValue&>(pos->value());
-            pos = ifd1.findTag(0x0202);
-            if (pos == ifd1.entries().end()) return 3;
-            const ULongValue& size = dynamic_cast<const ULongValue&>(pos->value());
+//         Ifd::Entries::const_iterator pos = ifd1.findTag(0x0103);
+//         if (pos == ifd1.entries().end()) return 1;
+//         const UShortValue& compression = dynamic_cast<const UShortValue&>(pos->value());
+//         if (compression.value() == 6) {
+//             pos = ifd1.findTag(0x0201);
+//             if (pos == ifd1.entries().end()) return 2;
+//             const ULongValue& offset = dynamic_cast<const ULongValue&>(pos->value());
+//             pos = ifd1.findTag(0x0202);
+//             if (pos == ifd1.entries().end()) return 3;
+//             const ULongValue& size = dynamic_cast<const ULongValue&>(pos->value());
 
-            thumbnail_ = std::string(buf + offset.value(), size.value());
-        }
-        else if (compression.value() == 1) {
-            // Todo: to be continued...
-            return 4;
-        }
-        else {
-            // invalid compression value
-            return 5;
-        }
+//             thumbnail_ = std::string(buf + offset.value(), size.value());
+//         }
+//         else if (compression.value() == 1) {
+//             // Todo: to be continued...
+//             return 4;
+//         }
+//         else {
+//             // invalid compression value
+//             return 5;
+//         }
         return 0;
     }
 
@@ -654,16 +671,16 @@ namespace Exif {
         rc = ifd1.readSubIfd(ifd1GpsIfd, buf, byteOrder(), 0x8825);
         if (rc) return rc;
 
-        // Copy all metadata from the IFDs to the internal metadata
+        // Copy all entries from the IFDs to the internal metadata
         metadata_.clear();
-        add(ifd0.entries());
-        add(exifIfd.entries());
-        add(iopIfd.entries()); 
-        add(gpsIfd.entries());
-        add(ifd1.entries());
-        add(ifd1ExifIfd.entries());
-        add(ifd1IopIfd.entries());
-        add(ifd1GpsIfd.entries());
+        add(ifd0, byteOrder());
+        add(exifIfd, byteOrder());
+        add(iopIfd, byteOrder()); 
+        add(gpsIfd, byteOrder());
+        add(ifd1, byteOrder());
+        add(ifd1ExifIfd, byteOrder());
+        add(ifd1IopIfd, byteOrder());
+        add(ifd1GpsIfd, byteOrder());
 
         // Read the thumbnail
         thumbnail_.read(buf, ifd1, byteOrder());
@@ -683,9 +700,16 @@ namespace Exif {
         return 0;
     }
 
-    void ExifData::add(const Metadata& src)
+    void ExifData::add(const Ifd& ifd, ByteOrder byteOrder)
     {
-        metadata_.insert(metadata_.end(), src.begin(), src.end());
+        Ifd::const_iterator i = ifd.begin();
+        Ifd::const_iterator end = ifd.end(); 
+        for (; i != end; ++i) {
+            Value* value = Value::create(TypeId(i->type_));
+            value->read(i->data_, i->size_, byteOrder);
+            Metadatum md(i->tag_, i->type_, ifd.ifdId(), i->ifdIdx_, value);
+            add(md);
+        }
     }
 
     void ExifData::add(const Metadatum& src)
@@ -857,7 +881,7 @@ namespace Exif {
 // local definitions
 namespace {
 
-    bool cmpOffset(const Exif::Metadatum& lhs, const Exif::Metadatum& rhs)
+    bool cmpOffset(const Exif::Ifd::Entry& lhs, const Exif::Ifd::Entry& rhs)
     {
         // We need to ignore entries with size <= 4, so by definition,
         // entries with size <= 4 are greater than those with size > 4
