@@ -318,7 +318,7 @@ namespace Exiv2 {
 
     std::ostream& DateValue::write(std::ostream& os) const
     {
-        return os << date_.year << '-'
+        return os << date_.year << '-' << std::right
                << std::setw(2) << std::setfill('0') << date_.month << '-'
                << std::setw(2) << std::setfill('0') << date_.day;
     }
@@ -429,7 +429,7 @@ namespace Exiv2 {
         char plusMinus = '+';
         if (time_.tzHour < 0 || time_.tzMinute < 0) plusMinus = '-';
         
-        return os 
+        return os << std::right
            << std::setw(2) << std::setfill('0') << time_.hour << ':'
            << std::setw(2) << std::setfill('0') << time_.minute << ':'
            << std::setw(2) << std::setfill('0') << time_.second << plusMinus
