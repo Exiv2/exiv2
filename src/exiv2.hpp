@@ -107,6 +107,13 @@ private:
     std::string optstring_;
 
 public:
+    //! Container for command files
+    typedef std::vector<std::string> CmdFiles;
+    //! Container for commands from the command line
+    typedef std::vector<std::string> CmdLines;
+    //! Container to store filenames.
+    typedef std::vector<std::string> Files;
+
     /*!
       @brief Controls all access to the global Params instance.
       @return Reference to the global Params instance.
@@ -131,12 +138,9 @@ public:
 
     long adjustment_;                   //!< Adjustment in seconds.
     std::string format_;                //!< Filename format (-r option arg).
-    std::string cmdFile_;               //!< Name of the modification command file
+    CmdFiles cmdFiles_;                 //!< Names of the modification command files
+    CmdLines cmdLines_;                 //!< Commands from the command line
     ModifyCmds modifyCmds_;             //!< Parsed modification commands
-
-    //! Container to store filenames.
-    typedef std::vector<std::string> Files;
-
     Files files_;                       //!< List of non-option arguments.
 
 private:
@@ -144,7 +148,7 @@ private:
       @brief Default constructor. Note that optstring_ is initialized here.
              The c'tor is private to force instantiation through instance().
      */
-    Params() : optstring_(":hVvfa:r:p:d:e:i:m:"),
+    Params() : optstring_(":hVvfa:r:p:d:e:i:m:M:"),
                help_(false), 
                version_(false),
                verbose_(false), 
@@ -159,6 +163,17 @@ private:
 
     //! Prevent copy-construction: not implemented.
     Params(const Params& rhs);
+
+    //! @name Helpers
+    //@{
+    int evalRename(const std::string& optarg);
+    int evalAdjust(const std::string& optarg);
+    int evalPrint(const std::string& optarg);
+    int evalDelete(const std::string& optarg);
+    int evalExtract(const std::string& optarg);
+    int evalInsert(const std::string& optarg);
+    int evalModify(int opt, const std::string& optarg);
+    //@}
 
     //! Pointer to the global Params object.
     static Params* instance_;
