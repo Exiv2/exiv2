@@ -22,16 +22,15 @@
   Abstract : Sample program to print the Exif metadata of an image
 
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  Version  : $Name:  $ $Revision: 1.4 $
+  Version  : $Name:  $ $Revision: 1.5 $
   History  : 26-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: exifprint.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: exifprint.cpp,v $")
 
 // *****************************************************************************
 // included header files
-#include "exifprint.hpp"
 #include "exif.hpp"
 #include "utils.hpp"
 
@@ -46,46 +45,39 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: exifprint.cpp,v $")
 
 using namespace Exif;
 
+std::string readError(int rc, const char* file);
+
 // *****************************************************************************
 // Main
 int main(int argc, char* const argv[])
 try {
-    // Handle command line arguments
-    Params& params = Params::instance();
-    if (params.getopt(argc, argv)) {
-        params.usage();
+
+    if (argc != 2) {
+        std::cout << "Usage: " << argv[0] << " file\n";
         return 1;
-    }
-    if (params.help_) {
-        params.help();
-        return 0;
-    }
-    if (params.version_) {
-        params.version();
-        return 0;
     }
 
     ExifData exifData;
     int rc = exifData.read(argv[1]);
+    if (rc) {
+        std::string error = readError(rc, argv[1]);
+        throw Error(error);
+    }
 
-    if (rc == 0) {
-        ExifData::const_iterator beg = exifData.begin();
-        ExifData::const_iterator end = exifData.end();
-        ExifData::const_iterator i = beg;
-        for (; i != end; ++i) {
-            std::cout << "0x" 
-                      << std::hex << std::setw(4) << std::setfill('0') << std::right
-                      << i->tag() << " " 
-                      << std::setw(27) << std::setfill(' ') << std::left
-//                      << i->tagName() << " "
-                      << i->key() << " "
-                      << std::setw(17) << std::setfill(' ') << std::left
-                      << i->typeName() << " "
-                      << std::dec << std::setw(3) 
-                      << std::setfill(' ') << std::right
-                      << i->count() << "   " 
-                      << std::dec << i->value() << "\n";
-        }
+    ExifData::const_iterator end = exifData.end();
+    for (ExifData::const_iterator i = exifData.begin(); i != end; ++i) {
+        std::cout << "0x" 
+                  << std::hex << std::setw(4) << std::setfill('0') << std::right
+                  << i->tag() << " " 
+                  << std::setw(27) << std::setfill(' ') << std::left
+                  << i->tagName() << " "
+//                  << i->key() << " "
+                  << std::setw(17) << std::setfill(' ') << std::left
+                  << i->typeName() << " "
+                  << std::dec << std::setw(3) 
+                  << std::setfill(' ') << std::right
+                  << i->count() << "   " 
+                  << std::dec << i->value() << "\n";
     }
 
     return rc;
@@ -98,82 +90,28 @@ catch (Error& e) {
 // *****************************************************************************
 // local definitions
 
-// *****************************************************************************
-// class Params
-Params* Params::instance_ = 0;
-
-Params& Params::instance()
+std::string readError(int rc, const char* file)
 {
-    if (0 == instance_) {
-        instance_ = new Params;
-    }
-    return *instance_;
-}
-
-void Params::version(std::ostream& os) const
-{
-    os << "Exifprint 0.1\n\n" 
-       << "Copyright (C) 2004 Andreas Huggel <ahuggel@gmx.net>\n"; 
-}
-
-void Params::usage(std::ostream& os) const
-{
-    os << "Usage: " << progname() 
-       << " [ -hv ] file ...\n\n"
-       << "Print the Exif metadata of the image files.\n";
-}
-
-void Params::help(std::ostream& os) const
-{
-    usage(os);
-    os << "\nOptions:\n"
-       << "   -h      Display this help and exit.\n"
-       << "   -v      Show the program version and exit.\n\n";
-}
-
-int Params::option(int opt, const std::string& optarg, int optopt)
-{
-    int rc = 0;
-    switch (opt) {
-    case 'h':
-        help_ = true;
+    std::string error;
+    switch (rc) {
+    case -1:
+        error = "Couldn't open file `" + std::string(file) + "'";
         break;
-    case 'v':
-        version_ = true;
+    case 1:
+        error = "Couldn't read from the input stream";
         break;
-    case ':':
-        std::cerr << progname() << ": Option -" << static_cast<char>(optopt) 
-                  << " requires an argument\n";
-        rc = 1;
+    case 2:
+        error = "This does not look like a JPEG image";
         break;
-    case '?':
-        std::cerr << progname() << ": Unrecognized option -" 
-                  << static_cast<char>(optopt) << "\n";
-        rc = 1;
+    case 3:
+        error = "No Exif data found in the file";
+        break;
+    case -99:
+        error = "Unsupported Exif or GPS data found in IFD 1";
         break;
     default:
-        std::cerr << progname() 
-                  << ": getopt returned unexpected character code " 
-                  << std::hex << opt << "\n";
-        rc = 1;
+        error = "Reading Exif data failed, rc = " + toString(rc);
+        break;
     }
-    return rc;
-}
-
-int Params::nonoption(const std::string& argv)
-{
-    files_.push_back(argv);
-    return 0;
-}
-
-int Params::getopt(int argc, char* const argv[])
-{
-    int rc = Util::Getopt::getopt(argc, argv, optstring_);
-    // Further consistency checks
-    if (help_ || version_) return 0;
-    if (0 == files_.size()) {
-        std::cerr << progname() << ": At least one file is required\n";
-        rc = 1;
-    }
-    return rc;
+    return error;
 }
