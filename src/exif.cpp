@@ -306,13 +306,14 @@ namespace Exiv2 {
     }
 
     ExifData::ExifData() 
-        : pIfd0_(0), pExifIfd_(0), pIopIfd_(0), pGpsIfd_(0), pIfd1_(0), 
+        : pTiffHeader_(0), 
+          pIfd0_(0), pExifIfd_(0), pIopIfd_(0), pGpsIfd_(0), pIfd1_(0), 
           size_(0), pData_(0), compatible_(true)
     {
     }
 
     ExifData::ExifData(const ExifData& rhs)
-        : tiffHeader_(rhs.tiffHeader_), exifMetadata_(rhs.exifMetadata_),
+        : exifMetadata_(rhs.exifMetadata_), pTiffHeader_(0),
           pIfd0_(0), pExifIfd_(0), pIopIfd_(0), pGpsIfd_(0), pIfd1_(0), 
           size_(0), pData_(0), compatible_(rhs.compatible_)
     {
@@ -320,6 +321,9 @@ namespace Exiv2 {
         size_ = rhs.size_;
         memcpy(pData_, rhs.pData_, rhs.size_);
 
+        if (rhs.pTiffHeader_) {
+            pTiffHeader_ = new TiffHeader(*rhs.pTiffHeader_);
+        }
         if (rhs.makerNote_.get() != 0) {
             makerNote_ = rhs.makerNote_->clone();
             makerNote_->updateBase(pData_);
@@ -348,6 +352,7 @@ namespace Exiv2 {
 
     ExifData::~ExifData()
     {
+        delete pTiffHeader_;
         delete pIfd0_;
         delete pExifIfd_;
         delete pIopIfd_;
@@ -360,7 +365,6 @@ namespace Exiv2 {
     {
         if (this == &rhs) return *this;
 
-        tiffHeader_ = rhs.tiffHeader_;
         exifMetadata_ = rhs.exifMetadata_;
 
         size_ = 0;
@@ -368,6 +372,12 @@ namespace Exiv2 {
         pData_ = new byte[rhs.size_];
         size_ = rhs.size_;
         memcpy(pData_, rhs.pData_, rhs.size_);
+
+        delete pTiffHeader_;
+        pTiffHeader_ = 0;
+        if (rhs.pTiffHeader_) {
+            pTiffHeader_ = new TiffHeader(*rhs.pTiffHeader_);
+        }
 
         makerNote_.reset();
         if (rhs.makerNote_.get() != 0) {
@@ -430,18 +440,20 @@ namespace Exiv2 {
         size_ = len;
 
         // Read the TIFF header
-        int ret = 0;
-        int rc = tiffHeader_.read(pData_);
+        delete pTiffHeader_;
+        pTiffHeader_ = new TiffHeader;
+        assert(pTiffHeader_ != 0);
+        int rc = pTiffHeader_->read(pData_);
         if (rc) return rc;
 
         // Read IFD0
         delete pIfd0_;
         pIfd0_ = new Ifd(ifd0Id, 0, false); 
         assert(pIfd0_ != 0);
-        rc = pIfd0_->read(pData_ + tiffHeader_.offset(), 
-                          size_ - tiffHeader_.offset(), 
+        rc = pIfd0_->read(pData_ + pTiffHeader_->offset(), 
+                          size_ - pTiffHeader_->offset(), 
                           byteOrder(), 
-                          tiffHeader_.offset());
+                          pTiffHeader_->offset());
         if (rc) return rc;
 
         delete pExifIfd_;
@@ -515,13 +527,13 @@ namespace Exiv2 {
         pos = pIfd1_->findTag(0x8769);
         if (pos != pIfd1_->end()) {
             pIfd1_->erase(pos);
-            ret = 7;
+            rc = 7;
         }
         // Find and delete GPSInfo sub-IFD in IFD1
         pos = pIfd1_->findTag(0x8825);
         if (pos != pIfd1_->end()) {
             pIfd1_->erase(pos);
-            ret = 7;
+            rc = 7;
         }
         // Copy all entries from the IFDs and the MakerNote to the metadata
         exifMetadata_.clear();
@@ -536,7 +548,7 @@ namespace Exiv2 {
         // Read the thumbnail (but don't worry whether it was successful or not)
         readThumbnail();
 
-        return ret;
+        return rc;
     } // ExifData::load
 
 
@@ -612,7 +624,8 @@ namespace Exiv2 {
         int gpsIdx  = ifd0.erase(0x8825);
         int iopIdx  = exifIfd.erase(0xa005);
 
-        long ifd0Offset = tiffHeader_.size();
+        TiffHeader tiffHeader(byteOrder());
+        long ifd0Offset = tiffHeader.size();
         bool addOffsetTag = false;
         long exifIfdOffset = ifd0Offset + ifd0.size() + ifd0.dataSize();
         if (exifIfd.size() > 0 || iopIfd.size() > 0) {
@@ -657,7 +670,7 @@ namespace Exiv2 {
         }
 
         // Allocate a data buffer big enough for all metadata
-        long size = tiffHeader_.size();
+        long size = tiffHeader.size();
         size += ifd0.size() + ifd0.dataSize();
         size += exifIfd.size() + exifIfd.dataSize();
         size += iopIfd.size() + iopIfd.dataSize();
@@ -666,7 +679,7 @@ namespace Exiv2 {
         DataBuf buf(size);
 
         // Copy the TIFF header, all IFDs, MakerNote and thumbnail to the buffer
-        size = tiffHeader_.copy(buf.pData_);
+        size = tiffHeader.copy(buf.pData_);
         ifd0.sortByTag();
         size += ifd0.copy(buf.pData_ + ifd0Offset, byteOrder(), ifd0Offset);
         exifIfd.sortByTag();
@@ -860,6 +873,12 @@ namespace Exiv2 {
         }
         return rc;
     } // ExifData::stdThumbPosition
+
+    ByteOrder ExifData::byteOrder() const
+    { 
+        if (pTiffHeader_) return pTiffHeader_->byteOrder();
+        return littleEndian;
+    }
 
     int ExifData::writeThumbnail(const std::string& path) const 
     {
