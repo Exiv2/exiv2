@@ -475,14 +475,14 @@ namespace Exiv2 {
         // Todo: Add the tags and thumbnail from the embedded thumbnail IFD
         //       Accessing them is easy, but we need support for more than
         //       one IfdId in makernotes to get it working.
-        Ifd thumbIfd(makerIfdId, 0, false);
-        rc = ifd_.readSubIfd(thumbIfd, buf+10, len-10, byteOrder, 0x0011);
-        if (rc) {
-            std::cerr << "Didn't work :(\n";  
-        }
-        else {
-            thumbIfd.print(std::cout);
-        }
+//      Ifd thumbIfd(makerIfdId, 0, false);
+//      rc = ifd_.readSubIfd(thumbIfd, buf+10, len-10, byteOrder, 0x0011);
+//      if (rc) {
+//          std::cerr << "Didn't work :(\n";  
+//      }
+//      else {
+//          thumbIfd.print(std::cout);
+//      }
         return 0;
     }
 
