@@ -21,7 +21,7 @@
 /*!
   @file    types.hpp
   @brief   Type definitions for Exiv2 and related functionality
-  @version $Name:  $ $Revision: 1.3 $
+  @version $Name:  $ $Revision: 1.4 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -70,8 +70,7 @@ namespace Exif {
 
     //! Type to specify the IFD to which a metadata belongs
     enum IfdId { ifdIdNotSet, 
-                 ifd0, exifIfd, gpsIfd, makerIfd, iopIfd, 
-                 ifd1, ifd1ExifIfd, ifd1GpsIfd, ifd1MakerIfd, ifd1IopIfd,
+                 ifd0, exifIfd, gpsIfd, makerIfd, iopIfd, ifd1, 
                  lastIfdId};
 
 // *****************************************************************************
