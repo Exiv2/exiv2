@@ -195,7 +195,7 @@ mn.cpp: ./mn.sh
 
 # ******************************************************************************
 # Targets
-.PHONY: all bin check ctags doc                  \
+.PHONY: all bin check ctags doc                                        \
         clean mostlyclean distclean maintainer-clean                   \
         install install-archive install-header                         \
         install-sharedlib install-lib                                  \
@@ -212,11 +212,11 @@ $(ARCHIVE): $(ARCHIVE)($(OBJ))
 	fi
 	$(RANLIB) $@
 
-archive: $(ARCHIVE)
-	touch archive
-
 $(SHAREDLIB): $(SOBJ)
 	$(CXX) $^ $(LDFLAGS_SHARED) -o $@
+
+archive: $(ARCHIVE)
+	@touch archive
 
 sharedlib: $(SHAREDLIB)
 	@touch sharedlib
