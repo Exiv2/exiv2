@@ -20,14 +20,14 @@
  */
 /*
   File:      value.cpp
-  Version:   $Name:  $ $Revision: 1.3 $
+  Version:   $Name:  $ $Revision: 1.4 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: value.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: value.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -53,8 +53,8 @@ namespace Exif {
     {
         Value* value = 0;
         switch (typeId) {
-        case invalid:
-            value = new DataValue(invalid);
+        case invalidTypeId:
+            value = new DataValue(invalidTypeId);
             break;
         case unsignedByte:
             value = new DataValue(unsignedByte);
