@@ -133,6 +133,9 @@
 				RelativePath="..\..\src\getopt_win32.c">
 			</File>
 			<File
+				RelativePath="..\..\src\localtime.c">
+			</File>
+			<File
 				RelativePath="..\..\src\utils.cpp">
 			</File>
 		</Filter>
@@ -150,7 +153,16 @@
 				RelativePath="..\..\src\getopt_win32.h">
 			</File>
 			<File
+				RelativePath="..\..\src\private.h">
+			</File>
+			<File
 				RelativePath="..\..\src\utils.hpp">
+			</File>
+			<File
+				RelativePath="..\..\src\timegm.h">
+			</File>
+			<File
+				RelativePath="..\..\src\tzfile.h">
 			</File>
 		</Filter>
 		<Filter
