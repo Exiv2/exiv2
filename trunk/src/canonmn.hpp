@@ -23,7 +23,7 @@
   @brief   Canon MakerNote implemented according to the specification
            "EXIF MakerNote of Canon" <http://www.burren.cx/david/canon.html>
            by David Burren
-  @version $Name:  $ $Revision: 1.3 $
+  @version $Name:  $ $Revision: 1.4 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -94,16 +94,67 @@ namespace Exif {
 
         //! @name Print functions for Canon %MakerNote tags 
         //@{
-        //! Print various camera settings, part 1
-        std::ostream& print0x0001(std::ostream& os, const Value& value) const;
-        //! Print various camera settings, part 2
-        std::ostream& print0x0004(std::ostream& os, const Value& value) const;
+        //! Print various camera settings, part 1 (uses print0x0001_XX functions)
+        static std::ostream& print0x0001(std::ostream& os, const Value& value);
+        //! Print various camera settings, part 2 (uses print0x0004_XX functions)
+        static std::ostream& print0x0004(std::ostream& os, const Value& value);
         //! Print the image number
-        std::ostream& print0x0008(std::ostream& os, const Value& value) const;
+        static std::ostream& print0x0008(std::ostream& os, const Value& value);
         //! Print the serial number of the camera
-        std::ostream& print0x000c(std::ostream& os, const Value& value) const;
+        static std::ostream& print0x000c(std::ostream& os, const Value& value);
         //! Print EOS D30 custom functions
-        std::ostream& print0x000f(std::ostream& os, const Value& value) const;
+        static std::ostream& print0x000f(std::ostream& os, const Value& value);
+
+        //! Macro mode
+        static std::ostream& print0x0001_01(std::ostream& os, uint16 s);
+        //! Self timer
+        static std::ostream& print0x0001_02(std::ostream& os, uint16 s);
+        //! Quality
+        static std::ostream& print0x0001_03(std::ostream& os, uint16 s);
+        //! Flash mode
+        static std::ostream& print0x0001_04(std::ostream& os, uint16 s);
+        //! Drive mode
+        static std::ostream& print0x0001_05(std::ostream& os, uint16 s);
+        //! Focus mode (G1 seems to use field 32 in preference to this)
+        static std::ostream& print0x0001_07(std::ostream& os, uint16 s);
+        //! Image size
+        static std::ostream& print0x0001_10(std::ostream& os, uint16 s);
+        //! Easy shooting
+        static std::ostream& print0x0001_11(std::ostream& os, uint16 s);
+        //! Digital zoom
+        static std::ostream& print0x0001_12(std::ostream& os, uint16 s);
+        //! ISO
+        static std::ostream& print0x0001_16(std::ostream& os, uint16 s);
+        //! Metering mode
+        static std::ostream& print0x0001_17(std::ostream& os, uint16 s);
+        //! Focus type
+        static std::ostream& print0x0001_18(std::ostream& os, uint16 s);
+        //! AF point selected
+        static std::ostream& print0x0001_19(std::ostream& os, uint16 s);
+        //! Exposure mode
+        static std::ostream& print0x0001_20(std::ostream& os, uint16 s);
+        //! Flash activity
+        static std::ostream& print0x0001_28(std::ostream& os, uint16 s);
+        //! Flash details 
+        static std::ostream& print0x0001_29(std::ostream& os, uint16 s);
+        //! Focus mode (G1 seems to use this in preference to field 7)
+        static std::ostream& print0x0001_32(std::ostream& os, uint16 s);
+        //! Low, normal, high print function
+        static std::ostream& print0x0001_lnh(std::ostream& os, uint16 s);
+        //! Camera lens information
+        static std::ostream& print0x0001_Lens(std::ostream& os, 
+                                              const Value& value);
+        //! White balance
+        static std::ostream& print0x0004_07(std::ostream& os, uint16 s);
+        //! Sequence number
+        static std::ostream& print0x0004_09(std::ostream& os, uint16 s);
+        //! AF point used
+        static std::ostream& print0x0004_14(std::ostream& os, uint16 s);
+        //! Flash bias
+        static std::ostream& print0x0004_15(std::ostream& os, uint16 s);
+        //! Subject distance
+        static std::ostream& print0x0004_19(std::ostream& os, uint16 s);
+
         //@}
 
     private:
