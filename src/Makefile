@@ -20,7 +20,7 @@
 # 02111-1307, USA.
 #
 # File:      Makefile
-# Version:   $Name:  $ $Revision: 1.10 $
+# Version:   $Name:  $ $Revision: 1.11 $
 # Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
 # History:   10-Dec-03, ahu: created
 #
@@ -51,7 +51,7 @@ include $(top_srcdir)/config.mk
 CCHDR = rcsid.hpp error.hpp
 
 # Add library C++ source files to this list
-CCSRC = exif.cpp ifd.cpp image.cpp tags.cpp types.cpp value.cpp
+CCSRC = exif.cpp ifd.cpp image.cpp makernote.cpp tags.cpp types.cpp value.cpp
 
 # Add source files of simple applications to this list
 BINSRC = example1.cpp taglist.cpp exifprint.cpp exiftest.cpp
@@ -130,7 +130,7 @@ ifeq ($(strip $(MAKECMDGOALS)),)
 -include $(DEP)
 else
 # ...or the target is _not_ one in the list of targets below.
-NOINCLUDE = uninstall uninstall-lib check doc mostlyclean clean        \
+NOINCLUDE = uninstall uninstall-lib check doc ctags mostlyclean clean  \
             install-header uninstall-header distclean maintainer-clean \
             uninstall-archive uninstall-sharedlib
 ifneq ($(MAKECMDGOALS), $(filter $(MAKECMDGOALS), $(NOINCLUDE)))
@@ -168,7 +168,7 @@ $(EXIV2BIN): %: %.o
 
 # ******************************************************************************
 # Targets
-.PHONY: all archive sharedlib bin check doc                            \
+.PHONY: all archive sharedlib bin check ctags doc                      \
         clean mostlyclean distclean maintainer-clean                   \
         install install-archive install-header                         \
         install-sharedlib install-lib                                  \
@@ -250,6 +250,10 @@ uninstall-sharedlib:
 	$(RM) $(libdir)/$(SHAREDLIB)
 
 uninstall-lib: $(UNINSTALL_LIB) uninstall-header
+
+ctags:
+	ctags-exuberant --extra=+q -e *
+	ctags-exuberant --extra=+q *
 
 check:
 	@echo "No checks available for this library."
