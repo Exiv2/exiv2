@@ -20,13 +20,13 @@
  */
 /*
   File:      iptc.cpp
-  Version:   $Name:  $ $Revision: 1.1 $
+  Version:   $Name:  $ $Revision: 1.2 $
   Author(s): Brad Schick (brad) <schick@robotbattle.com>
   History:   31-July-04, brad: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.1 $ $RCSfile: iptc.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: iptc.cpp,v $");
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -124,6 +124,7 @@ namespace Exiv2 {
 
     int IptcData::read(const std::string& path)
     {
+        if (!fileExists(path, true)) return -1;
         Image* pImage = ImageFactory::instance().open(path);
         if (pImage) {
             int rc = pImage->readMetadata();
@@ -213,6 +214,7 @@ namespace Exiv2 {
 
     int IptcData::erase(const std::string& path) const
     {
+        if (!fileExists(path, true)) return -1;
         Image* pImage = ImageFactory::instance().open(path);
         if (pImage == 0) return -2;
 
@@ -231,6 +233,7 @@ namespace Exiv2 {
         // Remove the Iptc section from the file if there is no metadata 
         if (count() == 0) return erase(path);
 
+        if (!fileExists(path, true)) return -1;
         Image* pImage = ImageFactory::instance().open(path);
         if (pImage == 0) return -2;
 
