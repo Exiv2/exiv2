@@ -2,7 +2,7 @@
 /*!
   @file    doxygen.hpp
   @brief   Additional documentation, this file contains no source code
-  @version $Name:  $ $Revision: 1.17 $
+  @version $Name:  $ $Revision: 1.18 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    07-Feb-04, ahu: created
@@ -30,6 +30,7 @@
   %Exiv2 is also a command line program to
   - print the Exif metadata of JPEG images (as summary info, interpreted values, or
     the plain data for each tag)
+  - print the Iptc metadata of JPEG images
   - adjust the Exif timestamp (that's how it all started...)
   - rename Exif image files according to the Exif timestamp
   - extract Exif metadata from image files and insert it again
