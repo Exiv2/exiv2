@@ -20,7 +20,7 @@
 # 02111-1307, USA.
 #
 # File:      Makefile
-# Version:   $Name:  $ $Revision: 1.15 $
+# Version:   $Name:  $ $Revision: 1.16 $
 # Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
 # History:   10-Dec-03, ahu: created
 #
@@ -51,8 +51,8 @@ include $(top_srcdir)/config.mk
 CCHDR = rcsid.hpp error.hpp
 
 # Add library C++ source files to this list
-CCSRC = canonmn.cpp exif.cpp ifd.cpp image.cpp makernote.cpp tags.cpp \
-        types.cpp value.cpp
+CCSRC = canonmn.cpp exif.cpp fujimn.cpp ifd.cpp image.cpp makernote.cpp \
+        tags.cpp types.cpp value.cpp
 
 # Add source files of simple applications to this list
 BINSRC = example1.cpp taglist.cpp exifprint.cpp exiftest.cpp makernote-test.cpp \
@@ -267,8 +267,8 @@ check:
 mostlyclean:
 	$(RM) core
 	$(RM) $(CCSRC:.cpp=.ii)
-	$(RM) .mn.d mn.cpp mn.o
 	$(RM) $(OBJ) $(SOBJ) $(BINOBJ) $(EXIV2OBJ)
+	$(RM) mn.o
 	@if test -n "$(CXX_REPOSITORY)"; then \
 	    echo "rm -rf $(CXX_REPOSITORY)"; \
 	    rm -rf $(CXX_REPOSITORY); \
@@ -283,8 +283,10 @@ clean: mostlyclean
 distclean: clean
 	$(RM) tags TAGS
 	$(RM) $(DEP)
+	$(RM) .mn.d
 	$(RM) *~ *#
 
 # This command is intended for maintainers to use; it deletes files
 # that may need special tools to rebuild.
 maintainer-clean: uninstall uninstall-lib distclean
+	$(RM) mn.cpp
