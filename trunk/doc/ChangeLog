@@ -4,17 +4,18 @@ Changes from version 0.4 to 0.5
 * Exiv2 utility
 
 	* Added -pI print mode to print Iptc data.
-	
+
 	* Bugfix: Use timegm() and gmtime() instead of mktime() and
 	  localtime() to avoid problems when adjusting timestamps.
-	  ()
+	  Thanks to Samir Rostum for pointing out this bug.
 
 	* Added timegm() from the tz distribution for platforms which
 	  do not have this function.
 
 * Exiv2 library
 
-	* Added full Iptc read and write support. (Brad Schick)
+	* Added full Iptc read and write support. Thanks to Brad Schick for
+          this and a lot more contributions to this release.
 
 	* Converted Metadatum to an abstract base class, added Exifdatum
 	  and Iptcdatum classes. Migration of existing programs: Use class
@@ -28,7 +29,7 @@ Changes from version 0.4 to 0.5
 	  with the new Iptc keys. All keys of existing programs need to be
 	  updated. See the web pages or documentation for the new keys.
 	
-	* Revamped image and introduced byte* interface. (Brad Schick)
+	* Revamped class Image and introduced byte* interface. (Brad Schick)
 	
 	* Added autoconf configure script.
 
