@@ -22,13 +22,13 @@
   Abstract:  Command line program to display and manipulate image %Exif data
 
   File:      exiv2.cpp
-  Version:   $Name:  $ $Revision: 1.12 $
+  Version:   $Name:  $ $Revision: 1.13 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   10-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.12 $ $RCSfile: exiv2.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.13 $ $RCSfile: exiv2.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -141,8 +141,9 @@ void Params::help(std::ostream& os) const
        << "   -a time Time adjustment in the format [-]HH[:MM[:SS]]. This option\n"
        << "           is only used with the `adjust' action.\n"
        << "   -p mode Print mode for the `print' action. Possible modes are `s'\n"
-       << "           for a summary (the default), `i' for interpreted data, `v'\n"
-       << "           for uninterpreted data values and `h' for a hexdump.\n"
+       << "           for a summary (the default), `i' for interpreted Exif data,\n"
+       << "           `v' for plain Exif data values, `h' for a hexdump of the\n"
+       << "           Exif data and `I' for Iptc data values.\n"
        << "   -d tgt  Delete target for the `delete' action. Possible targets are\n"
        << "           `e' to delete the whole Exif section (the default) and `t'\n"
        << "           to delete only the Exif thumbnail from the files.\n"
@@ -210,6 +211,7 @@ int Params::option(int opt, const std::string& optarg, int optopt)
             case 'i': printMode_ = interpreted; break;
             case 'v': printMode_ = values; break;
             case 'h': printMode_ = hexdump; break;
+            case 'I': printMode_ = iptc; break;
             default:
                 std::cerr << progname() << ": Unrecognized print mode `"
                           << optarg << "'\n";

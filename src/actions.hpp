@@ -22,7 +22,7 @@
   @file    actions.hpp
   @brief   Implements base class Task, TaskFactory and the various supported
            actions (derived from Task).
-  @version $Name:  $ $Revision: 1.10 $
+  @version $Name:  $ $Revision: 1.11 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    11-Dec-03, ahu: created
@@ -149,14 +149,16 @@ namespace Action {
         typedef std::auto_ptr<Print> AutoPtr;
         AutoPtr clone() const;
 
+        //! Print uninterpreted Iptc information 
+        int printIptc();
         //! Print Exif summary information
-        void printSummary(const Exiv2::ExifData& exifData); 
+        int printSummary(); 
         //! Print the interpreted value for each Exif tag
-        void printInterpreted(const Exiv2::ExifData& exifData);
+        int printInterpreted();
         //! Print uninterpreted Exif information
-        void printValues(const Exiv2::ExifData& exifData);
+        int printValues();
         //! Print Exif information in hexdump format
-        void printHexdump(const Exiv2::ExifData& exifData);
+        int printHexdump();
         /*!
           @brief Print one summary line with a label (if provided) and requested
                  data. A line break is printed only if a label is provided.

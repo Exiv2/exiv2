@@ -21,7 +21,7 @@
 /*!
   @file    exiv2.hpp
   @brief   Defines class Params, used for the command line handling of exiv2
-  @version $Name:  $ $Revision: 1.3 $
+  @version $Name:  $ $Revision: 1.4 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    08-Dec-03, ahu: created
@@ -86,7 +86,7 @@ public:
     static Params& instance();
 
     //! Enumerates print modes
-    enum PrintMode { summary, interpreted, values, hexdump };
+    enum PrintMode { summary, interpreted, values, hexdump, iptc };
     //! Enumerates delete targets
     enum DelTarget { delExif, delThumb };
     //! Enumerates extract targets
