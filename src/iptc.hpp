@@ -21,7 +21,7 @@
 /*!
   @file    iptc.hpp
   @brief   Encoding and decoding of Iptc data
-  @version $Name:  $ $Revision: 1.3 $
+  @version $Name:  $ $Revision: 1.4 $
   @author  Brad Schick (brad) 
            <a href="mailto:schick@robotbattle.com">schick@robotbattle.com</a>
   @date    31-Jul-04, brad: created
@@ -48,6 +48,82 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
+    //! Concrete keys for Iptc metadata.
+    class IptcKey : public Key {
+    public:
+        //! @name Creators
+        //@{
+        /*!
+          @brief Constructor to create an Iptc key from a key string. 
+
+          @param key The key string.
+          @throw Error ("Invalid key") if the first part of the key is not 
+                 'Iptc' or the remaining parts of the key cannot be parsed and
+                 converted to a record name and a dataset name.
+        */
+        explicit IptcKey(const std::string& key);
+        /*!
+          @brief Constructor to create an Iptc key from dataset and record ids.
+          @param tag Dataset id
+          @param record Record id
+         */
+        IptcKey(uint16 tag, uint16 record);
+        //! Copy constructor
+        IptcKey(const IptcKey& rhs);
+        //@}
+
+        //! @name Manipulators
+        //@{
+        /*!
+          @brief Assignment operator.
+         */
+        IptcKey& operator=(const IptcKey& rhs);
+        //@}
+
+        //! @name Accessors
+        //@{
+        virtual std::string key() const { return key_; }
+        virtual const char* familyName() const 
+            { return IptcDataSets::familyName(); }
+        /*!
+          @brief Return the name of the group (the second part of the key).
+                 For Iptc keys, the group name is the record name.
+        */
+        virtual std::string groupName() const { return recordName(); }
+        virtual std::string tagName() const
+            { return IptcDataSets::dataSetName(tag_, record_); }
+        virtual uint16 tag() const { return tag_; }
+        virtual IptcKey* clone() const;
+
+        //! Return the name of the record
+        const char* recordName() const
+            { return IptcDataSets::recordName(record_); }
+        //! Return the record id
+        uint16 record() const { return record_; }
+        //@}
+
+    protected:
+        //! @name Manipulators
+        //@{
+        /*!
+          @brief Parse and convert the key string into dataset and record id. 
+                 Updates tag_ and record_ if the string can be decomposed,
+                 or throws Error ("Invalid key").
+
+          @throw Error ("Invalid key") if the key cannot be parsed into
+                 family name, group name and tag name parts.
+         */
+        void decomposeKey();
+        //@}
+
+    private:
+        // DATA
+        uint16 tag_;                   //!< Tag value
+        uint16 record_;                //!< Record value 
+        std::string key_;              //!< Key
+
+    }; // class IptcKey
+
     /*!
       @brief Information related to one Iptc dataset.
      */
@@ -57,17 +133,17 @@ namespace Exiv2 {
         //@{
         /*!
           @brief Constructor for new tags created by an application. The
-                 Iptcdatum is created from a key / value pair. %Iptcdatum copies
-                 (clones) the value if one is provided. Alternatively, a program
-                 can create an 'empty' Iptcdatum with only a key and set the
-                 value using setValue().
+                 %Iptcdatum is created from a key / value pair. %Iptcdatum
+                 copies (clones) the value if one is provided. Alternatively, a
+                 program can create an 'empty' %Iptcdatum with only a key and
+                 set the value using setValue().
 
-          @param key The key of the Iptcdatum.
-          @param value Pointer to a Iptcdatum value.
+          @param key The key of the %Iptcdatum.
+          @param value Pointer to a %Iptcdatum value.
           @throw Error ("Invalid key") if the key cannot be parsed and converted
                  to a tag number and record id.
          */
-        explicit Iptcdatum(const std::string& key, 
+        explicit Iptcdatum(const IptcKey& key, 
                            const Value* value =0);
         //! Copy constructor
         Iptcdatum(const Iptcdatum& rhs);
@@ -109,30 +185,34 @@ namespace Exiv2 {
             { return pValue_ == 0 ? 0 : pValue_->copy(buf, byteOrder); }
         /*!
           @brief Return the key of the Iptcdatum. The key is of the form
-                 'Iptc.recordName.datasetName'. Note however that the key
+                 '<b>Iptc</b>.recordName.datasetName'. Note however that the key
                  is not necessarily unique, i.e., an IptcData may contain
                  multiple metadata with the same key.
          */
-        std::string key() const { return key_; }
+        std::string key() const { return pKey_ == 0 ? "" : pKey_->key(); }
         /*!
            @brief Return the name of the record
            @return record name
            @throw Error("Unknown record");
          */
-        std::string recordName() const;
+        const char* recordName() const
+            { return pKey_ == 0 ? "" : pKey_->recordName(); }
         /*!
            @brief Return the record id 
            @return record id
          */
-        uint16 record() const { return record_; }
+        uint16 record() const 
+            { return pKey_ == 0 ? 0 : pKey_->record(); }
         /*!
            @brief Return the name of the tag (aka dataset)
            @return tag name
            @throw Error("No dataSet for record Id") if tag is unknown
          */
-        std::string tagName() const;
+        std::string tagName() const
+            { return pKey_ == 0 ? "" : pKey_->tagName(); }
         //! Return the tag (aka dataset) number
-        uint16 tag() const { return tag_; }
+        uint16 tag() const
+            { return pKey_ == 0 ? 0 : pKey_->tag(); }
         //! Return the type id of the value
         TypeId typeId() const 
             { return pValue_ == 0 ? invalidTypeId : pValue_->typeId(); }
@@ -217,10 +297,8 @@ namespace Exiv2 {
 
     private:
         // DATA
-        uint16 tag_;                   //!< Tag value
-        uint16 record_;                //!< Record value 
+        IptcKey* pKey_;                //!< Key
         Value* pValue_;                //!< Pointer to the value
-        std::string key_;              //!< Key
         bool modified_;                //!< Change indicator
 
     }; // class Iptcdatum
@@ -341,13 +419,13 @@ namespace Exiv2 {
          */
         long copy(byte* buf);
         /*!
-          @brief Add a Iptcdatum from the supplied key and value pair. This
+          @brief Add an %Iptcdatum from the supplied key and value pair. This
                  method copies (clones) the value. A check for non-repeatable
                  datasets is performed.
           @return 0 if successful;<BR>
-                 6 if the dataset already exists and is not repeatable;<BR>
+                  6 if the dataset already exists and is not repeatable
          */
-        int add(const std::string& key, Value* value);
+        int add(const IptcKey& key, Value* value);
         /*! 
           @brief Add a copy of the Iptcdatum to the Iptc metadata. A check
                  for non-repeatable datasets is performed.
@@ -375,7 +453,7 @@ namespace Exiv2 {
                  If multiple entries with the same key exist, it is undefined 
                  which of the matching metadata is found.
          */
-        iterator findKey(const std::string& key);
+        iterator findKey(const IptcKey& key);
         /*!
           @brief Find a Iptcdatum with the given record and dataset it, 
                 return a const iterator to it. If multiple entries with the
@@ -404,11 +482,11 @@ namespace Exiv2 {
         //! End of the metadata
         const_iterator end() const { return iptcMetadata_.end(); }
         /*!
-          @brief Find a Iptcdatum with the given key, return a const iterator to
-                 it.  If multiple metadata with the same key exist it is
+          @brief Find an Iptcdatum with the given key, return a const iterator
+                 to it.  If multiple metadata with the same key exist it is
                  undefined which of the matching metadata is found.
          */
-        const_iterator findKey(const std::string& key) const;
+        const_iterator findKey(const IptcKey& key) const;
         /*!
           @brief Find a Iptcdatum with the given record and dataset number, 
                 return a const iterator to it.  If multiple metadata with the
@@ -472,24 +550,6 @@ namespace Exiv2 {
         byte* pData_;            //!< Iptc raw data buffer
         mutable bool modified_;
     }; // class IptcData
-
-// *****************************************************************************
-// free functions
-
-    /*!
-      @brief Return a key for the entry.  The key is of the form
-             'Iptc.recordName.datasetName'. 
-      @throw Error ("No dataSet for record Id") if the dataset number or 
-                record Id is unknown
-    */
-    std::string makeKey(uint16 number, uint16 record);
-    /*!
-      @brief Return the record and dataset id pair for the key.
-      @return A pair consisting of the record and dataset id.
-      @throw Error ("Invalid key") if the key cannot be parsed into
-          valid record and dataset parts.
-    */
-    std::pair<uint16, uint16> decomposeKey(const std::string& key);
 
 }                                       // namespace Exiv2
 

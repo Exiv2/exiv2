@@ -23,7 +23,7 @@
   @brief   Sigma and Foveon MakerNote implemented according to the specification
            <a href="http://www.x3f.info/technotes/FileDocs/MakerNoteDoc.html">
            SIGMA and FOVEON EXIF MakerNote Documentation</a> by Foveon.           
-  @version $Name:  $ $Revision: 1.6 $
+  @version $Name:  $ $Revision: 1.7 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    02-Apr-04, ahu: created
@@ -105,8 +105,8 @@ namespace Exiv2 {
         //@{
         int checkHeader() const;
         SigmaMakerNote* clone(bool alloc =true) const;
-        //! Return the name of the makernote section ("Sigma")
-        std::string sectionName(uint16 tag) const { return sectionName_; }
+        //! Return the name of the makernote item ("Sigma")
+        std::string ifdItem() const { return ifdItem_; }
         std::ostream& printTag(std::ostream& os,
                                uint16 tag, 
                                const Value& value) const;
@@ -148,8 +148,8 @@ namespace Exiv2 {
          */
         static const RegisterMakerNote register_; 
 
-        //! The section name (second part of the key) used for makernote tags
-        std::string sectionName_;
+        //! The item name (second part of the key) used for makernote tags
+        std::string ifdItem_;
 
     }; // class SigmaMakerNote
 

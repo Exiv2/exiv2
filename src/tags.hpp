@@ -21,7 +21,7 @@
 /*!
   @file    tags.hpp
   @brief   Exif tag and type information
-  @version $Name:  $ $Revision: 1.24 $
+  @version $Name:  $ $Revision: 1.25 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    15-Jan-04, ahu: created<BR>
@@ -72,7 +72,8 @@ namespace Exiv2 {
         IfdInfo(IfdId ifdId, const char* name, const char* item);
         IfdId ifdId_;                           //!< IFD id
         const char* name_;                      //!< IFD name
-        const char* item_;                      //!< Related image item
+        //! Related IFD item. This is also an IFD name, unique for each IFD.
+        const char* item_;                      
     };
 
     //! Contains information pertaining to one section
@@ -113,6 +114,9 @@ namespace Exiv2 {
         ExifTags& operator=(const ExifTags& rhs);
 
     public:
+        //! Return an identifier for Exif metadata
+        static const char* familyName() { return familyName_; }
+
         /*!
           @brief Return the name of the tag.
           @param tag The tag
@@ -167,7 +171,7 @@ namespace Exiv2 {
         static SectionId sectionId(const std::string& sectionName);
         /*!
           @brief Return the key for the tag and IFD id.  The key is of the form
-                 'ifdItem.sectionName.tagName'.
+                 '<b>Exif</b>.ifdItem.tagName'.
          */
         static std::string makeKey(uint16 tag, IfdId ifdId);
         /*!
@@ -187,7 +191,8 @@ namespace Exiv2 {
 
     private:
         static int tagInfoIdx(uint16 tag, IfdId ifdId);
-        static int tagInfoIdx(const std::string& tagName, IfdId ifdId);
+
+        static const char* familyName_;
 
         static const IfdInfo     ifdInfo_[];
         static const SectionInfo sectionInfo_[];

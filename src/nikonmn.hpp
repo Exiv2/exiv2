@@ -28,7 +28,7 @@
            <a href="http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html">
            Exif file format</a> by TsuruZoh Tachibanaya.<BR>
            Format 3: "EXIFutils Field Reference Guide".
-  @version $Name:  $ $Revision: 1.3 $
+  @version $Name:  $ $Revision: 1.4 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    17-May-04, ahu: created<BR>
@@ -103,8 +103,8 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         Nikon1MakerNote* clone(bool alloc =true) const;
-        //! Return the name of the makernote section ("Nikon1")
-        std::string sectionName(uint16 tag) const { return sectionName_; }
+        //! Return the name of the makernote item ("Nikon1")
+        std::string ifdItem() const { return ifdItem_; }
         std::ostream& printTag(std::ostream& os,
                                uint16 tag, 
                                const Value& value) const;
@@ -149,8 +149,8 @@ namespace Exiv2 {
          */
         static const RegisterMakerNote register_; 
 
-        //! The section name (second part of the key) used for makernote tags
-        std::string sectionName_;
+        //! The item name (second part of the key) used for makernote tags
+        std::string ifdItem_;
 
     }; // class Nikon1MakerNote
 
@@ -182,8 +182,8 @@ namespace Exiv2 {
         //@{
         int checkHeader() const;
         Nikon2MakerNote* clone(bool alloc =true) const;
-        //! Return the name of the makernote section ("Nikon2")
-        std::string sectionName(uint16 tag) const { return sectionName_; }
+        //! Return the name of the makernote item ("Nikon2")
+        std::string ifdItem() const { return ifdItem_; }
         std::ostream& printTag(std::ostream& os,
                                uint16 tag, 
                                const Value& value) const;
@@ -206,8 +206,8 @@ namespace Exiv2 {
         //@}
 
     private:
-        //! The section name (second part of the key) used for makernote tags
-        std::string sectionName_;
+        //! The item name (second part of the key) used for makernote tags
+        std::string ifdItem_;
 
     }; // class Nikon2MakerNote
 
@@ -236,8 +236,8 @@ namespace Exiv2 {
         //@{
         int checkHeader() const;
         Nikon3MakerNote* clone(bool alloc =true) const;
-        //! Return the name of the makernote section ("Nikon3")
-        std::string sectionName(uint16 tag) const { return sectionName_; }
+        //! Return the name of the makernote item ("Nikon3")
+        std::string ifdItem() const { return ifdItem_; }
         std::ostream& printTag(std::ostream& os,
                                uint16 tag, 
                                const Value& value) const;
@@ -258,8 +258,8 @@ namespace Exiv2 {
         //@}
 
     private:
-        //! The section name (second part of the key) used for makernote tags
-        std::string sectionName_;
+        //! The item name (second part of the key) used for makernote tags
+        std::string ifdItem_;
 
     }; // class Nikon3MakerNote
 

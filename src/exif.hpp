@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of Exif data
-  @version $Name:  $ $Revision: 1.49 $
+  @version $Name:  $ $Revision: 1.50 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -60,30 +60,117 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
+    //! Concrete keys for Exif metadata.
+    class ExifKey : public Key {
+    public:
+        //! @name Creators
+        //@{
+        /*!
+          @brief Constructor to create an Exif key from a key string.
+
+          @param key The key string.
+          @throw Error ("Invalid key") if the key cannot be parsed into three
+                 parts or the first part of the key is not '<b>Exif</b>'.
+        */
+        explicit ExifKey(const std::string& key);
+        //! Constructor to build an ExifKey from an IFD entry.
+        explicit ExifKey(const Entry& e);
+        //! Copy constructor
+        ExifKey(const ExifKey& rhs);
+        // A destructor is not needed, as we do *not* delete the makernote
+        //@}
+
+        //! @name Manipulators
+        //@{
+        /*!
+          @brief Assignment operator.
+         */
+        ExifKey& operator=(const ExifKey& rhs);
+        //! Set the makernote pointer. 
+        void setMakerNote(MakerNote* pMakerNote);
+        //@}
+
+        //! @name Accessors
+        //@{
+        virtual std::string key() const { return key_; }
+        virtual const char* familyName() const { return ExifTags::familyName(); }
+        /*!
+          @brief Return the name of the group (the second part of the key).
+                 For Exif keys, the group name is the IFD name.
+        */ 
+        virtual std::string groupName() const { return ifdName(); }
+        virtual std::string tagName() const;
+        /*!
+          @brief Return the tag.
+          @throw Error ("Invalid key") if the tag is not set.
+        */
+        virtual uint16 tag() const;
+        virtual ExifKey* clone() const;
+
+        //! Interpret and print the value of an Exif tag
+        std::ostream& printTag(std::ostream& os, const Value& value) const;
+        /*!
+          @brief Return the IFD id
+          @throw Error ("Invalid key") if the IFD id is not set.
+        */
+        IfdId ifdId() const;
+        //! Return the name of the IFD
+        const char* ifdName() const { return ExifTags::ifdName(ifdId()); }
+        //! Return the related image item
+        const char* ifdItem() const { return ExifTags::ifdItem(ifdId()); }
+        //! Return the name of the Exif section (deprecated) 
+        std::string sectionName() const;
+        //! Return the index (unique id of this key within the original IFD)
+        int idx() const { return idx_; }
+        //! Return the pointer to the associated MakerNote
+        MakerNote* makerNote() const { return pMakerNote_; }
+        //@}
+
+    protected:
+        //! @name Manipulators
+        //@{
+        /*!
+          @brief Parse and convert the key string into tag, and IFD Id. 
+                 Forwards the request to MakerNote::decomposeKey if necessary.
+                 Updates key_ and ifdId_ if the string can be decomposed,
+                 or throws Error ("Invalid key").
+
+          @throw Error ("Invalid key") if pMakerNote_ is ot 0 and the key 
+                 cannot be parsed into family name, group name and tag name 
+                 parts.
+         */
+        void decomposeKey();
+        //@}
+
+    private:
+        // DATA
+        uint16 tag_;                    //!< Tag value
+        IfdId ifdId_;                   //!< The IFD associated with this tag
+        int idx_;                       //!< Unique id of an entry within one IFD
+        MakerNote* pMakerNote_;         //!< Pointer to the associated MakerNote
+        std::string key_;               //!< Key
+    }; // class ExifKey
+
     /*!
       @brief Information related to one Exif tag.
      */
     class Exifdatum : public Metadatum {
+        friend std::ostream& operator<<(std::ostream&, const Exifdatum&);
     public:
         //! @name Creators
         //@{
         /*!
           @brief Constructor for new tags created by an application. The
-                 Exifdatum is created from a key / value pair. %Exifdatum copies
-                 (clones) the value if one is provided. Alternatively, a program
-                 can create an 'empty' Exifdatum with only a key and set the
-                 value using setValue().
+                 %Exifdatum is created from a key / value pair. %Exifdatum copies
+                 (clones) the key and value if one is provided. Alternatively, 
+                 a program can create an 'empty' %Exifdatum with only a key
+                 and set the value using setValue().
 
-          @param key The key of the Exifdatum.
-          @param value Pointer to a Exifdatum value.
-          @param makerNote Pointer to the associated MakerNote (only needed for 
-                 MakerNote tags).
-          @throw Error ("Invalid key") if the key cannot be parsed and converted
-                 to a tag number and an IFD id or the section name does not match.
+          @param key ExifKey.
+          @param pValue Pointer to a Exifdatum value.
+          @throw Error ("Invalid key") if the key cannot be parsed and converted.
          */
-        explicit Exifdatum(const std::string& key, 
-                           const Value* value =0, 
-                           MakerNote* makerNote =0);
+        explicit Exifdatum(const ExifKey& key, const Value* pValue =0);
         //! Constructor to build a Exifdatum from an IFD entry.
         Exifdatum(const Entry& e, ByteOrder byteOrder);
         //! Copy constructor
@@ -115,6 +202,30 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
+        //! Return the key of the %Exifdatum. 
+        std::string key() const 
+            { return pKey_ == 0 ? "" : pKey_->key(); }
+        //! Return the name of the group (the second part of the key)
+        std::string groupName() const
+            { return pKey_ == 0 ? "" : pKey_->groupName(); }
+        //! Return the name of the tag (which is also the third part of the key)
+        std::string tagName() const
+            { return pKey_ == 0 ? "" : pKey_->tagName(); }
+        //! Return the tag
+        uint16 tag() const
+            { return pKey_ == 0 ? 0xffff : pKey_->tag(); }
+        //! Return the IFD id
+        IfdId ifdId() const 
+            { return pKey_ == 0 ? ifdIdNotSet : pKey_->ifdId(); }
+        //! Return the name of the IFD
+        const char* ifdName() const
+            { return pKey_ == 0 ? "" : pKey_->ifdName(); }
+        //! Return the related image item (deprecated)
+        const char* ifdItem() const 
+            { return pKey_ == 0 ? "" : pKey_->ifdItem(); }
+        //! Return the index (unique id of this key within the original IFD)
+        int idx() const
+            { return pKey_ == 0 ? 0 : pKey_->idx(); }
         /*!
           @brief Write value to a data buffer and return the number
                  of bytes written.
@@ -128,40 +239,21 @@ namespace Exiv2 {
         */
         long copy(byte* buf, ByteOrder byteOrder) const 
             { return pValue_ == 0 ? 0 : pValue_->copy(buf, byteOrder); }
-        /*!
-          @brief Return the key of the Exifdatum. The key is of the form
-                 'ifdItem.sectionName.tagName'. Note however that the key
-                 is not necessarily unique, i.e., an ExifData may contain
-                 multiple metadata with the same key.
-         */
-        std::string key() const { return key_; }
-        //! Return the related image item (the first part of the key)
-        const char* ifdItem() const { return ExifTags::ifdItem(ifdId_); }
-        //! Return the name of the section (the second part of the key)
-        std::string sectionName() const;
-        //! Return the name of the tag (which is also the third part of the key)
-        std::string tagName() const;
-        //! Return the tag
-        uint16 tag() const { return tag_; }
         //! Return the type id of the value
         TypeId typeId() const 
             { return pValue_ == 0 ? invalidTypeId : pValue_->typeId(); }
         //! Return the name of the type
-        const char* typeName() const { return TypeInfo::typeName(typeId()); }
+        const char* typeName() const 
+            { return TypeInfo::typeName(typeId()); }
         //! Return the size in bytes of one component of this type
-        long typeSize() const { return TypeInfo::typeSize(typeId()); }
+        long typeSize() const 
+            { return TypeInfo::typeSize(typeId()); }
         //! Return the number of components in the value
-        long count() const { return pValue_ == 0 ? 0 : pValue_->count(); }
+        long count() const 
+            { return pValue_ == 0 ? 0 : pValue_->count(); }
         //! Return the size of the value in bytes
-        long size() const { return pValue_ == 0 ? 0 : pValue_->size(); }
-        //! Return the IFD id
-        IfdId ifdId() const { return ifdId_; }
-        //! Return the name of the IFD
-        const char* ifdName() const { return ExifTags::ifdName(ifdId_); }
-        //! Return the index (unique id of this Exifdatum within the original IFD)
-        int idx() const { return idx_; }
-        //! Return the pointer to the associated MakerNote
-        MakerNote* makerNote() const { return pMakerNote_; }
+        long size() const 
+            { return pValue_ == 0 ? 0 : pValue_->size(); }
         //! Return the value as a string.
         std::string toString() const 
             { return pValue_ == 0 ? "" : pValue_->toString(); }
@@ -201,7 +293,8 @@ namespace Exiv2 {
           @return A pointer to a copy (clone) of the value, 0 if the value is 
                   not set.
          */
-        Value* getValue() const { return pValue_ == 0 ? 0 : pValue_->clone(); }
+        Value* getValue() const 
+            { return pValue_ == 0 ? 0 : pValue_->clone(); }
         /*!
           @brief Return a constant reference to the value. 
 
@@ -227,17 +320,13 @@ namespace Exiv2 {
 
     private:
         // DATA
-        uint16 tag_;                   //!< Tag value
-        IfdId ifdId_;                  //!< The IFD associated with this tag
-        int idx_;                      //!< Unique id of an entry within one IFD
-        MakerNote* pMakerNote_;        //!< Pointer to the associated MakerNote
+        ExifKey* pKey_;                //!< Key 
         Value* pValue_;                //!< Pointer to the value
-        std::string key_;              //!< Key
 
     }; // class Exifdatum
 
     /*!
-      @brief Output operator for Exifdatum types, printing the interpreted
+      @brief Output operator for Exifdatum types, prints the interpreted
              tag value.
      */
     std::ostream& operator<<(std::ostream& os, const Exifdatum& md);
@@ -579,11 +668,12 @@ namespace Exiv2 {
                  ByteOrder byteOrder);
         /*!
           @brief Add a Exifdatum from the supplied key and value pair.  This
-                 method copies (clones) the value.  No duplicate checks are
+                 method copies (clones) key and value and adds a pointer to
+                 the MakerNote to the cloned key. No duplicate checks are
                  performed, i.e., it is possible to add multiple metadata with
                  the same key.
          */
-        void add(const std::string& key, Value* value);
+        void add(const ExifKey& key, Value* pValue);
         /*! 
           @brief Add a copy of the Exifdatum to the Exif metadata.  No
                  duplicate checks are performed, i.e., it is possible to add
@@ -610,7 +700,7 @@ namespace Exiv2 {
                  If multiple metadata with the same key exist, it is undefined 
                  which of the matching metadata is found.
          */
-        iterator findKey(const std::string& key);
+        iterator findKey(const ExifKey& key);
         /*!
           @brief Find the Exifdatum with the given ifd id and idx, return an 
                  iterator to it. 
@@ -659,7 +749,7 @@ namespace Exiv2 {
                  it.  If multiple metadata with the same key exist, it is
                  undefined which of the matching metadata is found.
          */
-        const_iterator findKey(const std::string& key) const;
+        const_iterator findKey(const ExifKey& key) const;
         /*!
           @brief Find the Exifdatum with the given ifd id and idx, return an 
                  iterator to it. 
@@ -863,7 +953,7 @@ namespace Exiv2 {
                         ByteOrder byteOrder);
     /*!
       @brief Return a key for the entry.  The key is of the form
-             'ifdItem.sectionName.tagName'.  This function knows about
+             '<b>Exif</b>.ifdItem.tagName'. This function knows about
              MakerNotes, i.e., it will invoke MakerNote::makeKey if necessary.
     */
     std::string makeKey(const Entry& entry);

@@ -1,12 +1,12 @@
 ################################################################################
 # File     : tags.awk
-# Version  : $Name:  $ $Revision: 1.3 $
+# Version  : $Name:  $ $Revision: 1.4 $
 # Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
 # History  : 07-Feb-04, ahu: created
 #
 # Description:
 #  Awk script to convert a taglist to XML format used in the documentation.
-#  $ taglist [SectionName] | awk -f tags.awk > tags.xml
+#  $ taglist [itemName] | awk -f tags.awk > tags.xml
 ################################################################################
 
 BEGIN {

@@ -20,13 +20,13 @@
  */
 /*
   File:      makernote.cpp
-  Version:   $Name:  $ $Revision: 1.24 $
+  Version:   $Name:  $ $Revision: 1.25 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.24 $ $RCSfile: makernote.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.25 $ $RCSfile: makernote.cpp,v $");
 
 // Define DEBUG_* to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -59,28 +59,29 @@ namespace Exiv2 {
 
     std::string MakerNote::makeKey(uint16 tag) const
     {
-        return std::string(ExifTags::ifdItem(makerIfd))
-            + "." + sectionName(tag) + "." + tagName(tag);
+        return std::string(ExifTags::familyName())
+            + "." + std::string(ifdItem())
+            + "." + tagName(tag);
     } // MakerNote::makeKey
 
     uint16 MakerNote::decomposeKey(const std::string& key) const
     {
-        // Get the IFD, section name and tag name parts of the key
+        // Get the family, item and tag name parts of the key
         std::string::size_type pos1 = key.find('.');
         if (pos1 == std::string::npos) throw Error("Invalid key");
-        std::string ifdItem = key.substr(0, pos1);
+        std::string familyName = key.substr(0, pos1);
         std::string::size_type pos0 = pos1 + 1;
         pos1 = key.find('.', pos0);
         if (pos1 == std::string::npos) throw Error("Invalid key");
-        std::string sectionName = key.substr(pos0, pos1 - pos0);
+        std::string ifdItem = key.substr(pos0, pos1 - pos0);
         pos0 = pos1 + 1;
         std::string tagName = key.substr(pos0);
         if (tagName == "") throw Error("Invalid key");
 
-        if (ifdItem != ExifTags::ifdItem(makerIfd)) return 0xffff;
+        if (familyName != ExifTags::familyName()) return 0xffff;
         uint16 tag = this->tag(tagName);
         if (tag == 0xffff) return tag;
-        if (sectionName != this->sectionName(tag)) return 0xffff;
+        if (ifdItem != this->ifdItem()) return 0xffff;
 
         return tag;
     } // MakerNote::decomposeKey

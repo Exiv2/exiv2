@@ -21,7 +21,7 @@
 /*!
   @file    datasets.hpp
   @brief   Iptc dataSet and type information
-  @version $Name:  $ $Revision: 1.2 $
+  @version $Name:  $ $Revision: 1.3 $
   @author  Brad Schick (brad) <schick@robotbattle.com>
   @date    24-Jul-04, brad: created
  */
@@ -171,7 +171,10 @@ namespace Exiv2 {
         static const uint16 PreviewVersion         = 201;
         static const uint16 Preview                = 202;
         //@}
-        
+
+    private:
+        static const char* familyName_;
+
     private:
         //! Prevent construction: not implemented.
         IptcDataSets() {}
@@ -181,6 +184,8 @@ namespace Exiv2 {
         IptcDataSets& operator=(const IptcDataSets& rhs);
 
     public:
+        //! Return an identifier for Iptc datasets
+        static const char* familyName() { return familyName_; }
         /*!
           @brief Return the name of the dataset.
           @param number The dataset number
@@ -240,12 +245,12 @@ namespace Exiv2 {
         static uint16 recordId(const std::string& recordName);
         /*!
           @brief Return the key for the dataSet number and record id. The key is
-                 of the form 'recordName.dataSetName'.
+                 of the form '<b>Iptc</b>.recordName.dataSetName'.
          */
         static std::string makeKey(uint16 number, uint16 recordId);
         /*!
           @brief Return the key for the dataSet. The key is of the form
-                 'recordName.dataSetName'.
+                 '<b>Iptc</b>.recordName.dataSetName'.
          */
         static std::string makeKey(const DataSet& dataSet);
         /*!

@@ -20,13 +20,13 @@
  */
 /*
   File:      datasets.cpp
-  Version:   $Name:  $ $Revision: 1.3 $
+  Version:   $Name:  $ $Revision: 1.4 $
   Author(s): Brad Schick (brad) <schick@robotbattle.com>
   History:   24-Jul-04, brad: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: datasets.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: datasets.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -162,6 +162,8 @@ namespace Exiv2 {
         0
     };
 
+    const char* IptcDataSets::familyName_ = "Iptc";
+
     int IptcDataSets::dataSetIdx(uint16 number, uint16 recordId)
     {
         if( recordId != envelope && recordId != application2 ) return -1;
@@ -248,13 +250,15 @@ namespace Exiv2 {
 
     std::string IptcDataSets::makeKey(const DataSet& dataSet)
     {
-        return "Iptc." + std::string(recordName(dataSet.recordId_)) 
+        return std::string(familyName())
+            + "." + std::string(recordName(dataSet.recordId_)) 
             + "." + dataSet.name_;
     }
 
     std::string IptcDataSets::makeKey(uint16 number, uint16 recordId)
     {
-        return "Iptc." + std::string(recordName(recordId)) 
+        return std::string(familyName())
+            + "." + std::string(recordName(recordId)) 
             + "." + std::string(dataSetName(number, recordId));
     }
 

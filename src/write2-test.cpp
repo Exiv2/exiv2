@@ -3,7 +3,7 @@
   Abstract : ExifData write unit tests for Exif data created from scratch
 
   File     : write2-test.cpp
-  Version  : $Name:  $ $Revision: 1.4 $
+  Version  : $Name:  $ $Revision: 1.5 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History  : 26-Jun-04, ahu: created
 
@@ -31,7 +31,7 @@ try {
 
     std::cout <<"----- One IFD0 tag\n";
     Exiv2::ExifData ed1;
-    Exiv2::Exifdatum md1(Exiv2::ExifKey("Image.OtherTags.Model"));
+    Exiv2::Exifdatum md1(Exiv2::ExifKey("Exif.Image.Model"));
     md1.setValue("Test 1");
     ed1.add(md1);
     write(file, ed1);
@@ -39,7 +39,7 @@ try {
 
     std::cout <<"\n----- One Exif tag\n";
     Exiv2::ExifData ed2;
-    Exiv2::Exifdatum md2(Exiv2::ExifKey("Image.DateTime.DateTimeOriginal"));
+    Exiv2::Exifdatum md2(Exiv2::ExifKey("Exif.Photo.DateTimeOriginal"));
     md2.setValue("Test 2");
     ed2.add(md2);
     write(file, ed2);
@@ -49,7 +49,7 @@ try {
 
     std::cout <<"\n----- One IOP tag\n";
     Exiv2::ExifData ed3;
-    Exiv2::Exifdatum md3(Exiv2::ExifKey("Image.Interoperability.InteroperabilityVersion"));
+    Exiv2::Exifdatum md3(Exiv2::ExifKey("Exif.Iop.InteroperabilityVersion"));
     md3.setValue("Test 3");
     ed3.add(md3);
     write(file, ed3);
@@ -57,7 +57,7 @@ try {
 
     std::cout <<"\n----- One GPS tag\n";
     Exiv2::ExifData ed4;
-    Exiv2::Exifdatum md4(Exiv2::ExifKey("Image.GPS.GPSVersionID"));
+    Exiv2::Exifdatum md4(Exiv2::ExifKey("Exif.GPSInfo.GPSVersionID"));
     md4.setValue("Test 4");
     ed4.add(md4);
     write(file, ed4);
@@ -66,11 +66,11 @@ try {
     // Todo: Fix this
     std::cout <<"\n----- One IFD1 tag\n";
     Exiv2::ExifData ed5;
-    Exiv2::Exifdatum md5(Exiv2::ExifKey("Thumbnail.OtherTags.Artist"));
+    Exiv2::Exifdatum md5(Exiv2::ExifKey("Exif.Thumbnail.Artist"));
     md5.setValue("Test 5");
     ed5.add(md5);
 
-    Exiv2::Exifdatum md6(Exiv2::ExifKey("Image.OtherTags.Model"));
+    Exiv2::Exifdatum md6(Exiv2::ExifKey("Exif.Image.Model"));
     md6.setValue("Test 5 (Fix me!)");
     ed5.add(md6);
 
