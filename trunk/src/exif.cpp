@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.38 $
+  Version:   $Name:  $ $Revision: 1.39 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.38 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.39 $ $RCSfile: exif.cpp,v $")
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -594,9 +594,10 @@ namespace Exif {
         std::ifstream is(path.c_str(), std::ios::binary);
         if (!is) return -1;
         Image* pImage = ImageFactory::instance().create(is);
+        is.close();
         if (pImage == 0) return -2;
 
-        int rc = pImage->eraseExifData(path, is);
+        int rc = pImage->eraseExifData(path);
         delete pImage;
         return rc;
     } // ExifData::erase
@@ -606,6 +607,7 @@ namespace Exif {
         std::ifstream is(path.c_str(), std::ios::binary);
         if (!is) return -1;
         Image* pImage = ImageFactory::instance().create(is);
+        is.close();
         if (pImage == 0) return -2;
 
         DataBuf buf(size());
@@ -613,7 +615,7 @@ namespace Exif {
         assert(actualSize <= buf.size_);
 
         pImage->setExifData(buf.pData_, actualSize);
-        int rc = pImage->writeExifData(path, is);
+        int rc = pImage->writeExifData(path);
         delete pImage;
         return rc;
     } // ExifData::write

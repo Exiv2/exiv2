@@ -21,7 +21,7 @@
 /*!
   @file    image.hpp
   @brief   Class JpegImage to access JPEG images
-  @version $Name:  $ $Revision: 1.10 $
+  @version $Name:  $ $Revision: 1.11 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -118,15 +118,6 @@ namespace Exif {
          */
         virtual int eraseExifData(const std::string& path) const =0;
         /*!
-          @brief Erase the %Exif data from the image provided in the input
-                 stream is and write the result to file path.
-          @param path Path to the file.
-          @param is Input stream with the image to erase the %Exif data from.
-          @return 0 if successful.
-         */
-        virtual int eraseExifData(const std::string& path, 
-                                  std::istream& is) const =0;
-        /*!
           @brief Read from the image input stream is, erase %Exif data from the
                  image, if there is any, and write the resulting image to the
                  output stream os.
@@ -142,15 +133,6 @@ namespace Exif {
           @return 0 if successful.
          */
         virtual int writeExifData(const std::string& path) const =0;
-        /*!
-          @brief Add the %Exif data to the image provided in the input
-                 stream is and write the combined result to file path.
-          @param path Path to the file.
-          @param is Input stream with the image to add the %Exif data to.
-          @return 0 if successful.
-         */
-        virtual int writeExifData(const std::string& path, 
-                                  std::istream& is) const =0;
         /*!
           @brief Read from the image input stream is, add %Exif data to the
                  image, replacing existing %Exif data, if there is any) and
@@ -333,22 +315,13 @@ namespace Exif {
           @param path Path to the file.
           @return 0 if successful;<br>
                  -1 if the input file cannot be opened;<br>
+                 -3 if the temporary file cannot be opened;<br>
+                 -4 if renaming the temporary file fails; or<br>
                  the return code of 
-                    eraseExifData(const std::string& path, std::istream& is) const
+                    eraseExifData(std::ostream& os, std::istream& is) const
                     if the call to this function fails.
          */
         int eraseExifData(const std::string& path) const;
-        /*!
-          @brief Erase the %Exif data from the JPEG image provided in the input
-                 stream is and write the result to file path. If an %Exif APP1
-                 section exists in input stream, it is erased.
-          @param path Path to the file.
-          @param is Input stream with the JPEG image to erase the %Exif data from.
-          @return 0 if successful;<br>
-                 -3 if the temporary file cannot be opened;<br>
-                 -4 if renaming the temporary file fails.
-         */
-        int eraseExifData(const std::string& path, std::istream& is) const;
         /*!
           @brief Erase %Exif data from the JPEG image is, write the resulting
                  image to the output stream os. If an %Exif APP1 section exists
@@ -373,26 +346,13 @@ namespace Exif {
           @param path Path to the file.
           @return 0 if successful;<br>
                  -1 if the input file cannot be opened;<br>
-                 the return code of 
-                    writeExifData(const std::string& path, std::istream& is) const
-                    if the call to this function fails.
-         */
-        int writeExifData(const std::string& path) const;
-        /*!
-          @brief Add the %Exif data to the JPEG image provided in the input
-                 stream is and write the combined result to file path.  If an
-                 %Exif APP1 section exists in input stream, it is
-                 replaced. Otherwise, an %Exif data section is created.
-          @param path Path to the file.
-          @param is Input stream with the JPEG image to add the %Exif data to.
-          @return 0 if successful;<br>
                  -3 if the temporary file cannot be opened;<br>
                  -4 if renaming the temporary file fails; or<br>
                  the return code of 
                     writeExifData(std::ostream& os, std::istream& is) const
                     if the call to this function fails.
          */
-        int writeExifData(const std::string& path, std::istream& is) const;
+        int writeExifData(const std::string& path) const;
         /*!
           @brief Copy %Exif data into the JPEG image is, write the resulting
                  image to the output stream os. If an %Exif APP1 section exists
