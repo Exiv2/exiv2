@@ -1,20 +1,20 @@
-Key 'Canon' matches 'Canon' in 5 characters.
-Key 'Canon' matches 'Canon*' in 5 characters.
-Key 'Canon Corp.' matches 'Canon*' in 5 characters.
-Key 'foobar' matches '*foo*bar*' in 6 characters.
-Key 'barfoofoobarbar' matches '*foo*bar*' in 6 characters.
+Key 'Canon' matches 'Canon' with a score of 7.
+Key 'Canon' matches 'Canon*' with a score of 6.
+Key 'Canon Corp.' matches 'Canon*' with a score of 6.
+Key 'foobar' matches '*foo*bar*' with a score of 7.
+Key 'barfoofoobarbar' matches '*foo*bar*' with a score of 7.
 Key 'foo' does not match 'foo*bar'.
 Key 'bar' does not match 'foo*bar'.
-Key 'foobar' matches 'foo*bar' in 6 characters.
-Key 'fooYAHOObar' matches 'foo*bar' in 6 characters.
+Key 'foobar' matches 'foo*bar' with a score of 7.
+Key 'fooYAHOObar' matches 'foo*bar' with a score of 7.
 Key 'Thefoobar' does not match 'foo*bar'.
 Key 'foobarTrick' does not match 'foo*bar'.
 Key 'ThefoobarTrick' does not match 'foo*bar'.
 Key 'ThefooYAHOObarTrick' does not match 'foo*bar'.
-Key 'anything' matches '*' in 0 characters.
-Key 'anything times two' matches '**' in 0 characters.
-Key 'bar' matches '*bar' in 3 characters.
+Key 'anything' matches '*' with a score of 1.
+Key 'anything times two' matches '**' with a score of 1.
+Key 'bar' matches '*bar' with a score of 4.
 Key 'bar' does not match 'b*bar'.
-Key 'bbar' matches 'b*bar' in 4 characters.
+Key 'bbar' matches 'b*bar' with a score of 5.
 Key 'bar' does not match '*foobar'.
-Key 'foobar' matches '*bar' in 3 characters.
+Key 'foobar' matches '*bar' with a score of 4.
