@@ -6,40 +6,38 @@
 # History:   15-Jan-04, ahu: created
 #
 # Description:
-#  This makefile mainly forwards to makefiles in subdirectories.
+#  Simple makefile that mainly forwards to makefiles in subdirectories.
 #
 # Restrictions:
 #  Requires GNU make.
 #
 
-.PHONY: all doc clean distclean maintainer-clean
+.PHONY: all install uninstall doc config mostlyclean clean distclean maintainer-clean
 
-all:
+all install uninstall: config/config.mk
 	cd src && $(MAKE) $(MAKECMDGOALS)
-#	cd doc && $(MAKE) $(MAKECMDGOALS)
 
-doc:
+doc: config/config.mk
 	cd doc && $(MAKE) $(MAKECMDGOALS)
 
-clean:
+config:
+	cd config && $(MAKE) $(MAKECMDGOALS)
+
+mostlyclean clean: config/config.mk
 	cd src && $(MAKE) $(MAKECMDGOALS)
 	cd doc && $(MAKE) $(MAKECMDGOALS)
+	cd config && $(MAKE) $(MAKECMDGOALS)
 
 # `make distclean' also removes files created by configuring 
 # the program. Running `make all distclean' prepares the project 
 # for packaging.
-distclean:
-	cd src && $(MAKE) $(MAKECMDGOALS)
-	cd doc && $(MAKE) $(MAKECMDGOALS)
-	rm -f config.h config.mk config.log config.status
-	rm -f configure.scan autoscan.log
-	rm -rf autom4te.cache/
+distclean: clean
+	rm -f config.log config.status libtool
 	rm -f *~ *.bak *#
 
 # This removes almost everything, including the configure script!
 maintainer-clean: distclean
 	rm -f configure
 
-# Catch-all
-%:
-	cd src && $(MAKE) $(MAKECMDGOALS)
+config/config.mk: 
+	$(error File config/config.mk does not exist. Did you run ./configure?)
