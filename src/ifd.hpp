@@ -21,7 +21,7 @@
 /*!
   @file    ifd.hpp
   @brief   Encoding and decoding of IFD (Image File Directory) data
-  @version $Name:  $ $Revision: 1.5 $
+  @version $Name:  $ $Revision: 1.6 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -340,6 +340,22 @@ namespace Exif {
         void print(std::ostream& os, const std::string& prefix ="") const;
 
     private:
+        // Helper structure to build IFD entries
+        struct PreEntry {
+            Exif::uint16 tag_;
+            Exif::uint16 type_; 
+            Exif::uint32 count_;
+            long size_;
+            long offsetLoc_;
+            Exif::uint32 offset_;
+        };
+
+        // cmpPreEntriesByOffset needs to know about PreEntry, that's all.
+        friend bool cmpPreEntriesByOffset(const PreEntry&, const PreEntry&);
+    
+        // Container for 'pre-entries'
+        typedef std::vector<PreEntry> PreEntries;
+
         const bool alloc_; // True:  requires memory allocation and deallocation,
                            // False: no memory management needed.
         Entries entries_;  // IFD entries
@@ -357,6 +373,15 @@ namespace Exif {
              lhs is less than that of rhs.
      */
     bool cmpEntriesByTag(const Entry& lhs, const Entry& rhs);
+
+    /*
+      @brief Compare two 'pre-IFD entries' by offset, taking care of special
+             cases where one or both of the entries don't have an offset.
+             Return true if the offset of entry lhs is less than that of rhs,
+             else false. By definition, entries without an offset are greater
+             than those with an offset.
+    */
+    bool cmpPreEntriesByOffset(const Ifd::PreEntry& lhs, const Ifd::PreEntry& rhs);
    
 }                                       // namespace Exif
 

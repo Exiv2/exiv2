@@ -20,14 +20,14 @@
  */
 /*
   File:      ifd.cpp
-  Version:   $Name:  $ $Revision: 1.3 $
+  Version:   $Name:  $ $Revision: 1.4 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: ifd.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: ifd.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -42,32 +42,6 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: ifd.cpp,v $")
 #include <algorithm>
 #include <cstring>
 #include <vector>
-
-// *****************************************************************************
-// local declarations
-namespace {
-
-    // Helper structure to build IFD entries
-    struct PreEntry {
-        Exif::uint16 tag_;
-        Exif::uint16 type_; 
-        Exif::uint32 count_;
-        long size_;
-        long offsetLoc_;
-        Exif::uint32 offset_;
-    };
-    
-    // Container for 'pre-entries'
-    typedef std::vector<PreEntry> PreEntries;
-
-    /*
-      Compare two 'pre-IFD entries' by offset, taking care of special cases
-      where one or both of the entries don't have an offset.  Return true if the
-      offset of entry lhs is less than that of rhs, else false. By definition,
-      entries without an offset are greater than those with an offset.
-     */
-    bool cmpPreEntriesByOffset(const PreEntry& lhs, const PreEntry& rhs);        
-}
 
 // *****************************************************************************
 // class member definitions
@@ -188,13 +162,13 @@ namespace Exif {
     {
         offset_ = offset;
 
-        PreEntries preEntries;
+        Ifd::PreEntries preEntries;
 
         int n = getUShort(buf, byteOrder);
         long o = 2;        
 
         for (int i = 0; i < n; ++i) {
-            PreEntry pe;
+            Ifd::PreEntry pe;
             pe.tag_ = getUShort(buf+o, byteOrder);
             pe.type_ = getUShort(buf+o+2, byteOrder);
             pe.count_ = getULong(buf+o+4, byteOrder);
@@ -212,7 +186,7 @@ namespace Exif {
         // will need to be recalculated.
         if (offset_ == 0 && preEntries.size() > 0) {
             // Find the entry with the smallest offset
-            PreEntries::const_iterator i = std::min_element(
+            Ifd::PreEntries::const_iterator i = std::min_element(
                 preEntries.begin(), preEntries.end(), cmpPreEntriesByOffset);
             // Set the 'guessed' IFD offset, the test is needed for the case when
             // all entries have data sizes not exceeding 4.
@@ -225,9 +199,9 @@ namespace Exif {
         // to each IFD entry and calculate relative offsets, relative to the
         // start of the IFD
         entries_.clear();
-        const PreEntries::iterator begin = preEntries.begin();
-        const PreEntries::iterator end = preEntries.end();
-        for (PreEntries::iterator i = begin; i != end; ++i) {
+        const Ifd::PreEntries::iterator begin = preEntries.begin();
+        const Ifd::PreEntries::iterator end = preEntries.end();
+        for (Ifd::PreEntries::iterator i = begin; i != end; ++i) {
             Entry e(alloc_);
             e.setIfdId(ifdId_);
             e.setTag(i->tag_);
@@ -421,13 +395,7 @@ namespace Exif {
         return lhs.tag() < rhs.tag();
     }
 
-}                                       // namespace Exif
-
-// *****************************************************************************
-// local definitions
-namespace {
-
-    bool cmpPreEntriesByOffset(const PreEntry& lhs, const PreEntry& rhs)
+    bool cmpPreEntriesByOffset(const Ifd::PreEntry& lhs, const Ifd::PreEntry& rhs)
     {
         // We need to ignore entries with size <= 4, so by definition,
         // entries with size <= 4 are greater than those with size > 4
@@ -439,6 +407,6 @@ namespace {
             return true; // rhs is greater by definition (they cannot be equal)
         }
         return lhs.offset_ < rhs.offset_;
-    }
+    } // cmpPreEntriesByOffset
 
-}
+}                                       // namespace Exif
