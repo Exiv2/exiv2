@@ -246,24 +246,24 @@ namespace Exiv2 {
     } // Entry::component
 
     Ifd::Ifd(IfdId ifdId)
-        : alloc_(true), ifdId_(ifdId), offset_(0), dataOffset_(0),
-          pNext_(0), next_(0)
+        : alloc_(true), ifdId_(ifdId), pBase_(0), offset_(0), 
+          dataOffset_(0), pNext_(0), next_(0)
     {
         pNext_ = new byte[4];
         memset(pNext_, 0x0, 4);
     }
 
-    Ifd::Ifd(IfdId ifdId, uint32_t offset)
-        : alloc_(true), ifdId_(ifdId), offset_(offset), dataOffset_(0),
-          pNext_(0), next_(0)
+    Ifd::Ifd(IfdId ifdId, long offset)
+        : alloc_(true), ifdId_(ifdId), pBase_(0), offset_(offset), 
+          dataOffset_(0), pNext_(0), next_(0)
     {
         pNext_ = new byte[4];
         memset(pNext_, 0x0, 4);
     }
 
-    Ifd::Ifd(IfdId ifdId, uint32_t offset, bool alloc)
-        : alloc_(alloc), ifdId_(ifdId), offset_(offset), dataOffset_(0),
-          pNext_(0), next_(0)
+    Ifd::Ifd(IfdId ifdId, long offset, bool alloc)
+        : alloc_(alloc), ifdId_(ifdId), pBase_(0), offset_(offset), 
+          dataOffset_(0), pNext_(0), next_(0)
     {
         if (alloc_) {
             pNext_ = new byte[4];
@@ -273,13 +273,14 @@ namespace Exiv2 {
 
     Ifd::~Ifd()
     {
+        // do not delete pBase_
         if (alloc_) delete[] pNext_;
     }
 
     Ifd::Ifd(const Ifd& rhs)
         : alloc_(rhs.alloc_), entries_(rhs.entries_), ifdId_(rhs.ifdId_),
-          offset_(rhs.offset_), dataOffset_(rhs.dataOffset_),
-          pNext_(rhs.pNext_), next_(rhs.next_)
+          pBase_(rhs.pBase_), offset_(rhs.offset_), 
+          dataOffset_(rhs.dataOffset_), pNext_(rhs.pNext_), next_(rhs.next_)
     {
         if (alloc_ && rhs.pNext_) {
             pNext_ = new byte[4];
@@ -295,6 +296,7 @@ namespace Exiv2 {
 
         if (len < 2) rc = 6;
         if (rc == 0) {
+            if (!alloc_) pBase_ = const_cast<byte*>(buf);
             offset_ = offset;
             int n = getUShort(buf, byteOrder);
             o = 2;
@@ -314,7 +316,7 @@ namespace Exiv2 {
                 pe.count_ = getULong(buf + o + 4, byteOrder);
                 pe.size_ = pe.count_ * TypeInfo::typeSize(TypeId(pe.type_));
                 pe.offsetLoc_ = o + 8;
-                pe.offset_ = pe.size_ > 4 ? getULong(buf + o + 8, byteOrder) : 0;
+                pe.offset_ = pe.size_ > 4 ? getLong(buf + o + 8, byteOrder) : 0;
                 preEntries.push_back(pe);
                 o += 12;
             }
@@ -351,18 +353,19 @@ namespace Exiv2 {
             if (i->size_ > 4) {
                 if (offset_ == 0) {
                     // Set the 'guessed' IFD offset
-                    offset_ = i->offset_ - size();
+                    offset_ = i->offset_ - (2 + 12 * preEntries.size() + 4);
                 }
                 // Set the offset of the first data entry outside of the IFD
-                if (static_cast<unsigned long>(len) < i->offset_ - offset_) {
+                if (i->offset_ - offset_ >= len) {
                     // Todo: How to handle debug output like this
                     std::cerr << "Error: Offset of the 1st data entry of " 
                               << ExifTags::ifdName(ifdId_) 
                               << " is out of bounds:\n"
-                              << " Offset = " << i->offset_ - offset_
+                              << " Offset = 0x" << std::setw(8) 
+                              << std::setfill('0') << std::hex 
+                              << i->offset_ - offset_
                               << ", exceeds buffer size by "
-                              << i->offset_ - offset_ 
-                                 - static_cast<unsigned long>(len)
+                              << std::dec << i->offset_ - len
                               << " Bytes\n";
                     rc = 6;
                 }
@@ -384,19 +387,20 @@ namespace Exiv2 {
                 e.setIfdId(ifdId_);
                 e.setIdx(++idx);
                 e.setTag(i->tag_);
-                uint32_t tmpOffset = 
+                long tmpOffset = 
                     i->size_ > 4 ? i->offset_ - offset_ : i->offsetLoc_;
-                if (static_cast<unsigned long>(len) < tmpOffset + i->size_) {
+                if (tmpOffset + i->size_ > len) {
                     // Todo: How to handle debug output like this
                     std::cerr << "Warning: Upper boundary of data for " 
                               << ExifTags::ifdName(ifdId_) 
                               << " entry " << static_cast<int>(i - begin) 
                               << " is out of bounds:\n"
-                              << " Offset = " << tmpOffset
-                              << ", size = " << i->size_ 
+                              << " Offset = 0x" << std::setw(8) 
+                              << std::setfill('0') << std::hex 
+                              << tmpOffset
+                              << ", size = " << std::dec << i->size_ 
                               << ", exceeds buffer size by "
-                              << tmpOffset + i->size_ 
-                                 - static_cast<unsigned long>(len)
+                              << tmpOffset + i->size_ - len
                               << " Bytes; Truncating the data.\n";
                     // Truncate the entry
                     i->size_ = 0;
@@ -496,7 +500,7 @@ namespace Exiv2 {
             if (i->size() > 4) {
                 // Set the offset of the entry, data immediately follows the IFD
                 i->setOffset(size() + dataSize);
-                ul2Data(buf + o + 8, offset_ + i->offset(), byteOrder);
+                l2Data(buf + o + 8, offset_ + i->offset(), byteOrder);
                 dataSize += i->size();
             }
             else {
@@ -542,6 +546,7 @@ namespace Exiv2 {
             memset(pNext_, 0x0, 4);
         }
         else {
+            pBase_ = 0;
             pNext_ = 0;
         }
         next_ = 0;
@@ -616,7 +621,7 @@ namespace Exiv2 {
         for (; i != e; ++i) {
             std::ostringstream offset;
             if (i->size() > 4) {
-                offset << " 0x" << std::setw(8) << std::setfill('0') 
+                offset << " 0x" << std::setw(8) << std::setfill('0')
                        << std::hex << std::right << i->offset();
             }
             else {
