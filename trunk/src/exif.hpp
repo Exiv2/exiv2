@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.10 $
+  @version $Name:  $ $Revision: 1.11 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -228,12 +228,31 @@ namespace Exif {
           @return The converted value. 
          */
         virtual long toLong(long n =0) const =0;
+        //! Return the value as a string
+        std::string toString() const;
 
         //! Return the type identifier (Exif data format type).
         TypeId typeId() const { return TypeId(type_); }
 
         /*!
           @brief A (simple) factory to create a Value type.
+
+          The following Value subclasses are created depending on typeId:<BR><BR>
+          <TABLE>
+          <TR><TD><B>typeId</B></TD><TD><B>%Value subclass</B></TD></TR>
+          <TR><TD>invalid</TD><TD>%DataValue(invalid)</TD></TR>
+          <TR><TD>unsignedByte</TD><TD>%DataValue(unsignedByte)</TD></TR>
+          <TR><TD>asciiString</TD><TD>%AsciiValue</TD></TR>
+          <TR><TD>unsignedShort</TD><TD>%ValueType &lt; uint16 &gt;</TD></TR>
+          <TR><TD>unsignedLong</TD><TD>%ValueType &lt; uint32 &gt;</TD></TR>
+          <TR><TD>unsignedRational</TD><TD>%ValueType &lt; URational &gt;</TD></TR>
+          <TR><TD>invalid6</TD><TD>%DataValue(invalid6)</TD></TR>
+          <TR><TD>undefined</TD><TD>%DataValue</TD></TR>
+          <TR><TD>signedShort</TD><TD>%ValueType &lt; int16 &gt;</TD></TR>
+          <TR><TD>signedLong</TD><TD>%ValueType &lt; int32 &gt;</TD></TR>
+          <TR><TD>signedRational</TD><TD>%ValueType &lt; Rational &gt;</TD></TR>
+          <TR><TD><EM>default:</EM></TD><TD>%DataValue(typeId)</TD></TR>
+          </TABLE>
 
           @param typeId Type of the value.
           @return Pointer to the newly created Value.
@@ -429,6 +448,18 @@ namespace Exif {
                  not have a value yet, then an AsciiValue is created.
          */
         void setValue(const std::string& buf);
+        /*!
+          @brief Return a pointer to a copy (clone) of the value. The caller
+                 is responsible to delete this copy when it's no longer needed.
+
+          This method is provided for users who need full control over the 
+          value. A caller may, e.g., downcast the pointer to the appropriate
+          subclass of Value to make use of the interface of the subclass to set
+          or modify its contents.
+          
+          @return A pointer to a copy (clone) of the value.          
+         */
+        Value* getValue() const { return value_->clone(); }
         //! Return the name of the tag
         const char* tagName() const { return ExifTags::tagName(tag_, ifdId_); }
         //! Return the name of the type
@@ -459,6 +490,9 @@ namespace Exif {
          */
         long toLong(long n =0) const 
             { return value_ == 0 ? -1 : value_->toLong(n); }
+        //! Return the value as a string.
+        std::string toString() const 
+            { return value_ == 0 ? "" : value_->toString(); }
         //! Return the IFD id
         IfdId ifdId() const { return ifdId_; }
         //! Return the position in the IFD (-1: not set)
@@ -466,18 +500,19 @@ namespace Exif {
         /*!
           @brief Return a constant reference to the value. 
 
-          This method is provided mostly for convenient and versatile output
-          of the value, for example
+          This method is provided mostly for convenient and versatile output of
+          the value which can (to some extent) be formatted through standard
+          stream manipulators.  Do not attempt to write to the value through
+          this reference. The behaviour of the method is undefined if value is
+          not set.
 
+          <b>Example:</b> <br>
           @code
           ExifData::const_iterator i = exifData.findKey(key);
           if (i != exifData.end()) {
               std::cout << i->key() << " " << std::hex << i->value() << "\n";
           }
           @endcode
-
-          Do not attempt to write to the value through this reference. 
-          The behaviour of the method is undefined if value is not set.
          */
         const Value& value() const { return *value_; }
         /*!

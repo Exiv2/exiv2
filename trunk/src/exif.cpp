@@ -19,13 +19,10 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 /*
+  File:      exif.cpp
+  Version:   $Name:  $ $Revision: 1.10 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:
-   13-Jan-04, ahu: created
-
-  RCS information
-   $Name:  $
-   $Revision: 1.9 $
+  History:   26-Jan-04, ahu: created
  */
 // *****************************************************************************
 // included header files
@@ -223,6 +220,13 @@ namespace Exif {
         }
         return value;
     } // Value::create
+
+    std::string Value::toString() const
+    {
+        std::ostringstream os;
+        write(os);
+        return os.str();
+    }
 
     void DataValue::read(const char* buf, long len, ByteOrder byteOrder)
     {
