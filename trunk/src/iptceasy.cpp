@@ -6,8 +6,6 @@
 #include <iostream>
 #include <iomanip>
 
-void printIptc(const Exiv2::IptcData& iptcData);
-
 int main(int argc, char* const argv[])
 try {
     if (argc != 2) {
