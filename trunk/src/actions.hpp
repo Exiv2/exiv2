@@ -22,7 +22,7 @@
   @file    actions.hpp
   @brief   Implements base class Task, TaskFactory and the various supported
            actions (derived from Task).
-  @version $Name:  $ $Revision: 1.5 $
+  @version $Name:  $ $Revision: 1.6 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    11-Dec-03, ahu: created
@@ -52,7 +52,7 @@ namespace Exif {
 namespace Action {
 
     //! Enumerates all tasks
-    enum TaskType { none, adjust, print, rename, erase, extract };
+    enum TaskType { none, adjust, print, rename, erase, extract, insert };
 
 // *****************************************************************************
 // class definitions
@@ -250,13 +250,29 @@ namespace Action {
           @brief Write the %Exif data to a file. The filename is composed by
                  replacing the suffix of the image filename with ".exf".
          */
-        int writeExifData(const Exif::ExifData& exifData) const;
+        int writeExifData(Exif::ExifData& exifData) const;
 
     private:
         virtual Task* clone_() const;
         std::string path_;
 
     }; // class Extract
+
+    /*!
+      @brief %Insert the %Exif data from corresponding *.exv files.
+     */
+    class Insert : public Task {
+    public:
+        virtual ~Insert() {}
+        virtual int run(const std::string& path);
+        typedef std::auto_ptr<Insert> AutoPtr;
+        AutoPtr clone() const;
+
+    private:
+        virtual Task* clone_() const;
+
+    }; // class Insert
+
 }                                       // namespace Action 
 
 #endif                                  // #ifndef ACTIONS_HPP_
