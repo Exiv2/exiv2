@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.33 $
+  @version $Name:  $ $Revision: 1.34 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -504,8 +504,10 @@ namespace Exif {
         /*!
           @brief Read the %Exif data from file path.
           @param path Path to the file
-          @return 0 if successful<br>
-                  the return code of readExifData(std::istream& is)
+          @return  0 if successful;<BR>
+                  -1 if the file couldn't be opened;<BR>
+                  -2 if the file type is unknown;<BR>
+                  the return code of Image::readExifData(std::istream& is)
                     if the call to this function fails<br>
                   the return code of read(const char* buf, long len)
                     if the call to this function fails<br>
