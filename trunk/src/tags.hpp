@@ -21,10 +21,10 @@
 /*!
   @file    tags.hpp
   @brief   %Exif tag and type information
-  @version $Name:  $ $Revision: 1.6 $
+  @version $Name:  $ $Revision: 1.7 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    15-Jan-03, ahu: created
+  @date    15-Jan-04, ahu: created
  */
 #ifndef TAGS_HPP_
 #define TAGS_HPP_
@@ -33,6 +33,7 @@
 // included header files
 
 // + standard includes
+#include <string>
 #include <utility>                              // for std::pair
 #include <iosfwd>
 
@@ -63,21 +64,47 @@ namespace Exif {
                   signedShort, signedLong, signedRational };
 
     //! Type to specify the IFD to which a metadata belongs
-    enum IfdId { IfdIdNotSet, 
+    enum IfdId { ifdIdNotSet, 
                  ifd0, exifIfd, gpsIfd, makerIfd, iopIfd, 
-                 ifd1, ifd1ExifIfd, ifd1GpsIfd, ifd1MakerIfd, ifd1IopIfd };
+                 ifd1, ifd1ExifIfd, ifd1GpsIfd, ifd1MakerIfd, ifd1IopIfd,
+                 lastIfdId};
 
     /*!
       @brief Section identifiers to logically group tags. A section consists
              of nothing more than a name, based on the Exif standard.
      */
-    enum SectionId { SectionIdNotSet, 
+    enum SectionId { sectionIdNotSet, 
                      imgStruct, recOffset, imgCharacter, otherTags, exifFormat, 
                      exifVersion, imgConfig, userInfo, relatedFile, dateTime,
-                     captureCond, gpsTags, iopTags };
+                     captureCond, gpsTags, iopTags, 
+                     lastSectionId };
 
 // *****************************************************************************
 // class definitions
+
+    /*!
+      @brief Very simple error class used for exceptions. It contains just an
+             error message. An output operator is provided to print
+             errors to a stream.
+     */
+    class Error {
+    public:
+        //! Constructor taking a (short) error message as argument
+        Error(const std::string& message) : message_(message) {}
+        /*!
+          @brief Return the error message. Consider using the output operator
+                 operator<<(std::ostream &os, const Error& error) instead.
+         */
+        std::string message() const { return message_; }
+    private:
+        std::string message_;
+    };
+
+    //! %Error output operator
+    inline std::ostream& operator<<(std::ostream& os, const Error& error)
+    {
+        return os << error.message();
+    }
 
     //! Contains information pertaining to one IFD
     struct IfdInfo {
@@ -119,11 +146,11 @@ namespace Exif {
         uint16 tag_;                            //!< Tag
         const char* name_;                      //!< One word tag label
         const char* desc_;                      //!< Short tag description
-        IfdId ifdId_;                           //!< Link to the IFD
+        IfdId ifdId_;                           //!< Link to the (prefered) IFD
         SectionId sectionId_;                   //!< Section id
     }; // struct TagInfo
 
-    //! Container for Exif tag information. Implemented as a static class.
+    //! Container for %Exif tag information. Implemented as a static class.
     class ExifTags {
         //! Prevent construction: not implemented.
         ExifTags() {}
@@ -133,23 +160,56 @@ namespace Exif {
         ExifTags& operator=(const ExifTags& rhs);
 
     public:
-        //! Returns the name of the tag
+        /*!
+          @brief Return the name of the tag.
+          @param tag The tag
+          @param ifdId IFD id
+          @return The name of the tag or a string indicating that the 
+                  tag is unknown. 
+          @throw Error ("No taginfo for IFD") if there is no tag info
+                 data for the given IFD id in the lookup tables.
+         */
         static const char* tagName(uint16 tag, IfdId ifdId);
-        //! Returns the name of the type
+        //! Return the tag for one combination of IFD id and tagName
+        static uint16 tag(const std::string& tagName, IfdId ifdId);
+        //! Return the name of the type
         static const char* typeName(TypeId typeId);
-        //! Returns the size in bytes of one element of this type
+        //! Return the size in bytes of one element of this type
         static long typeSize(TypeId typeId);
-        //! Returns the name of the IFD
+        //! Return the name of the IFD
         static const char* ifdName(IfdId ifdId);
-        //! Returns the related image item (image or thumbnail)
+        //! Return the related image item (image or thumbnail)
         static const char* ifdItem(IfdId ifdId);
-        //! Returns the name of the section
+        //! Return the name of the section
         static const char* sectionName(SectionId sectionId);
-        //! Returns the name of the section
+        /*!
+          @brief Return the name of the section for a combination of 
+                 tag and IFD id.
+          @param tag The tag
+          @param ifdId IFD id
+          @return The name of the section or a string indicating that the 
+                  section or the tag is unknown. 
+          @throw Error ("No taginfo for IFD") if there is no tag info
+                 data for the given IFD id in the lookup tables.
+         */
         static const char* sectionName(uint16 tag, IfdId ifdId);
+        //! Return the section id for a section name
+        static SectionId sectionId(const std::string& sectionName);
+        /*!
+          @brief Return the unique combination of IFD id and tag for the
+                 components of a key.
+          @param ifdItem The IFD item part of the key (first part)
+          @param sectionName The section name part of the key (second part)
+          @param tagName The tag name part of the key (third part)
+          @return A pair consisting of the IFD id and the tag.
+         */
+        static std::pair<IfdId, uint16> ifdAndTag(const std::string& ifdItem, 
+                                                  const std::string& sectionName, 
+                                                  const std::string& tagName);
 
     private:
         static int tagInfoIdx(uint16 tag, IfdId ifdId);
+        static int tagInfoIdx(const std::string& tagName, IfdId ifdId);
 
         static const IfdInfo     ifdInfo_[];
         static const SectionInfo sectionInfo_[];

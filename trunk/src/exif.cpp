@@ -25,7 +25,7 @@
 
   RCS information
    $Name:  $
-   $Revision: 1.8 $
+   $Revision: 1.9 $
  */
 // *****************************************************************************
 // included header files
@@ -217,6 +217,9 @@ namespace Exif {
         case signedRational:
             value = new ValueType<Rational>;
             break;
+        default:
+            value = new DataValue(typeId);
+            break;
         }
         return value;
     } // Value::create
@@ -271,6 +274,7 @@ namespace Exif {
     void AsciiValue::read(const std::string& buf)
     {
         value_ = buf;
+        if (value_[value_.size()-1] != '\0') value_ += '\0';
     }
 
     long AsciiValue::copy(char* buf, ByteOrder byteOrder) const
@@ -296,11 +300,36 @@ namespace Exif {
 
     Metadatum::Metadatum(uint16 tag, uint16 type, 
                          IfdId ifdId, int ifdIdx, Value* value)
-        : tag_(tag), ifdId_(ifdId), ifdIdx_(ifdIdx), value_(value)
+        : tag_(tag), ifdId_(ifdId), ifdIdx_(ifdIdx), value_(0)
     {
+        if (value) value_ = value->clone();
+
         key_ = std::string(ifdItem()) 
             + "." + std::string(sectionName()) 
             + "." + std::string(tagName());
+    }
+
+    Metadatum::Metadatum(const std::string& key, Value* value)
+        : ifdIdx_(-1), value_(0), key_(key)
+    {
+        if (value) value_ = value->clone();
+
+        std::string::size_type pos1 = key.find('.');
+        if (pos1 == std::string::npos) throw Error("Invalid key");
+        std::string ifdItem = key.substr(0, pos1);
+        std::string::size_type pos0 = pos1 + 1;
+        pos1 = key.find('.', pos0);
+        if (pos1 == std::string::npos) throw Error("Invalid key");
+        std::string sectionName = key.substr(pos0, pos1 - pos0);
+        pos0 = pos1 + 1;
+        std::string tagName = key.substr(pos0);
+        if (tagName == "") throw Error("Invalid key");
+        std::pair<IfdId, uint16> p
+            = ExifTags::ifdAndTag(ifdItem, sectionName, tagName);
+        if (p.first == ifdIdNotSet) throw Error("Invalid key");
+        ifdId_ = p.first;
+        if (p.second == 0xffff) throw Error("Invalid key");
+        tag_ = p.second;
     }
 
     Metadatum::~Metadatum()
@@ -331,7 +360,13 @@ namespace Exif {
     void Metadatum::setValue(Value* value)
     {
         delete value_;
-        value_ = value;
+        value_ = value->clone();
+    }
+
+    void Metadatum::setValue(const std::string& buf)
+    {
+        if (value_ == 0) value_ = Value::create(asciiString);
+        value_->read(buf);
     }
 
     Ifd::Entry::Entry() 
@@ -437,6 +472,12 @@ namespace Exif {
     } // Ifd::read
 
     Ifd::Entries::const_iterator Ifd::findTag(uint16 tag) const 
+    {
+        return std::find_if(entries_.begin(), entries_.end(),
+                            FindEntryByTag(tag));
+    }
+
+    Ifd::Entries::iterator Ifd::findTag(uint16 tag)
     {
         return std::find_if(entries_.begin(), entries_.end(),
                             FindEntryByTag(tag));
@@ -695,8 +736,27 @@ namespace Exif {
         for (; i != end; ++i) {
             Value* value = Value::create(TypeId(i->type_));
             value->read(i->data_, i->size_, byteOrder);
-            Metadatum md(i->tag_, i->type_, ifd.ifdId(), i->ifdIdx_, value);
-            add(md);
+            Metadatum md(i->tag_, i->type_, ifd.ifdId(), i->ifdIdx_);
+            iterator k = findKey(md.key());
+            if (k != this->end()) {
+                k->setValue(value);
+            }
+            else {
+                md.setValue(value);
+                add(md);
+            }
+            delete value;
+        }
+    }
+
+    void ExifData::add(const std::string& key, Value* value)
+    {
+        iterator i = findKey(key);
+        if (i != end()) {
+            i->setValue(value);
+        }
+        else {
+            add(Metadatum(key, value));
         }
     }
 
@@ -709,6 +769,23 @@ namespace Exif {
     {
         return std::find_if(metadata_.begin(), metadata_.end(),
                             FindMetadatumByKey(key));
+    }
+
+    ExifData::iterator ExifData::findKey(const std::string& key)
+    {
+        return std::find_if(metadata_.begin(), metadata_.end(),
+                            FindMetadatumByKey(key));
+    }
+
+    void ExifData::erase(const std::string& key)
+    {
+        iterator pos = findKey(key);
+        if (pos != end()) erase(pos);
+    }
+
+    void ExifData::erase(ExifData::iterator pos)
+    {
+        metadata_.erase(pos);
     }
 
     // *************************************************************************

@@ -23,7 +23,7 @@
 #
 # RCS information
 #  $Name:  $
-#  $Revision: 1.4 $
+#  $Revision: 1.5 $
 #
 # Description:
 #  Do NOT change this file! All system specific settings and configs
@@ -58,7 +58,7 @@ CCHDR =
 CCSRC = exif.cpp tags.cpp utils.cpp
 
 # Add source files of applications to this list
-BINSRC = exiftest.cpp
+BINSRC = exiftest.cpp exifprint.cpp
 
 # **********************************************************************
 # Library
