@@ -3,13 +3,12 @@
   @brief   This file is from the tz distribution at ftp://elsie.nci.nih.gov/pub/
   @version $Rev$
 */
-#ifdef HAVE_CONFIG_H
-# include <config.h>
+#ifdef _MSC_VER
+# include "exv_msvc.h"
 #else
-# ifdef _MSC_VER
-#  include <config_win32.h>
-# endif
+# include "exv_conf.h"
 #endif
+
 #include "timegm.h"
 
 /*

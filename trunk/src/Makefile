@@ -38,17 +38,17 @@
 #
 
 # Default make target
-all: lib bin
+all: bin
 
 # Include system configuration
 top_srcdir = ..
-include $(top_srcdir)/config.mk
+include $(top_srcdir)/config/config.mk
 
 # ******************************************************************************
 # Source files
 
 # Add standalone C++ header files to this list
-CCHDR = error.hpp rcsid.hpp 
+CCHDR = exv_conf.h exv_msvc.h error.hpp rcsid.hpp 
 
 # Add library C++ source files to this list
 CCSRC = basicio.cpp canonmn.cpp datasets.cpp exif.cpp fujimn.cpp ifd.cpp \
@@ -80,13 +80,13 @@ MCSRC = utils.cpp
 # ******************************************************************************
 # Library
 
-LIBNAME = exiv2
+LIBRARY = libexiv2.la
 
 # ******************************************************************************
 # Defines, Includes and Libraries
 CXXDEFS = $(DEFS)
 CXXINCS = $(INCS)
-LDLIBS  = $(LIBS) -l$(LIBNAME)
+LDLIBS  = $(LIBS) mn.o $(LIBRARY)
 
 # ******************************************************************************
 # ==============================================================================
@@ -103,12 +103,12 @@ SHELL = /bin/sh
 # Generic variables
 CCHDR := $(CCHDR) $(CCSRC:.cpp=.hpp)
 CCOBJ = $(CCSRC:.cpp=.o)
-CCSOBJ = $(CCSRC:.cpp=.so)
+CCLOBJ = $(CCSRC:.cpp=.lo)
 
 SRC = $(CCSRC)
 HDR = $(CCHDR)
 OBJ = $(CCOBJ)
-SOBJ = $(CCSOBJ)
+LOBJ = $(CCLOBJ)
 DEP = $(CCSRC:%.cpp=.%.d) $(BINSRC:%.cpp=.%.d) \
       $(EXIV2MAIN:%.cpp=.%.d) $(EXIV2SRC:%.cpp=.%.d) $(EXIVCSRC:%.c=.%.d) \
       $(MCMAIN:%.cpp=.%.d) $(MCSRC:%.cpp=.%.d)
@@ -117,36 +117,14 @@ BINOBJ = $(BINSRC:.cpp=.o)
 BINARY = $(BINSRC:.cpp=)
 EXECUTABLE = $(BINSRC:.cpp=$(EXEEXT))
 
-EXIV2OBJ = $(EXIV2MAIN:.cpp=.o) $(EXIV2SRC:.cpp=.o) $(EXIVCSRC:.c=.o)
+EXIV2OBJ = $(EXIV2MAIN:.cpp=.o) $(EXIV2SRC:.cpp=.o) 
+EXIV2COBJ = $(EXIVCSRC:.c=.o)
 EXIV2BIN = $(EXIV2MAIN:.cpp=)
 EXIV2EXE = $(EXIV2MAIN:.cpp=$(EXEEXT))
 
 MCOBJ = $(MCMAIN:.cpp=.o) $(MCSRC:.cpp=.o)
 MCBIN = $(MCMAIN:.cpp=)
 MCEXE = $(MCMAIN:.cpp=$(EXEEXT))
-
-ARCHIVE = lib$(LIBNAME)$(ARCHIVE_SUFFIX)
-SHAREDLIB = lib$(LIBNAME)$(SHAREDLIB_SUFFIX)
-
-# ******************************************************************************
-# Assemble the dependencies for the 'lib' target and corresponding 
-# (un)install targets. If neither STATIC_LIBS nor SHARED_LIBS is 
-# defined, 'lib' does nothing.
-ifdef STATIC_LIBS
-    LIBRARY = archive
-    INSTALL = bin
-    UNINSTALL = 
-    INSTALL_LIB = install-archive
-    UNINSTALL_LIB = uninstall-archive
-    LDLIBS := mn.o $(LDLIBS)
-endif
-ifdef SHARED_LIBS
-    LIBRARY := $(LIBRARY) sharedlib
-    INSTALL = bin install-sharedlib
-    UNINSTALL := uninstall-sharedlib
-    INSTALL_LIB := $(INSTALL_LIB) install-sharedlib
-    UNINSTALL_LIB := $(UNINSTALL_LIB) uninstall-sharedlib
-endif
 
 # ******************************************************************************
 # Include `.*.d' files, but only if we need them, 
@@ -156,8 +134,7 @@ ifeq ($(strip $(MAKECMDGOALS)),)
 else
 # ...or the target is _not_ one in the list of targets below.
 NOINCLUDE = uninstall uninstall-lib check doc ctags mostlyclean clean  \
-            install-header uninstall-header distclean maintainer-clean \
-            uninstall-archive uninstall-sharedlib
+            install-header uninstall-header distclean maintainer-clean 
 ifneq ($(MAKECMDGOALS), $(filter $(MAKECMDGOALS), $(NOINCLUDE)))
 -include $(DEP)
 endif
@@ -165,14 +142,14 @@ endif
 
 # ******************************************************************************
 # Rules
+$(OBJ): %.o: %.cpp
+	@$(LIBTOOL) --mode=compile $(CXX) $(CXXFLAGS) $(CXXDEFS) $(CXXINCS) -c $<
+
+$(sort $(BINOBJ) $(EXIV2OBJ) $(MCOBJ) mn.o): %.o: %.cpp
+	$(CXX) $(CXXFLAGS) $(CXXDEFS) $(CXXINCS) -c $<
+
 %.o: %.c
-	$(CC) $(CFLAGS) $(DEFS) $(INCS) -c $< -o $@
-
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS_STATIC) $(CXXDEFS) $(CXXINCS) -c $< -o $@
-
-%.so: %.cpp
-	$(CXX) $(CXXFLAGS_SHARED) $(CXXDEFS) $(CXXINCS) -c $< -o $@
+	$(CC) $(CFLAGS) $(DEFS) $(INCS) -c $<
 
 %.ii: %.cpp
 	set -e; \
@@ -185,67 +162,42 @@ endif
 	@echo generating $@
 	@set -e; \
 	$(CXXDEP) $(CPPFLAGS) $(CXXDEFS) $(CXXINCS) $< \
-	| sed 's/\($*\)\.o[ :]*/\1.o \1.so $@ : /' > $@; \
-	[ -s $@ ] || rm -f $@
-
-$(BINARY): %: %.o
-	$(CXX) $(CXXFLAGS) $< $(LDLIBS) $(LDFLAGS_BIN) -o $@
-
-mn.cpp: ./mn.sh
-	./mn.sh
+	| sed 's/\($*\)\.o[ :]*/\1.o $@ : /' > $@; \
+	[ -s $@ ] || $(RM) $@
 
 # ******************************************************************************
 # Targets
 .PHONY: all bin check ctags doc                                        \
         clean mostlyclean distclean maintainer-clean                   \
-        install install-archive install-header                         \
-        install-sharedlib install-lib                                  \
-        uninstall uninstall-archive uninstall-header                   \
-        uninstall-sharedlib uninstall-lib                              \
+        install install-header install-lib                             \
+        uninstall uninstall-header uninstall-lib
 
-$(ARCHIVE)($(OBJ)): $(OBJ)
-	@$(AR) $(ARFLAGS) $@ $%
+types.hpp: exv_conf.h 
+actions.cpp exiv2.cpp image.cpp utils.cpp: exv_conf.h 
 
-$(ARCHIVE): $(ARCHIVE)($(OBJ))
-	@if test -n "$(CXX_REPOSITORY)"; then \
-	    find $(CXX_REPOSITORY) -name "*.o" -type f | \
-	    xargs $(AR) $(ARFLAGS) $@; \
-	fi
-	$(RANLIB) $@
+exv_conf.h: $(top_srcdir)/config/config.h
+	cp -f $(top_srcdir)/config/config.h exv_conf.h
 
-$(SHAREDLIB): $(SOBJ)
-	$(CXX) $^ $(LDFLAGS_SHARED) -o $@
+mn.cpp: ./mn.sh
+	./mn.sh
 
-archive: $(ARCHIVE)
-	@touch archive
-
-sharedlib: $(SHAREDLIB)
-	@touch sharedlib
-
-lib: $(LIBRARY)
-	@touch lib
-
-# Re-link executables whenever the static library changes
-ifdef STATIC_LIBS
-$(BINARY): $(ARCHIVE) mn.o
-endif
-
-$(EXIV2BIN): lib $(EXIV2OBJ)
-	$(CXX) $(CXXFLAGS) $(EXIV2OBJ) $(LDLIBS) $(LDFLAGS_BIN) -o $@
-
-$(MCBIN): lib $(MCOBJ)
-	$(CXX) $(CXXFLAGS) $(MCOBJ) $(LDLIBS) $(LDFLAGS_BIN) -o $@
+$(LIBTOOL): $(LIBTOOL_DEPS)
+	$(SHELL) $(top_srcdir)/config.status --recheck
 
 bin: lib $(BINARY) $(EXIV2BIN) $(MCBIN)
 
-install: $(INSTALL)
-	$(INSTALL_DIRS) $(bindir) 
-	@list='$(EXIV2EXE)'; for p in $$list; do \
-	    if test -f $$p; then \
-	        echo "$(INSTALL_PROGRAM) $$p $(bindir)/$$p"; \
-	        $(INSTALL_PROGRAM) $$p $(bindir)/$$p; \
-	    else :; fi; \
-	done
+lib: $(OBJ)
+	$(LIBTOOL) --mode=link $(CXX) $(LDFLAGS) $(LOBJ) -o $(LIBRARY) -rpath $(libdir) -release $(EXIV2_VERSION) 
+	@touch lib
+
+$(BINARY): %: %.o lib mn.o
+	@$(LIBTOOL) --mode=link $(CXX) $(CXXFLAGS) $(LDLIBS) $@.o $(LDFLAGS) -o $@ -rpath $(libdir)
+
+$(EXIV2BIN): lib $(EXIV2OBJ) $(EXIV2COBJ) mn.o
+	@$(LIBTOOL) --mode=link $(CXX) $(CXXFLAGS) $(EXIV2OBJ) $(EXIV2COBJ) $(LDLIBS) $(LDFLAGS) -o $@ -rpath $(libdir)
+
+$(MCBIN): lib $(MCOBJ) mn.o
+	@$(LIBTOOL) --mode=link $(CXX) $(CXXFLAGS) $(MCOBJ) $(LDLIBS) $(LDFLAGS) -o $@ -rpath $(libdir)
 
 install-header:
 	$(INSTALL_DIRS) $(incdir)
@@ -255,39 +207,29 @@ install-header:
 	        $(INSTALL_DATA) $$p $(incdir)/$$p; \
 	    else :; fi; \
 	done
-	$(INSTALL_DATA) $(top_srcdir)/config.h $(incdir)/config.h
 
-install-archive: archive
+install-lib: install-header
 	$(INSTALL_DIRS) $(libdir)
-	$(INSTALL_DATA) $(ARCHIVE) $(libdir)/$(ARCHIVE)
+	@$(LIBTOOL) --mode=install $(INSTALL_DATA) $(LIBRARY) $(libdir)/$(LIBRARY)
 
-install-sharedlib: sharedlib
-	$(INSTALL_DIRS) $(libdir)
-	$(INSTALL_DATA) $(SHAREDLIB) $(libdir)/$(SHAREDLIB)
-
-install-lib: $(INSTALL_LIB) install-header
-
-uninstall: $(UNINSTALL)
-	@list='$(EXIV2EXE)'; for p in $$list; do \
-	    echo "rm -f $(bindir)/$$p"; \
-	    rm -f $(bindir)/$$p; \
-	done
+install: install-lib
+	$(INSTALL_DIRS) $(bindir) 
+	@$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) $(EXIV2EXE) $(bindir)/$(EXIV2EXE)
 
 uninstall-header:
 	@list='$(HDR)'; for p in $$list; do \
-	    echo "rm -f $(incdir)/$$p"; \
-	    rm -f $(incdir)/$$p; \
+	    echo "$(RM) $(incdir)/$$p"; \
+	    $(RM) $(incdir)/$$p; \
 	done
-	$(RM) $(incdir)/config.h
 	-rmdir $(incdir)
 
-uninstall-archive:
-	$(RM) $(libdir)/$(ARCHIVE)
+uninstall-lib: uninstall-header
+	@$(LIBTOOL) --mode=uninstall $(RM) $(libdir)/$(LIBRARY)
+	-rmdir $(libdir)
 
-uninstall-sharedlib:
-	$(RM) $(libdir)/$(SHAREDLIB)
-
-uninstall-lib: $(UNINSTALL_LIB) uninstall-header
+uninstall: uninstall-lib
+	@$(LIBTOOL) --mode=uninstall $(RM) $(bindir)/$(EXIV2EXE)
+	-rmdir $(bindir)
 
 ctags:
 	ebrowse $(CCHDR) $(CCSRC)
@@ -300,27 +242,22 @@ check:
 mostlyclean:
 	$(RM) core
 	$(RM) $(CCSRC:.cpp=.ii)
-	$(RM) lib archive sharedlib
-	$(RM) $(OBJ) $(SOBJ) $(BINOBJ) $(EXIV2OBJ) $(MCOBJ)
-	$(RM) mn.o
-	@if test -n "$(CXX_REPOSITORY)"; then \
-	    echo "rm -rf $(CXX_REPOSITORY)"; \
-	    rm -rf $(CXX_REPOSITORY); \
-	fi
+	$(RM) lib
+	@$(LIBTOOL) --mode=clean $(RM) $(LOBJ) $(sort $(BINOBJ) $(EXIV2OBJ) $(EXIV2COBJ) $(MCOBJ) mn.o)
 
 clean: mostlyclean
-	$(RM) $(ARCHIVE) $(SHAREDLIB)
-	$(RM) $(EXECUTABLE) $(EXIV2EXE) $(MCEXE)
+	@$(LIBTOOL) --mode=clean $(RM) $(LIBRARY)
+	@$(LIBTOOL) --mode=clean $(RM) $(EXECUTABLE) $(EXIV2EXE) $(MCEXE)
 
 # Run `make distclean' from the top source directory to also remove
 # files created by configuring the program.
 distclean: clean
+	$(RM) exv_conf.h
 	$(RM) tags TAGS
-	$(RM) *~ *#
+	$(RM) *~ *.bak *#
 
 # This command is intended for maintainers to use; it deletes files
 # that may need special tools to rebuild.
-maintainer-clean: uninstall uninstall-lib distclean
+maintainer-clean: uninstall distclean
 	$(RM) $(DEP)
-	$(RM) .mn.d
 	$(RM) mn.cpp

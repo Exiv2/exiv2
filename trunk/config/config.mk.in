@@ -29,9 +29,18 @@
 #
 
 # **********************************************************************
+# Exiv2 version
+EXIV2_VERSION = @PACKAGE_VERSION@
+
+# **********************************************************************
 # Define which libraries (shared and/or static) to build
-SHARED_LIBS = 1
-STATIC_LIBS = 
+# This setting is now controlled by GNU configure and libtool, see 
+# the top level directory README and configure --help
+
+# **********************************************************************
+# Libtool
+LIBTOOL = $(top_srcdir)/libtool
+LIBTOOL_DEPS = @LIBTOOL_DEPS@
 
 # **********************************************************************
 # C++ Compiler and precompiler
@@ -43,10 +52,6 @@ ifeq ($(findstring g++,$(CXX)),g++)
 else
 	CXXFLAGS := @CXXFLAGS@
 endif
-# Compiler flags to compile static objects
-CXXFLAGS_STATIC := $(CXXFLAGS)
-# Compiler flags for shared objects
-CXXFLAGS_SHARED := $(CXXFLAGS) -fPIC
 
 # Command to run only the preprocessor
 CXXCPP = $(CXX) -E -dD
@@ -59,17 +64,6 @@ CXXDEP = $(CXX) -MM
 
 # Linker flags
 LDFLAGS = @LDFLAGS@
-# Linker flags to link applications
-LDFLAGS_BIN = $(LDFLAGS)
-# Linker flags used to link shared libraries
-LDFLAGS_SHARED = $(LDFLAGS) -shared -fPIC
-
-# Repository for object files of templates (e.g., Compaq Tru64 cxx)
-CXX_REPOSITORY = 
-
-# Library filename suffixes
-SHAREDLIB_SUFFIX = .so
-ARCHIVE_SUFFIX = .a
 
 # Suffix of executables
 EXEEXT := @EXEEXT@
@@ -77,7 +71,7 @@ EXEEXT := @EXEEXT@
 # **********************************************************************
 # C Compiler
 CC = @CC@
-ifeq ($(CXX),g++)
+ifeq ($(findstring gcc,$(CC)),gcc)
 	CFLAGS := -Wall -O2
 else
 	CFLAGS := @CFLAGS@
@@ -85,30 +79,24 @@ endif
 
 # **********************************************************************
 # Global includes, libraries and defines
-INCS = -I. -I$(top_srcdir) -I$(incdir)
-LIBS = -L. -L$(libdir) @LIBS@
-DEFS = @DEFS@
+INCS = -I. 
+LIBS = @LIBS@
+DEFS = 
 
 # **********************************************************************
 # Functions
 HAVE_TIMEGM = @HAVE_TIMEGM@
 
 # **********************************************************************
-# Archive management
-RANLIB = @RANLIB@
-AR = ar
-ARFLAGS = rcuv
-
-# **********************************************************************
 # Installation programs
 INSTALL_EXE = @INSTALL@
 INSTALL_PROGRAM = $(INSTALL_EXE)
 INSTALL_DATA = $(INSTALL_EXE) -m 644
-INSTALL_DIRS = $(top_srcdir)/mkinstalldirs
+INSTALL_DIRS = $(top_srcdir)/config/mkinstalldirs
 
 # **********************************************************************
 # Other programs
-RM = @rm -vf
+RM = rm -f
 
 # **********************************************************************
 # Directories
