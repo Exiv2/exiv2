@@ -20,14 +20,14 @@
  */
 /*
   File:      ifd.cpp
-  Version:   $Name:  $ $Revision: 1.2 $
+  Version:   $Name:  $ $Revision: 1.3 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: ifd.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: ifd.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -271,9 +271,9 @@ namespace Exif {
         return rc;
     } // Ifd::readSubIfd
 
-    long Ifd::copy(char* buf, ByteOrder byteOrder, long offset) const
+    long Ifd::copy(char* buf, ByteOrder byteOrder, long offset)
     {
-        if (offset == 0) offset = offset_;
+        if (offset != 0) offset_ = offset;
 
         // Add the number of entries to the data buffer
         us2Data(buf, entries_.size(), byteOrder);
@@ -281,16 +281,17 @@ namespace Exif {
 
         // Add all directory entries to the data buffer
         long dataSize = 0;
-        const const_iterator b = entries_.begin();
-        const const_iterator e = entries_.end();
-        const_iterator i = b;
+        const iterator b = entries_.begin();
+        const iterator e = entries_.end();
+        iterator i = b;
         for (; i != e; ++i) {
             us2Data(buf+o, i->tag(), byteOrder);
             us2Data(buf+o+2, i->type(), byteOrder);
             ul2Data(buf+o+4, i->count(), byteOrder);
             if (i->size() > 4) {
-                // Calculate offset, data immediately follows the IFD
-                ul2Data(buf+o+8, offset + size() + dataSize, byteOrder);
+                // Set the offset of the entry, data immediately follows the IFD
+                i->setOffset(size() + dataSize);
+                ul2Data(buf+o+8, offset_ + i->offset(), byteOrder);
                 dataSize += i->size();
             }
             else {

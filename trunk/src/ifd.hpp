@@ -21,7 +21,7 @@
 /*!
   @file    ifd.hpp
   @brief   Encoding and decoding of IFD (Image File Directory) data
-  @version $Name:  $ $Revision: 1.4 $
+  @version $Name:  $ $Revision: 1.5 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -137,7 +137,7 @@ namespace Exif {
                  bytes unless it is 0.
          */
         long size() const { return size_; }
-        //! Return the offset from the start of the IFD
+        //! Return the offset from the start of the IFD to the data of the entry
         uint32 offset() const { return offset_; }
         /*!
           @brief Return a pointer to the data area. Do not attempt to write
@@ -288,8 +288,8 @@ namespace Exif {
             Ifd& dest, const char* buf, ByteOrder byteOrder, uint16 tag
         ) const;
         /*!
-          @brief Copy the IFD to a data array, return the number of bytes
-                 written. 
+          @brief Copy the IFD to a data array, update the offsets of the IFD and
+                 all its entries, return the number of bytes written.
 
                  First the number of IFD entries is written (2 bytes), followed
                  by all directory entries: tag (2), type (2), number of data
@@ -310,14 +310,14 @@ namespace Exif {
                  data array. The IFD offsets will be adjusted as necessary. If
                  not given, then it is assumed that the IFD will remain at its
                  original position, i.e., the offset of the IFD will be used.
-          @return       Returns the number of characters written.
+          @return Returns the number of characters written.
          */
-        long copy(char* buf, ByteOrder byteOrder, long offset =0) const;
+        long copy(char* buf, ByteOrder byteOrder, long offset =0);
         //! @name Accessors
         //@{
         //! Ifd id of the IFD
         IfdId ifdId() const { return ifdId_; }
-        //! Offset of the IFD from SOI
+        //! Offset of the IFD from the start of the TIFF header
         long offset() const { return offset_; }
         //! Get the offset to the next IFD from the start of the TIFF header
         long next() const { return next_; }
