@@ -20,16 +20,16 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.29 $
+  Version:   $Rev$ $LastChangedBy$ 
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-             Brad Schick (brad) <schick@robotbattle.com>
+             Brad Schick (brad) <brad@robotbattle.com>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
              19-Jul-04, brad: revamped to be more flexible and support Iptc
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.29 $ $RCSfile: image.cpp,v $");
+EXIV2_RCSID("@(#) $Id$");
 
 // *****************************************************************************
 // included header files
