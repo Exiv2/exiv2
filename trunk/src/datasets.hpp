@@ -21,7 +21,7 @@
 /*!
   @file    datasets.hpp
   @brief   Iptc dataSet and type information
-  @version $Name:  $ $Revision: 1.4 $
+  @version $Name:  $ $Revision: 1.5 $
   @author  Brad Schick (brad) <schick@robotbattle.com>
   @date    24-Jul-04, brad: created
  */
@@ -173,9 +173,6 @@ namespace Exiv2 {
         //@}
 
     private:
-        static const char* familyName_;
-
-    private:
         //! Prevent construction: not implemented.
         IptcDataSets() {}
         //! Prevent copy-construction: not implemented.
@@ -184,17 +181,15 @@ namespace Exiv2 {
         IptcDataSets& operator=(const IptcDataSets& rhs);
 
     public:
-        //! Return an identifier for Iptc datasets
-        static const char* familyName() { return familyName_; }
         /*!
           @brief Return the name of the dataset.
           @param number The dataset number
           @param recordId The Iptc record Id 
-          @return The name of the dataset
-          @throw Error ("No dataset for recordId") if there is no dataset info
-                 for the given record id in the lookup tables.
+          @return The name of the dataset or a string containing the hexadecimal
+                  value of the dataset in the form "0x01ff", if this is an unknown 
+                  dataset.
          */
-        static const char* dataSetName(uint16_t number, uint16_t recordId);
+        static std::string dataSetName(uint16_t number, uint16_t recordId);
         /*!
           @brief Return the description of the dataset.
           @param number The dataset number
@@ -227,8 +222,14 @@ namespace Exiv2 {
         static uint16_t dataSet(const std::string& dataSetName, uint16_t recordId);
         //! Return the type for dataSet number and Record id
         static TypeId dataSetType(uint16_t number, uint16_t recordId);
-        //! Return the name of the Record
-        static const char* recordName(uint16_t recordId);
+        /*!
+          @brief Return the name of the Record
+          @param recordId The record id
+          @return The name of the record or a string containing the hexadecimal
+                  value of the record in the form "0x01ff", if this is an
+                  unknown record.
+         */
+        static std::string recordName(uint16_t recordId);
         /*!
            @brief Return the description of a record
            @param recordId Record Id number
@@ -243,23 +244,6 @@ namespace Exiv2 {
            @throw Error("Unknown record");
          */
         static uint16_t recordId(const std::string& recordName);
-        /*!
-          @brief Return the key for the dataSet number and record id. The key is
-                 of the form '<b>Iptc</b>.recordName.dataSetName'.
-         */
-        static std::string makeKey(uint16_t number, uint16_t recordId);
-        /*!
-          @brief Return the key for the dataSet. The key is of the form
-                 '<b>Iptc</b>.recordName.dataSetName'.
-         */
-        static std::string makeKey(const DataSet& dataSet);
-        /*!
-          @brief Return dataSet and record id pair for the key.
-          @return A pair consisting of the dataSet number and record id.
-          @throw Error ("Invalid key") if the key cannot be parsed into
-                 record name and dataSet name parts.
-         */
-        static std::pair<uint16_t, uint16_t> decomposeKey(const std::string& key);
         //! Print a list of all dataSets to output stream
         static void dataSetList(std::ostream& os);
 

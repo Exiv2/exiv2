@@ -20,13 +20,13 @@
  */
 /*
   File:      datasets.cpp
-  Version:   $Name:  $ $Revision: 1.5 $
+  Version:   $Name:  $ $Revision: 1.6 $
   Author(s): Brad Schick (brad) <schick@robotbattle.com>
   History:   24-Jul-04, brad: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: datasets.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: datasets.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -37,6 +37,10 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: datasets.cpp,v $");
 
 #include <iostream>
 #include <iomanip>
+#include <sstream>
+
+// Todo: remove circular dependency
+#include "iptc.hpp"                             // for DataSet operator<<
 
 // *****************************************************************************
 // class member definitions
@@ -162,8 +166,6 @@ namespace Exiv2 {
         0
     };
 
-    const char* IptcDataSets::familyName_ = "Iptc";
-
     int IptcDataSets::dataSetIdx(uint16_t number, uint16_t recordId)
     {
         if( recordId != envelope && recordId != application2 ) return -1;
@@ -195,11 +197,15 @@ namespace Exiv2 {
         return records_[recordId][idx].type_;
     }
 
-    const char* IptcDataSets::dataSetName(uint16_t number, uint16_t recordId)
+    std::string IptcDataSets::dataSetName(uint16_t number, uint16_t recordId)
     {
         int idx = dataSetIdx(number, recordId);
-        if (idx == -1) throw Error("No dataSet for record Id");
-        return records_[recordId][idx].name_;
+        if (idx != -1) return records_[recordId][idx].name_;
+
+        std::ostringstream os;
+        os << "0x" << std::setw(4) << std::setfill('0') << std::right
+           << std::hex << number;
+        return os.str();
     }
 
     const char* IptcDataSets::dataSetDesc(uint16_t number, uint16_t recordId)
@@ -223,12 +229,33 @@ namespace Exiv2 {
         return records_[recordId][idx].repeatable_;
     }
 
-    const char* IptcDataSets::recordName(uint16_t recordId)
+    uint16_t IptcDataSets::dataSet(const std::string& dataSetName, 
+                                   uint16_t recordId)
     {
-        if( recordId != envelope && recordId != application2 ) {
-            throw Error("Unknown record");
+        uint16_t dataSet;
+        int idx = dataSetIdx(dataSetName, recordId);
+        if (idx != -1) {
+            // dataSetIdx checks the range of recordId
+            dataSet = records_[recordId][idx].number_;
         }
-        return recordInfo_[recordId].name_;
+        else {
+            // Todo: Check format of tagName
+            std::istringstream is(dataSetName);
+            is >> std::hex >> dataSet;
+        }
+        return dataSet;
+    }
+
+    std::string IptcDataSets::recordName(uint16_t recordId)
+    {
+        if (recordId == envelope || recordId == application2) {
+            return recordInfo_[recordId].name_;            
+        }
+
+        std::ostringstream os;
+        os << "0x" << std::setw(4) << std::setfill('0') << std::right
+           << std::hex << recordId;
+        return os.str();
     }
 
     const char* IptcDataSets::recordDesc(uint16_t recordId)
@@ -245,48 +272,13 @@ namespace Exiv2 {
         for (i = application2; i > 0; --i) {
             if (recordInfo_[i].name_ == recordName) break;
         }
+        if (i == 0) {
+            // Todo: Check format of recordName
+            std::istringstream is(recordName);
+            is >> std::hex >> i;
+        }
         return i;
     }
-
-    std::string IptcDataSets::makeKey(const DataSet& dataSet)
-    {
-        return std::string(familyName())
-            + "." + std::string(recordName(dataSet.recordId_)) 
-            + "." + dataSet.name_;
-    }
-
-    std::string IptcDataSets::makeKey(uint16_t number, uint16_t recordId)
-    {
-        return std::string(familyName())
-            + "." + std::string(recordName(recordId)) 
-            + "." + std::string(dataSetName(number, recordId));
-    }
-
-    // This 'database lookup' function returns a match if it exists
-    std::pair<uint16_t, uint16_t> IptcDataSets::decomposeKey(const std::string& key)
-    {
-        // Get the type, record name and dataSet name parts of the key
-        std::string::size_type pos1 = key.find('.');
-        if (pos1 == std::string::npos) throw Error("Invalid key");
-        std::string type = key.substr(0, pos1);
-        if (type != "Iptc") throw Error("Invalid key");
-        std::string::size_type pos0 = pos1 + 1;
-        pos1 = key.find('.', pos0);
-        if (pos1 == std::string::npos) throw Error("Invalid key");
-        std::string recordName = key.substr(pos0, pos1 - pos0);
-        if (recordName == "") throw Error("Invalid key");
-        std::string dataSetName = key.substr(pos1 + 1);
-        if (dataSetName == "") throw Error("Invalid key");
-
-        // Use the parts of the key to find dataSet and recordInfo
-        uint16_t recId = recordId(recordName);
-        if (recId == invalidRecord) return std::make_pair((uint16_t)0xffff, invalidRecord);
-
-        int idx = dataSetIdx(dataSetName, recId);
-        if (idx == -1 ) return std::make_pair((uint16_t)0xffff, invalidRecord);
-
-        return std::make_pair(records_[recId][idx].number_, recId);
-    } // IptcDataSets::decomposeKey
 
     void IptcDataSets::dataSetList(std::ostream& os)
     {
@@ -304,6 +296,7 @@ namespace Exiv2 {
 
     std::ostream& operator<<(std::ostream& os, const DataSet& dataSet) 
     {
+        IptcKey iptcKey(dataSet.number_, dataSet.recordId_);
         return os << dataSet.name_ << ", "
                   << std::dec << dataSet.number_ << ", "
                   << "0x" << std::setw(4) << std::setfill('0') 
@@ -313,7 +306,7 @@ namespace Exiv2 {
                   << dataSet.repeatable_ << ", "
                   << std::dec << dataSet.minbytes_ << ", "
                   << dataSet.maxbytes_ << ", "
-                  << IptcDataSets::makeKey(dataSet) << ", "
+                  << iptcKey.key() << ", "
                   << dataSet.desc_;
     }
 

@@ -20,13 +20,13 @@
  */
 /*
   File:      iptc.cpp
-  Version:   $Name:  $ $Revision: 1.4 $
+  Version:   $Name:  $ $Revision: 1.5 $
   Author(s): Brad Schick (brad) <schick@robotbattle.com>
   History:   31-July-04, brad: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: iptc.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: iptc.cpp,v $");
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -48,6 +48,8 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: iptc.cpp,v $");
 // class member definitions
 namespace Exiv2 {
 
+    const char* IptcKey::familyName_ = "Iptc";
+
     IptcKey::IptcKey(const std::string& key)
         : key_(key)
     {
@@ -55,8 +57,9 @@ namespace Exiv2 {
     }
 
     IptcKey::IptcKey(uint16_t tag, uint16_t record)
-        : tag_(tag), record_(record), key_(IptcDataSets::makeKey(tag, record))
+        : tag_(tag), record_(record)
     {
+        makeKey();
     }
 
     IptcKey::IptcKey(const IptcKey& rhs)
@@ -81,11 +84,39 @@ namespace Exiv2 {
 
     void IptcKey::decomposeKey()
     {
-        std::pair<uint16_t, uint16_t> p = IptcDataSets::decomposeKey(key_);
-        if (p.first == 0xffff) throw Error("Invalid key");
-        if (p.second == IptcDataSets::invalidRecord) throw Error("Invalid key");
-        tag_ = p.first;
-        record_ = p.second;
+        // Get the family name, record name and dataSet name parts of the key
+        std::string::size_type pos1 = key_.find('.');
+        if (pos1 == std::string::npos) throw Error("Invalid key");
+        std::string familyName = key_.substr(0, pos1);
+        if (familyName != std::string(familyName_)) {
+            throw Error("Invalid key");
+        }
+        std::string::size_type pos0 = pos1 + 1;
+        pos1 = key_.find('.', pos0);
+        if (pos1 == std::string::npos) throw Error("Invalid key");
+        std::string recordName = key_.substr(pos0, pos1 - pos0);
+        if (recordName == "") throw Error("Invalid key");
+        std::string dataSetName = key_.substr(pos1 + 1);
+        if (dataSetName == "") throw Error("Invalid key");
+
+        // Use the parts of the key to find dataSet and recordId
+        uint16_t recId = IptcDataSets::recordId(recordName);
+        uint16_t dataSet = IptcDataSets::dataSet(dataSetName, recId);
+
+        // Possibly translate hex name parts (0xabcd) to real names 
+        recordName = IptcDataSets::recordName(recId);
+        dataSetName = IptcDataSets::dataSetName(dataSet, recId);
+
+        tag_ = dataSet;
+        record_ = recId;
+        key_ = familyName + "." + recordName + "." + dataSetName;
+    } // IptcKey::decomposeKey
+
+    void IptcKey::makeKey()
+    {
+        key_ = std::string(familyName_)
+            + "." + IptcDataSets::recordName(record_)
+            + "." + IptcDataSets::dataSetName(tag_, record_);
     }
 
     Iptcdatum::Iptcdatum(const IptcKey& key, 
