@@ -3,14 +3,13 @@
   Abstract : Sample program to print the Iptc metadata of an image
 
   File     : iptcprint.cpp
-  Version  : $Name:  $ $Revision: 1.2 $
+  Version  : $Name:  $ $Revision: 1.3 $
   Author(s): Brad Schick (brad) <schick@robotbattle.com>
   History  : 31-Jul-04, brad: created
  */
 // *****************************************************************************
 // included header files
 #include "iptc.hpp"
-#include "value.hpp"
 #include <iostream>
 #include <iomanip>
 
