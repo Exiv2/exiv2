@@ -20,13 +20,13 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.14 $
+  Version:   $Name:  $ $Revision: 1.15 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.14 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.15 $ $RCSfile: exif.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -54,7 +54,7 @@ namespace Exif {
 
     JpegImage::~JpegImage()
     {
-        delete exifData_;
+        delete[] exifData_;
     }
 
     const uint16 JpegImage::soi_    = 0xffd8;
@@ -437,7 +437,7 @@ namespace Exif {
         memcpy(offsetData_, rhs.offsetData_, 4);
         size_ = rhs.size_;
         if (alloc_) {
-            delete data_;
+            delete[] data_;
             data_ = 0;
             if (rhs.data_) {
                 data_ = new char[rhs.size()];
