@@ -401,8 +401,9 @@ namespace Action {
             std::cout << "None";
         } 
         else {
+            Exiv2::DataBuf buf = exifData.copyThumbnail();
             std::cout << exifData.thumbnailFormat() << ", " 
-                      << exifData.thumbnailSize() << " Bytes";
+                      << buf.size_ << " Bytes";
         }
         std::cout << "\n";
 
@@ -742,16 +743,19 @@ namespace Action {
         if (Params::instance().target_ & Params::ctThumb) {
             rc = writeThumbnail(); 
         }
-        std::string exvPath =   Util::dirname(path_) + SEPERATOR_STR
-                              + Util::basename(path_, true) + ".exv";
-        if (!Params::instance().force_ && Util::fileExists(exvPath)) {
-            std::cout << Params::instance().progname() 
-                      << ": Overwrite `" << exvPath << "'? ";
-            std::string s;
-            std::cin >> s;
-            if (s[0] != 'y' && s[0] != 'Y') return 0;
+        if (Params::instance().target_ & ~Params::ctThumb) {
+            std::string exvPath =   Util::dirname(path_) + SEPERATOR_STR
+                                  + Util::basename(path_, true) + ".exv";
+            if (!Params::instance().force_ && Util::fileExists(exvPath)) {
+                std::cout << Params::instance().progname() 
+                          << ": Overwrite `" << exvPath << "'? ";
+                std::string s;
+                std::cin >> s;
+                if (s[0] != 'y' && s[0] != 'Y') return 0;
+            }
+            rc = metacopy(path_, exvPath);
         }
-        return metacopy(path_, exvPath);
+        return rc;
     }
     catch(const Exiv2::Error& e)
     {
@@ -776,9 +780,10 @@ namespace Action {
         }
         else {
             if (Params::instance().verbose_) {
+                Exiv2::DataBuf buf = exifData.copyThumbnail();
                 std::cout << "Writing "
                           << exifData.thumbnailFormat() << " thumbnail (" 
-                          << exifData.thumbnailSize() << " Bytes) to file "
+                          << buf.size_ << " Bytes) to file "
                           << thumb << thumbExt << "\n";
             }
             if (!Params::instance().force_ && Util::fileExists(thumb + thumbExt)) {
