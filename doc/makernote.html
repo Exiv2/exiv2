@@ -1,0 +1,113 @@
+<html>
+<head>
+<title>Exif MakerNote Formats and Specifications</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<h1>Exif MakerNote Formats and Specifications</h1>
+<p>The following table summarizes the structures of the MakerNote field used by 
+  different vendors.</p>
+<table width="100%" border="1">
+  <tr> 
+    <td width="6%"><b>Make</b></td>
+    <td width="12%"><b>Models</b></td>
+    <td width="40%"><b>Format</b></td>
+    <td width="10%"><b>Specifications</b></td>
+    <td width="32%"><b>Remarks</b></td>
+  </tr>
+  <tr> 
+    <td width="6%">Canon</td>
+    <td width="12%">&nbsp;</td>
+    <td width="40%">IFD</td>
+    <td width="10%"> <a href="#R2">[2]</a></td>
+    <td width="32%">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td width="6%">Casio</td>
+    <td width="12%"> 
+      <p>QV-3000EX, QV-2000UX, QV-8000SX</p>
+    </td>
+    <td width="40%">IFD</td>
+    <td width="10%"><a href="#R4">[4]</a></td>
+    <td width="32%">&quot;Early&quot; versions of QV-2000UX and QV-8000SX only 
+      have 4 bytes in the MakerNote field.</td>
+  </tr>
+  <tr> 
+    <td width="6%">Fujifilm</td>
+    <td width="12%">&nbsp;</td>
+    <td width="40%">IFD; starts with string &quot;FUJIFILM&quot; and an offset 
+      to the first IFD, offsets are relative to the beginning of the MakerNote</td>
+    <td width="10%"><a href="#R1">[1]</a></td>
+    <td width="32%">Fujifilm's Exif data uses Motorola alignment, but the MakerNote 
+      uses Intel alignment</td>
+  </tr>
+  <tr> 
+    <td width="6%">Minolta</td>
+    <td width="12%">&nbsp;</td>
+    <td width="40%">IFD</td>
+    <td width="10%"><a href="#R5">[5]</a></td>
+    <td width="32%">MakerNote numbers are always stored in Motorola/Macintosh 
+      style</td>
+  </tr>
+  <tr> 
+    <td width="6%">Nikon</td>
+    <td width="12%">E990, D1</td>
+    <td width="40%">IFD (from offset 0x00)</td>
+    <td width="10%"><a href="#R3">[3]</a></td>
+    <td width="32%">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td width="6%">Nikon</td>
+    <td width="12%">E700, E800, E900, E900S, E910, E950</td>
+    <td width="40%">IFD; starts with string &quot;Nikon&quot;, IFD from offset 
+      0x08</td>
+    <td width="10%"><a href="#R1">[1]</a></td>
+    <td width="32%">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td width="6%">Olympus </td>
+    <td width="12%">D450Z(C-920Z)</td>
+    <td width="40%">IFD; starts with string &quot;OLYMP&quot;, IFD from offset 
+      0x07</td>
+    <td width="10%"><a href="#R1">[1]</a></td>
+    <td width="32%">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td width="6%">Sanyo</td>
+    <td width="12%">DSC-MZ2</td>
+    <td width="40%">IFD</td>
+    <td width="10%"><a href="#R6">[6]</a></td>
+    <td width="32%">Tag 0x00ff contains the offset to the start of the MakerNote(?). 
+      The semantics of the value is different in TIFF and JPEG images</td>
+  </tr>
+  <tr> 
+    <td width="6%">Sigma, Foveon</td>
+    <td width="12%">&nbsp;</td>
+    <td width="40%">IFD; Starts with an 8-byte ID string &quot;SIGMA\0\0\0&quot; or 
+      &quot;FOVEON\0\0&quot;</td>
+    <td width="10%"><a href="#R7">[7]</a></td>
+    <td width="32%">&nbsp;</td>
+  </tr>
+</table>
+<p><a href="http://www.exif.org/">Exif.org</a> has another table with similar 
+  info and sample pictures: <a href="http://www.exif.org/samples.html">Digital 
+  Camera Sample Images</a>. According to this source, (at least some) Ricoh and 
+  Kodak cameras do not write the MakerNote in IFD format.</p>
+<h2>References:</h2>
+<p>[1]<a name="R1"></a> <a href="http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html">Exif 
+  file format</a> by TsuruZoh Tachibanaya<br>
+  [2]<a name="R2"></a> <a href="http://www.burren.cx/david/canon.html">EXIF MakerNote 
+  of Canon</a> by David Burren<br>
+  [3]<a name="R3"></a> <a href="http://www.tawbaware.com/990exif.htm">MakerNote 
+  EXIF Tag of the Nikon 990</a> by Max Lyons<br>
+  [4]<a name="R4"></a> <a href="http://www.dicasoft.de/casiomn.htm">&quot;MakerNote&quot; 
+  Exif tag of Casio</a> by Eckhard Henkel<br>
+  [5]<a name="R5"></a> <a href="http://www.dalibor.cz/minolta/makernote.htm">Minolta 
+  MakerNote</a> by Dalibor Jeline<br>
+  [6]<a name="R6"></a> <a href="http://www.exif.org/makernotes/SanyoMakerNote.html">Sanyo 
+  MakerNote</a> by John Hawkins<br>
+  [7]<a name="R7"></a> <a href="http://www.x3f.info/technotes/FileDocs/MakerNoteDoc.html">SIGMA and FOVEON EXIF MakerNote Documentation</a> by Foveon</p>
+<p>&nbsp;</p>
+</body>
+</html>

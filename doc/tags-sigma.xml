@@ -1,0 +1,188 @@
+<?xml version = '1.0'?>
+<?xml-stylesheet type="text/xsl" href="tags.xsl"?>
+<ROWSET>
+   <ROW num="1">
+      <tagname>SerialNumber</tagname>
+      <tagdec>2</tagdec>
+      <taghex>0x0002</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Sigma.SerialNumber</key>
+      <tagdesc>Camera serial number</tagdesc>
+   </ROW>
+   <ROW num="2">
+      <tagname>DriveMode</tagname>
+      <tagdec>3</tagdec>
+      <taghex>0x0003</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Sigma.DriveMode</key>
+      <tagdesc>Drive Mode</tagdesc>
+   </ROW>
+   <ROW num="3">
+      <tagname>ResolutionMode</tagname>
+      <tagdec>4</tagdec>
+      <taghex>0x0004</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Sigma.ResolutionMode</key>
+      <tagdesc>Resolution Mode</tagdesc>
+   </ROW>
+   <ROW num="4">
+      <tagname>AutofocusMode</tagname>
+      <tagdec>5</tagdec>
+      <taghex>0x0005</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Sigma.AutofocusMode</key>
+      <tagdesc>Autofocus mode</tagdesc>
+   </ROW>
+   <ROW num="5">
+      <tagname>FocusSetting</tagname>
+      <tagdec>6</tagdec>
+      <taghex>0x0006</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Sigma.FocusSetting</key>
+      <tagdesc>Foxus setting</tagdesc>
+   </ROW>
+   <ROW num="6">
+      <tagname>WhiteBalance</tagname>
+      <tagdec>7</tagdec>
+      <taghex>0x0007</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Sigma.WhiteBalance</key>
+      <tagdesc>White balance</tagdesc>
+   </ROW>
+   <ROW num="7">
+      <tagname>ExposureMode</tagname>
+      <tagdec>8</tagdec>
+      <taghex>0x0008</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Sigma.ExposureMode</key>
+      <tagdesc>Exposure mode</tagdesc>
+   </ROW>
+   <ROW num="8">
+      <tagname>MeteringMode</tagname>
+      <tagdec>9</tagdec>
+      <taghex>0x0009</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Sigma.MeteringMode</key>
+      <tagdesc>Metering mode</tagdesc>
+   </ROW>
+   <ROW num="9">
+      <tagname>LensRange</tagname>
+      <tagdec>10</tagdec>
+      <taghex>0x000a</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Sigma.LensRange</key>
+      <tagdesc>Lens focal length range</tagdesc>
+   </ROW>
+   <ROW num="10">
+      <tagname>ColorSpace</tagname>
+      <tagdec>11</tagdec>
+      <taghex>0x000b</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Sigma.ColorSpace</key>
+      <tagdesc>Color space</tagdesc>
+   </ROW>
+   <ROW num="11">
+      <tagname>Exposure</tagname>
+      <tagdec>12</tagdec>
+      <taghex>0x000c</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Sigma.Exposure</key>
+      <tagdesc>Exposure</tagdesc>
+   </ROW>
+   <ROW num="12">
+      <tagname>Contrast</tagname>
+      <tagdec>13</tagdec>
+      <taghex>0x000d</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Sigma.Contrast</key>
+      <tagdesc>Contrast</tagdesc>
+   </ROW>
+   <ROW num="13">
+      <tagname>Shadow</tagname>
+      <tagdec>14</tagdec>
+      <taghex>0x000e</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Sigma.Shadow</key>
+      <tagdesc>Shadow</tagdesc>
+   </ROW>
+   <ROW num="14">
+      <tagname>Highlight</tagname>
+      <tagdec>15</tagdec>
+      <taghex>0x000f</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Sigma.Highlight</key>
+      <tagdesc>Highlight</tagdesc>
+   </ROW>
+   <ROW num="15">
+      <tagname>Saturation</tagname>
+      <tagdec>16</tagdec>
+      <taghex>0x0010</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Sigma.Saturation</key>
+      <tagdesc>Saturation</tagdesc>
+   </ROW>
+   <ROW num="16">
+      <tagname>Sharpness</tagname>
+      <tagdec>17</tagdec>
+      <taghex>0x0011</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Sigma.Sharpness</key>
+      <tagdesc>Sharpness</tagdesc>
+   </ROW>
+   <ROW num="17">
+      <tagname>FillLight</tagname>
+      <tagdec>18</tagdec>
+      <taghex>0x0012</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Sigma.FillLight</key>
+      <tagdesc>X3 Fill light</tagdesc>
+   </ROW>
+   <ROW num="18">
+      <tagname>ColorAdjustment</tagname>
+      <tagdec>20</tagdec>
+      <taghex>0x0014</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Sigma.ColorAdjustment</key>
+      <tagdesc>Color adjustment</tagdesc>
+   </ROW>
+   <ROW num="19">
+      <tagname>AdjustmentMode</tagname>
+      <tagdec>21</tagdec>
+      <taghex>0x0015</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Sigma.AdjustmentMode</key>
+      <tagdesc>Adjustment mode</tagdesc>
+   </ROW>
+   <ROW num="20">
+      <tagname>Quality</tagname>
+      <tagdec>22</tagdec>
+      <taghex>0x0016</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Sigma.Quality</key>
+      <tagdesc>Quality</tagdesc>
+   </ROW>
+   <ROW num="21">
+      <tagname>Firmware</tagname>
+      <tagdec>23</tagdec>
+      <taghex>0x0017</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Sigma.Firmware</key>
+      <tagdesc>Firmware</tagdesc>
+   </ROW>
+   <ROW num="22">
+      <tagname>Software</tagname>
+      <tagdec>24</tagdec>
+      <taghex>0x0018</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Sigma.Software</key>
+      <tagdesc>Software</tagdesc>
+   </ROW>
+   <ROW num="23">
+      <tagname>AutoBracket</tagname>
+      <tagdec>25</tagdec>
+      <taghex>0x0019</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Sigma.AutoBracket</key>
+      <tagdesc>Auto bracket</tagdesc>
+   </ROW>
+</ROWSET>

@@ -1,30 +1,41 @@
+################################################################################
+# File    exiv2.dot
+# Brief   Dot file for a graph showing the component dependencies 
+#         of the Exiv2 library. Run the following command to get the image:
+#         $ dot -Tgif -oexiv2.gif exiv2.dot
+# Version $Name:  $ $Revision: 1.2 $
+# Author  Andreas Huggel (ahu)
+#         <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
+# Date    18-Feb-04, ahu: created
+################################################################################
+
 digraph G {
 
 L1 [shape=plaintext] ;
 L2 [shape=plaintext] ;
 L3 [shape=plaintext] ;
 L4 [shape=plaintext] ;
+L5 [shape=plaintext] ;
 
-"L4" -> "L3" -> "L2" -> "L1" [style=invis] ;
+"L5" -> "L4" -> "L3" -> "L2" -> "L1" [style=invis] ;
 
-"exif"  [shape=box] ;
-"ifd"   [shape=box] ;
-"image" [shape=box] ;
-"tags"  [shape=box] ;
-"types" [shape=box] ;
-"value" [shape=box] ;
-"error" [shape=box] ;
-"exif" -> "ifd" ;
-"exif" -> "image" ;
+"exif"      [shape=box] ;
+"ifd"       [shape=box] ;
+"image"     [shape=box] ;
+"tags"      [shape=box] ;
+"value"     [shape=box] ;
+"types"     [shape=box] ;
+"error"     [shape=box] ;
+"makernote" [shape=box] ;
 "exif" -> "tags" ;
-"exif" -> "types" ;
-"exif" -> "value" ;
-"exif" -> "error" ;
+"exif" -> "makernote" ;
+"exif" -> "image" ;
+"makernote" -> "ifd" ;
+"makernote" -> "value" ;
 "ifd" -> "error" ;  
 "ifd" -> "types" ;
 "image" -> "types" ;
 "tags" -> "error" ;
-"tags" -> "types" ;
 "tags" -> "value" ;
 "value" -> "types" ;
 
