@@ -70,11 +70,15 @@
 			OutputDirectory="Release"
 			IntermediateDirectory="Release"
 			ConfigurationType="2"
-			CharacterSet="2">
+			CharacterSet="2"
+			WholeProgramOptimization="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
+				Optimization="2"
+				GlobalOptimizations="TRUE"
 				AdditionalIncludeDirectories="&quot;..\..\src&quot;;&quot;..\..&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;EXIVSIMPLE_EXPORTS"
+				StringPooling="TRUE"
 				RuntimeLibrary="4"
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="3"
