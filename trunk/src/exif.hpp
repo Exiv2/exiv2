@@ -21,13 +21,13 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.7 $
+  @version $Name:  $ $Revision: 1.8 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-03, ahu: created
  */
-#ifndef _EXIF_HPP_
-#define _EXIF_HPP_
+#ifndef EXIF_HPP_
+#define EXIF_HPP_
 
 // *****************************************************************************
 // included header files
@@ -43,6 +43,8 @@
 // namespace extensions
 //! Provides classes and functions to encode and decode %Exif data.
 namespace Exif {
+
+    class ExifData;
 
 // *****************************************************************************
 // type definitions
@@ -163,16 +165,16 @@ namespace Exif {
 
     /*!
       @brief Common interface for all values. The interface provides a uniform
-             way to access values independent from their actual C++ type for 
-             simple tasks like reading the values. For other tasks, like modifying
-             values you need to downcast it to the actual subclass of Value so
-             that you can access the subclass specific interface (e.g., assignment
-             operator for a vector of unsigned longs). 
+             way to access values independent from their actual C++ type for
+             simple tasks like reading the values from a string or data buffer.
+             For other tasks, like modifying values you may need to downcast it
+             to the actual subclass of Value so that you can access the subclass
+             specific interface.
      */
     class Value {
     public:
         //! Constructor, taking a type id to initialize the base class with
-        explicit Value(TypeId typeId) : typeId_(typeId) {}
+        explicit Value(TypeId typeId) : type_(typeId) {}
         //! Virtual destructor.
         virtual ~Value() {}
         /*!
@@ -183,7 +185,14 @@ namespace Exif {
           @param byteOrder Applicable byte order (little or big endian).
          */
         virtual void read(const char* buf, long len, ByteOrder byteOrder) =0;
-        //! Set the value from a string buffer
+        /*! 
+          @brief Set the value from a string buffer. The format of the string
+                 corresponds to that of the write() method, i.e., a string
+                 obtained through the write() method can be read by this 
+                 function.
+
+          @param buf The string to read from.
+         */
         virtual void read(const std::string& buf) =0;
         /*!
           @brief Write value to a character data buffer.
@@ -212,6 +221,17 @@ namespace Exif {
                  operator<<(std::ostream &os, const Value &value).
         */
         virtual std::ostream& write(std::ostream& os) const =0;
+        /*!
+          @brief Convert the n-th component of the value to a long. The
+                 behaviour of this method may be undefined if there is no
+                 n-th component.
+
+          @return The converted value. 
+         */
+        virtual long toLong(long n =0) const =0;
+
+        //! Return the type identifier (Exif data format type).
+        TypeId typeId() const { return TypeId(type_); }
 
         /*!
           @brief A (simple) factory to create a Value type.
@@ -222,8 +242,8 @@ namespace Exif {
          */
         static Value* create(TypeId typeId);
 
-    protected:
-        const TypeId typeId_;                   //!< Format type identifier
+    private:
+        const uint16 type_;                     //!< Type of the data
 
     }; // class Value
 
@@ -265,6 +285,7 @@ namespace Exif {
         virtual long size() const;
         virtual Value* clone() const;
         virtual std::ostream& write(std::ostream& os) const;
+        virtual long toLong(long n =0) const { return value_[n]; }
 
     private:
         std::string value_;
@@ -303,6 +324,7 @@ namespace Exif {
         virtual long size() const;
         virtual Value* clone() const;
         virtual std::ostream& write(std::ostream& os) const;
+        virtual long toLong(long n =0) const { return value_[n]; }
 
     private:
         std::string value_;
@@ -310,8 +332,8 @@ namespace Exif {
     }; // class AsciiValue
 
     /*!
-      @brief Template for a %Value for a basic Type. This is used for unsigned 
-             and signed short, long and rational.
+      @brief Template for a %Value of a basic type. This is used for unsigned 
+             and signed short, long and rationals.
      */    
     template<typename T>
     class ValueType : public Value {
@@ -331,21 +353,21 @@ namespace Exif {
         virtual long size() const;
         virtual Value* clone() const;
         virtual std::ostream& write(std::ostream& os) const;
+        virtual long toLong(long n =0) const;
 
         //! Container for values 
         typedef std::vector<T> ValueList;
-        //! @name Accessors
-        //@{
-        //! Read access to the list of values
-        const ValueList& valueList() const { return value_; }
-        /*!
-          @brief Get the first value. If there is no value in the container,
-                 then the behaviour is undefined.
-         */
-        T value() const { return value_[0]; }
-        //@}
+        //! Iterator type defined for convenience.
+        typedef typename std::vector<T>::iterator ValueIter;
+        //! Const iterator type defined for convenience.
+        typedef typename std::vector<T>::const_iterator ValueCIter;
 
-    private:
+        /*!
+          @brief The container for all values. In your application, if you know 
+                 what subclass of Value you're dealing with (and possibly the T)
+                 then you can access this STL container through the usual 
+                 standard library functions.
+         */
         ValueList value_;
 
     }; // class ValueType
@@ -384,7 +406,7 @@ namespace Exif {
                  We'll figure out the details for it.
          */
         // Todo: implement me!
-        Metadatum(const std::string& key, TypeId typeId, Value* value =0);
+        Metadatum(const std::string& key, Value* value =0);
         //! Destructor
         ~Metadatum();
         //! Copy constructor
@@ -401,9 +423,9 @@ namespace Exif {
         //! Return the name of the tag
         const char* tagName() const { return ExifTags::tagName(tag_, ifdId_); }
         //! Return the name of the type
-        const char* typeName() const { return ExifTags::typeName(TypeId(type_)); }
-        //! Return the size in bytes of one element of this type
-        long typeSize() const { return ExifTags::typeSize(TypeId(type_)); }
+        const char* typeName() const { return ExifTags::typeName(typeId()); }
+        //! Return the size in bytes of one component of this type
+        long typeSize() const { return ExifTags::typeSize(typeId()); }
         //! Return the name of the IFD
         const char* ifdName() const { return ExifTags::ifdName(ifdId_); }
         //! Return the related image item (image or thumbnail)
@@ -415,12 +437,19 @@ namespace Exif {
         //@{
         //! Return the tag
         uint16 tag() const { return tag_; }
-        //! Return the type
-        TypeId type() const { return TypeId(type_); }
+        //! Return the type id.
+        TypeId typeId() const { return value_ == 0 ? invalid : value_->typeId(); }
         //! Return the number of components in the value
         long count() const { return value_ == 0 ? 0 : value_->count(); }
         //! Return the size of the value in bytes
         long size() const { return value_ == 0 ? 0 : value_->size(); }
+        /*!
+          @brief Return the n-th component of the value. The return value is 
+                 -1 if the value of the Metadatum is not set and the behaviour
+                 of the method is undefined if there is no n-th component.
+         */
+        long toLong(long n =0) const 
+            { return value_ == 0 ? -1 : value_->toLong(n); }
         //! Return the IFD id
         IfdId ifdId() const { return ifdId_; }
         //! Return the position in the IFD (-1: not set)
@@ -431,13 +460,15 @@ namespace Exif {
                  value is not set.
          */
         const Value& value() const { return *value_; }
-        //! Return a unique key of the tag (ifdItem.sectionName.tagName)
+        /*!
+          @brief Return a unique key for the tag. The key is of the form
+                 'ifdItem.sectionName.tagName'.
+         */
         std::string key() const { return key_; }
         //@}
 
     private:
         uint16 tag_;                   //!< Tag value
-        uint16 type_;                  //!< Type of the data
         IfdId ifdId_;                  //!< The IFD associated with this tag
         int   ifdIdx_;                 //!< Position in the IFD (-1: not set)
         Value* value_;                 //!< Pointer to the value
@@ -447,6 +478,23 @@ namespace Exif {
 
     //! Container type to hold all metadata
     typedef std::vector<Metadatum> Metadata;
+
+    //! Unary predicate that matches a Metadatum with a given key
+    class FindMetadatumByKey {
+    public:
+        //! Constructor, initializes the object with the tag to look for
+        FindMetadatumByKey(const std::string& key) : key_(key) {}
+        /*!
+          @brief Returns true if the key of the argument metadatum is equal
+          to that of the object.
+        */
+        bool operator()(const Metadatum& metadatum) const
+            { return key_ == metadatum.key(); }
+
+    private:
+        std::string key_;
+        
+    }; // class FindEntryByTag
 
     /*!
       @brief Models an IFD (Image File Directory)
@@ -505,7 +553,7 @@ namespace Exif {
             //! Constructor, initializes the object with the tag to look for
             FindEntryByTag(uint16 tag) : tag_(tag) {}
             /*!
-              @brief Returns true if the tag of the argument metadatum is equal
+              @brief Returns true if the tag of the argument entry is equal
               to that of the object.
             */
             bool operator()(const Ifd::Entry& entry) const
@@ -594,8 +642,8 @@ namespace Exif {
     //! Thumbnail data Todo: implement this properly
     class Thumbnail {
     public:
-        //! Read the thumbnail from the data buffer, return 0 if succesfull
-        int read(const char* buf, const Ifd& ifd1, ByteOrder byteOrder);
+        //! Read the thumbnail from the data buffer, return 0 if successfull
+        int read(const char* buf, const ExifData& exifData, ByteOrder byteOrder);
 
         //! Write thumbnail to file path, return 0 if successful
         int write(const std::string& path) const;
@@ -658,6 +706,8 @@ namespace Exif {
         //! End of the metadata
         const_iterator end() const { return metadata_.end(); }
 
+        const_iterator findKey(const std::string& key) const;
+
         //! Write the thumbnail image to a file
         int writeThumbnail(const std::string& path) const 
             { return thumbnail_.write(path); }
@@ -685,49 +735,6 @@ namespace Exif {
     int32 getLong(const char* buf, ByteOrder byteOrder);
     //! Read an 8 byte signed rational value from the data buffer
     Rational getRational(const char* buf, ByteOrder byteOrder);
-
-    /*!
-      @brief Read a value of type T from the data buffer.
-
-      We need this template function for the ValueType template classes. 
-      There are only specializations of this function available; no default
-      implementation is provided.
-
-      @param buf Pointer to the data buffer to read from.
-      @param byteOrder Applicable byte order (little or big endian).
-      @return A value of type T.
-     */
-    template<typename T> T getValue(const char* buf, ByteOrder byteOrder);
-    // Specialization for a 2 byte unsigned short value.
-    template<> inline uint16 getValue(const char* buf, ByteOrder byteOrder)
-    {
-        return getUShort(buf, byteOrder);
-    }
-    // Specialization for a 4 byte unsigned long value.
-    template<> inline uint32 getValue(const char* buf, ByteOrder byteOrder)
-    {
-        return getULong(buf, byteOrder);
-    }
-    // Specialization for an 8 byte unsigned rational value.
-    template<> inline URational getValue(const char* buf, ByteOrder byteOrder)
-    {
-        return getURational(buf, byteOrder);
-    }
-    // Specialization for a 2 byte signed short value.
-    template<> inline int16 getValue(const char* buf, ByteOrder byteOrder)
-    {
-        return getShort(buf, byteOrder);
-    }
-    // Specialization for a 4 byte signed long value.
-    template<> inline int32 getValue(const char* buf, ByteOrder byteOrder)
-    {
-        return getLong(buf, byteOrder);
-    }
-    // Specialization for an 8 byte signed rational value.
-    template<> inline Rational getValue(const char* buf, ByteOrder byteOrder)
-    {
-        return getRational(buf, byteOrder);
-    }
 
     /*!
       @brief Convert an unsigned short to data, write the data to the buffer, 
@@ -760,6 +767,61 @@ namespace Exif {
      */
     long r2Data(char* buf, Rational l, ByteOrder byteOrder);
 
+    //! Print len bytes from buf in hex and ASCII format to the given stream
+    void hexdump(std::ostream& os, const char* buf, long len);
+
+// *****************************************************************************
+// template and inline definitions
+
+    /*!
+      @brief Read a value of type T from the data buffer.
+
+      We need this template function for the ValueType template classes. 
+      There are only specializations of this function available; no default
+      implementation is provided.
+
+      @param buf Pointer to the data buffer to read from.
+      @param byteOrder Applicable byte order (little or big endian).
+      @return A value of type T.
+     */
+    template<typename T> T getValue(const char* buf, ByteOrder byteOrder);
+    // Specialization for a 2 byte unsigned short value.
+    template<> 
+    inline uint16 getValue(const char* buf, ByteOrder byteOrder)
+    {
+        return getUShort(buf, byteOrder);
+    }
+    // Specialization for a 4 byte unsigned long value.
+    template<> 
+    inline uint32 getValue(const char* buf, ByteOrder byteOrder)
+    {
+        return getULong(buf, byteOrder);
+    }
+    // Specialization for an 8 byte unsigned rational value.
+    template<> 
+    inline URational getValue(const char* buf, ByteOrder byteOrder)
+    {
+        return getURational(buf, byteOrder);
+    }
+    // Specialization for a 2 byte signed short value.
+    template<> 
+    inline int16 getValue(const char* buf, ByteOrder byteOrder)
+    {
+        return getShort(buf, byteOrder);
+    }
+    // Specialization for a 4 byte signed long value.
+    template<> 
+    inline int32 getValue(const char* buf, ByteOrder byteOrder)
+    {
+        return getLong(buf, byteOrder);
+    }
+    // Specialization for an 8 byte signed rational value.
+    template<> 
+    inline Rational getValue(const char* buf, ByteOrder byteOrder)
+    {
+        return getRational(buf, byteOrder);
+    }
+
     /*!
       @brief Convert a value of type T to data, write the data to the data buffer.
 
@@ -777,7 +839,8 @@ namespace Exif {
       @brief Specialization to write an unsigned short to the data buffer.
              Return the number of bytes written.
      */
-    template<> inline long toData(char* buf, uint16 t, ByteOrder byteOrder)
+    template<> 
+    inline long toData(char* buf, uint16 t, ByteOrder byteOrder)
     {
         return us2Data(buf, t, byteOrder);
     }
@@ -785,7 +848,8 @@ namespace Exif {
       @brief Specialization to write an unsigned long to the data buffer.
              Return the number of bytes written.
      */
-    template<> inline long toData(char* buf, uint32 t, ByteOrder byteOrder)
+    template<> 
+    inline long toData(char* buf, uint32 t, ByteOrder byteOrder)
     {
         return ul2Data(buf, t, byteOrder);
     }
@@ -793,7 +857,8 @@ namespace Exif {
       @brief Specialization to write an unsigned rational to the data buffer.
              Return the number of bytes written.
      */
-    template<> inline long toData(char* buf, URational t, ByteOrder byteOrder)
+    template<> 
+    inline long toData(char* buf, URational t, ByteOrder byteOrder)
     {
         return ur2Data(buf, t, byteOrder);
     }
@@ -801,7 +866,8 @@ namespace Exif {
       @brief Specialization to write a signed short to the data buffer.
              Return the number of bytes written.
      */
-    template<> inline long toData(char* buf, int16 t, ByteOrder byteOrder)
+    template<> 
+    inline long toData(char* buf, int16 t, ByteOrder byteOrder)
     {
         return s2Data(buf, t, byteOrder);
     }
@@ -809,7 +875,8 @@ namespace Exif {
       @brief Specialization to write a signed long to the data buffer.
              Return the number of bytes written.
      */
-    template<> inline long toData(char* buf, int32 t, ByteOrder byteOrder)
+    template<> 
+    inline long toData(char* buf, int32 t, ByteOrder byteOrder)
     {
         return l2Data(buf, t, byteOrder);
     }
@@ -817,22 +884,17 @@ namespace Exif {
       @brief Specialization to write a signed rational to the data buffer.
              Return the number of bytes written.
      */
-    template<> inline long toData(char* buf, Rational t, ByteOrder byteOrder)
+    template<> 
+    inline long toData(char* buf, Rational t, ByteOrder byteOrder)
     {
         return r2Data(buf, t, byteOrder);
     }
-
-    //! Print len bytes from buf in hex and ASCII format to the given stream
-    void hexdump(std::ostream& os, const char* buf, long len);
-
-// *****************************************************************************
-// template definitions
 
     template<typename T>
     void ValueType<T>::read(const char* buf, long len, ByteOrder byteOrder)
     {
         value_.clear();
-        for (long i = 0; i < len; i += ExifTags::typeSize(typeId_)) {
+        for (long i = 0; i < len; i += ExifTags::typeSize(typeId())) {
             value_.push_back(getValue<T>(buf + i, byteOrder));
         }
     }
@@ -862,7 +924,7 @@ namespace Exif {
     template<typename T>
     long ValueType<T>::size() const
     {
-        return ExifTags::typeSize(typeId_) * value_.size();
+        return ExifTags::typeSize(typeId()) * value_.size();
     }
 
     template<typename T>
@@ -882,7 +944,25 @@ namespace Exif {
         }
         return os;
     }
+    // Default implementation
+    template<typename T>
+    inline long ValueType<T>::toLong(long n) const
+    { 
+        return value_[n]; 
+    }
+    // Specialization for rational
+    template<>
+    inline long ValueType<Rational>::toLong(long n) const 
+    {
+        return value_[n].first / value_[n].second; 
+    }
+    // Specialization for unsigned rational
+    template<>
+    inline long ValueType<URational>::toLong(long n) const 
+    {
+        return value_[n].first / value_[n].second; 
+    }
    
 }                                       // namespace Exif
 
-#endif                                  // #ifndef _EXIF_HPP_
+#endif                                  // #ifndef EXIF_HPP_
