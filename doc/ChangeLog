@@ -11,11 +11,12 @@ Changes from version 0.3 to 0.4
 
 * Exiv2 library
 
-	* Fixed MSVC errors and warnings. Thanks to Steven R. King for his work
-	  to get Exiv2 to compile cleanly on MSVC.
-
 	* Fixed ExifData::copyFromMetadata to automatically add missing
-          offset tags. Thanks to XYZ for identifying this bug.
+          offset tags. Thanks to Joseph Heled for identifying this bug.
+
+	* Started to fix MSVC errors and warnings. Thanks to Steven R. King for
+	  his work to get Exiv2 to compile on MSVC. The task is not yet 
+	  completed but the library should compile without too many warnings.
 
 	* Added three different Nikon makernote formats.
 
@@ -43,8 +44,6 @@ Changes from version 0.3 to 0.4
 
 	* Slightly improved error handling: strError() is now a static member 
 	  of ExifData.
-
-	* Added warning when makernote cannot be read.
 
 	* Added exifcomment example program.
 
