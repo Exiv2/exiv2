@@ -1,9 +1,37 @@
-// The following ifdef block is the standard way of creating macros which make exporting 
-// from a DLL simpler. All files within this DLL are compiled with the EXIVSIMPLE_EXPORTS
-// symbol defined on the command line. this symbol should not be defined on any project
-// that uses this DLL. This way any other project whose source files include this file see 
-// EXIVSIMPLE_API functions as being imported from a DLL, whereas this DLL sees symbols
-// defined with this macro as being exported.
+// ***************************************************************** -*- C++ -*-
+/*
+ * Copyright (C) 2004 Andreas Huggel <ahuggel@gmx.net>
+ * 
+ * This program is part of the Exiv2 distribution.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+/*!
+  @file    exivsimple.h
+  @brief   Limited metadata dll for win32
+  @version $Rev$
+  @author  Brad Schick (brad) 
+           <a href="mailto:brad@robotbattle.com">brad@robotbattle.com</a>
+  @date    12-Nov-04, brad: created
+ */
+#ifndef EXIVSIMPLE_H_
+#define EXIVSIMPLE_H_
+
+// *****************************************************************************
+
+
 #ifdef EXIVSIMPLE_EXPORTS
 #define EXIVSIMPLE_API __declspec(dllexport)
 #else
@@ -17,7 +45,9 @@ extern "C"
 {
 #endif
 
-// These types should match those in types.hpp. For all of the functions
+// These types should match those in types.hpp. Copied here so that
+// exiv2 headers are not needed.
+// For all of the functions
 // that take a type, passing invalidTypeId causes the type to be guessed.
 // Guessing types is accurate for IPTC but not for EXIF.
 enum DllTypeId { invalidTypeId, unsignedByte, asciiString, unsignedShort, 
@@ -40,3 +70,6 @@ EXIVSIMPLE_API int RemoveMeta(HIMAGE img, const char *key);
 #ifdef __cplusplus
 }
 #endif
+
+#endif                                  // #ifndef EXIVSIMPLE_H_
+
