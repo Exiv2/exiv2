@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.17 $
+  Version:   $Name:  $ $Revision: 1.18 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.17 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.18 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -47,6 +47,9 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.17 $ $RCSfile: actions.cpp,v $")
 #include <cstdio>
 #include <ctime>
 #include <cmath>
+#include <sys/types.h>                  // for stat()
+#include <sys/stat.h>                   // for stat()
+#include <unistd.h>                     // for stat()
 
 // *****************************************************************************
 // local declarations
@@ -151,9 +154,12 @@ namespace Action {
         std::cout << std::setw(align_) << std::setfill(' ') << std::left
                   << "Filename" << ": " << path_ << "\n";
 
-        // Todo: Filesize
-        std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                  << "Filesize" << ": " << "\n";
+        // Filesize
+        struct stat buf;
+        if (0 == stat(path_.c_str(), &buf)) {
+            std::cout << std::setw(align_) << std::setfill(' ') << std::left
+                      << "Filesize" << ": " << buf.st_size << " Bytes\n";
+        }
 
         // Camera make
         printTag(exifData, "Image.OtherTags.Make", "Camera make");
