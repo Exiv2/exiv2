@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.30 $
+  @version $Name:  $ $Revision: 1.31 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -155,7 +155,7 @@ namespace Exif {
         //! Return the index (unique id of this metadatum within the original IFD)
         int idx() const { return idx_; }
         //! Return the pointer to the associated MakerNote
-        MakerNote* makerNote() const { return makerNote_; }
+        MakerNote* makerNote() const { return pMakerNote_; }
         //! Return the value as a string.
         std::string toString() const 
             { return value_ == 0 ? "" : value_->toString(); }
@@ -223,7 +223,7 @@ namespace Exif {
         uint16 tag_;                   //!< Tag value
         IfdId ifdId_;                  //!< The IFD associated with this tag
         int idx_;                      //!< Unique id of an entry within one IFD
-        MakerNote* makerNote_;         //!< Pointer to the associated MakerNote
+        MakerNote* pMakerNote_;        //!< Pointer to the associated MakerNote
         Value* value_;                 //!< Pointer to the value
         std::string key_;              //!< Key
 
@@ -235,26 +235,21 @@ namespace Exif {
      */
     std::ostream& operator<<(std::ostream& os, const Metadatum& md);
 
-    //! %Thumbnail data Todo: add, create, rotate, delete
+    /*!
+      @brief %Exif %Thumbnail image. This abstract base class provides the
+             interface for the thumbnail image that is optionally embedded in
+             the %Exif data.
+     */
     class Thumbnail {
     public:
-        //! %Thumbnail image types
-        enum Type { none, jpeg, tiff };
-
         //! @name Creators
         //@{
-        //! Default constructor
-        Thumbnail();
-        //! Destructor
-        ~Thumbnail();
-        //! Copy constructor
-        Thumbnail(const Thumbnail& rhs);
+        //! Virtual destructor
+        virtual ~Thumbnail() {}
         //@}
 
         //! @name Manipulators
         //@{
-        //! Assignment operator
-        Thumbnail& operator=(const Thumbnail& rhs);
         /*!
           @brief Read the thumbnail from the data buffer buf, using %Exif
                  metadata exifData. Return 0 if successful. 
@@ -267,13 +262,13 @@ namespace Exif {
                  thumbnail image, if it is in TIFF format. For JPEG thumbnails
                  the byte order is not used.
           @return 0 if successful<br>
-                 -1 if there is no thumbnail image according to the %Exif data<br>
-                  1 in case of inconsistent JPEG thumbnail %Exif data<br>
+                 -1 if there is no thumbnail image in the %Exif data<br>
+                  1 in case of inconsistent JPEG thumbnail %Exif data
                   2 in case of inconsistent TIFF thumbnail %Exif data<br>
          */
-        int read(const char* buf, 
-                 const ExifData& exifData,
-                 ByteOrder byteOrder =littleEndian);
+        virtual int read(const char* buf,
+                         const ExifData& exifData,
+                         ByteOrder byteOrder =littleEndian) =0;
         //@}
 
         //! @name Accessors
@@ -282,14 +277,22 @@ namespace Exif {
           @brief Write thumbnail to file path, return 0 if successful, -1 if 
                  there is no thumbnail image to write.
          */
-        int write(const std::string& path) const;
+        virtual int write(const std::string& path) const =0;
+        /*
+          @brief Return a short string for the format of the thumbnail (TIFF, JPEG).
+         */
+        virtual const char* format() const =0;
+        /*
+          @brief Return the file extension for the format of the thumbnail.
+         */
+        virtual const char* extension() const =0;
         /*!
           @brief Copy the thumbnail image data (without the IFD, if any) to the
                  data buffer buf. The user must ensure that the buffer has
                  enough memory. Otherwise the call results in undefined
                  behaviour. Return the number of characters written.
          */
-        long copy(char* buf) const;
+        virtual long copy(char* buf) const =0;
         /*!
           @brief Update the %Exif data according to the actual thumbnail image.
           
@@ -297,7 +300,7 @@ namespace Exif {
           set to 0. If the type is TIFF, StripOffsets are set to the offsets of
           the IFD of the thumbnail image itself.
          */
-        void update(ExifData& exifData) const;
+        virtual void update(ExifData& exifData) const =0;
         /*!
           @brief Update the thumbnail data offsets in IFD1 assuming the
                  thumbnail data follows immediately after IFD1.  
@@ -310,56 +313,114 @@ namespace Exif {
           correctly. Changing the size of IFD1 invalidates the thumbnail data
           offsets set by this method.
          */
-        void setOffsets(Ifd& ifd1, ByteOrder byteOrder) const;
+        virtual void setOffsets(Ifd& ifd1, ByteOrder byteOrder) const =0;
         /*!
           @brief Return the size of the thumbnail image (the size it
                  would occupy when extracted from the %Exif data)
          */
-        long size() const;
+        virtual long size() const =0;
         /*!
           @brief Return the size of the thumbnail data (data only, without the 
                  IFD, in case of a TIFF thumbnail).
          */
-        long dataSize() const;
-        //! Return the type of the thumbnail
-        Type type() const { return type_; }
+        virtual long dataSize() const =0;
         //@}
 
-    private:
+    protected:
         //! @name Manipulators
         //@{
-        //! Read a compressed (JPEG) thumbnail image from the data buffer
-        int readJpegImage(const char* buf, const ExifData& exifData);
-        //! Read an uncompressed (TIFF) thumbnail image from the data buffer
-        int readTiffImage(const char* buf,
-                          const ExifData& exifData,
-                          ByteOrder byteOrder);
+        /*!
+          @brief Assignment operator. Protected so that it can only be used
+                 by subclasses but not directly.
+         */
+        Thumbnail& operator=(const Thumbnail& rhs);
+        //@}
+
+    }; // class Thumbnail
+
+    //! %Exif thumbnail image in TIFF format
+    class TiffThumbnail : public Thumbnail {
+    public:
+        //! @name Creators
+        //@{
+        //! Virtual destructor
+        TiffThumbnail();
+        //! Virtual destructor
+        virtual ~TiffThumbnail();
+        //! Copy constructor
+        TiffThumbnail(const TiffThumbnail& rhs);
+        //@}
+
+        //! @name Manipulators
+        //@{
+        //! Assignment operator.
+        TiffThumbnail& operator=(const TiffThumbnail& rhs);
+        int read(const char* buf,
+                 const ExifData& exifData,
+                 ByteOrder byteOrder =littleEndian);
         //@}
 
         //! @name Accessors
         //@{
-        //! Update the Exif data according to the actual JPEG thumbnail image
-        void updateJpegImage(ExifData& exifData) const;
-        //! Update the Exif data according to the actual TIFF thumbnail image
-        void updateTiffImage(ExifData& exifData) const;
-        //! Copy the JPEG thumbnail image data to the data buffer buf
-        long copyJpegImage(char* buf) const;
-        //! Copy the TIFF thumbnail image data to the data buffer buf
-        long copyTiffImage(char* buf) const;
-        //! Update the offsets to the JPEG thumbnail image in the IFD
-        void setJpegImageOffsets(Ifd& ifd1, ByteOrder byteOrder) const;
-        //! Update the offsets to the TIFF thumbnail image in the IFD
-        void setTiffImageOffsets(Ifd& ifd1, ByteOrder byteOrder) const;
+        int write(const std::string& path) const;
+        const char* format() const;
+        const char* extension() const;
+        long copy(char* buf) const;
+        void update(ExifData& exifData) const;
+        void setOffsets(Ifd& ifd1, ByteOrder byteOrder) const;
+        long size() const;
+        long dataSize() const;
         //@}
 
+    private:
         // DATA
-        Type type_;              // Type of thumbnail image
-        long size_;              // Size of the image data
-        char* image_;            // Thumbnail image data
-        TiffHeader tiffHeader_;  // Thumbnail TIFF Header, only for TIFF thumbs
-        Ifd ifd_;                // Thumbnail IFD, only for TIFF thumbnails
+        long size_;              //!< Size of the image data
+        char* pImage_;           //!< Thumbnail image data
+        TiffHeader tiffHeader_;  //!< Thumbnail TIFF Header
+        Ifd ifd_;                //!< Thumbnail IFD (IFD1 of the Exif data)
 
-    }; // class Thumbnail
+    }; // class TiffThumbnail
+
+    //! %Exif thumbnail image in JPEG format
+    class JpegThumbnail : public Thumbnail {
+    public:
+        //! @name Creators
+        //@{
+        //! Virtual destructor
+        JpegThumbnail();
+        //! Virtual destructor
+        virtual ~JpegThumbnail();
+        //! Copy constructor
+        JpegThumbnail(const JpegThumbnail& rhs);
+        //@}
+
+        //! @name Manipulators
+        //@{
+        //! Assignment operator.
+        JpegThumbnail& operator=(const JpegThumbnail& rhs);
+        int read(const char* buf,
+                 const ExifData& exifData,
+                 ByteOrder byteOrder =littleEndian);
+        //@}
+
+        //! @name Accessors
+        //@{
+        int write(const std::string& path) const;
+        const char* format() const;
+        const char* extension() const;
+        long copy(char* buf) const;
+        void update(ExifData& exifData) const;
+        void setOffsets(Ifd& ifd1, ByteOrder byteOrder) const;
+        long size() const;
+        long dataSize() const;
+        //@}
+
+    private:
+        // DATA
+        long size_;              // Size of the image data
+        char* pImage_;           // Thumbnail image data
+
+    }; // class JpegThumbnail
 
     //! Container type to hold all metadata
     typedef std::vector<Metadatum> Metadata;
@@ -537,6 +598,12 @@ namespace Exif {
           found.
          */
         iterator findIfdIdIdx(IfdId ifdId, int idx);
+        /*!
+          @brief Delete the thumbnail from the %Exif data. Removes all related
+                 (Thumbnail.*.*, i.e., IFD1) metadata as well.
+          @return The number of bytes truncated from the original %Exif data.
+         */
+        long eraseThumbnail();
         //@}
 
         //! @name Accessors
@@ -581,42 +648,27 @@ namespace Exif {
                  the path should not include an extension.
          */
         int writeThumbnail(const std::string& path) const 
-            { return thumbnail_.write(path); }
-        //! Return the type of the thumbnail
-        Thumbnail::Type thumbnailType() const { return thumbnail_.type(); }
+            { return pThumbnail_ ? pThumbnail_->write(path) : 0; }
+        //! Return the file extension of the thumbnail image file
+        const char* thumbnailFormat() const
+            { return pThumbnail_ ? pThumbnail_->format() : ""; }
+        const char* thumbnailExtension() const 
+            { return pThumbnail_ ? pThumbnail_->extension() : ""; }
         /*!
-          @brief Return the size of the thumbnail image. This is the size it
-                 would occupy when extracted from the %Exif data).
+          @brief Return the size of the thumbnail image. This is the size that
+                 the thumbnail would occupy when extracted from the %Exif data.
          */
-        long thumbnailSize() const { return thumbnail_.size(); }
+        long thumbnailSize() const 
+            { return pThumbnail_ ? pThumbnail_->size() : 0; }
         //@}
 
     private:
-        //! @name Accessors
-        //@{
-        /*!
-          @brief Check if the metadata is compatible with the internal IFDs for
-                 non-intrusive writing. Return true if compatible, false if not.
-
-          @note This function does not detect deleted metadata as incompatible,
-                although the deletion of metadata is not (yet) a supported
-                non-intrusive write operation.
-         */
-        bool compatible() const;
-        /*!
-          @brief Find the IFD or makernote entry corresponding to ifd id and idx.
-
-          @return A pair of which the first part determines if a match was found
-                  and, if true, the second contains an iterator to the entry.
-         */
-        std::pair<bool, Entries::const_iterator> 
-        findEntry(IfdId ifdId, int idx) const;
-        //! Return a pointer to the internal IFD identified by its IFD id
-        const Ifd* getIfd(IfdId ifdId) const;
-        //@}
-
         //! @name Manipulators
         //@{
+        /*!
+          @brief Read the thumbnail from the data buffer. Return 0 if successful.
+         */
+        int readThumbnail();
         /*!
           @brief Check if the metadata changed and update the internal IFDs and
                  the MakerNote if the changes are compatible with the existing
@@ -651,12 +703,36 @@ namespace Exif {
         long copyFromMetadata(char* buf);
         //@}
 
+        //! @name Accessors
+        //@{
+        /*!
+          @brief Check if the metadata is compatible with the internal IFDs for
+                 non-intrusive writing. Return true if compatible, false if not.
+
+          @note This function does not detect deleted metadata as incompatible,
+                although the deletion of metadata is not (yet) a supported
+                non-intrusive write operation.
+         */
+        bool compatible() const;
+        /*!
+          @brief Find the IFD or makernote entry corresponding to ifd id and idx.
+
+          @return A pair of which the first part determines if a match was found
+                  and, if true, the second contains an iterator to the entry.
+         */
+        std::pair<bool, Entries::const_iterator> 
+        findEntry(IfdId ifdId, int idx) const;
+        //! Return a pointer to the internal IFD identified by its IFD id
+        const Ifd* getIfd(IfdId ifdId) const;
+        //@}
+
         // DATA
         TiffHeader tiffHeader_;
         Metadata metadata_;
-        Thumbnail thumbnail_;
-        MakerNote* makerNote_;   // Todo: implement reference counting instead
-                                 //       of making ExifData own this pointer
+        Thumbnail* pThumbnail_;  //!< Pointer to the %Exif thumbnail image
+        MakerNote* pMakerNote_;  //!< Pointer to the MakerNote
+                                 //   Todo: implement reference counting instead
+                                 //   of making ExifData own this pointer
 
         Ifd ifd0_;
         Ifd exifIfd_;
@@ -664,7 +740,6 @@ namespace Exif {
         Ifd gpsIfd_;
         Ifd ifd1_;
 
-        bool valid_;                      // Flag if data buffer is valid
         long size_;                       // Size of the Exif raw data in bytes
         char* data_;                      // Exif raw data buffer
 
