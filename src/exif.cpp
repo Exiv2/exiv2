@@ -30,7 +30,7 @@
 EXIV2_RCSID("@(#) $Id$");
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
-#define DEBUG_MAKERNOTE
+#undef DEBUG_MAKERNOTE
 
 // *****************************************************************************
 // included header files
@@ -51,6 +51,12 @@ EXIV2_RCSID("@(#) $Id$");
 #include <map>
 #include <cstring>
 #include <cassert>
+#include <cstdio>
+#include <sys/types.h>                  // for stat()
+#include <sys/stat.h>                   // for stat()
+#ifdef HAVE_UNISTD_H
+# include <unistd.h>                    // for stat()
+#endif
 
 // *****************************************************************************
 // local declarations
@@ -66,6 +72,9 @@ namespace {
                       uint16_t tag,
                       uint32_t offset, 
                       Exiv2::ByteOrder byteOrder);
+
+    // Read file path into a DataBuf, which is returned.
+    Exiv2::DataBuf readFile(const std::string& path);
 
 }
 
@@ -261,6 +270,17 @@ namespace Exiv2 {
     ExifData::~ExifData()
     {
         delete[] pData_;
+    }
+
+    Exifdatum& ExifData::operator[](const std::string& key)
+    {
+        ExifKey exifKey(key);
+        iterator pos = findKey(exifKey);
+        if (pos == end()) {
+            add(Exifdatum(exifKey));
+            pos = findKey(exifKey);
+        }
+        return *pos;
     }
 
     int ExifData::read(const std::string& path)
@@ -647,6 +667,37 @@ namespace Exiv2 {
         return exifMetadata_.erase(pos);
     }
 
+    void ExifData::setJpegThumbnail(const byte* buf, long size)
+    {
+        (*this)["Exif.Thumbnail.Compression"] = uint16_t(6);
+        Exifdatum& format = (*this)["Exif.Thumbnail.JPEGInterchangeFormat"];
+        format = uint32_t(0);
+        format.setDataArea(buf, size);
+        (*this)["Exif.Thumbnail.JPEGInterchangeFormatLength"] = uint32_t(size);
+    }
+
+    void ExifData::setJpegThumbnail(const byte* buf, long size, 
+                                    URational xres, URational yres, uint16_t unit)
+    {
+        setJpegThumbnail(buf, size);
+        (*this)["Exif.Thumbnail.XResolution"] = xres;
+        (*this)["Exif.Thumbnail.YResolution"] = yres;
+        (*this)["Exif.Thumbnail.ResolutionUnit"] = unit;
+    }
+
+    void ExifData::setJpegThumbnail(const std::string& path)
+    {
+        DataBuf thumb = readFile(path);
+        setJpegThumbnail(thumb.pData_, thumb.size_);
+    }
+
+    void ExifData::setJpegThumbnail(const std::string& path, 
+                                   URational xres, URational yres, uint16_t unit)
+    {
+        DataBuf thumb = readFile(path);
+        setJpegThumbnail(thumb.pData_, thumb.size_, xres, yres, unit);
+    }
+
     long ExifData::eraseThumbnail()
     {
         // Delete all Exif.Thumbnail.* (IFD1) metadata 
@@ -826,7 +877,7 @@ namespace Exiv2 {
             else {
                 // Hack: Set the entry's value only if there is no data area.
                 // This ensures that the original offsets are not overwritten
-                // with relative offsets from the ExifDatum (which require
+                // with relative offsets from the Exifdatum (which require
                 // conversion to offsets relative to the start of the TIFF
                 // header and that is currently only done in intrusive write
                 // mode). On the other hand, it is thus now not possible to
@@ -1044,7 +1095,6 @@ namespace Exiv2 {
         assert(md.key_.get() != 0);
         return md.key_->printTag(os, md.value());
     }
-
 }                                       // namespace Exiv2
 
 // *****************************************************************************
@@ -1068,6 +1118,21 @@ namespace {
             pos = ifd.findTag(tag);
         }
         pos->setValue(offset, byteOrder);
+    }
+
+    Exiv2::DataBuf readFile(const std::string& path)
+    {
+        Exiv2::FileCloser file(fopen(path.c_str(), "rb"));
+        if (!file.fp_) 
+            throw Exiv2::Error("Couldn't open input file");
+        struct stat st;
+        if (0 != stat(path.c_str(), &st))
+            throw Exiv2::Error("Couldn't stat input file");
+        Exiv2::DataBuf buf(st.st_size);
+        long len = (long)fread(buf.pData_, 1, buf.size_, file.fp_);
+        if (len != buf.size_) 
+            throw Exiv2::Error("Couldn't read input file");
+        return buf; 
     }
 
 }

@@ -66,6 +66,7 @@ namespace Exiv2 {
      */
     class Exifdatum : public Metadatum {
         friend std::ostream& operator<<(std::ostream&, const Exifdatum&);
+        template<typename T> friend Exifdatum& setValue(Exifdatum&, const T&);
     public:
         //! @name Creators
         //@{
@@ -76,12 +77,12 @@ namespace Exiv2 {
                  a program can create an 'empty' %Exifdatum with only a key
                  and set the value using setValue().
 
-          @param key ExifKey.
-          @param pValue Pointer to a Exifdatum value.
+          @param key %ExifKey.
+          @param pValue Pointer to an %Exifdatum value.
           @throw Error ("Invalid key") if the key cannot be parsed and converted.
          */
         explicit Exifdatum(const ExifKey& key, const Value* pValue =0);
-        //! Constructor to build a Exifdatum from an IFD entry.
+        //! Constructor to build an %Exifdatum from an IFD entry.
         Exifdatum(const Entry& e, ByteOrder byteOrder);
         //! Copy constructor
         Exifdatum(const Exifdatum& rhs);
@@ -93,6 +94,55 @@ namespace Exiv2 {
         //@{
         //! Assignment operator
         Exifdatum& operator=(const Exifdatum& rhs);
+        /*!
+          @brief Assign \em value to the %Exifdatum. If the object already has a
+                 value, it is replaced with \em value.  Otherwise a new
+                 AsciiValue value is created and set to \em value.
+         */
+        Exifdatum& operator=(const std::string& value)
+            { setValue(value); return *this; }
+        /*!
+          @brief Assign \em value to the %Exifdatum. If the object already has a
+                 value, it is replaced with \em value.  Otherwise a new
+                 UShortValue value is created and set to \em value.
+         */
+        Exifdatum& operator=(const uint16_t& value) 
+            { return Exiv2::setValue(*this, value); }
+        /*!
+          @brief Assign \em value to the %Exifdatum. If the object already has a
+                 value, it is replaced with \em value.  Otherwise a new
+                 ULongValue value is created and set to \em value.
+         */
+        Exifdatum& operator=(const uint32_t& value)
+            { return Exiv2::setValue(*this, value); }
+        /*!
+          @brief Assign \em value to the %Exifdatum. If the object already has a
+                 value, it is replaced with \em value.  Otherwise a new
+                 URational value is created and set to \em value.
+         */
+        Exifdatum& operator=(const URational& value)
+            { return Exiv2::setValue(*this, value); }
+        /*!
+          @brief Assign \em value to the %Exifdatum. If the object already has a
+                 value, it is replaced with \em value.  Otherwise a new
+                 ShortValue value is created and set to \em value.
+         */
+        Exifdatum& operator=(const int16_t& value)
+            { return Exiv2::setValue(*this, value); }
+        /*!
+          @brief Assign \em value to the %Exifdatum. If the object already has a
+                 value, it is replaced with \em value.  Otherwise a new
+                 LongValue value is created and set to \em value.
+         */
+        Exifdatum& operator=(const int32_t& value)
+            { return Exiv2::setValue(*this, value); }
+        /*!
+          @brief Assign \em value to the %Exifdatum. If the object already has a
+                 value, it is replaced with \em value.  Otherwise a new
+                 Rational value is created and set to \em value.
+         */
+        Exifdatum& operator=(const Rational& value)
+            { return Exiv2::setValue(*this, value); }
         /*!
           @brief Set the value. This method copies (clones) the value pointed
                  to by \em pValue.
@@ -274,6 +324,17 @@ namespace Exiv2 {
              tag value.
      */
     std::ostream& operator<<(std::ostream& os, const Exifdatum& md);
+
+    /*!
+      @brief Set the value of \em exifDatum to \em value. If the object already
+             has a value, it is replaced. Otherwise a new ValueType\<T\> value
+             is created and set to \em value. 
+
+      This is a helper function, called from Exifdatum members. It is meant to
+      be used with T = (u)int16_t, (u)int32_t or (U)Rational. Do not use directly.
+    */
+    template<typename T>
+    Exifdatum& setValue(Exifdatum& exifDatum, const T& value);
 
     /*!
       @brief Exif %Thumbnail image. This abstract base class provides the
@@ -510,6 +571,15 @@ namespace Exiv2 {
          */
         DataBuf copy();
         /*!
+          @brief Returns a reference to the %Exifdatum that is associated with a
+                 particular \em key. If %ExifData does not already contain such
+                 an %Exifdatum, operator[] adds object \em Exifdatum(key).
+
+          @note  Since operator[] might insert a new element, it can't be a const
+                 member function.
+         */
+        Exifdatum& operator[](const std::string& key);
+        /*!
           @brief Add all (IFD) entries in the range from iterator position begin
                  to iterator position end to the Exif metadata. No duplicate
                  checks are performed, i.e., it is possible to add multiple
@@ -519,13 +589,13 @@ namespace Exiv2 {
                  Entries::const_iterator end,
                  ByteOrder byteOrder);
         /*!
-          @brief Add a Exifdatum from the supplied key and value pair.  This
+          @brief Add an Exifdatum from the supplied key and value pair.  This
                  method copies (clones) key and value. No duplicate checks are
                  performed, i.e., it is possible to add multiple metadata with
                  the same key.
          */
         void add(const ExifKey& key, const Value* pValue);
-        /*! 
+        /*!
           @brief Add a copy of the \em exifdatum to the Exif metadata.  No
                  duplicate checks are performed, i.e., it is possible to add
                  multiple metadata with the same key.
@@ -567,6 +637,65 @@ namespace Exiv2 {
           found.
          */
         iterator findIfdIdIdx(IfdId ifdId, int idx);
+        /*!
+          @brief Set the Exif thumbnail to the Jpeg image \em path. Set
+                 XResolution, YResolution and ResolutionUnit to \em xres,
+                 \em yres and \em unit, respectively.
+
+          This results in the minimal thumbnail tags being set for a Jpeg
+          thumbnail, as mandated by the Exif standard.
+
+          @note  No checks on the file format or size are performed.
+          @note  Additional existing Exif thumbnail tags are not modified.
+
+          @throw Error ("Couldn't open input file") if fopen fails,
+          @throw Error ("Couldn't stat input file") if stat fails, or
+          @throw Error ("Couldn't read input file") if fread fails.
+         */
+        void setJpegThumbnail(const std::string& path, 
+                              URational xres, URational yres, uint16_t unit);
+        /*!
+          @brief Set the Exif thumbnail to the Jpeg image pointed to by \em buf,
+                 and size \em size. Set XResolution, YResolution and
+                 ResolutionUnit to \em xres, \em yres and \em unit, respectively.
+
+          This results in the minimal thumbnail tags being set for a Jpeg
+          thumbnail, as mandated by the Exif standard.
+
+          @note  No checks on the image format or size are performed.
+          @note  Additional existing Exif thumbnail tags are not modified.
+         */
+        void setJpegThumbnail(const byte* buf, long size, 
+                              URational xres, URational yres, uint16_t unit);
+        /*!
+          @brief Set the Exif thumbnail to the Jpeg image \em path. 
+
+          This sets only the Compression, JPEGInterchangeFormat and
+          JPEGInterchangeFormatLength tags, which is not all the thumbnail
+          Exif information mandatory according to the Exif standard. (But it's
+          enough to work with the thumbnail.)
+
+          @note  No checks on the file format or size are performed.
+          @note  Additional existing Exif thumbnail tags are not modified.
+
+          @throw Error ("Couldn't open input file") if fopen fails,
+          @throw Error ("Couldn't stat input file") if stat fails, or
+          @throw Error ("Couldn't read input file") if fread fails.
+         */
+        void setJpegThumbnail(const std::string& path);
+        /*!
+          @brief Set the Exif thumbnail to the Jpeg image pointed to by \em buf,
+                 and size \em size. 
+
+          This sets only the Compression, JPEGInterchangeFormat and
+          JPEGInterchangeFormatLength tags, which is not all the thumbnail
+          Exif information mandatory according to the Exif standard. (But it's
+          enough to work with the thumbnail.)
+
+          @note  No checks on the image format or size are performed.
+          @note  Additional existing Exif thumbnail tags are not modified.
+         */
+        void setJpegThumbnail(const byte* buf, long size);
         /*!
           @brief Delete the thumbnail from the Exif data. Removes all
                  Exif.%Thumbnail.*, i.e., IFD1 metadata.
@@ -769,8 +898,22 @@ namespace Exiv2 {
     }; // class ExifData
 
 // *****************************************************************************
-// free functions
-
+// template, inline and free functions
+    
+    template<typename T>
+    Exifdatum& setValue(Exifdatum& exifDatum, const T& value)
+    {
+        if (exifDatum.value_.get() == 0) {
+            std::auto_ptr<ValueType<T> > v 
+                = std::auto_ptr<ValueType<T> >(new ValueType<T>);
+            v->value_.push_back(value);
+            exifDatum.value_ = v;
+        }
+        else {
+            exifDatum.value_->read(Exiv2::toString(value));
+        }
+        return exifDatum;
+    }
     /*!
       @brief Add all metadata in the range from iterator position begin to
              iterator position end, which have an IFD id matching that of the
@@ -811,4 +954,3 @@ namespace Exiv2 {
 }                                       // namespace Exiv2
 
 #endif                                  // #ifndef EXIF_HPP_
-
