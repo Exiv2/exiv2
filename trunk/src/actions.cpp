@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.5 $
+  Version:   $Name:  $ $Revision: 1.6 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -44,6 +44,7 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: actions.cpp,v $")
 #include <cstring>
 #include <cstdio>
 #include <ctime>
+#include <cmath>
 
 // *****************************************************************************
 // local declarations
@@ -114,7 +115,8 @@ namespace Action {
     } // TaskFactory::create
 
     int Print::run(const std::string& path)
-        try {
+    try {
+        path_ = path;
         Exif::ExifData exifData;
         int rc = exifData.read(path);
         if (rc) {
@@ -138,17 +140,61 @@ namespace Action {
 
     void Print::printSummary(const Exif::ExifData& exifData)
     {
+        align_ = 15;
+        std::cout << std::setw(align_) << std::setfill(' ') << std::left
+                  << "Filename" << ": " << path_ << "\n";
+
         printTag(exifData, "Image.OtherTags.Make", "Camera make");
         printTag(exifData, "Image.OtherTags.Model", "Camera model");
         printTag(exifData, "Image.DateTime.DateTimeOriginal", "Image Timestamp");
-        printTag(exifData, "Image.CaptureConditions.ExposureTime", "Exposure time");
-        printTag(exifData, "Image.CaptureConditions.FNumber", "Aperture");
+        Exif::ExifData::const_iterator md;
+        // Exposure time: Try ExposureTime, failing that, try ShutterSpeedValue
+        std::ostringstream exposure;
+        md = exifData.findKey("Image.CaptureConditions.ExposureTime");
+        if (md != exifData.end()) {
+            exposure << *md;
+        }
+        else {
+            md = exifData.findKey("Image.CaptureConditions.ShutterSpeedValue");
+            if (md != exifData.end()) {
+                float f = exp2f(md->toFloat()) + 0.5;
+                if (f > 1) {
+                    exposure << "1/" << static_cast<long>(f) << " s";
+                }
+                else {
+                    exposure << static_cast<long>(1/f) << " s";
+                }
+            }
+        }
+        if (md != exifData.end()) {
+            std::cout << std::setw(align_) << std::setfill(' ') << std::left
+                      << "Exposure time" << ": " << exposure.str() << "\n";
+        }
+        // Aperture, get if from FNumber and, failing that, try ApertureValue
+        std::ostringstream aperture;
+        md = exifData.findKey("Image.CaptureConditions.FNumber");
+        if (md != exifData.end()) {
+            aperture << *md;
+        }
+        else {
+            md = exifData.findKey("Image.CaptureConditions.ApertureValue");
+            if (md != exifData.end()) {
+                aperture << std::fixed << std::setprecision(1)
+                         << "f/" << exp2f(md->toFloat()/2);
+            }
+        }
+        if (md != exifData.end()) {
+            std::cout << std::setw(align_) << std::setfill(' ') << std::left
+                      << "Aperture" << ": " << aperture.str() << "\n";
+        }
         printTag(exifData, "Image.CaptureConditions.Flash", "Flash");
+        printTag(exifData, "Image.CaptureConditions.ISOSpeedRatings", "ISO");
+        printTag(exifData, "Image.CaptureConditions.ExposureProgram", "Program");
         printTag(exifData, "Image.CaptureConditions.FocalLength", "Focal length");
         printTag(exifData, "Image.CaptureConditions.MeteringMode", "Metering mode");
 
         // Todo: Add size of IFD1 to thumbnail data size
-        std::cout << std::setw(15) << std::setfill(' ') << std::left
+        std::cout << std::setw(align_) << std::setfill(' ') << std::left
                   << "Thumbnail" << ": ";
 	switch (exifData.thumbnailType()) {
         case Exif::Thumbnail::none: std::cout << "None\n"; break;
@@ -159,20 +205,23 @@ namespace Action {
             std::cout << "TIFF, " << exifData.thumbnailSize() << " Bytes\n";
             break;
         }
+        std::cout << "\n";
 
     } // Print::printSummary
 
-    void Print::printTag(const Exif::ExifData& exifData,
-                         const std::string& key, 
-                         const std::string& label)
+    int Print::printTag(const Exif::ExifData& exifData,
+                        const std::string& key,
+                        const std::string& label)
     {
+        int rc = 0;
         Exif::ExifData::const_iterator md = exifData.findKey(key);
         if (md != exifData.end()) {
-            std::cout << std::setw(15) << std::setfill(' ') << std::left
+            std::cout << std::setw(align_) << std::setfill(' ') << std::left
                       << label << ": " << *md << "\n";
+            rc = 1;
         }
+        return rc;
     } // Print::printTag
-
 
     void Print::printInterpreted(const Exif::ExifData& exifData)
     {

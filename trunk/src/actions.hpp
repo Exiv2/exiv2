@@ -22,7 +22,7 @@
   @file    actions.hpp
   @brief   Implements base class Task, TaskFactory and the various supported
            actions (derived from Task).
-  @version $Name:  $ $Revision: 1.3 $
+  @version $Name:  $ $Revision: 1.4 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    11-Dec-03, ahu: created
@@ -144,25 +144,32 @@ namespace Action {
     //! %Print the %Exif (or other metadata) of a file to stdout
     class Print : public Task {
     public:
+        virtual ~Print() {}
         virtual int run(const std::string& path);
         typedef std::auto_ptr<Print> AutoPtr;
         AutoPtr clone() const;
 
         //! Print %Exif summary information
-        void printSummary(const Exif::ExifData& exifData);
+        void printSummary(const Exif::ExifData& exifData); 
         //! Print the interpreted value for each %Exif tag
         void printInterpreted(const Exif::ExifData& exifData);
         //! Print uninterpreted %Exif information
         void printValues(const Exif::ExifData& exifData);
         //! Print %Exif information in hexdump format
         void printHexdump(const Exif::ExifData& exifData);
-        //! Print one summary line with a label and requested data
-        void printTag(const Exif::ExifData& exifData,
-                      const std::string& key, 
-                      const std::string& label);
+        /*!
+          @brief Print one summary line with a label and requested data.
+                 Return 1 if a line was written, 0 if the key was not found.
+         */
+        int printTag(const Exif::ExifData& exifData,
+                     const std::string& key, 
+                     const std::string& label);
 
     private:
         virtual Task* clone_() const;
+
+        std::string path_;
+        int align_;                // for the alignment of the summary output
     };
 
     /*!
