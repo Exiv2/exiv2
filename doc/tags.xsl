@@ -2,7 +2,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 <xsl:output method="html" version="4.01" encoding="iso-8859-1" 
 doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
- 
+
 <!-- *********************************************************************** -->
 <xsl:template match="TAGLIST">
 <html>
@@ -27,13 +27,13 @@ doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
 
 <!-- *********************************************************************** -->
 <xsl:template match="HEADER/text">
-  <xsl:copy-of select="text()|*"/>
+  <xsl:copy-of select="text()|*" />
 </xsl:template>
 
 <!-- *********************************************************************** -->
 <xsl:template name="header">
   <h2><xsl:value-of select="HEADER/title" /></h2>
-  <xsl:apply-templates select="HEADER/text"/>
+  <xsl:apply-templates select="HEADER/text" />
 </xsl:template>
 
 <!-- *********************************************************************** -->
@@ -44,9 +44,7 @@ doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
       <xsl:call-template name="header-row" />
     </thead>
     <tbody>
-      <xsl:for-each select="ROWSET/ROW">
-        <xsl:call-template name="data-row" />
-      </xsl:for-each>
+      <xsl:apply-templates select="ROWSET/ROW" />
     </tbody>
   </table>
   <xsl:call-template name="interactivity" />
@@ -77,8 +75,23 @@ doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
 </xsl:template>
 
 <!-- *********************************************************************** -->
+<xsl:template match="ROWSET/ROW[position() mod 2 = 0]">
+  <xsl:call-template name="data-row">
+    <xsl:with-param name="rowClass" select="'EvenRow'" />
+  </xsl:call-template>
+</xsl:template>
+
+<!-- *********************************************************************** -->
+<xsl:template match="ROWSET/ROW[position() mod 2 = 1]">
+  <xsl:call-template name="data-row">
+    <xsl:with-param name="rowClass" select="'OddRow'" />
+  </xsl:call-template>
+</xsl:template>
+
+<!-- *********************************************************************** -->
 <xsl:template name="data-row">
-  <tr>
+  <xsl:param name="rowClass" />
+  <tr><xsl:attribute name="class"><xsl:value-of select="$rowClass" /></xsl:attribute>
     <td><xsl:value-of select="tagname" /></td>
     <td><xsl:value-of select="tagdesc" /></td>
     <td><xsl:value-of select="tagdec" /></td>
@@ -104,7 +117,6 @@ doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
 		addClassName(rows[i], i % 2 ? "EvenRow" : "OddRow");
 	}
   };
-  t1.onsort();
   //]]>
   </script>
 </xsl:template>
