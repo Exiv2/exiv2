@@ -4,7 +4,7 @@
 #
 # RCS information
 #  $Name:  $
-#  $Revision: 1.2 $
+#  $Revision: 1.3 $
 #
 # Description:
 #  This makefile just forwards to src/Makefile.
@@ -24,3 +24,6 @@ doc:
 maintainer-clean:
 	cd src && $(MAKE) $(MAKECMDGOALS)
 	cd doc && $(MAKE) $(MAKECMDGOALS)
+	rm -f *~ *#
+	rm -f config.h config.mk config.log configure
+	rm -rf autom4te.cache/

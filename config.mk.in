@@ -19,14 +19,13 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
 # 02111-1307, USA.
 #
-# File:      config.mk
-# Version:   $Name:  $ $Revision: 1.6 $
+# File:      config.mk.in
+# Version:   $Name:  $ $Revision: 1.1 $
 # Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
 # History:   10-Dec-03, ahu: created
 #
 # Description: 
-#  System configuration file for GNU/Linux: gcc 3.x on Debian GNU/Linux
-#  running Linux kernel 2.2.x or higher
+#  Exiv2 system configuration file.
 #
 
 # **********************************************************************
@@ -36,10 +35,14 @@ STATIC_LIBS =
 
 # **********************************************************************
 # C++ Compiler and precompiler
-CXX = g++
+CXX = @CXX@
 
 # Common compiler flags (warnings, symbols [-ggdb], optimization [-O2], etc)
-CXXFLAGS := -Wall -O2
+ifeq ($(CXX),g++)
+	CXXFLAGS := -Wall -O2
+else
+	CXXFLAGS := @CXXFLAGS@
+endif
 # Compiler flags to compile static objects
 CXXFLAGS_STATIC := $(CXXFLAGS)
 # Compiler flags for shared objects
@@ -49,13 +52,13 @@ CXXFLAGS_SHARED := $(CXXFLAGS) -fPIC
 CXXCPP = $(CXX) -E -dD
 
 # Preprocessor flags
-CPPFLAGS =
+CPPFLAGS = @CPPFLAGS@
 
 # Command to run the compiler or preprocessor to produce dependencies
 CXXDEP = $(CXX) -MM
 
 # Linker flags
-LDFLAGS = 
+LDFLAGS = @LDFLAGS@
 # Linker flags to link applications
 LDFLAGS_BIN = $(LDFLAGS)
 # Linker flags used to link shared libraries
@@ -70,28 +73,32 @@ ARCHIVE_SUFFIX = .a
 
 # **********************************************************************
 # C Compiler
-CC = gcc
-CFLAGS = $(CXXFLAGS)
+CC = @CC@
+ifeq ($(CXX),g++)
+	CFLAGS := -Wall -O2
+else
+	CFLAGS := @CFLAGS@
+endif
 
 # **********************************************************************
 # Global includes, libraries and defines
 INCS = -I. -I$(top_srcdir) -I$(incdir)
-LIBS = -L. -L$(libdir) -L/usr/local/lib
-DEFS = 
+LIBS = -L. -L$(libdir) @LIBS@
+DEFS = @DEFS@
 
 # **********************************************************************
 # Functions
-HAVE_TIMEGM = 1
+HAVE_TIMEGM = @HAVE_TIMEGM@
 
 # **********************************************************************
 # Archive management
-RANLIB = ranlib
+RANLIB = @RANLIB@
 AR = ar
 ARFLAGS = rcuv
 
 # **********************************************************************
 # Installation programs
-INSTALL_EXE = $(top_srcdir)/install-sh
+INSTALL_EXE = @INSTALL@
 INSTALL_PROGRAM = $(INSTALL_EXE) -c
 INSTALL_DATA = $(INSTALL_EXE) -c -m 644
 INSTALL_DIRS = $(top_srcdir)/mkinstalldirs
@@ -102,13 +109,13 @@ RM = @rm -vf
 
 # **********************************************************************
 # Directories
-prefix = ..
-exec_prefix = /usr/local
+prefix = @prefix@
+exec_prefix = @exec_prefix@
 
 # Source directory
-srcdir = .
+srcdir = @srcdir@
 
 # Installation directories
-bindir = ${exec_prefix}/bin
-incdir = ${exec_prefix}/include
-libdir = ${exec_prefix}/lib
+bindir = @bindir@
+incdir = @includedir@
+libdir = @libdir@
