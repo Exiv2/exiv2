@@ -20,14 +20,14 @@
  */
 /*
   File:      ifd.cpp
-  Version:   $Name:  $ $Revision: 1.1 $
+  Version:   $Name:  $ $Revision: 1.2 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.1 $ $RCSfile: ifd.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: ifd.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -41,55 +41,55 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.1 $ $RCSfile: ifd.cpp,v $")
 #include <sstream>
 #include <algorithm>
 #include <cstring>
+#include <vector>
+
+// *****************************************************************************
+// local declarations
+namespace {
+
+    // Helper structure to build IFD entries
+    struct PreEntry {
+        Exif::uint16 tag_;
+        Exif::uint16 type_; 
+        Exif::uint32 count_;
+        long size_;
+        long offsetLoc_;
+        Exif::uint32 offset_;
+    };
+    
+    // Container for 'pre-entries'
+    typedef std::vector<PreEntry> PreEntries;
+
+    /*
+      Compare two 'pre-IFD entries' by offset, taking care of special cases
+      where one or both of the entries don't have an offset.  Return true if the
+      offset of entry lhs is less than that of rhs, else false. By definition,
+      entries without an offset are greater than those with an offset.
+     */
+    bool cmpPreEntriesByOffset(const PreEntry& lhs, const PreEntry& rhs);        
+}
 
 // *****************************************************************************
 // class member definitions
 namespace Exif {
 
-    RawEntry::RawEntry()
-        : ifdId_(ifdIdNotSet), ifdIdx_(-1),
-          tag_(0), type_(0), count_(0), offset_(0), size_(0)
-    {
-        memset(offsetData_, 0x0, 4);
-    }
-
     Entry::Entry(bool alloc)
-        : alloc_(alloc), ifdId_(ifdIdNotSet), ifdIdx_(-1),
+        : alloc_(alloc), ifdId_(ifdIdNotSet), makerNote_(0), 
           tag_(0), type_(0), count_(0), offset_(0), size_(0), data_(0)
     {
-        memset(offsetData_, 0x0, 4);
-    }
-
-    Entry::Entry(const RawEntry& e, const char* buf, bool alloc)
-        : alloc_(alloc), ifdId_(e.ifdId_), ifdIdx_(e.ifdIdx_),
-          tag_(e.tag_), type_(e.type_), count_(e.count_), offset_(e.offset_), 
-          size_(e.size_), data_(0)
-    {
-        if (size_ > 4) {
-            if (alloc_) {
-                data_ = new char[size_]; 
-                memcpy(data_, buf + offset_, size_);
-            }
-            else {
-                data_ = const_cast<char*>(buf) + offset_;
-            }
-        }
-        else {
-            memcpy(offsetData_, e.offsetData_, 4);
-        }
     }
 
     Entry::~Entry()
     {
         if (alloc_) delete[] data_;
+        // do *not* delete the MakerNote
     }
 
     Entry::Entry(const Entry& rhs)
-        : alloc_(rhs.alloc_), ifdId_(rhs.ifdId_),
-          ifdIdx_(rhs.ifdIdx_), tag_(rhs.tag_), type_(rhs.type_), 
-          count_(rhs.count_), offset_(rhs.offset_), size_(rhs.size_), data_(0)
+        : alloc_(rhs.alloc_), ifdId_(rhs.ifdId_), makerNote_(rhs.makerNote_),
+          tag_(rhs.tag_), type_(rhs.type_), count_(rhs.count_),
+          offset_(rhs.offset_), size_(rhs.size_), data_(0)
     {
-        memcpy(offsetData_, rhs.offsetData_, 4);
         if (alloc_) {
             if (rhs.data_) {
                 data_ = new char[rhs.size()];
@@ -106,12 +106,11 @@ namespace Exif {
         if (this == &rhs) return *this;
         alloc_ = rhs.alloc_;
         ifdId_ = rhs.ifdId_;
-        ifdIdx_ = rhs.ifdIdx_;
+        makerNote_ = rhs.makerNote_;
         tag_ = rhs.tag_;
         type_ = rhs.type_;
         count_ = rhs.count_;
         offset_ = rhs.offset_;
-        memcpy(offsetData_, rhs.offsetData_, 4);
         size_ = rhs.size_;
         if (alloc_) {
             delete[] data_;
@@ -127,48 +126,47 @@ namespace Exif {
         return *this;
     } // Entry::operator=
 
-    const char* Entry::data() const
+    void Entry::setValue(uint32 data, ByteOrder byteOrder)
     {
-        if (size_ > 4) return data_;
-        return offsetData_;
+        if (data_ == 0) {
+            if (!alloc_) {
+                throw Error("Invariant alloc violated in Entry::setValue");
+            }
+            data_ = new char[4];
+        }
+        // No need to resize previously allocated memory
+        ul2Data(data_, data, byteOrder);
+        size_ = 4;
+        type_ = unsignedLong;
+        count_ = 1;
     }
 
-    void Entry::setOffset(uint32 offset, ByteOrder byteOrder)
+    void Entry::setValue(uint16 type, uint32 count, const char* data, long size)
     {
-        if (size_ > 4) {
-            offset_ = offset;
+        // Make sure size is always at least four bytes
+        long newSize = std::max(long(4), size); 
+        if (alloc_) {
+            delete[] data_;
+            data_ = new char[newSize];
+            memset(data_, 0x0, 4);
+            memcpy(data_, data, size);
         }
         else {
-            ul2Data(offsetData_, offset, byteOrder);
+            if (size_ == 0) {
+                // Set the data pointer of a virgin entry
+                if (size < 4) throw Error("Size too small");
+                data_ = const_cast<char*>(data);
+            }
+            else {
+                // Overwrite existing data if it fits into the buffer
+                if (newSize > size_) throw Error("Size too large");
+                memset(data_, 0x0, std::max(long(4), size_));
+                memcpy(data_, data, size);
+            }
         }
-    }
-
-    void Entry::setValue(uint16 type, const char* buf, long size)
-    {
-        if (size > 4 && alloc_) {
-            delete[] data_;
-            data_ = new char[size];
-            memcpy(data_, buf, size);
-        }
-        if (size <= 4 && alloc_) {
-            delete[] data_;
-            data_ = 0;
-            memset(offsetData_, 0x0, 4);
-            memcpy(offsetData_, buf, size);
-        }
-        if (size > 4 && !alloc_) {
-            if (size > size_) throw Error("Size too large");
-            memset(data_, 0x0, size_);
-            memcpy(data_, buf, size);
-        }
-        if (size <= 4 && !alloc_) {
-            data_ = 0;
-            memset(offsetData_, 0x0, 4);
-            memcpy(offsetData_, buf, size);
-        }
-        size_ = size;
         type_ = type;
-        count_ = size / TypeInfo::typeSize(TypeId(type));
+        count_ = count;
+        size_ = newSize;
     } // Entry::setValue
 
     Ifd::Ifd(IfdId ifdId)
@@ -189,22 +187,21 @@ namespace Exif {
     int Ifd::read(const char* buf, ByteOrder byteOrder, long offset)
     {
         offset_ = offset;
-        int n = getUShort(buf, byteOrder);
-        long o = 2;
 
-        // Create an array of raw entries
-        RawEntries rawEntries;
+        PreEntries preEntries;
+
+        int n = getUShort(buf, byteOrder);
+        long o = 2;        
+
         for (int i = 0; i < n; ++i) {
-            RawEntry e; 
-            e.ifdId_ = ifdId_;
-            e.ifdIdx_ = i;
-            e.tag_ = getUShort(buf+o, byteOrder);
-            e.type_ = getUShort(buf+o+2, byteOrder);
-            e.count_ = getULong(buf+o+4, byteOrder);
-            e.size_ = e.count_ * TypeInfo::typeSize(TypeId(e.type_));
-            e.offset_ = e.size_ > 4 ? getULong(buf+o+8, byteOrder) : 0;
-            memcpy(e.offsetData_, buf+o+8, 4);
-            rawEntries.push_back(e);
+            PreEntry pe;
+            pe.tag_ = getUShort(buf+o, byteOrder);
+            pe.type_ = getUShort(buf+o+2, byteOrder);
+            pe.count_ = getULong(buf+o+4, byteOrder);
+            pe.size_ = pe.count_ * TypeInfo::typeSize(TypeId(pe.type_));
+            pe.offsetLoc_ = o + 8;
+            pe.offset_ = pe.size_ > 4 ? getULong(buf+o+8, byteOrder) : 0;
+            preEntries.push_back(pe);
             o += 12;
         }
         next_ = getULong(buf+o, byteOrder);
@@ -213,11 +210,10 @@ namespace Exif {
         // on the assumption that the smallest offset points to a data buffer
         // directly following the IFD. Subsequently all offsets of IFD entries
         // will need to be recalculated.
-        if (offset_ == 0 && rawEntries.size() > 0) {
+        if (offset_ == 0 && preEntries.size() > 0) {
             // Find the entry with the smallest offset
-            RawEntries::const_iterator i;
-            i = std::min_element(
-                rawEntries.begin(), rawEntries.end(), cmpRawEntriesByOffset);
+            PreEntries::const_iterator i = std::min_element(
+                preEntries.begin(), preEntries.end(), cmpPreEntriesByOffset);
             // Set the 'guessed' IFD offset, the test is needed for the case when
             // all entries have data sizes not exceeding 4.
             if (i->size_ > 4) {
@@ -225,17 +221,21 @@ namespace Exif {
             }
         }
 
-        // Convert 'raw' IFD entries to the actual entries, assign the data
+        // Convert the pre-IFD entries to the actual entries, assign the data
         // to each IFD entry and calculate relative offsets, relative to the
         // start of the IFD
         entries_.clear();
-        const RawEntries::iterator begin = rawEntries.begin();
-        const RawEntries::iterator end = rawEntries.end();
-        for (RawEntries::iterator i = begin; i != end; ++i) {
-            if (i->size_ > 4) {
-                i->offset_ = i->offset_ - offset_;
-            }
-            add(Entry(*i, buf, alloc_));
+        const PreEntries::iterator begin = preEntries.begin();
+        const PreEntries::iterator end = preEntries.end();
+        for (PreEntries::iterator i = begin; i != end; ++i) {
+            Entry e(alloc_);
+            e.setIfdId(ifdId_);
+            e.setTag(i->tag_);
+            // Set the offset to the data, relative to start of IFD
+            e.setOffset(i->size_ > 4 ? i->offset_ - offset_ : i->offsetLoc_);
+            e.setValue(i->type_, i->count_, buf + e.offset(), 
+                       std::max(long(4), i->size_));
+            this->add(e);
         }
 
         return 0;
@@ -323,7 +323,7 @@ namespace Exif {
         if (ifdId_ != entry.ifdId()) {
             throw Error("Invariant ifdId violated in Ifd::add");
         }
-        erase(entry.tag());
+        // allow duplicates
         entries_.push_back(entry);
     }
 
@@ -335,28 +335,8 @@ namespace Exif {
 
     void Ifd::erase(iterator pos)
     {
-        if (alloc_) {
-            entries_.erase(pos);
-        }
+        entries_.erase(pos);
     }
-
-    void Ifd::setOffset(uint16 tag, uint32 offset, ByteOrder byteOrder)
-    {
-        iterator pos = findTag(tag);
-        if (pos == entries_.end()) {
-            RawEntry e;
-            e.ifdId_ = ifdId_;
-            e.ifdIdx_ = 0;
-            e.tag_ = tag;
-            e.type_ = unsignedLong;
-            e.count_ = 1;
-            e.offset_ = 0;
-            e.size_ = 4;
-            add(Entry(e, 0, alloc_));
-            pos = findTag(tag);
-        }
-        pos->setOffset(offset, byteOrder);
-    } // Ifd::setOffset
 
     long Ifd::size() const
     {
@@ -435,7 +415,18 @@ namespace Exif {
     // *************************************************************************
     // free functions
 
-    bool cmpRawEntriesByOffset(const RawEntry& lhs, const RawEntry& rhs)
+    bool cmpEntriesByTag(const Entry& lhs, const Entry& rhs)
+    {
+        return lhs.tag() < rhs.tag();
+    }
+
+}                                       // namespace Exif
+
+// *****************************************************************************
+// local definitions
+namespace {
+
+    bool cmpPreEntriesByOffset(const PreEntry& lhs, const PreEntry& rhs)
     {
         // We need to ignore entries with size <= 4, so by definition,
         // entries with size <= 4 are greater than those with size > 4
@@ -449,9 +440,4 @@ namespace Exif {
         return lhs.offset_ < rhs.offset_;
     }
 
-    bool cmpEntriesByTag(const Entry& lhs, const Entry& rhs)
-    {
-        return lhs.tag() < rhs.tag();
-    }
-
-}                                       // namespace Exif
+}

@@ -21,7 +21,7 @@
 /*!
   @file    ifd.hpp
   @brief   Encoding and decoding of IFD (Image File Directory) data
-  @version $Name:  $ $Revision: 1.2 $
+  @version $Name:  $ $Revision: 1.3 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -43,36 +43,10 @@
 // namespace extensions
 namespace Exif {
 
+    class MakerNote;
+
 // *****************************************************************************
 // class definitions
-
-    /*!
-      @brief Simple structure for 'raw' IFD directory entries (without any data
-             greater than four bytes)
-     */
-    struct RawEntry {
-        //! Default constructor
-        RawEntry();
-        //! The IFD id 
-        IfdId ifdId_;
-        //! Position in the IFD
-        int ifdIdx_;
-        //! Tag
-        uint16 tag_;
-        //! Type
-        uint16 type_;
-        //! Number of components
-        uint32 count_;
-        //! Offset, unprocessed
-        uint32 offset_;
-        //! Data from the IFD offset field if size is less or equal to four
-        char offsetData_[4];
-        //! Size of the data in bytes
-        long size_;
-    }; // struct RawEntry
-
-    //! Container type to hold 'raw' IFD directory entries
-    typedef std::vector<RawEntry> RawEntries;
 
     /*!
       @brief Data structure for one IFD directory entry. See the description of
@@ -88,74 +62,91 @@ namespace Exif {
           it doesn't allocate or delete.
         */ 
         explicit Entry(bool alloc =true);
-        /*!
-          @brief Constructor to create an %Entry from a raw entry structure
-          and a data buffer. 
-
-          @param e 'Raw' entry structure filled with the relevant data. The 
-          offset_ field will only be used if size_ is greater than four.
-          @param buf Character buffer with the data of the tag. If size_ is 
-          less or equal four, the data from the original IFD offset 
-          field must be available in the field offsetData_. The buf is
-          not needed in this case and can be 0.
-          @param alloc Determines if memory management is required. If alloc
-          is true, a data buffer will be allocated to store data
-          of more than four bytes, else only the pointer will be 
-          stored. Data less or equal than four bytes is stored
-          locally in the %Entry.
-        */
-        Entry(const RawEntry& e, const char* buf, bool alloc =true);
         //! Destructor
         ~Entry();
         //! Copy constructor
         Entry(const Entry& rhs);
         //! Assignment operator
         Entry& operator=(const Entry& rhs);
+
+        //! Set the tag
+        void setTag(uint16 tag) { tag_ = tag; }
+        //! Set the IFD id
+        void setIfdId(IfdId ifdId) { ifdId_ = ifdId; }
+        //! Set the pointer to the MakerNote
+        void setMakerNote(MakerNote* makerNote) { makerNote_ = makerNote; }
+        //! Set the offset. The offset is relative to the start of the IFD.
+        void setOffset(uint32 offset) { offset_ = offset; }
+        /*!
+          @brief Set the value of the entry to a single unsigned long component,
+                 i.e., set the type of the entry to unsigned long, number of
+                 components to one, size to four bytes and the value according
+                 to the data provided. This method can be used to set the value
+                 of a tag which contains a pointer (offset) to a location in the
+                 %Exif data (like e.g., ExifTag, 0x8769 in IFD0, which contains a
+                 pointer to the Exif IFD). This method cannot be used to set the
+                 value of a newly created %Entry in non-alloc mode.
+        */
+        void setValue(uint32 data, ByteOrder byteOrder);
+        /*!
+          @brief Set type, count, size and the data of the entry. 
+
+          Copies the provided buffer when called in memory allocation mode. In
+          non-alloc mode, use this method to set the data of a newly created
+          %Entry. The data buffer provided must be at least four bytes to
+          initialise an %Entry in non-alloc mode. In this case, only the pointer
+          to the buffer is copied, i.e., the buffer must remain valid throughout
+          the life of the %Entry. Subsequent calls in non-alloc mode overwrite
+          the data pointed to by this pointer with the data provided, i.e., the 
+          buffer provided in subsequent calls can be deleted after the call.
+          <BR>Todo: This sounds too complicated: should I isolate the init
+          functionality into a separate method?
+
+          @param type The type of the data.
+          @param count Number of components in the buffer.
+          @param data Pointer to the data buffer. 
+          @param size Size of the data buffer in bytes.
+          @throw Error ("Size too large") if no memory allocation is allowed and
+                 the size of the data in buf is greater than the existing size
+                 of the data of the entry.<BR>
+          @throw Error ("Size too small") if an attempt is made to initialise an
+                 %Entry in non-alloc mode with a buffer with size less than four.
+         */
+        void setValue(uint16 type, uint32 count, const char* data, long size);
+
         //! @name Accessors
         //@{
-        //! Return the IFD id
-        IfdId ifdId() const { return ifdId_; }
-        //! Return the index in the IFD
-        int ifdIdx() const { return ifdIdx_; }
         //! Return the tag
         uint16 tag() const { return tag_; }
         //! Return the type id.
         uint16 type() const { return type_; }
+        //! Return the name of the type
+        const char* typeName() const 
+            { return TypeInfo::typeName(TypeId(type_)); }
+        //! Return the size in bytes of one element of this type
+        long typeSize() const
+            { return TypeInfo::typeSize(TypeId(type_)); }
+        //! Return the IFD id
+        IfdId ifdId() const { return ifdId_; }
+        //! Return the pointer to the associated MakerNote
+        MakerNote* makerNote() const { return makerNote_; }
         //! Return the number of components in the value
         uint32 count() const { return count_; }
+        /*!
+          @brief Return the size of the value in bytes, it is at least four
+                 bytes unless it is 0.
+         */
+        long size() const { return size_; }
         //! Return the offset from the start of the IFD
         uint32 offset() const { return offset_; }
-        //! Return the size of the value in bytes
-        long size() const { return size_; }
         /*!
           @brief Return a pointer to the data area. Do not attempt to write
           to this pointer.
         */
-        const char* data() const;
+        const char* data() const { return data_; }
         //! Get the memory allocation mode
         bool alloc() const { return alloc_; }
         //@}
-
-        //! Return the size in bytes of one element of this type
-        long typeSize() const
-            { return TypeInfo::typeSize(TypeId(type_)); }
-        //! Return the name of the type
-        const char* typeName() const 
-            { return TypeInfo::typeName(TypeId(type_)); }
-
-        /*!
-          @brief Set the offset. If the size of the data is not greater than
-          four, the offset is written into the offset field as an
-          unsigned long using the byte order given to encode it.
-        */
-        void setOffset(uint32 offset, ByteOrder byteOrder);
-        /*!
-          @brief Set type, count and the data of the entry. 
-          @throw Error ("Size too large") if no memory allocation is allowed and
-                 the size of the data in buf is greater than the existing size
-                 of the data of the entry.
-         */
-        void setValue(uint16 type, const char* buf, long size);
 
     private:
         /*!
@@ -163,16 +154,15 @@ namespace Exif {
                  False: No memory management needed.
         */
         bool alloc_;
-        IfdId ifdId_;        // Redundant IFD id (it is also at the IFD)
-        int ifdIdx_;         // Position in the IFD
-        uint16 tag_;         // Tag
-        uint16 type_;        // Type
-        uint32 count_;       // Number of components
-        uint32 offset_;      // Offset from the start of the IFD,
-        // 0 if size <=4, i.e., if there is no offset
-        char offsetData_[4]; // Data from the offset field if size <= 4
-        long size_;          // Size of the data in bytes
-        char* data_;         // Pointer to the data buffer
+        IfdId ifdId_;          // Redundant IFD id (it is also at the IFD)
+        MakerNote* makerNote_; // Pointer to the associated MakerNote
+        uint16 tag_;           // Tag
+        uint16 type_;          // Type
+        uint32 count_;         // Number of components
+        uint32 offset_;        // Offset from the start of the IFD to the data
+        long size_;            // Size of the data in bytes, at least four bytes
+        char* data_;           // Pointer to the data buffer, which is always at
+                               // least four bytes big (or 0, if not allocated)
     }; // class Entry
 
     //! Container type to hold all IFD directory entries
@@ -256,19 +246,12 @@ namespace Exif {
         void erase(uint16 tag);
         //! Delete the directory entry at iterator position pos
         void erase(iterator pos);
-        /*!
-          @brief Set the offset of the entry identified by tag. If no entry with
-                 this tag exists, an entry of type unsigned long with one
-                 component is created. If the size of the data is greater than
-                 four, the offset of the entry is set to the value provided in
-                 offset, else it is written to the offset field of the entry as
-                 an unsigned long, encoded according to the byte order.
-         */
-        void setOffset(uint16 tag, uint32 offset, ByteOrder byteOrder);
+
         //! Set the offset of the next IFD
         void setNext(uint32 next) { next_ = next; }
         /*!
-          @brief Add the Entry to the IFD. Checks for duplicates: if an entry
+          @brief Add the Entry to the IFD. No duplicate-check is performed, i.e.,
+                 it is possible to add multiple entries with the same tag.
                  with the same tag already exists, the entry is overwritten. The
                  memory allocation mode of the entry to be added must match that
                  of the IFD and the IFD ids of the IFD and Entry must match.
@@ -369,14 +352,6 @@ namespace Exif {
 // *****************************************************************************
 // free functions
 
-    /*! 
-      @brief Compare two 'raw' IFD entries by offset, taking care of special
-             cases where one or both of the entries don't have an offset.
-             Return true if the offset of entry lhs is less than that of rhs,
-             else false. By definition, entries without an offset are greater
-             than those with an offset.
-     */
-    bool cmpRawEntriesByOffset(const RawEntry& lhs, const RawEntry& rhs);        
     /*!
       @brief Compare two IFD entries by tag. Return true if the tag of entry
              lhs is less than that of rhs.
