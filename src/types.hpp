@@ -50,11 +50,13 @@
 # include <stdint.h>
 #endif
 
+// MSVC doesn't provide C99 types, but it has MS specific variants
 #ifdef _MSC_VER
-// disable unreferenced formal parameter warning C4100
-// disable truncation of constant value warning C4309
-// disable warning conversion of int to bool C4800
-#pragma warning (disable: 4100 4309 4800)
+typedef unsigned __int8  uint8_t;
+typedef unsigned __int16 uint16_t;
+typedef unsigned __int32 uint32_t;
+typedef __int16          int16_t;
+typedef __int32          int32_t;
 #endif
 
 // *****************************************************************************

@@ -282,13 +282,13 @@ namespace Action {
                 done = true;
             }
             if (!done) {
-                done = printTag(exifData, "Exif.Nikon1.ISOSpeed");
+                done = 0 != printTag(exifData, "Exif.Nikon1.ISOSpeed");
             }
             if (!done) {
-                done = printTag(exifData, "Exif.Nikon2.ISOSpeed");
+                done = 0 != printTag(exifData, "Exif.Nikon2.ISOSpeed");
             }
             if (!done) {
-                done = printTag(exifData, "Exif.Nikon3.ISOSpeed");
+                done = 0 != printTag(exifData, "Exif.Nikon3.ISOSpeed");
             }
         }
         std::cout << "\n";
@@ -321,7 +321,7 @@ namespace Action {
             done = true;
         }
         if (!done) {
-            done = printTag(exifData, "Exif.Fujifilm.Macro");
+            done = 0 != printTag(exifData, "Exif.Fujifilm.Macro");
         }            
         std::cout << "\n";
 
@@ -336,19 +336,19 @@ namespace Action {
             done = true;
         }
         if (!done) {
-            done = printTag(exifData, "Exif.Fujifilm.Quality");
+            done = 0 != printTag(exifData, "Exif.Fujifilm.Quality");
         }
         if (!done) {
-            done = printTag(exifData, "Exif.Sigma.Quality");
+            done = 0 != printTag(exifData, "Exif.Sigma.Quality");
         }
         if (!done) {
-            done = printTag(exifData, "Exif.Nikon1.Quality");
+            done = 0 != printTag(exifData, "Exif.Nikon1.Quality");
         }
         if (!done) {
-            done = printTag(exifData, "Exif.Nikon2.Quality");
+            done = 0 != printTag(exifData, "Exif.Nikon2.Quality");
         }
         if (!done) {
-            done = printTag(exifData, "Exif.Nikon3.Quality");
+            done = 0 != printTag(exifData, "Exif.Nikon3.Quality");
         }
         std::cout << "\n";
 
@@ -377,19 +377,19 @@ namespace Action {
             done = true;
         }
         if (!done) {
-            done = printTag(exifData, "Exif.Fujifilm.WhiteBalance");
+            done = 0 != printTag(exifData, "Exif.Fujifilm.WhiteBalance");
         }
         if (!done) {
-            done = printTag(exifData, "Exif.Sigma.WhiteBalance");
+            done = 0 != printTag(exifData, "Exif.Sigma.WhiteBalance");
         }
         if (!done) {
-            done = printTag(exifData, "Exif.Nikon1.WhiteBalance");
+            done = 0 != printTag(exifData, "Exif.Nikon1.WhiteBalance");
         }
         if (!done) {
-            done = printTag(exifData, "Exif.Nikon2.WhiteBalance");
+            done = 0 != printTag(exifData, "Exif.Nikon2.WhiteBalance");
         }
         if (!done) {
-            done = printTag(exifData, "Exif.Nikon3.WhiteBalance");
+            done = 0 != printTag(exifData, "Exif.Nikon3.WhiteBalance");
         }
         std::cout << "\n";
 
