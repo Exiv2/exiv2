@@ -12,7 +12,7 @@
 
   RCS information
    $Name:  $
-   $Revision: 1.2 $
+   $Revision: 1.3 $
  */
 // *****************************************************************************
 // included header files
@@ -443,10 +443,8 @@ namespace Exif {
             if (rc) return rc;
         }
 
-        // Find and read Interoperability IFD in IFD1
-        Ifd ifd1IopIfd(ifd1IopIfd);
-        rc = ifd1.readSubIfd(ifd1IopIfd, buf, byteOrder, 0xa005);
-        if (rc) return rc;
+        // Todo: Should we also look for Exif IFD and GPSInfo IFD in IFD1
+        //       and, if found, Interop. IFD in the Exif IFD???
 
         // Finally, copy all metadata from the IFDs to the internal metadata
         metadata_.clear();
@@ -455,7 +453,6 @@ namespace Exif {
         add(exifIopIfd.entries()); 
         add(gpsIfd.entries());
         add(ifd1.entries());
-        add(ifd1IopIfd.entries());
 
         return 0;
     } // ExifData::read

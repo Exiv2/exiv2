@@ -19,7 +19,11 @@ int main(int argc, char* const argv[])
         Exif::ExifData::const_iterator i = beg;
         for (; i != end; ++i) {
 
-            std::cout << "0x" 
+            std::cout << std::setw(9) << std::setfill(' ') << std::left
+                      << i->ifdName() << " "
+                      << std::setw(9) << std::setfill(' ') << std::left
+                      << i->sectionName() << " "
+                      << "0x" 
                       << std::hex << std::setw(4) << std::setfill('0') << std::right
                       << i->tag_ << " " 
                       << std::setw(27) << std::setfill(' ') << std::left

@@ -12,7 +12,7 @@
 
   RCS information
    $Name:  $
-   $Revision: 1.1 $
+   $Revision: 1.2 $
  */
 // *****************************************************************************
 // included header files
@@ -29,6 +29,43 @@ namespace {
 // *****************************************************************************
 // class member definitions
 namespace Exif {
+
+    IfdInfo::IfdInfo(IfdId ifdId, const char* name)
+        : ifdId_(ifdId), name_(name)
+    {
+    }
+
+    const IfdInfo ExifTags::ifdInfo_[] = {
+        IfdInfo(IfdIdNotSet, "(Unknown IFD)"),
+
+        IfdInfo(ifd0, "IFD0"),
+        IfdInfo(exifIfd, "Exif"),
+        IfdInfo(gpsIfd, "GPSInfo"),
+        IfdInfo(exifMakerIfd, "MakerNote"),
+        IfdInfo(exifIopIfd, "Exif Iop."),
+        IfdInfo(ifd1, "IFD1"),
+
+        IfdInfo(ifd1ExifIfd, "Exif (at IFD1)"),
+        IfdInfo(ifd1GpsIfd, "GPSInfo (at IFD1)"),
+        IfdInfo(ifd1MakerIfd, "MakerNote (at IFD1)"),
+        IfdInfo(ifd1ExifIopIfd, "Exif Iop. (at IFD1)")
+    };
+
+    SectionInfo::SectionInfo(SectionId sectionId, const char* name)
+        : sectionId_(sectionId), name_(name)
+    {
+    }
+
+    const SectionInfo ExifTags::sectionInfo_[] = {
+        SectionInfo(SectionIdNotSet, "(Unknown Section)"),
+
+        SectionInfo(ifd0Tiff, "IFD0"),
+        SectionInfo(exifIfdSection, "Exif"),
+        SectionInfo(gpsIfdSection, "GPSInfo"),
+        SectionInfo(exifIopIfdSection, "Exif Iop."),
+        SectionInfo(ifd1Section, "IFD1")
+
+    };
 
     TagFormat::TagFormat(uint16 type, const char* name, long size)
         : type_(type), name_(name), size_(size)
@@ -57,10 +94,10 @@ namespace Exif {
         const char* name, 
         const char* desc, 
         IfdId ifdId, 
-        TagSection section
+        SectionId sectionId
     )
         : tag_(tag), name_(name), desc_(desc), 
-          ifdId_(ifdId), section_(section)
+          ifdId_(ifdId), sectionId_(sectionId)
     {
     }
 
@@ -234,7 +271,7 @@ namespace Exif {
         TagInfo(0xa420, "ImageUniqueID", "Unique image ID", exifIfd, exifIfdSection),
 
         // End of list marker
-        TagInfo(0xffff, "(Unknown)", "Unknown tag", IfdIdNotSet, TagSectionNotSet)
+        TagInfo(0xffff, "(Unknown)", "Unknown tag", IfdIdNotSet, SectionIdNotSet)
     };
 
     int ExifTags::tagInfoIdx(uint16 tag, IfdId ifdId)
@@ -253,6 +290,11 @@ namespace Exif {
         return tagInfo_[tagInfoIdx(tag, ifdId)].name_;
     }
 
+    const char* ExifTags::sectionName(uint16 tag, IfdId ifdId)
+    {
+        return sectionInfo_[tagInfo_[tagInfoIdx(tag, ifdId)].sectionId_].name_;
+    }
+
     const char* ExifTags::typeName(uint16 type)
     {
         return tagFormat_[type].name_;
@@ -261,6 +303,16 @@ namespace Exif {
     long ExifTags::typeSize(uint16 type)
     {
         return tagFormat_[type].size_;
+    }
+
+    const char* ExifTags::ifdName(IfdId ifdId)
+    {
+        return ifdInfo_[ifdId].name_;
+    }
+
+    const char* ExifTags::sectionName(SectionId sectionId)
+    {
+        return sectionInfo_[sectionId].name_;
     }
 
     // *************************************************************************
