@@ -20,8 +20,8 @@
  */
 /*!
   @file    types.hpp
-  @brief   Type definitions for Exiv2 and related functionality
-  @version $Name:  $ $Revision: 1.10 $
+  @brief   Type definitions for %Exiv2 and related functionality
+  @version $Name:  $ $Revision: 1.11 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created

@@ -20,9 +20,9 @@
  */
 /*!
   @file    makernote.hpp
-  @brief   Contains the %Exif %MakerNote interface, IFD %MakerNote and a 
+  @brief   Contains the Exif %MakerNote interface, IFD %MakerNote and a 
            MakerNote factory
-  @version $Name:  $ $Revision: 1.16 $
+  @version $Name:  $ $Revision: 1.17 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -59,12 +59,12 @@ namespace Exiv2 {
 // class definitions
 
     /*!
-      @brief %Exif makernote interface
+      @brief Exif makernote interface
 
       %MakerNote is a low-level container for makernote entries. The ExifData
-      container uses makernote entries just like the other %Exif metadata. Thus,
-      clients can access %Exif and makernote tags and their values uniformly
-      through the %ExifData interface. The role of %MakerNote is very similar to
+      container uses makernote entries just like the other Exif metadata. Thus,
+      clients can access Exif and makernote tags and their values uniformly
+      through the ExifData interface. The role of %MakerNote is very similar to
       that of class Ifd (but makernotes do not need to be in IFD format, see
       below). In addition, it provides %MakerNote specific tag descriptions and
       print functions to interpret the makernote values.
@@ -233,7 +233,7 @@ namespace Exiv2 {
         const bool alloc_; 
         /*!  
           @brief Alternative byte order to use, invalid if the byte order of the
-                 %Exif block can be used
+                 Exif block can be used
          */
         ByteOrder byteOrder_;
         //! Offset of the makernote from the start of the TIFF header
@@ -328,9 +328,9 @@ namespace Exiv2 {
           the model also already exists, then the new create function replaces
           the old one.
 
-          @param make Camera manufacturer. (Typically the string from the %Exif
+          @param make Camera manufacturer. (Typically the string from the Exif
                  make tag.)
-          @param model Camera model. (Typically the string from the %Exif
+          @param model Camera model. (Typically the string from the Exif
                  model tag.)
           @param createMakerNote Pointer to a function to create a new 
                  %MakerNote of a particular type.
@@ -362,9 +362,9 @@ namespace Exiv2 {
           the returned makernote when it is no longer needed.  The best match is
           the match with the most matching characters.
 
-          @param make Camera manufacturer. (Typically the string from the %Exif
+          @param make Camera manufacturer. (Typically the string from the Exif
                  make tag.)
-          @param model Camera model. (Typically the string from the %Exif
+          @param model Camera model. (Typically the string from the Exif
                  model tag.)
           @param alloc Memory management model for the new MakerNote. Determines
                  if memory required to store data should be allocated and

@@ -21,7 +21,7 @@
 /*!
   @file    image.hpp
   @brief   Class JpegImage to access JPEG images
-  @version $Name:  $ $Revision: 1.12 $
+  @version $Name:  $ $Revision: 1.13 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -65,21 +65,21 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         /*!
-          @brief Read the %Exif data from the file path into the internal 
+          @brief Read the Exif data from the file path into the internal 
                  data buffer.
           @param path Path to the file.
           @return 0 if successful.         
          */
         virtual int readExifData(const std::string& path) =0;
         /*!
-          @brief Read the %Exif data from the stream into the internal 
+          @brief Read the Exif data from the stream into the internal 
                  data buffer.
           @param is Input stream to read from.
           @return 0 if successful.
          */
         virtual int readExifData(std::istream& is) =0;
         /*!
-          @brief Read the %Exif data from the buffer buf which has size bytes.
+          @brief Read the Exif data from the buffer buf which has size bytes.
           @param buf Pointer to the data buffer.
           @param size Number of characters in the data buffer.
          */
@@ -112,41 +112,41 @@ namespace Exiv2 {
          */
         virtual bool isThisType(std::istream& is, bool advance =false) const =0;
         /*!
-          @brief Erase the %Exif data from file path.
+          @brief Erase the Exif data from file path.
           @param path Path to the file.
           @return 0 if successful.
          */
         virtual int eraseExifData(const std::string& path) const =0;
         /*!
-          @brief Read from the image input stream is, erase %Exif data from the
+          @brief Read from the image input stream is, erase Exif data from the
                  image, if there is any, and write the resulting image to the
                  output stream os.
           @param os Output stream to write to (e.g., a temporary file).
-          @param is Input stream with the image from which the %Exif data
+          @param is Input stream with the image from which the Exif data
                  should be erased.
           @return 0 if successful.
          */
         virtual int eraseExifData(std::ostream& os, std::istream& is) const =0;
         /*!
-          @brief Write the %Exif data to file path.
+          @brief Write the Exif data to file path.
           @param path Path to the file.
           @return 0 if successful.
          */
         virtual int writeExifData(const std::string& path) const =0;
         /*!
-          @brief Read from the image input stream is, add %Exif data to the
-                 image, replacing existing %Exif data, if there is any) and
+          @brief Read from the image input stream is, add Exif data to the
+                 image, replacing existing Exif data, if there is any) and
                  write the resulting image to the output stream os.
           @param os Output stream to write to (e.g., a temporary file).
-          @param is Input stream with the image to which the %Exif data
+          @param is Input stream with the image to which the Exif data
                  should be copied.
           @return 0 if successful.
          */
         virtual int writeExifData(std::ostream& os, std::istream& is) const =0;
-        //! Return the size of the %Exif data in bytes.
+        //! Return the size of the Exif data in bytes.
         virtual long sizeExifData() const =0;
         /*!
-          @brief Return a read-only pointer to an %Exif data buffer. Do not
+          @brief Return a read-only pointer to an Exif data buffer. Do not
                  attempt to write to this buffer.
          */
         virtual const char* exifData() const =0;
@@ -256,7 +256,7 @@ namespace Exiv2 {
         //! Assignment operator
         JpegImage& operator=(const JpegImage& rhs);
         /*!
-          @brief Read the %Exif data from the file path into the internal 
+          @brief Read the Exif data from the file path into the internal 
                  data buffer.
           @param path Path to the file.
           @return 0 if successful;<BR>
@@ -266,19 +266,19 @@ namespace Exiv2 {
          */
         int readExifData(const std::string& path);
         /*!
-          @brief Read the %Exif data from the stream into the internal 
+          @brief Read the Exif data from the stream into the internal 
                  data buffer.
           @param is Input stream to read from.
           @return 0 if successful;<BR>
                   1 if reading from the stream failed (consult the stream state 
                     for more information);<BR>
                   2 if the stream does not contain a JPEG image;<BR>
-                  3 if no %Exif APP1 segment was found after SOI at the 
+                  3 if no Exif APP1 segment was found after SOI at the 
                     beginning of the input stream.
          */
         int readExifData(std::istream& is);
         /*!
-          @brief Set the %Exif data. The data is copied into the internal
+          @brief Set the Exif data. The data is copied into the internal
                  data buffer.
           @param buf Pointer to the data buffer.
           @param size Number of characters in the data buffer.
@@ -309,8 +309,8 @@ namespace Exiv2 {
          */
         bool isThisType(std::istream& is, bool advance) const;
         /*!
-          @brief Erase the %Exif data from file path, which must contain a JPEG
-                 image. If an %Exif APP1 section exists in the file, it is
+          @brief Erase the Exif data from file path, which must contain a JPEG
+                 image. If an Exif APP1 section exists in the file, it is
                  erased. 
           @param path Path to the file.
           @return 0 if successful;<br>
@@ -323,26 +323,26 @@ namespace Exiv2 {
          */
         int eraseExifData(const std::string& path) const;
         /*!
-          @brief Erase %Exif data from the JPEG image is, write the resulting
-                 image to the output stream os. If an %Exif APP1 section exists
+          @brief Erase Exif data from the JPEG image is, write the resulting
+                 image to the output stream os. If an Exif APP1 section exists
                  in the input file, it is erased.
           @param os Output stream to write to (e.g., a temporary file).
-          @param is Input stream with the JPEG image from which the %Exif data
+          @param is Input stream with the JPEG image from which the Exif data
                  should be erased.
           @return 0 if successful;<BR>
                   1 if reading from the input stream failed (consult the stream 
                     state for more information);<BR>
                   2 if the input stream does not contain a JPEG image;<BR>
-                  3 if neither a JFIF APP0 segment nor a %Exif APP1 segment was
+                  3 if neither a JFIF APP0 segment nor a Exif APP1 segment was
                     found after SOI at the beginning of the input stream;<BR>
                   4 if writing to the output stream failed (consult the stream 
                     state for more information).
          */
         int eraseExifData(std::ostream& os, std::istream& is) const;
         /*!
-          @brief Write the %Exif data to file path, which must contain a JPEG
-                 image. If an %Exif APP1 section exists in the file, it is
-                 replaced. Otherwise, an %Exif data section is created.
+          @brief Write the Exif data to file path, which must contain a JPEG
+                 image. If an Exif APP1 section exists in the file, it is
+                 replaced. Otherwise, an Exif data section is created.
           @param path Path to the file.
           @return 0 if successful;<br>
                  -1 if the input file cannot be opened;<br>
@@ -354,26 +354,26 @@ namespace Exiv2 {
          */
         int writeExifData(const std::string& path) const;
         /*!
-          @brief Copy %Exif data into the JPEG image is, write the resulting
-                 image to the output stream os. If an %Exif APP1 section exists
-                 in the input file, it is replaced. Otherwise, an %Exif data
+          @brief Copy Exif data into the JPEG image is, write the resulting
+                 image to the output stream os. If an Exif APP1 section exists
+                 in the input file, it is replaced. Otherwise, an Exif data
                  section is created.
           @param os Output stream to write to (e.g., a temporary file).
-          @param is Input stream with the JPEG image to which the %Exif data
+          @param is Input stream with the JPEG image to which the Exif data
                  should be copied.
           @return 0 if successful;<BR>
                   1 if reading from the input stream failed (consult the stream 
                     state for more information);<BR>
                   2 if the input stream does not contain a JPEG image;<BR>
-                  3 if neither a JFIF APP0 segment nor a %Exif APP1 segment was
+                  3 if neither a JFIF APP0 segment nor a Exif APP1 segment was
                     found after SOI at the beginning of the input stream;<BR>
                   4 if writing to the output stream failed (consult the stream 
                     state for more information).
          */
         int writeExifData(std::ostream& os, std::istream& is) const;
-        //! Return the size of the %Exif data buffer
+        //! Return the size of the Exif data buffer
         long sizeExifData() const { return sizeExifData_; }
-        //! Return a read-only pointer to the %Exif data buffer 
+        //! Return a read-only pointer to the Exif data buffer 
         const char* exifData() const { return pExifData_; }
         //@}
 
@@ -444,7 +444,7 @@ namespace Exiv2 {
 
     }; // class TiffHeader
 
-    //! Helper class to access Exiv2 files
+    //! Helper class to access %Exiv2 files
     class ExvFile {
     public:
         //! @name Creators
@@ -462,21 +462,21 @@ namespace Exiv2 {
         //! Assignment operator
         ExvFile& operator=(const ExvFile& rhs);
         /*!
-          @brief Read the %Exif data from the file path into the internal 
+          @brief Read the Exif data from the file path into the internal 
                  data buffer.
           @param path Path to the file.
           @return 0 if successful.         
          */
         int readExifData(const std::string& path);
         /*!
-          @brief Read the %Exif data from the stream is into the internal 
+          @brief Read the Exif data from the stream is into the internal 
                  data buffer.
           @param is Input stream to read from.
           @return 0 if successful.
          */
         int readExifData(std::istream& is);
         /*!
-          @brief Read the %Exif data from the buffer buf which has size bytes.
+          @brief Read the Exif data from the buffer buf which has size bytes.
           @param buf Pointer to the data buffer.
           @param size Number of characters in the data buffer.
          */
@@ -486,15 +486,15 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         /*!
-          @brief Write the %Exif data to file path.
+          @brief Write the Exif data to file path.
           @param path Path to the file.
           @return 0 if successful.
          */
         int writeExifData(const std::string& path) const;
-        //! Return the size of the %Exif data in bytes.
+        //! Return the size of the Exif data in bytes.
         long sizeExifData() const { return sizeExifData_; }
         /*!
-          @brief Return a read-only pointer to an %Exif data buffer. Do not
+          @brief Return a read-only pointer to an Exif data buffer. Do not
                  attempt to write to this buffer.
          */
         const char* exifData() const { return pExifData_; }

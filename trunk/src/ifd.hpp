@@ -21,7 +21,7 @@
 /*!
   @file    ifd.hpp
   @brief   Encoding and decoding of IFD (Image File Directory) data
-  @version $Name:  $ $Revision: 1.15 $
+  @version $Name:  $ $Revision: 1.16 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -94,8 +94,8 @@ namespace Exiv2 {
           The size of the data buffer is set to at least four bytes, but is left
           unchanged if it can accomodate the pointer.  This method can be used
           to set the value of a tag which contains a pointer (offset) to a
-          location in the %Exif data (like e.g., ExifTag, 0x8769 in IFD0, which
-          contains a pointer to the %Exif IFD). 
+          location in the Exif data (like e.g., ExifTag, 0x8769 in IFD0, which
+          contains a pointer to the Exif IFD). 
           <BR>This method cannot be used to set the value of a newly created
           %Entry in non-alloc mode.
         */
@@ -251,9 +251,9 @@ namespace Exiv2 {
       of %Ifd which operates in no memory management mode. The %Ifd will
       maintain only pointers into this buffer.
       <BR> The mode without memory management is used to make "non-intrusive
-      write support" possible. This allows writing to %Exif data of an image
-      without changing the data layout of the %Exif data, to maximize chances
-      that tag data, which the %Exif reader may not understand (e.g., the
+      write support" possible. This allows writing to Exif data of an image
+      without changing the data layout of the Exif data, to maximize chances
+      that tag data, which the Exif reader may not understand (e.g., the
       Makernote) remains valid. A "non-intrusive write operation" is the
       modification of tag data without increasing the data size.
    
