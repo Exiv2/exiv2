@@ -20,13 +20,13 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.8 $
+  Version:   $Name:  $ $Revision: 1.9 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.8 $ $RCSfile: tags.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.9 $ $RCSfile: tags.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -346,18 +346,36 @@ namespace Exif {
         return SectionId(i);
     }
 
+    std::string ExifTags::makeKey(uint16 tag, IfdId ifdId)
+    {
+        return std::string(ifdItem(ifdId)) 
+            + "." + std::string(sectionName(tag, ifdId)) 
+            + "." + std::string(tagName(tag, ifdId));
+    }
+
     // The uniqueness that we promise in this 'database lookup' function
     // holds only implicitely. The function returns the first match that
     // we find, it doesn't verify the uniqueness.
-    std::pair<IfdId, uint16> ExifTags::ifdAndTag(const std::string& ifdItem, 
-                                                 const std::string& sectionName, 
-                                                 const std::string& tagName)
+    std::pair<uint16, IfdId> ExifTags::decomposeKey(const std::string& key)
     {
+        // Get the IFD, section name and tag name parts of the key
+        std::string::size_type pos1 = key.find('.');
+        if (pos1 == std::string::npos) throw Error("Invalid key");
+        std::string ifdItem = key.substr(0, pos1);
+        std::string::size_type pos0 = pos1 + 1;
+        pos1 = key.find('.', pos0);
+        if (pos1 == std::string::npos) throw Error("Invalid key");
+        std::string sectionName = key.substr(pos0, pos1 - pos0);
+        pos0 = pos1 + 1;
+        std::string tagName = key.substr(pos0);
+        if (tagName == "") throw Error("Invalid key");
+
+        // Use the parts of the key to find tag and IFD id
         IfdId ifdId = ifdIdNotSet;
         uint16 tag = 0xffff;
-        
+
         SectionId s = sectionId(sectionName);
-        if (s == sectionIdNotSet) return std::make_pair(ifdId, tag);
+        if (s == sectionIdNotSet) return std::make_pair(tag, ifdId);
 
         for (int i = 0; i < lastIfdId; ++i) {
             if (ifdInfo_[i].item_ == ifdItem) {
@@ -369,8 +387,8 @@ namespace Exif {
                 }
             }
         }
-        return std::make_pair(ifdId, tag);
-    }
+        return std::make_pair(tag, ifdId);
+    } // ExifTags::decomposeKey
 
     // *************************************************************************
     // free functions
