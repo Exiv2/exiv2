@@ -20,8 +20,8 @@
  */
 /*!
   @file    ifd.hpp
-  @brief   Encoding and decoding of IFD (Image File Directory) data
-  @version $Name:  $ $Revision: 1.17 $
+  @brief   Encoding and decoding of IFD (%Image File Directory) data
+  @version $Name:  $ $Revision: 1.18 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -240,7 +240,7 @@ namespace Exiv2 {
     }; // class FindEntryByTag
 
     /*!
-      @brief Models an IFD (Image File Directory)
+      @brief Models an IFD (%Image File Directory)
 
       This class models an IFD as described in the TIFF 6.0 specification. 
 
