@@ -20,13 +20,13 @@
  */
 /*
   File:      makernote.cpp
-  Version:   $Name:  $ $Revision: 1.17 $
+  Version:   $Name:  $ $Revision: 1.18 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.17 $ $RCSfile: makernote.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.18 $ $RCSfile: makernote.cpp,v $")
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -162,7 +162,7 @@ namespace Exiv2 {
         int rc = 0;
         if (!prefix_.empty()) {
             // Check if makernote is long enough and starts with prefix
-            if (   len <= static_cast<long>(prefix_.size())
+            if (   len < static_cast<long>(prefix_.size())
                 || prefix_ != std::string(buf, prefix_.size())) rc = 2;
         }
         if (!absOffset_) {
@@ -171,6 +171,7 @@ namespace Exiv2 {
         }
         if (rc == 0) {
             rc = ifd_.read(buf + prefix_.size(), 
+                           len - prefix_.size(),
                            byteOrder_, 
                            offset + prefix_.size());
         }
