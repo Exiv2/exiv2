@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>                   <!--*- sgml -*-->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-<xsl:output method="html" />
-
+<xsl:output method="html" version="4.01" encoding="iso-8859-1" 
+doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
+ 
 <!-- *********************************************************************** -->
 <xsl:template match="TAGLIST">
 <html>
 <head>
   <title>Exiv2 - Exif metadata manipulation library and tools</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
   <link type="text/css" rel="stylesheet" href="include/sortabletable.css" />
   <script type="text/javascript" src="include/sortabletable.js"></script>
 </head>
@@ -26,9 +26,14 @@
 </xsl:template>
 
 <!-- *********************************************************************** -->
+<xsl:template match="HEADER/text">
+  <xsl:copy-of select="text()|*"/>
+</xsl:template>
+
+<!-- *********************************************************************** -->
 <xsl:template name="header">
   <h2><xsl:value-of select="HEADER/title" /></h2>
-  <xsl:copy-of select="HEADER/text" />
+  <xsl:apply-templates select="HEADER/text"/>
 </xsl:template>
 
 <!-- *********************************************************************** -->
