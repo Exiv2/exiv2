@@ -592,6 +592,7 @@ namespace Exiv2 {
           @brief Add a copy of the \em exifdatum to the Exif metadata.  No
                  duplicate checks are performed, i.e., it is possible to add
                  multiple metadata with the same key.
+
           @throw Error ("Inconsistent MakerNote") if \em exifdatum is a MakerNote
                  tag for a different %MakerNote than that of the %ExifData.
          */
