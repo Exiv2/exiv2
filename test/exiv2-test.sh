@@ -31,15 +31,15 @@ $exiv2 -vf rename *.jpg
 echo
 echo "Print --------------------------------------------------------------------"
 $exiv2 -v print *.jpg
-$exiv2 -v -pi print *.jpg
-$exiv2 -v -pi print *.jpg > iii
+$exiv2 -v -pt print *.jpg
+$exiv2 -v -pt print *.jpg > iii
 echo
 echo "Extract Exif data --------------------------------------------------------"
 $exiv2 -vf extract *.jpg
 echo
 echo "Extract Thumbnail --------------------------------------------------------"
 $exiv2 -vf -et extract *.jpg
-$exiv2 -v -pi print *.exv > jjj
+$exiv2 -v -pt print *.exv > jjj
 echo
 echo "Compare image data and extracted data ------------------------------------"
 diff iii jjj
@@ -54,7 +54,7 @@ $exiv2 -v print *.jpg
 echo
 echo "Insert Exif data ---------------------------------------------------------"
 $exiv2 -v insert *.jpg
-$exiv2 -v -pi print *.exv > kkk
+$exiv2 -v -pt print *.exv > kkk
 echo
 echo "Compare original and inserted image data ---------------------------------"
 diff iii kkk
