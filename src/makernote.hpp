@@ -22,7 +22,7 @@
   @file    makernote.hpp
   @brief   Contains the %Exif %MakerNote interface, IFD %MakerNote and a 
            MakerNote factory
-  @version $Name:  $ $Revision: 1.8 $
+  @version $Name:  $ $Revision: 1.9 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -113,13 +113,15 @@ namespace Exif {
                  for the Entries.
          */
         MakerNote(const MnTagInfo* mnTagInfo =0, bool alloc =true) 
-            : mnTagInfo_(mnTagInfo), alloc_(alloc) {}
+            : mnTagInfo_(mnTagInfo), alloc_(alloc), byteOrder_(invalidByteOrder) {}
         //! Virtual destructor.
         virtual ~MakerNote() {}
         //@}
 
         //! @name Manipulators
         //@{
+        //! Set the byte order (little or big endian).
+        void setByteOrder(ByteOrder byteOrder) { byteOrder_ = byteOrder; }
         /*!
           @brief Read the makernote from character buffer buf of length len at
                  position offset (from the start of the TIFF header) and encoded
@@ -156,6 +158,8 @@ namespace Exif {
         std::string makeKey(uint16 tag) const;
         //! Return the associated tag for a makernote key.
         uint16 decomposeKey(const std::string& key) const;
+        //! Return the byte order (little or big endian).
+        ByteOrder byteOrder() const { return byteOrder_; }
         /*!
           @brief Return the name of a makernote tag. The default implementation
                  looks up the makernote info tag array if one is set, else
@@ -207,7 +211,11 @@ namespace Exif {
           False: no memory management needed.
          */
         const bool alloc_; 
-
+        /*!  
+          Alternative byte order to use, invalid if the byte order of the
+          %Exif block can be used
+         */
+        ByteOrder byteOrder_;
     }; // class MakerNote
 
     /*!
@@ -226,7 +234,8 @@ namespace Exif {
                  for the Entries.
          */
         IfdMakerNote(const MakerNote::MnTagInfo* mnTagInfo =0, bool alloc =true)
-            : MakerNote(mnTagInfo, alloc), ifd_(makerIfd, 0, alloc) {}
+            : MakerNote(mnTagInfo, alloc), 
+              absOffset_(true), ifd_(makerIfd, 0, alloc) {}
         //! Virtual destructor
         virtual ~IfdMakerNote() {}
         //@}
@@ -254,7 +263,15 @@ namespace Exif {
         //@}
 
     protected:
-        Ifd ifd_;                               //!< MakerNote IFD
+        //! Prefix before the start of the IFD
+        std::string prefix_;  
+        /*!
+          True:  Offsets are from start of the TIFF header
+          False: Offsets are from start of the makernote
+         */
+        bool absOffset_; 
+        //! MakerNote IFD
+        Ifd ifd_;
 
     }; // class IfdMakerNote
 
@@ -300,7 +317,7 @@ namespace Exif {
         //@}
 
         //! @name Accessors
-        //@{        
+        //@{
         /*!
           @brief Create the appropriate %MakerNote based on camera make and
                  model, return a pointer to the newly created MakerNote
