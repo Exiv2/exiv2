@@ -20,13 +20,13 @@
  */
 /*
   File:      makernote.cpp
-  Version:   $Name:  $ $Revision: 1.13 $
+  Version:   $Name:  $ $Revision: 1.14 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.13 $ $RCSfile: makernote.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.14 $ $RCSfile: makernote.cpp,v $")
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -127,7 +127,7 @@ namespace Exif {
         if (!prefix_.empty()) {
             // Check if makernote is long enough and starts with prefix
             if (   len <= static_cast<long>(prefix_.size())
-                   || prefix_ != std::string(buf, prefix_.size())) rc = 2;
+                || prefix_ != std::string(buf, prefix_.size())) rc = 2;
         }
         if (!absOffset_) {
             // Use offsets relative to the start of the Makernote field
@@ -152,6 +152,7 @@ namespace Exif {
 #ifdef DEBUG_MAKERNOTE
         hexdump(std::cerr, buf, len, offset);
         if (rc == 0) ifd_.print(std::cerr);
+        else std::cerr << "IfdMakerNote::read() failed, rc = " << rc << "\n";
 #endif
         return rc;
     } // IfdMakerNote::read
