@@ -21,7 +21,7 @@
 /*!
   @file    metacopy.hpp
   @brief   Defines class Params, used for the command line handling
-  @version $Name:  $ $Revision: 1.1 $
+  @version $Name:  $ $Revision: 1.2 $
   @author  Brad Schick (brad) <schick@robotbattle.com>
   @date    13-Jul-04, brad: created
  */
@@ -37,7 +37,7 @@ private:
 
 public:
     bool help_;                    //!< Help option flag.
-    bool iptc_;                    //!< IPTC option flag.
+    bool iptc_;                    //!< Iptc option flag.
     bool exif_;                    //!< Exif option flag.
     bool comment_;                 //!< JPEG comment option flag.
     bool preserve_;                //!< Preserve existing metadata option flag.

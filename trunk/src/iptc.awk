@@ -1,6 +1,6 @@
 ################################################################################
 # File     : iptc.awk
-# Version  : $Name:  $ $Revision: 1.1 $
+# Version  : $Name:  $ $Revision: 1.2 $
 # Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
 # History  : 07-Feb-04, ahu: created
 #
@@ -16,9 +16,9 @@ BEGIN {
 
    print "<TAGLIST>"
    print "<HEADER>"
-   print "<title>IPTC datasets defined in Exiv2</title>"
+   print "<title>Iptc datasets defined in Exiv2</title>"
    print "<text>"
-   print "<p>Datasets are defined according to the specification of the IPTC "
+   print "<p>Datasets are defined according to the specification of the Iptc "
    print "<a href=\"http://www.iptc.org/IIM/\">Information Interchange Model (IIM)</a>.</p>"
    print "<p>Click on a column header to sort the table.</p>"
    print "</text>"

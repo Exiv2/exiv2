@@ -21,14 +21,14 @@
 /*!
   @file    image.hpp
   @brief   Class JpegImage to access JPEG images
-  @version $Name:  $ $Revision: 1.17 $
+  @version $Name:  $ $Revision: 1.18 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @author  Brad Schick (brad) 
            <a href="mailto:schick@robotbattle.com">schick@robotbattle.com</a>
   @date    09-Jan-04, ahu: created<BR>
            11-Feb-04, ahu: isolated as a component<BR>
-           19-Jul-04, brad: revamped to be more flexible and support IPTC
+           19-Jul-04, brad: revamped to be more flexible and support Iptc
  */
 #ifndef IMAGE_HPP_
 #define IMAGE_HPP_
@@ -406,7 +406,7 @@ namespace Exiv2 {
         static const char jfifId_[];            //!< JFIF identifier
         static const char ps3Id_[];             //!< Photoshop marker
         static const char bimId_[];             //!< Photoshop marker
-        static const uint16 iptc_;              //!< Photoshop IPTC marker
+        static const uint16 iptc_;              //!< Photoshop Iptc marker
 
     private:
         // DATA
@@ -415,7 +415,7 @@ namespace Exiv2 {
         long sizeExifData_;                     //!< Size of the Exif data buffer
         byte* pExifData_;                       //!< Exif data buffer
         long sizeIptcData_;                     //!< Size of the Iptc data buffer
-        byte* pIptcData_;                       //!< IPTC data buffer
+        byte* pIptcData_;                       //!< Iptc data buffer
         std::string comment_;                   //!< JPEG comment
 
         // METHODS
@@ -428,21 +428,21 @@ namespace Exiv2 {
          */
         int advanceToMarker() const;
         /*!
-          @brief Locates Photoshop formated IPTC data in a memory buffer.
+          @brief Locates Photoshop formated Iptc data in a memory buffer.
                  Operates on raw data (rather than file streams) to simplify reuse.
           @param pPsData Pointer to buffer containing entire payload of 
                  Photoshop formated APP13 Jpeg segment.
           @param sizePsData Size in bytes of pPsData.
-          @param record Output value that is set to the start of the IPTC
+          @param record Output value that is set to the start of the Iptc
                  data block within pPsData (may not be null).
           @param sizeHdr Output value that is set to the size of the header
-                 within the IPTC data block pointed to by record (may not
+                 within the Iptc data block pointed to by record (may not
                  be null).
           @param sizeIptc Output value that is set to the size of the actual
-                 IPTC data within the IPTC data block pointed to by record
+                 Iptc data within the Iptc data block pointed to by record
                  (may not be null).
           @return 0 if successful;<BR>
-                  3 if no IPTC data was found in pPsData;<BR>
+                  3 if no Iptc data was found in pPsData;<BR>
                   -2 if the pPsData buffer does not contain valid data;<BR>
          */
         int locateIptcData(const byte *pPsData, 
