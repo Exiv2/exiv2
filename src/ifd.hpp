@@ -21,7 +21,7 @@
 /*!
   @file    ifd.hpp
   @brief   Encoding and decoding of IFD (Image File Directory) data
-  @version $Name:  $ $Revision: 1.10 $
+  @version $Name:  $ $Revision: 1.11 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -89,37 +89,42 @@ namespace Exif {
         /*!
           @brief Set the value of the entry to a single unsigned long component,
                  i.e., set the type of the entry to unsigned long, number of
-                 components to one, size to four bytes and the value according
-                 to the data provided. This method can be used to set the value
-                 of a tag which contains a pointer (offset) to a location in the
-                 %Exif data (like e.g., ExifTag, 0x8769 in IFD0, which contains a
-                 pointer to the Exif IFD). This method cannot be used to set the
-                 value of a newly created %Entry in non-alloc mode.
+                 components to one and the value according to the data provided. 
+
+          The size of the data buffer is set to at least four bytes, but is left
+          unchanged if it can accomodate the pointer.  This method can be used
+          to set the value of a tag which contains a pointer (offset) to a
+          location in the %Exif data (like e.g., ExifTag, 0x8769 in IFD0, which
+          contains a pointer to the %Exif IFD). 
+          <BR>This method cannot be used to set the value of a newly created
+          %Entry in non-alloc mode.
         */
         void setValue(uint32 data, ByteOrder byteOrder);
         /*!
-          @brief Set type, count, size and the data of the entry. 
+          @brief Set type, count, the data buffer and its size.
 
-          Copies the provided buffer when called in memory allocation mode. In
-          non-alloc mode, use this method to set the data of a newly created
-          %Entry. The data buffer provided must be at least four bytes to
-          initialise an %Entry in non-alloc mode. In this case, only the pointer
-          to the buffer is copied, i.e., the buffer must remain valid throughout
-          the life of the %Entry. Subsequent calls in non-alloc mode overwrite
-          the data pointed to by this pointer with the data provided, i.e., the 
-          buffer provided in subsequent calls can be deleted after the call.
-          <BR>Todo: This sounds too complicated: should I isolate the init
-          functionality into a separate method?
-
+          Copies the provided buffer when called in memory allocation mode.
+          <BR>In non-alloc mode, use this method to initialise the data of a
+          newly created %Entry.  In this case, only the pointer to the buffer is
+          copied, i.e., the buffer must remain valid throughout the life of the
+          %Entry.  Subsequent calls in non-alloc mode will overwrite the data
+          pointed to by this pointer with the data provided, i.e., the buffer
+          provided in subsequent calls can be deleted after the call. 
+          <BR>In either memory allocation mode, the data buffer provided must be
+          large enough to hold count components of type. The size of the buffer 
+          will be as indicated in the size argument. I.e., it is possible to
+          allocate (set) a data buffer larger than required to hold count
+          components of the given type.
+          
           @param type The type of the data.
           @param count Number of components in the buffer.
-          @param data Pointer to the data buffer. 
-          @param size Size of the data buffer in bytes.
-          @throw Error ("Size too large") if no memory allocation is allowed and
-                 the size of the data in buf is greater than the existing size
-                 of the data of the entry.<BR>
-          @throw Error ("Size too small") if an attempt is made to initialise an
-                 %Entry in non-alloc mode with a buffer with size less than four.
+          @param data Pointer to the data buffer.
+          @param size Size of the desired data buffer in bytes.
+          @throw Error ("Value too large") if no memory allocation is allowed 
+                 and the size of the data buffer is larger than the existing 
+                 data buffer of the entry.<BR>
+          @throw Error ("Size too small") if size is not large enough to hold
+                 count components of the given type.
          */
         void setValue(uint16 type, uint32 count, const char* data, long size);
         //@}
@@ -145,8 +150,9 @@ namespace Exif {
         //! Return the number of components in the value
         uint32 count() const { return count_; }
         /*!
-          @brief Return the size of the value in bytes, it is at least four
-                 bytes unless it is 0.
+          @brief Return the size of the data buffer in bytes.
+          @note  There is no minimum size for the data buffer, except that it
+                 must be large enough to hold the data.
          */
         long size() const { return size_; }
         //! Return the offset from the start of the IFD to the data of the entry
@@ -167,20 +173,32 @@ namespace Exif {
 
     private:
         /*!
-          @brief True: Requires memory allocation and deallocation,<BR>
-                 False: No memory management needed.
+          True:  Requires memory allocation and deallocation,<BR>
+          False: No memory management needed.
         */
         bool alloc_;
-        IfdId ifdId_;          // Redundant IFD id (it is also at the IFD)
-        int idx_;              // Unique id of an entry within an IFD (0 if not set)
-        MakerNote* makerNote_; // Pointer to the associated MakerNote
-        uint16 tag_;           // Tag
-        uint16 type_;          // Type
-        uint32 count_;         // Number of components
-        uint32 offset_;        // Offset from the start of the IFD to the data
-        long size_;            // Size of the data in bytes, at least four bytes
-        char* data_;           // Pointer to the data buffer, which is always at
-                               // least four bytes big (or 0, if not allocated)
+        //! Redundant IFD id (it is also at the IFD)
+        IfdId ifdId_;
+        //! Unique id of an entry within an IFD (0 if not set)
+        int idx_;
+        //! Pointer to the associated MakerNote
+        MakerNote* makerNote_;
+        //! Tag
+        uint16 tag_;
+        //! Type
+        uint16 type_;
+        //! Number of components
+        uint32 count_;
+        //! Offset from the start of the IFD to the data
+        uint32 offset_;
+        /*!
+          Size of the data buffer holding the value in bytes, there is 
+          no minimum size.
+         */
+        long size_;
+        //! Pointer to the data buffer
+        char* data_;
+                               
     }; // class Entry
 
     //! Container type to hold all IFD directory entries
