@@ -20,8 +20,8 @@
  */
 /*!
   @file    iptc.hpp
-  @brief   Encoding and decoding of IPTC data
-  @version $Name:  $ $Revision: 1.2 $
+  @brief   Encoding and decoding of Iptc data
+  @version $Name:  $ $Revision: 1.3 $
   @author  Brad Schick (brad) 
            <a href="mailto:schick@robotbattle.com">schick@robotbattle.com</a>
   @date    31-Jul-04, brad: created
@@ -494,4 +494,3 @@ namespace Exiv2 {
 }                                       // namespace Exiv2
 
 #endif                                  // #ifndef IPTC_HPP_
-

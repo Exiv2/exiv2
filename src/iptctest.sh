@@ -1,5 +1,5 @@
 #! /bin/bash
-# Test driver for IPTC metadata
+# Test driver for Iptc metadata
 
 printTest()
 {

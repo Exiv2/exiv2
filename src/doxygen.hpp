@@ -2,18 +2,18 @@
 /*!
   @file    doxygen.hpp
   @brief   Additional documentation, this file contains no source code
-  @version $Name:  $ $Revision: 1.15 $
+  @version $Name:  $ $Revision: 1.16 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    07-Feb-04, ahu: created
  */
 /*!
-  @mainpage Exif and IPTC metadata manipulation library and tools v0.5
+  @mainpage Exif and Iptc metadata manipulation library and tools v0.5
 
   @section overview Exiv2 Overview
  
   Exiv2 is a C++ library that provides
-  - full read and write access to the Exif and IPTC IIM metadata of an image 
+  - full read and write access to the Exif and Iptc IIM metadata of an image 
     through %Exiv2 keys and standard C++ iterators 
   - extensive Exif MakerNote support:
       - MakerNote tags can be accessed just like any other metadata
@@ -41,7 +41,7 @@
   <A HREF="../getting-started.html">A few pointers</A> to get you started with
   the %Exiv2 library without delay.
 
-  @section metadata Supported Exif and MakerNote tags and IPTC datasets
+  @section metadata Supported Exif and MakerNote tags and Iptc datasets
 
   - <A HREF="../tags.xml">Standard Exif tags</A>
   - <A HREF="../tags-canon.xml">Canon MakerNote tags</A>
@@ -50,7 +50,7 @@
   - <A HREF="../tags-nikon2.xml">Nikon (format 2) MakerNote tags</A>
   - <A HREF="../tags-nikon3.xml">Nikon (format 3) MakerNote tags</A>
   - <A HREF="../tags-sigma.xml">Sigma/Foveon MakerNote tags</A>
-  - <A HREF="../iptc.xml">IPTC datasets</A>
+  - <A HREF="../iptc.xml">Iptc datasets</A>
 
   @section makernote MakerNote Formats and Specifications
 
