@@ -3,7 +3,7 @@
   Abstract : Key unit tests 
 
   File     : key-test.cpp
-  Version  : $Name:  $ $Revision: 1.2 $
+  Version  : $Name:  $ $Revision: 1.3 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History  : 24-Aug-04, ahu: created
 
@@ -197,6 +197,34 @@ int main()
                                   rc += 1; 
         }
 
+    }
+
+    // -----
+
+    ExifKey ek4("Exif.Image.0x0110");
+    tc += 1;
+    if (ek4.key() != "Exif.Image.Model") {
+        std::cout << "Testcase failed (converted key)" << std::endl;
+        rc += 1; 
+    }
+    tc += 1;
+    if (ek4.tagName() != "Model") {
+        std::cout << "Testcase failed (converted tagName)" << std::endl;
+        rc += 1; 
+    }
+
+    // -----
+
+    ExifKey ek5("Exif.Nikon3.0x0007");
+    tc += 1;
+    if (ek5.key() != "Exif.Nikon3.Focus") {
+        std::cout << "Testcase failed (converted key)" << std::endl;
+        rc += 1; 
+    }
+    tc += 1;
+    if (ek5.tagName() != "Focus") {
+        std::cout << "Testcase failed (converted tagName)" << std::endl;
+        rc += 1; 
     }
 
     // -----

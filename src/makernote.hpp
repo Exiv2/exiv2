@@ -22,7 +22,7 @@
   @file    makernote.hpp
   @brief   Contains the Exif %MakerNote interface, IFD %MakerNote and a 
            MakerNote factory
-  @version $Name:  $ $Revision: 1.23 $
+  @version $Name:  $ $Revision: 1.24 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -40,6 +40,7 @@
 #include <iosfwd>
 #include <utility>
 #include <vector>
+#include <map>
 
 // *****************************************************************************
 // namespace extensions
@@ -73,7 +74,7 @@ namespace Exiv2 {
       - read the makernote from a character buffer
       - copy the makernote to a character buffer
       - maintain a list of makernote entries (similar to IFD entries) 
-      - provide makernote specific tag names and keys
+      - provide makernote specific tag names and tag information
       - interpret (print) the values of makernote tags
 
       Makernotes can be added to the system by subclassing %MakerNote and
@@ -164,10 +165,6 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        //! Return the key for the tag.
-        std::string makeKey(uint16_t tag) const;
-        //! Return the associated tag for a makernote key.
-        uint16_t decomposeKey(const std::string& key) const;
         //! Return the byte order (little or big endian).
         ByteOrder byteOrder() const { return byteOrder_; }
         //! Return the offset of the makernote from the start of the TIFF header
@@ -180,22 +177,22 @@ namespace Exiv2 {
          */
         virtual std::string tagName(uint16_t tag) const;
         /*!
+          @brief Return the tag associated with a makernote tag name. The
+                 default implementation looks up the makernote info tag array
+                 if one is set, else it expects tag names in the form "0x01ff"
+                 and converts them to unsigned integer.
+         */
+        virtual uint16_t tag(const std::string& tagName) const;
+        /*!
           @brief Return the description of a makernote tag. The default
                  implementation looks up the makernote info tag array if one is
                  set, else it returns an empty string.
          */
-        virtual uint16_t tag(const std::string& tagName) const;
+        virtual std::string tagDesc(uint16_t tag) const;
         /*!
           @brief Print a list of all tags known by this MakerNote to the output 
                  stream os. The default implementation prints all tags in the 
                  makernote info tag array if one is set.
-         */
-        virtual std::string tagDesc(uint16_t tag) const;
-        /*!
-          @brief Return the tag associated with a makernote tag name. The
-                 default implementation looks up the makernote info tag array
-                 if one is set, else it expects tag names in the form \"0x01ff\"
-                 and converts them to unsigned integer.
          */
         virtual void taglist(std::ostream& os) const;
         /*!
@@ -395,6 +392,9 @@ namespace Exiv2 {
         void registerMakerNote(const std::string& make, 
                                const std::string& model, 
                                CreateFct createMakerNote);
+
+        //! Register a %MakerNote prototype in the IFD item registry.
+        void registerMakerNote(MakerNote* pMakerNote);
         //@}
 
         //! @name Accessors
@@ -449,6 +449,9 @@ namespace Exiv2 {
                           long len, 
                           ByteOrder byteOrder, 
                           long offset) const; 
+
+        //! Create a %MakerNote based on its IFD item string.
+        MakerNote* create(const std::string& ifdItem, bool alloc =true) const;
         //@}
 
         /*!
@@ -483,12 +486,16 @@ namespace Exiv2 {
         typedef std::vector<std::pair<std::string, CreateFct> > ModelRegistry;
         //! Type used to store a list of make labels and model registries
         typedef std::vector<std::pair<std::string, ModelRegistry*> > Registry;
+        //! Type used to store a list of IFD items and %MakerNote prototypes
+        typedef std::map<std::string, MakerNote*> IfdItemRegistry;
 
         // DATA
         //! Pointer to the one and only instance of this class.
         static MakerNoteFactory* pInstance_;
         //! List of makernote types and corresponding makernote create functions.
         Registry registry_;
+        //! List of makernote IfdItems and corresponding create functions.
+        IfdItemRegistry ifdItemRegistry_;
 
     }; // class MakerNoteFactory
    

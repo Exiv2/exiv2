@@ -20,13 +20,13 @@
  */
 /*
   File:      makernote.cpp
-  Version:   $Name:  $ $Revision: 1.27 $
+  Version:   $Name:  $ $Revision: 1.28 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.27 $ $RCSfile: makernote.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.28 $ $RCSfile: makernote.cpp,v $");
 
 // Define DEBUG_* to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -38,14 +38,17 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.27 $ $RCSfile: makernote.cpp,v $");
 #include "tags.hpp"                         // for ExifTags::ifdItem
 #include "error.hpp"
 
+// Todo: remove circular dependency
+#include "exif.hpp"                         // for MakerNote::writeMnTagInfo
+
 // + standard includes
 #include <string>
 #include <sstream>
 #include <iomanip>
-
 #if defined DEBUG_MAKERNOTE || defined DEBUG_REGISTRY
-#   include <iostream>
+# include <iostream>
 #endif
+#include <cassert>
 
 // *****************************************************************************
 // class member definitions
@@ -56,35 +59,6 @@ namespace Exiv2 {
           offset_(0), byteOrder_(invalidByteOrder)
     {
     }
-
-    std::string MakerNote::makeKey(uint16_t tag) const
-    {
-        return std::string(ExifTags::familyName())
-            + "." + std::string(ifdItem())
-            + "." + tagName(tag);
-    } // MakerNote::makeKey
-
-    uint16_t MakerNote::decomposeKey(const std::string& key) const
-    {
-        // Get the family, item and tag name parts of the key
-        std::string::size_type pos1 = key.find('.');
-        if (pos1 == std::string::npos) throw Error("Invalid key");
-        std::string familyName = key.substr(0, pos1);
-        std::string::size_type pos0 = pos1 + 1;
-        pos1 = key.find('.', pos0);
-        if (pos1 == std::string::npos) throw Error("Invalid key");
-        std::string ifdItem = key.substr(pos0, pos1 - pos0);
-        pos0 = pos1 + 1;
-        std::string tagName = key.substr(pos0);
-        if (tagName == "") throw Error("Invalid key");
-
-        if (familyName != ExifTags::familyName()) return 0xffff;
-        uint16_t tag = this->tag(tagName);
-        if (tag == 0xffff) return tag;
-        if (ifdItem != this->ifdItem()) return 0xffff;
-
-        return tag;
-    } // MakerNote::decomposeKey
 
     std::string MakerNote::tagName(uint16_t tag) const
     {
@@ -149,12 +123,13 @@ namespace Exiv2 {
 
     std::ostream& MakerNote::writeMnTagInfo(std::ostream& os, uint16_t tag) const
     {
+        ExifKey exifKey(tag, ifdItem());
         return os << tagName(tag) << ", "
                   << std::dec << tag << ", "
                   << "0x" << std::setw(4) << std::setfill('0') 
                   << std::right << std::hex << tag << ", "
                   << ExifTags::ifdItem(makerIfdId) << ", "
-                  << makeKey(tag) << ", " 
+                  << exifKey.key() << ", " 
                   << tagDesc(tag);
     } // MakerNote::writeMnTagInfo
 
@@ -267,6 +242,21 @@ namespace Exiv2 {
         }
         return *pInstance_;
     } // MakerNoteFactory::instance
+
+    void MakerNoteFactory::registerMakerNote(MakerNote* pMakerNote)
+    {
+        assert(pMakerNote);
+        ifdItemRegistry_[pMakerNote->ifdItem()] = pMakerNote;
+    } // MakerNoteFactory::registerMakerNote
+
+    MakerNote* MakerNoteFactory::create(const std::string& ifdItem,
+                                        bool alloc) const
+    {
+        IfdItemRegistry::const_iterator i = ifdItemRegistry_.find(ifdItem);
+        if (i == ifdItemRegistry_.end()) return 0;
+        assert(i->second);
+        return i->second->clone(alloc);
+    } // MakerNoteFactory::create
 
     void MakerNoteFactory::registerMakerNote(const std::string& make, 
                                              const std::string& model, 

@@ -28,7 +28,7 @@
            <a href="http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html">
            Exif file format</a> by TsuruZoh Tachibanaya.<BR>
            Format 3: "EXIFutils Field Reference Guide".
-  @version $Name:  $ $Revision: 1.5 $
+  @version $Name:  $ $Revision: 1.6 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    17-May-04, ahu: created<BR>
@@ -132,6 +132,7 @@ namespace Exiv2 {
             {
                 MakerNoteFactory& mnf = MakerNoteFactory::instance();
                 mnf.registerMakerNote("NIKON*", "*", createNikonMakerNote); 
+                mnf.registerMakerNote(new Nikon1MakerNote);
             }
         };
         // DATA
@@ -206,6 +207,30 @@ namespace Exiv2 {
         //@}
 
     private:
+        //! Structure used to auto-register the MakerNote.
+        struct RegisterMakerNote {
+            //! Default constructor
+            RegisterMakerNote() 
+            {
+                MakerNoteFactory& mnf = MakerNoteFactory::instance();
+                mnf.registerMakerNote(new Nikon2MakerNote);
+            }
+        };
+        // DATA
+        /*!
+          The static member variable is initialized before main (see note) and
+          will in the process register the MakerNote class. (Remember the
+          definition of the variable in the implementation file!)
+
+          @note The standard says that, if no function is explicitly called ever
+                in a module, then that module's static data might be never
+                initialized. This clause was introduced to allow dynamic link
+                libraries. The idea is, with this clause the loader is not
+                forced to eagerly load all modules, but load them only on
+                demand.
+         */
+        static const RegisterMakerNote register_; 
+
         //! The item name (second part of the key) used for makernote tags
         std::string ifdItem_;
 
@@ -258,6 +283,30 @@ namespace Exiv2 {
         //@}
 
     private:
+        //! Structure used to auto-register the MakerNote.
+        struct RegisterMakerNote {
+            //! Default constructor
+            RegisterMakerNote() 
+            {
+                MakerNoteFactory& mnf = MakerNoteFactory::instance();
+                mnf.registerMakerNote(new Nikon3MakerNote);
+            }
+        };
+        // DATA
+        /*!
+          The static member variable is initialized before main (see note) and
+          will in the process register the MakerNote class. (Remember the
+          definition of the variable in the implementation file!)
+
+          @note The standard says that, if no function is explicitly called ever
+                in a module, then that module's static data might be never
+                initialized. This clause was introduced to allow dynamic link
+                libraries. The idea is, with this clause the loader is not
+                forced to eagerly load all modules, but load them only on
+                demand.
+         */
+        static const RegisterMakerNote register_; 
+
         //! The item name (second part of the key) used for makernote tags
         std::string ifdItem_;
 
