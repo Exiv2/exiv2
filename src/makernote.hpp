@@ -22,7 +22,7 @@
   @file    makernote.hpp
   @brief   Contains the %Exif %MakerNote interface, IFD %MakerNote and a 
            MakerNote factory
-  @version $Name:  $ $Revision: 1.13 $
+  @version $Name:  $ $Revision: 1.14 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -168,12 +168,28 @@ namespace Exif {
          */
         virtual std::string tagName(uint16 tag) const;
         /*!
+          @brief Return the description of a makernote tag. The default
+                 implementation looks up the makernote info tag array if one is
+                 set, else it returns an empty string.
+         */
+        virtual uint16 tag(const std::string& tagName) const;
+        /*!
+          @brief Print a list of all tags known by this MakerNote to the output 
+                 stream os. The default implementation prints all tags in the 
+                 makernote info tag array if one is set.
+         */
+        virtual std::string tagDesc(uint16 tag) const;
+        /*!
           @brief Return the tag associated with a makernote tag name. The
                  default implementation looks up the makernote info tag array
                  if one is set, else it expects tag names in the form \"0x01ff\"
                  and converts them to unsigned integer.
          */
-        virtual uint16 tag(const std::string& tagName) const;
+        virtual void taglist(std::ostream& os) const;
+        /*!
+          @brief Write the makernote tag info of tag to the output stream os.
+         */
+        virtual std::ostream& writeMnTagInfo(std::ostream& os, uint16 tag) const;
         /*!
           @brief Return a pointer to an newly created, empty instance of the 
                  same type as this. The makernote entries are <B>not</B> copied.

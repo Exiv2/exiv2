@@ -1,9 +1,9 @@
 ################################################################################
 #  File    tags.awk
-#  Brief   Awk script to convert the taglist from ExifTags::taglist to XML 
-#          format used in the documentation.
-#          $ taglist | awk -f tags.awk > tags.xml
-#  Version $Name:  $ $Revision: 1.1 $
+#  Brief   Awk script to convert a taglist to XML format used in the 
+#          documentation.
+#          $ taglist [make [model]] | awk -f tags.awk > tags.xml
+#  Version $Name:  $ $Revision: 1.2 $
 #  Author  Andreas Huggel (ahu)
 #          <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
 #  Date    07-Feb-04, ahu: created
