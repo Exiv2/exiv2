@@ -89,7 +89,7 @@ namespace Exiv2 {
     enum IfdId { ifdIdNotSet, 
                  ifd0Id, exifIfdId, gpsIfdId, iopIfdId, ifd1Id, 
                  canonIfdId, fujiIfdId, nikon1IfdId, nikon2IfdId, nikon3IfdId, 
-                 nikon3ThumbIfdId, olympusIfdId, sigmaIfdId,
+                 nikon3ThumbIfdId, olympusIfdId, olympusDdIfdId, sigmaIfdId,
                  lastIfdId };
 
 // *****************************************************************************
