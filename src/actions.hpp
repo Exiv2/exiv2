@@ -22,7 +22,7 @@
   @file    actions.hpp
   @brief   Implements base class Task, TaskFactory and the various supported
            actions (derived from Task).
-  @version $Name:  $ $Revision: 1.8 $
+  @version $Name:  $ $Revision: 1.9 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    11-Dec-03, ahu: created
@@ -141,7 +141,7 @@ namespace Action {
 
     }; // class TaskFactory
 
-    //! %Print the %Exif (or other metadata) of a file to stdout
+    //! %Print the Exif (or other metadata) of a file to stdout
     class Print : public Task {
     public:
         virtual ~Print() {}
@@ -149,13 +149,13 @@ namespace Action {
         typedef std::auto_ptr<Print> AutoPtr;
         AutoPtr clone() const;
 
-        //! Print %Exif summary information
+        //! Print Exif summary information
         void printSummary(const Exiv2::ExifData& exifData); 
-        //! Print the interpreted value for each %Exif tag
+        //! Print the interpreted value for each Exif tag
         void printInterpreted(const Exiv2::ExifData& exifData);
-        //! Print uninterpreted %Exif information
+        //! Print uninterpreted Exif information
         void printValues(const Exiv2::ExifData& exifData);
-        //! Print %Exif information in hexdump format
+        //! Print Exif information in hexdump format
         void printHexdump(const Exiv2::ExifData& exifData);
         /*!
           @brief Print one summary line with a label (if provided) and requested
@@ -188,7 +188,7 @@ namespace Action {
         virtual Task* clone_() const;
     }; // class Rename
 
-    //! %Adjust the %Exif (or other metadata) timestamps
+    //! %Adjust the Exif (or other metadata) timestamps
     class Adjust : public Task {
     public:
         virtual ~Adjust() {}
@@ -220,7 +220,7 @@ namespace Action {
          */
         int eraseThumbnail(Exiv2::ExifData& exifData) const; 
         /*!
-          @brief Erase the complete %Exif data block from the file.
+          @brief Erase the complete Exif data block from the file.
          */
         int eraseExifData(Exiv2::ExifData& exifData) const;
 
@@ -244,11 +244,11 @@ namespace Action {
           @brief Write the thumbnail image to a file. The filename is composed by
                  removing the suffix from the image filename and appending
                  "-thumb" and the appropriate suffix (".jpg" or ".tif"), depending
-                 on the format of the %Exif thumbnail image.
+                 on the format of the Exif thumbnail image.
          */
         int writeThumbnail(const Exiv2::ExifData& exifData) const; 
         /*!
-          @brief Write the %Exif data to a file. The filename is composed by
+          @brief Write the Exif data to a file. The filename is composed by
                  replacing the suffix of the image filename with ".exf".
          */
         int writeExifData(Exiv2::ExifData& exifData) const;
@@ -260,7 +260,7 @@ namespace Action {
     }; // class Extract
 
     /*!
-      @brief %Insert the %Exif data from corresponding *.exv files.
+      @brief %Insert the Exif data from corresponding *.exv files.
      */
     class Insert : public Task {
     public:

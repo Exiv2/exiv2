@@ -20,8 +20,8 @@
  */
 /*!
   @file    tags.hpp
-  @brief   %Exif tag and type information
-  @version $Name:  $ $Revision: 1.21 $
+  @brief   Exif tag and type information
+  @version $Name:  $ $Revision: 1.22 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    15-Jan-04, ahu: created
@@ -103,7 +103,7 @@ namespace Exiv2 {
         PrintFct printFct_;                     //!< Pointer to tag print function
     }; // struct TagInfo
 
-    //! Container for %Exif tag information. Implemented as a static class.
+    //! Container for Exif tag information. Implemented as a static class.
     class ExifTags {
         //! Prevent construction: not implemented.
         ExifTags() {}
@@ -177,7 +177,7 @@ namespace Exiv2 {
                  item item, section name and tag name parts.
          */
         static std::pair<uint16, IfdId> decomposeKey(const std::string& key);
-        //! Interpret and print the value of an %Exif tag
+        //! Interpret and print the value of an Exif tag
         static std::ostream& printTag(std::ostream& os,
                                       uint16 tag, 
                                       IfdId ifdId,
