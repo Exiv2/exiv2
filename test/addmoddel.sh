@@ -11,7 +11,6 @@ if [ $? -ne 0 ] ; then
 fi
 (
 LD_LIBRARY_PATH=../../src:$LD_LIBRARY_PATH
-exiv2="../../src/exiv2"
 binpath="../../src"
 cp -f ./data/exiv2-empty.jpg ./tmp
 cd ./tmp
