@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.24 $
+  @version $Name:  $ $Revision: 1.25 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -61,16 +61,14 @@ namespace Exif {
      */
     class Metadatum {
     public:
+        //! @name Creators
+        //@{
         /*!
-          @brief Constructor to build a metadatum from an IFD entry.
-         */
-        Metadatum(const Entry& e, ByteOrder byteOrder);
-        /*!
-          @brief Constructor for new tags created by an application, which only
-                 needs to provide a key / value pair. %Metadatum copies (clones)
-                 the value if one is provided. Alternatively, a program can
-                 create an 'empty' metadatum with only a key and set the value
-                 later, using setValue().
+          @brief Constructor for new tags created by an application. The
+                 metadatum is created from a key / value pair. %Metadatum copies
+                 (clones) the value if one is provided. Alternatively, a program
+                 can create an 'empty' metadatum with only a key and set the
+                 value using setValue().
 
           @param key The key of the metadatum.
           @param value Pointer to a metadatum value.
@@ -82,10 +80,16 @@ namespace Exif {
         explicit Metadatum(const std::string& key, 
                            const Value* value =0, 
                            MakerNote* makerNote =0);
-        //! Destructor
-        ~Metadatum();
+        //! Constructor to build a metadatum from an IFD entry.
+        Metadatum(const Entry& e, ByteOrder byteOrder);
         //! Copy constructor
         Metadatum(const Metadatum& rhs);
+        //! Destructor
+        ~Metadatum();
+        //@}
+
+        //! @name Manipulators
+        //@{
         //! Assignment operator
         Metadatum& operator=(const Metadatum& rhs);
         /*!
@@ -98,6 +102,10 @@ namespace Exif {
                  not have a value yet, then an AsciiValue is created.
          */
         void setValue(const std::string& buf);
+        //@}
+
+        //! @name Accessors
+        //@{
         /*!
           @brief Write value to a character data buffer and return the number
                  of characters (bytes) written.
@@ -111,22 +119,21 @@ namespace Exif {
         */
         long copy(char* buf, ByteOrder byteOrder) const 
             { return value_ == 0 ? 0 : value_->copy(buf, byteOrder); }
-        //! @name Accessors
-        //@{
         /*!
-          @brief Return a key for the tag. The key is of the form
-                 'ifdItem.sectionName.tagName'.
+          @brief Return the key of the metadatum. The key is of the form
+                 'ifdItem.sectionName.tagName'. Note however that the key
+                 is not necessarily unique.
          */
         std::string key() const { return key_; }
-        //! Return the related image item
+        //! Return the related image item (the first part of the key)
         const char* ifdItem() const { return ExifTags::ifdItem(ifdId_); }
-        //! Return the name of the section
+        //! Return the name of the section (the second part of the key)
         std::string sectionName() const;
-        //! Return the name of the tag
+        //! Return the name of the tag (which is also the third part of the key)
         std::string tagName() const;
         //! Return the tag
         uint16 tag() const { return tag_; }
-        //! Return the type id.
+        //! Return the type id of the value
         TypeId typeId() const { return value_ == 0 ? invalid : value_->typeId(); }
         //! Return the name of the type
         const char* typeName() const { return TypeInfo::typeName(typeId()); }
@@ -140,6 +147,8 @@ namespace Exif {
         IfdId ifdId() const { return ifdId_; }
         //! Return the name of the IFD
         const char* ifdName() const { return ExifTags::ifdName(ifdId_); }
+        //! Return the index (unique id of this metadatum within the original IFD)
+        int idx() const { return idx_; }
         //! Return the pointer to the associated MakerNote
         MakerNote* makerNote() const { return makerNote_; }
         //! Return the value as a string.
@@ -208,6 +217,7 @@ namespace Exif {
     private:
         uint16 tag_;                   //!< Tag value
         IfdId ifdId_;                  //!< The IFD associated with this tag
+        int idx_;                      //!< Unique id of an entry within one IFD
         MakerNote* makerNote_;         //!< Pointer to the associated MakerNote
         Value* value_;                 //!< Pointer to the value
         std::string key_;              //!< Key
@@ -220,39 +230,26 @@ namespace Exif {
      */
     std::ostream& operator<<(std::ostream& os, const Metadatum& md);
 
-    //! Container type to hold all metadata
-    typedef std::vector<Metadatum> Metadata;
-
-    //! Unary predicate that matches a Metadatum with a given key
-    class FindMetadatumByKey {
-    public:
-        //! Constructor, initializes the object with the tag to look for
-        FindMetadatumByKey(const std::string& key) : key_(key) {}
-        /*!
-          @brief Returns true if the key of the argument metadatum is equal
-          to that of the object.
-        */
-        bool operator()(const Metadatum& metadatum) const
-            { return key_ == metadatum.key(); }
-
-    private:
-        std::string key_;
-        
-    }; // class FindMetadatumByTag
-
     //! %Thumbnail data Todo: add, create, rotate, delete
     class Thumbnail {
     public:
+        //! %Thumbnail image types
+        enum Type { none, jpeg, tiff };
+
+        //! @name Creators
+        //@{
         //! Default constructor
         Thumbnail();
         //! Destructor
         ~Thumbnail();
         //! Copy constructor
         Thumbnail(const Thumbnail& rhs);
+        //@}
+
+        //! @name Manipulators
+        //@{
         //! Assignment operator
         Thumbnail& operator=(const Thumbnail& rhs);
-        //! %Thumbnail image types
-        enum Type { none, jpeg, tiff };
         /*!
           @brief Read the thumbnail from the data buffer buf, using %Exif
                  metadata exifData. Return 0 if successful. 
@@ -272,6 +269,10 @@ namespace Exif {
         int read(const char* buf, 
                  const ExifData& exifData,
                  ByteOrder byteOrder =littleEndian);
+        //@}
+
+        //! @name Accessors
+        //@{
         /*!
           @brief Write thumbnail to file path, return 0 if successful, -1 if 
                  there is no thumbnail image to write.
@@ -312,15 +313,21 @@ namespace Exif {
         long size() const;
         //! Return the type of the thumbnail
         Type type() const { return type_; }
+        //@}
 
     private:
-
+        //! @name Manipulators
+        //@{
         //! Read a compressed (JPEG) thumbnail image from the data buffer
         int readJpegImage(const char* buf, const ExifData& exifData);
         //! Read an uncompressed (TIFF) thumbnail image from the data buffer
         int readTiffImage(const char* buf,
                           const ExifData& exifData,
                           ByteOrder byteOrder);
+        //@}
+
+        //! @name Accessors
+        //@{
         //! Update the Exif data according to the actual JPEG thumbnail image
         void updateJpegImage(ExifData& exifData) const;
         //! Update the Exif data according to the actual TIFF thumbnail image
@@ -333,14 +340,55 @@ namespace Exif {
         void setJpegImageOffsets(Ifd& ifd1, ByteOrder byteOrder) const;
         //! Update the offsets to the TIFF thumbnail image in the IFD
         void setTiffImageOffsets(Ifd& ifd1, ByteOrder byteOrder) const;
+        //@}
 
+        // DATA
         Type type_;              // Type of thumbnail image
         long size_;              // Size of the image data
         char* image_;            // Thumbnail image data
         TiffHeader tiffHeader_;  // Thumbnail TIFF Header, only for TIFF thumbs
         Ifd ifd_;                // Thumbnail IFD, only for TIFF thumbnails
-       
+
     }; // class Thumbnail
+
+    //! Container type to hold all metadata
+    typedef std::vector<Metadatum> Metadata;
+
+    //! Unary predicate that matches a Metadatum with a given key
+    class FindMetadatumByKey {
+    public:
+        //! Constructor, initializes the object with the tag to look for
+        FindMetadatumByKey(const std::string& key) : key_(key) {}
+        /*!
+          @brief Returns true if the key of the argument metadatum is equal
+          to that of the object.
+        */
+        bool operator()(const Metadatum& metadatum) const
+            { return key_ == metadatum.key(); }
+
+    private:
+        std::string key_;
+        
+    }; // class FindMetadatumByTag
+
+    //! Unary predicate that matches a Metadatum with a given ifd id and idx
+    class FindMetadatumByIfdIdIdx {
+    public:
+        //! Constructor, initializes the object with the ifd id and idx to look for
+        FindMetadatumByIfdIdIdx(IfdId ifdId, int idx)
+            : ifdId_(ifdId), idx_(idx) {}
+        /*!
+          @brief Returns true if the ifd id and idx of the argument metadatum 
+                 is equal to that of the object.
+        */
+        bool operator()(const Metadatum& metadatum) const
+            { return ifdId_ == metadatum.ifdId() && idx_ == metadatum.idx(); }
+
+    private:
+        IfdId ifdId_;
+        int idx_;
+        
+    }; // class FindMetadatumByIfdIdIdx
 
     /*!
       @brief A container for %Exif data. This is the top-level class of 
@@ -355,15 +403,29 @@ namespace Exif {
       - extract and delete %Exif thumbnail (JPEG and TIFF thumbnails)
     */
     class ExifData {
-        // Copying not allowed (Todo: implement me!)
+        //! @name Not implemented
+        //@{
+        //! Copying not allowed (Todo: implement me!)
         ExifData(const ExifData& rhs);
-        // Assignment not allowed (Todo: implement me!)
+        //! Assignment not allowed (Todo: implement me!)
         ExifData& operator=(const ExifData& rhs);
+        //@}
     public:
+        //! Metadata iterator type
+        typedef Metadata::iterator iterator;
+        //! Metadata const iterator type
+        typedef Metadata::const_iterator const_iterator;
+
+        //! @name Creators
+        //@{
         //! Default constructor
         ExifData();
         //! Destructor
         ~ExifData();
+        //@}
+
+        //! @name Manipulators
+        //@{
         /*!
           @brief Read the %Exif data from file path.
           @param path Path to the file
@@ -436,25 +498,12 @@ namespace Exif {
                  multiple metadata with the same key.
          */
         void add(const Metadatum& metadatum);
-
-        /*!
-          @brief Return the approximate size of all %Exif data (TIFF header plus 
-                 metadata). The number returned may be bigger than the actual 
-                 size of the %Exif data, but it is never smaller. Only copy()
-                 returns the exact size.
-         */
-        long size() const;
-        //! Returns the byte order as specified in the TIFF header
-        ByteOrder byteOrder() const { return tiffHeader_.byteOrder(); }
-
-        //! Metadata iterator type
-        typedef Metadata::iterator iterator;
-        //! Metadata const iterator type
-        typedef Metadata::const_iterator const_iterator;
-        //! Begin of the metadata
-        const_iterator begin() const { return metadata_.begin(); }
-        //! End of the metadata
-        const_iterator end() const { return metadata_.end(); }
+        //! Delete the metadatum at iterator position pos
+        void erase(iterator pos);
+        //! Sort metadata by key
+        void sortByKey();
+        //! Sort metadata by tag
+        void sortByTag();
         //! Begin of the metadata
         iterator begin() { return metadata_.begin(); }
         //! End of the metadata
@@ -466,18 +515,56 @@ namespace Exif {
          */
         iterator findKey(const std::string& key);
         /*!
+          @brief Find the metadatum with the given ifd id and idx, return an 
+                 iterator to it. 
+
+          This method can be used to uniquely identify a metadatum that was
+          created from an IFD or from the makernote (with idx greater than
+          0). Metadata created by an application (not read from an IFD or a
+          makernote) all have their idx field set to 0, i.e., they cannot be
+          uniquely identified with this method.  If multiple metadata with the
+          same key exist, it is undefined which of the matching metadata is
+          found.
+         */
+        iterator findIfdIdIdx(IfdId ifdId, int idx);
+        //@}
+
+        //! @name Accessors
+        //@{
+        //! Begin of the metadata
+        const_iterator begin() const { return metadata_.begin(); }
+        //! End of the metadata
+        const_iterator end() const { return metadata_.end(); }
+        /*!
           @brief Find a metadatum with the given key, return a const iterator to
                  it.  If multiple metadata with the same key exist, it is
                  undefined which of the matching metadata is found.
          */
         const_iterator findKey(const std::string& key) const;
-        //! Sort metadata by key
-        void sortByKey();
-        //! Sort metadata by tag
-        void sortByTag();
-        //! Delete the metadatum at iterator position pos
-        void erase(iterator pos);
+        /*!
+          @brief Find the metadatum with the given ifd id and idx, return an 
+                 iterator to it. 
 
+          This method can be used to uniquely identify a metadatum that was
+          created from an IFD or from the makernote (with idx greater than
+          0). Metadata created by an application (not read from an IFD or a
+          makernote) all have their idx field set to 0, i.e., they cannot be
+          uniquely identified with this method.  If multiple metadata with the
+          same key exist, it is undefined which of the matching metadata is
+          found.
+         */
+        const_iterator findIfdIdIdx(IfdId ifdId, int idx) const;
+        //! Get the number of metadata entries
+        long count() const { return metadata_.size(); }
+        /*!
+          @brief Return the approximate size of all %Exif data (TIFF header plus 
+                 metadata). The number returned may be bigger than the actual 
+                 size of the %Exif data, but it is never smaller. Only copy()
+                 returns the exact size.
+         */
+        long size() const;
+        //! Returns the byte order as specified in the TIFF header
+        ByteOrder byteOrder() const { return tiffHeader_.byteOrder(); }
         /*!
           @brief Write the thumbnail image to a file. The filename extension
                  will be set according to the image type of the thumbnail, so
@@ -489,44 +576,68 @@ namespace Exif {
         Thumbnail::Type thumbnailType() const { return thumbnail_.type(); }
         //! Return the size of the thumbnail data
         long thumbnailSize() const { return thumbnail_.size(); }
+        //@}
 
     private:
-        // Return a pointer to the internal IFD identified by its IFD id
-        const Ifd* getIfd(IfdId ifdId) const;
-        /*
-          Check if the metadata changed and update the internal IFDs if the
-          changes are compatible with the existing data (non-intrusive write
-          support). Return true if only compatible changes were detected in the
-          metadata and the internal IFDs (i.e., data buffer) were updated
-          successfully. Return false, if non-intrusive writing is not
-          possible. The internal IFDs and the data buffer may or may not be
-          modified in this case.
-         */
-        bool updateIfds();
-        /*
-          Update the metadata of one IFD. Called by updateIfds() for each
-          of the internal IFDs.
-         */
-        bool updateIfd(Ifd& ifd);
-        /*
-          Check if the metadata is compatible with the internal IFDs for
-          non-intrusive writing. Return true if compatible, false if not.
+        //! @name Accessors
+        //@{
+        /*!
+          @brief Check if the metadata is compatible with the internal IFDs for
+                 non-intrusive writing. Return true if compatible, false if not.
 
-          Note: This function does not detect deleted metadata as incompatible,
-          although the deletion of metadata is not (yet) a supported
-          non-intrusive write operation.
+          @note This function does not detect deleted metadata as incompatible,
+                although the deletion of metadata is not (yet) a supported
+                non-intrusive write operation.
          */
         bool compatible() const;
-        /*
-          Write Exif data to a data buffer the hard way, return number of bytes
-          written. Rebuilds the Exif data from scratch, using the TIFF header,
-          metadata container and thumbnail. In particular, the internal IFDs and
-          the original data buffer are not used. Furthermore, this method
-          updates the Exif data with the metadata from the actual thumbnail
-          image (overriding existing metadata).
+        /*!
+          @brief Find the IFD or makernote entry corresponding to ifd id and idx.
+
+          @return A pair of which the first part determines if a match was found
+                  and, if true, the second contains an iterator to the entry.
+         */
+        std::pair<bool, Entries::const_iterator> 
+        findEntry(IfdId ifdId, int idx) const;
+        //! Return a pointer to the internal IFD identified by its IFD id
+        const Ifd* getIfd(IfdId ifdId) const;
+        //@}
+
+        //! @name Manipulators
+        //@{
+        /*!
+          @brief Check if the metadata changed and update the internal IFDs and
+                 the MakerNote if the changes are compatible with the existing
+                 data (non-intrusive write support). 
+
+          @return True if only compatible changes were detected in the metadata
+                  and the internal IFDs and MakerNote (and thus the data buffer)
+                  were updated successfully. Return false, if non-intrusive
+                  writing is not possible. The internal IFDs and the MakerNote
+                  (and thus the data buffer) may or may not be modified in this
+                  case.
+         */
+        bool updateEntries();
+        /*!
+          @brief Update the metadata for a range of entries. Called by
+                 updateEntries() for each of the internal IFDs and the MakerNote
+                 (if any).
+         */
+        bool updateRange(const Entries::iterator& begin,
+                         const Entries::iterator& end);
+        /*!
+          @brief Write Exif data to a data buffer the hard way, return number of
+                 bytes written.
+
+          Rebuilds the Exif data from scratch, using the TIFF header, metadata
+          container and thumbnail. In particular, the internal IFDs and the
+          original data buffer are not used. Furthermore, this method updates
+          the Exif data with the metadata from the actual thumbnail image
+          (overriding existing metadata).
          */
         long copyFromMetadata(char* buf);
+        //@}
 
+        // DATA
         TiffHeader tiffHeader_;
         Metadata metadata_;
         Thumbnail thumbnail_;
