@@ -21,9 +21,9 @@
 /*!
   @file    canonmn.hpp
   @brief   Canon MakerNote implemented according to the specification
-           "EXIF MakerNote of Canon" <http://www.burren.cx/david/canon.html>
-           by David Burren
-  @version $Name:  $ $Revision: 1.5 $
+           <a href="http://www.burren.cx/david/canon.html">
+           EXIF MakerNote of Canon</a> by David Burren
+  @version $Name:  $ $Revision: 1.6 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -84,7 +84,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{        
-        MakerNote* clone(bool alloc =true) const;
+        CanonMakerNote* clone(bool alloc =true) const;
         //! Return the name of the makernote section ("Canon")
         std::string sectionName(uint16 tag) const { return sectionName_; }
         std::ostream& printTag(std::ostream& os,
