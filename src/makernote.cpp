@@ -20,13 +20,13 @@
  */
 /*
   File:      makernote.cpp
-  Version:   $Name:  $ $Revision: 1.21 $
+  Version:   $Name:  $ $Revision: 1.22 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.21 $ $RCSfile: makernote.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.22 $ $RCSfile: makernote.cpp,v $")
 
 // Define DEBUG_* to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -212,10 +212,12 @@ namespace Exiv2 {
         offset_ = offset;
         // Set byte order if none is set yet
         if (byteOrder_ == invalidByteOrder) byteOrder_ = byteOrder;
+        // Adjust the offset
+        offset = absOffset_ ? offset + adjOffset_ : adjOffset_;
 
         long len = 0;
         len += copyHeader(buf);
-        len += ifd_.copy(buf + len, byteOrder_, offset_);
+        len += ifd_.copy(buf + len, byteOrder_, offset);
 
         return len;
     } // IfdMakerNote::copy
