@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.18 $
+  Version:   $Name:  $ $Revision: 1.19 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.18 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.19 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -764,9 +764,9 @@ namespace Action {
             return 1;
         }
         if (Params::instance().verbose_) {
-            std::cout << path << ": Adjusting timestamp by" 
+            std::cout << "Adjusting `" << key << "' by" 
                       << (adjustment_ < 0 ? " " : " +")
-                      << adjustment_ << " seconds to ";
+                      << adjustment_ << " s to ";
         }
         time += adjustment_;
         timeStr = time2Str(time);
@@ -838,25 +838,25 @@ namespace {
         std::string error;
         switch (rc) {
         case -1:
-            error = "Failed to open file `" + path + "'";
+            error = path + ": Failed to open the file";
             break;
         case -2:
-            error = "The file contains data of an unknown image type";
+            error = path + ": The file contains data of an unknown image type";
             break;
         case 1:
-            error = "Couldn't read from the input stream";
+            error = path + ": Couldn't read from the input stream";
             break;
         case 2:
-            error = "This does not look like a JPEG image";
+            error = path + ": This does not look like a JPEG image";
             break;
         case 3:
-            error = "No Exif data found in the file";
+            error = path + ": No Exif data found in the file";
             break;
         case -99:
-            error = "Unsupported Exif or GPS data found in IFD 1";
+            error = path + ": Unsupported Exif or GPS data found in IFD 1";
             break;
         default:
-            error = "Reading Exif data failed, rc = " + Exif::toString(rc);
+            error = path + ": Reading Exif data failed, rc = " + Exif::toString(rc);
             break;
         }
         return error;
@@ -867,31 +867,31 @@ namespace {
         std::string error;
         switch (rc) {
         case -1:
-            error = "Failed to open file `" + path + "'";
+            error = path + ": Failed to open the file";
             break;
         case -2:
-            error = "The file contains data of an unknown image type";
+            error = path + ": The file contains data of an unknown image type";
             break;
         case -3:
-            error = "Couldn't open temporary file";
+            error = path + ": Couldn't open temporary file";
             break;
         case -4:
-            error = "Renaming temporary file failed: " + Util::strError();
+            error = path + ": Renaming temporary file failed: " + Util::strError();
             break;
         case 1:
-            error = "Couldn't read from the input stream";
+            error = path + ": Couldn't read from the input stream";
             break;
         case 2:
-            error = "This does not look like a JPEG image";
+            error = path + ": This does not look like a JPEG image";
             break;
         case 3:
-            error = "No JFIF APP0 or Exif APP1 segment found in the file";
+            error = path + ": No JFIF APP0 or Exif APP1 segment found in the file";
             break;
         case 4:
-            error = "Writing to the output stream failed";
+            error = path + ": Writing to the output stream failed";
             break;
         default:
-            error = "Reading Exif data failed, rc = " + Exif::toString(rc);
+            error = path + ": Reading Exif data failed, rc = " + Exif::toString(rc);
             break;
         }
         return error;
