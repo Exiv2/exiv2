@@ -4,7 +4,7 @@
 #
 # RCS information
 #  $Name:  $
-#  $Revision: 1.1 $
+#  $Revision: 1.2 $
 #
 # Description:
 #  This makefile just forwards to src/Makefile.
@@ -15,12 +15,12 @@
 
 .PHONY: all maintainer-clean doc
 
-all maintainer-clean:
+all %:
 	cd src && $(MAKE) $(MAKECMDGOALS)
-	cd doc && $(MAKE) $(MAKECMDGOALS)
 
 doc:
 	cd doc && $(MAKE) $(MAKECMDGOALS)
 
-%:
+maintainer-clean:
 	cd src && $(MAKE) $(MAKECMDGOALS)
+	cd doc && $(MAKE) $(MAKECMDGOALS)
