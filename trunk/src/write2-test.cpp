@@ -29,11 +29,28 @@ try {
     }
     std::string file(argv[1]);
 
-    std::cout <<"----- One IFD0 tag\n";
+    std::cout <<"----- Two IFD0 tags\n";
     Exiv2::ExifData ed1;
     Exiv2::Exifdatum md1(Exiv2::ExifKey("Exif.Image.Model"));
     md1.setValue("Test 1");
     ed1.add(md1);
+
+    Exiv2::Value::AutoPtr v1 = Exiv2::Value::create(Exiv2::unsignedShort);
+    v1->read("160 161 162 163");
+    ed1.add(Exiv2::ExifKey("Exif.Image.SamplesPerPixel"), v1.get());
+
+    Exiv2::Value::AutoPtr v2 = Exiv2::Value::create(Exiv2::signedLong);
+    v2->read("-2 -1 0 1");
+    ed1.add(Exiv2::ExifKey("Exif.Image.XResolution"), v2.get());
+
+    Exiv2::Value::AutoPtr v3 = Exiv2::Value::create(Exiv2::signedRational);
+    v3->read("-2/3 -1/3 0/3 1/3");
+    ed1.add(Exiv2::ExifKey("Exif.Image.YResolution"), v3.get());
+
+    Exiv2::Value::AutoPtr v4 = Exiv2::Value::create(Exiv2::undefined);
+    v4->read("255 254 253 252");
+    ed1.add(Exiv2::ExifKey("Exif.Image.WhitePoint"), v4.get());
+
     write(file, ed1);
     print(file);
 
@@ -187,13 +204,19 @@ void print(const std::string& file)
 
     Exiv2::ExifData::const_iterator end = ed.end();
     for (Exiv2::ExifData::const_iterator i = ed.begin(); i != end; ++i) {
-        std::cout << std::setw(53) << std::setfill(' ') << std::left
+        std::cout << std::setw(45) << std::setfill(' ') << std::left
                   << i->key() << " "
+                  << "0x" << std::setw(4) << std::setfill('0') << std::right
+                  << std::hex << i->tag() << " " 
                   << std::setw(12) << std::setfill(' ') << std::left
                   << i->ifdName() << " "
-                  << "0x" << std::setw(4) << std::setfill('0') << std::right
-                  << std::hex << i->tag() << "  " 
+                  << std::setw(9) << std::setfill(' ') << std::left
+                  << i->typeName() << " "
+                  << std::dec << std::setw(3) 
+                  << std::setfill(' ') << std::right
+                  << i->count() << " "
                   << std::dec << i->value() 
                   << "\n";
+
     }
 }

@@ -1,18 +1,58 @@
------ One IFD0 tag
-Exif.Image.Model                                      IFD0         0x0110  Test 1
+----- Two IFD0 tags
+Exif.Image.Model                              0x0110 IFD0         Ascii       7 Test 1
+Exif.Image.SamplesPerPixel                    0x0115 IFD0         Short       4 160 161 162 163
+Exif.Image.XResolution                        0x011a IFD0         SLong       4 -2 -1 0 1
+Exif.Image.YResolution                        0x011b IFD0         SRational   4 -2/3 -1/3 0/3 1/3
+Exif.Image.WhitePoint                         0x013e IFD0         Undefined   4 255 254 253 252 
 
 ----- One Exif tag
-Exif.Image.ExifTag                                    IFD0         0x8769  26
-Exif.Photo.DateTimeOriginal                           Exif         0x9003  Test 2
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 26
+Exif.Photo.DateTimeOriginal                   0x9003 Exif         Ascii       7 Test 2
+
+----- One Canon MakerNote tag
+Exif.Image.Make                               0x010f IFD0         Ascii       6 Canon
+Exif.Image.Model                              0x0110 IFD0         Ascii      20 Canon PowerShot S40
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 76
+Exif.Canon.0xabcd                             0xabcd Makernote    Ascii      22 A Canon makernote tag
+
+----- One Fujifilm MakerNote tag
+Exif.Image.Make                               0x010f IFD0         Ascii       9 FUJIFILM
+Exif.Image.Model                              0x0110 IFD0         Ascii      13 FinePixS2Pro
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 72
+Exif.Fujifilm.Quality                         0x1000 Makernote    Ascii      23 A Fujifilm QUALITY tag
+
+----- One Sigma/Foveon MakerNote tag
+Exif.Image.Make                               0x010f IFD0         Ascii       6 SIGMA
+Exif.Image.Model                              0x0110 IFD0         Ascii      11 SIGMA SD10
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 67
+Exif.Sigma.Software                           0x0018 Makernote    Ascii      17 Software? Exiv2!
+
+----- One Nikon1 MakerNote tag
+Exif.Image.Make                               0x010f IFD0         Ascii       6 NIKON
+Exif.Image.Model                              0x0110 IFD0         Ascii       5 E990
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 61
+Exif.Nikon1.ImageAdjustment                   0x0080 Makernote    Ascii      25 ImageAdjustment by Exiv2
+
+----- One Nikon2 MakerNote tag
+Exif.Image.Make                               0x010f IFD0         Ascii       6 NIKON
+Exif.Image.Model                              0x0110 IFD0         Ascii       5 E950
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 61
+Exif.Nikon2.0xffff                            0xffff Makernote    Ascii      22 An obscure Nikon2 tag
+
+----- One Nikon3 MakerNote tag
+Exif.Image.Make                               0x010f IFD0         Ascii      18 NIKON CORPORATION
+Exif.Image.Model                              0x0110 IFD0         Ascii      10 NIKON D70
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 78
+Exif.Nikon3.Quality                           0x0004 Makernote    Ascii      28 A boring Nikon3 Quality tag
 
 ----- One IOP tag
-Exif.Image.ExifTag                                    IFD0         0x8769  26
-Exif.Photo.InteroperabilityTag                        Exif         0xa005  44
-Exif.Iop.InteroperabilityVersion                      Iop          0x0002  Test 3
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 26
+Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 44
+Exif.Iop.InteroperabilityVersion              0x0002 Iop          Ascii       7 Test 3
 
 ----- One GPS tag
-Exif.Image.GPSTag                                     IFD0         0x8825  26
-Exif.GPSInfo.GPSVersionID                             GPSInfo      0x0000  Test 4
+Exif.Image.GPSTag                             0x8825 IFD0         Long        1 26
+Exif.GPSInfo.GPSVersionID                     0x0000 GPSInfo      Ascii       7 Test 4
 
 ----- One IFD1 tag
-Exif.Image.Model                                      IFD0         0x0110  Test 5 (Fix me!)
+Exif.Image.Model                              0x0110 IFD0         Ascii      17 Test 5 (Fix me!)
