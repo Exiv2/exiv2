@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.21 $
+  Version:   $Name:  $ $Revision: 1.22 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.21 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.22 $ $RCSfile: exif.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -72,11 +72,10 @@ namespace Exif {
 
     Metadatum::Metadatum(const Entry& e, ByteOrder byteOrder)
         : tag_(e.tag()), ifdId_(e.ifdId()), makerNote_(e.makerNote()),
-          value_(0)
+          value_(0), key_(makeKey(e))
     {
         value_ = Value::create(TypeId(e.type()));
-        value_->read(e.data(), e.size(), byteOrder);
-        key_ = makeKey(tag_, ifdId_, makerNote_);
+        value_->read(e.data(), e.count() * e.typeSize(), byteOrder);
     }
 
     Metadatum::Metadatum(const std::string& key, 
@@ -266,6 +265,8 @@ namespace Exif {
         // Update the IFD with the actual strip offsets (replace existing entry)
         Metadatum newOffsets(*offsets);
         newOffsets.setValue(os.str());
+        i = ifd1.findTag(0x0111);
+        if (i != ifd1.end()) ifd1.erase(i);
         addToIfd(ifd1, newOffsets, tiffHeader.byteOrder());
 
         // Finally, sort and copy the IFD
@@ -446,8 +447,10 @@ namespace Exif {
             os << offsets.toLong(k) + shift << " ";
         }
         offsets.setValue(os.str());
-
-        // Write the offsets to IFD1, encoded in the corresponding byte order
+        // Update the IFD with the re-calculated strip offsets 
+        // (replace existing entry)
+        Ifd::iterator i = ifd1.findTag(0x0111);
+        if (i != ifd1.end()) ifd1.erase(i);
         addToIfd(ifd1, offsets, byteOrder);
 
     } // Thumbnail::setTiffImageOffsets
@@ -771,8 +774,7 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
         Ifd::iterator end = ifd.end();
         for (Ifd::iterator entry = ifd.begin(); entry != end; ++entry) {
             // find the corresponding metadatum
-            std::string key = 
-                makeKey(entry->tag(), entry->ifdId(), entry->makerNote());
+            std::string key = makeKey(*entry);
             const_iterator md = findKey(key);
             if (md == this->end()) {
                 // corresponding metadatum was deleted: this is not (yet) a
@@ -780,10 +782,18 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
                 compatible = false;
                 continue;
             }
-            char* buf = new char[md->size()];
-            md->copy(buf, byteOrder());
-            entry->setValue(md->typeId(), md->count(), buf, md->size());
-            delete[] buf;
+            if (entry->count() == 0 && md->count() == 0) {
+                // Special case: don't do anything if both the entry and 
+                // metadatum have no data. This is to preserve the original
+                // data in the offset field of an IFD entry with count 0,
+                // if the metadatum was not changed.
+            }
+            else {
+                char* buf = new char[md->size()];
+                md->copy(buf, byteOrder());
+                entry->setValue(md->typeId(), md->count(), buf, md->size());
+                delete[] buf;
+            }
         }
         return compatible;
     } // ExifData::updateIfd
@@ -889,12 +899,12 @@ std::cout << "->>>>>> writing from metadata <<<<<<-\n";
         return ExifTags::printTag(os, md.tag(), md.ifdId(), md.value());
     }
 
-    std::string makeKey(uint16 tag, IfdId ifdId, const MakerNote* makerNote)
+    std::string makeKey(const Entry& entry)
     {
-        if (ifdId == makerIfd && makerNote != 0) {
-            return makerNote->makeKey(tag);
+        if (entry.ifdId() == makerIfd && entry.makerNote() != 0) {
+            return entry.makerNote()->makeKey(entry.tag());
         }
-        return ExifTags::makeKey(tag, ifdId);
+        return ExifTags::makeKey(entry.tag(), entry.ifdId());
     }
 
     std::pair<uint16, IfdId> decomposeKey(const std::string& key,
