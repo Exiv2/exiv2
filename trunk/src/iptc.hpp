@@ -336,14 +336,12 @@ namespace Exiv2 {
          */
         int writeIptcData(const std::string& path);
         /*!
-          @brief Write the Iptc data to a data buffer, return number of bytes 
-                 written. The copied data follows the IPTC IIM4 standard.
-          @param buf The data buffer to write to.  The user must ensure that the
-                 buffer has enough memory using the %size method. Otherwise
-                 the call results in undefined behaviour.
-          @return Number of characters written to the buffer.
+          @brief Write the Iptc data to a data buffer and return the data buffer.
+                 Caller owns this buffer. The copied data follows the IPTC IIM4
+                 standard.
+          @return Data buffer containing the Iptc data.
          */
-        long copy(byte* buf);
+        DataBuf copy();
         /*!
           @brief Add an %Iptcdatum from the supplied key and value pair. This
                  method copies (clones) the value. A check for non-repeatable
