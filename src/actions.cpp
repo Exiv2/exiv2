@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.25 $
+  Version:   $Name:  $ $Revision: 1.26 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.25 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.26 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -49,7 +49,9 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.25 $ $RCSfile: actions.cpp,v $")
 #include <cmath>
 #include <sys/types.h>                  // for stat()
 #include <sys/stat.h>                   // for stat()
+#ifndef _MSC_VER
 #include <unistd.h>                     // for stat()
+#endif
 
 // *****************************************************************************
 // local declarations
@@ -176,12 +178,12 @@ namespace Action {
         if (0 == printTag(exifData, "Image.CaptureConditions.ExposureTime")) {
             md = exifData.findKey("Image.CaptureConditions.ShutterSpeedValue");
             if (md != exifData.end()) {
-                float f = exp2f(md->toFloat()) + 0.5;
-                if (f > 1) {
-                    std::cout << "1/" << static_cast<long>(f) << " s";
+                double tmp = exp(log(2) * md->toFloat()) + 0.5;
+                if (tmp > 1) {
+                    std::cout << "1/" << static_cast<long>(tmp) << " s";
                 }
                 else {
-                    std::cout << static_cast<long>(1/f) << " s";
+                    std::cout << static_cast<long>(1/tmp) << " s";
                 }
             }
         }
@@ -195,7 +197,7 @@ namespace Action {
             md = exifData.findKey("Image.CaptureConditions.ApertureValue");
             if (md != exifData.end()) {
                 std::cout << std::fixed << std::setprecision(1)
-                          << "F" << exp2f(md->toFloat()/2);
+                          << "F" << exp(log(2) * md->toFloat() / 2);
             }
         }
         std::cout << "\n";
