@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.27 $
+  Version:   $Name:  $ $Revision: 1.28 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.27 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.28 $ $RCSfile: exif.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -123,6 +123,13 @@ namespace Exif {
     {
         delete value_;
         value_ = value->clone();
+    }
+
+    void Metadatum::setValue(const Entry& e, ByteOrder byteOrder)
+    {
+        delete value_;
+        value_ = Value::create(TypeId(e.type()));
+        value_->read(e.data(), e.count() * e.typeSize(), byteOrder);
     }
 
     void Metadatum::setValue(const std::string& buf)
@@ -354,14 +361,26 @@ namespace Exif {
     void Thumbnail::updateTiffImage(ExifData& exifData) const
     {
         // Create metadata from the StripOffsets and StripByteCounts entries
-        // and add these to the Exif data, replacing existing entries
-        Ifd::const_iterator pos = ifd_.findTag(0x0111);
-        if (pos == ifd_.end()) throw Error("Bad thumbnail (0x0111)");
-        exifData.add(Metadatum(*pos, tiffHeader_.byteOrder()));
+        // and update the Exif data accordingly
+        Entries::const_iterator entry = ifd_.findTag(0x0111);
+        if (entry == ifd_.end()) throw Error("Bad thumbnail (0x0111)");
+        ExifData::iterator md = exifData.findIfdIdIdx(entry->ifdId(), entry->idx());
+        if (md == exifData.end()) {
+            exifData.add(Metadatum(*entry, tiffHeader_.byteOrder()));
+        }
+        else {
+            md->setValue(*entry, tiffHeader_.byteOrder());
+        }
 
-        pos = ifd_.findTag(0x0117);
-        if (pos == ifd_.end()) throw Error("Bad thumbnail (0x0117)");
-        exifData.add(Metadatum(*pos, tiffHeader_.byteOrder()));
+        entry = ifd_.findTag(0x0117);
+        if (entry == ifd_.end()) throw Error("Bad thumbnail (0x0117)");
+        md = exifData.findIfdIdIdx(entry->ifdId(), entry->idx());
+        if (md == exifData.end()) {
+            exifData.add(Metadatum(*entry, tiffHeader_.byteOrder()));
+        }
+        else {
+            md->setValue(*entry, tiffHeader_.byteOrder());
+        }
 
     } // Thumbnail::updateTiffImage
 
@@ -589,7 +608,7 @@ namespace Exif {
         if (updateEntries()) {
 
 //ahu Todo: remove debugging output
-std::cout << "->>>>>> using non-intrusive writing <<<<<<-\n";
+std::cerr << "->>>>>> using non-intrusive writing <<<<<<-\n";
 
             memcpy(buf, data_, size_);
             size = size_;
@@ -598,7 +617,7 @@ std::cout << "->>>>>> using non-intrusive writing <<<<<<-\n";
         else {
 
 //ahu Todo: remove debugging output
-std::cout << "->>>>>> writing from metadata <<<<<<-\n";
+std::cerr << "->>>>>> writing from metadata <<<<<<-\n";
 
             size = copyFromMetadata(buf);
         }

@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.27 $
+  @version $Name:  $ $Revision: 1.28 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -96,6 +96,10 @@ namespace Exif {
           @brief Set the value. This method copies (clones) the value.
          */
         void setValue(const Value* value);
+        /*!
+          @brief Set the value from an IFD entry.
+         */
+        void setValue(const Entry& e, ByteOrder byteOrder);
         /*!
           @brief Set the value to the string buf. 
                  Uses Value::read(const std::string& buf). If the metadatum does
