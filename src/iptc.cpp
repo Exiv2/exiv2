@@ -254,11 +254,10 @@ namespace Exiv2 {
         modified_ = false;
     }
     
-    long IptcData::copy(byte* buf)
+    DataBuf IptcData::copy()
     {
         updateBuffer();
-        memcpy(buf, pData_, size_);
-        return size_;
+        return DataBuf(pData_, size_);
     }
 
     void IptcData::updateBuffer() 
