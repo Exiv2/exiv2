@@ -20,13 +20,13 @@
  */
 /*
   File:      iptc.cpp
-  Version:   $Name:  $ $Revision: 1.6 $
+  Version:   $Name:  $ $Revision: 1.7 $
   Author(s): Brad Schick (brad) <schick@robotbattle.com>
   History:   31-July-04, brad: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: iptc.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.7 $ $RCSfile: iptc.cpp,v $");
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -114,22 +114,22 @@ namespace Exiv2 {
     int IptcData::read(const std::string& path)
     {
         if (!fileExists(path, true)) return -1;
-        Image* pImage = ImageFactory::instance().open(path);
-        if (pImage) {
-            int rc = pImage->readMetadata();
-            if (rc == 0) {
-                if (pImage->sizeIptcData() > 0) {
-                    rc = read(pImage->iptcData(), pImage->sizeIptcData());
-                }
-                else {
-                    rc = 3;
-                }
-            }
-            delete pImage;
-            return rc;
+        Image::AutoPtr image = ImageFactory::instance().open(path);
+        if (image.get() == 0) {
+            // We don't know this type of file
+            return -2;
         }
-        // We don't know this type of file
-        return -2;
+        
+        int rc = image->readMetadata();
+        if (rc == 0) {
+            if (image->sizeIptcData() > 0) {
+                rc = read(image->iptcData(), image->sizeIptcData());
+            }
+            else {
+                rc = 3;
+            }
+        }
+        return rc;
     }
 
     int IptcData::read(const byte* buf, long len)
@@ -204,16 +204,15 @@ namespace Exiv2 {
     int IptcData::erase(const std::string& path) const
     {
         if (!fileExists(path, true)) return -1;
-        Image* pImage = ImageFactory::instance().open(path);
-        if (pImage == 0) return -2;
+        Image::AutoPtr image = ImageFactory::instance().open(path);
+        if (image.get() == 0) return -2;
 
         // Read all metadata then erase only Iptc data
-        int rc = pImage->readMetadata();
-        if( rc == 0 ) {
-            pImage->clearIptcData();
-            rc = pImage->writeMetadata();
+        int rc = image->readMetadata();
+        if (rc == 0) {
+            image->clearIptcData();
+            rc = image->writeMetadata();
         }
-        delete pImage;
         return rc;
     } // IptcData::erase
 
@@ -223,18 +222,17 @@ namespace Exiv2 {
         if (count() == 0) return erase(path);
 
         if (!fileExists(path, true)) return -1;
-        Image* pImage = ImageFactory::instance().open(path);
-        if (pImage == 0) return -2;
+        Image::AutoPtr image = ImageFactory::instance().open(path);
+        if (image.get() == 0) return -2;
 
         updateBuffer();
 
         // Read all metadata to preserve non-Iptc data
-        int rc = pImage->readMetadata();
-        if( rc == 0 ) {
-            pImage->setIptcData(pData_, size_);
-            rc = pImage->writeMetadata();
+        int rc = image->readMetadata();
+        if (rc == 0) {
+            image->setIptcData(pData_, size_);
+            rc = image->writeMetadata();
         }
-        delete pImage;
         return rc;
     } // IptcData::write
 

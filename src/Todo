@@ -3,7 +3,7 @@ Library Features:
 + add ExifData::erase(tag)
 + Thumbnail support: set (re-calculate)
 + operator>> for Value, since we already have read()?
-+ Use auto_ptr where applicable
++ Use auto_ptr and DataBuf where applicable
 + Use size_t where appropriate
 + Support TIFF type ids
 + Support for broken IFD makernotes (which have corrupted IFD offsets)
@@ -13,9 +13,7 @@ Library Features:
 + Write an example using low level IFD classes to print summary Exif info
 + Implement proper error handling
 + Complete support to create Exif data from scratch:
-  + set makernote, write makernote tags
   + set thumbnail, write thumbnail tags
-  + read and write unknown tags 
 + Make it possible to force write from metadata (just an optional arg to write?)
 
 + Get rid of Image::detach and make Image open files on-demand 

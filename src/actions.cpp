@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.37 $
+  Version:   $Name:  $ $Revision: 1.38 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.37 $ $RCSfile: actions.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.38 $ $RCSfile: actions.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -559,14 +559,14 @@ namespace Action {
                       << ": Failed to open the file\n";
             return -1;
         }
-        Exiv2::Image* pImage = Exiv2::ImageFactory::instance().open(path_);
-        if (!pImage) {
+        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::instance().open(path_);
+        if (image.get() == 0) {
             std::cerr << path_
                       << ": The file contains data of an unknown image type\n";
             return -2;
         }
-        int rc = pImage->readMetadata();
-        pImage->detach();
+        int rc = image->readMetadata();
+        image->detach();
         if (rc) {
             std::cerr << path_
                       << ": Could not read metadata\n";
@@ -575,8 +575,7 @@ namespace Action {
         if (Params::instance().verbose_) {
             std::cout << "Jpeg comment: ";
         }
-        std::cout << pImage->comment() << "\n";
-        delete pImage;
+        std::cout << image->comment() << "\n";
         return 0;
     } // Print::printComment
 
@@ -968,61 +967,62 @@ namespace {
                       << ": Failed to open the file\n";
             return -1;
         }
-        Exiv2::Image* pSource = Exiv2::ImageFactory::instance().open(source);
-        if (!pSource) {
+        Exiv2::Image::AutoPtr sourceImage 
+            = Exiv2::ImageFactory::instance().open(source);
+        if (sourceImage.get() == 0) {
             std::cerr << source
                       << ": The file contains data of an unknown image type\n";
             return -2;
         }
-        int rc = pSource->readMetadata();
-        pSource->detach();
+        int rc = sourceImage->readMetadata();
+        sourceImage->detach();
         if (rc) {
             std::cerr << source
                       << ": Could not read metadata\n";
             return 1;
         }
-        Exiv2::Image* pTarget = Exiv2::ImageFactory::instance().open(target);
-        if (!pTarget) {
-            pTarget = Exiv2::ImageFactory::instance().create(Exiv2::Image::exv, 
-                                                             target);
+        Exiv2::Image::AutoPtr targetImage 
+            = Exiv2::ImageFactory::instance().open(target);
+        if (targetImage.get() == 0) {
+            targetImage 
+                = Exiv2::ImageFactory::instance().create(Exiv2::Image::exv, target);
         }
-        if (!pTarget) {
+        if (targetImage.get() == 0) {
             std::cerr << target 
                       << ": Could not open nor create the file\n";
             return 2;
         }
         if (   Params::instance().target_ & Params::ctExif
-            && pSource->sizeExifData() > 0) {
+            && sourceImage->sizeExifData() > 0) {
             if (Params::instance().verbose_) {
                 std::cout << "Writing Exif data from " << source 
                           << " to " << target << "\n";
             }
-            pTarget->setExifData(pSource->exifData(), pSource->sizeExifData());
+            targetImage->setExifData(sourceImage->exifData(), 
+                                     sourceImage->sizeExifData());
         }
         if (   Params::instance().target_ & Params::ctIptc
-            && pSource->sizeIptcData() > 0) {
+            && sourceImage->sizeIptcData() > 0) {
             if (Params::instance().verbose_) {
                 std::cout << "Writing Iptc data from " << source 
                           << " to " << target << "\n";
             }
-            pTarget->setIptcData(pSource->iptcData(), pSource->sizeIptcData());
+            targetImage->setIptcData(sourceImage->iptcData(), 
+                                     sourceImage->sizeIptcData());
         }
         if (   Params::instance().target_ & Params::ctComment
-            && !pSource->comment().empty()) {
+            && !sourceImage->comment().empty()) {
             if (Params::instance().verbose_) {
                 std::cout << "Writing Jpeg comment from " << source 
                           << " to " << target << "\n";
             }
-            pTarget->setComment(pSource->comment());
+            targetImage->setComment(sourceImage->comment());
         }
-        rc = pTarget->writeMetadata();
+        rc = targetImage->writeMetadata();
         if (rc) {
             std::cerr << target <<
                 ": Could not write metadata to file, rc = " << rc << "\n";
         }
-        delete pSource;
-        delete pTarget;
         return rc;
-
     } // metacopy
 }

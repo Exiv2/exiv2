@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.63 $
+  Version:   $Name:  $ $Revision: 1.64 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.63 $ $RCSfile: exif.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.64 $ $RCSfile: exif.cpp,v $");
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -160,19 +160,19 @@ namespace Exiv2 {
 
     TiffThumbnail& TiffThumbnail::operator=(const TiffThumbnail& rhs)
     {
-        byte* pNewImage = 0;
+        DataBuf newImage;
         if (rhs.pImage_ && rhs.size_ > 0) {
-            pNewImage = new byte[rhs.size_];
-            memcpy(pNewImage, rhs.pImage_, rhs.size_);
+            newImage.alloc(rhs.size_);
+            memcpy(newImage.pData_, rhs.pImage_, rhs.size_);
             tiffHeader_.read(rhs.pImage_);
-            ifd_.read(pNewImage + tiffHeader_.offset(), 
+            ifd_.read(newImage.pData_ + tiffHeader_.offset(), 
                       rhs.size_ - tiffHeader_.offset(), 
                       tiffHeader_.byteOrder(), tiffHeader_.offset());
         }
         offset_ = rhs.offset_;
         size_ = rhs.size_;
         delete[] pImage_;
-        pImage_ = pNewImage;
+        pImage_ = newImage.release();
         return *this;
     }
 
@@ -385,15 +385,15 @@ namespace Exiv2 {
 
     JpegThumbnail& JpegThumbnail::operator=(const JpegThumbnail& rhs)
     {
-        byte* pNewImage = 0;
+        DataBuf newImage;
         if (rhs.pImage_ && rhs.size_ > 0) {
-            pNewImage = new byte[rhs.size_];
-            memcpy(pNewImage, rhs.pImage_, rhs.size_);
+            newImage.alloc(rhs.size_);
+            memcpy(newImage.pData_, rhs.pImage_, rhs.size_);
         }
         offset_ = rhs.offset_;
         size_ = rhs.size_;
         delete[] pImage_;
-        pImage_ = pNewImage;
+        pImage_ = newImage.release();
         return *this;
     }
 
@@ -511,22 +511,22 @@ namespace Exiv2 {
     int ExifData::read(const std::string& path)
     {
         if (!fileExists(path, true)) return -1;
-        Image* pImage = ImageFactory::instance().open(path);
-        if (pImage) {
-            int rc = pImage->readMetadata();
-            if (rc == 0) {
-                if (pImage->sizeExifData() > 0) {
-                    rc = read(pImage->exifData(), pImage->sizeExifData());
-                }
-                else {
-                    rc = 3;
-                }
-            }
-            delete pImage;
-            return rc;
+        Image::AutoPtr image = ImageFactory::instance().open(path);
+        if (image.get() == 0) {
+            // We don't know this type of file
+            return -2;
         }
-        // We don't know this type of file
-        return -2;
+
+        int rc = image->readMetadata();
+        if (rc == 0) {
+            if (image->sizeExifData() > 0) {
+                rc = read(image->exifData(), image->sizeExifData());
+            }
+            else {
+                rc = 3;
+            }
+        }
+        return rc;
     }
 
     int ExifData::read(const byte* buf, long len)
@@ -633,16 +633,15 @@ namespace Exiv2 {
     int ExifData::erase(const std::string& path) const
     {
         if (!fileExists(path, true)) return -1;
-        Image* pImage = ImageFactory::instance().open(path);
-        if (pImage == 0) return -2;
+        Image::AutoPtr image = ImageFactory::instance().open(path);
+        if (image.get() == 0) return -2;
 
         // Read all metadata then erase only Exif data
-        int rc = pImage->readMetadata();
+        int rc = image->readMetadata();
         if (rc == 0) {
-            pImage->clearExifData();
-            rc = pImage->writeMetadata();
+            image->clearExifData();
+            rc = image->writeMetadata();
         }
-        delete pImage;
         return rc;
     } // ExifData::erase
 
@@ -652,20 +651,19 @@ namespace Exiv2 {
         if (count() == 0 && !pThumbnail_) return erase(path);
 
         if (!fileExists(path, true)) return -1;
-        Image* pImage = ImageFactory::instance().open(path);
-        if (pImage == 0) return -2;
+        Image::AutoPtr image = ImageFactory::instance().open(path);
+        if (image.get() == 0) return -2;
 
         DataBuf buf(size());
         long actualSize = copy(buf.pData_);
         assert(actualSize <= buf.size_);
 
         // Read all metadata to preserve non-Exif data
-        int rc = pImage->readMetadata();
+        int rc = image->readMetadata();
         if (rc == 0) {
-            pImage->setExifData(buf.pData_, actualSize);
-            rc = pImage->writeMetadata();
+            image->setExifData(buf.pData_, actualSize);
+            rc = image->writeMetadata();
         }
-        delete pImage;
         return rc;
     } // ExifData::write
 

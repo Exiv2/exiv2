@@ -21,7 +21,7 @@
 /*!
   @file    types.hpp
   @brief   Type definitions for %Exiv2 and related functionality
-  @version $Name:  $ $Revision: 1.21 $
+  @version $Name:  $ $Revision: 1.22 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created<BR>
@@ -123,7 +123,7 @@ namespace Exiv2 {
              care of memory allocation and deletion. Its primary use is meant to
              be as a stack variable in functions that need a temporary data
              buffer. Todo: this should be some sort of smart pointer,
-             essentially an std:auto_ptr for a character array. But it isn't.
+             essentially an std::auto_ptr for a character array. But it isn't...
      */
     class DataBuf {
         // Not implemented
@@ -139,8 +139,12 @@ namespace Exiv2 {
         //! Destructor, deletes the allocated buffer
         ~DataBuf() { delete[] pData_; }
         //! Allocate a data buffer of the given size
-        void alloc(long size)
-            { if( size > size_ ){delete[] pData_; size_ = size; pData_ = new byte[size];} }
+        void alloc(long size);
+        /*!
+          @brief Release ownership of the buffer to the caller. Returns pointer
+                 value, resets pData_ and size_ to 0.
+         */
+        byte* release();
         //! The current size of the buffer
         long size_; 
         //! Pointer to the buffer, 0 if none has been allocated

@@ -20,14 +20,14 @@
  */
 /*
   File:      types.cpp
-  Version:   $Name:  $ $Revision: 1.13 $
+  Version:   $Name:  $ $Revision: 1.14 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.13 $ $RCSfile: types.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.14 $ $RCSfile: types.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -75,6 +75,23 @@ namespace Exiv2 {
     long TypeInfo::typeSize(TypeId typeId)
     {
         return typeInfoTable_[ typeId < lastTypeId ? typeId : 0 ].size_;
+    }
+    
+    void DataBuf::alloc(long size)
+    { 
+        if (size > size_) {
+            delete[] pData_; 
+            size_ = size; 
+            pData_ = new byte[size];
+        } 
+    }
+
+    byte* DataBuf::release()
+    {
+        byte* p = pData_;
+        pData_ = 0;
+        size_ = 0;
+        return p;
     }
 
     // *************************************************************************

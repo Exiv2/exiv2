@@ -21,7 +21,7 @@
 /*!
   @file    image.hpp
   @brief   Class JpegImage to access JPEG images
-  @version $Name:  $ $Revision: 1.20 $
+  @version $Name:  $ $Revision: 1.21 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @author  Brad Schick (brad) 
@@ -40,19 +40,12 @@
 // + standard includes
 #include <string>
 #include <map>
-
+#include <memory>
 
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
-
-    //! Type for function pointer that creates new Image instances
-    typedef class Image* (*NewInstanceFct)(const std::string& path, FILE* ifp);
-
-    //! Type for function pointer that checks image types
-    typedef bool (*IsThisTypeFct)(FILE* ifp, bool advance);
-
-
+ 
 // *****************************************************************************
 // class definitions
 
@@ -61,6 +54,9 @@ namespace Exiv2 {
      */
     class Image {
     public:
+        //! Image auto_ptr type
+        typedef std::auto_ptr<Image> AutoPtr;
+
         //! Supported image formats
         enum Type { none, jpeg, exv };
 
@@ -181,6 +177,12 @@ namespace Exiv2 {
 
     }; // class Image
 
+    //! Type for function pointer that creates new Image instances
+    typedef Image::AutoPtr (*NewInstanceFct)(const std::string& path, 
+                                                   FILE* ifp);
+    //! Type for function pointer that checks image types
+    typedef bool (*IsThisTypeFct)(FILE* ifp, bool advance);
+
     /*!
       @brief Image factory.
 
@@ -218,21 +220,19 @@ namespace Exiv2 {
           @param  path %Image file. The contents of the file are tested to
                   determine the image type to open. File extension is ignored.
           @return A pointer that owns an %Image of the type derived from the
-                  file. Caller must delete the returned object. If no image type
-                  could be determined, the pointer is 0.
+                  file. If no image type could be determined, the pointer is 0.
          */
-        Image* open(const std::string& path) const;
+        Image::AutoPtr open(const std::string& path) const;
         /*!
           @brief  Create an %Image of the requested type by creating a new
                   file. If the file already exists, it will be overwritten.
           @param  type Type of the image to be created.
           @param  path %Image file. The contents of the file are tested to
                   determine the image type to open. File extension is ignored.
-          @return A pointer that owns an %Image of the requested type. Caller
-                  must delete the returned object.  If the image type is not
-                  supported, the pointer is 0.
+          @return An auto-pointer that owns an %Image of the requested type. 
+                  If the image type is not supported, the pointer is 0.
          */
-        Image* create(Image::Type type, const std::string& path) const;
+        Image::AutoPtr create(Image::Type type, const std::string& path) const;
         /*!
           @brief  Returns the image type of the provided file. 
           @param  path %Image file. The contents of the file are tested to
@@ -481,7 +481,7 @@ namespace Exiv2 {
       @brief Helper class to access JPEG images
      */
     class JpegImage : public JpegBase {
-        friend Image* newJpegInstance(const std::string& path, FILE* fp);
+        friend Image::AutoPtr newJpegInstance(const std::string& path, FILE* fp);
         friend bool isJpegType(FILE* ifp, bool advance);
     public:
         //! @name Creators
@@ -550,7 +550,7 @@ namespace Exiv2 {
 
     //! Helper class to access %Exiv2 files
     class ExvImage : public JpegBase {
-        friend Image* newExvInstance(const std::string& path, FILE* fp);
+        friend Image::AutoPtr newExvInstance(const std::string& path, FILE* fp);
         friend bool isExvType(FILE* ifp, bool advance);
     public:
         //! @name Creators
