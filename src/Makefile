@@ -20,7 +20,7 @@
 # 02111-1307, USA.
 #
 # File:      Makefile
-# Version:   $Name:  $ $Revision: 1.25 $
+# Version:   $Name:  $ $Revision: 1.26 $
 # Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
 # History:   10-Dec-03, ahu: created
 #
@@ -214,7 +214,7 @@ bin: lib $(BINARY) $(EXIV2BIN)
 
 install: $(INSTALL)
 	$(INSTALL_DIRS) $(bindir) 
-	@list='$(BINARY) $(EXIV2BIN)'; for p in $$list; do \
+	@list='$(EXIV2BIN)'; for p in $$list; do \
 	    if test -f $$p; then \
 	        echo "$(INSTALL_PROGRAM) $$p $(bindir)/$$p"; \
 	        $(INSTALL_PROGRAM) $$p $(bindir)/$$p; \
@@ -241,7 +241,7 @@ install-sharedlib: sharedlib
 install-lib: $(INSTALL_LIB) install-header
 
 uninstall: $(UNINSTALL)
-	@list='$(BINARY) $(EXIV2BIN)'; for p in $$list; do \
+	@list='$(EXIV2BIN)'; for p in $$list; do \
 	    echo "rm -f $(bindir)/$$p"; \
 	    rm -f $(bindir)/$$p; \
 	done
