@@ -42,6 +42,7 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.39 $ $RCSfile: tags.cpp,v $");
 #include <sstream>
 #include <utility>
 #include <cstdlib>
+#include <cassert>
 
 // *****************************************************************************
 // class member definitions

@@ -87,7 +87,7 @@ static const char	gmt[] = "GMT";
 struct ttinfo {				/* time type information */
 	long		tt_gmtoff;	/* UTC offset in seconds */
 	int		tt_isdst;	/* used to set tm_isdst */
-	int		tt_abbrind;	/* abbreviation list index */
+	size_t	tt_abbrind;	/* abbreviation list index */
 	int		tt_ttisstd;	/* TRUE if transition is std time */
 	int		tt_ttisgmt;	/* TRUE if transition is UTC */
 };
@@ -110,7 +110,7 @@ struct state {
 	int		leapcnt;
 	int		timecnt;
 	int		typecnt;
-	int		charcnt;
+	size_t	charcnt;
 	time_t		ats[TZ_MAX_TIMES];
 	unsigned char	types[TZ_MAX_TIMES];
 	struct ttinfo	ttis[TZ_MAX_TYPES];
@@ -342,7 +342,7 @@ register struct state * const	sp;
 		sp->leapcnt = (int) detzcode(u.tzhead.tzh_leapcnt);
 		sp->timecnt = (int) detzcode(u.tzhead.tzh_timecnt);
 		sp->typecnt = (int) detzcode(u.tzhead.tzh_typecnt);
-		sp->charcnt = (int) detzcode(u.tzhead.tzh_charcnt);
+		sp->charcnt = detzcode(u.tzhead.tzh_charcnt);
 		p = u.tzhead.tzh_charcnt + sizeof u.tzhead.tzh_charcnt;
 		if (sp->leapcnt < 0 || sp->leapcnt > TZ_MAX_LEAPS ||
 			sp->typecnt <= 0 || sp->typecnt > TZ_MAX_TYPES ||
@@ -354,7 +354,7 @@ register struct state * const	sp;
 		if (i - (p - u.buf) < sp->timecnt * 4 +	/* ats */
 			sp->timecnt +			/* types */
 			sp->typecnt * (4 + 2) +		/* ttinfos */
-			sp->charcnt +			/* chars */
+			(int)sp->charcnt +			/* chars */
 			sp->leapcnt * (4 + 4) +		/* lsinfos */
 			ttisstdcnt +			/* ttisstds */
 			ttisgmtcnt)			/* ttisgmts */
@@ -382,7 +382,7 @@ register struct state * const	sp;
 				ttisp->tt_abbrind > sp->charcnt)
 					return -1;
 		}
-		for (i = 0; i < sp->charcnt; ++i)
+		for (i = 0; i < (int)sp->charcnt; ++i)
 			sp->chars[i] = *p++;
 		sp->chars[i] = '\0';	/* ensure '\0' at end */
 		for (i = 0; i < sp->leapcnt; ++i) {
@@ -1059,7 +1059,7 @@ struct tm * const	tmp;
 
 struct tm *
 localtime(timep)
-const time_t * const	timep;
+const time_t * timep;
 {
 	tzset();
 	localsub(timep, 0L, &tm);
@@ -1072,7 +1072,7 @@ const time_t * const	timep;
 
 struct tm *
 localtime_r(timep, tm)
-const time_t * const	timep;
+const time_t * timep;
 struct tm *		tm;
 {
 	localsub(timep, 0L, tm);
@@ -1121,7 +1121,7 @@ struct tm * const	tmp;
 
 struct tm *
 gmtime(timep)
-const time_t * const	timep;
+const time_t * timep;
 {
 	gmtsub(timep, 0L, &tm);
 	return &tm;
@@ -1198,8 +1198,8 @@ register struct tm * const		tmp;
 			break;
 		}
 	}
-	days = *timep / SECSPERDAY;
-	rem = *timep % SECSPERDAY;
+	days = (int)*timep / SECSPERDAY;
+	rem = (int)*timep % SECSPERDAY;
 #ifdef mc68k
 	if (*timep == 0x80000000) {
 		/*
@@ -1256,7 +1256,7 @@ register struct tm * const		tmp;
 
 char *
 ctime(timep)
-const time_t * const	timep;
+const time_t * timep;
 {
 /*
 ** Section 4.12.3.2 of X3.159-1989 requires that
@@ -1581,7 +1581,7 @@ const long		offset;
 
 time_t
 mktime(tmp)
-struct tm * const	tmp;
+struct tm * tmp;
 {
 	tzset();
 	return time1(tmp, localsub, 0L);
