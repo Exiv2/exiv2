@@ -22,13 +22,13 @@
   Abstract:  Command line program to display and manipulate image %Exif data
 
   File:      exiv2.cpp
-  Version:   $Name:  $ $Revision: 1.4 $
+  Version:   $Name:  $ $Revision: 1.5 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   10-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: exiv2.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: exiv2.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -122,7 +122,16 @@ void Params::usage(std::ostream& os) const
 void Params::help(std::ostream& os) const
 {
     usage(os);
-    os << "\nOptions:\n"
+    os << "\nActions:\n"
+       << "  adjust   Adjust the metadata timestamp by the given time. This action\n"
+       << "           requires the option -a time.\n"
+       << "  print    Print the Exif (or other) image metadata.\n"
+       << "  delete   Delete the Exif section or Exif thumbnail from the files.\n"
+       << "  extract  Extract the Exif data or Exif thumbnail to files.\n"
+       << "  insert   Insert the Exif data from corresponding *.exv files.\n"
+       << "  rename   Rename files according to the metadata create timestamp. The\n"
+       << "           filename format can be set with the option -r format.\n"
+       << "\nOptions:\n"
        << "   -h      Display this help and exit.\n"
        << "   -V      Show the program version and exit.\n"
        << "   -v      Be extra verbose during the program run.\n"
@@ -140,15 +149,7 @@ void Params::help(std::ostream& os) const
        << "           default) and `t' to extract only the Exif thumbnail.\n"
        << "   -r fmt  Filename format for the `rename' action. The format string\n"
        << "           follows strftime(3). Default filename format is " 
-       <<             format_ << ".\n"
-       << "Actions:\n"
-       << "  adjust   Adjust the metadata timestamp by the given time. This action\n"
-       << "           requires the option -a time.\n"
-       << "  print    Print the Exif (or other) image metadata.\n"
-       << "  delete   Delete the Exif section or Exif thumbnail from the files.\n"
-       << "  extract  Extract the Exif data or Exif thumbnail to files.\n"
-       << "  rename   Rename files according to the metadata create timestamp. The\n"
-       << "           filename format can be set with the option -r format.\n\n";
+       <<             format_ << ".\n\n";
 } // Params::help
 
 int Params::option(int opt, const std::string& optarg, int optopt)
@@ -229,6 +230,7 @@ int Params::nonoption(const std::string& argv)
         if (argv == "print") action_ = Action::print;
         if (argv == "delete") action_ = Action::erase;
         if (argv == "extract") action_ = Action::extract;
+        if (argv == "insert") action_ = Action::insert;
         if (argv == "rename") action_ = Action::rename;
         if (action_ == Action::none) {
             std::cerr << progname() << ": Unrecognized action `" 
