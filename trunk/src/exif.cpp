@@ -308,14 +308,14 @@ namespace Exiv2 {
     ExifData::ExifData() 
         : pTiffHeader_(0), 
           pIfd0_(0), pExifIfd_(0), pIopIfd_(0), pGpsIfd_(0), pIfd1_(0), 
-          size_(0), pData_(0), compatible_(true)
+          pMakerNote_(0), size_(0), pData_(0), compatible_(true)
     {
     }
 
     ExifData::ExifData(const ExifData& rhs)
         : exifMetadata_(rhs.exifMetadata_), pTiffHeader_(0),
           pIfd0_(0), pExifIfd_(0), pIopIfd_(0), pGpsIfd_(0), pIfd1_(0), 
-          size_(0), pData_(0), compatible_(rhs.compatible_)
+          pMakerNote_(0), size_(0), pData_(0), compatible_(rhs.compatible_)
     {
         pData_ = new byte[rhs.size_];
         size_ = rhs.size_;
@@ -323,10 +323,6 @@ namespace Exiv2 {
 
         if (rhs.pTiffHeader_) {
             pTiffHeader_ = new TiffHeader(*rhs.pTiffHeader_);
-        }
-        if (rhs.makerNote_.get() != 0) {
-            makerNote_ = rhs.makerNote_->clone();
-            makerNote_->updateBase(pData_);
         }
         if (rhs.pIfd0_) {
             pIfd0_ = new Ifd(*rhs.pIfd0_);
@@ -348,6 +344,10 @@ namespace Exiv2 {
             pIfd1_ = new Ifd(*rhs.pIfd1_);
             pIfd1_->updateBase(pData_);
         }
+        if (rhs.pMakerNote_) {
+            pMakerNote_ = rhs.pMakerNote_->clone().release();
+            pMakerNote_->updateBase(pData_);
+        }
     }
 
     ExifData::~ExifData()
@@ -358,6 +358,7 @@ namespace Exiv2 {
         delete pIopIfd_;
         delete pGpsIfd_;
         delete pIfd1_;
+        delete pMakerNote_;
         delete[] pData_;
     }
 
@@ -378,13 +379,6 @@ namespace Exiv2 {
         if (rhs.pTiffHeader_) {
             pTiffHeader_ = new TiffHeader(*rhs.pTiffHeader_);
         }
-
-        makerNote_.reset();
-        if (rhs.makerNote_.get() != 0) {
-            makerNote_ = rhs.makerNote_->clone();
-            makerNote_->updateBase(pData_);
-        }
-
         delete pIfd0_;
         pIfd0_ = 0;
         if (rhs.pIfd0_) {
@@ -414,6 +408,12 @@ namespace Exiv2 {
         if (rhs.pIfd1_) {
             pIfd1_ = new Ifd(*rhs.pIfd1_);
             pIfd1_->updateBase(pData_);
+        }
+        delete pMakerNote_;
+        pMakerNote_ = 0;
+        if (rhs.pMakerNote_) {
+            pMakerNote_ = rhs.pMakerNote_->clone().release();
+            pMakerNote_->updateBase(pData_);
         }
 
         compatible_ = rhs.compatible_;
@@ -471,30 +471,31 @@ namespace Exiv2 {
             MakerNoteFactory& mnf = MakerNoteFactory::instance();
             // Todo: The conversion to string assumes that there is a \0 at the end
             // Todo: How to avoid the cast (is that a MSVC thing?)
-            makerNote_ = mnf.create(reinterpret_cast<const char*>(make->data()), 
-                                    reinterpret_cast<const char*>(model->data()), 
-                                    false,
-                                    pos->data(), 
-                                    pos->size(),
-                                    byteOrder(),
-                                    pExifIfd_->offset() + pos->offset());
+            pMakerNote_ = mnf.create(reinterpret_cast<const char*>(make->data()), 
+                                     reinterpret_cast<const char*>(model->data()), 
+                                     false,
+                                     pos->data(), 
+                                     pos->size(),
+                                     byteOrder(),
+                                     pExifIfd_->offset() + pos->offset()).release();
         }
         // Read the MakerNote
-        if (makerNote_.get() != 0) {
-            rc = makerNote_->read(pos->data(), 
-                                  pos->size(),
-                                  byteOrder(),
-                                  pExifIfd_->offset() + pos->offset());
+        if (pMakerNote_) {
+            rc = pMakerNote_->read(pos->data(), 
+                                   pos->size(),
+                                   byteOrder(),
+                                   pExifIfd_->offset() + pos->offset());
             if (rc) {
                 // Todo: How to handle debug output like this
                 std::cerr << "Warning: Failed to read Makernote, rc = "
                           << rc << "\n";
-                makerNote_.reset();
+                delete pMakerNote_;
+                pMakerNote_ = 0;
             }
         }
         // If we successfully parsed the MakerNote, delete the raw MakerNote,
         // the parsed MakerNote is the primary MakerNote from now on
-        if (makerNote_.get() != 0) {
+        if (pMakerNote_) {
             pExifIfd_->erase(pos);
         }
 
@@ -539,8 +540,8 @@ namespace Exiv2 {
         exifMetadata_.clear();
         add(pIfd0_->begin(), pIfd0_->end(), byteOrder());
         add(pExifIfd_->begin(), pExifIfd_->end(), byteOrder());
-        if (makerNote_.get() != 0) {
-            add(makerNote_->begin(), makerNote_->end(), makerNote_->byteOrder());
+        if (pMakerNote_) {
+            add(pMakerNote_->begin(), pMakerNote_->end(), pMakerNote_->byteOrder());
         }
         add(pIopIfd_->begin(), pIopIfd_->end(), byteOrder()); 
         add(pGpsIfd_->begin(), pGpsIfd_->end(), byteOrder());
@@ -585,12 +586,12 @@ namespace Exiv2 {
         Ifd exifIfd(exifIfdId);
         addToIfd(exifIfd, begin(), end(), byteOrder());
         MakerNote::AutoPtr makerNote;
-        if (makerNote_.get() != 0) {
+        if (pMakerNote_) {
             // Build MakerNote from metadata
-            makerNote = makerNote_->create();
+            makerNote = pMakerNote_->create();
             addToMakerNote(makerNote.get(), 
                            begin(), end(), 
-                           makerNote_->byteOrder());
+                           pMakerNote_->byteOrder());
             // Create a placeholder MakerNote entry of the correct size and
             // add it to the Exif IFD (because we don't know the offset yet)
             Entry e;
@@ -722,9 +723,9 @@ namespace Exiv2 {
     void ExifData::add(const Exifdatum& exifdatum)
     {
         if (ExifTags::isMakerIfd(exifdatum.ifdId())) {
-            if (makerNote_.get() == 0) {
+            if (pMakerNote_ == 0) {
                 MakerNoteFactory& mnf = MakerNoteFactory::instance();
-                makerNote_ = mnf.create(exifdatum.ifdId());
+                pMakerNote_ = mnf.create(exifdatum.ifdId()).release();
             }
         }
         // allow duplicates
@@ -852,9 +853,9 @@ namespace Exiv2 {
             maxOffset = std::max(maxOffset, pExifIfd_->offset());
             maxOffset = std::max(maxOffset,   pExifIfd_->dataOffset() 
                                             + pExifIfd_->dataSize());
-            if (makerNote_.get() != 0) {
-                maxOffset = std::max(maxOffset,   makerNote_->offset()
-                                                + makerNote_->size());
+            if (pMakerNote_) {
+                maxOffset = std::max(maxOffset,   pMakerNote_->offset()
+                                                + pMakerNote_->size());
             }
             maxOffset = std::max(maxOffset, pIopIfd_->offset());
             maxOffset = std::max(maxOffset,   pIopIfd_->dataOffset()
@@ -954,10 +955,10 @@ namespace Exiv2 {
         bool compatible = true;
         compatible &= updateRange(pIfd0_->begin(), pIfd0_->end(), byteOrder());
         compatible &= updateRange(pExifIfd_->begin(), pExifIfd_->end(), byteOrder());
-        if (makerNote_.get() != 0) {
-            compatible &= updateRange(makerNote_->begin(), 
-                                      makerNote_->end(), 
-                                      makerNote_->byteOrder());
+        if (pMakerNote_) {
+            compatible &= updateRange(pMakerNote_->begin(), 
+                                      pMakerNote_->end(), 
+                                      pMakerNote_->byteOrder());
         }
         compatible &= updateRange(pIopIfd_->begin(), pIopIfd_->end(), byteOrder());
         compatible &= updateRange(pGpsIfd_->begin(), pGpsIfd_->end(), byteOrder());
@@ -1046,9 +1047,9 @@ namespace Exiv2 {
         Entries::const_iterator entry;
         std::pair<bool, Entries::const_iterator> rc(false, entry);
 
-        if (ExifTags::isMakerIfd(ifdId) && makerNote_.get() != 0) {
-            entry = makerNote_->findIdx(idx);
-            if (entry != makerNote_->end()) {
+        if (ExifTags::isMakerIfd(ifdId) && pMakerNote_) {
+            entry = pMakerNote_->findIdx(idx);
+            if (entry != pMakerNote_->end()) {
                 rc.first = true;
                 rc.second = entry;
             }

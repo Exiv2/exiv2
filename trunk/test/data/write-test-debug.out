@@ -3,6 +3,7 @@ Case 1: Non-intrusive change to the standard Exif metadata
 ---> Reading file ./exiv2-canon-powershot-s40.jpg
 ---> Modifying Exif data
 ---> Writing Exif data to file test1.jpg
+->>>>>> using non-intrusive writing <<<<<<-
 ---> Reading file test1.jpg
 ---> Writing Exif thumbnail to file thumb1.*
 13c13
@@ -14,6 +15,7 @@ Case 2: Non-intrusive change to the makernote metadata
 ---> Reading file ./exiv2-canon-powershot-s40.jpg
 ---> Modifying Exif data
 ---> Writing Exif data to file test2.jpg
+->>>>>> using non-intrusive writing <<<<<<-
 ---> Reading file test2.jpg
 ---> Writing Exif thumbnail to file thumb2.*
 49c49
@@ -25,6 +27,7 @@ Case 3: Non-intrusive change to the Exif metadata (w/o makernote)
 ---> Reading file ./exiv2-kodak-dc210.jpg
 ---> Modifying Exif data
 ---> Writing Exif data to file test3.jpg
+->>>>>> using non-intrusive writing <<<<<<-
 ---> Reading file test3.jpg
 ---> Writing Exif thumbnail to file thumb3.*
 14c14
@@ -36,6 +39,7 @@ Case 4: Intrusive change to the standard Exif metadata
 ---> Reading file ./exiv2-canon-powershot-s40.jpg
 ---> Modifying Exif data
 ---> Writing Exif data to file test4.jpg
+->>>>>> writing from metadata <<<<<<-
 ---> Reading file test4.jpg
 ---> Writing Exif thumbnail to file thumb4.*
 9c9
@@ -55,6 +59,7 @@ Case 5: Intrusive change to the Canon makernote metadata
 ---> Reading file ./exiv2-canon-powershot-s40.jpg
 ---> Modifying Exif data
 ---> Writing Exif data to file test5.jpg
+->>>>>> writing from metadata <<<<<<-
 ---> Reading file test5.jpg
 ---> Writing Exif thumbnail to file thumb5.*
 9c9
@@ -74,6 +79,7 @@ Case 6: Intrusive change to the Exif metadata (w/o makernote)
 ---> Reading file ./exiv2-kodak-dc210.jpg
 ---> Modifying Exif data
 ---> Writing Exif data to file test6.jpg
+->>>>>> writing from metadata <<<<<<-
 ---> Reading file test6.jpg
 ---> Writing Exif thumbnail to file thumb6.*
 10c10
@@ -89,6 +95,7 @@ Case 7: Intrusive change to the Fujifilm makernote metadata
 ---> Reading file ./exiv2-fujifilm-finepix-s2pro.jpg
 ---> Modifying Exif data
 ---> Writing Exif data to file test7.jpg
+->>>>>> writing from metadata <<<<<<-
 ---> Reading file test7.jpg
 ---> Writing Exif thumbnail to file thumb7.*
 11c11
@@ -108,6 +115,7 @@ Case 8: Intrusive change to the Sigma makernote metadata
 ---> Reading file ./exiv2-sigma-d10.jpg
 ---> Modifying Exif data
 ---> Writing Exif data to file test8.jpg
+->>>>>> writing from metadata <<<<<<-
 ---> Reading file test8.jpg
 ---> Writing Exif thumbnail to file thumb8.*
 10c10
@@ -123,6 +131,7 @@ Case 9: Intrusive change to the Nikon1 makernote metadata
 ---> Reading file ./exiv2-nikon-e990.jpg
 ---> Modifying Exif data
 ---> Writing Exif data to file test9.jpg
+->>>>>> writing from metadata <<<<<<-
 ---> Reading file test9.jpg
 ---> Writing Exif thumbnail to file thumb9.*
 11c11
@@ -142,6 +151,7 @@ Case 10: Intrusive change to the Nikon2 makernote metadata
 ---> Reading file ./exiv2-nikon-e950.jpg
 ---> Modifying Exif data
 ---> Writing Exif data to file test10.jpg
+->>>>>> writing from metadata <<<<<<-
 ---> Reading file test10.jpg
 ---> Writing Exif thumbnail to file thumb10.*
 11c11
@@ -161,6 +171,7 @@ Case 11: Intrusive change to the Nikon3 makernote metadata
 ---> Reading file ./exiv2-nikon-d70.jpg
 ---> Modifying Exif data
 ---> Writing Exif data to file test11.jpg
+->>>>>> writing from metadata <<<<<<-
 ---> Reading file test11.jpg
 ---> Writing Exif thumbnail to file thumb11.*
 13c13
