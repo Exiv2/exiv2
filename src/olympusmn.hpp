@@ -140,6 +140,7 @@ namespace Exiv2 {
 
         //! Tag information
         static const TagInfo tagInfo_[];
+        static const TagInfo tagInfoDd_[]; // Experimental code
 
         //! Structure used to auto-register the MakerNote.
         struct RegisterMakerNote {
@@ -151,6 +152,11 @@ namespace Exiv2 {
                 mnf.registerMakerNote(olympusIfdId,
                                       MakerNote::AutoPtr(new OlympusMakerNote));
                 ExifTags::registerMakerTagInfo(olympusIfdId, tagInfo_);
+                // Experimental code --->
+                mnf.registerMakerNote(olympusDdIfdId,
+                                      MakerNote::AutoPtr(new OlympusMakerNote));
+                ExifTags::registerMakerTagInfo(olympusDdIfdId, tagInfoDd_);
+                // <--- Experimental code
             }
         };
         // DATA
@@ -167,6 +173,28 @@ namespace Exiv2 {
                 demand.
          */
         static const RegisterMakerNote register_;
+
+// -------------------------- Experimental code ------------------------>
+
+    public: 
+        int read(const byte* buf,
+                 long len, 
+                 ByteOrder byteOrder, 
+                 long offset);
+        void add(const Entry& entry);
+        Entries::iterator begin() { return entries_.begin(); }
+        Entries::iterator end() { return entries_.end(); }
+        Entries::const_iterator begin() const { return entries_.begin(); }
+        Entries::const_iterator end() const { return entries_.end(); }
+
+        static std::ostream& printDd0x000b(std::ostream& os, const Value& value);
+        static std::ostream& printDd0x008a(std::ostream& os, const Value& value);
+        static std::ostream& printDd0x0097(std::ostream& os, const Value& value);
+
+    private:
+        Entries entries_;
+
+// <------------------------- Experimental code -------------------------
 
     }; // class OlympusMakerNote
 
