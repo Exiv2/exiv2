@@ -20,19 +20,20 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.9 $
+  Version:   $Name:  $ $Revision: 1.10 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.9 $ $RCSfile: tags.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.10 $ $RCSfile: tags.cpp,v $")
 
 // *****************************************************************************
 // included header files
 #include "tags.hpp"
 
 #include <iostream>
+#include <iomanip>
 
 // *****************************************************************************
 // class member definitions
@@ -304,12 +305,27 @@ namespace Exif {
         return tagInfos_[ifdId][idx].name_;
     }
 
+    const char* ExifTags::tagDesc(uint16 tag, IfdId ifdId)
+    {
+        int idx = tagInfoIdx(tag, ifdId);
+        if (idx == -1) throw Error("No taginfo for IFD");
+        return tagInfos_[ifdId][idx].desc_;
+    }
+
     const char* ExifTags::sectionName(uint16 tag, IfdId ifdId)
     {
         int idx = tagInfoIdx(tag, ifdId);
         if (idx == -1) throw Error("No taginfo for IFD");
 	const TagInfo* tagInfo = tagInfos_[ifdId];
         return sectionInfo_[tagInfo[idx].sectionId_].name_;
+    }
+
+    const char* ExifTags::sectionDesc(uint16 tag, IfdId ifdId)
+    {
+        int idx = tagInfoIdx(tag, ifdId);
+        if (idx == -1) throw Error("No taginfo for IFD");
+	const TagInfo* tagInfo = tagInfos_[ifdId];
+        return sectionInfo_[tagInfo[idx].sectionId_].desc_;
     }
 
     const char* ExifTags::typeName(TypeId typeId)
@@ -390,8 +406,36 @@ namespace Exif {
         return std::make_pair(tag, ifdId);
     } // ExifTags::decomposeKey
 
+    void ExifTags::taglist()
+    {
+        for (int i=0; ifdTagInfo[i].tag_ != 0xffff; ++i) {
+            std::cout << ifdTagInfo[i] << "\n";
+        }
+        for (int i=0; exifTagInfo[i].tag_ != 0xffff; ++i) {
+            std::cout << exifTagInfo[i] << "\n";
+        }
+        for (int i=0; iopTagInfo[i].tag_ != 0xffff; ++i) {
+            std::cout << iopTagInfo[i] << "\n";
+        }
+        for (int i=0; gpsTagInfo[i].tag_ != 0xffff; ++i) {
+            std::cout << gpsTagInfo[i] << "\n";
+        }
+    } // ExifTags::taglist
+
+    
     // *************************************************************************
     // free functions
+
+    std::ostream& operator<<(std::ostream& os, const TagInfo& ti) 
+    {
+        return os << ExifTags::tagName(ti.tag_, ti.ifdId_) << ", "
+                  << std::dec << ti.tag_ << ", "
+                  << "0x" << std::setw(4) << std::setfill('0') 
+                  << std::right << std::hex << ti.tag_ << ", "
+                  << ExifTags::ifdName(ti.ifdId_) << ", "
+                  << ExifTags::makeKey(ti.tag_, ti.ifdId_) << ", " 
+                  << ExifTags::tagDesc(ti.tag_, ti.ifdId_);
+    }
 
     std::ostream& operator<<(std::ostream& os, const Rational& r) 
     {
