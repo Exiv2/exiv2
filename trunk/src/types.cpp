@@ -20,14 +20,14 @@
  */
 /*
   File:      types.cpp
-  Version:   $Name:  $ $Revision: 1.7 $
+  Version:   $Name:  $ $Revision: 1.8 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.7 $ $RCSfile: types.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.8 $ $RCSfile: types.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -66,12 +66,12 @@ namespace Exiv2 {
 
     const char* TypeInfo::typeName(TypeId typeId)
     {
-        return typeInfoTable_[typeId].name_;
+        return typeInfoTable_[ typeId < lastTypeId ? typeId : 0 ].name_;
     }
 
     long TypeInfo::typeSize(TypeId typeId)
     {
-        return typeInfoTable_[typeId].size_;
+        return typeInfoTable_[ typeId < lastTypeId ? typeId : 0 ].size_;
     }
 
     // *************************************************************************
