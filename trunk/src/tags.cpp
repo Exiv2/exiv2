@@ -19,13 +19,10 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 /*
+  File:      tags.cpp
+  Version:   $Name:  $ $Revision: 1.7 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:
-   15-Jan-04, ahu: created
-
-  RCS information
-   $Name:  $
-   $Revision: 1.6 $
+  History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 // included header files

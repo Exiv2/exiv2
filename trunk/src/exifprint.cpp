@@ -19,18 +19,15 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 /*
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:
-   26-Jan-04, ahu: created
+  Abstract : Sample program to print the Exif metadata of an image
 
-  RCS information
-   $Name:  $
-   $Revision: 1.1 $
+  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
+  Version  : $Name:  $ $Revision: 1.2 $
+  History  : 26-Jan-04, ahu: created
  */
 // *****************************************************************************
 // included header files
 #include "exifprint.hpp"
-#include "tags.hpp"
 #include "exif.hpp"
 #include "utils.hpp"
 
@@ -39,6 +36,9 @@
 #include <iomanip>
 
 #include <cstring>
+
+// *****************************************************************************
+// local declarations
 
 using namespace Exif;
 
@@ -86,6 +86,9 @@ int main(int argc, char* const argv[])
 
     return rc;
 }
+
+// *****************************************************************************
+// local definitions
 
 // *****************************************************************************
 // class Params
