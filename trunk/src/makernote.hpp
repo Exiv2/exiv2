@@ -22,7 +22,7 @@
   @file    makernote.hpp
   @brief   Contains the Exif %MakerNote interface, IFD %MakerNote and a 
            MakerNote factory
-  @version $Name:  $ $Revision: 1.18 $
+  @version $Name:  $ $Revision: 1.19 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -53,7 +53,7 @@ namespace Exiv2 {
 // type definitions
 
     //! Type for a pointer to a function creating a makernote
-    typedef MakerNote* (*CreateFct)(bool);
+    typedef MakerNote* (*CreateFct)(bool, const char*, long, ByteOrder, long);
 
 // *****************************************************************************
 // class definitions
@@ -389,9 +389,9 @@ namespace Exiv2 {
         //@{
         /*!
           @brief Create the appropriate %MakerNote based on camera make and
-                 model, return a pointer to the newly created MakerNote
-                 instance. Return 0 if no %MakerNote is defined for the camera
-                 model.
+                 model and possibly the contents of the makernote itself, return
+                 a pointer to the newly created MakerNote instance. Return 0 if
+                 no %MakerNote is defined for the camera model.
 
           The method searches the make-model tree for a make and model
           combination in the registry that matches the search key. The search is
@@ -405,7 +405,11 @@ namespace Exiv2 {
           to the newly created MakerNote. The makernote pointed to is owned by
           the caller of the function, i.e., the caller is responsible to delete
           the returned makernote when it is no longer needed.  The best match is
-          the match with the most matching characters.
+          an exact match, then a match is rated according to the number of
+          matching characters. The makernote buffer is passed on to the create
+          function, which can based on its content, automatically determine the
+          correct version or flavour of the makernote required. This is used,
+          e.g., to determine which of the three Nikon makernotes to create.
 
           @param make Camera manufacturer. (Typically the string from the Exif
                  make tag.)
@@ -416,12 +420,23 @@ namespace Exiv2 {
                  deallocated (true) or not (false). If false, only pointers to
                  the buffer provided to read() will be kept. See Ifd for more
                  background on this concept. 
+          @param buf Pointer to the makernote character buffer. 
+          @param len Length of the makernote character buffer. 
+          @param byteOrder Byte order in which the Exif data (and possibly the 
+                 makernote) is encoded.
+          @param offset Offset from the start of the TIFF header of the makernote
+                 buffer.
+
           @return A pointer that owns a %MakerNote for the camera model.  If the
                  camera is not supported, the pointer is 0.
          */
         MakerNote* create(const std::string& make, 
-                          const std::string& model,
-                          bool alloc =true) const;
+                          const std::string& model, 
+                          bool alloc, 
+                          const char* buf, 
+                          long len, 
+                          ByteOrder byteOrder, 
+                          long offset) const; 
         //@}
 
         /*!

@@ -23,7 +23,7 @@
   @brief   Canon MakerNote implemented according to the specification
            <a href="http://www.burren.cx/david/canon.html">
            EXIF MakerNote of Canon</a> by David Burren
-  @version $Name:  $ $Revision: 1.6 $
+  @version $Name:  $ $Revision: 1.7 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -62,8 +62,21 @@ namespace Exiv2 {
              (true) or not (false). If false, only pointers to the buffer
              provided to read() will be kept. See Ifd for more background on
              this concept.
+      @param buf Pointer to the makernote character buffer (not used). 
+      @param len Length of the makernote character buffer (not used). 
+      @param byteOrder Byte order in which the Exif data (and possibly the 
+             makernote) is encoded (not used).
+      @param offset Offset from the start of the TIFF header of the makernote
+             buffer (not used).
+      
+      @return A pointer to a newly created empty MakerNote. The caller owns
+             this copy and is responsible to delete it!
      */
-    MakerNote* createCanonMakerNote(bool alloc =true);
+    MakerNote* createCanonMakerNote(bool alloc,
+                                    const char* buf, 
+                                    long len, 
+                                    ByteOrder byteOrder, 
+                                    long offset);
 
 // *****************************************************************************
 // class definitions

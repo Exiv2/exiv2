@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.43 $
+  Version:   $Name:  $ $Revision: 1.44 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.43 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.44 $ $RCSfile: exif.cpp,v $")
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -581,7 +581,13 @@ namespace Exiv2 {
         if (pos != exifIfd_.end() && make != ifd0_.end() && model != ifd0_.end()) {
             MakerNoteFactory& mnf = MakerNoteFactory::instance();
             // Todo: The conversion to string assumes that there is a \0 at the end
-            pMakerNote_ = mnf.create(make->data(), model->data(), false);
+            pMakerNote_ = mnf.create(make->data(), 
+                                     model->data(), 
+                                     false,
+                                     pos->data(), 
+                                     pos->size(),
+                                     byteOrder(),
+                                     exifIfd_.offset() + pos->offset());
         }
         // Read the MakerNote
         if (pMakerNote_) {
