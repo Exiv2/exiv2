@@ -1,0 +1,20 @@
+Key 'Canon' matches 'Canon' in 5 characters.
+Key 'Canon' matches 'Canon*' in 5 characters.
+Key 'Canon Corp.' matches 'Canon*' in 5 characters.
+Key 'foobar' matches '*foo*bar*' in 6 characters.
+Key 'barfoofoobarbar' matches '*foo*bar*' in 6 characters.
+Key 'foo' does not match 'foo*bar'.
+Key 'bar' does not match 'foo*bar'.
+Key 'foobar' matches 'foo*bar' in 6 characters.
+Key 'fooYAHOObar' matches 'foo*bar' in 6 characters.
+Key 'Thefoobar' does not match 'foo*bar'.
+Key 'foobarTrick' does not match 'foo*bar'.
+Key 'ThefoobarTrick' does not match 'foo*bar'.
+Key 'ThefooYAHOObarTrick' does not match 'foo*bar'.
+Key 'anything' matches '*' in 0 characters.
+Key 'anything times two' matches '**' in 0 characters.
+Key 'bar' matches '*bar' in 3 characters.
+Key 'bar' does not match 'b*bar'.
+Key 'bbar' matches 'b*bar' in 4 characters.
+Key 'bar' does not match '*foobar'.
+Key 'foobar' matches '*bar' in 3 characters.
