@@ -36,11 +36,11 @@ int main()
 
 void testMatch(const std::string& reg, const std::string& key)
 {
-    std::pair<bool, int> rc = Exiv2::MakerNoteFactory::match(reg, key);
+    int rc = Exiv2::MakerNoteFactory::match(reg, key);
 
-    if (rc.first) {
-        std::cout << "Key '" << key << "' matches '" << reg << "' in " 
-                  << rc.second << " characters.\n";
+    if (rc) {
+        std::cout << "Key '" << key << "' matches '" << reg << "' "
+                  << "with a score of " << rc << ".\n";
     }
     else {
         std::cout << "Key '" << key << "' does not match '" << reg << "'.\n";
