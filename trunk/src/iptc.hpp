@@ -49,7 +49,8 @@ namespace Exiv2 {
 // class definitions
 
     /*!
-      @brief Information related to one Iptc dataset.
+      @brief Information related to one Iptc dataset. An Iptc metadatum consists 
+             of an IptcKey and a Value and provides methods to manipulate these.
      */
     class Iptcdatum : public Metadatum {
     public:
@@ -80,28 +81,34 @@ namespace Exiv2 {
         //! Assignment operator
         Iptcdatum& operator=(const Iptcdatum& rhs);
         /*!
-          @brief Assign \em value to the %Iptcdatum. The type of the new value
-                 is determined from %Iptcdatum. If that fails, a StringValue is
-                 used. Calls setValue(const std::string&).
-         */
-        Iptcdatum& operator=(const std::string& value);
-        /*!
-          @brief Assign \em value to the %Iptcdatum. The type of the new value
+          @brief Assign \em value to the %Iptcdatum. The type of the new Value
                  is set to UShortValue.
          */
         Iptcdatum& operator=(const uint16_t& value);
         /*!
-          @brief Set the value. This method copies (clones) the value pointed
-                 to by pValue.
+          @brief Assign \em value to the %Iptcdatum. 
+                 Calls setValue(const std::string&).
+         */
+        Iptcdatum& operator=(const std::string& value);
+        /*!
+          @brief Assign \em value to the %Iptcdatum.
+                 Calls setValue(const Value*).
+         */
+        Iptcdatum& operator=(const Value& value);
+        /*!
+          @brief Set the Value. This method copies (clones) the %Value pointed
+                 to by \em pValue.
          */
         void setValue(const Value* pValue);
         /*!
-          @brief Set the value to the string buf. Uses Value::read(const
-                 std::string& buf). If the %Iptcdatum does not have a value yet,
-                 then a value of the correct type for this %Iptcdatum is
-                 created. If that fails, a StringValue is created.
+          @brief Set the value to the string \em value, using 
+                 Value::read(const std::string&). 
+                 If the %Iptcdatum does not have a Value yet, then a %Value of
+                 the correct type for this %Iptcdatum is created. If that
+                 fails (because of an unknown dataset), a StringValue is 
+                 created.
          */
-        void setValue(const std::string& buf);
+        void setValue(const std::string& value);
         //@}
 
         //! @name Accessors

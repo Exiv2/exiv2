@@ -155,6 +155,12 @@ namespace Exiv2 {
         return Exiv2::setValue(*this, value); 
     }
 
+    Exifdatum& Exifdatum::operator=(const Value& value)
+    {
+        setValue(&value);
+        return *this;
+    }
+
     void Exifdatum::setValue(const Value* pValue)
     {
         value_.reset();
@@ -168,10 +174,10 @@ namespace Exiv2 {
         value_->setDataArea(e.dataArea(), e.sizeDataArea());
     }
 
-    void Exifdatum::setValue(const std::string& buf)
+    void Exifdatum::setValue(const std::string& value)
     {
         if (value_.get() == 0) value_ = Value::create(asciiString);
-        value_->read(buf);
+        value_->read(value);
     }
 
     int TiffThumbnail::setDataArea(ExifData& exifData, Ifd& ifd1,

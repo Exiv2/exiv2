@@ -96,6 +96,12 @@ namespace Exiv2 {
         return *this;
     }
 
+    Iptcdatum& Iptcdatum::operator=(const Value& value)
+    {
+        setValue(&value);
+        return *this;
+    }
+
     void Iptcdatum::setValue(const Value* pValue)
     {
         modified_ = true;
@@ -103,19 +109,13 @@ namespace Exiv2 {
         if (pValue) value_ = pValue->clone();
     }
 
-    void Iptcdatum::setValue(const std::string& buf)
+    void Iptcdatum::setValue(const std::string& value)
     {
-        Value::AutoPtr value;
-        try {
+        if (value_.get() == 0) {
             TypeId type = IptcDataSets::dataSetType(tag(), record());
-            value = Value::create(type);
+            value_ = Value::create(type);
         }
-        catch (const Error&) {
-            // Default to a StringValue if the type is unknown or the parse fails
-            value = Value::create(string);
-        }
-        value->read(buf);
-        value_ = value;
+        value_->read(value);
         modified_ = true;
     }
 
@@ -213,18 +213,9 @@ namespace Exiv2 {
                            const byte* data, uint32_t sizeData)
     {
         Value::AutoPtr value;
-        try {
-            // If the type is unknown or the parse fails then
-            // default to undefined type below.
-            TypeId type = IptcDataSets::dataSetType(dataSet, record);
-            value = Value::create(type);
-            value->read(data, sizeData, bigEndian);
-        } 
-        catch (const Error&) {
-            // Default to loading as raw bytes
-            value = Value::create(undefined);
-            value->read(data, sizeData, bigEndian);
-        }
+        TypeId type = IptcDataSets::dataSetType(dataSet, record);
+        value = Value::create(type);
+        value->read(data, sizeData, bigEndian);
         IptcKey key(dataSet, record);
         add(key, value.get());
         return 0;

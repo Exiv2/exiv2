@@ -62,7 +62,8 @@ namespace Exiv2 {
 // class definitions
 
     /*!
-      @brief Information related to one Exif tag.
+      @brief Information related to one Exif tag. An Exif metadatum consists of
+             an ExifKey and a Value and provides methods to manipulate these.
      */
     class Exifdatum : public Metadatum {
         friend std::ostream& operator<<(std::ostream&, const Exifdatum&);
@@ -95,62 +96,60 @@ namespace Exiv2 {
         //! Assignment operator
         Exifdatum& operator=(const Exifdatum& rhs);
         /*!
-          @brief Assign \em value to the %Exifdatum. If the object already has a
-                 value, it is replaced with \em value.  Otherwise a new
-                 AsciiValue value is created and set to \em value.
-         */
-        Exifdatum& operator=(const std::string& value);
-        /*!
-          @brief Assign \em value to the %Exifdatum. If the object already has a
-                 value, it is replaced with \em value.  Otherwise a new
-                 UShortValue value is created and set to \em value.
+          @brief Assign \em value to the %Exifdatum. The type of the new Value
+                 is set to UShortValue.
          */
         Exifdatum& operator=(const uint16_t& value); 
         /*!
-          @brief Assign \em value to the %Exifdatum. If the object already has a
-                 value, it is replaced with \em value.  Otherwise a new
-                 ULongValue value is created and set to \em value.
+          @brief Assign \em value to the %Exifdatum. The type of the new Value
+                 is set to ULongValue.
          */
         Exifdatum& operator=(const uint32_t& value);
         /*!
-          @brief Assign \em value to the %Exifdatum. If the object already has a
-                 value, it is replaced with \em value.  Otherwise a new
-                 URational value is created and set to \em value.
+          @brief Assign \em value to the %Exifdatum. The type of the new Value
+                 is set to URationalValue.
          */
         Exifdatum& operator=(const URational& value);
         /*!
-          @brief Assign \em value to the %Exifdatum. If the object already has a
-                 value, it is replaced with \em value.  Otherwise a new
-                 ShortValue value is created and set to \em value.
+          @brief Assign \em value to the %Exifdatum. The type of the new Value
+                 is set to ShortValue.
          */
         Exifdatum& operator=(const int16_t& value);
         /*!
-          @brief Assign \em value to the %Exifdatum. If the object already has a
-                 value, it is replaced with \em value.  Otherwise a new
-                 LongValue value is created and set to \em value.
+          @brief Assign \em value to the %Exifdatum. The type of the new Value
+                 is set to LongValue.
          */
         Exifdatum& operator=(const int32_t& value);
         /*!
-          @brief Assign \em value to the %Exifdatum. If the object already has a
-                 value, it is replaced with \em value.  Otherwise a new
-                 Rational value is created and set to \em value.
+          @brief Assign \em value to the %Exifdatum. The type of the new Value
+                 is set to RationalValue.
          */
         Exifdatum& operator=(const Rational& value);
+        /*!
+          @brief Assign \em value to the %Exifdatum.
+                 Calls setValue(const std::string&).                 
+         */
+        Exifdatum& operator=(const std::string& value);
+        /*!
+          @brief Assign \em value to the %Exifdatum.
+                 Calls setValue(const Value*).
+         */
+        Exifdatum& operator=(const Value& value);
         /*!
           @brief Set the value. This method copies (clones) the value pointed
                  to by \em pValue.
          */
         void setValue(const Value* pValue);
         /*!
+          @brief Set the value to the string \em value. 
+                 Uses Value::read(const std::string&). If the %Exifdatum
+                 does not have a value yet, then an AsciiValue is created.
+         */
+        void setValue(const std::string& value);
+        /*!
           @brief Set the value from an IFD entry.
          */
         void setValue(const Entry& e, ByteOrder byteOrder);
-        /*!
-          @brief Set the value to the string \em buf. 
-                 Uses Value::read(const std::string& buf). If the %Exifdatum does
-                 not have a value yet, then an AsciiValue is created.
-         */
-        void setValue(const std::string& buf);
         /*!
           @brief Set the data area by copying (cloning) the buffer pointed to 
                  by \em buf.
@@ -897,15 +896,10 @@ namespace Exiv2 {
     template<typename T>
     Exifdatum& setValue(Exifdatum& exifDatum, const T& value)
     {
-        if (exifDatum.value_.get() == 0) {
-            std::auto_ptr<ValueType<T> > v 
-                = std::auto_ptr<ValueType<T> >(new ValueType<T>);
-            v->value_.push_back(value);
-            exifDatum.value_ = v;
-        }
-        else {
-            exifDatum.value_->read(Exiv2::toString(value));
-        }
+        std::auto_ptr<ValueType<T> > v 
+            = std::auto_ptr<ValueType<T> >(new ValueType<T>);
+        v->value_.push_back(value);
+        exifDatum.value_ = v;
         return exifDatum;
     }
     /*!
