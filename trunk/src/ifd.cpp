@@ -20,14 +20,14 @@
  */
 /*
   File:      ifd.cpp
-  Version:   $Name:  $ $Revision: 1.11 $
+  Version:   $Name:  $ $Revision: 1.12 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.11 $ $RCSfile: ifd.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.12 $ $RCSfile: ifd.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -118,31 +118,31 @@ namespace Exif {
         count_ = 1;
     }
 
-    void Entry::setValue(uint16 type, uint32 count, const char* data, long size)
+    void Entry::setValue(uint16 type, uint32 count, const char* buf, long len)
     {
-        long dataSize = count * TypeInfo::typeSize(TypeId(type_));
+        long dataSize = count * TypeInfo::typeSize(TypeId(type));
         // No minimum size requirement, but make sure the buffer can hold the data
-        if (size < dataSize) {
+        if (len < dataSize) {
             throw Error("Size too small");
         }
         if (alloc_) {
             delete[] data_;
-            data_ = new char[size];
-            memset(data_, 0x0, size);
-            memcpy(data_, data, dataSize);
-            size_ = size;
+            data_ = new char[len];
+            memset(data_, 0x0, len);
+            memcpy(data_, buf, dataSize);
+            size_ = len;
         }
         else {
             if (size_ == 0) {
                 // Set the data pointer of a virgin entry
-                data_ = const_cast<char*>(data);
-                size_ = size;
+                data_ = const_cast<char*>(buf);
+                size_ = len;
             }
             else {
                 // Overwrite existing data if it fits into the buffer
                 if (dataSize > size_) throw Error("Value too large");
                 memset(data_, 0x0, size_);
-                memcpy(data_, data, dataSize);
+                memcpy(data_, buf, dataSize);
                 // do not change size_
             }
         }
