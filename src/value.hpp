@@ -21,7 +21,7 @@
 /*!
   @file    value.hpp
   @brief   Value interface and concrete subclasses
-  @version $Name:  $ $Revision: 1.6 $
+  @version $Name:  $ $Revision: 1.7 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -48,12 +48,13 @@ namespace Exif {
 // class definitions
 
     /*!
-      @brief Common interface for all values. The interface provides a uniform
-             way to access values independent from their actual C++ type for
-             simple tasks like reading the values from a string or data buffer.
-             For other tasks, like modifying values you may need to downcast it
-             to the actual subclass of %Value so that you can access the
-             subclass specific interface.
+      @brief Common interface for all types of values used with metadata. 
+
+      The interface provides a uniform way to access values independent from
+      their actual C++ type for simple tasks like reading the values from a
+      string or data buffer.  For other tasks, like modifying values you may
+      need to downcast it to the actual subclass of %Value so that you can
+      access the subclass specific interface.
      */
     class Value {
     public:
@@ -154,7 +155,7 @@ namespace Exif {
           The following Value subclasses are created depending on typeId:<BR><BR>
           <TABLE>
           <TR><TD><B>typeId</B></TD><TD><B>%Value subclass</B></TD></TR>
-          <TR><TD>invalid</TD><TD>%DataValue(invalid)</TD></TR>
+          <TR><TD>invalidTypeId</TD><TD>%DataValue(invalidTypeId)</TD></TR>
           <TR><TD>unsignedByte</TD><TD>%DataValue(unsignedByte)</TD></TR>
           <TR><TD>asciiString</TD><TD>%AsciiValue</TD></TR>
           <TR><TD>unsignedShort</TD><TD>%ValueType &lt; uint16 &gt;</TD></TR>
@@ -208,14 +209,18 @@ namespace Exif {
         //! Assignment operator.
         DataValue& operator=(const DataValue& rhs);
         /*!
-          @brief Read the value from a character buffer. The byte order is
-                 required by the interface but not used by this method.
+          @brief Read the value from a character buffer. 
+
+          @note The byte order is required by the interface but not 
+                used by this method, so just use the default.
 
           @param buf Pointer to the data buffer to read from
           @param len Number of bytes in the data buffer 
-          @param byteOrder Byte order. Not used.
+          @param byteOrder Byte order. Not needed.
          */
-        virtual void read(const char* buf, long len, ByteOrder byteOrder);
+        virtual void read(const char* buf,
+                          long len, 
+                          ByteOrder byteOrder =invalidByteOrder);
         //! Set the data from a string of integer values (e.g., "0 1 2 3")
         virtual void read(const std::string& buf);
         //@}
@@ -223,17 +228,19 @@ namespace Exif {
         //! @name Accessors
         //@{        
         /*!
-          @brief Write value to a character data buffer. The byte order is
-                 required by the interface but not used by this method.
+          @brief Write value to a character data buffer. 
+
+          @note The byte order is required by the interface but not used by this
+                method, so just use the default.
 
           The user must ensure that the buffer has enough memory. Otherwise
           the call results in undefined behaviour.
 
           @param buf Data buffer to write to.
-          @param byteOrder Byte order. Not used.
+          @param byteOrder Byte order. Not needed.
           @return Number of characters written.
         */
-        virtual long copy(char* buf, ByteOrder byteOrder) const;
+        virtual long copy(char* buf, ByteOrder byteOrder =invalidByteOrder) const;
         virtual long count() const { return size(); }
         virtual long size() const;
         virtual Value* clone() const;
@@ -265,14 +272,18 @@ namespace Exif {
         //! Assignment operator.
         AsciiValue& operator=(const AsciiValue& rhs);
         /*!
-          @brief Read the value from a character buffer. The byte order is
-                 required by the interface but not used by this method.
+          @brief Read the value from a character buffer.
+
+          @note The byte order is required by the interface but not used by this
+                method, so just use the default.
 
           @param buf Pointer to the data buffer to read from
           @param len Number of bytes in the data buffer 
-          @param byteOrder Byte order. Not used.
+          @param byteOrder Byte order. Not needed.
          */
-        virtual void read(const char* buf, long len, ByteOrder byteOrder);
+        virtual void read(const char* buf, 
+                          long len, 
+                          ByteOrder byteOrder =invalidByteOrder);
         /*!
           @brief Set the value to that of the string buf. A terminating
                  '\\0' character is appended to the value if buf doesn't 
@@ -284,17 +295,19 @@ namespace Exif {
         //! @name Accessors
         //@{
         /*!
-          @brief Write value to a character data buffer. The byte order is
-                 required by the interface but not used by this method.
+          @brief Write value to a character data buffer.
 
           The user must ensure that the buffer has enough memory. Otherwise
           the call results in undefined behaviour.
+
+          @note The byte order is required by the interface but not used by this
+                method, so just use the default.
 
           @param buf Data buffer to write to.
           @param byteOrder Byte order. Not used.
           @return Number of characters written.
         */
-        virtual long copy(char* buf, ByteOrder byteOrder) const;
+        virtual long copy(char* buf, ByteOrder byteOrder =invalidByteOrder) const;
         virtual long count() const { return size(); }
         virtual long size() const;
         virtual Value* clone() const;
