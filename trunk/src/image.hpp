@@ -21,7 +21,7 @@
 /*!
   @file    image.hpp
   @brief   Class JpegImage to access JPEG images
-  @version $Name:  $ $Revision: 1.6 $
+  @version $Name:  $ $Revision: 1.7 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -93,10 +93,24 @@ namespace Exif {
         /*!
           @brief Determine if the content of the stream is an image of the type
                  of this class.
+
+          The advance flag determines if the read position in the stream is
+          moved (see below). This applies only if the image type matches and the
+          function returns true. If the image type does not match, the stream
+          position is not changed. However, if reading from the stream fails,
+          the stream position is undefined. Consult the stream state to obtain 
+          more information in this case.
+          
+          @param is Input stream with the image.
+          @param advance Flag indicating whether the read position in the stream
+                         should be advanced by the number of characters read to
+                         analyse the image stream (true) or left at its original
+                         position (false). This applies only if the image type 
+                         matches.
           @return  true  if the type of the image matches that of this;<BR>
                    false if the type of the image does not match.
          */
-        virtual bool isThisType(std::istream& is) const =0;
+        virtual bool isThisType(std::istream& is, bool advance =false) const =0;
         /*!
           @brief Write the %Exif data to file path.
           @param path Path to the file.
@@ -281,7 +295,7 @@ namespace Exif {
                   the stream may or may not have been advanced by 1 or 2 
                   characters.
          */
-        bool isThisType(std::istream& is) const;
+        bool isThisType(std::istream& is, bool advance) const;
         /*!
           @brief Write the %Exif data to file path, which must contain a JPEG
                  image. If an %Exif APP1 section exists in the file, it is
