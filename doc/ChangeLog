@@ -3,11 +3,11 @@ Changes from version 0.5 to 0.6
 
 * Exiv2 utility
 
-	* Added the ability to extract/insert different types of metadata 
+	* Added options to extract, insert and delete different types of metadata 
 
 	* Added option to print the Jpeg comment 
 
-	* Changed semantics of print option `i' to Iptc 
+	* Changed semantics of print option `i' to Iptc
 	  (`t' for translated Exif data)
 
 	* Replaced std::cout << "\n" with std::endl to flush and get the 
