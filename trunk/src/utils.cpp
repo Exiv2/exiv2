@@ -20,13 +20,13 @@
  */
 /*
   File:      utils.cpp
-  Version:   $Name:  $ $Revision: 1.9 $
+  Version:   $Name:  $ $Revision: 1.10 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.9 $ $RCSfile: utils.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.10 $ $RCSfile: utils.cpp,v $");
 
 // *****************************************************************************
 // included header files

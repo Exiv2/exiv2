@@ -26,7 +26,7 @@
   This is a simplified version of the ACE_RCSID macro that is used in the 
   <a href="http://www.cs.wustl.edu/~schmidt/ACE.html">ACE(TM)</a> distribution.
 
-  @version $Name:  $ $Revision: 1.3 $
+  @version $Name:  $ $Revision: 1.4 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    02-Feb-04, ahu: created
@@ -43,7 +43,7 @@
 
          @code
          #include "rcsid.hpp"
-         EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: rcsid.hpp,v $")
+         EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: rcsid.hpp,v $");
          @endcode
 
          The macro hack itself has the following purposes:

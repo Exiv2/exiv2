@@ -20,14 +20,14 @@
  */
 /*
   File:      nikon1mn.cpp
-  Version:   $Name:  $ $Revision: 1.3 $
+  Version:   $Name:  $ $Revision: 1.4 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   17-May-04, ahu: created
              25-May-04, ahu: combined all Nikon formats in one component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: nikonmn.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: nikonmn.cpp,v $");
 
 // *****************************************************************************
 // included header files

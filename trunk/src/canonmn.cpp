@@ -20,7 +20,7 @@
  */
 /*
   File:      canonmn.cpp
-  Version:   $Name:  $ $Revision: 1.11 $
+  Version:   $Name:  $ $Revision: 1.12 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
              07-Mar-04, ahu: isolated as a separate component
@@ -30,7 +30,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.11 $ $RCSfile: canonmn.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.12 $ $RCSfile: canonmn.cpp,v $");
 
 // *****************************************************************************
 // included header files

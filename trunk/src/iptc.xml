@@ -4,7 +4,8 @@
         <type>envelope</type>
         <dataset>
             <number>0</number>
-            <name>Model Version</name>
+            <name>ModelVersion</name>
+            <description>Version of IIM part 1</description>
             <mandatory>true</mandatory>
             <repeatable>false</repeatable>
             <minbytes>2</minbytes>
@@ -15,6 +16,7 @@
         <dataset>
             <number>5</number>
             <name>Destination</name>
+            <description>Routing information</description>
             <mandatory>false</mandatory>
             <repeatable>true</repeatable>
             <minbytes>0</minbytes>
@@ -24,7 +26,8 @@
         </dataset>
         <dataset>
             <number>20</number>
-            <name>File Format</name>
+            <name>FileFormat</name>
+            <description>IIM appendix A file format</description>
             <mandatory>true</mandatory>
             <repeatable>false</repeatable>
             <minbytes>2</minbytes>
@@ -34,7 +37,8 @@
         </dataset>
         <dataset>
             <number>22</number>
-            <name>File Format Version</name>
+            <name>FileVersion</name>
+            <description>File format version</description>
             <mandatory>true</mandatory>
             <repeatable>false</repeatable>
             <minbytes>2</minbytes>
@@ -44,7 +48,8 @@
         </dataset>
         <dataset>
             <number>30</number>
-            <name>Service Identifier</name>
+            <name>ServiceId</name>
+            <description>Identifies the provider and product</description>
             <mandatory>true</mandatory>
             <repeatable>false</repeatable>
             <minbytes>0</minbytes>
@@ -54,7 +59,8 @@
         </dataset>
         <dataset>
             <number>40</number>
-            <name>Envelope Number</name>
+            <name>EnvelopeNumber</name>
+            <description>Combined unique identification</description>
             <mandatory>true</mandatory>
             <repeatable>false</repeatable>
             <minbytes>8</minbytes>
@@ -64,7 +70,8 @@
         </dataset>
         <dataset>
             <number>50</number>
-            <name>Product I.D.</name>
+            <name>ProductId</name>
+            <description>Identifies service subset</description>
             <mandatory>false</mandatory>
             <repeatable>true</repeatable>
             <minbytes>0</minbytes>
@@ -74,7 +81,8 @@
         </dataset>
         <dataset>
             <number>60</number>
-            <name>Envelope Priority</name>
+            <name>EnvelopePriority</name>
+            <description>Envelope handling priority</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>1</minbytes>
@@ -84,7 +92,8 @@
         </dataset>
         <dataset>
             <number>70</number>
-            <name>Date Sent</name>
+            <name>DateSent</name>
+            <description>Date material was sent</description>
             <mandatory>true</mandatory>
             <repeatable>false</repeatable>
             <minbytes>8</minbytes>
@@ -94,7 +103,8 @@
         </dataset>
         <dataset>
             <number>80</number>
-            <name>Time Sent</name>
+            <name>TimeSent</name>
+            <description>Time material was sent</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>11</minbytes>
@@ -104,7 +114,8 @@
         </dataset>
         <dataset>
             <number>90</number>
-            <name>Coded Character Set</name>
+            <name>CharacterSet</name>
+            <description>Specifies character sets</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>0</minbytes>
@@ -115,6 +126,7 @@
         <dataset>
             <number>100</number>
             <name>UNO</name>
+            <description>Unique Name of Object</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>14</minbytes>
@@ -124,7 +136,8 @@
         </dataset>
         <dataset>
             <number>120</number>
-            <name>ARM Identifier</name>
+            <name>ARMId</name>
+            <description>Abstract Relationship Method identifier</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>2</minbytes>
@@ -134,7 +147,8 @@
         </dataset>
         <dataset>
             <number>122</number>
-            <name>ARM Version</name>
+            <name>ARMVersion</name>
+            <description>Abstract Relationship Method version</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>2</minbytes>
@@ -147,7 +161,8 @@
         <type>application2</type>
         <dataset>
             <number>0</number>
-            <name>Record Version</name>
+            <name>RecordVersion</name>
+            <description>Version of IIM part 2</description>
             <mandatory>true</mandatory>
             <repeatable>false</repeatable>
             <minbytes>2</minbytes>
@@ -157,7 +172,8 @@
         </dataset>
         <dataset>
             <number>3</number>
-            <name>Object Type Reference</name>
+            <name>ObjectType</name>
+            <description>IIM appendix G object type</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>3</minbytes>
@@ -167,7 +183,8 @@
         </dataset>
         <dataset>
             <number>4</number>
-            <name>Object Attribute Reference</name>
+            <name>ObjectAttribute</name>
+            <description>IIM appendix G object attribute</description>
             <mandatory>false</mandatory>
             <repeatable>true</repeatable>
             <minbytes>4</minbytes>
@@ -177,7 +194,8 @@
         </dataset>
         <dataset>
             <number>5</number>
-            <name>Object Name</name>
+            <name>ObjectName</name>
+            <description>Shorthand reference of content</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>0</minbytes>
@@ -187,7 +205,8 @@
         </dataset>
         <dataset>
             <number>7</number>
-            <name>Edit Status</name>
+            <name>EditStatus</name>
+            <description>Content status</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>0</minbytes>
@@ -197,7 +216,8 @@
         </dataset>
         <dataset>
             <number>8</number>
-            <name>Editorial Update</name>
+            <name>EditorialUpdate</name>
+            <description>Indicates the type of update</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>2</minbytes>
@@ -208,6 +228,7 @@
         <dataset>
             <number>10</number>
             <name>Urgency</name>
+            <description>Editorial urgency of content</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>1</minbytes>
@@ -217,7 +238,8 @@
         </dataset>
         <dataset>
             <number>12</number>
-            <name>Subject Reference</name>
+            <name>Subject</name>
+            <description>Structured definition of the subject</description>
             <mandatory>false</mandatory>
             <repeatable>true</repeatable>
             <minbytes>13</minbytes>
@@ -228,6 +250,7 @@
         <dataset>
             <number>15</number>
             <name>Category</name>
+            <description>Identifies the subject</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>0</minbytes>
@@ -237,7 +260,8 @@
         </dataset>
         <dataset>
             <number>20</number>
-            <name>Supplemental Category</name>
+            <name>SuppCategory</name>
+            <description>Refines the subject</description>
             <mandatory>false</mandatory>
             <repeatable>true</repeatable>
             <minbytes>0</minbytes>
@@ -247,7 +271,8 @@
         </dataset>
         <dataset>
             <number>22</number>
-            <name>Fixture Identifier</name>
+            <name>FixtureId</name>
+            <description>Identifies content that recurs</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>0</minbytes>
@@ -258,6 +283,7 @@
         <dataset>
             <number>25</number>
             <name>Keywords</name>
+            <description>Information retrieval words</description>
             <mandatory>false</mandatory>
             <repeatable>true</repeatable>
             <minbytes>0</minbytes>
@@ -267,7 +293,8 @@
         </dataset>
         <dataset>
             <number>26</number>
-            <name>Content Location Code</name>
+            <name>LocationCode</name>
+            <description>ISO country code for content</description>
             <mandatory>false</mandatory>
             <repeatable>true</repeatable>
             <minbytes>3</minbytes>
@@ -277,7 +304,8 @@
         </dataset>
         <dataset>
             <number>27</number>
-            <name>Content Location Name</name>
+            <name>LocationName</name>
+            <description>Full country name for content</description>
             <mandatory>false</mandatory>
             <repeatable>true</repeatable>
             <minbytes>0</minbytes>
@@ -287,7 +315,8 @@
         </dataset>
         <dataset>
             <number>30</number>
-            <name>Release Date</name>
+            <name>ReleaseDate</name>
+            <description>Earliest intended usable date</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>8</minbytes>
@@ -297,7 +326,8 @@
         </dataset>
         <dataset>
             <number>35</number>
-            <name>Release Time</name>
+            <name>ReleaseTime</name>
+            <description>Earliest intended usable time</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>11</minbytes>
@@ -307,7 +337,8 @@
         </dataset>
         <dataset>
             <number>37</number>
-            <name>Expiration Date</name>
+            <name>ExpirationDate</name>
+            <description>Latest intended usable date</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>8</minbytes>
@@ -317,7 +348,8 @@
         </dataset>
         <dataset>
             <number>38</number>
-            <name>Expiration Time</name>
+            <name>ExpirationTime</name>
+            <description>Latest intended usable time</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>11</minbytes>
@@ -327,7 +359,8 @@
         </dataset>
         <dataset>
             <number>40</number>
-            <name>Special Instructions</name>
+            <name>SpecialInstructions</name>
+            <description>Editorial usage instructions</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>0</minbytes>
@@ -337,7 +370,8 @@
         </dataset>
         <dataset>
             <number>42</number>
-            <name>Action Advised</name>
+            <name>ActionAdvised</name>
+            <description>Action provided to previous data</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>2</minbytes>
@@ -347,7 +381,8 @@
         </dataset>
         <dataset>
             <number>45</number>
-            <name>Reference Service</name>
+            <name>ReferenceService</name>
+            <description>Service Identifier of a prior envelope</description>
             <mandatory>false</mandatory>
             <repeatable>true</repeatable>
             <minbytes>0</minbytes>
@@ -357,7 +392,8 @@
         </dataset>
         <dataset>
             <number>47</number>
-            <name>Reference Date</name>
+            <name>ReferenceDate</name>
+            <description>Date of a prior envelope</description>
             <mandatory>false</mandatory>
             <repeatable>true</repeatable>
             <minbytes>8</minbytes>
@@ -367,7 +403,8 @@
         </dataset>
         <dataset>
             <number>50</number>
-            <name>Reference Number</name>
+            <name>ReferenceNumber</name>
+            <description>Envelope Number of a prior envelope</description>
             <mandatory>false</mandatory>
             <repeatable>true</repeatable>
             <minbytes>8</minbytes>
@@ -377,7 +414,8 @@
         </dataset>
         <dataset>
             <number>55</number>
-            <name>Date Created</name>
+            <name>DateCreated</name>
+            <description>Creation date of intellectual content</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>8</minbytes>
@@ -387,7 +425,8 @@
         </dataset>
         <dataset>
             <number>60</number>
-            <name>Time Created</name>
+            <name>TimeCreated</name>
+            <description>Creation time of intellectual content</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>11</minbytes>
@@ -397,7 +436,8 @@
         </dataset>
         <dataset>
             <number>62</number>
-            <name>Digital Creation Date</name>
+            <name>DigitizationDate</name>
+            <description>Creation date of digital representation</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>8</minbytes>
@@ -407,7 +447,8 @@
         </dataset>
         <dataset>
             <number>63</number>
-            <name>Digital Creation Time</name>
+            <name>DigitizationTime</name>
+            <description>Creation time of digital representation</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>11</minbytes>
@@ -417,7 +458,8 @@
         </dataset>
         <dataset>
             <number>65</number>
-            <name>Originating Program</name>
+            <name>Program</name>
+            <description>Content creation program</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>0</minbytes>
@@ -427,7 +469,8 @@
         </dataset>
         <dataset>
             <number>70</number>
-            <name>Program Version</name>
+            <name>ProgramVersion</name>
+            <description>Content creation program version</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>0</minbytes>
@@ -437,7 +480,8 @@
         </dataset>
         <dataset>
             <number>75</number>
-            <name>Object Cycle</name>
+            <name>ObjectCycle</name>
+            <description>Morning, evening, or both</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>1</minbytes>
@@ -447,7 +491,8 @@
         </dataset>
         <dataset>
             <number>80</number>
-            <name>By-line</name>
+            <name>Byline</name>
+            <description>Name of content creator</description>
             <mandatory>false</mandatory>
             <repeatable>true</repeatable>
             <minbytes>0</minbytes>
@@ -457,7 +502,8 @@
         </dataset>
         <dataset>
             <number>85</number>
-            <name>By-line Title</name>
+            <name>BylineTitle</name>
+            <description>Title of content creator</description>
             <mandatory>false</mandatory>
             <repeatable>true</repeatable>
             <minbytes>0</minbytes>
@@ -468,6 +514,7 @@
         <dataset>
             <number>90</number>
             <name>City</name>
+            <description>City of content origin</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>0</minbytes>
@@ -477,7 +524,8 @@
         </dataset>
         <dataset>
             <number>92</number>
-            <name>Sub-location</name>
+            <name>SubLocation</name>
+            <description>Location within city</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>0</minbytes>
@@ -487,7 +535,8 @@
         </dataset>
         <dataset>
             <number>95</number>
-            <name>Province/State</name>
+            <name>ProvinceState</name>
+            <description>Province/State of content origin</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>0</minbytes>
@@ -497,7 +546,8 @@
         </dataset>
         <dataset>
             <number>100</number>
-            <name>Country/Primary Location Code</name>
+            <name>CountryCode</name>
+            <description>ISO country code of content origin</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>3</minbytes>
@@ -507,7 +557,8 @@
         </dataset>
         <dataset>
             <number>101</number>
-            <name>Country/Primary Location Name</name>
+            <name>CountryName</name>
+            <description>Full country name of content origin</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>0</minbytes>
@@ -517,7 +568,8 @@
         </dataset>
         <dataset>
             <number>103</number>
-            <name>Original Transmission Reference</name>
+            <name>TransmissionReference</name>
+            <description>Location of original transmission</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>0</minbytes>
@@ -528,6 +580,7 @@
         <dataset>
             <number>105</number>
             <name>Headline</name>
+            <description>Content synopsis</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>0</minbytes>
@@ -538,6 +591,7 @@
         <dataset>
             <number>110</number>
             <name>Credit</name>
+            <description>Content provider</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>0</minbytes>
@@ -548,6 +602,7 @@
         <dataset>
             <number>115</number>
             <name>Source</name>
+            <description>Original owner of content</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>0</minbytes>
@@ -557,7 +612,8 @@
         </dataset>
         <dataset>
             <number>116</number>
-            <name>Copyright Notice</name>
+            <name>Copyright</name>
+            <description>Necessary copyright notice</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>0</minbytes>
@@ -568,6 +624,7 @@
         <dataset>
             <number>118</number>
             <name>Contact</name>
+            <description>Person or organisation to contact</description>
             <mandatory>false</mandatory>
             <repeatable>true</repeatable>
             <minbytes>0</minbytes>
@@ -577,7 +634,8 @@
         </dataset>
         <dataset>
             <number>120</number>
-            <name>Caption/Abstract</name>
+            <name>Caption</name>
+            <description>Content description</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>0</minbytes>
@@ -587,7 +645,8 @@
         </dataset>
         <dataset>
             <number>122</number>
-            <name>Writer/Editor</name>
+            <name>Writer</name>
+            <description>Person responsible for caption</description>
             <mandatory>false</mandatory>
             <repeatable>true</repeatable>
             <minbytes>0</minbytes>
@@ -597,7 +656,8 @@
         </dataset>
         <dataset>
             <number>125</number>
-            <name>Rasterized Caption</name>
+            <name>RasterizedCaption</name>
+            <description>Black and white caption image</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>7360</minbytes>
@@ -607,7 +667,8 @@
         </dataset>
         <dataset>
             <number>130</number>
-            <name>Image Type</name>
+            <name>ImageType</name>
+            <description>Color components in an image</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>2</minbytes>
@@ -617,7 +678,8 @@
         </dataset>
         <dataset>
             <number>131</number>
-            <name>Image Orientation</name>
+            <name>ImageOrientation</name>
+            <description>Indicates the layout of an image</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>1</minbytes>
@@ -627,7 +689,8 @@
         </dataset>
         <dataset>
             <number>135</number>
-            <name>Language Identifier</name>
+            <name>Language</name>
+            <description>ISO 639:1988 language code</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>2</minbytes>
@@ -637,7 +700,8 @@
         </dataset>
         <dataset>
             <number>150</number>
-            <name>Audio Type</name>
+            <name>AudioType</name>
+            <description>Information about audio content</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>2</minbytes>
@@ -647,7 +711,8 @@
         </dataset>
         <dataset>
             <number>151</number>
-            <name>Audio Sampling Rate</name>
+            <name>AudioRate</name>
+            <description>Sampling rate of audio content</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>6</minbytes>
@@ -657,7 +722,8 @@
         </dataset>
         <dataset>
             <number>152</number>
-            <name>Audio Sampling Resolution</name>
+            <name>AudioResolution</name>
+            <description>Sampling resolution of audio content</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>2</minbytes>
@@ -667,7 +733,8 @@
         </dataset>
         <dataset>
             <number>153</number>
-            <name>Audio Duration</name>
+            <name>AudioDuration</name>
+            <description>Duration of audio content</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>6</minbytes>
@@ -677,7 +744,8 @@
         </dataset>
         <dataset>
             <number>154</number>
-            <name>Audio Outcue</name>
+            <name>AudioOutcue</name>
+            <description>Final words or sounds of audio content</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>0</minbytes>
@@ -687,7 +755,8 @@
         </dataset>
         <dataset>
             <number>200</number>
-            <name>ObjectData Preview File Format</name>
+            <name>PreviewFormat</name>
+            <description>IIM appendix A file format of preview</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>2</minbytes>
@@ -697,7 +766,8 @@
         </dataset>
         <dataset>
             <number>201</number>
-            <name>ObjectData Preview File Format Version</name>
+            <name>PreviewVersion</name>
+            <description>File format version of preview</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>2</minbytes>
@@ -707,7 +777,8 @@
         </dataset>
         <dataset>
             <number>202</number>
-            <name>ObjectData Preview Data</name>
+            <name>Preview</name>
+            <description>Binary preview data</description>
             <mandatory>false</mandatory>
             <repeatable>false</repeatable>
             <minbytes>0</minbytes>

@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of Exif data
-  @version $Name:  $ $Revision: 1.48 $
+  @version $Name:  $ $Revision: 1.49 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -31,6 +31,7 @@
 
 // *****************************************************************************
 // included header files
+#include "metadatum.hpp"
 #include "types.hpp"
 #include "error.hpp"
 #include "image.hpp"
@@ -41,12 +42,11 @@
 // + standard includes
 #include <string>
 #include <vector>
-#include <iostream>
 
 // *****************************************************************************
 // namespace extensions
 /*!
-  @brief Provides classes and functions to encode and decode Exif data.
+  @brief Provides classes and functions to encode and decode Exif and Iptc data.
          This namespace corresponds to the <b>libexiv2</b> library. 
 
  */
@@ -63,39 +63,39 @@ namespace Exiv2 {
     /*!
       @brief Information related to one Exif tag.
      */
-    class Metadatum {
+    class Exifdatum : public Metadatum {
     public:
         //! @name Creators
         //@{
         /*!
           @brief Constructor for new tags created by an application. The
-                 metadatum is created from a key / value pair. %Metadatum copies
+                 Exifdatum is created from a key / value pair. %Exifdatum copies
                  (clones) the value if one is provided. Alternatively, a program
-                 can create an 'empty' metadatum with only a key and set the
+                 can create an 'empty' Exifdatum with only a key and set the
                  value using setValue().
 
-          @param key The key of the metadatum.
-          @param value Pointer to a metadatum value.
+          @param key The key of the Exifdatum.
+          @param value Pointer to a Exifdatum value.
           @param makerNote Pointer to the associated MakerNote (only needed for 
                  MakerNote tags).
           @throw Error ("Invalid key") if the key cannot be parsed and converted
                  to a tag number and an IFD id or the section name does not match.
          */
-        explicit Metadatum(const std::string& key, 
+        explicit Exifdatum(const std::string& key, 
                            const Value* value =0, 
                            MakerNote* makerNote =0);
-        //! Constructor to build a metadatum from an IFD entry.
-        Metadatum(const Entry& e, ByteOrder byteOrder);
+        //! Constructor to build a Exifdatum from an IFD entry.
+        Exifdatum(const Entry& e, ByteOrder byteOrder);
         //! Copy constructor
-        Metadatum(const Metadatum& rhs);
+        Exifdatum(const Exifdatum& rhs);
         //! Destructor
-        ~Metadatum();
+        virtual ~Exifdatum();
         //@}
 
         //! @name Manipulators
         //@{
         //! Assignment operator
-        Metadatum& operator=(const Metadatum& rhs);
+        Exifdatum& operator=(const Exifdatum& rhs);
         /*!
           @brief Set the value. This method copies (clones) the value pointed
                  to by pValue.
@@ -107,7 +107,7 @@ namespace Exiv2 {
         void setValue(const Entry& e, ByteOrder byteOrder);
         /*!
           @brief Set the value to the string buf. 
-                 Uses Value::read(const std::string& buf). If the metadatum does
+                 Uses Value::read(const std::string& buf). If the Exifdatum does
                  not have a value yet, then an AsciiValue is created.
          */
         void setValue(const std::string& buf);
@@ -116,8 +116,8 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         /*!
-          @brief Write value to a character data buffer and return the number
-                 of characters (bytes) written.
+          @brief Write value to a data buffer and return the number
+                 of bytes written.
 
           The user must ensure that the buffer has enough memory. Otherwise
           the call results in undefined behaviour.
@@ -129,7 +129,7 @@ namespace Exiv2 {
         long copy(byte* buf, ByteOrder byteOrder) const 
             { return pValue_ == 0 ? 0 : pValue_->copy(buf, byteOrder); }
         /*!
-          @brief Return the key of the metadatum. The key is of the form
+          @brief Return the key of the Exifdatum. The key is of the form
                  'ifdItem.sectionName.tagName'. Note however that the key
                  is not necessarily unique, i.e., an ExifData may contain
                  multiple metadata with the same key.
@@ -158,7 +158,7 @@ namespace Exiv2 {
         IfdId ifdId() const { return ifdId_; }
         //! Return the name of the IFD
         const char* ifdName() const { return ExifTags::ifdName(ifdId_); }
-        //! Return the index (unique id of this metadatum within the original IFD)
+        //! Return the index (unique id of this Exifdatum within the original IFD)
         int idx() const { return idx_; }
         //! Return the pointer to the associated MakerNote
         MakerNote* makerNote() const { return pMakerNote_; }
@@ -167,7 +167,7 @@ namespace Exiv2 {
             { return pValue_ == 0 ? "" : pValue_->toString(); }
         /*!
           @brief Return the n-th component of the value converted to long. The
-                 return value is -1 if the value of the Metadatum is not set and
+                 return value is -1 if the value of the Exifdatum is not set and
                  the behaviour of the method is undefined if there is no n-th
                  component.
          */
@@ -175,7 +175,7 @@ namespace Exiv2 {
             { return pValue_ == 0 ? -1 : pValue_->toLong(n); }
         /*!
           @brief Return the n-th component of the value converted to float.  The
-                 return value is -1 if the value of the Metadatum is not set and
+                 return value is -1 if the value of the Exifdatum is not set and
                  the behaviour of the method is undefined if there is no n-th
                  component.
          */
@@ -184,7 +184,7 @@ namespace Exiv2 {
         /*!
           @brief Return the n-th component of the value converted to
                  Rational. The return value is -1/1 if the value of the
-                 Metadatum is not set and the behaviour of the method is
+                 Exifdatum is not set and the behaviour of the method is
                  undefined if there is no n-th component.
          */
         Rational toRational(long n =0) const 
@@ -234,13 +234,13 @@ namespace Exiv2 {
         Value* pValue_;                //!< Pointer to the value
         std::string key_;              //!< Key
 
-    }; // class Metadatum
+    }; // class Exifdatum
 
     /*!
-      @brief Output operator for Metadatum types, printing the interpreted
+      @brief Output operator for Exifdatum types, printing the interpreted
              tag value.
      */
-    std::ostream& operator<<(std::ostream& os, const Metadatum& md);
+    std::ostream& operator<<(std::ostream& os, const Exifdatum& md);
 
     /*!
       @brief Exif %Thumbnail image. This abstract base class provides the
@@ -450,37 +450,20 @@ namespace Exiv2 {
     }; // class JpegThumbnail
 
     //! Container type to hold all metadata
-    typedef std::vector<Metadatum> Metadata;
+    typedef std::vector<Exifdatum> ExifMetadata;
 
-    //! Unary predicate that matches a Metadatum with a given key
-    class FindMetadatumByKey {
-    public:
-        //! Constructor, initializes the object with the tag to look for
-        FindMetadatumByKey(const std::string& key) : key_(key) {}
-        /*!
-          @brief Returns true if the key of the argument metadatum is equal
-          to that of the object.
-        */
-        bool operator()(const Metadatum& metadatum) const
-            { return key_ == metadatum.key(); }
-
-    private:
-        std::string key_;
-        
-    }; // class FindMetadatumByTag
-
-    //! Unary predicate that matches a Metadatum with a given ifd id and idx
+    //! Unary predicate that matches a Exifdatum with a given ifd id and idx
     class FindMetadatumByIfdIdIdx {
     public:
         //! Constructor, initializes the object with the ifd id and idx to look for
         FindMetadatumByIfdIdIdx(IfdId ifdId, int idx)
             : ifdId_(ifdId), idx_(idx) {}
         /*!
-          @brief Returns true if the ifd id and idx of the argument metadatum 
+          @brief Returns true if the ifd id and idx of the argument Exifdatum 
                  is equal to that of the object.
         */
-        bool operator()(const Metadatum& metadatum) const
-            { return ifdId_ == metadatum.ifdId() && idx_ == metadatum.idx(); }
+        bool operator()(const Exifdatum& exifdatum) const
+            { return ifdId_ == exifdatum.ifdId() && idx_ == exifdatum.idx(); }
 
     private:
         IfdId ifdId_;
@@ -489,7 +472,7 @@ namespace Exiv2 {
     }; // class FindMetadatumByIfdIdIdx
 
     /*!
-      @brief A container for Exif data. This is the top-level class of 
+      @brief A container for Exif data. This is a top-level class of 
              the %Exiv2 library.
 
       Provide high-level access to the Exif data of an image:
@@ -509,10 +492,10 @@ namespace Exiv2 {
         ExifData& operator=(const ExifData& rhs);
         //@}
     public:
-        //! Metadata iterator type
-        typedef Metadata::iterator iterator;
-        //! Metadata const iterator type
-        typedef Metadata::const_iterator const_iterator;
+        //! ExifMetadata iterator type
+        typedef ExifMetadata::iterator iterator;
+        //! ExifMetadata const iterator type
+        typedef ExifMetadata::const_iterator const_iterator;
 
         //! @name Creators
         //@{
@@ -528,16 +511,15 @@ namespace Exiv2 {
           @brief Read the Exif data from file path.
           @param path Path to the file
           @return  0 if successful;<BR>
-                  -1 if the file couldn't be opened;<BR>
-                  -2 if the file type is unknown;<BR>
-                  the return code of Image::readExifData(std::istream& is)
+                   3 if the file contains no Exif data;<BR>
+                  the return code of Image::readMetadata()
                     if the call to this function fails<BR>
                   the return code of read(const char* buf, long len)
                     if the call to this function fails
          */
         int read(const std::string& path);
         /*!
-          @brief Read the Exif data from a character buffer. The data buffer
+          @brief Read the Exif data from a byte buffer. The data buffer
                  must start with the TIFF header.
           @param buf Pointer to the data buffer to read from
           @param len Number of bytes in the data buffer 
@@ -596,21 +578,21 @@ namespace Exiv2 {
                  Entries::const_iterator end,
                  ByteOrder byteOrder);
         /*!
-          @brief Add a metadatum from the supplied key and value pair.  This
+          @brief Add a Exifdatum from the supplied key and value pair.  This
                  method copies (clones) the value.  No duplicate checks are
                  performed, i.e., it is possible to add multiple metadata with
                  the same key.
          */
         void add(const std::string& key, Value* value);
         /*! 
-          @brief Add a copy of the metadatum to the Exif metadata.  No
+          @brief Add a copy of the Exifdatum to the Exif metadata.  No
                  duplicate checks are performed, i.e., it is possible to add
                  multiple metadata with the same key.
          */
-        void add(const Metadatum& metadatum);
+        void add(const Exifdatum& Exifdatum);
         /*!
-          @brief Delete the metadatum at iterator position pos, return the 
-                 position of the next metadatum. Note that iterators into
+          @brief Delete the Exifdatum at iterator position pos, return the 
+                 position of the next Exifdatum. Note that iterators into
                  the metadata, including pos, are potentially invalidated 
                  by this call.
          */
@@ -620,20 +602,20 @@ namespace Exiv2 {
         //! Sort metadata by tag
         void sortByTag();
         //! Begin of the metadata
-        iterator begin() { return metadata_.begin(); }
+        iterator begin() { return exifMetadata_.begin(); }
         //! End of the metadata
-        iterator end() { return metadata_.end(); }
+        iterator end() { return exifMetadata_.end(); }
         /*!
-          @brief Find a metadatum with the given key, return an iterator to it.
+          @brief Find a Exifdatum with the given key, return an iterator to it.
                  If multiple metadata with the same key exist, it is undefined 
                  which of the matching metadata is found.
          */
         iterator findKey(const std::string& key);
         /*!
-          @brief Find the metadatum with the given ifd id and idx, return an 
+          @brief Find the Exifdatum with the given ifd id and idx, return an 
                  iterator to it. 
 
-          This method can be used to uniquely identify a metadatum that was
+          This method can be used to uniquely identify a Exifdatum that was
           created from an IFD or from the makernote (with idx greater than
           0). Metadata created by an application (not read from an IFD or a
           makernote) all have their idx field set to 0, i.e., they cannot be
@@ -669,20 +651,20 @@ namespace Exiv2 {
          */
         int erase(const std::string& path) const;
         //! Begin of the metadata
-        const_iterator begin() const { return metadata_.begin(); }
+        const_iterator begin() const { return exifMetadata_.begin(); }
         //! End of the metadata
-        const_iterator end() const { return metadata_.end(); }
+        const_iterator end() const { return exifMetadata_.end(); }
         /*!
-          @brief Find a metadatum with the given key, return a const iterator to
+          @brief Find a Exifdatum with the given key, return a const iterator to
                  it.  If multiple metadata with the same key exist, it is
                  undefined which of the matching metadata is found.
          */
         const_iterator findKey(const std::string& key) const;
         /*!
-          @brief Find the metadatum with the given ifd id and idx, return an 
+          @brief Find the Exifdatum with the given ifd id and idx, return an 
                  iterator to it. 
 
-          This method can be used to uniquely identify a metadatum that was
+          This method can be used to uniquely identify a Exifdatum that was
           created from an IFD or from the makernote (with idx greater than
           0). Metadata created by an application (not read from an IFD or a
           makernote) all have their idx field set to 0, i.e., they cannot be
@@ -692,7 +674,7 @@ namespace Exiv2 {
          */
         const_iterator findIfdIdIdx(IfdId ifdId, int idx) const;
         //! Get the number of metadata entries
-        long count() const { return static_cast<long>(metadata_.size()); }
+        long count() const { return static_cast<long>(exifMetadata_.size()); }
         /*!
           @brief Return the approximate size of all Exif data (TIFF header plus 
                  metadata). The number returned may be bigger than the actual 
@@ -816,7 +798,7 @@ namespace Exiv2 {
 
         // DATA
         TiffHeader tiffHeader_;
-        Metadata metadata_;
+        ExifMetadata exifMetadata_;
         Thumbnail* pThumbnail_;  //!< Pointer to the Exif thumbnail image
         MakerNote* pMakerNote_;  //!< Pointer to the MakerNote
                                  //   Todo: implement reference counting instead
@@ -851,15 +833,15 @@ namespace Exiv2 {
              the same key to an IFD.
      */
     void addToIfd(Ifd& ifd,
-                  Metadata::const_iterator begin, 
-                  Metadata::const_iterator end, 
+                  ExifMetadata::const_iterator begin, 
+                  ExifMetadata::const_iterator end, 
                   ByteOrder byteOrder);
     /*!
-      @brief Add the metadatum to the IFD.  No duplicate checks are performed,
+      @brief Add the Exifdatum to the IFD.  No duplicate checks are performed,
              i.e., it is possible to add multiple metadata with the same key to
              an IFD.
      */
-    void addToIfd(Ifd& ifd, const Metadatum& metadatum, ByteOrder byteOrder);
+    void addToIfd(Ifd& ifd, const Exifdatum& exifdatum, ByteOrder byteOrder);
     /*!
       @brief Add all metadata in the range from iterator position begin to
              iterator position end with IFD id 'makerIfd' to the list of
@@ -868,27 +850,17 @@ namespace Exiv2 {
              multiple metadata with the same key to a makernote.
      */
     void addToMakerNote(MakerNote* makerNote,
-                        Metadata::const_iterator begin,
-                        Metadata::const_iterator end, 
+                        ExifMetadata::const_iterator begin,
+                        ExifMetadata::const_iterator end, 
                         ByteOrder byteOrder);
     /*!
-      @brief Add the metadatum to makerNote, encoded in byte order byteOrder.
+      @brief Add the Exifdatum to makerNote, encoded in byte order byteOrder.
              No duplicate checks are performed, i.e., it is possible to add
              multiple metadata with the same key to a makernote.
      */
     void addToMakerNote(MakerNote* makerNote,
-                        const Metadatum& metadatum,
+                        const Exifdatum& exifdatum,
                         ByteOrder byteOrder);
-    /*!
-      @brief Compare two metadata by tag. Return true if the tag of metadatum
-             lhs is less than that of rhs.
-     */
-    bool cmpMetadataByTag(const Metadatum& lhs, const Metadatum& rhs);
-    /*!
-      @brief Compare two metadata by key. Return true if the key of metadatum
-             lhs is less than that of rhs.
-     */
-    bool cmpMetadataByKey(const Metadatum& lhs, const Metadatum& rhs);
     /*!
       @brief Return a key for the entry.  The key is of the form
              'ifdItem.sectionName.tagName'.  This function knows about
@@ -909,3 +881,4 @@ namespace Exiv2 {
 }                                       // namespace Exiv2
 
 #endif                                  // #ifndef EXIF_HPP_
+

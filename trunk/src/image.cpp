@@ -20,7 +20,7 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.21 $
+  Version:   $Name:  $ $Revision: 1.22 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
              Brad Schick (brad) <schick@robotbattle.com>
   History:   26-Jan-04, ahu: created
@@ -29,7 +29,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.21 $ $RCSfile: image.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.22 $ $RCSfile: image.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -60,11 +60,20 @@ namespace Exiv2 {
 
     // Local functions. These could be static private functions on Image
     // subclasses but then ImageFactory needs to be made a friend. 
+    /*!
+      @brief Create a new ExvImage instance and return a pointer to it. Caller
+             is responsible to delete the object when it is no longer needed.
+     */
     Image* newExvInstance(const std::string& path, FILE* fp);
+    //! Check if the file ifp is an EXV file.
     bool isExvType(FILE* ifp, bool advance);
+    /*!
+      @brief Create a new JpegImage instance and return a pointer to it. Caller
+             is responsible to delete the object when it is no longer needed.
+     */
     Image* newJpegInstance(const std::string& path, FILE* fp);
+    //! Check if the file ifp is a JPEG image.
     bool isJpegType(FILE* ifp, bool advance);
-
 
     ImageFactory* ImageFactory::pInstance_ = 0;
 
@@ -172,13 +181,13 @@ namespace Exiv2 {
 
     int JpegBase::initFile(const byte initData[], size_t dataSize)
     {
-        if (!fp_ || ferror(fp_)) return 3;
+        if (!fp_ || ferror(fp_)) return 4;
         if (fwrite(initData, 1, dataSize, fp_) != dataSize) {
-            return 3;
+            return 4;
         }
         fseek(fp_, 0, SEEK_SET);
         if (ferror(fp_)) {
-            return 3;
+            return 4;
         }
         return 0;
     }
@@ -295,7 +304,7 @@ namespace Exiv2 {
 
         // Read section marker
         int marker = advanceToMarker();
-        if (marker < 0) return 1;
+        if (marker < 0) return 2;
         
         while (marker != sos_ && marker != eoi_ && search > 0) {
             // Read size and signature (ok if this hits EOF)
@@ -362,7 +371,7 @@ namespace Exiv2 {
             }
             // Read the beginning of the next segment
             marker = advanceToMarker();
-            if (marker < 0) return 1;
+            if (marker < 0) return 2;
         }
         return 0;
     } // JpegBase::readMetadata
@@ -393,12 +402,12 @@ namespace Exiv2 {
             byte psSize = pPsData[position] + 1;
             psSize += (psSize & 1);
             position += psSize;
-            if (position >= sizePsData) return 1;
+            if (position >= sizePsData) return -2;
 
             // Data is also padded to be even
             long dataSize = getULong(pPsData + position, bigEndian);
             position += 4;
-            if (dataSize > sizePsData - position) return 1;
+            if (dataSize > sizePsData - position) return -2;
            
             if (type == iptc_) {
                 *sizeIptc = static_cast<uint16>(dataSize);
@@ -408,7 +417,7 @@ namespace Exiv2 {
             }
             position += dataSize + (dataSize & 1);
         }
-        return 2;
+        return 3;
     } // JpegBase::locateIptcData
 
     int JpegBase::writeMetadata()
@@ -419,18 +428,18 @@ namespace Exiv2 {
         // Write the output to a temporary file
         std::string tmpname(tmpnam(0));
         FILE* ofl = fopen(tmpname.c_str(), "wb");
-        if (!ofl) return 3;
+        if (!ofl) return -3;
 
         int rc = doWriteMetadata(ofl);
         fclose(ofl);
         fclose(fp_);
         if (rc == 0) {
             // Workaround for MSVCRT rename that does not overwrite existing files
-            if (remove(path_.c_str()) != 0) rc = 4;
+            if (remove(path_.c_str()) != 0) rc = -4;
         }
         if (rc == 0) {
             // rename temporary file
-            if (rename(tmpname.c_str(), path_.c_str()) == -1) rc = 4;
+            if (rename(tmpname.c_str(), path_.c_str()) == -1) rc = -4;
         }
         if (rc != 0) {
             // remove temporary file
@@ -438,7 +447,7 @@ namespace Exiv2 {
         }
         // Reopen the file
         fp_ = fopen(path_.c_str(), "rb");
-        if (!fp_) return 1;
+        if (!fp_) return -1;
 
         return rc;
     } // JpegBase::writeMetadata
@@ -465,11 +474,11 @@ namespace Exiv2 {
         DataBuf psData;
 
         // Write image header
-        if (writeHeader(ofp)) return 3;
+        if (writeHeader(ofp)) return 4;
 
         // Read section marker
         int marker = advanceToMarker();
-        if (marker < 0) return 1;
+        if (marker < 0) return 2;
         
         // First find segments of interest. Normally app0 is first and we want
         // to insert after it. But if app0 comes after com, app1 and app13 then
@@ -515,7 +524,7 @@ namespace Exiv2 {
                 if (fseek(fp_, size-bufRead, SEEK_CUR)) return 2;
             }
             marker = advanceToMarker();
-            if (marker < 0) return 1;
+            if (marker < 0) return 2;
             ++count;
         }
 
@@ -526,7 +535,7 @@ namespace Exiv2 {
         fseek(fp_, seek, SEEK_SET);
         count = 0;
         marker = advanceToMarker();
-        if (marker < 0) return 1;
+        if (marker < 0) return 2;
         
         // To simplify this a bit, new segments are inserts at either the start
         // or right after app0. This is standard in most jpegs, but has the
@@ -548,10 +557,10 @@ namespace Exiv2 {
                     tmpBuf[1] = com_;
                     us2Data(tmpBuf + 2, 
                             static_cast<uint16>(comment_.length()+3), bigEndian);
-                    if (fwrite(tmpBuf, 1, 4, ofp) != 4) return 3;
-                    if (fwrite(comment_.data(), 1, comment_.length(), ofp) != comment_.length()) return 3;
-                    if (fputc(0, ofp)==EOF) return 3;
-                    if (ferror(ofp)) return 3;
+                    if (fwrite(tmpBuf, 1, 4, ofp) != 4) return 4;
+                    if (fwrite(comment_.data(), 1, comment_.length(), ofp) != comment_.length()) return 4;
+                    if (fputc(0, ofp)==EOF) return 4;
+                    if (ferror(ofp)) return 4;
                     --search;
                 }
                 if (pExifData_) {
@@ -560,9 +569,9 @@ namespace Exiv2 {
                     tmpBuf[1] = app1_;
                     us2Data(tmpBuf + 2, static_cast<uint16>(sizeExifData_+8), bigEndian);
                     memcpy(tmpBuf + 4, exifId_, 6);
-                    if (fwrite(tmpBuf, 1, 10, ofp) != 10) return 3;
-                    if (fwrite(pExifData_, 1, sizeExifData_, ofp) != (size_t)sizeExifData_) return 3;
-                    if (ferror(ofp)) return 3;
+                    if (fwrite(tmpBuf, 1, 10, ofp) != 10) return 4;
+                    if (fwrite(pExifData_, 1, sizeExifData_, ofp) != (size_t)sizeExifData_) return 4;
+                    if (ferror(ofp)) return 4;
                     --search;
                 }
                 
@@ -584,13 +593,13 @@ namespace Exiv2 {
                             static_cast<uint16>(psData.size_-sizeOldData+sizeNewData+16),
                             bigEndian);
                     memcpy(tmpBuf + 4, ps3Id_, 14);
-                    if (fwrite(tmpBuf, 1, 18, ofp) != 18) return 3;
-                    if (ferror(ofp)) return 3;
+                    if (fwrite(tmpBuf, 1, 18, ofp) != 18) return 4;
+                    if (ferror(ofp)) return 4;
 
                     const long sizeFront = (long)(record - psData.pData_);
                     const long sizeEnd = psData.size_ - sizeFront - sizeOldData;
                     // write data before old record.
-                    if (fwrite(psData.pData_, 1, sizeFront, ofp) != (size_t)sizeFront) return 3;
+                    if (fwrite(psData.pData_, 1, sizeFront, ofp) != (size_t)sizeFront) return 4;
 
                     // write new iptc record if we have it
                     if (pIptcData_) {
@@ -599,19 +608,19 @@ namespace Exiv2 {
                         tmpBuf[6] = 0;
                         tmpBuf[7] = 0;
                         ul2Data(tmpBuf + 8, sizeIptcData_, bigEndian);
-                        if (fwrite(tmpBuf, 1, 12, ofp) != 12) return 3;
-                        if (fwrite(pIptcData_, 1, sizeIptcData_ , ofp) != (size_t)sizeIptcData_) return 3;
+                        if (fwrite(tmpBuf, 1, 12, ofp) != 12) return 4;
+                        if (fwrite(pIptcData_, 1, sizeIptcData_ , ofp) != (size_t)sizeIptcData_) return 4;
                         // data is padded to be even (but not included in size)
                         if (sizeIptcData_ & 1 ) {
-                            if (fputc(0, ofp)==EOF) return 3;
+                            if (fputc(0, ofp)==EOF) return 4;
                         }
-                        if (ferror(ofp)) return 3;
+                        if (ferror(ofp)) return 4;
                         --search;
                     }
                     
                     // write existing stuff after record
-                    if (fwrite(record+sizeOldData, 1, sizeEnd, ofp) != (size_t)sizeEnd) return 3;
-                    if (ferror(ofp)) return 3;
+                    if (fwrite(record+sizeOldData, 1, sizeEnd, ofp) != (size_t)sizeEnd) return 4;
+                    if (ferror(ofp)) return 4;
                 }
             }
             if( marker == eoi_ ) {
@@ -627,13 +636,13 @@ namespace Exiv2 {
                 fseek(fp_, -bufRead-2, SEEK_CUR);
                 fread(buf.pData_, 1, size+2, fp_);
                 if (ferror(fp_) || feof(fp_)) return 1;
-                if (fwrite(buf.pData_, 1, size+2, ofp) != (size_t)size+2) return 3;
-                if (ferror(ofp)) return 3;
+                if (fwrite(buf.pData_, 1, size+2, ofp) != (size_t)size+2) return 4;
+                if (ferror(ofp)) return 4;
             }
 
             // Next marker
             marker = advanceToMarker();
-            if (marker < 0) return 1;
+            if (marker < 0) return 2;
             ++count;
         }
 
@@ -643,9 +652,9 @@ namespace Exiv2 {
         buf.alloc(4096);
         size_t readSize = 0;
         while ((readSize=fread(buf.pData_, 1, buf.size_, fp_))) {
-            if (fwrite(buf.pData_, 1, readSize, ofp) != readSize) return 3;
+            if (fwrite(buf.pData_, 1, readSize, ofp) != readSize) return 4;
         }
-        if (ferror(ofp)) return 3;
+        if (ferror(ofp)) return 4;
         
         return 0;
     }// JpegBase::doWriteMetadata
@@ -681,8 +690,8 @@ namespace Exiv2 {
         byte tmpBuf[2];
         tmpBuf[0] = 0xff;
         tmpBuf[1] = soi_;
-        if (fwrite(tmpBuf, 1, 2, ofp) != 2) return 3;
-        if (ferror(ofp)) return 3;
+        if (fwrite(tmpBuf, 1, 2, ofp) != 2) return 4;
+        if (ferror(ofp)) return 4;
         return 0;
     }
 
@@ -737,8 +746,8 @@ namespace Exiv2 {
         tmpBuf[0] = 0xff;
         tmpBuf[1] = 0x01;
         memcpy(tmpBuf + 2, exiv2Id_, 5);
-        if (fwrite(tmpBuf, 1, 7, ofp) != 7) return 3;
-        if (ferror(ofp)) return 3;
+        if (fwrite(tmpBuf, 1, 7, ofp) != 7) return 4;
+        if (ferror(ofp)) return 4;
         return 0;
     }
 
@@ -749,9 +758,9 @@ namespace Exiv2 {
 
     Image* newExvInstance(const std::string& path, FILE* fp)
     {
-        Image * pImage = 0;
+        Image* pImage = 0;
         if (fp == 0) {
-            pImage = new ExvImage(path,true);
+            pImage = new ExvImage(path, true);
             if (!pImage->good()) {
                 delete pImage;
                 pImage = 0;

@@ -16,6 +16,7 @@
                                     <xs:sequence>
                                         <xs:element name="number" type="xs:unsignedShort" />
                                         <xs:element name="name" type="xs:string" />
+                                        <xs:element name="description" type="xs:string" />
                                         <xs:element name="mandatory" type="xs:boolean" />
                                         <xs:element name="repeatable" type="xs:boolean" />
                                         <xs:element name="minbytes" type="xs:unsignedInt" />
