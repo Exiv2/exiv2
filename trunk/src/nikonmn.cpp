@@ -19,15 +19,15 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 /*
-  File:      nikon1mn.cpp
-  Version:   $Name:  $ $Revision: 1.8 $
+  File:      nikonmn.cpp
+  Version:   $Name:  $ $Revision: 1.9 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   17-May-04, ahu: created
              25-May-04, ahu: combined all Nikon formats in one component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.8 $ $RCSfile: nikonmn.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.9 $ $RCSfile: nikonmn.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -203,7 +203,7 @@ namespace Exiv2 {
         : IfdMakerNote(nikon2MnTagInfo, alloc), ifdItem_("Nikon2")
     {
         byte buf[] = {
-            'N', 'i', 'k', 'o', 'n', '\0', 0x00, 0x00
+            'N', 'i', 'k', 'o', 'n', '\0', 0x00, 0x01
         };
         readHeader(buf, 8, byteOrder_);
     }
@@ -396,7 +396,7 @@ namespace Exiv2 {
         absOffset_ = false;
         byte buf[] = {
             'N', 'i', 'k', 'o', 'n', '\0', 
-            0x00, 0x00, 0x00, 0x00, 0x4d, 0x4d, 0x00, 0x2a, 0x00, 0x00, 0x00, 0x08
+            0x02, 0x10, 0x00, 0x00, 0x4d, 0x4d, 0x00, 0x2a, 0x00, 0x00, 0x00, 0x08
         };
         readHeader(buf, 18, byteOrder_);
     }
