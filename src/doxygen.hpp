@@ -2,13 +2,13 @@
 /*!
   @file    doxygen.hpp
   @brief   Additional documentation, this file contains no source code
-  @version $Name:  $ $Revision: 1.5 $
+  @version $Name:  $ $Revision: 1.6 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    07-Feb-04, ahu: created
  */
 /*!
-  @mainpage Exiv2 v0.3
+  @mainpage %Exif metadata manipulation library and tools v0.3
 
   Exiv2 is a command line program to 
   - print the %Exif metadata of JPEG images (as summary info, interpreted values, 
@@ -19,16 +19,18 @@
   - extract the thumbnail image embedded in the %Exif metadata
   - delete the thumbnail or the complete %Exif metadata from an image
 
-  Exiv2 is also a C++ %Exif metadata library that provides
+  Exiv2 is also a C++ library that provides
   - full read and write access to the %Exif metadata of an image through Exiv2
     keys and standard C++ iterators
   - extensive MakerNote support: 
       - MakerNote tags can be accessed just like any other %Exif metadata
       - a sophisticated write algorithm avoids corrupting the MakerNote:
-        1) does not re-locate the MakerNote if possible, and 
-        2) re-calculates IFD offsets if the MakerNote needs to be moved
+        1) the MakerNote is not re-located if possible at all, and 
+        2) MakerNote IFD offsets are re-calculated if the MakerNote needs to be 
+           moved (for known MakerNotes in IFD format)
       - new camera make/model specific MakerNotes can be added to the 
-        library in OO-fashion (by subclassing MakerNote or IfdMakerNote)
+        library with minimum effort in OO-fashion (by subclassing MakerNote
+        or IfdMakerNote)
   - extract and delete methods for %Exif thumbnails (both, JPEG and TIFF thumbnails)
 
   In addition, the library provides generic lower-level classes to access IFD
