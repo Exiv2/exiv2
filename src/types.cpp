@@ -20,14 +20,14 @@
  */
 /*
   File:      types.cpp
-  Version:   $Name:  $ $Revision: 1.4 $
+  Version:   $Name:  $ $Revision: 1.5 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: types.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: types.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -51,7 +51,7 @@ namespace Exif {
 
     //! Lookup list of supported IFD type information
     const TypeInfoTable TypeInfo::typeInfoTable_[] = {
-        TypeInfoTable(invalid,          "Invalid",     0),
+        TypeInfoTable(invalidTypeId,    "Invalid",     0),
         TypeInfoTable(unsignedByte,     "Byte",        1),
         TypeInfoTable(asciiString,      "Ascii",       1),
         TypeInfoTable(unsignedShort,    "Short",       2),

@@ -21,7 +21,7 @@
 /*!
   @file    types.hpp
   @brief   Type definitions for Exiv2 and related functionality
-  @version $Name:  $ $Revision: 1.6 $
+  @version $Name:  $ $Revision: 1.7 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -61,10 +61,10 @@ namespace Exif {
     typedef std::pair<int32, int32> Rational;
 
     //! Type to express the byte order (little or big endian)
-    enum ByteOrder { littleEndian, bigEndian };
+    enum ByteOrder { invalidByteOrder, littleEndian, bigEndian };
 
     //! Type identifiers for IFD format types
-    enum TypeId { invalid, unsignedByte, asciiString, unsignedShort, 
+    enum TypeId { invalidTypeId, unsignedByte, asciiString, unsignedShort, 
                   unsignedLong, unsignedRational, invalid6, undefined,
                   signedShort, signedLong, signedRational };
 
