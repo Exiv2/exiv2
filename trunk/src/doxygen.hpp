@@ -2,7 +2,7 @@
 /*!
   @file    doxygen.hpp
   @brief   Additional documentation, this file contains no source code
-  @version $Name:  $ $Revision: 1.4 $
+  @version $Name:  $ $Revision: 1.5 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    07-Feb-04, ahu: created
@@ -31,8 +31,8 @@
         library in OO-fashion (by subclassing MakerNote or IfdMakerNote)
   - extract and delete methods for %Exif thumbnails (both, JPEG and TIFF thumbnails)
 
-  In addition, the library provides generic lower-level functionality to access
-  IFD (Image File Directory) data structures.
+  In addition, the library provides generic lower-level classes to access IFD
+  (Image File Directory) data structures.
 
   Here is a (sortable) <A HREF="../tags.xml">list of %Exif tags</A> as defined
   in Exiv2.
