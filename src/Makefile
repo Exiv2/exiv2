@@ -254,6 +254,7 @@ install-header:
 	        $(INSTALL_DATA) $$p $(incdir)/$$p; \
 	    else :; fi; \
 	done
+	$(INSTALL_DATA) $(top_srcdir)/config.h $(incdir)/config.h
 
 install-archive: archive
 	$(INSTALL_DIRS) $(libdir)
@@ -276,6 +277,8 @@ uninstall-header:
 	    echo "rm -f $(incdir)/$$p"; \
 	    rm -f $(incdir)/$$p; \
 	done
+	$(RM) $(incdir)/config.h
+	-rmdir $(incdir)
 
 uninstall-archive:
 	$(RM) $(libdir)/$(ARCHIVE)
