@@ -22,7 +22,6 @@ Bugs:
 + Rational and other output operators (see Josuttis, p653)
 + Through ExifData::iterator and Metadatum::operator= it is possible to have 
   multiple copies of one metadatum in the metadata container
-+ Makernote assignment operators
 + Checks and non-intrusive updates must be atomic, i.e., not change anything
   if the metadata is not compatible
 + Review: Exception safety
