@@ -20,13 +20,13 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.21 $
+  Version:   $Name:  $ $Revision: 1.22 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.21 $ $RCSfile: tags.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.22 $ $RCSfile: tags.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -753,13 +753,12 @@ namespace Exif {
     std::ostream& print0x9286(std::ostream& os, const Value& value)
     {
         if (value.size() > 8) {
-            char* buf = new char[value.size()];
-            value.copy(buf, bigEndian);
+            DataBuf buf(value.size());
+            value.copy(buf.pData_, bigEndian);
             // Hack: Simply skip the leading 8-Byte character code and let
             // the stream handle the comment
-            std::string userComment(buf+8, value.size() - 8);
+            std::string userComment(buf.pData_ + 8, buf.size_ - 8);
             os << userComment;
-            delete[] buf;
         }
         return os;
     }
