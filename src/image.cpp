@@ -20,14 +20,14 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.4 $
+  Version:   $Name:  $ $Revision: 1.5 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: image.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: image.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -72,7 +72,21 @@ namespace Exif {
         registerImage(Image::jpeg, new JpegImage);
     } // ImageFactory c'tor
 
-    Image* ImageFactory::create(Image::Type type)
+    Image* ImageFactory::create(std::istream& is) const
+    {
+        Registry::const_iterator b = registry_.begin();
+        Registry::const_iterator e = registry_.end();
+        for (Registry::const_iterator i = b; i != e; ++i)
+        {
+            if (i->second != 0 && i->second->isThisType(is)) {
+                Image* pImage = i->second;
+                return pImage->clone();
+            }
+        }
+        return 0;
+    } // ImageFactory::create
+
+    Image* ImageFactory::create(Image::Type type) const
     {
         Registry::const_iterator i = registry_.find(type);
         if (i != registry_.end() && i->second != 0) {
@@ -124,24 +138,6 @@ namespace Exif {
     const char JpegImage::exifId_[] = "Exif\0\0";
     const char JpegImage::jfifId_[] = "JFIF\0";
 
-    bool JpegImage::isJpeg(std::istream& is)
-    {
-        char c;
-        is.get(c);
-        if (!is.good()) return false;
-        if (static_cast<char>((soi_ & 0xff00) >> 8) != c) {
-            is.unget();
-            return false;
-        }
-        is.get(c);
-        if (!is.good()) return false;
-        if (static_cast<char>(soi_ & 0x00ff) != c) {
-            is.unget();
-            return false;
-        }
-        return true;
-    }
-
     int JpegImage::readExifData(const std::string& path)
     {
         std::ifstream file(path.c_str(), std::ios::binary);
@@ -153,7 +149,7 @@ namespace Exif {
     int JpegImage::readExifData(std::istream& is)
     {
         // Check if this is a JPEG image in the first place
-        if (!isJpeg(is)) {
+        if (!isThisType(is)) {
             if (!is.good()) return 1;
             return 2;
         }
@@ -191,14 +187,14 @@ namespace Exif {
         pid_t pid = getpid();
         std::string tmpname = path + toString(pid);
         std::ofstream outfile(tmpname.c_str(), std::ios::binary);
-        if (!outfile) return -2;
+        if (!outfile) return -3;
 
         int rc = writeExifData(outfile, infile);
         infile.close();
         outfile.close();
         if (rc == 0) {
             // rename temporary file
-            if (rename(tmpname.c_str(), path.c_str()) == -1) rc = -3;
+            if (rename(tmpname.c_str(), path.c_str()) == -1) rc = -4;
         }
         if (rc != 0) {
             // remove temporary file
@@ -212,7 +208,7 @@ namespace Exif {
     int JpegImage::writeExifData(std::ostream& os, std::istream& is) const
     {
         // Check if this is a JPEG image in the first place
-        if (!isJpeg(is)) {
+        if (!isThisType(is)) {
             if (!is.good()) return 1;
             return 2;
         }
@@ -260,14 +256,22 @@ namespace Exif {
         return new JpegImage(*this);
     }
 
-    int JpegImage::isThisType(const std::string& path) const
+    bool JpegImage::isThisType(std::istream& is) const
     {
-        std::ifstream file(path.c_str(), std::ios::binary);
-        if (!file) return -1;          // Couldn't open file
-        if (!isJpeg(file)) {
-            return 1;                  // not a Jpeg image
+        char c;
+        is.get(c);
+        if (!is.good()) return false;
+        if (static_cast<char>((soi_ & 0xff00) >> 8) != c) {
+            is.unget();
+            return false;
         }
-        return 0;                      // this is a Jpeg image
+        is.get(c);
+        if (!is.good()) return false;
+        if (static_cast<char>(soi_ & 0x00ff) != c) {
+            is.unget();
+            return false;
+        }
+        return true;
     }
 
     TiffHeader::TiffHeader(ByteOrder byteOrder) 

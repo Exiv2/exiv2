@@ -3,7 +3,7 @@
   Abstract : ExifData write unit tests
 
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  Version  : $Name:  $ $Revision: 1.1 $
+  Version  : $Name:  $ $Revision: 1.2 $
 
   Test procedure: 
    $ rm -f test.jpg thumb.jpg iii ttt; 
@@ -180,6 +180,9 @@ std::string readError(int rc, const char* file)
     case -1:
         error = "Couldn't open file `" + std::string(file) + "'";
         break;
+    case -2:
+        error = "The file contains data of an unknown image type";
+        break;
     case 1:
         error = "Couldn't read from the input stream";
         break;
@@ -207,9 +210,12 @@ std::string writeError(int rc, const char* file)
         error = "Couldn't open file `" + std::string(file) + "'";
         break;
     case -2:
-        error = "Couldn't open temporary file";
+        error = "The file contains data of an unknown image type";
         break;
     case -3:
+        error = "Couldn't open temporary file";
+        break;
+    case -4:
         error = "Renaming temporary file failed";
         break;
     case 1:

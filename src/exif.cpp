@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.33 $
+  Version:   $Name:  $ $Revision: 1.34 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.33 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.34 $ $RCSfile: exif.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -480,10 +480,17 @@ namespace Exif {
 
     int ExifData::read(const std::string& path)
     {
-        JpegImage image;
-        int rc = image.readExifData(path);
-        if (rc) return rc;
-        return read(image.exifData(), image.sizeExifData());
+        std::ifstream file(path.c_str(), std::ios::binary);
+        if (!file) return -1;
+        Image* pImage = ImageFactory::instance().create(file);
+        file.close();
+        if (pImage == 0) return -2;
+        // Todo: should we use file to read from? (and write isThisType so 
+        //       that it doesn't advance the stream)
+        int rc = pImage->readExifData(path);
+        if (rc == 0) rc = read(pImage->exifData(), pImage->sizeExifData());
+        delete pImage;
+        return rc;
     }
 
     int ExifData::read(const char* buf, long len)
@@ -579,10 +586,19 @@ namespace Exif {
         char* buf = new char[size];
         long actualSize = copy(buf);
         assert(actualSize <= size);
-        JpegImage image;
-        image.setExifData(buf, actualSize);
+
+        std::ifstream file(path.c_str(), std::ios::binary);
+        if (!file) return -1;
+        Image* pImage = ImageFactory::instance().create(file);
+        file.close();
+        if (pImage == 0) return -2;
+        pImage->setExifData(buf, actualSize);
         delete[] buf;
-        return image.writeExifData(path);
+        // Todo: Should this method take a path and stream arg?
+        //       Then we could reuse the file stream from above.
+        int rc = pImage->writeExifData(path);
+        delete pImage;
+        return rc;
     } // ExifData::write
 
     long ExifData::copy(char* buf)

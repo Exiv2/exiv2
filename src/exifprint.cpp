@@ -3,7 +3,7 @@
   Abstract : Sample program to print the Exif metadata of an image
 
   File:      exifprint.cpp
-  Version  : $Name:  $ $Revision: 1.11 $
+  Version  : $Name:  $ $Revision: 1.12 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History  : 26-Jan-04, ahu: created
  */
@@ -62,6 +62,9 @@ std::string readError(int rc, const char* file)
     switch (rc) {
     case -1:
         error = "Couldn't open file `" + std::string(file) + "'";
+        break;
+    case -2:
+        error = "The file contains data of an unknown image type";
         break;
     case 1:
         error = "Couldn't read from the input stream";

@@ -21,7 +21,7 @@
 /*!
   @file    image.hpp
   @brief   Class JpegImage to access JPEG images
-  @version $Name:  $ $Revision: 1.4 $
+  @version $Name:  $ $Revision: 1.5 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -91,12 +91,12 @@ namespace Exif {
         //! Virtual copy construction
         virtual Image* clone() const =0;
         /*!
-          @brief Determine if the file path is of this type of image.
-          @return  0 if the type of the image matches that of this;<BR>
-                   1 if the type of the image is not that of this;<BR>
-                  -1 if the file cannot be opened.
+          @brief Determine if the content of the stream is an image of the type
+                 of this class.
+          @return  true  if the type of the image matches that of this;<BR>
+                   false if the type of the image does not match.
          */
-        virtual int isThisType(const std::string& path) const =0;
+        virtual bool isThisType(std::istream& is) const =0;
         /*!
           @brief Write the %Exif data to file path.
           @param path Path to the file.
@@ -140,6 +140,8 @@ namespace Exif {
     */
     class ImageFactory {
     public:
+        //! @name Manipulators
+        //@{
         /*!
           @brief Get access to the image factory.
 
@@ -147,25 +149,6 @@ namespace Exif {
           this method.
         */
         static ImageFactory& instance();
-
-        /*!
-          @brief  Create an %Image of the appropriate type, derived from path.
-
-          @param  path Path to an image file (which may or may not exist). The
-                  path is used to determine the image type to create.
-          @return A pointer that owns an %Image of the type derived from path. 
-                  If no image type could be determined, the pointer is 0.
-         */
-        Image* create(const std::string& path);
-
-        /*!
-          @brief  Create an %Image of the requested type.
-
-          @param  type Type of the image to be created.
-          @return A pointer that owns an %Image of the requested type.
-                  If the image type is not supported, the pointer is 0.
-         */
-        Image* create(Image::Type type);
 
         /*!
           @brief Register an image prototype together with its type.
@@ -180,13 +163,40 @@ namespace Exif {
                  factory.
         */
         void registerImage(Image::Type type, Image* pImage);
+        //@}
+
+        //! @name Accessors
+        //@{
+        /*!
+          @brief  Create an %Image of the appropriate type, derived from the
+                  contents of the stream is.
+          @param  is Image stream. The contents of the stream are tested to
+                  determine the image type to create.
+          @return A pointer that owns an %Image of the type derived from the
+                  stream. If no image type could be determined, the pointer is 0.
+         */
+        Image* create(std::istream& is) const;
+
+        /*!
+          @brief  Create an %Image of the requested type.
+
+          @param  type Type of the image to be created.
+          @return A pointer that owns an %Image of the requested type.
+                  If the image type is not supported, the pointer is 0.
+         */
+        Image* create(Image::Type type) const;
+        //@}
 
     private:
+        //! @name Creators
+        //@{
         //! Prevent construction other than through instance().
         ImageFactory();
         //! Prevent copy construction: not implemented.
         ImageFactory(const ImageFactory& rhs);
+        //@}
 
+        // DATA
         //! Pointer to the one and only instance of this class.
         static ImageFactory* pInstance_;
         //! Type used to store Image prototype classes
@@ -251,10 +261,18 @@ namespace Exif {
         //! Virtual copy construction
         Image* clone() const;
         /*!
-          @brief Determine if the file path contains a JPEG file. Return true if it
-                 does, false if not or if path cannot be opened or accessed.
+          @brief  Determine if the content of the stream is a JPEG image. 
+          @param  is Input stream to test.
+          @return true if the input stream starts with the JPEG SOI marker.
+                  The stream is advanced by two characters in this case.<br>
+                  false if the input stream does not begin with the JPEG SOI
+                  marker. The stream is not advanced in this case.<br>
+                  false if reading the first two bytes from the stream fails.
+                  Consult the stream state for more information. In this case,
+                  the stream may or may not have been advanced by 1 or 2 
+                  characters.
          */
-        int isThisType(const std::string& path) const;
+        bool isThisType(std::istream& is) const;
         /*!
           @brief Write the %Exif data to file path, which must contain a JPEG
                  image. If an %Exif APP1 section exists in the file, it is
@@ -262,8 +280,8 @@ namespace Exif {
           @param path Path to the file.
           @return 0 if successful;<br>
                  -1 if the input file cannot be opened;<br>
-                 -2 if the temporary file cannot be opened;<br>
-                 -3 if renaming the temporary file fails; or<br>
+                 -3 if the temporary file cannot be opened;<br>
+                 -4 if renaming the temporary file fails; or<br>
                  the return code of 
                     writeExifData(std::ostream& os, std::istream& is) const
                     if the call to this function fails.
@@ -293,20 +311,6 @@ namespace Exif {
         //! Return a read-only pointer to the %Exif data buffer 
         const char* exifData() const { return pExifData_; }
         //@}
-
-        /*!
-          @brief Check if the stream is the beginning of a JPEG image.
-          @param is Input stream to test.
-          @return true if the input stream starts the JPEG SOI marker.
-                  The stream is advanced by two characters in this case.<br>
-                  false if the input stream does not begin with the JPEG SOI
-                  marker. The stream is not advanced in this case.<br>
-                  false if reading the first two bytes from the stream fails.
-                  Consult the stream state for more information. In this case,
-                  the stream may or may not have been advanced by 1 or 2 
-                  characters.
-         */
-        static bool isJpeg(std::istream& is);
 
     private:
         // DATA
