@@ -20,14 +20,14 @@
  */
 /*
   File:      types.cpp
-  Version:   $Name:  $ $Revision: 1.2 $
+  Version:   $Name:  $ $Revision: 1.3 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: types.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: types.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -211,12 +211,12 @@ namespace Exif {
 
     void hexdump(std::ostream& os, const char* buf, long len)
     {
-        const std::string::size_type pos = 9 + 16 * 3; 
+        const std::string::size_type pos = 8 + 16 * 3 + 2; 
         const std::string align(pos, ' '); 
 
         long i = 0;
         while (i < len) {
-            os << "   " 
+            os << "  " 
                << std::setw(4) << std::setfill('0') << std::hex 
                << i << "  ";
             std::ostringstream ss;
