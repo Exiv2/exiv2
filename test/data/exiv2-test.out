@@ -37,17 +37,18 @@ Options:
              h : hexdump of the Exif data
              i : Iptc data values
              c : Jpeg comment
-   -d tgt  Delete target for the `delete' action. Possible targets are
-           `e' to delete the whole Exif section (the default) and `t'
-           to delete only the Exif thumbnail from the files.
-   -i tgt  Insert target(s) for the `insert' action. Possible targets are:
-             a : all supported metadata (default)
-             e : Exif data
+   -d tgt  Delete target(s) for the `delete' action. Possible targets are:
+             a : all supported metadata (the default)
+             e : Exif section
+             t : Exif thumbnail only
              i : Iptc data
              c : Jpeg comment
+           to delete only the Exif thumbnail from the files.
+   -i tgt  Insert target(s) for the `insert' action. Possible targets are
+           the same as those for the -d option. Only Jpeg thumbnails can
+           <file>-thumb.jpg can be inserted.
    -e tgt  Extract target(s) for the `extract' action. Possible targets
-           are the same as those for the -i option plus:
-             t : extract the Exif thumbnail to an image file
+           are the same as those for the -d option.
    -r fmt  Filename format for the `rename' action. The format string
            follows strftime(3). Default filename format is %Y%m%d_%H%M%S.
 
@@ -991,63 +992,64 @@ Compare image data and extracted data ------------------------------------
 
 Delete Thumbnail ---------------------------------------------------------
 File 1/9: exiv2-empty.jpg
-exiv2-empty.jpg: No Exif data found in the file
 File 2/9: 20031214_000043.jpg
-Erasing Exif data from the file
+Erasing 6200 Bytes of thumbnail data
 File 3/9: 20000506_020544.jpg
-Erasing Exif data from the file
+Erasing 7923 Bytes of thumbnail data
 File 4/9: 20040329_224245.jpg
-Erasing Exif data from the file
+Erasing 9038 Bytes of thumbnail data
 File 5/9: 20010405_235039.jpg
-Erasing Exif data from the file
+Erasing 4756 Bytes of thumbnail data
 File 6/9: 20030925_201850.jpg
 Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
  Offset = 1384, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
-Erasing Exif data from the file
+Erasing 9858 Bytes of thumbnail data
 File 7/9: 20001026_044550.jpg
-Erasing Exif data from the file
+Erasing 20910 Bytes of thumbnail data
 File 8/9: 20030926_111535.jpg
-Erasing Exif data from the file
+Erasing 9696 Bytes of thumbnail data
 File 9/9: 20040316_075137.jpg
-Erasing Exif data from the file
+Erasing 12104 Bytes of thumbnail data
 File 1/9: exiv2-empty.jpg
 exiv2-empty.jpg: No Exif data found in the file
 File 2/9: 20031214_000043.jpg
-20031214_000043.jpg: No Exif data found in the file
+20031214_000043.jpg: Image does not contain an Exif thumbnail
 File 3/9: 20000506_020544.jpg
-20000506_020544.jpg: No Exif data found in the file
+20000506_020544.jpg: Image does not contain an Exif thumbnail
 File 4/9: 20040329_224245.jpg
-20040329_224245.jpg: No Exif data found in the file
+20040329_224245.jpg: Image does not contain an Exif thumbnail
 File 5/9: 20010405_235039.jpg
-20010405_235039.jpg: No Exif data found in the file
+20010405_235039.jpg: Image does not contain an Exif thumbnail
 File 6/9: 20030925_201850.jpg
-20030925_201850.jpg: No Exif data found in the file
+Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
+ Offset = 1384, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
+20030925_201850.jpg: Image does not contain an Exif thumbnail
 File 7/9: 20001026_044550.jpg
-20001026_044550.jpg: No Exif data found in the file
+20001026_044550.jpg: Image does not contain an Exif thumbnail
 File 8/9: 20030926_111535.jpg
-20030926_111535.jpg: No Exif data found in the file
+20030926_111535.jpg: Image does not contain an Exif thumbnail
 File 9/9: 20040316_075137.jpg
-20040316_075137.jpg: No Exif data found in the file
+20040316_075137.jpg: Image does not contain an Exif thumbnail
 
 Delete Exif data ---------------------------------------------------------
 File 1/9: exiv2-empty.jpg
-exiv2-empty.jpg: No Exif data found in the file
 File 2/9: 20031214_000043.jpg
-20031214_000043.jpg: No Exif data found in the file
+Erasing Exif data from the file
 File 3/9: 20000506_020544.jpg
-20000506_020544.jpg: No Exif data found in the file
+Erasing Exif data from the file
 File 4/9: 20040329_224245.jpg
-20040329_224245.jpg: No Exif data found in the file
+Erasing Exif data from the file
 File 5/9: 20010405_235039.jpg
-20010405_235039.jpg: No Exif data found in the file
+Erasing Exif data from the file
 File 6/9: 20030925_201850.jpg
-20030925_201850.jpg: No Exif data found in the file
+Erasing Exif data from the file
 File 7/9: 20001026_044550.jpg
-20001026_044550.jpg: No Exif data found in the file
+Erasing Exif data from the file
+Erasing Jpeg comment from the file
 File 8/9: 20030926_111535.jpg
-20030926_111535.jpg: No Exif data found in the file
+Erasing Exif data from the file
 File 9/9: 20040316_075137.jpg
-20040316_075137.jpg: No Exif data found in the file
+Erasing Exif data from the file
 File 1/9: exiv2-empty.jpg
 exiv2-empty.jpg: No Exif data found in the file
 File 2/9: 20031214_000043.jpg

@@ -162,17 +162,18 @@ void Params::help(std::ostream& os) const
        << "             h : hexdump of the Exif data\n"
        << "             i : Iptc data values\n"
        << "             c : Jpeg comment\n"
-       << "   -d tgt  Delete target for the `delete' action. Possible targets are\n"
-       << "           `e' to delete the whole Exif section (the default) and `t'\n"
-       << "           to delete only the Exif thumbnail from the files.\n"
-       << "   -i tgt  Insert target(s) for the `insert' action. Possible targets are:\n"
-       << "             a : all supported metadata (default)\n"
-       << "             e : Exif data\n"
+       << "   -d tgt  Delete target(s) for the `delete' action. Possible targets are:\n"
+       << "             a : all supported metadata (the default)\n"
+       << "             e : Exif section\n"
+       << "             t : Exif thumbnail only\n"
        << "             i : Iptc data\n"
        << "             c : Jpeg comment\n"
+       << "           to delete only the Exif thumbnail from the files.\n"
+       << "   -i tgt  Insert target(s) for the `insert' action. Possible targets are\n"
+       << "           the same as those for the -d option. Only Jpeg thumbnails can\n"
+       << "           <file>-thumb.jpg can be inserted.\n"
        << "   -e tgt  Extract target(s) for the `extract' action. Possible targets\n"
-       << "           are the same as those for the -i option plus:\n"
-       << "             t : extract the Exif thumbnail to an image file\n"
+       << "           are the same as those for the -d option.\n"
        << "   -r fmt  Filename format for the `rename' action. The format string\n"
        << "           follows strftime(3). Default filename format is " 
        <<             format_ << ".\n\n";
@@ -258,19 +259,17 @@ int Params::option(int opt, const std::string& optarg, int optopt)
         switch (action_) {
         case Action::none:
             action_ = Action::erase;
-            switch (optarg[0]) {
-            case 'e': target_ = ctExif; break;
-            case 't': target_ = ctThumb; break;
-            default:
-                std::cerr << progname() << ": Unrecognized delete target `"
-                          << optarg << "'\n";
-                rc = 1;
-                break;
-            }
-            break;
+            target_ = 0;
+            // fallthrough
         case Action::erase:
-            std::cerr << progname() 
-                      << ": Ignoring surplus option -d" << optarg << "\n";
+            rc = parseCommonTargets(optarg, "erase");
+            if (rc > 0) {
+                target_ |= rc;
+                rc = 0;
+            }
+            else {    
+                rc = 1;
+            }
             break;
         default:
             std::cerr << progname() 
@@ -378,7 +377,6 @@ int Params::nonoption(const std::string& argv)
             }
             action = true;
             action_ = Action::erase;
-            target_ = ctExif;
         }
         if (argv == "ex" || argv == "extract") {
             if (action_ != Action::none && action_ != Action::extract) {
@@ -489,7 +487,7 @@ namespace {
     {
         int rc = 0;
         int target = 0;
-        for (size_t i = 0; i < optarg.size(); ++i) {
+        for (size_t i = 0; rc == 0 && i < optarg.size(); ++i) {
             switch (optarg[i]) {
             case 'e': target |= Params::ctExif; break;
             case 'i': target |= Params::ctIptc; break;
@@ -500,7 +498,7 @@ namespace {
                                 | Params::ctComment; break;
             default:
                 std::cerr << Params::instance().progname() << ": Unrecognized " 
-                          << action << " target `" << optarg << "'\n";
+                          << action << " target `" << optarg[i] << "'\n";
                 rc = -1;
                 break;
             }
