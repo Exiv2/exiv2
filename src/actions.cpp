@@ -505,7 +505,7 @@ namespace Action {
         for (md = iptcData.begin(); md != end; ++md) {
             std::cout << "0x" << std::setw(4) << std::setfill('0') << std::right
                       << std::hex << md->tag() << " " 
-                      << std::setw(9) << std::setfill(' ') << std::left
+                      << std::setw(12) << std::setfill(' ') << std::left
                       << md->recordName() << " "
                       << std::setw(9) << std::setfill(' ') << std::left
                       << md->typeName() << " "
