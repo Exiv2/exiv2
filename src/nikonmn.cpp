@@ -36,6 +36,8 @@ EXIV2_RCSID("@(#) $Id$");
 #include "makernote.hpp"
 #include "value.hpp"
 #include "image.hpp"
+#include "tags.hpp"
+#include "error.hpp"
 
 // + standard includes
 #include <string>
@@ -53,32 +55,32 @@ namespace Exiv2 {
     const Nikon1MakerNote::RegisterMakerNote Nikon1MakerNote::register_;
 
     // Nikon1 MakerNote Tag Info
-    static const MakerNote::MnTagInfo nikon1MnTagInfo[] = {
-        MakerNote::MnTagInfo(0x0001, "Version", "Nikon Makernote version"),
-        MakerNote::MnTagInfo(0x0002, "ISOSpeed", "ISO speed setting"),
-        MakerNote::MnTagInfo(0x0003, "ColorMode", "Color mode"),
-        MakerNote::MnTagInfo(0x0004, "Quality", "Image quality setting"),
-        MakerNote::MnTagInfo(0x0005, "WhiteBalance", "White balance"),
-        MakerNote::MnTagInfo(0x0006, "Sharpening", "Image sharpening setting"),
-        MakerNote::MnTagInfo(0x0007, "Focus", "Focus mode"),
-        MakerNote::MnTagInfo(0x0008, "Flash", "Flash mode"),
-        MakerNote::MnTagInfo(0x000f, "ISOSelection", "ISO selection"),
-        MakerNote::MnTagInfo(0x0080, "ImageAdjustment", "Image adjustment setting"),
-        MakerNote::MnTagInfo(0x0082, "Adapter", "Adapter used"),
-        MakerNote::MnTagInfo(0x0085, "FocusDistance", "Manual focus distance"),
-        MakerNote::MnTagInfo(0x0086, "DigitalZoom", "Digital zoom setting"),
-        MakerNote::MnTagInfo(0x0088, "AFFocusPos", "AF focus position"),
+    const TagInfo Nikon1MakerNote::tagInfo_[] = {
+        TagInfo(0x0001, "Version", "Nikon Makernote version", nikon1IfdId, makerTags, printValue),
+        TagInfo(0x0002, "ISOSpeed", "ISO speed setting", nikon1IfdId, makerTags, print0x0002),
+        TagInfo(0x0003, "ColorMode", "Color mode", nikon1IfdId, makerTags, printValue),
+        TagInfo(0x0004, "Quality", "Image quality setting", nikon1IfdId, makerTags, printValue),
+        TagInfo(0x0005, "WhiteBalance", "White balance", nikon1IfdId, makerTags, printValue),
+        TagInfo(0x0006, "Sharpening", "Image sharpening setting", nikon1IfdId, makerTags, printValue),
+        TagInfo(0x0007, "Focus", "Focus mode", nikon1IfdId, makerTags, print0x0007),
+        TagInfo(0x0008, "Flash", "Flash mode", nikon1IfdId, makerTags, printValue),
+        TagInfo(0x000f, "ISOSelection", "ISO selection", nikon1IfdId, makerTags, printValue),
+        TagInfo(0x0080, "ImageAdjustment", "Image adjustment setting", nikon1IfdId, makerTags, printValue),
+        TagInfo(0x0082, "Adapter", "Adapter used", nikon1IfdId, makerTags, printValue),
+        TagInfo(0x0085, "FocusDistance", "Manual focus distance", nikon1IfdId, makerTags, print0x0085),
+        TagInfo(0x0086, "DigitalZoom", "Digital zoom setting", nikon1IfdId, makerTags, print0x0086),
+        TagInfo(0x0088, "AFFocusPos", "AF focus position", nikon1IfdId, makerTags, print0x0088),
         // End of list marker
-        MakerNote::MnTagInfo(0xffff, "(UnknownNikon1MnTag)", "Unknown Nikon1MakerNote tag")
+        TagInfo(0xffff, "(UnknownNikon1MnTag)", "Unknown Nikon1MakerNote tag", nikon1IfdId, makerTags, printValue)
     };
 
     Nikon1MakerNote::Nikon1MakerNote(bool alloc)
-        : IfdMakerNote(nikon1MnTagInfo, alloc), ifdItem_("Nikon1")
+        : IfdMakerNote(nikon1IfdId, alloc)
     {
     }
 
     Nikon1MakerNote::Nikon1MakerNote(const Nikon1MakerNote& rhs)
-        : IfdMakerNote(rhs), ifdItem_(rhs.ifdItem_)
+        : IfdMakerNote(rhs)
     {
     }
 
@@ -100,24 +102,6 @@ namespace Exiv2 {
     Nikon1MakerNote* Nikon1MakerNote::clone_() const 
     {
         return new Nikon1MakerNote(*this);
-    }
-
-    std::ostream& Nikon1MakerNote::printTag(std::ostream& os, 
-                                            uint16_t tag, 
-                                            const Value& value) const
-    {
-        switch (tag) {
-        case 0x0002: print0x0002(os, value); break;
-        case 0x0007: print0x0007(os, value); break;
-        case 0x0085: print0x0085(os, value); break;
-        case 0x0086: print0x0086(os, value); break;
-        case 0x0088: print0x0088(os, value); break;
-        default:
-            // All other tags (known or unknown) go here
-            os << value;
-            break;
-        }
-        return os;
     }
 
     std::ostream& Nikon1MakerNote::print0x0002(std::ostream& os,
@@ -206,21 +190,21 @@ namespace Exiv2 {
     const Nikon2MakerNote::RegisterMakerNote Nikon2MakerNote::register_;
 
     // Nikon2 MakerNote Tag Info
-    static const MakerNote::MnTagInfo nikon2MnTagInfo[] = {
-        MakerNote::MnTagInfo(0x0003, "Quality", "Image quality setting"),
-        MakerNote::MnTagInfo(0x0004, "ColorMode", "Color mode"),
-        MakerNote::MnTagInfo(0x0005, "ImageAdjustment", "Image adjustment setting"),
-        MakerNote::MnTagInfo(0x0006, "ISOSpeed", "ISO speed setting"),
-        MakerNote::MnTagInfo(0x0007, "WhiteBalance", "White balance"),
-        MakerNote::MnTagInfo(0x0008, "Focus", "Focus mode"),
-        MakerNote::MnTagInfo(0x000a, "DigitalZoom", "Digital zoom setting"),
-        MakerNote::MnTagInfo(0x000b, "Adapter", "Adapter used"),
+    const TagInfo Nikon2MakerNote::tagInfo_[] = {
+        TagInfo(0x0003, "Quality", "Image quality setting", nikon2IfdId, makerTags, print0x0003),
+        TagInfo(0x0004, "ColorMode", "Color mode", nikon2IfdId, makerTags, print0x0004),
+        TagInfo(0x0005, "ImageAdjustment", "Image adjustment setting", nikon2IfdId, makerTags, print0x0005),
+        TagInfo(0x0006, "ISOSpeed", "ISO speed setting", nikon2IfdId, makerTags, print0x0006),
+        TagInfo(0x0007, "WhiteBalance", "White balance", nikon2IfdId, makerTags, print0x0007),
+        TagInfo(0x0008, "Focus", "Focus mode", nikon2IfdId, makerTags, printValue),
+        TagInfo(0x000a, "DigitalZoom", "Digital zoom setting", nikon2IfdId, makerTags, print0x000a),
+        TagInfo(0x000b, "Adapter", "Adapter used", nikon2IfdId, makerTags, printValue),
         // End of list marker
-        MakerNote::MnTagInfo(0xffff, "(UnknownNikon2MnTag)", "Unknown Nikon2MakerNote tag")
+        TagInfo(0xffff, "(UnknownNikon2MnTag)", "Unknown Nikon2MakerNote tag", nikon2IfdId, makerTags, printValue)
     };
 
     Nikon2MakerNote::Nikon2MakerNote(bool alloc)
-        : IfdMakerNote(nikon2MnTagInfo, alloc), ifdItem_("Nikon2")
+        : IfdMakerNote(nikon2IfdId, alloc)
     {
         byte buf[] = {
             'N', 'i', 'k', 'o', 'n', '\0', 0x00, 0x01
@@ -229,7 +213,7 @@ namespace Exiv2 {
     }
 
     Nikon2MakerNote::Nikon2MakerNote(const Nikon2MakerNote& rhs)
-        : IfdMakerNote(rhs), ifdItem_(rhs.ifdItem_)
+        : IfdMakerNote(rhs)
     {
     }
 
@@ -278,25 +262,6 @@ namespace Exiv2 {
     Nikon2MakerNote* Nikon2MakerNote::clone_() const 
     {
         return new Nikon2MakerNote(*this);
-    }
-
-    std::ostream& Nikon2MakerNote::printTag(std::ostream& os, 
-                                            uint16_t tag, 
-                                            const Value& value) const
-    {
-        switch (tag) {
-        case 0x0003: print0x0003(os, value); break;
-        case 0x0004: print0x0004(os, value); break;
-        case 0x0005: print0x0005(os, value); break;
-        case 0x0006: print0x0006(os, value); break;
-        case 0x0007: print0x0007(os, value); break;
-        case 0x000a: print0x000a(os, value); break;
-        default:
-            // All other tags (known or unknown) go here
-            os << value;
-            break;
-        }
-        return os;
     }
 
     std::ostream& Nikon2MakerNote::print0x0003(std::ostream& os,
@@ -397,59 +362,59 @@ namespace Exiv2 {
     const Nikon3MakerNote::RegisterMakerNote Nikon3MakerNote::register_;
 
     // Nikon3 MakerNote Tag Info
-    static const MakerNote::MnTagInfo nikon3MnTagInfo[] = {
-        MakerNote::MnTagInfo(0x0001, "Version", "Nikon Makernote version"),
-        MakerNote::MnTagInfo(0x0002, "ISOSpeed", "ISO speed used"),
-        MakerNote::MnTagInfo(0x0003, "ColorMode", "Color mode"),
-        MakerNote::MnTagInfo(0x0004, "Quality", "Image quality setting"),
-        MakerNote::MnTagInfo(0x0005, "WhiteBalance", "White balance"),
-        MakerNote::MnTagInfo(0x0006, "Sharpening", "Image sharpening setting"),
-        MakerNote::MnTagInfo(0x0007, "Focus", "Focus mode"),
-        MakerNote::MnTagInfo(0x0008, "FlashSetting", "Flash setting"),
-        MakerNote::MnTagInfo(0x0009, "FlashMode", "Flash mode"),
-        MakerNote::MnTagInfo(0x000b, "WhiteBalanceBias", "White balance bias"),
-        MakerNote::MnTagInfo(0x000c, "ColorBalance1", "Color balance 1"),
-        MakerNote::MnTagInfo(0x000e, "ExposureDiff", "Exposure difference"),
-        MakerNote::MnTagInfo(0x000f, "ISOSelection", "ISO selection"),
-        MakerNote::MnTagInfo(0x000b, "DataDump", "Data dump"),
-        MakerNote::MnTagInfo(0x0011, "ThumbOffset", "Thumbnail IFD offset"),
-        MakerNote::MnTagInfo(0x0012, "FlashComp", "Flash compensation setting"),
-        MakerNote::MnTagInfo(0x0013, "ISOSetting", "ISO speed setting"),
-        MakerNote::MnTagInfo(0x0016, "ImageBoundry", "Image boundry"),
-        MakerNote::MnTagInfo(0x0018, "FlashBracketComp", "Flash bracket compensation applied"),
-        MakerNote::MnTagInfo(0x0019, "ExposureBracketComp", "AE bracket compensation applied"),
-        MakerNote::MnTagInfo(0x0080, "ImageAdjustment", "Image adjustment setting"),
-        MakerNote::MnTagInfo(0x0081, "ToneComp", "Tone compensation setting (contrast)"),
-        MakerNote::MnTagInfo(0x0082, "AuxiliaryLens", "Auxiliary lens (adapter)"),
-        MakerNote::MnTagInfo(0x0083, "LensType", "Lens type"),
-        MakerNote::MnTagInfo(0x0084, "Lens", "Lens"),
-        MakerNote::MnTagInfo(0x0085, "FocusDistance", "Manual focus distance"),
-        MakerNote::MnTagInfo(0x0086, "DigitalZoom", "Digital zoom setting"),
-        MakerNote::MnTagInfo(0x0087, "FlashType", "Type of flash used"),
-        MakerNote::MnTagInfo(0x0088, "AFFocusPos", "AF focus position"),
-        MakerNote::MnTagInfo(0x0089, "Bracketing", "Bracketing"),
-        MakerNote::MnTagInfo(0x008c, "NEFCurve1", "NEF curve 1"),
-        MakerNote::MnTagInfo(0x008d, "ColorMode", "Color mode"),
-        MakerNote::MnTagInfo(0x008f, "SceneMode", "Scene mode"),
-        MakerNote::MnTagInfo(0x0090, "LightingType", "Lighting type"),
-        MakerNote::MnTagInfo(0x0092, "HueAdjustment", "Hue adjustment"),
-        MakerNote::MnTagInfo(0x0094, "Saturation", "Saturation adjustment"),
-        MakerNote::MnTagInfo(0x0095, "NoiseReduction", "Noise reduction"),
-        MakerNote::MnTagInfo(0x0096, "NEFCurve2", "NEF curve 2"),
-        MakerNote::MnTagInfo(0x0097, "ColorBalance2", "Color balance 2"),
-        MakerNote::MnTagInfo(0x0099, "NEFThumbnailSize", "NEF thumbnail size"),
-        MakerNote::MnTagInfo(0x00a0, "SerialNumber", "Camera serial number"),
-        MakerNote::MnTagInfo(0x00a7, "ShutterCount", "Number of shots taken by camera"),
-        MakerNote::MnTagInfo(0x00a9, "ImageOptimization", "Image optimization"),
-        MakerNote::MnTagInfo(0x00aa, "Saturation", "Saturation"),
-        MakerNote::MnTagInfo(0x00ab, "VariProgram", "Vari program"),
-        MakerNote::MnTagInfo(0x0e00, "PrintIM", "Print image matching"),
+    const TagInfo Nikon3MakerNote::tagInfo_[] = {
+        TagInfo(0x0001, "Version", "Nikon Makernote version", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x0002, "ISOSpeed", "ISO speed used", nikon3IfdId, makerTags, print0x0002),
+        TagInfo(0x0003, "ColorMode", "Color mode", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x0004, "Quality", "Image quality setting", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x0005, "WhiteBalance", "White balance", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x0006, "Sharpening", "Image sharpening setting", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x0007, "Focus", "Focus mode", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x0008, "FlashSetting", "Flash setting", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x0009, "FlashMode", "Flash mode", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x000b, "WhiteBalanceBias", "White balance bias", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x000c, "ColorBalance1", "Color balance 1", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x000e, "ExposureDiff", "Exposure difference", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x000f, "ISOSelection", "ISO selection", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x000b, "DataDump", "Data dump", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x0011, "ThumbOffset", "Thumbnail IFD offset", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x0012, "FlashComp", "Flash compensation setting", nikon3IfdId, makerTags, print0x0012),
+        TagInfo(0x0013, "ISOSetting", "ISO speed setting", nikon3IfdId, makerTags, print0x0002), // use 0x0002 print fct
+        TagInfo(0x0016, "ImageBoundry", "Image boundry", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x0018, "FlashBracketComp", "Flash bracket compensation applied", nikon3IfdId, makerTags, print0x0012), // use 0x0012 print fct
+        TagInfo(0x0019, "ExposureBracketComp", "AE bracket compensation applied", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x0080, "ImageAdjustment", "Image adjustment setting", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x0081, "ToneComp", "Tone compensation setting (contrast)", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x0082, "AuxiliaryLens", "Auxiliary lens (adapter)", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x0083, "LensType", "Lens type", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x0084, "Lens", "Lens", nikon3IfdId, makerTags, print0x0084),
+        TagInfo(0x0085, "FocusDistance", "Manual focus distance", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x0086, "DigitalZoom", "Digital zoom setting", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x0087, "FlashType", "Type of flash used", nikon3IfdId, makerTags, print0x0087),
+        TagInfo(0x0088, "AFFocusPos", "AF focus position", nikon3IfdId, makerTags, print0x0088),
+        TagInfo(0x0089, "Bracketing", "Bracketing", nikon3IfdId, makerTags, print0x0089),
+        TagInfo(0x008c, "NEFCurve1", "NEF curve 1", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x008d, "ColorMode", "Color mode", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x008f, "SceneMode", "Scene mode", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x0090, "LightingType", "Lighting type", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x0092, "HueAdjustment", "Hue adjustment", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x0094, "Saturation", "Saturation adjustment", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x0095, "NoiseReduction", "Noise reduction", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x0096, "NEFCurve2", "NEF curve 2", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x0097, "ColorBalance2", "Color balance 2", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x0099, "NEFThumbnailSize", "NEF thumbnail size", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x00a0, "SerialNumber", "Camera serial number", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x00a7, "ShutterCount", "Number of shots taken by camera", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x00a9, "ImageOptimization", "Image optimization", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x00aa, "Saturation", "Saturation", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x00ab, "VariProgram", "Vari program", nikon3IfdId, makerTags, printValue),
+        TagInfo(0x0e00, "PrintIM", "Print image matching", nikon3IfdId, makerTags, printValue),
         // End of list marker
-        MakerNote::MnTagInfo(0xffff, "(UnknownNikon3MnTag)", "Unknown Nikon3MakerNote tag")
+        TagInfo(0xffff, "(UnknownNikon3MnTag)", "Unknown Nikon3MakerNote tag", nikon3IfdId, makerTags, printValue)
     };
 
     Nikon3MakerNote::Nikon3MakerNote(bool alloc)
-        : IfdMakerNote(nikon3MnTagInfo, alloc), ifdItem_("Nikon3")
+        : IfdMakerNote(nikon3IfdId, alloc)
     {
         absOffset_ = false;
         byte buf[] = {
@@ -460,30 +425,8 @@ namespace Exiv2 {
     }
 
     Nikon3MakerNote::Nikon3MakerNote(const Nikon3MakerNote& rhs)
-        : IfdMakerNote(rhs), ifdItem_(rhs.ifdItem_)
+        : IfdMakerNote(rhs)
     {
-    }
-
-    int Nikon3MakerNote::read(const byte* buf,
-                              long len, 
-                              ByteOrder byteOrder, 
-                              long offset)
-    {
-        int rc = IfdMakerNote::read(buf, len, byteOrder, offset);
-        if (rc) return rc;
-
-        // Todo: Add the tags and thumbnail from the embedded thumbnail IFD
-        //       Accessing them is easy, but we need support for more than
-        //       one IfdId in makernotes to get it working.
-//      Ifd thumbIfd(makerIfdId, 0, false);
-//      rc = ifd_.readSubIfd(thumbIfd, buf+10, len-10, byteOrder, 0x0011);
-//      if (rc) {
-//          std::cerr << "Didn't work :(\n";  
-//      }
-//      else {
-//          thumbIfd.print(std::cout);
-//      }
-        return 0;
     }
 
     int Nikon3MakerNote::readHeader(const byte* buf,
@@ -534,27 +477,6 @@ namespace Exiv2 {
     Nikon3MakerNote* Nikon3MakerNote::clone_() const 
     {
         return new Nikon3MakerNote(*this);
-    }
-
-    std::ostream& Nikon3MakerNote::printTag(std::ostream& os, 
-                                            uint16_t tag, 
-                                            const Value& value) const
-    {
-        switch (tag) {
-        case 0x0002: print0x0002(os, value); break;
-        case 0x0012: print0x0012(os, value); break;
-        case 0x0013: print0x0002(os, value); break; // use 0x0002 print fct
-        case 0x0018: print0x0012(os, value); break; // use 0x0012 print fct
-        case 0x0084: print0x0084(os, value); break;
-        case 0x0087: print0x0087(os, value); break;
-        case 0x0088: print0x0088(os, value); break;
-        case 0x0089: print0x0089(os, value); break;
-        default:
-            // All other tags (known or unknown) go here
-            os << value;
-            break;
-        }
-        return os;
     }
 
     std::ostream& Nikon3MakerNote::print0x0002(std::ostream& os,

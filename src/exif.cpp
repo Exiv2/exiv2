@@ -475,10 +475,8 @@ namespace Exiv2 {
                                   pExifIfd_->offset() + pos->offset());
             if (rc) {
                 // Todo: How to handle debug output like this
-                std::cerr << "Warning: Failed to read " 
-                          << makerNote_->ifdItem()
-                          << " Makernote, rc = " << rc << "\n";
-
+                std::cerr << "Warning: Failed to read Makernote, rc = "
+                          << rc << "\n";
                 makerNote_.reset();
             }
         }
@@ -710,14 +708,10 @@ namespace Exiv2 {
 
     void ExifData::add(const Exifdatum& exifdatum)
     {
-        if (exifdatum.ifdId() == makerIfdId) {
-            if (   makerNote_.get() != 0 
-                && makerNote_->ifdItem() != exifdatum.groupName()) {
-                throw Error("Inconsistent MakerNote");
-            }
+        if (ExifTags::isMakerIfd(exifdatum.ifdId())) {
             if (makerNote_.get() == 0) {
                 MakerNoteFactory& mnf = MakerNoteFactory::instance();
-                makerNote_ = mnf.create(exifdatum.groupName());
+                makerNote_ = mnf.create(exifdatum.ifdId());
             }
         }
         // allow duplicates
@@ -1033,7 +1027,7 @@ namespace Exiv2 {
         Entries::const_iterator entry;
         std::pair<bool, Entries::const_iterator> rc(false, entry);
 
-        if (ifdId == makerIfdId && makerNote_.get() != 0) {
+        if (ExifTags::isMakerIfd(ifdId) && makerNote_.get() != 0) {
             entry = makerNote_->findIdx(idx);
             if (entry != makerNote_->end()) {
                 rc.first = true;
@@ -1042,7 +1036,7 @@ namespace Exiv2 {
             return rc;
         }
         const Ifd* ifd = getIfd(ifdId);
-        if (ifd && ifdId != makerIfdId) {
+        if (ifd && isExifIfd(ifdId)) {
             entry = ifd->findIdx(idx);
             if (entry != ifd->end()) {
                 rc.first = true;
@@ -1166,8 +1160,7 @@ namespace Exiv2 {
                         ByteOrder byteOrder)
     {
         for (ExifMetadata::const_iterator i = begin; i != end; ++i) {
-            // add only metadata with IFD id 'makerIfd'
-            if (i->ifdId() == makerIfdId) {
+            if (ExifTags::isMakerIfd(i->ifdId())) {
                 addToMakerNote(makerNote, *i, byteOrder);
             }
         }
@@ -1196,8 +1189,7 @@ namespace Exiv2 {
 
     std::ostream& operator<<(std::ostream& os, const Exifdatum& md)
     {
-        assert(md.key_.get() != 0);
-        return md.key_->printTag(os, md.value());
+        return ExifTags::printTag(os, md.tag(), md.ifdId(), md.value());
     }
 }                                       // namespace Exiv2
 

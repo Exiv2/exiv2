@@ -35,7 +35,6 @@ EXIV2_RCSID("@(#) $Id$");
 // *****************************************************************************
 // included header files
 #include "makernote.hpp"
-#include "tags.hpp"                         // for ExifTags::ifdItem
 #include "error.hpp"
 
 // + standard includes
@@ -51,9 +50,8 @@ EXIV2_RCSID("@(#) $Id$");
 // class member definitions
 namespace Exiv2 {
 
-    MakerNote::MakerNote(const MnTagInfo* pMnTagInfo, bool alloc) 
-        : pMnTagInfo_(pMnTagInfo), alloc_(alloc),
-          offset_(0), byteOrder_(invalidByteOrder)
+    MakerNote::MakerNote(bool alloc) 
+        : alloc_(alloc), offset_(0), byteOrder_(invalidByteOrder)
     {
     }
 
@@ -67,83 +65,9 @@ namespace Exiv2 {
         return AutoPtr(clone_());
     }
 
-    std::string MakerNote::tagName(uint16_t tag) const
-    {
-        std::string tagName;
-        if (pMnTagInfo_) {
-            for (int i = 0; pMnTagInfo_[i].tag_ != 0xffff; ++i) {
-                if (pMnTagInfo_[i].tag_ == tag) {
-                    tagName = pMnTagInfo_[i].name_;
-                    break;
-                }
-            }
-        }
-        if (tagName.empty()) {
-            std::ostringstream os;
-            os << "0x" << std::setw(4) << std::setfill('0') << std::right
-               << std::hex << tag;
-            tagName = os.str();
-        }
-        return tagName;
-    } // MakerNote::tagName
-
-    uint16_t MakerNote::tag(const std::string& tagName) const
-    {
-        uint16_t tag = 0xffff;
-        if (pMnTagInfo_) {
-            for (int i = 0; pMnTagInfo_[i].tag_ != 0xffff; ++i) {
-                if (pMnTagInfo_[i].name_ == tagName) {
-                    tag = pMnTagInfo_[i].tag_;
-                    break;
-                }
-            }
-        }
-        if (tag == 0xffff) {
-            std::istringstream is(tagName);
-            is >> std::hex >> tag;
-        }
-        return tag;
-    } // MakerNote::tag
-
-    std::string MakerNote::tagDesc(uint16_t tag) const
-    {
-        std::string tagDesc;
-        if (pMnTagInfo_) {
-            for (int i = 0; pMnTagInfo_[i].tag_ != 0xffff; ++i) {
-                if (pMnTagInfo_[i].tag_ == tag) {
-                    tagDesc = pMnTagInfo_[i].desc_;
-                    break;
-                }
-            }
-        }
-        return tagDesc;
-    } // MakerNote::tagDesc
-
-    void MakerNote::taglist(std::ostream& os) const
-    {
-        if (pMnTagInfo_) {
-            for (int i = 0; pMnTagInfo_[i].tag_ != 0xffff; ++i) {
-                writeMnTagInfo(os, pMnTagInfo_[i].tag_) << std::endl;
-            }
-        }
-    } // MakerNote::taglist
-
-    std::ostream& MakerNote::writeMnTagInfo(std::ostream& os, uint16_t tag) const
-    {
-        ExifKey exifKey(tag, ifdItem());
-        return os << tagName(tag) << ", "
-                  << std::dec << tag << ", "
-                  << "0x" << std::setw(4) << std::setfill('0') 
-                  << std::right << std::hex << tag << ", "
-                  << ExifTags::ifdItem(makerIfdId) << ", "
-                  << exifKey.key() << ", " 
-                  << tagDesc(tag);
-    } // MakerNote::writeMnTagInfo
-
-    IfdMakerNote::IfdMakerNote(const MakerNote::MnTagInfo* pMnTagInfo,
-                               bool alloc)
-        : MakerNote(pMnTagInfo, alloc),
-          absOffset_(true), adjOffset_(0), ifd_(makerIfdId, 0, alloc)
+    IfdMakerNote::IfdMakerNote(IfdId ifdId, bool alloc)
+        : MakerNote(alloc), 
+          absOffset_(true), adjOffset_(0), ifd_(ifdId, 0, alloc)
     {
     }
 
@@ -181,12 +105,6 @@ namespace Exiv2 {
             // IfdMakerNote currently does not support multiple IFDs
             if (ifd_.next() != 0) rc = 3;
         }
-        if (rc == 0) {
-            Entries::iterator end = ifd_.end();
-            for (Entries::iterator i = ifd_.begin(); i != end; ++i) {
-                i->setMakerNote(this);
-            }
-        }
 #ifdef DEBUG_MAKERNOTE
         hexdump(std::cerr, buf, len, offset);
         if (rc == 0) ifd_.print(std::cerr);
@@ -223,10 +141,6 @@ namespace Exiv2 {
     { 
         if (absOffset_) {
             ifd_.updateBase(pNewBase);
-        }
-        Entries::iterator end = ifd_.end();
-        for (Entries::iterator i = ifd_.begin(); i != end; ++i) {
-            i->setMakerNote(this);
         }
     }
 
@@ -277,18 +191,18 @@ namespace Exiv2 {
         return *pInstance_;
     } // MakerNoteFactory::instance
 
-    void MakerNoteFactory::registerMakerNote(MakerNote::AutoPtr makerNote)
+    void MakerNoteFactory::registerMakerNote(IfdId ifdId,
+                                             MakerNote::AutoPtr makerNote)
     {
         MakerNote* pMakerNote = makerNote.release();
         assert(pMakerNote);
-        ifdItemRegistry_[pMakerNote->ifdItem()] = pMakerNote;
+        ifdIdRegistry_[ifdId] = pMakerNote;
     } // MakerNoteFactory::registerMakerNote
 
-    MakerNote::AutoPtr MakerNoteFactory::create(const std::string& ifdItem,
-                                                bool alloc) const
+    MakerNote::AutoPtr MakerNoteFactory::create(IfdId ifdId, bool alloc) const
     {
-        IfdItemRegistry::const_iterator i = ifdItemRegistry_.find(ifdItem);
-        if (i == ifdItemRegistry_.end()) return MakerNote::AutoPtr(0);
+        IfdIdRegistry::const_iterator i = ifdIdRegistry_.find(ifdId);
+        if (i == ifdIdRegistry_.end()) return MakerNote::AutoPtr(0);
         assert(i->second);
         return i->second->create(alloc);
     } // MakerNoteFactory::create

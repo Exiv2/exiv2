@@ -36,6 +36,7 @@
 // included header files
 #include "types.hpp"
 #include "makernote.hpp"
+#include "tags.hpp"
 
 // + standard includes
 #include <string>
@@ -107,11 +108,6 @@ namespace Exiv2 {
         //@{
         AutoPtr create(bool alloc =true) const;
         AutoPtr clone() const;
-        //! Return the name of the makernote item ("Canon")
-        std::string ifdItem() const { return ifdItem_; }
-        std::ostream& printTag(std::ostream& os,
-                               uint16_t tag, 
-                               const Value& value) const;
         //@}
 
         //! @name Print functions for Canon %MakerNote tags 
@@ -184,6 +180,9 @@ namespace Exiv2 {
         //! Internal virtual copy constructor.
         CanonMakerNote* clone_() const;
 
+        //! Tag information
+        static const TagInfo tagInfo_[];
+
         //! Structure used to auto-register the MakerNote.
         struct RegisterMakerNote {
             //! Default constructor
@@ -191,7 +190,9 @@ namespace Exiv2 {
             {
                 MakerNoteFactory& mnf = MakerNoteFactory::instance();
                 mnf.registerMakerNote("Canon", "*", createCanonMakerNote); 
-                mnf.registerMakerNote(MakerNote::AutoPtr(new CanonMakerNote));
+                mnf.registerMakerNote(canonIfdId, 
+                                      MakerNote::AutoPtr(new CanonMakerNote));
+                ExifTags::registerMakerTagInfo(canonIfdId, tagInfo_);
             }
         };
         /*!
@@ -207,9 +208,6 @@ namespace Exiv2 {
                 demand.
          */
         static const RegisterMakerNote register_; 
-
-        //! The item name (second part of the key) used for makernote tags
-        std::string ifdItem_;
 
     }; // class CanonMakerNote
 

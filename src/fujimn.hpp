@@ -36,6 +36,7 @@
 // included header files
 #include "types.hpp"
 #include "makernote.hpp"
+#include "tags.hpp"
 
 // + standard includes
 #include <string>
@@ -115,11 +116,6 @@ namespace Exiv2 {
         int checkHeader() const;
         AutoPtr create(bool alloc =true) const;
         AutoPtr clone() const;
-        //! Return the name of the makernote item ("Fujifilm")
-        std::string ifdItem() const { return ifdItem_; }
-        std::ostream& printTag(std::ostream& os,
-                               uint16_t tag, 
-                               const Value& value) const;
         //@}
 
         //! @name Print functions for Fujifilm %MakerNote tags 
@@ -148,6 +144,9 @@ namespace Exiv2 {
         //! Internal virtual copy constructor.
         FujiMakerNote* clone_() const;
 
+        //! Tag information
+        static const TagInfo tagInfo_[];
+
         //! Structure used to auto-register the MakerNote.
         struct RegisterMakerNote {
             //! Default constructor
@@ -155,7 +154,9 @@ namespace Exiv2 {
             {
                 MakerNoteFactory& mnf = MakerNoteFactory::instance();
                 mnf.registerMakerNote("FUJIFILM", "*", createFujiMakerNote); 
-                mnf.registerMakerNote(MakerNote::AutoPtr(new FujiMakerNote));
+                mnf.registerMakerNote(fujiIfdId,
+                                      MakerNote::AutoPtr(new FujiMakerNote));
+                ExifTags::registerMakerTagInfo(fujiIfdId, tagInfo_);
             }
         };
         /*!
@@ -171,9 +172,6 @@ namespace Exiv2 {
                 demand.
          */
         static const RegisterMakerNote register_; 
-
-        //! The item name (second part of the key) used for makernote tags
-        std::string ifdItem_;
 
     }; // class FujiMakerNote
 

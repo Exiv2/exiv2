@@ -84,9 +84,12 @@ namespace Exiv2 {
                   comment,
                   lastTypeId };
 
+    // Todo: decentralize IfdId, so that new ids can be defined elsewhere
     //! Type to specify the IFD to which a metadata belongs
     enum IfdId { ifdIdNotSet, 
-                 ifd0Id, exifIfdId, gpsIfdId, makerIfdId, iopIfdId, ifd1Id, 
+                 ifd0Id, exifIfdId, gpsIfdId, iopIfdId, ifd1Id, 
+                 canonIfdId, fujiIfdId, nikon1IfdId, nikon2IfdId, nikon3IfdId, 
+                 nikon3ThumbIfdId, sigmaIfdId,
                  lastIfdId };
 
 // *****************************************************************************
@@ -285,7 +288,7 @@ namespace Exiv2 {
     bool isHex(const std::string& str, 
                size_t size =0,
                const std::string& prefix ="");
-   
+
 // *****************************************************************************
 // template and inline definitions
 

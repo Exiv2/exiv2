@@ -418,3 +418,424 @@ Exif.Thumbnail.YResolution                    0x011b IFD1         Rational    1 
 Exif.Thumbnail.ResolutionUnit                 0x0128 IFD1         Short       1 2
 Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 0
 Exif.Thumbnail.JPEGInterchangeFormatLength    0x0202 IFD1         Long        1 5448
+Copy construction, non-intrusive changes
+Exif.Image.Make                               0x010f IFD0         Ascii      18 NIKON CORPORATION
+Exif.Image.Model                              0x0110 IFD0         Ascii      10 NIKON D70
+Exif.Image.Orientation                        0x0112 IFD0         Short       1 2
+Exif.Image.XResolution                        0x011a IFD0         Rational    1 300/1
+Exif.Image.YResolution                        0x011b IFD0         Rational    1 300/1
+Exif.Image.ResolutionUnit                     0x0128 IFD0         Short       1 2
+Exif.Image.Software                           0x0131 IFD0         Ascii      10 Ver.1.01 
+Exif.Image.DateTime                           0x0132 IFD0         Ascii      20 Sunday, 11am
+Exif.Image.WhitePoint                         0x013e IFD0         Rational    2 313/1000 329/1000
+Exif.Image.PrimaryChromaticities              0x013f IFD0         Rational    6 64/100 33/100 21/100 71/100 15/100 6/100
+Exif.Image.YCbCrCoefficients                  0x0211 IFD0         Rational    3 299/1000 587/1000 114/1000
+Exif.Image.YCbCrPositioning                   0x0213 IFD0         Short       1 2
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 340
+Exif.Photo.ExposureTime                       0x829a Exif         Rational    1 10/2500
+Exif.Photo.FNumber                            0x829d Exif         Rational    1 90/10
+Exif.Photo.ExposureProgram                    0x8822 Exif         Short       1 2
+Exif.Photo.ExifVersion                        0x9000 Exif         Undefined   4 48 50 50 49 
+Exif.Photo.DateTimeOriginal                   0x9003 Exif         Ascii      20 Sunday, 11am
+Exif.Photo.DateTimeDigitized                  0x9004 Exif         Ascii      20 2004:03:30 10:43:46
+Exif.Photo.ComponentsConfiguration            0x9101 Exif         Undefined   4 1 2 3 0 
+Exif.Photo.CompressedBitsPerPixel             0x9102 Exif         Rational    1 4/1
+Exif.Photo.ExposureBiasValue                  0x9204 Exif         SRational   1 0/6
+Exif.Photo.MaxApertureValue                   0x9205 Exif         Rational    1 43/10
+Exif.Photo.MeteringMode                       0x9207 Exif         Short       1 1
+Exif.Photo.LightSource                        0x9208 Exif         Short       1 0
+Exif.Photo.Flash                              0x9209 Exif         Short       1 0
+Exif.Photo.FocalLength                        0x920a Exif         Rational    1 500/10
+Exif.Photo.UserComment                        0x9286 Exif         Undefined  44 65 83 67 73 73 0 0 0 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 
+Exif.Photo.SubSecTime                         0x9290 Exif         Ascii       3 00
+Exif.Photo.SubSecTimeOriginal                 0x9291 Exif         Ascii       3 00
+Exif.Photo.SubSecTimeDigitized                0x9292 Exif         Ascii       3 00
+Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 48 49 48 48 
+Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 65535
+Exif.Photo.PixelXDimension                    0xa002 Exif         Short       1 3008
+Exif.Photo.PixelYDimension                    0xa003 Exif         Short       1 2000
+Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 30306
+Exif.Photo.SensingMethod                      0xa217 Exif         Short       1 2
+Exif.Photo.FileSource                         0xa300 Exif         Undefined   1 3 
+Exif.Photo.SceneType                          0xa301 Exif         Undefined   1 1 
+Exif.Photo.CFAPattern                         0xa302 Exif         Undefined   8 0 2 0 2 2 1 1 0 
+Exif.Photo.CustomRendered                     0xa401 Exif         Short       1 0
+Exif.Photo.ExposureMode                       0xa402 Exif         Short       1 0
+Exif.Photo.WhiteBalance                       0xa403 Exif         Short       1 0
+Exif.Photo.DigitalZoomRatio                   0xa404 Exif         Rational    1 1/1
+Exif.Photo.FocalLengthIn35mmFilm              0xa405 Exif         Short       1 75
+Exif.Photo.SceneCaptureType                   0xa406 Exif         Short       1 0
+Exif.Photo.GainControl                        0xa407 Exif         Short       1 0
+Exif.Photo.Contrast                           0xa408 Exif         Short       1 0
+Exif.Photo.Saturation                         0xa409 Exif         Short       1 0
+Exif.Photo.Sharpness                          0xa40a Exif         Short       1 0
+Exif.Photo.SubjectDistanceRange               0xa40c Exif         Short       1 0
+Exif.Photo.0xa500                             0xa500 Exif         Rational    1 22/10
+Exif.Nikon3.Version                           0x0001 Makernote    Undefined   4 48 50 49 48 
+Exif.Nikon3.ISOSpeed                          0x0002 Makernote    Short       2 0 200
+Exif.Nikon3.Quality                           0x0004 Makernote    Ascii       8 FINE   
+Exif.Nikon3.WhiteBalance                      0x0005 Makernote    Ascii      13 AUTO        
+Exif.Nikon3.Sharpening                        0x0006 Makernote    Ascii       7 AUTO  
+Exif.Nikon3.Focus                             0x0007 Makernote    Ascii       7 AF-S  
+Exif.Nikon3.FlashSetting                      0x0008 Makernote    Ascii      13 NORMAL      
+Exif.Nikon3.FlashMode                         0x0009 Makernote    Ascii      13             
+Exif.Nikon3.WhiteBalanceBias                  0x000b Makernote    SShort      1 0
+Exif.Nikon3.0x000d                            0x000d Makernote    Undefined   4 0 1 6 0 
+Exif.Nikon3.ExposureDiff                      0x000e Makernote    Undefined   4 0 1 12 0 
+Exif.Nikon3.ThumbOffset                       0x0011 Makernote    Long        1 1430
+Exif.Nikon3.FlashComp                         0x0012 Makernote    Undefined   4 0 1 6 0 
+Exif.Nikon3.ISOSetting                        0x0013 Makernote    Short       2 0 200
+Exif.Nikon3.ImageBoundry                      0x0016 Makernote    Short       4 0 0 3008 2000
+Exif.Nikon3.0x0017                            0x0017 Makernote    Undefined   4 0 1 6 0 
+Exif.Nikon3.FlashBracketComp                  0x0018 Makernote    Undefined   4 0 1 6 0 
+Exif.Nikon3.ExposureBracketComp               0x0019 Makernote    SRational   1 0/1
+Exif.Nikon3.ToneComp                          0x0081 Makernote    Ascii       9 AUTO    
+Exif.Nikon3.LensType                          0x0083 Makernote    Byte        1 6 
+Exif.Nikon3.Lens                              0x0084 Makernote    Rational    4 180/10 700/10 35/10 45/10
+Exif.Nikon3.FlashType                         0x0087 Makernote    Byte        1 0 
+Exif.Nikon3.AFFocusPos                        0x0088 Makernote    Undefined   4 0 0 0 1 
+Exif.Nikon3.Bracketing                        0x0089 Makernote    Short       1 0
+Exif.Nikon3.0x008a                            0x008a Makernote    Short       1 0
+Exif.Nikon3.0x008b                            0x008b Makernote    Undefined   4 64 1 12 0 
+Exif.Nikon3.ColorMode                         0x008d Makernote    Ascii       9 MODE1a  
+Exif.Nikon3.LightingType                      0x0090 Makernote    Ascii      12 NATURAL    
+Exif.Nikon3.0x0091                            0x0091 Makernote    Undefined 465 48 49 48 51 0 0 0 124 0 0 5 13 113 0 0 0 0 1 0 0 11 0 0 0 0 0 20 0 0 31 0 0 0 0 0 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 32 0 0 31 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 0 0 0 0 0 0 0 45 0 0 0 0 0 1 0 0 0 0 89 1 2 205 51 206 179 54 56 53 54 48 51 0 218 0 214 0 167 0 171 0 50 0 51 0 5 0 0 0 0 0 0 0 0 0 1 0 5 0 0 3 194 0 0 0 100 30 161 200 95 222 59 231 63 201 147 36 178 108 51 110 51 142 15 205 20 205 255 24 187 172 35 200 39 84 41 220 51 68 39 136 59 158 49 239 176 221 55 206 242 77 6 206 51 212 169 76 179 220 17 174 50 140 159 228 51 220 49 78 186 201 119 196 225 223 50 196 178 204 146 204 17 54 56 53 54 48 49 0 101 0 161 0 172 172 169 163 163 168 169 169 168 168 170 171 164 152 149 5 249 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 38 72 0 8 1 78 226 1 0 72 49 38 48 0 0 0 3 7 252 11 226 0 4 169 1 72 0 128 16 0 0 3 151 96 196 12 145 80 60 0 0 4 190 3 111 0 0 9 186 0 0 4 197 0 0 4 190 3 111 0 0 0 0 3 0 0 0 0 200 0 60 52 62 143 63 0 0 4 176 0 0 4 162 0 0 4 177 0 0 4 126 255 127 255 127 255 127 255 127 8 128 3 111 3 28 2 157 18 17 1 0 0 0 0 72 240 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 64 0 0 0 0 64 
+Exif.Nikon3.HueAdjustment                     0x0092 Makernote    SShort      1 0
+Exif.Nikon3.NoiseReduction                    0x0095 Makernote    Ascii       5 OFF 
+Exif.Nikon3.ColorBalance2                     0x0097 Makernote    Undefined 140 48 49 48 51 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 2 4 1 0 1 163 1 0 0 0 1 8 1 0 0 0 0 0 0 112 0 12 0 24 0 3 1 140 255 109 0 7 255 216 1 90 255 206 255 251 255 222 1 39 255 255 255 255 255 255 128 0 0 0 0 0 0 0 0 0 10 0 0 0 2 128 0 0 3 0 0 0 2 128 0 0 0 0 16 16 0 255 0 255 0 77 0 150 0 29 255 204 255 186 0 122 0 127 255 150 255 235 0 0 5 0 0 8 108 18 223 51 5 89 1 63 240 240 0 26 
+Exif.Nikon3.0x0098                            0x0098 Makernote    Undefined  31 48 49 48 49 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 
+Exif.Nikon3.0x009a                            0x009a Makernote    Rational    2 78/10 78/10
+Exif.Nikon3.SerialNumber                      0x00a0 Makernote    Ascii      21 NO= 100005e5        
+Exif.Nikon3.0x00a2                            0x00a2 Makernote    Long        1 2929656
+Exif.Nikon3.0x00a3                            0x00a3 Makernote    Byte        1 0 
+Exif.Nikon3.ShutterCount                      0x00a7 Makernote    Long        1 1193
+Exif.Nikon3.0x00a8                            0x00a8 Makernote    Undefined  20 48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Exif.Nikon3.ImageOptimization                 0x00a9 Makernote    Ascii      16 NORMAL         
+Exif.Nikon3.Saturation                        0x00aa Makernote    Ascii      16 NORMAL         
+Exif.Nikon3.VariProgram                       0x00ab Makernote    Ascii      16                
+Exif.Iop.InteroperabilityIndex                0x0001 Iop          Ascii       4 123
+Exif.Iop.InteroperabilityVersion              0x0002 Iop          Undefined   4 48 49 48 48 
+Exif.Thumbnail.Compression                    0x0103 IFD1         Short       1 6
+Exif.Thumbnail.XResolution                    0x011a IFD1         Rational    1 300/1
+Exif.Thumbnail.YResolution                    0x011b IFD1         Rational    1 300/1
+Exif.Thumbnail.ResolutionUnit                 0x0128 IFD1         Short       1 2
+Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 0
+Exif.Thumbnail.JPEGInterchangeFormatLength    0x0202 IFD1         Long        1 8930
+Exif.Thumbnail.YCbCrPositioning               0x0213 IFD1         Short       1 2
+----------------------------------------------
+Copy construction, intrusive changes
+Exif.Image.Make                               0x010f IFD0         Ascii      18 NIKON CORPORATION
+Exif.Image.Model                              0x0110 IFD0         Ascii      10 NIKON D70
+Exif.Image.Orientation                        0x0112 IFD0         Short       4 2 3 4 5
+Exif.Image.XResolution                        0x011a IFD0         Rational    1 300/1
+Exif.Image.YResolution                        0x011b IFD0         Rational    1 300/1
+Exif.Image.ResolutionUnit                     0x0128 IFD0         Short       1 2
+Exif.Image.Software                           0x0131 IFD0         Ascii      10 Ver.1.01 
+Exif.Image.DateTime                           0x0132 IFD0         Ascii      29 Sunday, 11am and ten minutes
+Exif.Image.WhitePoint                         0x013e IFD0         Rational    2 313/1000 329/1000
+Exif.Image.PrimaryChromaticities              0x013f IFD0         Rational    6 64/100 33/100 21/100 71/100 15/100 6/100
+Exif.Image.YCbCrCoefficients                  0x0211 IFD0         Rational    3 299/1000 587/1000 114/1000
+Exif.Image.YCbCrPositioning                   0x0213 IFD0         Short       1 2
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 349
+Exif.Photo.ExposureTime                       0x829a Exif         Rational    1 10/2500
+Exif.Photo.FNumber                            0x829d Exif         Rational    1 90/10
+Exif.Photo.ExposureProgram                    0x8822 Exif         Short       1 2
+Exif.Photo.ExifVersion                        0x9000 Exif         Undefined   4 48 50 50 49 
+Exif.Photo.DateTimeOriginal                   0x9003 Exif         Ascii      29 Sunday, 11am and ten minutes
+Exif.Photo.DateTimeDigitized                  0x9004 Exif         Ascii      20 2004:03:30 10:43:46
+Exif.Photo.ComponentsConfiguration            0x9101 Exif         Undefined   4 1 2 3 0 
+Exif.Photo.CompressedBitsPerPixel             0x9102 Exif         Rational    1 4/1
+Exif.Photo.ExposureBiasValue                  0x9204 Exif         SRational   1 0/6
+Exif.Photo.MaxApertureValue                   0x9205 Exif         Rational    1 43/10
+Exif.Photo.MeteringMode                       0x9207 Exif         Short       6 1 2 3 4 5 6
+Exif.Photo.LightSource                        0x9208 Exif         Short       1 0
+Exif.Photo.Flash                              0x9209 Exif         Short       1 0
+Exif.Photo.FocalLength                        0x920a Exif         Rational    1 500/10
+Exif.Photo.UserComment                        0x9286 Exif         Undefined  44 65 83 67 73 73 0 0 0 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 
+Exif.Photo.SubSecTime                         0x9290 Exif         Ascii       3 00
+Exif.Photo.SubSecTimeOriginal                 0x9291 Exif         Ascii       3 00
+Exif.Photo.SubSecTimeDigitized                0x9292 Exif         Ascii       3 00
+Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 48 49 48 48 
+Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 65535
+Exif.Photo.PixelXDimension                    0xa002 Exif         Short       1 3008
+Exif.Photo.PixelYDimension                    0xa003 Exif         Short       1 2000
+Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 2425
+Exif.Photo.SensingMethod                      0xa217 Exif         Short       1 2
+Exif.Photo.FileSource                         0xa300 Exif         Undefined   1 3 
+Exif.Photo.SceneType                          0xa301 Exif         Undefined   1 1 
+Exif.Photo.CFAPattern                         0xa302 Exif         Undefined   8 0 2 0 2 2 1 1 0 
+Exif.Photo.CustomRendered                     0xa401 Exif         Short       1 0
+Exif.Photo.ExposureMode                       0xa402 Exif         Short       1 0
+Exif.Photo.WhiteBalance                       0xa403 Exif         Short       1 0
+Exif.Photo.DigitalZoomRatio                   0xa404 Exif         Rational    1 1/1
+Exif.Photo.FocalLengthIn35mmFilm              0xa405 Exif         Short       1 75
+Exif.Photo.SceneCaptureType                   0xa406 Exif         Short       1 0
+Exif.Photo.GainControl                        0xa407 Exif         Short       1 0
+Exif.Photo.Contrast                           0xa408 Exif         Short       1 0
+Exif.Photo.Saturation                         0xa409 Exif         Short       1 0
+Exif.Photo.Sharpness                          0xa40a Exif         Short       1 0
+Exif.Photo.SubjectDistanceRange               0xa40c Exif         Short       1 0
+Exif.Photo.0xa500                             0xa500 Exif         Rational    1 22/10
+Exif.Nikon3.Version                           0x0001 Makernote    Undefined   4 48 50 49 48 
+Exif.Nikon3.ISOSpeed                          0x0002 Makernote    Short       2 0 200
+Exif.Nikon3.Quality                           0x0004 Makernote    Ascii       8 FINE   
+Exif.Nikon3.WhiteBalance                      0x0005 Makernote    Ascii      13 AUTO        
+Exif.Nikon3.Sharpening                        0x0006 Makernote    Ascii       7 AUTO  
+Exif.Nikon3.Focus                             0x0007 Makernote    Ascii       7 AF-S  
+Exif.Nikon3.FlashSetting                      0x0008 Makernote    Ascii      13 NORMAL      
+Exif.Nikon3.FlashMode                         0x0009 Makernote    Ascii      13             
+Exif.Nikon3.WhiteBalanceBias                  0x000b Makernote    SShort      1 0
+Exif.Nikon3.0x000d                            0x000d Makernote    Undefined   4 0 1 6 0 
+Exif.Nikon3.ExposureDiff                      0x000e Makernote    Undefined   4 0 1 12 0 
+Exif.Nikon3.ThumbOffset                       0x0011 Makernote    Long        1 1430
+Exif.Nikon3.FlashComp                         0x0012 Makernote    Undefined   4 0 1 6 0 
+Exif.Nikon3.ISOSetting                        0x0013 Makernote    Short       2 0 200
+Exif.Nikon3.ImageBoundry                      0x0016 Makernote    Short       4 0 0 3008 2000
+Exif.Nikon3.0x0017                            0x0017 Makernote    Undefined   4 0 1 6 0 
+Exif.Nikon3.FlashBracketComp                  0x0018 Makernote    Undefined   4 0 1 6 0 
+Exif.Nikon3.ExposureBracketComp               0x0019 Makernote    SRational   1 0/1
+Exif.Nikon3.ToneComp                          0x0081 Makernote    Ascii       9 AUTO    
+Exif.Nikon3.LensType                          0x0083 Makernote    Byte        1 6 
+Exif.Nikon3.Lens                              0x0084 Makernote    Rational    4 180/10 700/10 35/10 45/10
+Exif.Nikon3.FlashType                         0x0087 Makernote    Byte        1 0 
+Exif.Nikon3.AFFocusPos                        0x0088 Makernote    Undefined   4 0 0 0 1 
+Exif.Nikon3.Bracketing                        0x0089 Makernote    Short       1 0
+Exif.Nikon3.0x008a                            0x008a Makernote    Short       1 0
+Exif.Nikon3.0x008b                            0x008b Makernote    Undefined   4 64 1 12 0 
+Exif.Nikon3.ColorMode                         0x008d Makernote    Ascii       9 MODE1a  
+Exif.Nikon3.LightingType                      0x0090 Makernote    Ascii      12 NATURAL    
+Exif.Nikon3.0x0091                            0x0091 Makernote    Undefined 465 48 49 48 51 0 0 0 124 0 0 5 13 113 0 0 0 0 1 0 0 11 0 0 0 0 0 20 0 0 31 0 0 0 0 0 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 32 0 0 31 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 0 0 0 0 0 0 0 45 0 0 0 0 0 1 0 0 0 0 89 1 2 205 51 206 179 54 56 53 54 48 51 0 218 0 214 0 167 0 171 0 50 0 51 0 5 0 0 0 0 0 0 0 0 0 1 0 5 0 0 3 194 0 0 0 100 30 161 200 95 222 59 231 63 201 147 36 178 108 51 110 51 142 15 205 20 205 255 24 187 172 35 200 39 84 41 220 51 68 39 136 59 158 49 239 176 221 55 206 242 77 6 206 51 212 169 76 179 220 17 174 50 140 159 228 51 220 49 78 186 201 119 196 225 223 50 196 178 204 146 204 17 54 56 53 54 48 49 0 101 0 161 0 172 172 169 163 163 168 169 169 168 168 170 171 164 152 149 5 249 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 38 72 0 8 1 78 226 1 0 72 49 38 48 0 0 0 3 7 252 11 226 0 4 169 1 72 0 128 16 0 0 3 151 96 196 12 145 80 60 0 0 4 190 3 111 0 0 9 186 0 0 4 197 0 0 4 190 3 111 0 0 0 0 3 0 0 0 0 200 0 60 52 62 143 63 0 0 4 176 0 0 4 162 0 0 4 177 0 0 4 126 255 127 255 127 255 127 255 127 8 128 3 111 3 28 2 157 18 17 1 0 0 0 0 72 240 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 64 0 0 0 0 64 
+Exif.Nikon3.HueAdjustment                     0x0092 Makernote    SShort      1 0
+Exif.Nikon3.NoiseReduction                    0x0095 Makernote    Ascii       5 OFF 
+Exif.Nikon3.ColorBalance2                     0x0097 Makernote    Undefined 140 48 49 48 51 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 2 4 1 0 1 163 1 0 0 0 1 8 1 0 0 0 0 0 0 112 0 12 0 24 0 3 1 140 255 109 0 7 255 216 1 90 255 206 255 251 255 222 1 39 255 255 255 255 255 255 128 0 0 0 0 0 0 0 0 0 10 0 0 0 2 128 0 0 3 0 0 0 2 128 0 0 0 0 16 16 0 255 0 255 0 77 0 150 0 29 255 204 255 186 0 122 0 127 255 150 255 235 0 0 5 0 0 8 108 18 223 51 5 89 1 63 240 240 0 26 
+Exif.Nikon3.0x0098                            0x0098 Makernote    Undefined  31 48 49 48 49 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 
+Exif.Nikon3.0x009a                            0x009a Makernote    Rational    2 78/10 78/10
+Exif.Nikon3.SerialNumber                      0x00a0 Makernote    Ascii      21 NO= 100005e5        
+Exif.Nikon3.0x00a2                            0x00a2 Makernote    Long        1 2929656
+Exif.Nikon3.0x00a3                            0x00a3 Makernote    Byte        1 0 
+Exif.Nikon3.ShutterCount                      0x00a7 Makernote    Long        1 1193
+Exif.Nikon3.0x00a8                            0x00a8 Makernote    Undefined  20 48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Exif.Nikon3.ImageOptimization                 0x00a9 Makernote    Ascii      16 NORMAL         
+Exif.Nikon3.Saturation                        0x00aa Makernote    Ascii      16 NORMAL         
+Exif.Nikon3.VariProgram                       0x00ab Makernote    Ascii      16                
+Exif.Iop.InteroperabilityIndex                0x0001 Iop          Ascii       5 1234
+Exif.Iop.InteroperabilityVersion              0x0002 Iop          Undefined   4 48 49 48 48 
+Exif.Thumbnail.Compression                    0x0103 IFD1         Short       1 6
+Exif.Thumbnail.Orientation                    0x0112 IFD1         Ascii      10 2 3 4 5 6
+Exif.Thumbnail.XResolution                    0x011a IFD1         Rational    1 300/1
+Exif.Thumbnail.YResolution                    0x011b IFD1         Rational    1 300/1
+Exif.Thumbnail.ResolutionUnit                 0x0128 IFD1         Short       1 2
+Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 0
+Exif.Thumbnail.JPEGInterchangeFormatLength    0x0202 IFD1         Long        1 8930
+Exif.Thumbnail.YCbCrPositioning               0x0213 IFD1         Short       1 2
+----------------------------------------------
+Assignment, non-intrusive changes
+Exif.Image.Make                               0x010f IFD0         Ascii      18 NIKON CORPORATION
+Exif.Image.Model                              0x0110 IFD0         Ascii      10 NIKON D70
+Exif.Image.Orientation                        0x0112 IFD0         Short       1 2
+Exif.Image.XResolution                        0x011a IFD0         Rational    1 300/1
+Exif.Image.YResolution                        0x011b IFD0         Rational    1 300/1
+Exif.Image.ResolutionUnit                     0x0128 IFD0         Short       1 2
+Exif.Image.Software                           0x0131 IFD0         Ascii      10 Ver.1.01 
+Exif.Image.DateTime                           0x0132 IFD0         Ascii      20 Sunday, 11am
+Exif.Image.WhitePoint                         0x013e IFD0         Rational    2 313/1000 329/1000
+Exif.Image.PrimaryChromaticities              0x013f IFD0         Rational    6 64/100 33/100 21/100 71/100 15/100 6/100
+Exif.Image.YCbCrCoefficients                  0x0211 IFD0         Rational    3 299/1000 587/1000 114/1000
+Exif.Image.YCbCrPositioning                   0x0213 IFD0         Short       1 2
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 340
+Exif.Photo.ExposureTime                       0x829a Exif         Rational    1 10/2500
+Exif.Photo.FNumber                            0x829d Exif         Rational    1 90/10
+Exif.Photo.ExposureProgram                    0x8822 Exif         Short       1 2
+Exif.Photo.ExifVersion                        0x9000 Exif         Undefined   4 48 50 50 49 
+Exif.Photo.DateTimeOriginal                   0x9003 Exif         Ascii      20 Sunday, 11am
+Exif.Photo.DateTimeDigitized                  0x9004 Exif         Ascii      20 2004:03:30 10:43:46
+Exif.Photo.ComponentsConfiguration            0x9101 Exif         Undefined   4 1 2 3 0 
+Exif.Photo.CompressedBitsPerPixel             0x9102 Exif         Rational    1 4/1
+Exif.Photo.ExposureBiasValue                  0x9204 Exif         SRational   1 0/6
+Exif.Photo.MaxApertureValue                   0x9205 Exif         Rational    1 43/10
+Exif.Photo.MeteringMode                       0x9207 Exif         Short       1 1
+Exif.Photo.LightSource                        0x9208 Exif         Short       1 0
+Exif.Photo.Flash                              0x9209 Exif         Short       1 0
+Exif.Photo.FocalLength                        0x920a Exif         Rational    1 500/10
+Exif.Photo.UserComment                        0x9286 Exif         Undefined  44 65 83 67 73 73 0 0 0 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 
+Exif.Photo.SubSecTime                         0x9290 Exif         Ascii       3 00
+Exif.Photo.SubSecTimeOriginal                 0x9291 Exif         Ascii       3 00
+Exif.Photo.SubSecTimeDigitized                0x9292 Exif         Ascii       3 00
+Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 48 49 48 48 
+Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 65535
+Exif.Photo.PixelXDimension                    0xa002 Exif         Short       1 3008
+Exif.Photo.PixelYDimension                    0xa003 Exif         Short       1 2000
+Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 30306
+Exif.Photo.SensingMethod                      0xa217 Exif         Short       1 2
+Exif.Photo.FileSource                         0xa300 Exif         Undefined   1 3 
+Exif.Photo.SceneType                          0xa301 Exif         Undefined   1 1 
+Exif.Photo.CFAPattern                         0xa302 Exif         Undefined   8 0 2 0 2 2 1 1 0 
+Exif.Photo.CustomRendered                     0xa401 Exif         Short       1 0
+Exif.Photo.ExposureMode                       0xa402 Exif         Short       1 0
+Exif.Photo.WhiteBalance                       0xa403 Exif         Short       1 0
+Exif.Photo.DigitalZoomRatio                   0xa404 Exif         Rational    1 1/1
+Exif.Photo.FocalLengthIn35mmFilm              0xa405 Exif         Short       1 75
+Exif.Photo.SceneCaptureType                   0xa406 Exif         Short       1 0
+Exif.Photo.GainControl                        0xa407 Exif         Short       1 0
+Exif.Photo.Contrast                           0xa408 Exif         Short       1 0
+Exif.Photo.Saturation                         0xa409 Exif         Short       1 0
+Exif.Photo.Sharpness                          0xa40a Exif         Short       1 0
+Exif.Photo.SubjectDistanceRange               0xa40c Exif         Short       1 0
+Exif.Photo.0xa500                             0xa500 Exif         Rational    1 22/10
+Exif.Nikon3.Version                           0x0001 Makernote    Undefined   4 48 50 49 48 
+Exif.Nikon3.ISOSpeed                          0x0002 Makernote    Short       2 0 200
+Exif.Nikon3.Quality                           0x0004 Makernote    Ascii       8 FINE   
+Exif.Nikon3.WhiteBalance                      0x0005 Makernote    Ascii      13 AUTO        
+Exif.Nikon3.Sharpening                        0x0006 Makernote    Ascii       7 AUTO  
+Exif.Nikon3.Focus                             0x0007 Makernote    Ascii       7 AF-S  
+Exif.Nikon3.FlashSetting                      0x0008 Makernote    Ascii      13 NORMAL      
+Exif.Nikon3.FlashMode                         0x0009 Makernote    Ascii      13             
+Exif.Nikon3.WhiteBalanceBias                  0x000b Makernote    SShort      1 0
+Exif.Nikon3.0x000d                            0x000d Makernote    Undefined   4 0 1 6 0 
+Exif.Nikon3.ExposureDiff                      0x000e Makernote    Undefined   4 0 1 12 0 
+Exif.Nikon3.ThumbOffset                       0x0011 Makernote    Long        1 1430
+Exif.Nikon3.FlashComp                         0x0012 Makernote    Undefined   4 0 1 6 0 
+Exif.Nikon3.ISOSetting                        0x0013 Makernote    Short       2 0 200
+Exif.Nikon3.ImageBoundry                      0x0016 Makernote    Short       4 0 0 3008 2000
+Exif.Nikon3.0x0017                            0x0017 Makernote    Undefined   4 0 1 6 0 
+Exif.Nikon3.FlashBracketComp                  0x0018 Makernote    Undefined   4 0 1 6 0 
+Exif.Nikon3.ExposureBracketComp               0x0019 Makernote    SRational   1 0/1
+Exif.Nikon3.ToneComp                          0x0081 Makernote    Ascii       9 AUTO    
+Exif.Nikon3.LensType                          0x0083 Makernote    Byte        1 6 
+Exif.Nikon3.Lens                              0x0084 Makernote    Rational    4 180/10 700/10 35/10 45/10
+Exif.Nikon3.FlashType                         0x0087 Makernote    Byte        1 0 
+Exif.Nikon3.AFFocusPos                        0x0088 Makernote    Undefined   4 0 0 0 1 
+Exif.Nikon3.Bracketing                        0x0089 Makernote    Short       1 0
+Exif.Nikon3.0x008a                            0x008a Makernote    Short       1 0
+Exif.Nikon3.0x008b                            0x008b Makernote    Undefined   4 64 1 12 0 
+Exif.Nikon3.ColorMode                         0x008d Makernote    Ascii       9 MODE1a  
+Exif.Nikon3.LightingType                      0x0090 Makernote    Ascii      12 NATURAL    
+Exif.Nikon3.0x0091                            0x0091 Makernote    Undefined 465 48 49 48 51 0 0 0 124 0 0 5 13 113 0 0 0 0 1 0 0 11 0 0 0 0 0 20 0 0 31 0 0 0 0 0 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 32 0 0 31 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 0 0 0 0 0 0 0 45 0 0 0 0 0 1 0 0 0 0 89 1 2 205 51 206 179 54 56 53 54 48 51 0 218 0 214 0 167 0 171 0 50 0 51 0 5 0 0 0 0 0 0 0 0 0 1 0 5 0 0 3 194 0 0 0 100 30 161 200 95 222 59 231 63 201 147 36 178 108 51 110 51 142 15 205 20 205 255 24 187 172 35 200 39 84 41 220 51 68 39 136 59 158 49 239 176 221 55 206 242 77 6 206 51 212 169 76 179 220 17 174 50 140 159 228 51 220 49 78 186 201 119 196 225 223 50 196 178 204 146 204 17 54 56 53 54 48 49 0 101 0 161 0 172 172 169 163 163 168 169 169 168 168 170 171 164 152 149 5 249 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 38 72 0 8 1 78 226 1 0 72 49 38 48 0 0 0 3 7 252 11 226 0 4 169 1 72 0 128 16 0 0 3 151 96 196 12 145 80 60 0 0 4 190 3 111 0 0 9 186 0 0 4 197 0 0 4 190 3 111 0 0 0 0 3 0 0 0 0 200 0 60 52 62 143 63 0 0 4 176 0 0 4 162 0 0 4 177 0 0 4 126 255 127 255 127 255 127 255 127 8 128 3 111 3 28 2 157 18 17 1 0 0 0 0 72 240 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 64 0 0 0 0 64 
+Exif.Nikon3.HueAdjustment                     0x0092 Makernote    SShort      1 0
+Exif.Nikon3.NoiseReduction                    0x0095 Makernote    Ascii       5 OFF 
+Exif.Nikon3.ColorBalance2                     0x0097 Makernote    Undefined 140 48 49 48 51 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 2 4 1 0 1 163 1 0 0 0 1 8 1 0 0 0 0 0 0 112 0 12 0 24 0 3 1 140 255 109 0 7 255 216 1 90 255 206 255 251 255 222 1 39 255 255 255 255 255 255 128 0 0 0 0 0 0 0 0 0 10 0 0 0 2 128 0 0 3 0 0 0 2 128 0 0 0 0 16 16 0 255 0 255 0 77 0 150 0 29 255 204 255 186 0 122 0 127 255 150 255 235 0 0 5 0 0 8 108 18 223 51 5 89 1 63 240 240 0 26 
+Exif.Nikon3.0x0098                            0x0098 Makernote    Undefined  31 48 49 48 49 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 
+Exif.Nikon3.0x009a                            0x009a Makernote    Rational    2 78/10 78/10
+Exif.Nikon3.SerialNumber                      0x00a0 Makernote    Ascii      21 NO= 100005e5        
+Exif.Nikon3.0x00a2                            0x00a2 Makernote    Long        1 2929656
+Exif.Nikon3.0x00a3                            0x00a3 Makernote    Byte        1 0 
+Exif.Nikon3.ShutterCount                      0x00a7 Makernote    Long        1 1193
+Exif.Nikon3.0x00a8                            0x00a8 Makernote    Undefined  20 48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Exif.Nikon3.ImageOptimization                 0x00a9 Makernote    Ascii      16 NORMAL         
+Exif.Nikon3.Saturation                        0x00aa Makernote    Ascii      16 NORMAL         
+Exif.Nikon3.VariProgram                       0x00ab Makernote    Ascii      16                
+Exif.Iop.InteroperabilityIndex                0x0001 Iop          Ascii       4 123
+Exif.Iop.InteroperabilityVersion              0x0002 Iop          Undefined   4 48 49 48 48 
+Exif.Thumbnail.Compression                    0x0103 IFD1         Short       1 6
+Exif.Thumbnail.XResolution                    0x011a IFD1         Rational    1 300/1
+Exif.Thumbnail.YResolution                    0x011b IFD1         Rational    1 300/1
+Exif.Thumbnail.ResolutionUnit                 0x0128 IFD1         Short       1 2
+Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 0
+Exif.Thumbnail.JPEGInterchangeFormatLength    0x0202 IFD1         Long        1 8930
+Exif.Thumbnail.YCbCrPositioning               0x0213 IFD1         Short       1 2
+----------------------------------------------
+Assignment, intrusive changes
+Exif.Image.Make                               0x010f IFD0         Ascii      18 NIKON CORPORATION
+Exif.Image.Model                              0x0110 IFD0         Ascii      10 NIKON D70
+Exif.Image.Orientation                        0x0112 IFD0         Short       4 2 3 4 5
+Exif.Image.XResolution                        0x011a IFD0         Rational    1 300/1
+Exif.Image.YResolution                        0x011b IFD0         Rational    1 300/1
+Exif.Image.ResolutionUnit                     0x0128 IFD0         Short       1 2
+Exif.Image.Software                           0x0131 IFD0         Ascii      10 Ver.1.01 
+Exif.Image.DateTime                           0x0132 IFD0         Ascii      29 Sunday, 11am and ten minutes
+Exif.Image.WhitePoint                         0x013e IFD0         Rational    2 313/1000 329/1000
+Exif.Image.PrimaryChromaticities              0x013f IFD0         Rational    6 64/100 33/100 21/100 71/100 15/100 6/100
+Exif.Image.YCbCrCoefficients                  0x0211 IFD0         Rational    3 299/1000 587/1000 114/1000
+Exif.Image.YCbCrPositioning                   0x0213 IFD0         Short       1 2
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 349
+Exif.Photo.ExposureTime                       0x829a Exif         Rational    1 10/2500
+Exif.Photo.FNumber                            0x829d Exif         Rational    1 90/10
+Exif.Photo.ExposureProgram                    0x8822 Exif         Short       1 2
+Exif.Photo.ExifVersion                        0x9000 Exif         Undefined   4 48 50 50 49 
+Exif.Photo.DateTimeOriginal                   0x9003 Exif         Ascii      29 Sunday, 11am and ten minutes
+Exif.Photo.DateTimeDigitized                  0x9004 Exif         Ascii      20 2004:03:30 10:43:46
+Exif.Photo.ComponentsConfiguration            0x9101 Exif         Undefined   4 1 2 3 0 
+Exif.Photo.CompressedBitsPerPixel             0x9102 Exif         Rational    1 4/1
+Exif.Photo.ExposureBiasValue                  0x9204 Exif         SRational   1 0/6
+Exif.Photo.MaxApertureValue                   0x9205 Exif         Rational    1 43/10
+Exif.Photo.MeteringMode                       0x9207 Exif         Short       1 1
+Exif.Photo.LightSource                        0x9208 Exif         Short       1 0
+Exif.Photo.Flash                              0x9209 Exif         Short       1 0
+Exif.Photo.FocalLength                        0x920a Exif         Rational    1 500/10
+Exif.Photo.UserComment                        0x9286 Exif         Undefined  44 65 83 67 73 73 0 0 0 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 
+Exif.Photo.SubSecTime                         0x9290 Exif         Ascii       3 00
+Exif.Photo.SubSecTimeOriginal                 0x9291 Exif         Ascii       3 00
+Exif.Photo.SubSecTimeDigitized                0x9292 Exif         Ascii       3 00
+Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 48 49 48 48 
+Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 65535
+Exif.Photo.PixelXDimension                    0xa002 Exif         Short       1 3008
+Exif.Photo.PixelYDimension                    0xa003 Exif         Short       1 2000
+Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 2413
+Exif.Photo.SensingMethod                      0xa217 Exif         Short       1 2
+Exif.Photo.FileSource                         0xa300 Exif         Undefined   1 3 
+Exif.Photo.SceneType                          0xa301 Exif         Undefined   1 1 
+Exif.Photo.CFAPattern                         0xa302 Exif         Undefined   8 0 2 0 2 2 1 1 0 
+Exif.Photo.CustomRendered                     0xa401 Exif         Short       1 0
+Exif.Photo.ExposureMode                       0xa402 Exif         Short       1 0
+Exif.Photo.WhiteBalance                       0xa403 Exif         Short       1 0
+Exif.Photo.DigitalZoomRatio                   0xa404 Exif         Rational    1 1/1
+Exif.Photo.FocalLengthIn35mmFilm              0xa405 Exif         Short       1 75
+Exif.Photo.SceneCaptureType                   0xa406 Exif         Short       1 0
+Exif.Photo.GainControl                        0xa407 Exif         Short       1 0
+Exif.Photo.Contrast                           0xa408 Exif         Short       1 0
+Exif.Photo.Saturation                         0xa409 Exif         Short       1 0
+Exif.Photo.Sharpness                          0xa40a Exif         Short       1 0
+Exif.Photo.SubjectDistanceRange               0xa40c Exif         Short       1 0
+Exif.Photo.0xa500                             0xa500 Exif         Rational    1 22/10
+Exif.Nikon3.Version                           0x0001 Makernote    Undefined   4 48 50 49 48 
+Exif.Nikon3.ISOSpeed                          0x0002 Makernote    Short       2 0 200
+Exif.Nikon3.Quality                           0x0004 Makernote    Ascii       8 FINE   
+Exif.Nikon3.WhiteBalance                      0x0005 Makernote    Ascii      13 AUTO        
+Exif.Nikon3.Sharpening                        0x0006 Makernote    Ascii       7 AUTO  
+Exif.Nikon3.Focus                             0x0007 Makernote    Ascii       7 AF-S  
+Exif.Nikon3.FlashSetting                      0x0008 Makernote    Ascii      13 NORMAL      
+Exif.Nikon3.FlashMode                         0x0009 Makernote    Ascii      13             
+Exif.Nikon3.WhiteBalanceBias                  0x000b Makernote    SShort      1 0
+Exif.Nikon3.0x000d                            0x000d Makernote    Undefined   4 0 1 6 0 
+Exif.Nikon3.ExposureDiff                      0x000e Makernote    Undefined   4 0 1 12 0 
+Exif.Nikon3.ThumbOffset                       0x0011 Makernote    Long        1 1430
+Exif.Nikon3.FlashComp                         0x0012 Makernote    Undefined   4 0 1 6 0 
+Exif.Nikon3.ISOSetting                        0x0013 Makernote    Short       2 0 200
+Exif.Nikon3.ImageBoundry                      0x0016 Makernote    Short       4 0 0 3008 2000
+Exif.Nikon3.0x0017                            0x0017 Makernote    Undefined   4 0 1 6 0 
+Exif.Nikon3.FlashBracketComp                  0x0018 Makernote    Undefined   4 0 1 6 0 
+Exif.Nikon3.ExposureBracketComp               0x0019 Makernote    SRational   1 0/1
+Exif.Nikon3.ToneComp                          0x0081 Makernote    Ascii       9 AUTO    
+Exif.Nikon3.LensType                          0x0083 Makernote    Byte        1 6 
+Exif.Nikon3.Lens                              0x0084 Makernote    Rational    4 180/10 700/10 35/10 45/10
+Exif.Nikon3.FlashType                         0x0087 Makernote    Byte        1 0 
+Exif.Nikon3.AFFocusPos                        0x0088 Makernote    Undefined   4 0 0 0 1 
+Exif.Nikon3.Bracketing                        0x0089 Makernote    Short       1 0
+Exif.Nikon3.0x008a                            0x008a Makernote    Short       1 0
+Exif.Nikon3.0x008b                            0x008b Makernote    Undefined   4 64 1 12 0 
+Exif.Nikon3.ColorMode                         0x008d Makernote    Ascii       9 MODE1a  
+Exif.Nikon3.LightingType                      0x0090 Makernote    Ascii      12 NATURAL    
+Exif.Nikon3.0x0091                            0x0091 Makernote    Undefined 465 48 49 48 51 0 0 0 124 0 0 5 13 113 0 0 0 0 1 0 0 11 0 0 0 0 0 20 0 0 31 0 0 0 0 0 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 32 0 0 31 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 0 0 0 0 0 0 0 45 0 0 0 0 0 1 0 0 0 0 89 1 2 205 51 206 179 54 56 53 54 48 51 0 218 0 214 0 167 0 171 0 50 0 51 0 5 0 0 0 0 0 0 0 0 0 1 0 5 0 0 3 194 0 0 0 100 30 161 200 95 222 59 231 63 201 147 36 178 108 51 110 51 142 15 205 20 205 255 24 187 172 35 200 39 84 41 220 51 68 39 136 59 158 49 239 176 221 55 206 242 77 6 206 51 212 169 76 179 220 17 174 50 140 159 228 51 220 49 78 186 201 119 196 225 223 50 196 178 204 146 204 17 54 56 53 54 48 49 0 101 0 161 0 172 172 169 163 163 168 169 169 168 168 170 171 164 152 149 5 249 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 38 72 0 8 1 78 226 1 0 72 49 38 48 0 0 0 3 7 252 11 226 0 4 169 1 72 0 128 16 0 0 3 151 96 196 12 145 80 60 0 0 4 190 3 111 0 0 9 186 0 0 4 197 0 0 4 190 3 111 0 0 0 0 3 0 0 0 0 200 0 60 52 62 143 63 0 0 4 176 0 0 4 162 0 0 4 177 0 0 4 126 255 127 255 127 255 127 255 127 8 128 3 111 3 28 2 157 18 17 1 0 0 0 0 72 240 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 64 0 0 0 0 64 
+Exif.Nikon3.HueAdjustment                     0x0092 Makernote    SShort      1 0
+Exif.Nikon3.NoiseReduction                    0x0095 Makernote    Ascii       5 OFF 
+Exif.Nikon3.ColorBalance2                     0x0097 Makernote    Undefined 140 48 49 48 51 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 2 4 1 0 1 163 1 0 0 0 1 8 1 0 0 0 0 0 0 112 0 12 0 24 0 3 1 140 255 109 0 7 255 216 1 90 255 206 255 251 255 222 1 39 255 255 255 255 255 255 128 0 0 0 0 0 0 0 0 0 10 0 0 0 2 128 0 0 3 0 0 0 2 128 0 0 0 0 16 16 0 255 0 255 0 77 0 150 0 29 255 204 255 186 0 122 0 127 255 150 255 235 0 0 5 0 0 8 108 18 223 51 5 89 1 63 240 240 0 26 
+Exif.Nikon3.0x0098                            0x0098 Makernote    Undefined  31 48 49 48 49 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 
+Exif.Nikon3.0x009a                            0x009a Makernote    Rational    2 78/10 78/10
+Exif.Nikon3.SerialNumber                      0x00a0 Makernote    Ascii      21 NO= 100005e5        
+Exif.Nikon3.0x00a2                            0x00a2 Makernote    Long        1 2929656
+Exif.Nikon3.0x00a3                            0x00a3 Makernote    Byte        1 0 
+Exif.Nikon3.ShutterCount                      0x00a7 Makernote    Long        1 1193
+Exif.Nikon3.0x00a8                            0x00a8 Makernote    Undefined  20 48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Exif.Nikon3.ImageOptimization                 0x00a9 Makernote    Ascii      16 NORMAL         
+Exif.Nikon3.Saturation                        0x00aa Makernote    Ascii      16 NORMAL         
+Exif.Nikon3.VariProgram                       0x00ab Makernote    Ascii      16                
+Exif.Iop.InteroperabilityIndex                0x0001 Iop          Ascii       4 123
+Exif.Iop.InteroperabilityVersion              0x0002 Iop          Undefined   4 48 49 48 48 
+Exif.Thumbnail.Compression                    0x0103 IFD1         Short       1 6
+Exif.Thumbnail.Orientation                    0x0112 IFD1         Short       1 2
+Exif.Thumbnail.XResolution                    0x011a IFD1         Rational    1 300/1
+Exif.Thumbnail.YResolution                    0x011b IFD1         Rational    1 300/1
+Exif.Thumbnail.ResolutionUnit                 0x0128 IFD1         Short       1 2
+Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 0
+Exif.Thumbnail.JPEGInterchangeFormatLength    0x0202 IFD1         Long        1 8930
+Exif.Thumbnail.YCbCrPositioning               0x0213 IFD1         Short       1 2

@@ -56,29 +56,29 @@ namespace Exiv2 {
     const FujiMakerNote::RegisterMakerNote FujiMakerNote::register_;
 
     // Fujifilm MakerNote Tag Info
-    static const MakerNote::MnTagInfo fujiMnTagInfo[] = {
-        MakerNote::MnTagInfo(0x0000, "Version", "Fujifilm Makernote version"),
-        MakerNote::MnTagInfo(0x1000, "Quality", "Image quality setting"),
-        MakerNote::MnTagInfo(0x1001, "Sharpness", "Sharpness setting"),
-        MakerNote::MnTagInfo(0x1002, "WhiteBalance", "White balance setting"),
-        MakerNote::MnTagInfo(0x1003, "Color", "Chroma saturation setting"),
-        MakerNote::MnTagInfo(0x1004, "Tone", "Contrast setting"),
-        MakerNote::MnTagInfo(0x1010, "FlashMode", "Flash firing mode setting"),
-        MakerNote::MnTagInfo(0x1011, "FlashStrength", "Flash firing strength compensation setting"),
-        MakerNote::MnTagInfo(0x1020, "Macro", "Macro mode setting"),
-        MakerNote::MnTagInfo(0x1021, "FocusMode", "Focusing mode setting"),
-        MakerNote::MnTagInfo(0x1030, "SlowSync", "Slow synchro mode setting"),
-        MakerNote::MnTagInfo(0x1031, "PictureMode", "Picture mode setting"),
-        MakerNote::MnTagInfo(0x1100, "Continuous", "Continuous shooting or auto bracketing setting"),
-        MakerNote::MnTagInfo(0x1300, "BlurWarning", "Blur warning status"),
-        MakerNote::MnTagInfo(0x1301, "FocusWarning", "Auto Focus warning status"),
-        MakerNote::MnTagInfo(0x1302, "AeWarning", "Auto Exposure warning status"),
+    const TagInfo FujiMakerNote::tagInfo_[] = {
+        TagInfo(0x0000, "Version", "Fujifilm Makernote version", fujiIfdId, makerTags, printValue),
+        TagInfo(0x1000, "Quality", "Image quality setting", fujiIfdId, makerTags, printValue),
+        TagInfo(0x1001, "Sharpness", "Sharpness setting", fujiIfdId, makerTags, print0x1001),
+        TagInfo(0x1002, "WhiteBalance", "White balance setting", fujiIfdId, makerTags, print0x1002),
+        TagInfo(0x1003, "Color", "Chroma saturation setting", fujiIfdId, makerTags, print0x1003),
+        TagInfo(0x1004, "Tone", "Contrast setting", fujiIfdId, makerTags, print0x1004),
+        TagInfo(0x1010, "FlashMode", "Flash firing mode setting", fujiIfdId, makerTags, print0x1010),
+        TagInfo(0x1011, "FlashStrength", "Flash firing strength compensation setting", fujiIfdId, makerTags, printValue),
+        TagInfo(0x1020, "Macro", "Macro mode setting", fujiIfdId, makerTags, printOffOn),
+        TagInfo(0x1021, "FocusMode", "Focusing mode setting", fujiIfdId, makerTags, print0x1021),
+        TagInfo(0x1030, "SlowSync", "Slow synchro mode setting", fujiIfdId, makerTags, printOffOn),
+        TagInfo(0x1031, "PictureMode", "Picture mode setting", fujiIfdId, makerTags, print0x1031),
+        TagInfo(0x1100, "Continuous", "Continuous shooting or auto bracketing setting", fujiIfdId, makerTags, printOffOn),
+        TagInfo(0x1300, "BlurWarning", "Blur warning status", fujiIfdId, makerTags, printOffOn),
+        TagInfo(0x1301, "FocusWarning", "Auto Focus warning status", fujiIfdId, makerTags, printOffOn),
+        TagInfo(0x1302, "AeWarning", "Auto Exposure warning status", fujiIfdId, makerTags, printOffOn),
         // End of list marker
-        MakerNote::MnTagInfo(0xffff, "(UnknownFujiMakerNoteTag)", "Unknown FujiMakerNote tag")
+        TagInfo(0xffff, "(UnknownFujiMakerNoteTag)", "Unknown FujiMakerNote tag", fujiIfdId, makerTags, printValue)
     };
 
     FujiMakerNote::FujiMakerNote(bool alloc)
-        : IfdMakerNote(fujiMnTagInfo, alloc), ifdItem_("Fujifilm")
+        : IfdMakerNote(fujiIfdId, alloc)
     {
         byteOrder_ = littleEndian;
         absOffset_ = false;
@@ -89,7 +89,7 @@ namespace Exiv2 {
     }
 
     FujiMakerNote::FujiMakerNote(const FujiMakerNote& rhs)
-        : IfdMakerNote(rhs), ifdItem_(rhs.ifdItem_)
+        : IfdMakerNote(rhs)
     {
     }
 
@@ -140,32 +140,6 @@ namespace Exiv2 {
     FujiMakerNote* FujiMakerNote::clone_() const 
     {
         return new FujiMakerNote(*this);
-    }
-
-    std::ostream& FujiMakerNote::printTag(std::ostream& os, 
-                                          uint16_t tag, 
-                                          const Value& value) const
-    {
-        switch (tag) {
-        case 0x1020: // fallthrough
-        case 0x1030: // fallthrough
-        case 0x1100: // fallthrough
-        case 0x1300: // fallthrough
-        case 0x1301: // fallthrough
-        case 0x1302: printOffOn(os, value); break;
-        case 0x1001: print0x1001(os, value); break;
-        case 0x1002: print0x1002(os, value); break;
-        case 0x1003: print0x1003(os, value); break;
-        case 0x1004: print0x1004(os, value); break;
-        case 0x1010: print0x1010(os, value); break;
-        case 0x1021: print0x1021(os, value); break;
-        case 0x1031: print0x1031(os, value); break;
-        default:
-            // All other tags (known or unknown) go here
-            os << value;
-            break;
-        }
-        return os;
     }
 
     std::ostream& FujiMakerNote::printOffOn(std::ostream& os,

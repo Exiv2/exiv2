@@ -45,7 +45,6 @@ namespace Exiv2 {
 
 // *****************************************************************************
 // class declarations
-    class MakerNote;
     class Ifd;
 
 // *****************************************************************************
@@ -84,8 +83,6 @@ namespace Exiv2 {
         void setIfdId(IfdId ifdId) { ifdId_ = ifdId; }
         //! Set the index (unique id of an entry within one IFD)
         void setIdx(int idx) { idx_ = idx; }
-        //! Set the pointer to the MakerNote
-        void setMakerNote(MakerNote* makerNote) { pMakerNote_ = makerNote; }
         //! Set the offset. The offset is relative to the start of the IFD.
         void setOffset(long offset) { offset_ = offset; }
         /*!
@@ -177,8 +174,6 @@ namespace Exiv2 {
         IfdId ifdId() const { return ifdId_; }
         //! Return the index (unique id >0 of an entry within an IFD, 0 if not set)
         int idx() const { return idx_; }
-        //! Return the pointer to the associated MakerNote
-        MakerNote* makerNote() const { return pMakerNote_; }
         //! Return the number of components in the value
         uint32_t count() const { return count_; }
         /*!
@@ -232,8 +227,6 @@ namespace Exiv2 {
         IfdId ifdId_;
         //! Unique id of an entry within an IFD (0 if not set)
         int idx_;
-        //! Pointer to the associated MakerNote
-        MakerNote* pMakerNote_;
         //! Tag
         uint16_t tag_;
         //! Type

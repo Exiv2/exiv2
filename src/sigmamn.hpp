@@ -35,6 +35,7 @@
 // included header files
 #include "types.hpp"
 #include "makernote.hpp"
+#include "tags.hpp"
 
 // + standard includes
 #include <string>
@@ -114,11 +115,6 @@ namespace Exiv2 {
         int checkHeader() const;
         AutoPtr create(bool alloc =true) const;
         AutoPtr clone() const;
-        //! Return the name of the makernote item ("Sigma")
-        std::string ifdItem() const { return ifdItem_; }
-        std::ostream& printTag(std::ostream& os,
-                               uint16_t tag, 
-                               const Value& value) const;
         //@}
 
         //! @name Print functions for Sigma (Foveon) %MakerNote tags 
@@ -137,6 +133,9 @@ namespace Exiv2 {
         //! Internal virtual copy constructor.
         SigmaMakerNote* clone_() const;
 
+        //! Tag information
+        static const TagInfo tagInfo_[];
+
         //! Structure used to auto-register the MakerNote.
         struct RegisterMakerNote {
             //! Default constructor
@@ -145,7 +144,9 @@ namespace Exiv2 {
                 MakerNoteFactory& mnf = MakerNoteFactory::instance();
                 mnf.registerMakerNote("SIGMA", "*", createSigmaMakerNote); 
                 mnf.registerMakerNote("FOVEON", "*", createSigmaMakerNote); 
-                mnf.registerMakerNote(MakerNote::AutoPtr(new SigmaMakerNote));
+                mnf.registerMakerNote(sigmaIfdId,
+                                      MakerNote::AutoPtr(new SigmaMakerNote));
+                ExifTags::registerMakerTagInfo(sigmaIfdId, tagInfo_);
             }
         };
         // DATA
@@ -162,9 +163,6 @@ namespace Exiv2 {
                 demand.
          */
         static const RegisterMakerNote register_; 
-
-        //! The item name (second part of the key) used for makernote tags
-        std::string ifdItem_;
 
     }; // class SigmaMakerNote
 
