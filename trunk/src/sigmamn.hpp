@@ -23,7 +23,7 @@
   @brief   Sigma and Foveon MakerNote implemented according to the specification
            <a href="http://www.x3f.info/technotes/FileDocs/MakerNoteDoc.html">
            SIGMA and FOVEON EXIF MakerNote Documentation</a> by Foveon.           
-  @version $Name:  $ $Revision: 1.5 $
+  @version $Name:  $ $Revision: 1.6 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    02-Apr-04, ahu: created
@@ -72,7 +72,7 @@ namespace Exiv2 {
              this copy and is responsible to delete it!
      */
     MakerNote* createSigmaMakerNote(bool alloc,
-                                    const char* buf, 
+                                    const byte* buf, 
                                     long len, 
                                     ByteOrder byteOrder, 
                                     long offset);
@@ -96,7 +96,7 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{        
-        int readHeader(const char* buf, 
+        int readHeader(const byte* buf, 
                        long len,
                        ByteOrder byteOrder);
         //@}

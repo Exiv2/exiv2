@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of Exif data
-  @version $Name:  $ $Revision: 1.47 $
+  @version $Name:  $ $Revision: 1.48 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -126,7 +126,7 @@ namespace Exiv2 {
           @param byteOrder Applicable byte order (little or big endian).
           @return Number of characters written.
         */
-        long copy(char* buf, ByteOrder byteOrder) const 
+        long copy(byte* buf, ByteOrder byteOrder) const 
             { return pValue_ == 0 ? 0 : pValue_->copy(buf, byteOrder); }
         /*!
           @brief Return the key of the metadatum. The key is of the form
@@ -274,7 +274,7 @@ namespace Exiv2 {
                   1 in case of inconsistent JPEG thumbnail Exif data<BR>
                   2 in case of inconsistent TIFF thumbnail Exif data
          */
-        virtual int read(const char* buf,
+        virtual int read(const byte* buf,
                          long len,
                          const ExifData& exifData,
                          ByteOrder byteOrder =littleEndian) =0;
@@ -319,7 +319,7 @@ namespace Exiv2 {
                  enough memory. Otherwise the call results in undefined
                  behaviour. Return the number of characters written.
          */
-        virtual long copy(char* buf) const =0;
+        virtual long copy(byte* buf) const =0;
         /*!
           @brief Update the Exif data according to the actual thumbnail image.
           
@@ -374,7 +374,7 @@ namespace Exiv2 {
         //@{
         //! Assignment operator.
         TiffThumbnail& operator=(const TiffThumbnail& rhs);
-        int read(const char* buf,
+        int read(const byte* buf,
                  long len,
                  const ExifData& exifData,
                  ByteOrder byteOrder =littleEndian);
@@ -386,7 +386,7 @@ namespace Exiv2 {
         int write(const std::string& path) const;
         const char* format() const;
         const char* extension() const;
-        long copy(char* buf) const;
+        long copy(byte* buf) const;
         void update(ExifData& exifData) const;
         long offset() const;
         long size() const;
@@ -398,7 +398,7 @@ namespace Exiv2 {
         long offset_;            // Original offset of the thumbnail data
                                  // from the start of the TIFF header 
         long size_;              //!< Size of the image data
-        char* pImage_;           //!< Thumbnail image data
+        byte* pImage_;           //!< Thumbnail image data
         TiffHeader tiffHeader_;  //!< Thumbnail TIFF Header
         Ifd ifd_;                //!< Thumbnail IFD (IFD1 of the Exif data)
 
@@ -421,7 +421,7 @@ namespace Exiv2 {
         //@{
         //! Assignment operator.
         JpegThumbnail& operator=(const JpegThumbnail& rhs);
-        int read(const char* buf,
+        int read(const byte* buf,
                  long len,
                  const ExifData& exifData,
                  ByteOrder byteOrder =littleEndian);
@@ -433,7 +433,7 @@ namespace Exiv2 {
         int write(const std::string& path) const;
         const char* format() const;
         const char* extension() const;
-        long copy(char* buf) const;
+        long copy(byte* buf) const;
         void update(ExifData& exifData) const;
         long offset() const;
         long size() const;
@@ -445,7 +445,7 @@ namespace Exiv2 {
         long offset_;            // Original offset of the thumbnail data 
                                  // from the start of the TIFF header 
         long size_;              // Size of the image data
-        char* pImage_;           // Thumbnail image data
+        byte* pImage_;           // Thumbnail image data
 
     }; // class JpegThumbnail
 
@@ -543,13 +543,13 @@ namespace Exiv2 {
           @param len Number of bytes in the data buffer 
           @return 0 if successful.
          */
-        int read(const char* buf, long len);
+        int read(const byte* buf, long len);
         /*!
           @brief Write the Exif data to file path. If an Exif data section
                  already exists in the file, it is replaced.  If there is no
                  metadata and no thumbnail to write, the Exif data section is
                  deleted from the file.  Otherwise, an Exif data section is
-                 created. See copy(char* buf) for further details.
+                 created. See copy(byte* buf) for further details.
 
           @return 0 if successful.
          */
@@ -585,7 +585,7 @@ namespace Exiv2 {
                  undefined behaviour.
           @return Number of characters written to the buffer.
          */
-        long copy(char* buf);
+        long copy(byte* buf);
         /*!
           @brief Add all (IFD) entries in the range from iterator position begin
                  to iterator position end to the Exif metadata. No duplicate
@@ -782,7 +782,7 @@ namespace Exiv2 {
           the Exif data with the metadata from the actual thumbnail image
           (overriding existing metadata).
          */
-        long copyFromMetadata(char* buf);
+        long copyFromMetadata(byte* buf);
         //@}
 
         //! @name Accessors
@@ -829,7 +829,7 @@ namespace Exiv2 {
         Ifd ifd1_;
 
         long size_;              //!< Size of the Exif raw data in bytes
-        char* pData_;            //!< Exif raw data buffer
+        byte* pData_;            //!< Exif raw data buffer
 
         /*!
           Can be set to false to indicate that non-intrusive writing is not

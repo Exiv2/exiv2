@@ -20,7 +20,7 @@
  */
 /*
   File:      canonmn.cpp
-  Version:   $Name:  $ $Revision: 1.10 $
+  Version:   $Name:  $ $Revision: 1.11 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
              07-Mar-04, ahu: isolated as a separate component
@@ -30,7 +30,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.10 $ $RCSfile: canonmn.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.11 $ $RCSfile: canonmn.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -553,7 +553,8 @@ namespace Exiv2 {
         }
         if (value.count() < 26) return os;
 
-        float fu = value.toLong(25);
+        // Todo: why not use toFloat()?
+        float fu = static_cast<float>(value.toLong(25));
         float len1 = value.toLong(23) / fu;
         float len2 = value.toLong(24) / fu;
         std::ostringstream oss;
@@ -656,7 +657,7 @@ namespace Exiv2 {
 // free functions
 
     MakerNote* createCanonMakerNote(bool alloc,
-                                    const char* buf, 
+                                    const byte* buf, 
                                     long len, 
                                     ByteOrder byteOrder, 
                                     long offset)

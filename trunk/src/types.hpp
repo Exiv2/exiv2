@@ -21,10 +21,10 @@
 /*!
   @file    types.hpp
   @brief   Type definitions for %Exiv2 and related functionality
-  @version $Name:  $ $Revision: 1.15 $
+  @version $Name:  $ $Revision: 1.16 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    09-Jan-04, ahu: created
+  @date    09-Jan-04, ahu: created<BR>
            11-Feb-04, ahu: isolated as a component
  */
 #ifndef TYPES_HPP_
@@ -54,6 +54,8 @@ namespace Exiv2 {
 // *****************************************************************************
 // type definitions
 
+    //! 1 byte unsigned integer type.
+    typedef unsigned char byte;
     //! 2 byte unsigned integer type.
     typedef unsigned short uint16;
     //! 4 byte unsigned integer type.
@@ -132,33 +134,33 @@ namespace Exiv2 {
         //! Default constructor
         DataBuf() : size_(0), pData_(0) {}
         //! Constructor with an initial buffer size 
-        DataBuf(long size) : size_(size), pData_(new char[size]) {}
+        DataBuf(long size) : size_(size), pData_(new byte[size]) {}
         //! Destructor, deletes the allocated buffer
         ~DataBuf() { delete[] pData_; }
         //! Allocate a data buffer of the given size
         void alloc(long size)
-            { delete[] pData_; size_ = size; pData_ = new char[size]; }
+            { if( size > size_ ){delete[] pData_; size_ = size; pData_ = new byte[size];} }
         //! The current size of the buffer
         long size_; 
         //! Pointer to the buffer, 0 if none has been allocated
-        char* pData_;
+        byte* pData_;
     }; // class DataBuf
 
 // *****************************************************************************
 // free functions
 
     //! Read a 2 byte unsigned short value from the data buffer
-    uint16 getUShort(const char* buf, ByteOrder byteOrder);
+    uint16 getUShort(const byte* buf, ByteOrder byteOrder);
     //! Read a 4 byte unsigned long value from the data buffer
-    uint32 getULong(const char* buf, ByteOrder byteOrder);
+    uint32 getULong(const byte* buf, ByteOrder byteOrder);
     //! Read an 8 byte unsigned rational value from the data buffer
-    URational getURational(const char* buf, ByteOrder byteOrder);
+    URational getURational(const byte* buf, ByteOrder byteOrder);
     //! Read a 2 byte signed short value from the data buffer
-    int16 getShort(const char* buf, ByteOrder byteOrder);
+    int16 getShort(const byte* buf, ByteOrder byteOrder);
     //! Read a 4 byte signed long value from the data buffer
-    int32 getLong(const char* buf, ByteOrder byteOrder);
+    int32 getLong(const byte* buf, ByteOrder byteOrder);
     //! Read an 8 byte signed rational value from the data buffer
-    Rational getRational(const char* buf, ByteOrder byteOrder);
+    Rational getRational(const byte* buf, ByteOrder byteOrder);
 
     //! Output operator for our fake rational
     std::ostream& operator<<(std::ostream& os, const Rational& r);
@@ -173,39 +175,39 @@ namespace Exiv2 {
       @brief Convert an unsigned short to data, write the data to the buffer, 
              return number of bytes written.
      */
-    long us2Data(char* buf, uint16 s, ByteOrder byteOrder);
+    long us2Data(byte* buf, uint16 s, ByteOrder byteOrder);
     /*!
       @brief Convert an unsigned long to data, write the data to the buffer,
              return number of bytes written.
      */
-    long ul2Data(char* buf, uint32 l, ByteOrder byteOrder);
+    long ul2Data(byte* buf, uint32 l, ByteOrder byteOrder);
     /*!
       @brief Convert an unsigned rational to data, write the data to the buffer,
              return number of bytes written.
      */
-    long ur2Data(char* buf, URational l, ByteOrder byteOrder);
+    long ur2Data(byte* buf, URational l, ByteOrder byteOrder);
     /*!
       @brief Convert a signed short to data, write the data to the buffer, 
              return number of bytes written.
      */
-    long s2Data(char* buf, int16 s, ByteOrder byteOrder);
+    long s2Data(byte* buf, int16 s, ByteOrder byteOrder);
     /*!
       @brief Convert a signed long to data, write the data to the buffer,
              return number of bytes written.
      */
-    long l2Data(char* buf, int32 l, ByteOrder byteOrder);
+    long l2Data(byte* buf, int32 l, ByteOrder byteOrder);
     /*!
       @brief Convert a signed rational to data, write the data to the buffer,
              return number of bytes written.
      */
-    long r2Data(char* buf, Rational l, ByteOrder byteOrder);
+    long r2Data(byte* buf, Rational l, ByteOrder byteOrder);
 
     /*!
       @brief Print len bytes from buf in hex and ASCII format to the given
              stream, prefixed with the position in the buffer adjusted by
              offset.
      */
-    void hexdump(std::ostream& os, const char* buf, long len, long offset =0);
+    void hexdump(std::ostream& os, const byte* buf, long len, long offset =0);
 
     /*!
       @brief Return the greatest common denominator of integers a and b.

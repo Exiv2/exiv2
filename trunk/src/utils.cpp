@@ -20,13 +20,13 @@
  */
 /*
   File:      utils.cpp
-  Version:   $Name:  $ $Revision: 1.8 $
+  Version:   $Name:  $ $Revision: 1.9 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.8 $ $RCSfile: utils.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.9 $ $RCSfile: utils.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -96,15 +96,15 @@ int Getopt::getopt(int argc, char* const argv[], const std::string& optstring)
         if (path == "") return ".";
         // Strip trailing slashes
         std::string p = path;
-        while (p.length() > 1 && p[p.length()-1] == '/') {
+        while (p.length() > 1 && p[p.length()-1] == SEPERATOR_CHR) {
             p = p.substr(0, p.length()-1);
         }
-        if (p == "/") return "/";
-        std::string::size_type idx = p.rfind('/');
+        if (p == SEPERATOR_STR) return SEPERATOR_STR;
+        std::string::size_type idx = p.rfind(SEPERATOR_CHR);
         if (idx == std::string::npos) return ".";
-        if (idx == 0) return "/";
+        if (idx == 0) return SEPERATOR_STR;
         p = p.substr(0, idx);
-        while (p.length() > 1 && p[p.length()-1] == '/') {
+        while (p.length() > 1 && p[p.length()-1] == SEPERATOR_CHR) {
             p = p.substr(0, p.length()-1);
         }
         return p;
@@ -115,11 +115,11 @@ int Getopt::getopt(int argc, char* const argv[], const std::string& optstring)
         if (path == "") return ".";
         // Strip trailing slashes
         std::string p = path;
-        while (p.length() > 1 && p[p.length()-1] == '/') {
+        while (p.length() > 1 && p[p.length()-1] == SEPERATOR_CHR) {
             p = p.substr(0, p.length()-1);
         }
-        if (p == "/") return p;
-        std::string::size_type idx = p.rfind('/');
+        if (p == SEPERATOR_STR) return p;
+        std::string::size_type idx = p.rfind(SEPERATOR_CHR);
         if (idx != std::string::npos) p = p.substr(idx+1);
         if (delsuffix) p = p.substr(0, p.length() - suffix(p).length());
         return p;

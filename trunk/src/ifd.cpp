@@ -20,14 +20,14 @@
  */
 /*
   File:      ifd.cpp
-  Version:   $Name:  $ $Revision: 1.23 $
+  Version:   $Name:  $ $Revision: 1.24 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.23 $ $RCSfile: ifd.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.24 $ $RCSfile: ifd.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -68,7 +68,7 @@ namespace Exiv2 {
     {
         if (alloc_) {
             if (rhs.pData_) {
-                pData_ = new char[rhs.size()];
+                pData_ = new byte[rhs.size()];
                 memcpy(pData_, rhs.pData_, rhs.size());
             }
         }
@@ -93,7 +93,7 @@ namespace Exiv2 {
             delete[] pData_;
             pData_ = 0;
             if (rhs.pData_) {
-                pData_ = new char[rhs.size()];
+                pData_ = new byte[rhs.size()];
                 memcpy(pData_, rhs.pData_, rhs.size());
             }
         }
@@ -109,7 +109,7 @@ namespace Exiv2 {
             assert(alloc_);
             size_ = 4;
             delete[] pData_;
-            pData_ = new char[size_];
+            pData_ = new byte[size_];
         }
         ul2Data(pData_, data, byteOrder);
         // do not change size_
@@ -117,7 +117,7 @@ namespace Exiv2 {
         count_ = 1;
     }
 
-    void Entry::setValue(uint16 type, uint32 count, const char* buf, long len)
+    void Entry::setValue(uint16 type, uint32 count, const byte* buf, long len)
     {
         long dataSize = count * TypeInfo::typeSize(TypeId(type));
         // No minimum size requirement, but make sure the buffer can hold the data
@@ -126,7 +126,7 @@ namespace Exiv2 {
         }
         if (alloc_) {
             delete[] pData_;
-            pData_ = new char[len];
+            pData_ = new byte[len];
             memset(pData_, 0x0, len);
             memcpy(pData_, buf, dataSize);
             size_ = len;
@@ -134,7 +134,7 @@ namespace Exiv2 {
         else {
             if (size_ == 0) {
                 // Set the data pointer of a virgin entry
-                pData_ = const_cast<char*>(buf);
+                pData_ = const_cast<byte*>(buf);
                 size_ = len;
             }
             else {
@@ -149,7 +149,7 @@ namespace Exiv2 {
         count_ = count;
     } // Entry::setValue
 
-    const char* Entry::component(uint32 n) const
+    const byte* Entry::component(uint32 n) const
     {
         if (n >= count()) return 0;
         return data() + n * typeSize();
@@ -159,7 +159,7 @@ namespace Exiv2 {
         : alloc_(true), ifdId_(ifdId), offset_(0), dataOffset_(0),
           pNext_(0), next_(0)
     {
-        pNext_ = new char[4];
+        pNext_ = new byte[4];
         memset(pNext_, 0x0, 4);
     }
 
@@ -167,7 +167,7 @@ namespace Exiv2 {
         : alloc_(true), ifdId_(ifdId), offset_(offset), dataOffset_(0),
           pNext_(0), next_(0)
     {
-        pNext_ = new char[4];
+        pNext_ = new byte[4];
         memset(pNext_, 0x0, 4);
     }
 
@@ -176,7 +176,7 @@ namespace Exiv2 {
           pNext_(0), next_(0)
     {
         if (alloc_) {
-            pNext_ = new char[4];
+            pNext_ = new byte[4];
             memset(pNext_, 0x0, 4);
         }
     }
@@ -192,12 +192,12 @@ namespace Exiv2 {
           pNext_(rhs.pNext_), next_(rhs.next_)
     {
         if (alloc_ && rhs.pNext_) {
-            pNext_ = new char[4];
+            pNext_ = new byte[4];
             memcpy(pNext_, rhs.pNext_, 4); 
         }
     }
 
-    int Ifd::read(const char* buf, long len, ByteOrder byteOrder, long offset)
+    int Ifd::read(const byte* buf, long len, ByteOrder byteOrder, long offset)
     {
         int rc = 0;
         long o = 0;
@@ -242,7 +242,7 @@ namespace Exiv2 {
                     memcpy(pNext_, buf + o, 4);
                 }
                 else {
-                    pNext_ = const_cast<char*>(buf + o);
+                    pNext_ = const_cast<byte*>(buf + o);
                 }
                 next_ = getULong(buf + o, byteOrder);
             }
@@ -356,7 +356,7 @@ namespace Exiv2 {
     }
 
     int Ifd::readSubIfd(
-        Ifd& dest, const char* buf, long len, ByteOrder byteOrder, uint16 tag
+        Ifd& dest, const byte* buf, long len, ByteOrder byteOrder, uint16 tag
     ) const
     {
         int rc = 0;
@@ -373,7 +373,7 @@ namespace Exiv2 {
         return rc;
     } // Ifd::readSubIfd
 
-    long Ifd::copy(char* buf, ByteOrder byteOrder, long offset)
+    long Ifd::copy(byte* buf, ByteOrder byteOrder, long offset)
     {
         if (offset != 0) offset_ = offset;
 
@@ -508,7 +508,7 @@ namespace Exiv2 {
                        << std::hex << std::right << i->offset();
             }
             else {
-                unsigned char* data = (unsigned char*)i->data();
+                const byte* data = i->data();
                 for (int k = 0; k < i->size(); ++k) {
                     offset << std::setw(2) << std::setfill('0') << std::hex
                            << (int)data[k] << " ";

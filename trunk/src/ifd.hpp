@@ -21,10 +21,10 @@
 /*!
   @file    ifd.hpp
   @brief   Encoding and decoding of IFD (%Image File Directory) data
-  @version $Name:  $ $Revision: 1.19 $
+  @version $Name:  $ $Revision: 1.20 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    09-Jan-04, ahu: created
+  @date    09-Jan-04, ahu: created<BR>
            11-Feb-04, ahu: isolated as a component
  */
 #ifndef IFD_HPP_
@@ -126,7 +126,7 @@ namespace Exiv2 {
           @throw Error ("Size too small") if size is not large enough to hold
                  count components of the given type.
          */
-        void setValue(uint16 type, uint32 count, const char* data, long size);
+        void setValue(uint16 type, uint32 count, const byte* data, long size);
         //@}
 
         //! @name Accessors
@@ -161,12 +161,12 @@ namespace Exiv2 {
           @brief Return a pointer to the data area. Do not attempt to write
           to this pointer.
         */
-        const char* data() const { return pData_; }
+        const byte* data() const { return pData_; }
         /*!
           @brief Return a pointer to the n-th component, 0 if there is no 
                  n-th component. Do not attempt to write to this pointer.
          */
-        const char* component(uint32 n) const;
+        const byte* component(uint32 n) const;
         //! Get the memory allocation mode
         bool alloc() const { return alloc_; }
         //@}
@@ -198,7 +198,7 @@ namespace Exiv2 {
          */
         long size_;
         //! Pointer to the data buffer
-        char* pData_;
+        byte* pData_;
                                
     }; // class Entry
 
@@ -323,7 +323,7 @@ namespace Exiv2 {
                     beyond the provided buffer. The IFD is cleared in this 
                     case.
          */
-        int read(const char* buf, long len, ByteOrder byteOrder, long offset =0);
+        int read(const byte* buf, long len, ByteOrder byteOrder, long offset =0);
         /*!
           @brief Read a sub-IFD from the location pointed to by the directory entry 
                  with the given tag.
@@ -344,7 +344,7 @@ namespace Exiv2 {
                 IFD. 0 is returned and no action is taken in this case.
         */
         int readSubIfd(
-            Ifd& dest, const char* buf, long len, ByteOrder byteOrder, uint16 tag
+            Ifd& dest, const byte* buf, long len, ByteOrder byteOrder, uint16 tag
         ) const;
         /*!
           @brief Copy the IFD to a data array, update the offsets of the IFD and
@@ -371,7 +371,7 @@ namespace Exiv2 {
                  original position, i.e., the offset of the IFD will be used.
           @return Returns the number of characters written.
          */
-        long copy(char* buf, ByteOrder byteOrder, long offset =0);
+        long copy(byte* buf, ByteOrder byteOrder, long offset =0);
         /*!
           @brief Reset the IFD. Delete all IFD entries from the class and put
                  the object in a state where it can accept completely new
@@ -489,7 +489,7 @@ namespace Exiv2 {
         //! Offset of the first data entry outside of the IFD directory
         long dataOffset_;
         //! Pointer to the offset of next IFD from the start of the TIFF header
-        char* pNext_;
+        byte* pNext_;
         //! The offset of the next IFD as data value (always in sync with *pNext_)
         uint32 next_;
 

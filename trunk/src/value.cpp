@@ -20,14 +20,14 @@
  */
 /*
   File:      value.cpp
-  Version:   $Name:  $ $Revision: 1.7 $
+  Version:   $Name:  $ $Revision: 1.8 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.7 $ $RCSfile: value.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.8 $ $RCSfile: value.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -108,10 +108,10 @@ namespace Exiv2 {
         return *this;
     }
 
-    void DataValue::read(const char* buf, long len, ByteOrder byteOrder)
+    void DataValue::read(const byte* buf, long len, ByteOrder byteOrder)
     {
         // byteOrder not needed 
-        value_ = std::string(buf, len);
+        value_ = std::string(reinterpret_cast<const char*>(buf), len);
     }
 
     void DataValue::read(const std::string& buf)
@@ -124,10 +124,12 @@ namespace Exiv2 {
         }
     }
 
-    long DataValue::copy(char* buf, ByteOrder byteOrder) const
+    long DataValue::copy(byte* buf, ByteOrder byteOrder) const
     {
         // byteOrder not needed
-        return static_cast<long>(value_.copy(buf, value_.size()));
+        return static_cast<long>(
+                value_.copy(reinterpret_cast<char*>(buf), value_.size())
+                );
     }
 
     long DataValue::size() const
@@ -144,7 +146,7 @@ namespace Exiv2 {
     {
         std::string::size_type end = value_.size();
         for (std::string::size_type i = 0; i != end; ++i) {
-            os << static_cast<int>(static_cast<unsigned char>(value_[i])) 
+            os << static_cast<int>(static_cast<byte>(value_[i])) 
                << " ";
         }
         return os;
@@ -158,10 +160,10 @@ namespace Exiv2 {
         return *this;
     }
 
-    void AsciiValue::read(const char* buf, long len, ByteOrder byteOrder)
+    void AsciiValue::read(const byte* buf, long len, ByteOrder byteOrder)
     {
         // byteOrder not needed 
-        value_ = std::string(buf, len);
+        value_ = std::string(reinterpret_cast<const char*>(buf), len);
     }
 
     void AsciiValue::read(const std::string& buf)
@@ -170,10 +172,12 @@ namespace Exiv2 {
         if (value_[value_.size()-1] != '\0') value_ += '\0';
     }
 
-    long AsciiValue::copy(char* buf, ByteOrder byteOrder) const
+    long AsciiValue::copy(byte* buf, ByteOrder byteOrder) const
     {
         // byteOrder not needed
-        return static_cast<long>(value_.copy(buf, value_.size()));
+        return static_cast<long>(
+                value_.copy(reinterpret_cast<char*>(buf), value_.size())
+                );
     }
 
     long AsciiValue::size() const

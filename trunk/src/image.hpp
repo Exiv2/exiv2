@@ -21,11 +21,14 @@
 /*!
   @file    image.hpp
   @brief   Class JpegImage to access JPEG images
-  @version $Name:  $ $Revision: 1.13 $
+  @version $Name:  $ $Revision: 1.14 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    09-Jan-04, ahu: created
-           11-Feb-04, ahu: isolated as a component
+  @author  Brad Schick (brad) 
+           <a href="mailto:schick@robotbattle.com">schick@robotbattle.com</a>
+  @date    09-Jan-04, ahu: created<BR>
+           11-Feb-04, ahu: isolated as a component<BR>
+           19-Jul-04, brad: revamped to be more flexible and support IPTC
  */
 #ifndef IMAGE_HPP_
 #define IMAGE_HPP_
@@ -36,12 +39,19 @@
 
 // + standard includes
 #include <string>
-#include <iosfwd>
 #include <map>
+
 
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
+
+    //! Type for function pointer that creates new Image instances
+    typedef class Image* (*NewInstanceFct)(const std::string& path, FILE* ifp);
+
+    //! Type for function pointer that checks image types
+    typedef bool (*IsThisTypeFct)(FILE* ifp, bool advance);
+
 
 // *****************************************************************************
 // class definitions
@@ -52,12 +62,10 @@ namespace Exiv2 {
     class Image {
     public:
         //! Supported image formats
-        enum Type { none, jpeg };
+        enum Type { none, jpeg, exv };
 
         //! @name Creators
         //@{
-        //! Default Constructor
-        Image() {}
         //! Virtual Destructor
         virtual ~Image() {}
         //@}
@@ -65,99 +73,112 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         /*!
-          @brief Read the Exif data from the file path into the internal 
-                 data buffer.
-          @param path Path to the file.
+          @brief Read metadata from assigned image file into internal 
+                 buffers.
           @return 0 if successful.         
          */
-        virtual int readExifData(const std::string& path) =0;
+        virtual int readMetadata() =0;
         /*!
-          @brief Read the Exif data from the stream into the internal 
-                 data buffer.
-          @param is Input stream to read from.
+          @brief Write metadata from internal buffers into to the image fle.
           @return 0 if successful.
          */
-        virtual int readExifData(std::istream& is) =0;
+        virtual int writeMetadata() =0;
         /*!
-          @brief Read the Exif data from the buffer buf which has size bytes.
-          @param buf Pointer to the data buffer.
-          @param size Number of characters in the data buffer.
+          @brief Set the Exif data. The data is copied into an internal data
+                 buffer and is not written until writeMetadata is called.
+          @param buf Pointer to the new Exif data.
+          @param size Size in bytes of new Exif data.
          */
-        virtual void setExifData(const char* buf, long size) =0;
+        virtual void setExifData(const byte* buf, long size) =0;
+        /*!
+          @brief Erase any buffered Exif data. Exif data is not removed
+                from the actual file until writeMetadata is called.
+         */
+        virtual void clearExifData() =0;
+        /*!
+          @brief Set the Iptc data. The data is copied into an internal data
+                 buffer and is not written until writeMetadata is called.
+          @param buf Pointer to the new Iptc data.
+          @param size Size in bytes of new Iptc data.
+         */
+        virtual void setIptcData(const byte* buf, long size) =0;
+        /*!
+          @brief Erase any buffered Iptc data. Iptc data is not removed
+                from the actual file until writeMetadata is called.
+         */
+        virtual void clearIptcData() =0;
+        /*!
+          @brief Set the image comment. The data is copied into an internal data
+                 buffer and is not written until writeMetadata is called.
+          @param comment String containing comment.
+         */
+        virtual void setComment(const std::string &comment) =0;
+        /*!
+          @brief Erase any buffered comment. Comment is not removed
+                 from the actual file until writeMetadata is called.
+         */
+        virtual void clearComment() =0;
+        /*!
+          @brief Copy all existing metadata from source %Image. The data is
+                 copied into internal buffers and is not written until
+                 writeMetadata is called.
+          @param image Metadata source. All metadata types are copied.
+         */
+        virtual void setMetadata(const Image& image) =0;
+        /*!
+          @brief Erase all buffered metadata. Metadata is not removed
+                 from the actual file until writeMetadata is called.
+         */
+        virtual void clearMetadata() =0;
+        /*!
+          @brief Close associated image file but preserve buffered metadata.
+          @return 0 if successful.         
+         */
+        virtual int detach() =0;
         //@}
 
         //! @name Accessors
         //@{
-        //! Virtual copy construction
-        virtual Image* clone() const =0;
         /*!
-          @brief Determine if the content of the stream is an image of the type
-                 of this class.
-
-          The advance flag determines if the read position in the stream is
-          moved (see below). This applies only if the image type matches and the
-          function returns true. If the image type does not match, the stream
-          position is not changed. However, if reading from the stream fails,
-          the stream position is undefined. Consult the stream state to obtain 
-          more information in this case.
-          
-          @param is Input stream with the image.
-          @param advance Flag indicating whether the read position in the stream
-                         should be advanced by the number of characters read to
-                         analyse the image stream (true) or left at its original
-                         position (false). This applies only if the image type 
-                         matches.
-          @return  true  if the type of the image matches that of this;<BR>
-                   false if the type of the image does not match.
+          @brief Check if the %Image instance is valid. Use after object 
+                 construction.
+          @return true if the %Image is in a valid state.
          */
-        virtual bool isThisType(std::istream& is, bool advance =false) const =0;
-        /*!
-          @brief Erase the Exif data from file path.
-          @param path Path to the file.
-          @return 0 if successful.
-         */
-        virtual int eraseExifData(const std::string& path) const =0;
-        /*!
-          @brief Read from the image input stream is, erase Exif data from the
-                 image, if there is any, and write the resulting image to the
-                 output stream os.
-          @param os Output stream to write to (e.g., a temporary file).
-          @param is Input stream with the image from which the Exif data
-                 should be erased.
-          @return 0 if successful.
-         */
-        virtual int eraseExifData(std::ostream& os, std::istream& is) const =0;
-        /*!
-          @brief Write the Exif data to file path.
-          @param path Path to the file.
-          @return 0 if successful.
-         */
-        virtual int writeExifData(const std::string& path) const =0;
-        /*!
-          @brief Read from the image input stream is, add Exif data to the
-                 image, replacing existing Exif data, if there is any) and
-                 write the resulting image to the output stream os.
-          @param os Output stream to write to (e.g., a temporary file).
-          @param is Input stream with the image to which the Exif data
-                 should be copied.
-          @return 0 if successful.
-         */
-        virtual int writeExifData(std::ostream& os, std::istream& is) const =0;
+        virtual bool good() const =0;
         //! Return the size of the Exif data in bytes.
         virtual long sizeExifData() const =0;
         /*!
           @brief Return a read-only pointer to an Exif data buffer. Do not
                  attempt to write to this buffer.
          */
-        virtual const char* exifData() const =0;
+        virtual const byte* exifData() const =0;
+        //! Return the size of the Iptc data in bytes.
+        virtual long sizeIptcData() const =0;
+        /*!
+          @brief Return a read-only pointer to an Iptc data buffer. Do not
+                 attempt to write to this buffer.
+         */
+        virtual const byte* iptcData() const =0;
+        /*!
+          @brief Return a read-only reference to the image comment. 
+                Do not attempt to write to this string. May be an empty string.
+         */
+        virtual std::string comment() const =0;
         //@}
 
     protected:
-        /*!
-          @brief Assignment operator. Protected so that it can only be used
-                 by subclasses but not directly.
-         */
-        Image& operator=(const Image& rhs) { return *this; }
+        //! @name Creators
+        //@{
+        //! Default Constructor
+        Image() {}
+        //@}
+
+    private:
+        // NOT Implemented
+        //! Copy constructor
+        Image(const Image& rhs);
+        //! Assignment operator
+        Image& operator=(const Image& rhs);
 
     }; // class Image
 
@@ -173,49 +194,62 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         /*!
+          @brief Register image type together with its function pointers.
+
+          The image factory creates new images calling their associated
+          function pointer. Additional images can be added by registering
+          new type and function pointers. If called for a type that already
+          exists in the list, the corresponding prototype is replaced.
+
+          @param type Image type.
+          @param newInst Function pointer for creating image instances.
+          @param isType Function pointer to test for matching image types.
+        */
+        void registerImage(Image::Type type, 
+                           NewInstanceFct newInst, 
+                           IsThisTypeFct isType);
+        //@}
+
+        //! @name Accessors
+        //@{
+        /*!
+          @brief  Create an %Image of the appropriate type by opening the
+                  specified file. File type is derived from the contents of the
+                  file.
+          @param  path %Image file. The contents of the file are tested to
+                  determine the image type to open. File extension is ignored.
+          @return A pointer that owns an %Image of the type derived from the
+                  file. Caller must delete the returned object. If no image type
+                  could be determined, the pointer is 0.
+         */
+        Image* open(const std::string& path) const;
+        /*!
+          @brief  Create an %Image of the requested type by creating a new
+                  file. If the file already exists, it will be overwritten.
+          @param  type Type of the image to be created.
+          @param  path %Image file. The contents of the file are tested to
+                  determine the image type to open. File extension is ignored.
+          @return A pointer that owns an %Image of the requested type. Caller
+                  must delete the returned object.  If the image type is not
+                  supported, the pointer is 0.
+         */
+        Image* create(Image::Type type, const std::string& path) const;
+        /*!
+          @brief  Returns the image type of the provided file. 
+          @param  path %Image file. The contents of the file are tested to
+                  determine the image type. File extension is ignored.
+          @return %Image type of Image::none if the type is not recognized.
+         */
+        Image::Type getType(const std::string& path) const;
+        //@}
+
+        /*!
           @brief Get access to the image factory.
 
           Clients access the image factory exclusively through
           this method.
         */
         static ImageFactory& instance();
-
-        /*!
-          @brief Register an image prototype together with its type.
-
-          The image factory creates new images by cloning their associated
-          prototypes. Additional images can be added by registering a prototype
-          and its type. If called for a type which already exists in the list,
-          the corresponding prototype is replaced.
-
-          @param type Image type.
-          @param pImage Pointer to the prototype. Ownership is transfered to the
-                 factory.
-        */
-        void registerImage(Image::Type type, Image* pImage);
-        //@}
-
-        //! @name Accessors
-        //@{
-        /*!
-          @brief  Create an %Image of the appropriate type, derived from the
-                  contents of the stream is.
-          @param  is Image stream. The contents of the stream are tested to
-                  determine the image type to create.
-          @return A pointer that owns an %Image of the type derived from the
-                  stream. If no image type could be determined, the pointer is 0.
-         */
-        Image* create(std::istream& is) const;
-
-        /*!
-          @brief  Create an %Image of the requested type.
-
-          @param  type Type of the image to be created.
-          @return A pointer that owns an %Image of the requested type.
-                  If the image type is not supported, the pointer is 0.
-         */
-        Image* create(Image::Type type) const;
-        //@}
 
     private:
         //! @name Creators
@@ -226,169 +260,361 @@ namespace Exiv2 {
         ImageFactory(const ImageFactory& rhs);
         //@}
 
+        //! Struct for storing image function pointers.
+        struct ImageFcts
+        {
+            NewInstanceFct newInstance;
+            IsThisTypeFct isThisType;
+            ImageFcts(NewInstanceFct newInst, IsThisTypeFct isType) 
+                : newInstance(newInst), isThisType(isType) {}
+            ImageFcts() : newInstance(0), isThisType(0) {}
+        };
+
         // DATA
         //! Pointer to the one and only instance of this class.
         static ImageFactory* pInstance_;
-        //! Type used to store Image prototype classes
-        typedef std::map<Image::Type, Image*> Registry;
-        //! List of image types and corresponding prototypes.
+        //! Type used to store Image creation functions
+        typedef std::map<Image::Type, ImageFcts> Registry;
+        //! List of image types and corresponding creation functions.
         Registry registry_;
 
     }; // class ImageFactory
 
     /*! 
-      @brief Helper class to access JPEG images
+      @brief Abstract helper base class to access JPEG images
      */
-    class JpegImage : public Image {
+    class JpegBase : public Image {
     public:
         //! @name Creators
         //@{
-        //! Default constructor
-        JpegImage();
-        //! Copy constructor
-        JpegImage(const JpegImage& rhs);
-        //! Destructor
-        ~JpegImage();
+        //! Virtual destructor.
+        virtual ~JpegBase();
         //@}
-
         //! @name Manipulators
         //@{
-        //! Assignment operator
-        JpegImage& operator=(const JpegImage& rhs);
         /*!
-          @brief Read the Exif data from the file path into the internal 
-                 data buffer.
-          @param path Path to the file.
+          @brief Read all metadata from the file into the internal 
+                 data buffers. This method returns success even when
+                 no metadata is found in the image. Callers must therefore
+                 check the size of indivdual metadata types before
+                 accessing the data.
           @return 0 if successful;<BR>
-                 -1 if the file cannot be opened; or<BR>
-                    the return code of readExifData(std::istream& is)
-                    if the call to this function fails.
+                  1 if reading from the file failed 
+                    (could be caused by invalid image);<BR>
+                  2 if the file does not contain a valid image;<BR>
          */
-        int readExifData(const std::string& path);
+        int readMetadata();
         /*!
-          @brief Read the Exif data from the stream into the internal 
-                 data buffer.
-          @param is Input stream to read from.
-          @return 0 if successful;<BR>
-                  1 if reading from the stream failed (consult the stream state 
-                    for more information);<BR>
-                  2 if the stream does not contain a JPEG image;<BR>
-                  3 if no Exif APP1 segment was found after SOI at the 
-                    beginning of the input stream.
+          @brief Write all buffered metadata to associated file. All existing
+                metadata sections in the file are either replaced or erased.
+                If data for a given metadata type has not been assigned,
+                then that metadata type will be erased from the file.
+          @return 0 if successful;<br>
+                  1 if reading from the file failed;<BR>
+                  2 if the associated file does not contain a valid image;<BR>
+                  3 if the temporary output file can not be written to;<BR>
+                  4 if renaming the temporary file fails;<br>
          */
-        int readExifData(std::istream& is);
-        /*!
-          @brief Set the Exif data. The data is copied into the internal
-                 data buffer.
-          @param buf Pointer to the data buffer.
-          @param size Number of characters in the data buffer.
-         */
-        void setExifData(const char* buf, long size);
+        int writeMetadata();
+        void setExifData(const byte* buf, long size);
+        void clearExifData();
+        void setIptcData(const byte* buf, long size);
+        void clearIptcData();
+        void setComment(const std::string &comment);
+        void clearComment();
+        void setMetadata(const Image& image);
+        void clearMetadata();
+        int detach();
         //@}
 
         //! @name Accessors
         //@{
-        //! Virtual copy construction
-        Image* clone() const;
+        bool good() const;
+        long sizeExifData() const { return sizeExifData_; }
+        const byte* exifData() const { return pExifData_; }
+        long sizeIptcData() const { return sizeIptcData_; }
+        const byte* iptcData() const { return pIptcData_; }
+        std::string comment() const { return comment_; }
+        //@}
+
+    protected:
+        //! @name Creators
+        //@{
+        /*! 
+          @brief Constructor for subclasses that have already opened a
+                 file stream on the specified path.
+          @param path Full path to image file.
+          @param fp File pointer to open file.
+         */
+        JpegBase(const std::string& path, FILE* fp);
+        /*! 
+          @brief Constructor that can either open an existing image or create
+                 a new image from scratch. If a new image is to be created, any
+                 existing file is overwritten
+          @param path Full path to image file.
+          @param create Specifies if an existing file should be opened (false)
+                 or if a new file should be created (true).
+          @param initData Data to initialize newly created files. Only used
+                 when %create is true. Should contain the data for the smallest
+                 valid image of the calling subclass.
+          @param dataSize Size of initData in bytes.
+         */
+        JpegBase(const std::string& path, const bool create,
+                 const byte initData[], const size_t dataSize);
+        //@}
+        //! @name Accessors
+        //@{
         /*!
-          @brief  Determine if the content of the stream is a JPEG image. 
-          @param  is Input stream to test.
+          @brief Writes the image header (aka signature) to the file stream.
+          @param ofp File stream that the header is written to.
+          @return 0 if successful;<BR>
+                 3 if the output file can not be written to;<BR>
+         */
+        virtual int writeHeader(FILE* ofp) const =0;
+        /*!
+          @brief Determine if the content of the stream is of the type of this
+                 class.
+
+          The advance flag determines if the read position in the stream is
+          moved (see below). This applies only if the type matches and the
+          function returns true. If the type does not match, the stream
+          position is not changed. However, if reading from the stream fails,
+          the stream position is undefined. Consult the stream state to obtain 
+          more information in this case.
+          
+          @param ifp Input file stream.
           @param advance Flag indicating whether the read position in the stream
                          should be advanced by the number of characters read to
-                         analyse the image stream (true) or left at its original
-                         position (false). This applies only if the image type 
-                         matches.
-          @return true if the input stream starts with the JPEG SOI marker.
-                  The stream is not advanced in this case.<BR>
-                  false if the input stream does not begin with the JPEG SOI
-                  marker. The stream is not advanced.<BR>
-                  false if reading the first two bytes from the stream fails.
-                  Consult the stream state for more information. In this case,
-                  the stream may or may not have been advanced by 1 or 2 
-                  characters.
+                         analyse the stream (true) or left at its original
+                         position (false). This applies only if the type matches.
+          @return  true  if the stream data matches the type of this class;<BR>
+                   false if the stream data does not match.
          */
-        bool isThisType(std::istream& is, bool advance) const;
-        /*!
-          @brief Erase the Exif data from file path, which must contain a JPEG
-                 image. If an Exif APP1 section exists in the file, it is
-                 erased. 
-          @param path Path to the file.
-          @return 0 if successful;<br>
-                 -1 if the input file cannot be opened;<br>
-                 -3 if the temporary file cannot be opened;<br>
-                 -4 if renaming the temporary file fails; or<br>
-                 the return code of 
-                    eraseExifData(std::ostream& os, std::istream& is) const
-                    if the call to this function fails.
-         */
-        int eraseExifData(const std::string& path) const;
-        /*!
-          @brief Erase Exif data from the JPEG image is, write the resulting
-                 image to the output stream os. If an Exif APP1 section exists
-                 in the input file, it is erased.
-          @param os Output stream to write to (e.g., a temporary file).
-          @param is Input stream with the JPEG image from which the Exif data
-                 should be erased.
-          @return 0 if successful;<BR>
-                  1 if reading from the input stream failed (consult the stream 
-                    state for more information);<BR>
-                  2 if the input stream does not contain a JPEG image;<BR>
-                  3 if neither a JFIF APP0 segment nor a Exif APP1 segment was
-                    found after SOI at the beginning of the input stream;<BR>
-                  4 if writing to the output stream failed (consult the stream 
-                    state for more information).
-         */
-        int eraseExifData(std::ostream& os, std::istream& is) const;
-        /*!
-          @brief Write the Exif data to file path, which must contain a JPEG
-                 image. If an Exif APP1 section exists in the file, it is
-                 replaced. Otherwise, an Exif data section is created.
-          @param path Path to the file.
-          @return 0 if successful;<br>
-                 -1 if the input file cannot be opened;<br>
-                 -3 if the temporary file cannot be opened;<br>
-                 -4 if renaming the temporary file fails; or<br>
-                 the return code of 
-                    writeExifData(std::ostream& os, std::istream& is) const
-                    if the call to this function fails.
-         */
-        int writeExifData(const std::string& path) const;
-        /*!
-          @brief Copy Exif data into the JPEG image is, write the resulting
-                 image to the output stream os. If an Exif APP1 section exists
-                 in the input file, it is replaced. Otherwise, an Exif data
-                 section is created.
-          @param os Output stream to write to (e.g., a temporary file).
-          @param is Input stream with the JPEG image to which the Exif data
-                 should be copied.
-          @return 0 if successful;<BR>
-                  1 if reading from the input stream failed (consult the stream 
-                    state for more information);<BR>
-                  2 if the input stream does not contain a JPEG image;<BR>
-                  3 if neither a JFIF APP0 segment nor a Exif APP1 segment was
-                    found after SOI at the beginning of the input stream;<BR>
-                  4 if writing to the output stream failed (consult the stream 
-                    state for more information).
-         */
-        int writeExifData(std::ostream& os, std::istream& is) const;
-        //! Return the size of the Exif data buffer
-        long sizeExifData() const { return sizeExifData_; }
-        //! Return a read-only pointer to the Exif data buffer 
-        const char* exifData() const { return pExifData_; }
+        virtual bool isThisType(FILE* ifp, bool advance) const =0;
         //@}
+
+        // Constant Data
+        static const byte sos_;                 //!< JPEG SOS marker
+        static const byte eoi_;                 //!< JPEG EOI marker
+        static const byte app0_;                //!< JPEG APP0 marker
+        static const byte app1_;                //!< JPEG APP1 marker
+        static const byte app13_;               //!< JPEG APP13 marker
+        static const byte com_;                 //!< JPEG Comment marker
+        static const char exifId_[];            //!< Exif identifier
+        static const char jfifId_[];            //!< JFIF identifier
+        static const char ps3Id_[];             //!< Photoshop marker
+        static const char bimId_[];             //!< Photoshop marker
+        static const uint16 iptc_;              //!< Photoshop IPTC marker
 
     private:
         // DATA
-        static const uint16 soi_;               // SOI marker
-        static const uint16 app0_;              // APP0 marker
-        static const uint16 app1_;              // APP1 marker
-        static const char exifId_[];            // Exif identifier
-        static const char jfifId_[];            // JFIF identifier
+        FILE* fp_;                              //!< Image file (read write)
+        const std::string path_;                //!< Image file name
+        long sizeExifData_;                     //!< Size of the Exif data buffer
+        byte* pExifData_;                       //!< Exif data buffer
+        long sizeIptcData_;                     //!< Size of the Iptc data buffer
+        byte* pIptcData_;                       //!< IPTC data buffer
+        std::string comment_;                   //!< JPEG comment
 
-        long sizeExifData_;                     // Size of the Exif data buffer
-        char* pExifData_;                       // Exif data buffer
+        // METHODS
+        /*!
+          @brief Advances file stream to one byte past the next Jpeg marker
+                 and returns the marker. This method should be called when the
+                 file stream is positioned one byte past the end of a Jpeg segment.
+          @return the next Jpeg segment marker if successful;<BR>
+                 -1 if a maker was not found before EOF;<BR>
+         */
+        int advanceToMarker() const;
+        /*!
+          @brief Locates Photoshop formated IPTC data in a memory buffer.
+                 Operates on raw data (rather than file streams) to simplify reuse.
+          @param pPSData Pointer to buffer containing entire payload of 
+                 Photoshop formated APP13 Jpeg segment.
+          @param sizePSData Size in bytes of pPSData.
+          @param record Output value that is set to the start of the IPTC
+                 data block within pPSData (may not be null).
+          @param sizeHdr Output value that is set to the size of the header
+                 within the IPTC data block pointed to by record (may not
+                 be null).
+          @param sizeIptc Output value that is set to the size of the actual
+                 IPTC data within the IPTC data block pointed to by record
+                 (may not be null).
+          @return 0 if successful;<BR>
+                  1 if the pPSData buffer does not contain valid data;<BR>
+                  2 if no IPTC data was found in pPSData;<BR>
+         */
+        int locateIptcData(const byte *pPSData, 
+                           long sizePSData,
+                           const byte **record, 
+                           uint16 *const sizeHdr,
+                           uint16 *const sizeIptc) const;
+        /*!
+          @brief Write to the associated file stream with the provided data.
+          @param initData Data to be written to the associated file
+          @param dataSize Size in bytes of data to be written
+          @return 0 if successful;<BR>
+                  3 if the output file can not be written to;<BR>
+         */
+        int initFile(const byte initData[], const size_t dataSize);
+        /*!
+          @brief Provides the main implementation of writeMetadata by 
+                writing all buffered metadata to associated file. 
+          @param os Output stream to write to (e.g., a temporary file).
+          @return 0 if successful;<br>
+                  1 if reading from associated file failed;<BR>
+                  2 if the file does not contain a valid image;<BR>
+                  3 if the temporary output file can not be written to;<BR>
+         */
+        int doWriteMetadata(FILE* ofp) const;
 
+        // NOT Implemented
+        //! Default constructor.
+        JpegBase();
+        //! Copy constructor
+        JpegBase(const JpegBase& rhs);
+        //! Assignment operator
+        JpegBase& operator=(const JpegBase& rhs);
+    }; // class JpegBase
+
+    /*! 
+      @brief Helper class to access JPEG images
+     */
+    class JpegImage : public JpegBase {
+        friend Image* newJpegInstance(const std::string& path, FILE* fp);
+        friend bool isJpegType(FILE* ifp, bool advance);
+    public:
+        //! @name Creators
+        //@{
+        /*! 
+          @brief Constructor that can either open an existing Jpeg image or create
+                 a new image from scratch. If a new image is to be created, any
+                 existing file is overwritten. Since the constructor can not return
+                 a result, callers should check the %good method after object
+                 construction to determine success or failure.
+          @param path Full path to image file.
+          @param create Specifies if an existing file should be opened (false)
+                 or if a new file should be created (true).
+         */
+        JpegImage(const std::string& path, const bool create);
+        //! Destructor
+        ~JpegImage() {}
+        //@}
+    protected:
+        //! @name Accessors
+        //@{
+        /*!
+          @brief Writes a Jpeg header (aka signature) to the file stream.
+          @param ofp File stream that the header is written to.
+          @return 0 if successful;<BR>
+                 3 if the output file can not be written to;<BR>
+         */
+        int writeHeader(FILE* ofp) const;
+        /*!
+          @brief Determine if the content of the file stream is a Jpeg image.
+                 See base class for more details.
+          @param ifp Input file stream.
+          @param advance Flag indicating whether the read position in the stream
+                         should be advanced by the number of characters read to
+                         analyse the stream (true) or left at its original
+                         position (false). This applies only if the type matches.
+          @return  true  if the file stream data matches a Jpeg image;<BR>
+                   false if the stream data does not match.
+         */
+        bool isThisType(FILE* ifp, bool advance) const;
+        //@}
+    private:
+        // Constant data
+        static const byte soi_;          // SOI marker
+        static const byte blank_[];      // Minimal Jpeg image
+
+        //! @name Creators
+        //@{
+        /*! 
+          @brief Constructor to be used when a Jpeg file has already
+                 been opened. Meant for internal factory use.
+          @param path Full path to opened image file.
+          @param fp File pointer to open file.
+         */
+        JpegImage(const std::string& path, FILE* fp) : JpegBase(path, fp) {}
+        //@}
+
+        // NOT Implemented
+        //! Default constructor
+        JpegImage();
+        //! Copy constructor
+        JpegImage(const JpegImage& rhs);
+        //! Assignment operator
+        JpegImage& operator=(const JpegImage& rhs);
     }; // class JpegImage
+
+    //! Helper class to access %Exiv2 files
+    class ExvImage : public JpegBase {
+        friend Image* newExvInstance(const std::string& path, FILE* fp);
+        friend bool isExvType(FILE* ifp, bool advance);
+    public:
+        //! @name Creators
+        //@{
+        /*! 
+          @brief Constructor that can either open an existing Exv image or create
+                 a new image from scratch. If a new image is to be created, any
+                 existing file is overwritten. Since the constructor can not return
+                 a result, callers should check the %good method after object
+                 construction to determine success or failure.
+          @param path Full path to image file.
+          @param create Specifies if an existing file should be opened (false)
+                 or if a new file should be created (true).
+         */
+        ExvImage(const std::string& path, const bool create);
+        //! Destructor
+        ~ExvImage() {}
+        //@}
+    protected:
+        //! @name Accessors
+        //@{
+        /*!
+          @brief Writes an Exv header (aka signature) to the file stream.
+          @param ofp File stream that the header is written to.
+          @return 0 if successful;<BR>
+                  3 if the output file can not be written to;<BR>
+         */
+        int writeHeader(FILE* ofp) const;
+        /*!
+          @brief Determine if the content of the file stream is a Exv image.
+                 See base class for more details.
+          @param ifp Input file stream.
+          @param advance Flag indicating whether the read position in the stream
+                         should be advanced by the number of characters read to
+                         analyse the stream (true) or left at its original
+                         position (false). This applies only if the type matches.
+          @return  true  if the file stream data matches a Exv image;<BR>
+                   false if the stream data does not match.
+         */
+        virtual bool isThisType(FILE* ifp, bool advance) const;
+        //@}
+    private:
+        // Constant data
+        static const char exiv2Id_[];    // Exv identifier
+        static const byte blank_[];      // Minimal exiv file
+
+        //! @name Creators
+        //@{
+        /*! 
+          @brief Constructor to be used when an Exv file has already
+                 been opened. Meant for internal factory use.
+          @param path Full path to opened image file.
+          @param fp File pointer to open file.
+         */
+        ExvImage(const std::string& path, FILE* fp) : JpegBase(path, fp) {}
+        //@}
+
+        // NOT Implemented
+        //! Default constructor
+        ExvImage();
+        //! Copy constructor
+        ExvImage(const ExvImage& rhs);
+        //! Assignment operator
+        ExvImage& operator=(const ExvImage& rhs);
+    }; // class ExvImage
 
     //! Helper class modelling the TIFF header structure.
     class TiffHeader {
@@ -405,7 +631,7 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         //! Read the TIFF header from a data buffer. Returns 0 if successful.
-        int read(const char* buf);
+        int read(const byte* buf);
         //@}
 
         //! @name Accessors
@@ -422,7 +648,7 @@ namespace Exiv2 {
           @param buf The data buffer to write to.
           @return The number of bytes written.
          */
-        long copy(char* buf) const;
+        long copy(byte* buf) const;
         //! Return the size of the TIFF header in bytes.
         long size() const { return 8; }
         //! Return the byte order (little or big endian).
@@ -442,95 +668,7 @@ namespace Exiv2 {
         uint16 tag_;
         uint32 offset_;
 
-    }; // class TiffHeader
-
-    //! Helper class to access %Exiv2 files
-    class ExvFile {
-    public:
-        //! @name Creators
-        //@{
-        //! Default Constructor
-        ExvFile();
-        //! Destructor
-        ~ExvFile();
-        //! Copy constructor
-        ExvFile(const ExvFile& rhs);
-        //@}
-
-        //! @name Manipulators
-        //@{
-        //! Assignment operator
-        ExvFile& operator=(const ExvFile& rhs);
-        /*!
-          @brief Read the Exif data from the file path into the internal 
-                 data buffer.
-          @param path Path to the file.
-          @return 0 if successful.         
-         */
-        int readExifData(const std::string& path);
-        /*!
-          @brief Read the Exif data from the stream is into the internal 
-                 data buffer.
-          @param is Input stream to read from.
-          @return 0 if successful.
-         */
-        int readExifData(std::istream& is);
-        /*!
-          @brief Read the Exif data from the buffer buf which has size bytes.
-          @param buf Pointer to the data buffer.
-          @param size Number of characters in the data buffer.
-         */
-        void setExifData(const char* buf, long size);
-        //@}
-
-        //! @name Accessors
-        //@{
-        /*!
-          @brief Write the Exif data to file path.
-          @param path Path to the file.
-          @return 0 if successful.
-         */
-        int writeExifData(const std::string& path) const;
-        //! Return the size of the Exif data in bytes.
-        long sizeExifData() const { return sizeExifData_; }
-        /*!
-          @brief Return a read-only pointer to an Exif data buffer. Do not
-                 attempt to write to this buffer.
-         */
-        const char* exifData() const { return pExifData_; }
-        //@}
-
-        /*!
-          @brief Determine if the content of the stream is of the type of this
-                 class.
-
-          The advance flag determines if the read position in the stream is
-          moved (see below). This applies only if the type matches and the
-          function returns true. If the type does not match, the stream
-          position is not changed. However, if reading from the stream fails,
-          the stream position is undefined. Consult the stream state to obtain 
-          more information in this case.
-          
-          @param is Input stream.
-          @param advance Flag indicating whether the read position in the stream
-                         should be advanced by the number of characters read to
-                         analyse the stream (true) or left at its original
-                         position (false). This applies only if the type matches.
-          @return  true  if the stream data matches the type of this class;<BR>
-                   false if the stream data does not match.
-         */
-        static bool isThisType(std::istream& is, bool advance =false);
-
-    private:
-        // DATA
-        static const uint16 app1_;              // APP1 marker
-        static const char exifId_[];            // Exif identifier
-
-        long sizeExifData_;                     // Size of the Exif data buffer
-        char* pExifData_;                       // Exif data buffer
-
-    }; // class ExvFile
-   
+    }; // class TiffHeader   
 }                                       // namespace Exiv2
 
 #endif                                  // #ifndef IMAGE_HPP_

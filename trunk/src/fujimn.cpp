@@ -20,7 +20,7 @@
  */
 /*
   File:      fujimn.cpp
-  Version:   $Name:  $ $Revision: 1.7 $
+  Version:   $Name:  $ $Revision: 1.8 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
              07-Mar-04, ahu: isolated as a separate component
@@ -31,7 +31,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.7 $ $RCSfile: fujimn.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.8 $ $RCSfile: fujimn.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -84,7 +84,7 @@ namespace Exiv2 {
         absOffset_ = false;
     }
 
-    int FujiMakerNote::readHeader(const char* buf,
+    int FujiMakerNote::readHeader(const byte* buf,
                                   long len, 
                                   ByteOrder byteOrder)
     {
@@ -103,7 +103,8 @@ namespace Exiv2 {
         int rc = 0;
         // Check the FUJIFILM prefix
         if (   header_.size_ < 12
-            || std::string(header_.pData_, 8) != std::string("FUJIFILM", 8)) {
+            || std::string(reinterpret_cast<char*>(header_.pData_), 8) 
+                    != std::string("FUJIFILM", 8)) {
             rc = 2;
         }
         return rc;
@@ -255,7 +256,7 @@ namespace Exiv2 {
 // free functions
 
     MakerNote* createFujiMakerNote(bool alloc,
-                                   const char* buf, 
+                                   const byte* buf, 
                                    long len, 
                                    ByteOrder byteOrder, 
                                    long offset)

@@ -22,7 +22,7 @@
   @file    makernote.hpp
   @brief   Contains the Exif %MakerNote interface, IFD %MakerNote and a 
            MakerNote factory
-  @version $Name:  $ $Revision: 1.20 $
+  @version $Name:  $ $Revision: 1.21 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -53,7 +53,7 @@ namespace Exiv2 {
 // type definitions
 
     //! Type for a pointer to a function creating a makernote
-    typedef MakerNote* (*CreateFct)(bool, const char*, long, ByteOrder, long);
+    typedef MakerNote* (*CreateFct)(bool, const byte*, long, ByteOrder, long);
 
 // *****************************************************************************
 // class definitions
@@ -137,7 +137,7 @@ namespace Exiv2 {
                  start of the TIFF header) and encoded in byte order byteOrder.
                  Return 0 if successful.
          */
-        virtual int read(const char* buf, 
+        virtual int read(const byte* buf, 
                          long len, 
                          ByteOrder byteOrder,
                          long offset) =0;
@@ -147,7 +147,7 @@ namespace Exiv2 {
                  in byte order byteOrder. Update internal offsets if necessary.
                  Return the number of bytes written.
          */
-        virtual long copy(char* buf, ByteOrder byteOrder, long offset) =0;
+        virtual long copy(byte* buf, ByteOrder byteOrder, long offset) =0;
         /*!
           @brief Add the entry to the makernote. No duplicate-check is performed,
                  i.e., it is possible to add multiple entries with the same tag.
@@ -279,7 +279,7 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        virtual int read(const char* buf, 
+        virtual int read(const byte* buf, 
                          long len, 
                          ByteOrder byteOrder, 
                          long offset);
@@ -291,10 +291,10 @@ namespace Exiv2 {
           @note  The default implementation does nothing, assuming there is no
                  header
          */
-        virtual int readHeader(const char* buf, 
+        virtual int readHeader(const byte* buf, 
                                long len,
                                ByteOrder byteOrder);
-        virtual long copy(char* buf, ByteOrder byteOrder, long offset);
+        virtual long copy(byte* buf, ByteOrder byteOrder, long offset);
         void add(const Entry& entry) { ifd_.add(entry); }
         Entries::iterator begin() { return ifd_.begin(); }
         Entries::iterator end() { return ifd_.end(); }
@@ -319,7 +319,7 @@ namespace Exiv2 {
                  number of characters written.
           @note  The default implementation copies the header_ buffer.
          */
-        virtual long copyHeader(char* buf) const;
+        virtual long copyHeader(byte* buf) const;
         /*! 
           @brief Return the size of the makernote header in bytes.
           @note  The default implementation returns the size of the header_ 
@@ -445,7 +445,7 @@ namespace Exiv2 {
         MakerNote* create(const std::string& make, 
                           const std::string& model, 
                           bool alloc, 
-                          const char* buf, 
+                          const byte* buf, 
                           long len, 
                           ByteOrder byteOrder, 
                           long offset) const; 

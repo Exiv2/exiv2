@@ -20,7 +20,7 @@
  */
 /*
   File:      sigmamn.cpp
-  Version:   $Name:  $ $Revision: 1.6 $
+  Version:   $Name:  $ $Revision: 1.7 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   02-Apr-04, ahu: created
   Credits:   Sigma and Foveon MakerNote implemented according to the specification
@@ -29,7 +29,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: sigmamn.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.7 $ $RCSfile: sigmamn.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -87,7 +87,7 @@ namespace Exiv2 {
     {
     }
 
-    int SigmaMakerNote::readHeader(const char* buf,
+    int SigmaMakerNote::readHeader(const byte* buf,
                                    long len, 
                                    ByteOrder byteOrder)
     {
@@ -108,8 +108,10 @@ namespace Exiv2 {
         int rc = 0;
         // Check the SIGMA or FOVEON prefix
         if (   header_.size_ < 10
-            || std::string(header_.pData_, 8) != std::string("SIGMA\0\0\0", 8)
-            && std::string(header_.pData_, 8) != std::string("FOVEON\0\0", 8)) {
+            || std::string(reinterpret_cast<char*>(header_.pData_), 8) 
+                        != std::string("SIGMA\0\0\0", 8)
+            && std::string(reinterpret_cast<char*>(header_.pData_), 8) 
+                        != std::string("FOVEON\0\0", 8)) {
             rc = 2;
         }
         return rc;
@@ -188,7 +190,7 @@ namespace Exiv2 {
 // free functions
 
     MakerNote* createSigmaMakerNote(bool alloc,
-                                    const char* buf, 
+                                    const byte* buf, 
                                     long len, 
                                     ByteOrder byteOrder, 
                                     long offset)

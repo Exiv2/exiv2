@@ -3,7 +3,7 @@
   Abstract : Sample program showing how to set the Exif comment of an image
 
   File:      exifcomment.cpp
-  Version  : $Name:  $ $Revision: 1.2 $
+  Version  : $Name:  $ $Revision: 1.3 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History  : 10-May-04, ahu: created
  */
@@ -56,7 +56,8 @@ try {
     std::string charset("ASCII\0\0\0", 8);
     std::string comment("A comment added to the Exif metadata through Exiv2");
     Exiv2::DataValue value;
-    value.read((charset + comment).data(), 8 + comment.size());
+    value.read(reinterpret_cast<const Exiv2::byte*>((charset + comment).data()), 
+                8 + static_cast<long>(comment.size()));
 
     // Set the Exif comment
     std::string key = "Image.UserInfo.UserComment";
