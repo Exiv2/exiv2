@@ -32,7 +32,7 @@ try {
             'M', 'a', 'l', 'a', 'y', 's', 'i', 'a', '\0'
         };
 
-    Exiv2::Ifd ifd(Exiv2::ifd0, 0, false);
+    Exiv2::Ifd ifd(Exiv2::ifd0Id, 0, false);
     int rc = ifd.read(buf, len, Exiv2::bigEndian, 1);
     if (rc) {
         std::cout << "Ifd::read failed, rc = " << rc << "\n";

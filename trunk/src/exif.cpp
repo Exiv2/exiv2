@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.55 $
+  Version:   $Name:  $ $Revision: 1.56 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.55 $ $RCSfile: exif.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.56 $ $RCSfile: exif.cpp,v $");
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -105,7 +105,7 @@ namespace Exiv2 {
 
     void ExifKey::setMakerNote(MakerNote* pMakerNote)
     { 
-        if (ifdId_ == makerIfd && pMakerNote_ != pMakerNote) {
+        if (ifdId_ == makerIfdId && pMakerNote_ != pMakerNote) {
             pMakerNote_ = pMakerNote;
             decomposeKey();
         }
@@ -113,7 +113,7 @@ namespace Exiv2 {
 
     std::string ExifKey::tagName() const
     {
-        if (ifdId_ == makerIfd && pMakerNote_ != 0) {
+        if (ifdId_ == makerIfdId && pMakerNote_ != 0) {
             return pMakerNote_->tagName(tag_);
         }
         return ExifTags::tagName(tag(), ifdId()); 
@@ -138,7 +138,7 @@ namespace Exiv2 {
 
     std::string ExifKey::sectionName() const 
     {
-        if (ifdId_ == makerIfd && pMakerNote_ != 0) {
+        if (ifdId_ == makerIfdId && pMakerNote_ != 0) {
             return pMakerNote_->ifdItem();
         }
         return ExifTags::sectionName(tag(), ifdId()); 
@@ -147,16 +147,16 @@ namespace Exiv2 {
     void ExifKey::decomposeKey()
     {
         std::pair<uint16, IfdId> p;
-        if (ifdId_ == makerIfd && pMakerNote_ != 0) {
+        if (ifdId_ == makerIfdId && pMakerNote_ != 0) {
             p.first = pMakerNote_->decomposeKey(key_);
             if (p.first == 0xffff) throw Error("Invalid key");
-            p.second = makerIfd;
+            p.second = makerIfdId;
         }
         else {
             p = ExifTags::decomposeKey(key_);
             // If it's couldn't be parsed, we assume it is an incomplete 
             // makernote key (pMakerNote_ not set)
-            if (p.second == ifdIdNotSet) p.second = makerIfd;
+            if (p.second == ifdIdNotSet) p.second = makerIfdId;
             // No checks as this could still be an incomplete makernote key
         }
         tag_ = p.first;
@@ -165,7 +165,7 @@ namespace Exiv2 {
 
     std::ostream& ExifKey::printTag(std::ostream& os, const Value& value) const
     {
-        if (ifdId_ == makerIfd && pMakerNote_ != 0) {
+        if (ifdId_ == makerIfdId && pMakerNote_ != 0) {
             return pMakerNote_->printTag(os, tag(), value);
         }
         return ExifTags::printTag(os, tag(), ifdId(), value);
@@ -233,7 +233,7 @@ namespace Exiv2 {
     }
 
     TiffThumbnail::TiffThumbnail()
-        : offset_(0), size_(0), pImage_(0), ifd_(ifd1, 0, false)
+        : offset_(0), size_(0), pImage_(0), ifd_(ifd1Id, 0, false)
     {
     }
 
@@ -244,7 +244,7 @@ namespace Exiv2 {
 
     TiffThumbnail::TiffThumbnail(const TiffThumbnail& rhs)
         : offset_(rhs.offset_), size_(rhs.size_), pImage_(0), 
-          ifd_(ifd1, 0, false)
+          ifd_(ifd1Id, 0, false)
     {
         if (rhs.pImage_ && rhs.size_ > 0) {
             pImage_ = new byte[rhs.size_];
@@ -592,9 +592,9 @@ namespace Exiv2 {
     }
 
     ExifData::ExifData() 
-        : pThumbnail_(0), pMakerNote_(0), ifd0_(ifd0, 0, false), 
-          exifIfd_(exifIfd, 0, false), iopIfd_(iopIfd, 0, false), 
-          gpsIfd_(gpsIfd, 0, false), ifd1_(ifd1, 0, false), 
+        : pThumbnail_(0), pMakerNote_(0), ifd0_(ifd0Id, 0, false), 
+          exifIfd_(exifIfdId, 0, false), iopIfd_(iopIfdId, 0, false), 
+          gpsIfd_(gpsIfdId, 0, false), ifd1_(ifd1Id, 0, false), 
           size_(0), pData_(0), compatible_(true)
     {
     }
@@ -793,11 +793,11 @@ namespace Exiv2 {
     long ExifData::copyFromMetadata(byte* buf)
     {
         // Build IFD0
-        Ifd ifd0(Exiv2::ifd0);
+        Ifd ifd0(ifd0Id);
         addToIfd(ifd0, begin(), end(), byteOrder());
 
         // Build Exif IFD from metadata
-        Ifd exifIfd(Exiv2::exifIfd);
+        Ifd exifIfd(exifIfdId);
         addToIfd(exifIfd, begin(), end(), byteOrder());
         MakerNote* pMakerNote = 0;
         if (pMakerNote_) {
@@ -817,11 +817,11 @@ namespace Exiv2 {
         }
 
         // Build Interoperability IFD from metadata
-        Ifd iopIfd(iopIfd);
+        Ifd iopIfd(iopIfdId);
         addToIfd(iopIfd, begin(), end(), byteOrder());
 
         // Build GPSInfo IFD from metadata
-        Ifd gpsIfd(gpsIfd);
+        Ifd gpsIfd(gpsIfdId);
         addToIfd(gpsIfd, begin(), end(), byteOrder());
 
         // Compute the new IFD offsets
@@ -856,7 +856,7 @@ namespace Exiv2 {
         long ifd1Offset   = gpsIfdOffset + gpsIfd.size() + gpsIfd.dataSize();
 
         // build IFD1 from updated metadata if there is a thumbnail
-        Ifd ifd1(Exiv2::ifd1, ifd1Offset);
+        Ifd ifd1(ifd1Id, ifd1Offset);
         if (pThumbnail_) {
             // Update Exif data from thumbnail
             pThumbnail_->update(*this);
@@ -934,7 +934,7 @@ namespace Exiv2 {
             std::map<IfdId, int>::const_iterator e;
             for (e = ifdEntries.begin(); e != eEnd; ++e) {
                 // Skip IFD1 entries if there is no thumbnail (maybe it was deleted)
-                if (e->first == ifd1 && !pThumbnail_) continue;
+                if (e->first == ifd1Id && !pThumbnail_) continue;
                 size += 2 + 12 * e->second + 4;
             }
             // Add the size of the thumbnail image data (w/o IFD for TIFF thumbs)
@@ -1028,7 +1028,7 @@ namespace Exiv2 {
         // Delete all Thumbnail.*.* (IFD1) metadata 
         ExifMetadata::iterator i = begin(); 
         while (i != end()) {
-            if (i->ifdId() == ifd1) {
+            if (i->ifdId() == ifd1Id) {
                 i = erase(i);
             }
             else {
@@ -1174,7 +1174,7 @@ namespace Exiv2 {
         // IFD or MakerNote entry
         for (const_iterator md = begin(); md != this->end(); ++md) {
             // Skip IFD1 entries if there is no thumbnail (maybe it was deleted)
-            if (md->ifdId() == ifd1 && !pThumbnail_) continue;
+            if (md->ifdId() == ifd1Id && !pThumbnail_) continue;
             std::pair<bool, Entries::const_iterator> rc;
             rc = findEntry(md->ifdId(), md->idx());
             // Make sure that we have an entry
@@ -1198,7 +1198,7 @@ namespace Exiv2 {
         Entries::const_iterator entry;
         std::pair<bool, Entries::const_iterator> rc(false, entry);
 
-        if (ifdId == makerIfd && pMakerNote_) {
+        if (ifdId == makerIfdId && pMakerNote_) {
             entry = pMakerNote_->findIdx(idx);
             if (entry != pMakerNote_->end()) {
                 rc.first = true;
@@ -1207,7 +1207,7 @@ namespace Exiv2 {
             return rc;
         }
         const Ifd* ifd = getIfd(ifdId);
-        if (ifdId != makerIfd && ifd) {
+        if (ifdId != makerIfdId && ifd) {
             entry = ifd->findIdx(idx);
             if (entry != ifd->end()) {
                 rc.first = true;
@@ -1221,19 +1221,19 @@ namespace Exiv2 {
     {
         const Ifd* ifd = 0;
         switch (ifdId) {
-        case ifd0: 
+        case ifd0Id: 
             ifd = &ifd0_;
             break;
-        case exifIfd: 
+        case exifIfdId: 
             ifd = &exifIfd_;
             break;
-        case iopIfd: 
+        case iopIfdId: 
             ifd = &iopIfd_;
             break;
-        case gpsIfd: 
+        case gpsIfdId: 
             ifd = &gpsIfd_;
             break;
-        case ifd1: 
+        case ifd1Id: 
             ifd = &ifd1_;
             break;
         default:
@@ -1327,7 +1327,7 @@ namespace Exiv2 {
     {
         for (ExifMetadata::const_iterator i = begin; i != end; ++i) {
             // add only metadata with IFD id 'makerIfd'
-            if (i->ifdId() == makerIfd) {
+            if (i->ifdId() == makerIfdId) {
                 addToMakerNote(makerNote, *i, byteOrder);
             }
         }
@@ -1357,7 +1357,7 @@ namespace Exiv2 {
 
     std::string makeKey(const Entry& entry)
     {
-        if (entry.ifdId() == makerIfd && entry.makerNote() != 0) {
+        if (entry.ifdId() == makerIfdId && entry.makerNote() != 0) {
             return entry.makerNote()->makeKey(entry.tag());
         }
         return ExifTags::makeKey(entry.tag(), entry.ifdId());
@@ -1367,7 +1367,7 @@ namespace Exiv2 {
                                           const MakerNote* makerNote)
     {
         std::pair<uint16, IfdId> p = ExifTags::decomposeKey(key);
-        if (p.second == makerIfd && makerNote != 0) {
+        if (p.second == makerIfdId && makerNote != 0) {
             p.first = makerNote->decomposeKey(key);
         }
         return p;

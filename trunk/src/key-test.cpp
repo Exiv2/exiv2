@@ -3,7 +3,7 @@
   Abstract : Key unit tests 
 
   File     : key-test.cpp
-  Version  : $Name:  $ $Revision: 1.1 $
+  Version  : $Name:  $ $Revision: 1.2 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History  : 24-Aug-04, ahu: created
 
@@ -138,7 +138,7 @@ int main()
             'M', 'a', 'l', 'a', 'y', 's', 'i', 'a', '\0'
         };
 
-    Ifd ifd(Exiv2::iopIfd, 0, false);
+    Ifd ifd(Exiv2::iopIfdId, 0, false);
     int ret = ifd.read(buf, len, bigEndian, 1);
     if (ret) {
         std::cout << "Ifd::read failed, ret = " << ret << "\n";
