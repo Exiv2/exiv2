@@ -98,3 +98,33 @@ Data of entry 2:
   003c  4c 75 6d 70 75 72 00                             Lumpur.
 Data of entry 3:
   0043  4d 61 6c 61 79 73 69 61 00                       Malaysia.
+
+Move data buffer
+IFD Offset: 0x00000001,   IFD Entries: 4
+Entry     Tag  Format   (Bytes each)  Number  Offset
+-----  ------  ---------------------  ------  -----------
+    0  0x0001  Ascii             (1)       4  54 68 65 00 
+    1  0x0002  Ascii             (1)       6   0x00000036
+    2  0x0003  Ascii             (1)       7   0x0000003c
+    3  0x0004  Ascii             (1)       9   0x00000043
+Next IFD: 0x00000000
+Data of entry 1:
+  0037  4b 75 61 6c 61 00                                Kuala.
+Data of entry 2:
+  003d  4c 75 6d 70 75 72 00                             Lumpur.
+Data of entry 3:
+  0044  54 48 52 45 45 00 00 00 00                       THREE....
+IFD Offset: 0x00000001,   IFD Entries: 4
+Entry     Tag  Format   (Bytes each)  Number  Offset
+-----  ------  ---------------------  ------  -----------
+    0  0x0001  Ascii             (1)       4  54 68 65 00 
+    1  0x0002  Ascii             (1)       6   0x00000036
+    2  0x0003  Ascii             (1)       7   0x0000003c
+    3  0x0004  Ascii             (1)       9   0x00000043
+Next IFD: 0x00000000
+Data of entry 1:
+  0037  4b 75 61 6c 61 00                                Kuala.
+Data of entry 2:
+  003d  4c 75 6d 70 75 72 00                             Lumpur.
+Data of entry 3:
+  0044  54 48 52 45 45 00 00 00 00                       THREE....

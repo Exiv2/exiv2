@@ -14,15 +14,17 @@
 
 #include <iostream>
 #include <string>
+#include <cstring>
 
 int main()
 try {
     // -------------------------------------------------------------------------
     std::cout << "Read standard Ifd from data buffer\n";
 
-    long len = 76;
+    const long len = 77;
     Exiv2::byte buf[] 
-        = { // No
+        = { 0xff, // Filler
+            // No
             0x00,0x04, 
             // Tag       Type          Components          Offset/Data
             0x00,0x01, 0x00,0x02, 0x00,0x00,0x00,0x04, 'T', 'h', 'e', '\0',
@@ -38,7 +40,7 @@ try {
         };
 
     Exiv2::Ifd ifd(Exiv2::ifd0Id, 0, false);
-    int rc = ifd.read(buf, len, Exiv2::bigEndian, 1);
+    int rc = ifd.read(buf+1, len-1, Exiv2::bigEndian, 1);
     if (rc) {
         std::cout << "Ifd::read (1) failed, rc = " << rc << "\n";
         return rc;
@@ -68,7 +70,7 @@ try {
     // -------------------------------------------------------------------------
     std::cout << "\nRead non-standard Ifd from data buffer\n";
 
-    long len2 = 76;
+    const long len2 = 76;
     Exiv2::byte buf2[] 
         = { // Data
             'K', 'u', 'a', 'l', 'a', '\0',
@@ -109,31 +111,31 @@ try {
     std::cout << "\nTest boundary checks, the following reads should generate warnings or errors\n";
 
     std::cout << "--- read (3)" << std::endl;
-    rc = ifd.read(buf, len-1, Exiv2::bigEndian, 1);
+    rc = ifd.read(buf+1, len-1-1, Exiv2::bigEndian, 1);
     if (rc) {
         std::cout << "Ifd::read (3) failed, rc = " << rc << "\n";
     }
 
     std::cout << "--- read (4)" << std::endl;
-    rc = ifd.read(buf, len-21, Exiv2::bigEndian, 1);
+    rc = ifd.read(buf+1, len-1-21, Exiv2::bigEndian, 1);
     if (rc) {
         std::cout << "Ifd::read (4) failed, rc = " << rc << "\n";
     }
 
     std::cout << "--- read (5)" << std::endl;
-    rc = ifd.read(buf, len-22, Exiv2::bigEndian, 1);
+    rc = ifd.read(buf+1, len-1-22, Exiv2::bigEndian, 1);
     if (rc) {
         std::cout << "Ifd::read (5) failed, rc = " << rc << "\n";
     }
 
     std::cout << "--- read (6)" << std::endl;
-    rc = ifd.read(buf, len-23, Exiv2::bigEndian, 1);
+    rc = ifd.read(buf+1, len-1-23, Exiv2::bigEndian, 1);
     if (rc) {
         std::cout << "Ifd::read (6) failed, rc = " << rc << "\n";
     }
 
     std::cout << "--- read (7)" << std::endl;
-    rc = ifd2.read(buf2 + 22, len2 - 22 -1, Exiv2::bigEndian, 22);
+    rc = ifd2.read(buf2+22, len2-22-1, Exiv2::bigEndian, 22);
     if (rc) {
         std::cout << "Ifd::read (7) failed, rc = " << rc << "\n";
     }
@@ -171,14 +173,33 @@ try {
     ifd3.add(e);
 
     Exiv2::DataBuf ibuf(256);
-    len = ifd3.copy(ibuf.pData_, Exiv2::bigEndian);
+    long len3 = ifd3.copy(ibuf.pData_, Exiv2::bigEndian);
 
     Exiv2::Ifd ifd4(Exiv2::ifd0Id, 0, false);
-    rc = ifd4.read(ibuf.pData_, len, Exiv2::bigEndian, 0);
+    rc = ifd4.read(ibuf.pData_, len3, Exiv2::bigEndian, 0);
     if (rc) {
         std::cout << "Ifd::read (8) failed, rc = " << rc << "\n";
     }
     ifd4.print(std::cout);
+
+    // -------------------------------------------------------------------------
+    std::cout << "\nMove data buffer\n";
+
+    Exiv2::Ifd ifd5(Exiv2::ifd0Id, 0, false);
+    rc = ifd5.read(buf+1, len-1, Exiv2::bigEndian, 1);
+    if (rc) {
+        std::cout << "Ifd::read (1) failed, rc = " << rc << "\n";
+        return rc;
+    }
+    ifd5.print(std::cout);
+
+    Exiv2::byte* newBuf = new Exiv2::byte[len];
+    memset(newBuf, 0x00, len);
+    memcpy(newBuf, buf, len);
+    memset(buf, 0x0, len);
+    ifd5.updateBase(newBuf);
+    ifd5.print(std::cout);
+    delete[] newBuf;
 
     return 0;
 }

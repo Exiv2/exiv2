@@ -354,7 +354,7 @@ namespace Exiv2 {
                  \em buf. Return 0 if successful.
 
           @param exifData Exif data corresponding to the data buffer.
-          @param ifd1 Corresponding raw IFD1.
+          @param pIfd1 Corresponding raw IFD1.
           @param buf Data buffer containing the thumbnail data. The buffer must
                  start with the TIFF header.
           @param len Number of bytes in the data buffer.
@@ -363,7 +363,7 @@ namespace Exiv2 {
                   2 if the data area is outside of the data buffer
          */
         virtual int setDataArea(ExifData& exifData, 
-                                Ifd& ifd1,
+                                Ifd* pIfd1,
                                 const byte* buf,
                                 long len) const =0;
         /*!
@@ -410,7 +410,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         int setDataArea(ExifData& exifData, 
-                        Ifd& ifd1, 
+                        Ifd* pIfd1, 
                         const byte* buf,
                         long len) const;
         DataBuf copy(const ExifData& exifData) const;
@@ -435,7 +435,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         int setDataArea(ExifData& exifData, 
-                        Ifd& ifd1, 
+                        Ifd* pIfd1, 
                         const byte* buf,
                         long len) const;
         DataBuf copy(const ExifData& exifData) const;
@@ -834,17 +834,18 @@ namespace Exiv2 {
         // DATA
         TiffHeader tiffHeader_;
         ExifMetadata exifMetadata_;
+
         //! Pointer to the MakerNote
         std::auto_ptr<MakerNote> makerNote_;
 
-        Ifd ifd0_;
-        Ifd exifIfd_;
-        Ifd iopIfd_;
-        Ifd gpsIfd_;
-        Ifd ifd1_;
+        Ifd* pIfd0_;                   //! Pointer to Ifd0
+        Ifd* pExifIfd_;                //! Pointer to ExifIfd
+        Ifd* pIopIfd_;                 //! Pointer to IopIfd
+        Ifd* pGpsIfd_;                 //! Pointer to GpsIfd
+        Ifd* pIfd1_;                   //! Pointer to Ifd1
 
-        long size_;              //!< Size of the Exif raw data in bytes
-        byte* pData_;            //!< Exif raw data buffer
+        long size_;                    //!< Size of the Exif raw data in bytes
+        byte* pData_;                  //!< Exif raw data buffer
 
         /*!
           Can be set to false to indicate that non-intrusive writing is not

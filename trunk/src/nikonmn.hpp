@@ -109,13 +109,16 @@ namespace Exiv2 {
                  is required for the makernote entries.
          */
         Nikon1MakerNote(bool alloc =true);
+        //! Copy constructor
+        Nikon1MakerNote(const Nikon1MakerNote& rhs);
         //! Virtual destructor
         virtual ~Nikon1MakerNote() {}
         //@}
 
         //! @name Accessors
         //@{
-        AutoPtr clone(bool alloc =true) const;
+        AutoPtr create(bool alloc =true) const;
+        AutoPtr clone() const;
         //! Return the name of the makernote item ("Nikon1")
         std::string ifdItem() const { return ifdItem_; }
         std::ostream& printTag(std::ostream& os,
@@ -138,8 +141,10 @@ namespace Exiv2 {
         //@}
 
     private:
+        //! Internal virtual create function.
+        Nikon1MakerNote* create_(bool alloc =true) const;
         //! Internal virtual copy constructor.
-        Nikon1MakerNote* clone_(bool alloc =true) const;
+        Nikon1MakerNote* clone_() const;
 
         //! Structure used to auto-register the MakerNote.
         struct RegisterMakerNote {
@@ -186,6 +191,8 @@ namespace Exiv2 {
                  is required for the makernote entries.
          */
         Nikon2MakerNote(bool alloc =true);
+        //! Copy constructor
+        Nikon2MakerNote(const Nikon2MakerNote& rhs);
         //! Virtual destructor
         virtual ~Nikon2MakerNote() {}
         //@}
@@ -200,7 +207,8 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         int checkHeader() const;
-        AutoPtr clone(bool alloc =true) const;
+        AutoPtr create(bool alloc =true) const;
+        AutoPtr clone() const;
         //! Return the name of the makernote item ("Nikon2")
         std::string ifdItem() const { return ifdItem_; }
         std::ostream& printTag(std::ostream& os,
@@ -225,8 +233,10 @@ namespace Exiv2 {
         //@}
 
     private:
+        //! Internal virtual create function.
+        Nikon2MakerNote* create_(bool alloc =true) const;
         //! Internal virtual copy constructor.
-        Nikon2MakerNote* clone_(bool alloc =true) const;
+        Nikon2MakerNote* clone_() const;
 
         //! Structure used to auto-register the MakerNote.
         struct RegisterMakerNote {
@@ -270,6 +280,8 @@ namespace Exiv2 {
                  is required for the makernote entries.
          */
         Nikon3MakerNote(bool alloc =true);
+        //! Copy constructor
+        Nikon3MakerNote(const Nikon3MakerNote& rhs);
         //! Virtual destructor
         virtual ~Nikon3MakerNote() {}
         //@}
@@ -288,7 +300,8 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         int checkHeader() const;
-        AutoPtr clone(bool alloc =true) const;
+        AutoPtr create(bool alloc =true) const;
+        AutoPtr clone() const;
         //! Return the name of the makernote item ("Nikon3")
         std::string ifdItem() const { return ifdItem_; }
         std::ostream& printTag(std::ostream& os,
@@ -313,8 +326,10 @@ namespace Exiv2 {
         //@}
 
     private:
+        //! Internal virtual create function.
+        Nikon3MakerNote* create_(bool alloc =true) const;
         //! Internal virtual copy constructor.
-        Nikon3MakerNote* clone_(bool alloc =true) const;
+        Nikon3MakerNote* clone_() const;
 
         //! Structure used to auto-register the MakerNote.
         struct RegisterMakerNote {
