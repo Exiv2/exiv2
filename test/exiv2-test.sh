@@ -4,6 +4,13 @@ LD_LIBRARY_PATH=../../src:$LD_LIBRARY_PATH
 exiv2="../../src/exiv2"
 results="./tmp/exiv2-test.out"
 good="./data/exiv2-test.out"
+diffargs="--strip-trailing-cr"
+tmpfile=tmp/ttt
+touch $tmpfile
+diff -q $diffargs $tmpfile $tmpfile 2>/dev/null
+if [ $? -ne 0 ] ; then
+    diffargs=""
+fi
 (
 images="exiv2-empty.jpg \
         exiv2-canon-powershot-s40.jpg \
@@ -85,10 +92,10 @@ diff iii kkk
 
 ) > $results 2>&1
 
-diff -q --strip-trailing-cr $results $good
+diff -q -w $diffargs $results $good
 rc=$?
 if [ $rc -eq 0 ] ; then
     echo "All testcases passed."
 else
-    diff --strip-trailing-cr $results $good
+    diff -w $diffargs $results $good
 fi
