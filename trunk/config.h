@@ -11,3 +11,12 @@
 
 /* Define to the version of this package. */
 #define PACKAGE_VERSION "0.4"
+
+/* Define as 1 if you have the timegm function */
+#undef HAVE_TIMEGM
+
+/* Define as 1 if you have sys/wait.h */
+#undef HAVE_SYS_WAIT_H
+
+/* Define as 1 if you have unistd.h */
+#define HAVE_UNISTD_H 1

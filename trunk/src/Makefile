@@ -20,7 +20,7 @@
 # 02111-1307, USA.
 #
 # File:      Makefile
-# Version:   $Name:  $ $Revision: 1.27 $
+# Version:   Exiv2-0_4_040703 1.27
 # Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
 # History:   10-Dec-03, ahu: created
 #
@@ -62,7 +62,11 @@ BINSRC = addmoddel.cpp exifcomment.cpp exifprint.cpp ifd-test.cpp \
 EXIV2MAIN = exiv2.cpp
 
 # Add additional source files of the real application to this list
-EXIV2SRC = actions.cpp utils.cpp
+EXIV2SRC = actions.cpp utils.cpp 
+# C source files of the application
+ifndef HAVE_TIMEGM
+EXIVCSRC = localtime.c
+endif
 
 # ******************************************************************************
 # Library
@@ -83,7 +87,7 @@ LDLIBS  = $(LIBS) -l$(LIBNAME)
 SHELL = /bin/sh
 
 .SUFFIXES:
-.SUFFIXES: .cpp .o .so
+.SUFFIXES: .c .cpp .o .so
 
 .PRECIOUS: %.cpp
 
@@ -97,12 +101,12 @@ HDR = $(CCHDR)
 OBJ = $(CCOBJ)
 SOBJ = $(CCSOBJ)
 DEP = $(CCSRC:%.cpp=.%.d) $(BINSRC:%.cpp=.%.d) \
-      $(EXIV2MAIN:%.cpp=.%.d) $(EXIV2SRC:%.cpp=.%.d)
+      $(EXIV2MAIN:%.cpp=.%.d) $(EXIV2SRC:%.cpp=.%.d) $(EXIVCSRC:%.c=.%.d)
 
 BINOBJ = $(BINSRC:.cpp=.o)
 BINARY = $(BINSRC:.cpp=)
 
-EXIV2OBJ = $(EXIV2MAIN:.cpp=.o) $(EXIV2SRC:.cpp=.o)
+EXIV2OBJ = $(EXIV2MAIN:.cpp=.o) $(EXIV2SRC:.cpp=.o) $(EXIVCSRC:.c=.o)
 EXIV2BIN = $(EXIV2MAIN:.cpp=)
 
 ARCHIVE = lib$(LIBNAME)$(ARCHIVE_SUFFIX)
@@ -146,6 +150,9 @@ endif
 
 # ******************************************************************************
 # Rules
+%.o: %.c
+	$(CC) $(CFLAGS) $(DEFS) $(INCS) -c $< -o $@
+
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS_STATIC) $(CXXDEFS) $(CXXINCS) -c $< -o $@
 

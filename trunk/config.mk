@@ -20,7 +20,7 @@
 # 02111-1307, USA.
 #
 # File:      config.mk
-# Version:   $Name:  $ $Revision: 1.4 $
+# Version:   $Name:  $ $Revision: 1.5 $
 # Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
 # History:   10-Dec-03, ahu: created
 #
@@ -39,7 +39,7 @@ STATIC_LIBS =
 CXX = g++
 
 # Common compiler flags (warnings, symbols [-ggdb], optimization [-O2], etc)
-CXXFLAGS := -Wall -Woverloaded-virtual -Wsign-promo -O2
+CXXFLAGS := -Wall -O2
 # Compiler flags to compile static objects
 CXXFLAGS_STATIC := $(CXXFLAGS)
 # Compiler flags for shared objects
@@ -53,9 +53,6 @@ CPPFLAGS =
 
 # Command to run the compiler or preprocessor to produce dependencies
 CXXDEP = $(CXX) -MM
-# Flag to $(CXXDEP) to treat all subsequent file names as C++ source 
-# files, regardless of their suffixes
-CXXLANGCXX = -x c++
 
 # Linker flags
 LDFLAGS = 
@@ -70,6 +67,11 @@ CXX_REPOSITORY =
 # Library filename suffixes
 SHAREDLIB_SUFFIX = .so
 ARCHIVE_SUFFIX = .a
+
+# **********************************************************************
+# C Compiler
+CC = gcc
+CFLAGS = $(CXXFLAGS)
 
 # **********************************************************************
 # Global includes, libraries and defines

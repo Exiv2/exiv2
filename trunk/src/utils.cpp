@@ -20,26 +20,29 @@
  */
 /*
   File:      utils.cpp
-  Version:   $Name:  $ $Revision: 1.7 $
+  Version:   $Name:  $ $Revision: 1.8 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.7 $ $RCSfile: utils.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.8 $ $RCSfile: utils.cpp,v $")
 
 // *****************************************************************************
 // included header files
+#include <config.h>
 #include "utils.hpp"
 
 // + standard includes
 #include <sys/types.h>
 #include <sys/stat.h>
 #ifdef _MSC_VER
-#include "getopt_win32.h"
-#define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
+# include "getopt_win32.h"
+# define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
 #else
-#include <unistd.h>                     // for getopt(), stat()
+# ifdef HAVE_UNISTD_H
+#  include <unistd.h>                     // for getopt(), stat()
+# endif
 #endif
 #include <errno.h>
 
