@@ -85,10 +85,10 @@ diff iii kkk
 
 ) > $results 2>&1
 
-diff -q $results $good
+diff -q --strip-trailing-cr $results $good
 rc=$?
 if [ $rc -eq 0 ] ; then
     echo "All testcases passed."
 else
-    diff $results $good
+    diff --strip-trailing-cr $results $good
 fi
