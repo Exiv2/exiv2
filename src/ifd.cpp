@@ -20,14 +20,14 @@
  */
 /*
   File:      ifd.cpp
-  Version:   $Name:  $ $Revision: 1.18 $
+  Version:   $Name:  $ $Revision: 1.19 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.18 $ $RCSfile: ifd.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.19 $ $RCSfile: ifd.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -199,6 +199,10 @@ namespace Exiv2 {
 
     int Ifd::read(const char* buf, long len, ByteOrder byteOrder, long offset)
     {
+// Todo: remove debug output
+std::cerr << "Entering Ifd::read for " << ExifTags::ifdName(ifdId_) 
+          << ", len = " << len << "\n";
+
         int rc = 0;
         long o = 0;
         Ifd::PreEntries preEntries;
@@ -211,6 +215,11 @@ namespace Exiv2 {
 
             for (int i = 0; i < n; ++i) {
                 if (len < o + 12) {
+
+// Todo: remove debug output
+std::cerr << "Buffer is not large enough for "
+          << ExifTags::ifdName(ifdId_) << " entry " << i << "\n";
+
                     rc = 6;
                     break;
                 }
@@ -227,6 +236,10 @@ namespace Exiv2 {
         }
         if (rc == 0) {
             if (len < o + 4) {
+
+// Todo: remove debug output
+std::cerr << "Buffer is not large enough for pointer to the next IFD\n";
+
                 rc = 6;
             }
             else {
@@ -257,6 +270,17 @@ namespace Exiv2 {
                 }
                 // Set the offset of the first data entry outside of the IFD
                 if (static_cast<unsigned long>(len) < i->offset_ - offset_) {
+
+// Todo: remove debug output
+std::cerr << "Offset of the 1st data entry of " << ExifTags::ifdName(ifdId_) 
+          << " is out of bounds:\n"
+          << "Offset = " << i->offset_ - offset_
+          << ", exceeds buffer size by "
+          << i->offset_ - offset_ - static_cast<unsigned long>(len)
+          << " Bytes\n";
+
+// Todo: Can I truncate the data or set size to 0? What are the side effects?
+
                     rc = 6;
                 }
                 else {
@@ -280,6 +304,15 @@ namespace Exiv2 {
                 // Set the offset to the data, relative to start of IFD
                 e.setOffset(i->size_ > 4 ? i->offset_ - offset_ : i->offsetLoc_);
                 if (static_cast<unsigned long>(len) < e.offset() + i->size_) {
+
+// Todo: remove debug output
+std::cerr << "Upper boundary of data for " << ExifTags::ifdName(ifdId_) 
+          << " entry " << i - begin 
+          << " is out of bounds:\nOffset = " << e.offset() 
+          << ", size = " << i->size_ << ", exceeds buffer size by "
+          << e.offset() + i->size_ - static_cast<unsigned long>(len)
+          << " Bytes\n";
+
                     rc = 6;
                     break;
                 }
