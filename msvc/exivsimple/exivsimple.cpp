@@ -38,8 +38,8 @@ struct ImageWrapper
     Exiv2::Image::AutoPtr image;
 };
 
-// Returns 0 if failed.
-EXIVSIMPLE_API HIMAGE OpenImage(const char *file)
+// Returns NULL (0) handle if failed.
+EXIVSIMPLE_API HIMAGE OpenFileImage(const char *file)
 {
     assert(file);
     ImageWrapper *imgWrap = new ImageWrapper;
@@ -63,6 +63,25 @@ EXIVSIMPLE_API HIMAGE OpenImage(const char *file)
     return (HIMAGE)imgWrap;
 }
 
+EXIVSIMPLE_API HIMAGE OpenMemImage(const BYTE *data, unsigned int size)
+{
+    assert(data);
+    ImageWrapper *imgWrap = new ImageWrapper;
+
+    imgWrap->image = Exiv2::ImageFactory::open(data, size);
+    if (imgWrap->image.get() == 0) {
+        return 0;
+    }
+
+    // Load existing metadata
+    if (imgWrap->image->readMetadata()) {
+        delete imgWrap;
+        imgWrap = 0;
+    }
+
+    return (HIMAGE)imgWrap;
+}
+
 EXIVSIMPLE_API void FreeImage(HIMAGE img)
 {
     if (img) {
@@ -71,11 +90,40 @@ EXIVSIMPLE_API void FreeImage(HIMAGE img)
     }
 }
 
+// Returns 0 on success
 EXIVSIMPLE_API int SaveImage(HIMAGE img)
 {
     assert(img);
     ImageWrapper *imgWrap = (ImageWrapper*)img;
     return imgWrap->image->writeMetadata();
+}
+
+// Note that if you have modified the metadata in any way and want the
+// size of the image after these modifications, you must call SaveImage
+// before calling ImageSize.
+// Returns -1 on failure, otherwise the image size
+EXIVSIMPLE_API int ImageSize(HIMAGE img)
+{
+    assert(img);
+    ImageWrapper *imgWrap = (ImageWrapper*)img;
+    return imgWrap->image->io().size();
+}
+
+// Note that if you have modified the metadata in any way and want the
+// image data after these modifications, you must call SaveImage before
+// calling ImageData.
+// Returns number of bytes read, 0 if failure
+EXIVSIMPLE_API int ImageData(HIMAGE img, BYTE *buffer, unsigned int size)
+{
+    assert(img);
+    int result = 0;
+    ImageWrapper *imgWrap = (ImageWrapper*)img;
+    Exiv2::BasicIo &io = imgWrap->image->io();
+    if(io.open() == 0) {
+        result = imgWrap->image->io().read(buffer, size);
+        io.close();
+    }
+    return result;
 }
 
 // This is weird because iptc and exif have not been "unified". Once
@@ -85,6 +133,7 @@ EXIVSIMPLE_API int SaveImage(HIMAGE img)
 // buffsize should be the total size of *buff (including space for null)
 // Note that if there is more than one entry (for some IPTC datasets) this
 // returns the first one found. Currently no way to get the others.
+// Returns 0 on success
 EXIVSIMPLE_API int ReadMeta(HIMAGE img, const char *key, char *buff, int buffsize)
 {
     assert(img && key && buff);
@@ -131,6 +180,7 @@ EXIVSIMPLE_API int ReadMeta(HIMAGE img, const char *key, char *buff, int buffsiz
 // Overwrites existing value if found, otherwise creates a new one.
 // Passing invalidTypeId causes the type to be guessed.
 // Guessing types is accurate for IPTC, but not for EXIF.
+// Returns 0 on success
 EXIVSIMPLE_API int ModifyMeta(HIMAGE img, const char *key, const char *val, DllTypeId type)
 {
     assert(img && key && val);
@@ -200,6 +250,7 @@ EXIVSIMPLE_API int ModifyMeta(HIMAGE img, const char *key, const char *val, DllT
 // Always creates a new metadata entry.
 // Passing invalidTypeId causes the type to be guessed.
 // Guessing types is accurate for IPTC, but not for EXIF.
+// Returns 0 on success
 EXIVSIMPLE_API int AddMeta(HIMAGE img, const char *key, const char *val, DllTypeId type)
 {
     assert(img && key && val);
@@ -254,6 +305,7 @@ EXIVSIMPLE_API int AddMeta(HIMAGE img, const char *key, const char *val, DllType
 
 // If multiple entires exist, this only remove the first one
 // found. Call multiple times to remove many.
+// Returns 0 on success
 EXIVSIMPLE_API int RemoveMeta(HIMAGE img, const char *key)
 {
     assert(img && key);
