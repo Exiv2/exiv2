@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.21 $
+  @version $Name:  $ $Revision: 1.22 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -130,12 +130,29 @@ namespace Exif {
         //! Return the size of the value in bytes
         long size() const { return value_ == 0 ? 0 : value_->size(); }
         /*!
-          @brief Return the n-th component of the value. The return value is 
-                 -1 if the value of the Metadatum is not set and the behaviour
-                 of the method is undefined if there is no n-th component.
+          @brief Return the n-th component of the value converted to long. The
+                 return value is -1 if the value of the Metadatum is not set and
+                 the behaviour of the method is undefined if there is no n-th
+                 component.
          */
         long toLong(long n =0) const 
             { return value_ == 0 ? -1 : value_->toLong(n); }
+        /*!
+          @brief Return the n-th component of the value converted to float.  The
+                 return value is -1 if the value of the Metadatum is not set and
+                 the behaviour of the method is undefined if there is no n-th
+                 component.
+         */
+        float toFloat(long n =0) const 
+            { return value_ == 0 ? -1 : value_->toFloat(n); }
+        /*!
+          @brief Return the n-th component of the value converted to
+                 Rational. The return value is -1/1 if the value of the
+                 Metadatum is not set and the behaviour of the method is
+                 undefined if there is no n-th component.
+         */
+        Rational toRational(long n =0) const 
+            { return value_ == 0 ? Rational(-1, 1) : value_->toRational(n); }
         //! Return the value as a string.
         std::string toString() const 
             { return value_ == 0 ? "" : value_->toString(); }
@@ -322,19 +339,16 @@ namespace Exif {
     }; // class Thumbnail
 
     /*!
-      @brief A container for %Exif data
+      @brief A container for %Exif data. This is the top-level class of 
+             the Exiv2 library.
 
-      Contains the %Exif data of a JPEG image
-      - read and write access to all tags and data
-      - iterators to access the %Exif data
-      - decoding and encoding through the stream interface
-      - human readable output
-      - XML input and output
-      - access to thumbnail (write, delete, re-calculate)
-
-      Todo:
-      - A constructor which creates a minimal valid set of %Exif data
-
+      Provide high-level access to the %Exif data of an image:
+      - read %Exif information from JPEG files
+      - access metadata through unique keys and standard C++ iterators
+      - add, modify and delete metadata 
+      - write %Exif data to JPEG files
+      - extract %Exif metadata to files, insert from these files
+      - extract and delete %Exif thumbnail (JPEG and TIFF thumbnails)
     */
     class ExifData {
         // Copying not allowed (Todo: implement me!)
