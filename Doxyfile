@@ -1,4 +1,4 @@
-# Doxyfile 1.3.8
+# Doxyfile 1.3.9.1
 
 # This file describes the settings to be used by the documentation system
 # doxygen (www.doxygen.org) for a project
@@ -367,6 +367,12 @@ MAX_INITIALIZER_LINES  = 30
 
 SHOW_USED_FILES        = YES
 
+# If the sources in your project are distributed over multiple directories 
+# then setting the SHOW_DIRECTORIES tag to YES will show the directory hierarchy 
+# in the documentation.
+
+SHOW_DIRECTORIES       = YES
+
 #---------------------------------------------------------------------------
 # configuration options related to warning and progress messages
 #---------------------------------------------------------------------------
@@ -561,7 +567,7 @@ ALPHABETICAL_INDEX     = YES
 # the COLS_IN_ALPHA_INDEX tag can be used to specify the number of columns 
 # in which this list will be split (can be a number in the range [1..20])
 
-COLS_IN_ALPHA_INDEX    = 5
+COLS_IN_ALPHA_INDEX    = 4
 
 # In case all classes in a project start with a common prefix, all 
 # classes will be put under the same header in the alphabetical index. 
@@ -953,7 +959,9 @@ INCLUDE_FILE_PATTERNS  =
 # are defined before the preprocessor is started (similar to the -D option of 
 # gcc). The argument of the tag is a list of macros of the form: name 
 # or name=definition (no spaces). If the definition and the = are 
-# omitted =1 is assumed.
+# omitted =1 is assumed. To prevent a macro definition from being 
+# undefined via #undef or recursively expanded use the := operator 
+# instead of the = operator.
 
 PREDEFINED             = 
 
