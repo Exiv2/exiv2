@@ -53,6 +53,9 @@
      screen. As a simple example, consider sorting a column containing
      formatted numbers: <TD sortValue="1000">1,000.00</TD>
 
+   + 15-May 2004, ahu: changed default sort order (on the first click) to
+     ascending (SortableTable.prototype.sort)
+
    ToDo: 
    - Allow for different Date formats
 */
@@ -175,7 +178,8 @@ SortableTable.prototype.sort = function (nColumn, bDescending, sSortType) {
 	
 	if (bDescending == null) {
 		if (this.sortColumn != nColumn)
-			this.descending = true;
+                        // 15-May 2004, ahu: change to false for ascending
+			this.descending = false;
 		else
 			this.descending = !this.descending;
 	}	
