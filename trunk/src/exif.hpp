@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.20 $
+  @version $Name:  $ $Revision: 1.21 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -264,11 +264,6 @@ namespace Exif {
          */
         long copy(char* buf) const;
         /*!
-          @brief Return the size of the thumbnail data (data only, without the 
-                 IFD, in case of a TIFF thumbnail.
-         */
-        long size() const;
-        /*!
           @brief Update the %Exif data according to the actual thumbnail image.
           
           If the type of the thumbnail image is JPEG, JPEGInterchangeFormat is
@@ -289,6 +284,13 @@ namespace Exif {
           offsets set by this method.
          */
         void setOffsets(Ifd& ifd1, ByteOrder byteOrder) const;
+        /*!
+          @brief Return the size of the thumbnail data (data only, without the 
+                 IFD, in case of a TIFF thumbnail.
+         */
+        long size() const;
+        //! Return the type of the thumbnail
+        Type type() const { return type_; }
 
     private:
 
@@ -395,15 +397,6 @@ namespace Exif {
          */ 
         long copy(char* buf);
         /*!
-          @brief Return the approximate size of all %Exif data (TIFF header plus 
-                 metadata). The number returned may be bigger than the actual 
-                 size of the %Exif data, but it is never smaller. Only copy()
-                 returns the exact size.
-         */
-        long size() const;
-        //! Returns the byte order as specified in the TIFF header
-        ByteOrder byteOrder() const { return tiffHeader_.byteOrder(); }
-        /*!
           @brief Add all IFD entries in the range from iterator position begin
                  to iterator position end to the %Exif metadata. Checks for
                  duplicates: if a metadatum already exists, its value is
@@ -425,6 +418,16 @@ namespace Exif {
                  overwritten and no new metadatum is added.
          */
         void add(const Metadatum& metadatum);
+
+        /*!
+          @brief Return the approximate size of all %Exif data (TIFF header plus 
+                 metadata). The number returned may be bigger than the actual 
+                 size of the %Exif data, but it is never smaller. Only copy()
+                 returns the exact size.
+         */
+        long size() const;
+        //! Returns the byte order as specified in the TIFF header
+        ByteOrder byteOrder() const { return tiffHeader_.byteOrder(); }
 
         //! Metadata iterator type
         typedef Metadata::iterator iterator;
@@ -458,6 +461,10 @@ namespace Exif {
          */
         int writeThumbnail(const std::string& path) const 
             { return thumbnail_.write(path); }
+        //! Return the type of the thumbnail
+        Thumbnail::Type thumbnailType() const { return thumbnail_.type(); }
+        //! Return the size of the thumbnail data
+        long thumbnailSize() const { return thumbnail_.size(); }
 
     private:
         // Return a pointer to the internal IFD identified by its IFD id
