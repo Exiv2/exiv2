@@ -101,7 +101,7 @@ int main(int argc, char* const argv[])
     for (Params::Files::const_iterator i = params.files_.begin(); i != e; ++i) {
         if (params.verbose_) {
             std::cout << "File " << std::setw(w) << n++ << "/" << s << ": " 
-                      << *i << "\n";
+                      << *i << std::endl;
         }
         task->run(*i);
     }
