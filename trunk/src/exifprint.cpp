@@ -1,20 +1,11 @@
 // ***************************************************************** -*- C++ -*-
-/*
-  Abstract : Sample program to print the Exif metadata of an image
+// exifprint.cpp, $Rev$
+// Sample program to print the Exif metadata of an image
 
-  File     : exifprint.cpp
-  Version  : $Rev$
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History  : 26-Jan-04, ahu: created
- */
-// *****************************************************************************
-// included header files
 #include "exif.hpp"
 #include <iostream>
 #include <iomanip>
 
-// *****************************************************************************
-// Main
 int main(int argc, char* const argv[])
 try {
 
