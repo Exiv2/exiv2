@@ -21,7 +21,7 @@
 /*!
   @file    image.hpp
   @brief   Class JpegImage to access JPEG images
-  @version $Name:  $ $Revision: 1.9 $
+  @version $Name:  $ $Revision: 1.10 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -52,7 +52,7 @@ namespace Exif {
     class Image {
     public:
         //! Supported image formats
-        enum Type { none, jpeg, exiv2 };
+        enum Type { none, jpeg };
 
         //! @name Creators
         //@{
@@ -126,8 +126,6 @@ namespace Exif {
          */
         virtual int eraseExifData(const std::string& path, 
                                   std::istream& is) const =0;
-
-
         /*!
           @brief Read from the image input stream is, erase %Exif data from the
                  image, if there is any, and write the resulting image to the
@@ -138,8 +136,6 @@ namespace Exif {
           @return 0 if successful.
          */
         virtual int eraseExifData(std::ostream& os, std::istream& is) const =0;
-
-
         /*!
           @brief Write the %Exif data to file path.
           @param path Path to the file.
@@ -353,8 +349,6 @@ namespace Exif {
                  -4 if renaming the temporary file fails.
          */
         int eraseExifData(const std::string& path, std::istream& is) const;
-
-
         /*!
           @brief Erase %Exif data from the JPEG image is, write the resulting
                  image to the output stream os. If an %Exif APP1 section exists
@@ -372,8 +366,6 @@ namespace Exif {
                     state for more information).
          */
         int eraseExifData(std::ostream& os, std::istream& is) const;
-
-
         /*!
           @brief Write the %Exif data to file path, which must contain a JPEG
                  image. If an %Exif APP1 section exists in the file, it is
@@ -491,6 +483,93 @@ namespace Exif {
         uint32 offset_;
 
     }; // class TiffHeader
+
+    //! Helper class to access Exiv2 files
+    class ExvFile {
+    public:
+        //! @name Creators
+        //@{
+        //! Default Constructor
+        ExvFile();
+        //! Destructor
+        ~ExvFile();
+        //! Copy constructor
+        ExvFile(const ExvFile& rhs);
+        //@}
+
+        //! @name Manipulators
+        //@{
+        //! Assignment operator
+        ExvFile& operator=(const ExvFile& rhs);
+        /*!
+          @brief Read the %Exif data from the file path into the internal 
+                 data buffer.
+          @param path Path to the file.
+          @return 0 if successful.         
+         */
+        int readExifData(const std::string& path);
+        /*!
+          @brief Read the %Exif data from the stream is into the internal 
+                 data buffer.
+          @param is Input stream to read from.
+          @return 0 if successful.
+         */
+        int readExifData(std::istream& is);
+        /*!
+          @brief Read the %Exif data from the buffer buf which has size bytes.
+          @param buf Pointer to the data buffer.
+          @param size Number of characters in the data buffer.
+         */
+        void setExifData(const char* buf, long size);
+        //@}
+
+        //! @name Accessors
+        //@{
+        /*!
+          @brief Write the %Exif data to file path.
+          @param path Path to the file.
+          @return 0 if successful.
+         */
+        int writeExifData(const std::string& path) const;
+        //! Return the size of the %Exif data in bytes.
+        long sizeExifData() const { return sizeExifData_; }
+        /*!
+          @brief Return a read-only pointer to an %Exif data buffer. Do not
+                 attempt to write to this buffer.
+         */
+        const char* exifData() const { return pExifData_; }
+        //@}
+
+        /*!
+          @brief Determine if the content of the stream is of the type of this
+                 class.
+
+          The advance flag determines if the read position in the stream is
+          moved (see below). This applies only if the type matches and the
+          function returns true. If the type does not match, the stream
+          position is not changed. However, if reading from the stream fails,
+          the stream position is undefined. Consult the stream state to obtain 
+          more information in this case.
+          
+          @param is Input stream.
+          @param advance Flag indicating whether the read position in the stream
+                         should be advanced by the number of characters read to
+                         analyse the stream (true) or left at its original
+                         position (false). This applies only if the type matches.
+          @return  true  if the stream data matches the type of this class;<BR>
+                   false if the stream data does not match.
+         */
+        static bool isThisType(std::istream& is, bool advance =false);
+
+    private:
+        // DATA
+        static const uint16 app1_;              // APP1 marker
+        static const char exifId_[];            // Exif identifier
+
+        long sizeExifData_;                     // Size of the Exif data buffer
+        char* pExifData_;                       // Exif data buffer
+
+    }; // class ExvFile
    
 }                                       // namespace Exif
 

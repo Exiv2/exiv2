@@ -20,14 +20,14 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.9 $
+  Version:   $Name:  $ $Revision: 1.10 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.9 $ $RCSfile: image.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.10 $ $RCSfile: image.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -225,7 +225,7 @@ namespace Exif {
             return 2;
         }
         // Read and check section marker and size
-        char tmpbuf[10];
+        char tmpbuf[11];
         is.read(tmpbuf, 10);
         if (!is.good()) return 1;
         uint16 marker = getUShort(tmpbuf, bigEndian);
@@ -325,28 +325,68 @@ namespace Exif {
         }
 
         // Read and check section marker and size
-        char tmpbuf[12];
+        char tmpbuf[10];
         is.read(tmpbuf, 10);
         if (!is.good()) return 1;
         uint16 marker = getUShort(tmpbuf, bigEndian);
         uint16 size = getUShort(tmpbuf + 2, bigEndian);
         if (size < 8) return 3;
-        if (!(   (marker == app0_ && memcmp(tmpbuf + 4, jfifId_, 5) == 0)
-              || (marker == app1_ && memcmp(tmpbuf + 4, exifId_, 6) == 0))) {
-            return 3;
-        }
 
-        // Write SOI and APP1 markers, size of APP1 field, Exif id and Exif data
+        bool validFile = false;
+        long sizeJfifData = 0;
+        char* pJfifData = 0;           // Todo: Memory Leak! Use an auto pointer
+        if (marker == app0_ && memcmp(tmpbuf + 4, jfifId_, 5) == 0) {
+            // Read the remainder of the JFIF APP0 segment
+            is.seekg(-1, std::ios::cur);
+            sizeJfifData = size - 7;
+            pJfifData = new char[sizeJfifData];
+            is.read(pJfifData, sizeJfifData);
+            if (!is.good()) {
+                delete[] pJfifData;
+                pJfifData = 0;
+                return 1;
+            }
+            // Read the beginning of the next segment
+            is.read(tmpbuf, 10);
+            if (!is.good()) return 1;
+            marker = getUShort(tmpbuf, bigEndian);
+            size = getUShort(tmpbuf + 2, bigEndian);
+            validFile = true;
+        }
+        if (marker == app1_ && memcmp(tmpbuf + 4, exifId_, 6) == 0) {
+            // Skip the rest of the Exif APP1 segment
+            is.seekg(size - 8, std::ios::cur);
+            if (!is.good()) return 1;
+            validFile = true;
+        }
+        else {
+            is.seekg(-10, std::ios::cur);
+        }
+        if (!validFile) return 3;
+
+        // Write SOI marker
         us2Data(tmpbuf, soi_, bigEndian);
-        us2Data(tmpbuf + 2, app1_, bigEndian);
-        us2Data(tmpbuf + 4, sizeExifData_ + 8, bigEndian);
-        memcpy(tmpbuf + 6, exifId_, 6);
-        os.write(tmpbuf, 12);
+        os.write(tmpbuf, 2);
+        if (!os.good()) return 4;
+        if (pJfifData) {
+            // Write APP0 marker, size of APP0 field and JFIF data
+            us2Data(tmpbuf, app0_, bigEndian);
+            us2Data(tmpbuf + 2, 7 + sizeJfifData, bigEndian);
+            memcpy(tmpbuf + 4, jfifId_, 5);
+            os.write(tmpbuf, 9);
+            os.write(pJfifData, sizeJfifData);
+            if (!os.good()) return 4;
+            delete pJfifData;
+            pJfifData = 0;
+        }
+        // Write APP1 marker, size of APP1 field, Exif id and Exif data
+        us2Data(tmpbuf, app1_, bigEndian);
+        us2Data(tmpbuf + 2, sizeExifData_ + 8, bigEndian);
+        memcpy(tmpbuf + 4, exifId_, 6);
+        os.write(tmpbuf, 10);
         os.write(pExifData_, sizeExifData_);
         if (!os.good()) return 4;
         // Copy rest of the stream
-        is.ignore(size - 8);
-        if (!is.good()) return 1;
         os.flush();
         is >> os.rdbuf();
         if (!os.good()) return 4;
@@ -425,6 +465,119 @@ namespace Exif {
         us2Data(buf+2, 0x002a, byteOrder_);
         ul2Data(buf+4, 0x00000008, byteOrder_);
         return size();
-    }
+    } // TiffHeader::copy
+
+    const uint16 ExvFile::app1_   = 0xffe1;
+    const char ExvFile::exifId_[] = "Exif\0\0";
+
+    ExvFile::ExvFile()
+        : sizeExifData_(0), pExifData_(0)
+    {
+    } // ExvFile default constructor
+
+    ExvFile::ExvFile(const ExvFile& rhs)
+        : sizeExifData_(0), pExifData_(0)
+    {
+        char* newExifData = 0;
+        if (rhs.sizeExifData_ > 0) {
+            char* newExifData = new char[rhs.sizeExifData_];
+            memcpy(newExifData, rhs.pExifData_, rhs.sizeExifData_);
+        }
+        pExifData_ = newExifData;
+        sizeExifData_ = rhs.sizeExifData_;
+    } // ExvFile copy constructor
+
+    ExvFile& ExvFile::operator=(const ExvFile& rhs)
+    {
+        if (this == &rhs) return *this;
+        char* newExifData = 0;
+        if (rhs.sizeExifData_ > 0) {
+            char* newExifData = new char[rhs.sizeExifData_];
+            memcpy(newExifData, rhs.pExifData_, rhs.sizeExifData_);
+        }
+        pExifData_ = newExifData;
+        sizeExifData_ = rhs.sizeExifData_;
+        return *this;
+    } // ExvFile::operator=
+
+    ExvFile::~ExvFile()
+    {
+        delete[] pExifData_;
+    } // ExvFile destructor
+
+    int ExvFile::readExifData(const std::string& path)
+    {
+        std::ifstream file(path.c_str(), std::ios::binary);
+        if (!file) return -1;
+        return readExifData(file);
+    } // ExvFile::readExifData
+
+    int ExvFile::readExifData(std::istream& is)
+    {
+        // Check if this is an Exiv2 file in the first place
+        if (!isThisType(is, false)) {
+            if (!is.good()) return 1;
+            return 2;
+        }
+        // Read the first ten bytes and extract the size
+        char tmpbuf[10];
+        is.read(tmpbuf, 10);
+        if (!is.good()) return 1;
+        uint16 size = getUShort(tmpbuf + 2, bigEndian);
+        if (size < 8) return 3;
+
+        // Read the rest of the APP1 field (Exif data)
+        long sizeExifData = size - 8;
+        char* pExifData = new char[sizeExifData];
+        is.read(pExifData, sizeExifData);
+        if (!is.good()) {
+            delete[] pExifData;
+            return 1;
+        }
+        sizeExifData_ = sizeExifData;
+        pExifData_ = pExifData;
+
+        return 0;
+    } // ExvFile::readExifData
+
+    void ExvFile::setExifData(const char* buf, long size)
+    {
+        sizeExifData_ = size;
+        delete[] pExifData_;
+        pExifData_ = new char[size];
+        memcpy(pExifData_, buf, size);
+    } // ExvFile::setExifData
+
+    bool ExvFile::isThisType(std::istream& is, bool advance)
+    {
+        // Read and check section marker and size
+        char tmpbuf[10];
+        is.read(tmpbuf, 10);
+        if (!is.good()) return false;
+        bool rc = true;
+        uint16 marker = getUShort(tmpbuf, bigEndian);
+        uint16 size = getUShort(tmpbuf + 2, bigEndian);
+        if (size < 8) rc = false;
+        if (!(marker == app1_ && memcmp(tmpbuf + 4, exifId_, 6) == 0)) {
+            rc = false;
+        }
+        if (!advance) is.seekg(-10, std::ios::cur);
+        return rc;
+    } // ExvFile::isThisType
+
+    int ExvFile::writeExifData(const std::string& path) const
+    {
+        std::ofstream os(path.c_str(), std::ios::binary);
+        if (!os) return -1;
+        // Write APP1 marker, size of APP1 field, Exif id and Exif data
+        char tmpbuf[10];
+        us2Data(tmpbuf, app1_, bigEndian);
+        us2Data(tmpbuf + 2, sizeExifData_ + 8, bigEndian);
+        memcpy(tmpbuf + 4, exifId_, 6);
+        os.write(tmpbuf, 10);
+        os.write(pExifData_, sizeExifData_);
+        if (!os.good()) return 4;
+        return 0;
+    } // ExvFile::writeExifData
 
 }                                       // namespace Exif
