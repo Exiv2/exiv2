@@ -21,13 +21,13 @@
 /*!
   @file    utils.hpp
   @brief   A collection of utility functions
-  @version $Name:  $ $Revision: 1.3 $
+  @version $Name:  $ $Revision: 1.4 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    12-Dec-03, ahu: created
  */
-#ifndef _UTILS_HPP_
-#define _UTILS_HPP_
+#ifndef UTILS_HPP_
+#define UTILS_HPP_
 
 // *********************************************************************
 // included header files
@@ -169,4 +169,4 @@ private:
 
 }                                       // namespace Util
 
-#endif                                  // #ifndef _UTILS_HPP_
+#endif                                  // #ifndef UTILS_HPP_

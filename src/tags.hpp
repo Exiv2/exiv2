@@ -21,13 +21,13 @@
 /*!
   @file    tags.hpp
   @brief   %Exif tag and type information
-  @version $Name:  $ $Revision: 1.5 $
+  @version $Name:  $ $Revision: 1.6 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    15-Jan-03, ahu: created
  */
-#ifndef _TAGS_HPP_
-#define _TAGS_HPP_
+#ifndef TAGS_HPP_
+#define TAGS_HPP_
 
 // *****************************************************************************
 // included header files
@@ -192,4 +192,4 @@ namespace Exif {
 
 }                                       // namespace Exif
 
-#endif                                  // #ifndef _TAGS_HPP_
+#endif                                  // #ifndef TAGS_HPP_
