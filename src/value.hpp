@@ -21,7 +21,7 @@
 /*!
   @file    value.hpp
   @brief   Value interface and concrete subclasses
-  @version $Name:  $ $Revision: 1.3 $
+  @version $Name:  $ $Revision: 1.4 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -114,6 +114,22 @@ namespace Exif {
          */
         virtual long toLong(long n =0) const =0;
         /*!
+          @brief Convert the n-th component of the value to a float. The
+                 behaviour of this method may be undefined if there is no
+                 n-th component.
+
+          @return The converted value. 
+         */
+        virtual float toFloat(long n =0) const =0;
+        /*!
+          @brief Convert the n-th component of the value to a Rational. The
+                 behaviour of this method may be undefined if there is no
+                 n-th component.
+
+          @return The converted value. 
+         */
+        virtual Rational toRational(long n =0) const =0;
+        /*!
           @brief Return the value as a string. Implemented in terms of
                  write(std::ostream& os) const of the concrete class. 
          */
@@ -171,6 +187,8 @@ namespace Exif {
     public:
         //! Default constructor.
         DataValue(TypeId typeId =undefined) : Value(typeId) {}
+        //! Virtual destructor.
+        virtual ~DataValue() {}
         //! Assignment operator.
         DataValue& operator=(const DataValue& rhs);
         /*!
@@ -201,6 +219,9 @@ namespace Exif {
         virtual Value* clone() const;
         virtual std::ostream& write(std::ostream& os) const;
         virtual long toLong(long n =0) const { return value_[n]; }
+        virtual float toFloat(long n =0) const { return value_[n]; }
+        virtual Rational toRational(long n =0) const
+            { return Rational(value_[n], 1); }
 
     private:
         std::string value_;
@@ -212,6 +233,8 @@ namespace Exif {
     public:
         //! Default constructor.
         AsciiValue() : Value(asciiString) {}
+        //! Virtual destructor.
+        virtual ~AsciiValue() {}
         //! Assignment operator.
         AsciiValue& operator=(const AsciiValue& rhs);
         /*!
@@ -251,6 +274,9 @@ namespace Exif {
         */
         virtual std::ostream& write(std::ostream& os) const;
         virtual long toLong(long n =0) const { return value_[n]; }
+        virtual float toFloat(long n =0) const { return value_[n]; }
+        virtual Rational toRational(long n =0) const
+            { return Rational(value_[n], 1); }
 
     private:
         std::string value_;
@@ -285,6 +311,8 @@ namespace Exif {
     public:
         //! Default constructor.
         ValueType() : Value(getType<T>()) {}
+        //! Virtual destructor.
+        virtual ~ValueType() {}
         //! Assignment operator.
         ValueType<T>& operator=(const ValueType<T>& rhs);
         virtual void read(const char* buf, long len, ByteOrder byteOrder);
@@ -301,6 +329,8 @@ namespace Exif {
         virtual Value* clone() const;
         virtual std::ostream& write(std::ostream& os) const;
         virtual long toLong(long n =0) const;
+        virtual float toFloat(long n =0) const;
+        virtual Rational toRational(long n =0) const;
 
         //! Container for values 
         typedef std::vector<T> ValueList;
@@ -532,6 +562,42 @@ namespace Exif {
     inline long ValueType<URational>::toLong(long n) const 
     {
         return value_[n].first / value_[n].second; 
+    }
+    // Default implementation
+    template<typename T>
+    inline float ValueType<T>::toFloat(long n) const
+    { 
+        return value_[n]; 
+    }
+    // Specialization for rational
+    template<>
+    inline float ValueType<Rational>::toFloat(long n) const 
+    {
+        return (float)value_[n].first / value_[n].second; 
+    }
+    // Specialization for unsigned rational
+    template<>
+    inline float ValueType<URational>::toFloat(long n) const 
+    {
+        return (float)value_[n].first / value_[n].second; 
+    }
+    // Default implementation
+    template<typename T>
+    inline Rational ValueType<T>::toRational(long n) const
+    {
+        return Rational(value_[n], 1);
+    }
+    // Specialization for rational
+    template<>
+    inline Rational ValueType<Rational>::toRational(long n) const 
+    {
+        return Rational(value_[n].first, value_[n].second);
+    }
+    // Specialization for unsigned rational
+    template<>
+    inline Rational ValueType<URational>::toRational(long n) const 
+    {
+        return Rational(value_[n].first, value_[n].second);
     }
    
 }                                       // namespace Exif
