@@ -20,7 +20,7 @@
  */
 /*
   File:      fujimn.cpp
-  Version:   $Name:  $ $Revision: 1.5 $
+  Version:   $Name:  $ $Revision: 1.6 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
              07-Mar-04, ahu: isolated as a separate component
@@ -31,7 +31,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: fujimn.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: fujimn.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -44,6 +44,7 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: fujimn.cpp,v $")
 #include <string>
 #include <sstream>
 #include <iomanip>
+#include <cassert>
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -79,14 +80,41 @@ namespace Exiv2 {
     FujiMakerNote::FujiMakerNote(bool alloc)
         : IfdMakerNote(fujiMnTagInfo, alloc), sectionName_("Fujifilm")
     {
-        setByteOrder(littleEndian);
-        prefix_ = std::string("FUJIFILM\xc\0\0\0", 12);
+        byteOrder_ = littleEndian;
         absOffset_ = false;
     }
 
-    MakerNote* FujiMakerNote::clone(bool alloc) const 
+    int FujiMakerNote::readHeader(const char* buf,
+                                  long len, 
+                                  ByteOrder byteOrder)
     {
-        return createFujiMakerNote(alloc); 
+        if (len < 12) return 1;
+
+        header_.alloc(12);
+        memcpy(header_.pData_, buf, header_.size_);
+        // Read the offset relative to the start of the makernote from the header
+        // Note: we ignore the byteOrder paramter
+        adjOffset_ = getUShort(header_.pData_ + 8, byteOrder_);
+        return 0;
+    }
+
+    int FujiMakerNote::checkHeader() const
+    {
+        int rc = 0;
+        // Check the FUJIFILM prefix
+        if (   header_.size_ < 12
+            || std::string(header_.pData_, 8) != std::string("FUJIFILM", 8)) {
+            rc = 2;
+        }
+        return rc;
+    }
+
+    FujiMakerNote* FujiMakerNote::clone(bool alloc) const 
+    {
+        FujiMakerNote* pMakerNote = new FujiMakerNote(alloc);
+        assert(pMakerNote);
+        pMakerNote->readHeader(header_.pData_, header_.size_, byteOrder_);
+        return pMakerNote;
     }
 
     std::ostream& FujiMakerNote::printTag(std::ostream& os, 
