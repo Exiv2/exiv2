@@ -25,7 +25,7 @@
 
   RCS information
    $Name:  $
-   $Revision: 1.7 $
+   $Revision: 1.8 $
  */
 // *****************************************************************************
 // included header files
@@ -292,11 +292,6 @@ namespace Exif {
     std::ostream& AsciiValue::write(std::ostream& os) const
     {
         return os << value_;
-    }
-
-    Metadatum::Metadatum()
-        : tag_(0), ifdId_(IfdIdNotSet), ifdIdx_(-1), value_(0)
-    {
     }
 
     Metadatum::Metadatum(uint16 tag, uint16 type, 

@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.8 $
+  @version $Name:  $ $Revision: 1.9 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-03, ahu: created
@@ -390,8 +390,6 @@ namespace Exif {
      */
     class Metadatum {
     public:
-        //! Default Constructor
-        Metadatum();
         /*!
           @brief Constructor for tag data read from an IFD, when all 
                  information is available. The Metadatum takes ownership
@@ -406,7 +404,7 @@ namespace Exif {
                  We'll figure out the details for it.
          */
         // Todo: implement me!
-        Metadatum(const std::string& key, Value* value =0);
+        explicit Metadatum(const std::string& key, Value* value =0);
         //! Destructor
         ~Metadatum();
         //! Copy constructor
@@ -705,7 +703,7 @@ namespace Exif {
         const_iterator begin() const { return metadata_.begin(); }
         //! End of the metadata
         const_iterator end() const { return metadata_.end(); }
-
+        //! Find a metadatum by its key, return a const iterator to it
         const_iterator findKey(const std::string& key) const;
 
         //! Write the thumbnail image to a file
