@@ -1,5 +1,30 @@
-// exivsimple.cpp : Defines the entry point for the DLL application.
-//
+// ***************************************************************** -*- C++ -*-
+/*
+ * Copyright (C) 2004 Andreas Huggel <ahuggel@gmx.net>
+ * 
+ * This program is part of the Exiv2 distribution.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+/*
+  File:      exivsimple.cpp
+  Version:   $Rev$
+  Author(s): Brad Schick <brad@robotbattle.com>
+  History:   12-Nov-04, brad: created
+ */
+// *****************************************************************************
 
 #include "stdafx.h"
 #include "exivsimple.h"
@@ -58,7 +83,7 @@ EXIVSIMPLE_API int SaveImage(HIMAGE img)
 // This is weird because iptc and exif have not been "unified". Once
 // the API is turned inside out, this DLL should not have to know
 // about either... just generic images, keys, values, etc.
-// buffsize should be the total size of *buff (including space full null)
+// buffsize should be the total size of *buff (including space for null)
 // Note that if there is more than one entry (for some IPTC datasets) this
 // returns the first one found. Currently no way to get the others.
 EXIVSIMPLE_API int ReadMeta(HIMAGE img, const char *key, char *buff, int buffsize)
@@ -100,9 +125,9 @@ EXIVSIMPLE_API int ReadMeta(HIMAGE img, const char *key, char *buff, int buffsiz
     return rc;
 }
 
-// Overwrites existing value if found, otherwise creates a new one
+// Overwrites existing value if found, otherwise creates a new one.
 // Passing invalidTypeId causes the type to be guessed.
-// Guessing types is accurate for IPTC but not for EXIF.
+// Guessing types is accurate for IPTC, but not for EXIF.
 EXIVSIMPLE_API int ModifyMeta(HIMAGE img, const char *key, const char *val, DllTypeId type)
 {
     assert(img && key && val);
@@ -168,7 +193,7 @@ EXIVSIMPLE_API int ModifyMeta(HIMAGE img, const char *key, const char *val, DllT
 
 // Always creates a new metadata entry.
 // Passing invalidTypeId causes the type to be guessed.
-// Guessing types is accurate for IPTC but not for EXIF.
+// Guessing types is accurate for IPTC, but not for EXIF.
 EXIVSIMPLE_API int AddMeta(HIMAGE img, const char *key, const char *val, DllTypeId type)
 {
     assert(img && key && val);
@@ -283,16 +308,15 @@ EXIVSIMPLE_API int EnumMeta(HIMAGE img, METAENUMPROC proc, void *user)
 BOOL APIENTRY DllMain( HANDLE hModule, 
                        DWORD  ul_reason_for_call, 
                        LPVOID lpReserved
-					 )
+                     )
 {
-	switch (ul_reason_for_call)
-	{
-	case DLL_PROCESS_ATTACH:
-	case DLL_THREAD_ATTACH:
-	case DLL_THREAD_DETACH:
-	case DLL_PROCESS_DETACH:
-		break;
-	}
+    switch (ul_reason_for_call) {
+        case DLL_PROCESS_ATTACH:
+        case DLL_THREAD_ATTACH:
+        case DLL_THREAD_DETACH:
+        case DLL_PROCESS_DETACH:
+            break;
+    }
     return TRUE;
 }
 
