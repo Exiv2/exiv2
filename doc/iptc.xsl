@@ -58,6 +58,10 @@ doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
     <col align="right" />
     <col align="center" />
     <col />
+    <col align="center" />
+    <col align="center" />
+    <col align="right" />
+    <col align="right" />
     <col />
   </colgroup>
 </xsl:template>
@@ -69,7 +73,11 @@ doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
     <th>Tag description</th>
     <th>Tag (dec)</th>
     <th>Tag (hex)</th>
-    <th>IFD</th>
+    <th>Record name</th>
+    <th>Mandatory</th>
+    <th>Repeatable</th>
+    <th>Min. bytes</th>
+    <th>Max. bytes</th>
     <th>Key</th>
   </tr>
 </xsl:template>
@@ -96,7 +104,11 @@ doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
     <td><xsl:value-of select="tagdesc" /></td>
     <td><xsl:value-of select="tagdec" /></td>
     <td><xsl:value-of select="taghex" /></td>
-    <td><xsl:value-of select="ifd" /></td>
+    <td><xsl:value-of select="recname" /></td>
+    <td><xsl:value-of select="mandatory" /></td>
+    <td><xsl:value-of select="repeatable" /></td>
+    <td><xsl:value-of select="minbytes" /></td>
+    <td><xsl:value-of select="maxbytes" /></td>
     <td><xsl:value-of select="key" /></td>
   </tr>
 </xsl:template>
@@ -107,7 +119,7 @@ doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
   //<![CDATA[
   var t1 = new SortableTable(
     document.getElementById("report-1"),
-    ["String", "String", "Number", "String", "String", "String"]
+    ["String", "String", "Number", "String", "String", "String", "String", "Number", "Number", "String"]
   );
   t1.onsort = function () { 
 	var rows = t1.tBody.rows;

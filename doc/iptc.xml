@@ -1,0 +1,866 @@
+<?xml version = '1.0'?>
+<?xml-stylesheet type="text/xsl" href="iptc.xsl"?>
+<TAGLIST>
+<HEADER>
+<title>IPTC datasets defined in Exiv2</title>
+<text>
+<p>Datasets are defined according to the specification of the IPTC 
+<a href="http://www.iptc.org/IIM/">Information Interchange Model (IIM)</a>.</p>
+<p>Click on a column header to sort the table.</p>
+</text>
+</HEADER>
+<ROWSET>
+   <ROW num="1">
+      <tagname>ModelVersion</tagname>
+      <tagdec>0</tagdec>
+      <taghex>0x0000</taghex>
+      <recname>Envelope</recname>
+      <mandatory>true</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>2</minbytes>
+      <maxbytes>2</maxbytes>
+      <key>Iptc.Envelope.ModelVersion</key>
+      <tagdesc>Version of IIM part 1</tagdesc>
+   </ROW>
+   <ROW num="2">
+      <tagname>Destination</tagname>
+      <tagdec>5</tagdec>
+      <taghex>0x0005</taghex>
+      <recname>Envelope</recname>
+      <mandatory>false</mandatory>
+      <repeatable>true</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>1024</maxbytes>
+      <key>Iptc.Envelope.Destination</key>
+      <tagdesc>Routing information</tagdesc>
+   </ROW>
+   <ROW num="3">
+      <tagname>FileFormat</tagname>
+      <tagdec>20</tagdec>
+      <taghex>0x0014</taghex>
+      <recname>Envelope</recname>
+      <mandatory>true</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>2</minbytes>
+      <maxbytes>2</maxbytes>
+      <key>Iptc.Envelope.FileFormat</key>
+      <tagdesc>IIM appendix A file format</tagdesc>
+   </ROW>
+   <ROW num="4">
+      <tagname>FileVersion</tagname>
+      <tagdec>22</tagdec>
+      <taghex>0x0016</taghex>
+      <recname>Envelope</recname>
+      <mandatory>true</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>2</minbytes>
+      <maxbytes>2</maxbytes>
+      <key>Iptc.Envelope.FileVersion</key>
+      <tagdesc>File format version</tagdesc>
+   </ROW>
+   <ROW num="5">
+      <tagname>ServiceId</tagname>
+      <tagdec>30</tagdec>
+      <taghex>0x001e</taghex>
+      <recname>Envelope</recname>
+      <mandatory>true</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>10</maxbytes>
+      <key>Iptc.Envelope.ServiceId</key>
+      <tagdesc>Identifies the provider and product</tagdesc>
+   </ROW>
+   <ROW num="6">
+      <tagname>EnvelopeNumber</tagname>
+      <tagdec>40</tagdec>
+      <taghex>0x0028</taghex>
+      <recname>Envelope</recname>
+      <mandatory>true</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>8</minbytes>
+      <maxbytes>8</maxbytes>
+      <key>Iptc.Envelope.EnvelopeNumber</key>
+      <tagdesc>Combined unique identification</tagdesc>
+   </ROW>
+   <ROW num="7">
+      <tagname>ProductId</tagname>
+      <tagdec>50</tagdec>
+      <taghex>0x0032</taghex>
+      <recname>Envelope</recname>
+      <mandatory>false</mandatory>
+      <repeatable>true</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>32</maxbytes>
+      <key>Iptc.Envelope.ProductId</key>
+      <tagdesc>Identifies service subset</tagdesc>
+   </ROW>
+   <ROW num="8">
+      <tagname>EnvelopePriority</tagname>
+      <tagdec>60</tagdec>
+      <taghex>0x003c</taghex>
+      <recname>Envelope</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>1</minbytes>
+      <maxbytes>1</maxbytes>
+      <key>Iptc.Envelope.EnvelopePriority</key>
+      <tagdesc>Envelope handling priority</tagdesc>
+   </ROW>
+   <ROW num="9">
+      <tagname>DateSent</tagname>
+      <tagdec>70</tagdec>
+      <taghex>0x0046</taghex>
+      <recname>Envelope</recname>
+      <mandatory>true</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>8</minbytes>
+      <maxbytes>8</maxbytes>
+      <key>Iptc.Envelope.DateSent</key>
+      <tagdesc>Date material was sent</tagdesc>
+   </ROW>
+   <ROW num="10">
+      <tagname>TimeSent</tagname>
+      <tagdec>80</tagdec>
+      <taghex>0x0050</taghex>
+      <recname>Envelope</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>11</minbytes>
+      <maxbytes>11</maxbytes>
+      <key>Iptc.Envelope.TimeSent</key>
+      <tagdesc>Time material was sent</tagdesc>
+   </ROW>
+   <ROW num="11">
+      <tagname>CharacterSet</tagname>
+      <tagdec>90</tagdec>
+      <taghex>0x005a</taghex>
+      <recname>Envelope</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>32</maxbytes>
+      <key>Iptc.Envelope.CharacterSet</key>
+      <tagdesc>Specifies character sets</tagdesc>
+   </ROW>
+   <ROW num="12">
+      <tagname>UNO</tagname>
+      <tagdec>100</tagdec>
+      <taghex>0x0064</taghex>
+      <recname>Envelope</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>14</minbytes>
+      <maxbytes>80</maxbytes>
+      <key>Iptc.Envelope.UNO</key>
+      <tagdesc>Unique Name of Object</tagdesc>
+   </ROW>
+   <ROW num="13">
+      <tagname>ARMId</tagname>
+      <tagdec>120</tagdec>
+      <taghex>0x0078</taghex>
+      <recname>Envelope</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>2</minbytes>
+      <maxbytes>2</maxbytes>
+      <key>Iptc.Envelope.ARMId</key>
+      <tagdesc>Abstract Relationship Method identifier</tagdesc>
+   </ROW>
+   <ROW num="14">
+      <tagname>ARMVersion</tagname>
+      <tagdec>122</tagdec>
+      <taghex>0x007a</taghex>
+      <recname>Envelope</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>2</minbytes>
+      <maxbytes>2</maxbytes>
+      <key>Iptc.Envelope.ARMVersion</key>
+      <tagdesc>Abstract Relationship Method version</tagdesc>
+   </ROW>
+   <ROW num="15">
+      <tagname>RecordVersion</tagname>
+      <tagdec>0</tagdec>
+      <taghex>0x0000</taghex>
+      <recname>Application2</recname>
+      <mandatory>true</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>2</minbytes>
+      <maxbytes>2</maxbytes>
+      <key>Iptc.Application2.RecordVersion</key>
+      <tagdesc>Version of IIM part 2</tagdesc>
+   </ROW>
+   <ROW num="16">
+      <tagname>ObjectType</tagname>
+      <tagdec>3</tagdec>
+      <taghex>0x0003</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>3</minbytes>
+      <maxbytes>67</maxbytes>
+      <key>Iptc.Application2.ObjectType</key>
+      <tagdesc>IIM appendix G object type</tagdesc>
+   </ROW>
+   <ROW num="17">
+      <tagname>ObjectAttribute</tagname>
+      <tagdec>4</tagdec>
+      <taghex>0x0004</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>true</repeatable>
+      <minbytes>4</minbytes>
+      <maxbytes>68</maxbytes>
+      <key>Iptc.Application2.ObjectAttribute</key>
+      <tagdesc>IIM appendix G object attribute</tagdesc>
+   </ROW>
+   <ROW num="18">
+      <tagname>ObjectName</tagname>
+      <tagdec>5</tagdec>
+      <taghex>0x0005</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>64</maxbytes>
+      <key>Iptc.Application2.ObjectName</key>
+      <tagdesc>Shorthand reference of content</tagdesc>
+   </ROW>
+   <ROW num="19">
+      <tagname>EditStatus</tagname>
+      <tagdec>7</tagdec>
+      <taghex>0x0007</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>64</maxbytes>
+      <key>Iptc.Application2.EditStatus</key>
+      <tagdesc>Content status</tagdesc>
+   </ROW>
+   <ROW num="20">
+      <tagname>EditorialUpdate</tagname>
+      <tagdec>8</tagdec>
+      <taghex>0x0008</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>2</minbytes>
+      <maxbytes>2</maxbytes>
+      <key>Iptc.Application2.EditorialUpdate</key>
+      <tagdesc>Indicates the type of update</tagdesc>
+   </ROW>
+   <ROW num="21">
+      <tagname>Urgency</tagname>
+      <tagdec>10</tagdec>
+      <taghex>0x000a</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>1</minbytes>
+      <maxbytes>1</maxbytes>
+      <key>Iptc.Application2.Urgency</key>
+      <tagdesc>Editorial urgency of content</tagdesc>
+   </ROW>
+   <ROW num="22">
+      <tagname>Subject</tagname>
+      <tagdec>12</tagdec>
+      <taghex>0x000c</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>true</repeatable>
+      <minbytes>13</minbytes>
+      <maxbytes>236</maxbytes>
+      <key>Iptc.Application2.Subject</key>
+      <tagdesc>Structured definition of the subject</tagdesc>
+   </ROW>
+   <ROW num="23">
+      <tagname>Category</tagname>
+      <tagdec>15</tagdec>
+      <taghex>0x000f</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>3</maxbytes>
+      <key>Iptc.Application2.Category</key>
+      <tagdesc>Identifies the subject</tagdesc>
+   </ROW>
+   <ROW num="24">
+      <tagname>SuppCategory</tagname>
+      <tagdec>20</tagdec>
+      <taghex>0x0014</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>true</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>32</maxbytes>
+      <key>Iptc.Application2.SuppCategory</key>
+      <tagdesc>Refines the subject</tagdesc>
+   </ROW>
+   <ROW num="25">
+      <tagname>FixtureId</tagname>
+      <tagdec>22</tagdec>
+      <taghex>0x0016</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>32</maxbytes>
+      <key>Iptc.Application2.FixtureId</key>
+      <tagdesc>Identifies content that recurs</tagdesc>
+   </ROW>
+   <ROW num="26">
+      <tagname>Keywords</tagname>
+      <tagdec>25</tagdec>
+      <taghex>0x0019</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>true</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>64</maxbytes>
+      <key>Iptc.Application2.Keywords</key>
+      <tagdesc>Information retrieval words</tagdesc>
+   </ROW>
+   <ROW num="27">
+      <tagname>LocationCode</tagname>
+      <tagdec>26</tagdec>
+      <taghex>0x001a</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>true</repeatable>
+      <minbytes>3</minbytes>
+      <maxbytes>3</maxbytes>
+      <key>Iptc.Application2.LocationCode</key>
+      <tagdesc>ISO country code for content</tagdesc>
+   </ROW>
+   <ROW num="28">
+      <tagname>LocationName</tagname>
+      <tagdec>27</tagdec>
+      <taghex>0x001b</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>true</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>64</maxbytes>
+      <key>Iptc.Application2.LocationName</key>
+      <tagdesc>Full country name for content</tagdesc>
+   </ROW>
+   <ROW num="29">
+      <tagname>ReleaseDate</tagname>
+      <tagdec>30</tagdec>
+      <taghex>0x001e</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>8</minbytes>
+      <maxbytes>8</maxbytes>
+      <key>Iptc.Application2.ReleaseDate</key>
+      <tagdesc>Earliest intended usable date</tagdesc>
+   </ROW>
+   <ROW num="30">
+      <tagname>ReleaseTime</tagname>
+      <tagdec>35</tagdec>
+      <taghex>0x0023</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>11</minbytes>
+      <maxbytes>11</maxbytes>
+      <key>Iptc.Application2.ReleaseTime</key>
+      <tagdesc>Earliest intended usable time</tagdesc>
+   </ROW>
+   <ROW num="31">
+      <tagname>ExpirationDate</tagname>
+      <tagdec>37</tagdec>
+      <taghex>0x0025</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>8</minbytes>
+      <maxbytes>8</maxbytes>
+      <key>Iptc.Application2.ExpirationDate</key>
+      <tagdesc>Latest intended usable date</tagdesc>
+   </ROW>
+   <ROW num="32">
+      <tagname>ExpirationTime</tagname>
+      <tagdec>38</tagdec>
+      <taghex>0x0026</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>11</minbytes>
+      <maxbytes>11</maxbytes>
+      <key>Iptc.Application2.ExpirationTime</key>
+      <tagdesc>Latest intended usable time</tagdesc>
+   </ROW>
+   <ROW num="33">
+      <tagname>SpecialInstructions</tagname>
+      <tagdec>40</tagdec>
+      <taghex>0x0028</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>256</maxbytes>
+      <key>Iptc.Application2.SpecialInstructions</key>
+      <tagdesc>Editorial usage instructions</tagdesc>
+   </ROW>
+   <ROW num="34">
+      <tagname>ActionAdvised</tagname>
+      <tagdec>42</tagdec>
+      <taghex>0x002a</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>2</minbytes>
+      <maxbytes>2</maxbytes>
+      <key>Iptc.Application2.ActionAdvised</key>
+      <tagdesc>Action provided to previous data</tagdesc>
+   </ROW>
+   <ROW num="35">
+      <tagname>ReferenceService</tagname>
+      <tagdec>45</tagdec>
+      <taghex>0x002d</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>true</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>10</maxbytes>
+      <key>Iptc.Application2.ReferenceService</key>
+      <tagdesc>Service Identifier of a prior envelope</tagdesc>
+   </ROW>
+   <ROW num="36">
+      <tagname>ReferenceDate</tagname>
+      <tagdec>47</tagdec>
+      <taghex>0x002f</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>true</repeatable>
+      <minbytes>8</minbytes>
+      <maxbytes>8</maxbytes>
+      <key>Iptc.Application2.ReferenceDate</key>
+      <tagdesc>Date of a prior envelope</tagdesc>
+   </ROW>
+   <ROW num="37">
+      <tagname>ReferenceNumber</tagname>
+      <tagdec>50</tagdec>
+      <taghex>0x0032</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>true</repeatable>
+      <minbytes>8</minbytes>
+      <maxbytes>8</maxbytes>
+      <key>Iptc.Application2.ReferenceNumber</key>
+      <tagdesc>Envelope Number of a prior envelope</tagdesc>
+   </ROW>
+   <ROW num="38">
+      <tagname>DateCreated</tagname>
+      <tagdec>55</tagdec>
+      <taghex>0x0037</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>8</minbytes>
+      <maxbytes>8</maxbytes>
+      <key>Iptc.Application2.DateCreated</key>
+      <tagdesc>Creation date of intellectual content</tagdesc>
+   </ROW>
+   <ROW num="39">
+      <tagname>TimeCreated</tagname>
+      <tagdec>60</tagdec>
+      <taghex>0x003c</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>11</minbytes>
+      <maxbytes>11</maxbytes>
+      <key>Iptc.Application2.TimeCreated</key>
+      <tagdesc>Creation time of intellectual content</tagdesc>
+   </ROW>
+   <ROW num="40">
+      <tagname>DigitizationDate</tagname>
+      <tagdec>62</tagdec>
+      <taghex>0x003e</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>8</minbytes>
+      <maxbytes>8</maxbytes>
+      <key>Iptc.Application2.DigitizationDate</key>
+      <tagdesc>Creation date of digital representation</tagdesc>
+   </ROW>
+   <ROW num="41">
+      <tagname>DigitizationTime</tagname>
+      <tagdec>63</tagdec>
+      <taghex>0x003f</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>11</minbytes>
+      <maxbytes>11</maxbytes>
+      <key>Iptc.Application2.DigitizationTime</key>
+      <tagdesc>Creation time of digital representation</tagdesc>
+   </ROW>
+   <ROW num="42">
+      <tagname>Program</tagname>
+      <tagdec>65</tagdec>
+      <taghex>0x0041</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>32</maxbytes>
+      <key>Iptc.Application2.Program</key>
+      <tagdesc>Content creation program</tagdesc>
+   </ROW>
+   <ROW num="43">
+      <tagname>ProgramVersion</tagname>
+      <tagdec>70</tagdec>
+      <taghex>0x0046</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>10</maxbytes>
+      <key>Iptc.Application2.ProgramVersion</key>
+      <tagdesc>Content creation program version</tagdesc>
+   </ROW>
+   <ROW num="44">
+      <tagname>ObjectCycle</tagname>
+      <tagdec>75</tagdec>
+      <taghex>0x004b</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>1</minbytes>
+      <maxbytes>1</maxbytes>
+      <key>Iptc.Application2.ObjectCycle</key>
+      <tagdesc>Morning</tagdesc>
+   </ROW>
+   <ROW num="45">
+      <tagname>Byline</tagname>
+      <tagdec>80</tagdec>
+      <taghex>0x0050</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>true</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>32</maxbytes>
+      <key>Iptc.Application2.Byline</key>
+      <tagdesc>Name of content creator</tagdesc>
+   </ROW>
+   <ROW num="46">
+      <tagname>BylineTitle</tagname>
+      <tagdec>85</tagdec>
+      <taghex>0x0055</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>true</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>32</maxbytes>
+      <key>Iptc.Application2.BylineTitle</key>
+      <tagdesc>Title of content creator</tagdesc>
+   </ROW>
+   <ROW num="47">
+      <tagname>City</tagname>
+      <tagdec>90</tagdec>
+      <taghex>0x005a</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>32</maxbytes>
+      <key>Iptc.Application2.City</key>
+      <tagdesc>City of content origin</tagdesc>
+   </ROW>
+   <ROW num="48">
+      <tagname>SubLocation</tagname>
+      <tagdec>92</tagdec>
+      <taghex>0x005c</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>32</maxbytes>
+      <key>Iptc.Application2.SubLocation</key>
+      <tagdesc>Location within city</tagdesc>
+   </ROW>
+   <ROW num="49">
+      <tagname>ProvinceState</tagname>
+      <tagdec>95</tagdec>
+      <taghex>0x005f</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>32</maxbytes>
+      <key>Iptc.Application2.ProvinceState</key>
+      <tagdesc>Province/State of content origin</tagdesc>
+   </ROW>
+   <ROW num="50">
+      <tagname>CountryCode</tagname>
+      <tagdec>100</tagdec>
+      <taghex>0x0064</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>3</minbytes>
+      <maxbytes>3</maxbytes>
+      <key>Iptc.Application2.CountryCode</key>
+      <tagdesc>ISO country code of content origin</tagdesc>
+   </ROW>
+   <ROW num="51">
+      <tagname>CountryName</tagname>
+      <tagdec>101</tagdec>
+      <taghex>0x0065</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>64</maxbytes>
+      <key>Iptc.Application2.CountryName</key>
+      <tagdesc>Full country name of content origin</tagdesc>
+   </ROW>
+   <ROW num="52">
+      <tagname>TransmissionReference</tagname>
+      <tagdec>103</tagdec>
+      <taghex>0x0067</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>32</maxbytes>
+      <key>Iptc.Application2.TransmissionReference</key>
+      <tagdesc>Location of original transmission</tagdesc>
+   </ROW>
+   <ROW num="53">
+      <tagname>Headline</tagname>
+      <tagdec>105</tagdec>
+      <taghex>0x0069</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>256</maxbytes>
+      <key>Iptc.Application2.Headline</key>
+      <tagdesc>Content synopsis</tagdesc>
+   </ROW>
+   <ROW num="54">
+      <tagname>Credit</tagname>
+      <tagdec>110</tagdec>
+      <taghex>0x006e</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>32</maxbytes>
+      <key>Iptc.Application2.Credit</key>
+      <tagdesc>Content provider</tagdesc>
+   </ROW>
+   <ROW num="55">
+      <tagname>Source</tagname>
+      <tagdec>115</tagdec>
+      <taghex>0x0073</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>32</maxbytes>
+      <key>Iptc.Application2.Source</key>
+      <tagdesc>Original owner of content</tagdesc>
+   </ROW>
+   <ROW num="56">
+      <tagname>Copyright</tagname>
+      <tagdec>116</tagdec>
+      <taghex>0x0074</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>128</maxbytes>
+      <key>Iptc.Application2.Copyright</key>
+      <tagdesc>Necessary copyright notice</tagdesc>
+   </ROW>
+   <ROW num="57">
+      <tagname>Contact</tagname>
+      <tagdec>118</tagdec>
+      <taghex>0x0076</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>true</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>128</maxbytes>
+      <key>Iptc.Application2.Contact</key>
+      <tagdesc>Person or organisation to contact</tagdesc>
+   </ROW>
+   <ROW num="58">
+      <tagname>Caption</tagname>
+      <tagdec>120</tagdec>
+      <taghex>0x0078</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>2000</maxbytes>
+      <key>Iptc.Application2.Caption</key>
+      <tagdesc>Content description</tagdesc>
+   </ROW>
+   <ROW num="59">
+      <tagname>Writer</tagname>
+      <tagdec>122</tagdec>
+      <taghex>0x007a</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>true</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>32</maxbytes>
+      <key>Iptc.Application2.Writer</key>
+      <tagdesc>Person responsible for caption</tagdesc>
+   </ROW>
+   <ROW num="60">
+      <tagname>RasterizedCaption</tagname>
+      <tagdec>125</tagdec>
+      <taghex>0x007d</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>7360</minbytes>
+      <maxbytes>7360</maxbytes>
+      <key>Iptc.Application2.RasterizedCaption</key>
+      <tagdesc>Black and white caption image</tagdesc>
+   </ROW>
+   <ROW num="61">
+      <tagname>ImageType</tagname>
+      <tagdec>130</tagdec>
+      <taghex>0x0082</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>2</minbytes>
+      <maxbytes>2</maxbytes>
+      <key>Iptc.Application2.ImageType</key>
+      <tagdesc>Color components in an image</tagdesc>
+   </ROW>
+   <ROW num="62">
+      <tagname>ImageOrientation</tagname>
+      <tagdec>131</tagdec>
+      <taghex>0x0083</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>1</minbytes>
+      <maxbytes>1</maxbytes>
+      <key>Iptc.Application2.ImageOrientation</key>
+      <tagdesc>Indicates the layout of an image</tagdesc>
+   </ROW>
+   <ROW num="63">
+      <tagname>Language</tagname>
+      <tagdec>135</tagdec>
+      <taghex>0x0087</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>2</minbytes>
+      <maxbytes>3</maxbytes>
+      <key>Iptc.Application2.Language</key>
+      <tagdesc>ISO 639:1988 language code</tagdesc>
+   </ROW>
+   <ROW num="64">
+      <tagname>AudioType</tagname>
+      <tagdec>150</tagdec>
+      <taghex>0x0096</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>2</minbytes>
+      <maxbytes>2</maxbytes>
+      <key>Iptc.Application2.AudioType</key>
+      <tagdesc>Information about audio content</tagdesc>
+   </ROW>
+   <ROW num="65">
+      <tagname>AudioRate</tagname>
+      <tagdec>151</tagdec>
+      <taghex>0x0097</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>6</minbytes>
+      <maxbytes>6</maxbytes>
+      <key>Iptc.Application2.AudioRate</key>
+      <tagdesc>Sampling rate of audio content</tagdesc>
+   </ROW>
+   <ROW num="66">
+      <tagname>AudioResolution</tagname>
+      <tagdec>152</tagdec>
+      <taghex>0x0098</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>2</minbytes>
+      <maxbytes>2</maxbytes>
+      <key>Iptc.Application2.AudioResolution</key>
+      <tagdesc>Sampling resolution of audio content</tagdesc>
+   </ROW>
+   <ROW num="67">
+      <tagname>AudioDuration</tagname>
+      <tagdec>153</tagdec>
+      <taghex>0x0099</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>6</minbytes>
+      <maxbytes>6</maxbytes>
+      <key>Iptc.Application2.AudioDuration</key>
+      <tagdesc>Duration of audio content</tagdesc>
+   </ROW>
+   <ROW num="68">
+      <tagname>AudioOutcue</tagname>
+      <tagdec>154</tagdec>
+      <taghex>0x009a</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>64</maxbytes>
+      <key>Iptc.Application2.AudioOutcue</key>
+      <tagdesc>Final words or sounds of audio content</tagdesc>
+   </ROW>
+   <ROW num="69">
+      <tagname>PreviewFormat</tagname>
+      <tagdec>200</tagdec>
+      <taghex>0x00c8</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>2</minbytes>
+      <maxbytes>2</maxbytes>
+      <key>Iptc.Application2.PreviewFormat</key>
+      <tagdesc>IIM appendix A file format of preview</tagdesc>
+   </ROW>
+   <ROW num="70">
+      <tagname>PreviewVersion</tagname>
+      <tagdec>201</tagdec>
+      <taghex>0x00c9</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>2</minbytes>
+      <maxbytes>2</maxbytes>
+      <key>Iptc.Application2.PreviewVersion</key>
+      <tagdesc>File format version of preview</tagdesc>
+   </ROW>
+   <ROW num="71">
+      <tagname>Preview</tagname>
+      <tagdec>202</tagdec>
+      <taghex>0x00ca</taghex>
+      <recname>Application2</recname>
+      <mandatory>false</mandatory>
+      <repeatable>false</repeatable>
+      <minbytes>0</minbytes>
+      <maxbytes>256000</maxbytes>
+      <key>Iptc.Application2.Preview</key>
+      <tagdesc>Binary preview data</tagdesc>
+   </ROW>
+</ROWSET>
+</TAGLIST>
