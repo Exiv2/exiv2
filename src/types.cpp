@@ -20,14 +20,14 @@
  */
 /*
   File:      types.cpp
-  Version:   $Name:  $ $Revision: 1.10 $
+  Version:   $Name:  $ $Revision: 1.11 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.10 $ $RCSfile: types.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.11 $ $RCSfile: types.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -54,6 +54,7 @@ namespace Exiv2 {
         TypeInfoTable(invalidTypeId,    "Invalid",     0),
         TypeInfoTable(unsignedByte,     "Byte",        1),
         TypeInfoTable(asciiString,      "Ascii",       1),
+        TypeInfoTable(string,           "String",      1),
         TypeInfoTable(unsignedShort,    "Short",       2),
         TypeInfoTable(unsignedLong,     "Long",        4),
         TypeInfoTable(unsignedRational, "Rational",    8),
@@ -61,7 +62,9 @@ namespace Exiv2 {
         TypeInfoTable(undefined,        "Undefined",   1),
         TypeInfoTable(signedShort,      "SShort",      2),
         TypeInfoTable(signedLong,       "SLong",       4),
-        TypeInfoTable(signedRational,   "SRational",   8)
+        TypeInfoTable(signedRational,   "SRational",   8),
+        TypeInfoTable(date,             "Date",        8),
+        TypeInfoTable(time,             "Time",        11)
     };
 
     const char* TypeInfo::typeName(TypeId typeId)

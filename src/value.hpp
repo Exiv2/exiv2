@@ -21,11 +21,12 @@
 /*!
   @file    value.hpp
   @brief   Value interface and concrete subclasses
-  @version $Name:  $ $Revision: 1.13 $
+  @version $Name:  $ $Revision: 1.14 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
            11-Feb-04, ahu: isolated as a component
+           31-Jul-04, brad: added Time, Data and String values
  */
 #ifndef VALUE_HPP_
 #define VALUE_HPP_
@@ -97,14 +98,14 @@ namespace Exiv2 {
          */
         std::string toString() const;
         /*!
-          @brief Write value to a character data buffer.
+          @brief Write value to a data buffer.
 
           The user must ensure that the buffer has enough memory. Otherwise
           the call results in undefined behaviour.
 
           @param buf Data buffer to write to.
           @param byteOrder Applicable byte order (little or big endian).
-          @return Number of characters written.
+          @return Number of bytes written.
         */
         virtual long copy(byte* buf, ByteOrder byteOrder) const =0;
         //! Return the number of components of the value
@@ -158,6 +159,7 @@ namespace Exiv2 {
           <TR><TD>invalidTypeId</TD><TD>%DataValue(invalidTypeId)</TD></TR>
           <TR><TD>unsignedByte</TD><TD>%DataValue(unsignedByte)</TD></TR>
           <TR><TD>asciiString</TD><TD>%AsciiValue</TD></TR>
+          <TR><TD>string</TD><TD>%StringValue</TD></TR>
           <TR><TD>unsignedShort</TD><TD>%ValueType &lt; uint16 &gt;</TD></TR>
           <TR><TD>unsignedLong</TD><TD>%ValueType &lt; uint32 &gt;</TD></TR>
           <TR><TD>unsignedRational</TD><TD>%ValueType &lt; URational &gt;</TD></TR>
@@ -166,6 +168,8 @@ namespace Exiv2 {
           <TR><TD>signedShort</TD><TD>%ValueType &lt; int16 &gt;</TD></TR>
           <TR><TD>signedLong</TD><TD>%ValueType &lt; int32 &gt;</TD></TR>
           <TR><TD>signedRational</TD><TD>%ValueType &lt; Rational &gt;</TD></TR>
+          <TR><TD>date</TD><TD>%DateValue</TD></TR>
+          <TR><TD>time</TD><TD>%TimeValue</TD></TR>
           <TR><TD><EM>default:</EM></TD><TD>%DataValue(typeId)</TD></TR>
           </TABLE>
 
@@ -200,6 +204,11 @@ namespace Exiv2 {
         //@{
         //! Default constructor.
         DataValue(TypeId typeId =undefined) : Value(typeId) {}
+        //! Constructor
+        DataValue(const byte* buf,
+                  long len, ByteOrder byteOrder =invalidByteOrder,
+                  TypeId typeId =undefined) 
+            : Value(typeId) { read(buf, len, byteOrder); }
         //! Virtual destructor.
         virtual ~DataValue() {}
         //@}
@@ -256,21 +265,30 @@ namespace Exiv2 {
 
     }; // class DataValue
 
-    //! %Value for an Ascii string type.
-    class AsciiValue : public Value {
+    /*!
+      @brief %Value for a string type. 
+
+      This can a plain Ascii string or a multipe by encoded string. It is
+      left to caller to decode and encode the string to and from readable
+      text if that is required.
+     */    
+    class StringValue : public Value {
     public:
         //! @name Creators
         //@{
         //! Default constructor.
-        AsciiValue() : Value(asciiString) {}
+        StringValue() : Value(string) {}
+        //! Constructor
+        StringValue(const std::string &buf) 
+            : Value(string) { read(buf); }
         //! Virtual destructor.
-        virtual ~AsciiValue() {}
+        virtual ~StringValue() {}
         //@}
 
         //! @name Manipulators
         //@{
         //! Assignment operator.
-        AsciiValue& operator=(const AsciiValue& rhs);
+        StringValue& operator=(const StringValue& rhs);
         /*!
           @brief Read the value from a character buffer.
 
@@ -285,9 +303,7 @@ namespace Exiv2 {
                           long len, 
                           ByteOrder byteOrder =invalidByteOrder);
         /*!
-          @brief Set the value to that of the string buf. A terminating
-                 '\\0' character is appended to the value if buf doesn't 
-                 end with '\\0'.
+          @brief Set the value to that of the string buf. 
          */
         virtual void read(const std::string& buf);
         //@}
@@ -310,11 +326,9 @@ namespace Exiv2 {
         virtual long copy(byte* buf, ByteOrder byteOrder =invalidByteOrder) const;
         virtual long count() const { return size(); }
         virtual long size() const;
-        virtual AsciiValue* clone() const;
+        virtual StringValue* clone() const;
         /*! 
-          @brief Write the value to an output stream. Any trailing '\\0'
-                 characters of the ASCII value are stripped and not written to
-                 the output stream.
+          @brief Write the value to an output stream. .
         */
         virtual std::ostream& write(std::ostream& os) const;
         virtual long toLong(long n =0) const { return value_[n]; }
@@ -323,11 +337,250 @@ namespace Exiv2 {
             { return Rational(value_[n], 1); }
         //@}
 
+    protected:
+        //! @name Creators
+        //@{
+        //! Constructor for subclasses
+        StringValue(TypeId typeId) : Value(typeId) {}
+        //@}
+
     private:
         std::string value_;
 
+    }; // class StringValue
+
+    /*!
+      @brief %Value for an Ascii string type. 
+
+      This class is for null single byte Ascii strings. This class also
+      ensure that the string is null terminated.
+     */    
+    class AsciiValue : public StringValue {
+    public:
+        //! @name Creators
+        //@{
+        //! Default constructor.
+        AsciiValue() : StringValue(asciiString) {}
+        //! Constructor
+        AsciiValue(const std::string &buf) 
+            : StringValue(asciiString) { read(buf); }
+        //! Virtual destructor.
+        virtual ~AsciiValue() {}
+        //@}
+
+        //! @name Manipulators
+        //@{
+        //! Assignment operator.
+        AsciiValue& operator=(const AsciiValue& rhs) 
+            { StringValue::operator=(rhs); return *this; }
+
+        /*!
+          @brief Set the value to that of the string buf. Overrides base class
+                 to append a terminating '\\0' character if buf doesn't end
+                 with '\\0'.
+         */
+        virtual void read(const std::string& buf);
+        /*!
+          @brief Just pass through to the base class.
+         */
+        virtual void read(const byte* buf, 
+                      long len, ByteOrder byteOrder =invalidByteOrder)
+            { StringValue::read(buf, len, byteOrder); }
+        //@}
+
+        //! @name Accessors
+        //@{
+        virtual AsciiValue* clone() const;
+        /*! 
+          @brief Write the value to an output stream. Any trailing '\\0'
+                 characters of the ASCII value are stripped and not written to
+                 the output stream.
+        */
+        virtual std::ostream& write(std::ostream& os) const;
+        //@}
     }; // class AsciiValue
 
+    /*! 
+      @brief %Value for simple ISO 8601 dates
+
+      This class is limited to parsing simple date strings in the ISO 8601
+      format CCYYMMDD (century, year, month, day).
+     */
+    class DateValue : public Value {
+    public:
+        //! @name Creators
+        //@{
+        //! Default constructor.
+        DateValue() : Value(date) { memset(&date_, 0, sizeof(date_)); }
+        //! Constructor
+        DateValue(int year, int month, int day);
+        //! Virtual destructor.
+        virtual ~DateValue() {}
+        //@}
+
+        //! Simple Date helper structure
+        struct Date 
+        {
+            int year;                           //!< Year
+            int month;                          //!< Month
+            int day;                            //!< Day
+        };
+
+        //! @name Manipulators
+        //@{
+        //! Assignment operator.
+        DateValue& operator=(const DateValue& rhs);
+        /*!
+          @brief Read the value from a character buffer.
+
+          @note The byte order is required by the interface but not used by this
+                method, so just use the default.
+
+          @param buf Pointer to the data buffer to read from
+          @param len Number of bytes in the data buffer 
+          @param byteOrder Byte order. Not needed.
+         */
+        virtual void read(const byte* buf, 
+                          long len, 
+                          ByteOrder byteOrder =invalidByteOrder);
+        /*!
+          @brief Set the value to that of the string buf. 
+         */
+        virtual void read(const std::string& buf);
+        //! Set the date
+        void setDate(const Date& src);
+        //@}
+
+        //! @name Accessors
+        //@{
+        /*!
+          @brief Write value to a character data buffer.
+
+          The user must ensure that the buffer has enough memory. Otherwise
+          the call results in undefined behaviour.
+
+          @note The byte order is required by the interface but not used by this
+                method, so just use the default.
+
+          @param buf Data buffer to write to.
+          @param byteOrder Byte order. Not used.
+          @return Number of characters written.
+        */
+        virtual long copy(byte* buf, ByteOrder byteOrder =invalidByteOrder) const;
+        //! Return date struct containing date information
+        virtual const Date& getDate() const { return date_; }
+        virtual long count() const { return size(); }
+        virtual long size() const;
+        virtual DateValue* clone() const;
+        /*! 
+          @brief Write the value to an output stream. .
+        */
+        virtual std::ostream& write(std::ostream& os) const;
+        virtual long toLong(long n =0) const;
+        virtual float toFloat(long n =0) const 
+            { return static_cast<float>(toLong(n)); }
+        virtual Rational toRational(long n =0) const
+            { return Rational(toLong(n), 1); }
+        //@}
+
+    private:
+        Date date_;
+
+    }; // class DateValue    
+
+    /*!
+     @brief %Value for simple ISO 8601 times.
+
+     This class is limited to handling simple time strings in the ISO 8601
+     format HHMMSS±HHMM where HHMMSS refers to local hour, minute and
+     seconds and ±HHMM refers to hours and minutes ahead or behind
+     Universal Coordinated Time.
+     */
+    class TimeValue : public Value {
+    public:
+        //! @name Creators
+        //@{
+        //! Default constructor.
+        TimeValue() : Value(time) { memset(&time_, 0, sizeof(time_)); }
+        //! Constructor
+        TimeValue(int hour, int minute, int second =0, 
+                  int tzHour =0, int tzMinute =0);
+
+        //! Virtual destructor.
+        virtual ~TimeValue() {}
+        //@}
+
+        //! Simple Time helper structure
+        struct Time 
+        {
+            int hour;                           //!< Hour
+            int minute;                         //!< Minute
+            int second;                         //!< Second
+            int tzHour;                         //!< Hours ahead or behind UTC
+            int tzMinute;                       //!< Minutes ahead or behind UTC
+        };
+
+        //! @name Manipulators
+        //@{
+        //! Assignment operator.
+        TimeValue& operator=(const TimeValue& rhs);
+        /*!
+          @brief Read the value from a character buffer.
+
+          @note The byte order is required by the interface but not used by this
+                method, so just use the default.
+
+          @param buf Pointer to the data buffer to read from
+          @param len Number of bytes in the data buffer 
+          @param byteOrder Byte order. Not needed.
+         */
+        virtual void read(const byte* buf, 
+                          long len, 
+                          ByteOrder byteOrder =invalidByteOrder);
+        /*!
+          @brief Set the value to that of the string buf. 
+         */
+        virtual void read(const std::string& buf);
+        //! Set the time
+        void setTime(const Time& src);
+        //@}
+
+        //! @name Accessors
+        //@{
+        /*!
+          @brief Write value to a character data buffer.
+
+          The user must ensure that the buffer has enough memory. Otherwise
+          the call results in undefined behaviour.
+
+          @note The byte order is required by the interface but not used by this
+                method, so just use the default.
+
+          @param buf Data buffer to write to.
+          @param byteOrder Byte order. Not used.
+          @return Number of characters written.
+        */
+        virtual long copy(byte* buf, ByteOrder byteOrder =invalidByteOrder) const;
+        //! Return time struct containing time information
+        virtual const Time& getTime() const { return time_; }
+        virtual long count() const { return size(); }
+        virtual long size() const;
+        virtual TimeValue* clone() const;
+        /*! 
+          @brief Write the value to an output stream. .
+        */
+        virtual std::ostream& write(std::ostream& os) const;
+        virtual long toLong(long n =0) const;
+        virtual float toFloat(long n =0) const 
+            { return static_cast<float>(toLong(n)); }
+        virtual Rational toRational(long n =0) const
+            { return Rational(toLong(n), 1); }
+        //@}
+
+    private:
+        Time time_;
+
+    }; // class TimeValue        
     //! Template to determine the TypeId for a type T
     template<typename T> TypeId getType();
 
@@ -358,6 +611,11 @@ namespace Exiv2 {
         //@{
         //! Default constructor.
         ValueType() : Value(getType<T>()) {}
+        //! Constructor
+        ValueType(const byte* buf, long len, ByteOrder byteOrder) 
+            : Value(getType<T>()) { read(buf, len, byteOrder); }
+        //! Constructor
+        ValueType( const T& val, ByteOrder byteOrder =littleEndian);
         //! Virtual destructor.
         virtual ~ValueType() {}
         //@}
@@ -536,6 +794,15 @@ namespace Exiv2 {
     inline long toData(byte* buf, Rational t, ByteOrder byteOrder)
     {
         return r2Data(buf, t, byteOrder);
+    }
+
+    template<typename T>
+    ValueType<T>::ValueType(const T& val, ByteOrder byteOrder)
+        : Value(getType<T>()) 
+    {
+        read(reinterpret_cast<const byte*>(&val), 
+             TypeInfo::typeSize(typeId()), 
+             byteOrder); 
     }
 
     template<typename T>

@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 # Test driver for image file i/o
 
 eraseTest()
@@ -15,6 +15,7 @@ eraseTest()
 
     #check results
     diffCheck $test $good
+    echo -n "."
 }
 
 copyTest()
@@ -33,6 +34,7 @@ copyTest()
 
     #check results
     diffCheck $test $good
+    echo -n "."
 }
 
 iptcTest()
@@ -51,12 +53,13 @@ iptcTest()
 
     #check results
     diffCheck $test $good
+    echo -n "."
 }
 
 
 # Make sure to pass the test file first and the know good file second
-diffCheck() {
-
+diffCheck() 
+{
     test=$1
     good=$2
     
@@ -69,31 +72,31 @@ diffCheck() {
     fi 
 }
 
-test_files=("table.jpg" "smiley1.jpg" "smiley2.jpg")
+test_files="table.jpg smiley1.jpg smiley2.jpg"
 
 let errors=0
 cd ../test
 echo
 
-echo "Erase all tests..."
-foreach i ($test_files); eraseTest $i; end
+echo -n "Erase all tests"
+for i in $test_files; do eraseTest $i; done
 eraseTest "glider.exv" #extra test
 
-echo "Copy all tests..."
+echo -ne "\nCopy all tests"
 let c=0
-foreach src ($test_files)
+for src in $test_files; do
     let ++c
-    foreach dst ($test_files); copyTest $c $src $dst; end
-end
+    for dst in $test_files; do copyTest $c $src $dst; done
+done
 
-echo "Copy iptc tests..."
+echo -ne "\nCopy iptc tests"
 let c=0
-foreach src ($test_files)
+for src in $test_files; do
     let ++c
-    foreach dst ($test_files); iptcTest $c $src $dst; end
-end
+    for dst in $test_files; do iptcTest $c $src $dst; done
+done
 
-echo '---------------------------------------------------------'
+echo -e "\n---------------------------------------------------------"
 if [ $errors -eq 0 ]; then
    echo 'All test cases passed'
 else

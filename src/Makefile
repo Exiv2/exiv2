@@ -51,12 +51,14 @@ include $(top_srcdir)/config.mk
 CCHDR = rcsid.hpp error.hpp
 
 # Add library C++ source files to this list
-CCSRC = canonmn.cpp datasets.cpp exif.cpp fujimn.cpp ifd.cpp image.cpp \
-        makernote.cpp nikonmn.cpp sigmamn.cpp tags.cpp types.cpp value.cpp
+CCSRC = canonmn.cpp datasets.cpp exif.cpp fujimn.cpp ifd.cpp image.cpp iptc.cpp \
+        makernote.cpp metadatum.cpp nikonmn.cpp sigmamn.cpp tags.cpp types.cpp \
+        value.cpp
 
 # Add source files of simple applications to this list
-BINSRC = addmoddel.cpp exifcomment.cpp exifprint.cpp ifd-test.cpp \
-         makernote-test.cpp taglist.cpp write-test.cpp write2-test.cpp 
+BINSRC = addmoddel.cpp exifcomment.cpp exifprint.cpp ifd-test.cpp iptcprint.cpp \
+         iptctest.cpp makernote-test.cpp taglist.cpp write-test.cpp \
+         write2-test.cpp 
 
 # State the main source file of the Exiv2 application here
 EXIV2MAIN = exiv2.cpp

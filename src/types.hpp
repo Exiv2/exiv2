@@ -21,11 +21,12 @@
 /*!
   @file    types.hpp
   @brief   Type definitions for %Exiv2 and related functionality
-  @version $Name:  $ $Revision: 1.17 $
+  @version $Name:  $ $Revision: 1.18 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created<BR>
            11-Feb-04, ahu: isolated as a component
+           31-Jul-04, brad: added Time, Data and String values
  */
 #ifndef TYPES_HPP_
 #define TYPES_HPP_
@@ -76,9 +77,9 @@ namespace Exiv2 {
     enum ByteOrder { invalidByteOrder, littleEndian, bigEndian };
 
     //! Type identifiers for IFD format types
-    enum TypeId { invalidTypeId, unsignedByte, asciiString, unsignedShort, 
-                  unsignedLong, unsignedRational, invalid6, undefined,
-                  signedShort, signedLong, signedRational, string, 
+    enum TypeId { invalidTypeId, unsignedByte, asciiString, string,
+                  unsignedShort, unsignedLong, unsignedRational, invalid6,
+                  undefined, signedShort, signedLong, signedRational, 
                   date, time,
                   lastTypeId };
 

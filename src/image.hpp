@@ -21,7 +21,7 @@
 /*!
   @file    image.hpp
   @brief   Class JpegImage to access JPEG images
-  @version $Name:  $ $Revision: 1.16 $
+  @version $Name:  $ $Revision: 1.17 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @author  Brad Schick (brad) 
@@ -311,9 +311,11 @@ namespace Exiv2 {
                 then that metadata type will be erased from the file.
           @return 0 if successful;<br>
                   1 if reading from the file failed;<BR>
-                  2 if the associated file does not contain a valid image;<BR>
-                  3 if the temporary output file can not be written to;<BR>
-                  4 if renaming the temporary file fails;<br>
+                  2 if the file does not contain a valid image;<BR>
+                  4 if the temporary output file can not be written to;<BR>
+                  -1 if the newly created file could not be reopened;<BR>
+                  -3 if the temporary output file can not be opened;<BR>
+                  -4 if renaming the temporary file fails;<br>
          */
         int writeMetadata();
         void setExifData(const byte* buf, long size);
@@ -368,7 +370,7 @@ namespace Exiv2 {
           @brief Writes the image header (aka signature) to the file stream.
           @param ofp File stream that the header is written to.
           @return 0 if successful;<BR>
-                 3 if the output file can not be written to;<BR>
+                 4 if the output file can not be written to;<BR>
          */
         virtual int writeHeader(FILE* ofp) const =0;
         /*!
@@ -388,7 +390,7 @@ namespace Exiv2 {
                          analyse the stream (true) or left at its original
                          position (false). This applies only if the type matches.
           @return  true  if the stream data matches the type of this class;<BR>
-                   false if the stream data does not match.
+                   false if the stream data does not match;<BR>
          */
         virtual bool isThisType(FILE* ifp, bool advance) const =0;
         //@}
@@ -440,8 +442,8 @@ namespace Exiv2 {
                  IPTC data within the IPTC data block pointed to by record
                  (may not be null).
           @return 0 if successful;<BR>
-                  1 if the pPsData buffer does not contain valid data;<BR>
-                  2 if no IPTC data was found in pPsData;<BR>
+                  3 if no IPTC data was found in pPsData;<BR>
+                  -2 if the pPsData buffer does not contain valid data;<BR>
          */
         int locateIptcData(const byte *pPsData, 
                            long sizePsData,
@@ -453,7 +455,7 @@ namespace Exiv2 {
           @param initData Data to be written to the associated file
           @param dataSize Size in bytes of data to be written
           @return 0 if successful;<BR>
-                  3 if the output file can not be written to;<BR>
+                  4 if the output file can not be written to;<BR>
          */
         int initFile(const byte initData[], size_t dataSize);
         /*!
@@ -463,7 +465,7 @@ namespace Exiv2 {
           @return 0 if successful;<br>
                   1 if reading from associated file failed;<BR>
                   2 if the file does not contain a valid image;<BR>
-                  3 if the temporary output file can not be written to;<BR>
+                  4 if the temporary output file can not be written to;<BR>
          */
         int doWriteMetadata(FILE* ofp) const;
 
@@ -506,7 +508,7 @@ namespace Exiv2 {
           @brief Writes a Jpeg header (aka signature) to the file stream.
           @param ofp File stream that the header is written to.
           @return 0 if successful;<BR>
-                 3 if the output file can not be written to;<BR>
+                 4 if the output file can not be written to;<BR>
          */
         int writeHeader(FILE* ofp) const;
         /*!
@@ -518,7 +520,7 @@ namespace Exiv2 {
                          analyse the stream (true) or left at its original
                          position (false). This applies only if the type matches.
           @return  true  if the file stream data matches a Jpeg image;<BR>
-                   false if the stream data does not match.
+                   false if the stream data does not match;<BR>
          */
         bool isThisType(FILE* ifp, bool advance) const;
         //@}
@@ -575,7 +577,7 @@ namespace Exiv2 {
           @brief Writes an Exv header (aka signature) to the file stream.
           @param ofp File stream that the header is written to.
           @return 0 if successful;<BR>
-                  3 if the output file can not be written to;<BR>
+                  4 if the output file can not be written to;<BR>
          */
         int writeHeader(FILE* ofp) const;
         /*!
@@ -587,7 +589,7 @@ namespace Exiv2 {
                          analyse the stream (true) or left at its original
                          position (false). This applies only if the type matches.
           @return  true  if the file stream data matches a Exv image;<BR>
-                   false if the stream data does not match.
+                   false if the stream data does not match;<BR>
          */
         virtual bool isThisType(FILE* ifp, bool advance) const;
         //@}

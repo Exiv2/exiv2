@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.51 $
+  Version:   $Name:  $ $Revision: 1.52 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.51 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.52 $ $RCSfile: exif.cpp,v $");
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -73,7 +73,7 @@ namespace {
 // class member definitions
 namespace Exiv2 {
 
-    Metadatum::Metadatum(const Entry& e, ByteOrder byteOrder)
+    Exifdatum::Exifdatum(const Entry& e, ByteOrder byteOrder)
         : tag_(e.tag()), ifdId_(e.ifdId()), idx_(e.idx()), 
           pMakerNote_(e.makerNote()), pValue_(0), key_(makeKey(e))
     {
@@ -81,7 +81,7 @@ namespace Exiv2 {
         pValue_->read(e.data(), e.count() * e.typeSize(), byteOrder);
     }
 
-    Metadatum::Metadatum(const std::string& key, 
+    Exifdatum::Exifdatum(const std::string& key, 
                          const Value* value, 
                          MakerNote* makerNote)
         : idx_(0), pMakerNote_(makerNote), pValue_(0), key_(key)
@@ -94,22 +94,23 @@ namespace Exiv2 {
         ifdId_ = p.second;
     }
 
-    Metadatum::~Metadatum()
+    Exifdatum::~Exifdatum()
     {
         delete pValue_;
         // do *not* delete the MakerNote
     }
 
-    Metadatum::Metadatum(const Metadatum& rhs)
-        : tag_(rhs.tag_), ifdId_(rhs.ifdId_), idx_(rhs.idx_),
+    Exifdatum::Exifdatum(const Exifdatum& rhs)
+        : Metadatum(rhs), tag_(rhs.tag_), ifdId_(rhs.ifdId_), idx_(rhs.idx_),
           pMakerNote_(rhs.pMakerNote_), pValue_(0), key_(rhs.key_)
     {
         if (rhs.pValue_ != 0) pValue_ = rhs.pValue_->clone(); // deep copy
     }
 
-    Metadatum& Metadatum::operator=(const Metadatum& rhs)
+    Exifdatum& Exifdatum::operator=(const Exifdatum& rhs)
     {
         if (this == &rhs) return *this;
+        Metadatum::operator=(rhs);
         tag_ = rhs.tag_;
         ifdId_ = rhs.ifdId_;
         idx_ = rhs.idx_;
@@ -119,28 +120,28 @@ namespace Exiv2 {
         if (rhs.pValue_ != 0) pValue_ = rhs.pValue_->clone(); // deep copy
         key_ = rhs.key_;
         return *this;
-    } // Metadatum::operator=
+    } // Exifdatum::operator=
     
-    void Metadatum::setValue(const Value* pValue)
+    void Exifdatum::setValue(const Value* pValue)
     {
         delete pValue_;
         pValue_ = pValue->clone();
     }
 
-    void Metadatum::setValue(const Entry& e, ByteOrder byteOrder)
+    void Exifdatum::setValue(const Entry& e, ByteOrder byteOrder)
     {
         delete pValue_;
         pValue_ = Value::create(TypeId(e.type()));
         pValue_->read(e.data(), e.count() * e.typeSize(), byteOrder);
     }
 
-    void Metadatum::setValue(const std::string& buf)
+    void Exifdatum::setValue(const std::string& buf)
     {
         if (pValue_ == 0) pValue_ = Value::create(asciiString);
         pValue_->read(buf);
     }
 
-    std::string Metadatum::tagName() const
+    std::string Exifdatum::tagName() const
     {
         if (ifdId_ == makerIfd && pMakerNote_ != 0) {
             return pMakerNote_->tagName(tag_);
@@ -148,7 +149,7 @@ namespace Exiv2 {
         return ExifTags::tagName(tag_, ifdId_); 
     }
 
-    std::string Metadatum::sectionName() const 
+    std::string Exifdatum::sectionName() const 
     {
         if (ifdId_ == makerIfd && pMakerNote_ != 0) {
             return pMakerNote_->sectionName(tag_);
@@ -264,7 +265,7 @@ namespace Exiv2 {
                 minOffset = std::min(minOffset, offsets->toLong(k));
             }
             // Update the IFD with the actual strip offsets (replace existing entry)
-            Metadatum newOffsets(*offsets);
+            Exifdatum newOffsets(*offsets);
             newOffsets.setValue(os.str());
             ifd1.erase(0x0111);
             addToIfd(ifd1, newOffsets, tiffHeader.byteOrder());
@@ -319,7 +320,7 @@ namespace Exiv2 {
         if (entry == ifd_.end()) throw Error("Bad thumbnail (0x0111)");
         ExifData::iterator md = exifData.findIfdIdIdx(entry->ifdId(), entry->idx());
         if (md == exifData.end()) {
-            exifData.add(Metadatum(*entry, tiffHeader_.byteOrder()));
+            exifData.add(Exifdatum(*entry, tiffHeader_.byteOrder()));
         }
         else {
             md->setValue(*entry, tiffHeader_.byteOrder());
@@ -329,7 +330,7 @@ namespace Exiv2 {
         if (entry == ifd_.end()) throw Error("Bad thumbnail (0x0117)");
         md = exifData.findIfdIdIdx(entry->ifdId(), entry->idx());
         if (md == exifData.end()) {
-            exifData.add(Metadatum(*entry, tiffHeader_.byteOrder()));
+            exifData.add(Exifdatum(*entry, tiffHeader_.byteOrder()));
         }
         else {
             md->setValue(*entry, tiffHeader_.byteOrder());
@@ -368,7 +369,7 @@ namespace Exiv2 {
             - ifd_.offset() - ifd_.size() - ifd_.dataSize();
         Ifd::const_iterator pos = ifd_.findTag(0x0111);
         if (pos == ifd_.end()) throw Error("Bad thumbnail (0x0111)");
-        Metadatum offsets(*pos, tiffHeader_.byteOrder());
+        Exifdatum offsets(*pos, tiffHeader_.byteOrder());
         std::ostringstream os;
         long minOffset = 0;
         for (long k = 0; k < offsets.count(); ++k) {
@@ -536,8 +537,13 @@ namespace Exiv2 {
         Image* pImage = ImageFactory::instance().open(path);
         if (pImage) {
             int rc = pImage->readMetadata();
-            if (rc == 0 && pImage->sizeExifData() > 0 ) {
-                rc = read(pImage->exifData(), pImage->sizeExifData());
+            if (rc == 0) {
+                if (pImage->sizeExifData() > 0) {
+                    rc = read(pImage->exifData(), pImage->sizeExifData());
+                }
+                else {
+                    rc = 3;
+                }
             }
             delete pImage;
             return rc;
@@ -632,7 +638,7 @@ namespace Exiv2 {
             ret = 7;
         }
         // Copy all entries from the IFDs and the MakerNote to the metadata
-        metadata_.clear();
+        exifMetadata_.clear();
         add(ifd0_.begin(), ifd0_.end(), byteOrder());
         add(exifIfd_.begin(), exifIfd_.end(), byteOrder());
         if (pMakerNote_) {
@@ -872,7 +878,7 @@ namespace Exiv2 {
         assert(actualSize <= buf.size_);
 
         ExvImage exvImage(path, true);
-        if (!exvImage.good()) return -2;
+        if (!exvImage.good()) return -1;
         exvImage.setExifData(buf.pData_, actualSize);
         return exvImage.writeMetadata();
     } // ExifData::writeExifData
@@ -883,64 +889,64 @@ namespace Exiv2 {
     {
         Entries::const_iterator i = begin;
         for (; i != end; ++i) {
-            add(Metadatum(*i, byteOrder));
+            add(Exifdatum(*i, byteOrder));
         }
     }
 
     void ExifData::add(const std::string& key, Value* value)
     {
-        add(Metadatum(key, value));
+        add(Exifdatum(key, value));
     }
 
-    void ExifData::add(const Metadatum& metadatum)
+    void ExifData::add(const Exifdatum& exifdatum)
     {
         // allow duplicates
-        metadata_.push_back(metadatum);
+        exifMetadata_.push_back(exifdatum);
     }
 
     ExifData::const_iterator ExifData::findKey(const std::string& key) const
     {
-        return std::find_if(metadata_.begin(), metadata_.end(),
+        return std::find_if(exifMetadata_.begin(), exifMetadata_.end(),
                             FindMetadatumByKey(key));
     }
 
     ExifData::iterator ExifData::findKey(const std::string& key)
     {
-        return std::find_if(metadata_.begin(), metadata_.end(),
+        return std::find_if(exifMetadata_.begin(), exifMetadata_.end(),
                             FindMetadatumByKey(key));
     }
 
     ExifData::const_iterator ExifData::findIfdIdIdx(IfdId ifdId, int idx) const
     {
-        return std::find_if(metadata_.begin(), metadata_.end(),
+        return std::find_if(exifMetadata_.begin(), exifMetadata_.end(),
                             FindMetadatumByIfdIdIdx(ifdId, idx));
     }
 
     ExifData::iterator ExifData::findIfdIdIdx(IfdId ifdId, int idx)
     {
-        return std::find_if(metadata_.begin(), metadata_.end(),
+        return std::find_if(exifMetadata_.begin(), exifMetadata_.end(),
                             FindMetadatumByIfdIdIdx(ifdId, idx));
     }
 
     void ExifData::sortByKey()
     {
-        std::sort(metadata_.begin(), metadata_.end(), cmpMetadataByKey);
+        std::sort(exifMetadata_.begin(), exifMetadata_.end(), cmpMetadataByKey);
     }
 
     void ExifData::sortByTag()
     {
-        std::sort(metadata_.begin(), metadata_.end(), cmpMetadataByTag);
+        std::sort(exifMetadata_.begin(), exifMetadata_.end(), cmpMetadataByTag);
     }
 
     ExifData::iterator ExifData::erase(ExifData::iterator pos)
     {
-        return metadata_.erase(pos);
+        return exifMetadata_.erase(pos);
     }
 
     long ExifData::eraseThumbnail()
     {
         // Delete all Thumbnail.*.* (IFD1) metadata 
-        Metadata::iterator i = begin(); 
+        ExifMetadata::iterator i = begin(); 
         while (i != end()) {
             if (i->ifdId() == ifd1) {
                 i = erase(i);
@@ -1056,19 +1062,19 @@ namespace Exiv2 {
     {
         bool compatible = true;
         for (Entries::iterator entry = begin; entry != end; ++entry) {
-            // find the corresponding metadatum
+            // find the corresponding Exifdatum
             const_iterator md = findIfdIdIdx(entry->ifdId(), entry->idx());
             if (md == this->end()) {
-                // corresponding metadatum was deleted: this is not (yet) a
+                // corresponding Exifdatum was deleted: this is not (yet) a
                 // supported non-intrusive write operation.
                 compatible = false;
                 continue;
             }
             if (entry->count() == 0 && md->count() == 0) {
                 // Special case: don't do anything if both the entry and 
-                // metadatum have no data. This is to preserve the original
+                // Exifdatum have no data. This is to preserve the original
                 // data in the offset field of an IFD entry with count 0,
-                // if the metadatum was not changed.
+                // if the Exifdatum was not changed.
             }
             else {
                 DataBuf buf(md->size());
@@ -1083,7 +1089,7 @@ namespace Exiv2 {
     bool ExifData::compatible() const
     {
         bool compatible = true;
-        // For each metadatum, check if it is compatible with the corresponding
+        // For each Exifdatum, check if it is compatible with the corresponding
         // IFD or MakerNote entry
         for (const_iterator md = begin(); md != this->end(); ++md) {
             // Skip IFD1 entries if there is no thumbnail (maybe it was deleted)
@@ -1095,7 +1101,7 @@ namespace Exiv2 {
                 compatible = false;
                 break;
             }
-            // Make sure that the size of the metadatum fits the available size
+            // Make sure that the size of the Exifdatum fits the available size
             // of the entry
             if (md->size() > rc.second->size()) {
                 compatible = false;
@@ -1205,11 +1211,11 @@ namespace Exiv2 {
     // free functions
 
     void addToIfd(Ifd& ifd, 
-                  Metadata::const_iterator begin, 
-                  Metadata::const_iterator end, 
+                  ExifMetadata::const_iterator begin, 
+                  ExifMetadata::const_iterator end, 
                   ByteOrder byteOrder)
     {
-        for (Metadata::const_iterator i = begin; i != end; ++i) {
+        for (ExifMetadata::const_iterator i = begin; i != end; ++i) {
             // add only metadata with matching IFD id
             if (i->ifdId() == ifd.ifdId()) {
                 addToIfd(ifd, *i, byteOrder);
@@ -1217,7 +1223,7 @@ namespace Exiv2 {
         }
     } // addToIfd
 
-    void addToIfd(Ifd& ifd, const Metadatum& md, ByteOrder byteOrder)
+    void addToIfd(Ifd& ifd, const Exifdatum& md, ByteOrder byteOrder)
     {
         assert(ifd.alloc());
 
@@ -1234,11 +1240,11 @@ namespace Exiv2 {
     } // addToIfd
 
     void addToMakerNote(MakerNote* makerNote,
-                        Metadata::const_iterator begin,
-                        Metadata::const_iterator end, 
+                        ExifMetadata::const_iterator begin,
+                        ExifMetadata::const_iterator end, 
                         ByteOrder byteOrder)
     {
-        for (Metadata::const_iterator i = begin; i != end; ++i) {
+        for (ExifMetadata::const_iterator i = begin; i != end; ++i) {
             // add only metadata with IFD id 'makerIfd'
             if (i->ifdId() == makerIfd) {
                 addToMakerNote(makerNote, *i, byteOrder);
@@ -1247,7 +1253,7 @@ namespace Exiv2 {
     } // addToMakerNote
 
     void addToMakerNote(MakerNote* makerNote, 
-                        const Metadatum& md, 
+                        const Exifdatum& md, 
                         ByteOrder byteOrder)
     {
         Entry e;
@@ -1263,17 +1269,8 @@ namespace Exiv2 {
         makerNote->add(e);
     } // addToMakerNote
 
-    bool cmpMetadataByTag(const Metadatum& lhs, const Metadatum& rhs)
-    {
-        return lhs.tag() < rhs.tag();
-    }
 
-    bool cmpMetadataByKey(const Metadatum& lhs, const Metadatum& rhs)
-    {
-        return lhs.key() < rhs.key();
-    }
-
-    std::ostream& operator<<(std::ostream& os, const Metadatum& md)
+    std::ostream& operator<<(std::ostream& os, const Exifdatum& md)
     {
         if (md.ifdId() == makerIfd && md.makerNote() != 0) {
             return md.makerNote()->printTag(os, md.tag(), md.value());
