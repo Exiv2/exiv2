@@ -20,13 +20,13 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.14 $
+  Version:   $Name:  $ $Revision: 1.15 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.14 $ $RCSfile: tags.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.15 $ $RCSfile: tags.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -115,7 +115,7 @@ namespace Exif {
         TagInfo(0x010f, "Make", "Manufacturer of image input equipment", ifd0, otherTags, printValue),
         TagInfo(0x0110, "Model", "Model of image input equipment", ifd0, otherTags, printValue),
         TagInfo(0x0111, "StripOffsets", "Image data location", ifd0, recOffset, printValue),
-        TagInfo(0x0112, "Orientation", "Orientation of image", ifd0, imgStruct, printValue),
+        TagInfo(0x0112, "Orientation", "Orientation of image", ifd0, imgStruct, print0x0112),
         TagInfo(0x0115, "SamplesPerPixel", "Number of components", ifd0, imgStruct, printValue),
         TagInfo(0x0116, "RowsPerStrip", "Number of rows per strip", ifd0, recOffset, printValue),
         TagInfo(0x0117, "StripByteCounts", "Bytes per compressed strip", ifd0, recOffset, printValue),
@@ -492,8 +492,8 @@ namespace Exif {
     {
         long unit = value.toLong();
         switch (unit) {
-        case 2:  os << "Inch"; break;
-        case 3:  os << "Centimeter"; break;
+        case 2:  os << "inch"; break;
+        case 3:  os << "cm"; break;
         default: os << unit; break;
         }
         return os;
@@ -517,6 +517,23 @@ namespace Exif {
         case 2:  os << "RGB"; break;
         case 6:  os << "YCbCr"; break;
         default: os << photo; break;
+        }
+        return os;
+    }
+
+    std::ostream& print0x0112(std::ostream& os, const Value& value)
+    {
+        long orientation = value.toLong();
+        switch (orientation) {
+        case 1:  os << "top, left"; break;
+        case 2:  os << "top, right"; break;
+        case 3:  os << "bottom, right"; break;
+        case 4:  os << "bottom, left"; break;
+        case 5:  os << "left, top"; break;
+        case 6:  os << "right, top"; break;
+        case 7:  os << "right, bottom"; break;
+        case 8:  os << "left, bottom"; break;
+        default: os << orientation; break;
         }
         return os;
     }
@@ -637,7 +654,7 @@ namespace Exif {
         switch (mode) {
         case 0:  os << "Unknown"; break;
         case 1:  os << "Average"; break;
-        case 2:  os << "Center weighted average"; break;
+        case 2:  os << "Center weighted"; break;
         case 3:  os << "Spot"; break;
         case 4:  os << "Multispot"; break;
         case 5:  os << "Pattern"; break;
