@@ -21,7 +21,7 @@
 /*!
   @file    ifd.hpp
   @brief   Encoding and decoding of IFD (Image File Directory) data
-  @version $Name:  $ $Revision: 1.16 $
+  @version $Name:  $ $Revision: 1.17 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -310,6 +310,7 @@ namespace Exiv2 {
 
           @param buf Pointer to the data to decode. The buffer must start with the 
                  IFD data (unlike the readSubIfd() method).
+          @param len Number of bytes in the data buffer 
           @param byteOrder Applicable byte order (little or big endian).
           @param offset (Optional) offset of the IFD from the start of the TIFF
                  header, if known. If not given, the offset will be guessed
@@ -317,9 +318,12 @@ namespace Exiv2 {
                  directory entries points to a data buffer immediately follwing
                  the IFD.
 
-          @return 0 if successful
+          @return 0 if successful;<BR>
+                  6 if the data buffer is too small, e.g., if an offset points 
+                    beyond the provided buffer. The IFD is cleared in this 
+                    case.
          */
-        int read(const char* buf, ByteOrder byteOrder, long offset =0);
+        int read(const char* buf, long len, ByteOrder byteOrder, long offset =0);
         /*!
           @brief Read a sub-IFD from the location pointed to by the directory entry 
                  with the given tag.
@@ -327,13 +331,20 @@ namespace Exiv2 {
           @param dest References the destination IFD.
           @param buf The data buffer to read from. The buffer must contain all Exif 
                      data starting from the TIFF header (unlike the read() method).
+          @param len Number of bytes in the data buffer 
           @param byteOrder Applicable byte order (little or big endian).
           @param tag Tag to look for.
 
-          @return 0 if successful
+          @return 0 if successful;<BR>
+                  6 if reading the sub-IFD failed (see read() above) or
+                    the location pointed to by the directory entry with the 
+                    given tag is outside of the data buffer.
+
+          @note It is not considered an error if the tag cannot be found in the 
+                IFD. 0 is returned and no action is taken in this case.
         */
         int readSubIfd(
-            Ifd& dest, const char* buf, ByteOrder byteOrder, uint16 tag
+            Ifd& dest, const char* buf, long len, ByteOrder byteOrder, uint16 tag
         ) const;
         /*!
           @brief Copy the IFD to a data array, update the offsets of the IFD and

@@ -20,14 +20,14 @@
  */
 /*
   File:      ifd.cpp
-  Version:   $Name:  $ $Revision: 1.17 $
+  Version:   $Name:  $ $Revision: 1.18 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.17 $ $RCSfile: ifd.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.18 $ $RCSfile: ifd.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -197,40 +197,54 @@ namespace Exiv2 {
         }
     }
 
-    int Ifd::read(const char* buf, ByteOrder byteOrder, long offset)
+    int Ifd::read(const char* buf, long len, ByteOrder byteOrder, long offset)
     {
-        offset_ = offset;
-
+        int rc = 0;
+        long o = 0;
         Ifd::PreEntries preEntries;
 
-        int n = getUShort(buf, byteOrder);
-        long o = 2;
+        if (len < 2) rc = 6;
+        if (rc == 0) {
+            offset_ = offset;
+            int n = getUShort(buf, byteOrder);
+            o = 2;
 
-        for (int i = 0; i < n; ++i) {
-            Ifd::PreEntry pe;
-            pe.tag_ = getUShort(buf+o, byteOrder);
-            pe.type_ = getUShort(buf+o+2, byteOrder);
-            pe.count_ = getULong(buf+o+4, byteOrder);
-            pe.size_ = pe.count_ * TypeInfo::typeSize(TypeId(pe.type_));
-            pe.offsetLoc_ = o + 8;
-            pe.offset_ = pe.size_ > 4 ? getULong(buf+o+8, byteOrder) : 0;
-            preEntries.push_back(pe);
-            o += 12;
+            for (int i = 0; i < n; ++i) {
+                if (len < o + 12) {
+                    rc = 6;
+                    break;
+                }
+                Ifd::PreEntry pe;
+                pe.tag_ = getUShort(buf + o, byteOrder);
+                pe.type_ = getUShort(buf + o + 2, byteOrder);
+                pe.count_ = getULong(buf + o + 4, byteOrder);
+                pe.size_ = pe.count_ * TypeInfo::typeSize(TypeId(pe.type_));
+                pe.offsetLoc_ = o + 8;
+                pe.offset_ = pe.size_ > 4 ? getULong(buf + o + 8, byteOrder) : 0;
+                preEntries.push_back(pe);
+                o += 12;
+            }
         }
-        if (alloc_) {
-            memcpy(pNext_, buf + o, 4);
+        if (rc == 0) {
+            if (len < o + 4) {
+                rc = 6;
+            }
+            else {
+                if (alloc_) {
+                    memcpy(pNext_, buf + o, 4);
+                }
+                else {
+                    pNext_ = const_cast<char*>(buf + o);
+                }
+                next_ = getULong(buf + o, byteOrder);
+            }
         }
-        else {
-            pNext_ = const_cast<char*>(buf + o);
-        }
-        next_ = getULong(buf+o, byteOrder);
-
         // Set the offset of the first data entry outside of the IFD.
         // At the same time we guess the offset of the IFD, if it was not
         // given. The guess is based on the assumption that the smallest offset
         // points to a data buffer directly following the IFD. Subsequently all
         // offsets of IFD entries will need to be recalculated.
-        if (preEntries.size() > 0) {
+        if (rc == 0 && preEntries.size() > 0) {
             // Find the entry with the smallest offset
             Ifd::PreEntries::const_iterator i = std::min_element(
                 preEntries.begin(), preEntries.end(), cmpPreEntriesByOffset);
@@ -242,31 +256,42 @@ namespace Exiv2 {
                     offset_ = i->offset_ - size();
                 }
                 // Set the offset of the first data entry outside of the IFD
-                dataOffset_ = i->offset_;
+                if (static_cast<unsigned long>(len) < i->offset_ - offset_) {
+                    rc = 6;
+                }
+                else {
+                    dataOffset_ = i->offset_;
+                }
             }
         }
-
         // Convert the pre-IFD entries to the actual entries, assign the data
         // to each IFD entry and calculate relative offsets, relative to the
         // start of the IFD
-        entries_.clear();
-        int idx = 0;
-        const Ifd::PreEntries::iterator begin = preEntries.begin();
-        const Ifd::PreEntries::iterator end = preEntries.end();
-        for (Ifd::PreEntries::iterator i = begin; i != end; ++i) {
-            Entry e(alloc_);
-            e.setIfdId(ifdId_);
-            e.setIdx(++idx);
-            e.setTag(i->tag_);
-            // Set the offset to the data, relative to start of IFD
-            e.setOffset(i->size_ > 4 ? i->offset_ - offset_ : i->offsetLoc_);
-            // Set the size to at least for bytes to accomodate offset-data
-            e.setValue(i->type_, i->count_, buf + e.offset(), 
-                       std::max(long(4), i->size_));
-            this->add(e);
+        if (rc == 0) {
+            entries_.clear();
+            int idx = 0;
+            const Ifd::PreEntries::iterator begin = preEntries.begin();
+            const Ifd::PreEntries::iterator end = preEntries.end();
+            for (Ifd::PreEntries::iterator i = begin; i != end; ++i) {
+                Entry e(alloc_);
+                e.setIfdId(ifdId_);
+                e.setIdx(++idx);
+                e.setTag(i->tag_);
+                // Set the offset to the data, relative to start of IFD
+                e.setOffset(i->size_ > 4 ? i->offset_ - offset_ : i->offsetLoc_);
+                if (static_cast<unsigned long>(len) < e.offset() + i->size_) {
+                    rc = 6;
+                    break;
+                }
+                // Set the size to at least for bytes to accomodate offset-data
+                e.setValue(i->type_, i->count_, buf + e.offset(), 
+                           std::max(long(4), i->size_));
+                this->add(e);
+            }
         }
+        if (rc) this->clear();
 
-        return 0;
+        return rc;
     } // Ifd::read
 
     Ifd::const_iterator Ifd::findIdx(int idx) const 
@@ -299,14 +324,19 @@ namespace Exiv2 {
     }
 
     int Ifd::readSubIfd(
-        Ifd& dest, const char* buf, ByteOrder byteOrder, uint16 tag
+        Ifd& dest, const char* buf, long len, ByteOrder byteOrder, uint16 tag
     ) const
     {
         int rc = 0;
         const_iterator pos = findTag(tag);
         if (pos != entries_.end()) {
-            uint32 offset = getULong(pos->data(), byteOrder);
-            rc = dest.read(buf + offset, byteOrder, offset);
+            long offset = getULong(pos->data(), byteOrder);
+            if (len < offset) {
+                rc = 6;
+            }
+            else {
+                rc = dest.read(buf + offset, len - offset, byteOrder, offset);
+            }
         }
         return rc;
     } // Ifd::readSubIfd
@@ -371,6 +401,7 @@ namespace Exiv2 {
         else {
             pNext_ = 0;
         }
+        next_ = 0;
         offset_ = 0;
         dataOffset_ = 0;
     } // Ifd::clear
