@@ -20,13 +20,13 @@
  */
 /*
   File:      makernote.cpp
-  Version:   $Name:  $ $Revision: 1.20 $
+  Version:   $Name:  $ $Revision: 1.21 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Feb-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.20 $ $RCSfile: makernote.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.21 $ $RCSfile: makernote.cpp,v $")
 
 // Define DEBUG_* to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -306,7 +306,11 @@ namespace Exiv2 {
 
     MakerNote* MakerNoteFactory::create(const std::string& make, 
                                         const std::string& model,
-                                        bool alloc) const
+                                        bool alloc,    
+                                        const char* buf, 
+                                        long len, 
+                                        ByteOrder byteOrder, 
+                                        long offset) const
     {
 #ifdef DEBUG_REGISTRY
         std::cerr << "Entering MakerNoteFactory::create(\"" 
@@ -361,7 +365,7 @@ namespace Exiv2 {
         std::cerr << "Best match is \"" << modelMatch << "\".\n";
 #endif
 
-        return createMakerNote(alloc);
+        return createMakerNote(alloc, buf, len, byteOrder, offset);
     } // MakerNoteFactory::create
 
     int MakerNoteFactory::match(const std::string& regEntry,

@@ -20,7 +20,7 @@
  */
 /*
   File:      sigmamn.cpp
-  Version:   $Name:  $ $Revision: 1.5 $
+  Version:   $Name:  $ $Revision: 1.6 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   02-Apr-04, ahu: created
   Credits:   Sigma and Foveon MakerNote implemented according to the specification
@@ -29,7 +29,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.5 $ $RCSfile: sigmamn.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: sigmamn.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -187,7 +187,11 @@ namespace Exiv2 {
 // *****************************************************************************
 // free functions
 
-    MakerNote* createSigmaMakerNote(bool alloc)
+    MakerNote* createSigmaMakerNote(bool alloc,
+                                    const char* buf, 
+                                    long len, 
+                                    ByteOrder byteOrder, 
+                                    long offset)
     {
         return new SigmaMakerNote(alloc);
     }
