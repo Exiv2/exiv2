@@ -20,7 +20,7 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.19 $
+  Version:   $Name:  $ $Revision: 1.20 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
              Brad Schick (brad) <schick@robotbattle.com>
   History:   26-Jan-04, ahu: created
@@ -29,7 +29,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.19 $ $RCSfile: image.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.20 $ $RCSfile: image.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -149,9 +149,10 @@ namespace Exiv2 {
     const char JpegBase::ps3Id_[]  = "Photoshop 3.0\0";
     const char JpegBase::bimId_[]  = "8BIM";
 
-    JpegBase::JpegBase(const std::string& path, const bool create, 
-        const byte initData[], const size_t dataSize) : fp_(0), path_(path), 
-        sizeExifData_(0), pExifData_(0), sizeIptcData_(0), pIptcData_(0)
+    JpegBase::JpegBase(const std::string& path, bool create, 
+                       const byte initData[], size_t dataSize) 
+        : fp_(0), path_(path), 
+          sizeExifData_(0), pExifData_(0), sizeIptcData_(0), pIptcData_(0)
     {
         if (create) {
             fp_ = fopen(path.c_str(), "w+b");
@@ -169,7 +170,7 @@ namespace Exiv2 {
         assert(fp_);
     }
 
-    int JpegBase::initFile(const byte initData[], const size_t dataSize)
+    int JpegBase::initFile(const byte initData[], size_t dataSize)
     {
         if (!fp_ || ferror(fp_)) return 3;
         if (fwrite(initData, 1, dataSize, fp_) != dataSize) {
@@ -669,7 +670,7 @@ namespace Exiv2 {
         0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xFF,0xDA,0x00,0x0C,0x03,0x01,0x00,0x02,
         0x11,0x03,0x11,0x00,0x3F,0x00,0xA0,0x00,0x0F,0xFF,0xD9 };
 
-    JpegImage::JpegImage(const std::string& path, const bool create) 
+    JpegImage::JpegImage(const std::string& path, bool create) 
         : JpegBase(path, create, blank_, sizeof(blank_))
     {
     }
@@ -724,7 +725,7 @@ namespace Exiv2 {
     const char ExvImage::exiv2Id_[] = "Exiv2";
     const byte ExvImage::blank_[] = { 0xff,0x01,'E','x','i','v','2',0xff,0xd9 };
 
-    ExvImage::ExvImage(const std::string& path, const bool create) 
+    ExvImage::ExvImage(const std::string& path, bool create) 
         : JpegBase(path, create, blank_, sizeof(blank_))
     {
     }
@@ -776,8 +777,6 @@ namespace Exiv2 {
         if (!advance || !result ) fseek(ifp, -7, SEEK_CUR);
         return result;
     }
-
-
 
     TiffHeader::TiffHeader(ByteOrder byteOrder) 
         : byteOrder_(byteOrder), tag_(0x002a), offset_(0x00000008)

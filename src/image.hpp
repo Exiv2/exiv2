@@ -21,7 +21,7 @@
 /*!
   @file    image.hpp
   @brief   Class JpegImage to access JPEG images
-  @version $Name:  $ $Revision: 1.14 $
+  @version $Name:  $ $Revision: 1.15 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @author  Brad Schick (brad) 
@@ -75,7 +75,7 @@ namespace Exiv2 {
         /*!
           @brief Read metadata from assigned image file into internal 
                  buffers.
-          @return 0 if successful.         
+          @return 0 if successful.
          */
         virtual int readMetadata() =0;
         /*!
@@ -112,7 +112,7 @@ namespace Exiv2 {
                  buffer and is not written until writeMetadata is called.
           @param comment String containing comment.
          */
-        virtual void setComment(const std::string &comment) =0;
+        virtual void setComment(const std::string& comment) =0;
         /*!
           @brief Erase any buffered comment. Comment is not removed
                  from the actual file until writeMetadata is called.
@@ -320,7 +320,7 @@ namespace Exiv2 {
         void clearExifData();
         void setIptcData(const byte* buf, long size);
         void clearIptcData();
-        void setComment(const std::string &comment);
+        void setComment(const std::string& comment);
         void clearComment();
         void setMetadata(const Image& image);
         void clearMetadata();
@@ -359,8 +359,8 @@ namespace Exiv2 {
                  valid image of the calling subclass.
           @param dataSize Size of initData in bytes.
          */
-        JpegBase(const std::string& path, const bool create,
-                 const byte initData[], const size_t dataSize);
+        JpegBase(const std::string& path, bool create,
+                 const byte initData[], size_t dataSize);
         //@}
         //! @name Accessors
         //@{
@@ -455,7 +455,7 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
                   3 if the output file can not be written to;<BR>
          */
-        int initFile(const byte initData[], const size_t dataSize);
+        int initFile(const byte initData[], size_t dataSize);
         /*!
           @brief Provides the main implementation of writeMetadata by 
                 writing all buffered metadata to associated file. 
@@ -495,7 +495,7 @@ namespace Exiv2 {
           @param create Specifies if an existing file should be opened (false)
                  or if a new file should be created (true).
          */
-        JpegImage(const std::string& path, const bool create);
+        JpegImage(const std::string& path, bool create);
         //! Destructor
         ~JpegImage() {}
         //@}
@@ -564,7 +564,7 @@ namespace Exiv2 {
           @param create Specifies if an existing file should be opened (false)
                  or if a new file should be created (true).
          */
-        ExvImage(const std::string& path, const bool create);
+        ExvImage(const std::string& path, bool create);
         //! Destructor
         ~ExvImage() {}
         //@}
