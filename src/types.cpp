@@ -20,14 +20,14 @@
  */
 /*
   File:      types.cpp
-  Version:   $Name:  $ $Revision: 1.8 $
+  Version:   $Name:  $ $Revision: 1.9 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.8 $ $RCSfile: types.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.9 $ $RCSfile: types.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -138,12 +138,12 @@ namespace Exiv2 {
     long us2Data(char* buf, uint16 s, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
-            buf[0] =  s & 0x00ff;
-            buf[1] = (s & 0xff00) >> 8;
+            buf[0] =  (char)(s & 0x00ff);
+            buf[1] = (char)((s & 0xff00) >> 8);
         }
         else {
-            buf[0] = (s & 0xff00) >> 8;
-            buf[1] =  s & 0x00ff;
+            buf[0] = (char)((s & 0xff00) >> 8);
+            buf[1] =  (char)(s & 0x00ff);
         }
         return 2;
     }
@@ -151,16 +151,16 @@ namespace Exiv2 {
     long ul2Data(char* buf, uint32 l, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
-            buf[0] =  l & 0x000000ff;
-            buf[1] = (l & 0x0000ff00) >> 8;
-            buf[2] = (l & 0x00ff0000) >> 16;
-            buf[3] = (l & 0xff000000) >> 24;
+            buf[0] =  (char)(l & 0x000000ff);
+            buf[1] = (char)((l & 0x0000ff00) >> 8);
+            buf[2] = (char)((l & 0x00ff0000) >> 16);
+            buf[3] = (char)((l & 0xff000000) >> 24);
         }
         else {
-            buf[0] = (l & 0xff000000) >> 24;
-            buf[1] = (l & 0x00ff0000) >> 16;
-            buf[2] = (l & 0x0000ff00) >> 8;
-            buf[3] =  l & 0x000000ff;
+            buf[0] = (char)((l & 0xff000000) >> 24);
+            buf[1] = (char)((l & 0x00ff0000) >> 16);
+            buf[2] = (char)((l & 0x0000ff00) >> 8);
+            buf[3] =  (char)(l & 0x000000ff);
         }
         return 4;
     }
@@ -175,12 +175,12 @@ namespace Exiv2 {
     long s2Data(char* buf, int16 s, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
-            buf[0] =  s & 0x00ff;
-            buf[1] = (s & 0xff00) >> 8;
+            buf[0] =  (char)(s & 0x00ff);
+            buf[1] = (char)((s & 0xff00) >> 8);
         }
         else {
-            buf[0] = (s & 0xff00) >> 8;
-            buf[1] =  s & 0x00ff;
+            buf[0] = (char)((s & 0xff00) >> 8);
+            buf[1] =  (char)(s & 0x00ff);
         }
         return 2;
     }
@@ -188,16 +188,16 @@ namespace Exiv2 {
     long l2Data(char* buf, int32 l, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
-            buf[0] =  l & 0x000000ff;
-            buf[1] = (l & 0x0000ff00) >> 8;
-            buf[2] = (l & 0x00ff0000) >> 16;
-            buf[3] = (l & 0xff000000) >> 24;
+            buf[0] =  (char)(l & 0x000000ff);
+            buf[1] = (char)((l & 0x0000ff00) >> 8);
+            buf[2] = (char)((l & 0x00ff0000) >> 16);
+            buf[3] = (char)((l & 0xff000000) >> 24);
         }
         else {
-            buf[0] = (l & 0xff000000) >> 24;
-            buf[1] = (l & 0x00ff0000) >> 16;
-            buf[2] = (l & 0x0000ff00) >> 8;
-            buf[3] =  l & 0x000000ff;
+            buf[0] = (char)((l & 0xff000000) >> 24);
+            buf[1] = (char)((l & 0x00ff0000) >> 16);
+            buf[2] = (char)((l & 0x0000ff00) >> 8);
+            buf[3] =  (char)(l & 0x000000ff);
         }
         return 4;
     }
