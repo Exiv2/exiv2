@@ -21,7 +21,7 @@
 /*!
   @file    image.hpp
   @brief   Class JpegImage to access JPEG images
-  @version $Name:  $ $Revision: 1.21 $
+  @version $Name:  $ $Revision: 1.22 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @author  Brad Schick (brad) 
@@ -219,8 +219,8 @@ namespace Exiv2 {
                   file.
           @param  path %Image file. The contents of the file are tested to
                   determine the image type to open. File extension is ignored.
-          @return A pointer that owns an %Image of the type derived from the
-                  file. If no image type could be determined, the pointer is 0.
+          @return An auto-pointer that owns an %Image of the type derived from
+                  the file. If no image type could be determined, the pointer is 0.
          */
         Image::AutoPtr open(const std::string& path) const;
         /*!
