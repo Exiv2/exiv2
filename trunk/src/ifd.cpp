@@ -20,14 +20,14 @@
  */
 /*
   File:      ifd.cpp
-  Version:   $Name:  $ $Revision: 1.10 $
+  Version:   $Name:  $ $Revision: 1.11 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.10 $ $RCSfile: ifd.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.11 $ $RCSfile: ifd.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -104,51 +104,56 @@ namespace Exif {
 
     void Entry::setValue(uint32 data, ByteOrder byteOrder)
     {
-        if (data_ == 0) {
+        if (data_ == 0 || size_ < 4) {
             if (!alloc_) {
-                throw Error("Invariant alloc violated in Entry::setValue");
+                throw Error("cannot allocate memory");
             }
-            data_ = new char[4];
+            size_ = 4;
+            delete[] data_;
+            data_ = new char[size_];
         }
-        // No need to resize previously allocated memory
         ul2Data(data_, data, byteOrder);
-        size_ = 4;
+        // do not change size_
         type_ = unsignedLong;
         count_ = 1;
     }
 
     void Entry::setValue(uint16 type, uint32 count, const char* data, long size)
     {
-        // Make sure size is always at least four bytes
-        long newSize = std::max(long(4), size); 
+        long dataSize = count * TypeInfo::typeSize(TypeId(type_));
+        // No minimum size requirement, but make sure the buffer can hold the data
+        if (size < dataSize) {
+            throw Error("Size too small");
+        }
         if (alloc_) {
             delete[] data_;
-            data_ = new char[newSize];
-            memset(data_, 0x0, 4);
-            memcpy(data_, data, size);
+            data_ = new char[size];
+            memset(data_, 0x0, size);
+            memcpy(data_, data, dataSize);
+            size_ = size;
         }
         else {
             if (size_ == 0) {
                 // Set the data pointer of a virgin entry
-                if (size < 4) throw Error("Size too small");
                 data_ = const_cast<char*>(data);
+                size_ = size;
             }
             else {
                 // Overwrite existing data if it fits into the buffer
-                if (newSize > size_) throw Error("Size too large");
-                memset(data_, 0x0, std::max(long(4), size_));
-                memcpy(data_, data, size);
+                if (dataSize > size_) throw Error("Value too large");
+                memset(data_, 0x0, size_);
+                memcpy(data_, data, dataSize);
+                // do not change size_
             }
         }
         type_ = type;
         count_ = count;
-        size_ = newSize;
     } // Entry::setValue
 
     const char* Entry::component(uint32 n) const
     {
         if (n >= count()) return 0;
-        return data_ + n * typeSize();
+        return data() + n * typeSize();
     } // Entry::component
 
     Ifd::Ifd(IfdId ifdId)
@@ -173,7 +178,7 @@ namespace Exif {
         Ifd::PreEntries preEntries;
 
         int n = getUShort(buf, byteOrder);
-        long o = 2;        
+        long o = 2;
 
         for (int i = 0; i < n; ++i) {
             Ifd::PreEntry pe;
@@ -217,6 +222,7 @@ namespace Exif {
             e.setTag(i->tag_);
             // Set the offset to the data, relative to start of IFD
             e.setOffset(i->size_ > 4 ? i->offset_ - offset_ : i->offsetLoc_);
+            // Set the size to at least for bytes to accomodate offset-data
             e.setValue(i->type_, i->count_, buf + e.offset(), 
                        std::max(long(4), i->size_));
             this->add(e);
@@ -281,24 +287,25 @@ namespace Exif {
         const iterator e = entries_.end();
         iterator i = b;
         for (; i != e; ++i) {
-            us2Data(buf+o, i->tag(), byteOrder);
-            us2Data(buf+o+2, i->type(), byteOrder);
-            ul2Data(buf+o+4, i->count(), byteOrder);
+            us2Data(buf + o, i->tag(), byteOrder);
+            us2Data(buf + o + 2, i->type(), byteOrder);
+            ul2Data(buf + o + 4, i->count(), byteOrder);
             if (i->size() > 4) {
                 // Set the offset of the entry, data immediately follows the IFD
                 i->setOffset(size() + dataSize);
-                ul2Data(buf+o+8, offset_ + i->offset(), byteOrder);
+                ul2Data(buf + o + 8, offset_ + i->offset(), byteOrder);
                 dataSize += i->size();
             }
             else {
                 // Copy data into the offset field
-                memcpy(buf+o+8, i->data(), 4);
+                memset(buf + o + 8, 0x0, 4);
+                memcpy(buf + o + 8, i->data(), i->size());
             }
             o += 12;
         }
 
         // Add the offset to the next IFD to the data buffer
-        o += ul2Data(buf+o, next_, byteOrder);
+        o += ul2Data(buf + o, next_, byteOrder);
 
         // Add the data of all IFD entries to the data buffer
         for (i = b; i != e; ++i) {
@@ -322,10 +329,10 @@ namespace Exif {
     {
         // Todo: Implement Assert (Stroustup 24.3.7.2)
         if (alloc_ != entry.alloc()) {
-            throw Error("Invariant alloc violated in Ifd::add");
+            throw Error("Ifd::add : alloc mismatch");
         }
         if (ifdId_ != entry.ifdId()) {
-            throw Error("Invariant ifdId violated in Ifd::add");
+            throw Error("Ifd::add : ifdId mismatch");
         }
         // allow duplicates
         entries_.push_back(entry);
@@ -387,14 +394,10 @@ namespace Exif {
             }
             else {
                 unsigned char* data = (unsigned char*)i->data();
-                offset << std::setw(2) << std::setfill('0') << std::hex
-                       << (int)data[0] << " "
-                       << std::setw(2) << std::setfill('0') << std::hex
-                       << (int)data[1] << " "
-                       << std::setw(2) << std::setfill('0') << std::hex
-                       << (int)data[2] << " "
-                       << std::setw(2) << std::setfill('0') << std::hex
-                       << (int)data[3] << " ";
+                for (int k = 0; k < i->size(); ++k) {
+                    offset << std::setw(2) << std::setfill('0') << std::hex
+                           << (int)data[k] << " ";
+                }
             }
             os << prefix << std::setw(5) << std::setfill(' ') << std::dec
                << std::right << i - b
