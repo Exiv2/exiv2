@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.3 $
+  Version:   $Name:  $ $Revision: 1.4 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -344,19 +344,17 @@ namespace {
 
     std::string time2Str(time_t time)
     {
-        struct tm tm;
-        ::memset(&tm, 0x0, sizeof(struct tm));
-
-        if (0 == ::localtime_r(&time, &tm)) return "";
+        struct tm* tm = localtime(&time);
+        if (0 == tm) return "";
 
         std::ostringstream os;
         os << std::setfill('0') 
-           << tm.tm_year + 1900 << ":"
-           << std::setw(2) << tm.tm_mon + 1 << ":"
-           << std::setw(2) << tm.tm_mday << " "
-           << std::setw(2) << tm.tm_hour << ":"
-           << std::setw(2) << tm.tm_min << ":"
-           << std::setw(2) << tm.tm_sec;
+           << tm->tm_year + 1900 << ":"
+           << std::setw(2) << tm->tm_mon + 1 << ":"
+           << std::setw(2) << tm->tm_mday << " "
+           << std::setw(2) << tm->tm_hour << ":"
+           << std::setw(2) << tm->tm_min << ":"
+           << std::setw(2) << tm->tm_sec;
 
         return os.str();
     } // time2Str
