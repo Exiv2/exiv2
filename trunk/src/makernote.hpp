@@ -22,7 +22,7 @@
   @file    makernote.hpp
   @brief   Contains the %Exif %MakerNote interface, IFD %MakerNote and a 
            MakerNote factory
-  @version $Name:  $ $Revision: 1.9 $
+  @version $Name:  $ $Revision: 1.10 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -220,9 +220,6 @@ namespace Exif {
 
     /*!
       @brief Interface for MakerNotes in IFD format. See MakerNote.
-
-      Todo: Allow for a 'prefix' before the IFD (OLYMP, etc)
-            Cater for offsets from start of TIFF header as well as relative to Mn
      */
     class IfdMakerNote : public MakerNote {
     public:
