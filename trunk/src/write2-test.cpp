@@ -10,6 +10,7 @@
  */
 // *****************************************************************************
 // included header files
+#include "image.hpp"
 #include "exif.hpp"
 #include <iostream>
 #include <iomanip>
@@ -150,22 +151,37 @@ catch (Exiv2::Error& e) {
 
 void write(const std::string& file, Exiv2::ExifData& ed)
 {
-    int rc = ed.write(file);
+    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(file);
+    if (image.get() == 0) {
+        std::string error(file);
+        error += " : Could not read file or unknown image type";
+        throw Exiv2::Error(error);
+    }
+
+    image->setExifData(ed);
+    int rc = image->writeMetadata();
     if (rc) {
-        std::string error = Exiv2::ExifData::strError(rc, file);
+        std::string error = Exiv2::Image::strError(rc, file);
         throw Exiv2::Error(error);
     }
 }
 
 void print(const std::string& file)
 {
-    Exiv2::ExifData ed;
-    int rc = ed.read(file);
-    if (rc) {
-        std::string error = Exiv2::ExifData::strError(rc, file);
+    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(file);
+    if (image.get() == 0) {
+        std::string error(file);
+        error += " : Could not read file or unknown image type";
         throw Exiv2::Error(error);
     }
 
+    int rc = image->readMetadata();
+    if (rc) {
+        std::string error = Exiv2::Image::strError(rc, file);
+        throw Exiv2::Error(error);
+    }
+
+    Exiv2::ExifData &ed = image->exifData();
     Exiv2::ExifData::const_iterator end = ed.end();
     for (Exiv2::ExifData::const_iterator i = ed.begin(); i != end; ++i) {
         std::cout << std::setw(45) << std::setfill(' ') << std::left

@@ -3,6 +3,7 @@
 // The quickest way to access, set or modify Iptc metadata.
 
 #include "iptc.hpp"
+#include "image.hpp"
 #include <iostream>
 #include <iomanip>
 
@@ -31,7 +32,24 @@ try {
 
     std::cout << "Time sent: " << iptcData["Iptc.Envelope.TimeSent"] << "\n";
 
-    return iptcData.write(file);             // Write IPTC data to file and exit
+    // Open image file
+    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(file);
+    if (image.get() == 0) {
+        std::string error(file);
+        error += " : Could not read file or unknown image type";
+        throw Exiv2::Error(error);
+    }
+
+    // Read existing metdata (so that exif will be preserved)
+    int rc = image->readMetadata();
+    if (rc) {
+        std::string error = Exiv2::Image::strError(rc, file);
+        throw Exiv2::Error(error);
+    }
+
+    // Replace Iptc data and write it back to the file
+    image->setIptcData(iptcData);
+    return image->writeMetadata();
 }
 catch (Exiv2::Error& e) {
     std::cout << "Caught Exiv2 exception '" << e << "'\n";

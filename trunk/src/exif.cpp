@@ -36,11 +36,12 @@ EXIV2_RCSID("@(#) $Id$");
 // included header files
 #include "exif.hpp"
 #include "types.hpp"
+#include "basicio.hpp"
 #include "error.hpp"
 #include "value.hpp"
 #include "ifd.hpp"
 #include "tags.hpp"
-#include "image.hpp"
+#include "jpgimage.hpp"
 #include "makernote.hpp"
 
 // + standard includes
@@ -355,28 +356,7 @@ namespace Exiv2 {
         return *pos;
     }
 
-    int ExifData::read(const std::string& path)
-    {
-        if (!fileExists(path, true)) return -1;
-        Image::AutoPtr image = ImageFactory::instance().open(path);
-        if (image.get() == 0) {
-            // We don't know this type of file
-            return -2;
-        }
-
-        int rc = image->readMetadata();
-        if (rc == 0) {
-            if (image->sizeExifData() > 0) {
-                rc = read(image->exifData(), image->sizeExifData());
-            }
-            else {
-                rc = 3;
-            }
-        }
-        return rc;
-    }
-
-    int ExifData::read(const byte* buf, long len)
+    int ExifData::load(const byte* buf, long len)
     {
         // Copy the data buffer
         delete[] pData_;
@@ -476,38 +456,6 @@ namespace Exiv2 {
         return ret;
     } // ExifData::read
 
-    int ExifData::erase(const std::string& path) const
-    {
-        if (!fileExists(path, true)) return -1;
-        Image::AutoPtr image = ImageFactory::instance().open(path);
-        if (image.get() == 0) return -2;
-
-        // Read all metadata then erase only Exif data
-        int rc = image->readMetadata();
-        if (rc == 0) {
-            image->clearExifData();
-            rc = image->writeMetadata();
-        }
-        return rc;
-    } // ExifData::erase
-
-    int ExifData::write(const std::string& path) 
-    {
-        // Remove the Exif section from the file if there is no metadata 
-        if (count() == 0) return erase(path);
-
-        if (!fileExists(path, true)) return -1;
-        Image::AutoPtr image = ImageFactory::instance().open(path);
-        if (image.get() == 0) return -2;
-        DataBuf buf(copy());
-        // Read all metadata to preserve non-Exif data
-        int rc = image->readMetadata();
-        if (rc == 0) {
-            image->setExifData(buf.pData_, buf.size_);
-            rc = image->writeMetadata();
-        }
-        return rc;
-    } // ExifData::write
 
     DataBuf ExifData::copy()
     {
@@ -659,15 +607,6 @@ namespace Exiv2 {
         assert(size == buf.size_);
         return buf;
     } // ExifData::copyFromMetadata
-
-    int ExifData::writeExifData(const std::string& path)
-    {
-        DataBuf buf(copy());
-        ExvImage exvImage(path, true);
-        if (!exvImage.good()) return -1;
-        exvImage.setExifData(buf.pData_, buf.size_);
-        return exvImage.writeMetadata();
-    } // ExifData::writeExifData
 
     void ExifData::add(Entries::const_iterator begin, 
                        Entries::const_iterator end,
@@ -846,11 +785,11 @@ namespace Exiv2 {
         if (thumbnail.get() == 0) return 8;
 
         std::string name = path + thumbnail->extension();
-        FileCloser file(fopen(name.c_str(), "wb"));
-        if (!file.fp_) return -1;
+        FileIo file(name);
+        if (file.open("wb") != 0) return -1;
 
         DataBuf buf(thumbnail->copy(*this));
-        if (fwrite(buf.pData_, 1, buf.size_, file.fp_) != (size_t)buf.size_) {
+        if (file.write(buf.pData_, buf.size_) != buf.size_) {
             return 4;
         }
         return 0;
@@ -1197,14 +1136,14 @@ namespace {
 
     Exiv2::DataBuf readFile(const std::string& path)
     {
-        Exiv2::FileCloser file(fopen(path.c_str(), "rb"));
-        if (!file.fp_) 
+        Exiv2::FileIo file(path);
+        if (file.open("rb") != 0) 
             throw Exiv2::Error("Couldn't open input file");
         struct stat st;
         if (0 != stat(path.c_str(), &st))
             throw Exiv2::Error("Couldn't stat input file");
         Exiv2::DataBuf buf(st.st_size);
-        long len = (long)fread(buf.pData_, 1, buf.size_, file.fp_);
+        long len = file.read(buf.pData_, buf.size_);
         if (len != buf.size_) 
             throw Exiv2::Error("Couldn't read input file");
         return buf; 

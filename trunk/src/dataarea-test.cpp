@@ -78,22 +78,30 @@ catch (Exiv2::Error& e) {
 
 void write(const std::string& file, Exiv2::ExifData& ed)
 {
-    int rc = ed.writeExifData(file);
+    Image::AutoPtr image = ImageFactory::create(Image::exv, file);
+    assert(image.get() != 0);
+
+    image->setExifData(ed);
+    int rc = image->writeMetadata();
     if (rc) {
-        std::string error = Exiv2::ExifData::strError(rc, file);
+        std::string error = Exiv2::Image::strError(rc, file);
         throw Exiv2::Error(error);
     }
 }
 
 void print(const std::string& file)
 {
-    Exiv2::ExifData ed;
-    int rc = ed.read(file);
+    Image::AutoPtr image = ImageFactory::open(file);
+    assert(image.get() != 0);
+
+    // Load existing metadata
+    int rc = image->readMetadata();
     if (rc) {
-        std::string error = Exiv2::ExifData::strError(rc, file);
+        std::string error = Exiv2::Image::strError(rc, file);
         throw Exiv2::Error(error);
     }
 
+    Exiv2::ExifData &ed = image->exifData();
     Exiv2::ExifData::const_iterator end = ed.end();
     for (Exiv2::ExifData::const_iterator i = ed.begin(); i != end; ++i) {
         std::cout << std::setw(35) << std::setfill(' ') << std::left
@@ -109,29 +117,28 @@ void print(const std::string& file)
                   << i->count() << " "
                   << std::dec << i->value() 
                   << "\n";
-
     }
 }
 
 int read(const std::string& path)
 {
-    Image::AutoPtr image = ImageFactory::instance().open(path);
+    Image::AutoPtr image = ImageFactory::open(path);
     assert(image.get() != 0);
     
     int rc = image->readMetadata();
     if (rc) return rc;
-    if (image->sizeExifData() > 0) {
-        const byte *pData = image->exifData();
-        long size = image->sizeExifData();
+    if (image->exifData().count() > 0) {
+        DataBuf exifData = image->exifData().copy();
+        long size = exifData.size_;
         
         // Read the TIFF header
         TiffHeader tiffHeader;
-        rc = tiffHeader.read(pData);
+        rc = tiffHeader.read(exifData.pData_);
         if (rc) return rc;
 
         // Read IFD0
         Ifd ifd0(ifd0Id);
-        rc = ifd0.read(pData + tiffHeader.offset(), 
+        rc = ifd0.read(exifData.pData_ + tiffHeader.offset(), 
                        size - tiffHeader.offset(), 
                        tiffHeader.byteOrder(),
                        tiffHeader.offset());
@@ -143,7 +150,7 @@ int read(const std::string& path)
 
         Value::AutoPtr v = Value::create(TypeId(i->type()));
         v->read(i->data(), i->count() * i->typeSize(), tiffHeader.byteOrder());
-        v->setDataArea(pData + v->toLong(), 32);
+        v->setDataArea(exifData.pData_ + v->toLong(), 32);
 
         std::cout << "Value of tag 0x8298: " << std::hex; 
         v->write(std::cout);
@@ -162,7 +169,7 @@ int read(const std::string& path)
 
         v = Value::create(TypeId(i->type()));
         v->read(i->data(), i->count() * i->typeSize(), tiffHeader.byteOrder());
-        v->setDataArea(pData + v->toLong(), 16);
+        v->setDataArea(exifData.pData_ + v->toLong(), 16);
 
         std::cout << "Value of tag 0x013b: "; 
         v->write(std::cout);

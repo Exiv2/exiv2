@@ -2,6 +2,7 @@
 // exifprint.cpp, $Rev$
 // Sample program to print the Exif metadata of an image
 
+#include "image.hpp"
 #include "exif.hpp"
 #include <iostream>
 #include <iomanip>
@@ -14,13 +15,21 @@ try {
         return 1;
     }
 
-    Exiv2::ExifData exifData;
-    int rc = exifData.read(argv[1]);
-    if (rc) {
-        std::string error = Exiv2::ExifData::strError(rc, argv[1]);
+    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(argv[1]);
+    if (image.get() == 0) {
+        std::string error(argv[1]);
+        error += " : Could not read file or unknown image type";
         throw Exiv2::Error(error);
     }
 
+    // Load existing metadata
+    int rc = image->readMetadata();
+    if (rc) {
+        std::string error = Exiv2::Image::strError(rc, argv[1]);
+        throw Exiv2::Error(error);
+    }
+
+    Exiv2::ExifData &exifData = image->exifData();
     Exiv2::ExifData::const_iterator end = exifData.end();
     for (Exiv2::ExifData::const_iterator i = exifData.begin(); i != end; ++i) {
         std::cout << std::setw(53) << std::setfill(' ') << std::left

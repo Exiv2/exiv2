@@ -10,6 +10,7 @@
  */
 // *****************************************************************************
 // included header files
+#include "image.hpp"
 #include "iptc.hpp"
 #include "datasets.hpp"
 #include "value.hpp"
@@ -18,12 +19,10 @@
 
 using namespace Exiv2;
 
-bool processLine(const std::string& line, int num);
-void processAdd(const std::string& line, int num);
-void processRemove(const std::string& line, int num);
-void processModify(const std::string& line, int num);
-
-IptcData g_iptcData;
+bool processLine(const std::string& line, int num, IptcData &iptcData);
+void processAdd(const std::string& line, int num, IptcData &iptcData);
+void processRemove(const std::string& line, int num, IptcData &iptcData);
+void processModify(const std::string& line, int num, IptcData &iptcData);
 
 // *****************************************************************************
 // Main
@@ -37,22 +36,30 @@ int main(int argc, char* const argv[])
             return 1;
         }
 
-        int rc = g_iptcData.read(argv[1]);
+        Image::AutoPtr image = ImageFactory::open(argv[1]);
+        if (image.get() == 0) {
+            throw Error("Could not read file");
+        }
+
+        // Load existing metadata
+        int rc = image->readMetadata();
         if (rc) {
-            std::string error = IptcData::strError(rc, argv[1]);
+            std::string error = Image::strError(rc, argv[1]);
             throw Error(error);
         }
 
+        // Process commands
         std::string line;
         int num = 0;
         std::getline(std::cin, line);
-        while (line.length() && processLine(line, ++num)) {
+        while (line.length() && processLine(line, ++num, image->iptcData())) {
             std::getline(std::cin, line);
         }
-     
-        rc = g_iptcData.write(argv[1]);
+
+        // Save any changes
+        rc = image->writeMetadata();
         if (rc) {
-            std::string error = IptcData::strError(rc, argv[1]);
+            std::string error = Image::strError(rc, argv[1]);
             throw Error(error);
         }
 
@@ -64,20 +71,20 @@ int main(int argc, char* const argv[])
     }
 }
 
-bool processLine(const std::string& line, int num )
+bool processLine(const std::string& line, int num, IptcData &iptcData)
 {
     switch (line.at(0)) {
         case 'a':
         case 'A':
-            processAdd(line, num);
+            processAdd(line, num, iptcData);
             break;
         case 'r':
         case 'R':
-            processRemove(line, num);
+            processRemove(line, num, iptcData);
             break;
         case 'm':
         case 'M':
-            processModify(line, num);
+            processModify(line, num, iptcData);
             break;
         case 'q':
         case 'Q':
@@ -90,7 +97,7 @@ bool processLine(const std::string& line, int num )
     return true;
 }
 
-void processAdd(const std::string& line, int num)
+void processAdd(const std::string& line, int num, IptcData &iptcData)
 {
     std::string::size_type keyStart = line.find_first_not_of(" \t", 1);
     std::string::size_type keyEnd = line.find_first_of(" \t", keyStart+1);
@@ -116,7 +123,7 @@ void processAdd(const std::string& line, int num)
     Value::AutoPtr value = Value::create(type);
     value->read(data);
 
-    int rc = g_iptcData.add(iptcKey, value.get());
+    int rc = iptcData.add(iptcKey, value.get());
     if (rc) {
         std::string error = IptcData::strError(rc, "Input file");
         throw Error(error);
@@ -124,7 +131,7 @@ void processAdd(const std::string& line, int num)
     
 }
 
-void processRemove(const std::string& line, int num)
+void processRemove(const std::string& line, int num, IptcData &iptcData)
 {
     std::string::size_type keyStart = line.find_first_not_of(" \t", 1);
 
@@ -137,13 +144,13 @@ void processRemove(const std::string& line, int num)
     const std::string key( line.substr(keyStart) );
     IptcKey iptcKey(key);
 
-    IptcData::iterator iter = g_iptcData.findKey(iptcKey);
-    if (iter != g_iptcData.end()) {
-        g_iptcData.erase(iter);
+    IptcData::iterator iter = iptcData.findKey(iptcKey);
+    if (iter != iptcData.end()) {
+        iptcData.erase(iter);
     }
 }
 
-void processModify(const std::string& line, int num)
+void processModify(const std::string& line, int num, IptcData &iptcData)
 {
     std::string::size_type keyStart = line.find_first_not_of(" \t", 1);
     std::string::size_type keyEnd = line.find_first_of(" \t", keyStart+1);
@@ -169,12 +176,12 @@ void processModify(const std::string& line, int num)
     Value::AutoPtr value = Value::create(type);
     value->read(data);
 
-    IptcData::iterator iter = g_iptcData.findKey(iptcKey);
-    if (iter != g_iptcData.end()) {
+    IptcData::iterator iter = iptcData.findKey(iptcKey);
+    if (iter != iptcData.end()) {
         iter->setValue(value.get());
     }
     else {
-        int rc = g_iptcData.add(iptcKey, value.get());
+        int rc = iptcData.add(iptcKey, value.get());
         if (rc) {
             std::string error = IptcData::strError(rc, "Input file");
             throw Error(error);

@@ -303,9 +303,12 @@ namespace Action {
         virtual int run(const std::string& path);
         typedef std::auto_ptr<Modify> AutoPtr;
         AutoPtr clone() const;
+        Modify() {} 
 
     private:
         virtual Modify* clone_() const;
+        //! Copy contructor needed because of AutoPtr memeber 
+        Modify(const Modify& src) {} 
 
         //! Add a metadatum according to \em modifyCmd 
         void addMetadatum(const ModifyCmd& modifyCmd);
@@ -314,8 +317,7 @@ namespace Action {
         //! Delete a metadatum according to \em modifyCmd 
         void delMetadatum(const ModifyCmd& modifyCmd);
 
-        Exiv2::ExifData exifData_;              //!< Exif metadata 
-        Exiv2::IptcData iptcData_;              //!< Iptc metadata
+        Exiv2::Image::AutoPtr image_;        //!< Image to modify 
     }; // class Modify
 
 }                                       // namespace Action 
