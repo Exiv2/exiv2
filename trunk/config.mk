@@ -20,7 +20,7 @@
 # 02111-1307, USA.
 #
 # File:      config.mk
-# Version:   $Name:  $ $Revision: 1.3 $
+# Version:   $Name:  $ $Revision: 1.4 $
 # Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
 # History:   10-Dec-03, ahu: created
 #
@@ -73,7 +73,7 @@ ARCHIVE_SUFFIX = .a
 
 # **********************************************************************
 # Global includes, libraries and defines
-INCS = -I. -I$(incdir) -I/usr/local/include
+INCS = -I. -I$(top_srcdir) -I$(incdir)
 LIBS = -L. -L$(libdir) -L/usr/local/lib
 DEFS = 
 
