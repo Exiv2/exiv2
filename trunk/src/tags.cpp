@@ -20,13 +20,13 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.35 $
+  Version:   $Name:  $ $Revision: 1.36 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.35 $ $RCSfile: tags.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.36 $ $RCSfile: tags.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -34,6 +34,9 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.35 $ $RCSfile: tags.cpp,v $");
 #include "error.hpp"
 #include "types.hpp"
 #include "value.hpp"
+
+// Todo: remove circular dependency
+#include "exif.hpp"                             // for TagInfo operator<<
 
 #include <iostream>
 #include <iomanip>
@@ -266,24 +269,26 @@ namespace Exiv2 {
         0
     };
 
-    const char* ExifTags::familyName_ = "Exif";
-
     int ExifTags::tagInfoIdx(uint16_t tag, IfdId ifdId)
     {
         const TagInfo* tagInfo = tagInfos_[ifdId];
         if (tagInfo == 0) return -1;
         int idx;
         for (idx = 0; tagInfo[idx].tag_ != 0xffff; ++idx) {
-            if (tagInfo[idx].tag_ == tag) break;
+            if (tagInfo[idx].tag_ == tag) return idx;
         }
-        return idx;
+        return -1;
     }
 
-    const char* ExifTags::tagName(uint16_t tag, IfdId ifdId)
+    std::string ExifTags::tagName(uint16_t tag, IfdId ifdId)
     {
         int idx = tagInfoIdx(tag, ifdId);
-        if (idx == -1) throw Error("No taginfo for IFD");
-        return tagInfos_[ifdId][idx].name_;
+        if (idx != -1) return tagInfos_[ifdId][idx].name_;
+
+        std::ostringstream os;
+        os << "0x" << std::setw(4) << std::setfill('0') << std::right
+           << std::hex << tag;
+        return os.str();
     }
 
     const char* ExifTags::tagDesc(uint16_t tag, IfdId ifdId)
@@ -311,13 +316,30 @@ namespace Exiv2 {
 
     uint16_t ExifTags::tag(const std::string& tagName, IfdId ifdId)
     {
+        uint16_t tag = 0xffff;
         const TagInfo* tagInfo = tagInfos_[ifdId];
-        if (tagInfo == 0) return 0xffff;
-        int idx;
-        for (idx = 0; tagInfo[idx].tag_ != 0xffff; ++idx) {
-            if (tagInfo[idx].name_ == tagName) break;
+        if (tagInfo) {
+            int idx;
+            for (idx = 0; tagInfo[idx].tag_ != 0xffff; ++idx) {
+                if (tagInfo[idx].name_ == tagName) break;
+            }
+            tag = tagInfo[idx].tag_;
         }
-        return tagInfo[idx].tag_;
+        if (tag == 0xffff) {
+            // Todo: Check format of tagName
+            std::istringstream is(tagName);
+            is >> std::hex >> tag;
+        }
+        return tag;
+    }
+
+    IfdId ExifTags::ifdIdByIfdItem(const std::string& ifdItem)
+    {
+        int i;
+        for (i = int(lastIfdId) - 1; i > 0; --i) {
+            if (ifdInfo_[i].item_ == ifdItem) break;
+        }
+        return IfdId(i);
     }
 
     const char* ExifTags::ifdName(IfdId ifdId)
@@ -343,44 +365,6 @@ namespace Exiv2 {
         }
         return SectionId(i);
     }
-
-    std::string ExifTags::makeKey(uint16_t tag, IfdId ifdId)
-    {
-        return std::string(familyName()) 
-            + "." + std::string(ifdItem(ifdId)) 
-            + "." + std::string(tagName(tag, ifdId));
-    }
-
-    // This 'database lookup' function returns the first match that
-    // we find, it doesn't verify whether this is the only match.
-    std::pair<uint16_t, IfdId> ExifTags::decomposeKey(const std::string& key)
-    {
-        // Get the family name, IFD name and tag name parts of the key
-        std::string::size_type pos1 = key.find('.');
-        if (pos1 == std::string::npos) throw Error("Invalid key");
-        std::string familyName = key.substr(0, pos1);
-        if (familyName != std::string(ExifTags::familyName())) {
-            throw Error("Invalid key");
-        }
-        std::string::size_type pos0 = pos1 + 1;
-        pos1 = key.find('.', pos0);
-        if (pos1 == std::string::npos) throw Error("Invalid key");
-        std::string ifdItem = key.substr(pos0, pos1 - pos0);
-        pos0 = pos1 + 1;
-        std::string tagName = key.substr(pos0);
-        if (tagName == "") throw Error("Invalid key");
-
-        // Find IfdId
-        int i;
-        for (i = int(lastIfdId) - 1; i > 0; --i) {
-            if (ifdInfo_[i].item_ == ifdItem) break;
-        }
-        IfdId ifdId = IfdId(i);
-
-        if (ifdId == ifdIdNotSet) return std::make_pair(0xffff, ifdId);
-
-        return std::make_pair(tag(tagName, ifdId), ifdId);
-    } // ExifTags::decomposeKey
 
     std::ostream& ExifTags::printTag(std::ostream& os,
                                      uint16_t tag, 
@@ -414,12 +398,13 @@ namespace Exiv2 {
 
     std::ostream& operator<<(std::ostream& os, const TagInfo& ti) 
     {
+        ExifKey exifKey(ti.tag_, ExifTags::ifdItem(ti.ifdId_));
         return os << ExifTags::tagName(ti.tag_, ti.ifdId_) << ", "
                   << std::dec << ti.tag_ << ", "
                   << "0x" << std::setw(4) << std::setfill('0') 
                   << std::right << std::hex << ti.tag_ << ", "
                   << ExifTags::ifdName(ti.ifdId_) << ", "
-                  << ExifTags::makeKey(ti.tag_, ti.ifdId_) << ", " 
+                  << exifKey.key() << ", " 
                   << ExifTags::tagDesc(ti.tag_, ti.ifdId_);
     }
 

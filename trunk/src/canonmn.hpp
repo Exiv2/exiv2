@@ -23,7 +23,7 @@
   @brief   Canon MakerNote implemented according to the specification
            <a href="http://www.burren.cx/david/canon.html">
            EXIF MakerNote of Canon</a> by David Burren
-  @version $Name:  $ $Revision: 1.11 $
+  @version $Name:  $ $Revision: 1.12 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created<BR>
@@ -177,6 +177,7 @@ namespace Exiv2 {
             {
                 MakerNoteFactory& mnf = MakerNoteFactory::instance();
                 mnf.registerMakerNote("Canon", "*", createCanonMakerNote); 
+                mnf.registerMakerNote(new CanonMakerNote);
             }
         };
         /*!

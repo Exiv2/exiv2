@@ -20,14 +20,14 @@
  */
 /*
   File:      nikon1mn.cpp
-  Version:   $Name:  $ $Revision: 1.6 $
+  Version:   $Name:  $ $Revision: 1.7 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   17-May-04, ahu: created
              25-May-04, ahu: combined all Nikon formats in one component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.6 $ $RCSfile: nikonmn.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.7 $ $RCSfile: nikonmn.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -182,6 +182,8 @@ namespace Exiv2 {
         }
         return os;
     }
+
+    const Nikon2MakerNote::RegisterMakerNote Nikon2MakerNote::register_;
 
     // Nikon2 MakerNote Tag Info
     static const MakerNote::MnTagInfo nikon2MnTagInfo[] = {
@@ -347,6 +349,8 @@ namespace Exiv2 {
         }
         return os;
     }
+
+    const Nikon3MakerNote::RegisterMakerNote Nikon3MakerNote::register_;
 
     // Nikon3 MakerNote Tag Info
     static const MakerNote::MnTagInfo nikon3MnTagInfo[] = {

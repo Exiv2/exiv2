@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of Exif data
-  @version $Name:  $ $Revision: 1.51 $
+  @version $Name:  $ $Revision: 1.52 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -73,11 +73,21 @@ namespace Exiv2 {
                  parts or the first part of the key is not '<b>Exif</b>'.
         */
         explicit ExifKey(const std::string& key);
+        /*!
+          @brief Constructor to create an Exif key from a tag and IFD item 
+                 string.
+          @param tag The tag value
+          @param ifdItem The IFD string. For MakerNote tags, this must be the 
+                 IFD item of the specific MakerNote. "MakerNote" is not allowed.
+          @throw Error ("Invalid key") if the key cannot be constructed from
+                 the tag and IFD item parameters.
+         */
+        ExifKey(uint16_t tag, const std::string& ifdItem);
         //! Constructor to build an ExifKey from an IFD entry.
         explicit ExifKey(const Entry& e);
         //! Copy constructor
         ExifKey(const ExifKey& rhs);
-        // A destructor is not needed, as we do *not* delete the makernote
+        virtual ~ExifKey();
         //@}
 
         //! @name Manipulators
@@ -86,34 +96,25 @@ namespace Exiv2 {
           @brief Assignment operator.
          */
         ExifKey& operator=(const ExifKey& rhs);
-        //! Set the makernote pointer. 
-        void setMakerNote(MakerNote* pMakerNote);
         //@}
 
         //! @name Accessors
         //@{
         virtual std::string key() const { return key_; }
-        virtual const char* familyName() const { return ExifTags::familyName(); }
+        virtual const char* familyName() const { return familyName_; }
         /*!
           @brief Return the name of the group (the second part of the key).
-                 For Exif keys, the group name is the IFD name.
+                 For Exif keys, the group name is the IFD item.
         */ 
-        virtual std::string groupName() const { return ifdName(); }
+        virtual std::string groupName() const { return ifdItem(); }
         virtual std::string tagName() const;
-        /*!
-          @brief Return the tag.
-          @throw Error ("Invalid key") if the tag is not set.
-        */
-        virtual uint16_t tag() const;
+        virtual uint16_t tag() const { return tag_; }
         virtual ExifKey* clone() const;
 
         //! Interpret and print the value of an Exif tag
         std::ostream& printTag(std::ostream& os, const Value& value) const;
-        /*!
-          @brief Return the IFD id
-          @throw Error ("Invalid key") if the IFD id is not set.
-        */
-        IfdId ifdId() const;
+        //! Return the IFD id
+        IfdId ifdId() const { return ifdId_; }
         //! Return the name of the IFD
         const char* ifdName() const { return ExifTags::ifdName(ifdId()); }
         //! Return the related image item
@@ -122,30 +123,33 @@ namespace Exiv2 {
         std::string sectionName() const;
         //! Return the index (unique id of this key within the original IFD)
         int idx() const { return idx_; }
-        //! Return the pointer to the associated MakerNote
-        MakerNote* makerNote() const { return pMakerNote_; }
         //@}
 
     protected:
         //! @name Manipulators
         //@{
         /*!
-          @brief Parse and convert the key string into tag, and IFD Id. 
-                 Forwards the request to MakerNote::decomposeKey if necessary.
-                 Updates key_ and ifdId_ if the string can be decomposed,
+          @brief Set the key corresponding to the tag and IFD id. 
+                 The key is of the form '<b>Exif</b>.ifdItem.tagName'.
+         */
+        void makeKey();
+        /*!
+          @brief Parse and convert the key string into tag and IFD Id. 
+                 Updates data memebers if the string can be decomposed,
                  or throws Error ("Invalid key").
 
-          @throw Error ("Invalid key") if pMakerNote_ is ot 0 and the key 
-                 cannot be parsed into family name, group name and tag name 
-                 parts.
+          @throw Error ("Invalid key") Todo: add conditions
          */
         void decomposeKey();
         //@}
 
     private:
         // DATA
-        uint16_t tag_;                    //!< Tag value
+        static const char* familyName_;
+
+        uint16_t tag_;                  //!< Tag value
         IfdId ifdId_;                   //!< The IFD associated with this tag
+        std::string ifdItem_;           //!< The IFD item 
         int idx_;                       //!< Unique id of an entry within one IFD
         MakerNote* pMakerNote_;         //!< Pointer to the associated MakerNote
         std::string key_;               //!< Key
@@ -951,22 +955,6 @@ namespace Exiv2 {
     void addToMakerNote(MakerNote* makerNote,
                         const Exifdatum& exifdatum,
                         ByteOrder byteOrder);
-    /*!
-      @brief Return a key for the entry.  The key is of the form
-             '<b>Exif</b>.ifdItem.tagName'. This function knows about
-             MakerNotes, i.e., it will invoke MakerNote::makeKey if necessary.
-    */
-    std::string makeKey(const Entry& entry);
-    /*!
-      @brief Return the tag and IFD id pair for the key. This function knows
-             about MakerNotes, i.e., it will forward the request to
-             MakerNote::decomposeKey if necessary.
-      @return A pair consisting of the tag and IFD id.
-      @throw Error ("Invalid key") if the key cannot be parsed into
-      item item, section name and tag name parts.
-    */
-    std::pair<uint16_t, IfdId> decomposeKey(const std::string& key,
-                                          const MakerNote* makerNote);
 
 }                                       // namespace Exiv2
 

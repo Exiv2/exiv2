@@ -21,7 +21,7 @@
 /*!
   @file    tags.hpp
   @brief   Exif tag and type information
-  @version $Name:  $ $Revision: 1.26 $
+  @version $Name:  $ $Revision: 1.27 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    15-Jan-04, ahu: created<BR>
@@ -114,19 +114,18 @@ namespace Exiv2 {
         ExifTags& operator=(const ExifTags& rhs);
 
     public:
-        //! Return an identifier for Exif metadata
-        static const char* familyName() { return familyName_; }
-
         /*!
-          @brief Return the name of the tag.
+          @brief Return the name of the tag or a string with the hexadecimal 
+                 value of the tag in the form "0x01ff", if the tag is not 
+                 a known Exif tag. 
+
           @param tag The tag
           @param ifdId IFD id
-          @return The name of the tag or a string indicating that the 
-                  tag is unknown. 
-          @throw Error ("No taginfo for IFD") if there is no tag info
-                 data for the given IFD id in the lookup tables.
+          @return The name of the tag or a string containing the hexadecimal
+                  value of the tag in the form "0x01ff", if this is an unknown 
+                  tag.
          */
-        static const char* tagName(uint16_t tag, IfdId ifdId);
+        static std::string tagName(uint16_t tag, IfdId ifdId);
         /*!
           @brief Return the description of the tag.
           @param tag The tag
@@ -137,8 +136,14 @@ namespace Exiv2 {
                  data for the given IFD id in the lookup tables.
          */
         static const char* tagDesc(uint16_t tag, IfdId ifdId);
-        //! Return the tag for one combination of IFD id and tagName
+        /*!
+          @brief Return the tag for one combination of IFD id and tagName. 
+                 If the tagName is not known, it expects tag names in the 
+                 form "0x01ff" and converts them to unsigned integer.
+         */
         static uint16_t tag(const std::string& tagName, IfdId ifdId);
+        //! Return the IFD id for an IFD item
+        static IfdId ifdIdByIfdItem(const std::string& ifdItem);
         //! Return the name of the IFD
         static const char* ifdName(IfdId ifdId);
         //! Return the related image item (image or thumbnail)
@@ -169,18 +174,6 @@ namespace Exiv2 {
         static const char* sectionDesc(uint16_t tag, IfdId ifdId);
         //! Return the section id for a section name
         static SectionId sectionId(const std::string& sectionName);
-        /*!
-          @brief Return the key for the tag and IFD id.  The key is of the form
-                 '<b>Exif</b>.ifdItem.tagName'.
-         */
-        static std::string makeKey(uint16_t tag, IfdId ifdId);
-        /*!
-          @brief Return tag and IFD id pair for the key.
-          @return A pair consisting of the tag and IFD id.
-          @throw Error ("Invalid key") if the key cannot be parsed into
-                 item item, section name and tag name parts.
-         */
-        static std::pair<uint16_t, IfdId> decomposeKey(const std::string& key);
         //! Interpret and print the value of an Exif tag
         static std::ostream& printTag(std::ostream& os,
                                       uint16_t tag, 
@@ -191,8 +184,6 @@ namespace Exiv2 {
 
     private:
         static int tagInfoIdx(uint16_t tag, IfdId ifdId);
-
-        static const char* familyName_;
 
         static const IfdInfo     ifdInfo_[];
         static const SectionInfo sectionInfo_[];

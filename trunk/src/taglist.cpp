@@ -3,19 +3,15 @@
   Abstract:  Print a simple comma separated list of tags defined in Exiv2
 
   File:      taglist.cpp
-  Version:   $Name:  $ $Revision: 1.9 $
+  Version:   $Name:  $ $Revision: 1.10 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   07-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.9 $ $RCSfile: taglist.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.10 $ $RCSfile: taglist.cpp,v $");
 
 #include "makernote.hpp"
-#include "nikonmn.hpp"
-#include "sigmamn.hpp"
-#include "fujimn.hpp"
-#include "canonmn.hpp"
 #include "tags.hpp"
 #include "datasets.hpp"
 #include "error.hpp"
@@ -38,26 +34,8 @@ try {
             IptcDataSets::dataSetList(std::cout);
             break;
         }
-
-        if (item == "Canon") {
-            pMakerNote = new CanonMakerNote;
-        }
-        else if (item == "Fujifilm") {
-            pMakerNote = new FujiMakerNote;
-        }
-        else if (item == "Sigma") {
-            pMakerNote = new SigmaMakerNote;
-        }
-        else if (item == "Nikon1") {
-            pMakerNote = new Nikon1MakerNote;
-        }
-        else if (item == "Nikon2") {
-            pMakerNote = new Nikon2MakerNote;
-        }
-        else if (item == "Nikon3") {
-            pMakerNote = new Nikon3MakerNote;
-        }
-
+        
+        pMakerNote = MakerNoteFactory::instance().create(item);
         if (pMakerNote) {
             pMakerNote->taglist(std::cout);
             delete pMakerNote;
