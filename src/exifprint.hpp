@@ -21,7 +21,7 @@
 /*!
   @file    exifprint.hpp
   @brief   Utility to print Exif data of input files to standard out
-  @version $Name:  $ $Revision: 1.1 $
+  @version $Name:  $ $Revision: 1.2 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    26-Jan-04, ahu: created
@@ -92,30 +92,6 @@ public:
     */
     static Params& instance();
 
-    bool help_;                         //!< Help option flag.
-    bool version_;                      //!< Version option flag.
-
-    //! Container to store filenames.
-    typedef std::vector<std::string> Files;
-
-    Files files_;                       //!< List of non-option arguments.
-
-private:
-    /*!
-      @brief Default constructor. Note that optstring_ is initialized here.
-             Private to force instantiation through instance().
-     */
-    Params() : optstring_(":hv"),
-               help_(false), 
-               version_(false) {}
-
-    //! Prevent copy-construction: not implemented.
-    Params(const Params& rhs);
-
-    //! Pointer to the global Params object.
-    static Params* instance_;
-
-public:
     /*!
       @brief Call Getopt::getopt() with optstring, perform consistency
              checks after all command line arguments are parsed.
@@ -141,6 +117,29 @@ public:
 
     //! Print version information to an output stream.
     void version(std::ostream& os =std::cout) const;
+
+    //! Container to store filenames.
+    typedef std::vector<std::string> Files;
+
+    //! List of non-option arguments.
+    Files files_; 
+
+    bool help_;                         //!< Help option flag.
+    bool version_;                      //!< Version option flag.
+
+private:
+    /*!
+      @brief Default constructor. Note that optstring_ is initialized here.
+             Private to force instantiation through instance().
+     */
+    Params() : optstring_(":hv"),
+               help_(false), 
+               version_(false) {}
+    //! Prevent copy-construction: not implemented.
+    Params(const Params& rhs);
+    //! Pointer to the global Params object.
+    static Params* instance_;
+
 };
 
 #endif                                  // #ifndef EXIFPRINT_HPP_
