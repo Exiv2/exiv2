@@ -1,30 +1,19 @@
 // ********************************************************* -*- C++ -*-
 /*
- * Copyright (c) 2003, 2004 Andreas Huggel. All rights reserved.
+ * Copyright (c) 2004 Andreas Huggel. All rights reserved.
  * 
- * This file is part of the Exiv distribution.
+ * Todo: insert license blabla here.
  *
- * This file may be distributed and/or modified under the terms of the
- * Common Public License version 1.0 as published by IBM and appearing
- * in the file license-cpl.txt included in the packaging of this file.
- *
- * This file may be distributed and/or modified under the terms of the
- * GNU General Public License version 2 as published by the Free Software
- * Foundation and appearing in the file license-gpl.txt included in the
- * packaging of this file.
- *
- * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
- * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  */
 /*!
-  @file    utils.h
+  @file    utils.hpp
   @brief   A collection of utility functions
-  @version $Name:  $ $Revision: 1.1 $
+  @version $Name:  $ $Revision: 1.2 $
   @author  Andreas Huggel (ahu)
   @date    12-Dec-03, ahu: created
  */
-#ifndef _UTILS_H_
-#define _UTILS_H_
+#ifndef _UTILS_HPP_
+#define _UTILS_HPP_
 
 // *********************************************************************
 // included header files
@@ -166,4 +155,4 @@ private:
 
 }                                       // namespace Util
 
-#endif                                  // #ifndef _UTILS_H_
+#endif                                  // #ifndef _UTILS_HPP_

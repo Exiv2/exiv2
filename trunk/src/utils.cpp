@@ -1,20 +1,9 @@
 // ********************************************************** -*- C++ -*-
 /*
- * Copyright (c) 2003, 2004 Andreas Huggel. All rights reserved.
+ * Copyright (c) 2004 Andreas Huggel. All rights reserved.
  * 
- * This file is part of the Exiv distribution.
+ * Todo: Insert license blabla here
  *
- * This file may be distributed and/or modified under the terms of the
- * Common Public License version 1.0 as published by IBM and appearing
- * in the file license-cpl.txt included in the packaging of this file.
- *
- * This file may be distributed and/or modified under the terms of the
- * GNU General Public License version 2 as published by the Free Software
- * Foundation and appearing in the file license-gpl.txt included in the
- * packaging of this file.
- *
- * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
- * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  */
 /*
   Author(s): Andreas Huggel (ahu)
@@ -23,7 +12,7 @@
 
   RCS information
    $Name:  $
-   $Revision: 1.1 $
+   $Revision: 1.2 $
  */
 
 // *********************************************************************
