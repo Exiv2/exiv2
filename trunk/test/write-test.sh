@@ -8,7 +8,7 @@
 #     file  : Input file
 # Abstract:
 # Run the requested test case number with the given file
-
+(
 runTestCase()
 {
     rtc_number=$1
@@ -56,3 +56,13 @@ runTestCase  8 $datapath/exiv2-sigma-d10.jpg
 runTestCase  9 $datapath/exiv2-nikon-e990.jpg
 runTestCase 10 $datapath/exiv2-nikon-e950.jpg
 runTestCase 11 $datapath/exiv2-nikon-d70.jpg
+
+) > tmp/write-test.out 2>&1
+
+diff -q tmp/write-test.out data/write-test.out
+rc=$?
+if [ $rc -eq 0 ] ; then
+    echo "All testcases passed."
+else
+    diff tmp/write-test.out data/write-test.out
+fi
