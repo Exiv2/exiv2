@@ -1,0 +1,34 @@
+digraph G {
+
+L1 [shape=plaintext] ;
+L2 [shape=plaintext] ;
+L3 [shape=plaintext] ;
+L4 [shape=plaintext] ;
+
+"L4" -> "L3" -> "L2" -> "L1" [style=invis] ;
+
+"exif"  [shape=box] ;
+"ifd"   [shape=box] ;
+"image" [shape=box] ;
+"tags"  [shape=box] ;
+"types" [shape=box] ;
+"value" [shape=box] ;
+"error" [shape=box] ;
+"exif" -> "ifd" ;
+"exif" -> "image" ;
+"exif" -> "tags" ;
+"exif" -> "types" ;
+"exif" -> "value" ;
+"exif" -> "error" ;
+"ifd" -> "error" ;  
+"ifd" -> "types" ;
+"image" -> "types" ;
+"tags" -> "error" ;
+"tags" -> "types" ;
+"tags" -> "value" ;
+"value" -> "types" ;
+
+{ rank=same; L1 error types }
+{ rank=same; L2 image value ifd }
+
+}
