@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.38 $
+  @version $Name:  $ $Revision: 1.39 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -635,7 +635,17 @@ namespace Exif {
         /*!
           @brief Delete the thumbnail from the %Exif data. Removes all related
                  (%Thumbnail.*.*, i.e., IFD1) metadata as well.
-          @return The number of bytes erased from the original %Exif data.
+
+          @return The number of bytes of thumbnail data erased from the original
+                  %Exif data. Note that the original image size may differ from
+                  the size of the image after deleting the thumbnail by more
+                  than this number. This is the case if the %Exif data contains
+                  extra bytes (often at the end of the %Exif block) or gaps and
+                  the thumbnail is not located at the end of the %Exif block so
+                  that non-intrusive writing of a truncated %Exif block is not
+                  possible. Instead it is in this case necessary to write the
+                  %Exif data, without the thumbnail, from the metadata and all
+                  extra bytes and gaps are lost, resulting in a smaller image.
          */
         long eraseThumbnail();
         //@}
@@ -686,6 +696,7 @@ namespace Exif {
           @brief Write the thumbnail image to a file. A filename extension
                  is appended to path according to the image type of the
                  thumbnail, so the path should not include an extension.
+                 This will overwrite an existing file of the same name.
          */
         int writeThumbnail(const std::string& path) const 
             { return pThumbnail_ ? pThumbnail_->write(path) : 0; }
