@@ -2,21 +2,21 @@
 /*!
   @file    doxygen.hpp
   @brief   Additional documentation, this file contains no source code
-  @version $Name:  $ $Revision: 1.14 $
+  @version $Name:  $ $Revision: 1.15 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    07-Feb-04, ahu: created
  */
 /*!
-  @mainpage Exif metadata manipulation library and tools v0.4
+  @mainpage Exif and IPTC metadata manipulation library and tools v0.5
 
   @section overview Exiv2 Overview
  
   Exiv2 is a C++ library that provides
-  - full read and write access to the Exif metadata of an image through %Exiv2 
-    keys and standard C++ iterators 
-  - extensive MakerNote support:
-      - MakerNote tags can be accessed just like any other Exif metadata
+  - full read and write access to the Exif and IPTC IIM metadata of an image 
+    through %Exiv2 keys and standard C++ iterators 
+  - extensive Exif MakerNote support:
+      - MakerNote tags can be accessed just like any other metadata
       - a sophisticated write algorithm avoids corrupting the MakerNote: 
          <BR>&nbsp;&nbsp;1) the MakerNote is not re-located if possible at all, and 
          <BR>&nbsp;&nbsp;2) MakerNote IFD offsets are re-calculated if the MakerNote
@@ -41,7 +41,7 @@
   <A HREF="../getting-started.html">A few pointers</A> to get you started with
   the %Exiv2 library without delay.
 
-  @section metadata Supported Exif and MakerNote tags
+  @section metadata Supported Exif and MakerNote tags and IPTC datasets
 
   - <A HREF="../tags.xml">Standard Exif tags</A>
   - <A HREF="../tags-canon.xml">Canon MakerNote tags</A>
@@ -50,6 +50,7 @@
   - <A HREF="../tags-nikon2.xml">Nikon (format 2) MakerNote tags</A>
   - <A HREF="../tags-nikon3.xml">Nikon (format 3) MakerNote tags</A>
   - <A HREF="../tags-sigma.xml">Sigma/Foveon MakerNote tags</A>
+  - <A HREF="../iptc.xml">IPTC datasets</A>
 
   @section makernote MakerNote Formats and Specifications
 
@@ -86,4 +87,8 @@
 /*!
   @example exifcomment.cpp
   Sample program showing how to set the Exif comment of an image.
+ */
+/*!
+  @example iptcprint.cpp
+  Sample program to print the Iptc metadata of an image
  */

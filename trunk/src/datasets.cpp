@@ -20,13 +20,13 @@
  */
 /*
   File:      datasets.cpp
-  Version:   $Name:  $ $Revision: 1.2 $
+  Version:   $Name:  $ $Revision: 1.3 $
   Author(s): Brad Schick (brad) <schick@robotbattle.com>
   History:   24-Jul-04, brad: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: datasets.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: datasets.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -307,9 +307,10 @@ namespace Exiv2 {
                   << IptcDataSets::recordName(dataSet.recordId_) << ", "
                   << std::boolalpha << dataSet.mandatory_ << ", "
                   << dataSet.repeatable_ << ", "
-                  << dataSet.minbytes_ << ", "
+                  << std::dec << dataSet.minbytes_ << ", "
                   << dataSet.maxbytes_ << ", "
-                  << IptcDataSets::makeKey(dataSet) ;
+                  << IptcDataSets::makeKey(dataSet) << ", "
+                  << dataSet.desc_;
     }
 
 }                                       // namespace Exiv2
