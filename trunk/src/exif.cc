@@ -1,10 +1,9 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (c) 2004 Andreas Huggel
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Common Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.ibm.com/developerworks/oss/CPLv1.0.htm
+ *
+ * Todo: Insert license blabla here
+ *
  */
 /*
   Author(s): Andreas Huggel (ahu)
@@ -13,13 +12,12 @@
 
   RCS information
    $Name:  $
-   $Revision: 1.1 $
+   $Revision: 1.2 $
  */
 // *****************************************************************************
 // included header files
 #include "exif.h"
-
-// + PMT includes
+#include "tags.h"
 
 // + standard includes
 #include <iostream>
@@ -167,79 +165,9 @@ namespace Exif {
         ul2Data(buf+4, offset_, byteOrder_);
     }
 
-    Format::Format(uint16 type, const std::string& name, long size)
-        : type_(type), name_(name), size_(size)
-    {
-    }
-
-    //! Lookup list of IFD tag data formats and their properties
-    static const Format tagDataFormat[] = {
-        Format( 0, "invalid",           0),
-        Format( 1, "unsigned byte",     1),
-        Format( 2, "ascii strings",     1),
-        Format( 3, "unsigned short",    2),
-        Format( 4, "unsigned long",     4),
-        Format( 5, "unsigned rational", 8),
-        Format( 6, "signed byte",       1),
-        Format( 7, "undefined",         1),
-        Format( 8, "signed short",      2),
-        Format( 9, "signed long",       4),
-        Format(10, "signed rational",   8),
-        Format(11, "single float",      4),
-        Format(12, "double float",      8)
-    };
-
-    TagInfo::TagInfo(
-        uint16 tag, 
-        const std::string& fieldName, 
-        const std::string& tagName, 
-        IfdId ifdId, 
-        TagSection tagSection
-    )
-        : tag_(tag), fieldName_(fieldName), tagName_(tagName), 
-          ifdId_(ifdId), tagSection_(tagSection)
-    {
-    }
-
-    //! Lookup list with tags, their names and where they belong to
-    static const TagInfo tagInfo[] = {
-        TagInfo(0x0100, "ImageWidth", "Image width", ifd0, ifd0Tiff),
-        TagInfo(0x0101, "ImageLength", "Image height", ifd0, ifd0Tiff),
-        TagInfo(0x0102, "BitsPerSample", "Number of bits per component", ifd0, ifd0Tiff),
-        TagInfo(0x0103, "Compression", "Compression scheme", ifd0, ifd0Tiff),
-        TagInfo(0x0106, "PhotometricInterpretation", "Pixel composition", ifd0, ifd0Tiff),
-        TagInfo(0x010e, "ImageDescription", "Image title", ifd0, ifd0Tiff),
-        TagInfo(0x010f, "Make", "Manufacturer of image input equipment", ifd0, ifd0Tiff),
-        TagInfo(0x0110, "Model", "Model of image input equipment", ifd0, ifd0Tiff),
-        TagInfo(0x0111, "StripOffsets", "Image data location", ifd0, ifd0Tiff),
-        TagInfo(0x0112, "Orientation", "Orientation of image", ifd0, ifd0Tiff),
-        TagInfo(0x0115, "SamplesPerPixel", "Number of components", ifd0, ifd0Tiff),
-        TagInfo(0x0116, "RowsPerStrip", "Number of rows per strip", ifd0, ifd0Tiff),
-        TagInfo(0x0117, "StripByteCounts", "Bytes per compressed strip", ifd0, ifd0Tiff),
-        TagInfo(0x011a, "XResolution", "Image resolution in width direction", ifd0, ifd0Tiff),
-        TagInfo(0x011b, "YResolution", "Image resolution in height direction", ifd0, ifd0Tiff),
-        TagInfo(0x011c, "PlanarConfiguration", "Image data arrangement", ifd0, ifd0Tiff),
-        TagInfo(0x0128, "ResolutionUnit", "Unit of X and Y resolution", ifd0, ifd0Tiff),
-        TagInfo(0x012d, "TransferFunction", "Transfer function", ifd0, ifd0Tiff),
-        TagInfo(0x0131, "Software", "Software used", ifd0, ifd0Tiff),
-        TagInfo(0x0132, "DateTime", "File change date and time", ifd0, ifd0Tiff),
-        TagInfo(0x013b, "Artist", "Person who created the image", ifd0, ifd0Tiff),
-        TagInfo(0x013e, "WhitePoint", "White point chromaticity", ifd0, ifd0Tiff),
-        TagInfo(0x013f, "PrimaryChromaticities", "Chromaticities of primaries", ifd0, ifd0Tiff),
-        TagInfo(0x0201, "JPEGInterchangeFormat", "Offset to JPEG SOI", ifd0, ifd0Tiff),
-        TagInfo(0x0202, "JPEGInterchangeFormatLength", "Bytes of JPEG data", ifd0, ifd0Tiff),
-        TagInfo(0x0211, "YCbCrCoefficients", "Color space transformation matrix coefficients", ifd0, ifd0Tiff),
-        TagInfo(0x0212, "YCbCrSubSampling", "Subsampling ratio of Y to C", ifd0, ifd0Tiff),
-        TagInfo(0x0213, "YCbCrPositioning", "Y and C positioning", ifd0, ifd0Tiff),
-        TagInfo(0x0214, "ReferenceBlackWhite", "Pair of black and white reference values", ifd0, ifd0Tiff),
-        TagInfo(0x8298, "Copyright", "Copyright holder", ifd0, ifd0Tiff),
-        TagInfo(0x8769, "ExifTag", "Exif IFD Pointer", ifd0, ifd0Tiff),
-        TagInfo(0x8825, "GPSTag", "GPSInfo IFD Pointer", ifd0, ifd0Tiff)
-    };
-
     Metadatum::Metadatum()
         : tag_(0), type_(0), count_(0), offset_(0), size_(0), 
-          ifdId_(unknown), ifdIdx_(-1), data_(0)
+          ifdId_(IfdIdNotSet), ifdIdx_(-1), data_(0)
     {
     }
 
@@ -285,8 +213,8 @@ namespace Exif {
         }
 
         return *this;
-    }
-    
+    } // Metadatum::operator=
+
     Ifd::Ifd(IfdId ifdId)
         : ifdId_(ifdId), offset_(0), next_(0), size_(0)
     {
@@ -298,6 +226,7 @@ namespace Exif {
         int n = getUShort(buf, byteOrder);
         long o = 2;
 
+        entries_.clear();
         for (int i=0; i<n; ++i) {
             Metadatum e;
             e.ifdId_ = ifdId_;
@@ -307,7 +236,7 @@ namespace Exif {
             e.count_ = getULong(buf+o+4, byteOrder);
             // offset will be converted to a relative offset below
             e.offset_ = getULong(buf+o+8, byteOrder); 
-            e.size_ = e.count_ * tagDataFormat[e.type_].size_;
+            e.size_ = e.count_ * e.typeSize();
             // data_ is set later, see below
             entries_.push_back(e);
             o += 12;
@@ -356,7 +285,7 @@ namespace Exif {
         int rc = 0;
         Metadata::const_iterator pos;
         Metadata::const_iterator end = entries_.end();
-        pos = std::find_if(entries_.begin(), end, matchTag(tag));
+        pos = std::find_if(entries_.begin(), end, FindMetadatumByTag(tag));
         if (pos != end) {
             rc = dest.read(buf + pos->offset_, byteOrder, pos->offset_);
         }
@@ -429,7 +358,7 @@ namespace Exif {
         Metadata::const_iterator i = b;
         for (; i != e; ++i) {
             std::ostringstream offset;
-            if (tagDataFormat[i->type_].size_ * i->count_ <= 4) {
+            if (i->typeSize() * i->count_ <= 4) {
                 // Minor cheat here: we use data_ instead of offset_ to avoid
                 // having to invoke ul2Data() which would require byte order.
                 offset << std::setw(2) << std::setfill('0') << std::hex
@@ -451,8 +380,8 @@ namespace Exif {
                << "  0x" << std::setw(4) << std::setfill('0') << std::hex 
                << std::right << i->tag_ 
                << "  " << std::setw(17) << std::setfill(' ') 
-               << std::left << tagDataFormat[i->type_].name_ 
-               << " (" << std::dec << tagDataFormat[i->type_].size_ << ")"
+               << std::left << i->typeName() 
+               << " (" << std::dec << i->typeSize() << ")"
                << "  " << std::setw(6) << std::setfill(' ') << std::dec
                << std::right << i->count_
                << "  " << offset.str()

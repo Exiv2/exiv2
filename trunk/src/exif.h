@@ -2,18 +2,13 @@
 /*
  * Copyright (c) 2004 Andreas Huggel. All rights reserved.
  * 
- * This file may be distributed and/or modified under the terms of the
- * GNU General Public License version 2 as published by the Free Software
- * Foundation and appearing in the file license-gpl.txt included in the
- * packaging of this file.
+ * Todo: Insert license blabla here
  *
- * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
- * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  */
 /*!
   @file    exif.h
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.1 $
+  @version $Name:  $ $Revision: 1.2 $
   @author  Andreas Huggel (ahu)
   @date    09-Jan-03, ahu: created
  */
@@ -22,10 +17,12 @@
 
 // *****************************************************************************
 // included header files
+#include "tags.h"
+
 // + standard includes
 #include <string>
 #include <vector>
-#include <iostream>
+#include <iosfwd>
 
 // *****************************************************************************
 // namespace extensions
@@ -34,15 +31,6 @@ namespace Exif {
 
 // *****************************************************************************
 // type definitions
-
-    //! 2 byte unsigned integer type.
-    typedef unsigned short uint16;
-    //! 4 byte unsigned integer type.
-    typedef unsigned long  uint32;
-    //! 2 byte signed integer type.
-    typedef short          int16;
-    //! 4 byte signed integer type.
-    typedef long           int32;
 
 // *****************************************************************************
 // class definitions
@@ -102,11 +90,11 @@ namespace Exif {
         //! @name Accessors
         //@{
         //! Returns the size of the %Exif data buffer
-        long sizeExifData() { return sizeExifData_; }
+        long sizeExifData() const { return sizeExifData_; }
         //! Returns the offset of the %Exif data buffer from SOI
-        long offsetExifData() { return offsetExifData_; }
+        long offsetExifData() const { return offsetExifData_; }
         //! Returns a read-only pointer to the %Exif data buffer 
-        const char* exifData() { return exifData_; }
+        const char* exifData() const { return exifData_; }
         //@}
 
     private:
@@ -154,46 +142,25 @@ namespace Exif {
         uint32 offset_;
     }; // class TiffHeader
 
-    //! Description of a format for a metadatum
-    struct Format {
-        //! Constructor
-        Format(uint16 type, const std::string& name, long size);
-        uint16 type_;                           //!< Format type id
-        std::string name_;                      //!< Name of the format 
-        long size_;                             //!< Bytes per data entry 
-    }; // struct Format
-
-    //! Type to specify the IFD to which a metadata belongs
-    enum IfdId { unknown, ifd0, ifd1, exifIfd, gpsIfd, makerNoteIfd, exifIopIfd, ifd1IopIfd };
-
-    enum TagSection { ifd0Tiff };
-
-    struct TagInfo {
-        //! Constructor
-        TagInfo(
-            uint16 tag, 
-            const std::string& fieldName, 
-            const std::string& tagName, 
-            IfdId ifdId, 
-            TagSection tagSection
-        );
-        uint16 tag_;
-        std::string fieldName_;
-        std::string tagName_;
-        IfdId ifdId_;
-        TagSection tagSection_;
-    };
-
     /*!
       @brief Information related to one %Exif tag.
 
      */
-    struct Metadatum {
+    class Metadatum {
+    public:
         Metadatum();                   //!< Constructor
         ~Metadatum();                  //!< Destructor 
         Metadatum(const Metadatum& rhs); //!< Copy constructor
         Metadatum& operator=(const Metadatum& rhs); //!< Assignment operator
 
+        //! Returns the name of the type
+        const char* tagName() const { return ExifTags::tagName(tag_, ifdId_); }
+        //! Returns the name of the type
+        const char* typeName() const { return ExifTags::typeName(type_); }
+        //! Returns the size in bytes of one element of this type
+        long typeSize() const { return ExifTags::typeSize(type_); }
+
+    public:
         uint16 tag_;                   //!< Tag value
         uint16 type_;                  //!< Type of the data
         uint32 count_;                 //!< Number of components
@@ -204,10 +171,27 @@ namespace Exif {
         int   ifdIdx_;                 //!< Position in the IFD (-1: not set)
 
         char* data_;                   //!< Pointer to the data
+
     }; // struct Metadatum
 
     //! Container type to hold all metadata
     typedef std::vector<Metadatum> Metadata;
+
+    //! Unary predicate that matches a Metadatum with a given tag
+    class FindMetadatumByTag {
+    public:
+        //! Constructor, initializes the object with the tag to look for
+        FindMetadatumByTag(uint16 tag) : tag_(tag) {}
+        /*!
+          @brief Returns true if the tag of the argument metadatum is equal
+                 to that of the object.
+         */
+        bool operator()(const Metadatum& metadatum) const
+            { return tag_ == metadatum.tag_; } 
+
+    private:
+        uint16 tag_;
+    };
 
     /*!
       @brief Models an IFD (Image File Directory)
@@ -219,7 +203,7 @@ namespace Exif {
     class Ifd {
     public:
         //! Constructor. Allows to set the IFD identifier.
-        Ifd(IfdId ifdId =unknown);
+        Ifd(IfdId ifdId =IfdIdNotSet);
         /*!
           @brief Read a complete IFD and its data from a data buffer
 
@@ -269,7 +253,7 @@ namespace Exif {
           @brief Print the IFD in human readable format to the given stream;
                  begin each line with prefix.
          */
-        void print(std::ostream& os =std::cout, const std::string& prefix ="") const;
+        void print(std::ostream& os, const std::string& prefix ="") const;
         //! @name Accessors
         //@{
         //! Offset of the IFD from SOI
@@ -335,6 +319,13 @@ namespace Exif {
         void add(const Metadata& src);
         //! Add Metadatum src to the Exif metadata
         void add(const Metadatum& src);
+
+        //! Metadata iterator type (const)
+        typedef Metadata::const_iterator const_iterator;
+        //! Begin of the metadata
+        const_iterator begin() const { return metadata_.begin(); }
+        //! End of the metadata
+        const_iterator end() const { return metadata_.end(); }
 
     private:
         long offset_;                   // Original abs offset of the Exif data
