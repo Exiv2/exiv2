@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.23 $
+  @version $Name:  $ $Revision: 1.24 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -575,11 +575,11 @@ namespace Exif {
      */
     bool cmpMetadataByKey(const Metadatum& lhs, const Metadatum& rhs);
     /*!
-      @brief Return a key for the tag and IFD id.  The key is of the form
+      @brief Return a key for the entry.  The key is of the form
              'ifdItem.sectionName.tagName'.  This function knows about
              MakerNotes, i.e., it will invoke MakerNote::makeKey if necessary.
     */
-    std::string makeKey(uint16 tag, IfdId ifdId, const MakerNote* makerNote);
+    std::string makeKey(const Entry& entry);
     /*!
       @brief Return the tag and IFD id pair for the key. This function knows
              about MakerNotes, i.e., it will forward the request to
