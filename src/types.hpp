@@ -21,7 +21,7 @@
 /*!
   @file    types.hpp
   @brief   Type definitions for %Exiv2 and related functionality
-  @version $Name:  $ $Revision: 1.12 $
+  @version $Name:  $ $Revision: 1.13 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -66,12 +66,13 @@ namespace Exiv2 {
     //! Type identifiers for IFD format types
     enum TypeId { invalidTypeId, unsignedByte, asciiString, unsignedShort, 
                   unsignedLong, unsignedRational, invalid6, undefined,
-                  signedShort, signedLong, signedRational };
+                  signedShort, signedLong, signedRational, 
+                  lastTypeId };
 
     //! Type to specify the IFD to which a metadata belongs
     enum IfdId { ifdIdNotSet, 
                  ifd0, exifIfd, gpsIfd, makerIfd, iopIfd, ifd1, 
-                 lastIfdId};
+                 lastIfdId };
 
 // *****************************************************************************
 // class definitions
