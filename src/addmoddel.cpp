@@ -1,20 +1,11 @@
 // ***************************************************************** -*- C++ -*-
-/*
-  Abstract:  Sample program showing how to add, modify and delete Exif metadata.
+// addmoddel.cpp, $Rev$
+// Sample program showing how to add, modify and delete Exif metadata.
 
-  File:      addmoddel.cpp
-  Version:   $Rev$
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:   26-Jan-04, ahu: created
- */
-// *****************************************************************************
-// included header files
 #include "exif.hpp"
 #include <iostream>
 #include <iomanip>
 
-// *****************************************************************************
-// Main
 int main(int argc, char* const argv[])
 try {
     if (argc != 2) {
@@ -30,8 +21,8 @@ try {
     // Add to the Exif data
 
     // This is the quickest way to add (simple) Exif data. If a metadatum for
-    // a given key already exists, its value is overwritten (without changing
-    // the type of the value). Otherwise a new tag is added.
+    // a given key already exists, its value is overwritten. Otherwise a new 
+    // tag is added.
     exifData["Exif.Image.Model"] = "Test 1";                     // AsciiValue
     exifData["Exif.Image.SamplesPerPixel"] = uint16_t(162);      // UShortValue
     exifData["Exif.Image.XResolution"] = int32_t(-2);            // LongValue

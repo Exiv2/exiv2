@@ -1,20 +1,11 @@
 // ***************************************************************** -*- C++ -*-
-/*
-  Abstract : Sample program to print the Iptc metadata of an image
+// iptcprint.cpp, $Rev$
+// Sample program to print the Iptc metadata of an image
 
-  File     : iptcprint.cpp
-  Version  : $Rev$
-  Author(s): Brad Schick (brad) <brad@robotbattle.com>
-  History  : 31-Jul-04, brad: created
- */
-// *****************************************************************************
-// included header files
 #include "iptc.hpp"
 #include <iostream>
 #include <iomanip>
 
-// *****************************************************************************
-// Main
 int main(int argc, char* const argv[])
 try {
 
