@@ -22,7 +22,7 @@
   @file    makernote.hpp
   @brief   Contains the %Exif %MakerNote interface, IFD %MakerNote and a 
            MakerNote factory
-  @version $Name:  $ $Revision: 1.11 $
+  @version $Name:  $ $Revision: 1.12 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    18-Feb-04, ahu: created
@@ -112,8 +112,8 @@ namespace Exif {
                  allows to choose whether or not memory management is required
                  for the Entries.
          */
-        MakerNote(const MnTagInfo* mnTagInfo =0, bool alloc =true) 
-            : mnTagInfo_(mnTagInfo), alloc_(alloc), byteOrder_(invalidByteOrder) {}
+        MakerNote(const MnTagInfo* pMnTagInfo =0, bool alloc =true) 
+            : pMnTagInfo_(pMnTagInfo), alloc_(alloc), byteOrder_(invalidByteOrder) {}
         //! Virtual destructor.
         virtual ~MakerNote() {}
         //@}
@@ -204,7 +204,7 @@ namespace Exif {
 
     protected:
         //! Pointer to an array of makernote tag infos
-        const MnTagInfo* mnTagInfo_;   
+        const MnTagInfo* pMnTagInfo_;   
         /*!
           Memory management
           True:  requires memory allocation and deallocation,
@@ -230,8 +230,8 @@ namespace Exif {
                  allows to choose whether or not memory management is required
                  for the Entries.
          */
-        IfdMakerNote(const MakerNote::MnTagInfo* mnTagInfo =0, bool alloc =true)
-            : MakerNote(mnTagInfo, alloc), 
+        IfdMakerNote(const MakerNote::MnTagInfo* pMnTagInfo =0, bool alloc =true)
+            : MakerNote(pMnTagInfo, alloc), 
               absOffset_(true), ifd_(makerIfd, 0, alloc) {}
         //! Virtual destructor
         virtual ~IfdMakerNote() {}
@@ -385,7 +385,7 @@ namespace Exif {
 
         // DATA
         //! Pointer to the one and only instance of this class.
-        static MakerNoteFactory* instance_;
+        static MakerNoteFactory* pInstance_;
         //! List of makernote types and corresponding makernote create functions.
         Registry registry_;
 

@@ -20,14 +20,14 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.2 $
+  Version:   $Name:  $ $Revision: 1.3 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: image.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.3 $ $RCSfile: image.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -47,13 +47,13 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.2 $ $RCSfile: image.cpp,v $")
 namespace Exif {
 
     JpegImage::JpegImage()
-        : sizeExifData_(0), exifData_(0)
+        : sizeExifData_(0), pExifData_(0)
     {
     }
 
     JpegImage::~JpegImage()
     {
-        delete[] exifData_;
+        delete[] pExifData_;
     }
 
     const uint16 JpegImage::soi_    = 0xffd8;
@@ -107,11 +107,11 @@ namespace Exif {
 
         // Read the rest of the APP1 field (Exif data)
         long sizeExifData = size - 8;
-        exifData_ = new char[sizeExifData];
-        is.read(exifData_, sizeExifData);
+        pExifData_ = new char[sizeExifData];
+        is.read(pExifData_, sizeExifData);
         if (!is.good()) {
-            delete[] exifData_;
-            exifData_ = 0;
+            delete[] pExifData_;
+            pExifData_ = 0;
             return 1;
         }
         // Finally, set the size and offset of the Exif data buffer
@@ -173,7 +173,7 @@ namespace Exif {
         us2Data(tmpbuf + 4, sizeExifData_ + 8, bigEndian);
         memcpy(tmpbuf + 6, exifId_, 6);
         os.write(tmpbuf, 12);
-        os.write(exifData_, sizeExifData_);
+        os.write(pExifData_, sizeExifData_);
         if (!os.good()) return 4;
         // Copy rest of the stream
         is.ignore(size - 8);
@@ -188,9 +188,9 @@ namespace Exif {
     void JpegImage::setExifData(const char* buf, long size)
     {
         sizeExifData_ = size;
-        delete[] exifData_;
-        exifData_ = new char[size];
-        memcpy(exifData_, buf, size);
+        delete[] pExifData_;
+        pExifData_ = new char[size];
+        memcpy(pExifData_, buf, size);
     }
 
     TiffHeader::TiffHeader(ByteOrder byteOrder) 

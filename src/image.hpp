@@ -21,7 +21,7 @@
 /*!
   @file    image.hpp
   @brief   Class JpegImage to access JPEG images
-  @version $Name:  $ $Revision: 1.2 $
+  @version $Name:  $ $Revision: 1.3 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -137,7 +137,7 @@ namespace Exif {
         //! Return the size of the %Exif data buffer
         long sizeExifData() const { return sizeExifData_; }
         //! Return a read-only pointer to the %Exif data buffer 
-        const char* exifData() const { return exifData_; }
+        const char* exifData() const { return pExifData_; }
         //@}
 
         /*!
@@ -155,6 +155,7 @@ namespace Exif {
         static bool isJpeg(std::istream& is);
 
     private:
+        // DATA
         static const uint16 soi_;               // SOI marker
         static const uint16 app0_;              // APP0 marker
         static const uint16 app1_;              // APP1 marker
@@ -162,7 +163,7 @@ namespace Exif {
         static const char jfifId_[];            // JFIF identifier
 
         long sizeExifData_;                     // Size of the Exif data buffer
-        char* exifData_;                        // Exif data buffer
+        char* pExifData_;                       // Exif data buffer
 
     }; // class JpegImage
 
