@@ -22,13 +22,13 @@
   Abstract:  Command line program to display and manipulate image %Exif data
 
   File:      exiv2.cpp
-  Version:   $Name:  $ $Revision: 1.15 $
+  Version:   $Name:  $ $Revision: 1.16 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   10-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.15 $ $RCSfile: exiv2.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.16 $ $RCSfile: exiv2.cpp,v $");
 
 // *****************************************************************************
 // included header files
@@ -165,12 +165,12 @@ void Params::help(std::ostream& os) const
        << "   -d tgt  Delete target for the `delete' action. Possible targets are\n"
        << "           `e' to delete the whole Exif section (the default) and `t'\n"
        << "           to delete only the Exif thumbnail from the files.\n"
-       << "   -i tgt  Insert target for the `insert' action. Possible targets are:\n"
+       << "   -i tgt  Insert target(s) for the `insert' action. Possible targets are:\n"
        << "             a : all supported metadata (default)\n"
        << "             e : Exif data\n"
        << "             i : Iptc data\n"
        << "             c : Jpeg comment\n"
-       << "   -e tgt  Extract target for the `extract' action. Possible targets\n"
+       << "   -e tgt  Extract target(s) for the `extract' action. Possible targets\n"
        << "           are the same as those for the -i option plus:\n"
        << "             t : extract the Exif thumbnail to an image file\n"
        << "   -r fmt  Filename format for the `rename' action. The format string\n"
