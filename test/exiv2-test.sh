@@ -1,5 +1,9 @@
 #! /bin/sh
 # Test driver for exiv2 utility tests
+LD_LIBRARY_PATH=../../src:$LD_LIBRARY_PATH
+exiv2="../../src/exiv2"
+results="./tmp/exiv2-test.out"
+good="./data/exiv2-test.out"
 (
 images="exiv2-empty.jpg \
         exiv2-canon-powershot-s40.jpg \
@@ -11,52 +15,80 @@ images="exiv2-empty.jpg \
         exiv2-fujifilm-finepix-s2pro.jpg \
         exiv2-sigma-d10.jpg"
 
+image2="exiv2-empty.jpg \
+        20031214_000043.jpg \
+        20000506_020544.jpg \
+        20040329_224245.jpg \
+        20010405_235039.jpg \
+        20030925_201850.jpg \
+        20001026_044550.jpg \
+        20030926_111535.jpg \
+        20040316_075137.jpg"
+
+image3="exiv2-empty.exv \
+        20031214_000043.exv \
+        20000506_020544.exv \
+        20040329_224245.exv \
+        20010405_235039.exv \
+        20030925_201850.exv \
+        20001026_044550.exv \
+        20030926_111535.exv \
+        20040316_075137.exv"
+
 for i in $images; do cp -f data/$i tmp/; done
-echo "Test directory -----------------------------------------------------------"
-cd tmp/ || exit 1;
-exiv2="../../src/exiv2"
+echo "Exiv2 test directory -----------------------------------------------------"
+cd tmp/ >/dev/null || exit 1;
+echo tmp/
 echo
 echo "Exiv2 version ------------------------------------------------------------"
-which $exiv2 || exit 2;
+ls $exiv2 || exit 2;
 $exiv2 -V
 echo
 echo "Exiv2 help ---------------------------------------------------------------"
 $exiv2 -h
 echo
 echo "Adjust -------------------------------------------------------------------"
-$exiv2 -v -a-12:01:01 adjust *.jpg
+$exiv2 -v -a-12:01:01 adjust $images
 echo
 echo "Rename -------------------------------------------------------------------"
-$exiv2 -vf rename *.jpg
+$exiv2 -vf rename $images
 echo
 echo "Print --------------------------------------------------------------------"
-$exiv2 -v print *.jpg
-$exiv2 -v -pt print *.jpg
-$exiv2 -v -pt print *.jpg > iii
+$exiv2 -v print $image2
+$exiv2 -v -pt print $image2
+$exiv2 -v -pt print $image2 > iii
 echo
 echo "Extract Exif data --------------------------------------------------------"
-$exiv2 -vf extract *.jpg
+$exiv2 -vf extract $image2
 echo
 echo "Extract Thumbnail --------------------------------------------------------"
-$exiv2 -vf -et extract *.jpg
-$exiv2 -v -pt print *.exv > jjj
+$exiv2 -vf -et extract $image2
+$exiv2 -v -pt print $image3 > jjj
 echo
 echo "Compare image data and extracted data ------------------------------------"
 diff iii jjj
 echo
 echo "Delete Thumbnail ---------------------------------------------------------"
-$exiv2 -v -dt delete *.jpg
-$exiv2 -vf -et extract *.jpg
+$exiv2 -v -dt delete $image2
+$exiv2 -vf -et extract $image2
 echo
 echo "Delete Exif data ---------------------------------------------------------"
-$exiv2 -v delete *.jpg
-$exiv2 -v print *.jpg
+$exiv2 -v delete $image2
+$exiv2 -v print $image2
 echo
 echo "Insert Exif data ---------------------------------------------------------"
-$exiv2 -v insert *.jpg
-$exiv2 -v -pt print *.exv > kkk
+$exiv2 -v insert $image2
+$exiv2 -v -pt print $image3 > kkk
 echo
 echo "Compare original and inserted image data ---------------------------------"
 diff iii kkk
 
-) > exiv2-test.out 2>&1
+) > $results 2>&1
+
+diff -q $results $good
+rc=$?
+if [ $rc -eq 0 ] ; then
+    echo "All testcases passed."
+else
+    diff $results $good
+fi
