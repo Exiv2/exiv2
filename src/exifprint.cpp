@@ -22,9 +22,13 @@
   Abstract : Sample program to print the Exif metadata of an image
 
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  Version  : $Name:  $ $Revision: 1.3 $
+  Version  : $Name:  $ $Revision: 1.4 $
   History  : 26-Jan-04, ahu: created
  */
+// *****************************************************************************
+#include "rcsid.hpp"
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.4 $ $RCSfile: exifprint.cpp,v $")
+
 // *****************************************************************************
 // included header files
 #include "exifprint.hpp"

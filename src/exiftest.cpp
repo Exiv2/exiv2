@@ -3,8 +3,12 @@
   Abstract : This is playground code, do what you want with it.
 
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  Version  : $Name:  $ $Revision: 1.10 $
+  Version  : $Name:  $ $Revision: 1.11 $
  */
+// *****************************************************************************
+#include "rcsid.hpp"
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.11 $ $RCSfile: exiftest.cpp,v $")
+
 // *****************************************************************************
 // included header files
 #include "exif.hpp"

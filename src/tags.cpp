@@ -20,10 +20,14 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.7 $
+  Version:   $Name:  $ $Revision: 1.8 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
+// *****************************************************************************
+#include "rcsid.hpp"
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.8 $ $RCSfile: tags.cpp,v $")
+
 // *****************************************************************************
 // included header files
 #include "tags.hpp"
