@@ -168,7 +168,7 @@ EXIVSIMPLE_API int ModifyMeta(HIMAGE img, const char *key, const char *val, DllT
             Exiv2::ExifKey exifKey(key);
             rc = 1;
 
-            // No way to get value type for exif... alwayst string??
+            // No way to get value type for exif... string is the most common
             if (type == invalidTypeId)
                 type = asciiString;
             Exiv2::Value::AutoPtr value = Exiv2::Value::create((Exiv2::TypeId)type);
@@ -227,7 +227,7 @@ EXIVSIMPLE_API int AddMeta(HIMAGE img, const char *key, const char *val, DllType
             Exiv2::ExifKey exifKey(key);
             rc = 1;
 
-            // No way to get value type for exif... alwayst string??
+            // No way to get value type for exif... string is the most common
             if (type == invalidTypeId)
                 type = asciiString;
             Exiv2::Value::AutoPtr value = Exiv2::Value::create((Exiv2::TypeId)type);
