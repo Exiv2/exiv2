@@ -1,0 +1,77 @@
+<?xml version = '1.0'?>
+<?xml-stylesheet type="text/xsl" href="tags.xsl"?>
+<TAGLIST>
+<HEADER>
+<title>Nikon (format 2) MakerNote Tags defined in Exiv2</title>
+<text>
+<p>Tags found in the MakerNote of images taken with Nikon cameras, including the E700, E800, E900, E900S, E910, E950. These tags are defined by Exiv2 in accordance with <a href="makernote.html#R1">[1]</a>.</p>
+<p>Click on a column header to sort the table.</p>
+</text>
+</HEADER>
+<ROWSET>
+   <ROW num="1">
+      <tagname>Quality</tagname>
+      <tagdec>3</tagdec>
+      <taghex>0x0003</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon2.Quality</key>
+      <tagdesc>Image quality setting</tagdesc>
+   </ROW>
+   <ROW num="2">
+      <tagname>ColorMode</tagname>
+      <tagdec>4</tagdec>
+      <taghex>0x0004</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon2.ColorMode</key>
+      <tagdesc>Color mode</tagdesc>
+   </ROW>
+   <ROW num="3">
+      <tagname>ImageAdjustment</tagname>
+      <tagdec>5</tagdec>
+      <taghex>0x0005</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon2.ImageAdjustment</key>
+      <tagdesc>Image adjustment setting</tagdesc>
+   </ROW>
+   <ROW num="4">
+      <tagname>ISOSpeed</tagname>
+      <tagdec>6</tagdec>
+      <taghex>0x0006</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon2.ISOSpeed</key>
+      <tagdesc>ISO speed setting</tagdesc>
+   </ROW>
+   <ROW num="5">
+      <tagname>WhiteBalance</tagname>
+      <tagdec>7</tagdec>
+      <taghex>0x0007</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon2.WhiteBalance</key>
+      <tagdesc>White balance</tagdesc>
+   </ROW>
+   <ROW num="6">
+      <tagname>Focus</tagname>
+      <tagdec>8</tagdec>
+      <taghex>0x0008</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon2.Focus</key>
+      <tagdesc>Focus mode</tagdesc>
+   </ROW>
+   <ROW num="7">
+      <tagname>DigitalZoom</tagname>
+      <tagdec>10</tagdec>
+      <taghex>0x000a</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon2.DigitalZoom</key>
+      <tagdesc>Digital zoom setting</tagdesc>
+   </ROW>
+   <ROW num="8">
+      <tagname>Adapter</tagname>
+      <tagdec>11</tagdec>
+      <taghex>0x000b</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon2.Adapter</key>
+      <tagdesc>Adapter used</tagdesc>
+   </ROW>
+</ROWSET>
+</TAGLIST>

@@ -1,0 +1,237 @@
+<?xml version = '1.0'?>
+<?xml-stylesheet type="text/xsl" href="tags.xsl"?>
+<TAGLIST>
+<HEADER>
+<title>Nikon (format 3) MakerNote Tags defined in Exiv2</title>
+<text>
+<p>Tags found in the MakerNote of images taken with newer Nikon cameras, e.g., the E5400, SQ, D2H, D70.</p>
+<p>Click on a column header to sort the table.</p>
+</text>
+</HEADER>
+<ROWSET>
+   <ROW num="1">
+      <tagname>Version</tagname>
+      <tagdec>1</tagdec>
+      <taghex>0x0001</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.Version</key>
+      <tagdesc>Nikon Makernote version</tagdesc>
+   </ROW>
+   <ROW num="2">
+      <tagname>ISOSpeed</tagname>
+      <tagdec>2</tagdec>
+      <taghex>0x0002</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.ISOSpeed</key>
+      <tagdesc>ISO speed setting</tagdesc>
+   </ROW>
+   <ROW num="3">
+      <tagname>ColorMode</tagname>
+      <tagdec>3</tagdec>
+      <taghex>0x0003</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.ColorMode</key>
+      <tagdesc>Color mode</tagdesc>
+   </ROW>
+   <ROW num="4">
+      <tagname>Quality</tagname>
+      <tagdec>4</tagdec>
+      <taghex>0x0004</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.Quality</key>
+      <tagdesc>Image quality setting</tagdesc>
+   </ROW>
+   <ROW num="5">
+      <tagname>WhiteBalance</tagname>
+      <tagdec>5</tagdec>
+      <taghex>0x0005</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.WhiteBalance</key>
+      <tagdesc>White balance</tagdesc>
+   </ROW>
+   <ROW num="6">
+      <tagname>Sharpening</tagname>
+      <tagdec>6</tagdec>
+      <taghex>0x0006</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.Sharpening</key>
+      <tagdesc>Image sharpening setting</tagdesc>
+   </ROW>
+   <ROW num="7">
+      <tagname>Focus</tagname>
+      <tagdec>7</tagdec>
+      <taghex>0x0007</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.Focus</key>
+      <tagdesc>Focus mode</tagdesc>
+   </ROW>
+   <ROW num="8">
+      <tagname>FlashSetting</tagname>
+      <tagdec>8</tagdec>
+      <taghex>0x0008</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.FlashSetting</key>
+      <tagdesc>Flash setting</tagdesc>
+   </ROW>
+   <ROW num="9">
+      <tagname>FlashMode</tagname>
+      <tagdec>9</tagdec>
+      <taghex>0x0009</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.FlashMode</key>
+      <tagdesc>Flash mode</tagdesc>
+   </ROW>
+   <ROW num="10">
+      <tagname>WhiteBalanceBias</tagname>
+      <tagdec>11</tagdec>
+      <taghex>0x000b</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.WhiteBalanceBias</key>
+      <tagdesc>White balance bias</tagdesc>
+   </ROW>
+   <ROW num="11">
+      <tagname>ExposureDiff</tagname>
+      <tagdec>14</tagdec>
+      <taghex>0x000e</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.ExposureDiff</key>
+      <tagdesc>Exposure difference</tagdesc>
+   </ROW>
+   <ROW num="12">
+      <tagname>ISOSelection</tagname>
+      <tagdec>15</tagdec>
+      <taghex>0x000f</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.ISOSelection</key>
+      <tagdesc>ISO selection</tagdesc>
+   </ROW>
+   <ROW num="13">
+      <tagname>ThumbOffset</tagname>
+      <tagdec>17</tagdec>
+      <taghex>0x0011</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.ThumbOffset</key>
+      <tagdesc>Thumbnail IFD offset</tagdesc>
+   </ROW>
+   <ROW num="14">
+      <tagname>FlashBias</tagname>
+      <tagdec>18</tagdec>
+      <taghex>0x0012</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.FlashBias</key>
+      <tagdesc>Flash bias</tagdesc>
+   </ROW>
+   <ROW num="15">
+      <tagname>ImageAdjustment</tagname>
+      <tagdec>128</tagdec>
+      <taghex>0x0080</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.ImageAdjustment</key>
+      <tagdesc>Image adjustment setting</tagdesc>
+   </ROW>
+   <ROW num="16">
+      <tagname>ToneComp</tagname>
+      <tagdec>129</tagdec>
+      <taghex>0x0081</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.ToneComp</key>
+      <tagdesc>Tone compensation setting</tagdesc>
+   </ROW>
+   <ROW num="17">
+      <tagname>LensType</tagname>
+      <tagdec>131</tagdec>
+      <taghex>0x0083</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.LensType</key>
+      <tagdesc>Lens type</tagdesc>
+   </ROW>
+   <ROW num="18">
+      <tagname>Lens</tagname>
+      <tagdec>132</tagdec>
+      <taghex>0x0084</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.Lens</key>
+      <tagdesc>Lens</tagdesc>
+   </ROW>
+   <ROW num="19">
+      <tagname>FocusDistance</tagname>
+      <tagdec>133</tagdec>
+      <taghex>0x0085</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.FocusDistance</key>
+      <tagdesc>Manual focus distance</tagdesc>
+   </ROW>
+   <ROW num="20">
+      <tagname>DigitalZoom</tagname>
+      <tagdec>134</tagdec>
+      <taghex>0x0086</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.DigitalZoom</key>
+      <tagdesc>Digital zoom setting</tagdesc>
+   </ROW>
+   <ROW num="21">
+      <tagname>FlashType</tagname>
+      <tagdec>135</tagdec>
+      <taghex>0x0087</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.FlashType</key>
+      <tagdesc>Type of flash used</tagdesc>
+   </ROW>
+   <ROW num="22">
+      <tagname>AFFocusPos</tagname>
+      <tagdec>136</tagdec>
+      <taghex>0x0088</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.AFFocusPos</key>
+      <tagdesc>AF focus position</tagdesc>
+   </ROW>
+   <ROW num="23">
+      <tagname>Bracketing</tagname>
+      <tagdec>137</tagdec>
+      <taghex>0x0089</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.Bracketing</key>
+      <tagdesc>Bracketing</tagdesc>
+   </ROW>
+   <ROW num="24">
+      <tagname>ColorMode</tagname>
+      <tagdec>141</tagdec>
+      <taghex>0x008d</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.ColorMode</key>
+      <tagdesc>Color mode</tagdesc>
+   </ROW>
+   <ROW num="25">
+      <tagname>LightingType</tagname>
+      <tagdec>144</tagdec>
+      <taghex>0x0090</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.LightingType</key>
+      <tagdesc>Lighting type</tagdesc>
+   </ROW>
+   <ROW num="26">
+      <tagname>Hue</tagname>
+      <tagdec>146</tagdec>
+      <taghex>0x0092</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.Hue</key>
+      <tagdesc>Hue adjustment</tagdesc>
+   </ROW>
+   <ROW num="27">
+      <tagname>Saturation</tagname>
+      <tagdec>148</tagdec>
+      <taghex>0x0094</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.Saturation</key>
+      <tagdesc>Saturation adjustment</tagdesc>
+   </ROW>
+   <ROW num="28">
+      <tagname>NoiseReduction</tagname>
+      <tagdec>149</tagdec>
+      <taghex>0x0095</taghex>
+      <ifd>Makernote</ifd>
+      <key>Makernote.Nikon3.NoiseReduction</key>
+      <tagdesc>Noise reduction</tagdesc>
+   </ROW>
+</ROWSET>
+</TAGLIST>
