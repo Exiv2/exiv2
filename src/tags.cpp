@@ -20,13 +20,13 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.13 $
+  Version:   $Name:  $ $Revision: 1.14 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.13 $ $RCSfile: tags.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.14 $ $RCSfile: tags.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -389,19 +389,19 @@ namespace Exif {
         return tagInfos_[ifdId][idx].printFct_;
     }
 
-    void ExifTags::taglist()
+    void ExifTags::taglist(std::ostream& os)
     {
         for (int i=0; ifdTagInfo[i].tag_ != 0xffff; ++i) {
-            std::cout << ifdTagInfo[i] << "\n";
+            os << ifdTagInfo[i] << "\n";
         }
         for (int i=0; exifTagInfo[i].tag_ != 0xffff; ++i) {
-            std::cout << exifTagInfo[i] << "\n";
+            os << exifTagInfo[i] << "\n";
         }
         for (int i=0; iopTagInfo[i].tag_ != 0xffff; ++i) {
-            std::cout << iopTagInfo[i] << "\n";
+            os << iopTagInfo[i] << "\n";
         }
         for (int i=0; gpsTagInfo[i].tag_ != 0xffff; ++i) {
-            std::cout << gpsTagInfo[i] << "\n";
+            os << gpsTagInfo[i] << "\n";
         }
     } // ExifTags::taglist
 
