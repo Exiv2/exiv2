@@ -20,14 +20,14 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.8 $
+  Version:   $Name:  $ $Revision: 1.9 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.8 $ $RCSfile: image.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.9 $ $RCSfile: image.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -186,6 +186,105 @@ namespace Exif {
 
         return 0;
     } // JpegImage::readExifData
+
+    int JpegImage::eraseExifData(const std::string& path) const
+    {
+        std::ifstream infile(path.c_str(), std::ios::binary);
+        if (!infile) return -1;
+        return eraseExifData(path, infile);
+    } // JpegImage::eraseExifData
+
+    int JpegImage::eraseExifData(const std::string& path, std::istream& is) const
+    {
+        // Write the output to a temporary file
+        pid_t pid = getpid();
+        std::string tmpname = path + toString(pid);
+        std::ofstream os(tmpname.c_str(), std::ios::binary);
+        if (!os) return -3;
+
+        int rc = eraseExifData(os, is);
+        os.close();
+        if (rc == 0) {
+            // rename temporary file
+            if (rename(tmpname.c_str(), path.c_str()) == -1) rc = -4;
+        }
+        if (rc != 0) {
+            // remove temporary file
+            unlink(tmpname.c_str());
+        }
+
+        return rc;
+    } // JpegImage::eraseExifData
+
+    // Todo: implement this properly: skip unknown APP0 and APP1 segments
+    int JpegImage::eraseExifData(std::ostream& os, std::istream& is) const
+    {
+        // Check if this is a JPEG image in the first place
+        if (!isThisType(is, true)) {
+            if (!is.good()) return 1;
+            return 2;
+        }
+        // Read and check section marker and size
+        char tmpbuf[10];
+        is.read(tmpbuf, 10);
+        if (!is.good()) return 1;
+        uint16 marker = getUShort(tmpbuf, bigEndian);
+        uint16 size = getUShort(tmpbuf + 2, bigEndian);
+        if (size < 8) return 3;
+
+        long sizeJfifData = 9;
+        static char defaultJfifData[] = 
+            { 0x01, 0x01, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00 };
+        // Todo: Memory Leak! Use an auto pointer
+        char* pJfifData = 0;
+
+        if (marker == app0_ && memcmp(tmpbuf + 4, jfifId_, 5) == 0) {
+            // Read the remainder of the JFIF APP0 segment
+            is.seekg(-1, std::ios::cur);
+            sizeJfifData = size - 7;
+            pJfifData = new char[sizeJfifData];
+            is.read(pJfifData, sizeJfifData);
+            if (!is.good()) {
+                delete[] pJfifData;
+                pJfifData = 0;
+                return 1;
+            }
+            // Read the beginning of the next segment
+            is.read(tmpbuf, 10);
+            if (!is.good()) return 1;
+            marker = getUShort(tmpbuf, bigEndian);
+            size = getUShort(tmpbuf + 2, bigEndian);
+        }
+        // Todo: Should we return 0 here (no Exif data found)
+        if (!(marker == app1_ && memcmp(tmpbuf + 4, exifId_, 6) == 0)) return 3;
+        // Skip the rest of the Exif APP1 segment
+        is.seekg(size - 8, std::ios::cur);
+        if (!is.good()) return 1;
+
+        // Write SOI and APP0 markers, size of APP0 field
+        us2Data(tmpbuf, soi_, bigEndian);
+        us2Data(tmpbuf + 2, app0_, bigEndian);
+        us2Data(tmpbuf + 4, 7 + sizeJfifData, bigEndian);
+        memcpy(tmpbuf + 6, jfifId_, 5);
+        os.write(tmpbuf, 11);
+        // Write JFIF APP0 data, use that from the input stream if available
+        if (pJfifData) {
+            os.write(pJfifData, sizeJfifData);
+            delete pJfifData;
+            pJfifData = 0;
+        }
+        else {
+            os.write(defaultJfifData, sizeJfifData);
+        }
+        if (!os.good()) return 4;
+
+        // Copy the rest of the input stream
+        os.flush();
+        is >> os.rdbuf();
+        if (!os.good()) return 4;
+
+        return 0;
+    } // JpegImage::eraseExifData
 
     int JpegImage::writeExifData(const std::string& path) const
     {

@@ -21,7 +21,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.35 $
+  @version $Name:  $ $Revision: 1.36 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -614,6 +614,12 @@ namespace Exif {
 
         //! @name Accessors
         //@{
+        /*!
+          @brief Erase the %Exif data section from file path. 
+          @param path Path to the file.
+          @return 0 if successful.
+         */
+        int erase(const std::string& path) const;
         //! Begin of the metadata
         const_iterator begin() const { return metadata_.begin(); }
         //! End of the metadata

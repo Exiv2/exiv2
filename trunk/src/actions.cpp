@@ -20,13 +20,13 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Name:  $ $Revision: 1.10 $
+  Version:   $Name:  $ $Revision: 1.11 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.10 $ $RCSfile: actions.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.11 $ $RCSfile: actions.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -462,9 +462,14 @@ namespace Action {
 
     int Erase::eraseExifData(Exif::ExifData& exifData) const
     {
-        // Todo: implement me!
-        std::cout << "Sorry, the erase action for Exif data has not been implemented yet.\n";
-        return 0;
+        if (Params::instance().verbose_) {
+            std::cout << "Erasing Exif data from the file\n"; 
+        }
+        int rc = exifData.erase(path_);
+        if (rc) {
+            std::cerr << exifWriteError(rc, path_) << "\n";
+        }
+        return rc;
     }
 
     Erase::AutoPtr Erase::clone() const
@@ -678,6 +683,9 @@ namespace {
         case -1:
             error = "Couldn't open file `" + path + "'";
             break;
+        case -2:
+            error = "The file contains data of an unknown image type";
+            break;
         case 1:
             error = "Couldn't read from the input stream";
             break;
@@ -705,9 +713,12 @@ namespace {
             error = "Couldn't open file `" + path + "'";
             break;
         case -2:
-            error = "Couldn't open temporary file";
+            error = "The file contains data of an unknown image type";
             break;
         case -3:
+            error = "Couldn't open temporary file";
+            break;
+        case -4:
             error = "Renaming temporary file failed";
             break;
         case 1:
@@ -728,5 +739,4 @@ namespace {
         }
         return error;
     } // exifWriteError
-
 }

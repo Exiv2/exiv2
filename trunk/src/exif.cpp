@@ -20,14 +20,14 @@
  */
 /*
   File:      exif.cpp
-  Version:   $Name:  $ $Revision: 1.35 $
+  Version:   $Name:  $ $Revision: 1.36 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   26-Jan-04, ahu: created
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.35 $ $RCSfile: exif.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.36 $ $RCSfile: exif.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -576,6 +576,18 @@ namespace Exif {
 
         return ret;
     } // ExifData::read
+
+    int ExifData::erase(const std::string& path) const
+    {
+        std::ifstream is(path.c_str(), std::ios::binary);
+        if (!is) return -1;
+        Image* pImage = ImageFactory::instance().create(is);
+        if (pImage == 0) return -2;
+
+        int rc = pImage->eraseExifData(path, is);
+        delete pImage;
+        return rc;
+    } // ExifData::erase
 
     int ExifData::write(const std::string& path) 
     {
