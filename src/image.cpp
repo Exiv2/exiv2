@@ -20,7 +20,7 @@
  */
 /*
   File:      image.cpp
-  Version:   $Name:  $ $Revision: 1.24 $
+  Version:   $Name:  $ $Revision: 1.25 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
              Brad Schick (brad) <schick@robotbattle.com>
   History:   26-Jan-04, ahu: created
@@ -29,11 +29,17 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.24 $ $RCSfile: image.cpp,v $");
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.25 $ $RCSfile: image.cpp,v $");
 
 // *****************************************************************************
 // included header files
-#include <config.h>
+#ifdef HAVE_CONFIG_H
+# include <config.h>
+#else
+# ifdef _MSC_VER
+#  include <config_win32.h>
+# endif
+#endif
 
 #include "image.hpp"
 #include "types.hpp"
@@ -47,12 +53,12 @@ EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.24 $ $RCSfile: image.cpp,v $");
 #include <sys/stat.h>
 #ifdef _MSC_VER
 # define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
+#endif
+#ifdef HAVE_PROCESS_H
 # include <process.h>
-  typedef int pid_t;
-#else
-# ifdef HAVE_UNISTD_H
-#  include <unistd.h>                           // for getpid, stat
-# endif
+#endif
+#ifdef HAVE_UNISTD_H
+# include <unistd.h>                            // for getpid, stat
 #endif
 
 // *****************************************************************************
