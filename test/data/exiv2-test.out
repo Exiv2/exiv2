@@ -43,10 +43,9 @@ Options:
              t : Exif thumbnail only
              i : Iptc data
              c : Jpeg comment
-           to delete only the Exif thumbnail from the files.
    -i tgt  Insert target(s) for the `insert' action. Possible targets are
            the same as those for the -d option. Only Jpeg thumbnails can
-           <file>-thumb.jpg can be inserted.
+           be inserted, they need to be named <file>-thumb.jpg
    -e tgt  Extract target(s) for the `extract' action. Possible targets
            are the same as those for the -d option.
    -r fmt  Filename format for the `rename' action. The format string
