@@ -12,11 +12,13 @@
 
   RCS information
    $Name:  $
-   $Revision: 1.3 $
+   $Revision: 1.4 $
  */
 // *****************************************************************************
 // included header files
 #include "tags.hpp"
+
+#include <iostream>
 
 // *****************************************************************************
 // class member definitions
@@ -80,13 +82,11 @@ namespace Exif {
         TagFormat(unsignedShort,    "unsigned short",    2),
         TagFormat(unsignedLong,     "unsigned long",     4),
         TagFormat(unsignedRational, "unsigned rational", 8),
-        TagFormat(signedByte,       "signed byte",       1),
+        TagFormat(invalid6,         "invalid (6)",       1),
         TagFormat(undefined,        "undefined",         1),
         TagFormat(signedShort,      "signed short",      2),
         TagFormat(signedLong,       "signed long",       4),
-        TagFormat(signedRational,   "signed rational",   8),
-        TagFormat(singleFloat,      "single float",      4),
-        TagFormat(doubleFloat,      "double float",      8)
+        TagFormat(signedRational,   "signed rational",   8)
     };
 
     TagInfo::TagInfo(
@@ -281,14 +281,14 @@ namespace Exif {
         return sectionInfo_[tagInfo[tagInfoIdx(tag, ifdId)].sectionId_].name_;
     }
 
-    const char* ExifTags::typeName(uint16 type)
+    const char* ExifTags::typeName(TypeId typeId)
     {
-        return tagFormat_[type].name_;
+        return tagFormat_[typeId].name_;
     }
 
-    long ExifTags::typeSize(uint16 type)
+    long ExifTags::typeSize(TypeId typeId)
     {
-        return tagFormat_[type].size_;
+        return tagFormat_[typeId].size_;
     }
 
     const char* ExifTags::ifdName(IfdId ifdId)
@@ -304,6 +304,40 @@ namespace Exif {
     const char* ExifTags::sectionName(SectionId sectionId)
     {
         return sectionInfo_[sectionId].name_;
+    }
+
+
+    // *************************************************************************
+    // free functions
+
+    std::ostream& operator<<(std::ostream& os, const Rational& r) 
+    {
+        return os << r.first << "/" << r.second;
+    }
+
+    std::istream& operator>>(std::istream& is, Rational& r) 
+    { 
+        int32 nominator;
+        int32 denominator;
+        char c;
+        is >> nominator >> c >> denominator; 
+        if (is && c == '/') r = std::make_pair(nominator, denominator);
+        return is;
+    }
+
+    std::ostream& operator<<(std::ostream& os, const URational& r) 
+    { 
+        return os << r.first << "/" << r.second;
+    }
+
+    std::istream& operator>>(std::istream& is, URational& r) 
+    {
+        uint32 nominator;
+        uint32 denominator;
+        char c;
+        is >> nominator >> c >> denominator; 
+        if (is && c == '/') r = std::make_pair(nominator, denominator);
+        return is;
     }
 
 }                                       // namespace Exif

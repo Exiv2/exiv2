@@ -8,7 +8,7 @@
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of %Exif data
-  @version $Name:  $ $Revision: 1.3 $
+  @version $Name:  $ $Revision: 1.4 $
   @author  Andreas Huggel (ahu)
   @date    09-Jan-03, ahu: created
  */
@@ -22,7 +22,8 @@
 // + standard includes
 #include <string>
 #include <vector>
-#include <iosfwd>
+#include <iostream>
+#include <sstream>
 
 // *****************************************************************************
 // namespace extensions
@@ -145,7 +146,14 @@ namespace Exif {
         uint32 offset_;
     }; // class TiffHeader
 
-    //! Common interface for all values 
+    /*!
+      @brief Common interface for all values. The interface provides a uniform
+             way to access values independent from their actual C++ type for 
+             simple tasks like reading the values. For other tasks, like modifying
+             values you need to downcast it to the actual subclass of Value so
+             that you can access the subclass specific interface (e.g., assignment
+             operator for a vector of unsigned longs). 
+     */
     class Value {
     public:
         //! Constructor, taking a type id to initialize the base class with
@@ -157,8 +165,9 @@ namespace Exif {
 
           @param buf Pointer to the data buffer to read from
           @param len Number of bytes in the data buffer 
+          @param byteOrder Applicable byte order (little or big endian).
          */
-        virtual void read(const char* buf, long len) =0;
+        virtual void read(const char* buf, long len, ByteOrder byteOrder) =0;
         //! Set the value from a string buffer
         virtual void read(const std::string& buf) =0;
         /*!
@@ -168,13 +177,14 @@ namespace Exif {
           the call results in undefined behaviour.
 
           @param buf Data buffer to write to.
+          @param byteOrder Applicable byte order (little or big endian).
           @return Number of characters written.
         */
-        virtual long copy(char* buf) const =0;
-        //! Returns the size of the value in bytes
+        virtual long copy(char* buf, ByteOrder byteOrder) const =0;
+        //! Return the size of the value in bytes
         virtual long size() const =0;
         /*!
-          @brief Returns a pointer to a copy of itself (deep copy).
+          @brief Return a pointer to a copy of itself (deep copy).
                  The caller owns this copy and is responsible to delete it!
          */
         virtual Value* clone() const =0;
@@ -185,12 +195,10 @@ namespace Exif {
           @brief A (simple) factory to create a Value type.
 
           @param typeId Type of the value.
-          @param byteOrder Applicable byte order (little or big endian).
-
           @return Pointer to the newly created Value.
                   The caller owns this copy and is responsible to delete it!
          */
-        static Value* create(TypeId typeId, ByteOrder byteOrder);
+        static Value* create(TypeId typeId);
 
     protected:
         const TypeId typeId_;                   //!< Format type identifier
@@ -203,14 +211,14 @@ namespace Exif {
         return value.write(os);
     }
 
-    //! %Value representing an Ascii string type.
-    class AsciiValue : public Value {
+    //! %Value for an undefined data type.
+    class DataValue : public Value {
     public:
         //! Default constructor.
-        AsciiValue() : Value(asciiString) {}
-        virtual void read(const char* buf, long len);
+        DataValue(TypeId typeId =undefined) : Value(typeId) {}
+        virtual void read(const char* buf, long len, ByteOrder byteOrder);
         virtual void read(const std::string& buf);
-        virtual long copy(char* buf) const;
+        virtual long copy(char* buf, ByteOrder byteOrder) const;
         virtual long size() const;
         virtual Value* clone() const;
         virtual std::ostream& write(std::ostream& os) const;
@@ -220,22 +228,42 @@ namespace Exif {
 
     };
 
-    //! %Value representing one unsigned short type.
-    class UShortValue : public Value {
+    //! %Value for an Ascii string type.
+    class AsciiValue : public Value {
     public:
-        //! Constructor, taking the byte order (endianness) as argument
-        UShortValue(ByteOrder byteOrder)
-            : Value(unsignedShort), byteOrder_(byteOrder) {}
-        virtual void read(const char* buf, long len);
+        //! Default constructor.
+        AsciiValue() : Value(asciiString) {}
+        virtual void read(const char* buf, long len, ByteOrder byteOrder);
         virtual void read(const std::string& buf);
-        virtual long copy(char* buf) const;
+        virtual long copy(char* buf, ByteOrder byteOrder) const;
         virtual long size() const;
         virtual Value* clone() const;
         virtual std::ostream& write(std::ostream& os) const;
 
     private:
-        ByteOrder byteOrder_;
-        uint16 value_;
+        std::string value_;
+
+    };
+
+    /*!
+      @brief Template for a %Value for a basic Type. This is used for unsigned 
+             and signed short, long and rational.
+     */    
+    template<typename T>
+    class ValueType : public Value {
+    public:
+        //! Default constructor.
+        ValueType() : Value(getType<T>()) {}
+        virtual void read(const char* buf, long len, ByteOrder byteOrder);
+        virtual void read(const std::string& buf);
+        virtual long copy(char* buf, ByteOrder byteOrder) const;
+        virtual long size() const;
+        virtual Value* clone() const;
+        virtual std::ostream& write(std::ostream& os) const;
+
+    private:
+        typedef std::vector<T> ValueList;
+        ValueList value_;
 
     };
 
@@ -252,9 +280,9 @@ namespace Exif {
         //! Return the name of the type
         const char* tagName() const { return ExifTags::tagName(tag_, ifdId_); }
         //! Return the name of the type
-        const char* typeName() const { return ExifTags::typeName(type_); }
+        const char* typeName() const { return ExifTags::typeName(TypeId(type_)); }
         //! Return the size in bytes of one element of this type
-        long typeSize() const { return ExifTags::typeSize(type_); }
+        long typeSize() const { return ExifTags::typeSize(TypeId(type_)); }
         //! Return the name of the IFD
         const char* ifdName() const { return ExifTags::ifdName(ifdId_); }
         //! Return the related image item (image or thumbnail)
@@ -273,7 +301,7 @@ namespace Exif {
 
     public:
         uint16 tag_;                   //!< Tag value
-        uint16 type_;                  //!< Type of the data
+        uint16 type_;                  //!< Type of the data Todo: change to TypeId?
         uint32 count_;                 //!< Number of components
         uint32 offset_;                //!< Offset of the data from start of IFD
         long size_;                    //!< Size of the data in bytes
@@ -445,28 +473,220 @@ namespace Exif {
         TiffHeader tiffHeader_;
         Metadata metadata_;
     }; // class ExifData
-   
+
 // *****************************************************************************
 // free functions
 
     //! Read a 2 byte unsigned short value from the data buffer
     uint16 getUShort(const char* buf, ByteOrder byteOrder);
-
     //! Read a 4 byte unsigned long value from the data buffer
     uint32 getULong(const char* buf, ByteOrder byteOrder);
+    //! Read an 8 byte unsigned rational value from the data buffer
+    URational getURational(const char* buf, ByteOrder byteOrder);
+    //! Read a 2 byte signed short value from the data buffer
+    int16 getShort(const char* buf, ByteOrder byteOrder);
+    //! Read a 4 byte signed long value from the data buffer
+    int32 getLong(const char* buf, ByteOrder byteOrder);
+    //! Read an 8 byte signed rational value from the data buffer
+    Rational getRational(const char* buf, ByteOrder byteOrder);
 
-    //! Convert len bytes from the data buffer into a string
-    std::string getString(const char* buf, long len);
+    /*!
+      @brief Read a value of type T from the data buffer.
 
-    //! Write an unsigned short to the data buffer
-    char* us2Data(char* buf, uint16 s, ByteOrder byteOrder);
+      We need this template function for the ValueType template classes. 
+      There are only specializations of this function available; no default
+      implementation is provided.
 
-    //! Convert an unsigned long to data, write the data to the buffer
-    char* ul2Data(char* buf, uint32 l, ByteOrder byteOrder);
+      @param buf Pointer to the data buffer to read from.
+      @param byteOrder Applicable byte order (little or big endian).
+      @return A value of type T.
+     */
+    template<typename T> T getValue(const char* buf, ByteOrder byteOrder);
+    // Specialization for a 2 byte unsigned short value.
+    template<> inline uint16 getValue(const char* buf, ByteOrder byteOrder)
+    {
+        return getUShort(buf, byteOrder);
+    }
+    // Specialization for a 4 byte unsigned long value.
+    template<> inline uint32 getValue(const char* buf, ByteOrder byteOrder)
+    {
+        return getULong(buf, byteOrder);
+    }
+    // Specialization for an 8 byte unsigned rational value.
+    template<> inline URational getValue(const char* buf, ByteOrder byteOrder)
+    {
+        return getURational(buf, byteOrder);
+    }
+    // Specialization for a 2 byte signed short value.
+    template<> inline int16 getValue(const char* buf, ByteOrder byteOrder)
+    {
+        return getShort(buf, byteOrder);
+    }
+    // Specialization for a 4 byte signed long value.
+    template<> inline int32 getValue(const char* buf, ByteOrder byteOrder)
+    {
+        return getLong(buf, byteOrder);
+    }
+    // Specialization for an 8 byte signed rational value.
+    template<> inline Rational getValue(const char* buf, ByteOrder byteOrder)
+    {
+        return getRational(buf, byteOrder);
+    }
+
+    /*!
+      @brief Convert an unsigned short to data, write the data to the buffer, 
+             return number of bytes written.
+     */
+    long us2Data(char* buf, uint16 s, ByteOrder byteOrder);
+    /*!
+      @brief Convert an unsigned long to data, write the data to the buffer,
+             return number of bytes written.
+     */
+    long ul2Data(char* buf, uint32 l, ByteOrder byteOrder);
+    /*!
+      @brief Convert an unsigned rational to data, write the data to the buffer,
+             return number of bytes written.
+     */
+    long ur2Data(char* buf, URational l, ByteOrder byteOrder);
+    /*!
+      @brief Convert a signed short to data, write the data to the buffer, 
+             return number of bytes written.
+     */
+    long s2Data(char* buf, int16 s, ByteOrder byteOrder);
+    /*!
+      @brief Convert a signed long to data, write the data to the buffer,
+             return number of bytes written.
+     */
+    long l2Data(char* buf, int32 l, ByteOrder byteOrder);
+    /*!
+      @brief Convert a signed rational to data, write the data to the buffer,
+             return number of bytes written.
+     */
+    long r2Data(char* buf, Rational l, ByteOrder byteOrder);
+
+    /*!
+      @brief Convert a value of type T to data, write the data to the data buffer.
+
+      We need this template function for the ValueType template classes. 
+      There are only specializations of this function available; no default
+      implementation is provided.
+
+      @param buf Pointer to the data buffer to write to.
+      @param t Value to be converted.
+      @param byteOrder Applicable byte order (little or big endian).
+      @return The number of bytes written to the buffer.
+     */
+    template<typename T> long toData(char* buf, T t, ByteOrder byteOrder);
+    /*! 
+      @brief Specialization to write an unsigned short to the data buffer.
+             Return the number of bytes written.
+     */
+    template<> inline long toData(char* buf, uint16 t, ByteOrder byteOrder)
+    {
+        return us2Data(buf, t, byteOrder);
+    }
+    /*! 
+      @brief Specialization to write an unsigned long to the data buffer.
+             Return the number of bytes written.
+     */
+    template<> inline long toData(char* buf, uint32 t, ByteOrder byteOrder)
+    {
+        return ul2Data(buf, t, byteOrder);
+    }
+    /*!
+      @brief Specialization to write an unsigned rational to the data buffer.
+             Return the number of bytes written.
+     */
+    template<> inline long toData(char* buf, URational t, ByteOrder byteOrder)
+    {
+        return ur2Data(buf, t, byteOrder);
+    }
+    /*! 
+      @brief Specialization to write a signed short to the data buffer.
+             Return the number of bytes written.
+     */
+    template<> inline long toData(char* buf, int16 t, ByteOrder byteOrder)
+    {
+        return s2Data(buf, t, byteOrder);
+    }
+    /*! 
+      @brief Specialization to write a signed long to the data buffer.
+             Return the number of bytes written.
+     */
+    template<> inline long toData(char* buf, int32 t, ByteOrder byteOrder)
+    {
+        return l2Data(buf, t, byteOrder);
+    }
+    /*!
+      @brief Specialization to write a signed rational to the data buffer.
+             Return the number of bytes written.
+     */
+    template<> inline long toData(char* buf, Rational t, ByteOrder byteOrder)
+    {
+        return r2Data(buf, t, byteOrder);
+    }
 
     //! Print len bytes from buf in hex and ASCII format to the given stream
     void hexdump(std::ostream& os, const char* buf, long len);
 
+// *****************************************************************************
+// template definitions
+
+    template<typename T>
+    void ValueType<T>::read(const char* buf, long len, ByteOrder byteOrder)
+    {
+        value_.clear();
+        for (long i = 0; i < len; i += ExifTags::typeSize(typeId_)) {
+            value_.push_back(getValue<T>(buf + i, byteOrder));
+        }
+    }
+
+    template<typename T>
+    void ValueType<T>::read(const std::string& buf)
+    {
+        std::istringstream is(buf);
+        T tmp;
+        value_.clear();
+        while (is >> tmp) {
+            value_.push_back(tmp);
+        }
+    }
+
+    template<typename T>
+    long ValueType<T>::copy(char* buf, ByteOrder byteOrder) const
+    {
+        long offset = 0;
+        typename ValueList::const_iterator end = value_.end();
+        for (typename ValueList::const_iterator i = value_.begin(); i != end; ++i) {
+            offset += toData(buf + offset, *i, byteOrder);
+        }
+        return offset;
+    }
+
+    template<typename T>
+    long ValueType<T>::size() const
+    {
+        return ExifTags::typeSize(typeId_) * value_.size();
+    }
+
+    template<typename T>
+    Value* ValueType<T>::clone() const
+    {
+        return new ValueType(*this);
+    }
+
+    template<typename T>
+    std::ostream& ValueType<T>::write(std::ostream& os) const
+    {
+        typename ValueList::const_iterator end = value_.end();
+        typename ValueList::const_iterator i = value_.begin();
+        while (i != end) {
+            os << *i;
+            if (++i != end) os << " ";
+        }
+        return os;
+    }
+   
 }                                       // namespace Exif
 
 #endif                                  // #ifndef _EXIF_HPP_
