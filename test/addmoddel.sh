@@ -10,10 +10,10 @@ $binpath/addmoddel exiv2-empty.jpg
 $binpath/exiv2 -pv exiv2-empty.jpg
 ) > $results
 
-diff -q $results $good
+diff -q --strip-trailing-cr $results $good
 rc=$?
 if [ $rc -eq 0 ] ; then
     echo "All testcases passed."
 else
-    diff $results $good
+    diff --strip-trailing-cr $results $good
 fi

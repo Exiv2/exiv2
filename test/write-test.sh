@@ -59,10 +59,10 @@ runTestCase 11 $datapath/exiv2-nikon-d70.jpg
 
 ) > tmp/write-test.out 2>&1
 
-diff -q tmp/write-test.out data/write-test.out
+diff -q --strip-trailing-cr tmp/write-test.out data/write-test.out
 rc=$?
 if [ $rc -eq 0 ] ; then
     echo "All testcases passed."
 else
-    diff tmp/write-test.out data/write-test.out
+    diff --strip-trailing-cr tmp/write-test.out data/write-test.out
 fi
