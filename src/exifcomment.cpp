@@ -3,7 +3,7 @@
   Abstract : Sample program showing how to set the Exif comment of an image
 
   File:      exifcomment.cpp
-  Version  : $Name:  $ $Revision: 1.4 $
+  Version  : $Name:  $ $Revision: 1.5 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History  : 10-May-04, ahu: created
  */
@@ -49,7 +49,7 @@ try {
 
       Note: There is a more simple Exif tag for the title of an image. It is a
       20 byte string (type ASCII) and does not store two-byte characters.
-      (Image.OtherTags.ImageDescription)
+      (Exif.Image.ImageDescription)
      */
 
     // Initialise a data value with the character set and comment
