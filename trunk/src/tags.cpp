@@ -20,13 +20,13 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Name:  $ $Revision: 1.17 $
+  Version:   $Name:  $ $Revision: 1.18 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Jan-04, ahu: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.17 $ $RCSfile: tags.cpp,v $")
+EXIV2_RCSID("@(#) $Name:  $ $Revision: 1.18 $ $RCSfile: tags.cpp,v $")
 
 // *****************************************************************************
 // included header files
@@ -54,13 +54,9 @@ namespace Exif {
         IfdInfo(ifd0, "IFD0", "Image"),
         IfdInfo(exifIfd, "Exif", "Image"),
         IfdInfo(gpsIfd, "GPSInfo", "Image"),
-        IfdInfo(makerIfd, "MakerNote", "Image"),
+        IfdInfo(makerIfd, "Makernote", "Makernote"),
         IfdInfo(iopIfd, "Iop", "Image"),
         IfdInfo(ifd1, "IFD1", "Thumbnail"),
-        IfdInfo(ifd1ExifIfd, "Exif", "Thumbnail"),
-        IfdInfo(ifd1GpsIfd, "GPSInfo", "Thumbnail"),
-        IfdInfo(ifd1MakerIfd, "MakerNote", "Thumbnail"),
-        IfdInfo(ifd1IopIfd, "Iop", "Thumbnail"),
         IfdInfo(lastIfdId, "(Last IFD info)", "(Last IFD info)")
     };
 
@@ -253,13 +249,19 @@ namespace Exif {
         TagInfo(0xffff, "(UnknownIopTag)", "Unknown Exif Interoperability tag", ifdIdNotSet, sectionIdNotSet, printValue)
     };
 
+    // MakerNote Tags
+    static const TagInfo makerNoteTagInfo[] = {
+        // End of list marker
+        TagInfo(0xffff, "(UnknownMakerNoteTag)", "Unknown MakerNote tag", ifdIdNotSet, sectionIdNotSet, printValue)
+    };
+
     // Tag lookup lists with tag names, desc and where they (preferably) belong to;
     // this is an array with pointers to one list per IFD. The IfdId is used as the
     // index into the array.
     const TagInfo* ExifTags::tagInfos_[] = {
         0, 
-        ifdTagInfo, exifTagInfo, gpsTagInfo, 0, iopTagInfo,
-        ifdTagInfo, exifTagInfo, gpsTagInfo, 0, iopTagInfo
+        ifdTagInfo, exifTagInfo, gpsTagInfo, makerNoteTagInfo, iopTagInfo, ifdTagInfo, 
+        0
     };
 
     int ExifTags::tagInfoIdx(uint16 tag, IfdId ifdId)
@@ -345,9 +347,8 @@ namespace Exif {
             + "." + std::string(tagName(tag, ifdId));
     }
 
-    // The uniqueness that we promise in this 'database lookup' function
-    // holds only implicitely. The function returns the first match that
-    // we find, it doesn't verify the uniqueness.
+    // This 'database lookup' function returns the first match that
+    // we find, it doesn't verify whether this is the only match.
     std::pair<uint16, IfdId> ExifTags::decomposeKey(const std::string& key)
     {
         // Get the IFD, section name and tag name parts of the key
@@ -361,6 +362,11 @@ namespace Exif {
         pos0 = pos1 + 1;
         std::string tagName = key.substr(pos0);
         if (tagName == "") throw Error("Invalid key");
+
+        // Check if this is a MakerNote key, stop processing if it is
+        if (ifdItem == ifdInfo_[makerIfd].item_) {
+            return std::make_pair(0xffff, makerIfd);
+        }
 
         // Use the parts of the key to find tag and IFD id
         IfdId ifdId = ifdIdNotSet;
@@ -382,11 +388,15 @@ namespace Exif {
         return std::make_pair(tag, ifdId);
     } // ExifTags::decomposeKey
 
-    PrintFct ExifTags::printFct(uint16 tag, IfdId ifdId)
+    std::ostream& ExifTags::printTag(std::ostream& os,
+                                     uint16 tag, 
+                                     IfdId ifdId,
+                                     const Value& value)
     {
         int idx = tagInfoIdx(tag, ifdId);
         if (idx == -1) throw Error("No taginfo for IFD");
-        return tagInfos_[ifdId][idx].printFct_;
+        PrintFct fct = tagInfos_[ifdId][idx].printFct_;
+        return fct(os, value);
     }
 
     void ExifTags::taglist(std::ostream& os)
