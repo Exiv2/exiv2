@@ -21,7 +21,7 @@
 /*!
   @file    value.hpp
   @brief   Value interface and concrete subclasses
-  @version $Name:  $ $Revision: 1.17 $
+  @version $Name:  $ $Revision: 1.18 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
@@ -696,7 +696,7 @@ namespace Exiv2 {
     template<typename T>
     class ValueType : public Value {
     public:
-        //! Shortcut for a %ValueType<T> auto pointer.
+        //! Shortcut for a %ValueType\<T\> auto pointer.
         typedef std::auto_ptr<ValueType<T> > AutoPtr;
 
         //! @name Creators
