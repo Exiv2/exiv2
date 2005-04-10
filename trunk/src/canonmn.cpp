@@ -44,6 +44,7 @@ EXIV2_RCSID("@(#) $Id$");
 #include <string>
 #include <sstream>
 #include <iomanip>
+#include <algorithm>
 #include <cassert>
 #include <cstring>
 
@@ -346,12 +347,12 @@ namespace Exiv2 {
     {
         DataBuf buf(1024);
         memset(buf.pData_, 0x0, 1024);
-        long len = 0;
+        uint16_t len = 0;
         Entries::const_iterator end = entries_.end();
         for (Entries::const_iterator i = entries_.begin(); i != end; ++i) {
             if (i->ifdId() == ifdId) {
-                long pos = i->tag() * 2;
-                long size = pos + i->size();
+                uint16_t pos = i->tag() * 2;
+                uint16_t size = pos + static_cast<uint16_t>(i->size());
                 assert(size <= 1024);
                 memcpy(buf.pData_ + pos, i->data(), i->size());
                 if (len < size) len = size;
