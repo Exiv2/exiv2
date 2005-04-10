@@ -72,7 +72,7 @@ namespace Exiv2 {
         TagInfo(0x0302, "0x0302", "Unknown", olympusIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0303, "0x0303", "Unknown", olympusIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0304, "0x0304", "Unknown", olympusIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0f00, "DataDump", "Various camera settings", olympusIfdId, makerTags, undefined, printValue),
+        TagInfo(0x0f00, "DataDump", "Various camera settings", olympusIfdId, makerTags, undefined, print0x0f00),
         TagInfo(0x1000, "0x1000", "Unknown", olympusIfdId, makerTags, signedRational, printValue),
         TagInfo(0x1001, "0x1001", "Unknown", olympusIfdId, makerTags, signedRational, printValue),
         TagInfo(0x1002, "0x1002", "Unknown", olympusIfdId, makerTags, signedRational, printValue),
@@ -194,12 +194,37 @@ namespace Exiv2 {
         return new OlympusMakerNote(*this); 
     }
 
-// -------------------------- Experimental code ------------------------>
-
-    std::ostream& OlympusMakerNote::printDd0x000b(std::ostream& os,
-                                                  const Value& value)
+    std::ostream& OlympusMakerNote::print0x0f00(std::ostream& os, 
+                                                const Value& value)
     {
-        long l = value.toLong();
+        if (value.typeId() != undefined) return os << value;
+
+        long count = value.count();
+        long lA, lB;
+        
+        if (count < 11) return os;
+        lA = value.toLong(11);
+        os << std::setw(23) << "\n   Function ";
+        print0x0f00_011(os, lA);
+        
+        if (count < 138) return os;
+        lA = value.toLong(138);
+        os << std::setw(23) << "\n   White balance mode ";
+        print0x0f00_138(os, lA);
+
+        if (count < 150) return os;
+        lA = value.toLong(150);
+        lB = value.toLong(151);
+        os << std::setw(23) << "\n   Sharpness ";
+        print0x0f00_150_151(os, lA, lB);
+      
+        // Meaning of any further ushorts is unknown - ignore them
+        return os;
+
+    } // OlympusMakerNote::print0x0f00
+    
+    std::ostream& OlympusMakerNote::print0x0f00_011(std::ostream& os, long l)
+    {
         switch (l) {
         case  0: os << "Off";             break;
         case  1: os << "Black and White"; break;
@@ -211,10 +236,8 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& OlympusMakerNote::printDd0x008a(std::ostream& os,
-                                                  const Value& value)
+    std::ostream& OlympusMakerNote::print0x0f00_138(std::ostream& os, long l)
     {
-        long l = value.toLong();
         switch (l) {
         case 0:  os << "Auto";        break;
         case 16: os << "Daylight";    break;
@@ -226,11 +249,9 @@ namespace Exiv2 {
         return os;
     }
     
-    std::ostream& OlympusMakerNote::printDd0x0097(std::ostream& os, 
-                                                  const Value& value)
+    std::ostream& OlympusMakerNote::print0x0f00_150_151(std::ostream& os, 
+                                                        long l150, long l151)
     {
-        long l150 = value.toLong(0);
-        long l151 = value.toLong(1);
         if( l150 == 24 && l151 == 6 ) {
             os << "Soft"; 
         }
@@ -249,66 +270,6 @@ namespace Exiv2 {
         }
         return os;
     }
-
-    // Olympus Datadump Tag Info
-    const TagInfo OlympusMakerNote::tagInfoDd_[] = {
-        TagInfo(0x000b, "Function", "Function", olympusDdIfdId, makerTags, undefined, printDd0x000b),
-        TagInfo(0x008a, "WhiteBalance", "White balance mode", olympusDdIfdId, makerTags, undefined, printDd0x008a),
-        TagInfo(0x0097, "Sharpness", "Sharpness", olympusDdIfdId, makerTags, undefined, printDd0x0097),
-        // End of list marker
-        TagInfo(0xffff, "(UnknownOlympusDdTag)", "Unknown Olympus Datadump tag", olympusDdIfdId, makerTags, invalidTypeId, printValue)
-    };
-
-    void OlympusMakerNote::add(const Entry& entry)
-    {
-        assert(alloc_ == entry.alloc());
-        assert(entry.ifdId() == olympusIfdId || entry.ifdId() == olympusDdIfdId);
-        // allow duplicates
-        entries_.push_back(entry);
-    }
-
-    int OlympusMakerNote::read(const byte* buf,
-                               long len, 
-                               ByteOrder byteOrder, 
-                               long offset)
-    {
-        int rc = IfdMakerNote::read(buf, len, byteOrder, offset);
-        if (rc) return rc;
-        entries_.assign(ifd_.begin(), ifd_.end());
-        // Decode datadump and add known settings as additional entries
-        Entries::const_iterator datadump = ifd_.findTag(0x0f00);
-        if (datadump != ifd_.end()) {
-            Entry fc(false);
-            fc.setIfdId(olympusDdIfdId);
-            fc.setTag(0x000b);
-            fc.setIdx(1);
-            fc.setOffset(datadump->offset() + 11);
-            fc.setValue(undefined, 1, datadump->data() + 11, 1);
-            add(fc);
-            
-            Entry wb(false);
-            wb.setIfdId(olympusDdIfdId);
-            wb.setTag(0x008a);
-            wb.setIdx(2);
-            wb.setOffset(datadump->offset() + 138);
-            wb.setValue(undefined, 1, datadump->data() + 138, 1);
-            add(wb);
-            
-            Entry sh(false);
-            sh.setIfdId(olympusDdIfdId);
-            sh.setTag(0x0097);
-            sh.setIdx(3);
-            sh.setOffset(datadump->offset() + 151);
-            sh.setValue(undefined, 2, datadump->data() + 151, 2);
-            add(sh);
-            // The original datadump could be discarded here but since we
-            // only know three 3 entries of it I leave it here for now
-        }
-        return rc;
-    }
-
-// <------------------------- Experimental code -------------------------
-
 
 // *****************************************************************************
 // free functions

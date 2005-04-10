@@ -91,7 +91,7 @@ namespace Exiv2 {
                  canonIfdId, canonCs1IfdId, canonCs2IfdId, canonCfIfdId,
                  fujiIfdId, 
                  nikon1IfdId, nikon2IfdId, nikon3IfdId, nikon3ThumbIfdId, 
-                 olympusIfdId, olympusDdIfdId, sigmaIfdId,
+                 olympusIfdId, sigmaIfdId,
                  lastIfdId };
 
 // *****************************************************************************
