@@ -22,7 +22,10 @@
   @file    canonmn.hpp
   @brief   Canon MakerNote implemented according to the specification
            <a href="http://www.burren.cx/david/canon.html">
-           EXIF MakerNote of Canon</a> by David Burren
+           EXIF MakerNote of Canon</a> by David Burren<br>
+           and with reference to tag information from
+           <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">
+           ExifTool</a> by Phil Harvey
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
@@ -104,84 +107,119 @@ namespace Exiv2 {
         virtual ~CanonMakerNote() {}
         //@}
 
+        //! @name Manipulators
+        //@{
+        int read(const byte* buf,
+                 long len, 
+                 ByteOrder byteOrder, 
+                 long offset);
+        long copy(byte* buf, ByteOrder byteOrder, long offset);
+        void add(const Entry& entry);
+        Entries::iterator begin() { return entries_.begin(); }
+        Entries::iterator end() { return entries_.end(); }
+        void updateBase(byte* pNewBase);
+        //@}
+
         //! @name Accessors
         //@{
+        Entries::const_iterator begin() const { return entries_.begin(); }
+        Entries::const_iterator end() const { return entries_.end(); }
+        Entries::const_iterator findIdx(int idx) const;
+        long size() const;
         AutoPtr create(bool alloc =true) const;
         AutoPtr clone() const;
         //@}
 
         //! @name Print functions for Canon %MakerNote tags 
         //@{
-        //! Print various camera settings, part 1 (uses print0x0001_XX functions)
-        static std::ostream& print0x0001(std::ostream& os, const Value& value);
-        //! Print various camera settings, part 2 (uses print0x0004_XX functions)
-        static std::ostream& print0x0004(std::ostream& os, const Value& value);
         //! Print the image number
         static std::ostream& print0x0008(std::ostream& os, const Value& value);
         //! Print the serial number of the camera
         static std::ostream& print0x000c(std::ostream& os, const Value& value);
-        //! Print EOS D30 custom functions
-        static std::ostream& print0x000f(std::ostream& os, const Value& value);
 
         //! Macro mode
-        static std::ostream& print0x0001_01(std::ostream& os, long l);
+        static std::ostream& printCs10x0001(std::ostream& os, const Value& value);
         //! Self timer
-        static std::ostream& print0x0001_02(std::ostream& os, long l);
+        static std::ostream& printCs10x0002(std::ostream& os, const Value& value);
         //! Quality
-        static std::ostream& print0x0001_03(std::ostream& os, long l);
+        static std::ostream& printCs10x0003(std::ostream& os, const Value& value);
         //! Flash mode
-        static std::ostream& print0x0001_04(std::ostream& os, long l);
+        static std::ostream& printCs10x0004(std::ostream& os, const Value& value);
         //! Drive mode
-        static std::ostream& print0x0001_05(std::ostream& os, long l);
+        static std::ostream& printCs10x0005(std::ostream& os, const Value& value);
         //! Focus mode (G1 seems to use field 32 in preference to this)
-        static std::ostream& print0x0001_07(std::ostream& os, long l);
+        static std::ostream& printCs10x0007(std::ostream& os, const Value& value);
         //! Image size
-        static std::ostream& print0x0001_10(std::ostream& os, long l);
+        static std::ostream& printCs10x000a(std::ostream& os, const Value& value);
         //! Easy shooting
-        static std::ostream& print0x0001_11(std::ostream& os, long l);
+        static std::ostream& printCs10x000b(std::ostream& os, const Value& value);
         //! Digital zoom
-        static std::ostream& print0x0001_12(std::ostream& os, long l);
+        static std::ostream& printCs10x000c(std::ostream& os, const Value& value);
         //! ISO
-        static std::ostream& print0x0001_16(std::ostream& os, long l);
+        static std::ostream& printCs10x0010(std::ostream& os, const Value& value);
         //! Metering mode
-        static std::ostream& print0x0001_17(std::ostream& os, long l);
+        static std::ostream& printCs10x0011(std::ostream& os, const Value& value);
         //! Focus type
-        static std::ostream& print0x0001_18(std::ostream& os, long l);
+        static std::ostream& printCs10x0012(std::ostream& os, const Value& value);
         //! AF point selected
-        static std::ostream& print0x0001_19(std::ostream& os, long l);
+        static std::ostream& printCs10x0013(std::ostream& os, const Value& value);
         //! Exposure mode
-        static std::ostream& print0x0001_20(std::ostream& os, long l);
+        static std::ostream& printCs10x0014(std::ostream& os, const Value& value);
         //! Flash activity
-        static std::ostream& print0x0001_28(std::ostream& os, long l);
+        static std::ostream& printCs10x001c(std::ostream& os, const Value& value);
         //! Flash details 
-        static std::ostream& print0x0001_29(std::ostream& os, long l);
+        static std::ostream& printCs10x001d(std::ostream& os, const Value& value);
         //! Focus mode (G1 seems to use this in preference to field 7)
-        static std::ostream& print0x0001_32(std::ostream& os, long l);
+        static std::ostream& printCs10x0020(std::ostream& os, const Value& value);
         //! Low, normal, high print function
-        static std::ostream& print0x0001_lnh(std::ostream& os, long l);
+        static std::ostream& printCs1Lnh(std::ostream& os, const Value& value);
         //! Camera lens information
-        static std::ostream& print0x0001_Lens(std::ostream& os, 
-                                              const Value& value);
+        static std::ostream& printCs1Lens(std::ostream& os, const Value& value);
         //! White balance
-        static std::ostream& print0x0004_07(std::ostream& os, long l);
+        static std::ostream& printCs20x0007(std::ostream& os, const Value& value);
         //! Sequence number
-        static std::ostream& print0x0004_09(std::ostream& os, long l);
+        static std::ostream& printCs20x0009(std::ostream& os, const Value& value);
         //! AF point used
-        static std::ostream& print0x0004_14(std::ostream& os, long l);
+        static std::ostream& printCs20x000e(std::ostream& os, const Value& value);
         //! Flash bias
-        static std::ostream& print0x0004_15(std::ostream& os, long l);
+        static std::ostream& printCs20x000f(std::ostream& os, const Value& value);
         //! Subject distance
-        static std::ostream& print0x0004_19(std::ostream& os, long l);
+        static std::ostream& printCs20x0013(std::ostream& os, const Value& value);
         //@}
 
     private:
+        //! @name Manipulators
+        //@{
+        //! Add a camera settings entry to the makernote entries
+        void addCsEntry(IfdId ifdId, 
+                        uint16_t tag, 
+                        long offset,
+                        const byte* data,
+                        int count);
+        //@}
+
+        //! @name Accessors
+        //@{
+        //! Assemble special Canon entries into an entry with the original tag
+        long assemble(Entry& e, 
+                      IfdId ifdId, 
+                      uint16_t tag,
+                      ByteOrder byteOrder) const;
         //! Internal virtual create function.
         CanonMakerNote* create_(bool alloc =true) const;
         //! Internal virtual copy constructor.
         CanonMakerNote* clone_() const;
+        //@}
+
+        // DATA
+        //! Container to store Makernote entries (instead of Ifd)
+        Entries entries_;
 
         //! Tag information
         static const TagInfo tagInfo_[];
+        static const TagInfo tagInfoCs1_[];
+        static const TagInfo tagInfoCs2_[];
+        static const TagInfo tagInfoCf_[];
 
         //! Structure used to auto-register the MakerNote.
         struct RegisterMakerNote {
@@ -190,9 +228,20 @@ namespace Exiv2 {
             {
                 MakerNoteFactory& mnf = MakerNoteFactory::instance();
                 mnf.registerMakerNote("Canon", "*", createCanonMakerNote); 
+
                 mnf.registerMakerNote(canonIfdId, 
                                       MakerNote::AutoPtr(new CanonMakerNote));
+                mnf.registerMakerNote(canonCs1IfdId, 
+                                      MakerNote::AutoPtr(new CanonMakerNote));
+                mnf.registerMakerNote(canonCs2IfdId, 
+                                      MakerNote::AutoPtr(new CanonMakerNote));
+                mnf.registerMakerNote(canonCfIfdId, 
+                                      MakerNote::AutoPtr(new CanonMakerNote));
+
                 ExifTags::registerMakerTagInfo(canonIfdId, tagInfo_);
+                ExifTags::registerMakerTagInfo(canonCs1IfdId, tagInfoCs1_);
+                ExifTags::registerMakerTagInfo(canonCs2IfdId, tagInfoCs2_);
+                ExifTags::registerMakerTagInfo(canonCfIfdId, tagInfoCf_);
             }
         };
         /*!

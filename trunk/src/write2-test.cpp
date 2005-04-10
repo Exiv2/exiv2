@@ -59,12 +59,38 @@ try {
     write(file, ed2);
     print(file);
 
-    std::cout <<"\n----- One Canon MakerNote tag\n";
+    std::cout <<"\n----- Canon MakerNote tags\n";
     Exiv2::ExifData edMn1;
     edMn1["Exif.Image.Make"]   = "Canon";
     edMn1["Exif.Image.Model"]  = "Canon PowerShot S40";
     edMn1["Exif.Canon.0xabcd"] = "A Canon makernote tag";
+    edMn1["Exif.CanonCs1.0x0002"] = uint16_t(41);
+    edMn1["Exif.CanonCs2.0x0005"] = uint16_t(42);
+    edMn1["Exif.CanonCf.0x0001"] = uint16_t(43);
     write(file, edMn1);
+    print(file);
+
+    std::cout <<"\n----- Non-intrusive writing of special Canon MakerNote tags\n";
+    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(file);
+    if (image.get() == 0) {
+        std::string error(file);
+        error += " : Could not read file or unknown image type";
+        throw Exiv2::Error(error);
+    }
+
+    int rc = image->readMetadata();
+    if (rc) {
+        std::string error = Exiv2::Image::strError(rc, file);
+        throw Exiv2::Error(error);
+    }
+    Exiv2::ExifData& rEd = image->exifData();
+    rEd["Exif.CanonCs1.0x0001"] = uint16_t(88);
+    rEd["Exif.CanonCs2.0x0004"] = uint16_t(99);
+    rc = image->writeMetadata();
+    if (rc) {
+        std::string error = Exiv2::Image::strError(rc, file);
+        throw Exiv2::Error(error);
+    }
     print(file);
 
     std::cout <<"\n----- One Fujifilm MakerNote tag\n";

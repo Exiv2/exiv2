@@ -257,13 +257,7 @@ namespace Action {
 
         // Todo: Flash bias, flash energy
         // Todo: Implement this for other cameras
-        std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                  << "Flash bias" << ": ";
-        md = exifData.findKey(Exiv2::ExifKey("Exif.Canon.CameraSettings2"));
-        if (md != exifData.end() && md->count() >= 15) {
-            Exiv2::CanonMakerNote::print0x0004_15(std::cout, md->toLong(15));
-        }
-        std::cout << std::endl;
+        printTag(exifData, "Exif.CanonCs2.FlashBias", "Flash bias");
 
         // Actual focal length and 35 mm equivalent
         // Todo: Calculate 35 mm equivalent a la jhead
@@ -281,12 +275,12 @@ namespace Action {
         // Subject distance
         std::cout << std::setw(align_) << std::setfill(' ') << std::left
                   << "Subject distance" << ": ";
-        if (0 == printTag(exifData, "Exif.Photo.SubjectDistance")) {
-            md = exifData.findKey(
-                Exiv2::ExifKey("Exif.Canon.CameraSettings2"));
-            if (md != exifData.end() && md->count() >= 19) {
-                Exiv2::CanonMakerNote::print0x0004_19(std::cout, md->toLong(19));
-            }
+        bool done = false;
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.Photo.SubjectDistance");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.CanonCs2.SubjectDistance");
         }
         std::cout << std::endl;
 
@@ -294,23 +288,21 @@ namespace Action {
         // from ISOSpeedRatings or the Makernote
         std::cout << std::setw(align_) << std::setfill(' ') << std::left
                   << "ISO speed" << ": ";
-        bool done = false;
-        if (0 == printTag(exifData, "Exif.Photo.ISOSpeedRatings")) {
-            md = exifData.findKey(
-                Exiv2::ExifKey("Exif.Canon.CameraSettings1"));
-            if (md != exifData.end() && md->count() >= 16) {
-                Exiv2::CanonMakerNote::print0x0001_16(std::cout, md->toLong(16));
-                done = true;
-            }
-            if (!done) {
-                done = 0 != printTag(exifData, "Exif.Nikon1.ISOSpeed");
-            }
-            if (!done) {
-                done = 0 != printTag(exifData, "Exif.Nikon2.ISOSpeed");
-            }
-            if (!done) {
-                done = 0 != printTag(exifData, "Exif.Nikon3.ISOSpeed");
-            }
+        done = false;
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.Photo.ISOSpeedRatings");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.CanonCs1.ISOSpeed");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.Nikon1.ISOSpeed");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.Nikon2.ISOSpeed");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.Nikon3.ISOSpeed");
         }
         std::cout << std::endl;
 
@@ -318,12 +310,12 @@ namespace Action {
         // From ExposureProgram or Canon Makernote
         std::cout << std::setw(align_) << std::setfill(' ') << std::left
                   << "Exposure mode" << ": ";
-        if (0 == printTag(exifData, "Exif.Photo.ExposureProgram")) {
-            md = exifData.findKey(
-                Exiv2::ExifKey("Exif.Canon.CameraSettings1"));
-            if (md != exifData.end() && md->count() >= 20) {
-                Exiv2::CanonMakerNote::print0x0001_20(std::cout, md->toLong(20));
-            }
+        done = false;
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.Photo.ExposureProgram");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.CanonCs1.ExposureProgram");
         }
         std::cout << std::endl;
 
@@ -335,11 +327,8 @@ namespace Action {
         std::cout << std::setw(align_) << std::setfill(' ') << std::left
                   << "Macro mode" << ": ";
         done = false;
-        md = exifData.findKey(
-            Exiv2::ExifKey("Exif.Canon.CameraSettings1"));
-        if (md != exifData.end() && md->count() >= 1) {
-            Exiv2::CanonMakerNote::print0x0001_01(std::cout, md->toLong(1));
-            done = true;
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.CanonCs1.Macro");
         }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Fujifilm.Macro");
@@ -351,10 +340,8 @@ namespace Action {
         std::cout << std::setw(align_) << std::setfill(' ') << std::left
                   << "Image quality" << ": ";
         done = false;
-        md = exifData.findKey(Exiv2::ExifKey("Exif.Canon.CameraSettings1"));
-        if (md != exifData.end() && md->count() >= 3) {
-            Exiv2::CanonMakerNote::print0x0001_03(std::cout, md->toLong(3));
-            done = true;
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.CanonCs1.Quality");
         }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Fujifilm.Quality");
@@ -392,10 +379,8 @@ namespace Action {
         std::cout << std::setw(align_) << std::setfill(' ') << std::left
                   << "White balance" << ": ";
         done = false;
-        md = exifData.findKey(Exiv2::ExifKey("Exif.Canon.CameraSettings2"));
-        if (md != exifData.end() && md->count() >= 7) {
-            Exiv2::CanonMakerNote::print0x0004_07(std::cout, md->toLong(7));
-            done = true;
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.CanonCs2.WhiteBalance");
         }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Fujifilm.WhiteBalance");
