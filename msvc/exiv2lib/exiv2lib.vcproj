@@ -230,6 +230,21 @@
 				RelativePath="..\..\src\nikonmn.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\olympusmn.cpp">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\src\sigmamn.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -335,6 +350,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\nikonmn.hpp">
+			</File>
+			<File
+				RelativePath="..\..\src\olympusmn.hpp">
 			</File>
 			<File
 				RelativePath="..\..\src\rcsid.hpp">

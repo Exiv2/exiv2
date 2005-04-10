@@ -186,7 +186,7 @@ namespace Exiv2 {
 
     OlympusMakerNote::AutoPtr OlympusMakerNote::clone() const
     {
-        return AutoPtr(clone());
+        return AutoPtr(clone_());
     }
 
     OlympusMakerNote* OlympusMakerNote::clone_() const 
