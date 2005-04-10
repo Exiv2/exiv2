@@ -28,9 +28,10 @@
 #include "rcsid.hpp"
 EXIV2_RCSID("@(#) $Id$");
 
-// Define DEBUG_* to output debug information to std::cerr
-#undef DEBUG_MAKERNOTE
-#undef DEBUG_REGISTRY
+// Define DEBUG_* to output debug information to std::cerr, e.g, by calling
+// make like this: make DEFS=-DDEBUG_MAKERNOTE makernote.o 
+//#define DEBUG_MAKERNOTE
+//#define DEBUG_REGISTRY
 
 // *****************************************************************************
 // included header files

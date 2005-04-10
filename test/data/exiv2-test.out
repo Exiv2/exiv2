@@ -364,35 +364,8 @@ File 2/9: 20031214_000043.jpg
 0xa403 Exif      WhiteBalance                Auto
 0xa404 Exif      DigitalZoomRatio            1.0
 0xa406 Exif      SceneCaptureType            Standard
-0x0001 Makernote CameraSettings1             
-   Macro mode                Off
-   Self timer                Off
-   Quality                   Superfine
-   Flash mode                Auto
-   Drive mode                Single / timer
-   Focus mode                Single
-   Image size                Large
-   Easy shooting mode        Manual
-   Digital zoom              None
-   Contrast                  Normal
-   Saturation                Normal
-   Sharpness                 Normal
-   ISO                       100
-   Metering mode             Center weighted
-   Focus type                Auto
-   AF point selected         Center
-   Exposure mode             Program
-   Lens                      7.1 - 21.3 mm
-   Flash activity            Did not fire
-   Focus mode                Single
 0x0002 Makernote 0x0002                      2 682 286 215
 0x0003 Makernote 0x0003                      0 0 0 0
-0x0004 Makernote CameraSettings2             
-   White balance             Auto
-   Sequence number           0
-   AF point used             3 focus points; center used
-   Flash bias                0 EV
-   Subject distance (0.01m or 0.001m) 782
 0x0000 Makernote 0x0000                      0 0 0 0 0 0
 0x0000 Makernote 0x0000                      0 0 0 0
 0x0006 Makernote ImageType                   IMG:PowerShot S40 JPEG
@@ -401,6 +374,69 @@ File 2/9: 20031214_000043.jpg
 0x0009 Makernote OwnerName                   Andreas Huggel
 0x0010 Makernote 0x0010                      17891328
 0x000d Makernote 0x000d                      42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
+0x0001 Makernote Macro                       Off
+0x0002 Makernote Selftimer                   Off
+0x0003 Makernote Quality                     Superfine
+0x0004 Makernote FlashMode                   Auto
+0x0005 Makernote DriveMode                   Single / timer
+0x0006 Makernote 0x0006                      0
+0x0007 Makernote FocusMode                   Single
+0x0008 Makernote 0x0008                      0
+0x0009 Makernote 0x0009                      1
+0x000a Makernote ImageSize                   Large
+0x000b Makernote EasyMode                    Manual
+0x000c Makernote DigitalZoom                 None
+0x000d Makernote Contrast                    Normal
+0x000e Makernote Saturation                  Normal
+0x000f Makernote Sharpness                   Normal
+0x0010 Makernote ISOSpeed                    100
+0x0011 Makernote MeteringMode                Center weighted
+0x0012 Makernote FocusType                   Auto
+0x0013 Makernote AFPoint                     Center
+0x0014 Makernote ExposureProgram             Program
+0x0015 Makernote 0x0015                      65535
+0x0016 Makernote 0x0016                      65535
+0x0017 Makernote Lens                        7.1 - 21.3 mm
+0x001a Makernote 0x001a                      149
+0x001b Makernote 0x001b                      192
+0x001c Makernote FlashActivity               Did not fire
+0x001d Makernote FlashDetails                
+0x001e Makernote 0x001e                      0
+0x001f Makernote 0x001f                      0
+0x0020 Makernote FocusMode                   Single
+0x0021 Makernote 0x0021                      0
+0x0022 Makernote 0x0022                      65535
+0x0023 Makernote 0x0023                      49
+0x0024 Makernote 0x0024                      2272
+0x0025 Makernote 0x0025                      2272
+0x0026 Makernote 0x0026                      0
+0x0027 Makernote 0x0027                      1
+0x0001 Makernote 0x0001                      0
+0x0002 Makernote 0x0002                      160
+0x0003 Makernote 0x0003                      276
+0x0004 Makernote 0x0004                      149
+0x0005 Makernote 0x0005                      287
+0x0006 Makernote 0x0006                      0
+0x0007 Makernote WhiteBalance                Auto
+0x0008 Makernote 0x0008                      0
+0x0009 Makernote Sequence                    0
+0x000a Makernote 0x000a                      6
+0x000b Makernote 0x000b                      0
+0x000c Makernote 0x000c                      0
+0x000d Makernote 0x000d                      0
+0x000e Makernote AFPointUsed                 3 focus points; center used
+0x000f Makernote FlashBias                   0 EV
+0x0010 Makernote 0x0010                      0
+0x0011 Makernote 0x0011                      0
+0x0012 Makernote 0x0012                      1
+0x0013 Makernote SubjectDistance             782
+0x0014 Makernote 0x0014                      0
+0x0015 Makernote 0x0015                      149
+0x0016 Makernote 0x0016                      289
+0x0017 Makernote 0x0017                      0
+0x0018 Makernote 0x0018                      0
+0x0019 Makernote 0x0019                      0
+0x001a Makernote 0x001a                      250
 0x0001 Iop       InteroperabilityIndex       R98
 0x0002 Iop       InteroperabilityVersion     48 49 48 48 
 0x1001 Iop       RelatedImageWidth           2272
@@ -670,34 +706,8 @@ Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
 0xa402 Exif      ExposureMode                Auto
 0xa403 Exif      WhiteBalance                Auto
 0xa406 Exif      SceneCaptureType            Standard
-0x0001 Makernote CameraSettings1             
-   Macro mode                (0)
-   Self timer                Off
-   Quality                   Fine
-   Flash mode                Off
-   Drive mode                Single / timer
-   Focus mode                AI Focus
-   Image size                Large
-   Easy shooting mode        Manual
-   Digital zoom              (65535)
-   Contrast                  High
-   Saturation                High
-   Sharpness                 High
-   Metering mode             Evaluative
-   Focus type                (2)
-   AF point selected         (8197)
-   Exposure mode             Program
-   Lens                      18.0 - 55.0 mm
-   Flash activity            Did not fire
-   Focus mode                (65535)
 0x0002 Makernote 0x0002                      0 18 914 610
 0x0003 Makernote 0x0003                      100 0 0 0
-0x0004 Makernote CameraSettings2             
-   White balance             Auto
-   Sequence number           0
-   AF point used             0 focus points; none used
-   Flash bias                0 EV
-   Subject distance (0.01m or 0.001m) Infinite
 0x0093 Makernote 0x0093                      18 0 0 0 0 0 65535 65535 65535
 0x0006 Makernote ImageType                   IMG:EOS 300D DIGITAL JPEG
 0x0007 Makernote FirmwareVersion             Firmware Version 1.0.2
@@ -720,6 +730,81 @@ Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
 0x0013 Makernote 0x0013                      0 159 7 112
 0x0000 Makernote 0x0000                      0 0 0 0 0
 0x00b6 Makernote 0x00b6                      
+0x0001 Makernote Macro                       (0)
+0x0002 Makernote Selftimer                   Off
+0x0003 Makernote Quality                     Fine
+0x0004 Makernote FlashMode                   Off
+0x0005 Makernote DriveMode                   Single / timer
+0x0006 Makernote 0x0006                      0
+0x0007 Makernote FocusMode                   AI Focus
+0x0008 Makernote 0x0008                      0
+0x0009 Makernote 0x0009                      1
+0x000a Makernote ImageSize                   Large
+0x000b Makernote EasyMode                    Manual
+0x000c Makernote DigitalZoom                 (65535)
+0x000d Makernote Contrast                    High
+0x000e Makernote Saturation                  High
+0x000f Makernote Sharpness                   High
+0x0010 Makernote ISOSpeed                    n/a
+0x0011 Makernote MeteringMode                Evaluative
+0x0012 Makernote FocusType                   (2)
+0x0013 Makernote AFPoint                     (8197)
+0x0014 Makernote ExposureProgram             Program
+0x0015 Makernote 0x0015                      32767
+0x0016 Makernote 0x0016                      65535
+0x0017 Makernote Lens                        18.0 - 55.0 mm
+0x001a Makernote 0x001a                      116
+0x001b Makernote 0x001b                      285
+0x001c Makernote FlashActivity               Did not fire
+0x001d Makernote FlashDetails                
+0x001e Makernote 0x001e                      0
+0x001f Makernote 0x001f                      0
+0x0020 Makernote FocusMode                   (65535)
+0x0021 Makernote 0x0021                      65535
+0x0022 Makernote 0x0022                      65535
+0x0023 Makernote 0x0023                      0
+0x0024 Makernote 0x0024                      3072
+0x0025 Makernote 0x0025                      3072
+0x0026 Makernote 0x0026                      0
+0x0027 Makernote 0x0027                      65535
+0x0028 Makernote 0x0028                      65535
+0x0029 Makernote 0x0029                      0
+0x002a Makernote 0x002a                      0
+0x002b Makernote 0x002b                      32767
+0x002c Makernote 0x002c                      65535
+0x002d Makernote 0x002d                      65535
+0x0001 Makernote 0x0001                      0
+0x0002 Makernote 0x0002                      160
+0x0003 Makernote 0x0003                      200
+0x0004 Makernote 0x0004                      159
+0x0005 Makernote 0x0005                      202
+0x0006 Makernote 0x0006                      0
+0x0007 Makernote WhiteBalance                Auto
+0x0008 Makernote 0x0008                      3
+0x0009 Makernote Sequence                    0
+0x000a Makernote 0x000a                      8
+0x000b Makernote 0x000b                      8
+0x000c Makernote 0x000c                      0
+0x000d Makernote 0x000d                      0
+0x000e Makernote AFPointUsed                 0 focus points; none used
+0x000f Makernote FlashBias                   0 EV
+0x0010 Makernote 0x0010                      0
+0x0011 Makernote 0x0011                      0
+0x0012 Makernote 0x0012                      1
+0x0013 Makernote SubjectDistance             Infinite
+0x0014 Makernote 0x0014                      546
+0x0015 Makernote 0x0015                      156
+0x0016 Makernote 0x0016                      204
+0x0017 Makernote 0x0017                      140
+0x0018 Makernote 0x0018                      0
+0x0019 Makernote 0x0019                      0
+0x001a Makernote 0x001a                      252
+0x001b Makernote 0x001b                      1
+0x001c Makernote 0x001c                      65535
+0x001d Makernote 0x001d                      0
+0x001e Makernote 0x001e                      0
+0x001f Makernote 0x001f                      0
+0x0020 Makernote 0x0020                      0
 0x0001 Iop       InteroperabilityIndex       R98
 0x0002 Iop       InteroperabilityVersion     48 49 48 48 
 0x1001 Iop       RelatedImageWidth           3072
@@ -969,31 +1054,31 @@ Compare image data and extracted data ------------------------------------
 ---
 > File 1/9: exiv2-empty.exv
 > File 2/9: 20031214_000043.exv
-89c89
+125c125
 < File 3/9: 20000506_020544.jpg
 ---
 > File 3/9: 20000506_020544.exv
-148c148
+184c184
 < File 4/9: 20040329_224245.jpg
 ---
 > File 4/9: 20040329_224245.exv
-252c252
+288c288
 < File 5/9: 20010405_235039.jpg
 ---
 > File 5/9: 20010405_235039.exv
-306c306
+342c342
 < File 6/9: 20030925_201850.jpg
 ---
 > File 6/9: 20030925_201850.exv
-406c406
+491c491
 < File 7/9: 20001026_044550.jpg
 ---
 > File 7/9: 20001026_044550.exv
-446c446
+531c531
 < File 8/9: 20030926_111535.jpg
 ---
 > File 8/9: 20030926_111535.exv
-521c521
+606c606
 < File 9/9: 20040316_075137.jpg
 ---
 > File 9/9: 20040316_075137.exv
@@ -1111,31 +1196,31 @@ Compare original and inserted image data ---------------------------------
 ---
 > File 1/9: exiv2-empty.exv
 > File 2/9: 20031214_000043.exv
-89c89
+125c125
 < File 3/9: 20000506_020544.jpg
 ---
 > File 3/9: 20000506_020544.exv
-148c148
+184c184
 < File 4/9: 20040329_224245.jpg
 ---
 > File 4/9: 20040329_224245.exv
-252c252
+288c288
 < File 5/9: 20010405_235039.jpg
 ---
 > File 5/9: 20010405_235039.exv
-306c306
+342c342
 < File 6/9: 20030925_201850.jpg
 ---
 > File 6/9: 20030925_201850.exv
-406c406
+491c491
 < File 7/9: 20001026_044550.jpg
 ---
 > File 7/9: 20001026_044550.exv
-446c446
+531c531
 < File 8/9: 20030926_111535.jpg
 ---
 > File 8/9: 20030926_111535.exv
-521c521
+606c606
 < File 9/9: 20040316_075137.jpg
 ---
 > File 9/9: 20040316_075137.exv

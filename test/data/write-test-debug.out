@@ -18,7 +18,7 @@ Case 2: Non-intrusive change to the makernote metadata
 ->>>>>> using non-intrusive writing <<<<<<-
 ---> Reading file test2.jpg
 ---> Writing Exif thumbnail to file thumb2.*
-49c49
+47c47
 < Exif.Canon.OwnerName                                  0x0009  Andreas Huggel
 ---
 > Exif.Canon.OwnerName                                  0x0009  Chan YeeSend
@@ -70,7 +70,7 @@ Case 5: Intrusive change to the Canon makernote metadata
 < Exif.Photo.InteroperabilityTag                        0xa005  1416
 ---
 > Exif.Photo.InteroperabilityTag                        0xa005  1414
-49c49
+47c47
 < Exif.Canon.OwnerName                                  0x0009  Andreas Huggel
 ---
 > Exif.Canon.OwnerName                                  0x0009  Frau Chan YeeSend und Herr Andreas Huggel

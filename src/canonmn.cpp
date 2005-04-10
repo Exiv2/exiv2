@@ -38,11 +38,14 @@ EXIV2_RCSID("@(#) $Id$");
 #include "canonmn.hpp"
 #include "makernote.hpp"
 #include "value.hpp"
+#include "ifd.hpp"
 
 // + standard includes
 #include <string>
 #include <sstream>
 #include <iomanip>
+#include <cassert>
+#include <cstring>
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
@@ -56,20 +59,323 @@ namespace Exiv2 {
     // Canon MakerNote Tag Info
     const TagInfo CanonMakerNote::tagInfo_[] = {
         TagInfo(0x0000, "0x0000", "Unknown", canonIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0001, "CameraSettings1", "Various camera settings (1)", canonIfdId, makerTags, unsignedShort, print0x0001),
+        TagInfo(0x0001, "CameraSettings1", "Various camera settings (1)", canonIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0002, "0x0002", "Unknown", canonIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0003, "0x0003", "Unknown", canonIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0004, "CameraSettings2", "Various camera settings (2)", canonIfdId, makerTags, unsignedShort, print0x0004),
+        TagInfo(0x0004, "CameraSettings2", "Various camera settings (2)", canonIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0006, "ImageType", "Image type", canonIfdId, makerTags, asciiString, printValue),
         TagInfo(0x0007, "FirmwareVersion", "Firmware version", canonIfdId, makerTags, asciiString, printValue),
         TagInfo(0x0008, "ImageNumber", "Image number", canonIfdId, makerTags, unsignedLong, print0x0008),
         TagInfo(0x0009, "OwnerName", "Owner Name", canonIfdId, makerTags, asciiString, printValue),
         TagInfo(0x000c, "SerialNumber", "Camera serial number", canonIfdId, makerTags, unsignedLong, print0x000c),
         TagInfo(0x000d, "0x000d", "Unknown", canonIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x000f, "EosD30Functions", "EOS D30 Custom Functions", canonIfdId, makerTags, unsignedShort, print0x000f),
+        TagInfo(0x000f, "CustomFunctions", "Custom Functions", canonIfdId, makerTags, unsignedShort, printValue),
         // End of list marker
         TagInfo(0xffff, "(UnknownCanonMakerNoteTag)", "Unknown CanonMakerNote tag", canonIfdId, makerTags, invalidTypeId, printValue)
     };
+
+    // Canon Camera Settings 1 Tag Info
+    const TagInfo CanonMakerNote::tagInfoCs1_[] = {
+        TagInfo(0x0001, "Macro", "Macro mode", canonCs1IfdId, makerTags, unsignedShort, printCs10x0001),
+        TagInfo(0x0002, "Selftimer", "Self timer", canonCs1IfdId, makerTags, unsignedShort, printCs10x0002),
+        TagInfo(0x0003, "Quality", "Quality", canonCs1IfdId, makerTags, unsignedShort, printCs10x0003),
+        TagInfo(0x0004, "FlashMode", "Flash mode setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0004),
+        TagInfo(0x0005, "DriveMode", "Drive mode setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0005),
+        TagInfo(0x0006, "0x0006", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0007, "FocusMode", "Focus mode setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0007),
+        TagInfo(0x0008, "0x0008", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0009, "0x0009", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x000a, "ImageSize", "Image size", canonCs1IfdId, makerTags, unsignedShort, printCs10x000a),
+        TagInfo(0x000b, "EasyMode", "Easy shooting mode", canonCs1IfdId, makerTags, unsignedShort, printCs10x000b),
+        TagInfo(0x000c, "DigitalZoom", "Digital zoom", canonCs1IfdId, makerTags, unsignedShort, printCs10x000c),
+        TagInfo(0x000d, "Contrast", "Contrast setting", canonCs1IfdId, makerTags, unsignedShort, printCs1Lnh),
+        TagInfo(0x000e, "Saturation", "Saturation setting", canonCs1IfdId, makerTags, unsignedShort, printCs1Lnh),
+        TagInfo(0x000f, "Sharpness", "Sharpness setting", canonCs1IfdId, makerTags, unsignedShort, printCs1Lnh),
+        TagInfo(0x0010, "ISOSpeed", "ISO speed setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0010),
+        TagInfo(0x0011, "MeteringMode", "Metering mode setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0011),
+        TagInfo(0x0012, "FocusType", "Focus type setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0012),
+        TagInfo(0x0013, "AFPoint", "AF point selected", canonCs1IfdId, makerTags, unsignedShort, printCs10x0013),
+        TagInfo(0x0014, "ExposureProgram", "Exposure mode setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0014),
+        TagInfo(0x0015, "0x0015", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0016, "0x0016", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0017, "Lens", "'long' and 'short' focal length of lens (in 'focal units') and 'focal units' per mm", canonCs1IfdId, makerTags, unsignedShort, printCs1Lens),
+        TagInfo(0x0018, "0x0018", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0019, "0x0019", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x001a, "0x001a", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x001b, "0x001b", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x001c, "FlashActivity", "Flash activity", canonCs1IfdId, makerTags, unsignedShort, printCs10x001c),
+        TagInfo(0x001d, "FlashDetails", "Flash details", canonCs1IfdId, makerTags, unsignedShort, printCs10x001d),
+        TagInfo(0x001e, "0x001e", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x001f, "0x001f", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0020, "FocusMode", "Focus mode setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0020),
+        TagInfo(0x0021, "0x0021", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0022, "0x0022", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0023, "0x0023", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0024, "0x0024", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0025, "0x0025", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0026, "0x0026", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0027, "0x0027", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownCanonCs1Tag)", "Unknown Canon Camera Settings 1 tag", canonCs1IfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    // Canon Camera Settings 2 Tag Info
+    const TagInfo CanonMakerNote::tagInfoCs2_[] = {
+        TagInfo(0x0001, "0x0001", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0002, "0x0002", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0003, "0x0003", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0004, "0x0004", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0005, "0x0005", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0006, "0x0006", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0007, "WhiteBalance", "White balance setting", canonCs2IfdId, makerTags, unsignedShort, printCs20x0007),
+        TagInfo(0x0008, "0x0008", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0009, "Sequence", "Sequence number (if in a continuous burst)", canonCs2IfdId, makerTags, unsignedShort, printCs20x0009),
+        TagInfo(0x000a, "0x000a", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x000b, "0x000b", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x000c, "0x000c", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x000d, "0x000d", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x000e, "AFPointUsed", "AF point used", canonCs2IfdId, makerTags, unsignedShort, printCs20x000e),
+        TagInfo(0x000f, "FlashBias", "Flash bias", canonCs2IfdId, makerTags, unsignedShort, printCs20x000f),
+        TagInfo(0x0010, "0x0010", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0011, "0x0011", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0012, "0x0012", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0013, "SubjectDistance", "Subject distance (units are not clear)", canonCs2IfdId, makerTags, unsignedShort, printCs20x0013),
+        TagInfo(0x0014, "0x0014", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0015, "0x0015", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0016, "0x0016", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0017, "0x0017", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0018, "0x0018", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0019, "0x0019", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x001a, "0x001a", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownCanonCs2Tag)", "Unknown Canon Camera Settings 2 tag", canonCs2IfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    // Canon Custom Function Tag Info
+    const TagInfo CanonMakerNote::tagInfoCf_[] = {
+        TagInfo(0x0001, "NoiseReduction", "Long exposure noise reduction", canonCfIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0002, "ShutterAeLock", "Shutter/AE lock buttons", canonCfIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0003, "MirrorLockup", "Mirror lockup", canonCfIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0004, "ExposureLevelIncrements", "Tv/Av and exposure level", canonCfIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0005, "AFAssist", "AF assist light", canonCfIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0006, "FlashSyncSpeedAv", "Shutter speed in Av mode", canonCfIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0007, "AEBSequence", "AEB sequence/auto cancellation", canonCfIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0008, "ShutterCurtainSync", "Shutter curtain sync", canonCfIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0009, "LensAFStopButton", "Lens AF stop button Fn. Switch", canonCfIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x000a, "FillFlashAutoReduction", "Auto reduction of fill flash", canonCfIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x000b, "MenuButtonReturn", "Menu button return position", canonCfIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x000c, "SetButtonFunction", "SET button func. when shooting", canonCfIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x000d, "SensorCleaning", "Sensor cleaning", canonCfIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x000e, "SuperimposedDisplay", "Superimposed display", canonCfIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x000f, "ShutterReleaseNoCFCard", "Shutter Release W/O CF Card", canonCfIfdId, makerTags, unsignedShort, printValue),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownCanonCfTag)", "Unknown Canon Custom Function tag", canonCfIfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    int CanonMakerNote::read(const byte* buf,
+                             long len, 
+                             ByteOrder byteOrder, 
+                             long offset)
+    {
+        int rc = IfdMakerNote::read(buf, len, byteOrder, offset);
+        if (rc) return rc;
+
+        // Decode camera settings 1 and add settings as additional entries
+        Entries::iterator cs = ifd_.findTag(0x0001);
+        if (cs != ifd_.end() && cs->type() == unsignedShort) {
+            for (uint16_t c = 1; cs->count() > c; ++c) {
+                if (c == 23 && cs->count() > 25) {
+                    // Pack related lens info into one tag
+                    addCsEntry(canonCs1IfdId, c, cs->offset() + c*2, 
+                               cs->data() + c*2, 3);
+                    c += 2;
+                }
+                else {
+                    addCsEntry(canonCs1IfdId, c, cs->offset() + c*2,
+                               cs->data() + c*2, 1);
+                }
+            }
+            // Discard the original entry
+            ifd_.erase(cs);
+        }
+
+        // Decode camera settings 2 and add settings as additional entries
+        cs = ifd_.findTag(0x0004);
+        if (cs != ifd_.end() && cs->type() == unsignedShort) {
+            for (uint16_t c = 1; cs->count() > c; ++c) {
+                addCsEntry(canonCs2IfdId, c, cs->offset() + c*2,
+                           cs->data() + c*2, 1);
+            }
+            // Discard the original entry
+            ifd_.erase(cs);
+        }
+
+        // Decode custom functions and add each as an additional entry
+        cs = ifd_.findTag(0x000f);
+        if (cs != ifd_.end() && cs->type() == unsignedShort) {
+            for (uint16_t c = 1; cs->count() > c; ++c) {
+                addCsEntry(canonCfIfdId, c, cs->offset() + c*2,
+                           cs->data() + c*2, 1);
+            }
+            // Discard the original entry
+            ifd_.erase(cs);
+        }
+
+        // Copy remaining ifd entries
+        entries_.insert(entries_.begin(), ifd_.begin(), ifd_.end());
+
+        // Set idx
+        int idx = 0;
+        Entries::iterator e = entries_.end();
+        for (Entries::iterator i = entries_.begin(); i != e; ++i) {
+            i->setIdx(++idx);
+        }
+
+        return 0;
+    }
+
+    void CanonMakerNote::addCsEntry(IfdId ifdId, 
+                                    uint16_t tag, 
+                                    long offset, 
+                                    const byte* data,
+                                    int count)
+    {
+        Entry e(false);
+        e.setIfdId(ifdId);
+        e.setTag(tag);
+        e.setOffset(offset);
+        e.setValue(unsignedShort, count, data, 2*count);
+        add(e);
+    }
+
+    void CanonMakerNote::add(const Entry& entry)
+    {
+        assert(alloc_ == entry.alloc());
+        assert(   entry.ifdId() == canonIfdId 
+               || entry.ifdId() == canonCs1IfdId
+               || entry.ifdId() == canonCs2IfdId
+               || entry.ifdId() == canonCfIfdId);
+        // allow duplicates
+        entries_.push_back(entry);
+    }
+
+    long CanonMakerNote::copy(byte* buf, ByteOrder byteOrder, long offset)
+    {
+        if (byteOrder_ == invalidByteOrder) byteOrder_ = byteOrder;
+
+        assert(ifd_.alloc()); 
+        ifd_.clear();
+
+        // Add all standard Canon entries to the IFD
+        Entries::const_iterator end = entries_.end();
+        for (Entries::const_iterator i = entries_.begin(); i != end; ++i) {
+            if (i->ifdId() == canonIfdId) {
+                ifd_.add(*i);
+            }
+        }
+        // Collect camera settings 1 entries and add the original Canon tag
+        Entry cs1;
+        if (assemble(cs1, canonCs1IfdId, 0x0001, byteOrder_)) {
+            ifd_.erase(0x0001);
+            ifd_.add(cs1);
+        }
+        // Collect camera settings 2 entries and add the original Canon tag
+        Entry cs2;
+        if (assemble(cs2, canonCs2IfdId, 0x0004, byteOrder_)) {
+            ifd_.erase(0x0004);
+            ifd_.add(cs2);
+        }
+        // Collect custom function entries and add the original Canon tag
+        Entry cf;
+        if (assemble(cf, canonCfIfdId, 0x000f, byteOrder_)) {
+            ifd_.erase(0x000f);
+            ifd_.add(cf);
+        }
+
+        return IfdMakerNote::copy(buf, byteOrder_, offset);
+    } // CanonMakerNote::copy
+
+    void CanonMakerNote::updateBase(byte* pNewBase)
+    {
+        byte* pBase = ifd_.updateBase(pNewBase);
+        if (absOffset_ && !alloc_) {
+            Entries::iterator end = entries_.end();
+            for (Entries::iterator pos = entries_.begin(); pos != end; ++pos) {
+                pos->updateBase(pBase, pNewBase);
+            }
+        }
+    } // CanonMakerNote::updateBase
+
+    long CanonMakerNote::size() const
+    {
+        Ifd ifd(canonIfdId, 0, alloc_); // offset doesn't matter
+
+        // Add all standard Canon entries to the IFD
+        Entries::const_iterator end = entries_.end();
+        for (Entries::const_iterator i = entries_.begin(); i != end; ++i) {
+            if (i->ifdId() == canonIfdId) {
+                ifd.add(*i);
+            }
+        }
+        // Collect camera settings 1 entries and add the original Canon tag
+        Entry cs1(alloc_);
+        if (assemble(cs1, canonCs1IfdId, 0x0001, littleEndian)) {
+            ifd.erase(0x0001);
+            ifd.add(cs1);
+        }
+        // Collect camera settings 2 entries and add the original Canon tag
+        Entry cs2(alloc_);
+        if (assemble(cs2, canonCs2IfdId, 0x0004, littleEndian)) {
+            ifd.erase(0x0004);
+            ifd.add(cs2);
+        }
+        // Collect custom function entries and add the original Canon tag
+        Entry cf(alloc_);
+        if (assemble(cf, canonCfIfdId, 0x000f, littleEndian)) {
+            ifd.erase(0x000f);
+            ifd.add(cf);
+        }
+
+        return headerSize() + ifd.size() + ifd.dataSize();
+    } // CanonMakerNote::size
+
+    long CanonMakerNote::assemble(Entry& e, 
+                                  IfdId ifdId,
+                                  uint16_t tag,
+                                  ByteOrder byteOrder) const
+    {
+        DataBuf buf(1024);
+        memset(buf.pData_, 0x0, 1024);
+        long len = 0;
+        Entries::const_iterator end = entries_.end();
+        for (Entries::const_iterator i = entries_.begin(); i != end; ++i) {
+            if (i->ifdId() == ifdId) {
+                long pos = i->tag() * 2;
+                long size = pos + i->size();
+                assert(size <= 1024);
+                memcpy(buf.pData_ + pos, i->data(), i->size());
+                if (len < size) len = size;
+            }
+        }
+        if (len > 0) {
+            // Number of shorts in the buffer (rounded up)
+            uint16_t s = (len+1) / 2;
+            us2Data(buf.pData_, s*2, byteOrder);
+
+            e.setIfdId(canonIfdId);
+            e.setIdx(0); // don't care
+            e.setTag(tag);
+            e.setOffset(0); // will be calculated when the IFD is written
+            e.setValue(unsignedShort, s, buf.pData_, s*2);
+        }
+        return len;
+    } // CanonMakerNote::assemble
+
+    Entries::const_iterator CanonMakerNote::findIdx(int idx) const 
+    {
+        return std::find_if(entries_.begin(), entries_.end(),
+                            FindEntryByIdx(idx));
+    }
 
     CanonMakerNote::CanonMakerNote(bool alloc)
         : IfdMakerNote(canonIfdId, alloc)
@@ -79,6 +385,7 @@ namespace Exiv2 {
     CanonMakerNote::CanonMakerNote(const CanonMakerNote& rhs)
         : IfdMakerNote(rhs)
     {
+        entries_ = rhs.entries_;
     }
 
     CanonMakerNote::AutoPtr CanonMakerNote::create(bool alloc) const
@@ -101,187 +408,6 @@ namespace Exiv2 {
         return new CanonMakerNote(*this); 
     }
 
-    std::ostream& CanonMakerNote::print0x0001(std::ostream& os, 
-                                              const Value& value)
-    {
-        if (value.typeId() != unsignedShort) {
-            return os << value;
-        }
-        long count = value.count();
-
-        if (count < 2) return os;
-        long l = value.toLong(1);
-        os << std::setw(30) << "\n   Macro mode ";
-        print0x0001_01(os, l);
-
-        if (count < 3) return os;
-        l = value.toLong(2);
-        os << std::setw(30) << "\n   Self timer ";
-        print0x0001_02(os, l);
-
-        if (count < 4) return os;
-        l = value.toLong(3);
-        os << std::setw(30) << "\n   Quality ";
-        print0x0001_03(os, l);
-
-        if (count < 5) return os;
-        l = value.toLong(4);
-        os << std::setw(30) << "\n   Flash mode ";
-        print0x0001_04(os, l);
-
-        if (count < 6) return os;
-        l = value.toLong(5);
-        os << std::setw(30) << "\n   Drive mode ";
-        print0x0001_05(os, l);
-
-        // Meaning of the 6th ushort is unknown - ignore it
-
-        if (count < 8) return os;
-        l = value.toLong(7);
-        os << std::setw(30) << "\n   Focus mode ";
-        print0x0001_07(os, l);
-    
-        // Meaning of the 8th ushort is unknown - ignore it
-        // Meaning of the 9th ushort is unknown - ignore it
-
-        if (count < 11) return os;
-        l = value.toLong(10);
-        os << std::setw(30) << "\n   Image size ";
-        print0x0001_10(os, l);
-
-        if (count < 12) return os;
-        l = value.toLong(11);
-        os << std::setw(30) << "\n   Easy shooting mode ";
-        print0x0001_11(os, l);
- 
-        if (count < 13) return os;
-        l = value.toLong(12);
-        os << std::setw(30) << "\n   Digital zoom ";
-        print0x0001_12(os, l);
-
-        if (count < 14) return os;
-        l = value.toLong(13);
-        os << std::setw(30) << "\n   Contrast ";
-        print0x0001_lnh(os, l);
-
-        if (count < 15) return os;
-        l = value.toLong(14);
-        os << std::setw(30) << "\n   Saturation ";
-        print0x0001_lnh(os, l);
-
-        if (count < 16) return os;
-        l = value.toLong(15);
-        os << std::setw(30) << "\n   Sharpness ";
-        print0x0001_lnh(os, l);
-
-        if (count < 17) return os;
-        l = value.toLong(16);
-        if (l != 0) {
-            os << std::setw(30) << "\n   ISO ";
-            print0x0001_16(os, l);
-        }
-
-        if (count < 18) return os;
-        l = value.toLong(17);
-        os << std::setw(30) << "\n   Metering mode ";
-        print0x0001_17(os, l);
-
-        if (count < 19) return os;
-        l = value.toLong(18);
-        os << std::setw(30) << "\n   Focus type ";
-        print0x0001_18(os, l);
-
-        if (count < 20) return os;
-        l = value.toLong(19);
-        os << std::setw(30) << "\n   AF point selected ";
-        print0x0001_19(os, l);
-
-        if (count < 21) return os;
-        l = value.toLong(20);
-        os << std::setw(30) << "\n   Exposure mode ";
-        print0x0001_20(os, l);
-
-        // Meaning of the 21st ushort is unknown - ignore it
-        // Meaning of the 22nd ushort is unknown - ignore it
-
-        if (count < 26) return os;
-        os << std::setw(30) << "\n   Lens ";
-        print0x0001_Lens(os, value);
-
-        // Meaning of the 26th ushort is unknown - ignore it
-        // Meaning of the 27th ushort is unknown - ignore it
-
-        if (count < 29) return os;
-        l = value.toLong(28);
-        os << std::setw(30) << "\n   Flash activity ";
-        print0x0001_28(os, l);
-
-        if (count < 30) return os;
-        l = value.toLong(29);
-        if (l > 0) {
-            os << std::setw(30) << "\n   Flash details ";
-            print0x0001_29(os, l);
-        }
-
-        // Meaning of the 30th ushort is unknown - ignore it
-        // Meaning of the 31st ushort is unknown - ignore it
-
-        if (count < 33) return os;
-        l = value.toLong(32);
-        os << std::setw(30) << "\n   Focus mode ";
-        print0x0001_32(os, l);
-
-        // Meaning of any further ushorts is unknown - ignore them
-        
-        return os;
-
-    } // CanonMakerNote::print0x0001
-
-    std::ostream& CanonMakerNote::print0x0004(std::ostream& os, 
-                                              const Value& value)
-    {
-        if (value.typeId() != unsignedShort) {
-            return os << value;
-        }
-        long count = value.count();
-
-        // Meaning of ushorts 1-6 is unknown - ignore them
-
-        if (count < 8) return os;
-        long l = value.toLong(7);
-        os << std::setw(30) << "\n   White balance ";
-        print0x0004_07(os, l);
-
-        // Meaning of ushort 8 is unknown - ignore it
-
-        if (count < 10) return os;
-        l = value.toLong(9);
-        os << std::setw(30) << "\n   Sequence number ";
-        print0x0004_09(os, l);
-
-        // Meaning of ushorts 10-13 is unknown - ignore them
-
-        if (count < 15) return os;
-        l = value.toLong(14);
-        os << std::setw(30) << "\n   AF point used ";
-        print0x0004_14(os, l);
-
-        if (count < 16) return os;
-        l = value.toLong(15);
-        os << std::setw(30) << "\n   Flash bias ";
-        print0x0004_15(os, l);
-
-        // Meaning of ushorts 16-18 is unknown - ignore them
-
-        if (count < 20) return os;
-        l = value.toLong(19);
-        os << std::setw(30) << "\n   Subject distance (0.01m or 0.001m) ";
-        print0x0004_19(os, l);
-
-        return os;
-
-    } // CanonMakerNote::print0x0004
-
     std::ostream& CanonMakerNote::print0x0008(std::ostream& os,
                                               const Value& value)
     {
@@ -302,16 +428,11 @@ namespace Exiv2 {
                   << (l & 0x0000ffff);
     }
 
-    std::ostream& CanonMakerNote::print0x000f(std::ostream& os, 
-                                              const Value& value)
+    std::ostream& CanonMakerNote::printCs10x0001(std::ostream& os, 
+                                                 const Value& value)
     {
-        // Todo: Decode EOS D30 Custom Functions
-        return os << "EOS D30 Custom Functions "
-                  << value << " (Todo: decode this field)";
-    }
-
-    std::ostream& CanonMakerNote::print0x0001_01(std::ostream& os, long l)
-    {
+        if (value.typeId() != unsignedShort) return os << value;
+        long l = value.toLong();
         switch (l) {
         case 1: os << "On"; break;
         case 2: os << "Off"; break;
@@ -320,8 +441,11 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& CanonMakerNote::print0x0001_02(std::ostream& os, long l)
+    std::ostream& CanonMakerNote::printCs10x0002(std::ostream& os,
+                                                 const Value& value)
     {
+        if (value.typeId() != unsignedShort) return os << value;
+        long l = value.toLong();
         if (l == 0) {
             os << "Off";
         }
@@ -331,8 +455,11 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& CanonMakerNote::print0x0001_03(std::ostream& os, long l)
+    std::ostream& CanonMakerNote::printCs10x0003(std::ostream& os,
+                                                 const Value& value)
     {
+        if (value.typeId() != unsignedShort) return os << value;
+        long l = value.toLong();
         switch (l) {
         case 2: os << "Normal"; break;
         case 3: os << "Fine"; break;
@@ -342,8 +469,11 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& CanonMakerNote::print0x0001_04(std::ostream& os, long l)
+    std::ostream& CanonMakerNote::printCs10x0004(std::ostream& os,
+                                                 const Value& value)
     {
+        if (value.typeId() != unsignedShort) return os << value;
+        long l = value.toLong();
         switch (l) {
         case 0: os << "Off"; break;
         case 1: os << "Auto"; break;
@@ -358,8 +488,11 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& CanonMakerNote::print0x0001_05(std::ostream& os, long l)
+    std::ostream& CanonMakerNote::printCs10x0005(std::ostream& os,
+                                                 const Value& value)
     {
+        if (value.typeId() != unsignedShort) return os << value; 
+        long l = value.toLong();
         switch (l) {
         case 0: os << "Single / timer"; break;
         case 1: os << "Continuous"; break;
@@ -368,8 +501,11 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& CanonMakerNote::print0x0001_07(std::ostream& os, long l)
+    std::ostream& CanonMakerNote::printCs10x0007(std::ostream& os,
+                                                 const Value& value)
     {
+        if (value.typeId() != unsignedShort) return os << value;
+        long l = value.toLong();
         switch (l) {
         case 0: os << "One shot"; break;
         case 1: os << "AI servo"; break;
@@ -383,8 +519,11 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& CanonMakerNote::print0x0001_10(std::ostream& os, long l)
+    std::ostream& CanonMakerNote::printCs10x000a(std::ostream& os,
+                                                 const Value& value)
     {
+        if (value.typeId() != unsignedShort) return os << value;
+        long l = value.toLong();
         switch (l) {
         case 0: os << "Large"; break;
         case 1: os << "Medium"; break;
@@ -394,8 +533,11 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& CanonMakerNote::print0x0001_11(std::ostream& os, long l)
+    std::ostream& CanonMakerNote::printCs10x000b(std::ostream& os,
+                                                 const Value& value)
     {
+        if (value.typeId() != unsignedShort) return os << value;
+        long l = value.toLong();
         switch (l) {
         case  0: os << "Full auto"; break;
         case  1: os << "Manual"; break;
@@ -414,8 +556,11 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& CanonMakerNote::print0x0001_12(std::ostream& os, long l)
+    std::ostream& CanonMakerNote::printCs10x000c(std::ostream& os,
+                                                 const Value& value)
     {
+        if (value.typeId() != unsignedShort) return os << value;
+        long l = value.toLong();
         switch (l) {
         case 0: os << "None"; break;
         case 1: os << "2x"; break;
@@ -425,8 +570,11 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& CanonMakerNote::print0x0001_lnh(std::ostream& os, long l)
+    std::ostream& CanonMakerNote::printCs1Lnh(std::ostream& os,
+                                              const Value& value)
     {
+        if (value.typeId() != unsignedShort) return os << value;
+        long l = value.toLong();
         switch (l) {
         case 0xffff: os << "Low"; break;
         case 0x0000: os << "Normal"; break;
@@ -436,8 +584,11 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& CanonMakerNote::print0x0001_16(std::ostream& os, long l)
+    std::ostream& CanonMakerNote::printCs10x0010(std::ostream& os,
+                                                 const Value& value)
     {
+        if (value.typeId() != unsignedShort) return os << value;
+        long l = value.toLong();
         switch (l) {
         case  0: os << "n/a"; break;
         case 15: os << "Auto"; break;
@@ -450,8 +601,11 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& CanonMakerNote::print0x0001_17(std::ostream& os, long l)
+    std::ostream& CanonMakerNote::printCs10x0011(std::ostream& os,
+                                                 const Value& value)
     {
+        if (value.typeId() != unsignedShort) return os << value;
+        long l = value.toLong();
         switch (l) {
         case 3: os << "Evaluative"; break;
         case 4: os << "Partial"; break;
@@ -461,8 +615,11 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& CanonMakerNote::print0x0001_18(std::ostream& os, long l)
+    std::ostream& CanonMakerNote::printCs10x0012(std::ostream& os,
+                                                 const Value& value)
     {
+        if (value.typeId() != unsignedShort) return os << value;
+        long l = value.toLong();
         switch (l) {
         case 0: os << "Manual"; break;
         case 1: os << "Auto"; break;
@@ -473,8 +630,11 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& CanonMakerNote::print0x0001_19(std::ostream& os, long l)
+    std::ostream& CanonMakerNote::printCs10x0013(std::ostream& os,
+                                                 const Value& value)
     {
+        if (value.typeId() != unsignedShort) return os << value;
+        long l = value.toLong();
         switch (l) {
         case 0x3000: os << "None (MF)"; break;
         case 0x3001: os << "Auto-selected"; break;
@@ -486,8 +646,11 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& CanonMakerNote::print0x0001_20(std::ostream& os, long l)
+    std::ostream& CanonMakerNote::printCs10x0014(std::ostream& os,
+                                                 const Value& value)
     {
+        if (value.typeId() != unsignedShort) return os << value;
+        long l = value.toLong();
         switch (l) {
         case 0: os << "Easy shooting"; break;
         case 1: os << "Program"; break;
@@ -500,8 +663,11 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& CanonMakerNote::print0x0001_28(std::ostream& os, long l)
+    std::ostream& CanonMakerNote::printCs10x001c(std::ostream& os,
+                                                 const Value& value)
     {
+        if (value.typeId() != unsignedShort) return os << value;
+        long l = value.toLong();
         switch (l) {
         case 0: os << "Did not fire"; break;
         case 1: os << "Fired"; break;
@@ -510,8 +676,11 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& CanonMakerNote::print0x0001_29(std::ostream& os, long l)
+    std::ostream& CanonMakerNote::printCs10x001d(std::ostream& os,
+                                                 const Value& value)
     {
+        if (value.typeId() != unsignedShort) return os << value;
+        long l = value.toLong();
         bool coma = false;
         if (l & 0x4000) {
             if (coma) os << ", ";
@@ -541,8 +710,11 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& CanonMakerNote::print0x0001_32(std::ostream& os, long l)
+    std::ostream& CanonMakerNote::printCs10x0020(std::ostream& os,
+                                                 const Value& value)
     {
+        if (value.typeId() != unsignedShort) return os << value;
+        long l = value.toLong();
         switch (l) {
         case 0: os << "Single"; break;
         case 1: os << "Continuous"; break;
@@ -551,18 +723,15 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& CanonMakerNote::print0x0001_Lens(std::ostream& os, 
-                                                   const Value& value)
+    std::ostream& CanonMakerNote::printCs1Lens(std::ostream& os,
+                                                const Value& value)
     {
-        if (value.typeId() != unsignedShort) {
-            return os;
-        }
-        if (value.count() < 26) return os;
+        if (value.typeId() != unsignedShort) return os << value;
+        if (value.count() < 3) return os << value;
 
-        // Todo: why not use toFloat()?
-        float fu = static_cast<float>(value.toLong(25));
-        float len1 = value.toLong(23) / fu;
-        float len2 = value.toLong(24) / fu;
+        float fu = value.toFloat(2);
+        float len1 = value.toLong(0) / fu;
+        float len2 = value.toLong(1) / fu;
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(1)
@@ -571,8 +740,11 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& CanonMakerNote::print0x0004_07(std::ostream& os, long l)
+    std::ostream& CanonMakerNote::printCs20x0007(std::ostream& os,
+                                                 const Value& value)
     {
+        if (value.typeId() != unsignedShort) return os << value;
+        long l = value.toLong();
         switch (l) {
         case 0: os << "Auto"; break;
         case 1: os << "Sunny"; break;
@@ -586,15 +758,21 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& CanonMakerNote::print0x0004_09(std::ostream& os, long l)
+    std::ostream& CanonMakerNote::printCs20x0009(std::ostream& os,
+                                                 const Value& value)
     {
+        if (value.typeId() != unsignedShort) return os << value;
+        long l = value.toLong();
         os << l << "";
         // Todo: determine unit
         return os;
     }
 
-    std::ostream& CanonMakerNote::print0x0004_14(std::ostream& os, long l)
+    std::ostream& CanonMakerNote::printCs20x000e(std::ostream& os,
+                                                 const Value& value)
     {
+        if (value.typeId() != unsignedShort) return os << value;
+        long l = value.toLong();
         long num = (l & 0xf000) >> 12;
         os << num << " focus points; ";
         long used = l & 0x0fff;
@@ -623,8 +801,11 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& CanonMakerNote::print0x0004_15(std::ostream& os, long l)
+    std::ostream& CanonMakerNote::printCs20x000f(std::ostream& os,
+                                                 const Value& value)
     {
+        if (value.typeId() != unsignedShort) return os << value;
+        long l = value.toLong();
         switch (l) {
         case 0xffc0: os << "-2 EV"; break;
         case 0xffcc: os << "-1.67 EV"; break;
@@ -648,8 +829,11 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& CanonMakerNote::print0x0004_19(std::ostream& os, long l)
+    std::ostream& CanonMakerNote::printCs20x0013(std::ostream& os,
+                                                 const Value& value)
     {
+        if (value.typeId() != unsignedShort) return os << value;
+        long l = value.toLong();
         if (l == 0xffff) {
             os << "Infinite";
         }

@@ -56,7 +56,6 @@ namespace Exiv2 {
              allocation.
     */
     class Entry {
-        friend class Ifd;
     public:
         //! @name Creators
         //@{
@@ -156,6 +155,17 @@ namespace Exiv2 {
           unsigned long data component, which is 0.
          */
         void setDataAreaOffsets(uint32_t offset, ByteOrder byteOrder);
+        /*!
+          @brief Update the base pointer of the Entry from \em pOldBase 
+                 to \em pNewBase.
+
+          Allows to re-locate the underlying data buffer to a new location
+          \em pNewBase. This method only has an effect in non-alloc mode.
+
+          @param pOldBase Base pointer of the old data buffer
+          @param pNewBase Base pointer of the new data buffer
+         */
+        void updateBase(byte* pOldBase, byte* pNewBase);
         //@}
 
         //! @name Accessors
@@ -445,8 +455,10 @@ namespace Exiv2 {
           \em pNewBase. This method only has an effect in non-alloc mode.
 
           @param pNewBase Pointer to the new data buffer
+
+          @return Old base pointer or 0 if called in alloc mode
          */
-        void updateBase(byte* pNewBase);
+        byte* updateBase(byte* pNewBase);
         //@}
 
         //! @name Accessors

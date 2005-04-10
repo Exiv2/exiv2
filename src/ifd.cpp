@@ -237,6 +237,18 @@ namespace Exiv2 {
         }
     } // Entry::setDataAreaOffsets
 
+    void Entry::updateBase(byte* pOldBase, byte* pNewBase)
+    {
+        if (!alloc_) {
+            if (pDataArea_) {
+                pDataArea_ = pDataArea_ - pOldBase + pNewBase;
+            }
+            if (pData_) {
+                pData_ = pData_ - pOldBase + pNewBase;
+            }
+        }
+    } // Entry::updateBase
+
     const byte* Entry::component(uint32_t n) const
     {
         if (n >= count()) return 0;
@@ -588,21 +600,19 @@ namespace Exiv2 {
         return entries_.erase(pos);
     }
 
-    void Ifd::updateBase(byte* pNewBase)
+    byte* Ifd::updateBase(byte* pNewBase)
     {
+        byte *pOld = 0;
         if (!alloc_) {
             iterator end = this->end();
             for (iterator pos = begin(); pos != end; ++pos) {
-                if (pos->pDataArea_) {
-                    pos->pDataArea_ = pos->pDataArea_ - pBase_ + pNewBase;
-                }
-                if (pos->pData_) {
-                    pos->pData_ = pos->pData_ - pBase_ + pNewBase;
-                }
+                pos->updateBase(pBase_, pNewBase);
             }
             pNext_ = pNext_ - pBase_ + pNewBase;
+            pOld = pBase_;
             pBase_ = pNewBase;
         }
+        return pOld;
     }
 
     long Ifd::size() const

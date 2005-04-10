@@ -64,6 +64,9 @@ namespace Exiv2 {
         IfdInfo(iopIfdId, "Iop", "Iop"),
         IfdInfo(ifd1Id, "IFD1", "Thumbnail"),
         IfdInfo(canonIfdId, "Makernote", "Canon"),
+        IfdInfo(canonCs1IfdId, "Makernote", "CanonCs1"),
+        IfdInfo(canonCs2IfdId, "Makernote", "CanonCs2"),
+        IfdInfo(canonCfIfdId, "Makernote", "CanonCf"),
         IfdInfo(fujiIfdId, "Makernote", "Fujifilm"),
         IfdInfo(nikon1IfdId, "Makernote", "Nikon1"),
         IfdInfo(nikon2IfdId, "Makernote", "Nikon2"),
@@ -623,6 +626,7 @@ namespace Exiv2 {
 
         // Find IfdId
         IfdId ifdId = ExifTags::ifdIdByIfdItem(ifdItem);
+        if (ifdId == ifdIdNotSet) throw Error("Invalid key");
         if (ExifTags::isMakerIfd(ifdId)) {
             MakerNote::AutoPtr makerNote
                 = MakerNoteFactory::instance().create(ifdId);

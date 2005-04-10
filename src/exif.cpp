@@ -29,7 +29,8 @@
 #include "rcsid.hpp"
 EXIV2_RCSID("@(#) $Id$");
 
-// Define DEBUG_MAKERNOTE to output debug information to std::cerr
+// Define DEBUG_MAKERNOTE to output debug information to std::cerr, e.g, by 
+// calling make like this: make DEFS=-DDEBUG_MAKERNOTE exif.o 
 //#define DEBUG_MAKERNOTE
 
 // *****************************************************************************
@@ -544,7 +545,9 @@ namespace Exiv2 {
         add(pIfd0_->begin(), pIfd0_->end(), byteOrder());
         add(pExifIfd_->begin(), pExifIfd_->end(), byteOrder());
         if (pMakerNote_) {
-            add(pMakerNote_->begin(), pMakerNote_->end(), pMakerNote_->byteOrder());
+            add(pMakerNote_->begin(), pMakerNote_->end(), 
+                (pMakerNote_->byteOrder() == invalidByteOrder ?
+                    byteOrder() : pMakerNote_->byteOrder()));
         }
         add(pIopIfd_->begin(), pIopIfd_->end(), byteOrder()); 
         add(pGpsIfd_->begin(), pGpsIfd_->end(), byteOrder());
@@ -594,7 +597,8 @@ namespace Exiv2 {
             makerNote = pMakerNote_->create();
             addToMakerNote(makerNote.get(), 
                            begin(), end(), 
-                           pMakerNote_->byteOrder());
+                           (pMakerNote_->byteOrder() == invalidByteOrder ?
+                               byteOrder() : pMakerNote_->byteOrder()));
             // Create a placeholder MakerNote entry of the correct size and
             // add it to the Exif IFD (because we don't know the offset yet)
             Entry e;
@@ -961,7 +965,8 @@ namespace Exiv2 {
         if (pMakerNote_) {
             compatible &= updateRange(pMakerNote_->begin(), 
                                       pMakerNote_->end(), 
-                                      pMakerNote_->byteOrder());
+                                      (pMakerNote_->byteOrder() == invalidByteOrder ?
+                                          byteOrder() : pMakerNote_->byteOrder()));
         }
         compatible &= updateRange(pIopIfd_->begin(), pIopIfd_->end(), byteOrder());
         compatible &= updateRange(pGpsIfd_->begin(), pGpsIfd_->end(), byteOrder());
