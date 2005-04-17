@@ -128,23 +128,6 @@ private:
 // free functions
 
     /*!
-      @brief Test if a file exists.
-  
-      @param  path Name of file to verify.
-      @param  ct   Flag to check if <i>path</i> is a regular file.
-      @return true if <i>path</i> exists and, if <i>ct</i> is set,
-      is a regular file, else false.
-  
-      @note The function calls <b>stat()</b> test for <i>path</i>
-      and its type, see stat(2). <b>errno</b>
-      is left unchanged in case of an error.
-     */
-    bool fileExists(const std::string& path, bool ct =false);
-
-    //! Get a system error message and the error code. See %strerror(2).
-    std::string strError();
-
-    /*!
       @brief Get the directory component from the \em path string. 
              See %dirname(3).
 

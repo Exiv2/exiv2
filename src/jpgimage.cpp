@@ -40,6 +40,7 @@ EXIV2_RCSID("@(#) $Id$");
 
 #include "jpgimage.hpp"
 #include "error.hpp"
+#include "futils.hpp"
 
 // + standard includes
 #include <cstring>
@@ -85,14 +86,16 @@ namespace Exiv2 {
         : io_(io)
     {
         if (create) {
-            initImage(initData, dataSize);
+            initImage(initData, dataSize); // may throw
         }
     }
 
     int JpegBase::initImage(const byte initData[], long dataSize)
     {
+        if (io_->open() != 0) {
+            return 4;
+        }
         IoCloser closer(*io_);
-        if (io_->open() != 0) return 4;
         if (io_->write(initData, dataSize) != dataSize) {
             return 4;
         }
@@ -101,8 +104,8 @@ namespace Exiv2 {
 
     bool JpegBase::good() const
     {
-        IoCloser closer(*io_);
         if (io_->open() != 0) return false;
+        IoCloser closer(*io_);
         return isThisType(*io_, false);
     }
 
@@ -165,15 +168,16 @@ namespace Exiv2 {
         return c;
     }
 
-    int JpegBase::readMetadata()
+    void JpegBase::readMetadata()
     {
+        if (io_->open() != 0) {
+            throw Error(9, strError());
+        }
         IoCloser closer(*io_);
-        if (io_->open() != 0) return 1;
-
         // Ensure that this is the correct image type
         if (!isThisType(*io_, true)) {
-            if (io_->error() || io_->eof()) return 1;
-            return 2;
+            if (io_->error() || io_->eof()) throw Error(14);
+            throw Error(15);
         }
         clearMetadata();
         int search = 3;
@@ -183,34 +187,32 @@ namespace Exiv2 {
 
         // Read section marker
         int marker = advanceToMarker();
-        if (marker < 0) return 2;
+        if (marker < 0) throw Error(15);
         
         while (marker != sos_ && marker != eoi_ && search > 0) {
             // Read size and signature (ok if this hits EOF)
             bufRead = io_->read(buf.pData_, bufMinSize);
-            if (io_->error()) return 1;
+            if (io_->error()) throw Error(14);
             uint16_t size = getUShort(buf.pData_, bigEndian);
 
             if (marker == app1_ && memcmp(buf.pData_ + 2, exifId_, 6) == 0) {
-                if (size < 8) return 2;
+                if (size < 8) throw Error(15);
                 // Seek to begining and read the Exif data
                 io_->seek(8-bufRead, BasicIo::cur); 
                 long sizeExifData = size - 8;
                 DataBuf rawExif(sizeExifData);
                 io_->read(rawExif.pData_, sizeExifData);
-                if (io_->error() || io_->eof()) {
-                    return 1;
-                }
-                if (exifData_.load(rawExif.pData_, sizeExifData)) return 2;
+                if (io_->error() || io_->eof()) throw Error(14);
+                if (exifData_.load(rawExif.pData_, sizeExifData)) throw Error(15);
                 --search;
             }
             else if (marker == app13_ && memcmp(buf.pData_ + 2, ps3Id_, 14) == 0) {
-                if (size < 16) return 2;
+                if (size < 16) throw Error(15);
                 // Read the rest of the APP13 segment
                 // needed if bufMinSize!=16: io_->seek(16-bufRead, BasicIo::cur);
                 DataBuf psData(size - 16);
                 io_->read(psData.pData_, psData.size_);
-                if (io_->error() || io_->eof()) return 1;
+                if (io_->error() || io_->eof()) throw Error(14);
                 const byte *record = 0;
                 uint16_t sizeIptc = 0;
                 uint16_t sizeHdr = 0;
@@ -218,20 +220,20 @@ namespace Exiv2 {
                 if (!locateIptcData(psData.pData_, psData.size_, &record,
                             &sizeHdr, &sizeIptc)) {
                     assert(sizeIptc);
-                    if (iptcData_.load(record + sizeHdr, sizeIptc)) return 2;
+                    if (iptcData_.load(record + sizeHdr, sizeIptc)) throw Error(15);
                 }
                 --search;
             }
             else if (marker == com_ && comment_.empty())
             {
-                if (size < 2) return 2;
+                if (size < 2) throw Error(15);
                 // Jpegs can have multiple comments, but for now only read
                 // the first one (most jpegs only have one anyway). Comments
                 // are simple single byte ISO-8859-1 strings.
                 io_->seek(2-bufRead, BasicIo::cur);
                 buf.alloc(size-2);
                 io_->read(buf.pData_, size-2);
-                if (io_->error() || io_->eof()) return 1;
+                if (io_->error() || io_->eof()) throw Error(14);
                 comment_.assign(reinterpret_cast<char*>(buf.pData_), size-2);
                 while (   comment_.length()
                        && comment_.at(comment_.length()-1) == '\0') {
@@ -240,15 +242,14 @@ namespace Exiv2 {
                 --search;
             }
             else {
-                if (size < 2) return 2;
+                if (size < 2) throw Error(15);
                 // Skip the remainder of the unknown segment
-                if (io_->seek(size-bufRead, BasicIo::cur)) return 2;
+                if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(15);
             }
             // Read the beginning of the next segment
             marker = advanceToMarker();
-            if (marker < 0) return 2;
+            if (marker < 0) throw Error(15);
         }
-        return 0;
     } // JpegBase::readMetadata
 
 
@@ -295,30 +296,27 @@ namespace Exiv2 {
         return 3;
     } // JpegBase::locateIptcData
 
-    int JpegBase::writeMetadata()
+    void JpegBase::writeMetadata()
     {
+        if (io_->open() != 0) throw Error(9, strError());
         IoCloser closer(*io_);
-        if (io_->open() != 0) return 1;
-        BasicIo::AutoPtr tempIo(io_->temporary());
-        if (!tempIo.get()) return -3;
+        BasicIo::AutoPtr tempIo(io_->temporary()); // may throw
+        assert (tempIo.get() != 0);
 
-        int rc = doWriteMetadata(*tempIo);
+        doWriteMetadata(*tempIo); // may throw
         io_->close();
-        if( rc == 0 ) {
-            if (io_->transfer(*tempIo) != 0) return -3;
-        }
-        return rc;
+        io_->transfer(*tempIo); // may throw
     } // JpegBase::writeMetadata
 
-    int JpegBase::doWriteMetadata(BasicIo& outIo)
+    void JpegBase::doWriteMetadata(BasicIo& outIo)
     {
-        if (!io_->isopen()) return 1;
-        if (!outIo.isopen()) return 4;
+        if (!io_->isopen()) throw Error(20);
+        if (!outIo.isopen()) throw Error(21);
 
         // Ensure that this is the correct image type
         if (!isThisType(*io_, true)) {
-            if (io_->error() || io_->eof()) return 1;
-            return 2;
+            if (io_->error() || io_->eof()) throw Error(20);
+            throw Error(22);
         }
         
         const long bufMinSize = 16;
@@ -334,11 +332,11 @@ namespace Exiv2 {
         DataBuf psData;
 
         // Write image header
-        if (writeHeader(outIo)) return 4;
+        if (writeHeader(outIo)) throw Error(21);
 
         // Read section marker
         int marker = advanceToMarker();
-        if (marker < 0) return 2;
+        if (marker < 0) throw Error(22);
         
         // First find segments of interest. Normally app0 is first and we want
         // to insert after it. But if app0 comes after com, app1 and app13 then
@@ -346,44 +344,44 @@ namespace Exiv2 {
         while (marker != sos_ && marker != eoi_ && search < 3) {
             // Read size and signature (ok if this hits EOF)
             bufRead = io_->read(buf.pData_, bufMinSize);
-            if (io_->error()) return 1;
+            if (io_->error()) throw Error(20);
             uint16_t size = getUShort(buf.pData_, bigEndian);
 
             if (marker == app0_) {
-                if (size < 2) return 2;
+                if (size < 2) throw Error(22);
                 insertPos = count + 1;
-                if (io_->seek(size-bufRead, BasicIo::cur)) return 2;
+                if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(22);
             }
             else if (marker == app1_ && memcmp(buf.pData_ + 2, exifId_, 6) == 0) {
-                if (size < 8) return 2;
+                if (size < 8) throw Error(22);
                 skipApp1Exif = count;
                 ++search;
-                if (io_->seek(size-bufRead, BasicIo::cur)) return 2;
+                if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(22);
             }
             else if (marker == app13_ && memcmp(buf.pData_ + 2, ps3Id_, 14) == 0) {
-                if (size < 16) return 2;
+                if (size < 16) throw Error(22);
                 skipApp13Ps3 = count;
                 ++search;
                 // needed if bufMinSize!=16: io_->seek(16-bufRead, BasicIo::cur);
                 psData.alloc(size - 16);
                 // Load PS data now to allow reinsertion at any point
                 io_->read(psData.pData_, psData.size_);
-                if (io_->error() || io_->eof()) return 1;
+                if (io_->error() || io_->eof()) throw Error(20);
             }
             else if (marker == com_ && skipCom == -1) {
-                if (size < 2) return 2;
+                if (size < 2) throw Error(22);
                 // Jpegs can have multiple comments, but for now only handle
                 // the first one (most jpegs only have one anyway).
                 skipCom = count;
                 ++search;
-                if (io_->seek(size-bufRead, BasicIo::cur)) return 2;
+                if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(22);
             }
             else {
-                if (size < 2) return 2;
-                if (io_->seek(size-bufRead, BasicIo::cur)) return 2;
+                if (size < 2) throw Error(22);
+                if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(22);
             }
             marker = advanceToMarker();
-            if (marker < 0) return 2;
+            if (marker < 0) throw Error(22);
             ++count;
         }
 
@@ -394,7 +392,7 @@ namespace Exiv2 {
         io_->seek(seek, BasicIo::beg);
         count = 0;
         marker = advanceToMarker();
-        if (marker < 0) return 2;
+        if (marker < 0) throw Error(22);
         
         // To simplify this a bit, new segments are inserts at either the start
         // or right after app0. This is standard in most jpegs, but has the
@@ -403,7 +401,7 @@ namespace Exiv2 {
         while (marker != sos_ && search > 0) {
             // Read size and signature (ok if this hits EOF)
             bufRead = io_->read(buf.pData_, bufMinSize);
-            if (io_->error()) return 1;
+            if (io_->error()) throw Error(20);
             // Careful, this can be a meaningless number for empty
             // images with only an eoi_ marker
             uint16_t size = getUShort(buf.pData_, bigEndian);
@@ -416,11 +414,11 @@ namespace Exiv2 {
                     tmpBuf[1] = com_;
                     us2Data(tmpBuf + 2, 
                             static_cast<uint16_t>(comment_.length()+3), bigEndian);
-                    if (outIo.write(tmpBuf, 4) != 4) return 4;
+                    if (outIo.write(tmpBuf, 4) != 4) throw Error(21);
                     if (outIo.write((byte*)comment_.data(), (long)comment_.length())
-                        != (long)comment_.length()) return 4;
-                    if (outIo.putb(0)==EOF) return 4;
-                    if (outIo.error()) return 4;
+                        != (long)comment_.length()) throw Error(21);
+                    if (outIo.putb(0)==EOF) throw Error(21);
+                    if (outIo.error()) throw Error(21);
                     --search;
                 }
                 if (exifData_.count() > 0) {
@@ -432,10 +430,10 @@ namespace Exiv2 {
                             static_cast<uint16_t>(rawExif.size_+8), 
                             bigEndian);
                     memcpy(tmpBuf + 4, exifId_, 6);
-                    if (outIo.write(tmpBuf, 10) != 10) return 4;
+                    if (outIo.write(tmpBuf, 10) != 10) throw Error(21);
                     if (outIo.write(rawExif.pData_, rawExif.size_) 
-                        != rawExif.size_) return 4;
-                    if (outIo.error()) return 4;
+                        != rawExif.size_) throw Error(21);
+                    if (outIo.error()) throw Error(21);
                     --search;
                 }
                 
@@ -459,13 +457,13 @@ namespace Exiv2 {
                             static_cast<uint16_t>(psData.size_-sizeOldData+sizeNewData+16),
                             bigEndian);
                     memcpy(tmpBuf + 4, ps3Id_, 14);
-                    if (outIo.write(tmpBuf, 18) != 18) return 4;
-                    if (outIo.error()) return 4;
+                    if (outIo.write(tmpBuf, 18) != 18) throw Error(21);
+                    if (outIo.error()) throw Error(21);
 
                     const long sizeFront = (long)(record - psData.pData_);
                     const long sizeEnd = psData.size_ - sizeFront - sizeOldData;
                     // write data before old record.
-                    if (outIo.write(psData.pData_, sizeFront) != sizeFront) return 4;
+                    if (outIo.write(psData.pData_, sizeFront) != sizeFront) throw Error(21);
 
                     // write new iptc record if we have it
                     if (iptcData_.count() > 0) {
@@ -474,21 +472,21 @@ namespace Exiv2 {
                         tmpBuf[6] = 0;
                         tmpBuf[7] = 0;
                         ul2Data(tmpBuf + 8, rawIptc.size_, bigEndian);
-                        if (outIo.write(tmpBuf, 12) != 12) return 4;
+                        if (outIo.write(tmpBuf, 12) != 12) throw Error(21);
                         if (outIo.write(rawIptc.pData_, rawIptc.size_) 
-                            != rawIptc.size_) return 4;
+                            != rawIptc.size_) throw Error(21);
                         // data is padded to be even (but not included in size)
                         if (rawIptc.size_ & 1) {
-                            if (outIo.putb(0)==EOF) return 4;
+                            if (outIo.putb(0)==EOF) throw Error(21);
                         }
-                        if (outIo.error()) return 4;
+                        if (outIo.error()) throw Error(21);
                         --search;
                     }
                     
                     // write existing stuff after record
                     if (outIo.write(record+sizeOldData, sizeEnd) 
-                        != sizeEnd) return 4;
-                    if (outIo.error()) return 4;
+                        != sizeEnd) throw Error(21);
+                    if (outIo.error()) throw Error(21);
                 }
             }
             if (marker == eoi_) {
@@ -499,18 +497,18 @@ namespace Exiv2 {
                 io_->seek(size-bufRead, BasicIo::cur);
             }
             else {
-                if (size < 2) return 2;
+                if (size < 2) throw Error(22);
                 buf.alloc(size+2);
                 io_->seek(-bufRead-2, BasicIo::cur);
                 io_->read(buf.pData_, size+2);
-                if (io_->error() || io_->eof()) return 1;
-                if (outIo.write(buf.pData_, size+2) != size+2) return 4;
-                if (outIo.error()) return 4;
+                if (io_->error() || io_->eof()) throw Error(20);
+                if (outIo.write(buf.pData_, size+2) != size+2) throw Error(21);
+                if (outIo.error()) throw Error(21);
             }
 
             // Next marker
             marker = advanceToMarker();
-            if (marker < 0) return 2;
+            if (marker < 0) throw Error(22);
             ++count;
         }
 
@@ -519,12 +517,11 @@ namespace Exiv2 {
         buf.alloc(4096);
         long readSize = 0;
         while ((readSize=io_->read(buf.pData_, buf.size_))) {
-            if (outIo.write(buf.pData_, readSize) != readSize) return 4;
+            if (outIo.write(buf.pData_, readSize) != readSize) throw Error(21);
         }
-        if (outIo.error()) return 4;
-        
-        return 0;
-    }// JpegBase::doWriteMetadata
+        if (outIo.error()) throw Error(21);
+
+    } // JpegBase::doWriteMetadata
 
 
     const byte JpegImage::soi_ = 0xd8;

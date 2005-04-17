@@ -137,9 +137,7 @@ namespace Exiv2 {
     {
         long dataSize = count * TypeInfo::typeSize(TypeId(type));
         // No minimum size requirement, but make sure the buffer can hold the data
-        if (len < dataSize) {
-            throw Error("Size too small");
-        }
+        if (len < dataSize) throw Error(24, tag(), dataSize, len);
         if (alloc_) {
             delete[] pData_;
             pData_ = new byte[len];
@@ -155,7 +153,7 @@ namespace Exiv2 {
             }
             else {
                 // Overwrite existing data if it fits into the buffer
-                if (dataSize > size_) throw Error("Value too large");
+                if (size_ < dataSize) throw Error(24, tag(), dataSize, size_);
                 memset(pData_, 0x0, size_);
                 memcpy(pData_, buf, dataSize);
                 // do not change size_
@@ -181,7 +179,9 @@ namespace Exiv2 {
             }
             else {
                 // Overwrite existing data if it fits into the buffer
-                if (len > sizeDataArea_) throw Error("Value too large");
+                if (sizeDataArea_ < len) {
+                    throw Error(25, tag(), sizeDataArea_, len);
+                }
                 memset(pDataArea_, 0x0, sizeDataArea_);
                 memcpy(pDataArea_, buf, len);
                 // do not change sizeDataArea_
@@ -196,9 +196,7 @@ namespace Exiv2 {
             switch(TypeId(type())) {
             case unsignedShort: {
                 uint16_t d = getUShort(buf, byteOrder);
-                if (d + offset > 0xffff) {
-                    throw Error("Offset out of range");
-                }
+                if (d + offset > 0xffff) throw Error(26);
                 us2Data(buf, d + static_cast<uint16_t>(offset), byteOrder);
                 break;
             }
@@ -214,8 +212,7 @@ namespace Exiv2 {
             }
             case signedShort: {
                 int16_t d = getShort(buf, byteOrder);
-                if (d + static_cast<int32_t>(offset) > 0xffff)
-                    throw Error("Offset out of range");
+                if (d + static_cast<int32_t>(offset) > 0xffff) throw Error(26);
                 s2Data(buf, d + static_cast<int16_t>(offset), byteOrder);
                 break;
             }
@@ -231,7 +228,7 @@ namespace Exiv2 {
                 break;
             }
             default:
-                throw Error("Unsupported data area offset type");
+                throw Error(27);
                 break;
             }
         }

@@ -121,10 +121,9 @@ namespace Exiv2 {
           @param count Number of components in the buffer.
           @param data Pointer to the data buffer.
           @param size Size of the desired data buffer in bytes.
-          @throw Error ("Value too large") if no memory allocation is allowed 
+          @throw Error if no memory allocation is allowed 
                  and the size of the data buffer is larger than the existing 
-                 data buffer of the entry.<BR>
-          @throw Error ("Size too small") if size is not large enough to hold
+                 data buffer of the entry or if size is not large enough to hold
                  count components of the given type.
          */
         void setValue(uint16_t type, uint32_t count, const byte* data, long size);
@@ -143,6 +142,10 @@ namespace Exiv2 {
 
           @param buf Pointer to the data area.
           @param len Size of the data area.
+          
+          @throw Error in non-alloc mode, if there already is a dataarea but the 
+                 size of the existing dataarea is not large enough for the 
+                 new buffer.
          */
         void setDataArea(const byte* buf, long len);
         /*!
@@ -153,6 +156,12 @@ namespace Exiv2 {
           offsets relative to the data area to become offsets from the start of
           the TIFF header.  Usually, entries with a data area have exactly one 
           unsigned long data component, which is 0.
+
+          @param offset Offset 
+          @param byteOrder Byte order
+
+          @throw Error if the offset is out of range for the data type of the 
+                 tag or the data type is not supported.
          */
         void setDataAreaOffsets(uint32_t offset, ByteOrder byteOrder);
         /*!

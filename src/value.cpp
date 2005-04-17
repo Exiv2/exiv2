@@ -313,7 +313,7 @@ namespace Exiv2 {
             if (name[0] == '"') name = name.substr(1);
             if (name[name.length()-1] == '"') name = name.substr(0, name.length()-1);
             charsetId = CharsetInfo::charsetIdByName(name);
-            if (charsetId == invalidCharsetId) throw Error("Invalid charset");
+            if (charsetId == invalidCharsetId) throw Error(28, name);
             c.clear();
             if (pos != std::string::npos) c = comment.substr(pos+1);
         }
@@ -373,22 +373,22 @@ namespace Exiv2 {
     {
         // byteOrder not needed 
         // Hard coded to read Iptc style dates
-        if (len != 8) throw Error("Unsupported date format");
+        if (len != 8) throw Error(29);
         int scanned = sscanf(reinterpret_cast<const char*>(buf), 
                    "%4d%2d%2d", 
                    &date_.year, &date_.month, &date_.day);
-        if (scanned != 3) throw Error("Unsupported date format");
+        if (scanned != 3) throw Error(29);
     }
 
     void DateValue::read(const std::string& buf)
     {
         // byteOrder not needed 
         // Hard coded to read Iptc style dates
-        if (buf.length() < 8) throw Error("Unsupported date format");
+        if (buf.length() < 8) throw Error(29);
         int scanned = sscanf(buf.data(), 
                    "%4d-%d-%d", 
                    &date_.year, &date_.month, &date_.day);
-        if (scanned != 3) throw Error("Unsupported date format");
+        if (scanned != 3) throw Error(29);
     }
 
     void DateValue::setDate( const Date& src )
@@ -464,14 +464,14 @@ namespace Exiv2 {
     {
         // byteOrder not needed 
         // Hard coded to read Iptc style times
-        if (len != 11) throw Error("Unsupported time format");
+        if (len != 11) throw Error(30);
         char plusMinus;
         int scanned = sscanf(reinterpret_cast<const char*>(buf), 
                    "%2d%2d%2d%1c%2d%2d", 
                    &time_.hour, &time_.minute, &time_.second, 
                    &plusMinus, &time_.tzHour, &time_.tzMinute );
 
-        if (scanned != 6) throw Error("Unsupported time format");
+        if (scanned != 6) throw Error(30);
         if (plusMinus == '-') {
             time_.tzHour *= -1;
             time_.tzMinute *= -1;
@@ -482,14 +482,14 @@ namespace Exiv2 {
     {
         // byteOrder not needed 
         // Hard coded to read Iptc style times
-        if (buf.length() < 9) throw Error("Unsupported time format");
+        if (buf.length() < 9) throw Error(30);
         char plusMinus;
         int scanned = sscanf(buf.data(),
                    "%d:%d:%d%1c%d:%d", 
                    &time_.hour, &time_.minute, &time_.second, 
                    &plusMinus, &time_.tzHour, &time_.tzMinute );
 
-        if (scanned != 6) throw Error("Unsupported time format");
+        if (scanned != 6) throw Error(30);
         if (plusMinus == '-') {
             time_.tzHour *= -1;
             time_.tzMinute *= -1;

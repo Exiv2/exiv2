@@ -70,18 +70,16 @@ namespace Exiv2 {
             uint16_t recordId,
             const char* photoshop
         );
-        //@{
-        uint16_t number_;
-        const char* name_;
-        const char* desc_;
-        bool mandatory_;
-        bool repeatable_;
-        uint32_t minbytes_;
-        uint32_t maxbytes_;
-        TypeId type_;
-        uint16_t recordId_;
-        const char* photoshop_;
-        //@}
+        uint16_t number_;                       //!< Dataset number
+        const char* name_;                      //!< Dataset name
+        const char* desc_;                      //!< Dataset description
+        bool mandatory_;                        //!< True if dataset is mandatory
+        bool repeatable_;                       //!< True if dataset is repeatable
+        uint32_t minbytes_;                     //!< Minimum number of bytes
+        uint32_t maxbytes_;                     //!< Maximum number of bytes
+        TypeId type_;                           //!< Exiv2 default type
+        uint16_t recordId_;                     //!< Record id
+        const char* photoshop_;                 //!< Photoshop string
     }; // struct DataSet
 
     //! Container for Iptc dataset information. Implemented as a static class.
@@ -197,8 +195,6 @@ namespace Exiv2 {
           @param number The dataset number
           @param recordId The Iptc record Id 
           @return The description of the dataset
-          @throw Error ("No dataset for recordId") if there is no dataset info
-                 for the given record id in the lookup tables.
          */
         static const char* dataSetDesc(uint16_t number, uint16_t recordId);
         /*!
@@ -206,9 +202,7 @@ namespace Exiv2 {
           @param number The dataset number
           @param recordId The Iptc record Id 
           @return The name used by photoshop for a dataset or an empty
-                string if photoshop does not use the dataset.
-          @throw Error ("No dataset for recordId") if there is no dataset info
-                 for the given record id in the lookup tables.
+                 string if photoshop does not use the dataset.
          */
         static const char* dataSetPsName(uint16_t number, uint16_t recordId);
         /*!
@@ -216,11 +210,18 @@ namespace Exiv2 {
           @param number The dataset number
           @param recordId The Iptc record Id 
           @return true if the given dataset is repeatable otherwise false
-          @throw Error ("No dataset for recordId") if there is no dataset info
-                 for the given record id in the lookup tables.
          */
         static bool dataSetRepeatable(uint16_t number, uint16_t recordId);
-        //! Return the dataSet number for dataset name and record id
+        /*!
+          @brief Return the dataSet number for dataset name and record id
+
+          @param dataSetName dataSet name
+          @param recordId recordId
+
+          @return dataSet number
+
+          @throw Error if the \em dataSetName or \em recordId are invalid
+         */
         static uint16_t dataSet(const std::string& dataSetName, uint16_t recordId);
         //! Return the type for dataSet number and Record id
         static TypeId dataSetType(uint16_t number, uint16_t recordId);
@@ -236,14 +237,13 @@ namespace Exiv2 {
            @brief Return the description of a record
            @param recordId Record Id number
            @return the description of the Record
-           @throw Error("Unknown record");
          */
         static const char* recordDesc(uint16_t recordId);
         /*!
            @brief Return the Id number of a record
            @param recordName Name of a record type
            @return the Id number of a Record
-           @throw Error("Unknown record");
+           @throw Error if the record is not known;
          */
         static uint16_t recordId(const std::string& recordName);
         //! Print a list of all dataSets to output stream
@@ -272,8 +272,8 @@ namespace Exiv2 {
           @brief Constructor to create an Iptc key from a key string. 
 
           @param key The key string.
-          @throw Error ("Invalid key") if the first part of the key is not 
-                 'Iptc' or the remaining parts of the key cannot be parsed and
+          @throw Error if the first part of the key is not '<b>Iptc</b>' or 
+                 the remaining parts of the key cannot be parsed and
                  converted to a record name and a dataset name.
         */
         explicit IptcKey(const std::string& key);
@@ -327,9 +327,9 @@ namespace Exiv2 {
         /*!
           @brief Parse and convert the key string into dataset and record id.
                  Updates data members if the string can be decomposed, or throws
-                 Error ("Invalid key").
+                 \em Error.
 
-          @throw Error ("Invalid key") if the key cannot be decomposed.
+          @throw Error if the key cannot be decomposed.
          */
         void decomposeKey();
         //@}

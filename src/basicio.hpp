@@ -32,7 +32,6 @@
 // *****************************************************************************
 // included header files
 #include "types.hpp"
-#include "error.hpp"
 
 // + standard includes
 #include <string>
@@ -49,9 +48,9 @@ namespace Exiv2 {
     /*!
       @brief An interface for simple binary IO.
 
-      Designed to have semantics
-      and names similar to those of C style FILE* operations. Subclasses
-      should all behave the same so that they can be interchanged.
+      Designed to have semantics and names similar to those of C style FILE*
+      operations. Subclasses should all behave the same so that they can be
+      interchanged.
      */
     class BasicIo
     {
@@ -80,7 +79,7 @@ namespace Exiv2 {
           opening IO sources differently. 
           
           @return 0 if successful;<BR>
-                 Nonzero if failure;
+              Nonzero if failure.
          */
         virtual int open() = 0;
         /*!
@@ -88,7 +87,7 @@ namespace Exiv2 {
               be read or written. Closing flushes any unwritten data. It is
               safe to call close on a closed instance.
           @return 0 if successful;<BR>
-                 Nonzero if failure;
+              Nonzero if failure.
          */
         virtual int close() = 0;
         /*!
@@ -98,7 +97,7 @@ namespace Exiv2 {
               bytes long
           @param wcount Number of bytes to be written.
           @return Number of bytes written to IO source successfully;<BR>
-                 0 if failure;
+              0 if failure;
          */
         virtual long write(const byte* data, long wcount) = 0;
         /*!
@@ -108,7 +107,7 @@ namespace Exiv2 {
           @param src Reference to another BasicIo instance. Reading start
               at the source's current IO position
           @return Number of bytes written to IO source successfully;<BR>
-                 0 if failure;
+              0 if failure;
          */
         virtual long write(BasicIo& src) = 0;
         /*!
@@ -116,7 +115,7 @@ namespace Exiv2 {
               advanced by one byte.
           @param data The single byte to be written.
           @return The value of the byte written if successful;<BR>
-                 EOF if failure;
+              EOF if failure;
          */
         virtual int putb(byte data) = 0;
         /*!
@@ -126,8 +125,8 @@ namespace Exiv2 {
           @param rcount Maximum number of bytes to read. Fewer bytes may be
               read if \em rcount bytes are not available.
           @return DataBuf instance containing the bytes read. Use the
-                DataBuf::size_ member to find the number of bytes read.
-                DataBuf::size_ will be 0 on failure.
+              DataBuf::size_ member to find the number of bytes read.
+              DataBuf::size_ will be 0 on failure.
          */
         virtual DataBuf read(long rcount) = 0;
         /*!
@@ -140,14 +139,14 @@ namespace Exiv2 {
           @param rcount Maximum number of bytes to read. Fewer bytes may be
               read if \em rcount bytes are not available.
           @return Number of bytes read from IO source successfully;<BR>
-                 0 if failure;
+              0 if failure;
          */
         virtual long read(byte *buf, long rcount) = 0;
         /*!
           @brief Read one byte from the IO source. Current IO position is
               advanced by one byte.
           @return The byte read from the IO source if successful;<BR>
-                 EOF if failure;
+              EOF if failure;
          */
         virtual int getb() = 0;
         /*!
@@ -161,17 +160,16 @@ namespace Exiv2 {
           @param src Reference to another BasicIo instance. The entire contents
               of src are transferred to this object. The \em src object is
               invalidated by the method.
-          @return 0 if successful;<BR>
-                 Nonzero if failure;
+          @throw Error In case of failure
          */
-        virtual int transfer(BasicIo& src) = 0;
+        virtual void transfer(BasicIo& src) = 0;
         /*!
           @brief Move the current IO position. 
           @param offset Number of bytes to move the position relative
               to the starting position specified by \em pos
           @param pos Position from which the seek should start
           @return 0 if successful;<BR>
-                 Nonzero if failure;
+              Nonzero if failure;
          */
         virtual int seek(long offset, Position pos) = 0;
         //@}
@@ -181,13 +179,13 @@ namespace Exiv2 {
         /*!
           @brief Get the current IO position. 
           @return Offset from the start of IO if successful;<BR>
-                 -l if failure;
+                 -1 if failure;
          */
         virtual long tell() const = 0;
         /*!
           @brief Get the current size of the IO source in bytes.
           @return Size of the IO source in bytes;<BR>
-                 -l if failure;
+                 -1 if failure;
          */
         virtual long size() const = 0;
         //!Returns true if the IO source is open, otherwise false.
@@ -206,8 +204,8 @@ namespace Exiv2 {
           replace the original IO source with the modified version. Subclasses
           are free to return any class that derives from BasicIo.
           
-          @return An instance of BasicIo on success;<BR>
-                 Null pointer on failure;
+          @return An instance of BasicIo on success
+          @throw Error In case of failure
          */
         virtual BasicIo::AutoPtr temporary() const = 0;
         //@}
@@ -287,15 +285,15 @@ namespace Exiv2 {
           @param mode Specified that type of access allowed on the file.
               Valid values match those of the C fopen command exactly.
           @return 0 if successful;<BR>
-                 Nonzero if failure;
-         */        
-        int open( const std::string& mode);
+              Nonzero if failure.
+         */
+        int open(const std::string& mode);
         /*!
           @brief Open the file using using the default access mode of "r+b".
               This method can also be used to "reopen" a file which will flush
               any unwritten data and reset the IO position to the start.
           @return 0 if successful;<BR>
-                 Nonzero if failure;
+              Nonzero if failure.
          */        
         virtual int open();
         /*!
@@ -377,10 +375,9 @@ namespace Exiv2 {
           @param src Reference to another BasicIo instance. The entire contents
               of src are transferred to this object. The \em src object is
               invalidated by the method.
-          @return 0 if successful;<BR>
-                 Nonzero if failure;
+          @throw Error In case of failure
          */
-        virtual int transfer(BasicIo& src);
+        virtual void transfer(BasicIo& src);
         /*!
           @brief Move the current file position. 
           @param offset Number of bytes to move the file position
@@ -397,14 +394,14 @@ namespace Exiv2 {
         /*!
           @brief Get the current file position. 
           @return Offset from the start of the file if successful;<BR>
-                 -l if failure;
+                 -1 if failure;
          */
         virtual long tell() const;
         /*!
           @brief Flush any buffered writes and get the current file size
               in bytes. 
           @return Size of the file in bytes;<BR>
-                 -l if failure;
+                 -1 if failure;
          */
         virtual long size() const;
         //!Returns true if the file is open, otherwise false.
@@ -419,8 +416,8 @@ namespace Exiv2 {
               object. For small files, a MemIo is returned while for large files
               a FileIo is returned. Callers should not rely on this behavior,
               however, since it may change.
-          @return An instance of BasicIo on success;<BR>
-                 Null pointer on failure;
+          @return An instance of BasicIo on success
+          @throw Error If opening the temporary file fails
          */
         virtual BasicIo::AutoPtr temporary() const;
         //@}
@@ -476,8 +473,9 @@ namespace Exiv2 {
         //@{
         /*!
           @brief Memory IO is always open for reading and writing. This method
-              therefore only resets the IO position to the start.
-          @return 0 
+                 therefore only resets the IO position to the start.
+
+          @return 0
          */        
         virtual int open();
         /*!
@@ -559,10 +557,9 @@ namespace Exiv2 {
           @param src Reference to another BasicIo instance. The entire contents
               of src are transferred to this object. The \em src object is
               invalidated by the method.
-          @return 0 if successful;<BR>
-                 Nonzero if failure;
+          @throw Error In case of failure
          */
-        virtual int transfer(BasicIo& src);
+        virtual void transfer(BasicIo& src);
         /*!
           @brief Move the current IO position. 
           @param offset Number of bytes to move the IO position
@@ -584,7 +581,7 @@ namespace Exiv2 {
         /*!
           @brief Get the current memory buffer size in bytes. 
           @return Size of the in memory data in bytes;<BR>
-                 -l if failure;
+                 -1 if failure;
          */
         virtual long size() const;
         //!Always returns true
@@ -597,8 +594,7 @@ namespace Exiv2 {
           @brief Returns a temporary data storage location. Currently returns
               an empty MemIo object, but callers should not rely on this
               behavior since it may change.
-          @return An instance of BasicIo on success;<BR>
-                 Null pointer on failure;
+          @return An instance of BasicIo
          */
         virtual BasicIo::AutoPtr temporary() const;
         //@}

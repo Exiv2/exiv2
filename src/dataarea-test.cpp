@@ -71,7 +71,7 @@ try {
 
     return 0;
 }
-catch (Exiv2::Error& e) {
+catch (Exiv2::AnyError& e) {
     std::cout << "Caught Exiv2 exception '" << e << "'\n";
     return -1;
 }
@@ -83,24 +83,14 @@ void write(const std::string& file, Exiv2::ExifData& ed)
     assert(image.get() != 0);
 
     image->setExifData(ed);
-    int rc = image->writeMetadata();
-    if (rc) {
-        std::string error = Exiv2::Image::strError(rc, file);
-        throw Exiv2::Error(error);
-    }
+    image->writeMetadata();
 }
 
 void print(const std::string& file)
 {
     Image::AutoPtr image = ImageFactory::open(file);
     assert(image.get() != 0);
-
-    // Load existing metadata
-    int rc = image->readMetadata();
-    if (rc) {
-        std::string error = Exiv2::Image::strError(rc, file);
-        throw Exiv2::Error(error);
-    }
+    image->readMetadata();
 
     Exiv2::ExifData &ed = image->exifData();
     Exiv2::ExifData::const_iterator end = ed.end();
@@ -125,16 +115,15 @@ int read(const std::string& path)
 {
     Image::AutoPtr image = ImageFactory::open(path);
     assert(image.get() != 0);
+    image->readMetadata();
     
-    int rc = image->readMetadata();
-    if (rc) return rc;
-    if (image->exifData().count() > 0) {
+    if (!image->exifData().empty()) {
         DataBuf exifData = image->exifData().copy();
         long size = exifData.size_;
         
         // Read the TIFF header
         TiffHeader tiffHeader;
-        rc = tiffHeader.read(exifData.pData_);
+        int rc = tiffHeader.read(exifData.pData_);
         if (rc) return rc;
 
         // Read IFD0

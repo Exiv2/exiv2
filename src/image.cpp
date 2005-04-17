@@ -42,11 +42,13 @@ EXIV2_RCSID("@(#) $Id$");
 
 #include "image.hpp"
 #include "error.hpp"
+#include "futils.hpp"
 
 // Ensure registration with factory
 #include "jpgimage.hpp"
 
 // + standard includes
+#include <cerrno>
 #include <cstdio>
 #include <cstring>
 #include <cstdio>                               // for rename, remove
@@ -95,9 +97,8 @@ namespace Exiv2 {
 
     Image::Type ImageFactory::getType(BasicIo& io)
     {
+        if (io.open() != 0) return Image::none; 
         IoCloser closer(io);
-        if (io.open() != 0) return Image::none;
-        
         Image::Type type = Image::none;
         Registry::const_iterator b = registry_->begin();
         Registry::const_iterator e = registry_->end();
@@ -114,21 +115,24 @@ namespace Exiv2 {
     Image::AutoPtr ImageFactory::open(const std::string& path)
     {
         BasicIo::AutoPtr io(new FileIo(path));
-        return open(io);
+        Image::AutoPtr image(open(io));
+        if (image.get() == 0) throw Error(11, path);
+        return image;
     }
 
     Image::AutoPtr ImageFactory::open(const byte* data, long size)
     {
         BasicIo::AutoPtr io(new MemIo(data, size));
-        return open(io);
+        Image::AutoPtr image(open(io));
+        if (image.get() == 0) throw Error(12);
+        return image;
     }
 
     Image::AutoPtr ImageFactory::open(BasicIo::AutoPtr io)
     {
         Image::AutoPtr image;
-        IoCloser closer(*io);
         if (io->open() != 0) return image;
-
+        IoCloser closer(*io);
         Registry::const_iterator b = registry_->begin();
         Registry::const_iterator e = registry_->end();
         for (Registry::const_iterator i = b; i != e; ++i)
@@ -141,24 +145,28 @@ namespace Exiv2 {
         return image;
     } // ImageFactory::open
 
-
     Image::AutoPtr ImageFactory::create(Image::Type type, 
                                         const std::string& path)
     {
-        FileIo *fileIo = new FileIo(path);
-        BasicIo::AutoPtr io(fileIo);
+        std::auto_ptr<FileIo> fileIo(new FileIo(path));
         // Create or overwrite the file, then close it
-        if (fileIo->open("w+b") != 0) return Image::AutoPtr();
+        if (fileIo->open("w+b") != 0) {
+            throw Error(10, path, "w+b", strError());
+        }
         fileIo->close();
-        return create(type, io);
+        BasicIo::AutoPtr io(fileIo);
+        Image::AutoPtr image(create(type, io));
+        if (image.get() == 0) throw Error(13, type);
+        return image;
     }
 
     Image::AutoPtr ImageFactory::create(Image::Type type)
     {
         BasicIo::AutoPtr io(new MemIo);
-        return create(type, io);
+        Image::AutoPtr image(create(type, io));
+        if (image.get() == 0) throw Error(13, type);
+        return image;
     }
-
 
     Image::AutoPtr ImageFactory::create(Image::Type type, 
                                         BasicIo::AutoPtr io)
@@ -170,37 +178,6 @@ namespace Exiv2 {
         }
         return Image::AutoPtr();
     } // ImageFactory::create
-
-    std::string Image::strError(int rc, const std::string& path)
-    {
-        std::string error = path + ": ";
-        switch (rc) {
-        case -1:
-            error += "Failed to open the file";
-            break;
-        case -2:
-            error += "The file contains data of an unknown image type";
-            break;
-        case -3:
-            error += "Couldn't open temporary file";
-            break;
-        case -4:
-            error += "Renaming temporary file failed";
-            break;
-        case 1:
-            error += "Couldn't read from the input file";
-            break;
-        case 2:
-            error += "This does not look like a JPEG image";
-            break;
-        default:
-            error += "Accessing image data failed, rc = " + toString(rc);
-            break;
-        }
-        return error;
-    } // Image::strError
-
-
 
     TiffHeader::TiffHeader(ByteOrder byteOrder) 
         : byteOrder_(byteOrder), tag_(0x002a), offset_(0x00000008)
@@ -242,17 +219,5 @@ namespace Exiv2 {
         ul2Data(buf+4, 0x00000008, byteOrder_);
         return size();
     } // TiffHeader::copy
-
-// *****************************************************************************
-// free functions
-
-    bool fileExists(const std::string& path, bool ct)
-    {
-        struct stat buf;
-        int ret = stat(path.c_str(), &buf);
-        if (0 != ret)                    return false;
-        if (ct && !S_ISREG(buf.st_mode)) return false;
-        return true;
-    } // fileExists
 
 }                                       // namespace Exiv2

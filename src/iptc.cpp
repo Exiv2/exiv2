@@ -288,48 +288,6 @@ namespace Exiv2 {
         return iptcMetadata_.erase(pos);
     }
 
-    std::string IptcData::strError(int rc, const std::string& path)
-    {
-        std::string error = path + ": ";
-        switch (rc) {
-        case -1:
-            error += "Failed to open the file";
-            break;
-        case -2:
-            error += "The file contains data of an unknown image type";
-            break;
-        case -3:
-            error += "Couldn't open temporary file";
-            break;
-        case -4:
-            error += "Renaming temporary file failed";
-            break;
-        case 1:
-            error += "Couldn't read from the input file";
-            break;
-        case 2:
-            error += "This does not look like a JPEG image";
-            break;
-        case 3:
-            error += "No Iptc data found in the file";
-            break;
-        case 4:
-            error += "Writing to the output file failed";
-            break;
-        case 5:
-            error += "Invalid or corrupt Iptc data";
-            break;
-        case 6:
-            error += "Iptc dataset already exists and is not repeatable";
-            break;
-
-        default:
-            error += "Accessing Iptc data failed, rc = " + toString(rc);
-            break;
-        }
-        return error;
-    } // IptcData::strError
-
     // *************************************************************************
     // free functions
     std::ostream& operator<<(std::ostream& os, const Iptcdatum& md)

@@ -44,6 +44,7 @@ EXIV2_RCSID("@(#) $Id$");
 #include "exif.hpp"
 #include "canonmn.hpp"
 #include "iptc.hpp"
+#include "futils.hpp"
 #ifndef EXV_HAVE_TIMEGM
 # include "timegm.h"
 #endif
@@ -158,30 +159,22 @@ namespace Action {
         }
         return rc;
     }
-    catch(const Exiv2::Error& e) {
-        std::cerr << "Exif exception in print action for file " 
+    catch(const Exiv2::AnyError& e) {
+        std::cerr << "Exiv2 exception in print action for file " 
                   << path << ":\n" << e << "\n";
         return 1;
     } // Print::run
 
     int Print::printSummary()
     {
-        if (!Util::fileExists(path_, true)) {
+        if (!Exiv2::fileExists(path_, true)) {
             std::cerr << path_
                       << ": Failed to open the file\n";
             return -1;
         }
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
-        if (image.get() == 0) {
-            std::cerr << path_
-                      << ": The file contains data of an unknown image type\n";
-            return -2;
-        }
-        int rc = image->readMetadata();
-        if (rc) {
-            std::cerr << Exiv2::Image::strError(rc, path_) << "\n";
-            return rc;
-        }
+        assert(image.get() != 0);
+        image->readMetadata();
         Exiv2::ExifData &exifData = image->exifData();
         if (exifData.empty()) {
             std::cerr << path_
@@ -445,22 +438,14 @@ namespace Action {
 
     int Print::printInterpreted()
     {
-        if (!Util::fileExists(path_, true)) {
+        if (!Exiv2::fileExists(path_, true)) {
             std::cerr << path_
                       << ": Failed to open the file\n";
             return -1;
         }
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
-        if (image.get() == 0) {
-            std::cerr << path_
-                      << ": The file contains data of an unknown image type\n";
-            return -2;
-        }
-        int rc = image->readMetadata();
-        if (rc) {
-            std::cerr << Exiv2::Image::strError(rc, path_) << "\n";
-            return rc;
-        }
+        assert(image.get() != 0);
+        image->readMetadata();
         Exiv2::ExifData &exifData = image->exifData();
         if (exifData.empty()) {
             std::cerr << path_
@@ -483,22 +468,14 @@ namespace Action {
 
     int Print::printValues()
     {
-        if (!Util::fileExists(path_, true)) {
+        if (!Exiv2::fileExists(path_, true)) {
             std::cerr << path_
                       << ": Failed to open the file\n";
             return -1;
         }
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
-        if (image.get() == 0) {
-            std::cerr << path_
-                      << ": The file contains data of an unknown image type\n";
-            return -2;
-        }
-        int rc = image->readMetadata();
-        if (rc) {
-            std::cerr << Exiv2::Image::strError(rc, path_) << "\n";
-            return rc;
-        }
+        assert(image.get() != 0);
+        image->readMetadata();
         Exiv2::ExifData &exifData = image->exifData();
         if (exifData.empty()) {
             std::cerr << path_
@@ -528,22 +505,14 @@ namespace Action {
 
     int Print::printIptc()
     {
-        if (!Util::fileExists(path_, true)) {
+        if (!Exiv2::fileExists(path_, true)) {
             std::cerr << path_
                       << ": Failed to open the file\n";
             return -1;
         }
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
-        if (image.get() == 0) {
-            std::cerr << path_
-                      << ": The file contains data of an unknown image type\n";
-            return -2;
-        }
-        int rc = image->readMetadata();
-        if (rc) {
-            std::cerr << Exiv2::Image::strError(rc, path_) << "\n";
-            return rc;
-        }
+        assert(image.get() != 0);
+        image->readMetadata();
         Exiv2::IptcData &iptcData = image->iptcData();
         if (iptcData.empty()) {
             std::cerr << path_
@@ -573,22 +542,14 @@ namespace Action {
 
     int Print::printHexdump()
     {
-        if (!Util::fileExists(path_, true)) {
+        if (!Exiv2::fileExists(path_, true)) {
             std::cerr << path_
                       << ": Failed to open the file\n";
             return -1;
         }
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
-        if (image.get() == 0) {
-            std::cerr << path_
-                      << ": The file contains data of an unknown image type\n";
-            return -2;
-        }
-        int rc = image->readMetadata();
-        if (rc) {
-            std::cerr << Exiv2::Image::strError(rc, path_) << "\n";
-            return rc;
-        }
+        assert(image.get() != 0);
+        image->readMetadata();
         Exiv2::ExifData &exifData = image->exifData();
         if (exifData.empty()) {
             std::cerr << path_
@@ -621,23 +582,14 @@ namespace Action {
 
     int Print::printComment()
     {
-        if (!Util::fileExists(path_, true)) {
+        if (!Exiv2::fileExists(path_, true)) {
             std::cerr << path_ 
                       << ": Failed to open the file\n";
             return -1;
         }
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
-        if (image.get() == 0) {
-            std::cerr << path_
-                      << ": The file contains data of an unknown image type\n";
-            return -2;
-        }
-        int rc = image->readMetadata();
-        if (rc) {
-            std::cerr << path_
-                      << ": Could not read metadata\n";
-            return 1;
-        }
+        assert(image.get() != 0);
+        image->readMetadata();
         if (Params::instance().verbose_) {
             std::cout << "Jpeg comment: ";
         }
@@ -657,22 +609,14 @@ namespace Action {
 
     int Rename::run(const std::string& path)
     try {
-        if (!Util::fileExists(path, true)) {
+        if (!Exiv2::fileExists(path, true)) {
             std::cerr << path
                       << ": Failed to open the file\n";
             return -1;
         }
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
-        if (image.get() == 0) {
-            std::cerr << path
-                      << ": The file contains data of an unknown image type\n";
-            return -2;
-        }
-        int rc = image->readMetadata();
-        if (rc) {
-            std::cerr << Exiv2::Image::strError(rc, path) << "\n";
-            return rc;
-        }
+        assert(image.get() != 0);
+        image->readMetadata();
         Exiv2::ExifData &exifData = image->exifData();
         if (exifData.empty()) {
             std::cerr << path
@@ -719,7 +663,7 @@ namespace Action {
         if (Params::instance().verbose_) {
             std::cout << "Renaming file to " << newPath << std::endl;
         }
-        if (!Params::instance().force_ && Util::fileExists(newPath)) {
+        if (!Params::instance().force_ && Exiv2::fileExists(newPath)) {
             std::cout << Params::instance().progname() 
                       << ": Overwrite `" << newPath << "'? ";
             std::string s;
@@ -732,14 +676,14 @@ namespace Action {
             std::cerr << Params::instance().progname()
                       << ": Failed to rename "
                       << path << " to " << newPath << ": "
-                      << Util::strError() << "\n";
+                      << Exiv2::strError() << "\n";
             return 1;
         }
         return 0;
     }
-    catch(const Exiv2::Error& e)
+    catch(const Exiv2::AnyError& e)
     {
-        std::cerr << "Exif exception in rename action for file " << path
+        std::cerr << "Exiv2 exception in rename action for file " << path
                   << ":\n" << e << "\n";
         return 1;
     } // Rename::run
@@ -758,24 +702,17 @@ namespace Action {
     try {
         path_ = path;
 
-        if (!Util::fileExists(path_, true)) {
+        if (!Exiv2::fileExists(path_, true)) {
             std::cerr << path_
                       << ": Failed to open the file\n";
             return -1;
         }
-        Exiv2::Image::AutoPtr image 
-            = Exiv2::ImageFactory::open(path_);
-        if (image.get() == 0) {
-            std::cerr << path_
-                      << ": The file contains data of an unknown image type\n";
-            return -2;
-        }
-        int rc = image->readMetadata();
-        if (rc) {
-            std::cerr << Exiv2::ExifData::strError(rc, path_) << "\n";
-        }
+        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
+        assert(image.get() != 0);
+        image->readMetadata();
         // Thumbnail must be before Exif
-        if (0 == rc && Params::instance().target_ & Params::ctThumb) {
+        int rc = 0;
+        if (Params::instance().target_ & Params::ctThumb) {
             rc = eraseThumbnail(image.get());
         }
         if (0 == rc && Params::instance().target_ & Params::ctExif) {
@@ -788,17 +725,14 @@ namespace Action {
             rc = eraseComment(image.get());
         }
         if (0 == rc) {
-            rc = image->writeMetadata();
-            if (rc) {
-                std::cerr << Exiv2::Image::strError(rc, path_) << "\n";
-            }
+            image->writeMetadata();
         }
 
         return rc;
     }
-    catch(const Exiv2::Error& e)
+    catch(const Exiv2::AnyError& e)
     {
-        std::cerr << "Exif exception in erase action for file " << path
+        std::cerr << "Exiv2 exception in erase action for file " << path
                   << ":\n" << e << "\n";
         return 1;
     } // Erase::run
@@ -867,7 +801,7 @@ namespace Action {
             if (directory.empty()) directory = Util::dirname(path_);
             std::string exvPath =   directory + EXV_SEPERATOR_STR
                                   + Util::basename(path_, true) + ".exv";
-            if (!Params::instance().force_ && Util::fileExists(exvPath)) {
+            if (!Params::instance().force_ && Exiv2::fileExists(exvPath)) {
                 std::cout << Params::instance().progname() 
                           << ": Overwrite `" << exvPath << "'? ";
                 std::string s;
@@ -878,31 +812,23 @@ namespace Action {
         }
         return rc;
     }
-    catch(const Exiv2::Error& e)
+    catch(const Exiv2::AnyError& e)
     {
-        std::cerr << "Exif exception in extract action for file " << path
+        std::cerr << "Exiv2 exception in extract action for file " << path
                   << ":\n" << e << "\n";
         return 1;
     } // Extract::run
 
     int Extract::writeThumbnail() const
     {
-        if (!Util::fileExists(path_, true)) {
+        if (!Exiv2::fileExists(path_, true)) {
             std::cerr << path_
                       << ": Failed to open the file\n";
             return -1;
         }
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
-        if (image.get() == 0) {
-            std::cerr << path_
-                      << ": The file contains data of an unknown image type\n";
-            return -2;
-        }
-        int rc = image->readMetadata();
-        if (rc) {
-            std::cerr << Exiv2::Image::strError(rc, path_) << "\n";
-            return rc;
-        }
+        assert(image.get() != 0);
+        image->readMetadata();
         Exiv2::ExifData &exifData = image->exifData();
         if (exifData.empty()) {
             std::cerr << path_
@@ -915,6 +841,7 @@ namespace Action {
         std::string thumb =   directory + EXV_SEPERATOR_STR
                             + Util::basename(path_, true) + "-thumb";
         std::string thumbExt = exifData.thumbnailExtension();
+        int rc = 0;
         if (thumbExt.empty()) {
             std::cerr << path_ << ": Image does not contain an Exif thumbnail\n"; 
         }
@@ -926,7 +853,7 @@ namespace Action {
                           << buf.size_ << " Bytes) to file "
                           << thumb << thumbExt << std::endl;
             }
-            if (!Params::instance().force_ && Util::fileExists(thumb + thumbExt)) {
+            if (!Params::instance().force_ && Exiv2::fileExists(thumb + thumbExt)) {
                 std::cout << Params::instance().progname() 
                           << ": Overwrite `" << thumb + thumbExt << "'? ";
                 std::string s;
@@ -935,7 +862,7 @@ namespace Action {
             }
             rc = exifData.writeThumbnail(thumb);
             if (rc) {
-                std::cerr << Exiv2::ExifData::strError(rc, thumb) << "\n";
+                std::cerr << thumb << ": Exif data doesn't contain a thumbnail\n";
             }
         }
         return rc;
@@ -953,7 +880,7 @@ namespace Action {
 
     int Insert::run(const std::string& path)
     try {
-        if (!Util::fileExists(path, true)) {
+        if (!Exiv2::fileExists(path, true)) {
             std::cerr << path
                       << ": Failed to open the file\n";
             return -1;
@@ -974,9 +901,9 @@ namespace Action {
         }
         return rc;
     }
-    catch(const Exiv2::Error& e)
+    catch(const Exiv2::AnyError& e)
     {
-        std::cerr << "Exif exception in insert action for file " << path
+        std::cerr << "Exiv2 exception in insert action for file " << path
                   << ":\n" << e << "\n";
         return 1;
     } // Insert::run
@@ -987,32 +914,24 @@ namespace Action {
         if (directory.empty()) directory = Util::dirname(path);
         std::string thumbPath =   directory + EXV_SEPERATOR_STR
                                 + Util::basename(path, true) + "-thumb.jpg";
-        if (!Util::fileExists(thumbPath, true)) {
+        if (!Exiv2::fileExists(thumbPath, true)) {
             std::cerr << thumbPath
                       << ": Failed to open the file\n";
             return -1;
         }
-        if (!Util::fileExists(path, true)) {
+        if (!Exiv2::fileExists(path, true)) {
             std::cerr << path
                       << ": Failed to open the file\n";
             return -1;
         }
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
-        if (image.get() == 0) {
-            std::cerr << path
-                      << ": The file contains data of an unknown image type\n";
-            return -2;
-        }
-        int rc = image->readMetadata();
-        if (rc) {
-            std::cerr << Exiv2::Image::strError(rc, path) << "\n";
-            return rc;
-        }
-
+        assert(image.get() != 0);
+        image->readMetadata();
         Exiv2::ExifData &exifData = image->exifData();
         exifData.setJpegThumbnail(thumbPath);
-        return image->writeMetadata();
-
+        image->writeMetadata();
+        
+        return 0;
     } // Insert::insertThumbnail
 
     Insert::AutoPtr Insert::clone() const
@@ -1027,22 +946,14 @@ namespace Action {
 
     int Modify::run(const std::string& path)
     try {
-        if (!Util::fileExists(path, true)) {
+        if (!Exiv2::fileExists(path, true)) {
             std::cerr << path
                       << ": Failed to open the file\n";
             return -1;
         }
         image_ = Exiv2::ImageFactory::open(path);
-        if (image_.get() == 0) {
-            std::cerr << path
-                      << ": The file contains data of an unknown image type\n";
-            return -2;
-        }
-        int rc = image_->readMetadata();
-        if (rc) {
-            std::cerr << Exiv2::Image::strError(rc, path) << "\n";
-            return rc;
-        }
+        assert(image_.get() != 0);
+        image_->readMetadata();
 
         // loop through command table and apply each command
         ModifyCmds& modifyCmds = Params::instance().modifyCmds_;
@@ -1066,15 +977,13 @@ namespace Action {
         }
 
         // Save both exif and iptc metadata
-        rc = image_->writeMetadata();
-        if (rc) {
-            std::cerr << Exiv2::Image::strError(rc, path) << "\n";
-        }
-        return rc;
+        image_->writeMetadata();
+
+        return 0;
     }
-    catch(const Exiv2::Error& e)
+    catch(const Exiv2::AnyError& e)
     {
-        std::cerr << "Exif exception in modify action for file " << path
+        std::cerr << "Exiv2 exception in modify action for file " << path
                   << ":\n" << e << "\n";
         return 1;
     } // Modify::run
@@ -1161,41 +1070,30 @@ namespace Action {
     try {
         adjustment_ = Params::instance().adjustment_;
 
-        if (!Util::fileExists(path, true)) {
+        if (!Exiv2::fileExists(path, true)) {
             std::cerr << path
                       << ": Failed to open the file\n";
             return -1;
         }
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
-        if (image.get() == 0) {
-            std::cerr << path
-                      << ": The file contains data of an unknown image type\n";
-            return -2;
-        }
-        int rc = image->readMetadata();
-        if (rc) {
-            std::cerr << Exiv2::Image::strError(rc, path) << "\n";
-            return rc;
-        }
+        assert(image.get() != 0);
+        image->readMetadata();
         Exiv2::ExifData &exifData = image->exifData();
         if (exifData.empty()) {
             std::cerr << path
                       << ": No Exif data found in the file\n";
             return -3;
         }
-        rc  = adjustDateTime(exifData, "Exif.Image.DateTime", path);
+        int rc = adjustDateTime(exifData, "Exif.Image.DateTime", path);
         rc += adjustDateTime(exifData, "Exif.Photo.DateTimeOriginal", path);
         rc += adjustDateTime(exifData, "Exif.Photo.DateTimeDigitized", path);
         if (rc) return 1;
-        rc = image->writeMetadata();
-        if (rc) {
-            std::cerr << Exiv2::Image::strError(rc, path) << "\n";
-        }
+        image->writeMetadata();
         return rc;
     }
-    catch(const Exiv2::Error& e)
+    catch(const Exiv2::AnyError& e)
     {
-        std::cerr << "Exif exception in adjust action for file " << path
+        std::cerr << "Exiv2 exception in adjust action for file " << path
                   << ":\n" << e << "\n";
         return 1;
     } // Adjust::run
@@ -1307,41 +1205,25 @@ namespace {
                  const std::string& target, 
                  bool preserve) 
     {
-        if (!Util::fileExists(source, true)) {
+        if (!Exiv2::fileExists(source, true)) {
             std::cerr << source
                       << ": Failed to open the file\n";
             return -1;
         }
-        Exiv2::Image::AutoPtr sourceImage 
-            = Exiv2::ImageFactory::open(source);
-        if (sourceImage.get() == 0) {
-            std::cerr << source
-                      << ": The file contains data of an unknown image type\n";
-            return -2;
+        Exiv2::Image::AutoPtr sourceImage = Exiv2::ImageFactory::open(source);
+        assert(sourceImage.get() != 0);
+        sourceImage->readMetadata();
+
+        Exiv2::Image::AutoPtr targetImage;
+        if (Exiv2::fileExists(target)) {
+            targetImage = Exiv2::ImageFactory::open(target);
+            assert(targetImage.get() != 0);
+            if (preserve) targetImage->readMetadata();
         }
-        int rc = sourceImage->readMetadata();
-        if (rc) {
-            std::cerr << source
-                      << ": Could not read metadata\n";
-            return 1;
-        }
-        Exiv2::Image::AutoPtr targetImage 
-            = Exiv2::ImageFactory::open(target);
-        if (preserve && targetImage.get() != 0) {
-            if (targetImage->readMetadata()) {
-                std::cerr << target
-                          << ": Could not read metadata\n";
-                return 1;
-            }
-        }
-        if (targetImage.get() == 0) {
+        else {
             targetImage 
                 = Exiv2::ImageFactory::create(Exiv2::Image::exv, target);
-        }
-        if (targetImage.get() == 0) {
-            std::cerr << target 
-                      << ": Could not open nor create the file\n";
-            return 2;
+            assert(targetImage.get() != 0);
         }
         if (   Params::instance().target_ & Params::ctExif
             && !sourceImage->exifData().empty()) {
@@ -1367,11 +1249,14 @@ namespace {
             }
             targetImage->setComment(sourceImage->comment());
         }
-        rc = targetImage->writeMetadata();
-        if (rc) {
-            std::cerr << target <<
-                ": Could not write metadata to file, rc = " << rc << "\n";
+        try {
+            targetImage->writeMetadata();
         }
-        return rc;
+        catch (const Exiv2::AnyError& e) {
+            std::cerr << target <<
+                ": Could not write metadata to file: " << e << "\n";
+        }
+
+        return 0;
     } // metacopy
 }

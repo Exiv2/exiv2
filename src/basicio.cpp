@@ -40,10 +40,13 @@ EXIV2_RCSID("@(#) $Id$");
 #endif
 
 #include "basicio.hpp"
+#include "futils.hpp"
 #include "types.hpp"
+#include "error.hpp"
 
 // + standard includes
 #include <cassert>
+#include <cstdio>                       // for remove()
 #include <sys/types.h>                  // for stat()
 #include <sys/stat.h>                   // for stat()
 #ifdef EXV_HAVE_PROCESS_H
@@ -75,21 +78,19 @@ namespace Exiv2 {
         int ret = stat(path_.c_str(), &buf);
         
         // If file is > 1MB then use a file, otherwise use memory buffer
-        if (buf.st_size > 1048576 || ret != 0) {
+        if (ret != 0 || buf.st_size > 1048576) {
             pid_t pid = getpid();
             std::string tmpname = path_ + toString(pid);
-            FileIo *fileIo = new FileIo(tmpname);
-            if (fileIo->open("w+b") != 0 ) {
-                delete fileIo;
+            std::auto_ptr<FileIo> fileIo(new FileIo(tmpname));
+            if (fileIo->open("w+b") != 0) {
+                throw Error(10, path_, "w+b", strError());
             }
-            else {
-                basicIo.reset(fileIo);
-            }
+            basicIo = fileIo;
         }
         else {
             basicIo.reset(new MemIo);
         }
-            
+
         return basicIo;
     }
 
@@ -137,7 +138,7 @@ namespace Exiv2 {
         return writeTotal;
     }
 
-    int FileIo::transfer(BasicIo& src)
+    void FileIo::transfer(BasicIo& src)
     {
         const bool wasOpen = (fp_ != 0);
         const std::string lastMode(openMode_);
@@ -148,22 +149,34 @@ namespace Exiv2 {
             close();
             fileIo->close();
             // MSVCRT rename that does not overwrite existing files
-            if (remove(path_.c_str()) != 0) return -4;
-            if (rename(fileIo->path_.c_str(), path_.c_str()) == -1) return -4;
+            if (remove(path_.c_str()) != 0) {
+                throw Error(2, path_, strError(), "::remove");
+            }
+            if (rename(fileIo->path_.c_str(), path_.c_str()) == -1) {
+                throw Error(17, fileIo->path_, path_, strError());
+            }
             remove(fileIo->path_.c_str());
         }
         else{
             // Generic handling, reopen both to reset to start
-            open("w+b");
-            if (src.open() !=0) return 1;
+            if (open("w+b") != 0) {
+                throw Error(10, path_, "w+b", strError());
+            }
+            if (src.open() != 0) {
+                throw Error(9, strError());
+            }
             write(src);
-            src.close();    
+            src.close();
         }
-        
-        if (wasOpen) open(lastMode);
+
+        if (wasOpen) {
+            if (open(lastMode) != 0) {
+                throw Error(10, path_, lastMode, strError());
+            }
+        }
         else close();
 
-        return error() || src.error();
+        if (error() || src.error()) throw Error(18, path_, strError());
     }
 
     int FileIo::putb(byte data)
@@ -315,7 +328,7 @@ namespace Exiv2 {
         }
     }
 
-    long MemIo::write(const byte* data, long wcount )
+    long MemIo::write(const byte* data, long wcount)
     {
         checkSize(wcount);
         // According to Josuttis 6.2.3 this is safe
@@ -324,7 +337,7 @@ namespace Exiv2 {
         return wcount;
     }
 
-    int MemIo::transfer(BasicIo& src)
+    void MemIo::transfer(BasicIo& src)
     {
         MemIo *memIo = dynamic_cast<MemIo*>(&src);
         if (memIo) {
@@ -336,11 +349,11 @@ namespace Exiv2 {
             // Generic reopen to reset position to start
             data_.clear();
             idx_ = 0;
-            if (src.open() != 0) return 1;
+            if (src.open() != 0) throw Error(9, strError());
             write(src);
             src.close();    
         }
-        return error() || src.error();
+        if (error() || src.error()) throw Error(19, strError());
     }
 
     long MemIo::write(BasicIo& src)

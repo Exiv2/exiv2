@@ -31,6 +31,7 @@
 // included header files
 #include "types.hpp"
 #include "error.hpp"
+#include "futils.hpp"
 #include "basicio.hpp"
 #include <iostream>
 
@@ -39,6 +40,8 @@ using Exiv2::BasicIo;
 using Exiv2::MemIo;
 using Exiv2::FileIo;
 using Exiv2::IoCloser;
+using Exiv2::Error;
+using Exiv2::strError;
 
 int WriteReadSeek(BasicIo &io);
 
@@ -55,16 +58,12 @@ try {
 
     FileIo fileIn(argv[1]);
     if (fileIn.open() != 0) {
-        std::cerr << argv[0] << 
-            ": Could not open input file (" << argv[1] << ")\n";
-        return 1;
+        throw Error(9, strError());
     }
 
     FileIo fileOut1(argv[2]);
     if (fileOut1.open("w+b") != 0) {
-        std::cerr << argv[0] << 
-            ": Could not open output file 1 (" << argv[2] << ")\n";
-        return 1;
+        throw Error(10, argv[2], "w+b", strError());
     }
 
     MemIo memIo1;
@@ -90,10 +89,9 @@ try {
     // Create or overwrite the file, then close it
     FileIo fileTest("iotest.txt");
     if (fileTest.open("w+b") != 0) {
-        std::cerr << argv[0] << 
-            ": Could not create test file iotest.txt\n";
-        return 1;
+        throw Error(10, "iotest.txt", "w+b", strError());
     }
+
     fileTest.close();
     rc = WriteReadSeek(fileTest);
     if (rc != 0) return rc;
@@ -103,9 +101,7 @@ try {
     memIo2.seek(0, BasicIo::beg);
     FileIo fileOut2(argv[3]);
     if (fileOut2.open("w+b") != 0) {
-        std::cerr << argv[0] << 
-            ": Could not open output file 2 (" << argv[3] << ")\n";
-        return 1;
+        throw Error(10, argv[3], "w+b", strError());
     }
 
     long readCount = 0;
@@ -125,7 +121,7 @@ try {
 
     return 0;
 }
-catch (Exiv2::Error& e) {
+catch (Exiv2::AnyError& e) {
     std::cerr << "Caught Exiv2 exception '" << e << "'\n";
     return 20;
 }
@@ -142,12 +138,10 @@ int WriteReadSeek(BasicIo &io)
     const long len1 = (long)strlen(tester1) + 1;
     const long len2 = (long)strlen(tester2) + 1;
 
-    IoCloser closer(io);
     if (io.open() != 0) {
-        std::cerr << ": WRS could not open IO\n";
-        return 2;
+        throw Error(9, strError());
     }
-
+    IoCloser closer(io);
     if (io.write((byte*)tester1, len1) != len1) {
         std::cerr << ": WRS initial write failed\n";
         return 2;
@@ -207,7 +201,9 @@ int WriteReadSeek(BasicIo &io)
     }
 
     // open should seek to beginning
-    io.open();
+    if (io.open() != 0)  {
+        throw Error(9, strError());
+    }
     memset(buf, -1, sizeof(buf));
     if (io.read(buf, sizeof(buf)) != insert + len2) {
         std::cerr << ": WRS something went wrong\n";

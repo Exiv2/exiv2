@@ -6,6 +6,7 @@
 #include "exif.hpp"
 #include <iostream>
 #include <iomanip>
+#include <cassert>
 
 int main(int argc, char* const argv[])
 try {
@@ -68,12 +69,12 @@ try {
     // Alternatively, we can use findKey()
     key = Exiv2::ExifKey("Exif.Image.PrimaryChromaticities");
     Exiv2::ExifData::iterator pos = exifData.findKey(key);
-    if (pos == exifData.end()) throw Exiv2::Error("Key not found");
+    if (pos == exifData.end()) throw Exiv2::Error(1, "Key not found");
     // Get a pointer to a copy of the value
     v = pos->getValue();
     // Downcast the Value pointer to its actual type
     Exiv2::URationalValue* prv = dynamic_cast<Exiv2::URationalValue*>(v.release());
-    if (prv == 0) throw Exiv2::Error("Downcast failed");
+    if (prv == 0) throw Exiv2::Error(1, "Downcast failed");
     rv = Exiv2::URationalValue::AutoPtr(prv);
     // Modify the value directly through the interface of URationalValue
     rv->value_[2] = std::make_pair(88,77);
@@ -88,29 +89,21 @@ try {
     // Delete the metadatum at iterator position pos
     key = Exiv2::ExifKey("Exif.Image.PrimaryChromaticities");
     pos = exifData.findKey(key);
-    if (pos == exifData.end()) throw Exiv2::Error("Key not found");
+    if (pos == exifData.end()) throw Exiv2::Error(1, "Key not found");
     exifData.erase(pos);
     std::cout << "Deleted key \"" << key << "\"\n";
 
     // *************************************************************************
     // Finally, write the remaining Exif data to the image file
     Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(file);
-    if (image.get() == 0) {
-        std::string error(file);
-        error += " : Could not read file or unknown image type";
-        throw Exiv2::Error(error);
-    }
+    assert(image.get() != 0);
 
     image->setExifData(exifData);
-    int rc = image->writeMetadata();
-    if (rc) {
-        std::string error = Exiv2::Image::strError(rc, file);
-        throw Exiv2::Error(error);
-    }
+    image->writeMetadata();
 
     return 0;
 }
-catch (Exiv2::Error& e) {
+catch (Exiv2::AnyError& e) {
     std::cout << "Caught Exiv2 exception '" << e << "'\n";
     return -1;
 }

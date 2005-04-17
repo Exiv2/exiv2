@@ -657,7 +657,7 @@ namespace {
                     }
                 }
             }
-            catch (const Exiv2::Error& error) {
+            catch (const Exiv2::AnyError& error) {
                 std::cerr << *filename << ", line " << error << "\n";
                 return false;
             }
@@ -680,7 +680,7 @@ namespace {
             }
             return true;
         }
-        catch (const Exiv2::Error& error) {
+        catch (const Exiv2::AnyError& error) {
             std::cerr << "-M option " << error << "\n";
             return false;
 	}
@@ -701,14 +701,14 @@ namespace {
         if (   cmdStart == std::string::npos
             || cmdEnd == std::string::npos
             || keyStart == std::string::npos) {
-            throw Exiv2::Error(Exiv2::toString(num) 
+            throw Exiv2::Error(1, Exiv2::toString(num) 
                                + ": Invalid command line");
         }
 
         std::string cmd(line.substr(cmdStart, cmdEnd-cmdStart));
         CmdId cmdId = commandId(cmd);
         if (cmdId == invalidCmdId) {
-            throw Exiv2::Error(Exiv2::toString(num) 
+            throw Exiv2::Error(1, Exiv2::toString(num) 
                                + ": Invalid command `" + cmd + "'");
         }
 
@@ -721,7 +721,7 @@ namespace {
             defaultType = Exiv2::IptcDataSets::dataSetType(iptcKey.tag(), 
                                                            iptcKey.record());
         }
-        catch (const Exiv2::Error&) {}
+        catch (const Exiv2::AnyError&) {}
         if (metadataId == invalidMetadataId) {
             try {
                 Exiv2::ExifKey exifKey(key);
@@ -729,11 +729,11 @@ namespace {
                 defaultType = Exiv2::ExifTags::tagType(exifKey.tag(),
                                                        exifKey.ifdId());
             }
-            catch (const Exiv2::Error&) {}
+            catch (const Exiv2::AnyError&) {}
         }
         if (metadataId == invalidMetadataId) {
-            throw Exiv2::Error(Exiv2::toString(num) 
-                               + ": Invalid key `" + key + "'");
+            throw Exiv2::Error(1, Exiv2::toString(num) 
+                                + ": Invalid key `" + key + "'");
         }
 
         std::string value;
@@ -751,8 +751,8 @@ namespace {
             if (   keyEnd == std::string::npos 
                 || typeStart == std::string::npos
                 || valStart == std::string::npos) {
-                throw Exiv2::Error(Exiv2::toString(num) 
-                                   + ": Invalid command line ");
+                throw Exiv2::Error(1, Exiv2::toString(num) 
+                                    + ": Invalid command line ");
             }
 
             if (typeEnd != std::string::npos) {
@@ -761,8 +761,8 @@ namespace {
                 if (tmpType != Exiv2::invalidTypeId) {
                     valStart = line.find_first_not_of(delim, typeEnd+1);
                     if (valStart == std::string::npos) {
-                        throw Exiv2::Error(Exiv2::toString(num) 
-                                           + ": Invalid command line  ");
+                        throw Exiv2::Error(1, Exiv2::toString(num) 
+                                            + ": Invalid command line  ");
                     }
                     type = tmpType;
                     explicitType = true;
@@ -773,8 +773,8 @@ namespace {
             std::string::size_type last = value.length()-1;
             if (  (value[0] == '"' || value[last] == '"') 
                 && value[0] != value[last]) {
-                throw Exiv2::Error(Exiv2::toString(num) 
-                                   + ": Unbalanced quotes");
+                throw Exiv2::Error(1, Exiv2::toString(num) 
+                                    + ": Unbalanced quotes");
             }
             if (value[0] == '"') {
                 value = value.substr(1, value.length()-2);

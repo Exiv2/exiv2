@@ -50,6 +50,7 @@ EXIV2_RCSID("@(#) $Id$");
 #include "tags.hpp"
 #include "jpgimage.hpp"
 #include "makernote.hpp"
+#include "futils.hpp"
 
 // + standard includes
 #include <iostream>
@@ -739,7 +740,8 @@ namespace Exiv2 {
             if (pMakerNote_ == 0) {
                 MakerNoteFactory& mnf = MakerNoteFactory::instance();
                 pMakerNote_ = mnf.create(exifdatum.ifdId()).release();
-            }
+            }            
+            if (pMakerNote_ == 0) throw Error(23, exifdatum.ifdId());
         }
         // allow duplicates
         exifMetadata_.push_back(exifdatum);
@@ -804,14 +806,14 @@ namespace Exiv2 {
 
     void ExifData::setJpegThumbnail(const std::string& path)
     {
-        DataBuf thumb = readFile(path);
+        DataBuf thumb = readFile(path); // may throw
         setJpegThumbnail(thumb.pData_, thumb.size_);
     }
 
     void ExifData::setJpegThumbnail(const std::string& path, 
                                    URational xres, URational yres, uint16_t unit)
     {
-        DataBuf thumb = readFile(path);
+        DataBuf thumb = readFile(path); // may throw
         setJpegThumbnail(thumb.pData_, thumb.size_, xres, yres, unit);
     }
 
@@ -901,12 +903,15 @@ namespace Exiv2 {
 
         std::string name = path + thumbnail->extension();
         FileIo file(name);
-        if (file.open("wb") != 0) return -1;
+        if (file.open("wb") != 0) {
+            throw Error(10, name, "wb", strError());
+        }
 
         DataBuf buf(thumbnail->copy(*this));
         if (file.write(buf.pData_, buf.size_) != buf.size_) {
-            return 4;
+            throw Error(2, name, strError(), "FileIo::write");
         }
+
         return 0;
     } // ExifData::writeThumbnail
 
@@ -1106,51 +1111,6 @@ namespace Exiv2 {
         return ifd;
     } // ExifData::getIfd
 
-    std::string ExifData::strError(int rc, const std::string& path)
-    {
-        std::string error = path + ": ";
-        switch (rc) {
-        case -1:
-            error += "Failed to open the file";
-            break;
-        case -2:
-            error += "The file contains data of an unknown image type";
-            break;
-        case -3:
-            error += "Couldn't open temporary file";
-            break;
-        case -4:
-            error += "Renaming temporary file failed";
-            break;
-        case 1:
-            error += "Couldn't read from the input stream";
-            break;
-        case 2:
-            error += "This does not look like a JPEG image";
-            break;
-        case 3:
-            error += "No Exif data found in the file";
-            break;
-        case 4:
-            error += "Writing to the output stream failed";
-            break;
-        case 5:
-            error += "No JFIF APP0 or Exif APP1 segment found in the file";
-            break;
-        case 6:
-            error += "Exif data contains a broken IFD";
-            break;
-        case 7:
-            error += "Unsupported Exif or GPS data found in IFD1";
-            break;
-
-        default:
-            error += "Accessing Exif data failed, rc = " + toString(rc);
-            break;
-        }
-        return error;
-    } // ExifData::strError
-
     // *************************************************************************
     // free functions
 
@@ -1253,15 +1213,18 @@ namespace {
     Exiv2::DataBuf readFile(const std::string& path)
     {
         Exiv2::FileIo file(path);
-        if (file.open("rb") != 0) 
-            throw Exiv2::Error("Couldn't open input file");
+        if (file.open("rb") != 0) {
+            throw Exiv2::Error(10, path, "rb", Exiv2::strError());
+        }
         struct stat st;
-        if (0 != stat(path.c_str(), &st))
-            throw Exiv2::Error("Couldn't stat input file");
+        if (0 != stat(path.c_str(), &st)) {
+            throw Exiv2::Error(2, path, Exiv2::strError(), "::stat");
+        }
         Exiv2::DataBuf buf(st.st_size);
         long len = file.read(buf.pData_, buf.size_);
-        if (len != buf.size_) 
-            throw Exiv2::Error("Couldn't read input file");
+        if (len != buf.size_) {
+            throw Exiv2::Error(2, path, Exiv2::strError(), "FileIo::read");
+        }
         return buf; 
     }
 

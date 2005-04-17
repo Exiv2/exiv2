@@ -15,6 +15,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <cassert>
 
 void write(const std::string& file, Exiv2::ExifData& ed);
 void print(const std::string& file);
@@ -31,21 +32,13 @@ try {
     std::string file(argv[1]);
 
     Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(file);
-    if (image.get() == 0) {
-        std::string error(file);
-        error += " : Could not read file or unknown image type";
-        throw Exiv2::Error(error);
-    }
+    assert (image.get() != 0);
+    image->readMetadata();
 
-    int rc = image->readMetadata();
-    if (rc) {
-        std::string error = Exiv2::Image::strError(rc, file);
-        throw Exiv2::Error(error);
-    }
     Exiv2::ExifData &ed = image->exifData();
     if (ed.empty()) {
         std::string error = file + ": No Exif data found in the file";
-        throw Exiv2::Error(error);
+        throw Exiv2::Error(1, error);
     }
 
     std::cout << "Copy construction, non-intrusive changes\n";
@@ -103,7 +96,7 @@ try {
 
     return 0;
 }
-catch (Exiv2::Error& e) {
+catch (Exiv2::AnyError& e) {
     std::cout << "Caught Exiv2 exception '" << e << "'\n";
     return -1;
 }
@@ -112,34 +105,16 @@ catch (Exiv2::Error& e) {
 void write(const std::string& file, Exiv2::ExifData& ed)
 {
     Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(file);
-    if (image.get() == 0) {
-        std::string error(file);
-        error += " : Could not read file or unknown image type";
-        throw Exiv2::Error(error);
-    }
-
+    assert (image.get() != 0);
     image->setExifData(ed);
-    int rc = image->writeMetadata();
-    if (rc) {
-        std::string error = Exiv2::Image::strError(rc, file);
-        throw Exiv2::Error(error);
-    }
+    image->writeMetadata();
 }
 
 void print(const std::string& file)
 {
     Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(file);
-    if (image.get() == 0) {
-        std::string error(file);
-        error += " : Could not read file or unknown image type";
-        throw Exiv2::Error(error);
-    }
-
-    int rc = image->readMetadata();
-    if (rc) {
-        std::string error = Exiv2::Image::strError(rc, file);
-        throw Exiv2::Error(error);
-    }
+    assert (image.get() != 0);
+    image->readMetadata();
 
     Exiv2::ExifData &ed = image->exifData();
     Exiv2::ExifData::const_iterator end = ed.end();

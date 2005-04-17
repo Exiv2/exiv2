@@ -137,14 +137,14 @@ namespace Exiv2 {
           @param ifdId IFD id
           @return The description of the tag or a string indicating that
                  the tag is unknown. 
-          @throw Error ("No taginfo for IFD") if there is no tag info
-                 data for the given IFD id in the lookup tables.
          */
         static const char* tagDesc(uint16_t tag, IfdId ifdId);
         /*!
           @brief Return the tag for one combination of IFD id and tagName. 
                  If the tagName is not known, it expects tag names in the 
                  form "0x01ff" and converts them to unsigned integer.
+
+          @throw Error if the tagname or ifdId is invalid
          */
         static uint16_t tag(const std::string& tagName, IfdId ifdId);
         //! Return the IFD id for an IFD item
@@ -162,8 +162,6 @@ namespace Exiv2 {
           @param ifdId IFD id
           @return The name of the section or a string indicating that the 
                   section or the tag is unknown. 
-          @throw Error ("No taginfo for IFD") if there is no tag info
-                 data for the given IFD id in the lookup tables.
          */
         static const char* sectionName(uint16_t tag, IfdId ifdId);
         /*!
@@ -173,8 +171,6 @@ namespace Exiv2 {
           @param ifdId IFD id
           @return The description of the section or a string indicating that
                  the section or the tag is unknown. 
-          @throw Error ("No taginfo for IFD") if there is no tag info
-                 data for the given IFD id in the lookup tables.
          */
         static const char* sectionDesc(uint16_t tag, IfdId ifdId);
         //! Return the section id for a section name
@@ -192,7 +188,11 @@ namespace Exiv2 {
         static void makerTaglist(std::ostream& os, IfdId ifdId);
         //! Register an %IfdId with the base IFD %TagInfo list for a makernote
         static void registerBaseTagInfo(IfdId ifdId);
-        //! Register an %IfdId and %TagInfo list for a makernote
+        /*!
+          @brief Register an %IfdId and %TagInfo list for a makernote
+
+          @throw Error if the MakerTagInfo registry is full
+         */
         static void registerMakerTagInfo(IfdId ifdId, const TagInfo* tagInfo);
         /*!
           @brief Return true if \em ifdId is an %Ifd Id which is registered
@@ -232,8 +232,9 @@ namespace Exiv2 {
           @brief Constructor to create an Exif key from a key string.
 
           @param key The key string.
-          @throw Error ("Invalid key") if the key cannot be parsed into three
-                 parts or the first part of the key is not '<b>Exif</b>'.
+          @throw Error if the first part of the key is not '<b>Exif</b>' or
+                 the remainin parts of the key cannot be parsed and
+                 converted to an ifd-item and tag name. 
         */
         explicit ExifKey(const std::string& key);
         /*!
@@ -242,8 +243,8 @@ namespace Exiv2 {
           @param tag The tag value
           @param ifdItem The IFD string. For MakerNote tags, this must be the 
                  IFD item of the specific MakerNote. "MakerNote" is not allowed.
-          @throw Error ("Invalid key") if the key cannot be constructed from
-                 the tag and IFD item parameters.
+          @throw Error if the key cannot be constructed from the tag and IFD
+                 item parameters.
          */
         ExifKey(uint16_t tag, const std::string& ifdItem);
         //! Constructor to build an ExifKey from an IFD entry.
@@ -297,9 +298,9 @@ namespace Exiv2 {
         /*!
           @brief Parse and convert the key string into tag and IFD Id. 
                  Updates data members if the string can be decomposed,
-                 or throws Error ("Invalid key").
+                 or throws \em Error .
 
-          @throw Error ("Invalid key") if the key cannot be decomposed.
+          @throw Error if the key cannot be decomposed.
          */
         void decomposeKey();
         //@}

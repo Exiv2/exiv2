@@ -203,7 +203,7 @@ try {
 
     return 0;
 }
-catch (const Exiv2::Error& e) {
+catch (const Exiv2::AnyError& e) {
     std::cout << "Caught Exiv2 exception '" << e << "'\n";
     return 1;
 }

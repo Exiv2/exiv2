@@ -67,15 +67,13 @@ namespace Exiv2 {
               is called, the various metadata types (Iptc, Exif) will be empty.
               
           This method returns success even when no metadata is found in
-          the image. Callers must therefore check the size of indivdual
+          the image. Callers must therefore check the size of individual
           metadata types before accessing the data.
           
-          @return 0 if successful;<BR>
-                  1 if reading from the file failed 
-                    (could be caused by invalid image);<BR>
-                  2 if the file does not contain a valid image;<BR>
+          @throw Error if opening or reading of the file fails or the image
+              data is not valid (does not look like JPEG data).
          */
-        int readMetadata();
+        void readMetadata();
         /*!
           @brief Write metadata back to the image. 
 
@@ -86,22 +84,13 @@ namespace Exiv2 {
           any exists section for that metadata type will be removed from the
           image.
           
-          @return 0 if successful;<br>
-                  1 if reading from the file failed;<BR>
-                  2 if the file does not contain a valid image;<BR>
-                  4 if the temporary output file can not be written to;<BR>
-                  -1 if the newly created file could not be reopened;<BR>
-                  -3 if the temporary output file can not be opened;<BR>
-                  -4 if renaming the temporary file fails;<br>
+          @throw Error if the operation fails
          */
-        int writeMetadata();
+        void writeMetadata();
         /*!
           @brief Assign new exif data. The new exif data is not written
              to the image until the writeMetadata() method is called.
           @param exifData An ExifData instance holding exif data to be copied
-
-          @throw Error ("Exif data too large") if the exif data is larger than
-                 65535 bytes (the maximum size of JPEG APP segments)
          */
         void setExifData(const ExifData& exifData);
         void clearExifData();
@@ -226,7 +215,7 @@ namespace Exiv2 {
               (may not be null).
           @return 0 if successful;<BR>
                   3 if no Iptc data was found in pPsData;<BR>
-                  -2 if the pPsData buffer does not contain valid data;<BR>
+                 -2 if the pPsData buffer does not contain valid data.
          */
         int locateIptcData(const byte *pPsData, 
                            long sizePsData,
@@ -238,19 +227,19 @@ namespace Exiv2 {
           @param initData Data to be written to the associated BasicIo
           @param dataSize Size in bytes of data to be written
           @return 0 if successful;<BR>
-                  4 if the output file can not be written to;<BR>
+                  4 if the image can not be written to.
          */
         int initImage(const byte initData[], long dataSize);
         /*!
           @brief Provides the main implementation of writeMetadata() by 
                 writing all buffered metadata to the provided BasicIo. 
           @param oIo BasicIo instance to write to (a temporary location).
-          @return 0 if successful;<br>
-                  1 if reading from input file failed;<BR>
-                  2 if the input file does not contain a valid image;<BR>
-                  4 if the output file can not be written to;<BR>
+
+          @throw Error if reading from input file failed, the output file
+                can not be written to, or the input file does not contain 
+                a valid image.
          */
-        int doWriteMetadata(BasicIo& oIo);
+        void doWriteMetadata(BasicIo& oIo);
 
         // NOT Implemented
         //! Default constructor.

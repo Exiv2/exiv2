@@ -6,6 +6,7 @@
 #include "image.hpp"
 #include <iostream>
 #include <iomanip>
+#include <cassert>
 
 int main(int argc, char* const argv[])
 try {
@@ -34,24 +35,15 @@ try {
 
     // Open image file
     Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(file);
-    if (image.get() == 0) {
-        std::string error(file);
-        error += " : Could not read file or unknown image type";
-        throw Exiv2::Error(error);
-    }
+    assert (image.get() != 0);
 
-    // Read existing metdata (so that exif will be preserved)
-    int rc = image->readMetadata();
-    if (rc) {
-        std::string error = Exiv2::Image::strError(rc, file);
-        throw Exiv2::Error(error);
-    }
-
-    // Replace Iptc data and write it back to the file
+    // Set Iptc data and write it to the file
     image->setIptcData(iptcData);
-    return image->writeMetadata();
+    image->writeMetadata();
+
+    return 0;
 }
-catch (Exiv2::Error& e) {
+catch (Exiv2::AnyError& e) {
     std::cout << "Caught Exiv2 exception '" << e << "'\n";
     return -1;
 }
