@@ -42,23 +42,32 @@ struct ImageWrapper
 EXIVSIMPLE_API HIMAGE OpenFileImage(const char *file)
 {
     assert(file);
-    ImageWrapper *imgWrap = new ImageWrapper;
 
     // See if file exists. Sorry for very bad error handling
     if (INVALID_FILE_ATTRIBUTES == GetFileAttributes(file)) {
         return 0;
     }
 
-    imgWrap->image = Exiv2::ImageFactory::open(file);
-    if (imgWrap->image.get() == 0) {
-        return 0;
-    }
-
+    ImageWrapper *imgWrap = new ImageWrapper;
+	try {
+		imgWrap->image = Exiv2::ImageFactory::open(file);
+	}
+	catch(const Exiv2::AnyError&) {
+		delete imgWrap;
+		return 0;
+	}
+	if (imgWrap->image.get() == 0) {
+		delete imgWrap;
+		return 0;
+	}
     // Load existing metadata
-    if (imgWrap->image->readMetadata()) {
-        delete imgWrap;
-        imgWrap = 0;
-    }
+	try {
+		imgWrap->image->readMetadata();
+	}
+	catch(const Exiv2::AnyError&) { 
+		delete imgWrap;
+		return 0;
+	}
 
     return (HIMAGE)imgWrap;
 }
@@ -68,16 +77,25 @@ EXIVSIMPLE_API HIMAGE OpenMemImage(const BYTE *data, unsigned int size)
     assert(data);
     ImageWrapper *imgWrap = new ImageWrapper;
 
-    imgWrap->image = Exiv2::ImageFactory::open(data, size);
-    if (imgWrap->image.get() == 0) {
-        return 0;
-    }
-
-    // Load existing metadata
-    if (imgWrap->image->readMetadata()) {
+	try {
+	    imgWrap->image = Exiv2::ImageFactory::open(data, size);
+	}
+	catch(const Exiv2::AnyError&) {
+		delete imgWrap;
+		return 0;
+	}
+	if (imgWrap->image.get() == 0) {
         delete imgWrap;
-        imgWrap = 0;
+		return 0;
     }
+    // Load existing metadata
+	try {
+	    imgWrap->image->readMetadata();
+	}
+	catch(const Exiv2::AnyError&) {
+		delete imgWrap;
+		return 0;
+	}
 
     return (HIMAGE)imgWrap;
 }
@@ -95,7 +113,13 @@ EXIVSIMPLE_API int SaveImage(HIMAGE img)
 {
     assert(img);
     ImageWrapper *imgWrap = (ImageWrapper*)img;
-    return imgWrap->image->writeMetadata();
+	try {
+		imgWrap->image->writeMetadata();
+	}
+	catch(const Exiv2::AnyError&) {
+		return 1;
+	}
+    return 0;
 }
 
 // Note that if you have modified the metadata in any way and want the
@@ -155,7 +179,7 @@ EXIVSIMPLE_API int ReadMeta(HIMAGE img, const char *key, char *buff, int buffsiz
             rc = 0;
         }
     } 
-    catch(const Exiv2::Error&) {
+    catch(const Exiv2::AnyError&) {
     }
 
     if (rc) {
@@ -170,7 +194,7 @@ EXIVSIMPLE_API int ReadMeta(HIMAGE img, const char *key, char *buff, int buffsiz
                 rc = 0;
             }
         }
-        catch(const Exiv2::Error&) {
+        catch(const Exiv2::AnyError&) {
         }
     }
 
@@ -215,7 +239,7 @@ EXIVSIMPLE_API int ModifyMeta(HIMAGE img, const char *key, const char *val, DllT
             rc = iptcData.add(iptcKey, value.get());
         }
     } 
-    catch(const Exiv2::Error&) {
+    catch(const Exiv2::AnyError&) {
     }
 
     if (rc) {
@@ -240,7 +264,7 @@ EXIVSIMPLE_API int ModifyMeta(HIMAGE img, const char *key, const char *val, DllT
                 rc = 0;
             }
         }
-        catch(const Exiv2::Error&) {
+        catch(const Exiv2::AnyError&) {
         }
     }
 
@@ -278,7 +302,7 @@ EXIVSIMPLE_API int AddMeta(HIMAGE img, const char *key, const char *val, DllType
 
         rc = iptcData.add(iptcKey, value.get());
     } 
-    catch(const Exiv2::Error&) {
+    catch(const Exiv2::AnyError&) {
     }
 
     if (rc) {
@@ -296,7 +320,7 @@ EXIVSIMPLE_API int AddMeta(HIMAGE img, const char *key, const char *val, DllType
             exifData.add(exifKey, value.get());
             rc = 0;
         }
-        catch(const Exiv2::Error&) {
+        catch(const Exiv2::AnyError&) {
         }
     }
 
@@ -325,7 +349,7 @@ EXIVSIMPLE_API int RemoveMeta(HIMAGE img, const char *key)
             rc = 0;
         }
     } 
-    catch(const Exiv2::Error&) {
+    catch(const Exiv2::AnyError&) {
     }
 
     if (rc) {
@@ -339,7 +363,7 @@ EXIVSIMPLE_API int RemoveMeta(HIMAGE img, const char *key)
                 rc = 0;
             }
         }
-        catch(const Exiv2::Error&) {
+        catch(const Exiv2::AnyError&) {
         }
     }
 
