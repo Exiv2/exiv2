@@ -35,6 +35,7 @@
 #include "metacopy.hpp"
 #include <iostream>
 #include <fstream>
+#include <cassert>
 
 // *****************************************************************************
 // Main
@@ -55,41 +56,15 @@ try {
     // Use MemIo to increase test coverage.
     Exiv2::BasicIo::AutoPtr fileIo(new Exiv2::FileIo(params.read_));
     Exiv2::BasicIo::AutoPtr memIo(new Exiv2::MemIo);
-
-    if (memIo->transfer(*fileIo) != 0) {
-        std::cerr << params.progname() << 
-            ": Could not read file (" << params.read_ << ")\n";
-        return 4;
-    }
+    memIo->transfer(*fileIo);
     
-    Exiv2::Image::AutoPtr readImg 
-        = Exiv2::ImageFactory::open(memIo);
-    if (readImg.get() == 0) {
-        std::cerr << params.progname() << 
-            ": Could not read file (" << params.read_ << ")\n";
-        return 4;
-    }
-    if (readImg->readMetadata()) {
-        std::cerr << params.progname() << 
-            ": Could not read metadata from (" << params.read_ << ")\n";
-        return 5;
-    }
+    Exiv2::Image::AutoPtr readImg = Exiv2::ImageFactory::open(memIo);
+    assert(readImg.get() != 0);
+    readImg->readMetadata();
 
-    Exiv2::Image::AutoPtr writeImg 
-        = Exiv2::ImageFactory::open(params.write_);
-    if (writeImg.get() == 0) {
-        std::cerr << params.progname() << 
-            ": Could not read file (" << params.write_ << ")\n";
-        return 6;
-    }
-
-    if (params.preserve_) {
-        if (writeImg->readMetadata()) {
-            std::cerr << params.progname() << 
-                ": Could not read metadata from (" << params.write_ << ")\n";
-            return 7;
-        }
-    }
+    Exiv2::Image::AutoPtr writeImg = Exiv2::ImageFactory::open(params.write_);
+    assert(writeImg.get() != 0);
+    if (params.preserve_) writeImg->readMetadata();
     if (params.iptc_) {
         writeImg->setIptcData(readImg->iptcData());
     }
@@ -100,7 +75,10 @@ try {
         writeImg->setComment(readImg->comment());
     }
 
-    if (writeImg->writeMetadata()) {
+    try {
+        writeImg->writeMetadata();
+    }
+    catch (const Exiv2::AnyError&) {
         std::cerr << params.progname() << 
             ": Could not write metadata to (" << params.write_ << ")\n";
         return 8;
@@ -108,7 +86,7 @@ try {
 
     return 0;
 }
-catch (Exiv2::Error& e) {
+catch (Exiv2::AnyError& e) {
     std::cerr << "Caught Exiv2 exception '" << e << "'\n";
     return 10;
 }

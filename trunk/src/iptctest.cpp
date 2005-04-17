@@ -16,6 +16,7 @@
 #include "value.hpp"
 #include <iostream>
 #include <iomanip>
+#include <cassert>
 
 using namespace Exiv2;
 
@@ -37,16 +38,8 @@ int main(int argc, char* const argv[])
         }
 
         Image::AutoPtr image = ImageFactory::open(argv[1]);
-        if (image.get() == 0) {
-            throw Error("Could not read file");
-        }
-
-        // Load existing metadata
-        int rc = image->readMetadata();
-        if (rc) {
-            std::string error = Image::strError(rc, argv[1]);
-            throw Error(error);
-        }
+        assert (image.get() != 0);
+        image->readMetadata();
 
         // Process commands
         std::string line;
@@ -57,15 +50,11 @@ int main(int argc, char* const argv[])
         }
 
         // Save any changes
-        rc = image->writeMetadata();
-        if (rc) {
-            std::string error = Image::strError(rc, argv[1]);
-            throw Error(error);
-        }
+        image->writeMetadata();
 
-        return rc;
+        return 0;
     }
-    catch (Error& e) {
+    catch (AnyError& e) {
         std::cout << "Caught Exiv2 exception '" << e << "'\n";
         return -1;
     }
@@ -92,7 +81,7 @@ bool processLine(const std::string& line, int num, IptcData &iptcData)
         default:
             std::ostringstream os;
             os << "Unknown command (" << line.at(0) << ") at line " << num;
-            throw Error(os.str());
+            throw Error(1, os.str());
     }
     return true;
 }
@@ -108,7 +97,7 @@ void processAdd(const std::string& line, int num, IptcData &iptcData)
         dataStart == std::string::npos) {
         std::ostringstream os;
         os << "Invalid \'a\' command at line " << num;
-        throw Error(os.str());
+        throw Error(1, os.str());
     }
 
     std::string key(line.substr(keyStart, keyEnd-keyStart));
@@ -125,10 +114,8 @@ void processAdd(const std::string& line, int num, IptcData &iptcData)
 
     int rc = iptcData.add(iptcKey, value.get());
     if (rc) {
-        std::string error = IptcData::strError(rc, "Input file");
-        throw Error(error);
+        throw Error(1, "Iptc dataset already exists and is not repeatable");
     }
-    
 }
 
 void processRemove(const std::string& line, int num, IptcData &iptcData)
@@ -138,7 +125,7 @@ void processRemove(const std::string& line, int num, IptcData &iptcData)
     if (keyStart == std::string::npos) {
         std::ostringstream os;
         os << "Invalid \'r\' command at line " << num;
-        throw Error(os.str());
+        throw Error(1, os.str());
     }
 
     const std::string key( line.substr(keyStart) );
@@ -161,7 +148,7 @@ void processModify(const std::string& line, int num, IptcData &iptcData)
         dataStart == std::string::npos) {
         std::ostringstream os;
         os << "Invalid \'m\' command at line " << num;
-        throw Error(os.str());
+        throw Error(1, os.str());
     }
 
     std::string key(line.substr(keyStart, keyEnd-keyStart));
@@ -183,8 +170,7 @@ void processModify(const std::string& line, int num, IptcData &iptcData)
     else {
         int rc = iptcData.add(iptcKey, value.get());
         if (rc) {
-            std::string error = IptcData::strError(rc, "Input file");
-            throw Error(error);
+            throw Error(1, "Iptc dataset already exists and is not repeatable");
         }
     }
 }

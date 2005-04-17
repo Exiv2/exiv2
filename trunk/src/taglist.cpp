@@ -57,7 +57,7 @@ try {
     }
     return rc;
 }
-catch (Error& e) {
-    std::cout << "Caught Exif exception '" << e << "'\n";
+catch (AnyError& e) {
+    std::cout << "Caught Exiv2 exception '" << e << "'\n";
     return 1;
 }

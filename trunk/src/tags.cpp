@@ -301,7 +301,7 @@ namespace Exiv2 {
                 break;
             }
         }
-        if (i == MAX_MAKER_TAG_INFOS) throw Error("MakerTagInfo registry full");
+        if (i == MAX_MAKER_TAG_INFOS) throw Error(16);
     } // ExifTags::registerMakerTagInfo
 
     int ExifTags::tagInfoIdx(uint16_t tag, IfdId ifdId)
@@ -429,9 +429,7 @@ namespace Exiv2 {
             if (tagInfo != 0) tag = tagInfo->tag_;
         }
         if (tag == 0xffff) {
-            if (!isHex(tagName, 4, "0x")) {
-                throw Error("Invalid tag name " + tagName + ", " + toString(ifdId));
-            }
+            if (!isHex(tagName, 4, "0x")) throw Error(7, tagName, ifdId);
             std::istringstream is(tagName);
             is >> std::hex >> tag;
         }
@@ -548,7 +546,7 @@ namespace Exiv2 {
         if (ExifTags::isMakerIfd(ifdId)) {
             MakerNote::AutoPtr makerNote 
                 = MakerNoteFactory::instance().create(ifdId);
-            if (makerNote.get() == 0) throw Error("Invalid key");
+            if (makerNote.get() == 0) throw Error(23, ifdId);
         }
         tag_ = tag;
         ifdId_ = ifdId;
@@ -610,26 +608,26 @@ namespace Exiv2 {
     {
         // Get the family name, IFD name and tag name parts of the key
         std::string::size_type pos1 = key_.find('.');
-        if (pos1 == std::string::npos) throw Error("Invalid key");
+        if (pos1 == std::string::npos) throw Error(6, key_);
         std::string familyName = key_.substr(0, pos1);
         if (familyName != std::string(familyName_)) {
-            throw Error("Invalid key");
+            throw Error(6, key_);
         }
         std::string::size_type pos0 = pos1 + 1;
         pos1 = key_.find('.', pos0);
-        if (pos1 == std::string::npos) throw Error("Invalid key");
+        if (pos1 == std::string::npos) throw Error(6, key_);
         std::string ifdItem = key_.substr(pos0, pos1 - pos0);
-        if (ifdItem == "") throw Error("Invalid key");
+        if (ifdItem == "") throw Error(6, key_);
         std::string tagName = key_.substr(pos1 + 1);
-        if (tagName == "") throw Error("Invalid key");
+        if (tagName == "") throw Error(6, key_);
 
         // Find IfdId
         IfdId ifdId = ExifTags::ifdIdByIfdItem(ifdItem);
-        if (ifdId == ifdIdNotSet) throw Error("Invalid key");
+        if (ifdId == ifdIdNotSet) throw Error(6, key_);
         if (ExifTags::isMakerIfd(ifdId)) {
             MakerNote::AutoPtr makerNote
                 = MakerNoteFactory::instance().create(ifdId);
-            if (makerNote.get() == 0) throw Error("Invalid key");
+            if (makerNote.get() == 0) throw Error(6, key_);
         }
         // Convert tag
         uint16_t tag = ExifTags::tag(tagName, ifdId);

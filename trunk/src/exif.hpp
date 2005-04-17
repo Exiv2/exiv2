@@ -80,7 +80,7 @@ namespace Exiv2 {
 
           @param key %ExifKey.
           @param pValue Pointer to an %Exifdatum value.
-          @throw Error ("Invalid key") if the key cannot be parsed and converted.
+          @throw Error if the key cannot be parsed and converted.
          */
         explicit Exifdatum(const ExifKey& key, const Value* pValue =0);
         //! Constructor to build an %Exifdatum from an IFD entry.
@@ -281,10 +281,10 @@ namespace Exiv2 {
           @endcode
 
           @return A constant reference to the value.
-          @throw Error ("Value not set") if the value is not set.
+          @throw Error if the value is not set.
          */
         const Value& value() const 
-            { if (value_.get() != 0) return *value_; throw Error("Value not set"); }
+            { if (value_.get() != 0) return *value_; throw Error(8); }
         //! Return the size of the data area.
         long sizeDataArea() const 
             { return value_.get() == 0 ? 0 : value_->sizeDataArea(); }
@@ -560,8 +560,7 @@ namespace Exiv2 {
                  duplicate checks are performed, i.e., it is possible to add
                  multiple metadata with the same key.
 
-          @throw Error ("Inconsistent MakerNote") if \em exifdatum is a MakerNote
-                 tag for a different %MakerNote than that of the %ExifData.
+          @throw Error if the makernote cannot be created
          */
         void add(const Exifdatum& exifdatum);
         /*!
@@ -611,12 +610,14 @@ namespace Exiv2 {
           This results in the minimal thumbnail tags being set for a Jpeg
           thumbnail, as mandated by the Exif standard.
 
+          @throw Error if reading the file fails.
+
           @note  No checks on the file format or size are performed.
           @note  Additional existing Exif thumbnail tags are not modified.
-
-          @throw Error ("Couldn't open input file") if fopen fails,
-          @throw Error ("Couldn't stat input file") if stat fails, or
-          @throw Error ("Couldn't read input file") if fread fails.
+          @note  The Jpeg image inserted as thumbnail image should not 
+                 itself contain Exif data (or other metadata), as existing
+                 applications may have problems with that. (The preview 
+                 application that comes with OS X for one.) - David Harvey.
          */
         void setJpegThumbnail(const std::string& path, 
                               URational xres, URational yres, uint16_t unit);
@@ -628,8 +629,14 @@ namespace Exiv2 {
           This results in the minimal thumbnail tags being set for a Jpeg
           thumbnail, as mandated by the Exif standard.
 
+          @throw Error if reading the file fails.
+
           @note  No checks on the image format or size are performed.
           @note  Additional existing Exif thumbnail tags are not modified.
+          @note  The Jpeg image inserted as thumbnail image should not 
+                 itself contain Exif data (or other metadata), as existing
+                 applications may have problems with that. (The preview 
+                 application that comes with OS X for one.) - David Harvey.
          */
         void setJpegThumbnail(const byte* buf, long size, 
                               URational xres, URational yres, uint16_t unit);
@@ -641,12 +648,10 @@ namespace Exiv2 {
           Exif information mandatory according to the Exif standard. (But it's
           enough to work with the thumbnail.)
 
+          @throw Error if reading the file fails.
+
           @note  No checks on the file format or size are performed.
           @note  Additional existing Exif thumbnail tags are not modified.
-
-          @throw Error ("Couldn't open input file") if fopen fails,
-          @throw Error ("Couldn't stat input file") if stat fails, or
-          @throw Error ("Couldn't read input file") if fread fails.
          */
         void setJpegThumbnail(const std::string& path);
         /*!
@@ -720,10 +725,11 @@ namespace Exiv2 {
                  This will overwrite an existing file of the same name.
 
           @param  path Path of the filename without image type extension
+
+          @throw Error if writing to the file fails.
+
           @return 0 if successful;<BR>
-                 -1 if opening the file failed;<BR>
-                  4 if writing to the output stream failed;<BR>
-                  8 if the Exif data does not contain a thumbnail
+                  8 if the Exif data does not contain a thumbnail.
          */
         int writeThumbnail(const std::string& path) const; 
         /*!
@@ -748,18 +754,6 @@ namespace Exiv2 {
          */
         Thumbnail::AutoPtr getThumbnail() const;
         //@}
-
-        /*!
-          @brief Convert the return code \em rc from \n 
-                 int read(const byte* buf, long len), \n
-                 into an error message.
-          @param rc Error code.
-          @param path %Image file or other identifying string.
-          @return String containing error message.
-
-          Todo: Implement global handling of error messages
-         */
-        static std::string strError(int rc, const std::string& path);
 
     private:
         //! @name Manipulators

@@ -57,18 +57,6 @@ void testStrtol()
     std::cout << "s = `" << s << "' rc = " << rc << " n = " << n << "\n";
 }
 
-void testStrError()
-{
-    std::string oldname = "/tmp/foo";
-    std::string newname = "/tmp/bar";
-
-    if (::rename(oldname.c_str(), newname.c_str()) == -1) {
-        std::cerr << "failed to rename " 
-                  << oldname << " to " << newname << ": ";
-        std::cerr << Util::strError() << "\n";
-    }
-}
-
 void testPaths()
 {
     std::string path;

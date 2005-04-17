@@ -238,7 +238,7 @@ namespace Exiv2 {
           @endcode
 
           @return A constant reference to the value.
-          @throw Error ("Value not set") if the value is not set.
+          @throw Error if the value is not set.
          */
         virtual const Value& value() const =0;
         //@}

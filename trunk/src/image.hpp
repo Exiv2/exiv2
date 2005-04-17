@@ -52,7 +52,6 @@ namespace Exiv2 {
     class ExifData;
     class IptcData;
 
-
 // *****************************************************************************
 // class definitions
     /*!
@@ -82,9 +81,9 @@ namespace Exiv2 {
         /*!
           @brief Read metadata from assigned image. Before this method
               is called, the various metadata types (Iptc, Exif) will be empty.
-          @return 0 if successful.
+          @throw Error In case of failure.
          */
-        virtual int readMetadata() =0;
+        virtual void readMetadata() =0;
         /*!
           @brief Write metadata back to the image. 
 
@@ -95,9 +94,9 @@ namespace Exiv2 {
           any exists section for that metadata type will be removed from the
           image.
           
-          @return 0 if successful.
+          @throw Error if the operation fails
          */
-        virtual int writeMetadata() =0;
+        virtual void writeMetadata() =0;
         /*!
           @brief Assign new exif data. The new exif data is not written
               to the image until the writeMetadata() method is called.
@@ -220,18 +219,7 @@ namespace Exiv2 {
              method is called.
          */
         virtual BasicIo& io() const = 0;
-        /*!
-          @brief Convert the return code \em rc from various methods
-              in this class to string messages.
-          @param rc Error code.
-          @param path %Image file or other identifying string.
-          @return String containing error message.
-          
-           Todo: Implement global handling of error messages
-         */
-        static std::string strError(int rc, const std::string& path);
         //@}
-
 
     protected:
         //! @name Creators
@@ -277,8 +265,8 @@ namespace Exiv2 {
           @param isType Function pointer to test for matching image types.
         */
         static void registerImage(Image::Type type, 
-                           NewInstanceFct newInst, 
-                           IsThisTypeFct isType);
+                                  NewInstanceFct newInst, 
+                                  IsThisTypeFct isType);
         //@}
 
         //! @name Accessors
@@ -286,36 +274,37 @@ namespace Exiv2 {
         /*!
           @brief Create an Image subclass of the appropriate type by reading
               the specified file. %Image type is derived from the file
-              contents.
+              contents. 
           @param  path %Image file. The contents of the file are tested to
               determine the image type. File extension is ignored.
           @return An auto-pointer that owns an Image instance whose type 
-              matches that of the file. If no image type could be determined,
-              the pointer is 0.
+              matches that of the file. 
+          @throw Error If opening the file fails or it contains data of an
+              unknown image type.
          */
         static Image::AutoPtr open(const std::string& path);
         /*!
           @brief Create an Image subclass of the appropriate type by reading
               the provided memory. %Image type is derived from the memory
-              contents.
+              contents. 
           @param data Pointer to a data buffer containing an image. The contents
               of the memory are tested to determine the image type.
           @param size Number of bytes pointed to by \em data.
           @return An auto-pointer that owns an Image instance whose type 
-              matches that of the data buffer. If no image type could be
-              determined, the pointer is 0.
+              matches that of the data buffer.
+          @throw Error If the memory contains data of an unknown image type.
          */
         static Image::AutoPtr open(const byte* data, long size);
         /*!
           @brief Create an Image subclass of the appropriate type by reading
               the provided BasicIo instance. %Image type is derived from the
               data provided by \em io. The passed in \em io instance is
-              (re)opened by this method.
+              (re)opened by this method. 
           @param io An auto-pointer that owns a BasicIo instance that provides
               image data. The contents of the image data are tested to determine
               the type. \b Important: This method takes ownership of the passed
               in BasicIo instance through the auto-pointer. Callers should not
-              continue to use the BasicIo instance after it is passed to this method. 
+              continue to use the BasicIo instance after it is passed to this method.
               Use theImage::io() method to get a temporary reference.
           @return An auto-pointer that owns an Image instance whose type 
               matches that of the \em io data. If no image type could be
@@ -328,7 +317,8 @@ namespace Exiv2 {
           @param type Type of the image to be created.
           @param path %Image file to create. File extension is ignored.
           @return An auto-pointer that owns an Image instance of the requested
-              type. If the image type is not supported, the pointer is 0.
+              type. 
+          @throw Error If the image type is not supported.
          */
         static Image::AutoPtr create(Image::Type type, const std::string& path);
         /*!
@@ -336,7 +326,8 @@ namespace Exiv2 {
               new image in memory.
           @param type Type of the image to be created.
           @return An auto-pointer that owns an Image instance of the requested
-              type. If the image type is not supported, the pointer is 0.
+              type. 
+          @throw Error If the image type is not supported
          */
         static Image::AutoPtr create(Image::Type type);
         /*!
@@ -462,23 +453,6 @@ namespace Exiv2 {
         uint32_t offset_;
 
     }; // class TiffHeader   
-
-// *********************************************************************
-// free functions
-
-    /*!
-      @brief Test if a file exists.
-  
-      @param  path Name of file to verify.
-      @param  ct   Flag to check if <i>path</i> is a regular file.
-      @return true if <i>path</i> exists and, if <i>ct</i> is set,
-      is a regular file, else false.
-  
-      @note The function calls <b>stat()</b> test for <i>path</i>
-      and its type, see stat(2). <b>errno</b> is left unchanged 
-      in case of an error.
-     */
-    bool fileExists(const std::string& path, bool ct =false);
 
 }                                       // namespace Exiv2
 

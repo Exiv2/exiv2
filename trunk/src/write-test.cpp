@@ -24,6 +24,7 @@
 #include <iomanip>
 #include <string>
 #include <utility>
+#include <cassert>
 
 // *****************************************************************************
 // local declarations
@@ -147,8 +148,8 @@ try {
 
     return rc;
 }
-catch (Error& e) {
-    std::cerr << "Caught Exif exception '" << e << "'\n";
+catch (AnyError& e) {
+    std::cerr << "Caught Exiv2 exception '" << e << "'\n";
     return 1;
 }
 }
@@ -164,51 +165,31 @@ void testCase(const std::string& file1,
 
     //Open first image
     Image::AutoPtr image1 = ImageFactory::open(file1);
-    if (image1.get() == 0) {
-        std::string error(file1);
-        error += " : Could not read file or unknown image type";
-        throw Exiv2::Error(error);
-    }
+    assert(image1.get() != 0);
 
     // Load existing metadata
     std::cerr << "---> Reading file " << file1 << "\n";
-    int rc = image1->readMetadata();
-    if (rc) {
-        std::string error = Exiv2::Image::strError(rc, file1);
-        throw Exiv2::Error(error);
-    }
+    image1->readMetadata();
 
     Exiv2::ExifData &ed1 = image1->exifData();
     std::cerr << "---> Modifying Exif data\n";
     Exiv2::ExifData::iterator pos = ed1.findKey(ek);
     if (pos == ed1.end()) {
-        throw Error("Metadatum with key = " + ek.key() + " not found");
+        throw Error(1, "Metadatum with key = " + ek.key() + " not found");
     }
     pos->setValue(value);
 
     // Open second image
     Image::AutoPtr image2 = ImageFactory::open(file2);
-    if (image2.get() == 0) {
-        std::string error(file2);
-        error += " : Could not read file or unknown image type";
-        throw Exiv2::Error(error);
-    }
+    assert(image2.get() != 0);
 
     image2->setExifData(image1->exifData());
 
     std::cerr << "---> Writing Exif data to file " << file2 << "\n";
-    rc = image2->writeMetadata();
-    if (rc) {
-        std::string error = Image::strError(rc, file2.c_str());
-        throw Error(error);
-    }
+    image2->writeMetadata();
 
     std::cerr << "---> Reading file " << file2 << "\n";
-    rc = image2->readMetadata();
-    if (rc) {
-        std::string error = Exiv2::Image::strError(rc, file2);
-        throw Exiv2::Error(error);
-    }
+    image2->readMetadata();
 
     Exiv2::ExifData &ed2 = image2->exifData();
     exifPrint(ed2);

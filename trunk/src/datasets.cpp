@@ -239,7 +239,7 @@ namespace Exiv2 {
             dataSet = records_[recordId][idx].number_;
         }
         else {
-            if (!isHex(dataSetName, 4, "0x")) throw Error("Invalid dataset name");
+            if (!isHex(dataSetName, 4, "0x")) throw Error(4, dataSetName);
             std::istringstream is(dataSetName);
             is >> std::hex >> dataSet;
         }
@@ -273,7 +273,7 @@ namespace Exiv2 {
             if (recordInfo_[i].name_ == recordName) break;
         }
         if (i == 0) {
-            if (!isHex(recordName, 4, "0x")) throw Error("Invalid record name");
+            if (!isHex(recordName, 4, "0x")) throw Error(5, recordName);
             std::istringstream is(recordName);
             is >> std::hex >> i;
         }
@@ -334,18 +334,18 @@ namespace Exiv2 {
     {
         // Get the family name, record name and dataSet name parts of the key
         std::string::size_type pos1 = key_.find('.');
-        if (pos1 == std::string::npos) throw Error("Invalid key");
+        if (pos1 == std::string::npos) throw Error(6, key_);
         std::string familyName = key_.substr(0, pos1);
         if (familyName != std::string(familyName_)) {
-            throw Error("Invalid key");
+            throw Error(6, key_);
         }
         std::string::size_type pos0 = pos1 + 1;
         pos1 = key_.find('.', pos0);
-        if (pos1 == std::string::npos) throw Error("Invalid key");
+        if (pos1 == std::string::npos) throw Error(6, key_);
         std::string recordName = key_.substr(pos0, pos1 - pos0);
-        if (recordName == "") throw Error("Invalid key");
+        if (recordName == "") throw Error(6, key_);
         std::string dataSetName = key_.substr(pos1 + 1);
-        if (dataSetName == "") throw Error("Invalid key");
+        if (dataSetName == "") throw Error(6, key_);
 
         // Use the parts of the key to find dataSet and recordId
         uint16_t recId = IptcDataSets::recordId(recordName);

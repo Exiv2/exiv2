@@ -65,7 +65,7 @@ namespace Exiv2 {
 
           @param key The key of the %Iptcdatum.
           @param pValue Pointer to a %Iptcdatum value.
-          @throw Error ("Invalid key") if the key cannot be parsed and converted
+          @throw Error if the key cannot be parsed and converted
                  to a tag number and record id.
          */
         explicit Iptcdatum(const IptcKey& key, 
@@ -136,7 +136,6 @@ namespace Exiv2 {
         /*!
            @brief Return the name of the record
            @return record name
-           @throw Error("Unknown record");
          */
         std::string recordName() const
             { return key_.get() == 0 ? "" : key_->recordName(); }
@@ -149,7 +148,6 @@ namespace Exiv2 {
         /*!
            @brief Return the name of the tag (aka dataset)
            @return tag name
-           @throw Error("No dataSet for record Id") if tag is unknown
          */
         std::string tagName() const
             { return key_.get() == 0 ? "" : key_->tagName(); }
@@ -226,10 +224,10 @@ namespace Exiv2 {
           @endcode
 
           @return A constant reference to the value.
-          @throw Error ("Value not set") if the value is not set.
+          @throw Error If the value is not set.
          */
-        const Value& value() const 
-            { if (value_.get() != 0) return *value_; throw Error("Value not set"); }
+        const Value& value() const
+            { if (value_.get() != 0) return *value_; throw Error(8); }
         //@}
 
     private:
@@ -393,18 +391,6 @@ namespace Exiv2 {
          */
         long size() const;
         //@}
-
-        /*!
-          @brief Convert the return code from \n 
-                 int read(const byte* buf, long len), \n
-                 into an error message.
-          @param rc Error code.
-          @param path %Image file or other identifying string.
-          @return String containing error message.
-
-          Todo: Implement global handling of error messages
-         */
-        static std::string strError(int rc, const std::string& path);
 
     private:
         /*!

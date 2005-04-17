@@ -568,8 +568,7 @@ namespace Exiv2 {
           <BR>
           The default charset is Undefined.
 
-          @throw Error ("Invalid charset") if an invalid character set is 
-                 encountered
+          @throw Error if an invalid character set is encountered
         */
         void read(const std::string& comment);
         //@}
@@ -636,12 +635,18 @@ namespace Exiv2 {
           @param buf Pointer to the data buffer to read from
           @param len Number of bytes in the data buffer 
           @param byteOrder Byte order. Not needed.
+
+          @throw Error in case of an unsupported date format
          */
         virtual void read(const byte* buf, 
                           long len, 
                           ByteOrder byteOrder =invalidByteOrder);
         /*!
           @brief Set the value to that of the string buf. 
+
+          @param buf String containing the date
+
+          @throw Error in case of an unsupported date format
          */
         virtual void read(const std::string& buf);
         //! Set the date
@@ -736,12 +741,18 @@ namespace Exiv2 {
           @param buf Pointer to the data buffer to read from
           @param len Number of bytes in the data buffer 
           @param byteOrder Byte order. Not needed.
+
+          @throw Error in case of an unsupported time format
          */
         virtual void read(const byte* buf, 
                           long len, 
                           ByteOrder byteOrder =invalidByteOrder);
         /*!
           @brief Set the value to that of the string buf. 
+
+          @param buf String containing the time.
+
+          @throw Error in case of an unsupported time format
          */
         virtual void read(const std::string& buf);
         //! Set the time

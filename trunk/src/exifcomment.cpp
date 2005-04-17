@@ -16,6 +16,7 @@
 #include <iostream>
 #include <iomanip>
 #include <cstring>
+#include <cassert>
 
 // *****************************************************************************
 // Main
@@ -28,19 +29,8 @@ try {
     }
 
     Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(argv[1]);
-    if (image.get() == 0) {
-        std::string error(argv[1]);
-        error += " : Could not read file or unknown image type";
-        throw Exiv2::Error(error);
-    }
-
-    // Load existing metadata
-    int rc = image->readMetadata();
-    if (rc) {
-        std::string error = Exiv2::Image::strError(rc, argv[1]);
-        throw Exiv2::Error(error);
-    }
-
+    assert (image.get() != 0);
+    image->readMetadata();
     Exiv2::ExifData &exifData = image->exifData();
 
     /*
@@ -68,15 +58,11 @@ try {
               << exifData["Exif.Photo.UserComment"]
               << "' back to the image\n";
 
-    rc = image->writeMetadata();
-    if (rc) {
-        std::string error = Exiv2::Image::strError(rc, argv[1]);
-        throw Exiv2::Error(error);
-    }
+    image->writeMetadata();
 
-    return rc;
+    return 0;
 }
-catch (Exiv2::Error& e) {
+catch (Exiv2::AnyError& e) {
     std::cout << "Caught Exiv2 exception '" << e << "'\n";
     return -1;
 }

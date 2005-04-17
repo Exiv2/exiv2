@@ -48,8 +48,8 @@ EXIV2_RCSID("@(#) $Id$");
 #ifdef EXV_HAVE_UNISTD_H
 # include <unistd.h>                     // for getopt(), stat()
 #endif
-#include <errno.h>
 
+#include <cerrno>
 #include <cstdlib>
 #include <cstring>
 #include <string>
@@ -77,23 +77,6 @@ int Getopt::getopt(int argc, char* const argv[], const std::string& optstring)
 
 // *****************************************************************************
 // free functions
-
-    bool fileExists(const std::string& path, bool ct)
-    {
-        struct stat buf;
-        int ret = ::stat(path.c_str(), &buf);
-        if (0 != ret)                    return false;
-        if (ct && !S_ISREG(buf.st_mode)) return false;
-        return true;
-    }
-
-    std::string strError()
-    {
-        int error = errno;
-        std::ostringstream os;
-        os << ::strerror(error) << " (errno = " << error << ")";
-        return os.str();
-    }
 
     std::string dirname(const std::string& path)
     {
