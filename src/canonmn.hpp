@@ -175,6 +175,8 @@ namespace Exiv2 {
         static std::ostream& printCs1Lnh(std::ostream& os, const Value& value);
         //! Camera lens information
         static std::ostream& printCs1Lens(std::ostream& os, const Value& value);
+        //! ISO speed used
+        static std::ostream& printCs20x0002(std::ostream& os, const Value& value);
         //! White balance
         static std::ostream& printCs20x0007(std::ostream& os, const Value& value);
         //! Sequence number

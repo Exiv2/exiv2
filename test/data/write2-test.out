@@ -17,7 +17,7 @@ Exif.Canon.0xabcd                             0xabcd Makernote    Ascii      22 
 Exif.CanonCs1.Macro                           0x0001 Makernote    Short       1 0
 Exif.CanonCs1.Selftimer                       0x0002 Makernote    Short       1 41
 Exif.CanonCs2.0x0001                          0x0001 Makernote    Short       1 0
-Exif.CanonCs2.0x0002                          0x0002 Makernote    Short       1 0
+Exif.CanonCs2.ISOSpeed                        0x0002 Makernote    Short       1 0
 Exif.CanonCs2.0x0003                          0x0003 Makernote    Short       1 0
 Exif.CanonCs2.0x0004                          0x0004 Makernote    Short       1 0
 Exif.CanonCs2.0x0005                          0x0005 Makernote    Short       1 42
@@ -31,7 +31,7 @@ Exif.Canon.0xabcd                             0xabcd Makernote    Ascii      22 
 Exif.CanonCs1.Macro                           0x0001 Makernote    Short       1 88
 Exif.CanonCs1.Selftimer                       0x0002 Makernote    Short       1 41
 Exif.CanonCs2.0x0001                          0x0001 Makernote    Short       1 0
-Exif.CanonCs2.0x0002                          0x0002 Makernote    Short       1 0
+Exif.CanonCs2.ISOSpeed                        0x0002 Makernote    Short       1 0
 Exif.CanonCs2.0x0003                          0x0003 Makernote    Short       1 0
 Exif.CanonCs2.0x0004                          0x0004 Makernote    Short       1 99
 Exif.CanonCs2.0x0005                          0x0005 Makernote    Short       1 42

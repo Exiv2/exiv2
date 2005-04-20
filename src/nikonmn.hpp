@@ -24,7 +24,8 @@
 
   The Nikon MakerNote formats are implemented according to the following references<BR>
   Format 1: 
-  <ul><li><a href="http://www.tawbaware.com/990exif.htm">MakerNote EXIF Tag of the Nikon 990</a> by Max Lyons</li></ul>
+  <ul>
+  <li><a href="http://www.tawbaware.com/990exif.htm">MakerNote EXIF Tag of the Nikon 990</a> by Max Lyons</li></ul>
   Format 2: 
   <ul><li>"Appendix 2: Makernote of Nikon" of the document 
   <a href="http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html">
@@ -33,7 +34,9 @@
   <ul><li>"EXIFutils Field Reference Guide"</li>
   <li><a href="http://www.ozhiker.com/electronics/pjmt/jpeg_info/nikon_mn.html#Nikon_Type_3_Tags">Nikon Type 3 Makernote Tags Definition</a> 
   of the PHP JPEG Metadata Toolkit by Evan Hunter</li>
-  <li>Nikon specification of <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a> by Phil Harvey</li></ul>
+  <li>Nikon tag information from <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a> by Phil Harvey</li>
+  <li>Email communication with Robert Rottmerhusen</li>
+  </ul>
 
   @version $Rev$
   @author  Andreas Huggel (ahu)
@@ -310,6 +313,8 @@ namespace Exiv2 {
         static std::ostream& print0x0088(std::ostream& os, const Value& value);
         //! Print bracketing information
         static std::ostream& print0x0089(std::ostream& os, const Value& value);
+        //! Print number of lens stops
+        static std::ostream& print0x008b(std::ostream& os, const Value& value);
         //@}
 
     private:

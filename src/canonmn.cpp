@@ -47,9 +47,31 @@ EXIV2_RCSID("@(#) $Id$");
 #include <algorithm>
 #include <cassert>
 #include <cstring>
+#include <cmath>
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr
 #undef DEBUG_MAKERNOTE
+
+// *****************************************************************************
+// local declarations
+namespace {
+    /* 
+       @brief Convert Canon hex-based EV (modulo 0x20) to real number
+              Ported from Phil Harvey's Image::ExifTool::Canon::CanonEv 
+              by Will Stokes
+
+       0x00 -> 0
+       0x0c -> 0.33333
+       0x10 -> 0.5
+       0x14 -> 0.66666
+       0x20 -> 1  
+       ..
+       160 -> 5
+       128 -> 4
+       143 -> 4.46875
+     */
+    float canonEv(long val);
+}
 
 // *****************************************************************************
 // class member definitions
@@ -123,7 +145,7 @@ namespace Exiv2 {
     // Canon Camera Settings 2 Tag Info
     const TagInfo CanonMakerNote::tagInfoCs2_[] = {
         TagInfo(0x0001, "0x0001", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0002, "0x0002", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0002, "ISOSpeed", "ISO speed used", canonCs2IfdId, makerTags, unsignedShort, printCs20x0002),
         TagInfo(0x0003, "0x0003", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0004, "0x0004", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0005, "0x0005", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
@@ -741,6 +763,13 @@ namespace Exiv2 {
         return os;
     }
 
+    std::ostream& CanonMakerNote::printCs20x0002(std::ostream& os,
+                                                 const Value& value)
+    {
+        // Ported from Exiftool by Will Stokes
+        return os << exp(canonEv(value.toLong()) * log(2.0)) * 100.0 / 32.0;
+    }
+
     std::ostream& CanonMakerNote::printCs20x0007(std::ostream& os,
                                                  const Value& value)
     {
@@ -857,3 +886,30 @@ namespace Exiv2 {
     }
 
 }                                       // namespace Exiv2
+
+// *****************************************************************************
+// local definitions
+namespace {
+
+    float canonEv(long val)
+    {
+        // temporarily remove sign
+        int sign = 1;
+        if (val < 0) {
+            sign = -1;
+            val = -val;
+        }
+        // remove fraction
+        float frac = val & 0x1f;
+        val -= long(frac);
+        // convert 1/3 (0x0c) and 2/3 (0x14) codes
+        if (frac == 0x0c) {
+            frac = 32.0 / 3;
+        }
+        else if (frac == 0x14) {
+            frac = 64.0 / 3;
+        }
+        return sign * (val + frac) / 32.0;
+    }
+
+}

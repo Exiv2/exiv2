@@ -74,6 +74,7 @@ namespace Exiv2 {
         IfdInfo(nikon3ThumbIfdId, "Makernote", "Nikon3Thumb"),
         IfdInfo(olympusIfdId, "Makernote", "Olympus"),
         IfdInfo(sigmaIfdId, "Makernote", "Sigma"),
+        IfdInfo(sonyIfdId, "Makernote", "Sony"),
         IfdInfo(lastIfdId, "(Last IFD info)", "(Last IFD item)")
     };
 

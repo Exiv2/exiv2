@@ -253,7 +253,7 @@ Exif.CanonCs1.0x0025                          0x0025 Makernote    Short       1 
 Exif.CanonCs1.0x0026                          0x0026 Makernote    Short       1 0
 Exif.CanonCs1.0x0027                          0x0027 Makernote    Short       1 1
 Exif.CanonCs2.0x0001                          0x0001 Makernote    Short       1 0
-Exif.CanonCs2.0x0002                          0x0002 Makernote    Short       1 160
+Exif.CanonCs2.ISOSpeed                        0x0002 Makernote    Short       1 160
 Exif.CanonCs2.0x0003                          0x0003 Makernote    Short       1 276
 Exif.CanonCs2.0x0004                          0x0004 Makernote    Short       1 149
 Exif.CanonCs2.0x0005                          0x0005 Makernote    Short       1 287
@@ -377,7 +377,7 @@ Exif.CanonCs1.0x0025                          0x0025 Makernote    Short       1 
 Exif.CanonCs1.0x0026                          0x0026 Makernote    Short       1 0
 Exif.CanonCs1.0x0027                          0x0027 Makernote    Short       1 1
 Exif.CanonCs2.0x0001                          0x0001 Makernote    Short       1 0
-Exif.CanonCs2.0x0002                          0x0002 Makernote    Short       1 160
+Exif.CanonCs2.ISOSpeed                        0x0002 Makernote    Short       1 160
 Exif.CanonCs2.0x0003                          0x0003 Makernote    Short       1 276
 Exif.CanonCs2.0x0004                          0x0004 Makernote    Short       1 149
 Exif.CanonCs2.0x0005                          0x0005 Makernote    Short       1 287
@@ -502,7 +502,7 @@ Exif.CanonCs1.0x0025                          0x0025 Makernote    Short       1 
 Exif.CanonCs1.0x0026                          0x0026 Makernote    Short       1 0
 Exif.CanonCs1.0x0027                          0x0027 Makernote    Short       1 1
 Exif.CanonCs2.0x0001                          0x0001 Makernote    Short       1 0
-Exif.CanonCs2.0x0002                          0x0002 Makernote    Short       1 160
+Exif.CanonCs2.ISOSpeed                        0x0002 Makernote    Short       1 160
 Exif.CanonCs2.0x0003                          0x0003 Makernote    Short       1 276
 Exif.CanonCs2.0x0004                          0x0004 Makernote    Short       1 149
 Exif.CanonCs2.0x0005                          0x0005 Makernote    Short       1 287
@@ -626,7 +626,7 @@ Exif.CanonCs1.0x0025                          0x0025 Makernote    Short       1 
 Exif.CanonCs1.0x0026                          0x0026 Makernote    Short       1 0
 Exif.CanonCs1.0x0027                          0x0027 Makernote    Short       1 1
 Exif.CanonCs2.0x0001                          0x0001 Makernote    Short       1 0
-Exif.CanonCs2.0x0002                          0x0002 Makernote    Short       1 160
+Exif.CanonCs2.ISOSpeed                        0x0002 Makernote    Short       1 160
 Exif.CanonCs2.0x0003                          0x0003 Makernote    Short       1 276
 Exif.CanonCs2.0x0004                          0x0004 Makernote    Short       1 149
 Exif.CanonCs2.0x0005                          0x0005 Makernote    Short       1 287
@@ -740,7 +740,7 @@ Exif.Nikon3.FlashType                         0x0087 Makernote    Byte        1 
 Exif.Nikon3.AFFocusPos                        0x0088 Makernote    Undefined   4 0 0 0 1 
 Exif.Nikon3.Bracketing                        0x0089 Makernote    Short       1 0
 Exif.Nikon3.0x008a                            0x008a Makernote    Short       1 0
-Exif.Nikon3.0x008b                            0x008b Makernote    Undefined   4 64 1 12 0 
+Exif.Nikon3.LensFStops                        0x008b Makernote    Undefined   4 64 1 12 0 
 Exif.Nikon3.ColorMode                         0x008d Makernote    Ascii       9 MODE1a  
 Exif.Nikon3.LightingType                      0x0090 Makernote    Ascii      12 NATURAL    
 Exif.Nikon3.0x0091                            0x0091 Makernote    Undefined 465 48 49 48 51 0 0 0 124 0 0 5 13 113 0 0 0 0 1 0 0 11 0 0 0 0 0 20 0 0 31 0 0 0 0 0 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 32 0 0 31 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 0 0 0 0 0 0 0 45 0 0 0 0 0 1 0 0 0 0 89 1 2 205 51 206 179 54 56 53 54 48 51 0 218 0 214 0 167 0 171 0 50 0 51 0 5 0 0 0 0 0 0 0 0 0 1 0 5 0 0 3 194 0 0 0 100 30 161 200 95 222 59 231 63 201 147 36 178 108 51 110 51 142 15 205 20 205 255 24 187 172 35 200 39 84 41 220 51 68 39 136 59 158 49 239 176 221 55 206 242 77 6 206 51 212 169 76 179 220 17 174 50 140 159 228 51 220 49 78 186 201 119 196 225 223 50 196 178 204 146 204 17 54 56 53 54 48 49 0 101 0 161 0 172 172 169 163 163 168 169 169 168 168 170 171 164 152 149 5 249 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 38 72 0 8 1 78 226 1 0 72 49 38 48 0 0 0 3 7 252 11 226 0 4 169 1 72 0 128 16 0 0 3 151 96 196 12 145 80 60 0 0 4 190 3 111 0 0 9 186 0 0 4 197 0 0 4 190 3 111 0 0 0 0 3 0 0 0 0 200 0 60 52 62 143 63 0 0 4 176 0 0 4 162 0 0 4 177 0 0 4 126 255 127 255 127 255 127 255 127 8 128 3 111 3 28 2 157 18 17 1 0 0 0 0 72 240 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 64 0 0 0 0 64 
@@ -845,7 +845,7 @@ Exif.Nikon3.FlashType                         0x0087 Makernote    Byte        1 
 Exif.Nikon3.AFFocusPos                        0x0088 Makernote    Undefined   4 0 0 0 1 
 Exif.Nikon3.Bracketing                        0x0089 Makernote    Short       1 0
 Exif.Nikon3.0x008a                            0x008a Makernote    Short       1 0
-Exif.Nikon3.0x008b                            0x008b Makernote    Undefined   4 64 1 12 0 
+Exif.Nikon3.LensFStops                        0x008b Makernote    Undefined   4 64 1 12 0 
 Exif.Nikon3.ColorMode                         0x008d Makernote    Ascii       9 MODE1a  
 Exif.Nikon3.LightingType                      0x0090 Makernote    Ascii      12 NATURAL    
 Exif.Nikon3.0x0091                            0x0091 Makernote    Undefined 465 48 49 48 51 0 0 0 124 0 0 5 13 113 0 0 0 0 1 0 0 11 0 0 0 0 0 20 0 0 31 0 0 0 0 0 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 32 0 0 31 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 0 0 0 0 0 0 0 45 0 0 0 0 0 1 0 0 0 0 89 1 2 205 51 206 179 54 56 53 54 48 51 0 218 0 214 0 167 0 171 0 50 0 51 0 5 0 0 0 0 0 0 0 0 0 1 0 5 0 0 3 194 0 0 0 100 30 161 200 95 222 59 231 63 201 147 36 178 108 51 110 51 142 15 205 20 205 255 24 187 172 35 200 39 84 41 220 51 68 39 136 59 158 49 239 176 221 55 206 242 77 6 206 51 212 169 76 179 220 17 174 50 140 159 228 51 220 49 78 186 201 119 196 225 223 50 196 178 204 146 204 17 54 56 53 54 48 49 0 101 0 161 0 172 172 169 163 163 168 169 169 168 168 170 171 164 152 149 5 249 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 38 72 0 8 1 78 226 1 0 72 49 38 48 0 0 0 3 7 252 11 226 0 4 169 1 72 0 128 16 0 0 3 151 96 196 12 145 80 60 0 0 4 190 3 111 0 0 9 186 0 0 4 197 0 0 4 190 3 111 0 0 0 0 3 0 0 0 0 200 0 60 52 62 143 63 0 0 4 176 0 0 4 162 0 0 4 177 0 0 4 126 255 127 255 127 255 127 255 127 8 128 3 111 3 28 2 157 18 17 1 0 0 0 0 72 240 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 64 0 0 0 0 64 
@@ -951,7 +951,7 @@ Exif.Nikon3.FlashType                         0x0087 Makernote    Byte        1 
 Exif.Nikon3.AFFocusPos                        0x0088 Makernote    Undefined   4 0 0 0 1 
 Exif.Nikon3.Bracketing                        0x0089 Makernote    Short       1 0
 Exif.Nikon3.0x008a                            0x008a Makernote    Short       1 0
-Exif.Nikon3.0x008b                            0x008b Makernote    Undefined   4 64 1 12 0 
+Exif.Nikon3.LensFStops                        0x008b Makernote    Undefined   4 64 1 12 0 
 Exif.Nikon3.ColorMode                         0x008d Makernote    Ascii       9 MODE1a  
 Exif.Nikon3.LightingType                      0x0090 Makernote    Ascii      12 NATURAL    
 Exif.Nikon3.0x0091                            0x0091 Makernote    Undefined 465 48 49 48 51 0 0 0 124 0 0 5 13 113 0 0 0 0 1 0 0 11 0 0 0 0 0 20 0 0 31 0 0 0 0 0 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 32 0 0 31 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 0 0 0 0 0 0 0 45 0 0 0 0 0 1 0 0 0 0 89 1 2 205 51 206 179 54 56 53 54 48 51 0 218 0 214 0 167 0 171 0 50 0 51 0 5 0 0 0 0 0 0 0 0 0 1 0 5 0 0 3 194 0 0 0 100 30 161 200 95 222 59 231 63 201 147 36 178 108 51 110 51 142 15 205 20 205 255 24 187 172 35 200 39 84 41 220 51 68 39 136 59 158 49 239 176 221 55 206 242 77 6 206 51 212 169 76 179 220 17 174 50 140 159 228 51 220 49 78 186 201 119 196 225 223 50 196 178 204 146 204 17 54 56 53 54 48 49 0 101 0 161 0 172 172 169 163 163 168 169 169 168 168 170 171 164 152 149 5 249 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 38 72 0 8 1 78 226 1 0 72 49 38 48 0 0 0 3 7 252 11 226 0 4 169 1 72 0 128 16 0 0 3 151 96 196 12 145 80 60 0 0 4 190 3 111 0 0 9 186 0 0 4 197 0 0 4 190 3 111 0 0 0 0 3 0 0 0 0 200 0 60 52 62 143 63 0 0 4 176 0 0 4 162 0 0 4 177 0 0 4 126 255 127 255 127 255 127 255 127 8 128 3 111 3 28 2 157 18 17 1 0 0 0 0 72 240 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 64 0 0 0 0 64 
@@ -1056,7 +1056,7 @@ Exif.Nikon3.FlashType                         0x0087 Makernote    Byte        1 
 Exif.Nikon3.AFFocusPos                        0x0088 Makernote    Undefined   4 0 0 0 1 
 Exif.Nikon3.Bracketing                        0x0089 Makernote    Short       1 0
 Exif.Nikon3.0x008a                            0x008a Makernote    Short       1 0
-Exif.Nikon3.0x008b                            0x008b Makernote    Undefined   4 64 1 12 0 
+Exif.Nikon3.LensFStops                        0x008b Makernote    Undefined   4 64 1 12 0 
 Exif.Nikon3.ColorMode                         0x008d Makernote    Ascii       9 MODE1a  
 Exif.Nikon3.LightingType                      0x0090 Makernote    Ascii      12 NATURAL    
 Exif.Nikon3.0x0091                            0x0091 Makernote    Undefined 465 48 49 48 51 0 0 0 124 0 0 5 13 113 0 0 0 0 1 0 0 11 0 0 0 0 0 20 0 0 31 0 0 0 0 0 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 32 0 0 31 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 0 0 0 0 0 0 0 45 0 0 0 0 0 1 0 0 0 0 89 1 2 205 51 206 179 54 56 53 54 48 51 0 218 0 214 0 167 0 171 0 50 0 51 0 5 0 0 0 0 0 0 0 0 0 1 0 5 0 0 3 194 0 0 0 100 30 161 200 95 222 59 231 63 201 147 36 178 108 51 110 51 142 15 205 20 205 255 24 187 172 35 200 39 84 41 220 51 68 39 136 59 158 49 239 176 221 55 206 242 77 6 206 51 212 169 76 179 220 17 174 50 140 159 228 51 220 49 78 186 201 119 196 225 223 50 196 178 204 146 204 17 54 56 53 54 48 49 0 101 0 161 0 172 172 169 163 163 168 169 169 168 168 170 171 164 152 149 5 249 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 38 72 0 8 1 78 226 1 0 72 49 38 48 0 0 0 3 7 252 11 226 0 4 169 1 72 0 128 16 0 0 3 151 96 196 12 145 80 60 0 0 4 190 3 111 0 0 9 186 0 0 4 197 0 0 4 190 3 111 0 0 0 0 3 0 0 0 0 200 0 60 52 62 143 63 0 0 4 176 0 0 4 162 0 0 4 177 0 0 4 126 255 127 255 127 255 127 255 127 8 128 3 111 3 28 2 157 18 17 1 0 0 0 0 72 240 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 64 0 0 0 0 64 

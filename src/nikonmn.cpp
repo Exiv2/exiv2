@@ -401,7 +401,7 @@ namespace Exiv2 {
         TagInfo(0x0088, "AFFocusPos", "AF focus position", nikon3IfdId, makerTags, undefined, print0x0088),
         TagInfo(0x0089, "Bracketing", "Bracketing", nikon3IfdId, makerTags, unsignedShort, print0x0089),
         TagInfo(0x008a, "0x008a", "Unknown", nikon3IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x008b, "0x008b", "Unknown", nikon3IfdId, makerTags, undefined, printValue),
+        TagInfo(0x008b, "LensFStops", "Number of lens stops", nikon3IfdId, makerTags, undefined, print0x008b),
 //        TagInfo(0x008c, "NEFCurve1", "NEF curve 1", nikon3IfdId, makerTags, xxx, printValue),
         TagInfo(0x008d, "ColorMode", "Color mode", nikon3IfdId, makerTags, asciiString, printValue),
         TagInfo(0x008f, "SceneMode", "Scene mode", nikon3IfdId, makerTags, asciiString, printValue),
@@ -628,6 +628,18 @@ namespace Exiv2 {
         default: os << "(" << value << ")"; break;
         }
         return os;
+    }
+
+    std::ostream& Nikon3MakerNote::print0x008b(std::ostream& os,
+                                               const Value& value)
+    {
+        // Decoded by Robert Rottmerhusen <email@rottmerhusen.com>
+        if (value.size() != 4) return os << "(" << value << ")";
+        float a = value.toLong(0);
+        long  b = value.toLong(1);
+        long  c = value.toLong(2);
+        if (c == 0) return os << "(" << value << ")";
+        return os << a * b / c;
     }
 
 // *****************************************************************************

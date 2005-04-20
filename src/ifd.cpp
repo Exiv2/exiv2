@@ -254,7 +254,7 @@ namespace Exiv2 {
 
     Ifd::Ifd(IfdId ifdId)
         : alloc_(true), ifdId_(ifdId), pBase_(0), offset_(0), 
-          dataOffset_(0), pNext_(0), next_(0)
+          dataOffset_(0), hasNext_(true), pNext_(0), next_(0)
     {
         pNext_ = new byte[4];
         memset(pNext_, 0x0, 4);
@@ -262,17 +262,17 @@ namespace Exiv2 {
 
     Ifd::Ifd(IfdId ifdId, long offset)
         : alloc_(true), ifdId_(ifdId), pBase_(0), offset_(offset), 
-          dataOffset_(0), pNext_(0), next_(0)
+          dataOffset_(0), hasNext_(true), pNext_(0), next_(0)
     {
         pNext_ = new byte[4];
         memset(pNext_, 0x0, 4);
     }
 
-    Ifd::Ifd(IfdId ifdId, long offset, bool alloc)
+    Ifd::Ifd(IfdId ifdId, long offset, bool alloc, bool hasNext)
         : alloc_(alloc), ifdId_(ifdId), pBase_(0), offset_(offset), 
-          dataOffset_(0), pNext_(0), next_(0)
+          dataOffset_(0), hasNext_(hasNext), pNext_(0), next_(0)
     {
-        if (alloc_) {
+        if (alloc_ && hasNext_) {
             pNext_ = new byte[4];
             memset(pNext_, 0x0, 4);
         }
@@ -281,15 +281,15 @@ namespace Exiv2 {
     Ifd::~Ifd()
     {
         // do not delete pBase_
-        if (alloc_) delete[] pNext_;
+        if (alloc_ && hasNext_) delete[] pNext_;
     }
 
     Ifd::Ifd(const Ifd& rhs)
         : alloc_(rhs.alloc_), entries_(rhs.entries_), ifdId_(rhs.ifdId_),
-          pBase_(rhs.pBase_), offset_(rhs.offset_), 
-          dataOffset_(rhs.dataOffset_), pNext_(rhs.pNext_), next_(rhs.next_)
+          pBase_(rhs.pBase_), offset_(rhs.offset_), dataOffset_(rhs.dataOffset_), 
+          hasNext_(rhs.hasNext_), pNext_(rhs.pNext_), next_(rhs.next_)
     {
-        if (alloc_) {
+        if (alloc_ && hasNext_) {
             pNext_ = new byte[4];
             memset(pNext_, 0x0, 4);
             if (rhs.pNext_) memcpy(pNext_, rhs.pNext_, 4); 
@@ -331,7 +331,7 @@ namespace Exiv2 {
                 o += 12;
             }
         }
-        if (rc == 0) {
+        if (rc == 0 && hasNext_) {
             if (len < o + 4) {
                 // Todo: How to handle debug output like this
                 std::cerr << "Error: " << ExifTags::ifdName(ifdId_) 
@@ -364,7 +364,8 @@ namespace Exiv2 {
                 if (offset_ == 0) {
                     // Set the 'guessed' IFD offset
                     offset_ = i->offset_ 
-		      - (2 + 12 * static_cast<long>(preEntries.size()) + 4);
+		      - (2 + 12 * static_cast<long>(preEntries.size()) 
+                         + (hasNext_ ? 4 : 0));
                 }
                 // Set the offset of the first data entry outside of the IFD
                 if (i->offset_ - offset_ >= len) {
@@ -523,14 +524,16 @@ namespace Exiv2 {
             o += 12;
         }
 
-        // Add the offset to the next IFD to the data buffer
-        if (pNext_) {
-            memcpy(buf + o, pNext_, 4);
+        if (hasNext_) {
+            // Add the offset to the next IFD to the data buffer
+            if (pNext_) {
+                memcpy(buf + o, pNext_, 4);
+            }
+            else {
+                memset(buf + o, 0x0, 4);
+            }
+            o += 4;
         }
-        else {
-            memset(buf + o, 0x0, 4);
-        }
-        o += 4;
 
         // Add the data of all IFD entries to the data buffer
         for (i = b; i != e; ++i) {
@@ -554,23 +557,27 @@ namespace Exiv2 {
     void Ifd::clear()
     {
         entries_.clear();
-        if (alloc_) {
-            memset(pNext_, 0x0, 4);
-        }
-        else {
-            pBase_ = 0;
-            pNext_ = 0;
-        }
-        next_ = 0;
         offset_ = 0;
         dataOffset_ = 0;
+        if (hasNext_) {
+            if (alloc_) {
+                memset(pNext_, 0x0, 4);
+            }
+            else {
+                pBase_ = 0;
+                pNext_ = 0;
+            }
+            next_ = 0;
+        }
     } // Ifd::clear
 
     void Ifd::setNext(uint32_t next, ByteOrder byteOrder)
     {
-        assert(pNext_);
-        ul2Data(pNext_, next, byteOrder);
-        next_ = next;
+        if (hasNext_) {
+            assert(pNext_);
+            ul2Data(pNext_, next, byteOrder);
+            next_ = next;
+        }
     }
 
     void Ifd::add(const Entry& entry)
@@ -605,7 +612,9 @@ namespace Exiv2 {
             for (iterator pos = begin(); pos != end; ++pos) {
                 pos->updateBase(pBase_, pNewBase);
             }
-            pNext_ = pNext_ - pBase_ + pNewBase;
+            if (hasNext_) {
+                pNext_ = pNext_ - pBase_ + pNewBase;
+            }
             pOld = pBase_;
             pBase_ = pNewBase;
         }
@@ -615,7 +624,7 @@ namespace Exiv2 {
     long Ifd::size() const
     {
         if (entries_.size() == 0 && next_ == 0) return 0;
-        return static_cast<long>(2 + 12 * entries_.size() + 4); 
+        return static_cast<long>(2 + 12 * entries_.size() + (hasNext_ ? 4 : 0)); 
     }
 
     long Ifd::dataSize() const
@@ -670,9 +679,11 @@ namespace Exiv2 {
                << "  " << offset.str()
                << "\n";
         }
-        os << prefix << "Next IFD: 0x" 
-           << std::setw(8) << std::setfill('0') << std::hex
-           << std::right << next() << "\n";
+        if (hasNext_) {
+            os << prefix << "Next IFD: 0x" 
+               << std::setw(8) << std::setfill('0') << std::hex
+               << std::right << next() << "\n";
+        }
         // Print data of IFD entries 
         for (i = b; i != e; ++i) {
             if (i->size() > 4) {

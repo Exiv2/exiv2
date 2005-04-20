@@ -359,10 +359,11 @@ namespace Exiv2 {
         Ifd(IfdId ifdId, long offset);
         /*!
           @brief Constructor. Allows to set the IFD identifier, offset of the
-                 IFD from the start of TIFF header and choose whether or not
-                 memory management is required for the Entries.
+                 IFD from the start of TIFF header, choose whether or not
+                 memory management is required for the Entries, and decide
+                 whether this IFD has a next pointer.
          */
-        Ifd(IfdId ifdId, long offset, bool alloc);
+        Ifd(IfdId ifdId, long offset, bool alloc, bool hasNext =true);
         //! Copy constructor
         Ifd(const Ifd& rhs);
         //! Destructor
@@ -424,7 +425,8 @@ namespace Exiv2 {
         void clear();
         /*!
           @brief Set the offset of the next IFD. Byte order is needed to update
-                 the underlying data buffer in non-alloc mode.
+                 the underlying data buffer in non-alloc mode. This method only
+                 has an effect if the IFD was instantiated with hasNext = true.
          */
         void setNext(uint32_t next, ByteOrder byteOrder);
         /*!
@@ -567,6 +569,8 @@ namespace Exiv2 {
         long offset_;
         //! Offset of the first data entry outside of the IFD directory
         long dataOffset_;
+        //! Indicates whether the IFD has a next pointer
+        bool hasNext_;
         //! Pointer to the offset of next IFD from the start of the TIFF header
         byte* pNext_;
         //! The offset of the next IFD as data value (always in sync with *pNext_)
