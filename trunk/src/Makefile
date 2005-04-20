@@ -53,8 +53,8 @@ CCHDR = exv_conf.h exv_msvc.h rcsid.hpp
 # Add library C++ source files to this list
 CCSRC = basicio.cpp canonmn.cpp datasets.cpp error.cpp exif.cpp futils.cpp \
 	fujimn.cpp ifd.cpp image.cpp iptc.cpp jpgimage.cpp makernote.cpp \
-        metadatum.cpp nikonmn.cpp olympusmn.cpp sigmamn.cpp tags.cpp types.cpp \
-	value.cpp 
+        metadatum.cpp nikonmn.cpp olympusmn.cpp sigmamn.cpp sonymn.cpp \
+	tags.cpp types.cpp value.cpp 
 
 # Add source files of simple applications to this list
 BINSRC = addmoddel.cpp dataarea-test.cpp exifcomment.cpp exifdata-test.cpp \

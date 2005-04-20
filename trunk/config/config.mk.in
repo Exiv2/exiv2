@@ -63,7 +63,7 @@ CPPFLAGS = @CPPFLAGS@
 CXXDEP = $(CXX) -MM
 
 # Linker flags
-LDFLAGS = @LDFLAGS@
+LDFLAGS = @LDFLAGS@ -lm
 
 # Suffix of executables
 EXEEXT := @EXEEXT@

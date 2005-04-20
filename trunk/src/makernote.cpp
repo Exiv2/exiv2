@@ -66,9 +66,9 @@ namespace Exiv2 {
         return AutoPtr(clone_());
     }
 
-    IfdMakerNote::IfdMakerNote(IfdId ifdId, bool alloc)
+    IfdMakerNote::IfdMakerNote(IfdId ifdId, bool alloc, bool hasNext)
         : MakerNote(alloc), 
-          absOffset_(true), adjOffset_(0), ifd_(ifdId, 0, alloc)
+          absOffset_(true), adjOffset_(0), ifd_(ifdId, 0, alloc, hasNext)
     {
     }
 
@@ -104,7 +104,12 @@ namespace Exiv2 {
         }
         if (rc == 0) {
             // IfdMakerNote currently does not support multiple IFDs
-            if (ifd_.next() != 0) rc = 3;
+            if (ifd_.next() != 0) {
+#ifdef DEBUG_MAKERNOTE
+                std::cerr << "Makernote IFD has a next pointer != 0 (rc = 3)\n";
+#endif
+                rc = 3;
+            }
         }
 #ifdef DEBUG_MAKERNOTE
         hexdump(std::cerr, buf, len, offset);

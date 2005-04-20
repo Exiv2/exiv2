@@ -242,9 +242,10 @@ namespace Exiv2 {
         //@{        
         /*!
           @brief Constructor. Requires an %Ifd id and allows to choose whether 
-                 or not memory management is needed for the Entries.
+                 or not memory management is needed for the Entries and whether
+                 the IFD has a next pointer.
         */
-        explicit IfdMakerNote(IfdId ifdId, bool alloc =true);
+        explicit IfdMakerNote(IfdId ifdId, bool alloc =true, bool hasNext =true);
         //! Copy constructor
         IfdMakerNote(const IfdMakerNote& rhs);
         //! Virtual destructor
