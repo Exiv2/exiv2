@@ -900,16 +900,16 @@ namespace {
             val = -val;
         }
         // remove fraction
-        float frac = val & 0x1f;
+        float frac = static_cast<float>(val & 0x1f);
         val -= long(frac);
         // convert 1/3 (0x0c) and 2/3 (0x14) codes
         if (frac == 0x0c) {
-            frac = 32.0 / 3;
+            frac = 32.0f / 3;
         }
         else if (frac == 0x14) {
-            frac = 64.0 / 3;
+            frac = 64.0f / 3;
         }
-        return sign * (val + frac) / 32.0;
+        return sign * (val + frac) / 32.0f;
     }
 
 }
