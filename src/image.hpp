@@ -302,13 +302,15 @@ namespace Exiv2 {
               (re)opened by this method. 
           @param io An auto-pointer that owns a BasicIo instance that provides
               image data. The contents of the image data are tested to determine
-              the type. \b Important: This method takes ownership of the passed
+              the type. 
+          @note This method takes ownership of the passed
               in BasicIo instance through the auto-pointer. Callers should not
               continue to use the BasicIo instance after it is passed to this method.
-              Use theImage::io() method to get a temporary reference.
+              Use the Image::io() method to get a temporary reference.
           @return An auto-pointer that owns an Image instance whose type 
               matches that of the \em io data. If no image type could be
               determined, the pointer is 0.
+          @throw Error If opening the BasicIo fails
          */
         static Image::AutoPtr open(BasicIo::AutoPtr io);
         /*!
@@ -336,11 +338,11 @@ namespace Exiv2 {
               contains data, it will be overwritten.
           @param type Type of the image to be created.
           @param io An auto-pointer that owns a BasicIo instance that will
-              be written to when creating a new image. \b Important: This
-              method takes ownership of the passed in BasicIo instance through
-              the auto-pointer. Callers should not continue to use the BasicIo
-              instance after it is passed to this method.  Use theImage::io()
-              method to get a temporary reference.
+              be written to when creating a new image. 
+          @note This method takes ownership of the passed in BasicIo instance
+              through the auto-pointer. Callers should not continue to use the 
+              BasicIo instance after it is passed to this method.  Use the 
+              Image::io() method to get a temporary reference.
           @return An auto-pointer that owns an Image instance of the requested
               type. If the image type is not supported, the pointer is 0.
          */

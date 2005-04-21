@@ -163,7 +163,7 @@ namespace Exiv2 {
                 throw Error(10, path_, "w+b", strError());
             }
             if (src.open() != 0) {
-                throw Error(9, strError());
+                throw Error(9, src.path(), strError());
             }
             write(src);
             src.close();
@@ -305,6 +305,10 @@ namespace Exiv2 {
         return feof(fp_) != 0;
     }
 
+    std::string FileIo::path() const
+    {
+        return path_;
+    }
 
     MemIo::MemIo(const byte* data, long size)
     {
@@ -349,7 +353,9 @@ namespace Exiv2 {
             // Generic reopen to reset position to start
             data_.clear();
             idx_ = 0;
-            if (src.open() != 0) throw Error(9, strError());
+            if (src.open() != 0) {
+                throw Error(9, src.path(), strError());
+            }
             write(src);
             src.close();    
         }
@@ -459,6 +465,11 @@ namespace Exiv2 {
     bool MemIo::eof() const
     {
         return idx_ == data_.size();
+    }
+
+    std::string MemIo::path() const
+    {
+        return "MemIo";
     }
 
 }                                       // namespace Exiv2

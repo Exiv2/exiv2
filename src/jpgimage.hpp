@@ -235,9 +235,7 @@ namespace Exiv2 {
                 writing all buffered metadata to the provided BasicIo. 
           @param oIo BasicIo instance to write to (a temporary location).
 
-          @throw Error if reading from input file failed, the output file
-                can not be written to, or the input file does not contain 
-                a valid image.
+          @return 4 if opening or writing to the associated BasicIo fails
          */
         void doWriteMetadata(BasicIo& oIo);
 

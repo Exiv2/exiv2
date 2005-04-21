@@ -58,7 +58,7 @@ try {
 
     FileIo fileIn(argv[1]);
     if (fileIn.open() != 0) {
-        throw Error(9, strError());
+        throw Error(9, fileIn.path(), strError());
     }
 
     FileIo fileOut1(argv[2]);
@@ -139,7 +139,7 @@ int WriteReadSeek(BasicIo &io)
     const long len2 = (long)strlen(tester2) + 1;
 
     if (io.open() != 0) {
-        throw Error(9, strError());
+        throw Error(9, io.path(), strError());
     }
     IoCloser closer(io);
     if (io.write((byte*)tester1, len1) != len1) {
@@ -202,7 +202,7 @@ int WriteReadSeek(BasicIo &io)
 
     // open should seek to beginning
     if (io.open() != 0)  {
-        throw Error(9, strError());
+        throw Error(9, io.path(), strError());
     }
     memset(buf, -1, sizeof(buf));
     if (io.read(buf, sizeof(buf)) != insert + len2) {

@@ -195,6 +195,12 @@ namespace Exiv2 {
         //!Returns true if the IO position has reach the end, otherwise false.
         virtual bool eof() const = 0;
         /*!
+          @brief Return the path to the IO resource. Often used to form
+              comprehensive error messages where only a BasicIo instance is
+              available.
+         */
+        virtual std::string path() const =0;
+        /*!
           @brief Returns a temporary data storage location. This is often
               needed to rewrite an IO source. 
 
@@ -404,12 +410,14 @@ namespace Exiv2 {
                  -1 if failure;
          */
         virtual long size() const;
-        //!Returns true if the file is open, otherwise false.
+        //! Returns true if the file is open, otherwise false.
         virtual bool isopen() const;
-        //!Returns 0 if the file is in a valid state, otherwise nonzero.
+        //! Returns 0 if the file is in a valid state, otherwise nonzero.
         virtual int error() const;
-        //!Returns true if the file position has reach the end, otherwise false.
+        //! Returns true if the file position has reach the end, otherwise false.
         virtual bool eof() const;
+        //! Returns the path of the file
+        virtual std::string path() const;
         /*!
           @brief Returns a temporary data storage location. The actual type
               returned depends upon the size of the file represented a FileIo
@@ -590,6 +598,8 @@ namespace Exiv2 {
         virtual int error() const;
         //!Returns true if the IO position has reach the end, otherwise false.
         virtual bool eof() const;
+        //! Returns a dummy path, indicating that memory access is used
+        virtual std::string path() const;
         /*!
           @brief Returns a temporary data storage location. Currently returns
               an empty MemIo object, but callers should not rely on this

@@ -115,7 +115,7 @@ namespace Exiv2 {
     Image::AutoPtr ImageFactory::open(const std::string& path)
     {
         BasicIo::AutoPtr io(new FileIo(path));
-        Image::AutoPtr image(open(io));
+        Image::AutoPtr image = open(io); // may throw
         if (image.get() == 0) throw Error(11, path);
         return image;
     }
@@ -123,20 +123,20 @@ namespace Exiv2 {
     Image::AutoPtr ImageFactory::open(const byte* data, long size)
     {
         BasicIo::AutoPtr io(new MemIo(data, size));
-        Image::AutoPtr image(open(io));
+        Image::AutoPtr image = open(io); // may throw
         if (image.get() == 0) throw Error(12);
         return image;
     }
 
     Image::AutoPtr ImageFactory::open(BasicIo::AutoPtr io)
     {
+        if (io->open() != 0) {
+            throw Error(9, io->path(), strError());
+        }
         Image::AutoPtr image;
-        if (io->open() != 0) return image;
-        IoCloser closer(*io);
         Registry::const_iterator b = registry_->begin();
         Registry::const_iterator e = registry_->end();
-        for (Registry::const_iterator i = b; i != e; ++i)
-        {
+        for (Registry::const_iterator i = b; i != e; ++i) {
             if (i->second.isThisType(*io, false)) {
                 image = i->second.newInstance(io, false);
                 break;
@@ -155,7 +155,7 @@ namespace Exiv2 {
         }
         fileIo->close();
         BasicIo::AutoPtr io(fileIo);
-        Image::AutoPtr image(create(type, io));
+        Image::AutoPtr image = create(type, io);
         if (image.get() == 0) throw Error(13, type);
         return image;
     }
@@ -163,7 +163,7 @@ namespace Exiv2 {
     Image::AutoPtr ImageFactory::create(Image::Type type)
     {
         BasicIo::AutoPtr io(new MemIo);
-        Image::AutoPtr image(create(type, io));
+        Image::AutoPtr image = create(type, io);
         if (image.get() == 0) throw Error(13, type);
         return image;
     }
