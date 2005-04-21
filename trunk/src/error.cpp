@@ -52,7 +52,7 @@ namespace Exiv2 {
         ErrMsg(  6, "Invalid key `%1'"), // %1=key
         ErrMsg(  7, "Invalid tag name or ifdId `%1', ifdId %2"), // %1=tag name, %2=ifdId
         ErrMsg(  8, "Value not set"), 
-        ErrMsg(  9, "Failed to open the data source: %1"), // %1=strerror
+        ErrMsg(  9, "%1: Failed to open the data source: %2"), // %1=path, %2=strerror
         ErrMsg( 10, "%1: Failed to open file (%2): %3"), // %1=path, %2=mode, %3=strerror
         ErrMsg( 11, "%1: The file contains data of an unknown image type"), // %1=path
         ErrMsg( 12, "The memory contains data of an unknown image type"),

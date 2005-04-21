@@ -86,7 +86,7 @@ namespace Exiv2 {
         : io_(io)
     {
         if (create) {
-            initImage(initData, dataSize); // may throw
+            initImage(initData, dataSize);
         }
     }
 
@@ -171,7 +171,7 @@ namespace Exiv2 {
     void JpegBase::readMetadata()
     {
         if (io_->open() != 0) {
-            throw Error(9, strError());
+            throw Error(9, io_->path(), strError());
         }
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
@@ -298,7 +298,9 @@ namespace Exiv2 {
 
     void JpegBase::writeMetadata()
     {
-        if (io_->open() != 0) throw Error(9, strError());
+        if (io_->open() != 0) {
+            throw Error(9, io_->path(), strError());
+        }
         IoCloser closer(*io_);
         BasicIo::AutoPtr tempIo(io_->temporary()); // may throw
         assert (tempIo.get() != 0);
@@ -574,13 +576,7 @@ namespace Exiv2 {
 
     Image::AutoPtr newJpegInstance(BasicIo::AutoPtr io, bool create)
     {
-        Image::AutoPtr image;
-        if (create) {
-            image = Image::AutoPtr(new JpegImage(io, true));
-        }
-        else {
-            image = Image::AutoPtr(new JpegImage(io, false));
-        }
+        Image::AutoPtr image = Image::AutoPtr(new JpegImage(io, create));
         if (!image->good()) {
             image.reset();
         }
@@ -654,8 +650,8 @@ namespace Exiv2 {
         iIo.read(tmpBuf, 7);
         if (iIo.error() || iIo.eof()) return false;
 
-        if (0xff!=tmpBuf[0] || 0x01!=tmpBuf[1] || 
-                    memcmp(tmpBuf + 2, ExvImage::exiv2Id_, 5) != 0) {
+        if (   0xff != tmpBuf[0] || 0x01 != tmpBuf[1] 
+            || memcmp(tmpBuf + 2, ExvImage::exiv2Id_, 5) != 0) {
             result = false;
         }
         if (!advance || !result ) iIo.seek(-7, BasicIo::cur);
