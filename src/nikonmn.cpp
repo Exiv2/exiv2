@@ -635,7 +635,7 @@ namespace Exiv2 {
     {
         // Decoded by Robert Rottmerhusen <email@rottmerhusen.com>
         if (value.size() != 4) return os << "(" << value << ")";
-        float a = value.toLong(0);
+        float a = value.toFloat(0);
         long  b = value.toLong(1);
         long  c = value.toLong(2);
         if (c == 0) return os << "(" << value << ")";
