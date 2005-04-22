@@ -45,6 +45,7 @@ EXIV2_RCSID("@(#) $Id$");
 #include "error.hpp"
 
 // + standard includes
+#include <string>
 #include <cassert>
 #include <cstdio>                       // for remove()
 #include <sys/types.h>                  // for stat()
@@ -94,33 +95,65 @@ namespace Exiv2 {
         return basicIo;
     }
 
-    long FileIo::write(const byte* data, long wcount )
+    int FileIo::switchMode(OpMode opMode)
     {
         assert(fp_ != 0);
+        if (opMode_ == opMode) return 0;
 
-        // ANSI C requires a flush or seek when switching
-        // between read and write modes. 
-        if (opMode_ == opRead) {
-            // on msvcrt fflush does not do the job
-            fseek(fp_, 0, SEEK_CUR);
+        bool reopen = true;
+        std::string mode = "r+b";
+
+        switch(opMode) {
+        case opRead:
+            // Flush if current mode allows reading, else reopen (in mode "r+b"
+            // as in this case we know that we can write to the file)
+            if (   openMode_[0] == 'r' 
+                || openMode_.substr(0, 2) == "w+" 
+                || openMode_.substr(0, 2) == "a+") reopen = false;
+            break;
+        case opWrite:
+            // Flush if current mode allows writing, else reopen
+            if (   openMode_.substr(0, 2) == "r+" 
+                || openMode_[0] == 'w'
+                || openMode_[0] == 'a') reopen = false;
+            break;
+        case opSeek:
+            reopen = false;
+            break;
         }
-        opMode_ = opWrite;
+
+        if (!reopen) {
+            // Don't do anything when switching _from_ opSeek mode; we
+            // flush when switching _to_ opSeek.
+            if (opMode_ == opSeek) return 0;
+
+            // Flush. On msvcrt fflush does not do the job
+            fseek(fp_, 0, SEEK_CUR);
+            opMode_ = opMode;
+            return 0;
+        }
+
+        // Reopen the file
+        long offset = ftell(fp_);
+        if (offset == -1) return -1;
+        if (open(mode) != 0) return 1;
+        opMode_ = opMode;
+        return fseek(fp_, offset, SEEK_SET);
+    }
+
+    long FileIo::write(const byte* data, long wcount)
+    {
+        assert(fp_ != 0);
+        if (switchMode(opWrite) != 0) return 0;
         return (long)fwrite(data, 1, wcount, fp_);
     }
 
     long FileIo::write(BasicIo& src)
     {
         assert(fp_ != 0);
-        if (static_cast<BasicIo*>(this)==&src) return 0;
+        if (static_cast<BasicIo*>(this) == &src) return 0;
         if (!src.isopen()) return 0;
-
-        // ANSI C requires a flush or seek when switching
-        // between read and write modes. 
-        if (opMode_ == opRead) {
-            // on msvcrt fflush does not do the job
-            fseek(fp_, 0, SEEK_CUR);
-        }
-        opMode_ = opWrite;
+        if (switchMode(opWrite) != 0) return 0;
 
         byte buf[4096];
         long readCount = 0;
@@ -182,11 +215,7 @@ namespace Exiv2 {
     int FileIo::putb(byte data)
     {
         assert(fp_ != 0);
-        if (opMode_ == opRead) {
-            // on msvcrt fflush does not do the job
-            fseek(fp_, 0, SEEK_CUR);
-        }
-        opMode_ = opWrite;
+        if (switchMode(opWrite) != 0) return EOF;
         return putc(data, fp_);
     }
     
@@ -218,6 +247,10 @@ namespace Exiv2 {
 
     long FileIo::size() const
     {
+#if defined WIN32 && !defined __CYGWIN__
+        // On msvcrt stat only works if the file is not open, or so it seems
+        assert(fp_ == 0);
+#endif
         if (fp_ != 0) {
             fflush(fp_);
         }
@@ -230,8 +263,8 @@ namespace Exiv2 {
 
     int FileIo::open()
     {
-        // Default open is in read-write binary mode
-        return open("r+b");
+        // Default open is in read-only binary mode
+        return open("rb");
     }
 
     int FileIo::open(const std::string& mode)
@@ -273,24 +306,14 @@ namespace Exiv2 {
     long FileIo::read(byte* buf, long rcount)
     {
         assert(fp_ != 0);
-        
-        if (opMode_ == opWrite) {
-            // on msvcrt fflush does not do the job
-            fseek(fp_, 0, SEEK_CUR);
-        }
-        opMode_ = opRead;
+        if (switchMode(opRead) != 0) return 0;
         return (long)fread(buf, 1, rcount, fp_);
     }
 
     int FileIo::getb()
     {
         assert(fp_ != 0);
-        
-        if (opMode_ == opWrite) {
-            // on msvcrt fflush does not do the job
-            fseek(fp_, 0, SEEK_CUR);
-        }
-        opMode_ = opRead;
+        if (switchMode(opRead) != 0) return EOF;
         return getc(fp_);
     }
 

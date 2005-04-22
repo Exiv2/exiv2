@@ -295,7 +295,7 @@ namespace Exiv2 {
          */
         int open(const std::string& mode);
         /*!
-          @brief Open the file using using the default access mode of "r+b".
+          @brief Open the file using using the default access mode of "rb".
               This method can also be used to "reopen" a file which will flush
               any unwritten data and reset the IO position to the start.
           @return 0 if successful;<BR>
@@ -406,6 +406,8 @@ namespace Exiv2 {
         /*!
           @brief Flush any buffered writes and get the current file size
               in bytes. 
+          @note On Win32 systems the file must be closed prior to calling this
+              function.
           @return Size of the file in bytes;<BR>
                  -1 if failure;
          */
@@ -445,6 +447,16 @@ namespace Exiv2 {
         std::string openMode_;
         FILE *fp_;
         OpMode opMode_;
+
+        // METHODS
+        /*!
+          @brief Switch to a new access mode, reopening the file if needed.
+              Optimized to only reopen the file when it is really necessary.
+          @param opMode The mode to switch to. 
+          @return 0 if successful
+         */
+        int switchMode(OpMode opMode);
+
     }; // class FileIo
 
     /*!
@@ -622,7 +634,7 @@ namespace Exiv2 {
         ByteVector data_;
         ByteVector::size_type idx_;
 
-        //METHODS
+        // METHODS
         void checkSize(long wcount);
     }; // class MemIo    
 }                                       // namespace Exiv2

@@ -93,6 +93,12 @@ diff iii kkk
 
 ) > $results 2>&1
 
+if [ `../config/config.guess` = "i686-pc-mingw32" ] ; then
+    sed 's,\\,/,g' $results > ${results}-new
+    mv -f ${results}-new $results
+    unix2dos -q $results
+fi
+
 diff -q -w $diffargs $results $good
 rc=$?
 if [ $rc -eq 0 ] ; then

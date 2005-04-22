@@ -73,6 +73,11 @@ try {
     memIo1.seek(0, BasicIo::beg);
     fileOut1.write(memIo1);
 
+    // On Win32 files must be closed before stat
+    memIo1.close();
+    fileIn.close();
+    fileOut1.close();
+
     // Make sure they are all the same size
     if(fileIn.size() != memIo1.size() || memIo1.size() != fileOut1.size()) {
         std::cerr << argv[0] << 
@@ -97,7 +102,10 @@ try {
     if (rc != 0) return rc;
     
     // Another test of reading and writing
-    fileOut1.seek(0, BasicIo::beg);
+    if (fileOut1.open() != 0)  {
+        throw Error(9, fileOut1.path(), strError());
+    }
+
     memIo2.seek(0, BasicIo::beg);
     FileIo fileOut2(argv[3]);
     if (fileOut2.open("w+b") != 0) {
@@ -146,13 +154,18 @@ int WriteReadSeek(BasicIo &io)
         std::cerr << ": WRS initial write failed\n";
         return 2;
     }
-    
+
+    // On Win32 files must be closed before stat    
+    io.close();
+
     if (io.size() != len1) {
         std::cerr << ": WRS size is not " << len1 << "\n";
         return 2;
     }
 
-    io.seek(-len1, BasicIo::cur);
+    if (io.open() != 0)  {
+        throw Error(9, io.path(), strError());
+    }
 
     int c = EOF;
     memset(buf, -1, sizeof(buf));
