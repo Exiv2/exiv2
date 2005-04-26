@@ -28,9 +28,6 @@
 #include "rcsid.hpp"
 EXIV2_RCSID("@(#) $Id$");
 
-// Define DEBUG_MAKERNOTE to output debug information to std::cerr
-#undef DEBUG_MAKERNOTE
-
 // *****************************************************************************
 // included header files
 #ifdef _MSC_VER
@@ -55,6 +52,10 @@ EXIV2_RCSID("@(#) $Id$");
 #endif
 #ifdef EXV_HAVE_UNISTD_H
 # include <unistd.h>                    // for getpid, stat
+#endif
+
+#if defined WIN32 && !defined __CYGWIN__
+# include <io.h>
 #endif
 
 // *****************************************************************************
@@ -99,6 +100,8 @@ namespace Exiv2 {
     {
         assert(fp_ != 0);
         if (opMode_ == opMode) return 0;
+        OpMode oldOpMode = opMode_;
+        opMode_ = opMode;
 
         bool reopen = true;
         std::string mode = "r+b";
@@ -125,11 +128,10 @@ namespace Exiv2 {
         if (!reopen) {
             // Don't do anything when switching _from_ opSeek mode; we
             // flush when switching _to_ opSeek.
-            if (opMode_ == opSeek) return 0;
+            if (oldOpMode == opSeek) return 0;
 
             // Flush. On msvcrt fflush does not do the job
             fseek(fp_, 0, SEEK_CUR);
-            opMode_ = opMode;
             return 0;
         }
 
@@ -137,7 +139,6 @@ namespace Exiv2 {
         long offset = ftell(fp_);
         if (offset == -1) return -1;
         if (open(mode) != 0) return 1;
-        opMode_ = opMode;
         return fseek(fp_, offset, SEEK_SET);
     }
 
@@ -233,8 +234,8 @@ namespace Exiv2 {
             assert(pos == BasicIo::end);
             fileSeek = SEEK_END;
         }
-        
-        opMode_ = opSeek;
+
+        if (switchMode(opSeek) != 0) return 1;
         return fseek(fp_, offset, fileSeek);
     }
         
@@ -247,13 +248,14 @@ namespace Exiv2 {
 
     long FileIo::size() const
     {
-#if defined WIN32 && !defined __CYGWIN__
-        // On msvcrt stat only works if the file is not open, or so it seems
-        assert(fp_ == 0);
-#endif
         if (fp_ != 0) {
             fflush(fp_);
+#if defined WIN32 && !defined __CYGWIN__
+            // This is required on msvcrt before stat after writing to a file
+            _commit(_fileno(fp_));
+#endif
         }
+
         struct stat buf;
         int ret = stat(path_.c_str(), &buf);
         
