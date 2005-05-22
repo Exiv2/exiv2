@@ -192,6 +192,7 @@ void Params::help(std::ostream& os) const
        << "   -V      Show the program version and exit.\n"
        << "   -v      Be verbose during the program run.\n"
        << "   -f      Do not prompt before overwriting existing files (force).\n"
+       << "   -F      Do not prompt before renaming existing files (Force).\n"
        << "   -a time Time adjustment in the format [-]HH[:MM[:SS]]. This option\n"
        << "           is only used with the `adjust' action.\n"
        << "   -p mode Print mode for the `print' action. Possible modes are:\n"
@@ -229,7 +230,8 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     case 'h': help_ = true; break;
     case 'V': version_ = true; break;
     case 'v': verbose_ = true; break;
-    case 'f': force_ = true; break;
+    case 'f': force_ = true; fileExistsPolicy_ = overwritePolicy; break;
+    case 'F': force_ = true; fileExistsPolicy_ = renamePolicy; break;
     case 'r': rc = evalRename(optarg); break;
     case 'a': rc = evalAdjust(optarg); break;
     case 'p': rc = evalPrint(optarg); break;
