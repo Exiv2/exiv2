@@ -124,12 +124,15 @@ public:
     enum PrintMode { pmSummary, pmInterpreted, pmValues, pmHexdump, pmIptc, 
                      pmComment };
     //! Enumerates common targets, bitmap
-    enum commonTarget { ctExif = 1, ctIptc = 2, ctComment = 4, ctThumb = 8 };
+    enum CommonTarget { ctExif = 1, ctIptc = 2, ctComment = 4, ctThumb = 8 };
+    //! Enumerates the policies to handle existing files in rename action
+    enum FileExistsPolicy { overwritePolicy, renamePolicy, askPolicy };
 
     bool help_;                         //!< Help option flag.
     bool version_;                      //!< Version option flag.
     bool verbose_;                      //!< Verbose (talkative) option flag.
     bool force_;                        //!< Force overwrites flag. 
+    FileExistsPolicy fileExistsPolicy_; //!< What to do if file to rename exists.
     bool adjust_;                       //!< Adjustment flag.
     PrintMode printMode_;               //!< Print mode. 
     //! %Action (integer rather than TaskType to avoid dependency).
@@ -149,11 +152,12 @@ private:
       @brief Default constructor. Note that optstring_ is initialized here.
              The c'tor is private to force instantiation through instance().
      */
-    Params() : optstring_(":hVvfa:r:p:d:e:i:m:M:l:"),
+    Params() : optstring_(":hVvfFa:r:p:d:e:i:m:M:l:"),
                help_(false), 
                version_(false),
                verbose_(false), 
                force_(false), 
+               fileExistsPolicy_(askPolicy),
                adjust_(false),
                printMode_(pmSummary),
                action_(0),

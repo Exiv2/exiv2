@@ -660,16 +660,57 @@ namespace Action {
             }
             return 0;
         }
+
+        bool go = true;
+        int seq = 1;
+        std::string s;
+        Params::FileExistsPolicy fileExistsPolicy 
+            = Params::instance().fileExistsPolicy_;
+        while (go) {
+            if (Exiv2::fileExists(newPath)) {
+                switch (fileExistsPolicy) {
+                case Params::overwritePolicy:
+                    go = false;
+                    break;
+                case Params::renamePolicy:
+                    newPath = Util::dirname(path) 
+                        + EXV_SEPERATOR_STR + basename 
+                        + "_" + Exiv2::toString(seq++)
+                        + Util::suffix(path);
+                    break;
+                case Params::askPolicy: 
+                    std::cout << Params::instance().progname() 
+                              << ": File `" << newPath 
+                              << "' exists. [O]verwrite, [r]ename or [s]kip? ";
+                    std::cin >> s;
+                    switch (s[0]) {
+                    case 'o':
+                    case 'O':
+                        go = false;
+                        break;
+                    case 'r':
+                    case 'R':
+                        fileExistsPolicy = Params::renamePolicy; 
+                        newPath = Util::dirname(path) 
+                            + EXV_SEPERATOR_STR + basename 
+                            + "_" + Exiv2::toString(seq++)
+                            + Util::suffix(path);
+                        break;
+                    default: // skip
+                        return 0;
+                        break;
+                    }
+                }
+            }
+            else {
+                go = false;
+            }
+        }
+
         if (Params::instance().verbose_) {
             std::cout << "Renaming file to " << newPath << std::endl;
         }
-        if (!Params::instance().force_ && Exiv2::fileExists(newPath)) {
-            std::cout << Params::instance().progname() 
-                      << ": Overwrite `" << newPath << "'? ";
-            std::string s;
-            std::cin >> s;
-            if (s[0] != 'y' && s[0] != 'Y') return 0;
-        }
+
         // Workaround for MinGW rename which does not overwrite existing files
         remove(newPath.c_str());
         if (::rename(path.c_str(), newPath.c_str()) == -1) {
