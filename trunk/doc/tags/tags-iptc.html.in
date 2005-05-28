@@ -1,0 +1,20 @@
+__doctype__
+<html>
+__header2__
+<body>
+
+<div id="content">
+__maintitle__
+<h2>Iptc datasets defined in Exiv2</h2>
+
+<p>Datasets are defined according to the specification of the Iptc 
+<a href="http://www.iptc.org/IIM/">Information Interchange Model (IIM)</a>.</p>
+
+<p>Click on a column header to sort the table.</p>
+
+__Iptc__
+</div>
+<!-- closes content -->
+
+</body>
+</html>

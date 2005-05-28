@@ -1,0 +1,18 @@
+__doctype__
+<html>
+__header2__
+<body>
+
+<div id="content">
+__maintitle__
+<h2>Olympus MakerNote Tags defined in Exiv2</h2>
+<div>
+<p>Tags found in the MakerNote of images taken with Olympus cameras.</p> 
+<p>Click on a column header to sort the table.</p>
+</div>
+__Olympus__
+</div>
+<!-- closes content -->
+
+</body>
+</html>

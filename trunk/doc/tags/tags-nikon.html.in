@@ -1,0 +1,35 @@
+__doctype__
+<html>
+__header2__
+<body>
+
+<div id="content">
+__maintitle__
+<p>There are three different Nikon MakerNote formats. Exiv2 will automatically detect the correct format for the Exif data from a particular Nikon camera model.</p>
+<h2>Nikon (format 1) MakerNote Tags defined in Exiv2</h2>
+<div>
+<p>Tags found in the MakerNote of images taken with Nikon cameras, such as the E990 and D1. These tags are defined by Exiv2 in accordance with <a href="makernote.html#R3">[3]</a>.</p>
+<p>Click on a column header to sort the table.</p>
+</div>
+__Nikon1__
+<br>
+
+<h2>Nikon (format 2) MakerNote Tags defined in Exiv2</h2>
+<div>
+<p>Tags found in the MakerNote of images taken with Nikon cameras, including the E700, E800, E900, E900S, E910, E950. These tags are defined by Exiv2 in accordance with <a href="makernote.html#R1">[1]</a>.</p>
+<p>Click on a column header to sort the table.</p>
+</div>
+__Nikon2__
+<br>
+
+<h2>Nikon (format 3) MakerNote Tags defined in Exiv2</h2>
+<div>
+<p>Tags found in the MakerNote of images taken with newer Nikon cameras, e.g., the E5400, SQ, D2H, D70.</p>
+<p>Click on a column header to sort the table.</p>
+</div>
+__Nikon3__
+</div>
+<!-- closes content -->
+
+</body>
+</html>
