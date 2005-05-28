@@ -1,28 +1,13 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>                   <!--*- sgml -*-->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-<xsl:output method="html" version="4.01" encoding="iso-8859-1" 
-doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
+<xsl:output method="html" />
 
 <!-- *********************************************************************** -->
 <xsl:template match="TAGLIST">
-<html>
-<head>
-  <title>Exiv2 - Exif and Iptc metadata manipulation library and tools</title>
-  <link type="text/css" rel="stylesheet" href="include/sortabletable.css" />
-  <script type="text/javascript" src="include/sortabletable.js"></script>
-</head>
-<body>
-
-<h1>Exif and Iptc metadata manipulation library and tools</h1>
 
 <!-- content generated from XML -->
-<xsl:call-template name="header" />
 <xsl:call-template name="report-table" />
 
-<br />
-
-</body>
-</html>
 </xsl:template>
 
 <!-- *********************************************************************** -->
@@ -58,10 +43,6 @@ doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
     <col />
     <col />
     <col />
-    <col align="center" />
-    <col align="center" />
-    <col align="right" />
-    <col align="right" />
     <col />
   </colgroup>
 </xsl:template>
@@ -71,13 +52,9 @@ doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
   <tr>
     <th>Tag (hex)</th>
     <th>Tag (dec)</th>
-    <th>Record</th>
+    <th>IFD</th>
     <th>Key</th>
     <th>Type</th>
-    <th><abbr title="Mandatory">M.</abbr></th>
-    <th><abbr title="Repeatable">R.</abbr></th>
-    <th>Min. bytes</th>
-    <th>Max. bytes</th>
     <th>Tag description</th>
   </tr>
 </xsl:template>
@@ -102,37 +79,9 @@ doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
   <tr><xsl:attribute name="class"><xsl:value-of select="$rowClass" /></xsl:attribute>
     <td><xsl:value-of select="taghex" /></td>
     <td><xsl:value-of select="tagdec" /></td>
-    <td><xsl:value-of select="recname" /></td>
+    <td><xsl:value-of select="ifd" /></td>
     <td><xsl:value-of select="key" /></td>
     <td><xsl:value-of select="type" /></td>
-    <td>
-      <xsl:choose>
-        <xsl:when test="mandatory = 'true'">
-          <xsl:text>Yes</xsl:text>
-        </xsl:when>
-        <xsl:when test="mandatory = 'false'">
-          <xsl:text>No</xsl:text>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:value-of select="mandatory" />
-        </xsl:otherwise>
-      </xsl:choose>
-    </td>
-    <td>
-      <xsl:choose>
-        <xsl:when test="repeatable = 'true'">
-          <xsl:text>Yes</xsl:text>
-        </xsl:when>
-        <xsl:when test="repeatable = 'false'">
-          <xsl:text>No</xsl:text>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:value-of select="repeatable" />
-        </xsl:otherwise>
-      </xsl:choose>
-    </td>
-    <td><xsl:value-of select="minbytes" /></td>
-    <td><xsl:value-of select="maxbytes" /></td>
     <td><xsl:value-of select="tagdesc" /></td>
   </tr>
 </xsl:template>
@@ -143,7 +92,7 @@ doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
   //<![CDATA[
   var t1 = new SortableTable(
     document.getElementById("report-1"),
-    ["String", "Number", "String", "String", "String", "String", "String", "Number", "Number", "String"]
+    ["String", "Number", "String", "String", "String", "String"]
   );
   t1.onsort = function () { 
 	var rows = t1.tBody.rows;
@@ -154,7 +103,7 @@ doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
 	}
   };
   //]]>
-  </script>
+</script>
 </xsl:template>
 
 <!-- *********************************************************************** -->

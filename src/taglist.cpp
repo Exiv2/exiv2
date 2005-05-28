@@ -29,6 +29,12 @@ try {
     case 2:
     {
         std::string item(argv[1]);
+
+        if (item == "Exif") {
+            ExifTags::taglist(std::cout);
+            break;
+        }
+
         if (item == "Iptc") {
             IptcDataSets::dataSetList(std::cout);
             break;
@@ -52,7 +58,7 @@ try {
     }
     if (rc) {
         std::cout << "Usage: " << argv[0] 
-                  << " [Canon|Fujifilm|Nikon1|Nikon2|Nikon3|Olympus|Sigma|Sony|Iptc]\n"
+                  << " [Exif|Canon|CanonCs1|CanonCs2|CanonCf|Fujifilm|Nikon1|Nikon2|Nikon3|Olympus|Sigma|Sony|Iptc]\n"
                   << "Print Exif tags, MakerNote tags, or Iptc datasets\n";
     }
     return rc;

@@ -48,14 +48,14 @@
 
   @section metadata Supported Exif and MakerNote tags and Iptc datasets
 
-  - <A HREF="../tags.xml">Standard Exif tags</A>
-  - <A HREF="../tags-canon.xml">Canon MakerNote tags</A>
-  - <A HREF="../tags-fujifilm.xml">Fujifilm MakerNote tags</A>
-  - <A HREF="../tags-nikon1.xml">Nikon (format 1) MakerNote tags</A>
-  - <A HREF="../tags-nikon2.xml">Nikon (format 2) MakerNote tags</A>
-  - <A HREF="../tags-nikon3.xml">Nikon (format 3) MakerNote tags</A>
-  - <A HREF="../tags-sigma.xml">Sigma/Foveon MakerNote tags</A>
-  - <A HREF="../iptc.xml">Iptc datasets</A>
+  - <A HREF="../tags-exif.html">Standard Exif tags</A>
+  - <A HREF="../tags-canon.html">Canon MakerNote tags</A>
+  - <A HREF="../tags-fujifilm.html">Fujifilm MakerNote tags</A>
+  - <A HREF="../tags-nikon.html">Nikon MakerNote tags</A>
+  - <A HREF="../tags-olympus.html">Olympus MakerNote tags</A>
+  - <A HREF="../tags-sigma.html">Sigma/Foveon MakerNote tags</A>
+  - <A HREF="../tags-sony.html">Sony MakerNote tags</A>
+  - <A HREF="../tags-iptc.html">Iptc datasets</A>
 
   @section makernote MakerNote Formats and Specifications
 
