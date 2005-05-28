@@ -52,7 +52,16 @@ EXIV2_RCSID("@(#) $Id$");
 // class member definitions
 namespace Exiv2 {
 
-    const Nikon1MakerNote::RegisterMakerNote Nikon1MakerNote::register_;
+    //! @cond IGNORE
+    Nikon1MakerNote::RegisterMn::RegisterMn()
+    {
+        MakerNoteFactory::registerMakerNote("NIKON*", "*", createNikonMakerNote);
+        MakerNoteFactory::registerMakerNote(
+            nikon1IfdId, MakerNote::AutoPtr(new Nikon1MakerNote));
+
+        ExifTags::registerMakerTagInfo(nikon1IfdId, tagInfo_);
+    }
+    //! @endcond
 
     // Nikon1 MakerNote Tag Info
     const TagInfo Nikon1MakerNote::tagInfo_[] = {
@@ -189,7 +198,15 @@ namespace Exiv2 {
         return os;
     }
 
-    const Nikon2MakerNote::RegisterMakerNote Nikon2MakerNote::register_;
+    //! @cond IGNORE
+    Nikon2MakerNote::RegisterMn::RegisterMn()
+    {
+        MakerNoteFactory::registerMakerNote(
+            nikon2IfdId, MakerNote::AutoPtr(new Nikon2MakerNote));
+
+        ExifTags::registerMakerTagInfo(nikon2IfdId, tagInfo_);
+    }
+    //! @endcond
 
     // Nikon2 MakerNote Tag Info
     const TagInfo Nikon2MakerNote::tagInfo_[] = {
@@ -364,7 +381,15 @@ namespace Exiv2 {
         return os;
     }
 
-    const Nikon3MakerNote::RegisterMakerNote Nikon3MakerNote::register_;
+    //! @cond IGNORE
+    Nikon3MakerNote::RegisterMn::RegisterMn()
+    {
+        MakerNoteFactory::registerMakerNote(
+            nikon3IfdId, MakerNote::AutoPtr(new Nikon3MakerNote));
+
+        ExifTags::registerMakerTagInfo(nikon3IfdId, tagInfo_);
+    }
+    //! @endcond
 
     // Nikon3 MakerNote Tag Info
     const TagInfo Nikon3MakerNote::tagInfo_[] = {

@@ -37,6 +37,7 @@ EXIV2_RCSID("@(#) $Id$");
 #include "ifd.hpp"
 #include "value.hpp"
 #include "makernote.hpp"
+#include "mn.hpp"                // To ensure that all makernotes are registered
 
 #include <iostream>
 #include <iomanip>
@@ -71,7 +72,6 @@ namespace Exiv2 {
         IfdInfo(nikon1IfdId, "Makernote", "Nikon1"),
         IfdInfo(nikon2IfdId, "Makernote", "Nikon2"),
         IfdInfo(nikon3IfdId, "Makernote", "Nikon3"),
-        IfdInfo(nikon3ThumbIfdId, "Makernote", "Nikon3Thumb"),
         IfdInfo(olympusIfdId, "Makernote", "Olympus"),
         IfdInfo(sigmaIfdId, "Makernote", "Sigma"),
         IfdInfo(sonyIfdId, "Makernote", "Sony"),
@@ -545,8 +545,7 @@ namespace Exiv2 {
     {
         IfdId ifdId = ExifTags::ifdIdByIfdItem(ifdItem);
         if (ExifTags::isMakerIfd(ifdId)) {
-            MakerNote::AutoPtr makerNote 
-                = MakerNoteFactory::instance().create(ifdId);
+            MakerNote::AutoPtr makerNote = MakerNoteFactory::create(ifdId);
             if (makerNote.get() == 0) throw Error(23, ifdId);
         }
         tag_ = tag;
@@ -626,8 +625,7 @@ namespace Exiv2 {
         IfdId ifdId = ExifTags::ifdIdByIfdItem(ifdItem);
         if (ifdId == ifdIdNotSet) throw Error(6, key_);
         if (ExifTags::isMakerIfd(ifdId)) {
-            MakerNote::AutoPtr makerNote
-                = MakerNoteFactory::instance().create(ifdId);
+            MakerNote::AutoPtr makerNote = MakerNoteFactory::create(ifdId);
             if (makerNote.get() == 0) throw Error(6, key_);
         }
         // Convert tag

@@ -48,7 +48,7 @@ include $(top_srcdir)/config/config.mk
 # Source files
 
 # Add standalone C++ header files to this list
-CCHDR = exv_conf.h exv_msvc.h rcsid.hpp 
+CCHDR = exv_conf.h exv_msvc.h mn.hpp rcsid.hpp 
 
 # Add library C++ source files to this list
 CCSRC = basicio.cpp canonmn.cpp datasets.cpp error.cpp exif.cpp futils.cpp \
@@ -87,7 +87,7 @@ LIBRARY = libexiv2.la
 # Defines, Includes and Libraries
 CXXDEFS = $(DEFS)
 CXXINCS = $(INCS)
-LDLIBS  = $(LIBS) mn.o $(LIBRARY)
+LDLIBS  = $(LIBS) $(LIBRARY)
 
 # ******************************************************************************
 # ==============================================================================
@@ -146,7 +146,7 @@ endif
 $(OBJ): %.o: %.cpp
 	@$(LIBTOOL) --mode=compile $(CXX) $(CXXFLAGS) $(CXXDEFS) $(CXXINCS) -c $<
 
-$(sort $(BINOBJ) $(EXIV2OBJ) $(MCOBJ) mn.o): %.o: %.cpp
+$(sort $(BINOBJ) $(EXIV2OBJ) $(MCOBJ)): %.o: %.cpp
 	$(CXX) $(CXXFLAGS) $(CXXDEFS) $(CXXINCS) -c $<
 
 %.o: %.c
@@ -179,9 +179,6 @@ actions.cpp exiv2.cpp image.cpp utils.cpp: exv_conf.h
 exv_conf.h: $(top_srcdir)/config/config.h
 	sed 's/#define \([A-Z]\)/#define EXV_\1/; s/#undef \([A-Z]\)/#undef EXV_\1/' < $< > $@
 
-mn.cpp: ./mn.sh
-	./mn.sh
-
 $(LIBTOOL): $(LIBTOOL_DEPS)
 	$(SHELL) $(top_srcdir)/config.status --recheck
 
@@ -194,13 +191,13 @@ lib: $(OBJ)
 path-test: path-test.o utils.o
 	$(CXX) $(CXXFLAGS) path-test.o utils.o -o $@
 
-$(BINARY): %: %.o lib mn.o
+$(BINARY): %: %.o lib
 	@$(LIBTOOL) --mode=link $(CXX) $(CXXFLAGS) $(LDLIBS) $@.o $(LDFLAGS) -o $@ -rpath $(libdir)
 
-$(EXIV2BIN): lib $(EXIV2OBJ) $(EXIV2COBJ) mn.o
+$(EXIV2BIN): lib $(EXIV2OBJ) $(EXIV2COBJ)
 	@$(LIBTOOL) --mode=link $(CXX) $(CXXFLAGS) $(EXIV2OBJ) $(EXIV2COBJ) $(LDLIBS) $(LDFLAGS) -o $@ -rpath $(libdir)
 
-$(MCBIN): lib $(MCOBJ) mn.o
+$(MCBIN): lib $(MCOBJ)
 	@$(LIBTOOL) --mode=link $(CXX) $(CXXFLAGS) $(MCOBJ) $(LDLIBS) $(LDFLAGS) -o $@ -rpath $(libdir)
 
 install-header:
@@ -247,7 +244,8 @@ mostlyclean:
 	$(RM) core
 	$(RM) $(CCSRC:.cpp=.ii)
 	$(RM) lib
-	@$(LIBTOOL) --mode=clean $(RM) $(LOBJ) $(sort $(BINOBJ) $(EXIV2OBJ) $(EXIV2COBJ) $(MCOBJ) mn.o)
+	$(RM) path-test.o
+	@$(LIBTOOL) --mode=clean $(RM) $(LOBJ) $(sort $(BINOBJ) $(EXIV2OBJ) $(EXIV2COBJ) $(MCOBJ))
 
 clean: mostlyclean
 	@$(LIBTOOL) --mode=clean $(RM) $(LIBRARY)
@@ -265,4 +263,3 @@ distclean: clean
 # that may need special tools to rebuild.
 maintainer-clean: uninstall distclean
 	$(RM) $(DEP)
-	$(RM) mn.cpp

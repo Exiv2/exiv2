@@ -51,7 +51,17 @@ EXIV2_RCSID("@(#) $Id$");
 // class member definitions
 namespace Exiv2 {
 
-    const SigmaMakerNote::RegisterMakerNote SigmaMakerNote::register_;
+    //! @cond IGNORE
+    SigmaMakerNote::RegisterMn::RegisterMn()
+    {
+        MakerNoteFactory::registerMakerNote("SIGMA", "*", createSigmaMakerNote); 
+        MakerNoteFactory::registerMakerNote("FOVEON", "*", createSigmaMakerNote);
+        MakerNoteFactory::registerMakerNote(
+            sigmaIfdId, MakerNote::AutoPtr(new SigmaMakerNote));
+
+        ExifTags::registerMakerTagInfo(sigmaIfdId, tagInfo_);
+    }
+    //! @endcond
 
     // Sigma (Foveon) MakerNote Tag Info
     const TagInfo SigmaMakerNote::tagInfo_[] = {

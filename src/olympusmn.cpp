@@ -53,7 +53,17 @@ EXIV2_RCSID("@(#) $Id$");
 // class member definitions
 namespace Exiv2 {
 
-    const OlympusMakerNote::RegisterMakerNote OlympusMakerNote::register_;
+    //! @cond IGNORE
+    OlympusMakerNote::RegisterMn::RegisterMn()
+    {
+        MakerNoteFactory::registerMakerNote(
+            "OLYMPUS*", "*", createOlympusMakerNote); 
+        MakerNoteFactory::registerMakerNote(
+            olympusIfdId, MakerNote::AutoPtr(new OlympusMakerNote));
+
+        ExifTags::registerMakerTagInfo(olympusIfdId, tagInfo_);
+    }
+    //! @endcond
 
     // Olympus Tag Info
     const TagInfo OlympusMakerNote::tagInfo_[] = {

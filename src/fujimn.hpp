@@ -138,6 +138,13 @@ namespace Exiv2 {
         static std::ostream& print0x1031(std::ostream& os, const Value& value);
         //@}
 
+        //! @cond IGNORE
+        // Public only so that we can create a static instance
+        struct RegisterMn {
+            RegisterMn();
+        };
+        //! @endcond
+
     private:
         //! Internal virtual create function.
         FujiMakerNote* create_(bool alloc =true) const;
@@ -147,34 +154,9 @@ namespace Exiv2 {
         //! Tag information
         static const TagInfo tagInfo_[];
 
-        //! Structure used to auto-register the MakerNote.
-        struct RegisterMakerNote {
-            //! Default constructor
-            RegisterMakerNote() 
-            {
-                MakerNoteFactory& mnf = MakerNoteFactory::instance();
-                mnf.registerMakerNote("FUJIFILM", "*", createFujiMakerNote); 
-                mnf.registerMakerNote(fujiIfdId,
-                                      MakerNote::AutoPtr(new FujiMakerNote));
-                ExifTags::registerMakerTagInfo(fujiIfdId, tagInfo_);
-            }
-        };
-        /*!
-          The static member variable is initialized before main (see note) and
-          will in the process register the MakerNote class. (Remember the
-          definition of the variable in the implementation file!)
-
-          @note The standard says that, if no function is explicitly called ever
-                in a module, then that module's static data might be never
-                initialized. This clause was introduced to allow dynamic link
-                libraries. The idea is, with this clause the loader is not
-                forced to eagerly load all modules, but load them only on
-                demand.
-         */
-        static const RegisterMakerNote register_; 
-
     }; // class FujiMakerNote
 
+    static FujiMakerNote::RegisterMn registerFujiMakerNote;
 }                                       // namespace Exiv2
 
 #endif                                  // #ifndef FUJIMN_HPP_

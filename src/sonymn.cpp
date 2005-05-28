@@ -48,7 +48,16 @@ EXIV2_RCSID("@(#) $Id$");
 // class member definitions
 namespace Exiv2 {
 
-    const SonyMakerNote::RegisterMakerNote SonyMakerNote::register_;
+    //! @cond IGNORE
+    SonyMakerNote::RegisterMn::RegisterMn()
+    {
+        MakerNoteFactory::registerMakerNote("SONY", "*", createSonyMakerNote); 
+        MakerNoteFactory::registerMakerNote(
+            sonyIfdId, MakerNote::AutoPtr(new SonyMakerNote));
+        
+        ExifTags::registerMakerTagInfo(sonyIfdId, tagInfo_);
+    }
+    //! @endcond
 
     // Sony MakerNote Tag Info
     const TagInfo SonyMakerNote::tagInfo_[] = {

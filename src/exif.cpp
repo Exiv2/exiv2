@@ -479,16 +479,16 @@ namespace Exiv2 {
         Ifd::iterator model = pIfd0_->findTag(0x0110);
         if (   pos != pExifIfd_->end() 
             && make != pIfd0_->end() && model != pIfd0_->end()) {
-            MakerNoteFactory& mnf = MakerNoteFactory::instance();
             // Todo: The conversion to string assumes that there is a \0 at the end
             // Todo: How to avoid the cast (is that a MSVC thing?)
-            pMakerNote_ = mnf.create(reinterpret_cast<const char*>(make->data()), 
-                                     reinterpret_cast<const char*>(model->data()), 
-                                     false,
-                                     pos->data(), 
-                                     pos->size(),
-                                     byteOrder(),
-                                     pExifIfd_->offset() + pos->offset()).release();
+            pMakerNote_ = MakerNoteFactory::create(
+                              reinterpret_cast<const char*>(make->data()),
+                              reinterpret_cast<const char*>(model->data()),
+                              false,
+                              pos->data(), 
+                              pos->size(),
+                              byteOrder(),
+                              pExifIfd_->offset() + pos->offset()).release();
         }
         // Read the MakerNote
         if (pMakerNote_) {
@@ -738,8 +738,7 @@ namespace Exiv2 {
     {
         if (ExifTags::isMakerIfd(exifdatum.ifdId())) {
             if (pMakerNote_ == 0) {
-                MakerNoteFactory& mnf = MakerNoteFactory::instance();
-                pMakerNote_ = mnf.create(exifdatum.ifdId()).release();
+                pMakerNote_ = MakerNoteFactory::create(exifdatum.ifdId()).release();
             }            
             if (pMakerNote_ == 0) throw Error(23, exifdatum.ifdId());
         }

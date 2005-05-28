@@ -77,7 +77,26 @@ namespace {
 // class member definitions
 namespace Exiv2 {
 
-    const CanonMakerNote::RegisterMakerNote CanonMakerNote::register_;
+    //! @cond IGNORE
+    CanonMakerNote::RegisterMn::RegisterMn()
+    {
+        MakerNoteFactory::registerMakerNote("Canon", "*", createCanonMakerNote); 
+        
+        MakerNoteFactory::registerMakerNote(
+            canonIfdId, MakerNote::AutoPtr(new CanonMakerNote));
+        MakerNoteFactory::registerMakerNote(
+            canonCs1IfdId, MakerNote::AutoPtr(new CanonMakerNote));
+        MakerNoteFactory::registerMakerNote(
+            canonCs2IfdId, MakerNote::AutoPtr(new CanonMakerNote));
+        MakerNoteFactory::registerMakerNote(
+            canonCfIfdId, MakerNote::AutoPtr(new CanonMakerNote));
+        
+        ExifTags::registerMakerTagInfo(canonIfdId, tagInfo_);
+        ExifTags::registerMakerTagInfo(canonCs1IfdId, tagInfoCs1_);
+        ExifTags::registerMakerTagInfo(canonCs2IfdId, tagInfoCs2_);
+        ExifTags::registerMakerTagInfo(canonCfIfdId, tagInfoCf_);
+    }
+    //! @endcond
 
     // Canon MakerNote Tag Info
     const TagInfo CanonMakerNote::tagInfo_[] = {

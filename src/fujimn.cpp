@@ -53,7 +53,16 @@ EXIV2_RCSID("@(#) $Id$");
 // class member definitions
 namespace Exiv2 {
 
-    const FujiMakerNote::RegisterMakerNote FujiMakerNote::register_;
+    //! @cond IGNORE
+    FujiMakerNote::RegisterMn::RegisterMn()
+    {
+        MakerNoteFactory::registerMakerNote("FUJIFILM", "*", createFujiMakerNote);
+        MakerNoteFactory::registerMakerNote(
+            fujiIfdId, MakerNote::AutoPtr(new FujiMakerNote));
+
+        ExifTags::registerMakerTagInfo(fujiIfdId, tagInfo_);
+    }
+    //! @endcond
 
     // Fujifilm MakerNote Tag Info
     const TagInfo FujiMakerNote::tagInfo_[] = {

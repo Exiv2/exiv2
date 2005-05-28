@@ -126,9 +126,6 @@
 			<File
 				RelativePath="..\..\src\addmoddel.cpp">
 			</File>
-			<File
-				RelativePath="..\..\src\mn.cpp">
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
