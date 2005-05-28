@@ -189,6 +189,13 @@ namespace Exiv2 {
         static std::ostream& printCs20x0013(std::ostream& os, const Value& value);
         //@}
 
+        //! @cond IGNORE
+        // Public only so that we can create a static instance
+        struct RegisterMn {
+            RegisterMn();
+        };
+        //! @endcond
+
     private:
         //! @name Manipulators
         //@{
@@ -223,45 +230,9 @@ namespace Exiv2 {
         static const TagInfo tagInfoCs2_[];
         static const TagInfo tagInfoCf_[];
 
-        //! Structure used to auto-register the MakerNote.
-        struct RegisterMakerNote {
-            //! Default constructor
-            RegisterMakerNote() 
-            {
-                MakerNoteFactory& mnf = MakerNoteFactory::instance();
-                mnf.registerMakerNote("Canon", "*", createCanonMakerNote); 
-
-                mnf.registerMakerNote(canonIfdId, 
-                                      MakerNote::AutoPtr(new CanonMakerNote));
-                mnf.registerMakerNote(canonCs1IfdId, 
-                                      MakerNote::AutoPtr(new CanonMakerNote));
-                mnf.registerMakerNote(canonCs2IfdId, 
-                                      MakerNote::AutoPtr(new CanonMakerNote));
-                mnf.registerMakerNote(canonCfIfdId, 
-                                      MakerNote::AutoPtr(new CanonMakerNote));
-
-                ExifTags::registerMakerTagInfo(canonIfdId, tagInfo_);
-                ExifTags::registerMakerTagInfo(canonCs1IfdId, tagInfoCs1_);
-                ExifTags::registerMakerTagInfo(canonCs2IfdId, tagInfoCs2_);
-                ExifTags::registerMakerTagInfo(canonCfIfdId, tagInfoCf_);
-            }
-        };
-        /*!
-          The static member variable is (see note) initialized before main and
-          will in the process register the MakerNote class. (Remember the
-          definition of the variable in the implementation file!)
-
-          @note The standard says that, if no function is explicitly called ever
-                in a module, then that module's static data might be never
-                initialized. This clause was introduced to allow dynamic link
-                libraries. The idea is, with this clause the loader is not
-                forced to eagerly load all modules, but load them only on
-                demand.
-         */
-        static const RegisterMakerNote register_; 
-
     }; // class CanonMakerNote
 
+    static CanonMakerNote::RegisterMn registerCanonMakerNote;
 }                                       // namespace Exiv2
 
 #endif                                  // #ifndef CANONMN_HPP_

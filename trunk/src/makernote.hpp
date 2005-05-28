@@ -88,9 +88,9 @@ namespace Exiv2 {
       See existing makernote implementations for examples, e.g., CanonMakerNote
       or FujiMakerNote.
 
-      Finally, the implementation files should be named *mn.[ch]pp, so that the
-      magic, which ensures that the makernote is automatically registered 
-      in the factory, will pick it up (see mn.sh for details).
+      Finally, the header file which defines the static variable 
+      \em register*MakerNote needs to be included from mn.hpp, to ensure that 
+      the makernote is automatically registered in the factory.
      */
     class MakerNote {
         //! @name Not implemented
@@ -340,19 +340,10 @@ namespace Exiv2 {
       Maintains an associative list (tree) of camera makes/models and
       corresponding %MakerNote create functions. Creates an instance of the
       %MakerNote for one camera make/model. The factory is implemented as a
-      singleton, which can be accessed only through the static member function
-      instance().
+      static class.
     */
     class MakerNoteFactory {
     public:
-        /*!
-          @brief Access the MakerNote factory. Clients access the task factory
-                 exclusively through this method.
-        */
-        static MakerNoteFactory& instance();
-
-        //! @name Manipulators
-        //@{        
         /*!
           @brief Register a %MakerNote create function for a camera make and
                  model.
@@ -371,16 +362,13 @@ namespace Exiv2 {
           @param createMakerNote Pointer to a function to create a new 
                  %MakerNote of a particular type.
         */
-        void registerMakerNote(const std::string& make, 
-                               const std::string& model, 
-                               CreateFct createMakerNote);
-
+        static void registerMakerNote(const std::string& make, 
+                                      const std::string& model, 
+                                      CreateFct createMakerNote);
+        
         //! Register a %MakerNote prototype in the IFD id registry.
-        void registerMakerNote(IfdId ifdId, MakerNote::AutoPtr makerNote);
-        //@}
+        static void registerMakerNote(IfdId ifdId, MakerNote::AutoPtr makerNote);
 
-        //! @name Accessors
-        //@{
         /*!
           @brief Create the appropriate %MakerNote based on camera make and
                  model and possibly the contents of the makernote itself, return
@@ -424,17 +412,16 @@ namespace Exiv2 {
           @return An auto-pointer that owns a %MakerNote for the camera model.  
                  If the camera is not supported, the pointer is 0.
          */
-        MakerNote::AutoPtr create(const std::string& make, 
-                                  const std::string& model, 
-                                  bool alloc, 
-                                  const byte* buf, 
-                                  long len, 
-                                  ByteOrder byteOrder, 
-                                  long offset) const; 
+        static MakerNote::AutoPtr create(const std::string& make, 
+                                         const std::string& model, 
+                                         bool alloc, 
+                                         const byte* buf, 
+                                         long len, 
+                                         ByteOrder byteOrder, 
+                                         long offset); 
 
         //! Create a %MakerNote for an IFD id.
-        MakerNote::AutoPtr create(IfdId ifdId, bool alloc =true) const;
-        //@}
+        static MakerNote::AutoPtr create(IfdId ifdId, bool alloc =true);
 
         /*!
           @brief Match a registry entry with a key (used for make and model).
@@ -458,11 +445,14 @@ namespace Exiv2 {
     private:
         //! @name Creators
         //@{                
-        //! Prevent construction other than through instance().
+        //! Prevent construction: not implemented.
         MakerNoteFactory() {}
         //! Prevent copy construction: not implemented.
         MakerNoteFactory(const MakerNoteFactory& rhs);
         //@}
+
+        //! Creates the private static instance
+        static void init();
 
         //! Type used to store model labels and %MakerNote create functions
         typedef std::vector<std::pair<std::string, CreateFct> > ModelRegistry;
@@ -472,12 +462,10 @@ namespace Exiv2 {
         typedef std::map<IfdId, MakerNote*> IfdIdRegistry;
 
         // DATA
-        //! Pointer to the one and only instance of this class.
-        static MakerNoteFactory* pInstance_;
         //! List of makernote types and corresponding makernote create functions.
-        Registry registry_;
+        static Registry* pRegistry_;
         //! List of makernote IFD ids and corresponding create functions.
-        IfdIdRegistry ifdIdRegistry_;
+        static IfdIdRegistry* pIfdIdRegistry_;
 
     }; // class MakerNoteFactory
    

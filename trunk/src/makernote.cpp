@@ -187,28 +187,33 @@ namespace Exiv2 {
         return AutoPtr(clone_());
     }
 
-    MakerNoteFactory* MakerNoteFactory::pInstance_ = 0;
+    MakerNoteFactory::Registry* MakerNoteFactory::pRegistry_ = 0;
+    MakerNoteFactory::IfdIdRegistry* MakerNoteFactory::pIfdIdRegistry_ = 0;
 
-    MakerNoteFactory& MakerNoteFactory::instance()
+    void MakerNoteFactory::init()
     {
-        if (0 == pInstance_) {
-            pInstance_ = new MakerNoteFactory;
+        if (0 == pRegistry_) {
+            pRegistry_ = new Registry;
         }
-        return *pInstance_;
-    } // MakerNoteFactory::instance
+        if (0 == pIfdIdRegistry_) {
+            pIfdIdRegistry_ = new IfdIdRegistry;
+        }
+    } // MakerNoteFactory::init
 
     void MakerNoteFactory::registerMakerNote(IfdId ifdId,
                                              MakerNote::AutoPtr makerNote)
     {
+        init();
         MakerNote* pMakerNote = makerNote.release();
         assert(pMakerNote);
-        ifdIdRegistry_[ifdId] = pMakerNote;
+        (*pIfdIdRegistry_)[ifdId] = pMakerNote;
     } // MakerNoteFactory::registerMakerNote
 
-    MakerNote::AutoPtr MakerNoteFactory::create(IfdId ifdId, bool alloc) const
+    MakerNote::AutoPtr MakerNoteFactory::create(IfdId ifdId, bool alloc)
     {
-        IfdIdRegistry::const_iterator i = ifdIdRegistry_.find(ifdId);
-        if (i == ifdIdRegistry_.end()) return MakerNote::AutoPtr(0);
+        assert(pIfdIdRegistry_ != 0);
+        IfdIdRegistry::const_iterator i = pIfdIdRegistry_->find(ifdId);
+        if (i == pIfdIdRegistry_->end()) return MakerNote::AutoPtr(0);
         assert(i->second);
         return i->second->create(alloc);
     } // MakerNoteFactory::create
@@ -221,14 +226,15 @@ namespace Exiv2 {
         std::cerr << "Registering MakerNote create function for \"" 
                   << make << "\" and \"" << model << "\".\n";
 #endif
-
+        init();
         // Todo: use case insensitive make and model comparisons
 
         // Find or create a registry entry for make
         ModelRegistry* pModelRegistry = 0;
-        Registry::const_iterator end1 = registry_.end();
+        assert(pRegistry_ != 0);
+        Registry::const_iterator end1 = pRegistry_->end();
         Registry::const_iterator pos1;
-        for (pos1 = registry_.begin(); pos1 != end1; ++pos1) {
+        for (pos1 = pRegistry_->begin(); pos1 != end1; ++pos1) {
             if (pos1->first == make) break;
         }
         if (pos1 != end1) {
@@ -236,7 +242,7 @@ namespace Exiv2 {
         }
         else {
             pModelRegistry = new ModelRegistry;
-            registry_.push_back(std::make_pair(make, pModelRegistry));
+            pRegistry_->push_back(std::make_pair(make, pModelRegistry));
         }
         // Find or create a registry entry for model
         ModelRegistry::iterator end2 = pModelRegistry->end();
@@ -258,7 +264,7 @@ namespace Exiv2 {
                                                 const byte* buf, 
                                                 long len, 
                                                 ByteOrder byteOrder, 
-                                                long offset) const
+                                                long offset)
     {
 #ifdef DEBUG_REGISTRY
         std::cerr << "Entering MakerNoteFactory::create(\"" 
@@ -272,9 +278,10 @@ namespace Exiv2 {
         std::string makeMatch;
         std::cerr << "Searching make registry...\n"; 
 #endif
-        Registry::const_iterator end1 = registry_.end();
+        assert(pRegistry_ != 0);
+        Registry::const_iterator end1 = pRegistry_->end();
         Registry::const_iterator pos1;
-        for (pos1 = registry_.begin(); pos1 != end1; ++pos1) {
+        for (pos1 = pRegistry_->begin(); pos1 != end1; ++pos1) {
             int rc = match(pos1->first, make);
             if (rc > score) {
                 score = rc;

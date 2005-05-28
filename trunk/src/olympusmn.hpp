@@ -20,9 +20,11 @@
  */
 /*!
   @file    olympusmn.hpp
-  @brief   Olympus MakerNote implemented according to the specification
-           <a href="http://?????">
-           Olympus MakerNote Documentation</a> by ???.           
+  @brief   Olympus MakerNote implemented using the following references:
+           <a href="http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html#APP1">Exif file format, Appendix 1: MakerNote of Olympus Digicams</a> by TsuruZoh Tachibanaya, 
+           Olympus.pm of <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a> by Phil Harvey, 
+           <a href="http://www.ozhiker.com/electronics/pjmt/jpeg_info/olympus_mn.html">Olympus Makernote Format Specification</a> by Evan Hunter, 
+           email communication with <a href="mailto:wstokes@gmail.com">Will Stokes</a>
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
@@ -132,6 +134,13 @@ namespace Exiv2 {
         static std::ostream& print0x0f00_150_151(std::ostream& os, long l1, long l2);
         //@}
 
+        //! @cond IGNORE
+        // Public only so that we can create a static instance
+        struct RegisterMn {
+            RegisterMn();
+        };
+        //! @endcond
+
     private:
         //! Internal virtual create function.
         OlympusMakerNote* create_(bool alloc =true) const;
@@ -141,35 +150,9 @@ namespace Exiv2 {
         //! Tag information
         static const TagInfo tagInfo_[];
 
-        //! Structure used to auto-register the MakerNote.
-        struct RegisterMakerNote {
-            //! Default constructor
-            RegisterMakerNote() 
-            {
-                MakerNoteFactory& mnf = MakerNoteFactory::instance();
-                mnf.registerMakerNote("OLYMPUS*", "*", createOlympusMakerNote); 
-                mnf.registerMakerNote(olympusIfdId,
-                                      MakerNote::AutoPtr(new OlympusMakerNote));
-                ExifTags::registerMakerTagInfo(olympusIfdId, tagInfo_);
-            }
-        };
-        // DATA
-        /*!
-          The static member variable is initialized before main (see note) and
-          will in the process register the MakerNote class. (Remember the
-          definition of the variable in the implementation file!)
-
-          @note The standard says that, if no function is explicitly called ever
-                in a module, then that module's static data might be never
-                initialized. This clause was introduced to allow dynamic link
-                libraries. The idea is, with this clause the loader is not
-                forced to eagerly load all modules, but load them only on
-                demand.
-         */
-        static const RegisterMakerNote register_;
-
     }; // class OlympusMakerNote
 
+    static OlympusMakerNote::RegisterMn registerOlympusMakerNote;
 }                                       // namespace Exiv2
 
 #endif                                  // #ifndef OLYMPUSMN_HPP_

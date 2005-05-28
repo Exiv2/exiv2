@@ -52,7 +52,7 @@ try {
     }
     if (rc) {
         std::cout << "Usage: " << argv[0] 
-                  << " [Canon|Fujifilm|Nikon1|Nikon2|Nikon3|Sigma|Iptc]\n"
+                  << " [Canon|Fujifilm|Nikon1|Nikon2|Nikon3|Olympus|Sigma|Sony|Iptc]\n"
                   << "Print Exif tags, MakerNote tags, or Iptc datasets\n";
     }
     return rc;

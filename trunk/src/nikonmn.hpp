@@ -139,6 +139,13 @@ namespace Exiv2 {
         static std::ostream& print0x0088(std::ostream& os, const Value& value);
         //@}
 
+        //! @cond IGNORE
+        // Public only so that we can create a static instance
+        struct RegisterMn {
+            RegisterMn();
+        };
+        //! @endcond
+
     private:
         //! Internal virtual create function.
         Nikon1MakerNote* create_(bool alloc =true) const;
@@ -148,34 +155,9 @@ namespace Exiv2 {
         //! Tag information
         static const TagInfo tagInfo_[];
 
-        //! Structure used to auto-register the MakerNote.
-        struct RegisterMakerNote {
-            //! Default constructor
-            RegisterMakerNote() 
-            {
-                MakerNoteFactory& mnf = MakerNoteFactory::instance();
-                mnf.registerMakerNote("NIKON*", "*", createNikonMakerNote); 
-                mnf.registerMakerNote(nikon1IfdId,
-                                      MakerNote::AutoPtr(new Nikon1MakerNote));
-                ExifTags::registerMakerTagInfo(nikon1IfdId, tagInfo_);
-            }
-        };
-        // DATA
-        /*!
-          The static member variable is initialized before main (see note) and
-          will in the process register the MakerNote class. (Remember the
-          definition of the variable in the implementation file!)
-
-          @note The standard says that, if no function is explicitly called ever
-                in a module, then that module's static data might be never
-                initialized. This clause was introduced to allow dynamic link
-                libraries. The idea is, with this clause the loader is not
-                forced to eagerly load all modules, but load them only on
-                demand.
-         */
-        static const RegisterMakerNote register_; 
-
     }; // class Nikon1MakerNote
+
+    static Nikon1MakerNote::RegisterMn registerNikon1MakerNote;
 
     /*!
       @brief A second MakerNote format used by Nikon cameras, including the 
@@ -229,6 +211,13 @@ namespace Exiv2 {
         static std::ostream& print0x000a(std::ostream& os, const Value& value);
         //@}
 
+        //! @cond IGNORE
+        // Public only so that we can create a static instance
+        struct RegisterMn {
+            RegisterMn();
+        };
+        //! @endcond
+
     private:
         //! Internal virtual create function.
         Nikon2MakerNote* create_(bool alloc =true) const;
@@ -238,33 +227,9 @@ namespace Exiv2 {
         //! Tag information
         static const TagInfo tagInfo_[];
 
-        //! Structure used to auto-register the MakerNote.
-        struct RegisterMakerNote {
-            //! Default constructor
-            RegisterMakerNote() 
-            {
-                MakerNoteFactory& mnf = MakerNoteFactory::instance();
-                mnf.registerMakerNote(nikon2IfdId,
-                                      MakerNote::AutoPtr(new Nikon2MakerNote));
-                ExifTags::registerMakerTagInfo(nikon2IfdId, tagInfo_);
-            }
-        };
-        // DATA
-        /*!
-          The static member variable is initialized before main (see note) and
-          will in the process register the MakerNote class. (Remember the
-          definition of the variable in the implementation file!)
-
-          @note The standard says that, if no function is explicitly called ever
-                in a module, then that module's static data might be never
-                initialized. This clause was introduced to allow dynamic link
-                libraries. The idea is, with this clause the loader is not
-                forced to eagerly load all modules, but load them only on
-                demand.
-         */
-        static const RegisterMakerNote register_; 
-
     }; // class Nikon2MakerNote
+
+    static Nikon2MakerNote::RegisterMn registerNikon2MakerNote;
 
     //! A third MakerNote format used by Nikon cameras, e.g., E5400, SQ, D2H, D70
     class Nikon3MakerNote : public IfdMakerNote {
@@ -317,6 +282,13 @@ namespace Exiv2 {
         static std::ostream& print0x008b(std::ostream& os, const Value& value);
         //@}
 
+        //! @cond IGNORE
+        // Public only so that we can create a static instance
+        struct RegisterMn {
+            RegisterMn();
+        };
+        //! @endcond
+
     private:
         //! Internal virtual create function.
         Nikon3MakerNote* create_(bool alloc =true) const;
@@ -326,40 +298,9 @@ namespace Exiv2 {
         //! Tag information
         static const TagInfo tagInfo_[];
 
-        //! Structure used to auto-register the MakerNote and %TagInfos
-        struct RegisterMakerNote {
-            //! Default constructor
-            RegisterMakerNote() 
-            {
-                MakerNoteFactory& mnf = MakerNoteFactory::instance();
-                mnf.registerMakerNote(nikon3IfdId,
-                                      MakerNote::AutoPtr(new Nikon3MakerNote));
-                mnf.registerMakerNote(nikon3ThumbIfdId,
-                                      MakerNote::AutoPtr(new Nikon3MakerNote));
-                ExifTags::registerMakerTagInfo(nikon3IfdId, tagInfo_);
-                ExifTags::registerBaseTagInfo(nikon3ThumbIfdId);
-            }
-        };
-
-        // DATA
-        /*!
-          The static member variable is initialized before main (see note) and
-          will in the process register the MakerNote class. (Remember the
-          definition of the variable in the implementation file!)
-
-          @note The standard says that, if no function is explicitly called ever
-                in a module, then that module's static data might be never
-                initialized. This clause was introduced to allow dynamic link
-                libraries. The idea is, with this clause the loader is not
-                forced to eagerly load all modules, but load them only on
-                demand.
-         */
-        static const RegisterMakerNote register_; 
-
-        //! All makernote entries 
-        Entries entries_;
-
     }; // class Nikon3MakerNote
+
+    static Nikon3MakerNote::RegisterMn registerNikon3MakerNote;
 
 }                                       // namespace Exiv2
 
