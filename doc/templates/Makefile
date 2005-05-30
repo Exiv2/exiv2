@@ -37,7 +37,7 @@ all: tags
 tags: $(TABLES) Iptc
 	@./gen.py *.html.in
 
-$(TABLES):
+$(TABLES): $(TAGLIST)
 	@echo Generating $@ table...
 	@$(TAGLIST) $@ | awk -f tags.awk > $@.xml
 	@java org.apache.xalan.xslt.Process -IN $@.xml -XSL tags.xsl -OUT $@.tmp
@@ -45,13 +45,16 @@ $(TABLES):
 	@touch $@
 	@rm -f $@.tmp
 
-Iptc:
+Iptc: $(TAGLIST)
 	@echo Generating $@ table...
 	@$(TAGLIST) $@ | awk -f iptc.awk > $@.xml
 	@java org.apache.xalan.xslt.Process -IN $@.xml -XSL iptc.xsl -OUT $@.tmp
 	@sed "s/report1/$@/g" $@.tmp > __$@__
 	@touch $@
 	@rm -f $@.tmp
+
+$(TAGLIST): 
+	$(error File $(TAGLIST) does not exist. Did you build the library and examples?)
 
 mostlyclean:
 	rm -f *.xml
