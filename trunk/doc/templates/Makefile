@@ -6,10 +6,9 @@
 # History:   28-May-05, ahu: created
 #
 # Description:
-#  Simple Makefile to create html documentation from templates. Requires a
-#  number of special tools (java, xalan, awk, python) but really only needs 
-#  to be used to update the documentation after changing Exiv2 tags in the 
-#  source code.
+#  Simple Makefile to create html documentation from templates. Requires some
+#  special tools (awk, python, xsltproc) but really only needs to be used to 
+#  update the documentation after changing Exiv2 tags in the source code.
 #
 # Restrictions:
 #  Only tested with GNU make.
@@ -40,7 +39,7 @@ tags: $(TABLES) Iptc
 $(TABLES): $(TAGLIST)
 	@echo Generating $@ table...
 	@$(TAGLIST) $@ | awk -f tags.awk > $@.xml
-	@java org.apache.xalan.xslt.Process -IN $@.xml -XSL tags.xsl -OUT $@.tmp
+	@xsltproc tags.xsl $@.xml > $@.tmp
 	@sed "s/report1/$@/" $@.tmp > __$@__
 	@touch $@
 	@rm -f $@.tmp
@@ -48,7 +47,7 @@ $(TABLES): $(TAGLIST)
 Iptc: $(TAGLIST)
 	@echo Generating $@ table...
 	@$(TAGLIST) $@ | awk -f iptc.awk > $@.xml
-	@java org.apache.xalan.xslt.Process -IN $@.xml -XSL iptc.xsl -OUT $@.tmp
+	@xsltproc iptc.xsl $@.xml > $@.tmp
 	@sed "s/report1/$@/g" $@.tmp > __$@__
 	@touch $@
 	@rm -f $@.tmp
