@@ -13,7 +13,7 @@
 #
 
 # Default make target
-all: doc tags
+all: doc
 
 # Include system configuration
 top_srcdir = ..
@@ -30,22 +30,24 @@ SHELL = /bin/sh
 
 # **********************************************************************
 # Targets
-.PHONY: all doc tags mostlyclean clean distclean maintainer-clean
+.PHONY: all doc doxygen tags mostlyclean clean distclean maintainer-clean
 
-doc: 
+doc: doxygen tags
+
+doxygen:
 	doxygen $(top_srcdir)/config/Doxyfile
 
 tags:
-	cd tags && $(MAKE) all
-	cp -f tags/tags-*.html .
+	cd $(top_srcdir)/doc/tags && $(MAKE) all
+	cp -f $(top_srcdir)/doc/tags/*.html $(top_srcdir)/doc/html/
 
-mostlyclean clean distclean:
-	$(RM) *~ *.bak *#	
-	$(RM) tags-*.html
-	cd tags && $(MAKE) $(MAKECMDGOALS)
+mostlyclean clean:
+	$(RM) *~ *.bak *#
+
+distclean: clean
 
 # This command is intended for maintainers to use; it deletes files
 # that may need special tools to rebuild.
 maintainer-clean: distclean
+	cd $(top_srcdir)/doc/tags && $(MAKE) $(MAKECMDGOALS)
 	rm -rf $(top_srcdir)/doc/html/*
-	cd tags && $(MAKE) distclean

@@ -4,7 +4,8 @@ __header2__
 <body>
 
 <div id="content">
-__maintitle__
+__index1__
+__index2__
 <h2>Exif Tags supported by Exiv2</h2>
 <div>  
 <p>These are the Exif tags as defined in the <a title="The Exif 2.2 standard (PDF)" href="http://tsc.jeita.or.jp/avs/data/cp3451.pdf">Exif 2.2 standard</a>.</p>

@@ -9,9 +9,16 @@
     <META NAME="keywords" CONTENT="gnu, Gnu, GNU, license, licence, software, free software, software license, software licence, GNU general public license, GNU General Public License">
     <META NAME="robots" CONTENT="none">
     <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
-    <LINK REL="stylesheet" HREF="kde-default.css" TYPE="text/css">
+
+    <link type="text/css" rel="stylesheet" href="../include/default.css">
+    <link type="text/css" rel="stylesheet" href="doxygen.css">
+
   </HEAD>
   <BODY CLASS="license">
+
+<div id="content">
+__index1__
+
 <H1>GNU General Public License</H1>
 <P>Version 2, June 1991</P>
 
@@ -375,7 +382,8 @@ consider it more useful to permit linking proprietary applications with the
 library.  If this is what you want to do, use the GNU Library General
 Public License instead of this License.</p>
 
-
+</div>
+<!-- closes content -->
 
   </BODY>
 </HTML>

@@ -4,7 +4,8 @@ __header2__
 <body>
 
 <div id="content">
-__maintitle__
+__index1__
+__index2__
 <h2>Canon MakerNote Tags defined in Exiv2</h2>
 <div>  
 <p>Tags found in the MakerNote of images taken with Canon cameras. These tags are defined by Exiv2 in accordance with <a href="makernote.html#R2">[2]</a>.</p>   

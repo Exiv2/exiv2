@@ -4,14 +4,15 @@
   <meta name="Description" content="Open source Exif and Iptc metadata library and tools with Exif MakerNote and read/write support">
   <meta name="Keywords" content="exif, iptc, metadata, makernote, manipulation, manipulate, read and write, write, change, update, jpeg, jpg, ifd, image file directory, thumbnail, thumbnails, tag, tags, canon, fujifilm, sigma/foveon, nikon, open source, opensource, huggel, andreas, andreas huggel">
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-  <link type="text/css" rel="stylesheet" href="include/default.css">
-  <link type="text/css" rel="stylesheet" href="include/sortabletable.css">
-  <script type="text/javascript" src="include/sortabletable.js"></script>
+  <link type="text/css" rel="stylesheet" href="../include/default.css">
+  <link type="text/css" rel="stylesheet" href="../include/sortabletable.css">
+  <link type="text/css" rel="stylesheet" href="doxygen.css">
+  <script type="text/javascript" src="../include/sortabletable.js"></script>
   <script type="text/javascript">
   <!--
-  var preload = new Array('include/blank.png', 
-                          'include/ascending.png', 
-                          'include/descending.png');
+  var preload = new Array('../include/blank.png', 
+                          '../include/ascending.png', 
+                          '../include/descending.png');
   var loader = new Array();
   for(var i = 0; i < preload.length; i++) {
     loader[i] = new Image();

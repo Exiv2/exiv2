@@ -23,7 +23,7 @@
 
 <!-- *********************************************************************** -->
 <xsl:template name="report-table">
-  <table class="ReportTable" id="report-1" cellspacing="0">
+  <table class="ReportTable" id="report1" cellspacing="0">
     <xsl:call-template name="column-group" />
     <thead>
       <xsl:call-template name="header-row" />
@@ -126,12 +126,12 @@
 <xsl:template name="interactivity">
   <script type="text/javascript">
   //<![CDATA[
-  var t1 = new SortableTable(
-    document.getElementById("report-1"),
+  var report1 = new SortableTable(
+    document.getElementById("report1"),
     ["String", "Number", "String", "String", "String", "String", "String", "Number", "Number", "String"]
   );
-  t1.onsort = function () { 
-	var rows = t1.tBody.rows;
+  report1.onsort = function () { 
+	var rows = report1.tBody.rows;
 	var l = rows.length;
 	for (var i = 0; i < l; i++) {
 		removeClassName(rows[i], i % 2 ? "OddRow" : "EvenRow");

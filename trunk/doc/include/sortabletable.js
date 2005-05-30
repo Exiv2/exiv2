@@ -106,7 +106,7 @@ SortableTable.prototype.initHeader = function (oSortTypes) {
 	for (var i = 0; i < l; i++) {
 		c = cells[i];
 		img = this.document.createElement("IMG");
-		img.src = "include/blank.png"; // relative to the file that uses this
+		img.src = "../include/blank.png"; // relative to the file that uses this
 		c.appendChild(img);
 		if (oSortTypes[i] != null) {
 			c._sortType = oSortTypes[i];
