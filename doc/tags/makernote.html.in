@@ -1,28 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+__doctype__
 <html>
-<head>
-  <title>Exiv2 - Exif and Iptc metadata manipulation library and tools</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-  <link type="text/css" rel="stylesheet" href="include/sortabletable.css">
-  <script type="text/javascript" src="include/sortabletable.js"></script>
-  <script type="text/javascript">
-  <!--
-  var preload = new Array('include/blank.png', 
-                          'include/ascending.png', 
-                          'include/descending.png');
-  var loader = new Array();
-  for(var i = 0; i < preload.length; i++) {
-    loader[i] = new Image();
-    loader[i].src = preload[i];
-  }
-  //-->
-  </script>
-</head>
+__header2__
 <body>
 
-<h1>Exif and Iptc metadata manipulation library and tools</h1>
+<div id="content">
 
-<h2>MakerNote Formats and Specifications</h2>
+__index1__
+
+<h1>MakerNote Formats and Specifications</h1>
 
 <p>
 The MakerNote is tag 0x927c in the Exif IFD. According to the 
@@ -199,6 +184,9 @@ t1.onsort = function () {
   <a name="R9">[9]</a> <a href="http://www.ozhiker.com/electronics/pjmt/jpeg_info/makernotes.html">
   Various Makernote specifications</a> from the <a href="http://www.ozhiker.com/electronics/pjmt/index.html">
   PHP JPEG Metadata Toolkit</a> by Evan Hunter</p>
+
+</div>
+<!-- closes content -->
 
 </body>
 </html>

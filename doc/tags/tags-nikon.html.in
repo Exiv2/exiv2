@@ -4,7 +4,8 @@ __header2__
 <body>
 
 <div id="content">
-__maintitle__
+__index1__
+__index2__
 <p>There are three different Nikon MakerNote formats. Exiv2 will automatically detect the correct format for the Exif data from a particular Nikon camera model.</p>
 <h2>Nikon (format 1) MakerNote Tags defined in Exiv2</h2>
 <div>

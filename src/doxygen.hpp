@@ -43,23 +43,23 @@
 
   @section getting-started Getting started
 
-  <A HREF="../getting-started.html">A few pointers</A> to get you started with
+  <A HREF="getting-started.html">A few pointers</A> to get you started with
   the %Exiv2 library without delay.
 
   @section metadata Supported Exif and MakerNote tags and Iptc datasets
 
-  - <A HREF="../tags-exif.html">Standard Exif tags</A>
-  - <A HREF="../tags-canon.html">Canon MakerNote tags</A>
-  - <A HREF="../tags-fujifilm.html">Fujifilm MakerNote tags</A>
-  - <A HREF="../tags-nikon.html">Nikon MakerNote tags</A>
-  - <A HREF="../tags-olympus.html">Olympus MakerNote tags</A>
-  - <A HREF="../tags-sigma.html">Sigma/Foveon MakerNote tags</A>
-  - <A HREF="../tags-sony.html">Sony MakerNote tags</A>
-  - <A HREF="../tags-iptc.html">Iptc datasets</A>
+  - <A HREF="tags-exif.html">Standard Exif tags</A>
+  - <A HREF="tags-canon.html">Canon MakerNote tags</A>
+  - <A HREF="tags-fujifilm.html">Fujifilm MakerNote tags</A>
+  - <A HREF="tags-nikon.html">Nikon MakerNote tags</A>
+  - <A HREF="tags-olympus.html">Olympus MakerNote tags</A>
+  - <A HREF="tags-sigma.html">Sigma/Foveon MakerNote tags</A>
+  - <A HREF="tags-sony.html">Sony MakerNote tags</A>
+  - <A HREF="tags-iptc.html">Iptc datasets</A>
 
   @section makernote MakerNote Formats and Specifications
 
-  A summary of <A HREF="../makernote.html">MakerNote structures</A> with links to 
+  A summary of <A HREF="makernote.html">MakerNote structures</A> with links to 
   publicly available specifications.
 
   @section devel Development
@@ -78,14 +78,14 @@
   If you use a command line client, change to the directory where you want to keep 
   the source code and type:</p>
   
-  <div class="fragment"><pre><span class="stringliteral">$ svn checkout svn://dev.robotbattle.com/exiv2/trunk .</span></pre></div>
-  
+  @verbatim $ svn checkout svn://dev.robotbattle.com/exiv2/trunk . @endverbatim
+
   <p>To download the test data and test drivers for version 0.6.2 from
   the repository, change to your local exiv2-0.6.2 directory and use the
   following command:
   </p>
   
-  <div class="fragment"><pre><span class="stringliteral">$ svn export svn://dev.robotbattle.com/exiv2/tags/0.6.2/test</span></pre></div>
+  @verbatim $ svn export svn://dev.robotbattle.com/exiv2/tags/0.6.2/test @endverbatim
 
   <P>If you'd like to contribute code, please <A HREF="mailto:ahuggel@gmx.net">contact me</A>.
 
@@ -94,7 +94,7 @@
   <P>Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net></P>
 
   <P>%Exiv2 is free software; you can redistribute it and/or modify it under the
-  terms of the <a href="../gpl-license.html">GNU General Public License</a> as
+  terms of the <a href="gpl-license.html">GNU General Public License</a> as
   published by the Free Software Foundation; either version 2 of the License, or
   (at your option) any later version.</P>
  
