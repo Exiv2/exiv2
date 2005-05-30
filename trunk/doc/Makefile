@@ -38,8 +38,8 @@ doxygen:
 	doxygen $(top_srcdir)/config/Doxyfile
 
 tags:
-	cd $(top_srcdir)/doc/tags && $(MAKE) all
-	cp -f $(top_srcdir)/doc/tags/*.html $(top_srcdir)/doc/html/
+	cd $(top_srcdir)/doc/templates && $(MAKE) all
+	cp -f $(top_srcdir)/doc/templates/*.html $(top_srcdir)/doc/html/
 
 mostlyclean clean:
 	$(RM) *~ *.bak *#
@@ -49,5 +49,5 @@ distclean: clean
 # This command is intended for maintainers to use; it deletes files
 # that may need special tools to rebuild.
 maintainer-clean: distclean
-	cd $(top_srcdir)/doc/tags && $(MAKE) $(MAKECMDGOALS)
+	cd $(top_srcdir)/doc/templates && $(MAKE) $(MAKECMDGOALS)
 	rm -rf $(top_srcdir)/doc/html/*
