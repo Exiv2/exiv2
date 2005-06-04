@@ -7,11 +7,11 @@ __header2__
 __index1__
 __index2__
 <h2>Sony MakerNote Tags defined in Exiv2</h2>
-<div>
-<p>Tags found in the MakerNote of images taken with Sony cameras.</p> 
+<p>Tags found in the MakerNote of images taken with Sony cameras. Not much is known about the contents of the Sony makernote tags. They appear to be chunks of binary data and I am not aware of any description of this information.</p> 
 <p>Click on a column header to sort the table.</p>
-</div>
+
 __Sony__
+
 </div>
 <!-- closes content -->
 
