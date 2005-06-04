@@ -55,10 +55,10 @@ namespace {
 
     //! List of all command identifiers and corresponding strings
     static const CmdIdAndString cmdIdAndString[] = {
-        add, "add", 
-        set, "set", 
-        del, "del", 
-        invalidCmdId, "invalidCmd"                  // End of list marker
+        { add, "add" },
+        { set, "set" }, 
+        { del, "del" }, 
+        { invalidCmdId, "invalidCmd" }          // End of list marker
     };
 
     // Return a command Id for a command string 
