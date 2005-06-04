@@ -73,6 +73,8 @@ namespace Action {
     public:
         //! Shortcut for an auto pointer.
         typedef std::auto_ptr<Task> AutoPtr;
+        //! Virtual destructor.
+        virtual ~Task() {}
         //! Virtual copy construction.
         AutoPtr clone() const;
         /*!
