@@ -4,13 +4,13 @@ Exiv2
 This is Exiv2, a C++ library and a command line utility to read and
 write Exif and Iptc image metadata.
 
-Exiv2's homepage is: 
+The homepage of Exiv2 is: 
 
     http://home.arcor.de/ahuggel/exiv2/index.html
 
-See the file doc/ChangeLog for a description of recent changes to Exiv2.
+See doc/ChangeLog for a description of recent changes to Exiv2.
 
-Point your internet browser to doc/index.html for the complete Exiv2
+Point your browser to doc/index.html for the complete Exiv2
 documentation.
 
 
@@ -18,25 +18,18 @@ Building and Installing
 =======================
 
 Exiv2 comes with a GNU configure script. Run the following commands
-from the top directory (containing this file) to build the library and
-utility:
+from the top directory (containing this file) to configure, build and
+install the library and utility:
 
     $ ./configure
     $ make
-
     $ make install
 
 The default install locations are /usr/local/lib for the library,
 /usr/local/bin for the exiv2 utility and /usr/local/include/exiv2 for
-the header files. The install command must be issued from an account
-with the necessary access rights.
-
-If you downloaded the software directly from the subversion
-repository, then you need to have GNU autoconf installed on your
-system and create the configure script as the first step:
-
-    $ make config
-
+the header files. Use the --prefix=directory option of the configure 
+script to change this default. Run ./configure --help to see a list
+of all options.
 
 To build Exiv2 with MSVC 7.1, use the solution file msvc/exiv2.sln.
 
@@ -46,7 +39,7 @@ Troubleshooting
 
 If you have problems building Exiv2, check the generated
 config/config.mk and config/config.h files. You should *not* need to
-modify any Makefile directly, in particular src/Makefile!
+modify any Makefile directly, in particular not src/Makefile!
 
 
 Uninstalling
@@ -76,3 +69,13 @@ of systems. While this is very nice for making usable binaries, it can
 be a pain when trying to debug a program. For that reason, compilation
 of shared libraries can be turned off by specifying the
 --disable-shared option to the configure script.
+
+If you downloaded the software directly from the subversion
+repository, and you want to build it using the GNU configure script,
+then you need to have GNU autoconf installed on your system and create
+the configure script as the first step:
+
+    $ make config
+
+To generate the documentation, you will further need python, doxygen, 
+graphviz and xsltproc. 

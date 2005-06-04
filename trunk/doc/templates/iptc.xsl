@@ -42,7 +42,6 @@
     <col align="right" />
     <col />
     <col />
-    <col />
     <col align="center" />
     <col align="center" />
     <col align="right" />
@@ -56,7 +55,6 @@
   <tr>
     <th>Tag (hex)</th>
     <th>Tag (dec)</th>
-    <th>Record</th>
     <th>Key</th>
     <th>Type</th>
     <th><abbr title="Mandatory">M.</abbr></th>
@@ -87,7 +85,6 @@
   <tr><xsl:attribute name="class"><xsl:value-of select="$rowClass" /></xsl:attribute>
     <td><xsl:value-of select="taghex" /></td>
     <td><xsl:value-of select="tagdec" /></td>
-    <td><xsl:value-of select="recname" /></td>
     <td><xsl:value-of select="key" /></td>
     <td><xsl:value-of select="type" /></td>
     <td>
@@ -128,7 +125,7 @@
   //<![CDATA[
   var report1 = new SortableTable(
     document.getElementById("report1"),
-    ["String", "Number", "String", "String", "String", "String", "String", "Number", "Number", "String"]
+    ["String", "Number", "String", "String", "String", "String", "Number", "Number", "String"]
   );
   report1.onsort = function () { 
 	var rows = report1.tBody.rows;
