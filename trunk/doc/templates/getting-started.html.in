@@ -13,14 +13,27 @@ __index1__
 <p>The <a href="index.html">Exiv2 library</a> is made up of all
 elements defined in the <a href="namespaceExiv2.html">Exiv2
 namespace</a>. The Action and Util namespaces are only used by the
-Exiv2 command line utility. Thus, to learn about the library, concentrate on
+Exiv2 command line utility. Thus, to learn about the library, focus on
 the members of the Exiv2 namespace.</p>
 
 <h2><a href="classes.html">Classes</a></h2>
 
-<p><a class="el" href="classExiv2_1_1ExifData.html">Exiv2::ExifData</a> 
+<p>The top-level class of the Exiv2 library is 
+<a class="el" href="classExiv2_1_1Image.html">Exiv2::Image</a>
+ 
+(don't let the components diagram below mislead you). Exiv2::Image
+defines the interface to access various image metadata. Derived from
+Exiv2::Image are the implementations of different image formats.
+However, the only image format currently supported is Jpeg. Most
+applications will use
+<a class="el" href="classExiv2_1_1ImageFactory.html">Exiv2::ImageFactory</a> 
+to access images in files or memory, in which case the image format 
+is transparent to them.</p>
+
+<p>Metadata is manipulated through the classes
+<a class="el" href="classExiv2_1_1ExifData.html">Exiv2::ExifData</a> 
 and <a class="el" href="classExiv2_1_1IptcData.html">Exiv2::IptcData</a>
-are the top-level classes of the Exiv2 library. They hold a container
+of the Exiv2 library. They hold a container
 of Exif and Iptc metadata, respectively, and define related methods to
 access and manipulate the metadata. The containers hold objects derived from
 <a class="el" href="classExiv2_1_1Metadatum.html">Exiv2::Metadatum</a>. 
