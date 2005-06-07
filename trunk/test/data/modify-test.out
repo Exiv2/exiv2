@@ -11,52 +11,52 @@ Set Exif.Photo.UserComment "charset=Ascii This is an ASCII Exif comment" (Commen
 File 1/1: exiv2-gc.jpg
 Set Exif.Image.Software "Exiv2 utility!!" (Ascii)
 File 1/1: exiv2-empty.jpg
-0x006e Application2 String     12 Credit                      mee too! (1)
-0x0069 Application2 String      8 Headline                    Headline
+Iptc.Application2.Credit                     String     12  mee too! (1)
+Iptc.Application2.Headline                   String      8  Headline
 File 1/2: exiv2-empty.jpg
-0x0132 IFD0      DateTime                    Zwanzig nach fuenf
-0x013b IFD0      Artist                      Vincent van Gogh
-0x013e IFD0      WhitePoint                  32 12 4 5 6
-0x8769 IFD0      ExifTag                     108
-0x9286 Exif      UserComment                 This is an ASCII Exif comment
+Exif.Image.DateTime                          Ascii      19  Zwanzig nach fuenf
+Exif.Image.Artist                            Ascii      17  Vincent van Gogh
+Exif.Image.WhitePoint                        Short       5  32 12 4 5 6
+Exif.Image.ExifTag                           Long        1  108
+Exif.Photo.UserComment                       Undefined  37  This is an ASCII Exif comment
 File 2/2: exiv2-gc.jpg
-0x010e IFD0      ImageDescription            Exif JPEG        
-0x010f IFD0      Make                        Camera 
-0x0110 IFD0      Model                       DC-4300        
-0x0112 IFD0      Orientation                 top, left
-0x011a IFD0      XResolution                 72
-0x011b IFD0      YResolution                 72
-0x0128 IFD0      ResolutionUnit              inch
-0x0131 IFD0      Software                    Exiv2 utility!!
-0x0132 IFD0      DateTime                    2004:06:08 16:04:50
-0x0213 IFD0      YCbCrPositioning            Co-sited
-0x8769 IFD0      ExifTag                     6480
-0x829a Exif      ExposureTime                1/95 s
-0x829d Exif      FNumber                     F9.1
-0x8822 Exif      ExposureProgram             Landscape mode
-0x8827 Exif      ISOSpeedRatings             100
-0x9000 Exif      ExifVersion                 48 50 49 48 
-0x9003 Exif      DateTimeOriginal            2004:06:08 16:04:50
-0x9004 Exif      DateTimeDigitized           2004:06:08 16:04:50
-0x9101 Exif      ComponentsConfiguration     YCbCr
-0x9201 Exif      ShutterSpeedValue           6.6
-0x9202 Exif      ApertureValue               6.4
-0x9204 Exif      ExposureBiasValue           0
-0x9205 Exif      MaxApertureValue            3.1
-0x9207 Exif      MeteringMode                Matrix
-0x9208 Exif      LightSource                 Unknown
-0x9209 Exif      Flash                       No
-0xa000 Exif      FlashpixVersion             48 49 48 48 
-0xa001 Exif      ColorSpace                  sRGB
-0xa002 Exif      PixelXDimension             1600
-0xa003 Exif      PixelYDimension             2400
-0xa005 Exif      InteroperabilityTag         6738
-0xa300 Exif      FileSource                  Digital still camera
-0x0001 Iop       InteroperabilityIndex       R98
-0x0002 Iop       InteroperabilityVersion     48 49 48 48 
-0x0100 IFD1      ImageWidth                  133
-0x0101 IFD1      ImageLength                 200
-0x0103 IFD1      Compression                 JPEG
-0x0112 IFD1      Orientation                 top, left
-0x0201 IFD1      JPEGInterchangeFormat       0
-0x0202 IFD1      JPEGInterchangeFormatLength 6144
+Exif.Image.ImageDescription                  Ascii      18  Exif JPEG        
+Exif.Image.Make                              Ascii       8  Camera 
+Exif.Image.Model                             Ascii      16  DC-4300        
+Exif.Image.Orientation                       Short       1  top, left
+Exif.Image.XResolution                       Rational    1  72
+Exif.Image.YResolution                       Rational    1  72
+Exif.Image.ResolutionUnit                    Short       1  inch
+Exif.Image.Software                          Ascii      22  Exiv2 utility!!
+Exif.Image.DateTime                          Ascii      20  2004:06:08 16:04:50
+Exif.Image.YCbCrPositioning                  Short       1  Co-sited
+Exif.Image.ExifTag                           Long        1  6480
+Exif.Photo.ExposureTime                      Rational    1  1/95 s
+Exif.Photo.FNumber                           Rational    1  F9.1
+Exif.Photo.ExposureProgram                   Short       1  Landscape mode
+Exif.Photo.ISOSpeedRatings                   Short       1  100
+Exif.Photo.ExifVersion                       Undefined   4  48 50 49 48 
+Exif.Photo.DateTimeOriginal                  Ascii      20  2004:06:08 16:04:50
+Exif.Photo.DateTimeDigitized                 Ascii      20  2004:06:08 16:04:50
+Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
+Exif.Photo.ShutterSpeedValue                 SRational   1  6.6
+Exif.Photo.ApertureValue                     Rational    1  6.4
+Exif.Photo.ExposureBiasValue                 SRational   1  0
+Exif.Photo.MaxApertureValue                  Rational    1  3.1
+Exif.Photo.MeteringMode                      Short       1  Matrix
+Exif.Photo.LightSource                       Short       1  Unknown
+Exif.Photo.Flash                             Short       1  No
+Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+Exif.Photo.ColorSpace                        Short       1  sRGB
+Exif.Photo.PixelXDimension                   Long        1  1600
+Exif.Photo.PixelYDimension                   Long        1  2400
+Exif.Photo.InteroperabilityTag               Long        1  6738
+Exif.Photo.FileSource                        Undefined   1  Digital still camera
+Exif.Iop.InteroperabilityIndex               Ascii       4  R98
+Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+Exif.Thumbnail.ImageWidth                    Long        1  133
+Exif.Thumbnail.ImageLength                   Long        1  200
+Exif.Thumbnail.Compression                   Short       1  JPEG
+Exif.Thumbnail.Orientation                   Short       1  top, left
+Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
+Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6144

@@ -29,15 +29,15 @@ try {
 
     Exiv2::IptcData::iterator end = iptcData.end();
     for (Exiv2::IptcData::iterator md = iptcData.begin(); md != end; ++md) {
-        std::cout << std::setw(36) << std::setfill(' ') << std::left
+        std::cout << std::setw(44) << std::setfill(' ') << std::left
                   << md->key() << " "
                   << "0x" << std::setw(4) << std::setfill('0') << std::right
-                  << std::hex << md->tag() << "  " 
+                  << std::hex << md->tag() << " " 
                   << std::setw(9) << std::setfill(' ') << std::left
                   << md->typeName() << " "
                   << std::dec << std::setw(3) 
                   << std::setfill(' ') << std::right
-                  << md->count() << " "
+                  << md->count() << "  "
                   << std::dec << md->value() 
                   << std::endl;
     }

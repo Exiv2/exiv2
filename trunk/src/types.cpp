@@ -287,7 +287,7 @@ namespace Exiv2 {
             std::ostringstream ss;
             do {
                 byte c = buf[i];
-                os << std::setw(2) << std::setfill('0') 
+                os << std::setw(2) << std::setfill('0') << std::right
                    << std::hex << (int)c << " ";
                 ss << ((int)c >= 31 && (int)c < 127 ? char(buf[i]) : '.');
             } while (++i < len && i%16 != 0);
