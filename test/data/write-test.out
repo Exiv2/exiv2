@@ -5,10 +5,252 @@ Case 1: Non-intrusive change to the standard Exif metadata
 ---> Writing Exif data to file test1.jpg
 ---> Reading file test1.jpg
 ---> Writing Exif thumbnail to file thumb1.*
-13c13
-< Exif.Photo.DateTimeOriginal                           0x9003  2003:12:14 12:01:44
+1,122c1,122
+< Exif.Image.Make                              0x010f Ascii       6  Canon
+< Exif.Image.Model                             0x0110 Ascii      20  Canon PowerShot S40
+< Exif.Image.Orientation                       0x0112 Short       1  1
+< Exif.Image.XResolution                       0x011a Rational    1  180/1
+< Exif.Image.YResolution                       0x011b Rational    1  180/1
+< Exif.Image.ResolutionUnit                    0x0128 Short       1  2
+< Exif.Image.DateTime                          0x0132 Ascii      20  2003:12:14 12:01:44
+< Exif.Image.YCbCrPositioning                  0x0213 Short       1  1
+< Exif.Image.ExifTag                           0x8769 Long        1  196
+< Exif.Photo.ExposureTime                      0x829a Rational    1  1/500
+< Exif.Photo.FNumber                           0x829d Rational    1  49/10
+< Exif.Photo.ExifVersion                       0x9000 Undefined   4  48 50 50 48 
+< Exif.Photo.DateTimeOriginal                  0x9003 Ascii      20  2003:12:14 12:01:44
+< Exif.Photo.DateTimeDigitized                 0x9004 Ascii      20  2003:12:14 12:01:44
+< Exif.Photo.ComponentsConfiguration           0x9101 Undefined   4  1 2 3 0 
+< Exif.Photo.CompressedBitsPerPixel            0x9102 Rational    1  5/1
+< Exif.Photo.ShutterSpeedValue                 0x9201 SRational   1  287/32
+< Exif.Photo.ApertureValue                     0x9202 Rational    1  149/32
+< Exif.Photo.ExposureBiasValue                 0x9204 SRational   1  0/3
+< Exif.Photo.MaxApertureValue                  0x9205 Rational    1  194698/65536
+< Exif.Photo.MeteringMode                      0x9207 Short       1  2
+< Exif.Photo.Flash                             0x9209 Short       1  24
+< Exif.Photo.FocalLength                       0x920a Rational    1  682/32
+< Exif.Photo.UserComment                       0x9286 Undefined 264  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+< Exif.Photo.FlashpixVersion                   0xa000 Undefined   4  48 49 48 48 
+< Exif.Photo.ColorSpace                        0xa001 Short       1  1
+< Exif.Photo.PixelXDimension                   0xa002 Short       1  2272
+< Exif.Photo.PixelYDimension                   0xa003 Short       1  1704
+< Exif.Photo.InteroperabilityTag               0xa005 Long        1  1416
+< Exif.Photo.FocalPlaneXResolution             0xa20e Rational    1  2272000/280
+< Exif.Photo.FocalPlaneYResolution             0xa20f Rational    1  1704000/210
+< Exif.Photo.FocalPlaneResolutionUnit          0xa210 Short       1  2
+< Exif.Photo.SensingMethod                     0xa217 Short       1  2
+< Exif.Photo.FileSource                        0xa300 Undefined   1  3 
+< Exif.Photo.CustomRendered                    0xa401 Short       1  0
+< Exif.Photo.ExposureMode                      0xa402 Short       1  0
+< Exif.Photo.WhiteBalance                      0xa403 Short       1  0
+< Exif.Photo.DigitalZoomRatio                  0xa404 Rational    1  2272/2272
+< Exif.Photo.SceneCaptureType                  0xa406 Short       1  0
+< Exif.Canon.0x0002                            0x0002 Short       4  2 682 286 215
+< Exif.Canon.0x0003                            0x0003 Short       4  0 0 0 0
+< Exif.Canon.0x0000                            0x0000 Short       6  0 0 0 0 0 0
+< Exif.Canon.0x0000                            0x0000 Short       4  0 0 0 0
+< Exif.Canon.ImageType                         0x0006 Ascii      32  IMG:PowerShot S40 JPEG
+< Exif.Canon.FirmwareVersion                   0x0007 Ascii      24  Firmware Version 1.10
+< Exif.Canon.ImageNumber                       0x0008 Long        1  1171771
+< Exif.Canon.OwnerName                         0x0009 Ascii      32  Andreas Huggel
+< Exif.Canon.0x0010                            0x0010 Long        1  17891328
+< Exif.Canon.0x000d                            0x000d Short      21  42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
+< Exif.CanonCs1.Macro                          0x0001 Short       1  2
+< Exif.CanonCs1.Selftimer                      0x0002 Short       1  0
+< Exif.CanonCs1.Quality                        0x0003 Short       1  5
+< Exif.CanonCs1.FlashMode                      0x0004 Short       1  1
+< Exif.CanonCs1.DriveMode                      0x0005 Short       1  0
+< Exif.CanonCs1.0x0006                         0x0006 Short       1  0
+< Exif.CanonCs1.FocusMode                      0x0007 Short       1  4
+< Exif.CanonCs1.0x0008                         0x0008 Short       1  0
+< Exif.CanonCs1.0x0009                         0x0009 Short       1  1
+< Exif.CanonCs1.ImageSize                      0x000a Short       1  0
+< Exif.CanonCs1.EasyMode                       0x000b Short       1  1
+< Exif.CanonCs1.DigitalZoom                    0x000c Short       1  0
+< Exif.CanonCs1.Contrast                       0x000d Short       1  0
+< Exif.CanonCs1.Saturation                     0x000e Short       1  0
+< Exif.CanonCs1.Sharpness                      0x000f Short       1  0
+< Exif.CanonCs1.ISOSpeed                       0x0010 Short       1  17
+< Exif.CanonCs1.MeteringMode                   0x0011 Short       1  5
+< Exif.CanonCs1.FocusType                      0x0012 Short       1  1
+< Exif.CanonCs1.AFPoint                        0x0013 Short       1  12291
+< Exif.CanonCs1.ExposureProgram                0x0014 Short       1  1
+< Exif.CanonCs1.0x0015                         0x0015 Short       1  65535
+< Exif.CanonCs1.0x0016                         0x0016 Short       1  65535
+< Exif.CanonCs1.Lens                           0x0017 Short       3  682 227 32
+< Exif.CanonCs1.0x001a                         0x001a Short       1  149
+< Exif.CanonCs1.0x001b                         0x001b Short       1  192
+< Exif.CanonCs1.FlashActivity                  0x001c Short       1  0
+< Exif.CanonCs1.FlashDetails                   0x001d Short       1  0
+< Exif.CanonCs1.0x001e                         0x001e Short       1  0
+< Exif.CanonCs1.0x001f                         0x001f Short       1  0
+< Exif.CanonCs1.FocusMode                      0x0020 Short       1  0
+< Exif.CanonCs1.0x0021                         0x0021 Short       1  0
+< Exif.CanonCs1.0x0022                         0x0022 Short       1  65535
+< Exif.CanonCs1.0x0023                         0x0023 Short       1  49
+< Exif.CanonCs1.0x0024                         0x0024 Short       1  2272
+< Exif.CanonCs1.0x0025                         0x0025 Short       1  2272
+< Exif.CanonCs1.0x0026                         0x0026 Short       1  0
+< Exif.CanonCs1.0x0027                         0x0027 Short       1  1
+< Exif.CanonCs2.0x0001                         0x0001 Short       1  0
+< Exif.CanonCs2.ISOSpeed                       0x0002 Short       1  160
+< Exif.CanonCs2.0x0003                         0x0003 Short       1  276
+< Exif.CanonCs2.0x0004                         0x0004 Short       1  149
+< Exif.CanonCs2.0x0005                         0x0005 Short       1  287
+< Exif.CanonCs2.0x0006                         0x0006 Short       1  0
+< Exif.CanonCs2.WhiteBalance                   0x0007 Short       1  0
+< Exif.CanonCs2.0x0008                         0x0008 Short       1  0
+< Exif.CanonCs2.Sequence                       0x0009 Short       1  0
+< Exif.CanonCs2.0x000a                         0x000a Short       1  6
+< Exif.CanonCs2.0x000b                         0x000b Short       1  0
+< Exif.CanonCs2.0x000c                         0x000c Short       1  0
+< Exif.CanonCs2.0x000d                         0x000d Short       1  0
+< Exif.CanonCs2.AFPointUsed                    0x000e Short       1  12290
+< Exif.CanonCs2.FlashBias                      0x000f Short       1  0
+< Exif.CanonCs2.0x0010                         0x0010 Short       1  0
+< Exif.CanonCs2.0x0011                         0x0011 Short       1  0
+< Exif.CanonCs2.0x0012                         0x0012 Short       1  1
+< Exif.CanonCs2.SubjectDistance                0x0013 Short       1  782
+< Exif.CanonCs2.0x0014                         0x0014 Short       1  0
+< Exif.CanonCs2.0x0015                         0x0015 Short       1  149
+< Exif.CanonCs2.0x0016                         0x0016 Short       1  289
+< Exif.CanonCs2.0x0017                         0x0017 Short       1  0
+< Exif.CanonCs2.0x0018                         0x0018 Short       1  0
+< Exif.CanonCs2.0x0019                         0x0019 Short       1  0
+< Exif.CanonCs2.0x001a                         0x001a Short       1  250
+< Exif.Iop.InteroperabilityIndex               0x0001 Ascii       4  R98
+< Exif.Iop.InteroperabilityVersion             0x0002 Undefined   4  48 49 48 48 
+< Exif.Iop.RelatedImageWidth                   0x1001 Short       1  2272
+< Exif.Iop.RelatedImageLength                  0x1002 Short       1  1704
+< Exif.Thumbnail.Compression                   0x0103 Short       1  6
+< Exif.Thumbnail.XResolution                   0x011a Rational    1  180/1
+< Exif.Thumbnail.YResolution                   0x011b Rational    1  180/1
+< Exif.Thumbnail.ResolutionUnit                0x0128 Short       1  2
+< Exif.Thumbnail.JPEGInterchangeFormat         0x0201 Long        1  0
+< Exif.Thumbnail.JPEGInterchangeFormatLength   0x0202 Long        1  5448
 ---
+> Exif.Image.Make                                       0x010f  Canon
+> Exif.Image.Model                                      0x0110  Canon PowerShot S40
+> Exif.Image.Orientation                                0x0112  1
+> Exif.Image.XResolution                                0x011a  180/1
+> Exif.Image.YResolution                                0x011b  180/1
+> Exif.Image.ResolutionUnit                             0x0128  2
+> Exif.Image.DateTime                                   0x0132  2003:12:14 12:01:44
+> Exif.Image.YCbCrPositioning                           0x0213  1
+> Exif.Image.ExifTag                                    0x8769  196
+> Exif.Photo.ExposureTime                               0x829a  1/500
+> Exif.Photo.FNumber                                    0x829d  49/10
+> Exif.Photo.ExifVersion                                0x9000  48 50 50 48 
 > Exif.Photo.DateTimeOriginal                           0x9003  1999:11:22 00:11:22
+> Exif.Photo.DateTimeDigitized                          0x9004  2003:12:14 12:01:44
+> Exif.Photo.ComponentsConfiguration                    0x9101  1 2 3 0 
+> Exif.Photo.CompressedBitsPerPixel                     0x9102  5/1
+> Exif.Photo.ShutterSpeedValue                          0x9201  287/32
+> Exif.Photo.ApertureValue                              0x9202  149/32
+> Exif.Photo.ExposureBiasValue                          0x9204  0/3
+> Exif.Photo.MaxApertureValue                           0x9205  194698/65536
+> Exif.Photo.MeteringMode                               0x9207  2
+> Exif.Photo.Flash                                      0x9209  24
+> Exif.Photo.FocalLength                                0x920a  682/32
+> Exif.Photo.UserComment                                0x9286  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+> Exif.Photo.FlashpixVersion                            0xa000  48 49 48 48 
+> Exif.Photo.ColorSpace                                 0xa001  1
+> Exif.Photo.PixelXDimension                            0xa002  2272
+> Exif.Photo.PixelYDimension                            0xa003  1704
+> Exif.Photo.InteroperabilityTag                        0xa005  1416
+> Exif.Photo.FocalPlaneXResolution                      0xa20e  2272000/280
+> Exif.Photo.FocalPlaneYResolution                      0xa20f  1704000/210
+> Exif.Photo.FocalPlaneResolutionUnit                   0xa210  2
+> Exif.Photo.SensingMethod                              0xa217  2
+> Exif.Photo.FileSource                                 0xa300  3 
+> Exif.Photo.CustomRendered                             0xa401  0
+> Exif.Photo.ExposureMode                               0xa402  0
+> Exif.Photo.WhiteBalance                               0xa403  0
+> Exif.Photo.DigitalZoomRatio                           0xa404  2272/2272
+> Exif.Photo.SceneCaptureType                           0xa406  0
+> Exif.Canon.0x0002                                     0x0002  2 682 286 215
+> Exif.Canon.0x0003                                     0x0003  0 0 0 0
+> Exif.Canon.0x0000                                     0x0000  0 0 0 0 0 0
+> Exif.Canon.0x0000                                     0x0000  0 0 0 0
+> Exif.Canon.ImageType                                  0x0006  IMG:PowerShot S40 JPEG
+> Exif.Canon.FirmwareVersion                            0x0007  Firmware Version 1.10
+> Exif.Canon.ImageNumber                                0x0008  1171771
+> Exif.Canon.OwnerName                                  0x0009  Andreas Huggel
+> Exif.Canon.0x0010                                     0x0010  17891328
+> Exif.Canon.0x000d                                     0x000d  42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
+> Exif.CanonCs1.Macro                                   0x0001  2
+> Exif.CanonCs1.Selftimer                               0x0002  0
+> Exif.CanonCs1.Quality                                 0x0003  5
+> Exif.CanonCs1.FlashMode                               0x0004  1
+> Exif.CanonCs1.DriveMode                               0x0005  0
+> Exif.CanonCs1.0x0006                                  0x0006  0
+> Exif.CanonCs1.FocusMode                               0x0007  4
+> Exif.CanonCs1.0x0008                                  0x0008  0
+> Exif.CanonCs1.0x0009                                  0x0009  1
+> Exif.CanonCs1.ImageSize                               0x000a  0
+> Exif.CanonCs1.EasyMode                                0x000b  1
+> Exif.CanonCs1.DigitalZoom                             0x000c  0
+> Exif.CanonCs1.Contrast                                0x000d  0
+> Exif.CanonCs1.Saturation                              0x000e  0
+> Exif.CanonCs1.Sharpness                               0x000f  0
+> Exif.CanonCs1.ISOSpeed                                0x0010  17
+> Exif.CanonCs1.MeteringMode                            0x0011  5
+> Exif.CanonCs1.FocusType                               0x0012  1
+> Exif.CanonCs1.AFPoint                                 0x0013  12291
+> Exif.CanonCs1.ExposureProgram                         0x0014  1
+> Exif.CanonCs1.0x0015                                  0x0015  65535
+> Exif.CanonCs1.0x0016                                  0x0016  65535
+> Exif.CanonCs1.Lens                                    0x0017  682 227 32
+> Exif.CanonCs1.0x001a                                  0x001a  149
+> Exif.CanonCs1.0x001b                                  0x001b  192
+> Exif.CanonCs1.FlashActivity                           0x001c  0
+> Exif.CanonCs1.FlashDetails                            0x001d  0
+> Exif.CanonCs1.0x001e                                  0x001e  0
+> Exif.CanonCs1.0x001f                                  0x001f  0
+> Exif.CanonCs1.FocusMode                               0x0020  0
+> Exif.CanonCs1.0x0021                                  0x0021  0
+> Exif.CanonCs1.0x0022                                  0x0022  65535
+> Exif.CanonCs1.0x0023                                  0x0023  49
+> Exif.CanonCs1.0x0024                                  0x0024  2272
+> Exif.CanonCs1.0x0025                                  0x0025  2272
+> Exif.CanonCs1.0x0026                                  0x0026  0
+> Exif.CanonCs1.0x0027                                  0x0027  1
+> Exif.CanonCs2.0x0001                                  0x0001  0
+> Exif.CanonCs2.ISOSpeed                                0x0002  160
+> Exif.CanonCs2.0x0003                                  0x0003  276
+> Exif.CanonCs2.0x0004                                  0x0004  149
+> Exif.CanonCs2.0x0005                                  0x0005  287
+> Exif.CanonCs2.0x0006                                  0x0006  0
+> Exif.CanonCs2.WhiteBalance                            0x0007  0
+> Exif.CanonCs2.0x0008                                  0x0008  0
+> Exif.CanonCs2.Sequence                                0x0009  0
+> Exif.CanonCs2.0x000a                                  0x000a  6
+> Exif.CanonCs2.0x000b                                  0x000b  0
+> Exif.CanonCs2.0x000c                                  0x000c  0
+> Exif.CanonCs2.0x000d                                  0x000d  0
+> Exif.CanonCs2.AFPointUsed                             0x000e  12290
+> Exif.CanonCs2.FlashBias                               0x000f  0
+> Exif.CanonCs2.0x0010                                  0x0010  0
+> Exif.CanonCs2.0x0011                                  0x0011  0
+> Exif.CanonCs2.0x0012                                  0x0012  1
+> Exif.CanonCs2.SubjectDistance                         0x0013  782
+> Exif.CanonCs2.0x0014                                  0x0014  0
+> Exif.CanonCs2.0x0015                                  0x0015  149
+> Exif.CanonCs2.0x0016                                  0x0016  289
+> Exif.CanonCs2.0x0017                                  0x0017  0
+> Exif.CanonCs2.0x0018                                  0x0018  0
+> Exif.CanonCs2.0x0019                                  0x0019  0
+> Exif.CanonCs2.0x001a                                  0x001a  250
+> Exif.Iop.InteroperabilityIndex                        0x0001  R98
+> Exif.Iop.InteroperabilityVersion                      0x0002  48 49 48 48 
+> Exif.Iop.RelatedImageWidth                            0x1001  2272
+> Exif.Iop.RelatedImageLength                           0x1002  1704
+> Exif.Thumbnail.Compression                            0x0103  6
+> Exif.Thumbnail.XResolution                            0x011a  180/1
+> Exif.Thumbnail.YResolution                            0x011b  180/1
+> Exif.Thumbnail.ResolutionUnit                         0x0128  2
+> Exif.Thumbnail.JPEGInterchangeFormat                  0x0201  0
+> Exif.Thumbnail.JPEGInterchangeFormatLength            0x0202  5448
 ------------------------------------------------------------
 Case 2: Non-intrusive change to the makernote metadata
 ---> Reading file ./exiv2-canon-powershot-s40.jpg
@@ -16,10 +258,252 @@ Case 2: Non-intrusive change to the makernote metadata
 ---> Writing Exif data to file test2.jpg
 ---> Reading file test2.jpg
 ---> Writing Exif thumbnail to file thumb2.*
-47c47
-< Exif.Canon.OwnerName                                  0x0009  Andreas Huggel
+1,122c1,122
+< Exif.Image.Make                              0x010f Ascii       6  Canon
+< Exif.Image.Model                             0x0110 Ascii      20  Canon PowerShot S40
+< Exif.Image.Orientation                       0x0112 Short       1  1
+< Exif.Image.XResolution                       0x011a Rational    1  180/1
+< Exif.Image.YResolution                       0x011b Rational    1  180/1
+< Exif.Image.ResolutionUnit                    0x0128 Short       1  2
+< Exif.Image.DateTime                          0x0132 Ascii      20  2003:12:14 12:01:44
+< Exif.Image.YCbCrPositioning                  0x0213 Short       1  1
+< Exif.Image.ExifTag                           0x8769 Long        1  196
+< Exif.Photo.ExposureTime                      0x829a Rational    1  1/500
+< Exif.Photo.FNumber                           0x829d Rational    1  49/10
+< Exif.Photo.ExifVersion                       0x9000 Undefined   4  48 50 50 48 
+< Exif.Photo.DateTimeOriginal                  0x9003 Ascii      20  2003:12:14 12:01:44
+< Exif.Photo.DateTimeDigitized                 0x9004 Ascii      20  2003:12:14 12:01:44
+< Exif.Photo.ComponentsConfiguration           0x9101 Undefined   4  1 2 3 0 
+< Exif.Photo.CompressedBitsPerPixel            0x9102 Rational    1  5/1
+< Exif.Photo.ShutterSpeedValue                 0x9201 SRational   1  287/32
+< Exif.Photo.ApertureValue                     0x9202 Rational    1  149/32
+< Exif.Photo.ExposureBiasValue                 0x9204 SRational   1  0/3
+< Exif.Photo.MaxApertureValue                  0x9205 Rational    1  194698/65536
+< Exif.Photo.MeteringMode                      0x9207 Short       1  2
+< Exif.Photo.Flash                             0x9209 Short       1  24
+< Exif.Photo.FocalLength                       0x920a Rational    1  682/32
+< Exif.Photo.UserComment                       0x9286 Undefined 264  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+< Exif.Photo.FlashpixVersion                   0xa000 Undefined   4  48 49 48 48 
+< Exif.Photo.ColorSpace                        0xa001 Short       1  1
+< Exif.Photo.PixelXDimension                   0xa002 Short       1  2272
+< Exif.Photo.PixelYDimension                   0xa003 Short       1  1704
+< Exif.Photo.InteroperabilityTag               0xa005 Long        1  1416
+< Exif.Photo.FocalPlaneXResolution             0xa20e Rational    1  2272000/280
+< Exif.Photo.FocalPlaneYResolution             0xa20f Rational    1  1704000/210
+< Exif.Photo.FocalPlaneResolutionUnit          0xa210 Short       1  2
+< Exif.Photo.SensingMethod                     0xa217 Short       1  2
+< Exif.Photo.FileSource                        0xa300 Undefined   1  3 
+< Exif.Photo.CustomRendered                    0xa401 Short       1  0
+< Exif.Photo.ExposureMode                      0xa402 Short       1  0
+< Exif.Photo.WhiteBalance                      0xa403 Short       1  0
+< Exif.Photo.DigitalZoomRatio                  0xa404 Rational    1  2272/2272
+< Exif.Photo.SceneCaptureType                  0xa406 Short       1  0
+< Exif.Canon.0x0002                            0x0002 Short       4  2 682 286 215
+< Exif.Canon.0x0003                            0x0003 Short       4  0 0 0 0
+< Exif.Canon.0x0000                            0x0000 Short       6  0 0 0 0 0 0
+< Exif.Canon.0x0000                            0x0000 Short       4  0 0 0 0
+< Exif.Canon.ImageType                         0x0006 Ascii      32  IMG:PowerShot S40 JPEG
+< Exif.Canon.FirmwareVersion                   0x0007 Ascii      24  Firmware Version 1.10
+< Exif.Canon.ImageNumber                       0x0008 Long        1  1171771
+< Exif.Canon.OwnerName                         0x0009 Ascii      32  Andreas Huggel
+< Exif.Canon.0x0010                            0x0010 Long        1  17891328
+< Exif.Canon.0x000d                            0x000d Short      21  42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
+< Exif.CanonCs1.Macro                          0x0001 Short       1  2
+< Exif.CanonCs1.Selftimer                      0x0002 Short       1  0
+< Exif.CanonCs1.Quality                        0x0003 Short       1  5
+< Exif.CanonCs1.FlashMode                      0x0004 Short       1  1
+< Exif.CanonCs1.DriveMode                      0x0005 Short       1  0
+< Exif.CanonCs1.0x0006                         0x0006 Short       1  0
+< Exif.CanonCs1.FocusMode                      0x0007 Short       1  4
+< Exif.CanonCs1.0x0008                         0x0008 Short       1  0
+< Exif.CanonCs1.0x0009                         0x0009 Short       1  1
+< Exif.CanonCs1.ImageSize                      0x000a Short       1  0
+< Exif.CanonCs1.EasyMode                       0x000b Short       1  1
+< Exif.CanonCs1.DigitalZoom                    0x000c Short       1  0
+< Exif.CanonCs1.Contrast                       0x000d Short       1  0
+< Exif.CanonCs1.Saturation                     0x000e Short       1  0
+< Exif.CanonCs1.Sharpness                      0x000f Short       1  0
+< Exif.CanonCs1.ISOSpeed                       0x0010 Short       1  17
+< Exif.CanonCs1.MeteringMode                   0x0011 Short       1  5
+< Exif.CanonCs1.FocusType                      0x0012 Short       1  1
+< Exif.CanonCs1.AFPoint                        0x0013 Short       1  12291
+< Exif.CanonCs1.ExposureProgram                0x0014 Short       1  1
+< Exif.CanonCs1.0x0015                         0x0015 Short       1  65535
+< Exif.CanonCs1.0x0016                         0x0016 Short       1  65535
+< Exif.CanonCs1.Lens                           0x0017 Short       3  682 227 32
+< Exif.CanonCs1.0x001a                         0x001a Short       1  149
+< Exif.CanonCs1.0x001b                         0x001b Short       1  192
+< Exif.CanonCs1.FlashActivity                  0x001c Short       1  0
+< Exif.CanonCs1.FlashDetails                   0x001d Short       1  0
+< Exif.CanonCs1.0x001e                         0x001e Short       1  0
+< Exif.CanonCs1.0x001f                         0x001f Short       1  0
+< Exif.CanonCs1.FocusMode                      0x0020 Short       1  0
+< Exif.CanonCs1.0x0021                         0x0021 Short       1  0
+< Exif.CanonCs1.0x0022                         0x0022 Short       1  65535
+< Exif.CanonCs1.0x0023                         0x0023 Short       1  49
+< Exif.CanonCs1.0x0024                         0x0024 Short       1  2272
+< Exif.CanonCs1.0x0025                         0x0025 Short       1  2272
+< Exif.CanonCs1.0x0026                         0x0026 Short       1  0
+< Exif.CanonCs1.0x0027                         0x0027 Short       1  1
+< Exif.CanonCs2.0x0001                         0x0001 Short       1  0
+< Exif.CanonCs2.ISOSpeed                       0x0002 Short       1  160
+< Exif.CanonCs2.0x0003                         0x0003 Short       1  276
+< Exif.CanonCs2.0x0004                         0x0004 Short       1  149
+< Exif.CanonCs2.0x0005                         0x0005 Short       1  287
+< Exif.CanonCs2.0x0006                         0x0006 Short       1  0
+< Exif.CanonCs2.WhiteBalance                   0x0007 Short       1  0
+< Exif.CanonCs2.0x0008                         0x0008 Short       1  0
+< Exif.CanonCs2.Sequence                       0x0009 Short       1  0
+< Exif.CanonCs2.0x000a                         0x000a Short       1  6
+< Exif.CanonCs2.0x000b                         0x000b Short       1  0
+< Exif.CanonCs2.0x000c                         0x000c Short       1  0
+< Exif.CanonCs2.0x000d                         0x000d Short       1  0
+< Exif.CanonCs2.AFPointUsed                    0x000e Short       1  12290
+< Exif.CanonCs2.FlashBias                      0x000f Short       1  0
+< Exif.CanonCs2.0x0010                         0x0010 Short       1  0
+< Exif.CanonCs2.0x0011                         0x0011 Short       1  0
+< Exif.CanonCs2.0x0012                         0x0012 Short       1  1
+< Exif.CanonCs2.SubjectDistance                0x0013 Short       1  782
+< Exif.CanonCs2.0x0014                         0x0014 Short       1  0
+< Exif.CanonCs2.0x0015                         0x0015 Short       1  149
+< Exif.CanonCs2.0x0016                         0x0016 Short       1  289
+< Exif.CanonCs2.0x0017                         0x0017 Short       1  0
+< Exif.CanonCs2.0x0018                         0x0018 Short       1  0
+< Exif.CanonCs2.0x0019                         0x0019 Short       1  0
+< Exif.CanonCs2.0x001a                         0x001a Short       1  250
+< Exif.Iop.InteroperabilityIndex               0x0001 Ascii       4  R98
+< Exif.Iop.InteroperabilityVersion             0x0002 Undefined   4  48 49 48 48 
+< Exif.Iop.RelatedImageWidth                   0x1001 Short       1  2272
+< Exif.Iop.RelatedImageLength                  0x1002 Short       1  1704
+< Exif.Thumbnail.Compression                   0x0103 Short       1  6
+< Exif.Thumbnail.XResolution                   0x011a Rational    1  180/1
+< Exif.Thumbnail.YResolution                   0x011b Rational    1  180/1
+< Exif.Thumbnail.ResolutionUnit                0x0128 Short       1  2
+< Exif.Thumbnail.JPEGInterchangeFormat         0x0201 Long        1  0
+< Exif.Thumbnail.JPEGInterchangeFormatLength   0x0202 Long        1  5448
 ---
+> Exif.Image.Make                                       0x010f  Canon
+> Exif.Image.Model                                      0x0110  Canon PowerShot S40
+> Exif.Image.Orientation                                0x0112  1
+> Exif.Image.XResolution                                0x011a  180/1
+> Exif.Image.YResolution                                0x011b  180/1
+> Exif.Image.ResolutionUnit                             0x0128  2
+> Exif.Image.DateTime                                   0x0132  2003:12:14 12:01:44
+> Exif.Image.YCbCrPositioning                           0x0213  1
+> Exif.Image.ExifTag                                    0x8769  196
+> Exif.Photo.ExposureTime                               0x829a  1/500
+> Exif.Photo.FNumber                                    0x829d  49/10
+> Exif.Photo.ExifVersion                                0x9000  48 50 50 48 
+> Exif.Photo.DateTimeOriginal                           0x9003  2003:12:14 12:01:44
+> Exif.Photo.DateTimeDigitized                          0x9004  2003:12:14 12:01:44
+> Exif.Photo.ComponentsConfiguration                    0x9101  1 2 3 0 
+> Exif.Photo.CompressedBitsPerPixel                     0x9102  5/1
+> Exif.Photo.ShutterSpeedValue                          0x9201  287/32
+> Exif.Photo.ApertureValue                              0x9202  149/32
+> Exif.Photo.ExposureBiasValue                          0x9204  0/3
+> Exif.Photo.MaxApertureValue                           0x9205  194698/65536
+> Exif.Photo.MeteringMode                               0x9207  2
+> Exif.Photo.Flash                                      0x9209  24
+> Exif.Photo.FocalLength                                0x920a  682/32
+> Exif.Photo.UserComment                                0x9286  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+> Exif.Photo.FlashpixVersion                            0xa000  48 49 48 48 
+> Exif.Photo.ColorSpace                                 0xa001  1
+> Exif.Photo.PixelXDimension                            0xa002  2272
+> Exif.Photo.PixelYDimension                            0xa003  1704
+> Exif.Photo.InteroperabilityTag                        0xa005  1416
+> Exif.Photo.FocalPlaneXResolution                      0xa20e  2272000/280
+> Exif.Photo.FocalPlaneYResolution                      0xa20f  1704000/210
+> Exif.Photo.FocalPlaneResolutionUnit                   0xa210  2
+> Exif.Photo.SensingMethod                              0xa217  2
+> Exif.Photo.FileSource                                 0xa300  3 
+> Exif.Photo.CustomRendered                             0xa401  0
+> Exif.Photo.ExposureMode                               0xa402  0
+> Exif.Photo.WhiteBalance                               0xa403  0
+> Exif.Photo.DigitalZoomRatio                           0xa404  2272/2272
+> Exif.Photo.SceneCaptureType                           0xa406  0
+> Exif.Canon.0x0002                                     0x0002  2 682 286 215
+> Exif.Canon.0x0003                                     0x0003  0 0 0 0
+> Exif.Canon.0x0000                                     0x0000  0 0 0 0 0 0
+> Exif.Canon.0x0000                                     0x0000  0 0 0 0
+> Exif.Canon.ImageType                                  0x0006  IMG:PowerShot S40 JPEG
+> Exif.Canon.FirmwareVersion                            0x0007  Firmware Version 1.10
+> Exif.Canon.ImageNumber                                0x0008  1171771
 > Exif.Canon.OwnerName                                  0x0009  Chan YeeSend
+> Exif.Canon.0x0010                                     0x0010  17891328
+> Exif.Canon.0x000d                                     0x000d  42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
+> Exif.CanonCs1.Macro                                   0x0001  2
+> Exif.CanonCs1.Selftimer                               0x0002  0
+> Exif.CanonCs1.Quality                                 0x0003  5
+> Exif.CanonCs1.FlashMode                               0x0004  1
+> Exif.CanonCs1.DriveMode                               0x0005  0
+> Exif.CanonCs1.0x0006                                  0x0006  0
+> Exif.CanonCs1.FocusMode                               0x0007  4
+> Exif.CanonCs1.0x0008                                  0x0008  0
+> Exif.CanonCs1.0x0009                                  0x0009  1
+> Exif.CanonCs1.ImageSize                               0x000a  0
+> Exif.CanonCs1.EasyMode                                0x000b  1
+> Exif.CanonCs1.DigitalZoom                             0x000c  0
+> Exif.CanonCs1.Contrast                                0x000d  0
+> Exif.CanonCs1.Saturation                              0x000e  0
+> Exif.CanonCs1.Sharpness                               0x000f  0
+> Exif.CanonCs1.ISOSpeed                                0x0010  17
+> Exif.CanonCs1.MeteringMode                            0x0011  5
+> Exif.CanonCs1.FocusType                               0x0012  1
+> Exif.CanonCs1.AFPoint                                 0x0013  12291
+> Exif.CanonCs1.ExposureProgram                         0x0014  1
+> Exif.CanonCs1.0x0015                                  0x0015  65535
+> Exif.CanonCs1.0x0016                                  0x0016  65535
+> Exif.CanonCs1.Lens                                    0x0017  682 227 32
+> Exif.CanonCs1.0x001a                                  0x001a  149
+> Exif.CanonCs1.0x001b                                  0x001b  192
+> Exif.CanonCs1.FlashActivity                           0x001c  0
+> Exif.CanonCs1.FlashDetails                            0x001d  0
+> Exif.CanonCs1.0x001e                                  0x001e  0
+> Exif.CanonCs1.0x001f                                  0x001f  0
+> Exif.CanonCs1.FocusMode                               0x0020  0
+> Exif.CanonCs1.0x0021                                  0x0021  0
+> Exif.CanonCs1.0x0022                                  0x0022  65535
+> Exif.CanonCs1.0x0023                                  0x0023  49
+> Exif.CanonCs1.0x0024                                  0x0024  2272
+> Exif.CanonCs1.0x0025                                  0x0025  2272
+> Exif.CanonCs1.0x0026                                  0x0026  0
+> Exif.CanonCs1.0x0027                                  0x0027  1
+> Exif.CanonCs2.0x0001                                  0x0001  0
+> Exif.CanonCs2.ISOSpeed                                0x0002  160
+> Exif.CanonCs2.0x0003                                  0x0003  276
+> Exif.CanonCs2.0x0004                                  0x0004  149
+> Exif.CanonCs2.0x0005                                  0x0005  287
+> Exif.CanonCs2.0x0006                                  0x0006  0
+> Exif.CanonCs2.WhiteBalance                            0x0007  0
+> Exif.CanonCs2.0x0008                                  0x0008  0
+> Exif.CanonCs2.Sequence                                0x0009  0
+> Exif.CanonCs2.0x000a                                  0x000a  6
+> Exif.CanonCs2.0x000b                                  0x000b  0
+> Exif.CanonCs2.0x000c                                  0x000c  0
+> Exif.CanonCs2.0x000d                                  0x000d  0
+> Exif.CanonCs2.AFPointUsed                             0x000e  12290
+> Exif.CanonCs2.FlashBias                               0x000f  0
+> Exif.CanonCs2.0x0010                                  0x0010  0
+> Exif.CanonCs2.0x0011                                  0x0011  0
+> Exif.CanonCs2.0x0012                                  0x0012  1
+> Exif.CanonCs2.SubjectDistance                         0x0013  782
+> Exif.CanonCs2.0x0014                                  0x0014  0
+> Exif.CanonCs2.0x0015                                  0x0015  149
+> Exif.CanonCs2.0x0016                                  0x0016  289
+> Exif.CanonCs2.0x0017                                  0x0017  0
+> Exif.CanonCs2.0x0018                                  0x0018  0
+> Exif.CanonCs2.0x0019                                  0x0019  0
+> Exif.CanonCs2.0x001a                                  0x001a  250
+> Exif.Iop.InteroperabilityIndex                        0x0001  R98
+> Exif.Iop.InteroperabilityVersion                      0x0002  48 49 48 48 
+> Exif.Iop.RelatedImageWidth                            0x1001  2272
+> Exif.Iop.RelatedImageLength                           0x1002  1704
+> Exif.Thumbnail.Compression                            0x0103  6
+> Exif.Thumbnail.XResolution                            0x011a  180/1
+> Exif.Thumbnail.YResolution                            0x011b  180/1
+> Exif.Thumbnail.ResolutionUnit                         0x0128  2
+> Exif.Thumbnail.JPEGInterchangeFormat                  0x0201  0
+> Exif.Thumbnail.JPEGInterchangeFormatLength            0x0202  5448
 ------------------------------------------------------------
 Case 3: Non-intrusive change to the Exif metadata (w/o makernote)
 ---> Reading file ./exiv2-kodak-dc210.jpg
@@ -27,10 +511,86 @@ Case 3: Non-intrusive change to the Exif metadata (w/o makernote)
 ---> Writing Exif data to file test3.jpg
 ---> Reading file test3.jpg
 ---> Writing Exif thumbnail to file thumb3.*
-14c14
-< Exif.Photo.DateTimeOriginal                           0x9003  2000:10:26 16:46:51
+1,39c1,39
+< Exif.Image.ImageDescription                  0x010e Ascii       0  
+< Exif.Image.Make                              0x010f Ascii      22  Eastman Kodak Company
+< Exif.Image.Model                             0x0110 Ascii      20  DC210 Zoom (V05.00)
+< Exif.Image.Orientation                       0x0112 Short       1  1
+< Exif.Image.XResolution                       0x011a Rational    1  216/1
+< Exif.Image.YResolution                       0x011b Rational    1  216/1
+< Exif.Image.ResolutionUnit                    0x0128 Short       1  2
+< Exif.Image.YCbCrPositioning                  0x0213 Short       1  1
+< Exif.Image.Copyright                         0x8298 Ascii       0  
+< Exif.Image.ExifTag                           0x8769 Long        1  374
+< Exif.Photo.ExposureTime                      0x829a Rational    1  1/30
+< Exif.Photo.FNumber                           0x829d Rational    1  40/10
+< Exif.Photo.ExifVersion                       0x9000 Undefined   4  48 49 49 48 
+< Exif.Photo.DateTimeOriginal                  0x9003 Ascii      20  2000:10:26 16:46:51
+< Exif.Photo.ComponentsConfiguration           0x9101 Undefined   4  1 2 3 0 
+< Exif.Photo.CompressedBitsPerPixel            0x9102 Rational    1  0/0
+< Exif.Photo.ShutterSpeedValue                 0x9201 SRational   1  50/10
+< Exif.Photo.ApertureValue                     0x9202 Rational    1  40/10
+< Exif.Photo.BrightnessValue                   0x9203 SRational   1  15/10
+< Exif.Photo.ExposureBiasValue                 0x9204 SRational   1  0/10
+< Exif.Photo.MaxApertureValue                  0x9205 Rational    1  400/100
+< Exif.Photo.SubjectDistance                   0x9206 Rational    1  0/0
+< Exif.Photo.MeteringMode                      0x9207 Short       1  2
+< Exif.Photo.LightSource                       0x9208 Short       1  0
+< Exif.Photo.Flash                             0x9209 Short       1  1
+< Exif.Photo.FocalLength                       0x920a Rational    1  44/10
+< Exif.Photo.MakerNote                         0x927c Undefined  72  1 4 3 0 2 1 255 255 0 1 55 142 14 93 109 246 1 0 0 251 0 4 255 32 0 0 40 0 0 0 12 53 68 67 80 48 49 48 49 49 46 74 80 71 0 4 0 0 0 1 228 224 0 1 0 0 0 1 145 128 0 1 194 64 0 1 0 0 0 1 222 16 
+< Exif.Thumbnail.ImageWidth                    0x0100 Short       1  96
+< Exif.Thumbnail.ImageLength                   0x0101 Short       1  72
+< Exif.Thumbnail.BitsPerSample                 0x0102 Short       3  8 8 8
+< Exif.Thumbnail.Compression                   0x0103 Short       1  1
+< Exif.Thumbnail.PhotometricInterpretation     0x0106 Short       1  2
+< Exif.Thumbnail.StripOffsets                  0x0111 Short       1  0
+< Exif.Thumbnail.SamplesPerPixel               0x0115 Short       1  3
+< Exif.Thumbnail.RowsPerStrip                  0x0116 Short       1  72
+< Exif.Thumbnail.StripByteCounts               0x0117 Short       1  20736
+< Exif.Thumbnail.XResolution                   0x011a Rational    1  72/1
+< Exif.Thumbnail.YResolution                   0x011b Rational    1  72/1
+< Exif.Thumbnail.ResolutionUnit                0x0128 Short       1  2
 ---
+> Exif.Image.ImageDescription                           0x010e  
+> Exif.Image.Make                                       0x010f  Eastman Kodak Company
+> Exif.Image.Model                                      0x0110  DC210 Zoom (V05.00)
+> Exif.Image.Orientation                                0x0112  1
+> Exif.Image.XResolution                                0x011a  216/1
+> Exif.Image.YResolution                                0x011b  216/1
+> Exif.Image.ResolutionUnit                             0x0128  2
+> Exif.Image.YCbCrPositioning                           0x0213  1
+> Exif.Image.Copyright                                  0x8298  
+> Exif.Image.ExifTag                                    0x8769  374
+> Exif.Photo.ExposureTime                               0x829a  1/30
+> Exif.Photo.FNumber                                    0x829d  40/10
+> Exif.Photo.ExifVersion                                0x9000  48 49 49 48 
 > Exif.Photo.DateTimeOriginal                           0x9003  1999:11:22 00:11:22
+> Exif.Photo.ComponentsConfiguration                    0x9101  1 2 3 0 
+> Exif.Photo.CompressedBitsPerPixel                     0x9102  0/0
+> Exif.Photo.ShutterSpeedValue                          0x9201  50/10
+> Exif.Photo.ApertureValue                              0x9202  40/10
+> Exif.Photo.BrightnessValue                            0x9203  15/10
+> Exif.Photo.ExposureBiasValue                          0x9204  0/10
+> Exif.Photo.MaxApertureValue                           0x9205  400/100
+> Exif.Photo.SubjectDistance                            0x9206  0/0
+> Exif.Photo.MeteringMode                               0x9207  2
+> Exif.Photo.LightSource                                0x9208  0
+> Exif.Photo.Flash                                      0x9209  1
+> Exif.Photo.FocalLength                                0x920a  44/10
+> Exif.Photo.MakerNote                                  0x927c  1 4 3 0 2 1 255 255 0 1 55 142 14 93 109 246 1 0 0 251 0 4 255 32 0 0 40 0 0 0 12 53 68 67 80 48 49 48 49 49 46 74 80 71 0 4 0 0 0 1 228 224 0 1 0 0 0 1 145 128 0 1 194 64 0 1 0 0 0 1 222 16 
+> Exif.Thumbnail.ImageWidth                             0x0100  96
+> Exif.Thumbnail.ImageLength                            0x0101  72
+> Exif.Thumbnail.BitsPerSample                          0x0102  8 8 8
+> Exif.Thumbnail.Compression                            0x0103  1
+> Exif.Thumbnail.PhotometricInterpretation              0x0106  2
+> Exif.Thumbnail.StripOffsets                           0x0111  0
+> Exif.Thumbnail.SamplesPerPixel                        0x0115  3
+> Exif.Thumbnail.RowsPerStrip                           0x0116  72
+> Exif.Thumbnail.StripByteCounts                        0x0117  20736
+> Exif.Thumbnail.XResolution                            0x011a  72/1
+> Exif.Thumbnail.YResolution                            0x011b  72/1
+> Exif.Thumbnail.ResolutionUnit                         0x0128  2
 ------------------------------------------------------------
 Case 4: Intrusive change to the standard Exif metadata
 ---> Reading file ./exiv2-canon-powershot-s40.jpg
@@ -38,18 +598,252 @@ Case 4: Intrusive change to the standard Exif metadata
 ---> Writing Exif data to file test4.jpg
 ---> Reading file test4.jpg
 ---> Writing Exif thumbnail to file thumb4.*
-9c9
-< Exif.Image.ExifTag                                    0x8769  196
+1,122c1,122
+< Exif.Image.Make                              0x010f Ascii       6  Canon
+< Exif.Image.Model                             0x0110 Ascii      20  Canon PowerShot S40
+< Exif.Image.Orientation                       0x0112 Short       1  1
+< Exif.Image.XResolution                       0x011a Rational    1  180/1
+< Exif.Image.YResolution                       0x011b Rational    1  180/1
+< Exif.Image.ResolutionUnit                    0x0128 Short       1  2
+< Exif.Image.DateTime                          0x0132 Ascii      20  2003:12:14 12:01:44
+< Exif.Image.YCbCrPositioning                  0x0213 Short       1  1
+< Exif.Image.ExifTag                           0x8769 Long        1  196
+< Exif.Photo.ExposureTime                      0x829a Rational    1  1/500
+< Exif.Photo.FNumber                           0x829d Rational    1  49/10
+< Exif.Photo.ExifVersion                       0x9000 Undefined   4  48 50 50 48 
+< Exif.Photo.DateTimeOriginal                  0x9003 Ascii      20  2003:12:14 12:01:44
+< Exif.Photo.DateTimeDigitized                 0x9004 Ascii      20  2003:12:14 12:01:44
+< Exif.Photo.ComponentsConfiguration           0x9101 Undefined   4  1 2 3 0 
+< Exif.Photo.CompressedBitsPerPixel            0x9102 Rational    1  5/1
+< Exif.Photo.ShutterSpeedValue                 0x9201 SRational   1  287/32
+< Exif.Photo.ApertureValue                     0x9202 Rational    1  149/32
+< Exif.Photo.ExposureBiasValue                 0x9204 SRational   1  0/3
+< Exif.Photo.MaxApertureValue                  0x9205 Rational    1  194698/65536
+< Exif.Photo.MeteringMode                      0x9207 Short       1  2
+< Exif.Photo.Flash                             0x9209 Short       1  24
+< Exif.Photo.FocalLength                       0x920a Rational    1  682/32
+< Exif.Photo.UserComment                       0x9286 Undefined 264  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+< Exif.Photo.FlashpixVersion                   0xa000 Undefined   4  48 49 48 48 
+< Exif.Photo.ColorSpace                        0xa001 Short       1  1
+< Exif.Photo.PixelXDimension                   0xa002 Short       1  2272
+< Exif.Photo.PixelYDimension                   0xa003 Short       1  1704
+< Exif.Photo.InteroperabilityTag               0xa005 Long        1  1416
+< Exif.Photo.FocalPlaneXResolution             0xa20e Rational    1  2272000/280
+< Exif.Photo.FocalPlaneYResolution             0xa20f Rational    1  1704000/210
+< Exif.Photo.FocalPlaneResolutionUnit          0xa210 Short       1  2
+< Exif.Photo.SensingMethod                     0xa217 Short       1  2
+< Exif.Photo.FileSource                        0xa300 Undefined   1  3 
+< Exif.Photo.CustomRendered                    0xa401 Short       1  0
+< Exif.Photo.ExposureMode                      0xa402 Short       1  0
+< Exif.Photo.WhiteBalance                      0xa403 Short       1  0
+< Exif.Photo.DigitalZoomRatio                  0xa404 Rational    1  2272/2272
+< Exif.Photo.SceneCaptureType                  0xa406 Short       1  0
+< Exif.Canon.0x0002                            0x0002 Short       4  2 682 286 215
+< Exif.Canon.0x0003                            0x0003 Short       4  0 0 0 0
+< Exif.Canon.0x0000                            0x0000 Short       6  0 0 0 0 0 0
+< Exif.Canon.0x0000                            0x0000 Short       4  0 0 0 0
+< Exif.Canon.ImageType                         0x0006 Ascii      32  IMG:PowerShot S40 JPEG
+< Exif.Canon.FirmwareVersion                   0x0007 Ascii      24  Firmware Version 1.10
+< Exif.Canon.ImageNumber                       0x0008 Long        1  1171771
+< Exif.Canon.OwnerName                         0x0009 Ascii      32  Andreas Huggel
+< Exif.Canon.0x0010                            0x0010 Long        1  17891328
+< Exif.Canon.0x000d                            0x000d Short      21  42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
+< Exif.CanonCs1.Macro                          0x0001 Short       1  2
+< Exif.CanonCs1.Selftimer                      0x0002 Short       1  0
+< Exif.CanonCs1.Quality                        0x0003 Short       1  5
+< Exif.CanonCs1.FlashMode                      0x0004 Short       1  1
+< Exif.CanonCs1.DriveMode                      0x0005 Short       1  0
+< Exif.CanonCs1.0x0006                         0x0006 Short       1  0
+< Exif.CanonCs1.FocusMode                      0x0007 Short       1  4
+< Exif.CanonCs1.0x0008                         0x0008 Short       1  0
+< Exif.CanonCs1.0x0009                         0x0009 Short       1  1
+< Exif.CanonCs1.ImageSize                      0x000a Short       1  0
+< Exif.CanonCs1.EasyMode                       0x000b Short       1  1
+< Exif.CanonCs1.DigitalZoom                    0x000c Short       1  0
+< Exif.CanonCs1.Contrast                       0x000d Short       1  0
+< Exif.CanonCs1.Saturation                     0x000e Short       1  0
+< Exif.CanonCs1.Sharpness                      0x000f Short       1  0
+< Exif.CanonCs1.ISOSpeed                       0x0010 Short       1  17
+< Exif.CanonCs1.MeteringMode                   0x0011 Short       1  5
+< Exif.CanonCs1.FocusType                      0x0012 Short       1  1
+< Exif.CanonCs1.AFPoint                        0x0013 Short       1  12291
+< Exif.CanonCs1.ExposureProgram                0x0014 Short       1  1
+< Exif.CanonCs1.0x0015                         0x0015 Short       1  65535
+< Exif.CanonCs1.0x0016                         0x0016 Short       1  65535
+< Exif.CanonCs1.Lens                           0x0017 Short       3  682 227 32
+< Exif.CanonCs1.0x001a                         0x001a Short       1  149
+< Exif.CanonCs1.0x001b                         0x001b Short       1  192
+< Exif.CanonCs1.FlashActivity                  0x001c Short       1  0
+< Exif.CanonCs1.FlashDetails                   0x001d Short       1  0
+< Exif.CanonCs1.0x001e                         0x001e Short       1  0
+< Exif.CanonCs1.0x001f                         0x001f Short       1  0
+< Exif.CanonCs1.FocusMode                      0x0020 Short       1  0
+< Exif.CanonCs1.0x0021                         0x0021 Short       1  0
+< Exif.CanonCs1.0x0022                         0x0022 Short       1  65535
+< Exif.CanonCs1.0x0023                         0x0023 Short       1  49
+< Exif.CanonCs1.0x0024                         0x0024 Short       1  2272
+< Exif.CanonCs1.0x0025                         0x0025 Short       1  2272
+< Exif.CanonCs1.0x0026                         0x0026 Short       1  0
+< Exif.CanonCs1.0x0027                         0x0027 Short       1  1
+< Exif.CanonCs2.0x0001                         0x0001 Short       1  0
+< Exif.CanonCs2.ISOSpeed                       0x0002 Short       1  160
+< Exif.CanonCs2.0x0003                         0x0003 Short       1  276
+< Exif.CanonCs2.0x0004                         0x0004 Short       1  149
+< Exif.CanonCs2.0x0005                         0x0005 Short       1  287
+< Exif.CanonCs2.0x0006                         0x0006 Short       1  0
+< Exif.CanonCs2.WhiteBalance                   0x0007 Short       1  0
+< Exif.CanonCs2.0x0008                         0x0008 Short       1  0
+< Exif.CanonCs2.Sequence                       0x0009 Short       1  0
+< Exif.CanonCs2.0x000a                         0x000a Short       1  6
+< Exif.CanonCs2.0x000b                         0x000b Short       1  0
+< Exif.CanonCs2.0x000c                         0x000c Short       1  0
+< Exif.CanonCs2.0x000d                         0x000d Short       1  0
+< Exif.CanonCs2.AFPointUsed                    0x000e Short       1  12290
+< Exif.CanonCs2.FlashBias                      0x000f Short       1  0
+< Exif.CanonCs2.0x0010                         0x0010 Short       1  0
+< Exif.CanonCs2.0x0011                         0x0011 Short       1  0
+< Exif.CanonCs2.0x0012                         0x0012 Short       1  1
+< Exif.CanonCs2.SubjectDistance                0x0013 Short       1  782
+< Exif.CanonCs2.0x0014                         0x0014 Short       1  0
+< Exif.CanonCs2.0x0015                         0x0015 Short       1  149
+< Exif.CanonCs2.0x0016                         0x0016 Short       1  289
+< Exif.CanonCs2.0x0017                         0x0017 Short       1  0
+< Exif.CanonCs2.0x0018                         0x0018 Short       1  0
+< Exif.CanonCs2.0x0019                         0x0019 Short       1  0
+< Exif.CanonCs2.0x001a                         0x001a Short       1  250
+< Exif.Iop.InteroperabilityIndex               0x0001 Ascii       4  R98
+< Exif.Iop.InteroperabilityVersion             0x0002 Undefined   4  48 49 48 48 
+< Exif.Iop.RelatedImageWidth                   0x1001 Short       1  2272
+< Exif.Iop.RelatedImageLength                  0x1002 Short       1  1704
+< Exif.Thumbnail.Compression                   0x0103 Short       1  6
+< Exif.Thumbnail.XResolution                   0x011a Rational    1  180/1
+< Exif.Thumbnail.YResolution                   0x011b Rational    1  180/1
+< Exif.Thumbnail.ResolutionUnit                0x0128 Short       1  2
+< Exif.Thumbnail.JPEGInterchangeFormat         0x0201 Long        1  0
+< Exif.Thumbnail.JPEGInterchangeFormatLength   0x0202 Long        1  5448
 ---
+> Exif.Image.Make                                       0x010f  Canon
+> Exif.Image.Model                                      0x0110  Canon PowerShot S40
+> Exif.Image.Orientation                                0x0112  1
+> Exif.Image.XResolution                                0x011a  180/1
+> Exif.Image.YResolution                                0x011b  180/1
+> Exif.Image.ResolutionUnit                             0x0128  2
+> Exif.Image.DateTime                                   0x0132  2003:12:14 12:01:44
+> Exif.Image.YCbCrPositioning                           0x0213  1
 > Exif.Image.ExifTag                                    0x8769  184
-13c13
-< Exif.Photo.DateTimeOriginal                           0x9003  2003:12:14 12:01:44
----
+> Exif.Photo.ExposureTime                               0x829a  1/500
+> Exif.Photo.FNumber                                    0x829d  49/10
+> Exif.Photo.ExifVersion                                0x9000  48 50 50 48 
 > Exif.Photo.DateTimeOriginal                           0x9003  1999:11:22 00:11:22 and twenty seconds
-29c29
-< Exif.Photo.InteroperabilityTag                        0xa005  1416
----
+> Exif.Photo.DateTimeDigitized                          0x9004  2003:12:14 12:01:44
+> Exif.Photo.ComponentsConfiguration                    0x9101  1 2 3 0 
+> Exif.Photo.CompressedBitsPerPixel                     0x9102  5/1
+> Exif.Photo.ShutterSpeedValue                          0x9201  287/32
+> Exif.Photo.ApertureValue                              0x9202  149/32
+> Exif.Photo.ExposureBiasValue                          0x9204  0/3
+> Exif.Photo.MaxApertureValue                           0x9205  194698/65536
+> Exif.Photo.MeteringMode                               0x9207  2
+> Exif.Photo.Flash                                      0x9209  24
+> Exif.Photo.FocalLength                                0x920a  682/32
+> Exif.Photo.UserComment                                0x9286  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+> Exif.Photo.FlashpixVersion                            0xa000  48 49 48 48 
+> Exif.Photo.ColorSpace                                 0xa001  1
+> Exif.Photo.PixelXDimension                            0xa002  2272
+> Exif.Photo.PixelYDimension                            0xa003  1704
 > Exif.Photo.InteroperabilityTag                        0xa005  1423
+> Exif.Photo.FocalPlaneXResolution                      0xa20e  2272000/280
+> Exif.Photo.FocalPlaneYResolution                      0xa20f  1704000/210
+> Exif.Photo.FocalPlaneResolutionUnit                   0xa210  2
+> Exif.Photo.SensingMethod                              0xa217  2
+> Exif.Photo.FileSource                                 0xa300  3 
+> Exif.Photo.CustomRendered                             0xa401  0
+> Exif.Photo.ExposureMode                               0xa402  0
+> Exif.Photo.WhiteBalance                               0xa403  0
+> Exif.Photo.DigitalZoomRatio                           0xa404  2272/2272
+> Exif.Photo.SceneCaptureType                           0xa406  0
+> Exif.Canon.0x0002                                     0x0002  2 682 286 215
+> Exif.Canon.0x0003                                     0x0003  0 0 0 0
+> Exif.Canon.0x0000                                     0x0000  0 0 0 0 0 0
+> Exif.Canon.0x0000                                     0x0000  0 0 0 0
+> Exif.Canon.ImageType                                  0x0006  IMG:PowerShot S40 JPEG
+> Exif.Canon.FirmwareVersion                            0x0007  Firmware Version 1.10
+> Exif.Canon.ImageNumber                                0x0008  1171771
+> Exif.Canon.OwnerName                                  0x0009  Andreas Huggel
+> Exif.Canon.0x0010                                     0x0010  17891328
+> Exif.Canon.0x000d                                     0x000d  42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
+> Exif.CanonCs1.Macro                                   0x0001  2
+> Exif.CanonCs1.Selftimer                               0x0002  0
+> Exif.CanonCs1.Quality                                 0x0003  5
+> Exif.CanonCs1.FlashMode                               0x0004  1
+> Exif.CanonCs1.DriveMode                               0x0005  0
+> Exif.CanonCs1.0x0006                                  0x0006  0
+> Exif.CanonCs1.FocusMode                               0x0007  4
+> Exif.CanonCs1.0x0008                                  0x0008  0
+> Exif.CanonCs1.0x0009                                  0x0009  1
+> Exif.CanonCs1.ImageSize                               0x000a  0
+> Exif.CanonCs1.EasyMode                                0x000b  1
+> Exif.CanonCs1.DigitalZoom                             0x000c  0
+> Exif.CanonCs1.Contrast                                0x000d  0
+> Exif.CanonCs1.Saturation                              0x000e  0
+> Exif.CanonCs1.Sharpness                               0x000f  0
+> Exif.CanonCs1.ISOSpeed                                0x0010  17
+> Exif.CanonCs1.MeteringMode                            0x0011  5
+> Exif.CanonCs1.FocusType                               0x0012  1
+> Exif.CanonCs1.AFPoint                                 0x0013  12291
+> Exif.CanonCs1.ExposureProgram                         0x0014  1
+> Exif.CanonCs1.0x0015                                  0x0015  65535
+> Exif.CanonCs1.0x0016                                  0x0016  65535
+> Exif.CanonCs1.Lens                                    0x0017  682 227 32
+> Exif.CanonCs1.0x001a                                  0x001a  149
+> Exif.CanonCs1.0x001b                                  0x001b  192
+> Exif.CanonCs1.FlashActivity                           0x001c  0
+> Exif.CanonCs1.FlashDetails                            0x001d  0
+> Exif.CanonCs1.0x001e                                  0x001e  0
+> Exif.CanonCs1.0x001f                                  0x001f  0
+> Exif.CanonCs1.FocusMode                               0x0020  0
+> Exif.CanonCs1.0x0021                                  0x0021  0
+> Exif.CanonCs1.0x0022                                  0x0022  65535
+> Exif.CanonCs1.0x0023                                  0x0023  49
+> Exif.CanonCs1.0x0024                                  0x0024  2272
+> Exif.CanonCs1.0x0025                                  0x0025  2272
+> Exif.CanonCs1.0x0026                                  0x0026  0
+> Exif.CanonCs1.0x0027                                  0x0027  1
+> Exif.CanonCs2.0x0001                                  0x0001  0
+> Exif.CanonCs2.ISOSpeed                                0x0002  160
+> Exif.CanonCs2.0x0003                                  0x0003  276
+> Exif.CanonCs2.0x0004                                  0x0004  149
+> Exif.CanonCs2.0x0005                                  0x0005  287
+> Exif.CanonCs2.0x0006                                  0x0006  0
+> Exif.CanonCs2.WhiteBalance                            0x0007  0
+> Exif.CanonCs2.0x0008                                  0x0008  0
+> Exif.CanonCs2.Sequence                                0x0009  0
+> Exif.CanonCs2.0x000a                                  0x000a  6
+> Exif.CanonCs2.0x000b                                  0x000b  0
+> Exif.CanonCs2.0x000c                                  0x000c  0
+> Exif.CanonCs2.0x000d                                  0x000d  0
+> Exif.CanonCs2.AFPointUsed                             0x000e  12290
+> Exif.CanonCs2.FlashBias                               0x000f  0
+> Exif.CanonCs2.0x0010                                  0x0010  0
+> Exif.CanonCs2.0x0011                                  0x0011  0
+> Exif.CanonCs2.0x0012                                  0x0012  1
+> Exif.CanonCs2.SubjectDistance                         0x0013  782
+> Exif.CanonCs2.0x0014                                  0x0014  0
+> Exif.CanonCs2.0x0015                                  0x0015  149
+> Exif.CanonCs2.0x0016                                  0x0016  289
+> Exif.CanonCs2.0x0017                                  0x0017  0
+> Exif.CanonCs2.0x0018                                  0x0018  0
+> Exif.CanonCs2.0x0019                                  0x0019  0
+> Exif.CanonCs2.0x001a                                  0x001a  250
+> Exif.Iop.InteroperabilityIndex                        0x0001  R98
+> Exif.Iop.InteroperabilityVersion                      0x0002  48 49 48 48 
+> Exif.Iop.RelatedImageWidth                            0x1001  2272
+> Exif.Iop.RelatedImageLength                           0x1002  1704
+> Exif.Thumbnail.Compression                            0x0103  6
+> Exif.Thumbnail.XResolution                            0x011a  180/1
+> Exif.Thumbnail.YResolution                            0x011b  180/1
+> Exif.Thumbnail.ResolutionUnit                         0x0128  2
+> Exif.Thumbnail.JPEGInterchangeFormat                  0x0201  0
+> Exif.Thumbnail.JPEGInterchangeFormatLength            0x0202  5448
 ------------------------------------------------------------
 Case 5: Intrusive change to the Canon makernote metadata
 ---> Reading file ./exiv2-canon-powershot-s40.jpg
@@ -57,18 +851,252 @@ Case 5: Intrusive change to the Canon makernote metadata
 ---> Writing Exif data to file test5.jpg
 ---> Reading file test5.jpg
 ---> Writing Exif thumbnail to file thumb5.*
-9c9
-< Exif.Image.ExifTag                                    0x8769  196
+1,122c1,122
+< Exif.Image.Make                              0x010f Ascii       6  Canon
+< Exif.Image.Model                             0x0110 Ascii      20  Canon PowerShot S40
+< Exif.Image.Orientation                       0x0112 Short       1  1
+< Exif.Image.XResolution                       0x011a Rational    1  180/1
+< Exif.Image.YResolution                       0x011b Rational    1  180/1
+< Exif.Image.ResolutionUnit                    0x0128 Short       1  2
+< Exif.Image.DateTime                          0x0132 Ascii      20  2003:12:14 12:01:44
+< Exif.Image.YCbCrPositioning                  0x0213 Short       1  1
+< Exif.Image.ExifTag                           0x8769 Long        1  196
+< Exif.Photo.ExposureTime                      0x829a Rational    1  1/500
+< Exif.Photo.FNumber                           0x829d Rational    1  49/10
+< Exif.Photo.ExifVersion                       0x9000 Undefined   4  48 50 50 48 
+< Exif.Photo.DateTimeOriginal                  0x9003 Ascii      20  2003:12:14 12:01:44
+< Exif.Photo.DateTimeDigitized                 0x9004 Ascii      20  2003:12:14 12:01:44
+< Exif.Photo.ComponentsConfiguration           0x9101 Undefined   4  1 2 3 0 
+< Exif.Photo.CompressedBitsPerPixel            0x9102 Rational    1  5/1
+< Exif.Photo.ShutterSpeedValue                 0x9201 SRational   1  287/32
+< Exif.Photo.ApertureValue                     0x9202 Rational    1  149/32
+< Exif.Photo.ExposureBiasValue                 0x9204 SRational   1  0/3
+< Exif.Photo.MaxApertureValue                  0x9205 Rational    1  194698/65536
+< Exif.Photo.MeteringMode                      0x9207 Short       1  2
+< Exif.Photo.Flash                             0x9209 Short       1  24
+< Exif.Photo.FocalLength                       0x920a Rational    1  682/32
+< Exif.Photo.UserComment                       0x9286 Undefined 264  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+< Exif.Photo.FlashpixVersion                   0xa000 Undefined   4  48 49 48 48 
+< Exif.Photo.ColorSpace                        0xa001 Short       1  1
+< Exif.Photo.PixelXDimension                   0xa002 Short       1  2272
+< Exif.Photo.PixelYDimension                   0xa003 Short       1  1704
+< Exif.Photo.InteroperabilityTag               0xa005 Long        1  1416
+< Exif.Photo.FocalPlaneXResolution             0xa20e Rational    1  2272000/280
+< Exif.Photo.FocalPlaneYResolution             0xa20f Rational    1  1704000/210
+< Exif.Photo.FocalPlaneResolutionUnit          0xa210 Short       1  2
+< Exif.Photo.SensingMethod                     0xa217 Short       1  2
+< Exif.Photo.FileSource                        0xa300 Undefined   1  3 
+< Exif.Photo.CustomRendered                    0xa401 Short       1  0
+< Exif.Photo.ExposureMode                      0xa402 Short       1  0
+< Exif.Photo.WhiteBalance                      0xa403 Short       1  0
+< Exif.Photo.DigitalZoomRatio                  0xa404 Rational    1  2272/2272
+< Exif.Photo.SceneCaptureType                  0xa406 Short       1  0
+< Exif.Canon.0x0002                            0x0002 Short       4  2 682 286 215
+< Exif.Canon.0x0003                            0x0003 Short       4  0 0 0 0
+< Exif.Canon.0x0000                            0x0000 Short       6  0 0 0 0 0 0
+< Exif.Canon.0x0000                            0x0000 Short       4  0 0 0 0
+< Exif.Canon.ImageType                         0x0006 Ascii      32  IMG:PowerShot S40 JPEG
+< Exif.Canon.FirmwareVersion                   0x0007 Ascii      24  Firmware Version 1.10
+< Exif.Canon.ImageNumber                       0x0008 Long        1  1171771
+< Exif.Canon.OwnerName                         0x0009 Ascii      32  Andreas Huggel
+< Exif.Canon.0x0010                            0x0010 Long        1  17891328
+< Exif.Canon.0x000d                            0x000d Short      21  42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
+< Exif.CanonCs1.Macro                          0x0001 Short       1  2
+< Exif.CanonCs1.Selftimer                      0x0002 Short       1  0
+< Exif.CanonCs1.Quality                        0x0003 Short       1  5
+< Exif.CanonCs1.FlashMode                      0x0004 Short       1  1
+< Exif.CanonCs1.DriveMode                      0x0005 Short       1  0
+< Exif.CanonCs1.0x0006                         0x0006 Short       1  0
+< Exif.CanonCs1.FocusMode                      0x0007 Short       1  4
+< Exif.CanonCs1.0x0008                         0x0008 Short       1  0
+< Exif.CanonCs1.0x0009                         0x0009 Short       1  1
+< Exif.CanonCs1.ImageSize                      0x000a Short       1  0
+< Exif.CanonCs1.EasyMode                       0x000b Short       1  1
+< Exif.CanonCs1.DigitalZoom                    0x000c Short       1  0
+< Exif.CanonCs1.Contrast                       0x000d Short       1  0
+< Exif.CanonCs1.Saturation                     0x000e Short       1  0
+< Exif.CanonCs1.Sharpness                      0x000f Short       1  0
+< Exif.CanonCs1.ISOSpeed                       0x0010 Short       1  17
+< Exif.CanonCs1.MeteringMode                   0x0011 Short       1  5
+< Exif.CanonCs1.FocusType                      0x0012 Short       1  1
+< Exif.CanonCs1.AFPoint                        0x0013 Short       1  12291
+< Exif.CanonCs1.ExposureProgram                0x0014 Short       1  1
+< Exif.CanonCs1.0x0015                         0x0015 Short       1  65535
+< Exif.CanonCs1.0x0016                         0x0016 Short       1  65535
+< Exif.CanonCs1.Lens                           0x0017 Short       3  682 227 32
+< Exif.CanonCs1.0x001a                         0x001a Short       1  149
+< Exif.CanonCs1.0x001b                         0x001b Short       1  192
+< Exif.CanonCs1.FlashActivity                  0x001c Short       1  0
+< Exif.CanonCs1.FlashDetails                   0x001d Short       1  0
+< Exif.CanonCs1.0x001e                         0x001e Short       1  0
+< Exif.CanonCs1.0x001f                         0x001f Short       1  0
+< Exif.CanonCs1.FocusMode                      0x0020 Short       1  0
+< Exif.CanonCs1.0x0021                         0x0021 Short       1  0
+< Exif.CanonCs1.0x0022                         0x0022 Short       1  65535
+< Exif.CanonCs1.0x0023                         0x0023 Short       1  49
+< Exif.CanonCs1.0x0024                         0x0024 Short       1  2272
+< Exif.CanonCs1.0x0025                         0x0025 Short       1  2272
+< Exif.CanonCs1.0x0026                         0x0026 Short       1  0
+< Exif.CanonCs1.0x0027                         0x0027 Short       1  1
+< Exif.CanonCs2.0x0001                         0x0001 Short       1  0
+< Exif.CanonCs2.ISOSpeed                       0x0002 Short       1  160
+< Exif.CanonCs2.0x0003                         0x0003 Short       1  276
+< Exif.CanonCs2.0x0004                         0x0004 Short       1  149
+< Exif.CanonCs2.0x0005                         0x0005 Short       1  287
+< Exif.CanonCs2.0x0006                         0x0006 Short       1  0
+< Exif.CanonCs2.WhiteBalance                   0x0007 Short       1  0
+< Exif.CanonCs2.0x0008                         0x0008 Short       1  0
+< Exif.CanonCs2.Sequence                       0x0009 Short       1  0
+< Exif.CanonCs2.0x000a                         0x000a Short       1  6
+< Exif.CanonCs2.0x000b                         0x000b Short       1  0
+< Exif.CanonCs2.0x000c                         0x000c Short       1  0
+< Exif.CanonCs2.0x000d                         0x000d Short       1  0
+< Exif.CanonCs2.AFPointUsed                    0x000e Short       1  12290
+< Exif.CanonCs2.FlashBias                      0x000f Short       1  0
+< Exif.CanonCs2.0x0010                         0x0010 Short       1  0
+< Exif.CanonCs2.0x0011                         0x0011 Short       1  0
+< Exif.CanonCs2.0x0012                         0x0012 Short       1  1
+< Exif.CanonCs2.SubjectDistance                0x0013 Short       1  782
+< Exif.CanonCs2.0x0014                         0x0014 Short       1  0
+< Exif.CanonCs2.0x0015                         0x0015 Short       1  149
+< Exif.CanonCs2.0x0016                         0x0016 Short       1  289
+< Exif.CanonCs2.0x0017                         0x0017 Short       1  0
+< Exif.CanonCs2.0x0018                         0x0018 Short       1  0
+< Exif.CanonCs2.0x0019                         0x0019 Short       1  0
+< Exif.CanonCs2.0x001a                         0x001a Short       1  250
+< Exif.Iop.InteroperabilityIndex               0x0001 Ascii       4  R98
+< Exif.Iop.InteroperabilityVersion             0x0002 Undefined   4  48 49 48 48 
+< Exif.Iop.RelatedImageWidth                   0x1001 Short       1  2272
+< Exif.Iop.RelatedImageLength                  0x1002 Short       1  1704
+< Exif.Thumbnail.Compression                   0x0103 Short       1  6
+< Exif.Thumbnail.XResolution                   0x011a Rational    1  180/1
+< Exif.Thumbnail.YResolution                   0x011b Rational    1  180/1
+< Exif.Thumbnail.ResolutionUnit                0x0128 Short       1  2
+< Exif.Thumbnail.JPEGInterchangeFormat         0x0201 Long        1  0
+< Exif.Thumbnail.JPEGInterchangeFormatLength   0x0202 Long        1  5448
 ---
+> Exif.Image.Make                                       0x010f  Canon
+> Exif.Image.Model                                      0x0110  Canon PowerShot S40
+> Exif.Image.Orientation                                0x0112  1
+> Exif.Image.XResolution                                0x011a  180/1
+> Exif.Image.YResolution                                0x011b  180/1
+> Exif.Image.ResolutionUnit                             0x0128  2
+> Exif.Image.DateTime                                   0x0132  2003:12:14 12:01:44
+> Exif.Image.YCbCrPositioning                           0x0213  1
 > Exif.Image.ExifTag                                    0x8769  184
-29c29
-< Exif.Photo.InteroperabilityTag                        0xa005  1416
----
+> Exif.Photo.ExposureTime                               0x829a  1/500
+> Exif.Photo.FNumber                                    0x829d  49/10
+> Exif.Photo.ExifVersion                                0x9000  48 50 50 48 
+> Exif.Photo.DateTimeOriginal                           0x9003  2003:12:14 12:01:44
+> Exif.Photo.DateTimeDigitized                          0x9004  2003:12:14 12:01:44
+> Exif.Photo.ComponentsConfiguration                    0x9101  1 2 3 0 
+> Exif.Photo.CompressedBitsPerPixel                     0x9102  5/1
+> Exif.Photo.ShutterSpeedValue                          0x9201  287/32
+> Exif.Photo.ApertureValue                              0x9202  149/32
+> Exif.Photo.ExposureBiasValue                          0x9204  0/3
+> Exif.Photo.MaxApertureValue                           0x9205  194698/65536
+> Exif.Photo.MeteringMode                               0x9207  2
+> Exif.Photo.Flash                                      0x9209  24
+> Exif.Photo.FocalLength                                0x920a  682/32
+> Exif.Photo.UserComment                                0x9286  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+> Exif.Photo.FlashpixVersion                            0xa000  48 49 48 48 
+> Exif.Photo.ColorSpace                                 0xa001  1
+> Exif.Photo.PixelXDimension                            0xa002  2272
+> Exif.Photo.PixelYDimension                            0xa003  1704
 > Exif.Photo.InteroperabilityTag                        0xa005  1414
-47c47
-< Exif.Canon.OwnerName                                  0x0009  Andreas Huggel
----
+> Exif.Photo.FocalPlaneXResolution                      0xa20e  2272000/280
+> Exif.Photo.FocalPlaneYResolution                      0xa20f  1704000/210
+> Exif.Photo.FocalPlaneResolutionUnit                   0xa210  2
+> Exif.Photo.SensingMethod                              0xa217  2
+> Exif.Photo.FileSource                                 0xa300  3 
+> Exif.Photo.CustomRendered                             0xa401  0
+> Exif.Photo.ExposureMode                               0xa402  0
+> Exif.Photo.WhiteBalance                               0xa403  0
+> Exif.Photo.DigitalZoomRatio                           0xa404  2272/2272
+> Exif.Photo.SceneCaptureType                           0xa406  0
+> Exif.Canon.0x0002                                     0x0002  2 682 286 215
+> Exif.Canon.0x0003                                     0x0003  0 0 0 0
+> Exif.Canon.0x0000                                     0x0000  0 0 0 0 0 0
+> Exif.Canon.0x0000                                     0x0000  0 0 0 0
+> Exif.Canon.ImageType                                  0x0006  IMG:PowerShot S40 JPEG
+> Exif.Canon.FirmwareVersion                            0x0007  Firmware Version 1.10
+> Exif.Canon.ImageNumber                                0x0008  1171771
 > Exif.Canon.OwnerName                                  0x0009  Frau Chan YeeSend und Herr Andreas Huggel
+> Exif.Canon.0x0010                                     0x0010  17891328
+> Exif.Canon.0x000d                                     0x000d  42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
+> Exif.CanonCs1.Macro                                   0x0001  2
+> Exif.CanonCs1.Selftimer                               0x0002  0
+> Exif.CanonCs1.Quality                                 0x0003  5
+> Exif.CanonCs1.FlashMode                               0x0004  1
+> Exif.CanonCs1.DriveMode                               0x0005  0
+> Exif.CanonCs1.0x0006                                  0x0006  0
+> Exif.CanonCs1.FocusMode                               0x0007  4
+> Exif.CanonCs1.0x0008                                  0x0008  0
+> Exif.CanonCs1.0x0009                                  0x0009  1
+> Exif.CanonCs1.ImageSize                               0x000a  0
+> Exif.CanonCs1.EasyMode                                0x000b  1
+> Exif.CanonCs1.DigitalZoom                             0x000c  0
+> Exif.CanonCs1.Contrast                                0x000d  0
+> Exif.CanonCs1.Saturation                              0x000e  0
+> Exif.CanonCs1.Sharpness                               0x000f  0
+> Exif.CanonCs1.ISOSpeed                                0x0010  17
+> Exif.CanonCs1.MeteringMode                            0x0011  5
+> Exif.CanonCs1.FocusType                               0x0012  1
+> Exif.CanonCs1.AFPoint                                 0x0013  12291
+> Exif.CanonCs1.ExposureProgram                         0x0014  1
+> Exif.CanonCs1.0x0015                                  0x0015  65535
+> Exif.CanonCs1.0x0016                                  0x0016  65535
+> Exif.CanonCs1.Lens                                    0x0017  682 227 32
+> Exif.CanonCs1.0x001a                                  0x001a  149
+> Exif.CanonCs1.0x001b                                  0x001b  192
+> Exif.CanonCs1.FlashActivity                           0x001c  0
+> Exif.CanonCs1.FlashDetails                            0x001d  0
+> Exif.CanonCs1.0x001e                                  0x001e  0
+> Exif.CanonCs1.0x001f                                  0x001f  0
+> Exif.CanonCs1.FocusMode                               0x0020  0
+> Exif.CanonCs1.0x0021                                  0x0021  0
+> Exif.CanonCs1.0x0022                                  0x0022  65535
+> Exif.CanonCs1.0x0023                                  0x0023  49
+> Exif.CanonCs1.0x0024                                  0x0024  2272
+> Exif.CanonCs1.0x0025                                  0x0025  2272
+> Exif.CanonCs1.0x0026                                  0x0026  0
+> Exif.CanonCs1.0x0027                                  0x0027  1
+> Exif.CanonCs2.0x0001                                  0x0001  0
+> Exif.CanonCs2.ISOSpeed                                0x0002  160
+> Exif.CanonCs2.0x0003                                  0x0003  276
+> Exif.CanonCs2.0x0004                                  0x0004  149
+> Exif.CanonCs2.0x0005                                  0x0005  287
+> Exif.CanonCs2.0x0006                                  0x0006  0
+> Exif.CanonCs2.WhiteBalance                            0x0007  0
+> Exif.CanonCs2.0x0008                                  0x0008  0
+> Exif.CanonCs2.Sequence                                0x0009  0
+> Exif.CanonCs2.0x000a                                  0x000a  6
+> Exif.CanonCs2.0x000b                                  0x000b  0
+> Exif.CanonCs2.0x000c                                  0x000c  0
+> Exif.CanonCs2.0x000d                                  0x000d  0
+> Exif.CanonCs2.AFPointUsed                             0x000e  12290
+> Exif.CanonCs2.FlashBias                               0x000f  0
+> Exif.CanonCs2.0x0010                                  0x0010  0
+> Exif.CanonCs2.0x0011                                  0x0011  0
+> Exif.CanonCs2.0x0012                                  0x0012  1
+> Exif.CanonCs2.SubjectDistance                         0x0013  782
+> Exif.CanonCs2.0x0014                                  0x0014  0
+> Exif.CanonCs2.0x0015                                  0x0015  149
+> Exif.CanonCs2.0x0016                                  0x0016  289
+> Exif.CanonCs2.0x0017                                  0x0017  0
+> Exif.CanonCs2.0x0018                                  0x0018  0
+> Exif.CanonCs2.0x0019                                  0x0019  0
+> Exif.CanonCs2.0x001a                                  0x001a  250
+> Exif.Iop.InteroperabilityIndex                        0x0001  R98
+> Exif.Iop.InteroperabilityVersion                      0x0002  48 49 48 48 
+> Exif.Iop.RelatedImageWidth                            0x1001  2272
+> Exif.Iop.RelatedImageLength                           0x1002  1704
+> Exif.Thumbnail.Compression                            0x0103  6
+> Exif.Thumbnail.XResolution                            0x011a  180/1
+> Exif.Thumbnail.YResolution                            0x011b  180/1
+> Exif.Thumbnail.ResolutionUnit                         0x0128  2
+> Exif.Thumbnail.JPEGInterchangeFormat                  0x0201  0
+> Exif.Thumbnail.JPEGInterchangeFormatLength            0x0202  5448
 ------------------------------------------------------------
 Case 6: Intrusive change to the Exif metadata (w/o makernote)
 ---> Reading file ./exiv2-kodak-dc210.jpg
@@ -76,14 +1104,86 @@ Case 6: Intrusive change to the Exif metadata (w/o makernote)
 ---> Writing Exif data to file test6.jpg
 ---> Reading file test6.jpg
 ---> Writing Exif thumbnail to file thumb6.*
-10c10
-< Exif.Image.ExifTag                                    0x8769  374
+1,39c1,39
+< Exif.Image.ImageDescription                  0x010e Ascii       0  
+< Exif.Image.Make                              0x010f Ascii      22  Eastman Kodak Company
+< Exif.Image.Model                             0x0110 Ascii      20  DC210 Zoom (V05.00)
+< Exif.Image.Orientation                       0x0112 Short       1  1
+< Exif.Image.XResolution                       0x011a Rational    1  216/1
+< Exif.Image.YResolution                       0x011b Rational    1  216/1
+< Exif.Image.ResolutionUnit                    0x0128 Short       1  2
+< Exif.Image.YCbCrPositioning                  0x0213 Short       1  1
+< Exif.Image.Copyright                         0x8298 Ascii       0  
+< Exif.Image.ExifTag                           0x8769 Long        1  374
+< Exif.Photo.ExposureTime                      0x829a Rational    1  1/30
+< Exif.Photo.FNumber                           0x829d Rational    1  40/10
+< Exif.Photo.ExifVersion                       0x9000 Undefined   4  48 49 49 48 
+< Exif.Photo.DateTimeOriginal                  0x9003 Ascii      20  2000:10:26 16:46:51
+< Exif.Photo.ComponentsConfiguration           0x9101 Undefined   4  1 2 3 0 
+< Exif.Photo.CompressedBitsPerPixel            0x9102 Rational    1  0/0
+< Exif.Photo.ShutterSpeedValue                 0x9201 SRational   1  50/10
+< Exif.Photo.ApertureValue                     0x9202 Rational    1  40/10
+< Exif.Photo.BrightnessValue                   0x9203 SRational   1  15/10
+< Exif.Photo.ExposureBiasValue                 0x9204 SRational   1  0/10
+< Exif.Photo.MaxApertureValue                  0x9205 Rational    1  400/100
+< Exif.Photo.SubjectDistance                   0x9206 Rational    1  0/0
+< Exif.Photo.MeteringMode                      0x9207 Short       1  2
+< Exif.Photo.LightSource                       0x9208 Short       1  0
+< Exif.Photo.Flash                             0x9209 Short       1  1
+< Exif.Photo.FocalLength                       0x920a Rational    1  44/10
+< Exif.Photo.MakerNote                         0x927c Undefined  72  1 4 3 0 2 1 255 255 0 1 55 142 14 93 109 246 1 0 0 251 0 4 255 32 0 0 40 0 0 0 12 53 68 67 80 48 49 48 49 49 46 74 80 71 0 4 0 0 0 1 228 224 0 1 0 0 0 1 145 128 0 1 194 64 0 1 0 0 0 1 222 16 
+< Exif.Thumbnail.ImageWidth                    0x0100 Short       1  96
+< Exif.Thumbnail.ImageLength                   0x0101 Short       1  72
+< Exif.Thumbnail.BitsPerSample                 0x0102 Short       3  8 8 8
+< Exif.Thumbnail.Compression                   0x0103 Short       1  1
+< Exif.Thumbnail.PhotometricInterpretation     0x0106 Short       1  2
+< Exif.Thumbnail.StripOffsets                  0x0111 Short       1  0
+< Exif.Thumbnail.SamplesPerPixel               0x0115 Short       1  3
+< Exif.Thumbnail.RowsPerStrip                  0x0116 Short       1  72
+< Exif.Thumbnail.StripByteCounts               0x0117 Short       1  20736
+< Exif.Thumbnail.XResolution                   0x011a Rational    1  72/1
+< Exif.Thumbnail.YResolution                   0x011b Rational    1  72/1
+< Exif.Thumbnail.ResolutionUnit                0x0128 Short       1  2
 ---
+> Exif.Image.ImageDescription                           0x010e  
+> Exif.Image.Make                                       0x010f  Eastman Kodak Company
+> Exif.Image.Model                                      0x0110  DC210 Zoom (V05.00)
+> Exif.Image.Orientation                                0x0112  1
+> Exif.Image.XResolution                                0x011a  216/1
+> Exif.Image.YResolution                                0x011b  216/1
+> Exif.Image.ResolutionUnit                             0x0128  2
+> Exif.Image.YCbCrPositioning                           0x0213  1
+> Exif.Image.Copyright                                  0x8298  
 > Exif.Image.ExifTag                                    0x8769  192
-14c14
-< Exif.Photo.DateTimeOriginal                           0x9003  2000:10:26 16:46:51
----
+> Exif.Photo.ExposureTime                               0x829a  1/30
+> Exif.Photo.FNumber                                    0x829d  40/10
+> Exif.Photo.ExifVersion                                0x9000  48 49 49 48 
 > Exif.Photo.DateTimeOriginal                           0x9003  1999:11:22 00:11:22 and twenty seconds
+> Exif.Photo.ComponentsConfiguration                    0x9101  1 2 3 0 
+> Exif.Photo.CompressedBitsPerPixel                     0x9102  0/0
+> Exif.Photo.ShutterSpeedValue                          0x9201  50/10
+> Exif.Photo.ApertureValue                              0x9202  40/10
+> Exif.Photo.BrightnessValue                            0x9203  15/10
+> Exif.Photo.ExposureBiasValue                          0x9204  0/10
+> Exif.Photo.MaxApertureValue                           0x9205  400/100
+> Exif.Photo.SubjectDistance                            0x9206  0/0
+> Exif.Photo.MeteringMode                               0x9207  2
+> Exif.Photo.LightSource                                0x9208  0
+> Exif.Photo.Flash                                      0x9209  1
+> Exif.Photo.FocalLength                                0x920a  44/10
+> Exif.Photo.MakerNote                                  0x927c  1 4 3 0 2 1 255 255 0 1 55 142 14 93 109 246 1 0 0 251 0 4 255 32 0 0 40 0 0 0 12 53 68 67 80 48 49 48 49 49 46 74 80 71 0 4 0 0 0 1 228 224 0 1 0 0 0 1 145 128 0 1 194 64 0 1 0 0 0 1 222 16 
+> Exif.Thumbnail.ImageWidth                             0x0100  96
+> Exif.Thumbnail.ImageLength                            0x0101  72
+> Exif.Thumbnail.BitsPerSample                          0x0102  8 8 8
+> Exif.Thumbnail.Compression                            0x0103  1
+> Exif.Thumbnail.PhotometricInterpretation              0x0106  2
+> Exif.Thumbnail.StripOffsets                           0x0111  0
+> Exif.Thumbnail.SamplesPerPixel                        0x0115  3
+> Exif.Thumbnail.RowsPerStrip                           0x0116  72
+> Exif.Thumbnail.StripByteCounts                        0x0117  20736
+> Exif.Thumbnail.XResolution                            0x011a  72/1
+> Exif.Thumbnail.YResolution                            0x011b  72/1
+> Exif.Thumbnail.ResolutionUnit                         0x0128  2
 ------------------------------------------------------------
 Case 7: Intrusive change to the Fujifilm makernote metadata
 ---> Reading file ./exiv2-fujifilm-finepix-s2pro.jpg
@@ -91,18 +1191,156 @@ Case 7: Intrusive change to the Fujifilm makernote metadata
 ---> Writing Exif data to file test7.jpg
 ---> Reading file test7.jpg
 ---> Writing Exif thumbnail to file thumb7.*
-11c11
-< Exif.Image.ExifTag                                    0x8769  248
+1,74c1,74
+< Exif.Image.Make                              0x010f Ascii       9  FUJIFILM
+< Exif.Image.Model                             0x0110 Ascii      13  FinePixS2Pro
+< Exif.Image.Orientation                       0x0112 Short       1  1
+< Exif.Image.XResolution                       0x011a Rational    1  72/1
+< Exif.Image.YResolution                       0x011b Rational    1  72/1
+< Exif.Image.ResolutionUnit                    0x0128 Short       1  2
+< Exif.Image.Software                          0x0131 Ascii      36  Digital Camera FinePixS2Pro Ver1.00
+< Exif.Image.DateTime                          0x0132 Ascii      20  2003:09:26 23:16:36
+< Exif.Image.YCbCrPositioning                  0x0213 Short       1  2
+< Exif.Image.Copyright                         0x8298 Ascii       5      
+< Exif.Image.ExifTag                           0x8769 Long        1  248
+< Exif.Photo.ExposureTime                      0x829a Rational    1  10/600
+< Exif.Photo.FNumber                           0x829d Rational    1  400/100
+< Exif.Photo.ExposureProgram                   0x8822 Short       1  3
+< Exif.Photo.ISOSpeedRatings                   0x8827 Short       1  400
+< Exif.Photo.ExifVersion                       0x9000 Undefined   4  48 50 50 48 
+< Exif.Photo.DateTimeOriginal                  0x9003 Ascii      20  2003:09:26 23:16:36
+< Exif.Photo.DateTimeDigitized                 0x9004 Ascii      20  2003:09:26 23:16:36
+< Exif.Photo.ComponentsConfiguration           0x9101 Undefined   4  1 2 3 0 
+< Exif.Photo.CompressedBitsPerPixel            0x9102 Rational    1  15/10
+< Exif.Photo.ShutterSpeedValue                 0x9201 SRational   1  600/100
+< Exif.Photo.ApertureValue                     0x9202 Rational    1  400/100
+< Exif.Photo.BrightnessValue                   0x9203 SRational   1  -183/100
+< Exif.Photo.ExposureBiasValue                 0x9204 SRational   1  50/100
+< Exif.Photo.MeteringMode                      0x9207 Short       1  2
+< Exif.Photo.LightSource                       0x9208 Short       1  0
+< Exif.Photo.Flash                             0x9209 Short       1  9
+< Exif.Photo.FocalLength                       0x920a Rational    1  2800/100
+< Exif.Photo.FlashpixVersion                   0xa000 Undefined   4  48 49 48 48 
+< Exif.Photo.ColorSpace                        0xa001 Short       1  1
+< Exif.Photo.PixelXDimension                   0xa002 Long        1  3024
+< Exif.Photo.PixelYDimension                   0xa003 Long        1  2016
+< Exif.Photo.InteroperabilityTag               0xa005 Long        1  1056
+< Exif.Photo.FocalPlaneXResolution             0xa20e Rational    1  1322/1
+< Exif.Photo.FocalPlaneYResolution             0xa20f Rational    1  1322/1
+< Exif.Photo.FocalPlaneResolutionUnit          0xa210 Short       1  3
+< Exif.Photo.SensingMethod                     0xa217 Short       1  2
+< Exif.Photo.FileSource                        0xa300 Undefined   1  3 
+< Exif.Photo.SceneType                         0xa301 Undefined   1  1 
+< Exif.Photo.CustomRendered                    0xa401 Short       1  0
+< Exif.Photo.ExposureMode                      0xa402 Short       1  0
+< Exif.Photo.WhiteBalance                      0xa403 Short       1  0
+< Exif.Photo.FocalLengthIn35mmFilm             0xa405 Short       1  42
+< Exif.Photo.SceneCaptureType                  0xa406 Short       1  0
+< Exif.Photo.Contrast                          0xa408 Short       1  0
+< Exif.Photo.Saturation                        0xa409 Short       1  0
+< Exif.Photo.Sharpness                         0xa40a Short       1  0
+< Exif.Photo.SubjectDistanceRange              0xa40c Short       1  0
+< Exif.Fujifilm.Version                        0x0000 Undefined   4  48 49 51 48 
+< Exif.Fujifilm.Quality                        0x1000 Ascii       8  NORMAL 
+< Exif.Fujifilm.Sharpness                      0x1001 Short       1  3
+< Exif.Fujifilm.WhiteBalance                   0x1002 Short       1  256
+< Exif.Fujifilm.Color                          0x1003 Short       1  0
+< Exif.Fujifilm.Tone                           0x1004 Short       1  0
+< Exif.Fujifilm.FlashMode                      0x1010 Short       1  1
+< Exif.Fujifilm.FlashStrength                  0x1011 SRational   1  10/10
+< Exif.Fujifilm.FocusMode                      0x1021 Short       1  0
+< Exif.Fujifilm.0x1022                         0x1022 Short       1  1
+< Exif.Fujifilm.SlowSync                       0x1030 Short       1  0
+< Exif.Fujifilm.PictureMode                    0x1031 Short       1  256
+< Exif.Fujifilm.0x1032                         0x1032 Short       1  1
+< Exif.Fujifilm.Continuous                     0x1100 Short       1  0
+< Exif.Fujifilm.0x1101                         0x1101 Short       1  0
+< Exif.Fujifilm.0x1200                         0x1200 Short       1  0
+< Exif.Iop.InteroperabilityIndex               0x0001 Ascii       4  R98
+< Exif.Iop.InteroperabilityVersion             0x0002 Undefined   4  48 49 48 48 
+< Exif.Thumbnail.Compression                   0x0103 Short       1  6
+< Exif.Thumbnail.Orientation                   0x0112 Short       1  1
+< Exif.Thumbnail.XResolution                   0x011a Rational    1  72/1
+< Exif.Thumbnail.YResolution                   0x011b Rational    1  72/1
+< Exif.Thumbnail.ResolutionUnit                0x0128 Short       1  2
+< Exif.Thumbnail.JPEGInterchangeFormat         0x0201 Long        1  0
+< Exif.Thumbnail.JPEGInterchangeFormatLength   0x0202 Long        1  9573
+< Exif.Thumbnail.YCbCrPositioning              0x0213 Short       1  2
 ---
+> Exif.Image.Make                                       0x010f  FUJIFILM
+> Exif.Image.Model                                      0x0110  FinePixS2Pro
+> Exif.Image.Orientation                                0x0112  1
+> Exif.Image.XResolution                                0x011a  72/1
+> Exif.Image.YResolution                                0x011b  72/1
+> Exif.Image.ResolutionUnit                             0x0128  2
+> Exif.Image.Software                                   0x0131  Digital Camera FinePixS2Pro Ver1.00
+> Exif.Image.DateTime                                   0x0132  2003:09:26 23:16:36
+> Exif.Image.YCbCrPositioning                           0x0213  2
+> Exif.Image.Copyright                                  0x8298      
 > Exif.Image.ExifTag                                    0x8769  245
-33c33
-< Exif.Photo.InteroperabilityTag                        0xa005  1056
----
+> Exif.Photo.ExposureTime                               0x829a  10/600
+> Exif.Photo.FNumber                                    0x829d  400/100
+> Exif.Photo.ExposureProgram                            0x8822  3
+> Exif.Photo.ISOSpeedRatings                            0x8827  400
+> Exif.Photo.ExifVersion                                0x9000  48 50 50 48 
+> Exif.Photo.DateTimeOriginal                           0x9003  2003:09:26 23:16:36
+> Exif.Photo.DateTimeDigitized                          0x9004  2003:09:26 23:16:36
+> Exif.Photo.ComponentsConfiguration                    0x9101  1 2 3 0 
+> Exif.Photo.CompressedBitsPerPixel                     0x9102  15/10
+> Exif.Photo.ShutterSpeedValue                          0x9201  600/100
+> Exif.Photo.ApertureValue                              0x9202  400/100
+> Exif.Photo.BrightnessValue                            0x9203  -183/100
+> Exif.Photo.ExposureBiasValue                          0x9204  50/100
+> Exif.Photo.MeteringMode                               0x9207  2
+> Exif.Photo.LightSource                                0x9208  0
+> Exif.Photo.Flash                                      0x9209  9
+> Exif.Photo.FocalLength                                0x920a  2800/100
+> Exif.Photo.FlashpixVersion                            0xa000  48 49 48 48 
+> Exif.Photo.ColorSpace                                 0xa001  1
+> Exif.Photo.PixelXDimension                            0xa002  3024
+> Exif.Photo.PixelYDimension                            0xa003  2016
 > Exif.Photo.InteroperabilityTag                        0xa005  1070
-50c50
-< Exif.Fujifilm.Quality                                 0x1000  NORMAL 
----
+> Exif.Photo.FocalPlaneXResolution                      0xa20e  1322/1
+> Exif.Photo.FocalPlaneYResolution                      0xa20f  1322/1
+> Exif.Photo.FocalPlaneResolutionUnit                   0xa210  3
+> Exif.Photo.SensingMethod                              0xa217  2
+> Exif.Photo.FileSource                                 0xa300  3 
+> Exif.Photo.SceneType                                  0xa301  1 
+> Exif.Photo.CustomRendered                             0xa401  0
+> Exif.Photo.ExposureMode                               0xa402  0
+> Exif.Photo.WhiteBalance                               0xa403  0
+> Exif.Photo.FocalLengthIn35mmFilm                      0xa405  42
+> Exif.Photo.SceneCaptureType                           0xa406  0
+> Exif.Photo.Contrast                                   0xa408  0
+> Exif.Photo.Saturation                                 0xa409  0
+> Exif.Photo.Sharpness                                  0xa40a  0
+> Exif.Photo.SubjectDistanceRange                       0xa40c  0
+> Exif.Fujifilm.Version                                 0x0000  48 49 51 48 
 > Exif.Fujifilm.Quality                                 0x1000  Typical Fujifilm Quality
+> Exif.Fujifilm.Sharpness                               0x1001  3
+> Exif.Fujifilm.WhiteBalance                            0x1002  256
+> Exif.Fujifilm.Color                                   0x1003  0
+> Exif.Fujifilm.Tone                                    0x1004  0
+> Exif.Fujifilm.FlashMode                               0x1010  1
+> Exif.Fujifilm.FlashStrength                           0x1011  10/10
+> Exif.Fujifilm.FocusMode                               0x1021  0
+> Exif.Fujifilm.0x1022                                  0x1022  1
+> Exif.Fujifilm.SlowSync                                0x1030  0
+> Exif.Fujifilm.PictureMode                             0x1031  256
+> Exif.Fujifilm.0x1032                                  0x1032  1
+> Exif.Fujifilm.Continuous                              0x1100  0
+> Exif.Fujifilm.0x1101                                  0x1101  0
+> Exif.Fujifilm.0x1200                                  0x1200  0
+> Exif.Iop.InteroperabilityIndex                        0x0001  R98
+> Exif.Iop.InteroperabilityVersion                      0x0002  48 49 48 48 
+> Exif.Thumbnail.Compression                            0x0103  6
+> Exif.Thumbnail.Orientation                            0x0112  1
+> Exif.Thumbnail.XResolution                            0x011a  72/1
+> Exif.Thumbnail.YResolution                            0x011b  72/1
+> Exif.Thumbnail.ResolutionUnit                         0x0128  2
+> Exif.Thumbnail.JPEGInterchangeFormat                  0x0201  0
+> Exif.Thumbnail.JPEGInterchangeFormatLength            0x0202  9573
+> Exif.Thumbnail.YCbCrPositioning                       0x0213  2
 ------------------------------------------------------------
 Case 8: Intrusive change to the Sigma makernote metadata
 ---> Reading file ./exiv2-sigma-d10.jpg
@@ -110,14 +1348,138 @@ Case 8: Intrusive change to the Sigma makernote metadata
 ---> Writing Exif data to file test8.jpg
 ---> Reading file test8.jpg
 ---> Writing Exif thumbnail to file thumb8.*
-10c10
-< Exif.Image.ExifTag                                    0x8769  12317
+1,65c1,65
+< Exif.Image.Make                              0x010f Ascii       6  SIGMA
+< Exif.Image.Model                             0x0110 Ascii      11  SIGMA SD10
+< Exif.Image.Orientation                       0x0112 Short       1  1
+< Exif.Image.XResolution                       0x011a Rational    1  180/1
+< Exif.Image.YResolution                       0x011b Rational    1  180/1
+< Exif.Image.ResolutionUnit                    0x0128 Short       1  2
+< Exif.Image.Software                          0x0131 Ascii      26  SIGMA PhotoPro 2.0.0.1586
+< Exif.Image.DateTime                          0x0132 Ascii      20  2004:03:18 23:40:26
+< Exif.Image.YCbCrPositioning                  0x0213 Short       1  2
+< Exif.Image.ExifTag                           0x8769 Long        1  12317
+< Exif.Photo.ExposureTime                      0x829a Rational    1  8/1
+< Exif.Photo.FNumber                           0x829d Rational    1  56/10
+< Exif.Photo.ExposureProgram                   0x8822 Short       1  1
+< Exif.Photo.ISOSpeedRatings                   0x8827 Short       1  100
+< Exif.Photo.ExifVersion                       0x9000 Undefined   4  48 50 50 48 
+< Exif.Photo.DateTimeOriginal                  0x9003 Ascii      20  2004:03:16 19:52:38
+< Exif.Photo.DateTimeDigitized                 0x9004 Ascii      20  2004:03:18 23:40:26
+< Exif.Photo.ComponentsConfiguration           0x9101 Undefined   4  1 2 3 0 
+< Exif.Photo.ExposureBiasValue                 0x9204 SRational   1  2/2
+< Exif.Photo.MaxApertureValue                  0x9205 Rational    1  27/10
+< Exif.Photo.MeteringMode                      0x9207 Short       1  5
+< Exif.Photo.Flash                             0x9209 Short       1  0
+< Exif.Photo.FocalLength                       0x920a Rational    1  14/1
+< Exif.Photo.FlashpixVersion                   0xa000 Undefined   4  48 49 48 48 
+< Exif.Photo.ColorSpace                        0xa001 Short       1  1
+< Exif.Photo.PixelXDimension                   0xa002 Long        1  2268
+< Exif.Photo.PixelYDimension                   0xa003 Long        1  1512
+< Exif.Photo.SensingMethod                     0xa217 Short       1  2
+< Exif.Photo.FileSource                        0xa300 Undefined   4  3 0 0 0 
+< Exif.Photo.CustomRendered                    0xa401 Short       1  1
+< Exif.Photo.ExposureMode                      0xa402 Short       1  1
+< Exif.Photo.WhiteBalance                      0xa403 Short       1  1
+< Exif.Photo.FocalLengthIn35mmFilm             0xa405 Short       1  24
+< Exif.Photo.SceneCaptureType                  0xa406 Short       1  0
+< Exif.Photo.ImageUniqueID                     0xa420 Ascii      33  3032303030303139065B574068B0F5CE
+< Exif.Sigma.SerialNumber                      0x0002 Ascii       9  02000019
+< Exif.Sigma.DriveMode                         0x0003 Ascii       3  2S
+< Exif.Sigma.ResolutionMode                    0x0004 Ascii       3  HI
+< Exif.Sigma.AutofocusMode                     0x0005 Ascii       5  AF-S
+< Exif.Sigma.FocusSetting                      0x0006 Ascii       3  AF
+< Exif.Sigma.WhiteBalance                      0x0007 Ascii      13  Incandescent
+< Exif.Sigma.ExposureMode                      0x0008 Ascii       2  M
+< Exif.Sigma.MeteringMode                      0x0009 Ascii       2  8
+< Exif.Sigma.LensRange                         0x000a Ascii       3  14
+< Exif.Sigma.ColorSpace                        0x000b Ascii       5  sRGB
+< Exif.Sigma.Exposure                          0x000c Ascii      10  Expo:+0.0
+< Exif.Sigma.Contrast                          0x000d Ascii      10  Cont:+0.0
+< Exif.Sigma.Shadow                            0x000e Ascii      10  Shad:+0.0
+< Exif.Sigma.Highlight                         0x000f Ascii      10  High:+0.0
+< Exif.Sigma.Saturation                        0x0010 Ascii      10  Satu:+0.0
+< Exif.Sigma.Sharpness                         0x0011 Ascii      10  Shar:+0.0
+< Exif.Sigma.FillLight                         0x0012 Ascii      10  Fill:+0.0
+< Exif.Sigma.ColorAdjustment                   0x0014 Ascii       5  CC:0
+< Exif.Sigma.AdjustmentMode                    0x0015 Ascii      17  X3F Setting Mode
+< Exif.Sigma.Quality                           0x0016 Ascii       8  Qual:12
+< Exif.Sigma.Firmware                          0x0017 Ascii      19  2.0.4.1642 Release
+< Exif.Sigma.Software                          0x0018 Ascii      26  SIGMA PhotoPro 2.0.0.1586
+< Exif.Sigma.AutoBracket                       0x0019 Ascii       2   
+< Exif.Thumbnail.Compression                   0x0103 Short       1  6
+< Exif.Thumbnail.XResolution                   0x011a Rational    1  180/1
+< Exif.Thumbnail.YResolution                   0x011b Rational    1  180/1
+< Exif.Thumbnail.ResolutionUnit                0x0128 Short       1  2
+< Exif.Thumbnail.JPEGInterchangeFormat         0x0201 Long        1  0
+< Exif.Thumbnail.JPEGInterchangeFormatLength   0x0202 Long        1  11998
+< Exif.Thumbnail.YCbCrPositioning              0x0213 Short       1  2
 ---
+> Exif.Image.Make                                       0x010f  SIGMA
+> Exif.Image.Model                                      0x0110  SIGMA SD10
+> Exif.Image.Orientation                                0x0112  1
+> Exif.Image.XResolution                                0x011a  180/1
+> Exif.Image.YResolution                                0x011b  180/1
+> Exif.Image.ResolutionUnit                             0x0128  2
+> Exif.Image.Software                                   0x0131  SIGMA PhotoPro 2.0.0.1586
+> Exif.Image.DateTime                                   0x0132  2004:03:18 23:40:26
+> Exif.Image.YCbCrPositioning                           0x0213  2
 > Exif.Image.ExifTag                                    0x8769  213
-38c38
-< Exif.Sigma.ResolutionMode                             0x0004  HI
----
+> Exif.Photo.ExposureTime                               0x829a  8/1
+> Exif.Photo.FNumber                                    0x829d  56/10
+> Exif.Photo.ExposureProgram                            0x8822  1
+> Exif.Photo.ISOSpeedRatings                            0x8827  100
+> Exif.Photo.ExifVersion                                0x9000  48 50 50 48 
+> Exif.Photo.DateTimeOriginal                           0x9003  2004:03:16 19:52:38
+> Exif.Photo.DateTimeDigitized                          0x9004  2004:03:18 23:40:26
+> Exif.Photo.ComponentsConfiguration                    0x9101  1 2 3 0 
+> Exif.Photo.ExposureBiasValue                          0x9204  2/2
+> Exif.Photo.MaxApertureValue                           0x9205  27/10
+> Exif.Photo.MeteringMode                               0x9207  5
+> Exif.Photo.Flash                                      0x9209  0
+> Exif.Photo.FocalLength                                0x920a  14/1
+> Exif.Photo.FlashpixVersion                            0xa000  48 49 48 48 
+> Exif.Photo.ColorSpace                                 0xa001  1
+> Exif.Photo.PixelXDimension                            0xa002  2268
+> Exif.Photo.PixelYDimension                            0xa003  1512
+> Exif.Photo.SensingMethod                              0xa217  2
+> Exif.Photo.FileSource                                 0xa300  3 0 0 0 
+> Exif.Photo.CustomRendered                             0xa401  1
+> Exif.Photo.ExposureMode                               0xa402  1
+> Exif.Photo.WhiteBalance                               0xa403  1
+> Exif.Photo.FocalLengthIn35mmFilm                      0xa405  24
+> Exif.Photo.SceneCaptureType                           0xa406  0
+> Exif.Photo.ImageUniqueID                              0xa420  3032303030303139065B574068B0F5CE
+> Exif.Sigma.SerialNumber                               0x0002  02000019
+> Exif.Sigma.DriveMode                                  0x0003  2S
 > Exif.Sigma.ResolutionMode                             0x0004  Sigma HI resolution
+> Exif.Sigma.AutofocusMode                              0x0005  AF-S
+> Exif.Sigma.FocusSetting                               0x0006  AF
+> Exif.Sigma.WhiteBalance                               0x0007  Incandescent
+> Exif.Sigma.ExposureMode                               0x0008  M
+> Exif.Sigma.MeteringMode                               0x0009  8
+> Exif.Sigma.LensRange                                  0x000a  14
+> Exif.Sigma.ColorSpace                                 0x000b  sRGB
+> Exif.Sigma.Exposure                                   0x000c  Expo:+0.0
+> Exif.Sigma.Contrast                                   0x000d  Cont:+0.0
+> Exif.Sigma.Shadow                                     0x000e  Shad:+0.0
+> Exif.Sigma.Highlight                                  0x000f  High:+0.0
+> Exif.Sigma.Saturation                                 0x0010  Satu:+0.0
+> Exif.Sigma.Sharpness                                  0x0011  Shar:+0.0
+> Exif.Sigma.FillLight                                  0x0012  Fill:+0.0
+> Exif.Sigma.ColorAdjustment                            0x0014  CC:0
+> Exif.Sigma.AdjustmentMode                             0x0015  X3F Setting Mode
+> Exif.Sigma.Quality                                    0x0016  Qual:12
+> Exif.Sigma.Firmware                                   0x0017  2.0.4.1642 Release
+> Exif.Sigma.Software                                   0x0018  SIGMA PhotoPro 2.0.0.1586
+> Exif.Sigma.AutoBracket                                0x0019   
+> Exif.Thumbnail.Compression                            0x0103  6
+> Exif.Thumbnail.XResolution                            0x011a  180/1
+> Exif.Thumbnail.YResolution                            0x011b  180/1
+> Exif.Thumbnail.ResolutionUnit                         0x0128  2
+> Exif.Thumbnail.JPEGInterchangeFormat                  0x0201  0
+> Exif.Thumbnail.JPEGInterchangeFormatLength            0x0202  11998
+> Exif.Thumbnail.YCbCrPositioning                       0x0213  2
 ------------------------------------------------------------
 Case 9: Intrusive change to the Nikon1 makernote metadata
 ---> Reading file ./exiv2-nikon-e990.jpg
@@ -125,18 +1487,124 @@ Case 9: Intrusive change to the Nikon1 makernote metadata
 ---> Writing Exif data to file test9.jpg
 ---> Reading file test9.jpg
 ---> Writing Exif thumbnail to file thumb9.*
-11c11
-< Exif.Image.ExifTag                                    0x8769  284
+1,58c1,58
+< Exif.Image.ImageDescription                  0x010e Ascii      11            
+< Exif.Image.Make                              0x010f Ascii       6  NIKON
+< Exif.Image.Model                             0x0110 Ascii       5  E990
+< Exif.Image.Orientation                       0x0112 Short       1  1
+< Exif.Image.XResolution                       0x011a Rational    1  300/1
+< Exif.Image.YResolution                       0x011b Rational    1  300/1
+< Exif.Image.ResolutionUnit                    0x0128 Short       1  2
+< Exif.Image.Software                          0x0131 Ascii       9  E990v1.0
+< Exif.Image.DateTime                          0x0132 Ascii      20  2000:05:06 14:06:45
+< Exif.Image.YCbCrPositioning                  0x0213 Short       1  2
+< Exif.Image.ExifTag                           0x8769 Long        1  284
+< Exif.Photo.ExposureTime                      0x829a Rational    1  10/893
+< Exif.Photo.FNumber                           0x829d Rational    1  70/10
+< Exif.Photo.ExposureProgram                   0x8822 Short       1  3
+< Exif.Photo.ISOSpeedRatings                   0x8827 Short       1  100
+< Exif.Photo.ExifVersion                       0x9000 Undefined   4  48 50 49 48 
+< Exif.Photo.DateTimeOriginal                  0x9003 Ascii      20  2000:05:06 14:06:45
+< Exif.Photo.DateTimeDigitized                 0x9004 Ascii      20  2000:05:06 14:06:45
+< Exif.Photo.ComponentsConfiguration           0x9101 Undefined   4  1 2 3 0 
+< Exif.Photo.CompressedBitsPerPixel            0x9102 Rational    1  3/1
+< Exif.Photo.ExposureBiasValue                 0x9204 SRational   1  0/10
+< Exif.Photo.MaxApertureValue                  0x9205 Rational    1  35/10
+< Exif.Photo.MeteringMode                      0x9207 Short       1  2
+< Exif.Photo.LightSource                       0x9208 Short       1  0
+< Exif.Photo.Flash                             0x9209 Short       1  0
+< Exif.Photo.FocalLength                       0x920a Rational    1  82/10
+< Exif.Photo.UserComment                       0x9286 Undefined 125  0 0 0 0 0 0 0 0 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 
+< Exif.Photo.FlashpixVersion                   0xa000 Undefined   4  48 49 48 48 
+< Exif.Photo.ColorSpace                        0xa001 Short       1  1
+< Exif.Photo.PixelXDimension                   0xa002 Long        1  2048
+< Exif.Photo.PixelYDimension                   0xa003 Long        1  1536
+< Exif.Photo.InteroperabilityTag               0xa005 Long        1  886
+< Exif.Photo.FileSource                        0xa300 Undefined   1  3 
+< Exif.Photo.SceneType                         0xa301 Undefined   1  1 
+< Exif.Nikon1.Version                          0x0001 Undefined   4  0 1 0 0 
+< Exif.Nikon1.ISOSpeed                         0x0002 Short       2  0 0
+< Exif.Nikon1.ColorMode                        0x0003 Ascii       6  COLOR
+< Exif.Nikon1.Quality                          0x0004 Ascii       7  FINE  
+< Exif.Nikon1.WhiteBalance                     0x0005 Ascii      13  AUTO        
+< Exif.Nikon1.Sharpening                       0x0006 Ascii       7  AUTO  
+< Exif.Nikon1.Focus                            0x0007 Ascii       7  AF-C  
+< Exif.Nikon1.Flash                            0x0008 Ascii       8         
+< Exif.Nikon1.0x000a                           0x000a Rational    1  8832/1000
+< Exif.Nikon1.ISOSelection                     0x000f Ascii       7  AUTO  
+< Exif.Nikon1.ImageAdjustment                  0x0080 Ascii      14  AUTO         
+< Exif.Nikon1.Adapter                          0x0082 Ascii      13  OFF         
+< Exif.Nikon1.FocusDistance                    0x0085 Rational    1  0/0
+< Exif.Nikon1.DigitalZoom                      0x0086 Rational    1  100/100
+< Exif.Nikon1.AFFocusPos                       0x0088 Undefined   4  0 3 0 0 
+< Exif.Nikon1.DataDump                         0x0010 Undefined 174  1 45 0 128 1 76 0 0 0 0 255 1 0 0 0 0 2 74 42 160 0 0 0 0 2 183 0 0 31 8 0 0 21 202 0 0 33 124 0 0 33 124 0 0 31 6 13 132 0 74 0 0 0 0 9 181 9 74 8 109 7 54 208 1 11 122 0 0 0 0 45 33 21 0 0 0 32 0 0 0 0 0 0 0 0 0 68 27 0 0 74 3 23 207 9 30 59 31 0 71 0 0 19 21 18 18 21 24 0 0 100 0 25 76 0 0 0 1 255 240 101 68 0 0 0 2 0 0 0 0 15 3 194 141 1 13 18 34 0 0 81 90 0 246 1 43 48 32 18 7 40 16 78 72 11 122 0 0 117 252 235 98 11 16 6 6 0 100 0 216 18 52 67 33 
+< Exif.Iop.InteroperabilityIndex               0x0001 Ascii       4  R98
+< Exif.Iop.InteroperabilityVersion             0x0002 Undefined   4  48 49 48 48 
+< Exif.Thumbnail.Compression                   0x0103 Short       1  6
+< Exif.Thumbnail.XResolution                   0x011a Rational    1  300/1
+< Exif.Thumbnail.YResolution                   0x011b Rational    1  300/1
+< Exif.Thumbnail.ResolutionUnit                0x0128 Short       1  2
+< Exif.Thumbnail.JPEGInterchangeFormat         0x0201 Long        1  0
+< Exif.Thumbnail.JPEGInterchangeFormatLength   0x0202 Long        1  7829
 ---
+> Exif.Image.ImageDescription                           0x010e            
+> Exif.Image.Make                                       0x010f  NIKON
+> Exif.Image.Model                                      0x0110  E990
+> Exif.Image.Orientation                                0x0112  1
+> Exif.Image.XResolution                                0x011a  300/1
+> Exif.Image.YResolution                                0x011b  300/1
+> Exif.Image.ResolutionUnit                             0x0128  2
+> Exif.Image.Software                                   0x0131  E990v1.0
+> Exif.Image.DateTime                                   0x0132  2000:05:06 14:06:45
+> Exif.Image.YCbCrPositioning                           0x0213  2
 > Exif.Image.ExifTag                                    0x8769  213
-32c32
-< Exif.Photo.InteroperabilityTag                        0xa005  886
----
+> Exif.Photo.ExposureTime                               0x829a  10/893
+> Exif.Photo.FNumber                                    0x829d  70/10
+> Exif.Photo.ExposureProgram                            0x8822  3
+> Exif.Photo.ISOSpeedRatings                            0x8827  100
+> Exif.Photo.ExifVersion                                0x9000  48 50 49 48 
+> Exif.Photo.DateTimeOriginal                           0x9003  2000:05:06 14:06:45
+> Exif.Photo.DateTimeDigitized                          0x9004  2000:05:06 14:06:45
+> Exif.Photo.ComponentsConfiguration                    0x9101  1 2 3 0 
+> Exif.Photo.CompressedBitsPerPixel                     0x9102  3/1
+> Exif.Photo.ExposureBiasValue                          0x9204  0/10
+> Exif.Photo.MaxApertureValue                           0x9205  35/10
+> Exif.Photo.MeteringMode                               0x9207  2
+> Exif.Photo.LightSource                                0x9208  0
+> Exif.Photo.Flash                                      0x9209  0
+> Exif.Photo.FocalLength                                0x920a  82/10
+> Exif.Photo.UserComment                                0x9286  0 0 0 0 0 0 0 0 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 
+> Exif.Photo.FlashpixVersion                            0xa000  48 49 48 48 
+> Exif.Photo.ColorSpace                                 0xa001  1
+> Exif.Photo.PixelXDimension                            0xa002  2048
+> Exif.Photo.PixelYDimension                            0xa003  1536
 > Exif.Photo.InteroperabilityTag                        0xa005  1214
-38c38
-< Exif.Nikon1.Quality                                   0x0004  FINE  
----
+> Exif.Photo.FileSource                                 0xa300  3 
+> Exif.Photo.SceneType                                  0xa301  1 
+> Exif.Nikon1.Version                                   0x0001  0 1 0 0 
+> Exif.Nikon1.ISOSpeed                                  0x0002  0 0
+> Exif.Nikon1.ColorMode                                 0x0003  COLOR
 > Exif.Nikon1.Quality                                   0x0004  Typical Nikon1 Quality
+> Exif.Nikon1.WhiteBalance                              0x0005  AUTO        
+> Exif.Nikon1.Sharpening                                0x0006  AUTO  
+> Exif.Nikon1.Focus                                     0x0007  AF-C  
+> Exif.Nikon1.Flash                                     0x0008         
+> Exif.Nikon1.0x000a                                    0x000a  8832/1000
+> Exif.Nikon1.ISOSelection                              0x000f  AUTO  
+> Exif.Nikon1.ImageAdjustment                           0x0080  AUTO         
+> Exif.Nikon1.Adapter                                   0x0082  OFF         
+> Exif.Nikon1.FocusDistance                             0x0085  0/0
+> Exif.Nikon1.DigitalZoom                               0x0086  100/100
+> Exif.Nikon1.AFFocusPos                                0x0088  0 3 0 0 
+> Exif.Nikon1.DataDump                                  0x0010  1 45 0 128 1 76 0 0 0 0 255 1 0 0 0 0 2 74 42 160 0 0 0 0 2 183 0 0 31 8 0 0 21 202 0 0 33 124 0 0 33 124 0 0 31 6 13 132 0 74 0 0 0 0 9 181 9 74 8 109 7 54 208 1 11 122 0 0 0 0 45 33 21 0 0 0 32 0 0 0 0 0 0 0 0 0 68 27 0 0 74 3 23 207 9 30 59 31 0 71 0 0 19 21 18 18 21 24 0 0 100 0 25 76 0 0 0 1 255 240 101 68 0 0 0 2 0 0 0 0 15 3 194 141 1 13 18 34 0 0 81 90 0 246 1 43 48 32 18 7 40 16 78 72 11 122 0 0 117 252 235 98 11 16 6 6 0 100 0 216 18 52 67 33 
+> Exif.Iop.InteroperabilityIndex                        0x0001  R98
+> Exif.Iop.InteroperabilityVersion                      0x0002  48 49 48 48 
+> Exif.Thumbnail.Compression                            0x0103  6
+> Exif.Thumbnail.XResolution                            0x011a  300/1
+> Exif.Thumbnail.YResolution                            0x011b  300/1
+> Exif.Thumbnail.ResolutionUnit                         0x0128  2
+> Exif.Thumbnail.JPEGInterchangeFormat                  0x0201  0
+> Exif.Thumbnail.JPEGInterchangeFormatLength            0x0202  7829
 ------------------------------------------------------------
 Case 10: Intrusive change to the Nikon2 makernote metadata
 ---> Reading file ./exiv2-nikon-e950.jpg
@@ -144,18 +1612,114 @@ Case 10: Intrusive change to the Nikon2 makernote metadata
 ---> Writing Exif data to file test10.jpg
 ---> Reading file test10.jpg
 ---> Writing Exif thumbnail to file thumb10.*
-11c11
-< Exif.Image.ExifTag                                    0x8769  284
+1,53c1,53
+< Exif.Image.ImageDescription                  0x010e Ascii      11            
+< Exif.Image.Make                              0x010f Ascii       6  NIKON
+< Exif.Image.Model                             0x0110 Ascii       5  E950
+< Exif.Image.Orientation                       0x0112 Short       1  1
+< Exif.Image.XResolution                       0x011a Rational    1  300/1
+< Exif.Image.YResolution                       0x011b Rational    1  300/1
+< Exif.Image.ResolutionUnit                    0x0128 Short       1  2
+< Exif.Image.Software                          0x0131 Ascii       8  v981-79
+< Exif.Image.DateTime                          0x0132 Ascii      20  2001:04:06 11:51:40
+< Exif.Image.YCbCrPositioning                  0x0213 Short       1  2
+< Exif.Image.ExifTag                           0x8769 Long        1  284
+< Exif.Photo.ExposureTime                      0x829a Rational    1  10/770
+< Exif.Photo.FNumber                           0x829d Rational    1  55/10
+< Exif.Photo.ExposureProgram                   0x8822 Short       1  2
+< Exif.Photo.ISOSpeedRatings                   0x8827 Short       1  80
+< Exif.Photo.ExifVersion                       0x9000 Undefined   4  48 50 49 48 
+< Exif.Photo.DateTimeOriginal                  0x9003 Ascii      20  2001:04:06 11:51:40
+< Exif.Photo.DateTimeDigitized                 0x9004 Ascii      20  2001:04:06 11:51:40
+< Exif.Photo.ComponentsConfiguration           0x9101 Undefined   4  1 2 3 0 
+< Exif.Photo.CompressedBitsPerPixel            0x9102 Rational    1  4/1
+< Exif.Photo.ExposureBiasValue                 0x9204 SRational   1  0/10
+< Exif.Photo.MaxApertureValue                  0x9205 Rational    1  26/10
+< Exif.Photo.MeteringMode                      0x9207 Short       1  5
+< Exif.Photo.LightSource                       0x9208 Short       1  0
+< Exif.Photo.Flash                             0x9209 Short       1  0
+< Exif.Photo.FocalLength                       0x920a Rational    1  128/10
+< Exif.Photo.UserComment                       0x9286 Undefined 125  0 0 0 0 0 0 0 0 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 
+< Exif.Photo.FlashpixVersion                   0xa000 Undefined   4  48 49 48 48 
+< Exif.Photo.ColorSpace                        0xa001 Short       1  1
+< Exif.Photo.PixelXDimension                   0xa002 Long        1  1600
+< Exif.Photo.PixelYDimension                   0xa003 Long        1  1200
+< Exif.Photo.InteroperabilityTag               0xa005 Long        1  886
+< Exif.Photo.FileSource                        0xa300 Undefined   1  3 
+< Exif.Photo.SceneType                         0xa301 Undefined   1  1 
+< Exif.Nikon2.0x0002                           0x0002 Ascii       6  08.00
+< Exif.Nikon2.Quality                          0x0003 Short       1  12
+< Exif.Nikon2.ColorMode                        0x0004 Short       1  1
+< Exif.Nikon2.ImageAdjustment                  0x0005 Short       1  3
+< Exif.Nikon2.ISOSpeed                         0x0006 Short       1  0
+< Exif.Nikon2.WhiteBalance                     0x0007 Short       1  0
+< Exif.Nikon2.Focus                            0x0008 Rational    1  0/0
+< Exif.Nikon2.0x0009                           0x0009 Ascii      20  
+< Exif.Nikon2.DigitalZoom                      0x000a Rational    1  0/100
+< Exif.Nikon2.Adapter                          0x000b Short       1  0
+< Exif.Nikon2.0x0f00                           0x0f00 Long       30  0 0 16777216 0 2685774096 0 34833 6931 16178 4372 4372 3322676767 3373084416 15112 0 0 1151495 252903424 17 0 0 844038208 55184128 218129428 1476410198 370540566 4044363286 16711749 204629079 1729
+< Exif.Iop.InteroperabilityIndex               0x0001 Ascii       4  R98
+< Exif.Iop.InteroperabilityVersion             0x0002 Undefined   4  48 49 48 48 
+< Exif.Thumbnail.Compression                   0x0103 Short       1  6
+< Exif.Thumbnail.XResolution                   0x011a Rational    1  300/1
+< Exif.Thumbnail.YResolution                   0x011b Rational    1  300/1
+< Exif.Thumbnail.ResolutionUnit                0x0128 Short       1  2
+< Exif.Thumbnail.JPEGInterchangeFormat         0x0201 Long        1  0
+< Exif.Thumbnail.JPEGInterchangeFormatLength   0x0202 Long        1  4662
 ---
+> Exif.Image.ImageDescription                           0x010e            
+> Exif.Image.Make                                       0x010f  NIKON
+> Exif.Image.Model                                      0x0110  E950
+> Exif.Image.Orientation                                0x0112  1
+> Exif.Image.XResolution                                0x011a  300/1
+> Exif.Image.YResolution                                0x011b  300/1
+> Exif.Image.ResolutionUnit                             0x0128  2
+> Exif.Image.Software                                   0x0131  v981-79
+> Exif.Image.DateTime                                   0x0132  2001:04:06 11:51:40
+> Exif.Image.YCbCrPositioning                           0x0213  2
 > Exif.Image.ExifTag                                    0x8769  212
-32c32
-< Exif.Photo.InteroperabilityTag                        0xa005  886
----
+> Exif.Photo.ExposureTime                               0x829a  10/770
+> Exif.Photo.FNumber                                    0x829d  55/10
+> Exif.Photo.ExposureProgram                            0x8822  2
+> Exif.Photo.ISOSpeedRatings                            0x8827  80
+> Exif.Photo.ExifVersion                                0x9000  48 50 49 48 
+> Exif.Photo.DateTimeOriginal                           0x9003  2001:04:06 11:51:40
+> Exif.Photo.DateTimeDigitized                          0x9004  2001:04:06 11:51:40
+> Exif.Photo.ComponentsConfiguration                    0x9101  1 2 3 0 
+> Exif.Photo.CompressedBitsPerPixel                     0x9102  4/1
+> Exif.Photo.ExposureBiasValue                          0x9204  0/10
+> Exif.Photo.MaxApertureValue                           0x9205  26/10
+> Exif.Photo.MeteringMode                               0x9207  5
+> Exif.Photo.LightSource                                0x9208  0
+> Exif.Photo.Flash                                      0x9209  0
+> Exif.Photo.FocalLength                                0x920a  128/10
+> Exif.Photo.UserComment                                0x9286  0 0 0 0 0 0 0 0 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 
+> Exif.Photo.FlashpixVersion                            0xa000  48 49 48 48 
+> Exif.Photo.ColorSpace                                 0xa001  1
+> Exif.Photo.PixelXDimension                            0xa002  1600
+> Exif.Photo.PixelYDimension                            0xa003  1200
 > Exif.Photo.InteroperabilityTag                        0xa005  1038
-35c35
-< Exif.Nikon2.0x0002                                    0x0002  08.00
----
+> Exif.Photo.FileSource                                 0xa300  3 
+> Exif.Photo.SceneType                                  0xa301  1 
 > Exif.Nikon2.0x0002                                    0x0002  Nikon2 Version 2
+> Exif.Nikon2.Quality                                   0x0003  12
+> Exif.Nikon2.ColorMode                                 0x0004  1
+> Exif.Nikon2.ImageAdjustment                           0x0005  3
+> Exif.Nikon2.ISOSpeed                                  0x0006  0
+> Exif.Nikon2.WhiteBalance                              0x0007  0
+> Exif.Nikon2.Focus                                     0x0008  0/0
+> Exif.Nikon2.0x0009                                    0x0009  
+> Exif.Nikon2.DigitalZoom                               0x000a  0/100
+> Exif.Nikon2.Adapter                                   0x000b  0
+> Exif.Nikon2.0x0f00                                    0x0f00  0 0 16777216 0 2685774096 0 34833 6931 16178 4372 4372 3322676767 3373084416 15112 0 0 1151495 252903424 17 0 0 844038208 55184128 218129428 1476410198 370540566 4044363286 16711749 204629079 1729
+> Exif.Iop.InteroperabilityIndex                        0x0001  R98
+> Exif.Iop.InteroperabilityVersion                      0x0002  48 49 48 48 
+> Exif.Thumbnail.Compression                            0x0103  6
+> Exif.Thumbnail.XResolution                            0x011a  300/1
+> Exif.Thumbnail.YResolution                            0x011b  300/1
+> Exif.Thumbnail.ResolutionUnit                         0x0128  2
+> Exif.Thumbnail.JPEGInterchangeFormat                  0x0201  0
+> Exif.Thumbnail.JPEGInterchangeFormatLength            0x0202  4662
 ------------------------------------------------------------
 Case 11: Intrusive change to the Nikon3 makernote metadata
 ---> Reading file ./exiv2-nikon-d70.jpg
@@ -163,15 +1727,211 @@ Case 11: Intrusive change to the Nikon3 makernote metadata
 ---> Writing Exif data to file test11.jpg
 ---> Reading file test11.jpg
 ---> Writing Exif thumbnail to file thumb11.*
-13c13
-< Exif.Image.ExifTag                                    0x8769  340
+1,103c1,103
+< Exif.Image.Make                              0x010f Ascii      18  NIKON CORPORATION
+< Exif.Image.Model                             0x0110 Ascii      10  NIKON D70
+< Exif.Image.Orientation                       0x0112 Short       1  6
+< Exif.Image.XResolution                       0x011a Rational    1  300/1
+< Exif.Image.YResolution                       0x011b Rational    1  300/1
+< Exif.Image.ResolutionUnit                    0x0128 Short       1  2
+< Exif.Image.Software                          0x0131 Ascii      10  Ver.1.01 
+< Exif.Image.DateTime                          0x0132 Ascii      20  2004:03:30 10:43:46
+< Exif.Image.WhitePoint                        0x013e Rational    2  313/1000 329/1000
+< Exif.Image.PrimaryChromaticities             0x013f Rational    6  64/100 33/100 21/100 71/100 15/100 6/100
+< Exif.Image.YCbCrCoefficients                 0x0211 Rational    3  299/1000 587/1000 114/1000
+< Exif.Image.YCbCrPositioning                  0x0213 Short       1  2
+< Exif.Image.ExifTag                           0x8769 Long        1  340
+< Exif.Photo.ExposureTime                      0x829a Rational    1  10/2500
+< Exif.Photo.FNumber                           0x829d Rational    1  90/10
+< Exif.Photo.ExposureProgram                   0x8822 Short       1  2
+< Exif.Photo.ExifVersion                       0x9000 Undefined   4  48 50 50 49 
+< Exif.Photo.DateTimeOriginal                  0x9003 Ascii      20  2004:03:30 10:43:46
+< Exif.Photo.DateTimeDigitized                 0x9004 Ascii      20  2004:03:30 10:43:46
+< Exif.Photo.ComponentsConfiguration           0x9101 Undefined   4  1 2 3 0 
+< Exif.Photo.CompressedBitsPerPixel            0x9102 Rational    1  4/1
+< Exif.Photo.ExposureBiasValue                 0x9204 SRational   1  0/6
+< Exif.Photo.MaxApertureValue                  0x9205 Rational    1  43/10
+< Exif.Photo.MeteringMode                      0x9207 Short       1  5
+< Exif.Photo.LightSource                       0x9208 Short       1  0
+< Exif.Photo.Flash                             0x9209 Short       1  0
+< Exif.Photo.FocalLength                       0x920a Rational    1  500/10
+< Exif.Photo.UserComment                       0x9286 Undefined  44  65 83 67 73 73 0 0 0 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 
+< Exif.Photo.SubSecTime                        0x9290 Ascii       3  00
+< Exif.Photo.SubSecTimeOriginal                0x9291 Ascii       3  00
+< Exif.Photo.SubSecTimeDigitized               0x9292 Ascii       3  00
+< Exif.Photo.FlashpixVersion                   0xa000 Undefined   4  48 49 48 48 
+< Exif.Photo.ColorSpace                        0xa001 Short       1  65535
+< Exif.Photo.PixelXDimension                   0xa002 Short       1  3008
+< Exif.Photo.PixelYDimension                   0xa003 Short       1  2000
+< Exif.Photo.InteroperabilityTag               0xa005 Long        1  30306
+< Exif.Photo.SensingMethod                     0xa217 Short       1  2
+< Exif.Photo.FileSource                        0xa300 Undefined   1  3 
+< Exif.Photo.SceneType                         0xa301 Undefined   1  1 
+< Exif.Photo.CFAPattern                        0xa302 Undefined   8  0 2 0 2 2 1 1 0 
+< Exif.Photo.CustomRendered                    0xa401 Short       1  0
+< Exif.Photo.ExposureMode                      0xa402 Short       1  0
+< Exif.Photo.WhiteBalance                      0xa403 Short       1  0
+< Exif.Photo.DigitalZoomRatio                  0xa404 Rational    1  1/1
+< Exif.Photo.FocalLengthIn35mmFilm             0xa405 Short       1  75
+< Exif.Photo.SceneCaptureType                  0xa406 Short       1  0
+< Exif.Photo.GainControl                       0xa407 Short       1  0
+< Exif.Photo.Contrast                          0xa408 Short       1  0
+< Exif.Photo.Saturation                        0xa409 Short       1  0
+< Exif.Photo.Sharpness                         0xa40a Short       1  0
+< Exif.Photo.SubjectDistanceRange              0xa40c Short       1  0
+< Exif.Photo.0xa500                            0xa500 Rational    1  22/10
+< Exif.Nikon3.Version                          0x0001 Undefined   4  48 50 49 48 
+< Exif.Nikon3.ISOSpeed                         0x0002 Short       2  0 200
+< Exif.Nikon3.Quality                          0x0004 Ascii       8  FINE   
+< Exif.Nikon3.WhiteBalance                     0x0005 Ascii      13  AUTO        
+< Exif.Nikon3.Sharpening                       0x0006 Ascii       7  AUTO  
+< Exif.Nikon3.Focus                            0x0007 Ascii       7  AF-S  
+< Exif.Nikon3.FlashSetting                     0x0008 Ascii      13  NORMAL      
+< Exif.Nikon3.FlashMode                        0x0009 Ascii      13              
+< Exif.Nikon3.WhiteBalanceBias                 0x000b SShort      1  0
+< Exif.Nikon3.0x000d                           0x000d Undefined   4  0 1 6 0 
+< Exif.Nikon3.ExposureDiff                     0x000e Undefined   4  0 1 12 0 
+< Exif.Nikon3.ThumbOffset                      0x0011 Long        1  1430
+< Exif.Nikon3.FlashComp                        0x0012 Undefined   4  0 1 6 0 
+< Exif.Nikon3.ISOSetting                       0x0013 Short       2  0 200
+< Exif.Nikon3.ImageBoundry                     0x0016 Short       4  0 0 3008 2000
+< Exif.Nikon3.0x0017                           0x0017 Undefined   4  0 1 6 0 
+< Exif.Nikon3.FlashBracketComp                 0x0018 Undefined   4  0 1 6 0 
+< Exif.Nikon3.ExposureBracketComp              0x0019 SRational   1  0/1
+< Exif.Nikon3.ToneComp                         0x0081 Ascii       9  AUTO    
+< Exif.Nikon3.LensType                         0x0083 Byte        1  6 
+< Exif.Nikon3.Lens                             0x0084 Rational    4  180/10 700/10 35/10 45/10
+< Exif.Nikon3.FlashType                        0x0087 Byte        1  0 
+< Exif.Nikon3.AFFocusPos                       0x0088 Undefined   4  0 0 0 1 
+< Exif.Nikon3.Bracketing                       0x0089 Short       1  0
+< Exif.Nikon3.0x008a                           0x008a Short       1  0
+< Exif.Nikon3.LensFStops                       0x008b Undefined   4  64 1 12 0 
+< Exif.Nikon3.ColorMode                        0x008d Ascii       9  MODE1a  
+< Exif.Nikon3.LightingType                     0x0090 Ascii      12  NATURAL    
+< Exif.Nikon3.0x0091                           0x0091 Undefined 465  48 49 48 51 0 0 0 124 0 0 5 13 113 0 0 0 0 1 0 0 11 0 0 0 0 0 20 0 0 31 0 0 0 0 0 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 32 0 0 31 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 0 0 0 0 0 0 0 45 0 0 0 0 0 1 0 0 0 0 89 1 2 205 51 206 179 54 56 53 54 48 51 0 218 0 214 0 167 0 171 0 50 0 51 0 5 0 0 0 0 0 0 0 0 0 1 0 5 0 0 3 194 0 0 0 100 30 161 200 95 222 59 231 63 201 147 36 178 108 51 110 51 142 15 205 20 205 255 24 187 172 35 200 39 84 41 220 51 68 39 136 59 158 49 239 176 221 55 206 242 77 6 206 51 212 169 76 179 220 17 174 50 140 159 228 51 220 49 78 186 201 119 196 225 223 50 196 178 204 146 204 17 54 56 53 54 48 49 0 101 0 161 0 172 172 169 163 163 168 169 169 168 168 170 171 164 152 149 5 249 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 38 72 0 8 1 78 226 1 0 72 49 38 48 0 0 0 3 7 252 11 226 0 4 169 1 72 0 128 16 0 0 3 151 96 196 12 145 80 60 0 0 4 190 3 111 0 0 9 186 0 0 4 197 0 0 4 190 3 111 0 0 0 0 3 0 0 0 0 200 0 60 52 62 143 63 0 0 4 176 0 0 4 162 0 0 4 177 0 0 4 126 255 127 255 127 255 127 255 127 8 128 3 111 3 28 2 157 18 17 1 0 0 0 0 72 240 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 64 0 0 0 0 64 
+< Exif.Nikon3.HueAdjustment                    0x0092 SShort      1  0
+< Exif.Nikon3.NoiseReduction                   0x0095 Ascii       5  OFF 
+< Exif.Nikon3.ColorBalance2                    0x0097 Undefined 140  48 49 48 51 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 2 4 1 0 1 163 1 0 0 0 1 8 1 0 0 0 0 0 0 112 0 12 0 24 0 3 1 140 255 109 0 7 255 216 1 90 255 206 255 251 255 222 1 39 255 255 255 255 255 255 128 0 0 0 0 0 0 0 0 0 10 0 0 0 2 128 0 0 3 0 0 0 2 128 0 0 0 0 16 16 0 255 0 255 0 77 0 150 0 29 255 204 255 186 0 122 0 127 255 150 255 235 0 0 5 0 0 8 108 18 223 51 5 89 1 63 240 240 0 26 
+< Exif.Nikon3.0x0098                           0x0098 Undefined  31  48 49 48 49 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 
+< Exif.Nikon3.0x009a                           0x009a Rational    2  78/10 78/10
+< Exif.Nikon3.SerialNumber                     0x00a0 Ascii      21  NO= 100005e5        
+< Exif.Nikon3.0x00a2                           0x00a2 Long        1  2929656
+< Exif.Nikon3.0x00a3                           0x00a3 Byte        1  0 
+< Exif.Nikon3.ShutterCount                     0x00a7 Long        1  1193
+< Exif.Nikon3.0x00a8                           0x00a8 Undefined  20  48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+< Exif.Nikon3.ImageOptimization                0x00a9 Ascii      16  NORMAL         
+< Exif.Nikon3.Saturation                       0x00aa Ascii      16  NORMAL         
+< Exif.Nikon3.VariProgram                      0x00ab Ascii      16                 
+< Exif.Iop.InteroperabilityIndex               0x0001 Ascii       4  R03
+< Exif.Iop.InteroperabilityVersion             0x0002 Undefined   4  48 49 48 48 
+< Exif.Thumbnail.Compression                   0x0103 Short       1  6
+< Exif.Thumbnail.XResolution                   0x011a Rational    1  300/1
+< Exif.Thumbnail.YResolution                   0x011b Rational    1  300/1
+< Exif.Thumbnail.ResolutionUnit                0x0128 Short       1  2
+< Exif.Thumbnail.JPEGInterchangeFormat         0x0201 Long        1  0
+< Exif.Thumbnail.JPEGInterchangeFormatLength   0x0202 Long        1  8930
+< Exif.Thumbnail.YCbCrPositioning              0x0213 Short       1  2
 ---
+> Exif.Image.Make                                       0x010f  NIKON CORPORATION
+> Exif.Image.Model                                      0x0110  NIKON D70
+> Exif.Image.Orientation                                0x0112  6
+> Exif.Image.XResolution                                0x011a  300/1
+> Exif.Image.YResolution                                0x011b  300/1
+> Exif.Image.ResolutionUnit                             0x0128  2
+> Exif.Image.Software                                   0x0131  Ver.1.01 
+> Exif.Image.DateTime                                   0x0132  2004:03:30 10:43:46
+> Exif.Image.WhitePoint                                 0x013e  313/1000 329/1000
+> Exif.Image.PrimaryChromaticities                      0x013f  64/100 33/100 21/100 71/100 15/100 6/100
+> Exif.Image.YCbCrCoefficients                          0x0211  299/1000 587/1000 114/1000
+> Exif.Image.YCbCrPositioning                           0x0213  2
 > Exif.Image.ExifTag                                    0x8769  332
-36c36
-< Exif.Photo.InteroperabilityTag                        0xa005  30306
----
+> Exif.Photo.ExposureTime                               0x829a  10/2500
+> Exif.Photo.FNumber                                    0x829d  90/10
+> Exif.Photo.ExposureProgram                            0x8822  2
+> Exif.Photo.ExifVersion                                0x9000  48 50 50 49 
+> Exif.Photo.DateTimeOriginal                           0x9003  2004:03:30 10:43:46
+> Exif.Photo.DateTimeDigitized                          0x9004  2004:03:30 10:43:46
+> Exif.Photo.ComponentsConfiguration                    0x9101  1 2 3 0 
+> Exif.Photo.CompressedBitsPerPixel                     0x9102  4/1
+> Exif.Photo.ExposureBiasValue                          0x9204  0/6
+> Exif.Photo.MaxApertureValue                           0x9205  43/10
+> Exif.Photo.MeteringMode                               0x9207  5
+> Exif.Photo.LightSource                                0x9208  0
+> Exif.Photo.Flash                                      0x9209  0
+> Exif.Photo.FocalLength                                0x920a  500/10
+> Exif.Photo.UserComment                                0x9286  65 83 67 73 73 0 0 0 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 
+> Exif.Photo.SubSecTime                                 0x9290  00
+> Exif.Photo.SubSecTimeOriginal                         0x9291  00
+> Exif.Photo.SubSecTimeDigitized                        0x9292  00
+> Exif.Photo.FlashpixVersion                            0xa000  48 49 48 48 
+> Exif.Photo.ColorSpace                                 0xa001  65535
+> Exif.Photo.PixelXDimension                            0xa002  3008
+> Exif.Photo.PixelYDimension                            0xa003  2000
 > Exif.Photo.InteroperabilityTag                        0xa005  2402
-55c55
-< Exif.Nikon3.Quality                                   0x0004  FINE   
----
+> Exif.Photo.SensingMethod                              0xa217  2
+> Exif.Photo.FileSource                                 0xa300  3 
+> Exif.Photo.SceneType                                  0xa301  1 
+> Exif.Photo.CFAPattern                                 0xa302  0 2 0 2 2 1 1 0 
+> Exif.Photo.CustomRendered                             0xa401  0
+> Exif.Photo.ExposureMode                               0xa402  0
+> Exif.Photo.WhiteBalance                               0xa403  0
+> Exif.Photo.DigitalZoomRatio                           0xa404  1/1
+> Exif.Photo.FocalLengthIn35mmFilm                      0xa405  75
+> Exif.Photo.SceneCaptureType                           0xa406  0
+> Exif.Photo.GainControl                                0xa407  0
+> Exif.Photo.Contrast                                   0xa408  0
+> Exif.Photo.Saturation                                 0xa409  0
+> Exif.Photo.Sharpness                                  0xa40a  0
+> Exif.Photo.SubjectDistanceRange                       0xa40c  0
+> Exif.Photo.0xa500                                     0xa500  22/10
+> Exif.Nikon3.Version                                   0x0001  48 50 49 48 
+> Exif.Nikon3.ISOSpeed                                  0x0002  0 200
 > Exif.Nikon3.Quality                                   0x0004  Typical Nikon3 Quality
+> Exif.Nikon3.WhiteBalance                              0x0005  AUTO        
+> Exif.Nikon3.Sharpening                                0x0006  AUTO  
+> Exif.Nikon3.Focus                                     0x0007  AF-S  
+> Exif.Nikon3.FlashSetting                              0x0008  NORMAL      
+> Exif.Nikon3.FlashMode                                 0x0009              
+> Exif.Nikon3.WhiteBalanceBias                          0x000b  0
+> Exif.Nikon3.0x000d                                    0x000d  0 1 6 0 
+> Exif.Nikon3.ExposureDiff                              0x000e  0 1 12 0 
+> Exif.Nikon3.ThumbOffset                               0x0011  1430
+> Exif.Nikon3.FlashComp                                 0x0012  0 1 6 0 
+> Exif.Nikon3.ISOSetting                                0x0013  0 200
+> Exif.Nikon3.ImageBoundry                              0x0016  0 0 3008 2000
+> Exif.Nikon3.0x0017                                    0x0017  0 1 6 0 
+> Exif.Nikon3.FlashBracketComp                          0x0018  0 1 6 0 
+> Exif.Nikon3.ExposureBracketComp                       0x0019  0/1
+> Exif.Nikon3.ToneComp                                  0x0081  AUTO    
+> Exif.Nikon3.LensType                                  0x0083  6 
+> Exif.Nikon3.Lens                                      0x0084  180/10 700/10 35/10 45/10
+> Exif.Nikon3.FlashType                                 0x0087  0 
+> Exif.Nikon3.AFFocusPos                                0x0088  0 0 0 1 
+> Exif.Nikon3.Bracketing                                0x0089  0
+> Exif.Nikon3.0x008a                                    0x008a  0
+> Exif.Nikon3.LensFStops                                0x008b  64 1 12 0 
+> Exif.Nikon3.ColorMode                                 0x008d  MODE1a  
+> Exif.Nikon3.LightingType                              0x0090  NATURAL    
+> Exif.Nikon3.0x0091                                    0x0091  48 49 48 51 0 0 0 124 0 0 5 13 113 0 0 0 0 1 0 0 11 0 0 0 0 0 20 0 0 31 0 0 0 0 0 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 32 0 0 31 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 0 0 0 0 0 0 0 45 0 0 0 0 0 1 0 0 0 0 89 1 2 205 51 206 179 54 56 53 54 48 51 0 218 0 214 0 167 0 171 0 50 0 51 0 5 0 0 0 0 0 0 0 0 0 1 0 5 0 0 3 194 0 0 0 100 30 161 200 95 222 59 231 63 201 147 36 178 108 51 110 51 142 15 205 20 205 255 24 187 172 35 200 39 84 41 220 51 68 39 136 59 158 49 239 176 221 55 206 242 77 6 206 51 212 169 76 179 220 17 174 50 140 159 228 51 220 49 78 186 201 119 196 225 223 50 196 178 204 146 204 17 54 56 53 54 48 49 0 101 0 161 0 172 172 169 163 163 168 169 169 168 168 170 171 164 152 149 5 249 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 38 72 0 8 1 78 226 1 0 72 49 38 48 0 0 0 3 7 252 11 226 0 4 169 1 72 0 128 16 0 0 3 151 96 196 12 145 80 60 0 0 4 190 3 111 0 0 9 186 0 0 4 197 0 0 4 190 3 111 0 0 0 0 3 0 0 0 0 200 0 60 52 62 143 63 0 0 4 176 0 0 4 162 0 0 4 177 0 0 4 126 255 127 255 127 255 127 255 127 8 128 3 111 3 28 2 157 18 17 1 0 0 0 0 72 240 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 64 0 0 0 0 64 
+> Exif.Nikon3.HueAdjustment                             0x0092  0
+> Exif.Nikon3.NoiseReduction                            0x0095  OFF 
+> Exif.Nikon3.ColorBalance2                             0x0097  48 49 48 51 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 2 4 1 0 1 163 1 0 0 0 1 8 1 0 0 0 0 0 0 112 0 12 0 24 0 3 1 140 255 109 0 7 255 216 1 90 255 206 255 251 255 222 1 39 255 255 255 255 255 255 128 0 0 0 0 0 0 0 0 0 10 0 0 0 2 128 0 0 3 0 0 0 2 128 0 0 0 0 16 16 0 255 0 255 0 77 0 150 0 29 255 204 255 186 0 122 0 127 255 150 255 235 0 0 5 0 0 8 108 18 223 51 5 89 1 63 240 240 0 26 
+> Exif.Nikon3.0x0098                                    0x0098  48 49 48 49 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 
+> Exif.Nikon3.0x009a                                    0x009a  78/10 78/10
+> Exif.Nikon3.SerialNumber                              0x00a0  NO= 100005e5        
+> Exif.Nikon3.0x00a2                                    0x00a2  2929656
+> Exif.Nikon3.0x00a3                                    0x00a3  0 
+> Exif.Nikon3.ShutterCount                              0x00a7  1193
+> Exif.Nikon3.0x00a8                                    0x00a8  48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+> Exif.Nikon3.ImageOptimization                         0x00a9  NORMAL         
+> Exif.Nikon3.Saturation                                0x00aa  NORMAL         
+> Exif.Nikon3.VariProgram                               0x00ab                 
+> Exif.Iop.InteroperabilityIndex                        0x0001  R03
+> Exif.Iop.InteroperabilityVersion                      0x0002  48 49 48 48 
+> Exif.Thumbnail.Compression                            0x0103  6
+> Exif.Thumbnail.XResolution                            0x011a  300/1
+> Exif.Thumbnail.YResolution                            0x011b  300/1
+> Exif.Thumbnail.ResolutionUnit                         0x0128  2
+> Exif.Thumbnail.JPEGInterchangeFormat                  0x0201  0
+> Exif.Thumbnail.JPEGInterchangeFormatLength            0x0202  8930
+> Exif.Thumbnail.YCbCrPositioning                       0x0213  2

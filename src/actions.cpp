@@ -454,13 +454,15 @@ namespace Action {
         }
         Exiv2::ExifData::const_iterator md;
         for (md = exifData.begin(); md != exifData.end(); ++md) {
-            std::cout << "0x" << std::setw(4) << std::setfill('0') << std::right
-                      << std::hex << md->tag() << " " 
+            std::cout << std::setw(44) << std::setfill(' ') << std::left
+                      << md->key() << " "
                       << std::setw(9) << std::setfill(' ') << std::left
-                      << md->ifdName() << " "
-                      << std::setw(27) << std::setfill(' ') << std::left
-                      << md->tagName() << " "
-                      << std::dec << *md << std::endl;
+                      << md->typeName() << " "
+                      << std::dec << std::setw(3) 
+                      << std::setfill(' ') << std::right
+                      << md->count() << "  "
+                      << std::dec << *md 
+                      << std::endl;
         }
 
         return 0;
@@ -489,13 +491,13 @@ namespace Action {
                       << std::hex << md->tag() << " " 
                       << std::setw(9) << std::setfill(' ') << std::left
                       << md->ifdName() << " "
+                      << std::setw(27) << std::setfill(' ') << std::left
+                      << md->tagName() << " "
                       << std::setw(9) << std::setfill(' ') << std::left
                       << md->typeName() << " "
                       << std::dec << std::setw(3) 
                       << std::setfill(' ') << std::right
-                      << md->count() << " "
-                      << std::setw(27) << std::setfill(' ') << std::left
-                      << md->tagName() << " "
+                      << md->count() << "  "
                       << std::dec << md->value() 
                       << std::endl;
         }
@@ -522,17 +524,13 @@ namespace Action {
         Exiv2::IptcData::const_iterator end = iptcData.end();
         Exiv2::IptcData::const_iterator md;
         for (md = iptcData.begin(); md != end; ++md) {
-            std::cout << "0x" << std::setw(4) << std::setfill('0') << std::right
-                      << std::hex << md->tag() << " " 
-                      << std::setw(12) << std::setfill(' ') << std::left
-                      << md->recordName() << " "
+            std::cout << std::setw(44) << std::setfill(' ') << std::left
+                      << md->key() << " "
                       << std::setw(9) << std::setfill(' ') << std::left
                       << md->typeName() << " "
                       << std::dec << std::setw(3) 
                       << std::setfill(' ') << std::right
-                      << md->count() << " "
-                      << std::setw(27) << std::setfill(' ') << std::left
-                      << md->tagName() << " "
+                      << md->count() << "  "
                       << std::dec << md->value() 
                       << std::endl;
         } 

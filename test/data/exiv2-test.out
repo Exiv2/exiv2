@@ -326,677 +326,677 @@ Exif comment    :
 File 1/9: exiv2-empty.jpg
 exiv2-empty.jpg: No Exif data found in the file
 File 2/9: 20031214_000043.jpg
-0x010f IFD0      Make                        Canon
-0x0110 IFD0      Model                       Canon PowerShot S40
-0x0112 IFD0      Orientation                 top, left
-0x011a IFD0      XResolution                 180
-0x011b IFD0      YResolution                 180
-0x0128 IFD0      ResolutionUnit              inch
-0x0132 IFD0      DateTime                    2003:12:14 00:00:43
-0x0213 IFD0      YCbCrPositioning            Centered
-0x8769 IFD0      ExifTag                     196
-0x829a Exif      ExposureTime                1/500 s
-0x829d Exif      FNumber                     F4.9
-0x9000 Exif      ExifVersion                 48 50 50 48 
-0x9003 Exif      DateTimeOriginal            2003:12:14 00:00:43
-0x9004 Exif      DateTimeDigitized           2003:12:14 00:00:43
-0x9101 Exif      ComponentsConfiguration     YCbCr
-0x9102 Exif      CompressedBitsPerPixel      5
-0x9201 Exif      ShutterSpeedValue           8.96875
-0x9202 Exif      ApertureValue               4.65625
-0x9204 Exif      ExposureBiasValue           0
-0x9205 Exif      MaxApertureValue            2.97086
-0x9207 Exif      MeteringMode                Center weighted
-0x9209 Exif      Flash                       No, auto
-0x920a Exif      FocalLength                 21.3 mm
-0x9286 Exif      UserComment                 
-0xa000 Exif      FlashpixVersion             48 49 48 48 
-0xa001 Exif      ColorSpace                  sRGB
-0xa002 Exif      PixelXDimension             2272
-0xa003 Exif      PixelYDimension             1704
-0xa005 Exif      InteroperabilityTag         1416
-0xa20e Exif      FocalPlaneXResolution       8114.29
-0xa20f Exif      FocalPlaneYResolution       8114.29
-0xa210 Exif      FocalPlaneResolutionUnit    inch
-0xa217 Exif      SensingMethod               One-chip color area
-0xa300 Exif      FileSource                  Digital still camera
-0xa401 Exif      CustomRendered              0
-0xa402 Exif      ExposureMode                Auto
-0xa403 Exif      WhiteBalance                Auto
-0xa404 Exif      DigitalZoomRatio            1.0
-0xa406 Exif      SceneCaptureType            Standard
-0x0002 Makernote 0x0002                      2 682 286 215
-0x0003 Makernote 0x0003                      0 0 0 0
-0x0000 Makernote 0x0000                      0 0 0 0 0 0
-0x0000 Makernote 0x0000                      0 0 0 0
-0x0006 Makernote ImageType                   IMG:PowerShot S40 JPEG
-0x0007 Makernote FirmwareVersion             Firmware Version 1.10
-0x0008 Makernote ImageNumber                 117-1771
-0x0009 Makernote OwnerName                   Andreas Huggel
-0x0010 Makernote 0x0010                      17891328
-0x000d Makernote 0x000d                      42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
-0x0001 Makernote Macro                       Off
-0x0002 Makernote Selftimer                   Off
-0x0003 Makernote Quality                     Superfine
-0x0004 Makernote FlashMode                   Auto
-0x0005 Makernote DriveMode                   Single / timer
-0x0006 Makernote 0x0006                      0
-0x0007 Makernote FocusMode                   Single
-0x0008 Makernote 0x0008                      0
-0x0009 Makernote 0x0009                      1
-0x000a Makernote ImageSize                   Large
-0x000b Makernote EasyMode                    Manual
-0x000c Makernote DigitalZoom                 None
-0x000d Makernote Contrast                    Normal
-0x000e Makernote Saturation                  Normal
-0x000f Makernote Sharpness                   Normal
-0x0010 Makernote ISOSpeed                    100
-0x0011 Makernote MeteringMode                Center weighted
-0x0012 Makernote FocusType                   Auto
-0x0013 Makernote AFPoint                     Center
-0x0014 Makernote ExposureProgram             Program
-0x0015 Makernote 0x0015                      65535
-0x0016 Makernote 0x0016                      65535
-0x0017 Makernote Lens                        7.1 - 21.3 mm
-0x001a Makernote 0x001a                      149
-0x001b Makernote 0x001b                      192
-0x001c Makernote FlashActivity               Did not fire
-0x001d Makernote FlashDetails                
-0x001e Makernote 0x001e                      0
-0x001f Makernote 0x001f                      0
-0x0020 Makernote FocusMode                   Single
-0x0021 Makernote 0x0021                      0
-0x0022 Makernote 0x0022                      65535
-0x0023 Makernote 0x0023                      49
-0x0024 Makernote 0x0024                      2272
-0x0025 Makernote 0x0025                      2272
-0x0026 Makernote 0x0026                      0
-0x0027 Makernote 0x0027                      1
-0x0001 Makernote 0x0001                      0
-0x0002 Makernote ISOSpeed                    100
-0x0003 Makernote 0x0003                      276
-0x0004 Makernote 0x0004                      149
-0x0005 Makernote 0x0005                      287
-0x0006 Makernote 0x0006                      0
-0x0007 Makernote WhiteBalance                Auto
-0x0008 Makernote 0x0008                      0
-0x0009 Makernote Sequence                    0
-0x000a Makernote 0x000a                      6
-0x000b Makernote 0x000b                      0
-0x000c Makernote 0x000c                      0
-0x000d Makernote 0x000d                      0
-0x000e Makernote AFPointUsed                 3 focus points; center used
-0x000f Makernote FlashBias                   0 EV
-0x0010 Makernote 0x0010                      0
-0x0011 Makernote 0x0011                      0
-0x0012 Makernote 0x0012                      1
-0x0013 Makernote SubjectDistance             782
-0x0014 Makernote 0x0014                      0
-0x0015 Makernote 0x0015                      149
-0x0016 Makernote 0x0016                      289
-0x0017 Makernote 0x0017                      0
-0x0018 Makernote 0x0018                      0
-0x0019 Makernote 0x0019                      0
-0x001a Makernote 0x001a                      250
-0x0001 Iop       InteroperabilityIndex       R98
-0x0002 Iop       InteroperabilityVersion     48 49 48 48 
-0x1001 Iop       RelatedImageWidth           2272
-0x1002 Iop       RelatedImageLength          1704
-0x0103 IFD1      Compression                 JPEG
-0x011a IFD1      XResolution                 180
-0x011b IFD1      YResolution                 180
-0x0128 IFD1      ResolutionUnit              inch
-0x0201 IFD1      JPEGInterchangeFormat       0
-0x0202 IFD1      JPEGInterchangeFormatLength 5448
+Exif.Image.Make                              Ascii       6  Canon
+Exif.Image.Model                             Ascii      20  Canon PowerShot S40
+Exif.Image.Orientation                       Short       1  top, left
+Exif.Image.XResolution                       Rational    1  180
+Exif.Image.YResolution                       Rational    1  180
+Exif.Image.ResolutionUnit                    Short       1  inch
+Exif.Image.DateTime                          Ascii      20  2003:12:14 00:00:43
+Exif.Image.YCbCrPositioning                  Short       1  Centered
+Exif.Image.ExifTag                           Long        1  196
+Exif.Photo.ExposureTime                      Rational    1  1/500 s
+Exif.Photo.FNumber                           Rational    1  F4.9
+Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+Exif.Photo.DateTimeOriginal                  Ascii      20  2003:12:14 00:00:43
+Exif.Photo.DateTimeDigitized                 Ascii      20  2003:12:14 00:00:43
+Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
+Exif.Photo.CompressedBitsPerPixel            Rational    1  5
+Exif.Photo.ShutterSpeedValue                 SRational   1  8.96875
+Exif.Photo.ApertureValue                     Rational    1  4.65625
+Exif.Photo.ExposureBiasValue                 SRational   1  0
+Exif.Photo.MaxApertureValue                  Rational    1  2.97086
+Exif.Photo.MeteringMode                      Short       1  Center weighted
+Exif.Photo.Flash                             Short       1  No, auto
+Exif.Photo.FocalLength                       Rational    1  21.3 mm
+Exif.Photo.UserComment                       Undefined 264  
+Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+Exif.Photo.ColorSpace                        Short       1  sRGB
+Exif.Photo.PixelXDimension                   Short       1  2272
+Exif.Photo.PixelYDimension                   Short       1  1704
+Exif.Photo.InteroperabilityTag               Long        1  1416
+Exif.Photo.FocalPlaneXResolution             Rational    1  8114.29
+Exif.Photo.FocalPlaneYResolution             Rational    1  8114.29
+Exif.Photo.FocalPlaneResolutionUnit          Short       1  inch
+Exif.Photo.SensingMethod                     Short       1  One-chip color area
+Exif.Photo.FileSource                        Undefined   1  Digital still camera
+Exif.Photo.CustomRendered                    Short       1  0
+Exif.Photo.ExposureMode                      Short       1  Auto
+Exif.Photo.WhiteBalance                      Short       1  Auto
+Exif.Photo.DigitalZoomRatio                  Rational    1  1.0
+Exif.Photo.SceneCaptureType                  Short       1  Standard
+Exif.Canon.0x0002                            Short       4  2 682 286 215
+Exif.Canon.0x0003                            Short       4  0 0 0 0
+Exif.Canon.0x0000                            Short       6  0 0 0 0 0 0
+Exif.Canon.0x0000                            Short       4  0 0 0 0
+Exif.Canon.ImageType                         Ascii      32  IMG:PowerShot S40 JPEG
+Exif.Canon.FirmwareVersion                   Ascii      24  Firmware Version 1.10
+Exif.Canon.ImageNumber                       Long        1  117-1771
+Exif.Canon.OwnerName                         Ascii      32  Andreas Huggel
+Exif.Canon.0x0010                            Long        1  17891328
+Exif.Canon.0x000d                            Short      21  42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
+Exif.CanonCs1.Macro                          Short       1  Off
+Exif.CanonCs1.Selftimer                      Short       1  Off
+Exif.CanonCs1.Quality                        Short       1  Superfine
+Exif.CanonCs1.FlashMode                      Short       1  Auto
+Exif.CanonCs1.DriveMode                      Short       1  Single / timer
+Exif.CanonCs1.0x0006                         Short       1  0
+Exif.CanonCs1.FocusMode                      Short       1  Single
+Exif.CanonCs1.0x0008                         Short       1  0
+Exif.CanonCs1.0x0009                         Short       1  1
+Exif.CanonCs1.ImageSize                      Short       1  Large
+Exif.CanonCs1.EasyMode                       Short       1  Manual
+Exif.CanonCs1.DigitalZoom                    Short       1  None
+Exif.CanonCs1.Contrast                       Short       1  Normal
+Exif.CanonCs1.Saturation                     Short       1  Normal
+Exif.CanonCs1.Sharpness                      Short       1  Normal
+Exif.CanonCs1.ISOSpeed                       Short       1  100
+Exif.CanonCs1.MeteringMode                   Short       1  Center weighted
+Exif.CanonCs1.FocusType                      Short       1  Auto
+Exif.CanonCs1.AFPoint                        Short       1  Center
+Exif.CanonCs1.ExposureProgram                Short       1  Program
+Exif.CanonCs1.0x0015                         Short       1  65535
+Exif.CanonCs1.0x0016                         Short       1  65535
+Exif.CanonCs1.Lens                           Short       3  7.1 - 21.3 mm
+Exif.CanonCs1.0x001a                         Short       1  149
+Exif.CanonCs1.0x001b                         Short       1  192
+Exif.CanonCs1.FlashActivity                  Short       1  Did not fire
+Exif.CanonCs1.FlashDetails                   Short       1  
+Exif.CanonCs1.0x001e                         Short       1  0
+Exif.CanonCs1.0x001f                         Short       1  0
+Exif.CanonCs1.FocusMode                      Short       1  Single
+Exif.CanonCs1.0x0021                         Short       1  0
+Exif.CanonCs1.0x0022                         Short       1  65535
+Exif.CanonCs1.0x0023                         Short       1  49
+Exif.CanonCs1.0x0024                         Short       1  2272
+Exif.CanonCs1.0x0025                         Short       1  2272
+Exif.CanonCs1.0x0026                         Short       1  0
+Exif.CanonCs1.0x0027                         Short       1  1
+Exif.CanonCs2.0x0001                         Short       1  0
+Exif.CanonCs2.ISOSpeed                       Short       1  100
+Exif.CanonCs2.0x0003                         Short       1  276
+Exif.CanonCs2.0x0004                         Short       1  149
+Exif.CanonCs2.0x0005                         Short       1  287
+Exif.CanonCs2.0x0006                         Short       1  0
+Exif.CanonCs2.WhiteBalance                   Short       1  Auto
+Exif.CanonCs2.0x0008                         Short       1  0
+Exif.CanonCs2.Sequence                       Short       1  0
+Exif.CanonCs2.0x000a                         Short       1  6
+Exif.CanonCs2.0x000b                         Short       1  0
+Exif.CanonCs2.0x000c                         Short       1  0
+Exif.CanonCs2.0x000d                         Short       1  0
+Exif.CanonCs2.AFPointUsed                    Short       1  3 focus points; center used
+Exif.CanonCs2.FlashBias                      Short       1  0 EV
+Exif.CanonCs2.0x0010                         Short       1  0
+Exif.CanonCs2.0x0011                         Short       1  0
+Exif.CanonCs2.0x0012                         Short       1  1
+Exif.CanonCs2.SubjectDistance                Short       1  782
+Exif.CanonCs2.0x0014                         Short       1  0
+Exif.CanonCs2.0x0015                         Short       1  149
+Exif.CanonCs2.0x0016                         Short       1  289
+Exif.CanonCs2.0x0017                         Short       1  0
+Exif.CanonCs2.0x0018                         Short       1  0
+Exif.CanonCs2.0x0019                         Short       1  0
+Exif.CanonCs2.0x001a                         Short       1  250
+Exif.Iop.InteroperabilityIndex               Ascii       4  R98
+Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+Exif.Iop.RelatedImageWidth                   Short       1  2272
+Exif.Iop.RelatedImageLength                  Short       1  1704
+Exif.Thumbnail.Compression                   Short       1  JPEG
+Exif.Thumbnail.XResolution                   Rational    1  180
+Exif.Thumbnail.YResolution                   Rational    1  180
+Exif.Thumbnail.ResolutionUnit                Short       1  inch
+Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
+Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  5448
 File 3/9: 20000506_020544.jpg
-0x010e IFD0      ImageDescription                      
-0x010f IFD0      Make                        NIKON
-0x0110 IFD0      Model                       E990
-0x0112 IFD0      Orientation                 top, left
-0x011a IFD0      XResolution                 300
-0x011b IFD0      YResolution                 300
-0x0128 IFD0      ResolutionUnit              inch
-0x0131 IFD0      Software                    E990v1.0
-0x0132 IFD0      DateTime                    2000:05:06 02:05:44
-0x0213 IFD0      YCbCrPositioning            Co-sited
-0x8769 IFD0      ExifTag                     284
-0x829a Exif      ExposureTime                1/89 s
-0x829d Exif      FNumber                     F7
-0x8822 Exif      ExposureProgram             Aperture priority
-0x8827 Exif      ISOSpeedRatings             100
-0x9000 Exif      ExifVersion                 48 50 49 48 
-0x9003 Exif      DateTimeOriginal            2000:05:06 02:05:44
-0x9004 Exif      DateTimeDigitized           2000:05:06 02:05:44
-0x9101 Exif      ComponentsConfiguration     YCbCr
-0x9102 Exif      CompressedBitsPerPixel      3
-0x9204 Exif      ExposureBiasValue           0
-0x9205 Exif      MaxApertureValue            3.5
-0x9207 Exif      MeteringMode                Center weighted
-0x9208 Exif      LightSource                 Unknown
-0x9209 Exif      Flash                       No
-0x920a Exif      FocalLength                 8.2 mm
-0x9286 Exif      UserComment                                                                                                                                      
-0xa000 Exif      FlashpixVersion             48 49 48 48 
-0xa001 Exif      ColorSpace                  sRGB
-0xa002 Exif      PixelXDimension             2048
-0xa003 Exif      PixelYDimension             1536
-0xa005 Exif      InteroperabilityTag         886
-0xa300 Exif      FileSource                  Digital still camera
-0xa301 Exif      SceneType                   Directly photographed
-0x0001 Makernote Version                     0 1 0 0 
-0x0002 Makernote ISOSpeed                    0
-0x0003 Makernote ColorMode                   COLOR
-0x0004 Makernote Quality                     FINE  
-0x0005 Makernote WhiteBalance                AUTO        
-0x0006 Makernote Sharpening                  AUTO  
-0x0007 Makernote Focus                       Continuous autofocus
-0x0008 Makernote Flash                              
-0x000a Makernote 0x000a                      8832/1000
-0x000f Makernote ISOSelection                AUTO  
-0x0080 Makernote ImageAdjustment             AUTO         
-0x0082 Makernote Adapter                     OFF         
-0x0085 Makernote FocusDistance               Unknown
-0x0086 Makernote DigitalZoom                 1.0x
-0x0088 Makernote AFFocusPos                  Left
-0x0010 Makernote DataDump                    1 45 0 128 1 76 0 0 0 0 255 1 0 0 0 0 2 74 42 160 0 0 0 0 2 183 0 0 31 8 0 0 21 202 0 0 33 124 0 0 33 124 0 0 31 6 13 132 0 74 0 0 0 0 9 181 9 74 8 109 7 54 208 1 11 122 0 0 0 0 45 33 21 0 0 0 32 0 0 0 0 0 0 0 0 0 68 27 0 0 74 3 23 207 9 30 59 31 0 71 0 0 19 21 18 18 21 24 0 0 100 0 25 76 0 0 0 1 255 240 101 68 0 0 0 2 0 0 0 0 15 3 194 141 1 13 18 34 0 0 81 90 0 246 1 43 48 32 18 7 40 16 78 72 11 122 0 0 117 252 235 98 11 16 6 6 0 100 0 216 18 52 67 33 
-0x0001 Iop       InteroperabilityIndex       R98
-0x0002 Iop       InteroperabilityVersion     48 49 48 48 
-0x0103 IFD1      Compression                 JPEG
-0x011a IFD1      XResolution                 300
-0x011b IFD1      YResolution                 300
-0x0128 IFD1      ResolutionUnit              inch
-0x0201 IFD1      JPEGInterchangeFormat       0
-0x0202 IFD1      JPEGInterchangeFormatLength 7829
+Exif.Image.ImageDescription                  Ascii      11            
+Exif.Image.Make                              Ascii       6  NIKON
+Exif.Image.Model                             Ascii       5  E990
+Exif.Image.Orientation                       Short       1  top, left
+Exif.Image.XResolution                       Rational    1  300
+Exif.Image.YResolution                       Rational    1  300
+Exif.Image.ResolutionUnit                    Short       1  inch
+Exif.Image.Software                          Ascii       9  E990v1.0
+Exif.Image.DateTime                          Ascii      20  2000:05:06 02:05:44
+Exif.Image.YCbCrPositioning                  Short       1  Co-sited
+Exif.Image.ExifTag                           Long        1  284
+Exif.Photo.ExposureTime                      Rational    1  1/89 s
+Exif.Photo.FNumber                           Rational    1  F7
+Exif.Photo.ExposureProgram                   Short       1  Aperture priority
+Exif.Photo.ISOSpeedRatings                   Short       1  100
+Exif.Photo.ExifVersion                       Undefined   4  48 50 49 48 
+Exif.Photo.DateTimeOriginal                  Ascii      20  2000:05:06 02:05:44
+Exif.Photo.DateTimeDigitized                 Ascii      20  2000:05:06 02:05:44
+Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
+Exif.Photo.CompressedBitsPerPixel            Rational    1  3
+Exif.Photo.ExposureBiasValue                 SRational   1  0
+Exif.Photo.MaxApertureValue                  Rational    1  3.5
+Exif.Photo.MeteringMode                      Short       1  Center weighted
+Exif.Photo.LightSource                       Short       1  Unknown
+Exif.Photo.Flash                             Short       1  No
+Exif.Photo.FocalLength                       Rational    1  8.2 mm
+Exif.Photo.UserComment                       Undefined 125                                                                                                                       
+Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+Exif.Photo.ColorSpace                        Short       1  sRGB
+Exif.Photo.PixelXDimension                   Long        1  2048
+Exif.Photo.PixelYDimension                   Long        1  1536
+Exif.Photo.InteroperabilityTag               Long        1  886
+Exif.Photo.FileSource                        Undefined   1  Digital still camera
+Exif.Photo.SceneType                         Undefined   1  Directly photographed
+Exif.Nikon1.Version                          Undefined   4  0 1 0 0 
+Exif.Nikon1.ISOSpeed                         Short       2  0
+Exif.Nikon1.ColorMode                        Ascii       6  COLOR
+Exif.Nikon1.Quality                          Ascii       7  FINE  
+Exif.Nikon1.WhiteBalance                     Ascii      13  AUTO        
+Exif.Nikon1.Sharpening                       Ascii       7  AUTO  
+Exif.Nikon1.Focus                            Ascii       7  Continuous autofocus
+Exif.Nikon1.Flash                            Ascii       8         
+Exif.Nikon1.0x000a                           Rational    1  8832/1000
+Exif.Nikon1.ISOSelection                     Ascii       7  AUTO  
+Exif.Nikon1.ImageAdjustment                  Ascii      14  AUTO         
+Exif.Nikon1.Adapter                          Ascii      13  OFF         
+Exif.Nikon1.FocusDistance                    Rational    1  Unknown
+Exif.Nikon1.DigitalZoom                      Rational    1  1.0x
+Exif.Nikon1.AFFocusPos                       Undefined   4  Left
+Exif.Nikon1.DataDump                         Undefined 174  1 45 0 128 1 76 0 0 0 0 255 1 0 0 0 0 2 74 42 160 0 0 0 0 2 183 0 0 31 8 0 0 21 202 0 0 33 124 0 0 33 124 0 0 31 6 13 132 0 74 0 0 0 0 9 181 9 74 8 109 7 54 208 1 11 122 0 0 0 0 45 33 21 0 0 0 32 0 0 0 0 0 0 0 0 0 68 27 0 0 74 3 23 207 9 30 59 31 0 71 0 0 19 21 18 18 21 24 0 0 100 0 25 76 0 0 0 1 255 240 101 68 0 0 0 2 0 0 0 0 15 3 194 141 1 13 18 34 0 0 81 90 0 246 1 43 48 32 18 7 40 16 78 72 11 122 0 0 117 252 235 98 11 16 6 6 0 100 0 216 18 52 67 33 
+Exif.Iop.InteroperabilityIndex               Ascii       4  R98
+Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+Exif.Thumbnail.Compression                   Short       1  JPEG
+Exif.Thumbnail.XResolution                   Rational    1  300
+Exif.Thumbnail.YResolution                   Rational    1  300
+Exif.Thumbnail.ResolutionUnit                Short       1  inch
+Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
+Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  7829
 File 4/9: 20040329_224245.jpg
-0x010f IFD0      Make                        NIKON CORPORATION
-0x0110 IFD0      Model                       NIKON D70
-0x0112 IFD0      Orientation                 right, top
-0x011a IFD0      XResolution                 300
-0x011b IFD0      YResolution                 300
-0x0128 IFD0      ResolutionUnit              inch
-0x0131 IFD0      Software                    Ver.1.01 
-0x0132 IFD0      DateTime                    2004:03:29 22:42:45
-0x013e IFD0      WhitePoint                  313/1000 329/1000
-0x013f IFD0      PrimaryChromaticities       64/100 33/100 21/100 71/100 15/100 6/100
-0x0211 IFD0      YCbCrCoefficients           299/1000 587/1000 114/1000
-0x0213 IFD0      YCbCrPositioning            Co-sited
-0x8769 IFD0      ExifTag                     340
-0x829a Exif      ExposureTime                1/250 s
-0x829d Exif      FNumber                     F9
-0x8822 Exif      ExposureProgram             Auto
-0x9000 Exif      ExifVersion                 48 50 50 49 
-0x9003 Exif      DateTimeOriginal            2004:03:29 22:42:45
-0x9004 Exif      DateTimeDigitized           2004:03:29 22:42:45
-0x9101 Exif      ComponentsConfiguration     YCbCr
-0x9102 Exif      CompressedBitsPerPixel      4
-0x9204 Exif      ExposureBiasValue           0
-0x9205 Exif      MaxApertureValue            4.3
-0x9207 Exif      MeteringMode                Matrix
-0x9208 Exif      LightSource                 Unknown
-0x9209 Exif      Flash                       No
-0x920a Exif      FocalLength                 50.0 mm
-0x9286 Exif      UserComment                                                     
-0x9290 Exif      SubSecTime                  00
-0x9291 Exif      SubSecTimeOriginal          00
-0x9292 Exif      SubSecTimeDigitized         00
-0xa000 Exif      FlashpixVersion             48 49 48 48 
-0xa001 Exif      ColorSpace                  Uncalibrated
-0xa002 Exif      PixelXDimension             3008
-0xa003 Exif      PixelYDimension             2000
-0xa005 Exif      InteroperabilityTag         30306
-0xa217 Exif      SensingMethod               One-chip color area
-0xa300 Exif      FileSource                  Digital still camera
-0xa301 Exif      SceneType                   Directly photographed
-0xa302 Exif      CFAPattern                  0 2 0 2 2 1 1 0 
-0xa401 Exif      CustomRendered              0
-0xa402 Exif      ExposureMode                Auto
-0xa403 Exif      WhiteBalance                Auto
-0xa404 Exif      DigitalZoomRatio            1.0
-0xa405 Exif      FocalLengthIn35mmFilm       75.0 mm
-0xa406 Exif      SceneCaptureType            Standard
-0xa407 Exif      GainControl                 None
-0xa408 Exif      Contrast                    Normal
-0xa409 Exif      Saturation                  Normal
-0xa40a Exif      Sharpness                   Normal
-0xa40c Exif      SubjectDistanceRange        Unknown
-0xa500 Exif      0xa500                      22/10
-0x0001 Makernote Version                     48 50 49 48 
-0x0002 Makernote ISOSpeed                    200
-0x0004 Makernote Quality                     FINE   
-0x0005 Makernote WhiteBalance                AUTO        
-0x0006 Makernote Sharpening                  AUTO  
-0x0007 Makernote Focus                       AF-S  
-0x0008 Makernote FlashSetting                NORMAL      
-0x0009 Makernote FlashMode                               
-0x000b Makernote WhiteBalanceBias            0
-0x000d Makernote 0x000d                      0 1 6 0 
-0x000e Makernote ExposureDiff                0 1 12 0 
-0x0011 Makernote ThumbOffset                 1430
-0x0012 Makernote FlashComp                   0.0 EV
-0x0013 Makernote ISOSetting                  200
-0x0016 Makernote ImageBoundry                0 0 3008 2000
-0x0017 Makernote 0x0017                      0 1 6 0 
-0x0018 Makernote FlashBracketComp            0.0 EV
-0x0019 Makernote ExposureBracketComp         0/1
-0x0081 Makernote ToneComp                    AUTO    
-0x0083 Makernote LensType                    6 
-0x0084 Makernote Lens                        18-70mm F3.5-4.5
-0x0087 Makernote FlashType                   Not used
-0x0088 Makernote AFFocusPos                  Center
-0x0089 Makernote Bracketing                  Single
-0x008a Makernote 0x008a                      0
-0x008b Makernote LensFStops                  5.33333
-0x008d Makernote ColorMode                   MODE1a  
-0x0090 Makernote LightingType                NATURAL    
-0x0091 Makernote 0x0091                      48 49 48 51 0 0 0 124 0 0 5 13 113 0 0 0 0 1 0 0 11 0 0 0 0 0 20 0 0 31 0 0 0 0 0 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 32 0 0 31 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 0 0 0 0 0 0 0 45 0 0 0 0 0 1 0 0 0 0 89 1 2 205 51 206 179 54 56 53 54 48 51 0 218 0 214 0 167 0 171 0 50 0 51 0 5 0 0 0 0 0 0 0 0 0 1 0 5 0 0 3 194 0 0 0 100 30 161 200 95 222 59 231 63 201 147 36 178 108 51 110 51 142 15 205 20 205 255 24 187 172 35 200 39 84 41 220 51 68 39 136 59 158 49 239 176 221 55 206 242 77 6 206 51 212 169 76 179 220 17 174 50 140 159 228 51 220 49 78 186 201 119 196 225 223 50 196 178 204 146 204 17 54 56 53 54 48 49 0 101 0 161 0 172 172 169 163 163 168 169 169 168 168 170 171 164 152 149 5 249 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 38 72 0 8 1 78 226 1 0 72 49 38 48 0 0 0 3 7 252 11 226 0 4 169 1 72 0 128 16 0 0 3 151 96 196 12 145 80 60 0 0 4 190 3 111 0 0 9 186 0 0 4 197 0 0 4 190 3 111 0 0 0 0 3 0 0 0 0 200 0 60 52 62 143 63 0 0 4 176 0 0 4 162 0 0 4 177 0 0 4 126 255 127 255 127 255 127 255 127 8 128 3 111 3 28 2 157 18 17 1 0 0 0 0 72 240 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 64 0 0 0 0 64 
-0x0092 Makernote HueAdjustment               0
-0x0095 Makernote NoiseReduction              OFF 
-0x0097 Makernote ColorBalance2               48 49 48 51 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 2 4 1 0 1 163 1 0 0 0 1 8 1 0 0 0 0 0 0 112 0 12 0 24 0 3 1 140 255 109 0 7 255 216 1 90 255 206 255 251 255 222 1 39 255 255 255 255 255 255 128 0 0 0 0 0 0 0 0 0 10 0 0 0 2 128 0 0 3 0 0 0 2 128 0 0 0 0 16 16 0 255 0 255 0 77 0 150 0 29 255 204 255 186 0 122 0 127 255 150 255 235 0 0 5 0 0 8 108 18 223 51 5 89 1 63 240 240 0 26 
-0x0098 Makernote 0x0098                      48 49 48 49 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 
-0x009a Makernote 0x009a                      78/10 78/10
-0x00a0 Makernote SerialNumber                NO= 100005e5        
-0x00a2 Makernote 0x00a2                      2929656
-0x00a3 Makernote 0x00a3                      0 
-0x00a7 Makernote ShutterCount                1193
-0x00a8 Makernote 0x00a8                      48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
-0x00a9 Makernote ImageOptimization           NORMAL         
-0x00aa Makernote Saturation                  NORMAL         
-0x00ab Makernote VariProgram                                
-0x0001 Iop       InteroperabilityIndex       R03
-0x0002 Iop       InteroperabilityVersion     48 49 48 48 
-0x0103 IFD1      Compression                 JPEG
-0x011a IFD1      XResolution                 300
-0x011b IFD1      YResolution                 300
-0x0128 IFD1      ResolutionUnit              inch
-0x0201 IFD1      JPEGInterchangeFormat       0
-0x0202 IFD1      JPEGInterchangeFormatLength 8930
-0x0213 IFD1      YCbCrPositioning            Co-sited
+Exif.Image.Make                              Ascii      18  NIKON CORPORATION
+Exif.Image.Model                             Ascii      10  NIKON D70
+Exif.Image.Orientation                       Short       1  right, top
+Exif.Image.XResolution                       Rational    1  300
+Exif.Image.YResolution                       Rational    1  300
+Exif.Image.ResolutionUnit                    Short       1  inch
+Exif.Image.Software                          Ascii      10  Ver.1.01 
+Exif.Image.DateTime                          Ascii      20  2004:03:29 22:42:45
+Exif.Image.WhitePoint                        Rational    2  313/1000 329/1000
+Exif.Image.PrimaryChromaticities             Rational    6  64/100 33/100 21/100 71/100 15/100 6/100
+Exif.Image.YCbCrCoefficients                 Rational    3  299/1000 587/1000 114/1000
+Exif.Image.YCbCrPositioning                  Short       1  Co-sited
+Exif.Image.ExifTag                           Long        1  340
+Exif.Photo.ExposureTime                      Rational    1  1/250 s
+Exif.Photo.FNumber                           Rational    1  F9
+Exif.Photo.ExposureProgram                   Short       1  Auto
+Exif.Photo.ExifVersion                       Undefined   4  48 50 50 49 
+Exif.Photo.DateTimeOriginal                  Ascii      20  2004:03:29 22:42:45
+Exif.Photo.DateTimeDigitized                 Ascii      20  2004:03:29 22:42:45
+Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
+Exif.Photo.CompressedBitsPerPixel            Rational    1  4
+Exif.Photo.ExposureBiasValue                 SRational   1  0
+Exif.Photo.MaxApertureValue                  Rational    1  4.3
+Exif.Photo.MeteringMode                      Short       1  Matrix
+Exif.Photo.LightSource                       Short       1  Unknown
+Exif.Photo.Flash                             Short       1  No
+Exif.Photo.FocalLength                       Rational    1  50.0 mm
+Exif.Photo.UserComment                       Undefined  44                                      
+Exif.Photo.SubSecTime                        Ascii       3  00
+Exif.Photo.SubSecTimeOriginal                Ascii       3  00
+Exif.Photo.SubSecTimeDigitized               Ascii       3  00
+Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+Exif.Photo.ColorSpace                        Short       1  Uncalibrated
+Exif.Photo.PixelXDimension                   Short       1  3008
+Exif.Photo.PixelYDimension                   Short       1  2000
+Exif.Photo.InteroperabilityTag               Long        1  30306
+Exif.Photo.SensingMethod                     Short       1  One-chip color area
+Exif.Photo.FileSource                        Undefined   1  Digital still camera
+Exif.Photo.SceneType                         Undefined   1  Directly photographed
+Exif.Photo.CFAPattern                        Undefined   8  0 2 0 2 2 1 1 0 
+Exif.Photo.CustomRendered                    Short       1  0
+Exif.Photo.ExposureMode                      Short       1  Auto
+Exif.Photo.WhiteBalance                      Short       1  Auto
+Exif.Photo.DigitalZoomRatio                  Rational    1  1.0
+Exif.Photo.FocalLengthIn35mmFilm             Short       1  75.0 mm
+Exif.Photo.SceneCaptureType                  Short       1  Standard
+Exif.Photo.GainControl                       Short       1  None
+Exif.Photo.Contrast                          Short       1  Normal
+Exif.Photo.Saturation                        Short       1  Normal
+Exif.Photo.Sharpness                         Short       1  Normal
+Exif.Photo.SubjectDistanceRange              Short       1  Unknown
+Exif.Photo.0xa500                            Rational    1  22/10
+Exif.Nikon3.Version                          Undefined   4  48 50 49 48 
+Exif.Nikon3.ISOSpeed                         Short       2  200
+Exif.Nikon3.Quality                          Ascii       8  FINE   
+Exif.Nikon3.WhiteBalance                     Ascii      13  AUTO        
+Exif.Nikon3.Sharpening                       Ascii       7  AUTO  
+Exif.Nikon3.Focus                            Ascii       7  AF-S  
+Exif.Nikon3.FlashSetting                     Ascii      13  NORMAL      
+Exif.Nikon3.FlashMode                        Ascii      13              
+Exif.Nikon3.WhiteBalanceBias                 SShort      1  0
+Exif.Nikon3.0x000d                           Undefined   4  0 1 6 0 
+Exif.Nikon3.ExposureDiff                     Undefined   4  0 1 12 0 
+Exif.Nikon3.ThumbOffset                      Long        1  1430
+Exif.Nikon3.FlashComp                        Undefined   4  0.0 EV
+Exif.Nikon3.ISOSetting                       Short       2  200
+Exif.Nikon3.ImageBoundry                     Short       4  0 0 3008 2000
+Exif.Nikon3.0x0017                           Undefined   4  0 1 6 0 
+Exif.Nikon3.FlashBracketComp                 Undefined   4  0.0 EV
+Exif.Nikon3.ExposureBracketComp              SRational   1  0/1
+Exif.Nikon3.ToneComp                         Ascii       9  AUTO    
+Exif.Nikon3.LensType                         Byte        1  6 
+Exif.Nikon3.Lens                             Rational    4  18-70mm F3.5-4.5
+Exif.Nikon3.FlashType                        Byte        1  Not used
+Exif.Nikon3.AFFocusPos                       Undefined   4  Center
+Exif.Nikon3.Bracketing                       Short       1  Single
+Exif.Nikon3.0x008a                           Short       1  0
+Exif.Nikon3.LensFStops                       Undefined   4  5.33333
+Exif.Nikon3.ColorMode                        Ascii       9  MODE1a  
+Exif.Nikon3.LightingType                     Ascii      12  NATURAL    
+Exif.Nikon3.0x0091                           Undefined 465  48 49 48 51 0 0 0 124 0 0 5 13 113 0 0 0 0 1 0 0 11 0 0 0 0 0 20 0 0 31 0 0 0 0 0 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 32 0 0 31 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 0 0 0 0 0 0 0 45 0 0 0 0 0 1 0 0 0 0 89 1 2 205 51 206 179 54 56 53 54 48 51 0 218 0 214 0 167 0 171 0 50 0 51 0 5 0 0 0 0 0 0 0 0 0 1 0 5 0 0 3 194 0 0 0 100 30 161 200 95 222 59 231 63 201 147 36 178 108 51 110 51 142 15 205 20 205 255 24 187 172 35 200 39 84 41 220 51 68 39 136 59 158 49 239 176 221 55 206 242 77 6 206 51 212 169 76 179 220 17 174 50 140 159 228 51 220 49 78 186 201 119 196 225 223 50 196 178 204 146 204 17 54 56 53 54 48 49 0 101 0 161 0 172 172 169 163 163 168 169 169 168 168 170 171 164 152 149 5 249 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 38 72 0 8 1 78 226 1 0 72 49 38 48 0 0 0 3 7 252 11 226 0 4 169 1 72 0 128 16 0 0 3 151 96 196 12 145 80 60 0 0 4 190 3 111 0 0 9 186 0 0 4 197 0 0 4 190 3 111 0 0 0 0 3 0 0 0 0 200 0 60 52 62 143 63 0 0 4 176 0 0 4 162 0 0 4 177 0 0 4 126 255 127 255 127 255 127 255 127 8 128 3 111 3 28 2 157 18 17 1 0 0 0 0 72 240 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 64 0 0 0 0 64 
+Exif.Nikon3.HueAdjustment                    SShort      1  0
+Exif.Nikon3.NoiseReduction                   Ascii       5  OFF 
+Exif.Nikon3.ColorBalance2                    Undefined 140  48 49 48 51 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 2 4 1 0 1 163 1 0 0 0 1 8 1 0 0 0 0 0 0 112 0 12 0 24 0 3 1 140 255 109 0 7 255 216 1 90 255 206 255 251 255 222 1 39 255 255 255 255 255 255 128 0 0 0 0 0 0 0 0 0 10 0 0 0 2 128 0 0 3 0 0 0 2 128 0 0 0 0 16 16 0 255 0 255 0 77 0 150 0 29 255 204 255 186 0 122 0 127 255 150 255 235 0 0 5 0 0 8 108 18 223 51 5 89 1 63 240 240 0 26 
+Exif.Nikon3.0x0098                           Undefined  31  48 49 48 49 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 
+Exif.Nikon3.0x009a                           Rational    2  78/10 78/10
+Exif.Nikon3.SerialNumber                     Ascii      21  NO= 100005e5        
+Exif.Nikon3.0x00a2                           Long        1  2929656
+Exif.Nikon3.0x00a3                           Byte        1  0 
+Exif.Nikon3.ShutterCount                     Long        1  1193
+Exif.Nikon3.0x00a8                           Undefined  20  48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Exif.Nikon3.ImageOptimization                Ascii      16  NORMAL         
+Exif.Nikon3.Saturation                       Ascii      16  NORMAL         
+Exif.Nikon3.VariProgram                      Ascii      16                 
+Exif.Iop.InteroperabilityIndex               Ascii       4  R03
+Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+Exif.Thumbnail.Compression                   Short       1  JPEG
+Exif.Thumbnail.XResolution                   Rational    1  300
+Exif.Thumbnail.YResolution                   Rational    1  300
+Exif.Thumbnail.ResolutionUnit                Short       1  inch
+Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
+Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  8930
+Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
 File 5/9: 20010405_235039.jpg
-0x010e IFD0      ImageDescription                      
-0x010f IFD0      Make                        NIKON
-0x0110 IFD0      Model                       E950
-0x0112 IFD0      Orientation                 top, left
-0x011a IFD0      XResolution                 300
-0x011b IFD0      YResolution                 300
-0x0128 IFD0      ResolutionUnit              inch
-0x0131 IFD0      Software                    v981-79
-0x0132 IFD0      DateTime                    2001:04:05 23:50:39
-0x0213 IFD0      YCbCrPositioning            Co-sited
-0x8769 IFD0      ExifTag                     284
-0x829a Exif      ExposureTime                1/77 s
-0x829d Exif      FNumber                     F5.5
-0x8822 Exif      ExposureProgram             Auto
-0x8827 Exif      ISOSpeedRatings             80
-0x9000 Exif      ExifVersion                 48 50 49 48 
-0x9003 Exif      DateTimeOriginal            2001:04:05 23:50:39
-0x9004 Exif      DateTimeDigitized           2001:04:05 23:50:39
-0x9101 Exif      ComponentsConfiguration     YCbCr
-0x9102 Exif      CompressedBitsPerPixel      4
-0x9204 Exif      ExposureBiasValue           0
-0x9205 Exif      MaxApertureValue            2.6
-0x9207 Exif      MeteringMode                Matrix
-0x9208 Exif      LightSource                 Unknown
-0x9209 Exif      Flash                       No
-0x920a Exif      FocalLength                 12.8 mm
-0x9286 Exif      UserComment                                                                                                                                      
-0xa000 Exif      FlashpixVersion             48 49 48 48 
-0xa001 Exif      ColorSpace                  sRGB
-0xa002 Exif      PixelXDimension             1600
-0xa003 Exif      PixelYDimension             1200
-0xa005 Exif      InteroperabilityTag         886
-0xa300 Exif      FileSource                  Digital still camera
-0xa301 Exif      SceneType                   Directly photographed
-0x0002 Makernote 0x0002                      08.00
-0x0003 Makernote Quality                     (12)
-0x0004 Makernote ColorMode                   Color
-0x0005 Makernote ImageAdjustment             Contrast+
-0x0006 Makernote ISOSpeed                    80
-0x0007 Makernote WhiteBalance                Auto
-0x0008 Makernote Focus                       0/0
-0x0009 Makernote 0x0009                      
-0x000a Makernote DigitalZoom                 Not used
-0x000b Makernote Adapter                     0
-0x0f00 Makernote 0x0f00                      0 0 16777216 0 2685774096 0 34833 6931 16178 4372 4372 3322676767 3373084416 15112 0 0 1151495 252903424 17 0 0 844038208 55184128 218129428 1476410198 370540566 4044363286 16711749 204629079 1729
-0x0001 Iop       InteroperabilityIndex       R98
-0x0002 Iop       InteroperabilityVersion     48 49 48 48 
-0x0103 IFD1      Compression                 JPEG
-0x011a IFD1      XResolution                 300
-0x011b IFD1      YResolution                 300
-0x0128 IFD1      ResolutionUnit              inch
-0x0201 IFD1      JPEGInterchangeFormat       0
-0x0202 IFD1      JPEGInterchangeFormatLength 4662
+Exif.Image.ImageDescription                  Ascii      11            
+Exif.Image.Make                              Ascii       6  NIKON
+Exif.Image.Model                             Ascii       5  E950
+Exif.Image.Orientation                       Short       1  top, left
+Exif.Image.XResolution                       Rational    1  300
+Exif.Image.YResolution                       Rational    1  300
+Exif.Image.ResolutionUnit                    Short       1  inch
+Exif.Image.Software                          Ascii       8  v981-79
+Exif.Image.DateTime                          Ascii      20  2001:04:05 23:50:39
+Exif.Image.YCbCrPositioning                  Short       1  Co-sited
+Exif.Image.ExifTag                           Long        1  284
+Exif.Photo.ExposureTime                      Rational    1  1/77 s
+Exif.Photo.FNumber                           Rational    1  F5.5
+Exif.Photo.ExposureProgram                   Short       1  Auto
+Exif.Photo.ISOSpeedRatings                   Short       1  80
+Exif.Photo.ExifVersion                       Undefined   4  48 50 49 48 
+Exif.Photo.DateTimeOriginal                  Ascii      20  2001:04:05 23:50:39
+Exif.Photo.DateTimeDigitized                 Ascii      20  2001:04:05 23:50:39
+Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
+Exif.Photo.CompressedBitsPerPixel            Rational    1  4
+Exif.Photo.ExposureBiasValue                 SRational   1  0
+Exif.Photo.MaxApertureValue                  Rational    1  2.6
+Exif.Photo.MeteringMode                      Short       1  Matrix
+Exif.Photo.LightSource                       Short       1  Unknown
+Exif.Photo.Flash                             Short       1  No
+Exif.Photo.FocalLength                       Rational    1  12.8 mm
+Exif.Photo.UserComment                       Undefined 125                                                                                                                       
+Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+Exif.Photo.ColorSpace                        Short       1  sRGB
+Exif.Photo.PixelXDimension                   Long        1  1600
+Exif.Photo.PixelYDimension                   Long        1  1200
+Exif.Photo.InteroperabilityTag               Long        1  886
+Exif.Photo.FileSource                        Undefined   1  Digital still camera
+Exif.Photo.SceneType                         Undefined   1  Directly photographed
+Exif.Nikon2.0x0002                           Ascii       6  08.00
+Exif.Nikon2.Quality                          Short       1  (12)
+Exif.Nikon2.ColorMode                        Short       1  Color
+Exif.Nikon2.ImageAdjustment                  Short       1  Contrast+
+Exif.Nikon2.ISOSpeed                         Short       1  80
+Exif.Nikon2.WhiteBalance                     Short       1  Auto
+Exif.Nikon2.Focus                            Rational    1  0/0
+Exif.Nikon2.0x0009                           Ascii      20  
+Exif.Nikon2.DigitalZoom                      Rational    1  Not used
+Exif.Nikon2.Adapter                          Short       1  0
+Exif.Nikon2.0x0f00                           Long       30  0 0 16777216 0 2685774096 0 34833 6931 16178 4372 4372 3322676767 3373084416 15112 0 0 1151495 252903424 17 0 0 844038208 55184128 218129428 1476410198 370540566 4044363286 16711749 204629079 1729
+Exif.Iop.InteroperabilityIndex               Ascii       4  R98
+Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+Exif.Thumbnail.Compression                   Short       1  JPEG
+Exif.Thumbnail.XResolution                   Rational    1  300
+Exif.Thumbnail.YResolution                   Rational    1  300
+Exif.Thumbnail.ResolutionUnit                Short       1  inch
+Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
+Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  4662
 File 6/9: 20030925_201850.jpg
 Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
  Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
-0x010f IFD0      Make                        Canon
-0x0110 IFD0      Model                       Canon EOS 300D DIGITAL
-0x0112 IFD0      Orientation                 right, top
-0x011a IFD0      XResolution                 180
-0x011b IFD0      YResolution                 180
-0x0128 IFD0      ResolutionUnit              inch
-0x0132 IFD0      DateTime                    2003:09:25 20:18:50
-0x0213 IFD0      YCbCrPositioning            Centered
-0x8769 IFD0      ExifTag                     196
-0x829a Exif      ExposureTime                1/80 s
-0x829d Exif      FNumber                     F5.6
-0x8827 Exif      ISOSpeedRatings             100
-0x9000 Exif      ExifVersion                 48 50 50 48 
-0x9003 Exif      DateTimeOriginal            2003:09:25 20:18:50
-0x9004 Exif      DateTimeDigitized           2003:09:25 20:18:50
-0x9101 Exif      ComponentsConfiguration     YCbCr
-0x9102 Exif      CompressedBitsPerPixel      3
-0x9201 Exif      ShutterSpeedValue           6.32193
-0x9202 Exif      ApertureValue               4.97086
-0x9204 Exif      ExposureBiasValue           0
-0x9205 Exif      MaxApertureValue            3.61472
-0x9207 Exif      MeteringMode                Matrix
-0x9209 Exif      Flash                       No
-0x920a Exif      FocalLength                 18.0 mm
-0x9286 Exif      UserComment                 
-0xa000 Exif      FlashpixVersion             48 49 48 48 
-0xa001 Exif      ColorSpace                  sRGB
-0xa002 Exif      PixelXDimension             3072
-0xa003 Exif      PixelYDimension             2048
-0xa005 Exif      InteroperabilityTag         2366
-0xa20e Exif      FocalPlaneXResolution       3443.95
-0xa20f Exif      FocalPlaneYResolution       3442.02
-0xa210 Exif      FocalPlaneResolutionUnit    inch
-0xa217 Exif      SensingMethod               One-chip color area
-0xa300 Exif      FileSource                  Digital still camera
-0xa401 Exif      CustomRendered              0
-0xa402 Exif      ExposureMode                Auto
-0xa403 Exif      WhiteBalance                Auto
-0xa406 Exif      SceneCaptureType            Standard
-0x0002 Makernote 0x0002                      0 18 914 610
-0x0003 Makernote 0x0003                      100 0 0 0
-0x0093 Makernote 0x0093                      18 0 0 0 0 0 65535 65535 65535
-0x0006 Makernote ImageType                   IMG:EOS 300D DIGITAL JPEG
-0x0007 Makernote FirmwareVersion             Firmware Version 1.0.2
-0x000c Makernote SerialNumber                21f938089
-0x0015 Makernote 0x0015                      2415919104
-0x0008 Makernote ImageNumber                 103-0390
-0x0009 Makernote OwnerName                   
-0x0010 Makernote 0x0010                      2147484016
-0x000e Makernote 0x000e                      2830270
-0x000d Makernote 0x000d                      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 154 4 0 0 3 12 0 0 69 59 0 0 1 8 1 0 26 42 0 0 251 51 0 0 45 62 0 0 181 39 0 0 45 36 0 0 207 33 0 0 86 11 0 0 72 87 0 0 68 185 0 0 41 243 1 0 152 72 9 0 250 249 47 0 107 55 9 0 213 248 10 0 80 74 15 0 227 71 10 0 179 45 9 0 125 201 7 0 2 103 2 0 207 245 15 0 93 182 1 0 42 150 4 0 75 9 22 0 129 114 107 0 67 156 18 0 204 207 21 0 153 54 30 0 153 209 19 0 150 232 16 0 235 189 13 0 18 8 4 0 253 2 24 0 160 223 1 0 225 242 4 0 180 12 23 0 169 205 109 0 2 252 18 0 62 24 22 0 110 65 30 0 81 179 19 0 99 172 16 0 78 45 13 0 136 215 3 0 14 135 22 0 74 171 1 0 83 97 4 0 24 83 20 0 111 195 91 0 217 101 14 0 107 252 15 0 142 195 20 0 122 246 12 0 93 182 10 0 163 119 8 0 89 86 2 0 211 129 12 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
-0x0000 Makernote 0x0000                      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0x00c0 Makernote 0x00c0                      26 296 369 373 169 222 432 437 266 144 429 434 355
-0x00c1 Makernote 0x00c1                      26 293 375 375 174 198 394 395 243 150 453 454 379
-0x00aa Makernote 0x00aa                      10 567 1022 1026 636
-0x00a8 Makernote 0x00a8                      20 4942 0 0 0 0 0 0 0 0
-0x00a9 Makernote 0x00a9                      82 1751 836 827 1074 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 128 128 128 128
-0x00ae Makernote 0x00ae                      5200
-0x00b4 Makernote 0x00b4                      1
-0x0012 Makernote 0x0012                      7 7 3072 2048 3072 2048 151 151 1014 608 0 0 0 64928 64522 0 0 65030 0 506 0 0 8 65535
-0x0013 Makernote 0x0013                      0 159 7 112
-0x0000 Makernote 0x0000                      0 0 0 0 0
-0x00b6 Makernote 0x00b6                      
-0x0001 Makernote Macro                       (0)
-0x0002 Makernote Selftimer                   Off
-0x0003 Makernote Quality                     Fine
-0x0004 Makernote FlashMode                   Off
-0x0005 Makernote DriveMode                   Single / timer
-0x0006 Makernote 0x0006                      0
-0x0007 Makernote FocusMode                   AI Focus
-0x0008 Makernote 0x0008                      0
-0x0009 Makernote 0x0009                      1
-0x000a Makernote ImageSize                   Large
-0x000b Makernote EasyMode                    Manual
-0x000c Makernote DigitalZoom                 (65535)
-0x000d Makernote Contrast                    High
-0x000e Makernote Saturation                  High
-0x000f Makernote Sharpness                   High
-0x0010 Makernote ISOSpeed                    n/a
-0x0011 Makernote MeteringMode                Evaluative
-0x0012 Makernote FocusType                   (2)
-0x0013 Makernote AFPoint                     (8197)
-0x0014 Makernote ExposureProgram             Program
-0x0015 Makernote 0x0015                      32767
-0x0016 Makernote 0x0016                      65535
-0x0017 Makernote Lens                        18.0 - 55.0 mm
-0x001a Makernote 0x001a                      116
-0x001b Makernote 0x001b                      285
-0x001c Makernote FlashActivity               Did not fire
-0x001d Makernote FlashDetails                
-0x001e Makernote 0x001e                      0
-0x001f Makernote 0x001f                      0
-0x0020 Makernote FocusMode                   (65535)
-0x0021 Makernote 0x0021                      65535
-0x0022 Makernote 0x0022                      65535
-0x0023 Makernote 0x0023                      0
-0x0024 Makernote 0x0024                      3072
-0x0025 Makernote 0x0025                      3072
-0x0026 Makernote 0x0026                      0
-0x0027 Makernote 0x0027                      65535
-0x0028 Makernote 0x0028                      65535
-0x0029 Makernote 0x0029                      0
-0x002a Makernote 0x002a                      0
-0x002b Makernote 0x002b                      32767
-0x002c Makernote 0x002c                      65535
-0x002d Makernote 0x002d                      65535
-0x0001 Makernote 0x0001                      0
-0x0002 Makernote ISOSpeed                    100
-0x0003 Makernote 0x0003                      200
-0x0004 Makernote 0x0004                      159
-0x0005 Makernote 0x0005                      202
-0x0006 Makernote 0x0006                      0
-0x0007 Makernote WhiteBalance                Auto
-0x0008 Makernote 0x0008                      3
-0x0009 Makernote Sequence                    0
-0x000a Makernote 0x000a                      8
-0x000b Makernote 0x000b                      8
-0x000c Makernote 0x000c                      0
-0x000d Makernote 0x000d                      0
-0x000e Makernote AFPointUsed                 0 focus points; none used
-0x000f Makernote FlashBias                   0 EV
-0x0010 Makernote 0x0010                      0
-0x0011 Makernote 0x0011                      0
-0x0012 Makernote 0x0012                      1
-0x0013 Makernote SubjectDistance             Infinite
-0x0014 Makernote 0x0014                      546
-0x0015 Makernote 0x0015                      156
-0x0016 Makernote 0x0016                      204
-0x0017 Makernote 0x0017                      140
-0x0018 Makernote 0x0018                      0
-0x0019 Makernote 0x0019                      0
-0x001a Makernote 0x001a                      252
-0x001b Makernote 0x001b                      1
-0x001c Makernote 0x001c                      65535
-0x001d Makernote 0x001d                      0
-0x001e Makernote 0x001e                      0
-0x001f Makernote 0x001f                      0
-0x0020 Makernote 0x0020                      0
-0x0001 Iop       InteroperabilityIndex       R98
-0x0002 Iop       InteroperabilityVersion     48 49 48 48 
-0x1001 Iop       RelatedImageWidth           3072
-0x1002 Iop       RelatedImageLength          2048
-0x0103 IFD1      Compression                 JPEG
-0x011a IFD1      XResolution                 180
-0x011b IFD1      YResolution                 180
-0x0128 IFD1      ResolutionUnit              inch
-0x0201 IFD1      JPEGInterchangeFormat       0
-0x0202 IFD1      JPEGInterchangeFormatLength 9728
+Exif.Image.Make                              Ascii       6  Canon
+Exif.Image.Model                             Ascii      23  Canon EOS 300D DIGITAL
+Exif.Image.Orientation                       Short       1  right, top
+Exif.Image.XResolution                       Rational    1  180
+Exif.Image.YResolution                       Rational    1  180
+Exif.Image.ResolutionUnit                    Short       1  inch
+Exif.Image.DateTime                          Ascii      20  2003:09:25 20:18:50
+Exif.Image.YCbCrPositioning                  Short       1  Centered
+Exif.Image.ExifTag                           Long        1  196
+Exif.Photo.ExposureTime                      Rational    1  1/80 s
+Exif.Photo.FNumber                           Rational    1  F5.6
+Exif.Photo.ISOSpeedRatings                   Short       1  100
+Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+Exif.Photo.DateTimeOriginal                  Ascii      20  2003:09:25 20:18:50
+Exif.Photo.DateTimeDigitized                 Ascii      20  2003:09:25 20:18:50
+Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
+Exif.Photo.CompressedBitsPerPixel            Rational    1  3
+Exif.Photo.ShutterSpeedValue                 SRational   1  6.32193
+Exif.Photo.ApertureValue                     Rational    1  4.97086
+Exif.Photo.ExposureBiasValue                 SRational   1  0
+Exif.Photo.MaxApertureValue                  Rational    1  3.61472
+Exif.Photo.MeteringMode                      Short       1  Matrix
+Exif.Photo.Flash                             Short       1  No
+Exif.Photo.FocalLength                       Rational    1  18.0 mm
+Exif.Photo.UserComment                       Undefined 264  
+Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+Exif.Photo.ColorSpace                        Short       1  sRGB
+Exif.Photo.PixelXDimension                   Short       1  3072
+Exif.Photo.PixelYDimension                   Short       1  2048
+Exif.Photo.InteroperabilityTag               Long        1  2366
+Exif.Photo.FocalPlaneXResolution             Rational    1  3443.95
+Exif.Photo.FocalPlaneYResolution             Rational    1  3442.02
+Exif.Photo.FocalPlaneResolutionUnit          Short       1  inch
+Exif.Photo.SensingMethod                     Short       1  One-chip color area
+Exif.Photo.FileSource                        Undefined   1  Digital still camera
+Exif.Photo.CustomRendered                    Short       1  0
+Exif.Photo.ExposureMode                      Short       1  Auto
+Exif.Photo.WhiteBalance                      Short       1  Auto
+Exif.Photo.SceneCaptureType                  Short       1  Standard
+Exif.Canon.0x0002                            Short       4  0 18 914 610
+Exif.Canon.0x0003                            Short       4  100 0 0 0
+Exif.Canon.0x0093                            Short       9  18 0 0 0 0 0 65535 65535 65535
+Exif.Canon.ImageType                         Ascii      32  IMG:EOS 300D DIGITAL JPEG
+Exif.Canon.FirmwareVersion                   Ascii      32  Firmware Version 1.0.2
+Exif.Canon.SerialNumber                      Long        1  21f938089
+Exif.Canon.0x0015                            Long        1  2415919104
+Exif.Canon.ImageNumber                       Long        1  103-0390
+Exif.Canon.OwnerName                         Ascii      32  
+Exif.Canon.0x0010                            Long        1  2147484016
+Exif.Canon.0x000e                            Long        1  2830270
+Exif.Canon.0x000d                            Byte      512  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 154 4 0 0 3 12 0 0 69 59 0 0 1 8 1 0 26 42 0 0 251 51 0 0 45 62 0 0 181 39 0 0 45 36 0 0 207 33 0 0 86 11 0 0 72 87 0 0 68 185 0 0 41 243 1 0 152 72 9 0 250 249 47 0 107 55 9 0 213 248 10 0 80 74 15 0 227 71 10 0 179 45 9 0 125 201 7 0 2 103 2 0 207 245 15 0 93 182 1 0 42 150 4 0 75 9 22 0 129 114 107 0 67 156 18 0 204 207 21 0 153 54 30 0 153 209 19 0 150 232 16 0 235 189 13 0 18 8 4 0 253 2 24 0 160 223 1 0 225 242 4 0 180 12 23 0 169 205 109 0 2 252 18 0 62 24 22 0 110 65 30 0 81 179 19 0 99 172 16 0 78 45 13 0 136 215 3 0 14 135 22 0 74 171 1 0 83 97 4 0 24 83 20 0 111 195 91 0 217 101 14 0 107 252 15 0 142 195 20 0 122 246 12 0 93 182 10 0 163 119 8 0 89 86 2 0 211 129 12 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Exif.Canon.0x0000                            Short      18  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Exif.Canon.0x00c0                            Short      13  26 296 369 373 169 222 432 437 266 144 429 434 355
+Exif.Canon.0x00c1                            Short      13  26 293 375 375 174 198 394 395 243 150 453 454 379
+Exif.Canon.0x00aa                            Short       5  10 567 1022 1026 636
+Exif.Canon.0x00a8                            Short      10  20 4942 0 0 0 0 0 0 0 0
+Exif.Canon.0x00a9                            Short      41  82 1751 836 827 1074 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 128 128 128 128
+Exif.Canon.0x00ae                            Short       1  5200
+Exif.Canon.0x00b4                            Short       1  1
+Exif.Canon.0x0012                            Short      24  7 7 3072 2048 3072 2048 151 151 1014 608 0 0 0 64928 64522 0 0 65030 0 506 0 0 8 65535
+Exif.Canon.0x0013                            Short       4  0 159 7 112
+Exif.Canon.0x0000                            Short       5  0 0 0 0 0
+Exif.Canon.0x00b6                            Long        0  
+Exif.CanonCs1.Macro                          Short       1  (0)
+Exif.CanonCs1.Selftimer                      Short       1  Off
+Exif.CanonCs1.Quality                        Short       1  Fine
+Exif.CanonCs1.FlashMode                      Short       1  Off
+Exif.CanonCs1.DriveMode                      Short       1  Single / timer
+Exif.CanonCs1.0x0006                         Short       1  0
+Exif.CanonCs1.FocusMode                      Short       1  AI Focus
+Exif.CanonCs1.0x0008                         Short       1  0
+Exif.CanonCs1.0x0009                         Short       1  1
+Exif.CanonCs1.ImageSize                      Short       1  Large
+Exif.CanonCs1.EasyMode                       Short       1  Manual
+Exif.CanonCs1.DigitalZoom                    Short       1  (65535)
+Exif.CanonCs1.Contrast                       Short       1  High
+Exif.CanonCs1.Saturation                     Short       1  High
+Exif.CanonCs1.Sharpness                      Short       1  High
+Exif.CanonCs1.ISOSpeed                       Short       1  n/a
+Exif.CanonCs1.MeteringMode                   Short       1  Evaluative
+Exif.CanonCs1.FocusType                      Short       1  (2)
+Exif.CanonCs1.AFPoint                        Short       1  (8197)
+Exif.CanonCs1.ExposureProgram                Short       1  Program
+Exif.CanonCs1.0x0015                         Short       1  32767
+Exif.CanonCs1.0x0016                         Short       1  65535
+Exif.CanonCs1.Lens                           Short       3  18.0 - 55.0 mm
+Exif.CanonCs1.0x001a                         Short       1  116
+Exif.CanonCs1.0x001b                         Short       1  285
+Exif.CanonCs1.FlashActivity                  Short       1  Did not fire
+Exif.CanonCs1.FlashDetails                   Short       1  
+Exif.CanonCs1.0x001e                         Short       1  0
+Exif.CanonCs1.0x001f                         Short       1  0
+Exif.CanonCs1.FocusMode                      Short       1  (65535)
+Exif.CanonCs1.0x0021                         Short       1  65535
+Exif.CanonCs1.0x0022                         Short       1  65535
+Exif.CanonCs1.0x0023                         Short       1  0
+Exif.CanonCs1.0x0024                         Short       1  3072
+Exif.CanonCs1.0x0025                         Short       1  3072
+Exif.CanonCs1.0x0026                         Short       1  0
+Exif.CanonCs1.0x0027                         Short       1  65535
+Exif.CanonCs1.0x0028                         Short       1  65535
+Exif.CanonCs1.0x0029                         Short       1  0
+Exif.CanonCs1.0x002a                         Short       1  0
+Exif.CanonCs1.0x002b                         Short       1  32767
+Exif.CanonCs1.0x002c                         Short       1  65535
+Exif.CanonCs1.0x002d                         Short       1  65535
+Exif.CanonCs2.0x0001                         Short       1  0
+Exif.CanonCs2.ISOSpeed                       Short       1  100
+Exif.CanonCs2.0x0003                         Short       1  200
+Exif.CanonCs2.0x0004                         Short       1  159
+Exif.CanonCs2.0x0005                         Short       1  202
+Exif.CanonCs2.0x0006                         Short       1  0
+Exif.CanonCs2.WhiteBalance                   Short       1  Auto
+Exif.CanonCs2.0x0008                         Short       1  3
+Exif.CanonCs2.Sequence                       Short       1  0
+Exif.CanonCs2.0x000a                         Short       1  8
+Exif.CanonCs2.0x000b                         Short       1  8
+Exif.CanonCs2.0x000c                         Short       1  0
+Exif.CanonCs2.0x000d                         Short       1  0
+Exif.CanonCs2.AFPointUsed                    Short       1  0 focus points; none used
+Exif.CanonCs2.FlashBias                      Short       1  0 EV
+Exif.CanonCs2.0x0010                         Short       1  0
+Exif.CanonCs2.0x0011                         Short       1  0
+Exif.CanonCs2.0x0012                         Short       1  1
+Exif.CanonCs2.SubjectDistance                Short       1  Infinite
+Exif.CanonCs2.0x0014                         Short       1  546
+Exif.CanonCs2.0x0015                         Short       1  156
+Exif.CanonCs2.0x0016                         Short       1  204
+Exif.CanonCs2.0x0017                         Short       1  140
+Exif.CanonCs2.0x0018                         Short       1  0
+Exif.CanonCs2.0x0019                         Short       1  0
+Exif.CanonCs2.0x001a                         Short       1  252
+Exif.CanonCs2.0x001b                         Short       1  1
+Exif.CanonCs2.0x001c                         Short       1  65535
+Exif.CanonCs2.0x001d                         Short       1  0
+Exif.CanonCs2.0x001e                         Short       1  0
+Exif.CanonCs2.0x001f                         Short       1  0
+Exif.CanonCs2.0x0020                         Short       1  0
+Exif.Iop.InteroperabilityIndex               Ascii       4  R98
+Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+Exif.Iop.RelatedImageWidth                   Short       1  3072
+Exif.Iop.RelatedImageLength                  Short       1  2048
+Exif.Thumbnail.Compression                   Short       1  JPEG
+Exif.Thumbnail.XResolution                   Rational    1  180
+Exif.Thumbnail.YResolution                   Rational    1  180
+Exif.Thumbnail.ResolutionUnit                Short       1  inch
+Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
+Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  9728
 File 7/9: 20001026_044550.jpg
-0x010e IFD0      ImageDescription            
-0x010f IFD0      Make                        Eastman Kodak Company
-0x0110 IFD0      Model                       DC210 Zoom (V05.00)
-0x0112 IFD0      Orientation                 top, left
-0x011a IFD0      XResolution                 216
-0x011b IFD0      YResolution                 216
-0x0128 IFD0      ResolutionUnit              inch
-0x0213 IFD0      YCbCrPositioning            Centered
-0x8298 IFD0      Copyright                   
-0x8769 IFD0      ExifTag                     374
-0x829a Exif      ExposureTime                1/30 s
-0x829d Exif      FNumber                     F4
-0x9000 Exif      ExifVersion                 48 49 49 48 
-0x9003 Exif      DateTimeOriginal            2000:10:26 04:45:50
-0x9101 Exif      ComponentsConfiguration     YCbCr
-0x9102 Exif      CompressedBitsPerPixel      (0/0)
-0x9201 Exif      ShutterSpeedValue           5
-0x9202 Exif      ApertureValue               4
-0x9203 Exif      BrightnessValue             1.5
-0x9204 Exif      ExposureBiasValue           0
-0x9205 Exif      MaxApertureValue            4
-0x9206 Exif      SubjectDistance             Unknown
-0x9207 Exif      MeteringMode                Center weighted
-0x9208 Exif      LightSource                 Unknown
-0x9209 Exif      Flash                       Yes
-0x920a Exif      FocalLength                 4.4 mm
-0x927c Exif      MakerNote                   1 4 3 0 2 1 255 255 0 1 55 142 14 93 109 246 1 0 0 251 0 4 255 32 0 0 40 0 0 0 12 53 68 67 80 48 49 48 49 49 46 74 80 71 0 4 0 0 0 1 228 224 0 1 0 0 0 1 145 128 0 1 194 64 0 1 0 0 0 1 222 16 
-0x0100 IFD1      ImageWidth                  96
-0x0101 IFD1      ImageLength                 72
-0x0102 IFD1      BitsPerSample               8 8 8
-0x0103 IFD1      Compression                 TIFF
-0x0106 IFD1      PhotometricInterpretation   RGB
-0x0111 IFD1      StripOffsets                0
-0x0115 IFD1      SamplesPerPixel             3
-0x0116 IFD1      RowsPerStrip                72
-0x0117 IFD1      StripByteCounts             20736
-0x011a IFD1      XResolution                 72
-0x011b IFD1      YResolution                 72
-0x0128 IFD1      ResolutionUnit              inch
+Exif.Image.ImageDescription                  Ascii       0  
+Exif.Image.Make                              Ascii      22  Eastman Kodak Company
+Exif.Image.Model                             Ascii      20  DC210 Zoom (V05.00)
+Exif.Image.Orientation                       Short       1  top, left
+Exif.Image.XResolution                       Rational    1  216
+Exif.Image.YResolution                       Rational    1  216
+Exif.Image.ResolutionUnit                    Short       1  inch
+Exif.Image.YCbCrPositioning                  Short       1  Centered
+Exif.Image.Copyright                         Ascii       0  
+Exif.Image.ExifTag                           Long        1  374
+Exif.Photo.ExposureTime                      Rational    1  1/30 s
+Exif.Photo.FNumber                           Rational    1  F4
+Exif.Photo.ExifVersion                       Undefined   4  48 49 49 48 
+Exif.Photo.DateTimeOriginal                  Ascii      20  2000:10:26 04:45:50
+Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
+Exif.Photo.CompressedBitsPerPixel            Rational    1  (0/0)
+Exif.Photo.ShutterSpeedValue                 SRational   1  5
+Exif.Photo.ApertureValue                     Rational    1  4
+Exif.Photo.BrightnessValue                   SRational   1  1.5
+Exif.Photo.ExposureBiasValue                 SRational   1  0
+Exif.Photo.MaxApertureValue                  Rational    1  4
+Exif.Photo.SubjectDistance                   Rational    1  Unknown
+Exif.Photo.MeteringMode                      Short       1  Center weighted
+Exif.Photo.LightSource                       Short       1  Unknown
+Exif.Photo.Flash                             Short       1  Yes
+Exif.Photo.FocalLength                       Rational    1  4.4 mm
+Exif.Photo.MakerNote                         Undefined  72  1 4 3 0 2 1 255 255 0 1 55 142 14 93 109 246 1 0 0 251 0 4 255 32 0 0 40 0 0 0 12 53 68 67 80 48 49 48 49 49 46 74 80 71 0 4 0 0 0 1 228 224 0 1 0 0 0 1 145 128 0 1 194 64 0 1 0 0 0 1 222 16 
+Exif.Thumbnail.ImageWidth                    Short       1  96
+Exif.Thumbnail.ImageLength                   Short       1  72
+Exif.Thumbnail.BitsPerSample                 Short       3  8 8 8
+Exif.Thumbnail.Compression                   Short       1  TIFF
+Exif.Thumbnail.PhotometricInterpretation     Short       1  RGB
+Exif.Thumbnail.StripOffsets                  Short       1  0
+Exif.Thumbnail.SamplesPerPixel               Short       1  3
+Exif.Thumbnail.RowsPerStrip                  Short       1  72
+Exif.Thumbnail.StripByteCounts               Short       1  20736
+Exif.Thumbnail.XResolution                   Rational    1  72
+Exif.Thumbnail.YResolution                   Rational    1  72
+Exif.Thumbnail.ResolutionUnit                Short       1  inch
 File 8/9: 20030926_111535.jpg
-0x010f IFD0      Make                        FUJIFILM
-0x0110 IFD0      Model                       FinePixS2Pro
-0x0112 IFD0      Orientation                 top, left
-0x011a IFD0      XResolution                 72
-0x011b IFD0      YResolution                 72
-0x0128 IFD0      ResolutionUnit              inch
-0x0131 IFD0      Software                    Digital Camera FinePixS2Pro Ver1.00
-0x0132 IFD0      DateTime                    2003:09:26 11:15:35
-0x0213 IFD0      YCbCrPositioning            Co-sited
-0x8298 IFD0      Copyright                       
-0x8769 IFD0      ExifTag                     248
-0x829a Exif      ExposureTime                1/60 s
-0x829d Exif      FNumber                     F4
-0x8822 Exif      ExposureProgram             Aperture priority
-0x8827 Exif      ISOSpeedRatings             400
-0x9000 Exif      ExifVersion                 48 50 50 48 
-0x9003 Exif      DateTimeOriginal            2003:09:26 11:15:35
-0x9004 Exif      DateTimeDigitized           2003:09:26 11:15:35
-0x9101 Exif      ComponentsConfiguration     YCbCr
-0x9102 Exif      CompressedBitsPerPixel      1.5
-0x9201 Exif      ShutterSpeedValue           6
-0x9202 Exif      ApertureValue               4
-0x9203 Exif      BrightnessValue             -1.83
-0x9204 Exif      ExposureBiasValue           +1/2
-0x9207 Exif      MeteringMode                Center weighted
-0x9208 Exif      LightSource                 Unknown
-0x9209 Exif      Flash                       Yes, compulsory
-0x920a Exif      FocalLength                 28.0 mm
-0xa000 Exif      FlashpixVersion             48 49 48 48 
-0xa001 Exif      ColorSpace                  sRGB
-0xa002 Exif      PixelXDimension             3024
-0xa003 Exif      PixelYDimension             2016
-0xa005 Exif      InteroperabilityTag         1056
-0xa20e Exif      FocalPlaneXResolution       1322
-0xa20f Exif      FocalPlaneYResolution       1322
-0xa210 Exif      FocalPlaneResolutionUnit    cm
-0xa217 Exif      SensingMethod               One-chip color area
-0xa300 Exif      FileSource                  Digital still camera
-0xa301 Exif      SceneType                   Directly photographed
-0xa401 Exif      CustomRendered              0
-0xa402 Exif      ExposureMode                Auto
-0xa403 Exif      WhiteBalance                Auto
-0xa405 Exif      FocalLengthIn35mmFilm       42.0 mm
-0xa406 Exif      SceneCaptureType            Standard
-0xa408 Exif      Contrast                    Normal
-0xa409 Exif      Saturation                  Normal
-0xa40a Exif      Sharpness                   Normal
-0xa40c Exif      SubjectDistanceRange        Unknown
-0x0000 Makernote Version                     48 49 51 48 
-0x1000 Makernote Quality                     NORMAL 
-0x1001 Makernote Sharpness                   Normal
-0x1002 Makernote WhiteBalance                Daylight
-0x1003 Makernote Color                       Standard
-0x1004 Makernote Tone                        Standard
-0x1010 Makernote FlashMode                   On
-0x1011 Makernote FlashStrength               10/10
-0x1021 Makernote FocusMode                   Auto
-0x1022 Makernote 0x1022                      1
-0x1030 Makernote SlowSync                    Off
-0x1031 Makernote PictureMode                 Aperture priority
-0x1032 Makernote 0x1032                      1
-0x1100 Makernote Continuous                  Off
-0x1101 Makernote 0x1101                      0
-0x1200 Makernote 0x1200                      0
-0x0001 Iop       InteroperabilityIndex       R98
-0x0002 Iop       InteroperabilityVersion     48 49 48 48 
-0x0103 IFD1      Compression                 JPEG
-0x0112 IFD1      Orientation                 top, left
-0x011a IFD1      XResolution                 72
-0x011b IFD1      YResolution                 72
-0x0128 IFD1      ResolutionUnit              inch
-0x0201 IFD1      JPEGInterchangeFormat       0
-0x0202 IFD1      JPEGInterchangeFormatLength 9573
-0x0213 IFD1      YCbCrPositioning            Co-sited
+Exif.Image.Make                              Ascii       9  FUJIFILM
+Exif.Image.Model                             Ascii      13  FinePixS2Pro
+Exif.Image.Orientation                       Short       1  top, left
+Exif.Image.XResolution                       Rational    1  72
+Exif.Image.YResolution                       Rational    1  72
+Exif.Image.ResolutionUnit                    Short       1  inch
+Exif.Image.Software                          Ascii      36  Digital Camera FinePixS2Pro Ver1.00
+Exif.Image.DateTime                          Ascii      20  2003:09:26 11:15:35
+Exif.Image.YCbCrPositioning                  Short       1  Co-sited
+Exif.Image.Copyright                         Ascii       5      
+Exif.Image.ExifTag                           Long        1  248
+Exif.Photo.ExposureTime                      Rational    1  1/60 s
+Exif.Photo.FNumber                           Rational    1  F4
+Exif.Photo.ExposureProgram                   Short       1  Aperture priority
+Exif.Photo.ISOSpeedRatings                   Short       1  400
+Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+Exif.Photo.DateTimeOriginal                  Ascii      20  2003:09:26 11:15:35
+Exif.Photo.DateTimeDigitized                 Ascii      20  2003:09:26 11:15:35
+Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
+Exif.Photo.CompressedBitsPerPixel            Rational    1  1.5
+Exif.Photo.ShutterSpeedValue                 SRational   1  6
+Exif.Photo.ApertureValue                     Rational    1  4
+Exif.Photo.BrightnessValue                   SRational   1  -1.83
+Exif.Photo.ExposureBiasValue                 SRational   1  +1/2
+Exif.Photo.MeteringMode                      Short       1  Center weighted
+Exif.Photo.LightSource                       Short       1  Unknown
+Exif.Photo.Flash                             Short       1  Yes, compulsory
+Exif.Photo.FocalLength                       Rational    1  28.0 mm
+Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+Exif.Photo.ColorSpace                        Short       1  sRGB
+Exif.Photo.PixelXDimension                   Long        1  3024
+Exif.Photo.PixelYDimension                   Long        1  2016
+Exif.Photo.InteroperabilityTag               Long        1  1056
+Exif.Photo.FocalPlaneXResolution             Rational    1  1322
+Exif.Photo.FocalPlaneYResolution             Rational    1  1322
+Exif.Photo.FocalPlaneResolutionUnit          Short       1  cm
+Exif.Photo.SensingMethod                     Short       1  One-chip color area
+Exif.Photo.FileSource                        Undefined   1  Digital still camera
+Exif.Photo.SceneType                         Undefined   1  Directly photographed
+Exif.Photo.CustomRendered                    Short       1  0
+Exif.Photo.ExposureMode                      Short       1  Auto
+Exif.Photo.WhiteBalance                      Short       1  Auto
+Exif.Photo.FocalLengthIn35mmFilm             Short       1  42.0 mm
+Exif.Photo.SceneCaptureType                  Short       1  Standard
+Exif.Photo.Contrast                          Short       1  Normal
+Exif.Photo.Saturation                        Short       1  Normal
+Exif.Photo.Sharpness                         Short       1  Normal
+Exif.Photo.SubjectDistanceRange              Short       1  Unknown
+Exif.Fujifilm.Version                        Undefined   4  48 49 51 48 
+Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
+Exif.Fujifilm.Sharpness                      Short       1  Normal
+Exif.Fujifilm.WhiteBalance                   Short       1  Daylight
+Exif.Fujifilm.Color                          Short       1  Standard
+Exif.Fujifilm.Tone                           Short       1  Standard
+Exif.Fujifilm.FlashMode                      Short       1  On
+Exif.Fujifilm.FlashStrength                  SRational   1  10/10
+Exif.Fujifilm.FocusMode                      Short       1  Auto
+Exif.Fujifilm.0x1022                         Short       1  1
+Exif.Fujifilm.SlowSync                       Short       1  Off
+Exif.Fujifilm.PictureMode                    Short       1  Aperture priority
+Exif.Fujifilm.0x1032                         Short       1  1
+Exif.Fujifilm.Continuous                     Short       1  Off
+Exif.Fujifilm.0x1101                         Short       1  0
+Exif.Fujifilm.0x1200                         Short       1  0
+Exif.Iop.InteroperabilityIndex               Ascii       4  R98
+Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+Exif.Thumbnail.Compression                   Short       1  JPEG
+Exif.Thumbnail.Orientation                   Short       1  top, left
+Exif.Thumbnail.XResolution                   Rational    1  72
+Exif.Thumbnail.YResolution                   Rational    1  72
+Exif.Thumbnail.ResolutionUnit                Short       1  inch
+Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
+Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  9573
+Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
 File 9/9: 20040316_075137.jpg
-0x010f IFD0      Make                        SIGMA
-0x0110 IFD0      Model                       SIGMA SD10
-0x0112 IFD0      Orientation                 top, left
-0x011a IFD0      XResolution                 180
-0x011b IFD0      YResolution                 180
-0x0128 IFD0      ResolutionUnit              inch
-0x0131 IFD0      Software                    SIGMA PhotoPro 2.0.0.1586
-0x0132 IFD0      DateTime                    2004:03:18 11:39:25
-0x0213 IFD0      YCbCrPositioning            Co-sited
-0x8769 IFD0      ExifTag                     12317
-0x829a Exif      ExposureTime                8 s
-0x829d Exif      FNumber                     F5.6
-0x8822 Exif      ExposureProgram             Manual
-0x8827 Exif      ISOSpeedRatings             100
-0x9000 Exif      ExifVersion                 48 50 50 48 
-0x9003 Exif      DateTimeOriginal            2004:03:16 07:51:37
-0x9004 Exif      DateTimeDigitized           2004:03:18 11:39:25
-0x9101 Exif      ComponentsConfiguration     YCbCr
-0x9204 Exif      ExposureBiasValue           +1
-0x9205 Exif      MaxApertureValue            2.7
-0x9207 Exif      MeteringMode                Matrix
-0x9209 Exif      Flash                       No
-0x920a Exif      FocalLength                 14.0 mm
-0xa000 Exif      FlashpixVersion             48 49 48 48 
-0xa001 Exif      ColorSpace                  sRGB
-0xa002 Exif      PixelXDimension             2268
-0xa003 Exif      PixelYDimension             1512
-0xa217 Exif      SensingMethod               One-chip color area
-0xa300 Exif      FileSource                  Digital still camera
-0xa401 Exif      CustomRendered              1
-0xa402 Exif      ExposureMode                Manual
-0xa403 Exif      WhiteBalance                Manual
-0xa405 Exif      FocalLengthIn35mmFilm       24.0 mm
-0xa406 Exif      SceneCaptureType            Standard
-0xa420 Exif      ImageUniqueID               3032303030303139065B574068B0F5CE
-0x0002 Makernote SerialNumber                02000019
-0x0003 Makernote DriveMode                   2S
-0x0004 Makernote ResolutionMode              HI
-0x0005 Makernote AutofocusMode               AF-S
-0x0006 Makernote FocusSetting                AF
-0x0007 Makernote WhiteBalance                Incandescent
-0x0008 Makernote ExposureMode                Manual
-0x0009 Makernote MeteringMode                8-Segment
-0x000a Makernote LensRange                   14
-0x000b Makernote ColorSpace                  sRGB
-0x000c Makernote Exposure                    +0.0
-0x000d Makernote Contrast                    +0.0
-0x000e Makernote Shadow                      +0.0
-0x000f Makernote Highlight                   +0.0
-0x0010 Makernote Saturation                  +0.0
-0x0011 Makernote Sharpness                   +0.0
-0x0012 Makernote FillLight                   +0.0
-0x0014 Makernote ColorAdjustment             0
-0x0015 Makernote AdjustmentMode              X3F Setting Mode
-0x0016 Makernote Quality                     12
-0x0017 Makernote Firmware                    2.0.4.1642 Release
-0x0018 Makernote Software                    SIGMA PhotoPro 2.0.0.1586
-0x0019 Makernote AutoBracket                  
-0x0103 IFD1      Compression                 JPEG
-0x011a IFD1      XResolution                 180
-0x011b IFD1      YResolution                 180
-0x0128 IFD1      ResolutionUnit              inch
-0x0201 IFD1      JPEGInterchangeFormat       0
-0x0202 IFD1      JPEGInterchangeFormatLength 11998
-0x0213 IFD1      YCbCrPositioning            Co-sited
+Exif.Image.Make                              Ascii       6  SIGMA
+Exif.Image.Model                             Ascii      11  SIGMA SD10
+Exif.Image.Orientation                       Short       1  top, left
+Exif.Image.XResolution                       Rational    1  180
+Exif.Image.YResolution                       Rational    1  180
+Exif.Image.ResolutionUnit                    Short       1  inch
+Exif.Image.Software                          Ascii      26  SIGMA PhotoPro 2.0.0.1586
+Exif.Image.DateTime                          Ascii      20  2004:03:18 11:39:25
+Exif.Image.YCbCrPositioning                  Short       1  Co-sited
+Exif.Image.ExifTag                           Long        1  12317
+Exif.Photo.ExposureTime                      Rational    1  8 s
+Exif.Photo.FNumber                           Rational    1  F5.6
+Exif.Photo.ExposureProgram                   Short       1  Manual
+Exif.Photo.ISOSpeedRatings                   Short       1  100
+Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+Exif.Photo.DateTimeOriginal                  Ascii      20  2004:03:16 07:51:37
+Exif.Photo.DateTimeDigitized                 Ascii      20  2004:03:18 11:39:25
+Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
+Exif.Photo.ExposureBiasValue                 SRational   1  +1
+Exif.Photo.MaxApertureValue                  Rational    1  2.7
+Exif.Photo.MeteringMode                      Short       1  Matrix
+Exif.Photo.Flash                             Short       1  No
+Exif.Photo.FocalLength                       Rational    1  14.0 mm
+Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+Exif.Photo.ColorSpace                        Short       1  sRGB
+Exif.Photo.PixelXDimension                   Long        1  2268
+Exif.Photo.PixelYDimension                   Long        1  1512
+Exif.Photo.SensingMethod                     Short       1  One-chip color area
+Exif.Photo.FileSource                        Undefined   4  Digital still camera
+Exif.Photo.CustomRendered                    Short       1  1
+Exif.Photo.ExposureMode                      Short       1  Manual
+Exif.Photo.WhiteBalance                      Short       1  Manual
+Exif.Photo.FocalLengthIn35mmFilm             Short       1  24.0 mm
+Exif.Photo.SceneCaptureType                  Short       1  Standard
+Exif.Photo.ImageUniqueID                     Ascii      33  3032303030303139065B574068B0F5CE
+Exif.Sigma.SerialNumber                      Ascii       9  02000019
+Exif.Sigma.DriveMode                         Ascii       3  2S
+Exif.Sigma.ResolutionMode                    Ascii       3  HI
+Exif.Sigma.AutofocusMode                     Ascii       5  AF-S
+Exif.Sigma.FocusSetting                      Ascii       3  AF
+Exif.Sigma.WhiteBalance                      Ascii      13  Incandescent
+Exif.Sigma.ExposureMode                      Ascii       2  Manual
+Exif.Sigma.MeteringMode                      Ascii       2  8-Segment
+Exif.Sigma.LensRange                         Ascii       3  14
+Exif.Sigma.ColorSpace                        Ascii       5  sRGB
+Exif.Sigma.Exposure                          Ascii      10  +0.0
+Exif.Sigma.Contrast                          Ascii      10  +0.0
+Exif.Sigma.Shadow                            Ascii      10  +0.0
+Exif.Sigma.Highlight                         Ascii      10  +0.0
+Exif.Sigma.Saturation                        Ascii      10  +0.0
+Exif.Sigma.Sharpness                         Ascii      10  +0.0
+Exif.Sigma.FillLight                         Ascii      10  +0.0
+Exif.Sigma.ColorAdjustment                   Ascii       5  0
+Exif.Sigma.AdjustmentMode                    Ascii      17  X3F Setting Mode
+Exif.Sigma.Quality                           Ascii       8  12
+Exif.Sigma.Firmware                          Ascii      19  2.0.4.1642 Release
+Exif.Sigma.Software                          Ascii      26  SIGMA PhotoPro 2.0.0.1586
+Exif.Sigma.AutoBracket                       Ascii       2   
+Exif.Thumbnail.Compression                   Short       1  JPEG
+Exif.Thumbnail.XResolution                   Rational    1  180
+Exif.Thumbnail.YResolution                   Rational    1  180
+Exif.Thumbnail.ResolutionUnit                Short       1  inch
+Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
+Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  11998
+Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
 exiv2-empty.jpg: No Exif data found in the file
 Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
  Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
