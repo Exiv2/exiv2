@@ -42,9 +42,7 @@ EXIV2_RCSID("@(#) $Id$");
 #include <string>
 #include <sstream>
 #include <iomanip>
-#if defined DEBUG_MAKERNOTE || defined DEBUG_REGISTRY
-# include <iostream>
-#endif
+#include <iostream>
 #include <cassert>
 
 // *****************************************************************************
@@ -105,10 +103,9 @@ namespace Exiv2 {
         if (rc == 0) {
             // IfdMakerNote currently does not support multiple IFDs
             if (ifd_.next() != 0) {
-#ifdef DEBUG_MAKERNOTE
-                std::cerr << "Makernote IFD has a next pointer != 0 (rc = 3)\n";
-#endif
-                rc = 3;
+                std::cerr << "Warning: Makernote IFD has a next pointer != 0 ("
+                          << ifd_.next()
+                          << "). Ignored.\n";
             }
         }
 #ifdef DEBUG_MAKERNOTE
