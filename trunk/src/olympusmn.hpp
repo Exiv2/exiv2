@@ -123,15 +123,18 @@ namespace Exiv2 {
 
         //! @name Print functions for Olympus %MakerNote tags 
         //@{
-        //! Print various camera settings (uses print0x0f00_XXX functions)
-        static std::ostream& print0x0f00(std::ostream& os, const Value& value);
-
-        //! Function
-        static std::ostream& print0x0f00_011(std::ostream& os, long l);
-        //! White Balance
-        static std::ostream& print0x0f00_138(std::ostream& os, long l);
-        //! Sharpness
-        static std::ostream& print0x0f00_150_151(std::ostream& os, long l1, long l2);
+        //! Print 'Special Mode'
+        static std::ostream& print0x0200(std::ostream& os, const Value& value);
+        //! Print Jpeg quality
+        static std::ostream& print0x0201(std::ostream& os, const Value& value);
+        //! Print Macro mode
+        static std::ostream& print0x0202(std::ostream& os, const Value& value);
+        //! Print Digital Zoom Factor
+        static std::ostream& print0x0204(std::ostream& os, const Value& value);
+        //! Print OneTouchWB
+        static std::ostream& print0x0302(std::ostream& os, const Value& value);
+        //! Print FlashDevice
+        static std::ostream& print0x1005(std::ostream& os, const Value& value);
         //@}
 
         //! @cond IGNORE
