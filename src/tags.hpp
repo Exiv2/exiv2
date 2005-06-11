@@ -109,6 +109,38 @@ namespace Exiv2 {
         PrintFct printFct_;                     //!< Pointer to tag print function
     }; // struct TagInfo
 
+    /*!
+      @brief Helper structure for lookup tables for translations of numeric 
+             tag values to human readable labels.
+     */
+    struct TagDetails {
+        long val_;                              //!< Tag value
+        char* label_;                           //!< Translation of the tag value
+    }; // struct TagDetails
+
+    /*!
+      @brief Translation from numeric values from a lookup list to human
+             readable labels
+     */
+    class TagTranslator {
+    public:
+        //! @name Creators
+        //@{
+        //! Default constructor.
+        explicit TagTranslator(const TagDetails* pTagDetails)
+            : pTagDetails_(pTagDetails) {}
+        // No d'tor: Do not delete the list.
+        //@}
+
+        //! @name Accessors
+        //@{
+        //! Translate the tag value and write it out to the provided stream
+        std::ostream& print(std::ostream& os, const Value& value) const;
+        //@}
+    private:
+        const TagDetails* pTagDetails_;
+    }; // class TagTranslator
+
     //! Container for Exif tag information. Implemented as a static class.
     class ExifTags {
         //! Prevent construction: not implemented.
