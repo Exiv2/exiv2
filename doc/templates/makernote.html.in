@@ -138,7 +138,7 @@ Please let me know if you find further specifications on the Internet.</p>
    <tr class="OddRow"> 
     <td>Panasonic</td>
     <td>&nbsp;</td>
-    <td>IFD; Starts with an 12-byte ID string &quot;Panasonic\0\0\0&quot;</td>
+    <td>Non-standard IFD (without a next-IFD pointer); Starts with an 12-byte ID string &quot;Panasonic\0\0\0&quot;</td>
     <td><a href="#R8">[8]</a></td>
     <td>&nbsp;</td>
    </tr>
@@ -183,7 +183,8 @@ t1.onsort = function () {
   MakerNote Information</a> by Tom Hughes<br>
   <a name="R9">[9]</a> <a href="http://www.ozhiker.com/electronics/pjmt/jpeg_info/makernotes.html">
   Various Makernote specifications</a> from the <a href="http://www.ozhiker.com/electronics/pjmt/index.html">
-  PHP JPEG Metadata Toolkit</a> by Evan Hunter</p>
+  PHP JPEG Metadata Toolkit</a> by Evan Hunter<br>
+  <a name="R10">[10]</a> <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a>, the most complete and up-to-date tool for reading and writing meta information in image files, by Phil Harvey</p>
 
 </div>
 <!-- closes content -->

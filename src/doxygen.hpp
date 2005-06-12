@@ -13,8 +13,9 @@
   @section overview Exiv2 Overview
 
   %Exiv2 comprises of a C++ library and a command line utility to access image 
-  metadata. %Exiv2 is free software.
- 
+  metadata. %Exiv2 is free software. The homepage of %Exiv2 is at
+  <A HREF="http://home.arcor.de/ahuggel/exiv2">http://home.arcor.de/ahuggel/exiv2</A>.
+
   The %Exiv2 library provides
   - full read and write access to the Exif and Iptc metadata of an image through 
     %Exiv2 keys and standard C++ iterators 
@@ -47,6 +48,7 @@
   - <A HREF="tags-fujifilm.html">Fujifilm MakerNote tags</A>
   - <A HREF="tags-nikon.html">Nikon MakerNote tags</A>
   - <A HREF="tags-olympus.html">Olympus MakerNote tags</A>
+  - <A HREF="tags-panasonic.html">Panasonic MakerNote tags</A>
   - <A HREF="tags-sigma.html">Sigma/Foveon MakerNote tags</A>
   - <A HREF="tags-sony.html">Sony MakerNote tags</A>
   - <A HREF="tags-iptc.html">Iptc datasets</A>

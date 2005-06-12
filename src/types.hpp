@@ -90,7 +90,7 @@ namespace Exiv2 {
                  ifd0Id, exifIfdId, gpsIfdId, iopIfdId, ifd1Id, 
                  canonIfdId, canonCs1IfdId, canonCs2IfdId, canonCfIfdId,
                  fujiIfdId, nikon1IfdId, nikon2IfdId, nikon3IfdId, 
-                 olympusIfdId, sigmaIfdId, sonyIfdId,
+                 olympusIfdId, panasonicIfdId, sigmaIfdId, sonyIfdId,
                  lastIfdId };
 
 // *****************************************************************************

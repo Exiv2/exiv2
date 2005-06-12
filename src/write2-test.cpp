@@ -122,6 +122,30 @@ try {
     write(file, edMn6);
     print(file);
 
+    std::cout <<"\n----- One Olympus MakerNote tag\n";
+    Exiv2::ExifData edMn7;
+    edMn7["Exif.Image.Make"]      = "OLYMPUS CORPORATION";
+    edMn7["Exif.Image.Model"]     = "C8080WZ";
+    edMn7["Exif.Olympus.0x0201"] = uint16_t(1);
+    write(file, edMn7);
+    print(file);
+
+    std::cout <<"\n----- One Panasonic MakerNote tag\n";
+    Exiv2::ExifData edMn8;
+    edMn8["Exif.Image.Make"]      = "Panasonic";
+    edMn8["Exif.Image.Model"]     = "DMC-FZ5";
+    edMn8["Exif.Panasonic.0x0001"] = uint16_t(1);
+    write(file, edMn8);
+    print(file);
+
+    std::cout <<"\n----- One Sony MakerNote tag\n";
+    Exiv2::ExifData edMn9;
+    edMn9["Exif.Image.Make"]      = "SONY";
+    edMn9["Exif.Image.Model"]     = "DSC-W7";
+    edMn9["Exif.Sony.0x2000"] = "0 1 2 3 4 5";
+    write(file, edMn9);
+    print(file);
+
     std::cout <<"\n----- One IOP tag\n";
     Exiv2::ExifData ed3;
     ed3["Exif.Iop.InteroperabilityIndex"] = "Test 3";

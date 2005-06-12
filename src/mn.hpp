@@ -36,6 +36,7 @@
 #include "fujimn.hpp"
 #include "nikonmn.hpp"
 #include "olympusmn.hpp"
+#include "panasonicmn.hpp"
 #include "sigmamn.hpp"
 #include "sonymn.hpp"
 
