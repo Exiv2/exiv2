@@ -280,6 +280,8 @@ namespace Exiv2 {
         static std::ostream& print0x0089(std::ostream& os, const Value& value);
         //! Print number of lens stops
         static std::ostream& print0x008b(std::ostream& os, const Value& value);
+        //! Print number of lens data
+        static std::ostream& print0x0098(std::ostream& os, const Value& value);
         //@}
 
         //! @cond IGNORE
@@ -301,6 +303,9 @@ namespace Exiv2 {
     }; // class Nikon3MakerNote
 
     static Nikon3MakerNote::RegisterMn registerNikon3MakerNote;
+
+    //! Decrypt a buffer of Nikon raw data
+    void decryptNikonData(byte* pData, long len);
 
 }                                       // namespace Exiv2
 
