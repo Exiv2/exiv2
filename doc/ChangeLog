@@ -1,3 +1,36 @@
+Changes from version 0.6.2 to 0.7
+---------------------------------
+
+* Exiv2 utility
+	- 0000422: [tools] Allow renaming pictures taken within one second.
+	           (Reported by jussi AT jjussi DOT com)
+	- 0000423: [tools] Fixed problems with paths and -l option on Windows.
+	         - [tools] Improved output data and format of the utility to 
+		   show the key.
+
+* Exiv2 library
+	- 0000404: [design] Insideout design change; made class Exiv2::Image
+	           the top-level class of the library. (Brad Schick)
+	- 0000403: [design] Added I/O abstraction and implementations. (Brad Schick)
+	- 0000402: [design] Split image.cpp and hpp files into base class and 
+	           subclass files. (Brad Schick)
+	- 0000425: [exif] Added default type info to Exif tagtables. 
+	- 0000427: [misc] Standardized factories according to the implementation. 
+	           of ImageFactory (MakerNoteFactory). Linking with mn.o is not
+		   necessary anymore.
+	- 0000420: [build environment] Defines should have a library specific 
+	           prefix, like e.g., EXV_HAVE_CONFIG_H.
+	- 0000417: [exif] ExifData needs proper copy constructor and assignment. 
+	- 0000426: [iptc] Fixed problem which prevented Exiv2 from reading IPTC 
+	           from jpeg files. (Jeffrey J. Early and others)
+		 - [feature] Added Olympus, Panasonic and a basic Sony Makernote. 
+	           (Thanks to Will Stokes for the initial Olympus files)
+		 - [feature] Improved Canon and Nikon Makernote support.
+		   (Thanks to Robert Rottmerhusen for his Nikon lens info)
+		 - [exif] Relaxed checking of Makernote IFD next pointer. 
+		 - [design] Overhauled exception handling.
+
+
 Changes from version 0.6.1 to 0.6.2
 -----------------------------------
 
