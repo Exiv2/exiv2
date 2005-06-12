@@ -66,16 +66,16 @@ namespace Exiv2 {
     // Olympus Tag Info
     const TagInfo OlympusMakerNote::tagInfo_[] = {
         TagInfo(0x0200, "SpecialMode", "Picture taking mode", olympusIfdId, makerTags, unsignedLong, print0x0200),
-        TagInfo(0x0201, "Quality", "Jpeg quality", olympusIfdId, makerTags, unsignedShort, print0x0201),
+        TagInfo(0x0201, "Quality", "Image quality setting", olympusIfdId, makerTags, unsignedShort, print0x0201),
         TagInfo(0x0202, "Macro", "Macro mode", olympusIfdId, makerTags, unsignedShort, print0x0202),
         TagInfo(0x0203, "BWMode", "Black and White Mode", olympusIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0204, "DigitalZoom", "Digital Zoom Ratio", olympusIfdId, makerTags, unsignedRational, print0x0204),
-        TagInfo(0x0205, "FocalPlaneDiagonal", "Focal Plane Diagonal", olympusIfdId, makerTags, unsignedRational, printValue),
+        TagInfo(0x0204, "DigitalZoom", "Digital zoom ratio", olympusIfdId, makerTags, unsignedRational, print0x0204),
+        TagInfo(0x0205, "FocalPlaneDiagonal", "Focal plane diagonal", olympusIfdId, makerTags, unsignedRational, printValue),
         TagInfo(0x0206, "0x0206", "Unknown", olympusIfdId, makerTags, signedShort, printValue),
         TagInfo(0x0207, "FirmwareVersion", "Software firmware version", olympusIfdId, makerTags, asciiString, printValue),
         TagInfo(0x0208, "PictureInfo", "ASCII format data such as [PictureInfo]", olympusIfdId, makerTags, asciiString, printValue),
         TagInfo(0x0209, "CameraID", "CameraID data", olympusIfdId, makerTags, undefined, printValue),
-        TagInfo(0x0300, "PreCaptureFrames", "Pre-capture Frames", olympusIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0300, "PreCaptureFrames", "Pre-capture frames", olympusIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0301, "0x0301", "Unknown", olympusIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0302, "OneTouchWB", "OneTouchWB", olympusIfdId, makerTags, unsignedShort, print0x0302),
         TagInfo(0x0303, "0x0303", "Unknown", olympusIfdId, makerTags, unsignedShort, printValue),
@@ -85,29 +85,29 @@ namespace Exiv2 {
         TagInfo(0x1001, "0x1001", "Unknown", olympusIfdId, makerTags, signedRational, printValue),
         TagInfo(0x1002, "0x1002", "Unknown", olympusIfdId, makerTags, signedRational, printValue),
         TagInfo(0x1003, "0x1003", "Unknown", olympusIfdId, makerTags, signedRational, printValue),
-        TagInfo(0x1004, "FlashMode", "Flash Mode", olympusIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x1005, "FlashDevice", "Flash Device", olympusIfdId, makerTags, unsignedShort, print0x1005),
+        TagInfo(0x1004, "FlashMode", "Flash mode", olympusIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x1005, "FlashDevice", "Flash device", olympusIfdId, makerTags, unsignedShort, print0x1005),
         TagInfo(0x1006, "Bracket", "Bracket", olympusIfdId, makerTags, signedRational, printValue),
         TagInfo(0x1007, "0x1007", "Unknown", olympusIfdId, makerTags, signedShort, printValue),
         TagInfo(0x1008, "0x1008", "Unknown", olympusIfdId, makerTags, signedShort, printValue),
         TagInfo(0x1009, "0x1009", "Unknown", olympusIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x100a, "0x100a", "Unknown", olympusIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x100b, "FocusMode", "Focus Mode", olympusIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x100c, "FocusDistance", "Focus Distance", olympusIfdId, makerTags, unsignedRational, printValue),
+        TagInfo(0x100b, "FocusMode", "Focus mode", olympusIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x100c, "FocusDistance", "Focus distance", olympusIfdId, makerTags, unsignedRational, printValue),
         TagInfo(0x100d, "Zoom", "Zoom", olympusIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x100e, "MacroFocus", "MacroFocus", olympusIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x100f, "SharpnessFactor", "Sharpness Factor", olympusIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x100e, "MacroFocus", "Macro focus", olympusIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x100f, "SharpnessFactor", "Sharpness factor", olympusIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x1010, "0x1010", "Unknown", olympusIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x1011, "ColorMatrix", "Color Matrix", olympusIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x1012, "BlackLevel", "Black Level", olympusIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x1011, "ColorMatrix", "Color matrix", olympusIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x1012, "BlackLevel", "Black level", olympusIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x1013, "0x1013", "Unknown", olympusIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x1014, "0x1014", "Unknown", olympusIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x1015, "WhiteBalance", "White Balance", olympusIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x1015, "WhiteBalance", "White balance", olympusIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x1016, "0x1016", "Unknown", olympusIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x1017, "RedBalance", "Red Balance", olympusIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x1018, "BlueBalance", "Blue Balance", olympusIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x1017, "RedBalance", "Red balance", olympusIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x1018, "BlueBalance", "Blue balance", olympusIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x1019, "0x1019", "Unknown", olympusIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x101a, "SerialNumber", "Serial Number", olympusIfdId, makerTags, asciiString, printValue),
+        TagInfo(0x101a, "SerialNumber", "Serial number", olympusIfdId, makerTags, asciiString, printValue),
         TagInfo(0x101b, "0x101b", "Unknown", olympusIfdId, makerTags, unsignedLong, printValue),
         TagInfo(0x101c, "0x101c", "Unknown", olympusIfdId, makerTags, unsignedLong, printValue),
         TagInfo(0x101d, "0x101d", "Unknown", olympusIfdId, makerTags, unsignedLong, printValue),
@@ -116,19 +116,19 @@ namespace Exiv2 {
         TagInfo(0x1020, "0x1020", "Unknown", olympusIfdId, makerTags, unsignedLong, printValue),
         TagInfo(0x1021, "0x1021", "Unknown", olympusIfdId, makerTags, unsignedLong, printValue),
         TagInfo(0x1022, "0x1022", "Unknown", olympusIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x1023, "FlashBias", "Flash Bias", olympusIfdId, makerTags, signedRational, printValue),
+        TagInfo(0x1023, "FlashBias", "Flash bias", olympusIfdId, makerTags, signedRational, printValue),
         TagInfo(0x1024, "0x1024", "Unknown", olympusIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x1025, "0x1025", "Unknown", olympusIfdId, makerTags, signedRational, printValue),
         TagInfo(0x1026, "0x1026", "Unknown", olympusIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x1027, "0x1027", "Unknown", olympusIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x1028, "0x1028", "Unknown", olympusIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x1029, "Contrast", "Contrast", olympusIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x102a, "SharpnessFactor", "Sharpness Factor", olympusIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x102b, "ColorControl", "Color Control", olympusIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x102c, "ValidBits", "Valid Bits", olympusIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x102d, "Coring Filter", "Coring Filter", olympusIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x102e, "ImageWidth", "Image Width", olympusIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x102f, "ImageHeight", "Image Height", olympusIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x1029, "Contrast", "Contrast setting", olympusIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x102a, "SharpnessFactor", "Sharpness factor", olympusIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x102b, "ColorControl", "Color control", olympusIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x102c, "ValidBits", "Valid bits", olympusIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x102d, "Coring Filter", "Coring filter", olympusIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x102e, "ImageWidth", "Image width", olympusIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x102f, "ImageHeight", "Image height", olympusIfdId, makerTags, unsignedLong, printValue),
         TagInfo(0x1030, "0x1030", "Unknown", olympusIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x1031, "0x1031", "Unknown", olympusIfdId, makerTags, unsignedLong, printValue),
         TagInfo(0x1032, "0x1032", "Unknown", olympusIfdId, makerTags, unsignedShort, printValue),
@@ -234,7 +234,7 @@ namespace Exiv2 {
     } // OlympusMakerNote::print0x0200
 
     //! Quality
-    const TagDetails Quality[] = {
+    const TagDetails quality[] = {
         { 0, "(start)" },
         { 1, "Standard Quality (SQ)" },
         { 2, "High Quality (HQ)" },
@@ -246,11 +246,11 @@ namespace Exiv2 {
     std::ostream& OlympusMakerNote::print0x0201(std::ostream& os, 
                                                 const Value& value)
     {
-        return TagTranslator(Quality).print(os, value);
+        return TagTranslator(quality).print(os, value);
     } // OlympusMakerNote::print0x0201
 
     //! Macro
-    const TagDetails Macro[] = {
+    const TagDetails macro[] = {
         { -1, "(start)" },
         {  0, "Off" },
         {  1, "On" },
@@ -261,7 +261,7 @@ namespace Exiv2 {
     std::ostream& OlympusMakerNote::print0x0202(std::ostream& os, 
                                                 const Value& value)
     {
-        return TagTranslator(Macro).print(os, value);
+        return TagTranslator(macro).print(os, value);
     } // OlympusMakerNote::print0x0202
 
     std::ostream& OlympusMakerNote::print0x0204(std::ostream& os, 

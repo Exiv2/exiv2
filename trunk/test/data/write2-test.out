@@ -67,6 +67,24 @@ Exif.Image.Model                              0x0110 IFD0         Ascii      10 
 Exif.Image.ExifTag                            0x8769 IFD0         Long        1 78
 Exif.Nikon3.Quality                           0x0004 Makernote    Ascii      28 A boring Nikon3 Quality tag
 
+----- One Olympus MakerNote tag
+Exif.Image.Make                               0x010f IFD0         Ascii      20 OLYMPUS CORPORATION
+Exif.Image.Model                              0x0110 IFD0         Ascii       8 C8080WZ
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 78
+Exif.Olympus.Quality                          0x0201 Makernote    Short       1 1
+
+----- One Panasonic MakerNote tag
+Exif.Image.Make                               0x010f IFD0         Ascii      10 Panasonic
+Exif.Image.Model                              0x0110 IFD0         Ascii       8 DMC-FZ5
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 68
+Exif.Panasonic.Quality                        0x0001 Makernote    Short       1 1
+
+----- One Sony MakerNote tag
+Exif.Image.Make                               0x010f IFD0         Ascii       5 SONY
+Exif.Image.Model                              0x0110 IFD0         Ascii       7 DSC-W7
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 62
+Exif.Sony.0x2000                              0x2000 Makernote    Undefined   6 0 1 2 3 4 5 
+
 ----- One IOP tag
 Exif.Image.ExifTag                            0x8769 IFD0         Long        1 26
 Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 44

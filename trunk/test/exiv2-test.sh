@@ -21,7 +21,10 @@ images="exiv2-empty.jpg \
         exiv2-canon-eos-300d.jpg \
         exiv2-kodak-dc210.jpg \
         exiv2-fujifilm-finepix-s2pro.jpg \
-        exiv2-sigma-d10.jpg"
+        exiv2-sigma-d10.jpg \
+        exiv2-olympus-c8080wz.jpg \
+        exiv2-panasonic-dmc-fz5.jpg \
+        exiv2-sony-dsc-w7.jpg"
 
 image2="exiv2-empty.jpg \
         20031214_000043.jpg \
@@ -31,7 +34,10 @@ image2="exiv2-empty.jpg \
         20030925_201850.jpg \
         20001026_044550.jpg \
         20030926_111535.jpg \
-        20040316_075137.jpg"
+        20040316_075137.jpg \
+        20040208_093744.jpg \
+        20050218_212016.jpg \
+        20050527_051833.jpg"
 
 image3="exiv2-empty.exv \
         20031214_000043.exv \
@@ -41,7 +47,10 @@ image3="exiv2-empty.exv \
         20030925_201850.exv \
         20001026_044550.exv \
         20030926_111535.exv \
-        20040316_075137.exv"
+        20040316_075137.exv \
+        20040208_093744.exv \
+        20050218_212016.exv \
+        20050527_051833.exv"
 
 for i in $images; do cp -f data/$i tmp/; done
 echo "Exiv2 test directory -----------------------------------------------------"

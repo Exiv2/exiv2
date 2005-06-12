@@ -61,67 +61,85 @@ Options:
 
 
 Adjust -------------------------------------------------------------------
-File 1/9: exiv2-empty.jpg
+File  1/12: exiv2-empty.jpg
 exiv2-empty.jpg: No Exif data found in the file
-File 2/9: exiv2-canon-powershot-s40.jpg
+File  2/12: exiv2-canon-powershot-s40.jpg
 Adjusting `Exif.Image.DateTime' by -43261 s to 2003:12:14 00:00:43
 Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2003:12:14 00:00:43
 Adjusting `Exif.Photo.DateTimeDigitized' by -43261 s to 2003:12:14 00:00:43
-File 3/9: exiv2-nikon-e990.jpg
+File  3/12: exiv2-nikon-e990.jpg
 Adjusting `Exif.Image.DateTime' by -43261 s to 2000:05:06 02:05:44
 Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2000:05:06 02:05:44
 Adjusting `Exif.Photo.DateTimeDigitized' by -43261 s to 2000:05:06 02:05:44
-File 4/9: exiv2-nikon-d70.jpg
+File  4/12: exiv2-nikon-d70.jpg
 Adjusting `Exif.Image.DateTime' by -43261 s to 2004:03:29 22:42:45
 Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2004:03:29 22:42:45
 Adjusting `Exif.Photo.DateTimeDigitized' by -43261 s to 2004:03:29 22:42:45
-File 5/9: exiv2-nikon-e950.jpg
+File  5/12: exiv2-nikon-e950.jpg
 Adjusting `Exif.Image.DateTime' by -43261 s to 2001:04:05 23:50:39
 Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2001:04:05 23:50:39
 Adjusting `Exif.Photo.DateTimeDigitized' by -43261 s to 2001:04:05 23:50:39
-File 6/9: exiv2-canon-eos-300d.jpg
+File  6/12: exiv2-canon-eos-300d.jpg
 Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
  Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
 Adjusting `Exif.Image.DateTime' by -43261 s to 2003:09:25 20:18:50
 Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2003:09:25 20:18:50
 Adjusting `Exif.Photo.DateTimeDigitized' by -43261 s to 2003:09:25 20:18:50
-File 7/9: exiv2-kodak-dc210.jpg
+File  7/12: exiv2-kodak-dc210.jpg
 Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2000:10:26 04:45:50
-File 8/9: exiv2-fujifilm-finepix-s2pro.jpg
+File  8/12: exiv2-fujifilm-finepix-s2pro.jpg
 Adjusting `Exif.Image.DateTime' by -43261 s to 2003:09:26 11:15:35
 Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2003:09:26 11:15:35
 Adjusting `Exif.Photo.DateTimeDigitized' by -43261 s to 2003:09:26 11:15:35
-File 9/9: exiv2-sigma-d10.jpg
+File  9/12: exiv2-sigma-d10.jpg
 Adjusting `Exif.Image.DateTime' by -43261 s to 2004:03:18 11:39:25
 Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2004:03:16 07:51:37
 Adjusting `Exif.Photo.DateTimeDigitized' by -43261 s to 2004:03:18 11:39:25
+File 10/12: exiv2-olympus-c8080wz.jpg
+Adjusting `Exif.Image.DateTime' by -43261 s to 2004:02:08 09:37:44
+Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2004:02:08 09:37:44
+Adjusting `Exif.Photo.DateTimeDigitized' by -43261 s to 2004:02:08 09:37:44
+File 11/12: exiv2-panasonic-dmc-fz5.jpg
+Adjusting `Exif.Image.DateTime' by -43261 s to 2005:02:18 21:20:16
+Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2005:02:18 21:20:16
+Adjusting `Exif.Photo.DateTimeDigitized' by -43261 s to 2005:02:18 21:20:16
+File 12/12: exiv2-sony-dsc-w7.jpg
+Adjusting `Exif.Image.DateTime' by -43261 s to 2005:05:27 05:18:33
+Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2005:05:27 05:18:33
+Adjusting `Exif.Photo.DateTimeDigitized' by -43261 s to 2005:05:27 05:18:33
 
 Rename -------------------------------------------------------------------
-File 1/9: exiv2-empty.jpg
+File  1/12: exiv2-empty.jpg
 exiv2-empty.jpg: No Exif data found in the file
-File 2/9: exiv2-canon-powershot-s40.jpg
+File  2/12: exiv2-canon-powershot-s40.jpg
 Renaming file to ./20031214_000043.jpg
-File 3/9: exiv2-nikon-e990.jpg
+File  3/12: exiv2-nikon-e990.jpg
 Renaming file to ./20000506_020544.jpg
-File 4/9: exiv2-nikon-d70.jpg
+File  4/12: exiv2-nikon-d70.jpg
 Renaming file to ./20040329_224245.jpg
-File 5/9: exiv2-nikon-e950.jpg
+File  5/12: exiv2-nikon-e950.jpg
 Renaming file to ./20010405_235039.jpg
-File 6/9: exiv2-canon-eos-300d.jpg
+File  6/12: exiv2-canon-eos-300d.jpg
 Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
  Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
 Renaming file to ./20030925_201850.jpg
-File 7/9: exiv2-kodak-dc210.jpg
+File  7/12: exiv2-kodak-dc210.jpg
 Renaming file to ./20001026_044550.jpg
-File 8/9: exiv2-fujifilm-finepix-s2pro.jpg
+File  8/12: exiv2-fujifilm-finepix-s2pro.jpg
 Renaming file to ./20030926_111535.jpg
-File 9/9: exiv2-sigma-d10.jpg
+File  9/12: exiv2-sigma-d10.jpg
 Renaming file to ./20040316_075137.jpg
+File 10/12: exiv2-olympus-c8080wz.jpg
+Renaming file to ./20040208_093744.jpg
+File 11/12: exiv2-panasonic-dmc-fz5.jpg
+Renaming file to ./20050218_212016.jpg
+File 12/12: exiv2-sony-dsc-w7.jpg
+Renaming file to ./20050527_051833.jpg
 
 Print --------------------------------------------------------------------
-File 1/9: exiv2-empty.jpg
+File  1/12: exiv2-empty.jpg
 exiv2-empty.jpg: No Exif data found in the file
-File 2/9: 20031214_000043.jpg
+File  2/12: 20031214_000043.jpg
 Filename        : 20031214_000043.jpg
 Filesize        : 12425 Bytes
 Camera make     : Canon
@@ -146,7 +164,7 @@ Thumbnail       : JPEG, 5448 Bytes
 Copyright       : 
 Exif comment    : 
 
-File 3/9: 20000506_020544.jpg
+File 3 /12: 20000506_020544.jpg
 Filename        : 20000506_020544.jpg
 Filesize        : 19152 Bytes
 Camera make     : NIKON
@@ -171,7 +189,7 @@ Thumbnail       : JPEG, 7829 Bytes
 Copyright       : 
 Exif comment    :                                                                                                                      
 
-File 4/9: 20040329_224245.jpg
+File 4 /12: 20040329_224245.jpg
 Filename        : 20040329_224245.jpg
 Filesize        : 44129 Bytes
 Camera make     : NIKON CORPORATION
@@ -196,7 +214,7 @@ Thumbnail       : JPEG, 8930 Bytes
 Copyright       : 
 Exif comment    :                                     
 
-File 5/9: 20010405_235039.jpg
+File 5 /12: 20010405_235039.jpg
 Filename        : 20010405_235039.jpg
 Filesize        : 11984 Bytes
 Camera make     : NIKON
@@ -221,7 +239,7 @@ Thumbnail       : JPEG, 4662 Bytes
 Copyright       : 
 Exif comment    :                                                                                                                      
 
-File 6/9: 20030925_201850.jpg
+File 6 /12: 20030925_201850.jpg
 Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
  Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
 Filename        : 20030925_201850.jpg
@@ -248,7 +266,7 @@ Thumbnail       : JPEG, 9728 Bytes
 Copyright       : 
 Exif comment    : 
 
-File 7/9: 20001026_044550.jpg
+File 7 /12: 20001026_044550.jpg
 Filename        : 20001026_044550.jpg
 Filesize        : 26485 Bytes
 Camera make     : Eastman Kodak Company
@@ -273,7 +291,7 @@ Thumbnail       : TIFF, 20916 Bytes
 Copyright       : 
 Exif comment    : 
 
-File 8/9: 20030926_111535.jpg
+File 8 /12: 20030926_111535.jpg
 Filename        : 20030926_111535.jpg
 Filesize        : 15537 Bytes
 Camera make     : FUJIFILM
@@ -298,7 +316,7 @@ Thumbnail       : JPEG, 9573 Bytes
 Copyright       :     
 Exif comment    : 
 
-File 9/9: 20040316_075137.jpg
+File 9 /12: 20040316_075137.jpg
 Filename        : 20040316_075137.jpg
 Filesize        : 18307 Bytes
 Camera make     : SIGMA
@@ -323,9 +341,84 @@ Thumbnail       : JPEG, 11998 Bytes
 Copyright       : 
 Exif comment    : 
 
-File 1/9: exiv2-empty.jpg
+File 10/12: 20040208_093744.jpg
+Filename        : 20040208_093744.jpg
+Filesize        : 19152 Bytes
+Camera make     : OLYMPUS CORPORATION
+Camera model    : C8080WZ
+Image timestamp : 2004:02:08 09:37:44
+Image number    : 
+Exposure time   : 1/160 s
+Aperture        : F4.5
+Exposure bias   : +7/10
+Flash           : No, compulsory
+Flash bias      : 
+Focal length    : 23.4 mm
+Subject distance: 
+ISO speed       : 50
+Exposure mode   : Aperture priority
+Metering mode   : Matrix
+Macro mode      : 
+Image quality   : 
+Exif Resolution : 3264 x 2448
+White balance   : 
+Thumbnail       : JPEG, 7306 Bytes
+Copyright       : 
+Exif comment    :                                                                                                                      
+
+File 11/12: 20050218_212016.jpg
+Filename        : 20050218_212016.jpg
+Filesize        : 32041 Bytes
+Camera make     : Panasonic
+Camera model    : DMC-FZ5
+Image timestamp : 2005:02:18 21:20:16
+Image number    : 
+Exposure time   : 1/400 s
+Aperture        : F4.5
+Exposure bias   : 0
+Flash           : No, compulsory
+Flash bias      : 
+Focal length    : 6.0 mm (35 mm equivalent: 36.0 mm)
+Subject distance: 
+ISO speed       : 80
+Exposure mode   : Auto
+Metering mode   : Matrix
+Macro mode      : 
+Image quality   : 
+Exif Resolution : 2560 x 1920
+White balance   : 
+Thumbnail       : JPEG, 10308 Bytes
+Copyright       : 
+Exif comment    : 
+
+File 12/12: 20050527_051833.jpg
+Filename        : 20050527_051833.jpg
+Filesize        : 22844 Bytes
+Camera make     : SONY
+Camera model    : DSC-W7
+Image timestamp : 2005:05:27 05:18:33
+Image number    : 
+Exposure time   : 1/40 s
+Aperture        : F2.8
+Exposure bias   : 0
+Flash           : Yes, auto, return light detected
+Flash bias      : 
+Focal length    : 7.9 mm
+Subject distance: 
+ISO speed       : 100
+Exposure mode   : Auto
+Metering mode   : Matrix
+Macro mode      : 
+Image quality   : 
+Exif Resolution : 300 x 225
+White balance   : 
+Thumbnail       : JPEG, 15605 Bytes
+Copyright       : 
+Exif comment    : 
+
+File  1/12: exiv2-empty.jpg
 exiv2-empty.jpg: No Exif data found in the file
-File 2/9: 20031214_000043.jpg
+File  2/12: 20031214_000043.jpg
 Exif.Image.Make                              Ascii       6  Canon
 Exif.Image.Model                             Ascii      20  Canon PowerShot S40
 Exif.Image.Orientation                       Short       1  top, left
@@ -448,7 +541,7 @@ Exif.Thumbnail.YResolution                   Rational    1  180
 Exif.Thumbnail.ResolutionUnit                Short       1  inch
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
 Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  5448
-File 3/9: 20000506_020544.jpg
+File  3/12: 20000506_020544.jpg
 Exif.Image.ImageDescription                  Ascii      11            
 Exif.Image.Make                              Ascii       6  NIKON
 Exif.Image.Model                             Ascii       5  E990
@@ -507,7 +600,7 @@ Exif.Thumbnail.YResolution                   Rational    1  300
 Exif.Thumbnail.ResolutionUnit                Short       1  inch
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
 Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  7829
-File 4/9: 20040329_224245.jpg
+File  4/12: 20040329_224245.jpg
 Exif.Image.Make                              Ascii      18  NIKON CORPORATION
 Exif.Image.Model                             Ascii      10  NIKON D70
 Exif.Image.Orientation                       Short       1  right, top
@@ -611,7 +704,7 @@ Exif.Thumbnail.ResolutionUnit                Short       1  inch
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
 Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  8930
 Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
-File 5/9: 20010405_235039.jpg
+File  5/12: 20010405_235039.jpg
 Exif.Image.ImageDescription                  Ascii      11            
 Exif.Image.Make                              Ascii       6  NIKON
 Exif.Image.Model                             Ascii       5  E950
@@ -665,7 +758,7 @@ Exif.Thumbnail.YResolution                   Rational    1  300
 Exif.Thumbnail.ResolutionUnit                Short       1  inch
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
 Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  4662
-File 6/9: 20030925_201850.jpg
+File  6/12: 20030925_201850.jpg
 Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
  Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
 Exif.Image.Make                              Ascii       6  Canon
@@ -816,7 +909,7 @@ Exif.Thumbnail.YResolution                   Rational    1  180
 Exif.Thumbnail.ResolutionUnit                Short       1  inch
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
 Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  9728
-File 7/9: 20001026_044550.jpg
+File  7/12: 20001026_044550.jpg
 Exif.Image.ImageDescription                  Ascii       0  
 Exif.Image.Make                              Ascii      22  Eastman Kodak Company
 Exif.Image.Model                             Ascii      20  DC210 Zoom (V05.00)
@@ -856,7 +949,7 @@ Exif.Thumbnail.StripByteCounts               Short       1  20736
 Exif.Thumbnail.XResolution                   Rational    1  72
 Exif.Thumbnail.YResolution                   Rational    1  72
 Exif.Thumbnail.ResolutionUnit                Short       1  inch
-File 8/9: 20030926_111535.jpg
+File  8/12: 20030926_111535.jpg
 Exif.Image.Make                              Ascii       9  FUJIFILM
 Exif.Image.Model                             Ascii      13  FinePixS2Pro
 Exif.Image.Orientation                       Short       1  top, left
@@ -931,7 +1024,7 @@ Exif.Thumbnail.ResolutionUnit                Short       1  inch
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
 Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  9573
 Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
-File 9/9: 20040316_075137.jpg
+File  9/12: 20040316_075137.jpg
 Exif.Image.Make                              Ascii       6  SIGMA
 Exif.Image.Model                             Ascii      11  SIGMA SD10
 Exif.Image.Orientation                       Short       1  top, left
@@ -997,231 +1090,510 @@ Exif.Thumbnail.ResolutionUnit                Short       1  inch
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
 Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  11998
 Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
+File 10/12: 20040208_093744.jpg
+Exif.Image.ImageDescription                  Ascii      32  OLYMPUS DIGITAL CAMERA         
+Exif.Image.Make                              Ascii      20  OLYMPUS CORPORATION
+Exif.Image.Model                             Ascii       8  C8080WZ
+Exif.Image.Orientation                       Short       1  top, left
+Exif.Image.XResolution                       Rational    1  72
+Exif.Image.YResolution                       Rational    1  72
+Exif.Image.ResolutionUnit                    Short       1  inch
+Exif.Image.Software                          Ascii       9  v757-71n
+Exif.Image.DateTime                          Ascii      20  2004:02:08 09:37:44
+Exif.Image.YCbCrPositioning                  Short       1  Co-sited
+Exif.Image.ExifTag                           Long        1  550
+Exif.Image.0xc4a5                            Undefined 260  80 114 105 110 116 73 77 0 48 50 53 48 0 0 20 0 1 0 20 0 20 0 2 0 1 0 0 0 3 0 136 0 0 0 7 0 0 0 0 0 8 0 0 0 0 0 9 0 0 0 0 0 10 0 0 0 0 0 11 0 208 0 0 0 12 0 0 0 0 0 13 0 0 0 0 0 14 0 232 0 0 0 0 1 1 0 0 0 1 1 255 0 0 0 2 1 131 0 0 0 3 1 128 0 0 0 4 1 128 0 0 0 5 1 131 0 0 0 6 1 131 0 0 0 7 1 128 128 128 0 16 1 128 0 0 0 9 17 0 0 16 39 0 0 11 15 0 0 16 39 0 0 151 5 0 0 16 39 0 0 176 8 0 0 16 39 0 0 1 28 0 0 16 39 0 0 94 2 0 0 16 39 0 0 139 0 0 0 16 39 0 0 203 3 0 0 16 39 0 0 229 27 0 0 16 39 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 33 0 154 130 5 0 1 0 0 0 184 3 0 0 157 130 
+Exif.Photo.ExposureTime                      Rational    1  1/160 s
+Exif.Photo.FNumber                           Rational    1  F4.5
+Exif.Photo.ExposureProgram                   Short       1  Aperture priority
+Exif.Photo.ISOSpeedRatings                   Short       1  50
+Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+Exif.Photo.DateTimeOriginal                  Ascii      20  2004:02:08 09:37:44
+Exif.Photo.DateTimeDigitized                 Ascii      20  2004:02:08 09:37:44
+Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
+Exif.Photo.CompressedBitsPerPixel            Rational    1  4
+Exif.Photo.ExposureBiasValue                 SRational   1  +7/10
+Exif.Photo.MaxApertureValue                  Rational    1  3.2
+Exif.Photo.MeteringMode                      Short       1  Matrix
+Exif.Photo.LightSource                       Short       1  Unknown
+Exif.Photo.Flash                             Short       1  No, compulsory
+Exif.Photo.FocalLength                       Rational    1  23.4 mm
+Exif.Photo.UserComment                       Undefined 125                                                                                                                       
+Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+Exif.Photo.ColorSpace                        Short       1  sRGB
+Exif.Photo.PixelXDimension                   Long        1  3264
+Exif.Photo.PixelYDimension                   Long        1  2448
+Exif.Photo.InteroperabilityTag               Long        1  1268
+Exif.Photo.FileSource                        Undefined   1  Digital still camera
+Exif.Photo.SceneType                         Undefined   1  Directly photographed
+Exif.Photo.CustomRendered                    Short       1  0
+Exif.Photo.ExposureMode                      Short       1  Manual
+Exif.Photo.WhiteBalance                      Short       1  Manual
+Exif.Photo.DigitalZoomRatio                  Rational    1  0.0
+Exif.Photo.SceneCaptureType                  Short       1  Standard
+Exif.Photo.GainControl                       Short       1  None
+Exif.Photo.Contrast                          Short       1  Normal
+Exif.Photo.Saturation                        Short       1  Normal
+Exif.Photo.Sharpness                         Short       1  Normal
+Exif.Olympus.SpecialMode                     Long        3  Normal
+Exif.Olympus.Quality                         Short       1  (7)
+Exif.Olympus.Macro                           Short       1  Off
+Exif.Olympus.BWMode                          Short       1  0
+Exif.Olympus.DigitalZoom                     Rational    1  1.7x
+Exif.Olympus.FocalPlaneDiagonal              Rational    1  904/100
+Exif.Olympus.0x0206                          SShort      6  -39 -408 -1 93 103 286
+Exif.Olympus.FirmwareVersion                 Ascii       8  SX757
+Exif.Olympus.PictureInfo                     Ascii      52  [pictureInfo] Resolution=2 [Camera Info] Type=SX757
+Exif.Olympus.CameraID                        Undefined  32  79 76 89 77 80 85 83 32 68 73 71 73 84 65 76 32 67 65 77 69 82 65 0 255 255 255 255 255 255 255 255 255 
+Exif.Olympus.PreCaptureFrames                Short       1  0
+Exif.Olympus.0x0301                          Short       1  0
+Exif.Olympus.OneTouchWB                      Short       1  On
+Exif.Olympus.0x0303                          Short       1  0
+Exif.Olympus.0x0304                          Short       1  0
+Exif.Olympus.DataDump                        Undefined 494  1 75 2 3 2 93 0 0 0 0 255 0 0 0 25 97 18 49 0 0 5 236 0 0 57 36 0 0 1 155 0 0 10 47 0 0 22 242 0 0 5 192 0 0 24 68 0 100 0 166 0 50 0 36 0 0 0 0 0 0 0 0 0 0 54 21 0 0 0 0 53 61 22 4 0 0 0 0 0 0 0 0 0 0 0 0 16 32 0 0 57 0 14 86 0 0 0 0 0 0 0 0 0 0 0 0 0 100 3 158 0 0 0 0 255 253 255 249 255 245 255 236 255 237 255 232 255 230 0 0 34 34 34 34 17 17 17 17 1 86 3 150 3 243 1 33 2 0 1 76 2 116 2 3 1 2 96 90 0 2 3 52 0 25 0 10 0 25 0 10 0 5 0 10 0 1 0 0 0 0 0 16 0 0 0 16 0 1 1 0 0 166 1 79 1 246 2 159 3 70 1 2 1 75 2 3 2 93 0 0 21 54 21 231 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 136 136 1 0 3 254 0 59 0 0 0 0 0 0 2 226 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 6 121 6 129 6 124 6 156 208 0 3 254 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 12 57 12 88 12 103 12 177 12 88 12 6 11 190 11 10 34 68 34 128 34 238 35 119 34 83 33 125 32 132 30 98 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 119 119 119 119 33 33 33 33 33 33 19 30 17 25 41 80 32 0 224 0 0 0 0 0 0 0 0 0 128 0 20 70 12 0 0 0 34 33 0 0 34 34 33 33 2 34 1 115 1 70 2 120 0 0 0 43 0 40 0 30 1 76 2 116 34 33 34 34 0 77 0 1 0 128 0 0 0 20 0 0 
+Exif.Iop.InteroperabilityIndex               Ascii       4  R98
+Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+Exif.Thumbnail.Compression                   Short       1  JPEG
+Exif.Thumbnail.XResolution                   Rational    1  72
+Exif.Thumbnail.YResolution                   Rational    1  72
+Exif.Thumbnail.ResolutionUnit                Short       1  inch
+Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
+Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  7306
+File 11/12: 20050218_212016.jpg
+Exif.Image.Make                              Ascii      10  Panasonic
+Exif.Image.Model                             Ascii       8  DMC-FZ5
+Exif.Image.Orientation                       Short       1  top, left
+Exif.Image.XResolution                       Rational    1  72
+Exif.Image.YResolution                       Rational    1  72
+Exif.Image.ResolutionUnit                    Short       1  inch
+Exif.Image.Software                          Ascii      10  Ver.1.0  
+Exif.Image.DateTime                          Ascii      20  2005:02:18 21:20:16
+Exif.Image.YCbCrPositioning                  Short       1  Co-sited
+Exif.Image.ExifTag                           Long        1  418
+Exif.Image.0xc4a5                            Undefined 208  80 114 105 110 116 73 77 0 48 50 53 48 0 0 14 0 1 0 22 0 22 0 2 0 0 0 0 0 3 0 100 0 0 0 7 0 0 0 0 0 8 0 0 0 0 0 9 0 0 0 0 0 10 0 0 0 0 0 11 0 172 0 0 0 12 0 0 0 0 0 13 0 0 0 0 0 14 0 196 0 0 0 0 1 5 0 0 0 1 1 1 0 0 0 16 1 128 0 0 0 9 17 0 0 16 39 0 0 11 15 0 0 16 39 0 0 151 5 0 0 16 39 0 0 176 8 0 0 16 39 0 0 1 28 0 0 16 39 0 0 94 2 0 0 16 39 0 0 139 0 0 0 16 39 0 0 203 3 0 0 16 39 0 0 229 27 0 0 16 39 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Exif.Photo.ExposureTime                      Rational    1  1/400 s
+Exif.Photo.FNumber                           Rational    1  F4.5
+Exif.Photo.ExposureProgram                   Short       1  Auto
+Exif.Photo.ISOSpeedRatings                   Short       1  80
+Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+Exif.Photo.DateTimeOriginal                  Ascii      20  2005:02:18 21:20:16
+Exif.Photo.DateTimeDigitized                 Ascii      20  2005:02:18 21:20:16
+Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
+Exif.Photo.CompressedBitsPerPixel            Rational    1  4.0
+Exif.Photo.ExposureBiasValue                 SRational   1  0
+Exif.Photo.MaxApertureValue                  Rational    1  3.0
+Exif.Photo.MeteringMode                      Short       1  Matrix
+Exif.Photo.LightSource                       Short       1  Unknown
+Exif.Photo.Flash                             Short       1  No, compulsory
+Exif.Photo.FocalLength                       Rational    1  6.0 mm
+Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+Exif.Photo.ColorSpace                        Short       1  sRGB
+Exif.Photo.PixelXDimension                   Long        1  2560
+Exif.Photo.PixelYDimension                   Long        1  1920
+Exif.Photo.InteroperabilityTag               Long        1  6652
+Exif.Photo.SensingMethod                     Short       1  One-chip color area
+Exif.Photo.FileSource                        Undefined   1  Digital still camera
+Exif.Photo.SceneType                         Undefined   1  Directly photographed
+Exif.Photo.CustomRendered                    Short       1  0
+Exif.Photo.ExposureMode                      Short       1  Auto
+Exif.Photo.WhiteBalance                      Short       1  Auto
+Exif.Photo.DigitalZoomRatio                  Rational    1  0.0
+Exif.Photo.FocalLengthIn35mmFilm             Short       1  36.0 mm
+Exif.Photo.SceneCaptureType                  Short       1  Standard
+Exif.Photo.GainControl                       Short       1  None
+Exif.Photo.Contrast                          Short       1  Normal
+Exif.Photo.Saturation                        Short       1  Normal
+Exif.Photo.Sharpness                         Short       1  Normal
+Exif.Panasonic.Quality                       Short       1  High
+Exif.Panasonic.FirmwareVersion               Undefined   4  0 1 0 2 
+Exif.Panasonic.WhiteBalance                  Short       1  Auto
+Exif.Panasonic.FocusMode                     Short       1  Auto
+Exif.Panasonic.SpotMode                      Byte        2  Off
+Exif.Panasonic.ImageStabilizer               Short       1  On, Mode 1
+Exif.Panasonic.Macro                         Short       1  Off
+Exif.Panasonic.ShootingMode                  Short       1  Program
+Exif.Panasonic.Audio                         Short       1  No
+Exif.Panasonic.DataDump                      Undefined 5370  68 86 1 2 69 80 0 0 240 63 68 66 176 3 240 63 65 70 146 0 96 71 34 128 98 71 16 1 100 71 48 0 102 71 0 0 78 71 68 0 114 71 1 0 116 71 0 0 122 71 237 255 124 71 2 0 126 71 0 0 64 71 173 15 66 71 40 15 76 71 64 156 92 71 192 255 118 71 40 0 120 71 0 0 82 71 90 0 86 71 31 0 84 71 166 0 108 71 125 0 112 71 26 0 110 71 125 0 88 71 39 0 158 71 114 0 156 71 71 2 140 71 0 0 142 71 1 0 138 71 40 15 144 71 1 0 146 71 1 0 148 71 0 0 150 71 0 0 152 71 123 15 154 71 123 15 222 70 27 34 240 63 83 84 70 0 164 70 0 0 166 70 0 0 168 70 0 0 170 70 0 0 172 70 0 0 174 70 0 0 176 70 0 0 182 70 0 0 184 70 0 0 186 70 0 0 244 71 0 0 246 71 0 0 178 70 0 0 180 70 0 0 176 68 0 0 178 68 0 0 240 63 65 69 222 0 60 69 211 1 20 69 35 1 234 70 35 1 236 70 24 1 40 69 171 0 44 69 198 0 36 69 12 7 16 69 215 6 18 69 229 6 32 69 172 1 54 69 209 1 34 69 208 1 58 69 4 0 59 69 5 0 38 69 1 1 42 69 45 0 192 70 21 7 194 70 95 2 200 89 113 4 198 89 47 2 46 69 0 0 48 69 0 0 50 69 0 0 64 69 0 0 65 69 0 0 66 69 0 0 206 89 0 0 208 89 0 0 210 89 0 0 67 69 0 0 62 69 0 0 28 69 17 0 68 69 7 0 34 74 43 1 192 89 0 0 193 89 0 0 232 70 148 38 204 70 0 0 212 70 0 0 206 70 0 0 208 70 0 0 214 70 0 0 80 88 0 0 218 70 0 0 197 89 0 0 74 69 5 4 76 69 0 0 78 69 0 0 239 70 1 0 212 89 0 0 214 89 217 40 216 89 249 51 218 89 214 34 220 89 0 0 240 63 87 66 14 1 0 68 200 1 2 68 126 1 92 68 17 1 4 68 23 1 6 68 219 0 96 68 215 6 26 68 61 0 94 68 40 0 95 68 8 0 18 68 248 0 20 68 202 0 22 68 23 1 24 68 219 0 204 68 11 1 206 68 14 2 208 68 121 1 210 68 78 1 220 68 196 1 222 68 73 1 180 68 0 10 182 68 0 0 48 68 92 0 56 68 120 0 50 68 96 0 58 68 112 0 52 68 240 255 60 68 24 0 54 68 42 0 62 68 112 0 76 68 247 0 78 68 200 0 192 68 29 1 194 68 224 0 234 68 0 0 128 69 10 0 130 69 123 0 131 69 100 0 132 69 0 0 134 69 0 0 135 69 0 0 136 69 0 0 138 69 0 0 139 69 0 0 140 69 30 0 142 69 149 0 143 69 116 0 144 69 0 0 146 69 0 0 147 69 0 0 82 68 213 0 84 68 194 0 86 68 213 0 88 68 194 0 212 68 213 0 214 68 194 0 216 68 213 0 218 68 194 0 212 93 0 0 0 88 120 1 2 88 118 1 4 88 223 0 6 88 203 0 54 88 108 1 56 88 141 1 58 88 225 0 60 88 199 0 240 63 89 67 190 0 160 69 5 1 162 69 60 80 164 69 0 10 166 69 130 150 168 69 53 203 170 69 0 0 172 69 0 0 174 69 53 203 176 69 0 0 178 69 0 0 180 69 0 0 182 69 5 0 184 69 60 80 186 69 0 10 188 69 130 150 190 69 50 206 192 69 121 129 194 69 127 129 196 69 50 206 198 69 0 0 200 69 200 187 202 69 69 69 204 69 100 0 96 69 3 0 98 69 1 0 100 69 4 0 102 69 7 0 104 69 15 0 106 69 15 0 108 69 12 0 110 69 12 0 112 69 12 0 114 69 12 0 116 69 12 0 118 69 20 0 120 69 20 0 122 69 20 0 124 69 20 0 208 69 0 0 210 69 8 0 212 69 8 0 214 69 8 0 240 69 3 3 242 69 3 3 244 69 3 0 206 69 0 0 240 63 67 77 10 0 252 69 9 240 240 63 73 83 30 0 148 70 103 3 150 70 86 3 152 70 227 3 154 70 208 3 96 70 241 1 98 70 238 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 65 69 66 77 150 3 7 2 54 2 68 1 4 1 134 1 159 3 30 4 88 3 44 3 183 2 82 2 40 4 210 3 42 3 117 1 131 1 176 1 72 4 141 4 177 3 245 2 3 1 196 2 83 4 24 4 9 4 212 2 61 3 14 2 134 3 167 4 236 2 110 1 247 0 120 2 158 1 240 1 229 1 154 1 97 1 254 0 155 2 42 2 20 1 134 0 112 0 17 2 217 2 109 3 48 2 235 0 20 1 246 0 134 2 235 2 103 1 249 0 132 0 33 2 92 2 11 3 5 3 73 2 22 2 234 1 174 2 139 2 206 1 87 1 16 1 84 2 161 1 214 1 198 1 81 1 101 1 232 1 240 2 148 2 248 1 207 0 169 0 187 0 206 1 196 1 153 1 104 1 71 1 139 1 179 0 128 1 67 1 89 1 227 0 189 0 171 1 140 1 113 1 246 0 166 0 235 0 168 0 167 0 5 1 35 1 196 1 233 0 166 1 141 1 97 1 175 0 126 0 135 0 145 0 110 0 87 1 93 1 238 0 57 1 133 1 118 1 76 1 139 0 102 0 82 0 130 0 216 0 252 1 46 4 210 6 24 6 90 1 28 1 21 1 123 0 92 0 73 0 76 0 184 0 154 1 42 3 3 4 177 2 80 82 83 84 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 70 67 67 86 9 0 1 0 40 15 40 15 39 15 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 202 17 166 13 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 15 165 13 192 32 22 0 5 0 65 0 30 0 45 0 78 0 35 0 194 17 49 40 28 0 2 0 39 0 25 0 29 0 44 0 29 0 183 10 228 19 0 0 0 0 0 0 0 0 0 0 0 0 0 0 40 15 242 15 215 36 19 0 3 0 65 0 29 0 45 0 78 0 35 0 137 18 166 41 26 0 2 0 39 0 25 0 29 0 45 0 29 0 183 10 247 19 0 0 0 0 0 0 0 0 0 0 0 0 0 0 80 15 249 14 220 34 22 0 6 0 66 0 30 0 45 0 78 0 36 0 72 18 6 41 28 0 2 0 39 0 25 0 29 0 45 0 29 0 188 10 213 19 0 0 0 0 0 0 0 0 0 0 0 0 0 0 120 15 146 11 81 27 22 0 4 0 64 0 29 0 46 0 78 0 35 0 5 17 17 39 27 0 2 0 39 0 25 0 29 0 44 0 29 0 117 10 153 19 0 0 0 0 0 0 0 0 0 0 0 0 0 0 128 15 39 10 158 24 24 0 7 0 64 0 29 0 45 0 78 0 36 0 161 16 72 38 31 0 5 0 39 0 25 0 29 0 45 0 29 0 193 10 126 19 0 0 0 0 0 0 0 0 0 0 0 0 0 0 88 15 210 13 252 32 21 0 7 0 66 0 30 0 45 0 78 0 36 0 249 17 101 40 30 0 4 0 39 0 25 0 29 0 45 0 29 0 26 11 199 19 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 15 173 15 104 36 24 0 5 0 65 0 29 0 46 0 78 0 36 0 143 18 97 41 30 0 5 0 39 0 25 0 29 0 45 0 29 0 52 11 220 19 0 0 0 0 0 0 0 0 0 0 0 0 0 0 8 15 111 14 69 34 25 0 5 0 65 0 30 0 46 0 79 0 36 0 31 18 117 40 34 0 7 0 40 0 26 0 29 0 45 0 29 0 71 11 221 19 0 0 0 0 0 0 0 0 0 0 0 0 0 0 224 14 62 11 217 26 25 0 4 0 65 0 29 0 46 0 78 0 35 0 248 16 57 38 32 0 8 0 40 0 25 0 29 0 45 0 29 0 253 10 142 19 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 87 66 67 90 8 15 15 6 8 15 15 15 15 8 8 15 8 15 8 5 6 5 5 5 15 8 6 15 6 15 15 5 15 1 9 5 5 5 5 5 6 5 5 5 3 3 9 9 6 3 3 1 3 3 3 3 3 3 3 9 3 3 3 1 3 3 3 3 3 3 3 1 6 6 8 5 6 6 6 8 6 6 3 9 6 8 8 8 8 6 6 8 8 9 14 14 3 5 8 8 8 8 8 8 8 14 14 12 12 10 1 8 8 8 8 8 8 5 14 14 12 12 14 5 8 8 8 8 8 8 15 9 9 9 14 14 8 8 8 8 8 8 8 15 3 9 14 14 18 0 0 16 108 3 0 0 75 1 0 0 0 0 32 48 0 72 6 16 6 0 0 0 0 0 0 0 36 74 2 84 0 0 12 0 0 0 0 0 144 74 2 84 1 0 0 0 18 0 0 16 0 1 0 0 0 0 0 0 0 0 0 0 0 0 58 30 4 0 0 0 1 1 0 5 0 0 0 0 152 134 3 84 0 0 0 0 23 10 0 0 128 7 0 0 0 0 48 0 0 0 0 64 0 80 6 16 0 0 2 0 0 10 0 0 128 7 0 0 1 0 0 0 1 1 0 0 0 64 6 16 7 0 6 0 5 112 0 0 244 103 2 84 0 0 0 0 7 0 6 0 5 112 0 0 16 104 2 84 0 0 0 0 7 0 6 0 5 112 0 0 44 104 2 84 0 0 0 0 0 0 0 48 108 3 0 0 75 1 0 0 0 0 0 0 0 0 0 0 174 1 0 1 91 1 1 0 0 0 0 48 108 3 0 0 75 1 0 0 0 0 0 0 0 0 0 0 174 1 0 1 91 1 15 0 0 0 0 32 108 3 
+Exif.Panasonic.0x0022                        Short       1  0
+Exif.Panasonic.WhiteBalanceBias              Short       1  0 EV
+Exif.Panasonic.FlashBias                     Short       1  0
+Exif.Panasonic.SerialNumber                  Undefined  16  83 48 48 48 53 48 49 49 49 48 50 50 51 0 0 0 
+Exif.Panasonic.0x0026                        Undefined   4  48 49 48 48 
+Exif.Panasonic.0x0027                        Short       1  0
+Exif.Panasonic.ColorEffect                   Short       1  Off
+Exif.Panasonic.0x0029                        Long        1  1450
+Exif.Panasonic.0x002a                        Short       1  0
+Exif.Panasonic.0x002b                        Long        1  0
+Exif.Panasonic.Contrast                      Short       1  Standard
+Exif.Panasonic.NoiseReduction                Short       1  Standard
+Exif.Panasonic.0x002e                        Short       1  1
+Exif.Panasonic.0x002f                        Short       1  1
+Exif.Panasonic.0x0030                        Short       1  1
+Exif.Panasonic.0x0031                        Short       1  2
+Exif.Panasonic.0x0032                        Short       1  0
+Exif.Iop.InteroperabilityIndex               Ascii       4  R98
+Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+Exif.Thumbnail.Compression                   Short       1  JPEG
+Exif.Thumbnail.Orientation                   Short       1  top, left
+Exif.Thumbnail.XResolution                   Rational    1  72
+Exif.Thumbnail.YResolution                   Rational    1  72
+Exif.Thumbnail.ResolutionUnit                Short       1  inch
+Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
+Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  10308
+Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
+File 12/12: 20050527_051833.jpg
+Exif.Image.ImageDescription                  Ascii      32                                 
+Exif.Image.Make                              Ascii       5  SONY
+Exif.Image.Model                             Ascii       7  DSC-W7
+Exif.Image.Orientation                       Short       1  top, left
+Exif.Image.XResolution                       Rational    1  72
+Exif.Image.YResolution                       Rational    1  72
+Exif.Image.ResolutionUnit                    Short       1  inch
+Exif.Image.DateTime                          Ascii      20  2005:05:27 05:18:33
+Exif.Image.YCbCrPositioning                  Short       1  Co-sited
+Exif.Image.ExifTag                           Long        1  256
+Exif.Image.0xc4a5                            Undefined  28  80 114 105 110 116 73 77 0 48 51 48 48 0 0 2 0 2 0 1 0 0 0 1 1 1 0 0 0 
+Exif.Photo.ExposureTime                      Rational    1  1/40 s
+Exif.Photo.FNumber                           Rational    1  F2.8
+Exif.Photo.ExposureProgram                   Short       1  Auto
+Exif.Photo.ISOSpeedRatings                   Short       1  100
+Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+Exif.Photo.DateTimeOriginal                  Ascii      20  2005:05:27 05:18:33
+Exif.Photo.DateTimeDigitized                 Ascii      20  2005:05:27 05:18:33
+Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
+Exif.Photo.CompressedBitsPerPixel            Rational    1  8.0
+Exif.Photo.ExposureBiasValue                 SRational   1  0
+Exif.Photo.MaxApertureValue                  Rational    1  3.0
+Exif.Photo.MeteringMode                      Short       1  Matrix
+Exif.Photo.LightSource                       Short       1  Unknown
+Exif.Photo.Flash                             Short       1  Yes, auto, return light detected
+Exif.Photo.FocalLength                       Rational    1  7.9 mm
+Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+Exif.Photo.ColorSpace                        Short       1  sRGB
+Exif.Photo.PixelXDimension                   Long        1  300
+Exif.Photo.PixelYDimension                   Long        1  225
+Exif.Photo.InteroperabilityTag               Long        1  2278
+Exif.Photo.FileSource                        Undefined   1  Digital still camera
+Exif.Photo.SceneType                         Undefined   1  Directly photographed
+Exif.Photo.CustomRendered                    Short       1  0
+Exif.Photo.ExposureMode                      Short       1  Auto
+Exif.Photo.WhiteBalance                      Short       1  Auto
+Exif.Photo.SceneCaptureType                  Short       1  Standard
+Exif.Photo.Contrast                          Short       1  Normal
+Exif.Photo.Saturation                        Short       1  Normal
+Exif.Photo.Sharpness                         Short       1  Normal
+Exif.Sony.0x2000                             Undefined   1  0 
+Exif.Sony.0x9001                             Undefined 148  1 0 86 39 0 8 0 94 0 117 0 0 0 221 187 88 0 221 187 88 0 234 205 0 0 0 0 224 0 0 0 0 0 0 0 224 0 26 240 219 255 0 0 0 0 0 40 186 190 188 0 1 172 10 64 22 14 67 255 18 255 33 0 0 0 161 48 0 136 125 112 0 48 91 136 125 112 0 48 0 0 0 0 156 0 215 0 105 0 0 125 71 0 0 27 208 0 0 14 25 0 0 53 121 136 125 48 91 112 0 0 85 0 116 94 36 216 59 0 0 12 231 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Exif.Sony.0x9002                             Undefined 200  1 0 0 0 0 142 0 105 5 45 0 0 0 239 112 125 112 143 112 143 112 143 112 143 0 239 14 31 234 170 0 0 0 0 0 0 0 0 182 81 138 31 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 105 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 240 8 172 0 0 0 12 0 0 0 5 0 0 0 0 58 0 103 108 51 0 0 227 0 149 47 0 0 0 0 
+Exif.Sony.0x9003                             Undefined 200  1 220 115 70 1 26 0 66 1 194 1 78 0 18 1 47 1 229 1 131 8 197 1 0 1 246 1 0 1 0 1 0 1 0 4 18 0 242 95 87 21 229 189 189 189 189 189 189 0 0 40 128 86 198 12 121 234 104 112 247 32 236 138 9 48 192 0 48 255 249 0 87 177 251 137 208 243 86 0 5 21 187 49 1 93 0 116 0 204 0 47 112 0 0 0 0 0 0 0 0 0 112 0 0 0 0 0 0 0 0 0 112 0 0 0 0 0 0 0 0 0 112 0 189 189 189 189 189 78 208 75 84 35 88 35 88 56 91 5 153 1 1 114 0 252 0 0 43 238 96 238 224 83 7 232 199 74 224 56 224 56 0 0 0 0 0 0 0 0 0 112 0 1 14 124 125 0 27 189 189 189 189 189 189 189 189 189 189 189 189 112 182 27 0 1 220 220 188 95 16 
+Exif.Sony.0x9004                             Undefined 124  1 1 1 104 1 63 1 178 1 63 1 52 1 52 1 52 1 52 236 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 149 0 57 0 172 0 122 0 149 0 57 0 172 0 122 0 0 0 1 104 67 0 1 63 15 0 1 178 183 0 1 63 38 0 1 104 67 0 1 63 15 0 1 178 183 0 1 63 38 255 255 255 166 0 0 0 8 255 255 255 246 255 255 255 77 0 0 0 0 0 0 0 4 
+Exif.Sony.0x9005                             Undefined 122  1 1 0 1 0 0 0 0 0 125 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 86 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 1 0 1 0 1 0 0 0 64 0 64 0 64 0 0 255 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 81 1 0 0 0 0 255 255 0 255 0 0 0 0 0 0 0 0 255 255 0 0 255 255 0 0 205 0 255 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Exif.Sony.0x9006                             Undefined 252  1 0 0 1 94 35 216 91 14 222 27 48 64 1 14 98 216 41 125 225 27 247 27 195 1 251 231 34 14 99 94 167 8 122 27 118 8 254 1 67 231 195 14 132 27 135 8 245 94 224 27 251 8 40 125 120 125 174 1 15 27 244 14 96 125 180 8 42 27 94 94 99 27 145 64 175 216 217 216 25 64 125 8 102 64 41 64 230 14 83 216 207 216 110 125 15 216 128 216 161 14 187 1 215 1 64 1 215 0 226 0 146 0 39 0 227 1 135 0 25 0 219 0 234 0 82 0 82 0 246 0 233 0 220 0 106 0 86 0 39 0 82 0 160 0 246 0 68 0 197 0 205 0 227 0 145 0 205 0 69 0 147 0 172 0 48 0 108 0 147 0 236 0 164 0 75 0 78 0 26 0 48 0 196 0 227 0 46 0 159 0 204 0 73 0 31 0 20 0 28 125 248 0 193 64 178 64 153 8 32 0 72 125 58 64 122 8 82 0 174 27 213 27 101 8 185 1 40 1 198 125 64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Exif.Sony.0x9007                             Undefined 200  1 0 125 103 125 191 125 117 125 174 125 184 216 149 216 45 94 81 94 109 94 170 14 237 231 5 14 96 14 86 0 163 94 250 14 243 14 199 231 130 4 186 86 14 86 120 234 209 205 175 205 37 5 204 5 62 5 197 5 234 0 0 0 0 0 0 0 0 27 217 27 166 27 42 27 77 27 113 64 234 64 151 125 76 125 71 125 73 216 181 216 66 216 231 125 178 0 163 64 113 125 35 125 196 125 80 216 4 216 61 94 93 94 163 14 189 231 231 231 113 4 195 231 107 231 85 0 0 0 0 0 0 0 0 112 225 112 225 112 225 112 225 112 166 182 142 182 102 105 165 136 129 32 32 190 63 129 7 190 37 190 65 0 163 138 31 138 162 138 107 138 13 138 252 112 40 112 117 112 65 112 31 112 184 112 46 112 103 182 0 182 81 0 0 0 0 0 0 0 0 
+Exif.Sony.0x9008                             Undefined 200  1 0 0 0 0 134 140 83 0 219 13 188 0 232 53 222 0 134 25 6 0 0 202 63 0 183 102 83 0 81 185 153 0 197 2 15 0 2 113 102 0 0 93 117 0 68 147 15 0 78 194 136 0 101 217 41 0 39 169 234 0 0 151 217 27 91 8 70 8 156 27 169 0 175 0 135 0 166 0 175 8 164 1 178 1 111 8 191 1 146 0 17 1 227 1 146 64 220 27 109 8 65 64 246 0 241 0 159 1 12 0 255 8 222 8 215 8 232 8 235 8 208 1 151 1 174 8 177 0 202 0 69 1 7 0 89 27 116 8 107 1 237 27 101 8 61 1 88 8 26 8 119 1 90 0 235 1 75 1 175 8 178 8 138 8 211 8 242 8 212 1 107 1 157 8 123 8 137 8 14 8 68 8 254 64 51 27 129 27 53 64 101 125 141 27 42 125 197 125 52 
+Exif.Iop.InteroperabilityIndex               Ascii       4  R98
+Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+Exif.Thumbnail.Compression                   Short       1  JPEG
+Exif.Thumbnail.Make                          Ascii       5  SONY
+Exif.Thumbnail.Model                         Ascii       7  DSC-W7
+Exif.Thumbnail.Orientation                   Short       1  top, left
+Exif.Thumbnail.XResolution                   Rational    1  72
+Exif.Thumbnail.YResolution                   Rational    1  72
+Exif.Thumbnail.ResolutionUnit                Short       1  inch
+Exif.Thumbnail.DateTime                      Ascii      20  2005:05:27 17:19:34
+Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
+Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  15605
 exiv2-empty.jpg: No Exif data found in the file
 Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
  Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
 
 Extract Exif data --------------------------------------------------------
-File 1/9: exiv2-empty.jpg
-File 2/9: 20031214_000043.jpg
+File  1/12: exiv2-empty.jpg
+File  2/12: 20031214_000043.jpg
 Writing Exif data from 20031214_000043.jpg to ./20031214_000043.exv
-File 3/9: 20000506_020544.jpg
+File  3/12: 20000506_020544.jpg
 Writing Exif data from 20000506_020544.jpg to ./20000506_020544.exv
-File 4/9: 20040329_224245.jpg
+File  4/12: 20040329_224245.jpg
 Writing Exif data from 20040329_224245.jpg to ./20040329_224245.exv
-File 5/9: 20010405_235039.jpg
+File  5/12: 20010405_235039.jpg
 Writing Exif data from 20010405_235039.jpg to ./20010405_235039.exv
-File 6/9: 20030925_201850.jpg
+File  6/12: 20030925_201850.jpg
 Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
  Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
 Writing Exif data from 20030925_201850.jpg to ./20030925_201850.exv
-File 7/9: 20001026_044550.jpg
+File  7/12: 20001026_044550.jpg
 Writing Exif data from 20001026_044550.jpg to ./20001026_044550.exv
 Writing Jpeg comment from 20001026_044550.jpg to ./20001026_044550.exv
-File 8/9: 20030926_111535.jpg
+File  8/12: 20030926_111535.jpg
 Writing Exif data from 20030926_111535.jpg to ./20030926_111535.exv
-File 9/9: 20040316_075137.jpg
+File  9/12: 20040316_075137.jpg
 Writing Exif data from 20040316_075137.jpg to ./20040316_075137.exv
+File 10/12: 20040208_093744.jpg
+Writing Exif data from 20040208_093744.jpg to ./20040208_093744.exv
+File 11/12: 20050218_212016.jpg
+Writing Exif data from 20050218_212016.jpg to ./20050218_212016.exv
+File 12/12: 20050527_051833.jpg
+Writing Exif data from 20050527_051833.jpg to ./20050527_051833.exv
 
 Extract Thumbnail --------------------------------------------------------
-File 1/9: exiv2-empty.jpg
+File  1/12: exiv2-empty.jpg
 exiv2-empty.jpg: No Exif data found in the file
-File 2/9: 20031214_000043.jpg
+File  2/12: 20031214_000043.jpg
 Writing JPEG thumbnail (5448 Bytes) to file ./20031214_000043-thumb.jpg
-File 3/9: 20000506_020544.jpg
+File  3/12: 20000506_020544.jpg
 Writing JPEG thumbnail (7829 Bytes) to file ./20000506_020544-thumb.jpg
-File 4/9: 20040329_224245.jpg
+File  4/12: 20040329_224245.jpg
 Writing JPEG thumbnail (8930 Bytes) to file ./20040329_224245-thumb.jpg
-File 5/9: 20010405_235039.jpg
+File  5/12: 20010405_235039.jpg
 Writing JPEG thumbnail (4662 Bytes) to file ./20010405_235039-thumb.jpg
-File 6/9: 20030925_201850.jpg
+File  6/12: 20030925_201850.jpg
 Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
  Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
 Writing JPEG thumbnail (9728 Bytes) to file ./20030925_201850-thumb.jpg
-File 7/9: 20001026_044550.jpg
+File  7/12: 20001026_044550.jpg
 Writing TIFF thumbnail (20916 Bytes) to file ./20001026_044550-thumb.tif
-File 8/9: 20030926_111535.jpg
+File  8/12: 20030926_111535.jpg
 Writing JPEG thumbnail (9573 Bytes) to file ./20030926_111535-thumb.jpg
-File 9/9: 20040316_075137.jpg
+File  9/12: 20040316_075137.jpg
 Writing JPEG thumbnail (11998 Bytes) to file ./20040316_075137-thumb.jpg
+File 10/12: 20040208_093744.jpg
+Writing JPEG thumbnail (7306 Bytes) to file ./20040208_093744-thumb.jpg
+File 11/12: 20050218_212016.jpg
+Writing JPEG thumbnail (10308 Bytes) to file ./20050218_212016-thumb.jpg
+File 12/12: 20050527_051833.jpg
+Writing JPEG thumbnail (15605 Bytes) to file ./20050527_051833-thumb.jpg
 exiv2-empty.exv: No Exif data found in the file
 Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
  Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
 
 Compare image data and extracted data ------------------------------------
 1,2c1,2
-< File 1/9: exiv2-empty.jpg
-< File 2/9: 20031214_000043.jpg
+< File  1/12: exiv2-empty.jpg
+< File  2/12: 20031214_000043.jpg
 ---
-> File 1/9: exiv2-empty.exv
-> File 2/9: 20031214_000043.exv
+> File  1/12: exiv2-empty.exv
+> File  2/12: 20031214_000043.exv
 125c125
-< File 3/9: 20000506_020544.jpg
+< File  3/12: 20000506_020544.jpg
 ---
-> File 3/9: 20000506_020544.exv
+> File  3/12: 20000506_020544.exv
 184c184
-< File 4/9: 20040329_224245.jpg
+< File  4/12: 20040329_224245.jpg
 ---
-> File 4/9: 20040329_224245.exv
+> File  4/12: 20040329_224245.exv
 288c288
-< File 5/9: 20010405_235039.jpg
+< File  5/12: 20010405_235039.jpg
 ---
-> File 5/9: 20010405_235039.exv
+> File  5/12: 20010405_235039.exv
 342c342
-< File 6/9: 20030925_201850.jpg
+< File  6/12: 20030925_201850.jpg
 ---
-> File 6/9: 20030925_201850.exv
+> File  6/12: 20030925_201850.exv
 491c491
-< File 7/9: 20001026_044550.jpg
+< File  7/12: 20001026_044550.jpg
 ---
-> File 7/9: 20001026_044550.exv
+> File  7/12: 20001026_044550.exv
 531c531
-< File 8/9: 20030926_111535.jpg
+< File  8/12: 20030926_111535.jpg
 ---
-> File 8/9: 20030926_111535.exv
+> File  8/12: 20030926_111535.exv
 606c606
-< File 9/9: 20040316_075137.jpg
+< File  9/12: 20040316_075137.jpg
 ---
-> File 9/9: 20040316_075137.exv
+> File  9/12: 20040316_075137.exv
+672c672
+< File 10/12: 20040208_093744.jpg
+---
+> File 10/12: 20040208_093744.exv
+741c741
+< File 11/12: 20050218_212016.jpg
+---
+> File 11/12: 20050218_212016.exv
+823c823
+< File 12/12: 20050527_051833.jpg
+---
+> File 12/12: 20050527_051833.exv
 
 Delete Thumbnail ---------------------------------------------------------
-File 1/9: exiv2-empty.jpg
-File 2/9: 20031214_000043.jpg
+File  1/12: exiv2-empty.jpg
+File  2/12: 20031214_000043.jpg
 Erasing 6200 Bytes of thumbnail data
-File 3/9: 20000506_020544.jpg
+File  3/12: 20000506_020544.jpg
 Erasing 7923 Bytes of thumbnail data
-File 4/9: 20040329_224245.jpg
+File  4/12: 20040329_224245.jpg
 Erasing 9038 Bytes of thumbnail data
-File 5/9: 20010405_235039.jpg
+File  5/12: 20010405_235039.jpg
 Erasing 4756 Bytes of thumbnail data
-File 6/9: 20030925_201850.jpg
+File  6/12: 20030925_201850.jpg
 Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
  Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
 Erasing 9858 Bytes of thumbnail data
-File 7/9: 20001026_044550.jpg
+File  7/12: 20001026_044550.jpg
 Erasing 20910 Bytes of thumbnail data
-File 8/9: 20030926_111535.jpg
+File  8/12: 20030926_111535.jpg
 Erasing 9696 Bytes of thumbnail data
-File 9/9: 20040316_075137.jpg
+File  9/12: 20040316_075137.jpg
 Erasing 12104 Bytes of thumbnail data
-File 1/9: exiv2-empty.jpg
+File 10/12: 20040208_093744.jpg
+Erasing 7400 Bytes of thumbnail data
+File 11/12: 20050218_212016.jpg
+Erasing 20604 Bytes of thumbnail data
+File 12/12: 20050527_051833.jpg
+Erasing 15781 Bytes of thumbnail data
+File  1/12: exiv2-empty.jpg
 exiv2-empty.jpg: No Exif data found in the file
-File 2/9: 20031214_000043.jpg
+File  2/12: 20031214_000043.jpg
 20031214_000043.jpg: Image does not contain an Exif thumbnail
-File 3/9: 20000506_020544.jpg
+File  3/12: 20000506_020544.jpg
 20000506_020544.jpg: Image does not contain an Exif thumbnail
-File 4/9: 20040329_224245.jpg
+File  4/12: 20040329_224245.jpg
 20040329_224245.jpg: Image does not contain an Exif thumbnail
-File 5/9: 20010405_235039.jpg
+File  5/12: 20010405_235039.jpg
 20010405_235039.jpg: Image does not contain an Exif thumbnail
-File 6/9: 20030925_201850.jpg
+File  6/12: 20030925_201850.jpg
 Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
  Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
 20030925_201850.jpg: Image does not contain an Exif thumbnail
-File 7/9: 20001026_044550.jpg
+File  7/12: 20001026_044550.jpg
 20001026_044550.jpg: Image does not contain an Exif thumbnail
-File 8/9: 20030926_111535.jpg
+File  8/12: 20030926_111535.jpg
 20030926_111535.jpg: Image does not contain an Exif thumbnail
-File 9/9: 20040316_075137.jpg
+File  9/12: 20040316_075137.jpg
 20040316_075137.jpg: Image does not contain an Exif thumbnail
+File 10/12: 20040208_093744.jpg
+20040208_093744.jpg: Image does not contain an Exif thumbnail
+File 11/12: 20050218_212016.jpg
+20050218_212016.jpg: Image does not contain an Exif thumbnail
+File 12/12: 20050527_051833.jpg
+20050527_051833.jpg: Image does not contain an Exif thumbnail
 
 Delete Exif data ---------------------------------------------------------
-File 1/9: exiv2-empty.jpg
-File 2/9: 20031214_000043.jpg
+File  1/12: exiv2-empty.jpg
+File  2/12: 20031214_000043.jpg
 Erasing Exif data from the file
-File 3/9: 20000506_020544.jpg
+File  3/12: 20000506_020544.jpg
 Erasing Exif data from the file
-File 4/9: 20040329_224245.jpg
+File  4/12: 20040329_224245.jpg
 Erasing Exif data from the file
-File 5/9: 20010405_235039.jpg
+File  5/12: 20010405_235039.jpg
 Erasing Exif data from the file
-File 6/9: 20030925_201850.jpg
+File  6/12: 20030925_201850.jpg
 Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
  Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
 Erasing Exif data from the file
-File 7/9: 20001026_044550.jpg
+File  7/12: 20001026_044550.jpg
 Erasing Exif data from the file
 Erasing Jpeg comment from the file
-File 8/9: 20030926_111535.jpg
+File  8/12: 20030926_111535.jpg
 Erasing Exif data from the file
-File 9/9: 20040316_075137.jpg
+File  9/12: 20040316_075137.jpg
 Erasing Exif data from the file
-File 1/9: exiv2-empty.jpg
+File 10/12: 20040208_093744.jpg
+Erasing Exif data from the file
+File 11/12: 20050218_212016.jpg
+Erasing Exif data from the file
+File 12/12: 20050527_051833.jpg
+Erasing Exif data from the file
+File  1/12: exiv2-empty.jpg
 exiv2-empty.jpg: No Exif data found in the file
-File 2/9: 20031214_000043.jpg
+File  2/12: 20031214_000043.jpg
 20031214_000043.jpg: No Exif data found in the file
-File 3/9: 20000506_020544.jpg
+File  3/12: 20000506_020544.jpg
 20000506_020544.jpg: No Exif data found in the file
-File 4/9: 20040329_224245.jpg
+File  4/12: 20040329_224245.jpg
 20040329_224245.jpg: No Exif data found in the file
-File 5/9: 20010405_235039.jpg
+File  5/12: 20010405_235039.jpg
 20010405_235039.jpg: No Exif data found in the file
-File 6/9: 20030925_201850.jpg
+File  6/12: 20030925_201850.jpg
 20030925_201850.jpg: No Exif data found in the file
-File 7/9: 20001026_044550.jpg
+File  7/12: 20001026_044550.jpg
 20001026_044550.jpg: No Exif data found in the file
-File 8/9: 20030926_111535.jpg
+File  8/12: 20030926_111535.jpg
 20030926_111535.jpg: No Exif data found in the file
-File 9/9: 20040316_075137.jpg
+File  9/12: 20040316_075137.jpg
 20040316_075137.jpg: No Exif data found in the file
+File 10/12: 20040208_093744.jpg
+20040208_093744.jpg: No Exif data found in the file
+File 11/12: 20050218_212016.jpg
+20050218_212016.jpg: No Exif data found in the file
+File 12/12: 20050527_051833.jpg
+20050527_051833.jpg: No Exif data found in the file
 
 Insert Exif data ---------------------------------------------------------
-File 1/9: exiv2-empty.jpg
-File 2/9: 20031214_000043.jpg
+File  1/12: exiv2-empty.jpg
+File  2/12: 20031214_000043.jpg
 Writing Exif data from ./20031214_000043.exv to 20031214_000043.jpg
-File 3/9: 20000506_020544.jpg
+File  3/12: 20000506_020544.jpg
 Writing Exif data from ./20000506_020544.exv to 20000506_020544.jpg
-File 4/9: 20040329_224245.jpg
+File  4/12: 20040329_224245.jpg
 Writing Exif data from ./20040329_224245.exv to 20040329_224245.jpg
-File 5/9: 20010405_235039.jpg
+File  5/12: 20010405_235039.jpg
 Writing Exif data from ./20010405_235039.exv to 20010405_235039.jpg
-File 6/9: 20030925_201850.jpg
+File  6/12: 20030925_201850.jpg
 Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
  Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
 Writing Exif data from ./20030925_201850.exv to 20030925_201850.jpg
-File 7/9: 20001026_044550.jpg
+File  7/12: 20001026_044550.jpg
 Writing Exif data from ./20001026_044550.exv to 20001026_044550.jpg
 Writing Jpeg comment from ./20001026_044550.exv to 20001026_044550.jpg
-File 8/9: 20030926_111535.jpg
+File  8/12: 20030926_111535.jpg
 Writing Exif data from ./20030926_111535.exv to 20030926_111535.jpg
-File 9/9: 20040316_075137.jpg
+File  9/12: 20040316_075137.jpg
 Writing Exif data from ./20040316_075137.exv to 20040316_075137.jpg
+File 10/12: 20040208_093744.jpg
+Writing Exif data from ./20040208_093744.exv to 20040208_093744.jpg
+File 11/12: 20050218_212016.jpg
+Writing Exif data from ./20050218_212016.exv to 20050218_212016.jpg
+File 12/12: 20050527_051833.jpg
+Writing Exif data from ./20050527_051833.exv to 20050527_051833.jpg
 exiv2-empty.exv: No Exif data found in the file
 Warning: Upper boundary of data for Makernote entry 25 is out of bounds:
  Offset = 0x00000568, size = 48, exceeds buffer size by 24 Bytes; Truncating the data.
 
 Compare original and inserted image data ---------------------------------
 1,2c1,2
-< File 1/9: exiv2-empty.jpg
-< File 2/9: 20031214_000043.jpg
+< File  1/12: exiv2-empty.jpg
+< File  2/12: 20031214_000043.jpg
 ---
-> File 1/9: exiv2-empty.exv
-> File 2/9: 20031214_000043.exv
+> File  1/12: exiv2-empty.exv
+> File  2/12: 20031214_000043.exv
 125c125
-< File 3/9: 20000506_020544.jpg
+< File  3/12: 20000506_020544.jpg
 ---
-> File 3/9: 20000506_020544.exv
+> File  3/12: 20000506_020544.exv
 184c184
-< File 4/9: 20040329_224245.jpg
+< File  4/12: 20040329_224245.jpg
 ---
-> File 4/9: 20040329_224245.exv
+> File  4/12: 20040329_224245.exv
 288c288
-< File 5/9: 20010405_235039.jpg
+< File  5/12: 20010405_235039.jpg
 ---
-> File 5/9: 20010405_235039.exv
+> File  5/12: 20010405_235039.exv
 342c342
-< File 6/9: 20030925_201850.jpg
+< File  6/12: 20030925_201850.jpg
 ---
-> File 6/9: 20030925_201850.exv
+> File  6/12: 20030925_201850.exv
 491c491
-< File 7/9: 20001026_044550.jpg
+< File  7/12: 20001026_044550.jpg
 ---
-> File 7/9: 20001026_044550.exv
+> File  7/12: 20001026_044550.exv
 531c531
-< File 8/9: 20030926_111535.jpg
+< File  8/12: 20030926_111535.jpg
 ---
-> File 8/9: 20030926_111535.exv
+> File  8/12: 20030926_111535.exv
 606c606
-< File 9/9: 20040316_075137.jpg
+< File  9/12: 20040316_075137.jpg
 ---
-> File 9/9: 20040316_075137.exv
+> File  9/12: 20040316_075137.exv
+672c672
+< File 10/12: 20040208_093744.jpg
+---
+> File 10/12: 20040208_093744.exv
+741c741
+< File 11/12: 20050218_212016.jpg
+---
+> File 11/12: 20050218_212016.exv
+823c823
+< File 12/12: 20050527_051833.jpg
+---
+> File 12/12: 20050527_051833.exv
