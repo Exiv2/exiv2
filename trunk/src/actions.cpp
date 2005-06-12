@@ -250,7 +250,19 @@ namespace Action {
 
         // Todo: Flash bias, flash energy
         // Todo: Implement this for other cameras
-        printTag(exifData, "Exif.CanonCs2.FlashBias", "Flash bias");
+        bool done = false;
+        std::cout << std::setw(align_) << std::setfill(' ') << std::left
+                  << "Flash bias" << ": ";        
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.CanonCs2.FlashBias");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.Panasonic.FlashBias");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.Olympus.FlashBias");
+        }
+        std::cout << std::endl;
 
         // Actual focal length and 35 mm equivalent
         // Todo: Calculate 35 mm equivalent a la jhead
@@ -268,7 +280,7 @@ namespace Action {
         // Subject distance
         std::cout << std::setw(align_) << std::setfill(' ') << std::left
                   << "Subject distance" << ": ";
-        bool done = false;
+        done = false;
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Photo.SubjectDistance");
         }
@@ -326,6 +338,12 @@ namespace Action {
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Fujifilm.Macro");
         }            
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.Olympus.Macro");
+        }            
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.Panasonic.Macro");
+        }            
         std::cout << std::endl;
 
         // Image quality setting (compression)
@@ -350,6 +368,12 @@ namespace Action {
         }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Nikon3.Quality");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.Olympus.Quality");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.Panasonic.Quality");
         }
         std::cout << std::endl;
 
@@ -389,6 +413,12 @@ namespace Action {
         }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Nikon3.WhiteBalance");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.Olympus.WhiteBalance");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.Panasonic.WhiteBalance");
         }
         std::cout << std::endl;
 
