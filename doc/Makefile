@@ -45,9 +45,9 @@ mostlyclean clean:
 	$(RM) *~ *.bak *#
 
 distclean: clean
+	cd $(top_srcdir)/doc/templates && $(MAKE) $(MAKECMDGOALS)
 
 # This command is intended for maintainers to use; it deletes files
 # that may need special tools to rebuild.
 maintainer-clean: distclean
-	cd $(top_srcdir)/doc/templates && $(MAKE) $(MAKECMDGOALS)
 	rm -rf $(top_srcdir)/doc/html/*
