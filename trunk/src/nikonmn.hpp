@@ -304,9 +304,6 @@ namespace Exiv2 {
 
     static Nikon3MakerNote::RegisterMn registerNikon3MakerNote;
 
-    //! Decrypt a buffer of Nikon raw data
-    void decryptNikonData(byte* pData, long len);
-
 }                                       // namespace Exiv2
 
 #endif                                  // #ifndef NIKONMN_HPP_
