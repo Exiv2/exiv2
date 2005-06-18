@@ -48,9 +48,9 @@ CXX = @CXX@
 
 # Common compiler flags (warnings, symbols [-ggdb], optimization [-O2], etc)
 ifeq ($(findstring g++,$(CXX)),g++)
-	CXXFLAGS := -Wall -O2
+	CXXFLAGS = -Wall -O2
 else
-	CXXFLAGS := @CXXFLAGS@
+	CXXFLAGS = @CXXFLAGS@
 endif
 
 # Command to run only the preprocessor
@@ -75,6 +75,20 @@ ifeq ($(findstring gcc,$(CC)),gcc)
 	CFLAGS := -Wall -O2
 else
 	CFLAGS := @CFLAGS@
+endif
+
+# **********************************************************************
+# Advanced auto-dependency generation
+# http://make.paulandlesley.org/autodep.html
+
+# Compiler flags to generate dependency file at the same time as object
+# files (for gcc)
+ifeq ($(findstring g++,$(CXX)),g++)
+	CXXFLAGS += -MMD
+	CFLAGS += -MMD
+else
+# Command to run the compiler or preprocessor to produce dependencies
+	MAKEDEPEND = $(CC) -MM $(CPPFLAGS) -o $*.d $<
 endif
 
 # **********************************************************************

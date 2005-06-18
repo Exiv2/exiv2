@@ -110,9 +110,12 @@ SRC = $(CCSRC)
 HDR = $(CCHDR)
 OBJ = $(CCOBJ)
 LOBJ = $(CCLOBJ)
-DEP = $(CCSRC:%.cpp=.%.d) $(BINSRC:%.cpp=.%.d) \
-      $(EXIV2MAIN:%.cpp=.%.d) $(EXIV2SRC:%.cpp=.%.d) $(EXIVCSRC:%.c=.%.d) \
-      $(MCMAIN:%.cpp=.%.d) $(MCSRC:%.cpp=.%.d)
+
+DEPDIR = .deps
+DEP = $(CCSRC:%.cpp=$(DEPDIR)/%.d) $(BINSRC:%.cpp=$(DEPDIR)/%.d) \
+      $(EXIV2MAIN:%.cpp=$(DEPDIR)/%.d) $(EXIV2SRC:%.cpp=$(DEPDIR)/%.d) \
+      $(EXIVCSRC:%.c=$(DEPDIR)/%.d) $(MCMAIN:%.cpp=$(DEPDIR)/%.d) \
+      $(MCSRC:%.cpp=$(DEPDIR)/%.d) $(DEPDIR)/path-test.d
 
 BINOBJ = $(BINSRC:.cpp=.o)
 BINARY = $(BINSRC:.cpp=)
@@ -128,43 +131,36 @@ MCBIN = $(MCMAIN:.cpp=)
 MCEXE = $(MCMAIN:.cpp=$(EXEEXT))
 
 # ******************************************************************************
-# Include `.*.d' files, but only if we need them, 
-# i.e., if no target was given...
-ifeq ($(strip $(MAKECMDGOALS)),)
+# Include dependency files
 -include $(DEP)
-else
-# ...or the target is _not_ one in the list of targets below.
-NOINCLUDE = uninstall uninstall-lib check doc ctags mostlyclean clean  \
-            install-header uninstall-header distclean maintainer-clean exv_conf.h 
-ifneq ($(MAKECMDGOALS), $(filter $(MAKECMDGOALS), $(NOINCLUDE)))
--include $(DEP)
-endif
-endif
+
+# Dependency files post-process commands 
+POSTDEPEND = cp $*.d $(DEPDIR)/$*.d; \
+	     sed -e 's/^\#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+                 -e '/^$$/ d' -e 's/$$/ :/' < $*.d >> $(DEPDIR)/$*.d; \
+             $(RM) $*.d
 
 # ******************************************************************************
 # Rules
-$(OBJ): %.o: %.cpp
-	@$(LIBTOOL) --mode=compile $(CXX) $(CXXFLAGS) $(CXXDEFS) $(CXXINCS) -c $<
+$(OBJ): %.o: %.cpp | $(DEPDIR)
+	@$(LIBTOOL) --mode=compile $(CXX) $(CXXFLAGS) $(CXXDEFS) $(CXXINCS) -o $@ -c $<
+	@$(MAKEDEPEND)
+	@$(POSTDEPEND)
 
-$(sort $(BINOBJ) $(EXIV2OBJ) $(MCOBJ)): %.o: %.cpp
-	$(CXX) $(CXXFLAGS) $(CXXDEFS) $(CXXINCS) -c $<
+$(sort $(BINOBJ) $(EXIV2OBJ) $(MCOBJ)): %.o: %.cpp | $(DEPDIR)
+	$(CXX) $(CXXFLAGS) $(CXXDEFS) $(CXXINCS) -o $@ -c $<
+	@$(MAKEDEPEND)
+	@$(POSTDEPEND)
 
-%.o: %.c
-	$(CC) $(CFLAGS) $(DEFS) $(INCS) -c $<
+%.o: %.c | $(DEPDIR)
+	$(CC) $(CFLAGS) $(DEFS) $(INCS) -o $@ -c $<
+	@$(MAKEDEPEND)
+	@$(POSTDEPEND)
 
 %.ii: %.cpp
 	set -e; \
 	$(CXXCPP) $(CPPFLAGS) $(CXXDEFS) $(CXXINCS) $< \
 	| sed '/^[ 	]*$$/d' > $@
-
-# generate a makefile with the prerequisites for each source file
-# (see `info make' for details)
-.%.d: %.cpp
-	@echo generating $@
-	@set -e; \
-	$(CXXDEP) $(CPPFLAGS) $(CXXDEFS) $(CXXINCS) $< \
-	| sed 's/\($*\)\.o[ :]*/\1.o $@ : /' > $@; \
-	[ -s $@ ] || $(RM) $@
 
 # ******************************************************************************
 # Targets
@@ -173,11 +169,13 @@ $(sort $(BINOBJ) $(EXIV2OBJ) $(MCOBJ)): %.o: %.cpp
         install install-header install-lib                             \
         uninstall uninstall-header uninstall-lib
 
-types.hpp: exv_conf.h 
-actions.cpp exiv2.cpp image.cpp utils.cpp: exv_conf.h 
+actions.cpp basicio.cpp exif.cpp exiv2.cpp futils.cpp image.cpp jpgimage.cpp utils.cpp: exv_conf.h
 
 exv_conf.h: $(top_srcdir)/config/config.h
 	sed 's/#define \([A-Z]\)/#define EXV_\1/; s/#undef \([A-Z]\)/#undef EXV_\1/' < $< > $@
+
+$(DEPDIR):
+	mkdir $(DEPDIR)
 
 $(LIBTOOL): $(LIBTOOL_DEPS)
 	$(SHELL) $(top_srcdir)/config.status --recheck
@@ -256,10 +254,11 @@ clean: mostlyclean
 # files created by configuring the program.
 distclean: clean
 	$(RM) exv_conf.h
+	$(RM) $(DEP)
+	rmdir $(DEPDIR)
 	$(RM) tags TAGS
 	$(RM) *~ *.bak *#
 
 # This command is intended for maintainers to use; it deletes files
 # that may need special tools to rebuild.
 maintainer-clean: uninstall distclean
-	$(RM) $(DEP)
