@@ -130,37 +130,37 @@ MCOBJ = $(MCMAIN:.cpp=.o) $(MCSRC:.cpp=.o)
 MCBIN = $(MCMAIN:.cpp=)
 MCEXE = $(MCMAIN:.cpp=$(EXEEXT))
 
-# ******************************************************************************
-# Include dependency files
--include $(DEP)
-
 # Dependency files post-process commands 
-POSTDEPEND = cp $*.d $(DEPDIR)/$*.d; \
+POSTDEPEND = if test -e $*.d ; then cp $*.d $(DEPDIR)/$*.d; \
 	     sed -e 's/^\#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
                  -e '/^$$/ d' -e 's/$$/ :/' < $*.d >> $(DEPDIR)/$*.d; \
-             $(RM) $*.d
+             $(RM) $*.d; fi
+
+# Compilation shortcuts 
+COMPILE.cc = $(CXX) $(CXXFLAGS) $(CXXDEFS) $(CXXINCS) -c
+COMPILE.c = $(CC) $(CFLAGS) $(DEFS) $(INCS) -c
+LINK.cc = $(CXX) $(CXXFLAGS) $(LDLIBS) $(LDFLAGS) -rpath $(libdir) 
 
 # ******************************************************************************
 # Rules
 $(OBJ): %.o: %.cpp | $(DEPDIR)
-	@$(LIBTOOL) --mode=compile $(CXX) $(CXXFLAGS) $(CXXDEFS) $(CXXINCS) -o $@ -c $<
+	@$(LIBTOOL) --mode=compile $(COMPILE.cc) -o $@ $<
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)
 
 $(sort $(BINOBJ) $(EXIV2OBJ) $(MCOBJ)): %.o: %.cpp | $(DEPDIR)
-	$(CXX) $(CXXFLAGS) $(CXXDEFS) $(CXXINCS) -o $@ -c $<
+	$(COMPILE.cc) -o $@ $<
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)
 
 %.o: %.c | $(DEPDIR)
-	$(CC) $(CFLAGS) $(DEFS) $(INCS) -o $@ -c $<
+	$(COMPILE.c) -o $@ $<
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)
 
 %.ii: %.cpp
 	set -e; \
-	$(CXXCPP) $(CPPFLAGS) $(CXXDEFS) $(CXXINCS) $< \
-	| sed '/^[ 	]*$$/d' > $@
+	$(CPP) $(CPPFLAGS) $(CXXDEFS) $(CXXINCS) $< | sed '/^[ 	]*$$/d' > $@
 
 # ******************************************************************************
 # Targets
@@ -168,6 +168,9 @@ $(sort $(BINOBJ) $(EXIV2OBJ) $(MCOBJ)): %.o: %.cpp | $(DEPDIR)
         clean mostlyclean distclean maintainer-clean                   \
         install install-header install-lib                             \
         uninstall uninstall-header uninstall-lib
+
+# Include targets from dependency files
+-include $(DEP)
 
 actions.cpp basicio.cpp exif.cpp exiv2.cpp futils.cpp image.cpp jpgimage.cpp utils.cpp: exv_conf.h
 
@@ -190,13 +193,13 @@ path-test: path-test.o utils.o
 	$(CXX) $(CXXFLAGS) path-test.o utils.o -o $@
 
 $(BINARY): %: %.o lib
-	@$(LIBTOOL) --mode=link $(CXX) $(CXXFLAGS) $(LDLIBS) $@.o $(LDFLAGS) -o $@ -rpath $(libdir)
+	@$(LIBTOOL) --mode=link $(LINK.cc) -o $@ $@.o 
 
 $(EXIV2BIN): lib $(EXIV2OBJ) $(EXIV2COBJ)
-	@$(LIBTOOL) --mode=link $(CXX) $(CXXFLAGS) $(EXIV2OBJ) $(EXIV2COBJ) $(LDLIBS) $(LDFLAGS) -o $@ -rpath $(libdir)
+	@$(LIBTOOL) --mode=link $(LINK.cc) -o $@ $(EXIV2OBJ) $(EXIV2COBJ)
 
 $(MCBIN): lib $(MCOBJ)
-	@$(LIBTOOL) --mode=link $(CXX) $(CXXFLAGS) $(MCOBJ) $(LDLIBS) $(LDFLAGS) -o $@ -rpath $(libdir)
+	@$(LIBTOOL) --mode=link $(LINK.cc) -o $@ $(MCOBJ) 
 
 install-header:
 	$(INSTALL_DIRS) $(incdir)
@@ -255,7 +258,7 @@ clean: mostlyclean
 distclean: clean
 	$(RM) exv_conf.h
 	$(RM) $(DEP)
-	rmdir $(DEPDIR)
+	-rmdir $(DEPDIR)
 	$(RM) tags TAGS
 	$(RM) *~ *.bak *#
 
