@@ -246,6 +246,7 @@ mostlyclean:
 	$(RM) $(CCSRC:.cpp=.ii)
 	$(RM) lib
 	$(RM) path-test.o
+	$(RM) $(CCSRC:%.cpp=.libs/%.d)
 	@$(LIBTOOL) --mode=clean $(RM) $(LOBJ) $(sort $(BINOBJ) $(EXIV2OBJ) $(EXIV2COBJ) $(MCOBJ))
 
 clean: mostlyclean
