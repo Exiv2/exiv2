@@ -148,7 +148,7 @@ $(OBJ): %.o: %.cpp | $(DEPDIR)
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)
 
-$(sort $(BINOBJ) $(EXIV2OBJ) $(MCOBJ)): %.o: %.cpp | $(DEPDIR)
+$(sort $(BINOBJ) $(EXIV2OBJ) $(MCOBJ) path-test.o): %.o: %.cpp | $(DEPDIR)
 	$(COMPILE.cc) -o $@ $<
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)
