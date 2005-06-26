@@ -131,7 +131,8 @@ MCBIN = $(MCMAIN:.cpp=)
 MCEXE = $(MCMAIN:.cpp=$(EXEEXT))
 
 # Dependency files post-process commands 
-POSTDEPEND = if test -e $*.d ; then cp $*.d $(DEPDIR)/$*.d; \
+POSTDEPEND = if test ! -d $(DEPDIR); then mkdir $(DEPDIR); fi; \
+	     if test -e $*.d; then cp $*.d $(DEPDIR)/$*.d; \
 	     sed -e 's/^\#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
                  -e '/^$$/ d' -e 's/$$/ :/' < $*.d >> $(DEPDIR)/$*.d; \
              $(RM) $*.d; fi
@@ -143,17 +144,17 @@ LINK.cc = $(CXX) $(CXXFLAGS) $(LDLIBS) $(LDFLAGS) -rpath $(libdir)
 
 # ******************************************************************************
 # Rules
-$(OBJ): %.o: %.cpp | $(DEPDIR)
+$(OBJ): %.o: %.cpp
 	@$(LIBTOOL) --mode=compile $(COMPILE.cc) -o $@ $<
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)
 
-$(sort $(BINOBJ) $(EXIV2OBJ) $(MCOBJ) path-test.o): %.o: %.cpp | $(DEPDIR)
+$(sort $(BINOBJ) $(EXIV2OBJ) $(MCOBJ) path-test.o): %.o: %.cpp
 	$(COMPILE.cc) -o $@ $<
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)
 
-%.o: %.c | $(DEPDIR)
+%.o: %.c
 	$(COMPILE.c) -o $@ $<
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)
@@ -176,9 +177,6 @@ actions.cpp basicio.cpp exif.cpp exiv2.cpp futils.cpp image.cpp jpgimage.cpp uti
 
 exv_conf.h: $(top_srcdir)/config/config.h
 	sed 's/#define \([A-Z]\)/#define EXV_\1/; s/#undef \([A-Z]\)/#undef EXV_\1/' < $< > $@
-
-$(DEPDIR):
-	mkdir $(DEPDIR)
 
 $(LIBTOOL): $(LIBTOOL_DEPS)
 	$(SHELL) $(top_srcdir)/config.status --recheck
