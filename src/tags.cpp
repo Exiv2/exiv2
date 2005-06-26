@@ -507,6 +507,7 @@ namespace Exiv2 {
                                      IfdId ifdId,
                                      const Value& value)
     {
+        if (value.count() == 0) return os;
         PrintFct fct = printValue;
         if (isExifIfd(ifdId)) { 
             int idx = tagInfoIdx(tag, ifdId);
@@ -734,8 +735,10 @@ namespace Exiv2 {
 
     std::ostream& printLong(std::ostream& os, const Value& value)
     {
-        return os << value.toLong();
-    }
+        Rational r = value.toRational();
+        if (r.second != 0) return os << static_cast<long>(r.first) / r.second;
+        return os << "(" << value << ")";
+    } // printLong
 
     std::ostream& printFloat(std::ostream& os, const Value& value)
     {
