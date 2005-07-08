@@ -283,8 +283,7 @@ namespace Exiv2 {
           @return A constant reference to the value.
           @throw Error if the value is not set.
          */
-        const Value& value() const 
-            { if (value_.get() != 0) return *value_; throw Error(8); }
+        const Value& value() const; 
         //! Return the size of the data area.
         long sizeDataArea() const 
             { return value_.get() == 0 ? 0 : value_->sizeDataArea(); }
