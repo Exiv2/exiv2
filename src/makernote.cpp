@@ -184,8 +184,41 @@ namespace Exiv2 {
         return AutoPtr(clone_());
     }
 
+    int MakerNoteFactory::Init::count = 0;
+
+    MakerNoteFactory::Init::Init()
+    {
+        ++count;
+    }
+
+    MakerNoteFactory::Init::~Init()
+    {
+        if (--count == 0) {
+            Exiv2::MakerNoteFactory::cleanup();
+        }
+    }
+
     MakerNoteFactory::Registry* MakerNoteFactory::pRegistry_ = 0;
     MakerNoteFactory::IfdIdRegistry* MakerNoteFactory::pIfdIdRegistry_ = 0;
+
+    void MakerNoteFactory::cleanup()
+    {
+        if (pRegistry_ != 0) {
+            Registry::iterator e = pRegistry_->end();
+            for (Registry::iterator i = pRegistry_->begin(); i != e; ++i) {
+                delete i->second;
+            }
+            delete pRegistry_;
+        }
+
+        if (pIfdIdRegistry_ != 0) {
+            IfdIdRegistry::iterator e = pIfdIdRegistry_->end();
+            for (IfdIdRegistry::iterator i = pIfdIdRegistry_->begin(); i != e; ++i) {
+                delete i->second;
+            }
+            delete pIfdIdRegistry_;
+        }
+    }
 
     void MakerNoteFactory::init()
     {
@@ -203,6 +236,11 @@ namespace Exiv2 {
         init();
         MakerNote* pMakerNote = makerNote.release();
         assert(pMakerNote);
+        IfdIdRegistry::iterator pos = pIfdIdRegistry_->find(ifdId);
+        if (pos != pIfdIdRegistry_->end()) {
+            delete pos->second;
+            pos->second = 0;
+        }
         (*pIfdIdRegistry_)[ifdId] = pMakerNote;
     } // MakerNoteFactory::registerMakerNote
 

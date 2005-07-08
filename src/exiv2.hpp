@@ -119,6 +119,8 @@ public:
       @return Reference to the global Params instance.
     */
     static Params& instance();
+    //! Destructor
+    void cleanup();
 
     //! Enumerates print modes
     enum PrintMode { pmSummary, pmInterpreted, pmValues, pmHexdump, pmIptc, 

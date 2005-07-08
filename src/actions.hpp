@@ -107,6 +107,8 @@ namespace Action {
           this method.
         */
         static TaskFactory& instance();
+        //! Destructor
+        void cleanup();
 
         /*!
           @brief  Create a task.

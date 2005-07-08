@@ -66,7 +66,27 @@ EXIV2_RCSID("@(#) $Id$");
 // class member definitions
 namespace Exiv2 {
 
+    int ImageFactory::Init::count = 0;
+
+    ImageFactory::Init::Init()
+    {
+        ++count;
+    }
+
+    ImageFactory::Init::~Init()
+    {
+        if (--count == 0) {
+            Exiv2::ImageFactory::cleanup();
+        }
+    }
+
     ImageFactory::Registry* ImageFactory::registry_ = 0;
+
+    void ImageFactory::cleanup()
+    {
+        delete registry_;
+        registry_ = 0;
+    }
 
     void ImageFactory::init()
     {
