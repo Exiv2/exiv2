@@ -114,6 +114,18 @@ namespace Action {
         return *instance_;
     } // TaskFactory::instance
 
+    void TaskFactory::cleanup()
+    {
+        if (instance_ != 0) {
+            Registry::iterator e = registry_.end();
+            for (Registry::iterator i = registry_.begin(); i != e; ++i) {
+                delete i->second;
+            }
+            delete instance_;
+            instance_ = 0;
+        }
+    } //TaskFactory::cleanup
+
     void TaskFactory::registerTask(TaskType type, Task::AutoPtr task)
     {
         Registry::iterator i = registry_.find(type);

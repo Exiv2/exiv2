@@ -252,6 +252,8 @@ namespace Exiv2 {
     public:
         //! @name Manipulators
         //@{
+        //! Destructor.
+        static void cleanup();
         /*!
           @brief Register image type together with its function pointers.
 
@@ -372,6 +374,24 @@ namespace Exiv2 {
         static Image::Type getType(BasicIo& io);
         //@}
 
+        /*!
+          @brief Class Init is used to execute initialisation and termination 
+                 code exactly once, at the begin and end of the program.
+
+          See Bjarne Stroustrup, 'The C++ Programming Language 3rd
+          Edition', section 21.5.2 for details about this pattern.
+        */
+        class Init {
+            static int count;           //!< Counts calls to constructor
+        public:
+            //! @name Creators
+            //@{                            
+            //! Perform one-time initialisations.
+            Init();
+            //! Perform one-time cleanup operations.
+            ~Init();
+            //@}
+        };
 
     private:
         //! @name Creators
@@ -457,5 +477,17 @@ namespace Exiv2 {
     }; // class TiffHeader   
 
 }                                       // namespace Exiv2
+
+namespace {
+    /*!
+      Each translation unit that includes image.hpp declares its own
+      Init object. The destructor ensures that the factory is properly
+      freed exactly once.
+
+      See Bjarne Stroustrup, 'The C++ Programming Language 3rd
+      Edition', section 21.5.2 for details about this pattern.
+    */
+    Exiv2::ImageFactory::Init imageFactoryInit;
+}
 
 #endif                                  // #ifndef IMAGE_HPP_

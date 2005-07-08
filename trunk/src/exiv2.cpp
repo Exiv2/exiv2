@@ -142,6 +142,10 @@ int main(int argc, char* const argv[])
         }
         task->run(*i);
     }
+
+    taskFactory.cleanup();
+    params.cleanup();
+
     return 0;
 } // main
 
@@ -155,6 +159,12 @@ Params& Params::instance()
         instance_ = new Params;
     }
     return *instance_;
+}
+
+void Params::cleanup()
+{
+    delete instance_;
+    instance_ = 0;
 }
 
 void Params::version(std::ostream& os) const

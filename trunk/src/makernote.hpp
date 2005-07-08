@@ -344,6 +344,8 @@ namespace Exiv2 {
     */
     class MakerNoteFactory {
     public:
+        //! Destructor.
+        static void cleanup();
         /*!
           @brief Register a %MakerNote create function for a camera make and
                  model.
@@ -442,6 +444,25 @@ namespace Exiv2 {
          */
         static int match(const std::string& regEntry, const std::string& key);
 
+        /*!
+          @brief Class Init is used to execute initialisation and termination 
+                 code exactly once, at the begin and end of the program.
+
+          See Bjarne Stroustrup, 'The C++ Programming Language 3rd
+          Edition', section 21.5.2 for details about this pattern.
+        */
+        class Init {
+            static int count;           //!< Counts calls to constructor
+        public:
+            //! @name Creators
+            //@{                            
+            //! Perform one-time initialisations.
+            Init();
+            //! Perform one-time cleanup operations.
+            ~Init();
+            //@}
+        };
+
     private:
         //! @name Creators
         //@{                
@@ -470,5 +491,17 @@ namespace Exiv2 {
     }; // class MakerNoteFactory
    
 }                                       // namespace Exiv2
+
+namespace {
+    /*!
+      Each translation unit that includes makernote.hpp declares its own
+      Init object. The destructor ensures that the factory is properly
+      freed exactly once.
+
+      See Bjarne Stroustrup, 'The C++ Programming Language 3rd
+      Edition', section 21.5.2 for details about this pattern.
+    */
+    Exiv2::MakerNoteFactory::Init makerNoteFactoryInit;
+}
 
 #endif                                  // #ifndef MAKERNOTE_HPP_
