@@ -114,6 +114,12 @@ namespace Exiv2 {
         if (rhs.value_.get() != 0) value_ = rhs.value_->clone(); // deep copy
     }
 
+    const Value& Exifdatum::value() const 
+    {
+        if (value_.get() == 0) throw Error(8);        
+        return *value_; 
+    }
+
     Exifdatum& Exifdatum::operator=(const Exifdatum& rhs)
     {
         if (this == &rhs) return *this;
