@@ -28,9 +28,6 @@
 #include "rcsid.hpp"
 EXIV2_RCSID("@(#) $Id$");
 
-// Define DEBUG_MAKERNOTE to output debug information to std::cerr
-#undef DEBUG_MAKERNOTE
-
 // *****************************************************************************
 // included header files
 #include "iptc.hpp"

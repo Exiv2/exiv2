@@ -44,9 +44,6 @@ EXIV2_RCSID("@(#) $Id$");
 #include <iomanip>
 #include <cassert>
 
-// Define DEBUG_MAKERNOTE to output debug information to std::cerr
-#undef DEBUG_MAKERNOTE
-
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
