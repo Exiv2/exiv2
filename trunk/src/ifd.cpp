@@ -313,10 +313,11 @@ namespace Exiv2 {
 
             for (int i = 0; i < n; ++i) {
                 if (len < o + 12) {
-                    // Todo: How to handle debug output like this
+#ifndef SUPPRESS_WARNINGS
                     std::cerr << "Error: " << ExifTags::ifdName(ifdId_) 
                               << " entry " << i
                               << " lies outside of the IFD memory buffer.\n";
+#endif
                     rc = 6;
                     break;
                 }
@@ -333,10 +334,11 @@ namespace Exiv2 {
         }
         if (rc == 0 && hasNext_) {
             if (len < o + 4) {
-                // Todo: How to handle debug output like this
+#ifndef SUPPRESS_WARNINGS
                 std::cerr << "Error: " << ExifTags::ifdName(ifdId_) 
                           << " memory of the pointer to the next IFD"
                           << " lies outside of the IFD memory buffer.\n";
+#endif
                 rc = 6;
             }
             else {
@@ -369,7 +371,7 @@ namespace Exiv2 {
                 }
                 // Set the offset of the first data entry outside of the IFD
                 if (i->offset_ - offset_ >= len) {
-                    // Todo: How to handle debug output like this
+#ifndef SUPPRESS_WARNINGS
                     std::cerr << "Error: Offset of the 1st data entry of " 
                               << ExifTags::ifdName(ifdId_) 
                               << " is out of bounds:\n"
@@ -379,6 +381,7 @@ namespace Exiv2 {
                               << ", exceeds buffer size by "
                               << std::dec << i->offset_ - len
                               << " Bytes\n";
+#endif
                     rc = 6;
                 }
                 else {
@@ -402,7 +405,7 @@ namespace Exiv2 {
                 long tmpOffset = 
                     i->size_ > 4 ? i->offset_ - offset_ : i->offsetLoc_;
                 if (tmpOffset + i->size_ > len) {
-                    // Todo: How to handle debug output like this
+#ifndef SUPPRESS_WARNINGS
                     std::cerr << "Warning: Upper boundary of data for " 
                               << ExifTags::ifdName(ifdId_) 
                               << " entry " << static_cast<int>(i - begin) 
@@ -414,6 +417,7 @@ namespace Exiv2 {
                               << ", exceeds buffer size by "
                               << tmpOffset + i->size_ - len
                               << " Bytes; Truncating the data.\n";
+#endif
                     // Truncate the entry
                     i->size_ = 0;
                     i->count_ = 0;

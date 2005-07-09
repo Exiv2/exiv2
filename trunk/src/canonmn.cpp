@@ -49,9 +49,6 @@ EXIV2_RCSID("@(#) $Id$");
 #include <cstring>
 #include <cmath>
 
-// Define DEBUG_MAKERNOTE to output debug information to std::cerr
-#undef DEBUG_MAKERNOTE
-
 // *****************************************************************************
 // local declarations
 namespace {
@@ -90,7 +87,7 @@ namespace Exiv2 {
             canonCs2IfdId, MakerNote::AutoPtr(new CanonMakerNote));
         MakerNoteFactory::registerMakerNote(
             canonCfIfdId, MakerNote::AutoPtr(new CanonMakerNote));
-        
+
         ExifTags::registerMakerTagInfo(canonIfdId, tagInfo_);
         ExifTags::registerMakerTagInfo(canonCs1IfdId, tagInfoCs1_);
         ExifTags::registerMakerTagInfo(canonCs2IfdId, tagInfoCs2_);

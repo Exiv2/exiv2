@@ -103,9 +103,11 @@ namespace Exiv2 {
         if (rc == 0) {
             // IfdMakerNote currently does not support multiple IFDs
             if (ifd_.next() != 0) {
+#ifndef SUPPRESS_WARNINGS
                 std::cerr << "Warning: Makernote IFD has a next pointer != 0 ("
                           << ifd_.next()
                           << "). Ignored.\n";
+#endif
             }
         }
 #ifdef DEBUG_MAKERNOTE

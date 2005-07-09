@@ -503,9 +503,10 @@ namespace Exiv2 {
                                    byteOrder(),
                                    pExifIfd_->offset() + pos->offset());
             if (rc) {
-                // Todo: How to handle debug output like this
+#ifndef SUPPRESS_WARNINGS
                 std::cerr << "Warning: Failed to read Makernote, rc = "
                           << rc << "\n";
+#endif
                 delete pMakerNote_;
                 pMakerNote_ = 0;
             }
