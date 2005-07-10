@@ -58,17 +58,17 @@ namespace Exiv2 {
 
     // Sony MakerNote Tag Info
     const TagInfo SonyMakerNote::tagInfo_[] = {
-        TagInfo(0x2000, "0x2000", "Unknown", sonyIfdId, makerTags, undefined, printValue),
-        TagInfo(0x9001, "0x9001", "Unknown", sonyIfdId, makerTags, undefined, printValue),
-        TagInfo(0x9002, "0x9002", "Unknown", sonyIfdId, makerTags, undefined, printValue),
-        TagInfo(0x9003, "0x9003", "Unknown", sonyIfdId, makerTags, undefined, printValue),
-        TagInfo(0x9004, "0x9004", "Unknown", sonyIfdId, makerTags, undefined, printValue),
-        TagInfo(0x9005, "0x9005", "Unknown", sonyIfdId, makerTags, undefined, printValue),
-        TagInfo(0x9006, "0x9006", "Unknown", sonyIfdId, makerTags, undefined, printValue),
-        TagInfo(0x9007, "0x9007", "Unknown", sonyIfdId, makerTags, undefined, printValue),
-        TagInfo(0x9008, "0x9008", "Unknown", sonyIfdId, makerTags, undefined, printValue),
+        TagInfo(0x2000, "0x2000", "0x2000", "Unknown", sonyIfdId, makerTags, undefined, printValue),
+        TagInfo(0x9001, "0x9001", "0x9001", "Unknown", sonyIfdId, makerTags, undefined, printValue),
+        TagInfo(0x9002, "0x9002", "0x9002", "Unknown", sonyIfdId, makerTags, undefined, printValue),
+        TagInfo(0x9003, "0x9003", "0x9003", "Unknown", sonyIfdId, makerTags, undefined, printValue),
+        TagInfo(0x9004, "0x9004", "0x9004", "Unknown", sonyIfdId, makerTags, undefined, printValue),
+        TagInfo(0x9005, "0x9005", "0x9005", "Unknown", sonyIfdId, makerTags, undefined, printValue),
+        TagInfo(0x9006, "0x9006", "0x9006", "Unknown", sonyIfdId, makerTags, undefined, printValue),
+        TagInfo(0x9007, "0x9007", "0x9007", "Unknown", sonyIfdId, makerTags, undefined, printValue),
+        TagInfo(0x9008, "0x9008", "0x9008", "Unknown", sonyIfdId, makerTags, undefined, printValue),
         // End of list marker
-        TagInfo(0xffff, "(UnknownSonyMakerNoteTag)", "Unknown SonyMakerNote tag", sonyIfdId, makerTags, invalidTypeId, printValue)
+        TagInfo(0xffff, "(UnknownSonyMakerNoteTag)", "Unknown SonyMakerNote tag", "Unknown SonyMakerNote tag", sonyIfdId, makerTags, invalidTypeId, printValue)
     };
 
     SonyMakerNote::SonyMakerNote(bool alloc)

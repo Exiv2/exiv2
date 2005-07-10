@@ -94,6 +94,7 @@ namespace Exiv2 {
         TagInfo(
             uint16_t tag, 
             const char* name,
+            const char* title,
             const char* desc, 
             IfdId ifdId,
             SectionId sectionId,
@@ -102,6 +103,7 @@ namespace Exiv2 {
         );
         uint16_t tag_;                          //!< Tag
         const char* name_;                      //!< One word tag label
+        const char* title_;                     //!< Tag title
         const char* desc_;                      //!< Short tag description
         IfdId ifdId_;                           //!< Link to the (prefered) IFD
         SectionId sectionId_;                   //!< Section id
@@ -163,6 +165,14 @@ namespace Exiv2 {
                   tag.
          */
         static std::string tagName(uint16_t tag, IfdId ifdId);
+        /*!
+          @brief Return the title (label) of the tag.
+
+          @param tag The tag
+          @param ifdId IFD id
+          @return The title (label) of the tag.
+         */
+        static const char* tagTitle(uint16_t tag, IfdId ifdId);
         /*!
           @brief Return the description of the tag.
           @param tag The tag

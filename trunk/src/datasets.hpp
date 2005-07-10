@@ -61,6 +61,7 @@ namespace Exiv2 {
         DataSet(
             uint16_t number, 
             const char* name,
+            const char* title,
             const char* desc,
             bool mandatory,
             bool repeatable,
@@ -72,6 +73,7 @@ namespace Exiv2 {
         );
         uint16_t number_;                       //!< Dataset number
         const char* name_;                      //!< Dataset name
+        const char* title_;                     //!< Dataset title or label
         const char* desc_;                      //!< Dataset description
         bool mandatory_;                        //!< True if dataset is mandatory
         bool repeatable_;                       //!< True if dataset is repeatable
@@ -190,6 +192,13 @@ namespace Exiv2 {
                   dataset.
          */
         static std::string dataSetName(uint16_t number, uint16_t recordId);
+        /*!
+          @brief Return the title (label) of the dataset.
+          @param number The dataset number
+          @param recordId The Iptc record Id 
+          @return The title (label) of the dataset
+         */
+        static const char* dataSetTitle(uint16_t number, uint16_t recordId);
         /*!
           @brief Return the description of the dataset.
           @param number The dataset number

@@ -63,28 +63,28 @@ namespace Exiv2 {
 
     // Fujifilm MakerNote Tag Info
     const TagInfo FujiMakerNote::tagInfo_[] = {
-        TagInfo(0x0000, "Version", "Fujifilm Makernote version", fujiIfdId, makerTags, undefined, printValue),
-        TagInfo(0x1000, "Quality", "Image quality setting", fujiIfdId, makerTags, asciiString, printValue),
-        TagInfo(0x1001, "Sharpness", "Sharpness setting", fujiIfdId, makerTags, unsignedShort, print0x1001),
-        TagInfo(0x1002, "WhiteBalance", "White balance setting", fujiIfdId, makerTags, unsignedShort, print0x1002),
-        TagInfo(0x1003, "Color", "Chroma saturation setting", fujiIfdId, makerTags, unsignedShort, print0x1003),
-        TagInfo(0x1004, "Tone", "Contrast setting", fujiIfdId, makerTags, unsignedShort, print0x1004),
-        TagInfo(0x1010, "FlashMode", "Flash firing mode setting", fujiIfdId, makerTags, unsignedShort, print0x1010),
-        TagInfo(0x1011, "FlashStrength", "Flash firing strength compensation setting", fujiIfdId, makerTags, signedRational, printValue),
-        TagInfo(0x1020, "Macro", "Macro mode setting", fujiIfdId, makerTags, unsignedShort, printOffOn),
-        TagInfo(0x1021, "FocusMode", "Focusing mode setting", fujiIfdId, makerTags, unsignedShort, print0x1021),
-        TagInfo(0x1022, "0x1022", "Unknown", fujiIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x1030, "SlowSync", "Slow synchro mode setting", fujiIfdId, makerTags, unsignedShort, printOffOn),
-        TagInfo(0x1031, "PictureMode", "Picture mode setting", fujiIfdId, makerTags, unsignedShort, print0x1031),
-        TagInfo(0x1032, "0x1032", "Unknown", fujiIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x1100, "Continuous", "Continuous shooting or auto bracketing setting", fujiIfdId, makerTags, unsignedShort, printOffOn),
-        TagInfo(0x1101, "0x1101", "Unknown", fujiIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x1200, "0x1200", "Unknown", fujiIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x1300, "BlurWarning", "Blur warning status", fujiIfdId, makerTags, unsignedShort, printOffOn),
-        TagInfo(0x1301, "FocusWarning", "Auto Focus warning status", fujiIfdId, makerTags, unsignedShort, printOffOn),
-        TagInfo(0x1302, "AeWarning", "Auto Exposure warning status", fujiIfdId, makerTags, unsignedShort, printOffOn),
+        TagInfo(0x0000, "Version", "Version", "Fujifilm Makernote version", fujiIfdId, makerTags, undefined, printValue),
+        TagInfo(0x1000, "Quality", "Quality", "Image quality setting", fujiIfdId, makerTags, asciiString, printValue),
+        TagInfo(0x1001, "Sharpness", "Sharpness", "Sharpness setting", fujiIfdId, makerTags, unsignedShort, print0x1001),
+        TagInfo(0x1002, "WhiteBalance", "WhiteBalance", "White balance setting", fujiIfdId, makerTags, unsignedShort, print0x1002),
+        TagInfo(0x1003, "Color", "Color", "Chroma saturation setting", fujiIfdId, makerTags, unsignedShort, print0x1003),
+        TagInfo(0x1004, "Tone", "Tone", "Contrast setting", fujiIfdId, makerTags, unsignedShort, print0x1004),
+        TagInfo(0x1010, "FlashMode", "FlashMode", "Flash firing mode setting", fujiIfdId, makerTags, unsignedShort, print0x1010),
+        TagInfo(0x1011, "FlashStrength", "FlashStrength", "Flash firing strength compensation setting", fujiIfdId, makerTags, signedRational, printValue),
+        TagInfo(0x1020, "Macro", "Macro", "Macro mode setting", fujiIfdId, makerTags, unsignedShort, printOffOn),
+        TagInfo(0x1021, "FocusMode", "FocusMode", "Focusing mode setting", fujiIfdId, makerTags, unsignedShort, print0x1021),
+        TagInfo(0x1022, "0x1022", "0x1022", "Unknown", fujiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x1030, "SlowSync", "SlowSync", "Slow synchro mode setting", fujiIfdId, makerTags, unsignedShort, printOffOn),
+        TagInfo(0x1031, "PictureMode", "PictureMode", "Picture mode setting", fujiIfdId, makerTags, unsignedShort, print0x1031),
+        TagInfo(0x1032, "0x1032", "0x1032", "Unknown", fujiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x1100, "Continuous", "Continuous", "Continuous shooting or auto bracketing setting", fujiIfdId, makerTags, unsignedShort, printOffOn),
+        TagInfo(0x1101, "0x1101", "0x1101", "Unknown", fujiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x1200, "0x1200", "0x1200", "Unknown", fujiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x1300, "BlurWarning", "BlurWarning", "Blur warning status", fujiIfdId, makerTags, unsignedShort, printOffOn),
+        TagInfo(0x1301, "FocusWarning", "FocusWarning", "Auto Focus warning status", fujiIfdId, makerTags, unsignedShort, printOffOn),
+        TagInfo(0x1302, "AeWarning", "AeWarning", "Auto Exposure warning status", fujiIfdId, makerTags, unsignedShort, printOffOn),
         // End of list marker
-        TagInfo(0xffff, "(UnknownFujiMakerNoteTag)", "Unknown FujiMakerNote tag", fujiIfdId, makerTags, invalidTypeId, printValue)
+        TagInfo(0xffff, "(UnknownFujiMakerNoteTag)", "(UnknownFujiMakerNoteTag)", "Unknown FujiMakerNote tag", fujiIfdId, makerTags, invalidTypeId, printValue)
     };
 
     FujiMakerNote::FujiMakerNote(bool alloc)
