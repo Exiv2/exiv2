@@ -35,7 +35,7 @@
   <li><a href="http://www.ozhiker.com/electronics/pjmt/jpeg_info/nikon_mn.html#Nikon_Type_3_Tags">Nikon Type 3 Makernote Tags Definition</a> 
   of the PHP JPEG Metadata Toolkit by Evan Hunter</li>
   <li>Nikon tag information from <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a> by Phil Harvey</li>
-  <li>Email communication with Robert Rottmerhusen</li>
+  <li>Email communication with <a href="http://www.rottmerhusen.com">Robert Rottmerhusen</a></li>
   </ul>
 
   @version $Rev$
