@@ -161,7 +161,7 @@ $(sort $(BINOBJ) $(EXIV2OBJ) $(MCOBJ) path-test.o): %.o: %.cpp
 
 %.ii: %.cpp
 	set -e; \
-	$(CPP) $(CPPFLAGS) $(CXXDEFS) $(CXXINCS) $< | sed '/^[ 	]*$$/d' > $@
+	$(CXXCPP) $(CPPFLAGS) $(CXXDEFS) $(CXXINCS) $< | sed '/^[ 	]*$$/d' > $@
 
 # ******************************************************************************
 # Targets
