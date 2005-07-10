@@ -48,14 +48,13 @@ CXX = @CXX@
 GXX = @GXX@
 
 # Common compiler flags (warnings, symbols [-ggdb], optimization [-O2], etc)
+CXXFLAGS = @CXXFLAGS@
 ifeq ($(GXX),yes)
-	CXXFLAGS = -Wall -O2
-else
-	CXXFLAGS = @CXXFLAGS@
+	CXXFLAGS += -Wall
 endif
 
 # Command to run only the preprocessor
-CPP = $(CXX) -E -dD
+CXXCPP = @CXXCPP@
 
 # Preprocessor flags
 CPPFLAGS = @CPPFLAGS@
@@ -71,10 +70,9 @@ EXEEXT := @EXEEXT@
 CC = @CC@
 GCC = @GCC@
 
+CFLAGS = @CFLAGS@
 ifeq ($(GCC),yes)
-	CFLAGS := -Wall -O2
-else
-	CFLAGS := @CFLAGS@
+	CFLAGS += -Wall
 endif
 
 # **********************************************************************
