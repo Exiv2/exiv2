@@ -124,11 +124,14 @@ namespace Exiv2 {
 
     // Base IFD Tags (IFD0 and IFD1)
     static const TagInfo ifdTagInfo[] = {
+        TagInfo(0x00fe, "NewSubfileType", "New Subfile Type", "A general indication of the kind of data contained in this subfile.", ifd0Id, imgStruct, unsignedLong, printValue), // TIFF tag
         TagInfo(0x0100, "ImageWidth", "Image Width", "Image width", ifd0Id, imgStruct, unsignedLong, printValue),
         TagInfo(0x0101, "ImageLength", "Image Length", "Image height", ifd0Id, imgStruct, unsignedLong, printValue),
         TagInfo(0x0102, "BitsPerSample", "Bits per Sample", "Number of bits per component", ifd0Id, imgStruct, unsignedShort, printValue),
         TagInfo(0x0103, "Compression", "Compression", "Compression scheme", ifd0Id, imgStruct, unsignedShort, print0x0103),
         TagInfo(0x0106, "PhotometricInterpretation", "Photometric Interpretation", "Pixel composition", ifd0Id, imgStruct, unsignedShort, print0x0106),
+        TagInfo(0x010a, "FillOrder", "Fill Order", "The logical order of bits within a byte", ifd0Id, imgStruct, unsignedShort, printValue), // TIFF tag
+        TagInfo(0x010d, "DocumentName", "Document Name", "The name of the document from which this image was scanned", ifd0Id, imgStruct, asciiString, printValue), // TIFF tag
         TagInfo(0x010e, "ImageDescription", "Image Description", "Image title", ifd0Id, otherTags, asciiString, printValue),
         TagInfo(0x010f, "Make", "Manufacturer", "Manufacturer of image input equipment", ifd0Id, otherTags, asciiString, printValue),
         TagInfo(0x0110, "Model", "Model", "Model of image input equipment", ifd0Id, otherTags, asciiString, printValue),
@@ -147,15 +150,26 @@ namespace Exiv2 {
         TagInfo(0x013b, "Artist", "Artist", "Person who created the image", ifd0Id, otherTags, asciiString, printValue),
         TagInfo(0x013e, "WhitePoint", "White Point", "White point chromaticity", ifd0Id, imgCharacter, unsignedRational, printValue),
         TagInfo(0x013f, "PrimaryChromaticities", "Primary Chromaticities", "Chromaticities of primaries", ifd0Id, imgCharacter, unsignedRational, printValue),
+        TagInfo(0x014a, "SubIFDs", "SubIFD Offsets", "Defined by Adobe Corporation to enable TIFF Trees within a TIFF file.", ifd0Id, otherTags, unsignedLong, printValue),
+        TagInfo(0x0156, "TransferRange", "Transfer Range", "Expands the range of the TransferFunction", ifd0Id, imgCharacter, unsignedShort, printValue), // TIFF tag
+        TagInfo(0x0200, "JPEGProc", "JPEGProc", "This field indicates the process used to produce the compressed data", ifd0Id, recOffset, unsignedLong, printValue), // TIFF tag
         TagInfo(0x0201, "JPEGInterchangeFormat", "JPEG Interchange Format", "Offset to JPEG SOI", ifd0Id, recOffset, unsignedLong, printValue),
         TagInfo(0x0202, "JPEGInterchangeFormatLength", "JPEG Interchange Format Length", "Bytes of JPEG data", ifd0Id, recOffset, unsignedLong, printValue),
         TagInfo(0x0211, "YCbCrCoefficients", "YCbCr Coefficients", "Color space transformation matrix coefficients", ifd0Id, imgCharacter, unsignedRational, printValue),
         TagInfo(0x0212, "YCbCrSubSampling", "YCbCr Sub-Sampling", "Subsampling ratio of Y to C", ifd0Id, imgStruct, unsignedShort, printValue),
         TagInfo(0x0213, "YCbCrPositioning", "YCbCr Positioning", "Y and C positioning", ifd0Id, imgStruct, unsignedShort, print0x0213),
         TagInfo(0x0214, "ReferenceBlackWhite", "Reference Black/White", "Pair of black and white reference values", ifd0Id, imgCharacter, unsignedRational, printValue),
+        TagInfo(0x02bc, "XMLPacket", "XML Packet", "XMP Metadata (Adobe technote 9-14-02)", ifd0Id, otherTags, unsignedByte, printValue),
+        TagInfo(0x828d, "CFARepeatPatternDim", "CFARepeatPatternDim", "Contains two values representing the minimum rows and columns to define the repeating patterns of the color filter array", ifd0Id, otherTags, unsignedShort, printValue), // TIFF/EP Tag
+        TagInfo(0x828e, "CFAPattern", "CFA Pattern", "Indicates the color filter array (CFA) geometric pattern of the image sensor when a one-chip color area sensor is used. It does not apply to all sensing methods", ifd0Id, otherTags, unsignedByte, printValue), // TIFF/EP Tag
+        TagInfo(0x828f, "BatteryLevel", "Battery Level", "Contains a value of the battery level as a fraction or string", ifd0Id, otherTags, unsignedRational, printValue), // TIFF/EP Tag
+        TagInfo(0x83bb, "IPTCNAA", "IPTC/NAA", "Contains an IPTC/NAA record", ifd0Id, otherTags, unsignedLong, printValue), // TIFF/EP Tag
         TagInfo(0x8298, "Copyright", "Copyright", "Copyright holder", ifd0Id, otherTags, asciiString, print0x8298),
+        TagInfo(0x8649, "ImageResources", "Image Resources Block", "Contains information embedded by the Adobe Photoshop application", ifd0Id, otherTags, undefined, printValue),
         TagInfo(0x8769, "ExifTag", "ExifIFDPointer", "Exif IFD Pointer", ifd0Id, exifFormat, unsignedLong, printValue),
+        TagInfo(0x8773, "InterColorProfile", "InterColorProfile", "Contains an InterColor Consortium (ICC) format color space characterization/profile", ifd0Id, otherTags, undefined, printValue),
         TagInfo(0x8825, "GPSTag", "GPSInfoIFDPointer", "GPSInfo IFD Pointer", ifd0Id, exifFormat, unsignedLong, printValue),
+        TagInfo(0x9216, "TIFFEPStandardID", "TIFF/EP Standard ID", "Contains four ASCII characters representing the TIFF/EP standard version of a TIFF/EP file, eg '1', '0', '0', '0'", ifd0Id, otherTags, unsignedByte, printValue), // TIFF/EP Tag
         // End of list marker
         TagInfo(0xffff, "(UnknownIfdTag)", "Unknown IFD tag", "Unknown IFD tag", ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
     };
