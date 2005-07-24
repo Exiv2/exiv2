@@ -106,7 +106,7 @@ namespace Exiv2 {
           @param len Size of the data area
           @return Return -1 if the value has no data area, else 0.
          */
-        virtual int setDataArea(const byte* buf, long len) { return -1; }
+        virtual int setDataArea(const byte* buf, long len);
         //@}
 
         //! @name Accessors

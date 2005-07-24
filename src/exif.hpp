@@ -404,7 +404,7 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         //! Assignment operator.
-        TiffThumbnail& operator=(const TiffThumbnail& rhs) { return *this; }
+        TiffThumbnail& operator=(const TiffThumbnail& rhs);
         //@}
 
         //! @name Accessors
@@ -429,7 +429,7 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         //! Assignment operator.
-        JpegThumbnail& operator=(const JpegThumbnail& rhs) { return *this; }
+        JpegThumbnail& operator=(const JpegThumbnail& rhs);
         //@}
 
         //! @name Accessors

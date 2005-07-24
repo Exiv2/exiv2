@@ -48,6 +48,28 @@ namespace Exiv2 {
         return AutoPtr(clone_());
     }
 
+    Key& Key::operator=(const Key& /*rhs*/) 
+    {
+        return *this; 
+    }
+
+    Metadatum::Metadatum()
+    {
+    }
+
+    Metadatum::Metadatum(const Metadatum& /*rhs*/) 
+    {
+    }
+
+    Metadatum::~Metadatum() 
+    {
+    }
+
+    Metadatum& Metadatum::operator=(const Metadatum& /*rhs*/) 
+    {
+        return *this; 
+    }
+
     std::ostream& operator<<(std::ostream& os, const Metadatum& md)
     {
         os << "0x" << std::setw(4) << std::setfill('0') << std::right

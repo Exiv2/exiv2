@@ -198,6 +198,11 @@ namespace Exiv2 {
         value_->read(value);
     }
 
+    TiffThumbnail& TiffThumbnail::operator=(const TiffThumbnail& /*rhs*/)
+    {
+        return *this; 
+    }
+
     int TiffThumbnail::setDataArea(ExifData& exifData, Ifd* pIfd1,
                                    const byte* buf, long len) const
     {
@@ -280,6 +285,11 @@ namespace Exiv2 {
         len += ifd1.copy(buf.pData_ + len, exifData.byteOrder(), len);
         assert(len == size);
         return buf;
+    }
+
+    JpegThumbnail& JpegThumbnail::operator=(const JpegThumbnail& /*rhs*/) 
+    {
+        return *this; 
     }
 
     int JpegThumbnail::setDataArea(ExifData& exifData, Ifd* pIfd1,
