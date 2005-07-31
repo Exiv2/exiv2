@@ -158,8 +158,7 @@ namespace Exiv2 {
         header_.alloc(8);
         memcpy(header_.pData_, buf, header_.size_);
         // Adjust the offset of the IFD for the prefix
-        adjOffset_ = 8;
-
+        start_ = 8;
         return 0;
     }
 

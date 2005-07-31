@@ -66,16 +66,14 @@ Test boundary checks, the following reads should generate warnings or errors
 Warning: Upper boundary of data for IFD0 entry 3 is out of bounds:
  Offset = 0x00000043, size = 9, exceeds buffer size by 1 Bytes; Truncating the data.
 --- read (4)
-Warning: Upper boundary of data for IFD0 entry 1 is out of bounds:
- Offset = 0x00000036, size = 6, exceeds buffer size by 5 Bytes; Truncating the data.
-Warning: Upper boundary of data for IFD0 entry 2 is out of bounds:
- Offset = 0x0000003c, size = 7, exceeds buffer size by 12 Bytes; Truncating the data.
-Warning: Upper boundary of data for IFD0 entry 3 is out of bounds:
- Offset = 0x00000043, size = 9, exceeds buffer size by 21 Bytes; Truncating the data.
---- read (5)
-Error: Offset of the 1st data entry of IFD0 is out of bounds:
+Error: Upper boundary of the 1st data entry of IFD0 is out of bounds:
  Offset = 0x00000036, exceeds buffer size by 1 Bytes
-Ifd::read (5) failed, rc = 6
+Ifd::read (4) failed, rc = 6
+--- read (5)
+Warning: Upper boundary of data for IFD0 entry 2 is out of bounds:
+ Offset = 0x0000003c, size = 7, exceeds buffer size by 7 Bytes; Truncating the data.
+Warning: Upper boundary of data for IFD0 entry 3 is out of bounds:
+ Offset = 0x00000043, size = 9, exceeds buffer size by 16 Bytes; Truncating the data.
 --- read (6)
 Error: IFD0 memory of the pointer to the next IFD lies outside of the IFD memory buffer.
 Ifd::read (6) failed, rc = 6

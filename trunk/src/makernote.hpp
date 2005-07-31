@@ -117,15 +117,24 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         /*!
-          @brief Read the makernote, including the makernote header, from
-                 character buffer buf of length len at position offset (from the
-                 start of the TIFF header) and encoded in byte order byteOrder.
-                 Return 0 if successful.
-         */
+          @brief Read the makernote, including the makernote header, from the 
+                 Exif data buffer.
+
+          @param buf Pointer to the Exif data buffer that contains the 
+                     MakerNote to decode. The buffer should contain all Exif 
+                     data starting from the TIFF header.
+          @param len Number of bytes in the Exif data buffer
+          @param start MakerNote starts at buf + start.
+          @param byteOrder Applicable byte order (little or big endian).
+          @param shift IFD offsets are relative to buf + shift.
+
+          @return 0 if successful.
+        */
         virtual int read(const byte* buf, 
                          long len, 
+                         long start,
                          ByteOrder byteOrder,
-                         long offset) =0;
+                         long shift =0) =0;
         /*!
           @brief Copy (write) the makerNote to the character buffer buf at 
                  position offset (from the start of the TIFF header), encoded
@@ -256,13 +265,14 @@ namespace Exiv2 {
         //@{
         virtual int read(const byte* buf, 
                          long len, 
-                         ByteOrder byteOrder, 
-                         long offset);
+                         long start, 
+                         ByteOrder byteOrder,
+                         long shift);
         /*!
           @brief Read the makernote header from the makernote databuffer.  This
-                 method must set the offset adjustment (adjOffset_), if needed
-                 (assuming that the required information is in the header).
-                 Return 0 if successful.          
+                 method must set the offset to the start of the IFD (start_), if 
+                 needed (assuming that the required information is in the header).
+                 Return 0 if successful. 
           @note  The default implementation does nothing, assuming there is no
                  header
          */
@@ -309,20 +319,22 @@ namespace Exiv2 {
     protected:
         // DATA
         /*!
-          @brief True:  Adjustment of the IFD offsets is to be added to the
-                        offset from the start of the TIFF header (i.e., the
-                        start of the Exif data section),
-                 False: Adjustment of the IFD offsets is a suitable absolute 
-                        value. Ignore the offset from the start of the TIFF 
-                        header.
+          @brief True:  IFD offsets are relative to the start of the TIFF
+                        header (i.e., the start of the Exif data section)
+                        + shift_
+                 False: IFD offsets are relative to the start of the 
+                        makernote + shift_
          */
-        bool absOffset_;
+        bool absShift_;
         /*!
-          @brief Adjustment of the IFD offsets relative to the start of the 
-                 TIFF header or to the start of the makernote, depending on 
-                 the setting of absOffset_.
+          @brief Adjustment for IFD offsets, see absShift_.
          */
-        long adjOffset_;
+        long shift_;
+        /*!
+          @brief Start of the makernote IFD relative to the start of the
+                 makernote.
+         */
+        long start_;
         //! Data buffer for the makernote header
         DataBuf header_;
         //! The makernote IFD

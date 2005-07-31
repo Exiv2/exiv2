@@ -375,22 +375,24 @@ namespace Exiv2 {
         /*!
           @brief Read a complete IFD and its data from a data buffer
 
-          @param buf Pointer to the data to decode. The buffer must start with the 
-                 IFD data (unlike the readSubIfd() method).
-          @param len Number of bytes in the data buffer 
+          @param buf Pointer to the Exif data buffer that contains the IFD to 
+                     decode. Usually, the buffer will contain all Exif data 
+                     starting from the TIFF header.
+          @param len Number of bytes in the Exif data buffer.
+          @param start IFD starts at buf + start.
           @param byteOrder Applicable byte order (little or big endian).
-          @param offset (Optional) offset of the IFD from the start of the TIFF
-                 header, if known. If not given, the offset will be guessed
-                 using the assumption that the smallest offset of all IFD
-                 directory entries points to a data buffer immediately follwing
-                 the IFD.
+          @param shift IFD offsets are relative to buf + shift.
 
           @return 0 if successful;<BR>
                   6 if the data buffer is too small, e.g., if an offset points 
                     beyond the provided buffer. The IFD is cleared in this 
                     case.
          */
-        int read(const byte* buf, long len, ByteOrder byteOrder, long offset =0);
+        int read(const byte* buf, 
+                 long len, 
+                 long start, 
+                 ByteOrder byteOrder,
+                 long shift =0);
         /*!
           @brief Copy the IFD to a data array, update the offsets of the IFD and
                  all its entries, return the number of bytes written.
@@ -480,7 +482,7 @@ namespace Exiv2 {
 
           @param dest References the destination IFD.
           @param buf The data buffer to read from. The buffer must contain all Exif 
-                     data starting from the TIFF header (unlike the read() method).
+                     data starting from the TIFF header.
           @param len Number of bytes in the data buffer 
           @param byteOrder Applicable byte order (little or big endian).
           @param tag Tag to look for.
@@ -563,7 +565,7 @@ namespace Exiv2 {
         Entries entries_;
         //! IFD Id
         IfdId ifdId_;
-        //! Pointer to IFD from the start of the TIFF header
+        //! Pointer to IFD
         byte* pBase_;
         //! Offset of the IFD from the start of the TIFF header
         long offset_;
@@ -571,9 +573,12 @@ namespace Exiv2 {
         long dataOffset_;
         //! Indicates whether the IFD has a next pointer
         bool hasNext_;
-        //! Pointer to the offset of next IFD from the start of the TIFF header
+        //! Pointer to the offset of next IFD
         byte* pNext_;
-        //! The offset of the next IFD as data value (always in sync with *pNext_)
+        /*!
+          The offset of the next IFD from the start of the TIFF header as data 
+          value (always in sync with *pNext_)
+        */
         uint32_t next_;
 
     }; // class Ifd

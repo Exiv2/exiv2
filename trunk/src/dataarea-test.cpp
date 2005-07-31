@@ -128,10 +128,10 @@ int read(const std::string& path)
 
         // Read IFD0
         Ifd ifd0(ifd0Id);
-        rc = ifd0.read(exifData.pData_ + tiffHeader.offset(), 
-                       size - tiffHeader.offset(), 
-                       tiffHeader.byteOrder(),
-                       tiffHeader.offset());
+        rc = ifd0.read(exifData.pData_,
+                       size,
+                       tiffHeader.offset(),
+                       tiffHeader.byteOrder());
         if (rc) return rc;
         ifd0.print(std::cout);
 

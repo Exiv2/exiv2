@@ -477,10 +477,7 @@ namespace Exiv2 {
         delete pIfd0_;
         pIfd0_ = new Ifd(ifd0Id, 0, false); 
         assert(pIfd0_ != 0);
-        rc = pIfd0_->read(pData_ + pTiffHeader_->offset(), 
-                          size_ - pTiffHeader_->offset(), 
-                          byteOrder(), 
-                          pTiffHeader_->offset());
+        rc = pIfd0_->read(pData_, size_, pTiffHeader_->offset(), byteOrder());
         if (rc) return rc;
 
         delete pExifIfd_;
@@ -508,10 +505,9 @@ namespace Exiv2 {
         }
         // Read the MakerNote
         if (pMakerNote_) {
-            rc = pMakerNote_->read(pos->data(), 
-                                   pos->size(),
-                                   byteOrder(),
-                                   pExifIfd_->offset() + pos->offset());
+            rc = pMakerNote_->read(pData_, size_, 
+                                   pExifIfd_->offset() + pos->offset(),
+                                   byteOrder());
             if (rc) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Warning: Failed to read Makernote, rc = "
@@ -546,10 +542,7 @@ namespace Exiv2 {
         assert(pIfd1_ != 0);
         // Read IFD1
         if (pIfd0_->next()) {
-            rc = pIfd1_->read(pData_ + pIfd0_->next(), 
-                              size_ - pIfd0_->next(), 
-                              byteOrder(), 
-                              pIfd0_->next());
+            rc = pIfd1_->read(pData_, size_, pIfd0_->next(), byteOrder());
             if (rc) return rc;
         }
         // Find and delete ExifIFD sub-IFD of IFD1

@@ -66,39 +66,37 @@ namespace Exiv2 {
 
     IfdMakerNote::IfdMakerNote(IfdId ifdId, bool alloc, bool hasNext)
         : MakerNote(alloc), 
-          absOffset_(true), adjOffset_(0), ifd_(ifdId, 0, alloc, hasNext)
+          absShift_(true), shift_(0), start_(0), ifd_(ifdId, 0, alloc, hasNext)
     {
     }
 
     IfdMakerNote::IfdMakerNote(const IfdMakerNote& rhs)
-        : MakerNote(rhs), absOffset_(rhs.absOffset_), adjOffset_(rhs.adjOffset_),
-          header_(rhs.header_.size_), ifd_(rhs.ifd_)
+        : MakerNote(rhs), absShift_(rhs.absShift_), shift_(rhs.shift_),
+          start_(rhs.start_), header_(rhs.header_.size_), ifd_(rhs.ifd_)
     {
         memcpy(header_.pData_, rhs.header_.pData_, header_.size_);
     }
 
     int IfdMakerNote::read(const byte* buf,
                            long len, 
-                           ByteOrder byteOrder, 
-                           long offset)
+                           long start, 
+                           ByteOrder byteOrder,
+                           long shift)
     {
         // Remember the offset
-        offset_ = offset;
+        offset_ = start - shift;
         // Set byte order if none is set yet
         if (byteOrder_ == invalidByteOrder) byteOrder_ = byteOrder;
         // Read and check the header (and set offset adjustment)
-        int rc = readHeader(buf, len, byteOrder);
+        int rc = readHeader(buf + start, len - start, byteOrder);
         if (rc == 0) {
             rc = checkHeader();
         }
-        // Adjust the offset
-        offset = absOffset_ ? offset + adjOffset_ : adjOffset_;
+        // Adjust shift
+        long newShift = absShift_ ? shift + shift_ : start + shift_;
         // Read the makernote IFD
         if (rc == 0) {
-            rc = ifd_.read(buf + headerSize(), 
-                           len - headerSize(),
-                           byteOrder_,
-                           offset);
+            rc = ifd_.read(buf, len, start + start_, byteOrder_, newShift);
         }
         if (rc == 0) {
             // IfdMakerNote currently does not support multiple IFDs
@@ -111,7 +109,7 @@ namespace Exiv2 {
             }
         }
 #ifdef DEBUG_MAKERNOTE
-        hexdump(std::cerr, buf, len, offset);
+        hexdump(std::cerr, buf + start, len - start);
         if (rc == 0) ifd_.print(std::cerr);
 #endif
 
@@ -125,7 +123,7 @@ namespace Exiv2 {
         // Set byte order if none is set yet
         if (byteOrder_ == invalidByteOrder) byteOrder_ = byteOrder;
         // Adjust the offset
-        offset = absOffset_ ? offset + adjOffset_ : adjOffset_;
+        offset = absShift_ ? offset + start_ - shift_ : start_ - shift_;
 
         long len = 0;
         len += copyHeader(buf);
@@ -144,7 +142,7 @@ namespace Exiv2 {
 
     void IfdMakerNote::updateBase(byte* pNewBase)
     { 
-        if (absOffset_) {
+        if (absShift_) {
             ifd_.updateBase(pNewBase);
         }
     }
