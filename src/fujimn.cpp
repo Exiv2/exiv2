@@ -91,7 +91,7 @@ namespace Exiv2 {
         : IfdMakerNote(fujiIfdId, alloc)
     {
         byteOrder_ = littleEndian;
-        absOffset_ = false;
+        absShift_ = false;
         byte buf[] = {
             'F', 'U', 'J', 'I', 'F', 'I', 'L', 'M', 0x0c, 0x00, 0x00, 0x00
         };
@@ -111,9 +111,9 @@ namespace Exiv2 {
 
         header_.alloc(12);
         memcpy(header_.pData_, buf, header_.size_);
-        // Read the offset relative to the start of the makernote from the header
-        // Note: we ignore the byteOrder paramter
-        adjOffset_ = getUShort(header_.pData_ + 8, byteOrder_);
+        // Read offset to the IFD relative to the start of the makernote 
+        // from the header. Note that we ignore the byteOrder paramter
+        start_ = getUShort(header_.pData_ + 8, byteOrder_);
         return 0;
     }
 

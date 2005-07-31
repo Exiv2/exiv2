@@ -296,20 +296,21 @@ namespace Exiv2 {
         }
     }
 
-    int Ifd::read(const byte* buf, long len, ByteOrder byteOrder, long offset)
+    int Ifd::read(const byte* buf, 
+                  long len, 
+                  long start, 
+                  ByteOrder byteOrder,
+                  long shift)
     {
-        // Todo: This is a hack to work around bug #424 - fix it properly!
-        if (ifdId_ == olympusIfdId) len = 65535;
-
         int rc = 0;
-        long o = 0;
+        long o = start;
         Ifd::PreEntries preEntries;
 
-        if (len < 2) rc = 6;
+        if (len < o + 2) rc = 6;
         if (rc == 0) {
-            offset_ = offset;
-            int n = getUShort(buf, byteOrder);
-            o = 2;
+            offset_ = start - shift;
+            int n = getUShort(buf + o, byteOrder);
+            o += 2;
 
             for (int i = 0; i < n; ++i) {
                 if (len < o + 12) {
@@ -326,7 +327,7 @@ namespace Exiv2 {
                 pe.type_ = getUShort(buf + o + 2, byteOrder);
                 pe.count_ = getULong(buf + o + 4, byteOrder);
                 pe.size_ = pe.count_ * TypeInfo::typeSize(TypeId(pe.type_));
-                pe.offsetLoc_ = o + 8;
+                pe.offsetLoc_ = o + 8 - shift;
                 pe.offset_ = pe.size_ > 4 ? getLong(buf + o + 8, byteOrder) : 0;
                 preEntries.push_back(pe);
                 o += 12;
@@ -352,10 +353,6 @@ namespace Exiv2 {
             }
         }
         // Set the offset of the first data entry outside of the IFD.
-        // At the same time we guess the offset of the IFD, if it was not
-        // given. The guess is based on the assumption that the smallest offset
-        // points to a data buffer directly following the IFD. Subsequently all
-        // offsets of IFD entries will need to be recalculated.
         if (rc == 0 && preEntries.size() > 0) {
             // Find the entry with the smallest offset
             Ifd::PreEntries::const_iterator i = std::min_element(
@@ -363,23 +360,31 @@ namespace Exiv2 {
             // Only do something if there is at least one entry with data
             // outside the IFD directory itself.
             if (i->size_ > 4) {
-                if (offset_ == 0) {
-                    // Set the 'guessed' IFD offset
-                    offset_ = i->offset_ 
-		      - (2 + 12 * static_cast<long>(preEntries.size()) 
-                         + (hasNext_ ? 4 : 0));
-                }
                 // Set the offset of the first data entry outside of the IFD
-                if (i->offset_ - offset_ >= len) {
+                if (i->offset_ + shift < 0) {
 #ifndef SUPPRESS_WARNINGS
                     std::cerr << "Error: Offset of the 1st data entry of " 
                               << ExifTags::ifdName(ifdId_) 
                               << " is out of bounds:\n"
                               << " Offset = 0x" << std::setw(8) 
                               << std::setfill('0') << std::hex 
-                              << i->offset_ - offset_
+                              << i->offset_ - offset_ // relative to start of IFD
+                              << ", is before start of buffer by "
+                              << std::dec << -1 * (i->offset_ + shift)
+                              << " Bytes\n";
+#endif
+                    rc = 6;
+                } 
+                else if (i->offset_ + shift + i->size_ > len) {
+#ifndef SUPPRESS_WARNINGS
+                    std::cerr << "Error: Upper boundary of the 1st data entry of " 
+                              << ExifTags::ifdName(ifdId_) 
+                              << " is out of bounds:\n"
+                              << " Offset = 0x" << std::setw(8) 
+                              << std::setfill('0') << std::hex 
+                              << i->offset_ - offset_ // relative to start of IFD
                               << ", exceeds buffer size by "
-                              << std::dec << i->offset_ - len
+                              << std::dec << i->offset_ + shift + i->size_ - len
                               << " Bytes\n";
 #endif
                     rc = 6;
@@ -402,9 +407,9 @@ namespace Exiv2 {
                 e.setIfdId(ifdId_);
                 e.setIdx(++idx);
                 e.setTag(i->tag_);
-                long tmpOffset = 
-                    i->size_ > 4 ? i->offset_ - offset_ : i->offsetLoc_;
-                if (tmpOffset + i->size_ > len) {
+                long tmpOffset = // still from the start of the TIFF header
+                    i->size_ > 4 ? i->offset_ : i->offsetLoc_;
+                if (tmpOffset + shift + i->size_ > len) {
 #ifndef SUPPRESS_WARNINGS
                     std::cerr << "Warning: Upper boundary of data for " 
                               << ExifTags::ifdName(ifdId_) 
@@ -412,10 +417,10 @@ namespace Exiv2 {
                               << " is out of bounds:\n"
                               << " Offset = 0x" << std::setw(8) 
                               << std::setfill('0') << std::hex 
-                              << tmpOffset
+                              << tmpOffset - offset_ // relative to start of IFD
                               << ", size = " << std::dec << i->size_ 
                               << ", exceeds buffer size by "
-                              << tmpOffset + i->size_ - len
+                              << tmpOffset + shift + i->size_ - len
                               << " Bytes; Truncating the data.\n";
 #endif
                     // Truncate the entry
@@ -424,14 +429,14 @@ namespace Exiv2 {
                     tmpOffset = i->offsetLoc_;
                 }
                 // Set the offset to the data, relative to start of IFD
-                e.setOffset(tmpOffset);
+                e.setOffset(tmpOffset - offset_);
                 // Set the size to at least for bytes to accomodate offset-data
-                e.setValue(i->type_, i->count_, buf + e.offset(), 
+                e.setValue(i->type_, i->count_, buf + start + e.offset(), 
                            std::max(long(4), i->size_));
                 this->add(e);
             }
         }
-        if (!alloc_) pBase_ = const_cast<byte*>(buf) - offset_;
+        if (!alloc_) pBase_ = const_cast<byte*>(buf + shift);
         if (rc) this->clear();
 
         return rc;
@@ -478,7 +483,7 @@ namespace Exiv2 {
                 rc = 6;
             }
             else {
-                rc = dest.read(buf + offset, len - offset, byteOrder, offset);
+                rc = dest.read(buf, len, offset, byteOrder);
             }
         }
         return rc;

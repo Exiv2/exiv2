@@ -213,10 +213,11 @@ namespace Exiv2 {
 
     int CanonMakerNote::read(const byte* buf,
                              long len, 
-                             ByteOrder byteOrder, 
-                             long offset)
+                             long start,
+                             ByteOrder byteOrder,
+                             long shift)
     {
-        int rc = IfdMakerNote::read(buf, len, byteOrder, offset);
+        int rc = IfdMakerNote::read(buf, len, start, byteOrder, shift);
         if (rc) return rc;
 
         // Decode camera settings 1 and add settings as additional entries
@@ -337,7 +338,7 @@ namespace Exiv2 {
     void CanonMakerNote::updateBase(byte* pNewBase)
     {
         byte* pBase = ifd_.updateBase(pNewBase);
-        if (absOffset_ && !alloc_) {
+        if (absShift_ && !alloc_) {
             Entries::iterator end = entries_.end();
             for (Entries::iterator pos = entries_.begin(); pos != end; ++pos) {
                 pos->updateBase(pBase, pNewBase);

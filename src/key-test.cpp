@@ -140,7 +140,7 @@ int main()
         };
 
     Ifd ifd(Exiv2::iopIfdId, 0, false);
-    int ret = ifd.read(buf, len, bigEndian, 1);
+    int ret = ifd.read(buf, len, 0, bigEndian, 1);
     if (ret) {
         std::cout << "Ifd::read failed, ret = " << ret << "\n";
         return ret;

@@ -250,7 +250,7 @@ namespace Exiv2 {
 
         header_.alloc(8);
         memcpy(header_.pData_, buf, header_.size_);
-        adjOffset_ = 8;
+        start_ = 8;
         return 0;
     }
 
@@ -463,7 +463,7 @@ namespace Exiv2 {
     Nikon3MakerNote::Nikon3MakerNote(bool alloc)
         : IfdMakerNote(nikon3IfdId, alloc)
     {
-        absOffset_ = false;
+        absShift_ = false;
         byte buf[] = {
             'N', 'i', 'k', 'o', 'n', '\0', 
             0x02, 0x10, 0x00, 0x00, 0x4d, 0x4d, 0x00, 0x2a, 0x00, 0x00, 0x00, 0x08
@@ -477,8 +477,8 @@ namespace Exiv2 {
     }
 
     int Nikon3MakerNote::readHeader(const byte* buf,
-                                  long len, 
-                                  ByteOrder byteOrder)
+                                    long len, 
+                                    ByteOrder byteOrder)
     {
         if (len < 18) return 1;
 
@@ -487,7 +487,8 @@ namespace Exiv2 {
         TiffHeader tiffHeader;
         tiffHeader.read(header_.pData_ + 10);
         byteOrder_ = tiffHeader.byteOrder();
-        adjOffset_ = tiffHeader.offset();
+        start_ = 10 + tiffHeader.offset();
+        shift_ = 10;
         return 0;
     }
 
