@@ -718,6 +718,10 @@ namespace Exiv2 {
          */
         ByteOrder byteOrder() const;
         /*!
+          @brief Returns true if at least one makernote tag exists, else false.
+         */
+        bool hasMakerNote() const;
+        /*!
           @brief Write the thumbnail image to a file. A filename extension
                  is appended to \em path according to the image type of the
                  thumbnail, so \em path should not include an extension.
