@@ -40,7 +40,7 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
-#include <getopt.h>
+#include "getopt_win32.h"
 #include <stdarg.h>
 #include <stdio.h>
 
