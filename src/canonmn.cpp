@@ -452,6 +452,7 @@ namespace Exiv2 {
                                               const Value& value)
     {
         std::string n = value.toString();
+        if (n.length() < 4) return os << "(" << n << ")";
         return os << n.substr(0, n.length() - 4) << "-" 
                   << n.substr(n.length() - 4);
     }
@@ -503,6 +504,7 @@ namespace Exiv2 {
         switch (l) {
         case 2: os << "Normal"; break;
         case 3: os << "Fine"; break;
+        case 4: os << "Raw"; break;
         case 5: os << "Superfine"; break;
         default: os << "(" << l << ")"; break;
         }
@@ -770,6 +772,7 @@ namespace Exiv2 {
         if (value.count() < 3) return os << value;
 
         float fu = value.toFloat(2);
+        if (fu == 0.0) return os << value;
         float len1 = value.toLong(0) / fu;
         float len2 = value.toLong(1) / fu;
         std::ostringstream oss;
