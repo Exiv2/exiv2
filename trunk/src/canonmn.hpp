@@ -188,6 +188,10 @@ namespace Exiv2 {
         static std::ostream& printCs20x000f(std::ostream& os, const Value& value);
         //! Subject distance
         static std::ostream& printCs20x0013(std::ostream& os, const Value& value);
+        //! Aperture
+        static std::ostream& printCs20x0015(std::ostream& os, const Value& value);
+        //! Shutter speed
+        static std::ostream& printCs20x0016(std::ostream& os, const Value& value);
         //@}
 
         //! @cond IGNORE
@@ -234,6 +238,27 @@ namespace Exiv2 {
     }; // class CanonMakerNote
 
     static CanonMakerNote::RegisterMn registerCanonMakerNote;
+
+// *****************************************************************************
+// template, inline and free functions
+
+    /*!
+       @brief Convert Canon hex-based EV (modulo 0x20) to real number
+              Ported from Phil Harvey's Image::ExifTool::Canon::CanonEv 
+              by Will Stokes
+
+       0x00 -> 0
+       0x0c -> 0.33333
+       0x10 -> 0.5
+       0x14 -> 0.66666
+       0x20 -> 1  
+       ..
+       160 -> 5
+       128 -> 4
+       143 -> 4.46875
+     */
+    float canonEv(long val);
+
 }                                       // namespace Exiv2
 
 #endif                                  // #ifndef CANONMN_HPP_

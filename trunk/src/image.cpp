@@ -46,6 +46,7 @@ EXIV2_RCSID("@(#) $Id$");
 
 // Ensure registration with factory
 #include "jpgimage.hpp"
+#include "crwimage.hpp"
 
 // + standard includes
 #include <cerrno>

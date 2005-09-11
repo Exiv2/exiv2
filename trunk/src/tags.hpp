@@ -146,7 +146,7 @@ namespace Exiv2 {
     //! Container for Exif tag information. Implemented as a static class.
     class ExifTags {
         //! Prevent construction: not implemented.
-        ExifTags() {}
+        ExifTags();
         //! Prevent copy-construction: not implemented.
         ExifTags(const ExifTags& rhs);
         //! Prevent assignment: not implemented.
@@ -394,18 +394,22 @@ namespace Exiv2 {
     std::ostream& print0x0112(std::ostream& os, const Value& value);
     //! Print the YCbCrPositioning
     std::ostream& print0x0213(std::ostream& os, const Value& value);
-    //! Print the Copyright 
+    //! Print the copyright 
     std::ostream& print0x8298(std::ostream& os, const Value& value);
-    //! Print the Exposure time
+    //! Print the exposure time
     std::ostream& print0x829a(std::ostream& os, const Value& value);
-    //! Print the F number
+    //! Print the f-number
     std::ostream& print0x829d(std::ostream& os, const Value& value);
-    //! Print the Exposure mode
+    //! Print the exposure mode
     std::ostream& print0x8822(std::ostream& os, const Value& value);
     //! Print ISO speed ratings
     std::ostream& print0x8827(std::ostream& os, const Value& value);
     //! Print components configuration specific to compressed data
     std::ostream& print0x9101(std::ostream& os, const Value& value);
+    //! Print exposure time converted from APEX shutter speed value
+    std::ostream& print0x9201(std::ostream& os, const Value& value);
+    //! Print f-number converted from APEX aperture value
+    std::ostream& print0x9202(std::ostream& os, const Value& value);
     //! Print the exposure bias value
     std::ostream& print0x9204(std::ostream& os, const Value& value);
     //! Print the subject distance
@@ -449,6 +453,13 @@ namespace Exiv2 {
     //! Print subject distance range
     std::ostream& print0xa40c(std::ostream& os, const Value& value);
     //@}
+
+    //! Calculate F number from an APEX aperture value
+    float fnumber(float apertureValue);
+
+    //! Calculate the exposure time from an APEX shutter speed value
+    URational exposureTime(float shutterSpeedValue);
+
 }                                       // namespace Exiv2
 
 #endif                                  // #ifndef TAGS_HPP_

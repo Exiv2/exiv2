@@ -265,7 +265,11 @@ namespace Exiv2 {
     {
         float f = value.toFloat();
         if (f == 0.0 || f == 1.0) return os << "None";
-        return os << std::fixed << std::setprecision(1) << f << "x";
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        os << std::fixed << std::setprecision(1) << f << "x";
+        os.copyfmt(oss);
+        return os;
     } // OlympusMakerNote::print0x0204
 
     //! OneTouchWB

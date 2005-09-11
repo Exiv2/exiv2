@@ -50,27 +50,6 @@ EXIV2_RCSID("@(#) $Id$");
 #include <cmath>
 
 // *****************************************************************************
-// local declarations
-namespace {
-    /* 
-       @brief Convert Canon hex-based EV (modulo 0x20) to real number
-              Ported from Phil Harvey's Image::ExifTool::Canon::CanonEv 
-              by Will Stokes
-
-       0x00 -> 0
-       0x0c -> 0.33333
-       0x10 -> 0.5
-       0x14 -> 0.66666
-       0x20 -> 1  
-       ..
-       160 -> 5
-       128 -> 4
-       143 -> 4.46875
-     */
-    float canonEv(long val);
-}
-
-// *****************************************************************************
 // class member definitions
 namespace Exiv2 {
 
@@ -163,8 +142,8 @@ namespace Exiv2 {
         TagInfo(0x0001, "0x0001", "0x0001", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0002, "ISOSpeed", "ISOSpeed", "ISO speed used", canonCs2IfdId, makerTags, unsignedShort, printCs20x0002),
         TagInfo(0x0003, "0x0003", "0x0003", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0004, "0x0004", "0x0004", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0005, "0x0005", "0x0005", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0004, "TargetAperture", "TargetAperture", "Target Aperture", canonCs2IfdId, makerTags, unsignedShort, printCs20x0015),
+        TagInfo(0x0005, "TargetShutterSpeed", "TargetShutterSpeed", "Target shutter speed", canonCs2IfdId, makerTags, unsignedShort, printCs20x0016),
         TagInfo(0x0006, "0x0006", "0x0006", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0007, "WhiteBalance", "WhiteBalance", "White balance setting", canonCs2IfdId, makerTags, unsignedShort, printCs20x0007),
         TagInfo(0x0008, "0x0008", "0x0008", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
@@ -180,8 +159,8 @@ namespace Exiv2 {
         TagInfo(0x0012, "0x0012", "0x0012", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0013, "SubjectDistance", "SubjectDistance", "Subject distance (units are not clear)", canonCs2IfdId, makerTags, unsignedShort, printCs20x0013),
         TagInfo(0x0014, "0x0014", "0x0014", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0015, "0x0015", "0x0015", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0016, "0x0016", "0x0016", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0015, "ApertureValue", "ApertureValue", "Aperture", canonCs2IfdId, makerTags, unsignedShort, printCs20x0015),
+        TagInfo(0x0016, "ShutterSpeedValue", "ShutterSpeedValue", "Shutter speed", canonCs2IfdId, makerTags, unsignedShort, printCs20x0016),
         TagInfo(0x0017, "0x0017", "0x0017", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0018, "0x0018", "0x0018", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0019, "0x0019", "0x0019", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
@@ -893,6 +872,33 @@ namespace Exiv2 {
         return os;
     }
 
+    std::ostream& CanonMakerNote::printCs20x0015(std::ostream& os,
+                                                 const Value& value)
+    {
+        if (value.typeId() != unsignedShort) return os << value;
+
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        os << std::setprecision(2)
+           << "F" << fnumber(canonEv(value.toLong()));
+        os.copyfmt(oss);
+
+        return os;
+    }
+
+    std::ostream& CanonMakerNote::printCs20x0016(std::ostream& os,
+                                                 const Value& value)
+    {
+        if (value.typeId() != unsignedShort) return os << value;
+
+        URational ur = exposureTime(canonEv(value.toLong()));
+        os << ur.first;
+        if (ur.second > 1) {
+            os << "/" << ur.second;
+        }
+        return os << " s";
+    }
+
 // *****************************************************************************
 // free functions
 
@@ -904,12 +910,6 @@ namespace Exiv2 {
     {
         return MakerNote::AutoPtr(new CanonMakerNote(alloc));
     }
-
-}                                       // namespace Exiv2
-
-// *****************************************************************************
-// local definitions
-namespace {
 
     float canonEv(long val)
     {
@@ -932,4 +932,4 @@ namespace {
         return sign * (val + frac) / 32.0f;
     }
 
-}
+}                                       // namespace Exiv2

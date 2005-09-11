@@ -51,16 +51,16 @@ include $(top_srcdir)/config/config.mk
 CCHDR = exv_conf.h exv_msvc.h mn.hpp rcsid.hpp 
 
 # Add library C++ source files to this list
-CCSRC = basicio.cpp canonmn.cpp datasets.cpp error.cpp exif.cpp futils.cpp \
-	fujimn.cpp ifd.cpp image.cpp iptc.cpp jpgimage.cpp makernote.cpp \
-        metadatum.cpp nikonmn.cpp olympusmn.cpp panasonicmn.cpp sigmamn.cpp \
-	sonymn.cpp tags.cpp types.cpp value.cpp 
+CCSRC = basicio.cpp canonmn.cpp crwimage.cpp datasets.cpp error.cpp exif.cpp \
+	futils.cpp fujimn.cpp ifd.cpp image.cpp iptc.cpp jpgimage.cpp \
+	makernote.cpp metadatum.cpp nikonmn.cpp olympusmn.cpp panasonicmn.cpp \
+	sigmamn.cpp sonymn.cpp tags.cpp types.cpp value.cpp 
 
 # Add source files of simple applications to this list
 BINSRC = addmoddel.cpp dataarea-test.cpp exifcomment.cpp exifdata-test.cpp \
          exifprint.cpp ifd-test.cpp iotest.cpp iptceasy.cpp iptcprint.cpp \
          iptctest.cpp key-test.cpp makernote-test.cpp taglist.cpp write-test.cpp \
-         write2-test.cpp 
+         write2-test.cpp
 
 # Main source file of the Exiv2 application
 EXIV2MAIN = exiv2.cpp

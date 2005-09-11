@@ -9,7 +9,7 @@ This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 Exiv2 help ---------------------------------------------------------------
-Usage: exiv2 [ options ] [ action ] file ...
+Usage: lt-exiv2 [ options ] [ action ] file ...
 
 Manipulate the Exif metadata of images.
 
@@ -429,8 +429,8 @@ Exif.Photo.DateTimeOriginal                  Ascii      20  2003:12:14 00:00:43
 Exif.Photo.DateTimeDigitized                 Ascii      20  2003:12:14 00:00:43
 Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 Exif.Photo.CompressedBitsPerPixel            Rational    1  5
-Exif.Photo.ShutterSpeedValue                 SRational   1  8.96875
-Exif.Photo.ApertureValue                     Rational    1  4.65625
+Exif.Photo.ShutterSpeedValue                 SRational   1  F22
+Exif.Photo.ApertureValue                     Rational    1  1/25 s
 Exif.Photo.ExposureBiasValue                 SRational   1  0
 Exif.Photo.MaxApertureValue                  Rational    1  2.97086
 Exif.Photo.MeteringMode                      Short       1  Center weighted
@@ -502,8 +502,8 @@ Exif.CanonCs1.0x0027                         Short       1  1
 Exif.CanonCs2.0x0001                         Short       1  0
 Exif.CanonCs2.ISOSpeed                       Short       1  100
 Exif.CanonCs2.0x0003                         Short       1  276
-Exif.CanonCs2.0x0004                         Short       1  149
-Exif.CanonCs2.0x0005                         Short       1  287
+Exif.CanonCs2.TargetAperture                 Short       1  F5
+Exif.CanonCs2.TargetShutterSpeed             Short       1  1/501 s
 Exif.CanonCs2.0x0006                         Short       1  0
 Exif.CanonCs2.WhiteBalance                   Short       1  Auto
 Exif.CanonCs2.0x0008                         Short       1  0
@@ -519,8 +519,8 @@ Exif.CanonCs2.0x0011                         Short       1  0
 Exif.CanonCs2.0x0012                         Short       1  1
 Exif.CanonCs2.SubjectDistance                Short       1  782
 Exif.CanonCs2.0x0014                         Short       1  0
-Exif.CanonCs2.0x0015                         Short       1  149
-Exif.CanonCs2.0x0016                         Short       1  289
+Exif.CanonCs2.ApertureValue                  Short       1  F5
+Exif.CanonCs2.ShutterSpeedValue              Short       1  1/523 s
 Exif.CanonCs2.0x0017                         Short       1  0
 Exif.CanonCs2.0x0018                         Short       1  0
 Exif.CanonCs2.0x0019                         Short       1  0
@@ -770,8 +770,8 @@ Exif.Photo.DateTimeOriginal                  Ascii      20  2003:09:25 20:18:50
 Exif.Photo.DateTimeDigitized                 Ascii      20  2003:09:25 20:18:50
 Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 Exif.Photo.CompressedBitsPerPixel            Rational    1  3
-Exif.Photo.ShutterSpeedValue                 SRational   1  6.32193
-Exif.Photo.ApertureValue                     Rational    1  4.97086
+Exif.Photo.ShutterSpeedValue                 SRational   1  F8.9
+Exif.Photo.ApertureValue                     Rational    1  1/31 s
 Exif.Photo.ExposureBiasValue                 SRational   1  0
 Exif.Photo.MaxApertureValue                  Rational    1  3.61472
 Exif.Photo.MeteringMode                      Short       1  Matrix
@@ -862,8 +862,8 @@ Exif.CanonCs1.0x002d                         Short       1  65535
 Exif.CanonCs2.0x0001                         Short       1  0
 Exif.CanonCs2.ISOSpeed                       Short       1  100
 Exif.CanonCs2.0x0003                         Short       1  200
-Exif.CanonCs2.0x0004                         Short       1  159
-Exif.CanonCs2.0x0005                         Short       1  202
+Exif.CanonCs2.TargetAperture                 Short       1  F5.6
+Exif.CanonCs2.TargetShutterSpeed             Short       1  1/79 s
 Exif.CanonCs2.0x0006                         Short       1  0
 Exif.CanonCs2.WhiteBalance                   Short       1  Auto
 Exif.CanonCs2.0x0008                         Short       1  3
@@ -879,8 +879,8 @@ Exif.CanonCs2.0x0011                         Short       1  0
 Exif.CanonCs2.0x0012                         Short       1  1
 Exif.CanonCs2.SubjectDistance                Short       1  Infinite
 Exif.CanonCs2.0x0014                         Short       1  546
-Exif.CanonCs2.0x0015                         Short       1  156
-Exif.CanonCs2.0x0016                         Short       1  204
+Exif.CanonCs2.ApertureValue                  Short       1  F5.4
+Exif.CanonCs2.ShutterSpeedValue              Short       1  1/81 s
 Exif.CanonCs2.0x0017                         Short       1  140
 Exif.CanonCs2.0x0018                         Short       1  0
 Exif.CanonCs2.0x0019                         Short       1  0
@@ -918,8 +918,8 @@ Exif.Photo.ExifVersion                       Undefined   4  48 49 49 48
 Exif.Photo.DateTimeOriginal                  Ascii      20  2000:10:26 04:45:50
 Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 Exif.Photo.CompressedBitsPerPixel            Rational    1  (0/0)
-Exif.Photo.ShutterSpeedValue                 SRational   1  5
-Exif.Photo.ApertureValue                     Rational    1  4
+Exif.Photo.ShutterSpeedValue                 SRational   1  F5.7
+Exif.Photo.ApertureValue                     Rational    1  1/16 s
 Exif.Photo.BrightnessValue                   SRational   1  1.5
 Exif.Photo.ExposureBiasValue                 SRational   1  0
 Exif.Photo.MaxApertureValue                  Rational    1  4
@@ -962,8 +962,8 @@ Exif.Photo.DateTimeOriginal                  Ascii      20  2003:09:26 11:15:35
 Exif.Photo.DateTimeDigitized                 Ascii      20  2003:09:26 11:15:35
 Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 Exif.Photo.CompressedBitsPerPixel            Rational    1  1.5
-Exif.Photo.ShutterSpeedValue                 SRational   1  6
-Exif.Photo.ApertureValue                     Rational    1  4
+Exif.Photo.ShutterSpeedValue                 SRational   1  F8
+Exif.Photo.ApertureValue                     Rational    1  1/16 s
 Exif.Photo.BrightnessValue                   SRational   1  -1.83
 Exif.Photo.ExposureBiasValue                 SRational   1  +1/2
 Exif.Photo.MeteringMode                      Short       1  Center weighted
@@ -1171,9 +1171,9 @@ Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48
 Exif.Photo.DateTimeOriginal                  Ascii      20  2005:02:18 21:20:16
 Exif.Photo.DateTimeDigitized                 Ascii      20  2005:02:18 21:20:16
 Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
-Exif.Photo.CompressedBitsPerPixel            Rational    1  4.0
+Exif.Photo.CompressedBitsPerPixel            Rational    1  4
 Exif.Photo.ExposureBiasValue                 SRational   1  0
-Exif.Photo.MaxApertureValue                  Rational    1  3.0
+Exif.Photo.MaxApertureValue                  Rational    1  3
 Exif.Photo.MeteringMode                      Short       1  Matrix
 Exif.Photo.LightSource                       Short       1  Unknown
 Exif.Photo.Flash                             Short       1  No, compulsory
@@ -1253,9 +1253,9 @@ Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48
 Exif.Photo.DateTimeOriginal                  Ascii      20  2005:05:27 05:18:33
 Exif.Photo.DateTimeDigitized                 Ascii      20  2005:05:27 05:18:33
 Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
-Exif.Photo.CompressedBitsPerPixel            Rational    1  8.0
+Exif.Photo.CompressedBitsPerPixel            Rational    1  8
 Exif.Photo.ExposureBiasValue                 SRational   1  0
-Exif.Photo.MaxApertureValue                  Rational    1  3.0
+Exif.Photo.MaxApertureValue                  Rational    1  3
 Exif.Photo.MeteringMode                      Short       1  Matrix
 Exif.Photo.LightSource                       Short       1  Unknown
 Exif.Photo.Flash                             Short       1  Yes, auto, return light detected

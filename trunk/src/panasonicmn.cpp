@@ -289,8 +289,14 @@ namespace Exiv2 {
     std::ostream& PanasonicMakerNote::print0x0023(std::ostream& os, 
                                                   const Value& value)
     {
-        return os << std::fixed << std::setprecision(1) 
-                  << value.toLong() / 3 << " EV";
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        os << std::fixed << std::setprecision(1) 
+           << value.toLong() / 3 << " EV";
+        os.copyfmt(oss);
+
+        return os;
+
     } // PanasonicMakerNote::print0x0023
 
     //! ColorEffect

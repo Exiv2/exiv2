@@ -45,6 +45,7 @@ EXIV2_RCSID("@(#) $Id$");
 #include <utility>
 #include <cstdlib>
 #include <cassert>
+#include <cmath>
 
 // *****************************************************************************
 // class member definitions
@@ -187,8 +188,8 @@ namespace Exiv2 {
         TagInfo(0x9004, "DateTimeDigitized", "Date and Time (digitized)", "Date and time image was made digital data", exifIfdId, dateTime, asciiString, printValue),
         TagInfo(0x9101, "ComponentsConfiguration", "ComponentsConfiguration", "Meaning of each component", exifIfdId, imgConfig, undefined, print0x9101),
         TagInfo(0x9102, "CompressedBitsPerPixel", "Compressed Bits per Pixel", "Image compression mode", exifIfdId, imgConfig, unsignedRational, printFloat),
-        TagInfo(0x9201, "ShutterSpeedValue", "Shutter speed", "Shutter speed", exifIfdId, captureCond, signedRational, printFloat),
-        TagInfo(0x9202, "ApertureValue", "Aperture", "Aperture", exifIfdId, captureCond, unsignedRational, printFloat),
+        TagInfo(0x9201, "ShutterSpeedValue", "Shutter speed", "Shutter speed", exifIfdId, captureCond, signedRational, print0x9201),
+        TagInfo(0x9202, "ApertureValue", "Aperture", "Aperture", exifIfdId, captureCond, unsignedRational, print0x9202),
         TagInfo(0x9203, "BrightnessValue", "Brightness", "Brightness", exifIfdId, captureCond, signedRational, printFloat),
         TagInfo(0x9204, "ExposureBiasValue", "Exposure Bias", "Exposure bias", exifIfdId, captureCond, signedRational, print0x9204),
         TagInfo(0x9205, "MaxApertureValue", "MaxApertureValue", "Maximum lens aperture", exifIfdId, captureCond, unsignedRational, printFloat),
@@ -883,7 +884,11 @@ namespace Exiv2 {
     {
         Rational fnumber = value.toRational();
         if (fnumber.second != 0) {
-            os << "F" << (float)fnumber.first / fnumber.second;
+            std::ostringstream oss;
+            oss.copyfmt(os);
+            os << "F" << std::setprecision(2)
+               << static_cast<float>(fnumber.first) / fnumber.second;
+            os.copyfmt(oss);
         }
         else {
             os << "(" << value << ")";
@@ -932,6 +937,26 @@ namespace Exiv2 {
         return os;
     }
 
+    std::ostream& print0x9201(std::ostream& os, const Value& value)
+    {
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        os << "F" << std::setprecision(2) << fnumber(value.toFloat());
+        os.copyfmt(oss);
+
+        return os;
+    }
+
+    std::ostream& print0x9202(std::ostream& os, const Value& value)
+    {
+        URational ur = exposureTime(value.toFloat());
+        os << ur.first;
+        if (ur.second > 1) {
+            os << "/" << ur.second;
+        }
+        return os << " s";
+    }
+
     std::ostream& print0x9204(std::ostream& os, const Value& value)
     {
         Rational bias = value.toRational();
@@ -942,9 +967,9 @@ namespace Exiv2 {
             os << "0";
         }
         else {
-            long d = lgcd(labs(bias.first), bias.second);
-            long num = labs(bias.first) / d;
-            long den = bias.second / d;
+            int32_t d = gcd(bias.first, bias.second);
+            int32_t num = std::abs(bias.first) / d;
+            int32_t den = bias.second / d;
             os << (bias.first < 0 ? "-" : "+") << num;
             if (den != 1) {
                 os << "/" << den;
@@ -1257,6 +1282,24 @@ namespace Exiv2 {
         default: os << "(" << distance << ")"; break;
         }
         return os;
+    }
+
+    float fnumber(float apertureValue)
+    {
+        return std::exp(std::log(2.0) * apertureValue / 2);
+    }
+
+    URational exposureTime(float shutterSpeedValue)
+    {
+        URational ur(1, 1);
+        double tmp = std::exp(std::log(2.0) * shutterSpeedValue);
+        if (tmp > 1) {
+            ur.second = static_cast<long>(tmp + 0.5);
+        }
+        else {
+            ur.first = static_cast<long>(1/tmp + 0.5);
+        }
+        return ur;
     }
 
 }                                       // namespace Exiv2

@@ -19,8 +19,8 @@ Exif.CanonCs1.Selftimer                       0x0002 Makernote    Short       1 
 Exif.CanonCs2.0x0001                          0x0001 Makernote    Short       1 0
 Exif.CanonCs2.ISOSpeed                        0x0002 Makernote    Short       1 0
 Exif.CanonCs2.0x0003                          0x0003 Makernote    Short       1 0
-Exif.CanonCs2.0x0004                          0x0004 Makernote    Short       1 0
-Exif.CanonCs2.0x0005                          0x0005 Makernote    Short       1 42
+Exif.CanonCs2.TargetAperture                  0x0004 Makernote    Short       1 0
+Exif.CanonCs2.TargetShutterSpeed              0x0005 Makernote    Short       1 42
 Exif.CanonCf.NoiseReduction                   0x0001 Makernote    Short       1 43
 
 ----- Non-intrusive writing of special Canon MakerNote tags
@@ -33,8 +33,8 @@ Exif.CanonCs1.Selftimer                       0x0002 Makernote    Short       1 
 Exif.CanonCs2.0x0001                          0x0001 Makernote    Short       1 0
 Exif.CanonCs2.ISOSpeed                        0x0002 Makernote    Short       1 0
 Exif.CanonCs2.0x0003                          0x0003 Makernote    Short       1 0
-Exif.CanonCs2.0x0004                          0x0004 Makernote    Short       1 99
-Exif.CanonCs2.0x0005                          0x0005 Makernote    Short       1 42
+Exif.CanonCs2.TargetAperture                  0x0004 Makernote    Short       1 99
+Exif.CanonCs2.TargetShutterSpeed              0x0005 Makernote    Short       1 42
 Exif.CanonCf.NoiseReduction                   0x0001 Makernote    Short       1 43
 
 ----- One Fujifilm MakerNote tag

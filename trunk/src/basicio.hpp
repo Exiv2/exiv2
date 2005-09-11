@@ -406,8 +406,6 @@ namespace Exiv2 {
         /*!
           @brief Flush any buffered writes and get the current file size
               in bytes. 
-          @note On Win32 systems the file must be closed prior to calling this
-              function.
           @return Size of the file in bytes;<BR>
                  -1 if failure;
          */

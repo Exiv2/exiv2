@@ -67,6 +67,7 @@ namespace Exiv2 {
         TypeInfoTable(date,             "Date",        8),
         TypeInfoTable(time,             "Time",        11),
         TypeInfoTable(comment,          "Comment",     1),
+        TypeInfoTable(directory,        "Directory",   1),
         // End of list marker
         TypeInfoTable(lastTypeId,       "(Unknown)",   0)
     };
@@ -296,36 +297,6 @@ namespace Exiv2 {
         }
         os << std::dec << std::setfill(' ');
     } // hexdump
-
-    int gcd(int a, int b)
-    {
-        int temp;
-        if (a < b) {
-            temp = a;
-            a = b; 
-            b = temp; 
-        }
-        while ((temp = a % b) != 0) {
-            a = b;
-            b = temp;
-        }
-        return b;
-    } // gcd
-
-    long lgcd(long a, long b)
-    {
-        long temp;
-        if (a < b) {
-            temp = a;
-            a = b; 
-            b = temp; 
-        }
-        while ((temp = a % b) != 0) {
-            a = b;
-            b = temp;
-        }
-        return b;
-    } // lgcd
 
     bool isHex(const std::string& str, size_t size, const std::string& prefix)
     {

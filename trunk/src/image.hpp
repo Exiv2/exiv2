@@ -65,7 +65,7 @@ namespace Exiv2 {
     class Image {
     public:
         //! Supported image formats
-        enum Type { none, jpeg, exv };
+        enum Type { none, jpeg, exv, crw };
      
         //! Image auto_ptr type
         typedef std::auto_ptr<Image> AutoPtr;
