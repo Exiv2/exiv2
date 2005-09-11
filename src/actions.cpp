@@ -229,28 +229,28 @@ namespace Action {
             md = exifData.findKey(
                 Exiv2::ExifKey("Exif.Photo.ShutterSpeedValue"));
             if (md != exifData.end()) {
-                double tmp = exp(log(2.0) * md->toFloat()) + 0.5;
+                double tmp = exp(log(2.0) * md->toFloat());
                 if (tmp > 1) {
-                    std::cout << "1/" << static_cast<long>(tmp) << " s";
+                    std::cout << "1/" << static_cast<long>(tmp + 0.5);
                 }
                 else {
-                    std::cout << static_cast<long>(1/tmp) << " s";
+                    std::cout << static_cast<long>(1/tmp + 0.5);
                 }
+                std::cout << " s";
             }
         }
         std::cout << std::endl;
 
         // Aperture
         // Get if from FNumber and, failing that, try ApertureValue
+        bool done = false;
         std::cout << std::setw(align_) << std::setfill(' ') << std::left
                   << "Aperture" << ": ";
-        if (0 == printTag(exifData, "Exif.Photo.FNumber")) {
-            md = exifData.findKey(
-                Exiv2::ExifKey("Exif.Photo.ApertureValue"));
-            if (md != exifData.end()) {
-                std::cout << std::fixed << std::setprecision(1)
-                          << "F" << exp(log(2.0) * md->toFloat() / 2);
-            }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.Photo.FNumber");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.Photo.ApertureValue");
         }
         std::cout << std::endl;
 
@@ -262,7 +262,7 @@ namespace Action {
 
         // Todo: Flash bias, flash energy
         // Todo: Implement this for other cameras
-        bool done = false;
+        done = false;
         std::cout << std::setw(align_) << std::setfill(' ') << std::left
                   << "Flash bias" << ": ";        
         if (!done) {

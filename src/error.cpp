@@ -74,6 +74,10 @@ namespace Exiv2 {
         ErrMsg( 28, "Invalid charset: `%1'"), // %1=charset name
         ErrMsg( 29, "Unsupported date format"),
         ErrMsg( 30, "Unsupported time format"),
+        ErrMsg( 31, "%1: CRW images don't support IPTC metadata"), // %1=function
+        ErrMsg( 32, "%1: CRW images don't support JPEG comments"), // %1=function
+        ErrMsg( 33, "This does not look like a CRW image"),
+        ErrMsg( 34, "%1: Not supported"), // %1=function
 
         // Last error message (message is not used)
         ErrMsg( -2, "(Unknown Error)")

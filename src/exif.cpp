@@ -48,7 +48,7 @@ EXIV2_RCSID("@(#) $Id$");
 #include "value.hpp"
 #include "ifd.hpp"
 #include "tags.hpp"
-#include "jpgimage.hpp"
+#include "image.hpp"
 #include "makernote.hpp"
 #include "futils.hpp"
 

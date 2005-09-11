@@ -39,8 +39,8 @@ Exif.Photo.ExifVersion                       Undefined   4  48 50 49 48
 Exif.Photo.DateTimeOriginal                  Ascii      20  2004:06:08 16:04:50
 Exif.Photo.DateTimeDigitized                 Ascii      20  2004:06:08 16:04:50
 Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
-Exif.Photo.ShutterSpeedValue                 SRational   1  6.6
-Exif.Photo.ApertureValue                     Rational    1  6.4
+Exif.Photo.ShutterSpeedValue                 SRational   1  F9.8
+Exif.Photo.ApertureValue                     Rational    1  1/84 s
 Exif.Photo.ExposureBiasValue                 SRational   1  0
 Exif.Photo.MaxApertureValue                  Rational    1  3.1
 Exif.Photo.MeteringMode                      Short       1  Matrix

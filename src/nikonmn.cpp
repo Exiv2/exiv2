@@ -579,11 +579,16 @@ namespace Exiv2 {
             if (len2 != len1) {
                 os << "-" << len2;
             }
-            os << "mm " 
-               << "F" << (float)fno1.first / fno1.second;
+            os << "mm "; 
+            std::ostringstream oss;
+            oss.copyfmt(os);
+            os << "F" << std::setprecision(2) 
+               << static_cast<float>(fno1.first) / fno1.second;
             if (fno2 != fno1) {
-                os << "-" << (float)fno2.first / fno2.second;
+                os << "-" << std::setprecision(2) 
+                   << static_cast<float>(fno2.first) / fno2.second;
             }
+            os.copyfmt(oss);
         }
         else {
             os << "(" << value << ")";
