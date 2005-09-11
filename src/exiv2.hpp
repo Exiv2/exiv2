@@ -147,6 +147,7 @@ public:
     CmdLines cmdLines_;                 //!< Commands from the command line
     ModifyCmds modifyCmds_;             //!< Parsed modification commands
     std::string directory_;             //!< Location for files to extract/insert
+    std::string suffix_;                //!< File extension of the file to insert
     Files files_;                       //!< List of non-option arguments.
 
 private:
@@ -154,7 +155,7 @@ private:
       @brief Default constructor. Note that optstring_ is initialized here.
              The c'tor is private to force instantiation through instance().
      */
-    Params() : optstring_(":hVvfFa:r:p:d:e:i:m:M:l:"),
+    Params() : optstring_(":hVvfFa:r:p:d:e:i:m:M:l:s:"),
                help_(false), 
                version_(false),
                verbose_(false), 
