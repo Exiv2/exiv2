@@ -192,7 +192,7 @@ namespace Exiv2 {
         TagInfo(0x9202, "ApertureValue", "Aperture", "Aperture", exifIfdId, captureCond, unsignedRational, print0x9202),
         TagInfo(0x9203, "BrightnessValue", "Brightness", "Brightness", exifIfdId, captureCond, signedRational, printFloat),
         TagInfo(0x9204, "ExposureBiasValue", "Exposure Bias", "Exposure bias", exifIfdId, captureCond, signedRational, print0x9204),
-        TagInfo(0x9205, "MaxApertureValue", "MaxApertureValue", "Maximum lens aperture", exifIfdId, captureCond, unsignedRational, printFloat),
+        TagInfo(0x9205, "MaxApertureValue", "MaxApertureValue", "Maximum lens aperture", exifIfdId, captureCond, unsignedRational, print0x9202),
         TagInfo(0x9206, "SubjectDistance", "Subject Distance", "Subject distance", exifIfdId, captureCond, unsignedRational, print0x9206),
         TagInfo(0x9207, "MeteringMode", "Metering Mode", "Metering mode", exifIfdId, captureCond, unsignedShort, print0x9207),
         TagInfo(0x9208, "LightSource", "Light Source", "Light source", exifIfdId, captureCond, unsignedShort, print0x9208),
@@ -939,22 +939,22 @@ namespace Exiv2 {
 
     std::ostream& print0x9201(std::ostream& os, const Value& value)
     {
-        std::ostringstream oss;
-        oss.copyfmt(os);
-        os << "F" << std::setprecision(2) << fnumber(value.toFloat());
-        os.copyfmt(oss);
-
-        return os;
-    }
-
-    std::ostream& print0x9202(std::ostream& os, const Value& value)
-    {
         URational ur = exposureTime(value.toFloat());
         os << ur.first;
         if (ur.second > 1) {
             os << "/" << ur.second;
         }
         return os << " s";
+    }
+
+    std::ostream& print0x9202(std::ostream& os, const Value& value)
+    {
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        os << "F" << std::setprecision(2) << fnumber(value.toFloat());
+        os.copyfmt(oss);
+
+        return os;
     }
 
     std::ostream& print0x9204(std::ostream& os, const Value& value)
