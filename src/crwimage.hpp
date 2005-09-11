@@ -50,14 +50,14 @@ namespace Exiv2 {
 
 // *****************************************************************************
 // class declarations
-    class CrwEntry;
+    class CiffComponent;
     struct CrwMapInfo;
 
 // *****************************************************************************
 // type definitions
 
     //! Function pointer for functions to extract Exif tags from a CRW entry 
-    typedef void (*CrwExtractFct)(const CrwEntry&,
+    typedef void (*CrwExtractFct)(const CiffComponent&,
                                   const CrwMapInfo*, 
                                   Image&,
                                   ByteOrder);
@@ -281,17 +281,18 @@ namespace Exiv2 {
     }; // class RawMetadata
 
     /*!
-      @brief This class models one directory entry of a CIFF directory of
-             a CRW (Canon Raw data) image.
+      @brief Interface class for components of the CIFF directory hierarchy of
+             a CRW (Canon Raw data) image. Both CIFF directories as well as
+             entries implement this interface.
      */
-    class CrwEntry : public RawMetadata {
+    class CiffComponent : public RawMetadata {
     public:
         //! @name Creators
         //@{
         // Default and copy constructors are fine
 
         //! Virtual destructor.
-        virtual ~CrwEntry() {}
+        virtual ~CiffComponent() {}
         //@}
 
         //! @name Manipulators
@@ -299,7 +300,7 @@ namespace Exiv2 {
         // Default assignment operator is fine
 
         // See base class comment
-        virtual void add(RawMetadata::AutoPtr component);
+        virtual void add(RawMetadata::AutoPtr component) =0;
 
         // See base class comment
         virtual void read(const byte* buf, 
@@ -321,7 +322,7 @@ namespace Exiv2 {
         //@{
         // See base class comment
         virtual void extract(Image& image, 
-                             ByteOrder byteOrder) const;
+                             ByteOrder byteOrder) const =0;
 
         // See base class comment
         virtual void print(std::ostream& os, 
@@ -368,17 +369,47 @@ namespace Exiv2 {
         uint32_t    offset_; //!< Offset to the data area from the start of the dir
         const byte* pData_;  //!< Pointer to the data area
 
-    }; // class CrwEntry
+    }; // class CiffComponent
+
+    /*!
+      @brief This class models one directory entry of a CIFF directory of
+             a CRW (Canon Raw data) image.
+     */
+    class CiffEntry : public CiffComponent { 
+    public:
+        //! @name Creators
+        //@{
+        // Default and copy constructors are fine
+
+        //! Virtual destructor.
+        virtual ~CiffEntry() {}
+        //@}
+
+        //! @name Manipulators
+        //@{
+        // Default assignment operator is fine
+
+        // See base class comment
+        virtual void add(RawMetadata::AutoPtr component);
+        //@}
+
+        //! @name Accessors
+        //@{
+        // See base class comment
+        virtual void extract(Image& image, ByteOrder byteOrder) const;
+        //@}
+
+    }; // class CiffEntry
 
     //! This class models a CIFF directory of a CRW (Canon Raw data) image.
-    class CrwDirectory : public CrwEntry {
+    class CiffDirectory : public CiffComponent {
     public:
         //! @name Creators
         //@{
         // Default and copy constructors are fine
 
         //! Virtual destructor
-        virtual ~CrwDirectory();
+        virtual ~CiffDirectory();
         //@}
 
         //! @name Manipulators
@@ -427,21 +458,21 @@ namespace Exiv2 {
         // DATA
         RawMetadata::Components components_; //!< List of components in this dir
 
-    }; // class CrwDirectory
+    }; // class CiffDirectory
 
     //! This class models the header of a CRW (Canon Raw data) image.
-    class CrwHeader : public RawMetadata {
+    class CiffHeader : public RawMetadata {
     public:        
         //! @name Creators
         //@{
         //! Default constructor
-        CrwHeader() 
+        CiffHeader() 
             : rootDirectory_ (0), 
               byteOrder_     (littleEndian), 
               offset_        (0x0000001a) 
             {}
         //! Virtual destructor
-        virtual ~CrwHeader();
+        virtual ~CiffHeader();
         //@}
 
         //! @name Manipulators
@@ -474,11 +505,11 @@ namespace Exiv2 {
 
     private:
         // DATA
-        CrwDirectory*     rootDirectory_; //!< Pointer to the root directory
+        CiffDirectory*     rootDirectory_; //!< Pointer to the root directory
         ByteOrder         byteOrder_;     //!< Applicable byte order
         uint32_t          offset_;        //!< Offset to the start of the root dir
 
-    }; // class CrwHeader
+    }; // class CiffHeader
 
     //! Structure for conversion info for CIFF entries
     struct CrwMapInfo {
@@ -530,11 +561,12 @@ namespace Exiv2 {
           @brief Extract image metadata from a CRW entry convert and add it
                  to the image metadata.
 
-          @param crwEntry  Source CRW entry
-          @param image     Destination image for the metadata
-          @param byteOrder Byte order in which the data of the entry is encoded
+          @param ciffComponent Source CIFF entry
+          @param image         Destination image for the metadata
+          @param byteOrder     Byte order in which the data of the entry 
+                               is encoded
          */
-        static void extract(const CrwEntry& crwEntry, 
+        static void extract(const CiffComponent& ciffComponent, 
                             Image& image, 
                             ByteOrder byteOrder);
 
@@ -551,49 +583,49 @@ namespace Exiv2 {
           is not 0, then it is used instead of the \em size provided by the 
           entry itself.
          */
-        static void extractBasic(const CrwEntry& crwEntry,
+        static void extractBasic(const CiffComponent& ciffComponent,
                                  const CrwMapInfo* crwMapInfo, 
                                  Image& image, 
                                  ByteOrder byteOrder);
 
         //! Extract the user comment
-        static void extract0x0805(const CrwEntry& crwEntry,
+        static void extract0x0805(const CiffComponent& ciffComponent,
                                   const CrwMapInfo* crwMapInfo, 
                                   Image& image, 
                                   ByteOrder byteOrder);
 
         //! Extract camera Make and Model information
-        static void extract0x080a(const CrwEntry& crwEntry,
+        static void extract0x080a(const CiffComponent& ciffComponent,
                                   const CrwMapInfo* crwMapInfo, 
                                   Image& image, 
                                   ByteOrder byteOrder);
 
         //! Extract Canon Camera Settings 2
-        static void extract0x102a(const CrwEntry& crwEntry,
+        static void extract0x102a(const CiffComponent& ciffComponent,
                                   const CrwMapInfo* crwMapInfo, 
                                   Image& image, 
                                   ByteOrder byteOrder);
 
         //! Extract Canon Camera Settings 1
-        static void extract0x102d(const CrwEntry& crwEntry,
+        static void extract0x102d(const CiffComponent& ciffComponent,
                                   const CrwMapInfo* crwMapInfo, 
                                   Image& image, 
                                   ByteOrder byteOrder);
 
         //! Extract the date when the picture was taken
-        static void extract0x180e(const CrwEntry& crwEntry,
+        static void extract0x180e(const CiffComponent& ciffComponent,
                                   const CrwMapInfo* crwMapInfo, 
                                   Image& image, 
                                   ByteOrder byteOrder);
 
         //! Extract image width and height
-        static void extract0x1810(const CrwEntry& crwEntry,
+        static void extract0x1810(const CiffComponent& ciffComponent,
                                   const CrwMapInfo* crwMapInfo, 
                                   Image& image, 
                                   ByteOrder byteOrder);
 
         //! Extract the thumbnail image
-        static void extract0x2008(const CrwEntry& crwEntry,
+        static void extract0x2008(const CiffComponent& ciffComponent,
                                   const CrwMapInfo* crwMapInfo, 
                                   Image& image, 
                                   ByteOrder byteOrder);
