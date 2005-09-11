@@ -171,6 +171,8 @@ namespace Action {
         int printValues();
         //! Print Exif information in hexdump format
         int printHexdump();
+        //! Print the label for a summary line
+        void printLabel(const std::string& label) const;
         /*!
           @brief Print one summary line with a label (if provided) and requested
                  data. A line break is printed only if a label is provided.

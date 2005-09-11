@@ -196,15 +196,14 @@ namespace Action {
         align_ = 16;
 
         // Filename
-        std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                  << "Filename" << ": " << path_ << std::endl;
+        printLabel("Filename");
+        std::cout << path_ << std::endl;
 
         // Filesize
         struct stat buf;
         if (0 == stat(path_.c_str(), &buf)) {
-            std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                      << "Filesize" << ": " << buf.st_size << " Bytes"
-                      << std::endl;
+            printLabel("Filesize");
+            std::cout << buf.st_size << " Bytes" << std::endl;
         }
 
         // Camera make
@@ -222,30 +221,20 @@ namespace Action {
 
         // Exposure time
         // From ExposureTime, failing that, try ShutterSpeedValue
-        std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                  << "Exposure time" << ": ";
-        Exiv2::ExifData::const_iterator md;
-        if (0 == printTag(exifData, "Exif.Photo.ExposureTime")) {
-            md = exifData.findKey(
-                Exiv2::ExifKey("Exif.Photo.ShutterSpeedValue"));
-            if (md != exifData.end()) {
-                double tmp = exp(log(2.0) * md->toFloat());
-                if (tmp > 1) {
-                    std::cout << "1/" << static_cast<long>(tmp + 0.5);
-                }
-                else {
-                    std::cout << static_cast<long>(1/tmp + 0.5);
-                }
-                std::cout << " s";
-            }
+        bool done = false;
+        printLabel("Exposure time");
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.Photo.ExposureTime");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.Photo.ShutterSpeedValue");
         }
         std::cout << std::endl;
 
         // Aperture
         // Get if from FNumber and, failing that, try ApertureValue
-        bool done = false;
-        std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                  << "Aperture" << ": ";
+        done = false;
+        printLabel("Aperture");
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Photo.FNumber");
         }
@@ -263,8 +252,7 @@ namespace Action {
         // Todo: Flash bias, flash energy
         // Todo: Implement this for other cameras
         done = false;
-        std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                  << "Flash bias" << ": ";        
+        printLabel("Flash bias");
         if (!done) {
             done = 0 != printTag(exifData, "Exif.CanonCs2.FlashBias");
         }
@@ -278,8 +266,8 @@ namespace Action {
 
         // Actual focal length and 35 mm equivalent
         // Todo: Calculate 35 mm equivalent a la jhead
-        std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                  << "Focal length" << ": ";
+        Exiv2::ExifData::const_iterator md;
+        printLabel("Focal length");
         if (1 == printTag(exifData, "Exif.Photo.FocalLength")) {
             md = exifData.findKey(
                 Exiv2::ExifKey("Exif.Photo.FocalLengthIn35mmFilm"));
@@ -290,8 +278,7 @@ namespace Action {
         std::cout << std::endl;
 
         // Subject distance
-        std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                  << "Subject distance" << ": ";
+        printLabel("Subject distance");
         done = false;
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Photo.SubjectDistance");
@@ -303,8 +290,7 @@ namespace Action {
 
         // ISO speed
         // from ISOSpeedRatings or the Makernote
-        std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                  << "ISO speed" << ": ";
+        printLabel("ISO speed");
         done = false;
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Photo.ISOSpeedRatings");
@@ -325,8 +311,7 @@ namespace Action {
 
         // Exposure mode 
         // From ExposureProgram or Canon Makernote
-        std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                  << "Exposure mode" << ": ";
+        printLabel("Exposure mode");
         done = false;
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Photo.ExposureProgram");
@@ -341,8 +326,7 @@ namespace Action {
 
         // Macro mode
         // Todo: Implement this for other cameras
-        std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                  << "Macro mode" << ": ";
+        printLabel("Macro mode");
         done = false;
         if (!done) {
             done = 0 != printTag(exifData, "Exif.CanonCs1.Macro");
@@ -360,8 +344,7 @@ namespace Action {
 
         // Image quality setting (compression)
         // Todo: Implement this for other cameras
-        std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                  << "Image quality" << ": ";
+        printLabel("Image quality");
         done = false;
         if (!done) {
             done = 0 != printTag(exifData, "Exif.CanonCs1.Quality");
@@ -390,8 +373,7 @@ namespace Action {
         std::cout << std::endl;
 
         // Exif Resolution
-        std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                  << "Exif Resolution" << ": ";
+        printLabel("Exif Resolution");
         long xdim = 0;
         long ydim = 0;
         md = exifData.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
@@ -405,8 +387,7 @@ namespace Action {
 
         // White balance
         // Todo: Implement this for other cameras
-        std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                  << "White balance" << ": ";
+        printLabel("White balance");
         done = false;
         if (!done) {
             done = 0 != printTag(exifData, "Exif.CanonCs2.WhiteBalance");
@@ -435,8 +416,7 @@ namespace Action {
         std::cout << std::endl;
 
         // Thumbnail
-        std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                  << "Thumbnail" << ": ";
+        printLabel("Thumbnail");
         std::string thumbExt = exifData.thumbnailExtension();
         if (thumbExt.empty()) {
             std::cout << "None";
@@ -458,15 +438,19 @@ namespace Action {
         return 0;
     } // Print::printSummary
 
+    void Print::printLabel(const std::string& label) const
+    {
+        std::cout << std::setw(align_) << std::setfill(' ') << std::left
+                  << label << ": ";
+    }
+
     int Print::printTag(const Exiv2::ExifData& exifData,
                         const std::string& key,
                         const std::string& label) const
     {
         int rc = 0;
         if (!label.empty()) {
-            // Print the label in any case for the moment (to see what's missing)
-            std::cout << std::setw(align_) << std::setfill(' ') << std::left
-                      << label << ": ";
+            printLabel(label);
         }
         Exiv2::ExifKey ek(key);
         Exiv2::ExifData::const_iterator md = exifData.findKey(ek);
