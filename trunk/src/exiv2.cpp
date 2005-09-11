@@ -230,7 +230,8 @@ void Params::help(std::ostream& os) const
        << "           set|add|del <key> [[<type>] <value>].\n"
        << "   -M cmd  Command line for the modify action. The format for the\n"
        << "           commands is the same as that of the lines of a command file.\n"
-       << "   -l dir  Location (directory) for files to be inserted or extracted.\n\n";
+       << "   -l dir  Location (directory) for files to be inserted from or extracted to.\n"
+       << "   -s ext  Suffix of the files to be inserted from.\n\n";
 } // Params::help
 
 int Params::option(int opt, const std::string& optarg, int optopt)
@@ -251,6 +252,7 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     case 'm': rc = evalModify(opt, optarg); break;
     case 'M': rc = evalModify(opt, optarg); break;
     case 'l': directory_ = optarg; break;
+    case 's': suffix_ = optarg; break;
     case ':':
         std::cerr << progname() << ": Option -" << static_cast<char>(optopt) 
                   << " requires an argument\n";
@@ -572,9 +574,16 @@ int Params::getopt(int argc, char* const argv[])
             rc = 1;
         }
     }
-    if (!directory_.empty() && !(action_ == Action::insert || action_ == Action::extract)) {
-        std::cerr << progname() << ": -l option can only be used with extract or insert actions\n"; 
+    if (   !directory_.empty() 
+        && !(action_ == Action::insert || action_ == Action::extract)) {
+        std::cerr << progname() 
+                  << ": -l option can only be used with extract or insert actions\n";
         rc = 1; 
+    }
+    if (!suffix_.empty() && !action_ == Action::insert) {
+        std::cerr << progname() 
+                  << ": -s option can only be used with insert action\n";
+        rc = 1;
     }
     return rc;
 } // Params::getopt

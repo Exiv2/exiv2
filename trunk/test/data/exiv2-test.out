@@ -57,7 +57,8 @@ Options:
            set|add|del <key> [[<type>] <value>].
    -M cmd  Command line for the modify action. The format for the
            commands is the same as that of the lines of a command file.
-   -l dir  Location (directory) for files to be inserted or extracted.
+   -l dir  Location (directory) for files to be inserted from or extracted to.
+   -s ext  Suffix of the files to be inserted from.
 
 
 Adjust -------------------------------------------------------------------
