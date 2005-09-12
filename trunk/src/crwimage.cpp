@@ -84,13 +84,13 @@ namespace Exiv2 {
         }
     } // CrwImage::CrwImage
 
-    int CrwImage::initImage(const byte initData[], size_t dataSize)
+    int CrwImage::initImage(const byte initData[], long dataSize)
     {
         if (io_->open() != 0) {
             return 4;
         }
         IoCloser closer(*io_);
-        if (static_cast<size_t>(io_->write(initData, dataSize)) != dataSize) {
+        if (io_->write(initData, dataSize) != dataSize) {
             return 4;
         }
         return 0;
@@ -162,7 +162,7 @@ namespace Exiv2 {
         clearMetadata();
 
         // Read the image into a memory buffer
-        size_t imageSize = io_->size();
+        long imageSize = io_->size();
         DataBuf image(imageSize);
         io_->read(image.pData_, imageSize);
         if (io_->error() || io_->eof()) throw Error(14);
@@ -196,10 +196,10 @@ namespace Exiv2 {
     }
 
     void CiffComponent::read(const byte* buf, 
-                            size_t len, 
-                            size_t start, 
-                            ByteOrder byteOrder,
-                            long /*shift*/)
+                             uint32_t len, 
+                             uint32_t start, 
+                             ByteOrder byteOrder,
+                             int32_t /*shift*/)
     {
         if (len < 10) throw Error(33);
         tag_ = getUShort(buf + start, byteOrder);
@@ -293,10 +293,10 @@ namespace Exiv2 {
     } // CiffDirectory::add
 
     void CiffDirectory::read(const byte* buf, 
-                            size_t len, 
-                            size_t start, 
-                            ByteOrder byteOrder,
-                            long /*shift*/)
+                             uint32_t len, 
+                             uint32_t start, 
+                             ByteOrder byteOrder,
+                             int32_t /*shift*/)
     {
         CiffComponent::read(buf, len, start, byteOrder);
         readDirectory(buf + offset(), size(), 0, byteOrder, 0);
@@ -324,10 +324,10 @@ namespace Exiv2 {
     } // CiffDirectory::print
 
     void CiffDirectory::readDirectory(const byte* buf, 
-                                     size_t len, 
-                                     size_t start, 
-                                     ByteOrder byteOrder, 
-                                     long /*shift*/)
+                                      uint32_t len, 
+                                      uint32_t start, 
+                                      ByteOrder byteOrder, 
+                                      int32_t /*shift*/)
     {
         uint32_t dataSize = getULong(buf + len - 4, byteOrder);
         uint32_t o = start + dataSize;
@@ -363,10 +363,10 @@ namespace Exiv2 {
     } // CiffHeader::add
 
     void CiffHeader::read(const byte* buf, 
-                         size_t len, 
-                         size_t start, 
-                         ByteOrder byteOrder,
-                         long /*shift*/)
+                          uint32_t len, 
+                          uint32_t start, 
+                          ByteOrder byteOrder,
+                          int32_t /*shift*/)
     {
         if (len < 14) throw Error(33);
 
@@ -580,7 +580,7 @@ namespace Exiv2 {
 
         // Todo: use _r version
         struct tm* tm = std::gmtime(&t);
-        size_t m = 20;
+        const size_t m = 20;
         char s[m];
         std::strftime(s, m, "%Y:%m:%d %T", tm);
 

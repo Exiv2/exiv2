@@ -580,7 +580,7 @@ int Params::getopt(int argc, char* const argv[])
                   << ": -l option can only be used with extract or insert actions\n";
         rc = 1; 
     }
-    if (!suffix_.empty() && !action_ == Action::insert) {
+    if (!suffix_.empty() && !(action_ == Action::insert)) {
         std::cerr << progname() 
                   << ": -s option can only be used with insert action\n";
         rc = 1;

@@ -313,10 +313,16 @@ namespace Exiv2 {
         // This is abs() - given the existence of broken compilers with Koenig
         // lookup issues and other problems, I code this explicitly. (Remember,
         // IntType may be a user-defined type).
+#ifdef _MSC_VER
+#pragma warning( disable : 4146 )
+#endif
         if (n < zero)
             n = -n;
         if (m < zero)
             m = -m;
+#ifdef _MSC_VER
+#pragma warning( default : 4146 )
+#endif
 
         // As n and m are now positive, we can be sure that %= returns a
         // positive value (the standard guarantees this for built-in types,
