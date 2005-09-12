@@ -314,8 +314,8 @@ namespace Action {
 
     private:
         virtual Modify* clone_() const;
-        //! Copy contructor needed because of AutoPtr memeber 
-        Modify(const Modify& src) {} 
+        //! Copy contructor needed because of AutoPtr member 
+        Modify(const Modify& /*src*/) {} 
 
         //! Add a metadatum according to \em modifyCmd 
         void addMetadatum(const ModifyCmd& modifyCmd);

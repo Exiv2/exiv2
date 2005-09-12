@@ -111,7 +111,7 @@ public:
 
       @return 0 if successful, 1 in case of an error.
      */
-    virtual int nonoption(const std::string& argv) { return 0; }
+    virtual int nonoption(const std::string& argv);
 
     //! Program name (argv[0])
     const std::string& progname() const { return progname_; }

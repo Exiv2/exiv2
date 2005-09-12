@@ -1286,7 +1286,7 @@ namespace Exiv2 {
 
     float fnumber(float apertureValue)
     {
-        return std::exp(std::log(2.0) * apertureValue / 2);
+        return static_cast<float>(std::exp(std::log(2.0) * apertureValue / 2));
     }
 
     URational exposureTime(float shutterSpeedValue)

@@ -166,9 +166,7 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-
-        int initImage(const byte initData[], size_t dataSize);
-
+        int initImage(const byte initData[], long dataSize);
         //@}
 
         //! @name Accessors
@@ -248,10 +246,10 @@ namespace Exiv2 {
           @throw Error If the component cannot be parsed.
          */
         virtual void read(const byte* buf, 
-                          size_t len, 
-                          size_t start, 
+                          uint32_t len, 
+                          uint32_t start, 
                           ByteOrder byteOrder,
-                          long shift =0) =0;
+                          int32_t shift =0) =0;
         //@}
 
         //! @name Accessors
@@ -304,10 +302,10 @@ namespace Exiv2 {
 
         // See base class comment
         virtual void read(const byte* buf, 
-                          size_t len, 
-                          size_t start, 
+                          uint32_t len, 
+                          uint32_t start, 
                           ByteOrder byteOrder,
-                          long shift =0);
+                          int32_t shift =0);
 
         //! Set the directory tag for this component.
         void setDir(uint16_t dir)      { dir_ = dir; }
@@ -421,10 +419,10 @@ namespace Exiv2 {
 
         // See base class comment
         virtual void read(const byte* buf, 
-                          size_t len, 
-                          size_t start, 
+                          uint32_t len, 
+                          uint32_t start, 
                           ByteOrder byteOrder,
-                          long shift =0);
+                          int32_t shift =0);
 
         /*!
           @brief Parse a CIFF directory from a memory buffer
@@ -436,10 +434,10 @@ namespace Exiv2 {
           @param shift     Not used
          */
         void readDirectory(const byte* buf, 
-                           size_t len, 
-                           size_t start, 
-                           ByteOrder byteOrder, 
-                           long shift =0);
+                           uint32_t len, 
+                           uint32_t start, 
+                           ByteOrder byteOrder,
+                           int32_t shift =0);
         //@}
 
         //! @name Accessors
@@ -482,10 +480,10 @@ namespace Exiv2 {
 
         // See base class comment
         virtual void read(const byte* buf, 
-                          size_t len, 
-                          size_t start, 
+                          uint32_t len, 
+                          uint32_t start, 
                           ByteOrder byteOrder,
-                          long shift =0);
+                          int32_t shift =0);
         //@}
 
         //! @name Accessors
