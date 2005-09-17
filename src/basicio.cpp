@@ -62,8 +62,8 @@ EXIV2_RCSID("@(#) $Id$");
 // class member definitions
 namespace Exiv2 {
 
-    FileIo::FileIo(const std::string& path) : 
-        path_(path), fp_(0), opMode_(opSeek)
+    FileIo::FileIo(const std::string& path) 
+        : path_(path), fp_(0), opMode_(opSeek)
     {
     }
         
@@ -223,22 +223,18 @@ namespace Exiv2 {
     int FileIo::seek(long offset, Position pos)
     {
         assert(fp_ != 0);
+
         int fileSeek;
-        if (pos == BasicIo::cur) {
-            fileSeek = SEEK_CUR;
-        }
-        else if (pos == BasicIo::beg) {
-            fileSeek = SEEK_SET;
-        }
-        else {
-            assert(pos == BasicIo::end);
-            fileSeek = SEEK_END;
+        switch (pos) {
+        case BasicIo::cur: fileSeek = SEEK_CUR; break;
+        case BasicIo::beg: fileSeek = SEEK_SET; break;
+        case BasicIo::end: fileSeek = SEEK_END; break;
         }
 
         if (switchMode(opSeek) != 0) return 1;
         return fseek(fp_, offset, fileSeek);
     }
-        
+
     long FileIo::tell() const
     {
         assert(fp_ != 0);
@@ -336,12 +332,12 @@ namespace Exiv2 {
     }
 
     MemIo::MemIo(const byte* data, long size)
+        : data_(const_cast<byte*>(data)),
+          idx_(0),
+          size_(size),
+          sizeAlloced_(0),
+          isMalloced_(false)
     {
-        // If copying data is too slow it might be worth
-        // creating a readonly MemIo variant
-        data_.reserve(size);
-        data_.assign(data, data+size);
-        idx_ = 0;
     }
 
     BasicIo::AutoPtr MemIo::temporary() const
@@ -351,16 +347,35 @@ namespace Exiv2 {
         
     void MemIo::checkSize(long wcount)
     {
-        ByteVector::size_type need = wcount + idx_;
-        if (need > data_.size()) {
-            data_.resize(need);
+        long need = wcount + idx_;
+        if (need > size_) {
+            if (need > sizeAlloced_) {
+                // Allocate in blocks of 32kB
+                long want = 32768 * (1 + need / 32768);             
+                if (size_ > 0) {
+                    if (!isMalloced_) {
+                        // "copy-on-expand"
+                        byte* data = (byte*)malloc(want);
+                        memcpy(data, data_, size_);
+                        data_ = data;
+                    }
+                    else {
+                        data_ = (byte*)realloc(data_, want);
+                    }
+                }
+                else {
+                    data_ = (byte*)malloc(want);
+                }
+                sizeAlloced_ = want;
+                isMalloced_ = true;
+            }
+            size_ = need;
         }
     }
 
     long MemIo::write(const byte* data, long wcount)
     {
         checkSize(wcount);
-        // According to Josuttis 6.2.3 this is safe
         memcpy(&data_[idx_], data, wcount);
         idx_ += wcount;
         return wcount;
@@ -371,16 +386,24 @@ namespace Exiv2 {
         MemIo *memIo = dynamic_cast<MemIo*>(&src);
         if (memIo) {
             // Optimization if this is another instance of MemIo
-            data_.swap(memIo->data_);
+            if (true == isMalloced_) {
+                free(data_);
+            }
             idx_ = 0;
+            data_ = memIo->data_;
+            size_ = memIo->size_;
+            isMalloced_ = memIo->isMalloced_;
+            memIo->idx_ = 0;
+            memIo->data_ = 0;
+            memIo->size_ = 0;
+            memIo->isMalloced_ = false;
         }
-        else{
+        else {
             // Generic reopen to reset position to start
-            data_.clear();
-            idx_ = 0;
             if (src.open() != 0) {
                 throw Error(9, src.path(), strError());
             }
+            idx_ = 0;
             write(src);
             src.close();    
         }
@@ -389,7 +412,7 @@ namespace Exiv2 {
 
     long MemIo::write(BasicIo& src)
     {
-        if (static_cast<BasicIo*>(this)==&src) return 0;
+        if (static_cast<BasicIo*>(this) == &src) return 0;
         if (!src.isopen()) return 0;
         
         byte buf[4096];
@@ -412,32 +435,27 @@ namespace Exiv2 {
     
     int MemIo::seek(long offset, Position pos)
     {
-        ByteVector::size_type newIdx;
+        long newIdx;
         
-        if (pos == BasicIo::cur ) {
-            newIdx = idx_ + offset;
-        }
-        else if (pos == BasicIo::beg) {
-            newIdx = offset;
-        }
-        else {
-            assert(pos == BasicIo::end);
-            newIdx = data_.size() + offset;
+        switch (pos) {
+        case BasicIo::cur: newIdx = idx_ + offset; break;
+        case BasicIo::beg: newIdx = offset; break;
+        case BasicIo::end: newIdx = size_ + offset; break;
         }
 
-        if (newIdx < 0 || newIdx > data_.size()) return 1;
+        if (newIdx < 0 || newIdx > size_) return 1;
         idx_ = newIdx;
         return 0;
     }
 
     long MemIo::tell() const
     {
-        return (long)idx_;
+        return idx_;
     }
 
     long MemIo::size() const
     {
-        return (long)data_.size();
+        return size_;
     }
     
     int MemIo::open()
@@ -466,10 +484,9 @@ namespace Exiv2 {
 
     long MemIo::read(byte* buf, long rcount)
     {
-        long avail = (long)(data_.size() - idx_);
+        long avail = size_ - idx_;
         long allow = std::min(rcount, avail);
-        
-        // According to Josuttis 6.2.3 this is safe
+
         memcpy(buf, &data_[idx_], allow);
         idx_ += allow;
         return allow;
@@ -477,8 +494,7 @@ namespace Exiv2 {
 
     int MemIo::getb()
     {
-        if (idx_ == data_.size())
-            return EOF;
+        if (idx_ == size_) return EOF;
         return data_[idx_++];
     }
 
@@ -489,7 +505,7 @@ namespace Exiv2 {
     
     bool MemIo::eof() const
     {
-        return idx_ == data_.size();
+        return idx_ == size_;
     }
 
     std::string MemIo::path() const
