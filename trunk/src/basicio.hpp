@@ -141,7 +141,7 @@ namespace Exiv2 {
           @return Number of bytes read from IO source successfully;<BR>
               0 if failure;
          */
-        virtual long read(byte *buf, long rcount) = 0;
+        virtual long read(byte* buf, long rcount) = 0;
         /*!
           @brief Read one byte from the IO source. Current IO position is
               advanced by one byte.
@@ -360,7 +360,7 @@ namespace Exiv2 {
           @return Number of bytes read from the file successfully;<BR>
                  0 if failure;
          */
-        virtual long read(byte *buf, long rcount);
+        virtual long read(byte* buf, long rcount);
         /*!
           @brief Read one byte from the file. The file position is
               advanced by one byte.
@@ -474,7 +474,8 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor that results in an empty object
-        MemIo() { idx_ = 0; }
+        MemIo() : data_(0), idx_(0), size_(0), 
+                  sizeAlloced_(0), isMalloced_(false) {}
         /*!
           @brief Constructor that accepts a block of memory to be copied.
               IO operations are performed on the copied memory.
@@ -484,7 +485,7 @@ namespace Exiv2 {
          */
         MemIo(const byte* data, long size);
         //! Destructor. Releases all managed memory
-        virtual ~MemIo() {}
+        ~MemIo() { if (isMalloced_) free(data_); }
         //@}
 
         //! @name Manipulators
@@ -554,7 +555,7 @@ namespace Exiv2 {
           @return Number of bytes read from the memory block successfully;<BR>
                  0 if failure;
          */
-        virtual long read(byte *buf, long rcount);
+        virtual long read(byte* buf, long rcount);
         /*!
           @brief Read one byte from the memory block. The IO position is
               advanced by one byte.
@@ -625,12 +626,12 @@ namespace Exiv2 {
         //! Assignment operator
         MemIo& operator=(const MemIo& rhs);
 
-        // Typedefs
-        typedef std::vector<byte> ByteVector;
-        
         // DATA
-        ByteVector data_;
-        ByteVector::size_type idx_;
+        byte* data_;
+        long idx_;
+        long size_;
+        long sizeAlloced_;              //!< Size of the allocated buffer
+        bool isMalloced_;               //!< Was the buffer allocated?
 
         // METHODS
         void checkSize(long wcount);
