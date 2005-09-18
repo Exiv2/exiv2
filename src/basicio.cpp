@@ -225,7 +225,7 @@ namespace Exiv2 {
     {
         assert(fp_ != 0);
 
-        int fileSeek;
+        int fileSeek = 0;
         switch (pos) {
         case BasicIo::cur: fileSeek = SEEK_CUR; break;
         case BasicIo::beg: fileSeek = SEEK_SET; break;
@@ -452,7 +452,7 @@ namespace Exiv2 {
     
     int MemIo::seek(long offset, Position pos)
     {
-        long newIdx;
+        long newIdx = 0;
         
         switch (pos) {
         case BasicIo::cur: newIdx = idx_ + offset; break;
