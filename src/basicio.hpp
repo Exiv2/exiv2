@@ -474,8 +474,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor that results in an empty object
-        MemIo() : data_(0), idx_(0), size_(0), 
-                  sizeAlloced_(0), isMalloced_(false) {}
+        MemIo();
         /*!
           @brief Constructor that accepts a block of memory to be copied.
               IO operations are performed on the copied memory.
@@ -485,7 +484,7 @@ namespace Exiv2 {
          */
         MemIo(const byte* data, long size);
         //! Destructor. Releases all managed memory
-        ~MemIo() { if (isMalloced_) free(data_); }
+        ~MemIo();
         //@}
 
         //! @name Manipulators

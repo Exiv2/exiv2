@@ -45,6 +45,7 @@ EXIV2_RCSID("@(#) $Id$");
 #include <string>
 #include <cassert>
 #include <cstdio>                       // for remove()
+#include <cstdlib>                      // for alloc(), realloc(), free()
 #include <sys/types.h>                  // for stat()
 #include <sys/stat.h>                   // for stat()
 #ifdef EXV_HAVE_PROCESS_H
@@ -183,13 +184,13 @@ namespace Exiv2 {
             close();
             fileIo->close();
             // MSVCRT rename that does not overwrite existing files
-            if (remove(path_.c_str()) != 0) {
-                throw Error(2, path_, strError(), "::remove");
+            if (std::remove(path_.c_str()) != 0) {
+                throw Error(2, path_, strError(), "std::remove");
             }
             if (rename(fileIo->path_.c_str(), path_.c_str()) == -1) {
                 throw Error(17, fileIo->path_, path_, strError());
             }
-            remove(fileIo->path_.c_str());
+            std::remove(fileIo->path_.c_str());
         }
         else{
             // Generic handling, reopen both to reset to start
@@ -331,6 +332,15 @@ namespace Exiv2 {
         return path_;
     }
 
+    MemIo::MemIo() 
+        : data_(0),
+          idx_(0), 
+          size_(0), 
+          sizeAlloced_(0), 
+          isMalloced_(false)
+    {
+    }
+
     MemIo::MemIo(const byte* data, long size)
         : data_(const_cast<byte*>(data)),
           idx_(0),
@@ -338,6 +348,13 @@ namespace Exiv2 {
           sizeAlloced_(0),
           isMalloced_(false)
     {
+    }
+
+    MemIo::~MemIo() 
+    { 
+        if (isMalloced_) {
+            std::free(data_); 
+        }
     }
 
     BasicIo::AutoPtr MemIo::temporary() const
@@ -355,16 +372,16 @@ namespace Exiv2 {
                 if (size_ > 0) {
                     if (!isMalloced_) {
                         // "copy-on-expand"
-                        byte* data = (byte*)malloc(want);
+                        byte* data = (byte*)std::malloc(want);
                         memcpy(data, data_, size_);
                         data_ = data;
                     }
                     else {
-                        data_ = (byte*)realloc(data_, want);
+                        data_ = (byte*)std::realloc(data_, want);
                     }
                 }
                 else {
-                    data_ = (byte*)malloc(want);
+                    data_ = (byte*)std::malloc(want);
                 }
                 sizeAlloced_ = want;
                 isMalloced_ = true;
@@ -387,7 +404,7 @@ namespace Exiv2 {
         if (memIo) {
             // Optimization if this is another instance of MemIo
             if (true == isMalloced_) {
-                free(data_);
+                std::free(data_);
             }
             idx_ = 0;
             data_ = memIo->data_;
