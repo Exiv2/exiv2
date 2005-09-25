@@ -71,7 +71,15 @@ namespace Exiv2 {
     {
         int error = errno;
         std::ostringstream os; 
-        os << strerror(error) << " (" << error << ")";
+#ifdef EXV_HAVE_STRERROR_R
+        const size_t n = 1024;
+        char buf[n];
+        strerror_r(error, buf, n);
+        os << buf;
+#else
+        os << std::strerror(error); 
+#endif
+        os << " (" << error << ")";
         return os.str();
     } // strError
 

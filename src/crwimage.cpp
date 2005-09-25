@@ -557,17 +557,23 @@ namespace Exiv2 {
         ULongValue v;
         v.read(ciffComponent.pData(), 8, byteOrder);
         time_t t = v.value_[0];
-
-        // Todo: use _r version
+#ifdef EXV_HAVE_GMTIME_R
+        struct tm tms;
+        struct tm* tm = &tms;
+        tm = gmtime_r(&t, tm);
+#else
         struct tm* tm = std::gmtime(&t);
-        const size_t m = 20;
-        char s[m];
-        std::strftime(s, m, "%Y:%m:%d %T", tm);
+#endif
+        if (tm) {
+            const size_t m = 20;
+            char s[m];
+            std::strftime(s, m, "%Y:%m:%d %T", tm);
 
-        ExifKey key(crwMapInfo->tag_, ExifTags::ifdItem(crwMapInfo->ifdId_));
-        AsciiValue value;
-        value.read(std::string(s));
-        image.exifData().add(key, &value);
+            ExifKey key(crwMapInfo->tag_, ExifTags::ifdItem(crwMapInfo->ifdId_));
+            AsciiValue value;
+            value.read(std::string(s));
+            image.exifData().add(key, &value);
+        }
     } // CrwMap::extract0x180e
 
     void CrwMap::extract0x1810(const CiffComponent& ciffComponent,
