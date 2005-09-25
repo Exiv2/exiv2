@@ -143,10 +143,13 @@ namespace Exiv2 {
         byte extTest = 0;
 
         while (pRead + 3 < buf + len) {
-            if (*pRead++ != marker_) return 5;
+            // First byte should be a marker. If it isn't, scan forward and skip
+            // the chunk bytes present in some images. This deviates from the
+            // standard, which advises to treat such cases as errors.
+            if (*pRead++ != marker_) continue;
             record = *pRead++;
             dataSet = *pRead++;
-            
+
             extTest = *pRead;
             if (extTest & 0x80) {
                 // extended dataset
