@@ -155,7 +155,7 @@ private:
       @brief Default constructor. Note that optstring_ is initialized here.
              The c'tor is private to force instantiation through instance().
      */
-    Params() : optstring_(":hVvfFa:r:p:d:e:i:m:M:l:s:"),
+    Params() : optstring_(":hVvfFa:r:p:d:e:i:m:M:l:S:"),
                help_(false), 
                version_(false),
                verbose_(false), 

@@ -192,6 +192,7 @@ void Params::help(std::ostream& os) const
        << "  pr | print    Print image metadata.\n"
        << "  rm | delete   Delete image metadata from the files.\n"
        << "  in | insert   Insert metadata from corresponding *.exv files.\n"
+       << "                Use option -S to change the suffix of the input files.\n"
        << "  ex | extract  Extract metadata to *.exv and thumbnail image files.\n"
        << "  mv | rename   Rename files according to the Exif create timestamp.\n"
        << "                The filename format can be set with -r format.\n"
@@ -231,7 +232,7 @@ void Params::help(std::ostream& os) const
        << "   -M cmd  Command line for the modify action. The format for the\n"
        << "           commands is the same as that of the lines of a command file.\n"
        << "   -l dir  Location (directory) for files to be inserted from or extracted to.\n"
-       << "   -s ext  Suffix of the files to be inserted from.\n\n";
+       << "   -S .suf Use suffix .suf for source files for insert command.\n\n";
 } // Params::help
 
 int Params::option(int opt, const std::string& optarg, int optopt)
@@ -252,7 +253,7 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     case 'm': rc = evalModify(opt, optarg); break;
     case 'M': rc = evalModify(opt, optarg); break;
     case 'l': directory_ = optarg; break;
-    case 's': suffix_ = optarg; break;
+    case 'S': suffix_ = optarg; break;
     case ':':
         std::cerr << progname() << ": Option -" << static_cast<char>(optopt) 
                   << " requires an argument\n";
@@ -582,7 +583,7 @@ int Params::getopt(int argc, char* const argv[])
     }
     if (!suffix_.empty() && !(action_ == Action::insert)) {
         std::cerr << progname() 
-                  << ": -s option can only be used with insert action\n";
+                  << ": -S option can only be used with insert action\n";
         rc = 1;
     }
     return rc;
