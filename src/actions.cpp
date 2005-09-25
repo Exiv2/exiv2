@@ -38,6 +38,7 @@ EXIV2_RCSID("@(#) $Id$");
 
 #include "actions.hpp"
 #include "image.hpp"
+#include "jpgimage.hpp"
 #include "exiv2.hpp"
 #include "utils.hpp"
 #include "types.hpp"
@@ -1289,7 +1290,7 @@ namespace {
         }
         else {
             targetImage 
-                = Exiv2::ImageFactory::create(Exiv2::Image::exv, target);
+                = Exiv2::ImageFactory::create(Exiv2::ImageType::exv, target);
             assert(targetImage.get() != 0);
         }
         if (   Params::instance().target_ & Params::ctExif

@@ -60,18 +60,6 @@ EXIV2_RCSID("@(#) $Id$");
 // class member definitions
 namespace Exiv2 {
 
-    // Local functions. These could be static private functions on Image
-    // subclasses but then ImageFactory needs to be made a friend. 
-    /*!
-      @brief Create a new CrwImage instance and return an auto-pointer to it.
-             Caller owns the returned object and the auto-pointer ensures that 
-             it will be deleted.
-     */
-    Image::AutoPtr newCrwInstance(BasicIo::AutoPtr io, bool create);
-
-    //! Check if the file iIo is a CRW image.
-    bool isCrwType(BasicIo& iIo, bool advance);
-
     const byte CrwImage::blank_[] = {
         0x00 
     };
@@ -181,14 +169,6 @@ namespace Exiv2 {
     {
         // Todo: implement me!
     } // CrwImage::writeMetadata
-
-    //! @cond IGNORE
-    CrwImage::CrwRegister::CrwRegister()
-    {
-        ImageFactory::registerImage(
-            Image::crw, newCrwInstance, isCrwType);
-    }
-    //! @endcond
 
     bool CrwImage::isThisType(BasicIo& iIo, bool advance) const
     {

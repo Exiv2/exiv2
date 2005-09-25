@@ -44,10 +44,6 @@ EXIV2_RCSID("@(#) $Id$");
 #include "error.hpp"
 #include "futils.hpp"
 
-// Ensure registration with factory
-#include "jpgimage.hpp"
-#include "crwimage.hpp"
-
 // + standard includes
 #include <cerrno>
 #include <cstdio>
@@ -67,70 +63,50 @@ EXIV2_RCSID("@(#) $Id$");
 // class member definitions
 namespace Exiv2 {
 
-    int ImageFactory::Init::count = 0;
-
-    ImageFactory::Init::Init()
+    const ImageFactory::Registry* ImageFactory::find(int imageType)
     {
-        ++count;
-    }
-
-    ImageFactory::Init::~Init()
-    {
-        if (--count == 0) {
-            Exiv2::ImageFactory::cleanup();
+        for (unsigned int i = 0; registry_[i].imageType_ != ImageType::none; ++i) {
+            if (registry_[i].imageType_ == imageType) return &registry_[i];
         }
+        return 0;
     }
 
-    ImageFactory::Registry* ImageFactory::registry_ = 0;
-
-    void ImageFactory::cleanup()
+    void ImageFactory::registerImage(int            type, 
+                                     NewInstanceFct newInst, 
+                                     IsThisTypeFct  isType)
     {
-        delete registry_;
-        registry_ = 0;
-    }
-
-    void ImageFactory::init()
-    {
-        if (0 == registry_) {
-            registry_ = new Registry;
+        unsigned int i = 0;
+        for (; i < MAX_IMAGE_FORMATS; ++i) {
+            if (registry_[i].imageType_ == ImageType::none) {
+                registry_[i] = Registry(type, newInst, isType);
+                break;
+            }
         }
+        if (i == MAX_IMAGE_FORMATS) throw Error(35);
     }
 
-    void ImageFactory::registerImage(Image::Type type, 
-                NewInstanceFct newInst, IsThisTypeFct isType)
-    {
-        init();
-        assert (newInst && isType);
-        (*registry_)[type] = ImageFcts(newInst, isType);
-    }
-
-    Image::Type ImageFactory::getType(const std::string& path)
+    int ImageFactory::getType(const std::string& path)
     {
         FileIo fileIo(path);
         return getType(fileIo);
     }
 
-    Image::Type ImageFactory::getType(const byte* data, long size)
+    int ImageFactory::getType(const byte* data, long size)
     {
         MemIo memIo(data, size);
         return getType(memIo);
     }
 
-    Image::Type ImageFactory::getType(BasicIo& io)
+    int ImageFactory::getType(BasicIo& io)
     {
-        if (io.open() != 0) return Image::none; 
+        if (io.open() != 0) return ImageType::none; 
         IoCloser closer(io);
-        Image::Type type = Image::none;
-        Registry::const_iterator b = registry_->begin();
-        Registry::const_iterator e = registry_->end();
-        for (Registry::const_iterator i = b; i != e; ++i)
-        {
-            if (i->second.isThisType(io, false)) {
-                type = i->first;
-                break;
+        for (unsigned int i = 0; registry_[i].imageType_ != ImageType::none; ++i) {
+            if (registry_[i].isThisType_(io, false)) {
+                return registry_[i].imageType_;
             }
         }
-        return type;
+        return ImageType::none;
     } // ImageFactory::getType
 
     Image::AutoPtr ImageFactory::open(const std::string& path)
@@ -154,19 +130,15 @@ namespace Exiv2 {
         if (io->open() != 0) {
             throw Error(9, io->path(), strError());
         }
-        Image::AutoPtr image;
-        Registry::const_iterator b = registry_->begin();
-        Registry::const_iterator e = registry_->end();
-        for (Registry::const_iterator i = b; i != e; ++i) {
-            if (i->second.isThisType(*io, false)) {
-                image = i->second.newInstance(io, false);
-                break;
+        for (unsigned int i = 0; registry_[i].imageType_ != ImageType::none; ++i) {
+            if (registry_[i].isThisType_(*io, false)) {
+                return registry_[i].newInstance_(io, false);
             }
         }
-        return image;
+        return Image::AutoPtr();
     } // ImageFactory::open
 
-    Image::AutoPtr ImageFactory::create(Image::Type type, 
+    Image::AutoPtr ImageFactory::create(int type, 
                                         const std::string& path)
     {
         std::auto_ptr<FileIo> fileIo(new FileIo(path));
@@ -181,7 +153,7 @@ namespace Exiv2 {
         return image;
     }
 
-    Image::AutoPtr ImageFactory::create(Image::Type type)
+    Image::AutoPtr ImageFactory::create(int type)
     {
         BasicIo::AutoPtr io(new MemIo);
         Image::AutoPtr image = create(type, io);
@@ -189,13 +161,13 @@ namespace Exiv2 {
         return image;
     }
 
-    Image::AutoPtr ImageFactory::create(Image::Type type, 
+    Image::AutoPtr ImageFactory::create(int type, 
                                         BasicIo::AutoPtr io)
     {
         // BasicIo instance does not need to be open
-        Registry::const_iterator i = registry_->find(type);
-        if (i != registry_->end()) {
-            return i->second.newInstance(io, true);
+        const Registry* r = find(type);
+        if (0 != r) {
+            return r->newInstance_(io, true);
         }
         return Image::AutoPtr();
     } // ImageFactory::create

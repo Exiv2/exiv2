@@ -78,6 +78,7 @@ namespace Exiv2 {
         ErrMsg( 32, "%1: CRW images don't support JPEG comments"), // %1=function
         ErrMsg( 33, "This does not look like a CRW image"),
         ErrMsg( 34, "%1: Not supported"), // %1=function
+        ErrMsg( 35, "ImageFactory registry full"),
 
         // Last error message (message is not used)
         ErrMsg( -2, "(Unknown Error)")

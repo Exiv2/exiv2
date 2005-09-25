@@ -54,6 +54,12 @@ namespace Exiv2 {
 
 // *****************************************************************************
 // class definitions
+
+    //! Supported image formats
+    namespace ImageType { 
+        const int none = 0;         //!< Not an image
+    }
+
     /*!
       @brief Abstract base class defining the interface for an image. This is
          the top-level interface to the Exiv2 library.
@@ -63,10 +69,7 @@ namespace Exiv2 {
       read, write, and save metadata.      
      */
     class Image {
-    public:
-        //! Supported image formats
-        enum Type { none, jpeg, exv, crw };
-     
+    public:     
         //! Image auto_ptr type
         typedef std::auto_ptr<Image> AutoPtr;
 
@@ -79,9 +82,17 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         /*!
-          @brief Read metadata from assigned image. Before this method
-              is called, the various metadata types (Iptc, Exif) will be empty.
-          @throw Error In case of failure.
+          @brief Read all metadata supported by a specific image format from the
+              image. Before this method is called, the various metadata types
+              will be empty.
+              
+          This method returns success even if no metadata is found in the
+          image. Callers must therefore check the size of individual metadata
+          types before accessing the data.
+
+          @throw Error if opening or reading of the file fails or the image
+              data is not valid (does not look like data of the specific image
+              type).
          */
         virtual void readMetadata() =0;
         /*!
@@ -154,50 +165,50 @@ namespace Exiv2 {
         virtual bool good() const =0;
         /*!
           @brief Returns an ExifData instance containing currently buffered
-              exif data.
+              Exif data.
 
-          The exif data may have been read from the image by
-          a previous call to readMetadata() or added directly. The exif
+          The Exif data may have been read from the image by
+          a previous call to readMetadata() or added directly. The Exif
           data in the returned instance will be written to the image when
           writeMetadata() is called.
           
-          @return read only ExifData instance containing exif values
+          @return read only ExifData instance containing Exif values
          */
         virtual const ExifData& exifData() const =0;
         /*!
           @brief Returns an ExifData instance containing currently buffered
-              exif data.
+              Exif data.
 
-          The contained exif data may have been read from the image by
-          a previous call to readMetadata() or added directly. The exif
+          The contained Exif data may have been read from the image by
+          a previous call to readMetadata() or added directly. The Exif
           data in the returned instance will be written to the image when
           writeMetadata() is called.
           
-          @return modifiable ExifData instance containing exif values
+          @return modifiable ExifData instance containing Exif values
          */
         virtual ExifData& exifData() =0;
         /*!
           @brief Returns an IptcData instance containing currently buffered
-              iptc data.
+              Iptc data.
 
-          The contained iptc data may have been read from the image by
-          a previous call to readMetadata() or added directly. The iptc
+          The contained Iptc data may have been read from the image by
+          a previous call to readMetadata() or added directly. The Iptc
           data in the returned instance will be written to the image when
           writeMetadata() is called.
           
-          @return modifiable IptcData instance containing iptc values
+          @return modifiable IptcData instance containing Iptc values
          */
         virtual const IptcData& iptcData() const =0;
         /*!
-          @brief Returns an ExifData instance containing currently buffered
-              exif data.
+          @brief Returns an IptcData instance containing currently buffered
+              Iptc data.
 
-          The contained iptc data may have been read from the image by
-          a previous call to readMetadata() or added directly. The iptc
+          The contained Iptc data may have been read from the image by
+          a previous call to readMetadata() or added directly. The Iptc
           data in the returned instance will be written to the image when
           writeMetadata() is called.
           
-          @return modifiable IptcData instance containing iptc values
+          @return modifiable IptcData instance containing Iptc values
          */
         virtual IptcData& iptcData() =0;
         /*!
@@ -266,7 +277,7 @@ namespace Exiv2 {
           @param newInst Function pointer for creating image instances.
           @param isType Function pointer to test for matching image types.
         */
-        static void registerImage(Image::Type type, 
+        static void registerImage(int type, 
                                   NewInstanceFct newInst, 
                                   IsThisTypeFct isType);
         //@}
@@ -324,7 +335,7 @@ namespace Exiv2 {
               type. 
           @throw Error If the image type is not supported.
          */
-        static Image::AutoPtr create(Image::Type type, const std::string& path);
+        static Image::AutoPtr create(int type, const std::string& path);
         /*!
           @brief Create an Image subclass of the requested type by creating a
               new image in memory.
@@ -333,7 +344,7 @@ namespace Exiv2 {
               type. 
           @throw Error If the image type is not supported
          */
-        static Image::AutoPtr create(Image::Type type);
+        static Image::AutoPtr create(int type);
         /*!
           @brief Create an Image subclass of the requested type by writing a
               new image to a BasicIo instance. If the BasicIo instance already
@@ -348,14 +359,14 @@ namespace Exiv2 {
           @return An auto-pointer that owns an Image instance of the requested
               type. If the image type is not supported, the pointer is 0.
          */
-        static Image::AutoPtr create(Image::Type type, BasicIo::AutoPtr io);
+        static Image::AutoPtr create(int type, BasicIo::AutoPtr io);
         /*!
           @brief Returns the image type of the provided file. 
           @param path %Image file. The contents of the file are tested to
               determine the image type. File extension is ignored.
           @return %Image type or Image::none if the type is not recognized.
          */
-        static Image::Type getType(const std::string& path);
+        static int getType(const std::string& path);
         /*!
           @brief Returns the image type of the provided data buffer. 
           @param data Pointer to a data buffer containing an image. The contents
@@ -363,7 +374,7 @@ namespace Exiv2 {
           @param size Number of bytes pointed to by \em data.
           @return %Image type or Image::none if the type is not recognized.
          */
-        static Image::Type getType(const byte* data, long size);
+        static int getType(const byte* data, long size);
         /*!
           @brief Returns the image type of data provided by a BasicIo instance.
               The passed in \em io instance is (re)opened by this method.
@@ -371,27 +382,8 @@ namespace Exiv2 {
               of the image data are tested to determine the type.
           @return %Image type or Image::none if the type is not recognized.
          */
-        static Image::Type getType(BasicIo& io);
+        static int getType(BasicIo& io);
         //@}
-
-        /*!
-          @brief Class Init is used to execute initialisation and termination 
-                 code exactly once, at the begin and end of the program.
-
-          See Bjarne Stroustrup, 'The C++ Programming Language 3rd
-          Edition', section 21.5.2 for details about this pattern.
-        */
-        class Init {
-            static int count;           //!< Counts calls to constructor
-        public:
-            //! @name Creators
-            //@{                            
-            //! Perform one-time initialisations.
-            Init();
-            //! Perform one-time cleanup operations.
-            ~Init();
-            //@}
-        };
 
     private:
         //! @name Creators
@@ -400,27 +392,38 @@ namespace Exiv2 {
         ImageFactory();
         //! Prevent copy construction: not implemented.
         ImageFactory(const ImageFactory& rhs);
-        //! Creates the private static instance
-        static void init();
         //@}
 
-        //! Struct for storing image function pointers.
-        struct ImageFcts
+        //! Struct for storing image types and function pointers.
+        struct Registry
         {
-            NewInstanceFct newInstance;
-            IsThisTypeFct isThisType;
-            ImageFcts(NewInstanceFct newInst, IsThisTypeFct isType) 
-                : newInstance(newInst), isThisType(isType) {}
-            ImageFcts() : newInstance(0), isThisType(0) {}
+            //! Default constructor
+            Registry()
+                : imageType_(ImageType::none),
+                  newInstance_(0),
+                  isThisType_(0)
+                {}
+            //! Constructor
+            Registry(int            imageType,
+                     NewInstanceFct newInstance, 
+                     IsThisTypeFct  isThisType) 
+                : imageType_(imageType),
+                  newInstance_(newInstance), 
+                  isThisType_(isThisType) 
+                {}
+            int            imageType_;
+            NewInstanceFct newInstance_;
+            IsThisTypeFct  isThisType_;
         };
 
-        // DATA
-        //! Type used to store Image creation functions
-        typedef std::map<Image::Type, ImageFcts> Registry;
-        //! List of image types and corresponding creation functions.
-        static Registry* registry_;
-    }; // class ImageFactory
+        //! Return the registry entry for type
+        static const Registry* find(int imageType);
 
+        // DATA
+        static const unsigned int MAX_IMAGE_FORMATS = 32;
+        //! List of image types and corresponding creation functions.
+        static Registry registry_[MAX_IMAGE_FORMATS];
+    }; // class ImageFactory
 
     //! Helper class modelling the TIFF header structure.
     class TiffHeader {
@@ -477,17 +480,5 @@ namespace Exiv2 {
     }; // class TiffHeader   
 
 }                                       // namespace Exiv2
-
-namespace {
-    /*!
-      Each translation unit that includes image.hpp declares its own
-      Init object. The destructor ensures that the factory is properly
-      freed exactly once.
-
-      See Bjarne Stroustrup, 'The C++ Programming Language 3rd
-      Edition', section 21.5.2 for details about this pattern.
-    */
-    Exiv2::ImageFactory::Init imageFactoryInit;
-}
 
 #endif                                  // #ifndef IMAGE_HPP_

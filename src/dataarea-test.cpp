@@ -11,6 +11,7 @@
 // *****************************************************************************
 // included header files
 #include "image.hpp"
+#include "jpgimage.hpp"
 #include "exif.hpp"
 #include <iostream>
 #include <iomanip>
@@ -79,7 +80,7 @@ catch (Exiv2::AnyError& e) {
 
 void write(const std::string& file, Exiv2::ExifData& ed)
 {
-    Image::AutoPtr image = ImageFactory::create(Image::exv, file);
+    Image::AutoPtr image = ImageFactory::create(Exiv2::ImageType::exv, file);
     assert(image.get() != 0);
 
     image->setExifData(ed);

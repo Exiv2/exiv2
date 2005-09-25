@@ -52,7 +52,7 @@ CCHDR = exv_conf.h exv_msvc.h mn.hpp rcsid.hpp
 
 # Add library C++ source files to this list
 CCSRC = basicio.cpp canonmn.cpp crwimage.cpp datasets.cpp error.cpp exif.cpp \
-	futils.cpp fujimn.cpp ifd.cpp image.cpp iptc.cpp jpgimage.cpp \
+	futils.cpp fujimn.cpp ifd.cpp image.cpp imgreg.cpp iptc.cpp jpgimage.cpp \
 	makernote.cpp metadatum.cpp nikonmn.cpp olympusmn.cpp panasonicmn.cpp \
 	sigmamn.cpp sonymn.cpp tags.cpp types.cpp value.cpp 
 
