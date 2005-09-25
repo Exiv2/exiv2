@@ -962,9 +962,9 @@ namespace Action {
             std::string directory = Params::instance().directory_;
             if (directory.empty()) directory = Util::dirname(path);
             std::string suffix = Params::instance().suffix_;
-            if (suffix.empty()) suffix = "exv";
+            if (suffix.empty()) suffix = ".exv";
             std::string exvPath =   directory + EXV_SEPERATOR_STR
-                                  + Util::basename(path, true) + "." + suffix;
+                                  + Util::basename(path, true) + suffix;
             rc = metacopy(exvPath, path, true);
         }
         return rc;

@@ -19,6 +19,7 @@ Actions:
   pr | print    Print image metadata.
   rm | delete   Delete image metadata from the files.
   in | insert   Insert metadata from corresponding *.exv files.
+                Use option -S to change the suffix of the input files.
   ex | extract  Extract metadata to *.exv and thumbnail image files.
   mv | rename   Rename files according to the Exif create timestamp.
                 The filename format can be set with -r format.
@@ -58,7 +59,7 @@ Options:
    -M cmd  Command line for the modify action. The format for the
            commands is the same as that of the lines of a command file.
    -l dir  Location (directory) for files to be inserted from or extracted to.
-   -s ext  Suffix of the files to be inserted from.
+   -S .suf Use suffix .suf for source files for insert command.
 
 
 Adjust -------------------------------------------------------------------
