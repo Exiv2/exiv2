@@ -17,9 +17,10 @@ documentation and metadata tags.
 Building and Installing
 =======================
 
-Exiv2 comes with a GNU configure script and uses GNU Libtool. Run the
-following commands from the top directory (containing this file) to
-configure, build and install the library and utility:
+To build Exiv2 on UNIX-like systems (e.g., GNU/Linux, Mac OS X, MinGW),
+use the included GNU configure script. Run the following commands from 
+the top directory (containing this file) to configure, build and 
+install the library and utility:
 
     $ ./configure
     $ make
@@ -37,9 +38,9 @@ To build Exiv2 with MSVC 7.1, use the solution file msvc/exiv2.sln.
 Troubleshooting
 ===============
 
-If you have problems building Exiv2, check the generated
-config/config.mk and config/config.h files. You should *not* need to
-modify any Makefile directly, in particular not src/Makefile!
+If you have problems building Exiv2 on UNIX-like systems, check the
+generated config/config.mk and config/config.h files. You should *not*
+need to modify any Makefile directly, in particular not src/Makefile!
 
 
 Uninstalling
@@ -66,12 +67,14 @@ Developing with Exiv2
 
 If you downloaded the software directly from the subversion
 repository, and you want to build it using the GNU configure script,
-then you need to have GNU autoconf installed on your system and create
+then you need to have GNU Autoconf installed on your system and create
 the configure script as the first step:
 
     $ make config
 
-To generate the documentation ($ make doc), you will further need
+Then run the usual ./configure; make; make install commands.
+
+To generate the documentation (make doc), you will further need
 python, doxygen, graphviz and xsltproc.
 
 Exiv2 uses GNU Libtool in order to build shared libraries on a variety
