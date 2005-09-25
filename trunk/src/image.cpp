@@ -48,7 +48,6 @@ EXIV2_RCSID("@(#) $Id$");
 #include <cerrno>
 #include <cstdio>
 #include <cstring>
-#include <cstdio>                               // for rename, remove
 #include <cassert>
 #include <sys/types.h>
 #include <sys/stat.h>

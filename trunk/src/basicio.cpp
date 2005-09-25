@@ -44,7 +44,7 @@ EXIV2_RCSID("@(#) $Id$");
 // + standard includes
 #include <string>
 #include <cassert>
-#include <cstdio>                       // for remove()
+#include <cstdio>                       // for remove(), rename()
 #include <cstdlib>                      // for alloc(), realloc(), free()
 #include <sys/types.h>                  // for stat()
 #include <sys/stat.h>                   // for stat()
@@ -187,7 +187,7 @@ namespace Exiv2 {
             if (std::remove(path_.c_str()) != 0) {
                 throw Error(2, path_, strError(), "std::remove");
             }
-            if (rename(fileIo->path_.c_str(), path_.c_str()) == -1) {
+            if (std::rename(fileIo->path_.c_str(), path_.c_str()) == -1) {
                 throw Error(17, fileIo->path_, path_, strError());
             }
             std::remove(fileIo->path_.c_str());
