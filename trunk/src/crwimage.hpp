@@ -20,7 +20,7 @@
  */
 /*!
   @file    crwimage.hpp
-  @brief   Class CrwImage to access Canon CRW images.<BR>
+  @brief   Class CrwImage to access Canon Crw images.<BR>
            References:<BR>
            <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/canon_raw.html">The Canon RAW (CRW) File Format</a> by Phil Harvey
   @version $Rev$
@@ -56,29 +56,38 @@ namespace Exiv2 {
 // *****************************************************************************
 // type definitions
 
-    //! Function pointer for functions to extract Exif tags from a CRW entry 
+    //! Function pointer for functions to extract Exif tags from a Crw entry 
     typedef void (*CrwExtractFct)(const CiffComponent&,
                                   const CrwMapInfo*, 
                                   Image&,
                                   ByteOrder);
 
-    //! Function pointer for functions to insert CRW entries from an Exif tag
+    //! Function pointer for functions to insert Crw entries from an Exif tag
     typedef void (*CrwInsertFct)();
 
 // *****************************************************************************
 // class definitions
 
-    /*! 
-      @brief Class to access Canon CRW images.
+    // Add Crw to the supported image formats
+    namespace ImageType { 
+        const int crw = 3;          //!< Crw image type (see class CrwImage)
+    }
+
+    /*!
+      @brief Class to access raw Canon Crw images. Only Exif metadata and a 
+             comment are supported. Crw format does not contain Iptc metadata.
      */
     class CrwImage : public Image {
         friend bool isCrwType(BasicIo& iIo, bool advance);
 
-        // NOT Implemented
+        //! @name NOT Implemented
+        //@{
         //! Copy constructor
         CrwImage(const CrwImage& rhs);
         //! Assignment operator
         CrwImage& operator=(const CrwImage& rhs);
+        //@}
+
     public:
         //! @name Creators
         //@{
@@ -104,39 +113,23 @@ namespace Exiv2 {
         
         //! @name Manipulators
         //@{
+        void            readMetadata();
         /*!
-          @brief Read all metadata from the image. Before this method
-              is called, the various metadata types (Iptc, Exif) will be empty.
-              
-          This method returns success even when no metadata is found in
-          the image. Callers must therefore check the size of individual
-          metadata types before accessing the data.
-          
-          @throw Error if opening or reading of the file fails or the image
-              data is not valid (does not look like CRW data).
+          @brief Todo: Write metadata back to the image. This method is not 
+                 yet implemented.
          */
-        void readMetadata();
-        /*!
-          @brief Write metadata back to the image. 
-
-          All existing metadata sections in the image are either created,
-          replaced, or erased. If values for a given metadata type have been
-          assigned, a section for that metadata type will either be created or
-          replaced. If no values have been assigned to a given metadata type,
-          any exists section for that metadata type will be removed from the
-          image.
-          
-          @throw Error if the operation fails
-         */
-        void writeMetadata();
-        /*!
-          @brief Assign new exif data. The new exif data is not written
-             to the image until the writeMetadata() method is called.
-          @param exifData An ExifData instance holding exif data to be copied
-         */
+        void            writeMetadata();
         void            setExifData(const ExifData& exifData);
         void            clearExifData();
+        /*!
+          @brief Not supported. Crw format does not contain Iptc metadata. 
+                 Calling this function will raise an exception (Error).
+         */
         void            setIptcData(const IptcData& iptcData);
+        /*!
+          @brief Not supported. Crw format does not contain Iptc metadata. 
+                 Calling this function will raise an exception (Error).
+         */
         void            clearIptcData();
         void            setComment(const std::string& comment);
         void            clearComment();
@@ -154,13 +147,6 @@ namespace Exiv2 {
         std::string     comment()  const { return comment_; }
         BasicIo&        io()       const { return *io_; }
         //@}
-
-        //! @cond IGNORE
-        // Public only so that we can create a static instance
-        struct CrwRegister{
-            CrwRegister();
-        };
-        //! @endcond
 
     private:
 
@@ -191,18 +177,13 @@ namespace Exiv2 {
          */
         bool isThisType(BasicIo& iIo, bool advance) const;
         /*!
-          @brief Writes a Crw header (aka signature) to the BasicIo instance.
-          @param oIo BasicIo instance that the header is written to.
-          @return 0 if successful;<BR>
-                  2 if the input image is invalid or can not be read;<BR>
-                  4 if the temporary image can not be written to;<BR>
-                 -3 other temporary errors;<BR>
+          @brief Todo: Write Crw header. Not implemented yet.
          */
         int writeHeader(BasicIo& oIo) const;
         //@}
 
         // DATA
-        static const byte blank_[];             //!< Minimal CRW image
+        static const byte blank_[];             //!< Minimal Crw image
 
         BasicIo::AutoPtr  io_;                  //!< Image data io pointer
         ExifData          exifData_;            //!< Exif data container
@@ -210,8 +191,6 @@ namespace Exiv2 {
         std::string       comment_;             //!< User comment
 
     }; // class CrwImage
-
-    static CrwImage::CrwRegister crwReg;
 
     /*!
       Base class for all objects in a raw metadata parse tree.
@@ -280,7 +259,7 @@ namespace Exiv2 {
 
     /*!
       @brief Interface class for components of the CIFF directory hierarchy of
-             a CRW (Canon Raw data) image. Both CIFF directories as well as
+             a Crw (Canon Raw data) image. Both CIFF directories as well as
              entries implement this interface.
      */
     class CiffComponent : public RawMetadata {
@@ -371,7 +350,7 @@ namespace Exiv2 {
 
     /*!
       @brief This class models one directory entry of a CIFF directory of
-             a CRW (Canon Raw data) image.
+             a Crw (Canon Raw data) image.
      */
     class CiffEntry : public CiffComponent { 
     public:
@@ -399,7 +378,7 @@ namespace Exiv2 {
 
     }; // class CiffEntry
 
-    //! This class models a CIFF directory of a CRW (Canon Raw data) image.
+    //! This class models a CIFF directory of a Crw (Canon Raw data) image.
     class CiffDirectory : public CiffComponent {
     public:
         //! @name Creators
@@ -458,7 +437,7 @@ namespace Exiv2 {
 
     }; // class CiffDirectory
 
-    //! This class models the header of a CRW (Canon Raw data) image.
+    //! This class models the header of a Crw (Canon Raw data) image.
     class CiffHeader : public RawMetadata {
     public:        
         //! @name Creators
@@ -499,11 +478,11 @@ namespace Exiv2 {
         //@}
 
         // DATA
-        static const char signature_[];   //!< Canon CRW signature "HEAPCCDR"
+        static const char signature_[];   //!< Canon Crw signature "HEAPCCDR"
 
     private:
         // DATA
-        CiffDirectory*     rootDirectory_; //!< Pointer to the root directory
+        CiffDirectory*    rootDirectory_; //!< Pointer to the root directory
         ByteOrder         byteOrder_;     //!< Applicable byte order
         uint32_t          offset_;        //!< Offset to the start of the root dir
 
@@ -533,8 +512,8 @@ namespace Exiv2 {
         //@}
 
         // DATA
-        uint16_t      crwTagId_;  //!< CRW tag id
-        uint16_t      crwDir_;    //!< CRW directory tag
+        uint16_t      crwTagId_;  //!< Crw tag id
+        uint16_t      crwDir_;    //!< Crw directory tag
         uint32_t      size_;      //!< Data size (overwrites the size from the entry)
         uint16_t      tag_;       //!< Exif tag to map to
         IfdId         ifdId_;     //!< Exif Ifd id to map to
@@ -544,7 +523,7 @@ namespace Exiv2 {
     }; // struct CrwMapInfo
 
     /*! 
-      @brief Static class providing mapping functionality from CRW entries 
+      @brief Static class providing mapping functionality from Crw entries 
              to image metadata and vice versa
      */
     class CrwMap {
@@ -556,7 +535,7 @@ namespace Exiv2 {
 
     public:
         /*!
-          @brief Extract image metadata from a CRW entry convert and add it
+          @brief Extract image metadata from a Crw entry convert and add it
                  to the image metadata.
 
           @param ciffComponent Source CIFF entry
@@ -569,11 +548,11 @@ namespace Exiv2 {
                             ByteOrder byteOrder);
 
     private:
-        //! Return conversion information for one CRW \em dir and \em tagId
+        //! Return conversion information for one Crw \em dir and \em tagId
         static const CrwMapInfo* crwMapInfo(uint16_t dir, uint16_t tagId);
 
         /*!
-          @brief Standard extraction function to convert CRW entries to 
+          @brief Standard extraction function to convert Crw entries to 
                  Exif metadata.
 
           Uses the mapping defined in the conversion structure \em crwMapInfo
@@ -633,6 +612,21 @@ namespace Exiv2 {
 
     }; // class CrwMap
     
+// *****************************************************************************
+// template, inline and free functions
+
+    // These could be static private functions on Image subclasses but then
+    // ImageFactory needs to be made a friend. 
+    /*!
+      @brief Create a new CrwImage instance and return an auto-pointer to it.
+             Caller owns the returned object and the auto-pointer ensures that 
+             it will be deleted.
+     */
+    Image::AutoPtr newCrwInstance(BasicIo::AutoPtr io, bool create);
+
+    //! Check if the file iIo is a Crw image.
+    bool isCrwType(BasicIo& iIo, bool advance);
+
 }                                       // namespace Exiv2
 
 #endif                                  // #ifndef CRWIMAGE_HPP_

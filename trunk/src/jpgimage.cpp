@@ -49,25 +49,6 @@ EXIV2_RCSID("@(#) $Id$");
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-
-    // Local functions. These could be static private functions on Image
-    // subclasses but then ImageFactory needs to be made a friend. 
-    /*!
-      @brief Create a new ExvImage instance and return an auto-pointer to it. 
-             Caller owns the returned object and the auto-pointer ensures that 
-             it will be deleted.
-     */
-    Image::AutoPtr newExvInstance(BasicIo::AutoPtr io, bool create);
-    //! Check if the file iIo is an EXV file
-    bool isExvType(BasicIo& iIo, bool advance);
-    /*!
-      @brief Create a new JpegImage instance and return an auto-pointer to it.
-             Caller owns the returned object and the auto-pointer ensures that 
-             it will be deleted.
-     */
-    Image::AutoPtr newJpegInstance(BasicIo::AutoPtr io, bool create);
-    //! Check if the file iIo is a JPEG image.
-    bool isJpegType(BasicIo& iIo, bool advance);
  
     const byte JpegBase::sos_    = 0xda;
     const byte JpegBase::eoi_    = 0xd9;
@@ -549,14 +530,6 @@ namespace Exiv2 {
         : JpegBase(io, create, blank_, sizeof(blank_))
     {
     }
-
-    //! @cond IGNORE
-    JpegImage::JpegRegister::JpegRegister()
-    {
-        ImageFactory::registerImage(
-            Image::jpeg, newJpegInstance, isJpegType);
-    }
-    //! @endcond
   
     int JpegImage::writeHeader(BasicIo& outIo) const
     {
@@ -604,14 +577,6 @@ namespace Exiv2 {
         : JpegBase(io, create, blank_, sizeof(blank_))
     {
     }
-
-    //! @cond IGNORE
-    ExvImage::ExvRegister::ExvRegister()
-    {
-        ImageFactory::registerImage(
-            Image::exv, newExvInstance, isExvType);
-    }
-    //! @endcond
 
     int ExvImage::writeHeader(BasicIo& outIo) const
     {

@@ -50,6 +50,12 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
+    // Supported jpeg image formats
+    namespace ImageType { 
+        const int jpeg = 1;         //!< Jpeg image type (see class JpegImage)
+        const int exv  = 2;         //!< Exv image type (see class ExvImage)
+    }
+
     /*! 
       @brief Abstract helper base class to access JPEG images.
      */
@@ -62,36 +68,8 @@ namespace Exiv2 {
         //@}
         //! @name Manipulators
         //@{
-        /*!
-          @brief Read all metadata from the image. Before this method
-              is called, the various metadata types (Iptc, Exif) will be empty.
-              
-          This method returns success even when no metadata is found in
-          the image. Callers must therefore check the size of individual
-          metadata types before accessing the data.
-          
-          @throw Error if opening or reading of the file fails or the image
-              data is not valid (does not look like JPEG data).
-         */
         void readMetadata();
-        /*!
-          @brief Write metadata back to the image. 
-
-          All existing metadata sections in the image are either created,
-          replaced, or erased. If values for a given metadata type have been
-          assigned, a section for that metadata type will either be created or
-          replaced. If no values have been assigned to a given metadata type,
-          any exists section for that metadata type will be removed from the
-          image.
-          
-          @throw Error if the operation fails
-         */
         void writeMetadata();
-        /*!
-          @brief Assign new exif data. The new exif data is not written
-             to the image until the writeMetadata() method is called.
-          @param exifData An ExifData instance holding exif data to be copied
-         */
         void setExifData(const ExifData& exifData);
         void clearExifData();
         void setIptcData(const IptcData& iptcData);
@@ -141,7 +119,7 @@ namespace Exiv2 {
           @brief Writes the image header (aka signature) to the BasicIo instance.
           @param oIo BasicIo instance that the header is written to.
           @return 0 if successful;<BR>
-                 4 if the output file can not be written to;<BR>
+                  4 if the output file can not be written to
          */
         virtual int writeHeader(BasicIo& oIo) const =0;
         //@}
@@ -164,7 +142,7 @@ namespace Exiv2 {
               analyse the data (true) or left at its original
               position (false). This applies only if the type matches.
           @return  true  if the data matches the type of this class;<BR>
-                   false if the data does not match;<BR>
+                   false if the data does not match
          */
         virtual bool isThisType(BasicIo& iIo, bool advance) const =0;
         //@}
@@ -196,7 +174,7 @@ namespace Exiv2 {
               when the BasicIo instance is positioned one byte past the end of a
               Jpeg segment.
           @return the next Jpeg segment marker if successful;<BR>
-                 -1 if a maker was not found before EOF;<BR>
+                 -1 if a maker was not found before EOF
          */
         int advanceToMarker() const;
         /*!
@@ -275,27 +253,9 @@ namespace Exiv2 {
         //! Destructor
         ~JpegImage() {}
         //@}
-        
-        //! @cond IGNORE
-        // Public only so that we can create a static instance
-        struct JpegRegister{
-            JpegRegister();
-        };
-        //! @endcond
     protected:
         //! @name Accessors
         //@{
-        /*!
-          @brief Determine if the content of the BasicIo instance is a Jpeg image.
-              See base class for more details.
-          @param iIo BasicIo instance to read from.
-          @param advance Flag indicating whether the position of the io
-              should be advanced by the number of characters read to
-              analyse the data (true) or left at its original
-              position (false). This applies only if the type matches.
-          @return  true  if the data matches a Jpeg image;<BR>
-                   false if the data does not match;<BR>
-         */
         bool isThisType(BasicIo& iIo, bool advance) const;
         //@}
         //! @name Manipulators
@@ -306,7 +266,7 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
                  2 if the input image is invalid or can not be read;<BR>
                  4 if the temporary image can not be written to;<BR>
-                -3 other temporary errors;<BR>
+                -3 other temporary errors
          */
         int writeHeader(BasicIo& oIo) const;
         //@}
@@ -323,8 +283,6 @@ namespace Exiv2 {
         //! Assignment operator
         JpegImage& operator=(const JpegImage& rhs);
     }; // class JpegImage
-
-    static JpegImage::JpegRegister jpegReg;
 
     //! Helper class to access %Exiv2 files
     class ExvImage : public JpegBase {
@@ -351,37 +309,13 @@ namespace Exiv2 {
         //! Destructor
         ~ExvImage() {}
         //@}
-        
-        //! @cond IGNORE
-        // Public only so that we can create a static instance
-        struct ExvRegister{
-            ExvRegister();
-        };
-        //! @endcond
     protected:
         //! @name Accessors
         //@{
-        /*!
-          @brief Determine if the content of the BasicIo instance is an Exv
-              image. See base class for more details.
-          @param iIo BasicIo instance to read from.
-          @param advance Flag indicating whether the position of the io
-              should be advanced by the number of characters read to
-              analyse the data (true) or left at its original
-              position (false). This applies only if the type matches.
-          @return  true  if the data matches a Jpeg image;<BR>
-                   false if the data does not match;<BR>
-         */
         virtual bool isThisType(BasicIo& iIo, bool advance) const;
         //@}
         //! @name Manipulators
         //@{
-        /*!
-          @brief Writes an Exv header (aka signature) to the BasicIo instance.
-          @param oIo BasicIo instance that the header is written to.
-          @return 0 if successful;<BR>
-                  4 if the output file can not be written to;<BR>
-         */
         int writeHeader(BasicIo& oIo) const;
         //@}
     private:
@@ -398,8 +332,28 @@ namespace Exiv2 {
         ExvImage& operator=(const ExvImage& rhs);
     }; // class ExvImage
 
-    static ExvImage::ExvRegister exvReg;
-}                                       // namespace Exiv2
+// *****************************************************************************
+// template, inline and free functions
 
+    // These could be static private functions on Image subclasses but then 
+    // ImageFactory needs to be made a friend. 
+    /*!
+      @brief Create a new JpegImage instance and return an auto-pointer to it.
+             Caller owns the returned object and the auto-pointer ensures that 
+             it will be deleted.
+     */
+    Image::AutoPtr newJpegInstance(BasicIo::AutoPtr io, bool create);
+    //! Check if the file iIo is a JPEG image.
+    bool isJpegType(BasicIo& iIo, bool advance);
+    /*!
+      @brief Create a new ExvImage instance and return an auto-pointer to it. 
+             Caller owns the returned object and the auto-pointer ensures that 
+             it will be deleted.
+     */
+    Image::AutoPtr newExvInstance(BasicIo::AutoPtr io, bool create);
+    //! Check if the file iIo is an EXV file
+    bool isExvType(BasicIo& iIo, bool advance);
+
+}                                       // namespace Exiv2
 
 #endif                                  // #ifndef JPGIMAGE_HPP_
