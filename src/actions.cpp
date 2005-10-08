@@ -1065,12 +1065,13 @@ namespace Action {
                       << ")" << std::endl;
         }
         Exiv2::Value::AutoPtr value = Exiv2::Value::create(modifyCmd.typeId_);
-        value->read(modifyCmd.value_);
-        if (modifyCmd.metadataId_ == exif) {
-            image_->exifData().add(Exiv2::ExifKey(modifyCmd.key_), value.get());
-        }
-        if (modifyCmd.metadataId_ == iptc) {
-            image_->iptcData().add(Exiv2::IptcKey(modifyCmd.key_), value.get());
+        if (0 == value->read(modifyCmd.value_)) {
+            if (modifyCmd.metadataId_ == exif) {
+                image_->exifData().add(Exiv2::ExifKey(modifyCmd.key_), value.get());
+            }
+            if (modifyCmd.metadataId_ == iptc) {
+                image_->iptcData().add(Exiv2::IptcKey(modifyCmd.key_), value.get());
+            }
         }
     }
 
@@ -1100,8 +1101,9 @@ namespace Action {
         if (modifyCmd.explicitType_ || value.get() == 0) {
             value = Exiv2::Value::create(modifyCmd.typeId_);
         }
-        value->read(modifyCmd.value_);
-        metadatum->setValue(value.get());
+        if (0 == value->read(modifyCmd.value_)) {
+            metadatum->setValue(value.get());
+        }
     }
 
     void Modify::delMetadatum(const ModifyCmd& modifyCmd)

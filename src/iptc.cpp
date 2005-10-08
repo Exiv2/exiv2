@@ -136,7 +136,6 @@ namespace Exiv2 {
         const byte* pRead = buf;
         iptcMetadata_.clear();
 
-        int rc = 0;
         uint16_t record = 0;
         uint16_t dataSet = 0;
         uint32_t sizeData = 0;
@@ -166,12 +165,11 @@ namespace Exiv2 {
                 sizeData = getUShort(pRead, bigEndian);
                 pRead += 2;
             }
-            rc = readData(dataSet, record, pRead, sizeData);
-            if( rc ) return rc;
+            readData(dataSet, record, pRead, sizeData);
             pRead += sizeData;
         }
 
-        return rc;
+        return 0;
     } // IptcData::read
 
     int IptcData::readData(uint16_t dataSet, uint16_t record,
@@ -180,10 +178,12 @@ namespace Exiv2 {
         Value::AutoPtr value;
         TypeId type = IptcDataSets::dataSetType(dataSet, record);
         value = Value::create(type);
-        value->read(data, sizeData, bigEndian);
-        IptcKey key(dataSet, record);
-        add(key, value.get());
-        return 0;
+        int rc = value->read(data, sizeData, bigEndian);
+        if (0 == rc) {
+            IptcKey key(dataSet, record);
+            add(key, value.get());
+        }
+        return rc;
     }
 
     DataBuf IptcData::copy()
