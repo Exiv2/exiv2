@@ -83,8 +83,10 @@ namespace Exiv2 {
           @param buf Pointer to the data buffer to read from
           @param len Number of bytes in the data buffer
           @param byteOrder Applicable byte order (little or big endian).
+
+          @return 0 if successful.
          */
-        virtual void read(const byte* buf, long len, ByteOrder byteOrder) =0;
+        virtual int read(const byte* buf, long len, ByteOrder byteOrder) =0;
         /*!
           @brief Set the value from a string buffer. The format of the string
                  corresponds to that of the write() method, i.e., a string
@@ -92,8 +94,10 @@ namespace Exiv2 {
                  function.
 
           @param buf The string to read from.
+
+          @return 0 if successful.
          */
-        virtual void read(const std::string& buf) =0;
+        virtual int read(const std::string& buf) =0;
         /*!
           @brief Set the data area, if the value has one by copying (cloning)
                  the buffer pointed to by buf.
@@ -270,12 +274,14 @@ namespace Exiv2 {
           @param buf Pointer to the data buffer to read from
           @param len Number of bytes in the data buffer
           @param byteOrder Byte order. Not needed.
+
+          @return 0 if successful.
          */
-        virtual void read(const byte* buf,
+        virtual int read(const byte* buf,
                           long len,
                           ByteOrder byteOrder =invalidByteOrder);
         //! Set the data from a string of integer values (e.g., "0 1 2 3")
-        virtual void read(const std::string& buf);
+        virtual int read(const std::string& buf);
         //@}
 
         //! @name Accessors
@@ -344,7 +350,7 @@ namespace Exiv2 {
         //! Assignment operator.
         StringValueBase& operator=(const StringValueBase& rhs);
         //! Read the value from buf. This default implementation uses buf as it is.
-        virtual void read(const std::string& buf);
+        virtual int read(const std::string& buf);
         /*!
           @brief Read the value from a character buffer.
 
@@ -354,8 +360,10 @@ namespace Exiv2 {
           @param buf Pointer to the data buffer to read from
           @param len Number of bytes in the data buffer
           @param byteOrder Byte order. Not needed.
+
+          @return 0 if successful.
          */
-        virtual void read(const byte* buf,
+        virtual int read(const byte* buf,
                           long len,
                           ByteOrder byteOrder =invalidByteOrder);
         //@}
@@ -472,7 +480,7 @@ namespace Exiv2 {
                  to append a terminating '\\0' character if buf doesn't end
                  with '\\0'.
          */
-        virtual void read(const std::string& buf);
+        virtual int read(const std::string& buf);
         //@}
 
         //! @name Accessors
@@ -568,9 +576,10 @@ namespace Exiv2 {
           <BR>
           The default charset is Undefined.
 
-          @throw Error if an invalid character set is encountered
+          @return 0 if successful<BR>
+                  1 if an invalid character set is encountered
         */
-        void read(const std::string& comment);
+        int read(const std::string& comment);
         //@}
 
         //! @name Accessors
@@ -636,9 +645,10 @@ namespace Exiv2 {
           @param len Number of bytes in the data buffer
           @param byteOrder Byte order. Not needed.
 
-          @throw Error in case of an unsupported date format
+          @return 0 if successful<BR>
+                  1 in case of an unsupported date format
          */
-        virtual void read(const byte* buf,
+        virtual int read(const byte* buf,
                           long len,
                           ByteOrder byteOrder =invalidByteOrder);
         /*!
@@ -646,9 +656,10 @@ namespace Exiv2 {
 
           @param buf String containing the date
 
-          @throw Error in case of an unsupported date format
+          @return 0 if successful<BR>
+                  1 in case of an unsupported date format
          */
-        virtual void read(const std::string& buf);
+        virtual int read(const std::string& buf);
         //! Set the date
         void setDate(const Date& src);
         //@}
@@ -721,6 +732,8 @@ namespace Exiv2 {
         //! Simple Time helper structure
         struct Time
         {
+            Time() : hour(0), minute(0), second(0), tzHour(0), tzMinute(0) {}
+
             int hour;                           //!< Hour
             int minute;                         //!< Minute
             int second;                         //!< Second
@@ -742,19 +755,21 @@ namespace Exiv2 {
           @param len Number of bytes in the data buffer
           @param byteOrder Byte order. Not needed.
 
-          @throw Error in case of an unsupported time format
+          @return 0 if successful<BR>
+                  1 in case of an unsupported time format
          */
-        virtual void read(const byte* buf,
-                          long len,
-                          ByteOrder byteOrder =invalidByteOrder);
+        virtual int read(const byte* buf,
+                         long len,
+                         ByteOrder byteOrder =invalidByteOrder);
         /*!
           @brief Set the value to that of the string buf.
 
           @param buf String containing the time.
 
-          @throw Error in case of an unsupported time format
+          @return 0 if successful<BR>
+                  1 in case of an unsupported time format
          */
-        virtual void read(const std::string& buf);
+        virtual int read(const std::string& buf);
         //! Set the time
         void setTime(const Time& src);
         //@}
@@ -780,9 +795,7 @@ namespace Exiv2 {
         virtual const Time& getTime() const { return time_; }
         virtual long count() const { return size(); }
         virtual long size() const;
-        /*!
-          @brief Write the value to an output stream. .
-        */
+        //! Write the value to an output stream. .
         virtual std::ostream& write(std::ostream& os) const;
         virtual long toLong(long n =0) const;
         virtual float toFloat(long n =0) const
@@ -792,8 +805,20 @@ namespace Exiv2 {
         //@}
 
     private:
+        //! @name Manipulators
+        //@{
+        //! Set time from \em buf if it conforms to \em format (3 input items)
+        int scanTime3(const char* buf, const char* format);
+        //! Set time from \em buf if it conforms to \em format (6 input items)
+        int scanTime6(const char* buf, const char* format);
+        //@}
+
+        //! @name Accessors
+        //@{
         //! Internal virtual copy constructor.
         virtual TimeValue* clone_() const;
+        //@}
+
         // DATA
         Time time_;
 
@@ -845,14 +870,14 @@ namespace Exiv2 {
         //@{
         //! Assignment operator.
         ValueType<T>& operator=(const ValueType<T>& rhs);
-        virtual void read(const byte* buf, long len, ByteOrder byteOrder);
+        virtual int read(const byte* buf, long len, ByteOrder byteOrder);
         /*!
           @brief Set the data from a string of values of type T (e.g.,
                  "0 1 2 3" or "1/2 1/3 1/4" depending on what T is).
                  Generally, the accepted input format is the same as that
                  produced by the write() method.
          */
-        virtual void read(const std::string& buf);
+        virtual int read(const std::string& buf);
         /*!
           @brief Set the data area. This method copies (clones) the buffer
                  pointed to by buf.
@@ -1092,16 +1117,17 @@ namespace Exiv2 {
     }
 
     template<typename T>
-    void ValueType<T>::read(const byte* buf, long len, ByteOrder byteOrder)
+    int ValueType<T>::read(const byte* buf, long len, ByteOrder byteOrder)
     {
         value_.clear();
         for (long i = 0; i < len; i += TypeInfo::typeSize(typeId())) {
             value_.push_back(getValue<T>(buf + i, byteOrder));
         }
+        return 0;
     }
 
     template<typename T>
-    void ValueType<T>::read(const std::string& buf)
+    int ValueType<T>::read(const std::string& buf)
     {
         std::istringstream is(buf);
         T tmp;
@@ -1109,6 +1135,7 @@ namespace Exiv2 {
         while (is >> tmp) {
             value_.push_back(tmp);
         }
+        return 0;
     }
 
     template<typename T>

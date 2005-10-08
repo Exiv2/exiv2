@@ -130,13 +130,14 @@ namespace Exiv2 {
         return *this;
     }
 
-    void DataValue::read(const byte* buf, long len, ByteOrder byteOrder)
+    int DataValue::read(const byte* buf, long len, ByteOrder byteOrder)
     {
         // byteOrder not needed
         value_.assign(buf, buf + len);
+        return 0;
     }
 
-    void DataValue::read(const std::string& buf)
+    int DataValue::read(const std::string& buf)
     {
         std::istringstream is(buf);
         int tmp;
@@ -144,6 +145,7 @@ namespace Exiv2 {
         while (is >> tmp) {
             value_.push_back(static_cast<byte>(tmp));
         }
+        return 0;
     }
 
     long DataValue::copy(byte* buf, ByteOrder byteOrder) const
@@ -181,15 +183,17 @@ namespace Exiv2 {
         return *this;
     }
 
-    void StringValueBase::read(const std::string& buf)
+    int StringValueBase::read(const std::string& buf)
     {
         value_ = buf;
+        return 0;
     }
 
-    void StringValueBase::read(const byte* buf, long len, ByteOrder byteOrder)
+    int StringValueBase::read(const byte* buf, long len, ByteOrder byteOrder)
     {
         // byteOrder not needed
         value_ = std::string(reinterpret_cast<const char*>(buf), len);
+        return 0;
     }
 
     long StringValueBase::copy(byte* buf, ByteOrder byteOrder) const
@@ -229,10 +233,11 @@ namespace Exiv2 {
         return *this;
     }
 
-    void AsciiValue::read(const std::string& buf)
+    int AsciiValue::read(const std::string& buf)
     {
         value_ = buf;
         if (value_[value_.size()-1] != '\0') value_ += '\0';
+        return 0;
     }
 
     AsciiValue* AsciiValue::clone_() const
@@ -307,23 +312,28 @@ namespace Exiv2 {
         return *this;
     }
 
-    void CommentValue::read(const std::string& comment)
+    int CommentValue::read(const std::string& comment)
     {
         std::string c = comment;
         CharsetId charsetId = undefined;
         if (comment.length() > 8 && comment.substr(0, 8) == "charset=") {
             std::string::size_type pos = comment.find_first_of(' ');
             std::string name = comment.substr(8, pos-8);
-            // Strip quotes (so you can also to specify the charset without quotes)
+            // Strip quotes (so you can also specify the charset without quotes)
             if (name[0] == '"') name = name.substr(1);
             if (name[name.length()-1] == '"') name = name.substr(0, name.length()-1);
             charsetId = CharsetInfo::charsetIdByName(name);
-            if (charsetId == invalidCharsetId) throw Error(28, name);
+            if (charsetId == invalidCharsetId) {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << Error(28, name) << "\n";
+#endif
+                return 1;
+            }
             c.clear();
             if (pos != std::string::npos) c = comment.substr(pos+1);
         }
         const std::string code(CharsetInfo::code(charsetId), 8);
-        StringValueBase::read(code + c);
+        return StringValueBase::read(code + c);
     }
 
     std::ostream& CommentValue::write(std::ostream& os) const
@@ -374,43 +384,62 @@ namespace Exiv2 {
         return *this;
     }
 
-    void DateValue::read(const byte* buf, long len, ByteOrder byteOrder)
+    int DateValue::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
     {
-        // byteOrder not needed
         // Hard coded to read Iptc style dates
-        if (len != 8) throw Error(29);
+        if (len != 8) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << Error(29) << "\n";
+#endif
+            return 1;
+        }
         int scanned = sscanf(reinterpret_cast<const char*>(buf),
                    "%4d%2d%2d",
                    &date_.year, &date_.month, &date_.day);
-        if (scanned != 3) throw Error(29);
+        if (scanned != 3) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << Error(29) << "\n";
+#endif
+            return 1;
+        }
+        return 0;
     }
 
-    void DateValue::read(const std::string& buf)
+    int DateValue::read(const std::string& buf)
     {
-        // byteOrder not needed
         // Hard coded to read Iptc style dates
-        if (buf.length() < 8) throw Error(29);
+        if (buf.length() < 8) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << Error(29) << "\n";
+#endif
+            return 1;
+        }
         int scanned = sscanf(buf.data(),
                    "%4d-%d-%d",
                    &date_.year, &date_.month, &date_.day);
-        if (scanned != 3) throw Error(29);
+        if (scanned != 3) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << Error(29) << "\n";
+#endif
+            return 1;
+        }
+        return 0;
     }
 
-    void DateValue::setDate( const Date& src )
+    void DateValue::setDate(const Date& src)
     {
         date_.year = src.year;
         date_.month = src.month;
         date_.day = src.day;
     }
 
-    long DateValue::copy(byte* buf, ByteOrder byteOrder) const
+    long DateValue::copy(byte* buf, ByteOrder /*byteOrder*/) const
     {
-        // byteOrder not needed
         // sprintf wants to add the null terminator, so use oversized buffer
         char temp[9];
 
-        int wrote = sprintf( temp, "%04d%02d%02d",
-                           date_.year, date_.month, date_.day);
+        int wrote = sprintf(temp, "%04d%02d%02d",
+                            date_.year, date_.month, date_.day);
         assert(wrote == 8);
         memcpy(buf, temp, 8);
         return 8;
@@ -465,40 +494,82 @@ namespace Exiv2 {
         return *this;
     }
 
-    void TimeValue::read(const byte* buf, long len, ByteOrder byteOrder)
+    int TimeValue::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
     {
-        // byteOrder not needed
-        // Hard coded to read Iptc style times
-        if (len != 11) throw Error(30);
-        char plusMinus;
-        int scanned = sscanf(reinterpret_cast<const char*>(buf),
-                   "%2d%2d%2d%1c%2d%2d",
-                   &time_.hour, &time_.minute, &time_.second,
-                   &plusMinus, &time_.tzHour, &time_.tzMinute );
-
-        if (scanned != 6) throw Error(30);
-        if (plusMinus == '-') {
-            time_.tzHour *= -1;
-            time_.tzMinute *= -1;
+        // Hard coded to read HHMMSS or Iptc style times
+        int rc = 1;
+        if (len == 6) {
+            // Try to read (non-standard) HHMMSS format
+            rc = scanTime3(reinterpret_cast<const char*>(buf),
+                           "%2d%2d%2d");
         }
+        if (len == 11) {
+            rc = scanTime6(reinterpret_cast<const char*>(buf),
+                           "%2d%2d%2d%1c%2d%2d");
+        }
+#ifndef SUPPRESS_WARNINGS
+        if (rc) {
+            std::cerr << Error(30) << "\n";
+        }
+#endif
+        return rc;
     }
 
-    void TimeValue::read(const std::string& buf)
+    int TimeValue::read(const std::string& buf)
     {
-        // byteOrder not needed
-        // Hard coded to read Iptc style times
-        if (buf.length() < 9) throw Error(30);
-        char plusMinus;
-        int scanned = sscanf(buf.data(),
-                   "%d:%d:%d%1c%d:%d",
-                   &time_.hour, &time_.minute, &time_.second,
-                   &plusMinus, &time_.tzHour, &time_.tzMinute );
-
-        if (scanned != 6) throw Error(30);
-        if (plusMinus == '-') {
-            time_.tzHour *= -1;
-            time_.tzMinute *= -1;
+        // Hard coded to read H:M:S or Iptc style times
+        int rc = 1;
+        if (buf.length() < 9) {
+            // Try to read (non-standard) H:M:S format
+            rc = scanTime3(buf.data(), "%d:%d:%d");
         }
+        else {
+            rc = scanTime6(buf.data(), "%d:%d:%d%1c%d:%d");
+        }
+#ifndef SUPPRESS_WARNINGS
+        if (rc) {
+            std::cerr << Error(30) << "\n";
+        }
+#endif
+        return rc;
+    }
+
+    int TimeValue::scanTime3(const char* buf, const char* format)
+    {
+        int rc = 1;
+        Time t;
+        int scanned = sscanf(buf, format, &t.hour, &t.minute, &t.second);
+        if (   scanned  == 3
+            && t.hour   >= 0 && t.hour   < 24
+            && t.minute >= 0 && t.minute < 60
+            && t.second >= 0 && t.second < 60) {
+            time_ = t;
+            rc = 0;
+        }
+        return rc;
+    }
+
+    int TimeValue::scanTime6(const char* buf, const char* format)
+    {
+        int rc = 1;
+        Time t;
+        char plusMinus;
+        int scanned = sscanf(buf, format, &t.hour, &t.minute, &t.second,
+                             &plusMinus, &t.tzHour, &t.tzMinute);
+        if (   scanned    == 6
+            && t.hour     >= 0 && t.hour     < 24
+            && t.minute   >= 0 && t.minute   < 60
+            && t.second   >= 0 && t.second   < 60
+            && t.tzHour   >= 0 && t.tzHour   < 24
+            && t.tzMinute >= 0 && t.tzMinute < 60) {
+            time_ = t;
+            if (plusMinus == '-') {
+                time_.tzHour *= -1;
+                time_.tzMinute *= -1;
+            }
+            rc = 0;
+        }
+        return rc;
     }
 
     void TimeValue::setTime( const Time& src )
@@ -506,9 +577,8 @@ namespace Exiv2 {
         memcpy(&time_, &src, sizeof(time_));
     }
 
-    long TimeValue::copy(byte* buf, ByteOrder byteOrder) const
+    long TimeValue::copy(byte* buf, ByteOrder /*byteOrder*/) const
     {
-        // byteOrder not needed
         // sprintf wants to add the null terminator, so use oversized buffer
         char temp[12];
         char plusMinus = '+';
