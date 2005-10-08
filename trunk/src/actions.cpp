@@ -1075,6 +1075,8 @@ namespace Action {
         }
     }
 
+    // This function looks rather complex because we try to avoid adding an
+    // empty metadatum if reading the value fails
     void Modify::setMetadatum(const ModifyCmd& modifyCmd)
     {
         if (Params::instance().verbose_) {
@@ -1083,26 +1085,45 @@ namespace Action {
                       << Exiv2::TypeInfo::typeName(modifyCmd.typeId_)
                       << ")" << std::endl;
         }
-
         Exiv2::ExifData &exifData = image_->exifData();
         Exiv2::IptcData &iptcData = image_->iptcData();
         Exiv2::Metadatum* metadatum = 0;
         if (modifyCmd.metadataId_ == exif) {
-            metadatum = &exifData[modifyCmd.key_];
+            Exiv2::ExifData::iterator pos =
+                exifData.findKey(Exiv2::ExifKey(modifyCmd.key_));
+            if (pos != exifData.end()) {
+                metadatum = &(*pos);
+            }
         }
         if (modifyCmd.metadataId_ == iptc) {
-            metadatum = &iptcData[modifyCmd.key_];
+            Exiv2::IptcData::iterator pos =
+                iptcData.findKey(Exiv2::IptcKey(modifyCmd.key_));
+            if (pos != iptcData.end()) {
+                metadatum = &(*pos);
+            }
         }
-        assert(metadatum);
-        Exiv2::Value::AutoPtr value = metadatum->getValue();
         // If a type was explicitly requested, use it; else
         // use the current type of the metadatum, if any;
         // or the default type
+        Exiv2::Value::AutoPtr value;
+        if (metadatum) {
+            value = metadatum->getValue();
+        }
         if (modifyCmd.explicitType_ || value.get() == 0) {
             value = Exiv2::Value::create(modifyCmd.typeId_);
         }
         if (0 == value->read(modifyCmd.value_)) {
-            metadatum->setValue(value.get());
+            if (metadatum) {
+                metadatum->setValue(value.get());
+            }
+            else {
+                if (modifyCmd.metadataId_ == exif) {
+                    exifData.add(Exiv2::ExifKey(modifyCmd.key_), value.get());
+                }
+                if (modifyCmd.metadataId_ == iptc) {
+                    iptcData.add(Exiv2::IptcKey(modifyCmd.key_), value.get());
+                }
+            }
         }
     }
 
