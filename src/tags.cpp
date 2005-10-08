@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -109,14 +109,14 @@ namespace Exiv2 {
     };
 
     TagInfo::TagInfo(
-        uint16_t tag, 
-        const char* name, 
-        const char* title, 
-        const char* desc, 
-        IfdId ifdId, 
+        uint16_t tag,
+        const char* name,
+        const char* title,
+        const char* desc,
+        IfdId ifdId,
         SectionId sectionId,
         TypeId typeId,
-        PrintFct printFct        
+        PrintFct printFct
     )
         : tag_(tag), name_(name), title_(title), desc_(desc), ifdId_(ifdId),
           sectionId_(sectionId), typeId_(typeId), printFct_(printFct)
@@ -274,7 +274,7 @@ namespace Exiv2 {
         // End of list marker
         TagInfo(0xffff, "(UnknownGpsTag)", "Unknown GPSInfo tag", "Unknown GPSInfo tag", ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
     };
-    
+
     // Exif Interoperability IFD Tags
     static const TagInfo iopTagInfo[] = {
         TagInfo(0x0001, "InteroperabilityIndex", "InteroperabilityIndex", "Interoperability Identification", iopIfdId, iopTags, asciiString, printValue),
@@ -311,8 +311,8 @@ namespace Exiv2 {
     // this is an array with pointers to one list per IFD. The IfdId is used as the
     // index into the array.
     const TagInfo* ExifTags::tagInfos_[] = {
-        0, 
-        ifdTagInfo, exifTagInfo, gpsTagInfo, iopTagInfo, ifdTagInfo, 
+        0,
+        ifdTagInfo, exifTagInfo, gpsTagInfo, iopTagInfo, ifdTagInfo,
         0
     };
 
@@ -364,7 +364,7 @@ namespace Exiv2 {
         return 0;
     } // ExifTags::makerTagInfo
 
-    const TagInfo* ExifTags::makerTagInfo(const std::string& tagName, 
+    const TagInfo* ExifTags::makerTagInfo(const std::string& tagName,
                                           IfdId ifdId)
     {
         int i = 0;
@@ -533,13 +533,13 @@ namespace Exiv2 {
     }
 
     std::ostream& ExifTags::printTag(std::ostream& os,
-                                     uint16_t tag, 
+                                     uint16_t tag,
                                      IfdId ifdId,
                                      const Value& value)
     {
         if (value.count() == 0) return os;
         PrintFct fct = printValue;
-        if (isExifIfd(ifdId)) { 
+        if (isExifIfd(ifdId)) {
             int idx = tagInfoIdx(tag, ifdId);
             if (idx != -1) {
                 fct = tagInfos_[ifdId][idx].printFct_;
@@ -605,7 +605,7 @@ namespace Exiv2 {
     }
 
     ExifKey::ExifKey(const Entry& e)
-        : tag_(e.tag()), ifdId_(e.ifdId()), 
+        : tag_(e.tag()), ifdId_(e.ifdId()),
           ifdItem_(ExifTags::ifdItem(e.ifdId())),
           idx_(e.idx()), key_("")
     {
@@ -636,9 +636,9 @@ namespace Exiv2 {
 
     std::string ExifKey::tagName() const
     {
-        return ExifTags::tagName(tag_, ifdId_); 
+        return ExifTags::tagName(tag_, ifdId_);
     }
-    
+
     ExifKey::AutoPtr ExifKey::clone() const
     {
         return AutoPtr(clone_());
@@ -649,9 +649,9 @@ namespace Exiv2 {
         return new ExifKey(*this);
     }
 
-    std::string ExifKey::sectionName() const 
+    std::string ExifKey::sectionName() const
     {
-        return ExifTags::sectionName(tag(), ifdId()); 
+        return ExifTags::sectionName(tag(), ifdId());
     }
 
     void ExifKey::decomposeKey()
@@ -680,7 +680,7 @@ namespace Exiv2 {
         }
         // Convert tag
         uint16_t tag = ExifTags::tag(tagName, ifdId);
-                                            
+
         // Translate hex tag name (0xabcd) to a real tag name if there is one
         tagName = ExifTags::tagName(tag, ifdId);
 
@@ -692,11 +692,11 @@ namespace Exiv2 {
 
     void ExifKey::makeKey()
     {
-        key_ =   std::string(familyName_) 
+        key_ =   std::string(familyName_)
                + "." + ifdItem_
                + "." + ExifTags::tagName(tag_, ifdId_);
     }
-    
+
     // *************************************************************************
     // free functions
 
@@ -714,46 +714,46 @@ namespace Exiv2 {
         return rc;
     } // isExifIfd
 
-    std::ostream& operator<<(std::ostream& os, const TagInfo& ti) 
+    std::ostream& operator<<(std::ostream& os, const TagInfo& ti)
     {
         ExifKey exifKey(ti.tag_, ExifTags::ifdItem(ti.ifdId_));
         return os << ExifTags::tagName(ti.tag_, ti.ifdId_) << ", "
                   << std::dec << ti.tag_ << ", "
-                  << "0x" << std::setw(4) << std::setfill('0') 
+                  << "0x" << std::setw(4) << std::setfill('0')
                   << std::right << std::hex << ti.tag_ << ", "
                   << ExifTags::ifdName(ti.ifdId_) << ", "
-                  << exifKey.key() << ", " 
+                  << exifKey.key() << ", "
                   << TypeInfo::typeName(
                       ExifTags::tagType(ti.tag_, ti.ifdId_)) << ", "
                   << ExifTags::tagDesc(ti.tag_, ti.ifdId_);
     }
 
-    std::ostream& operator<<(std::ostream& os, const Rational& r) 
+    std::ostream& operator<<(std::ostream& os, const Rational& r)
     {
         return os << r.first << "/" << r.second;
     }
 
-    std::istream& operator>>(std::istream& is, Rational& r) 
-    { 
+    std::istream& operator>>(std::istream& is, Rational& r)
+    {
         int32_t nominator;
         int32_t denominator;
         char c;
-        is >> nominator >> c >> denominator; 
+        is >> nominator >> c >> denominator;
         if (is && c == '/') r = std::make_pair(nominator, denominator);
         return is;
     }
 
-    std::ostream& operator<<(std::ostream& os, const URational& r) 
-    { 
+    std::ostream& operator<<(std::ostream& os, const URational& r)
+    {
         return os << r.first << "/" << r.second;
     }
 
-    std::istream& operator>>(std::istream& is, URational& r) 
+    std::istream& operator>>(std::istream& is, URational& r)
     {
         uint32_t nominator;
         uint32_t denominator;
         char c;
-        is >> nominator >> c >> denominator; 
+        is >> nominator >> c >> denominator;
         if (is && c == '/') r = std::make_pair(nominator, denominator);
         return is;
     }
@@ -998,7 +998,7 @@ namespace Exiv2 {
         else {
             os << "(" << value << ")";
         }
-        return os;        
+        return os;
     }
 
     std::ostream& print0x9207(std::ostream& os, const Value& value)

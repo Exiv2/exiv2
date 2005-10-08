@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -62,27 +62,27 @@ namespace Exiv2 {
              initialized to operate in the memory management model indicated.
              The caller owns this copy and the auto-pointer ensures that it
              will be deleted.
-      
+
       @param alloc Memory management model for the new MakerNote. Determines if
              memory required to store data should be allocated and deallocated
              (true) or not (false). If false, only pointers to the buffer
              provided to read() will be kept. See Ifd for more background on
              this concept.
-      @param buf Pointer to the makernote character buffer (not used). 
-      @param len Length of the makernote character buffer (not used). 
-      @param byteOrder Byte order in which the Exif data (and possibly the 
+      @param buf Pointer to the makernote character buffer (not used).
+      @param len Length of the makernote character buffer (not used).
+      @param byteOrder Byte order in which the Exif data (and possibly the
              makernote) is encoded (not used).
       @param offset Offset from the start of the TIFF header of the makernote
              buffer (not used).
-      
+
       @return An auto-pointer to a newly created empty MakerNote. The caller
              owns this copy and the auto-pointer ensures that it will be
              deleted.
      */
     MakerNote::AutoPtr createCanonMakerNote(bool alloc,
-                                            const byte* buf, 
-                                            long len, 
-                                            ByteOrder byteOrder, 
+                                            const byte* buf,
+                                            long len,
+                                            ByteOrder byteOrder,
                                             long offset);
 
 // *****************************************************************************
@@ -110,8 +110,8 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         int read(const byte* buf,
-                 long len, 
-                 long start, 
+                 long len,
+                 long start,
                  ByteOrder byteOrder,
                  long shift);
         long copy(byte* buf, ByteOrder byteOrder, long offset);
@@ -131,7 +131,7 @@ namespace Exiv2 {
         AutoPtr clone() const;
         //@}
 
-        //! @name Print functions for Canon %MakerNote tags 
+        //! @name Print functions for Canon %MakerNote tags
         //@{
         //! Print the image number
         static std::ostream& print0x0008(std::ostream& os, const Value& value);
@@ -168,7 +168,7 @@ namespace Exiv2 {
         static std::ostream& printCs10x0014(std::ostream& os, const Value& value);
         //! Flash activity
         static std::ostream& printCs10x001c(std::ostream& os, const Value& value);
-        //! Flash details 
+        //! Flash details
         static std::ostream& printCs10x001d(std::ostream& os, const Value& value);
         //! Focus mode (G1 seems to use this in preference to field 7)
         static std::ostream& printCs10x0020(std::ostream& os, const Value& value);
@@ -205,8 +205,8 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         //! Add a camera settings entry to the makernote entries
-        void addCsEntry(IfdId ifdId, 
-                        uint16_t tag, 
+        void addCsEntry(IfdId ifdId,
+                        uint16_t tag,
                         long offset,
                         const byte* data,
                         int count);
@@ -215,8 +215,8 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         //! Assemble special Canon entries into an entry with the original tag
-        long assemble(Entry& e, 
-                      IfdId ifdId, 
+        long assemble(Entry& e,
+                      IfdId ifdId,
                       uint16_t tag,
                       ByteOrder byteOrder) const;
         //! Internal virtual create function.
@@ -244,14 +244,14 @@ namespace Exiv2 {
 
     /*!
        @brief Convert Canon hex-based EV (modulo 0x20) to real number
-              Ported from Phil Harvey's Image::ExifTool::Canon::CanonEv 
+              Ported from Phil Harvey's Image::ExifTool::Canon::CanonEv
               by Will Stokes
 
        0x00 -> 0
        0x0c -> 0.33333
        0x10 -> 0.5
        0x14 -> 0.66666
-       0x20 -> 1  
+       0x20 -> 1
        ..
        160 -> 5
        128 -> 4

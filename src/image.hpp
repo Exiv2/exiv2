@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -24,7 +24,7 @@
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @author  Brad Schick (brad) 
+  @author  Brad Schick (brad)
            <a href="mailto:brad@robotbattle.com">brad@robotbattle.com</a>
   @date    09-Jan-04, ahu: created<BR>
            11-Feb-04, ahu: isolated as a component<BR>
@@ -56,7 +56,7 @@ namespace Exiv2 {
 // class definitions
 
     //! Supported image formats
-    namespace ImageType { 
+    namespace ImageType {
         const int none = 0;         //!< Not an image
     }
 
@@ -66,10 +66,10 @@ namespace Exiv2 {
 
       Most client apps will obtain an Image instance by calling a static
       ImageFactory method. The Image class can then be used to to
-      read, write, and save metadata.      
+      read, write, and save metadata.
      */
     class Image {
-    public:     
+    public:
         //! Image auto_ptr type
         typedef std::auto_ptr<Image> AutoPtr;
 
@@ -85,7 +85,7 @@ namespace Exiv2 {
           @brief Read all metadata supported by a specific image format from the
               image. Before this method is called, the various metadata types
               will be empty.
-              
+
           This method returns success even if no metadata is found in the
           image. Callers must therefore check the size of individual metadata
           types before accessing the data.
@@ -96,7 +96,7 @@ namespace Exiv2 {
          */
         virtual void readMetadata() =0;
         /*!
-          @brief Write metadata back to the image. 
+          @brief Write metadata back to the image.
 
           All existing metadata sections in the image are either created,
           replaced, or erased. If values for a given metadata type have been
@@ -104,7 +104,7 @@ namespace Exiv2 {
           replaced. If no values have been assigned to a given metadata type,
           any exists section for that metadata type will be removed from the
           image.
-          
+
           @throw Error if the operation fails
          */
         virtual void writeMetadata() =0;
@@ -158,7 +158,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         /*!
-          @brief Check if the Image instance is valid. Use after object 
+          @brief Check if the Image instance is valid. Use after object
                  construction.
           @return true if the Image is in a valid state.
          */
@@ -171,7 +171,7 @@ namespace Exiv2 {
           a previous call to readMetadata() or added directly. The Exif
           data in the returned instance will be written to the image when
           writeMetadata() is called.
-          
+
           @return read only ExifData instance containing Exif values
          */
         virtual const ExifData& exifData() const =0;
@@ -183,7 +183,7 @@ namespace Exiv2 {
           a previous call to readMetadata() or added directly. The Exif
           data in the returned instance will be written to the image when
           writeMetadata() is called.
-          
+
           @return modifiable ExifData instance containing Exif values
          */
         virtual ExifData& exifData() =0;
@@ -195,7 +195,7 @@ namespace Exiv2 {
           a previous call to readMetadata() or added directly. The Iptc
           data in the returned instance will be written to the image when
           writeMetadata() is called.
-          
+
           @return modifiable IptcData instance containing Iptc values
          */
         virtual const IptcData& iptcData() const =0;
@@ -207,7 +207,7 @@ namespace Exiv2 {
           a previous call to readMetadata() or added directly. The Iptc
           data in the returned instance will be written to the image when
           writeMetadata() is called.
-          
+
           @return modifiable IptcData instance containing Iptc values
          */
         virtual IptcData& iptcData() =0;
@@ -217,12 +217,12 @@ namespace Exiv2 {
         virtual std::string comment() const =0;
         /*!
           @brief Return a reference to the BasicIo instance being used for Io.
-          
+
           This refence is particularly useful to reading the results of
           operations on a MemIo instance. For example after metadata has
           been modified and the writeMetadata() method has been called,
-          this method can be used to get access to the modified image. 
-          
+          this method can be used to get access to the modified image.
+
           @return BasicIo instance that can be used to read or write image
              data directly.
           @note If the returned BasicIo is used to write to the image, the
@@ -277,8 +277,8 @@ namespace Exiv2 {
           @param newInst Function pointer for creating image instances.
           @param isType Function pointer to test for matching image types.
         */
-        static void registerImage(int type, 
-                                  NewInstanceFct newInst, 
+        static void registerImage(int type,
+                                  NewInstanceFct newInst,
                                   IsThisTypeFct isType);
         //@}
 
@@ -287,11 +287,11 @@ namespace Exiv2 {
         /*!
           @brief Create an Image subclass of the appropriate type by reading
               the specified file. %Image type is derived from the file
-              contents. 
+              contents.
           @param  path %Image file. The contents of the file are tested to
               determine the image type. File extension is ignored.
-          @return An auto-pointer that owns an Image instance whose type 
-              matches that of the file. 
+          @return An auto-pointer that owns an Image instance whose type
+              matches that of the file.
           @throw Error If opening the file fails or it contains data of an
               unknown image type.
          */
@@ -299,11 +299,11 @@ namespace Exiv2 {
         /*!
           @brief Create an Image subclass of the appropriate type by reading
               the provided memory. %Image type is derived from the memory
-              contents. 
+              contents.
           @param data Pointer to a data buffer containing an image. The contents
               of the memory are tested to determine the image type.
           @param size Number of bytes pointed to by \em data.
-          @return An auto-pointer that owns an Image instance whose type 
+          @return An auto-pointer that owns an Image instance whose type
               matches that of the data buffer.
           @throw Error If the memory contains data of an unknown image type.
          */
@@ -312,15 +312,15 @@ namespace Exiv2 {
           @brief Create an Image subclass of the appropriate type by reading
               the provided BasicIo instance. %Image type is derived from the
               data provided by \em io. The passed in \em io instance is
-              (re)opened by this method. 
+              (re)opened by this method.
           @param io An auto-pointer that owns a BasicIo instance that provides
               image data. The contents of the image data are tested to determine
-              the type. 
+              the type.
           @note This method takes ownership of the passed
               in BasicIo instance through the auto-pointer. Callers should not
               continue to use the BasicIo instance after it is passed to this method.
               Use the Image::io() method to get a temporary reference.
-          @return An auto-pointer that owns an Image instance whose type 
+          @return An auto-pointer that owns an Image instance whose type
               matches that of the \em io data. If no image type could be
               determined, the pointer is 0.
           @throw Error If opening the BasicIo fails
@@ -332,7 +332,7 @@ namespace Exiv2 {
           @param type Type of the image to be created.
           @param path %Image file to create. File extension is ignored.
           @return An auto-pointer that owns an Image instance of the requested
-              type. 
+              type.
           @throw Error If the image type is not supported.
          */
         static Image::AutoPtr create(int type, const std::string& path);
@@ -341,7 +341,7 @@ namespace Exiv2 {
               new image in memory.
           @param type Type of the image to be created.
           @return An auto-pointer that owns an Image instance of the requested
-              type. 
+              type.
           @throw Error If the image type is not supported
          */
         static Image::AutoPtr create(int type);
@@ -351,24 +351,24 @@ namespace Exiv2 {
               contains data, it will be overwritten.
           @param type Type of the image to be created.
           @param io An auto-pointer that owns a BasicIo instance that will
-              be written to when creating a new image. 
+              be written to when creating a new image.
           @note This method takes ownership of the passed in BasicIo instance
-              through the auto-pointer. Callers should not continue to use the 
-              BasicIo instance after it is passed to this method.  Use the 
+              through the auto-pointer. Callers should not continue to use the
+              BasicIo instance after it is passed to this method.  Use the
               Image::io() method to get a temporary reference.
           @return An auto-pointer that owns an Image instance of the requested
               type. If the image type is not supported, the pointer is 0.
          */
         static Image::AutoPtr create(int type, BasicIo::AutoPtr io);
         /*!
-          @brief Returns the image type of the provided file. 
+          @brief Returns the image type of the provided file.
           @param path %Image file. The contents of the file are tested to
               determine the image type. File extension is ignored.
           @return %Image type or Image::none if the type is not recognized.
          */
         static int getType(const std::string& path);
         /*!
-          @brief Returns the image type of the provided data buffer. 
+          @brief Returns the image type of the provided data buffer.
           @param data Pointer to a data buffer containing an image. The contents
               of the memory are tested to determine the image type.
           @param size Number of bytes pointed to by \em data.
@@ -405,11 +405,11 @@ namespace Exiv2 {
                 {}
             //! Constructor
             Registry(int            imageType,
-                     NewInstanceFct newInstance, 
-                     IsThisTypeFct  isThisType) 
+                     NewInstanceFct newInstance,
+                     IsThisTypeFct  isThisType)
                 : imageType_(imageType),
-                  newInstance_(newInstance), 
-                  isThisType_(isThisType) 
+                  newInstance_(newInstance),
+                  isThisType_(isThisType)
                 {}
             int            imageType_;
             NewInstanceFct newInstance_;
@@ -431,7 +431,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         /*!
-          @brief Default constructor. Optionally sets the byte order 
+          @brief Default constructor. Optionally sets the byte order
                  (default: little endian).
          */
         explicit TiffHeader(ByteOrder byteOrder =littleEndian);
@@ -445,7 +445,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        /*! 
+        /*!
           @brief Write a standard TIFF header into buf as a data string, return
                  number of bytes copied.
 
@@ -466,7 +466,7 @@ namespace Exiv2 {
         uint16_t tag() const { return tag_; }
         /*!
           @brief Return the offset to IFD0 from the start of the TIFF header.
-                 The offset is 0x00000008 if IFD0 begins immediately after the 
+                 The offset is 0x00000008 if IFD0 begins immediately after the
                  TIFF header.
          */
         uint32_t offset() const { return offset_; }
@@ -477,7 +477,7 @@ namespace Exiv2 {
         uint16_t tag_;
         uint32_t offset_;
 
-    }; // class TiffHeader   
+    }; // class TiffHeader
 
 }                                       // namespace Exiv2
 

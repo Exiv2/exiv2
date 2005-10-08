@@ -12,7 +12,7 @@ int main(int argc, char* const argv[])
     if (argc != 2) {
         std::cout << "Usage: " << argv[0] << " file\n";
         return 1;
-    }    
+    }
     std::ifstream file(argv[1]);
     if (!file) {
         std::cerr << *argv[1] << ": Failed to open file for reading\n";
@@ -27,7 +27,7 @@ int main(int argc, char* const argv[])
         std::string b = Util::basename(path);
 
         if (d != dir || b != base) {
-            std::cout << path << "\t'" << d << "'\t '" << b 
+            std::cout << path << "\t'" << d << "'\t '" << b
                       << "'\t ==> Testcase failed\n";
         }
     }

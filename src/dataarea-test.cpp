@@ -29,7 +29,7 @@ using namespace Exiv2;
 int main(int argc, char* const argv[])
 {
 try {
-    byte da1[] 
+    byte da1[]
         = { 0xaa,0xbb,0xaa,0xbb,0xaa,0xbb,0xaa,0xbb,
             0xaa,0xbb,0xaa,0xbb,0xaa,0xbb,0xaa,0xbb,
             0xaa,0xbb,0xaa,0xbb,0xaa,0xbb,0xaa,0xbb,
@@ -38,7 +38,7 @@ try {
 
     long len1 = 32;
 
-    byte da2[] 
+    byte da2[]
         = { 0xcc,0xcc,0xcc,0xcc,0xcc,0xcc,0xcc,0xcc,
             0xcc,0xcc,0xcc,0xcc,0xcc,0xcc,0xcc,0xcc
         };
@@ -99,15 +99,15 @@ void print(const std::string& file)
         std::cout << std::setw(35) << std::setfill(' ') << std::left
                   << i->key() << " "
                   << "0x" << std::setw(4) << std::setfill('0') << std::right
-                  << std::hex << i->tag() << " " 
+                  << std::hex << i->tag() << " "
                   << std::setw(12) << std::setfill(' ') << std::left
                   << i->ifdName() << " "
                   << std::setw(9) << std::setfill(' ') << std::left
                   << i->typeName() << " "
-                  << std::dec << std::setw(3) 
+                  << std::dec << std::setw(3)
                   << std::setfill(' ') << std::right
                   << i->count() << " "
-                  << std::dec << i->value() 
+                  << std::dec << i->value()
                   << "\n";
     }
 }
@@ -117,11 +117,11 @@ int read(const std::string& path)
     Image::AutoPtr image = ImageFactory::open(path);
     assert(image.get() != 0);
     image->readMetadata();
-    
+
     if (!image->exifData().empty()) {
         DataBuf exifData = image->exifData().copy();
         long size = exifData.size_;
-        
+
         // Read the TIFF header
         TiffHeader tiffHeader;
         int rc = tiffHeader.read(exifData.pData_);
@@ -143,13 +143,13 @@ int read(const std::string& path)
         v->read(i->data(), i->count() * i->typeSize(), tiffHeader.byteOrder());
         v->setDataArea(exifData.pData_ + v->toLong(), 32);
 
-        std::cout << "Value of tag 0x8298: " << std::hex; 
+        std::cout << "Value of tag 0x8298: " << std::hex;
         v->write(std::cout);
         std::cout << std::endl;
 
         DataBuf buf = v->dataArea();
         for (int i = 0; i< buf.size_; ++i) {
-            std::cout << std::hex << (int)buf.pData_[i] << " "; 
+            std::cout << std::hex << (int)buf.pData_[i] << " ";
         }
         std::cout << std::endl;
 
@@ -162,13 +162,13 @@ int read(const std::string& path)
         v->read(i->data(), i->count() * i->typeSize(), tiffHeader.byteOrder());
         v->setDataArea(exifData.pData_ + v->toLong(), 16);
 
-        std::cout << "Value of tag 0x013b: "; 
+        std::cout << "Value of tag 0x013b: ";
         v->write(std::cout);
         std::cout << std::endl;
 
         buf = v->dataArea();
         for (int i = 0; i< buf.size_; ++i) {
-            std::cout << std::hex << (int)buf.pData_[i] << " "; 
+            std::cout << std::hex << (int)buf.pData_[i] << " ";
         }
         std::cout << std::endl;
 

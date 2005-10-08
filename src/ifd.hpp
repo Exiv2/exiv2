@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -60,11 +60,11 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         /*!
-          @brief Default constructor. The entry allocates memory for its 
+          @brief Default constructor. The entry allocates memory for its
           data if alloc is true (the default), otherwise it remembers
           just the pointers into a read and writeable data buffer which
           it doesn't allocate or delete.
-         */ 
+         */
         explicit Entry(bool alloc =true);
         //! Destructor
         ~Entry();
@@ -87,13 +87,13 @@ namespace Exiv2 {
         /*!
           @brief Set the value of the entry to a single unsigned long component,
                  i.e., set the type of the entry to unsigned long, number of
-                 components to one and the value according to the data provided. 
+                 components to one and the value according to the data provided.
 
           The size of the data buffer is set to at least four bytes, but is left
           unchanged if it can accomodate the pointer.  This method can be used
           to set the value of a tag which contains a pointer (offset) to a
           location in the Exif data (like e.g., ExifTag, 0x8769 in IFD0, which
-          contains a pointer to the Exif IFD). 
+          contains a pointer to the Exif IFD).
           <BR>This method cannot be used to set the value of a newly created
           %Entry in non-alloc mode.
 
@@ -110,9 +110,9 @@ namespace Exiv2 {
           copied, i.e., the buffer must remain valid throughout the life of the
           %Entry.  Subsequent calls in non-alloc mode will overwrite the data
           pointed to by this pointer with the data provided, i.e., the buffer
-          provided in subsequent calls can be deleted after the call. 
+          provided in subsequent calls can be deleted after the call.
           <BR>In either memory allocation mode, the data buffer provided must be
-          large enough to hold count components of type. The size of the buffer 
+          large enough to hold count components of type. The size of the buffer
           will be as indicated in the size argument. I.e., it is possible to
           allocate (set) a data buffer larger than required to hold count
           components of the given type.
@@ -121,14 +121,14 @@ namespace Exiv2 {
           @param count Number of components in the buffer.
           @param data Pointer to the data buffer.
           @param size Size of the desired data buffer in bytes.
-          @throw Error if no memory allocation is allowed 
-                 and the size of the data buffer is larger than the existing 
+          @throw Error if no memory allocation is allowed
+                 and the size of the data buffer is larger than the existing
                  data buffer of the entry or if size is not large enough to hold
                  count components of the given type.
          */
         void setValue(uint16_t type, uint32_t count, const byte* data, long size);
         /*!
-          @brief Set the data area. Memory management as for 
+          @brief Set the data area. Memory management as for
           setValue(uint16_t, uint32_t, const byte*, long)
 
           For certain tags the regular value of an IFD entry is an offset to a
@@ -136,36 +136,36 @@ namespace Exiv2 {
           (Exif.Image.ExifTag) or tag 0x0201 in IFD1
           (Exif.Thumbnail.JPEGInterchangeFormat). The offset of ExifTag points
           to a data area containing the Exif IFD. That of JPEGInterchangeFormat
-          contains the JPEG thumbnail image.  
+          contains the JPEG thumbnail image.
           This method sets the data area of a tag in accordance with the memory
           allocation mode.
 
           @param buf Pointer to the data area.
           @param len Size of the data area.
-          
-          @throw Error in non-alloc mode, if there already is a dataarea but the 
-                 size of the existing dataarea is not large enough for the 
+
+          @throw Error in non-alloc mode, if there already is a dataarea but the
+                 size of the existing dataarea is not large enough for the
                  new buffer.
          */
         void setDataArea(const byte* buf, long len);
         /*!
-          @brief Set the offset(s) to the data area of an entry. 
+          @brief Set the offset(s) to the data area of an entry.
 
           Add @em offset to each data component of the entry. This is used by
           Ifd::copy to convert the data components of an entry containing
           offsets relative to the data area to become offsets from the start of
-          the TIFF header.  Usually, entries with a data area have exactly one 
+          the TIFF header.  Usually, entries with a data area have exactly one
           unsigned long data component, which is 0.
 
-          @param offset Offset 
+          @param offset Offset
           @param byteOrder Byte order
 
-          @throw Error if the offset is out of range for the data type of the 
+          @throw Error if the offset is out of range for the data type of the
                  tag or the data type is not supported.
          */
         void setDataAreaOffsets(uint32_t offset, ByteOrder byteOrder);
         /*!
-          @brief Update the base pointer of the Entry from \em pOldBase 
+          @brief Update the base pointer of the Entry from \em pOldBase
                  to \em pNewBase.
 
           Allows to re-locate the underlying data buffer to a new location
@@ -184,7 +184,7 @@ namespace Exiv2 {
         //! Return the type id.
         uint16_t type() const { return type_; }
         //! Return the name of the type
-        const char* typeName() const 
+        const char* typeName() const
             { return TypeInfo::typeName(TypeId(type_)); }
         //! Return the size in bytes of one element of this type
         long typeSize() const
@@ -209,7 +209,7 @@ namespace Exiv2 {
          */
         const byte* data() const { return pData_; }
         /*!
-          @brief Return a pointer to the n-th component, 0 if there is no 
+          @brief Return a pointer to the n-th component, 0 if there is no
                  n-th component. Do not attempt to write to this pointer.
          */
         const byte* component(uint32_t n) const;
@@ -227,7 +227,7 @@ namespace Exiv2 {
           (Exif.Thumbnail.JPEGInterchangeFormat). The offset of ExifTag points
           to a data area containing the Exif IFD. That of JPEGInterchangeFormat
           contains the JPEG thumbnail image.
-          Use this method to access (read-only) the data area of a tag. Use 
+          Use this method to access (read-only) the data area of a tag. Use
           setDataArea() to write to the data area.
 
           @return Return a pointer to the data area.
@@ -255,7 +255,7 @@ namespace Exiv2 {
         //! Offset from the start of the IFD to the data
         long offset_;
         /*!
-          Size of the data buffer holding the value in bytes, there is 
+          Size of the data buffer holding the value in bytes, there is
           no minimum size.
          */
         long size_;
@@ -302,13 +302,13 @@ namespace Exiv2 {
 
     private:
         uint16_t tag_;
-        
+
     }; // class FindEntryByTag
 
     /*!
       @brief Models an IFD (%Image File Directory)
 
-      This class models an IFD as described in the TIFF 6.0 specification. 
+      This class models an IFD as described in the TIFF 6.0 specification.
 
       An instance of class %Ifd can operate in two modes, one that allocates and
       deallocates the memory required to store data, and one that doesn't
@@ -322,8 +322,8 @@ namespace Exiv2 {
       that tag data, which the Exif reader may not understand (e.g., the
       Makernote) remains valid. A "non-intrusive write operation" is the
       modification of tag data without increasing the data size.
-   
-      @note Use the mode with memory management (the default) if you are unsure 
+
+      @note Use the mode with memory management (the default) if you are unsure
             or if these memory management considerations are of no concern to you.
 
       @note The two different modes imply completely different copy and
@@ -375,8 +375,8 @@ namespace Exiv2 {
         /*!
           @brief Read a complete IFD and its data from a data buffer
 
-          @param buf Pointer to the Exif data buffer that contains the IFD to 
-                     decode. Usually, the buffer will contain all Exif data 
+          @param buf Pointer to the Exif data buffer that contains the IFD to
+                     decode. Usually, the buffer will contain all Exif data
                      starting from the TIFF header.
           @param len Number of bytes in the Exif data buffer.
           @param start IFD starts at buf + start.
@@ -384,13 +384,13 @@ namespace Exiv2 {
           @param shift IFD offsets are relative to buf + shift.
 
           @return 0 if successful;<BR>
-                  6 if the data buffer is too small, e.g., if an offset points 
-                    beyond the provided buffer. The IFD is cleared in this 
+                  6 if the data buffer is too small, e.g., if an offset points
+                    beyond the provided buffer. The IFD is cleared in this
                     case.
          */
-        int read(const byte* buf, 
-                 long len, 
-                 long start, 
+        int read(const byte* buf,
+                 long len,
+                 long start,
                  ByteOrder byteOrder,
                  long shift =0);
         /*!
@@ -440,7 +440,7 @@ namespace Exiv2 {
          */
         void add(const Entry& entry);
         /*!
-          @brief Delete the directory entry with the given tag. Return the index 
+          @brief Delete the directory entry with the given tag. Return the index
                  of the deleted entry or 0 if no entry with tag was found.
          */
         int erase(uint16_t tag);
@@ -477,22 +477,22 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         /*!
-          @brief Read a sub-IFD from the location pointed to by the directory entry 
+          @brief Read a sub-IFD from the location pointed to by the directory entry
                  with the given tag.
 
           @param dest References the destination IFD.
-          @param buf The data buffer to read from. The buffer must contain all Exif 
+          @param buf The data buffer to read from. The buffer must contain all Exif
                      data starting from the TIFF header.
-          @param len Number of bytes in the data buffer 
+          @param len Number of bytes in the data buffer
           @param byteOrder Applicable byte order (little or big endian).
           @param tag Tag to look for.
 
           @return 0 if successful;<BR>
                   6 if reading the sub-IFD failed (see read() above) or
-                    the location pointed to by the directory entry with the 
+                    the location pointed to by the directory entry with the
                     given tag is outside of the data buffer.
 
-          @note It is not considered an error if the tag cannot be found in the 
+          @note It is not considered an error if the tag cannot be found in the
                 IFD. 0 is returned and no action is taken in this case.
         */
         int readSubIfd(
@@ -514,7 +514,7 @@ namespace Exiv2 {
         long offset() const { return offset_; }
         /*!
           @brief Get the offset of the first data entry outside of the IFD from
-                 the start of the TIFF header, return 0 if there is none. The 
+                 the start of the TIFF header, return 0 if there is none. The
                  data offset is determined when the IFD is read.
          */
         long dataOffset() const { return dataOffset_; }
@@ -542,7 +542,7 @@ namespace Exiv2 {
         //! Helper structure to build IFD entries
         struct PreEntry {
             uint16_t tag_;
-            uint16_t type_; 
+            uint16_t type_;
             uint32_t count_;
             long size_;
             long offsetLoc_;
@@ -551,7 +551,7 @@ namespace Exiv2 {
 
         //! cmpPreEntriesByOffset needs to know about PreEntry, that's all.
         friend bool cmpPreEntriesByOffset(const PreEntry&, const PreEntry&);
-    
+
         //! Container for 'pre-entries'
         typedef std::vector<PreEntry> PreEntries;
 
@@ -576,7 +576,7 @@ namespace Exiv2 {
         //! Pointer to the offset of next IFD
         byte* pNext_;
         /*!
-          The offset of the next IFD from the start of the TIFF header as data 
+          The offset of the next IFD from the start of the TIFF header as data
           value (always in sync with *pNext_)
         */
         uint32_t next_;
@@ -600,7 +600,7 @@ namespace Exiv2 {
              than those with an offset.
     */
     bool cmpPreEntriesByOffset(const Ifd::PreEntry& lhs, const Ifd::PreEntry& rhs);
-   
+
 }                                       // namespace Exiv2
 
 #endif                                  // #ifndef IFD_HPP_

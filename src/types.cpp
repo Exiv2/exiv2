@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -90,14 +90,14 @@ namespace Exiv2 {
     {
         return typeInfoTable_[ typeId < lastTypeId ? typeId : 0 ].size_;
     }
-    
+
     DataBuf::DataBuf(DataBuf& rhs)
         : pData_(rhs.pData_), size_(rhs.size_)
     {
         rhs.release();
     }
 
-    DataBuf::DataBuf(byte* pData, long size) 
+    DataBuf::DataBuf(byte* pData, long size)
         : pData_(0), size_(0)
     {
         if (size > 0) {
@@ -115,12 +115,12 @@ namespace Exiv2 {
     }
 
     void DataBuf::alloc(long size)
-    { 
+    {
         if (size > size_) {
-            delete[] pData_; 
-            size_ = size; 
+            delete[] pData_;
+            size_ = size;
             pData_ = new byte[size];
-        } 
+        }
     }
 
     std::pair<byte*, long> DataBuf::release()
@@ -156,11 +156,11 @@ namespace Exiv2 {
     uint32_t getULong(const byte* buf, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
-            return   (byte)buf[3] << 24 | (byte)buf[2] << 16 
+            return   (byte)buf[3] << 24 | (byte)buf[2] << 16
                    | (byte)buf[1] <<  8 | (byte)buf[0];
         }
         else {
-            return   (byte)buf[0] << 24 | (byte)buf[1] << 16 
+            return   (byte)buf[0] << 24 | (byte)buf[1] << 16
                    | (byte)buf[2] <<  8 | (byte)buf[3];
         }
     }
@@ -185,11 +185,11 @@ namespace Exiv2 {
     int32_t getLong(const byte* buf, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
-            return   (byte)buf[3] << 24 | (byte)buf[2] << 16 
+            return   (byte)buf[3] << 24 | (byte)buf[2] << 16
                    | (byte)buf[1] <<  8 | (byte)buf[0];
         }
         else {
-            return   (byte)buf[0] << 24 | (byte)buf[1] << 16 
+            return   (byte)buf[0] << 24 | (byte)buf[1] << 16
                    | (byte)buf[2] <<  8 | (byte)buf[3];
         }
     }
@@ -277,13 +277,13 @@ namespace Exiv2 {
 
     void hexdump(std::ostream& os, const byte* buf, long len, long offset)
     {
-        const std::string::size_type pos = 8 + 16 * 3 + 2; 
-        const std::string align(pos, ' '); 
+        const std::string::size_type pos = 8 + 16 * 3 + 2;
+        const std::string align(pos, ' ');
 
         long i = 0;
         while (i < len) {
-            os << "  " 
-               << std::setw(4) << std::setfill('0') << std::hex 
+            os << "  "
+               << std::setw(4) << std::setfill('0') << std::hex
                << i + offset << "  ";
             std::ostringstream ss;
             do {
@@ -300,11 +300,11 @@ namespace Exiv2 {
 
     bool isHex(const std::string& str, size_t size, const std::string& prefix)
     {
-        if (   str.size() <= prefix.size() 
+        if (   str.size() <= prefix.size()
             || str.substr(0, prefix.size()) != prefix) return false;
         if (   size > 0
             && str.size() != size + prefix.size()) return false;
-        
+
         for (size_t i = prefix.size(); i < str.size(); ++i) {
             if (!isxdigit(str[i])) return false;
         }

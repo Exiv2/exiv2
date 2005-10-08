@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -50,7 +50,7 @@ namespace Exiv2 {
 // class definitions
 
     /*!
-      @brief Common interface for all types of values used with metadata. 
+      @brief Common interface for all types of values used with metadata.
 
       The interface provides a uniform way to access values independent from
       their actual C++ type for simple tasks like reading the values from a
@@ -66,7 +66,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor, taking a type id to initialize the base class with
-        explicit Value(TypeId typeId) 
+        explicit Value(TypeId typeId)
             : type_(typeId) {}
         //! Copy constructor
         Value(const Value& rhs)
@@ -81,14 +81,14 @@ namespace Exiv2 {
           @brief Read the value from a character buffer.
 
           @param buf Pointer to the data buffer to read from
-          @param len Number of bytes in the data buffer 
+          @param len Number of bytes in the data buffer
           @param byteOrder Applicable byte order (little or big endian).
          */
         virtual void read(const byte* buf, long len, ByteOrder byteOrder) =0;
-        /*! 
+        /*!
           @brief Set the value from a string buffer. The format of the string
                  corresponds to that of the write() method, i.e., a string
-                 obtained through the write() method can be read by this 
+                 obtained through the write() method can be read by this
                  function.
 
           @param buf The string to read from.
@@ -115,12 +115,12 @@ namespace Exiv2 {
         TypeId typeId() const { return type_; }
         /*!
           @brief Return the value as a string. Implemented in terms of
-                 write(std::ostream& os) const of the concrete class. 
+                 write(std::ostream& os) const of the concrete class.
          */
         std::string toString() const;
         /*!
           @brief Return an auto-pointer to a copy of itself (deep copy).
-                 The caller owns this copy and the auto-pointer ensures that 
+                 The caller owns this copy and the auto-pointer ensures that
                  it will be deleted.
          */
         AutoPtr clone() const { return AutoPtr(clone_()); }
@@ -139,10 +139,10 @@ namespace Exiv2 {
         virtual long count() const =0;
         //! Return the size of the value in bytes
         virtual long size() const =0;
-        /*! 
+        /*!
           @brief Write the value to an output stream. You do not usually have
-                 to use this function; it is used for the implementation of 
-                 the output operator for %Value, 
+                 to use this function; it is used for the implementation of
+                 the output operator for %Value,
                  operator<<(std::ostream &os, const Value &value).
         */
         virtual std::ostream& write(std::ostream& os) const =0;
@@ -151,7 +151,7 @@ namespace Exiv2 {
                  behaviour of this method may be undefined if there is no
                  n-th component.
 
-          @return The converted value. 
+          @return The converted value.
          */
         virtual long toLong(long n =0) const =0;
         /*!
@@ -159,7 +159,7 @@ namespace Exiv2 {
                  behaviour of this method may be undefined if there is no
                  n-th component.
 
-          @return The converted value. 
+          @return The converted value.
          */
         virtual float toFloat(long n =0) const =0;
         /*!
@@ -167,7 +167,7 @@ namespace Exiv2 {
                  behaviour of this method may be undefined if there is no
                  n-th component.
 
-          @return The converted value. 
+          @return The converted value.
          */
         virtual Rational toRational(long n =0) const =0;
         //! Return the size of the data area, 0 if there is none.
@@ -175,7 +175,7 @@ namespace Exiv2 {
         /*!
           @brief Return a copy of the data area if the value has one. The
                  caller owns this copy and DataBuf ensures that it will be
-                 deleted. 
+                 deleted.
 
           Values may have a data area, which can contain additional
           information besides the actual value. This method is used to access
@@ -251,7 +251,7 @@ namespace Exiv2 {
         //! Constructor
         DataValue(const byte* buf,
                   long len, ByteOrder byteOrder =invalidByteOrder,
-                  TypeId typeId =undefined) 
+                  TypeId typeId =undefined)
             : Value(typeId) { read(buf, len, byteOrder); }
         //! Virtual destructor.
         virtual ~DataValue() {}
@@ -262,17 +262,17 @@ namespace Exiv2 {
         //! Assignment operator.
         DataValue& operator=(const DataValue& rhs);
         /*!
-          @brief Read the value from a character buffer. 
+          @brief Read the value from a character buffer.
 
-          @note The byte order is required by the interface but not 
+          @note The byte order is required by the interface but not
                 used by this method, so just use the default.
 
           @param buf Pointer to the data buffer to read from
-          @param len Number of bytes in the data buffer 
+          @param len Number of bytes in the data buffer
           @param byteOrder Byte order. Not needed.
          */
         virtual void read(const byte* buf,
-                          long len, 
+                          long len,
                           ByteOrder byteOrder =invalidByteOrder);
         //! Set the data from a string of integer values (e.g., "0 1 2 3")
         virtual void read(const std::string& buf);
@@ -282,7 +282,7 @@ namespace Exiv2 {
         //@{
         AutoPtr clone() const { return AutoPtr(clone_()); }
         /*!
-          @brief Write value to a character data buffer. 
+          @brief Write value to a character data buffer.
 
           @note The byte order is required by the interface but not used by this
                 method, so just use the default.
@@ -313,9 +313,9 @@ namespace Exiv2 {
     }; // class DataValue
 
     /*!
-      @brief Abstract base class for a string based %Value type. 
+      @brief Abstract base class for a string based %Value type.
 
-      Uses a std::string to store the value and implements defaults for 
+      Uses a std::string to store the value and implements defaults for
       most operations.
      */
     class StringValueBase : public Value {
@@ -334,7 +334,7 @@ namespace Exiv2 {
         //! Copy constructor
         StringValueBase(const StringValueBase& rhs)
             : Value(rhs), value_(rhs.value_) {}
-            
+
         //! Virtual destructor.
         virtual ~StringValueBase() {}
         //@}
@@ -352,11 +352,11 @@ namespace Exiv2 {
                 method, so just use the default.
 
           @param buf Pointer to the data buffer to read from
-          @param len Number of bytes in the data buffer 
+          @param len Number of bytes in the data buffer
           @param byteOrder Byte order. Not needed.
          */
-        virtual void read(const byte* buf, 
-                          long len, 
+        virtual void read(const byte* buf,
+                          long len,
                           ByteOrder byteOrder =invalidByteOrder);
         //@}
 
@@ -390,7 +390,7 @@ namespace Exiv2 {
         //! Internal virtual copy constructor.
         virtual StringValueBase* clone_() const =0;
         // DATA
-        std::string value_;                     //!< Stores the string value. 
+        std::string value_;                     //!< Stores the string value.
 
     }; // class StringValueBase
 
@@ -409,12 +409,12 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor.
-        StringValue() 
+        StringValue()
             : StringValueBase(string) {}
         //! Constructor
-        StringValue(const std::string& buf) 
+        StringValue(const std::string& buf)
             : StringValueBase(string, buf) {}
-        //! Copy constructor 
+        //! Copy constructor
         StringValue(const StringValue& rhs)
             : StringValueBase(rhs) {}
         //! Virtual destructor.
@@ -438,9 +438,9 @@ namespace Exiv2 {
     }; // class StringValue
 
     /*!
-      @brief %Value for an Ascii string type. 
+      @brief %Value for an Ascii string type.
 
-      This class is for null terminated single byte Ascii strings. 
+      This class is for null terminated single byte Ascii strings.
       This class also ensures that the string is null terminated.
      */
     class AsciiValue : public StringValueBase {
@@ -451,10 +451,10 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor.
-        AsciiValue() 
+        AsciiValue()
             : StringValueBase(asciiString) {}
         //! Constructor
-        AsciiValue(const std::string &buf) 
+        AsciiValue(const std::string &buf)
             : StringValueBase(asciiString, buf) {}
         //! Copy constructor
         AsciiValue(const AsciiValue& rhs)
@@ -478,7 +478,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         AutoPtr clone() const { return AutoPtr(clone_()); }
-        /*! 
+        /*!
           @brief Write the value to an output stream. Any trailing '\\0'
                  characters of the ASCII value are stripped and not written to
                  the output stream.
@@ -508,12 +508,12 @@ namespace Exiv2 {
         //! Information pertaining to the defined character sets
         struct CharsetTable {
             //! Constructor
-            CharsetTable(CharsetId charsetId, 
-                         const char* name, 
+            CharsetTable(CharsetId charsetId,
+                         const char* name,
                          const char* code);
             CharsetId charsetId_;                   //!< Charset id
             const char* name_;                      //!< Name of the charset
-            const char* code_;                      //!< Code of the charset 
+            const char* code_;                      //!< Code of the charset
         }; // struct CharsetTable
         //! Charset information lookup functions. Implemented as a static class.
         class CharsetInfo {
@@ -523,7 +523,7 @@ namespace Exiv2 {
             CharsetInfo(const CharsetInfo&);
             //! Prevent assignment: not implemented.
             CharsetInfo& operator=(const CharsetInfo&);
-            
+
         public:
             //! Return the name for a charset id
             static const char* name(CharsetId charsetId);
@@ -533,7 +533,7 @@ namespace Exiv2 {
             static CharsetId charsetIdByName(const std::string& name);
             //! Return the charset id for a code
             static CharsetId charsetIdByCode(const std::string& code);
-            
+
         private:
             static const CharsetTable charsetTable_[];
         }; // class CharsetInfo
@@ -548,7 +548,7 @@ namespace Exiv2 {
             : StringValueBase(Exiv2::undefined) {}
         //! Constructor, uses read(const std::string& comment)
         CommentValue(const std::string& comment);
-        //! Copy constructor 
+        //! Copy constructor
         CommentValue(const CommentValue& rhs)
             : StringValueBase(rhs) {}
         //! Virtual destructor.
@@ -561,10 +561,10 @@ namespace Exiv2 {
         CommentValue& operator=(const CommentValue& rhs);
         /*!
           @brief Read the value from a comment
- 
+
           The format of \em comment is:
           <BR>
-          <CODE>[charset=["]Ascii|Jis|Unicode|Undefined["] ]comment</CODE> 
+          <CODE>[charset=["]Ascii|Jis|Unicode|Undefined["] ]comment</CODE>
           <BR>
           The default charset is Undefined.
 
@@ -577,7 +577,7 @@ namespace Exiv2 {
         //@{
         AutoPtr clone() const { return AutoPtr(clone_()); }
         /*!
-          @brief Write the comment in a format which can be read by 
+          @brief Write the comment in a format which can be read by
           read(const std::string& comment).
          */
         std::ostream& write(std::ostream& os) const;
@@ -593,7 +593,7 @@ namespace Exiv2 {
 
     }; // class CommentValue
 
-    /*! 
+    /*!
       @brief %Value for simple ISO 8601 dates
 
       This class is limited to parsing simple date strings in the ISO 8601
@@ -615,7 +615,7 @@ namespace Exiv2 {
         //@}
 
         //! Simple Date helper structure
-        struct Date 
+        struct Date
         {
             int year;                           //!< Year
             int month;                          //!< Month
@@ -633,16 +633,16 @@ namespace Exiv2 {
                 method, so just use the default.
 
           @param buf Pointer to the data buffer to read from
-          @param len Number of bytes in the data buffer 
+          @param len Number of bytes in the data buffer
           @param byteOrder Byte order. Not needed.
 
           @throw Error in case of an unsupported date format
          */
-        virtual void read(const byte* buf, 
-                          long len, 
+        virtual void read(const byte* buf,
+                          long len,
                           ByteOrder byteOrder =invalidByteOrder);
         /*!
-          @brief Set the value to that of the string buf. 
+          @brief Set the value to that of the string buf.
 
           @param buf String containing the date
 
@@ -674,12 +674,12 @@ namespace Exiv2 {
         virtual const Date& getDate() const { return date_; }
         virtual long count() const { return size(); }
         virtual long size() const;
-        /*! 
+        /*!
           @brief Write the value to an output stream. .
         */
         virtual std::ostream& write(std::ostream& os) const;
         virtual long toLong(long n =0) const;
-        virtual float toFloat(long n =0) const 
+        virtual float toFloat(long n =0) const
             { return static_cast<float>(toLong(n)); }
         virtual Rational toRational(long n =0) const
             { return Rational(toLong(n), 1); }
@@ -691,7 +691,7 @@ namespace Exiv2 {
         // DATA
         Date date_;
 
-    }; // class DateValue    
+    }; // class DateValue
 
     /*!
      @brief %Value for simple ISO 8601 times.
@@ -711,7 +711,7 @@ namespace Exiv2 {
         //! Default constructor.
         TimeValue() : Value(time) { memset(&time_, 0, sizeof(time_)); }
         //! Constructor
-        TimeValue(int hour, int minute, int second =0, 
+        TimeValue(int hour, int minute, int second =0,
                   int tzHour =0, int tzMinute =0);
 
         //! Virtual destructor.
@@ -719,7 +719,7 @@ namespace Exiv2 {
         //@}
 
         //! Simple Time helper structure
-        struct Time 
+        struct Time
         {
             int hour;                           //!< Hour
             int minute;                         //!< Minute
@@ -739,16 +739,16 @@ namespace Exiv2 {
                 method, so just use the default.
 
           @param buf Pointer to the data buffer to read from
-          @param len Number of bytes in the data buffer 
+          @param len Number of bytes in the data buffer
           @param byteOrder Byte order. Not needed.
 
           @throw Error in case of an unsupported time format
          */
-        virtual void read(const byte* buf, 
-                          long len, 
+        virtual void read(const byte* buf,
+                          long len,
                           ByteOrder byteOrder =invalidByteOrder);
         /*!
-          @brief Set the value to that of the string buf. 
+          @brief Set the value to that of the string buf.
 
           @param buf String containing the time.
 
@@ -780,12 +780,12 @@ namespace Exiv2 {
         virtual const Time& getTime() const { return time_; }
         virtual long count() const { return size(); }
         virtual long size() const;
-        /*! 
+        /*!
           @brief Write the value to an output stream. .
         */
         virtual std::ostream& write(std::ostream& os) const;
         virtual long toLong(long n =0) const;
-        virtual float toFloat(long n =0) const 
+        virtual float toFloat(long n =0) const
             { return static_cast<float>(toLong(n)); }
         virtual Rational toRational(long n =0) const
             { return Rational(toLong(n), 1); }
@@ -797,7 +797,7 @@ namespace Exiv2 {
         // DATA
         Time time_;
 
-    }; // class TimeValue        
+    }; // class TimeValue
     //! Template to determine the TypeId for a type T
     template<typename T> TypeId getType();
 
@@ -818,9 +818,9 @@ namespace Exiv2 {
 //    template<typename T> inline TypeId getType() { return invalid; }
 
     /*!
-      @brief Template for a %Value of a basic type. This is used for unsigned 
+      @brief Template for a %Value of a basic type. This is used for unsigned
              and signed short, long and rationals.
-     */    
+     */
     template<typename T>
     class ValueType : public Value {
     public:
@@ -847,9 +847,9 @@ namespace Exiv2 {
         ValueType<T>& operator=(const ValueType<T>& rhs);
         virtual void read(const byte* buf, long len, ByteOrder byteOrder);
         /*!
-          @brief Set the data from a string of values of type T (e.g., 
-                 "0 1 2 3" or "1/2 1/3 1/4" depending on what T is). 
-                 Generally, the accepted input format is the same as that 
+          @brief Set the data from a string of values of type T (e.g.,
+                 "0 1 2 3" or "1/2 1/3 1/4" depending on what T is).
+                 Generally, the accepted input format is the same as that
                  produced by the write() method.
          */
         virtual void read(const std::string& buf);
@@ -879,7 +879,7 @@ namespace Exiv2 {
         virtual DataBuf dataArea() const;
         //@}
 
-        //! Container for values 
+        //! Container for values
         typedef std::vector<T> ValueList;
         //! Iterator type defined for convenience.
         typedef typename std::vector<T>::iterator iterator;
@@ -888,9 +888,9 @@ namespace Exiv2 {
 
         // DATA
         /*!
-          @brief The container for all values. In your application, if you know 
+          @brief The container for all values. In your application, if you know
                  what subclass of Value you're dealing with (and possibly the T)
-                 then you can access this STL container through the usual 
+                 then you can access this STL container through the usual
                  standard library functions.
          */
         ValueList value_;
@@ -903,7 +903,7 @@ namespace Exiv2 {
         //! Pointer to the buffer, 0 if none has been allocated
         byte* pDataArea_;
         //! The current size of the buffer
-        long sizeDataArea_; 
+        long sizeDataArea_;
     }; // class ValueType
 
     //! Unsigned short value type
@@ -925,7 +925,7 @@ namespace Exiv2 {
     /*!
       @brief Read a value of type T from the data buffer.
 
-      We need this template function for the ValueType template classes. 
+      We need this template function for the ValueType template classes.
       There are only specializations of this function available; no default
       implementation is provided.
 
@@ -935,37 +935,37 @@ namespace Exiv2 {
      */
     template<typename T> T getValue(const byte* buf, ByteOrder byteOrder);
     // Specialization for a 2 byte unsigned short value.
-    template<> 
+    template<>
     inline uint16_t getValue(const byte* buf, ByteOrder byteOrder)
     {
         return getUShort(buf, byteOrder);
     }
     // Specialization for a 4 byte unsigned long value.
-    template<> 
+    template<>
     inline uint32_t getValue(const byte* buf, ByteOrder byteOrder)
     {
         return getULong(buf, byteOrder);
     }
     // Specialization for an 8 byte unsigned rational value.
-    template<> 
+    template<>
     inline URational getValue(const byte* buf, ByteOrder byteOrder)
     {
         return getURational(buf, byteOrder);
     }
     // Specialization for a 2 byte signed short value.
-    template<> 
+    template<>
     inline int16_t getValue(const byte* buf, ByteOrder byteOrder)
     {
         return getShort(buf, byteOrder);
     }
     // Specialization for a 4 byte signed long value.
-    template<> 
+    template<>
     inline int32_t getValue(const byte* buf, ByteOrder byteOrder)
     {
         return getLong(buf, byteOrder);
     }
     // Specialization for an 8 byte signed rational value.
-    template<> 
+    template<>
     inline Rational getValue(const byte* buf, ByteOrder byteOrder)
     {
         return getRational(buf, byteOrder);
@@ -974,7 +974,7 @@ namespace Exiv2 {
     /*!
       @brief Convert a value of type T to data, write the data to the data buffer.
 
-      We need this template function for the ValueType template classes. 
+      We need this template function for the ValueType template classes.
       There are only specializations of this function available; no default
       implementation is provided.
 
@@ -984,20 +984,20 @@ namespace Exiv2 {
       @return The number of bytes written to the buffer.
      */
     template<typename T> long toData(byte* buf, T t, ByteOrder byteOrder);
-    /*! 
+    /*!
       @brief Specialization to write an unsigned short to the data buffer.
              Return the number of bytes written.
      */
-    template<> 
+    template<>
     inline long toData(byte* buf, uint16_t t, ByteOrder byteOrder)
     {
         return us2Data(buf, t, byteOrder);
     }
-    /*! 
+    /*!
       @brief Specialization to write an unsigned long to the data buffer.
              Return the number of bytes written.
      */
-    template<> 
+    template<>
     inline long toData(byte* buf, uint32_t t, ByteOrder byteOrder)
     {
         return ul2Data(buf, t, byteOrder);
@@ -1006,25 +1006,25 @@ namespace Exiv2 {
       @brief Specialization to write an unsigned rational to the data buffer.
              Return the number of bytes written.
      */
-    template<> 
+    template<>
     inline long toData(byte* buf, URational t, ByteOrder byteOrder)
     {
         return ur2Data(buf, t, byteOrder);
     }
-    /*! 
+    /*!
       @brief Specialization to write a signed short to the data buffer.
              Return the number of bytes written.
      */
-    template<> 
+    template<>
     inline long toData(byte* buf, int16_t t, ByteOrder byteOrder)
     {
         return s2Data(buf, t, byteOrder);
     }
-    /*! 
+    /*!
       @brief Specialization to write a signed long to the data buffer.
              Return the number of bytes written.
      */
-    template<> 
+    template<>
     inline long toData(byte* buf, int32_t t, ByteOrder byteOrder)
     {
         return l2Data(buf, t, byteOrder);
@@ -1033,14 +1033,14 @@ namespace Exiv2 {
       @brief Specialization to write a signed rational to the data buffer.
              Return the number of bytes written.
      */
-    template<> 
+    template<>
     inline long toData(byte* buf, Rational t, ByteOrder byteOrder)
     {
         return r2Data(buf, t, byteOrder);
     }
 
     template<typename T>
-    ValueType<T>::ValueType(const byte* buf, long len, ByteOrder byteOrder) 
+    ValueType<T>::ValueType(const byte* buf, long len, ByteOrder byteOrder)
         : Value(getType<T>()), pDataArea_(0), sizeDataArea_(0)
     {
         read(buf, len, byteOrder);
@@ -1048,11 +1048,11 @@ namespace Exiv2 {
 
     template<typename T>
     ValueType<T>::ValueType(const T& val, ByteOrder byteOrder)
-        : Value(getType<T>()), pDataArea_(0), sizeDataArea_(0) 
+        : Value(getType<T>()), pDataArea_(0), sizeDataArea_(0)
     {
-        read(reinterpret_cast<const byte*>(&val), 
-             TypeInfo::typeSize(typeId()), 
-             byteOrder); 
+        read(reinterpret_cast<const byte*>(&val),
+             TypeInfo::typeSize(typeId()),
+             byteOrder);
     }
 
     template<typename T>
@@ -1061,8 +1061,8 @@ namespace Exiv2 {
     {
         if (rhs.sizeDataArea_ > 0) {
             pDataArea_ = new byte[rhs.sizeDataArea_];
-            memcpy(pDataArea_, rhs.pDataArea_, rhs.sizeDataArea_); 
-            sizeDataArea_ = rhs.sizeDataArea_;        
+            memcpy(pDataArea_, rhs.pDataArea_, rhs.sizeDataArea_);
+            sizeDataArea_ = rhs.sizeDataArea_;
         }
     }
 
@@ -1082,7 +1082,7 @@ namespace Exiv2 {
         byte* tmp = 0;
         if (rhs.sizeDataArea_ > 0) {
             tmp = new byte[rhs.sizeDataArea_];
-            memcpy(tmp, rhs.pDataArea_, rhs.sizeDataArea_); 
+            memcpy(tmp, rhs.pDataArea_, rhs.sizeDataArea_);
         }
         delete[] pDataArea_;
         pDataArea_ = tmp;
@@ -1148,38 +1148,38 @@ namespace Exiv2 {
     // Default implementation
     template<typename T>
     inline long ValueType<T>::toLong(long n) const
-    { 
-        return value_[n]; 
+    {
+        return value_[n];
     }
     // Specialization for rational
     template<>
-    inline long ValueType<Rational>::toLong(long n) const 
+    inline long ValueType<Rational>::toLong(long n) const
     {
-        return value_[n].first / value_[n].second; 
+        return value_[n].first / value_[n].second;
     }
     // Specialization for unsigned rational
     template<>
-    inline long ValueType<URational>::toLong(long n) const 
+    inline long ValueType<URational>::toLong(long n) const
     {
-        return value_[n].first / value_[n].second; 
+        return value_[n].first / value_[n].second;
     }
     // Default implementation
     template<typename T>
     inline float ValueType<T>::toFloat(long n) const
-    { 
-        return static_cast<float>(value_[n]); 
+    {
+        return static_cast<float>(value_[n]);
     }
     // Specialization for rational
     template<>
-    inline float ValueType<Rational>::toFloat(long n) const 
+    inline float ValueType<Rational>::toFloat(long n) const
     {
-        return static_cast<float>(value_[n].first) / value_[n].second; 
+        return static_cast<float>(value_[n].first) / value_[n].second;
     }
     // Specialization for unsigned rational
     template<>
-    inline float ValueType<URational>::toFloat(long n) const 
+    inline float ValueType<URational>::toFloat(long n) const
     {
-        return static_cast<float>(value_[n].first) / value_[n].second; 
+        return static_cast<float>(value_[n].first) / value_[n].second;
     }
     // Default implementation
     template<typename T>
@@ -1189,13 +1189,13 @@ namespace Exiv2 {
     }
     // Specialization for rational
     template<>
-    inline Rational ValueType<Rational>::toRational(long n) const 
+    inline Rational ValueType<Rational>::toRational(long n) const
     {
         return Rational(value_[n].first, value_[n].second);
     }
     // Specialization for unsigned rational
     template<>
-    inline Rational ValueType<URational>::toRational(long n) const 
+    inline Rational ValueType<URational>::toRational(long n) const
     {
         return Rational(value_[n].first, value_[n].second);
     }

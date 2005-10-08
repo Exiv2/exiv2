@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -63,11 +63,11 @@ EXIV2_RCSID("@(#) $Id$");
 // class member definitions
 namespace Exiv2 {
 
-    FileIo::FileIo(const std::string& path) 
+    FileIo::FileIo(const std::string& path)
         : path_(path), fp_(0), opMode_(opSeek)
     {
     }
-        
+
     FileIo::~FileIo()
     {
         close();
@@ -76,10 +76,10 @@ namespace Exiv2 {
     BasicIo::AutoPtr FileIo::temporary() const
     {
         BasicIo::AutoPtr basicIo;
-        
+
         struct stat buf;
         int ret = stat(path_.c_str(), &buf);
-        
+
         // If file is > 1MB then use a file, otherwise use memory buffer
         if (ret != 0 || buf.st_size > 1048576) {
             pid_t pid = getpid();
@@ -111,13 +111,13 @@ namespace Exiv2 {
         case opRead:
             // Flush if current mode allows reading, else reopen (in mode "r+b"
             // as in this case we know that we can write to the file)
-            if (   openMode_[0] == 'r' 
-                || openMode_.substr(0, 2) == "w+" 
+            if (   openMode_[0] == 'r'
+                || openMode_.substr(0, 2) == "w+"
                 || openMode_.substr(0, 2) == "a+") reopen = false;
             break;
         case opWrite:
             // Flush if current mode allows writing, else reopen
-            if (   openMode_.substr(0, 2) == "r+" 
+            if (   openMode_.substr(0, 2) == "r+"
                 || openMode_[0] == 'w'
                 || openMode_[0] == 'a') reopen = false;
             break;
@@ -177,7 +177,7 @@ namespace Exiv2 {
     {
         const bool wasOpen = (fp_ != 0);
         const std::string lastMode(openMode_);
-        
+
         FileIo *fileIo = dynamic_cast<FileIo*>(&src);
         if (fileIo) {
             // Optimization if this is another instance of FileIo
@@ -220,7 +220,7 @@ namespace Exiv2 {
         if (switchMode(opWrite) != 0) return EOF;
         return putc(data, fp_);
     }
-    
+
     int FileIo::seek(long offset, Position pos)
     {
         assert(fp_ != 0);
@@ -255,9 +255,9 @@ namespace Exiv2 {
 
         struct stat buf;
         int ret = stat(path_.c_str(), &buf);
-        
+
         if (ret != 0) return -1;
-        return buf.st_size; 
+        return buf.st_size;
     }
 
     int FileIo::open()
@@ -283,7 +283,7 @@ namespace Exiv2 {
     {
         return fp_ != 0;
     }
-    
+
     int FileIo::close()
     {
         if (fp_ != 0) {
@@ -292,7 +292,7 @@ namespace Exiv2 {
         }
         return 0;
     }
-        
+
     DataBuf FileIo::read(long rcount)
     {
         assert(fp_ != 0);
@@ -320,7 +320,7 @@ namespace Exiv2 {
     {
         return fp_ != 0 ? ferror(fp_) : 0;
     }
-    
+
     bool FileIo::eof() const
     {
         assert(fp_ != 0);
@@ -332,11 +332,11 @@ namespace Exiv2 {
         return path_;
     }
 
-    MemIo::MemIo() 
+    MemIo::MemIo()
         : data_(0),
-          idx_(0), 
-          size_(0), 
-          sizeAlloced_(0), 
+          idx_(0),
+          size_(0),
+          sizeAlloced_(0),
           isMalloced_(false)
     {
     }
@@ -350,10 +350,10 @@ namespace Exiv2 {
     {
     }
 
-    MemIo::~MemIo() 
-    { 
+    MemIo::~MemIo()
+    {
         if (isMalloced_) {
-            std::free(data_); 
+            std::free(data_);
         }
     }
 
@@ -361,14 +361,14 @@ namespace Exiv2 {
     {
         return BasicIo::AutoPtr(new MemIo);
     }
-        
+
     void MemIo::checkSize(long wcount)
     {
         long need = wcount + idx_;
         if (need > size_) {
             if (need > sizeAlloced_) {
                 // Allocate in blocks of 32kB
-                long want = 32768 * (1 + need / 32768);             
+                long want = 32768 * (1 + need / 32768);
                 if (size_ > 0) {
                     if (!isMalloced_) {
                         // "copy-on-expand"
@@ -422,7 +422,7 @@ namespace Exiv2 {
             }
             idx_ = 0;
             write(src);
-            src.close();    
+            src.close();
         }
         if (error() || src.error()) throw Error(19, strError());
     }
@@ -431,7 +431,7 @@ namespace Exiv2 {
     {
         if (static_cast<BasicIo*>(this) == &src) return 0;
         if (!src.isopen()) return 0;
-        
+
         byte buf[4096];
         long readCount = 0;
         long writeTotal = 0;
@@ -449,11 +449,11 @@ namespace Exiv2 {
         data_[idx_++] = data;
         return data;
     }
-    
+
     int MemIo::seek(long offset, Position pos)
     {
         long newIdx = 0;
-        
+
         switch (pos) {
         case BasicIo::cur: newIdx = idx_ + offset; break;
         case BasicIo::beg: newIdx = offset; break;
@@ -474,7 +474,7 @@ namespace Exiv2 {
     {
         return size_;
     }
-    
+
     int MemIo::open()
     {
         idx_ = 0;
@@ -485,12 +485,12 @@ namespace Exiv2 {
     {
         return true;
     }
-    
+
     int MemIo::close()
     {
         return 0;
     }
-        
+
     DataBuf MemIo::read(long rcount)
     {
         DataBuf buf(rcount);
@@ -519,7 +519,7 @@ namespace Exiv2 {
     {
         return 0;
     }
-    
+
     bool MemIo::eof() const
     {
         return idx_ == size_;

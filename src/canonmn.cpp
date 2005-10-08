@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -56,8 +56,8 @@ namespace Exiv2 {
     //! @cond IGNORE
     CanonMakerNote::RegisterMn::RegisterMn()
     {
-        MakerNoteFactory::registerMakerNote("Canon", "*", createCanonMakerNote); 
-        
+        MakerNoteFactory::registerMakerNote("Canon", "*", createCanonMakerNote);
+
         MakerNoteFactory::registerMakerNote(
             canonIfdId, MakerNote::AutoPtr(new CanonMakerNote));
         MakerNoteFactory::registerMakerNote(
@@ -191,7 +191,7 @@ namespace Exiv2 {
     };
 
     int CanonMakerNote::read(const byte* buf,
-                             long len, 
+                             long len,
                              long start,
                              ByteOrder byteOrder,
                              long shift)
@@ -205,7 +205,7 @@ namespace Exiv2 {
             for (uint16_t c = 1; cs->count() > c; ++c) {
                 if (c == 23 && cs->count() > 25) {
                     // Pack related lens info into one tag
-                    addCsEntry(canonCs1IfdId, c, cs->offset() + c*2, 
+                    addCsEntry(canonCs1IfdId, c, cs->offset() + c*2,
                                cs->data() + c*2, 3);
                     c += 2;
                 }
@@ -253,9 +253,9 @@ namespace Exiv2 {
         return 0;
     }
 
-    void CanonMakerNote::addCsEntry(IfdId ifdId, 
-                                    uint16_t tag, 
-                                    long offset, 
+    void CanonMakerNote::addCsEntry(IfdId ifdId,
+                                    uint16_t tag,
+                                    long offset,
                                     const byte* data,
                                     int count)
     {
@@ -270,7 +270,7 @@ namespace Exiv2 {
     void CanonMakerNote::add(const Entry& entry)
     {
         assert(alloc_ == entry.alloc());
-        assert(   entry.ifdId() == canonIfdId 
+        assert(   entry.ifdId() == canonIfdId
                || entry.ifdId() == canonCs1IfdId
                || entry.ifdId() == canonCs2IfdId
                || entry.ifdId() == canonCfIfdId);
@@ -282,7 +282,7 @@ namespace Exiv2 {
     {
         if (byteOrder_ == invalidByteOrder) byteOrder_ = byteOrder;
 
-        assert(ifd_.alloc()); 
+        assert(ifd_.alloc());
         ifd_.clear();
 
         // Add all standard Canon entries to the IFD
@@ -358,7 +358,7 @@ namespace Exiv2 {
         return headerSize() + ifd.size() + ifd.dataSize();
     } // CanonMakerNote::size
 
-    long CanonMakerNote::assemble(Entry& e, 
+    long CanonMakerNote::assemble(Entry& e,
                                   IfdId ifdId,
                                   uint16_t tag,
                                   ByteOrder byteOrder) const
@@ -390,7 +390,7 @@ namespace Exiv2 {
         return len;
     } // CanonMakerNote::assemble
 
-    Entries::const_iterator CanonMakerNote::findIdx(int idx) const 
+    Entries::const_iterator CanonMakerNote::findIdx(int idx) const
     {
         return std::find_if(entries_.begin(), entries_.end(),
                             FindEntryByIdx(idx));
@@ -412,9 +412,9 @@ namespace Exiv2 {
         return AutoPtr(create_(alloc));
     }
 
-    CanonMakerNote* CanonMakerNote::create_(bool alloc) const 
+    CanonMakerNote* CanonMakerNote::create_(bool alloc) const
     {
-        return new CanonMakerNote(alloc); 
+        return new CanonMakerNote(alloc);
     }
 
     CanonMakerNote::AutoPtr CanonMakerNote::clone() const
@@ -422,9 +422,9 @@ namespace Exiv2 {
         return AutoPtr(clone_());
     }
 
-    CanonMakerNote* CanonMakerNote::clone_() const 
+    CanonMakerNote* CanonMakerNote::clone_() const
     {
-        return new CanonMakerNote(*this); 
+        return new CanonMakerNote(*this);
     }
 
     std::ostream& CanonMakerNote::print0x0008(std::ostream& os,
@@ -432,7 +432,7 @@ namespace Exiv2 {
     {
         std::string n = value.toString();
         if (n.length() < 4) return os << "(" << n << ")";
-        return os << n.substr(0, n.length() - 4) << "-" 
+        return os << n.substr(0, n.length() - 4) << "-"
                   << n.substr(n.length() - 4);
     }
 
@@ -442,13 +442,13 @@ namespace Exiv2 {
         std::istringstream is(value.toString());
         uint32_t l;
         is >> l;
-        return os << std::setw(4) << std::setfill('0') << std::hex 
+        return os << std::setw(4) << std::setfill('0') << std::hex
                   << ((l & 0xffff0000) >> 16)
                   << std::setw(5) << std::setfill('0') << std::dec
                   << (l & 0x0000ffff);
     }
 
-    std::ostream& CanonMakerNote::printCs10x0001(std::ostream& os, 
+    std::ostream& CanonMakerNote::printCs10x0001(std::ostream& os,
                                                  const Value& value)
     {
         if (value.typeId() != unsignedShort) return os << value;
@@ -469,7 +469,7 @@ namespace Exiv2 {
         if (l == 0) {
             os << "Off";
         }
-        else { 
+        else {
             os << l / 10.0 << " s";
         }
         return os;
@@ -512,7 +512,7 @@ namespace Exiv2 {
     std::ostream& CanonMakerNote::printCs10x0005(std::ostream& os,
                                                  const Value& value)
     {
-        if (value.typeId() != unsignedShort) return os << value; 
+        if (value.typeId() != unsignedShort) return os << value;
         long l = value.toLong();
         switch (l) {
         case 0: os << "Single / timer"; break;
@@ -903,9 +903,9 @@ namespace Exiv2 {
 // free functions
 
     MakerNote::AutoPtr createCanonMakerNote(bool alloc,
-                                            const byte* buf, 
-                                            long len, 
-                                            ByteOrder byteOrder, 
+                                            const byte* buf,
+                                            long len,
+                                            ByteOrder byteOrder,
                                             long offset)
     {
         return MakerNote::AutoPtr(new CanonMakerNote(alloc));

@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -46,19 +46,19 @@
 enum CmdId { invalidCmdId, add, set, del };
 //! Metadata identifiers
 enum MetadataId { invalidMetadataId, iptc, exif };
-//! Structure for one parsed modification command 
+//! Structure for one parsed modification command
 struct ModifyCmd {
     //! C'tor
     ModifyCmd() :
-        cmdId_(invalidCmdId), metadataId_(invalidMetadataId), 
+        cmdId_(invalidCmdId), metadataId_(invalidMetadataId),
         typeId_(Exiv2::invalidTypeId), explicitType_(false) {}
     CmdId cmdId_;                               //!< Command identifier
     std::string key_;                           //!< Exiv2 key string
-    MetadataId metadataId_;                     //!< Metadata identifier 
+    MetadataId metadataId_;                     //!< Metadata identifier
     Exiv2::TypeId typeId_;                      //!< Exiv2 type identifier
     //! Flag to indicate if the type was explicitely specified (true)
     bool explicitType_;
-    std::string value_;                         //!< Data 
+    std::string value_;                         //!< Data
 };
 //! Container for modification commands
 typedef std::vector<ModifyCmd> ModifyCmds;
@@ -69,7 +69,7 @@ struct CmdIdAndString {
 };
 
 /*!
-  @brief Implements the command line handling for the program. 
+  @brief Implements the command line handling for the program.
 
   Derives from Util::Getopt to use the command line argument parsing
   functionalty provided there. This class is implemented as a Singleton,
@@ -123,7 +123,7 @@ public:
     void cleanup();
 
     //! Enumerates print modes
-    enum PrintMode { pmSummary, pmInterpreted, pmValues, pmHexdump, pmIptc, 
+    enum PrintMode { pmSummary, pmInterpreted, pmValues, pmHexdump, pmIptc,
                      pmComment };
     //! Enumerates common targets, bitmap
     enum CommonTarget { ctExif = 1, ctIptc = 2, ctComment = 4, ctThumb = 8 };
@@ -133,10 +133,10 @@ public:
     bool help_;                         //!< Help option flag.
     bool version_;                      //!< Version option flag.
     bool verbose_;                      //!< Verbose (talkative) option flag.
-    bool force_;                        //!< Force overwrites flag. 
+    bool force_;                        //!< Force overwrites flag.
     FileExistsPolicy fileExistsPolicy_; //!< What to do if file to rename exists.
     bool adjust_;                       //!< Adjustment flag.
-    PrintMode printMode_;               //!< Print mode. 
+    PrintMode printMode_;               //!< Print mode.
     //! %Action (integer rather than TaskType to avoid dependency).
     int  action_;
     int  target_;                       //!< What common target to process.
@@ -156,10 +156,10 @@ private:
              The c'tor is private to force instantiation through instance().
      */
     Params() : optstring_(":hVvfFa:r:p:d:e:i:m:M:l:S:"),
-               help_(false), 
+               help_(false),
                version_(false),
-               verbose_(false), 
-               force_(false), 
+               verbose_(false),
+               force_(false),
                fileExistsPolicy_(askPolicy),
                adjust_(false),
                printMode_(pmSummary),

@@ -2,21 +2,21 @@
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
  *
- * Lens database to decode Exif.Nikon3.LensData 
+ * Lens database to decode Exif.Nikon3.LensData
  * Copyright (C) 2005 Robert Rottmerhusen <email@rottmerhusen.com>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -103,7 +103,7 @@ namespace Exiv2 {
         return AutoPtr(create_(alloc));
     }
 
-    Nikon1MakerNote* Nikon1MakerNote::create_(bool alloc) const 
+    Nikon1MakerNote* Nikon1MakerNote::create_(bool alloc) const
     {
         return new Nikon1MakerNote(alloc);
     }
@@ -113,7 +113,7 @@ namespace Exiv2 {
         return AutoPtr(clone_());
     }
 
-    Nikon1MakerNote* Nikon1MakerNote::clone_() const 
+    Nikon1MakerNote* Nikon1MakerNote::clone_() const
     {
         return new Nikon1MakerNote(*this);
     }
@@ -125,7 +125,7 @@ namespace Exiv2 {
             os << value.toLong(1);
         }
         else {
-            os << "(" << value << ")"; 
+            os << "(" << value << ")";
         }
         return os;
     }
@@ -133,7 +133,7 @@ namespace Exiv2 {
     std::ostream& Nikon1MakerNote::print0x0007(std::ostream& os,
                                                const Value& value)
     {
-        std::string focus = value.toString(); 
+        std::string focus = value.toString();
         if      (focus == "AF-C  ") os << "Continuous autofocus";
         else if (focus == "AF-S  ") os << "Single autofocus";
         else                      os << "(" << value << ")";
@@ -196,7 +196,7 @@ namespace Exiv2 {
             }
         }
         else {
-            os << "(" << value << ")"; 
+            os << "(" << value << ")";
         }
         return os;
     }
@@ -243,7 +243,7 @@ namespace Exiv2 {
     }
 
     int Nikon2MakerNote::readHeader(const byte* buf,
-                                    long len, 
+                                    long len,
                                     ByteOrder byteOrder)
     {
         if (len < 8) return 1;
@@ -259,7 +259,7 @@ namespace Exiv2 {
         int rc = 0;
         // Check the Nikon prefix
         if (   header_.size_ < 8
-            || std::string(reinterpret_cast<char*>(header_.pData_), 6) 
+            || std::string(reinterpret_cast<char*>(header_.pData_), 6)
                     != std::string("Nikon\0", 6)) {
             rc = 2;
         }
@@ -271,9 +271,9 @@ namespace Exiv2 {
         return AutoPtr(create_(alloc));
     }
 
-    Nikon2MakerNote* Nikon2MakerNote::create_(bool alloc) const 
+    Nikon2MakerNote* Nikon2MakerNote::create_(bool alloc) const
     {
-        AutoPtr makerNote(new Nikon2MakerNote(alloc)); 
+        AutoPtr makerNote(new Nikon2MakerNote(alloc));
         assert(makerNote.get() != 0);
         makerNote->readHeader(header_.pData_, header_.size_, byteOrder_);
         return makerNote.release();
@@ -284,7 +284,7 @@ namespace Exiv2 {
         return AutoPtr(clone_());
     }
 
-    Nikon2MakerNote* Nikon2MakerNote::clone_() const 
+    Nikon2MakerNote* Nikon2MakerNote::clone_() const
     {
         return new Nikon2MakerNote(*this);
     }
@@ -465,7 +465,7 @@ namespace Exiv2 {
     {
         absShift_ = false;
         byte buf[] = {
-            'N', 'i', 'k', 'o', 'n', '\0', 
+            'N', 'i', 'k', 'o', 'n', '\0',
             0x02, 0x10, 0x00, 0x00, 0x4d, 0x4d, 0x00, 0x2a, 0x00, 0x00, 0x00, 0x08
         };
         readHeader(buf, 18, byteOrder_);
@@ -477,7 +477,7 @@ namespace Exiv2 {
     }
 
     int Nikon3MakerNote::readHeader(const byte* buf,
-                                    long len, 
+                                    long len,
                                     ByteOrder byteOrder)
     {
         if (len < 18) return 1;
@@ -497,7 +497,7 @@ namespace Exiv2 {
         int rc = 0;
         // Check the Nikon prefix
         if (   header_.size_ < 18
-            || std::string(reinterpret_cast<char*>(header_.pData_), 6) 
+            || std::string(reinterpret_cast<char*>(header_.pData_), 6)
                     != std::string("Nikon\0", 6)) {
             rc = 2;
         }
@@ -509,9 +509,9 @@ namespace Exiv2 {
         return AutoPtr(create_(alloc));
     }
 
-    Nikon3MakerNote* Nikon3MakerNote::create_(bool alloc) const 
+    Nikon3MakerNote* Nikon3MakerNote::create_(bool alloc) const
     {
-        AutoPtr makerNote(new Nikon3MakerNote(alloc)); 
+        AutoPtr makerNote(new Nikon3MakerNote(alloc));
         assert(makerNote.get() != 0);
         makerNote->readHeader(header_.pData_, header_.size_, byteOrder_);
         return makerNote.release();
@@ -522,7 +522,7 @@ namespace Exiv2 {
         return AutoPtr(clone_());
     }
 
-    Nikon3MakerNote* Nikon3MakerNote::clone_() const 
+    Nikon3MakerNote* Nikon3MakerNote::clone_() const
     {
         return new Nikon3MakerNote(*this);
     }
@@ -534,12 +534,12 @@ namespace Exiv2 {
             os << value.toLong(1);
         }
         else {
-            os << "(" << value << ")"; 
+            os << "(" << value << ")";
         }
         return os;
     }
 
-    std::ostream& Nikon3MakerNote::print0x0012(std::ostream& os, 
+    std::ostream& Nikon3MakerNote::print0x0012(std::ostream& os,
                                                const Value& value)
     {
         // From the PHP JPEG Metadata Toolkit
@@ -579,13 +579,13 @@ namespace Exiv2 {
             if (len2 != len1) {
                 os << "-" << len2;
             }
-            os << "mm "; 
+            os << "mm ";
             std::ostringstream oss;
             oss.copyfmt(os);
-            os << "F" << std::setprecision(2) 
+            os << "F" << std::setprecision(2)
                << static_cast<float>(fno1.first) / fno1.second;
             if (fno2 != fno1) {
-                os << "-" << std::setprecision(2) 
+                os << "-" << std::setprecision(2)
                    << static_cast<float>(fno2.first) / fno2.second;
             }
             os.copyfmt(oss);
@@ -613,7 +613,7 @@ namespace Exiv2 {
     std::ostream& Nikon3MakerNote::print0x0088(std::ostream& os,
                                                const Value& value)
     {
-        // Mappings taken from Exiftool 
+        // Mappings taken from Exiftool
         long afpos = value.toLong();
         switch (afpos) {
         case 0x0000: os << "Center"; break;
@@ -621,7 +621,7 @@ namespace Exiv2 {
         case 0x0200: os << "Bottom"; break;
         case 0x0300: os << "Left"; break;
         case 0x0400: os << "Right"; break;
-        
+
         // D70
         case 0x00001: os << "Single area, center"; break;
         case 0x10002: os << "Single area, top"; break;
@@ -849,7 +849,7 @@ namespace Exiv2 {
             idx = 6;
         }
         else if (0 == memcmp(lens.pData_, "0101", 4)) {
-            idx = 11;            
+            idx = 11;
         }
         else if (0 == memcmp(lens.pData_, "0201", 4)) {
             // Here we should decrypt(lens.pData_ + 4, lens.size_ - 4);
@@ -875,7 +875,7 @@ namespace Exiv2 {
         }
         // Lens not found in database
         return os << value;
-#else 
+#else
         return os << value;
 #endif // EXV_HAVE_LENSDATA
     }
@@ -884,25 +884,25 @@ namespace Exiv2 {
 // free functions
 
     MakerNote::AutoPtr createNikonMakerNote(bool alloc,
-                                            const byte* buf, 
-                                            long len, 
-                                            ByteOrder byteOrder, 
+                                            const byte* buf,
+                                            long len,
+                                            ByteOrder byteOrder,
                                             long offset)
     {
         // If there is no "Nikon" string it must be Nikon1 format
-        if (len < 6 || std::string(reinterpret_cast<const char*>(buf), 6) 
+        if (len < 6 || std::string(reinterpret_cast<const char*>(buf), 6)
                     != std::string("Nikon\0", 6)) {
             return MakerNote::AutoPtr(new Nikon1MakerNote(alloc));
         }
         // If the "Nikon" string is not followed by a TIFF header, we assume
         // Nikon2 format
         TiffHeader tiffHeader;
-        if (   len < 18 
+        if (   len < 18
             || tiffHeader.read(buf + 10) != 0 || tiffHeader.tag() != 0x002a) {
-            return MakerNote::AutoPtr(new Nikon2MakerNote(alloc)); 
+            return MakerNote::AutoPtr(new Nikon2MakerNote(alloc));
         }
         // Else we have a Nikon3 makernote
-        return MakerNote::AutoPtr(new Nikon3MakerNote(alloc)); 
+        return MakerNote::AutoPtr(new Nikon3MakerNote(alloc));
     }
 
 }                                       // namespace Exiv2

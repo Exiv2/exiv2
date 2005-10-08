@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -24,7 +24,7 @@
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @author  Brad Schick (brad) 
+  @author  Brad Schick (brad)
            <a href="mailto:brad@robotbattle.com">brad@robotbattle.com</a>
   @date    15-Jan-05, brad: split out from image.cpp
  */
@@ -51,12 +51,12 @@ namespace Exiv2 {
 // class definitions
 
     // Supported jpeg image formats
-    namespace ImageType { 
+    namespace ImageType {
         const int jpeg = 1;         //!< Jpeg image type (see class JpegImage)
         const int exv  = 2;         //!< Exv image type (see class ExvImage)
     }
 
-    /*! 
+    /*!
       @brief Abstract helper base class to access JPEG images.
      */
     class JpegBase : public Image {
@@ -89,11 +89,11 @@ namespace Exiv2 {
         IptcData& iptcData() { return iptcData_; }
         std::string comment() const { return comment_; }
         BasicIo& io() const { return *io_; }
-        //@}        
+        //@}
     protected:
         //! @name Creators
         //@{
-        /*! 
+        /*!
           @brief Constructor that can either open an existing image or create
               a new image from scratch. If a new image is to be created, any
               existing data is overwritten.
@@ -133,9 +133,9 @@ namespace Exiv2 {
           moved (see below). This applies only if the type matches and the
           function returns true. If the type does not match, the stream
           position is not changed. However, if reading from the stream fails,
-          the stream position is undefined. Consult the stream state to obtain 
+          the stream position is undefined. Consult the stream state to obtain
           more information in this case.
-          
+
           @param iIo BasicIo instance to read from.
           @param advance Flag indicating whether the position of the io
               should be advanced by the number of characters read to
@@ -180,7 +180,7 @@ namespace Exiv2 {
         /*!
           @brief Locates Photoshop formated Iptc data in a memory buffer.
               Operates on raw data to simplify reuse.
-          @param pPsData Pointer to buffer containing entire payload of 
+          @param pPsData Pointer to buffer containing entire payload of
               Photoshop formated APP13 Jpeg segment.
           @param sizePsData Size in bytes of pPsData.
           @param record Output value that is set to the start of the Iptc
@@ -195,9 +195,9 @@ namespace Exiv2 {
                   3 if no Iptc data was found in pPsData;<BR>
                  -2 if the pPsData buffer does not contain valid data.
          */
-        int locateIptcData(const byte *pPsData, 
+        int locateIptcData(const byte *pPsData,
                            long sizePsData,
-                           const byte **record, 
+                           const byte **record,
                            uint16_t *const sizeHdr,
                            uint16_t *const sizeIptc) const;
         /*!
@@ -209,8 +209,8 @@ namespace Exiv2 {
          */
         int initImage(const byte initData[], long dataSize);
         /*!
-          @brief Provides the main implementation of writeMetadata() by 
-                writing all buffered metadata to the provided BasicIo. 
+          @brief Provides the main implementation of writeMetadata() by
+                writing all buffered metadata to the provided BasicIo.
           @param oIo BasicIo instance to write to (a temporary location).
 
           @return 4 if opening or writing to the associated BasicIo fails
@@ -226,7 +226,7 @@ namespace Exiv2 {
         JpegBase& operator=(const JpegBase& rhs);
     }; // class JpegBase
 
-    /*! 
+    /*!
       @brief Class to access JPEG images
      */
     class JpegImage : public JpegBase {
@@ -234,7 +234,7 @@ namespace Exiv2 {
     public:
         //! @name Creators
         //@{
-        /*! 
+        /*!
           @brief Constructor that can either open an existing Jpeg image or create
               a new image from scratch. If a new image is to be created, any
               existing data is overwritten. Since the constructor can not return
@@ -290,7 +290,7 @@ namespace Exiv2 {
     public:
         //! @name Creators
         //@{
-        /*! 
+        /*!
           @brief Constructor that can either open an existing Exv image or create
               a new image from scratch. If a new image is to be created, any
               existing data is overwritten. Since the constructor can not return
@@ -335,19 +335,19 @@ namespace Exiv2 {
 // *****************************************************************************
 // template, inline and free functions
 
-    // These could be static private functions on Image subclasses but then 
-    // ImageFactory needs to be made a friend. 
+    // These could be static private functions on Image subclasses but then
+    // ImageFactory needs to be made a friend.
     /*!
       @brief Create a new JpegImage instance and return an auto-pointer to it.
-             Caller owns the returned object and the auto-pointer ensures that 
+             Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
     Image::AutoPtr newJpegInstance(BasicIo::AutoPtr io, bool create);
     //! Check if the file iIo is a JPEG image.
     bool isJpegType(BasicIo& iIo, bool advance);
     /*!
-      @brief Create a new ExvImage instance and return an auto-pointer to it. 
-             Caller owns the returned object and the auto-pointer ensures that 
+      @brief Create a new ExvImage instance and return an auto-pointer to it.
+             Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
     Image::AutoPtr newExvInstance(BasicIo::AutoPtr io, bool create);

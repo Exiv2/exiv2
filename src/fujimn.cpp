@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -25,7 +25,7 @@
   History:   18-Feb-04, ahu: created
              07-Mar-04, ahu: isolated as a separate component
   Credits:   Fujifilm MakerNote implemented according to the specification
-             in "Appendix 4: Makernote of Fujifilm" of the document 
+             in "Appendix 4: Makernote of Fujifilm" of the document
              "Exif file format" by TsuruZoh Tachibanaya
              <http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html>
  */
@@ -104,14 +104,14 @@ namespace Exiv2 {
     }
 
     int FujiMakerNote::readHeader(const byte* buf,
-                                  long len, 
+                                  long len,
                                   ByteOrder byteOrder)
     {
         if (len < 12) return 1;
 
         header_.alloc(12);
         memcpy(header_.pData_, buf, header_.size_);
-        // Read offset to the IFD relative to the start of the makernote 
+        // Read offset to the IFD relative to the start of the makernote
         // from the header. Note that we ignore the byteOrder paramter
         start_ = getUShort(header_.pData_ + 8, byteOrder_);
         return 0;
@@ -122,7 +122,7 @@ namespace Exiv2 {
         int rc = 0;
         // Check the FUJIFILM prefix
         if (   header_.size_ < 12
-            || std::string(reinterpret_cast<char*>(header_.pData_), 8) 
+            || std::string(reinterpret_cast<char*>(header_.pData_), 8)
                     != std::string("FUJIFILM", 8)) {
             rc = 2;
         }
@@ -134,7 +134,7 @@ namespace Exiv2 {
         return AutoPtr(create_(alloc));
     }
 
-    FujiMakerNote* FujiMakerNote::create_(bool alloc) const 
+    FujiMakerNote* FujiMakerNote::create_(bool alloc) const
     {
         AutoPtr makerNote = AutoPtr(new FujiMakerNote(alloc));
         assert(makerNote.get() != 0);
@@ -147,7 +147,7 @@ namespace Exiv2 {
         return AutoPtr(clone_());
     }
 
-    FujiMakerNote* FujiMakerNote::clone_() const 
+    FujiMakerNote* FujiMakerNote::clone_() const
     {
         return new FujiMakerNote(*this);
     }
@@ -163,7 +163,7 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& FujiMakerNote::print0x1001(std::ostream& os, 
+    std::ostream& FujiMakerNote::print0x1001(std::ostream& os,
                                              const Value& value)
     {
         switch (value.toLong()) {
@@ -173,7 +173,7 @@ namespace Exiv2 {
         case 4: // fallthrough
         case 5: os << "Hard"; break;
         default: os << "(" << value << ")"; break;
-        } 
+        }
         return os;
     }
 
@@ -206,7 +206,7 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& FujiMakerNote::print0x1004(std::ostream& os, 
+    std::ostream& FujiMakerNote::print0x1004(std::ostream& os,
                                              const Value& value)
     {
         switch (value.toLong()) {
@@ -218,7 +218,7 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& FujiMakerNote::print0x1010(std::ostream& os, 
+    std::ostream& FujiMakerNote::print0x1010(std::ostream& os,
                                              const Value& value)
     {
         switch (value.toLong()) {
@@ -264,9 +264,9 @@ namespace Exiv2 {
 // free functions
 
     MakerNote::AutoPtr createFujiMakerNote(bool alloc,
-                                           const byte* buf, 
-                                           long len, 
-                                           ByteOrder byteOrder, 
+                                           const byte* buf,
+                                           long len,
+                                           ByteOrder byteOrder,
                                            long offset)
     {
         return MakerNote::AutoPtr(new FujiMakerNote(alloc));

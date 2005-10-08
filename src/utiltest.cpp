@@ -86,8 +86,8 @@ void testPaths()
 
 void testPath(const std::string& path)
 {
-    std::cout << std::setw(15) << path << " " 
-              << std::setw(15) << Util::dirname(path) << " " 
-              << std::setw(15) << Util::basename(path) << " " 
+    std::cout << std::setw(15) << path << " "
+              << std::setw(15) << Util::dirname(path) << " "
+              << std::setw(15) << Util::basename(path) << " "
               << std::setw(15) << Util::suffix(path) << "\n";
 }

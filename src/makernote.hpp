@@ -1,26 +1,26 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 /*!
   @file    makernote.hpp
-  @brief   Contains the Exif %MakerNote interface, IFD %MakerNote and a 
+  @brief   Contains the Exif %MakerNote interface, IFD %MakerNote and a
            MakerNote factory
   @version $Rev$
   @author  Andreas Huggel (ahu)
@@ -68,7 +68,7 @@ namespace Exiv2 {
       MakerNote holds methods and functionality to
       - read the makernote from a character buffer
       - copy the makernote to a character buffer
-      - maintain a list of makernote entries (similar to IFD entries) 
+      - maintain a list of makernote entries (similar to IFD entries)
       - interpret (print) the values of makernote tags
 
       Makernotes can be added to the system by subclassing %MakerNote and
@@ -78,18 +78,18 @@ namespace Exiv2 {
       subclass IfdMakerNote is provided. It contains an IFD container and
       implements all interface methods related to the makernote entries. <BR>
 
-      To implement a new IFD makernote, all that you need to do is 
-      - subclass %IfdMakerNote, 
+      To implement a new IFD makernote, all that you need to do is
+      - subclass %IfdMakerNote,
       - implement methods to read and check the header (if any) as well as
         clone and create functions,
-      - add a list of tag descriptions and appropriate print functions and 
-      - register the camera make/model and create function in the makernote factory. 
+      - add a list of tag descriptions and appropriate print functions and
+      - register the camera make/model and create function in the makernote factory.
       .
       See existing makernote implementations for examples, e.g., CanonMakerNote
       or FujiMakerNote.
 
-      Finally, the header file which defines the static variable 
-      \em register*MakerNote needs to be included from mn.hpp, to ensure that 
+      Finally, the header file which defines the static variable
+      \em register*MakerNote needs to be included from mn.hpp, to ensure that
       the makernote is automatically registered in the factory.
      */
     class MakerNote {
@@ -106,7 +106,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         /*!
-          @brief Constructor. Allows to choose whether or not memory management 
+          @brief Constructor. Allows to choose whether or not memory management
                  is required for the Entries.
          */
         explicit MakerNote(bool alloc =true);
@@ -117,11 +117,11 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         /*!
-          @brief Read the makernote, including the makernote header, from the 
+          @brief Read the makernote, including the makernote header, from the
                  Exif data buffer.
 
-          @param buf Pointer to the Exif data buffer that contains the 
-                     MakerNote to decode. The buffer should contain all Exif 
+          @param buf Pointer to the Exif data buffer that contains the
+                     MakerNote to decode. The buffer should contain all Exif
                      data starting from the TIFF header.
           @param len Number of bytes in the Exif data buffer
           @param start MakerNote starts at buf + start.
@@ -130,13 +130,13 @@ namespace Exiv2 {
 
           @return 0 if successful.
         */
-        virtual int read(const byte* buf, 
-                         long len, 
+        virtual int read(const byte* buf,
+                         long len,
                          long start,
                          ByteOrder byteOrder,
                          long shift =0) =0;
         /*!
-          @brief Copy (write) the makerNote to the character buffer buf at 
+          @brief Copy (write) the makerNote to the character buffer buf at
                  position offset (from the start of the TIFF header), encoded
                  in byte order byteOrder. Update internal offsets if necessary.
                  Return the number of bytes written.
@@ -145,7 +145,7 @@ namespace Exiv2 {
         /*!
           @brief Add the entry to the makernote. No duplicate-check is performed,
                  i.e., it is possible to add multiple entries with the same tag.
-                 The memory allocation mode of the entry to be added must be the 
+                 The memory allocation mode of the entry to be added must be the
                  same as that of the makernote and the IFD id of the entry must
                  be set to 'makerIfd'.
          */
@@ -155,7 +155,7 @@ namespace Exiv2 {
         //! End of the makernote entries
         virtual Entries::iterator end() =0;
         /*!
-          @brief Update the base pointer of the %MakerNote and all its entries 
+          @brief Update the base pointer of the %MakerNote and all its entries
                  to \em pNewBase.
 
           Allows to re-locate the underlying data buffer to a new location
@@ -176,7 +176,7 @@ namespace Exiv2 {
                  copied.  The caller owns the new object and the auto-pointer
                  ensures that it will be deleted.
 
-          @param alloc Memory management model for the newly created object. 
+          @param alloc Memory management model for the newly created object.
                  Indicates if memory required to store data should be allocated
                  and deallocated (true) or not (false). If false, only pointers
                  to the buffer provided to read() will be kept. See Ifd for more
@@ -188,8 +188,8 @@ namespace Exiv2 {
                  owns the new object and the auto-pointer ensures that it will
                  be deleted.
 
-          @note  In non-alloc mode the clone potentially contains pointers to 
-                 the same data buffer as the original. 
+          @note  In non-alloc mode the clone potentially contains pointers to
+                 the same data buffer as the original.
                  Use updateBase(byte* pNewBase) to adjust them.
          */
         AutoPtr clone() const;
@@ -210,9 +210,9 @@ namespace Exiv2 {
                  True:  requires memory allocation and deallocation, <BR>
                  False: no memory management needed.
          */
-        const bool alloc_; 
-        /*! 
-          @brief Offset of the makernote from the start of the TIFF header 
+        const bool alloc_;
+        /*!
+          @brief Offset of the makernote from the start of the TIFF header
                  (for offset()).
          */
         long offset_;
@@ -248,9 +248,9 @@ namespace Exiv2 {
         typedef std::auto_ptr<IfdMakerNote> AutoPtr;
 
         //! @name Creators
-        //@{        
+        //@{
         /*!
-          @brief Constructor. Requires an %Ifd id and allows to choose whether 
+          @brief Constructor. Requires an %Ifd id and allows to choose whether
                  or not memory management is needed for the Entries and whether
                  the IFD has a next pointer.
         */
@@ -263,20 +263,20 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        virtual int read(const byte* buf, 
-                         long len, 
-                         long start, 
+        virtual int read(const byte* buf,
+                         long len,
+                         long start,
                          ByteOrder byteOrder,
                          long shift);
         /*!
           @brief Read the makernote header from the makernote databuffer.  This
-                 method must set the offset to the start of the IFD (start_), if 
+                 method must set the offset to the start of the IFD (start_), if
                  needed (assuming that the required information is in the header).
-                 Return 0 if successful. 
+                 Return 0 if successful.
           @note  The default implementation does nothing, assuming there is no
                  header
          */
-        virtual int readHeader(const byte* buf, 
+        virtual int readHeader(const byte* buf,
                                long len,
                                ByteOrder byteOrder);
         virtual long copy(byte* buf, ByteOrder byteOrder, long offset);
@@ -303,14 +303,14 @@ namespace Exiv2 {
          */
         virtual int checkHeader() const;
         /*!
-          @brief Write the makernote header to a character buffer, return the 
+          @brief Write the makernote header to a character buffer, return the
                  number of characters written.
           @note  The default implementation copies the header_ buffer.
          */
         virtual long copyHeader(byte* buf) const;
-        /*! 
+        /*!
           @brief Return the size of the makernote header in bytes.
-          @note  The default implementation returns the size of the header_ 
+          @note  The default implementation returns the size of the header_
                  buffer.
          */
         virtual long headerSize() const;
@@ -322,7 +322,7 @@ namespace Exiv2 {
           @brief True:  IFD offsets are relative to the start of the TIFF
                         header (i.e., the start of the Exif data section)
                         + shift_
-                 False: IFD offsets are relative to the start of the 
+                 False: IFD offsets are relative to the start of the
                         makernote + shift_
          */
         bool absShift_;
@@ -373,13 +373,13 @@ namespace Exiv2 {
                  make tag.)
           @param model Camera model. (Typically the string from the Exif
                  model tag.)
-          @param createMakerNote Pointer to a function to create a new 
+          @param createMakerNote Pointer to a function to create a new
                  %MakerNote of a particular type.
         */
-        static void registerMakerNote(const std::string& make, 
-                                      const std::string& model, 
+        static void registerMakerNote(const std::string& make,
+                                      const std::string& model,
                                       CreateFct createMakerNote);
-        
+
         //! Register a %MakerNote prototype in the IFD id registry.
         static void registerMakerNote(IfdId ifdId, MakerNote::AutoPtr makerNote);
 
@@ -415,24 +415,24 @@ namespace Exiv2 {
                  if memory required to store data should be allocated and
                  deallocated (true) or not (false). If false, only pointers to
                  the buffer provided to read() will be kept. See Ifd for more
-                 background on this concept. 
-          @param buf Pointer to the makernote character buffer. 
-          @param len Length of the makernote character buffer. 
-          @param byteOrder Byte order in which the Exif data (and possibly the 
+                 background on this concept.
+          @param buf Pointer to the makernote character buffer.
+          @param len Length of the makernote character buffer.
+          @param byteOrder Byte order in which the Exif data (and possibly the
                  makernote) is encoded.
           @param offset Offset from the start of the TIFF header of the makernote
                  buffer.
 
-          @return An auto-pointer that owns a %MakerNote for the camera model.  
+          @return An auto-pointer that owns a %MakerNote for the camera model.
                  If the camera is not supported, the pointer is 0.
          */
-        static MakerNote::AutoPtr create(const std::string& make, 
-                                         const std::string& model, 
-                                         bool alloc, 
-                                         const byte* buf, 
-                                         long len, 
-                                         ByteOrder byteOrder, 
-                                         long offset); 
+        static MakerNote::AutoPtr create(const std::string& make,
+                                         const std::string& model,
+                                         bool alloc,
+                                         const byte* buf,
+                                         long len,
+                                         ByteOrder byteOrder,
+                                         long offset);
 
         //! Create a %MakerNote for an IFD id.
         static MakerNote::AutoPtr create(IfdId ifdId, bool alloc =true);
@@ -444,20 +444,20 @@ namespace Exiv2 {
           registry entry are supported. The best match is an exact match, then
           a match is rated according to the number of matching characters.
 
-          @return A score value indicating how good the key and registry entry 
+          @return A score value indicating how good the key and registry entry
                   match. 0 means no match, values greater than 0 indicate a
                   match, larger values are better matches:<BR>
                   0: key and registry entry do not match<BR>
-                  1: a pure wildcard match, i.e., the registry entry is just 
+                  1: a pure wildcard match, i.e., the registry entry is just
                      a wildcard.<BR>
-                  Score values greater than 1 are computed by adding 1 to the 
-                  number of matching characters, except for an exact match, 
+                  Score values greater than 1 are computed by adding 1 to the
+                  number of matching characters, except for an exact match,
                   which scores 2 plus the number of matching characters.
          */
         static int match(const std::string& regEntry, const std::string& key);
 
         /*!
-          @brief Class Init is used to execute initialisation and termination 
+          @brief Class Init is used to execute initialisation and termination
                  code exactly once, at the begin and end of the program.
 
           See Bjarne Stroustrup, 'The C++ Programming Language 3rd
@@ -467,7 +467,7 @@ namespace Exiv2 {
             static int count;           //!< Counts calls to constructor
         public:
             //! @name Creators
-            //@{                            
+            //@{
             //! Perform one-time initialisations.
             Init();
             //! Perform one-time cleanup operations.
@@ -477,7 +477,7 @@ namespace Exiv2 {
 
     private:
         //! @name Creators
-        //@{                
+        //@{
         //! Prevent construction: not implemented.
         MakerNoteFactory() {}
         //! Prevent copy construction: not implemented.
@@ -501,7 +501,7 @@ namespace Exiv2 {
         static IfdIdRegistry* pIfdIdRegistry_;
 
     }; // class MakerNoteFactory
-   
+
 }                                       // namespace Exiv2
 
 namespace {

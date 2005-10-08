@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -22,7 +22,7 @@
   @file    sigmamn.hpp
   @brief   Sigma and Foveon MakerNote implemented according to the specification
            <a href="http://www.x3f.info/technotes/FileDocs/MakerNoteDoc.html">
-           SIGMA and FOVEON EXIF MakerNote Documentation</a> by Foveon.           
+           SIGMA and FOVEON EXIF MakerNote Documentation</a> by Foveon.
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
@@ -58,27 +58,27 @@ namespace Exiv2 {
              initialized to operate in the memory management model indicated.
              The caller owns this copy and the auto-pointer ensures that it
              will be deleted.
-      
+
       @param alloc Memory management model for the new MakerNote. Determines if
              memory required to store data should be allocated and deallocated
              (true) or not (false). If false, only pointers to the buffer
              provided to read() will be kept. See Ifd for more background on
              this concept.
-      @param buf Pointer to the makernote character buffer (not used). 
-      @param len Length of the makernote character buffer (not used). 
-      @param byteOrder Byte order in which the Exif data (and possibly the 
+      @param buf Pointer to the makernote character buffer (not used).
+      @param len Length of the makernote character buffer (not used).
+      @param byteOrder Byte order in which the Exif data (and possibly the
              makernote) is encoded (not used).
       @param offset Offset from the start of the TIFF header of the makernote
              buffer (not used).
-      
+
       @return An auto-pointer to a newly created empty MakerNote. The caller
              owns this copy and the auto-pointer ensures that it will be
              deleted.
      */
     MakerNote::AutoPtr createSigmaMakerNote(bool alloc,
-                                            const byte* buf, 
-                                            long len, 
-                                            ByteOrder byteOrder, 
+                                            const byte* buf,
+                                            long len,
+                                            ByteOrder byteOrder,
                                             long offset);
 
 // *****************************************************************************
@@ -104,8 +104,8 @@ namespace Exiv2 {
         //@}
 
         //! @name Manipulators
-        //@{        
-        int readHeader(const byte* buf, 
+        //@{
+        int readHeader(const byte* buf,
                        long len,
                        ByteOrder byteOrder);
         //@}
@@ -117,7 +117,7 @@ namespace Exiv2 {
         AutoPtr clone() const;
         //@}
 
-        //! @name Print functions for Sigma (Foveon) %MakerNote tags 
+        //! @name Print functions for Sigma (Foveon) %MakerNote tags
         //@{
         //! Strip the label from the value and print the remainder
         static std::ostream& printStripLabel(std::ostream& os, const Value& value);

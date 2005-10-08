@@ -5,11 +5,11 @@
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   Version  : $Rev$
 
-  Test procedure: 
-   $ rm -f test.jpg thumb.jpg iii ttt; 
+  Test procedure:
+   $ rm -f test.jpg thumb.jpg iii ttt;
    $ ./exifprint ../test/img_1771.jpg > iii;
-   $ cp ../test/img_1771.jpg ./test.jpg; 
-   $ ./makernote-test2 ../test/img_1771.jpg > ttt; 
+   $ cp ../test/img_1771.jpg ./test.jpg;
+   $ ./makernote-test2 ../test/img_1771.jpg > ttt;
    $ diff iii ttt
 
  */
@@ -60,8 +60,8 @@ try {
     case 1:
         std::cerr << "Case 1: ";
         std::cerr << "Non-intrusive change to the standard Exif metadata\n";
-        testCase(testFile, "test1.jpg", "thumb1", 
-                 "Exif.Photo.DateTimeOriginal", 
+        testCase(testFile, "test1.jpg", "thumb1",
+                 "Exif.Photo.DateTimeOriginal",
                  "1999:11:22 00:11:22");
         break;
     case 2:
@@ -75,14 +75,14 @@ try {
         std::cerr << "Case 3: ";
         std::cerr << "Non-intrusive change to the Exif metadata (w/o makernote)\n";
         testCase(testFile, "test3.jpg", "thumb3",
-                 "Exif.Photo.DateTimeOriginal", 
+                 "Exif.Photo.DateTimeOriginal",
                  "1999:11:22 00:11:22");
         break;
     case 4:
         std::cerr << "Case 4: ";
         std::cerr << "Intrusive change to the standard Exif metadata\n";
         testCase(testFile, "test4.jpg", "thumb4",
-                 "Exif.Photo.DateTimeOriginal", 
+                 "Exif.Photo.DateTimeOriginal",
                  "1999:11:22 00:11:22 and twenty seconds");
         break;
     case 5:
@@ -96,7 +96,7 @@ try {
         std::cerr << "Case 6: ";
         std::cerr << "Intrusive change to the Exif metadata (w/o makernote)\n";
         testCase(testFile, "test6.jpg", "thumb6",
-                 "Exif.Photo.DateTimeOriginal", 
+                 "Exif.Photo.DateTimeOriginal",
                  "1999:11:22 00:11:22 and twenty seconds");
         break;
     case 7:
@@ -207,8 +207,8 @@ void exifPrint(const ExifData& exifData)
         std::cout << std::setw(53) << std::setfill(' ') << std::left
                   << i->key() << " "
                   << "0x" << std::setw(4) << std::setfill('0') << std::right
-                  << std::hex << i->tag() << "  " 
-                  << std::dec << i->value() 
+                  << std::hex << i->tag() << "  "
+                  << std::dec << i->value()
                   << "\n";
     }
 }

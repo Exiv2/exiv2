@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -110,9 +110,9 @@ namespace Exiv2 {
         return value;
     } // Value::create
 
-    int Value::setDataArea(const byte* /*buf*/, long /*len*/) 
+    int Value::setDataArea(const byte* /*buf*/, long /*len*/)
     {
-        return -1; 
+        return -1;
     }
 
     std::string Value::toString() const
@@ -188,7 +188,7 @@ namespace Exiv2 {
 
     void StringValueBase::read(const byte* buf, long len, ByteOrder byteOrder)
     {
-        // byteOrder not needed 
+        // byteOrder not needed
         value_ = std::string(reinterpret_cast<const char*>(buf), len);
     }
 
@@ -248,7 +248,7 @@ namespace Exiv2 {
     }
 
     CommentValue::CharsetTable::CharsetTable(CharsetId charsetId,
-                                             const char* name, 
+                                             const char* name,
                                              const char* code)
         : charsetId_(charsetId), name_(name), code_(code)
     {
@@ -348,15 +348,15 @@ namespace Exiv2 {
             const std::string code = value_.substr(0, 8);
             charsetId = CharsetInfo::charsetIdByCode(code);
         }
-        return charsetId;        
+        return charsetId;
     }
 
     CommentValue* CommentValue::clone_() const
     {
-        return new CommentValue(*this);        
+        return new CommentValue(*this);
     }
 
-    DateValue::DateValue(int year, int month, int day) 
+    DateValue::DateValue(int year, int month, int day)
         : Value(date)
     {
         date_.year = year;
@@ -376,22 +376,22 @@ namespace Exiv2 {
 
     void DateValue::read(const byte* buf, long len, ByteOrder byteOrder)
     {
-        // byteOrder not needed 
+        // byteOrder not needed
         // Hard coded to read Iptc style dates
         if (len != 8) throw Error(29);
-        int scanned = sscanf(reinterpret_cast<const char*>(buf), 
-                   "%4d%2d%2d", 
+        int scanned = sscanf(reinterpret_cast<const char*>(buf),
+                   "%4d%2d%2d",
                    &date_.year, &date_.month, &date_.day);
         if (scanned != 3) throw Error(29);
     }
 
     void DateValue::read(const std::string& buf)
     {
-        // byteOrder not needed 
+        // byteOrder not needed
         // Hard coded to read Iptc style dates
         if (buf.length() < 8) throw Error(29);
-        int scanned = sscanf(buf.data(), 
-                   "%4d-%d-%d", 
+        int scanned = sscanf(buf.data(),
+                   "%4d-%d-%d",
                    &date_.year, &date_.month, &date_.day);
         if (scanned != 3) throw Error(29);
     }
@@ -402,14 +402,14 @@ namespace Exiv2 {
         date_.month = src.month;
         date_.day = src.day;
     }
-    
+
     long DateValue::copy(byte* buf, ByteOrder byteOrder) const
     {
         // byteOrder not needed
         // sprintf wants to add the null terminator, so use oversized buffer
         char temp[9];
 
-        int wrote = sprintf( temp, "%04d%02d%02d", 
+        int wrote = sprintf( temp, "%04d%02d%02d",
                            date_.year, date_.month, date_.day);
         assert(wrote == 8);
         memcpy(buf, temp, 8);
@@ -433,7 +433,7 @@ namespace Exiv2 {
                << std::setw(2) << std::setfill('0') << date_.day;
     }
 
-    long DateValue::toLong(long n) const 
+    long DateValue::toLong(long n) const
     {
         // Range of tm struct is limited to about 1970 to 2038
         // This will return -1 if outside that range
@@ -445,8 +445,8 @@ namespace Exiv2 {
         return static_cast<long>(std::mktime(&tms));
     }
 
-    TimeValue::TimeValue(int hour, int minute, 
-                         int second, int tzHour, 
+    TimeValue::TimeValue(int hour, int minute,
+                         int second, int tzHour,
                          int tzMinute)
         : Value(date)
     {
@@ -467,13 +467,13 @@ namespace Exiv2 {
 
     void TimeValue::read(const byte* buf, long len, ByteOrder byteOrder)
     {
-        // byteOrder not needed 
+        // byteOrder not needed
         // Hard coded to read Iptc style times
         if (len != 11) throw Error(30);
         char plusMinus;
-        int scanned = sscanf(reinterpret_cast<const char*>(buf), 
-                   "%2d%2d%2d%1c%2d%2d", 
-                   &time_.hour, &time_.minute, &time_.second, 
+        int scanned = sscanf(reinterpret_cast<const char*>(buf),
+                   "%2d%2d%2d%1c%2d%2d",
+                   &time_.hour, &time_.minute, &time_.second,
                    &plusMinus, &time_.tzHour, &time_.tzMinute );
 
         if (scanned != 6) throw Error(30);
@@ -485,13 +485,13 @@ namespace Exiv2 {
 
     void TimeValue::read(const std::string& buf)
     {
-        // byteOrder not needed 
+        // byteOrder not needed
         // Hard coded to read Iptc style times
         if (buf.length() < 9) throw Error(30);
         char plusMinus;
         int scanned = sscanf(buf.data(),
-                   "%d:%d:%d%1c%d:%d", 
-                   &time_.hour, &time_.minute, &time_.second, 
+                   "%d:%d:%d%1c%d:%d",
+                   &time_.hour, &time_.minute, &time_.second,
                    &plusMinus, &time_.tzHour, &time_.tzMinute );
 
         if (scanned != 6) throw Error(30);
@@ -505,7 +505,7 @@ namespace Exiv2 {
     {
         memcpy(&time_, &src, sizeof(time_));
     }
-    
+
     long TimeValue::copy(byte* buf, ByteOrder byteOrder) const
     {
         // byteOrder not needed
@@ -514,9 +514,9 @@ namespace Exiv2 {
         char plusMinus = '+';
         if (time_.tzHour < 0 || time_.tzMinute < 0) plusMinus = '-';
 
-        int wrote = sprintf(temp, 
-                   "%02d%02d%02d%1c%02d%02d", 
-                   time_.hour, time_.minute, time_.second, 
+        int wrote = sprintf(temp,
+                   "%02d%02d%02d%1c%02d%02d",
+                   time_.hour, time_.minute, time_.second,
                    plusMinus, abs(time_.tzHour), abs(time_.tzMinute));
 
         assert(wrote == 11);
@@ -538,7 +538,7 @@ namespace Exiv2 {
     {
         char plusMinus = '+';
         if (time_.tzHour < 0 || time_.tzMinute < 0) plusMinus = '-';
-        
+
         return os << std::right
            << std::setw(2) << std::setfill('0') << time_.hour << ':'
            << std::setw(2) << std::setfill('0') << time_.minute << ':'
@@ -547,9 +547,9 @@ namespace Exiv2 {
            << std::setw(2) << std::setfill('0') << abs(time_.tzMinute);
     }
 
-    long TimeValue::toLong(long n) const 
+    long TimeValue::toLong(long n) const
     {
-        // Returns number of seconds in the day in UTC. 
+        // Returns number of seconds in the day in UTC.
         long result = (time_.hour - time_.tzHour) * 60 * 60;
         result += (time_.minute - time_.tzMinute) * 60;
         result += time_.second;

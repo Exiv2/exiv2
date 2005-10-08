@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -45,21 +45,21 @@ EXIV2_RCSID("@(#) $Id$");
 namespace Exiv2 {
 
     DataSet::DataSet(
-        uint16_t number, 
+        uint16_t number,
         const char* name,
         const char* title,
         const char* desc,
         bool mandatory,
         bool repeatable,
-        uint32_t minbytes, 
+        uint32_t minbytes,
         uint32_t maxbytes,
         TypeId type,
         uint16_t recordId,
         const char* photoshop
     )
-        : number_(number), name_(name), title_(title), desc_(desc), 
-          mandatory_(mandatory), repeatable_(repeatable), minbytes_(minbytes), 
-          maxbytes_(maxbytes), type_(type), recordId_(recordId), 
+        : number_(number), name_(name), title_(title), desc_(desc),
+          mandatory_(mandatory), repeatable_(repeatable), minbytes_(minbytes),
+          maxbytes_(maxbytes), type_(type), recordId_(recordId),
           photoshop_(photoshop)
     {
     }
@@ -78,7 +78,7 @@ namespace Exiv2 {
         RecordInfo(IptcDataSets::envelope, "Envelope", "IIM envelope record"),
         RecordInfo(IptcDataSets::application2, "Application2", "IIM application record 2"),
     };
-    
+
     static const DataSet envelopeRecord[] = {
         DataSet(IptcDataSets::ModelVersion, "ModelVersion", "ModelVersion", "Version of IIM part 1", true, false, 2, 2, Exiv2::unsignedShort, IptcDataSets::envelope, ""),
         DataSet(IptcDataSets::Destination, "Destination", "Destination", "Routing information", false, true, 0, 1024, Exiv2::string, IptcDataSets::envelope, ""),
@@ -160,11 +160,11 @@ namespace Exiv2 {
 
     static const DataSet unknownDataSet(0xffff, "Unknown dataset", "Unknown dataset", "Unknown dataset", false, true, 0, 0xffffffff, Exiv2::string, IptcDataSets::invalidRecord, "Unknown dataset");
 
-    // Dataset lookup lists.This is an array with pointers to one list per IIM4 Record. 
+    // Dataset lookup lists.This is an array with pointers to one list per IIM4 Record.
     // The record id is used as the index into the array.
     const DataSet* IptcDataSets::records_[] = {
-        0, 
-        envelopeRecord, application2Record, 
+        0,
+        envelopeRecord, application2Record,
         0
     };
 
@@ -238,7 +238,7 @@ namespace Exiv2 {
         return records_[recordId][idx].repeatable_;
     }
 
-    uint16_t IptcDataSets::dataSet(const std::string& dataSetName, 
+    uint16_t IptcDataSets::dataSet(const std::string& dataSetName,
                                    uint16_t recordId)
     {
         uint16_t dataSet;
@@ -258,7 +258,7 @@ namespace Exiv2 {
     std::string IptcDataSets::recordName(uint16_t recordId)
     {
         if (recordId == envelope || recordId == application2) {
-            return recordInfo_[recordId].name_;            
+            return recordInfo_[recordId].name_;
         }
 
         std::ostringstream os;
@@ -299,7 +299,7 @@ namespace Exiv2 {
             }
         }
     } // IptcDataSets::dataSetList
-    
+
     const char* IptcKey::familyName_ = "Iptc";
 
     IptcKey::IptcKey(const std::string& key)
@@ -360,7 +360,7 @@ namespace Exiv2 {
         uint16_t recId = IptcDataSets::recordId(recordName);
         uint16_t dataSet = IptcDataSets::dataSet(dataSetName, recId);
 
-        // Possibly translate hex name parts (0xabcd) to real names 
+        // Possibly translate hex name parts (0xabcd) to real names
         recordName = IptcDataSets::recordName(recId);
         dataSetName = IptcDataSets::dataSetName(dataSet, recId);
 
@@ -379,12 +379,12 @@ namespace Exiv2 {
     // *************************************************************************
     // free functions
 
-    std::ostream& operator<<(std::ostream& os, const DataSet& dataSet) 
+    std::ostream& operator<<(std::ostream& os, const DataSet& dataSet)
     {
         IptcKey iptcKey(dataSet.number_, dataSet.recordId_);
         return os << dataSet.name_ << ", "
                   << std::dec << dataSet.number_ << ", "
-                  << "0x" << std::setw(4) << std::setfill('0') 
+                  << "0x" << std::setw(4) << std::setfill('0')
                   << std::right << std::hex << dataSet.number_ << ", "
                   << IptcDataSets::recordName(dataSet.recordId_) << ", "
                   << std::boolalpha << dataSet.mandatory_ << ", "
@@ -393,7 +393,7 @@ namespace Exiv2 {
                   << dataSet.maxbytes_ << ", "
                   << iptcKey.key() << ", "
                   << TypeInfo::typeName(
-                      IptcDataSets::dataSetType(dataSet.number_, 
+                      IptcDataSets::dataSetType(dataSet.number_,
                                                 dataSet.recordId_)) << ", "
                   << dataSet.desc_;
     }

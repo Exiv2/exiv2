@@ -25,7 +25,7 @@ try {
     // Add to the Exif data
 
     // This is the quickest way to add (simple) Exif data. If a metadatum for
-    // a given key already exists, its value is overwritten. Otherwise a new 
+    // a given key already exists, its value is overwritten. Otherwise a new
     // tag is added.
     exifData["Exif.Image.Model"] = "Test 1";                     // AsciiValue
     exifData["Exif.Image.SamplesPerPixel"] = uint16_t(162);      // UShortValue
@@ -46,7 +46,7 @@ try {
     Exiv2::URationalValue::AutoPtr rv(new Exiv2::URationalValue);
     // Set two rational components from a string
     rv->read("1/2 1/3");
-    // Add more elements through the extended interface of rational value 
+    // Add more elements through the extended interface of rational value
     rv->value_.push_back(std::make_pair(2,3));
     rv->value_.push_back(std::make_pair(3,4));
     // Add the key and value pair to the Exif data
@@ -63,7 +63,7 @@ try {
     std::string date = tag.toString();
     date.replace(0, 4, "2000");
     tag.setValue(date);
-    std::cout << "Modified key \"" << key 
+    std::cout << "Modified key \"" << key
               << "\", new value \"" << tag.value() << "\"\n";
 
     // Alternatively, we can use findKey()
@@ -80,7 +80,7 @@ try {
     rv->value_[2] = std::make_pair(88,77);
     // Copy the modified value back to the metadatum
     pos->setValue(rv.get());
-    std::cout << "Modified key \"" << key 
+    std::cout << "Modified key \"" << key
               << "\", new value \"" << pos->value() << "\"\n";
 
     // *************************************************************************

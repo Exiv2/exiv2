@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -29,8 +29,8 @@
 #include "rcsid.hpp"
 EXIV2_RCSID("@(#) $Id$");
 
-// Define DEBUG_MAKERNOTE to output debug information to std::cerr, e.g, by 
-// calling make like this: make DEFS=-DDEBUG_MAKERNOTE exif.o 
+// Define DEBUG_MAKERNOTE to output debug information to std::cerr, e.g, by
+// calling make like this: make DEFS=-DDEBUG_MAKERNOTE exif.o
 //#define DEBUG_MAKERNOTE
 
 // *****************************************************************************
@@ -79,7 +79,7 @@ namespace {
     void setOffsetTag(Exiv2::Ifd& ifd,
                       int idx,
                       uint16_t tag,
-                      uint32_t offset, 
+                      uint32_t offset,
                       Exiv2::ByteOrder byteOrder);
 
     // Read file path into a DataBuf, which is returned.
@@ -97,7 +97,7 @@ namespace Exiv2 {
         setValue(e, byteOrder);
     }
 
-    Exifdatum::Exifdatum(const ExifKey& key, const Value* pValue) 
+    Exifdatum::Exifdatum(const ExifKey& key, const Value* pValue)
         : key_(key.clone())
     {
         if (pValue) value_ = pValue->clone();
@@ -114,10 +114,10 @@ namespace Exiv2 {
         if (rhs.value_.get() != 0) value_ = rhs.value_->clone(); // deep copy
     }
 
-    const Value& Exifdatum::value() const 
+    const Value& Exifdatum::value() const
     {
-        if (value_.get() == 0) throw Error(8);        
-        return *value_; 
+        if (value_.get() == 0) throw Error(8);
+        return *value_;
     }
 
     Exifdatum& Exifdatum::operator=(const Exifdatum& rhs)
@@ -133,41 +133,41 @@ namespace Exiv2 {
 
         return *this;
     } // Exifdatum::operator=
-    
+
     Exifdatum& Exifdatum::operator=(const std::string& value)
-    { 
-        setValue(value); 
-        return *this; 
+    {
+        setValue(value);
+        return *this;
     }
 
-    Exifdatum& Exifdatum::operator=(const uint16_t& value) 
+    Exifdatum& Exifdatum::operator=(const uint16_t& value)
     {
-        return Exiv2::setValue(*this, value); 
+        return Exiv2::setValue(*this, value);
     }
 
     Exifdatum& Exifdatum::operator=(const uint32_t& value)
     {
-        return Exiv2::setValue(*this, value); 
+        return Exiv2::setValue(*this, value);
     }
 
     Exifdatum& Exifdatum::operator=(const URational& value)
     {
-        return Exiv2::setValue(*this, value); 
+        return Exiv2::setValue(*this, value);
     }
 
     Exifdatum& Exifdatum::operator=(const int16_t& value)
     {
-        return Exiv2::setValue(*this, value); 
+        return Exiv2::setValue(*this, value);
     }
 
     Exifdatum& Exifdatum::operator=(const int32_t& value)
     {
-        return Exiv2::setValue(*this, value); 
+        return Exiv2::setValue(*this, value);
     }
 
     Exifdatum& Exifdatum::operator=(const Rational& value)
     {
-        return Exiv2::setValue(*this, value); 
+        return Exiv2::setValue(*this, value);
     }
 
     Exifdatum& Exifdatum::operator=(const Value& value)
@@ -200,7 +200,7 @@ namespace Exiv2 {
 
     TiffThumbnail& TiffThumbnail::operator=(const TiffThumbnail& /*rhs*/)
     {
-        return *this; 
+        return *this;
     }
 
     int TiffThumbnail::setDataArea(ExifData& exifData, Ifd* pIfd1,
@@ -218,7 +218,7 @@ namespace Exiv2 {
         }
         DataBuf stripsBuf(totalSize);
 
-        // Copy all strips into the data buffer. For each strip remember its 
+        // Copy all strips into the data buffer. For each strip remember its
         // offset from the start of the data buffer
         ExifData::iterator stripOffsets;
         key = ExifKey("Exif.Thumbnail.StripOffsets");
@@ -243,7 +243,7 @@ namespace Exiv2 {
             currentOffset += size;
         }
 
-        // Set StripOffsets data area and relative offsets 
+        // Set StripOffsets data area and relative offsets
         stripOffsets->setDataArea(stripsBuf.pData_, stripsBuf.size_);
         stripOffsets->setValue(os.str());
 
@@ -287,9 +287,9 @@ namespace Exiv2 {
         return buf;
     }
 
-    JpegThumbnail& JpegThumbnail::operator=(const JpegThumbnail& /*rhs*/) 
+    JpegThumbnail& JpegThumbnail::operator=(const JpegThumbnail& /*rhs*/)
     {
-        return *this; 
+        return *this;
     }
 
     int JpegThumbnail::setDataArea(ExifData& exifData, Ifd* pIfd1,
@@ -332,16 +332,16 @@ namespace Exiv2 {
         return format->dataArea();
     }
 
-    ExifData::ExifData() 
-        : pTiffHeader_(0), 
-          pIfd0_(0), pExifIfd_(0), pIopIfd_(0), pGpsIfd_(0), pIfd1_(0), 
+    ExifData::ExifData()
+        : pTiffHeader_(0),
+          pIfd0_(0), pExifIfd_(0), pIopIfd_(0), pGpsIfd_(0), pIfd1_(0),
           pMakerNote_(0), size_(0), pData_(0), compatible_(true)
     {
     }
 
     ExifData::ExifData(const ExifData& rhs)
         : exifMetadata_(rhs.exifMetadata_), pTiffHeader_(0),
-          pIfd0_(0), pExifIfd_(0), pIopIfd_(0), pGpsIfd_(0), pIfd1_(0), 
+          pIfd0_(0), pExifIfd_(0), pIopIfd_(0), pGpsIfd_(0), pIfd1_(0),
           pMakerNote_(0), size_(0), pData_(0), compatible_(rhs.compatible_)
     {
         pData_ = new byte[rhs.size_];
@@ -475,7 +475,7 @@ namespace Exiv2 {
 
         // Read IFD0
         delete pIfd0_;
-        pIfd0_ = new Ifd(ifd0Id, 0, false); 
+        pIfd0_ = new Ifd(ifd0Id, 0, false);
         assert(pIfd0_ != 0);
         rc = pIfd0_->read(pData_, size_, pTiffHeader_->offset(), byteOrder());
         if (rc) return rc;
@@ -486,11 +486,11 @@ namespace Exiv2 {
         // Find and read ExifIFD sub-IFD of IFD0
         rc = pIfd0_->readSubIfd(*pExifIfd_, pData_, size_, byteOrder(), 0x8769);
         if (rc) return rc;
-        // Find MakerNote in ExifIFD, create a MakerNote class 
+        // Find MakerNote in ExifIFD, create a MakerNote class
         Ifd::iterator pos = pExifIfd_->findTag(0x927c);
         Ifd::iterator make = pIfd0_->findTag(0x010f);
         Ifd::iterator model = pIfd0_->findTag(0x0110);
-        if (   pos != pExifIfd_->end() 
+        if (   pos != pExifIfd_->end()
             && make != pIfd0_->end() && model != pIfd0_->end()) {
             // Todo: The conversion to string assumes that there is a \0 at the end
             // Todo: How to avoid the cast (is that a MSVC thing?)
@@ -498,14 +498,14 @@ namespace Exiv2 {
                               reinterpret_cast<const char*>(make->data()),
                               reinterpret_cast<const char*>(model->data()),
                               false,
-                              pos->data(), 
+                              pos->data(),
                               pos->size(),
                               byteOrder(),
                               pExifIfd_->offset() + pos->offset()).release();
         }
         // Read the MakerNote
         if (pMakerNote_) {
-            rc = pMakerNote_->read(pData_, size_, 
+            rc = pMakerNote_->read(pData_, size_,
                                    pExifIfd_->offset() + pos->offset(),
                                    byteOrder());
             if (rc) {
@@ -562,11 +562,11 @@ namespace Exiv2 {
         add(pIfd0_->begin(), pIfd0_->end(), byteOrder());
         add(pExifIfd_->begin(), pExifIfd_->end(), byteOrder());
         if (pMakerNote_) {
-            add(pMakerNote_->begin(), pMakerNote_->end(), 
+            add(pMakerNote_->begin(), pMakerNote_->end(),
                 (pMakerNote_->byteOrder() == invalidByteOrder ?
                     byteOrder() : pMakerNote_->byteOrder()));
         }
-        add(pIopIfd_->begin(), pIopIfd_->end(), byteOrder()); 
+        add(pIopIfd_->begin(), pIopIfd_->end(), byteOrder());
         add(pGpsIfd_->begin(), pGpsIfd_->end(), byteOrder());
         add(pIfd1_->begin(), pIfd1_->end(), byteOrder());
         // Read the thumbnail (but don't worry whether it was successful or not)
@@ -612,8 +612,8 @@ namespace Exiv2 {
         if (pMakerNote_) {
             // Build MakerNote from metadata
             makerNote = pMakerNote_->create();
-            addToMakerNote(makerNote.get(), 
-                           begin(), end(), 
+            addToMakerNote(makerNote.get(),
+                           begin(), end(),
                            (pMakerNote_->byteOrder() == invalidByteOrder ?
                                byteOrder() : pMakerNote_->byteOrder()));
             // Create a placeholder MakerNote entry of the correct size and
@@ -654,21 +654,21 @@ namespace Exiv2 {
         bool addOffsetTag = false;
         long exifIfdOffset = ifd0Offset + ifd0.size() + ifd0.dataSize();
         if (exifIfd.size() > 0 || iopIfd.size() > 0) {
-            exifIfdOffset += 12; 
-            addOffsetTag = true; 
+            exifIfdOffset += 12;
+            addOffsetTag = true;
         }
         if (gpsIfd.size() > 0) {
-            exifIfdOffset += 12; 
-            addOffsetTag = true; 
+            exifIfdOffset += 12;
+            addOffsetTag = true;
         }
         if (ifd0.size() == 0 && addOffsetTag) {
-            exifIfdOffset += 6; 
+            exifIfdOffset += 6;
         }
         addOffsetTag = false;
-        long iopIfdOffset = exifIfdOffset + exifIfd.size() + exifIfd.dataSize(); 
+        long iopIfdOffset = exifIfdOffset + exifIfd.size() + exifIfd.dataSize();
         if (iopIfd.size() > 0) {
             iopIfdOffset += 12;
-            addOffsetTag = true; 
+            addOffsetTag = true;
         }
         if (exifIfd.size() == 0 && addOffsetTag) {
             iopIfdOffset += 6;
@@ -729,7 +729,7 @@ namespace Exiv2 {
         return buf;
     } // ExifData::copyFromMetadata
 
-    void ExifData::add(Entries::const_iterator begin, 
+    void ExifData::add(Entries::const_iterator begin,
                        Entries::const_iterator end,
                        ByteOrder byteOrder)
     {
@@ -749,7 +749,7 @@ namespace Exiv2 {
         if (ExifTags::isMakerIfd(exifdatum.ifdId())) {
             if (pMakerNote_ == 0) {
                 pMakerNote_ = MakerNoteFactory::create(exifdatum.ifdId()).release();
-            }            
+            }
             if (pMakerNote_ == 0) throw Error(23, exifdatum.ifdId());
         }
         // allow duplicates
@@ -804,7 +804,7 @@ namespace Exiv2 {
         (*this)["Exif.Thumbnail.JPEGInterchangeFormatLength"] = uint32_t(size);
     }
 
-    void ExifData::setJpegThumbnail(const byte* buf, long size, 
+    void ExifData::setJpegThumbnail(const byte* buf, long size,
                                     URational xres, URational yres, uint16_t unit)
     {
         setJpegThumbnail(buf, size);
@@ -819,7 +819,7 @@ namespace Exiv2 {
         setJpegThumbnail(thumb.pData_, thumb.size_);
     }
 
-    void ExifData::setJpegThumbnail(const std::string& path, 
+    void ExifData::setJpegThumbnail(const std::string& path,
                                    URational xres, URational yres, uint16_t unit)
     {
         DataBuf thumb = readFile(path); // may throw
@@ -830,8 +830,8 @@ namespace Exiv2 {
     {
         // First, determine if the thumbnail is at the end of the Exif data
         bool stp = stdThumbPosition();
-        // Delete all Exif.Thumbnail.* (IFD1) metadata 
-        ExifMetadata::iterator i = begin(); 
+        // Delete all Exif.Thumbnail.* (IFD1) metadata
+        ExifMetadata::iterator i = begin();
         while (i != end()) {
             if (i->ifdId() == ifd1Id) {
                 i = erase(i);
@@ -861,7 +861,7 @@ namespace Exiv2 {
 
     bool ExifData::stdThumbPosition() const
     {
-        if (   pIfd0_ == 0 || pExifIfd_ == 0 || pIopIfd_ == 0 
+        if (   pIfd0_ == 0 || pExifIfd_ == 0 || pIopIfd_ == 0
             || pGpsIfd_ == 0 || pIfd1_ == 0) return true;
 
         // Todo: There is still an invalid assumption here: The data of an IFD
@@ -875,7 +875,7 @@ namespace Exiv2 {
             long maxOffset;
             maxOffset = std::max(pIfd0_->offset(), pIfd0_->dataOffset());
             maxOffset = std::max(maxOffset, pExifIfd_->offset());
-            maxOffset = std::max(maxOffset,   pExifIfd_->dataOffset() 
+            maxOffset = std::max(maxOffset,   pExifIfd_->dataOffset()
                                             + pExifIfd_->dataSize());
             if (pMakerNote_) {
                 maxOffset = std::max(maxOffset,   pMakerNote_->offset()
@@ -909,12 +909,12 @@ namespace Exiv2 {
     } // ExifData::hasMakerNote
 
     ByteOrder ExifData::byteOrder() const
-    { 
+    {
         if (pTiffHeader_) return pTiffHeader_->byteOrder();
         return littleEndian;
     }
 
-    int ExifData::writeThumbnail(const std::string& path) const 
+    int ExifData::writeThumbnail(const std::string& path) const
     {
         Thumbnail::AutoPtr thumbnail = getThumbnail();
         if (thumbnail.get() == 0) return 8;
@@ -947,7 +947,7 @@ namespace Exiv2 {
         return thumbnail->format();
     }
 
-    const char* ExifData::thumbnailExtension() const 
+    const char* ExifData::thumbnailExtension() const
     {
         Thumbnail::AutoPtr thumbnail = getThumbnail();
         if (thumbnail.get() == 0) return "";
@@ -984,7 +984,7 @@ namespace Exiv2 {
 
     bool ExifData::updateEntries()
     {
-        if (   pIfd0_ == 0 || pExifIfd_ == 0 || pIopIfd_ == 0 
+        if (   pIfd0_ == 0 || pExifIfd_ == 0 || pIopIfd_ == 0
             || pGpsIfd_ == 0 || pIfd1_ == 0) return false;
         if (!this->compatible()) return false;
 
@@ -992,8 +992,8 @@ namespace Exiv2 {
         compatible &= updateRange(pIfd0_->begin(), pIfd0_->end(), byteOrder());
         compatible &= updateRange(pExifIfd_->begin(), pExifIfd_->end(), byteOrder());
         if (pMakerNote_) {
-            compatible &= updateRange(pMakerNote_->begin(), 
-                                      pMakerNote_->end(), 
+            compatible &= updateRange(pMakerNote_->begin(),
+                                      pMakerNote_->end(),
                                       (pMakerNote_->byteOrder() == invalidByteOrder ?
                                           byteOrder() : pMakerNote_->byteOrder()));
         }
@@ -1004,7 +1004,7 @@ namespace Exiv2 {
         return compatible;
     } // ExifData::updateEntries
 
-    bool ExifData::updateRange(const Entries::iterator& begin, 
+    bool ExifData::updateRange(const Entries::iterator& begin,
                                const Entries::iterator& end,
                                ByteOrder byteOrder)
     {
@@ -1019,7 +1019,7 @@ namespace Exiv2 {
                 continue;
             }
             if (entry->count() == 0 && md->count() == 0) {
-                // Special case: don't do anything if both the entry and 
+                // Special case: don't do anything if both the entry and
                 // Exifdatum have no data. This is to preserve the original
                 // data in the offset field of an IFD entry with count 0,
                 // if the Exifdatum was not changed.
@@ -1037,13 +1037,13 @@ namespace Exiv2 {
                 // header and that is currently only done in intrusive write
                 // mode). On the other hand, it is thus now not possible to
                 // change the offsets of an entry with a data area in
-                // non-intrusive mode. This can be considered a bug. 
+                // non-intrusive mode. This can be considered a bug.
                 // Todo: Fix me!
                 if (md->sizeDataArea() == 0) {
                     DataBuf buf(md->size());
                     md->copy(buf.pData_, byteOrder);
-                    entry->setValue(static_cast<uint16_t>(md->typeId()), 
-                                    md->count(), 
+                    entry->setValue(static_cast<uint16_t>(md->typeId()),
+                                    md->count(),
                                     buf.pData_, md->size());
                 }
                 // Always set the data area
@@ -1069,7 +1069,7 @@ namespace Exiv2 {
             }
             // Make sure that the size of the Exifdatum fits the available size
             // of the entry
-            if (   md->size() > rc.second->size() 
+            if (   md->size() > rc.second->size()
                 || md->sizeDataArea() > rc.second->sizeDataArea()) {
                 compatible = false;
                 break;
@@ -1078,7 +1078,7 @@ namespace Exiv2 {
         return compatible;
     } // ExifData::compatible
 
-    std::pair<bool, Entries::const_iterator> 
+    std::pair<bool, Entries::const_iterator>
     ExifData::findEntry(IfdId ifdId, int idx) const
     {
         Entries::const_iterator entry;
@@ -1107,19 +1107,19 @@ namespace Exiv2 {
     {
         const Ifd* ifd = 0;
         switch (ifdId) {
-        case ifd0Id: 
+        case ifd0Id:
             ifd = pIfd0_;
             break;
-        case exifIfdId: 
+        case exifIfdId:
             ifd = pExifIfd_;
             break;
-        case iopIfdId: 
+        case iopIfdId:
             ifd = pIopIfd_;
             break;
-        case gpsIfdId: 
+        case gpsIfdId:
             ifd = pGpsIfd_;
             break;
-        case ifd1Id: 
+        case ifd1Id:
             ifd = pIfd1_;
             break;
         default:
@@ -1132,9 +1132,9 @@ namespace Exiv2 {
     // *************************************************************************
     // free functions
 
-    void addToIfd(Ifd& ifd, 
-                  ExifMetadata::const_iterator begin, 
-                  ExifMetadata::const_iterator end, 
+    void addToIfd(Ifd& ifd,
+                  ExifMetadata::const_iterator begin,
+                  ExifMetadata::const_iterator end,
                   ByteOrder byteOrder)
     {
         for (ExifMetadata::const_iterator i = begin; i != end; ++i) {
@@ -1157,8 +1157,8 @@ namespace Exiv2 {
 
         DataBuf buf(md.size());
         md.copy(buf.pData_, byteOrder);
-        e.setValue(static_cast<uint16_t>(md.typeId()), md.count(), 
-                   buf.pData_, buf.size_); 
+        e.setValue(static_cast<uint16_t>(md.typeId()), md.count(),
+                   buf.pData_, buf.size_);
 
         DataBuf dataArea(md.dataArea());
         e.setDataArea(dataArea.pData_, dataArea.size_);
@@ -1168,7 +1168,7 @@ namespace Exiv2 {
 
     void addToMakerNote(MakerNote* makerNote,
                         ExifMetadata::const_iterator begin,
-                        ExifMetadata::const_iterator end, 
+                        ExifMetadata::const_iterator end,
                         ByteOrder byteOrder)
     {
         for (ExifMetadata::const_iterator i = begin; i != end; ++i) {
@@ -1178,8 +1178,8 @@ namespace Exiv2 {
         }
     } // addToMakerNote
 
-    void addToMakerNote(MakerNote* makerNote, 
-                        const Exifdatum& md, 
+    void addToMakerNote(MakerNote* makerNote,
+                        const Exifdatum& md,
                         ByteOrder byteOrder)
     {
         Entry e;
@@ -1191,7 +1191,7 @@ namespace Exiv2 {
         DataBuf buf(md.size());
         md.copy(buf.pData_, byteOrder);
         e.setValue(static_cast<uint16_t>(md.typeId()), md.count(),
-                   buf.pData_, md.size()); 
+                   buf.pData_, md.size());
 
         DataBuf dataArea(md.dataArea());
         e.setDataArea(dataArea.pData_, dataArea.size_);
@@ -1212,7 +1212,7 @@ namespace {
     void setOffsetTag(Exiv2::Ifd& ifd,
                       int idx,
                       uint16_t tag,
-                      uint32_t offset, 
+                      uint32_t offset,
                       Exiv2::ByteOrder byteOrder)
     {
         Exiv2::Ifd::iterator pos = ifd.findTag(tag);
@@ -1243,7 +1243,7 @@ namespace {
         if (len != buf.size_) {
             throw Exiv2::Error(2, path, Exiv2::strError(), "FileIo::read");
         }
-        return buf; 
+        return buf;
     }
 
 }

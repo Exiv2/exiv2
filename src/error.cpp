@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -51,7 +51,7 @@ namespace Exiv2 {
         ErrMsg(  5, "Invalid record name `%1'"), // %1=record name
         ErrMsg(  6, "Invalid key `%1'"), // %1=key
         ErrMsg(  7, "Invalid tag name or ifdId `%1', ifdId %2"), // %1=tag name, %2=ifdId
-        ErrMsg(  8, "Value not set"), 
+        ErrMsg(  8, "Value not set"),
         ErrMsg(  9, "%1: Failed to open the data source: %2"), // %1=path, %2=strerror
         ErrMsg( 10, "%1: Failed to open file (%2): %3"), // %1=path, %2=mode, %3=strerror
         ErrMsg( 11, "%1: The file contains data of an unknown image type"), // %1=path

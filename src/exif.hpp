@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -47,7 +47,7 @@
 // namespace extensions
 /*!
   @brief Provides classes and functions to encode and decode Exif and Iptc data.
-         This namespace corresponds to the <b>libexiv2</b> library. 
+         This namespace corresponds to the <b>libexiv2</b> library.
 
  */
 namespace Exiv2 {
@@ -74,7 +74,7 @@ namespace Exiv2 {
         /*!
           @brief Constructor for new tags created by an application. The
                  %Exifdatum is created from a \em key / value pair. %Exifdatum copies
-                 (clones) the \em key and value if one is provided. Alternatively, 
+                 (clones) the \em key and value if one is provided. Alternatively,
                  a program can create an 'empty' %Exifdatum with only a key
                  and set the value using setValue().
 
@@ -99,7 +99,7 @@ namespace Exiv2 {
           @brief Assign \em value to the %Exifdatum. The type of the new Value
                  is set to UShortValue.
          */
-        Exifdatum& operator=(const uint16_t& value); 
+        Exifdatum& operator=(const uint16_t& value);
         /*!
           @brief Assign \em value to the %Exifdatum. The type of the new Value
                  is set to ULongValue.
@@ -127,7 +127,7 @@ namespace Exiv2 {
         Exifdatum& operator=(const Rational& value);
         /*!
           @brief Assign \em value to the %Exifdatum.
-                 Calls setValue(const std::string&).                 
+                 Calls setValue(const std::string&).
          */
         Exifdatum& operator=(const std::string& value);
         /*!
@@ -152,7 +152,7 @@ namespace Exiv2 {
          */
         void setValue(const Entry& e, ByteOrder byteOrder);
         /*!
-          @brief Set the data area by copying (cloning) the buffer pointed to 
+          @brief Set the data area by copying (cloning) the buffer pointed to
                  by \em buf.
 
           Values may have a data area, which can contain additional
@@ -164,14 +164,14 @@ namespace Exiv2 {
           @return Return -1 if the %Exifdatum does not have a value yet or the
                   value has no data area, else 0.
          */
-        int setDataArea(const byte* buf, long len) 
+        int setDataArea(const byte* buf, long len)
             { return value_.get() == 0 ? -1 : value_->setDataArea(buf, len); }
         //@}
 
         //! @name Accessors
         //@{
-        //! Return the key of the %Exifdatum. 
-        std::string key() const 
+        //! Return the key of the %Exifdatum.
+        std::string key() const
             { return key_.get() == 0 ? "" : key_->key(); }
         //! Return the name of the group (the second part of the key)
         std::string groupName() const
@@ -183,13 +183,13 @@ namespace Exiv2 {
         uint16_t tag() const
             { return key_.get() == 0 ? 0xffff : key_->tag(); }
         //! Return the IFD id
-        IfdId ifdId() const 
+        IfdId ifdId() const
             { return key_.get() == 0 ? ifdIdNotSet : key_->ifdId(); }
         //! Return the name of the IFD
         const char* ifdName() const
             { return key_.get() == 0 ? "" : key_->ifdName(); }
         //! Return the related image item (deprecated)
-        std::string ifdItem() const 
+        std::string ifdItem() const
             { return key_.get() == 0 ? "" : key_->ifdItem(); }
         //! Return the index (unique id of this key within the original IFD)
         int idx() const
@@ -205,25 +205,25 @@ namespace Exiv2 {
           @param byteOrder Applicable byte order (little or big endian).
           @return Number of characters written.
         */
-        long copy(byte* buf, ByteOrder byteOrder) const 
+        long copy(byte* buf, ByteOrder byteOrder) const
             { return value_.get() == 0 ? 0 : value_->copy(buf, byteOrder); }
         //! Return the type id of the value
-        TypeId typeId() const 
+        TypeId typeId() const
             { return value_.get() == 0 ? invalidTypeId : value_->typeId(); }
         //! Return the name of the type
-        const char* typeName() const 
+        const char* typeName() const
             { return TypeInfo::typeName(typeId()); }
         //! Return the size in bytes of one component of this type
-        long typeSize() const 
+        long typeSize() const
             { return TypeInfo::typeSize(typeId()); }
         //! Return the number of components in the value
-        long count() const 
+        long count() const
             { return value_.get() == 0 ? 0 : value_->count(); }
         //! Return the size of the value in bytes
-        long size() const 
+        long size() const
             { return value_.get() == 0 ? 0 : value_->size(); }
         //! Return the value as a string.
-        std::string toString() const 
+        std::string toString() const
             { return value_.get() == 0 ? "" : value_->toString(); }
         /*!
           @brief Return the <EM>n</EM>-th component of the value converted to
@@ -231,7 +231,7 @@ namespace Exiv2 {
                  not set and the behaviour of the method is undefined if there
                  is no n-th component.
          */
-        long toLong(long n =0) const 
+        long toLong(long n =0) const
             { return value_.get() == 0 ? -1 : value_->toLong(n); }
         /*!
           @brief Return the <EM>n</EM>-th component of the value converted to
@@ -239,7 +239,7 @@ namespace Exiv2 {
                  not set and the behaviour of the method is undefined if there
                  is no n-th component.
          */
-        float toFloat(long n =0) const 
+        float toFloat(long n =0) const
             { return value_.get() == 0 ? -1 : value_->toFloat(n); }
         /*!
           @brief Return the <EM>n</EM>-th component of the value converted to
@@ -247,30 +247,30 @@ namespace Exiv2 {
                  Exifdatum is not set and the behaviour of the method is
                  undefined if there is no n-th component.
          */
-        Rational toRational(long n =0) const 
+        Rational toRational(long n =0) const
             { return value_.get() == 0 ? Rational(-1, 1) : value_->toRational(n); }
         /*!
           @brief Return an auto-pointer to a copy (clone) of the value. The
                  caller owns this copy and the auto-pointer ensures that it will
                  be deleted.
 
-          This method is provided for users who need full control over the 
+          This method is provided for users who need full control over the
           value. A caller may, e.g., downcast the pointer to the appropriate
           subclass of Value to make use of the interface of the subclass to set
           or modify its contents.
-          
+
           @return An auto-pointer to a copy (clone) of the value, 0 if the value
                   is not set.
          */
-        Value::AutoPtr getValue() const 
+        Value::AutoPtr getValue() const
             { return value_.get() == 0 ? Value::AutoPtr(0) : value_->clone(); }
         /*!
-          @brief Return a constant reference to the value. 
+          @brief Return a constant reference to the value.
 
           This method is provided mostly for convenient and versatile output of
           the value which can (to some extent) be formatted through standard
           stream manipulators.  Do not attempt to write to the value through
-          this reference. 
+          this reference.
 
           <b>Example:</b> <br>
           @code
@@ -283,9 +283,9 @@ namespace Exiv2 {
           @return A constant reference to the value.
           @throw Error if the value is not set.
          */
-        const Value& value() const; 
+        const Value& value() const;
         //! Return the size of the data area.
-        long sizeDataArea() const 
+        long sizeDataArea() const
             { return value_.get() == 0 ? 0 : value_->sizeDataArea(); }
         /*!
           @brief Return a copy of the data area of the value. The caller owns
@@ -306,7 +306,7 @@ namespace Exiv2 {
 
     private:
         // DATA
-        ExifKey::AutoPtr key_;                  //!< Key 
+        ExifKey::AutoPtr key_;                  //!< Key
         Value::AutoPtr   value_;                //!< Value
 
     }; // class Exifdatum
@@ -320,7 +320,7 @@ namespace Exiv2 {
     /*!
       @brief Set the value of \em exifDatum to \em value. If the object already
              has a value, it is replaced. Otherwise a new ValueType\<T\> value
-             is created and set to \em value. 
+             is created and set to \em value.
 
       This is a helper function, called from Exifdatum members. It is meant to
       be used with T = (u)int16_t, (u)int32_t or (U)Rational. Do not use directly.
@@ -350,7 +350,7 @@ namespace Exiv2 {
         //@{
         /*!
           @brief Set the image data as data area of the appropriate Exif
-                 metadatum. Read the thumbnail image data from data buffer 
+                 metadatum. Read the thumbnail image data from data buffer
                  \em buf. Return 0 if successful.
 
           @param exifData Exif data corresponding to the data buffer.
@@ -362,7 +362,7 @@ namespace Exiv2 {
                   1 in case of inconsistent thumbnail Exif data; or<BR>
                   2 if the data area is outside of the data buffer
          */
-        virtual int setDataArea(ExifData& exifData, 
+        virtual int setDataArea(ExifData& exifData,
                                 Ifd* pIfd1,
                                 const byte* buf,
                                 long len) const =0;
@@ -372,12 +372,12 @@ namespace Exiv2 {
          */
         virtual DataBuf copy(const ExifData& exifData) const =0;
         /*!
-          @brief Return a short string for the format of the thumbnail 
+          @brief Return a short string for the format of the thumbnail
                  ("TIFF", "JPEG").
          */
         virtual const char* format() const =0;
         /*!
-          @brief Return the file extension for the format of the thumbnail 
+          @brief Return the file extension for the format of the thumbnail
                  (".tif", ".jpg").
          */
         virtual const char* extension() const =0;
@@ -409,8 +409,8 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        int setDataArea(ExifData& exifData, 
-                        Ifd* pIfd1, 
+        int setDataArea(ExifData& exifData,
+                        Ifd* pIfd1,
                         const byte* buf,
                         long len) const;
         DataBuf copy(const ExifData& exifData) const;
@@ -434,8 +434,8 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        int setDataArea(ExifData& exifData, 
-                        Ifd* pIfd1, 
+        int setDataArea(ExifData& exifData,
+                        Ifd* pIfd1,
                         const byte* buf,
                         long len) const;
         DataBuf copy(const ExifData& exifData) const;
@@ -464,7 +464,7 @@ namespace Exiv2 {
     private:
         IfdId ifdId_;
         int idx_;
-        
+
     }; // class FindMetadatumByIfdIdIdx
 
     /*!
@@ -474,7 +474,7 @@ namespace Exiv2 {
       Provide high-level access to the Exif data of an image:
       - read Exif information from JPEG files
       - access metadata through keys and standard C++ iterators
-      - add, modify and delete metadata 
+      - add, modify and delete metadata
       - write Exif data to JPEG files
       - extract Exif metadata to files, insert from these files
       - extract and delete Exif thumbnail (JPEG and TIFF thumbnails)
@@ -504,7 +504,7 @@ namespace Exiv2 {
           @brief Load the Exif data from a byte buffer. The data buffer
                  must start with the TIFF header.
           @param buf Pointer to the data buffer to read from
-          @param len Number of bytes in the data buffer 
+          @param len Number of bytes in the data buffer
           @return 0 if successful.
          */
         int load(const byte* buf, long len);
@@ -544,7 +544,7 @@ namespace Exiv2 {
                  checks are performed, i.e., it is possible to add multiple
                  metadata with the same key.
          */
-        void add(Entries::const_iterator begin, 
+        void add(Entries::const_iterator begin,
                  Entries::const_iterator end,
                  ByteOrder byteOrder);
         /*!
@@ -563,9 +563,9 @@ namespace Exiv2 {
          */
         void add(const Exifdatum& exifdatum);
         /*!
-          @brief Delete the Exifdatum at iterator position \em pos, return the 
+          @brief Delete the Exifdatum at iterator position \em pos, return the
                  position of the next exifdatum. Note that iterators into
-                 the metadata, including \em pos, are potentially invalidated 
+                 the metadata, including \em pos, are potentially invalidated
                  by this call.
          */
         iterator erase(iterator pos);
@@ -590,7 +590,7 @@ namespace Exiv2 {
         iterator findKey(const ExifKey& key);
         /*!
           @brief Find the Exifdatum with the given \em ifdId and \em idx,
-                 return an iterator to it. 
+                 return an iterator to it.
 
           This method can be used to uniquely identify an exifdatum that was
           created from an IFD or from the makernote (with idx greater than
@@ -613,12 +613,12 @@ namespace Exiv2 {
 
           @note  No checks on the file format or size are performed.
           @note  Additional existing Exif thumbnail tags are not modified.
-          @note  The Jpeg image inserted as thumbnail image should not 
+          @note  The Jpeg image inserted as thumbnail image should not
                  itself contain Exif data (or other metadata), as existing
-                 applications may have problems with that. (The preview 
+                 applications may have problems with that. (The preview
                  application that comes with OS X for one.) - David Harvey.
          */
-        void setJpegThumbnail(const std::string& path, 
+        void setJpegThumbnail(const std::string& path,
                               URational xres, URational yres, uint16_t unit);
         /*!
           @brief Set the Exif thumbnail to the Jpeg image pointed to by \em buf,
@@ -632,15 +632,15 @@ namespace Exiv2 {
 
           @note  No checks on the image format or size are performed.
           @note  Additional existing Exif thumbnail tags are not modified.
-          @note  The Jpeg image inserted as thumbnail image should not 
+          @note  The Jpeg image inserted as thumbnail image should not
                  itself contain Exif data (or other metadata), as existing
-                 applications may have problems with that. (The preview 
+                 applications may have problems with that. (The preview
                  application that comes with OS X for one.) - David Harvey.
          */
-        void setJpegThumbnail(const byte* buf, long size, 
+        void setJpegThumbnail(const byte* buf, long size,
                               URational xres, URational yres, uint16_t unit);
         /*!
-          @brief Set the Exif thumbnail to the Jpeg image \em path. 
+          @brief Set the Exif thumbnail to the Jpeg image \em path.
 
           This sets only the Compression, JPEGInterchangeFormat and
           JPEGInterchangeFormatLength tags, which is not all the thumbnail
@@ -655,7 +655,7 @@ namespace Exiv2 {
         void setJpegThumbnail(const std::string& path);
         /*!
           @brief Set the Exif thumbnail to the Jpeg image pointed to by \em buf,
-                 and size \em size. 
+                 and size \em size.
 
           This sets only the Compression, JPEGInterchangeFormat and
           JPEGInterchangeFormatLength tags, which is not all the thumbnail
@@ -698,7 +698,7 @@ namespace Exiv2 {
         const_iterator findKey(const ExifKey& key) const;
         /*!
           @brief Find the exifdatum with the given \em ifdId and \em idx,
-                 return an iterator to it. 
+                 return an iterator to it.
 
           This method can be used to uniquely identify a Exifdatum that was
           created from an IFD or from the makernote (with idx greater than
@@ -734,14 +734,14 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
                   8 if the Exif data does not contain a thumbnail.
          */
-        int writeThumbnail(const std::string& path) const; 
+        int writeThumbnail(const std::string& path) const;
         /*!
           @brief Return the thumbnail image in a %DataBuf. The caller owns the
                  data buffer and %DataBuf ensures that it will be deleted.
          */
         DataBuf copyThumbnail() const;
         /*!
-          @brief Return a short string describing the format of the Exif 
+          @brief Return a short string describing the format of the Exif
                  thumbnail ("TIFF", "JPEG").
          */
         const char* thumbnailFormat() const;
@@ -770,7 +770,7 @@ namespace Exiv2 {
         /*!
           @brief Check if the metadata changed and update the internal IFDs and
                  the MakerNote if the changes are compatible with the existing
-                 data (non-intrusive write support). 
+                 data (non-intrusive write support).
 
           @return True if only compatible changes were detected in the metadata
                   and the internal IFDs and MakerNote (and thus the data buffer)
@@ -791,7 +791,7 @@ namespace Exiv2 {
         /*!
           @brief Write the Exif data to a data buffer the hard way, return the
                  data buffer. The caller owns this data buffer and %DataBuf
-                 ensures that it will be deleted. 
+                 ensures that it will be deleted.
 
           Rebuilds the Exif data from scratch, using the TIFF header, metadata
           container and thumbnail. In particular, the internal IFDs and the
@@ -821,12 +821,12 @@ namespace Exiv2 {
           @return A pair of which the first part determines if a match was found
                   and, if true, the second contains an iterator to the entry.
          */
-        std::pair<bool, Entries::const_iterator> 
+        std::pair<bool, Entries::const_iterator>
         findEntry(IfdId ifdId, int idx) const;
         //! Return a pointer to the internal IFD identified by its IFD id
         const Ifd* getIfd(IfdId ifdId) const;
-        /*! 
-          @brief Check if IFD1, the IFD1 data and thumbnail data are located at 
+        /*!
+          @brief Check if IFD1, the IFD1 data and thumbnail data are located at
                  the end of the Exif data. Return true, if they are or if there
                  is no thumbnail at all, else return false.
          */
@@ -837,7 +837,7 @@ namespace Exiv2 {
         ExifMetadata exifMetadata_;
 
         // The pointers below are used only if Exif data is read from a
-        // raw data buffer 
+        // raw data buffer
         TiffHeader* pTiffHeader_;      //! Pointer to the TIFF header
         Ifd* pIfd0_;                   //! Pointer to Ifd0
         Ifd* pExifIfd_;                //! Pointer to ExifIfd
@@ -860,11 +860,11 @@ namespace Exiv2 {
 
 // *****************************************************************************
 // template, inline and free functions
-    
+
     template<typename T>
     Exifdatum& setValue(Exifdatum& exifDatum, const T& value)
     {
-        std::auto_ptr<ValueType<T> > v 
+        std::auto_ptr<ValueType<T> > v
             = std::auto_ptr<ValueType<T> >(new ValueType<T>);
         v->value_.push_back(value);
         exifDatum.value_ = v;
@@ -878,8 +878,8 @@ namespace Exiv2 {
              the same key to an IFD.
      */
     void addToIfd(Ifd& ifd,
-                  ExifMetadata::const_iterator begin, 
-                  ExifMetadata::const_iterator end, 
+                  ExifMetadata::const_iterator begin,
+                  ExifMetadata::const_iterator end,
                   ByteOrder byteOrder);
     /*!
       @brief Add the Exifdatum to the IFD.  No duplicate checks are performed,
@@ -896,7 +896,7 @@ namespace Exiv2 {
      */
     void addToMakerNote(MakerNote* makerNote,
                         ExifMetadata::const_iterator begin,
-                        ExifMetadata::const_iterator end, 
+                        ExifMetadata::const_iterator end,
                         ByteOrder byteOrder);
     /*!
       @brief Add the Exifdatum to makerNote, encoded in byte order byteOrder.

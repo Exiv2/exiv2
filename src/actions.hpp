@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -161,10 +161,10 @@ namespace Action {
 
         //! Print the Jpeg comment
         int printComment();
-        //! Print uninterpreted Iptc information 
+        //! Print uninterpreted Iptc information
         int printIptc();
         //! Print Exif summary information
-        int printSummary(); 
+        int printSummary();
         //! Print the interpreted value for each Exif tag
         int printInterpreted();
         //! Print uninterpreted Exif information
@@ -179,7 +179,7 @@ namespace Action {
           @return 1 if a line was written, 0 if the key was not found.
          */
         int printTag(const Exiv2::ExifData& exifData,
-                     const std::string& key, 
+                     const std::string& key,
                      const std::string& label ="") const;
 
     private:
@@ -190,7 +190,7 @@ namespace Action {
     }; // class Print
 
     /*!
-      @brief %Rename a file to its metadate creation timestamp, 
+      @brief %Rename a file to its metadate creation timestamp,
              in the specified format.
      */
     class Rename : public Task {
@@ -215,7 +215,7 @@ namespace Action {
     private:
         virtual Adjust* clone_() const;
         int adjustDateTime(Exiv2::ExifData& exifData,
-                           const std::string& key, 
+                           const std::string& key,
                            const std::string& path) const;
 
         long adjustment_;
@@ -232,9 +232,9 @@ namespace Action {
         AutoPtr clone() const;
 
         /*!
-          @brief Delete the thumbnail image, incl IFD1 metadata from the file. 
+          @brief Delete the thumbnail image, incl IFD1 metadata from the file.
          */
-        int eraseThumbnail(Exiv2::Image* image) const; 
+        int eraseThumbnail(Exiv2::Image* image) const;
         /*!
           @brief Erase the complete Exif data block from the file.
          */
@@ -270,7 +270,7 @@ namespace Action {
                  "-thumb" and the appropriate suffix (".jpg" or ".tif"), depending
                  on the format of the Exif thumbnail image.
          */
-        int writeThumbnail() const; 
+        int writeThumbnail() const;
 
     private:
         virtual Extract* clone_() const;
@@ -301,7 +301,7 @@ namespace Action {
     }; // class Insert
 
     /*!
-      @brief %Modify the Exif data according to the commands in the 
+      @brief %Modify the Exif data according to the commands in the
              modification table.
      */
     class Modify : public Task {
@@ -310,23 +310,23 @@ namespace Action {
         virtual int run(const std::string& path);
         typedef std::auto_ptr<Modify> AutoPtr;
         AutoPtr clone() const;
-        Modify() {} 
+        Modify() {}
 
     private:
         virtual Modify* clone_() const;
-        //! Copy contructor needed because of AutoPtr member 
-        Modify(const Modify& /*src*/) {} 
+        //! Copy contructor needed because of AutoPtr member
+        Modify(const Modify& /*src*/) {}
 
-        //! Add a metadatum according to \em modifyCmd 
+        //! Add a metadatum according to \em modifyCmd
         void addMetadatum(const ModifyCmd& modifyCmd);
-        //! Set a metadatum according to \em modifyCmd 
+        //! Set a metadatum according to \em modifyCmd
         void setMetadatum(const ModifyCmd& modifyCmd);
-        //! Delete a metadatum according to \em modifyCmd 
+        //! Delete a metadatum according to \em modifyCmd
         void delMetadatum(const ModifyCmd& modifyCmd);
 
-        Exiv2::Image::AutoPtr image_;        //!< Image to modify 
+        Exiv2::Image::AutoPtr image_;        //!< Image to modify
     }; // class Modify
 
-}                                       // namespace Action 
+}                                       // namespace Action
 
 #endif                                  // #ifndef ACTIONS_HPP_

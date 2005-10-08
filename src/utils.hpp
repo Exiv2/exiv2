@@ -1,19 +1,19 @@
 // ********************************************************* -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -37,8 +37,8 @@
 // *********************************************************************
 // namespace extensions
 /*!
-  @brief Contains utility classes and functions. Most of these are 
-         wrappers for common C functions that do not require pointers 
+  @brief Contains utility classes and functions. Most of these are
+         wrappers for common C functions that do not require pointers
          and memory considerations.
 */
 namespace Util {
@@ -77,13 +77,13 @@ public:
       @param argv Argument array as passed to main() on  program invocation.
       @param optstring String containing the legitimate option characters.
 
-      @return Number of errors (the sum of the return values from option() 
+      @return Number of errors (the sum of the return values from option()
               and nonoption()).
      */
     int getopt(int argc, char* const argv[], const std::string& optstring);
 
     /*!
-      @brief Callback used by getopt() to pass on each option and its 
+      @brief Callback used by getopt() to pass on each option and its
              argument (if any).
 
       Implement this method in a derived class to handle the options as
@@ -128,32 +128,32 @@ private:
 // free functions
 
     /*!
-      @brief Get the directory component from the \em path string. 
+      @brief Get the directory component from the \em path string.
              See %dirname(3).
 
-      This function can handle Windows paths to some extent: c:\\bar should 
+      This function can handle Windows paths to some extent: c:\\bar should
       be fine, \\\\bigsrv\\foo also, but \\\\bigsrv alone doesn't work.
      */
     std::string dirname(const std::string& path);
 
     /*!
-      @brief Get the filename component from the \em path string. 
+      @brief Get the filename component from the \em path string.
              See %basename(3). If the \em delsuffix parameter is true,
              the suffix will be removed.
 
-      This function can handle Windows paths to some extent: c:\\bar should 
-      be fine, \\\\bigsrv\\foo also, but \\\\bigsrv alone doesn't work. 
+      This function can handle Windows paths to some extent: c:\\bar should
+      be fine, \\\\bigsrv\\foo also, but \\\\bigsrv alone doesn't work.
      */
     std::string basename(const std::string& path, bool delsuffix =false);
 
     /*!
       @brief Get the suffix from the path string. Normally, the suffix
-             is the substring of the basename of path from the last '.' 
+             is the substring of the basename of path from the last '.'
              to the end of the string.
      */
     std::string suffix(const std::string& path);
 
-    /*! 
+    /*!
       @brief Convert a C string to a long value, which is returned in n.
              Returns true if the conversion is successful, else false.
              n is not modified if the conversion is unsuccessful. See strtol(2).

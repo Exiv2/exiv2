@@ -30,7 +30,7 @@
 #
 #  This makefile contains (supposedly) generic build rules to build the
 #  library and applications. It includes all system specific settings
-#  from config.mk. The idea is that configuring and porting the 
+#  from config.mk. The idea is that configuring and porting the
 #  software to a new platform should only require changes in config.mk.
 #
 # Restrictions:
@@ -48,13 +48,13 @@ include $(top_srcdir)/config/config.mk
 # Source files
 
 # Add standalone C++ header files to this list
-CCHDR = exv_conf.h exv_msvc.h mn.hpp rcsid.hpp 
+CCHDR = exv_conf.h exv_msvc.h mn.hpp rcsid.hpp
 
 # Add library C++ source files to this list
 CCSRC = basicio.cpp canonmn.cpp crwimage.cpp datasets.cpp error.cpp exif.cpp \
 	futils.cpp fujimn.cpp ifd.cpp image.cpp imgreg.cpp iptc.cpp jpgimage.cpp \
 	makernote.cpp metadatum.cpp nikonmn.cpp olympusmn.cpp panasonicmn.cpp \
-	sigmamn.cpp sonymn.cpp tags.cpp types.cpp value.cpp 
+	sigmamn.cpp sonymn.cpp tags.cpp types.cpp value.cpp
 
 # Add source files of simple applications to this list
 BINSRC = addmoddel.cpp dataarea-test.cpp exifcomment.cpp exifdata-test.cpp \
@@ -66,7 +66,7 @@ BINSRC = addmoddel.cpp dataarea-test.cpp exifcomment.cpp exifdata-test.cpp \
 EXIV2MAIN = exiv2.cpp
 
 # Add additional source files of the Exiv2 application to this list
-EXIV2SRC = actions.cpp utils.cpp 
+EXIV2SRC = actions.cpp utils.cpp
 # C source files of the Exiv2 application
 ifndef HAVE_TIMEGM
 EXIVCSRC = localtime.c
@@ -121,7 +121,7 @@ BINOBJ = $(BINSRC:.cpp=.o)
 BINARY = $(BINSRC:.cpp=)
 EXECUTABLE = $(BINSRC:.cpp=$(EXEEXT))
 
-EXIV2OBJ = $(EXIV2MAIN:.cpp=.o) $(EXIV2SRC:.cpp=.o) 
+EXIV2OBJ = $(EXIV2MAIN:.cpp=.o) $(EXIV2SRC:.cpp=.o)
 EXIV2COBJ = $(EXIVCSRC:.c=.o)
 EXIV2BIN = $(EXIV2MAIN:.cpp=)
 EXIV2EXE = $(EXIV2MAIN:.cpp=$(EXEEXT))
@@ -130,17 +130,17 @@ MCOBJ = $(MCMAIN:.cpp=.o) $(MCSRC:.cpp=.o)
 MCBIN = $(MCMAIN:.cpp=)
 MCEXE = $(MCMAIN:.cpp=$(EXEEXT))
 
-# Dependency files post-process commands 
+# Dependency files post-process commands
 POSTDEPEND = if test ! -d $(DEPDIR); then mkdir $(DEPDIR); fi; \
 	     if test -e $*.d; then cp $*.d $(DEPDIR)/$*.d; \
 	     sed -e 's/^\#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
                  -e '/^$$/ d' -e 's/$$/ :/' < $*.d >> $(DEPDIR)/$*.d; \
              $(RM) $*.d; fi
 
-# Compilation shortcuts 
+# Compilation shortcuts
 COMPILE.cc = $(CXX) $(CXXFLAGS) $(CXXDEFS) $(CXXINCS) -c
 COMPILE.c = $(CC) $(CFLAGS) $(DEFS) $(INCS) -c
-LINK.cc = $(CXX) $(CXXFLAGS) $(LDLIBS) $(LDFLAGS) -rpath $(libdir) 
+LINK.cc = $(CXX) $(CXXFLAGS) $(LDLIBS) $(LDFLAGS) -rpath $(libdir)
 
 # ******************************************************************************
 # Rules
@@ -184,20 +184,20 @@ $(LIBTOOL): $(LIBTOOL_DEPS)
 bin: lib $(BINARY) $(EXIV2BIN) $(MCBIN) path-test
 
 lib: $(OBJ)
-	$(LIBTOOL) --mode=link $(CXX) $(LDFLAGS) $(LOBJ) -o $(LIBRARY) -rpath $(libdir) -release $(EXIV2_VERSION) 
+	$(LIBTOOL) --mode=link $(CXX) $(LDFLAGS) $(LOBJ) -o $(LIBRARY) -rpath $(libdir) -release $(EXIV2_VERSION)
 	@touch lib
 
 path-test: path-test.o utils.o
 	$(CXX) $(CXXFLAGS) path-test.o utils.o -o $@
 
 $(BINARY): %: %.o lib
-	@$(LIBTOOL) --mode=link $(LINK.cc) -o $@ $@.o 
+	@$(LIBTOOL) --mode=link $(LINK.cc) -o $@ $@.o
 
 $(EXIV2BIN): lib $(EXIV2OBJ) $(EXIV2COBJ)
 	@$(LIBTOOL) --mode=link $(LINK.cc) -o $@ $(EXIV2OBJ) $(EXIV2COBJ)
 
 $(MCBIN): lib $(MCOBJ)
-	@$(LIBTOOL) --mode=link $(LINK.cc) -o $@ $(MCOBJ) 
+	@$(LIBTOOL) --mode=link $(LINK.cc) -o $@ $(MCOBJ)
 
 install-header:
 	$(INSTALL_DIRS) $(incdir)
@@ -213,7 +213,7 @@ install-lib: lib install-header
 	@$(LIBTOOL) --mode=install $(INSTALL_DATA) $(LIBRARY) $(libdir)/$(LIBRARY)
 
 install: $(EXIV2BIN) install-lib
-	$(INSTALL_DIRS) $(bindir) 
+	$(INSTALL_DIRS) $(bindir)
 	@$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) $(EXIV2EXE) $(bindir)/$(EXIV2EXE)
 
 uninstall-header:

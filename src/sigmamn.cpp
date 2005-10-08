@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -51,7 +51,7 @@ namespace Exiv2 {
     //! @cond IGNORE
     SigmaMakerNote::RegisterMn::RegisterMn()
     {
-        MakerNoteFactory::registerMakerNote("SIGMA", "*", createSigmaMakerNote); 
+        MakerNoteFactory::registerMakerNote("SIGMA", "*", createSigmaMakerNote);
         MakerNoteFactory::registerMakerNote("FOVEON", "*", createSigmaMakerNote);
         MakerNoteFactory::registerMakerNote(
             sigmaIfdId, MakerNote::AutoPtr(new SigmaMakerNote));
@@ -104,7 +104,7 @@ namespace Exiv2 {
     }
 
     int SigmaMakerNote::readHeader(const byte* buf,
-                                   long len, 
+                                   long len,
                                    ByteOrder byteOrder)
     {
         if (len < 10) return 1;
@@ -124,9 +124,9 @@ namespace Exiv2 {
         int rc = 0;
         // Check the SIGMA or FOVEON prefix
         if (   header_.size_ < 10
-            || std::string(reinterpret_cast<char*>(header_.pData_), 8) 
+            || std::string(reinterpret_cast<char*>(header_.pData_), 8)
                         != std::string("SIGMA\0\0\0", 8)
-            && std::string(reinterpret_cast<char*>(header_.pData_), 8) 
+            && std::string(reinterpret_cast<char*>(header_.pData_), 8)
                         != std::string("FOVEON\0\0", 8)) {
             rc = 2;
         }
@@ -197,9 +197,9 @@ namespace Exiv2 {
 // free functions
 
     MakerNote::AutoPtr createSigmaMakerNote(bool alloc,
-                                            const byte* buf, 
-                                            long len, 
-                                            ByteOrder byteOrder, 
+                                            const byte* buf,
+                                            long len,
+                                            ByteOrder byteOrder,
                                             long offset)
     {
         return MakerNote::AutoPtr(new SigmaMakerNote(alloc));

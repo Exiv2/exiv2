@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -24,7 +24,7 @@
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @author  Brad Schick (brad) 
+  @author  Brad Schick (brad)
            <a href="mailto:brad@robotbattle.com">brad@robotbattle.com</a>
   @date    09-Jan-04, ahu: created<BR>
            31-Jul-04, brad: isolated as a component<BR>
@@ -87,10 +87,10 @@ namespace Exiv2 {
                  will be deleted.
          */
         AutoPtr clone() const;
-        /*! 
+        /*!
           @brief Write the key to an output stream. You do not usually have
-                 to use this function; it is used for the implementation of 
-                 the output operator for %Key, 
+                 to use this function; it is used for the implementation of
+                 the output operator for %Key,
                  operator<<(std::ostream &os, const Key &key).
         */
         std::ostream& write(std::ostream& os) const { return os << key(); }
@@ -142,7 +142,7 @@ namespace Exiv2 {
          */
         virtual void setValue(const Value* pValue) =0;
         /*!
-          @brief Set the value to the string buf. 
+          @brief Set the value to the string buf.
                  Uses Value::read(const std::string& buf). If the metadatum does
                  not have a value yet, then an AsciiValue is created.
          */
@@ -212,22 +212,22 @@ namespace Exiv2 {
                  caller owns this copy and the auto-poiner ensures that it will
                  be deleted.
 
-          This method is provided for users who need full control over the 
+          This method is provided for users who need full control over the
           value. A caller may, e.g., downcast the pointer to the appropriate
           subclass of Value to make use of the interface of the subclass to set
           or modify its contents.
-          
-          @return An auto-pointer containing a pointer to a copy (clone) of the 
+
+          @return An auto-pointer containing a pointer to a copy (clone) of the
                   value, 0 if the value is not set.
          */
         virtual Value::AutoPtr getValue() const =0;
         /*!
-          @brief Return a constant reference to the value. 
+          @brief Return a constant reference to the value.
 
           This method is provided mostly for convenient and versatile output of
           the value which can (to some extent) be formatted through standard
           stream manipulators.  Do not attempt to write to the value through
-          this reference. 
+          this reference.
 
           <b>Example:</b> <br>
           @code
@@ -269,7 +269,7 @@ namespace Exiv2 {
 
     private:
         std::string key_;
-        
+
     }; // class FindMetadatumByTag
 
 
