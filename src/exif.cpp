@@ -899,15 +899,6 @@ namespace Exiv2 {
         return rc;
     } // ExifData::stdThumbPosition
 
-    bool ExifData::hasMakerNote() const
-    {
-        const_iterator e = end();
-        for (const_iterator md = begin(); md != e; ++md) {
-            if (ExifTags::isMakerIfd(md->ifdId())) return true;
-        }
-        return false;
-    } // ExifData::hasMakerNote
-
     ByteOrder ExifData::byteOrder() const
     {
         if (pTiffHeader_) return pTiffHeader_->byteOrder();
@@ -1131,6 +1122,15 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
+
+    bool hasMakerNote(const ExifData& exifData)
+    {
+        ExifData::const_iterator e = exifData.end();
+        for (ExifData::const_iterator md = exifData.begin(); md != e; ++md) {
+            if (ExifTags::isMakerIfd(md->ifdId())) return true;
+        }
+        return false;
+    } // hasMakerNote
 
     void addToIfd(Ifd& ifd,
                   ExifMetadata::const_iterator begin,

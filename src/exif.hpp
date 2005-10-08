@@ -718,10 +718,6 @@ namespace Exiv2 {
          */
         ByteOrder byteOrder() const;
         /*!
-          @brief Returns true if at least one makernote tag exists, else false.
-         */
-        bool hasMakerNote() const;
-        /*!
           @brief Write the thumbnail image to a file. A filename extension
                  is appended to \em path according to the image type of the
                  thumbnail, so \em path should not include an extension.
@@ -870,6 +866,11 @@ namespace Exiv2 {
         exifDatum.value_ = v;
         return exifDatum;
     }
+    /*!
+      @brief Returns true if at least one Exif makernote tag exists in the 
+             Exif metadata, else false.
+    */
+    bool hasMakerNote(const ExifData& exifData);
     /*!
       @brief Add all metadata in the range from iterator position begin to
              iterator position end, which have an IFD id matching that of the
