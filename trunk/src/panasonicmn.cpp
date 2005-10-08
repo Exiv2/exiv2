@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -107,7 +107,7 @@ namespace Exiv2 {
     }
 
     int PanasonicMakerNote::readHeader(const byte* buf,
-                                       long len, 
+                                       long len,
                                        ByteOrder byteOrder)
     {
         if (len < 12) return 1;
@@ -124,7 +124,7 @@ namespace Exiv2 {
         int rc = 0;
         // Check the Panasonic prefix
         if (   header_.size_ < 12
-            || std::string(reinterpret_cast<char*>(header_.pData_), 9) 
+            || std::string(reinterpret_cast<char*>(header_.pData_), 9)
                != std::string("Panasonic", 9)) {
             rc = 2;
         }
@@ -136,7 +136,7 @@ namespace Exiv2 {
         return AutoPtr(create_(alloc));
     }
 
-    PanasonicMakerNote* PanasonicMakerNote::create_(bool alloc) const 
+    PanasonicMakerNote* PanasonicMakerNote::create_(bool alloc) const
     {
         AutoPtr makerNote = AutoPtr(new PanasonicMakerNote(alloc));
         assert(makerNote.get() != 0);
@@ -149,7 +149,7 @@ namespace Exiv2 {
         return AutoPtr(clone_());
     }
 
-    PanasonicMakerNote* PanasonicMakerNote::clone_() const 
+    PanasonicMakerNote* PanasonicMakerNote::clone_() const
     {
         return new PanasonicMakerNote(*this);
     }
@@ -164,7 +164,7 @@ namespace Exiv2 {
         { 0, "(end)" }
     };
 
-    std::ostream& PanasonicMakerNote::print0x0001(std::ostream& os, 
+    std::ostream& PanasonicMakerNote::print0x0001(std::ostream& os,
                                                   const Value& value)
     {
         return TagTranslator(quality).print(os, value);
@@ -183,7 +183,7 @@ namespace Exiv2 {
         {  0, "(end)" }
     };
 
-    std::ostream& PanasonicMakerNote::print0x0003(std::ostream& os, 
+    std::ostream& PanasonicMakerNote::print0x0003(std::ostream& os,
                                                   const Value& value)
     {
         return TagTranslator(whiteBalance).print(os, value);
@@ -197,13 +197,13 @@ namespace Exiv2 {
         {  0, "(end)" }
     };
 
-    std::ostream& PanasonicMakerNote::print0x0007(std::ostream& os, 
+    std::ostream& PanasonicMakerNote::print0x0007(std::ostream& os,
                                                   const Value& value)
     {
         return TagTranslator(focusMode).print(os, value);
     } // PanasonicMakerNote::print0x0007
 
-    std::ostream& PanasonicMakerNote::print0x000f(std::ostream& os, 
+    std::ostream& PanasonicMakerNote::print0x000f(std::ostream& os,
                                                   const Value& value)
     {
         if (value.count() < 2 || value.typeId() != unsignedByte) {
@@ -225,7 +225,7 @@ namespace Exiv2 {
         {  0, "(end)" }
     };
 
-    std::ostream& PanasonicMakerNote::print0x001a(std::ostream& os, 
+    std::ostream& PanasonicMakerNote::print0x001a(std::ostream& os,
                                                   const Value& value)
     {
         return TagTranslator(imageStabilizer).print(os, value);
@@ -239,7 +239,7 @@ namespace Exiv2 {
         { 0, "(end)" }
     };
 
-    std::ostream& PanasonicMakerNote::print0x001c(std::ostream& os, 
+    std::ostream& PanasonicMakerNote::print0x001c(std::ostream& os,
                                                   const Value& value)
     {
         return TagTranslator(macro).print(os, value);
@@ -266,7 +266,7 @@ namespace Exiv2 {
         {  0, "(end)" }
     };
 
-    std::ostream& PanasonicMakerNote::print0x001f(std::ostream& os, 
+    std::ostream& PanasonicMakerNote::print0x001f(std::ostream& os,
                                                   const Value& value)
     {
         return TagTranslator(shootingMode).print(os, value);
@@ -280,18 +280,18 @@ namespace Exiv2 {
         { 0, "(end)" }
     };
 
-    std::ostream& PanasonicMakerNote::print0x0020(std::ostream& os, 
+    std::ostream& PanasonicMakerNote::print0x0020(std::ostream& os,
                                                   const Value& value)
     {
         return TagTranslator(Audio).print(os, value);
     } // PanasonicMakerNote::print0x0020
 
-    std::ostream& PanasonicMakerNote::print0x0023(std::ostream& os, 
+    std::ostream& PanasonicMakerNote::print0x0023(std::ostream& os,
                                                   const Value& value)
     {
         std::ostringstream oss;
         oss.copyfmt(os);
-        os << std::fixed << std::setprecision(1) 
+        os << std::fixed << std::setprecision(1)
            << value.toLong() / 3 << " EV";
         os.copyfmt(oss);
 
@@ -310,7 +310,7 @@ namespace Exiv2 {
         { 0, "(end)" }
     };
 
-    std::ostream& PanasonicMakerNote::print0x0028(std::ostream& os, 
+    std::ostream& PanasonicMakerNote::print0x0028(std::ostream& os,
                                                   const Value& value)
     {
         return TagTranslator(colorEffect).print(os, value);
@@ -328,7 +328,7 @@ namespace Exiv2 {
         { -1, "(end)" }
     };
 
-    std::ostream& PanasonicMakerNote::print0x002c(std::ostream& os, 
+    std::ostream& PanasonicMakerNote::print0x002c(std::ostream& os,
                                                   const Value& value)
     {
         return TagTranslator(contrast).print(os, value);
@@ -343,7 +343,7 @@ namespace Exiv2 {
         { -1, "(end)" }
     };
 
-    std::ostream& PanasonicMakerNote::print0x002d(std::ostream& os, 
+    std::ostream& PanasonicMakerNote::print0x002d(std::ostream& os,
                                                   const Value& value)
     {
         return TagTranslator(noiseReduction).print(os, value);
@@ -353,9 +353,9 @@ namespace Exiv2 {
 // free functions
 
     MakerNote::AutoPtr createPanasonicMakerNote(bool alloc,
-                                           const byte* buf, 
-                                           long len, 
-                                           ByteOrder byteOrder, 
+                                           const byte* buf,
+                                           long len,
+                                           ByteOrder byteOrder,
                                            long offset)
     {
         return MakerNote::AutoPtr(new PanasonicMakerNote(alloc));

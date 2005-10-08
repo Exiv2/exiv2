@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -22,7 +22,7 @@
   @file    basicio.hpp
   @brief   Simple binary IO abstraction
   @version $Rev$
-  @author  Brad Schick (brad) 
+  @author  Brad Schick (brad)
            <a href="mailto:brad@robotbattle.com">brad@robotbattle.com</a>
   @date    04-Dec-04, brad: created
  */
@@ -60,7 +60,7 @@ namespace Exiv2 {
 
         //! Seek starting positions
         enum Position { beg, cur, end };
-        
+
         //! @name Creators
         //@{
         //! Destructor
@@ -71,13 +71,13 @@ namespace Exiv2 {
         //@{
         /*!
           @brief Open the IO source using the default access mode. The
-              default mode should allow for reading and writing. 
+              default mode should allow for reading and writing.
 
           This method can also be used to "reopen" an IO source which will
           flush any unwritten data and reset the IO position to the start.
           Subclasses may provide custom methods to allow for
-          opening IO sources differently. 
-          
+          opening IO sources differently.
+
           @return 0 if successful;<BR>
               Nonzero if failure.
          */
@@ -93,7 +93,7 @@ namespace Exiv2 {
         /*!
           @brief Write data to the IO source. Current IO position is advanced
               by the number of bytes written.
-          @param data Pointer to data. Data must be at least \em wcount 
+          @param data Pointer to data. Data must be at least \em wcount
               bytes long
           @param wcount Number of bytes to be written.
           @return Number of bytes written to IO source successfully;<BR>
@@ -151,12 +151,12 @@ namespace Exiv2 {
         virtual int getb() = 0;
         /*!
           @brief Remove all data from this object's IO source and then transfer
-              data from the \em src BasicIo object into this object. 
+              data from the \em src BasicIo object into this object.
 
           The source object is invalidated by this operation and should not be
           used after this method returns. This method exists primarily to
           be used with the BasicIo::temporary() method.
-          
+
           @param src Reference to another BasicIo instance. The entire contents
               of src are transferred to this object. The \em src object is
               invalidated by the method.
@@ -164,7 +164,7 @@ namespace Exiv2 {
          */
         virtual void transfer(BasicIo& src) = 0;
         /*!
-          @brief Move the current IO position. 
+          @brief Move the current IO position.
           @param offset Number of bytes to move the position relative
               to the starting position specified by \em pos
           @param pos Position from which the seek should start
@@ -177,7 +177,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         /*!
-          @brief Get the current IO position. 
+          @brief Get the current IO position.
           @return Offset from the start of IO if successful;<BR>
                  -1 if failure;
          */
@@ -202,14 +202,14 @@ namespace Exiv2 {
         virtual std::string path() const =0;
         /*!
           @brief Returns a temporary data storage location. This is often
-              needed to rewrite an IO source. 
+              needed to rewrite an IO source.
 
           For example, data may be read from the original IO source, modified
           in some way, and then saved to the temporary instance. After the
           operation is complete, the BasicIo::transfer method can be used to
           replace the original IO source with the modified version. Subclasses
           are free to return any class that derives from BasicIo.
-          
+
           @return An instance of BasicIo on success
           @throw Error In case of failure
          */
@@ -234,7 +234,7 @@ namespace Exiv2 {
     public:
         //! @name Creators
         //@{
-        //! Constructor, takes a BasicIo reference 
+        //! Constructor, takes a BasicIo reference
         IoCloser(BasicIo &bio) : bio_(bio) {}
         //! Destructor, closes the BasicIo reference
         ~IoCloser() { close(); }
@@ -248,7 +248,7 @@ namespace Exiv2 {
 
         // DATA
         //! The BasicIo reference
-        BasicIo &bio_; 
+        BasicIo &bio_;
     private:
         // Not implemented
         //! Copy constructor
@@ -287,7 +287,7 @@ namespace Exiv2 {
           unwritten data and reset the IO position to the start. Although
           files can be opened in binary or text mode, this class has
           only been tested carefully in binary mode.
-          
+
           @param mode Specified that type of access allowed on the file.
               Valid values match those of the C fopen command exactly.
           @return 0 if successful;<BR>
@@ -300,7 +300,7 @@ namespace Exiv2 {
               any unwritten data and reset the IO position to the start.
           @return 0 if successful;<BR>
               Nonzero if failure.
-         */        
+         */
         virtual int open();
         /*!
           @brief Flush and unwritten data and close the file . It is
@@ -312,7 +312,7 @@ namespace Exiv2 {
         /*!
           @brief Write data to the file. The file position is advanced
               by the number of bytes written.
-          @param data Pointer to data. Data must be at least \em wcount 
+          @param data Pointer to data. Data must be at least \em wcount
               bytes long
           @param wcount Number of bytes to be written.
           @return Number of bytes written to the file successfully;<BR>
@@ -377,7 +377,7 @@ namespace Exiv2 {
           is invalidated by this operation and should not be used after this
           method returns. This method exists primarily to be used with
           the BasicIo::temporary() method.
-          
+
           @param src Reference to another BasicIo instance. The entire contents
               of src are transferred to this object. The \em src object is
               invalidated by the method.
@@ -385,7 +385,7 @@ namespace Exiv2 {
          */
         virtual void transfer(BasicIo& src);
         /*!
-          @brief Move the current file position. 
+          @brief Move the current file position.
           @param offset Number of bytes to move the file position
               relative to the starting position specified by \em pos
           @param pos Position from which the seek should start
@@ -398,14 +398,14 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         /*!
-          @brief Get the current file position. 
+          @brief Get the current file position.
           @return Offset from the start of the file if successful;<BR>
                  -1 if failure;
          */
         virtual long tell() const;
         /*!
           @brief Flush any buffered writes and get the current file size
-              in bytes. 
+              in bytes.
           @return Size of the file in bytes;<BR>
                  -1 if failure;
          */
@@ -429,7 +429,7 @@ namespace Exiv2 {
          */
         virtual BasicIo::AutoPtr temporary() const;
         //@}
-        
+
     private:
         // NOT IMPLEMENTED
         //! Copy constructor
@@ -450,7 +450,7 @@ namespace Exiv2 {
         /*!
           @brief Switch to a new access mode, reopening the file if needed.
               Optimized to only reopen the file when it is really necessary.
-          @param opMode The mode to switch to. 
+          @param opMode The mode to switch to.
           @return 0 if successful
          */
         int switchMode(OpMode opMode);
@@ -463,7 +463,7 @@ namespace Exiv2 {
           any data passed to its constructors. If writes are performed, the
           changed data can be retrieved using the read methods (since the
           data used in construction is never modified).
-          
+
       @note If read only usage of this class is common, it might be worth
           creating a specialized readonly class or changing this one to
           have a readonly mode.
@@ -478,7 +478,7 @@ namespace Exiv2 {
         /*!
           @brief Constructor that accepts a block of memory to be copied.
               IO operations are performed on the copied memory.
-          @param data Pointer to data. Data must be at least \em size 
+          @param data Pointer to data. Data must be at least \em size
               bytes long
           @param size Number of bytes to copy.
          */
@@ -494,18 +494,18 @@ namespace Exiv2 {
                  therefore only resets the IO position to the start.
 
           @return 0
-         */        
+         */
         virtual int open();
         /*!
           @brief Does nothing on MemIo objects.
-          @return 0 
+          @return 0
          */
         virtual int close();
         /*!
           @brief Write data to the memory block. If needed, the size of the
               internal memory block is expanded. The IO position is advanced
-              by the number of bytes written. 
-          @param data Pointer to data. Data must be at least \em wcount 
+              by the number of bytes written.
+          @param data Pointer to data. Data must be at least \em wcount
               bytes long
           @param wcount Number of bytes to be written.
           @return Number of bytes written to the memory block successfully;<BR>
@@ -571,7 +571,7 @@ namespace Exiv2 {
           is invalidated by this operation and should not be used after this
           method returns. This method exists primarily to be used with
           the BasicIo::temporary() method.
-          
+
           @param src Reference to another BasicIo instance. The entire contents
               of src are transferred to this object. The \em src object is
               invalidated by the method.
@@ -579,7 +579,7 @@ namespace Exiv2 {
          */
         virtual void transfer(BasicIo& src);
         /*!
-          @brief Move the current IO position. 
+          @brief Move the current IO position.
           @param offset Number of bytes to move the IO position
               relative to the starting position specified by \em pos
           @param pos Position from which the seek should start
@@ -592,12 +592,12 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         /*!
-          @brief Get the current IO position. 
+          @brief Get the current IO position.
           @return Offset from the start of the memory block
          */
         virtual long tell() const;
         /*!
-          @brief Get the current memory buffer size in bytes. 
+          @brief Get the current memory buffer size in bytes.
           @return Size of the in memory data in bytes;<BR>
                  -1 if failure;
          */
@@ -634,7 +634,7 @@ namespace Exiv2 {
 
         // METHODS
         void checkSize(long wcount);
-    }; // class MemIo    
+    }; // class MemIo
 }                                       // namespace Exiv2
 
 #endif                                  // #ifndef BASICIO_HPP_

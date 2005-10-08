@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -24,7 +24,7 @@
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
              Brad Schick (brad) <brad@robotbattle.com>
   History:   15-Jan-05, brad: split out from image.cpp
-             
+
  */
 // *****************************************************************************
 #include "rcsid.hpp"
@@ -49,7 +49,7 @@ EXIV2_RCSID("@(#) $Id$");
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
- 
+
     const byte JpegBase::sos_    = 0xda;
     const byte JpegBase::eoi_    = 0xd9;
     const byte JpegBase::app0_   = 0xe0;
@@ -62,8 +62,8 @@ namespace Exiv2 {
     const char JpegBase::ps3Id_[]  = "Photoshop 3.0\0";
     const char JpegBase::bimId_[]  = "8BIM";
 
-    JpegBase::JpegBase(BasicIo::AutoPtr io, bool create, 
-                       const byte initData[], long dataSize) 
+    JpegBase::JpegBase(BasicIo::AutoPtr io, bool create,
+                       const byte initData[], long dataSize)
         : io_(io)
     {
         if (create) {
@@ -96,7 +96,7 @@ namespace Exiv2 {
         clearExifData();
         clearComment();
     }
-    
+
     void JpegBase::clearIptcData()
     {
         iptcData_.clear();
@@ -123,8 +123,8 @@ namespace Exiv2 {
     }
 
     void JpegBase::setComment(const std::string& comment)
-    { 
-        comment_ = comment; 
+    {
+        comment_ = comment;
     }
 
     void JpegBase::setMetadata(const Image& image)
@@ -141,7 +141,7 @@ namespace Exiv2 {
         while ((c=io_->getb()) != 0xff) {
             if (c == EOF) return -1;
         }
-            
+
         // Markers can start with any number of 0xff
         while ((c=io_->getb()) == 0xff) {
             if (c == EOF) return -1;
@@ -169,7 +169,7 @@ namespace Exiv2 {
         // Read section marker
         int marker = advanceToMarker();
         if (marker < 0) throw Error(15);
-        
+
         while (marker != sos_ && marker != eoi_ && search > 0) {
             // Read size and signature (ok if this hits EOF)
             bufRead = io_->read(buf.pData_, bufMinSize);
@@ -179,7 +179,7 @@ namespace Exiv2 {
             if (marker == app1_ && memcmp(buf.pData_ + 2, exifId_, 6) == 0) {
                 if (size < 8) throw Error(15);
                 // Seek to begining and read the Exif data
-                io_->seek(8-bufRead, BasicIo::cur); 
+                io_->seek(8-bufRead, BasicIo::cur);
                 long sizeExifData = size - 8;
                 DataBuf rawExif(sizeExifData);
                 io_->read(rawExif.pData_, sizeExifData);
@@ -235,9 +235,9 @@ namespace Exiv2 {
 
 
     // Operates on raw data (rather than file streams) to simplify reuse
-    int JpegBase::locateIptcData(const byte *pPsData, 
+    int JpegBase::locateIptcData(const byte *pPsData,
                                  long sizePsData,
-                                 const byte **record, 
+                                 const byte **record,
                                  uint16_t *const sizeHdr,
                                  uint16_t *const sizeIptc) const
     {
@@ -254,7 +254,7 @@ namespace Exiv2 {
             position += 4;
             uint16_t type = getUShort(pPsData+ position, bigEndian);
             position += 2;
-           
+
             // Pascal string is padded to have an even size (including size byte)
             byte psSize = pPsData[position] + 1;
             psSize += (psSize & 1);
@@ -265,7 +265,7 @@ namespace Exiv2 {
             long dataSize = getULong(pPsData + position, bigEndian);
             position += 4;
             if (dataSize > sizePsData - position) return -2;
-           
+
             if (type == iptc_) {
                 *sizeIptc = static_cast<uint16_t>(dataSize);
                 *sizeHdr = psSize + 10;
@@ -301,7 +301,7 @@ namespace Exiv2 {
             if (io_->error() || io_->eof()) throw Error(20);
             throw Error(22);
         }
-        
+
         const long bufMinSize = 16;
         long bufRead = 0;
         DataBuf buf(bufMinSize);
@@ -320,7 +320,7 @@ namespace Exiv2 {
         // Read section marker
         int marker = advanceToMarker();
         if (marker < 0) throw Error(22);
-        
+
         // First find segments of interest. Normally app0 is first and we want
         // to insert after it. But if app0 comes after com, app1 and app13 then
         // don't bother.
@@ -376,7 +376,7 @@ namespace Exiv2 {
         count = 0;
         marker = advanceToMarker();
         if (marker < 0) throw Error(22);
-        
+
         // To simplify this a bit, new segments are inserts at either the start
         // or right after app0. This is standard in most jpegs, but has the
         // potential to change segment ordering (which is allowed).
@@ -395,7 +395,7 @@ namespace Exiv2 {
                     // Write COM marker, size of comment, and string
                     tmpBuf[0] = 0xff;
                     tmpBuf[1] = com_;
-                    us2Data(tmpBuf + 2, 
+                    us2Data(tmpBuf + 2,
                             static_cast<uint16_t>(comment_.length()+3), bigEndian);
                     if (outIo.write(tmpBuf, 4) != 4) throw Error(21);
                     if (outIo.write((byte*)comment_.data(), (long)comment_.length())
@@ -409,17 +409,17 @@ namespace Exiv2 {
                     DataBuf rawExif(exifData_.copy());
                     tmpBuf[0] = 0xff;
                     tmpBuf[1] = app1_;
-                    us2Data(tmpBuf + 2, 
-                            static_cast<uint16_t>(rawExif.size_+8), 
+                    us2Data(tmpBuf + 2,
+                            static_cast<uint16_t>(rawExif.size_+8),
                             bigEndian);
                     memcpy(tmpBuf + 4, exifId_, 6);
                     if (outIo.write(tmpBuf, 10) != 10) throw Error(21);
-                    if (outIo.write(rawExif.pData_, rawExif.size_) 
+                    if (outIo.write(rawExif.pData_, rawExif.size_)
                         != rawExif.size_) throw Error(21);
                     if (outIo.error()) throw Error(21);
                     --search;
                 }
-                
+
                 const byte *record = psData.pData_;
                 uint16_t sizeIptc = 0;
                 uint16_t sizeHdr = 0;
@@ -434,9 +434,9 @@ namespace Exiv2 {
                     // write app13 marker, new size, and ps3Id
                     tmpBuf[0] = 0xff;
                     tmpBuf[1] = app13_;
-                    const int sizeNewData = rawIptc.size_ ? 
+                    const int sizeNewData = rawIptc.size_ ?
                             rawIptc.size_ + (rawIptc.size_ & 1) + 12 : 0;
-                    us2Data(tmpBuf + 2, 
+                    us2Data(tmpBuf + 2,
                             static_cast<uint16_t>(psData.size_-sizeOldData+sizeNewData+16),
                             bigEndian);
                     memcpy(tmpBuf + 4, ps3Id_, 14);
@@ -456,7 +456,7 @@ namespace Exiv2 {
                         tmpBuf[7] = 0;
                         ul2Data(tmpBuf + 8, rawIptc.size_, bigEndian);
                         if (outIo.write(tmpBuf, 12) != 12) throw Error(21);
-                        if (outIo.write(rawIptc.pData_, rawIptc.size_) 
+                        if (outIo.write(rawIptc.pData_, rawIptc.size_)
                             != rawIptc.size_) throw Error(21);
                         // data is padded to be even (but not included in size)
                         if (rawIptc.size_ & 1) {
@@ -465,9 +465,9 @@ namespace Exiv2 {
                         if (outIo.error()) throw Error(21);
                         --search;
                     }
-                    
+
                     // write existing stuff after record
-                    if (outIo.write(record+sizeOldData, sizeEnd) 
+                    if (outIo.write(record+sizeOldData, sizeEnd)
                         != sizeEnd) throw Error(21);
                     if (outIo.error()) throw Error(21);
                 }
@@ -526,11 +526,11 @@ namespace Exiv2 {
         0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xFF,0xDA,0x00,0x0C,0x03,0x01,0x00,0x02,
         0x11,0x03,0x11,0x00,0x3F,0x00,0xA0,0x00,0x0F,0xFF,0xD9 };
 
-    JpegImage::JpegImage(BasicIo::AutoPtr io, bool create) 
+    JpegImage::JpegImage(BasicIo::AutoPtr io, bool create)
         : JpegBase(io, create, blank_, sizeof(blank_))
     {
     }
-  
+
     int JpegImage::writeHeader(BasicIo& outIo) const
     {
         // Jpeg header
@@ -569,11 +569,11 @@ namespace Exiv2 {
         if (!advance || !result ) iIo.seek(-2, BasicIo::cur);
         return result;
     }
-   
+
     const char ExvImage::exiv2Id_[] = "Exiv2";
     const byte ExvImage::blank_[] = { 0xff,0x01,'E','x','i','v','2',0xff,0xd9 };
 
-    ExvImage::ExvImage(BasicIo::AutoPtr io, bool create) 
+    ExvImage::ExvImage(BasicIo::AutoPtr io, bool create)
         : JpegBase(io, create, blank_, sizeof(blank_))
     {
     }
@@ -615,7 +615,7 @@ namespace Exiv2 {
         iIo.read(tmpBuf, 7);
         if (iIo.error() || iIo.eof()) return false;
 
-        if (   0xff != tmpBuf[0] || 0x01 != tmpBuf[1] 
+        if (   0xff != tmpBuf[0] || 0x01 != tmpBuf[1]
             || memcmp(tmpBuf + 2, ExvImage::exiv2Id_, 5) != 0) {
             result = false;
         }

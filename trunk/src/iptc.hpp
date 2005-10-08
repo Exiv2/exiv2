@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -22,7 +22,7 @@
   @file    iptc.hpp
   @brief   Encoding and decoding of Iptc data
   @version $Rev$
-  @author  Brad Schick (brad) 
+  @author  Brad Schick (brad)
            <a href="mailto:brad@robotbattle.com">brad@robotbattle.com</a>
   @date    31-Jul-04, brad: created
  */
@@ -49,7 +49,7 @@ namespace Exiv2 {
 // class definitions
 
     /*!
-      @brief Information related to one Iptc dataset. An Iptc metadatum consists 
+      @brief Information related to one Iptc dataset. An Iptc metadatum consists
              of an IptcKey and a Value and provides methods to manipulate these.
      */
     class Iptcdatum : public Metadatum {
@@ -68,7 +68,7 @@ namespace Exiv2 {
           @throw Error if the key cannot be parsed and converted
                  to a tag number and record id.
          */
-        explicit Iptcdatum(const IptcKey& key, 
+        explicit Iptcdatum(const IptcKey& key,
                            const Value* pValue =0);
         //! Copy constructor
         Iptcdatum(const Iptcdatum& rhs);
@@ -86,7 +86,7 @@ namespace Exiv2 {
          */
         Iptcdatum& operator=(const uint16_t& value);
         /*!
-          @brief Assign \em value to the %Iptcdatum. 
+          @brief Assign \em value to the %Iptcdatum.
                  Calls setValue(const std::string&).
          */
         Iptcdatum& operator=(const std::string& value);
@@ -101,11 +101,11 @@ namespace Exiv2 {
          */
         void setValue(const Value* pValue);
         /*!
-          @brief Set the value to the string \em value, using 
-                 Value::read(const std::string&). 
+          @brief Set the value to the string \em value, using
+                 Value::read(const std::string&).
                  If the %Iptcdatum does not have a Value yet, then a %Value of
                  the correct type for this %Iptcdatum is created. If that
-                 fails (because of an unknown dataset), a StringValue is 
+                 fails (because of an unknown dataset), a StringValue is
                  created.
          */
         void setValue(const std::string& value);
@@ -124,7 +124,7 @@ namespace Exiv2 {
           @param byteOrder Applicable byte order (little or big endian).
           @return Number of characters written.
         */
-        long copy(byte* buf, ByteOrder byteOrder) const 
+        long copy(byte* buf, ByteOrder byteOrder) const
             { return value_.get() == 0 ? 0 : value_->copy(buf, byteOrder); }
         /*!
           @brief Return the key of the Iptcdatum. The key is of the form
@@ -140,10 +140,10 @@ namespace Exiv2 {
         std::string recordName() const
             { return key_.get() == 0 ? "" : key_->recordName(); }
         /*!
-           @brief Return the record id 
+           @brief Return the record id
            @return record id
          */
-        uint16_t record() const 
+        uint16_t record() const
             { return key_.get() == 0 ? 0 : key_->record(); }
         /*!
            @brief Return the name of the tag (aka dataset)
@@ -155,7 +155,7 @@ namespace Exiv2 {
         uint16_t tag() const
             { return key_.get() == 0 ? 0 : key_->tag(); }
         //! Return the type id of the value
-        TypeId typeId() const 
+        TypeId typeId() const
             { return value_.get() == 0 ? invalidTypeId : value_->typeId(); }
         //! Return the name of the type
         const char* typeName() const { return TypeInfo::typeName(typeId()); }
@@ -166,7 +166,7 @@ namespace Exiv2 {
         //! Return the size of the value in bytes
         long size() const { return value_.get() == 0 ? 0 : value_->size(); }
         //! Return the value as a string.
-        std::string toString() const 
+        std::string toString() const
             { return value_.get() == 0 ? "" : value_->toString(); }
         /*!
           @brief Return the n-th component of the value converted to long. The
@@ -174,7 +174,7 @@ namespace Exiv2 {
                  the behaviour of the method is undefined if there is no n-th
                  component.
          */
-        long toLong(long n =0) const 
+        long toLong(long n =0) const
             { return value_.get() == 0 ? -1 : value_->toLong(n); }
         /*!
           @brief Return the n-th component of the value converted to float.  The
@@ -182,7 +182,7 @@ namespace Exiv2 {
                  the behaviour of the method is undefined if there is no n-th
                  component.
          */
-        float toFloat(long n =0) const 
+        float toFloat(long n =0) const
             { return value_.get() == 0 ? -1 : value_->toFloat(n); }
         /*!
           @brief Return the n-th component of the value converted to
@@ -190,30 +190,30 @@ namespace Exiv2 {
                  Iptcdatum is not set and the behaviour of the method is
                  undefined if there is no n-th component.
          */
-        Rational toRational(long n =0) const 
+        Rational toRational(long n =0) const
             { return value_.get() == 0 ? Rational(-1, 1) : value_->toRational(n); }
         /*!
           @brief Return an auto-pointer to a copy (clone) of the value. The
                  caller owns this copy and the auto-pointer ensures that it will
                  be deleted.
 
-          This method is provided for users who need full control over the 
+          This method is provided for users who need full control over the
           value. A caller may, e.g., downcast the pointer to the appropriate
           subclass of Value to make use of the interface of the subclass to set
           or modify its contents.
-          
+
           @return An auto-pointer to a copy (clone) of the value, 0 if the value
                   is not set.
          */
-        Value::AutoPtr getValue() const 
+        Value::AutoPtr getValue() const
             { return value_.get() == 0 ? Value::AutoPtr(0) : value_->clone(); }
         /*!
-          @brief Return a constant reference to the value. 
+          @brief Return a constant reference to the value.
 
           This method is provided mostly for convenient and versatile output of
           the value which can (to some extent) be formatted through standard
           stream manipulators.  Do not attempt to write to the value through
-          this reference. 
+          this reference.
 
           <b>Example:</b> <br>
           @code
@@ -261,17 +261,17 @@ namespace Exiv2 {
     private:
         uint16_t dataset_;
         uint16_t record_;
-    
+
     }; // class FindMetadatumById
 
     /*!
-      @brief A container for Iptc data. This is a top-level class of 
+      @brief A container for Iptc data. This is a top-level class of
              the %Exiv2 library.
 
       Provide high-level access to the Iptc data of an image:
       - read Iptc information from JPEG files
       - access metadata through keys and standard C++ iterators
-      - add, modify and delete metadata 
+      - add, modify and delete metadata
       - write Iptc data to JPEG files
       - extract Iptc metadata to files, insert from these files
     */
@@ -290,7 +290,7 @@ namespace Exiv2 {
           @brief Load the Iptc data from a byte buffer. The format must follow
                  the IPTC IIM4 standard.
           @param buf Pointer to the data buffer to read from
-          @param len Number of bytes in the data buffer 
+          @param len Number of bytes in the data buffer
           @return 0 if successful;<BR>
                  5 if Iptc data is invalid or corrupt;<BR>
          */
@@ -319,7 +319,7 @@ namespace Exiv2 {
                   6 if the dataset already exists and is not repeatable
          */
         int add(const IptcKey& key, Value* value);
-        /*! 
+        /*!
           @brief Add a copy of the Iptcdatum to the Iptc metadata. A check
                  for non-repeatable datasets is performed.
           @return 0 if successful;<BR>
@@ -327,9 +327,9 @@ namespace Exiv2 {
          */
         int add(const Iptcdatum& iptcdatum);
         /*!
-          @brief Delete the Iptcdatum at iterator position pos, return the 
+          @brief Delete the Iptcdatum at iterator position pos, return the
                  position of the next Iptcdatum. Note that iterators into
-                 the metadata, including pos, are potentially invalidated 
+                 the metadata, including pos, are potentially invalidated
                  by this call.
          */
         iterator erase(iterator pos);
@@ -347,17 +347,17 @@ namespace Exiv2 {
         iterator end() { return iptcMetadata_.end(); }
         /*!
           @brief Find a Iptcdatum with the given key, return an iterator to it.
-                 If multiple entries with the same key exist, it is undefined 
+                 If multiple entries with the same key exist, it is undefined
                  which of the matching metadata is found.
          */
         iterator findKey(const IptcKey& key);
         /*!
-          @brief Find a Iptcdatum with the given record and dataset it, 
+          @brief Find a Iptcdatum with the given record and dataset it,
                 return a const iterator to it. If multiple entries with the
                 same Ids exists, it is undefined which of the matching
                 metadata is found.
          */
-        iterator findId(uint16_t dataset, 
+        iterator findId(uint16_t dataset,
                         uint16_t record = IptcDataSets::application2);
         //@}
 
@@ -374,12 +374,12 @@ namespace Exiv2 {
          */
         const_iterator findKey(const IptcKey& key) const;
         /*!
-          @brief Find a Iptcdatum with the given record and dataset number, 
+          @brief Find a Iptcdatum with the given record and dataset number,
                 return a const iterator to it.  If multiple metadata with the
                 same Ids exist it is undefined which of the matching
                 metadata is found.
          */
-        const_iterator findId(uint16_t dataset, 
+        const_iterator findId(uint16_t dataset,
                               uint16_t record = IptcDataSets::application2) const;
         //! Return true if there is no Iptc metadata
         bool empty() const { return count() == 0; }
@@ -400,12 +400,12 @@ namespace Exiv2 {
           @param sizeData Length in bytes of dataset payload
           @return 0 if successful.
          */
-        int readData(uint16_t dataSet, uint16_t record, 
+        int readData(uint16_t dataSet, uint16_t record,
                      const byte* data, uint32_t sizeData);
 
         // Constant data
         static const byte marker_;          // Dataset marker
-        
+
         // DATA
         IptcMetadata iptcMetadata_;
     }; // class IptcData

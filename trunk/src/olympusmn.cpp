@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -52,7 +52,7 @@ namespace Exiv2 {
     OlympusMakerNote::RegisterMn::RegisterMn()
     {
         MakerNoteFactory::registerMakerNote(
-            "OLYMPUS*", "*", createOlympusMakerNote); 
+            "OLYMPUS*", "*", createOlympusMakerNote);
         MakerNoteFactory::registerMakerNote(
             olympusIfdId, MakerNote::AutoPtr(new OlympusMakerNote));
 
@@ -149,11 +149,11 @@ namespace Exiv2 {
     }
 
     int OlympusMakerNote::readHeader(const byte* buf,
-                                   long len, 
+                                   long len,
                                    ByteOrder byteOrder)
     {
         if (len < 8) return 1;
-  
+
         // Copy the header
         header_.alloc(8);
         memcpy(header_.pData_, buf, header_.size_);
@@ -167,7 +167,7 @@ namespace Exiv2 {
         int rc = 0;
         // Check the OLYMPUS prefix
         if (   header_.size_ < 8
-            || std::string(reinterpret_cast<char*>(header_.pData_), 5) 
+            || std::string(reinterpret_cast<char*>(header_.pData_), 5)
                != std::string("OLYMP", 5)) {
             rc = 2;
         }
@@ -192,12 +192,12 @@ namespace Exiv2 {
         return AutoPtr(clone_());
     }
 
-    OlympusMakerNote* OlympusMakerNote::clone_() const 
+    OlympusMakerNote* OlympusMakerNote::clone_() const
     {
-        return new OlympusMakerNote(*this); 
+        return new OlympusMakerNote(*this);
     }
 
-    std::ostream& OlympusMakerNote::print0x0200(std::ostream& os, 
+    std::ostream& OlympusMakerNote::print0x0200(std::ostream& os,
                                                 const Value& value)
     {
         if (value.count() != 3 || value.typeId() != unsignedLong) {
@@ -239,7 +239,7 @@ namespace Exiv2 {
         { 0, "(end)" }
     };
 
-    std::ostream& OlympusMakerNote::print0x0201(std::ostream& os, 
+    std::ostream& OlympusMakerNote::print0x0201(std::ostream& os,
                                                 const Value& value)
     {
         return TagTranslator(quality).print(os, value);
@@ -254,13 +254,13 @@ namespace Exiv2 {
         { -1, "(end)" }
     };
 
-    std::ostream& OlympusMakerNote::print0x0202(std::ostream& os, 
+    std::ostream& OlympusMakerNote::print0x0202(std::ostream& os,
                                                 const Value& value)
     {
         return TagTranslator(macro).print(os, value);
     } // OlympusMakerNote::print0x0202
 
-    std::ostream& OlympusMakerNote::print0x0204(std::ostream& os, 
+    std::ostream& OlympusMakerNote::print0x0204(std::ostream& os,
                                                 const Value& value)
     {
         float f = value.toFloat();
@@ -281,7 +281,7 @@ namespace Exiv2 {
         { -1, "(end)" }
     };
 
-    std::ostream& OlympusMakerNote::print0x0302(std::ostream& os, 
+    std::ostream& OlympusMakerNote::print0x0302(std::ostream& os,
                                                 const Value& value)
     {
         return TagTranslator(oneTouchWb).print(os, value);
@@ -297,7 +297,7 @@ namespace Exiv2 {
         { -1, "(end)" }
     };
 
-    std::ostream& OlympusMakerNote::print0x1005(std::ostream& os, 
+    std::ostream& OlympusMakerNote::print0x1005(std::ostream& os,
                                                 const Value& value)
     {
         return TagTranslator(flashDevice).print(os, value);
@@ -307,9 +307,9 @@ namespace Exiv2 {
 // free functions
 
     MakerNote::AutoPtr createOlympusMakerNote(bool alloc,
-                                              const byte* buf, 
-                                              long len, 
-                                              ByteOrder byteOrder, 
+                                              const byte* buf,
+                                              long len,
+                                              ByteOrder byteOrder,
                                               long offset)
     {
         return MakerNote::AutoPtr(new OlympusMakerNote(alloc));

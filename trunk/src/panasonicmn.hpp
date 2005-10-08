@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -21,8 +21,8 @@
 /*!
   @file    panasonicmn.hpp
   @brief   Panasonic MakerNote implemented using the following references:
-           <a href="http://www.compton.nu/panasonic.html">Panasonic MakerNote Information</a> by Tom Hughes, 
-           Panasonic.pm of <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a> by Phil Harvey, 
+           <a href="http://www.compton.nu/panasonic.html">Panasonic MakerNote Information</a> by Tom Hughes,
+           Panasonic.pm of <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a> by Phil Harvey,
            <a href="http://www.ozhiker.com/electronics/pjmt/jpeg_info/panasonic_mn.html">Panasonic Makernote Format Specification</a> by Evan Hunter.
   @version $Rev$
   @author  Andreas Huggel (ahu)
@@ -59,27 +59,27 @@ namespace Exiv2 {
              initialized to operate in the memory management model indicated.
              The caller owns this copy and the auto-pointer ensures that it
              will be deleted.
-      
+
       @param alloc Memory management model for the new MakerNote. Determines if
              memory required to store data should be allocated and deallocated
              (true) or not (false). If false, only pointers to the buffer
              provided to read() will be kept. See Ifd for more background on
              this concept.
-      @param buf Pointer to the makernote character buffer (not used). 
-      @param len Length of the makernote character buffer (not used). 
-      @param byteOrder Byte order in which the Exif data (and possibly the 
+      @param buf Pointer to the makernote character buffer (not used).
+      @param len Length of the makernote character buffer (not used).
+      @param byteOrder Byte order in which the Exif data (and possibly the
              makernote) is encoded (not used).
       @param offset Offset from the start of the TIFF header of the makernote
              buffer (not used).
-      
+
       @return An auto-pointer to a newly created empty MakerNote. The caller
              owns this copy and the auto-pointer ensures that it will be
              deleted.
      */
     MakerNote::AutoPtr createPanasonicMakerNote(bool alloc,
-                                                const byte* buf, 
-                                                long len, 
-                                                ByteOrder byteOrder, 
+                                                const byte* buf,
+                                                long len,
+                                                ByteOrder byteOrder,
                                                 long offset);
 
 // *****************************************************************************
@@ -105,8 +105,8 @@ namespace Exiv2 {
         //@}
 
         //! @name Manipulators
-        //@{        
-        int readHeader(const byte* buf, 
+        //@{
+        int readHeader(const byte* buf,
                        long len,
                        ByteOrder byteOrder);
         //@}
@@ -118,7 +118,7 @@ namespace Exiv2 {
         AutoPtr clone() const;
         //@}
 
-        //! @name Print functions for Panasonic %MakerNote tags 
+        //! @name Print functions for Panasonic %MakerNote tags
         //@{
         //! Print Quality
         static std::ostream& print0x0001(std::ostream& os, const Value& value);

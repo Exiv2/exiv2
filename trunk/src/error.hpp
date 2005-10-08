@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -57,15 +57,15 @@ namespace Exiv2 {
     };
 
     /*!
-      @brief Error class interface. Allows the definition and use of a hierarchy 
+      @brief Error class interface. Allows the definition and use of a hierarchy
              of error classes which can all be handled in one catch block.
      */
     class AnyError {
     public:
         //! @name Creators
-        //@{        
+        //@{
         //! Virtual destructor.
-        virtual ~AnyError() 
+        virtual ~AnyError()
         {
         }
         //@}
@@ -77,8 +77,8 @@ namespace Exiv2 {
         /*!
           @brief Return the error message. Consider using the output operator
                  operator<<(std::ostream &os, const AnyError& error) instead.
-          @note  Unlike std::exception::what(), this function returns an 
-                 std::string. 
+          @note  Unlike std::exception::what(), this function returns an
+                 std::string.
          */
         virtual std::string what() const =0;
     }; // AnyError
@@ -90,13 +90,13 @@ namespace Exiv2 {
     }
 
     /*!
-      @brief Simple error class used for exceptions. An output operator is 
+      @brief Simple error class used for exceptions. An output operator is
              provided to print errors to a stream.
      */
     class Error : public AnyError {
     public:
         //! @name Creators
-        //@{        
+        //@{
         //! Constructor taking only an error code
         explicit Error(int code)
             : code_(code), count_(0)
@@ -117,9 +117,9 @@ namespace Exiv2 {
         }
         //! Constructor taking an error code and three arguments
         template<typename A, typename B, typename C>
-        Error(int code, const A& arg1, const B& arg2, const C& arg3) 
+        Error(int code, const A& arg1, const B& arg2, const C& arg3)
             : code_(code), count_(3),
-              arg1_(toString(arg1)), arg2_(toString(arg2)), arg3_(toString(arg3)) 
+              arg1_(toString(arg1)), arg2_(toString(arg2)), arg3_(toString(arg3))
         {
         }
         //@}

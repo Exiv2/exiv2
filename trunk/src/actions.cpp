@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -71,7 +71,7 @@ EXIV2_RCSID("@(#) $Id$");
 // local declarations
 namespace {
 
-    // Convert a string "YYYY:MM:DD HH:MI:SS" to a struct tm type, 
+    // Convert a string "YYYY:MM:DD HH:MI:SS" to a struct tm type,
     // returns 0 if successful
     int str2Tm(const std::string& timeStr, struct tm* tm);
 
@@ -87,12 +87,12 @@ namespace {
       @param source Source file path
       @param target Target file path. An *.exv file is created if target doesn't
                     exist.
-      @param preserve Indicates if existing metadata in the target file should 
+      @param preserve Indicates if existing metadata in the target file should
                     be kept.
       @return 0 if successful, else an error code
     */
-    int metacopy(const std::string& source, 
-                 const std::string& target, 
+    int metacopy(const std::string& source,
+                 const std::string& target,
                  bool preserve);
 }
 
@@ -173,7 +173,7 @@ namespace Action {
         return rc;
     }
     catch(const Exiv2::AnyError& e) {
-        std::cerr << "Exiv2 exception in print action for file " 
+        std::cerr << "Exiv2 exception in print action for file "
                   << path << ":\n" << e << "\n";
         return 1;
     } // Print::run
@@ -310,7 +310,7 @@ namespace Action {
         }
         std::cout << std::endl;
 
-        // Exposure mode 
+        // Exposure mode
         // From ExposureProgram or Canon Makernote
         printLabel("Exposure mode");
         done = false;
@@ -334,13 +334,13 @@ namespace Action {
         }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Fujifilm.Macro");
-        }            
+        }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Olympus.Macro");
-        }            
+        }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Panasonic.Macro");
-        }            
+        }
         std::cout << std::endl;
 
         // Image quality setting (compression)
@@ -421,10 +421,10 @@ namespace Action {
         std::string thumbExt = exifData.thumbnailExtension();
         if (thumbExt.empty()) {
             std::cout << "None";
-        } 
+        }
         else {
             Exiv2::DataBuf buf = exifData.copyThumbnail();
-            std::cout << exifData.thumbnailFormat() << ", " 
+            std::cout << exifData.thumbnailFormat() << ", "
                       << buf.size_ << " Bytes";
         }
         std::cout << std::endl;
@@ -485,10 +485,10 @@ namespace Action {
                       << md->key() << " "
                       << std::setw(9) << std::setfill(' ') << std::left
                       << md->typeName() << " "
-                      << std::dec << std::setw(3) 
+                      << std::dec << std::setw(3)
                       << std::setfill(' ') << std::right
                       << md->count() << "  "
-                      << std::dec << *md 
+                      << std::dec << *md
                       << std::endl;
         }
 
@@ -515,17 +515,17 @@ namespace Action {
         Exiv2::ExifData::const_iterator md;
         for (md = exifData.begin(); md != end; ++md) {
             std::cout << "0x" << std::setw(4) << std::setfill('0') << std::right
-                      << std::hex << md->tag() << " " 
+                      << std::hex << md->tag() << " "
                       << std::setw(9) << std::setfill(' ') << std::left
                       << md->ifdName() << " "
                       << std::setw(27) << std::setfill(' ') << std::left
                       << md->tagName() << " "
                       << std::setw(9) << std::setfill(' ') << std::left
                       << md->typeName() << " "
-                      << std::dec << std::setw(3) 
+                      << std::dec << std::setw(3)
                       << std::setfill(' ') << std::right
                       << md->count() << "  "
-                      << std::dec << md->value() 
+                      << std::dec << md->value()
                       << std::endl;
         }
 
@@ -555,12 +555,12 @@ namespace Action {
                       << md->key() << " "
                       << std::setw(9) << std::setfill(' ') << std::left
                       << md->typeName() << " "
-                      << std::dec << std::setw(3) 
+                      << std::dec << std::setw(3)
                       << std::setfill(' ') << std::right
                       << md->count() << "  "
-                      << std::dec << md->value() 
+                      << std::dec << md->value()
                       << std::endl;
-        } 
+        }
 
         return 0;
     } // Print::printIptc
@@ -586,13 +586,13 @@ namespace Action {
             std::cout << std::setw(4) << std::setfill(' ') << std::left
                       << md->ifdName() << " "
                       << "0x" << std::setw(4) << std::setfill('0') << std::right
-                      << std::hex << md->tag() << " " 
+                      << std::hex << md->tag() << " "
                       << std::setw(9) << std::setfill(' ') << std::left
                       << md->typeName() << " "
-                      << std::dec << std::setw(3) 
+                      << std::dec << std::setw(3)
                       << std::setfill(' ') << std::right
                       << md->count() << " "
-                      << std::dec << std::setw(3) 
+                      << std::dec << std::setw(3)
                       << std::setfill(' ') << std::right
                       << md->size() << " "
                       << std::setw(27) << std::setfill(' ') << std::left
@@ -608,7 +608,7 @@ namespace Action {
     int Print::printComment()
     {
         if (!Exiv2::fileExists(path_, true)) {
-            std::cerr << path_ 
+            std::cerr << path_
                       << ": Failed to open the file\n";
             return -1;
         }
@@ -657,7 +657,7 @@ namespace Action {
         }
         std::string v = md->toString();
         if (v.length() == 0 || v[0] == ' ') {
-            std::cerr << "Image file creation timestamp not set in the file " 
+            std::cerr << "Image file creation timestamp not set in the file "
                       << path << "\n";
             return 1;
         }
@@ -676,7 +676,7 @@ namespace Action {
                       << path << "\n";
             return 1;
         }
-        std::string newPath 
+        std::string newPath
             = Util::dirname(path) + EXV_SEPERATOR_STR + basename + Util::suffix(path);
         if (   Util::dirname(newPath)  == Util::dirname(path)
             && Util::basename(newPath) == Util::basename(path)) {
@@ -689,7 +689,7 @@ namespace Action {
         bool go = true;
         int seq = 1;
         std::string s;
-        Params::FileExistsPolicy fileExistsPolicy 
+        Params::FileExistsPolicy fileExistsPolicy
             = Params::instance().fileExistsPolicy_;
         while (go) {
             if (Exiv2::fileExists(newPath)) {
@@ -698,14 +698,14 @@ namespace Action {
                     go = false;
                     break;
                 case Params::renamePolicy:
-                    newPath = Util::dirname(path) 
-                        + EXV_SEPERATOR_STR + basename 
+                    newPath = Util::dirname(path)
+                        + EXV_SEPERATOR_STR + basename
                         + "_" + Exiv2::toString(seq++)
                         + Util::suffix(path);
                     break;
-                case Params::askPolicy: 
-                    std::cout << Params::instance().progname() 
-                              << ": File `" << newPath 
+                case Params::askPolicy:
+                    std::cout << Params::instance().progname()
+                              << ": File `" << newPath
                               << "' exists. [O]verwrite, [r]ename or [s]kip? ";
                     std::cin >> s;
                     switch (s[0]) {
@@ -715,9 +715,9 @@ namespace Action {
                         break;
                     case 'r':
                     case 'R':
-                        fileExistsPolicy = Params::renamePolicy; 
-                        newPath = Util::dirname(path) 
-                            + EXV_SEPERATOR_STR + basename 
+                        fileExistsPolicy = Params::renamePolicy;
+                        newPath = Util::dirname(path)
+                            + EXV_SEPERATOR_STR + basename
                             + "_" + Exiv2::toString(seq++)
                             + Util::suffix(path);
                         break;
@@ -812,7 +812,7 @@ namespace Action {
         }
         long delta = exifData.eraseThumbnail();
         if (Params::instance().verbose_) {
-            std::cout << "Erasing " << delta 
+            std::cout << "Erasing " << delta
                         << " Bytes of thumbnail data" << std::endl;
         }
         return 0;
@@ -821,7 +821,7 @@ namespace Action {
     int Erase::eraseExifData(Exiv2::Image* image) const
     {
         if (Params::instance().verbose_ && image->exifData().count() > 0) {
-            std::cout << "Erasing Exif data from the file" << std::endl; 
+            std::cout << "Erasing Exif data from the file" << std::endl;
         }
         image->clearExifData();
         return 0;
@@ -830,7 +830,7 @@ namespace Action {
     int Erase::eraseIptcData(Exiv2::Image* image) const
     {
         if (Params::instance().verbose_ && image->iptcData().count() > 0) {
-            std::cout << "Erasing Iptc data from the file" << std::endl; 
+            std::cout << "Erasing Iptc data from the file" << std::endl;
         }
         image->clearIptcData();
         return 0;
@@ -839,7 +839,7 @@ namespace Action {
     int Erase::eraseComment(Exiv2::Image* image) const
     {
         if (Params::instance().verbose_ && image->comment().size() > 0) {
-            std::cout << "Erasing Jpeg comment from the file" << std::endl; 
+            std::cout << "Erasing Jpeg comment from the file" << std::endl;
         }
         image->clearComment();
         return 0;
@@ -860,7 +860,7 @@ namespace Action {
         path_ = path;
         int rc = 0;
         if (Params::instance().target_ & Params::ctThumb) {
-            rc = writeThumbnail(); 
+            rc = writeThumbnail();
         }
         if (Params::instance().target_ & ~Params::ctThumb) {
             std::string directory = Params::instance().directory_;
@@ -868,7 +868,7 @@ namespace Action {
             std::string exvPath =   directory + EXV_SEPERATOR_STR
                                   + Util::basename(path_, true) + ".exv";
             if (!Params::instance().force_ && Exiv2::fileExists(exvPath)) {
-                std::cout << Params::instance().progname() 
+                std::cout << Params::instance().progname()
                           << ": Overwrite `" << exvPath << "'? ";
                 std::string s;
                 std::cin >> s;
@@ -909,18 +909,18 @@ namespace Action {
         std::string thumbExt = exifData.thumbnailExtension();
         int rc = 0;
         if (thumbExt.empty()) {
-            std::cerr << path_ << ": Image does not contain an Exif thumbnail\n"; 
+            std::cerr << path_ << ": Image does not contain an Exif thumbnail\n";
         }
         else {
             if (Params::instance().verbose_) {
                 Exiv2::DataBuf buf = exifData.copyThumbnail();
                 std::cout << "Writing "
-                          << exifData.thumbnailFormat() << " thumbnail (" 
+                          << exifData.thumbnailFormat() << " thumbnail ("
                           << buf.size_ << " Bytes) to file "
                           << thumb << thumbExt << std::endl;
             }
             if (!Params::instance().force_ && Exiv2::fileExists(thumb + thumbExt)) {
-                std::cout << Params::instance().progname() 
+                std::cout << Params::instance().progname()
                           << ": Overwrite `" << thumb + thumbExt << "'? ";
                 std::string s;
                 std::cin >> s;
@@ -998,7 +998,7 @@ namespace Action {
         Exiv2::ExifData &exifData = image->exifData();
         exifData.setJpegThumbnail(thumbPath);
         image->writeMetadata();
-        
+
         return 0;
     } // Insert::insertThumbnail
 
@@ -1060,9 +1060,9 @@ namespace Action {
     {
         if (Params::instance().verbose_) {
             std::cout << "Add " << modifyCmd.key_ << " \""
-                      << modifyCmd.value_ << "\" (" 
-                      << Exiv2::TypeInfo::typeName(modifyCmd.typeId_) 
-                      << ")" << std::endl; 
+                      << modifyCmd.value_ << "\" ("
+                      << Exiv2::TypeInfo::typeName(modifyCmd.typeId_)
+                      << ")" << std::endl;
         }
         Exiv2::Value::AutoPtr value = Exiv2::Value::create(modifyCmd.typeId_);
         value->read(modifyCmd.value_);
@@ -1078,9 +1078,9 @@ namespace Action {
     {
         if (Params::instance().verbose_) {
             std::cout << "Set " << modifyCmd.key_ << " \""
-                      << modifyCmd.value_ << "\" (" 
-                      << Exiv2::TypeInfo::typeName(modifyCmd.typeId_) 
-                      << ")" << std::endl; 
+                      << modifyCmd.value_ << "\" ("
+                      << Exiv2::TypeInfo::typeName(modifyCmd.typeId_)
+                      << ")" << std::endl;
         }
 
         Exiv2::ExifData &exifData = image_->exifData();
@@ -1107,7 +1107,7 @@ namespace Action {
     void Modify::delMetadatum(const ModifyCmd& modifyCmd)
     {
         if (Params::instance().verbose_) {
-            std::cout << "Del " << modifyCmd.key_ << std::endl; 
+            std::cout << "Del " << modifyCmd.key_ << std::endl;
         }
 
         Exiv2::ExifData &exifData = image_->exifData();
@@ -1177,7 +1177,7 @@ namespace Action {
     }
 
     int Adjust::adjustDateTime(Exiv2::ExifData& exifData,
-                               const std::string& key, 
+                               const std::string& key,
                                const std::string& path) const
     {
         Exiv2::ExifKey ek(key);
@@ -1188,18 +1188,18 @@ namespace Action {
         }
         std::string timeStr = md->toString();
         if (timeStr == "" || timeStr[0] == ' ') {
-            std::cerr << path << ": Timestamp of metadatum with key `" 
+            std::cerr << path << ": Timestamp of metadatum with key `"
                       << ek << "' not set\n";
             return 1;
         }
         time_t time = str2Time(timeStr);
         if (time == (time_t)-1) {
-            std::cerr << path << ": Failed to parse or convert timestamp `" 
+            std::cerr << path << ": Failed to parse or convert timestamp `"
                       << timeStr << "'\n";
             return 1;
         }
         if (Params::instance().verbose_) {
-            std::cout << "Adjusting `" << ek << "' by" 
+            std::cout << "Adjusting `" << ek << "' by"
                       << (adjustment_ < 0 ? " " : " +")
                       << adjustment_ << " s to ";
         }
@@ -1258,7 +1258,7 @@ namespace {
         if (0 == tm) return "";
 
         std::ostringstream os;
-        os << std::setfill('0') 
+        os << std::setfill('0')
            << tm->tm_year + 1900 << ":"
            << std::setw(2) << tm->tm_mon + 1 << ":"
            << std::setw(2) << tm->tm_mday << " "
@@ -1269,9 +1269,9 @@ namespace {
         return os.str();
     } // time2Str
 
-    int metacopy(const std::string& source, 
-                 const std::string& target, 
-                 bool preserve) 
+    int metacopy(const std::string& source,
+                 const std::string& target,
+                 bool preserve)
     {
         if (!Exiv2::fileExists(source, true)) {
             std::cerr << source
@@ -1289,14 +1289,14 @@ namespace {
             if (preserve) targetImage->readMetadata();
         }
         else {
-            targetImage 
+            targetImage
                 = Exiv2::ImageFactory::create(Exiv2::ImageType::exv, target);
             assert(targetImage.get() != 0);
         }
         if (   Params::instance().target_ & Params::ctExif
             && !sourceImage->exifData().empty()) {
             if (Params::instance().verbose_) {
-                std::cout << "Writing Exif data from " << source 
+                std::cout << "Writing Exif data from " << source
                           << " to " << target << std::endl;
             }
             targetImage->setExifData(sourceImage->exifData());
@@ -1304,7 +1304,7 @@ namespace {
         if (   Params::instance().target_ & Params::ctIptc
             && !sourceImage->iptcData().empty()) {
             if (Params::instance().verbose_) {
-                std::cout << "Writing Iptc data from " << source 
+                std::cout << "Writing Iptc data from " << source
                           << " to " << target << std::endl;
             }
             targetImage->setIptcData(sourceImage->iptcData());
@@ -1312,7 +1312,7 @@ namespace {
         if (   Params::instance().target_ & Params::ctComment
             && !sourceImage->comment().empty()) {
             if (Params::instance().verbose_) {
-                std::cout << "Writing Jpeg comment from " << source 
+                std::cout << "Writing Jpeg comment from " << source
                           << " to " << target << std::endl;
             }
             targetImage->setComment(sourceImage->comment());

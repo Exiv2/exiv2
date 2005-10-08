@@ -22,10 +22,10 @@ try {
     std::cout << "Read standard Ifd from data buffer\n";
 
     const long len = 77;
-    Exiv2::byte buf[] 
+    Exiv2::byte buf[]
         = { 0xff, // Filler
             // No
-            0x00,0x04, 
+            0x00,0x04,
             // Tag       Type          Components          Offset/Data
             0x00,0x01, 0x00,0x02, 0x00,0x00,0x00,0x04, 'T', 'h', 'e', '\0',
             0x00,0x02, 0x00,0x02, 0x00,0x00,0x00,0x06, 0x00,0x00,0x00,0x37,
@@ -53,31 +53,31 @@ try {
         return 1;
     }
     Exiv2::byte data[] = { 'T', 'H', 'R', 'E', 'E', '\0' };
-    
+
     std::cout << "Setting value of entry 3...\n";
     pos->setValue(2, 6, data, 6);
 
     Exiv2::DataBuf db(1024);
     rc = ifd.copy(db.pData_ + 1, Exiv2::bigEndian);
-    std::cout << "Wrote " << rc << " characters to data buffer\n"; 
+    std::cout << "Wrote " << rc << " characters to data buffer\n";
     rc = ifd.read(db.pData_, len, 1, Exiv2::bigEndian);
     if (rc) {
         std::cout << "Ifd::read (1a) failed, rc = " << rc << "\n";
         return rc;
-    }    
+    }
     ifd.print(std::cout);
 
     // -------------------------------------------------------------------------
     std::cout << "\nRead non-standard Ifd from data buffer\n";
 
     const long len2 = 76;
-    Exiv2::byte buf2[] 
+    Exiv2::byte buf2[]
         = { // Data
             'K', 'u', 'a', 'l', 'a', '\0',
             'L', 'u', 'm', 'p', 'u', 'r', '\0',
             'M', 'a', 'l', 'a', 'y', 's', 'i', 'a', '\0',
             // No
-            0x00,0x04, 
+            0x00,0x04,
             // Tag       Type          Components          Offset/Data
             0x00,0x01, 0x00,0x02, 0x00,0x00,0x00,0x04, 'T', 'h', 'e', '\0',
             0x00,0x02, 0x00,0x02, 0x00,0x00,0x00,0x06, 0x00,0x00,0x00,0x00,
@@ -101,7 +101,7 @@ try {
         return 1;
     }
     Exiv2::byte data2[] = { 'T', 'H', 'R', 'E', 'E', '\0' };
-    
+
     std::cout << "Setting value of entry 3...\n";
     pos->setValue(2, 6, data2, 6);
 

@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -59,13 +59,13 @@ namespace Exiv2 {
     struct DataSet {
         //! Constructor
         DataSet(
-            uint16_t number, 
+            uint16_t number,
             const char* name,
             const char* title,
             const char* desc,
             bool mandatory,
             bool repeatable,
-            uint32_t minbytes, 
+            uint32_t minbytes,
             uint32_t maxbytes,
             TypeId type,
             uint16_t recordId,
@@ -186,30 +186,30 @@ namespace Exiv2 {
         /*!
           @brief Return the name of the dataset.
           @param number The dataset number
-          @param recordId The Iptc record Id 
+          @param recordId The Iptc record Id
           @return The name of the dataset or a string containing the hexadecimal
-                  value of the dataset in the form "0x01ff", if this is an unknown 
+                  value of the dataset in the form "0x01ff", if this is an unknown
                   dataset.
          */
         static std::string dataSetName(uint16_t number, uint16_t recordId);
         /*!
           @brief Return the title (label) of the dataset.
           @param number The dataset number
-          @param recordId The Iptc record Id 
+          @param recordId The Iptc record Id
           @return The title (label) of the dataset
          */
         static const char* dataSetTitle(uint16_t number, uint16_t recordId);
         /*!
           @brief Return the description of the dataset.
           @param number The dataset number
-          @param recordId The Iptc record Id 
+          @param recordId The Iptc record Id
           @return The description of the dataset
          */
         static const char* dataSetDesc(uint16_t number, uint16_t recordId);
         /*!
           @brief Return the photohsop name of a given dataset.
           @param number The dataset number
-          @param recordId The Iptc record Id 
+          @param recordId The Iptc record Id
           @return The name used by photoshop for a dataset or an empty
                  string if photoshop does not use the dataset.
          */
@@ -217,7 +217,7 @@ namespace Exiv2 {
         /*!
           @brief Check if a given dataset is repeatable
           @param number The dataset number
-          @param recordId The Iptc record Id 
+          @param recordId The Iptc record Id
           @return true if the given dataset is repeatable otherwise false
          */
         static bool dataSetRepeatable(uint16_t number, uint16_t recordId);
@@ -278,10 +278,10 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         /*!
-          @brief Constructor to create an Iptc key from a key string. 
+          @brief Constructor to create an Iptc key from a key string.
 
           @param key The key string.
-          @throw Error if the first part of the key is not '<b>Iptc</b>' or 
+          @throw Error if the first part of the key is not '<b>Iptc</b>' or
                  the remaining parts of the key cannot be parsed and
                  converted to a record name and a dataset name.
         */
@@ -329,7 +329,7 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         /*!
-          @brief Set the key corresponding to the dataset and record id. 
+          @brief Set the key corresponding to the dataset and record id.
                  The key is of the form '<b>Iptc</b>.recordName.dataSetName'.
          */
         void makeKey();
@@ -351,7 +351,7 @@ namespace Exiv2 {
         static const char* familyName_;
 
         uint16_t tag_;                 //!< Tag value
-        uint16_t record_;              //!< Record value 
+        uint16_t record_;              //!< Record value
         std::string key_;              //!< Key
 
     }; // class IptcKey

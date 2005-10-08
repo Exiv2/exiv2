@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -57,7 +57,7 @@ try {
     Exiv2::BasicIo::AutoPtr fileIo(new Exiv2::FileIo(params.read_));
     Exiv2::BasicIo::AutoPtr memIo(new Exiv2::MemIo);
     memIo->transfer(*fileIo);
-    
+
     Exiv2::Image::AutoPtr readImg = Exiv2::ImageFactory::open(memIo);
     assert(readImg.get() != 0);
     readImg->readMetadata();
@@ -79,7 +79,7 @@ try {
         writeImg->writeMetadata();
     }
     catch (const Exiv2::AnyError&) {
-        std::cerr << params.progname() << 
+        std::cerr << params.progname() <<
             ": Could not write metadata to (" << params.write_ << ")\n";
         return 8;
     }
@@ -101,31 +101,31 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     case 'e': exif_ = true; break;
     case 'c': comment_ = true; break;
     case 'p': preserve_ = true; break;
-    case 'a': 
-        iptc_ =true; 
-        exif_ =true; 
-        comment_ =true; 
+    case 'a':
+        iptc_ =true;
+        exif_ =true;
+        comment_ =true;
         break;
     case ':':
-        std::cerr << progname() << ": Option -" << static_cast<char>(optopt) 
+        std::cerr << progname() << ": Option -" << static_cast<char>(optopt)
                   << " requires an argument\n";
         rc = 1;
         break;
     case '?':
-        std::cerr << progname() << ": Unrecognized option -" 
+        std::cerr << progname() << ": Unrecognized option -"
                   << static_cast<char>(optopt) << "\n";
         rc = 1;
         break;
     default:
-        std::cerr << progname() 
-                  << ": getopt returned unexpected character code " 
+        std::cerr << progname()
+                  << ": getopt returned unexpected character code "
                   << std::hex << opt << "\n";
         rc = 1;
         break;
     }
 
     return rc;
-} 
+}
 
 int Params::nonoption(const std::string& argv)
 {
@@ -137,10 +137,10 @@ int Params::nonoption(const std::string& argv)
     else write_ = argv;
     first_ = false;
     return 0;
-} 
+}
 
 int Params::getopt(int argc, char* const argv[])
-{ 
+{
     int rc = Util::Getopt::getopt(argc, argv, optstring_);
     // Further consistency checks
     if (help_==false) {
@@ -164,7 +164,7 @@ int Params::getopt(int argc, char* const argv[])
 void Params::usage(std::ostream& os) const
 {
     os << "\nReads and writes raw metadata. Use -h option for help.\n"
-       << "Usage: " << progname() 
+       << "Usage: " << progname()
        << " [-iecaph] readfile writefile\n";
 }
 

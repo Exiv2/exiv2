@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -60,8 +60,8 @@ namespace Exiv2 {
       @brief Section identifiers to logically group tags. A section consists
              of nothing more than a name, based on the Exif standard.
      */
-    enum SectionId { sectionIdNotSet, 
-                     imgStruct, recOffset, imgCharacter, otherTags, exifFormat, 
+    enum SectionId { sectionIdNotSet,
+                     imgStruct, recOffset, imgCharacter, otherTags, exifFormat,
                      exifVersion, imgConfig, userInfo, relatedFile, dateTime,
                      captureCond, gpsTags, iopTags, makerTags,
                      lastSectionId };
@@ -76,7 +76,7 @@ namespace Exiv2 {
         IfdId ifdId_;                           //!< IFD id
         const char* name_;                      //!< IFD name
         //! Related IFD item. This is also an IFD name, unique for each IFD.
-        const char* item_;                      
+        const char* item_;
     };
 
     //! Contains information pertaining to one section
@@ -92,10 +92,10 @@ namespace Exiv2 {
     struct TagInfo {
         //! Constructor
         TagInfo(
-            uint16_t tag, 
+            uint16_t tag,
             const char* name,
             const char* title,
-            const char* desc, 
+            const char* desc,
             IfdId ifdId,
             SectionId sectionId,
             TypeId typeId,
@@ -112,7 +112,7 @@ namespace Exiv2 {
     }; // struct TagInfo
 
     /*!
-      @brief Helper structure for lookup tables for translations of numeric 
+      @brief Helper structure for lookup tables for translations of numeric
              tag values to human readable labels.
      */
     struct TagDetails {
@@ -154,14 +154,14 @@ namespace Exiv2 {
 
     public:
         /*!
-          @brief Return the name of the tag or a string with the hexadecimal 
-                 value of the tag in the form "0x01ff", if the tag is not 
-                 a known Exif tag. 
+          @brief Return the name of the tag or a string with the hexadecimal
+                 value of the tag in the form "0x01ff", if the tag is not
+                 a known Exif tag.
 
           @param tag The tag
           @param ifdId IFD id
           @return The name of the tag or a string containing the hexadecimal
-                  value of the tag in the form "0x01ff", if this is an unknown 
+                  value of the tag in the form "0x01ff", if this is an unknown
                   tag.
          */
         static std::string tagName(uint16_t tag, IfdId ifdId);
@@ -178,12 +178,12 @@ namespace Exiv2 {
           @param tag The tag
           @param ifdId IFD id
           @return The description of the tag or a string indicating that
-                 the tag is unknown. 
+                 the tag is unknown.
          */
         static const char* tagDesc(uint16_t tag, IfdId ifdId);
         /*!
-          @brief Return the tag for one combination of IFD id and tagName. 
-                 If the tagName is not known, it expects tag names in the 
+          @brief Return the tag for one combination of IFD id and tagName.
+                 If the tagName is not known, it expects tag names in the
                  form "0x01ff" and converts them to unsigned integer.
 
           @throw Error if the tagname or ifdId is invalid
@@ -198,21 +198,21 @@ namespace Exiv2 {
         //! Return the name of the section
         static const char* sectionName(SectionId sectionId);
         /*!
-          @brief Return the name of the section for a combination of 
+          @brief Return the name of the section for a combination of
                  tag and IFD id.
           @param tag The tag
           @param ifdId IFD id
-          @return The name of the section or a string indicating that the 
-                  section or the tag is unknown. 
+          @return The name of the section or a string indicating that the
+                  section or the tag is unknown.
          */
         static const char* sectionName(uint16_t tag, IfdId ifdId);
         /*!
-          @brief Return the description of the section for a combination of 
+          @brief Return the description of the section for a combination of
                  tag and IFD id.
           @param tag The tag
           @param ifdId IFD id
           @return The description of the section or a string indicating that
-                 the section or the tag is unknown. 
+                 the section or the tag is unknown.
          */
         static const char* sectionDesc(uint16_t tag, IfdId ifdId);
         //! Return the section id for a section name
@@ -221,7 +221,7 @@ namespace Exiv2 {
         static TypeId tagType(uint16_t tag, IfdId ifdId);
         //! Interpret and print the value of an Exif tag
         static std::ostream& printTag(std::ostream& os,
-                                      uint16_t tag, 
+                                      uint16_t tag,
                                       IfdId ifdId,
                                       const Value& value);
         //! Print a list of all standard Exif tags to output stream
@@ -238,7 +238,7 @@ namespace Exiv2 {
         static void registerMakerTagInfo(IfdId ifdId, const TagInfo* tagInfo);
         /*!
           @brief Return true if \em ifdId is an %Ifd Id which is registered
-                 as a makernote %Ifd id. Note: Calling this function with 
+                 as a makernote %Ifd id. Note: Calling this function with
                  makerIfd returns false.
         */
         static bool isMakerIfd(IfdId ifdId);
@@ -246,7 +246,7 @@ namespace Exiv2 {
     private:
         static int tagInfoIdx(uint16_t tag, IfdId ifdId);
         static const TagInfo* makerTagInfo(uint16_t tag, IfdId ifdId);
-        static const TagInfo* makerTagInfo(const std::string& tagName, 
+        static const TagInfo* makerTagInfo(const std::string& tagName,
                                            IfdId ifdId);
 
         static const IfdInfo     ifdInfo_[];
@@ -276,14 +276,14 @@ namespace Exiv2 {
           @param key The key string.
           @throw Error if the first part of the key is not '<b>Exif</b>' or
                  the remainin parts of the key cannot be parsed and
-                 converted to an ifd-item and tag name. 
+                 converted to an ifd-item and tag name.
         */
         explicit ExifKey(const std::string& key);
         /*!
-          @brief Constructor to create an Exif key from a tag and IFD item 
+          @brief Constructor to create an Exif key from a tag and IFD item
                  string.
           @param tag The tag value
-          @param ifdItem The IFD string. For MakerNote tags, this must be the 
+          @param ifdItem The IFD string. For MakerNote tags, this must be the
                  IFD item of the specific MakerNote. "MakerNote" is not allowed.
           @throw Error if the key cannot be constructed from the tag and IFD
                  item parameters.
@@ -311,7 +311,7 @@ namespace Exiv2 {
         /*!
           @brief Return the name of the group (the second part of the key).
                  For Exif keys, the group name is the IFD item.
-        */ 
+        */
         virtual std::string groupName() const { return ifdItem(); }
         virtual std::string tagName() const;
         virtual uint16_t tag() const { return tag_; }
@@ -323,7 +323,7 @@ namespace Exiv2 {
         const char* ifdName() const { return ExifTags::ifdName(ifdId()); }
         //! Return the related image item
         std::string ifdItem() const { return ifdItem_; }
-        //! Return the name of the Exif section (deprecated) 
+        //! Return the name of the Exif section (deprecated)
         std::string sectionName() const;
         //! Return the index (unique id of this key within the original IFD)
         int idx() const { return idx_; }
@@ -333,12 +333,12 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         /*!
-          @brief Set the key corresponding to the tag and IFD id. 
+          @brief Set the key corresponding to the tag and IFD id.
                  The key is of the form '<b>Exif</b>.ifdItem.tagName'.
          */
         void makeKey();
         /*!
-          @brief Parse and convert the key string into tag and IFD Id. 
+          @brief Parse and convert the key string into tag and IFD Id.
                  Updates data members if the string can be decomposed,
                  or throws \em Error .
 
@@ -348,7 +348,7 @@ namespace Exiv2 {
         //@}
 
     private:
-        //! Internal virtual copy constructor.        
+        //! Internal virtual copy constructor.
         virtual ExifKey* clone_() const;
 
         // DATA
@@ -356,7 +356,7 @@ namespace Exiv2 {
 
         uint16_t tag_;                  //!< Tag value
         IfdId ifdId_;                   //!< The IFD associated with this tag
-        std::string ifdItem_;           //!< The IFD item 
+        std::string ifdItem_;           //!< The IFD item
         int idx_;                       //!< Unique id of an entry within one IFD
         std::string key_;               //!< Key
     }; // class ExifKey
@@ -394,7 +394,7 @@ namespace Exiv2 {
     std::ostream& print0x0112(std::ostream& os, const Value& value);
     //! Print the YCbCrPositioning
     std::ostream& print0x0213(std::ostream& os, const Value& value);
-    //! Print the copyright 
+    //! Print the copyright
     std::ostream& print0x8298(std::ostream& os, const Value& value);
     //! Print the exposure time
     std::ostream& print0x829a(std::ostream& os, const Value& value);
@@ -438,7 +438,7 @@ namespace Exiv2 {
     std::ostream& print0xa403(std::ostream& os, const Value& value);
     //! Print digital zoom ratio
     std::ostream& print0xa404(std::ostream& os, const Value& value);
-    //! Print 35mm equivalent focal length 
+    //! Print 35mm equivalent focal length
     std::ostream& print0xa405(std::ostream& os, const Value& value);
     //! Print scene capture type
     std::ostream& print0xa406(std::ostream& os, const Value& value);

@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -50,7 +50,7 @@ EXIV2_RCSID("@(#) $Id$");
 namespace Exiv2 {
 
     Entry::Entry(bool alloc)
-        : alloc_(alloc), ifdId_(ifdIdNotSet), idx_(0), 
+        : alloc_(alloc), ifdId_(ifdIdNotSet), idx_(0),
           tag_(0), type_(0), count_(0), offset_(0), size_(0), pData_(0),
           sizeDataArea_(0), pDataArea_(0)
     {
@@ -66,7 +66,7 @@ namespace Exiv2 {
 
     Entry::Entry(const Entry& rhs)
         : alloc_(rhs.alloc_), ifdId_(rhs.ifdId_), idx_(rhs.idx_),
-          tag_(rhs.tag_), type_(rhs.type_), 
+          tag_(rhs.tag_), type_(rhs.type_),
           count_(rhs.count_), offset_(rhs.offset_), size_(rhs.size_), pData_(0),
           sizeDataArea_(rhs.sizeDataArea_), pDataArea_(0)
     {
@@ -201,7 +201,7 @@ namespace Exiv2 {
                 break;
             }
             case unsignedLong: {
-                ul2Data(buf, getULong(buf, byteOrder) + offset, byteOrder); 
+                ul2Data(buf, getULong(buf, byteOrder) + offset, byteOrder);
                 break;
             }
             case unsignedRational: {
@@ -253,7 +253,7 @@ namespace Exiv2 {
     } // Entry::component
 
     Ifd::Ifd(IfdId ifdId)
-        : alloc_(true), ifdId_(ifdId), pBase_(0), offset_(0), 
+        : alloc_(true), ifdId_(ifdId), pBase_(0), offset_(0),
           dataOffset_(0), hasNext_(true), pNext_(0), next_(0)
     {
         pNext_ = new byte[4];
@@ -261,7 +261,7 @@ namespace Exiv2 {
     }
 
     Ifd::Ifd(IfdId ifdId, long offset)
-        : alloc_(true), ifdId_(ifdId), pBase_(0), offset_(offset), 
+        : alloc_(true), ifdId_(ifdId), pBase_(0), offset_(offset),
           dataOffset_(0), hasNext_(true), pNext_(0), next_(0)
     {
         pNext_ = new byte[4];
@@ -269,7 +269,7 @@ namespace Exiv2 {
     }
 
     Ifd::Ifd(IfdId ifdId, long offset, bool alloc, bool hasNext)
-        : alloc_(alloc), ifdId_(ifdId), pBase_(0), offset_(offset), 
+        : alloc_(alloc), ifdId_(ifdId), pBase_(0), offset_(offset),
           dataOffset_(0), hasNext_(hasNext), pNext_(0), next_(0)
     {
         if (alloc_ && hasNext_) {
@@ -286,19 +286,19 @@ namespace Exiv2 {
 
     Ifd::Ifd(const Ifd& rhs)
         : alloc_(rhs.alloc_), entries_(rhs.entries_), ifdId_(rhs.ifdId_),
-          pBase_(rhs.pBase_), offset_(rhs.offset_), dataOffset_(rhs.dataOffset_), 
+          pBase_(rhs.pBase_), offset_(rhs.offset_), dataOffset_(rhs.dataOffset_),
           hasNext_(rhs.hasNext_), pNext_(rhs.pNext_), next_(rhs.next_)
     {
         if (alloc_ && hasNext_) {
             pNext_ = new byte[4];
             memset(pNext_, 0x0, 4);
-            if (rhs.pNext_) memcpy(pNext_, rhs.pNext_, 4); 
+            if (rhs.pNext_) memcpy(pNext_, rhs.pNext_, 4);
         }
     }
 
-    int Ifd::read(const byte* buf, 
-                  long len, 
-                  long start, 
+    int Ifd::read(const byte* buf,
+                  long len,
+                  long start,
                   ByteOrder byteOrder,
                   long shift)
     {
@@ -315,7 +315,7 @@ namespace Exiv2 {
             for (int i = 0; i < n; ++i) {
                 if (len < o + 12) {
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Error: " << ExifTags::ifdName(ifdId_) 
+                    std::cerr << "Error: " << ExifTags::ifdName(ifdId_)
                               << " entry " << i
                               << " lies outside of the IFD memory buffer.\n";
 #endif
@@ -336,7 +336,7 @@ namespace Exiv2 {
         if (rc == 0 && hasNext_) {
             if (len < o + 4) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Error: " << ExifTags::ifdName(ifdId_) 
+                std::cerr << "Error: " << ExifTags::ifdName(ifdId_)
                           << " memory of the pointer to the next IFD"
                           << " lies outside of the IFD memory buffer.\n";
 #endif
@@ -363,25 +363,25 @@ namespace Exiv2 {
                 // Set the offset of the first data entry outside of the IFD
                 if (i->offset_ + shift < 0) {
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Error: Offset of the 1st data entry of " 
-                              << ExifTags::ifdName(ifdId_) 
+                    std::cerr << "Error: Offset of the 1st data entry of "
+                              << ExifTags::ifdName(ifdId_)
                               << " is out of bounds:\n"
-                              << " Offset = 0x" << std::setw(8) 
-                              << std::setfill('0') << std::hex 
+                              << " Offset = 0x" << std::setw(8)
+                              << std::setfill('0') << std::hex
                               << i->offset_ - offset_ // relative to start of IFD
                               << ", is before start of buffer by "
                               << std::dec << -1 * (i->offset_ + shift)
                               << " Bytes\n";
 #endif
                     rc = 6;
-                } 
+                }
                 else if (i->offset_ + shift + i->size_ > len) {
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Error: Upper boundary of the 1st data entry of " 
-                              << ExifTags::ifdName(ifdId_) 
+                    std::cerr << "Error: Upper boundary of the 1st data entry of "
+                              << ExifTags::ifdName(ifdId_)
                               << " is out of bounds:\n"
-                              << " Offset = 0x" << std::setw(8) 
-                              << std::setfill('0') << std::hex 
+                              << " Offset = 0x" << std::setw(8)
+                              << std::setfill('0') << std::hex
                               << i->offset_ - offset_ // relative to start of IFD
                               << ", exceeds buffer size by "
                               << std::dec << i->offset_ + shift + i->size_ - len
@@ -411,14 +411,14 @@ namespace Exiv2 {
                     i->size_ > 4 ? i->offset_ : i->offsetLoc_;
                 if (tmpOffset + shift + i->size_ > len) {
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Warning: Upper boundary of data for " 
-                              << ExifTags::ifdName(ifdId_) 
-                              << " entry " << static_cast<int>(i - begin) 
+                    std::cerr << "Warning: Upper boundary of data for "
+                              << ExifTags::ifdName(ifdId_)
+                              << " entry " << static_cast<int>(i - begin)
                               << " is out of bounds:\n"
-                              << " Offset = 0x" << std::setw(8) 
-                              << std::setfill('0') << std::hex 
+                              << " Offset = 0x" << std::setw(8)
+                              << std::setfill('0') << std::hex
                               << tmpOffset - offset_ // relative to start of IFD
-                              << ", size = " << std::dec << i->size_ 
+                              << ", size = " << std::dec << i->size_
                               << ", exceeds buffer size by "
                               << tmpOffset + shift + i->size_ - len
                               << " Bytes; Truncating the data.\n";
@@ -431,7 +431,7 @@ namespace Exiv2 {
                 // Set the offset to the data, relative to start of IFD
                 e.setOffset(tmpOffset - offset_);
                 // Set the size to at least for bytes to accomodate offset-data
-                e.setValue(i->type_, i->count_, buf + start + e.offset(), 
+                e.setValue(i->type_, i->count_, buf + start + e.offset(),
                            std::max(long(4), i->size_));
                 this->add(e);
             }
@@ -442,7 +442,7 @@ namespace Exiv2 {
         return rc;
     } // Ifd::read
 
-    Ifd::const_iterator Ifd::findIdx(int idx) const 
+    Ifd::const_iterator Ifd::findIdx(int idx) const
     {
         return std::find_if(entries_.begin(), entries_.end(),
                             FindEntryByIdx(idx));
@@ -454,7 +454,7 @@ namespace Exiv2 {
                             FindEntryByIdx(idx));
     }
 
-    Ifd::const_iterator Ifd::findTag(uint16_t tag) const 
+    Ifd::const_iterator Ifd::findTag(uint16_t tag) const
     {
         return std::find_if(entries_.begin(), entries_.end(),
                             FindEntryByTag(tag));
@@ -514,7 +514,7 @@ namespace Exiv2 {
             us2Data(buf + o, i->tag(), byteOrder);
             us2Data(buf + o + 2, i->type(), byteOrder);
             ul2Data(buf + o + 4, i->count(), byteOrder);
-            if (i->sizeDataArea() > 0) { 
+            if (i->sizeDataArea() > 0) {
                 long dataAreaOffset = offset_+size()+totalDataSize+dataAreaSize;
                 i->setDataAreaOffsets(dataAreaOffset, byteOrder);
                 dataAreaSize += i->sizeDataArea();
@@ -633,7 +633,7 @@ namespace Exiv2 {
     long Ifd::size() const
     {
         if (entries_.size() == 0 && next_ == 0) return 0;
-        return static_cast<long>(2 + 12 * entries_.size() + (hasNext_ ? 4 : 0)); 
+        return static_cast<long>(2 + 12 * entries_.size() + (hasNext_ ? 4 : 0));
     }
 
     long Ifd::dataSize() const
@@ -652,9 +652,9 @@ namespace Exiv2 {
         if (entries_.size() == 0) return;
         // Print a header
         os << prefix << "IFD Offset: 0x"
-           << std::setw(8) << std::setfill('0') << std::hex << std::right 
-           << offset_ 
-           << ",   IFD Entries: " 
+           << std::setw(8) << std::setfill('0') << std::hex << std::right
+           << offset_
+           << ",   IFD Entries: "
            << std::setfill(' ') << std::dec << std::right
            << static_cast<unsigned int>(entries_.size()) << "\n"
            << prefix << "Entry     Tag  Format   (Bytes each)  Number  Offset\n"
@@ -678,10 +678,10 @@ namespace Exiv2 {
             }
             os << prefix << std::setw(5) << std::setfill(' ') << std::dec
                << std::right << static_cast<int>(i - b)
-               << "  0x" << std::setw(4) << std::setfill('0') << std::hex 
+               << "  0x" << std::setw(4) << std::setfill('0') << std::hex
                << std::right << i->tag()
-               << "  " << std::setw(17) << std::setfill(' ') 
-               << std::left << i->typeName() 
+               << "  " << std::setw(17) << std::setfill(' ')
+               << std::left << i->typeName()
                << " (" << std::dec << i->typeSize() << ")"
                << "  " << std::setw(6) << std::setfill(' ') << std::dec
                << std::right << i->count()
@@ -689,11 +689,11 @@ namespace Exiv2 {
                << "\n";
         }
         if (hasNext_) {
-            os << prefix << "Next IFD: 0x" 
+            os << prefix << "Next IFD: 0x"
                << std::setw(8) << std::setfill('0') << std::hex
                << std::right << next() << "\n";
         }
-        // Print data of IFD entries 
+        // Print data of IFD entries
         for (i = b; i != e; ++i) {
             if (i->size() > 4) {
                 os << "Data of entry " << static_cast<int>(i - b) << ":\n";

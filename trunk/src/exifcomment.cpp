@@ -32,7 +32,7 @@ try {
     Exiv2::ExifData &exifData = image->exifData();
 
     /*
-      Exiv2 uses a CommentValue for Exif user comments. The format of the 
+      Exiv2 uses a CommentValue for Exif user comments. The format of the
       comment string includes an optional charset specification at the beginning:
 
       [charset=["]Ascii|Jis|Unicode|Undefined["] ]comment
@@ -43,13 +43,13 @@ try {
       Following are a few examples of valid comments. The last one is written to
       the file.
      */
-    exifData["Exif.Photo.UserComment"] 
+    exifData["Exif.Photo.UserComment"]
         = "charset=\"Unicode\" An Unicode Exif comment added with Exiv2";
-    exifData["Exif.Photo.UserComment"] 
+    exifData["Exif.Photo.UserComment"]
         = "charset=\"Undefined\" An undefined Exif comment added with Exiv2";
-    exifData["Exif.Photo.UserComment"] 
+    exifData["Exif.Photo.UserComment"]
         = "Another undefined Exif comment added with Exiv2";
-    exifData["Exif.Photo.UserComment"] 
+    exifData["Exif.Photo.UserComment"]
         = "charset=Ascii An ASCII Exif comment added with Exiv2";
 
     std::cout << "Writing user comment '"

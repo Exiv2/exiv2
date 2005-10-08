@@ -1,19 +1,19 @@
 // ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
- * 
+ *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -75,7 +75,7 @@ try {
 
     // Make sure they are all the same size
     if(fileIn.size() != memIo1.size() || memIo1.size() != fileOut1.size()) {
-        std::cerr << argv[0] << 
+        std::cerr << argv[0] <<
             ": Sizes do not match\n";
         return 1;
     }
@@ -95,7 +95,7 @@ try {
     fileTest.close();
     rc = WriteReadSeek(fileTest);
     if (rc != 0) return rc;
-    
+
     // Another test of reading and writing
     fileOut1.seek(0, BasicIo::beg);
     memIo2.seek(0, BasicIo::beg);
@@ -108,12 +108,12 @@ try {
     byte buf[32];
     while ((readCount=fileOut1.read(buf, sizeof(buf)))) {
         if (memIo2.write(buf, readCount) != readCount) {
-            std::cerr << argv[0] << 
+            std::cerr << argv[0] <<
                 ": MemIo bad write 2\n";
             return 13;
         }
         if (fileOut2.write(buf, readCount) != readCount) {
-            std::cerr << argv[0] << 
+            std::cerr << argv[0] <<
                 ": FileIo bad write 2\n";
             return 14;
         }
@@ -146,7 +146,7 @@ int WriteReadSeek(BasicIo &io)
         std::cerr << ": WRS initial write failed\n";
         return 2;
     }
-    
+
     if (io.size() != len1) {
         std::cerr << ": WRS size is not " << len1 << "\n";
         return 2;
@@ -176,7 +176,7 @@ int WriteReadSeek(BasicIo &io)
         std::cerr << ": WRS bad getb o\n";
         return 5;
     }
-    
+
     io.seek(-2, BasicIo::cur);
     if (io.getb() != 'I') {
         std::cerr << ": WRS bad getb I\n";
@@ -187,7 +187,7 @@ int WriteReadSeek(BasicIo &io)
         std::cerr << ": WRS bad putb\n";
         return 7;
     }
-    
+
     io.seek(-1, BasicIo::cur);
     if (io.getb() != 'O') {
         std::cerr << ": WRS bad getb O\n";
@@ -209,7 +209,7 @@ int WriteReadSeek(BasicIo &io)
         std::cerr << ": WRS something went wrong\n";
         return 10;
     }
-    
+
     // Make sure we got the null back
     if(buf[insert + len2 - 1] != 0) {
         std::cerr << ": WRS missing null terminator 2\n";

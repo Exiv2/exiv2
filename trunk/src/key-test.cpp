@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
-  Abstract : Key unit tests 
+  Abstract : Key unit tests
 
   File     : key-test.cpp
   Version  : $Rev$
@@ -31,43 +31,43 @@ int main()
     os << ek;
     if (os.str() != key) {
         std::cout << "Testcase failed (operator<<)" << std::endl;
-        rc += 1; 
+        rc += 1;
     }
     // familyName
     tc += 1;
     if (std::string(ek.familyName()) != "Exif") {
         std::cout << "Testcase failed (familyName)" << std::endl;
-        rc += 1; 
+        rc += 1;
     }
     // groupName
     tc += 1;
     if (ek.groupName() != "Iop") {
         std::cout << "Testcase failed (groupName)" << std::endl;
-        rc += 1; 
+        rc += 1;
     }
     // tagName
     tc += 1;
     if (ek.tagName() != "InteroperabilityVersion") {
         std::cout << "Testcase failed (tagName)" << std::endl;
-        rc += 1; 
+        rc += 1;
     }
     // tagName
     tc += 1;
     if (ek.tag() != 0x0002) {
         std::cout << "Testcase failed (tag)" << std::endl;
-        rc += 1; 
+        rc += 1;
     }
     // ifdName
     tc += 1;
     if (std::string(ek.ifdName()) != "Iop") {
         std::cout << "Testcase failed (ifdName: " << std::endl;
-        rc += 1; 
+        rc += 1;
     }
     // sectionName
     tc += 1;
     if (ek.sectionName() != "Interoperability") {
         std::cout << "Testcase failed (sectionName)" << std::endl;
-        rc += 1; 
+        rc += 1;
     }
 
     // -----
@@ -81,51 +81,51 @@ int main()
     os2 << ek2;
     if (os2.str() != key) {
         std::cout << "Testcase failed (operator<<)" << std::endl;
-        rc += 1; 
+        rc += 1;
     }
     // familyName
     tc += 1;
     if (std::string(ek2.familyName()) != "Exif") {
         std::cout << "Testcase failed (familyName)" << std::endl;
-        rc += 1; 
+        rc += 1;
     }
     // groupName
     tc += 1;
     if (ek2.groupName() != "Iop") {
         std::cout << "Testcase failed (groupName)" << std::endl;
-        rc += 1; 
+        rc += 1;
     }
     // tagName
     tc += 1;
     if (ek2.tagName() != "InteroperabilityVersion") {
         std::cout << "Testcase failed (tagName)" << std::endl;
-        rc += 1; 
+        rc += 1;
     }
     // tagName
     tc += 1;
     if (ek2.tag() != 0x0002) {
         std::cout << "Testcase failed (tag)" << std::endl;
-        rc += 1; 
+        rc += 1;
     }
     // ifdName
     tc += 1;
     if (std::string(ek2.ifdName()) != "Iop") {
         std::cout << "Testcase failed (ifdName: " << std::endl;
-        rc += 1; 
+        rc += 1;
     }
     // sectionName
     tc += 1;
     if (ek2.sectionName() != "Interoperability") {
         std::cout << "Testcase failed (sectionName)" << std::endl;
-        rc += 1; 
+        rc += 1;
     }
 
     // -----
 
     long len = 76;
-    byte buf[] 
+    byte buf[]
         = { // No
-            0x00,0x04, 
+            0x00,0x04,
             // Tag       Type          Components          Offset/Data
             0x00,0x01, 0x00,0x02, 0x00,0x00,0x00,0x04, 'T', 'h', 'e', '\0',
             0x00,0x02, 0x00,0x02, 0x00,0x00,0x00,0x06, 0x00,0x00,0x00,0x37,
@@ -159,43 +159,43 @@ int main()
         os2 << ek3;
         if (os2.str() != key) {
             std::cout << "Testcase failed (operator<<)" << std::endl;
-                                  rc += 1; 
+                                  rc += 1;
         }
         // familyName
         tc += 1;
         if (std::string(ek3.familyName()) != "Exif") {
             std::cout << "Testcase failed (familyName)" << std::endl;
-                                  rc += 1; 
+                                  rc += 1;
         }
         // groupName
         tc += 1;
         if (ek3.groupName() != "Iop") {
             std::cout << "Testcase failed (groupName)" << std::endl;
-                                  rc += 1; 
+                                  rc += 1;
         }
         // tagName
         tc += 1;
         if (ek3.tagName() != "InteroperabilityVersion") {
             std::cout << "Testcase failed (tagName)" << std::endl;
-                                  rc += 1; 
+                                  rc += 1;
         }
         // tagName
         tc += 1;
         if (ek3.tag() != 0x0002) {
             std::cout << "Testcase failed (tag)" << std::endl;
-                                  rc += 1; 
+                                  rc += 1;
         }
         // ifdName
         tc += 1;
         if (std::string(ek3.ifdName()) != "Iop") {
             std::cout << "Testcase failed (ifdName: " << std::endl;
-                                  rc += 1; 
+                                  rc += 1;
         }
         // sectionName
         tc += 1;
         if (ek3.sectionName() != "Interoperability") {
             std::cout << "Testcase failed (sectionName)" << std::endl;
-                                  rc += 1; 
+                                  rc += 1;
         }
 
     }
@@ -206,12 +206,12 @@ int main()
     tc += 1;
     if (ek4.key() != "Exif.Image.Model") {
         std::cout << "Testcase failed (converted key)" << std::endl;
-        rc += 1; 
+        rc += 1;
     }
     tc += 1;
     if (ek4.tagName() != "Model") {
         std::cout << "Testcase failed (converted tagName)" << std::endl;
-        rc += 1; 
+        rc += 1;
     }
 
     // -----
@@ -220,12 +220,12 @@ int main()
     tc += 1;
     if (ek5.key() != "Exif.Nikon3.Focus") {
         std::cout << "Testcase failed (converted key)" << std::endl;
-        rc += 1; 
+        rc += 1;
     }
     tc += 1;
     if (ek5.tagName() != "Focus") {
         std::cout << "Testcase failed (converted tagName)" << std::endl;
-        rc += 1; 
+        rc += 1;
     }
 
     // -----
@@ -234,17 +234,17 @@ int main()
     tc += 1;
     if (ik1.key() != "Iptc.Envelope.Destination") {
         std::cout << "Testcase failed (converted Iptc key)" << std::endl;
-        rc += 1; 
+        rc += 1;
     }
     tc += 1;
     if (ik1.tagName() != "Destination") {
         std::cout << "Testcase failed (converted tagName)" << std::endl;
-        rc += 1; 
+        rc += 1;
     }
     tc += 1;
     if (ik1.recordName() != "Envelope") {
         std::cout << "Testcase failed (converted recordName)" << std::endl;
-        rc += 1; 
+        rc += 1;
     }
 
     // -----
@@ -253,17 +253,17 @@ int main()
     tc += 1;
     if (ik2.key() != "Iptc.0x1234.0xabcd") {
         std::cout << "Testcase failed (unknown Iptc key)" << std::endl;
-        rc += 1; 
+        rc += 1;
     }
     tc += 1;
     if (ik2.tagName() != "0xabcd") {
         std::cout << "Testcase failed (converted tagName)" << std::endl;
-        rc += 1; 
+        rc += 1;
     }
     tc += 1;
     if (ik2.recordName() != "0x1234") {
         std::cout << "Testcase failed (converted recordName)" << std::endl;
-        rc += 1; 
+        rc += 1;
     }
 
     // -----
