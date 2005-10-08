@@ -458,11 +458,12 @@ namespace Exiv2 {
     }; // class FileIo
 
     /*!
-      @brief Provides binary IO on blocks of memory by implementing the
-          BasicIo interface. The current implementation makes a copy of
-          any data passed to its constructors. If writes are performed, the
-          changed data can be retrieved using the read methods (since the
-          data used in construction is never modified).
+      @brief Provides binary IO on blocks of memory by implementing the BasicIo
+          interface. A copy-on-write implementation ensures that the data passed
+          in is only copied when necessary, i.e., as soon as data is written to
+          the MemIo. The original data is only used for reading. If writes are
+          performed, the changed data can be retrieved using the read methods
+          (since the data used in construction is never modified).
 
       @note If read only usage of this class is common, it might be worth
           creating a specialized readonly class or changing this one to
@@ -476,8 +477,9 @@ namespace Exiv2 {
         //! Default constructor that results in an empty object
         MemIo();
         /*!
-          @brief Constructor that accepts a block of memory to be copied.
-              IO operations are performed on the copied memory.
+          @brief Constructor that accepts a block of memory. A copy-on-write
+              algorithm allows read operations directly from the original data
+              and will create a copy of the buffer on the first write operation.
           @param data Pointer to data. Data must be at least \em size
               bytes long
           @param size Number of bytes to copy.
@@ -563,7 +565,7 @@ namespace Exiv2 {
          */
         virtual int getb();
         /*!
-          @brief Clear the memory clock and then transfer data from
+          @brief Clear the memory block and then transfer data from
               the \em src BasicIo object into a new block of memory.
 
           This method is optimized to simply swap memory block if the source
@@ -633,7 +635,7 @@ namespace Exiv2 {
         bool isMalloced_;               //!< Was the buffer allocated?
 
         // METHODS
-        void checkSize(long wcount);
+        void reserve(long wcount);
     }; // class MemIo
 }                                       // namespace Exiv2
 

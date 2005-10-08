@@ -362,27 +362,25 @@ namespace Exiv2 {
         return BasicIo::AutoPtr(new MemIo);
     }
 
-    void MemIo::checkSize(long wcount)
+    void MemIo::reserve(long wcount)
     {
         long need = wcount + idx_;
+
+        if (!isMalloced_) {
+            // Minimum size for 1st block is 32kB
+            long size  = std::max(32768 * (1 + need / 32768), size_);
+            byte* data = (byte*)std::malloc(size);
+            std::memcpy(data, data_, size_);
+            data_ = data;
+            sizeAlloced_ = size;
+            isMalloced_ = true;
+        }
+
         if (need > size_) {
             if (need > sizeAlloced_) {
                 // Allocate in blocks of 32kB
                 long want = 32768 * (1 + need / 32768);
-                if (size_ > 0) {
-                    if (!isMalloced_) {
-                        // "copy-on-expand"
-                        byte* data = (byte*)std::malloc(want);
-                        memcpy(data, data_, size_);
-                        data_ = data;
-                    }
-                    else {
-                        data_ = (byte*)std::realloc(data_, want);
-                    }
-                }
-                else {
-                    data_ = (byte*)std::malloc(want);
-                }
+                data_ = (byte*)std::realloc(data_, want);
                 sizeAlloced_ = want;
                 isMalloced_ = true;
             }
@@ -392,7 +390,8 @@ namespace Exiv2 {
 
     long MemIo::write(const byte* data, long wcount)
     {
-        checkSize(wcount);
+        reserve(wcount);
+        assert(isMalloced_);
         memcpy(&data_[idx_], data, wcount);
         idx_ += wcount;
         return wcount;
@@ -445,7 +444,8 @@ namespace Exiv2 {
 
     int MemIo::putb(byte data)
     {
-        checkSize(1);
+        reserve(1);
+        assert(isMalloced_);
         data_[idx_++] = data;
         return data;
     }
