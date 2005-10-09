@@ -1,3 +1,15 @@
-<h1>Exiv2 Tag Tables</h1>
+<div class="tabs">
+  <ul>
+    <li><a href="tags-exif.html"><span>Exif</span></a></li> 
+    <li><a href="tags-canon.html"><span>Canon</span></a></li> 
+    <li><a href="tags-fujifilm.html"><span>Fujifilm</span></a></li> 
+    <li><a href="tags-nikon.html"><span>Nikon</span></a></li> 
+    <li><a href="tags-olympus.html"><span>Olympus</span></a></li> 
+    <li><a href="tags-panasonic.html"><span>Panasonic</span></a></li> 
+    <li><a href="tags-sigma.html"><span>Sigma/Foveon</span></a></li> 
+    <li><a href="tags-sony.html"><span>Sony</span></a></li> 
+    <li><a href="tags-iptc.html"><span>Iptc&nbsp;datasets</span></a></li>
+  </ul>
+</div>
 
-<div class="qindex"><a class="qindex" href="tags-exif.html">Exif</a> | <a class="qindex" href="tags-canon.html">Canon</a> | <a class="qindex" href="tags-fujifilm.html">Fujifilm</a> | <a class="qindex" href="tags-nikon.html">Nikon</a> | <a class="qindex" href="tags-olympus.html">Olympus</a> | <a class="qindex" href="tags-panasonic.html">Panasonic</a> | <a class="qindex" href="tags-sigma.html">Sigma/Foveon</a> | <a class="qindex" href="tags-sony.html">Sony</a> | <a class="qindex" href="tags-iptc.html">Iptc datasets</a></div>
+<h1>Exiv2 Tag Tables</h1>
