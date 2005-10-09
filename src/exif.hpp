@@ -867,10 +867,10 @@ namespace Exiv2 {
         return exifDatum;
     }
     /*!
-      @brief Returns true if at least one Exif makernote tag exists in the 
-             Exif metadata, else false.
+      @brief Returns the IfdId of the first Exif makernote tag it finds in the 
+             Exif metadata or ifdIdNotSet if there is no Exif makernote tag.
     */
-    bool hasMakerNote(const ExifData& exifData);
+    IfdId hasMakerNote(const ExifData& exifData);
     /*!
       @brief Add all metadata in the range from iterator position begin to
              iterator position end, which have an IFD id matching that of the
