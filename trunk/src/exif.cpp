@@ -1123,13 +1123,13 @@ namespace Exiv2 {
     // *************************************************************************
     // free functions
 
-    bool hasMakerNote(const ExifData& exifData)
+    IfdId hasMakerNote(const ExifData& exifData)
     {
         ExifData::const_iterator e = exifData.end();
         for (ExifData::const_iterator md = exifData.begin(); md != e; ++md) {
-            if (ExifTags::isMakerIfd(md->ifdId())) return true;
+            if (ExifTags::isMakerIfd(md->ifdId())) return md->ifdId();
         }
-        return false;
+        return ifdIdNotSet;
     } // hasMakerNote
 
     void addToIfd(Ifd& ifd,
