@@ -200,36 +200,36 @@ $(MCBIN): lib $(MCOBJ)
 	@$(LIBTOOL) --mode=link $(LINK.cc) -o $@ $(MCOBJ)
 
 install-header:
-	$(INSTALL_DIRS) $(incdir)
+	$(INSTALL_DIRS) $(DESTDIR)$(incdir)
 	@list='$(HDR)'; for p in $$list; do \
 	    if test -f $$p; then \
-	        echo "$(INSTALL_DATA) $$p $(incdir)/$$p"; \
-	        $(INSTALL_DATA) $$p $(incdir)/$$p; \
+	        echo "$(INSTALL_DATA) $$p $(DESTDIR)$(incdir)/$$p"; \
+	        $(INSTALL_DATA) $$p $(DESTDIR)$(incdir)/$$p; \
 	    else :; fi; \
 	done
 
 install-lib: lib install-header
-	$(INSTALL_DIRS) $(libdir)
-	@$(LIBTOOL) --mode=install $(INSTALL_DATA) $(LIBRARY) $(libdir)/$(LIBRARY)
+	$(INSTALL_DIRS) $(DESTDIR)$(libdir)
+	@$(LIBTOOL) --mode=install $(INSTALL_DATA) $(LIBRARY) $(DESTDIR)$(libdir)/$(LIBRARY)
 
 install: $(EXIV2BIN) install-lib
-	$(INSTALL_DIRS) $(bindir)
-	@$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) $(EXIV2EXE) $(bindir)/$(EXIV2EXE)
+	$(INSTALL_DIRS) $(DESTDIR)$(bindir)
+	@$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) $(EXIV2EXE) $(DESTDIR)$(bindir)/$(EXIV2EXE)
 
 uninstall-header:
 	@list='$(HDR)'; for p in $$list; do \
-	    echo "$(RM) $(incdir)/$$p"; \
-	    $(RM) $(incdir)/$$p; \
+	    echo "$(RM) $(DESTDIR)$(incdir)/$$p"; \
+	    $(RM) $(DESTDIR)$(incdir)/$$p; \
 	done
-	-rmdir $(incdir)
+	-rmdir $(DESTDIR)$(incdir)
 
 uninstall-lib: uninstall-header
-	@$(LIBTOOL) --mode=uninstall $(RM) $(libdir)/$(LIBRARY)
-	-rmdir $(libdir)
+	@$(LIBTOOL) --mode=uninstall $(RM) $(DESTDIR)$(libdir)/$(LIBRARY)
+	-rmdir $(DESTDIR)$(libdir)
 
 uninstall: uninstall-lib
-	@$(LIBTOOL) --mode=uninstall $(RM) $(bindir)/$(EXIV2EXE)
-	-rmdir $(bindir)
+	@$(LIBTOOL) --mode=uninstall $(RM) $(DESTDIR)$(bindir)/$(EXIV2EXE)
+	-rmdir $(DESTDIR)$(bindir)
 
 ctags:
 	ebrowse $(CCHDR) $(CCSRC)
