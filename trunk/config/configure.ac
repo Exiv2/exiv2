@@ -52,4 +52,5 @@ AC_SUBST(GXX,$GXX)
 AC_SUBST(GCC,$GCC)
 
 AC_CONFIG_FILES([./config/config.mk])
+AC_CONFIG_FILES([./config/exiv2-config], [chmod +x ./config/exiv2-config])
 AC_OUTPUT

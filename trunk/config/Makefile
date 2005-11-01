@@ -26,7 +26,7 @@ mostlyclean clean:
 	rm -f *~ *.bak *#
 
 distclean: clean
-	rm -f config.h ../src/exv_conf.h config.mk
+	rm -f config.h ../src/exv_conf.h config.mk exiv2-config
 
 # This removes almost everything, including the configure script!
 maintainer-clean: distclean
