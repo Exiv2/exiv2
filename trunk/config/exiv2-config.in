@@ -15,6 +15,7 @@ Known values for OPTION are:
   --prefix=DIR		change exiv2 prefix [default $prefix]
   --exec-prefix=DIR	change exiv2 exec prefix [default $exec_prefix]
   --libs		print library linking information
+  --libtool-libs	print linking information for use with libtool
   --cflags		print pre-processor and compiler flags
   --help		display this help and exit
   --version		output version information
@@ -66,8 +67,12 @@ while test $# -gt 0; do
 	;;
 
     --cflags)
-       	echo -I$includedir
+       	echo -I$includedir -I$includedir/exiv2
        	;;
+
+    --libtool-libs)
+	echo $libdir/libexiv2.la
+        ;;
 
     --libs)
        	echo -L$libdir -lexiv2
