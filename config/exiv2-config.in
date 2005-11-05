@@ -8,6 +8,10 @@ libdir=@libdir@
 usage()
 {
     cat <<EOF
+Exiv2-config provides compile time settings for applications which use
+exiv2. Call this script from the application build commands to get the
+correct parameters to compile and link with exiv2.
+
 Usage: exiv2-config [OPTION]
 
 Known values for OPTION are:
