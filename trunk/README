@@ -62,13 +62,17 @@ or submit bug reports directly to the bug tracking system at
     http://dev.robotbattle.com/bugs/main_page.php
 
 
-Developing with Exiv2
-=====================
+Development
+===========
 
-If you downloaded the software directly from the subversion
-repository, and you want to build it using the GNU configure script,
-then you need to have GNU Autoconf installed on your system and create
-the configure script as the first step:
+On UNIX-like systems, application developers can use the script
+exiv2-config in their build commands to obtain the correct compile and
+link time flags for the Exiv2 library.
+
+If you downloaded Exiv2 directly from the subversion repository, and
+you want to build it using the GNU configure script, then you need to
+have GNU Autoconf installed on your system and create the configure
+script as the first step:
 
     $ make config
 
@@ -82,3 +86,24 @@ of systems. While this is very nice for making usable binaries, it can
 be a pain when trying to debug a program. For that reason, compilation
 of shared libraries can be turned off by specifying the
 --disable-shared option to the configure script.
+
+
+License
+=======
+
+Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
+
+Exiv2 is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
+USA.
