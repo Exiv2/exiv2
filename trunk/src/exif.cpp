@@ -255,7 +255,7 @@ namespace Exiv2 {
         }
 
         return 0;
-    } // TiffThumbnail::read
+    } // TiffThumbnail::setDataArea
 
     const char* TiffThumbnail::format() const
     {
@@ -478,103 +478,122 @@ namespace Exiv2 {
         pIfd0_ = new Ifd(ifd0Id, 0, false);
         assert(pIfd0_ != 0);
         rc = pIfd0_->read(pData_, size_, pTiffHeader_->offset(), byteOrder());
-        if (rc) return rc;
+        if (rc) return rc; // no point to continue if there is no IFD0
 
         delete pExifIfd_;
-        pExifIfd_ = new Ifd(exifIfdId, 0, false);
-        assert(pExifIfd_ != 0);
+        pExifIfd_ = 0;
+        std::auto_ptr<Ifd> tmpExif(new Ifd(exifIfdId, 0, false));
+        assert(tmpExif.get() != 0);
         // Find and read ExifIFD sub-IFD of IFD0
-        rc = pIfd0_->readSubIfd(*pExifIfd_, pData_, size_, byteOrder(), 0x8769);
-        if (rc) return rc;
-        // Find MakerNote in ExifIFD, create a MakerNote class
-        Ifd::iterator pos = pExifIfd_->findTag(0x927c);
-        Ifd::iterator make = pIfd0_->findTag(0x010f);
-        Ifd::iterator model = pIfd0_->findTag(0x0110);
-        if (   pos != pExifIfd_->end()
-            && make != pIfd0_->end() && model != pIfd0_->end()) {
-            // Todo: The conversion to string assumes that there is a \0 at the end
-            // Todo: How to avoid the cast (is that a MSVC thing?)
-            pMakerNote_ = MakerNoteFactory::create(
-                              reinterpret_cast<const char*>(make->data()),
-                              reinterpret_cast<const char*>(model->data()),
-                              false,
-                              pos->data(),
-                              pos->size(),
-                              byteOrder(),
-                              pExifIfd_->offset() + pos->offset()).release();
+        rc = pIfd0_->readSubIfd(*tmpExif, pData_, size_, byteOrder(), 0x8769);
+        if (0 == rc) {
+            pExifIfd_ = tmpExif.release();
         }
-        // Read the MakerNote
-        if (pMakerNote_) {
-            rc = pMakerNote_->read(pData_, size_,
-                                   pExifIfd_->offset() + pos->offset(),
-                                   byteOrder());
-            if (rc) {
-#ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: Failed to read Makernote, rc = "
-                          << rc << "\n";
-#endif
-                delete pMakerNote_;
-                pMakerNote_ = 0;
+        if (pExifIfd_) {
+            // Find MakerNote in ExifIFD, create a MakerNote class
+            Ifd::iterator pos = pExifIfd_->findTag(0x927c);
+            Ifd::iterator make = pIfd0_->findTag(0x010f);
+            Ifd::iterator model = pIfd0_->findTag(0x0110);
+            delete pMakerNote_;
+            pMakerNote_ = 0;
+            MakerNote::AutoPtr tmpMakerNote;
+            if (   pos  != pExifIfd_->end()
+                && make != pIfd0_->end() && model != pIfd0_->end()) {
+                // Todo: The conversion to string assumes that there is a \0 at the end
+                // Todo: How to avoid the cast (is that a MSVC thing?)
+                tmpMakerNote = MakerNoteFactory::create(
+                    reinterpret_cast<const char*>(make->data()),
+                    reinterpret_cast<const char*>(model->data()),
+                    false,
+                    pos->data(),
+                    pos->size(),
+                    byteOrder(),
+                    pExifIfd_->offset() + pos->offset());
             }
-        }
-        // If we successfully parsed the MakerNote, delete the raw MakerNote,
-        // the parsed MakerNote is the primary MakerNote from now on
-        if (pMakerNote_) {
-            pExifIfd_->erase(pos);
-        }
+            // Read the MakerNote
+            if (tmpMakerNote.get() != 0) {
+                rc = tmpMakerNote->read(pData_, size_,
+                                        pExifIfd_->offset() + pos->offset(),
+                                        byteOrder());
+                if (0 == rc) {
+                    pMakerNote_ = tmpMakerNote.release();
+                }
+                else {
+#ifndef SUPPRESS_WARNINGS
+                    std::cerr << "Warning: Failed to read Makernote, rc = "
+                              << rc << "\n";
+#endif
+                }
+            }
+            // If we successfully parsed the MakerNote, delete the raw MakerNote,
+            // the parsed MakerNote is the primary MakerNote from now on
+            if (pMakerNote_) {
+                pExifIfd_->erase(pos);
+            }
 
-        delete pIopIfd_;
-        pIopIfd_ = new Ifd(iopIfdId, 0, false);
-        assert(pIopIfd_ != 0);
-        // Find and read Interoperability IFD in ExifIFD
-        rc = pExifIfd_->readSubIfd(*pIopIfd_, pData_, size_, byteOrder(), 0xa005);
-        if (rc) return rc;
+            delete pIopIfd_;
+            pIopIfd_ = 0;
+            std::auto_ptr<Ifd> tmpIop(new Ifd(iopIfdId, 0, false));
+            assert(tmpIop.get() != 0);
+            // Find and read Interoperability IFD in ExifIFD
+            rc = pExifIfd_->readSubIfd(*tmpIop, pData_, size_, byteOrder(), 0xa005);
+            if (0 == rc) {
+                pIopIfd_ = tmpIop.release();
+            }
+        } // if (pExifIfd_)
 
         delete pGpsIfd_;
-        pGpsIfd_ = new Ifd(gpsIfdId, 0, false);
-        assert(pGpsIfd_ != 0);
+        pGpsIfd_ = 0;
+        std::auto_ptr<Ifd> tmpGps(new Ifd(gpsIfdId, 0, false));
+        assert(tmpGps.get() != 0);
         // Find and read GPSInfo sub-IFD in IFD0
-        rc = pIfd0_->readSubIfd(*pGpsIfd_, pData_, size_, byteOrder(), 0x8825);
-        if (rc) return rc;
+        rc = pIfd0_->readSubIfd(*tmpGps, pData_, size_, byteOrder(), 0x8825);
+        if (0 == rc) {
+            pGpsIfd_ = tmpGps.release();
+        }
 
         delete pIfd1_;
-        pIfd1_ = new Ifd(ifd1Id, 0, false);
-        assert(pIfd1_ != 0);
+        pIfd1_ = 0;
+        std::auto_ptr<Ifd> tmpIfd1(new Ifd(ifd1Id, 0, false));
+        assert(tmpIfd1.get() != 0);
         // Read IFD1
         if (pIfd0_->next()) {
-            rc = pIfd1_->read(pData_, size_, pIfd0_->next(), byteOrder());
-            if (rc) return rc;
+            rc = tmpIfd1->read(pData_, size_, pIfd0_->next(), byteOrder());
+            if (0 == rc) {
+                pIfd1_ = tmpIfd1.release();
+            }
         }
-        // Find and delete ExifIFD sub-IFD of IFD1
-        pos = pIfd1_->findTag(0x8769);
-        if (pos != pIfd1_->end()) {
-            pIfd1_->erase(pos);
-            rc = 7;
-        }
-        // Find and delete GPSInfo sub-IFD in IFD1
-        pos = pIfd1_->findTag(0x8825);
-        if (pos != pIfd1_->end()) {
-            pIfd1_->erase(pos);
-            rc = 7;
+        if (pIfd1_) {
+            // Find and delete ExifIFD sub-IFD of IFD1
+            Ifd::iterator pos = pIfd1_->findTag(0x8769);
+            if (pos != pIfd1_->end()) {
+                pIfd1_->erase(pos);
+                rc = 7;
+            }
+            // Find and delete GPSInfo sub-IFD in IFD1
+            pos = pIfd1_->findTag(0x8825);
+            if (pos != pIfd1_->end()) {
+                pIfd1_->erase(pos);
+                rc = 7;
+            }
         }
         // Copy all entries from the IFDs and the MakerNote to the metadata
         exifMetadata_.clear();
         add(pIfd0_->begin(), pIfd0_->end(), byteOrder());
-        add(pExifIfd_->begin(), pExifIfd_->end(), byteOrder());
+        if (pExifIfd_) add(pExifIfd_->begin(), pExifIfd_->end(), byteOrder());
         if (pMakerNote_) {
             add(pMakerNote_->begin(), pMakerNote_->end(),
                 (pMakerNote_->byteOrder() == invalidByteOrder ?
                     byteOrder() : pMakerNote_->byteOrder()));
         }
-        add(pIopIfd_->begin(), pIopIfd_->end(), byteOrder());
-        add(pGpsIfd_->begin(), pGpsIfd_->end(), byteOrder());
-        add(pIfd1_->begin(), pIfd1_->end(), byteOrder());
+        if (pIopIfd_) add(pIopIfd_->begin(), pIopIfd_->end(), byteOrder());
+        if (pGpsIfd_) add(pGpsIfd_->begin(), pGpsIfd_->end(), byteOrder());
+        if (pIfd1_)   add(pIfd1_->begin(),   pIfd1_->end(),   byteOrder());
         // Read the thumbnail (but don't worry whether it was successful or not)
         readThumbnail();
 
         return rc;
     } // ExifData::load
-
 
     DataBuf ExifData::copy()
     {
@@ -861,8 +880,7 @@ namespace Exiv2 {
 
     bool ExifData::stdThumbPosition() const
     {
-        if (   pIfd0_ == 0 || pExifIfd_ == 0 || pIopIfd_ == 0
-            || pGpsIfd_ == 0 || pIfd1_ == 0) return true;
+        if (pIfd1_ == 0) return true;
 
         // Todo: There is still an invalid assumption here: The data of an IFD
         //       can be stored in multiple non-contiguous blocks. In this case,
@@ -874,20 +892,25 @@ namespace Exiv2 {
         if (thumbnail.get()) {
             long maxOffset;
             maxOffset = std::max(pIfd0_->offset(), pIfd0_->dataOffset());
-            maxOffset = std::max(maxOffset, pExifIfd_->offset());
-            maxOffset = std::max(maxOffset,   pExifIfd_->dataOffset()
-                                            + pExifIfd_->dataSize());
+            if (pExifIfd_) {
+                maxOffset = std::max(maxOffset, pExifIfd_->offset());
+                maxOffset = std::max(maxOffset,   pExifIfd_->dataOffset()
+                                                + pExifIfd_->dataSize());
+            }
             if (pMakerNote_) {
                 maxOffset = std::max(maxOffset,   pMakerNote_->offset()
                                                 + pMakerNote_->size());
             }
-            maxOffset = std::max(maxOffset, pIopIfd_->offset());
-            maxOffset = std::max(maxOffset,   pIopIfd_->dataOffset()
-                                            + pIopIfd_->dataSize());
-            maxOffset = std::max(maxOffset, pGpsIfd_->offset());
-            maxOffset = std::max(maxOffset,   pGpsIfd_->dataOffset()
-                                            + pGpsIfd_->dataSize());
-
+            if (pIopIfd_) {
+                maxOffset = std::max(maxOffset, pIopIfd_->offset());
+                maxOffset = std::max(maxOffset,   pIopIfd_->dataOffset()
+                                                + pIopIfd_->dataSize());
+            }
+            if (pGpsIfd_) {
+                maxOffset = std::max(maxOffset, pGpsIfd_->offset());
+                maxOffset = std::max(maxOffset,   pGpsIfd_->dataOffset()
+                                                + pGpsIfd_->dataSize());
+            }
             if (   maxOffset > pIfd1_->offset()
                 || maxOffset > pIfd1_->dataOffset() && pIfd1_->dataOffset() > 0)
                 rc = false;
@@ -975,8 +998,9 @@ namespace Exiv2 {
 
     bool ExifData::updateEntries()
     {
-        if (   pIfd0_ == 0 || pExifIfd_ == 0 || pIopIfd_ == 0
-            || pGpsIfd_ == 0 || pIfd1_ == 0) return false;
+        if (pIfd0_ == 0 || pExifIfd_ == 0 || pIopIfd_ == 0 || pGpsIfd_ == 0) {
+            return false;
+        }
         if (!this->compatible()) return false;
 
         bool compatible = true;
@@ -990,8 +1014,9 @@ namespace Exiv2 {
         }
         compatible &= updateRange(pIopIfd_->begin(), pIopIfd_->end(), byteOrder());
         compatible &= updateRange(pGpsIfd_->begin(), pGpsIfd_->end(), byteOrder());
-        compatible &= updateRange(pIfd1_->begin(), pIfd1_->end(), byteOrder());
-
+        if (pIfd1_) {
+            compatible &= updateRange(pIfd1_->begin(), pIfd1_->end(), byteOrder());
+        }
         return compatible;
     } // ExifData::updateEntries
 
