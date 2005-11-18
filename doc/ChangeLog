@@ -1,3 +1,33 @@
+Changes from version 0.7 to 0.8
+-------------------------------
+
+* Exiv2 utility
+                 - [tools] Added -S .suf option to the utility. This allows, e.g, 
+	           to use Canon THM files as source file for the insert command.
+		 - [doc] Added man page. (Based on Peter KELEMEN's Debian man page.)
+
+
+* Exiv2 library
+	- 0000444: [iptc] Exiv2 should not panic on slightly misformed IPTC format.
+	- 0000443: [exif] Exiv2 gives up on corrupted IOP directory.
+	- 0000440: [iptc] IPTC time without timezone raises exception.
+        - 0000438: [exif] Support Canon raw images (CRW and THM), currently read-only.
+	- 0000437: [exif] exiv2 -pt crashes if Exif.Canon.ImageNumber is < 1000.
+	- 0000433: [exif] Core dump if the value is empty.
+	- 0000424: [exif] Ifd::read, MakerNote::read and related methods should have 
+		   access to the complete data buffer.
+		 - [exif] Updated Nikon lensdata to v1.19 of Robert Rottmerhusen's 
+		   list.
+		 - Added a tag and dataset title (label).
+		 - Added #ifndef SUPPRESS_WARNINGS blocks around all output from the 
+		   library: compile with -DSUPPRESS_WARNINGS for a quiet library.
+		 - Implemented "copy-on-write" strategy for MemIo to ensure that the 
+		   original buffer is only copied if necessary and never modified.
+		 - Added exiv2-config script. Applications that include exiv2 headers 
+		   and link with the installed library can use this in their build 
+		   commands.
+
+
 Changes from version 0.6.2 to 0.7
 ---------------------------------
 
