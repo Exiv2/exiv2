@@ -256,15 +256,12 @@ namespace Exiv2 {
     /*!
       @brief Returns an Image instance of the specified type.
 
-      The factory is implemented as a singleton, which can be accessed
-      through static member functions.
+      The factory is implemented as a static class.
     */
     class ImageFactory {
     public:
         //! @name Manipulators
         //@{
-        //! Destructor.
-        static void cleanup();
         /*!
           @brief Register image type together with its function pointers.
 
@@ -388,7 +385,7 @@ namespace Exiv2 {
     private:
         //! @name Creators
         //@{
-        //! Prevent construction other than through instance().
+        //! Prevent construction: not implemented.
         ImageFactory();
         //! Prevent copy construction: not implemented.
         ImageFactory(const ImageFactory& rhs);
