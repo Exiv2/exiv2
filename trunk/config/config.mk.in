@@ -126,3 +126,5 @@ srcdir = @srcdir@
 bindir = @bindir@
 incdir = @includedir@/exiv2
 libdir = @libdir@
+mandir = @mandir@
+man1dir = @mandir@/man1

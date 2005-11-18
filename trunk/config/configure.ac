@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(Exiv2, 0.7, ahuggel@gmx.net)
+AC_INIT(Exiv2, 0.8, ahuggel@gmx.net)
 AC_CONFIG_SRCDIR([src/exif.cpp])
 AC_CONFIG_HEADER([./config/config.h])
 AC_CONFIG_AUX_DIR([./config])
