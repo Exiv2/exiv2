@@ -189,7 +189,7 @@ Exif.Photo.MaxApertureValue                   0x9205 Exif         Rational    1 
 Exif.Photo.MeteringMode                       0x9207 Exif         Short       1 1
 Exif.Photo.Flash                              0x9209 Exif         Short       1 24
 Exif.Photo.FocalLength                        0x920a Exif         Rational    1 682/32
-Exif.Photo.UserComment                        0x9286 Exif         Undefined 264 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Exif.Photo.UserComment                        0x9286 Exif         Undefined 264                                                                                                                                                                                                                                                                 
 Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 48 49 48 48 
 Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 1
 Exif.Photo.PixelXDimension                    0xa002 Exif         Short       1 2272
@@ -313,7 +313,7 @@ Exif.Photo.MaxApertureValue                   0x9205 Exif         Rational    1 
 Exif.Photo.MeteringMode                       0x9207 Exif         Short       6 1 2 3 4 5 6
 Exif.Photo.Flash                              0x9209 Exif         Short       1 24
 Exif.Photo.FocalLength                        0x920a Exif         Rational    1 682/32
-Exif.Photo.UserComment                        0x9286 Exif         Undefined 264 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Exif.Photo.UserComment                        0x9286 Exif         Undefined 264                                                                                                                                                                                                                                                                 
 Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 48 49 48 48 
 Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 1
 Exif.Photo.PixelXDimension                    0xa002 Exif         Short       1 2272
@@ -438,7 +438,7 @@ Exif.Photo.MaxApertureValue                   0x9205 Exif         Rational    1 
 Exif.Photo.MeteringMode                       0x9207 Exif         Short       1 1
 Exif.Photo.Flash                              0x9209 Exif         Short       1 24
 Exif.Photo.FocalLength                        0x920a Exif         Rational    1 682/32
-Exif.Photo.UserComment                        0x9286 Exif         Undefined 264 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Exif.Photo.UserComment                        0x9286 Exif         Undefined 264                                                                                                                                                                                                                                                                 
 Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 48 49 48 48 
 Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 1
 Exif.Photo.PixelXDimension                    0xa002 Exif         Short       1 2272
@@ -562,7 +562,7 @@ Exif.Photo.MaxApertureValue                   0x9205 Exif         Rational    1 
 Exif.Photo.MeteringMode                       0x9207 Exif         Short       1 1
 Exif.Photo.Flash                              0x9209 Exif         Short       1 24
 Exif.Photo.FocalLength                        0x920a Exif         Rational    1 682/32
-Exif.Photo.UserComment                        0x9286 Exif         Undefined 264 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Exif.Photo.UserComment                        0x9286 Exif         Undefined 264                                                                                                                                                                                                                                                                 
 Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 48 49 48 48 
 Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 1
 Exif.Photo.PixelXDimension                    0xa002 Exif         Short       1 2272
@@ -690,7 +690,7 @@ Exif.Photo.MeteringMode                       0x9207 Exif         Short       1 
 Exif.Photo.LightSource                        0x9208 Exif         Short       1 0
 Exif.Photo.Flash                              0x9209 Exif         Short       1 0
 Exif.Photo.FocalLength                        0x920a Exif         Rational    1 500/10
-Exif.Photo.UserComment                        0x9286 Exif         Undefined  44 65 83 67 73 73 0 0 0 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 
+Exif.Photo.UserComment                        0x9286 Exif         Undefined  44 charset="Ascii"                                     
 Exif.Photo.SubSecTime                         0x9290 Exif         Ascii       3 00
 Exif.Photo.SubSecTimeOriginal                 0x9291 Exif         Ascii       3 00
 Exif.Photo.SubSecTimeDigitized                0x9292 Exif         Ascii       3 00
@@ -795,7 +795,7 @@ Exif.Photo.MeteringMode                       0x9207 Exif         Short       6 
 Exif.Photo.LightSource                        0x9208 Exif         Short       1 0
 Exif.Photo.Flash                              0x9209 Exif         Short       1 0
 Exif.Photo.FocalLength                        0x920a Exif         Rational    1 500/10
-Exif.Photo.UserComment                        0x9286 Exif         Undefined  44 65 83 67 73 73 0 0 0 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 
+Exif.Photo.UserComment                        0x9286 Exif         Undefined  44 charset="Ascii"                                     
 Exif.Photo.SubSecTime                         0x9290 Exif         Ascii       3 00
 Exif.Photo.SubSecTimeOriginal                 0x9291 Exif         Ascii       3 00
 Exif.Photo.SubSecTimeDigitized                0x9292 Exif         Ascii       3 00
@@ -901,7 +901,7 @@ Exif.Photo.MeteringMode                       0x9207 Exif         Short       1 
 Exif.Photo.LightSource                        0x9208 Exif         Short       1 0
 Exif.Photo.Flash                              0x9209 Exif         Short       1 0
 Exif.Photo.FocalLength                        0x920a Exif         Rational    1 500/10
-Exif.Photo.UserComment                        0x9286 Exif         Undefined  44 65 83 67 73 73 0 0 0 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 
+Exif.Photo.UserComment                        0x9286 Exif         Undefined  44 charset="Ascii"                                     
 Exif.Photo.SubSecTime                         0x9290 Exif         Ascii       3 00
 Exif.Photo.SubSecTimeOriginal                 0x9291 Exif         Ascii       3 00
 Exif.Photo.SubSecTimeDigitized                0x9292 Exif         Ascii       3 00
@@ -1006,7 +1006,7 @@ Exif.Photo.MeteringMode                       0x9207 Exif         Short       1 
 Exif.Photo.LightSource                        0x9208 Exif         Short       1 0
 Exif.Photo.Flash                              0x9209 Exif         Short       1 0
 Exif.Photo.FocalLength                        0x920a Exif         Rational    1 500/10
-Exif.Photo.UserComment                        0x9286 Exif         Undefined  44 65 83 67 73 73 0 0 0 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 
+Exif.Photo.UserComment                        0x9286 Exif         Undefined  44 charset="Ascii"                                     
 Exif.Photo.SubSecTime                         0x9290 Exif         Ascii       3 00
 Exif.Photo.SubSecTimeOriginal                 0x9291 Exif         Ascii       3 00
 Exif.Photo.SubSecTimeDigitized                0x9292 Exif         Ascii       3 00

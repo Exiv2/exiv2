@@ -182,7 +182,7 @@ namespace Exiv2 {
         //! Return the tag
         uint16_t tag() const { return tag_; }
         //! Return the type id.
-        uint16_t type() const { return type_; }
+        uint16_t type() const;
         //! Return the name of the type
         const char* typeName() const
             { return TypeInfo::typeName(TypeId(type_)); }

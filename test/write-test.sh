@@ -25,7 +25,7 @@ runTestCase()
     $binpath/exifprint $rtc_infile > $datapath/iii;
     cp $rtc_infile $rtc_outfile; 
     $binpath/write-test $rtc_infile $rtc_number > $datapath/ttt; 
-    diff $datapath/iii $datapath/ttt
+    diff -a $datapath/iii $datapath/ttt
 }
 
 # **********************************************************************
@@ -68,10 +68,10 @@ runTestCase 11 $datapath/exiv2-nikon-d70.jpg
 
 ) > tmp/write-test.out 2>&1
 
-diff -q -w $diffargs tmp/write-test.out data/write-test.out
+diff -q -w -a $diffargs tmp/write-test.out data/write-test.out
 rc=$?
 if [ $rc -eq 0 ] ; then
     echo "All testcases passed."
 else
-    diff -w $diffargs tmp/write-test.out data/write-test.out
+    diff -w -a $diffargs tmp/write-test.out data/write-test.out
 fi
