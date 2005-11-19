@@ -204,10 +204,15 @@ void exifPrint(const ExifData& exifData)
 {
     ExifData::const_iterator i = exifData.begin();
     for (; i != exifData.end(); ++i) {
-        std::cout << std::setw(53) << std::setfill(' ') << std::left
+        std::cout << std::setw(44) << std::setfill(' ') << std::left
                   << i->key() << " "
                   << "0x" << std::setw(4) << std::setfill('0') << std::right
-                  << std::hex << i->tag() << "  "
+                  << std::hex << i->tag() << " "
+                  << std::setw(9) << std::setfill(' ') << std::left
+                  << i->typeName() << " "
+                  << std::dec << std::setw(3)
+                  << std::setfill(' ') << std::right
+                  << i->count() << "  "
                   << std::dec << i->value()
                   << "\n";
     }

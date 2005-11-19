@@ -7,9 +7,9 @@ Case 1: Non-intrusive change to the standard Exif metadata
 ---> Reading file test1.jpg
 ---> Writing Exif thumbnail to file thumb1.*
 13c13
-< Exif.Photo.DateTimeOriginal                           0x9003  2003:12:14 12:01:44
+< Exif.Photo.DateTimeOriginal                  0x9003 Ascii      20  2003:12:14 12:01:44
 ---
-> Exif.Photo.DateTimeOriginal                           0x9003  1999:11:22 00:11:22
+> Exif.Photo.DateTimeOriginal                  0x9003 Ascii      20  1999:11:22 00:11:22
 ------------------------------------------------------------
 Case 2: Non-intrusive change to the makernote metadata
 ---> Reading file ./exiv2-canon-powershot-s40.jpg
@@ -19,9 +19,9 @@ Case 2: Non-intrusive change to the makernote metadata
 ---> Reading file test2.jpg
 ---> Writing Exif thumbnail to file thumb2.*
 47c47
-< Exif.Canon.OwnerName                                  0x0009  Andreas Huggel
+< Exif.Canon.OwnerName                         0x0009 Ascii      32  Andreas Huggel
 ---
-> Exif.Canon.OwnerName                                  0x0009  Chan YeeSend
+> Exif.Canon.OwnerName                         0x0009 Ascii      32  Chan YeeSend
 ------------------------------------------------------------
 Case 3: Non-intrusive change to the Exif metadata (w/o makernote)
 ---> Reading file ./exiv2-kodak-dc210.jpg
@@ -31,9 +31,9 @@ Case 3: Non-intrusive change to the Exif metadata (w/o makernote)
 ---> Reading file test3.jpg
 ---> Writing Exif thumbnail to file thumb3.*
 14c14
-< Exif.Photo.DateTimeOriginal                           0x9003  2000:10:26 16:46:51
+< Exif.Photo.DateTimeOriginal                  0x9003 Ascii      20  2000:10:26 16:46:51
 ---
-> Exif.Photo.DateTimeOriginal                           0x9003  1999:11:22 00:11:22
+> Exif.Photo.DateTimeOriginal                  0x9003 Ascii      20  1999:11:22 00:11:22
 ------------------------------------------------------------
 Case 4: Intrusive change to the standard Exif metadata
 ---> Reading file ./exiv2-canon-powershot-s40.jpg
@@ -43,17 +43,17 @@ Case 4: Intrusive change to the standard Exif metadata
 ---> Reading file test4.jpg
 ---> Writing Exif thumbnail to file thumb4.*
 9c9
-< Exif.Image.ExifTag                                    0x8769  196
+< Exif.Image.ExifTag                           0x8769 Long        1  196
 ---
-> Exif.Image.ExifTag                                    0x8769  184
+> Exif.Image.ExifTag                           0x8769 Long        1  184
 13c13
-< Exif.Photo.DateTimeOriginal                           0x9003  2003:12:14 12:01:44
+< Exif.Photo.DateTimeOriginal                  0x9003 Ascii      20  2003:12:14 12:01:44
 ---
-> Exif.Photo.DateTimeOriginal                           0x9003  1999:11:22 00:11:22 and twenty seconds
+> Exif.Photo.DateTimeOriginal                  0x9003 Ascii      39  1999:11:22 00:11:22 and twenty seconds
 29c29
-< Exif.Photo.InteroperabilityTag                        0xa005  1416
+< Exif.Photo.InteroperabilityTag               0xa005 Long        1  1416
 ---
-> Exif.Photo.InteroperabilityTag                        0xa005  1423
+> Exif.Photo.InteroperabilityTag               0xa005 Long        1  1423
 ------------------------------------------------------------
 Case 5: Intrusive change to the Canon makernote metadata
 ---> Reading file ./exiv2-canon-powershot-s40.jpg
@@ -63,17 +63,17 @@ Case 5: Intrusive change to the Canon makernote metadata
 ---> Reading file test5.jpg
 ---> Writing Exif thumbnail to file thumb5.*
 9c9
-< Exif.Image.ExifTag                                    0x8769  196
+< Exif.Image.ExifTag                           0x8769 Long        1  196
 ---
-> Exif.Image.ExifTag                                    0x8769  184
+> Exif.Image.ExifTag                           0x8769 Long        1  184
 29c29
-< Exif.Photo.InteroperabilityTag                        0xa005  1416
+< Exif.Photo.InteroperabilityTag               0xa005 Long        1  1416
 ---
-> Exif.Photo.InteroperabilityTag                        0xa005  1414
+> Exif.Photo.InteroperabilityTag               0xa005 Long        1  1414
 47c47
-< Exif.Canon.OwnerName                                  0x0009  Andreas Huggel
+< Exif.Canon.OwnerName                         0x0009 Ascii      32  Andreas Huggel
 ---
-> Exif.Canon.OwnerName                                  0x0009  Frau Chan YeeSend und Herr Andreas Huggel
+> Exif.Canon.OwnerName                         0x0009 Ascii      42  Frau Chan YeeSend und Herr Andreas Huggel
 ------------------------------------------------------------
 Case 6: Intrusive change to the Exif metadata (w/o makernote)
 ---> Reading file ./exiv2-kodak-dc210.jpg
@@ -83,13 +83,13 @@ Case 6: Intrusive change to the Exif metadata (w/o makernote)
 ---> Reading file test6.jpg
 ---> Writing Exif thumbnail to file thumb6.*
 10c10
-< Exif.Image.ExifTag                                    0x8769  374
+< Exif.Image.ExifTag                           0x8769 Long        1  374
 ---
-> Exif.Image.ExifTag                                    0x8769  192
+> Exif.Image.ExifTag                           0x8769 Long        1  192
 14c14
-< Exif.Photo.DateTimeOriginal                           0x9003  2000:10:26 16:46:51
+< Exif.Photo.DateTimeOriginal                  0x9003 Ascii      20  2000:10:26 16:46:51
 ---
-> Exif.Photo.DateTimeOriginal                           0x9003  1999:11:22 00:11:22 and twenty seconds
+> Exif.Photo.DateTimeOriginal                  0x9003 Ascii      39  1999:11:22 00:11:22 and twenty seconds
 ------------------------------------------------------------
 Case 7: Intrusive change to the Fujifilm makernote metadata
 ---> Reading file ./exiv2-fujifilm-finepix-s2pro.jpg
@@ -99,17 +99,17 @@ Case 7: Intrusive change to the Fujifilm makernote metadata
 ---> Reading file test7.jpg
 ---> Writing Exif thumbnail to file thumb7.*
 11c11
-< Exif.Image.ExifTag                                    0x8769  248
+< Exif.Image.ExifTag                           0x8769 Long        1  248
 ---
-> Exif.Image.ExifTag                                    0x8769  245
+> Exif.Image.ExifTag                           0x8769 Long        1  245
 33c33
-< Exif.Photo.InteroperabilityTag                        0xa005  1056
+< Exif.Photo.InteroperabilityTag               0xa005 Long        1  1056
 ---
-> Exif.Photo.InteroperabilityTag                        0xa005  1070
+> Exif.Photo.InteroperabilityTag               0xa005 Long        1  1070
 50c50
-< Exif.Fujifilm.Quality                                 0x1000  NORMAL 
+< Exif.Fujifilm.Quality                        0x1000 Ascii       8  NORMAL 
 ---
-> Exif.Fujifilm.Quality                                 0x1000  Typical Fujifilm Quality
+> Exif.Fujifilm.Quality                        0x1000 Ascii      25  Typical Fujifilm Quality
 ------------------------------------------------------------
 Case 8: Intrusive change to the Sigma makernote metadata
 ---> Reading file ./exiv2-sigma-d10.jpg
@@ -119,13 +119,13 @@ Case 8: Intrusive change to the Sigma makernote metadata
 ---> Reading file test8.jpg
 ---> Writing Exif thumbnail to file thumb8.*
 10c10
-< Exif.Image.ExifTag                                    0x8769  12317
+< Exif.Image.ExifTag                           0x8769 Long        1  12317
 ---
-> Exif.Image.ExifTag                                    0x8769  213
+> Exif.Image.ExifTag                           0x8769 Long        1  213
 38c38
-< Exif.Sigma.ResolutionMode                             0x0004  HI
+< Exif.Sigma.ResolutionMode                    0x0004 Ascii       3  HI
 ---
-> Exif.Sigma.ResolutionMode                             0x0004  Sigma HI resolution
+> Exif.Sigma.ResolutionMode                    0x0004 Ascii      20  Sigma HI resolution
 ------------------------------------------------------------
 Case 9: Intrusive change to the Nikon1 makernote metadata
 ---> Reading file ./exiv2-nikon-e990.jpg
@@ -135,17 +135,17 @@ Case 9: Intrusive change to the Nikon1 makernote metadata
 ---> Reading file test9.jpg
 ---> Writing Exif thumbnail to file thumb9.*
 11c11
-< Exif.Image.ExifTag                                    0x8769  284
+< Exif.Image.ExifTag                           0x8769 Long        1  284
 ---
-> Exif.Image.ExifTag                                    0x8769  213
+> Exif.Image.ExifTag                           0x8769 Long        1  213
 32c32
-< Exif.Photo.InteroperabilityTag                        0xa005  886
+< Exif.Photo.InteroperabilityTag               0xa005 Long        1  886
 ---
-> Exif.Photo.InteroperabilityTag                        0xa005  1214
+> Exif.Photo.InteroperabilityTag               0xa005 Long        1  1214
 38c38
-< Exif.Nikon1.Quality                                   0x0004  FINE  
+< Exif.Nikon1.Quality                          0x0004 Ascii       7  FINE  
 ---
-> Exif.Nikon1.Quality                                   0x0004  Typical Nikon1 Quality
+> Exif.Nikon1.Quality                          0x0004 Ascii      23  Typical Nikon1 Quality
 ------------------------------------------------------------
 Case 10: Intrusive change to the Nikon2 makernote metadata
 ---> Reading file ./exiv2-nikon-e950.jpg
@@ -155,17 +155,17 @@ Case 10: Intrusive change to the Nikon2 makernote metadata
 ---> Reading file test10.jpg
 ---> Writing Exif thumbnail to file thumb10.*
 11c11
-< Exif.Image.ExifTag                                    0x8769  284
+< Exif.Image.ExifTag                           0x8769 Long        1  284
 ---
-> Exif.Image.ExifTag                                    0x8769  212
+> Exif.Image.ExifTag                           0x8769 Long        1  212
 32c32
-< Exif.Photo.InteroperabilityTag                        0xa005  886
+< Exif.Photo.InteroperabilityTag               0xa005 Long        1  886
 ---
-> Exif.Photo.InteroperabilityTag                        0xa005  1038
+> Exif.Photo.InteroperabilityTag               0xa005 Long        1  1038
 35c35
-< Exif.Nikon2.0x0002                                    0x0002  08.00
+< Exif.Nikon2.0x0002                           0x0002 Ascii       6  08.00
 ---
-> Exif.Nikon2.0x0002                                    0x0002  Nikon2 Version 2
+> Exif.Nikon2.0x0002                           0x0002 Ascii      17  Nikon2 Version 2
 ------------------------------------------------------------
 Case 11: Intrusive change to the Nikon3 makernote metadata
 ---> Reading file ./exiv2-nikon-d70.jpg
@@ -175,14 +175,14 @@ Case 11: Intrusive change to the Nikon3 makernote metadata
 ---> Reading file test11.jpg
 ---> Writing Exif thumbnail to file thumb11.*
 13c13
-< Exif.Image.ExifTag                                    0x8769  340
+< Exif.Image.ExifTag                           0x8769 Long        1  340
 ---
-> Exif.Image.ExifTag                                    0x8769  332
+> Exif.Image.ExifTag                           0x8769 Long        1  332
 36c36
-< Exif.Photo.InteroperabilityTag                        0xa005  30306
+< Exif.Photo.InteroperabilityTag               0xa005 Long        1  30306
 ---
-> Exif.Photo.InteroperabilityTag                        0xa005  2402
+> Exif.Photo.InteroperabilityTag               0xa005 Long        1  2402
 55c55
-< Exif.Nikon3.Quality                                   0x0004  FINE   
+< Exif.Nikon3.Quality                          0x0004 Ascii       8  FINE   
 ---
-> Exif.Nikon3.Quality                                   0x0004  Typical Nikon3 Quality
+> Exif.Nikon3.Quality                          0x0004 Ascii      23  Typical Nikon3 Quality
