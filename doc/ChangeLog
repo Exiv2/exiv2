@@ -6,7 +6,6 @@ Changes from version 0.7 to 0.8
 	           to use Canon THM files as source file for the insert command.
 		 - [doc] Added man page. (Based on Peter KELEMEN's Debian man page.)
 
-
 * Exiv2 library
 	- 0000445: [exif] Setting the comment on an image with an existing comment has
 	           no effect.
