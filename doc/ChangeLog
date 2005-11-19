@@ -8,6 +8,8 @@ Changes from version 0.7 to 0.8
 
 
 * Exiv2 library
+	- 0000445: [exif] Setting the comment on an image with an existing comment has
+	           no effect.
 	- 0000444: [iptc] Exiv2 should not panic on slightly misformed IPTC format.
 	- 0000443: [exif] Exiv2 gives up on corrupted IOP directory.
 	- 0000440: [iptc] IPTC time without timezone raises exception.
