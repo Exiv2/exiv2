@@ -77,7 +77,7 @@ diffCheck()
 
 LD_LIBRARY_PATH=../../src:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH
-binpath="../../src"
+binpath="$VALGRIND ../../src"
 datapath="../data"
 
 test_files="table.jpg smiley1.jpg smiley2.jpg"
