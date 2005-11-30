@@ -12,7 +12,7 @@ fi
 (
 LD_LIBRARY_PATH=../../src:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH
-binpath="../../src"
+binpath="$VALGRIND ../../src"
 cp -f ./data/exiv2-empty.jpg ./tmp
 cd ./tmp
 $binpath/write2-test exiv2-empty.jpg

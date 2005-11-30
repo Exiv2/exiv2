@@ -11,7 +11,7 @@ if [ $? -ne 0 ] ; then
 fi
 (
 LD_LIBRARY_PATH=../../src:$LD_LIBRARY_PATH
-binpath="../../src"
+binpath="$VALGRIND ../../src"
 cp -f ./data/exiv2-empty.jpg ./tmp
 cp -f ./data/exiv2-gc.jpg ./tmp
 cd ./tmp

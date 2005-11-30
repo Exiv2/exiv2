@@ -12,7 +12,7 @@ fi
 (
 LD_LIBRARY_PATH=../../src:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH
-binpath="../../src"
+binpath=" $VALGRIND ../../src"
 cd ./tmp
 $binpath/ifd-test
 ) > $results 2>&1

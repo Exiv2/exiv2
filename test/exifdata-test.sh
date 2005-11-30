@@ -12,7 +12,7 @@ fi
 (
 LD_LIBRARY_PATH=../../src:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH
-binpath="../../src"
+binpath="$VALGRIND ../../src"
 cp -f ./data/exiv2-gc.jpg ./tmp
 cp -f ./data/exiv2-canon-powershot-s40.jpg ./tmp
 cp -f ./data/exiv2-nikon-d70.jpg ./tmp
