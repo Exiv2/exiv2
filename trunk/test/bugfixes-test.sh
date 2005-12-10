@@ -46,6 +46,10 @@ filename=`prep_file $num`
 $binpath/exiv2 -v -M'set Exif.Photo.UserComment A comment' $filename
 $binpath/exiv2 -pt $filename
 
+num=447 # Problem only visible in Valgrind
+filename=`prep_file $num`
+$binpath/exiv2 -pi $filename
+
 ) > $results 2>&1
 
 diff -q $diffargs $results $good

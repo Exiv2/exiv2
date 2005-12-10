@@ -41,6 +41,7 @@ EXIV2_RCSID("@(#) $Id$");
 #include <iomanip>
 #include <sstream>
 #include <cassert>
+#include <cstring>
 #include <ctime>
 
 // *****************************************************************************
@@ -393,9 +394,11 @@ namespace Exiv2 {
 #endif
             return 1;
         }
-        int scanned = sscanf(reinterpret_cast<const char*>(buf),
-                   "%4d%2d%2d",
-                   &date_.year, &date_.month, &date_.day);
+        // Make the buffer a 0 terminated C-string for sscanf
+        char b[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        memcpy(b, reinterpret_cast<const char*>(buf), 8);
+        int scanned = sscanf(b, "%4d%2d%2d",
+                             &date_.year, &date_.month, &date_.day);
         if (scanned != 3) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << Error(29) << "\n";
@@ -414,9 +417,8 @@ namespace Exiv2 {
 #endif
             return 1;
         }
-        int scanned = sscanf(buf.data(),
-                   "%4d-%d-%d",
-                   &date_.year, &date_.month, &date_.day);
+        int scanned = sscanf(buf.c_str(), "%4d-%d-%d",
+                             &date_.year, &date_.month, &date_.day);
         if (scanned != 3) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << Error(29) << "\n";
@@ -496,16 +498,17 @@ namespace Exiv2 {
 
     int TimeValue::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
     {
+        // Make the buffer a 0 terminated C-string for scanTime[36]
+        char b[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        memcpy(b, reinterpret_cast<const char*>(buf), (len < 12 ? len : 11));
         // Hard coded to read HHMMSS or Iptc style times
         int rc = 1;
         if (len == 6) {
             // Try to read (non-standard) HHMMSS format
-            rc = scanTime3(reinterpret_cast<const char*>(buf),
-                           "%2d%2d%2d");
+            rc = scanTime3(b, "%2d%2d%2d");
         }
         if (len == 11) {
-            rc = scanTime6(reinterpret_cast<const char*>(buf),
-                           "%2d%2d%2d%1c%2d%2d");
+            rc = scanTime6(b, "%2d%2d%2d%1c%2d%2d");
         }
 #ifndef SUPPRESS_WARNINGS
         if (rc) {
@@ -521,10 +524,10 @@ namespace Exiv2 {
         int rc = 1;
         if (buf.length() < 9) {
             // Try to read (non-standard) H:M:S format
-            rc = scanTime3(buf.data(), "%d:%d:%d");
+            rc = scanTime3(buf.c_str(), "%d:%d:%d");
         }
         else {
-            rc = scanTime6(buf.data(), "%d:%d:%d%1c%d:%d");
+            rc = scanTime6(buf.c_str(), "%d:%d:%d%1c%d:%d");
         }
 #ifndef SUPPRESS_WARNINGS
         if (rc) {
