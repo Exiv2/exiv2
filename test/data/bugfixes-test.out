@@ -201,3 +201,7 @@ Exif.Thumbnail.YResolution                   Rational    1  180
 Exif.Thumbnail.ResolutionUnit                Short       1  inch
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
 Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  5448
+------> Bug 447 <-------
+Iptc.Application2.Caption                    String      0  
+Iptc.Application2.DateCreated                Date        8  2005-08-09
+Iptc.Application2.TimeCreated                Time       11  01:28:31-07:00
