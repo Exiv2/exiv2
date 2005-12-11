@@ -66,7 +66,11 @@ EXIV2_RCSID("@(#) $Id$");
 #ifdef EXV_HAVE_UNISTD_H
 # include <unistd.h>                    // for stat()
 #endif
-#include <utime.h>
+#ifdef _MSC_VER
+# include <sys/utime.h>
+#else
+# include <utime.h>
+#endif
 
 // *****************************************************************************
 // local declarations
