@@ -66,10 +66,28 @@ EXIV2_RCSID("@(#) $Id$");
 #ifdef EXV_HAVE_UNISTD_H
 # include <unistd.h>                    // for stat()
 #endif
+#include <utime.h>
 
 // *****************************************************************************
 // local declarations
 namespace {
+
+    //! Helper class to set the timestamp of a file to that of another file
+    class Timestamp {
+    public:
+        //! C'tor
+        Timestamp() : actime_(0), modtime_(0) {}
+        //! Read the timestamp of a file
+        int read(const std::string& path);
+        //! Read the timestamp from a broken-down time in buffer \em tm.
+        int read(struct tm* tm);
+        //! Set the timestamp of a file
+        int touch(const std::string& path);
+
+    private:
+        time_t actime_;
+        time_t modtime_;
+    };
 
     // Convert a string "YYYY:MM:DD HH:MI:SS" to a struct tm type,
     // returns 0 if successful
@@ -94,6 +112,16 @@ namespace {
     int metacopy(const std::string& source,
                  const std::string& target,
                  bool preserve);
+
+    /*!
+      @brief Rename a file according to a timestamp value.
+
+      @param path The original file path. Contains the new path on exit.
+      @param tm   Pointer to a buffer with the broken-down time to rename 
+                  the file to.
+      @return 0 if successful, -1 if the file was skipped, 1 on error.
+    */
+    int renameFile(std::string& path, const struct tm* tm);
 }
 
 // *****************************************************************************
@@ -639,6 +667,10 @@ namespace Action {
                       << ": Failed to open the file\n";
             return -1;
         }
+        Timestamp ts;
+        if (Params::instance().preserve_) {
+            ts.read(path);
+        }
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
@@ -661,91 +693,34 @@ namespace Action {
                       << path << "\n";
             return 1;
         }
-        // Assemble the new filename from the timestamp
         struct tm tm;
         if (str2Tm(v, &tm) != 0) {
             std::cerr << "Failed to parse timestamp `" << v
                       << "' in the file " << path << "\n";
             return 1;
         }
-        const size_t max = 1024;
-        char basename[max];
-        memset(basename, 0x0, max);
-        if (strftime(basename, max, Params::instance().format_.c_str(), &tm) == 0) {
-            std::cerr << "Filename format yields empty filename for the file "
-                      << path << "\n";
-            return 1;
+        if (   Params::instance().timestamp_
+            || Params::instance().timestampOnly_) {
+            ts.read(&tm);
         }
-        std::string newPath
-            = Util::dirname(path) + EXV_SEPERATOR_STR + basename + Util::suffix(path);
-        if (   Util::dirname(newPath)  == Util::dirname(path)
-            && Util::basename(newPath) == Util::basename(path)) {
+        int rc = 0;
+        std::string newPath = path;
+        if (Params::instance().timestampOnly_) {
             if (Params::instance().verbose_) {
-                std::cout << "This file already has the correct name" << std::endl;
-            }
-            return 0;
-        }
-
-        bool go = true;
-        int seq = 1;
-        std::string s;
-        Params::FileExistsPolicy fileExistsPolicy
-            = Params::instance().fileExistsPolicy_;
-        while (go) {
-            if (Exiv2::fileExists(newPath)) {
-                switch (fileExistsPolicy) {
-                case Params::overwritePolicy:
-                    go = false;
-                    break;
-                case Params::renamePolicy:
-                    newPath = Util::dirname(path)
-                        + EXV_SEPERATOR_STR + basename
-                        + "_" + Exiv2::toString(seq++)
-                        + Util::suffix(path);
-                    break;
-                case Params::askPolicy:
-                    std::cout << Params::instance().progname()
-                              << ": File `" << newPath
-                              << "' exists. [O]verwrite, [r]ename or [s]kip? ";
-                    std::cin >> s;
-                    switch (s[0]) {
-                    case 'o':
-                    case 'O':
-                        go = false;
-                        break;
-                    case 'r':
-                    case 'R':
-                        fileExistsPolicy = Params::renamePolicy;
-                        newPath = Util::dirname(path)
-                            + EXV_SEPERATOR_STR + basename
-                            + "_" + Exiv2::toString(seq++)
-                            + Util::suffix(path);
-                        break;
-                    default: // skip
-                        return 0;
-                        break;
-                    }
-                }
-            }
-            else {
-                go = false;
+                std::cout << "Updating timestamp to " << v << std::endl;
             }
         }
-
-        if (Params::instance().verbose_) {
-            std::cout << "Renaming file to " << newPath << std::endl;
+        else {
+            rc = renameFile(newPath, &tm);
+            if (rc == -1) return 0; // skip
         }
-
-        // Workaround for MinGW rename which does not overwrite existing files
-        remove(newPath.c_str());
-        if (::rename(path.c_str(), newPath.c_str()) == -1) {
-            std::cerr << Params::instance().progname()
-                      << ": Failed to rename "
-                      << path << " to " << newPath << ": "
-                      << Exiv2::strError() << "\n";
-            return 1;
+        if (   0 == rc 
+            && (   Params::instance().preserve_ 
+                || Params::instance().timestamp_
+                || Params::instance().timestampOnly_)) {
+            ts.touch(newPath);
         }
-        return 0;
+        return rc;
     }
     catch(const Exiv2::AnyError& e)
     {
@@ -773,6 +748,10 @@ namespace Action {
                       << ": Failed to open the file\n";
             return -1;
         }
+        Timestamp ts;
+        if (Params::instance().preserve_) {
+            ts.read(path);
+        }
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
         assert(image.get() != 0);
         image->readMetadata();
@@ -792,6 +771,9 @@ namespace Action {
         }
         if (0 == rc) {
             image->writeMetadata();
+        }
+        if (Params::instance().preserve_) {
+            ts.touch(path);
         }
 
         return rc;
@@ -952,6 +934,10 @@ namespace Action {
             return -1;
         }
         int rc = 0;
+        Timestamp ts;
+        if (Params::instance().preserve_) {
+            ts.read(path);
+        }
         if (Params::instance().target_ & Params::ctThumb) {
             rc = insertThumbnail(path);
         }
@@ -966,6 +952,9 @@ namespace Action {
             std::string exvPath =   directory + EXV_SEPERATOR_STR
                                   + Util::basename(path, true) + suffix;
             rc = metacopy(exvPath, path, true);
+        }
+        if (Params::instance().preserve_) {
+            ts.touch(path);
         }
         return rc;
     }
@@ -1019,6 +1008,10 @@ namespace Action {
                       << ": Failed to open the file\n";
             return -1;
         }
+        Timestamp ts;
+        if (Params::instance().preserve_) {
+            ts.read(path);
+        }
         image_ = Exiv2::ImageFactory::open(path);
         assert(image_.get() != 0);
         image_->readMetadata();
@@ -1047,6 +1040,9 @@ namespace Action {
         // Save both exif and iptc metadata
         image_->writeMetadata();
 
+        if (Params::instance().preserve_) {
+            ts.touch(path);
+        }
         return 0;
     }
     catch(const Exiv2::AnyError& e)
@@ -1166,6 +1162,10 @@ namespace Action {
                       << ": Failed to open the file\n";
             return -1;
         }
+        Timestamp ts;
+        if (Params::instance().preserve_) {
+            ts.read(path);
+        }
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
@@ -1180,6 +1180,9 @@ namespace Action {
         rc += adjustDateTime(exifData, "Exif.Photo.DateTimeDigitized", path);
         if (rc) return 1;
         image->writeMetadata();
+        if (Params::instance().preserve_) {
+            ts.touch(path);
+        }
         return rc;
     }
     catch(const Exiv2::AnyError& e)
@@ -1240,6 +1243,38 @@ namespace Action {
 // *****************************************************************************
 // local definitions
 namespace {
+
+    int Timestamp::read(const std::string& path)
+    {
+        struct stat buf;
+        int rc = stat(path.c_str(), &buf);
+        if (0 == rc) {
+            actime_  = buf.st_atime;
+            modtime_ = buf.st_mtime;
+        }
+        return rc;
+    }
+
+    int Timestamp::read(struct tm* tm)
+    {
+        int rc = 1;
+        time_t t = mktime(tm);
+        if (t != (time_t)-1) {
+            rc = 0;
+            actime_  = t;
+            modtime_ = t;
+        }
+        return rc;
+    }
+
+    int Timestamp::touch(const std::string& path)
+    {
+        if (0 == actime_) return 1;
+        struct utimbuf buf;
+        buf.actime = actime_;
+        buf.modtime = modtime_;
+        return utime(path.c_str(), &buf);
+    }
 
     int str2Tm(const std::string& timeStr, struct tm* tm)
     {
@@ -1350,4 +1385,93 @@ namespace {
 
         return 0;
     } // metacopy
+
+    int renameFile(std::string& newPath, const struct tm* tm)
+    {
+        std::string path = newPath;
+        const size_t max = 1024;
+        char basename[max];
+        memset(basename, 0x0, max);
+        if (strftime(basename, max, Params::instance().format_.c_str(), tm) == 0) {
+            std::cerr << "Filename format yields empty filename for the file "
+                      << path << "\n";
+            return 1;
+        }
+        newPath =   Util::dirname(path) + EXV_SEPERATOR_STR 
+                  + basename + Util::suffix(path);
+        if (   Util::dirname(newPath)  == Util::dirname(path)
+            && Util::basename(newPath) == Util::basename(path)) {
+            if (Params::instance().verbose_) {
+                std::cout << "This file already has the correct name" << std::endl;
+            }
+            return -1;
+        }
+
+        bool go = true;
+        int seq = 1;
+        std::string s;
+        Params::FileExistsPolicy fileExistsPolicy
+            = Params::instance().fileExistsPolicy_;
+        while (go) {
+            if (Exiv2::fileExists(newPath)) {
+                switch (fileExistsPolicy) {
+                case Params::overwritePolicy:
+                    go = false;
+                    break;
+                case Params::renamePolicy:
+                    newPath = Util::dirname(path)
+                        + EXV_SEPERATOR_STR + basename
+                        + "_" + Exiv2::toString(seq++)
+                        + Util::suffix(path);
+                    break;
+                case Params::askPolicy:
+                    std::cout << Params::instance().progname()
+                              << ": File `" << newPath
+                              << "' exists. [O]verwrite, [r]ename or [s]kip? ";
+                    std::cin >> s;
+                    switch (s[0]) {
+                    case 'o':
+                    case 'O':
+                        go = false;
+                        break;
+                    case 'r':
+                    case 'R':
+                        fileExistsPolicy = Params::renamePolicy;
+                        newPath = Util::dirname(path)
+                            + EXV_SEPERATOR_STR + basename
+                            + "_" + Exiv2::toString(seq++)
+                            + Util::suffix(path);
+                        break;
+                    default: // skip
+                        return -1;
+                        break;
+                    }
+                }
+            }
+            else {
+                go = false;
+            }
+        }
+
+        if (Params::instance().verbose_) {
+            std::cout << "Renaming file to " << newPath;
+            if (Params::instance().timestamp_) {
+                std::cout << ", updating timestamp";
+            }
+            std::cout << std::endl;
+        }
+
+        // Workaround for MinGW rename which does not overwrite existing files
+        remove(newPath.c_str());
+        if (std::rename(path.c_str(), newPath.c_str()) == -1) {
+            std::cerr << Params::instance().progname()
+                      << ": Failed to rename "
+                      << path << " to " << newPath << ": "
+                      << Exiv2::strError() << "\n";
+            return 1;
+        }
+
+        return 0;
+    } // renameFile
+
 }

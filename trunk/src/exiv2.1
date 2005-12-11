@@ -57,8 +57,9 @@ Apply commands to modify (add, set, delete) the EXIF/IPTC metadata of image
 files. Requires option \fB\-m\fP or \fB\-M\fP.
 .TP
 .B mv | rename
-Rename files according to the EXIF create timestamp. The filename format
-can be set with \fB\-r\fP \fIfmt\fP.
+Rename files and/or set file timestamps according to the EXIF create
+timestamp. The filename format can be set with \fB\-r\fP \fIfmt\fP,
+timestamp options are \fB\-t\fP and \fB\-T\fP.
 .SH OPTIONS
 .TP
 .B \-h
@@ -70,11 +71,27 @@ Show the program version and exit.
 .B \-v
 Be verbose during the program run.
 .TP
+.B \-k
+Preserve file timestamps when updating files (keep). Can be used with
+all options which update files. The flag is ignored by read-only
+options.
+.TP
+.B \-t
+Set the file timestamp according to the EXIF create timestamp in
+addition to renaming the file (overrides \fB\-k\fP). This option is
+only used with the 'rename' action.
+.TP
+.B \-T
+Only set the file timestamp according to the EXIF create timestamp, do
+not rename the file (overrides \fB\-k\fP). This option is only used
+with the 'rename' action.
+.TP
 .B \-f
 Do not prompt before overwriting existing files (force overwrite).
 .TP
 .B \-F
-Do not prompt before renaming existing files (Force rename).
+Do not prompt before renaming files (Force rename). Appends '_1' 
+('_2', ...) to the name of the new file.
 .TP
 .B \-a \fItime\fP
 Time adjustment in the format [\-]HH[:MM[:SS]]. This option is only

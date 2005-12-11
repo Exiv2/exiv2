@@ -21,38 +21,43 @@ Actions:
   in | insert   Insert metadata from corresponding *.exv files.
                 Use option -S to change the suffix of the input files.
   ex | extract  Extract metadata to *.exv and thumbnail image files.
-  mv | rename   Rename files according to the Exif create timestamp.
-                The filename format can be set with -r format.
+  mv | rename   Rename files and/or set file timestamps according to the
+                Exif create timestamp. The filename format can be set with
+                -r format, timestamp options are controlled with -t and -T.
   mo | modify   Apply commands to modify (add, set, delete) the Exif
-                and Iptc metadata of image files. Requires option -m or -M
+                and Iptc metadata of image files. Requires option -m or -M.
 
 Options:
    -h      Display this help and exit.
    -V      Show the program version and exit.
    -v      Be verbose during the program run.
+   -k      Preserve file timestamps (keep).
+   -t      Also set the file timestamp in 'rename' action (overrides -k).
+   -T      Only set the file timestamp in 'rename' action, do not rename
+           the file (overrides -k).
    -f      Do not prompt before overwriting existing files (force).
-   -F      Do not prompt before renaming existing files (Force).
+   -F      Do not prompt before renaming files (Force).
    -a time Time adjustment in the format [-]HH[:MM[:SS]]. This option
-           is only used with the `adjust' action.
-   -p mode Print mode for the `print' action. Possible modes are:
+           is only used with the 'adjust' action.
+   -p mode Print mode for the 'print' action. Possible modes are:
              s : print a summary of the Exif metadata (the default)
              t : interpreted (translated) Exif data
              v : plain Exif data values
              h : hexdump of the Exif data
              i : Iptc data values
              c : Jpeg comment
-   -d tgt  Delete target(s) for the `delete' action. Possible targets are:
+   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:
              a : all supported metadata (the default)
              e : Exif section
              t : Exif thumbnail only
              i : Iptc data
              c : Jpeg comment
-   -i tgt  Insert target(s) for the `insert' action. Possible targets are
+   -i tgt  Insert target(s) for the 'insert' action. Possible targets are
            the same as those for the -d option. Only Jpeg thumbnails can
            be inserted, they need to be named <file>-thumb.jpg
-   -e tgt  Extract target(s) for the `extract' action. Possible targets
+   -e tgt  Extract target(s) for the 'extract' action. Possible targets
            are the same as those for the -d option.
-   -r fmt  Filename format for the `rename' action. The format string
+   -r fmt  Filename format for the 'rename' action. The format string
            follows strftime(3). Default filename format is %Y%m%d_%H%M%S.
    -m file Command file for the modify action. The format for commands is
            set|add|del <key> [[<type>] <value>].
