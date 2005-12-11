@@ -194,37 +194,42 @@ void Params::help(std::ostream& os) const
        << "  in | insert   Insert metadata from corresponding *.exv files.\n"
        << "                Use option -S to change the suffix of the input files.\n"
        << "  ex | extract  Extract metadata to *.exv and thumbnail image files.\n"
-       << "  mv | rename   Rename files according to the Exif create timestamp.\n"
-       << "                The filename format can be set with -r format.\n"
+       << "  mv | rename   Rename files and/or set file timestamps according to the\n"
+       << "                Exif create timestamp. The filename format can be set with\n"
+       << "                -r format, timestamp options are controlled with -t and -T.\n"
        << "  mo | modify   Apply commands to modify (add, set, delete) the Exif\n"
-       << "                and Iptc metadata of image files. Requires option -m or -M\n"
+       << "                and Iptc metadata of image files. Requires option -m or -M.\n"
        << "\nOptions:\n"
        << "   -h      Display this help and exit.\n"
        << "   -V      Show the program version and exit.\n"
        << "   -v      Be verbose during the program run.\n"
+       << "   -k      Preserve file timestamps (keep).\n"
+       << "   -t      Also set the file timestamp in 'rename' action (overrides -k).\n"
+       << "   -T      Only set the file timestamp in 'rename' action, do not rename\n"
+       << "           the file (overrides -k).\n"
        << "   -f      Do not prompt before overwriting existing files (force).\n"
-       << "   -F      Do not prompt before renaming existing files (Force).\n"
+       << "   -F      Do not prompt before renaming files (Force).\n"
        << "   -a time Time adjustment in the format [-]HH[:MM[:SS]]. This option\n"
-       << "           is only used with the `adjust' action.\n"
-       << "   -p mode Print mode for the `print' action. Possible modes are:\n"
+       << "           is only used with the 'adjust' action.\n"
+       << "   -p mode Print mode for the 'print' action. Possible modes are:\n"
        << "             s : print a summary of the Exif metadata (the default)\n"
        << "             t : interpreted (translated) Exif data\n"
        << "             v : plain Exif data values\n"
        << "             h : hexdump of the Exif data\n"
        << "             i : Iptc data values\n"
        << "             c : Jpeg comment\n"
-       << "   -d tgt  Delete target(s) for the `delete' action. Possible targets are:\n"
+       << "   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n"
        << "             a : all supported metadata (the default)\n"
        << "             e : Exif section\n"
        << "             t : Exif thumbnail only\n"
        << "             i : Iptc data\n"
        << "             c : Jpeg comment\n"
-       << "   -i tgt  Insert target(s) for the `insert' action. Possible targets are\n"
+       << "   -i tgt  Insert target(s) for the 'insert' action. Possible targets are\n"
        << "           the same as those for the -d option. Only Jpeg thumbnails can\n"
        << "           be inserted, they need to be named <file>-thumb.jpg\n"
-       << "   -e tgt  Extract target(s) for the `extract' action. Possible targets\n"
+       << "   -e tgt  Extract target(s) for the 'extract' action. Possible targets\n"
        << "           are the same as those for the -d option.\n"
-       << "   -r fmt  Filename format for the `rename' action. The format string\n"
+       << "   -r fmt  Filename format for the 'rename' action. The format string\n"
        << "           follows strftime(3). Default filename format is "
        <<             format_ << ".\n"
        << "   -m file Command file for the modify action. The format for commands is\n"
@@ -242,9 +247,12 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     case 'h': help_ = true; break;
     case 'V': version_ = true; break;
     case 'v': verbose_ = true; break;
+    case 'k': preserve_ = true; break;
     case 'f': force_ = true; fileExistsPolicy_ = overwritePolicy; break;
     case 'F': force_ = true; fileExistsPolicy_ = renamePolicy; break;
-    case 'r': rc = evalRename(optarg); break;
+    case 'r': rc = evalRename(opt, optarg); break;
+    case 't': rc = evalRename(opt, optarg); break;
+    case 'T': rc = evalRename(opt, optarg); break;
     case 'a': rc = evalAdjust(optarg); break;
     case 'p': rc = evalPrint(optarg); break;
     case 'd': rc = evalDelete(optarg); break;
@@ -274,21 +282,28 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     return rc;
 } // Params::option
 
-int Params::evalRename(const std::string& optarg)
+int Params::evalRename(int opt, const std::string& optarg)
 {
     int rc = 0;
     switch (action_) {
     case Action::none:
         action_ = Action::rename;
-        format_ = optarg;
+        switch (opt) {
+        case 'r': format_ = optarg; break;
+        case 't': timestamp_ = true; break;
+        case 'T': timestampOnly_ = true; break;
+        }
         break;
     case Action::rename:
-        std::cerr << progname()
-                  << ": Ignoring surplus option -r \"" << optarg << "\"\n";
+        if (opt == 'r' && !format_.empty()) {
+            std::cerr << progname()
+                      << ": Ignoring surplus option -r \"" << optarg << "\"\n";
+        }
         break;
     default:
         std::cerr << progname()
-                  << ": Option -r is not compatible with a previous option\n";
+                  << ": Option -" << (char)opt
+                  << " is not compatible with a previous option\n";
         rc = 1;
         break;
     }
@@ -584,6 +599,16 @@ int Params::getopt(int argc, char* const argv[])
     if (!suffix_.empty() && !(action_ == Action::insert)) {
         std::cerr << progname()
                   << ": -S option can only be used with insert action\n";
+        rc = 1;
+    }
+    if (timestamp_ && !(action_ == Action::rename)) {
+        std::cerr << progname()
+                  << ": -t option can only be used with rename action\n";
+        rc = 1;
+    }
+    if (timestampOnly_ && !(action_ == Action::rename)) {
+        std::cerr << progname()
+                  << ": -T option can only be used with rename action\n";
         rc = 1;
     }
     return rc;

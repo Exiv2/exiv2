@@ -134,6 +134,9 @@ public:
     bool version_;                      //!< Version option flag.
     bool verbose_;                      //!< Verbose (talkative) option flag.
     bool force_;                        //!< Force overwrites flag.
+    bool preserve_;                     //!< Preserve timestamps flag.
+    bool timestamp_;                    //!< Rename also sets the file timestamp. 
+    bool timestampOnly_;                //!< Rename only sets the file timestamp. 
     FileExistsPolicy fileExistsPolicy_; //!< What to do if file to rename exists.
     bool adjust_;                       //!< Adjustment flag.
     PrintMode printMode_;               //!< Print mode.
@@ -155,11 +158,14 @@ private:
       @brief Default constructor. Note that optstring_ is initialized here.
              The c'tor is private to force instantiation through instance().
      */
-    Params() : optstring_(":hVvfFa:r:p:d:e:i:m:M:l:S:"),
+    Params() : optstring_(":hVvfktTFa:r:p:d:e:i:m:M:l:S:"),
                help_(false),
                version_(false),
                verbose_(false),
                force_(false),
+               preserve_(false),
+               timestamp_(false),
+               timestampOnly_(false),
                fileExistsPolicy_(askPolicy),
                adjust_(false),
                printMode_(pmSummary),
@@ -174,7 +180,7 @@ private:
 
     //! @name Helpers
     //@{
-    int evalRename(const std::string& optarg);
+    int evalRename(int opt, const std::string& optarg);
     int evalAdjust(const std::string& optarg);
     int evalPrint(const std::string& optarg);
     int evalDelete(const std::string& optarg);
