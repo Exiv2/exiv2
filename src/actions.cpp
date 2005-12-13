@@ -1020,6 +1020,16 @@ namespace Action {
         assert(image_.get() != 0);
         image_->readMetadata();
 
+        if (!Params::instance().jpegComment_.empty()) {
+            if (Params::instance().verbose_) {
+                std::cout << "Setting Jpeg comment '" 
+                          << Params::instance().jpegComment_
+                          << "'" 
+                          << std::endl;
+            }
+            image_->setComment(Params::instance().jpegComment_);
+        }
+
         // loop through command table and apply each command
         ModifyCmds& modifyCmds = Params::instance().modifyCmds_;
         ModifyCmds::const_iterator i = modifyCmds.begin();

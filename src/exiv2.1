@@ -54,7 +54,7 @@ Adjust EXIF timestamps by the given time. This action requires the option
 .TP
 .B mo | modify
 Apply commands to modify (add, set, delete) the EXIF/IPTC metadata of image
-files. Requires option \fB\-m\fP or \fB\-M\fP.
+files. Requires option \fB\-c\fP, \fB\-m\fP or \fB\-M\fP.
 .TP
 .B mv | rename
 Rename files and/or set file timestamps according to the EXIF create
@@ -139,18 +139,21 @@ those for the \fB\-d\fP option.
 Filename format for the 'rename' action. The format string follows
 \fBstrftime\fP(3). Default filename format is %Y%m%d_%H%M%S.
 .TP
+.B \-c \fItxt\fP
+Jpeg comment string to set in the image ('modify' action).
+.TP
 .B \-m \fIfile\fP
-Command file for the modify action.
+Command file for the 'modify' action.
 .TP
 .B \-M \fIcmd\fP
-Command line for the modify action. The format for the commands is the same
+Command line for the 'modify' action. The format for the commands is the same
 as that of the lines of a command file.
 .TP
 .B \-l \fIdir\fP
 Location (directory) for files to be inserted or extracted.
 .TP
 .B \-S \fI.suf\fP
-Use suffix \fI.suf\fP for source files for insert command.
+Use suffix \fI.suf\fP for source files in 'insert' action.
 .SH COMMANDS
 Commands for the 'modify' action can be read from a command file, e.g., 
 .sp 1

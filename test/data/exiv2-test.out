@@ -24,8 +24,8 @@ Actions:
   mv | rename   Rename files and/or set file timestamps according to the
                 Exif create timestamp. The filename format can be set with
                 -r format, timestamp options are controlled with -t and -T.
-  mo | modify   Apply commands to modify (add, set, delete) the Exif
-                and Iptc metadata of image files. Requires option -m or -M.
+  mo | modify   Apply commands to modify (add, set, delete) the Exif and
+                Iptc metadata of image files. Requires option -c, -m or -M.
 
 Options:
    -h      Display this help and exit.
@@ -59,6 +59,7 @@ Options:
            are the same as those for the -d option.
    -r fmt  Filename format for the 'rename' action. The format string
            follows strftime(3). Default filename format is %Y%m%d_%H%M%S.
+   -c txt  Jpeg comment string to set in the image.
    -m file Command file for the modify action. The format for commands is
            set|add|del <key> [[<type>] <value>].
    -M cmd  Command line for the modify action. The format for the
