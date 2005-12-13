@@ -197,8 +197,9 @@ void Params::help(std::ostream& os) const
        << "  mv | rename   Rename files and/or set file timestamps according to the\n"
        << "                Exif create timestamp. The filename format can be set with\n"
        << "                -r format, timestamp options are controlled with -t and -T.\n"
-       << "  mo | modify   Apply commands to modify (add, set, delete) the Exif\n"
-       << "                and Iptc metadata of image files. Requires option -m or -M.\n"
+       << "  mo | modify   Apply commands to modify (add, set, delete) the Exif and\n"
+       << "                Iptc metadata of image files or set the Jpeg comment.\n"
+       << "                Requires option -c, -m or -M.\n"
        << "\nOptions:\n"
        << "   -h      Display this help and exit.\n"
        << "   -V      Show the program version and exit.\n"
@@ -232,6 +233,7 @@ void Params::help(std::ostream& os) const
        << "   -r fmt  Filename format for the 'rename' action. The format string\n"
        << "           follows strftime(3). Default filename format is "
        <<             format_ << ".\n"
+       << "   -c txt  Jpeg comment string to set in the image.\n"
        << "   -m file Command file for the modify action. The format for commands is\n"
        << "           set|add|del <key> [[<type>] <value>].\n"
        << "   -M cmd  Command line for the modify action. The format for the\n"
@@ -258,6 +260,7 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     case 'd': rc = evalDelete(optarg); break;
     case 'e': rc = evalExtract(optarg); break;
     case 'i': rc = evalInsert(optarg); break;
+    case 'c': rc = evalModify(opt, optarg); break;
     case 'm': rc = evalModify(opt, optarg); break;
     case 'M': rc = evalModify(opt, optarg); break;
     case 'l': directory_ = optarg; break;
@@ -458,6 +461,7 @@ int Params::evalModify(int opt, const std::string& optarg)
         action_ = Action::modify;
         // fallthrough
     case Action::modify:
+        if (opt == 'c') jpegComment_ = optarg; 
         if (opt == 'm') cmdFiles_.push_back(optarg);  // parse the files later
         if (opt == 'M') cmdLines_.push_back(optarg);  // parse the commands later
         break;
@@ -567,9 +571,10 @@ int Params::getopt(int argc, char* const argv[])
                   << ": Adjust action requires option -a time\n";
         rc = 1;
     }
-    if (action_ == Action::modify && cmdFiles_.empty() && cmdLines_.empty()) {
+    if (   action_ == Action::modify 
+        && cmdFiles_.empty() && cmdLines_.empty() && jpegComment_.empty()) {
         std::cerr << progname()
-                  << ": Modify action requires at least one -m or -M option\n";
+                  << ": Modify action requires at least one -c, -m or -M option\n";
         rc = 1;
     }
     if (0 == files_.size()) {

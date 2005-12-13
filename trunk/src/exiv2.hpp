@@ -149,6 +149,7 @@ public:
     CmdFiles cmdFiles_;                 //!< Names of the modification command files
     CmdLines cmdLines_;                 //!< Commands from the command line
     ModifyCmds modifyCmds_;             //!< Parsed modification commands
+    std::string jpegComment_;           //!< Jpeg comment to set in the image
     std::string directory_;             //!< Location for files to extract/insert
     std::string suffix_;                //!< File extension of the file to insert
     Files files_;                       //!< List of non-option arguments.
@@ -158,7 +159,7 @@ private:
       @brief Default constructor. Note that optstring_ is initialized here.
              The c'tor is private to force instantiation through instance().
      */
-    Params() : optstring_(":hVvfktTFa:r:p:d:e:i:m:M:l:S:"),
+    Params() : optstring_(":hVvfktTFa:r:p:d:e:i:c:m:M:l:S:"),
                help_(false),
                version_(false),
                verbose_(false),
