@@ -25,7 +25,8 @@ Actions:
                 Exif create timestamp. The filename format can be set with
                 -r format, timestamp options are controlled with -t and -T.
   mo | modify   Apply commands to modify (add, set, delete) the Exif and
-                Iptc metadata of image files. Requires option -c, -m or -M.
+                Iptc metadata of image files or set the Jpeg comment.
+                Requires option -c, -m or -M.
 
 Options:
    -h      Display this help and exit.
