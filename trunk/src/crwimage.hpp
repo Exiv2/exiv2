@@ -258,6 +258,28 @@ namespace Exiv2 {
     }; // class RawMetadata
 
     /*!
+      Stateless parser class for Canon Crw images (Ciff format).
+    */
+    class CrwParser {
+    public:
+        /*!
+          @brief Decode metadata from a Canon Crw image in data buffer \em buf of length
+                 \em len into \em crwImage.
+
+          This is the entry point to access image data in Ciff format. The parser uses 
+          classes CiffHeader, CiffEntry, CiffDirectory.
+
+          @param crwImage %Exiv2 Crw image to hold the metadata read from the buffer.
+          @param buf      Pointer to the data buffer. Must point to the data of a Crw 
+                          image; no checks are performed.
+          @param len      Length of the data buffer.
+        */
+        static void decode(CrwImage* crwImage, const byte* buf, uint32_t len);
+        //! Todo: implement me!
+        static void encode();
+    };
+
+    /*!
       @brief Interface class for components of the CIFF directory hierarchy of
              a Crw (Canon Raw data) image. Both CIFF directories as well as
              entries implement this interface.
@@ -275,9 +297,6 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         // Default assignment operator is fine
-
-        // See base class comment
-        virtual void add(RawMetadata::AutoPtr component) =0;
 
         // See base class comment
         virtual void read(const byte* buf,
