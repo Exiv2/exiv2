@@ -150,19 +150,12 @@ namespace Exiv2 {
         clearMetadata();
 
         // Read the image into a memory buffer
-        long imageSize = io_->size();
-        DataBuf image(imageSize);
-        io_->read(image.pData_, imageSize);
+        long len = io_->size();
+        DataBuf buf(len);
+        io_->read(buf.pData_, len);
         if (io_->error() || io_->eof()) throw Error(14);
 
-        // Parse the image
-        RawMetadata::AutoPtr parseTree(new CiffHeader);
-        parseTree->read(image.pData_, image.size_, 0, invalidByteOrder);
-#ifdef DEBUG
-        parseTree->print(std::cerr, invalidByteOrder);
-#endif
-        parseTree->extract(*this, invalidByteOrder);
-
+        CrwParser::decode(this, buf.pData_, buf.size_);
     } // CrwImage::readMetadata
 
     void CrwImage::writeMetadata()
@@ -174,6 +167,21 @@ namespace Exiv2 {
     {
         return isCrwType(iIo, advance);
     }
+
+    void CrwParser::decode(CrwImage* crwImage, const byte* buf, uint32_t len)
+    {
+        assert(crwImage != 0);
+        assert(buf != 0);
+
+        // Parse the image
+        RawMetadata::AutoPtr parseTree(new CiffHeader);
+        parseTree->read(buf, len, 0, invalidByteOrder);
+#ifdef DEBUG
+        parseTree->print(std::cerr, invalidByteOrder);
+#endif
+        parseTree->extract(*crwImage, invalidByteOrder);
+
+    } // CrwParser::decode
 
     void CiffComponent::read(const byte* buf,
                              uint32_t len,
