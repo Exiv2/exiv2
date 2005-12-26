@@ -329,7 +329,7 @@ namespace Action {
             done = 0 != printTag(exifData, "Exif.Photo.ISOSpeedRatings");
         }
         if (!done) {
-            done = 0 != printTag(exifData, "Exif.CanonCs1.ISOSpeed");
+            done = 0 != printTag(exifData, "Exif.CanonCs2.ISOSpeed");
         }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Nikon1.ISOSpeed");
