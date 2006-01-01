@@ -53,6 +53,12 @@ namespace Exiv2 {
     class IptcData;
 
 // *****************************************************************************
+// type definitions
+
+    //! Container for binary image
+    typedef std::vector<byte> Blob;
+
+// *****************************************************************************
 // class definitions
 
     //! Supported image formats
@@ -475,6 +481,12 @@ namespace Exiv2 {
         uint32_t offset_;
 
     }; // class TiffHeader
+
+// *****************************************************************************
+// template, inline and free functions
+
+    // Append \em len bytes pointed to by \em buf to \em blob.
+    void append(Blob& blob, const byte* buf, uint32_t len);
 
 }                                       // namespace Exiv2
 
