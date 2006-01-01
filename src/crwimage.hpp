@@ -50,20 +50,23 @@ namespace Exiv2 {
 
 // *****************************************************************************
 // class declarations
+    class CiffHeader;
     class CiffComponent;
-    struct CrwMapInfo;
+    struct CrwDecodeMap;
 
 // *****************************************************************************
 // type definitions
 
-    //! Function pointer for functions to extract Exif tags from a Crw entry
-    typedef void (*CrwExtractFct)(const CiffComponent&,
-                                  const CrwMapInfo*,
-                                  Image&,
-                                  ByteOrder);
+    //! Function pointer for functions to decode Exif tags from a Crw entry
+    typedef void (*CrwDecodeFct)(const CiffComponent&,
+                                 const CrwDecodeMap*,
+                                 Image&,
+                                 ByteOrder);
 
-    //! Function pointer for functions to insert Crw entries from an Exif tag
-    typedef void (*CrwInsertFct)();
+    //! Function pointer for functions to encode Crw entries from Exif tags
+    typedef void (*CrwEncodeFct)(const Image&,
+                                 const CrwDecodeMap*,
+                                 CiffHeader*);
 
 // *****************************************************************************
 // class definitions
@@ -193,102 +196,59 @@ namespace Exiv2 {
     }; // class CrwImage
 
     /*!
-      Base class for all objects in a raw metadata parse tree.
-      Defines the interface for raw metadata composites.
-     */
-    class RawMetadata {
-    public:
-        //! RawMetadata auto_ptr type
-        typedef std::auto_ptr<RawMetadata> AutoPtr;
-        //! Container type to hold all metadata
-        typedef std::vector<RawMetadata*> Components;
-
-        //! @name Creators
-        //@{
-        //! Virtual Destructor
-        virtual ~RawMetadata() {}
-        //@}
-
-        //! @name Manipulators
-        //@{
-        //! Add a component to the composition
-        virtual void add(AutoPtr component) =0;
-        /*!
-          @brief Read a component from a data buffer
-
-          @param buf Pointer to the data buffer.
-          @param len Number of bytes in the data buffer.
-          @param start Component starts at \em buf + \em start.
-          @param byteOrder Applicable byte order (little or big endian).
-          @param shift offsets in component are relative to \em buf + \em shift.
-
-          @throw Error If the component cannot be parsed.
-         */
-        virtual void read(const byte* buf,
-                          uint32_t len,
-                          uint32_t start,
-                          ByteOrder byteOrder,
-                          int32_t shift =0) =0;
-        //@}
-
-        //! @name Accessors
-        //@{
-        /*!
-          @brief Extract metadata from the component and add it to
-                 \em image.
-
-          @param image Image to add metadata to
-          @param byteOrder Byte order
-         */
-        virtual void extract(Image& image,
-                             ByteOrder byteOrder) const =0;
-
-        /*!
-          @brief Print debug info about a component to \em os.
-
-          @param os Output stream to write to
-          @param byteOrder Byte order
-          @param prefix Prefix to be written before each line of output
-         */
-        virtual void print(std::ostream& os,
-                           ByteOrder byteOrder,
-                           const std::string& prefix ="") const =0;
-        //@}
-
-    }; // class RawMetadata
-
-    /*!
       Stateless parser class for Canon Crw images (Ciff format).
     */
     class CrwParser {
     public:
         /*!
-          @brief Decode metadata from a Canon Crw image in data buffer \em buf of length
-                 \em len into \em crwImage.
+          @brief Decode metadata from a Canon Crw image in data buffer \em buf 
+                 of length \em len into \em crwImage.
 
-          This is the entry point to access image data in Ciff format. The parser uses 
-          classes CiffHeader, CiffEntry, CiffDirectory.
+          This is the entry point to access image data in Ciff format. The
+          parser uses classes CiffHeader, CiffEntry, CiffDirectory.
 
-          @param crwImage %Exiv2 Crw image to hold the metadata read from the buffer.
-          @param buf      Pointer to the data buffer. Must point to the data of a Crw 
-                          image; no checks are performed.
+          @param crwImage %Exiv2 Crw image to hold the metadata read from the 
+                          buffer.
+          @param buf      Pointer to the data buffer. Must point to the data of 
+                          a Crw image; no checks are performed.
           @param len      Length of the data buffer.
+
+          @throw Error If the data buffer cannot be parsed.
         */
         static void decode(CrwImage* crwImage, const byte* buf, uint32_t len);
-        //! Todo: implement me!
-        static void encode();
-    };
+        /*!
+          @brief Encode metadata from the Crw image into a data buffer (the 
+                 binary Crw image).
+          
+          @param blob      Data buffer for the binary image (target).
+          @param crwImage  %Exiv2 Crw image with the metadata to encode.
+          @param parseTree Parse tree containing the existing image.
+
+          @throw Error If the metadata from the Crw image cannot be encoded.
+         */
+        static void encode(Blob& blob,
+                           CiffHeader* parseTree,
+                           const CrwImage* crwImage);
+
+    }; // class CrwParser
 
     /*!
-      @brief Interface class for components of the CIFF directory hierarchy of
-             a Crw (Canon Raw data) image. Both CIFF directories as well as
-             entries implement this interface.
+      @brief Interface class for components of the CIFF directory hierarchy of a
+             Crw (Canon Raw data) image. Both CIFF directories as well as
+             entries implement this interface. This class is implemented as NVI
+             (non-virtual interface).
      */
-    class CiffComponent : public RawMetadata {
+    class CiffComponent {
     public:
+        //! CiffComponent auto_ptr type
+        typedef std::auto_ptr<CiffComponent> AutoPtr;
+        //! Container type to hold all metadata
+        typedef std::vector<CiffComponent*> Components;
+
         //! @name Creators
         //@{
-        // Default and copy constructors are fine
+        CiffComponent() : dir_(0), tag_(0), size_(0), offset_(0), pData_(0) {}
+        // Copy constructor is fine
 
         //! Virtual destructor.
         virtual ~CiffComponent() {}
@@ -298,15 +258,46 @@ namespace Exiv2 {
         //@{
         // Default assignment operator is fine
 
-        // See base class comment
-        virtual void read(const byte* buf,
-                          uint32_t len,
-                          uint32_t start,
-                          ByteOrder byteOrder,
-                          int32_t shift =0);
+        //! Add a component to the composition
+        void add(AutoPtr component);
+        /*!
+          @brief Read a component from a data buffer
 
+          @param buf Pointer to the data buffer.
+          @param len Number of bytes in the data buffer.
+          @param start Component starts at \em buf + \em start.
+          @param byteOrder Applicable byte order (little or big endian).
+
+          @throw Error If the component cannot be parsed.
+         */
+        void read(const byte* buf,
+                  uint32_t len,
+                  uint32_t start,
+                  ByteOrder byteOrder);
+        /*!
+          @brief Write the metadata from the raw metadata component to the 
+                 binary image \em blob. This method may append to the blob.
+
+          @param blob Binary image to add metadata to
+          @param byteOrder Byte order
+          @param offset Current offset
+
+          @return New offset
+         */
+        uint32_t write(Blob& blob, ByteOrder byteOrder, uint32_t offset);
+        /*!  
+          @brief Writes the entry's value if size is larger than eight bytes. If
+                 needed, the value is padded with one 0 byte to make the number
+                 of bytes written to the blob even. The offset of the component
+                 is set to the offset passed in. 
+          @param blob The binary image to write to.
+          @param offset Offset from the start of the directory for this entry.
+
+          @return New offset.
+         */
+        uint32_t writeValueData(Blob& blob, uint32_t offset);
         //! Set the directory tag for this component.
-        void setDir(uint16_t dir)      { dir_ = dir; }
+        void setDir(uint16_t dir)       { dir_ = dir; }
         //@}
 
         //! Return the type id for a tag
@@ -316,15 +307,30 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        // See base class comment
-        virtual void extract(Image& image,
-                             ByteOrder byteOrder) const =0;
+        /*!
+          @brief Decode metadata from the component and add it to
+                 \em image.
 
-        // See base class comment
-        virtual void print(std::ostream& os,
-                           ByteOrder byteOrder,
-                           const std::string& prefix ="") const;
+          @param image Image to add metadata to
+          @param byteOrder Byte order
+         */
+        void decode(Image& image, ByteOrder byteOrder) const;
+        /*!
+          @brief Print debug info about a component to \em os.
 
+          @param os Output stream to write to
+          @param byteOrder Byte order
+          @param prefix Prefix to be written before each line of output
+         */
+        void print(std::ostream& os,
+                   ByteOrder byteOrder,
+                   const std::string& prefix ="") const;
+        /*!
+          @brief Write a directory entry for the component to the \em blob.
+                 If the size of the data is not larger than 8 bytes, the 
+                 data is written to the directory entry.
+         */
+        void writeDirEntry(Blob& blob, ByteOrder byteOrder) const;
         //! Return the tag of the directory containing this component
         uint16_t dir()           const { return dir_; }
 
@@ -357,6 +363,37 @@ namespace Exiv2 {
         DataLocId dataLocation() const { return dataLocation(tag_); }
         //@}
 
+    protected:
+        //! @name Manipulators
+        //@{
+        //! Implements add()
+        virtual void doAdd(AutoPtr component) =0;
+        //! Implements read(). The default implementation reads a directory entry.
+        virtual void doRead(const byte* buf,
+                            uint32_t len,
+                            uint32_t start,
+                            ByteOrder byteOrder);
+        //! Implements write()
+        virtual uint32_t doWrite(Blob& blob, 
+                                 ByteOrder byteOrder, 
+                                 uint32_t offset) =0;
+        //! Set the size of the data area.
+        void setSize(uint32_t size)        { size_ = size; }
+        //! Set the offset for this component.
+        void setOffset(uint32_t offset)    { offset_ = offset; }
+        //@}
+
+        //! @name Accessors
+        //@{
+        //! Implements decode()
+        virtual void doDecode(Image& image,
+                               ByteOrder byteOrder) const =0;
+        //! Implements print(). The default implementation prints the entry.
+        virtual void doPrint(std::ostream& os,
+                             ByteOrder byteOrder,
+                             const std::string& prefix) const;
+        //@}
+
     private:
         // DATA
         uint16_t    dir_;    //!< Tag of the directory containing this component
@@ -381,18 +418,26 @@ namespace Exiv2 {
         virtual ~CiffEntry() {}
         //@}
 
-        //! @name Manipulators
-        //@{
         // Default assignment operator is fine
 
+    private:
+        //! @name Manipulators
+        //@{
         // See base class comment
-        virtual void add(RawMetadata::AutoPtr component);
+        virtual void doAdd(AutoPtr component);
+        /*!
+          @brief Implements write(). Writes only the value data of the entry,
+                 using writeValueData().
+         */
+        virtual uint32_t doWrite(Blob& blob, 
+                                 ByteOrder byteOrder, 
+                                 uint32_t offset);
         //@}
 
         //! @name Accessors
         //@{
         // See base class comment
-        virtual void extract(Image& image, ByteOrder byteOrder) const;
+        virtual void doDecode(Image& image, ByteOrder byteOrder) const;
         //@}
 
     }; // class CiffEntry
@@ -412,53 +457,61 @@ namespace Exiv2 {
         //@{
         // Default assignment operator is fine
 
-        // See base class comment
-        virtual void add(RawMetadata::AutoPtr component);
-
-        // See base class comment
-        virtual void read(const byte* buf,
-                          uint32_t len,
-                          uint32_t start,
-                          ByteOrder byteOrder,
-                          int32_t shift =0);
-
         /*!
           @brief Parse a CIFF directory from a memory buffer
 
           @param buf       Pointer to the memory buffer containing the directory
           @param len       Size of the memory buffer
-          @param start     Directory starts at buf + start
           @param byteOrder Applicable byte order (little or big endian)
-          @param shift     Not used
          */
         void readDirectory(const byte* buf,
                            uint32_t len,
-                           uint32_t start,
-                           ByteOrder byteOrder,
-                           int32_t shift =0);
+                           ByteOrder byteOrder);
+        //@}
+
+    private:
+        //! @name Manipulators
+        //@{
+        // See base class comment
+        virtual void doAdd(AutoPtr component);
+        /*!
+          @brief Implements write(). Writes the complete Ciff directory to
+                 the blob.
+         */
+        virtual uint32_t doWrite(Blob& blob, 
+                                 ByteOrder byteOrder, 
+                                 uint32_t offset);
+        // See base class comment
+        virtual void doRead(const byte* buf,
+                            uint32_t len,
+                            uint32_t start,
+                            ByteOrder byteOrder);
         //@}
 
         //! @name Accessors
         //@{
         // See base class comment
-        virtual void extract(Image& image,
-                             ByteOrder byteOrder) const;
+        virtual void doDecode(Image& image,
+                               ByteOrder byteOrder) const;
 
         // See base class comment
-        virtual void print(std::ostream& os,
-                           ByteOrder byteOrder,
-                           const std::string& prefix ="") const;
+        virtual void doPrint(std::ostream& os,
+                             ByteOrder byteOrder,
+                             const std::string& prefix) const;
         //@}
 
     private:
         // DATA
-        RawMetadata::Components components_; //!< List of components in this dir
+        Components components_; //!< List of components in this dir
 
     }; // class CiffDirectory
 
     //! This class models the header of a Crw (Canon Raw data) image.
-    class CiffHeader : public RawMetadata {
+    class CiffHeader {
     public:
+        //! CiffHeader auto_ptr type
+        typedef std::auto_ptr<CiffHeader> AutoPtr;
+
         //! @name Creators
         //@{
         //! Default constructor
@@ -473,34 +526,53 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        // See base class comment
-        virtual void add(RawMetadata::AutoPtr component);
+        /*!
+          @brief Read the Crw image from a data buffer, starting with the Ciff
+                 header.
 
-        // See base class comment
-        virtual void read(const byte* buf,
-                          uint32_t len,
-                          uint32_t start,
-                          ByteOrder byteOrder,
-                          int32_t shift =0);
+          @param buf Pointer to the data buffer.
+          @param len Number of bytes in the data buffer.
+
+          @throw Error If the image cannot be parsed.
+         */
+        void read(const byte* buf, uint32_t len);
+        /*!
+          @brief Write the Crw image to the binary image \em blob, starting with 
+                 the Ciff header. This method appends to the blob.
+
+          @param blob Binary image to add to.
+
+          @throw Error If the image cannot be written.
+         */
+        void write(Blob& blob);
         //@}
+
+        //! Return a pointer to the Canon Crw signature.
+        static const char* signature() { return signature_; }
 
         //! @name Accessors
         //@{
-        // See base class comment
-        virtual void extract(Image& image,
-                             ByteOrder byteOrder) const;
+        /*!
+          @brief Decode the Crw image and add it to \em image.
 
-        // See base class comment
-        virtual void print(std::ostream& os,
-                           ByteOrder byteOrder,
-                           const std::string& prefix ="") const;
+          @param image Image to add metadata to
+         */
+        void decode(Image& image) const;
+        /*!
+          @brief Print debug info for the Crw image to \em os.
+
+          @param os Output stream to write to.
+          @param prefix Prefix to be written before each line of output.
+         */
+        void print(std::ostream& os, const std::string& prefix ="") const;
+        //! Return the byte order (little or big endian).
+        ByteOrder byteOrder() { return byteOrder_; }
         //@}
-
-        // DATA
-        static const char signature_[];   //!< Canon Crw signature "HEAPCCDR"
 
     private:
         // DATA
+        static const char signature_[];   //!< Canon Crw signature "HEAPCCDR"
+
         CiffDirectory*    rootDirectory_; //!< Pointer to the root directory
         ByteOrder         byteOrder_;     //!< Applicable byte order
         uint32_t          offset_;        //!< Offset to the start of the root dir
@@ -508,18 +580,18 @@ namespace Exiv2 {
     }; // class CiffHeader
 
     //! Structure for conversion info for CIFF entries
-    struct CrwMapInfo {
+    struct CrwDecodeMap {
         //! @name Creators
         //@{
         //! Default constructor
-        CrwMapInfo(
+        CrwDecodeMap(
             uint16_t      crwTagId,
             uint16_t      crwDir,
             uint32_t      size,
             uint16_t      tag,
             IfdId         ifdId,
-            CrwExtractFct toExif,
-            CrwInsertFct  fromExif)
+            CrwDecodeFct  toExif,
+            CrwEncodeFct  fromExif)
             : crwTagId_ (crwTagId),
               crwDir_   (crwDir),
               size_     (size),
@@ -536,10 +608,10 @@ namespace Exiv2 {
         uint32_t      size_;      //!< Data size (overwrites the size from the entry)
         uint16_t      tag_;       //!< Exif tag to map to
         IfdId         ifdId_;     //!< Exif Ifd id to map to
-        CrwExtractFct toExif_;    //!< Conversion function
-        CrwInsertFct  fromExif_;  //!< Reverse conversion function
+        CrwDecodeFct  toExif_;    //!< Conversion function
+        CrwEncodeFct  fromExif_;  //!< Reverse conversion function
 
-    }; // struct CrwMapInfo
+    }; // struct CrwDecodeMap
 
     /*!
       @brief Static class providing mapping functionality from Crw entries
@@ -554,80 +626,97 @@ namespace Exiv2 {
 
     public:
         /*!
-          @brief Extract image metadata from a Crw entry convert and add it
-                 to the image metadata.
+          @brief Decode image metadata from a Crw entry convert and add it
+                 to the image metadata. This function converts only one Crw 
+                 component.
 
           @param ciffComponent Source CIFF entry
           @param image         Destination image for the metadata
           @param byteOrder     Byte order in which the data of the entry
                                is encoded
          */
-        static void extract(const CiffComponent& ciffComponent,
-                            Image& image,
-                            ByteOrder byteOrder);
+        static void decode(const CiffComponent& ciffComponent,
+                           Image& image,
+                           ByteOrder byteOrder);
+        /*!
+          @brief Encode image metadata from \em image into the Crw parse tree.
+                 This function converts all Exif metadata that %Exiv2 can
+                 convert to Crw format.
+
+          @param parseTree     Destination parse tree.
+          @param image         Source image containing the metadata.
+         */
+        static void encode(CiffHeader* parseTree, const Image& image);
 
     private:
         //! Return conversion information for one Crw \em dir and \em tagId
-        static const CrwMapInfo* crwMapInfo(uint16_t dir, uint16_t tagId);
+        static const CrwDecodeMap* crwDecodeInfo(uint16_t dir, uint16_t tagId);
 
         /*!
-          @brief Standard extraction function to convert Crw entries to
+          @brief Standard decode function to convert Crw entries to
                  Exif metadata.
 
-          Uses the mapping defined in the conversion structure \em crwMapInfo
+          Uses the mapping defined in the conversion structure \em crwDecodeInfo
           to convert the data. If the \em size field in the conversion structure
           is not 0, then it is used instead of the \em size provided by the
           entry itself.
          */
-        static void extractBasic(const CiffComponent& ciffComponent,
-                                 const CrwMapInfo* crwMapInfo,
+        static void decodeBasic(const CiffComponent& ciffComponent,
+                                const CrwDecodeMap* crwDecodeInfo,
+                                Image& image,
+                                ByteOrder byteOrder);
+
+        //! Decode the user comment
+        static void decode0x0805(const CiffComponent& ciffComponent,
+                                 const CrwDecodeMap* crwDecodeInfo,
                                  Image& image,
                                  ByteOrder byteOrder);
 
-        //! Extract the user comment
-        static void extract0x0805(const CiffComponent& ciffComponent,
-                                  const CrwMapInfo* crwMapInfo,
-                                  Image& image,
-                                  ByteOrder byteOrder);
+        //! Decode camera Make and Model information
+        static void decode0x080a(const CiffComponent& ciffComponent,
+                                 const CrwDecodeMap* crwDecodeInfo,
+                                 Image& image,
+                                 ByteOrder byteOrder);
 
-        //! Extract camera Make and Model information
-        static void extract0x080a(const CiffComponent& ciffComponent,
-                                  const CrwMapInfo* crwMapInfo,
-                                  Image& image,
-                                  ByteOrder byteOrder);
+        //! Decode Canon Camera Settings 2
+        static void decode0x102a(const CiffComponent& ciffComponent,
+                                 const CrwDecodeMap* crwDecodeInfo,
+                                 Image& image,
+                                 ByteOrder byteOrder);
 
-        //! Extract Canon Camera Settings 2
-        static void extract0x102a(const CiffComponent& ciffComponent,
-                                  const CrwMapInfo* crwMapInfo,
-                                  Image& image,
-                                  ByteOrder byteOrder);
+        //! Decode Canon Camera Settings 1
+        static void decode0x102d(const CiffComponent& ciffComponent,
+                                 const CrwDecodeMap* crwDecodeInfo,
+                                 Image& image,
+                                 ByteOrder byteOrder);
 
-        //! Extract Canon Camera Settings 1
-        static void extract0x102d(const CiffComponent& ciffComponent,
-                                  const CrwMapInfo* crwMapInfo,
-                                  Image& image,
-                                  ByteOrder byteOrder);
+        //! Decode the date when the picture was taken
+        static void decode0x180e(const CiffComponent& ciffComponent,
+                                 const CrwDecodeMap* crwDecodeInfo,
+                                 Image& image,
+                                 ByteOrder byteOrder);
 
-        //! Extract the date when the picture was taken
-        static void extract0x180e(const CiffComponent& ciffComponent,
-                                  const CrwMapInfo* crwMapInfo,
-                                  Image& image,
-                                  ByteOrder byteOrder);
+        //! Decode image width and height
+        static void decode0x1810(const CiffComponent& ciffComponent,
+                                 const CrwDecodeMap* crwDecodeInfo,
+                                 Image& image,
+                                 ByteOrder byteOrder);
 
-        //! Extract image width and height
-        static void extract0x1810(const CiffComponent& ciffComponent,
-                                  const CrwMapInfo* crwMapInfo,
-                                  Image& image,
-                                  ByteOrder byteOrder);
+        //! Decode the thumbnail image
+        static void decode0x2008(const CiffComponent& ciffComponent,
+                                 const CrwDecodeMap* crwDecodeInfo,
+                                 Image& image,
+                                 ByteOrder byteOrder);
 
-        //! Extract the thumbnail image
-        static void extract0x2008(const CiffComponent& ciffComponent,
-                                  const CrwMapInfo* crwMapInfo,
-                                  Image& image,
-                                  ByteOrder byteOrder);
+    private:
+        //! Standard encode function to convert Exif metadata to Crw entries.
+        static void encodeBasic(const Image& image,
+                                const CrwDecodeMap* crwDecodeInfo,
+                                CiffHeader* parseTree);
 
+    private:
         // DATA
-        static const CrwMapInfo crwMapInfos_[]; //!< Metadata conversion table
+        static const CrwDecodeMap crwDecodeInfos_[]; //!< Metadata conversion table
 
     }; // class CrwMap
 

@@ -188,7 +188,7 @@ namespace Exiv2 {
          */
         std::pair<byte*, long> release();
         //! Reset value
-        void reset(std::pair<byte*, long> =std::make_pair(0,0));
+        void reset(std::pair<byte*, long> =std::make_pair((byte*)(0),long(0)));
         //@}
 
         /*!
