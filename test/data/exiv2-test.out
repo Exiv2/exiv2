@@ -818,10 +818,10 @@ Exif.Canon.0x00c0                            Short      13  26 296 369 373 169 2
 Exif.Canon.0x00c1                            Short      13  26 293 375 375 174 198 394 395 243 150 453 454 379
 Exif.Canon.0x00aa                            Short       5  10 567 1022 1026 636
 Exif.Canon.0x00a8                            Short      10  20 4942 0 0 0 0 0 0 0 0
-Exif.Canon.0x00a9                            Short      41  82 1751 836 827 1074 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 128 128 128 128
+Exif.Canon.WhiteBalanceTable                 Short      41  82 1751 836 827 1074 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 128 128 128 128
 Exif.Canon.0x00ae                            Short       1  5200
 Exif.Canon.0x00b4                            Short       1  1
-Exif.Canon.0x0012                            Short      24  7 7 3072 2048 3072 2048 151 151 1014 608 0 0 0 64928 64522 0 0 65030 0 506 0 0 8 65535
+Exif.Canon.PictureInfo                       Short      24  7 7 3072 2048 3072 2048 151 151 1014 608 0 0 0 64928 64522 0 0 65030 0 506 0 0 8 65535
 Exif.Canon.0x0013                            Short       4  0 159 7 112
 Exif.Canon.0x0000                            Short       5  0 0 0 0 0
 Exif.Canon.0x00b6                            Long       12  24 2 380376 1536 1024 2449882 3072000 892 2048000 595 65540 262146
