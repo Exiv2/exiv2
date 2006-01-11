@@ -51,6 +51,7 @@ EXIV2_RCSID("@(#) $Id$");
 // + standard includes
 #include <iostream>
 #include <iomanip>
+#include <stack>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
@@ -60,8 +61,70 @@ EXIV2_RCSID("@(#) $Id$");
 // class member definitions
 namespace Exiv2 {
 
-    // Forward declaration
-    class CrwEncoder;
+    const CrwMapping CrwMap::crwMapping_[] = {
+        //         CrwTag  CrwDir  Size ExifTag IfdId        decodeFct     encodeFct
+        //         ------  ------  ---- ------- -----        ---------     ---------
+        CrwMapping(0x0805, 0x300a,   0, 0x9286, exifIfdId,   decode0x0805, encode0x0805),
+        CrwMapping(0x080a, 0x2807,   0, 0x010f, ifd0Id,      decode0x080a, encode0x080a),
+        CrwMapping(0x080b, 0x3004,   0, 0x0007, canonIfdId,  decodeBasic,  encodeBasic),
+        CrwMapping(0x0810, 0x2807,   0, 0x0009, canonIfdId,  decodeBasic,  encodeBasic),
+        CrwMapping(0x0815, 0x2804,   0, 0x0006, canonIfdId,  decodeBasic,  encodeBasic),
+        CrwMapping(0x1029, 0x300b,   0, 0x0002, canonIfdId,  decodeBasic,  encodeBasic),
+        CrwMapping(0x102a, 0x300b,   0, 0x0004, canonIfdId,  decode0x102a, 0),
+        CrwMapping(0x102d, 0x300b,   0, 0x0001, canonIfdId,  decode0x102d, 0),
+        CrwMapping(0x1033, 0x300b,   0, 0x000f, canonIfdId,  decodeBasic,  encodeBasic),
+        CrwMapping(0x1038, 0x300b,   0, 0x0012, canonIfdId,  decodeBasic,  encodeBasic),
+        CrwMapping(0x10a9, 0x300b,   0, 0x00a9, canonIfdId,  decodeBasic,  encodeBasic),
+        // Mapped to Exif.Photo.ColorSpace instead (see below)
+        //CrwMapping(0x10b4, 0x300b,   0, 0x00b4, canonIfdId,  decodeBasic,  encodeBasic),
+        CrwMapping(0x10b4, 0x300b,   0, 0xa001, exifIfdId,   decodeBasic,  encodeBasic),
+        CrwMapping(0x10b5, 0x300b,   0, 0x00b5, canonIfdId,  decodeBasic,  encodeBasic),
+        CrwMapping(0x10c0, 0x300b,   0, 0x00c0, canonIfdId,  decodeBasic,  encodeBasic),
+        CrwMapping(0x10c1, 0x300b,   0, 0x00c1, canonIfdId,  decodeBasic,  encodeBasic),
+        CrwMapping(0x1807, 0x3002,   0, 0x9206, exifIfdId,   decodeBasic,  encodeBasic),
+        CrwMapping(0x180b, 0x2807,   0, 0x000c, canonIfdId,  decodeBasic,  encodeBasic),
+        CrwMapping(0x180e, 0x300a,   0, 0x9003, exifIfdId,   decode0x180e, 0),
+        CrwMapping(0x1810, 0x300a,   0, 0xa002, exifIfdId,   decode0x1810, 0),
+        CrwMapping(0x1810, 0x300a,   0, 0xa003, exifIfdId,   0,            0),
+        CrwMapping(0x1817, 0x300a,   4, 0x0008, canonIfdId,  decodeBasic,  encodeBasic),
+        //CrwMapping(0x1818, 0x3002,   0, 0x9204, exifIfdId,   decodeBasic,  encodeBasic),
+        CrwMapping(0x183b, 0x300b,   0, 0x0015, canonIfdId,  decodeBasic,  encodeBasic),
+        CrwMapping(0x2008, 0x0000,   0, 0x0201, ifd1Id,      decode0x2008, 0),
+        CrwMapping(0x2008, 0x0000,   0, 0x0202, ifd1Id,      0,            0),
+        CrwMapping(0x2008, 0x0000,   0, 0x0103, ifd1Id,      0,            0),
+        // End of list marker
+        CrwMapping(0x0000, 0x0000,   0, 0x0000, ifdIdNotSet, 0,            0)
+    }; // CrwMap::crwMapping_[]
+
+    /*
+      CIFF directory hierarchy
+
+                root
+                 |
+                300a
+                 |
+       +----+----+----+----+
+       |    |    |    |    |
+      2804 2807 3002 3003 300b
+            |
+           3004
+
+      The array is arranged bottom-up so that starting with a directory at the
+      bottom, the (unique) path to root can be determined in a single loop.
+    */
+    const CrwSubDir CrwMap::crwSubDir_[] = {
+        // dir,   parent
+        { 0x3004, 0x2807 },
+        { 0x300b, 0x300a },
+        { 0x3003, 0x300a },
+        { 0x3002, 0x300a },
+        { 0x2807, 0x300a },
+        { 0x2804, 0x300a },
+        { 0x300a, 0x0000 },
+        { 0x0000, 0xffff },
+        // End of list marker
+        { 0xffff, 0xffff }
+    };
 
     const byte CrwImage::blank_[] = {
         0x00
@@ -182,13 +245,13 @@ namespace Exiv2 {
         }
 
         // Parse image, starting with a CIFF header component
-        CiffHeader::AutoPtr parseTree(new CiffHeader);
+        CiffHeader::AutoPtr head(new CiffHeader);
         if (buf.size_ != 0) {
-            parseTree->read(buf.pData_, buf.size_);
+            head->read(buf.pData_, buf.size_);
         }
 
         Blob blob;
-        CrwParser::encode(blob, parseTree.get(), this);
+        CrwParser::encode(blob, head.get(), this);
 
         // Write new buffer to file
         BasicIo::AutoPtr tempIo(io_->temporary()); // may throw
@@ -204,64 +267,221 @@ namespace Exiv2 {
         return isCrwType(iIo, advance);
     }
 
-    void CrwParser::decode(CrwImage* crwImage, const byte* buf, uint32_t len)
+    void CrwParser::decode(CrwImage* pCrwImage, const byte* pData, uint32_t size)
     {
-        assert(crwImage != 0);
-        assert(buf != 0);
+        assert(pCrwImage != 0);
+        assert(pData != 0);
 
         // Parse the image, starting with a CIFF header component
-        CiffHeader::AutoPtr parseTree(new CiffHeader);
-        parseTree->read(buf, len);
+        CiffHeader::AutoPtr head(new CiffHeader);
+        head->read(pData, size);
 #ifdef DEBUG
-        parseTree->print(std::cerr);
+        head->print(std::cerr);
 #endif
-        parseTree->decode(*crwImage);
+        head->decode(*pCrwImage);
 
     } // CrwParser::decode
 
-    void CrwParser::encode(Blob& blob, CiffHeader* parseTree, const CrwImage* crwImage)
+    void CrwParser::encode(Blob& blob, CiffHeader* pHead, const CrwImage* pCrwImage)
     {
-        assert(crwImage != 0);
-        assert(parseTree != 0);
+        assert(pCrwImage != 0);
+        assert(pHead != 0);
 
         // Encode Exif tags from image into the Crw parse tree and write the structure
         // to the binary image blob
-        CrwMap::encode(parseTree, *crwImage);
-        parseTree->write(blob);
+        CrwMap::encode(pHead, *pCrwImage);
+        pHead->write(blob);
 
     } // CrwParser::encode
+
+    const char CiffHeader::signature_[] = "HEAPCCDR";
+
+    CiffHeader::~CiffHeader()
+    {
+        delete pRootDir_;
+    }
+
+    CiffComponent::~CiffComponent()
+    {
+        if (isAllocated_) delete[] pData_; 
+    }
+
+    CiffDirectory::~CiffDirectory()
+    {
+        Components::iterator b = components_.begin();
+        Components::iterator e = components_.end();
+        for (Components::iterator i = b; i != e; ++i) {
+            delete *i;
+        }
+    }
 
     void CiffComponent::add(AutoPtr component)
     {
         doAdd(component);
     }
-    
-    void CiffComponent::read(const byte* buf,
-                             uint32_t len,
-                             uint32_t start,
-                             ByteOrder byteOrder)
+
+    void CiffEntry::doAdd(AutoPtr component)
     {
-        doRead(buf, len, start, byteOrder);
+        throw Error(34, "CiffEntry::add");
+    } // CiffEntry::doAdd
+    
+    void CiffDirectory::doAdd(AutoPtr component)
+    {
+        components_.push_back(component.release());
+    } // CiffDirectory::doAdd
+
+    void CiffHeader::read(const byte* pData, uint32_t size)
+    {
+        if (size < 14) throw Error(33);
+
+        if (pData[0] == 0x49 && pData[1] == 0x49) {
+            byteOrder_ = littleEndian;
+        }
+        else if (pData[0] == 0x4d && pData[1] == 0x4d) {
+            byteOrder_ = bigEndian;
+        }
+        else {
+            throw Error(33);
+        }
+        offset_ = getULong(pData + 2, byteOrder_);
+        if (std::memcmp(pData + 6, signature(), 8) != 0) {
+            throw Error(33);
+        }
+
+        pRootDir_ = new CiffDirectory;
+        pRootDir_->readDirectory(pData + offset_, size - offset_, byteOrder_);
+    } // CiffHeader::read
+
+    void CiffDirectory::readDirectory(const byte* pData,
+                                      uint32_t    size,
+                                      ByteOrder   byteOrder)
+    {
+        uint32_t o = getULong(pData + size - 4, byteOrder);
+        if (o + 2 > size) throw Error(33);
+        uint16_t count = getUShort(pData + o, byteOrder);
+        o += 2;
+        for (uint16_t i = 0; i < count; ++i) {
+            if (o + 10 > size) throw Error(33);
+            uint16_t tag = getUShort(pData + o, byteOrder);
+            AutoPtr m;
+            switch (CiffComponent::typeId(tag)) {
+            case directory: m = AutoPtr(new CiffDirectory); break;
+            default: m = AutoPtr(new CiffEntry); break;
+            }
+            m->setDir(this->tag());
+            m->read(pData, size, o, byteOrder);
+            add(m);
+            o += 10;
+        }
+    }  // CiffDirectory::readDirectory
+
+    void CiffComponent::read(const byte* pData,
+                             uint32_t    size,
+                             uint32_t    start,
+                             ByteOrder   byteOrder)
+    {
+        doRead(pData, size, start, byteOrder);
     }
+
+    void CiffComponent::doRead(const byte* pData,
+                               uint32_t    size,
+                               uint32_t    start,
+                               ByteOrder   byteOrder)
+    {
+        if (size < 10) throw Error(33);
+        tag_ = getUShort(pData + start, byteOrder);
+
+        DataLocId dl = dataLocation();
+        assert(dl == directoryData || dl == valueData);
+
+        if (dl == valueData) {
+            size_   = getULong(pData + start + 2, byteOrder);
+            offset_ = getULong(pData + start + 6, byteOrder);
+        }
+        if (dl == directoryData) {
+            size_ = 8;
+            offset_ = start + 2;
+        }
+        pData_ = pData + offset_;
+    } // CiffComponent::doRead
+
+    void CiffDirectory::doRead(const byte* pData,
+                               uint32_t    size,
+                               uint32_t    start,
+                               ByteOrder   byteOrder)
+    {
+        CiffComponent::doRead(pData, size, start, byteOrder);
+        readDirectory(pData + offset(), this->size(), byteOrder);
+    } // CiffDirectory::doRead
+
+    void CiffHeader::decode(Image& image) const
+    {
+        // Nothing to decode from the header itself, just add correct byte order
+        if (pRootDir_) pRootDir_->decode(image, byteOrder_);
+    } // CiffHeader::decode
 
     void CiffComponent::decode(Image& image, ByteOrder byteOrder) const
     {
         doDecode(image, byteOrder);
     }
 
-    uint32_t CiffComponent::write(Blob& blob, 
-                                  ByteOrder byteOrder, 
-                                  uint32_t offset)
+    void CiffEntry::doDecode(Image& image, ByteOrder byteOrder) const
     {
+        CrwMap::decode(*this, image, byteOrder);
+    } // CiffEntry::doDecode
+
+    void CiffDirectory::doDecode(Image& image, ByteOrder byteOrder) const
+    {
+        Components::const_iterator b = components_.begin();
+        Components::const_iterator e = components_.end();
+        for (Components::const_iterator i = b; i != e; ++i) {
+            (*i)->decode(image, byteOrder);
+        }
+    } // CiffDirectory::doDecode
+
+    void CiffHeader::write(Blob& blob) const
+    {
+        assert(   byteOrder_ == littleEndian
+               || byteOrder_ == bigEndian);
+        if (byteOrder_ == littleEndian) {
+            blob.push_back(0x49);
+            blob.push_back(0x49);
+        }
+        else {
+            blob.push_back(0x4d);
+            blob.push_back(0x4d);
+        }
+        uint32_t o = 2;
+        byte buf[4];
+        ul2Data(buf, offset_, byteOrder_);
+        append(blob, buf, 4);
+        o += 4;
+        append(blob, reinterpret_cast<const byte*>(signature_), 8);
+        o += 8;
+        // Pad with 0s if needed
+        for (uint32_t i = o; i < offset_; ++i) {
+            blob.push_back(0);
+            ++o;
+        }
+        if (pRootDir_) {
+            pRootDir_->write(blob, byteOrder_, offset_);
+        }
+    }
+
+    uint32_t CiffComponent::write(Blob&     blob, 
+                                  ByteOrder byteOrder, 
+                                  uint32_t  offset)
+    {
+        if (remove_) return offset;
         return doWrite(blob, byteOrder, offset);
     }
 
-    void CiffComponent::print(std::ostream& os,
-                              ByteOrder byteOrder,
-                              const std::string& prefix) const
+    uint32_t CiffEntry::doWrite(Blob&     blob, 
+                                ByteOrder /*byteOrder*/, 
+                                uint32_t  offset)
     {
-        doPrint(os, byteOrder, prefix);
-    }
+        return writeValueData(blob, offset);
+    } // CiffEntry::doWrite
 
     uint32_t CiffComponent::writeValueData(Blob& blob, uint32_t offset)
     {
@@ -278,152 +498,9 @@ namespace Exiv2 {
         return offset;
     } // CiffComponent::writeValueData
 
-    void CiffComponent::writeDirEntry(Blob& blob, ByteOrder byteOrder) const
-    {
-        byte buf[4];
-
-        DataLocId dl = dataLocation();
-        assert(dl == directoryData || dl == valueData);
-
-        if (dl == valueData) {
-            us2Data(buf, tag_, byteOrder);
-            append(blob, buf, 2);
-
-            ul2Data(buf, size_, byteOrder);
-            append(blob, buf, 4);
-
-            ul2Data(buf, offset_, byteOrder);
-            append(blob, buf, 4);
-        }
-
-        if (dl == directoryData) {
-            // Only 8 bytes fit in the directory entry
-            assert(size_ <= 8);
-
-            us2Data(buf, tag_, byteOrder);
-            append(blob, buf, 2);
-            // Copy value instead of size and offset
-            append(blob, pData_, size_);
-            // Pad with 0s
-            for (uint32_t i = size_; i < 8; ++i) {
-                blob.push_back(0);
-            }
-        }
-    } // CiffComponent::writeDirEntry
-
-    void CiffComponent::doRead(const byte* buf,
-                               uint32_t len,
-                               uint32_t start,
-                               ByteOrder byteOrder)
-    {
-        if (len < 10) throw Error(33);
-        tag_ = getUShort(buf + start, byteOrder);
-
-        DataLocId dl = dataLocation();
-        assert(dl == directoryData || dl == valueData);
-
-        if (dl == valueData) {
-            size_   = getULong(buf + start + 2, byteOrder);
-            offset_ = getULong(buf + start + 6, byteOrder);
-        }
-        if (dl == directoryData) {
-            size_ = 8;
-            offset_ = start + 2;
-        }
-        pData_ = buf + offset_;
-    } // CiffComponent::doRead
-
-    void CiffComponent::doPrint(std::ostream& os,
-                                ByteOrder byteOrder,
-                                const std::string& prefix) const
-    {
-        os << prefix
-           << "tag = 0x" << std::setw(4) << std::setfill('0')
-           << std::hex << std::right << tagId()
-           << ", dir = 0x" << std::setw(4) << std::setfill('0')
-           << std::hex << std::right << dir()
-           << ", type = " << TypeInfo::typeName(typeId())
-           << ", size = " << std::dec << size_
-           << ", offset = " << offset_ << "\n";
-
-        Value::AutoPtr value;
-        if (typeId() != directory) {
-            value = Value::create(typeId());
-            value->read(pData_, size_, byteOrder);
-            if (value->size() < 100) {
-                os << prefix << *value << "\n";
-            }
-        }
-    } // CiffComponent::doPrint
-
-    TypeId CiffComponent::typeId(uint16_t tag)
-    {
-        TypeId ti = invalidTypeId;
-        switch (tag & 0x3800) {
-        case 0x0000: ti = unsignedByte; break;
-        case 0x0800: ti = asciiString; break;
-        case 0x1000: ti = unsignedShort; break;
-        case 0x1800: ti = unsignedLong; break;
-        case 0x2000: ti = undefined; break;
-        case 0x2800: // fallthrough
-        case 0x3000: ti = directory; break;
-        }
-        return ti;
-    } // CiffComponent::typeId
-
-    DataLocId CiffComponent::dataLocation(uint16_t tag)
-    {
-        DataLocId di = invalidDataLocId;
-        switch (tag & 0xc000) {
-        case 0x0000: di = valueData; break;
-        case 0x4000: di = directoryData; break;
-        }
-        return di;
-    } // CiffComponent::dataLocation
-
-    void CiffEntry::doAdd(AutoPtr component)
-    {
-        throw Error(34, "CiffEntry::add");
-    } // CiffEntry::doAdd
-
-    CiffDirectory::~CiffDirectory()
-    {
-        Components::iterator b = components_.begin();
-        Components::iterator e = components_.end();
-        for (Components::iterator i = b; i != e; ++i) {
-            delete *i;
-        }
-    }
-
-    uint32_t CiffEntry::doWrite(Blob& blob, 
-                                ByteOrder /*byteOrder*/, 
-                                uint32_t offset)
-    {
-        return writeValueData(blob, offset);
-    } // CiffEntry::doWrite
-
-    void CiffEntry::doDecode(Image& image, ByteOrder byteOrder) const
-    {
-        CrwMap::decode(*this, image, byteOrder);
-    } // CiffEntry::doDecode
-
-    void CiffDirectory::doAdd(AutoPtr component)
-    {
-        components_.push_back(component.release());
-    } // CiffDirectory::doAdd
-
-    void CiffDirectory::doRead(const byte* buf,
-                               uint32_t len,
-                               uint32_t start,
-                               ByteOrder byteOrder)
-    {
-        CiffComponent::doRead(buf, len, start, byteOrder);
-        readDirectory(buf + offset(), size(), byteOrder);
-    } // CiffDirectory::doRead
-
-    uint32_t CiffDirectory::doWrite(Blob& blob, 
+    uint32_t CiffDirectory::doWrite(Blob&     blob, 
                                     ByteOrder byteOrder, 
-                                    uint32_t offset)
+                                    uint32_t  offset)
     {
         // Ciff offsets are relative to the start of the directory
         uint32_t dirOffset = 0; 
@@ -460,17 +537,79 @@ namespace Exiv2 {
         return offset + dirOffset;
     } // CiffDirectory::doWrite
 
-    void CiffDirectory::doDecode(Image& image, ByteOrder byteOrder) const
+    void CiffComponent::writeDirEntry(Blob& blob, ByteOrder byteOrder) const
     {
-        Components::const_iterator b = components_.begin();
-        Components::const_iterator e = components_.end();
-        for (Components::const_iterator i = b; i != e; ++i) {
-            (*i)->decode(image, byteOrder);
-        }
-    } // CiffDirectory::doDecode
+        byte buf[4];
 
-    void CiffDirectory::doPrint(std::ostream& os,
-                                ByteOrder byteOrder,
+        DataLocId dl = dataLocation();
+        assert(dl == directoryData || dl == valueData);
+
+        if (dl == valueData) {
+            us2Data(buf, tag_, byteOrder);
+            append(blob, buf, 2);
+
+            ul2Data(buf, size_, byteOrder);
+            append(blob, buf, 4);
+
+            ul2Data(buf, offset_, byteOrder);
+            append(blob, buf, 4);
+        }
+
+        if (dl == directoryData) {
+            // Only 8 bytes fit in the directory entry
+            assert(size_ <= 8);
+
+            us2Data(buf, tag_, byteOrder);
+            append(blob, buf, 2);
+            // Copy value instead of size and offset
+            append(blob, pData_, size_);
+            // Pad with 0s
+            for (uint32_t i = size_; i < 8; ++i) {
+                blob.push_back(0);
+            }
+        }
+    } // CiffComponent::writeDirEntry
+
+    void CiffHeader::print(std::ostream& os, const std::string& prefix) const
+    {
+        os << prefix
+           << "Header, offset = 0x" << std::setw(8) << std::setfill('0')
+           << std::hex << std::right << offset_ << "\n";
+        if (pRootDir_) pRootDir_->print(os, byteOrder_, prefix);
+    } // CiffHeader::print
+
+    void CiffComponent::print(std::ostream&      os,
+                              ByteOrder          byteOrder,
+                              const std::string& prefix) const
+    {
+        doPrint(os, byteOrder, prefix);
+    }
+
+    void CiffComponent::doPrint(std::ostream&      os,
+                                ByteOrder          byteOrder,
+                                const std::string& prefix) const
+    {
+        os << prefix
+           << "tag = 0x" << std::setw(4) << std::setfill('0')
+           << std::hex << std::right << tagId()
+           << ", dir = 0x" << std::setw(4) << std::setfill('0')
+           << std::hex << std::right << dir()
+           << ", type = " << TypeInfo::typeName(typeId())
+           << ", size = " << std::dec << size_
+           << ", offset = " << offset_ << "\n";
+
+        Value::AutoPtr value;
+        if (typeId() != directory) {
+            value = Value::create(typeId());
+            value->read(pData_, size_, byteOrder);
+            if (value->size() < 100) {
+                os << prefix << *value << "\n";
+            }
+        }
+    } // CiffComponent::doPrint
+
+    void CiffDirectory::doPrint(std::ostream&      os,
+                                ByteOrder          byteOrder,
                                 const std::string& prefix) const
     {
         CiffComponent::doPrint(os, byteOrder, prefix);
@@ -481,183 +620,202 @@ namespace Exiv2 {
         }
     } // CiffDirectory::doPrint
 
-    void CiffDirectory::readDirectory(const byte* buf,
-                                      uint32_t len,
-                                      ByteOrder byteOrder)
+    void CiffComponent::setValue(DataBuf buf)
     {
-        uint32_t o = getULong(buf + len - 4, byteOrder);
-        if (o + 2 > len) throw Error(33);
-        uint16_t count = getUShort(buf + o, byteOrder);
-        o += 2;
-        for (uint16_t i = 0; i < count; ++i) {
-            if (o + 10 > len) throw Error(33);
-            uint16_t tag = getUShort(buf + o, byteOrder);
-            CiffComponent* p = 0;
-            switch (CiffComponent::typeId(tag)) {
-            case directory: p = new CiffDirectory; break;
-            default: p = new CiffEntry; break;
+        if (isAllocated_) {
+            delete pData_;
+            pData_ = 0;
+            size_ = 0;
+        }
+        isAllocated_ = true;
+        std::pair<byte *, long> p = buf.release();
+        pData_ = p.first;
+        size_  = p.second;
+        if (size_ > 8 && dataLocation() == directoryData) {
+            tag_ &= 0x3fff;
+        }
+    } // CiffComponent::setValue
+
+    TypeId CiffComponent::typeId(uint16_t tag)
+    {
+        TypeId ti = invalidTypeId;
+        switch (tag & 0x3800) {
+        case 0x0000: ti = unsignedByte; break;
+        case 0x0800: ti = asciiString; break;
+        case 0x1000: ti = unsignedShort; break;
+        case 0x1800: ti = unsignedLong; break;
+        case 0x2000: ti = undefined; break;
+        case 0x2800: // fallthrough
+        case 0x3000: ti = directory; break;
+        }
+        return ti;
+    } // CiffComponent::typeId
+
+    DataLocId CiffComponent::dataLocation(uint16_t tag)
+    {
+        DataLocId di = invalidDataLocId;
+        switch (tag & 0xc000) {
+        case 0x0000: di = valueData; break;
+        case 0x4000: di = directoryData; break;
+        }
+        return di;
+    } // CiffComponent::dataLocation
+
+    /*!
+      @brief Finds \em crwTag in directory \em crwDir, returning a pointer to
+             the component or 0 if not found.
+
+     */
+    CiffComponent* CiffHeader::findComponent(uint16_t crwTag,
+                                             uint16_t crwDir) const
+    {
+        if (pRootDir_ == 0) return 0;
+        return pRootDir_->findComponent(crwTag, crwDir);
+    } // CiffHeader::findComponent
+
+    CiffComponent* CiffComponent::findComponent(uint16_t crwTag, 
+                                                uint16_t crwDir) const
+    {
+        return doFindComponent(crwTag, crwDir);
+    } // CiffComponent::findComponent
+
+    CiffComponent* CiffComponent::doFindComponent(uint16_t crwTag, 
+                                                  uint16_t crwDir) const
+    {
+        if (tagId() == crwTag && dir() == crwDir) {
+            return const_cast<CiffComponent*>(this);
+        }
+        return 0;
+    } // CiffComponent::doFindComponent
+
+    CiffComponent* CiffDirectory::doFindComponent(uint16_t crwTag, 
+                                                  uint16_t crwDir) const 
+    {
+        CiffComponent* cc = 0;
+        const Components::const_iterator b = components_.begin();
+        const Components::const_iterator e = components_.end();
+        for (Components::const_iterator i = b; i != e; ++i) {
+            cc = (*i)->findComponent(crwTag, crwDir);
+            if (cc) return cc;
+        }
+        return 0;
+    } // CiffDirectory::doFindComponent
+
+    CiffComponent* CiffHeader::addTag(uint16_t crwTag, uint16_t crwDir)
+    {
+        CrwDirs crwDirs;
+        CrwMap::loadStack(crwDirs, crwDir);
+        uint16_t rootDirectory = crwDirs.top().crwDir_;
+        assert(rootDirectory == 0x0000);
+        crwDirs.pop();
+        if (!pRootDir_) pRootDir_ = new CiffDirectory;
+        return pRootDir_->addTag(crwDirs, crwTag);
+    } // CiffHeader::addTag
+
+    CiffComponent* CiffComponent::addTag(CrwDirs& crwDirs, uint16_t crwTag)
+    {
+        return doAddTag(crwDirs, crwTag);
+    } // CiffComponent::addTag
+
+    CiffComponent* CiffComponent::doAddTag(CrwDirs& crwDirs, uint16_t crwTag)
+    {
+        return 0;
+    } // CiffComponent::doAddTag
+
+    CiffComponent* CiffDirectory::doAddTag(CrwDirs& crwDirs, uint16_t crwTag)
+    {
+        /*
+          addTag()
+            if stack not empty
+              pop from stack
+              find dir among components
+              if not found, create it
+              addTag()
+            else
+              find tag among components
+              if not found, create it
+              set value
+        */
+
+        CiffComponent* cc = 0;
+        const Components::iterator b = components_.begin();
+        const Components::iterator e = components_.end();
+
+        if (!crwDirs.empty()) {
+            CrwSubDir csd = crwDirs.top();
+            crwDirs.pop();
+            // Find the directory
+            for (Components::iterator i = b; i != e; ++i) {
+                if ((*i)->tag() == csd.crwDir_) {
+                    cc = *i;
+                    break;
+                }
             }
-            p->setDir(this->tag());
-            AutoPtr m(p);
-            m->read(buf, len, o, byteOrder);
-            add(m);
-            o += 10;
-        }
-    }  // CiffDirectory::readDirectory
-
-    const char CiffHeader::signature_[] = "HEAPCCDR";
-
-    CiffHeader::~CiffHeader()
-    {
-        delete rootDirectory_;
-    }
-
-    void CiffHeader::read(const byte* buf, uint32_t len)
-    {
-        if (len < 14) throw Error(33);
-
-        if (buf[0] == 0x49 && buf[1] == 0x49) {
-            byteOrder_ = littleEndian;
-        }
-        else if (buf[0] == 0x4d && buf[1] == 0x4d) {
-            byteOrder_ = bigEndian;
+            if (cc == 0) {
+                // Directory doesn't exist yet, add it
+                AutoPtr m(new CiffDirectory(csd.crwDir_, csd.parent_));
+                cc = m.get();
+                add(m);
+            }
+            // Recursive call to next lower level directory
+            cc = cc->addTag(crwDirs, crwTag);
         }
         else {
-            throw Error(33);
+            // Find the tag
+            for (Components::iterator i = b; i != e; ++i) {
+                if ((*i)->tag() == crwTag) {
+                    cc = *i;
+                    break;
+                }
+            }
+            if (cc == 0) {
+                // Tag doesn't exist yet, add it
+                AutoPtr m(new CiffEntry(crwTag, tag()));
+                cc = m.get();
+                add(m);
+            }
         }
-        offset_ = getULong(buf + 2, byteOrder_);
-        if (std::memcmp(buf + 6, signature(), 8) != 0) {
-            throw Error(33);
-        }
-
-        rootDirectory_ = new CiffDirectory;
-        rootDirectory_->readDirectory(buf + offset_, len - offset_, byteOrder_);
-    } // CiffHeader::read
-
-    void CiffHeader::write(Blob& blob)
-    {
-        assert(   byteOrder_ == littleEndian
-               || byteOrder_ == bigEndian);
-        if (byteOrder_ == littleEndian) {
-            blob.push_back(0x49);
-            blob.push_back(0x49);
-        }
-        else {
-            blob.push_back(0x4d);
-            blob.push_back(0x4d);
-        }
-        uint32_t o = 2;
-        byte buf[4];
-        ul2Data(buf, offset_, byteOrder_);
-        append(blob, buf, 4);
-        o += 4;
-        append(blob, reinterpret_cast<const byte*>(signature_), 8);
-        o += 8;
-        // Pad with 0s if needed
-        for (uint32_t i = o; i < offset_; ++i) {
-            blob.push_back(0);
-            ++o;
-        }
-        if (rootDirectory_) {
-            rootDirectory_->write(blob, byteOrder_, offset_);
-        }
-    }
-
-    void CiffHeader::decode(Image& image) const
-    {
-        // Nothing to decode from the header itself, just add correct byte order
-        if (rootDirectory_) rootDirectory_->decode(image, byteOrder_);
-    } // CiffHeader::decode
-
-    void CiffHeader::print(std::ostream& os, const std::string& prefix) const
-    {
-        os << prefix
-           << "Header, offset = 0x" << std::setw(8) << std::setfill('0')
-           << std::hex << std::right << offset_ << "\n";
-        if (rootDirectory_) rootDirectory_->print(os, byteOrder_, prefix);
-    } // CiffHeader::print
-
-    const CrwDecodeMap CrwMap::crwDecodeInfos_[] = {
-        //           CrwTag  CrwDir  Size ExifTag IfdId        decodeFct     encodeFct
-        CrwDecodeMap(0x0805, 0x300a,   0, 0x9286, exifIfdId,   decode0x0805, 0),
-        CrwDecodeMap(0x080a, 0x2807,   0, 0x010f, ifd0Id,      decode0x080a, 0),
-        CrwDecodeMap(0x080a, 0x2807,   0, 0x0110, ifd0Id,      0,            0),
-        CrwDecodeMap(0x080b, 0x3004,   0, 0x0007, canonIfdId,  decodeBasic,  0),
-        CrwDecodeMap(0x0810, 0x2807,   0, 0x0009, canonIfdId,  decodeBasic,  0),
-        CrwDecodeMap(0x0815, 0x2804,   0, 0x0006, canonIfdId,  decodeBasic,  0),
-        CrwDecodeMap(0x1029, 0x300b,   0, 0x0002, canonIfdId,  decodeBasic,  0),
-        CrwDecodeMap(0x102a, 0x300b,   0, 0x0004, canonIfdId,  decode0x102a, 0),
-        CrwDecodeMap(0x102d, 0x300b,   0, 0x0001, canonIfdId,  decode0x102d, 0),
-        CrwDecodeMap(0x1033, 0x300b,   0, 0x000f, canonIfdId,  decodeBasic,  0),
-        CrwDecodeMap(0x1038, 0x300b,   0, 0x0012, canonIfdId,  decodeBasic,  0),
-        CrwDecodeMap(0x10a9, 0x300b,   0, 0x00a9, canonIfdId,  decodeBasic,  0),
-//      CrwDecodeMap(0x10b4, 0x300b,   0, 0x00b4, canonIfdId,  decodeBasic,  0),
-        CrwDecodeMap(0x10b4, 0x300b,   0, 0xa001, exifIfdId,   decodeBasic,  encodeBasic),
-        CrwDecodeMap(0x10b5, 0x300b,   0, 0x00b5, canonIfdId,  decodeBasic,  0),
-        CrwDecodeMap(0x10c0, 0x300b,   0, 0x00c0, canonIfdId,  decodeBasic,  0),
-        CrwDecodeMap(0x10c1, 0x300b,   0, 0x00c1, canonIfdId,  decodeBasic,  0),
-        CrwDecodeMap(0x1807, 0x3002,   0, 0x9206, exifIfdId,   decodeBasic,  0),
-        CrwDecodeMap(0x180b, 0x2807,   0, 0x000c, canonIfdId,  decodeBasic,  0),
-        CrwDecodeMap(0x180e, 0x300a,   0, 0x9003, exifIfdId,   decode0x180e, 0),
-        CrwDecodeMap(0x1810, 0x300a,   0, 0xa002, exifIfdId,   decode0x1810, 0),
-        CrwDecodeMap(0x1810, 0x300a,   0, 0xa003, exifIfdId,   decode0x1810, 0),
-        CrwDecodeMap(0x1817, 0x300a,   4, 0x0008, canonIfdId,  decodeBasic,  0),
-//      CrwDecodeMap(0x1818, 0x3002,   0, 0x9204, exifIfdId,   decodeBasic,  0),
-        CrwDecodeMap(0x183b, 0x300b,   0, 0x0015, canonIfdId,  decodeBasic,  0),
-        CrwDecodeMap(0x2008, 0x0000,   0, 0x0201, ifd1Id,      decode0x2008, 0),
-        CrwDecodeMap(0x2008, 0x0000,   0, 0x0202, ifd1Id,      0,            0),
-        CrwDecodeMap(0x2008, 0x0000,   0, 0x0103, ifd1Id,      0,            0),
-        CrwDecodeMap(0x0000, 0x0000,   0, 0x0000, ifdIdNotSet, decodeBasic,  0)
-    }; // CrwMap::crwDecodeInfos_[]
+        return cc;
+    } // CiffDirectory::doAddTag
 
     void CrwMap::decode(const CiffComponent& ciffComponent,
-                        Image& image,
-                        ByteOrder byteOrder)
+                        Image&               image,
+                        ByteOrder            byteOrder)
     {
-        const CrwDecodeMap* cmi = crwDecodeInfo(ciffComponent.dir(),
-                                                ciffComponent.tagId());
+        const CrwMapping* cmi = crwMapping(ciffComponent.dir(),
+                                           ciffComponent.tagId());
         if (cmi && cmi->toExif_) {
             cmi->toExif_(ciffComponent, cmi, image, byteOrder);
         }
     } // CrwMap::decode
 
-    void CrwMap::encode(CiffHeader* parseTree, const Image& image)
+    const CrwMapping* CrwMap::crwMapping(uint16_t dir, uint16_t tagId)
     {
-        for (const CrwDecodeMap* cmi = crwDecodeInfos_; 
-             cmi->ifdId_ != ifdIdNotSet; ++cmi) {
-            if (cmi->fromExif_ != 0) {
-                cmi->fromExif_(image, cmi, parseTree);
-            }
-        }
-    } // CrwMap::encode
-
-    const CrwDecodeMap* CrwMap::crwDecodeInfo(uint16_t dir, uint16_t tagId)
-    {
-        for (int i = 0; crwDecodeInfos_[i].ifdId_ != ifdIdNotSet; ++i) {
-            if (   crwDecodeInfos_[i].crwDir_ == dir
-                && crwDecodeInfos_[i].crwTagId_ == tagId) {
-                return &(crwDecodeInfos_[i]);
+        for (int i = 0; crwMapping_[i].ifdId_ != ifdIdNotSet; ++i) {
+            if (   crwMapping_[i].crwDir_ == dir
+                && crwMapping_[i].crwTagId_ == tagId) {
+                return &(crwMapping_[i]);
             }
         }
         return 0;
-    } // CrwMap::crwDecodeInfo
+    } // CrwMap::crwMapping
 
     void CrwMap::decode0x0805(const CiffComponent& ciffComponent,
-                              const CrwDecodeMap* /*crwDecodeInfo*/,
-                              Image& image,
-                              ByteOrder /*byteOrder*/)
+                              const CrwMapping*    /*pCrwMapping*/,
+                                    Image&         image,
+                                    ByteOrder      /*byteOrder*/)
     {
         std::string s(reinterpret_cast<const char*>(ciffComponent.pData()));
         image.setComment(s);
     } // CrwMap::decode0x0805
 
     void CrwMap::decode0x080a(const CiffComponent& ciffComponent,
-                              const CrwDecodeMap* crwDecodeInfo,
-                              Image& image,
-                              ByteOrder byteOrder)
+                              const CrwMapping*    pCrwMapping,
+                                    Image&         image,
+                                    ByteOrder      byteOrder)
     {
         if (ciffComponent.typeId() != asciiString) {
-            return decodeBasic(ciffComponent, crwDecodeInfo, image, byteOrder);
+            return decodeBasic(ciffComponent, pCrwMapping, image, byteOrder);
         }
 
         // Make
@@ -684,12 +842,12 @@ namespace Exiv2 {
     } // CrwMap::decode0x080a
 
     void CrwMap::decode0x102a(const CiffComponent& ciffComponent,
-                              const CrwDecodeMap* crwDecodeInfo,
-                              Image& image,
-                              ByteOrder byteOrder)
+                              const CrwMapping*    pCrwMapping,
+                                    Image&         image,
+                                    ByteOrder      byteOrder)
     {
         if (ciffComponent.typeId() != unsignedShort) {
-            return decodeBasic(ciffComponent, crwDecodeInfo, image, byteOrder);
+            return decodeBasic(ciffComponent, pCrwMapping, image, byteOrder);
         }
 
         long aperture = 0;
@@ -728,12 +886,12 @@ namespace Exiv2 {
     } // CrwMap::decode0x102a
 
     void CrwMap::decode0x102d(const CiffComponent& ciffComponent,
-                              const CrwDecodeMap* crwDecodeInfo,
-                              Image& image,
-                              ByteOrder byteOrder)
+                              const CrwMapping*    pCrwMapping,
+                                    Image&         image,
+                                    ByteOrder      byteOrder)
     {
         if (ciffComponent.typeId() != unsignedShort) {
-            return decodeBasic(ciffComponent, crwDecodeInfo, image, byteOrder);
+            return decodeBasic(ciffComponent, pCrwMapping, image, byteOrder);
         }
 
         std::string ifdItem(ExifTags::ifdItem(canonCs1IfdId));
@@ -750,14 +908,14 @@ namespace Exiv2 {
     } // CrwMap::decode0x102d
 
     void CrwMap::decode0x180e(const CiffComponent& ciffComponent,
-                              const CrwDecodeMap* crwDecodeInfo,
-                              Image& image,
-                              ByteOrder byteOrder)
+                              const CrwMapping*    pCrwMapping,
+                                    Image&         image,
+                                    ByteOrder      byteOrder)
     {
         if (ciffComponent.size() < 8 || ciffComponent.typeId() != unsignedLong) {
-            return decodeBasic(ciffComponent, crwDecodeInfo, image, byteOrder);
+            return decodeBasic(ciffComponent, pCrwMapping, image, byteOrder);
         }
-        assert(crwDecodeInfo != 0);
+        assert(pCrwMapping != 0);
         ULongValue v;
         v.read(ciffComponent.pData(), 8, byteOrder);
         time_t t = v.value_[0];
@@ -773,7 +931,7 @@ namespace Exiv2 {
             char s[m];
             std::strftime(s, m, "%Y:%m:%d %T", tm);
 
-            ExifKey key(crwDecodeInfo->tag_, ExifTags::ifdItem(crwDecodeInfo->ifdId_));
+            ExifKey key(pCrwMapping->tag_, ExifTags::ifdItem(pCrwMapping->ifdId_));
             AsciiValue value;
             value.read(std::string(s));
             image.exifData().add(key, &value);
@@ -781,12 +939,12 @@ namespace Exiv2 {
     } // CrwMap::decode0x180e
 
     void CrwMap::decode0x1810(const CiffComponent& ciffComponent,
-                              const CrwDecodeMap* crwDecodeInfo,
-                              Image& image,
-                              ByteOrder byteOrder)
+                              const CrwMapping*    pCrwMapping,
+                                    Image&         image,
+                                    ByteOrder      byteOrder)
     {
         if (ciffComponent.typeId() != unsignedLong || ciffComponent.size() < 28) {
-            return decodeBasic(ciffComponent, crwDecodeInfo, image, byteOrder);
+            return decodeBasic(ciffComponent, pCrwMapping, image, byteOrder);
         }
 
         ExifKey key1("Exif.Photo.PixelXDimension");
@@ -802,29 +960,29 @@ namespace Exiv2 {
     } // CrwMap::decode0x1810
 
     void CrwMap::decode0x2008(const CiffComponent& ciffComponent,
-                              const CrwDecodeMap* /*crwDecodeInfo*/,
-                              Image& image,
-                              ByteOrder /*byteOrder*/)
+                              const CrwMapping*    /*pCrwMapping*/,
+                                    Image&         image,
+                                    ByteOrder      /*byteOrder*/)
     {
         image.exifData().setJpegThumbnail(ciffComponent.pData(),
                                           ciffComponent.size());
     } // CrwMap::decode0x2008
 
     void CrwMap::decodeBasic(const CiffComponent& ciffComponent,
-                             const CrwDecodeMap* crwDecodeInfo,
-                             Image& image,
-                             ByteOrder byteOrder)
+                             const CrwMapping*    pCrwMapping,
+                                   Image&         image,
+                                   ByteOrder      byteOrder)
     {
-        assert(crwDecodeInfo != 0);
+        assert(pCrwMapping != 0);
         // create a key and value pair
-        ExifKey key(crwDecodeInfo->tag_, ExifTags::ifdItem(crwDecodeInfo->ifdId_));
+        ExifKey key(pCrwMapping->tag_, ExifTags::ifdItem(pCrwMapping->ifdId_));
         Value::AutoPtr value;
         if (ciffComponent.typeId() != directory) {
             value = Value::create(ciffComponent.typeId());
             uint32_t size = 0;
-            if (crwDecodeInfo->size_ != 0) {
+            if (pCrwMapping->size_ != 0) {
                 // size in the mapping table overrides all
-                size = crwDecodeInfo->size_;
+                size = pCrwMapping->size_;
             }
             else if (ciffComponent.typeId() == asciiString) {
                 // determine size from the data, by looking for the first 0
@@ -845,28 +1003,113 @@ namespace Exiv2 {
         image.exifData().add(key, value.get());
     } // CrwMap::decodeBasic
 
-    void CrwMap::encodeBasic(const Image& image,
-                             const CrwDecodeMap* crwDecodeInfo,
-                             CiffHeader* parseTree)
+    void CrwMap::loadStack(CrwDirs& crwDirs, uint16_t crwDir)
     {
-        assert(crwDecodeInfo != 0);
-        assert(parseTree != 0);
+        for (int i = 0; crwSubDir_[i].crwDir_ != 0xffff; ++i) {
+            if (crwSubDir_[i].crwDir_ == crwDir) {
+                crwDirs.push(crwSubDir_[i]);
+                crwDir = crwSubDir_[i].parent_;
+            }
+        }
+    } // CrwMap::loadStack
+
+    void CrwMap::encode(CiffHeader* pHead, const Image& image)
+    {
+        for (const CrwMapping* cmi = crwMapping_; 
+             cmi->ifdId_ != ifdIdNotSet; ++cmi) {
+            if (cmi->fromExif_ != 0) {
+                cmi->fromExif_(image, cmi, pHead);
+            }
+        }
+    } // CrwMap::encode
+
+    void CrwMap::encodeBasic(const Image&      image,
+                             const CrwMapping* pCrwMapping,
+                                   CiffHeader* pHead)
+    {
+        assert(pCrwMapping != 0);
+        assert(pHead != 0);
         
-        ExifKey ek(crwDecodeInfo->tag_, ExifTags::ifdItem(crwDecodeInfo->ifdId_));
+        // Determine the source Exif metadatum
+        ExifKey ek(pCrwMapping->tag_, ExifTags::ifdItem(pCrwMapping->ifdId_));
         ExifData::const_iterator ed = image.exifData().findKey(ek);
 
-        if (ed == image.exifData().end()) {
-            // delete component if it exists
+        // Find the target metadatum in the Ciff parse tree
+        CiffComponent* cc = pHead->findComponent(pCrwMapping->crwTagId_,
+                                                 pCrwMapping->crwDir_);
+
+        if (ed != image.exifData().end()) {
+            // Create the directory and component as needed
+            if (cc == 0) cc = pHead->addTag(pCrwMapping->crwTagId_,
+                                            pCrwMapping->crwDir_);
+            // Set the new value
+            DataBuf buf(ed->size());
+            ed->copy(buf.pData_, pHead->byteOrder());
+            cc->setValue(buf);
         }
         else {
-            // get or create the correct component
-
-            // set the new value, using
-            // ed->size()
-            // ed->copy(buf, parseTree->byteOrder())
+            if (cc) cc->remove();
         }
-
     } // CrwMap::encodeBasic
+
+    void CrwMap::encode0x0805(const Image&      image,
+                              const CrwMapping* /*pCrwMapping*/,
+                                    CiffHeader* pHead)
+    {
+        assert(pHead != 0);
+
+        std::string comment = image.comment();
+        
+        const uint16_t crwTag = 0x0805;
+        const uint16_t crwDir = 0x300a;
+        CiffComponent* cc = pHead->findComponent(crwTag, crwDir);
+
+        if (!comment.empty()) {
+            if (cc == 0) cc = pHead->addTag(crwTag, crwDir);
+            DataBuf buf(std::max(cc->size(), comment.size()));
+            memset(buf.pData_, 0x0, buf.size_);
+            memcpy(buf.pData_, comment.data(), comment.size());
+            cc->setValue(buf);
+        }
+        else {
+            if (cc) {
+                // Just delete the value, do not remove the tag
+                DataBuf buf(cc->size());
+                memset(buf.pData_, 0x0, buf.size_);
+            }
+        }
+    } // CrwMap::encode0x0805
+
+    void CrwMap::encode0x080a(const Image&      image,
+                              const CrwMapping* /*pCrwMapping*/,
+                                    CiffHeader* pHead)
+    {
+        assert(pHead != 0);
+
+        const ExifKey k1("Exif.Image.Make");
+        const ExifKey k2("Exif.Image.Model");
+        const ExifData::const_iterator ed1 = image.exifData().findKey(k1);
+        const ExifData::const_iterator ed2 = image.exifData().findKey(k2);
+        const ExifData::const_iterator edEnd = image.exifData().end();
+        
+        const uint16_t crwTag = 0x080a;
+        const uint16_t crwDir = 0x2807;
+        CiffComponent* cc = pHead->findComponent(crwTag, crwDir);
+
+        long size = 0;
+        if (ed1 != edEnd) size += ed1->size();
+        if (ed2 != edEnd) size += ed2->size();
+        if (size != 0) {
+            if (cc == 0) cc = pHead->addTag(crwTag, crwDir);
+            DataBuf buf(size);
+            if (ed1 != edEnd) ed1->copy(buf.pData_, pHead->byteOrder());
+            if (ed2 != edEnd) ed2->copy(buf.pData_ + ed1->size(), pHead->byteOrder());
+            cc->setValue(buf);
+        }
+        else {
+            if (cc) cc->remove();
+        }
+    } // encode0x080a
 
     // *************************************************************************
     // free functions

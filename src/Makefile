@@ -60,7 +60,7 @@ CCSRC = basicio.cpp canonmn.cpp crwimage.cpp datasets.cpp error.cpp exif.cpp \
 BINSRC = addmoddel.cpp dataarea-test.cpp exifcomment.cpp exifdata-test.cpp \
          exifprint.cpp ifd-test.cpp iotest.cpp iptceasy.cpp iptcprint.cpp \
          iptctest.cpp key-test.cpp makernote-test.cpp taglist.cpp write-test.cpp \
-         write2-test.cpp
+         write2-test.cpp crwparse.cpp
 
 # Main source file of the Exiv2 application
 EXIV2MAIN = exiv2.cpp

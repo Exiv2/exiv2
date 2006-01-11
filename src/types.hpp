@@ -160,7 +160,7 @@ namespace Exiv2 {
         //! Constructor with an initial buffer size
         explicit DataBuf(long size) : pData_(new byte[size]), size_(size) {}
         //! Constructor, copies an existing buffer
-        DataBuf(byte* pData, long size);
+        DataBuf(const byte* pData, long size);
         /*!
           @brief Copy constructor. Transfers the buffer to the newly created
                  object similar to std::auto_ptr, i.e., the original object is

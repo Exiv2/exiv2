@@ -1,0 +1,291 @@
+File 1/1: CanonRaw.crw
+Exif.Photo.PixelXDimension                   Long        1  3072
+Exif.Photo.PixelYDimension                   Long        1  2048
+Exif.Canon.ImageNumber                       Long        1  116-1602
+Exif.Photo.DateTimeOriginal                  Ascii      20  2003:11:10 17:39:26
+Exif.Canon.ImageType                         Ascii      31  CRW:EOS DIGITAL REBEL CMOS RAW
+Exif.Canon.OwnerName                         Ascii      12  Phil Harvey
+Exif.Image.Make                              Ascii       6  Canon
+Exif.Image.Model                             Ascii      24  Canon EOS DIGITAL REBEL
+Exif.Canon.FirmwareVersion                   Ascii      23  Firmware Version 1.1.1
+Exif.Canon.0x0002                            Short       4  0 24 914 610
+Exif.CanonCs2.0x0001                         Short       1  0
+Exif.CanonCs2.ISOSpeed                       Short       1  100
+Exif.CanonCs2.0x0003                         Short       1  65376
+Exif.CanonCs2.TargetAperture                 Short       1  F3.6
+Exif.CanonCs2.TargetShutterSpeed             Short       1  1/60 s
+Exif.CanonCs2.0x0006                         Short       1  0
+Exif.CanonCs2.WhiteBalance                   Short       1  Auto
+Exif.CanonCs2.0x0008                         Short       1  3
+Exif.CanonCs2.Sequence                       Short       1  0
+Exif.CanonCs2.0x000a                         Short       1  8
+Exif.CanonCs2.0x000b                         Short       1  8
+Exif.CanonCs2.0x000c                         Short       1  0
+Exif.CanonCs2.0x000d                         Short       1  65535
+Exif.CanonCs2.AFPointUsed                    Short       1  0 focus points; none used
+Exif.CanonCs2.FlashBias                      Short       1  0.67 EV
+Exif.CanonCs2.0x0010                         Short       1  0
+Exif.CanonCs2.0x0011                         Short       1  0
+Exif.CanonCs2.0x0012                         Short       1  1
+Exif.CanonCs2.SubjectDistance                Short       1  142
+Exif.CanonCs2.0x0014                         Short       1  119
+Exif.CanonCs2.ApertureValue                  Short       1  F3.6
+Exif.CanonCs2.ShutterSpeedValue              Short       1  1/64 s
+Exif.CanonCs2.0x0017                         Short       1  47
+Exif.CanonCs2.0x0018                         Short       1  0
+Exif.CanonCs2.0x0019                         Short       1  0
+Exif.CanonCs2.0x001a                         Short       1  252
+Exif.CanonCs2.0x001b                         Short       1  0
+Exif.CanonCs2.0x001c                         Short       1  65535
+Exif.CanonCs2.0x001d                         Short       1  0
+Exif.CanonCs2.0x001e                         Short       1  0
+Exif.CanonCs2.0x001f                         Short       1  0
+Exif.CanonCs2.0x0020                         Short       1  0
+Exif.Photo.FNumber                           Rational    1  F3.6
+Exif.Photo.ExposureTime                      Rational    1  1/64 s
+Exif.CanonCs1.Macro                          Short       1  (0)
+Exif.CanonCs1.Selftimer                      Short       1  Off
+Exif.CanonCs1.Quality                        Short       1  Raw
+Exif.CanonCs1.FlashMode                      Short       1  On
+Exif.CanonCs1.DriveMode                      Short       1  Continuous
+Exif.CanonCs1.0x0006                         Short       1  0
+Exif.CanonCs1.FocusMode                      Short       1  AI Focus
+Exif.CanonCs1.0x0008                         Short       1  0
+Exif.CanonCs1.0x0009                         Short       1  2
+Exif.CanonCs1.ImageSize                      Short       1  Large
+Exif.CanonCs1.EasyMode                       Short       1  Manual
+Exif.CanonCs1.DigitalZoom                    Short       1  (65535)
+Exif.CanonCs1.Contrast                       Short       1  High
+Exif.CanonCs1.Saturation                     Short       1  High
+Exif.CanonCs1.Sharpness                      Short       1  High
+Exif.CanonCs1.ISOSpeed                       Short       1  n/a
+Exif.CanonCs1.MeteringMode                   Short       1  Evaluative
+Exif.CanonCs1.FocusType                      Short       1  (2)
+Exif.CanonCs1.AFPoint                        Short       1  (8197)
+Exif.CanonCs1.ExposureProgram                Short       1  Program
+Exif.CanonCs1.0x0015                         Short       1  32767
+Exif.CanonCs1.0x0016                         Short       1  65535
+Exif.CanonCs1.Lens                           Short       3  18.0 - 55.0 mm
+Exif.CanonCs1.0x001a                         Short       1  116
+Exif.CanonCs1.0x001b                         Short       1  285
+Exif.CanonCs1.FlashActivity                  Short       1  Did not fire
+Exif.CanonCs1.FlashDetails                   Short       1  Internal flash
+Exif.CanonCs1.0x001e                         Short       1  0
+Exif.CanonCs1.0x001f                         Short       1  0
+Exif.CanonCs1.FocusMode                      Short       1  (65535)
+Exif.CanonCs1.0x0021                         Short       1  65535
+Exif.CanonCs1.0x0022                         Short       1  65535
+Exif.CanonCs1.0x0023                         Short       1  0
+Exif.CanonCs1.0x0024                         Short       1  3072
+Exif.CanonCs1.0x0025                         Short       1  3072
+Exif.CanonCs1.0x0026                         Short       1  0
+Exif.CanonCs1.0x0027                         Short       1  65535
+Exif.CanonCs1.0x0028                         Short       1  65535
+Exif.CanonCs1.0x0029                         Short       1  0
+Exif.CanonCs1.0x002a                         Short       1  0
+Exif.CanonCs1.0x002b                         Short       1  32767
+Exif.CanonCs1.0x002c                         Short       1  65535
+Exif.CanonCs1.0x002d                         Short       1  65535
+Exif.Canon.PictureInfo                       Short      24  7 7 3072 2048 3072 2048 151 151 1014 608 0 0 0 64928 64522 0 0 65030 0 506 0 0 8 65535
+Exif.Canon.0x00c0                            Short      13  26 331 372 372 177 240 428 429 277 186 510 511 442
+Exif.Canon.0x00c1                            Short      13  26 299 375 375 170 202 394 395 240 153 453 454 375
+Exif.Canon.WhiteBalanceTable                 Short      41  82 1740 832 831 931 1722 832 831 989 2035 832 831 839 1878 832 831 903 1228 913 912 1668 1506 842 841 1381 1964 832 831 877 1722 832 831 989 1722 832 831 988 125 124 125 124
+Exif.Photo.ColorSpace                        Short       1  sRGB
+Exif.Canon.0x00b5                            Short       5  10 3 1 2048 1360
+Exif.Canon.0x0015                            Long        1  2415919104
+File 1/1: CanonRaw.crw
+Set Exif.Photo.ColorSpace "65535" (Short)
+Set Exif.Canon.OwnerName "Somebody else's Camera" (Ascii)
+Set Exif.Canon.FirmwareVersion "Whatever version" (Ascii)
+Set Exif.Canon.SerialNumber "1" (Long)
+Add Exif.Canon.SerialNumber "2" (Long)
+Header, offset = 0x0000001a
+tag = 0x0000, dir = 0x0000, type = Byte, size = 0, offset = 0
+
+   tag = 0x2005, dir = 0x0000, type = Undefined, size = 22, offset = 0
+   60 68 117 109 109 121 32 114 97 119 32 105 109 97 103 101 32 100 97 116 97 62 
+   tag = 0x2007, dir = 0x0000, type = Undefined, size = 29, offset = 22
+   60 68 117 109 109 121 32 74 112 103 70 114 111 109 82 97 119 32 105 109 97 103 101 32 100 97 116 97 62 
+   tag = 0x300a, dir = 0x0000, type = Directory, size = 6132, offset = 52
+      tag = 0x1803, dir = 0x300a, type = Long, size = 8, offset = 6000
+      131073 1092616192
+      tag = 0x1810, dir = 0x300a, type = Long, size = 28, offset = 0
+      3072 2048 1065353216 0 8 24 257
+      tag = 0x100a, dir = 0x300a, type = Short, size = 8, offset = 6020
+      0 55774 22722 18901
+      tag = 0x1804, dir = 0x300a, type = Long, size = 8, offset = 6030
+      0 3519668141
+      tag = 0x1817, dir = 0x300a, type = Long, size = 8, offset = 6040
+      1161602 0
+      tag = 0x180e, dir = 0x300a, type = Long, size = 12, offset = 28
+      1068485966 0 0
+      tag = 0x0816, dir = 0x300a, type = Ascii, size = 32, offset = 40
+      CRW_1602.CRW
+      tag = 0x0817, dir = 0x300a, type = Ascii, size = 32, offset = 72
+      CRW_1602.THM
+      tag = 0x0805, dir = 0x300a, type = Ascii, size = 256, offset = 104
+      tag = 0x3003, dir = 0x300a, type = Directory, size = 16, offset = 360
+         tag = 0x1814, dir = 0x3003, type = Long, size = 8, offset = 4
+         3200253952 3972918972
+      tag = 0x2804, dir = 0x300a, type = Directory, size = 90, offset = 376
+         tag = 0x0805, dir = 0x2804, type = Ascii, size = 32, offset = 0
+         EOS DIGITAL REBEL CMOS RAW
+         tag = 0x0815, dir = 0x2804, type = Ascii, size = 31, offset = 32
+         CRW:EOS DIGITAL REBEL CMOS RAW
+      tag = 0x2807, dir = 0x300a, type = Directory, size = 168, offset = 466
+         tag = 0x0810, dir = 0x2807, type = Ascii, size = 23, offset = 0
+         Somebody else's Camera
+         tag = 0x080a, dir = 0x2807, type = Ascii, size = 30, offset = 24
+         Canon Canon EOS DIGITAL REBEL
+         tag = 0x3004, dir = 0x2807, type = Directory, size = 64, offset = 54
+            tag = 0x180b, dir = 0x3004, type = Long, size = 8, offset = 22
+            560018150 383286922
+            tag = 0x101c, dir = 0x3004, type = Short, size = 8, offset = 32
+            100 0 39647 19658
+            tag = 0x080d, dir = 0x3004, type = Ascii, size = 8, offset = 42
+            USA Œ![Û
+            tag = 0x080b, dir = 0x3004, type = Ascii, size = 17, offset = 0
+            Whatever version
+         tag = 0x180b, dir = 0x2807, type = Long, size = 4, offset = 118
+         1
+      tag = 0x300b, dir = 0x300a, type = Directory, size = 5362, offset = 634
+         tag = 0x1028, dir = 0x300b, type = Short, size = 8, offset = 5130
+         0 100 0 0
+         tag = 0x1029, dir = 0x300b, type = Short, size = 8, offset = 5140
+         0 24 914 610
+         tag = 0x102a, dir = 0x300b, type = Short, size = 66, offset = 0
+         66 0 160 65376 116 189 0 0 3 0 8 8 0 65535 0 20 0 0 1 142 119 116 192 47 0 0 252 0 65535 0 0 0 0
+         tag = 0x1093, dir = 0x300b, type = Short, size = 18, offset = 66
+         18 0 0 0 0 0 65535 65535 65535
+         tag = 0x102d, dir = 0x300b, type = Short, size = 92, offset = 84
+         92 0 0 4 2 1 0 2 0 2 0 1 65535 1 1 1 0 3 2 8197 1 32767 65535 55 18 1 116 285 0 8200 0 0 65535 65535 65535 0 3072 3072 0 65535 65535 0 0 32767 65535 65535
+         tag = 0x0036, dir = 0x300b, type = Byte, size = 3714, offset = 176
+         tag = 0x1834, dir = 0x300b, type = Long, size = 8, offset = 5190
+         2147484016 2597473481
+         tag = 0x1031, dir = 0x300b, type = Short, size = 34, offset = 3890
+         34 3152 2068 1 1 72 16 3143 2063 24 224 40 1856 0 0 0 0
+         tag = 0x1835, dir = 0x300b, type = Long, size = 16, offset = 3924
+         1 0 514 4120111
+         tag = 0x1038, dir = 0x300b, type = Short, size = 48, offset = 3940
+         7 7 3072 2048 3072 2048 151 151 1014 608 0 0 0 64928 64522 0 0 65030 0 506 0 0 8 65535
+         tag = 0x10c0, dir = 0x300b, type = Short, size = 26, offset = 3988
+         26 331 372 372 177 240 428 429 277 186 510 511 442
+         tag = 0x10c1, dir = 0x300b, type = Short, size = 26, offset = 4014
+         26 299 375 375 170 202 394 395 240 153 453 454 375
+         tag = 0x10c2, dir = 0x300b, type = Short, size = 884, offset = 4040
+         tag = 0x10aa, dir = 0x300b, type = Short, size = 10, offset = 4924
+         10 554 1022 1026 754
+         tag = 0x10a8, dir = 0x300b, type = Short, size = 20, offset = 4934
+         20 5528 5190 7000 5987 3214 3897 6457 5190 5200
+         tag = 0x10ad, dir = 0x300b, type = Short, size = 62, offset = 4954
+         62 20127 8480 7000 6000 5600 5200 4724 4200 3266 1446 64822 65122 65184 65243 65275 65314 65363 65436 104 672 65395 65201 65175 65150 65135 65121 65111 65102 65090 65326
+         tag = 0x10ae, dir = 0x300b, type = Short, size = 2, offset = 5016
+         5200
+         tag = 0x10af, dir = 0x300b, type = Short, size = 2, offset = 5018
+         1024
+         tag = 0x10a9, dir = 0x300b, type = Short, size = 82, offset = 5020
+         82 1740 832 831 931 1722 832 831 989 2035 832 831 839 1878 832 831 903 1228 913 912 1668 1506 842 841 1381 1964 832 831 877 1722 832 831 989 1722 832 831 988 125 124 125 124
+         tag = 0x10b4, dir = 0x300b, type = Short, size = 2, offset = 5102
+         65535
+         tag = 0x10b5, dir = 0x300b, type = Short, size = 10, offset = 5104
+         10 3 1 2048 1360
+         tag = 0x1039, dir = 0x300b, type = Short, size = 8, offset = 5114
+         0 159 7 112
+         tag = 0x183b, dir = 0x300b, type = Long, size = 4, offset = 5122
+         2415919104
+File 1/1: CanonRaw.crw
+Exif.Photo.PixelXDimension                   Long        1  3072
+Exif.Photo.PixelYDimension                   Long        1  2048
+Exif.Canon.ImageNumber                       Long        1  116-1602
+Exif.Photo.DateTimeOriginal                  Ascii      20  2003:11:10 17:39:26
+Exif.Canon.ImageType                         Ascii      31  CRW:EOS DIGITAL REBEL CMOS RAW
+Exif.Canon.OwnerName                         Ascii      23  Somebody else's Camera
+Exif.Image.Make                              Ascii       6  Canon
+Exif.Image.Model                             Ascii      24  Canon EOS DIGITAL REBEL
+Exif.Canon.FirmwareVersion                   Ascii      17  Whatever version
+Exif.Canon.SerialNumber                      Long        1  000000001
+Exif.Canon.0x0002                            Short       4  0 24 914 610
+Exif.CanonCs2.0x0001                         Short       1  0
+Exif.CanonCs2.ISOSpeed                       Short       1  100
+Exif.CanonCs2.0x0003                         Short       1  65376
+Exif.CanonCs2.TargetAperture                 Short       1  F3.6
+Exif.CanonCs2.TargetShutterSpeed             Short       1  1/60 s
+Exif.CanonCs2.0x0006                         Short       1  0
+Exif.CanonCs2.WhiteBalance                   Short       1  Auto
+Exif.CanonCs2.0x0008                         Short       1  3
+Exif.CanonCs2.Sequence                       Short       1  0
+Exif.CanonCs2.0x000a                         Short       1  8
+Exif.CanonCs2.0x000b                         Short       1  8
+Exif.CanonCs2.0x000c                         Short       1  0
+Exif.CanonCs2.0x000d                         Short       1  65535
+Exif.CanonCs2.AFPointUsed                    Short       1  0 focus points; none used
+Exif.CanonCs2.FlashBias                      Short       1  0.67 EV
+Exif.CanonCs2.0x0010                         Short       1  0
+Exif.CanonCs2.0x0011                         Short       1  0
+Exif.CanonCs2.0x0012                         Short       1  1
+Exif.CanonCs2.SubjectDistance                Short       1  142
+Exif.CanonCs2.0x0014                         Short       1  119
+Exif.CanonCs2.ApertureValue                  Short       1  F3.6
+Exif.CanonCs2.ShutterSpeedValue              Short       1  1/64 s
+Exif.CanonCs2.0x0017                         Short       1  47
+Exif.CanonCs2.0x0018                         Short       1  0
+Exif.CanonCs2.0x0019                         Short       1  0
+Exif.CanonCs2.0x001a                         Short       1  252
+Exif.CanonCs2.0x001b                         Short       1  0
+Exif.CanonCs2.0x001c                         Short       1  65535
+Exif.CanonCs2.0x001d                         Short       1  0
+Exif.CanonCs2.0x001e                         Short       1  0
+Exif.CanonCs2.0x001f                         Short       1  0
+Exif.CanonCs2.0x0020                         Short       1  0
+Exif.Photo.FNumber                           Rational    1  F3.6
+Exif.Photo.ExposureTime                      Rational    1  1/64 s
+Exif.CanonCs1.Macro                          Short       1  (0)
+Exif.CanonCs1.Selftimer                      Short       1  Off
+Exif.CanonCs1.Quality                        Short       1  Raw
+Exif.CanonCs1.FlashMode                      Short       1  On
+Exif.CanonCs1.DriveMode                      Short       1  Continuous
+Exif.CanonCs1.0x0006                         Short       1  0
+Exif.CanonCs1.FocusMode                      Short       1  AI Focus
+Exif.CanonCs1.0x0008                         Short       1  0
+Exif.CanonCs1.0x0009                         Short       1  2
+Exif.CanonCs1.ImageSize                      Short       1  Large
+Exif.CanonCs1.EasyMode                       Short       1  Manual
+Exif.CanonCs1.DigitalZoom                    Short       1  (65535)
+Exif.CanonCs1.Contrast                       Short       1  High
+Exif.CanonCs1.Saturation                     Short       1  High
+Exif.CanonCs1.Sharpness                      Short       1  High
+Exif.CanonCs1.ISOSpeed                       Short       1  n/a
+Exif.CanonCs1.MeteringMode                   Short       1  Evaluative
+Exif.CanonCs1.FocusType                      Short       1  (2)
+Exif.CanonCs1.AFPoint                        Short       1  (8197)
+Exif.CanonCs1.ExposureProgram                Short       1  Program
+Exif.CanonCs1.0x0015                         Short       1  32767
+Exif.CanonCs1.0x0016                         Short       1  65535
+Exif.CanonCs1.Lens                           Short       3  18.0 - 55.0 mm
+Exif.CanonCs1.0x001a                         Short       1  116
+Exif.CanonCs1.0x001b                         Short       1  285
+Exif.CanonCs1.FlashActivity                  Short       1  Did not fire
+Exif.CanonCs1.FlashDetails                   Short       1  Internal flash
+Exif.CanonCs1.0x001e                         Short       1  0
+Exif.CanonCs1.0x001f                         Short       1  0
+Exif.CanonCs1.FocusMode                      Short       1  (65535)
+Exif.CanonCs1.0x0021                         Short       1  65535
+Exif.CanonCs1.0x0022                         Short       1  65535
+Exif.CanonCs1.0x0023                         Short       1  0
+Exif.CanonCs1.0x0024                         Short       1  3072
+Exif.CanonCs1.0x0025                         Short       1  3072
+Exif.CanonCs1.0x0026                         Short       1  0
+Exif.CanonCs1.0x0027                         Short       1  65535
+Exif.CanonCs1.0x0028                         Short       1  65535
+Exif.CanonCs1.0x0029                         Short       1  0
+Exif.CanonCs1.0x002a                         Short       1  0
+Exif.CanonCs1.0x002b                         Short       1  32767
+Exif.CanonCs1.0x002c                         Short       1  65535
+Exif.CanonCs1.0x002d                         Short       1  65535
+Exif.Canon.PictureInfo                       Short      24  7 7 3072 2048 3072 2048 151 151 1014 608 0 0 0 64928 64522 0 0 65030 0 506 0 0 8 65535
+Exif.Canon.0x00c0                            Short      13  26 331 372 372 177 240 428 429 277 186 510 511 442
+Exif.Canon.0x00c1                            Short      13  26 299 375 375 170 202 394 395 240 153 453 454 375
+Exif.Canon.WhiteBalanceTable                 Short      41  82 1740 832 831 931 1722 832 831 989 2035 832 831 839 1878 832 831 903 1228 913 912 1668 1506 842 841 1381 1964 832 831 877 1722 832 831 989 1722 832 831 988 125 124 125 124
+Exif.Photo.ColorSpace                        Short       1  Uncalibrated
+Exif.Canon.0x00b5                            Short       5  10 3 1 2048 1360
+Exif.Canon.0x0015                            Long        1  2415919104
