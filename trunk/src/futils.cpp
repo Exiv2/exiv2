@@ -50,7 +50,7 @@ EXIV2_RCSID("@(#) $Id$");
 #endif
 
 #include <cerrno>
-#include <cstring>
+#include <string.h>
 #include <sstream>
 
 namespace Exiv2 {
@@ -74,6 +74,7 @@ namespace Exiv2 {
 #ifdef EXV_HAVE_STRERROR_R
         const size_t n = 1024;
         char buf[n];
+        memset(buf, 0x0, n);
         strerror_r(error, buf, n);
         os << buf;
 #else

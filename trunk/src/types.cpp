@@ -97,7 +97,7 @@ namespace Exiv2 {
         rhs.release();
     }
 
-    DataBuf::DataBuf(byte* pData, long size)
+    DataBuf::DataBuf(const byte* pData, long size)
         : pData_(0), size_(0)
     {
         if (size > 0) {

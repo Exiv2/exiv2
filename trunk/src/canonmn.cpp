@@ -88,6 +88,8 @@ namespace Exiv2 {
         TagInfo(0x000c, "SerialNumber", "SerialNumber", "Camera serial number", canonIfdId, makerTags, unsignedLong, print0x000c),
         TagInfo(0x000d, "0x000d", "0x000d", "Unknown", canonIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x000f, "CustomFunctions", "CustomFunctions", "Custom Functions", canonIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0012, "PictureInfo", "PictureInfo", "Picture info", canonIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x00a9, "WhiteBalanceTable", "WhiteBalanceTable", "White balance table", canonIfdId, makerTags, unsignedShort, printValue),
         // End of list marker
         TagInfo(0xffff, "(UnknownCanonMakerNoteTag)", "(UnknownCanonMakerNoteTag)", "Unknown CanonMakerNote tag", canonIfdId, makerTags, invalidTypeId, printValue)
     };
