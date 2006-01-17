@@ -157,12 +157,6 @@ namespace Exiv2 {
         //@}
 
     private:
-
-        //! @name Manipulators
-        //@{
-        int initImage(const byte initData[], long dataSize);
-        //@}
-
         //! @name Accessors
         //@{
         /*!
@@ -191,8 +185,6 @@ namespace Exiv2 {
         //@}
 
         // DATA
-        static const byte blank_[];             //!< Minimal Crw image
-
         BasicIo::AutoPtr  io_;                  //!< Image data io pointer
         ExifData          exifData_;            //!< Exif data container
         IptcData          iptcData_;            //!< Iptc data container
@@ -254,11 +246,11 @@ namespace Exiv2 {
         //! Default constructor
         CiffComponent() 
             : dir_(0), tag_(0), size_(0), offset_(0), pData_(0), 
-              remove_(false), isAllocated_(false) {}
+              isAllocated_(false) {}
         //! Constructor taking a tag and directory
         CiffComponent(uint16_t tag, uint16_t dir)
             : dir_(dir), tag_(tag), size_(0), offset_(0), pData_(0),
-              remove_(false), isAllocated_(false) {}
+              isAllocated_(false) {}
         //! Virtual destructor.
         virtual ~CiffComponent();
         //@}
@@ -269,6 +261,30 @@ namespace Exiv2 {
 
         //! Add a component to the composition
         void add(AutoPtr component);
+        /*!
+          @brief Add \em crwTagId to the parse tree, if it doesn't exist
+                 yet. \em crwDirs contains the path of subdirectories, starting
+                 with the root directory, leading to \em crwTagId. Directories
+                 that don't exist yet are added along the way. Returns a pointer
+                 to the newly added component.
+
+          @param crwDirs   Subdirectory path from root to the subdirectory 
+                           containing the tag to be added.
+          @param crwTagId  Tag to be added.
+
+          @return A pointer to the newly added component.
+         */
+        CiffComponent* add(CrwDirs& crwDirs, uint16_t crwTagId);
+        /*!
+          @brief Remove \em crwTagId from the parse tree, if it exists yet. \em
+                 crwDirs contains the path of subdirectories, starting with the
+                 root directory, leading to \em crwTagId.
+
+          @param crwDirs   Subdirectory path from root to the subdirectory 
+                           containing the tag to be removed.
+          @param crwTagId  Tag to be removed.
+         */
+        void remove(CrwDirs& crwDirs, uint16_t crwTagId);
         /*!
           @brief Read a component from a data buffer
 
@@ -295,18 +311,6 @@ namespace Exiv2 {
          */
         uint32_t write(Blob& blob, ByteOrder byteOrder, uint32_t offset);
         /*!
-          @brief Add \em crwTag to the parse tree, if it doesn' exist yet. \em
-                 crwDirs contains the path of subdirectories, starting with the
-                 root directory, leading to \em crwTag. Directories that don't
-                 exist yet are added along the way. Returns a pointer to the
-                 newly added component.
-
-          @param crwDirs Subdirectory path from root to the subdirectory containing
-                         the tag to be added.
-          @param crwTag  Tag to be added.
-         */
-        CiffComponent* addTag(CrwDirs& crwDirs, uint16_t crwTag);
-        /*!
           @brief Writes the entry's value if size is larger than eight bytes. If
                  needed, the value is padded with one 0 byte to make the number
                  of bytes written to the blob even. The offset of the component
@@ -319,8 +323,6 @@ namespace Exiv2 {
         uint32_t writeValueData(Blob& blob, uint32_t offset);
         //! Set the directory tag for this component.
         void setDir(uint16_t dir)       { dir_ = dir; }
-        //! Mark the component as deleted, so that it won't be written.
-        void remove()                   { remove_ = true; }
         //! Set the data value of the entry.
         void setValue(DataBuf buf);
         //@}
@@ -362,6 +364,9 @@ namespace Exiv2 {
         //! Return the tag of this component
         uint16_t tag()           const { return tag_; }
 
+        //! Return true if the component is empty, else false
+        bool empty()             const;
+
         /*!
           @brief Return the data size of this component
 
@@ -388,10 +393,10 @@ namespace Exiv2 {
         DataLocId dataLocation() const { return dataLocation(tag_); }
 
         /*!
-          @brief Finds \em crwTag in directory \em crwDir, returning a pointer to
+          @brief Finds \em crwTagId in directory \em crwDir, returning a pointer to
                  the component or 0 if not found.
          */
-        CiffComponent* findComponent(uint16_t crwTag, uint16_t crwDir) const;
+        CiffComponent* findComponent(uint16_t crwTagId, uint16_t crwDir) const;
         //@}
 
     protected:
@@ -399,6 +404,10 @@ namespace Exiv2 {
         //@{
         //! Implements add()
         virtual void doAdd(AutoPtr component) =0;
+        //! Implements add(). The default implementation does nothing.
+        virtual CiffComponent* doAdd(CrwDirs& crwDirs, uint16_t crwTagId);
+        //! Implements remove(). The default implementation does nothing.
+        virtual void doRemove(CrwDirs& crwDirs, uint16_t crwTagId);
         //! Implements read(). The default implementation reads a directory entry.
         virtual void doRead(const byte* pData,
                             uint32_t    size,
@@ -408,8 +417,6 @@ namespace Exiv2 {
         virtual uint32_t doWrite(Blob&     blob, 
                                  ByteOrder byteOrder, 
                                  uint32_t  offset) =0;
-        //! Implements addTag(). The default implementation does nothing.
-        virtual CiffComponent* doAddTag(CrwDirs& crwDirs, uint16_t crwTag);
         //! Set the size of the data area.
         void setSize(uint32_t size)        { size_ = size; }
         //! Set the offset for this component.
@@ -425,8 +432,10 @@ namespace Exiv2 {
         virtual void doPrint(std::ostream&      os,
                              ByteOrder          byteOrder,
                              const std::string& prefix) const;
+        //! Implements empty(). Default implementation returns true if size is 0.
+        virtual bool doEmpty() const;
         //! Implements findComponent(). The default implementation checks the entry.
-        virtual CiffComponent* doFindComponent(uint16_t crwTag,
+        virtual CiffComponent* doFindComponent(uint16_t crwTagId,
                                                uint16_t crwDir) const;
         //@}
 
@@ -437,7 +446,6 @@ namespace Exiv2 {
         uint32_t    size_;        //!< Size of the data area
         uint32_t    offset_;      //!< Offset to the data area from start of dir
         const byte* pData_;       //!< Pointer to the data area
-        bool        remove_;      //!< If true, the entry should not be written 
         bool        isAllocated_; //!< True if this entry owns the value data
 
     }; // class CiffComponent
@@ -518,6 +526,10 @@ namespace Exiv2 {
         //@{
         // See base class comment
         virtual void doAdd(AutoPtr component);
+        // See base class comment
+        virtual CiffComponent* doAdd(CrwDirs& crwDirs, uint16_t crwTagId);
+        // See base class comment
+        virtual void doRemove(CrwDirs& crwDirs, uint16_t crwTagId);
         /*!
           @brief Implements write(). Writes the complete Ciff directory to
                  the blob.
@@ -530,8 +542,6 @@ namespace Exiv2 {
                             uint32_t    size,
                             uint32_t    start,
                             ByteOrder   byteOrder);
-        // See base class comment
-        virtual CiffComponent* doAddTag(CrwDirs& crwDirs, uint16_t crwTag);
         //@}
 
         //! @name Accessors
@@ -544,8 +554,12 @@ namespace Exiv2 {
         virtual void doPrint(std::ostream&      os,
                              ByteOrder          byteOrder,
                              const std::string& prefix) const;
+
+        //! See base class comment. A directory is empty if it has no components.
+        virtual bool doEmpty() const;
+
         // See base class comment
-        virtual CiffComponent* doFindComponent(uint16_t crwTag, 
+        virtual CiffComponent* doFindComponent(uint16_t crwTagId, 
                                                uint16_t crwDir) const;
         //@}
 
@@ -555,7 +569,12 @@ namespace Exiv2 {
 
     }; // class CiffDirectory
 
-    //! This class models the header of a Crw (Canon Raw data) image.
+    /*!
+      @brief This class models the header of a Crw (Canon Raw data) image.  It
+             is the head of a CIFF parse tree, consisting of CiffDirectory and
+             CiffEntry objects. Most of its methods will walk the parse tree to
+             perform the requested action.
+     */
     class CiffHeader {
     public:
         //! CiffHeader auto_ptr type
@@ -586,18 +605,24 @@ namespace Exiv2 {
          */
         void read(const byte* pData, uint32_t size);
         /*!
-          @brief Adds an entry for \em crwTag in directory \em crwDir to the
-                 parse tree if it doesn't exist yet. Directories that don't
-                 exist yet are added along the way. Nothing is added if the tag
-                 already exists in the correct directory. Returns the newly
-                 added component.
+          @brief Set the value of entry \em crwTagId in directory \em crwDir to
+                 \em buf. If this tag doesn't exist, it is added along with all
+                 directories needed.
 
-          @param crwTag  Tag to be added.
-          @param crwDir  Parent directory of the tag.
-
-          @return The newly added component.
+          @param crwTagId Tag to be added.
+          @param crwDir   Parent directory of the tag.
+          @param buf      Value to be set.
          */
-        CiffComponent* addTag(uint16_t crwTag, uint16_t crwDir);
+        void add(uint16_t crwTagId, uint16_t crwDir, DataBuf buf);
+        /*!
+          @brief Remove entry \em crwTagId in directory \em crwDir from the parse
+                 tree. If it's the last entry in the directory, the directory is 
+                 removed as well, etc.
+
+          @param crwTagId Tag id to be removed.
+          @param crwDir   Parent directory of the tag.
+         */
+        void remove(uint16_t crwTagId, uint16_t crwDir);
         //@}
 
         //! Return a pointer to the Canon Crw signature.
@@ -630,10 +655,10 @@ namespace Exiv2 {
         //! Return the byte order (little or big endian).
         ByteOrder byteOrder() const { return byteOrder_; }
         /*!
-          @brief Finds \em crwTag in directory \em crwDir in the parse tree, 
+          @brief Finds \em crwTagId in directory \em crwDir in the parse tree, 
                  returning a pointer to the component or 0 if not found.
          */
-        CiffComponent* findComponent(uint16_t crwTag, uint16_t crwDir) const;
+        CiffComponent* findComponent(uint16_t crwTagId, uint16_t crwDir) const;
         //@}
 
     private:
@@ -734,8 +759,8 @@ namespace Exiv2 {
         static void loadStack(CrwDirs& crwDirs, uint16_t crwDir);
 
     private:
-        //! Return conversion information for one Crw \em dir and \em tagId
-        static const CrwMapping* crwMapping(uint16_t dir, uint16_t tagId);
+        //! Return conversion information for one \em crwDir and \em crwTagId
+        static const CrwMapping* crwMapping(uint16_t crwDir, uint16_t crwTagId);
 
         /*!
           @brief Standard decode function to convert Crw entries to
@@ -763,17 +788,11 @@ namespace Exiv2 {
                                        Image&         image,
                                        ByteOrder      byteOrder);
 
-        //! Decode Canon Camera Settings 2
-        static void decode0x102a(const CiffComponent& ciffComponent,
-                                 const CrwMapping*    pCrwMapping,
-                                       Image&         image,
-                                       ByteOrder      byteOrder);
-
-        //! Decode Canon Camera Settings 1
-        static void decode0x102d(const CiffComponent& ciffComponent,
-                                 const CrwMapping*    pCrwMapping,
-                                       Image&         image,
-                                       ByteOrder      byteOrder);
+        //! Decode Canon Camera Settings 1, 2 and Custom Function arrays
+        static void decodeArray(const CiffComponent& ciffComponent,
+                                const CrwMapping*    pCrwMapping,
+                                      Image&         image,
+                                      ByteOrder      byteOrder);
 
         //! Decode the date when the picture was taken
         static void decode0x180e(const CiffComponent& ciffComponent,
@@ -821,6 +840,25 @@ namespace Exiv2 {
                                  const CrwMapping* pCrwMapping,
                                        CiffHeader* pHead);
 
+        //! Encode Canon Camera Settings 1, 2 and Custom Function arrays
+        static void encodeArray(const Image&      image,
+                                const CrwMapping* pCrwMapping,
+                                      CiffHeader* pHead);
+
+        //! Encode the date when the picture was taken
+        static void encode0x180e(const Image&      image,
+                                 const CrwMapping* pCrwMapping,
+                                       CiffHeader* pHead);
+
+        //! Encode image width and height
+        static void encode0x1810(const Image&      image,
+                                 const CrwMapping* pCrwMapping,
+                                       CiffHeader* pHead);
+
+        //! Encode the thumbnail image
+        static void encode0x2008(const Image&      image,
+                                 const CrwMapping* pCrwMapping,
+                                       CiffHeader* pHead);
     private:
         // DATA
         static const CrwMapping crwMapping_[]; //!< Metadata conversion table
@@ -842,6 +880,15 @@ namespace Exiv2 {
 
     //! Check if the file iIo is a Crw image.
     bool isCrwType(BasicIo& iIo, bool advance);
+
+    /*!
+      @brief Pack the tag values of all \em ifdId tags in \em exifData into a
+             data buffer. This function is used to pack Canon Camera Settings1,2
+             and Custom Function tags.
+     */
+    DataBuf packIfdId(const ExifData& exifData, 
+                            IfdId     ifdId, 
+                            ByteOrder byteOrder);
 
 }                                       // namespace Exiv2
 
