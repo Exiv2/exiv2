@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "November 13th, 2005"
+.TH EXIV2 1 "January 17th, 2006"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -29,28 +29,30 @@ exiv2 \- EXIF/IPTC metadata manipulation tool
 .\" respectively.
 .B exiv2
 is a program to read and write EXIF/IPTC
-metadata. Supported image formats are JPEG, Canon CRW (read only) and
-Canon THM.
+metadata. Supported image formats are JPEG, Canon CRW and Canon THM.
 .SH ACTIONS
-The \fIaction\fP argument is only required if there are no
-\fIoptions\fP or if it is not clear which action is implied.
+The \fIaction\fP argument is only required if it is not clear which
+action is implied.
 .TP
 .B pr | print
-Print image metadata. This is the default action.
+Print image metadata. This is the default action, i.e., the command
+\fIexiv2 image.jpg\fP will print a summary of the image EXIF metadata.
 .TP
 .B ex | extract
 Extract metadata to *.exv and thumbnail image files.
 .TP
 .B in | insert
-Insert metadata from corresponding *.exv files.
-Use option \fB\-S\fP \fI.suf\fP to change the suffix of the input files.
+Insert metadata from corresponding *.exv files.  Use option \fB\-S\fP
+\fI.suf\fP to change the suffix of the input files. Since files of any
+supported format can be used as input files, this command can be used
+to copy the metadata between files of different formats.
 .TP
 .B rm | delete
 Delete image metadata from the files.
 .TP
 .B ad | adjust
-Adjust EXIF timestamps by the given time. This action requires the option
-\fB\-a\fP \fItime\fP.
+Adjust EXIF timestamps by the given time. Requires option \fB\-a\fP
+\fItime\fP.
 .TP
 .B mo | modify
 Apply commands to modify (add, set, delete) the EXIF/IPTC metadata of image
