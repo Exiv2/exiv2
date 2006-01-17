@@ -20,34 +20,12 @@ LD_LIBRARY_PATH=../../src:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH
 binpath="$VALGRIND ../../src"
 cmdfile=cmdfile
-crwfile=CanonRaw.crw
+crwfile=exiv2-canon-powershot-s40.crw
 
 cd ./tmp
 
 # ----------------------------------------------------------------------
-# Testcases: Add tags
-
-#   Create an image from scratch with just one tag
-#   Add one tag to an existing image
-#   Add a non-CIFF tag
-#   Add a second tag with the same tag id
-#   Are new tags created as directory data if possible?
-
-# ----------------------------------------------------------------------
-# Testcases: Modify tags
-
-#   Modify tag value only
-#   Change number of components (from directory data to value data)
-#   Change value type
-
-# Exif.Canon.FirmwareVersion Ascii
-# Exif.Canon.OwnerName       Ascii
-# Exif.Canon.ImageType       Ascii
-# Exif.Canon.0x0002          Short
-# Exif.Canon.CustomFunctions Short
-# Exif.Canon.PictureInfo     Short
-# Exif.Canon.SerialNumber    Short
-# Exif.Canon.ImageNumber     Long
+# Testcases: Add and modify tags
 
 cat > $cmdfile <<EOF
 set Exif.Photo.ColorSpace 65535
@@ -55,6 +33,8 @@ set Exif.Canon.OwnerName Somebody else's Camera
 set Exif.Canon.FirmwareVersion Whatever version
 set Exif.Canon.SerialNumber 1
 add Exif.Canon.SerialNumber 2
+set Exif.Photo.ISOSpeedRatings 155
+set Exif.Photo.DateTimeOriginal 2007:11:11 09:10:11
 EOF
 
 cp -f ../data/$crwfile .
@@ -68,10 +48,17 @@ $binpath/exiv2 -v -pt $crwfile
 # ----------------------------------------------------------------------
 # Testcases: Delete tags
 
-#   Delete one tag
-#   Delete one directory completely
-#   Delete all
+cat > $cmdfile <<EOF
+del Exif.Canon.OwnerName
+EOF
 
+cp -f ../data/$crwfile .
+$binpath/exiv2 -v -pt $crwfile
+
+$binpath/exiv2 -v -m $cmdfile $crwfile
+$binpath/crwparse $crwfile
+
+$binpath/exiv2 -v -pt $crwfile
 
 ) > $results 2>&1
 

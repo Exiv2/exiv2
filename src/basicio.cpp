@@ -184,7 +184,7 @@ namespace Exiv2 {
             close();
             fileIo->close();
             // MSVCRT rename that does not overwrite existing files
-            if (std::remove(path_.c_str()) != 0) {
+            if (fileExists(path_) && std::remove(path_.c_str()) != 0) {
                 throw Error(2, path_, strError(), "std::remove");
             }
             if (std::rename(fileIo->path_.c_str(), path_.c_str()) == -1) {
@@ -192,7 +192,7 @@ namespace Exiv2 {
             }
             std::remove(fileIo->path_.c_str());
         }
-        else{
+        else {
             // Generic handling, reopen both to reset to start
             if (open("w+b") != 0) {
                 throw Error(10, path_, "w+b", strError());

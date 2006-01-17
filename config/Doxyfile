@@ -1,4 +1,4 @@
-# Doxyfile 1.4.5
+# Doxyfile 1.4.6
 
 # This file describes the settings to be used by the documentation system
 # doxygen (www.doxygen.org) for a project
@@ -385,7 +385,7 @@ SHOW_USED_FILES        = YES
 
 # If the sources in your project are distributed over multiple directories 
 # then setting the SHOW_DIRECTORIES tag to YES will show the directory hierarchy 
-# in the documentation. The default is YES.
+# in the documentation. The default is NO.
 
 SHOW_DIRECTORIES       = NO
 
