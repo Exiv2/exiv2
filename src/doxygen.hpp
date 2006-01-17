@@ -94,7 +94,7 @@ bug tracking system</a>.</p>
 
   @section license License
 
-  <P>Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net></P>
+  <P>Copyright (C) 2004, 2005, 2006 Andreas Huggel <ahuggel@gmx.net></P>
 
   <P>%Exiv2 is free software; you can redistribute it and/or modify it under the
   terms of the <a href="gpl-license.html">GNU General Public License</a> as
@@ -107,9 +107,8 @@ bug tracking system</a>.</p>
   details.</P>
 
   <P>You should have received a copy of the GNU General Public License along
-  with this program; if not, write to the Free Software Foundation, Inc., 59
-  Temple Place - Suite 330, Boston, MA 02111-1307, USA.</P>
-
+  with this program; if not, write to the Free Software Foundation, Inc., 
+  51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
 */
 /*!
   @example addmoddel.cpp
