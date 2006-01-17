@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004, 2005 Andreas Huggel <ahuggel@gmx.net>
+ * Copyright (C) 2004, 2005, 2006 Andreas Huggel <ahuggel@gmx.net>
  *
  * This program is part of the Exiv2 distribution.
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*
   Abstract:  Command line program to display and manipulate image %Exif data
@@ -169,11 +169,23 @@ void Params::cleanup()
 
 void Params::version(std::ostream& os) const
 {
-    os << EXV_PACKAGE_STRING << ", "
-       << "Copyright (C) 2004, 2005 Andreas Huggel.\n\n"
-       << "This is free software; see the source for copying conditions.  "
-       << "There is NO \nwarranty; not even for MERCHANTABILITY or FITNESS FOR "
-       << "A PARTICULAR PURPOSE.\n";
+    os << EXV_PACKAGE_STRING << "\n"
+       << "Copyright (C) 2004, 2005, 2006 Andreas Huggel.\n"
+       << "\n"
+       << "This program is free software; you can redistribute it and/or\n"
+       << "modify it under the terms of the GNU General Public License\n"
+       << "as published by the Free Software Foundation; either version 2\n"
+       << "of the License, or (at your option) any later version.\n"
+       << "\n"
+       << "This program is distributed in the hope that it will be useful,\n"
+       << "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+       << "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+       << "GNU General Public License for more details.\n"
+       << "\n"
+       << "You should have received a copy of the GNU General Public\n"
+       << "License along with this program; if not, write to the Free\n"
+       << "Software Foundation, Inc., 51 Franklin Street, Fifth Floor,\n"
+       << "Boston, MA 02110-1301 USA\n";
 }
 
 void Params::usage(std::ostream& os) const
