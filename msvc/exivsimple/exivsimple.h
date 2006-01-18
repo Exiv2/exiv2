@@ -53,7 +53,7 @@ extern "C"
 enum DllTypeId { invalidTypeId, unsignedByte, asciiString, unsignedShort, 
                 unsignedLong, unsignedRational, invalid6, undefined, 
                 signedShort, signedLong, signedRational, 
-                string, date, time,
+                string, isoDate, isoTime,
                 lastTypeId };
 
 typedef bool (CALLBACK* METAENUMPROC)(const char *key, const char *value, void *user);

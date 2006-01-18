@@ -55,15 +55,19 @@ CCSRC = basicio.cpp canonmn.cpp crwimage.cpp datasets.cpp error.cpp exif.cpp \
 	makernote.cpp metadatum.cpp nikonmn.cpp olympusmn.cpp panasonicmn.cpp \
 	sigmamn.cpp sonymn.cpp tags.cpp types.cpp value.cpp
 
+# Add library C source files to this list
+ifndef HAVE_TIMEGM
+CSRC = localtime.c
+endif
+
 # Add source files of simple applications to this list
-BINSRC = addmoddel.cpp dataarea-test.cpp exifcomment.cpp exifdata-test.cpp \
-         exifprint.cpp ifd-test.cpp iotest.cpp iptceasy.cpp iptcprint.cpp \
-         iptctest.cpp key-test.cpp makernote-test.cpp taglist.cpp write-test.cpp \
-         write2-test.cpp crwparse.cpp crwedit.cpp 
+BINSRC = addmoddel.cpp crwedit.cpp crwparse.cpp dataarea-test.cpp \
+         exifcomment.cpp exifdata-test.cpp exifprint.cpp ifd-test.cpp iotest.cpp \
+         iptceasy.cpp iptcprint.cpp iptctest.cpp key-test.cpp makernote-test.cpp \
+         taglist.cpp write-test.cpp write2-test.cpp
 
 # Main source file of the Exiv2 application
 EXIV2MAIN = exiv2.cpp
-
 # Add additional source files of the Exiv2 application to this list
 EXIV2SRC = actions.cpp utils.cpp
 # C source files of the Exiv2 application
@@ -73,7 +77,6 @@ endif
 
 # State the main source file of the metacopy application here
 MCMAIN = metacopy.cpp
-
 # Add additional source files of the metacopy application to this list
 MCSRC = utils.cpp
 
@@ -105,13 +108,17 @@ CCHDR := $(CCHDR) $(CCSRC:.cpp=.hpp)
 CCOBJ = $(CCSRC:.cpp=.o)
 CCLOBJ = $(CCSRC:.cpp=.lo)
 
-SRC = $(CCSRC)
+COBJ = $(CSRC:.c=.o)
+CLOBJ = $(CSRC:.c=.lo)
+
+SRC = $(CCSRC) $(CSRC)
 HDR = $(CCHDR)
-OBJ = $(CCOBJ)
-LOBJ = $(CCLOBJ)
+OBJ = $(CCOBJ) $(COBJ)
+LOBJ = $(CCLOBJ) $(CLOBJ)
 
 DEPDIR = .deps
-DEP = $(CCSRC:%.cpp=$(DEPDIR)/%.d) $(BINSRC:%.cpp=$(DEPDIR)/%.d) \
+DEP = $(CCSRC:%.cpp=$(DEPDIR)/%.d) $(CSRC:%.c=$(DEPDIR)/%.d) \
+      $(BINSRC:%.cpp=$(DEPDIR)/%.d) \
       $(EXIV2MAIN:%.cpp=$(DEPDIR)/%.d) $(EXIV2SRC:%.cpp=$(DEPDIR)/%.d) \
       $(EXIVCSRC:%.c=$(DEPDIR)/%.d) $(MCMAIN:%.cpp=$(DEPDIR)/%.d) \
       $(MCSRC:%.cpp=$(DEPDIR)/%.d) $(DEPDIR)/path-test.d
@@ -143,8 +150,13 @@ LINK.cc = $(CXX) $(CXXFLAGS) $(LDLIBS) $(LDFLAGS) -rpath $(libdir)
 
 # ******************************************************************************
 # Rules
-$(OBJ): %.o: %.cpp
+$(CCOBJ): %.o: %.cpp
 	@$(LIBTOOL) --mode=compile $(COMPILE.cc) -o $@ $<
+	@$(MAKEDEPEND)
+	@$(POSTDEPEND)
+
+$(COBJ): %.o: %.c
+	@$(LIBTOOL) --mode=compile $(COMPILE.c) -o $@ $<
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)
 
@@ -241,7 +253,7 @@ uninstall: uninstall-lib
 	-rmdir $(DESTDIR)$(bindir)
 
 ctags:
-	ebrowse $(CCHDR) $(CCSRC)
+	ebrowse $(HDR) $(SRC)
 #	ctags-exuberant --extra=+q -e *
 #	ctags-exuberant --extra=+q *
 
@@ -253,7 +265,7 @@ mostlyclean:
 	$(RM) $(CCSRC:.cpp=.ii)
 	$(RM) lib
 	$(RM) path-test.o
-	$(RM) $(CCSRC:%.cpp=.libs/%.d)
+	$(RM) $(CCSRC:%.cpp=.libs/%.d) $(CSRC:%.c=.libs/%.d)
 	@$(LIBTOOL) --mode=clean $(RM) $(LOBJ) $(sort $(BINOBJ) $(EXIV2OBJ) $(EXIV2COBJ) $(MCOBJ))
 
 clean: mostlyclean

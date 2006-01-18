@@ -254,6 +254,9 @@
 				RelativePath="..\..\src\jpgimage.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\localtime.c">
+			</File>
+			<File
 				RelativePath="..\..\src\makernote.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">

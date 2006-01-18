@@ -38,7 +38,6 @@ EXIV2_RCSID("@(#) $Id$");
 #ifdef _MSC_VER
 # include "exv_msvc.h"
 #else
-# define _XOPEN_SOURCE /* glibc2 needs this for strptime */
 # include "exv_conf.h"
 #endif
 
@@ -57,6 +56,7 @@ EXIV2_RCSID("@(#) $Id$");
 #include <cstring>
 #include <ctime>
 #include <cmath>
+#include <cassert>
 #ifndef EXV_HAVE_TIMEGM
 # include "timegm.h"
 #endif
@@ -242,7 +242,7 @@ namespace Exiv2 {
         // Write new buffer to file
         BasicIo::AutoPtr tempIo(io_->temporary()); // may throw
         assert (tempIo.get() != 0);
-        tempIo->write(&blob[0], blob.size());
+        tempIo->write(&blob[0], static_cast<long>(blob.size()));
         io_->close();
         io_->transfer(*tempIo); // may throw
 
@@ -1004,7 +1004,7 @@ namespace Exiv2 {
         if (tm) {
             const size_t m = 20;
             char s[m];
-            std::strftime(s, m, "%Y:%m:%d %T", tm);
+            std::strftime(s, m, "%Y:%m:%d %H:%M:%S", tm);
 
             ExifKey key(pCrwMapping->tag_, ExifTags::ifdItem(pCrwMapping->ifdId_));
             AsciiValue value;
@@ -1132,7 +1132,7 @@ namespace Exiv2 {
         CiffComponent* cc = pHead->findComponent(pCrwMapping->crwTagId_, 
                                                  pCrwMapping->crwDir_);
         if (!comment.empty()) {
-            uint32_t size = comment.size();
+            uint32_t size = static_cast<uint32_t>(comment.size());
             if (cc && cc->size() > size) size = cc->size();
             DataBuf buf(size);
             memset(buf.pData_, 0x0, buf.size_);
@@ -1197,7 +1197,7 @@ namespace Exiv2 {
         }
         if (buf.size_ > 0) {
             // Write the number of shorts to the beginning of buf
-            us2Data(buf.pData_, buf.size_, pHead->byteOrder());
+            us2Data(buf.pData_, static_cast<uint16_t>(buf.size_), pHead->byteOrder());
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
         }
         else {
@@ -1217,8 +1217,9 @@ namespace Exiv2 {
         const ExifData::const_iterator ed = image.exifData().findKey(key);
         if (ed != image.exifData().end()) {
             struct tm tm;
-            char* p = strptime(ed->toString().c_str(), "%Y:%m:%d %T", &tm);
-            if (p != 0) t = timegm(&tm);
+            memset(&tm, 0x0, sizeof(tm));
+            int rc = exifTime(ed->toString().c_str(), &tm);
+            if (rc == 0) t = timegm(&tm);
         }
         if (t != 0) {
             DataBuf buf(12);
