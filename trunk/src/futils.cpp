@@ -50,8 +50,16 @@ EXIV2_RCSID("@(#) $Id$");
 #endif
 
 #include <cerrno>
-#include <string.h>
 #include <sstream>
+#include <cstring>
+
+#if defined EXV_HAVE_STRERROR_R && !defined EXV_HAVE_DECL_STRERROR_R
+# ifdef EXV_STRERROR_R_CHAR_P
+extern char *strerror_r(int errnum, char *buf, size_t n);
+# else
+extern int strerror_r(int errnum, char *buf, size_t n);
+# endif
+#endif
 
 namespace Exiv2 {
 
@@ -73,9 +81,16 @@ namespace Exiv2 {
         std::ostringstream os;
 #ifdef EXV_HAVE_STRERROR_R
         const size_t n = 1024;
+# ifdef EXV_STRERROR_R_CHAR_P
+        char *buf = 0;
+        char buf2[n];
+        memset(buf2, 0x0, n);
+        buf = strerror_r(error, buf2, n);
+# else
         char buf[n];
         memset(buf, 0x0, n);
         strerror_r(error, buf, n);
+# endif
         os << buf;
 #else
         os << std::strerror(error);
