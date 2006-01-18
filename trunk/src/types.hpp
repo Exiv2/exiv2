@@ -48,6 +48,7 @@
 #ifdef EXV_HAVE_STDINT_H
 # include <stdint.h>
 #endif
+#include <ctime>
 
 // MSVC doesn't provide C99 types, but it has MS specific variants
 #ifdef _MSC_VER
@@ -283,6 +284,13 @@ namespace Exiv2 {
     bool isHex(const std::string& str,
                size_t size =0,
                const std::string& prefix ="");
+
+    /*!
+      @brief Converts a string in the form "%Y:%m:%d %H:%M:%S", e.g.,
+             "2007:05:24 12:31:55" to broken down time format, 
+             returns 0 if successful, else 1.
+     */
+    int exifTime(const char* buf, struct tm* tm);
 
 // *****************************************************************************
 // template and inline definitions
