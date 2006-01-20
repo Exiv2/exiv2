@@ -21,7 +21,7 @@
     %Exiv2 keys and standard C++ iterators
   - a smart Iptc implementation that does not effect data that programs like
     Photoshop store in the same image segment
-  - Exif %MakerNote support:
+  - Exif <A HREF="makernote.html">MakerNote</A> support:
     - %MakerNote tags can be accessed just like any other Exif metadata
     - a sophisticated write algorithm avoids corrupting the %MakerNote:
       <br>&nbsp;&nbsp;1) the %MakerNote is not re-located if possible at all, and
@@ -41,7 +41,7 @@
   <A HREF="getting-started.html">A few pointers</A> to get you started with
   the %Exiv2 library without delay.
 
-  @section metadata Supported Exif and MakerNote tags and Iptc datasets
+  @section metadata Exif and MakerNote tags and Iptc datasets
 
   - <A HREF="tags-exif.html">Standard Exif tags</A>
   - <A HREF="tags-canon.html">Canon MakerNote tags</A>
@@ -53,10 +53,9 @@
   - <A HREF="tags-sony.html">Sony MakerNote tags</A>
   - <A HREF="tags-iptc.html">Iptc datasets</A>
 
-  @section makernote MakerNote Formats and Specifications
+  @section formats Raw File Formats
 
-  A summary of <A HREF="makernote.html">MakerNote structures</A> with links to
-  publicly available specifications.
+  - <A HREF="crw-mapping.html">Canon CRW</A>
 
   @section supp Support
 

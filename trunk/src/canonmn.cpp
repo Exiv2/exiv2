@@ -90,6 +90,9 @@ namespace Exiv2 {
         TagInfo(0x000f, "CustomFunctions", "CustomFunctions", "Custom Functions", canonIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0012, "PictureInfo", "PictureInfo", "Picture info", canonIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x00a9, "WhiteBalanceTable", "WhiteBalanceTable", "White balance table", canonIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x00b5, "0x00b5", "0x00b5", "Unknown", canonIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x00c0, "0x00c0", "0x00c0", "Unknown", canonIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x00c1, "0x00c1", "0x00c1", "Unknown", canonIfdId, makerTags, unsignedShort, printValue),
         // End of list marker
         TagInfo(0xffff, "(UnknownCanonMakerNoteTag)", "(UnknownCanonMakerNoteTag)", "Unknown CanonMakerNote tag", canonIfdId, makerTags, invalidTypeId, printValue)
     };
