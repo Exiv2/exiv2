@@ -51,6 +51,13 @@ AC_SUBST(HAVE_TIMEGM,$HAVE_TIMEGM)
 AC_SUBST(GXX,$GXX)
 AC_SUBST(GCC,$GCC)
 
+AC_ARG_ENABLE(dependency-tracking,
+[  --disable-dependency-tracking  speeds up one-time build
+  --enable-dependency-tracking   do not reject slow dependency extractors],
+[if test $enableval = yes; then DEP_TRACKING=1; fi],DEP_TRACKING=1)
+
+AC_SUBST(DEP_TRACKING,$DEP_TRACKING)
+
 AC_CONFIG_FILES([./config/config.mk])
 AC_CONFIG_FILES([./config/exiv2-config], [chmod +x ./config/exiv2-config])
 AC_OUTPUT

@@ -116,13 +116,6 @@ HDR = $(CCHDR)
 OBJ = $(CCOBJ) $(COBJ)
 LOBJ = $(CCLOBJ) $(CLOBJ)
 
-DEPDIR = .deps
-DEP = $(CCSRC:%.cpp=$(DEPDIR)/%.d) $(CSRC:%.c=$(DEPDIR)/%.d) \
-      $(BINSRC:%.cpp=$(DEPDIR)/%.d) \
-      $(EXIV2MAIN:%.cpp=$(DEPDIR)/%.d) $(EXIV2SRC:%.cpp=$(DEPDIR)/%.d) \
-      $(EXIVCSRC:%.c=$(DEPDIR)/%.d) $(MCMAIN:%.cpp=$(DEPDIR)/%.d) \
-      $(MCSRC:%.cpp=$(DEPDIR)/%.d) $(DEPDIR)/path-test.d
-
 BINOBJ = $(BINSRC:.cpp=.o)
 BINARY = $(BINSRC:.cpp=)
 EXECUTABLE = $(BINSRC:.cpp=$(EXEEXT))
@@ -136,12 +129,21 @@ MCOBJ = $(MCMAIN:.cpp=.o) $(MCSRC:.cpp=.o)
 MCBIN = $(MCMAIN:.cpp=)
 MCEXE = $(MCMAIN:.cpp=$(EXEEXT))
 
+ifdef DEP_TRACKING
+DEPDIR = .deps
+DEP = $(CCSRC:%.cpp=$(DEPDIR)/%.d) $(CSRC:%.c=$(DEPDIR)/%.d) \
+      $(BINSRC:%.cpp=$(DEPDIR)/%.d) \
+      $(EXIV2MAIN:%.cpp=$(DEPDIR)/%.d) $(EXIV2SRC:%.cpp=$(DEPDIR)/%.d) \
+      $(EXIVCSRC:%.c=$(DEPDIR)/%.d) $(MCMAIN:%.cpp=$(DEPDIR)/%.d) \
+      $(MCSRC:%.cpp=$(DEPDIR)/%.d) $(DEPDIR)/path-test.d
+
 # Dependency files post-process commands
 POSTDEPEND = if test ! -d $(DEPDIR); then mkdir $(DEPDIR); fi; \
 	     if test -e $*.d; then cp $*.d $(DEPDIR)/$*.d; \
 	     sed -e 's/^\#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
                  -e '/^$$/ d' -e 's/$$/ :/' < $*.d >> $(DEPDIR)/$*.d; \
              $(RM) $*.d; fi
+endif
 
 # Compilation shortcuts
 COMPILE.cc = $(CXX) $(CXXFLAGS) $(CXXDEFS) $(CXXINCS) -c
@@ -181,8 +183,10 @@ $(sort $(BINOBJ) $(EXIV2OBJ) $(MCOBJ) path-test.o): %.o: %.cpp
         install install-header install-lib                             \
         uninstall uninstall-header uninstall-lib
 
+ifdef DEP_TRACKING
 # Include targets from dependency files
 -include $(DEP)
+endif
 
 actions.cpp basicio.cpp exif.cpp exiv2.cpp futils.cpp image.cpp jpgimage.cpp utils.cpp: exv_conf.h
 
@@ -277,8 +281,10 @@ clean: mostlyclean
 # files created by configuring the program.
 distclean: clean
 	$(RM) exv_conf.h
+ifdef DEP_TRACKING
 	$(RM) $(DEP)
 	-rmdir $(DEPDIR)
+endif
 	$(RM) tags TAGS
 	$(RM) *~ *.bak *#
 

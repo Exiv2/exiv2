@@ -78,8 +78,11 @@ endif
 # Advanced auto-dependency generation
 # http://make.paulandlesley.org/autodep.html
 
-# Compiler flags to generate dependency files at the same time as object
-# files (for gcc)
+DEP_TRACKING = @DEP_TRACKING@
+
+ifdef DEP_TRACKING
+# Compiler flags to generate dependency files at the same time 
+# as object files (for gcc)
 ifeq ($(GXX),yes)
 	CXXFLAGS += -MMD
 	CFLAGS += -MMD
@@ -90,6 +93,8 @@ else
 # suitable for your compiler or simply unset the variable. See the link
 # above for suggestions
 	MAKEDEPEND = $(CXX) -MM $(CPPFLAGS) -o $*.d $<
+endif
+
 endif
 
 # **********************************************************************
