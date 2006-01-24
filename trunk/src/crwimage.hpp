@@ -586,7 +586,9 @@ namespace Exiv2 {
         CiffHeader()
             : pRootDir_  (0),
               byteOrder_ (littleEndian),
-              offset_    (0x0000001a)
+              offset_    (0x0000001a),
+              pPadding_  (0),
+              padded_    (0)
             {}
         //! Virtual destructor
         virtual ~CiffHeader();
@@ -642,6 +644,9 @@ namespace Exiv2 {
         /*!
           @brief Decode the Crw image and add it to \em image.
 
+          Walk the parse tree and convert CIFF entries to metadata
+          entries which are added to \em image.
+
           @param image Image to add metadata to
          */
         void decode(Image& image) const;
@@ -668,6 +673,8 @@ namespace Exiv2 {
         CiffDirectory*    pRootDir_;      //!< Pointer to the root directory
         ByteOrder         byteOrder_;     //!< Applicable byte order
         uint32_t          offset_;        //!< Offset to the start of the root dir
+        byte*             pPadding_;      //!< Pointer to the (unknown) remainder
+        uint32_t          padded_;        //!< Number of padding-bytes
 
     }; // class CiffHeader
 
