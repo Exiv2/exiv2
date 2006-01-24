@@ -284,7 +284,8 @@ namespace Exiv2 {
 
     CiffHeader::~CiffHeader()
     {
-        delete pRootDir_;
+        delete   pRootDir_;
+        delete[] pPadding_;
     }
 
     CiffComponent::~CiffComponent()
@@ -330,9 +331,15 @@ namespace Exiv2 {
             throw Error(33);
         }
         offset_ = getULong(pData + 2, byteOrder_);
+        if (offset_ < 14 || offset_ > size) throw Error(33);
         if (std::memcmp(pData + 6, signature(), 8) != 0) {
             throw Error(33);
         }
+
+        delete pPadding_;
+        pPadding_ = new byte[offset_ - 14];
+        padded_ = offset_ - 14;
+        std::memcpy(pPadding_, pData + 14, padded_);
 
         pRootDir_ = new CiffDirectory;
         pRootDir_->readDirectory(pData + offset_, size - offset_, byteOrder_);
@@ -405,10 +412,10 @@ namespace Exiv2 {
         for (uint16_t i = 0; i < count; ++i) {
             if (o + 10 > size) throw Error(33);
             uint16_t tag = getUShort(pData + o, byteOrder);
-            AutoPtr m;
+            CiffComponent::AutoPtr m;
             switch (CiffComponent::typeId(tag)) {
-            case directory: m = AutoPtr(new CiffDirectory); break;
-            default: m = AutoPtr(new CiffEntry); break;
+            case directory: m = CiffComponent::AutoPtr(new CiffDirectory); break;
+            default: m = CiffComponent::AutoPtr(new CiffEntry); break;
             }
             m->setDir(this->tag());
             m->read(pData, size, o, byteOrder);
@@ -461,10 +468,16 @@ namespace Exiv2 {
         o += 4;
         append(blob, reinterpret_cast<const byte*>(signature_), 8);
         o += 8;
-        // Pad with 0s if needed
-        for (uint32_t i = o; i < offset_; ++i) {
-            blob.push_back(0);
-            ++o;
+        // Pad as needed
+        if (pPadding_) {
+            assert(padded_ == offset_ - o);
+            append(blob, pPadding_, padded_);
+        }
+        else {
+            for (uint32_t i = o; i < offset_; ++i) {
+                blob.push_back(0);
+                ++o;
+            }
         }
         if (pRootDir_) {
             pRootDir_->write(blob, byteOrder_, offset_);
@@ -845,6 +858,7 @@ namespace Exiv2 {
             for (i = b; i != e; ++i) {
                 if ((*i)->tagId() == crwTagId) {
                     // Remove the entry and abort the loop
+                    delete *i;
                     components_.erase(i);
                     break;
                 }
