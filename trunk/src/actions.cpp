@@ -178,6 +178,7 @@ namespace Action {
         registerTask(extract, Task::AutoPtr(new Extract));
         registerTask(insert,  Task::AutoPtr(new Insert));
         registerTask(modify,  Task::AutoPtr(new Modify));
+        registerTask(fixiso,  Task::AutoPtr(new FixIso));
     } // TaskFactory c'tor
 
     Task::AutoPtr TaskFactory::create(TaskType type)
@@ -1251,6 +1252,67 @@ namespace Action {
         md->setValue(timeStr);
         return 0;
     } // Adjust::adjustDateTime
+
+    int FixIso::run(const std::string& path)
+    try {
+        if (!Exiv2::fileExists(path, true)) {
+            std::cerr << path
+                      << ": Failed to open the file\n";
+            return -1;
+        }
+        Timestamp ts;
+        if (Params::instance().preserve_) {
+            ts.read(path);
+        }
+        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+        assert(image.get() != 0);
+        image->readMetadata();
+        Exiv2::ExifData &exifData = image->exifData();
+        if (exifData.empty()) {
+            std::cerr << path
+                      << ": No Exif data found in the file\n";
+            return -3;
+        }
+        Exiv2::ExifKey key("Exif.Nikon3.ISOSpeed");
+        Exiv2::ExifData::iterator md = exifData.findKey(key);
+        if (md == exifData.end()) {
+            key = Exiv2::ExifKey("Exif.Nikon2.ISOSpeed");
+            md = exifData.findKey(key);
+        }
+        if (md == exifData.end()) {
+            key = Exiv2::ExifKey("Exif.Nikon1.ISOSpeed");
+            md = exifData.findKey(key);
+        }
+        if (md != exifData.end()) {
+            std::ostringstream os;
+            os << *md;
+            if (Params::instance().verbose_) {
+                std::cout << "Setting Exif ISO value to " << os.str() << "\n";
+            }
+            exifData["Exif.Photo.ISOSpeedRatings"] = os.str();
+        }
+        image->writeMetadata();
+        if (Params::instance().preserve_) {
+            ts.touch(path);
+        }
+        return 0;
+    }
+    catch(const Exiv2::AnyError& e)
+    {
+        std::cerr << "Exiv2 exception in fixiso action for file " << path
+                  << ":\n" << e << "\n";
+        return 1;
+    } // FixIso::run
+
+    FixIso::AutoPtr FixIso::clone() const
+    {
+        return AutoPtr(clone_());
+    }
+
+    FixIso* FixIso::clone_() const
+    {
+        return new FixIso(*this);
+    }
 
 }                                       // namespace Action
 
