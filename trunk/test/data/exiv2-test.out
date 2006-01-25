@@ -40,6 +40,8 @@ Actions:
   mo | modify   Apply commands to modify (add, set, delete) the Exif and
                 Iptc metadata of image files or set the Jpeg comment.
                 Requires option -c, -m or -M.
+  fi | fixiso   Copy ISO setting from the Nikon Makernote to the regular
+                Exif tag.
 
 Options:
    -h      Display this help and exit.
