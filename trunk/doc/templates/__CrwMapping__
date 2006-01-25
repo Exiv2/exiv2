@@ -96,7 +96,7 @@ Exif.Photo.ExposureTime (not used on write)</td>
 <tr class="OddRow">
 <td>Exif.Canon.SerialNumber</td>
 <td>0x180b</td>
-<td>0x2807</td>
+<td>0x3004</td>
 </tr>
 <tr class="EvenRow">
 <td>Exif.Photo.DateTimeOriginal</td>

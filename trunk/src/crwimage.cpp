@@ -86,7 +86,7 @@ namespace Exiv2 {
         CrwMapping(0x10c0, 0x300b,   0, 0x00c0, canonIfdId,  decodeBasic,  encodeBasic),
         CrwMapping(0x10c1, 0x300b,   0, 0x00c1, canonIfdId,  decodeBasic,  encodeBasic),
         CrwMapping(0x1807, 0x3002,   0, 0x9206, exifIfdId,   decodeBasic,  encodeBasic),
-        CrwMapping(0x180b, 0x2807,   0, 0x000c, canonIfdId,  decodeBasic,  encodeBasic),
+        CrwMapping(0x180b, 0x3004,   0, 0x000c, canonIfdId,  decodeBasic,  encodeBasic),
         CrwMapping(0x180e, 0x300a,   0, 0x9003, exifIfdId,   decode0x180e, encode0x180e),
         CrwMapping(0x1810, 0x300a,   0, 0xa002, exifIfdId,   decode0x1810, encode0x1810),
         CrwMapping(0x1817, 0x300a,   4, 0x0008, canonIfdId,  decodeBasic,  encodeBasic),
