@@ -1254,6 +1254,7 @@ namespace Action {
     } // Adjust::adjustDateTime
 
     int FixIso::run(const std::string& path)
+    {
     try {
         if (!Exiv2::fileExists(path, true)) {
             std::cerr << path
@@ -1302,6 +1303,7 @@ namespace Action {
         std::cerr << "Exiv2 exception in fixiso action for file " << path
                   << ":\n" << e << "\n";
         return 1;
+    }
     } // FixIso::run
 
     FixIso::AutoPtr FixIso::clone() const
