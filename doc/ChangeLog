@@ -1,3 +1,28 @@
+Changes from version 0.8 to 0.9
+-------------------------------
+
+* Exiv2 utility
+	- 0000450: [exif] Added action "fixiso" to copy the ISO setting from Nikon 
+	           Makernotes to the regular Exif tag Exif.Photo.ISOSpeedRatings.
+	- 0000448: [tools] Added options -p and -t, -T to preserve file timestamps and
+	           set the timestamp according to the Exif timestamp.
+	           (Thanks to Stephan Ahlswede for suggesting the -p feature)
+	- 0000446: [misc] Added option -c to set the JPEG comment to the utility.
+	           (Thanks to Tristan Savatier for the suggestion)
+
+* Exiv2 library
+	- 0000447: [iptc] Fixed a buffer overflow in sscanf. (Thanks to Maciek for 
+	           reporting this bug and the hard work to recreate it)
+	- 0000438: [exif] Write support for Canon raw images.
+		 - [exif] Updated Nikon lensdata to v2.00 of Robert Rottmerhusen's 
+		   amazing lens database. (Thanks to Robert for keeping me updated.)
+		 - [build environment] Added an option to enable/disable dependency-
+	           tracking to the configure script, which is useful to create 
+		   "Universal Binaries" under Mac OSX. 
+		   (Thanks to Will Stokes for the suggestion)
+	         - [exivsimple] Changed DllTypeId::time and DllTypeId::date to
+	           DllTypeId::isoTime and DllTypeId::isoDate to avoid a name clash.
+
 Changes from version 0.7 to 0.8
 -------------------------------
 
