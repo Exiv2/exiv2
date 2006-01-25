@@ -212,6 +212,8 @@ void Params::help(std::ostream& os) const
        << "  mo | modify   Apply commands to modify (add, set, delete) the Exif and\n"
        << "                Iptc metadata of image files or set the Jpeg comment.\n"
        << "                Requires option -c, -m or -M.\n"
+       << "  fi | fixiso   Copy ISO setting from the Nikon Makernote to the regular\n"
+       << "                Exif tag.\n"
        << "\nOptions:\n"
        << "   -h      Display this help and exit.\n"
        << "   -V      Show the program version and exit.\n"
@@ -556,6 +558,15 @@ int Params::nonoption(const std::string& argv)
             }
             action = true;
             action_ = Action::modify;
+        }
+        if (argv == "fi" || argv == "fixiso") {
+            if (action_ != Action::none && action_ != Action::fixiso) {
+                std::cerr << progname() << ": Action fixiso is not "
+                          << "compatible with the given options\n";
+                rc = 1;
+            }
+            action = true;
+            action_ = Action::fixiso;
         }
         if (action_ == Action::none) {
             // if everything else fails, assume print as the default action

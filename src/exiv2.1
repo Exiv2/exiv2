@@ -62,6 +62,11 @@ files. Requires option \fB\-c\fP, \fB\-m\fP or \fB\-M\fP.
 Rename files and/or set file timestamps according to the EXIF create
 timestamp. The filename format can be set with \fB\-r\fP \fIfmt\fP,
 timestamp options are \fB\-t\fP and \fB\-T\fP.
+.TP
+.B fi | fixiso
+Copy the ISO setting from any of the proprietary Nikon makernote ISO
+tags to the regular Exif ISO tag, Exif.Photo.ISOSpeedRatings. Overwrites 
+an existing Exif ISO tag.
 .SH OPTIONS
 .TP
 .B \-h

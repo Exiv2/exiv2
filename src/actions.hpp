@@ -58,7 +58,8 @@ namespace Exiv2 {
 namespace Action {
 
     //! Enumerates all tasks
-    enum TaskType { none, adjust, print, rename, erase, extract, insert, modify };
+    enum TaskType { none, adjust, print, rename, erase, extract, insert, 
+                    modify, fixiso };
 
 // *****************************************************************************
 // class definitions
@@ -326,6 +327,23 @@ namespace Action {
 
         Exiv2::Image::AutoPtr image_;        //!< Image to modify
     }; // class Modify
+
+    /*!
+      @brief %Copy ISO settings from any of the Nikon makernotes to the
+             regular Exif tag, Exif.Photo.ISOSpeedRatings.
+     */
+    class FixIso : public Task {
+    public:
+        virtual ~FixIso() {}
+        virtual int run(const std::string& path);
+        typedef std::auto_ptr<FixIso> AutoPtr;
+        AutoPtr clone() const;
+
+    private:
+        virtual FixIso* clone_() const;
+        std::string path_;
+
+    }; // class FixIso
 
 }                                       // namespace Action
 
