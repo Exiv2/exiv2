@@ -5,13 +5,20 @@ export LD_LIBRARY_PATH
 exiv2="$VALGRIND ../../src/exiv2"
 results="./tmp/exiv2-test.out"
 good="./data/exiv2-test.out"
-diffargs="--strip-trailing-cr"
 tmpfile=tmp/ttt
 touch $tmpfile
-diff -q $diffargs $tmpfile $tmpfile 2>/dev/null
+da1="--strip-trailing-cr"
+diff -q $da1 $tmpfile $tmpfile 2>/dev/null
 if [ $? -ne 0 ] ; then
-    diffargs=""
+    da1=""
 fi
+da2="--ignore-matching-lines=^Usage:.exiv2"
+diff -q $da2 $tmpfile $tmpfile 2>/dev/null
+if [ $? -ne 0 ] ; then
+    da2=""
+fi
+diffargs="$da1 $da2"
+
 (
 images="exiv2-empty.jpg \
         exiv2-canon-powershot-s40.jpg \
