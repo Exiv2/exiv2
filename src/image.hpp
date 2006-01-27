@@ -41,7 +41,7 @@
 
 // + standard includes
 #include <string>
-#include <map>
+#include <vector>
 
 // *****************************************************************************
 // namespace extensions

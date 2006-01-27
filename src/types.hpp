@@ -44,11 +44,9 @@
 #include <iosfwd>
 #include <utility>
 #include <sstream>
-#include <cstdio>
 #ifdef EXV_HAVE_STDINT_H
 # include <stdint.h>
 #endif
-#include <ctime>
 
 // MSVC doesn't provide C99 types, but it has MS specific variants
 #ifdef _MSC_VER
@@ -58,6 +56,10 @@ typedef unsigned __int32 uint32_t;
 typedef __int16          int16_t;
 typedef __int32          int32_t;
 #endif
+
+// *****************************************************************************
+// forward declarations
+struct tm;
 
 // *****************************************************************************
 // namespace extensions

@@ -40,7 +40,7 @@
 #include "iptc.hpp"
 
 // + standard includes
-#include <iostream>
+#include <iosfwd>
 #include <string>
 #include <vector>
 #include <stack>
