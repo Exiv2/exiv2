@@ -431,6 +431,16 @@ namespace Exiv2 {
                 // Set the offset to the data, relative to start of IFD
                 e.setOffset(tmpOffset - offset_);
                 // Set the size to at least for bytes to accomodate offset-data
+#ifndef SUPPRESS_WARNINGS
+                if (i->type_ < 1 || i->type_ > 10 || i->type_ == 6) {
+                    std::cerr << "Warning: " 
+                              << ExifTags::ifdName(ifdId_) << " tag 0x" 
+                              << std::setw(4) << std::setfill('0') << std::hex
+                              << i->tag_ << " has invalid Exif type "
+                              << std::dec << i->type_ 
+                              << "; using 7 (undefined).\n";
+                }
+#endif
                 e.setValue(i->type_, i->count_, buf + start + e.offset(),
                            std::max(long(4), i->size_));
                 this->add(e);

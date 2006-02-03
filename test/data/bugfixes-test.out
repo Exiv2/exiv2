@@ -201,7 +201,12 @@ Exif.Thumbnail.YResolution                   Rational    1  180
 Exif.Thumbnail.ResolutionUnit                Short       1  inch
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
 Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  5448
+File 1/1: exiv2-empty.jpg
+Set Exif.Photo.UserComment "A comment" (Comment)
+Exif.Image.ExifTag                           Long        1  26
+Exif.Photo.UserComment                       Undefined  17  A comment
 ------> Bug 447 <-------
+Warning: Exif tag 0x9286 has invalid Exif type 14; using 7 (undefined).
 Iptc.Application2.Caption                    String      0  
 Iptc.Application2.DateCreated                Date        8  2005-08-09
 Iptc.Application2.TimeCreated                Time       11  01:28:31-07:00
