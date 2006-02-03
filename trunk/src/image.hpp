@@ -258,7 +258,7 @@ namespace Exiv2 {
         Image& operator=(const Image& rhs);
 
         // DATA
-        uint16_t supportedMetadata_; //! Bitmap with all supported metadata types
+        uint16_t supportedMetadata_; //!< Bitmap with all supported metadata types
 
     }; // class Image
 
