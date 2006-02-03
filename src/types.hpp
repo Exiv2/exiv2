@@ -79,6 +79,9 @@ namespace Exiv2 {
     //! Type to express the byte order (little or big endian)
     enum ByteOrder { invalidByteOrder, littleEndian, bigEndian };
 
+    //! An identifier for each type of metadata
+    enum MetadataId { mdExif=1, mdIptc=2, mdComment=4 };
+
     //! Type identifiers for IFD format types
     enum TypeId { invalidTypeId, unsignedByte, asciiString, unsignedShort,
                   unsignedLong, unsignedRational, invalid6, undefined,

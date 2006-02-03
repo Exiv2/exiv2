@@ -128,7 +128,7 @@ namespace Exiv2 {
     };
 
     CrwImage::CrwImage(BasicIo::AutoPtr io, bool create)
-        : io_(io)
+        : Image(mdExif | mdComment), io_(io)
     {
         if (create) {
             IoCloser closer(*io_);
@@ -167,12 +167,12 @@ namespace Exiv2 {
 
     void CrwImage::clearIptcData()
     {
-        throw Error(31, "CrwImage::clearIptcData");
+        // not supported
     }
 
-    void CrwImage::setIptcData(const IptcData& iptcData)
+    void CrwImage::setIptcData(const IptcData& /*iptcData*/)
     {
-        throw Error(31, "CrwImage::setIptcData");
+        // not supported
     }
 
     void CrwImage::clearComment()
