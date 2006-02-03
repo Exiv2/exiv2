@@ -236,13 +236,18 @@ namespace Exiv2 {
              method is called.
          */
         virtual BasicIo& io() const = 0;
+        /*!
+          @brief Check if image supports a particular type of metadata.
+         */
+        bool supportsMetadata(MetadataId metadataId) const;
         //@}
 
     protected:
         //! @name Creators
         //@{
-        //! Default Constructor
-        Image() {}
+        //! Constructor taking a bitmap of the metadata types, which are supported
+        Image(uint16_t supportedMetadata) 
+            : supportedMetadata_(supportedMetadata) {}
         //@}
 
     private:
@@ -251,6 +256,9 @@ namespace Exiv2 {
         Image(const Image& rhs);
         //! Assignment operator
         Image& operator=(const Image& rhs);
+
+        // DATA
+        uint16_t supportedMetadata_; //! Bitmap with all supported metadata types
 
     }; // class Image
 

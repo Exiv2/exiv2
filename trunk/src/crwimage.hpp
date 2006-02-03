@@ -131,12 +131,12 @@ namespace Exiv2 {
         void            clearExifData();
         /*!
           @brief Not supported. Crw format does not contain Iptc metadata.
-                 Calling this function will raise an exception (Error).
+                 Calling this function will do nothing.
          */
         void            setIptcData(const IptcData& iptcData);
         /*!
           @brief Not supported. Crw format does not contain Iptc metadata.
-                 Calling this function will raise an exception (Error).
+                 Calling this function will do nothing.
          */
         void            clearIptcData();
         void            setComment(const std::string& comment);

@@ -64,7 +64,7 @@ namespace Exiv2 {
 
     JpegBase::JpegBase(BasicIo::AutoPtr io, bool create,
                        const byte initData[], long dataSize)
-        : io_(io)
+        : Image(mdExif | mdIptc | mdComment), io_(io)
     {
         if (create) {
             initImage(initData, dataSize);

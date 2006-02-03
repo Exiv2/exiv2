@@ -62,6 +62,11 @@ EXIV2_RCSID("@(#) $Id$");
 // class member definitions
 namespace Exiv2 {
 
+    bool Image::supportsMetadata(MetadataId metadataId) const
+    {
+        return supportedMetadata_ & metadataId;
+    }
+
     const ImageFactory::Registry* ImageFactory::find(int imageType)
     {
         for (unsigned int i = 0; registry_[i].imageType_ != ImageType::none; ++i) {
