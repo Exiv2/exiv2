@@ -184,7 +184,12 @@ namespace Exiv2 {
 
     void Exifdatum::setValue(const Entry& e, ByteOrder byteOrder)
     {
-        value_ = Value::create(TypeId(e.type()));
+        TypeId t = TypeId(e.type());
+        // Hack: On the fly type conversion for Exif.Photo.UserComment 
+        if (e.tag() == 0x9286 && e.ifdId() == exifIfdId && e.type() == undefined) {
+            t = comment;
+        }
+        value_ = Value::create(t);
         value_->read(e.data(), e.count() * e.typeSize(), byteOrder);
         value_->setDataArea(e.dataArea(), e.sizeDataArea());
     }

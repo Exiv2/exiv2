@@ -36,5 +36,4 @@ Bugs:
   if the metadata is not compatible
 + Review: Exception safety
 + Review: Ifd1 only at Thumbnail, do we really need Thumbnail::update() ?
-+ Is the hexdump output of exiv2 byte-swapped??
 + Should JpegImage differ between NO Jpeg comment and an empty Jpeg comment??
