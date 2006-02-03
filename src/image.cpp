@@ -64,7 +64,7 @@ namespace Exiv2 {
 
     bool Image::supportsMetadata(MetadataId metadataId) const
     {
-        return supportedMetadata_ & metadataId;
+        return (supportedMetadata_ & metadataId) != 0;
     }
 
     const ImageFactory::Registry* ImageFactory::find(int imageType)
