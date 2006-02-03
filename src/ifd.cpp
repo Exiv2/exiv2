@@ -119,15 +119,6 @@ namespace Exiv2 {
         return *this;
     } // Entry::operator=
 
-    uint16_t Entry::type() const 
-    {
-        // Hack: On the fly type conversion for Exif.Photo.UserComment 
-        if (tag_ == 0x9286 && ifdId_ == exifIfdId && type_ == undefined) {
-            return comment;
-        }
-        return type_; 
-    }
-
     void Entry::setValue(uint32_t data, ByteOrder byteOrder)
     {
         if (pData_ == 0 || size_ < 4) {
