@@ -1,3 +1,17 @@
+Changes from version 0.9 to 0.9.1
+---------------------------------
+
+* Exiv2 library
+	- 0000451: [exif] Fixed bug where an invalid Exif tag was created for 
+	           the user comment, when the tag was newly added to an image.
+		   (Thanks to Anatoliy Kovalenko for reporting this bug)
+		 - Added enum MetadataId and Image::supportsMetadata() to check what 
+	           metadata an image class supports. Changed CrwImage to silently 
+	           ignore calls to Iptc related functions instead of throwing an Error.
+		   (Thanks to Will Stokes for suggesting the check feature)
+		 - Cleaned up some #include statements (mentioned here because this 
+		   may lead to unexpected compiler errors).
+
 Changes from version 0.8 to 0.9
 -------------------------------
 
