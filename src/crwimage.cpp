@@ -65,6 +65,22 @@ EXIV2_RCSID("@(#) $Id$");
 // class member definitions
 namespace Exiv2 {
 
+    /*
+      Mapping table used to decode and encode CIFF tags to/from Exif tags.  Only
+      a subset of the Exif tags can be mapped to known tags found in CRW files
+      and not all CIFF tags in the CRW files have a corresponding Exif tag. Tags
+      which are not mapped in the table below are ignored.
+
+      When decoding, each CIFF tag/directory pair in the CRW image is looked up
+      in the table and if it has an entry, the corresponding decode function is
+      called (CrwMap::decode). This function may or may not make use of the
+      other parameters in the structure (such as the Exif tag and Ifd id).
+
+      Encoding is done in a loop over the mapping table (CrwMap::encode). For
+      each entry, the encode function is called, which looks up the (Exif)
+      metadata to encode in the image. This function may or may not make use of
+      the other parameters in the mapping structure.
+    */
     const CrwMapping CrwMap::crwMapping_[] = {
         //         CrwTag  CrwDir  Size ExifTag IfdId        decodeFct     encodeFct
         //         ------  ------  ---- ------- -----        ---------     ---------
@@ -1294,7 +1310,7 @@ namespace Exiv2 {
         else {
             pHead->remove(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
         }
-    } // CrwMap::encode0x1810
+    } // CrwMap::encode0x2008
 
     // *************************************************************************
     // free functions
