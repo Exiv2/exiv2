@@ -62,6 +62,26 @@ EXIV2_RCSID("@(#) $Id$");
 #endif
 
 // *****************************************************************************
+// local declarations
+namespace {
+    //! Helper structure for the mapping list
+    struct OmList {
+        uint16_t orientation; //!< Exif orientation value
+        int32_t  degrees;     //!< CRW Rotation degrees
+    };
+
+    //! Helper class to map Exif orientation values to CRW rotation degrees
+    class RotationMap {
+    public:
+        static uint16_t orientation(int32_t degrees);
+        static int32_t  degrees(uint16_t orientation);
+    private:
+        // DATA
+        static const OmList omList_[];
+    }; // class RotationMap
+}
+
+// *****************************************************************************
 // class member definitions
 namespace Exiv2 {
 
@@ -1062,6 +1082,10 @@ namespace Exiv2 {
         value2.read(ciffComponent.pData() + 4, 4, byteOrder);
         image.exifData().add(key2, &value2);
 
+        int32_t r = getLong(ciffComponent.pData() + 12, byteOrder);
+        uint16_t o = RotationMap::orientation(r);
+        image.exifData()["Exif.Image.Orientation"] = o;
+
     } // CrwMap::decode0x1810
 
     void CrwMap::decode0x2008(const CiffComponent& ciffComponent,
@@ -1271,13 +1295,15 @@ namespace Exiv2 {
 
         const ExifKey kX("Exif.Photo.PixelXDimension");
         const ExifKey kY("Exif.Photo.PixelYDimension");
+        const ExifKey kO("Exif.Image.Orientation");
         const ExifData::const_iterator edX = image.exifData().findKey(kX);
         const ExifData::const_iterator edY = image.exifData().findKey(kY);
+        const ExifData::const_iterator edO = image.exifData().findKey(kO);
         const ExifData::const_iterator edEnd = image.exifData().end();
 
         CiffComponent* cc = pHead->findComponent(pCrwMapping->crwTagId_, 
                                                  pCrwMapping->crwDir_);
-        if (edX != edEnd || edY != edEnd) {
+        if (edX != edEnd || edY != edEnd || edO != edEnd) {
             uint32_t size = 28;
             if (cc && cc->size() > size) size = cc->size();
             DataBuf buf(size);
@@ -1289,6 +1315,11 @@ namespace Exiv2 {
             if (edY != edEnd && edY->size() == 4) {
                 edY->copy(buf.pData_ + 4, pHead->byteOrder());
             }
+            int32_t d = 0;
+            if (edO != edEnd && edO->typeId() == unsignedShort) {
+                d = RotationMap::degrees(edO->toLong());
+            }
+            l2Data(buf.pData_ + 12, d, pHead->byteOrder());
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
         }
         else {
@@ -1368,3 +1399,43 @@ namespace Exiv2 {
     }
 
 }                                       // namespace Exiv2
+
+// *****************************************************************************
+// local definitions
+namespace {
+    const OmList RotationMap::omList_[] = {
+        { 1,    0 },
+        { 3,  180 },
+        { 3, -180 },
+        { 6,  270 },
+        { 6,  -90 },
+        { 8,   90 },
+        { 8, -270 },
+        // last entry
+        { 0,    0 },
+    };
+
+    uint16_t RotationMap::orientation(int32_t degrees)
+    {
+        uint16_t o = 1;
+        for (int i = 0; omList_[i].orientation != 0; ++i) {
+            if (omList_[i].degrees == degrees) {
+                o = omList_[i].orientation;
+                break;
+            }
+        }
+        return o;
+    }
+
+    int32_t RotationMap::degrees(uint16_t orientation)
+    {
+        int32_t d = 0;
+        for (int i = 0; omList_[i].orientation != 0; ++i) {
+            if (omList_[i].orientation == orientation) {
+                d = omList_[i].degrees;
+                break;
+            }
+        }
+        return d;
+    }
+}
