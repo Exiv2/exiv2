@@ -1317,7 +1317,7 @@ namespace Exiv2 {
             }
             int32_t d = 0;
             if (edO != edEnd && edO->typeId() == unsignedShort) {
-                d = RotationMap::degrees(edO->toLong());
+                d = RotationMap::degrees(static_cast<uint16_t>(edO->toLong()));
             }
             l2Data(buf.pData_ + 12, d, pHead->byteOrder());
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
