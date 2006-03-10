@@ -82,7 +82,7 @@ namespace Exiv2 {
         TagInfo(0x0003, "0x0003", "0x0003", "Unknown", canonIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0004, "CameraSettings2", "CameraSettings2", "Various camera settings (2)", canonIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0006, "ImageType", "ImageType", "Image type", canonIfdId, makerTags, asciiString, printValue),
-        TagInfo(0x0007, "FirmwareVersion", "FirmwareVersion", "Firmware version", canonIfdId, makerTags, asciiString, printValue),
+        TagInfo(0x0007, "FirmwareVersion", "Firmware Version", "Firmware version", canonIfdId, makerTags, asciiString, printValue),
         TagInfo(0x0008, "ImageNumber", "ImageNumber", "Image number", canonIfdId, makerTags, unsignedLong, print0x0008),
         TagInfo(0x0009, "OwnerName", "OwnerName", "Owner Name", canonIfdId, makerTags, asciiString, printValue),
         TagInfo(0x000c, "SerialNumber", "SerialNumber", "Camera serial number", canonIfdId, makerTags, unsignedLong, print0x000c),
@@ -102,23 +102,23 @@ namespace Exiv2 {
         TagInfo(0x0001, "Macro", "Macro", "Macro mode", canonCs1IfdId, makerTags, unsignedShort, printCs10x0001),
         TagInfo(0x0002, "Selftimer", "Selftimer", "Self timer", canonCs1IfdId, makerTags, unsignedShort, printCs10x0002),
         TagInfo(0x0003, "Quality", "Quality", "Quality", canonCs1IfdId, makerTags, unsignedShort, printCs10x0003),
-        TagInfo(0x0004, "FlashMode", "FlashMode", "Flash mode setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0004),
-        TagInfo(0x0005, "DriveMode", "DriveMode", "Drive mode setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0005),
+        TagInfo(0x0004, "FlashMode", "Flash Mode", "Flash mode setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0004),
+        TagInfo(0x0005, "DriveMode", "Drive Mode", "Drive mode setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0005),
         TagInfo(0x0006, "0x0006", "0x0006", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0007, "FocusMode", "FocusMode", "Focus mode setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0007),
+        TagInfo(0x0007, "FocusMode", "Focus Mode", "Focus mode setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0007),
         TagInfo(0x0008, "0x0008", "0x0008", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0009, "0x0009", "0x0009", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x000a, "ImageSize", "ImageSize", "Image size", canonCs1IfdId, makerTags, unsignedShort, printCs10x000a),
-        TagInfo(0x000b, "EasyMode", "EasyMode", "Easy shooting mode", canonCs1IfdId, makerTags, unsignedShort, printCs10x000b),
-        TagInfo(0x000c, "DigitalZoom", "DigitalZoom", "Digital zoom", canonCs1IfdId, makerTags, unsignedShort, printCs10x000c),
+        TagInfo(0x000a, "ImageSize", "Image Size", "Image size", canonCs1IfdId, makerTags, unsignedShort, printCs10x000a),
+        TagInfo(0x000b, "EasyMode", "Easy Mode", "Easy shooting mode", canonCs1IfdId, makerTags, unsignedShort, printCs10x000b),
+        TagInfo(0x000c, "DigitalZoom", "Digital Zoom", "Digital zoom", canonCs1IfdId, makerTags, unsignedShort, printCs10x000c),
         TagInfo(0x000d, "Contrast", "Contrast", "Contrast setting", canonCs1IfdId, makerTags, unsignedShort, printCs1Lnh),
         TagInfo(0x000e, "Saturation", "Saturation", "Saturation setting", canonCs1IfdId, makerTags, unsignedShort, printCs1Lnh),
         TagInfo(0x000f, "Sharpness", "Sharpness", "Sharpness setting", canonCs1IfdId, makerTags, unsignedShort, printCs1Lnh),
-        TagInfo(0x0010, "ISOSpeed", "ISOSpeed", "ISO speed setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0010),
-        TagInfo(0x0011, "MeteringMode", "MeteringMode", "Metering mode setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0011),
-        TagInfo(0x0012, "FocusType", "FocusType", "Focus type setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0012),
+        TagInfo(0x0010, "ISOSpeed", "ISO Speed Mode", "ISO speed setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0010),
+        TagInfo(0x0011, "MeteringMode", "Metering Mode", "Metering mode setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0011),
+        TagInfo(0x0012, "FocusType", "Focus Type", "Focus type setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0012),
         TagInfo(0x0013, "AFPoint", "AFPoint", "AF point selected", canonCs1IfdId, makerTags, unsignedShort, printCs10x0013),
-        TagInfo(0x0014, "ExposureProgram", "ExposureProgram", "Exposure mode setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0014),
+        TagInfo(0x0014, "ExposureProgram", "Exposure Program", "Exposure mode setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0014),
         TagInfo(0x0015, "0x0015", "0x0015", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0016, "0x0016", "0x0016", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0017, "Lens", "Lens", "'long' and 'short' focal length of lens (in 'focal units') and 'focal units' per mm", canonCs1IfdId, makerTags, unsignedShort, printCs1Lens),
@@ -145,7 +145,7 @@ namespace Exiv2 {
     // Canon Camera Settings 2 Tag Info
     const TagInfo CanonMakerNote::tagInfoCs2_[] = {
         TagInfo(0x0001, "0x0001", "0x0001", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0002, "ISOSpeed", "ISOSpeed", "ISO speed used", canonCs2IfdId, makerTags, unsignedShort, printCs20x0002),
+        TagInfo(0x0002, "ISOSpeed", "ISO Speed Used", "ISO speed used", canonCs2IfdId, makerTags, unsignedShort, printCs20x0002),
         TagInfo(0x0003, "0x0003", "0x0003", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0004, "TargetAperture", "TargetAperture", "Target Aperture", canonCs2IfdId, makerTags, unsignedShort, printCs20x0015),
         TagInfo(0x0005, "TargetShutterSpeed", "TargetShutterSpeed", "Target shutter speed", canonCs2IfdId, makerTags, unsignedShort, printCs20x0016),
@@ -570,13 +570,21 @@ namespace Exiv2 {
         case  2: os << "Landscape"; break;
         case  3: os << "Fast shutter"; break;
         case  4: os << "Slow shutter"; break;
-        case  5: os << "Night"; break;
+        case  5: os << "Night Scene"; break;
         case  6: os << "B&W"; break;
         case  7: os << "Sepia"; break;
         case  8: os << "Portrait"; break;
         case  9: os << "Sports"; break;
         case 10: os << "Macro / close-up"; break;
         case 11: os << "Pan focus"; break;
+        case 18: os << "Foliage"; break;
+        case 19: os << "Indoor"; break;
+        case 20: os << "Fireworks"; break;
+        case 21: os << "Beach"; break;
+        case 23: os << "Snow"; break;
+        case 25: os << "Night SnapShot"; break;
+        case 27: os << "My Colors"; break;
+        case 28: os << "Movie"; break;
         default: os << "(" << l << ")"; break;
         }
         return os;
@@ -678,11 +686,11 @@ namespace Exiv2 {
         if (value.typeId() != unsignedShort) return os << value;
         long l = value.toLong();
         switch (l) {
-        case 0: os << "Easy shooting"; break;
-        case 1: os << "Program"; break;
-        case 2: os << "Shutter priority"; break;
-        case 3: os << "Aperture priority"; break;
-        case 4: os << "Manual"; break;
+        case 0: os << "Easy shooting (Auto)"; break;
+        case 1: os << "Program (P)"; break;
+        case 2: os << "Shutter priority (Tv)"; break;
+        case 3: os << "Aperture priority (Av)"; break;
+        case 4: os << "Manual (M)"; break;
         case 5: os << "A-DEP"; break;
         default: os << "(" << l << ")"; break;
         }
