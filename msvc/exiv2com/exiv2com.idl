@@ -1,0 +1,38 @@
+// exiv2com.idl : IDL source for exiv2com
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (exiv2com.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(0EFCEA47-65BD-454D-AF18-610869226CFB),
+	dual,
+	nonextensible,
+	helpstring("Iexif Interface"),
+	pointer_default(unique)
+]
+interface Iexif : IDispatch{
+	[id(3), helpstring("method GetExif")] HRESULT GetExif([in] BSTR FileName, [in] BSTR Tag, [out,retval] VARIANT* OutVal);
+	[id(4), helpstring("method GetExifInterpreted")] HRESULT GetExifInterpreted([in] BSTR FileName, [out,retval] VARIANT* OutVal);
+};
+[
+	uuid(F5740DA3-D13F-438C-86FC-7EE18908F2CC),
+	version(1.0),
+	helpstring("exiv2com 1.0 Type Library")
+]
+library exiv2comLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(2528ECB1-2A9F-4A03-936D-627266DE6E09),
+		helpstring("exif Class")
+	]
+	coclass exif
+	{
+		[default] interface Iexif;
+	};
+};

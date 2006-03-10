@@ -83,6 +83,16 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iptceasy", "iptceasy\iptcea
 		{831EF580-92C8-4CA8-B0CE-3D906280A54D} = {831EF580-92C8-4CA8-B0CE-3D906280A54D}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "exiv2com", "exiv2com\exiv2com.vcproj", "{6EEE7BDC-88EE-450D-B752-63DB7E50EA8E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{831EF580-92C8-4CA8-B0CE-3D906280A54D} = {831EF580-92C8-4CA8-B0CE-3D906280A54D}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "exiv2comPS", "exiv2com\exiv2comPS.vcproj", "{E5CADAC3-4276-4231-9626-49464C79682D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6EEE7BDC-88EE-450D-B752-63DB7E50EA8E} = {6EEE7BDC-88EE-450D-B752-63DB7E50EA8E}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -157,6 +167,12 @@ Global
 		{D8B36F3A-34BB-4540-A731-EEABF1DC2E05}.Debug.Build.0 = Debug|Win32
 		{D8B36F3A-34BB-4540-A731-EEABF1DC2E05}.Release.ActiveCfg = Release|Win32
 		{D8B36F3A-34BB-4540-A731-EEABF1DC2E05}.Release.Build.0 = Release|Win32
+		{6EEE7BDC-88EE-450D-B752-63DB7E50EA8E}.Debug.ActiveCfg = Debug|Win32
+		{6EEE7BDC-88EE-450D-B752-63DB7E50EA8E}.Debug.Build.0 = Debug|Win32
+		{6EEE7BDC-88EE-450D-B752-63DB7E50EA8E}.Release.ActiveCfg = Release|Win32
+		{6EEE7BDC-88EE-450D-B752-63DB7E50EA8E}.Release.Build.0 = Release|Win32
+		{E5CADAC3-4276-4231-9626-49464C79682D}.Debug.ActiveCfg = Debug|Win32
+		{E5CADAC3-4276-4231-9626-49464C79682D}.Release.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
