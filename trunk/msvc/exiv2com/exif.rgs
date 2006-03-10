@@ -1,0 +1,27 @@
+HKCR
+{
+	exiv2com.exif.1 = s 'exif Class'
+	{
+		CLSID = s '{2528ECB1-2A9F-4A03-936D-627266DE6E09}'
+	}
+	exiv2com.exif = s 'exif Class'
+	{
+		CLSID = s '{2528ECB1-2A9F-4A03-936D-627266DE6E09}'
+		CurVer = s 'exiv2com.exif.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {2528ECB1-2A9F-4A03-936D-627266DE6E09} = s 'exif Class'
+		{
+			ProgID = s 'exiv2com.exif.1'
+			VersionIndependentProgID = s 'exiv2com.exif'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{F5740DA3-D13F-438C-86FC-7EE18908F2CC}'
+		}
+	}
+}
