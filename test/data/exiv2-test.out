@@ -22,7 +22,7 @@ Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 Boston, MA 02110-1301 USA
 
 Exiv2 help ---------------------------------------------------------------
-Usage: exiv2 [ options ] [ action ] file ...
+Usage: exiv2.exe [ options ] [ action ] file ...
 
 Manipulate the Exif metadata of images.
 
@@ -174,7 +174,7 @@ Flash bias      : 0 EV
 Focal length    : 21.3 mm
 Subject distance: 782
 ISO speed       : 100
-Exposure mode   : Program
+Exposure mode   : Program (P)
 Metering mode   : Center weighted
 Macro mode      : Off
 Image quality   : Superfine
@@ -274,7 +274,7 @@ Flash bias      : 0 EV
 Focal length    : 18.0 mm
 Subject distance: Infinite
 ISO speed       : 100
-Exposure mode   : Program
+Exposure mode   : Program (P)
 Metering mode   : Matrix
 Macro mode      : (0)
 Image quality   : Fine
@@ -505,7 +505,7 @@ Exif.CanonCs1.ISOSpeed                       Short       1  100
 Exif.CanonCs1.MeteringMode                   Short       1  Center weighted
 Exif.CanonCs1.FocusType                      Short       1  Auto
 Exif.CanonCs1.AFPoint                        Short       1  Center
-Exif.CanonCs1.ExposureProgram                Short       1  Program
+Exif.CanonCs1.ExposureProgram                Short       1  Program (P)
 Exif.CanonCs1.0x0015                         Short       1  65535
 Exif.CanonCs1.0x0016                         Short       1  65535
 Exif.CanonCs1.Lens                           Short       3  7.1 - 21.3 mm
@@ -859,7 +859,7 @@ Exif.CanonCs1.ISOSpeed                       Short       1  n/a
 Exif.CanonCs1.MeteringMode                   Short       1  Evaluative
 Exif.CanonCs1.FocusType                      Short       1  (2)
 Exif.CanonCs1.AFPoint                        Short       1  (8197)
-Exif.CanonCs1.ExposureProgram                Short       1  Program
+Exif.CanonCs1.ExposureProgram                Short       1  Program (P)
 Exif.CanonCs1.0x0015                         Short       1  32767
 Exif.CanonCs1.0x0016                         Short       1  65535
 Exif.CanonCs1.Lens                           Short       3  18.0 - 55.0 mm
