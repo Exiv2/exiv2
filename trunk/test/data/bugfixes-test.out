@@ -147,7 +147,7 @@ Exif.CanonCs1.ISOSpeed                       Short       1  100
 Exif.CanonCs1.MeteringMode                   Short       1  Center weighted
 Exif.CanonCs1.FocusType                      Short       1  Auto
 Exif.CanonCs1.AFPoint                        Short       1  Center
-Exif.CanonCs1.ExposureProgram                Short       1  Program
+Exif.CanonCs1.ExposureProgram                Short       1  Program (P)
 Exif.CanonCs1.0x0015                         Short       1  65535
 Exif.CanonCs1.0x0016                         Short       1  65535
 Exif.CanonCs1.Lens                           Short       3  7.1 - 21.3 mm
