@@ -193,13 +193,14 @@ namespace Exiv2 {
     int StringValueBase::read(const byte* buf, long len, ByteOrder byteOrder)
     {
         // byteOrder not needed
-        value_ = std::string(reinterpret_cast<const char*>(buf), len);
+        if (buf) value_ = std::string(reinterpret_cast<const char*>(buf), len);
         return 0;
     }
 
     long StringValueBase::copy(byte* buf, ByteOrder byteOrder) const
     {
         // byteOrder not needed
+        assert(buf != 0);
         return static_cast<long>(
             value_.copy(reinterpret_cast<char*>(buf), value_.size())
             );
@@ -237,7 +238,7 @@ namespace Exiv2 {
     int AsciiValue::read(const std::string& buf)
     {
         value_ = buf;
-        if (value_[value_.size()-1] != '\0') value_ += '\0';
+        if (value_.size() > 0 && value_[value_.size()-1] != '\0') value_ += '\0';
         return 0;
     }
 
