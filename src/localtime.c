@@ -3,6 +3,7 @@
   @brief   This file is from the tz distribution at ftp://elsie.nci.nih.gov/pub/
   @version $Rev$
 */
+
 #ifdef _MSC_VER
 # include "exv_msvc.h"
 #else
@@ -1056,6 +1057,7 @@ struct tm * const	tmp;
 #endif /* defined TM_ZONE */
 }
 
+#if _MSC_VER < 1400
 struct tm *
 localtime(timep)
 const time_t * timep;
@@ -1064,6 +1066,7 @@ const time_t * timep;
 	localsub(timep, 0L, &tm);
 	return &tm;
 }
+#endif /*_MSC_VER < 1400 */
 
 /*
 ** Re-entrant version of localtime.
@@ -1118,6 +1121,7 @@ struct tm * const	tmp;
 #endif /* defined TM_ZONE */
 }
 
+#if _MSC_VER < 1400
 struct tm *
 gmtime(timep)
 const time_t * timep;
@@ -1125,6 +1129,7 @@ const time_t * timep;
 	gmtsub(timep, 0L, &tm);
 	return &tm;
 }
+#endif /* _MSC_VER < 1400 */
 
 /*
 * Re-entrant version of gmtime.
@@ -1253,6 +1258,7 @@ register struct tm * const		tmp;
 #endif /* defined TM_GMTOFF */
 }
 
+#if _MSC_VER < 1400
 char *
 ctime(timep)
 const time_t * timep;
@@ -1265,6 +1271,7 @@ const time_t * timep;
 */
 	return asctime(localtime(timep));
 }
+#endif /* _MSC_VER < 1400 */
 
 /* ahu: deleted definition of ctime_r */
 
@@ -1578,6 +1585,7 @@ const long		offset;
 	return WRONG;
 }
 
+#if _MSC_VER < 1400
 time_t
 mktime(tmp)
 struct tm * tmp;
@@ -1585,6 +1593,7 @@ struct tm * tmp;
 	tzset();
 	return time1(tmp, localsub, 0L);
 }
+#endif /* _MSC_VER < 1400 */
 
 #ifdef STD_INSPIRED
 
