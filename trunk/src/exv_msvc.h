@@ -38,4 +38,13 @@
 #define EXV_SEPERATOR_STR "\\"
 #define EXV_SEPERATOR_CHR '\\'
 
+/*
+  Visual Studio C++ 2005 (8.0)
+  Disable warnings about 'deprecated' standard functions
+  See, eg. http://www.informit.com/guides/content.asp?g=cplusplus&seqNum=259
+*/
+#if _MSC_VER >= 1400
+# pragma warning(disable : 4996)
+#endif
+
 #endif /* _MSC_VER */
