@@ -246,7 +246,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor taking a bitmap of the metadata types, which are supported
-        Image(uint16_t supportedMetadata) 
+        Image(uint16_t supportedMetadata)
             : supportedMetadata_(supportedMetadata) {}
         //@}
 

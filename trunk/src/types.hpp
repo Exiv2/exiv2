@@ -292,7 +292,7 @@ namespace Exiv2 {
 
     /*!
       @brief Converts a string in the form "%Y:%m:%d %H:%M:%S", e.g.,
-             "2007:05:24 12:31:55" to broken down time format, 
+             "2007:05:24 12:31:55" to broken down time format,
              returns 0 if successful, else 1.
      */
     int exifTime(const char* buf, struct tm* tm);

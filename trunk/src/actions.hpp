@@ -58,7 +58,7 @@ namespace Exiv2 {
 namespace Action {
 
     //! Enumerates all tasks
-    enum TaskType { none, adjust, print, rename, erase, extract, insert, 
+    enum TaskType { none, adjust, print, rename, erase, extract, insert,
                     modify, fixiso };
 
 // *****************************************************************************

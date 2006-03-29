@@ -867,7 +867,7 @@ namespace Exiv2 {
         return exifDatum;
     }
     /*!
-      @brief Returns the IfdId of the first Exif makernote tag it finds in the 
+      @brief Returns the IfdId of the first Exif makernote tag it finds in the
              Exif metadata or ifdIdNotSet if there is no Exif makernote tag.
     */
     IfdId hasMakerNote(const ExifData& exifData);

@@ -185,7 +185,7 @@ namespace Exiv2 {
     void Exifdatum::setValue(const Entry& e, ByteOrder byteOrder)
     {
         TypeId t = TypeId(e.type());
-        // Hack: On the fly type conversion for Exif.Photo.UserComment 
+        // Hack: On the fly type conversion for Exif.Photo.UserComment
         if (e.tag() == 0x9286 && e.ifdId() == exifIfdId && e.type() == undefined) {
             t = comment;
         }

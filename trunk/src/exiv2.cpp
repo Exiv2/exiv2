@@ -475,7 +475,7 @@ int Params::evalModify(int opt, const std::string& optarg)
         action_ = Action::modify;
         // fallthrough
     case Action::modify:
-        if (opt == 'c') jpegComment_ = optarg; 
+        if (opt == 'c') jpegComment_ = optarg;
         if (opt == 'm') cmdFiles_.push_back(optarg);  // parse the files later
         if (opt == 'M') cmdLines_.push_back(optarg);  // parse the commands later
         break;
@@ -594,7 +594,7 @@ int Params::getopt(int argc, char* const argv[])
                   << ": Adjust action requires option -a time\n";
         rc = 1;
     }
-    if (   action_ == Action::modify 
+    if (   action_ == Action::modify
         && cmdFiles_.empty() && cmdLines_.empty() && jpegComment_.empty()) {
         std::cerr << progname()
                   << ": Modify action requires at least one -c, -m or -M option\n";
