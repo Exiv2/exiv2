@@ -121,7 +121,7 @@ namespace {
       @brief Rename a file according to a timestamp value.
 
       @param path The original file path. Contains the new path on exit.
-      @param tm   Pointer to a buffer with the broken-down time to rename 
+      @param tm   Pointer to a buffer with the broken-down time to rename
                   the file to.
       @return 0 if successful, -1 if the file was skipped, 1 on error.
     */
@@ -719,8 +719,8 @@ namespace Action {
             rc = renameFile(newPath, &tm);
             if (rc == -1) return 0; // skip
         }
-        if (   0 == rc 
-            && (   Params::instance().preserve_ 
+        if (   0 == rc
+            && (   Params::instance().preserve_
                 || Params::instance().timestamp_
                 || Params::instance().timestampOnly_)) {
             ts.touch(newPath);
@@ -1024,9 +1024,9 @@ namespace Action {
 
         if (!Params::instance().jpegComment_.empty()) {
             if (Params::instance().verbose_) {
-                std::cout << "Setting Jpeg comment '" 
+                std::cout << "Setting Jpeg comment '"
                           << Params::instance().jpegComment_
-                          << "'" 
+                          << "'"
                           << std::endl;
             }
             image_->setComment(Params::instance().jpegComment_);
@@ -1477,7 +1477,7 @@ namespace {
                       << path << "\n";
             return 1;
         }
-        newPath =   Util::dirname(path) + EXV_SEPERATOR_STR 
+        newPath =   Util::dirname(path) + EXV_SEPERATOR_STR
                   + basename + Util::suffix(path);
         if (   Util::dirname(newPath)  == Util::dirname(path)
             && Util::basename(newPath) == Util::basename(path)) {

@@ -433,11 +433,11 @@ namespace Exiv2 {
                 // Set the size to at least for bytes to accomodate offset-data
 #ifndef SUPPRESS_WARNINGS
                 if (i->type_ < 1 || i->type_ > 10 || i->type_ == 6) {
-                    std::cerr << "Warning: " 
-                              << ExifTags::ifdName(ifdId_) << " tag 0x" 
+                    std::cerr << "Warning: "
+                              << ExifTags::ifdName(ifdId_) << " tag 0x"
                               << std::setw(4) << std::setfill('0') << std::hex
                               << i->tag_ << " has invalid Exif type "
-                              << std::dec << i->type_ 
+                              << std::dec << i->type_
                               << "; using 7 (undefined).\n";
                 }
 #endif

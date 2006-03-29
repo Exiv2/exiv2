@@ -135,8 +135,8 @@ public:
     bool verbose_;                      //!< Verbose (talkative) option flag.
     bool force_;                        //!< Force overwrites flag.
     bool preserve_;                     //!< Preserve timestamps flag.
-    bool timestamp_;                    //!< Rename also sets the file timestamp. 
-    bool timestampOnly_;                //!< Rename only sets the file timestamp. 
+    bool timestamp_;                    //!< Rename also sets the file timestamp.
+    bool timestampOnly_;                //!< Rename only sets the file timestamp.
     FileExistsPolicy fileExistsPolicy_; //!< What to do if file to rename exists.
     bool adjust_;                       //!< Adjustment flag.
     PrintMode printMode_;               //!< Print mode.

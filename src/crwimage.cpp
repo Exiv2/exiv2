@@ -326,7 +326,7 @@ namespace Exiv2 {
 
     CiffComponent::~CiffComponent()
     {
-        if (isAllocated_) delete[] pData_; 
+        if (isAllocated_) delete[] pData_;
     }
 
     CiffDirectory::~CiffDirectory()
@@ -347,7 +347,7 @@ namespace Exiv2 {
     {
         throw Error(34, "CiffEntry::add");
     } // CiffEntry::doAdd
-    
+
     void CiffDirectory::doAdd(AutoPtr component)
     {
         components_.push_back(component.release());
@@ -412,7 +412,7 @@ namespace Exiv2 {
 #ifdef DEBUG
         std::cout << "  Entry for tag 0x"
                   << std::hex << tagId() << " (0x" << tag()
-                  << "), " << std::dec << size_ 
+                  << "), " << std::dec << size_
                   << " Bytes, Offset is " << offset_ << "\n";
 #endif
 
@@ -520,15 +520,15 @@ namespace Exiv2 {
         }
     }
 
-    uint32_t CiffComponent::write(Blob&     blob, 
-                                  ByteOrder byteOrder, 
+    uint32_t CiffComponent::write(Blob&     blob,
+                                  ByteOrder byteOrder,
                                   uint32_t  offset)
     {
         return doWrite(blob, byteOrder, offset);
     }
 
-    uint32_t CiffEntry::doWrite(Blob&     blob, 
-                                ByteOrder /*byteOrder*/, 
+    uint32_t CiffEntry::doWrite(Blob&     blob,
+                                ByteOrder /*byteOrder*/,
                                 uint32_t  offset)
     {
         return writeValueData(blob, offset);
@@ -538,7 +538,7 @@ namespace Exiv2 {
     {
         if (dataLocation() == valueData) {
 #ifdef DEBUG
-            std::cout << "  Data for tag 0x" << std::hex << tagId() 
+            std::cout << "  Data for tag 0x" << std::hex << tagId()
                       << ", " << std::dec << size_ << " Bytes\n";
 #endif
             offset_ = offset;
@@ -553,8 +553,8 @@ namespace Exiv2 {
         return offset;
     } // CiffComponent::writeValueData
 
-    uint32_t CiffDirectory::doWrite(Blob&     blob, 
-                                    ByteOrder byteOrder, 
+    uint32_t CiffDirectory::doWrite(Blob&     blob,
+                                    ByteOrder byteOrder,
                                     uint32_t  offset)
     {
 #ifdef DEBUG
@@ -577,7 +577,7 @@ namespace Exiv2 {
         append(blob, buf, 2);
         dirOffset += 2;
 
-        // Directory entries 
+        // Directory entries
         for (Components::iterator i = b; i != e; ++i) {
             (*i)->writeDirEntry(blob, byteOrder);
             dirOffset += 10;
@@ -603,9 +603,9 @@ namespace Exiv2 {
     void CiffComponent::writeDirEntry(Blob& blob, ByteOrder byteOrder) const
     {
 #ifdef DEBUG
-        std::cout << "  Directory entry for tag 0x" 
+        std::cout << "  Directory entry for tag 0x"
                   << std::hex << tagId() << " (0x" << tag()
-                  << "), " << std::dec << size_ 
+                  << "), " << std::dec << size_
                   << " Bytes, Offset is " << offset_ << "\n";
 #endif
         byte buf[4];
@@ -742,13 +742,13 @@ namespace Exiv2 {
         return pRootDir_->findComponent(crwTagId, crwDir);
     } // CiffHeader::findComponent
 
-    CiffComponent* CiffComponent::findComponent(uint16_t crwTagId, 
+    CiffComponent* CiffComponent::findComponent(uint16_t crwTagId,
                                                 uint16_t crwDir) const
     {
         return doFindComponent(crwTagId, crwDir);
     } // CiffComponent::findComponent
 
-    CiffComponent* CiffComponent::doFindComponent(uint16_t crwTagId, 
+    CiffComponent* CiffComponent::doFindComponent(uint16_t crwTagId,
                                                   uint16_t crwDir) const
     {
         if (tagId() == crwTagId && dir() == crwDir) {
@@ -757,8 +757,8 @@ namespace Exiv2 {
         return 0;
     } // CiffComponent::doFindComponent
 
-    CiffComponent* CiffDirectory::doFindComponent(uint16_t crwTagId, 
-                                                  uint16_t crwDir) const 
+    CiffComponent* CiffDirectory::doFindComponent(uint16_t crwTagId,
+                                                  uint16_t crwDir) const
     {
         CiffComponent* cc = 0;
         const Components::const_iterator b = components_.begin();
@@ -1144,7 +1144,7 @@ namespace Exiv2 {
 
     void CrwMap::encode(CiffHeader* pHead, const Image& image)
     {
-        for (const CrwMapping* cmi = crwMapping_; 
+        for (const CrwMapping* cmi = crwMapping_;
              cmi->ifdId_ != ifdIdNotSet; ++cmi) {
             if (cmi->fromExif_ != 0) {
                 cmi->fromExif_(image, cmi, pHead);
@@ -1158,12 +1158,12 @@ namespace Exiv2 {
     {
         assert(pCrwMapping != 0);
         assert(pHead != 0);
-        
+
         // Determine the source Exif metadatum
         ExifKey ek(pCrwMapping->tag_, ExifTags::ifdItem(pCrwMapping->ifdId_));
         ExifData::const_iterator ed = image.exifData().findKey(ek);
 
-        // Set the new value or remove the entry 
+        // Set the new value or remove the entry
         if (ed != image.exifData().end()) {
             DataBuf buf(ed->size());
             ed->copy(buf.pData_, pHead->byteOrder());
@@ -1183,7 +1183,7 @@ namespace Exiv2 {
 
         std::string comment = image.comment();
 
-        CiffComponent* cc = pHead->findComponent(pCrwMapping->crwTagId_, 
+        CiffComponent* cc = pHead->findComponent(pCrwMapping->crwTagId_,
                                                  pCrwMapping->crwDir_);
         if (!comment.empty()) {
             uint32_t size = static_cast<uint32_t>(comment.size());
@@ -1236,14 +1236,14 @@ namespace Exiv2 {
     {
         assert(pCrwMapping != 0);
         assert(pHead != 0);
-        
+
         IfdId ifdId = ifdIdNotSet;
         switch (pCrwMapping->tag_) {
         case 0x0001: ifdId = canonCs1IfdId; break;
         case 0x0004: ifdId = canonCs2IfdId; break;
         case 0x000f: ifdId = canonCfIfdId;  break;
         }
-        assert(ifdId != ifdIdNotSet); 
+        assert(ifdId != ifdIdNotSet);
         DataBuf buf = packIfdId(image.exifData(), ifdId, pHead->byteOrder());
         if (buf.size_ == 0) {
             // Try the undecoded tag
@@ -1301,7 +1301,7 @@ namespace Exiv2 {
         const ExifData::const_iterator edO = image.exifData().findKey(kO);
         const ExifData::const_iterator edEnd = image.exifData().end();
 
-        CiffComponent* cc = pHead->findComponent(pCrwMapping->crwTagId_, 
+        CiffComponent* cc = pHead->findComponent(pCrwMapping->crwTagId_,
                                                  pCrwMapping->crwDir_);
         if (edX != edEnd || edY != edEnd || edO != edEnd) {
             uint32_t size = 28;
@@ -1375,8 +1375,8 @@ namespace Exiv2 {
         return result;
     }
 
-    DataBuf packIfdId(const ExifData& exifData, 
-                            IfdId     ifdId, 
+    DataBuf packIfdId(const ExifData& exifData,
+                            IfdId     ifdId,
                             ByteOrder byteOrder)
     {
         const uint16_t size = 1024;

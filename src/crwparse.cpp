@@ -14,7 +14,7 @@ try {
         std::cout << "Print the CIFF structure of a CRW file\n";
         return 1;
     }
-    
+
     Exiv2::FileIo io(argv[1]);
     if(io.open() != 0) {
         throw Exiv2::Error(9, io.path(), Exiv2::strError());

@@ -808,7 +808,7 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         /*!
-          @brief Set time from \em buf if it conforms to \em format 
+          @brief Set time from \em buf if it conforms to \em format
                  (3 input items).
 
           This function only sets the hour, minute and second parts of time_.
@@ -819,7 +819,7 @@ namespace Exiv2 {
          */
         int scanTime3(const char* buf, const char* format);
         /*!
-          @brief Set time from \em buf if it conforms to \em format 
+          @brief Set time from \em buf if it conforms to \em format
                  (6 input items).
 
           This function sets all parts of time_.
