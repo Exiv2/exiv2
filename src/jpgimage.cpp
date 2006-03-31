@@ -184,7 +184,7 @@ namespace Exiv2 {
                 DataBuf rawExif(sizeExifData);
                 io_->read(rawExif.pData_, sizeExifData);
                 if (io_->error() || io_->eof()) throw Error(14);
-                if (exifData_.load(rawExif.pData_, sizeExifData)) throw Error(15);
+                if (exifData_.load(rawExif.pData_, sizeExifData)) throw Error(36, "Exif");
                 --search;
             }
             else if (marker == app13_ && memcmp(buf.pData_ + 2, ps3Id_, 14) == 0) {
@@ -201,7 +201,7 @@ namespace Exiv2 {
                 if (!locateIptcData(psData.pData_, psData.size_, &record,
                             &sizeHdr, &sizeIptc)) {
                     assert(sizeIptc);
-                    if (iptcData_.load(record + sizeHdr, sizeIptc)) throw Error(15);
+                    if (iptcData_.load(record + sizeHdr, sizeIptc)) throw Error(36, "IPTC");
                 }
                 --search;
             }

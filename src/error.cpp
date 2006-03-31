@@ -79,6 +79,7 @@ namespace Exiv2 {
         ErrMsg( 33, "This does not look like a CRW image"),
         ErrMsg( 34, "%1: Not supported"), // %1=function
         ErrMsg( 35, "ImageFactory registry full"),
+        ErrMsg( 36, "Failed to decode %1 metadata"), // %1=type of metadata (Exif, IPTC)
 
         // Last error message (message is not used)
         ErrMsg( -2, "(Unknown Error)")
