@@ -25,8 +25,8 @@ Changes from version 0.8 to 0.9
 	           (Thanks to Tristan Savatier for the suggestion)
 
 * Exiv2 library
-	- 0000447: [iptc] Fixed a buffer overflow in sscanf. (Thanks to Maciek for 
-	           reporting this bug and the hard work to recreate it)
+	- 0000447: [iptc] Fixed a buffer overflow in sscanf. (Thanks to Maciej Sakrejda
+                   aka Maciek for reporting this bug and the hard work to recreate it)
 	- 0000438: [exif] Write support for Canon raw images.
 		 - [exif] Updated Nikon lensdata to v2.00 of Robert Rottmerhusen's 
 		   amazing lens database. (Thanks to Robert for keeping me updated.)
