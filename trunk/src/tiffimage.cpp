@@ -27,7 +27,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Id: tiffparser.cpp 675 2006-01-25 04:16:58Z ahuggel $");
+EXIV2_RCSID("@(#) $Id$");
 
 // Define DEBUG to output debug information to std::cerr, e.g, by calling make
 // like this: make DEFS=-DDEBUG tiffparser.o
