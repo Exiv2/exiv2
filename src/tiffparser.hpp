@@ -50,6 +50,7 @@ namespace Exiv2 {
 // class declarations
 
     struct TiffStructure;
+    class TiffVisitor;
 
 // *****************************************************************************
 // type definitions
@@ -76,20 +77,23 @@ namespace Exiv2 {
     }
 
     /*! 
-      Known TIFF tags
+      Special TIFF tags for the use in TIFF structures only
 
       Todo: Same Q as above...
     */
     namespace Tag {
-        const int32_t none = -1; //!< Dummy tag
-        const int32_t root = -2; //!< Special tag: root IFD
-        const int32_t next = -3; //!< Special tag: next IFD
+        const uint32_t none = 0x10000; //!< Dummy tag
+        const uint32_t root = 0x20000; //!< Special tag: root IFD
+        const uint32_t next = 0x30000; //!< Special tag: next IFD
     }
 
     /*!
-      @brief Interface class for components of a TIFF directory hierarchy.  Both
-             TIFF directories as well as entries implement this interface. This
-             class is implemented as NVI (non-virtual interface).
+      @brief Interface class for components of a TIFF directory hierarchy
+             (Composite pattern).  Both TIFF directories as well as entries
+             implement this interface.  A component can be un iquely identified
+             bya tag, group tupel.  This class is implemented as a NVI
+             (Non-Virtual Interface). It has an interface for visitors (Visitor
+             pattern).
      */
     class TiffComponent {
     public:
@@ -101,8 +105,10 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor
-        TiffComponent(uint16_t group, const TiffStructure* pTiffStructure)
-            : group_(group), pTiffStructure_(pTiffStructure) {}
+        TiffComponent(uint16_t tag, 
+                      uint16_t group, 
+                      const TiffStructure* pTiffStructure)
+            : tag_(tag), group_(group), pTiffStructure_(pTiffStructure) {}
 
         //! Virtual destructor.
         virtual ~TiffComponent() {}
@@ -128,18 +134,12 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        //*! Return the group id of this component
+        //! Return the tag of this entry.
+        uint16_t tag()   const { return tag_; }
+        //! Return the group id of this component
         uint16_t group() const { return group_; }
-        //*! Return the TIFF structure 
+        //! Return the TIFF structure 
         const TiffStructure* pTiffStructure() const { return pTiffStructure_; }
-        /*!
-          @brief Decode metadata from the component and add it to
-                 \em image.
-
-          @param image Image to add the metadata to
-          @param byteOrder Byte order
-         */
-        void decode(Image& image, ByteOrder byteOrder) const;
         /*!
           @brief Print debug info about a component to \em os.
 
@@ -150,6 +150,12 @@ namespace Exiv2 {
         void print(std::ostream& os,
                    ByteOrder byteOrder,
                    const std::string& prefix ="") const;
+        /*!
+          @brief Interface to accept visitors (Visitor pattern).
+
+          @param visitor The visitor.
+         */
+        void accept(TiffVisitor& visitor) const;
         //@}
 
     protected:
@@ -164,45 +170,43 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        //! Implements decode()
-        virtual void doDecode(Image& image,
-                              ByteOrder byteOrder) const =0;
         //! Implements print()
         virtual void doPrint(std::ostream&      os,
                              ByteOrder          byteOrder,
                              const std::string& prefix) const =0;
+
+        //! Implements accept()
+        virtual void doAccept(TiffVisitor& visitor) const =0;
         //@}
 
     private:
         // DATA
-        uint16_t group_;                //!< Group id for this component
+        uint16_t tag_;      //!< Tag that identifies the component
+        uint16_t group_;    //!< Group id for this component
         const TiffStructure* pTiffStructure_; //!< TIFF structure for this component
 
     }; // class TiffComponent
 
     /*!
-      @brief This baseclass provides the common functionality of an IFD directory entry
-             and defines the interface for derived concrete entries.
-
-             todo: make sure this class is an ABC
+      @brief This baseclass provides the common functionality of an IFD 
+             directory entry and defines the interface for derived concrete
+             entries.
      */
     class TiffEntryBase : public TiffComponent {
     public:
         //! @name Creators
         //@{
         //! Default constructor
-        TiffEntryBase() 
-            : TiffComponent(Group::none, 0), 
-              tag_(0), type_(0), count_(0), offset_(0), 
-              size_(0), pData_(0), isAllocated_(false) {}
+        TiffEntryBase(uint16_t tag, uint16_t group) 
+            : TiffComponent(tag, group, 0), 
+              type_(0), count_(0), offset_(0), 
+              size_(0), pData_(0), isAllocated_(false), pValue_(0) {}
         //! Virtual destructor.
         virtual ~TiffEntryBase();
         //@}
 
         //! @name Accessors
         //@{
-        //! Return the tag of this entry.
-        uint16_t tag()           const { return tag_; }
         //! Return the Exiv2 type which corresponds to the field type.
         TypeId   typeId()        const { return TypeId(type_); }
         //! Return the number of components in this entry.
@@ -213,34 +217,29 @@ namespace Exiv2 {
         uint32_t size()          const { return size_; }
         //! Return a pointer to the data area of this component
         const byte* pData()      const { return pData_; }
+        //! Return a pointer to the converted value of this component
+        const Value* pValue()    const { return pValue_; }
+
+        //! Print base entry
+        void printEntry(std::ostream&      os,
+                        ByteOrder          byteOrder,
+                        const std::string& prefix) const;
         //@}
 
-    protected:
         //! @name Manipulators
         //@{
-        //! Implements read().
-        virtual void doRead(const byte* pData,
-                            uint32_t    size,
-                            uint32_t    start,
-                            ByteOrder   byteOrder);
-        //@}
-
-        //! @name Accessors
-        //@{
-        //! Implements decode() for a TIFF IFD entry
-        virtual void doDecode(Image& image, ByteOrder byteOrder) const;
-        //! Implements print() for a TIFF IFD entry
-        virtual void doPrint(std::ostream&      os,
-                             ByteOrder          byteOrder,
-                             const std::string& prefix) const;
+        //! Read base entry
+        void readEntry(const byte* pData,
+                       uint32_t    size,
+                       uint32_t    start,
+                       ByteOrder   byteOrder);
         //@}
 
     private:
         // DATA
-        uint16_t tag_;    //!< Tag that identifies the field 
-        uint16_t type_;   //!< Field Type
-        uint32_t count_;  //!< The number of values of the indicated Type
-        uint32_t offset_; //!< Offset to the data area from start of the TIFF header
+        uint16_t type_;     //!< Field Type
+        uint32_t count_;    //!< The number of values of the indicated Type
+        uint32_t offset_;   //!< Offset to data area from start of TIFF header
         /*!
           Size of the data buffer holding the value in bytes, there is no
           minimum size.
@@ -248,6 +247,7 @@ namespace Exiv2 {
         uint32_t size_;
         const byte* pData_; //!< Pointer to the data area
         bool     isAllocated_; //!< True if this entry owns the value data
+        Value*   pValue_;   //!< Converted data value
 
     }; // class TiffEntryBase
 
@@ -258,6 +258,8 @@ namespace Exiv2 {
     public:
         //! @name Creators
         //@{
+        //! Constructor
+        TiffEntry(uint16_t tag, uint16_t group) : TiffEntryBase(tag, group) {}
         //! Virtual destructor.
         virtual ~TiffEntry() {}
         //@}
@@ -274,11 +276,10 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        virtual void doDecode(Image& image, ByteOrder byteOrder) const;
-        //! Implements print() for a TIFF IFD entry
         virtual void doPrint(std::ostream&      os,
                              ByteOrder          byteOrder,
                              const std::string& prefix) const;
+        virtual void doAccept(TiffVisitor& visitor) const;
         //@}
 
     }; // class TiffEntry
@@ -289,8 +290,8 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        TiffDirectory(uint16_t group, const TiffStructure* pTiffStructure) 
-            : TiffComponent(group, pTiffStructure), pNext_(0) {}
+        TiffDirectory(uint16_t tag, uint16_t group, const TiffStructure* pTiffStructure) 
+            : TiffComponent(tag, group, pTiffStructure), pNext_(0) {}
         //! Virtual destructor
         virtual ~TiffDirectory();
         //@}
@@ -306,12 +307,11 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        virtual void doDecode(Image&    image,
-                              ByteOrder byteOrder) const;
-
         virtual void doPrint(std::ostream&      os,
                              ByteOrder          byteOrder,
                              const std::string& prefix) const;
+
+        virtual void doAccept(TiffVisitor& visitor) const;
         //@}
 
     private:
@@ -327,8 +327,11 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        TiffSubIfd(uint16_t group, const TiffStructure* pTiffStructure) 
-            : ifd_(group, pTiffStructure) {}
+        TiffSubIfd(uint16_t tag, 
+                   uint16_t group, 
+                   uint16_t newGroup, 
+                   const TiffStructure* pTiffStructure)
+            : TiffEntryBase(tag, group), ifd_(tag, newGroup, pTiffStructure) {}
         //! Virtual destructor
         virtual ~TiffSubIfd() {}
         //@}
@@ -344,12 +347,11 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        virtual void doDecode(Image&    image,
-                              ByteOrder byteOrder) const;
-
         virtual void doPrint(std::ostream&      os,
                              ByteOrder          byteOrder,
                              const std::string& prefix) const;
+
+        virtual void doAccept(TiffVisitor& visitor) const;
         //@}
 
     private:
@@ -422,19 +424,71 @@ namespace Exiv2 {
       Todo: This may eventually need to also have access to the image or parse tree 
       in order to make decisions based on the value of other tags.
      */
-    typedef TiffComponent::AutoPtr (*NewTiffCompFct)(uint16_t group,
-                                                     const TiffStructure* tiffStructure);
+    typedef TiffComponent::AutoPtr (*NewTiffCompFct)(const TiffStructure* ts, int i);
 
-    /*!
-      Table describing the TIFF structure of an image format for reading and writing.
-      Different tables can be used to support different TIFF based image formats.
+    /*!  
+      This structure is meant to be used as an entry (row) of a table describing
+      the TIFF structure of an image format for reading and writing.  Different
+      tables can be used to support different TIFF based image formats.
      */
     struct TiffStructure {
-        int32_t        tag_;            //!< Tag 
+        //! Return the tag corresponding to the extended tag
+        uint16_t tag() const { return static_cast<uint16_t>(extendedTag_ & 0xffff); }
+
+        uint32_t       extendedTag_;    //!< Tag (32 bit so that it can contain special tags)
         uint16_t       group_;          //!< Group that contains the tag 
         NewTiffCompFct newTiffCompFct_; //!< Function to create the correct TIFF component
         uint16_t       newGroup_;       //!< Group of the newly created component
     };
+
+    //! Abstract base class for TIFF composite vistors (Visitor pattern)
+    class TiffVisitor {
+    public:
+        //! @name Creators
+        //@{
+        virtual ~TiffVisitor() {}
+        //@}
+
+        //! @name Manipulators
+        //@{
+        //! Decode a TIFF entry
+        virtual void visitEntry(const TiffEntry* object) =0;
+        //! Decode a TIFF directory
+        virtual void visitDirectory(const TiffDirectory* object) =0;
+        //! Decode a TIFF sub-IFD
+        virtual void visitSubIfd(const TiffSubIfd* object) =0;
+        //@}
+
+    }; // class TiffVisitor
+
+    /*!
+      TIFF composite visitor to decode metadata from the composite and add it 
+      to an Image, which is supplied in the constructor.
+     */
+    class TiffMetadataDecoder : public TiffVisitor {
+    public:
+        //! @name Creators
+        //@{
+        //! Constructor
+        TiffMetadataDecoder(Image* pImage) : pImage_(pImage) {}
+        //! Virtual destructor
+        virtual ~TiffMetadataDecoder() {}
+        //@}
+
+        //! @name Manipulators
+        //@{
+        virtual void visitEntry(const TiffEntry* object);
+        virtual void visitDirectory(const TiffDirectory* object);
+        virtual void visitSubIfd(const TiffSubIfd* object);
+        //! Decode a standard TIFF entry
+        void decodeTiffEntry(const TiffEntryBase* object);
+        //@}
+
+    private:
+        // DATA
+        Image* pImage_; //!< Pointer to the image to which the metadata is added
+
+    }; // class TiffMetadataDecoder
 
     /*!
       Stateless parser class for data in TIFF format.
@@ -448,29 +502,29 @@ namespace Exiv2 {
           This is the entry point to access image data in TIFF format. The
           parser uses classes TiffHeade2, TiffEntry, TiffDirectory.
 
-          @param pImage         Pointer to the %Exiv2 TIFF image to hold the 
-                                metadata read from the buffer.
-          @param pTiffStructure Pointer to a table describing the TIFF structure 
-                                used to decode the data.
           @param pData          Pointer to the data buffer. Must point to data 
                                 in TIFF format; no checks are performed.
           @param size           Length of the data buffer.
+          @param pTiffStructure Pointer to a table describing the TIFF structure 
+                                used to decode the data.
+          @param decoder        Reference to a TIFF visitor to decode and extract
+                                the metadata from the TIFF composite structure.
 
           @throw Error If the data buffer cannot be parsed.
         */
-        static void decode(      Image*         pImage, 
+        static void decode(const byte*          pData, 
+                                 uint32_t       size,
                            const TiffStructure* pTiffStructure,
-                           const byte*          pData, 
-                                 uint32_t       size);
+                           TiffVisitor&   decoder);
         /*!
           @brief Create the appropriate TiffComponent to handle the \em tag in 
                  \em group. 
 
           Uses table \em pTiffStructure to derive the correct component. If a
           tag, group tupel is not found in the table, a TiffEntry is created. If
-          the pointer that is returned is 0, then the tag should be ignored.
+          the pointer that is returned is 0, then the TIFF entry should be ignored.
         */
-        static TiffComponent::AutoPtr create(      int32_t        tag,
+        static TiffComponent::AutoPtr create(      uint32_t       extendedTag,
                                                    uint16_t       group,
                                              const TiffStructure* pTiffStructure);
     }; // class TiffParser
@@ -478,13 +532,11 @@ namespace Exiv2 {
 // *****************************************************************************
 // template, inline and free functions
 
-    //!< Function to create and initialize a new TIFF directory
-    TiffComponent::AutoPtr newTiffDirectory(uint16_t group,
-                                            const TiffStructure* pTiffStructure);
+    //! Function to create and initialize a new TIFF directory
+    TiffComponent::AutoPtr newTiffDirectory(const TiffStructure* ts, int i);
 
-    //!< Function to create and initialize a new TIFF sub-directory
-    TiffComponent::AutoPtr newTiffSubIfd(uint16_t group,
-                                         const TiffStructure* pTiffStructure);
+    //! Function to create and initialize a new TIFF sub-directory
+    TiffComponent::AutoPtr newTiffSubIfd(const TiffStructure* ts, int i);
 
 }                                       // namespace Exiv2
 
