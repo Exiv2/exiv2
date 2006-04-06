@@ -34,6 +34,7 @@ EXIV2_RCSID("@(#) $Id$");
 #include "image.hpp"
 #include "jpgimage.hpp"
 #include "crwimage.hpp"
+#include "tiffimage.hpp"
 
 // + standard includes
 
@@ -44,7 +45,8 @@ namespace Exiv2 {
     ImageFactory::Registry ImageFactory::registry_[] = {
         Registry(ImageType::jpeg, newJpegInstance, isJpegType),
         Registry(ImageType::exv,  newExvInstance,  isExvType),
-        Registry(ImageType::crw,  newCrwInstance,  isCrwType)
+        Registry(ImageType::crw,  newCrwInstance,  isCrwType),
+        Registry(ImageType::tiff, newTiffInstance, isTiffType)
     };
 
 }                                       // namespace Exiv2
