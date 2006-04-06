@@ -44,7 +44,7 @@ namespace Exiv2 {
 
 // *****************************************************************************
 // class declarations
-    
+
     struct TiffStructure;
 
 // *****************************************************************************
@@ -59,7 +59,7 @@ namespace Exiv2 {
     }
 
     /*!
-      @brief Class to access raw TIFF images. Only Exif metadata and a comment 
+      @brief Class to access raw TIFF images. Only Exif metadata and a comment
           are supported. TIFF format does not contain IPTC metadata.
      */
     class TiffImage : public Image {

@@ -43,10 +43,8 @@ namespace Exiv2 {
         ErrMsg( -1, "Error %0: arg1=%1, arg2=%2, arg3=%3."),
         ErrMsg(  0, "Success"),
         ErrMsg(  1, "%1"), // %1=error message
-
         ErrMsg(  2, "%1: %2 (%3)"), // %1=path, %2=strerror, %3=function that failed
-     // ErrMsg(  3, ""),
-
+        ErrMsg(  3, "This does not look like a %1 image"), // %1=Image type
         ErrMsg(  4, "Invalid dataset name `%1'"), // %1=dataset name
         ErrMsg(  5, "Invalid record name `%1'"), // %1=record name
         ErrMsg(  6, "Invalid key `%1'"), // %1=key
