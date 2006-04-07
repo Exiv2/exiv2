@@ -316,6 +316,8 @@ namespace Exiv2 {
         uint16_t tag()                        const { return tag_; }
         //! Return the group id of this component
         uint16_t group()                      const { return group_; }
+        //! Return the group name of this component
+        std::string groupName() const;
         //! Return a pointer to the start of the binary representation of the component
         const byte* start()                   const { return pData_; }
         /*!

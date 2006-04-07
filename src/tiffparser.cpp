@@ -59,6 +59,8 @@ EXIV2_RCSID("@(#) $Id$");
    Todo:
 
    + Add further child mgmt stuff to TIFF composite: remove, find
+   + Review boundary checking, is it better to check the offsets
+   + Define and implement consistent error handling for recursive hierarchy
    + Better handling of TiffStructure
    + Add Makernote support
 
@@ -87,7 +89,6 @@ namespace Exiv2 {
         if (!tiffHeader.read(pData, size) || tiffHeader.offset() >= size) {
             throw Error(3, "TIFF");
         }
-
         TiffComponent::AutoPtr rootDir
             = TiffParser::create(Tag::root, Group::none, pTiffStructure);
         if (0 == rootDir.get()) return;
@@ -98,11 +99,6 @@ namespace Exiv2 {
                           pTiffStructure);
         rootDir->setStart(pData + tiffHeader.offset());
         rootDir->accept(reader);
-
-#ifdef DEBUG
-        tiffHeader.print(std::cerr);
-        rootDir->print(std::cerr, tiffHeader.byteOrder());
-#endif
 
         rootDir->accept(decoder);
 
@@ -171,6 +167,23 @@ namespace Exiv2 {
 
         return true;
     } // TiffHeade2::read
+
+    std::string TiffComponent::groupName() const
+    {
+        // Todo: This mapping should be a table and it belongs somewhere else
+        //       Possibly the whole function shouldn't be in this class...
+        std::string group;
+        switch (group_) {
+        case 1: group = "Image"; break;
+        case 2: group = "Thumbnail"; break;
+        case 3: group = "Photo"; break;
+        case 4: group = "GPSInfo"; break;
+        case 5: group = "Iop"; break;
+        default: group = "Unknown"; break;
+        }
+
+        return group;
+    }
 
     void TiffComponent::addChild(TiffComponent::AutoPtr tiffComponent)
     {
@@ -254,8 +267,9 @@ namespace Exiv2 {
                                 ByteOrder          byteOrder,
                                 const std::string& prefix) const
     {
-        os << prefix << "Directory " << group()
-           << " with " << components_.size() << " entries.\n";
+        os << prefix << groupName() << " directory with " 
+           << std::dec << components_.size()
+           << (components_.size() == 1 ? " entry:\n" : " entries:\n");
         Components::const_iterator b = components_.begin();
         Components::const_iterator e = components_.end();
         for (Components::const_iterator i = b; i != e; ++i) {
@@ -329,18 +343,9 @@ namespace Exiv2 {
     {
         assert(object != 0);
 
-        // Todo: ExifKey should have an appropriate c'tor, this mapping should
-        //       be a table and it belongs somewhere else
-        std::string group;
-        switch (object->group()) {
-        case 1: group = "Image"; break;
-        case 2: group = "Thumbnail"; break;
-        case 3: group = "Photo"; break;
-        case 4: group = "GPSInfo"; break;
-        case 5: group = "Iop"; break;
-        }
-
-        ExifKey k(object->tag(), group);
+        // Todo: ExifKey should have an appropriate c'tor, it should not be 
+        //       necessary to use groupName here
+        ExifKey k(object->tag(), object->groupName());
         assert(pImage_ != 0);
         pImage_->exifData().add(k, object->pValue());
     } // TiffMetadataDecoder::decodeTiffEntry
@@ -375,19 +380,18 @@ namespace Exiv2 {
         if (p + 2 > pLast_) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Error: "
-                      << "Directory " << object->group() << ": " // todo: ExifTags::ifdName(ifdId_)
+                      << "Directory " << object->groupName() << ": "
                       << " IFD exceeds data buffer, cannot read entry count.\n";
 #endif
             return;
         }
         const uint16_t n = getUShort(p, byteOrder_);
         p += 2;
-
         for (uint16_t i = 0; i < n; ++i) {
             if (p + 12 > pLast_) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Error: "
-                          << "Directory " << object->group() << ": " // todo: ExifTags::ifdName(ifdId_)
+                          << "Directory " << object->groupName() << ": "
                           << " IFD entry " << i
                           << " lies outside of the data buffer.\n";
 #endif
@@ -398,14 +402,13 @@ namespace Exiv2 {
                 = TiffParser::create(tag, object->group(), pTiffStructure_);
             tc->setStart(p);
             object->addChild(tc);
-
             p += 12;
         }
 
         if (p + 4 > pLast_) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Error: "
-                          << "Directory " << object->group() << ": " // todo: ExifTags::ifdName(ifdId_)
+                          << "Directory " << object->groupName() << ": "
                           << " IFD exceeds data buffer, cannot read next pointer.\n";
 #endif
                 return;
@@ -414,7 +417,15 @@ namespace Exiv2 {
         if (next) {
             TiffComponent::AutoPtr tc
                 = TiffParser::create(Tag::next, object->group(), pTiffStructure_);
-            tc->setStart(p);
+            if (next > size_) {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Error: "
+                          << "Directory " << object->groupName() << ": "
+                          << " Next pointer is out of bounds.\n";
+#endif
+                return;
+            }
+            tc->setStart(pData_ + next);
             object->addNext(tc);
         }
 
@@ -427,13 +438,23 @@ namespace Exiv2 {
         readTiffEntry(object);
         if (object->typeId() == unsignedLong && object->count() >= 1) {
             uint32_t offset = getULong(object->pData(), byteOrder_);
+            if (offset > size_) {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Error: "
+                          << "Directory " << object->groupName()
+                          << ", entry 0x" << std::setw(4)
+                          << std::setfill('0') << std::hex << object->tag()
+                          << " Sub-IFD pointer is out of bounds; ignoring it.\n";
+#endif
+                return;
+            }
             object->ifd_.setStart(pData_ + offset);
         }
 #ifndef SUPPRESS_WARNINGS
         else {
             std::cerr << "Warning: "
-                      << "Directory " << object->group() << ", " // todo: ExifTags::ifdName(ifdId_)
-                      << " entry 0x" << std::setw(4)
+                      << "Directory " << object->groupName()
+                      << ", entry 0x" << std::setw(4)
                       << std::setfill('0') << std::hex << object->tag()
                       << " doesn't look like a sub-IFD.";
         }
@@ -450,7 +471,7 @@ namespace Exiv2 {
 
         if (p + 12 > pLast_) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Error: Entry in directory " << object->group() // todo: ExifTags::ifdName(ifdId_)
+            std::cerr << "Error: Entry in directory " << object->groupName()
                       << "requests access to memory beyond the data buffer. "
                       << "Skipping entry.\n";
 #endif
@@ -463,19 +484,35 @@ namespace Exiv2 {
         p += 2;
         object->count_ = getULong(p, byteOrder_);
         p += 4;
-        object->offset_ = getULong(p, byteOrder_);
         object->size_ = TypeInfo::typeSize(object->typeId()) * object->count();
+        object->offset_ = getULong(p, byteOrder_);
         object->pData_ = p;
         if (object->size() > 4) {
+            if (object->offset() >= size_) {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Error: Offset of "
+                          << "directory " << object->groupName() << ", "
+                          << " entry 0x" << std::setw(4)
+                          << std::setfill('0') << std::hex << object->tag()
+                          << " is out of bounds:\n"
+                          << "Offset = 0x" << std::setw(8)
+                          << std::setfill('0') << std::hex << object->offset()
+                          << "; truncating the entry\n";
+#endif
+                object->size_ = 0;
+                object->count_ = 0;
+                object->offset_ = 0;
+                return;
+            }
             object->pData_ = pData_ + object->offset();
             if (object->pData() + object->size() > pLast_) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Warning: Upper boundary of data for "
-                          << "directory " << object->group() << ", " // todo: ExifTags::ifdName(ifdId_)
+                          << "directory " << object->groupName() << ", "
                           << " entry 0x" << std::setw(4)
                           << std::setfill('0') << std::hex << object->tag()
                           << " is out of bounds:\n"
-                          << " Offset = 0x" << std::setw(8)
+                          << "Offset = 0x" << std::setw(8)
                           << std::setfill('0') << std::hex << object->offset()
                           << ", size = " << std::dec << object->size()
                           << ", exceeds buffer size by "
