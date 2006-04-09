@@ -210,7 +210,7 @@ namespace Exiv2 {
 
     bool isTiffType(BasicIo& iIo, bool advance)
     {
-        const uint32_t len = 8;
+        const int32_t len = 8;
         byte buf[len];
         iIo.read(buf, len);
         if (iIo.error() || iIo.eof()) {
