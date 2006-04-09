@@ -353,6 +353,36 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\src\tiffimage.cpp">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\tiffparser.cpp">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\src\types.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -455,6 +485,12 @@
 			</File>
 			<File
 				RelativePath="..\..\src\tags.hpp">
+			</File>
+			<File
+				RelativePath="..\..\src\tiffimage.hpp">
+			</File>
+			<File
+				RelativePath="..\..\src\tiffparser.hpp">
 			</File>
 			<File
 				RelativePath="..\..\src\types.hpp">

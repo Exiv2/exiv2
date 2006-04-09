@@ -268,8 +268,10 @@ namespace Exiv2 {
                                 const std::string& prefix) const
     {
         os << prefix << groupName() << " directory with " 
-           << std::dec << components_.size()
-           << (components_.size() == 1 ? " entry:\n" : " entries:\n");
+        // cast to make MSVC happy
+           << std::dec << static_cast<unsigned int>(components_.size());
+        if (components_.size() == 1) os << " entry:\n";
+        else os << " entries:\n";
         Components::const_iterator b = components_.begin();
         Components::const_iterator e = components_.end();
         for (Components::const_iterator i = b; i != e; ++i) {
@@ -516,7 +518,8 @@ namespace Exiv2 {
                           << std::setfill('0') << std::hex << object->offset()
                           << ", size = " << std::dec << object->size()
                           << ", exceeds buffer size by "
-                          << object->pData() + object->size() - pLast_
+                // cast to make MSVC happy
+                          << static_cast<uint32_t>(object->pData() + object->size() - pLast_)
                           << " Bytes; adjusting the size\n";
 #endif
                 object->size_ = size_ - object->offset();
