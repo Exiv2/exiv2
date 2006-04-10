@@ -55,16 +55,6 @@ EXIV2_RCSID("@(#) $Id$");
 // class member definitions
 namespace Exiv2 {
 
-    const TiffStructure TiffImage::tiffStructure_[] = {
-        { Tag::root, Group::none, newTiffDirectory, Group::ifd0 },
-        {    0x8769, Group::ifd0, newTiffSubIfd,    Group::exif },
-        {    0x8825, Group::ifd0, newTiffSubIfd,    Group::gps  },
-        {    0xa005, Group::exif, newTiffSubIfd,    Group::iop  },
-        { Tag::next, Group::ifd0, newTiffDirectory, Group::ifd0 },
-        // End of list marker
-        { Tag::none, Group::none, 0, Group::none }
-    };
-
     TiffImage::TiffImage(BasicIo::AutoPtr io, bool create)
         : Image(mdExif | mdComment), io_(io)
     {
@@ -145,8 +135,7 @@ namespace Exiv2 {
         io_->read(buf.pData_, len);
         if (io_->error() || io_->eof()) throw Error(14);
 
-        TiffMetadataDecoder decoder(this);
-        TiffParser::decode(buf.pData_, buf.size_, tiffStructure_, decoder);
+        TiffParser<TiffCreator>::decode(this, buf.pData_, buf.size_);
     } // TiffImage::readMetadata
 
     void TiffImage::writeMetadata()

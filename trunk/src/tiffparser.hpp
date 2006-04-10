@@ -31,16 +31,18 @@
 
 // *****************************************************************************
 // included header files
+#include "image.hpp"
 #include "exif.hpp"
 #include "iptc.hpp"
-#include "image.hpp"
 #include "types.hpp"
+#include "error.hpp"
 
 // + standard includes
 #include <iostream>
-#include <iosfwd>
+#include <iomanip>
 #include <string>
 #include <vector>
+#include <cassert>
 
 // *****************************************************************************
 // namespace extensions
@@ -219,9 +221,11 @@ namespace Exiv2 {
     /*!
       @brief TIFF composite visitor to read the TIFF structure from a block of
              memory and build the composite from it (Visitor pattern). Used by
-             TiffParser to read the TIFF data from a block of memory.
+             TiffParser to read the TIFF data from a block of memory. Uses
+             the policy class CreationPolicy for the creation of TIFF components.
      */
-    class TiffReader : public TiffVisitor {
+    template<typename CreationPolicy>
+    class TiffReader : public TiffVisitor, public CreationPolicy {
     public:
         //! @name Creators
         //@{
@@ -231,13 +235,10 @@ namespace Exiv2 {
           @param pData     Pointer to the data buffer, starting with a TIFF header.
           @param size      Number of bytes in the data buffer.
           @param byteOrder Applicable byte order (little or big endian).
-          @param pTiffStructure Pointer to a table describing the TIFF structure
-                           used to decode the data.
          */
         TiffReader(const byte* pData,
                    uint32_t    size,
-                   ByteOrder   byteOrder,
-                   const TiffStructure* pTiffStructure);
+                   ByteOrder   byteOrder);
 
         //! Virtual destructor
         virtual ~TiffReader() {}
@@ -261,7 +262,6 @@ namespace Exiv2 {
         const uint32_t size_;                   //!< Size of the buffer
         const byte* pLast_;                     //!< Pointer to the last byte
         const ByteOrder byteOrder_;             //!< Byteorder for the image
-        const TiffStructure* pTiffStructure_;   //!< Pointer to the TIFF structure
 
     }; // class TiffReader
 
@@ -372,7 +372,8 @@ namespace Exiv2 {
              entry.
      */
     class TiffEntryBase : public TiffComponent {
-        friend void TiffReader::readTiffEntry(TiffEntryBase* object);
+        template<typename CreationPolicy>
+        friend void TiffReader<CreationPolicy>::readTiffEntry(TiffEntryBase* object);
     public:
         //! @name Creators
         //@{
@@ -497,7 +498,8 @@ namespace Exiv2 {
              GPS tags.
      */
     class TiffSubIfd : public TiffEntryBase {
-        friend void TiffReader::visitSubIfd(TiffSubIfd* object);
+        template<typename CreationPolicy>
+        friend void TiffReader<CreationPolicy>::visitSubIfd(TiffSubIfd* object);
     public:
         //! @name Creators
         //@{
@@ -552,47 +554,67 @@ namespace Exiv2 {
         uint16_t       group_;          //!< Group that contains the tag
         NewTiffCompFct newTiffCompFct_; //!< Function to create the correct TIFF component
         uint16_t       newGroup_;       //!< Group of the newly created component
+
+        struct Key;
+        //! Comparison operator to compare a TiffStructure with a TiffStructure::Key
+        bool operator==(const Key& key) const;
+    };
+
+    //! Search key for TIFF structure.
+    struct TiffStructure::Key {
+        //! Constructor
+        Key(uint32_t e, uint16_t g) : e_(e), g_(g) {}
+        uint32_t e_;                    //!< Extended tag
+        uint16_t g_;                    //!< %Group
     };
 
     /*!
-      @brief Stateless parser class for data in TIFF format. Images use this
-             class to decode and encode TIFF-based data.
+      @brief TIFF component factory for standard TIFF components. This class is
+             meant to be used as a policy class.
      */
-    class TiffParser {
+    class TiffCreator {
+    public:
+        /*!
+          @brief Create the TiffComponent for TIFF entry \em extendedTag and 
+                 \em group based on the embedded lookup table.
+
+          If a tag and group combination is not found in the table, a TiffEntry
+          is created.  If the pointer that is returned is 0, then the TIFF entry
+          should be ignored.
+        */
+        static TiffComponent::AutoPtr create(uint32_t extendedTag,
+                                             uint16_t group);
+    protected:
+        //! Prevent destruction
+        ~TiffCreator() {}
+    private:
+        static const TiffStructure tiffStructure_[]; //<! TIFF structure
+    }; // class TiffCreator
+
+    /*!
+      @brief Stateless parser class for data in TIFF format. Images use this
+             class to decode and encode TIFF-based data. Uses class 
+             CreationPolicy for the creation of TIFF components.
+     */
+    template<typename CreationPolicy>
+    class TiffParser : public CreationPolicy {
     public:
         /*!
           @brief Decode TIFF metadata from a data buffer \em pData of length
-                 \em size into \em image.
+                 \em size into \em pImage.
 
           This is the entry point to access image data in TIFF format. The
           parser uses classes TiffHeade2 and the TiffComponent and TiffVisitor
           hierarchies.
 
+          @param pImage         Pointer to the image to hold the metadata
           @param pData          Pointer to the data buffer. Must point to data
                                 in TIFF format; no checks are performed.
           @param size           Length of the data buffer.
-          @param pTiffStructure Pointer to a table describing the TIFF structure
-                                used to decode the data.
-          @param decoder        Reference to a TIFF visitor to decode and extract
-                                the metadata from the TIFF composite structure.
-
-          @throw Error If the data buffer cannot be parsed.
         */
-        static void decode(const byte*          pData,
-                                 uint32_t       size,
-                           const TiffStructure* pTiffStructure,
-                           TiffVisitor&   decoder);
-        /*!
-          @brief Create the TiffComponent for TIFF entry \em tag in \em group
-                 based on the lookup list \em pTiffStructure.
-
-          If a tag, group tupel is not found in the table, a TiffEntry is
-          created.  If the pointer that is returned is 0, then the TIFF entry
-          should be ignored.
-        */
-        static TiffComponent::AutoPtr create(      uint32_t       extendedTag,
-                                                   uint16_t       group,
-                                             const TiffStructure* pTiffStructure);
+        static void decode(      Image*         pImage,
+                           const byte*          pData,
+                                 uint32_t       size);
     }; // class TiffParser
 
 // *****************************************************************************
@@ -603,6 +625,215 @@ namespace Exiv2 {
 
     //! Function to create and initialize a new TIFF sub-directory
     TiffComponent::AutoPtr newTiffSubIfd(const TiffStructure* ts);
+
+    template<typename CreationPolicy>
+    void TiffParser<CreationPolicy>::decode(Image* pImage,
+                                            const byte* pData,
+                                            uint32_t size)
+    {
+        assert(pImage != 0);
+        assert(pData != 0);
+
+        TiffHeade2 tiffHeader;
+        if (!tiffHeader.read(pData, size) || tiffHeader.offset() >= size) {
+            throw Error(3, "TIFF");
+        }
+        TiffComponent::AutoPtr rootDir = CreationPolicy::create(Tag::root, 
+                                                                Group::none);
+        if (0 == rootDir.get()) return;
+        rootDir->setStart(pData + tiffHeader.offset());
+
+        TiffReader<CreationPolicy> reader(pData,
+                                          size,
+                                          tiffHeader.byteOrder());
+        rootDir->accept(reader);
+
+        TiffMetadataDecoder decoder(pImage);
+        rootDir->accept(decoder);
+
+    } // TiffParser::decode
+
+    template<typename CreationPolicy>
+    TiffReader<CreationPolicy>::TiffReader(const byte* pData,
+                                           uint32_t    size,
+                                           ByteOrder   byteOrder)
+        : pData_(pData),
+          size_(size),
+          pLast_(pData + size - 1),
+          byteOrder_(byteOrder)
+    {
+        assert(pData);
+        assert(size > 0);
+    } // TiffReader::TiffReader
+
+    template<typename CreationPolicy>
+    void TiffReader<CreationPolicy>::visitEntry(TiffEntry* object)
+    {
+        readTiffEntry(object);
+    }
+
+    template<typename CreationPolicy>
+    void TiffReader<CreationPolicy>::visitDirectory(TiffDirectory* object)
+    {
+        assert(object != 0);
+
+        byte* p = const_cast<byte*>(object->start());
+        assert(p >= pData_);
+
+        if (p + 2 > pLast_) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Error: "
+                      << "Directory " << object->groupName() << ": "
+                      << " IFD exceeds data buffer, cannot read entry count.\n";
+#endif
+            return;
+        }
+        const uint16_t n = getUShort(p, byteOrder_);
+        p += 2;
+        for (uint16_t i = 0; i < n; ++i) {
+            if (p + 12 > pLast_) {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Error: "
+                          << "Directory " << object->groupName() << ": "
+                          << " IFD entry " << i
+                          << " lies outside of the data buffer.\n";
+#endif
+                return;
+            }
+            uint16_t tag = getUShort(p, byteOrder_);
+            TiffComponent::AutoPtr tc = CreationPolicy::create(tag, object->group());
+            tc->setStart(p);
+            object->addChild(tc);
+            p += 12;
+        }
+
+        if (p + 4 > pLast_) {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Error: "
+                          << "Directory " << object->groupName() << ": "
+                          << " IFD exceeds data buffer, cannot read next pointer.\n";
+#endif
+                return;
+        }
+        uint32_t next = getLong(p, byteOrder_);
+        if (next) {
+            TiffComponent::AutoPtr tc = CreationPolicy::create(Tag::next, object->group());
+            if (next > size_) {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Error: "
+                          << "Directory " << object->groupName() << ": "
+                          << " Next pointer is out of bounds.\n";
+#endif
+                return;
+            }
+            tc->setStart(pData_ + next);
+            object->addNext(tc);
+        }
+
+    } // TiffReader::visitDirectory
+
+    template<typename CreationPolicy>
+    void TiffReader<CreationPolicy>::visitSubIfd(TiffSubIfd* object)
+    {
+        assert(object != 0);
+
+        readTiffEntry(object);
+        if (object->typeId() == unsignedLong && object->count() >= 1) {
+            uint32_t offset = getULong(object->pData(), byteOrder_);
+            if (offset > size_) {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Error: "
+                          << "Directory " << object->groupName()
+                          << ", entry 0x" << std::setw(4)
+                          << std::setfill('0') << std::hex << object->tag()
+                          << " Sub-IFD pointer is out of bounds; ignoring it.\n";
+#endif
+                return;
+            }
+            object->ifd_.setStart(pData_ + offset);
+        }
+#ifndef SUPPRESS_WARNINGS
+        else {
+            std::cerr << "Warning: "
+                      << "Directory " << object->groupName()
+                      << ", entry 0x" << std::setw(4)
+                      << std::setfill('0') << std::hex << object->tag()
+                      << " doesn't look like a sub-IFD.";
+        }
+#endif
+
+    } // TiffReader::visitSubIfd
+
+    template<typename CreationPolicy>
+    void TiffReader<CreationPolicy>::readTiffEntry(TiffEntryBase* object)
+    {
+        assert(object != 0);
+
+        byte* p = const_cast<byte*>(object->start());
+        assert(p >= pData_);
+
+        if (p + 12 > pLast_) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Error: Entry in directory " << object->groupName()
+                      << "requests access to memory beyond the data buffer. "
+                      << "Skipping entry.\n";
+#endif
+            return;
+        }
+        // Component already has tag
+        p += 2;
+        object->type_ = getUShort(p, byteOrder_);
+        // todo: check type
+        p += 2;
+        object->count_ = getULong(p, byteOrder_);
+        p += 4;
+        object->size_ = TypeInfo::typeSize(object->typeId()) * object->count();
+        object->offset_ = getULong(p, byteOrder_);
+        object->pData_ = p;
+        if (object->size() > 4) {
+            if (object->offset() >= size_) {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Error: Offset of "
+                          << "directory " << object->groupName() << ", "
+                          << " entry 0x" << std::setw(4)
+                          << std::setfill('0') << std::hex << object->tag()
+                          << " is out of bounds:\n"
+                          << "Offset = 0x" << std::setw(8)
+                          << std::setfill('0') << std::hex << object->offset()
+                          << "; truncating the entry\n";
+#endif
+                object->size_ = 0;
+                object->count_ = 0;
+                object->offset_ = 0;
+                return;
+            }
+            object->pData_ = pData_ + object->offset();
+            if (object->pData() + object->size() > pLast_) {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Warning: Upper boundary of data for "
+                          << "directory " << object->groupName() << ", "
+                          << " entry 0x" << std::setw(4)
+                          << std::setfill('0') << std::hex << object->tag()
+                          << " is out of bounds:\n"
+                          << "Offset = 0x" << std::setw(8)
+                          << std::setfill('0') << std::hex << object->offset()
+                          << ", size = " << std::dec << object->size()
+                          << ", exceeds buffer size by "
+                // cast to make MSVC happy
+                          << static_cast<uint32_t>(object->pData() + object->size() - pLast_)
+                          << " Bytes; adjusting the size\n";
+#endif
+                object->size_ = size_ - object->offset();
+                // todo: adjust count_, make size_ a multiple of typeSize
+            }
+        }
+        Value::AutoPtr v = Value::create(object->typeId());
+        if (v.get()) {
+            v->read(object->pData(), object->size(), byteOrder_);
+            object->pValue_ = v.release();
+        }
+
+    } // TiffReader::readTiffEntry
 
 }                                       // namespace Exiv2
 

@@ -43,14 +43,6 @@
 namespace Exiv2 {
 
 // *****************************************************************************
-// class declarations
-
-    struct TiffStructure;
-
-// *****************************************************************************
-// type definitions
-
-// *****************************************************************************
 // class definitions
 
     // Add TIFF to the supported image formats
@@ -166,8 +158,6 @@ namespace Exiv2 {
         ExifData          exifData_;            //!< Exif data container
         IptcData          iptcData_;            //!< IPTC data container
         std::string       comment_;             //!< User comment
-
-        static const TiffStructure tiffStructure_[]; //<! TIFF structure
 
     }; // class TiffImage
 
