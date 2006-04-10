@@ -36,28 +36,14 @@ try {
     io.read(buf.pData_, len);
     if (io.error() || io.eof()) throw Error(14);
 
-    const TiffStructure tiffStructure[] = {
-        { Tag::root, Group::none, newTiffDirectory, Group::ifd0 },
-        {    0x8769, Group::ifd0, newTiffSubIfd,    Group::exif },
-        {    0x8825, Group::ifd0, newTiffSubIfd,    Group::gps  },
-        {    0xa005, Group::exif, newTiffSubIfd,    Group::iop  },
-        { Tag::next, Group::ifd0, newTiffDirectory, Group::ifd0 },
-        // End of list marker
-        { Tag::none, Group::none, 0, Group::none }
-    };
-
     TiffHeade2 tiffHeader;
     if (!tiffHeader.read(buf.pData_, buf.size_)) throw Error(3, "TIFF");
 
-    TiffComponent::AutoPtr rootDir
-        = TiffParser::create(Tag::root, Group::none, tiffStructure);
+    TiffComponent::AutoPtr rootDir = TiffCreator::create(Tag::root, Group::none);
     if (0 == rootDir.get()) {
         throw Error(1, "No root element defined in TIFF structure");
     }
-    TiffReader reader(buf.pData_,
-                      buf.size_,
-                      tiffHeader.byteOrder(),
-                      tiffStructure);
+    TiffReader<TiffCreator> reader(buf.pData_, buf.size_, tiffHeader.byteOrder());
 
     rootDir->setStart(buf.pData_ + tiffHeader.offset());
     rootDir->accept(reader);
