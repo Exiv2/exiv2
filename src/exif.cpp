@@ -465,6 +465,8 @@ namespace Exiv2 {
 
     int ExifData::load(const byte* buf, long len)
     {
+        if (!buf || len == 0) return -1;
+
         // Copy the data buffer
         delete[] pData_;
         pData_ = new byte[len];

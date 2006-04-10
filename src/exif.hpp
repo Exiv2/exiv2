@@ -502,7 +502,8 @@ namespace Exiv2 {
         ExifData& operator=(const ExifData& rhs);
         /*!
           @brief Load the Exif data from a byte buffer. The data buffer
-                 must start with the TIFF header.
+                 must start with the TIFF header. This method is deprecated.
+                 Use ImageFactory::open() instead.
           @param buf Pointer to the data buffer to read from
           @param len Number of bytes in the data buffer
           @return 0 if successful.
