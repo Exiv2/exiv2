@@ -43,13 +43,17 @@ try {
     if (0 == rootDir.get()) {
         throw Error(1, "No root element defined in TIFF structure");
     }
-    TiffReader<TiffCreator> reader(buf.pData_, buf.size_, tiffHeader.byteOrder());
 
     rootDir->setStart(buf.pData_ + tiffHeader.offset());
+    TiffReader<TiffCreator> reader(buf.pData_, 
+                                   buf.size_, 
+                                   tiffHeader.byteOrder(), 
+                                   rootDir.get());
     rootDir->accept(reader);
 
     tiffHeader.print(std::cerr);
-    rootDir->print(std::cerr, tiffHeader.byteOrder());
+    TiffPrinter tiffPrinter(std::cerr);
+    rootDir->accept(tiffPrinter);
 
     return 0;
 }
