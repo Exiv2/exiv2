@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2006 Andreas Huggel <ahuggel@gmx.net>
+ * Copyright (C) 2005, 2006 Andreas Huggel <ahuggel@gmx.net>
  *
  * This program is part of the Exiv2 distribution.
  *
@@ -19,73 +19,50 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*
-  File:      makernote2.cpp
+  File:      mnreg.cpp
   Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:   11-Apr-06, ahu: created
+  History:   15-Apr-06, ahu: created
+
  */
 // *****************************************************************************
 #include "rcsid.hpp"
 EXIV2_RCSID("@(#) $Id$");
 
-// Define DEBUG to output debug information to std::cerr, e.g, by calling make
-// like this: make DEFS=-DDEBUG makernote2.o
-//#define DEBUG
-
 // *****************************************************************************
 // included header files
-#ifdef _MSC_VER
-# include "exv_msvc.h"
-#else
-# include "exv_conf.h"
-#endif
-
 #include "makernote2.hpp"
-#include "tiffcomposite.hpp"
-#include "tiffvisitor.hpp"
+#include "olympusmn2.hpp"
 
 // + standard includes
-#include <string>
 
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
 
-    bool TiffMnRegistry::operator==(const TiffMnRegistry::Key& key) const
-    {
-        std::string make(make_);
-        return make == key.make_.substr(0, make.length());
-    }
+    const TiffMnRegistry TiffMnCreator::registry_[] = {
+        { "OLYMPUS", newOlympusMn, Group::olympmn }
+    };
 
-    bool TiffIfdMakernote::readHeader(const byte* pData, uint32_t size)
-    {
-        return doReadHeader(pData, size);
-    }
 
-    bool TiffIfdMakernote::checkHeader() const
+    // The find template needs to be in the same compilation unit as the array
+    TiffComponent* TiffMnCreator::create(uint16_t    tag,
+                                         uint16_t    group,
+                                         std::string make,
+                                         const byte* pData,
+                                         uint32_t    size,
+                                         ByteOrder   byteOrder)
     {
-        return doCheckHeader();
-    }
+        TiffComponent* tc = 0;
+        const TiffMnRegistry* tmr = find(registry_, TiffMnRegistry::Key(make));
+        if (tmr) tc = tmr->newMnFct_(tag, 
+                                     group, 
+                                     tmr->mnGroup_,
+                                     pData,
+                                     size,
+                                     byteOrder);
+        return tc;
+    } // TiffMnCreator::create
 
-    uint32_t TiffIfdMakernote::ifdOffset() const
-    {
-        return doIfdOffset();
-    }
-
-    void TiffIfdMakernote::doAddChild(TiffComponent::AutoPtr tiffComponent)
-    {
-        ifd_.addChild(tiffComponent);
-    }
-
-    void TiffIfdMakernote::doAddNext(TiffComponent::AutoPtr tiffComponent)
-    {
-        ifd_.addNext(tiffComponent);
-    }
-
-    void TiffIfdMakernote::doAccept(TiffVisitor& visitor)
-    {
-        visitor.visitIfdMakernote(this);
-        ifd_.accept(visitor);
-    }
 
 }                                       // namespace Exiv2

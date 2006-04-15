@@ -50,8 +50,8 @@ namespace Exiv2 {
     class TiffEntry;
     class TiffDirectory;
     class TiffSubIfd;
-    class TiffMakernote;
-    class TiffOlympusMn;
+    class TiffMnEntry;
+    class TiffIfdMakernote;
     class Image;
 
 // *****************************************************************************
@@ -103,9 +103,9 @@ namespace Exiv2 {
         //! Operation to perform for a TIFF sub-IFD
         virtual void visitSubIfd(TiffSubIfd* object) =0;
         //! Operation to perform for the makernote component
-        virtual void visitMakernote(TiffMakernote* object) =0;
-        //! Operation to perform for an Olympus makernote
-        virtual void visitOlympusMn(TiffOlympusMn* object) =0;
+        virtual void visitMnEntry(TiffMnEntry* object) =0;
+        //! Operation to perform for an IFD makernote
+        virtual void visitIfdMakernote(TiffIfdMakernote* object) =0;
         //@}
 
         //! @name Accessors
@@ -145,9 +145,9 @@ namespace Exiv2 {
         //! Find tag and group in a TIFF sub-IFD
         virtual void visitSubIfd(TiffSubIfd* object);
         //! Find tag and group in a TIFF makernote
-        virtual void visitMakernote(TiffMakernote* object);
-        //! Find tag and group in an Olympus makernote
-        virtual void visitOlympusMn(TiffOlympusMn* object);
+        virtual void visitMnEntry(TiffMnEntry* object);
+        //! Find tag and group in an IFD makernote
+        virtual void visitIfdMakernote(TiffIfdMakernote* object);
 
         //! Check if \em object matches \em tag and \em group
         void findObject(TiffComponent* object);
@@ -195,9 +195,9 @@ namespace Exiv2 {
         //! Decode a TIFF sub-IFD
         virtual void visitSubIfd(TiffSubIfd* object);
         //! Decode a TIFF makernote
-        virtual void visitMakernote(TiffMakernote* object);
-        //! Decode an Olympus makernote
-        virtual void visitOlympusMn(TiffOlympusMn* object);
+        virtual void visitMnEntry(TiffMnEntry* object);
+        //! Decode an IFD makernote
+        virtual void visitIfdMakernote(TiffIfdMakernote* object);
 
         //! Decode a standard TIFF entry
         void decodeTiffEntry(const TiffEntryBase* object);
@@ -246,9 +246,9 @@ namespace Exiv2 {
         //! Read a TIFF sub-IFD from the data buffer
         virtual void visitSubIfd(TiffSubIfd* object);
         //! Read a TIFF makernote entry from the data buffer
-        virtual void visitMakernote(TiffMakernote* object);
-        //! Read an Olympus makernote from the data buffer
-        virtual void visitOlympusMn(TiffOlympusMn* object);
+        virtual void visitMnEntry(TiffMnEntry* object);
+        //! Read an IFD makernote from the data buffer
+        virtual void visitIfdMakernote(TiffIfdMakernote* object);
 
         //! Read a standard TIFF entry from the data buffer
         void readTiffEntry(TiffEntryBase* object);
@@ -292,9 +292,9 @@ namespace Exiv2 {
         //! Print a TIFF sub-IFD
         virtual void visitSubIfd(TiffSubIfd* object);
         //! Print a TIFF makernote
-        virtual void visitMakernote(TiffMakernote* object);
-        //! Print an Olympus makernote
-        virtual void visitOlympusMn(TiffOlympusMn* object);
+        virtual void visitMnEntry(TiffMnEntry* object);
+        //! Print an IFD makernote
+        virtual void visitIfdMakernote(TiffIfdMakernote* object);
 
         //! Increment the indent by one level
         void incIndent();

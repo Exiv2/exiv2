@@ -83,12 +83,12 @@ namespace Exiv2 {
         findObject(object);
     }
 
-    void TiffFinder::visitMakernote(TiffMakernote* object)
+    void TiffFinder::visitMnEntry(TiffMnEntry* object)
     {
         findObject(object);
     }
 
-    void TiffFinder::visitOlympusMn(TiffOlympusMn* object)
+    void TiffFinder::visitIfdMakernote(TiffIfdMakernote* object)
     {
         findObject(object);
     }
@@ -108,12 +108,12 @@ namespace Exiv2 {
         decodeTiffEntry(object);
     }
 
-    void TiffMetadataDecoder::visitMakernote(TiffMakernote* object)
+    void TiffMetadataDecoder::visitMnEntry(TiffMnEntry* object)
     {
         if (!object->mn_) decodeTiffEntry(object);
     }
 
-    void TiffMetadataDecoder::visitOlympusMn(TiffOlympusMn* object)
+    void TiffMetadataDecoder::visitIfdMakernote(TiffIfdMakernote* object)
     {
         // Nothing to do
     }
@@ -179,16 +179,16 @@ namespace Exiv2 {
         printTiffEntry(object);
     } // TiffPrinter::visitSubIfd
 
-    void TiffPrinter::visitMakernote(TiffMakernote* object)
+    void TiffPrinter::visitMnEntry(TiffMnEntry* object)
     {
         if (!object->mn_) printTiffEntry(object, prefix());
         else os_ << prefix() << "Makernote ";
-    } // TiffPrinter::visitMakernote
+    } // TiffPrinter::visitMnEntry
 
-    void TiffPrinter::visitOlympusMn(TiffOlympusMn* object)
+    void TiffPrinter::visitIfdMakernote(TiffIfdMakernote* object)
     {
-        os_ << prefix() << "Todo: Olympus Makernote header\n";
-    } // TiffPrinter::visitOlympusMn
+        os_ << prefix() << "Todo: Print IFD makernote header\n";
+    } // TiffPrinter::visitIfdMakernote
 
     void TiffPrinter::printTiffEntry(TiffEntryBase* object,
                                      const std::string& px) const

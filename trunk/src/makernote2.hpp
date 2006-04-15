@@ -44,35 +44,38 @@ namespace Exiv2 {
 // *****************************************************************************
 // class declarations
 
-    class TiffComponent;
     template<typename CreationPolicy> class TiffReader;
 
 // *****************************************************************************
 // class definitions
 
-    namespace Group {
-        const uint16_t olympmn = 257; //!< Olympus makernote
-    }
-
     //! Type for a pointer to a function creating a makernote
     typedef TiffComponent* (*NewMnFct)(uint16_t    tag,
                                        uint16_t    group,
+                                       uint16_t    mnGroup,
                                        const byte* pData, 
                                        uint32_t    size, 
                                        ByteOrder   byteOrder);
 
-    //! Makernote registry
+    //! Makernote registry structure
     struct TiffMnRegistry {
         struct Key;
-        //! Compare a TiffMnRegistry structure with a TiffMnRegistry::Key
+        /*!
+          @brief Compare a TiffMnRegistry structure with a TiffMnRegistry::Key
+                 The two are equal if TiffMnRegistry::make_ equals a substring
+                 of the key of the same size. E.g., registry = "OLYMPUS",
+                 key = "OLYMPUS OPTICAL CO.,LTD" (found in the makernote of 
+                 the image) match.
+         */
         bool operator==(const Key& key) const;
 
         // DATA
         const char* make_;                      //!< Camera make
         NewMnFct    newMnFct_;                  //!< Makernote create function
+        uint16_t    mnGroup_;                   //!< Group identifier
     };
 
-    //! Search key for TIFF structure.
+    //! Search key for Makernote registry structure.
     struct TiffMnRegistry::Key {
         //! Constructor
         Key(const std::string& make) : make_(make) {}
@@ -129,82 +132,71 @@ namespace Exiv2 {
           @brief Start of the makernote directory relative to the start of the
                  header.
          */
-        virtual uint32_t offset() const =0;
+        virtual uint32_t ifdOffset() const =0;
         //! Check the header, return true if ok
         virtual bool check() const =0;
         //@}
 
     }; // class MnHeader
 
-    //! Header of an Olympus Makernote
-    class OlympusMnHeader : public MnHeader {
-    public:
-        //! @name Creators
-        //@{
-        //! Default constructor
-        OlympusMnHeader();
-        //! Virtual destructor.
-        virtual ~OlympusMnHeader() {}
-        //@}
-        //! @name Manipulators
-        //@{
-        virtual bool     read(const byte* pData, 
-                              uint32_t    size);
-        //@}
-        //! @name Accessors
-        //@{
-        virtual uint32_t size()   const { return header_.size_; }
-        virtual uint32_t offset() const { return size_; }
-        virtual bool     check()  const;
-        //@}
-
-    private:
-        DataBuf header_;               //!< Data buffer for the makernote header
-        static const char* signature_; //!< Olympus makernote header signature
-        static const uint32_t size_;   //!< Size of the signature
-
-    }; // class OlympusMnHeader
-
     /*!
-      @brief Olympus Makernote
+      @brief Tiff IFD Makernote. Defines the interface for all IFD makernotes.
+             Contains an IFD and implements child mgmt functions to deal with 
+             the IFD entries.
      */
-    class TiffOlympusMn : public TiffComponent {
-        template<typename CreationPolicy>
+    class TiffIfdMakernote : public TiffComponent {
+        template<typename CreationPolicy> 
         friend class TiffReader;
     public:
         //! @name Creators
         //@{
         //! Default constructor
-        TiffOlympusMn(uint16_t tag, uint16_t group) 
-            : TiffComponent(tag, group), ifd_(tag, Group::olympmn) {}
+        TiffIfdMakernote(uint16_t tag, uint16_t group, uint16_t mnGroup)
+            : TiffComponent(tag, group), ifd_(tag, mnGroup) {}
         //! Virtual destructor
-        virtual ~TiffOlympusMn() {}
+        virtual ~TiffIfdMakernote() {}
         //@}
 
-    private:
+        //! @name Manipulators
+        //@{
+        //! Read the header from a data buffer, return true if successful
+        bool readHeader(const byte* pData, uint32_t size);
+        //@}
+
+        //! @name Accessors
+        //@{
+        //! Check the header, return true if ok
+        bool checkHeader() const;
+        /*!
+          @brief Return the offset to the start of the Makernote IFD from
+                 the start of the Makernote.
+         */
+        uint32_t ifdOffset() const;
+        //@}
+
+    protected:
         //! @name Manipulators
         //@{
         virtual void doAddChild(TiffComponent::AutoPtr tiffComponent);
         virtual void doAddNext(TiffComponent::AutoPtr tiffComponent);
         virtual void doAccept(TiffVisitor& visitor);
+        //! Implements readHeader();
+        virtual bool doReadHeader(const byte* pData, uint32_t size) =0;
+        //@}
+
+        //! @name Accessors
+        //@{
+        //! Implements checkHeader()
+        virtual bool doCheckHeader() const =0;
+        //! Implements ifdOffset()
+        virtual uint32_t doIfdOffset() const =0;
         //@}
 
     private:
         // DATA
-        OlympusMnHeader header_;                //!< Makernote header
         TiffDirectory ifd_;                     //!< Makernote IFD
-
-    }; // TiffOlympusMn
-
-// *****************************************************************************
-// template, inline and free functions
-
-    //! Function to create an Olympus makernote
-    TiffComponent* newOlympusMn(uint16_t    tag,
-                                uint16_t    group,
-                                const byte* pData,
-                                uint32_t    size, 
-                                ByteOrder   byteOrder);
+        
+    }; // class TiffIfdMakernote
 
 }                                       // namespace Exiv2
 

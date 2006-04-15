@@ -58,9 +58,9 @@ EXIV2_RCSID("@(#) $Id$");
    + Make TiffImage a template StandardImage, which can be parametrized with
      a parser and the necessary checking functions to cover all types of 
      images which need to be loaded completely.
-   + Decide what tag and group should be assigned to TiffMakernote and
+   + Decide what tag and group should be assigned to TiffMnEntry and
      concrete Makernotes and which of them should derive from base-entry
-     - TiffMakernote tag 0x927c, group exif, derives from tiffentry: because 
+     - TiffMnEntry tag 0x927c, group exif, derives from tiffentry: because 
        create needs the entry
      - ConcreteMn tag 0, group Mn, derives from component so that the plain entry
        is only kept in one place,
@@ -99,7 +99,7 @@ namespace Exiv2 {
         {    0x8769, Group::ifd0, newTiffSubIfd,    Group::exif },
         {    0x8825, Group::ifd0, newTiffSubIfd,    Group::gps  },
         {    0xa005, Group::exif, newTiffSubIfd,    Group::iop  },
-        {    0x927c, Group::exif, newTiffMakernote, Group::mn   },
+        {    0x927c, Group::exif, newTiffMnEntry,   Group::mn   },
         { Tag::next, Group::ifd0, newTiffDirectory, Group::ifd0 }
     };
 
@@ -141,12 +141,12 @@ namespace Exiv2 {
                                                      ts->newGroup_));
     }
 
-    TiffComponent::AutoPtr newTiffMakernote(const TiffStructure* ts)
+    TiffComponent::AutoPtr newTiffMnEntry(const TiffStructure* ts)
     {
         assert(ts);
-        return TiffComponent::AutoPtr(new TiffMakernote(ts->tag(),
-                                                        ts->group_,
-                                                        ts->newGroup_));
+        return TiffComponent::AutoPtr(new TiffMnEntry(ts->tag(),
+                                                      ts->group_,
+                                                      ts->newGroup_));
     }
 
 }                                       // namespace Exiv2

@@ -163,7 +163,7 @@ namespace Exiv2 {
     } // TiffReader::visitSubIfd
 
     template<typename CreationPolicy>
-    void TiffReader<CreationPolicy>::visitMakernote(TiffMakernote* object)
+    void TiffReader<CreationPolicy>::visitMnEntry(TiffMnEntry* object)
     {
         assert(object != 0);
 
@@ -177,7 +177,7 @@ namespace Exiv2 {
             make = te->pValue()->toString();
             // create concrete makernote, based on model and makernote contents
             object->mn_ = TiffMnCreator::create(object->tag(), 
-                                                object->newGroup_,
+                                                object->mnGroup_,
                                                 make,
                                                 object->pData(),
                                                 object->size(),
@@ -185,21 +185,21 @@ namespace Exiv2 {
         }
         if (object->mn_) object->mn_->setStart(object->pData());
 
-    } // TiffReader::visitMakernote
+    } // TiffReader::visitMnEntry
 
     template<typename CreationPolicy>
-    void TiffReader<CreationPolicy>::visitOlympusMn(TiffOlympusMn* object)
+    void TiffReader<CreationPolicy>::visitIfdMakernote(TiffIfdMakernote* object)
     {
-        object->header_.read(object->start(), pLast_ - object->start());
-        if (!object->header_.check()) {
+        object->readHeader(object->start(), pLast_ - object->start());
+        if (!object->checkHeader()) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Error: Olympus Makernote header check failed.\n";
+            std::cerr << "Error: IFD Makernote header check failed.\n";
 #endif
             return;   // todo: signal error to parent, delete object
         }
-        object->ifd_.setStart(object->start() + object->header_.offset());
+        object->ifd_.setStart(object->start() + object->ifdOffset());
         
-    } // TiffReader::visitOlympusMn
+    } // TiffReader::visitIfdMakernote
 
     template<typename CreationPolicy>
     void TiffReader<CreationPolicy>::readTiffEntry(TiffEntryBase* object)
