@@ -14,7 +14,7 @@
 
   %Exiv2 comprises of a C++ library and a command line utility to access image
   metadata. %Exiv2 is free software. The homepage of %Exiv2 is at
-  <A HREF="http://home.arcor.de/ahuggel/exiv2">http://home.arcor.de/ahuggel/exiv2</A>.
+  <A HREF="http://www.exiv2.org/">http://www.exiv2.org/</A>.
 
   The %Exiv2 library provides
   - full read and write access to the Exif and Iptc metadata of an image through
