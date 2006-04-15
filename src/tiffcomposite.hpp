@@ -51,6 +51,7 @@ namespace Exiv2 {
     template<typename CreationPolicy> class TiffReader;
     class TiffMetadataDecoder;
     class TiffPrinter;
+    class TiffIfdMakernote;
 
 // *****************************************************************************
 // class definitions
@@ -145,7 +146,7 @@ namespace Exiv2 {
     /*!
       @brief Interface class for components of a TIFF directory hierarchy
              (Composite pattern).  Both TIFF directories as well as entries
-             implement this interface.  A component can be un iquely identified
+             implement this interface.  A component can be uniquely identified
              by a tag, group tupel.  This class is implemented as a NVI
              (Non-Virtual Interface) and it has an interface for visitors (Visitor
              pattern).
@@ -201,10 +202,10 @@ namespace Exiv2 {
     protected:
         //! @name Manipulators
         //@{
-        //! Implements addChild().
+        //! Implements addChild(). The default implementation does nothing.
         virtual void doAddChild(AutoPtr tiffComponent) {}
 
-        //! Implements addNext().
+        //! Implements addNext(). The default implementation does nothing.
         virtual void doAddNext(AutoPtr tiffComponent) {}
 
         //! Implements accept()
@@ -370,7 +371,7 @@ namespace Exiv2 {
              management methods are forwarded to the concrete Makernote, if 
              there is one.
      */
-    class TiffMakernote : public TiffEntryBase {
+    class TiffMnEntry : public TiffEntryBase {
         template<typename CreationPolicy>
         friend class TiffReader;
         friend class TiffMetadataDecoder;
@@ -379,10 +380,10 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        TiffMakernote(uint16_t tag, uint16_t group, uint16_t newGroup)
-            : TiffEntryBase(tag, group), newGroup_(newGroup), mn_(0) {}
+        TiffMnEntry(uint16_t tag, uint16_t group, uint16_t mnGroup)
+            : TiffEntryBase(tag, group), mnGroup_(mnGroup), mn_(0) {}
         //! Virtual destructor
-        virtual ~TiffMakernote();
+        virtual ~TiffMnEntry();
         //@}
 
     private:
@@ -395,13 +396,10 @@ namespace Exiv2 {
 
     private:
         // DATA
-        uint16_t       newGroup_;               //!< New group for concrete mn
-        TiffComponent* mn_;                     //!< The Makernote
+        uint16_t       mnGroup_;             //!< New group for concrete mn
+        TiffComponent* mn_;                  //!< The Makernote
 
-    }; // class TiffMakernote
-
-// *****************************************************************************
-// template, inline and free functions
+    }; // class TiffMnEntry
 
 }                                       // namespace Exiv2
 

@@ -42,6 +42,7 @@ EXIV2_RCSID("@(#) $Id$");
 
 #include "tiffcomposite.hpp"
 #include "tiffvisitor.hpp"
+#include "makernote2.hpp"
 #include "value.hpp"
 
 // + standard includes
@@ -86,10 +87,10 @@ namespace Exiv2 {
         delete pValue_;
     } // TiffEntryBase::~TiffEntryBase
 
-    TiffMakernote::~TiffMakernote()
+    TiffMnEntry::~TiffMnEntry()
     {
         delete mn_;
-    } // TiffMakernote::~TiffMakernote
+    } // TiffMnEntry::~TiffMnEntry
 
     const uint16_t TiffHeade2::tag_ = 42;
 
@@ -126,7 +127,6 @@ namespace Exiv2 {
         case 257: group = "Olympus"; break;
         default:  group = "Unknown"; break;
         }
-
         return group;
     }
 
@@ -145,10 +145,10 @@ namespace Exiv2 {
         ifd_.addChild(tiffComponent);
     } // TiffSubIfd::doAddChild
 
-    void TiffMakernote::doAddChild(TiffComponent::AutoPtr tiffComponent)
+    void TiffMnEntry::doAddChild(TiffComponent::AutoPtr tiffComponent)
     {
         if (mn_) mn_->addChild(tiffComponent);
-    } // TiffMakernote::doAddChild
+    } // TiffMnEntry::doAddChild
 
     void TiffComponent::addNext(TiffComponent::AutoPtr tiffComponent)
     {
@@ -165,10 +165,10 @@ namespace Exiv2 {
         ifd_.addNext(tiffComponent);
     } // TiffSubIfd::doAddNext
 
-    void TiffMakernote::doAddNext(TiffComponent::AutoPtr tiffComponent)
+    void TiffMnEntry::doAddNext(TiffComponent::AutoPtr tiffComponent)
     {
         if (mn_) mn_->addNext(tiffComponent);
-    } // TiffMakernote::doAddNext
+    } // TiffMnEntry::doAddNext
 
     void TiffComponent::accept(TiffVisitor& visitor)
     {
@@ -202,11 +202,11 @@ namespace Exiv2 {
         ifd_.accept(visitor);
     } // TiffSubIfd::doAccept
 
-    void TiffMakernote::doAccept(TiffVisitor& visitor)
+    void TiffMnEntry::doAccept(TiffVisitor& visitor)
     {
-        visitor.visitMakernote(this);
+        visitor.visitMnEntry(this);
         if (mn_) mn_->accept(visitor);
-    } // TiffMakernote::doAccept
+    } // TiffMnEntry::doAccept
 
     // *************************************************************************
     // free functions

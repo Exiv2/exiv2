@@ -147,8 +147,8 @@ namespace Exiv2 {
     //! Function to create and initialize a new TIFF sub-directory
     TiffComponent::AutoPtr newTiffSubIfd(const TiffStructure* ts);
 
-    //! Function to create and initialize a new TIFF makernote
-    TiffComponent::AutoPtr newTiffMakernote(const TiffStructure* ts);
+    //! Function to create and initialize a new TIFF makernote entry
+    TiffComponent::AutoPtr newTiffMnEntry(const TiffStructure* ts);
 
     template<typename CreationPolicy>
     void TiffParser<CreationPolicy>::decode(Image* pImage,

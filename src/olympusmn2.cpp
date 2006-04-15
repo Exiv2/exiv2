@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*
-  File:      makernote2.cpp
+  File:      olympusmn2.cpp
   Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   11-Apr-06, ahu: created
@@ -40,52 +40,72 @@ EXIV2_RCSID("@(#) $Id$");
 # include "exv_conf.h"
 #endif
 
-#include "makernote2.hpp"
+#include "olympusmn2.hpp"
 #include "tiffcomposite.hpp"
-#include "tiffvisitor.hpp"
+#include "types.hpp"
 
 // + standard includes
-#include <string>
+#include <cstring>
+#include <cassert>
 
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
 
-    bool TiffMnRegistry::operator==(const TiffMnRegistry::Key& key) const
+    const char* OlympusMnHeader::signature_ = "OLYMP\0\1\0";
+    const uint32_t OlympusMnHeader::size_ = 8;
+
+    OlympusMnHeader::OlympusMnHeader()
     {
-        std::string make(make_);
-        return make == key.make_.substr(0, make.length());
+        read(reinterpret_cast<const byte*>(signature_), size_);
     }
 
-    bool TiffIfdMakernote::readHeader(const byte* pData, uint32_t size)
+    bool OlympusMnHeader::read(const byte* pData, uint32_t size)
     {
-        return doReadHeader(pData, size);
+        assert (pData != 0);
+
+        if (size < size_) return false;
+
+        header_.alloc(size_);
+        memcpy(header_.pData_, pData, header_.size_);
+        return true;
+    } // OlympusMnHeader::read
+
+    bool OlympusMnHeader::check() const
+    {
+        if (   static_cast<uint32_t>(header_.size_) < size_ 
+            || 0 != memcmp(header_.pData_, signature_, 5)) {
+            return false;
+        }
+        return true;
+    } // OlympusMnHeader::check
+
+    bool TiffOlympusMn::doReadHeader(const byte* pData, uint32_t size)
+    {
+        return header_.read(pData, size);
+    }
+    
+    bool TiffOlympusMn::doCheckHeader() const
+    {
+        return header_.check();
     }
 
-    bool TiffIfdMakernote::checkHeader() const
+    uint32_t TiffOlympusMn::doIfdOffset() const
     {
-        return doCheckHeader();
+        return header_.ifdOffset();
     }
 
-    uint32_t TiffIfdMakernote::ifdOffset() const
-    {
-        return doIfdOffset();
-    }
+    // *************************************************************************
+    // free functions
 
-    void TiffIfdMakernote::doAddChild(TiffComponent::AutoPtr tiffComponent)
+    TiffComponent* newOlympusMn(uint16_t    tag,
+                                uint16_t    group,
+                                uint16_t    mnGroup,
+                                const byte* /*pData*/,
+                                uint32_t    /*size*/, 
+                                ByteOrder   /*byteOrder*/)
     {
-        ifd_.addChild(tiffComponent);
-    }
-
-    void TiffIfdMakernote::doAddNext(TiffComponent::AutoPtr tiffComponent)
-    {
-        ifd_.addNext(tiffComponent);
-    }
-
-    void TiffIfdMakernote::doAccept(TiffVisitor& visitor)
-    {
-        visitor.visitIfdMakernote(this);
-        ifd_.accept(visitor);
+        return new TiffOlympusMn(tag, group, mnGroup);
     }
 
 }                                       // namespace Exiv2
