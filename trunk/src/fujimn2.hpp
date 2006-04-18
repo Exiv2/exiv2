@@ -19,15 +19,15 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*!
-  @file    olympusmn2.hpp
-  @brief   TIFF Olympus makernote
+  @file    fujimn2.hpp
+  @brief   TIFF Fujifilm makernote
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    15-Apr-06, ahu: created
  */
-#ifndef OLYMPUSMN2_HPP_
-#define OLYMPUSMN2_HPP_
+#ifndef FUJIMN2_HPP_
+#define FUJIMN2_HPP_
 
 // *****************************************************************************
 // included header files
@@ -45,57 +45,61 @@ namespace Exiv2 {
 // class definitions
 
     namespace Group {
-        const uint16_t olympmn = 257; //!< Olympus makernote
+        const uint16_t fujimn = 258; //!< Fujifilm makernote
     }
 
-    //! Header of an Olympus Makernote
-    class OlympusMnHeader : public MnHeader {
+    //! Header of a Fujifilm Makernote
+    class FujiMnHeader : public MnHeader {
     public:
         //! @name Creators
         //@{
         //! Default constructor
-        OlympusMnHeader();
+        FujiMnHeader();
         //! Virtual destructor.
-        virtual ~OlympusMnHeader() {}
+        virtual ~FujiMnHeader() {}
         //@}
         //! @name Manipulators
         //@{
-        virtual bool     read(const byte* pData, 
-                              uint32_t    size,
-                              ByteOrder   byteOrder);
+        virtual bool read(const byte* pData, 
+                          uint32_t    size, 
+                          ByteOrder   byteOrder);
         //@}
         //! @name Accessors
         //@{
         virtual uint32_t size()      const { return header_.size_; }
-        virtual uint32_t ifdOffset() const { return size_; }
+        virtual uint32_t ifdOffset() const { return start_; }
         virtual bool     check()     const;
+        //! Return the byte order for the header
+        ByteOrder        byteOrder() const { return byteOrder_; }
         //@}
 
     private:
         DataBuf header_;               //!< Data buffer for the makernote header
-        static const char* signature_; //!< Olympus makernote header signature
+        static const char* signature_; //!< Fujifilm makernote header signature
         static const uint32_t size_;   //!< Size of the signature
+        static const ByteOrder byteOrder_; //!< Byteorder for makernote (II)
+        uint32_t start_;               //!< Start of the mn IFD rel. to mn start
 
-    }; // class OlympusMnHeader
+    }; // class FujiMnHeader
 
     /*!
-      @brief Olympus Makernote
+      @brief Fujifilm Makernote
      */
-    class TiffOlympusMn : public TiffIfdMakernote {
+    class TiffFujiMn : public TiffIfdMakernote {
     public:
         //! @name Creators
         //@{
         //! Default constructor
-        TiffOlympusMn(uint16_t tag, uint16_t group, uint16_t mnGroup)
+        TiffFujiMn(uint16_t tag, uint16_t group, uint16_t mnGroup)
             : TiffIfdMakernote(tag, group, mnGroup) {}
         //! Virtual destructor
-        virtual ~TiffOlympusMn() {}
+        virtual ~TiffFujiMn() {}
         //@}
 
     private:
         //! @name Manipulators
         //@{
-        virtual bool doReadHeader(const byte* pData, 
+        virtual bool doReadHeader(const byte* pData,
                                   uint32_t    size, 
                                   ByteOrder   byteOrder);
         //@}
@@ -104,25 +108,26 @@ namespace Exiv2 {
         //@{
         virtual bool doCheckHeader() const;
         virtual uint32_t doIfdOffset() const;
+        virtual TiffRwState::AutoPtr doGetState(uint32_t mnOffset) const;
         //@}
 
     private:
         // DATA
-        OlympusMnHeader header_;                //!< Makernote header
+        FujiMnHeader header_;                //!< Makernote header
 
-    }; // TiffOlympusMn
+    }; // TiffFujiMn
 
 // *****************************************************************************
 // template, inline and free functions
 
-    //! Function to create an Olympus makernote
-    TiffComponent* newOlympusMn(uint16_t    tag,
-                                uint16_t    group,
-                                uint16_t    mnGroup,
-                                const byte* pData,
-                                uint32_t    size, 
-                                ByteOrder   byteOrder);
+    //! Function to create a Fujifilm makernote
+    TiffComponent* newFujiMn(uint16_t    tag,
+                             uint16_t    group,
+                             uint16_t    mnGroup,
+                             const byte* pData,
+                             uint32_t    size, 
+                             ByteOrder   byteOrder);
 
 }                                       // namespace Exiv2
 
-#endif                                  // #ifndef OLYMPUSMN2_HPP_
+#endif                                  // #ifndef FUJIMN2_HPP_

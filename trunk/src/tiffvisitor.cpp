@@ -44,10 +44,14 @@ EXIV2_RCSID("@(#) $Id$");
 #include "tiffcomposite.hpp"
 #include "makernote2.hpp"
 #include "exif.hpp"
+#include "value.hpp"
 #include "image.hpp"
 
 // + standard includes
 #include <string>
+#include <iostream>
+#include <iomanip>
+#include <cassert>
 
 // *****************************************************************************
 // class member definitions
@@ -211,7 +215,273 @@ namespace Exiv2 {
 
     } // TiffPrinter::printTiffEntry
 
-    // *************************************************************************
-    // free functions
+    TiffReader::TiffReader(const byte*    pData,
+                           uint32_t       size,
+                           TiffComponent* pRoot,
+                           TiffRwState::AutoPtr state)
+        : pData_(pData),
+          size_(size),
+          pLast_(pData + size - 1),
+          pRoot_(pRoot),
+          pState_(state.release()),
+          pOrigState_(pState_)
+    {
+        assert(pData_);
+        assert(size_ > 0);
+
+    } // TiffReader::TiffReader
+
+    TiffReader::~TiffReader()
+    {
+        if (pOrigState_ != pState_) delete pOrigState_;
+        delete pState_;
+    }
+
+    void TiffReader::resetState() {
+        if (pOrigState_ != pState_) delete pState_;
+        pState_ = pOrigState_;
+    }
+
+    void TiffReader::changeState(TiffRwState::AutoPtr state)
+    {
+        if (state.get() != 0) {
+            if (pOrigState_ != pState_) delete pState_;
+            pState_ = state.release();
+        }
+    }
+
+    ByteOrder TiffReader::byteOrder() const
+    {
+        assert(pState_);
+        return pState_->byteOrder_;
+    }
+     
+    uint32_t TiffReader::baseOffset() const
+    {
+        assert(pState_);
+        return pState_->baseOffset_;
+    }
+
+    TiffComponent::AutoPtr TiffReader::create(uint32_t extendedTag, 
+                                              uint16_t group) const
+    {
+        assert(pState_);
+        assert(pState_->createFct_);
+        return pState_->createFct_(extendedTag, group);
+    }
+
+    void TiffReader::visitEntry(TiffEntry* object)
+    {
+        readTiffEntry(object);
+    }
+
+    void TiffReader::visitDirectory(TiffDirectory* object)
+    {
+        assert(object != 0);
+
+        const byte* p = object->start();
+        assert(p >= pData_);
+
+        if (p + 2 > pLast_) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Error: "
+                      << "Directory " << object->groupName() << ": "
+                      << " IFD exceeds data buffer, cannot read entry count.\n";
+#endif
+            return;
+        }
+        const uint16_t n = getUShort(p, byteOrder());
+        p += 2;
+        for (uint16_t i = 0; i < n; ++i) {
+            if (p + 12 > pLast_) {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Error: "
+                          << "Directory " << object->groupName() << ": "
+                          << " IFD entry " << i
+                          << " lies outside of the data buffer.\n";
+#endif
+                return;
+            }
+            uint16_t tag = getUShort(p, byteOrder());
+            TiffComponent::AutoPtr tc = create(tag, object->group());
+            tc->setStart(p);
+            object->addChild(tc);
+            p += 12;
+        }
+
+        if (p + 4 > pLast_) {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Error: "
+                          << "Directory " << object->groupName() << ": "
+                          << " IFD exceeds data buffer, cannot read next pointer.\n";
+#endif
+                return;
+        }
+        uint32_t next = getLong(p, byteOrder());
+        if (next) {
+            TiffComponent::AutoPtr tc = create(Tag::next, object->group());
+            if (baseOffset() + next > size_) {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Error: "
+                          << "Directory " << object->groupName() << ": "
+                          << " Next pointer is out of bounds.\n";
+#endif
+                return;
+            }
+            tc->setStart(pData_ + baseOffset() + next);
+            object->addNext(tc);
+        }
+
+    } // TiffReader::visitDirectory
+
+    void TiffReader::visitSubIfd(TiffSubIfd* object)
+    {
+        assert(object != 0);
+
+        readTiffEntry(object);
+        if (object->typeId() == unsignedLong && object->count() >= 1) {
+            uint32_t offset = getULong(object->pData(), byteOrder());
+            if (baseOffset() + offset > size_) {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Error: "
+                          << "Directory " << object->groupName()
+                          << ", entry 0x" << std::setw(4)
+                          << std::setfill('0') << std::hex << object->tag()
+                          << " Sub-IFD pointer is out of bounds; ignoring it.\n";
+#endif
+                return;
+            }
+            object->ifd_.setStart(pData_ + baseOffset() + offset);
+        }
+#ifndef SUPPRESS_WARNINGS
+        else {
+            std::cerr << "Warning: "
+                      << "Directory " << object->groupName()
+                      << ", entry 0x" << std::setw(4)
+                      << std::setfill('0') << std::hex << object->tag()
+                      << " doesn't look like a sub-IFD.";
+        }
+#endif
+
+    } // TiffReader::visitSubIfd
+
+    void TiffReader::visitMnEntry(TiffMnEntry* object)
+    {
+        assert(object != 0);
+
+        readTiffEntry(object);
+        // Find camera make
+        TiffFinder finder(0x010f, Group::ifd0);
+        pRoot_->accept(finder);
+        TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
+        std::string make;
+        if (te && te->pValue()) {
+            make = te->pValue()->toString();
+            // create concrete makernote, based on make and makernote contents
+            object->mn_ = TiffMnCreator::create(object->tag(), 
+                                                object->mnGroup_,
+                                                make,
+                                                object->pData(),
+                                                object->size(),
+                                                byteOrder());
+        }
+        if (object->mn_) object->mn_->setStart(object->pData());
+
+    } // TiffReader::visitMnEntry
+
+    void TiffReader::visitIfdMakernote(TiffIfdMakernote* object)
+    {
+        assert(object != 0);
+
+        object->readHeader(object->start(), pLast_ - object->start(), byteOrder());
+        if (!object->checkHeader()) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Error: IFD Makernote header check failed.\n";
+#endif
+            return;   // todo: signal error to parent, delete object
+        }
+        // Modify reader for Makernote peculiarities, byte order, offset,
+        // component factory
+        changeState(object->getState(object->start() - pData_));
+        object->ifd_.setStart(object->start() + object->ifdOffset());
+
+    } // TiffReader::visitIfdMakernote
+
+    void TiffReader::visitIfdMakernoteEnd(TiffIfdMakernote* object)
+    {
+        // Reset state (byte order, create function, offset) back to that
+        // for the image
+        resetState();        
+    } // TiffReader::visitIfdMakernoteEnd
+
+    void TiffReader::readTiffEntry(TiffEntryBase* object)
+    {
+        assert(object != 0);
+
+        const byte* p = object->start();
+        assert(p >= pData_);
+
+        if (p + 12 > pLast_) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Error: Entry in directory " << object->groupName()
+                      << "requests access to memory beyond the data buffer. "
+                      << "Skipping entry.\n";
+#endif
+            return;
+        }
+        // Component already has tag
+        p += 2;
+        object->type_ = getUShort(p, byteOrder());
+        // todo: check type
+        p += 2;
+        object->count_ = getULong(p, byteOrder());
+        p += 4;
+        object->size_ = TypeInfo::typeSize(object->typeId()) * object->count();
+        object->offset_ = getULong(p, byteOrder());
+        object->pData_ = p;
+        if (object->size() > 4) {
+            if (baseOffset() + object->offset() >= size_) {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Error: Offset of "
+                          << "directory " << object->groupName() << ", "
+                          << " entry 0x" << std::setw(4)
+                          << std::setfill('0') << std::hex << object->tag()
+                          << " is out of bounds:\n"
+                          << "Offset = 0x" << std::setw(8)
+                          << std::setfill('0') << std::hex << object->offset()
+                          << "; truncating the entry\n";
+#endif
+                object->size_ = 0;
+                object->count_ = 0;
+                object->offset_ = 0;
+                return;
+            }
+            object->pData_ = pData_ + baseOffset() + object->offset();
+            if (object->pData() + object->size() > pLast_) {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Warning: Upper boundary of data for "
+                          << "directory " << object->groupName() << ", "
+                          << " entry 0x" << std::setw(4)
+                          << std::setfill('0') << std::hex << object->tag()
+                          << " is out of bounds:\n"
+                          << "Offset = 0x" << std::setw(8)
+                          << std::setfill('0') << std::hex << object->offset()
+                          << ", size = " << std::dec << object->size()
+                          << ", exceeds buffer size by "
+                          // cast to make MSVC happy
+                          << static_cast<uint32_t>(object->pData() + object->size() - pLast_)
+                          << " Bytes; adjusting the size\n";
+#endif
+                object->size_ = pLast_ - object->pData() + 1;
+                // todo: adjust count_, make size_ a multiple of typeSize
+            }
+        }
+        Value::AutoPtr v = Value::create(object->typeId());
+        if (v.get()) {
+            v->read(object->pData(), object->size(), byteOrder());
+            object->pValue_ = v.release();
+        }
+
+    } // TiffReader::readTiffEntry
 
 }                                       // namespace Exiv2

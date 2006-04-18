@@ -57,9 +57,11 @@ namespace Exiv2 {
         return make == key.make_.substr(0, make.length());
     }
 
-    bool TiffIfdMakernote::readHeader(const byte* pData, uint32_t size)
+    bool TiffIfdMakernote::readHeader(const byte* pData, 
+                                      uint32_t    size,
+                                      ByteOrder   byteOrder)
     {
-        return doReadHeader(pData, size);
+        return doReadHeader(pData, size, byteOrder);
     }
 
     bool TiffIfdMakernote::checkHeader() const
@@ -70,6 +72,16 @@ namespace Exiv2 {
     uint32_t TiffIfdMakernote::ifdOffset() const
     {
         return doIfdOffset();
+    }
+
+    TiffRwState::AutoPtr TiffIfdMakernote::getState(uint32_t mnOffset) const
+    {
+        return doGetState(mnOffset);
+    }
+
+    TiffRwState::AutoPtr TiffIfdMakernote::doGetState(uint32_t mnOffset) const
+    {
+        return TiffRwState::AutoPtr(0);
     }
 
     void TiffIfdMakernote::doAddChild(TiffComponent::AutoPtr tiffComponent)
@@ -86,6 +98,7 @@ namespace Exiv2 {
     {
         visitor.visitIfdMakernote(this);
         ifd_.accept(visitor);
+        visitor.visitIfdMakernoteEnd(this);
     }
 
 }                                       // namespace Exiv2

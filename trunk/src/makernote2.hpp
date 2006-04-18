@@ -20,7 +20,7 @@
  */
 /*!
   @file    makernote2.hpp
-  @brief   
+  @brief   Makernote base classes, factory and registry
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
@@ -32,6 +32,7 @@
 // *****************************************************************************
 // included header files
 #include "tiffcomposite.hpp"
+#include "tiffvisitor.hpp"
 #include "types.hpp"
 
 // + standard includes
@@ -40,11 +41,6 @@
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
-
-// *****************************************************************************
-// class declarations
-
-    template<typename CreationPolicy> class TiffReader;
 
 // *****************************************************************************
 // class definitions
@@ -122,7 +118,8 @@ namespace Exiv2 {
         //@{
         //! Read the header from a data buffer, return true if successful
         virtual bool read(const byte* pData, 
-                          uint32_t    size) =0;
+                          uint32_t    size,
+                          ByteOrder byteOrder) =0;
         //@}
         //! @name Accessors
         //@{
@@ -145,7 +142,6 @@ namespace Exiv2 {
              the IFD entries.
      */
     class TiffIfdMakernote : public TiffComponent {
-        template<typename CreationPolicy> 
         friend class TiffReader;
     public:
         //! @name Creators
@@ -160,7 +156,7 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         //! Read the header from a data buffer, return true if successful
-        bool readHeader(const byte* pData, uint32_t size);
+        bool readHeader(const byte* pData, uint32_t size, ByteOrder byteOrder);
         //@}
 
         //! @name Accessors
@@ -172,6 +168,18 @@ namespace Exiv2 {
                  the start of the Makernote.
          */
         uint32_t ifdOffset() const;
+        /*!
+          @brief Get status information relevant for the makernote. 
+
+          State includes byte order, offset and TIFF component factory.
+          This method allows the TiffReader to change state, i.e., change
+          these parameters, to parse the Makernote and its sub components
+          (if any).
+
+          @param mnOffset Offset to the makernote from the start of the
+                 TIFF header.
+         */
+        TiffRwState::AutoPtr getState(uint32_t mnOffset) const;
         //@}
 
     protected:
@@ -181,7 +189,9 @@ namespace Exiv2 {
         virtual void doAddNext(TiffComponent::AutoPtr tiffComponent);
         virtual void doAccept(TiffVisitor& visitor);
         //! Implements readHeader();
-        virtual bool doReadHeader(const byte* pData, uint32_t size) =0;
+        virtual bool doReadHeader(const byte* pData, 
+                                  uint32_t    size,
+                                  ByteOrder   byteOrder) =0;
         //@}
 
         //! @name Accessors
@@ -190,6 +200,8 @@ namespace Exiv2 {
         virtual bool doCheckHeader() const =0;
         //! Implements ifdOffset()
         virtual uint32_t doIfdOffset() const =0;
+        //! Implements getState(). The default implementation returns a 0-pointer.
+        virtual TiffRwState::AutoPtr doGetState(uint32_t mnOffset) const;
         //@}
 
     private:

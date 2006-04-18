@@ -33,6 +33,7 @@ EXIV2_RCSID("@(#) $Id$");
 // included header files
 #include "makernote2.hpp"
 #include "olympusmn2.hpp"
+#include "fujimn2.hpp"
 
 // + standard includes
 
@@ -41,11 +42,12 @@ EXIV2_RCSID("@(#) $Id$");
 namespace Exiv2 {
 
     const TiffMnRegistry TiffMnCreator::registry_[] = {
-        { "OLYMPUS", newOlympusMn, Group::olympmn }
+        { "OLYMPUS",  newOlympusMn, Group::olympmn },
+        { "FUJIFILM", newFujiMn,    Group::fujimn  }
     };
 
 
-    // The find template needs to be in the same compilation unit as the array
+    // The find template needs to see the array from where it is called
     TiffComponent* TiffMnCreator::create(uint16_t    tag,
                                          uint16_t    group,
                                          std::string make,
@@ -63,6 +65,5 @@ namespace Exiv2 {
                                      byteOrder);
         return tc;
     } // TiffMnCreator::create
-
 
 }                                       // namespace Exiv2

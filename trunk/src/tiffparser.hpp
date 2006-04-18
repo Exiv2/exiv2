@@ -33,7 +33,6 @@
 // included header files
 #include "tiffcomposite.hpp"
 #include "tiffvisitor.hpp"
-#include "tiffvisitor_tmpl.hpp"
 #include "error.hpp"
 #include "types.hpp"
 
@@ -55,9 +54,7 @@ namespace Exiv2 {
 // class definitions
 
     /*!
-      Type for a function pointer for functions to create TIFF components.
-      Todo: This may eventually need to also have access to the image or parse tree
-      in order to make decisions based on the value of other tags.
+      Type for a function pointer for a function to create a TIFF component.
      */
     typedef TiffComponent::AutoPtr (*NewTiffCompFct)(const TiffStructure* ts);
 
@@ -90,8 +87,7 @@ namespace Exiv2 {
     };
 
     /*!
-      @brief TIFF component factory for standard TIFF components. This class is
-             used as a policy class.
+      @brief TIFF component factory for standard TIFF components.
      */
     class TiffCreator {
     public:
@@ -105,9 +101,7 @@ namespace Exiv2 {
         */
         static TiffComponent::AutoPtr create(uint32_t extendedTag,
                                              uint16_t group);
-    protected:
-        //! Prevent destruction
-        ~TiffCreator() {}
+
     private:
         static const TiffStructure tiffStructure_[]; //<! TIFF structure
     }; // class TiffCreator
@@ -117,8 +111,7 @@ namespace Exiv2 {
              class to decode and encode TIFF-based data. Uses class 
              CreationPolicy for the creation of TIFF components.
      */
-    template<typename CreationPolicy>
-    class TiffParser : public CreationPolicy {
+    class TiffParser {
     public:
         /*!
           @brief Decode TIFF metadata from a data buffer \em pData of length
@@ -128,14 +121,16 @@ namespace Exiv2 {
           parser uses classes TiffHeade2 and the TiffComponent and TiffVisitor
           hierarchies.
 
-          @param pImage         Pointer to the image to hold the metadata
-          @param pData          Pointer to the data buffer. Must point to data
-                                in TIFF format; no checks are performed.
-          @param size           Length of the data buffer.
+          @param pImage    Pointer to the image to hold the metadata
+          @param pData     Pointer to the data buffer. Must point to data
+                           in TIFF format; no checks are performed.
+          @param size      Length of the data buffer.
+          @param createFct Factory function to create new TIFF components.
         */
-        static void decode(      Image*         pImage,
-                           const byte*          pData,
-                                 uint32_t       size);
+        static void decode(      Image*             pImage,
+                           const byte*              pData,
+                                 uint32_t           size,
+                                 TiffCompFactoryFct createFct);
     }; // class TiffParser
 
 // *****************************************************************************
@@ -149,34 +144,6 @@ namespace Exiv2 {
 
     //! Function to create and initialize a new TIFF makernote entry
     TiffComponent::AutoPtr newTiffMnEntry(const TiffStructure* ts);
-
-    template<typename CreationPolicy>
-    void TiffParser<CreationPolicy>::decode(Image* pImage,
-                                            const byte* pData,
-                                            uint32_t size)
-    {
-        assert(pImage != 0);
-        assert(pData != 0);
-
-        TiffHeade2 tiffHeader;
-        if (!tiffHeader.read(pData, size) || tiffHeader.offset() >= size) {
-            throw Error(3, "TIFF");
-        }
-        TiffComponent::AutoPtr rootDir = CreationPolicy::create(Tag::root, 
-                                                                Group::none);
-        if (0 == rootDir.get()) return;
-        rootDir->setStart(pData + tiffHeader.offset());
-
-        TiffReader<CreationPolicy> reader(pData,
-                                          size,
-                                          tiffHeader.byteOrder(),
-                                          rootDir.get());
-        rootDir->accept(reader);
-
-        TiffMetadataDecoder decoder(pImage);
-        rootDir->accept(decoder);
-
-    } // TiffParser::decode
 
 }                                       // namespace Exiv2
 

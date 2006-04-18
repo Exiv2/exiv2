@@ -47,11 +47,11 @@ include $(top_srcdir)/config/config.mk
 # Source files
 
 # Add standalone C++ header files to this list
-CCHDR = exv_conf.h exv_msvc.h mn.hpp rcsid.hpp tiffvisitor_tmpl.hpp
+CCHDR = exv_conf.h exv_msvc.h mn.hpp rcsid.hpp
 
 # Add library C++ source files to this list
 CCSRC = basicio.cpp canonmn.cpp crwimage.cpp datasets.cpp error.cpp exif.cpp \
-	futils.cpp fujimn.cpp ifd.cpp image.cpp imgreg.cpp iptc.cpp \
+	futils.cpp fujimn.cpp fujimn2.cpp ifd.cpp image.cpp imgreg.cpp iptc.cpp \
 	jpgimage.cpp makernote.cpp makernote2.cpp metadatum.cpp mnreg.cpp \
 	nikonmn.cpp olympusmn.cpp olympusmn2.cpp panasonicmn.cpp sigmamn.cpp \
 	sonymn.cpp tags.cpp tiffcomposite.cpp tiffimage.cpp tiffparser.cpp \
