@@ -2,11 +2,9 @@ Exiv2
 *****
 
 This is Exiv2, a C++ library and a command line utility to read and
-write Exif and Iptc image metadata.
+write Exif and Iptc image metadata. The homepage of Exiv2 is: 
 
-The homepage of Exiv2 is: 
-
-    http://home.arcor.de/ahuggel/exiv2/index.html
+    http://www.exiv2.org/
 
 See doc/ChangeLog for a description of recent changes to Exiv2.
 
@@ -17,43 +15,41 @@ documentation and metadata tags.
 Building and Installing
 =======================
 
-To build Exiv2 on UNIX-like systems (e.g., GNU/Linux, Mac OS X, MinGW),
-use the included GNU configure script. Run the following commands from 
-the top directory (containing this file) to configure, build and 
-install the library and utility:
+To build Exiv2 from the distributed tarball on UNIX-like systems
+(e.g., GNU/Linux, Mac OS X, MinGW), use the included GNU configure
+script. Run the following commands from the top directory (containing
+this file) to configure, build and install the library and utility:
 
     $ ./configure
     $ make
     $ make install
 
+If you downloaded the source code directly from the subversion
+repository, you won't have a configure script. See section "Hacking"
+below.
+
 The default install locations are /usr/local/lib for the library,
 /usr/local/bin for the exiv2 utility and /usr/local/include/exiv2 for
-the header files. Use the --prefix=directory option of the configure 
-script to change this default. Run ./configure --help to see a list
-of all options.
+the header files. Use the --prefix=directory option of the configure
+script to change this default. Run ./configure --help to see a list of
+all options.
 
 To build Exiv2 with MSVC 7.1, use the solution file msvc/exiv2.sln.
 
+To uninstall Exiv2 from a UNIX-like system, run:
 
-Troubleshooting
-===============
+    $ make uninstall
+
+
+Troubleshooting and Bug Reports 
+===============================
 
 If you have problems building Exiv2 on UNIX-like systems, check the
 generated config/config.mk and config/config.h files. You should *not*
 need to modify any Makefile directly, in particular not src/Makefile!
 
-
-Uninstalling
-============
-
-    $ make uninstall
-
-
-Reporting bugs
-==============
-
-If you have any suggestions or bug reports, please send electronic mail 
-to the Exiv2 mailing list via
+Please send suggestions or bug reports by email to the Exiv2 mailing 
+list via
 
     http://home.arcor.de/ahuggel/exiv2/support.html
 
@@ -62,8 +58,8 @@ or submit bug reports directly to the bug tracking system at
     http://dev.robotbattle.com/bugs/main_page.php
 
 
-Development
-===========
+Hacking
+=======
 
 On UNIX-like systems, application developers can use the script
 exiv2-config in their build commands to obtain the correct compile and
