@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*
-  File:      olympusmn2.cpp
+  File:      fujimn2.cpp
   Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   15-Apr-06, ahu: created
@@ -40,8 +40,9 @@ EXIV2_RCSID("@(#) $Id$");
 # include "exv_conf.h"
 #endif
 
-#include "olympusmn2.hpp"
+#include "fujimn2.hpp"
 #include "tiffcomposite.hpp"
+#include "tiffparser.hpp"
 #include "types.hpp"
 
 // + standard includes
@@ -52,17 +53,18 @@ EXIV2_RCSID("@(#) $Id$");
 // class member definitions
 namespace Exiv2 {
 
-    const char* OlympusMnHeader::signature_ = "OLYMP\0\1\0";
-    const uint32_t OlympusMnHeader::size_ = 8;
+    const char* FujiMnHeader::signature_ = "FUJIFILM\12\0\0\0";
+    const uint32_t FujiMnHeader::size_ = 12;
+    const ByteOrder FujiMnHeader::byteOrder_ = littleEndian;
 
-    OlympusMnHeader::OlympusMnHeader()
+    FujiMnHeader::FujiMnHeader()
     {
-        read(reinterpret_cast<const byte*>(signature_), size_, invalidByteOrder);
+        read(reinterpret_cast<const byte*>(signature_), size_, byteOrder_);
     }
 
-    bool OlympusMnHeader::read(const byte* pData, 
-                               uint32_t size, 
-                               ByteOrder /*byteOrder*/)
+    bool FujiMnHeader::read(const byte* pData,
+                            uint32_t size, 
+                            ByteOrder /*byteOrder*/)
     {
         assert (pData != 0);
 
@@ -70,46 +72,62 @@ namespace Exiv2 {
 
         header_.alloc(size_);
         memcpy(header_.pData_, pData, header_.size_);
-        return true;
-    } // OlympusMnHeader::read
 
-    bool OlympusMnHeader::check() const
+        // Read offset to the IFD relative to the start of the makernote
+        // from the header. Note that we ignore the byteOrder argument
+        start_ = getUShort(header_.pData_ + 8, byteOrder_);
+
+        return true;
+    } // FujiMnHeader::read
+
+    bool FujiMnHeader::check() const
     {
         if (   static_cast<uint32_t>(header_.size_) < size_ 
-            || 0 != memcmp(header_.pData_, signature_, 5)) {
+            || 0 != memcmp(header_.pData_, signature_, 8)) {
             return false;
         }
         return true;
-    } // OlympusMnHeader::check
+    } // FujiMnHeader::check
 
-    bool TiffOlympusMn::doReadHeader(const byte* pData, 
-                                     uint32_t    size, 
-                                     ByteOrder   byteOrder)
+    bool TiffFujiMn::doReadHeader(const byte* pData,
+                                  uint32_t size,
+                                  ByteOrder byteOrder)
     {
         return header_.read(pData, size, byteOrder);
     }
     
-    bool TiffOlympusMn::doCheckHeader() const
+    bool TiffFujiMn::doCheckHeader() const
     {
         return header_.check();
     }
 
-    uint32_t TiffOlympusMn::doIfdOffset() const
+    uint32_t TiffFujiMn::doIfdOffset() const
     {
         return header_.ifdOffset();
+    }
+
+    TiffRwState::AutoPtr TiffFujiMn::doGetState(uint32_t mnOffset) const
+    {
+        // Byteorder: from the header (little endian) 
+        // Offsets  : relative to the start of the makernote
+        // Creator  : standard TIFF component factory
+        return TiffRwState::AutoPtr(
+            new TiffRwState(header_.byteOrder(), 
+                            mnOffset, 
+                            TiffCreator::create));
     }
 
     // *************************************************************************
     // free functions
 
-    TiffComponent* newOlympusMn(uint16_t    tag,
-                                uint16_t    group,
-                                uint16_t    mnGroup,
-                                const byte* /*pData*/,
-                                uint32_t    /*size*/, 
-                                ByteOrder   /*byteOrder*/)
+    TiffComponent* newFujiMn(uint16_t    tag,
+                             uint16_t    group,
+                             uint16_t    mnGroup,
+                             const byte* /*pData*/,
+                             uint32_t    /*size*/, 
+                             ByteOrder   /*byteOrder*/)
     {
-        return new TiffOlympusMn(tag, group, mnGroup);
+        return new TiffFujiMn(tag, group, mnGroup);
     }
 
 }                                       // namespace Exiv2

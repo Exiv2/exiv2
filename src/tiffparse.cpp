@@ -39,16 +39,22 @@ try {
     TiffHeade2 tiffHeader;
     if (!tiffHeader.read(buf.pData_, buf.size_)) throw Error(3, "TIFF");
 
-    TiffComponent::AutoPtr rootDir = TiffCreator::create(Tag::root, Group::none);
+    TiffCompFactoryFct createFct = TiffCreator::create;
+
+    TiffComponent::AutoPtr rootDir = createFct(Tag::root, Group::none);
     if (0 == rootDir.get()) {
         throw Error(1, "No root element defined in TIFF structure");
     }
-
     rootDir->setStart(buf.pData_ + tiffHeader.offset());
-    TiffReader<TiffCreator> reader(buf.pData_, 
-                                   buf.size_, 
-                                   tiffHeader.byteOrder(), 
-                                   rootDir.get());
+
+    TiffRwState::AutoPtr state(
+        new TiffRwState(tiffHeader.byteOrder(), 0, createFct));
+
+    TiffReader reader(buf.pData_, 
+                      buf.size_, 
+                      rootDir.get(),
+                      state);
+
     rootDir->accept(reader);
 
     tiffHeader.print(std::cerr);

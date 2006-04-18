@@ -54,20 +54,11 @@ EXIV2_RCSID("@(#) $Id$");
    + Add further child mgmt stuff to TIFF composite: remove
    + Review boundary checking, is it better to check the offsets?
    + Define and implement consistent error handling for recursive hierarchy
-   + Add Makernote support
    + Make TiffImage a template StandardImage, which can be parametrized with
      a parser and the necessary checking functions to cover all types of 
      images which need to be loaded completely.
-   + Decide what tag and group should be assigned to TiffMnEntry and
-     concrete Makernotes and which of them should derive from base-entry
-     - TiffMnEntry tag 0x927c, group exif, derives from tiffentry: because 
-       create needs the entry
-     - ConcreteMn tag 0, group Mn, derives from component so that the plain entry
-       is only kept in one place,
-       if it contains an Ifd, that has a different group (create fct knows which)
-   + Implementation of concrete makernotes: Base class TiffIfdMakernote? 
-     Why is the hierarchy MnHeader needed?
-   + TiffComponent: should it have end() and setEnd() or pData and size??
+   + TiffComponent: should it have end() and setEnd() or pData and size?
+   + Can NewTiffCompFct and TiffCompFactoryFct be combined?
 
    in crwimage.* :
 
@@ -123,6 +114,32 @@ namespace Exiv2 {
         }
         return tc;
     } // TiffCreator::create
+
+    void TiffParser::decode(Image* pImage, 
+                            const byte* pData, 
+                            uint32_t size,
+                            TiffCompFactoryFct createFct)
+    {
+        assert(pImage != 0);
+        assert(pData != 0);
+
+        TiffHeade2 tiffHeader;
+        if (!tiffHeader.read(pData, size) || tiffHeader.offset() >= size) {
+            throw Error(3, "TIFF");
+        }
+        TiffComponent::AutoPtr rootDir = createFct(Tag::root, Group::none);
+        if (0 == rootDir.get()) return;
+        rootDir->setStart(pData + tiffHeader.offset());
+
+        TiffRwState::AutoPtr state(
+            new TiffRwState(tiffHeader.byteOrder(), 0, createFct));
+        TiffReader reader(pData, size, rootDir.get(), state);
+        rootDir->accept(reader);
+
+        TiffMetadataDecoder decoder(pImage);
+        rootDir->accept(decoder);
+
+    } // TiffParser::decode
 
     // *************************************************************************
     // free functions

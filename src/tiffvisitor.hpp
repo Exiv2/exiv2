@@ -32,8 +32,10 @@
 // *****************************************************************************
 // included header files
 #include "types.hpp"
+#include "tiffcomposite.hpp"
 
 // + standard includes
+#include <memory>
 #include <iostream>
 #include <iomanip>
 #include <cassert>
@@ -45,12 +47,6 @@ namespace Exiv2 {
 // *****************************************************************************
 // class declarations
 
-    class TiffComponent;
-    class TiffEntryBase;
-    class TiffEntry;
-    class TiffDirectory;
-    class TiffSubIfd;
-    class TiffMnEntry;
     class TiffIfdMakernote;
     class Image;
 
@@ -91,13 +87,13 @@ namespace Exiv2 {
         //! Operation to perform for a TIFF directory
         virtual void visitDirectory(TiffDirectory* object) =0;
         /*!
-          Operation to perform for a TIFF directory, after all components and 
-          before the next entry is processed.
+          @brief Operation to perform for a TIFF directory, after all components
+                 and before the next entry is processed.
          */
         virtual void visitDirectoryNext(TiffDirectory* object) {}
         /*!
-          Operation to perform for a TIFF directory, at the end of the 
-          processing.
+          @brief Operation to perform for a TIFF directory, at the end of the 
+                 processing.
          */
         virtual void visitDirectoryEnd(TiffDirectory* object) {}
         //! Operation to perform for a TIFF sub-IFD
@@ -106,6 +102,8 @@ namespace Exiv2 {
         virtual void visitMnEntry(TiffMnEntry* object) =0;
         //! Operation to perform for an IFD makernote
         virtual void visitIfdMakernote(TiffIfdMakernote* object) =0;
+        //! Operation to perform after processing an IFD makernote
+        virtual void visitIfdMakernoteEnd(TiffIfdMakernote* object) {}
         //@}
 
         //! @name Accessors
@@ -210,13 +208,51 @@ namespace Exiv2 {
     }; // class TiffMetadataDecoder
 
     /*!
+      @brief Simple state class containing relevant state information for 
+             the TIFF reader. This is in a separate class so that the 
+             reader can change state if needed (e.g., to read certain complex
+             makernotes).
+     */
+    struct TiffRwState {
+        //! TiffRWState auto_ptr type
+        typedef std::auto_ptr<TiffRwState> AutoPtr;        
+        //! Constructor.
+        explicit TiffRwState(ByteOrder byteOrder, 
+                             uint32_t baseOffset,
+                             TiffCompFactoryFct createFct)
+            : byteOrder_(byteOrder),
+              baseOffset_(baseOffset),
+              createFct_(createFct) {}
+        /*!
+          Applicable byte order. May be different for the Makernote and the 
+          rest of the TIFF entries.
+         */
+        const ByteOrder byteOrder_;
+        /*!
+          Base offset. TIFF standard format uses byte offsets which are
+          always relative to the start of the TIFF file, i.e., relative to the
+          start of the TIFF image header. In this case, the base offset is 0.
+          However, some camera vendors encode their makernotes in TIFF IFDs
+          using offsets relative to (somewhere near) the start of the makernote
+          data. In this case, base offset added to the start of the TIFF image
+          header points to the basis for such makernote offsets.
+         */
+        const uint32_t baseOffset_;
+        /*!
+          Factory function to create new TIFF components. Different create
+          functions may use different lookup tables, so that makernotes
+          can independently use their own factory function and lookup table,
+          which can be defined together with the makernote implementation.
+         */
+        TiffCompFactoryFct createFct_;
+    }; // TiffRwState
+
+    /*!
       @brief TIFF composite visitor to read the TIFF structure from a block of
              memory and build the composite from it (Visitor pattern). Used by
-             TiffParser to read the TIFF data from a block of memory. Uses
-             the policy class CreationPolicy for the creation of TIFF components.
+             TiffParser to read the TIFF data from a block of memory.
      */
-    template<typename CreationPolicy>
-    class TiffReader : public TiffVisitor, public CreationPolicy {
+    class TiffReader : public TiffVisitor {
     public:
         //! @name Creators
         //@{
@@ -225,16 +261,17 @@ namespace Exiv2 {
                            structure of the data are set in the constructor.
           @param pData     Pointer to the data buffer, starting with a TIFF header.
           @param size      Number of bytes in the data buffer.
-          @param byteOrder Applicable byte order (little or big endian).
           @param pRoot     Root element of the TIFF composite.
+          @param state     State object for creation function, byteorder and 
+                           base offset.
          */
-        TiffReader(const byte*    pData,
-                   uint32_t       size,
-                   ByteOrder      byteOrder,
-                   TiffComponent* pRoot);
+        TiffReader(const byte*          pData,
+                   uint32_t             size,
+                   TiffComponent*       pRoot,
+                   TiffRwState::AutoPtr state);
 
         //! Virtual destructor
-        virtual ~TiffReader() {}
+        virtual ~TiffReader();
         //@}
 
         //! @name Manipulators
@@ -249,18 +286,35 @@ namespace Exiv2 {
         virtual void visitMnEntry(TiffMnEntry* object);
         //! Read an IFD makernote from the data buffer
         virtual void visitIfdMakernote(TiffIfdMakernote* object);
+        //! Reset reader to its original state, undo makernote specific settings
+        virtual void visitIfdMakernoteEnd(TiffIfdMakernote* object);
 
         //! Read a standard TIFF entry from the data buffer
         void readTiffEntry(TiffEntryBase* object);
+        //! Set the \em state class. Assumes ownership of the object passed in.
+        void changeState(TiffRwState::AutoPtr state);
+        //! Reset the state to the original state as set in the constructor.
+        void resetState();
+        //@}
+
+        //! @name Accessors
+        //@{
+        //! Return the byte order.
+        ByteOrder byteOrder() const;
+        //! Return the base offset. See class TiffRwState for details
+        uint32_t baseOffset() const;
+        //! Create a TIFF component for \em extendedTag and group
+        TiffComponent::AutoPtr create(uint32_t extendedTag, uint16_t group) const;
         //@}
 
     private:
         // DATA
-        const byte* pData_;                   //!< Pointer to the memory buffer
-        const uint32_t size_;                 //!< Size of the buffer
-        const byte* pLast_;                   //!< Pointer to the last byte
-        const ByteOrder byteOrder_;           //!< Byteorder for the image
-        TiffComponent* const pRoot_;          //!< Root element of the composite
+        const byte*          pData_;      //!< Pointer to the memory buffer
+        const uint32_t       size_;       //!< Size of the buffer
+        const byte*          pLast_;      //!< Pointer to the last byte
+        TiffComponent* const pRoot_;      //!< Root element of the composite
+        TiffRwState*         pState_;     //!< State class
+        TiffRwState*         pOrigState_; //!< State class as set in the c'tor
 
     }; // class TiffReader
 
@@ -318,9 +372,6 @@ namespace Exiv2 {
 
         static const std::string indent_;       //!< Indent for one level
     }; // class TiffPrinter
-
-// *****************************************************************************
-// template, inline and free functions
 
 }                                       // namespace Exiv2
 

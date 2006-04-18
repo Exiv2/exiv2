@@ -125,6 +125,7 @@ namespace Exiv2 {
         case   4: group = "GPSInfo"; break;
         case   5: group = "Iop"; break;
         case 257: group = "Olympus"; break;
+        case 258: group = "Fujifilm"; break;
         default:  group = "Unknown"; break;
         }
         return group;

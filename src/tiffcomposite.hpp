@@ -48,7 +48,7 @@ namespace Exiv2 {
 
     class Value;
     class TiffVisitor;
-    template<typename CreationPolicy> class TiffReader;
+    class TiffReader;
     class TiffMetadataDecoder;
     class TiffPrinter;
     class TiffIfdMakernote;
@@ -225,13 +225,18 @@ namespace Exiv2 {
     }; // class TiffComponent
 
     /*!
+      Type for a factory function to create new TIFF components.
+     */
+    typedef TiffComponent::AutoPtr (*TiffCompFactoryFct)(uint32_t extendedTag,
+                                                         uint16_t group);
+
+    /*!
       @brief This abstract base class provides the common functionality of an
              IFD directory entry and defines an extended interface for derived
              concrete entries, which allows access to the attributes of the
              entry.
      */
     class TiffEntryBase : public TiffComponent {
-        template<typename CreationPolicy> 
         friend class TiffReader;
     public:
         //! @name Creators
@@ -247,11 +252,14 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        //! Return the Exiv2 type which corresponds to the field type.
+        //! Return the Exiv2 type which corresponds to the field type
         TypeId   typeId()        const { return TypeId(type_); }
-        //! Return the number of components in this entry.
+        //! Return the number of components in this entry
         uint32_t count()         const { return count_; }
-        //! Return the offset relative to the start of the TIFF header.
+        /*!
+          Return the offset to the data area relative to the base for 
+          the component (usually the start of the TIFF header)
+         */
         uint32_t offset()        const { return offset_; }
         //! Return the size of this component in bytes
         uint32_t size()          const { return size_; }
@@ -265,7 +273,7 @@ namespace Exiv2 {
         // DATA
         uint16_t type_;     //!< Field Type
         uint32_t count_;    //!< The number of values of the indicated Type
-        uint32_t offset_;   //!< Offset to data area from start of TIFF header
+        uint32_t offset_;   //!< Offset to the data area
         /*!
           Size of the data buffer holding the value in bytes, there is no
           minimum size.
@@ -337,7 +345,6 @@ namespace Exiv2 {
              GPS tags.
      */
     class TiffSubIfd : public TiffEntryBase {
-        template<typename CreationPolicy> 
         friend class TiffReader;
     public:
         //! @name Creators
@@ -365,14 +372,12 @@ namespace Exiv2 {
 
     /*!
       @brief This class is the basis for Makernote support in TIFF. It contains
-             a pointer to a concrete Makernote. The TiffReader<CreationPolicy>
-             visitor has the responsibility to create the correct Make/Model
-             specific Makernote for a particular TIFF file. Calls to child
-             management methods are forwarded to the concrete Makernote, if 
-             there is one.
+             a pointer to a concrete Makernote. The TiffReader visitor has the
+             responsibility to create the correct Make/Model specific Makernote
+             for a particular TIFF file. Calls to child management methods are
+             forwarded to the concrete Makernote, if there is one.
      */
     class TiffMnEntry : public TiffEntryBase {
-        template<typename CreationPolicy>
         friend class TiffReader;
         friend class TiffMetadataDecoder;
         friend class TiffPrinter;
