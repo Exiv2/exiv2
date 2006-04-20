@@ -2,7 +2,7 @@ Exiv2
 *****
 
 This is Exiv2, a C++ library and a command line utility to read and
-write Exif and Iptc image metadata. The homepage of Exiv2 is: 
+write Exif and Iptc image metadata. The homepage of Exiv2 is:
 
     http://www.exiv2.org/
 
@@ -25,8 +25,8 @@ this file) to configure, build and install the library and utility:
     $ make install
 
 If you downloaded the source code directly from the subversion
-repository, you won't have a configure script. See section "Hacking"
-below.
+repository, you won't have a configure script. Run make config to 
+generate it and see the section "Hacking" below.
 
 The default install locations are /usr/local/lib for the library,
 /usr/local/bin for the exiv2 utility and /usr/local/include/exiv2 for
@@ -41,19 +41,22 @@ To uninstall Exiv2 from a UNIX-like system, run:
     $ make uninstall
 
 
-Troubleshooting and Bug Reports 
-===============================
+Troubleshooting
+===============
 
 If you have problems building Exiv2 on UNIX-like systems, check the
 generated config/config.mk and config/config.h files. You should *not*
 need to modify any Makefile directly, in particular not src/Makefile!
 
-Please send suggestions or bug reports by email to the Exiv2 mailing 
-list via
 
-    http://home.arcor.de/ahuggel/exiv2/support.html
+Support
+=======
 
-or submit bug reports directly to the bug tracking system at
+Please send feedback or queries by email to the Exiv2 mailing list via
+
+    http://www.exiv2.org/support.html
+
+Bug reports can be submitted directly to the bug tracking system at
 
     http://dev.robotbattle.com/bugs/main_page.php
 
