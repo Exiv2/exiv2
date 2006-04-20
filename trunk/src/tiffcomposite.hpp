@@ -52,6 +52,7 @@ namespace Exiv2 {
     class TiffMetadataDecoder;
     class TiffPrinter;
     class TiffIfdMakernote;
+    struct TiffStructure;
 
 // *****************************************************************************
 // class definitions
@@ -82,6 +83,7 @@ namespace Exiv2 {
         const uint32_t none = 0x10000; //!< Dummy tag
         const uint32_t root = 0x20000; //!< Special tag: root IFD
         const uint32_t next = 0x30000; //!< Special tag: next IFD
+        const uint32_t all  = 0x40000; //!< Special tag: all tags in a group
     }
 
     /*!
@@ -223,6 +225,40 @@ namespace Exiv2 {
         byte*    pData_;
 
     }; // class TiffComponent
+
+    /*!
+      Type for a function pointer for a function to create a TIFF component.
+     */
+    typedef TiffComponent::AutoPtr (*NewTiffCompFct)(uint16_t tag,
+                                                     const TiffStructure* ts);
+
+    /*!
+      @brief Data structure used as a row (element) of a table (array)
+             describing the TIFF structure of an image format for reading and
+             writing.  Different tables can be used to support different TIFF
+             based image formats.
+     */
+    struct TiffStructure {
+        struct Key;
+        //! Comparison operator to compare a TiffStructure with a TiffStructure::Key
+        bool operator==(const Key& key) const;
+        //! Return the tag corresponding to the extended tag
+        uint16_t tag() const { return static_cast<uint16_t>(extendedTag_ & 0xffff); }
+
+        // DATA
+        uint32_t       extendedTag_;    //!< Tag (32 bit so that it can contain special tags)
+        uint16_t       group_;          //!< Group that contains the tag
+        NewTiffCompFct newTiffCompFct_; //!< Function to create the correct TIFF component
+        uint16_t       newGroup_;       //!< Group of the newly created component
+    };
+
+    //! Search key for TIFF structure.
+    struct TiffStructure::Key {
+        //! Constructor
+        Key(uint32_t e, uint16_t g) : e_(e), g_(g) {}
+        uint32_t e_;                    //!< Extended tag
+        uint16_t g_;                    //!< %Group
+    };
 
     /*!
       Type for a factory function to create new TIFF components.
@@ -405,6 +441,89 @@ namespace Exiv2 {
         TiffComponent* mn_;                  //!< The Makernote
 
     }; // class TiffMnEntry
+
+    /*!
+      @brief Composite to model an array of tags, each consisting of one 
+             unsigned short value. Canon makernotes use such tags. The
+             elements of this component are usually of type TiffArrayElement.
+             If the type of the entry is not unsigned short, it degenerates 
+             to a standard TIFF entry.
+     */
+    class TiffArrayEntry : public TiffEntryBase {
+    public:
+        //! @name Creators
+        //@{
+        //! Default constructor
+        TiffArrayEntry(uint16_t tag, uint16_t group, uint16_t elGroup)
+            : TiffEntryBase(tag, group), elGroup_(elGroup) {}
+        //! Virtual destructor
+        virtual ~TiffArrayEntry();
+        //@}
+
+        //! @name Accessors
+        //@{
+        //! Return the group for the array elements
+        uint16_t elGroup() const { return elGroup_; }
+        //@}
+
+    private:
+        //! @name Manipulators
+        //@{
+        virtual void doAddChild(TiffComponent::AutoPtr tiffComponent);
+        virtual void doAccept(TiffVisitor& visitor);
+        //@}
+
+    private:
+        // DATA
+        uint16_t   elGroup_;  //!< Group for the elements
+        Components elements_; //!< List of elements in this composite
+    }; // class TiffArrayEntry
+
+    /*!
+      @brief Element of a TiffArrayEntry. The value is exactly one unsigned
+             short component. Canon makernotes use arrays of such elements.
+     */
+    class TiffArrayElement : public TiffEntryBase {
+    public:
+        //! @name Creators
+        //@{
+        //! Constructor
+        TiffArrayElement(uint16_t tag, uint16_t group) 
+            : TiffEntryBase(tag, group) {}
+        //! Virtual destructor.
+        virtual ~TiffArrayElement() {}
+        //@}
+
+    private:
+        //! @name Manipulators
+        //@{
+        virtual void doAccept(TiffVisitor& visitor);
+        //@}
+
+    }; // class TiffArrayElement
+
+// *****************************************************************************
+// template, inline and free functions
+
+    //! Function to create and initialize a new TIFF directory
+    TiffComponent::AutoPtr newTiffDirectory(uint16_t tag,
+                                            const TiffStructure* ts);
+
+    //! Function to create and initialize a new TIFF sub-directory
+    TiffComponent::AutoPtr newTiffSubIfd(uint16_t tag,
+                                         const TiffStructure* ts);
+
+    //! Function to create and initialize a new TIFF makernote entry
+    TiffComponent::AutoPtr newTiffMnEntry(uint16_t tag,
+                                          const TiffStructure* ts);
+
+    //! Function to create and initialize a new array entry
+    TiffComponent::AutoPtr newTiffArrayEntry(uint16_t tag,
+                                             const TiffStructure* ts);
+
+    //! Function to create and initialize a new array element
+    TiffComponent::AutoPtr newTiffArrayElement(uint16_t tag,
+                                               const TiffStructure* ts);
 
 }                                       // namespace Exiv2
 

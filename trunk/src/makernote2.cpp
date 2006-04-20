@@ -57,6 +57,10 @@ namespace Exiv2 {
         return make == key.make_.substr(0, make.length());
     }
 
+    TiffIfdMakernote::~TiffIfdMakernote()
+    {
+    }
+
     bool TiffIfdMakernote::readHeader(const byte* pData, 
                                       uint32_t    size,
                                       ByteOrder   byteOrder)
@@ -74,12 +78,14 @@ namespace Exiv2 {
         return doIfdOffset();
     }
 
-    TiffRwState::AutoPtr TiffIfdMakernote::getState(uint32_t mnOffset) const
+    TiffRwState::AutoPtr TiffIfdMakernote::getState(uint32_t  mnOffset,
+                                                    ByteOrder byteOrder) const
     {
-        return doGetState(mnOffset);
+        return doGetState(mnOffset, byteOrder);
     }
 
-    TiffRwState::AutoPtr TiffIfdMakernote::doGetState(uint32_t mnOffset) const
+    TiffRwState::AutoPtr TiffIfdMakernote::doGetState(uint32_t /*mnOffset*/,
+                                                      ByteOrder /*byteOrder*/) const
     {
         return TiffRwState::AutoPtr(0);
     }

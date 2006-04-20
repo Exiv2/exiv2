@@ -108,7 +108,8 @@ namespace Exiv2 {
         //@{
         virtual bool doCheckHeader() const;
         virtual uint32_t doIfdOffset() const;
-        virtual TiffRwState::AutoPtr doGetState(uint32_t mnOffset) const;
+        virtual TiffRwState::AutoPtr doGetState(uint32_t  mnOffset,
+                                                ByteOrder byteOrder) const;
         //@}
 
     private:

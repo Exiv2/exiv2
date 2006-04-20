@@ -104,6 +104,10 @@ namespace Exiv2 {
         virtual void visitIfdMakernote(TiffIfdMakernote* object) =0;
         //! Operation to perform after processing an IFD makernote
         virtual void visitIfdMakernoteEnd(TiffIfdMakernote* object) {}
+        //! Operation to perform for an array entry (as found in Canon makernotes)
+        virtual void visitArrayEntry(TiffArrayEntry* object) =0;
+        //! Operation to perform for an array element
+        virtual void visitArrayElement(TiffArrayElement* object) =0;
         //@}
 
         //! @name Accessors
@@ -146,6 +150,10 @@ namespace Exiv2 {
         virtual void visitMnEntry(TiffMnEntry* object);
         //! Find tag and group in an IFD makernote
         virtual void visitIfdMakernote(TiffIfdMakernote* object);
+        //! Find tag and group in an array entry component        
+        virtual void visitArrayEntry(TiffArrayEntry* object);
+        //! Find tag and group in an array element      
+        virtual void visitArrayElement(TiffArrayElement* object);
 
         //! Check if \em object matches \em tag and \em group
         void findObject(TiffComponent* object);
@@ -196,6 +204,10 @@ namespace Exiv2 {
         virtual void visitMnEntry(TiffMnEntry* object);
         //! Decode an IFD makernote
         virtual void visitIfdMakernote(TiffIfdMakernote* object);
+        //! Decode an array entry component
+        virtual void visitArrayEntry(TiffArrayEntry* object);
+        //! Decode an array element
+        virtual void visitArrayElement(TiffArrayElement* object);
 
         //! Decode a standard TIFF entry
         void decodeTiffEntry(const TiffEntryBase* object);
@@ -288,6 +300,10 @@ namespace Exiv2 {
         virtual void visitIfdMakernote(TiffIfdMakernote* object);
         //! Reset reader to its original state, undo makernote specific settings
         virtual void visitIfdMakernoteEnd(TiffIfdMakernote* object);
+        //! Read an array entry component from the data buffer
+        virtual void visitArrayEntry(TiffArrayEntry* object);
+        //! Read an array element from the data buffer
+        virtual void visitArrayElement(TiffArrayElement* object);
 
         //! Read a standard TIFF entry from the data buffer
         void readTiffEntry(TiffEntryBase* object);
@@ -349,6 +365,10 @@ namespace Exiv2 {
         virtual void visitMnEntry(TiffMnEntry* object);
         //! Print an IFD makernote
         virtual void visitIfdMakernote(TiffIfdMakernote* object);
+        //! Print an array entry component
+        virtual void visitArrayEntry(TiffArrayEntry* object);
+        //! Print an array element
+        virtual void visitArrayElement(TiffArrayElement* object);
 
         //! Increment the indent by one level
         void incIndent();

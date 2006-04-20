@@ -150,7 +150,7 @@ namespace Exiv2 {
         TiffIfdMakernote(uint16_t tag, uint16_t group, uint16_t mnGroup)
             : TiffComponent(tag, group), ifd_(tag, mnGroup) {}
         //! Virtual destructor
-        virtual ~TiffIfdMakernote() {}
+        virtual ~TiffIfdMakernote() =0;
         //@}
 
         //! @name Manipulators
@@ -178,8 +178,11 @@ namespace Exiv2 {
 
           @param mnOffset Offset to the makernote from the start of the
                  TIFF header.
+          @param byteOrder Byte order in use at the point where the function
+                 is called.
          */
-        TiffRwState::AutoPtr getState(uint32_t mnOffset) const;
+        TiffRwState::AutoPtr getState(uint32_t  mnOffset, 
+                                      ByteOrder byteOrder) const;
         //@}
 
     protected:
@@ -188,20 +191,43 @@ namespace Exiv2 {
         virtual void doAddChild(TiffComponent::AutoPtr tiffComponent);
         virtual void doAddNext(TiffComponent::AutoPtr tiffComponent);
         virtual void doAccept(TiffVisitor& visitor);
-        //! Implements readHeader();
+        /*! 
+          @brief Implements readHeader().
+
+          The default implementation simply returns true. Derived classes for
+          makernotes which have a header should overwrite this.
+         */
         virtual bool doReadHeader(const byte* pData, 
                                   uint32_t    size,
-                                  ByteOrder   byteOrder) =0;
+                                  ByteOrder   byteOrder) { return true; }
         //@}
 
         //! @name Accessors
         //@{
-        //! Implements checkHeader()
-        virtual bool doCheckHeader() const =0;
-        //! Implements ifdOffset()
-        virtual uint32_t doIfdOffset() const =0;
-        //! Implements getState(). The default implementation returns a 0-pointer.
-        virtual TiffRwState::AutoPtr doGetState(uint32_t mnOffset) const;
+        /*!
+          @brief Implements checkHeader().
+
+          Default implementation simply returns true. Derived classes for
+          makernotes which have a header should overwrite this.
+         */
+        virtual bool doCheckHeader() const { return true; }
+        /*!
+          @brief Implements ifdOffset().
+
+          Default implementation returns 0. Derived classes for makernotes
+          with an IFD which doesn't start at the beginning of the buffer
+          should overwrite this.
+        */
+        virtual uint32_t doIfdOffset() const { return 0; }
+        /*!
+          @brief Implements getState(). 
+          
+          Default implementation returns a 0-pointer. Derived classes for
+          makernotes which need a different byte order, base offset or 
+          TIFF component factory should overwrite this.
+         */
+        virtual TiffRwState::AutoPtr doGetState(uint32_t mnOffset,
+                                                ByteOrder byteOrder) const;
         //@}
 
     private:

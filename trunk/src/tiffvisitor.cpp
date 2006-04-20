@@ -97,6 +97,16 @@ namespace Exiv2 {
         findObject(object);
     }
 
+    void TiffFinder::visitArrayEntry(TiffArrayEntry* object)
+    {
+        findObject(object);
+    }
+
+    void TiffFinder::visitArrayElement(TiffArrayElement* object)
+    {
+        findObject(object);
+    }
+
     void TiffMetadataDecoder::visitEntry(TiffEntry* object)
     {
         decodeTiffEntry(object);
@@ -132,6 +142,21 @@ namespace Exiv2 {
         assert(pImage_ != 0);
         pImage_->exifData().add(k, object->pValue());
     } // TiffMetadataDecoder::decodeTiffEntry
+
+    void TiffMetadataDecoder::visitArrayEntry(TiffArrayEntry* object)
+    {
+        assert(object != 0);
+
+        // Array entry degenerates to a normal entry if type is not unsignedShort
+        if (object->typeId() != unsignedShort) {
+            decodeTiffEntry(object);
+        }
+    }
+
+    void TiffMetadataDecoder::visitArrayElement(TiffArrayElement* object)
+    {
+        decodeTiffEntry(object);
+    }
 
     const std::string TiffPrinter::indent_("   ");
 
@@ -214,6 +239,24 @@ namespace Exiv2 {
         os_ << "\n";
 
     } // TiffPrinter::printTiffEntry
+
+    void TiffPrinter::visitArrayEntry(TiffArrayEntry* object)
+    {
+        // Array entry degenerates to a normal entry if type is not unsignedShort
+        if (object->typeId() != unsignedShort) {
+            printTiffEntry(object, prefix());
+        }
+        else {
+            os_ << prefix() << "Array Entry " << object->groupName()
+                << " tag 0x" << std::setw(4) << std::setfill('0')
+                << std::hex << std::right << object->tag() << "\n";
+        }
+    } // TiffPrinter::visitArrayEntry
+
+    void TiffPrinter::visitArrayElement(TiffArrayElement* object)
+    {
+        printTiffEntry(object, prefix());        
+    } // TiffPrinter::visitArrayElement
 
     TiffReader::TiffReader(const byte*    pData,
                            uint32_t       size,
@@ -402,7 +445,7 @@ namespace Exiv2 {
         }
         // Modify reader for Makernote peculiarities, byte order, offset,
         // component factory
-        changeState(object->getState(object->start() - pData_));
+        changeState(object->getState(object->start() - pData_, byteOrder()));
         object->ifd_.setStart(object->start() + object->ifdOffset());
 
     } // TiffReader::visitIfdMakernote
@@ -483,5 +526,49 @@ namespace Exiv2 {
         }
 
     } // TiffReader::readTiffEntry
+
+    void TiffReader::visitArrayEntry(TiffArrayEntry* object)
+    {
+        assert(object != 0);
+
+        readTiffEntry(object);
+        if (object->typeId() == unsignedShort) {
+            for (uint16_t i = 0; i < static_cast<uint16_t>(object->count()); ++i) {
+                uint16_t tag = i;
+                TiffComponent::AutoPtr tc = create(tag, object->elGroup());
+                tc->setStart(object->pData() + i * 2);
+                object->addChild(tc);
+            }
+        }
+
+    } // TiffReader::visitArrayEntry
+
+    void TiffReader::visitArrayElement(TiffArrayElement* object)
+    {
+        assert(object != 0);
+
+        const byte* p = object->start();
+        assert(p >= pData_);
+
+        if (p + 2 > pLast_) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Error: Array element in group " << object->groupName()
+                      << "requests access to memory beyond the data buffer. "
+                      << "Skipping element.\n";
+#endif
+            return;
+        }
+        object->type_ = unsignedShort;
+        object->count_ = 1;
+        object->size_ = TypeInfo::typeSize(object->typeId()) * object->count();
+        object->offset_ = 0;
+        object->pData_ = p;
+        Value::AutoPtr v = Value::create(object->typeId());
+        if (v.get()) {
+            v->read(object->pData(), object->size(), byteOrder());
+            object->pValue_ = v.release();
+        }
+
+    } // TiffReader::visitArrayElement
 
 }                                       // namespace Exiv2

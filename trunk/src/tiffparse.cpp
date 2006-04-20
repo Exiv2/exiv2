@@ -3,6 +3,8 @@
 // Print the structure of a TIFF file
 
 #include "tiffparser.hpp"
+#include "tiffcomposite.hpp"
+#include "tiffvisitor.hpp"
 #include "tiffimage.hpp"
 #include "futils.hpp"
 

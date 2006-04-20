@@ -106,7 +106,8 @@ namespace Exiv2 {
         return header_.ifdOffset();
     }
 
-    TiffRwState::AutoPtr TiffFujiMn::doGetState(uint32_t mnOffset) const
+    TiffRwState::AutoPtr TiffFujiMn::doGetState(uint32_t mnOffset,
+                                                ByteOrder /*byteOrder*/) const
     {
         // Byteorder: from the header (little endian) 
         // Offsets  : relative to the start of the makernote
