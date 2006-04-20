@@ -43,6 +43,8 @@ EXIV2_RCSID("@(#) $Id$");
 
 #include "tiffparser.hpp"
 #include "tiffcomposite.hpp"
+#include "tiffvisitor.hpp"
+#include "error.hpp"
 
 // + standard includes
 #include <cassert>
@@ -94,22 +96,17 @@ namespace Exiv2 {
         { Tag::next, Group::ifd0, newTiffDirectory, Group::ifd0 }
     };
 
-    bool TiffStructure::operator==(const TiffStructure::Key& key) const
-    {
-        return key.e_ == extendedTag_ && key.g_ == group_; 
-    }
-
     TiffComponent::AutoPtr TiffCreator::create(uint32_t extendedTag,
                                                uint16_t group)
     {
         const TiffStructure* ts = find(tiffStructure_,
                                        TiffStructure::Key(extendedTag, group));
         TiffComponent::AutoPtr tc(0);
+        uint16_t tag = static_cast<uint16_t>(extendedTag & 0xffff);
         if (ts && ts->newTiffCompFct_) {
-            tc = ts->newTiffCompFct_(ts);
+            tc = ts->newTiffCompFct_(tag, ts);
         }
         if (!ts) {
-            uint16_t tag = static_cast<uint16_t>(extendedTag & 0xffff);
             tc = TiffComponent::AutoPtr(new TiffEntry(tag, group));
         }
         return tc;
@@ -140,30 +137,5 @@ namespace Exiv2 {
         rootDir->accept(decoder);
 
     } // TiffParser::decode
-
-    // *************************************************************************
-    // free functions
-
-    TiffComponent::AutoPtr newTiffDirectory(const TiffStructure* ts)
-    {
-        assert(ts);
-        return TiffComponent::AutoPtr(new TiffDirectory(ts->tag(), ts->newGroup_));
-    }
-
-    TiffComponent::AutoPtr newTiffSubIfd(const TiffStructure* ts)
-    {
-        assert(ts);
-        return TiffComponent::AutoPtr(new TiffSubIfd(ts->tag(),
-                                                     ts->group_,
-                                                     ts->newGroup_));
-    }
-
-    TiffComponent::AutoPtr newTiffMnEntry(const TiffStructure* ts)
-    {
-        assert(ts);
-        return TiffComponent::AutoPtr(new TiffMnEntry(ts->tag(),
-                                                      ts->group_,
-                                                      ts->newGroup_));
-    }
 
 }                                       // namespace Exiv2

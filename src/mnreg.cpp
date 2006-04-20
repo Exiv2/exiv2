@@ -32,8 +32,9 @@ EXIV2_RCSID("@(#) $Id$");
 // *****************************************************************************
 // included header files
 #include "makernote2.hpp"
-#include "olympusmn2.hpp"
+#include "canonmn2.hpp"
 #include "fujimn2.hpp"
+#include "olympusmn2.hpp"
 
 // + standard includes
 
@@ -42,8 +43,9 @@ EXIV2_RCSID("@(#) $Id$");
 namespace Exiv2 {
 
     const TiffMnRegistry TiffMnCreator::registry_[] = {
-        { "OLYMPUS",  newOlympusMn, Group::olympmn },
-        { "FUJIFILM", newFujiMn,    Group::fujimn  }
+        { "Canon",    newCanonMn,   Group::canonmn  },
+        { "FUJIFILM", newFujiMn,    Group::fujimn   },
+        { "OLYMPUS",  newOlympusMn, Group::olympmn  }
     };
 
 

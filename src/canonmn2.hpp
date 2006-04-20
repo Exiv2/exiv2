@@ -19,41 +19,64 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*!
-  @file    tiffparser.hpp
-  @brief   Class TiffParser to parse TIFF data.
+  @file    canonmn2.hpp
+  @brief   TIFF Canon makernote
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    15-Mar-06, ahu: created
+  @date    18-Apr-06, ahu: created
  */
-#ifndef TIFFPARSER_HPP_
-#define TIFFPARSER_HPP_
+#ifndef CANONMN2_HPP_
+#define CANONMN2_HPP_
 
 // *****************************************************************************
 // included header files
+#include "makernote2.hpp"
 #include "tiffcomposite.hpp"
 #include "types.hpp"
 
 // + standard includes
-#include <iosfwd>
-#include <cassert>
 
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
 
 // *****************************************************************************
-// class declarations
-
-    class Image;
-
-// *****************************************************************************
 // class definitions
 
+    namespace Group {
+        const uint16_t canonmn = 259; //!< Canon makernote
+        const uint16_t canoncs = 260; //!< Canon camera settings
+        const uint16_t canonsi = 261; //!< Canon shot info
+        const uint16_t canoncf = 262; //!< Canon customer functions
+    }
+
     /*!
-      @brief TIFF component factory for standard TIFF components.
+      @brief Canon Makernote
      */
-    class TiffCreator {
+    class TiffCanonMn : public TiffIfdMakernote {
+    public:
+        //! @name Creators
+        //@{
+        //! Default constructor
+        TiffCanonMn(uint16_t tag, uint16_t group, uint16_t mnGroup)
+            : TiffIfdMakernote(tag, group, mnGroup) {}
+        //! Virtual destructor
+        virtual ~TiffCanonMn() {}
+        //@}
+    private:
+        //! @name Accessors
+        //@{
+        virtual TiffRwState::AutoPtr doGetState(uint32_t  mnOffset,
+                                                ByteOrder byteOrder) const;
+        //@}
+
+    }; // class TiffCanonMn
+
+    /*!
+      @brief TIFF component factory for Canon TIFF components.
+     */
+    class TiffCanonCreator {
     public:
         /*!
           @brief Create the TiffComponent for TIFF entry \em extendedTag and 
@@ -68,35 +91,19 @@ namespace Exiv2 {
 
     private:
         static const TiffStructure tiffStructure_[]; //<! TIFF structure
-    }; // class TiffCreator
+    }; // class TiffCanonCreator
 
-    /*!
-      @brief Stateless parser class for data in TIFF format. Images use this
-             class to decode and encode TIFF-based data. Uses class 
-             CreationPolicy for the creation of TIFF components.
-     */
-    class TiffParser {
-    public:
-        /*!
-          @brief Decode TIFF metadata from a data buffer \em pData of length
-                 \em size into \em pImage.
+// *****************************************************************************
+// template, inline and free functions
 
-          This is the entry point to access image data in TIFF format. The
-          parser uses classes TiffHeade2 and the TiffComponent and TiffVisitor
-          hierarchies.
-
-          @param pImage    Pointer to the image to hold the metadata
-          @param pData     Pointer to the data buffer. Must point to data
-                           in TIFF format; no checks are performed.
-          @param size      Length of the data buffer.
-          @param createFct Factory function to create new TIFF components.
-        */
-        static void decode(      Image*             pImage,
-                           const byte*              pData,
-                                 uint32_t           size,
-                                 TiffCompFactoryFct createFct);
-    }; // class TiffParser
+    //! Function to create a Canon makernote
+    TiffComponent* newCanonMn(uint16_t    tag,
+                              uint16_t    group,
+                              uint16_t    mnGroup,
+                              const byte* pData,
+                              uint32_t    size, 
+                              ByteOrder   byteOrder);
 
 }                                       // namespace Exiv2
 
-#endif                                  // #ifndef TIFFPARSER_HPP_
+#endif                                  // #ifndef CANONMN2_HPP_
