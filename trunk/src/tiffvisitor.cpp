@@ -436,7 +436,9 @@ namespace Exiv2 {
     {
         assert(object != 0);
 
-        object->readHeader(object->start(), pLast_ - object->start(), byteOrder());
+        object->readHeader(object->start(), 
+                           static_cast<uint32_t>(pLast_ - object->start()), 
+                           byteOrder());
         if (!object->checkHeader()) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Error: IFD Makernote header check failed.\n";
@@ -445,7 +447,8 @@ namespace Exiv2 {
         }
         // Modify reader for Makernote peculiarities, byte order, offset,
         // component factory
-        changeState(object->getState(object->start() - pData_, byteOrder()));
+        changeState(object->getState(static_cast<uint32_t>(object->start() - pData_), 
+                                     byteOrder()));
         object->ifd_.setStart(object->start() + object->ifdOffset());
 
     } // TiffReader::visitIfdMakernote
@@ -515,7 +518,7 @@ namespace Exiv2 {
                           << static_cast<uint32_t>(object->pData() + object->size() - pLast_)
                           << " Bytes; adjusting the size\n";
 #endif
-                object->size_ = pLast_ - object->pData() + 1;
+                object->size_ = static_cast<uint32_t>(pLast_ - object->pData() + 1);
                 // todo: adjust count_, make size_ a multiple of typeSize
             }
         }
