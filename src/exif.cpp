@@ -988,6 +988,10 @@ namespace Exiv2 {
                 thumbnail = Thumbnail::AutoPtr(new TiffThumbnail);
             }
         }
+        else {
+            pos = findKey(ExifKey("Exif.Thumbnail.JPEGInterchangeFormat"));
+            if (pos != end()) thumbnail = Thumbnail::AutoPtr(new JpegThumbnail);
+        }
         return thumbnail;
 
     } // ExifData::getThumbnail

@@ -72,6 +72,7 @@ namespace Exiv2 {
         const uint16_t gps     =   4; //!< GPS IFD
         const uint16_t iop     =   5; //!< Interoperability IFD
         const uint16_t mn      = 256; //!< Makernote
+        const uint16_t ignr    = 511; //!< Read but do not decode
     }
 
     /*!
@@ -85,65 +86,6 @@ namespace Exiv2 {
         const uint32_t next = 0x30000; //!< Special tag: next IFD
         const uint32_t all  = 0x40000; //!< Special tag: all tags in a group
     }
-
-    /*!
-      @brief This class models a TIFF header structure.
-     */
-    class TiffHeade2 {
-    public:
-        //! @name Creators
-        //@{
-        //! Default constructor
-        TiffHeade2()
-            : byteOrder_ (littleEndian),
-              offset_    (0x00000008)
-            {}
-        //@}
-
-        //! @name Manipulators
-        //@{
-        /*!
-          @brief Read the TIFF header from a data buffer. Return false if the
-                 data buffer does not contain a TIFF header, else true.
-
-          @param pData Pointer to the data buffer.
-          @param size  Number of bytes in the data buffer.
-         */
-        bool read(const byte* pData, uint32_t size);
-        //@}
-
-        //! @name Accessors
-        //@{
-        /*!
-          @brief Write the TIFF header to the binary image \em blob.
-                 This method appends to the blob.
-
-          @param blob Binary image to add to.
-
-          @throw Error If the header cannot be written.
-         */
-        void write(Blob& blob) const;
-        /*!
-          @brief Print debug info for the TIFF header to \em os.
-
-          @param os Output stream to write to.
-          @param prefix Prefix to be written before each line of output.
-         */
-        void print(std::ostream& os, const std::string& prefix ="") const;
-        //! Return the byte order (little or big endian).
-        ByteOrder byteOrder() const { return byteOrder_; }
-        //! Return the offset to the start of the root directory
-        uint32_t offset() const { return offset_; }
-        //@}
-
-    private:
-        // DATA
-        ByteOrder             byteOrder_; //!< Applicable byte order
-        uint32_t              offset_;    //!< Offset to the start of the root dir
-
-        static const uint16_t tag_;       //!< 42, identifies the buffer as TIFF data
-
-    }; // class TiffHeade2
 
     /*!
       @brief Interface class for components of a TIFF directory hierarchy
@@ -343,6 +285,84 @@ namespace Exiv2 {
     }; // class TiffEntry
 
     /*!
+      @brief A standard TIFF IFD entry consisting of a value which is an offset
+             to a data area and the data area. The size of the data area is
+             provided in a related TiffSizeEntry, tag and group of which are set
+             in the constructor. This component is used, e.g., for 
+             \em Exif.Thumbnail.JPEGInterchangeFormat for which the size is 
+             provided in \em Exif.Thumbnail.JPEGInterchangeFormatLength.
+     */
+    class TiffDataEntry : public TiffEntryBase {
+    public:
+        //! @name Creators
+        //@{
+        //! Constructor
+        TiffDataEntry(uint16_t tag, uint16_t group, uint16_t szTag, uint16_t szGroup)
+            : TiffEntryBase(tag, group), szTag_(szTag), szGroup_(szGroup) {}
+        //! Virtual destructor.
+        virtual ~TiffDataEntry() {}
+        //@}
+
+        //! @name Accessors
+        //@{
+        //! Return the group of the entry which has the size
+        uint16_t szTag() const { return szTag_; }
+        //! Return the group of the entry which has the size
+        uint16_t szGroup() const { return szGroup_; }
+        //@}
+
+    private:
+        //! @name Manipulators
+        //@{
+        virtual void doAccept(TiffVisitor& visitor);
+        //@}
+
+    private:
+        // DATA
+        const uint16_t szTag_;               //!< Tag of the entry with the size
+        const uint16_t szGroup_;             //!< Group of the entry with the size
+
+    }; // class TiffDataEntry
+
+    /*!
+      @brief A TIFF IFD entry containing the size of a data area of a related 
+             TiffDataEntry. This component is used, e.g. for 
+             \em Exif.Thumbnail.JPEGInterchangeFormatLength, which contains the 
+             size of \em Exif.Thumbnail.JPEGInterchangeFormat.
+     */
+    class TiffSizeEntry : public TiffEntryBase {
+    public:
+        //! @name Creators
+        //@{
+        //! Constructor
+        TiffSizeEntry(uint16_t tag, uint16_t group, uint16_t dtTag, uint16_t dtGroup)
+            : TiffEntryBase(tag, group), dtTag_(dtTag), dtGroup_(dtGroup) {}
+        //! Virtual destructor.
+        virtual ~TiffSizeEntry() {}
+        //@}
+
+        //! @name Accessors
+        //@{
+        //! Return the group of the related entry which has the data area
+        uint16_t dtTag() const { return dtTag_; }
+        //! Return the group of the related entry which has the data area
+        uint16_t dtGroup() const { return dtGroup_; }
+        //@}
+
+    private:
+        //! @name Manipulators
+        //@{
+        virtual void doAccept(TiffVisitor& visitor);
+        //@}
+
+    private:
+        // DATA
+        const uint16_t dtTag_;        //!< Tag of the entry with the data area
+        const uint16_t dtGroup_;      //!< Group of the entry with the data area
+
+    }; // class TiffSizeEntry
+
+    /*!
       @brief This class models a TIFF directory (%Ifd). It is a composite
              component of the TIFF tree.
      */
@@ -352,10 +372,16 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        TiffDirectory(uint16_t tag, uint16_t group)
-            : TiffComponent(tag, group), pNext_(0) {}
+        TiffDirectory(uint16_t tag, uint16_t group, bool hasNext =true)
+            : TiffComponent(tag, group), hasNext_(hasNext), pNext_(0) {}
         //! Virtual destructor
         virtual ~TiffDirectory();
+        //@}
+
+        //! @name Manipulators
+        //@{
+        //! Return true if the directory has a next pointer
+        bool hasNext() const { return hasNext_; }
         //@}
 
     private:
@@ -369,6 +395,7 @@ namespace Exiv2 {
     private:
         // DATA
         Components components_; //!< List of components in this directory
+        const bool hasNext_;    //!< True if the directory has a next pointer
         TiffComponent* pNext_;  //!< Pointer to the next IFD
 
     }; // class TiffDirectory
@@ -524,6 +551,14 @@ namespace Exiv2 {
     //! Function to create and initialize a new array element
     TiffComponent::AutoPtr newTiffArrayElement(uint16_t tag,
                                                const TiffStructure* ts);
+
+    //! Function to create and initialize a new TIFF entry for a Jpeg thumbnail (data)
+    TiffComponent::AutoPtr newTiffThumbData(uint16_t tag,
+                                            const TiffStructure* ts);
+
+    //! Function to create and initialize a new TIFF entry for a Jpeg thumbnail (size)
+    TiffComponent::AutoPtr newTiffThumbSize(uint16_t tag,
+                                            const TiffStructure* ts);
 
 }                                       // namespace Exiv2
 

@@ -161,6 +161,65 @@ namespace Exiv2 {
 
     }; // class TiffImage
 
+    /*!
+      @brief This class models a TIFF header structure.
+     */
+    class TiffHeade2 {
+    public:
+        //! @name Creators
+        //@{
+        //! Default constructor
+        TiffHeade2()
+            : byteOrder_ (littleEndian),
+              offset_    (0x00000008)
+            {}
+        //@}
+
+        //! @name Manipulators
+        //@{
+        /*!
+          @brief Read the TIFF header from a data buffer. Return false if the
+                 data buffer does not contain a TIFF header, else true.
+
+          @param pData Pointer to the data buffer.
+          @param size  Number of bytes in the data buffer.
+         */
+        bool read(const byte* pData, uint32_t size);
+        //@}
+
+        //! @name Accessors
+        //@{
+        /*!
+          @brief Write the TIFF header to the binary image \em blob.
+                 This method appends to the blob.
+
+          @param blob Binary image to add to.
+
+          @throw Error If the header cannot be written.
+         */
+        void write(Blob& blob) const;
+        /*!
+          @brief Print debug info for the TIFF header to \em os.
+
+          @param os Output stream to write to.
+          @param prefix Prefix to be written before each line of output.
+         */
+        void print(std::ostream& os, const std::string& prefix ="") const;
+        //! Return the byte order (little or big endian).
+        ByteOrder byteOrder() const { return byteOrder_; }
+        //! Return the offset to the start of the root directory
+        uint32_t offset() const { return offset_; }
+        //@}
+
+    private:
+        // DATA
+        ByteOrder             byteOrder_; //!< Applicable byte order
+        uint32_t              offset_;    //!< Offset to the start of the root dir
+
+        static const uint16_t tag_;       //!< 42, identifies the buffer as TIFF data
+
+    }; // class TiffHeade2
+
 // *****************************************************************************
 // template, inline and free functions
 

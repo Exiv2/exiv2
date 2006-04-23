@@ -29,10 +29,6 @@
 #include "rcsid.hpp"
 EXIV2_RCSID("@(#) $Id$");
 
-// Define DEBUG to output debug information to std::cerr, e.g, by calling make
-// like this: make DEFS=-DDEBUG tiffparser.o
-//#define DEBUG
-
 // *****************************************************************************
 // included header files
 #ifdef _MSC_VER
@@ -44,6 +40,7 @@ EXIV2_RCSID("@(#) $Id$");
 #include "tiffparser.hpp"
 #include "tiffcomposite.hpp"
 #include "tiffvisitor.hpp"
+#include "tiffimage.hpp"
 #include "error.hpp"
 
 // + standard includes
@@ -61,6 +58,9 @@ EXIV2_RCSID("@(#) $Id$");
      images which need to be loaded completely.
    + TiffComponent: should it have end() and setEnd() or pData and size?
    + Can NewTiffCompFct and TiffCompFactoryFct be combined?
+   + Create function is repeated when actually only the table changes. Fix it.
+   + CR2 Makernotes don't seem to have a next pointer but Canon Jpeg Makernotes
+     do. What a mess. (That'll become an issue when it comes to writing to CR2)
 
    in crwimage.* :
 
@@ -93,27 +93,31 @@ namespace Exiv2 {
         {    0x8825, Group::ifd0, newTiffSubIfd,    Group::gps  },
         {    0xa005, Group::exif, newTiffSubIfd,    Group::iop  },
         {    0x927c, Group::exif, newTiffMnEntry,   Group::mn   },
-        { Tag::next, Group::ifd0, newTiffDirectory, Group::ifd0 }
+        {    0x0201, Group::ifd1, newTiffThumbData, Group::ifd1 },
+        {    0x0202, Group::ifd1, newTiffThumbSize, Group::ifd1 },
+        { Tag::next, Group::ifd0, newTiffDirectory, Group::ifd1 },
+        { Tag::next, Group::ifd1, newTiffDirectory, Group::ignr },
+        { Tag::next, Group::ignr, newTiffDirectory, Group::ignr }
     };
 
     TiffComponent::AutoPtr TiffCreator::create(uint32_t extendedTag,
                                                uint16_t group)
     {
-        const TiffStructure* ts = find(tiffStructure_,
-                                       TiffStructure::Key(extendedTag, group));
         TiffComponent::AutoPtr tc(0);
         uint16_t tag = static_cast<uint16_t>(extendedTag & 0xffff);
+        const TiffStructure* ts = find(tiffStructure_,
+                                       TiffStructure::Key(extendedTag, group));
         if (ts && ts->newTiffCompFct_) {
             tc = ts->newTiffCompFct_(tag, ts);
         }
-        if (!ts) {
+        if (!ts && extendedTag != Tag::next) {
             tc = TiffComponent::AutoPtr(new TiffEntry(tag, group));
         }
         return tc;
     } // TiffCreator::create
 
-    void TiffParser::decode(Image* pImage, 
-                            const byte* pData, 
+    void TiffParser::decode(Image* pImage,
+                            const byte* pData,
                             uint32_t size,
                             TiffCompFactoryFct createFct)
     {
