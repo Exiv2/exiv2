@@ -158,6 +158,25 @@ namespace Exiv2 {
 
         if (object->group() == Group::ignr) return;
 
+        // Experimental code to decode Olympus Thumbnail from the TIFF makernote
+        // into IFD1.  
+        // Todo: this should go elsewhere. Ideally, such code to decode specific
+        // tag/group combinations could be added from outside
+        if (object->tag() == 0x0100 && object->group() == 257) {
+            const DataValue* v = dynamic_cast<const DataValue*>(object->pValue());
+            if (v != 0) {
+                ExifData& exifData = pImage_->exifData();
+                exifData["Exif.Thumbnail.Compression"] = uint16_t(6);
+                DataBuf buf(v->size());
+                v->copy(buf.pData_);
+                Exifdatum& ed = exifData["Exif.Thumbnail.JPEGInterchangeFormat"];
+                ed = uint32_t(0);
+                ed.setDataArea(buf.pData_, buf.size_);
+                exifData["Exif.Thumbnail.JPEGInterchangeFormatLength"] = uint32_t(buf.size_);
+                return;
+            }
+        }
+
         // Todo: ExifKey should have an appropriate c'tor, it should not be 
         //       necessary to use groupName here
         ExifKey k(object->tag(), object->groupName());
