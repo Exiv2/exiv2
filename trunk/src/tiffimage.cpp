@@ -29,10 +29,6 @@
 #include "rcsid.hpp"
 EXIV2_RCSID("@(#) $Id$");
 
-// Define DEBUG to output debug information to std::cerr, e.g, by calling make
-// like this: make DEFS=-DDEBUG tiffparser.o
-//#define DEBUG
-
 // *****************************************************************************
 // included header files
 #ifdef _MSC_VER
@@ -48,7 +44,9 @@ EXIV2_RCSID("@(#) $Id$");
 #include "futils.hpp"
 
 // + standard includes
+#include <string>
 #include <iostream>
+#include <iomanip>
 #include <cassert>
 
 // *****************************************************************************
@@ -184,6 +182,42 @@ namespace Exiv2 {
     {
         return isTiffType(iIo, advance);
     }
+
+    const uint16_t TiffHeade2::tag_ = 42;
+
+    bool TiffHeade2::read(const byte* pData, uint32_t size)
+    {
+        if (size < 8) return false;
+
+        if (pData[0] == 0x49 && pData[1] == 0x49) {
+            byteOrder_ = littleEndian;
+        }
+        else if (pData[0] == 0x4d && pData[1] == 0x4d) {
+            byteOrder_ = bigEndian;
+        }
+        else {
+            return false;
+        }
+        if (tag_ != getUShort(pData + 2, byteOrder_)) return false;
+        offset_ = getULong(pData + 4, byteOrder_);
+
+        return true;
+    } // TiffHeade2::read
+
+    void TiffHeade2::print(std::ostream& os, const std::string& prefix) const
+    {
+        os << prefix
+           << "Header, offset = 0x" << std::setw(8) << std::setfill('0')
+           << std::hex << std::right << offset_;
+
+        switch (byteOrder_) {
+        case littleEndian:     os << ", little endian encoded"; break;
+        case bigEndian:        os << ", big endian encoded"; break;
+        case invalidByteOrder: break;
+        }
+        os << "\n";
+
+    } // TiffHeade2::print
 
     // *************************************************************************
     // free functions

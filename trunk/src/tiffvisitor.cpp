@@ -77,6 +77,16 @@ namespace Exiv2 {
         findObject(object);
     }
 
+    void TiffFinder::visitDataEntry(TiffDataEntry* object)
+    {
+        findObject(object);
+    }
+
+    void TiffFinder::visitSizeEntry(TiffSizeEntry* object)
+    {
+        findObject(object);
+    }
+
     void TiffFinder::visitDirectory(TiffDirectory* object)
     {
         findObject(object);
@@ -112,6 +122,16 @@ namespace Exiv2 {
         decodeTiffEntry(object);
     }
 
+    void TiffMetadataDecoder::visitDataEntry(TiffDataEntry* object)
+    {
+        decodeTiffEntry(object);
+    }
+
+    void TiffMetadataDecoder::visitSizeEntry(TiffSizeEntry* object)
+    {
+        decodeTiffEntry(object);
+    }
+
     void TiffMetadataDecoder::visitDirectory(TiffDirectory* object)
     {
         // Nothing to do
@@ -136,11 +156,14 @@ namespace Exiv2 {
     {
         assert(object != 0);
 
+        if (object->group() == Group::ignr) return;
+
         // Todo: ExifKey should have an appropriate c'tor, it should not be 
         //       necessary to use groupName here
         ExifKey k(object->tag(), object->groupName());
         assert(pImage_ != 0);
         pImage_->exifData().add(k, object->pValue());
+
     } // TiffMetadataDecoder::decodeTiffEntry
 
     void TiffMetadataDecoder::visitArrayEntry(TiffArrayEntry* object)
@@ -177,6 +200,21 @@ namespace Exiv2 {
         printTiffEntry(object, prefix());
     } // TiffPrinter::visitEntry
 
+    void TiffPrinter::visitDataEntry(TiffDataEntry* object)
+    {
+        printTiffEntry(object, prefix());
+        if (object->pValue()) {
+            os_ << prefix() << "Data area "
+                << object->pValue()->sizeDataArea()
+                << " bytes.\n";
+        }
+    } // TiffPrinter::visitEntry
+
+    void TiffPrinter::visitSizeEntry(TiffSizeEntry* object)
+    {
+        printTiffEntry(object, prefix());
+    }
+
     void TiffPrinter::visitDirectory(TiffDirectory* object)
     {
         assert(object != 0);
@@ -193,8 +231,10 @@ namespace Exiv2 {
     void TiffPrinter::visitDirectoryNext(TiffDirectory* object)
     {
         decIndent();
-        if (object->pNext_) os_ << prefix() << "Next directory:\n";
-        else os_ << prefix() << "No next directory\n";        
+        if (object->hasNext()) {
+            if (object->pNext_) os_ << prefix() << "Next directory:\n";
+            else os_ << prefix() << "No next directory\n";        
+        }
     } // TiffPrinter::visitDirectoryNext
 
     void TiffPrinter::visitDirectoryEnd(TiffDirectory* object)
@@ -318,6 +358,60 @@ namespace Exiv2 {
         readTiffEntry(object);
     }
 
+    void TiffReader::visitDataEntry(TiffDataEntry* object)
+    {
+        assert(object != 0);
+
+        readTiffEntry(object);
+        TiffFinder finder(object->szTag(), object->szGroup());
+        pRoot_->accept(finder);
+        TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
+        if (te && te->pValue()) {
+            long size = te->pValue()->toLong();
+            long offset = object->pValue()->toLong();
+            if (baseOffset() + offset + size <= size_) {
+                object->pValue_->setDataArea(pData_ + baseOffset() + offset, size);
+            }
+#ifndef SUPPRESS_WARNINGS
+            else {
+                std::cerr << "Warning: "
+                          << "Directory " << object->groupName()
+                          << ", entry 0x" << std::setw(4)
+                          << std::setfill('0') << std::hex << object->tag()
+                          << " Data area exceeds data buffer, ignoring it.\n";
+            }
+#endif
+        }
+
+    }
+
+    void TiffReader::visitSizeEntry(TiffSizeEntry* object)
+    {
+        assert(object != 0);
+
+        readTiffEntry(object);
+        TiffFinder finder(object->dtTag(), object->dtGroup());
+        pRoot_->accept(finder);
+        TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
+        if (te && te->pValue()) {
+            long offset = te->pValue()->toLong();
+            long size = object->pValue()->toLong();
+            if (baseOffset() + offset + size <= size_) {
+                te->pValue_->setDataArea(pData_ + baseOffset() + offset, size);
+            }
+#ifndef SUPPRESS_WARNINGS
+            else {
+                std::cerr << "Warning: "
+                          << "Directory " << object->groupName()
+                          << ", entry 0x" << std::setw(4)
+                          << std::setfill('0') << std::hex << object->tag()
+                          << " Data area exceeds data buffer, ignoring it.\n";
+            }
+#endif
+        }
+
+    }
+
     void TiffReader::visitDirectory(TiffDirectory* object)
     {
         assert(object != 0);
@@ -347,6 +441,7 @@ namespace Exiv2 {
             }
             uint16_t tag = getUShort(p, byteOrder());
             TiffComponent::AutoPtr tc = create(tag, object->group());
+            assert(tc.get());
             tc->setStart(p);
             object->addChild(tc);
             p += 12;
@@ -360,20 +455,32 @@ namespace Exiv2 {
 #endif
                 return;
         }
-        uint32_t next = getLong(p, byteOrder());
-        if (next) {
-            TiffComponent::AutoPtr tc = create(Tag::next, object->group());
-            if (baseOffset() + next > size_) {
+        if (object->hasNext()) {
+            TiffComponent::AutoPtr tc(0);
+            uint32_t next = getLong(p, byteOrder());
+            if (next) {
+                tc = create(Tag::next, object->group());
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Error: "
-                          << "Directory " << object->groupName() << ": "
-                          << " Next pointer is out of bounds.\n";
+                if (tc.get() == 0) {
+                    std::cerr << "Warning: "
+                              << "Directory " << object->groupName()
+                              << " has an unhandled next pointer.\n";
+                }
 #endif
-                return;
             }
-            tc->setStart(pData_ + baseOffset() + next);
-            object->addNext(tc);
-        }
+            if (tc.get()) {
+                if (baseOffset() + next > size_) {
+#ifndef SUPPRESS_WARNINGS
+                    std::cerr << "Error: "
+                              << "Directory " << object->groupName() << ": "
+                              << " Next pointer is out of bounds.\n";
+#endif
+                    return;
+                }
+                tc->setStart(pData_ + baseOffset() + next);
+                object->addNext(tc);
+            }
+        } // object->hasNext()
 
     } // TiffReader::visitDirectory
 
@@ -539,6 +646,7 @@ namespace Exiv2 {
             for (uint16_t i = 0; i < static_cast<uint16_t>(object->count()); ++i) {
                 uint16_t tag = i;
                 TiffComponent::AutoPtr tc = create(tag, object->elGroup());
+                assert(tc.get());
                 tc->setStart(object->pData() + i * 2);
                 object->addChild(tc);
             }

@@ -64,14 +64,14 @@ namespace Exiv2 {
     TiffComponent::AutoPtr TiffCanonCreator::create(uint32_t extendedTag,
                                                     uint16_t group)
     {
-        const TiffStructure* ts = find(tiffStructure_,
-                                       TiffStructure::Key(extendedTag, group));
         TiffComponent::AutoPtr tc(0);
         uint16_t tag = static_cast<uint16_t>(extendedTag & 0xffff);
+        const TiffStructure* ts = find(tiffStructure_,
+                                       TiffStructure::Key(extendedTag, group));
         if (ts && ts->newTiffCompFct_) {
             tc = ts->newTiffCompFct_(tag, ts);
         }
-        if (!ts) {
+        if (!ts && extendedTag != Tag::next) {
             tc = TiffComponent::AutoPtr(new TiffEntry(tag, group));
         }
         return tc;

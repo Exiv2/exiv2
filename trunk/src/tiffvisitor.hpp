@@ -84,6 +84,10 @@ namespace Exiv2 {
         void setGo(bool go) { go_ = go; }
         //! Operation to perform for a TIFF entry
         virtual void visitEntry(TiffEntry* object) =0;
+        //! Operation to perform for a TIFF data entry
+        virtual void visitDataEntry(TiffDataEntry* object) =0;
+        //! Operation to perform for a TIFF size entry
+        virtual void visitSizeEntry(TiffSizeEntry* object) =0;
         //! Operation to perform for a TIFF directory
         virtual void visitDirectory(TiffDirectory* object) =0;
         /*!
@@ -142,6 +146,10 @@ namespace Exiv2 {
         //@{
         //! Find tag and group in a TIFF entry
         virtual void visitEntry(TiffEntry* object);
+        //! Find tag and group in a TIFF data entry
+        virtual void visitDataEntry(TiffDataEntry* object);
+        //! Find tag and group in a TIFF size entry
+        virtual void visitSizeEntry(TiffSizeEntry* object);
         //! Find tag and group in a TIFF directory
         virtual void visitDirectory(TiffDirectory* object);
         //! Find tag and group in a TIFF sub-IFD
@@ -196,6 +204,10 @@ namespace Exiv2 {
         //@{
         //! Decode a TIFF entry
         virtual void visitEntry(TiffEntry* object);
+        //! Decode a TIFF data entry
+        virtual void visitDataEntry(TiffDataEntry* object);
+        //! Decode a TIFF size entry
+        virtual void visitSizeEntry(TiffSizeEntry* object);
         //! Decode a TIFF directory
         virtual void visitDirectory(TiffDirectory* object);
         //! Decode a TIFF sub-IFD
@@ -290,6 +302,10 @@ namespace Exiv2 {
         //@{
         //! Read a TIFF entry from the data buffer
         virtual void visitEntry(TiffEntry* object);
+        //! Read a TIFF data entry from the data buffer
+        virtual void visitDataEntry(TiffDataEntry* object);
+        //! Read a TIFF size entry from the data buffer
+        virtual void visitSizeEntry(TiffSizeEntry* object);
         //! Read a TIFF directory from the data buffer
         virtual void visitDirectory(TiffDirectory* object);
         //! Read a TIFF sub-IFD from the data buffer
@@ -353,6 +369,10 @@ namespace Exiv2 {
         //@{
         //! Print a TIFF entry.
         virtual void visitEntry(TiffEntry* object);
+        //! Print a TIFF data entry.
+        virtual void visitDataEntry(TiffDataEntry* object);
+        //! Print a TIFF size entry.
+        virtual void visitSizeEntry(TiffSizeEntry* object);
         //! Print a TIFF directory
         virtual void visitDirectory(TiffDirectory* object);
         //! Print header before next directory

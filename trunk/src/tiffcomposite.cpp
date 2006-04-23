@@ -28,10 +28,6 @@
 #include "rcsid.hpp"
 EXIV2_RCSID("@(#) $Id$");
 
-// Define DEBUG to output debug information to std::cerr, e.g, by calling make
-// like this: make DEFS=-DDEBUG tiffcomposite.o
-//#define DEBUG
-
 // *****************************************************************************
 // included header files
 #ifdef _MSC_VER
@@ -59,21 +55,6 @@ namespace Exiv2 {
         return    key.e_   == extendedTag_ && key.g_ == group_ 
                || Tag::all == extendedTag_ && key.g_ == group_;
     }
-
-    void TiffHeade2::print(std::ostream& os, const std::string& prefix) const
-    {
-        os << prefix
-           << "Header, offset = 0x" << std::setw(8) << std::setfill('0')
-           << std::hex << std::right << offset_;
-
-        switch (byteOrder_) {
-        case littleEndian:     os << ", little endian encoded"; break;
-        case bigEndian:        os << ", big endian encoded"; break;
-        case invalidByteOrder: break;
-        }
-        os << "\n";
-
-    } // TiffHeade2::print
 
     TiffDirectory::~TiffDirectory()
     {
@@ -106,27 +87,6 @@ namespace Exiv2 {
             delete *i;
         }
     } // TiffArrayEntry::~TiffArrayEntry
-
-    const uint16_t TiffHeade2::tag_ = 42;
-
-    bool TiffHeade2::read(const byte* pData, uint32_t size)
-    {
-        if (size < 8) return false;
-
-        if (pData[0] == 0x49 && pData[1] == 0x49) {
-            byteOrder_ = littleEndian;
-        }
-        else if (pData[0] == 0x4d && pData[1] == 0x4d) {
-            byteOrder_ = bigEndian;
-        }
-        else {
-            return false;
-        }
-        if (tag_ != getUShort(pData + 2, byteOrder_)) return false;
-        offset_ = getULong(pData + 4, byteOrder_);
-
-        return true;
-    } // TiffHeade2::read
 
     std::string TiffComponent::groupName() const
     {
@@ -182,7 +142,7 @@ namespace Exiv2 {
 
     void TiffDirectory::doAddNext(TiffComponent::AutoPtr tiffComponent)
     {
-        pNext_ = tiffComponent.release();
+        if (hasNext_) pNext_ = tiffComponent.release();
     } // TiffDirectory::doAddNext
 
     void TiffSubIfd::doAddNext(TiffComponent::AutoPtr tiffComponent)
@@ -205,6 +165,16 @@ namespace Exiv2 {
         visitor.visitEntry(this);
     } // TiffEntry::doAccept
 
+    void TiffDataEntry::doAccept(TiffVisitor& visitor)
+    {
+        visitor.visitDataEntry(this);
+    } // TiffDataEntry::doAccept
+
+    void TiffSizeEntry::doAccept(TiffVisitor& visitor)
+    {
+        visitor.visitSizeEntry(this);
+    } // TiffSizeEntry::doAccept
+
     void TiffDirectory::doAccept(TiffVisitor& visitor)
     {
         visitor.visitDirectory(this);
@@ -214,9 +184,7 @@ namespace Exiv2 {
             (*i)->accept(visitor);
         }
         if (visitor.go()) visitor.visitDirectoryNext(this);
-        if (pNext_) {
-            pNext_->accept(visitor);
-        }
+        if (pNext_) pNext_->accept(visitor);
         if (visitor.go()) visitor.visitDirectoryEnd(this);
 
     } // TiffDirectory::doAccept
@@ -291,6 +259,26 @@ namespace Exiv2 {
         assert(ts);
         return TiffComponent::AutoPtr(new TiffArrayElement(tag,
                                                            ts->group_));
+    }
+
+    TiffComponent::AutoPtr newTiffThumbData(uint16_t tag,
+                                            const TiffStructure* ts)
+    {
+        assert(ts);
+        return TiffComponent::AutoPtr(new TiffDataEntry(tag, 
+                                                        ts->group_,
+                                                        0x0202,
+                                                        Group::ifd1));
+    }
+
+    TiffComponent::AutoPtr newTiffThumbSize(uint16_t tag,
+                                            const TiffStructure* ts)
+    {
+        assert(ts);
+        return TiffComponent::AutoPtr(new TiffSizeEntry(tag, 
+                                                        ts->group_,
+                                                        0x0201,
+                                                        Group::ifd1));
     }
 
 }                                       // namespace Exiv2
