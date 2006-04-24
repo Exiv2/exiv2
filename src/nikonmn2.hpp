@@ -52,6 +52,83 @@ namespace Exiv2 {
         const uint16_t nikon3mn = 266; //!< Nikon3 makernote
     }
 
+    //! Nikon 1 Makernote
+    class TiffNikon1Mn : public TiffIfdMakernote {
+    public:
+        //! @name Creators
+        //@{
+        //! Default constructor
+        TiffNikon1Mn(uint16_t tag, uint16_t group, uint16_t mnGroup)
+            : TiffIfdMakernote(tag, group, mnGroup) {}
+        //! Virtual destructor
+        virtual ~TiffNikon1Mn() {}
+        //@}
+
+    }; // class TiffNikon1Mn
+
+    //! Header of a Nikon 2 Makernote
+    class Nikon2MnHeader : public MnHeader {
+    public:
+        //! @name Creators
+        //@{
+        //! Default constructor
+        Nikon2MnHeader();
+        //! Virtual destructor.
+        virtual ~Nikon2MnHeader() {}
+        //@}
+        //! @name Manipulators
+        //@{
+        virtual bool read(const byte* pData, 
+                          uint32_t    size, 
+                          ByteOrder   byteOrder);
+        //@}
+        //! @name Accessors
+        //@{
+        virtual uint32_t size()      const { return size_; }
+        virtual uint32_t ifdOffset() const { return start_; }
+        //@}
+
+    private:
+        DataBuf buf_;                   //!< Raw header data
+        uint32_t start_;                //!< Start of the mn IFD rel. to mn start
+        static const byte signature_[]; //!< Nikon 2 makernote header signature
+        static const uint32_t size_;    //!< Size of the signature
+
+    }; // class Nikon2MnHeader
+
+    /*!
+      @brief Nikon 2 Makernote
+     */
+    class TiffNikon2Mn : public TiffIfdMakernote {
+    public:
+        //! @name Creators
+        //@{
+        //! Default constructor
+        TiffNikon2Mn(uint16_t tag, uint16_t group, uint16_t mnGroup)
+            : TiffIfdMakernote(tag, group, mnGroup) {}
+        //! Virtual destructor
+        virtual ~TiffNikon2Mn() {}
+        //@}
+
+    private:
+        //! @name Manipulators
+        //@{
+        virtual bool doReadHeader(const byte* pData,
+                                  uint32_t    size, 
+                                  ByteOrder   byteOrder);
+        //@}
+
+        //! @name Accessors
+        //@{
+        virtual uint32_t doIfdOffset() const;
+        //@}
+
+    private:
+        // DATA
+        Nikon2MnHeader header_;                //!< Makernote header
+
+    }; // class TiffNikon2Mn
+
     //! Header of a Nikon 3 Makernote
     class Nikon3MnHeader : public MnHeader {
     public:
@@ -71,7 +148,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         virtual uint32_t size()      const { return size_; }
-        virtual uint32_t ifdOffset() const { return size_; }
+        virtual uint32_t ifdOffset() const { return start_; }
         //! Return the byte order for the header
         ByteOrder        byteOrder() const { return byteOrder_; }
         /*!

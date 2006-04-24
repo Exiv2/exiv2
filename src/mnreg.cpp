@@ -46,7 +46,7 @@ namespace Exiv2 {
     const TiffMnRegistry TiffMnCreator::registry_[] = {
         { "Canon",    newCanonMn,   Group::canonmn  },
         { "FUJIFILM", newFujiMn,    Group::fujimn   },
-        { "NIKON",    newNikonMn,   Group::nikon3mn },
+        { "NIKON",    newNikonMn,   Group::nikonmn  },
         { "OLYMPUS",  newOlympusMn, Group::olympmn  }
     };
 
