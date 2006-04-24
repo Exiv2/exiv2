@@ -211,6 +211,8 @@ namespace Exiv2 {
         uint32_t ifdOffset() const { return offset_; }
         //! Return the size (in bytes) of the TIFF header
         uint32_t size() const { return 8; }
+        //! Return the tag value (magic number) which identifies the buffer as TIFF data
+        uint16_t tag() const { return tag_; }
         //@}
 
     private:

@@ -46,6 +46,43 @@ EXIV2_RCSID("@(#) $Id$");
 // class member definitions
 namespace Exiv2 {
 
+    const byte Nikon2MnHeader::signature_[] = {
+        'N', 'i', 'k', 'o', 'n', '\0', 0x00, 0x01
+    };
+    const uint32_t Nikon2MnHeader::size_ = 8;
+
+    Nikon2MnHeader::Nikon2MnHeader()
+    {
+        read(signature_, size_, invalidByteOrder);
+    }
+
+    bool Nikon2MnHeader::read(const byte* pData,
+                              uint32_t    size, 
+                              ByteOrder   /*byteOrder*/)
+    {
+        assert (pData != 0);
+
+        if (size < size_) return false;
+        if (0 != memcmp(pData, signature_, 6)) return false;
+        buf_.alloc(size_);
+        memcpy(buf_.pData_, pData, buf_.size_);
+        start_ = size_;
+        return true;
+
+    } // Nikon2MnHeader::read
+
+    bool TiffNikon2Mn::doReadHeader(const byte* pData,
+                                    uint32_t size,
+                                    ByteOrder byteOrder)
+    {
+        return header_.read(pData, size, byteOrder);
+    }
+
+    uint32_t TiffNikon2Mn::doIfdOffset() const
+    {
+        return header_.ifdOffset();
+    }
+
     const byte Nikon3MnHeader::signature_[] = {
         'N', 'i', 'k', 'o', 'n', '\0',
         0x02, 0x10, 0x00, 0x00, 0x4d, 0x4d, 0x00, 0x2a, 0x00, 0x00, 0x00, 0x08
@@ -105,11 +142,25 @@ namespace Exiv2 {
     TiffComponent* newNikonMn(uint16_t    tag,
                               uint16_t    group,
                               uint16_t    mnGroup,
-                              const byte* /*pData*/,
-                              uint32_t    /*size*/, 
+                              const byte* pData,
+                              uint32_t    size,
                               ByteOrder   /*byteOrder*/)
     {
-        return new TiffNikon3Mn(tag, group, mnGroup);
+        // If there is no "Nikon" string it must be Nikon1 format
+        if (size < 6 ||    std::string(reinterpret_cast<const char*>(pData), 6)
+                        != std::string("Nikon\0", 6)) {
+            return new TiffNikon1Mn(tag, group, Group::nikon1mn);
+        }
+        // If the "Nikon" string is not followed by a TIFF header, we assume
+        // Nikon2 format
+        TiffHeade2 tiffHeader;
+        if (   size < 18
+            || !tiffHeader.read(pData + 10, size - 10)
+            || tiffHeader.tag() != 0x002a) {
+            return new TiffNikon2Mn(tag, group, Group::nikon2mn);
+        }
+        // Else we have a Nikon3 makernote
+        return new TiffNikon3Mn(tag, group, Group::nikon3mn);
     }
 
 }                                       // namespace Exiv2
