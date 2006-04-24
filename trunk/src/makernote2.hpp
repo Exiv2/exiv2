@@ -116,7 +116,7 @@ namespace Exiv2 {
         //@}        
         //! @name Manipulators
         //@{
-        //! Read the header from a data buffer, return true if successful
+        //! Read the header from a data buffer, return true if ok
         virtual bool read(const byte* pData, 
                           uint32_t    size,
                           ByteOrder byteOrder) =0;
@@ -130,8 +130,6 @@ namespace Exiv2 {
                  header.
          */
         virtual uint32_t ifdOffset() const =0;
-        //! Check the header, return true if ok
-        virtual bool check() const =0;
         //@}
 
     }; // class MnHeader
@@ -161,8 +159,6 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        //! Check the header, return true if ok
-        bool checkHeader() const;
         /*!
           @brief Return the offset to the start of the Makernote IFD from
                  the start of the Makernote.
@@ -204,13 +200,6 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        /*!
-          @brief Implements checkHeader().
-
-          Default implementation simply returns true. Derived classes for
-          makernotes which have a header should overwrite this.
-         */
-        virtual bool doCheckHeader() const { return true; }
         /*!
           @brief Implements ifdOffset().
 

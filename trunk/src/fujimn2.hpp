@@ -68,7 +68,6 @@ namespace Exiv2 {
         //@{
         virtual uint32_t size()      const { return header_.size_; }
         virtual uint32_t ifdOffset() const { return start_; }
-        virtual bool     check()     const;
         //! Return the byte order for the header
         ByteOrder        byteOrder() const { return byteOrder_; }
         //@}
@@ -106,7 +105,6 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        virtual bool doCheckHeader() const;
         virtual uint32_t doIfdOffset() const;
         virtual TiffRwState::AutoPtr doGetState(uint32_t  mnOffset,
                                                 ByteOrder byteOrder) const;
