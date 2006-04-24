@@ -68,11 +68,6 @@ namespace Exiv2 {
         return doReadHeader(pData, size, byteOrder);
     }
 
-    bool TiffIfdMakernote::checkHeader() const
-    {
-        return doCheckHeader();
-    }
-
     uint32_t TiffIfdMakernote::ifdOffset() const
     {
         return doIfdOffset();

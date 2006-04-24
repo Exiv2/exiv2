@@ -68,7 +68,6 @@ namespace Exiv2 {
         //@{
         virtual uint32_t size()      const { return header_.size_; }
         virtual uint32_t ifdOffset() const { return size_; }
-        virtual bool     check()     const;
         //@}
 
     private:
@@ -102,7 +101,6 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        virtual bool doCheckHeader() const;
         virtual uint32_t doIfdOffset() const;
         //@}
 

@@ -562,12 +562,11 @@ namespace Exiv2 {
     {
         assert(object != 0);
 
-        object->readHeader(object->start(), 
-                           static_cast<uint32_t>(pLast_ - object->start()), 
-                           byteOrder());
-        if (!object->checkHeader()) {
+        if (!object->readHeader(object->start(), 
+                                static_cast<uint32_t>(pLast_ - object->start()), 
+                                byteOrder())) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Error: IFD Makernote header check failed.\n";
+            std::cerr << "Error: Failed to read IFD Makernote header.\n";
 #endif
             return;   // todo: signal error to parent, delete object
         }

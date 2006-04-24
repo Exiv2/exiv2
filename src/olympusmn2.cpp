@@ -70,17 +70,12 @@ namespace Exiv2 {
 
         header_.alloc(size_);
         memcpy(header_.pData_, pData, header_.size_);
-        return true;
-    } // OlympusMnHeader::read
-
-    bool OlympusMnHeader::check() const
-    {
         if (   static_cast<uint32_t>(header_.size_) < size_ 
             || 0 != memcmp(header_.pData_, signature_, 5)) {
             return false;
         }
         return true;
-    } // OlympusMnHeader::check
+    } // OlympusMnHeader::read
 
     bool TiffOlympusMn::doReadHeader(const byte* pData, 
                                      uint32_t    size, 
@@ -89,11 +84,6 @@ namespace Exiv2 {
         return header_.read(pData, size, byteOrder);
     }
     
-    bool TiffOlympusMn::doCheckHeader() const
-    {
-        return header_.check();
-    }
-
     uint32_t TiffOlympusMn::doIfdOffset() const
     {
         return header_.ifdOffset();

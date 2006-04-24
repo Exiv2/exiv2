@@ -77,17 +77,12 @@ namespace Exiv2 {
         // from the header. Note that we ignore the byteOrder argument
         start_ = getUShort(header_.pData_ + 8, byteOrder_);
 
-        return true;
-    } // FujiMnHeader::read
-
-    bool FujiMnHeader::check() const
-    {
         if (   static_cast<uint32_t>(header_.size_) < size_ 
             || 0 != memcmp(header_.pData_, signature_, 8)) {
             return false;
         }
         return true;
-    } // FujiMnHeader::check
+    } // FujiMnHeader::read
 
     bool TiffFujiMn::doReadHeader(const byte* pData,
                                   uint32_t size,
@@ -96,11 +91,6 @@ namespace Exiv2 {
         return header_.read(pData, size, byteOrder);
     }
     
-    bool TiffFujiMn::doCheckHeader() const
-    {
-        return header_.check();
-    }
-
     uint32_t TiffFujiMn::doIfdOffset() const
     {
         return header_.ifdOffset();
