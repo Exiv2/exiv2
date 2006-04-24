@@ -73,6 +73,7 @@ CCSRC = basicio.cpp           \
 	metadatum.cpp         \
 	mnreg.cpp             \
 	nikonmn.cpp           \
+	nikonmn2.cpp          \
 	olympusmn.cpp         \
 	olympusmn2.cpp        \
 	panasonicmn.cpp       \

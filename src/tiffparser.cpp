@@ -125,12 +125,12 @@ namespace Exiv2 {
         assert(pData != 0);
 
         TiffHeade2 tiffHeader;
-        if (!tiffHeader.read(pData, size) || tiffHeader.offset() >= size) {
+        if (!tiffHeader.read(pData, size) || tiffHeader.ifdOffset() >= size) {
             throw Error(3, "TIFF");
         }
         TiffComponent::AutoPtr rootDir = createFct(Tag::root, Group::none);
         if (0 == rootDir.get()) return;
-        rootDir->setStart(pData + tiffHeader.offset());
+        rootDir->setStart(pData + tiffHeader.ifdOffset());
 
         TiffRwState::AutoPtr state(
             new TiffRwState(tiffHeader.byteOrder(), 0, createFct));

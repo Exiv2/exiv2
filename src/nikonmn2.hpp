@@ -19,21 +19,22 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*!
-  @file    fujimn2.hpp
-  @brief   TIFF Fujifilm makernote
+  @file    nikonmn2.hpp
+  @brief   TIFF Nikon makernote
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    15-Apr-06, ahu: created
+  @date    18-Apr-06, ahu: created
  */
-#ifndef FUJIMN2_HPP_
-#define FUJIMN2_HPP_
+#ifndef NIKONMN2_HPP_
+#define NIKONMN2_HPP_
 
 // *****************************************************************************
 // included header files
 #include "makernote2.hpp"
 #include "tiffcomposite.hpp"
 #include "types.hpp"
+#include "tiffimage.hpp"                        // for TiffHeade2
 
 // + standard includes
 
@@ -45,18 +46,21 @@ namespace Exiv2 {
 // class definitions
 
     namespace Group {
-        const uint16_t fujimn = 258; //!< Fujifilm makernote
+        const uint16_t nikonmn  = 263; //!< Any Nikon makernote
+        const uint16_t nikon1mn = 264; //!< Nikon1 makernote
+        const uint16_t nikon2mn = 265; //!< Nikon2 makernote
+        const uint16_t nikon3mn = 266; //!< Nikon3 makernote
     }
 
-    //! Header of a Fujifilm Makernote
-    class FujiMnHeader : public MnHeader {
+    //! Header of a Nikon 3 Makernote
+    class Nikon3MnHeader : public MnHeader {
     public:
         //! @name Creators
         //@{
         //! Default constructor
-        FujiMnHeader();
+        Nikon3MnHeader();
         //! Virtual destructor.
-        virtual ~FujiMnHeader() {}
+        virtual ~Nikon3MnHeader() {}
         //@}
         //! @name Manipulators
         //@{
@@ -66,33 +70,38 @@ namespace Exiv2 {
         //@}
         //! @name Accessors
         //@{
-        virtual uint32_t size()      const { return header_.size_; }
-        virtual uint32_t ifdOffset() const { return start_; }
+        virtual uint32_t size()      const { return size_; }
+        virtual uint32_t ifdOffset() const { return size_; }
         //! Return the byte order for the header
         ByteOrder        byteOrder() const { return byteOrder_; }
+        /*!
+          @brief Return the base offset for the makernote IFD entries relative
+                 to the start of the makernote.
+         */
+        uint32_t baseOffset()        const { return 10; }
         //@}
 
     private:
-        DataBuf header_;                //!< Data buffer for the makernote header
-        static const byte signature_[]; //!< Fujifilm makernote header signature
-        static const uint32_t size_;    //!< Size of the signature
-        static const ByteOrder byteOrder_; //!< Byteorder for makernote (II)
+        DataBuf buf_;                   //!< Raw header data
+        ByteOrder byteOrder_;           //!< Byteorder for makernote
         uint32_t start_;                //!< Start of the mn IFD rel. to mn start
+        static const byte signature_[]; //!< Nikon 3 makernote header signature
+        static const uint32_t size_;    //!< Size of the signature
 
-    }; // class FujiMnHeader
+    }; // class Nikon3MnHeader
 
     /*!
-      @brief Fujifilm Makernote
+      @brief Nikon 3 Makernote
      */
-    class TiffFujiMn : public TiffIfdMakernote {
+    class TiffNikon3Mn : public TiffIfdMakernote {
     public:
         //! @name Creators
         //@{
         //! Default constructor
-        TiffFujiMn(uint16_t tag, uint16_t group, uint16_t mnGroup)
+        TiffNikon3Mn(uint16_t tag, uint16_t group, uint16_t mnGroup)
             : TiffIfdMakernote(tag, group, mnGroup) {}
         //! Virtual destructor
-        virtual ~TiffFujiMn() {}
+        virtual ~TiffNikon3Mn() {}
         //@}
 
     private:
@@ -106,27 +115,30 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         virtual uint32_t doIfdOffset() const;
-        virtual TiffRwState::AutoPtr doGetState(uint32_t  mnOffset,
+        virtual TiffRwState::AutoPtr doGetState(uint32_t  mnOffset,                 
                                                 ByteOrder byteOrder) const;
         //@}
 
     private:
         // DATA
-        FujiMnHeader header_;                //!< Makernote header
+        Nikon3MnHeader header_;                //!< Makernote header
 
-    }; // TiffFujiMn
+    }; // class TiffNikon3Mn
 
 // *****************************************************************************
 // template, inline and free functions
 
-    //! Function to create a Fujifilm makernote
-    TiffComponent* newFujiMn(uint16_t    tag,
-                             uint16_t    group,
-                             uint16_t    mnGroup,
-                             const byte* pData,
-                             uint32_t    size, 
-                             ByteOrder   byteOrder);
+    /*!
+      @brief Function to create a Nikon makernote. This will create the 
+             appropriate Nikon 1, 2 or 3 makernote, based on the arguments.
+     */
+    TiffComponent* newNikonMn(uint16_t    tag,
+                              uint16_t    group,
+                              uint16_t    mnGroup,
+                              const byte* pData,
+                              uint32_t    size, 
+                              ByteOrder   byteOrder);
 
 }                                       // namespace Exiv2
 
-#endif                                  // #ifndef FUJIMN2_HPP_
+#endif                                  // #ifndef NIKONMN2_HPP_
