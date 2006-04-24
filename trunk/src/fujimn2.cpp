@@ -53,13 +53,15 @@ EXIV2_RCSID("@(#) $Id$");
 // class member definitions
 namespace Exiv2 {
 
-    const char* FujiMnHeader::signature_ = "FUJIFILM\12\0\0\0";
+    const byte FujiMnHeader::signature_[] = {
+        'F', 'U', 'J', 'I', 'F', 'I', 'L', 'M', 0x0c, 0x00, 0x00, 0x00
+    };
     const uint32_t FujiMnHeader::size_ = 12;
     const ByteOrder FujiMnHeader::byteOrder_ = littleEndian;
 
     FujiMnHeader::FujiMnHeader()
     {
-        read(reinterpret_cast<const byte*>(signature_), size_, byteOrder_);
+        read(signature_, size_, byteOrder_);
     }
 
     bool FujiMnHeader::read(const byte* pData,
@@ -101,11 +103,9 @@ namespace Exiv2 {
     {
         // Byteorder: from the header (little endian) 
         // Offsets  : relative to the start of the makernote
-        // Creator  : standard TIFF component factory
+        // Creator  : no change
         return TiffRwState::AutoPtr(
-            new TiffRwState(header_.byteOrder(), 
-                            mnOffset, 
-                            TiffCreator::create));
+            new TiffRwState(header_.byteOrder(), mnOffset, 0));
     }
 
     // *************************************************************************

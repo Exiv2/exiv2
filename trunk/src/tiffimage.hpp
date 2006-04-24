@@ -208,7 +208,9 @@ namespace Exiv2 {
         //! Return the byte order (little or big endian).
         ByteOrder byteOrder() const { return byteOrder_; }
         //! Return the offset to the start of the root directory
-        uint32_t offset() const { return offset_; }
+        uint32_t ifdOffset() const { return offset_; }
+        //! Return the size (in bytes) of the TIFF header
+        uint32_t size() const { return 8; }
         //@}
 
     private:

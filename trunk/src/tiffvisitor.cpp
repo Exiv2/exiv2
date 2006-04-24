@@ -348,6 +348,8 @@ namespace Exiv2 {
     {
         if (state.get() != 0) {
             if (pOrigState_ != pState_) delete pState_;
+            // 0 for create function indicates 'no change'
+            if (state->createFct_ == 0) state->createFct_ = pState_->createFct_;
             pState_ = state.release();
         }
     }
