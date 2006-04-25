@@ -293,6 +293,9 @@
 				RelativePath="..\..\src\nikonmn.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\nikonmn2.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\olympusmn.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -572,6 +575,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\nikonmn.hpp">
+			</File>
+			<File
+				RelativePath="..\..\src\nikonmn2.hpp">
 			</File>
 			<File
 				RelativePath="..\..\src\olympusmn.hpp">
