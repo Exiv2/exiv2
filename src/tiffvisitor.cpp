@@ -568,7 +568,10 @@ namespace Exiv2 {
                                 static_cast<uint32_t>(pLast_ - object->start()), 
                                 byteOrder())) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Error: Failed to read IFD Makernote header.\n";
+            std::cerr << "Error: Failed to read " 
+                      << object->ifd_.groupName() 
+                      << " (" << object->ifd_.group() 
+                      << ") IFD Makernote header.\n";
 #endif
             return;   // todo: signal error to parent, delete object
         }

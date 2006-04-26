@@ -145,8 +145,11 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        TiffIfdMakernote(uint16_t tag, uint16_t group, uint16_t mnGroup)
-            : TiffComponent(tag, group), ifd_(tag, mnGroup) {}
+        TiffIfdMakernote(uint16_t tag, 
+                         uint16_t group, 
+                         uint16_t mnGroup, 
+                         bool     hasNext =true)
+            : TiffComponent(tag, group), ifd_(tag, mnGroup, hasNext) {}
         //! Virtual destructor
         virtual ~TiffIfdMakernote() =0;
         //@}

@@ -77,8 +77,11 @@ CCSRC = basicio.cpp           \
 	olympusmn.cpp         \
 	olympusmn2.cpp        \
 	panasonicmn.cpp       \
+	panasonicmn2.cpp      \
 	sigmamn.cpp           \
+	sigmamn2.cpp          \
 	sonymn.cpp            \
+	sonymn2.cpp           \
 	tags.cpp              \
 	tiffcomposite.cpp     \
 	tiffimage.cpp         \

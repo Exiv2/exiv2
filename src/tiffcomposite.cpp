@@ -105,9 +105,13 @@ namespace Exiv2 {
         case 260: group = "CanonCs1";  break;
         case 261: group = "CanonCs2";  break;
         case 262: group = "CanonCf";   break;
+        // 263 not needed (canonmn)
         case 264: group = "Nikon1";    break;
         case 265: group = "Nikon2";    break;
         case 266: group = "Nikon3";    break;
+        case 267: group = "Panasonic"; break;
+        case 268: group = "Sigma";     break;
+        case 269: group = "Sony";      break;
         default:  group = "Unknown";   break;
         }
         return group;
