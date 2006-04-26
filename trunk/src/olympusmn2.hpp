@@ -71,9 +71,9 @@ namespace Exiv2 {
         //@}
 
     private:
-        DataBuf header_;               //!< Data buffer for the makernote header
-        static const char* signature_; //!< Olympus makernote header signature
-        static const uint32_t size_;   //!< Size of the signature
+        DataBuf header_;                //!< Data buffer for the makernote header
+        static const byte signature_[]; //!< Olympus makernote header signature
+        static const uint32_t size_;    //!< Size of the signature
 
     }; // class OlympusMnHeader
 

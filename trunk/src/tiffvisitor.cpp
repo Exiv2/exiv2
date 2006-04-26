@@ -28,10 +28,6 @@
 #include "rcsid.hpp"
 EXIV2_RCSID("@(#) $Id$");
 
-// Define DEBUG to output debug information to std::cerr, e.g, by calling make
-// like this: make DEFS=-DDEBUG tiffvisitor.o
-//#define DEBUG
-
 // *****************************************************************************
 // included header files
 #ifdef _MSC_VER
