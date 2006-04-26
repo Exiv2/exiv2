@@ -138,7 +138,7 @@ namespace Exiv2 {
         TiffReader reader(pData, size, rootDir.get(), state);
         rootDir->accept(reader);
 
-        TiffMetadataDecoder decoder(pImage);
+        TiffMetadataDecoder decoder(pImage, 4096);
         rootDir->accept(decoder);
 
     } // TiffParser::decode

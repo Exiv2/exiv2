@@ -176,6 +176,19 @@ namespace Exiv2 {
         // Todo: ExifKey should have an appropriate c'tor, it should not be 
         //       necessary to use groupName here
         ExifKey k(object->tag(), object->groupName());
+        const Value* v = object->pValue();
+        if (   threshold_ > 0 
+            && v != 0
+            && static_cast<uint32_t>(v->size()) > threshold_
+            && k.tagName().substr(0, 2) == "0x") {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Warning: "
+                      << "Size " << v->size() << " of " << k.key()
+                      << " exceeds " << threshold_ 
+                      << " bytes limit. Not decoded.\n";
+#endif
+            return;
+        }
         assert(pImage_ != 0);
         pImage_->exifData().add(k, object->pValue());
 

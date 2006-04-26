@@ -194,8 +194,14 @@ namespace Exiv2 {
     public:
         //! @name Creators
         //@{
-        //! Constructor, taking the image to add the metadata to
-        TiffMetadataDecoder(Image* pImage) : pImage_(pImage) {}
+        /*!
+          Constructor, taking the image to add the metadata to
+          and an optional threshold. Unknown tags with values
+          larger (in bytes) than the threshold will be ignored.
+          Default is not to ignore any tags (0).
+         */
+        TiffMetadataDecoder(Image* pImage, uint32_t threshold =0) 
+            : pImage_(pImage), threshold_(threshold) {}
         //! Virtual destructor
         virtual ~TiffMetadataDecoder() {}
         //@}
@@ -228,7 +234,7 @@ namespace Exiv2 {
     private:
         // DATA
         Image* pImage_; //!< Pointer to the image to which the metadata is added
-
+        const uint32_t threshold_; //!< Threshold, see constructor documentation.
     }; // class TiffMetadataDecoder
 
     /*!
