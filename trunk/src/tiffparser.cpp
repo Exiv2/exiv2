@@ -59,6 +59,7 @@ EXIV2_RCSID("@(#) $Id$");
    + TiffComponent: should it have end() and setEnd() or pData and size?
    + Can NewTiffCompFct and TiffCompFactoryFct be combined?
    + Create function is repeated when actually only the table changes. Fix it.
+   + Is it easier (for writing) to combine all creation tables into one?
    + CR2 Makernotes don't seem to have a next pointer but Canon Jpeg Makernotes
      do. What a mess. (That'll become an issue when it comes to writing to CR2)
 

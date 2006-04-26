@@ -36,6 +36,9 @@ EXIV2_RCSID("@(#) $Id$");
 #include "fujimn2.hpp"
 #include "nikonmn2.hpp"
 #include "olympusmn2.hpp"
+#include "panasonicmn2.hpp"
+#include "sigmamn2.hpp"
+#include "sonymn2.hpp"
 
 // + standard includes
 
@@ -44,10 +47,14 @@ EXIV2_RCSID("@(#) $Id$");
 namespace Exiv2 {
 
     const TiffMnRegistry TiffMnCreator::registry_[] = {
-        { "Canon",    newCanonMn,   Group::canonmn  },
-        { "FUJIFILM", newFujiMn,    Group::fujimn   },
-        { "NIKON",    newNikonMn,   Group::nikonmn  },
-        { "OLYMPUS",  newOlympusMn, Group::olympmn  }
+        { "Canon",     newCanonMn,     Group::canonmn },
+        { "FOVEON",    newSigmaMn,     Group::sigmamn },
+        { "FUJIFILM",  newFujiMn,      Group::fujimn  },
+        { "NIKON",     newNikonMn,     Group::nikonmn },
+        { "OLYMPUS",   newOlympusMn,   Group::olympmn },
+        { "Panasonic", newPanasonicMn, Group::panamn  },
+        { "SIGMA",     newSigmaMn,     Group::sigmamn },
+        { "SONY",      newSonyMn,      Group::sonymn  }
     };
 
 
