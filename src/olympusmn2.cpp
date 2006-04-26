@@ -28,10 +28,6 @@
 #include "rcsid.hpp"
 EXIV2_RCSID("@(#) $Id$");
 
-// Define DEBUG to output debug information to std::cerr, e.g, by calling make
-// like this: make DEFS=-DDEBUG makernote2.o
-//#define DEBUG
-
 // *****************************************************************************
 // included header files
 #ifdef _MSC_VER
@@ -52,12 +48,14 @@ EXIV2_RCSID("@(#) $Id$");
 // class member definitions
 namespace Exiv2 {
 
-    const char* OlympusMnHeader::signature_ = "OLYMP\0\1\0";
+    const byte OlympusMnHeader::signature_[] = {
+        'O', 'L', 'Y', 'M', 'P', 0x00, 0x01, 0x00
+    };
     const uint32_t OlympusMnHeader::size_ = 8;
 
     OlympusMnHeader::OlympusMnHeader()
     {
-        read(reinterpret_cast<const byte*>(signature_), size_, invalidByteOrder);
+        read(signature_, size_, invalidByteOrder);
     }
 
     bool OlympusMnHeader::read(const byte* pData, 
