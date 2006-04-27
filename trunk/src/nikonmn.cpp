@@ -610,39 +610,80 @@ namespace Exiv2 {
         return os;
     }
 
+    // Roger Larsson: My guess is that focuspoints will follow autofocus sensor
+    // module Note that relative size and position will vary depending on if
+    // "wide" or not
+    const char *nikonFocuspoints[] = {
+        "Center",
+        "Top",
+        "Bottom",
+        "Left",
+        "Right",
+        "Upper left",
+        "Upper right",
+        "Lower left",
+        "Lower right",
+        "Leftmost",
+        "Rightmost"
+    };
+
     std::ostream& Nikon3MakerNote::print0x0088(std::ostream& os,
                                                const Value& value)
     {
-        // Mappings taken from Exiftool
-        long afpos = value.toLong();
-        switch (afpos) {
-        case 0x0000: os << "Center"; break;
-        case 0x0100: os << "Top"; break;
-        case 0x0200: os << "Bottom"; break;
-        case 0x0300: os << "Left"; break;
-        case 0x0400: os << "Right"; break;
-
-        // D70
-        case 0x00001: os << "Single area, center"; break;
-        case 0x10002: os << "Single area, top"; break;
-        case 0x20004: os << "Single area, bottom"; break;
-        case 0x30008: os << "Single area, left"; break;
-        case 0x40010: os << "Single area, right"; break;
-
-        case 0x1000001: os << "Dynamic area, center"; break;
-        case 0x1010002: os << "Dynamic area, top"; break;
-        case 0x1020004: os << "Dynamic area, bottom"; break;
-        case 0x1030008: os << "Dynamic area, left"; break;
-        case 0x1040010: os << "Dynamic area, right"; break;
-
-        case 0x2000001: os << "Closest subject, center"; break;
-        case 0x2010002: os << "Closest subject, top"; break;
-        case 0x2020004: os << "Closest subject, bottom"; break;
-        case 0x2030008: os << "Closest subject, left"; break;
-        case 0x2040010: os << "Closest subject, right"; break;
-
-        default: os << "(" << value << ")"; break;
+        if (value.size() != 4) {
+            // Mappings taken from Exiftool
+            // TODO: are they really correct?
+            unsigned long afpos = value.toLong(); // BUG?: takes first value
+            switch (afpos) {
+            case 0x0000: os << "Center"; break;
+            case 0x0100: os << "Top"; break;
+            case 0x0200: os << "Bottom"; break;
+            case 0x0300: os << "Left"; break;
+            case 0x0400: os << "Right"; break;
+            default: os << "(" << value << ")"; break;
+            }
         }
+        else {
+            // Mapping by Roger Larsson
+            unsigned focusmetering = value.toLong(0);
+            unsigned focuspoint = value.toLong(1);
+            unsigned focusused = (value.toLong(2) << 16) + value.toLong(3);
+            enum {standard, wide} combination = standard;
+            const unsigned focuspoints = sizeof(nikonFocuspoints) / sizeof(nikonFocuspoints[0]);
+
+            switch (focusmetering) {
+            case 0x00: os << "Single area"; break; // D70, D200
+            case 0x01: os << "Dynamic area"; break; // D70, D200
+            case 0x02: os << "Closest subject"; break; // D70, D200
+            case 0x03: os << "Group dynamic-AF"; break; // D200
+            case 0x04: os << "Single area (wide)"; combination = wide; break; // D200
+            case 0x05: os << "Dynamic area (wide)"; combination = wide; break; // D200
+            default: os << "(" << focusmetering << ")"; break;
+            }
+            os << ", ";
+
+            // What fokuspoint did the user select?
+            if (focuspoint < focuspoints) {
+                os << nikonFocuspoints[focuspoint];
+                // TODO: os << position[fokuspoint][combination]
+            }
+            else
+                os << "(" << focuspoint << ")";
+
+            // What fokuspoints(!) did the camera use? add if differs
+            if (focusused == 0)
+                os << " (failed)";
+            else if (focusused != 1U<<focuspoint) {
+                // selected point was not the actually used one 
+                // (Roger Larsson: my interpretation, verify)
+                os << " ( ";
+                for (unsigned fpid=0; fpid<focuspoints; fpid++)
+                    if (focusused & 1<<fpid)
+                        os << nikonFocuspoints[fpid] << " ";
+                os << ")";
+            }
+        }
+
         return os;
     }
 
