@@ -647,7 +647,7 @@ namespace Exiv2 {
             // Mapping by Roger Larsson
             unsigned focusmetering = value.toLong(0);
             unsigned focuspoint = value.toLong(1);
-            unsigned focusused = (value.toLong(2) << 16) + value.toLong(3);
+            unsigned focusused = (value.toLong(2) << 8) + value.toLong(3);
             enum {standard, wide} combination = standard;
             const unsigned focuspoints = sizeof(nikonFocuspoints) / sizeof(nikonFocuspoints[0]);
 
