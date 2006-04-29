@@ -182,7 +182,7 @@ namespace Exiv2 {
 
         // Read offset to the IFD relative to the start of the makernote
         // from the header. Note that we ignore the byteOrder argument
-        start_ = getUShort(header_.pData_ + 8, byteOrder_);
+        start_ = getULong(header_.pData_ + 8, byteOrder_);
 
         if (   static_cast<uint32_t>(header_.size_) < size_ 
             || 0 != memcmp(header_.pData_, signature_, 8)) {
