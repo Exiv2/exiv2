@@ -93,9 +93,9 @@ namespace Exiv2 {
 
     void TiffIfdMakernote::doAccept(TiffVisitor& visitor)
     {
-        visitor.visitIfdMakernote(this);
+        if (visitor.go()) visitor.visitIfdMakernote(this);
         ifd_.accept(visitor);
-        visitor.visitIfdMakernoteEnd(this);
+        if (visitor.go()) visitor.visitIfdMakernoteEnd(this);
     }
 
 }                                       // namespace Exiv2

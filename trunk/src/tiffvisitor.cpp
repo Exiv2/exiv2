@@ -579,10 +579,15 @@ namespace Exiv2 {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Error: Failed to read " 
                       << object->ifd_.groupName() 
-                      << " (" << object->ifd_.group() 
-                      << ") IFD Makernote header.\n";
-#endif
-            return;   // todo: signal error to parent, delete object
+                      << " IFD Makernote header.\n";
+#ifdef DEBUG
+            if (static_cast<uint32_t>(pLast_ - object->start()) >= 16) {
+                hexdump(std::cerr, object->start(), 16);
+            }
+#endif // DEBUG
+#endif // SUPPRESS_WARNINGS
+            setGo(false);
+            return;
         }
         // Modify reader for Makernote peculiarities, byte order, offset,
         // component factory
@@ -596,7 +601,7 @@ namespace Exiv2 {
     {
         // Reset state (byte order, create function, offset) back to that
         // for the image
-        resetState();        
+        resetState();
     } // TiffReader::visitIfdMakernoteEnd
 
     void TiffReader::readTiffEntry(TiffEntryBase* object)

@@ -59,12 +59,12 @@ namespace Exiv2 {
 
 
     // The find template needs to see the array from where it is called
-    TiffComponent* TiffMnCreator::create(uint16_t    tag,
-                                         uint16_t    group,
-                                         std::string make,
-                                         const byte* pData,
-                                         uint32_t    size,
-                                         ByteOrder   byteOrder)
+    TiffComponent* TiffMnCreator::create(uint16_t           tag,
+                                         uint16_t           group,
+                                         const std::string& make,
+                                         const byte*        pData,
+                                         uint32_t           size,
+                                         ByteOrder          byteOrder)
     {
         TiffComponent* tc = 0;
         const TiffMnRegistry* tmr = find(registry_, TiffMnRegistry::Key(make));
