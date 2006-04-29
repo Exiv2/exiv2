@@ -405,11 +405,16 @@ namespace Exiv2 {
     TiffComponent* newSonyMn(uint16_t    tag,
                              uint16_t    group,
                              uint16_t    mnGroup,
-                             const byte* /*pData*/,
-                             uint32_t    /*size*/, 
+                             const byte* pData,
+                             uint32_t    size,
                              ByteOrder   /*byteOrder*/)
     {
-        return new TiffIfdMakernote(tag, group, mnGroup, new SonyMnHeader);
+        // If there is no "SONY DSC " string we assume it's a simple IFD Makernote
+        if (size < 12 ||   std::string(reinterpret_cast<const char*>(pData), 12)
+                        != std::string("SONY DSC \0\0\0", 12)) {
+            return new TiffIfdMakernote(tag, group, Group::sony2mn, 0, true);
+        }
+        return new TiffIfdMakernote(tag, group, Group::sony1mn, new SonyMnHeader, false);
     }
 
 }                                       // namespace Exiv2

@@ -55,8 +55,9 @@ namespace Exiv2 {
         const uint16_t nikon3mn = 266; //!< Nikon3 makernote
         const uint16_t panamn   = 267; //!< Panasonic makernote
         const uint16_t sigmamn  = 268; //!< Sigma makernote
-        const uint16_t sonymn   = 269; //!< Sony makernote
-
+        const uint16_t sonymn   = 269; //!< Any Sony makernote (pseudo group)
+        const uint16_t sony1mn  = 270; //!< Sony1 makernote
+        const uint16_t sony2mn  = 271; //!< Sony2 makernote
     }
 
 // *****************************************************************************
