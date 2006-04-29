@@ -55,14 +55,12 @@ CCHDR = exv_conf.h            \
 # Add library C++ source files to this list
 CCSRC = basicio.cpp           \
 	canonmn.cpp           \
-	canonmn2.cpp          \
 	crwimage.cpp          \
 	datasets.cpp          \
 	error.cpp             \
 	exif.cpp              \
 	futils.cpp            \
 	fujimn.cpp            \
-	fujimn2.cpp           \
 	ifd.cpp               \
 	image.cpp             \
 	imgreg.cpp            \
@@ -71,17 +69,11 @@ CCSRC = basicio.cpp           \
 	makernote.cpp         \
 	makernote2.cpp        \
 	metadatum.cpp         \
-	mnreg.cpp             \
 	nikonmn.cpp           \
-	nikonmn2.cpp          \
 	olympusmn.cpp         \
-	olympusmn2.cpp        \
 	panasonicmn.cpp       \
-	panasonicmn2.cpp      \
 	sigmamn.cpp           \
-	sigmamn2.cpp          \
 	sonymn.cpp            \
-	sonymn2.cpp           \
 	tags.cpp              \
 	tiffcomposite.cpp     \
 	tiffimage.cpp         \

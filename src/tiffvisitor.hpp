@@ -253,37 +253,56 @@ namespace Exiv2 {
              reader can change state if needed (e.g., to read certain complex
              makernotes).
      */
-    struct TiffRwState {
+    class TiffRwState {
+        friend class TiffReader;
+    public:
         //! TiffRWState auto_ptr type
         typedef std::auto_ptr<TiffRwState> AutoPtr;        
+
+        //! @name Creators
+        //@{
         //! Constructor.
-        explicit TiffRwState(ByteOrder byteOrder, 
-                             uint32_t baseOffset,
-                             TiffCompFactoryFct createFct)
+        TiffRwState(ByteOrder byteOrder, 
+                    uint32_t baseOffset,
+                    TiffCompFactoryFct createFct =0)
             : byteOrder_(byteOrder),
               baseOffset_(baseOffset),
               createFct_(createFct) {}
+        //@}
+
+        //! @name Manipulators
+        //@{
         /*!
-          Applicable byte order. May be different for the Makernote and the 
-          rest of the TIFF entries.
+          @brief Return the applicable byte order. May be different for 
+                 the Makernote and the rest of the TIFF entries.
          */
-        const ByteOrder byteOrder_;
+        ByteOrder          byteOrder()  const { return byteOrder_; }
         /*!
-          Base offset. TIFF standard format uses byte offsets which are
-          always relative to the start of the TIFF file, i.e., relative to the
-          start of the TIFF image header. In this case, the base offset is 0.
-          However, some camera vendors encode their makernotes in TIFF IFDs
-          using offsets relative to (somewhere near) the start of the makernote
-          data. In this case, base offset added to the start of the TIFF image
-          header points to the basis for such makernote offsets.
+          @brief Return the base offset. 
+
+          TIFF standard format uses byte offsets which are always relative to
+          the start of the TIFF file, i.e., relative to the start of the TIFF
+          image header. In this case, the base offset is 0.  However, some
+          camera vendors encode their makernotes in TIFF IFDs using offsets
+          relative to (somewhere near) the start of the makernote data. In this
+          case, base offset added to the start of the TIFF image header points
+          to the basis for such makernote offsets.
          */
+        uint32_t           baseOffset() const { return baseOffset_; }
+        /*!
+          @brief Return the factory function to create new TIFF components. 
+          
+          Different create functions may use different lookup tables, so that
+          makernotes can independently use their own factory function and lookup
+          table, which can be defined together with the makernote
+          implementation.
+         */
+        TiffCompFactoryFct createFct()  const { return createFct_; }
+        //@}
+        
+    private:
+        ByteOrder byteOrder_;
         const uint32_t baseOffset_;
-        /*!
-          Factory function to create new TIFF components. Different create
-          functions may use different lookup tables, so that makernotes
-          can independently use their own factory function and lookup table,
-          which can be defined together with the makernote implementation.
-         */
         TiffCompFactoryFct createFct_;
     }; // TiffRwState
 

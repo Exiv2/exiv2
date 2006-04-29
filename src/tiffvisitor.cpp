@@ -284,7 +284,7 @@ namespace Exiv2 {
 
     void TiffPrinter::visitIfdMakernote(TiffIfdMakernote* object)
     {
-        os_ << prefix() << "Todo: Print IFD makernote header\n";
+        // Nothing to do        
     } // TiffPrinter::visitIfdMakernote
 
     void TiffPrinter::printTiffEntry(TiffEntryBase* object,
@@ -359,6 +359,8 @@ namespace Exiv2 {
             if (pOrigState_ != pState_) delete pState_;
             // 0 for create function indicates 'no change'
             if (state->createFct_ == 0) state->createFct_ = pState_->createFct_;
+            // invalidByteOrder indicates 'no change'
+            if (state->byteOrder_ == invalidByteOrder) state->byteOrder_ = pState_->byteOrder_; 
             pState_ = state.release();
         }
     }
@@ -589,10 +591,11 @@ namespace Exiv2 {
             setGo(false);
             return;
         }
-        // Modify reader for Makernote peculiarities, byte order, offset,
-        // component factory
-        changeState(object->getState(static_cast<uint32_t>(object->start() - pData_), 
-                                     byteOrder()));
+        // Modify reader for Makernote peculiarities, byte order and offset
+        TiffRwState::AutoPtr state(
+            new TiffRwState(object->byteOrder(),
+                            object->baseOffset(static_cast<uint32_t>(object->start() - pData_))));
+        changeState(state);
         object->ifd_.setStart(object->start() + object->ifdOffset());
 
     } // TiffReader::visitIfdMakernote

@@ -20,7 +20,7 @@
  */
 /*!
   @file    makernote2.hpp
-  @brief   Makernote base classes, factory and registry
+  @brief   Makernote related classes
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
@@ -41,6 +41,23 @@
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
+
+    namespace Group {
+        const uint16_t olympmn  = 257; //!< Olympus makernote
+        const uint16_t fujimn   = 258; //!< Fujifilm makernote
+        const uint16_t canonmn  = 259; //!< Canon makernote
+        const uint16_t canoncs  = 260; //!< Canon camera settings
+        const uint16_t canonsi  = 261; //!< Canon shot info
+        const uint16_t canoncf  = 262; //!< Canon customer functions
+        const uint16_t nikonmn  = 263; //!< Any Nikon makernote (pseudo group)
+        const uint16_t nikon1mn = 264; //!< Nikon1 makernote
+        const uint16_t nikon2mn = 265; //!< Nikon2 makernote
+        const uint16_t nikon3mn = 266; //!< Nikon3 makernote
+        const uint16_t panamn   = 267; //!< Panasonic makernote
+        const uint16_t sigmamn  = 268; //!< Sigma makernote
+        const uint16_t sonymn   = 269; //!< Sony makernote
+
+    }
 
 // *****************************************************************************
 // class definitions
@@ -119,25 +136,43 @@ namespace Exiv2 {
         //! Read the header from a data buffer, return true if ok
         virtual bool read(const byte* pData, 
                           uint32_t    size,
-                          ByteOrder byteOrder) =0;
+                          ByteOrder   byteOrder) =0;
         //@}
         //! @name Accessors
         //@{
-        //! Size of the header
+        //! Return the size of the header (in bytes).
         virtual uint32_t size() const =0;
         /*!
-          @brief Start of the makernote directory relative to the start of the
-                 header.
+          @brief Return the offset to the start of the Makernote IFD from
+                 the start of the Makernote (= the start of the header).
          */
-        virtual uint32_t ifdOffset() const =0;
+        virtual uint32_t ifdOffset() const { return 0; }
+ 	/*!
+          @brief Return the byte order for the makernote. If the return value is
+                 invalidByteOrder, this means that the byte order of the the
+                 image should be used for the makernote.
+         */
+        virtual ByteOrder byteOrder() const { return invalidByteOrder; }
+        /*!
+          @brief Return the base offset for the makernote IFD entries relative 
+                 to the start of the TIFF header.
+
+          @param mnOffset Offset to the makernote from the start of the
+                 TIFF header.
+         */
+        virtual uint32_t baseOffset(uint32_t mnOffset) const { return 0; }
         //@}
 
     }; // class MnHeader
 
     /*!
-      @brief Tiff IFD Makernote. Defines the interface for all IFD makernotes.
-             Contains an IFD and implements child mgmt functions to deal with 
-             the IFD entries.
+      @brief Tiff IFD Makernote. This is a concrete class suitable for all 
+             IFD makernotes.
+
+             Contains a makernote header (which can be 0) and an IFD and
+             implements child mgmt functions to deal with the IFD entries. The
+             various makernote weirdnesses are taken care of in the makernote
+             header.
      */
     class TiffIfdMakernote : public TiffComponent {
         friend class TiffReader;
@@ -145,18 +180,25 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        TiffIfdMakernote(uint16_t tag, 
-                         uint16_t group, 
-                         uint16_t mnGroup, 
-                         bool     hasNext =true)
-            : TiffComponent(tag, group), ifd_(tag, mnGroup, hasNext) {}
+        TiffIfdMakernote(uint16_t  tag, 
+                         uint16_t  group, 
+                         uint16_t  mnGroup,
+                         MnHeader* pHeader,
+                         bool      hasNext =true)
+            : TiffComponent(tag, group), 
+              pHeader_(pHeader),
+              ifd_(tag, mnGroup, hasNext) {}
         //! Virtual destructor
-        virtual ~TiffIfdMakernote() =0;
+        virtual ~TiffIfdMakernote();
         //@}
 
         //! @name Manipulators
         //@{
-        //! Read the header from a data buffer, return true if successful
+        /*!
+          @brief Read the header from a data buffer, return true if successful.
+
+          The default implementation simply returns true.
+         */
         bool readHeader(const byte* pData, uint32_t size, ByteOrder byteOrder);
         //@}
 
@@ -167,21 +209,21 @@ namespace Exiv2 {
                  the start of the Makernote.
          */
         uint32_t ifdOffset() const;
+ 	/*!
+          @brief Return the byte order for the makernote. Default (if there is
+                 no header) is invalidByteOrder. This means that the byte order
+                 of the the image should be used for the makernote.
+         */
+        ByteOrder byteOrder() const;
         /*!
-          @brief Get status information relevant for the makernote. 
-
-          State includes byte order, offset and TIFF component factory.
-          This method allows the TiffReader to change state, i.e., change
-          these parameters, to parse the Makernote and its sub components
-          (if any).
+          @brief Return the base offset for the makernote IFD entries relative 
+                 to the start of the TIFF header. The default, if there is no 
+                 header, is 0.
 
           @param mnOffset Offset to the makernote from the start of the
                  TIFF header.
-          @param byteOrder Byte order in use at the point where the function
-                 is called.
          */
-        TiffRwState::AutoPtr getState(uint32_t  mnOffset, 
-                                      ByteOrder byteOrder) const;
+        uint32_t baseOffset (uint32_t mnOffset) const;
         //@}
 
     protected:
@@ -190,43 +232,292 @@ namespace Exiv2 {
         virtual void doAddChild(TiffComponent::AutoPtr tiffComponent);
         virtual void doAddNext(TiffComponent::AutoPtr tiffComponent);
         virtual void doAccept(TiffVisitor& visitor);
-        /*! 
-          @brief Implements readHeader().
-
-          The default implementation simply returns true. Derived classes for
-          makernotes which have a header should overwrite this.
-         */
-        virtual bool doReadHeader(const byte* pData, 
-                                  uint32_t    size,
-                                  ByteOrder   byteOrder) { return true; }
-        //@}
-
-        //! @name Accessors
-        //@{
-        /*!
-          @brief Implements ifdOffset().
-
-          Default implementation returns 0. Derived classes for makernotes
-          with an IFD which doesn't start at the beginning of the buffer
-          should overwrite this.
-        */
-        virtual uint32_t doIfdOffset() const { return 0; }
-        /*!
-          @brief Implements getState(). 
-          
-          Default implementation returns a 0-pointer. Derived classes for
-          makernotes which need a different byte order, base offset or 
-          TIFF component factory should overwrite this.
-         */
-        virtual TiffRwState::AutoPtr doGetState(uint32_t mnOffset,
-                                                ByteOrder byteOrder) const;
         //@}
 
     private:
         // DATA
+        MnHeader*     pHeader_;                 //!< Makernote header
         TiffDirectory ifd_;                     //!< Makernote IFD
         
     }; // class TiffIfdMakernote
+
+    //! Header of an Olympus Makernote
+    class OlympusMnHeader : public MnHeader {
+    public:
+        //! @name Creators
+        //@{
+        //! Default constructor
+        OlympusMnHeader();
+        //! Virtual destructor.
+        virtual ~OlympusMnHeader() {}
+        //@}
+        //! @name Manipulators
+        //@{
+        virtual bool read(const byte* pData, 
+                          uint32_t    size,
+                          ByteOrder   byteOrder);
+        //@}
+        //! @name Accessors
+        //@{
+        virtual uint32_t size()      const { return header_.size_; }
+        virtual uint32_t ifdOffset() const { return size_; }
+        //@}
+
+    private:
+        DataBuf header_;                //!< Data buffer for the makernote header
+        static const byte signature_[]; //!< Olympus makernote header signature
+        static const uint32_t size_;    //!< Size of the signature
+
+    }; // class OlympusMnHeader
+
+    //! Header of a Fujifilm Makernote
+    class FujiMnHeader : public MnHeader {
+    public:
+        //! @name Creators
+        //@{
+        //! Default constructor
+        FujiMnHeader();
+        //! Virtual destructor.
+        virtual ~FujiMnHeader() {}
+        //@}
+        //! @name Manipulators
+        //@{
+        virtual bool read(const byte* pData, 
+                          uint32_t    size, 
+                          ByteOrder   byteOrder);
+        //@}
+        //! @name Accessors
+        //@{
+        virtual uint32_t  size()      const { return header_.size_; }
+        virtual uint32_t  ifdOffset() const { return start_; }
+        virtual ByteOrder byteOrder() const { return byteOrder_; }
+        virtual uint32_t baseOffset(uint32_t mnOffset) const { return mnOffset; }
+        //@}
+
+    private:
+        DataBuf header_;                //!< Data buffer for the makernote header
+        static const byte signature_[]; //!< Fujifilm makernote header signature
+        static const uint32_t size_;    //!< Size of the signature
+        static const ByteOrder byteOrder_; //!< Byteorder for makernote (II)
+        uint32_t start_;                //!< Start of the mn IFD rel. to mn start
+
+    }; // class FujiMnHeader
+
+    //! Header of a Nikon 2 Makernote
+    class Nikon2MnHeader : public MnHeader {
+    public:
+        //! @name Creators
+        //@{
+        //! Default constructor
+        Nikon2MnHeader();
+        //! Virtual destructor.
+        virtual ~Nikon2MnHeader() {}
+        //@}
+        //! @name Manipulators
+        //@{
+        virtual bool read(const byte* pData, 
+                          uint32_t    size, 
+                          ByteOrder   byteOrder);
+        //@}
+        //! @name Accessors
+        //@{
+        virtual uint32_t size()      const { return size_; }
+        virtual uint32_t ifdOffset() const { return start_; }
+        //@}
+
+    private:
+        DataBuf buf_;                   //!< Raw header data
+        uint32_t start_;                //!< Start of the mn IFD rel. to mn start
+        static const byte signature_[]; //!< Nikon 2 makernote header signature
+        static const uint32_t size_;    //!< Size of the signature
+
+    }; // class Nikon2MnHeader
+
+    //! Header of a Nikon 3 Makernote
+    class Nikon3MnHeader : public MnHeader {
+    public:
+        //! @name Creators
+        //@{
+        //! Default constructor
+        Nikon3MnHeader();
+        //! Virtual destructor.
+        virtual ~Nikon3MnHeader() {}
+        //@}
+        //! @name Manipulators
+        //@{
+        virtual bool read(const byte* pData, 
+                          uint32_t    size, 
+                          ByteOrder   byteOrder);
+        //@}
+        //! @name Accessors
+        //@{
+        virtual uint32_t  size()      const { return size_; }
+        virtual uint32_t  ifdOffset() const { return start_; }
+        virtual ByteOrder byteOrder() const { return byteOrder_; }
+        virtual uint32_t  baseOffset(uint32_t mnOffset) const { return mnOffset + 10; }
+        //@}
+
+    private:
+        DataBuf buf_;                   //!< Raw header data
+        ByteOrder byteOrder_;           //!< Byteorder for makernote
+        uint32_t start_;                //!< Start of the mn IFD rel. to mn start
+        static const byte signature_[]; //!< Nikon 3 makernote header signature
+        static const uint32_t size_;    //!< Size of the signature
+
+    }; // class Nikon3MnHeader
+
+    //! Header of a Panasonic Makernote
+    class PanasonicMnHeader : public MnHeader {
+    public:
+        //! @name Creators
+        //@{
+        //! Default constructor
+        PanasonicMnHeader();
+        //! Virtual destructor.
+        virtual ~PanasonicMnHeader() {}
+        //@}
+        //! @name Manipulators
+        //@{
+        virtual bool read(const byte* pData, 
+                          uint32_t    size, 
+                          ByteOrder   byteOrder);
+        //@}
+        //! @name Accessors
+        //@{
+        virtual uint32_t size()      const { return size_; }
+        virtual uint32_t ifdOffset() const { return start_; }
+        //@}
+
+    private:
+        DataBuf buf_;                   //!< Raw header data
+        uint32_t start_;                //!< Start of the mn IFD rel. to mn start
+        static const byte signature_[]; //!< Panasonic makernote header signature
+        static const uint32_t size_;    //!< Size of the signature
+
+    }; // class PanasonicMnHeader
+
+    //! Header of a Sigma Makernote
+    class SigmaMnHeader : public MnHeader {
+    public:
+        //! @name Creators
+        //@{
+        //! Default constructor
+        SigmaMnHeader();
+        //! Virtual destructor.
+        virtual ~SigmaMnHeader() {}
+        //@}
+        //! @name Manipulators
+        //@{
+        virtual bool read(const byte* pData, 
+                          uint32_t    size, 
+                          ByteOrder   byteOrder);
+        //@}
+        //! @name Accessors
+        //@{
+        virtual uint32_t size()      const { return size_; }
+        virtual uint32_t ifdOffset() const { return start_; }
+        //@}
+
+    private:
+        DataBuf buf_;                    //!< Raw header data
+        uint32_t start_;                 //!< Start of the mn IFD rel. to mn start
+        static const byte signature1_[]; //!< Sigma makernote header signature 1
+        static const byte signature2_[]; //!< Sigma makernote header signature 2
+        static const uint32_t size_;     //!< Size of the signature
+
+    }; // class SigmaMnHeader
+
+    //! Header of a Sony Makernote
+    class SonyMnHeader : public MnHeader {
+    public:
+        //! @name Creators
+        //@{
+        //! Default constructor
+        SonyMnHeader();
+        //! Virtual destructor.
+        virtual ~SonyMnHeader() {}
+        //@}
+        //! @name Manipulators
+        //@{
+        virtual bool read(const byte* pData, 
+                          uint32_t    size, 
+                          ByteOrder   byteOrder);
+        //@}
+        //! @name Accessors
+        //@{
+        virtual uint32_t size()      const { return size_; }
+        virtual uint32_t ifdOffset() const { return start_; }
+        //@}
+
+    private:
+        DataBuf buf_;                   //!< Raw header data
+        uint32_t start_;                //!< Start of the mn IFD rel. to mn start
+        static const byte signature_[]; //!< Sony makernote header signature
+        static const uint32_t size_;    //!< Size of the signature
+
+    }; // class SonyMnHeader
+
+// *****************************************************************************
+// template, inline and free functions
+
+    //! Function to create a Canon makernote
+    TiffComponent* newCanonMn(uint16_t    tag,
+                              uint16_t    group,
+                              uint16_t    mnGroup,
+                              const byte* pData,
+                              uint32_t    size, 
+                              ByteOrder   byteOrder);
+
+    //! Function to create an Olympus makernote
+    TiffComponent* newOlympusMn(uint16_t    tag,
+                                uint16_t    group,
+                                uint16_t    mnGroup,
+                                const byte* pData,
+                                uint32_t    size, 
+                                ByteOrder   byteOrder);
+
+    //! Function to create a Fujifilm makernote
+    TiffComponent* newFujiMn(uint16_t    tag,
+                             uint16_t    group,
+                             uint16_t    mnGroup,
+                             const byte* pData,
+                             uint32_t    size, 
+                             ByteOrder   byteOrder);
+
+    /*!
+      @brief Function to create a Nikon makernote. This will create the 
+             appropriate Nikon 1, 2 or 3 makernote, based on the arguments.
+     */
+    TiffComponent* newNikonMn(uint16_t    tag,
+                              uint16_t    group,
+                              uint16_t    mnGroup,
+                              const byte* pData,
+                              uint32_t    size, 
+                              ByteOrder   byteOrder);
+
+    //! Function to create a Panasonic makernote
+    TiffComponent* newPanasonicMn(uint16_t    tag,
+                                  uint16_t    group,
+                                  uint16_t    mnGroup,
+                                  const byte* pData,
+                                  uint32_t    size, 
+                                  ByteOrder   byteOrder);
+
+    //! Function to create a Sigma makernote
+    TiffComponent* newSigmaMn(uint16_t    tag,
+                              uint16_t    group,
+                              uint16_t    mnGroup,
+                              const byte* pData,
+                              uint32_t    size, 
+                              ByteOrder   byteOrder);
+
+    //! Function to create a Sony makernote
+    TiffComponent* newSonyMn(uint16_t    tag,
+                             uint16_t    group,
+                             uint16_t    mnGroup,
+                             const byte* pData,
+                             uint32_t    size, 
+                             ByteOrder   byteOrder);
 
 }                                       // namespace Exiv2
 
