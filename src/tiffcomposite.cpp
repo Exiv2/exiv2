@@ -206,6 +206,11 @@ namespace Exiv2 {
     {
         visitor.visitMnEntry(this);
         if (mn_) mn_->accept(visitor);
+        if (!visitor.go()) {
+            delete mn_;
+            mn_ = 0;
+            visitor.setGo(true);
+        }
     } // TiffMnEntry::doAccept
 
     void TiffArrayEntry::doAccept(TiffVisitor& visitor)

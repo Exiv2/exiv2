@@ -613,6 +613,7 @@ namespace Exiv2 {
     // Roger Larsson: My guess is that focuspoints will follow autofocus sensor
     // module Note that relative size and position will vary depending on if
     // "wide" or not
+    //! Focus points for Nikon cameras
     const char *nikonFocuspoints[] = {
         "Center",
         "Top",

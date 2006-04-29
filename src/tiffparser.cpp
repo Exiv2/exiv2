@@ -92,6 +92,7 @@ namespace Exiv2 {
         { Tag::root, Group::none, newTiffDirectory, Group::ifd0 },
         {    0x8769, Group::ifd0, newTiffSubIfd,    Group::exif },
         {    0x8825, Group::ifd0, newTiffSubIfd,    Group::gps  },
+        {    0x014a, Group::ifd0, newTiffSubIfd,    Group::ignr },
         {    0xa005, Group::exif, newTiffSubIfd,    Group::iop  },
         {    0x927c, Group::exif, newTiffMnEntry,   Group::mn   },
         {    0x0201, Group::ifd1, newTiffThumbData, Group::ifd1 },

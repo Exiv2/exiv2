@@ -80,7 +80,17 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        //! Set the stop/go flag: true for go, false for stop
+        /*!
+          @brief Set the stop/go flag: true for go, false for stop.
+
+          This mechanism can be used by concrete visitors to signal certain
+          events. For example, TiffFinder sets the stop flag as soon as it finds
+          the correct component to signal to that the search should be
+          stopped. TiffReader uses it to signal problems reading a makernote.
+          As the flag doesn't carry any information on the type of event which
+          triggered it, it is for each visitor to establish and adhere to
+          conventions about its meaning.
+         */
         void setGo(bool go) { go_ = go; }
         //! Operation to perform for a TIFF entry
         virtual void visitEntry(TiffEntry* object) =0;

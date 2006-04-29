@@ -93,12 +93,12 @@ namespace Exiv2 {
                  is used to indicate this transfer here in order to reduce
                  file dependencies.
         */
-        static TiffComponent* create(uint16_t    tag,
-                                     uint16_t    group,
-                                     std::string make,
-                                     const byte* pData,
-                                     uint32_t    size,
-                                     ByteOrder   byteOrder);
+        static TiffComponent* create(uint16_t           tag,
+                                     uint16_t           group,
+                                     const std::string& make,
+                                     const byte*        pData,
+                                     uint32_t           size,
+                                     ByteOrder          byteOrder);
     protected:
         //! Prevent destruction (needed if used as a policy class)
         ~TiffMnCreator() {}
