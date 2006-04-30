@@ -55,6 +55,24 @@ EXIV2_RCSID("@(#) $Id$");
 // class member definitions
 namespace Exiv2 {
 
+    // Roger Larsson: My guess is that focuspoints will follow autofocus sensor
+    // module. Note that relative size and position will vary depending on if
+    // "wide" or not
+    //! Focus points for Nikon cameras, used for Nikon 1 and Nikon 3 makernotes.
+    static const char *nikonFocuspoints[] = {
+        "Center",
+        "Top",
+        "Bottom",
+        "Left",
+        "Right",
+        "Upper left",
+        "Upper right",
+        "Lower left",
+        "Lower right",
+        "Leftmost",
+        "Rightmost"
+    };
+
     //! @cond IGNORE
     Nikon1MakerNote::RegisterMn::RegisterMn()
     {
@@ -186,17 +204,27 @@ namespace Exiv2 {
                                                const Value& value)
     {
         if (value.count() > 1) {
-            switch (value.toLong(1)) {
-            case 0: os << "Center"; break;
-            case 1: os << "Top"; break;
-            case 2: os << "Bottom"; break;
-            case 3: os << "Left"; break;
-            case 4: os << "Right"; break;
-            default: os << "(" << value << ")"; break;
+            unsigned long focusPoint = value.toLong(1);
+
+            os << value.toLong(0) << "; ";
+            switch (focusPoint) {
+            // Could use array nikonFokuspoints
+            case 0:
+            case 1: 
+            case 2: 
+            case 3: 
+            case 4: 
+                os << nikonFocuspoints[focusPoint];
+                break;
+            default:
+                os << value;
+                if (focusPoint < sizeof(nikonFocuspoints)/sizeof(nikonFocuspoints[0]))
+                    os << " guess " << nikonFocuspoints[focusPoint];
+                break;
             }
         }
         else {
-            os << "(" << value << ")";
+            os << value;
         }
         return os;
     }
@@ -610,39 +638,11 @@ namespace Exiv2 {
         return os;
     }
 
-    // Roger Larsson: My guess is that focuspoints will follow autofocus sensor
-    // module Note that relative size and position will vary depending on if
-    // "wide" or not
-    //! Focus points for Nikon cameras
-    const char *nikonFocuspoints[] = {
-        "Center",
-        "Top",
-        "Bottom",
-        "Left",
-        "Right",
-        "Upper left",
-        "Upper right",
-        "Lower left",
-        "Lower right",
-        "Leftmost",
-        "Rightmost"
-    };
-
     std::ostream& Nikon3MakerNote::print0x0088(std::ostream& os,
                                                const Value& value)
     {
-        if (value.size() != 4) {
-            // Mappings taken from Exiftool
-            // TODO: are they really correct?
-            unsigned long afpos = value.toLong(); // BUG?: takes first value
-            switch (afpos) {
-            case 0x0000: os << "Center"; break;
-            case 0x0100: os << "Top"; break;
-            case 0x0200: os << "Bottom"; break;
-            case 0x0300: os << "Left"; break;
-            case 0x0400: os << "Right"; break;
-            default: os << "(" << value << ")"; break;
-            }
+        if (value.size() != 4) { // Size is 4 even for those who map this way...
+            os << "(" << value << ")";
         }
         else {
             // Mapping by Roger Larsson
@@ -650,7 +650,18 @@ namespace Exiv2 {
             unsigned focuspoint = value.toLong(1);
             unsigned focusused = (value.toLong(2) << 8) + value.toLong(3);
             enum {standard, wide} combination = standard;
-            const unsigned focuspoints = sizeof(nikonFocuspoints) / sizeof(nikonFocuspoints[0]);
+            const unsigned focuspoints =   sizeof(nikonFocuspoints) 
+                                         / sizeof(nikonFocuspoints[0]);
+
+            if (focusmetering == 0 && focuspoint == 0 && focusused == 0) {
+                // Special case, in Manual focus and with Nikon compacts
+                // this indicates that the field has no meaning.
+                // But when acually in "Single area, Center" this can mean
+                // that focus was not found (try this in AF-C mode)
+                // TODO: handle the meaningful case (interacts with other fields)
+                os << "N/A";
+                return os;
+            }
 
             switch (focusmetering) {
             case 0x00: os << "Single area"; break; // D70, D200
@@ -661,28 +672,35 @@ namespace Exiv2 {
             case 0x05: os << "Dynamic area (wide)"; combination = wide; break; // D200
             default: os << "(" << focusmetering << ")"; break;
             }
-            os << ", ";
 
-            // What fokuspoint did the user select?
-            if (focuspoint < focuspoints) {
-                os << nikonFocuspoints[focuspoint];
-                // TODO: os << position[fokuspoint][combination]
+            char sep = ';';
+            if (focusmetering != 0x02) { //  No user selected point for Closest subject
+                os << sep << ' ';
+
+                // What focuspoint did the user select?
+                if (focuspoint < focuspoints) {
+                    os << nikonFocuspoints[focuspoint];
+                    // TODO: os << position[fokuspoint][combination]
+                }
+                else
+                    os << "(" << focuspoint << ")";
+
+                sep = ',';
             }
-            else
-                os << "(" << focuspoint << ")";
 
             // What fokuspoints(!) did the camera use? add if differs
             if (focusused == 0)
-                os << " (failed)";
+                os << sep << " none";
             else if (focusused != 1U<<focuspoint) {
                 // selected point was not the actually used one 
                 // (Roger Larsson: my interpretation, verify)
-                os << " ( ";
+                os << sep;
                 for (unsigned fpid=0; fpid<focuspoints; fpid++)
                     if (focusused & 1<<fpid)
-                        os << nikonFocuspoints[fpid] << " ";
-                os << ")";
+                        os << ' ' << nikonFocuspoints[fpid];
             }
+
+            os << " used";
         }
 
         return os;

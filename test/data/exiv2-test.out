@@ -608,7 +608,7 @@ Exif.Nikon1.ImageAdjustment                  Ascii      14  AUTO
 Exif.Nikon1.Adapter                          Ascii      13  OFF         
 Exif.Nikon1.FocusDistance                    Rational    1  Unknown
 Exif.Nikon1.DigitalZoom                      Rational    1  1.0x
-Exif.Nikon1.AFFocusPos                       Undefined   4  Left
+Exif.Nikon1.AFFocusPos                       Undefined   4  0; Left
 Exif.Nikon1.DataDump                         Undefined 174  1 45 0 128 1 76 0 0 0 0 255 1 0 0 0 0 2 74 42 160 0 0 0 0 2 183 0 0 31 8 0 0 21 202 0 0 33 124 0 0 33 124 0 0 31 6 13 132 0 74 0 0 0 0 9 181 9 74 8 109 7 54 208 1 11 122 0 0 0 0 45 33 21 0 0 0 32 0 0 0 0 0 0 0 0 0 68 27 0 0 74 3 23 207 9 30 59 31 0 71 0 0 19 21 18 18 21 24 0 0 100 0 25 76 0 0 0 1 255 240 101 68 0 0 0 2 0 0 0 0 15 3 194 141 1 13 18 34 0 0 81 90 0 246 1 43 48 32 18 7 40 16 78 72 11 122 0 0 117 252 235 98 11 16 6 6 0 100 0 216 18 52 67 33 
 Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
@@ -693,7 +693,7 @@ Exif.Nikon3.ToneComp                         Ascii       9  AUTO
 Exif.Nikon3.LensType                         Byte        1  6 
 Exif.Nikon3.Lens                             Rational    4  18-70mm F3.5-4.5
 Exif.Nikon3.FlashType                        Byte        1  Not used
-Exif.Nikon3.AFFocusPos                       Undefined   4  Single area, Center
+Exif.Nikon3.AFFocusPos                       Undefined   4  Single area; Center used
 Exif.Nikon3.Bracketing                       Short       1  Single
 Exif.Nikon3.0x008a                           Short       1  0
 Exif.Nikon3.LensFStops                       Undefined   4  5.33333
