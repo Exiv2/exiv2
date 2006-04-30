@@ -14,49 +14,49 @@ File 1/1: exiv2-empty.jpg
 Iptc.Application2.Credit                     String     12  mee too! (1)
 Iptc.Application2.Headline                   String      8  Headline
 File 1/2: exiv2-empty.jpg
-Exif.Image.DateTime                          Ascii      19  Zwanzig nach fuenf
-Exif.Image.Artist                            Ascii      17  Vincent van Gogh
-Exif.Image.WhitePoint                        Short       5  32 12 4 5 6
-Exif.Image.ExifTag                           Long        1  108
-Exif.Photo.UserComment                       Undefined  37  This is an ASCII Exif comment
+exiv2-empty.jpg      Exif.Image.DateTime                          Ascii      19  Zwanzig nach fuenf
+exiv2-empty.jpg      Exif.Image.Artist                            Ascii      17  Vincent van Gogh
+exiv2-empty.jpg      Exif.Image.WhitePoint                        Short       5  32 12 4 5 6
+exiv2-empty.jpg      Exif.Image.ExifTag                           Long        1  108
+exiv2-empty.jpg      Exif.Photo.UserComment                       Undefined  37  This is an ASCII Exif comment
 File 2/2: exiv2-gc.jpg
-Exif.Image.ImageDescription                  Ascii      18  Exif JPEG        
-Exif.Image.Make                              Ascii       8  Camera 
-Exif.Image.Model                             Ascii      16  DC-4300        
-Exif.Image.Orientation                       Short       1  top, left
-Exif.Image.XResolution                       Rational    1  72
-Exif.Image.YResolution                       Rational    1  72
-Exif.Image.ResolutionUnit                    Short       1  inch
-Exif.Image.Software                          Ascii      22  Exiv2 utility!!
-Exif.Image.DateTime                          Ascii      20  2004:06:08 16:04:50
-Exif.Image.YCbCrPositioning                  Short       1  Co-sited
-Exif.Image.ExifTag                           Long        1  6480
-Exif.Photo.ExposureTime                      Rational    1  1/95 s
-Exif.Photo.FNumber                           Rational    1  F9.1
-Exif.Photo.ExposureProgram                   Short       1  Landscape mode
-Exif.Photo.ISOSpeedRatings                   Short       1  100
-Exif.Photo.ExifVersion                       Undefined   4  48 50 49 48 
-Exif.Photo.DateTimeOriginal                  Ascii      20  2004:06:08 16:04:50
-Exif.Photo.DateTimeDigitized                 Ascii      20  2004:06:08 16:04:50
-Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
-Exif.Photo.ShutterSpeedValue                 SRational   1  1/97 s
-Exif.Photo.ApertureValue                     Rational    1  F9.2
-Exif.Photo.ExposureBiasValue                 SRational   1  0
-Exif.Photo.MaxApertureValue                  Rational    1  F2.9
-Exif.Photo.MeteringMode                      Short       1  Matrix
-Exif.Photo.LightSource                       Short       1  Unknown
-Exif.Photo.Flash                             Short       1  No
-Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
-Exif.Photo.ColorSpace                        Short       1  sRGB
-Exif.Photo.PixelXDimension                   Long        1  1600
-Exif.Photo.PixelYDimension                   Long        1  2400
-Exif.Photo.InteroperabilityTag               Long        1  6738
-Exif.Photo.FileSource                        Undefined   1  Digital still camera
-Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-Exif.Thumbnail.ImageWidth                    Long        1  133
-Exif.Thumbnail.ImageLength                   Long        1  200
-Exif.Thumbnail.Compression                   Short       1  JPEG
-Exif.Thumbnail.Orientation                   Short       1  top, left
-Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
-Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6144
+exiv2-gc.jpg         Exif.Image.ImageDescription                  Ascii      18  Exif JPEG        
+exiv2-gc.jpg         Exif.Image.Make                              Ascii       8  Camera 
+exiv2-gc.jpg         Exif.Image.Model                             Ascii      16  DC-4300        
+exiv2-gc.jpg         Exif.Image.Orientation                       Short       1  top, left
+exiv2-gc.jpg         Exif.Image.XResolution                       Rational    1  72
+exiv2-gc.jpg         Exif.Image.YResolution                       Rational    1  72
+exiv2-gc.jpg         Exif.Image.ResolutionUnit                    Short       1  inch
+exiv2-gc.jpg         Exif.Image.Software                          Ascii      22  Exiv2 utility!!
+exiv2-gc.jpg         Exif.Image.DateTime                          Ascii      20  2004:06:08 16:04:50
+exiv2-gc.jpg         Exif.Image.YCbCrPositioning                  Short       1  Co-sited
+exiv2-gc.jpg         Exif.Image.ExifTag                           Long        1  6480
+exiv2-gc.jpg         Exif.Photo.ExposureTime                      Rational    1  1/95 s
+exiv2-gc.jpg         Exif.Photo.FNumber                           Rational    1  F9.1
+exiv2-gc.jpg         Exif.Photo.ExposureProgram                   Short       1  Landscape mode
+exiv2-gc.jpg         Exif.Photo.ISOSpeedRatings                   Short       1  100
+exiv2-gc.jpg         Exif.Photo.ExifVersion                       Undefined   4  48 50 49 48 
+exiv2-gc.jpg         Exif.Photo.DateTimeOriginal                  Ascii      20  2004:06:08 16:04:50
+exiv2-gc.jpg         Exif.Photo.DateTimeDigitized                 Ascii      20  2004:06:08 16:04:50
+exiv2-gc.jpg         Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
+exiv2-gc.jpg         Exif.Photo.ShutterSpeedValue                 SRational   1  1/97 s
+exiv2-gc.jpg         Exif.Photo.ApertureValue                     Rational    1  F9.2
+exiv2-gc.jpg         Exif.Photo.ExposureBiasValue                 SRational   1  0
+exiv2-gc.jpg         Exif.Photo.MaxApertureValue                  Rational    1  F2.9
+exiv2-gc.jpg         Exif.Photo.MeteringMode                      Short       1  Matrix
+exiv2-gc.jpg         Exif.Photo.LightSource                       Short       1  Unknown
+exiv2-gc.jpg         Exif.Photo.Flash                             Short       1  No
+exiv2-gc.jpg         Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+exiv2-gc.jpg         Exif.Photo.ColorSpace                        Short       1  sRGB
+exiv2-gc.jpg         Exif.Photo.PixelXDimension                   Long        1  1600
+exiv2-gc.jpg         Exif.Photo.PixelYDimension                   Long        1  2400
+exiv2-gc.jpg         Exif.Photo.InteroperabilityTag               Long        1  6738
+exiv2-gc.jpg         Exif.Photo.FileSource                        Undefined   1  Digital still camera
+exiv2-gc.jpg         Exif.Iop.InteroperabilityIndex               Ascii       4  R98
+exiv2-gc.jpg         Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+exiv2-gc.jpg         Exif.Thumbnail.ImageWidth                    Long        1  133
+exiv2-gc.jpg         Exif.Thumbnail.ImageLength                   Long        1  200
+exiv2-gc.jpg         Exif.Thumbnail.Compression                   Short       1  JPEG
+exiv2-gc.jpg         Exif.Thumbnail.Orientation                   Short       1  top, left
+exiv2-gc.jpg         Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
+exiv2-gc.jpg         Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6144

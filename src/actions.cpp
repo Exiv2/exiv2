@@ -23,6 +23,7 @@
   Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
+             30-Apr-06, Roger Larsson: Print filename if processing multiple files
  */
 // *****************************************************************************
 #include "rcsid.hpp"
@@ -474,7 +475,11 @@ namespace Action {
 
     void Print::printLabel(const std::string& label) const
     {
-        std::cout << std::setw(align_) << std::setfill(' ') << std::left
+        std::cout << std::setfill(' ') << std::left;
+        if (Params::instance().files_.size() > 1) {
+            std::cout << std::setw(20) << path_ << " ";
+        }
+        std::cout << std::setw(align_)
                   << label << ": ";
     }
 
@@ -513,8 +518,13 @@ namespace Action {
             return -3;
         }
         Exiv2::ExifData::const_iterator md;
+        bool manyFiles = Params::instance().files_.size() > 1;
         for (md = exifData.begin(); md != exifData.end(); ++md) {
-            std::cout << std::setw(44) << std::setfill(' ') << std::left
+            std::cout << std::setfill(' ') << std::left;
+            if (manyFiles) {
+                std::cout << std::setw(20) << path_ << " ";
+            }
+            std::cout << std::setw(44)
                       << md->key() << " "
                       << std::setw(9) << std::setfill(' ') << std::left
                       << md->typeName() << " "
@@ -546,7 +556,12 @@ namespace Action {
         }
         Exiv2::ExifData::const_iterator end = exifData.end();
         Exiv2::ExifData::const_iterator md;
+        bool manyFiles = Params::instance().files_.size() > 1;
         for (md = exifData.begin(); md != end; ++md) {
+            if (manyFiles) {
+                std::cout << std::setfill(' ') << std::left
+                          << std::setw(20) << path_ << " ";
+            }
             std::cout << "0x" << std::setw(4) << std::setfill('0') << std::right
                       << std::hex << md->tag() << " "
                       << std::setw(9) << std::setfill(' ') << std::left
@@ -583,8 +598,13 @@ namespace Action {
         }
         Exiv2::IptcData::const_iterator end = iptcData.end();
         Exiv2::IptcData::const_iterator md;
+        bool manyFiles = Params::instance().files_.size() > 1;
         for (md = iptcData.begin(); md != end; ++md) {
-            std::cout << std::setw(44) << std::setfill(' ') << std::left
+            std::cout << std::setfill(' ') << std::left;
+            if (manyFiles) {
+                std::cout << std::setw(20) << path_ << " ";
+            }
+            std::cout << std::setw(44)
                       << md->key() << " "
                       << std::setw(9) << std::setfill(' ') << std::left
                       << md->typeName() << " "
@@ -615,8 +635,13 @@ namespace Action {
             return -3;
         }
         Exiv2::ExifData::const_iterator md;
+        bool manyFiles = Params::instance().files_.size() > 1;
         for (md = exifData.begin(); md != exifData.end(); ++md) {
-            std::cout << std::setw(4) << std::setfill(' ') << std::left
+            std::cout << std::setfill(' ') << std::left;
+            if (manyFiles) {
+                std::cout << std::setw(20) << path_ << " ";
+            }
+            std::cout << std::setw(4)
                       << md->ifdName() << " "
                       << "0x" << std::setw(4) << std::setfill('0') << std::right
                       << std::hex << md->tag() << " "
