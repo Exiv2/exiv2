@@ -71,7 +71,7 @@ while test $# -gt 0; do
 	;;
 
     --cflags)
-       	echo -I$includedir -I$includedir/exiv2
+       	echo -I$includedir
        	;;
 
     --libtool-libs)
