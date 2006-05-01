@@ -270,6 +270,8 @@ install-lib: lib install-header
 	@$(LIBTOOL) --mode=install $(INSTALL_DATA) $(LIBRARY) $(DESTDIR)$(libdir)/$(LIBRARY)
 	$(INSTALL_DIRS) $(DESTDIR)$(bindir)
 	$(INSTALL_PROGRAM) $(top_srcdir)/config/exiv2-config $(DESTDIR)$(bindir)/exiv2-config
+	$(INSTALL_DIRS) $(DESTDIR)$(libdir)/pkgconfig
+	$(INSTALL_DATA) $(top_srcdir)/config/exiv2.pc $(DESTDIR)$(libdir)/pkgconfig/exiv2.pc
 
 install: $(EXIV2BIN) install-lib
 	$(INSTALL_DIRS) $(DESTDIR)$(bindir)
@@ -286,6 +288,8 @@ uninstall-header:
 	-rmdir $(DESTDIR)$(incdir)
 
 uninstall-lib: uninstall-header
+	$(RM) $(DESTDIR)$(libdir)/pkgconfig/exiv2.pc
+	-rmdir $(DESTDIR)$(libdir)/pkgconfig
 	$(RM) $(DESTDIR)$(bindir)/exiv2-config
 	-rmdir $(DESTDIR)$(bindir)
 	@$(LIBTOOL) --mode=uninstall $(RM) $(DESTDIR)$(libdir)/$(LIBRARY)

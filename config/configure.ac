@@ -60,4 +60,5 @@ AC_SUBST(DEP_TRACKING,$DEP_TRACKING)
 
 AC_CONFIG_FILES([./config/config.mk])
 AC_CONFIG_FILES([./config/exiv2-config], [chmod +x ./config/exiv2-config])
+AC_CONFIG_FILES([./config/exiv2.pc])
 AC_OUTPUT
