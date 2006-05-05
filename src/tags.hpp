@@ -172,7 +172,7 @@ namespace Exiv2 {
           @param ifdId IFD id
           @return The title (label) of the tag.
          */
-        static const char* tagTitle(uint16_t tag, IfdId ifdId);
+		static std::string tagTitle(uint16_t tag, IfdId ifdId);
         /*!
           @brief Return the description of the tag.
           @param tag The tag
@@ -254,7 +254,7 @@ namespace Exiv2 {
 
         static const TagInfo*    tagInfos_[];
 
-        static const int         MAX_MAKER_TAG_INFOS = 64;
+        static const int         MAX_MAKER_TAG_INFOS = 128;
         static const TagInfo*    makerTagInfos_[MAX_MAKER_TAG_INFOS];
         static IfdId             makerIfdIds_[MAX_MAKER_TAG_INFOS];
 
@@ -314,6 +314,7 @@ namespace Exiv2 {
         */
         virtual std::string groupName() const { return ifdItem(); }
         virtual std::string tagName() const;
+        virtual std::string tagTitle() const;
         virtual uint16_t tag() const { return tag_; }
 
         AutoPtr clone() const;

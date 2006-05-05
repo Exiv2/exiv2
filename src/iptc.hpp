@@ -151,6 +151,8 @@ namespace Exiv2 {
          */
         std::string tagName() const
             { return key_.get() == 0 ? "" : key_->tagName(); }
+        std::string tagTitle() const
+            { return key_.get() == 0 ? "" : key_->tagTitle(); }
         //! Return the tag (aka dataset) number
         uint16_t tag() const
             { return key_.get() == 0 ? 0 : key_->tag(); }
