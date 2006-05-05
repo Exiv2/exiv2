@@ -135,63 +135,87 @@ namespace Exiv2 {
         //@{
         //! Print the image number
         static std::ostream& print0x0008(std::ostream& os, const Value& value);
+        //! Print the model ID
+        static std::ostream& print0x0010(std::ostream& os, const Value& value);
+        //! Print the color space
+        static std::ostream& print0x00b4(std::ostream& os, const Value& value);
+        //! Print the serial number format
+        static std::ostream& print0x0015(std::ostream& os, const Value& value);
         //! Print the serial number of the camera
         static std::ostream& print0x000c(std::ostream& os, const Value& value);
 
         //! Macro mode
-        static std::ostream& printCs10x0001(std::ostream& os, const Value& value);
+        static std::ostream& printCs0x0001(std::ostream& os, const Value& value);
         //! Self timer
-        static std::ostream& printCs10x0002(std::ostream& os, const Value& value);
+        static std::ostream& printCs0x0002(std::ostream& os, const Value& value);
         //! Quality
-        static std::ostream& printCs10x0003(std::ostream& os, const Value& value);
+        static std::ostream& printCs0x0003(std::ostream& os, const Value& value);
         //! Flash mode
-        static std::ostream& printCs10x0004(std::ostream& os, const Value& value);
+        static std::ostream& printCs0x0004(std::ostream& os, const Value& value);
         //! Drive mode
-        static std::ostream& printCs10x0005(std::ostream& os, const Value& value);
+        static std::ostream& printCs0x0005(std::ostream& os, const Value& value);
         //! Focus mode (G1 seems to use field 32 in preference to this)
-        static std::ostream& printCs10x0007(std::ostream& os, const Value& value);
+        static std::ostream& printCs0x0007(std::ostream& os, const Value& value);
         //! Image size
-        static std::ostream& printCs10x000a(std::ostream& os, const Value& value);
+        static std::ostream& printCs0x000a(std::ostream& os, const Value& value);
         //! Easy shooting
-        static std::ostream& printCs10x000b(std::ostream& os, const Value& value);
+        static std::ostream& printCs0x000b(std::ostream& os, const Value& value);
         //! Digital zoom
-        static std::ostream& printCs10x000c(std::ostream& os, const Value& value);
+        static std::ostream& printCs0x000c(std::ostream& os, const Value& value);
         //! ISO
-        static std::ostream& printCs10x0010(std::ostream& os, const Value& value);
+        static std::ostream& printCs0x0010(std::ostream& os, const Value& value);
         //! Metering mode
-        static std::ostream& printCs10x0011(std::ostream& os, const Value& value);
-        //! Focus type
-        static std::ostream& printCs10x0012(std::ostream& os, const Value& value);
+        static std::ostream& printCs0x0011(std::ostream& os, const Value& value);
+        //! Focus range
+        static std::ostream& printCs0x0012(std::ostream& os, const Value& value);
         //! AF point selected
-        static std::ostream& printCs10x0013(std::ostream& os, const Value& value);
+        static std::ostream& printCs0x0013(std::ostream& os, const Value& value);
         //! Exposure mode
-        static std::ostream& printCs10x0014(std::ostream& os, const Value& value);
+        static std::ostream& printCs0x0014(std::ostream& os, const Value& value);
+        //! LensType mode
+        static std::ostream& printCs0x0016(std::ostream& os, const Value& value);
         //! Flash activity
-        static std::ostream& printCs10x001c(std::ostream& os, const Value& value);
+        static std::ostream& printCs0x001c(std::ostream& os, const Value& value);
         //! Flash details
-        static std::ostream& printCs10x001d(std::ostream& os, const Value& value);
+        static std::ostream& printCs0x001d(std::ostream& os, const Value& value);
         //! Focus mode (G1 seems to use this in preference to field 7)
-        static std::ostream& printCs10x0020(std::ostream& os, const Value& value);
+        static std::ostream& printCs0x0020(std::ostream& os, const Value& value);
+        //! AE Setting
+        static std::ostream& printCs0x0021(std::ostream& os, const Value& value);
+        //! Image Stabilization
+        static std::ostream& printCs0x0022(std::ostream& os, const Value& value);
+        //! Photo Effect
+        static std::ostream& printCs0x0026(std::ostream& os, const Value& value);
+        //! Focal Type
+        static std::ostream& printFl0x0000(std::ostream& os, const Value& value);
         //! Low, normal, high print function
-        static std::ostream& printCs1Lnh(std::ostream& os, const Value& value);
-        //! Camera lens information
-        static std::ostream& printCs1Lens(std::ostream& os, const Value& value);
-        //! ISO speed used
-        static std::ostream& printCs20x0002(std::ostream& os, const Value& value);
-        //! White balance
-        static std::ostream& printCs20x0007(std::ostream& os, const Value& value);
-        //! Sequence number
-        static std::ostream& printCs20x0009(std::ostream& os, const Value& value);
-        //! AF point used
-        static std::ostream& printCs20x000e(std::ostream& os, const Value& value);
-        //! Flash bias
-        static std::ostream& printCs20x000f(std::ostream& os, const Value& value);
-        //! Subject distance
-        static std::ostream& printCs20x0013(std::ostream& os, const Value& value);
+        static std::ostream& printCsLnh(std::ostream& os, const Value& value);
         //! Aperture
-        static std::ostream& printCs20x0015(std::ostream& os, const Value& value);
+        static std::ostream& printCsAper(std::ostream& os, const Value& value);
+        //! ISO speed used
+        static std::ostream& printSi0x0002(std::ostream& os, const Value& value);
+        //! White balance
+        static std::ostream& printSi0x0007(std::ostream& os, const Value& value);
+        //! Slow shutter
+        static std::ostream& printSi0x0008(std::ostream& os, const Value& value);
+        //! Sequence number
+        static std::ostream& printSi0x0009(std::ostream& os, const Value& value);
+        //! AF point used
+        static std::ostream& printSi0x000e(std::ostream& os, const Value& value);
+        //! Flash bias
+        static std::ostream& printSi0x000f(std::ostream& os, const Value& value);
+        //! Auto Exposure Bracketing
+        static std::ostream& printSi0x0010(std::ostream& os, const Value& value);
+        //! Subject distance
+        static std::ostream& printSi0x0013(std::ostream& os, const Value& value);
+        //! Auto Rorate
+        static std::ostream& printSi0x001b(std::ostream& os, const Value& value);
+        //! Panorama Frame2
+        static std::ostream& printPa0x0001(std::ostream& os, const Value& value);
+        //! Panorama Direction
+        static std::ostream& printPa0x0005(std::ostream& os, const Value& value);
         //! Shutter speed
-        static std::ostream& printCs20x0016(std::ostream& os, const Value& value);
+        static std::ostream& printSiExp(std::ostream& os, const Value& value);
         //@}
 
         //! @cond IGNORE
@@ -231,9 +255,26 @@ namespace Exiv2 {
 
         //! Tag information
         static const TagInfo tagInfo_[];
-        static const TagInfo tagInfoCs1_[];
-        static const TagInfo tagInfoCs2_[];
+        static const TagInfo tagInfoCs_[];
+        static const TagInfo tagInfoFl_[];
+        static const TagInfo tagInfoSi_[];
+        static const TagInfo tagInfoPa_[];
+        static const TagInfo tagInfoCl2_[];
+        static const TagInfo tagInfoCi_[];
         static const TagInfo tagInfoCf_[];
+        static const TagInfo tagInfoPi_[];
+        static const TagInfo tagInfoCf2_[];
+        static const TagInfo tagInfoPf_[];
+        static const TagInfo tagInfoPv_[];
+        static const TagInfo tagInfoFi_[];
+        static const TagInfo tagInfoPc_[];
+        static const TagInfo tagInfoCb_[];
+        static const TagInfo tagInfoFg_[];
+        static const TagInfo tagInfoMi_[];
+        static const TagInfo tagInfoPr_[];
+        static const TagInfo tagInfoSn_[];
+        static const TagInfo tagInfoCb2_[];
+        static const TagInfo tagInfoCl_[];
 
     }; // class CanonMakerNote
 
