@@ -66,26 +66,9 @@ namespace Exiv2 {
         IfdInfo(iopIfdId, "Iop", "Iop"),
         IfdInfo(ifd1Id, "IFD1", "Thumbnail"),
         IfdInfo(canonIfdId, "Makernote", "Canon"),
-        IfdInfo(canonCsIfdId, "Makernote", "CanonCs"),	// Camera Settings
-        IfdInfo(canonFlIfdId, "Makernote", "CanonFl"),	// Focal Length
-        IfdInfo(canonSiIfdId, "Makernote", "CanonSi"),	// Shot Info
-        IfdInfo(canonPaIfdId, "Makernote", "CanonPa"),	// Panorama
-        IfdInfo(canonCl2IfdId, "Makernote", "CanonCl2"),	// Color Info 2
-        IfdInfo(canonCiIfdId, "Makernote", "CanonCi"),	// Camera Info
-        IfdInfo(canonCfIfdId, "Makernote", "CanonCf"),	// Custom Functions
-        IfdInfo(canonPiIfdId, "Makernote", "CanonPi"),	// Picture Info
-        IfdInfo(canonCf2IfdId, "Makernote", "CanonCf2"),	// Custom Functions 2
-        IfdInfo(canonPfIfdId, "Makernote", "CanonPf"),	// Personal Functions
-        IfdInfo(canonPvIfdId, "Makernote", "CanonPv"),	// Personal Values
-        IfdInfo(canonFiIfdId, "Makernote", "CanonFi"),	// File Info
-        IfdInfo(canonPcIfdId, "Makernote", "CanonPc"),	// Processing
-        IfdInfo(canonCbIfdId, "Makernote", "CanonCb"),	// Color Balance
-        IfdInfo(canonFgIfdId, "Makernote", "CanonFg"),	// Flags
-        IfdInfo(canonMiIfdId, "Makernote", "CanonMi"),	// Modified Info
-        IfdInfo(canonPrIfdId, "Makernote", "CanonPr"),	// Preview Image Info
-        IfdInfo(canonSnIfdId, "Makernote", "CanonSn"),	// Sensor Info
-        IfdInfo(canonCb2IfdId, "Makernote", "CanonCb2"),	// Color Balance 2
-        IfdInfo(canonClIfdId, "Makernote", "CanonCl"),	// Color Info
+        IfdInfo(canonCs1IfdId, "Makernote", "CanonCs1"),
+        IfdInfo(canonCs2IfdId, "Makernote", "CanonCs2"),
+        IfdInfo(canonCfIfdId, "Makernote", "CanonCf"),
         IfdInfo(fujiIfdId, "Makernote", "Fujifilm"),
         IfdInfo(nikon1IfdId, "Makernote", "Nikon1"),
         IfdInfo(nikon2IfdId, "Makernote", "Nikon2"),
@@ -196,7 +179,7 @@ namespace Exiv2 {
     static const TagInfo exifTagInfo[] = {
         TagInfo(0x829a, "ExposureTime", "Exposure Time", "Exposure time", exifIfdId, captureCond, unsignedRational, print0x829a),
         TagInfo(0x829d, "FNumber", "FNumber", "F number", exifIfdId, captureCond, unsignedRational, print0x829d),
-        TagInfo(0x8822, "ExposureProgram", "Exposure Program", "Exposure program", exifIfdId, captureCond, unsignedShort, print0x8822),
+        TagInfo(0x8822, "ExposureProgram", "ExposureProgram", "Exposure program", exifIfdId, captureCond, unsignedShort, print0x8822),
         TagInfo(0x8824, "SpectralSensitivity", "Spectral Sensitivity", "Spectral sensitivity", exifIfdId, captureCond, asciiString, printValue),
         TagInfo(0x8827, "ISOSpeedRatings", "ISO Speed Ratings", "ISO speed ratings", exifIfdId, captureCond, unsignedShort, print0x8827),
         TagInfo(0x8828, "OECF", "OECF", "Optoelectric coefficient", exifIfdId, captureCond, undefined, printValue),
@@ -420,7 +403,7 @@ namespace Exiv2 {
         return os.str();
     } // ExifTags::tagName
 
-    std::string ExifTags::tagTitle(uint16_t tag, IfdId ifdId)
+    const char* ExifTags::tagTitle(uint16_t tag, IfdId ifdId)
     {
         if (isExifIfd(ifdId)) {
             int idx = tagInfoIdx(tag, ifdId);
@@ -654,11 +637,6 @@ namespace Exiv2 {
     std::string ExifKey::tagName() const
     {
         return ExifTags::tagName(tag_, ifdId_);
-    }
-
-    std::string ExifKey::tagTitle() const
-    {
-        return ExifTags::tagTitle(tag_, ifdId_);
     }
 
     ExifKey::AutoPtr ExifKey::clone() const
