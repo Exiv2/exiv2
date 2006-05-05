@@ -65,8 +65,8 @@ try {
     edMn1["Exif.Image.Make"]   = "Canon";
     edMn1["Exif.Image.Model"]  = "Canon PowerShot S40";
     edMn1["Exif.Canon.0xabcd"] = "A Canon makernote tag";
-    edMn1["Exif.CanonCs.0x0002"] = uint16_t(41);
-    edMn1["Exif.CanonSi.0x0005"] = uint16_t(42);
+    edMn1["Exif.CanonCs1.0x0002"] = uint16_t(41);
+    edMn1["Exif.CanonCs2.0x0005"] = uint16_t(42);
     edMn1["Exif.CanonCf.0x0001"] = uint16_t(43);
     write(file, edMn1);
     print(file);
@@ -77,8 +77,8 @@ try {
     image->readMetadata();
 
     Exiv2::ExifData& rEd = image->exifData();
-    rEd["Exif.CanonCs.0x0001"] = uint16_t(88);
-    rEd["Exif.CanonSi.0x0004"] = uint16_t(99);
+    rEd["Exif.CanonCs1.0x0001"] = uint16_t(88);
+    rEd["Exif.CanonCs2.0x0004"] = uint16_t(99);
     image->writeMetadata();
     print(file);
 

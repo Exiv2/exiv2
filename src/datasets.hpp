@@ -315,8 +315,6 @@ namespace Exiv2 {
         virtual std::string groupName() const { return recordName(); }
         virtual std::string tagName() const
             { return IptcDataSets::dataSetName(tag_, record_); }
-        virtual std::string tagTitle() const
-			{ return IptcDataSets::dataSetTitle(tag_, record_); }
         virtual uint16_t tag() const { return tag_; }
 
         AutoPtr clone() const;

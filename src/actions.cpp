@@ -250,9 +250,9 @@ namespace Action {
         // Image Timestamp
         printTag(exifData, "Exif.Photo.DateTimeOriginal", "Image timestamp");
 
-        // File number
-        // Todo: File number for cameras other than Canon
-        printTag(exifData, "Exif.Canon.FileNumber", "File number");
+        // Image number
+        // Todo: Image number for cameras other than Canon
+        printTag(exifData, "Exif.Canon.ImageNumber", "Image number");
 
         // Exposure time
         // From ExposureTime, failing that, try ShutterSpeedValue
@@ -289,7 +289,7 @@ namespace Action {
         done = false;
         printLabel("Flash bias");
         if (!done) {
-            done = 0 != printTag(exifData, "Exif.CanonSi.FlashBias");
+            done = 0 != printTag(exifData, "Exif.CanonCs2.FlashBias");
         }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Panasonic.FlashBias");
@@ -319,7 +319,7 @@ namespace Action {
             done = 0 != printTag(exifData, "Exif.Photo.SubjectDistance");
         }
         if (!done) {
-            done = 0 != printTag(exifData, "Exif.CanonSi.FocusDistanceUpper");
+            done = 0 != printTag(exifData, "Exif.CanonCs2.SubjectDistance");
         }
         std::cout << std::endl;
 
@@ -331,7 +331,7 @@ namespace Action {
             done = 0 != printTag(exifData, "Exif.Photo.ISOSpeedRatings");
         }
         if (!done) {
-            done = 0 != printTag(exifData, "Exif.CanonSi.ISOSpeed");
+            done = 0 != printTag(exifData, "Exif.CanonCs2.ISOSpeed");
         }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Nikon1.ISOSpeed");
@@ -345,14 +345,14 @@ namespace Action {
         std::cout << std::endl;
 
         // Exposure mode
-        // From ExposureMode or Canon Makernote
+        // From ExposureProgram or Canon Makernote
         printLabel("Exposure mode");
         done = false;
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Photo.ExposureProgram");
         }
         if (!done) {
-            done = 0 != printTag(exifData, "Exif.CanonCs.ExposureMode");
+            done = 0 != printTag(exifData, "Exif.CanonCs1.ExposureProgram");
         }
         std::cout << std::endl;
 
@@ -364,7 +364,7 @@ namespace Action {
         printLabel("Macro mode");
         done = false;
         if (!done) {
-            done = 0 != printTag(exifData, "Exif.CanonCs.Macro");
+            done = 0 != printTag(exifData, "Exif.CanonCs1.Macro");
         }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Fujifilm.Macro");
@@ -382,7 +382,7 @@ namespace Action {
         printLabel("Image quality");
         done = false;
         if (!done) {
-            done = 0 != printTag(exifData, "Exif.CanonCs.Quality");
+            done = 0 != printTag(exifData, "Exif.CanonCs1.Quality");
         }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Fujifilm.Quality");
@@ -425,7 +425,7 @@ namespace Action {
         printLabel("White balance");
         done = false;
         if (!done) {
-            done = 0 != printTag(exifData, "Exif.CanonSi.WhiteBalance");
+            done = 0 != printTag(exifData, "Exif.CanonCs2.WhiteBalance");
         }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Fujifilm.WhiteBalance");
@@ -467,14 +467,7 @@ namespace Action {
         printTag(exifData, "Exif.Image.Copyright", "Copyright");
 
         // Exif Comment
-        printLabel("Exif comment");
-        done = false;
-        if (!done) {
-            done = 0 != printTag(exifData, "Exif.Photo.UserComment");
-        }
-        if (!done) {
-            done = 0 != printTag(exifData, "Exif.Image.ImageDescription");
-        }
+        printTag(exifData, "Exif.Photo.UserComment", "Exif comment");
         std::cout << std::endl;
 
         return 0;

@@ -96,12 +96,8 @@ namespace Exiv2 {
     //! Type to specify the IFD to which a metadata belongs
     enum IfdId { ifdIdNotSet,
                  ifd0Id, exifIfdId, gpsIfdId, iopIfdId, ifd1Id,
-                 canonIfdId, canonCsIfdId, canonFlIfdId, canonSiIfdId, 
-                 canonPaIfdId, canonCl2IfdId, canonCiIfdId, canonCfIfdId, 
-                 canonPiIfdId, canonCf2IfdId, canonPfIfdId, canonPvIfdId, 
-                 canonFiIfdId, canonPcIfdId, canonCbIfdId, canonFgIfdId, 
-                 canonMiIfdId, canonPrIfdId, canonSnIfdId, canonCb2IfdId, 
-                 canonClIfdId, fujiIfdId, nikon1IfdId, nikon2IfdId, nikon3IfdId,
+                 canonIfdId, canonCs1IfdId, canonCs2IfdId, canonCfIfdId,
+                 fujiIfdId, nikon1IfdId, nikon2IfdId, nikon3IfdId,
                  olympusIfdId, panasonicIfdId, sigmaIfdId, sonyIfdId,
                  lastIfdId };
 
