@@ -114,6 +114,7 @@ namespace Exiv2 {
         // 269 not needed (sonymn)
         case 270: group = "Sony";      break;
         case 271: group = "Sony";      break;
+        case 272: group = "Minolta";   break;
         default:  group = "Unknown";   break;
         }
         return group;

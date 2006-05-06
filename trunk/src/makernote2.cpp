@@ -49,14 +49,16 @@ EXIV2_RCSID("@(#) $Id$");
 namespace Exiv2 {
 
     const TiffMnRegistry TiffMnCreator::registry_[] = {
-        { "Canon",     newCanonMn,     Group::canonmn },
-        { "FOVEON",    newSigmaMn,     Group::sigmamn },
-        { "FUJIFILM",  newFujiMn,      Group::fujimn  },
-        { "NIKON",     newNikonMn,     Group::nikonmn },
-        { "OLYMPUS",   newOlympusMn,   Group::olympmn },
-        { "Panasonic", newPanasonicMn, Group::panamn  },
-        { "SIGMA",     newSigmaMn,     Group::sigmamn },
-        { "SONY",      newSonyMn,      Group::sonymn  }
+        { "Canon",          newCanonMn,     Group::canonmn   },
+        { "FOVEON",         newSigmaMn,     Group::sigmamn   },
+        { "FUJIFILM",       newFujiMn,      Group::fujimn    },
+        { "KONICA MINOLTA", newMinoltaMn,   Group::minoltamn },
+        { "Minolta",        newMinoltaMn,   Group::minoltamn },
+        { "NIKON",          newNikonMn,     Group::nikonmn   },
+        { "OLYMPUS",        newOlympusMn,   Group::olympmn   },
+        { "Panasonic",      newPanasonicMn, Group::panamn    },
+        { "SIGMA",          newSigmaMn,     Group::sigmamn   },
+        { "SONY",           newSonyMn,      Group::sonymn    }
     };
 
     bool TiffMnRegistry::operator==(const TiffMnRegistry::Key& key) const
@@ -334,6 +336,16 @@ namespace Exiv2 {
                               const byte* /*pData*/,
                               uint32_t    /*size*/, 
                               ByteOrder   /*byteOrder*/)
+    {
+        return new TiffIfdMakernote(tag, group, mnGroup, 0);
+    }
+
+    TiffComponent* newMinoltaMn(uint16_t    tag,
+                                uint16_t    group,
+                                uint16_t    mnGroup,
+                                const byte* /*pData*/,
+                                uint32_t    /*size*/, 
+                                ByteOrder   /*byteOrder*/)
     {
         return new TiffIfdMakernote(tag, group, mnGroup, 0);
     }
