@@ -21,6 +21,8 @@
 /*!
   @file    minoltamn.hpp
   @brief   Minolta MakerNote
+           References: <a href="http://www.dalibor.cz/minolta/makernote.htm">
+           MakerNote</a> by Dalibor Jelinek<br>
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
