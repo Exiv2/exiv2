@@ -34,6 +34,7 @@
 // included header files
 #include "canonmn.hpp"
 #include "fujimn.hpp"
+#include "minoltamn.hpp"
 #include "nikonmn.hpp"
 #include "olympusmn.hpp"
 #include "panasonicmn.hpp"
