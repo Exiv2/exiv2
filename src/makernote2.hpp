@@ -43,21 +43,22 @@
 namespace Exiv2 {
 
     namespace Group {
-        const uint16_t olympmn  = 257; //!< Olympus makernote
-        const uint16_t fujimn   = 258; //!< Fujifilm makernote
-        const uint16_t canonmn  = 259; //!< Canon makernote
-        const uint16_t canoncs  = 260; //!< Canon camera settings
-        const uint16_t canonsi  = 261; //!< Canon shot info
-        const uint16_t canoncf  = 262; //!< Canon customer functions
-        const uint16_t nikonmn  = 263; //!< Any Nikon makernote (pseudo group)
-        const uint16_t nikon1mn = 264; //!< Nikon1 makernote
-        const uint16_t nikon2mn = 265; //!< Nikon2 makernote
-        const uint16_t nikon3mn = 266; //!< Nikon3 makernote
-        const uint16_t panamn   = 267; //!< Panasonic makernote
-        const uint16_t sigmamn  = 268; //!< Sigma makernote
-        const uint16_t sonymn   = 269; //!< Any Sony makernote (pseudo group)
-        const uint16_t sony1mn  = 270; //!< Sony1 makernote
-        const uint16_t sony2mn  = 271; //!< Sony2 makernote
+        const uint16_t olympmn   = 257; //!< Olympus makernote
+        const uint16_t fujimn    = 258; //!< Fujifilm makernote
+        const uint16_t canonmn   = 259; //!< Canon makernote
+        const uint16_t canoncs   = 260; //!< Canon camera settings
+        const uint16_t canonsi   = 261; //!< Canon shot info
+        const uint16_t canoncf   = 262; //!< Canon customer functions
+        const uint16_t nikonmn   = 263; //!< Any Nikon makernote (pseudo group)
+        const uint16_t nikon1mn  = 264; //!< Nikon1 makernote
+        const uint16_t nikon2mn  = 265; //!< Nikon2 makernote
+        const uint16_t nikon3mn  = 266; //!< Nikon3 makernote
+        const uint16_t panamn    = 267; //!< Panasonic makernote
+        const uint16_t sigmamn   = 268; //!< Sigma makernote
+        const uint16_t sonymn    = 269; //!< Any Sony makernote (pseudo group)
+        const uint16_t sony1mn   = 270; //!< Sony1 makernote
+        const uint16_t sony2mn   = 271; //!< Sony2 makernote
+        const uint16_t minoltamn = 272; //!< Minolta makernote
     }
 
 // *****************************************************************************
@@ -468,6 +469,14 @@ namespace Exiv2 {
                               const byte* pData,
                               uint32_t    size, 
                               ByteOrder   byteOrder);
+
+    //! Function to create a Minolta makernote
+    TiffComponent* newMinoltaMn(uint16_t    tag,
+                                uint16_t    group,
+                                uint16_t    mnGroup,
+                                const byte* pData,
+                                uint32_t    size, 
+                                ByteOrder   byteOrder);
 
     //! Function to create an Olympus makernote
     TiffComponent* newOlympusMn(uint16_t    tag,
