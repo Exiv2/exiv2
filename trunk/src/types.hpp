@@ -352,6 +352,11 @@ namespace Exiv2 {
         return rc == src + N ? 0 : rc;
     }
 
+    //! Template used in the COUNTOF macro to determine the size of an array
+    template <typename T, int N> char (&sizer(T (&)[N]))[N];
+//! Macro to determine the size of an array
+#define COUNTOF(a) (sizeof(sizer(a)))
+
     //! Utility function to convert the argument of any type to a string
     template<typename T>
     std::string toString(const T& arg)
