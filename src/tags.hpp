@@ -34,11 +34,12 @@
 // included header files
 #include "metadatum.hpp"
 #include "types.hpp"
+#include "value.hpp"
 
 // + standard includes
 #include <string>
 #include <utility>                              // for std::pair
-#include <iosfwd>
+#include <iostream>
 #include <memory>
 
 // *****************************************************************************
@@ -118,7 +119,27 @@ namespace Exiv2 {
     struct TagDetails {
         long val_;                              //!< Tag value
         char* label_;                           //!< Translation of the tag value
+
+        //! Comparison operator for use with the find template
+        bool operator==(long key) const { return val_ == key; }
     }; // struct TagDetails
+
+    /*!
+      @brief Generic print function to translate a long value to a description
+             by looking up a reference table.
+     */
+    template <int N, const TagDetails (&array)[N]>
+    std::ostream& printTag(std::ostream& os, const Value& value)
+    {
+        const TagDetails* td = find(array, value.toLong());
+        if (td) {
+            os << td->label_;
+        }
+        else {
+            os << "(" << value << ")";
+        }
+        return os;
+    }
 
     /*!
       @brief Translation from numeric values from a lookup list to human

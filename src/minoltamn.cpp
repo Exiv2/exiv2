@@ -37,6 +37,7 @@ EXIV2_RCSID("@(#) $Id$");
 #include "minoltamn.hpp"
 #include "makernote.hpp"
 #include "value.hpp"
+#include "tags.hpp"
 
 // + standard includes
 #include <string>
@@ -47,6 +48,24 @@ EXIV2_RCSID("@(#) $Id$");
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
+
+    //! Lookup table to translate Minolta color mode values to readable labels
+    extern const TagDetails minoltaColorMode[] = {
+        { 0, "Natural Color" },
+        { 1, "Black & White" },
+        { 2, "Vivid Color"   },
+        { 3, "Solarization"  },
+        { 4, "AdobeRGB"      }
+    };
+
+    //! Lookup table to translate Minolta image quality values to readable labels
+    extern const TagDetails minoltaImageQuality[] = {
+        { 0, "Raw"       },
+        { 1, "Superfine" },
+        { 2, "Fine"      },
+        { 3, "Standard"  },
+        { 5, "Extrafine" }
+    };
 
     //! @cond IGNORE
     MinoltaMakerNote::RegisterMn::RegisterMn()
@@ -69,8 +88,8 @@ namespace Exiv2 {
         TagInfo(0x0081, "Thumbnail", "Thumbnail", "Jpeg thumbnail 640x480 pixels", minoltaIfdId, makerTags, undefined, printValue),
         TagInfo(0x0088, "ThumbnailOffset", "Thumbnail Offset", "Offset of the thumbnail", minoltaIfdId, makerTags, unsignedLong, printValue),
         TagInfo(0x0089, "ThumbnailLength", "Thumbnail Length", "Size of the thumbnail", minoltaIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x0101, "ColorMode", "Color Mode", "Color mode", minoltaIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x0102, "ImageQuality", "Image Quality", "Image quality", minoltaIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x0101, "ColorMode", "Color Mode", "Color mode", minoltaIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaColorMode), minoltaColorMode>),
+        TagInfo(0x0102, "ImageQuality", "Image Quality", "Image quality", minoltaIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaImageQuality), minoltaImageQuality>),
         TagInfo(0x0e00, "PIM_IFD", "PIM IFD", "PIM information", minoltaIfdId, makerTags, undefined, printValue),
         // End of list marker
         TagInfo(0xffff, "(UnknownMinoltaMakerNoteTag)", "(UnknownMinoltaMakerNoteTag)", "Unknown MinoltaMakerNote tag", minoltaIfdId, makerTags, invalidTypeId, printValue)
