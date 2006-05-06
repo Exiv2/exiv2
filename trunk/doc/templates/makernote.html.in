@@ -83,22 +83,23 @@ Please let me know if you find further specifications on the Internet.</p>
     <td>IFD, usually at offset 12</td>
     <td>Starts with the string &quot;FUJIFILM&quot; 
     and a 4 byte pointer to the IFD</td>
-    <td>Little endian (II)</td>
+    <td>Little-endian (II)</td>
     <td>Relative to the beginning of the makernote</td>
     <td><a href="#R1">[1]</a></td>
-    <td>Exif data uses big endian (MM) byte order</td>
+    <td>Exif data uses big-endian (MM) byte order</td>
    </tr>
    <tr class="EvenRow">
-    <td>Minolta</td>
+    <td>Minolta, KONICA&nbsp;MINOLTA</td>
     <td>IFD</td>
-    <td>-</td>
-    <td>-</td>
-    <td>-</td>
+    <td>None</td>
+    <td>&nbsp</td>
+    <td>&nbsp</td>
     <td><a href="#R5">[5]</a></td>
-    <td>Not supported by Exiv2 yet</td>
+    <td>Camera settings tag is encoded in big-endian (MM) style, regardless of
+    the encoding style of the Exif data</td>
    </tr>
    <tr class="OddRow"> 
-    <td>NIKON (1)</td>
+    <td>NIKON</td>
     <td>IFD</td>
     <td>None</td>
     <td>&nbsp;</td>
@@ -107,7 +108,7 @@ Please let me know if you find further specifications on the Internet.</p>
     <td>Models using this makernote include E990, D1</td>
    </tr>
    <tr class="EvenRow"> 
-    <td>NIKON (2)</td>
+    <td>NIKON</td>
     <td>IFD, at offset 8</td>
     <td>&quot;Nikon\0&quot; followed by two bytes of unknown meaning</td>
     <td>&nbsp;</td>
@@ -116,7 +117,7 @@ Please let me know if you find further specifications on the Internet.</p>
     <td>Models using this makernote include E700, E800, E900, E900S, E910, E950</td>
    </tr>
    <tr class="OddRow"> 
-    <td>NIKON (3)</td>
+    <td>NIKON</td>
     <td>IFD, usually at offset 18</td>
     <td>&quot;Nikon\0&quot; followed by 4 bytes which look like a version code 
     and a TIFF header</td>
@@ -164,7 +165,7 @@ Please let me know if you find further specifications on the Internet.</p>
     <td>&nbsp;</td>
    </tr>
    <tr class="EvenRow"> 
-    <td>SONY (1)</td>
+    <td>SONY</td>
     <td>IFD without a next-IFD pointer at offset 12</td>
     <td>&quot;SONY DSC \0\0\0&quot;</td>
     <td>&nbsp;</td>
@@ -173,7 +174,7 @@ Please let me know if you find further specifications on the Internet.</p>
     <td>Seen in Jpeg images, e.g., from DSC-W7, DSC-R1</td>
    </tr>
    <tr class="OddRow"> 
-    <td>SONY (2)</td>
+    <td>SONY</td>
     <td>IFD</td>
     <td>None</td>
     <td>&nbsp;</td>
