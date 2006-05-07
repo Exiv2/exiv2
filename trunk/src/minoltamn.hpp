@@ -20,9 +20,10 @@
  */
 /*!
   @file    minoltamn.hpp
-  @brief   Minolta MakerNote
-           References: <a href="http://www.dalibor.cz/minolta/makernote.htm">
-           MakerNote</a> by Dalibor Jelinek<br>
+  @brief   Minolta MakerNote implemented using the following references:
+           <a href="http://www.dalibor.cz/minolta/makernote.htm">Minolta Makernote Format Specification</a> by Dalibor Jelinek, 
+           <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Minolta.html">Minolta Makernote list by Phil Harvey</a>
+           email communication with <a href="mailto:caulier dot gilles@kdemail dot net">caulier dot gilles@kdemail dot net</a>
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
