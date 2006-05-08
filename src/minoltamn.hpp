@@ -23,12 +23,12 @@
   @brief   Minolta MakerNote implemented using the following references:
            <a href="http://www.dalibor.cz/minolta/makernote.htm">Minolta Makernote Format Specification</a> by Dalibor Jelinek, 
            <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Minolta.html">Minolta Makernote list by Phil Harvey</a>
-           email communication with <a href="mailto:caulier dot gilles@kdemail dot net">caulier dot gilles@kdemail dot net</a>
+           email communication with <a href="mailto:caulier dot gilles at kdemail dot net">caulier dot gilles at kdemail dot net</a>
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @author  Gilles Caulier (gc)
-           <a href="mailto:caulier.gilles@kdemail.net">caulier.gilles@kdemail.net</a>
+           <a href="mailto:caulier dot gilles at kdemail dot net">caulier dot gilles at kdemail dot net</a>
   @date    06-May-06, gc: submitted
  */
 #ifndef MINOLTAMN_HPP_
