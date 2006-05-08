@@ -275,6 +275,9 @@
 				RelativePath="..\..\src\metadatum.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\minoltamn.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\nikonmn.cpp">
 			</File>
 			<File
@@ -509,6 +512,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\mn.hpp">
+			</File>
+			<File
+				RelativePath="..\..\src\minoltamn.hpp">
 			</File>
 			<File
 				RelativePath="..\..\src\nikonmn.hpp">
