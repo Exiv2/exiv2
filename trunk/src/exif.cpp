@@ -94,7 +94,7 @@ namespace Exiv2 {
     Exifdatum::Exifdatum(const Entry& e, ByteOrder byteOrder)
         : key_(ExifKey::AutoPtr(new ExifKey(e)))
     {
-        setValue(e, byteOrder);
+        setValue(e, e.byteOrder() == invalidByteOrder ? byteOrder : e.byteOrder());
     }
 
     Exifdatum::Exifdatum(const ExifKey& key, const Value* pValue)
@@ -1068,7 +1068,9 @@ namespace Exiv2 {
                 // Todo: Fix me!
                 if (md->sizeDataArea() == 0) {
                     DataBuf buf(md->size());
-                    md->copy(buf.pData_, byteOrder);
+                    // Hack: Use byte order from the entry if there is one
+                    md->copy(buf.pData_, entry->byteOrder() == invalidByteOrder 
+                             ? byteOrder : entry->byteOrder());
                     entry->setValue(static_cast<uint16_t>(md->typeId()),
                                     md->count(),
                                     buf.pData_, md->size());
@@ -1209,7 +1211,15 @@ namespace Exiv2 {
     {
         for (ExifMetadata::const_iterator i = begin; i != end; ++i) {
             if (ExifTags::isMakerIfd(i->ifdId())) {
-                addToMakerNote(makerNote, *i, byteOrder);
+                // Wild Hack... very ugly
+                ByteOrder bo = byteOrder;
+                if (   i->ifdId() == minoltaCs5DIfdId
+                    || i->ifdId() == minoltaCs7DIfdId
+                    || i->ifdId() == minoltaCsOldIfdId
+                    || i->ifdId() == minoltaCsNewIfdId) {
+                    bo = bigEndian;
+                }
+                addToMakerNote(makerNote, *i, bo);
             }
         }
     } // addToMakerNote

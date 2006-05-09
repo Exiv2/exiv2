@@ -388,61 +388,61 @@ namespace Exiv2 {
         { 2, "Manual flash control"                }
     };
 
-    // Minolta Standard Camera Settings Tag Info
+    // Minolta Standard Camera Settings Tag Info (Old and New)
     const TagInfo MinoltaMakerNote::tagInfoCsStd_[] = {
-        TagInfo(0x0001, "ExposureMode", "Exposure Mode", "Exposure mode", minoltaCsStdIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaExposureModeStd), minoltaExposureModeStd>),
-        TagInfo(0x0002, "FlashMode", "Flash Mode", "Flash mode", minoltaCsStdIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaFlashModeStd), minoltaFlashModeStd>),
-        TagInfo(0x0003, "WhiteBalance", "White Balance", "White balance", minoltaCsStdIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x0004, "ImageSize", "Image Size", "Image size", minoltaCsStdIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaImageSizeStd), minoltaImageSizeStd>),
-        TagInfo(0x0005, "ImageQuality", "Image Quality", "Image quality", minoltaCsStdIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaImageQualityStd), minoltaImageQualityStd>),
-        TagInfo(0x0006, "DriveMode", "Drive Mode", "Drive mode", minoltaCsStdIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaDriveModeStd), minoltaDriveModeStd>),
-        TagInfo(0x0007, "MeteringMode", "Metering Mode", "Metering mode", minoltaCsStdIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaMeteringModeStd), minoltaMeteringModeStd>),
-        TagInfo(0x0008, "ExposureSpeed", "Exposure Speed", "Exposure speed", minoltaCsStdIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x0009, "ExposureTime", "Exposure Time", "Exposure time", minoltaCsStdIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x000A, "FNumber", "FNumber", "FNumber", minoltaCsStdIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x000B, "MacroMode", "Macro Mode", "Macro mode", minoltaCsStdIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaMacroModeStd), minoltaMacroModeStd>),
-        TagInfo(0x000C, "DigitalZoom", "Digital Zoom", "Digital zoom", minoltaCsStdIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaDigitalZoomStd), minoltaDigitalZoomStd>),
-        TagInfo(0x000D, "ExposureCompensation", "Exposure Compensation", "Exposure compensation", minoltaCsStdIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x000E, "BracketStep", "Bracket Step", "Bracket step", minoltaCsStdIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaBracketStepStd), minoltaBracketStepStd>),
-        TagInfo(0x0010, "IntervalLength", "Interval Length", "Interval length", minoltaCsStdIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x0011, "IntervalNumber", "Interval Number", "Interval number", minoltaCsStdIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x0012, "FocalLength", "Focal Length", "Focal length", minoltaCsStdIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x0013, "FocusDistance", "Focus Distance", "Focus distance", minoltaCsStdIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x0016, "Flash", "Flash", "Flash", minoltaCsStdIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaFlashStd), minoltaFlashStd>),
-        TagInfo(0x0017, "MinoltaDate", "Minolta Date", "Minolta date", minoltaCsStdIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x0018, "MinoltaTime", "Minolta Time", "Minolta time", minoltaCsStdIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x0019, "MaxAperture", "Max Aperture", "Max aperture", minoltaCsStdIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x001A, "FileNumberMemory", "File Number Memory", "File number memory", minoltaCsStdIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaFileNumberMemoryStd), minoltaFileNumberMemoryStd>),
-        TagInfo(0x001B, "ImageNumber", "Image Number", "Image number", minoltaCsStdIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x001C, "ColorBalanceRed", "Color Balance Red", "Color balance red", minoltaCsStdIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x001D, "ColorBalanceGreen", "Color Balance Green", "Color balance green", minoltaCsStdIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x001E, "ColorBalanceBlue", "Color Balance Blue", "Color balance blue", minoltaCsStdIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x001F, "Saturation", "Saturation", "Saturation", minoltaCsStdIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x0020, "Contrast", "Contrast", "Contrast", minoltaCsStdIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x0021, "Sharpness", "Sharpness", "Sharpness", minoltaCsStdIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaSharpnessStd), minoltaSharpnessStd>),
-        TagInfo(0x0022, "SubjectProgram", "Subject Program", "Subject program", minoltaCsStdIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaSubjectProgramStd), minoltaSubjectProgramStd>),
-        TagInfo(0x0023, "FlashExposureComp", "Flash Exposure Comp", "Flash exposure comp", minoltaCsStdIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x0024, "ISOSetting", "ISO Setting", "ISO setting", minoltaCs7DIfdId, makerTags, unsignedShort, printTag<COUNTOF(minoltaISOSettingStd), minoltaISOSettingStd>),
-        TagInfo(0x0025, "MinoltaModel", "Minolta Model", "Minolta model", minoltaCs7DIfdId, makerTags, unsignedShort, printTag<COUNTOF(minoltaModelStd), minoltaModelStd>),
-        TagInfo(0x0026, "IntervalMode", "Interval Mode", "Interval mode", minoltaCsStdIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaIntervalModeStd), minoltaIntervalModeStd>),
-        TagInfo(0x0027, "FolderName", "Folder Name", "Folder name", minoltaCsStdIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaFolderNameStd), minoltaFolderNameStd>),
-        TagInfo(0x0028, "ColorMode", "ColorMode", "ColorMode", minoltaCsStdIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaColorModeStd), minoltaColorModeStd>),
-        TagInfo(0x0029, "ColorFilter", "Color Filter", "Color filter", minoltaCsStdIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x002A, "BWFilter", "Black White Filter", "Black and white filter", minoltaCsStdIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x002B, "InternalFlash", "Internal Flash", "Internal flash", minoltaCsStdIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaInternalFlashStd), minoltaInternalFlashStd>),
-        TagInfo(0x002C, "Brightness", "Brightness", "Brightness", minoltaCsStdIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x002D, "SpotFocusPointX", "Spot Focus Point X", "Spot focus point X", minoltaCsStdIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x002E, "SpotFocusPointY", "Spot Focus Point Y", "Spot focus point Y", minoltaCsStdIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x002F, "WideFocusZone", "Wide Focus Zone", "Wide focus zone", minoltaCsStdIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaWideFocusZoneStd), minoltaWideFocusZoneStd>),
-        TagInfo(0x0030, "FocusMode", "Focus Mode", "Focus mode", minoltaCsStdIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaFocusModeStd), minoltaFocusModeStd>),
-        TagInfo(0x0031, "FocusArea", "Focus area", "Focus area", minoltaCsStdIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaFocusAreaStd), minoltaFocusAreaStd>),
-        TagInfo(0x0032, "DECPosition", "DEC Switch Position", "DEC switch position", minoltaCsStdIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaDECPositionStd), minoltaDECPositionStd>),
-        TagInfo(0x0033, "ColorProfile", "Color Profile", "Color profile", minoltaCsStdIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaColorProfileStd), minoltaColorProfileStd>),
-        TagInfo(0x0034, "DataImprint", "Data Imprint", "Data imprint", minoltaCsStdIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaDataImprintStd), minoltaDataImprintStd>),
-        TagInfo(0x003F, "FlashMetering", "Flash Metering", "Flash metering", minoltaCsStdIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaFlashMeteringStd), minoltaFlashMeteringStd>),
+        TagInfo(0x0001, "ExposureMode", "Exposure Mode", "Exposure mode", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaExposureModeStd), minoltaExposureModeStd>),
+        TagInfo(0x0002, "FlashMode", "Flash Mode", "Flash mode", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaFlashModeStd), minoltaFlashModeStd>),
+        TagInfo(0x0003, "WhiteBalance", "White Balance", "White balance", minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x0004, "ImageSize", "Image Size", "Image size", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaImageSizeStd), minoltaImageSizeStd>),
+        TagInfo(0x0005, "ImageQuality", "Image Quality", "Image quality", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaImageQualityStd), minoltaImageQualityStd>),
+        TagInfo(0x0006, "DriveMode", "Drive Mode", "Drive mode", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaDriveModeStd), minoltaDriveModeStd>),
+        TagInfo(0x0007, "MeteringMode", "Metering Mode", "Metering mode", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaMeteringModeStd), minoltaMeteringModeStd>),
+        TagInfo(0x0008, "ExposureSpeed", "Exposure Speed", "Exposure speed", minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x0009, "ExposureTime", "Exposure Time", "Exposure time", minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x000A, "FNumber", "FNumber", "FNumber", minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x000B, "MacroMode", "Macro Mode", "Macro mode", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaMacroModeStd), minoltaMacroModeStd>),
+        TagInfo(0x000C, "DigitalZoom", "Digital Zoom", "Digital zoom", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaDigitalZoomStd), minoltaDigitalZoomStd>),
+        TagInfo(0x000D, "ExposureCompensation", "Exposure Compensation", "Exposure compensation", minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x000E, "BracketStep", "Bracket Step", "Bracket step", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaBracketStepStd), minoltaBracketStepStd>),
+        TagInfo(0x0010, "IntervalLength", "Interval Length", "Interval length", minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x0011, "IntervalNumber", "Interval Number", "Interval number", minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x0012, "FocalLength", "Focal Length", "Focal length", minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x0013, "FocusDistance", "Focus Distance", "Focus distance", minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x0014, "Flash", "Flash", "Flash", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaFlashStd), minoltaFlashStd>),
+        TagInfo(0x0015, "MinoltaDate", "Minolta Date", "Minolta date", minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x0016, "MinoltaTime", "Minolta Time", "Minolta time", minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x0017, "MaxAperture", "Max Aperture", "Max aperture", minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x001A, "FileNumberMemory", "File Number Memory", "File number memory", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaFileNumberMemoryStd), minoltaFileNumberMemoryStd>),
+        TagInfo(0x001B, "ImageNumber", "Image Number", "Image number", minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x001C, "ColorBalanceRed", "Color Balance Red", "Color balance red", minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x001D, "ColorBalanceGreen", "Color Balance Green", "Color balance green", minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x001E, "ColorBalanceBlue", "Color Balance Blue", "Color balance blue", minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x001F, "Saturation", "Saturation", "Saturation", minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x0020, "Contrast", "Contrast", "Contrast", minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x0021, "Sharpness", "Sharpness", "Sharpness", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaSharpnessStd), minoltaSharpnessStd>),
+        TagInfo(0x0022, "SubjectProgram", "Subject Program", "Subject program", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaSubjectProgramStd), minoltaSubjectProgramStd>),
+        TagInfo(0x0023, "FlashExposureComp", "Flash Exposure Comp", "Flash exposure comp", minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x0024, "ISOSetting", "ISO Setting", "ISO setting", minoltaCsNewIfdId, makerTags, unsignedShort, printTag<COUNTOF(minoltaISOSettingStd), minoltaISOSettingStd>),
+        TagInfo(0x0025, "MinoltaModel", "Minolta Model", "Minolta model", minoltaCsNewIfdId, makerTags, unsignedShort, printTag<COUNTOF(minoltaModelStd), minoltaModelStd>),
+        TagInfo(0x0026, "IntervalMode", "Interval Mode", "Interval mode", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaIntervalModeStd), minoltaIntervalModeStd>),
+        TagInfo(0x0027, "FolderName", "Folder Name", "Folder name", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaFolderNameStd), minoltaFolderNameStd>),
+        TagInfo(0x0028, "ColorMode", "ColorMode", "ColorMode", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaColorModeStd), minoltaColorModeStd>),
+        TagInfo(0x0029, "ColorFilter", "Color Filter", "Color filter", minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x002A, "BWFilter", "Black White Filter", "Black and white filter", minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x002B, "InternalFlash", "Internal Flash", "Internal flash", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaInternalFlashStd), minoltaInternalFlashStd>),
+        TagInfo(0x002C, "Brightness", "Brightness", "Brightness", minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x002D, "SpotFocusPointX", "Spot Focus Point X", "Spot focus point X", minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x002E, "SpotFocusPointY", "Spot Focus Point Y", "Spot focus point Y", minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x002F, "WideFocusZone", "Wide Focus Zone", "Wide focus zone", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaWideFocusZoneStd), minoltaWideFocusZoneStd>),
+        TagInfo(0x0030, "FocusMode", "Focus Mode", "Focus mode", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaFocusModeStd), minoltaFocusModeStd>),
+        TagInfo(0x0031, "FocusArea", "Focus area", "Focus area", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaFocusAreaStd), minoltaFocusAreaStd>),
+        TagInfo(0x0032, "DECPosition", "DEC Switch Position", "DEC switch position", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaDECPositionStd), minoltaDECPositionStd>),
+        TagInfo(0x0033, "ColorProfile", "Color Profile", "Color profile", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaColorProfileStd), minoltaColorProfileStd>),
+        TagInfo(0x0034, "DataImprint", "Data Imprint", "Data imprint", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaDataImprintStd), minoltaDataImprintStd>),
+        TagInfo(0x003F, "FlashMetering", "Flash Metering", "Flash metering", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaFlashMeteringStd), minoltaFlashMeteringStd>),
 
         // End of list marker
-        TagInfo(0xffff, "(UnknownMinoltaCsStdTag)", "(UnknownMinoltaCsStdTag)", "Unknown Minolta Camera Settings Std tag", minoltaCsStdIfdId, makerTags, invalidTypeId, printValue)
+        TagInfo(0xffff, "(UnknownMinoltaCsTag)", "(UnknownMinoltaCsTag)", "Unknown Minolta Camera Settings tag", minoltaCsNewIfdId, makerTags, invalidTypeId, printValue)
     };
 
     // -- Minolta Dynax 7D camera settings ---------------------------------------------------------------
@@ -710,12 +710,14 @@ namespace Exiv2 {
         MakerNoteFactory::registerMakerNote(minoltaIfdId,      MakerNote::AutoPtr(new MinoltaMakerNote));
         MakerNoteFactory::registerMakerNote(minoltaCs5DIfdId,  MakerNote::AutoPtr(new MinoltaMakerNote));
         MakerNoteFactory::registerMakerNote(minoltaCs7DIfdId,  MakerNote::AutoPtr(new MinoltaMakerNote));
-        MakerNoteFactory::registerMakerNote(minoltaCsStdIfdId, MakerNote::AutoPtr(new MinoltaMakerNote));
+        MakerNoteFactory::registerMakerNote(minoltaCsOldIfdId, MakerNote::AutoPtr(new MinoltaMakerNote));
+        MakerNoteFactory::registerMakerNote(minoltaCsNewIfdId, MakerNote::AutoPtr(new MinoltaMakerNote));
 
         ExifTags::registerMakerTagInfo(minoltaIfdId,      tagInfo_);
         ExifTags::registerMakerTagInfo(minoltaCs5DIfdId,  tagInfoCs5D_);
         ExifTags::registerMakerTagInfo(minoltaCs7DIfdId,  tagInfoCs7D_);
-        ExifTags::registerMakerTagInfo(minoltaCsStdIfdId, tagInfoCsStd_);
+        ExifTags::registerMakerTagInfo(minoltaCsOldIfdId, tagInfoCsStd_);
+        ExifTags::registerMakerTagInfo(minoltaCsNewIfdId, tagInfoCsStd_);
     }
     //! @endcond
 
@@ -728,7 +730,7 @@ namespace Exiv2 {
         Entries::iterator cs5D = ifd_.findTag(0x0114);
 
         if (cs5D != ifd_.end() && cs5D->type() == undefined) {
-            for (uint16_t c = 1; cs5D->count() > c; ++c)  {
+            for (uint16_t c = 0; cs5D->count()/2 > c; ++c)  {
                 addCsEntry(minoltaCs5DIfdId, c, cs5D->offset() + c*2, cs5D->data() + c*2, 1);
             }
             // Discard the original entry
@@ -739,7 +741,7 @@ namespace Exiv2 {
         Entries::iterator cs7D = ifd_.findTag(0x0004);
 
         if (cs7D != ifd_.end() && cs7D->type() == undefined) {
-            for (uint16_t c = 1; cs7D->count() > c; ++c)  {
+            for (uint16_t c = 0; cs7D->count()/2 > c; ++c)  {
                 addCsEntry(minoltaCs7DIfdId, c, cs7D->offset() + c*2, cs7D->data() + c*2, 1);
             }
             // Discard the original entry
@@ -750,9 +752,8 @@ namespace Exiv2 {
         Entries::iterator csOldStd = ifd_.findTag(0x0001);
 
         if (csOldStd != ifd_.end() && csOldStd->type() == undefined) {
-            for (uint16_t c = 1; csOldStd->count() > c; ++c)  {
-                // PENDING : c*2 is correct with unsigned long ?
-                addCsStdEntry(minoltaCsStdIfdId, c, csOldStd->offset() + c*2, csOldStd->data() + c*2, 1);
+            for (uint16_t c = 0; csOldStd->count()/4 > c; ++c)  {
+                addCsStdEntry(minoltaCsOldIfdId, c, csOldStd->offset() + c*4, csOldStd->data() + c*4, 1);
             }
             // Discard the original entry
             ifd_.erase(csOldStd);
@@ -762,9 +763,8 @@ namespace Exiv2 {
         Entries::iterator csNewStd = ifd_.findTag(0x0003);
 
         if (csNewStd != ifd_.end() && csNewStd->type() == undefined) {
-            for (uint16_t c = 1; csNewStd->count() > c; ++c)  {
-                // PENDING : c*2 is correct with unsigned long ?
-                addCsStdEntry(minoltaCsStdIfdId, c, csNewStd->offset() + c*2, csNewStd->data() + c*2, 1);
+            for (uint16_t c = 0; csNewStd->count()/4 > c; ++c)  {
+                addCsStdEntry(minoltaCsNewIfdId, c, csNewStd->offset() + c*4, csNewStd->data() + c*4, 1);
             }
             // Discard the original entry
             ifd_.erase(csNewStd);
@@ -789,7 +789,7 @@ namespace Exiv2 {
         e.setIfdId(ifdId);
         e.setTag(tag);
         e.setOffset(offset);
-        e.setValue(unsignedShort, count, data, 2*count);
+        e.setValue(unsignedShort, count, data, 2*count, bigEndian);
         add(e);
     }
 
@@ -799,8 +799,7 @@ namespace Exiv2 {
         e.setIfdId(ifdId);
         e.setTag(tag);
         e.setOffset(offset);
-        // PENDING : 2*count is correct with unsigned long ?
-        e.setValue(unsignedShort, count, data, 2*count);
+        e.setValue(unsignedLong, count, data, 4*count, bigEndian);
         add(e);
     }
 
@@ -810,7 +809,8 @@ namespace Exiv2 {
         assert(   entry.ifdId() == minoltaIfdId
                || entry.ifdId() == minoltaCs5DIfdId
                || entry.ifdId() == minoltaCs7DIfdId
-               || entry.ifdId() == minoltaCsStdIfdId);
+               || entry.ifdId() == minoltaCsOldIfdId
+               || entry.ifdId() == minoltaCsNewIfdId);
         // allow duplicates
         entries_.push_back(entry);
     }
@@ -832,28 +832,28 @@ namespace Exiv2 {
 
         // Collect Dynax 5D camera settings entries and add the original Minolta tag
         Entry cs5D;
-        if (assemble(cs5D, minoltaCs5DIfdId, 0x0114, byteOrder_)) {
+        if (assemble(cs5D, minoltaCs5DIfdId, 0x0114, bigEndian)) {
             ifd_.erase(0x0114);
             ifd_.add(cs5D);
         }
 
         // Collect Dynax 7D camera settings entries and add the original Minolta tag
         Entry cs7D;
-        if (assemble(cs7D, minoltaCs7DIfdId, 0x0004, byteOrder_)) {
+        if (assemble(cs7D, minoltaCs7DIfdId, 0x0004, bigEndian)) {
             ifd_.erase(0x0004);
             ifd_.add(cs7D);
         }
 
         // Collect Old Std camera settings entries and add the original Minolta tag
         Entry csOldStd;
-        if (assembleStd(csOldStd, minoltaCsStdIfdId, 0x0001, byteOrder_)) {
+        if (assembleStd(csOldStd, minoltaCsOldIfdId, 0x0001, bigEndian)) {
             ifd_.erase(0x0001);
             ifd_.add(csOldStd);
         }
 
         // Collect New Std camera settings entries and add the original Minolta tag
         Entry csNewStd;
-        if (assembleStd(csNewStd, minoltaCsStdIfdId, 0x0003, byteOrder_)) {
+        if (assembleStd(csNewStd, minoltaCsNewIfdId, 0x0003, bigEndian)) {
             ifd_.erase(0x0003);
             ifd_.add(csNewStd);
         }
@@ -885,28 +885,28 @@ namespace Exiv2 {
         }
         // Collect Dynax 5D camera settings entries and add the original Minolta tag
         Entry cs5D(alloc_);
-        if (assemble(cs5D, minoltaCs5DIfdId, 0x0114, littleEndian)) {
+        if (assemble(cs5D, minoltaCs5DIfdId, 0x0114, bigEndian)) {
             ifd.erase(0x0114);
             ifd.add(cs5D);
         }
 
         // Collect Dynax 7D camera settings entries and add the original Minolta tag
         Entry cs7D(alloc_);
-        if (assemble(cs7D, minoltaCs7DIfdId, 0x0004, littleEndian)) {
+        if (assemble(cs7D, minoltaCs7DIfdId, 0x0004, bigEndian)) {
             ifd.erase(0x0004);
             ifd.add(cs7D);
         }
 
         // Collect Old Std camera settings entries and add the original Minolta tag
         Entry csOldStd(alloc_);
-        if (assembleStd(csOldStd, minoltaCsStdIfdId, 0x0001, littleEndian)) {
+        if (assembleStd(csOldStd, minoltaCsOldIfdId, 0x0001, bigEndian)) {
             ifd.erase(0x0001);
             ifd.add(csOldStd);
         }
 
         // Collect New Std camera settings entries and add the original Minolta tag
         Entry csNewStd(alloc_);
-        if (assembleStd(csNewStd, minoltaCsStdIfdId, 0x0003, littleEndian)) {
+        if (assembleStd(csNewStd, minoltaCsNewIfdId, 0x0003, bigEndian)) {
             ifd.erase(0x0003);
             ifd.add(csNewStd);
         }
@@ -930,15 +930,11 @@ namespace Exiv2 {
             }
         }
         if (len > 0) {
-            // Number of shorts in the buffer (rounded up)
-            uint16_t s = (len+1) / 2;
-            us2Data(buf.pData_, s*2, byteOrder);
-
             e.setIfdId(minoltaIfdId);
             e.setIdx(0); // don't care
             e.setTag(tag);
             e.setOffset(0); // will be calculated when the IFD is written
-            e.setValue(unsignedShort, s, buf.pData_, s*2);
+            e.setValue(undefined, len, buf.pData_, len * 2);
         }
         return len;
     } // MinoltaMakerNote::assemble
@@ -951,7 +947,7 @@ namespace Exiv2 {
         Entries::const_iterator end = entries_.end();
         for (Entries::const_iterator i = entries_.begin(); i != end; ++i) {
             if (i->ifdId() == ifdId) {
-                uint32_t pos = i->tag() * 2;
+                uint32_t pos = i->tag() * 4;
                 uint32_t size = pos + static_cast<uint32_t>(i->size());
                 assert(size <= 1024);
                 memcpy(buf.pData_ + pos, i->data(), i->size());
@@ -959,20 +955,14 @@ namespace Exiv2 {
             }
         }
         if (len > 0) {
-            // Number of shorts in the buffer (rounded up)
-            uint32_t s = (len+1) / 2;
-            // PENDING : s*2 is correct with unsigned long ?
-            us2Data(buf.pData_, s*2, byteOrder);
-
             e.setIfdId(minoltaIfdId);
             e.setIdx(0); // don't care
             e.setTag(tag);
             e.setOffset(0); // will be calculated when the IFD is written
-            // PENDING : s*2 is correct with unsigned long ?
-            e.setValue(unsignedShort, s, buf.pData_, s*2);
+            e.setValue(undefined, len, buf.pData_, len * 4);
         }
         return len;
-    } // MinoltaMakerNote::assemble
+    } // MinoltaMakerNote::assembleStd
 
     Entries::const_iterator MinoltaMakerNote::findIdx(int idx) const
     {

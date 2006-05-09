@@ -121,12 +121,13 @@ namespace Exiv2 {
           @param count Number of components in the buffer.
           @param data Pointer to the data buffer.
           @param size Size of the desired data buffer in bytes.
+          @param byteOrder Optional byte order.
           @throw Error if no memory allocation is allowed
                  and the size of the data buffer is larger than the existing
                  data buffer of the entry or if size is not large enough to hold
                  count components of the given type.
          */
-        void setValue(uint16_t type, uint32_t count, const byte* data, long size);
+        void setValue(uint16_t type, uint32_t count, const byte* data, long size, ByteOrder byteOrder =invalidByteOrder);
         /*!
           @brief Set the data area. Memory management as for
           setValue(uint16_t, uint32_t, const byte*, long)
@@ -233,6 +234,13 @@ namespace Exiv2 {
           @return Return a pointer to the data area.
          */
         const byte* dataArea() const { return pDataArea_; }
+        /*!
+          @brief Return the byte order of the entry. There should generally 
+                 not be a need for this, it is only used in special cases
+                 (Minolta Makernote CameraSettings tags).
+         */
+        ByteOrder byteOrder() const { return byteOrder_; }
+
         //@}
 
     private:
@@ -265,6 +273,8 @@ namespace Exiv2 {
         long sizeDataArea_;
         //! Pointer to the data area
         byte* pDataArea_;
+        //! Byte order (optional, only used for special cases)
+        ByteOrder byteOrder_;
 
     }; // class Entry
 
