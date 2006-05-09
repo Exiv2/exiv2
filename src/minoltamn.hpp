@@ -147,7 +147,7 @@ namespace Exiv2 {
         //! Assemble special Dynax 5D or 7D Minolta entries into an entry with the original tag
         long assemble(Entry& e, IfdId ifdId, uint16_t tag, ByteOrder byteOrder) const;
         //! Assemble special standard Minolta entries into an entry with the original tag
-        long MinoltaMakerNote::assembleStd(Entry& e, IfdId ifdId, uint32_t tag, ByteOrder byteOrder) const;
+        long assembleStd(Entry& e, IfdId ifdId, uint32_t tag, ByteOrder byteOrder) const;
         //! Internal virtual create function.
         MinoltaMakerNote* create_(bool alloc =true) const;
         //! Internal virtual copy constructor.
