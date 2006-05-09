@@ -152,6 +152,7 @@ namespace Exiv2 {
         MinoltaMakerNote* create_(bool alloc =true) const;
         //! Internal virtual copy constructor.
         MinoltaMakerNote* clone_() const;
+        //@}
 
         // DATA
         //! Container to store Makernote entries (instead of Ifd)

@@ -98,7 +98,8 @@ namespace Exiv2 {
                  ifd0Id, exifIfdId, gpsIfdId, iopIfdId, ifd1Id,
                  canonIfdId, canonCs1IfdId, canonCs2IfdId, canonCfIfdId,
                  fujiIfdId, 
-                 minoltaIfdId, minoltaCs5DIfdId, minoltaCs7DIfdId, minoltaCsStdIfdId,
+                 minoltaIfdId, minoltaCs5DIfdId, minoltaCs7DIfdId,
+                 minoltaCsOldIfdId, minoltaCsNewIfdId,
                  nikon1IfdId, nikon2IfdId, nikon3IfdId,
                  olympusIfdId, panasonicIfdId, sigmaIfdId, sonyIfdId,
                  lastIfdId };

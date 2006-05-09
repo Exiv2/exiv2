@@ -52,7 +52,7 @@ namespace Exiv2 {
     Entry::Entry(bool alloc)
         : alloc_(alloc), ifdId_(ifdIdNotSet), idx_(0),
           tag_(0), type_(0), count_(0), offset_(0), size_(0), pData_(0),
-          sizeDataArea_(0), pDataArea_(0)
+          sizeDataArea_(0), pDataArea_(0), byteOrder_(invalidByteOrder)
     {
     }
 
@@ -68,7 +68,7 @@ namespace Exiv2 {
         : alloc_(rhs.alloc_), ifdId_(rhs.ifdId_), idx_(rhs.idx_),
           tag_(rhs.tag_), type_(rhs.type_),
           count_(rhs.count_), offset_(rhs.offset_), size_(rhs.size_), pData_(0),
-          sizeDataArea_(rhs.sizeDataArea_), pDataArea_(0)
+          sizeDataArea_(rhs.sizeDataArea_), pDataArea_(0), byteOrder_(rhs.byteOrder_)
     {
         if (alloc_) {
             if (rhs.pData_) {
@@ -98,6 +98,7 @@ namespace Exiv2 {
         offset_ = rhs.offset_;
         size_ = rhs.size_;
         sizeDataArea_ = rhs.sizeDataArea_;
+        byteOrder_ = rhs.byteOrder_;
         if (alloc_) {
             delete[] pData_;
             pData_ = 0;
@@ -133,8 +134,9 @@ namespace Exiv2 {
         count_ = 1;
     }
 
-    void Entry::setValue(uint16_t type, uint32_t count, const byte* buf, long len)
+    void Entry::setValue(uint16_t type, uint32_t count, const byte* buf, long len, ByteOrder byteOrder)
     {
+        byteOrder_ = byteOrder;
         long dataSize = count * TypeInfo::typeSize(TypeId(type));
         // No minimum size requirement, but make sure the buffer can hold the data
         if (len < dataSize) throw Error(24, tag(), dataSize, len);
