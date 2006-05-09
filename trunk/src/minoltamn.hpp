@@ -106,8 +106,22 @@ namespace Exiv2 {
         virtual ~MinoltaMakerNote() {}
         //@}
 
+        //! @name Manipulators
+        //@{
+        int read(const byte* buf, long len, long start, ByteOrder byteOrder, long shift);
+        long copy(byte* buf, ByteOrder byteOrder, long offset);
+        void add(const Entry& entry);
+        Entries::iterator begin() { return entries_.begin(); }
+        Entries::iterator end()   { return entries_.end(); }
+        void updateBase(byte* pNewBase);
+        //@}
+
         //! @name Accessors
         //@{
+        Entries::const_iterator begin() const { return entries_.begin(); }
+        Entries::const_iterator end() const   { return entries_.end(); }
+        Entries::const_iterator findIdx(int idx) const;
+        long size() const;
         AutoPtr create(bool alloc =true) const;
         AutoPtr clone() const;
         //@}
@@ -120,13 +134,34 @@ namespace Exiv2 {
         //! @endcond
 
     private:
+        //! @name Manipulators
+        //@{
+        //! Add a Dynax 5D and 7D camera settings entry to the makernote entries
+        void addCsEntry(IfdId ifdId, uint16_t tag, long offset, const byte* data, int count);
+        //! Add a standard camera settings entry to the makernote entries
+        void addCsStdEntry(IfdId ifdId, uint32_t tag, long offset, const byte* data, int count);
+        //@}
+
+        //! @name Accessors
+        //@{
+        //! Assemble special Dynax 5D or 7D Minolta entries into an entry with the original tag
+        long assemble(Entry& e, IfdId ifdId, uint16_t tag, ByteOrder byteOrder) const;
+        //! Assemble special standard Minolta entries into an entry with the original tag
+        long MinoltaMakerNote::assembleStd(Entry& e, IfdId ifdId, uint32_t tag, ByteOrder byteOrder) const;
         //! Internal virtual create function.
         MinoltaMakerNote* create_(bool alloc =true) const;
         //! Internal virtual copy constructor.
         MinoltaMakerNote* clone_() const;
 
+        // DATA
+        //! Container to store Makernote entries (instead of Ifd)
+        Entries entries_;
+
         //! Tag information
         static const TagInfo tagInfo_[];
+        static const TagInfo tagInfoCs5D_[];
+        static const TagInfo tagInfoCs7D_[];
+        static const TagInfo tagInfoCsStd_[];
 
     }; // class MinoltaMakerNote
 
