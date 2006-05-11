@@ -154,7 +154,7 @@ namespace Exiv2 {
         TagInfo(0x0088, "ThumbnailOffset", "Thumbnail Offset", "Offset of the thumbnail", minoltaIfdId, makerTags, unsignedLong, printValue),
         TagInfo(0x0089, "ThumbnailLength", "Thumbnail Length", "Size of the thumbnail", minoltaIfdId, makerTags, unsignedLong, printValue),
         TagInfo(0x0101, "ColorMode", "Color Mode", "Color mode", minoltaIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaColorMode), minoltaColorMode>),
-        TagInfo(0x0102, "ImageQuality", "Image Quality", "Image quality", minoltaIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaImageQuality), minoltaImageQuality>),
+        TagInfo(0x0102, "Quality", "Image Quality", "Image quality", minoltaIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaImageQuality), minoltaImageQuality>),
         
         // TODO: Tag 0x0103 : quality or image size (see ExifTool doc).
 
@@ -202,7 +202,7 @@ namespace Exiv2 {
     //! Lookup table to translate Minolta Std camera settings image quality values to readable labels
     extern const TagDetails minoltaImageQualityStd[] = {
         { 0, "Raw"        },
-        { 1, "Super Fine" },
+        { 1, "Superfine" },
         { 2, "Fine"       },
         { 3, "Standard"   },
         { 4, "Economy"    },
@@ -395,7 +395,7 @@ namespace Exiv2 {
         TagInfo(0x0002, "FlashMode", "Flash Mode", "Flash mode", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaFlashModeStd), minoltaFlashModeStd>),
         TagInfo(0x0003, "WhiteBalance", "White Balance", "White balance", minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
         TagInfo(0x0004, "ImageSize", "Image Size", "Image size", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaImageSizeStd), minoltaImageSizeStd>),
-        TagInfo(0x0005, "ImageQuality", "Image Quality", "Image quality", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaImageQualityStd), minoltaImageQualityStd>),
+        TagInfo(0x0005, "Quality", "Image Quality", "Image quality", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaImageQualityStd), minoltaImageQualityStd>),
         TagInfo(0x0006, "DriveMode", "Drive Mode", "Drive mode", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaDriveModeStd), minoltaDriveModeStd>),
         TagInfo(0x0007, "MeteringMode", "Metering Mode", "Metering mode", minoltaCsNewIfdId, makerTags, unsignedLong, printTag<COUNTOF(minoltaMeteringModeStd), minoltaMeteringModeStd>),
         TagInfo(0x0008, "ExposureSpeed", "Exposure Speed", "Exposure speed", minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
@@ -560,7 +560,7 @@ namespace Exiv2 {
     const TagInfo MinoltaMakerNote::tagInfoCs7D_[] = {
         TagInfo(0x0000, "ExposureMode", "Exposure Mode", "Exposure mode", minoltaCs7DIfdId, makerTags, unsignedShort, printTag<COUNTOF(minoltaExposureMode7D), minoltaExposureMode7D>),
         TagInfo(0x0002, "ImageSize", "Image Size", "Image size", minoltaCs7DIfdId, makerTags, unsignedShort, printTag<COUNTOF(minoltaImageSize7D), minoltaImageSize7D>),
-        TagInfo(0x0003, "ImageQuality", "Image Quality", "Image quality", minoltaCs7DIfdId, makerTags, unsignedShort, printTag<COUNTOF(minoltaImageQuality7D), minoltaImageQuality7D>),
+        TagInfo(0x0003, "Quality", "Image Quality", "Image quality", minoltaCs7DIfdId, makerTags, unsignedShort, printTag<COUNTOF(minoltaImageQuality7D), minoltaImageQuality7D>),
         TagInfo(0x0004, "WhiteBalance", "White Balance", "White balance", minoltaCs7DIfdId, makerTags, unsignedShort, printTag<COUNTOF(minoltaWhiteBalance7D), minoltaWhiteBalance7D>),
         TagInfo(0x000E, "FocusMode", "Focus Mode", "Focus mode", minoltaCs7DIfdId, makerTags, unsignedShort, printTag<COUNTOF(minoltaFocusMode7D), minoltaFocusMode7D>),
         TagInfo(0x0010, "AFPoints", "AF Points", "AF points", minoltaCs7DIfdId, makerTags, unsignedShort, printTag<COUNTOF(minoltaAFPoints7D), minoltaAFPoints7D>),
@@ -681,7 +681,7 @@ namespace Exiv2 {
     const TagInfo MinoltaMakerNote::tagInfoCs5D_[] = {
         TagInfo(0x000A, "ExposureMode", "Exposure Mode", "Exposure mode", minoltaCs5DIfdId, makerTags, unsignedShort, printTag<COUNTOF(minoltaExposureMode5D), minoltaExposureMode5D>),
         TagInfo(0x000C, "ImageSize", "Image Size", "Image size", minoltaCs5DIfdId, makerTags, unsignedShort, printTag<COUNTOF(minoltaImageSize5D), minoltaImageSize5D>),
-        TagInfo(0x000D, "ImageQuality", "Image Quality", "Image quality", minoltaCs5DIfdId, makerTags, unsignedShort, printTag<COUNTOF(minoltaImageQuality5D), minoltaImageQuality5D>),
+        TagInfo(0x000D, "Quality", "Image Quality", "Image quality", minoltaCs5DIfdId, makerTags, unsignedShort, printTag<COUNTOF(minoltaImageQuality5D), minoltaImageQuality5D>),
         TagInfo(0x000E, "WhiteBalance", "White Balance", "White balance", minoltaCs5DIfdId, makerTags, unsignedShort, printTag<COUNTOF(minoltaWhiteBalance5D), minoltaWhiteBalance5D>),
         TagInfo(0x001F, "Flash", "Flash", "Flash", minoltaCs5DIfdId, makerTags, unsignedShort, printTag<COUNTOF(minoltaFlash5D), minoltaFlash5D>),
         TagInfo(0x0025, "MeteringMode", "Metering Mode", "Metering mode", minoltaCs5DIfdId, makerTags, unsignedShort, printTag<COUNTOF(minoltaMeteringMode5D), minoltaMeteringMode5D>),
