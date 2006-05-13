@@ -187,13 +187,23 @@ namespace Exiv2 {
          */
         static std::string tagName(uint16_t tag, IfdId ifdId);
         /*!
+          @brief Return the title (label) of the tag. 
+                 (Deprecated, use tagLabel() instead.)
+
+          @param tag The tag
+          @param ifdId IFD id
+          @return The title (label) of the tag.
+         */
+        static const char* tagTitle(uint16_t tag, IfdId ifdId)
+            { return tagLabel(tag, ifdId); }
+        /*!
           @brief Return the title (label) of the tag.
 
           @param tag The tag
           @param ifdId IFD id
           @return The title (label) of the tag.
          */
-        static const char* tagTitle(uint16_t tag, IfdId ifdId);
+        static const char* tagLabel(uint16_t tag, IfdId ifdId);
         /*!
           @brief Return the description of the tag.
           @param tag The tag
@@ -335,6 +345,7 @@ namespace Exiv2 {
         */
         virtual std::string groupName() const { return ifdItem(); }
         virtual std::string tagName() const;
+        virtual std::string tagLabel() const;
         virtual uint16_t tag() const { return tag_; }
 
         AutoPtr clone() const;
