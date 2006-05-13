@@ -123,8 +123,23 @@ public:
     void cleanup();
 
     //! Enumerates print modes
-    enum PrintMode { pmSummary, pmInterpreted, pmValues, pmHexdump, pmIptc,
-                     pmComment };
+    enum PrintMode { pmSummary, pmList, pmIptc, pmComment };
+
+    //! Individual items to print
+    enum PrintItem {
+        prTag   =    1,
+        prGroup =    2,
+        prKey   =    4,
+        prName  =    8,
+        prLabel =   16,
+        prType  =   32,
+        prCount =   64,
+        prSize  =  128,
+        prValue =  256,
+        prTrans =  512,
+        prHex   = 1024
+    };
+
     //! Enumerates common targets, bitmap
     enum CommonTarget { ctExif = 1, ctIptc = 2, ctComment = 4, ctThumb = 8 };
     //! Enumerates the policies to handle existing files in rename action
@@ -134,12 +149,15 @@ public:
     bool version_;                      //!< Version option flag.
     bool verbose_;                      //!< Verbose (talkative) option flag.
     bool force_;                        //!< Force overwrites flag.
+    bool binary_;                       //!< Suppress long binary values.
+    bool unknown_;                      //!< Suppress unknown tags.
     bool preserve_;                     //!< Preserve timestamps flag.
     bool timestamp_;                    //!< Rename also sets the file timestamp.
     bool timestampOnly_;                //!< Rename only sets the file timestamp.
     FileExistsPolicy fileExistsPolicy_; //!< What to do if file to rename exists.
     bool adjust_;                       //!< Adjustment flag.
     PrintMode printMode_;               //!< Print mode.
+    unsigned long printItems_;          //!< Print items.
     //! %Action (integer rather than TaskType to avoid dependency).
     int  action_;
     int  target_;                       //!< What common target to process.
@@ -159,17 +177,20 @@ private:
       @brief Default constructor. Note that optstring_ is initialized here.
              The c'tor is private to force instantiation through instance().
      */
-    Params() : optstring_(":hVvfktTFa:r:p:d:e:i:c:m:M:l:S:"),
+    Params() : optstring_(":hVvfbuktTFa:r:p:P:d:e:i:c:m:M:l:S:"),
                help_(false),
                version_(false),
                verbose_(false),
                force_(false),
+               binary_(false),
+               unknown_(false),
                preserve_(false),
                timestamp_(false),
                timestampOnly_(false),
                fileExistsPolicy_(askPolicy),
                adjust_(false),
                printMode_(pmSummary),
+               printItems_(0),
                action_(0),
                target_(ctExif|ctIptc|ctComment),
                adjustment_(0),
@@ -184,6 +205,7 @@ private:
     int evalRename(int opt, const std::string& optarg);
     int evalAdjust(const std::string& optarg);
     int evalPrint(const std::string& optarg);
+    int evalPrintCols(const std::string& optarg);
     int evalDelete(const std::string& optarg);
     int evalExtract(const std::string& optarg);
     int evalInsert(const std::string& optarg);

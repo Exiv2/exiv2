@@ -80,6 +80,12 @@ Show the program version and exit.
 .B \-v
 Be verbose during the program run.
 .TP
+.B \-b
+Don't show large binary values.
+.TP
+.B \-u
+Don't show unknown tags.
+.TP
 .B \-k
 Preserve file timestamps when updating files (keep). Can be used with
 all options which update files. The flag is ignored by read-only
@@ -112,15 +118,41 @@ Print mode for the 'print' action. Possible modes are:
 .br
 s : print a summary of the EXIF metadata (the default)
 .br
-t : interpreted (translated) EXIF data
+t : interpreted (translated) EXIF data (shortcut for -Pkyct) 
 .br
-v : plain EXIF data values
+v : plain EXIF data values (shortcut for -Pxgnycv)
 .br
-h : hexdump of the EXIF data
+h : hexdump of the EXIF data (shortcut for -Pxgnycsh)
 .br
 i : IPTC data values
 .br
 c : JPEG comment
+.TP
+.B \-P \fIcols\fP
+Print columns for the Exif taglist ('print' action), allows detailed
+control of the print output. Valid are:
+.br
+x : print a column with the tag value
+.br
+g : group name
+.br
+k : key
+.br
+l : tag label
+.br
+n : tag name
+.br
+y : type
+.br
+c : number of components (count)
+.br
+s : size in bytes
+.br
+v : plain data value
+.br
+t : interpreted (translated) data
+.br
+h : hexdump of the data
 .TP
 .B \-d \fItgt\fP
 Delete target(s) for the 'delete' action. Possible targets are:

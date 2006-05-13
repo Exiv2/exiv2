@@ -166,12 +166,8 @@ namespace Action {
         int printIptc();
         //! Print Exif summary information
         int printSummary();
-        //! Print the interpreted value for each Exif tag
-        int printInterpreted();
-        //! Print uninterpreted Exif information
-        int printValues();
-        //! Print Exif information in hexdump format
-        int printHexdump();
+        //! Print the list of Exif data in user defined format
+        int printList();
         //! Print the label for a summary line
         void printLabel(const std::string& label) const;
         /*!
