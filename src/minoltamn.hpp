@@ -130,25 +130,25 @@ namespace Exiv2 {
         //! @name Print functions for Minolta %MakerNote tags
         //@{
         //! Print Exposure Speed setting from standard Minolta Camera Settings makernote
-        static std::ostream& MinoltaMakerNote::printMinoltaExposureSpeedStd(std::ostream& os, const Value& value);
+        static std::ostream& printMinoltaExposureSpeedStd(std::ostream& os, const Value& value);
         //! Print Exposure Time setting from standard Minolta Camera Settings makernote
-        static std::ostream& MinoltaMakerNote::printMinoltaExposureTimeStd(std::ostream& os, const Value& value);
+        static std::ostream& printMinoltaExposureTimeStd(std::ostream& os, const Value& value);
         //! Print F Number setting from standard Minolta Camera Settings makernote
-        static std::ostream& MinoltaMakerNote::printMinoltaFNumberStd(std::ostream& os, const Value& value);
+        static std::ostream& printMinoltaFNumberStd(std::ostream& os, const Value& value);
         //! Print Exposure Compensation setting from standard Minolta Camera Settings makernote
-        static std::ostream& MinoltaMakerNote::printMinoltaExposureCompensationStd(std::ostream& os, const Value& value);
+        static std::ostream& printMinoltaExposureCompensationStd(std::ostream& os, const Value& value);
         //! Print Focal Length setting from standard Minolta Camera Settings makernote
-        static std::ostream& MinoltaMakerNote::printMinoltaFocalLengthStd(std::ostream& os, const Value& value);
+        static std::ostream& printMinoltaFocalLengthStd(std::ostream& os, const Value& value);
         //! Print Minolta Date from standard Minolta Camera Settings makernote
-        static std::ostream& MinoltaMakerNote::printMinoltaDateStd(std::ostream& os, const Value& value);
+        static std::ostream& printMinoltaDateStd(std::ostream& os, const Value& value);
         //! Print Minolta Time from standard Minolta Camera Settings makernote
-        static std::ostream& MinoltaMakerNote::printMinoltaTimeStd(std::ostream& os, const Value& value);
+        static std::ostream& printMinoltaTimeStd(std::ostream& os, const Value& value);
         //! Print Flash Exposure Compensation setting from standard Minolta Camera Settings makernote
-        static std::ostream& MinoltaMakerNote::printMinoltaFlashExposureCompStd(std::ostream& os, const Value& value);
+        static std::ostream& printMinoltaFlashExposureCompStd(std::ostream& os, const Value& value);
         //! Print White Balance setting from standard Minolta Camera Settings makernote
-        static std::ostream& MinoltaMakerNote::printMinoltaWhiteBalanceStd(std::ostream& os, const Value& value);
+        static std::ostream& printMinoltaWhiteBalanceStd(std::ostream& os, const Value& value);
         //! Print Brightness setting from standard Minolta Camera Settings makernote
-        static std::ostream& MinoltaMakerNote::printMinoltaBrightnessStd(std::ostream& os, const Value& value);
+        static std::ostream& printMinoltaBrightnessStd(std::ostream& os, const Value& value);
         //@}
                 
         //! @cond IGNORE
