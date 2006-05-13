@@ -218,6 +218,8 @@ void Params::help(std::ostream& os) const
        << "   -h      Display this help and exit.\n"
        << "   -V      Show the program version and exit.\n"
        << "   -v      Be verbose during the program run.\n"
+       << "   -b      Don't show large binary values.\n"
+       << "   -u      Don't show unknown tags.\n"
        << "   -k      Preserve file timestamps (keep).\n"
        << "   -t      Also set the file timestamp in 'rename' action (overrides -k).\n"
        << "   -T      Only set the file timestamp in 'rename' action, do not rename\n"
@@ -228,11 +230,23 @@ void Params::help(std::ostream& os) const
        << "           is only used with the 'adjust' action.\n"
        << "   -p mode Print mode for the 'print' action. Possible modes are:\n"
        << "             s : print a summary of the Exif metadata (the default)\n"
-       << "             t : interpreted (translated) Exif data\n"
-       << "             v : plain Exif data values\n"
-       << "             h : hexdump of the Exif data\n"
+       << "             t : interpreted (translated) Exif data (shortcut for -Pkyct)\n"
+       << "             v : plain Exif data values (shortcut for -Pxgnycv)\n"
+       << "             h : hexdump of the Exif data (shortcut for -Pxgnycsh)\n"
        << "             i : Iptc data values\n"
        << "             c : Jpeg comment\n"
+       << "   -P cols Print columns for the Exif taglist ('print' action). Valid are:\n"
+       << "             x : print a column with the tag value\n"
+       << "             g : group name\n"
+       << "             k : key\n"
+       << "             l : tag label\n"
+       << "             n : tag name\n"
+       << "             y : type\n"
+       << "             c : number of components (count)\n"
+       << "             s : size in bytes\n"
+       << "             v : plain data value\n"
+       << "             t : interpreted (translated) data\n"
+       << "             h : hexdump of the data\n"
        << "   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n"
        << "             a : all supported metadata (the default)\n"
        << "             e : Exif section\n"
@@ -264,6 +278,8 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     case 'V': version_ = true; break;
     case 'v': verbose_ = true; break;
     case 'k': preserve_ = true; break;
+    case 'b': binary_ = true; break;
+    case 'u': unknown_ = true; break;
     case 'f': force_ = true; fileExistsPolicy_ = overwritePolicy; break;
     case 'F': force_ = true; fileExistsPolicy_ = renamePolicy; break;
     case 'r': rc = evalRename(opt, optarg); break;
@@ -271,6 +287,7 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     case 'T': rc = evalRename(opt, optarg); break;
     case 'a': rc = evalAdjust(optarg); break;
     case 'p': rc = evalPrint(optarg); break;
+    case 'P': rc = evalPrintCols(optarg); break;
     case 'd': rc = evalDelete(optarg); break;
     case 'e': rc = evalExtract(optarg); break;
     case 'i': rc = evalInsert(optarg); break;
@@ -358,12 +375,11 @@ int Params::evalPrint(const std::string& optarg)
     int rc = 0;
     switch (action_) {
     case Action::none:
-        action_ = Action::print;
         switch (optarg[0]) {
         case 's': printMode_ = pmSummary; break;
-        case 't': printMode_ = pmInterpreted; break;
-        case 'v': printMode_ = pmValues; break;
-        case 'h': printMode_ = pmHexdump; break;
+        case 't': rc = evalPrintCols("kyct"); break;
+        case 'v': rc = evalPrintCols("xgnycv"); break;
+        case 'h': rc = evalPrintCols("xgnycsh"); break;
         case 'i': printMode_ = pmIptc; break;
         case 'c': printMode_ = pmComment; break;
         default:
@@ -385,6 +401,47 @@ int Params::evalPrint(const std::string& optarg)
     }
     return rc;
 } // Params::evalPrint
+
+int Params::evalPrintCols(const std::string& optarg)
+{
+    int rc = 0;
+    switch (action_) {
+    case Action::none:
+        action_ = Action::print;
+        printMode_ = pmList;
+        for (std::size_t i = 0; i < optarg.length(); ++i) {
+            switch (optarg[i]) {
+            case 'x': printItems_ |= prTag;   break;
+            case 'g': printItems_ |= prGroup; break;
+            case 'k': printItems_ |= prKey;   break;
+            case 'l': printItems_ |= prLabel; break;
+            case 'n': printItems_ |= prName;  break;
+            case 'y': printItems_ |= prType;  break;
+            case 'c': printItems_ |= prCount; break;
+            case 's': printItems_ |= prSize;  break;
+            case 'v': printItems_ |= prValue; break;
+            case 't': printItems_ |= prTrans; break;
+            case 'h': printItems_ |= prHex;   break;
+            default:
+                std::cerr << progname() << ": Unrecognized print item `"
+                          << optarg[i] << "'\n";
+                rc = 1;
+                break;
+            }
+        }
+        break;
+    case Action::print:
+        std::cerr << progname()
+                  << ": Ignoring surplus option -P" << optarg << "\n";
+        break;
+    default:
+        std::cerr << progname()
+                  << ": Option -P is not compatible with a previous option\n";
+        rc = 1;
+        break;
+    }
+    return rc;
+} // Params::evalPrintCols
 
 int Params::evalDelete(const std::string& optarg)
 {
