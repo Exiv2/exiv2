@@ -94,28 +94,32 @@ namespace Exiv2 {
         //       Possibly the whole function shouldn't be in this class...
         std::string group;
         switch (group_) {
-        case   1: group = "Image";     break;
-        case   2: group = "Thumbnail"; break;
-        case   3: group = "Photo";     break;
-        case   4: group = "GPSInfo";   break;
-        case   5: group = "Iop";       break;
-        case 257: group = "Olympus";   break;
-        case 258: group = "Fujifilm";  break;
-        case 259: group = "Canon";     break;
-        case 260: group = "CanonCs1";  break;
-        case 261: group = "CanonCs2";  break;
-        case 262: group = "CanonCf";   break;
+        case   1: group = "Image";        break;
+        case   2: group = "Thumbnail";    break;
+        case   3: group = "Photo";        break;
+        case   4: group = "GPSInfo";      break;
+        case   5: group = "Iop";          break;
+        case 257: group = "Olympus";      break;
+        case 258: group = "Fujifilm";     break;
+        case 259: group = "Canon";        break;
+        case 260: group = "CanonCs1";     break;
+        case 261: group = "CanonCs2";     break;
+        case 262: group = "CanonCf";      break;
         // 263 not needed (nikonmn)
-        case 264: group = "Nikon1";    break;
-        case 265: group = "Nikon2";    break;
-        case 266: group = "Nikon3";    break;
-        case 267: group = "Panasonic"; break;
-        case 268: group = "Sigma";     break;
+        case 264: group = "Nikon1";       break;
+        case 265: group = "Nikon2";       break;
+        case 266: group = "Nikon3";       break;
+        case 267: group = "Panasonic";    break;
+        case 268: group = "Sigma";        break;
         // 269 not needed (sonymn)
-        case 270: group = "Sony";      break;
-        case 271: group = "Sony";      break;
-        case 272: group = "Minolta";   break;
-        default:  group = "Unknown";   break;
+        case 270: group = "Sony";         break;
+        case 271: group = "Sony";         break;
+        case 272: group = "Minolta";      break;
+        case 273: group = "MinoltaCsOld"; break;
+        case 274: group = "MinoltaCsNew"; break;
+        case 275: group = "MinoltaCs5D";  break;
+        case 276: group = "MinoltaCs7D";  break;
+        default:  group = "Unknown";      break;
         }
         return group;
     }
@@ -257,14 +261,6 @@ namespace Exiv2 {
         return TiffComponent::AutoPtr(new TiffMnEntry(tag,
                                                       ts->group_,
                                                       ts->newGroup_));
-    }
-
-    TiffComponent::AutoPtr newTiffArrayElement(uint16_t tag,
-                                               const TiffStructure* ts)
-    {
-        assert(ts);
-        return TiffComponent::AutoPtr(new TiffArrayElement(tag,
-                                                           ts->group_));
     }
 
     TiffComponent::AutoPtr newTiffThumbData(uint16_t tag,

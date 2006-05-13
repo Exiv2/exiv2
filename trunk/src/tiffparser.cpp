@@ -92,26 +92,36 @@ namespace Exiv2 {
       new component is.
      */
     const TiffStructure TiffCreator::tiffStructure_[] = {
-        // ext. tag  group           create function      new group
-        //---------  --------------  -------------------  --------------
-        { Tag::root, Group::none,    newTiffDirectory,    Group::ifd0    },
-        {    0x8769, Group::ifd0,    newTiffSubIfd,       Group::exif    },
-        {    0x8825, Group::ifd0,    newTiffSubIfd,       Group::gps     },
-        {    0x014a, Group::ifd0,    newTiffSubIfd,       Group::ignr    }, // todo: better support
-        {    0xa005, Group::exif,    newTiffSubIfd,       Group::iop     },
-        {    0x927c, Group::exif,    newTiffMnEntry,      Group::mn      },
-        {    0x0201, Group::ifd1,    newTiffThumbData,    Group::ifd1    },
-        {    0x0202, Group::ifd1,    newTiffThumbSize,    Group::ifd1    },
-        { Tag::next, Group::ifd0,    newTiffDirectory,    Group::ifd1    },
-        { Tag::next, Group::ifd1,    newTiffDirectory,    Group::ignr    },
-        { Tag::next, Group::ignr,    newTiffDirectory,    Group::ignr    },
+        // ext. tag  group             create function       new group
+        //---------  --------------    -------------------   --------------
+        { Tag::root, Group::none,      newTiffDirectory,     Group::ifd0    },
+        {    0x8769, Group::ifd0,      newTiffSubIfd,        Group::exif    },
+        {    0x8825, Group::ifd0,      newTiffSubIfd,        Group::gps     },
+        {    0x014a, Group::ifd0,      newTiffSubIfd,        Group::ignr    }, // todo: better support
+        {    0xa005, Group::exif,      newTiffSubIfd,        Group::iop     },
+        {    0x927c, Group::exif,      newTiffMnEntry,       Group::mn      },
+        {    0x0201, Group::ifd1,      newTiffThumbData,     Group::ifd1    },
+        {    0x0202, Group::ifd1,      newTiffThumbSize,     Group::ifd1    },
+        { Tag::next, Group::ifd0,      newTiffDirectory,     Group::ifd1    },
+        { Tag::next, Group::ifd1,      newTiffDirectory,     Group::ignr    },
+        { Tag::next, Group::ignr,      newTiffDirectory,     Group::ignr    },
         // Canon makernote structure
-        {    0x0001, Group::canonmn, newTiffArrayEntry<unsignedShort>, Group::canoncs },
-        {    0x0004, Group::canonmn, newTiffArrayEntry<unsignedShort>, Group::canonsi },
-        {    0x000f, Group::canonmn, newTiffArrayEntry<unsignedShort>, Group::canoncf },
-        {  Tag::all, Group::canoncs, newTiffArrayElement, Group::canoncs },
-        {  Tag::all, Group::canonsi, newTiffArrayElement, Group::canonsi },
-        {  Tag::all, Group::canoncf, newTiffArrayElement, Group::canoncf }
+        {    0x0001, Group::canonmn,   newTiffArrayEntry<2>, Group::canoncs },
+        {    0x0004, Group::canonmn,   newTiffArrayEntry<2>, Group::canonsi },
+        {    0x000f, Group::canonmn,   newTiffArrayEntry<2>, Group::canoncf },
+        {  Tag::all, Group::canoncs,   newTiffArrayElement<unsignedShort>, Group::canoncs },
+        {  Tag::all, Group::canonsi,   newTiffArrayElement<unsignedShort>, Group::canonsi },
+        {  Tag::all, Group::canoncf,   newTiffArrayElement<unsignedShort>, Group::canoncf },
+        // Minolta makernote structure
+        {    0x0001, Group::minoltamn, newTiffArrayEntry<4>, Group::minocso },
+        {    0x0003, Group::minoltamn, newTiffArrayEntry<4>, Group::minocsn },
+        {    0x0004, Group::minoltamn, newTiffArrayEntry<2>, Group::minocs7 },
+        {    0x0114, Group::minoltamn, newTiffArrayEntry<2>, Group::minocs5 },
+        {  Tag::all, Group::minocso,   newTiffArrayElement<unsignedLong,  bigEndian>, Group::minocso },
+        {  Tag::all, Group::minocsn,   newTiffArrayElement<unsignedLong,  bigEndian>, Group::minocsn },
+        {  Tag::all, Group::minocs7,   newTiffArrayElement<unsignedShort, bigEndian>, Group::minocs7 },
+        {  Tag::all, Group::minocs5,   newTiffArrayElement<unsignedShort, bigEndian>, Group::minocs5 }
+
     };
 
     TiffComponent::AutoPtr TiffCreator::create(uint32_t extendedTag,
