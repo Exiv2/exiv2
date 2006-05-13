@@ -106,9 +106,9 @@ namespace Exiv2 {
         { Tag::next, Group::ifd1,    newTiffDirectory,    Group::ignr    },
         { Tag::next, Group::ignr,    newTiffDirectory,    Group::ignr    },
         // Canon makernote structure
-        {    0x0001, Group::canonmn, newTiffArrayEntry,   Group::canoncs },
-        {    0x0004, Group::canonmn, newTiffArrayEntry,   Group::canonsi },
-        {    0x000f, Group::canonmn, newTiffArrayEntry,   Group::canoncf },
+        {    0x0001, Group::canonmn, newTiffArrayEntry<unsignedShort>, Group::canoncs },
+        {    0x0004, Group::canonmn, newTiffArrayEntry<unsignedShort>, Group::canonsi },
+        {    0x000f, Group::canonmn, newTiffArrayEntry<unsignedShort>, Group::canoncf },
         {  Tag::all, Group::canoncs, newTiffArrayElement, Group::canoncs },
         {  Tag::all, Group::canonsi, newTiffArrayElement, Group::canonsi },
         {  Tag::all, Group::canoncf, newTiffArrayElement, Group::canoncf }

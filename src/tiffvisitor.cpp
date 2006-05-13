@@ -315,7 +315,9 @@ namespace Exiv2 {
             printTiffEntry(object, prefix());
         }
         else {
-            os_ << prefix() << "Array Entry " << object->groupName()
+            os_ << prefix() << "Array Entry ("
+                << TypeInfo::typeName(object->elTypeId()) << ")"
+                << object->groupName()
                 << " tag 0x" << std::setw(4) << std::setfill('0')
                 << std::hex << std::right << object->tag() << "\n";
         }
@@ -682,12 +684,16 @@ namespace Exiv2 {
         assert(object != 0);
 
         readTiffEntry(object);
-        if (object->typeId() == unsignedShort) {
+        if (object->typeId() == object->elTypeId()) {
             for (uint16_t i = 0; i < static_cast<uint16_t>(object->count()); ++i) {
                 uint16_t tag = i;
                 TiffComponent::AutoPtr tc = create(tag, object->elGroup());
-                assert(tc.get());
-                tc->setStart(object->pData() + i * 2);
+                TiffArrayElement* p = dynamic_cast<TiffArrayElement*>(tc.get());
+                assert(p); // Fix TIFF structure table if this fails
+                p->setStart(  object->pData() 
+                            + i * TypeInfo::typeSize(object->elTypeId()));
+                p->setTypeId(object->elTypeId());
+                p->setByteOrder(object->elByteOrder());
                 object->addChild(tc);
             }
         }
@@ -709,14 +715,17 @@ namespace Exiv2 {
 #endif
             return;
         }
-        object->type_ = unsignedShort;
+        object->type_ = object->elTypeId();
         object->count_ = 1;
         object->size_ = TypeInfo::typeSize(object->typeId()) * object->count();
         object->offset_ = 0;
         object->pData_ = p;
         Value::AutoPtr v = Value::create(object->typeId());
         if (v.get()) {
-            v->read(object->pData(), object->size(), byteOrder());
+            ByteOrder b = 
+                object->elByteOrder() == invalidByteOrder ? 
+                byteOrder() : object->elByteOrder();
+            v->read(object->pData(), object->size(), b);
             object->pValue_ = v.release();
         }
 

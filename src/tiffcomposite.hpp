@@ -471,26 +471,33 @@ namespace Exiv2 {
 
     /*!
       @brief Composite to model an array of tags, each consisting of one 
-             unsigned short value. Canon makernotes use such tags. The
-             elements of this component are usually of type TiffArrayElement.
-             If the type of the entry is not unsigned short, it degenerates 
-             to a standard TIFF entry.
+             unsigned short value. Canon and Minolta makernotes use such tags. 
+             The elements of this component are usually of type
+             TiffArrayElement.  If the type of the entry is not unsigned short,
+             it degenerates to a standard TIFF entry.
      */
     class TiffArrayEntry : public TiffEntryBase {
     public:
         //! @name Creators
         //@{
         //! Default constructor
-        TiffArrayEntry(uint16_t tag, uint16_t group, uint16_t elGroup)
-            : TiffEntryBase(tag, group), elGroup_(elGroup) {}
+        TiffArrayEntry(TypeId typeId, ByteOrder byteOrder, 
+                       uint16_t tag, uint16_t group, uint16_t elGroup)
+            : TiffEntryBase(tag, group), 
+              elTypeId_(typeId), elByteOrder_(byteOrder),
+              elGroup_(elGroup) {}
         //! Virtual destructor
         virtual ~TiffArrayEntry();
         //@}
 
         //! @name Accessors
         //@{
+        //! Return the type for the array elements
+        TypeId    elTypeId()    const { return elTypeId_; }
+        //! Return the byte order for reading and writing array elements
+        ByteOrder elByteOrder() const { return elByteOrder_; }
         //! Return the group for the array elements
-        uint16_t elGroup() const { return elGroup_; }
+        uint16_t  elGroup()     const { return elGroup_; }
         //@}
 
     private:
@@ -502,13 +509,16 @@ namespace Exiv2 {
 
     private:
         // DATA
-        uint16_t   elGroup_;  //!< Group for the elements
-        Components elements_; //!< List of elements in this composite
+        TypeId     elTypeId_;    //!< Type of the array elements
+        ByteOrder  elByteOrder_; //!< Byte order for reading/writing array elements
+        uint16_t   elGroup_;     //!< Group for the elements
+        Components elements_;    //!< List of elements in this composite
     }; // class TiffArrayEntry
 
     /*!
       @brief Element of a TiffArrayEntry. The value is exactly one unsigned
-             short component. Canon makernotes use arrays of such elements.
+             short component. Canon and Minolta makernotes use arrays of 
+             such elements.
      */
     class TiffArrayElement : public TiffEntryBase {
     public:
@@ -516,9 +526,23 @@ namespace Exiv2 {
         //@{
         //! Constructor
         TiffArrayElement(uint16_t tag, uint16_t group) 
-            : TiffEntryBase(tag, group) {}
+            : TiffEntryBase(tag, group),
+              elTypeId_(undefined), 
+              elByteOrder_(invalidByteOrder) {}
         //! Virtual destructor.
         virtual ~TiffArrayElement() {}
+        //@}
+
+        //! @name Accessors
+        //@{
+        TypeId    elTypeId()    const { return elTypeId_; }
+        ByteOrder elByteOrder() const { return elByteOrder_; }
+        //@}
+
+        //! @name Manipulators
+        //@{
+        void setTypeId(TypeId typeId)          { elTypeId_ = typeId; }
+        void setByteOrder(ByteOrder byteOrder) { elByteOrder_ = byteOrder; }
         //@}
 
     private:
@@ -526,6 +550,11 @@ namespace Exiv2 {
         //@{
         virtual void doAccept(TiffVisitor& visitor);
         //@}
+
+    private:
+        // DATA
+        TypeId    elTypeId_;      //!< Type of the element
+        ByteOrder elByteOrder_;   //!< Byte order to read/write the element 
 
     }; // class TiffArrayElement
 
@@ -545,8 +574,23 @@ namespace Exiv2 {
                                           const TiffStructure* ts);
 
     //! Function to create and initialize a new array entry
+    template<TypeId typeId, ByteOrder byteOrder>
     TiffComponent::AutoPtr newTiffArrayEntry(uint16_t tag,
-                                             const TiffStructure* ts);
+                                             const TiffStructure* ts)
+    {
+        assert(ts);
+        return TiffComponent::AutoPtr(
+            new TiffArrayEntry(typeId, byteOrder,
+                               tag, ts->group_, ts->newGroup_));
+    }
+
+    //! Function to create and initialize a new array entry
+    template<TypeId typeId>
+    TiffComponent::AutoPtr newTiffArrayEntry(uint16_t tag,
+                                             const TiffStructure* ts)
+    {
+        return newTiffArrayEntry<typeId, invalidByteOrder>(tag, ts);
+    }
 
     //! Function to create and initialize a new array element
     TiffComponent::AutoPtr newTiffArrayElement(uint16_t tag,
