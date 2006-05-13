@@ -408,7 +408,7 @@ namespace Exiv2 {
         return os.str();
     } // ExifTags::tagName
 
-    const char* ExifTags::tagTitle(uint16_t tag, IfdId ifdId)
+    const char* ExifTags::tagLabel(uint16_t tag, IfdId ifdId)
     {
         if (isExifIfd(ifdId)) {
             int idx = tagInfoIdx(tag, ifdId);
@@ -420,7 +420,7 @@ namespace Exiv2 {
             if (tagInfo != 0) return tagInfo->title_;
         }
         return "";
-    } // ExifTags::tagTitle
+    } // ExifTags::tagLabel
 
     const char* ExifTags::tagDesc(uint16_t tag, IfdId ifdId)
     {
@@ -642,6 +642,11 @@ namespace Exiv2 {
     std::string ExifKey::tagName() const
     {
         return ExifTags::tagName(tag_, ifdId_);
+    }
+
+    std::string ExifKey::tagLabel() const 	 
+    {
+        return ExifTags::tagLabel(tag_, ifdId_);
     }
 
     ExifKey::AutoPtr ExifKey::clone() const

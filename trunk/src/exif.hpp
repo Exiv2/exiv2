@@ -173,13 +173,12 @@ namespace Exiv2 {
         //! Return the key of the %Exifdatum.
         std::string key() const
             { return key_.get() == 0 ? "" : key_->key(); }
-        //! Return the name of the group (the second part of the key)
         std::string groupName() const
             { return key_.get() == 0 ? "" : key_->groupName(); }
-        //! Return the name of the tag (which is also the third part of the key)
         std::string tagName() const
             { return key_.get() == 0 ? "" : key_->tagName(); }
-        //! Return the tag
+        std::string tagLabel() const
+            { return key_.get() == 0 ? "" : key_->tagLabel(); }
         uint16_t tag() const
             { return key_.get() == 0 ? 0xffff : key_->tag(); }
         //! Return the IFD id
