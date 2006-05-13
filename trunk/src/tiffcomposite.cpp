@@ -259,15 +259,6 @@ namespace Exiv2 {
                                                       ts->newGroup_));
     }
 
-    TiffComponent::AutoPtr newTiffArrayEntry(uint16_t tag,
-                                             const TiffStructure* ts)
-    {
-        assert(ts);
-        return TiffComponent::AutoPtr(new TiffArrayEntry(tag,
-                                                         ts->group_,
-                                                         ts->newGroup_));
-    }
-
     TiffComponent::AutoPtr newTiffArrayElement(uint16_t tag,
                                                const TiffStructure* ts)
     {
