@@ -473,18 +473,19 @@ namespace Exiv2 {
       @brief Composite to model an array of tags, each consisting of one 
              unsigned short value. Canon and Minolta makernotes use such tags. 
              The elements of this component are usually of type
-             TiffArrayElement.  If the type of the entry is not unsigned short,
-             it degenerates to a standard TIFF entry.
+             TiffArrayElement.
      */
     class TiffArrayEntry : public TiffEntryBase {
     public:
         //! @name Creators
         //@{
         //! Default constructor
-        TiffArrayEntry(TypeId typeId, ByteOrder byteOrder, 
-                       uint16_t tag, uint16_t group, uint16_t elGroup)
+        TiffArrayEntry(uint16_t tag, 
+                       uint16_t group, 
+                       uint16_t elGroup,
+                       uint16_t elSize)
             : TiffEntryBase(tag, group), 
-              elTypeId_(typeId), elByteOrder_(byteOrder),
+              elSize_(elSize), 
               elGroup_(elGroup) {}
         //! Virtual destructor
         virtual ~TiffArrayEntry();
@@ -493,11 +494,9 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         //! Return the type for the array elements
-        TypeId    elTypeId()    const { return elTypeId_; }
-        //! Return the byte order for reading and writing array elements
-        ByteOrder elByteOrder() const { return elByteOrder_; }
+        uint16_t  elSize()  const { return elSize_; }
         //! Return the group for the array elements
-        uint16_t  elGroup()     const { return elGroup_; }
+        uint16_t  elGroup() const { return elGroup_; }
         //@}
 
     private:
@@ -509,8 +508,7 @@ namespace Exiv2 {
 
     private:
         // DATA
-        TypeId     elTypeId_;    //!< Type of the array elements
-        ByteOrder  elByteOrder_; //!< Byte order for reading/writing array elements
+        uint16_t   elSize_;      //!< Size of the array elements (in bytes)
         uint16_t   elGroup_;     //!< Group for the elements
         Components elements_;    //!< List of elements in this composite
     }; // class TiffArrayEntry
@@ -525,10 +523,13 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor
-        TiffArrayElement(uint16_t tag, uint16_t group) 
+        TiffArrayElement(uint16_t  tag, 
+                         uint16_t  group,
+                         TypeId    elTypeId, 
+                         ByteOrder elByteOrder) 
             : TiffEntryBase(tag, group),
-              elTypeId_(undefined), 
-              elByteOrder_(invalidByteOrder) {}
+              elTypeId_(elTypeId), 
+              elByteOrder_(elByteOrder) {}
         //! Virtual destructor.
         virtual ~TiffArrayElement() {}
         //@}
@@ -537,12 +538,6 @@ namespace Exiv2 {
         //@{
         TypeId    elTypeId()    const { return elTypeId_; }
         ByteOrder elByteOrder() const { return elByteOrder_; }
-        //@}
-
-        //! @name Manipulators
-        //@{
-        void setTypeId(TypeId typeId)          { elTypeId_ = typeId; }
-        void setByteOrder(ByteOrder byteOrder) { elByteOrder_ = byteOrder; }
         //@}
 
     private:
@@ -574,27 +569,31 @@ namespace Exiv2 {
                                           const TiffStructure* ts);
 
     //! Function to create and initialize a new array entry
-    template<TypeId typeId, ByteOrder byteOrder>
+    template<uint16_t elSize>
     TiffComponent::AutoPtr newTiffArrayEntry(uint16_t tag,
                                              const TiffStructure* ts)
     {
         assert(ts);
         return TiffComponent::AutoPtr(
-            new TiffArrayEntry(typeId, byteOrder,
-                               tag, ts->group_, ts->newGroup_));
-    }
-
-    //! Function to create and initialize a new array entry
-    template<TypeId typeId>
-    TiffComponent::AutoPtr newTiffArrayEntry(uint16_t tag,
-                                             const TiffStructure* ts)
-    {
-        return newTiffArrayEntry<typeId, invalidByteOrder>(tag, ts);
+            new TiffArrayEntry(tag, ts->group_, ts->newGroup_, elSize));
     }
 
     //! Function to create and initialize a new array element
+    template<TypeId typeId, ByteOrder byteOrder>
     TiffComponent::AutoPtr newTiffArrayElement(uint16_t tag,
-                                               const TiffStructure* ts);
+                                               const TiffStructure* ts)
+    {
+        assert(ts);
+        return TiffComponent::AutoPtr(
+            new TiffArrayElement(tag, ts->group_, typeId, byteOrder));
+    }
+
+    template<TypeId typeId>
+    TiffComponent::AutoPtr newTiffArrayElement(uint16_t tag,
+                                               const TiffStructure* ts)
+    {
+        return newTiffArrayElement<typeId, invalidByteOrder>(tag, ts);
+    }
 
     //! Function to create and initialize a new TIFF entry for a Jpeg thumbnail (data)
     TiffComponent::AutoPtr newTiffThumbData(uint16_t tag,

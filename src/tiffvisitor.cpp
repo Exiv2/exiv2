@@ -196,12 +196,7 @@ namespace Exiv2 {
 
     void TiffMetadataDecoder::visitArrayEntry(TiffArrayEntry* object)
     {
-        assert(object != 0);
-
-        // Array entry degenerates to a normal entry if type is not unsignedShort
-        if (object->typeId() != unsignedShort) {
-            decodeTiffEntry(object);
-        }
+        // Nothing to do
     }
 
     void TiffMetadataDecoder::visitArrayElement(TiffArrayElement* object)
@@ -315,9 +310,7 @@ namespace Exiv2 {
             printTiffEntry(object, prefix());
         }
         else {
-            os_ << prefix() << "Array Entry ("
-                << TypeInfo::typeName(object->elTypeId()) << ")"
-                << object->groupName()
+            os_ << prefix() << "Array Entry " << object->groupName()
                 << " tag 0x" << std::setw(4) << std::setfill('0')
                 << std::hex << std::right << object->tag() << "\n";
         }
@@ -684,18 +677,13 @@ namespace Exiv2 {
         assert(object != 0);
 
         readTiffEntry(object);
-        if (object->typeId() == object->elTypeId()) {
-            for (uint16_t i = 0; i < static_cast<uint16_t>(object->count()); ++i) {
-                uint16_t tag = i;
-                TiffComponent::AutoPtr tc = create(tag, object->elGroup());
-                TiffArrayElement* p = dynamic_cast<TiffArrayElement*>(tc.get());
-                assert(p); // Fix TIFF structure table if this fails
-                p->setStart(  object->pData() 
-                            + i * TypeInfo::typeSize(object->elTypeId()));
-                p->setTypeId(object->elTypeId());
-                p->setByteOrder(object->elByteOrder());
-                object->addChild(tc);
-            }
+        uint16_t s = static_cast<uint16_t>(object->size() / object->elSize());
+        for (uint16_t i = 0; i < s; ++i) {
+            uint16_t tag = i;
+            TiffComponent::AutoPtr tc = create(tag, object->elGroup());
+            assert(tc.get());
+            tc->setStart(object->pData() + i * object->elSize());
+            object->addChild(tc);
         }
 
     } // TiffReader::visitArrayEntry

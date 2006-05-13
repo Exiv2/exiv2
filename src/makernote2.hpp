@@ -59,6 +59,10 @@ namespace Exiv2 {
         const uint16_t sony1mn   = 270; //!< Sony1 makernote
         const uint16_t sony2mn   = 271; //!< Sony2 makernote
         const uint16_t minoltamn = 272; //!< Minolta makernote
+        const uint16_t minocso   = 273; //!< Minolta camera settings (old)
+        const uint16_t minocsn   = 274; //!< Minolta camera settings (new)
+        const uint16_t minocs5   = 275; //!< Minolta camera settings (D5)
+        const uint16_t minocs7   = 276; //!< Minolta camera settings (D7)
     }
 
 // *****************************************************************************
