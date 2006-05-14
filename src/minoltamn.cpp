@@ -127,14 +127,14 @@ namespace Exiv2 {
         { 25721, "AF500mm F8 Reflex"                                                          }, 
         { 25781, "AF16mm F2.8 Fisheye or SIGMA 8mm F4 Fisheye"                                }, 
         { 25791, "AF20mm F2.8"                                                                }, 
-        { 25811, "AF100mm F2.8 Macro(D), TAMRON 90mm F2.8 Macro or SIGMA 180mm F5.6 Macro"    }, 
+        { 25811, "AF100mm F2.8 Macro(D) or TAMRON 90mm F2.8 Macro or SIGMA 180mm F5.6 Macro"  }, 
         { 25858, "TAMRON 24-135mm F3.5-5.6"                                                   }, 
         { 25891, "TOKINA 80-200mm F2.8"                                                       }, 
         { 25921, "AF85mm F1.4G(D)"                                                            }, 
         { 25931, "AF200mm F2.8G"                                                              }, 
         { 25961, "AF28mm F2"                                                                  }, 
         { 25981, "AF100mm F2"                                                                 }, 
-        { 26061, "AF100-300mm F4.5-5.6(D)"                                                    }, 
+        { 26061, "AF100-300mm F4.5-5.6(D) or SIGMA 105mm F2.8 Macro EX-DG"                    },
         { 26081, "AF300mm F2.8G"                                                              }, 
         { 26121, "AF200mm F2.8G(D)"                                                           }, 
         { 26131, "AF50mm F1.7"                                                                }, 
@@ -695,7 +695,7 @@ namespace Exiv2 {
         { 2,    "Shutter Priority"  },
         { 3,    "Manual"            },
         { 4,    "Auto"              },
-        { 4131, "Extrafine"         }
+        { 4131, "Connected Copying" }
     };
 
     //! Lookup table to translate Minolta Dynax 5D camera settings image quality values to readable labels
