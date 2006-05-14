@@ -44,7 +44,6 @@ EXIV2_RCSID("@(#) $Id$");
 #include <sstream>
 #include <iomanip>
 #include <cassert>
-#include <cmath>
 
 // *****************************************************************************
 // class member definitions
@@ -441,21 +440,21 @@ namespace Exiv2 {
     std::ostream& MinoltaMakerNote::printMinoltaDateStd(std::ostream& os, const Value& value)
     {
         // From the PHP JPEG Metadata Toolkit
-        os << floor(value.toLong()/65536) << ":" << std::right << std::setw(2) << std::setfill('0')
-           << floor((value.toLong()-floor(value.toLong()/65536)*65536)/256) << ":" 
-           << std::right << std::setw(2) << std::setfill('0') << value.toLong()%256;  
+        os << value.toLong() / 65536 << ":" << std::right << std::setw(2) << std::setfill('0')
+           << (value.toLong() - value.toLong() / 65536 * 65536) / 256 << ":" 
+           << std::right << std::setw(2) << std::setfill('0') << value.toLong() % 256;  
         return os;
     }
 
     std::ostream& MinoltaMakerNote::printMinoltaTimeStd(std::ostream& os, const Value& value)
     {
         // From the PHP JPEG Metadata Toolkit
-        os << std::right << std::setw(2) << std::setfill('0') << floor(value.toLong()/65536) 
+        os << std::right << std::setw(2) << std::setfill('0') << value.toLong() / 65536 
            << ":" << std::right << std::setw(2) << std::setfill('0')
-           << floor((value.toLong()-floor(value.toLong()/65536)*65536)/256) << ":" 
-           << std::right << std::setw(2) << std::setfill('0') << value.toLong()%256;  
+           << (value.toLong() - value.toLong() / 65536 * 65536) / 256 << ":" 
+           << std::right << std::setw(2) << std::setfill('0') << value.toLong() % 256;
         return os;
-    }    
+    }
     
     std::ostream& MinoltaMakerNote::printMinoltaFlashExposureCompStd(std::ostream& os, const Value& value)
     {
