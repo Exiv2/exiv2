@@ -194,8 +194,7 @@ namespace Exiv2 {
           @param ifdId IFD id
           @return The title (label) of the tag.
          */
-        static const char* tagTitle(uint16_t tag, IfdId ifdId)
-            { return tagLabel(tag, ifdId); }
+        static const char* tagTitle(uint16_t tag, IfdId ifdId);
         /*!
           @brief Return the title (label) of the tag.
 
