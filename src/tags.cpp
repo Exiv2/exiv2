@@ -408,6 +408,11 @@ namespace Exiv2 {
         return os.str();
     } // ExifTags::tagName
 
+    const char* ExifTags::tagTitle(uint16_t tag, IfdId ifdId)
+    {
+        return tagLabel(tag, ifdId); 
+    } // ExifTags::tagTitle
+
     const char* ExifTags::tagLabel(uint16_t tag, IfdId ifdId)
     {
         if (isExifIfd(ifdId)) {
