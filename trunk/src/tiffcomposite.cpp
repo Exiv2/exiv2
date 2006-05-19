@@ -67,6 +67,10 @@ namespace Exiv2 {
         {   3, "Photo"        },
         {   4, "GPSInfo"      },
         {   5, "Iop"          },
+        {   6, "ImageSubIfd0" },
+        {   7, "ImageSubIfd1" },
+        {   8, "ImageSubIfd2" },
+        {   9, "ImageSubIfd3" },        
         { 257, "Olympus"      },
         { 258, "Fujifilm"     },
         { 259, "Canon"        },
@@ -117,6 +121,13 @@ namespace Exiv2 {
         delete pNext_;
     } // TiffDirectory::~TiffDirectory
 
+    TiffSubIfd::~TiffSubIfd()
+    {
+        for (Ifds::iterator i = ifds_.begin(); i != ifds_.end(); ++i) {
+            delete *i;
+        }
+    } // TiffSubIfd::~TiffSubIfd
+
     TiffEntryBase::~TiffEntryBase()
     {
         if (isAllocated_) {
@@ -157,7 +168,9 @@ namespace Exiv2 {
 
     void TiffSubIfd::doAddChild(TiffComponent::AutoPtr tiffComponent)
     {
-        ifd_.addChild(tiffComponent);
+        TiffDirectory* d = dynamic_cast<TiffDirectory*>(tiffComponent.release());
+        assert(d);
+        ifds_.push_back(d);
     } // TiffSubIfd::doAddChild
 
     void TiffMnEntry::doAddChild(TiffComponent::AutoPtr tiffComponent)
@@ -179,11 +192,6 @@ namespace Exiv2 {
     {
         if (hasNext_) pNext_ = tiffComponent.release();
     } // TiffDirectory::doAddNext
-
-    void TiffSubIfd::doAddNext(TiffComponent::AutoPtr tiffComponent)
-    {
-        ifd_.addNext(tiffComponent);
-    } // TiffSubIfd::doAddNext
 
     void TiffMnEntry::doAddNext(TiffComponent::AutoPtr tiffComponent)
     {
@@ -227,7 +235,9 @@ namespace Exiv2 {
     void TiffSubIfd::doAccept(TiffVisitor& visitor)
     {
         visitor.visitSubIfd(this);
-        ifd_.accept(visitor);
+        for (Ifds::iterator i = ifds_.begin(); visitor.go() && i != ifds_.end(); ++i) {
+            (*i)->accept(visitor);
+        }
     } // TiffSubIfd::doAccept
 
     void TiffMnEntry::doAccept(TiffVisitor& visitor)

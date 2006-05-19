@@ -279,8 +279,11 @@ namespace Exiv2 {
         void decodeTiffEntry(const TiffEntryBase* object);
         //! Decode Olympus Thumbnail from the TIFF makernote into IFD1
         void decodeOlympThumb(const TiffEntryBase* object);
-        //! Decode object to the Exif entry tag, group
+        //! Decode object to the Exif entry tag, group given as template parameters
         template<uint16_t tag, uint16_t group>
+        void decodeTo(const TiffEntryBase* object);
+        //! Decode object to the Exif entry with group according to the template parameter
+        template<uint16_t group>
         void decodeTo(const TiffEntryBase* object);
         //@}
 
@@ -509,6 +512,16 @@ namespace Exiv2 {
         // Todo: ExifKey should have an appropriate c'tor, it should not be 
         //       necessary to use groupName here
         ExifKey key(tag, tiffGroupName(group));        
+        setExifTag(key, object->pValue());
+    }
+
+    template<uint16_t group>
+    void TiffMetadataDecoder::decodeTo(const TiffEntryBase* object)
+    {
+        assert(object);
+        // Todo: ExifKey should have an appropriate c'tor, it should not be 
+        //       necessary to use groupName here
+        ExifKey key(object->tag(), tiffGroupName(group));        
         setExifTag(key, object->pValue());
     }
 
