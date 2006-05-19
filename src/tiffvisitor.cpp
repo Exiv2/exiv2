@@ -56,8 +56,9 @@ namespace Exiv2 {
     // TIFF Decoder table for special decoding requirements
     const TiffDecoderInfo TiffMetadataDecoder::tiffDecoderInfo_[] = {
         { "*",       Tag::all, Group::ignr,    0 }, // Do not decode tags with group == Group::ignr
-        { "OLYMPUS",   0x0100, Group::olympmn, &TiffMetadataDecoder::decodeOlympThumb              }
-//        { "NIKON",     0x0100, Group::sub0_0,  &TiffMetadataDecoder::decodeTo<0x0100, Group::ifd0> }
+        { "OLYMPUS",   0x0100, Group::olympmn, &TiffMetadataDecoder::decodeOlympThumb      },
+        { "NIKON",   Tag::all, Group::sub0_0,  0                                           },
+        { "NIKON",   Tag::all, Group::sub0_1,  &TiffMetadataDecoder::decodeTo<Group::ifd0> }
     };
 
     bool TiffDecoderInfo::operator==(const TiffDecoderInfo::Key& key) const
@@ -560,18 +561,25 @@ namespace Exiv2 {
 
         readTiffEntry(object);
         if (object->typeId() == unsignedLong && object->count() >= 1) {
-            uint32_t offset = getULong(object->pData(), byteOrder());
-            if (baseOffset() + offset > size_) {
+            for (uint32_t i = 0; i < object->count(); ++i) {
+                uint32_t offset = getULong(object->pData() + 4*i, byteOrder());
+                if (baseOffset() + offset > size_) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Error: "
-                          << "Directory " << object->groupName()
-                          << ", entry 0x" << std::setw(4)
-                          << std::setfill('0') << std::hex << object->tag()
-                          << " Sub-IFD pointer is out of bounds; ignoring it.\n";
+                    std::cerr << "Error: "
+                              << "Directory " << object->groupName()
+                              << ", entry 0x" << std::setw(4)
+                              << std::setfill('0') << std::hex << object->tag()
+                              << " Sub-IFD pointer " << i
+                              << " is out of bounds; ignoring it.\n";
 #endif
-                return;
+                    return;
+                }
+                // If there are multiple dirs, group is incremented for each
+                TiffComponent::AutoPtr td(new TiffDirectory(object->tag(), 
+                                                            object->newGroup_ + i));
+                td->setStart(pData_ + baseOffset() + offset);
+                object->addChild(td);
             }
-            object->ifd_.setStart(pData_ + baseOffset() + offset);
         }
 #ifndef SUPPRESS_WARNINGS
         else {

@@ -72,7 +72,10 @@ namespace Exiv2 {
         const uint16_t exif    =   3; //!< Exif IFD
         const uint16_t gps     =   4; //!< GPS IFD
         const uint16_t iop     =   5; //!< Interoperability IFD
-        const uint16_t sub0_0  =   6; //!< Tiff SubIFD in IFD0
+        const uint16_t sub0_0  =   6; //!< Tiff SubIFD 0 in IFD0
+        const uint16_t sub0_1  =   7; //!< Tiff SubIFD 1 in IFD0
+        const uint16_t sub0_2  =   8; //!< Tiff SubIFD 2 in IFD0
+        const uint16_t sub0_3  =   9; //!< Tiff SubIFD 3 in IFD0
         const uint16_t mn      = 256; //!< Makernote
         const uint16_t ignr    = 511; //!< Read but do not decode
     }
@@ -94,8 +97,8 @@ namespace Exiv2 {
              (Composite pattern).  Both TIFF directories as well as entries
              implement this interface.  A component can be uniquely identified
              by a tag, group tupel.  This class is implemented as a NVI
-             (Non-Virtual Interface) and it has an interface for visitors (Visitor
-             pattern).
+             (Non-Virtual Interface) and it has an interface for visitors 
+             (Visitor pattern).
      */
     class TiffComponent {
     public:
@@ -402,10 +405,13 @@ namespace Exiv2 {
 
     }; // class TiffDirectory
 
+    //! A collection of TIFF directories (IFDs)
+    typedef std::vector<TiffDirectory*> Ifds;
+
     /*!
       @brief This class models a TIFF sub-directory (sub-IFD). A sub-IFD
-             is an entry with a value that is a pointer to an IFD
-             structure and contains this IFD. The TIFF standard defines
+             is an entry with one or more values that are pointers to IFD
+             structures containing an IFD. The TIFF standard defines
              some important tags to be sub-IFDs, including the %Exif and
              GPS tags.
      */
@@ -416,22 +422,22 @@ namespace Exiv2 {
         //@{
         //! Default constructor
         TiffSubIfd(uint16_t tag, uint16_t group, uint16_t newGroup)
-            : TiffEntryBase(tag, group), ifd_(tag, newGroup) {}
+            : TiffEntryBase(tag, group), newGroup_(newGroup) {}
         //! Virtual destructor
-        virtual ~TiffSubIfd() {}
+        virtual ~TiffSubIfd();
         //@}
 
     private:
         //! @name Manipulators
         //@{
         virtual void doAddChild(TiffComponent::AutoPtr tiffComponent);
-        virtual void doAddNext(TiffComponent::AutoPtr tiffComponent);
         virtual void doAccept(TiffVisitor& visitor);
         //@}
 
     private:
         // DATA
-        TiffDirectory ifd_; //!< The subdirectory
+        uint16_t newGroup_; //!< Start of the range of group numbers for the sub-IFDs
+        Ifds     ifds_;     //!< The subdirectories
 
     }; // class TiffSubIfd
 
