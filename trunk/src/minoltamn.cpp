@@ -663,7 +663,7 @@ namespace Exiv2 {
         TagInfo(0x002D, "FreeMemoryCardImages", "Free Memory Card Images", "Free memory card images", minoltaCs7DIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x003F, "ColorTemperature", "Color Temperature", "Color temperature", minoltaCs7DIfdId, makerTags, signedShort, printValue),
         TagInfo(0x0040, "Hue", "Hue", "Hue", minoltaCsNewIfdId, makerTags, unsignedShort, printValue),
-	TagInfo(0x0046, "Rotation", "Rotation", "Rotation", minoltaCs7DIfdId, makerTags, unsignedShort, printTag<EXV_COUNTOF(minoltaRotation7D), minoltaRotation7D>),
+        TagInfo(0x0046, "Rotation", "Rotation", "Rotation", minoltaCs7DIfdId, makerTags, unsignedShort, printTag<EXV_COUNTOF(minoltaRotation7D), minoltaRotation7D>),
         TagInfo(0x0047, "FNumber", "FNumber", "FNumber", minoltaCs7DIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0048, "ExposureTime", "Exposure Time", "Exposure time", minoltaCs7DIfdId, makerTags, unsignedShort, printValue),
         // 0x004A is a dupplicate than 0x002D.
@@ -671,7 +671,7 @@ namespace Exiv2 {
         TagInfo(0x005E, "ImageNumber", "Image Number", "Image number", minoltaCs7DIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0060, "NoiseReduction", "Noise Reduction", "Noise reduction", minoltaCs7DIfdId, makerTags, unsignedShort, printTag<EXV_COUNTOF(minoltaNoiseReduction7D), minoltaNoiseReduction7D>),
         // 0x0062 is a dupplicate than 0x005E.
-	TagInfo(0x0062, "ImageNumber", "Image Number", "Image number", minoltaCs7DIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0062, "ImageNumber", "Image Number", "Image number", minoltaCs7DIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0071, "ImageStabilization", "Image Stabilization", "Image stabilization", minoltaCs7DIfdId, makerTags, unsignedShort, printTag<EXV_COUNTOF(minoltaImageStabilization7D), minoltaImageStabilization7D>),
         TagInfo(0x0075, "ZoneMatchingOn", "Zone Matching On", "Zone matching on", minoltaCs7DIfdId, makerTags, unsignedShort, printTag<EXV_COUNTOF(minoltaZoneMatchingOn7D), minoltaZoneMatchingOn7D>),
 
@@ -720,7 +720,7 @@ namespace Exiv2 {
         { 512, "Manual"      }
     };
 
-    //! Lookup table to translate Minolta Dynax 5D camera settings white balance values to readable labels
+    //! Lookup table to translate Minolta Dynax 5D camera settings flash labels
     extern const TagDetails minoltaFlash5D[] = {
         { 0, "Did not fire" },
         { 1, "Fired"        }        
@@ -765,12 +765,41 @@ namespace Exiv2 {
         { 1, "On"  }
     };
 
+    //! Lookup table to translate Minolta Dynax 5D camera settings focus position values to readable labels
+    extern const TagDetails minoltaFocusPosition5D[] = {
+        { 0, "Wide"       },
+        { 1, "Central"    },
+        { 2, "Up"         },
+        { 3, "Up Right"   },
+        { 4, "Right"      },
+        { 5, "Down Right" },
+        { 6, "Down"       },
+        { 7, "Down Left"  },
+        { 8, "Left"       },
+        { 9, "Up Left"    }
+    };
+
+    //! Lookup table to translate Minolta Dynax 5D camera settings focus area values to readable labels
+    extern const TagDetails minoltaFocusArea5D[] = {
+        { 0, "Wide"      },
+        { 1, "Selection" },
+        { 2, "Spot"      }
+    };
+
+    //! Lookup table to translate Minolta Dynax 5D camera settings focus mode values to readable labels
+    extern const TagDetails minoltaFocusMode5D[] = {
+        { 0, "AF" },
+        { 1, "MF" }
+    };
+
     // Minolta Dynax 5D Camera Settings Tag Info
     const TagInfo MinoltaMakerNote::tagInfoCs5D_[] = {
         TagInfo(0x000A, "ExposureMode", "Exposure Mode", "Exposure mode", minoltaCs5DIfdId, makerTags, unsignedShort, printTag<EXV_COUNTOF(minoltaExposureMode5D), minoltaExposureMode5D>),
         TagInfo(0x000C, "ImageSize", "Image Size", "Image size", minoltaCs5DIfdId, makerTags, unsignedShort, printTag<EXV_COUNTOF(minoltaImageSize5D), minoltaImageSize5D>),
         TagInfo(0x000D, "Quality", "Image Quality", "Image quality", minoltaCs5DIfdId, makerTags, unsignedShort, printTag<EXV_COUNTOF(minoltaImageQuality5D), minoltaImageQuality5D>),
         TagInfo(0x000E, "WhiteBalance", "White Balance", "White balance", minoltaCs5DIfdId, makerTags, unsignedShort, printTag<EXV_COUNTOF(minoltaWhiteBalance5D), minoltaWhiteBalance5D>),
+        TagInfo(0x001a, "FocusPosition", "Focus Position", "Focus position", minoltaCs5DIfdId, makerTags, unsignedShort, printTag<EXV_COUNTOF(minoltaFocusPosition5D), minoltaFocusPosition5D>),
+        TagInfo(0x001b, "FocusArea", "Focus Area", "Focus area", minoltaCs5DIfdId, makerTags, unsignedShort, printTag<EXV_COUNTOF(minoltaFocusArea5D), minoltaFocusArea5D>),
         TagInfo(0x001F, "Flash", "Flash", "Flash", minoltaCs5DIfdId, makerTags, unsignedShort, printTag<EXV_COUNTOF(minoltaFlash5D), minoltaFlash5D>),
         TagInfo(0x0025, "MeteringMode", "Metering Mode", "Metering mode", minoltaCs5DIfdId, makerTags, unsignedShort, printTag<EXV_COUNTOF(minoltaMeteringMode5D), minoltaMeteringMode5D>),
         TagInfo(0x0026, "ISOSpeed", "ISO Speed Mode", "ISO speed setting", minoltaCs5DIfdId, makerTags, unsignedShort, printTag<EXV_COUNTOF(minoltaISOSetting5D), minoltaISOSetting5D>),
@@ -781,6 +810,7 @@ namespace Exiv2 {
         TagInfo(0x0036, "FNumber", "FNumber", "FNumber", minoltaCs5DIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0037, "FreeMemoryCardImages", "Free Memory Card Images", "Free memory card images", minoltaCs5DIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0038, "ExposureRevision", "Exposure Revision", "Exposure revision", minoltaCs5DIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0048, "FocusMode", "Focus Mode", "Focus mode", minoltaCs5DIfdId, makerTags, unsignedShort, printTag<EXV_COUNTOF(minoltaFocusMode5D), minoltaFocusMode5D>),
         TagInfo(0x0049, "ColorTemperature", "Color Temperature", "Color temperature", minoltaCs5DIfdId, makerTags, signedShort, printValue),
         TagInfo(0x0050, "Rotation", "Rotation", "Rotation", minoltaCs5DIfdId, makerTags, unsignedShort, printTag<EXV_COUNTOF(minoltaRotation5D), minoltaRotation5D>),
         TagInfo(0x0053, "ExposureCompensation", "Exposure Compensation", "Exposure compensation", minoltaCs5DIfdId, makerTags, unsignedShort, printValue),
