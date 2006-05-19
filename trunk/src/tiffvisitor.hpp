@@ -33,6 +33,7 @@
 // included header files
 #include "types.hpp"
 #include "tiffcomposite.hpp"
+#include "exif.hpp"
 
 // + standard includes
 #include <memory>
@@ -194,6 +195,41 @@ namespace Exiv2 {
         TiffComponent* tiffComponent_;
     }; // class TiffFinder
 
+    //! Function pointer type for a function to decode a TIFF component.
+    typedef void (TiffMetadataDecoder::*DecoderFct)(const TiffEntryBase*);
+
+    //! TIFF decoder table
+    struct TiffDecoderInfo {
+        struct Key;
+        /*!
+          @brief Compare a TiffDecoderInfo with a TiffDecoderInfo::Key. 
+                 The two are equal if TiffDecoderInfo::make_ equals a substring
+                 of the key of the same size. E.g., decoder info = "OLYMPUS",
+                 key = "OLYMPUS OPTICAL CO.,LTD" (found in the image) match,
+                 the extendedTag is Tag::all or equal to the extended tag of the 
+                 key, and the group is equal to that of the key.
+         */
+        bool operator==(const Key& key) const;
+        //! Return the tag corresponding to the extended tag
+        uint16_t tag() const { return static_cast<uint16_t>(extendedTag_ & 0xffff); }
+
+        // DATA
+        const char* make_;        //!< Camera make for which this decoder function applies
+        uint32_t    extendedTag_; //!< Tag (32 bit so that it can contain special tags)
+        uint16_t    group_;       //!< Group that contains the tag
+        DecoderFct  decoderFct_;  //!< Decoder function for matching tags
+
+    }; // struct TiffDecoderInfo
+
+    //! Search key for TIFF decoder structures.
+    struct TiffDecoderInfo::Key {
+        //! Constructor
+        Key(const std::string& m, uint32_t e, uint16_t g) : m_(m), e_(e), g_(g) {}
+        std::string m_;                    //!< Camera make
+        uint32_t    e_;                    //!< Extended tag
+        uint16_t    g_;                    //!< %Group
+    };
+
     /*!
       @brief TIFF composite visitor to decode metadata from the TIFF tree and
              add it to an Image, which is supplied in the constructor (Visitor
@@ -205,13 +241,15 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         /*!
-          Constructor, taking the image to add the metadata to
-          and an optional threshold. Unknown tags with values
-          larger (in bytes) than the threshold will be ignored.
-          Default is not to ignore any tags (0).
+          @brief Constructor, taking the image to add the metadata to, the root
+                 element of the composite to decode and an optional
+                 threshold. Unknown tags with values larger (in bytes) than the
+                 threshold will be ignored.  Default is not to ignore any 
+                 tags (0).
          */
-        TiffMetadataDecoder(Image* pImage, uint32_t threshold =0) 
-            : pImage_(pImage), threshold_(threshold) {}
+        TiffMetadataDecoder(Image* pImage,
+                            TiffComponent* const pRoot,
+                            uint32_t threshold =0);
         //! Virtual destructor
         virtual ~TiffMetadataDecoder() {}
         //@}
@@ -239,12 +277,25 @@ namespace Exiv2 {
 
         //! Decode a standard TIFF entry
         void decodeTiffEntry(const TiffEntryBase* object);
+        //! Decode Olympus Thumbnail from the TIFF makernote into IFD1
+        void decodeOlympThumb(const TiffEntryBase* object);
+        //! Decode object to the Exif entry tag, group
+        template<uint16_t tag, uint16_t group>
+        void decodeTo(const TiffEntryBase* object);
         //@}
 
     private:
+        //! Set an Exif tag in the image. Overwrites existing tags
+        void setExifTag(const ExifKey& key, const Value* pValue);
+
         // DATA
-        Image* pImage_; //!< Pointer to the image to which the metadata is added
-        const uint32_t threshold_; //!< Threshold, see constructor documentation.
+        Image* pImage_;              //!< Pointer to the image to which the metadata is added
+        TiffComponent* const pRoot_; //!< Root element of the composite
+        const uint32_t threshold_;   //!< Threshold, see constructor documentation.
+        std::string make_;           //!< Camera make, determined from the tags to decode
+
+        static const TiffDecoderInfo tiffDecoderInfo_[]; //<! TIFF decoder table
+
     }; // class TiffMetadataDecoder
 
     /*!
@@ -447,6 +498,19 @@ namespace Exiv2 {
 
         static const std::string indent_;       //!< Indent for one level
     }; // class TiffPrinter
+
+// *****************************************************************************
+// template, inline and free functions
+
+    template<uint16_t tag, uint16_t group>
+    void TiffMetadataDecoder::decodeTo(const TiffEntryBase* object)
+    {
+        assert(object);
+        // Todo: ExifKey should have an appropriate c'tor, it should not be 
+        //       necessary to use groupName here
+        ExifKey key(tag, tiffGroupName(group));        
+        setExifTag(key, object->pValue());
+    }
 
 }                                       // namespace Exiv2
 

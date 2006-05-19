@@ -53,6 +53,21 @@ EXIV2_RCSID("@(#) $Id$");
 // class member definitions
 namespace Exiv2 {
 
+    // TIFF Decoder table for special decoding requirements
+    const TiffDecoderInfo TiffMetadataDecoder::tiffDecoderInfo_[] = {
+        { "*",       Tag::all, Group::ignr,    0 }, // Do not decode tags with group == Group::ignr
+        { "OLYMPUS",   0x0100, Group::olympmn, &TiffMetadataDecoder::decodeOlympThumb              }
+//        { "NIKON",     0x0100, Group::sub0_0,  &TiffMetadataDecoder::decodeTo<0x0100, Group::ifd0> }
+    };
+
+    bool TiffDecoderInfo::operator==(const TiffDecoderInfo::Key& key) const
+    {
+        std::string make(make_);
+        return    ("*" == make || make == key.m_.substr(0, make.length()))
+               && (Tag::all == extendedTag_ || key.e_ == extendedTag_)
+               && key.g_ == group_;
+    }
+
     void TiffFinder::init(uint16_t tag, uint16_t group)
     {
         tag_ = tag;
@@ -113,6 +128,20 @@ namespace Exiv2 {
         findObject(object);
     }
 
+    TiffMetadataDecoder::TiffMetadataDecoder(Image* pImage,
+                                             TiffComponent* const pRoot,
+                                             uint32_t threshold)
+        : pImage_(pImage), pRoot_(pRoot), threshold_(threshold) 
+    {
+        // Find camera make
+        TiffFinder finder(0x010f, Group::ifd0);
+        pRoot_->accept(finder);
+        TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
+        if (te && te->pValue()) {
+            make_ = te->pValue()->toString();
+        }
+    }
+
     void TiffMetadataDecoder::visitEntry(TiffEntry* object)
     {
         decodeTiffEntry(object);
@@ -148,51 +177,65 @@ namespace Exiv2 {
         // Nothing to do
     }
 
+    void TiffMetadataDecoder::decodeOlympThumb(const TiffEntryBase* object)
+    {
+        const DataValue* v = dynamic_cast<const DataValue*>(object->pValue());
+        if (v != 0) {
+            ExifData& exifData = pImage_->exifData();
+            exifData["Exif.Thumbnail.Compression"] = uint16_t(6);
+            DataBuf buf(v->size());
+            v->copy(buf.pData_);
+            Exifdatum& ed = exifData["Exif.Thumbnail.JPEGInterchangeFormat"];
+            ed = uint32_t(0);
+            ed.setDataArea(buf.pData_, buf.size_);
+            exifData["Exif.Thumbnail.JPEGInterchangeFormatLength"] = uint32_t(buf.size_);
+        }
+    }
+
     void TiffMetadataDecoder::decodeTiffEntry(const TiffEntryBase* object)
     {
         assert(object != 0);
+        const TiffDecoderInfo* td = find(tiffDecoderInfo_, 
+            TiffDecoderInfo::Key(make_, object->tag(), object->group()));
 
-        if (object->group() == Group::ignr) return;
-
-        // Experimental code to decode Olympus Thumbnail from the TIFF makernote
-        // into IFD1.  
-        // Todo: this should go elsewhere. Ideally, such code to decode specific
-        // tag/group combinations could be added from outside
-        if (object->tag() == 0x0100 && object->group() == 257) {
-            const DataValue* v = dynamic_cast<const DataValue*>(object->pValue());
-            if (v != 0) {
-                ExifData& exifData = pImage_->exifData();
-                exifData["Exif.Thumbnail.Compression"] = uint16_t(6);
-                DataBuf buf(v->size());
-                v->copy(buf.pData_);
-                Exifdatum& ed = exifData["Exif.Thumbnail.JPEGInterchangeFormat"];
-                ed = uint32_t(0);
-                ed.setDataArea(buf.pData_, buf.size_);
-                exifData["Exif.Thumbnail.JPEGInterchangeFormatLength"] = uint32_t(buf.size_);
-                return;
+        if (td) {
+            // skip decoding if td->decoderFct_ == 0
+            if (td->decoderFct_) {
+                EXV_CALL_MEMBER_FN(*this, td->decoderFct_)(object);
             }
+            return;
         }
-
+        assert(pImage_ != 0);
+        // "Normal" tag has low priority: only decode if it doesn't exist yet. 
         // Todo: ExifKey should have an appropriate c'tor, it should not be 
         //       necessary to use groupName here
-        ExifKey k(object->tag(), object->groupName());
-        const Value* v = object->pValue();
-        if (   threshold_ > 0 
-            && v != 0
-            && static_cast<uint32_t>(v->size()) > threshold_
-            && k.tagName().substr(0, 2) == "0x") {
+        ExifKey key(object->tag(), object->groupName());
+        // Todo: Too much searching here, optimize when threshold goes.
+        if (pImage_->exifData().findKey(key) == pImage_->exifData().end()) {
+            setExifTag(key, object->pValue());
+        }
+    } // TiffMetadataDecoder::decodeTiffEntry
+
+    void TiffMetadataDecoder::setExifTag(const ExifKey& key, const Value* pValue)
+    {
+        if (   threshold_ > 0
+            && pValue != 0
+            && static_cast<uint32_t>(pValue->size()) > threshold_
+            && key.tagName().substr(0, 2) == "0x") {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: "
-                      << "Size " << v->size() << " of " << k.key()
+                      << "Size " << pValue->size() << " of " << key.key()
                       << " exceeds " << threshold_ 
                       << " bytes limit. Not decoded.\n";
 #endif
             return;
         }
         assert(pImage_ != 0);
-        pImage_->exifData().add(k, object->pValue());
+        ExifData::iterator pos = pImage_->exifData().findKey(key);
+        if (pos != pImage_->exifData().end()) pImage_->exifData().erase(pos);
+        pImage_->exifData().add(key, pValue);
 
-    } // TiffMetadataDecoder::decodeTiffEntry
+    } // TiffMetadataDecoder::addExifTag
 
     void TiffMetadataDecoder::visitArrayEntry(TiffArrayEntry* object)
     {

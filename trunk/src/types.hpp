@@ -58,6 +58,13 @@ typedef __int16          int16_t;
 typedef __int32          int32_t;
 #endif
 
+/*!
+  @brief Macro to make calls to member functions through a pointer more readable.
+         See the C++ FAQ LITE, item 
+         <a href="http://www.parashift.com/c++-faq-lite/pointers-to-members.html#faq-33.5" title="[33.5] How can I avoid syntax errors when calling a member function using a pointer-to-member-function?">[33.5] How can I avoid syntax errors when calling a member function using a pointer-to-member-function?</a>.
+ */
+#define EXV_CALL_MEMBER_FN(object,ptrToMember)  ((object).*(ptrToMember))
+
 // *****************************************************************************
 // forward declarations
 struct tm;
@@ -358,7 +365,7 @@ namespace Exiv2 {
     //! Template used in the COUNTOF macro to determine the size of an array
     template <typename T, int N> char (&sizer(T (&)[N]))[N];
 //! Macro to determine the size of an array
-#define COUNTOF(a) (sizeof(sizer(a)))
+#define EXV_COUNTOF(a) (sizeof(sizer(a)))
 
     //! Utility function to convert the argument of any type to a string
     template<typename T>

@@ -50,6 +50,57 @@ EXIV2_RCSID("@(#) $Id$");
 // class member definitions
 namespace Exiv2 {
 
+    //! Structure for group and group name info
+    struct TiffGroupInfo {
+        //! comparison operator
+        bool operator==(uint16_t group) const;
+
+        uint16_t group_;   //!< group
+        const char* name_; //!< group name
+    };
+
+    // Todo: This mapping table probably still belongs somewhere else
+    //! List of groups and their names
+    extern const TiffGroupInfo tiffGroupInfo[] = {
+        {   1, "Image"        },
+        {   2, "Thumbnail"    },
+        {   3, "Photo"        },
+        {   4, "GPSInfo"      },
+        {   5, "Iop"          },
+        { 257, "Olympus"      },
+        { 258, "Fujifilm"     },
+        { 259, "Canon"        },
+        { 260, "CanonCs1"     },
+        { 261, "CanonCs2"     },
+        { 262, "CanonCf"      },
+        // 263 not needed (nikonmn)
+        { 264, "Nikon1"       },
+        { 265, "Nikon2"       },
+        { 266, "Nikon3"       },
+        { 267, "Panasonic"    },
+        { 268, "Sigma"        },
+        // 269 not needed (sonymn)
+        { 270, "Sony"         },
+        { 271, "Sony"         },
+        { 272, "Minolta"      },
+        { 273, "MinoltaCsOld" },
+        { 274, "MinoltaCsNew" },
+        { 275, "MinoltaCs5D"  },
+        { 276, "MinoltaCs7D"  }
+    };
+
+    bool TiffGroupInfo::operator==(uint16_t group) const
+    {
+        return group_ == group;
+    }
+
+    const char* tiffGroupName(uint16_t group)
+    {
+        const TiffGroupInfo* gi = find(tiffGroupInfo, group);
+        if (!gi) return "Unknown";
+        return gi->name_;
+    }
+
     bool TiffStructure::operator==(const TiffStructure::Key& key) const
     {
         return    key.e_   == extendedTag_ && key.g_ == group_ 
@@ -88,40 +139,10 @@ namespace Exiv2 {
         }
     } // TiffArrayEntry::~TiffArrayEntry
 
+    // Possibly this function shouldn't be in this class...
     std::string TiffComponent::groupName() const
     {
-        // Todo: This mapping should be a table and it belongs somewhere else
-        //       Possibly the whole function shouldn't be in this class...
-        std::string group;
-        switch (group_) {
-        case   1: group = "Image";        break;
-        case   2: group = "Thumbnail";    break;
-        case   3: group = "Photo";        break;
-        case   4: group = "GPSInfo";      break;
-        case   5: group = "Iop";          break;
-        case 257: group = "Olympus";      break;
-        case 258: group = "Fujifilm";     break;
-        case 259: group = "Canon";        break;
-        case 260: group = "CanonCs1";     break;
-        case 261: group = "CanonCs2";     break;
-        case 262: group = "CanonCf";      break;
-        // 263 not needed (nikonmn)
-        case 264: group = "Nikon1";       break;
-        case 265: group = "Nikon2";       break;
-        case 266: group = "Nikon3";       break;
-        case 267: group = "Panasonic";    break;
-        case 268: group = "Sigma";        break;
-        // 269 not needed (sonymn)
-        case 270: group = "Sony";         break;
-        case 271: group = "Sony";         break;
-        case 272: group = "Minolta";      break;
-        case 273: group = "MinoltaCsOld"; break;
-        case 274: group = "MinoltaCsNew"; break;
-        case 275: group = "MinoltaCs5D";  break;
-        case 276: group = "MinoltaCs7D";  break;
-        default:  group = "Unknown";      break;
-        }
-        return group;
+        return tiffGroupName(group_);
     }
 
     void TiffComponent::addChild(TiffComponent::AutoPtr tiffComponent)

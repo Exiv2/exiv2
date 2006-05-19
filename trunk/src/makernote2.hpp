@@ -83,8 +83,7 @@ namespace Exiv2 {
           @brief Compare a TiffMnRegistry structure with a TiffMnRegistry::Key
                  The two are equal if TiffMnRegistry::make_ equals a substring
                  of the key of the same size. E.g., registry = "OLYMPUS",
-                 key = "OLYMPUS OPTICAL CO.,LTD" (found in the makernote of 
-                 the image) match.
+                 key = "OLYMPUS OPTICAL CO.,LTD" (found in the image) match.
          */
         bool operator==(const Key& key) const;
 

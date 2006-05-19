@@ -72,6 +72,7 @@ namespace Exiv2 {
         const uint16_t exif    =   3; //!< Exif IFD
         const uint16_t gps     =   4; //!< GPS IFD
         const uint16_t iop     =   5; //!< Interoperability IFD
+        const uint16_t sub0_0  =   6; //!< Tiff SubIFD in IFD0
         const uint16_t mn      = 256; //!< Makernote
         const uint16_t ignr    = 511; //!< Read but do not decode
     }
@@ -556,6 +557,9 @@ namespace Exiv2 {
 
 // *****************************************************************************
 // template, inline and free functions
+
+    //! Return the group name for a group
+    const char* tiffGroupName(uint16_t group);
 
     //! Function to create and initialize a new TIFF directory
     TiffComponent::AutoPtr newTiffDirectory(uint16_t tag,

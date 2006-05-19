@@ -97,7 +97,6 @@ namespace Exiv2 {
         { Tag::root, Group::none,      newTiffDirectory,     Group::ifd0    },
         {    0x8769, Group::ifd0,      newTiffSubIfd,        Group::exif    },
         {    0x8825, Group::ifd0,      newTiffSubIfd,        Group::gps     },
-        {    0x014a, Group::ifd0,      newTiffSubIfd,        Group::ignr    }, // todo: better support
         {    0xa005, Group::exif,      newTiffSubIfd,        Group::iop     },
         {    0x927c, Group::exif,      newTiffMnEntry,       Group::mn      },
         {    0x0201, Group::ifd1,      newTiffThumbData,     Group::ifd1    },
@@ -105,6 +104,8 @@ namespace Exiv2 {
         { Tag::next, Group::ifd0,      newTiffDirectory,     Group::ifd1    },
         { Tag::next, Group::ifd1,      newTiffDirectory,     Group::ignr    },
         { Tag::next, Group::ignr,      newTiffDirectory,     Group::ignr    },
+        // SubIfd found in NEF images
+        {    0x014a, Group::ifd0,      newTiffSubIfd,        Group::sub0_0  },
         // Canon makernote structure
         {    0x0001, Group::canonmn,   newTiffArrayEntry<2>, Group::canoncs },
         {    0x0004, Group::canonmn,   newTiffArrayEntry<2>, Group::canonsi },
@@ -161,7 +162,7 @@ namespace Exiv2 {
         TiffReader reader(pData, size, rootDir.get(), state);
         rootDir->accept(reader);
 
-        TiffMetadataDecoder decoder(pImage, 4096);
+        TiffMetadataDecoder decoder(pImage, rootDir.get(), 4096);
         rootDir->accept(decoder);
 
     } // TiffParser::decode
