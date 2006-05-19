@@ -83,13 +83,14 @@ EXIV2_RCSID("@(#) $Id$");
 namespace Exiv2 {
 
     /*
-      This table describes the standard TIFF layout and determines the
-      corresponding Exiv2 TIFF components. The key of the table consists of the
-      first two attributes, (extended) tag and group. Tag is the TIFF tag or one
-      of a few extended tags, group identifies the IFD or any other composite
-      TIFF component. Each entry of the table defines for a particular tag and
-      group combination, which create function is used and what the group of the
-      new component is.
+      This table describes the standard TIFF layout (including non-standard
+      Makernote structures) and determines the corresponding Exiv2 TIFF
+      components. The key of the table consists of the first two attributes,
+      (extended) tag and group. Tag is the TIFF tag or one of a few extended
+      tags, group identifies the IFD or any other composite TIFF component. 
+      Each entry of the table defines for a particular tag and group
+      combination, which create function is used and what the group of the new
+      component is.
      */
     const TiffStructure TiffCreator::tiffStructure_[] = {
         // ext. tag  group             create function       new group
@@ -113,6 +114,9 @@ namespace Exiv2 {
         {  Tag::all, Group::canoncs,   newTiffArrayElement<unsignedShort>, Group::canoncs },
         {  Tag::all, Group::canonsi,   newTiffArrayElement<unsignedShort>, Group::canonsi },
         {  Tag::all, Group::canoncf,   newTiffArrayElement<unsignedShort>, Group::canoncf },
+        // Some Olympus cameras use Minolta structures
+        {    0x0001, Group::olympmn,   newTiffArrayEntry<4>, Group::minocso },
+        {    0x0003, Group::olympmn,   newTiffArrayEntry<4>, Group::minocsn },
         // Minolta makernote structure
         {    0x0001, Group::minoltamn, newTiffArrayEntry<4>, Group::minocso },
         {    0x0003, Group::minoltamn, newTiffArrayEntry<4>, Group::minocsn },
@@ -122,7 +126,6 @@ namespace Exiv2 {
         {  Tag::all, Group::minocsn,   newTiffArrayElement<unsignedLong,  bigEndian>, Group::minocsn },
         {  Tag::all, Group::minocs7,   newTiffArrayElement<unsignedShort, bigEndian>, Group::minocs7 },
         {  Tag::all, Group::minocs5,   newTiffArrayElement<unsignedShort, bigEndian>, Group::minocs5 }
-
     };
 
     TiffComponent::AutoPtr TiffCreator::create(uint32_t extendedTag,
