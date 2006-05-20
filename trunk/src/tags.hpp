@@ -144,29 +144,6 @@ namespace Exiv2 {
 //! Shortcut for the printTag template which requires typing the array name only once.
 #define EXV_PRINT_TAG(array) printTag<EXV_COUNTOF(array), array>
 
-    /*!
-      @brief Translation from numeric values from a lookup list to human
-             readable labels
-     */
-    class TagTranslator {
-    public:
-        //! @name Creators
-        //@{
-        //! Default constructor.
-        explicit TagTranslator(const TagDetails* pTagDetails)
-            : pTagDetails_(pTagDetails) {}
-        // No d'tor: Do not delete the list.
-        //@}
-
-        //! @name Accessors
-        //@{
-        //! Translate the tag value and write it out to the provided stream
-        std::ostream& print(std::ostream& os, const Value& value) const;
-        //@}
-    private:
-        const TagDetails* pTagDetails_;
-    }; // class TagTranslator
-
     //! Container for Exif tag information. Implemented as a static class.
     class ExifTags {
         //! Prevent construction: not implemented.

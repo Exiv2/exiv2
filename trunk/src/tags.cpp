@@ -294,24 +294,6 @@ namespace Exiv2 {
     // Unknown Tag
     static const TagInfo unknownTag(0xffff, "Unknown tag", "Unknown tag", "Unknown tag", ifdIdNotSet, sectionIdNotSet, asciiString, printValue);
 
-    std::ostream& TagTranslator::print(std::ostream& os, const Value& value) const
-    {
-        if (!pTagDetails_) return os << value;
-
-        long l = value.toLong();
-
-        long e = pTagDetails_[0].val_;
-        int i = 1;
-        for (; pTagDetails_[i].val_ != l && pTagDetails_[i].val_ != e; ++i) {}
-        if (pTagDetails_[i].val_ == l) {
-            os << pTagDetails_[i].label_;
-        }
-        else {
-            os << "(" << l << ")";
-        }
-        return os;
-    } // TagTranslator::print
-
     // Tag lookup lists with tag names, desc and where they (preferably) belong to;
     // this is an array with pointers to one list per IFD. The IfdId is used as the
     // index into the array.
