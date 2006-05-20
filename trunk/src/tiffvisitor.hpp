@@ -281,10 +281,10 @@ namespace Exiv2 {
         void decodeOlympThumb(const TiffEntryBase* object);
         //! Decode object to the Exif entry tag, group given as template parameters
         template<uint16_t tag, uint16_t group>
-        void decodeTo(const TiffEntryBase* object);
+        void decodeToTag(const TiffEntryBase* object);
         //! Decode object to the Exif entry with group according to the template parameter
         template<uint16_t group>
-        void decodeTo(const TiffEntryBase* object);
+        void decodeToGroup(const TiffEntryBase* object);
         //@}
 
     private:
@@ -506,7 +506,7 @@ namespace Exiv2 {
 // template, inline and free functions
 
     template<uint16_t tag, uint16_t group>
-    void TiffMetadataDecoder::decodeTo(const TiffEntryBase* object)
+    void TiffMetadataDecoder::decodeToTag(const TiffEntryBase* object)
     {
         assert(object);
         // Todo: ExifKey should have an appropriate c'tor, it should not be 
@@ -516,7 +516,7 @@ namespace Exiv2 {
     }
 
     template<uint16_t group>
-    void TiffMetadataDecoder::decodeTo(const TiffEntryBase* object)
+    void TiffMetadataDecoder::decodeToGroup(const TiffEntryBase* object)
     {
         assert(object);
         // Todo: ExifKey should have an appropriate c'tor, it should not be 
