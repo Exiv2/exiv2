@@ -141,6 +141,9 @@ namespace Exiv2 {
         return os;
     }
 
+//! Shortcut for the printTag template which requires typing the array name only once.
+#define EXV_PRINT_TAG(array) printTag<EXV_COUNTOF(array), array>
+
     /*!
       @brief Translation from numeric values from a lookup list to human
              readable labels
