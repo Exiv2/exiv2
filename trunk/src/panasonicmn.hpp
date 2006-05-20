@@ -120,30 +120,10 @@ namespace Exiv2 {
 
         //! @name Print functions for Panasonic %MakerNote tags
         //@{
-        //! Print Quality
-        static std::ostream& print0x0001(std::ostream& os, const Value& value);
-        //! Print WhiteBalance
-        static std::ostream& print0x0003(std::ostream& os, const Value& value);
-        //! Print FocusMode
-        static std::ostream& print0x0007(std::ostream& os, const Value& value);
         //! Print SpotMode
         static std::ostream& print0x000f(std::ostream& os, const Value& value);
-        //! Print ImageStabilizer
-        static std::ostream& print0x001a(std::ostream& os, const Value& value);
-        //! Print Macro
-        static std::ostream& print0x001c(std::ostream& os, const Value& value);
-        //! Print ShootingMode
-        static std::ostream& print0x001f(std::ostream& os, const Value& value);
-        //! Print Audio
-        static std::ostream& print0x0020(std::ostream& os, const Value& value);
         //! Print WhiteBalanceBias
         static std::ostream& print0x0023(std::ostream& os, const Value& value);
-        //! Print ColorEffect
-        static std::ostream& print0x0028(std::ostream& os, const Value& value);
-        //! Print Contrast
-        static std::ostream& print0x002c(std::ostream& os, const Value& value);
-        //! Print NoiseReduction
-        static std::ostream& print0x002d(std::ostream& os, const Value& value);
         //@}
 
         //! @cond IGNORE

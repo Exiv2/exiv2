@@ -60,11 +60,41 @@ namespace Exiv2 {
     }
     //! @endcond
 
+    //! Quality, tag 0x0201
+    extern const TagDetails olympusQuality[] = {
+        { 1, "Standard Quality (SQ)"    },
+        { 2, "High Quality (HQ)"        },
+        { 3, "Super High Quality (SHQ)" },
+        { 6, "Raw"                      }
+    };
+
+    //! Macro, tag 0x0202
+    extern const TagDetails olympusMacro[] = {
+        {  0, "Off"         },
+        {  1, "On"          },
+        {  2, "Super Macro" }
+    };
+
+    //! OneTouchWB, tag 0x0302
+    extern const TagDetails olympusOneTouchWb[] = {
+        {  0, "Off"         },
+        {  1, "On"          },
+        {  2, "On (Preset)" }
+    };
+
+    //! FlashDevice, tag 0x1005
+    extern const TagDetails olympusFlashDevice[] = {
+        {  0, "None"                },
+        {  1, "Internal"            },
+        {  4, "External"            },
+        {  4, "Internal + External" }
+    };
+
     // Olympus Tag Info
     const TagInfo OlympusMakerNote::tagInfo_[] = {
         TagInfo(0x0200, "SpecialMode", "SpecialMode", "Picture taking mode", olympusIfdId, makerTags, unsignedLong, print0x0200),
-        TagInfo(0x0201, "Quality", "Quality", "Image quality setting", olympusIfdId, makerTags, unsignedShort, print0x0201),
-        TagInfo(0x0202, "Macro", "Macro", "Macro mode", olympusIfdId, makerTags, unsignedShort, print0x0202),
+        TagInfo(0x0201, "Quality", "Quality", "Image quality setting", olympusIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusQuality)),
+        TagInfo(0x0202, "Macro", "Macro", "Macro mode", olympusIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusMacro)),
         TagInfo(0x0203, "BWMode", "BWMode", "Black and White Mode", olympusIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0204, "DigitalZoom", "DigitalZoom", "Digital zoom ratio", olympusIfdId, makerTags, unsignedRational, print0x0204),
         TagInfo(0x0205, "FocalPlaneDiagonal", "FocalPlaneDiagonal", "Focal plane diagonal", olympusIfdId, makerTags, unsignedRational, printValue),
@@ -74,7 +104,7 @@ namespace Exiv2 {
         TagInfo(0x0209, "CameraID", "CameraID", "CameraID data", olympusIfdId, makerTags, undefined, printValue),
         TagInfo(0x0300, "PreCaptureFrames", "PreCaptureFrames", "Pre-capture frames", olympusIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0301, "0x0301", "0x0301", "Unknown", olympusIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0302, "OneTouchWB", "OneTouchWB", "OneTouchWB", olympusIfdId, makerTags, unsignedShort, print0x0302),
+        TagInfo(0x0302, "OneTouchWB", "OneTouchWB", "OneTouchWB", olympusIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusOneTouchWb)),
         TagInfo(0x0303, "0x0303", "0x0303", "Unknown", olympusIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0304, "0x0304", "0x0304", "Unknown", olympusIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0f00, "DataDump", "DataDump", "Various camera settings", olympusIfdId, makerTags, undefined, printValue),
@@ -83,7 +113,7 @@ namespace Exiv2 {
         TagInfo(0x1002, "0x1002", "0x1002", "Unknown", olympusIfdId, makerTags, signedRational, printValue),
         TagInfo(0x1003, "0x1003", "0x1003", "Unknown", olympusIfdId, makerTags, signedRational, printValue),
         TagInfo(0x1004, "FlashMode", "FlashMode", "Flash mode", olympusIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x1005, "FlashDevice", "FlashDevice", "Flash device", olympusIfdId, makerTags, unsignedShort, print0x1005),
+        TagInfo(0x1005, "FlashDevice", "FlashDevice", "Flash device", olympusIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusFlashDevice)),
         TagInfo(0x1006, "Bracket", "Bracket", "Bracket", olympusIfdId, makerTags, signedRational, printValue),
         TagInfo(0x1007, "0x1007", "0x1007", "Unknown", olympusIfdId, makerTags, signedShort, printValue),
         TagInfo(0x1008, "0x1008", "0x1008", "Unknown", olympusIfdId, makerTags, signedShort, printValue),
@@ -229,37 +259,6 @@ namespace Exiv2 {
         return os;
     } // OlympusMakerNote::print0x0200
 
-    //! Quality
-    const TagDetails quality[] = {
-        { 0, "(start)" },
-        { 1, "Standard Quality (SQ)" },
-        { 2, "High Quality (HQ)" },
-        { 3, "Super High Quality (SHQ)" },
-        { 6, "Raw" },
-        { 0, "(end)" }
-    };
-
-    std::ostream& OlympusMakerNote::print0x0201(std::ostream& os,
-                                                const Value& value)
-    {
-        return TagTranslator(quality).print(os, value);
-    } // OlympusMakerNote::print0x0201
-
-    //! Macro
-    const TagDetails macro[] = {
-        { -1, "(start)" },
-        {  0, "Off" },
-        {  1, "On" },
-        {  2, "Super Macro" },
-        { -1, "(end)" }
-    };
-
-    std::ostream& OlympusMakerNote::print0x0202(std::ostream& os,
-                                                const Value& value)
-    {
-        return TagTranslator(macro).print(os, value);
-    } // OlympusMakerNote::print0x0202
-
     std::ostream& OlympusMakerNote::print0x0204(std::ostream& os,
                                                 const Value& value)
     {
@@ -271,37 +270,6 @@ namespace Exiv2 {
         os.copyfmt(oss);
         return os;
     } // OlympusMakerNote::print0x0204
-
-    //! OneTouchWB
-    const TagDetails oneTouchWb[] = {
-        { -1, "(start)" },
-        {  0, "Off" },
-        {  1, "On" },
-        {  2, "On (Preset)" },
-        { -1, "(end)" }
-    };
-
-    std::ostream& OlympusMakerNote::print0x0302(std::ostream& os,
-                                                const Value& value)
-    {
-        return TagTranslator(oneTouchWb).print(os, value);
-    } // OlympusMakerNote::print0x0302
-
-    //! FlashDevice
-    const TagDetails flashDevice[] = {
-        { -1, "(start)" },
-        {  0, "None" },
-        {  1, "Internal" },
-        {  4, "External" },
-        {  4, "Internal + External" },
-        { -1, "(end)" }
-    };
-
-    std::ostream& OlympusMakerNote::print0x1005(std::ostream& os,
-                                                const Value& value)
-    {
-        return TagTranslator(flashDevice).print(os, value);
-    } // OlympusMakerNote::print0x1005
 
 // *****************************************************************************
 // free functions

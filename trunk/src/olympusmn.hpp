@@ -21,9 +21,9 @@
 /*!
   @file    olympusmn.hpp
   @brief   Olympus MakerNote implemented using the following references:
-           <a href="http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html#APP1">Exif file format, Appendix 1: MakerNote of Olympus Digicams</a> by TsuruZoh Tachibanaya,
-           Olympus.pm of <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a> by Phil Harvey,
-           <a href="http://www.ozhiker.com/electronics/pjmt/jpeg_info/olympus_mn.html">Olympus Makernote Format Specification</a> by Evan Hunter,
+           <a href="http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html#APP1">Exif file format, Appendix 1: MakerNote of Olympus Digicams</a> by TsuruZoh Tachibanaya,<br>
+           Olympus.pm of <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a> by Phil Harvey,<br>
+           <a href="http://www.ozhiker.com/electronics/pjmt/jpeg_info/olympus_mn.html">Olympus Makernote Format Specification</a> by Evan Hunter,<br>
            email communication with <a href="mailto:wstokes@gmail.com">Will Stokes</a>
   @version $Rev$
   @author  Andreas Huggel (ahu)
@@ -125,16 +125,8 @@ namespace Exiv2 {
         //@{
         //! Print 'Special Mode'
         static std::ostream& print0x0200(std::ostream& os, const Value& value);
-        //! Print Jpeg quality
-        static std::ostream& print0x0201(std::ostream& os, const Value& value);
-        //! Print Macro mode
-        static std::ostream& print0x0202(std::ostream& os, const Value& value);
         //! Print Digital Zoom Factor
         static std::ostream& print0x0204(std::ostream& os, const Value& value);
-        //! Print OneTouchWB
-        static std::ostream& print0x0302(std::ostream& os, const Value& value);
-        //! Print FlashDevice
-        static std::ostream& print0x1005(std::ostream& os, const Value& value);
         //@}
 
         //! @cond IGNORE

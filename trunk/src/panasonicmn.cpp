@@ -57,18 +57,107 @@ namespace Exiv2 {
     }
     //! @endcond
 
+    //! Quality, tag 0x0001
+    extern const TagDetails panasonicQuality[] = {
+        { 2, "High"      },
+        { 3, "Standard"  },
+        { 6, "Very High" },
+        { 7, "Raw"       }
+    };
+
+    //! WhiteBalance, tag 0x0003
+    extern const TagDetails panasonicWhiteBalance[] = {
+        {  1, "Auto"            },
+        {  2, "Daylight"        },
+        {  3, "Cloudy"          },
+        {  4, "Halogen"         },
+        {  5, "Manual"          },
+        {  8, "Flash"           },
+        { 10, "Black and White" }
+    };
+
+    //! FocusMode, tag 0x0007
+    extern const TagDetails panasonicFocusMode[] = {
+        {  1, "Auto" },
+        {  2, "Manual" }
+    };
+
+    //! ImageStabilizer, tag 0x001a
+    extern const TagDetails panasonicImageStabilizer[] = {
+        {  2, "On, Mode 1" },
+        {  3, "Off"        },
+        {  4, "On, Mode 2" }
+    };
+
+    //! Macro, tag 0x001c
+    extern const TagDetails panasonicMacro[] = {
+        { 1, "On"  },
+        { 2, "Off" }
+    };
+
+    //! ShootingMode, tag 0x001f
+    extern const TagDetails panasonicShootingMode[] = {
+        {  1, "Normal"            },
+        {  2, "Portrait"          },
+        {  3, "Scenery"           },
+        {  4, "Sports"            },
+        {  5, "Night Portrait"    },
+        {  6, "Program"           },
+        {  7, "Aperture Priority" },
+        {  8, "Shutter Priority"  },
+        {  9, "Macro"             },
+        { 11, "Manual"            },
+        { 13, "Panning"           },
+        { 18, "Fireworks"         },
+        { 19, "Party"             },
+        { 20, "Snow"              },
+        { 21, "Night Scenery"     }
+    };
+
+    //! Audio, tag 0x0020
+    extern const TagDetails panasonicAudio[] = {
+        { 1, "Yes" },
+        { 2, "No"  }
+    };
+
+    //! ColorEffect, tag 0x0028
+    extern const TagDetails panasonicColorEffect[] = {
+        { 1, "Off"             },
+        { 2, "Warm"            },
+        { 3, "Cool"            },
+        { 4, "Black and White" },
+        { 5, "Sepia"           }
+    };
+
+    //! Contrast, tag 0x002c
+    extern const TagDetails panasonicContrast[] = {
+        {     0, "Standard" },
+        {     1, "Low"      },
+        {     2, "High"     },
+        { 0x100, "Low"      },
+        { 0x110, "Standard" },
+        { 0x120, "High"     }
+    };
+
+    //! NoiseReduction, tag 0x002d
+    extern const TagDetails panasonicNoiseReduction[] = {
+        { 0, "Standard" },
+        { 1, "Low"      },
+        { 2, "High"     }
+    };
+
     // Panasonic MakerNote Tag Info
     const TagInfo PanasonicMakerNote::tagInfo_[] = {
-        TagInfo(0x0001, "Quality", "Quality", "Image Quality", panasonicIfdId, makerTags, unsignedShort, print0x0001),
+        TagInfo(0x0001, "Quality", "Quality", "Image Quality", panasonicIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(panasonicQuality)),
         TagInfo(0x0002, "FirmwareVersion", "FirmwareVersion", "Firmware version", panasonicIfdId, makerTags, undefined, printValue),
-        TagInfo(0x0003, "WhiteBalance", "WhiteBalance", "White balance setting", panasonicIfdId, makerTags, unsignedShort, print0x0003),
+        TagInfo(0x0003, "WhiteBalance", "WhiteBalance", "White balance setting", panasonicIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(panasonicWhiteBalance)),
         TagInfo(0x0004, "0x0004", "0x0004", "Unknown", panasonicIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0007, "FocusMode", "FocusMode", "Focus mode", panasonicIfdId, makerTags, unsignedShort, print0x0007),
+        TagInfo(0x0007, "FocusMode", "FocusMode", "Focus mode", panasonicIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(panasonicFocusMode)),
         TagInfo(0x000f, "SpotMode", "SpotMode", "Spot mode", panasonicIfdId, makerTags, unsignedByte, print0x000f),
-        TagInfo(0x001a, "ImageStabilizer", "ImageStabilizer", "Image stabilizer", panasonicIfdId, makerTags, unsignedShort, print0x001a),
-        TagInfo(0x001c, "Macro", "Macro", "Macro mode", panasonicIfdId, makerTags, unsignedShort, print0x001c),
-        TagInfo(0x001f, "ShootingMode", "ShootingMode", "Shooting mode", panasonicIfdId, makerTags, unsignedShort, print0x001f),
-        TagInfo(0x0020, "Audio", "Audio", "Audio", panasonicIfdId, makerTags, unsignedShort, print0x0020),
+        TagInfo(0x001a, "ImageStabilizer", "ImageStabilizer", "Image stabilizer", panasonicIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(panasonicImageStabilizer)),
+        TagInfo(0x001c, "Macro", "Macro", "Macro mode", panasonicIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(panasonicMacro)),
+        TagInfo(0x001f, "ShootingMode", "ShootingMode", "Shooting mode", panasonicIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(panasonicShootingMode)),
+        TagInfo(0x0020, "Audio", "Audio", "Audio", panasonicIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(panasonicAudio)),
         TagInfo(0x0021, "DataDump", "DataDump", "Data dump", panasonicIfdId, makerTags, undefined, printValue),
         TagInfo(0x0022, "0x0022", "0x0022", "Unknown", panasonicIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0023, "WhiteBalanceBias", "WhiteBalanceBias", "White balance adjustment", panasonicIfdId, makerTags, unsignedShort, print0x0023),
@@ -76,12 +165,12 @@ namespace Exiv2 {
         TagInfo(0x0025, "SerialNumber", "SerialNumber", "Serial number", panasonicIfdId, makerTags, undefined, printValue),
         TagInfo(0x0026, "0x0026", "0x0026", "Unknown", panasonicIfdId, makerTags, undefined, printValue),
         TagInfo(0x0027, "0x0027", "0x0027", "Unknown", panasonicIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0028, "ColorEffect", "ColorEffect", "Color effect", panasonicIfdId, makerTags, unsignedShort, print0x0028),
+        TagInfo(0x0028, "ColorEffect", "ColorEffect", "Color effect", panasonicIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(panasonicColorEffect)),
         TagInfo(0x0029, "0x0029", "0x0029", "Unknown", panasonicIfdId, makerTags, unsignedLong, printValue),
         TagInfo(0x002a, "0x002a", "0x002a", "Unknown", panasonicIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x002b, "0x002b", "0x002b", "Unknown", panasonicIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x002c, "Contrast", "Contrast", "Contrast setting", panasonicIfdId, makerTags, unsignedShort, print0x002c),
-        TagInfo(0x002d, "NoiseReduction", "NoiseReduction", "Noise reduction", panasonicIfdId, makerTags, unsignedShort, print0x002d),
+        TagInfo(0x002c, "Contrast", "Contrast", "Contrast setting", panasonicIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(panasonicContrast)),
+        TagInfo(0x002d, "NoiseReduction", "NoiseReduction", "Noise reduction", panasonicIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(panasonicNoiseReduction)),
         TagInfo(0x002e, "0x002e", "0x002e", "Unknown", panasonicIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x002f, "0x002f", "0x002f", "Unknown", panasonicIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0030, "0x0030", "0x0030", "Unknown", panasonicIfdId, makerTags, unsignedShort, printValue),
@@ -154,55 +243,6 @@ namespace Exiv2 {
         return new PanasonicMakerNote(*this);
     }
 
-    //! Quality
-    const TagDetails quality[] = {
-        { 0, "(start)" },
-        { 2, "High" },
-        { 3, "Standard" },
-        { 6, "Very High" },
-        { 7, "Raw" },
-        { 0, "(end)" }
-    };
-
-    std::ostream& PanasonicMakerNote::print0x0001(std::ostream& os,
-                                                  const Value& value)
-    {
-        return TagTranslator(quality).print(os, value);
-    } // PanasonicMakerNote::print0x0001
-
-    //! WhiteBalance
-    const TagDetails whiteBalance[] = {
-        {  0, "(start)" },
-        {  1, "Auto" },
-        {  2, "Daylight" },
-        {  3, "Cloudy" },
-        {  4, "Halogen" },
-        {  5, "Manual" },
-        {  8, "Flash" },
-        { 10, "Black and White" },
-        {  0, "(end)" }
-    };
-
-    std::ostream& PanasonicMakerNote::print0x0003(std::ostream& os,
-                                                  const Value& value)
-    {
-        return TagTranslator(whiteBalance).print(os, value);
-    } // PanasonicMakerNote::print0x0003
-
-    //! FocusMode
-    const TagDetails focusMode[] = {
-        {  0, "(start)" },
-        {  1, "Auto" },
-        {  2, "Manual" },
-        {  0, "(end)" }
-    };
-
-    std::ostream& PanasonicMakerNote::print0x0007(std::ostream& os,
-                                                  const Value& value)
-    {
-        return TagTranslator(focusMode).print(os, value);
-    } // PanasonicMakerNote::print0x0007
-
     std::ostream& PanasonicMakerNote::print0x000f(std::ostream& os,
                                                   const Value& value)
     {
@@ -216,76 +256,6 @@ namespace Exiv2 {
         return os;
     } // PanasonicMakerNote::print0x000f
 
-    //! ImageStabilizer
-    const TagDetails imageStabilizer[] = {
-        {  0, "(start)" },
-        {  2, "On, Mode 1" },
-        {  3, "Off" },
-        {  4, "On, Mode 2" },
-        {  0, "(end)" }
-    };
-
-    std::ostream& PanasonicMakerNote::print0x001a(std::ostream& os,
-                                                  const Value& value)
-    {
-        return TagTranslator(imageStabilizer).print(os, value);
-    } // PanasonicMakerNote::print0x001a
-
-    //! Macro
-    const TagDetails macro[] = {
-        { 0, "(start)" },
-        { 1, "On" },
-        { 2, "Off" },
-        { 0, "(end)" }
-    };
-
-    std::ostream& PanasonicMakerNote::print0x001c(std::ostream& os,
-                                                  const Value& value)
-    {
-        return TagTranslator(macro).print(os, value);
-    } // PanasonicMakerNote::print0x001c
-
-    //! ShootingMode
-    const TagDetails shootingMode[] = {
-        {  0, "(start)" },
-        {  1, "Normal" },
-        {  2, "Portrait" },
-        {  3, "Scenery" },
-        {  4, "Sports" },
-        {  5, "Night Portrait" },
-        {  6, "Program" },
-        {  7, "Aperture Priority" },
-        {  8, "Shutter Priority" },
-        {  9, "Macro" },
-        { 11, "Manual" },
-        { 13, "Panning" },
-        { 18, "Fireworks" },
-        { 19, "Party" },
-        { 20, "Snow" },
-        { 21, "Night Scenery" },
-        {  0, "(end)" }
-    };
-
-    std::ostream& PanasonicMakerNote::print0x001f(std::ostream& os,
-                                                  const Value& value)
-    {
-        return TagTranslator(shootingMode).print(os, value);
-    } // PanasonicMakerNote::print0x001f
-
-    //! Audio
-    const TagDetails Audio[] = {
-        { 0, "(start)" },
-        { 1, "Yes" },
-        { 2, "No" },
-        { 0, "(end)" }
-    };
-
-    std::ostream& PanasonicMakerNote::print0x0020(std::ostream& os,
-                                                  const Value& value)
-    {
-        return TagTranslator(Audio).print(os, value);
-    } // PanasonicMakerNote::print0x0020
-
     std::ostream& PanasonicMakerNote::print0x0023(std::ostream& os,
                                                   const Value& value)
     {
@@ -298,56 +268,6 @@ namespace Exiv2 {
         return os;
 
     } // PanasonicMakerNote::print0x0023
-
-    //! ColorEffect
-    const TagDetails colorEffect[] = {
-        { 0, "(start)" },
-        { 1, "Off" },
-        { 2, "Warm" },
-        { 3, "Cool" },
-        { 4, "Black and White" },
-        { 5, "Sepia" },
-        { 0, "(end)" }
-    };
-
-    std::ostream& PanasonicMakerNote::print0x0028(std::ostream& os,
-                                                  const Value& value)
-    {
-        return TagTranslator(colorEffect).print(os, value);
-    } // PanasonicMakerNote::print0x0028
-
-    //! Contrast
-    const TagDetails contrast[] = {
-        { -1, "(start)" },
-        { 0, "Standard" },
-        { 1, "Low" },
-        { 2, "High" },
-        { 0x100, "Low" },
-        { 0x110, "Standard" },
-        { 0x120, "High" },
-        { -1, "(end)" }
-    };
-
-    std::ostream& PanasonicMakerNote::print0x002c(std::ostream& os,
-                                                  const Value& value)
-    {
-        return TagTranslator(contrast).print(os, value);
-    } // PanasonicMakerNote::print0x002c
-
-    //! NoiseReduction
-    const TagDetails noiseReduction[] = {
-        { -1, "(start)" },
-        { 0, "Standard" },
-        { 1, "Low" },
-        { 2, "High" },
-        { -1, "(end)" }
-    };
-
-    std::ostream& PanasonicMakerNote::print0x002d(std::ostream& os,
-                                                  const Value& value)
-    {
-        return TagTranslator(noiseReduction).print(os, value);
-    } // PanasonicMakerNote::print0x002d
 
 // *****************************************************************************
 // free functions
