@@ -56,9 +56,12 @@ namespace Exiv2 {
     // TIFF Decoder table for special decoding requirements
     const TiffDecoderInfo TiffMetadataDecoder::tiffDecoderInfo_[] = {
         { "*",       Tag::all, Group::ignr,    0 }, // Do not decode tags with group == Group::ignr
-        { "OLYMPUS",   0x0100, Group::olympmn, &TiffMetadataDecoder::decodeOlympThumb },
-        { "NIKON",   Tag::all, Group::sub0_0,  0 },
-        { "NIKON",   Tag::all, Group::sub0_1,  &TiffMetadataDecoder::decodeToGroup<Group::ifd0> }
+        { "OLYMPUS",   0x0100, Group::olympmn, &TiffMetadataDecoder::decodeOlympThumb           },
+        { "NIKON",     0x014a, Group::ifd0,    0 }, // Todo: Controversial, causes problems with Exiftool
+        { "NIKON",   Tag::all, Group::sub0_0,  &TiffMetadataDecoder::decodeToGroup<Group::ifd0> },
+        { "NIKON",   Tag::all, Group::sub0_1,  &TiffMetadataDecoder::decodeToGroup<Group::ifd0> },
+        { "SONY",      0x014a, Group::ifd0,    0 }, // Todo: see above
+        { "SONY",    Tag::all, Group::sub0_0,  &TiffMetadataDecoder::decodeToGroup<Group::ifd0> }
     };
 
     bool TiffDecoderInfo::operator==(const TiffDecoderInfo::Key& key) const

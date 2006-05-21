@@ -340,6 +340,18 @@ namespace Action {
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Nikon3.ISOSpeed");
         }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.MinoltaCsNew.ISOSpeed");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.MinoltaCsOld.ISOSpeed");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.MinoltaCs5D.ISOSpeed");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.MinoltaCs7D.ISOSpeed");
+        }
         std::cout << std::endl;
 
         // Exposure mode
@@ -351,6 +363,18 @@ namespace Action {
         }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.CanonCs1.ExposureProgram");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.MinoltaCs7D.ExposureMode");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.MinoltaCs5D.ExposureMode");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.MinoltaCsNew.ExposureMode");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.MinoltaCsOld.ExposureMode");
         }
         std::cout << std::endl;
 
@@ -372,6 +396,12 @@ namespace Action {
         }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Panasonic.Macro");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.MinoltaCsNew.MacroMode");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.MinoltaCsOld.MacroMode");
         }
         std::cout << std::endl;
 
@@ -403,16 +433,41 @@ namespace Action {
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Panasonic.Quality");
         }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.Minolta.Quality");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.MinoltaCsNew.Quality");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.MinoltaCsOld.Quality");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.MinoltaCs5D.Quality");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.MinoltaCs7D.Quality");
+        }
         std::cout << std::endl;
 
         // Exif Resolution
         printLabel("Exif Resolution");
         long xdim = 0;
         long ydim = 0;
-        md = exifData.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
-        if (md != exifData.end()) xdim = md->toLong();
-        md = exifData.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
-        if (md != exifData.end()) ydim = md->toLong();
+        md = exifData.findKey(Exiv2::ExifKey("Exif.Image.ImageWidth"));
+        if (md == exifData.end()) {
+            md = exifData.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
+        }
+        if (md != exifData.end()) {
+            xdim = md->toLong();
+        }
+        md = exifData.findKey(Exiv2::ExifKey("Exif.Image.ImageLength"));
+        if (md == exifData.end()) {
+            md = exifData.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
+        }
+        if (md != exifData.end()) {
+            ydim = md->toLong();
+        }
         if (xdim != 0 && ydim != 0) {
             std::cout << xdim << " x " << ydim;
         }
@@ -445,6 +500,18 @@ namespace Action {
         }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Panasonic.WhiteBalance");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.MinoltaCs5D.WhiteBalance");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.MinoltaCs7D.WhiteBalance");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.MinoltaCsNew.WhiteBalance");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.MinoltaCsOld.WhiteBalance");
         }
         std::cout << std::endl;
 
