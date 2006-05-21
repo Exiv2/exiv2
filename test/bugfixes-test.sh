@@ -35,7 +35,7 @@ $binpath/exiv2 -pi $filename
 
 num=443
 filename=`prep_file $num`
-$binpath/exiv2 -pt $filename
+$binpath/exiv2 -b -pt $filename
 
 num=444
 filename=`prep_file $num`
@@ -44,11 +44,11 @@ $binpath/exiv2 -pi $filename
 num=445
 filename=`prep_file $num`
 $binpath/exiv2 -v -M'set Exif.Photo.UserComment A comment' $filename
-$binpath/exiv2 -pt $filename
+$binpath/exiv2 -b -pt $filename
 filename=exiv2-empty.jpg
 cp -f ../data/$filename .
 $binpath/exiv2 -v -M'set Exif.Photo.UserComment A comment' $filename
-$binpath/exiv2 -pt $filename
+$binpath/exiv2 -b -pt $filename
 
 num=447 # Problem only visible in Valgrind
 filename=`prep_file $num`

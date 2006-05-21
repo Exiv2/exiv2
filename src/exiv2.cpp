@@ -218,7 +218,7 @@ void Params::help(std::ostream& os) const
        << "   -h      Display this help and exit.\n"
        << "   -V      Show the program version and exit.\n"
        << "   -v      Be verbose during the program run.\n"
-       << "   -b      Don't show large binary values.\n"
+       << "   -b      Show large binary values.\n"
        << "   -u      Don't show unknown tags.\n"
        << "   -k      Preserve file timestamps (keep).\n"
        << "   -t      Also set the file timestamp in 'rename' action (overrides -k).\n"
@@ -278,7 +278,7 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     case 'V': version_ = true; break;
     case 'v': verbose_ = true; break;
     case 'k': preserve_ = true; break;
-    case 'b': binary_ = true; break;
+    case 'b': binary_ = false; break;
     case 'u': unknown_ = true; break;
     case 'f': force_ = true; fileExistsPolicy_ = overwritePolicy; break;
     case 'F': force_ = true; fileExistsPolicy_ = renamePolicy; break;
