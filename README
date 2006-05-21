@@ -66,7 +66,8 @@ Hacking
 
 A pkg-config .pc file is installed together with the library.
 Application developers can use pkg-config(1) to obtain correct compile
-and link time flags for the Exiv2 library.
+and link time flags for the Exiv2 library. (The exiv2-config script is
+still included in the distribution but should be considered deprecated.)
 
 If you downloaded Exiv2 directly from the subversion repository, and
 you want to build it using the GNU configure script, then you need to
