@@ -1,3 +1,32 @@
+Changes from version 0.9.1 to 0.10
+----------------------------------
+
+* Exiv2 utility
+	- 0000468: [tools] Added -P option to control what information is displayed
+		   in print mode, added -b and -u options to control output of large 
+		   values and unknown tags. (Better print control suggested by Udi Fuchs)
+	         - Display filename in print mode if processing multiple images, 
+		   like grep does. (Roger Larsson)
+
+* Exiv2 library
+	- 0000462: Support TIFF format, part 1: Read support for TIFF and TIFF-based
+	           RAW formats, including NEF, CR2, PEF, SR2 and MRW.
+	- 0000458: [build environment] Support pkg-config tool, 
+	           removed <prefix>/include/exiv2 path from exiv2-config output.
+		   (Suggested by Udi Fuchs)
+	- 0000456: [miscellaneous] Check for 0 pointer before invoking std::string 
+	           constructor on C-string.
+		 - Added Minolta makernote. (Gilles Caulier)
+		 - Added support for Exif.Image.Orientation for Canon CRW images.
+		 - Improved the print functions for Exif.Nikon[13].AFFocusPos.
+		   (Roger Larsson)
+		 - Updated some Canon labels and translations (Patrice Boissonneault)
+		 - Changed some Nikon tag names. (Based on feedback from Udi Fuchs)
+
+* MSVC related
+		   Added COM project. (Patrice Boissonneault)
+
+
 Changes from version 0.9 to 0.9.1
 ---------------------------------
 
@@ -11,6 +40,7 @@ Changes from version 0.9 to 0.9.1
 		   (Thanks to Will Stokes for suggesting the check feature)
 		 - Cleaned up some #include statements (mentioned here because this 
 		   may lead to unexpected compiler errors).
+
 
 Changes from version 0.8 to 0.9
 -------------------------------
@@ -36,6 +66,7 @@ Changes from version 0.8 to 0.9
 		   (Thanks to Will Stokes for the suggestion)
 	         - [exivsimple] Changed DllTypeId::time and DllTypeId::date to
 	           DllTypeId::isoTime and DllTypeId::isoDate to avoid a name clash.
+
 
 Changes from version 0.7 to 0.8
 -------------------------------
