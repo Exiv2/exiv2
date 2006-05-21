@@ -662,7 +662,7 @@ namespace Exiv2 {
         TagInfo(0x0028, "Saturation", "Saturation", "Saturation", minoltaCs7DIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x002D, "FreeMemoryCardImages", "Free Memory Card Images", "Free memory card images", minoltaCs7DIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x003F, "ColorTemperature", "Color Temperature", "Color temperature", minoltaCs7DIfdId, makerTags, signedShort, printValue),
-        TagInfo(0x0040, "Hue", "Hue", "Hue", minoltaCsNewIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0040, "Hue", "Hue", "Hue", minoltaCs7DIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0046, "Rotation", "Rotation", "Rotation", minoltaCs7DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaRotation7D)),
         TagInfo(0x0047, "FNumber", "FNumber", "FNumber", minoltaCs7DIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0048, "ExposureTime", "Exposure Time", "Exposure time", minoltaCs7DIfdId, makerTags, unsignedShort, printValue),

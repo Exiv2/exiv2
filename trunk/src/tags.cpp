@@ -714,14 +714,14 @@ namespace Exiv2 {
     std::ostream& operator<<(std::ostream& os, const TagInfo& ti)
     {
         ExifKey exifKey(ti.tag_, ExifTags::ifdItem(ti.ifdId_));
-        return os << ExifTags::tagName(ti.tag_, ti.ifdId_) << ", "
-                  << std::dec << ti.tag_ << ", "
+        return os << ExifTags::tagName(ti.tag_, ti.ifdId_) << ",\t"
+                  << std::dec << ti.tag_ << ",\t"
                   << "0x" << std::setw(4) << std::setfill('0')
-                  << std::right << std::hex << ti.tag_ << ", "
-                  << ExifTags::ifdName(ti.ifdId_) << ", "
-                  << exifKey.key() << ", "
+                  << std::right << std::hex << ti.tag_ << ",\t"
+                  << ExifTags::ifdName(ti.ifdId_) << ",\t"
+                  << exifKey.key() << ",\t"
                   << TypeInfo::typeName(
-                      ExifTags::tagType(ti.tag_, ti.ifdId_)) << ", "
+                      ExifTags::tagType(ti.tag_, ti.ifdId_)) << ",\t"
                   << ExifTags::tagDesc(ti.tag_, ti.ifdId_);
     }
 
