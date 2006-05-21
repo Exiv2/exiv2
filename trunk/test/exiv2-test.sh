@@ -79,15 +79,15 @@ $exiv2 -vf rename $images
 echo
 echo "Print --------------------------------------------------------------------"
 $exiv2 -v print $image2
-$exiv2 -v -pt print $image2
-$exiv2 -v -pt print $image2 > iii
+$exiv2 -v -b -pt print $image2
+$exiv2 -v -b -pt print $image2 > iii
 echo
 echo "Extract Exif data --------------------------------------------------------"
 $exiv2 -vf extract $image2
 echo
 echo "Extract Thumbnail --------------------------------------------------------"
 $exiv2 -vf -et extract $image2
-$exiv2 -v -pt print $image3 > jjj
+$exiv2 -v -b -pt print $image3 > jjj
 echo
 echo "Compare image data and extracted data ------------------------------------"
 diff iii jjj
@@ -102,7 +102,7 @@ $exiv2 -v print $image2
 echo
 echo "Insert Exif data ---------------------------------------------------------"
 $exiv2 -v insert $image2
-$exiv2 -v -pt print $image3 > kkk
+$exiv2 -v -b -pt print $image3 > kkk
 echo
 echo "Compare original and inserted image data ---------------------------------"
 diff iii kkk

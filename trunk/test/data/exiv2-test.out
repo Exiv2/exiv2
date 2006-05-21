@@ -47,7 +47,7 @@ Options:
    -h      Display this help and exit.
    -V      Show the program version and exit.
    -v      Be verbose during the program run.
-   -b      Don't show large binary values.
+   -b      Show large binary values.
    -u      Don't show unknown tags.
    -k      Preserve file timestamps (keep).
    -t      Also set the file timestamp in 'rename' action (overrides -k).
