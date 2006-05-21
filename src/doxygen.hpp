@@ -42,6 +42,7 @@
   - <A HREF="tags-exif.html">Standard Exif tags</A>
   - <A HREF="tags-canon.html">Canon MakerNote tags</A>
   - <A HREF="tags-fujifilm.html">Fujifilm MakerNote tags</A>
+  - <A HREF="tags-minolta.html">Minolta MakerNote tags</A>
   - <A HREF="tags-nikon.html">Nikon MakerNote tags</A>
   - <A HREF="tags-olympus.html">Olympus MakerNote tags</A>
   - <A HREF="tags-panasonic.html">Panasonic MakerNote tags</A>

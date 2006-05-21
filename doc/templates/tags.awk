@@ -10,7 +10,7 @@
 ################################################################################
 
 BEGIN {
-   FS = ", "
+   FS = ",	"  # ,\t
    print "<?xml version = '1.0'?>";   
    print "<?xml-stylesheet type=\"text/xsl\" href=\"tags.xsl\"?>";
 
