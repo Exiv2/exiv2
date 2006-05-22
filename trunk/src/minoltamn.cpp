@@ -32,6 +32,7 @@
 EXIV2_RCSID("@(#) $Id$");
 
 // *****************************************************************************
+
 // included header files
 #include "types.hpp"
 #include "minoltamn.hpp"
