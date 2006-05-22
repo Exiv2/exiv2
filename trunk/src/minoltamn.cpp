@@ -276,7 +276,7 @@ namespace Exiv2 {
     //! Lookup table to translate Minolta Std camera settings white balance values to readable labels
     extern const TagDetails minoltaFlashStd[] = {
         { 0, "Did not fire" },
-        { 1, "Fired"        }        
+        { 1, "Fired"        }
     };
 
     //! Lookup table to translate Minolta Std camera settings file number memory values to readable labels
@@ -348,7 +348,7 @@ namespace Exiv2 {
     //! Lookup table to translate Minolta Std camera settings internal flash values to readable labels
     extern const TagDetails minoltaInternalFlashStd[] = {
         { 0, "Did not fire" },
-        { 1, "Fired"        }        
+        { 1, "Fired"        } 
     };
 
     //! Lookup table to translate Minolta Std camera settings wide focus zone values to readable labels
@@ -405,24 +405,24 @@ namespace Exiv2 {
     std::ostream& MinoltaMakerNote::printMinoltaExposureSpeedStd(std::ostream& os, const Value& value)
     {
         // From the PHP JPEG Metadata Toolkit
-        os << (value.toLong()/8)-1;  
+        os << (value.toLong()/8)-1; 
         return os;
     }
 
     std::ostream& MinoltaMakerNote::printMinoltaExposureTimeStd(std::ostream& os, const Value& value)
     {
         // From the PHP JPEG Metadata Toolkit
-        os << (value.toLong()/8)-6;  
+        os << (value.toLong()/8)-6; 
         return os;
     }
-        
+
     std::ostream& MinoltaMakerNote::printMinoltaFNumberStd(std::ostream& os, const Value& value)
     {
         // From the PHP JPEG Metadata Toolkit
-        os << (value.toLong()/8)-1;  
+        os << (value.toLong()/8)-1; 
         return os;
     }
-           
+
     std::ostream& MinoltaMakerNote::printMinoltaExposureCompensationStd(std::ostream& os, const Value& value)
     {
         // From the PHP JPEG Metadata Toolkit
@@ -433,10 +433,10 @@ namespace Exiv2 {
     std::ostream& MinoltaMakerNote::printMinoltaFocalLengthStd(std::ostream& os, const Value& value)
     {
         // From the PHP JPEG Metadata Toolkit
-        os << (value.toLong()/3)-2;  
+        os << (value.toLong()/3)-2;
         return os;
     }
-        
+
     std::ostream& MinoltaMakerNote::printMinoltaDateStd(std::ostream& os, const Value& value)
     {
         // From the PHP JPEG Metadata Toolkit
@@ -455,28 +455,28 @@ namespace Exiv2 {
            << std::right << std::setw(2) << std::setfill('0') << value.toLong() % 256;
         return os;
     }
-    
+
     std::ostream& MinoltaMakerNote::printMinoltaFlashExposureCompStd(std::ostream& os, const Value& value)
     {
         // From the PHP JPEG Metadata Toolkit
         os << (value.toLong()-6)/3;  
-        return os;    
-    }    
-    
+        return os;
+    }
+
     std::ostream& MinoltaMakerNote::printMinoltaWhiteBalanceStd(std::ostream& os, const Value& value)
     {
         // From the PHP JPEG Metadata Toolkit
         os << value.toLong()/256;  
-        return os;    
-    }    
-    
+        return os;
+    }
+
     std::ostream& MinoltaMakerNote::printMinoltaBrightnessStd(std::ostream& os, const Value& value)
     {
         // From the PHP JPEG Metadata Toolkit
         os << (value.toLong()/8)-6;  
-        return os;    
-    }    
-    
+        return os;
+    }
+
     // Minolta Standard Camera Settings Tag Info (Old and New)
     const TagInfo MinoltaMakerNote::tagInfoCsStd_[] = {
         TagInfo(0x0001, "ExposureMode", "Exposure Mode", "Exposure mode", minoltaCsNewIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaExposureModeStd)),
@@ -599,7 +599,7 @@ namespace Exiv2 {
     //! Lookup table to translate Minolta Dynax 7D camera settings white balance values to readable labels
     extern const TagDetails minoltaFlash7D[] = {
         { 0, "Did not fire" },
-        { 1, "Fired"        }        
+        { 1, "Fired"        }
     };
 
     //! Lookup table to translate Minolta Dynax 7D camera settings ISO settings values to readable labels
@@ -723,14 +723,14 @@ namespace Exiv2 {
     //! Lookup table to translate Minolta Dynax 5D camera settings flash labels
     extern const TagDetails minoltaFlash5D[] = {
         { 0, "Did not fire" },
-        { 1, "Fired"        }        
+        { 1, "Fired"        }
     };
 
     //! Lookup table to translate Minolta Dynax 5D camera settings metering mode values to readable labels
     extern const TagDetails minoltaMeteringMode5D[] = {
         { 0, "Multi-segment"   },
         { 1, "Center weighted" },
-        { 2, "Spot"            }        
+        { 2, "Spot"            }
     };
 
     //! Lookup table to translate Minolta Dynax 5D camera settings ISO settings values to readable labels
@@ -743,7 +743,7 @@ namespace Exiv2 {
         { 6,  "1600"                     },
         { 7,  "3200"                     },
         { 8,  "200 (Zone Matching High)" },
-        { 10, "80 (Zone Matching Low)"   }        
+        { 10, "80 (Zone Matching Low)"   }
     };
 
     //! Lookup table to translate Minolta Dynax 5D camera settings rotation values to readable labels
@@ -787,10 +787,42 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Dynax 5D camera settings focus mode values to readable labels
+    extern const TagDetails minoltaAFMode5D[] = {
+        { 0, "AF-A" },
+        { 1, "AF-S" },
+        { 2, "AF-D" },
+        { 3, "DMF"  }
+    };
+
+    //! Lookup table to translate Minolta Dynax 5D camera settings focus mode values to readable labels
     extern const TagDetails minoltaFocusMode5D[] = {
         { 0, "AF" },
         { 1, "MF" }
     };
+
+    //! Method to convert Minolta Dynax 5D exposure manual bias values.
+    std::ostream& MinoltaMakerNote::printMinoltaExposureManualBias5D(std::ostream& os, const Value& value)
+    {
+        // From Xavier Raynaud: the value is converted from 0:256 to -5.33:5.33
+
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        os << std::fixed << std::setprecision(2)
+           << (float (value.toLong()-128)/24);
+        os.copyfmt(oss);
+        return os;
+    }
+
+    //! Method to convert Minolta Dynax 5D exposure compensation values.
+    std::ostream& MinoltaMakerNote::printMinoltaExposureCompensation5D(std::ostream& os, const Value& value)
+    {
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        os << std::fixed << std::setprecision(2)
+           << (float (value.toLong()-300)/100);
+        os.copyfmt(oss);
+        return os;
+    }
 
     // Minolta Dynax 5D Camera Settings Tag Info
     const TagInfo MinoltaMakerNote::tagInfoCs5D_[] = {
@@ -813,17 +845,25 @@ namespace Exiv2 {
         TagInfo(0x0048, "FocusMode", "Focus Mode", "Focus mode", minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaFocusMode5D)),
         TagInfo(0x0049, "ColorTemperature", "Color Temperature", "Color temperature", minoltaCs5DIfdId, makerTags, signedShort, printValue),
         TagInfo(0x0050, "Rotation", "Rotation", "Rotation", minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaRotation5D)),
-        TagInfo(0x0053, "ExposureCompensation", "Exposure Compensation", "Exposure compensation", minoltaCs5DIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0053, "ExposureCompensation", "Exposure Compensation", "Exposure compensation", minoltaCs5DIfdId, makerTags, unsignedShort, printMinoltaExposureCompensation5D),
         TagInfo(0x0054, "FreeMemoryCardImages", "Free Memory Card Images", "Free memory card images", minoltaCs5DIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0091, "ExposureManualBias", "Exposure Manual Bias", "Exposure manual bias", minoltaCs5DIfdId, makerTags, unsignedShort, printMinoltaExposureManualBias5D),
+        TagInfo(0x009e, "AFMode", "AF Mode", "AF mode", minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaAFMode5D)),
         TagInfo(0x00AE, "ImageNumber", "Image Number", "Image number", minoltaCs5DIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x00B0, "NoiseReduction", "Noise Reduction", "Noise reduction", minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaNoiseReduction5D)),
         TagInfo(0x00BD, "ImageStabilization", "Image Stabilization", "Image stabilization", minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaImageStabilization5D)),
+
+        // From Xavier Raynaud: some notes on missing tags.
+        // 0x0051 seems to be identical to FNumber (0x0036). An approx. relation between Tag value
+        // and Fstop is exp(-0.335+value*0.043)
+        // 0x0052 seems to be identical to ExposureTime (0x0035). An approx. relation between Tag
+        // value and Exposure time is exp(-4+value*0.085)
 
         // End of list marker
         TagInfo(0xffff, "(UnknownMinoltaCs5DTag)", "(UnknownMinoltaCs5DTag)", "Unknown Minolta Camera Settings 5D tag", minoltaCs5DIfdId, makerTags, invalidTypeId, printValue)
     };
 
-    // TODO : Add camera settings tags info "Old", "New" and "New2"...
+    // TODO : Add camera settings tags info "New2"...
 
     //! @cond IGNORE
     MinoltaMakerNote::RegisterMn::RegisterMn()

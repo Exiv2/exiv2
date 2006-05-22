@@ -25,7 +25,7 @@
            <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Minolta.html">Minolta Makernote list</a> by Phil Harvey<br>
            <a href="http://www.ozhiker.com/electronics/pjmt/jpeg_info/minolta_mn.html">Minolta Makernote list from PHP JPEG Metadata Toolkit</a><br>
            Email communication with <a href="mailto:caulier dot gilles at kdemail dot net">caulier dot gilles at kdemail dot net</a><br>
-           Some Minolta camera settings decoded by digikam users added by Gilles Caulier.
+           Some Minolta camera settings have been decoded by <a href="mailto:xraynaud@gmail.com">Xavier Raynaud</a> from digiKam project and added by Gilles Caulier.
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
@@ -114,14 +114,14 @@ namespace Exiv2 {
         long copy(byte* buf, ByteOrder byteOrder, long offset);
         void add(const Entry& entry);
         Entries::iterator begin() { return entries_.begin(); }
-        Entries::iterator end()   { return entries_.end(); }
+        Entries::iterator end()   { return entries_.end();   }
         void updateBase(byte* pNewBase);
         //@}
 
         //! @name Accessors
         //@{
         Entries::const_iterator begin() const { return entries_.begin(); }
-        Entries::const_iterator end() const   { return entries_.end(); }
+        Entries::const_iterator end() const   { return entries_.end();   }
         Entries::const_iterator findIdx(int idx) const;
         long size() const;
         AutoPtr create(bool alloc =true) const;
@@ -150,6 +150,11 @@ namespace Exiv2 {
         static std::ostream& printMinoltaWhiteBalanceStd(std::ostream& os, const Value& value);
         //! Print Brightness setting from standard Minolta Camera Settings makernote
         static std::ostream& printMinoltaBrightnessStd(std::ostream& os, const Value& value);
+
+	//! Print Exposure Manual Bias setting from 5D Minolta Camera Settings makernote
+        static std::ostream& printMinoltaExposureManualBias5D(std::ostream& os, const Value& value);
+	//! Print Exposure Compensation setting from 5D Minolta Camera Settings makernote
+        static std::ostream& printMinoltaExposureCompensation5D(std::ostream& os, const Value& value);
         //@}
                 
         //! @cond IGNORE
