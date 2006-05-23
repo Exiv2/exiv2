@@ -126,17 +126,30 @@ namespace Exiv2 {
         }
         clearMetadata();
 
-        // Read the image into a memory buffer
-        uint32_t const len = 16;
+        // Find the TTW block and read it into a buffer
+        uint32_t const len = 8;
         byte tmp[len];
+        io_->read(tmp, len);
+        uint32_t pos = len;
+        uint32_t const end = getULong(tmp + 4, bigEndian);
+
+        pos += len; 
+        if (pos > end) throw Error(14);
         io_->read(tmp, len);
         if (io_->error() || io_->eof()) throw Error(14);
 
-        io_->seek(getLong(tmp + 12, bigEndian), BasicIo::cur);
-        if (io_->error() || io_->eof()) throw Error(14);
+        while (memcmp(tmp + 1, "TTW", 3) != 0) {
+            uint32_t const siz = getULong(tmp + 4, bigEndian);
+            pos += siz;
+            if (pos > end) throw Error(14);
+            io_->seek(siz, BasicIo::cur);
+            if (io_->error() || io_->eof()) throw Error(14);
         
-        io_->read(tmp, 8);
-        if (io_->error() || io_->eof()) throw Error(14);
+            pos += len;
+            if (pos > end) throw Error(14);
+            io_->read(tmp, len);
+            if (io_->error() || io_->eof()) throw Error(14);
+        }
 
         DataBuf buf(getULong(tmp + 4, bigEndian));
         io_->read(buf.pData_, buf.size_);
