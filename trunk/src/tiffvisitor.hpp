@@ -40,6 +40,7 @@
 #include <iostream>
 #include <iomanip>
 #include <cassert>
+#include <map>
 
 // *****************************************************************************
 // namespace extensions
@@ -279,12 +280,8 @@ namespace Exiv2 {
         void decodeTiffEntry(const TiffEntryBase* object);
         //! Decode Olympus Thumbnail from the TIFF makernote into IFD1
         void decodeOlympThumb(const TiffEntryBase* object);
-        //! Decode object to the Exif entry tag, group given as template parameters
-        template<uint16_t tag, uint16_t group>
-        void decodeToTag(const TiffEntryBase* object);
-        //! Decode object to the Exif entry with group according to the template parameter
-        template<uint16_t group>
-        void decodeToGroup(const TiffEntryBase* object);
+        //! Decode SubIFD contents to Image group if it contains primary image data
+        void decodeSubIfd(const TiffEntryBase* object);
         //@}
 
     private:
@@ -296,6 +293,10 @@ namespace Exiv2 {
         TiffComponent* const pRoot_; //!< Root element of the composite
         const uint32_t threshold_;   //!< Threshold, see constructor documentation.
         std::string make_;           //!< Camera make, determined from the tags to decode
+
+        //! Type used to remember tag 0x00fe (NewSubfileType) for each group
+        typedef std::map<uint16_t, uint32_t> GroupType;
+        GroupType groupType_;        //!< NewSubfileType for each group
 
         static const TiffDecoderInfo tiffDecoderInfo_[]; //<! TIFF decoder table
 
@@ -501,29 +502,6 @@ namespace Exiv2 {
 
         static const std::string indent_;       //!< Indent for one level
     }; // class TiffPrinter
-
-// *****************************************************************************
-// template, inline and free functions
-
-    template<uint16_t tag, uint16_t group>
-    void TiffMetadataDecoder::decodeToTag(const TiffEntryBase* object)
-    {
-        assert(object);
-        // Todo: ExifKey should have an appropriate c'tor, it should not be 
-        //       necessary to use groupName here
-        ExifKey key(tag, tiffGroupName(group));        
-        setExifTag(key, object->pValue());
-    }
-
-    template<uint16_t group>
-    void TiffMetadataDecoder::decodeToGroup(const TiffEntryBase* object)
-    {
-        assert(object);
-        // Todo: ExifKey should have an appropriate c'tor, it should not be 
-        //       necessary to use groupName here
-        ExifKey key(object->tag(), tiffGroupName(group));        
-        setExifTag(key, object->pValue());
-    }
 
 }                                       // namespace Exiv2
 

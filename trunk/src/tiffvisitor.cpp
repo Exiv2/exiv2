@@ -56,12 +56,10 @@ namespace Exiv2 {
     // TIFF Decoder table for special decoding requirements
     const TiffDecoderInfo TiffMetadataDecoder::tiffDecoderInfo_[] = {
         { "*",       Tag::all, Group::ignr,    0 }, // Do not decode tags with group == Group::ignr
-        { "OLYMPUS",   0x0100, Group::olympmn, &TiffMetadataDecoder::decodeOlympThumb           },
-        { "NIKON",     0x014a, Group::ifd0,    0 }, // Todo: Controversial, causes problems with Exiftool
-        { "NIKON",   Tag::all, Group::sub0_0,  &TiffMetadataDecoder::decodeToGroup<Group::ifd0> },
-        { "NIKON",   Tag::all, Group::sub0_1,  &TiffMetadataDecoder::decodeToGroup<Group::ifd0> },
-        { "SONY",      0x014a, Group::ifd0,    0 }, // Todo: see above
-        { "SONY",    Tag::all, Group::sub0_0,  &TiffMetadataDecoder::decodeToGroup<Group::ifd0> }
+        { "OLYMPUS",   0x0100, Group::olympmn, &TiffMetadataDecoder::decodeOlympThumb },
+        { "*",         0x014a, Group::ifd0,    0 }, // Todo: Controversial, causes problems with Exiftool
+        { "*",       Tag::all, Group::sub0_0,  &TiffMetadataDecoder::decodeSubIfd     },
+        { "*",       Tag::all, Group::sub0_1,  &TiffMetadataDecoder::decodeSubIfd     }
     };
 
     bool TiffDecoderInfo::operator==(const TiffDecoderInfo::Key& key) const
@@ -196,12 +194,36 @@ namespace Exiv2 {
         }
     }
 
+    void TiffMetadataDecoder::decodeSubIfd(const TiffEntryBase* object)
+    {
+        assert(object);
+
+        // Only applicable if ifd0 NewSubfileType is Thumbnail/Preview image
+        GroupType::const_iterator i = groupType_.find(Group::ifd0);
+        if (i == groupType_.end() || i->second & 1 == 0) return;
+
+        // Only applicable if subIFD NewSubfileType is Primary image
+        i = groupType_.find(object->group());
+        if (i == groupType_.end() || i->second & 1 == 1) return;
+
+        // Todo: ExifKey should have an appropriate c'tor, it should not be 
+        //       necessary to use groupName here
+        ExifKey key(object->tag(), tiffGroupName(Group::ifd0));        
+        setExifTag(key, object->pValue());
+
+    }
+
     void TiffMetadataDecoder::decodeTiffEntry(const TiffEntryBase* object)
     {
         assert(object != 0);
+
+        // Remember NewSubfileType
+        if (object->tag() == 0x00fe && object->pValue()) {
+            groupType_[object->group()] = object->pValue()->toLong();
+        }
+
         const TiffDecoderInfo* td = find(tiffDecoderInfo_, 
             TiffDecoderInfo::Key(make_, object->tag(), object->group()));
-
         if (td) {
             // skip decoding if td->decoderFct_ == 0
             if (td->decoderFct_) {

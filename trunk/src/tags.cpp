@@ -128,9 +128,21 @@ namespace Exiv2 {
     {
     }
 
+    //! NewSubfileType, TIFF tag 0x00fe - this is actually a bitmask
+    extern const TagDetails exifNewSubfileType[] = {
+        {  0, "Primary image"                                               },
+        {  1, "Thumbnail/Preview image"                                     },
+        {  2, "Primary image, Multi page file"                              },
+        {  3, "Thumbnail/Preview image, Multi page file"                    },
+        {  4, "Primary image, Transparency mask"                            },
+        {  5, "Thumbnail/Preview image, Transparency mask"                  },
+        {  6, "Primary image, Multi page file, Transparency mask"           },
+        {  7, "Thumbnail/Preview image, Multi page file, Transparency mask" }
+    };
+
     // Base IFD Tags (IFD0 and IFD1)
     static const TagInfo ifdTagInfo[] = {
-        TagInfo(0x00fe, "NewSubfileType", "New Subfile Type", "A general indication of the kind of data contained in this subfile.", ifd0Id, imgStruct, unsignedLong, printValue), // TIFF tag
+        TagInfo(0x00fe, "NewSubfileType", "New Subfile Type", "A general indication of the kind of data contained in this subfile.", ifd0Id, imgStruct, unsignedLong, EXV_PRINT_TAG(exifNewSubfileType)), // TIFF tag
         TagInfo(0x0100, "ImageWidth", "Image Width", "Image width", ifd0Id, imgStruct, unsignedLong, printValue),
         TagInfo(0x0101, "ImageLength", "Image Length", "Image height", ifd0Id, imgStruct, unsignedLong, printValue),
         TagInfo(0x0102, "BitsPerSample", "Bits per Sample", "Number of bits per component", ifd0Id, imgStruct, unsignedShort, printValue),
