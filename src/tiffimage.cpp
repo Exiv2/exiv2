@@ -54,7 +54,7 @@ EXIV2_RCSID("@(#) $Id$");
 namespace Exiv2 {
 
     TiffImage::TiffImage(BasicIo::AutoPtr io, bool create)
-        : Image(mdExif | mdComment), io_(io)
+        : Image(mdExif | mdIptc | mdComment), io_(io)
     {
         if (create) {
             IoCloser closer(*io_);
@@ -93,12 +93,12 @@ namespace Exiv2 {
 
     void TiffImage::clearIptcData()
     {
-        // not supported
+        iptcData_.clear();
     }
 
-    void TiffImage::setIptcData(const IptcData& /*iptcData*/)
+    void TiffImage::setIptcData(const IptcData& iptcData)
     {
-        // not supported
+        iptcData_ = iptcData;
     }
 
     void TiffImage::clearComment()

@@ -48,6 +48,7 @@ EXIV2_RCSID("@(#) $Id$");
 
 // *****************************************************************************
 // class member definitions
+
 namespace Exiv2 {
 
     const byte JpegBase::sos_    = 0xda;
@@ -56,11 +57,8 @@ namespace Exiv2 {
     const byte JpegBase::app1_   = 0xe1;
     const byte JpegBase::app13_  = 0xed;
     const byte JpegBase::com_    = 0xfe;
-    const uint16_t JpegBase::iptc_ = 0x0404;
     const char JpegBase::exifId_[] = "Exif\0\0";
     const char JpegBase::jfifId_[] = "JFIF\0";
-    const char JpegBase::ps3Id_[]  = "Photoshop 3.0\0";
-    const char JpegBase::bimId_[]  = "8BIM";
 
     JpegBase::JpegBase(BasicIo::AutoPtr io, bool create,
                        const byte initData[], long dataSize)
@@ -187,7 +185,7 @@ namespace Exiv2 {
                 if (exifData_.load(rawExif.pData_, sizeExifData)) throw Error(36, "Exif");
                 --search;
             }
-            else if (marker == app13_ && memcmp(buf.pData_ + 2, ps3Id_, 14) == 0) {
+            else if (marker == app13_ && memcmp(buf.pData_ + 2, Photoshop::ps3Id, 14) == 0) {
                 if (size < 16) throw Error(15);
                 // Read the rest of the APP13 segment
                 // needed if bufMinSize!=16: io_->seek(16-bufRead, BasicIo::cur);
@@ -233,7 +231,6 @@ namespace Exiv2 {
         }
     } // JpegBase::readMetadata
 
-
     // Operates on raw data (rather than file streams) to simplify reuse
     int JpegBase::locateIptcData(const byte *pPsData,
                                  long sizePsData,
@@ -241,41 +238,8 @@ namespace Exiv2 {
                                  uint16_t *const sizeHdr,
                                  uint16_t *const sizeIptc) const
     {
-        assert(record);
-        assert(sizeHdr);
-        assert(sizeIptc);
-        // Used for error checking
-        long position = 0;
-
-        // Data should follow Photoshop format, if not exit
-        while (position <= (sizePsData - 14) &&
-                memcmp(pPsData + position, bimId_, 4)==0) {
-            const byte *hrd = pPsData + position;
-            position += 4;
-            uint16_t type = getUShort(pPsData+ position, bigEndian);
-            position += 2;
-
-            // Pascal string is padded to have an even size (including size byte)
-            byte psSize = pPsData[position] + 1;
-            psSize += (psSize & 1);
-            position += psSize;
-            if (position >= sizePsData) return -2;
-
-            // Data is also padded to be even
-            long dataSize = getULong(pPsData + position, bigEndian);
-            position += 4;
-            if (dataSize > sizePsData - position) return -2;
-
-            if (type == iptc_) {
-                *sizeIptc = static_cast<uint16_t>(dataSize);
-                *sizeHdr = psSize + 10;
-                *record = hrd;
-                return 0;
-            }
-            position += dataSize + (dataSize & 1);
-        }
-        return 3;
-    } // JpegBase::locateIptcData
+        return locate8BimData(pPsData, sizePsData, Photoshop::iptc, record, sizeHdr, sizeIptc);
+    }
 
     void JpegBase::writeMetadata()
     {
@@ -341,7 +305,7 @@ namespace Exiv2 {
                 ++search;
                 if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(22);
             }
-            else if (marker == app13_ && memcmp(buf.pData_ + 2, ps3Id_, 14) == 0) {
+            else if (marker == app13_ && memcmp(buf.pData_ + 2, Photoshop::ps3Id, 14) == 0) {
                 if (size < 16) throw Error(22);
                 skipApp13Ps3 = count;
                 ++search;
@@ -439,7 +403,7 @@ namespace Exiv2 {
                     us2Data(tmpBuf + 2,
                             static_cast<uint16_t>(psData.size_-sizeOldData+sizeNewData+16),
                             bigEndian);
-                    memcpy(tmpBuf + 4, ps3Id_, 14);
+                    memcpy(tmpBuf + 4, Photoshop::ps3Id, 14);
                     if (outIo.write(tmpBuf, 18) != 18) throw Error(21);
                     if (outIo.error()) throw Error(21);
 
@@ -450,8 +414,8 @@ namespace Exiv2 {
 
                     // write new iptc record if we have it
                     if (iptcData_.count() > 0) {
-                        memcpy(tmpBuf, bimId_, 4);
-                        us2Data(tmpBuf+4, iptc_, bigEndian);
+                        memcpy(tmpBuf, Photoshop::bimId, 4);
+                        us2Data(tmpBuf+4, Photoshop::iptc, bigEndian);
                         tmpBuf[6] = 0;
                         tmpBuf[7] = 0;
                         ul2Data(tmpBuf + 8, rawIptc.size_, bigEndian);
@@ -622,5 +586,51 @@ namespace Exiv2 {
         if (!advance || !result ) iIo.seek(-7, BasicIo::cur);
         return result;
     }
+
+    // Todo: Generalised from JpegBase::locateIptcData without really understanding
+    //       the format (in particular the header). So it remains to be confirmed 
+    //       if this also makes sense for psTag != Photoshop::iptc
+    int locate8BimData(const byte *pPsData,
+                       long sizePsData,
+                       uint16_t psTag,
+                       const byte **record,
+                       uint16_t *const sizeHdr,
+                       uint16_t *const sizeData)
+    {
+        assert(record);
+        assert(sizeHdr);
+        assert(sizeData);
+        // Used for error checking
+        long position = 0;
+
+        // Data should follow Photoshop format, if not exit
+        while (   position <= sizePsData - 14
+               && memcmp(pPsData + position, Photoshop::bimId, 4) == 0) {
+            const byte *hrd = pPsData + position;
+            position += 4;
+            uint16_t type = getUShort(pPsData + position, bigEndian);
+            position += 2;
+
+            // Pascal string is padded to have an even size (including size byte)
+            byte psSize = pPsData[position] + 1;
+            psSize += (psSize & 1);
+            position += psSize;
+            if (position >= sizePsData) return -2;
+
+            // Data is also padded to be even
+            long dataSize = getULong(pPsData + position, bigEndian);
+            position += 4;
+            if (dataSize > sizePsData - position) return -2;
+
+            if (type == psTag) {
+                *sizeData = static_cast<uint16_t>(dataSize);
+                *sizeHdr = psSize + 10;
+                *record = hrd;
+                return 0;
+            }
+            position += dataSize + (dataSize & 1);
+        }
+        return 3;
+    } // locate8BimData
 
 }                                       // namespace Exiv2

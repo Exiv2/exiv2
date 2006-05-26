@@ -52,8 +52,8 @@ namespace Exiv2 {
     }
 
     /*!
-      @brief Class to access raw MRW images. Only Exif metadata is currently
-          supported.
+      @brief Class to access raw MRW images. Exif metadata is supported
+             directly, IPTC is read from the Exif data, if present.
      */
     class MrwImage : public Image {
         friend bool isMrwType(BasicIo& iIo, bool advance);
@@ -99,15 +99,7 @@ namespace Exiv2 {
         void            writeMetadata();
         void            setExifData(const ExifData& exifData);
         void            clearExifData();
-        /*!
-          @brief Not supported. MRW format does not contain IPTC metadata.
-                 Calling this function will do nothing.
-         */
         void            setIptcData(const IptcData& iptcData);
-        /*!
-          @brief Not supported. MRW format does not contain IPTC metadata.
-                 Calling this function will do nothing.
-         */
         void            clearIptcData();
         /*!
           @brief Not supported. MRW format does not contain a comment.

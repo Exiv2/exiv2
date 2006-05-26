@@ -55,7 +55,7 @@ EXIV2_RCSID("@(#) $Id$");
 namespace Exiv2 {
 
     MrwImage::MrwImage(BasicIo::AutoPtr io, bool create)
-        : Image(mdExif), io_(io)
+        : Image(mdExif | mdIptc), io_(io)
     {
         if (create) {
             IoCloser closer(*io_);
@@ -92,12 +92,12 @@ namespace Exiv2 {
 
     void MrwImage::clearIptcData()
     {
-        // not supported
+        iptcData_.clear();
     }
 
-    void MrwImage::setIptcData(const IptcData& /*iptcData*/)
+    void MrwImage::setIptcData(const IptcData& iptcData)
     {
-        // not supported
+        iptcData_ = iptcData;
     }
 
     void MrwImage::clearComment()
