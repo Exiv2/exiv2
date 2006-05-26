@@ -10,7 +10,7 @@ Changes from version 0.9.1 to 0.10
 
 * Exiv2 library
 	- 0000462: Support TIFF format, part 1: Read support for TIFF and TIFF-based
-	           RAW formats, including NEF, CR2, PEF, SR2 and MRW.
+	           RAW formats, including NEF, CR2, PEF, SR2, DNG and MRW.
 	- 0000458: [build environment] Support pkg-config tool, 
 	           removed <prefix>/include/exiv2 path from exiv2-config output.
 		   (Suggested by Udi Fuchs)
