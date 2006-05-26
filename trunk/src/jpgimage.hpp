@@ -56,6 +56,13 @@ namespace Exiv2 {
         const int exv  = 2;         //!< Exv image type (see class ExvImage)
     }
 
+    //! %Photoshop constants
+    namespace Photoshop {
+        const char     ps3Id[]  = "Photoshop 3.0\0"; //!< %Photoshop marker
+        const char     bimId[]  = "8BIM";            //!< %Photoshop marker
+        const uint16_t iptc     = 0x0404;            //!< %Photoshop IPTC marker
+    }
+
     /*!
       @brief Abstract helper base class to access JPEG images.
      */
@@ -156,9 +163,6 @@ namespace Exiv2 {
         static const byte com_;                 //!< JPEG Comment marker
         static const char exifId_[];            //!< Exif identifier
         static const char jfifId_[];            //!< JFIF identifier
-        static const char ps3Id_[];             //!< Photoshop marker
-        static const char bimId_[];             //!< Photoshop marker
-        static const uint16_t iptc_;              //!< Photoshop Iptc marker
 
     private:
         // DATA
@@ -353,6 +357,29 @@ namespace Exiv2 {
     Image::AutoPtr newExvInstance(BasicIo::AutoPtr io, bool create);
     //! Check if the file iIo is an EXV file
     bool isExvType(BasicIo& iIo, bool advance);
+    /*!
+      @brief Locates the data for a Photoshop tag in a Photoshop formated memory
+          buffer. Operates on raw data to simplify reuse.
+      @param pPsData Pointer to buffer containing entire payload of
+          Photoshop formated APP13 Jpeg segment.
+      @param sizePsData Size in bytes of pPsData.
+      @param psTag Tag number of the block to look for.
+      @param record Output value that is set to the start of the
+          data block within pPsData (may not be null).
+      @param sizeHdr Output value that is set to the size of the header
+          within the data block pointed to by record (may not be null).
+      @param sizeData Output value that is set to the size of the actual
+          data within the data block pointed to by record (may not be null).
+      @return 0 if successful;<BR>
+              3 if no data for psTag was found in pPsData;<BR>
+             -2 if the pPsData buffer does not contain valid data.
+     */
+    int locate8BimData(const byte *pPsData,
+                       long sizePsData,
+                       uint16_t psTag,
+                       const byte **record,
+                       uint16_t *const sizeHdr,
+                       uint16_t *const sizeData);
 
 }                                       // namespace Exiv2
 

@@ -51,8 +51,8 @@ namespace Exiv2 {
     }
 
     /*!
-      @brief Class to access raw TIFF images. Only Exif metadata and a comment
-          are supported. TIFF format does not contain IPTC metadata.
+      @brief Class to access raw TIFF images. Exif metadata and a comment
+             are supported directly, IPTC is read from the Exif data, if present.
      */
     class TiffImage : public Image {
         friend bool isTiffType(BasicIo& iIo, bool advance);
@@ -98,15 +98,7 @@ namespace Exiv2 {
         void            writeMetadata();
         void            setExifData(const ExifData& exifData);
         void            clearExifData();
-        /*!
-          @brief Not supported. TIFF format does not contain IPTC metadata.
-                 Calling this function will do nothing.
-         */
         void            setIptcData(const IptcData& iptcData);
-        /*!
-          @brief Not supported. TIFF format does not contain IPTC metadata.
-                 Calling this function will do nothing.
-         */
         void            clearIptcData();
         void            setComment(const std::string& comment);
         void            clearComment();

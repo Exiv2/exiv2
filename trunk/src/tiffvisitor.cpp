@@ -40,8 +40,10 @@ EXIV2_RCSID("@(#) $Id$");
 #include "tiffcomposite.hpp"
 #include "makernote2.hpp"
 #include "exif.hpp"
+#include "iptc.hpp"
 #include "value.hpp"
 #include "image.hpp"
+#include "jpgimage.hpp"
 
 // + standard includes
 #include <string>
@@ -59,7 +61,8 @@ namespace Exiv2 {
         { "OLYMPUS",   0x0100, Group::olympmn, &TiffMetadataDecoder::decodeOlympThumb },
         { "*",         0x014a, Group::ifd0,    0 }, // Todo: Controversial, causes problems with Exiftool
         { "*",       Tag::all, Group::sub0_0,  &TiffMetadataDecoder::decodeSubIfd     },
-        { "*",       Tag::all, Group::sub0_1,  &TiffMetadataDecoder::decodeSubIfd     }
+        { "*",       Tag::all, Group::sub0_1,  &TiffMetadataDecoder::decodeSubIfd     },
+        { "*",         0x8649, Group::ifd0,    &TiffMetadataDecoder::decodeIrbIptc    }
     };
 
     bool TiffDecoderInfo::operator==(const TiffDecoderInfo::Key& key) const
@@ -193,6 +196,37 @@ namespace Exiv2 {
             exifData["Exif.Thumbnail.JPEGInterchangeFormatLength"] = uint32_t(buf.size_);
         }
     }
+
+    void TiffMetadataDecoder::decodeIrbIptc(const TiffEntryBase* object)
+    {
+        assert(object != 0);
+        assert(pImage_ != 0);
+        if (!object->pData()) return;
+        byte const* record = 0;
+        uint16_t sizeHdr = 0;
+        uint16_t sizeData = 0;
+        if (0 != locate8BimData(object->pData(), 
+                                object->size(),
+                                Photoshop::iptc, 
+                                &record,
+                                &sizeHdr,
+                                &sizeData)) {
+            return;
+        }
+        if (0 != pImage_->iptcData().load(record + sizeHdr, sizeData)) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Warning: Failed to decode IPTC block found in "
+                      << "Directory " << object->groupName()
+                      << ", entry 0x" << std::setw(4)
+                      << std::setfill('0') << std::hex << object->tag()
+                      << "\n";
+#endif
+            // Todo: ExifKey should have an appropriate c'tor, it should not be 
+            //       necessary to use groupName here
+            ExifKey key(object->tag(), object->groupName());
+            setExifTag(key, object->pValue());
+        }
+    } // TiffMetadataDecoder::decodeIrbIptc
 
     void TiffMetadataDecoder::decodeSubIfd(const TiffEntryBase* object)
     {
@@ -396,7 +430,7 @@ namespace Exiv2 {
                            TiffRwState::AutoPtr state)
         : pData_(pData),
           size_(size),
-          pLast_(pData + size - 1),
+          pLast_(pData + size),
           pRoot_(pRoot),
           pState_(state.release()),
           pOrigState_(pState_)
@@ -724,8 +758,8 @@ namespace Exiv2 {
             if (object->pData() + object->size() > pLast_) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Warning: Upper boundary of data for "
-                          << "directory " << object->groupName() << ", "
-                          << " entry 0x" << std::setw(4)
+                          << "directory " << object->groupName()
+                          << ", entry 0x" << std::setw(4)
                           << std::setfill('0') << std::hex << object->tag()
                           << " is out of bounds:\n"
                           << "Offset = 0x" << std::setw(8)

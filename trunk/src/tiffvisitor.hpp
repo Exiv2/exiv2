@@ -282,6 +282,8 @@ namespace Exiv2 {
         void decodeOlympThumb(const TiffEntryBase* object);
         //! Decode SubIFD contents to Image group if it contains primary image data
         void decodeSubIfd(const TiffEntryBase* object);
+        //! Decode IPTC data from a Photoshop IRB tag
+        void decodeIrbIptc(const TiffEntryBase* object);
         //@}
 
     private:
