@@ -234,11 +234,11 @@ namespace Exiv2 {
 
         // Only applicable if ifd0 NewSubfileType is Thumbnail/Preview image
         GroupType::const_iterator i = groupType_.find(Group::ifd0);
-        if (i == groupType_.end() || i->second & 1 == 0) return;
+        if (i == groupType_.end() || (i->second & 1) == 0) return;
 
         // Only applicable if subIFD NewSubfileType is Primary image
         i = groupType_.find(object->group());
-        if (i == groupType_.end() || i->second & 1 == 1) return;
+        if (i == groupType_.end() || (i->second & 1) == 1) return;
 
         // Todo: ExifKey should have an appropriate c'tor, it should not be 
         //       necessary to use groupName here
