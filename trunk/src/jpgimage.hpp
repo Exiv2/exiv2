@@ -67,12 +67,12 @@ namespace Exiv2 {
         static const uint16_t iptc_;    //!< %Photoshop IPTC marker
 
         /*!
-          @brief Locates the data for a Photoshop tag in a Photoshop formated memory
+          @brief Locates the data for a %Photoshop tag in a %Photoshop formated memory
               buffer. Operates on raw data to simplify reuse.
           @param pPsData Pointer to buffer containing entire payload of
-              Photoshop formated data, e.g., from APP13 Jpeg segment.
+              %Photoshop formated data, e.g., from APP13 Jpeg segment.
           @param sizePsData Size in bytes of pPsData.
-          @param psTag Tag number of the block to look for.
+          @param psTag %Tag number of the block to look for.
           @param record Output value that is set to the start of the
               data block within pPsData (may not be null).
           @param sizeHdr Output value that is set to the size of the header
@@ -89,6 +89,26 @@ namespace Exiv2 {
                              const byte **record,
                              uint16_t *const sizeHdr,
                              uint16_t *const sizeData);
+        /*!
+          @brief Forwards to locateIrb() with \em psTag = \em iptc_
+         */
+        static int locateIptcIrb(const byte *pPsData,
+                                 long sizePsData,
+                                 const byte **record,
+                                 uint16_t *const sizeHdr,
+                                 uint16_t *const sizeData);
+        /*!
+          @brief Set the new IPTC IRB, keeps existing IRBs but removes the
+                 IPTC block if there is no new IPTC data to write.
+
+          @param pPsData    Existing IRB buffer
+          @param sizePsData Size of the IRB buffer, may be 0
+          @param iptcData   Iptc data to embed, may be empty
+          @return A data buffer containing the new IRB buffer, may have 0 size
+        */ 
+        static DataBuf setIptcIrb(const byte*     pPsData,
+                                  long            sizePsData,
+                                  const IptcData& iptcData);
 
     }; // class Photoshop
 

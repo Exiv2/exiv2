@@ -298,13 +298,6 @@ namespace Exiv2 {
          */
         int load(const byte* buf, long len);
         /*!
-          @brief Write the Iptc data to a data buffer and return the data buffer.
-                 Caller owns this buffer. The copied data follows the IPTC IIM4
-                 standard.
-          @return Data buffer containing the Iptc data.
-         */
-        DataBuf copy();
-        /*!
           @brief Returns a reference to the %Iptcdatum that is associated with a
                  particular \em key. If %IptcData does not already contain such
                  an %Iptcdatum, operator[] adds object \em Iptcdatum(key).
@@ -369,6 +362,13 @@ namespace Exiv2 {
         const_iterator begin() const { return iptcMetadata_.begin(); }
         //! End of the metadata
         const_iterator end() const { return iptcMetadata_.end(); }
+        /*!
+          @brief Write the Iptc data to a data buffer and return the data buffer.
+                 Caller owns this buffer. The copied data follows the IPTC IIM4
+                 standard.
+          @return Data buffer containing the Iptc data.
+         */
+        DataBuf copy() const;
         /*!
           @brief Find an Iptcdatum with the given key, return a const iterator
                  to it.  If multiple metadata with the same key exist it is

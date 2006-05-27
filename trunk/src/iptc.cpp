@@ -186,7 +186,7 @@ namespace Exiv2 {
         return rc;
     }
 
-    DataBuf IptcData::copy()
+    DataBuf IptcData::copy() const
     {
         DataBuf buf(size());
         byte *pWrite = buf.pData_;
@@ -218,7 +218,7 @@ namespace Exiv2 {
         }
 
         return buf;
-    } // IptcData::updateBuffer
+    } // IptcData::copy
 
     long IptcData::size() const
     {

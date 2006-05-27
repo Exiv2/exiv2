@@ -67,10 +67,10 @@ namespace Exiv2 {
     // Todo: Generalised from JpegBase::locateIptcData without really understanding
     //       the format (in particular the header). So it remains to be confirmed 
     //       if this also makes sense for psTag != Photoshop::iptc
-    int Photoshop::locateIrb(const byte *pPsData,
-                             long sizePsData,
-                             uint16_t psTag,
-                             const byte **record,
+    int Photoshop::locateIrb(const byte*     pPsData,
+                             long            sizePsData,
+                             uint16_t        psTag,
+                             const byte**    record,
                              uint16_t *const sizeHdr,
                              uint16_t *const sizeData)
     {
@@ -109,6 +109,59 @@ namespace Exiv2 {
         }
         return 3;
     } // Photoshop::locateIrb
+
+    int Photoshop::locateIptcIrb(const byte*     pPsData,
+                                 long            sizePsData,
+                                 const byte**    record,
+                                 uint16_t *const sizeHdr,
+                                 uint16_t *const sizeData)
+    {
+        return locateIrb(pPsData, sizePsData, iptc_,
+                         record, sizeHdr, sizeData);
+    }
+
+    DataBuf Photoshop::setIptcIrb(const byte*     pPsData,
+                                  long            sizePsData,
+                                  const IptcData& iptcData)
+    {
+        const byte* record    = pPsData;
+        uint16_t    sizeIptc  = 0;
+        uint16_t    sizeHdr   = 0;
+        // Safe to call with zero psData.size_
+        Photoshop::locateIptcIrb(pPsData, sizePsData,
+                                 &record, &sizeHdr, &sizeIptc);
+
+        Blob psBlob;
+        // Data is rounded to be even
+        const int sizeOldData = sizeHdr + sizeIptc + (sizeIptc & 1);
+        if (sizePsData > sizeOldData || iptcData.count() > 0) {
+            const long sizeFront = static_cast<long>(record - pPsData);
+            const long sizeEnd = sizePsData - sizeFront - sizeOldData;
+
+            // Write data before old record.
+            if (sizePsData > 0) append(psBlob, pPsData, sizeFront);
+
+            // Write new iptc record if we have it
+            DataBuf rawIptc(iptcData.copy());
+            if (rawIptc.size_ > 0) {
+                byte tmpBuf[12];
+                memcpy(tmpBuf, Photoshop::bimId_, 4);
+                us2Data(tmpBuf + 4, iptc_, bigEndian);
+                tmpBuf[6] = 0;
+                tmpBuf[7] = 0;
+                ul2Data(tmpBuf + 8, rawIptc.size_, bigEndian);
+                append(psBlob, tmpBuf, 12);
+                append(psBlob, rawIptc.pData_, rawIptc.size_);
+                // Data is padded to be even (but not included in size)
+                if (rawIptc.size_ & 1) psBlob.push_back(0x00);
+            }
+
+            // Write existing stuff after record
+            if (sizePsData > 0) append(psBlob, record + sizeOldData, sizeEnd);
+        }
+        return DataBuf(&psBlob[0], psBlob.size());
+
+    } // Photoshop::setIptcIrb
 
     JpegBase::JpegBase(BasicIo::AutoPtr io, bool create,
                        const byte initData[], long dataSize)
@@ -246,12 +299,8 @@ namespace Exiv2 {
                 uint16_t sizeIptc = 0;
                 uint16_t sizeHdr = 0;
                 // Find actual Iptc data within the APP13 segment
-                if (!Photoshop::locateIrb(psData.pData_, 
-                                          psData.size_,
-                                          Photoshop::iptc_,
-                                          &record,
-                                          &sizeHdr, 
-                                          &sizeIptc)) {
+                if (!Photoshop::locateIptcIrb(psData.pData_, psData.size_,
+                                          &record, &sizeHdr, &sizeIptc)) {
                     assert(sizeIptc);
                     if (iptcData_.load(record + sizeHdr, sizeIptc)) throw Error(36, "IPTC");
                 }
@@ -427,62 +476,29 @@ namespace Exiv2 {
                     if (outIo.error()) throw Error(21);
                     --search;
                 }
-
-                const byte *record = psData.pData_;
-                uint16_t sizeIptc = 0;
-                uint16_t sizeHdr = 0;
-                // Safe to call with zero psData.size_
-                Photoshop::locateIrb(psData.pData_, 
-                                     psData.size_, 
-                                     Photoshop::iptc_,
-                                     &record, 
-                                     &sizeHdr, 
-                                     &sizeIptc);
-
-                // Data is rounded to be even
-                const int sizeOldData = sizeHdr + sizeIptc + (sizeIptc & 1);
-                if (psData.size_ > sizeOldData || iptcData_.count() > 0) {
-                    // rawIptc may have size of zero.
-                    DataBuf rawIptc(iptcData_.copy());
-                    // write app13 marker, new size, and ps3Id
-                    tmpBuf[0] = 0xff;
-                    tmpBuf[1] = app13_;
-                    const int sizeNewData = rawIptc.size_ ?
-                            rawIptc.size_ + (rawIptc.size_ & 1) + 12 : 0;
-                    us2Data(tmpBuf + 2,
-                            static_cast<uint16_t>(psData.size_-sizeOldData+sizeNewData+16),
-                            bigEndian);
-                    memcpy(tmpBuf + 4, Photoshop::ps3Id_, 14);
-                    if (outIo.write(tmpBuf, 18) != 18) throw Error(21);
-                    if (outIo.error()) throw Error(21);
-
-                    const long sizeFront = (long)(record - psData.pData_);
-                    const long sizeEnd = psData.size_ - sizeFront - sizeOldData;
-                    // write data before old record.
-                    if (outIo.write(psData.pData_, sizeFront) != sizeFront) throw Error(21);
-
-                    // write new iptc record if we have it
-                    if (iptcData_.count() > 0) {
-                        memcpy(tmpBuf, Photoshop::bimId_, 4);
-                        us2Data(tmpBuf+4, Photoshop::iptc_, bigEndian);
-                        tmpBuf[6] = 0;
-                        tmpBuf[7] = 0;
-                        ul2Data(tmpBuf + 8, rawIptc.size_, bigEndian);
-                        if (outIo.write(tmpBuf, 12) != 12) throw Error(21);
-                        if (outIo.write(rawIptc.pData_, rawIptc.size_)
-                            != rawIptc.size_) throw Error(21);
-                        // data is padded to be even (but not included in size)
-                        if (rawIptc.size_ & 1) {
-                            if (outIo.putb(0)==EOF) throw Error(21);
-                        }
+                if (psData.size_ > 0 || iptcData_.count() > 0) {
+                    // Set the new IPTC IRB, keeps existing IRBs but removes the
+                    // IPTC block if there is no new IPTC data to write
+                    DataBuf newPsData = Photoshop::setIptcIrb(psData.pData_, 
+                                                              psData.size_, 
+                                                              iptcData_);
+                    if (newPsData.size_ > 0) {
+                        // Write APP13 marker, new size, and ps3Id
+                        tmpBuf[0] = 0xff;
+                        tmpBuf[1] = app13_;
+                        us2Data(tmpBuf + 2, newPsData.size_ + 16, bigEndian);
+                        memcpy(tmpBuf + 4, Photoshop::ps3Id_, 14);
+                        if (outIo.write(tmpBuf, 18) != 18) throw Error(21);
                         if (outIo.error()) throw Error(21);
+                        
+                        // Write new Photoshop IRB data buffer
+                        if (   outIo.write(newPsData.pData_, newPsData.size_)
+                               != newPsData.size_) throw Error(21);
+                        if (outIo.error()) throw Error(21);
+                    }
+                    if (iptcData_.count() > 0) {
                         --search;
                     }
-
-                    // write existing stuff after record
-                    if (outIo.write(record+sizeOldData, sizeEnd)
-                        != sizeEnd) throw Error(21);
-                    if (outIo.error()) throw Error(21);
                 }
             }
             if (marker == eoi_) {
@@ -518,7 +534,6 @@ namespace Exiv2 {
         if (outIo.error()) throw Error(21);
 
     } // JpegBase::doWriteMetadata
-
 
     const byte JpegImage::soi_ = 0xd8;
     const byte JpegImage::blank_[] = {

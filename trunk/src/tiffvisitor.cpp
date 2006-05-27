@@ -205,12 +205,8 @@ namespace Exiv2 {
         byte const* record = 0;
         uint16_t sizeHdr = 0;
         uint16_t sizeData = 0;
-        if (0 != Photoshop::locateIrb(object->pData(), 
-                                      object->size(),
-                                      Photoshop::iptc_, 
-                                      &record,
-                                      &sizeHdr,
-                                      &sizeData)) {
+        if (0 != Photoshop::locateIptcIrb(object->pData(), object->size(),
+                                          &record, &sizeHdr, &sizeData)) {
             return;
         }
         if (0 != pImage_->iptcData().load(record + sizeHdr, sizeData)) {
