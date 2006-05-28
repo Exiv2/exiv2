@@ -124,6 +124,12 @@ namespace Exiv2 {
                                   long            sizePsData,
                                   const IptcData& iptcData)
     {
+        if (sizePsData > 0) assert(pPsData);
+#ifdef DEBUG
+        std::cerr << "IRB block at the beginning of Photoshop::setIptcIrb\n";
+        if (sizePsData == 0) std::cerr << "  None.\n";
+        else hexdump(std::cerr, pPsData, sizePsData);
+#endif
         const byte* record    = pPsData;
         uint16_t    sizeIptc  = 0;
         uint16_t    sizeHdr   = 0;
@@ -133,33 +139,40 @@ namespace Exiv2 {
 
         Blob psBlob;
         // Data is rounded to be even
-        const int sizeOldData = sizeHdr + sizeIptc + (sizeIptc & 1);
-        if (sizePsData > sizeOldData || iptcData.count() > 0) {
-            const long sizeFront = static_cast<long>(record - pPsData);
-            const long sizeEnd = sizePsData - sizeFront - sizeOldData;
+        const uint16_t sizeOldData = sizeHdr + sizeIptc + (sizeIptc & 1);
+        const uint16_t sizeFront = static_cast<uint16_t>(record - pPsData);
+        const uint16_t sizeEnd = static_cast<uint16_t>(sizePsData - sizeFront - sizeOldData);
 
-            // Write data before old record.
-            if (sizePsData > 0) append(psBlob, pPsData, sizeFront);
-
-            // Write new iptc record if we have it
-            DataBuf rawIptc(iptcData.copy());
-            if (rawIptc.size_ > 0) {
-                byte tmpBuf[12];
-                memcpy(tmpBuf, Photoshop::bimId_, 4);
-                us2Data(tmpBuf + 4, iptc_, bigEndian);
-                tmpBuf[6] = 0;
-                tmpBuf[7] = 0;
-                ul2Data(tmpBuf + 8, rawIptc.size_, bigEndian);
-                append(psBlob, tmpBuf, 12);
-                append(psBlob, rawIptc.pData_, rawIptc.size_);
-                // Data is padded to be even (but not included in size)
-                if (rawIptc.size_ & 1) psBlob.push_back(0x00);
-            }
-
-            // Write existing stuff after record
-            if (sizePsData > 0) append(psBlob, record + sizeOldData, sizeEnd);
+        // Write data before old record.
+        if (sizePsData > 0 && sizeFront > 0) {
+            append(psBlob, pPsData, sizeFront);
         }
-        return DataBuf(&psBlob[0], psBlob.size());
+        // Write new iptc record if we have it
+        DataBuf rawIptc(iptcData.copy());
+        if (rawIptc.size_ > 0) {
+            byte tmpBuf[12];
+            memcpy(tmpBuf, Photoshop::bimId_, 4);
+            us2Data(tmpBuf + 4, iptc_, bigEndian);
+            tmpBuf[6] = 0;
+            tmpBuf[7] = 0;
+            ul2Data(tmpBuf + 8, rawIptc.size_, bigEndian);
+            append(psBlob, tmpBuf, 12);
+            append(psBlob, rawIptc.pData_, rawIptc.size_);
+            // Data is padded to be even (but not included in size)
+            if (rawIptc.size_ & 1) psBlob.push_back(0x00);
+        }
+        // Write existing stuff after record
+        if (sizePsData > 0 && sizeEnd > 0) {
+            append(psBlob, record + sizeOldData, sizeEnd);
+        }
+        DataBuf rc;
+        if (psBlob.size() > 0) rc = DataBuf(&psBlob[0], psBlob.size());
+#ifdef DEBUG
+        std::cerr << "IRB block at the end of Photoshop::setIptcIrb\n";
+        if (rc.size_ == 0) std::cerr << "  None.\n";
+        else hexdump(std::cerr, rc.pData_, rc.size_);
+#endif
+        return rc;
 
     } // Photoshop::setIptcIrb
 
