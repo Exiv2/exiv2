@@ -802,7 +802,7 @@ namespace Exiv2 {
         long compression = value.toLong();
         switch (compression) {
         case     1:  os << "Uncompressed"; break;
-        case     2:  os << "CCITT 1D"; break;
+        case     2:  os << "CCITT RLE"; break;
         case     3:  os << "T4/Group 3 Fax"; break;
         case     4:  os << "T6/Group 4 Fax"; break;
         case     5:  os << "LZW"; break;
@@ -811,22 +811,22 @@ namespace Exiv2 {
         case     8:  os << "Adobe Deflate"; break;
         case     9:  os << "JBIG B&W"; break;
         case    10:  os << "JBIG Color"; break;
-        case 32766:  os << "JBIG Color"; break;
-        case 32771:  os << "CCIRLEW"; break;
-        case 32773:  os << "PackBits"; break;
-        case 32809:  os << "Thunderscan"; break;
-        case 32895:  os << "IT8CTPAD"; break;
-        case 32896:  os << "IT8LW"; break;
-        case 32897:  os << "IT8MP"; break;
-        case 32898:  os << "IT8BL"; break;
-        case 32908:  os << "PixarFilm"; break;
-        case 32909:  os << "PixarLog"; break;
-        case 32946:  os << "Deflate"; break;
-        case 32947:  os << "DCS"; break;
-        case 34661:  os << "JBIG"; break;
-        case 34676:  os << "SGILog"; break;
-        case 34677:  os << "SGILog24"; break;
-        case 34712:  os << "JPEG 2000"; break;
+        case 32766:  os << "Next 2-bits RLE"; break;
+        case 32771:  os << "CCITT RLE 1-word"; break;
+        case 32773:  os << "PackBits (Macintosh RLE)"; break;
+        case 32809:  os << "Thunderscan RLE"; break;
+        case 32895:  os << "IT8 CT Padding"; break;
+        case 32896:  os << "IT8 Linework RLE"; break;
+        case 32897:  os << "IT8 Monochrome Picture"; break;
+        case 32898:  os << "IT8 Binary Lineart"; break;
+        case 32908:  os << "Pixar Film (10-bits LZW)"; break;
+        case 32909:  os << "Pixar Log (11-bits ZIP)"; break;
+        case 32946:  os << "Pixar Deflate"; break;
+        case 32947:  os << "Kodak DCS Encoding"; break;
+        case 34661:  os << "ISO JBIG"; break;
+        case 34676:  os << "SGI Log Luminance RLE"; break;
+        case 34677:  os << "SGI Log 24-bits packed"; break;
+        case 34712:  os << "Leadtools JPEG 2000"; break;
         case 34713:  os << "Nikon NEF Compressed"; break;
         default: os << "(" << compression << ")"; break;
         }
@@ -837,8 +837,8 @@ namespace Exiv2 {
     {
         long photo = value.toLong();
         switch (photo) {
-        case     0:  os << "WhiteIsZero"; break;
-        case     1:  os << "BlackIsZero"; break;
+        case     0:  os << "White Is Zero"; break;
+        case     1:  os << "Black Is Zero"; break;
         case     2:  os << "RGB"; break;
         case     3:  os << "RGB Palette"; break;
         case     4:  os << "Transparency Mask"; break;
