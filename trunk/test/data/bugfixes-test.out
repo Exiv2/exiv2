@@ -62,7 +62,7 @@ Exif.Photo.ExposureIndex                     Rational    1  1677721600/16777216
 Exif.Photo.SensingMethod                     Short       1  One-chip color area
 Exif.Photo.FileSource                        Undefined   1  Digital still camera
 Exif.Photo.SceneType                         Undefined   1  Directly photographed
-Exif.Thumbnail.Compression                   Short       1  JPEG
+Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 Exif.Thumbnail.Orientation                   Short       1  top, left
 Exif.Thumbnail.XResolution                   Rational    1  72
 Exif.Thumbnail.YResolution                   Rational    1  72
@@ -195,7 +195,7 @@ Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 Exif.Iop.RelatedImageWidth                   Short       1  2272
 Exif.Iop.RelatedImageLength                  Short       1  1704
-Exif.Thumbnail.Compression                   Short       1  JPEG
+Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 Exif.Thumbnail.XResolution                   Rational    1  180
 Exif.Thumbnail.YResolution                   Rational    1  180
 Exif.Thumbnail.ResolutionUnit                Short       1  inch

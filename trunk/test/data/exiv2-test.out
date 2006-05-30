@@ -567,7 +567,7 @@ File  2/12: 20031214_000043.jpg
 20031214_000043.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 20031214_000043.jpg   Exif.Iop.RelatedImageWidth                   Short       1  2272
 20031214_000043.jpg   Exif.Iop.RelatedImageLength                  Short       1  1704
-20031214_000043.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+20031214_000043.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 20031214_000043.jpg   Exif.Thumbnail.XResolution                   Rational    1  180
 20031214_000043.jpg   Exif.Thumbnail.YResolution                   Rational    1  180
 20031214_000043.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -626,7 +626,7 @@ File  3/12: 20000506_020544.jpg
 20000506_020544.jpg   Exif.Nikon1.DataDump                         Undefined 174  1 45 0 128 1 76 0 0 0 0 255 1 0 0 0 0 2 74 42 160 0 0 0 0 2 183 0 0 31 8 0 0 21 202 0 0 33 124 0 0 33 124 0 0 31 6 13 132 0 74 0 0 0 0 9 181 9 74 8 109 7 54 208 1 11 122 0 0 0 0 45 33 21 0 0 0 32 0 0 0 0 0 0 0 0 0 68 27 0 0 74 3 23 207 9 30 59 31 0 71 0 0 19 21 18 18 21 24 0 0 100 0 25 76 0 0 0 1 255 240 101 68 0 0 0 2 0 0 0 0 15 3 194 141 1 13 18 34 0 0 81 90 0 246 1 43 48 32 18 7 40 16 78 72 11 122 0 0 117 252 235 98 11 16 6 6 0 100 0 216 18 52 67 33 
 20000506_020544.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 20000506_020544.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-20000506_020544.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+20000506_020544.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 20000506_020544.jpg   Exif.Thumbnail.XResolution                   Rational    1  300
 20000506_020544.jpg   Exif.Thumbnail.YResolution                   Rational    1  300
 20000506_020544.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -729,7 +729,7 @@ File  4/12: 20040329_224245.jpg
 20040329_224245.jpg   Exif.Nikon3.VariProgram                      Ascii      16                 
 20040329_224245.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R03
 20040329_224245.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-20040329_224245.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+20040329_224245.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 20040329_224245.jpg   Exif.Thumbnail.XResolution                   Rational    1  300
 20040329_224245.jpg   Exif.Thumbnail.YResolution                   Rational    1  300
 20040329_224245.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -784,7 +784,7 @@ File  5/12: 20010405_235039.jpg
 20010405_235039.jpg   Exif.Nikon2.0x0f00                           Long       30  0 0 16777216 0 2685774096 0 34833 6931 16178 4372 4372 3322676767 3373084416 15112 0 0 1151495 252903424 17 0 0 844038208 55184128 218129428 1476410198 370540566 4044363286 16711749 204629079 1729
 20010405_235039.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 20010405_235039.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-20010405_235039.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+20010405_235039.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 20010405_235039.jpg   Exif.Thumbnail.XResolution                   Rational    1  300
 20010405_235039.jpg   Exif.Thumbnail.YResolution                   Rational    1  300
 20010405_235039.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -933,7 +933,7 @@ File  6/12: 20030925_201850.jpg
 20030925_201850.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 20030925_201850.jpg   Exif.Iop.RelatedImageWidth                   Short       1  3072
 20030925_201850.jpg   Exif.Iop.RelatedImageLength                  Short       1  2048
-20030925_201850.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+20030925_201850.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 20030925_201850.jpg   Exif.Thumbnail.XResolution                   Rational    1  180
 20030925_201850.jpg   Exif.Thumbnail.YResolution                   Rational    1  180
 20030925_201850.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -970,7 +970,7 @@ File  7/12: 20001026_044550.jpg
 20001026_044550.jpg   Exif.Thumbnail.ImageWidth                    Short       1  96
 20001026_044550.jpg   Exif.Thumbnail.ImageLength                   Short       1  72
 20001026_044550.jpg   Exif.Thumbnail.BitsPerSample                 Short       3  8 8 8
-20001026_044550.jpg   Exif.Thumbnail.Compression                   Short       1  TIFF
+20001026_044550.jpg   Exif.Thumbnail.Compression                   Short       1  Uncompressed
 20001026_044550.jpg   Exif.Thumbnail.PhotometricInterpretation     Short       1  RGB
 20001026_044550.jpg   Exif.Thumbnail.StripOffsets                  Short       1  0
 20001026_044550.jpg   Exif.Thumbnail.SamplesPerPixel               Short       1  3
@@ -1046,7 +1046,7 @@ File  8/12: 20030926_111535.jpg
 20030926_111535.jpg   Exif.Fujifilm.0x1200                         Short       1  0
 20030926_111535.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 20030926_111535.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-20030926_111535.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+20030926_111535.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 20030926_111535.jpg   Exif.Thumbnail.Orientation                   Short       1  top, left
 20030926_111535.jpg   Exif.Thumbnail.XResolution                   Rational    1  72
 20030926_111535.jpg   Exif.Thumbnail.YResolution                   Rational    1  72
@@ -1113,7 +1113,7 @@ File  9/12: 20040316_075137.jpg
 20040316_075137.jpg   Exif.Sigma.Firmware                          Ascii      19  2.0.4.1642 Release
 20040316_075137.jpg   Exif.Sigma.Software                          Ascii      26  SIGMA PhotoPro 2.0.0.1586
 20040316_075137.jpg   Exif.Sigma.AutoBracket                       Ascii       2   
-20040316_075137.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+20040316_075137.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 20040316_075137.jpg   Exif.Thumbnail.XResolution                   Rational    1  180
 20040316_075137.jpg   Exif.Thumbnail.YResolution                   Rational    1  180
 20040316_075137.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -1183,7 +1183,7 @@ File 10/12: 20040208_093744.jpg
 20040208_093744.jpg   Exif.Olympus.DataDump                        Undefined 494  1 75 2 3 2 93 0 0 0 0 255 0 0 0 25 97 18 49 0 0 5 236 0 0 57 36 0 0 1 155 0 0 10 47 0 0 22 242 0 0 5 192 0 0 24 68 0 100 0 166 0 50 0 36 0 0 0 0 0 0 0 0 0 0 54 21 0 0 0 0 53 61 22 4 0 0 0 0 0 0 0 0 0 0 0 0 16 32 0 0 57 0 14 86 0 0 0 0 0 0 0 0 0 0 0 0 0 100 3 158 0 0 0 0 255 253 255 249 255 245 255 236 255 237 255 232 255 230 0 0 34 34 34 34 17 17 17 17 1 86 3 150 3 243 1 33 2 0 1 76 2 116 2 3 1 2 96 90 0 2 3 52 0 25 0 10 0 25 0 10 0 5 0 10 0 1 0 0 0 0 0 16 0 0 0 16 0 1 1 0 0 166 1 79 1 246 2 159 3 70 1 2 1 75 2 3 2 93 0 0 21 54 21 231 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 136 136 1 0 3 254 0 59 0 0 0 0 0 0 2 226 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 6 121 6 129 6 124 6 156 208 0 3 254 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 12 57 12 88 12 103 12 177 12 88 12 6 11 190 11 10 34 68 34 128 34 238 35 119 34 83 33 125 32 132 30 98 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 119 119 119 119 33 33 33 33 33 33 19 30 17 25 41 80 32 0 224 0 0 0 0 0 0 0 0 0 128 0 20 70 12 0 0 0 34 33 0 0 34 34 33 33 2 34 1 115 1 70 2 120 0 0 0 43 0 40 0 30 1 76 2 116 34 33 34 34 0 77 0 1 0 128 0 0 0 20 0 0 
 20040208_093744.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 20040208_093744.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-20040208_093744.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+20040208_093744.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 20040208_093744.jpg   Exif.Thumbnail.XResolution                   Rational    1  72
 20040208_093744.jpg   Exif.Thumbnail.YResolution                   Rational    1  72
 20040208_093744.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -1263,7 +1263,7 @@ File 11/12: 20050218_212016.jpg
 20050218_212016.jpg   Exif.Panasonic.0x0032                        Short       1  0
 20050218_212016.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 20050218_212016.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-20050218_212016.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+20050218_212016.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 20050218_212016.jpg   Exif.Thumbnail.Orientation                   Short       1  top, left
 20050218_212016.jpg   Exif.Thumbnail.XResolution                   Rational    1  72
 20050218_212016.jpg   Exif.Thumbnail.YResolution                   Rational    1  72
@@ -1323,7 +1323,7 @@ File 12/12: 20050527_051833.jpg
 20050527_051833.jpg   Exif.Sony.0x9008                             Undefined 200  1 0 0 0 0 134 140 83 0 219 13 188 0 232 53 222 0 134 25 6 0 0 202 63 0 183 102 83 0 81 185 153 0 197 2 15 0 2 113 102 0 0 93 117 0 68 147 15 0 78 194 136 0 101 217 41 0 39 169 234 0 0 151 217 27 91 8 70 8 156 27 169 0 175 0 135 0 166 0 175 8 164 1 178 1 111 8 191 1 146 0 17 1 227 1 146 64 220 27 109 8 65 64 246 0 241 0 159 1 12 0 255 8 222 8 215 8 232 8 235 8 208 1 151 1 174 8 177 0 202 0 69 1 7 0 89 27 116 8 107 1 237 27 101 8 61 1 88 8 26 8 119 1 90 0 235 1 75 1 175 8 178 8 138 8 211 8 242 8 212 1 107 1 157 8 123 8 137 8 14 8 68 8 254 64 51 27 129 27 53 64 101 125 141 27 42 125 197 125 52 
 20050527_051833.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 20050527_051833.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-20050527_051833.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+20050527_051833.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 20050527_051833.jpg   Exif.Thumbnail.Make                          Ascii       5  SONY
 20050527_051833.jpg   Exif.Thumbnail.Model                         Ascii       7  DSC-W7
 20050527_051833.jpg   Exif.Thumbnail.Orientation                   Short       1  top, left
@@ -1508,7 +1508,7 @@ Compare image data and extracted data ------------------------------------
 < 20031214_000043.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 < 20031214_000043.jpg   Exif.Iop.RelatedImageWidth                   Short       1  2272
 < 20031214_000043.jpg   Exif.Iop.RelatedImageLength                  Short       1  1704
-< 20031214_000043.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+< 20031214_000043.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20031214_000043.jpg   Exif.Thumbnail.XResolution                   Rational    1  180
 < 20031214_000043.jpg   Exif.Thumbnail.YResolution                   Rational    1  180
 < 20031214_000043.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -1567,7 +1567,7 @@ Compare image data and extracted data ------------------------------------
 < 20000506_020544.jpg   Exif.Nikon1.DataDump                         Undefined 174  1 45 0 128 1 76 0 0 0 0 255 1 0 0 0 0 2 74 42 160 0 0 0 0 2 183 0 0 31 8 0 0 21 202 0 0 33 124 0 0 33 124 0 0 31 6 13 132 0 74 0 0 0 0 9 181 9 74 8 109 7 54 208 1 11 122 0 0 0 0 45 33 21 0 0 0 32 0 0 0 0 0 0 0 0 0 68 27 0 0 74 3 23 207 9 30 59 31 0 71 0 0 19 21 18 18 21 24 0 0 100 0 25 76 0 0 0 1 255 240 101 68 0 0 0 2 0 0 0 0 15 3 194 141 1 13 18 34 0 0 81 90 0 246 1 43 48 32 18 7 40 16 78 72 11 122 0 0 117 252 235 98 11 16 6 6 0 100 0 216 18 52 67 33 
 < 20000506_020544.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20000506_020544.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-< 20000506_020544.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+< 20000506_020544.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20000506_020544.jpg   Exif.Thumbnail.XResolution                   Rational    1  300
 < 20000506_020544.jpg   Exif.Thumbnail.YResolution                   Rational    1  300
 < 20000506_020544.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -1670,7 +1670,7 @@ Compare image data and extracted data ------------------------------------
 < 20040329_224245.jpg   Exif.Nikon3.VariProgram                      Ascii      16                 
 < 20040329_224245.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R03
 < 20040329_224245.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-< 20040329_224245.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+< 20040329_224245.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20040329_224245.jpg   Exif.Thumbnail.XResolution                   Rational    1  300
 < 20040329_224245.jpg   Exif.Thumbnail.YResolution                   Rational    1  300
 < 20040329_224245.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -1725,7 +1725,7 @@ Compare image data and extracted data ------------------------------------
 < 20010405_235039.jpg   Exif.Nikon2.0x0f00                           Long       30  0 0 16777216 0 2685774096 0 34833 6931 16178 4372 4372 3322676767 3373084416 15112 0 0 1151495 252903424 17 0 0 844038208 55184128 218129428 1476410198 370540566 4044363286 16711749 204629079 1729
 < 20010405_235039.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20010405_235039.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-< 20010405_235039.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+< 20010405_235039.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20010405_235039.jpg   Exif.Thumbnail.XResolution                   Rational    1  300
 < 20010405_235039.jpg   Exif.Thumbnail.YResolution                   Rational    1  300
 < 20010405_235039.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -1874,7 +1874,7 @@ Compare image data and extracted data ------------------------------------
 < 20030925_201850.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 < 20030925_201850.jpg   Exif.Iop.RelatedImageWidth                   Short       1  3072
 < 20030925_201850.jpg   Exif.Iop.RelatedImageLength                  Short       1  2048
-< 20030925_201850.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+< 20030925_201850.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20030925_201850.jpg   Exif.Thumbnail.XResolution                   Rational    1  180
 < 20030925_201850.jpg   Exif.Thumbnail.YResolution                   Rational    1  180
 < 20030925_201850.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -1911,7 +1911,7 @@ Compare image data and extracted data ------------------------------------
 < 20001026_044550.jpg   Exif.Thumbnail.ImageWidth                    Short       1  96
 < 20001026_044550.jpg   Exif.Thumbnail.ImageLength                   Short       1  72
 < 20001026_044550.jpg   Exif.Thumbnail.BitsPerSample                 Short       3  8 8 8
-< 20001026_044550.jpg   Exif.Thumbnail.Compression                   Short       1  TIFF
+< 20001026_044550.jpg   Exif.Thumbnail.Compression                   Short       1  Uncompressed
 < 20001026_044550.jpg   Exif.Thumbnail.PhotometricInterpretation     Short       1  RGB
 < 20001026_044550.jpg   Exif.Thumbnail.StripOffsets                  Short       1  0
 < 20001026_044550.jpg   Exif.Thumbnail.SamplesPerPixel               Short       1  3
@@ -1987,7 +1987,7 @@ Compare image data and extracted data ------------------------------------
 < 20030926_111535.jpg   Exif.Fujifilm.0x1200                         Short       1  0
 < 20030926_111535.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20030926_111535.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-< 20030926_111535.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+< 20030926_111535.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20030926_111535.jpg   Exif.Thumbnail.Orientation                   Short       1  top, left
 < 20030926_111535.jpg   Exif.Thumbnail.XResolution                   Rational    1  72
 < 20030926_111535.jpg   Exif.Thumbnail.YResolution                   Rational    1  72
@@ -2054,7 +2054,7 @@ Compare image data and extracted data ------------------------------------
 < 20040316_075137.jpg   Exif.Sigma.Firmware                          Ascii      19  2.0.4.1642 Release
 < 20040316_075137.jpg   Exif.Sigma.Software                          Ascii      26  SIGMA PhotoPro 2.0.0.1586
 < 20040316_075137.jpg   Exif.Sigma.AutoBracket                       Ascii       2   
-< 20040316_075137.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+< 20040316_075137.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20040316_075137.jpg   Exif.Thumbnail.XResolution                   Rational    1  180
 < 20040316_075137.jpg   Exif.Thumbnail.YResolution                   Rational    1  180
 < 20040316_075137.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -2124,7 +2124,7 @@ Compare image data and extracted data ------------------------------------
 < 20040208_093744.jpg   Exif.Olympus.DataDump                        Undefined 494  1 75 2 3 2 93 0 0 0 0 255 0 0 0 25 97 18 49 0 0 5 236 0 0 57 36 0 0 1 155 0 0 10 47 0 0 22 242 0 0 5 192 0 0 24 68 0 100 0 166 0 50 0 36 0 0 0 0 0 0 0 0 0 0 54 21 0 0 0 0 53 61 22 4 0 0 0 0 0 0 0 0 0 0 0 0 16 32 0 0 57 0 14 86 0 0 0 0 0 0 0 0 0 0 0 0 0 100 3 158 0 0 0 0 255 253 255 249 255 245 255 236 255 237 255 232 255 230 0 0 34 34 34 34 17 17 17 17 1 86 3 150 3 243 1 33 2 0 1 76 2 116 2 3 1 2 96 90 0 2 3 52 0 25 0 10 0 25 0 10 0 5 0 10 0 1 0 0 0 0 0 16 0 0 0 16 0 1 1 0 0 166 1 79 1 246 2 159 3 70 1 2 1 75 2 3 2 93 0 0 21 54 21 231 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 136 136 1 0 3 254 0 59 0 0 0 0 0 0 2 226 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 6 121 6 129 6 124 6 156 208 0 3 254 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 12 57 12 88 12 103 12 177 12 88 12 6 11 190 11 10 34 68 34 128 34 238 35 119 34 83 33 125 32 132 30 98 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 119 119 119 119 33 33 33 33 33 33 19 30 17 25 41 80 32 0 224 0 0 0 0 0 0 0 0 0 128 0 20 70 12 0 0 0 34 33 0 0 34 34 33 33 2 34 1 115 1 70 2 120 0 0 0 43 0 40 0 30 1 76 2 116 34 33 34 34 0 77 0 1 0 128 0 0 0 20 0 0 
 < 20040208_093744.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20040208_093744.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-< 20040208_093744.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+< 20040208_093744.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20040208_093744.jpg   Exif.Thumbnail.XResolution                   Rational    1  72
 < 20040208_093744.jpg   Exif.Thumbnail.YResolution                   Rational    1  72
 < 20040208_093744.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -2204,7 +2204,7 @@ Compare image data and extracted data ------------------------------------
 < 20050218_212016.jpg   Exif.Panasonic.0x0032                        Short       1  0
 < 20050218_212016.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20050218_212016.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-< 20050218_212016.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+< 20050218_212016.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20050218_212016.jpg   Exif.Thumbnail.Orientation                   Short       1  top, left
 < 20050218_212016.jpg   Exif.Thumbnail.XResolution                   Rational    1  72
 < 20050218_212016.jpg   Exif.Thumbnail.YResolution                   Rational    1  72
@@ -2264,7 +2264,7 @@ Compare image data and extracted data ------------------------------------
 < 20050527_051833.jpg   Exif.Sony.0x9008                             Undefined 200  1 0 0 0 0 134 140 83 0 219 13 188 0 232 53 222 0 134 25 6 0 0 202 63 0 183 102 83 0 81 185 153 0 197 2 15 0 2 113 102 0 0 93 117 0 68 147 15 0 78 194 136 0 101 217 41 0 39 169 234 0 0 151 217 27 91 8 70 8 156 27 169 0 175 0 135 0 166 0 175 8 164 1 178 1 111 8 191 1 146 0 17 1 227 1 146 64 220 27 109 8 65 64 246 0 241 0 159 1 12 0 255 8 222 8 215 8 232 8 235 8 208 1 151 1 174 8 177 0 202 0 69 1 7 0 89 27 116 8 107 1 237 27 101 8 61 1 88 8 26 8 119 1 90 0 235 1 75 1 175 8 178 8 138 8 211 8 242 8 212 1 107 1 157 8 123 8 137 8 14 8 68 8 254 64 51 27 129 27 53 64 101 125 141 27 42 125 197 125 52 
 < 20050527_051833.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20050527_051833.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-< 20050527_051833.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+< 20050527_051833.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20050527_051833.jpg   Exif.Thumbnail.Make                          Ascii       5  SONY
 < 20050527_051833.jpg   Exif.Thumbnail.Model                         Ascii       7  DSC-W7
 < 20050527_051833.jpg   Exif.Thumbnail.Orientation                   Short       1  top, left
@@ -2393,7 +2393,7 @@ Compare image data and extracted data ------------------------------------
 > 20031214_000043.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 > 20031214_000043.exv   Exif.Iop.RelatedImageWidth                   Short       1  2272
 > 20031214_000043.exv   Exif.Iop.RelatedImageLength                  Short       1  1704
-> 20031214_000043.exv   Exif.Thumbnail.Compression                   Short       1  JPEG
+> 20031214_000043.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20031214_000043.exv   Exif.Thumbnail.XResolution                   Rational    1  180
 > 20031214_000043.exv   Exif.Thumbnail.YResolution                   Rational    1  180
 > 20031214_000043.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -2452,7 +2452,7 @@ Compare image data and extracted data ------------------------------------
 > 20000506_020544.exv   Exif.Nikon1.DataDump                         Undefined 174  1 45 0 128 1 76 0 0 0 0 255 1 0 0 0 0 2 74 42 160 0 0 0 0 2 183 0 0 31 8 0 0 21 202 0 0 33 124 0 0 33 124 0 0 31 6 13 132 0 74 0 0 0 0 9 181 9 74 8 109 7 54 208 1 11 122 0 0 0 0 45 33 21 0 0 0 32 0 0 0 0 0 0 0 0 0 68 27 0 0 74 3 23 207 9 30 59 31 0 71 0 0 19 21 18 18 21 24 0 0 100 0 25 76 0 0 0 1 255 240 101 68 0 0 0 2 0 0 0 0 15 3 194 141 1 13 18 34 0 0 81 90 0 246 1 43 48 32 18 7 40 16 78 72 11 122 0 0 117 252 235 98 11 16 6 6 0 100 0 216 18 52 67 33 
 > 20000506_020544.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20000506_020544.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-> 20000506_020544.exv   Exif.Thumbnail.Compression                   Short       1  JPEG
+> 20000506_020544.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20000506_020544.exv   Exif.Thumbnail.XResolution                   Rational    1  300
 > 20000506_020544.exv   Exif.Thumbnail.YResolution                   Rational    1  300
 > 20000506_020544.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -2555,7 +2555,7 @@ Compare image data and extracted data ------------------------------------
 > 20040329_224245.exv   Exif.Nikon3.VariProgram                      Ascii      16                 
 > 20040329_224245.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R03
 > 20040329_224245.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-> 20040329_224245.exv   Exif.Thumbnail.Compression                   Short       1  JPEG
+> 20040329_224245.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20040329_224245.exv   Exif.Thumbnail.XResolution                   Rational    1  300
 > 20040329_224245.exv   Exif.Thumbnail.YResolution                   Rational    1  300
 > 20040329_224245.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -2610,7 +2610,7 @@ Compare image data and extracted data ------------------------------------
 > 20010405_235039.exv   Exif.Nikon2.0x0f00                           Long       30  0 0 16777216 0 2685774096 0 34833 6931 16178 4372 4372 3322676767 3373084416 15112 0 0 1151495 252903424 17 0 0 844038208 55184128 218129428 1476410198 370540566 4044363286 16711749 204629079 1729
 > 20010405_235039.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20010405_235039.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-> 20010405_235039.exv   Exif.Thumbnail.Compression                   Short       1  JPEG
+> 20010405_235039.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20010405_235039.exv   Exif.Thumbnail.XResolution                   Rational    1  300
 > 20010405_235039.exv   Exif.Thumbnail.YResolution                   Rational    1  300
 > 20010405_235039.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -2759,7 +2759,7 @@ Compare image data and extracted data ------------------------------------
 > 20030925_201850.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 > 20030925_201850.exv   Exif.Iop.RelatedImageWidth                   Short       1  3072
 > 20030925_201850.exv   Exif.Iop.RelatedImageLength                  Short       1  2048
-> 20030925_201850.exv   Exif.Thumbnail.Compression                   Short       1  JPEG
+> 20030925_201850.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20030925_201850.exv   Exif.Thumbnail.XResolution                   Rational    1  180
 > 20030925_201850.exv   Exif.Thumbnail.YResolution                   Rational    1  180
 > 20030925_201850.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -2796,7 +2796,7 @@ Compare image data and extracted data ------------------------------------
 > 20001026_044550.exv   Exif.Thumbnail.ImageWidth                    Short       1  96
 > 20001026_044550.exv   Exif.Thumbnail.ImageLength                   Short       1  72
 > 20001026_044550.exv   Exif.Thumbnail.BitsPerSample                 Short       3  8 8 8
-> 20001026_044550.exv   Exif.Thumbnail.Compression                   Short       1  TIFF
+> 20001026_044550.exv   Exif.Thumbnail.Compression                   Short       1  Uncompressed
 > 20001026_044550.exv   Exif.Thumbnail.PhotometricInterpretation     Short       1  RGB
 > 20001026_044550.exv   Exif.Thumbnail.StripOffsets                  Short       1  0
 > 20001026_044550.exv   Exif.Thumbnail.SamplesPerPixel               Short       1  3
@@ -2872,7 +2872,7 @@ Compare image data and extracted data ------------------------------------
 > 20030926_111535.exv   Exif.Fujifilm.0x1200                         Short       1  0
 > 20030926_111535.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20030926_111535.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-> 20030926_111535.exv   Exif.Thumbnail.Compression                   Short       1  JPEG
+> 20030926_111535.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20030926_111535.exv   Exif.Thumbnail.Orientation                   Short       1  top, left
 > 20030926_111535.exv   Exif.Thumbnail.XResolution                   Rational    1  72
 > 20030926_111535.exv   Exif.Thumbnail.YResolution                   Rational    1  72
@@ -2939,7 +2939,7 @@ Compare image data and extracted data ------------------------------------
 > 20040316_075137.exv   Exif.Sigma.Firmware                          Ascii      19  2.0.4.1642 Release
 > 20040316_075137.exv   Exif.Sigma.Software                          Ascii      26  SIGMA PhotoPro 2.0.0.1586
 > 20040316_075137.exv   Exif.Sigma.AutoBracket                       Ascii       2   
-> 20040316_075137.exv   Exif.Thumbnail.Compression                   Short       1  JPEG
+> 20040316_075137.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20040316_075137.exv   Exif.Thumbnail.XResolution                   Rational    1  180
 > 20040316_075137.exv   Exif.Thumbnail.YResolution                   Rational    1  180
 > 20040316_075137.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -3009,7 +3009,7 @@ Compare image data and extracted data ------------------------------------
 > 20040208_093744.exv   Exif.Olympus.DataDump                        Undefined 494  1 75 2 3 2 93 0 0 0 0 255 0 0 0 25 97 18 49 0 0 5 236 0 0 57 36 0 0 1 155 0 0 10 47 0 0 22 242 0 0 5 192 0 0 24 68 0 100 0 166 0 50 0 36 0 0 0 0 0 0 0 0 0 0 54 21 0 0 0 0 53 61 22 4 0 0 0 0 0 0 0 0 0 0 0 0 16 32 0 0 57 0 14 86 0 0 0 0 0 0 0 0 0 0 0 0 0 100 3 158 0 0 0 0 255 253 255 249 255 245 255 236 255 237 255 232 255 230 0 0 34 34 34 34 17 17 17 17 1 86 3 150 3 243 1 33 2 0 1 76 2 116 2 3 1 2 96 90 0 2 3 52 0 25 0 10 0 25 0 10 0 5 0 10 0 1 0 0 0 0 0 16 0 0 0 16 0 1 1 0 0 166 1 79 1 246 2 159 3 70 1 2 1 75 2 3 2 93 0 0 21 54 21 231 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 136 136 1 0 3 254 0 59 0 0 0 0 0 0 2 226 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 6 121 6 129 6 124 6 156 208 0 3 254 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 12 57 12 88 12 103 12 177 12 88 12 6 11 190 11 10 34 68 34 128 34 238 35 119 34 83 33 125 32 132 30 98 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 119 119 119 119 33 33 33 33 33 33 19 30 17 25 41 80 32 0 224 0 0 0 0 0 0 0 0 0 128 0 20 70 12 0 0 0 34 33 0 0 34 34 33 33 2 34 1 115 1 70 2 120 0 0 0 43 0 40 0 30 1 76 2 116 34 33 34 34 0 77 0 1 0 128 0 0 0 20 0 0 
 > 20040208_093744.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20040208_093744.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-> 20040208_093744.exv   Exif.Thumbnail.Compression                   Short       1  JPEG
+> 20040208_093744.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20040208_093744.exv   Exif.Thumbnail.XResolution                   Rational    1  72
 > 20040208_093744.exv   Exif.Thumbnail.YResolution                   Rational    1  72
 > 20040208_093744.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -3089,7 +3089,7 @@ Compare image data and extracted data ------------------------------------
 > 20050218_212016.exv   Exif.Panasonic.0x0032                        Short       1  0
 > 20050218_212016.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20050218_212016.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-> 20050218_212016.exv   Exif.Thumbnail.Compression                   Short       1  JPEG
+> 20050218_212016.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20050218_212016.exv   Exif.Thumbnail.Orientation                   Short       1  top, left
 > 20050218_212016.exv   Exif.Thumbnail.XResolution                   Rational    1  72
 > 20050218_212016.exv   Exif.Thumbnail.YResolution                   Rational    1  72
@@ -3149,7 +3149,7 @@ Compare image data and extracted data ------------------------------------
 > 20050527_051833.exv   Exif.Sony.0x9008                             Undefined 200  1 0 0 0 0 134 140 83 0 219 13 188 0 232 53 222 0 134 25 6 0 0 202 63 0 183 102 83 0 81 185 153 0 197 2 15 0 2 113 102 0 0 93 117 0 68 147 15 0 78 194 136 0 101 217 41 0 39 169 234 0 0 151 217 27 91 8 70 8 156 27 169 0 175 0 135 0 166 0 175 8 164 1 178 1 111 8 191 1 146 0 17 1 227 1 146 64 220 27 109 8 65 64 246 0 241 0 159 1 12 0 255 8 222 8 215 8 232 8 235 8 208 1 151 1 174 8 177 0 202 0 69 1 7 0 89 27 116 8 107 1 237 27 101 8 61 1 88 8 26 8 119 1 90 0 235 1 75 1 175 8 178 8 138 8 211 8 242 8 212 1 107 1 157 8 123 8 137 8 14 8 68 8 254 64 51 27 129 27 53 64 101 125 141 27 42 125 197 125 52 
 > 20050527_051833.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20050527_051833.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-> 20050527_051833.exv   Exif.Thumbnail.Compression                   Short       1  JPEG
+> 20050527_051833.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20050527_051833.exv   Exif.Thumbnail.Make                          Ascii       5  SONY
 > 20050527_051833.exv   Exif.Thumbnail.Model                         Ascii       7  DSC-W7
 > 20050527_051833.exv   Exif.Thumbnail.Orientation                   Short       1  top, left
@@ -3406,7 +3406,7 @@ Compare original and inserted image data ---------------------------------
 < 20031214_000043.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 < 20031214_000043.jpg   Exif.Iop.RelatedImageWidth                   Short       1  2272
 < 20031214_000043.jpg   Exif.Iop.RelatedImageLength                  Short       1  1704
-< 20031214_000043.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+< 20031214_000043.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20031214_000043.jpg   Exif.Thumbnail.XResolution                   Rational    1  180
 < 20031214_000043.jpg   Exif.Thumbnail.YResolution                   Rational    1  180
 < 20031214_000043.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -3465,7 +3465,7 @@ Compare original and inserted image data ---------------------------------
 < 20000506_020544.jpg   Exif.Nikon1.DataDump                         Undefined 174  1 45 0 128 1 76 0 0 0 0 255 1 0 0 0 0 2 74 42 160 0 0 0 0 2 183 0 0 31 8 0 0 21 202 0 0 33 124 0 0 33 124 0 0 31 6 13 132 0 74 0 0 0 0 9 181 9 74 8 109 7 54 208 1 11 122 0 0 0 0 45 33 21 0 0 0 32 0 0 0 0 0 0 0 0 0 68 27 0 0 74 3 23 207 9 30 59 31 0 71 0 0 19 21 18 18 21 24 0 0 100 0 25 76 0 0 0 1 255 240 101 68 0 0 0 2 0 0 0 0 15 3 194 141 1 13 18 34 0 0 81 90 0 246 1 43 48 32 18 7 40 16 78 72 11 122 0 0 117 252 235 98 11 16 6 6 0 100 0 216 18 52 67 33 
 < 20000506_020544.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20000506_020544.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-< 20000506_020544.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+< 20000506_020544.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20000506_020544.jpg   Exif.Thumbnail.XResolution                   Rational    1  300
 < 20000506_020544.jpg   Exif.Thumbnail.YResolution                   Rational    1  300
 < 20000506_020544.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -3568,7 +3568,7 @@ Compare original and inserted image data ---------------------------------
 < 20040329_224245.jpg   Exif.Nikon3.VariProgram                      Ascii      16                 
 < 20040329_224245.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R03
 < 20040329_224245.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-< 20040329_224245.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+< 20040329_224245.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20040329_224245.jpg   Exif.Thumbnail.XResolution                   Rational    1  300
 < 20040329_224245.jpg   Exif.Thumbnail.YResolution                   Rational    1  300
 < 20040329_224245.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -3623,7 +3623,7 @@ Compare original and inserted image data ---------------------------------
 < 20010405_235039.jpg   Exif.Nikon2.0x0f00                           Long       30  0 0 16777216 0 2685774096 0 34833 6931 16178 4372 4372 3322676767 3373084416 15112 0 0 1151495 252903424 17 0 0 844038208 55184128 218129428 1476410198 370540566 4044363286 16711749 204629079 1729
 < 20010405_235039.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20010405_235039.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-< 20010405_235039.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+< 20010405_235039.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20010405_235039.jpg   Exif.Thumbnail.XResolution                   Rational    1  300
 < 20010405_235039.jpg   Exif.Thumbnail.YResolution                   Rational    1  300
 < 20010405_235039.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -3772,7 +3772,7 @@ Compare original and inserted image data ---------------------------------
 < 20030925_201850.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 < 20030925_201850.jpg   Exif.Iop.RelatedImageWidth                   Short       1  3072
 < 20030925_201850.jpg   Exif.Iop.RelatedImageLength                  Short       1  2048
-< 20030925_201850.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+< 20030925_201850.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20030925_201850.jpg   Exif.Thumbnail.XResolution                   Rational    1  180
 < 20030925_201850.jpg   Exif.Thumbnail.YResolution                   Rational    1  180
 < 20030925_201850.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -3809,7 +3809,7 @@ Compare original and inserted image data ---------------------------------
 < 20001026_044550.jpg   Exif.Thumbnail.ImageWidth                    Short       1  96
 < 20001026_044550.jpg   Exif.Thumbnail.ImageLength                   Short       1  72
 < 20001026_044550.jpg   Exif.Thumbnail.BitsPerSample                 Short       3  8 8 8
-< 20001026_044550.jpg   Exif.Thumbnail.Compression                   Short       1  TIFF
+< 20001026_044550.jpg   Exif.Thumbnail.Compression                   Short       1  Uncompressed
 < 20001026_044550.jpg   Exif.Thumbnail.PhotometricInterpretation     Short       1  RGB
 < 20001026_044550.jpg   Exif.Thumbnail.StripOffsets                  Short       1  0
 < 20001026_044550.jpg   Exif.Thumbnail.SamplesPerPixel               Short       1  3
@@ -3885,7 +3885,7 @@ Compare original and inserted image data ---------------------------------
 < 20030926_111535.jpg   Exif.Fujifilm.0x1200                         Short       1  0
 < 20030926_111535.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20030926_111535.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-< 20030926_111535.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+< 20030926_111535.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20030926_111535.jpg   Exif.Thumbnail.Orientation                   Short       1  top, left
 < 20030926_111535.jpg   Exif.Thumbnail.XResolution                   Rational    1  72
 < 20030926_111535.jpg   Exif.Thumbnail.YResolution                   Rational    1  72
@@ -3952,7 +3952,7 @@ Compare original and inserted image data ---------------------------------
 < 20040316_075137.jpg   Exif.Sigma.Firmware                          Ascii      19  2.0.4.1642 Release
 < 20040316_075137.jpg   Exif.Sigma.Software                          Ascii      26  SIGMA PhotoPro 2.0.0.1586
 < 20040316_075137.jpg   Exif.Sigma.AutoBracket                       Ascii       2   
-< 20040316_075137.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+< 20040316_075137.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20040316_075137.jpg   Exif.Thumbnail.XResolution                   Rational    1  180
 < 20040316_075137.jpg   Exif.Thumbnail.YResolution                   Rational    1  180
 < 20040316_075137.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -4022,7 +4022,7 @@ Compare original and inserted image data ---------------------------------
 < 20040208_093744.jpg   Exif.Olympus.DataDump                        Undefined 494  1 75 2 3 2 93 0 0 0 0 255 0 0 0 25 97 18 49 0 0 5 236 0 0 57 36 0 0 1 155 0 0 10 47 0 0 22 242 0 0 5 192 0 0 24 68 0 100 0 166 0 50 0 36 0 0 0 0 0 0 0 0 0 0 54 21 0 0 0 0 53 61 22 4 0 0 0 0 0 0 0 0 0 0 0 0 16 32 0 0 57 0 14 86 0 0 0 0 0 0 0 0 0 0 0 0 0 100 3 158 0 0 0 0 255 253 255 249 255 245 255 236 255 237 255 232 255 230 0 0 34 34 34 34 17 17 17 17 1 86 3 150 3 243 1 33 2 0 1 76 2 116 2 3 1 2 96 90 0 2 3 52 0 25 0 10 0 25 0 10 0 5 0 10 0 1 0 0 0 0 0 16 0 0 0 16 0 1 1 0 0 166 1 79 1 246 2 159 3 70 1 2 1 75 2 3 2 93 0 0 21 54 21 231 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 136 136 1 0 3 254 0 59 0 0 0 0 0 0 2 226 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 6 121 6 129 6 124 6 156 208 0 3 254 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 12 57 12 88 12 103 12 177 12 88 12 6 11 190 11 10 34 68 34 128 34 238 35 119 34 83 33 125 32 132 30 98 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 119 119 119 119 33 33 33 33 33 33 19 30 17 25 41 80 32 0 224 0 0 0 0 0 0 0 0 0 128 0 20 70 12 0 0 0 34 33 0 0 34 34 33 33 2 34 1 115 1 70 2 120 0 0 0 43 0 40 0 30 1 76 2 116 34 33 34 34 0 77 0 1 0 128 0 0 0 20 0 0 
 < 20040208_093744.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20040208_093744.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-< 20040208_093744.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+< 20040208_093744.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20040208_093744.jpg   Exif.Thumbnail.XResolution                   Rational    1  72
 < 20040208_093744.jpg   Exif.Thumbnail.YResolution                   Rational    1  72
 < 20040208_093744.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -4102,7 +4102,7 @@ Compare original and inserted image data ---------------------------------
 < 20050218_212016.jpg   Exif.Panasonic.0x0032                        Short       1  0
 < 20050218_212016.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20050218_212016.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-< 20050218_212016.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+< 20050218_212016.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20050218_212016.jpg   Exif.Thumbnail.Orientation                   Short       1  top, left
 < 20050218_212016.jpg   Exif.Thumbnail.XResolution                   Rational    1  72
 < 20050218_212016.jpg   Exif.Thumbnail.YResolution                   Rational    1  72
@@ -4162,7 +4162,7 @@ Compare original and inserted image data ---------------------------------
 < 20050527_051833.jpg   Exif.Sony.0x9008                             Undefined 200  1 0 0 0 0 134 140 83 0 219 13 188 0 232 53 222 0 134 25 6 0 0 202 63 0 183 102 83 0 81 185 153 0 197 2 15 0 2 113 102 0 0 93 117 0 68 147 15 0 78 194 136 0 101 217 41 0 39 169 234 0 0 151 217 27 91 8 70 8 156 27 169 0 175 0 135 0 166 0 175 8 164 1 178 1 111 8 191 1 146 0 17 1 227 1 146 64 220 27 109 8 65 64 246 0 241 0 159 1 12 0 255 8 222 8 215 8 232 8 235 8 208 1 151 1 174 8 177 0 202 0 69 1 7 0 89 27 116 8 107 1 237 27 101 8 61 1 88 8 26 8 119 1 90 0 235 1 75 1 175 8 178 8 138 8 211 8 242 8 212 1 107 1 157 8 123 8 137 8 14 8 68 8 254 64 51 27 129 27 53 64 101 125 141 27 42 125 197 125 52 
 < 20050527_051833.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20050527_051833.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-< 20050527_051833.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG
+< 20050527_051833.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20050527_051833.jpg   Exif.Thumbnail.Make                          Ascii       5  SONY
 < 20050527_051833.jpg   Exif.Thumbnail.Model                         Ascii       7  DSC-W7
 < 20050527_051833.jpg   Exif.Thumbnail.Orientation                   Short       1  top, left
@@ -4291,7 +4291,7 @@ Compare original and inserted image data ---------------------------------
 > 20031214_000043.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 > 20031214_000043.exv   Exif.Iop.RelatedImageWidth                   Short       1  2272
 > 20031214_000043.exv   Exif.Iop.RelatedImageLength                  Short       1  1704
-> 20031214_000043.exv   Exif.Thumbnail.Compression                   Short       1  JPEG
+> 20031214_000043.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20031214_000043.exv   Exif.Thumbnail.XResolution                   Rational    1  180
 > 20031214_000043.exv   Exif.Thumbnail.YResolution                   Rational    1  180
 > 20031214_000043.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -4350,7 +4350,7 @@ Compare original and inserted image data ---------------------------------
 > 20000506_020544.exv   Exif.Nikon1.DataDump                         Undefined 174  1 45 0 128 1 76 0 0 0 0 255 1 0 0 0 0 2 74 42 160 0 0 0 0 2 183 0 0 31 8 0 0 21 202 0 0 33 124 0 0 33 124 0 0 31 6 13 132 0 74 0 0 0 0 9 181 9 74 8 109 7 54 208 1 11 122 0 0 0 0 45 33 21 0 0 0 32 0 0 0 0 0 0 0 0 0 68 27 0 0 74 3 23 207 9 30 59 31 0 71 0 0 19 21 18 18 21 24 0 0 100 0 25 76 0 0 0 1 255 240 101 68 0 0 0 2 0 0 0 0 15 3 194 141 1 13 18 34 0 0 81 90 0 246 1 43 48 32 18 7 40 16 78 72 11 122 0 0 117 252 235 98 11 16 6 6 0 100 0 216 18 52 67 33 
 > 20000506_020544.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20000506_020544.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-> 20000506_020544.exv   Exif.Thumbnail.Compression                   Short       1  JPEG
+> 20000506_020544.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20000506_020544.exv   Exif.Thumbnail.XResolution                   Rational    1  300
 > 20000506_020544.exv   Exif.Thumbnail.YResolution                   Rational    1  300
 > 20000506_020544.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -4453,7 +4453,7 @@ Compare original and inserted image data ---------------------------------
 > 20040329_224245.exv   Exif.Nikon3.VariProgram                      Ascii      16                 
 > 20040329_224245.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R03
 > 20040329_224245.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-> 20040329_224245.exv   Exif.Thumbnail.Compression                   Short       1  JPEG
+> 20040329_224245.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20040329_224245.exv   Exif.Thumbnail.XResolution                   Rational    1  300
 > 20040329_224245.exv   Exif.Thumbnail.YResolution                   Rational    1  300
 > 20040329_224245.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -4508,7 +4508,7 @@ Compare original and inserted image data ---------------------------------
 > 20010405_235039.exv   Exif.Nikon2.0x0f00                           Long       30  0 0 16777216 0 2685774096 0 34833 6931 16178 4372 4372 3322676767 3373084416 15112 0 0 1151495 252903424 17 0 0 844038208 55184128 218129428 1476410198 370540566 4044363286 16711749 204629079 1729
 > 20010405_235039.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20010405_235039.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-> 20010405_235039.exv   Exif.Thumbnail.Compression                   Short       1  JPEG
+> 20010405_235039.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20010405_235039.exv   Exif.Thumbnail.XResolution                   Rational    1  300
 > 20010405_235039.exv   Exif.Thumbnail.YResolution                   Rational    1  300
 > 20010405_235039.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -4657,7 +4657,7 @@ Compare original and inserted image data ---------------------------------
 > 20030925_201850.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 > 20030925_201850.exv   Exif.Iop.RelatedImageWidth                   Short       1  3072
 > 20030925_201850.exv   Exif.Iop.RelatedImageLength                  Short       1  2048
-> 20030925_201850.exv   Exif.Thumbnail.Compression                   Short       1  JPEG
+> 20030925_201850.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20030925_201850.exv   Exif.Thumbnail.XResolution                   Rational    1  180
 > 20030925_201850.exv   Exif.Thumbnail.YResolution                   Rational    1  180
 > 20030925_201850.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -4694,7 +4694,7 @@ Compare original and inserted image data ---------------------------------
 > 20001026_044550.exv   Exif.Thumbnail.ImageWidth                    Short       1  96
 > 20001026_044550.exv   Exif.Thumbnail.ImageLength                   Short       1  72
 > 20001026_044550.exv   Exif.Thumbnail.BitsPerSample                 Short       3  8 8 8
-> 20001026_044550.exv   Exif.Thumbnail.Compression                   Short       1  TIFF
+> 20001026_044550.exv   Exif.Thumbnail.Compression                   Short       1  Uncompressed
 > 20001026_044550.exv   Exif.Thumbnail.PhotometricInterpretation     Short       1  RGB
 > 20001026_044550.exv   Exif.Thumbnail.StripOffsets                  Short       1  0
 > 20001026_044550.exv   Exif.Thumbnail.SamplesPerPixel               Short       1  3
@@ -4770,7 +4770,7 @@ Compare original and inserted image data ---------------------------------
 > 20030926_111535.exv   Exif.Fujifilm.0x1200                         Short       1  0
 > 20030926_111535.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20030926_111535.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-> 20030926_111535.exv   Exif.Thumbnail.Compression                   Short       1  JPEG
+> 20030926_111535.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20030926_111535.exv   Exif.Thumbnail.Orientation                   Short       1  top, left
 > 20030926_111535.exv   Exif.Thumbnail.XResolution                   Rational    1  72
 > 20030926_111535.exv   Exif.Thumbnail.YResolution                   Rational    1  72
@@ -4837,7 +4837,7 @@ Compare original and inserted image data ---------------------------------
 > 20040316_075137.exv   Exif.Sigma.Firmware                          Ascii      19  2.0.4.1642 Release
 > 20040316_075137.exv   Exif.Sigma.Software                          Ascii      26  SIGMA PhotoPro 2.0.0.1586
 > 20040316_075137.exv   Exif.Sigma.AutoBracket                       Ascii       2   
-> 20040316_075137.exv   Exif.Thumbnail.Compression                   Short       1  JPEG
+> 20040316_075137.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20040316_075137.exv   Exif.Thumbnail.XResolution                   Rational    1  180
 > 20040316_075137.exv   Exif.Thumbnail.YResolution                   Rational    1  180
 > 20040316_075137.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -4907,7 +4907,7 @@ Compare original and inserted image data ---------------------------------
 > 20040208_093744.exv   Exif.Olympus.DataDump                        Undefined 494  1 75 2 3 2 93 0 0 0 0 255 0 0 0 25 97 18 49 0 0 5 236 0 0 57 36 0 0 1 155 0 0 10 47 0 0 22 242 0 0 5 192 0 0 24 68 0 100 0 166 0 50 0 36 0 0 0 0 0 0 0 0 0 0 54 21 0 0 0 0 53 61 22 4 0 0 0 0 0 0 0 0 0 0 0 0 16 32 0 0 57 0 14 86 0 0 0 0 0 0 0 0 0 0 0 0 0 100 3 158 0 0 0 0 255 253 255 249 255 245 255 236 255 237 255 232 255 230 0 0 34 34 34 34 17 17 17 17 1 86 3 150 3 243 1 33 2 0 1 76 2 116 2 3 1 2 96 90 0 2 3 52 0 25 0 10 0 25 0 10 0 5 0 10 0 1 0 0 0 0 0 16 0 0 0 16 0 1 1 0 0 166 1 79 1 246 2 159 3 70 1 2 1 75 2 3 2 93 0 0 21 54 21 231 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 136 136 1 0 3 254 0 59 0 0 0 0 0 0 2 226 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 6 121 6 129 6 124 6 156 208 0 3 254 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 12 57 12 88 12 103 12 177 12 88 12 6 11 190 11 10 34 68 34 128 34 238 35 119 34 83 33 125 32 132 30 98 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 119 119 119 119 33 33 33 33 33 33 19 30 17 25 41 80 32 0 224 0 0 0 0 0 0 0 0 0 128 0 20 70 12 0 0 0 34 33 0 0 34 34 33 33 2 34 1 115 1 70 2 120 0 0 0 43 0 40 0 30 1 76 2 116 34 33 34 34 0 77 0 1 0 128 0 0 0 20 0 0 
 > 20040208_093744.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20040208_093744.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-> 20040208_093744.exv   Exif.Thumbnail.Compression                   Short       1  JPEG
+> 20040208_093744.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20040208_093744.exv   Exif.Thumbnail.XResolution                   Rational    1  72
 > 20040208_093744.exv   Exif.Thumbnail.YResolution                   Rational    1  72
 > 20040208_093744.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
@@ -4987,7 +4987,7 @@ Compare original and inserted image data ---------------------------------
 > 20050218_212016.exv   Exif.Panasonic.0x0032                        Short       1  0
 > 20050218_212016.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20050218_212016.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-> 20050218_212016.exv   Exif.Thumbnail.Compression                   Short       1  JPEG
+> 20050218_212016.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20050218_212016.exv   Exif.Thumbnail.Orientation                   Short       1  top, left
 > 20050218_212016.exv   Exif.Thumbnail.XResolution                   Rational    1  72
 > 20050218_212016.exv   Exif.Thumbnail.YResolution                   Rational    1  72
@@ -5047,7 +5047,7 @@ Compare original and inserted image data ---------------------------------
 > 20050527_051833.exv   Exif.Sony.0x9008                             Undefined 200  1 0 0 0 0 134 140 83 0 219 13 188 0 232 53 222 0 134 25 6 0 0 202 63 0 183 102 83 0 81 185 153 0 197 2 15 0 2 113 102 0 0 93 117 0 68 147 15 0 78 194 136 0 101 217 41 0 39 169 234 0 0 151 217 27 91 8 70 8 156 27 169 0 175 0 135 0 166 0 175 8 164 1 178 1 111 8 191 1 146 0 17 1 227 1 146 64 220 27 109 8 65 64 246 0 241 0 159 1 12 0 255 8 222 8 215 8 232 8 235 8 208 1 151 1 174 8 177 0 202 0 69 1 7 0 89 27 116 8 107 1 237 27 101 8 61 1 88 8 26 8 119 1 90 0 235 1 75 1 175 8 178 8 138 8 211 8 242 8 212 1 107 1 157 8 123 8 137 8 14 8 68 8 254 64 51 27 129 27 53 64 101 125 141 27 42 125 197 125 52 
 > 20050527_051833.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20050527_051833.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
-> 20050527_051833.exv   Exif.Thumbnail.Compression                   Short       1  JPEG
+> 20050527_051833.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20050527_051833.exv   Exif.Thumbnail.Make                          Ascii       5  SONY
 > 20050527_051833.exv   Exif.Thumbnail.Model                         Ascii       7  DSC-W7
 > 20050527_051833.exv   Exif.Thumbnail.Orientation                   Short       1  top, left

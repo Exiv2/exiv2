@@ -801,8 +801,33 @@ namespace Exiv2 {
     {
         long compression = value.toLong();
         switch (compression) {
-        case 1:  os << "TIFF"; break;
-        case 6:  os << "JPEG"; break;
+        case     1:  os << "Uncompressed"; break;
+        case     2:  os << "CCITT 1D"; break;
+        case     3:  os << "T4/Group 3 Fax"; break;
+        case     4:  os << "T6/Group 4 Fax"; break;
+        case     5:  os << "LZW"; break;
+        case     6:  os << "JPEG (old-style)"; break;
+        case     7:  os << "JPEG"; break;
+        case     8:  os << "Adobe Deflate"; break;
+        case     9:  os << "JBIG B&W"; break;
+        case    10:  os << "JBIG Color"; break;
+        case 32766:  os << "JBIG Color"; break;
+        case 32771:  os << "CCIRLEW"; break;
+        case 32773:  os << "PackBits"; break;
+        case 32809:  os << "Thunderscan"; break;
+        case 32895:  os << "IT8CTPAD"; break;
+        case 32896:  os << "IT8LW"; break;
+        case 32897:  os << "IT8MP"; break;
+        case 32898:  os << "IT8BL"; break;
+        case 32908:  os << "PixarFilm"; break;
+        case 32909:  os << "PixarLog"; break;
+        case 32946:  os << "Deflate"; break;
+        case 32947:  os << "DCS"; break;
+        case 34661:  os << "JBIG"; break;
+        case 34676:  os << "SGILog"; break;
+        case 34677:  os << "SGILog24"; break;
+        case 34712:  os << "JPEG 2000"; break;
+        case 34713:  os << "Nikon NEF Compressed"; break;
         default: os << "(" << compression << ")"; break;
         }
         return os;
@@ -812,8 +837,20 @@ namespace Exiv2 {
     {
         long photo = value.toLong();
         switch (photo) {
-        case 2:  os << "RGB"; break;
-        case 6:  os << "YCbCr"; break;
+        case     0:  os << "WhiteIsZero"; break;
+        case     1:  os << "BlackIsZero"; break;
+        case     2:  os << "RGB"; break;
+        case     3:  os << "RGB Palette"; break;
+        case     4:  os << "Transparency Mask"; break;
+        case     5:  os << "CMYK"; break;
+        case     6:  os << "YCbCr"; break;
+        case     8:  os << "CIELab"; break;
+        case     9:  os << "ICCLab"; break;
+        case    10:  os << "ITULab"; break;
+        case 32803:  os << "Color Filter Array"; break;
+        case 32844:  os << "Pixar LogL"; break;
+        case 32845:  os << "Pixar LogLuv"; break;
+        case 34892:  os << "Linear Raw"; break;
         default: os << "(" << photo << ")"; break;
         }
         return os;

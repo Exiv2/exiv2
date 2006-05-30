@@ -56,7 +56,7 @@ exiv2-gc.jpg          Exif.Iop.InteroperabilityIndex               Ascii       4
 exiv2-gc.jpg          Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 exiv2-gc.jpg          Exif.Thumbnail.ImageWidth                    Long        1  133
 exiv2-gc.jpg          Exif.Thumbnail.ImageLength                   Long        1  200
-exiv2-gc.jpg          Exif.Thumbnail.Compression                   Short       1  JPEG
+exiv2-gc.jpg          Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 exiv2-gc.jpg          Exif.Thumbnail.Orientation                   Short       1  top, left
 exiv2-gc.jpg          Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
 exiv2-gc.jpg          Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6144
