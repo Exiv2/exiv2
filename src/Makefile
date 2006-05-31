@@ -47,7 +47,8 @@ include $(top_srcdir)/config/config.mk
 # Source files
 
 # Add standalone C++ header files to this list
-CCHDR = exv_conf.h            \
+CCHDR = exiv2_version.h       \
+	exv_conf.h            \
         exv_msvc.h            \
         mn.hpp                \
         rcsid.hpp
