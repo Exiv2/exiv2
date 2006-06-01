@@ -39,6 +39,8 @@
 # include "exv_conf.h"
 #endif
 
+#include "exiv2_version.h"
+
 // + standard includes
 #include <string>
 #include <iosfwd>

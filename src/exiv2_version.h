@@ -22,7 +22,7 @@
   @file    exiv2_version.h
   @brief   Define to check the %Exiv2 version. The %Exiv2 library itself does not 
            use the defines in this file, they are meant for use by applications.
-           References: Similar versioning schemes are used in KDE, GTK and other
+           References: Similar versioning defines are used in KDE, GTK and other
            libraries. See http://apr.apache.org/versioning.html for accompanying
            guidelines.
   @version $Rev$
@@ -72,6 +72,25 @@
   is not subject to the guidelines described in the document above. Before a 1.0
   release (version 0.x.y), the API can and will be changing freely, without
   regard to the restrictions detailed in the above document.
+
+  @code
+  // Don't include the exiv2_version.h file, it is included by types.hpp
+  // Exiv2 versions before 0.10 didn't have this file and the macros
+
+  #ifndef EXIV2_CHECK_VERSION
+  # define EXIV2_CHECK_VERSION(a,b,c) (false)
+  #endif
+
+  // ...
+
+  // Check the Exiv2 version available at runtime
+  if (EXIV2_CHECK_VERSION(0,10,0)) {
+      // Available Exiv2 version is equal to or greater than requested
+  }
+  else {
+      // Installed Exiv2 version is less than requested
+  }
+  @endcode
  */
 #define EXIV2_CHECK_VERSION(major,minor,patch) \
     ( EXIV2_VERSION >= EXIV2_MAKE_VERSION(major,minor,patch) )
