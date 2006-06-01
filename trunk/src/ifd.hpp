@@ -235,7 +235,7 @@ namespace Exiv2 {
          */
         const byte* dataArea() const { return pDataArea_; }
         /*!
-          @brief Return the byte order of the entry. There should generally 
+          @brief Return the byte order of the entry. There should generally
                  not be a need for this, it is only used in special cases
                  (Minolta Makernote CameraSettings tags).
          */

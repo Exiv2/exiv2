@@ -65,7 +65,7 @@ namespace Exiv2 {
     const uint16_t Photoshop::iptc_    = 0x0404;
 
     // Todo: Generalised from JpegBase::locateIptcData without really understanding
-    //       the format (in particular the header). So it remains to be confirmed 
+    //       the format (in particular the header). So it remains to be confirmed
     //       if this also makes sense for psTag != Photoshop::iptc
     int Photoshop::locateIrb(const byte*     pPsData,
                              long            sizePsData,
@@ -492,8 +492,8 @@ namespace Exiv2 {
                 if (psData.size_ > 0 || iptcData_.count() > 0) {
                     // Set the new IPTC IRB, keeps existing IRBs but removes the
                     // IPTC block if there is no new IPTC data to write
-                    DataBuf newPsData = Photoshop::setIptcIrb(psData.pData_, 
-                                                              psData.size_, 
+                    DataBuf newPsData = Photoshop::setIptcIrb(psData.pData_,
+                                                              psData.size_,
                                                               iptcData_);
                     if (newPsData.size_ > 0) {
                         // Write APP13 marker, new size, and ps3Id
@@ -503,7 +503,7 @@ namespace Exiv2 {
                         memcpy(tmpBuf + 4, Photoshop::ps3Id_, 14);
                         if (outIo.write(tmpBuf, 18) != 18) throw Error(21);
                         if (outIo.error()) throw Error(21);
-                        
+
                         // Write new Photoshop IRB data buffer
                         if (   outIo.write(newPsData.pData_, newPsData.size_)
                                != newPsData.size_) throw Error(21);

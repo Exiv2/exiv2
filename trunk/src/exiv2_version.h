@@ -20,7 +20,7 @@
  */
 /*!
   @file    exiv2_version.h
-  @brief   Define to check the %Exiv2 version. The %Exiv2 library itself does not 
+  @brief   Define to check the %Exiv2 version. The %Exiv2 library itself does not
            use the defines in this file, they are meant for use by applications.
            References: Similar versioning defines are used in KDE, GTK and other
            libraries. See http://apr.apache.org/versioning.html for accompanying
@@ -46,7 +46,7 @@
  */
 #define EXIV2_PATCH_VERSION  (0)
 /*!
-  @brief Make an integer version number for comparison from a major, minor and 
+  @brief Make an integer version number for comparison from a major, minor and
          a patch version number.
  */
 #define EXIV2_MAKE_VERSION(major,minor,patch) \
@@ -57,7 +57,7 @@
 #define EXIV2_VERSION \
     EXIV2_MAKE_VERSION(EXIV2_MAJOR_VERSION,EXIV2_MINOR_VERSION,EXIV2_PATCH_VERSION)
 /*!
-  @brief Check the version of the %Exiv2 library. Return TRUE if the version of 
+  @brief Check the version of the %Exiv2 library. Return TRUE if the version of
          %Exiv2 is the same as or newer than the passed-in version.
 
   Versions are denoted using a standard triplet of integers:

@@ -62,7 +62,7 @@ typedef __int32          int32_t;
 
 /*!
   @brief Macro to make calls to member functions through a pointer more readable.
-         See the C++ FAQ LITE, item 
+         See the C++ FAQ LITE, item
          <a href="http://www.parashift.com/c++-faq-lite/pointers-to-members.html#faq-33.5" title="[33.5] How can I avoid syntax errors when calling a member function using a pointer-to-member-function?">[33.5] How can I avoid syntax errors when calling a member function using a pointer-to-member-function?</a>.
  */
 #define EXV_CALL_MEMBER_FN(object,ptrToMember)  ((object).*(ptrToMember))
@@ -106,7 +106,7 @@ namespace Exiv2 {
     enum IfdId { ifdIdNotSet,
                  ifd0Id, exifIfdId, gpsIfdId, iopIfdId, ifd1Id,
                  canonIfdId, canonCs1IfdId, canonCs2IfdId, canonCfIfdId,
-                 fujiIfdId, 
+                 fujiIfdId,
                  minoltaIfdId, minoltaCs5DIfdId, minoltaCs7DIfdId,
                  minoltaCsOldIfdId, minoltaCsNewIfdId,
                  nikon1IfdId, nikon2IfdId, nikon3IfdId,
@@ -315,7 +315,7 @@ namespace Exiv2 {
 
     /*!
       @brief Find an element that matches \em key in the array \em src.
-      
+
       Designed to be used with lookup tables as shown in the example below.
       Requires a %Key structure (ideally in the array) and a comparison operator
       to compare a key with an array element.  The size of the array is
@@ -327,34 +327,34 @@ namespace Exiv2 {
           int i;
           int k;
           const char* data;
-      
+
           struct Key;
           bool operator==(const Bar::Key& rhs) const;
       };
-      
+
       struct Bar::Key {
           Key(int a, int b) : i(a), k(b) {}
           int i;
           int k;
       };
-      
+
       bool Bar::operator==(const Bar::Key& key) const // definition
       {
           return i == key.i && k == key.k;
       }
-      
+
       const Bar bars[] = {
-          { 1, 1, "bar data 1" }, 
-          { 1, 2, "bar data 2" }, 
+          { 1, 1, "bar data 1" },
+          { 1, 2, "bar data 2" },
           { 1, 3, "bar data 3" }
       };
-      
+
       int main ( void ) {
           const Bar* bar = find(bars, Bar::Key(1, 3));
           if (bar) std::cout << bar->data << "\n";
           else std::cout << "Key not found.\n";
           return 0;
-      }  
+      }
       @endcode
     */
     template<typename T, typename K, int N>

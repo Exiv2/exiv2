@@ -52,8 +52,8 @@ try {
     TiffRwState::AutoPtr state(
         new TiffRwState(tiffHeader.byteOrder(), 0, createFct));
 
-    TiffReader reader(buf.pData_, 
-                      buf.size_, 
+    TiffReader reader(buf.pData_,
+                      buf.size_,
                       rootDir.get(),
                       state);
 

@@ -156,7 +156,7 @@ namespace Exiv2 {
 	//! Print Exposure Compensation setting from 5D Minolta Camera Settings makernote
         static std::ostream& printMinoltaExposureCompensation5D(std::ostream& os, const Value& value);
         //@}
-                
+
         //! @cond IGNORE
         // Public only so that we can create a static instance
         struct RegisterMn {

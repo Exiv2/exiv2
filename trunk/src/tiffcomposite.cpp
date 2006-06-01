@@ -70,7 +70,7 @@ namespace Exiv2 {
         {   6, "ImageSubIfd0" },
         {   7, "ImageSubIfd1" },
         {   8, "ImageSubIfd2" },
-        {   9, "ImageSubIfd3" },        
+        {   9, "ImageSubIfd3" },
         { 257, "Olympus"      },
         { 258, "Fujifilm"     },
         { 259, "Canon"        },
@@ -107,7 +107,7 @@ namespace Exiv2 {
 
     bool TiffStructure::operator==(const TiffStructure::Key& key) const
     {
-        return    key.e_   == extendedTag_ && key.g_ == group_ 
+        return    key.e_   == extendedTag_ && key.g_ == group_
                || Tag::all == extendedTag_ && key.g_ == group_;
     }
 
@@ -298,7 +298,7 @@ namespace Exiv2 {
                                             const TiffStructure* ts)
     {
         assert(ts);
-        return TiffComponent::AutoPtr(new TiffDataEntry(tag, 
+        return TiffComponent::AutoPtr(new TiffDataEntry(tag,
                                                         ts->group_,
                                                         0x0202,
                                                         Group::ifd1));
@@ -308,7 +308,7 @@ namespace Exiv2 {
                                             const TiffStructure* ts)
     {
         assert(ts);
-        return TiffComponent::AutoPtr(new TiffSizeEntry(tag, 
+        return TiffComponent::AutoPtr(new TiffSizeEntry(tag,
                                                         ts->group_,
                                                         0x0201,
                                                         Group::ifd1));

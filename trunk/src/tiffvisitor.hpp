@@ -20,7 +20,7 @@
  */
 /*!
   @file    tiffvisitor.hpp
-  @brief   
+  @brief
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
@@ -56,7 +56,7 @@ namespace Exiv2 {
 // class definitions
 
     /*!
-      @brief Abstract base class defining the interface for TIFF composite 
+      @brief Abstract base class defining the interface for TIFF composite
              vistors (Visitor pattern)
 
       A concrete visitor class is used as shown in the example below. Accept()
@@ -108,7 +108,7 @@ namespace Exiv2 {
          */
         virtual void visitDirectoryNext(TiffDirectory* object) {}
         /*!
-          @brief Operation to perform for a TIFF directory, at the end of the 
+          @brief Operation to perform for a TIFF directory, at the end of the
                  processing.
          */
         virtual void visitDirectoryEnd(TiffDirectory* object) {}
@@ -140,7 +140,7 @@ namespace Exiv2 {
     /*!
       @brief Search the composite for a component with \em tag and \em group.
              Return a pointer to the component or 0, if not found. The class
-             is ready for a first search after construction and can be 
+             is ready for a first search after construction and can be
              re-initialized with init().
     */
     class TiffFinder : public TiffVisitor {
@@ -148,7 +148,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor, taking the image to add the metadata to
-        TiffFinder(uint16_t tag, uint16_t group) 
+        TiffFinder(uint16_t tag, uint16_t group)
             : tag_(tag), group_(group), tiffComponent_(0) {}
         //! Virtual destructor
         virtual ~TiffFinder() {}
@@ -170,9 +170,9 @@ namespace Exiv2 {
         virtual void visitMnEntry(TiffMnEntry* object);
         //! Find tag and group in an IFD makernote
         virtual void visitIfdMakernote(TiffIfdMakernote* object);
-        //! Find tag and group in an array entry component        
+        //! Find tag and group in an array entry component
         virtual void visitArrayEntry(TiffArrayEntry* object);
-        //! Find tag and group in an array element      
+        //! Find tag and group in an array element
         virtual void visitArrayElement(TiffArrayElement* object);
 
         //! Check if \em object matches \em tag and \em group
@@ -189,7 +189,7 @@ namespace Exiv2 {
          */
         TiffComponent* result() const { return tiffComponent_; }
         //@}
-        
+
     private:
         uint16_t tag_;
         uint16_t group_;
@@ -203,11 +203,11 @@ namespace Exiv2 {
     struct TiffDecoderInfo {
         struct Key;
         /*!
-          @brief Compare a TiffDecoderInfo with a TiffDecoderInfo::Key. 
+          @brief Compare a TiffDecoderInfo with a TiffDecoderInfo::Key.
                  The two are equal if TiffDecoderInfo::make_ equals a substring
                  of the key of the same size. E.g., decoder info = "OLYMPUS",
                  key = "OLYMPUS OPTICAL CO.,LTD" (found in the image) match,
-                 the extendedTag is Tag::all or equal to the extended tag of the 
+                 the extendedTag is Tag::all or equal to the extended tag of the
                  key, and the group is equal to that of the key.
          */
         bool operator==(const Key& key) const;
@@ -245,7 +245,7 @@ namespace Exiv2 {
           @brief Constructor, taking the image to add the metadata to, the root
                  element of the composite to decode and an optional
                  threshold. Unknown tags with values larger (in bytes) than the
-                 threshold will be ignored.  Default is not to ignore any 
+                 threshold will be ignored.  Default is not to ignore any
                  tags (0).
          */
         TiffMetadataDecoder(Image* pImage,
@@ -305,8 +305,8 @@ namespace Exiv2 {
     }; // class TiffMetadataDecoder
 
     /*!
-      @brief Simple state class containing relevant state information for 
-             the TIFF reader. This is in a separate class so that the 
+      @brief Simple state class containing relevant state information for
+             the TIFF reader. This is in a separate class so that the
              reader can change state if needed (e.g., to read certain complex
              makernotes).
      */
@@ -314,12 +314,12 @@ namespace Exiv2 {
         friend class TiffReader;
     public:
         //! TiffRWState auto_ptr type
-        typedef std::auto_ptr<TiffRwState> AutoPtr;        
+        typedef std::auto_ptr<TiffRwState> AutoPtr;
 
         //! @name Creators
         //@{
         //! Constructor.
-        TiffRwState(ByteOrder byteOrder, 
+        TiffRwState(ByteOrder byteOrder,
                     uint32_t baseOffset,
                     TiffCompFactoryFct createFct =0)
             : byteOrder_(byteOrder),
@@ -330,12 +330,12 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         /*!
-          @brief Return the applicable byte order. May be different for 
+          @brief Return the applicable byte order. May be different for
                  the Makernote and the rest of the TIFF entries.
          */
         ByteOrder          byteOrder()  const { return byteOrder_; }
         /*!
-          @brief Return the base offset. 
+          @brief Return the base offset.
 
           TIFF standard format uses byte offsets which are always relative to
           the start of the TIFF file, i.e., relative to the start of the TIFF
@@ -347,8 +347,8 @@ namespace Exiv2 {
          */
         uint32_t           baseOffset() const { return baseOffset_; }
         /*!
-          @brief Return the factory function to create new TIFF components. 
-          
+          @brief Return the factory function to create new TIFF components.
+
           Different create functions may use different lookup tables, so that
           makernotes can independently use their own factory function and lookup
           table, which can be defined together with the makernote
@@ -356,7 +356,7 @@ namespace Exiv2 {
          */
         TiffCompFactoryFct createFct()  const { return createFct_; }
         //@}
-        
+
     private:
         ByteOrder byteOrder_;
         const uint32_t baseOffset_;
@@ -378,7 +378,7 @@ namespace Exiv2 {
           @param pData     Pointer to the data buffer, starting with a TIFF header.
           @param size      Number of bytes in the data buffer.
           @param pRoot     Root element of the TIFF composite.
-          @param state     State object for creation function, byteorder and 
+          @param state     State object for creation function, byteorder and
                            base offset.
          */
         TiffReader(const byte*          pData,
@@ -443,7 +443,7 @@ namespace Exiv2 {
     }; // class TiffReader
 
     /*!
-      @brief TIFF composite visitor to print the TIFF structure to an output 
+      @brief TIFF composite visitor to print the TIFF structure to an output
              stream.
     */
     class TiffPrinter : public TiffVisitor {
@@ -491,7 +491,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         //! Print a standard TIFF entry.
-        void printTiffEntry(TiffEntryBase* object, 
+        void printTiffEntry(TiffEntryBase* object,
                             const std::string& prefix ="") const;
         //! Return the current prefix
         std::string prefix() const { return prefix_; }

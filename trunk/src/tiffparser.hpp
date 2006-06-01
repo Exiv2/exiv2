@@ -56,7 +56,7 @@ namespace Exiv2 {
     class TiffCreator {
     public:
         /*!
-          @brief Create the TiffComponent for TIFF entry \em extendedTag and 
+          @brief Create the TiffComponent for TIFF entry \em extendedTag and
                  \em group based on the embedded lookup table.
 
           If a tag and group combination is not found in the table, a TiffEntry
@@ -72,7 +72,7 @@ namespace Exiv2 {
 
     /*!
       @brief Stateless parser class for data in TIFF format. Images use this
-             class to decode and encode TIFF-based data. Uses class 
+             class to decode and encode TIFF-based data. Uses class
              CreationPolicy for the creation of TIFF components.
      */
     class TiffParser {

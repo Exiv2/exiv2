@@ -57,7 +57,7 @@ namespace Exiv2 {
     }
 
     /*!
-      @brief Helper class, has methods to deal with %Photoshop "Information 
+      @brief Helper class, has methods to deal with %Photoshop "Information
              Resource Blocks" (IRBs).
      */
     struct Photoshop {
@@ -105,7 +105,7 @@ namespace Exiv2 {
           @param sizePsData Size of the IRB buffer, may be 0
           @param iptcData   Iptc data to embed, may be empty
           @return A data buffer containing the new IRB buffer, may have 0 size
-        */ 
+        */
         static DataBuf setIptcIrb(const byte*     pPsData,
                                   long            sizePsData,
                                   const IptcData& iptcData);

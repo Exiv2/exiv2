@@ -133,7 +133,7 @@ namespace Exiv2 {
         uint32_t pos = len;
         uint32_t const end = getULong(tmp + 4, bigEndian);
 
-        pos += len; 
+        pos += len;
         if (pos > end) throw Error(14);
         io_->read(tmp, len);
         if (io_->error() || io_->eof()) throw Error(14);
@@ -144,7 +144,7 @@ namespace Exiv2 {
             if (pos > end) throw Error(14);
             io_->seek(siz, BasicIo::cur);
             if (io_->error() || io_->eof()) throw Error(14);
-        
+
             pos += len;
             if (pos > end) throw Error(14);
             io_->read(tmp, len);

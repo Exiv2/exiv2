@@ -72,8 +72,8 @@ namespace Exiv2 {
     typedef TiffComponent* (*NewMnFct)(uint16_t    tag,
                                        uint16_t    group,
                                        uint16_t    mnGroup,
-                                       const byte* pData, 
-                                       uint32_t    size, 
+                                       const byte* pData,
+                                       uint32_t    size,
                                        ByteOrder   byteOrder);
 
     //! Makernote registry structure
@@ -101,14 +101,14 @@ namespace Exiv2 {
     };
 
     /*!
-      @brief TIFF makernote factory for concrete TIFF makernotes. 
+      @brief TIFF makernote factory for concrete TIFF makernotes.
      */
     class TiffMnCreator {
     public:
         /*!
           @brief Create the Makernote for camera \em make and details from
                  the makernote entry itself if needed. Return a pointer to
-                 the newly created TIFF component. Set tag and group of the 
+                 the newly created TIFF component. Set tag and group of the
                  new component to \em tag and \em group.
           @note  Ownership for the component is transferred to the caller,
                  who is responsible to delete the component. No smart pointer
@@ -135,11 +135,11 @@ namespace Exiv2 {
         //@{
         //! Virtual destructor.
         virtual ~MnHeader() {}
-        //@}        
+        //@}
         //! @name Manipulators
         //@{
         //! Read the header from a data buffer, return true if ok
-        virtual bool read(const byte* pData, 
+        virtual bool read(const byte* pData,
                           uint32_t    size,
                           ByteOrder   byteOrder) =0;
         //@}
@@ -159,7 +159,7 @@ namespace Exiv2 {
          */
         virtual ByteOrder byteOrder() const { return invalidByteOrder; }
         /*!
-          @brief Return the base offset for the makernote IFD entries relative 
+          @brief Return the base offset for the makernote IFD entries relative
                  to the start of the TIFF header.
 
           @param mnOffset Offset to the makernote from the start of the
@@ -171,7 +171,7 @@ namespace Exiv2 {
     }; // class MnHeader
 
     /*!
-      @brief Tiff IFD Makernote. This is a concrete class suitable for all 
+      @brief Tiff IFD Makernote. This is a concrete class suitable for all
              IFD makernotes.
 
              Contains a makernote header (which can be 0) and an IFD and
@@ -185,12 +185,12 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        TiffIfdMakernote(uint16_t  tag, 
-                         uint16_t  group, 
+        TiffIfdMakernote(uint16_t  tag,
+                         uint16_t  group,
                          uint16_t  mnGroup,
                          MnHeader* pHeader,
                          bool      hasNext =true)
-            : TiffComponent(tag, group), 
+            : TiffComponent(tag, group),
               pHeader_(pHeader),
               ifd_(tag, mnGroup, hasNext) {}
         //! Virtual destructor
@@ -221,8 +221,8 @@ namespace Exiv2 {
          */
         ByteOrder byteOrder() const;
         /*!
-          @brief Return the base offset for the makernote IFD entries relative 
-                 to the start of the TIFF header. The default, if there is no 
+          @brief Return the base offset for the makernote IFD entries relative
+                 to the start of the TIFF header. The default, if there is no
                  header, is 0.
 
           @param mnOffset Offset to the makernote from the start of the
@@ -243,7 +243,7 @@ namespace Exiv2 {
         // DATA
         MnHeader*     pHeader_;                 //!< Makernote header
         TiffDirectory ifd_;                     //!< Makernote IFD
-        
+
     }; // class TiffIfdMakernote
 
     //! Header of an Olympus Makernote
@@ -258,7 +258,7 @@ namespace Exiv2 {
         //@}
         //! @name Manipulators
         //@{
-        virtual bool read(const byte* pData, 
+        virtual bool read(const byte* pData,
                           uint32_t    size,
                           ByteOrder   byteOrder);
         //@}
@@ -287,8 +287,8 @@ namespace Exiv2 {
         //@}
         //! @name Manipulators
         //@{
-        virtual bool read(const byte* pData, 
-                          uint32_t    size, 
+        virtual bool read(const byte* pData,
+                          uint32_t    size,
                           ByteOrder   byteOrder);
         //@}
         //! @name Accessors
@@ -320,8 +320,8 @@ namespace Exiv2 {
         //@}
         //! @name Manipulators
         //@{
-        virtual bool read(const byte* pData, 
-                          uint32_t    size, 
+        virtual bool read(const byte* pData,
+                          uint32_t    size,
                           ByteOrder   byteOrder);
         //@}
         //! @name Accessors
@@ -350,8 +350,8 @@ namespace Exiv2 {
         //@}
         //! @name Manipulators
         //@{
-        virtual bool read(const byte* pData, 
-                          uint32_t    size, 
+        virtual bool read(const byte* pData,
+                          uint32_t    size,
                           ByteOrder   byteOrder);
         //@}
         //! @name Accessors
@@ -383,8 +383,8 @@ namespace Exiv2 {
         //@}
         //! @name Manipulators
         //@{
-        virtual bool read(const byte* pData, 
-                          uint32_t    size, 
+        virtual bool read(const byte* pData,
+                          uint32_t    size,
                           ByteOrder   byteOrder);
         //@}
         //! @name Accessors
@@ -413,8 +413,8 @@ namespace Exiv2 {
         //@}
         //! @name Manipulators
         //@{
-        virtual bool read(const byte* pData, 
-                          uint32_t    size, 
+        virtual bool read(const byte* pData,
+                          uint32_t    size,
                           ByteOrder   byteOrder);
         //@}
         //! @name Accessors
@@ -444,8 +444,8 @@ namespace Exiv2 {
         //@}
         //! @name Manipulators
         //@{
-        virtual bool read(const byte* pData, 
-                          uint32_t    size, 
+        virtual bool read(const byte* pData,
+                          uint32_t    size,
                           ByteOrder   byteOrder);
         //@}
         //! @name Accessors
@@ -470,7 +470,7 @@ namespace Exiv2 {
                               uint16_t    group,
                               uint16_t    mnGroup,
                               const byte* pData,
-                              uint32_t    size, 
+                              uint32_t    size,
                               ByteOrder   byteOrder);
 
     //! Function to create a Minolta makernote
@@ -478,7 +478,7 @@ namespace Exiv2 {
                                 uint16_t    group,
                                 uint16_t    mnGroup,
                                 const byte* pData,
-                                uint32_t    size, 
+                                uint32_t    size,
                                 ByteOrder   byteOrder);
 
     //! Function to create an Olympus makernote
@@ -486,7 +486,7 @@ namespace Exiv2 {
                                 uint16_t    group,
                                 uint16_t    mnGroup,
                                 const byte* pData,
-                                uint32_t    size, 
+                                uint32_t    size,
                                 ByteOrder   byteOrder);
 
     //! Function to create a Fujifilm makernote
@@ -494,18 +494,18 @@ namespace Exiv2 {
                              uint16_t    group,
                              uint16_t    mnGroup,
                              const byte* pData,
-                             uint32_t    size, 
+                             uint32_t    size,
                              ByteOrder   byteOrder);
 
     /*!
-      @brief Function to create a Nikon makernote. This will create the 
+      @brief Function to create a Nikon makernote. This will create the
              appropriate Nikon 1, 2 or 3 makernote, based on the arguments.
      */
     TiffComponent* newNikonMn(uint16_t    tag,
                               uint16_t    group,
                               uint16_t    mnGroup,
                               const byte* pData,
-                              uint32_t    size, 
+                              uint32_t    size,
                               ByteOrder   byteOrder);
 
     //! Function to create a Panasonic makernote
@@ -513,7 +513,7 @@ namespace Exiv2 {
                                   uint16_t    group,
                                   uint16_t    mnGroup,
                                   const byte* pData,
-                                  uint32_t    size, 
+                                  uint32_t    size,
                                   ByteOrder   byteOrder);
 
     //! Function to create a Sigma makernote
@@ -521,7 +521,7 @@ namespace Exiv2 {
                               uint16_t    group,
                               uint16_t    mnGroup,
                               const byte* pData,
-                              uint32_t    size, 
+                              uint32_t    size,
                               ByteOrder   byteOrder);
 
     //! Function to create a Sony makernote
@@ -529,7 +529,7 @@ namespace Exiv2 {
                              uint16_t    group,
                              uint16_t    mnGroup,
                              const byte* pData,
-                             uint32_t    size, 
+                             uint32_t    size,
                              ByteOrder   byteOrder);
 
 }                                       // namespace Exiv2

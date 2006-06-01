@@ -210,10 +210,10 @@ namespace Exiv2 {
             switch (focusPoint) {
             // Could use array nikonFokuspoints
             case 0:
-            case 1: 
-            case 2: 
-            case 3: 
-            case 4: 
+            case 1:
+            case 2:
+            case 3:
+            case 4:
                 os << nikonFocuspoints[focusPoint];
                 break;
             default:
@@ -650,7 +650,7 @@ namespace Exiv2 {
             unsigned focuspoint = value.toLong(1);
             unsigned focusused = (value.toLong(2) << 8) + value.toLong(3);
             enum {standard, wide} combination = standard;
-            const unsigned focuspoints =   sizeof(nikonFocuspoints) 
+            const unsigned focuspoints =   sizeof(nikonFocuspoints)
                                          / sizeof(nikonFocuspoints[0]);
 
             if (focusmetering == 0 && focuspoint == 0 && focusused == 0) {
@@ -692,7 +692,7 @@ namespace Exiv2 {
             if (focusused == 0)
                 os << sep << " none";
             else if (focusused != 1U<<focuspoint) {
-                // selected point was not the actually used one 
+                // selected point was not the actually used one
                 // (Roger Larsson: my interpretation, verify)
                 os << sep;
                 for (unsigned fpid=0; fpid<focuspoints; fpid++)
