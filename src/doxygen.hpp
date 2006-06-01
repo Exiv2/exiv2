@@ -19,7 +19,7 @@
   The %Exiv2 library provides
   - full read and write access to the Exif and Iptc metadata of an image through
     %Exiv2 keys and standard C++ iterators
-  - a smart Iptc implementation that does not effect data that programs like
+  - a smart Iptc implementation that does not affect data that programs like
     Photoshop store in the same image segment
   - Exif <A HREF="makernote.html">MakerNote</A> support:
     - %MakerNote tags can be accessed just like any other Exif metadata
