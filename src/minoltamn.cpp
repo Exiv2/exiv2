@@ -88,7 +88,7 @@ namespace Exiv2 {
     //! Lookup table to translate Minolta Lens id values to readable labels
     extern const TagDetails minoltaLensID[] = {
         { 1,     "AF80-200mm F2.8G"                                                           },
-        { 2,     "AF28-70mm F2.8G"                                                            }, 
+        { 2,     "AF28-70mm F2.8G"                                                            },
         { 6,     "AF24-85mm F3.5-4.5"                                                         },
         { 7,     "AF100-400mm F4.5-6.7(D)"                                                    },
         { 8,     "AF70-210mm F4.5-5.6"                                                        },
@@ -103,42 +103,42 @@ namespace Exiv2 {
         { 25,    "AF100-300mm F4.5-5.6(D)"                                                    },
         { 27,    "AF85mm F1.4G"                                                               },
         { 28,    "AF100mm F2.8 Macro(D)"                                                      },
-        { 29,    "AF75-300mm F4.5-5.6(D)"                                                     }, 
-        { 30,    "AF28-80mm F3.5-5.6(D)"                                                      }, 
-        { 31,    "AF50mm F2.8 Macro(D) or AF50mm F3.5 Macro"                                  }, 
-        { 32,    "AF100-400mm F4.5-6.7(D) x1.5"                                               }, 
-        { 33,    "AF70-200mm F2.8G SSM"                                                       }, 
-        { 35,    "AF85mm F1.4G(D) Limited"                                                    }, 
-        { 38,    "AF17-35mm F2.8-4(D)"                                                        }, 
-        { 39,    "AF28-75mm F2.8(D)"                                                          }, 
+        { 29,    "AF75-300mm F4.5-5.6(D)"                                                     },
+        { 30,    "AF28-80mm F3.5-5.6(D)"                                                      },
+        { 31,    "AF50mm F2.8 Macro(D) or AF50mm F3.5 Macro"                                  },
+        { 32,    "AF100-400mm F4.5-6.7(D) x1.5"                                               },
+        { 33,    "AF70-200mm F2.8G SSM"                                                       },
+        { 35,    "AF85mm F1.4G(D) Limited"                                                    },
+        { 38,    "AF17-35mm F2.8-4(D)"                                                        },
+        { 39,    "AF28-75mm F2.8(D)"                                                          },
         { 40,    "AFDT18-70mm F3.5-5.6(D)"                                                    },
         { 41,    "TAMRON Di II LD 11-18mm F4-5.6"                                             },
         { 128,   "TAMRON 18-200, 28-300 or 80-300mm F3.5-6.3"                                 },
-        { 25501, "AF50mm F1.7"                                                                }, 
-        { 25521, "TOKINA 19-35mm F3.5-4.5 or TOKINA 28-70mm F2.8 AT-X"                        }, 
-        { 25541, "AF35-105mm F3.5-4.5"                                                        }, 
-        { 25551, "AF70-210mm F4 Macro or SIGMA 70-210mm F4-5.6 APO"                           }, 
-        { 25581, "AF24-50mm F4"                                                               }, 
-        { 25611, "SIGMA 70-300mm F4-5.6 or SIGMA 300mm F4 APO Macro"                          }, 
-        { 25621, "AF50mm F1.4 NEW"                                                            }, 
-        { 25631, "AF300mm F2.8G"                                                              }, 
+        { 25501, "AF50mm F1.7"                                                                },
+        { 25521, "TOKINA 19-35mm F3.5-4.5 or TOKINA 28-70mm F2.8 AT-X"                        },
+        { 25541, "AF35-105mm F3.5-4.5"                                                        },
+        { 25551, "AF70-210mm F4 Macro or SIGMA 70-210mm F4-5.6 APO"                           },
+        { 25581, "AF24-50mm F4"                                                               },
+        { 25611, "SIGMA 70-300mm F4-5.6 or SIGMA 300mm F4 APO Macro"                          },
+        { 25621, "AF50mm F1.4 NEW"                                                            },
+        { 25631, "AF300mm F2.8G"                                                              },
         { 25641, "AF50mm F2.8 Macro"                                                          },
-        { 25661, "AF24mm F2.8"                                                                }, 
-        { 25721, "AF500mm F8 Reflex"                                                          }, 
-        { 25781, "AF16mm F2.8 Fisheye or SIGMA 8mm F4 Fisheye"                                }, 
-        { 25791, "AF20mm F2.8"                                                                }, 
-        { 25811, "AF100mm F2.8 Macro(D) or TAMRON 90mm F2.8 Macro or SIGMA 180mm F5.6 Macro"  }, 
-        { 25858, "TAMRON 24-135mm F3.5-5.6"                                                   }, 
-        { 25891, "TOKINA 80-200mm F2.8"                                                       }, 
-        { 25921, "AF85mm F1.4G(D)"                                                            }, 
-        { 25931, "AF200mm F2.8G"                                                              }, 
-        { 25961, "AF28mm F2"                                                                  }, 
-        { 25981, "AF100mm F2"                                                                 }, 
+        { 25661, "AF24mm F2.8"                                                                },
+        { 25721, "AF500mm F8 Reflex"                                                          },
+        { 25781, "AF16mm F2.8 Fisheye or SIGMA 8mm F4 Fisheye"                                },
+        { 25791, "AF20mm F2.8"                                                                },
+        { 25811, "AF100mm F2.8 Macro(D) or TAMRON 90mm F2.8 Macro or SIGMA 180mm F5.6 Macro"  },
+        { 25858, "TAMRON 24-135mm F3.5-5.6"                                                   },
+        { 25891, "TOKINA 80-200mm F2.8"                                                       },
+        { 25921, "AF85mm F1.4G(D)"                                                            },
+        { 25931, "AF200mm F2.8G"                                                              },
+        { 25961, "AF28mm F2"                                                                  },
+        { 25981, "AF100mm F2"                                                                 },
         { 26061, "AF100-300mm F4.5-5.6(D) or SIGMA 105mm F2.8 Macro EX-DG"                    },
-        { 26081, "AF300mm F2.8G"                                                              }, 
-        { 26121, "AF200mm F2.8G(D)"                                                           }, 
-        { 26131, "AF50mm F1.7"                                                                }, 
-        { 26241, "AF35-80mm F4-5.6"                                                           }, 
+        { 26081, "AF300mm F2.8G"                                                              },
+        { 26121, "AF200mm F2.8G(D)"                                                           },
+        { 26131, "AF50mm F1.7"                                                                },
+        { 26241, "AF35-80mm F4-5.6"                                                           },
         { 45741, "AF200mm F2.8G x2 or TOKINA 300mm F2.8 x2"                                   }
     };
 
@@ -155,13 +155,13 @@ namespace Exiv2 {
         TagInfo(0x0089, "ThumbnailLength", "Thumbnail Length", "Size of the thumbnail", minoltaIfdId, makerTags, unsignedLong, printValue),
         TagInfo(0x0101, "ColorMode", "Color Mode", "Color mode", minoltaIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaColorMode)),
         TagInfo(0x0102, "Quality", "Image Quality", "Image quality", minoltaIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaImageQuality)),
-        
+
         // TODO: Tag 0x0103 : quality or image size (see ExifTool doc).
 
         TagInfo(0x0107, "ImageStabilization", "Image Stabilization", "Image stabilization", minoltaIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaImageStabilization)),
         TagInfo(0x010a, "ZoneMatching", "Zone Matching", "Zone matching", minoltaIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaZoneMatching)),
-        TagInfo(0x010b, "ColorTemperature", "Color Temperature", "Color temperature", minoltaIfdId, makerTags, unsignedLong, printValue),    
-        TagInfo(0x010c, "LensID", "Lens ID", "Lens ID", minoltaIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaLensID)),    
+        TagInfo(0x010b, "ColorTemperature", "Color Temperature", "Color temperature", minoltaIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x010c, "LensID", "Lens ID", "Lens ID", minoltaIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaLensID)),
         TagInfo(0x0114, "CameraSettings5D", "Camera Settings (5D)", "Camera Settings (for Dynax 5D model)", minoltaIfdId, makerTags, undefined, printValue),
         TagInfo(0x0e00, "PIM_IFD", "PIM IFD", "PIM information", minoltaIfdId, makerTags, undefined, printValue),
         TagInfo(0x0f00, "CameraSettingsZ1", "Camera Settings (Z1)", "Camera Settings (for Z1, DImage X, and F100 models)", minoltaIfdId, makerTags, undefined, printValue),
@@ -187,7 +187,7 @@ namespace Exiv2 {
         { 2, "Rear flash sync"   },
         { 3, "Wireless"          }
     };
-    
+
     //! Lookup table to translate Minolta Std camera settings white balance values to readable labels
     extern const TagDetails minoltaWhiteBalanceStd[] = {
         { 0,  "Auto"          },
@@ -348,7 +348,7 @@ namespace Exiv2 {
     //! Lookup table to translate Minolta Std camera settings internal flash values to readable labels
     extern const TagDetails minoltaInternalFlashStd[] = {
         { 0, "Did not fire" },
-        { 1, "Fired"        } 
+        { 1, "Fired"        }
     };
 
     //! Lookup table to translate Minolta Std camera settings wide focus zone values to readable labels
@@ -405,28 +405,28 @@ namespace Exiv2 {
     std::ostream& MinoltaMakerNote::printMinoltaExposureSpeedStd(std::ostream& os, const Value& value)
     {
         // From the PHP JPEG Metadata Toolkit
-        os << (value.toLong()/8)-1; 
+        os << (value.toLong()/8)-1;
         return os;
     }
 
     std::ostream& MinoltaMakerNote::printMinoltaExposureTimeStd(std::ostream& os, const Value& value)
     {
         // From the PHP JPEG Metadata Toolkit
-        os << (value.toLong()/8)-6; 
+        os << (value.toLong()/8)-6;
         return os;
     }
 
     std::ostream& MinoltaMakerNote::printMinoltaFNumberStd(std::ostream& os, const Value& value)
     {
         // From the PHP JPEG Metadata Toolkit
-        os << (value.toLong()/8)-1; 
+        os << (value.toLong()/8)-1;
         return os;
     }
 
     std::ostream& MinoltaMakerNote::printMinoltaExposureCompensationStd(std::ostream& os, const Value& value)
     {
         // From the PHP JPEG Metadata Toolkit
-        os << value.toLong()/256;  
+        os << value.toLong()/256;
         return os;
     }
 
@@ -441,17 +441,17 @@ namespace Exiv2 {
     {
         // From the PHP JPEG Metadata Toolkit
         os << value.toLong() / 65536 << ":" << std::right << std::setw(2) << std::setfill('0')
-           << (value.toLong() - value.toLong() / 65536 * 65536) / 256 << ":" 
-           << std::right << std::setw(2) << std::setfill('0') << value.toLong() % 256;  
+           << (value.toLong() - value.toLong() / 65536 * 65536) / 256 << ":"
+           << std::right << std::setw(2) << std::setfill('0') << value.toLong() % 256;
         return os;
     }
 
     std::ostream& MinoltaMakerNote::printMinoltaTimeStd(std::ostream& os, const Value& value)
     {
         // From the PHP JPEG Metadata Toolkit
-        os << std::right << std::setw(2) << std::setfill('0') << value.toLong() / 65536 
+        os << std::right << std::setw(2) << std::setfill('0') << value.toLong() / 65536
            << ":" << std::right << std::setw(2) << std::setfill('0')
-           << (value.toLong() - value.toLong() / 65536 * 65536) / 256 << ":" 
+           << (value.toLong() - value.toLong() / 65536 * 65536) / 256 << ":"
            << std::right << std::setw(2) << std::setfill('0') << value.toLong() % 256;
         return os;
     }
@@ -459,21 +459,21 @@ namespace Exiv2 {
     std::ostream& MinoltaMakerNote::printMinoltaFlashExposureCompStd(std::ostream& os, const Value& value)
     {
         // From the PHP JPEG Metadata Toolkit
-        os << (value.toLong()-6)/3;  
+        os << (value.toLong()-6)/3;
         return os;
     }
 
     std::ostream& MinoltaMakerNote::printMinoltaWhiteBalanceStd(std::ostream& os, const Value& value)
     {
         // From the PHP JPEG Metadata Toolkit
-        os << value.toLong()/256;  
+        os << value.toLong()/256;
         return os;
     }
 
     std::ostream& MinoltaMakerNote::printMinoltaBrightnessStd(std::ostream& os, const Value& value)
     {
         // From the PHP JPEG Metadata Toolkit
-        os << (value.toLong()/8)-6;  
+        os << (value.toLong()/8)-6;
         return os;
     }
 
@@ -1167,7 +1167,7 @@ namespace Exiv2 {
 // *****************************************************************************
 // free functions
 
-    MakerNote::AutoPtr createMinoltaMakerNote(bool alloc, const byte* /*buf*/, long /*len*/, 
+    MakerNote::AutoPtr createMinoltaMakerNote(bool alloc, const byte* /*buf*/, long /*len*/,
                                               ByteOrder /*byteOrder*/, long /*offset*/)
     {
         return MakerNote::AutoPtr(new MinoltaMakerNote(alloc));

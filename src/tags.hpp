@@ -167,7 +167,7 @@ namespace Exiv2 {
          */
         static std::string tagName(uint16_t tag, IfdId ifdId);
         /*!
-          @brief Return the title (label) of the tag. 
+          @brief Return the title (label) of the tag.
                  (Deprecated, use tagLabel() instead.)
 
           @param tag The tag

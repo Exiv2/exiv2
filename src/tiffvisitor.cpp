@@ -136,7 +136,7 @@ namespace Exiv2 {
     TiffMetadataDecoder::TiffMetadataDecoder(Image* pImage,
                                              TiffComponent* const pRoot,
                                              uint32_t threshold)
-        : pImage_(pImage), pRoot_(pRoot), threshold_(threshold) 
+        : pImage_(pImage), pRoot_(pRoot), threshold_(threshold)
     {
         // Find camera make
         TiffFinder finder(0x010f, Group::ifd0);
@@ -217,7 +217,7 @@ namespace Exiv2 {
                       << std::setfill('0') << std::hex << object->tag()
                       << "\n";
 #endif
-            // Todo: ExifKey should have an appropriate c'tor, it should not be 
+            // Todo: ExifKey should have an appropriate c'tor, it should not be
             //       necessary to use groupName here
             ExifKey key(object->tag(), object->groupName());
             setExifTag(key, object->pValue());
@@ -236,9 +236,9 @@ namespace Exiv2 {
         i = groupType_.find(object->group());
         if (i == groupType_.end() || (i->second & 1) == 1) return;
 
-        // Todo: ExifKey should have an appropriate c'tor, it should not be 
+        // Todo: ExifKey should have an appropriate c'tor, it should not be
         //       necessary to use groupName here
-        ExifKey key(object->tag(), tiffGroupName(Group::ifd0));        
+        ExifKey key(object->tag(), tiffGroupName(Group::ifd0));
         setExifTag(key, object->pValue());
 
     }
@@ -252,7 +252,7 @@ namespace Exiv2 {
             groupType_[object->group()] = object->pValue()->toLong();
         }
 
-        const TiffDecoderInfo* td = find(tiffDecoderInfo_, 
+        const TiffDecoderInfo* td = find(tiffDecoderInfo_,
             TiffDecoderInfo::Key(make_, object->tag(), object->group()));
         if (td) {
             // skip decoding if td->decoderFct_ == 0
@@ -262,8 +262,8 @@ namespace Exiv2 {
             return;
         }
         assert(pImage_ != 0);
-        // "Normal" tag has low priority: only decode if it doesn't exist yet. 
-        // Todo: ExifKey should have an appropriate c'tor, it should not be 
+        // "Normal" tag has low priority: only decode if it doesn't exist yet.
+        // Todo: ExifKey should have an appropriate c'tor, it should not be
         //       necessary to use groupName here
         ExifKey key(object->tag(), object->groupName());
         // Todo: Too much searching here, optimize when threshold goes.
@@ -281,7 +281,7 @@ namespace Exiv2 {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: "
                       << "Size " << pValue->size() << " of " << key.key()
-                      << " exceeds " << threshold_ 
+                      << " exceeds " << threshold_
                       << " bytes limit. Not decoded.\n";
 #endif
             return;
@@ -341,7 +341,7 @@ namespace Exiv2 {
     {
         assert(object != 0);
 
-        os_ << prefix() << object->groupName() << " directory with " 
+        os_ << prefix() << object->groupName() << " directory with "
         // cast to make MSVC happy
            << std::dec << static_cast<unsigned int>(object->components_.size());
         if (object->components_.size() == 1) os_ << " entry:\n";
@@ -355,7 +355,7 @@ namespace Exiv2 {
         decIndent();
         if (object->hasNext()) {
             if (object->pNext_) os_ << prefix() << "Next directory:\n";
-            else os_ << prefix() << "No next directory\n";        
+            else os_ << prefix() << "No next directory\n";
         }
     } // TiffPrinter::visitDirectoryNext
 
@@ -378,7 +378,7 @@ namespace Exiv2 {
 
     void TiffPrinter::visitIfdMakernote(TiffIfdMakernote* object)
     {
-        // Nothing to do        
+        // Nothing to do
     } // TiffPrinter::visitIfdMakernote
 
     void TiffPrinter::printTiffEntry(TiffEntryBase* object,
@@ -417,7 +417,7 @@ namespace Exiv2 {
 
     void TiffPrinter::visitArrayElement(TiffArrayElement* object)
     {
-        printTiffEntry(object, prefix());        
+        printTiffEntry(object, prefix());
     } // TiffPrinter::visitArrayElement
 
     TiffReader::TiffReader(const byte*    pData,
@@ -454,7 +454,7 @@ namespace Exiv2 {
             // 0 for create function indicates 'no change'
             if (state->createFct_ == 0) state->createFct_ = pState_->createFct_;
             // invalidByteOrder indicates 'no change'
-            if (state->byteOrder_ == invalidByteOrder) state->byteOrder_ = pState_->byteOrder_; 
+            if (state->byteOrder_ == invalidByteOrder) state->byteOrder_ = pState_->byteOrder_;
             pState_ = state.release();
         }
     }
@@ -464,14 +464,14 @@ namespace Exiv2 {
         assert(pState_);
         return pState_->byteOrder_;
     }
-     
+
     uint32_t TiffReader::baseOffset() const
     {
         assert(pState_);
         return pState_->baseOffset_;
     }
 
-    TiffComponent::AutoPtr TiffReader::create(uint32_t extendedTag, 
+    TiffComponent::AutoPtr TiffReader::create(uint32_t extendedTag,
                                               uint16_t group) const
     {
         assert(pState_);
@@ -630,7 +630,7 @@ namespace Exiv2 {
                     return;
                 }
                 // If there are multiple dirs, group is incremented for each
-                TiffComponent::AutoPtr td(new TiffDirectory(object->tag(), 
+                TiffComponent::AutoPtr td(new TiffDirectory(object->tag(),
                                                             object->newGroup_ + i));
                 td->setStart(pData_ + baseOffset() + offset);
                 object->addChild(td);
@@ -661,7 +661,7 @@ namespace Exiv2 {
         if (te && te->pValue()) {
             make = te->pValue()->toString();
             // create concrete makernote, based on make and makernote contents
-            object->mn_ = TiffMnCreator::create(object->tag(), 
+            object->mn_ = TiffMnCreator::create(object->tag(),
                                                 object->mnGroup_,
                                                 make,
                                                 object->pData(),
@@ -676,12 +676,12 @@ namespace Exiv2 {
     {
         assert(object != 0);
 
-        if (!object->readHeader(object->start(), 
-                                static_cast<uint32_t>(pLast_ - object->start()), 
+        if (!object->readHeader(object->start(),
+                                static_cast<uint32_t>(pLast_ - object->start()),
                                 byteOrder())) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Error: Failed to read " 
-                      << object->ifd_.groupName() 
+            std::cerr << "Error: Failed to read "
+                      << object->ifd_.groupName()
                       << " IFD Makernote header.\n";
 #ifdef DEBUG
             if (static_cast<uint32_t>(pLast_ - object->start()) >= 16) {
@@ -816,8 +816,8 @@ namespace Exiv2 {
         object->pData_ = p;
         Value::AutoPtr v = Value::create(object->typeId());
         if (v.get()) {
-            ByteOrder b = 
-                object->elByteOrder() == invalidByteOrder ? 
+            ByteOrder b =
+                object->elByteOrder() == invalidByteOrder ?
                 byteOrder() : object->elByteOrder();
             v->read(object->pData(), object->size(), b);
             object->pValue_ = v.release();

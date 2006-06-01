@@ -58,7 +58,7 @@
 
   @section supp Support
 
-  <p>Please write to the 
+  <p>Please write to the
   <a title="Exiv2 forum" href="http://uk.groups.yahoo.com/group/exiv2">Yahoo! group for Exiv2 help and discussions</a>.</p>
   <p><a title="Join the Exiv2 forum" href="http://uk.groups.yahoo.com/group/exiv2/join">Join the group</a> to post and receive messages or use <em><a title="Post to the Exiv2 forum" href="http://uk.groups.yahoo.com/group/exiv2/post">exiv2user/password</a></em> to post anonymously. Bug reports can be submitted directly to the
 <a title="Issue tracker" href="http://dev.robotbattle.com/bugs/main_page.php"

@@ -1069,7 +1069,7 @@ namespace Exiv2 {
                 if (md->sizeDataArea() == 0) {
                     DataBuf buf(md->size());
                     // Hack: Use byte order from the entry if there is one
-                    md->copy(buf.pData_, entry->byteOrder() == invalidByteOrder 
+                    md->copy(buf.pData_, entry->byteOrder() == invalidByteOrder
                              ? byteOrder : entry->byteOrder());
                     entry->setValue(static_cast<uint16_t>(md->typeId()),
                                     md->count(),

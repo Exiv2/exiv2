@@ -174,7 +174,7 @@ namespace Exiv2 {
         virtual std::string key() const =0;
         //! Return the name of the tag (which is also the third part of the key)
         virtual std::string tagName() const =0;
-        //! Return a label for the tag 	 
+        //! Return a label for the tag 	
         virtual std::string tagLabel() const =0;
         //! Return the tag
         virtual uint16_t tag() const =0;

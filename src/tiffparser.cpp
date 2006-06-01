@@ -55,7 +55,7 @@ EXIV2_RCSID("@(#) $Id$");
    + Review boundary checking, is it better to check the offsets?
    + Define and implement consistent error handling for recursive hierarchy
    + Make TiffImage a template StandardImage, which can be parametrized with
-     a parser and the necessary checking functions to cover all types of 
+     a parser and the necessary checking functions to cover all types of
      images which need to be loaded completely.
    + TiffComponent: should it have end() and setEnd() or pData and size?
    + Can NewTiffCompFct and TiffCompFactoryFct be combined?
@@ -87,7 +87,7 @@ namespace Exiv2 {
       Makernote structures) and determines the corresponding Exiv2 TIFF
       components. The key of the table consists of the first two attributes,
       (extended) tag and group. Tag is the TIFF tag or one of a few extended
-      tags, group identifies the IFD or any other composite TIFF component. 
+      tags, group identifies the IFD or any other composite TIFF component.
       Each entry of the table defines for a particular tag and group
       combination, which create function is used and what the group of the new
       component is.

@@ -590,14 +590,14 @@ namespace Action {
                 continue;
             }
             if (manyFiles) {
-                std::cout << std::setfill(' ') << std::left << std::setw(20) 
+                std::cout << std::setfill(' ') << std::left << std::setw(20)
                           << path_ << "  ";
             }
             bool first = true;
             if (Params::instance().printItems_ & Params::prTag) {
                 if (!first) std::cout << " ";
                 first = false;
-                std::cout << "0x" << std::setw(4) << std::setfill('0') 
+                std::cout << "0x" << std::setw(4) << std::setfill('0')
                           << std::right << std::hex
                           << md->tag();
             }
@@ -648,7 +648,7 @@ namespace Action {
             if (Params::instance().printItems_ & Params::prValue) {
                 if (!first) std::cout << "  ";
                 first = false;
-                if (   Params::instance().binary_ 
+                if (   Params::instance().binary_
                     && md->typeId() == Exiv2::undefined
                     && md->size() > 100) {
                     std::cout << "(Binary value suppressed)" << std::endl;
@@ -659,7 +659,7 @@ namespace Action {
             if (Params::instance().printItems_ & Params::prTrans) {
                 if (!first) std::cout << "  ";
                 first = false;
-                if (   Params::instance().binary_ 
+                if (   Params::instance().binary_
                     && md->typeId() == Exiv2::undefined
                     && md->size() > 100) {
                     std::cout << "(Binary value suppressed)" << std::endl;
@@ -670,7 +670,7 @@ namespace Action {
             if (Params::instance().printItems_ & Params::prHex) {
                 if (!first) std::cout << std::endl;
                 first = false;
-                if (   Params::instance().binary_ 
+                if (   Params::instance().binary_
                     && md->typeId() == Exiv2::undefined
                     && md->size() > 100) {
                     std::cout << "(Binary value suppressed)" << std::endl;

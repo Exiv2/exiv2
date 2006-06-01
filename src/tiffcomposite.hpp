@@ -20,7 +20,7 @@
  */
 /*!
   @file    tiffcomposite.hpp
-  @brief   
+  @brief
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
@@ -97,7 +97,7 @@ namespace Exiv2 {
              (Composite pattern).  Both TIFF directories as well as entries
              implement this interface.  A component can be uniquely identified
              by a tag, group tupel.  This class is implemented as a NVI
-             (Non-Virtual Interface) and it has an interface for visitors 
+             (Non-Virtual Interface) and it has an interface for visitors
              (Visitor pattern).
      */
     class TiffComponent {
@@ -240,7 +240,7 @@ namespace Exiv2 {
         //! Return the number of components in this entry
         uint32_t count()         const { return count_; }
         /*!
-          Return the offset to the data area relative to the base for 
+          Return the offset to the data area relative to the base for
           the component (usually the start of the TIFF header)
          */
         uint32_t offset()        const { return offset_; }
@@ -293,8 +293,8 @@ namespace Exiv2 {
       @brief A standard TIFF IFD entry consisting of a value which is an offset
              to a data area and the data area. The size of the data area is
              provided in a related TiffSizeEntry, tag and group of which are set
-             in the constructor. This component is used, e.g., for 
-             \em Exif.Thumbnail.JPEGInterchangeFormat for which the size is 
+             in the constructor. This component is used, e.g., for
+             \em Exif.Thumbnail.JPEGInterchangeFormat for which the size is
              provided in \em Exif.Thumbnail.JPEGInterchangeFormatLength.
      */
     class TiffDataEntry : public TiffEntryBase {
@@ -330,9 +330,9 @@ namespace Exiv2 {
     }; // class TiffDataEntry
 
     /*!
-      @brief A TIFF IFD entry containing the size of a data area of a related 
-             TiffDataEntry. This component is used, e.g. for 
-             \em Exif.Thumbnail.JPEGInterchangeFormatLength, which contains the 
+      @brief A TIFF IFD entry containing the size of a data area of a related
+             TiffDataEntry. This component is used, e.g. for
+             \em Exif.Thumbnail.JPEGInterchangeFormatLength, which contains the
              size of \em Exif.Thumbnail.JPEGInterchangeFormat.
      */
     class TiffSizeEntry : public TiffEntryBase {
@@ -478,8 +478,8 @@ namespace Exiv2 {
     }; // class TiffMnEntry
 
     /*!
-      @brief Composite to model an array of tags, each consisting of one 
-             unsigned short value. Canon and Minolta makernotes use such tags. 
+      @brief Composite to model an array of tags, each consisting of one
+             unsigned short value. Canon and Minolta makernotes use such tags.
              The elements of this component are usually of type
              TiffArrayElement.
      */
@@ -488,12 +488,12 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        TiffArrayEntry(uint16_t tag, 
-                       uint16_t group, 
+        TiffArrayEntry(uint16_t tag,
+                       uint16_t group,
                        uint16_t elGroup,
                        uint16_t elSize)
-            : TiffEntryBase(tag, group), 
-              elSize_(elSize), 
+            : TiffEntryBase(tag, group),
+              elSize_(elSize),
               elGroup_(elGroup) {}
         //! Virtual destructor
         virtual ~TiffArrayEntry();
@@ -523,7 +523,7 @@ namespace Exiv2 {
 
     /*!
       @brief Element of a TiffArrayEntry. The value is exactly one unsigned
-             short component. Canon and Minolta makernotes use arrays of 
+             short component. Canon and Minolta makernotes use arrays of
              such elements.
      */
     class TiffArrayElement : public TiffEntryBase {
@@ -531,12 +531,12 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor
-        TiffArrayElement(uint16_t  tag, 
+        TiffArrayElement(uint16_t  tag,
                          uint16_t  group,
-                         TypeId    elTypeId, 
-                         ByteOrder elByteOrder) 
+                         TypeId    elTypeId,
+                         ByteOrder elByteOrder)
             : TiffEntryBase(tag, group),
-              elTypeId_(elTypeId), 
+              elTypeId_(elTypeId),
               elByteOrder_(elByteOrder) {}
         //! Virtual destructor.
         virtual ~TiffArrayElement() {}
@@ -557,7 +557,7 @@ namespace Exiv2 {
     private:
         // DATA
         TypeId    elTypeId_;      //!< Type of the element
-        ByteOrder elByteOrder_;   //!< Byte order to read/write the element 
+        ByteOrder elByteOrder_;   //!< Byte order to read/write the element
 
     }; // class TiffArrayElement
 

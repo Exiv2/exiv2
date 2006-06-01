@@ -404,7 +404,7 @@ namespace Exiv2 {
 
     const char* ExifTags::tagTitle(uint16_t tag, IfdId ifdId)
     {
-        return tagLabel(tag, ifdId); 
+        return tagLabel(tag, ifdId);
     } // ExifTags::tagTitle
 
     const char* ExifTags::tagLabel(uint16_t tag, IfdId ifdId)
@@ -643,7 +643,7 @@ namespace Exiv2 {
         return ExifTags::tagName(tag_, ifdId_);
     }
 
-    std::string ExifKey::tagLabel() const 	 
+    std::string ExifKey::tagLabel() const 	
     {
         return ExifTags::tagLabel(tag_, ifdId_);
     }

@@ -76,8 +76,8 @@ namespace Exiv2 {
     {
         TiffComponent* tc = 0;
         const TiffMnRegistry* tmr = find(registry_, TiffMnRegistry::Key(make));
-        if (tmr) tc = tmr->newMnFct_(tag, 
-                                     group, 
+        if (tmr) tc = tmr->newMnFct_(tag,
+                                     group,
                                      tmr->mnGroup_,
                                      pData,
                                      size,
@@ -93,22 +93,22 @@ namespace Exiv2 {
     uint32_t TiffIfdMakernote::ifdOffset() const
     {
         if (!pHeader_) return 0;
-        return pHeader_->ifdOffset(); 
+        return pHeader_->ifdOffset();
     }
 
-    ByteOrder TiffIfdMakernote::byteOrder () const 
+    ByteOrder TiffIfdMakernote::byteOrder () const
     {
         if (!pHeader_) return invalidByteOrder;
-        return pHeader_->byteOrder(); 
+        return pHeader_->byteOrder();
     }
 
-    uint32_t TiffIfdMakernote::baseOffset(uint32_t mnOffset) const 
+    uint32_t TiffIfdMakernote::baseOffset(uint32_t mnOffset) const
     {
         if (!pHeader_) return 0;
         return pHeader_->baseOffset(mnOffset);
     }
 
-    bool TiffIfdMakernote::readHeader(const byte* pData, 
+    bool TiffIfdMakernote::readHeader(const byte* pData,
                                       uint32_t    size,
                                       ByteOrder   byteOrder)
     {
@@ -143,8 +143,8 @@ namespace Exiv2 {
         read(signature_, size_, invalidByteOrder);
     }
 
-    bool OlympusMnHeader::read(const byte* pData, 
-                               uint32_t size, 
+    bool OlympusMnHeader::read(const byte* pData,
+                               uint32_t size,
                                ByteOrder /*byteOrder*/)
     {
         assert (pData != 0);
@@ -153,7 +153,7 @@ namespace Exiv2 {
 
         header_.alloc(size_);
         memcpy(header_.pData_, pData, header_.size_);
-        if (   static_cast<uint32_t>(header_.size_) < size_ 
+        if (   static_cast<uint32_t>(header_.size_) < size_
             || 0 != memcmp(header_.pData_, signature_, 5)) {
             return false;
         }
@@ -172,7 +172,7 @@ namespace Exiv2 {
     }
 
     bool FujiMnHeader::read(const byte* pData,
-                            uint32_t size, 
+                            uint32_t size,
                             ByteOrder /*byteOrder*/)
     {
         assert (pData != 0);
@@ -186,7 +186,7 @@ namespace Exiv2 {
         // from the header. Note that we ignore the byteOrder argument
         start_ = getULong(header_.pData_ + 8, byteOrder_);
 
-        if (   static_cast<uint32_t>(header_.size_) < size_ 
+        if (   static_cast<uint32_t>(header_.size_) < size_
             || 0 != memcmp(header_.pData_, signature_, 8)) {
             return false;
         }
@@ -205,7 +205,7 @@ namespace Exiv2 {
     }
 
     bool Nikon2MnHeader::read(const byte* pData,
-                              uint32_t    size, 
+                              uint32_t    size,
                               ByteOrder   /*byteOrder*/)
     {
         assert (pData != 0);
@@ -231,7 +231,7 @@ namespace Exiv2 {
     }
 
     bool Nikon3MnHeader::read(const byte* pData,
-                              uint32_t    size, 
+                              uint32_t    size,
                               ByteOrder   /*byteOrder*/)
     {
         assert (pData != 0);
@@ -259,7 +259,7 @@ namespace Exiv2 {
     }
 
     bool PanasonicMnHeader::read(const byte* pData,
-                              uint32_t    size, 
+                              uint32_t    size,
                               ByteOrder   /*byteOrder*/)
     {
         assert (pData != 0);
@@ -287,7 +287,7 @@ namespace Exiv2 {
     }
 
     bool SigmaMnHeader::read(const byte* pData,
-                             uint32_t    size, 
+                             uint32_t    size,
                              ByteOrder   /*byteOrder*/)
     {
         assert (pData != 0);
@@ -313,7 +313,7 @@ namespace Exiv2 {
     }
 
     bool SonyMnHeader::read(const byte* pData,
-                            uint32_t    size, 
+                            uint32_t    size,
                             ByteOrder   /*byteOrder*/)
     {
         assert (pData != 0);
@@ -334,7 +334,7 @@ namespace Exiv2 {
                               uint16_t    group,
                               uint16_t    mnGroup,
                               const byte* /*pData*/,
-                              uint32_t    /*size*/, 
+                              uint32_t    /*size*/,
                               ByteOrder   /*byteOrder*/)
     {
         return new TiffIfdMakernote(tag, group, mnGroup, 0);
@@ -344,7 +344,7 @@ namespace Exiv2 {
                                 uint16_t    group,
                                 uint16_t    mnGroup,
                                 const byte* /*pData*/,
-                                uint32_t    /*size*/, 
+                                uint32_t    /*size*/,
                                 ByteOrder   /*byteOrder*/)
     {
         return new TiffIfdMakernote(tag, group, mnGroup, 0);
@@ -354,7 +354,7 @@ namespace Exiv2 {
                                 uint16_t    group,
                                 uint16_t    mnGroup,
                                 const byte* /*pData*/,
-                                uint32_t    /*size*/, 
+                                uint32_t    /*size*/,
                                 ByteOrder   /*byteOrder*/)
     {
         return new TiffIfdMakernote(tag, group, mnGroup, new OlympusMnHeader);
@@ -364,7 +364,7 @@ namespace Exiv2 {
                              uint16_t    group,
                              uint16_t    mnGroup,
                              const byte* /*pData*/,
-                             uint32_t    /*size*/, 
+                             uint32_t    /*size*/,
                              ByteOrder   /*byteOrder*/)
     {
         return new TiffIfdMakernote(tag, group, mnGroup, new FujiMnHeader);
@@ -398,7 +398,7 @@ namespace Exiv2 {
                                   uint16_t    group,
                                   uint16_t    mnGroup,
                                   const byte* /*pData*/,
-                                  uint32_t    /*size*/, 
+                                  uint32_t    /*size*/,
                                   ByteOrder   /*byteOrder*/)
     {
         return new TiffIfdMakernote(tag, group, mnGroup, new PanasonicMnHeader, false);
@@ -408,7 +408,7 @@ namespace Exiv2 {
                               uint16_t    group,
                               uint16_t    mnGroup,
                               const byte* /*pData*/,
-                              uint32_t    /*size*/, 
+                              uint32_t    /*size*/,
                               ByteOrder   /*byteOrder*/)
     {
         return new TiffIfdMakernote(tag, group, mnGroup, new SigmaMnHeader);
