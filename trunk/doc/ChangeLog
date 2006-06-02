@@ -9,6 +9,8 @@ Changes from version 0.9.1 to 0.10
 		   like grep does. (Roger Larsson)
 
 * Exiv2 library
+	- 0000469: [miscellaneous] MemIo behaviour differs from FILE* and FileIo.
+	           (Reported by Dimitri)
 	- 0000462: Support TIFF format, part 1: Read support for TIFF and TIFF-based
 	           RAW formats, including NEF, CR2, PEF, SR2, DNG and MRW.
 	- 0000458: [build environment] Support pkg-config tool, 
@@ -22,6 +24,8 @@ Changes from version 0.9.1 to 0.10
 		   (Roger Larsson)
 		 - Updated some Canon labels and translations (Patrice Boissonneault)
 		 - Changed some Nikon tag names. (Based on feedback from Udi Fuchs)
+		 - Added EXIV2_CHECK_VERSION macro for applications to check at runtime 
+		   which version of Exiv2 is installed.
 
 * MSVC related
 		   Added COM project. (Patrice Boissonneault)
