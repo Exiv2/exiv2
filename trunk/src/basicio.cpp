@@ -337,7 +337,8 @@ namespace Exiv2 {
           idx_(0),
           size_(0),
           sizeAlloced_(0),
-          isMalloced_(false)
+          isMalloced_(false),
+          eof_(false)
     {
     }
 
@@ -346,7 +347,8 @@ namespace Exiv2 {
           idx_(0),
           size_(size),
           sizeAlloced_(0),
-          isMalloced_(false)
+          isMalloced_(false),
+          eof_(false)
     {
     }
 
@@ -462,6 +464,7 @@ namespace Exiv2 {
 
         if (newIdx < 0 || newIdx > size_) return 1;
         idx_ = newIdx;
+        eof_ = false;
         return 0;
     }
 
@@ -478,6 +481,7 @@ namespace Exiv2 {
     int MemIo::open()
     {
         idx_ = 0;
+        eof_ = false;
         return 0;
     }
 
@@ -503,15 +507,18 @@ namespace Exiv2 {
     {
         long avail = size_ - idx_;
         long allow = std::min(rcount, avail);
-
         memcpy(buf, &data_[idx_], allow);
         idx_ += allow;
+        if (rcount > avail) eof_ = true;
         return allow;
     }
 
     int MemIo::getb()
     {
-        if (idx_ == size_) return EOF;
+        if (idx_ == size_) {
+            eof_ = true;
+            return EOF;
+        }
         return data_[idx_++];
     }
 
@@ -522,7 +529,7 @@ namespace Exiv2 {
 
     bool MemIo::eof() const
     {
-        return idx_ == size_;
+        return eof_;
     }
 
     std::string MemIo::path() const
