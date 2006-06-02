@@ -633,6 +633,7 @@ namespace Exiv2 {
         long size_;
         long sizeAlloced_;              //!< Size of the allocated buffer
         bool isMalloced_;               //!< Was the buffer allocated?
+        bool eof_;
 
         // METHODS
         void reserve(long wcount);
