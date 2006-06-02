@@ -1161,6 +1161,7 @@ namespace Exiv2 {
         long space = value.toLong();
         switch (space) {
         case 1:      os << "sRGB"; break;
+        case 2:      os << "Adobe RGB"; break;
         case 0xffff: os << "Uncalibrated"; break;
         default:     os << "(" << space << ")"; break;
         }
