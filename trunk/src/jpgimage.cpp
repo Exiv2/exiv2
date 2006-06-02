@@ -166,7 +166,7 @@ namespace Exiv2 {
             append(psBlob, record + sizeOldData, sizeEnd);
         }
         DataBuf rc;
-        if (psBlob.size() > 0) rc = DataBuf(&psBlob[0], psBlob.size());
+        if (psBlob.size() > 0) rc = DataBuf(&psBlob[0], static_cast<long>(psBlob.size()));
 #ifdef DEBUG
         std::cerr << "IRB block at the end of Photoshop::setIptcIrb\n";
         if (rc.size_ == 0) std::cerr << "  None.\n";
@@ -499,7 +499,7 @@ namespace Exiv2 {
                         // Write APP13 marker, new size, and ps3Id
                         tmpBuf[0] = 0xff;
                         tmpBuf[1] = app13_;
-                        us2Data(tmpBuf + 2, newPsData.size_ + 16, bigEndian);
+                        us2Data(tmpBuf + 2, static_cast<uint16_t>(newPsData.size_ + 16), bigEndian);
                         memcpy(tmpBuf + 4, Photoshop::ps3Id_, 14);
                         if (outIo.write(tmpBuf, 18) != 18) throw Error(21);
                         if (outIo.error()) throw Error(21);
