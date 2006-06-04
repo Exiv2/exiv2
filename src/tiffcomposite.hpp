@@ -606,13 +606,25 @@ namespace Exiv2 {
         return newTiffArrayElement<typeId, invalidByteOrder>(tag, ts);
     }
 
-    //! Function to create and initialize a new TIFF entry for a Jpeg thumbnail (data)
+    //! Function to create and initialize a new TIFF entry for a thumbnail (data)
+    template<uint16_t szTag, uint16_t szGroup>
     TiffComponent::AutoPtr newTiffThumbData(uint16_t tag,
-                                            const TiffStructure* ts);
+                                            const TiffStructure* ts)
+    {
+        assert(ts);
+        return TiffComponent::AutoPtr(
+            new TiffDataEntry(tag, ts->group_, szTag, szGroup));
+    }
 
-    //! Function to create and initialize a new TIFF entry for a Jpeg thumbnail (size)
+    //! Function to create and initialize a new TIFF entry for a thumbnail (size)
+    template<uint16_t dtTag, uint16_t dtGroup>
     TiffComponent::AutoPtr newTiffThumbSize(uint16_t tag,
-                                            const TiffStructure* ts);
+                                            const TiffStructure* ts)
+    {
+        assert(ts);
+        return TiffComponent::AutoPtr(
+            new TiffSizeEntry(tag, ts->group_, dtTag, dtGroup));
+    }
 
 }                                       // namespace Exiv2
 
