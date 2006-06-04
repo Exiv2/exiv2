@@ -193,17 +193,25 @@ namespace Exiv2 {
 
     void Entry::setDataAreaOffsets(uint32_t offset, ByteOrder byteOrder)
     {
+        // Hack: Do not require offsets to start from 0, except for rationals
+        uint16_t  fusOffset = 0;
+        uint32_t  fulOffset = 0;
+        int16_t   fsOffset  = 0;
+        int32_t   flOffset  = 0;
+
         for (uint32_t i = 0; i < count(); ++i) {
             byte* buf = pData_ + i * typeSize();
             switch(TypeId(type())) {
             case unsignedShort: {
-                uint16_t d = getUShort(buf, byteOrder);
+                if (i == 0) fusOffset = getUShort(buf, byteOrder);
+                uint16_t d = getUShort(buf, byteOrder) - fusOffset;
                 if (d + offset > 0xffff) throw Error(26);
                 us2Data(buf, d + static_cast<uint16_t>(offset), byteOrder);
                 break;
             }
             case unsignedLong: {
-                ul2Data(buf, getULong(buf, byteOrder) + offset, byteOrder);
+                if (i == 0) fulOffset = getULong(buf, byteOrder);
+                ul2Data(buf, getULong(buf, byteOrder) - fulOffset + offset, byteOrder);
                 break;
             }
             case unsignedRational: {
@@ -213,13 +221,15 @@ namespace Exiv2 {
                 break;
             }
             case signedShort: {
-                int16_t d = getShort(buf, byteOrder);
+                if (i == 0) fsOffset = getShort(buf, byteOrder);
+                int16_t d = getShort(buf, byteOrder) - fsOffset;
                 if (d + static_cast<int32_t>(offset) > 0xffff) throw Error(26);
                 s2Data(buf, d + static_cast<int16_t>(offset), byteOrder);
                 break;
             }
             case signedLong: {
-                int32_t d = getLong(buf, byteOrder);
+                if (i == 0) flOffset = getLong(buf, byteOrder);
+                int32_t d = getLong(buf, byteOrder) - flOffset;
                 l2Data(buf, d + static_cast<int32_t>(offset), byteOrder);
                 break;
             }

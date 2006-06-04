@@ -432,6 +432,13 @@ namespace Exiv2 {
         //@}
 
     private:
+        //! @name Manipulators
+        //@{
+        //! Helper function to set the thumbnail data area
+        void setDataArea(TiffEntryBase* pOffsetEntry, const Value* pSize);
+        //@}
+
+    private:
         // DATA
         const byte*          pData_;      //!< Pointer to the memory buffer
         const uint32_t       size_;       //!< Size of the buffer

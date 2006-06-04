@@ -294,24 +294,4 @@ namespace Exiv2 {
                                                       ts->newGroup_));
     }
 
-    TiffComponent::AutoPtr newTiffThumbData(uint16_t tag,
-                                            const TiffStructure* ts)
-    {
-        assert(ts);
-        return TiffComponent::AutoPtr(new TiffDataEntry(tag,
-                                                        ts->group_,
-                                                        0x0202,
-                                                        Group::ifd1));
-    }
-
-    TiffComponent::AutoPtr newTiffThumbSize(uint16_t tag,
-                                            const TiffStructure* ts)
-    {
-        assert(ts);
-        return TiffComponent::AutoPtr(new TiffSizeEntry(tag,
-                                                        ts->group_,
-                                                        0x0201,
-                                                        Group::ifd1));
-    }
-
 }                                       // namespace Exiv2

@@ -493,22 +493,8 @@ namespace Exiv2 {
         pRoot_->accept(finder);
         TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
         if (te && te->pValue()) {
-            long size = te->pValue()->toLong();
-            long offset = object->pValue()->toLong();
-            if (baseOffset() + offset + size <= size_) {
-                object->pValue_->setDataArea(pData_ + baseOffset() + offset, size);
-            }
-#ifndef SUPPRESS_WARNINGS
-            else {
-                std::cerr << "Warning: "
-                          << "Directory " << object->groupName()
-                          << ", entry 0x" << std::setw(4)
-                          << std::setfill('0') << std::hex << object->tag()
-                          << " Data area exceeds data buffer, ignoring it.\n";
-            }
-#endif
+            setDataArea(object, te->pValue());
         }
-
     }
 
     void TiffReader::visitSizeEntry(TiffSizeEntry* object)
@@ -520,22 +506,48 @@ namespace Exiv2 {
         pRoot_->accept(finder);
         TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
         if (te && te->pValue()) {
-            long offset = te->pValue()->toLong();
-            long size = object->pValue()->toLong();
-            if (baseOffset() + offset + size <= size_) {
-                te->pValue_->setDataArea(pData_ + baseOffset() + offset, size);
-            }
-#ifndef SUPPRESS_WARNINGS
-            else {
-                std::cerr << "Warning: "
-                          << "Directory " << object->groupName()
-                          << ", entry 0x" << std::setw(4)
-                          << std::setfill('0') << std::hex << object->tag()
-                          << " Data area exceeds data buffer, ignoring it.\n";
-            }
-#endif
+            setDataArea(te, object->pValue());
         }
+    }
 
+    void TiffReader::setDataArea(TiffEntryBase* pOffsetEntry, const Value* pSize)
+    {
+        assert(pOffsetEntry);
+        assert(pSize);
+
+        Value* pOffset = pOffsetEntry->pValue_;
+        assert(pOffset);
+
+        long size = 0;
+        for (long i = 0; i < pSize->count(); ++i) {
+            size += pSize->toLong(i);
+        }
+        long offset = pOffset->toLong(0);
+        // Todo: Remove limitation of Jpeg writer: strips must be contiguous
+        // Until then we check: last offset + last size - first offset == size?
+        if (  pOffset->toLong(pOffset->count()-1) 
+            + pSize->toLong(pSize->count()-1)
+            - offset != size) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Warning: "
+                      << "Directory " << pOffsetEntry->groupName()
+                      << ", entry 0x" << std::setw(4)
+                      << std::setfill('0') << std::hex << pOffsetEntry->tag()
+                      << " Data area is not contiguous, ignoring it.\n";
+#endif
+            return;
+        }
+        if (baseOffset() + offset + size > size_) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Warning: "
+                      << "Directory " << pOffsetEntry->groupName()
+                      << ", entry 0x" << std::setw(4)
+                      << std::setfill('0') << std::hex << pOffsetEntry->tag()
+                      << " Data area exceeds data buffer, ignoring it.\n";
+#endif
+            return;
+        }
+        pOffset->setDataArea(pData_ + baseOffset() + offset, size);
     }
 
     void TiffReader::visitDirectory(TiffDirectory* object)
