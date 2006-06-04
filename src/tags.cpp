@@ -140,13 +140,13 @@ namespace Exiv2 {
         {  7, "Thumbnail/Preview image, Multi page file, Transparency mask" }
     };
 
-    // Units for measuring X and Y resolution, tags 0x0128, 0xa210
+    //! Units for measuring X and Y resolution, tags 0x0128, 0xa210
     extern const TagDetails exifUnit[] = {
         { 2, "inch" },
         { 3, "cm"   }
     };
 
-    // Compression, tag 0x0103
+    //! Compression, tag 0x0103
     extern const TagDetails exifCompression[] = {
         {     1, "Uncompressed"             },
         {     2, "CCITT RLE"                },
@@ -177,7 +177,7 @@ namespace Exiv2 {
         { 34713, "Nikon NEF Compressed"     }
     };
 
-    // PhotometricInterpretation, tag 0x0106
+    //! PhotometricInterpretation, tag 0x0106
     extern const TagDetails exifPhotometricInterpretation[] = {
         {     0, "White Is Zero"      },
         {     1, "Black Is Zero"      },
@@ -195,7 +195,7 @@ namespace Exiv2 {
         { 34892, "Linear Raw"         }
     };
 
-    // Orientation, tag 0x0112
+    //! Orientation, tag 0x0112
     extern const TagDetails exifOrientation[] = {
         { 1, "top, left"     },
         { 2, "top, right"    },
@@ -207,13 +207,13 @@ namespace Exiv2 {
         { 8, "left, bottom"  }
     };
 
-    // YCbCrPositioning, tag 0x0213
+    //! YCbCrPositioning, tag 0x0213
     extern const TagDetails exifYCbCrPositioning[] = {
         { 1, "Centered" },
         { 2, "Co-sited" }
     };
 
-    // Base IFD Tags (IFD0 and IFD1)
+    //! Base IFD Tags (IFD0 and IFD1)
     static const TagInfo ifdTagInfo[] = {
         TagInfo(0x00fe, "NewSubfileType", "New Subfile Type", "A general indication of the kind of data contained in this subfile.", ifd0Id, imgStruct, unsignedLong, EXV_PRINT_TAG(exifNewSubfileType)), // TIFF tag
         TagInfo(0x0100, "ImageWidth", "Image Width", "Image width", ifd0Id, imgStruct, unsignedLong, printValue),
@@ -265,7 +265,7 @@ namespace Exiv2 {
         TagInfo(0xffff, "(UnknownIfdTag)", "Unknown IFD tag", "Unknown IFD tag", ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
     };
 
-    // ExposureProgram, tag t0x8822
+    //! ExposureProgram, tag t0x8822
     extern const TagDetails exifExposureProgram[] = {
         { 0, "Not defined"       },
         { 1, "Manual"            },
@@ -278,7 +278,7 @@ namespace Exiv2 {
         { 8, "Landscape mode"    }
     };
 
-    // MeteringMode, tag 0x9207
+    //! MeteringMode, tag 0x9207
     extern const TagDetails exifMeteringMode[] = {
         { 0, "Unknown"         },
         { 1, "Average"         },
@@ -289,7 +289,7 @@ namespace Exiv2 {
         { 6, "Partial"         }
     };
 
-    // LightSource, tag 0x9208
+    //! LightSource, tag 0x9208
     extern const TagDetails exifLightSource[] = {
         {   0, "Unknown"                                 },
         {   1, "Daylight"                                },
@@ -314,7 +314,7 @@ namespace Exiv2 {
         { 255, "other light source"                      }
     };
 
-    // Flash, tag 0x9209
+    //! Flash, tag 0x9209
     extern const TagDetails exifFlash[] = {
         { 0x00, "No"                                                            },
         { 0x01, "Yes"                                                           },
@@ -340,14 +340,14 @@ namespace Exiv2 {
         { 0x5f, "Yes, auto, red-eye reduction, return light detected"           }
     };
 
-    // ColorSpace, tag 0xa001
+    //! ColorSpace, tag 0xa001
     extern const TagDetails exifColorSpace[] = {
         {      1, "sRGB"         },
         {      2, "Adobe RGB"    },
         { 0xffff, "Uncalibrated" }
     };
 
-    // SensingMethod, tag 0xa217
+    //! SensingMethod, tag 0xa217
     extern const TagDetails exifSensingMethod[] = {
         { 1, "Not defined"             },
         { 2, "One-chip color area"     },
@@ -358,30 +358,30 @@ namespace Exiv2 {
         { 8, "Color sequential linear" }
     };
 
-    // FileSource, tag 0xa300
+    //! FileSource, tag 0xa300
     extern const TagDetails exifFileSource[] = {
         { 3, "Digital still camera" }
     };
 
-    // SceneType, tag 0xa301
+    //! SceneType, tag 0xa301
     extern const TagDetails exifSceneType[] = {
         { 1, "Directly photographed" }
     };
 
-    // ExposureMode, tag 0xa402
+    //! ExposureMode, tag 0xa402
     extern const TagDetails exifExposureMode[] = {
         { 0, "Auto"         },
         { 1, "Manual"       },
         { 2, "Auto bracket" }
     };
 
-    // WhiteBalance, tag 0xa403
+    //! WhiteBalance, tag 0xa403
     extern const TagDetails exifWhiteBalance[] = {
         { 0, "Auto"   },
         { 1, "Manual" }
     };
 
-    // SceneCaptureType, tag 0xa406
+    //! SceneCaptureType, tag 0xa406
     extern const TagDetails exifSceneCaptureType[] = {
         { 0, "Standard"    },
         { 1, "Landscape"   },
@@ -389,7 +389,7 @@ namespace Exiv2 {
         { 3, "Night scene" }
     };
 
-    // GainControl, tag 0xa407
+    //! GainControl, tag 0xa407
     extern const TagDetails exifGainControl[] = {
         { 0, "None"           },
         { 1, "Low gain up"    },
@@ -398,28 +398,28 @@ namespace Exiv2 {
         { 4, "High gain down" }
     };
 
-    // Contrast, tag 0xa408
+    //! Contrast, tag 0xa408
     extern const TagDetails exifContrast[] = {
         { 0, "Normal" },
         { 1, "Soft"   },
         { 2, "Hard"   }
     };
 
-    // Saturation, tag 0xa409
+    //! Saturation, tag 0xa409
     extern const TagDetails exifSaturation[] = {
         { 0, "Normal" },
         { 1, "Low"    },
         { 2, "High"   }
     };
 
-    // Sharpness, tag 0xa40a
+    //! Sharpness, tag 0xa40a
     extern const TagDetails exifSharpness[] = {
         { 0, "Normal" },
         { 1, "Soft"   },
         { 2, "Hard"   }
     };
 
-    // SubjectDistanceRange, tag 0xa40c
+    //! SubjectDistanceRange, tag 0xa40c
     extern const TagDetails exifSubjectDistanceRange[] = {
         { 0, "Unknown"      },
         { 1, "Macro"        },
