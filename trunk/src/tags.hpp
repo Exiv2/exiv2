@@ -394,25 +394,13 @@ namespace Exiv2 {
     std::ostream& printLong(std::ostream& os, const Value& value);
     //! Print a Rational or URational value in floating point format
     std::ostream& printFloat(std::ostream& os, const Value& value);
-    //! Print the unit for measuring X and Y resolution
-    std::ostream& printUnit(std::ostream& os, const Value& value);
 
-    //! Print the compression scheme used for the image data
-    std::ostream& print0x0103(std::ostream& os, const Value& value);
-    //! Print the pixel composition
-    std::ostream& print0x0106(std::ostream& os, const Value& value);
-    //! Print the orientation
-    std::ostream& print0x0112(std::ostream& os, const Value& value);
-    //! Print the YCbCrPositioning
-    std::ostream& print0x0213(std::ostream& os, const Value& value);
     //! Print the copyright
     std::ostream& print0x8298(std::ostream& os, const Value& value);
     //! Print the exposure time
     std::ostream& print0x829a(std::ostream& os, const Value& value);
     //! Print the f-number
     std::ostream& print0x829d(std::ostream& os, const Value& value);
-    //! Print the exposure mode
-    std::ostream& print0x8822(std::ostream& os, const Value& value);
     //! Print ISO speed ratings
     std::ostream& print0x8827(std::ostream& os, const Value& value);
     //! Print components configuration specific to compressed data
@@ -425,44 +413,14 @@ namespace Exiv2 {
     std::ostream& print0x9204(std::ostream& os, const Value& value);
     //! Print the subject distance
     std::ostream& print0x9206(std::ostream& os, const Value& value);
-    //! Print the metering mode
-    std::ostream& print0x9207(std::ostream& os, const Value& value);
-    //! Print the light source
-    std::ostream& print0x9208(std::ostream& os, const Value& value);
-    //! Print the flash status
-    std::ostream& print0x9209(std::ostream& os, const Value& value);
     //! Print the actual focal length of the lens
     std::ostream& print0x920a(std::ostream& os, const Value& value);
     //! Print the user comment
     std::ostream& print0x9286(std::ostream& os, const Value& value);
-    //! Print color space information
-    std::ostream& print0xa001(std::ostream& os, const Value& value);
-    //! Print info on image sensor type on the camera or input device
-    std::ostream& print0xa217(std::ostream& os, const Value& value);
-    //! Print file source
-    std::ostream& print0xa300(std::ostream& os, const Value& value);
-    //! Print scene type
-    std::ostream& print0xa301(std::ostream& os, const Value& value);
-    //! Print the exposure mode
-    std::ostream& print0xa402(std::ostream& os, const Value& value);
-    //! Print white balance information
-    std::ostream& print0xa403(std::ostream& os, const Value& value);
     //! Print digital zoom ratio
     std::ostream& print0xa404(std::ostream& os, const Value& value);
     //! Print 35mm equivalent focal length
     std::ostream& print0xa405(std::ostream& os, const Value& value);
-    //! Print scene capture type
-    std::ostream& print0xa406(std::ostream& os, const Value& value);
-    //! Print overall image gain adjustment
-    std::ostream& print0xa407(std::ostream& os, const Value& value);
-    //! Print contract adjustment
-    std::ostream& print0xa408(std::ostream& os, const Value& value);
-    //! Print saturation adjustment
-    std::ostream& print0xa409(std::ostream& os, const Value& value);
-    //! Print sharpness adjustment
-    std::ostream& print0xa40a(std::ostream& os, const Value& value);
-    //! Print subject distance range
-    std::ostream& print0xa40c(std::ostream& os, const Value& value);
     //@}
 
     //! Calculate F number from an APEX aperture value
