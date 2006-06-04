@@ -140,28 +140,101 @@ namespace Exiv2 {
         {  7, "Thumbnail/Preview image, Multi page file, Transparency mask" }
     };
 
+    // Units for measuring X and Y resolution, tags 0x0128, 0xa210
+    extern const TagDetails exifUnit[] = {
+        { 2, "inch" },
+        { 3, "cm"   }
+    };
+
+    // Compression, tag 0x0103
+    extern const TagDetails exifCompression[] = {
+        {     1, "Uncompressed"             },
+        {     2, "CCITT RLE"                },
+        {     3, "T4/Group 3 Fax"           },
+        {     4, "T6/Group 4 Fax"           },
+        {     5, "LZW"                      },
+        {     6, "JPEG (old-style)"         },
+        {     7, "JPEG"                     },
+        {     8, "Adobe Deflate"            },
+        {     9, "JBIG B&W"                 },
+        {    10, "JBIG Color"               },
+        { 32766, "Next 2-bits RLE"          },
+        { 32771, "CCITT RLE 1-word"         },
+        { 32773, "PackBits (Macintosh RLE)" },
+        { 32809, "Thunderscan RLE"          },
+        { 32895, "IT8 CT Padding"           },
+        { 32896, "IT8 Linework RLE"         },
+        { 32897, "IT8 Monochrome Picture"   },
+        { 32898, "IT8 Binary Lineart"       },
+        { 32908, "Pixar Film (10-bits LZW)" },
+        { 32909, "Pixar Log (11-bits ZIP)"  },
+        { 32946, "Pixar Deflate"            },
+        { 32947, "Kodak DCS Encoding"       },
+        { 34661, "ISO JBIG"                 },
+        { 34676, "SGI Log Luminance RLE"    },
+        { 34677, "SGI Log 24-bits packed"   },
+        { 34712, "Leadtools JPEG 2000"      },
+        { 34713, "Nikon NEF Compressed"     }
+    };
+
+    // PhotometricInterpretation, tag 0x0106
+    extern const TagDetails exifPhotometricInterpretation[] = {
+        {     0, "White Is Zero"      },
+        {     1, "Black Is Zero"      },
+        {     2, "RGB"                },
+        {     3, "RGB Palette"        },
+        {     4, "Transparency Mask"  },
+        {     5, "CMYK"               },
+        {     6, "YCbCr"              },
+        {     8, "CIELab"             },
+        {     9, "ICCLab"             },
+        {    10, "ITULab"             },
+        { 32803, "Color Filter Array" },
+        { 32844, "Pixar LogL"         },
+        { 32845, "Pixar LogLuv"       },
+        { 34892, "Linear Raw"         }
+    };
+
+    // Orientation, tag 0x0112
+    extern const TagDetails exifOrientation[] = {
+        { 1, "top, left"     },
+        { 2, "top, right"    },
+        { 3, "bottom, right" },
+        { 4, "bottom, left"  },
+        { 5, "left, top"     },
+        { 6, "right, top"    },
+        { 7, "right, bottom" },
+        { 8, "left, bottom"  }
+    };
+
+    // YCbCrPositioning, tag 0x0213
+    extern const TagDetails exifYCbCrPositioning[] = {
+        { 1, "Centered" },
+        { 2, "Co-sited" }
+    };
+
     // Base IFD Tags (IFD0 and IFD1)
     static const TagInfo ifdTagInfo[] = {
         TagInfo(0x00fe, "NewSubfileType", "New Subfile Type", "A general indication of the kind of data contained in this subfile.", ifd0Id, imgStruct, unsignedLong, EXV_PRINT_TAG(exifNewSubfileType)), // TIFF tag
         TagInfo(0x0100, "ImageWidth", "Image Width", "Image width", ifd0Id, imgStruct, unsignedLong, printValue),
         TagInfo(0x0101, "ImageLength", "Image Length", "Image height", ifd0Id, imgStruct, unsignedLong, printValue),
         TagInfo(0x0102, "BitsPerSample", "Bits per Sample", "Number of bits per component", ifd0Id, imgStruct, unsignedShort, printValue),
-        TagInfo(0x0103, "Compression", "Compression", "Compression scheme", ifd0Id, imgStruct, unsignedShort, print0x0103),
-        TagInfo(0x0106, "PhotometricInterpretation", "Photometric Interpretation", "Pixel composition", ifd0Id, imgStruct, unsignedShort, print0x0106),
+        TagInfo(0x0103, "Compression", "Compression", "Compression scheme", ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifCompression)),
+        TagInfo(0x0106, "PhotometricInterpretation", "Photometric Interpretation", "Pixel composition", ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifPhotometricInterpretation)),
         TagInfo(0x010a, "FillOrder", "Fill Order", "The logical order of bits within a byte", ifd0Id, imgStruct, unsignedShort, printValue), // TIFF tag
         TagInfo(0x010d, "DocumentName", "Document Name", "The name of the document from which this image was scanned", ifd0Id, imgStruct, asciiString, printValue), // TIFF tag
         TagInfo(0x010e, "ImageDescription", "Image Description", "Image title", ifd0Id, otherTags, asciiString, printValue),
         TagInfo(0x010f, "Make", "Manufacturer", "Manufacturer of image input equipment", ifd0Id, otherTags, asciiString, printValue),
         TagInfo(0x0110, "Model", "Model", "Model of image input equipment", ifd0Id, otherTags, asciiString, printValue),
         TagInfo(0x0111, "StripOffsets", "Strip Offsets", "Image data location", ifd0Id, recOffset, unsignedLong, printValue),
-        TagInfo(0x0112, "Orientation", "Orientation", "Orientation of image", ifd0Id, imgStruct, unsignedShort, print0x0112),
+        TagInfo(0x0112, "Orientation", "Orientation", "Orientation of image", ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifOrientation)),
         TagInfo(0x0115, "SamplesPerPixel", "Samples per Pixel", "Number of components", ifd0Id, imgStruct, unsignedShort, printValue),
         TagInfo(0x0116, "RowsPerStrip", "Rows per Strip", "Number of rows per strip", ifd0Id, recOffset, unsignedLong, printValue),
         TagInfo(0x0117, "StripByteCounts", "Strip Byte Count", "Bytes per compressed strip", ifd0Id, recOffset, unsignedLong, printValue),
         TagInfo(0x011a, "XResolution", "x-Resolution", "Image resolution in width direction", ifd0Id, imgStruct, unsignedRational, printLong),
         TagInfo(0x011b, "YResolution", "y-Resolution", "Image resolution in height direction", ifd0Id, imgStruct, unsignedRational, printLong),
         TagInfo(0x011c, "PlanarConfiguration", "Planar Configuration", "Image data arrangement", ifd0Id, imgStruct, unsignedShort, printValue),
-        TagInfo(0x0128, "ResolutionUnit", "Resolution Unit", "Unit of X and Y resolution", ifd0Id, imgStruct, unsignedShort, printUnit),
+        TagInfo(0x0128, "ResolutionUnit", "Resolution Unit", "Unit of X and Y resolution", ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifUnit)),
         TagInfo(0x012d, "TransferFunction", "Transfer Function", "Transfer function", ifd0Id, imgCharacter, unsignedShort, printValue),
         TagInfo(0x0131, "Software", "Software", "Software used", ifd0Id, otherTags, asciiString, printValue),
         TagInfo(0x0132, "DateTime", "Date and Time", "File change date and time", ifd0Id, otherTags, asciiString, printValue),
@@ -175,7 +248,7 @@ namespace Exiv2 {
         TagInfo(0x0202, "JPEGInterchangeFormatLength", "JPEG Interchange Format Length", "Bytes of JPEG data", ifd0Id, recOffset, unsignedLong, printValue),
         TagInfo(0x0211, "YCbCrCoefficients", "YCbCr Coefficients", "Color space transformation matrix coefficients", ifd0Id, imgCharacter, unsignedRational, printValue),
         TagInfo(0x0212, "YCbCrSubSampling", "YCbCr Sub-Sampling", "Subsampling ratio of Y to C", ifd0Id, imgStruct, unsignedShort, printValue),
-        TagInfo(0x0213, "YCbCrPositioning", "YCbCr Positioning", "Y and C positioning", ifd0Id, imgStruct, unsignedShort, print0x0213),
+        TagInfo(0x0213, "YCbCrPositioning", "YCbCr Positioning", "Y and C positioning", ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifYCbCrPositioning)),
         TagInfo(0x0214, "ReferenceBlackWhite", "Reference Black/White", "Pair of black and white reference values", ifd0Id, imgCharacter, unsignedRational, printValue),
         TagInfo(0x02bc, "XMLPacket", "XML Packet", "XMP Metadata (Adobe technote 9-14-02)", ifd0Id, otherTags, unsignedByte, printValue),
         TagInfo(0x828d, "CFARepeatPatternDim", "CFARepeatPatternDim", "Contains two values representing the minimum rows and columns to define the repeating patterns of the color filter array", ifd0Id, otherTags, unsignedShort, printValue), // TIFF/EP Tag
@@ -192,11 +265,173 @@ namespace Exiv2 {
         TagInfo(0xffff, "(UnknownIfdTag)", "Unknown IFD tag", "Unknown IFD tag", ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
     };
 
+    // ExposureProgram, tag t0x8822
+    extern const TagDetails exifExposureProgram[] = {
+        { 0, "Not defined"       },
+        { 1, "Manual"            },
+        { 2, "Auto"              },
+        { 3, "Aperture priority" },
+        { 4, "Shutter priority"  },
+        { 5, "Creative program"  },
+        { 6, "Action program"    },
+        { 7, "Portrait mode"     },
+        { 8, "Landscape mode"    }
+    };
+
+    // MeteringMode, tag 0x9207
+    extern const TagDetails exifMeteringMode[] = {
+        { 0, "Unknown"         },
+        { 1, "Average"         },
+        { 2, "Center weighted" },
+        { 3, "Spot"            },
+        { 4, "Multispot"       },
+        { 5, "Matrix"          },
+        { 6, "Partial"         }
+    };
+
+    // LightSource, tag 0x9208
+    extern const TagDetails exifLightSource[] = {
+        {   0, "Unknown"                                 },
+        {   1, "Daylight"                                },
+        {   2, "Fluorescent"                             },
+        {   3, "Tungsten (incandescent light)"           },
+        {   4, "Flash"                                   },
+        {   9, "Fine weather"                            },
+        {  10, "Cloudy weather"                          },
+        {  11, "Shade"                                   },
+        {  12, "Daylight fluorescent (D 5700 - 7100K)"   },
+        {  13, "Day white fluorescent (N 4600 - 5400K)"  },
+        {  14, "Cool white fluorescent (W 3900 - 4500K)" },
+        {  15, "White fluorescent (WW 3200 - 3700K)"     },
+        {  17, "Standard light A"                        },
+        {  18, "Standard light B"                        },
+        {  19, "Standard light C"                        },
+        {  20, "D55"                                     },
+        {  21, "D65"                                     },
+        {  22, "D75"                                     },
+        {  23, "D50"                                     },
+        {  24, "ISO studio tungsten"                     },
+        { 255, "other light source"                      }
+    };
+
+    // Flash, tag 0x9209
+    extern const TagDetails exifFlash[] = {
+        { 0x00, "No"                                                            },
+        { 0x01, "Yes"                                                           },
+        { 0x05, "Strobe return light not detected"                              },
+        { 0x07, "Strobe return light detected"                                  },
+        { 0x09, "Yes, compulsory"                                               },
+        { 0x0d, "Yes, compulsory, return light not detected"                    },
+        { 0x0f, "Yes, compulsory, return light detected"                        },
+        { 0x10, "No, compulsory"                                                },
+        { 0x18, "No, auto"                                                      },
+        { 0x19, "Yes, auto"                                                     },
+        { 0x1d, "Yes, auto, return light not detected"                          },
+        { 0x1f, "Yes, auto, return light detected"                              },
+        { 0x20, "No flash function"                                             },
+        { 0x41, "Yes, red-eye reduction"                                        },
+        { 0x45, "Yes, red-eye reduction, return light not detected"             },
+        { 0x47, "Yes, red-eye reduction, return light detected"                 },
+        { 0x49, "Yes, compulsory, red-eye reduction"                            },
+        { 0x4d, "Yes, compulsory, red-eye reduction, return light not detected" },
+        { 0x4f, "Yes, compulsory, red-eye reduction, return light detected"     },
+        { 0x59, "Yes, auto, red-eye reduction"                                  },
+        { 0x5d, "Yes, auto, red-eye reduction, return light not detected"       },
+        { 0x5f, "Yes, auto, red-eye reduction, return light detected"           }
+    };
+
+    // ColorSpace, tag 0xa001
+    extern const TagDetails exifColorSpace[] = {
+        {      1, "sRGB"         },
+        {      2, "Adobe RGB"    },
+        { 0xffff, "Uncalibrated" }
+    };
+
+    // SensingMethod, tag 0xa217
+    extern const TagDetails exifSensingMethod[] = {
+        { 1, "Not defined"             },
+        { 2, "One-chip color area"     },
+        { 3, "Two-chip color area"     },
+        { 4, "Three-chip color area"   },
+        { 5, "Color sequential area"   },
+        { 7, "Trilinear sensor"        },
+        { 8, "Color sequential linear" }
+    };
+
+    // FileSource, tag 0xa300
+    extern const TagDetails exifFileSource[] = {
+        { 3, "Digital still camera" }
+    };
+
+    // SceneType, tag 0xa301
+    extern const TagDetails exifSceneType[] = {
+        { 1, "Directly photographed" }
+    };
+
+    // ExposureMode, tag 0xa402
+    extern const TagDetails exifExposureMode[] = {
+        { 0, "Auto"         },
+        { 1, "Manual"       },
+        { 2, "Auto bracket" }
+    };
+
+    // WhiteBalance, tag 0xa403
+    extern const TagDetails exifWhiteBalance[] = {
+        { 0, "Auto"   },
+        { 1, "Manual" }
+    };
+
+    // SceneCaptureType, tag 0xa406
+    extern const TagDetails exifSceneCaptureType[] = {
+        { 0, "Standard"    },
+        { 1, "Landscape"   },
+        { 2, "Portrait"    },
+        { 3, "Night scene" }
+    };
+
+    // GainControl, tag 0xa407
+    extern const TagDetails exifGainControl[] = {
+        { 0, "None"           },
+        { 1, "Low gain up"    },
+        { 2, "High gain up"   },
+        { 3, "Low gain down"  },
+        { 4, "High gain down" }
+    };
+
+    // Contrast, tag 0xa408
+    extern const TagDetails exifContrast[] = {
+        { 0, "Normal" },
+        { 1, "Soft"   },
+        { 2, "Hard"   }
+    };
+
+    // Saturation, tag 0xa409
+    extern const TagDetails exifSaturation[] = {
+        { 0, "Normal" },
+        { 1, "Low"    },
+        { 2, "High"   }
+    };
+
+    // Sharpness, tag 0xa40a
+    extern const TagDetails exifSharpness[] = {
+        { 0, "Normal" },
+        { 1, "Soft"   },
+        { 2, "Hard"   }
+    };
+
+    // SubjectDistanceRange, tag 0xa40c
+    extern const TagDetails exifSubjectDistanceRange[] = {
+        { 0, "Unknown"      },
+        { 1, "Macro"        },
+        { 2, "Close view"   },
+        { 3, "Distant view" }
+    };
+
     // Exif IFD Tags
     static const TagInfo exifTagInfo[] = {
         TagInfo(0x829a, "ExposureTime", "Exposure Time", "Exposure time", exifIfdId, captureCond, unsignedRational, print0x829a),
         TagInfo(0x829d, "FNumber", "FNumber", "F number", exifIfdId, captureCond, unsignedRational, print0x829d),
-        TagInfo(0x8822, "ExposureProgram", "ExposureProgram", "Exposure program", exifIfdId, captureCond, unsignedShort, print0x8822),
+        TagInfo(0x8822, "ExposureProgram", "ExposureProgram", "Exposure program", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifExposureProgram)),
         TagInfo(0x8824, "SpectralSensitivity", "Spectral Sensitivity", "Spectral sensitivity", exifIfdId, captureCond, asciiString, printValue),
         TagInfo(0x8827, "ISOSpeedRatings", "ISO Speed Ratings", "ISO speed ratings", exifIfdId, captureCond, unsignedShort, print0x8827),
         TagInfo(0x8828, "OECF", "OECF", "Optoelectric coefficient", exifIfdId, captureCond, undefined, printValue),
@@ -211,9 +446,9 @@ namespace Exiv2 {
         TagInfo(0x9204, "ExposureBiasValue", "Exposure Bias", "Exposure bias", exifIfdId, captureCond, signedRational, print0x9204),
         TagInfo(0x9205, "MaxApertureValue", "MaxApertureValue", "Maximum lens aperture", exifIfdId, captureCond, unsignedRational, print0x9202),
         TagInfo(0x9206, "SubjectDistance", "Subject Distance", "Subject distance", exifIfdId, captureCond, unsignedRational, print0x9206),
-        TagInfo(0x9207, "MeteringMode", "Metering Mode", "Metering mode", exifIfdId, captureCond, unsignedShort, print0x9207),
-        TagInfo(0x9208, "LightSource", "Light Source", "Light source", exifIfdId, captureCond, unsignedShort, print0x9208),
-        TagInfo(0x9209, "Flash", "Flash", "Flash", exifIfdId, captureCond, unsignedShort, print0x9209),
+        TagInfo(0x9207, "MeteringMode", "Metering Mode", "Metering mode", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifMeteringMode)),
+        TagInfo(0x9208, "LightSource", "Light Source", "Light source", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifLightSource)),
+        TagInfo(0x9209, "Flash", "Flash", "Flash", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifFlash)),
         TagInfo(0x920a, "FocalLength", "Focal Length", "Lens focal length", exifIfdId, captureCond, unsignedRational, print0x920a),
         TagInfo(0x9214, "SubjectArea", "Subject Area", "Subject area", exifIfdId, captureCond, unsignedShort, printValue),
         TagInfo(0x927c, "MakerNote", "Maker Note", "Manufacturer notes", exifIfdId, userInfo, undefined, printValue),
@@ -222,7 +457,7 @@ namespace Exiv2 {
         TagInfo(0x9291, "SubSecTimeOriginal", "SubSecTimeOriginal", "DateTimeOriginal subseconds", exifIfdId, dateTime, asciiString, printValue),
         TagInfo(0x9292, "SubSecTimeDigitized", "SubSecTimeDigitized", "DateTimeDigitized subseconds", exifIfdId, dateTime, asciiString, printValue),
         TagInfo(0xa000, "FlashpixVersion", "FlashPixVersion", "Supported Flashpix version", exifIfdId, exifVersion, undefined, printValue),
-        TagInfo(0xa001, "ColorSpace", "Color Space", "Color space information", exifIfdId, imgCharacter, unsignedShort, print0xa001),
+        TagInfo(0xa001, "ColorSpace", "Color Space", "Color space information", exifIfdId, imgCharacter, unsignedShort, EXV_PRINT_TAG(exifColorSpace)),
         TagInfo(0xa002, "PixelXDimension", "PixelXDimension", "Valid image width", exifIfdId, imgConfig, unsignedLong, printValue),
         TagInfo(0xa003, "PixelYDimension", "PixelYDimension", "Valid image height", exifIfdId, imgConfig, unsignedLong, printValue),
         TagInfo(0xa004, "RelatedSoundFile", "RelatedSoundFile", "Related audio file", exifIfdId, relatedFile, asciiString, printValue),
@@ -231,25 +466,25 @@ namespace Exiv2 {
         TagInfo(0xa20c, "SpatialFrequencyResponse", "Spatial Frequency Response", "Spatial frequency response", exifIfdId, captureCond, undefined, printValue),
         TagInfo(0xa20e, "FocalPlaneXResolution", "Focal Plane x-Resolution", "Focal plane X resolution", exifIfdId, captureCond, unsignedRational, printFloat),
         TagInfo(0xa20f, "FocalPlaneYResolution", "Focal Plane y-Resolution", "Focal plane Y resolution", exifIfdId, captureCond, unsignedRational, printFloat),
-        TagInfo(0xa210, "FocalPlaneResolutionUnit", "Focal Plane Resolution Unit", "Focal plane resolution unit", exifIfdId, captureCond, unsignedShort, printUnit),
+        TagInfo(0xa210, "FocalPlaneResolutionUnit", "Focal Plane Resolution Unit", "Focal plane resolution unit", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifUnit)),
         TagInfo(0xa214, "SubjectLocation", "Subject Location", "Subject location", exifIfdId, captureCond, unsignedShort, printValue),
         TagInfo(0xa215, "ExposureIndex", "Exposure index", "Exposure index", exifIfdId, captureCond, unsignedRational, printValue),
-        TagInfo(0xa217, "SensingMethod", "Sensing Method", "Sensing method", exifIfdId, captureCond, unsignedShort, print0xa217),
-        TagInfo(0xa300, "FileSource", "File Source", "File source", exifIfdId, captureCond, undefined, print0xa300),
-        TagInfo(0xa301, "SceneType", "Scene Type", "Scene type", exifIfdId, captureCond, undefined, print0xa301),
+        TagInfo(0xa217, "SensingMethod", "Sensing Method", "Sensing method", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifSensingMethod)),
+        TagInfo(0xa300, "FileSource", "File Source", "File source", exifIfdId, captureCond, undefined, EXV_PRINT_TAG(exifFileSource)),
+        TagInfo(0xa301, "SceneType", "Scene Type", "Scene type", exifIfdId, captureCond, undefined, EXV_PRINT_TAG(exifSceneType)),
         TagInfo(0xa302, "CFAPattern", "CFA Pattern", "CFA pattern", exifIfdId, captureCond, undefined, printValue),
         TagInfo(0xa401, "CustomRendered", "Custom Rendered", "Custom image processing", exifIfdId, captureCond, unsignedShort, printValue),
-        TagInfo(0xa402, "ExposureMode", "Exposure Mode", "Exposure mode", exifIfdId, captureCond, unsignedShort, print0xa402),
-        TagInfo(0xa403, "WhiteBalance", "White Balance", "White balance", exifIfdId, captureCond, unsignedShort, print0xa403),
+        TagInfo(0xa402, "ExposureMode", "Exposure Mode", "Exposure mode", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifExposureMode)),
+        TagInfo(0xa403, "WhiteBalance", "White Balance", "White balance", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifWhiteBalance)),
         TagInfo(0xa404, "DigitalZoomRatio", "Digital Zoom Ratio", "Digital zoom ratio", exifIfdId, captureCond, unsignedRational, print0xa404),
         TagInfo(0xa405, "FocalLengthIn35mmFilm", "Focal Length In 35mm Film", "Focal length in 35 mm film", exifIfdId, captureCond, unsignedShort, print0xa405),
-        TagInfo(0xa406, "SceneCaptureType", "Scene Capture Type", "Scene capture type", exifIfdId, captureCond, unsignedShort, print0xa406),
-        TagInfo(0xa407, "GainControl", "Gain Control", "Gain control", exifIfdId, captureCond, unsignedRational, print0xa407),
-        TagInfo(0xa408, "Contrast", "Contrast", "Contrast", exifIfdId, captureCond, unsignedShort, print0xa408),
-        TagInfo(0xa409, "Saturation", "Saturation", "Saturation", exifIfdId, captureCond, unsignedShort, print0xa409),
-        TagInfo(0xa40a, "Sharpness", "Sharpness", "Sharpness", exifIfdId, captureCond, unsignedShort, print0xa40a),
+        TagInfo(0xa406, "SceneCaptureType", "Scene Capture Type", "Scene capture type", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifSceneCaptureType)),
+        TagInfo(0xa407, "GainControl", "Gain Control", "Gain control", exifIfdId, captureCond, unsignedRational, EXV_PRINT_TAG(exifGainControl)),
+        TagInfo(0xa408, "Contrast", "Contrast", "Contrast", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifContrast)),
+        TagInfo(0xa409, "Saturation", "Saturation", "Saturation", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifSaturation)),
+        TagInfo(0xa40a, "Sharpness", "Sharpness", "Sharpness", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifSharpness)),
         TagInfo(0xa40b, "DeviceSettingDescription", "Device Setting Description", "Device settings description", exifIfdId, captureCond, undefined, printValue),
-        TagInfo(0xa40c, "SubjectDistanceRange", "Subject Distance Range", "Subject distance range", exifIfdId, captureCond, unsignedShort, print0xa40c),
+        TagInfo(0xa40c, "SubjectDistanceRange", "Subject Distance Range", "Subject distance range", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifSubjectDistanceRange)),
         TagInfo(0xa420, "ImageUniqueID", "Image Unique ID", "Unique image ID", exifIfdId, otherTags, asciiString, printValue),
         // End of list marker
         TagInfo(0xffff, "(UnknownExifTag)", "Unknown Exif tag", "Unknown Exif tag", ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
@@ -786,104 +1021,6 @@ namespace Exiv2 {
         return os << "(" << value << ")";
     } // printFloat
 
-    std::ostream& printUnit(std::ostream& os, const Value& value)
-    {
-        long unit = value.toLong();
-        switch (unit) {
-        case 2:  os << "inch"; break;
-        case 3:  os << "cm"; break;
-        default: os << "(" << unit << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& print0x0103(std::ostream& os, const Value& value)
-    {
-        long compression = value.toLong();
-        switch (compression) {
-        case     1:  os << "Uncompressed"; break;
-        case     2:  os << "CCITT RLE"; break;
-        case     3:  os << "T4/Group 3 Fax"; break;
-        case     4:  os << "T6/Group 4 Fax"; break;
-        case     5:  os << "LZW"; break;
-        case     6:  os << "JPEG (old-style)"; break;
-        case     7:  os << "JPEG"; break;
-        case     8:  os << "Adobe Deflate"; break;
-        case     9:  os << "JBIG B&W"; break;
-        case    10:  os << "JBIG Color"; break;
-        case 32766:  os << "Next 2-bits RLE"; break;
-        case 32771:  os << "CCITT RLE 1-word"; break;
-        case 32773:  os << "PackBits (Macintosh RLE)"; break;
-        case 32809:  os << "Thunderscan RLE"; break;
-        case 32895:  os << "IT8 CT Padding"; break;
-        case 32896:  os << "IT8 Linework RLE"; break;
-        case 32897:  os << "IT8 Monochrome Picture"; break;
-        case 32898:  os << "IT8 Binary Lineart"; break;
-        case 32908:  os << "Pixar Film (10-bits LZW)"; break;
-        case 32909:  os << "Pixar Log (11-bits ZIP)"; break;
-        case 32946:  os << "Pixar Deflate"; break;
-        case 32947:  os << "Kodak DCS Encoding"; break;
-        case 34661:  os << "ISO JBIG"; break;
-        case 34676:  os << "SGI Log Luminance RLE"; break;
-        case 34677:  os << "SGI Log 24-bits packed"; break;
-        case 34712:  os << "Leadtools JPEG 2000"; break;
-        case 34713:  os << "Nikon NEF Compressed"; break;
-        default: os << "(" << compression << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& print0x0106(std::ostream& os, const Value& value)
-    {
-        long photo = value.toLong();
-        switch (photo) {
-        case     0:  os << "White Is Zero"; break;
-        case     1:  os << "Black Is Zero"; break;
-        case     2:  os << "RGB"; break;
-        case     3:  os << "RGB Palette"; break;
-        case     4:  os << "Transparency Mask"; break;
-        case     5:  os << "CMYK"; break;
-        case     6:  os << "YCbCr"; break;
-        case     8:  os << "CIELab"; break;
-        case     9:  os << "ICCLab"; break;
-        case    10:  os << "ITULab"; break;
-        case 32803:  os << "Color Filter Array"; break;
-        case 32844:  os << "Pixar LogL"; break;
-        case 32845:  os << "Pixar LogLuv"; break;
-        case 34892:  os << "Linear Raw"; break;
-        default: os << "(" << photo << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& print0x0112(std::ostream& os, const Value& value)
-    {
-        long orientation = value.toLong();
-        switch (orientation) {
-        case 1:  os << "top, left"; break;
-        case 2:  os << "top, right"; break;
-        case 3:  os << "bottom, right"; break;
-        case 4:  os << "bottom, left"; break;
-        case 5:  os << "left, top"; break;
-        case 6:  os << "right, top"; break;
-        case 7:  os << "right, bottom"; break;
-        case 8:  os << "left, bottom"; break;
-        default: os << "(" << orientation << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& print0x0213(std::ostream& os, const Value& value)
-    {
-        long position = value.toLong();
-        switch (position) {
-        case 1:  os << "Centered"; break;
-        case 2:  os << "Co-sited"; break;
-        default: os << "(" << position << ")"; break;
-        }
-        return os;
-    }
-
     std::ostream& print0x8298(std::ostream& os, const Value& value)
     {
         // Print the copyright information in the format Photographer, Editor
@@ -938,24 +1075,6 @@ namespace Exiv2 {
         }
         else {
             os << "(" << value << ")";
-        }
-        return os;
-    }
-
-    std::ostream& print0x8822(std::ostream& os, const Value& value)
-    {
-        long program = value.toLong();
-        switch (program) {
-        case 0:  os << "Not defined"; break;
-        case 1:  os << "Manual"; break;
-        case 2:  os << "Auto"; break;
-        case 3:  os << "Aperture priority"; break;
-        case 4:  os << "Shutter priority"; break;
-        case 5:  os << "Creative program"; break;
-        case 6:  os << "Action program"; break;
-        case 7:  os << "Portrait mode"; break;
-        case 8:  os << "Landscape mode"; break;
-        default: os << "(" << program << ")"; break;
         }
         return os;
     }
@@ -1047,83 +1166,6 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& print0x9207(std::ostream& os, const Value& value)
-    {
-        long mode = value.toLong();
-        switch (mode) {
-        case 0:  os << "Unknown"; break;
-        case 1:  os << "Average"; break;
-        case 2:  os << "Center weighted"; break;
-        case 3:  os << "Spot"; break;
-        case 4:  os << "Multispot"; break;
-        case 5:  os << "Matrix"; break;
-        case 6:  os << "Partial"; break;
-        default: os << "(" << mode << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& print0x9208(std::ostream& os, const Value& value)
-    {
-        long source = value.toLong();
-        switch (source) {
-        case   0: os << "Unknown"; break;
-        case   1: os << "Daylight"; break;
-        case   2: os << "Fluorescent"; break;
-        case   3: os << "Tungsten (incandescent light)"; break;
-        case   4: os << "Flash"; break;
-        case   9: os << "Fine weather"; break;
-        case  10: os << "Cloudy weather"; break;
-        case  11: os << "Shade"; break;
-        case  12: os << "Daylight fluorescent (D 5700 - 7100K)"; break;
-        case  13: os << "Day white fluorescent (N 4600 - 5400K)"; break;
-        case  14: os << "Cool white fluorescent (W 3900 - 4500K)"; break;
-        case  15: os << "White fluorescent (WW 3200 - 3700K)"; break;
-        case  17: os << "Standard light A"; break;
-        case  18: os << "Standard light B"; break;
-        case  19: os << "Standard light C"; break;
-        case  20: os << "D55"; break;
-        case  21: os << "D65"; break;
-        case  22: os << "D75"; break;
-        case  23: os << "D50"; break;
-        case  24: os << "ISO studio tungsten"; break;
-        case 255: os << "other light source"; break;
-        default:  os << "(" << source << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& print0x9209(std::ostream& os, const Value& value)
-    {
-        long flash = value.toLong();
-        switch (flash) {
-        case 0x00: os << "No"; break;
-        case 0x01: os << "Yes"; break;
-        case 0x05: os << "Strobe return light not detected"; break;
-        case 0x07: os << "Strobe return light detected"; break;
-        case 0x09: os << "Yes, compulsory"; break;
-        case 0x0d: os << "Yes, compulsory, return light not detected"; break;
-        case 0x0f: os << "Yes, compulsory, return light detected"; break;
-        case 0x10: os << "No, compulsory"; break;
-        case 0x18: os << "No, auto"; break;
-        case 0x19: os << "Yes, auto"; break;
-        case 0x1d: os << "Yes, auto, return light not detected"; break;
-        case 0x1f: os << "Yes, auto, return light detected"; break;
-        case 0x20: os << "No flash function"; break;
-        case 0x41: os << "Yes, red-eye reduction"; break;
-        case 0x45: os << "Yes, red-eye reduction, return light not detected"; break;
-        case 0x47: os << "Yes, red-eye reduction, return light detected"; break;
-        case 0x49: os << "Yes, compulsory, red-eye reduction"; break;
-        case 0x4d: os << "Yes, compulsory, red-eye reduction, return light not detected"; break;
-        case 0x4f: os << "Yes, compulsory, red-eye reduction, return light detected"; break;
-        case 0x59: os << "Yes, auto, red-eye reduction"; break;
-        case 0x5d: os << "Yes, auto, red-eye reduction, return light not detected"; break;
-        case 0x5f: os << "Yes, auto, red-eye reduction, return light detected"; break;
-        default:   os << "(" << flash << ")"; break;
-        }
-        return os;
-    }
-
     std::ostream& print0x920a(std::ostream& os, const Value& value)
     {
         Rational length = value.toRational();
@@ -1156,77 +1198,6 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& print0xa001(std::ostream& os, const Value& value)
-    {
-        long space = value.toLong();
-        switch (space) {
-        case 1:      os << "sRGB"; break;
-        case 2:      os << "Adobe RGB"; break;
-        case 0xffff: os << "Uncalibrated"; break;
-        default:     os << "(" << space << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& print0xa217(std::ostream& os, const Value& value)
-    {
-        long method = value.toLong();
-        switch (method) {
-        case 1:  os << "Not defined"; break;
-        case 2:  os << "One-chip color area"; break;
-        case 3:  os << "Two-chip color area"; break;
-        case 4:  os << "Three-chip color area"; break;
-        case 5:  os << "Color sequential area"; break;
-        case 7:  os << "Trilinear sensor"; break;
-        case 8:  os << "Color sequential linear"; break;
-        default: os << "(" << method << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& print0xa300(std::ostream& os, const Value& value)
-    {
-        long source = value.toLong();
-        switch (source) {
-        case 3:      os << "Digital still camera"; break;
-        default:     os << "(" << source << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& print0xa301(std::ostream& os, const Value& value)
-    {
-        long scene = value.toLong();
-        switch (scene) {
-        case 1:      os << "Directly photographed"; break;
-        default:     os << "(" << scene << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& print0xa402(std::ostream& os, const Value& value)
-    {
-        long mode = value.toLong();
-        switch (mode) {
-        case 0: os << "Auto"; break;
-        case 1: os << "Manual"; break;
-        case 2: os << "Auto bracket"; break;
-        default: os << "(" << mode << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& print0xa403(std::ostream& os, const Value& value)
-    {
-        long wb = value.toLong();
-        switch (wb) {
-        case 0: os << "Auto"; break;
-        case 1: os << "Manual"; break;
-        default: os << "(" << wb << ")"; break;
-        }
-        return os;
-    }
-
     std::ostream& print0xa404(std::ostream& os, const Value& value)
     {
         Rational zoom = value.toRational();
@@ -1251,82 +1222,6 @@ namespace Exiv2 {
         }
         else {
             os << length << ".0 mm";
-        }
-        return os;
-    }
-
-    std::ostream& print0xa406(std::ostream& os, const Value& value)
-    {
-        long scene = value.toLong();
-        switch (scene) {
-        case 0: os << "Standard"; break;
-        case 1: os << "Landscape"; break;
-        case 2: os << "Portrait"; break;
-        case 3: os << "Night scene"; break;
-        default: os << "(" << scene << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& print0xa407(std::ostream& os, const Value& value)
-    {
-        long gain = value.toLong();
-        switch (gain) {
-        case 0: os << "None"; break;
-        case 1: os << "Low gain up"; break;
-        case 2: os << "High gain up"; break;
-        case 3: os << "Low gain down"; break;
-        case 4: os << "High gain down"; break;
-        default: os << "(" << gain << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& print0xa408(std::ostream& os, const Value& value)
-    {
-        long contrast = value.toLong();
-        switch (contrast) {
-        case 0: os << "Normal"; break;
-        case 1: os << "Soft"; break;
-        case 2: os << "Hard"; break;
-        default: os << "(" << contrast << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& print0xa409(std::ostream& os, const Value& value)
-    {
-        long saturation = value.toLong();
-        switch (saturation) {
-        case 0: os << "Normal"; break;
-        case 1: os << "Low"; break;
-        case 2: os << "High"; break;
-        default: os << "(" << saturation << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& print0xa40a(std::ostream& os, const Value& value)
-    {
-        long sharpness = value.toLong();
-        switch (sharpness) {
-        case 0: os << "Normal"; break;
-        case 1: os << "Soft"; break;
-        case 2: os << "Hard"; break;
-        default: os << "(" << sharpness << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& print0xa40c(std::ostream& os, const Value& value)
-    {
-        long distance = value.toLong();
-        switch (distance) {
-        case 0: os << "Unknown"; break;
-        case 1: os << "Macro"; break;
-        case 2: os << "Close view"; break;
-        case 3: os << "Distant view"; break;
-        default: os << "(" << distance << ")"; break;
         }
         return os;
     }
