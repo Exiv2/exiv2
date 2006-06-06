@@ -17,7 +17,7 @@
       <mainprogram>src/exiv2</mainprogram>
       <directoryradio>executable</directoryradio>
       <customdirectory>/</customdirectory>
-      <programargs></programargs>
+      <programargs>-pi ../test/data/imagemagick.png</programargs>
       <terminal>false</terminal>
       <autocompile>true</autocompile>
       <envvars/>
