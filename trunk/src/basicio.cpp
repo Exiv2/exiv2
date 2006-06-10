@@ -105,21 +105,15 @@ namespace Exiv2 {
         opMode_ = opMode;
 
         bool reopen = true;
-        std::string mode = "r+b";
-
         switch(opMode) {
         case opRead:
             // Flush if current mode allows reading, else reopen (in mode "r+b"
             // as in this case we know that we can write to the file)
-            if (   openMode_[0] == 'r'
-                || openMode_.substr(0, 2) == "w+"
-                || openMode_.substr(0, 2) == "a+") reopen = false;
+            if (openMode_[0] == 'r' || openMode_[1] == '+') reopen = false;
             break;
         case opWrite:
             // Flush if current mode allows writing, else reopen
-            if (   openMode_.substr(0, 2) == "r+"
-                || openMode_[0] == 'w'
-                || openMode_[0] == 'a') reopen = false;
+            if (openMode_[0] != 'r' || openMode_[1] == '+') reopen = false;
             break;
         case opSeek:
             reopen = false;
@@ -139,7 +133,7 @@ namespace Exiv2 {
         // Reopen the file
         long offset = ftell(fp_);
         if (offset == -1) return -1;
-        if (open(mode) != 0) return 1;
+        if (open("r+b") != 0) return 1;
         return fseek(fp_, offset, SEEK_SET);
     }
 
@@ -245,7 +239,8 @@ namespace Exiv2 {
 
     long FileIo::size() const
     {
-        if (fp_ != 0) {
+        // Flush and commit only if the file is open for writing
+        if (fp_ != 0 && (openMode_[0] != 'r' || openMode_[1] == '+')) {
             fflush(fp_);
 #if defined WIN32 && !defined __CYGWIN__
             // This is required on msvcrt before stat after writing to a file
