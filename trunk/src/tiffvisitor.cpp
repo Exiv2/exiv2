@@ -782,7 +782,16 @@ namespace Exiv2 {
                 // todo: adjust count_, make size_ a multiple of typeSize
             }
         }
-        Value::AutoPtr v = Value::create(object->typeId());
+        // On the fly type conversion for Exif.Photo.UserComment
+        // Todo: This should be somewhere else, maybe in a Value factory
+        // which takes a Key and Type
+        TypeId t = TypeId(object->typeId());
+        if (   object->tag()    == 0x9286 
+            && object->group()  == Group::exif 
+            && object->typeId() == undefined) {
+            t = comment;
+        }
+        Value::AutoPtr v = Value::create(t);
         if (v.get()) {
             v->read(object->pData(), object->size(), byteOrder());
             object->pValue_ = v.release();
