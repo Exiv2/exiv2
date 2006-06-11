@@ -590,7 +590,7 @@ namespace Exiv2 {
 
     Image::AutoPtr newJpegInstance(BasicIo::AutoPtr io, bool create)
     {
-        Image::AutoPtr image = Image::AutoPtr(new JpegImage(io, create));
+        Image::AutoPtr image(new JpegImage(io, create));
         if (!image->good()) {
             image.reset();
         }

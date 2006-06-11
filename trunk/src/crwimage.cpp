@@ -1348,7 +1348,7 @@ namespace Exiv2 {
 
     Image::AutoPtr newCrwInstance(BasicIo::AutoPtr io, bool create)
     {
-        Image::AutoPtr image = Image::AutoPtr(new CrwImage(io, create));
+        Image::AutoPtr image(new CrwImage(io, create));
         if (!image->good()) {
             image.reset();
         }
