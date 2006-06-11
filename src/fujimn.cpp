@@ -136,7 +136,7 @@ namespace Exiv2 {
 
     FujiMakerNote* FujiMakerNote::create_(bool alloc) const
     {
-        AutoPtr makerNote = AutoPtr(new FujiMakerNote(alloc));
+        AutoPtr makerNote(new FujiMakerNote(alloc));
         assert(makerNote.get() != 0);
         makerNote->readHeader(header_.pData_, header_.size_, byteOrder_);
         return makerNote.release();

@@ -85,7 +85,7 @@ namespace Exiv2 {
 
     Iptcdatum& Iptcdatum::operator=(const uint16_t& value)
     {
-        UShortValue::AutoPtr v = UShortValue::AutoPtr(new UShortValue);
+        UShortValue::AutoPtr v(new UShortValue);
         v->value_.push_back(value);
         value_ = v;
         return *this;

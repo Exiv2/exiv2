@@ -116,7 +116,7 @@ namespace Exiv2 {
 
     SonyMakerNote* SonyMakerNote::create_(bool alloc) const
     {
-        AutoPtr makerNote = AutoPtr(new SonyMakerNote(alloc));
+        AutoPtr makerNote(new SonyMakerNote(alloc));
         assert(makerNote.get() != 0);
         makerNote->readHeader(header_.pData_, header_.size_, byteOrder_);
         return makerNote.release();
