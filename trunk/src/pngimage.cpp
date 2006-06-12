@@ -20,13 +20,13 @@
  */
 /*
   File:    pngimage.cpp
-  Version: $Rev: 808 $
-  History: 07-Jun-06, gc: submitted
+  Version: $Rev: 823 $
+  History: 12-Jun-06, gc: submitted
   Credits: See header file
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Id: pngimage.cpp 808 2006-06-01 15:09:39Z ahuggel $");
+EXIV2_RCSID("@(#) $Id: pngimage.cpp 823 2006-06-12 07:35:00Z cgilles $");
 
 // *****************************************************************************
 
@@ -106,12 +106,14 @@ namespace Exiv2 {
 
     void PngImage::clearComment()
     {
-        // not supported
+        // not yet supported.
+        // TODO : Add 'iTXt' chunk 'Description' tag support here
     }
 
     void PngImage::setComment(const std::string& comment)
     {
-        // not supported
+        // not yet supported
+        // TODO : Add 'iTXt' chunk 'Description' tag support here
     }
 
     void PngImage::readMetadata()
@@ -124,19 +126,19 @@ namespace Exiv2 {
             throw Error(9, io_->path(), strError());
         }
         IoCloser closer(*io_);
-        
+
         // Ensure that this is the correct image type
         if (!isThisType(*io_, false)) 
         {
             if (io_->error() || io_->eof()) throw Error(14);
             throw Error(3, "PNG");
         }
-        
+
         clearMetadata();
-        
+
         DataBuf buf = io_->read(io_->size());
         if (io_->error() || io_->eof()) throw Error(14);
-        
+
         PngChunk::decode(this, buf.pData_, buf.size_);
 
     } // PngImage::readMetadata
@@ -169,7 +171,7 @@ namespace Exiv2 {
     bool isPngType(BasicIo& iIo, bool advance)
     {
         const int32_t len = 8;
-        const unsigned char pngID[8] = {'\211', 'P', 'N', 'G', '\r', '\n', '\032', '\n'};
+        const unsigned char pngID[8] = { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
         byte buf[len];
         iIo.read(buf, len);
         if (iIo.error() || iIo.eof()) 

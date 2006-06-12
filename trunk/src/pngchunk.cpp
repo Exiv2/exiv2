@@ -20,13 +20,13 @@
  */
 /*
   File:    pngchunk.cpp
-  Version: $Rev: 816 $
-  History: 07-Jun-06, gc: submitted
+  Version: $Rev: 823 $
+  History: 12-Jun-06, gc: submitted
   Credits: See header file
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Id: pngchunk.cpp 816 2006-06-04 15:21:19Z ahuggel $");
+EXIV2_RCSID("@(#) $Id: pngchunk.cpp 823 2006-06-23 07:35:00Z cgilles $");
 
 // *****************************************************************************
 // included header files
@@ -95,18 +95,18 @@ namespace Exiv2 {
 
                 int keysize=0;
                 for ( ; key[keysize] != 0 ; keysize++) 
-                {                                
+                {
                     // look if we reached the end of the file (it might be corrupted)
                     if (8+index+keysize >= size)
                         throw Error(14);
                 }
 
                 DataBuf arr;
-                                
+
                 if(!strncmp((char*)PNG_CHUNK_TYPE(pData, index), "zTXt", 4)) 
                 {
                     // Extract a deflate compressed Latin-1 text chunk
-                
+
 #ifdef DEBUG
                     std::cerr << "Exiv2::PngChunk::decode: We found a zTXt field\n";
 #endif
@@ -120,7 +120,7 @@ namespace Exiv2 {
 #endif
                         throw Error(14);
                     }
-                    
+
                     // compressed string after the compression technique spec
                     const byte* compressedText = &PNG_CHUNK_DATA(pData, index, keysize+2);
                     uint compressedTextSize    = getLong(&pData[index], bigEndian)-keysize-2;
@@ -134,13 +134,13 @@ namespace Exiv2 {
 
                     uLongf uncompressedLen = compressedTextSize * 2; // just a starting point
                     int zlibResult;
-                    
-                    do 
+
+                    do
                     {
                         arr.alloc(uncompressedLen);
                         zlibResult = uncompress((Bytef*)arr.pData_, &uncompressedLen,
                                                 compressedText, compressedTextSize);
-                        
+
                         if (Z_OK == zlibResult) 
                         {
                             // then it is all OK
@@ -192,6 +192,8 @@ namespace Exiv2 {
                 }
                 else
                 {
+                    // TODO : Add 'iTXt' chunk 'Description' tag support here
+
 #ifdef DEBUG
                     std::cerr << "Exiv2::PngChunk::decode: We found a field, not expected though\n";
 #endif
@@ -204,17 +206,17 @@ namespace Exiv2 {
 #endif
 
                 // We look if an EXIF raw profile exist.
-                
+
                 if ( memcmp("Raw profile type exif", key, 21) == 0 ||
                      memcmp("Raw profile type APP1", key, 21) == 0 )
                 {
                     DataBuf exifData = readRawProfile(arr);
                     long length = exifData.size_;
-                    
+
                     if (length > 0)
                     {
                         // Find the position of Exif header in bytes array.
-                        
+
                         const byte exifHeader[] = { 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
                         long pos = -1;
 
@@ -228,7 +230,7 @@ namespace Exiv2 {
                         }
 
                         // If found it, store only these data at from this place.
-                        
+
                         if (pos !=-1)
                         {
 #ifdef DEBUG
@@ -236,17 +238,17 @@ namespace Exiv2 {
 #endif
                             pos = pos + sizeof(exifHeader);
                             TiffParser::decode(pImage, exifData.pData_+pos, length-pos, TiffCreator::create);
-                        }                        
+                        }
                     }
                 }
-                
+
                 // We look if an IPTC raw profile exist.
-                
+
                 if ( memcmp("Raw profile type iptc", key, 21) == 0 )
                 {
                     DataBuf iptcData = readRawProfile(arr);
                     long length = iptcData.size_;
-                    
+
                     if (length > 0)
                         pImage->iptcData().load(iptcData.pData_, length);
                 }
@@ -254,9 +256,9 @@ namespace Exiv2 {
                 index += getLong(&pData[index], bigEndian) + PNG_CHUNK_HEADER_SIZE;
             }
         }
-    
+
     } // PngChunk::decode
-    
+
     DataBuf PngChunk::readRawProfile(const DataBuf& text)
     {
         DataBuf                 info;
@@ -271,45 +273,45 @@ namespace Exiv2 {
                                             0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,
                                             0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,10,11,12,
                                             13,14,15};
-    
+
         sp = (char*)text.pData_+1;
-    
+
         // Look for newline
-    
+
         while (*sp != '\n')
             sp++;
-    
+
         // Look for length
-    
+
         while (*sp == '\0' || *sp == ' ' || *sp == '\n')
             sp++;
-    
+
         length = (long) atol(sp);
-    
+
         while (*sp != ' ' && *sp != '\n')
             sp++;
-    
+
         // Allocate space
-    
+
         if (length == 0)
         {
             std::cerr << "Exiv2::PngChunk::readRawProfile: Unable To Copy Raw Profile: invalid profile length\n";
             return DataBuf();
         }
-    
+
         info.alloc(length);
-    
+
         if (info.size_ != length)
         {
             std::cerr << "Exiv2::PngChunk::readRawProfile: Unable To Copy Raw Profile: cannot allocate memory\n";
             return DataBuf();
         }
-    
+
         // Copy profile, skipping white space and column 1 "=" signs
-    
+
         dp      = (unsigned char*)info.pData_;
         nibbles = length * 2;
-    
+
         for (i = 0; i < (long) nibbles; i++)
         {
             while (*sp < '0' || (*sp > '9' && *sp < 'a') || *sp > 'f')
@@ -319,16 +321,16 @@ namespace Exiv2 {
                     std::cerr << "Exiv2::PngChunk::readRawProfile: Unable To Copy Raw Profile: ran out of data\n";
                     return DataBuf();
                 }
-    
+
                 sp++;
             }
-    
+
             if (i%2 == 0)
                 *dp = (unsigned char) (16*unhex[(int) *sp++]);
             else
                 (*dp++) += unhex[(int) *sp++];
         }
-        
+
         return info;
     } // PngChunk::readRawProfile
 }                                       // namespace Exiv2
