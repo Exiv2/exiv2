@@ -37,6 +37,7 @@ EXIV2_RCSID("@(#) $Id$");
 #include "crwimage.hpp"
 #include "mrwimage.hpp"
 #include "tiffimage.hpp"
+#include "pngimage.hpp"
 
 // + standard includes
 
@@ -50,7 +51,8 @@ namespace Exiv2 {
 //      Registry(ImageType::cr2,  newCr2Instance,  isCr2Type),
         Registry(ImageType::crw,  newCrwInstance,  isCrwType),
         Registry(ImageType::mrw,  newMrwInstance,  isMrwType),
-        Registry(ImageType::tiff, newTiffInstance, isTiffType)
+        Registry(ImageType::tiff, newTiffInstance, isTiffType),
+        Registry(ImageType::png,  newPngInstance,  isPngType)
     };
 
 }                                       // namespace Exiv2

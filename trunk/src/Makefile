@@ -75,6 +75,8 @@ CCSRC = basicio.cpp           \
 	nikonmn.cpp           \
 	olympusmn.cpp         \
 	panasonicmn.cpp       \
+	pngimage.cpp          \
+	pngchunk.cpp          \
 	sigmamn.cpp           \
 	sonymn.cpp            \
 	tags.cpp              \
@@ -193,7 +195,7 @@ endif
 # Compilation shortcuts
 COMPILE.cc = $(CXX) $(CXXFLAGS) $(CXXDEFS) $(CXXINCS) -c
 COMPILE.c = $(CC) $(CFLAGS) $(DEFS) $(INCS) -c
-LINK.cc = $(CXX) $(CXXFLAGS) $(LDLIBS) $(LDFLAGS) -rpath $(libdir)
+LINK.cc = $(CXX) $(CXXFLAGS) $(LDLIBS) $(LDFLAGS) -lz -rpath $(libdir)
 
 # ******************************************************************************
 # Rules
