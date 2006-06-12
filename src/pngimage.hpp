@@ -23,12 +23,12 @@
   @brief   PNG image, implemented using the following references:
            <a href="http://www.w3.org/TR/PNG/">PNG specification</a> by W3C<br>
            <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/PNG.html">PNG tags list</a> by Phil Harvey<br>
-  @version $Rev: 797 $
+  @version $Rev: 823 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @author  Gilles Caulier (gc)
            <a href="mailto:caulier dot gilles at kdemail dot net">caulier dot gilles at kdemail dot net</a>
-  @date    07-Jun-06, gc: submitted
+  @date    12-Jun-06, gc: submitted
  */
 #ifndef PNGIMAGE_HPP_
 #define PNGIMAGE_HPP_

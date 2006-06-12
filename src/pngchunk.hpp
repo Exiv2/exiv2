@@ -21,12 +21,12 @@
 /*!
   @file    pngchunk.hpp
   @brief   Class PngChunk to parse PNG chunk data.
-  @version $Rev: 808 $
+  @version $Rev: 823 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @author  Gilles Caulier (gc)
            <a href="mailto:caulier dot gilles at kdemail dot net">caulier dot gilles at kdemail dot net</a>
-  @date    13-Jun-06, gc: submitted
+  @date    12-Jun-06, gc: submitted
  */
 #ifndef PNGCHUNK_HPP_
 #define PNGCHUNK_HPP_
@@ -69,7 +69,7 @@ namespace Exiv2 {
         static void decode(Image*       pImage,
                            const byte*  pData,
                            long         size);
-                           
+
                                private:
         //! @name Accessors
         //@{
@@ -78,9 +78,9 @@ namespace Exiv2 {
           @brief Todo: Decode ImageMagick raw text profile including encoded Exif/Iptc metadata byte array.
          */
         static DataBuf readRawProfile(const DataBuf& text);
-        
+
         //@}
-                                   
+
     }; // class PngChunk
 
 }                                       // namespace Exiv2
