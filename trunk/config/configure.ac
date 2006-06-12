@@ -21,6 +21,7 @@ AC_PROG_RANLIB
 AC_PROG_LIBTOOL
 
 # Checks for libraries.
+AC_CHECK_LIB(z, zlibVersion, , AC_ERROR([zlib not installed]))
 
 # Checks for header files.
 AC_HEADER_STDC
