@@ -195,7 +195,7 @@ endif
 # Compilation shortcuts
 COMPILE.cc = $(CXX) $(CXXFLAGS) $(CXXDEFS) $(CXXINCS) -c
 COMPILE.c = $(CC) $(CFLAGS) $(DEFS) $(INCS) -c
-LINK.cc = $(CXX) $(CXXFLAGS) $(LDLIBS) $(LDFLAGS) -lz -rpath $(libdir)
+LINK.cc = $(CXX) $(CXXFLAGS) $(LDLIBS) $(LDFLAGS) -rpath $(libdir)
 
 # ******************************************************************************
 # Rules
