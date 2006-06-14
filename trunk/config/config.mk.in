@@ -32,11 +32,6 @@
 EXIV2_VERSION = @PACKAGE_VERSION@
 
 # **********************************************************************
-# Define which libraries (shared and/or static) to build
-# This setting is now controlled by GNU configure and libtool, see 
-# the top level directory README and configure --help
-
-# **********************************************************************
 # Libtool
 LIBTOOL = $(top_srcdir)/libtool
 LIBTOOL_DEPS = @LIBTOOL_DEPS@
