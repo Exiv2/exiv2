@@ -54,7 +54,7 @@ CXXCPP = @CXXCPP@
 CPPFLAGS = @CPPFLAGS@
 
 # Linker flags
-LDFLAGS = @LDFLAGS@ -lm
+LDFLAGS = @LDFLAGS@
 
 # Suffix of executables
 EXEEXT := @EXEEXT@

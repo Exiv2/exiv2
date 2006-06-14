@@ -21,8 +21,10 @@ AC_PROG_RANLIB
 AC_PROG_LIBTOOL
 
 # Checks for libraries.
-AC_CHECK_LIB(z, uncompress, [AC_CHECK_HEADERS([zlib.h], HAVE_ZLIB=1)])
-if test -z "$HAVE_ZLIB"; then
+AC_CHECK_LIB(m, exp, , AC_MSG_ERROR([libm not found.]))
+AC_CHECK_LIB(z, uncompress, , found_zlib=no)
+AC_CHECK_HEADERS([zlib.h], , found_zlib=no)
+if test "$found_zlib" = no; then
   AC_MSG_ERROR([I did not find a copy of the zlib library and the zlib.h 
 header file on your system. You can get it from http://www.gzip.org/zlib/])
 fi
