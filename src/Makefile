@@ -136,7 +136,6 @@ LIBRARY = libexiv2.la
 # Defines, Includes and Libraries
 CXXDEFS = $(DEFS)
 CXXINCS = $(INCS)
-LDLIBS  = $(LIBS) $(LIBRARY)
 
 # ******************************************************************************
 # ==============================================================================
@@ -195,7 +194,8 @@ endif
 # Compilation shortcuts
 COMPILE.cc = $(CXX) $(CXXFLAGS) $(CXXDEFS) $(CXXINCS) -c
 COMPILE.c = $(CC) $(CFLAGS) $(DEFS) $(INCS) -c
-LINK.cc = $(CXX) $(CXXFLAGS) $(LDLIBS) $(LDFLAGS) -rpath $(libdir)
+# LINK.cc does not need $(LIBS), libtool's dark magic takes care of that
+LINK.cc = $(CXX) $(CXXFLAGS) $(LIBRARY) $(LDFLAGS) -rpath $(libdir)
 
 # ******************************************************************************
 # Rules
@@ -246,7 +246,7 @@ $(LIBTOOL): $(LIBTOOL_DEPS)
 bin: lib $(BINARY) $(EXIV2BIN) $(MCBIN) path-test
 
 lib: $(OBJ)
-	$(LIBTOOL) --mode=link $(CXX) $(LDFLAGS) $(LOBJ) -o $(LIBRARY) -rpath $(libdir) -release $(EXIV2_VERSION)
+	$(LIBTOOL) --mode=link $(CXX) $(LDFLAGS) $(LOBJ) -o $(LIBRARY) -rpath $(libdir) -release $(EXIV2_VERSION) $(LIBS)
 	@touch lib
 
 path-test: path-test.o utils.o
