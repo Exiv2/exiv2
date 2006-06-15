@@ -22,12 +22,8 @@ AC_PROG_LIBTOOL
 
 # Checks for libraries.
 AC_CHECK_LIB(m, exp, , AC_MSG_ERROR([libm not found.]))
-AC_CHECK_LIB(z, uncompress, , found_zlib=no)
-AC_CHECK_HEADERS([zlib.h], , found_zlib=no)
-if test "$found_zlib" = no; then
-  AC_MSG_ERROR([I did not find a copy of the zlib library and the zlib.h 
-header file on your system. You can get it from http://www.gzip.org/zlib/])
-fi
+CHECK_ZLIB()
+AC_SUBST(HAVE_LIBZ,$HAVE_LIBZ)
 
 # Checks for header files.
 AC_HEADER_STDC

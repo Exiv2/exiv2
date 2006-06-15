@@ -99,7 +99,8 @@ LIBS = @LIBS@
 DEFS = 
 
 # **********************************************************************
-# Functions
+# Libraries and Functions
+HAVE_LIBZ = @HAVE_LIBZ@
 HAVE_TIMEGM = @HAVE_TIMEGM@
 
 # **********************************************************************

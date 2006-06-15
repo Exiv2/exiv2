@@ -37,7 +37,9 @@ EXIV2_RCSID("@(#) $Id$");
 #include "crwimage.hpp"
 #include "mrwimage.hpp"
 #include "tiffimage.hpp"
-#include "pngimage.hpp"
+#ifdef EXV_HAVE_LIBZ
+# include "pngimage.hpp"
+#endif // EXV_HAVE_LIBZ
 
 // + standard includes
 
@@ -52,7 +54,9 @@ namespace Exiv2 {
         Registry(ImageType::crw,  newCrwInstance,  isCrwType),
         Registry(ImageType::mrw,  newMrwInstance,  isMrwType),
         Registry(ImageType::tiff, newTiffInstance, isTiffType),
+#ifdef EXV_HAVE_LIBZ
         Registry(ImageType::png,  newPngInstance,  isPngType)
+#endif // EXV_HAVE_LIBZ
     };
 
 }                                       // namespace Exiv2
