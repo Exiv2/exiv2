@@ -47,45 +47,47 @@ include $(top_srcdir)/config/config.mk
 # Source files
 
 # Add standalone C++ header files to this list
-CCHDR = exiv2_version.h       \
-	exv_conf.h            \
-        exv_msvc.h            \
-        mn.hpp                \
-        rcsid.hpp
+CCHDR =  exiv2_version.h      \
+         exv_conf.h           \
+         exv_msvc.h           \
+         mn.hpp               \
+         rcsid.hpp
 
 # Add library C++ source files to this list
-CCSRC = basicio.cpp           \
-	canonmn.cpp           \
-	crwimage.cpp          \
-	datasets.cpp          \
-	error.cpp             \
-	exif.cpp              \
-	futils.cpp            \
-	fujimn.cpp            \
-	ifd.cpp               \
-	image.cpp             \
-	imgreg.cpp            \
-	iptc.cpp              \
-	jpgimage.cpp          \
-	makernote.cpp         \
-	makernote2.cpp        \
-	metadatum.cpp         \
-	minoltamn.cpp         \
-	mrwimage.cpp          \
-	nikonmn.cpp           \
-	olympusmn.cpp         \
-	panasonicmn.cpp       \
-	pngimage.cpp          \
-	pngchunk.cpp          \
-	sigmamn.cpp           \
-	sonymn.cpp            \
-	tags.cpp              \
-	tiffcomposite.cpp     \
-	tiffimage.cpp         \
-	tiffparser.cpp        \
-	tiffvisitor.cpp       \
-	types.cpp             \
-	value.cpp
+CCSRC =  basicio.cpp          \
+	 canonmn.cpp          \
+	 crwimage.cpp         \
+	 datasets.cpp         \
+	 error.cpp            \
+	 exif.cpp             \
+	 futils.cpp           \
+	 fujimn.cpp           \
+	 ifd.cpp              \
+	 image.cpp            \
+	 imgreg.cpp           \
+	 iptc.cpp             \
+	 jpgimage.cpp         \
+	 makernote.cpp        \
+	 makernote2.cpp       \
+	 metadatum.cpp        \
+	 minoltamn.cpp        \
+	 mrwimage.cpp         \
+	 nikonmn.cpp          \
+	 olympusmn.cpp        \
+	 panasonicmn.cpp
+ifdef HAVE_LIBZ
+CCSRC += pngimage.cpp         \
+	 pngchunk.cpp
+endif
+CCSRC += sigmamn.cpp          \
+	 sonymn.cpp           \
+	 tags.cpp             \
+	 tiffcomposite.cpp    \
+	 tiffimage.cpp        \
+	 tiffparser.cpp       \
+	 tiffvisitor.cpp      \
+	 types.cpp            \
+	 value.cpp
 
 # Add library C source files to this list
 ifndef HAVE_TIMEGM
@@ -129,7 +131,6 @@ MCSRC = utils.cpp
 
 # ******************************************************************************
 # Library
-
 LIBRARY = libexiv2.la
 
 # ******************************************************************************
@@ -138,9 +139,6 @@ CXXDEFS = $(DEFS)
 CXXINCS = $(INCS)
 
 # ******************************************************************************
-# ==============================================================================
-# ******************************************************************************
-
 # Initialisations
 SHELL = /bin/sh
 
