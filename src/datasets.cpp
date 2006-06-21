@@ -26,7 +26,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Id$");
+EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 // included header files
@@ -315,7 +315,7 @@ namespace Exiv2 {
     }
 
     IptcKey::IptcKey(const IptcKey& rhs)
-        : tag_(rhs.tag_), record_(rhs.record_), key_(rhs.key_)
+        : Key(), tag_(rhs.tag_), record_(rhs.record_), key_(rhs.key_)
     {
     }
 

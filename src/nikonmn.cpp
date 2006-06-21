@@ -30,7 +30,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Id$");
+EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 // included header files
@@ -271,8 +271,8 @@ namespace Exiv2 {
     }
 
     int Nikon2MakerNote::readHeader(const byte* buf,
-                                    long len,
-                                    ByteOrder byteOrder)
+                                    long        len,
+                                    ByteOrder   /*byteOrder*/)
     {
         if (len < 8) return 1;
 
@@ -505,8 +505,8 @@ namespace Exiv2 {
     }
 
     int Nikon3MakerNote::readHeader(const byte* buf,
-                                    long len,
-                                    ByteOrder byteOrder)
+                                    long        len,
+                                    ByteOrder   /*byteOrder*/)
     {
         if (len < 18) return 1;
 
@@ -996,11 +996,11 @@ namespace Exiv2 {
 // *****************************************************************************
 // free functions
 
-    MakerNote::AutoPtr createNikonMakerNote(bool alloc,
+    MakerNote::AutoPtr createNikonMakerNote(bool        alloc,
                                             const byte* buf,
-                                            long len,
-                                            ByteOrder byteOrder,
-                                            long offset)
+                                            long        len,
+                                            ByteOrder   /*byteOrder*/,
+                                            long        /*offset*/)
     {
         // If there is no "Nikon" string it must be Nikon1 format
         if (len < 6 || std::string(reinterpret_cast<const char*>(buf), 6)

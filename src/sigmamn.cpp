@@ -29,7 +29,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Id$");
+EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 // included header files
@@ -104,8 +104,8 @@ namespace Exiv2 {
     }
 
     int SigmaMakerNote::readHeader(const byte* buf,
-                                   long len,
-                                   ByteOrder byteOrder)
+                                   long        len,
+                                   ByteOrder   /*byteOrder*/)
     {
         if (len < 10) return 1;
 
@@ -196,11 +196,11 @@ namespace Exiv2 {
 // *****************************************************************************
 // free functions
 
-    MakerNote::AutoPtr createSigmaMakerNote(bool alloc,
-                                            const byte* buf,
-                                            long len,
-                                            ByteOrder byteOrder,
-                                            long offset)
+    MakerNote::AutoPtr createSigmaMakerNote(bool        alloc,
+                                            const byte* /*buf*/,
+                                            long        /*len*/,
+                                            ByteOrder   /*byteOrder*/,
+                                            long        /*offset*/)
     {
         return MakerNote::AutoPtr(new SigmaMakerNote(alloc));
     }

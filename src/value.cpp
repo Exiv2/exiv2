@@ -28,7 +28,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Id$");
+EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 // included header files
@@ -131,7 +131,7 @@ namespace Exiv2 {
         return *this;
     }
 
-    int DataValue::read(const byte* buf, long len, ByteOrder byteOrder)
+    int DataValue::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
     {
         // byteOrder not needed
         value_.assign(buf, buf + len);
@@ -149,7 +149,7 @@ namespace Exiv2 {
         return 0;
     }
 
-    long DataValue::copy(byte* buf, ByteOrder byteOrder) const
+    long DataValue::copy(byte* buf, ByteOrder /*byteOrder*/) const
     {
         // byteOrder not needed
         return static_cast<long>(
@@ -190,14 +190,14 @@ namespace Exiv2 {
         return 0;
     }
 
-    int StringValueBase::read(const byte* buf, long len, ByteOrder byteOrder)
+    int StringValueBase::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
     {
         // byteOrder not needed
         if (buf) value_ = std::string(reinterpret_cast<const char*>(buf), len);
         return 0;
     }
 
-    long StringValueBase::copy(byte* buf, ByteOrder byteOrder) const
+    long StringValueBase::copy(byte* buf, ByteOrder /*byteOrder*/) const
     {
         // byteOrder not needed
         assert(buf != 0);
@@ -465,7 +465,7 @@ namespace Exiv2 {
                << std::setw(2) << std::setfill('0') << date_.day;
     }
 
-    long DateValue::toLong(long n) const
+    long DateValue::toLong(long /*n*/) const
     {
         // Range of tm struct is limited to about 1970 to 2038
         // This will return -1 if outside that range
@@ -621,7 +621,7 @@ namespace Exiv2 {
            << std::setw(2) << std::setfill('0') << abs(time_.tzMinute);
     }
 
-    long TimeValue::toLong(long n) const
+    long TimeValue::toLong(long /*n*/) const
     {
         // Returns number of seconds in the day in UTC.
         long result = (time_.hour - time_.tzHour) * 60 * 60;

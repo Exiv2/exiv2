@@ -26,7 +26,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Id$");
+EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 // included header files
@@ -372,7 +372,7 @@ namespace Exiv2 {
 
     TiffComponent* newNikonMn(uint16_t    tag,
                               uint16_t    group,
-                              uint16_t    mnGroup,
+                              uint16_t    /*mnGroup*/,
                               const byte* pData,
                               uint32_t    size,
                               ByteOrder   /*byteOrder*/)
@@ -416,7 +416,7 @@ namespace Exiv2 {
 
     TiffComponent* newSonyMn(uint16_t    tag,
                              uint16_t    group,
-                             uint16_t    mnGroup,
+                             uint16_t    /*mnGroup*/,
                              const byte* pData,
                              uint32_t    size,
                              ByteOrder   /*byteOrder*/)

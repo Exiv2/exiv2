@@ -92,7 +92,7 @@ catch (Exiv2::AnyError& e) {
 }
 }
 
-int Params::option(int opt, const std::string& optarg, int optopt)
+int Params::option(int opt, const std::string& /*optarg*/, int optopt)
 {
     int rc = 0;
     switch (opt) {

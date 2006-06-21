@@ -312,7 +312,7 @@ namespace Action {
     private:
         virtual Modify* clone_() const;
         //! Copy contructor needed because of AutoPtr member
-        Modify(const Modify& /*src*/) {}
+        Modify(const Modify& /*src*/) : Task() {}
 
         //! Add a metadatum according to \em modifyCmd
         void addMetadatum(const ModifyCmd& modifyCmd);

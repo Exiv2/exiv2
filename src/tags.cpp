@@ -27,7 +27,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Id$");
+EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 // included header files
@@ -852,7 +852,7 @@ namespace Exiv2 {
     }
 
     ExifKey::ExifKey(const ExifKey& rhs)
-        : tag_(rhs.tag_), ifdId_(rhs.ifdId_), ifdItem_(rhs.ifdItem_),
+        : Key(), tag_(rhs.tag_), ifdId_(rhs.ifdId_), ifdItem_(rhs.ifdItem_),
           idx_(rhs.idx_), key_(rhs.key_)
     {
     }

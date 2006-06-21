@@ -27,7 +27,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Id$");
+EXIV2_RCSID("@(#) $Id$")
 
 // Define DEBUG_MAKERNOTE to output debug information to std::cerr, e.g, by
 // calling make like this: make DEFS=-DDEBUG_MAKERNOTE exif.o
