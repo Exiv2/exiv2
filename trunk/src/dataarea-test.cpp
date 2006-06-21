@@ -26,7 +26,7 @@ using namespace Exiv2;
 
 // *****************************************************************************
 // Main
-int main(int argc, char* const argv[])
+int main(int /*argc*/, char* const /*argv*/[])
 {
 try {
     byte da1[]

@@ -27,7 +27,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Id$");
+EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 // included header files
@@ -105,7 +105,7 @@ namespace Exiv2 {
         // not supported
     }
 
-    void MrwImage::setComment(const std::string& comment)
+    void MrwImage::setComment(const std::string& /*comment*/)
     {
         // not supported
     }

@@ -26,7 +26,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Id$");
+EXIV2_RCSID("@(#) $Id$")
 
 // Define DEBUG_* to output debug information to std::cerr, e.g, by calling
 // make like this: make DEFS=-DDEBUG_MAKERNOTE makernote.o
@@ -132,9 +132,9 @@ namespace Exiv2 {
         return len;
     } // IfdMakerNote::copy
 
-    int IfdMakerNote::readHeader(const byte* buf,
-                                 long len,
-                                 ByteOrder byteOrder)
+    int IfdMakerNote::readHeader(const byte* /*buf*/,
+                                 long        /*len*/,
+                                 ByteOrder   /*byteOrder*/)
     {
         // Default implementation does nothing, assuming there is no header
         return 0;

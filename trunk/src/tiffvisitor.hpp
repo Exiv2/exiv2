@@ -106,12 +106,12 @@ namespace Exiv2 {
           @brief Operation to perform for a TIFF directory, after all components
                  and before the next entry is processed.
          */
-        virtual void visitDirectoryNext(TiffDirectory* object) {}
+        virtual void visitDirectoryNext(TiffDirectory* /*object*/) {}
         /*!
           @brief Operation to perform for a TIFF directory, at the end of the
                  processing.
          */
-        virtual void visitDirectoryEnd(TiffDirectory* object) {}
+        virtual void visitDirectoryEnd(TiffDirectory* /*object*/) {}
         //! Operation to perform for a TIFF sub-IFD
         virtual void visitSubIfd(TiffSubIfd* object) =0;
         //! Operation to perform for the makernote component
@@ -119,7 +119,7 @@ namespace Exiv2 {
         //! Operation to perform for an IFD makernote
         virtual void visitIfdMakernote(TiffIfdMakernote* object) =0;
         //! Operation to perform after processing an IFD makernote
-        virtual void visitIfdMakernoteEnd(TiffIfdMakernote* object) {}
+        virtual void visitIfdMakernoteEnd(TiffIfdMakernote* /*object*/) {}
         //! Operation to perform for an array entry (as found in Canon makernotes)
         virtual void visitArrayEntry(TiffArrayEntry* object) =0;
         //! Operation to perform for an array element

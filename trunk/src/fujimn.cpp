@@ -31,7 +31,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Id$");
+EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 // included header files
@@ -105,7 +105,7 @@ namespace Exiv2 {
 
     int FujiMakerNote::readHeader(const byte* buf,
                                   long len,
-                                  ByteOrder byteOrder)
+                                  ByteOrder /*byteOrder*/)
     {
         if (len < 12) return 1;
 
@@ -263,11 +263,11 @@ namespace Exiv2 {
 // *****************************************************************************
 // free functions
 
-    MakerNote::AutoPtr createFujiMakerNote(bool alloc,
-                                           const byte* buf,
-                                           long len,
-                                           ByteOrder byteOrder,
-                                           long offset)
+    MakerNote::AutoPtr createFujiMakerNote(bool        alloc,
+                                           const byte* /*buf*/,
+                                           long        /*len*/,
+                                           ByteOrder   /*byteOrder*/,
+                                           long        /*offset*/)
     {
         return MakerNote::AutoPtr(new FujiMakerNote(alloc));
     }

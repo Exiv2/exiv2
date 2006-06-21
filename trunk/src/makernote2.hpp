@@ -160,12 +160,10 @@ namespace Exiv2 {
         virtual ByteOrder byteOrder() const { return invalidByteOrder; }
         /*!
           @brief Return the base offset for the makernote IFD entries relative
-                 to the start of the TIFF header.
-
-          @param mnOffset Offset to the makernote from the start of the
-                 TIFF header.
+                 to the start of the TIFF header. \em mnOffset is the offset 
+                 to the makernote from the start of the TIFF header.
          */
-        virtual uint32_t baseOffset(uint32_t mnOffset) const { return 0; }
+        virtual uint32_t baseOffset(uint32_t /*mnOffset*/) const { return 0; }
         //@}
 
     }; // class MnHeader

@@ -26,7 +26,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Id: pngimage.cpp 823 2006-06-12 07:35:00Z cgilles $");
+EXIV2_RCSID("@(#) $Id: pngimage.cpp 823 2006-06-12 07:35:00Z cgilles $")
 
 // *****************************************************************************
 
@@ -110,7 +110,7 @@ namespace Exiv2 {
         // TODO : Add 'iTXt' chunk 'Description' tag support here
     }
 
-    void PngImage::setComment(const std::string& comment)
+    void PngImage::setComment(const std::string& /*comment*/)
     {
         // not yet supported
         // TODO : Add 'iTXt' chunk 'Description' tag support here

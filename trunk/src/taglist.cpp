@@ -9,7 +9,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Id$");
+EXIV2_RCSID("@(#) $Id$")
 
 #include "makernote.hpp"
 #include "tags.hpp"

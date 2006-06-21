@@ -152,10 +152,10 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         //! Implements addChild(). The default implementation does nothing.
-        virtual void doAddChild(AutoPtr tiffComponent) {}
+        virtual void doAddChild(AutoPtr /*tiffComponent*/) {}
 
         //! Implements addNext(). The default implementation does nothing.
-        virtual void doAddNext(AutoPtr tiffComponent) {}
+        virtual void doAddNext(AutoPtr /*tiffComponent*/) {}
 
         //! Implements accept()
         virtual void doAccept(TiffVisitor& visitor) =0;

@@ -27,7 +27,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Id$");
+EXIV2_RCSID("@(#) $Id$")
 
 // Define DEBUG to output debug information to std::cerr, e.g, by calling make
 // like this: make DEFS=-DDEBUG crwimage.o
@@ -343,7 +343,7 @@ namespace Exiv2 {
         doAdd(component);
     }
 
-    void CiffEntry::doAdd(AutoPtr component)
+    void CiffEntry::doAdd(AutoPtr /*component*/)
     {
         throw Error(34, "CiffEntry::add");
     } // CiffEntry::doAdd
@@ -787,7 +787,7 @@ namespace Exiv2 {
         return doAdd(crwDirs, crwTagId);
     } // CiffComponent::add
 
-    CiffComponent* CiffComponent::doAdd(CrwDirs& crwDirs, uint16_t crwTagId)
+    CiffComponent* CiffComponent::doAdd(CrwDirs& /*crwDirs*/, uint16_t /*crwTagId*/)
     {
         return 0;
     } // CiffComponent::doAdd
@@ -865,7 +865,7 @@ namespace Exiv2 {
         return doRemove(crwDirs, crwTagId);
     } // CiffComponent::remove
 
-    void CiffComponent::doRemove(CrwDirs& crwDirs, uint16_t crwTagId)
+    void CiffComponent::doRemove(CrwDirs& /*crwDirs*/, uint16_t /*crwTagId*/)
     {
         // do nothing
     } // CiffComponent::doRemove
@@ -949,7 +949,7 @@ namespace Exiv2 {
     } // CrwMap::decode0x0805
 
     void CrwMap::decode0x080a(const CiffComponent& ciffComponent,
-                              const CrwMapping*    pCrwMapping,
+                              const CrwMapping*    /*pCrwMapping*/,
                                     Image&         image,
                                     ByteOrder      byteOrder)
     {
@@ -1412,7 +1412,7 @@ namespace {
         { 8,   90 },
         { 8, -270 },
         // last entry
-        { 0,    0 },
+        { 0,    0 }
     };
 
     uint16_t RotationMap::orientation(int32_t degrees)

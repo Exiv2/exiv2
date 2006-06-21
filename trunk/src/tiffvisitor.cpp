@@ -26,7 +26,7 @@
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Id$");
+EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 // included header files
@@ -162,7 +162,7 @@ namespace Exiv2 {
         decodeTiffEntry(object);
     }
 
-    void TiffMetadataDecoder::visitDirectory(TiffDirectory* object)
+    void TiffMetadataDecoder::visitDirectory(TiffDirectory* /*object*/)
     {
         // Nothing to do
     }
@@ -177,7 +177,7 @@ namespace Exiv2 {
         if (!object->mn_) decodeTiffEntry(object);
     }
 
-    void TiffMetadataDecoder::visitIfdMakernote(TiffIfdMakernote* object)
+    void TiffMetadataDecoder::visitIfdMakernote(TiffIfdMakernote* /*object*/)
     {
         // Nothing to do
     }
@@ -293,7 +293,7 @@ namespace Exiv2 {
 
     } // TiffMetadataDecoder::addExifTag
 
-    void TiffMetadataDecoder::visitArrayEntry(TiffArrayEntry* object)
+    void TiffMetadataDecoder::visitArrayEntry(TiffArrayEntry* /*object*/)
     {
         // Nothing to do
     }
@@ -359,7 +359,7 @@ namespace Exiv2 {
         }
     } // TiffPrinter::visitDirectoryNext
 
-    void TiffPrinter::visitDirectoryEnd(TiffDirectory* object)
+    void TiffPrinter::visitDirectoryEnd(TiffDirectory* /*object*/)
     {
         // Nothing to do
     } // TiffPrinter::visitDirectoryEnd
@@ -376,7 +376,7 @@ namespace Exiv2 {
         else os_ << prefix() << "Makernote ";
     } // TiffPrinter::visitMnEntry
 
-    void TiffPrinter::visitIfdMakernote(TiffIfdMakernote* object)
+    void TiffPrinter::visitIfdMakernote(TiffIfdMakernote* /*object*/)
     {
         // Nothing to do
     } // TiffPrinter::visitIfdMakernote
@@ -713,7 +713,7 @@ namespace Exiv2 {
 
     } // TiffReader::visitIfdMakernote
 
-    void TiffReader::visitIfdMakernoteEnd(TiffIfdMakernote* object)
+    void TiffReader::visitIfdMakernoteEnd(TiffIfdMakernote* /*object*/)
     {
         // Reset state (byte order, create function, offset) back to that
         // for the image
