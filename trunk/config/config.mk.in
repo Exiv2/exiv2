@@ -44,7 +44,7 @@ GXX = @GXX@
 # Common compiler flags (warnings, symbols [-ggdb], optimization [-O2], etc)
 CXXFLAGS = @CXXFLAGS@
 ifeq ($(GXX),yes)
-	CXXFLAGS += -Wall
+	CXXFLAGS += -ansi -pedantic -Wall -Wundef -Wcast-align -Wconversion -Wpointer-arith -Wformat-security -Wmissing-format-attribute -W
 endif
 
 # Command to run only the preprocessor
@@ -124,7 +124,9 @@ srcdir = @srcdir@
 
 # Installation directories
 bindir = @bindir@
+datarootdir = @datarootdir@
+datadir = @datadir@
 incdir = @includedir@/exiv2
 libdir = @libdir@
 mandir = @mandir@
-man1dir = @mandir@/man1
+man1dir = $(mandir)/man1
