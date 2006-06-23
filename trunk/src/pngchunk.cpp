@@ -237,7 +237,8 @@ namespace Exiv2 {
                             std::cerr << "Exiv2::PngChunk::decode: Exif header found at position " << pos << "\n";
 #endif
                             pos = pos + sizeof(exifHeader);
-                            TiffParser::decode(pImage, exifData.pData_+pos, length-pos, TiffCreator::create);
+                            TiffParser::decode(pImage, exifData.pData_ + pos, length - pos, 
+                                               TiffCreator::create, TiffDecoderItems::findDecoder);
                         }
                     }
                 }

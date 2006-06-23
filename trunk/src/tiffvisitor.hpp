@@ -196,41 +196,6 @@ namespace Exiv2 {
         TiffComponent* tiffComponent_;
     }; // class TiffFinder
 
-    //! Function pointer type for a function to decode a TIFF component.
-    typedef void (TiffMetadataDecoder::*DecoderFct)(const TiffEntryBase*);
-
-    //! TIFF decoder table
-    struct TiffDecoderInfo {
-        struct Key;
-        /*!
-          @brief Compare a TiffDecoderInfo with a TiffDecoderInfo::Key.
-                 The two are equal if TiffDecoderInfo::make_ equals a substring
-                 of the key of the same size. E.g., decoder info = "OLYMPUS",
-                 key = "OLYMPUS OPTICAL CO.,LTD" (found in the image) match,
-                 the extendedTag is Tag::all or equal to the extended tag of the
-                 key, and the group is equal to that of the key.
-         */
-        bool operator==(const Key& key) const;
-        //! Return the tag corresponding to the extended tag
-        uint16_t tag() const { return static_cast<uint16_t>(extendedTag_ & 0xffff); }
-
-        // DATA
-        const char* make_;        //!< Camera make for which this decoder function applies
-        uint32_t    extendedTag_; //!< Tag (32 bit so that it can contain special tags)
-        uint16_t    group_;       //!< Group that contains the tag
-        DecoderFct  decoderFct_;  //!< Decoder function for matching tags
-
-    }; // struct TiffDecoderInfo
-
-    //! Search key for TIFF decoder structures.
-    struct TiffDecoderInfo::Key {
-        //! Constructor
-        Key(const std::string& m, uint32_t e, uint16_t g) : m_(m), e_(e), g_(g) {}
-        std::string m_;                    //!< Camera make
-        uint32_t    e_;                    //!< Extended tag
-        uint16_t    g_;                    //!< %Group
-    };
-
     /*!
       @brief TIFF composite visitor to decode metadata from the TIFF tree and
              add it to an Image, which is supplied in the constructor (Visitor
@@ -250,6 +215,7 @@ namespace Exiv2 {
          */
         TiffMetadataDecoder(Image* pImage,
                             TiffComponent* const pRoot,
+                            FindDecoderFct findDecoderFct =0,
                             uint32_t threshold =0);
         //! Virtual destructor
         virtual ~TiffMetadataDecoder() {}
@@ -276,8 +242,10 @@ namespace Exiv2 {
         //! Decode an array element
         virtual void visitArrayElement(TiffArrayElement* object);
 
-        //! Decode a standard TIFF entry
+        //! Entry function, determines how to decode each tag
         void decodeTiffEntry(const TiffEntryBase* object);
+        //! Decode a standard TIFF entry
+        void decodeStdTiffEntry(const TiffEntryBase* object);
         //! Decode Olympus Thumbnail from the TIFF makernote into IFD1
         void decodeOlympThumb(const TiffEntryBase* object);
         //! Decode SubIFD contents to Image group if it contains primary image data
@@ -293,14 +261,13 @@ namespace Exiv2 {
         // DATA
         Image* pImage_;              //!< Pointer to the image to which the metadata is added
         TiffComponent* const pRoot_; //!< Root element of the composite
+        const FindDecoderFct findDecoderFct_; //!< Ptr to the function to find special decoding functions
         const uint32_t threshold_;   //!< Threshold, see constructor documentation.
         std::string make_;           //!< Camera make, determined from the tags to decode
 
         //! Type used to remember tag 0x00fe (NewSubfileType) for each group
         typedef std::map<uint16_t, uint32_t> GroupType;
         GroupType groupType_;        //!< NewSubfileType for each group
-
-        static const TiffDecoderInfo tiffDecoderInfo_[]; //<! TIFF decoder table
 
     }; // class TiffMetadataDecoder
 

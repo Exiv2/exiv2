@@ -19,10 +19,10 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*
-  File:      tiffimage.cpp
+  File:      cr2image.cpp
   Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:   15-Mar-06, ahu: created
+  History:   22-Apr-06, ahu: created
 
  */
 // *****************************************************************************
@@ -37,84 +37,115 @@ EXIV2_RCSID("@(#) $Id$")
 # include "exv_conf.h"
 #endif
 
-#include "tiffimage.hpp"
+#include "cr2image.hpp"
 #include "tiffparser.hpp"
+#include "tiffvisitor.hpp"
 #include "image.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 
 // + standard includes
-#include <string>
 #include <iostream>
 #include <iomanip>
 #include <cassert>
+#include <cstring>
 
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
 
-    TiffImage::TiffImage(BasicIo::AutoPtr io, bool create)
-        : Image(mdExif | mdIptc | mdComment), io_(io)
+    // CR2 decoder table for special CR2 decoding requirements
+    const TiffDecoderInfo Cr2DecoderItems::cr2DecoderInfo_[] = {
+        { "*",       Tag::all, Group::ignr,    0 }, // Do not decode tags with group == Group::ignr
+        { "*",         0x014a, Group::ifd0,    0 }, // Todo: Controversial, causes problems with Exiftool
+        { "*",         0x0100, Group::ifd0,    0 }, // CR2 IFD0 refers to a preview image, ignore these tags
+        { "*",         0x0101, Group::ifd0,    0 },
+        { "*",         0x0102, Group::ifd0,    0 },
+        { "*",         0x0103, Group::ifd0,    0 },
+        { "*",         0x0111, Group::ifd0,    0 },
+        { "*",         0x0117, Group::ifd0,    0 },
+        { "*",         0x011a, Group::ifd0,    0 },
+        { "*",         0x011b, Group::ifd0,    0 },
+        { "*",         0x0128, Group::ifd0,    0 },
+        { "*",         0x8649, Group::ifd0,    &TiffMetadataDecoder::decodeIrbIptc    }
+    };
+
+    const DecoderFct Cr2DecoderItems::findDecoder(const std::string& make, 
+                                                        uint32_t     extendedTag,
+                                                        uint16_t     group)
+    {
+        DecoderFct decoderFct = &TiffMetadataDecoder::decodeStdTiffEntry;
+        const TiffDecoderInfo* td = find(cr2DecoderInfo_, 
+                                         TiffDecoderInfo::Key(make, extendedTag, group));
+        if (td) {
+            // This may set decoderFct to 0, meaning that the tag should not be decoded
+            decoderFct = td->decoderFct_;
+        }
+        return decoderFct;
+    }
+
+    Cr2Image::Cr2Image(BasicIo::AutoPtr io, bool create)
+        : Image(mdExif | mdIptc), io_(io)
     {
         if (create) {
             IoCloser closer(*io_);
             io_->open();
         }
-    } // TiffImage::TiffImage
+    } // Cr2Image::Cr2Image
 
-    bool TiffImage::good() const
+    bool Cr2Image::good() const
     {
         if (io_->open() != 0) return false;
         IoCloser closer(*io_);
         return isThisType(*io_, false);
     }
 
-    void TiffImage::clearMetadata()
+    void Cr2Image::clearMetadata()
     {
         clearExifData();
         clearComment();
     }
 
-    void TiffImage::setMetadata(const Image& image)
+    void Cr2Image::setMetadata(const Image& image)
     {
         setExifData(image.exifData());
         setComment(image.comment());
     }
 
-    void TiffImage::clearExifData()
+    void Cr2Image::clearExifData()
     {
         exifData_.clear();
     }
 
-    void TiffImage::setExifData(const ExifData& exifData)
+    void Cr2Image::setExifData(const ExifData& exifData)
     {
         exifData_ = exifData;
     }
 
-    void TiffImage::clearIptcData()
+    void Cr2Image::clearIptcData()
     {
         iptcData_.clear();
     }
 
-    void TiffImage::setIptcData(const IptcData& iptcData)
+    void Cr2Image::setIptcData(const IptcData& iptcData)
     {
         iptcData_ = iptcData;
     }
 
-    void TiffImage::clearComment()
+    void Cr2Image::clearComment()
     {
         comment_.erase();
     }
 
-    void TiffImage::setComment(const std::string& comment)
+    void Cr2Image::setComment(const std::string& comment)
     {
         comment_ = comment;
     }
 
-    void TiffImage::readMetadata()
+    void Cr2Image::readMetadata()
     {
 #ifdef DEBUG
-        std::cerr << "Reading TIFF file " << io_->path() << "\n";
+        std::cerr << "Reading CR2 file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {
             throw Error(9, io_->path(), strError());
@@ -123,7 +154,7 @@ namespace Exiv2 {
         // Ensure that this is the correct image type
         if (!isThisType(*io_, false)) {
             if (io_->error() || io_->eof()) throw Error(14);
-            throw Error(33);
+            throw Error(3, "CR2");
         }
         clearMetadata();
 
@@ -133,19 +164,18 @@ namespace Exiv2 {
         io_->read(buf.pData_, len);
         if (io_->error() || io_->eof()) throw Error(14);
 
-        TiffParser::decode(this, buf.pData_, buf.size_,
-                           TiffCreator::create, TiffDecoderItems::findDecoder);
+        TiffParser::decode(this, buf.pData_, buf.size_, 
+                           TiffCreator::create, Cr2DecoderItems::findDecoder);
+    } // Cr2Image::readMetadata
 
-    } // TiffImage::readMetadata
-
-    void TiffImage::writeMetadata()
+    void Cr2Image::writeMetadata()
     {
 /*
 
        Todo: implement me!
 
 #ifdef DEBUG
-        std::cerr << "Writing TIFF file " << io_->path() << "\n";
+        std::cerr << "Writing CR2 file " << io_->path() << "\n";
 #endif
         // Read existing image
         DataBuf buf;
@@ -162,14 +192,14 @@ namespace Exiv2 {
             }
         }
 
-        // Parse image, starting with a TIFF header component
-        TiffHeade2::AutoPtr head(new TiffHeade2);
+        // Parse image, starting with a CR2 header component
+        Cr2Header::AutoPtr head(new Cr2Header);
         if (buf.size_ != 0) {
             head->read(buf.pData_, buf.size_);
         }
 
         Blob blob;
-        TiffParser::encode(blob, head.get(), this);
+        Cr2Parser::encode(blob, head.get(), this);
 
         // Write new buffer to file
         BasicIo::AutoPtr tempIo(io_->temporary()); // may throw
@@ -178,18 +208,19 @@ namespace Exiv2 {
         io_->close();
         io_->transfer(*tempIo); // may throw
 */
-    } // TiffImage::writeMetadata
+    } // Cr2Image::writeMetadata
 
-    bool TiffImage::isThisType(BasicIo& iIo, bool advance) const
+    bool Cr2Image::isThisType(BasicIo& iIo, bool advance) const
     {
-        return isTiffType(iIo, advance);
+        return isCr2Type(iIo, advance);
     }
 
-    const uint16_t TiffHeade2::tag_ = 42;
+    const uint16_t Cr2Header::tag_ = 42;
+    const char* Cr2Header::cr2sig_ = "CR\2\0";
 
-    bool TiffHeade2::read(const byte* pData, uint32_t size)
+    bool Cr2Header::read(const byte* pData, uint32_t size)
     {
-        if (size < 8) return false;
+        if (size < 16) return false;
 
         if (pData[0] == 0x49 && pData[1] == 0x49) {
             byteOrder_ = littleEndian;
@@ -202,11 +233,13 @@ namespace Exiv2 {
         }
         if (tag_ != getUShort(pData + 2, byteOrder_)) return false;
         offset_ = getULong(pData + 4, byteOrder_);
+        if (0 != memcmp(pData + 8, cr2sig_, 4)) return false;
+        offset2_ = getULong(pData + 12, byteOrder_);
 
         return true;
-    } // TiffHeade2::read
+    } // Cr2Header::read
 
-    void TiffHeade2::print(std::ostream& os, const std::string& prefix) const
+    void Cr2Header::print(std::ostream& os, const std::string& prefix) const
     {
         os << prefix
            << "Header, offset = 0x" << std::setw(8) << std::setfill('0')
@@ -219,30 +252,30 @@ namespace Exiv2 {
         }
         os << "\n";
 
-    } // TiffHeade2::print
+    } // Cr2Header::print
 
     // *************************************************************************
     // free functions
 
-    Image::AutoPtr newTiffInstance(BasicIo::AutoPtr io, bool create)
+    Image::AutoPtr newCr2Instance(BasicIo::AutoPtr io, bool create)
     {
-        Image::AutoPtr image(new TiffImage(io, create));
+        Image::AutoPtr image(new Cr2Image(io, create));
         if (!image->good()) {
             image.reset();
         }
         return image;
     }
 
-    bool isTiffType(BasicIo& iIo, bool advance)
+    bool isCr2Type(BasicIo& iIo, bool advance)
     {
-        const int32_t len = 8;
+        const int32_t len = 16;
         byte buf[len];
         iIo.read(buf, len);
         if (iIo.error() || iIo.eof()) {
             return false;
         }
-        TiffHeade2 tiffHeader;
-        bool rc = tiffHeader.read(buf, len);
+        Cr2Header header;
+        bool rc = header.read(buf, len);
         if (!advance || !rc) {
             iIo.seek(-len, BasicIo::cur);
         }

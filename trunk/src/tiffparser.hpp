@@ -90,12 +90,75 @@ namespace Exiv2 {
                            in TIFF format; no checks are performed.
           @param size      Length of the data buffer.
           @param createFct Factory function to create new TIFF components.
+          @param findDecoderFct Function to access special decoding info.
         */
         static void decode(      Image*             pImage,
                            const byte*              pData,
                                  uint32_t           size,
-                                 TiffCompFactoryFct createFct);
+                                 TiffCompFactoryFct createFct,
+                                 FindDecoderFct     findDecoderFct);
     }; // class TiffParser
+
+    //! TIFF decoder table for functions to decode special cases
+    struct TiffDecoderInfo {
+        struct Key;
+        /*!
+          @brief Compare a TiffDecoderInfo with a TiffDecoderInfo::Key.
+                 The two are equal if TiffDecoderInfo::make_ equals a substring
+                 of the key of the same size. E.g., decoder info = "OLYMPUS",
+                 key = "OLYMPUS OPTICAL CO.,LTD" (found in the image) match,
+                 the extendedTag is Tag::all or equal to the extended tag of the
+                 key, and the group is equal to that of the key.
+         */
+        bool operator==(const Key& key) const;
+        //! Return the tag corresponding to the extended tag
+        uint16_t tag() const { return static_cast<uint16_t>(extendedTag_ & 0xffff); }
+
+        // DATA
+        const char* make_;        //!< Camera make for which this decoder function applies
+        uint32_t    extendedTag_; //!< Tag (32 bit so that it can contain special tags)
+        uint16_t    group_;       //!< Group that contains the tag
+        DecoderFct  decoderFct_;  //!< Decoder function for matching tags
+
+    }; // struct TiffDecoderInfo
+
+    //! Search key for TIFF decoder structures.
+    struct TiffDecoderInfo::Key {
+        //! Constructor
+        Key(const std::string& m, uint32_t e, uint16_t g) : m_(m), e_(e), g_(g) {}
+        std::string m_;                    //!< Camera make
+        uint32_t    e_;                    //!< Extended tag
+        uint16_t    g_;                    //!< %Group
+    };
+
+    /*!
+      @brief Table of special TIFF decoding functions and find function.
+             This class is separated from the metadata decoder visitor so that
+             the parser can be parametrized with a different table if needed.
+             This is used, eg., for CR2 format.
+     */
+    class TiffDecoderItems {
+    public:
+        /*!
+          @brief Find the decoder function for a key. 
+
+          If the returned pointer is 0, the tag should not be decoded, 
+          else the decoder function should be used.
+
+          @param make Camera make
+          @param extendedTag Extended tag
+          @param group %Group
+
+          @return Pointer to the decoder function
+         */
+        static const DecoderFct findDecoder(const std::string& make, 
+                                                  uint32_t     extendedTag,
+                                                  uint16_t     group);
+
+    private:
+        static const TiffDecoderInfo tiffDecoderInfo_[]; //<! TIFF decoder table
+
+    }; // class TiffDecoderItems
 
 }                                       // namespace Exiv2
 

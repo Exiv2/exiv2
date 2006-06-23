@@ -54,6 +54,7 @@ namespace Exiv2 {
     class TiffPrinter;
     class TiffIfdMakernote;
     struct TiffStructure;
+    class TiffEntryBase;
 
 // *****************************************************************************
 // class definitions
@@ -172,6 +173,19 @@ namespace Exiv2 {
         byte*    pData_;
 
     }; // class TiffComponent
+
+    /*!
+      @brief Function pointer type for a TiffMetadataDecoder member function 
+             to decode a TIFF component.
+     */
+    typedef void (TiffMetadataDecoder::*DecoderFct)(const TiffEntryBase*);
+
+    /*!
+      Type for a function pointer for a function to decode a TIFF component.
+     */
+    typedef const DecoderFct (*FindDecoderFct)(const std::string& make, 
+                                                     uint32_t     extendedTag,
+                                                     uint16_t     group);
 
     /*!
       Type for a function pointer for a function to create a TIFF component.

@@ -56,6 +56,7 @@ CCHDR =  exiv2_version.h      \
 # Add library C++ source files to this list
 CCSRC =  basicio.cpp          \
 	 canonmn.cpp          \
+	 cr2image.cpp         \
 	 crwimage.cpp         \
 	 datasets.cpp         \
 	 error.cpp            \
