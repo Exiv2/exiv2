@@ -37,6 +37,7 @@ EXIV2_RCSID("@(#) $Id$")
 # include "exv_conf.h"
 #endif
 
+#include "types.hpp"
 #include "tiffparser.hpp"
 #include "tiffcomposite.hpp"
 #include "makernote2.hpp"
@@ -130,6 +131,38 @@ namespace Exiv2 {
         {  Tag::all, Group::minocs5,   newTiffArrayElement<unsignedShort, bigEndian>, Group::minocs5 }
     };
 
+    // TIFF Decoder table for special decoding requirements
+    const TiffDecoderInfo TiffDecoderItems::tiffDecoderInfo_[] = {
+        { "*",       Tag::all, Group::ignr,    0 }, // Do not decode tags with group == Group::ignr
+        { "OLYMPUS",   0x0100, Group::olympmn, &TiffMetadataDecoder::decodeOlympThumb },
+        { "*",         0x014a, Group::ifd0,    0 }, // Todo: Controversial, causes problems with Exiftool
+        { "*",       Tag::all, Group::sub0_0,  &TiffMetadataDecoder::decodeSubIfd     },
+        { "*",       Tag::all, Group::sub0_1,  &TiffMetadataDecoder::decodeSubIfd     },
+        { "*",         0x8649, Group::ifd0,    &TiffMetadataDecoder::decodeIrbIptc    }
+    };
+
+    bool TiffDecoderInfo::operator==(const TiffDecoderInfo::Key& key) const
+    {
+        std::string make(make_);
+        return    ("*" == make || make == key.m_.substr(0, make.length()))
+               && (Tag::all == extendedTag_ || key.e_ == extendedTag_)
+               && key.g_ == group_;
+    }
+
+    const DecoderFct TiffDecoderItems::findDecoder(const std::string& make, 
+                                                         uint32_t     extendedTag,
+                                                         uint16_t     group)
+    {
+        DecoderFct decoderFct = &TiffMetadataDecoder::decodeStdTiffEntry;
+        const TiffDecoderInfo* td = find(tiffDecoderInfo_, 
+                                         TiffDecoderInfo::Key(make, extendedTag, group));
+        if (td) {
+            // This may set decoderFct to 0, meaning that the tag should not be decoded
+            decoderFct = td->decoderFct_;
+        }
+        return decoderFct;
+    }
+
     TiffComponent::AutoPtr TiffCreator::create(uint32_t extendedTag,
                                                uint16_t group)
     {
@@ -146,10 +179,11 @@ namespace Exiv2 {
         return tc;
     } // TiffCreator::create
 
-    void TiffParser::decode(Image* pImage,
-                            const byte* pData,
-                            uint32_t size,
-                            TiffCompFactoryFct createFct)
+    void TiffParser::decode(Image*             pImage,
+                            const byte*        pData,
+                            uint32_t           size,
+                            TiffCompFactoryFct createFct,
+                            FindDecoderFct     findDecoderFct)
     {
         assert(pImage != 0);
         assert(pData != 0);
@@ -167,7 +201,7 @@ namespace Exiv2 {
         TiffReader reader(pData, size, rootDir.get(), state);
         rootDir->accept(reader);
 
-        TiffMetadataDecoder decoder(pImage, rootDir.get(), 4096);
+        TiffMetadataDecoder decoder(pImage, rootDir.get(), findDecoderFct, 4096);
         rootDir->accept(decoder);
 
     } // TiffParser::decode

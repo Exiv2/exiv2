@@ -38,6 +38,7 @@ EXIV2_RCSID("@(#) $Id$")
 
 #include "tiffvisitor.hpp"
 #include "tiffcomposite.hpp"
+#include "tiffparser.hpp"
 #include "makernote2.hpp"
 #include "exif.hpp"
 #include "iptc.hpp"
@@ -54,24 +55,6 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-
-    // TIFF Decoder table for special decoding requirements
-    const TiffDecoderInfo TiffMetadataDecoder::tiffDecoderInfo_[] = {
-        { "*",       Tag::all, Group::ignr,    0 }, // Do not decode tags with group == Group::ignr
-        { "OLYMPUS",   0x0100, Group::olympmn, &TiffMetadataDecoder::decodeOlympThumb },
-        { "*",         0x014a, Group::ifd0,    0 }, // Todo: Controversial, causes problems with Exiftool
-        { "*",       Tag::all, Group::sub0_0,  &TiffMetadataDecoder::decodeSubIfd     },
-        { "*",       Tag::all, Group::sub0_1,  &TiffMetadataDecoder::decodeSubIfd     },
-        { "*",         0x8649, Group::ifd0,    &TiffMetadataDecoder::decodeIrbIptc    }
-    };
-
-    bool TiffDecoderInfo::operator==(const TiffDecoderInfo::Key& key) const
-    {
-        std::string make(make_);
-        return    ("*" == make || make == key.m_.substr(0, make.length()))
-               && (Tag::all == extendedTag_ || key.e_ == extendedTag_)
-               && key.g_ == group_;
-    }
 
     void TiffFinder::init(uint16_t tag, uint16_t group)
     {
@@ -135,8 +118,12 @@ namespace Exiv2 {
 
     TiffMetadataDecoder::TiffMetadataDecoder(Image* pImage,
                                              TiffComponent* const pRoot,
+                                             FindDecoderFct findDecoderFct,
                                              uint32_t threshold)
-        : pImage_(pImage), pRoot_(pRoot), threshold_(threshold)
+        : pImage_(pImage), 
+          pRoot_(pRoot),
+          findDecoderFct_(findDecoderFct),
+          threshold_(threshold)
     {
         // Find camera make
         TiffFinder finder(0x010f, Group::ifd0);
@@ -252,15 +239,18 @@ namespace Exiv2 {
             groupType_[object->group()] = object->pValue()->toLong();
         }
 
-        const TiffDecoderInfo* td = find(tiffDecoderInfo_,
-            TiffDecoderInfo::Key(make_, object->tag(), object->group()));
-        if (td) {
-            // skip decoding if td->decoderFct_ == 0
-            if (td->decoderFct_) {
-                EXV_CALL_MEMBER_FN(*this, td->decoderFct_)(object);
-            }
-            return;
+        const DecoderFct decoderFct = findDecoderFct_(make_, 
+                                                      object->tag(),
+                                                      object->group());
+        // skip decoding if decoderFct == 0
+        if (decoderFct) {
+            EXV_CALL_MEMBER_FN(*this, decoderFct)(object);
         }
+    } // TiffMetadataDecoder::decodeTiffEntry
+
+    void TiffMetadataDecoder::decodeStdTiffEntry(const TiffEntryBase* object)
+    {
+        assert(object !=0);
         assert(pImage_ != 0);
         // "Normal" tag has low priority: only decode if it doesn't exist yet.
         // Todo: ExifKey should have an appropriate c'tor, it should not be

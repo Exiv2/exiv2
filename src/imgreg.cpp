@@ -33,7 +33,7 @@ EXIV2_RCSID("@(#) $Id$")
 // included header files
 #include "image.hpp"
 #include "jpgimage.hpp"
-//#include "cr2image.hpp"
+#include "cr2image.hpp"
 #include "crwimage.hpp"
 #include "mrwimage.hpp"
 #include "tiffimage.hpp"
@@ -50,7 +50,7 @@ namespace Exiv2 {
     ImageFactory::Registry ImageFactory::registry_[] = {
         Registry(ImageType::jpeg, newJpegInstance, isJpegType),
         Registry(ImageType::exv,  newExvInstance,  isExvType),
-//      Registry(ImageType::cr2,  newCr2Instance,  isCr2Type),
+        Registry(ImageType::cr2,  newCr2Instance,  isCr2Type),
         Registry(ImageType::crw,  newCrwInstance,  isCrwType),
         Registry(ImageType::mrw,  newMrwInstance,  isMrwType),
         Registry(ImageType::tiff, newTiffInstance, isTiffType),
