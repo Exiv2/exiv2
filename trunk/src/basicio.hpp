@@ -172,6 +172,17 @@ namespace Exiv2 {
               Nonzero if failure;
          */
         virtual int seek(long offset, Position pos) = 0;
+        /*!
+          @brief Allow efficient direct access to the IO data by mapping it 
+                 into the process's address space.
+
+          Todo: This is currently only for read access.
+         */
+        virtual const byte* mmap() =0;
+        /*!
+          @brief Remove a mapping established with mmap().
+         */
+        virtual void  munmap() =0;
         //@}
 
         //! @name Accessors
@@ -393,6 +404,12 @@ namespace Exiv2 {
                  Nonzero if failure;
          */
         virtual int seek(long offset, Position pos);
+        /*!
+          @brief Map the file into the process's address space. The file must
+                 be open before mmap() is called.
+         */
+        virtual const byte* mmap();
+        virtual void  munmap();
         //@}
 
         //! @name Accessors
@@ -445,6 +462,12 @@ namespace Exiv2 {
         std::string openMode_;
         FILE *fp_;
         OpMode opMode_;
+
+
+// Todo: Experimental
+        byte* pMappedArea_;
+        size_t mappedLength_;
+
 
         // METHODS
         /*!
@@ -589,6 +612,13 @@ namespace Exiv2 {
                  Nonzero if failure;
          */
         virtual int seek(long offset, Position pos);
+        /*!
+          @brief Allow direct access to the underlying data buffer. The buffer
+                 is not protected against write access except for the const
+                 specifier.
+         */
+        virtual const byte* mmap() { return data_; }
+        virtual void  munmap() {}
         //@}
 
         //! @name Accessors
