@@ -51,7 +51,8 @@ CCHDR =  exiv2_version.h      \
          exv_conf.h           \
          exv_msvc.h           \
          mn.hpp               \
-         rcsid.hpp
+         rcsid.hpp            \
+         tifffwd.hpp
 
 # Add library C++ source files to this list
 CCSRC =  basicio.cpp          \

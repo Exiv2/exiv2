@@ -20,7 +20,8 @@
  */
 /*!
   @file    makernote2.hpp
-  @brief   Makernote related classes
+  @brief   Makernote TIFF composite class TiffIfdMakernote and classes for 
+           various makernote headers.
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>

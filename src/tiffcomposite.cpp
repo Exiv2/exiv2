@@ -107,8 +107,16 @@ namespace Exiv2 {
 
     bool TiffStructure::operator==(const TiffStructure::Key& key) const
     {
-        return    key.e_   == extendedTag_ && key.g_ == group_
-               || Tag::all == extendedTag_ && key.g_ == group_;
+        return    (Tag::all == extendedTag_ || key.e_ == extendedTag_)
+               && key.g_ == group_;
+    }
+
+    bool TiffDecoderInfo::operator==(const TiffDecoderInfo::Key& key) const
+    {
+        std::string make(make_);
+        return    ("*" == make || make == key.m_.substr(0, make.length()))
+               && (Tag::all == extendedTag_ || key.e_ == extendedTag_)
+               && key.g_ == group_;
     }
 
     TiffDirectory::~TiffDirectory()

@@ -38,6 +38,7 @@ EXIV2_RCSID("@(#) $Id$")
 #endif
 
 #include "cr2image.hpp"
+#include "tiffcomposite.hpp"
 #include "tiffparser.hpp"
 #include "tiffvisitor.hpp"
 #include "image.hpp"
@@ -55,7 +56,7 @@ EXIV2_RCSID("@(#) $Id$")
 namespace Exiv2 {
 
     // CR2 decoder table for special CR2 decoding requirements
-    const TiffDecoderInfo Cr2DecoderItems::cr2DecoderInfo_[] = {
+    const TiffDecoderInfo Cr2Decoder::cr2DecoderInfo_[] = {
         { "*",       Tag::all, Group::ignr,    0 }, // Do not decode tags with group == Group::ignr
         { "*",         0x014a, Group::ifd0,    0 }, // Todo: Controversial, causes problems with Exiftool
         { "*",         0x0100, Group::ifd0,    0 }, // CR2 IFD0 refers to a preview image, ignore these tags
@@ -70,9 +71,9 @@ namespace Exiv2 {
         { "*",         0x8649, Group::ifd0,    &TiffMetadataDecoder::decodeIrbIptc    }
     };
 
-    const DecoderFct Cr2DecoderItems::findDecoder(const std::string& make, 
-                                                        uint32_t     extendedTag,
-                                                        uint16_t     group)
+    const DecoderFct Cr2Decoder::findDecoder(const std::string& make, 
+                                                   uint32_t     extendedTag,
+                                                   uint16_t     group)
     {
         DecoderFct decoderFct = &TiffMetadataDecoder::decodeStdTiffEntry;
         const TiffDecoderInfo* td = find(cr2DecoderInfo_, 
@@ -165,7 +166,7 @@ namespace Exiv2 {
         if (io_->error() || io_->eof()) throw Error(14);
 
         TiffParser::decode(this, buf.pData_, buf.size_, 
-                           TiffCreator::create, Cr2DecoderItems::findDecoder);
+                           TiffCreator::create, Cr2Decoder::findDecoder);
     } // Cr2Image::readMetadata
 
     void Cr2Image::writeMetadata()

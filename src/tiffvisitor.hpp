@@ -20,7 +20,7 @@
  */
 /*!
   @file    tiffvisitor.hpp
-  @brief
+  @brief   Operations on a TIFF composite tree, implemented as visitor classes.
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
@@ -31,9 +31,9 @@
 
 // *****************************************************************************
 // included header files
-#include "types.hpp"
-#include "tiffcomposite.hpp"
 #include "exif.hpp"
+#include "tifffwd.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <memory>
@@ -45,12 +45,6 @@
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
-
-// *****************************************************************************
-// class declarations
-
-    class TiffIfdMakernote;
-    class Image;
 
 // *****************************************************************************
 // class definitions
@@ -395,7 +389,8 @@ namespace Exiv2 {
         //! Return the base offset. See class TiffRwState for details
         uint32_t baseOffset() const;
         //! Create a TIFF component for \em extendedTag and group
-        TiffComponent::AutoPtr create(uint32_t extendedTag, uint16_t group) const;
+        std::auto_ptr<TiffComponent> create(uint32_t extendedTag, 
+                                            uint16_t group) const;
         //@}
 
     private:

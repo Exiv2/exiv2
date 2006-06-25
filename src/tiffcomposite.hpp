@@ -20,7 +20,7 @@
  */
 /*!
   @file    tiffcomposite.hpp
-  @brief
+  @brief   Various classes used in a TIFF composite structure
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
@@ -32,6 +32,7 @@
 // *****************************************************************************
 // included header files
 #include "image.hpp"                            // for Blob
+#include "tifffwd.hpp"
 #include "types.hpp"
 
 // + standard includes
@@ -43,18 +44,6 @@
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
-
-// *****************************************************************************
-// class declarations
-
-    class Value;
-    class TiffVisitor;
-    class TiffReader;
-    class TiffMetadataDecoder;
-    class TiffPrinter;
-    class TiffIfdMakernote;
-    struct TiffStructure;
-    class TiffEntryBase;
 
 // *****************************************************************************
 // class definitions
@@ -175,25 +164,6 @@ namespace Exiv2 {
     }; // class TiffComponent
 
     /*!
-      @brief Function pointer type for a TiffMetadataDecoder member function 
-             to decode a TIFF component.
-     */
-    typedef void (TiffMetadataDecoder::*DecoderFct)(const TiffEntryBase*);
-
-    /*!
-      Type for a function pointer for a function to decode a TIFF component.
-     */
-    typedef const DecoderFct (*FindDecoderFct)(const std::string& make, 
-                                                     uint32_t     extendedTag,
-                                                     uint16_t     group);
-
-    /*!
-      Type for a function pointer for a function to create a TIFF component.
-     */
-    typedef TiffComponent::AutoPtr (*NewTiffCompFct)(uint16_t tag,
-                                                     const TiffStructure* ts);
-
-    /*!
       @brief Data structure used as a row (element) of a table (array)
              describing the TIFF structure of an image format for reading and
              writing.  Different tables can be used to support different TIFF
@@ -221,11 +191,37 @@ namespace Exiv2 {
         uint16_t g_;                    //!< %Group
     };
 
-    /*!
-      Type for a factory function to create new TIFF components.
-     */
-    typedef TiffComponent::AutoPtr (*TiffCompFactoryFct)(uint32_t extendedTag,
-                                                         uint16_t group);
+    //! TIFF decoder table for functions to decode special cases
+    struct TiffDecoderInfo {
+        struct Key;
+        /*!
+          @brief Compare a TiffDecoderInfo with a TiffDecoderInfo::Key.
+                 The two are equal if TiffDecoderInfo::make_ equals a substring
+                 of the key of the same size. E.g., decoder info = "OLYMPUS",
+                 key = "OLYMPUS OPTICAL CO.,LTD" (found in the image) match,
+                 the extendedTag is Tag::all or equal to the extended tag of the
+                 key, and the group is equal to that of the key.
+         */
+        bool operator==(const Key& key) const;
+        //! Return the tag corresponding to the extended tag
+        uint16_t tag() const { return static_cast<uint16_t>(extendedTag_ & 0xffff); }
+
+        // DATA
+        const char* make_;        //!< Camera make for which this decoder function applies
+        uint32_t    extendedTag_; //!< Tag (32 bit so that it can contain special tags)
+        uint16_t    group_;       //!< Group that contains the tag
+        DecoderFct  decoderFct_;  //!< Decoder function for matching tags
+
+    }; // struct TiffDecoderInfo
+
+    //! Search key for TIFF decoder structures.
+    struct TiffDecoderInfo::Key {
+        //! Constructor
+        Key(const std::string& m, uint32_t e, uint16_t g) : m_(m), e_(e), g_(g) {}
+        std::string m_;                    //!< Camera make
+        uint32_t    e_;                    //!< Extended tag
+        uint16_t    g_;                    //!< %Group
+    };
 
     /*!
       @brief This abstract base class provides the common functionality of an

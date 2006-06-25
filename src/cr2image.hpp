@@ -34,7 +34,8 @@
 #include "exif.hpp"
 #include "iptc.hpp"
 #include "image.hpp"
-#include "tiffcomposite.hpp"
+#include "tifffwd.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <string>
@@ -42,8 +43,6 @@
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
-
-    struct TiffDecoderInfo;
 
 // *****************************************************************************
 // class definitions
@@ -157,10 +156,10 @@ namespace Exiv2 {
     }; // class Cr2Image
 
     /*!
-      @brief Table of special Cr2 decoding functions and find function. See
-             TiffDecoderItems for details.
+      @brief Table of Cr2 decoding functions and find function. See
+             TiffDecoder for details.
      */
-    class Cr2DecoderItems {
+    class Cr2Decoder {
     public:
         /*!
           @brief Find the decoder function for a key. 
@@ -181,7 +180,7 @@ namespace Exiv2 {
     private:
         static const TiffDecoderInfo cr2DecoderInfo_[]; //<! CR2 decoder table
 
-    }; // class Cr2DecoderItems
+    }; // class Cr2Decoder
 
     /*!
       @brief This class models a Canon CR2 header structure.

@@ -156,7 +156,7 @@ namespace Exiv2 {
         if (io_->error() || io_->eof()) throw Error(14);
 
         TiffParser::decode(this, buf.pData_, buf.size_, 
-                           TiffCreator::create, TiffDecoderItems::findDecoder);
+                           TiffCreator::create, TiffDecoder::findDecoder);
     } // MrwImage::readMetadata
 
     void MrwImage::writeMetadata()
