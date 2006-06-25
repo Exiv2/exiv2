@@ -48,6 +48,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include <cstdlib>                      // for alloc(), realloc(), free()
 #include <sys/types.h>                  // for stat()
 #include <sys/stat.h>                   // for stat()
+#include <sys/mman.h>                   // for mmap() and munmap()
 #ifdef EXV_HAVE_PROCESS_H
 # include <process.h>
 #endif
@@ -64,14 +65,43 @@ EXIV2_RCSID("@(#) $Id$")
 namespace Exiv2 {
 
     FileIo::FileIo(const std::string& path)
-        : path_(path), fp_(0), opMode_(opSeek)
+        : path_(path), fp_(0), opMode_(opSeek), pMappedArea_(0), mappedLength_(0)
     {
     }
 
     FileIo::~FileIo()
     {
+        munmap();
         close();
     }
+
+
+// Todo: Experimental
+    void FileIo::munmap()
+    {
+        if (pMappedArea_ != 0) {
+            if (::munmap(pMappedArea_, mappedLength_) != 0) {
+                throw Error(2, path_, strError(), "munmap");
+            }
+        }
+        pMappedArea_ = 0;
+        mappedLength_ = 0;
+    }
+
+    const byte* FileIo::mmap()
+    {
+        assert(fp_ != 0);
+        munmap();
+        mappedLength_ = size();
+        void* rc = ::mmap(0, mappedLength_, PROT_READ, MAP_SHARED, fileno(fp_), 0);
+        if (MAP_FAILED == rc) {
+            throw Error(2, path_, strError(), "mmap");            
+        }
+        pMappedArea_ = static_cast<byte*>(rc);
+        return pMappedArea_;
+    }
+
+
 
     BasicIo::AutoPtr FileIo::temporary() const
     {

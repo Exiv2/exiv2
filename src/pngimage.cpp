@@ -126,20 +126,14 @@ namespace Exiv2 {
             throw Error(9, io_->path(), strError());
         }
         IoCloser closer(*io_);
-
         // Ensure that this is the correct image type
         if (!isThisType(*io_, false)) 
         {
             if (io_->error() || io_->eof()) throw Error(14);
             throw Error(3, "PNG");
         }
-
         clearMetadata();
-
-        DataBuf buf = io_->read(io_->size());
-        if (io_->error() || io_->eof()) throw Error(14);
-
-        PngChunk::decode(this, buf.pData_, buf.size_);
+        PngChunk::decode(this, io_->mmap(), io_->size());
 
     } // PngImage::readMetadata
 
