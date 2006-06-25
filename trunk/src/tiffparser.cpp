@@ -131,27 +131,19 @@ namespace Exiv2 {
         {  Tag::all, Group::minocs5,   newTiffArrayElement<unsignedShort, bigEndian>, Group::minocs5 }
     };
 
-    // TIFF Decoder table for special decoding requirements
-    const TiffDecoderInfo TiffDecoderItems::tiffDecoderInfo_[] = {
+    // TIFF Decoder table for special decoding requirements, default decoder is decodeStdTiffEntry
+    const TiffDecoderInfo TiffDecoder::tiffDecoderInfo_[] = {
         { "*",       Tag::all, Group::ignr,    0 }, // Do not decode tags with group == Group::ignr
-        { "OLYMPUS",   0x0100, Group::olympmn, &TiffMetadataDecoder::decodeOlympThumb },
+        { "OLYMPUS",   0x0100, Group::olympmn, &TiffMetadataDecoder::decodeOlympThumb   },
         { "*",         0x014a, Group::ifd0,    0 }, // Todo: Controversial, causes problems with Exiftool
-        { "*",       Tag::all, Group::sub0_0,  &TiffMetadataDecoder::decodeSubIfd     },
-        { "*",       Tag::all, Group::sub0_1,  &TiffMetadataDecoder::decodeSubIfd     },
-        { "*",         0x8649, Group::ifd0,    &TiffMetadataDecoder::decodeIrbIptc    }
+        { "*",       Tag::all, Group::sub0_0,  &TiffMetadataDecoder::decodeSubIfd       },
+        { "*",       Tag::all, Group::sub0_1,  &TiffMetadataDecoder::decodeSubIfd       },
+        { "*",         0x8649, Group::ifd0,    &TiffMetadataDecoder::decodeIrbIptc      }
     };
 
-    bool TiffDecoderInfo::operator==(const TiffDecoderInfo::Key& key) const
-    {
-        std::string make(make_);
-        return    ("*" == make || make == key.m_.substr(0, make.length()))
-               && (Tag::all == extendedTag_ || key.e_ == extendedTag_)
-               && key.g_ == group_;
-    }
-
-    const DecoderFct TiffDecoderItems::findDecoder(const std::string& make, 
-                                                         uint32_t     extendedTag,
-                                                         uint16_t     group)
+    const DecoderFct TiffDecoder::findDecoder(const std::string& make, 
+                                                    uint32_t     extendedTag,
+                                                    uint16_t     group)
     {
         DecoderFct decoderFct = &TiffMetadataDecoder::decodeStdTiffEntry;
         const TiffDecoderInfo* td = find(tiffDecoderInfo_, 
