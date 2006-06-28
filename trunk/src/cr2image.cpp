@@ -158,15 +158,9 @@ namespace Exiv2 {
             throw Error(3, "CR2");
         }
         clearMetadata();
-
-        // Read the image into a memory buffer
-        long len = io_->size();
-        DataBuf buf(len);
-        io_->read(buf.pData_, len);
-        if (io_->error() || io_->eof()) throw Error(14);
-
-        TiffParser::decode(this, buf.pData_, buf.size_, 
+        TiffParser::decode(this, io_->mmap(), io_->size(),
                            TiffCreator::create, Cr2Decoder::findDecoder);
+
     } // Cr2Image::readMetadata
 
     void Cr2Image::writeMetadata()
