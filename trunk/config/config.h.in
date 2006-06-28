@@ -85,6 +85,12 @@
 /* Define to 1 if you have the `strtol' function. */
 #undef HAVE_STRTOL
 
+/* Define to 1 if you have the `mmap' function. */
+#undef HAVE_MMAP
+
+/* Define to 1 if you have the `munmap' function. */
+#undef HAVE_MUNMAP
+
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #undef HAVE_SYS_STAT_H
 
@@ -105,6 +111,9 @@
 
 /* Define to 1 if you have the <wchar.h> header file. */
 #undef HAVE_WCHAR_H
+
+/* Define to 1 if you have the <sys/mman.h> header file. */
+#undef HAVE_SYS_MMAN_H
 
 /* Define to 1 if you have the `zlib' library. */
 #undef HAVE_LIBZ

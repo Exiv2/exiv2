@@ -27,7 +27,7 @@ AC_SUBST(HAVE_LIBZ,$HAVE_LIBZ)
 
 # Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS([libintl.h malloc.h stdint.h stdlib.h string.h unistd.h wchar.h])
+AC_CHECK_HEADERS([libintl.h malloc.h stdint.h stdlib.h string.h unistd.h wchar.h sys/mman.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
@@ -47,7 +47,7 @@ AC_FUNC_STAT
 AC_FUNC_STRERROR_R
 AC_FUNC_STRFTIME
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS([gmtime_r memset strchr strerror strtol])
+AC_CHECK_FUNCS([gmtime_r memset strchr strerror strtol mmap munmap])
 AC_CHECK_FUNCS([timegm], HAVE_TIMEGM=1)
 AC_SUBST(HAVE_TIMEGM,$HAVE_TIMEGM)
 
