@@ -236,14 +236,8 @@ namespace Exiv2 {
             throw Error(33);
         }
         clearMetadata();
+        CrwParser::decode(this, io_->mmap(), io_->size());
 
-        // Read the image into a memory buffer
-        long len = io_->size();
-        DataBuf buf(len);
-        io_->read(buf.pData_, len);
-        if (io_->error() || io_->eof()) throw Error(14);
-
-        CrwParser::decode(this, buf.pData_, buf.size_);
     } // CrwImage::readMetadata
 
     void CrwImage::writeMetadata()

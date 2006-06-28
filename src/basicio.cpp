@@ -48,7 +48,9 @@ EXIV2_RCSID("@(#) $Id$")
 #include <cstdlib>                      // for alloc(), realloc(), free()
 #include <sys/types.h>                  // for stat()
 #include <sys/stat.h>                   // for stat()
-#include <sys/mman.h>                   // for mmap() and munmap()
+#ifdef EXV_HAVE_SYS_MMAN_H
+# include <sys/mman.h>                  // for mmap() and munmap()
+#endif
 #ifdef EXV_HAVE_PROCESS_H
 # include <process.h>
 #endif
@@ -65,7 +67,8 @@ EXIV2_RCSID("@(#) $Id$")
 namespace Exiv2 {
 
     FileIo::FileIo(const std::string& path)
-        : path_(path), fp_(0), opMode_(opSeek), pMappedArea_(0), mappedLength_(0)
+        : path_(path), fp_(0), opMode_(opSeek), 
+          pMappedArea_(0), mappedLength_(0), isMalloced_(false)
     {
     }
 
@@ -75,14 +78,19 @@ namespace Exiv2 {
         close();
     }
 
-
-// Todo: Experimental
     void FileIo::munmap()
     {
         if (pMappedArea_ != 0) {
+#if defined EXV_HAVE_MMAP && defined EXV_HAVE_MUNMAP
             if (::munmap(pMappedArea_, mappedLength_) != 0) {
                 throw Error(2, path_, strError(), "munmap");
             }
+#else
+            if (isMalloced_) {
+                delete[] pMappedArea_;
+                isMalloced_ = false;
+            }
+#endif
         }
         pMappedArea_ = 0;
         mappedLength_ = 0;
@@ -93,15 +101,22 @@ namespace Exiv2 {
         assert(fp_ != 0);
         munmap();
         mappedLength_ = size();
+#if defined EXV_HAVE_MMAP && defined EXV_HAVE_MUNMAP
         void* rc = ::mmap(0, mappedLength_, PROT_READ, MAP_SHARED, fileno(fp_), 0);
         if (MAP_FAILED == rc) {
-            throw Error(2, path_, strError(), "mmap");            
+            throw Error(2, path_, strError(), "mmap");
         }
         pMappedArea_ = static_cast<byte*>(rc);
+#else
+        // Workaround for platforms without mmap: Read the file into memory
+        DataBuf buf(static_cast<long>(mappedLength_));
+        read(buf.pData_, buf.size_);
+        if (error() || eof()) throw Error(2, path_, strError(), "FileIo::mmap");
+        pMappedArea_ = buf.release().first;
+        isMalloced_ = true;
+#endif
         return pMappedArea_;
     }
-
-
 
     BasicIo::AutoPtr FileIo::temporary() const
     {

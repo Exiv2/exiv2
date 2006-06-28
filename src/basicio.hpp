@@ -173,8 +173,10 @@ namespace Exiv2 {
          */
         virtual int seek(long offset, Position pos) = 0;
         /*!
-          @brief Allow efficient direct access to the IO data by mapping it 
-                 into the process's address space.
+          @brief Direct access to the IO data. For files, this is done by
+                 mapping the file into the process's address space; for
+                 memory blocks, this allows direct access to the memory 
+                 block.
 
           Todo: This is currently only for read access.
          */
@@ -407,6 +409,8 @@ namespace Exiv2 {
         /*!
           @brief Map the file into the process's address space. The file must
                  be open before mmap() is called.
+          @note  The returned pointer is valid only as long as the MemIo object
+                 is in scope.
          */
         virtual const byte* mmap();
         virtual void  munmap();
@@ -463,11 +467,9 @@ namespace Exiv2 {
         FILE *fp_;
         OpMode opMode_;
 
-
-// Todo: Experimental
         byte* pMappedArea_;
         size_t mappedLength_;
-
+        bool isMalloced_;               //!< Is the mapped area allocated?
 
         // METHODS
         /*!
@@ -616,6 +618,9 @@ namespace Exiv2 {
           @brief Allow direct access to the underlying data buffer. The buffer
                  is not protected against write access except for the const
                  specifier.
+          @note  The application must ensure that the memory pointed to by the 
+                 returned pointer remains valid and allocated as long as the 
+                 MemIo object is in scope.
          */
         virtual const byte* mmap() { return data_; }
         virtual void  munmap() {}
