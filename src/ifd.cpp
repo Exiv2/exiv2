@@ -318,7 +318,13 @@ namespace Exiv2 {
         long o = start;
         Ifd::PreEntries preEntries;
 
-        if (len < o + 2) rc = 6;
+        if (o < 0 || len < o + 2) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Error: " << ExifTags::ifdName(ifdId_)
+                      << " lies outside of the IFD memory buffer.\n";
+#endif
+            rc = 6;
+        }
         if (rc == 0) {
             offset_ = start - shift;
             int n = getUShort(buf + o, byteOrder);
@@ -362,6 +368,14 @@ namespace Exiv2 {
                     pNext_ = const_cast<byte*>(buf + o);
                 }
                 next_ = getULong(buf + o, byteOrder);
+                if (   static_cast<long>(next_) + shift < 0 
+                    || static_cast<long>(next_) + shift >= len) {
+#ifndef SUPPRESS_WARNINGS
+                    std::cerr << "Warning: " << ExifTags::ifdName(ifdId_)
+                              << ": Pointer to next IFD is out of bounds; ignored.\n";
+#endif
+                    next_ = 0;
+                }
             }
         }
         // Set the offset of the first data entry outside of the IFD.
