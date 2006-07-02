@@ -54,6 +54,10 @@ num=447 # Problem only visible in Valgrind
 filename=`prep_file $num`
 $binpath/exiv2 -pi $filename
 
+num=479
+filename=`prep_file $num`
+$binpath/exiv2 -pt $filename
+
 ) > $results 2>&1
 
 if [ x`which unix2dos.exe` != x ]; then
