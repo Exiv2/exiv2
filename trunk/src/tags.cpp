@@ -281,13 +281,14 @@ namespace Exiv2 {
 
     //! MeteringMode, tag 0x9207
     extern const TagDetails exifMeteringMode[] = {
-        { 0, "Unknown"         },
-        { 1, "Average"         },
-        { 2, "Center weighted" },
-        { 3, "Spot"            },
-        { 4, "Multispot"       },
-        { 5, "Matrix"          },
-        { 6, "Partial"         }
+        { 0,   "Unknown"                 },
+        { 1,   "Average"                 },
+        { 2,   "Center weighted average" },
+        { 3,   "Spot"                    },
+        { 4,   "Multi-spot"              },
+        { 5,   "Multi-segment"           },
+        { 6,   "Partial"                 },
+        { 255, "Other"                   }
     };
 
     //! LightSource, tag 0x9208
