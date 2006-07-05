@@ -313,7 +313,7 @@ namespace Exiv2 {
         {  22, "D75"                                     },
         {  23, "D50"                                     },
         {  24, "ISO studio tungsten"                     },
-        { 255, "other light source"                      }
+        { 255, "Other light source"                      }
     };
 
     //! Flash, tag 0x9209
