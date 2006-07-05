@@ -318,10 +318,10 @@ namespace Exiv2 {
 
     //! Flash, tag 0x9209
     extern const TagDetails exifFlash[] = {
-        { 0x00, "No"                                                            },
-        { 0x01, "Yes"                                                           },
-        { 0x05, "Strobe return light not detected"                              },
-        { 0x07, "Strobe return light detected"                                  },
+        { 0x00, "No Flash"                                                      },
+        { 0x01, "Fired"                                                         },
+        { 0x05, "Fired, strobe return light not detected"                       },
+        { 0x07, "Fired, strobe return light detected"                           },
         { 0x09, "Yes, compulsory"                                               },
         { 0x0d, "Yes, compulsory, return light not detected"                    },
         { 0x0f, "Yes, compulsory, return light detected"                        },
