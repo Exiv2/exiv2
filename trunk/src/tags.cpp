@@ -142,6 +142,7 @@ namespace Exiv2 {
 
     //! Units for measuring X and Y resolution, tags 0x0128, 0xa210
     extern const TagDetails exifUnit[] = {
+        { 1, "none" },
         { 2, "inch" },
         { 3, "cm"   }
     };
