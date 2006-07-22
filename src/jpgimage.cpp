@@ -140,7 +140,7 @@ namespace Exiv2 {
         Blob psBlob;
         // Data is rounded to be even
         const uint32_t sizeOldData = sizeHdr + sizeIptc + (sizeIptc & 1);
-        const uint32_t sizeFront = record - pPsData;
+        const uint32_t sizeFront = static_cast<uint32_t>(record - pPsData);
         const uint32_t sizeEnd = sizePsData - sizeFront - sizeOldData;
 
         // Write data before old record.

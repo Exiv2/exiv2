@@ -6,6 +6,11 @@
 #ifndef TIMEGM_H_
 #define TIMEGM_H_
 
+/* Visual Studio C++ 2005 (8.0) uses 64 bit time_t, which doesn't work */
+#if defined _MSV_VER && _MSC_VER >= 1400
+# define _USE_32BIT_TIME_T
+#endif
+
 #include <time.h>
 
 /*
