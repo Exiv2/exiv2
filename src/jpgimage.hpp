@@ -87,16 +87,16 @@ namespace Exiv2 {
                              long sizePsData,
                              uint16_t psTag,
                              const byte **record,
-                             uint16_t *const sizeHdr,
-                             uint16_t *const sizeData);
+                             uint32_t *const sizeHdr,
+                             uint32_t *const sizeData);
         /*!
           @brief Forwards to locateIrb() with \em psTag = \em iptc_
          */
         static int locateIptcIrb(const byte *pPsData,
                                  long sizePsData,
                                  const byte **record,
-                                 uint16_t *const sizeHdr,
-                                 uint16_t *const sizeData);
+                                 uint32_t *const sizeHdr,
+                                 uint32_t *const sizeData);
         /*!
           @brief Set the new IPTC IRB, keeps existing IRBs but removes the
                  IPTC block if there is no new IPTC data to write.

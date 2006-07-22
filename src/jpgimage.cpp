@@ -71,8 +71,8 @@ namespace Exiv2 {
                              long            sizePsData,
                              uint16_t        psTag,
                              const byte**    record,
-                             uint16_t *const sizeHdr,
-                             uint16_t *const sizeData)
+                             uint32_t *const sizeHdr,
+                             uint32_t *const sizeData)
     {
         assert(record);
         assert(sizeHdr);
@@ -95,12 +95,12 @@ namespace Exiv2 {
             if (position >= sizePsData) return -2;
 
             // Data is also padded to be even
-            long dataSize = getULong(pPsData + position, bigEndian);
+            uint32_t dataSize = getULong(pPsData + position, bigEndian);
             position += 4;
-            if (dataSize > sizePsData - position) return -2;
+            if (dataSize > static_cast<uint32_t>(sizePsData - position)) return -2;
 
             if (type == psTag) {
-                *sizeData = static_cast<uint16_t>(dataSize);
+                *sizeData = dataSize;
                 *sizeHdr = psSize + 10;
                 *record = hrd;
                 return 0;
@@ -113,8 +113,8 @@ namespace Exiv2 {
     int Photoshop::locateIptcIrb(const byte*     pPsData,
                                  long            sizePsData,
                                  const byte**    record,
-                                 uint16_t *const sizeHdr,
-                                 uint16_t *const sizeData)
+                                 uint32_t *const sizeHdr,
+                                 uint32_t *const sizeData)
     {
         return locateIrb(pPsData, sizePsData, iptc_,
                          record, sizeHdr, sizeData);
@@ -131,17 +131,17 @@ namespace Exiv2 {
         else hexdump(std::cerr, pPsData, sizePsData);
 #endif
         const byte* record    = pPsData;
-        uint16_t    sizeIptc  = 0;
-        uint16_t    sizeHdr   = 0;
+        uint32_t    sizeIptc  = 0;
+        uint32_t    sizeHdr   = 0;
         // Safe to call with zero psData.size_
         Photoshop::locateIptcIrb(pPsData, sizePsData,
                                  &record, &sizeHdr, &sizeIptc);
 
         Blob psBlob;
         // Data is rounded to be even
-        const uint16_t sizeOldData = sizeHdr + sizeIptc + (sizeIptc & 1);
-        const uint16_t sizeFront = static_cast<uint16_t>(record - pPsData);
-        const uint16_t sizeEnd = static_cast<uint16_t>(sizePsData - sizeFront - sizeOldData);
+        const uint32_t sizeOldData = sizeHdr + sizeIptc + (sizeIptc & 1);
+        const uint32_t sizeFront = record - pPsData;
+        const uint32_t sizeEnd = sizePsData - sizeFront - sizeOldData;
 
         // Write data before old record.
         if (sizePsData > 0 && sizeFront > 0) {
@@ -309,8 +309,8 @@ namespace Exiv2 {
                 io_->read(psData.pData_, psData.size_);
                 if (io_->error() || io_->eof()) throw Error(14);
                 const byte *record = 0;
-                uint16_t sizeIptc = 0;
-                uint16_t sizeHdr = 0;
+                uint32_t sizeIptc = 0;
+                uint32_t sizeHdr = 0;
                 // Find actual Iptc data within the APP13 segment
                 if (!Photoshop::locateIptcIrb(psData.pData_, psData.size_,
                                           &record, &sizeHdr, &sizeIptc)) {
@@ -465,8 +465,10 @@ namespace Exiv2 {
                     // Write COM marker, size of comment, and string
                     tmpBuf[0] = 0xff;
                     tmpBuf[1] = com_;
-                    us2Data(tmpBuf + 2,
-                            static_cast<uint16_t>(comment_.length()+3), bigEndian);
+
+                    if (comment_.length() + 3 > 0xffff) throw Error(37, "JPEG comment");
+                    us2Data(tmpBuf + 2, static_cast<uint16_t>(comment_.length() + 3), bigEndian);
+
                     if (outIo.write(tmpBuf, 4) != 4) throw Error(21);
                     if (outIo.write((byte*)comment_.data(), (long)comment_.length())
                         != (long)comment_.length()) throw Error(21);
@@ -476,15 +478,17 @@ namespace Exiv2 {
                 }
                 if (exifData_.count() > 0) {
                     // Write APP1 marker, size of APP1 field, Exif id and Exif data
-                    DataBuf rawExif(exifData_.copy());
+                    DataBuf rawExif = exifData_.copy();
                     tmpBuf[0] = 0xff;
                     tmpBuf[1] = app1_;
-                    us2Data(tmpBuf + 2,
-                            static_cast<uint16_t>(rawExif.size_+8),
-                            bigEndian);
+
+                    if (rawExif.size_ + 8 > 0xffff) throw Error(37, "Exif");
+                    us2Data(tmpBuf + 2, static_cast<uint16_t>(rawExif.size_ + 8), bigEndian);
                     memcpy(tmpBuf + 4, exifId_, 6);
                     if (outIo.write(tmpBuf, 10) != 10) throw Error(21);
-                    if (outIo.write(rawExif.pData_, rawExif.size_)
+
+                    // Write new Exif data buffer
+                    if (   outIo.write(rawExif.pData_, rawExif.size_)
                         != rawExif.size_) throw Error(21);
                     if (outIo.error()) throw Error(21);
                     --search;
@@ -499,6 +503,8 @@ namespace Exiv2 {
                         // Write APP13 marker, new size, and ps3Id
                         tmpBuf[0] = 0xff;
                         tmpBuf[1] = app13_;
+
+                        if (newPsData.size_ + 16 > 0xffff) throw Error(37, "IPTC");
                         us2Data(tmpBuf + 2, static_cast<uint16_t>(newPsData.size_ + 16), bigEndian);
                         memcpy(tmpBuf + 4, Photoshop::ps3Id_, 14);
                         if (outIo.write(tmpBuf, 18) != 18) throw Error(21);
@@ -506,7 +512,7 @@ namespace Exiv2 {
 
                         // Write new Photoshop IRB data buffer
                         if (   outIo.write(newPsData.pData_, newPsData.size_)
-                               != newPsData.size_) throw Error(21);
+                            != newPsData.size_) throw Error(21);
                         if (outIo.error()) throw Error(21);
                     }
                     if (iptcData_.count() > 0) {

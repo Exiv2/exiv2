@@ -110,6 +110,7 @@ BINSRC = addmoddel.cpp        \
          iptcprint.cpp        \
          iptctest.cpp         \
          key-test.cpp         \
+         largeiptc-test.cpp   \
          makernote-test.cpp   \
          taglist.cpp          \
          write-test.cpp       \

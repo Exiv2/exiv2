@@ -235,3 +235,11 @@ Exif.Image.0x9286                            Undefined 264  (Binary value suppre
 Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
 Exif.Photo.PixelXDimension                   Short       1  3173
 Exif.Photo.PixelYDimension                   Short       1  2011
+------> Bug 480 <-------
+Reading 67070 bytes from ../data/smiley1.jpg.ixgd
+IPTC fields: 0
+IPTC fields: 67079
+IRB buffer : 67092
+Comparing IPTC and IRB size... ok
+Comparing IPTC and IRB data... ok
+Caught Exiv2 exception 'Size of IPTC JPEG segment is larger than 65535 bytes'
