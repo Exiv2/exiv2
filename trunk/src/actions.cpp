@@ -37,19 +37,19 @@ EXIV2_RCSID("@(#) $Id$")
 # include "exv_conf.h"
 #endif
 
+#ifndef EXV_HAVE_TIMEGM
+# include "timegm.h"
+#endif
 #include "actions.hpp"
+#include "exiv2.hpp"
 #include "image.hpp"
 #include "jpgimage.hpp"
-#include "exiv2.hpp"
 #include "utils.hpp"
 #include "types.hpp"
 #include "exif.hpp"
 #include "canonmn.hpp"
 #include "iptc.hpp"
 #include "futils.hpp"
-#ifndef EXV_HAVE_TIMEGM
-# include "timegm.h"
-#endif
 
 // + standard includes
 #include <string>

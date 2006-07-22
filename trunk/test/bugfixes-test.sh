@@ -60,7 +60,7 @@ $binpath/exiv2 -pt $filename
 
 num=480
 filename=`prep_file $num`
-$binpath/largeiptc-test $filename ../data/smiley1.jpg.ixgd
+$binpath/largeiptc-test $filename ../data/imagemagick.png
 
 ) > $results 2>&1
 
