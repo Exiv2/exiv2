@@ -58,6 +58,10 @@ num=479
 filename=`prep_file $num`
 $binpath/exiv2 -pt $filename
 
+num=480
+filename=`prep_file $num`
+$binpath/largeiptc-test $filename ../data/smiley1.jpg.ixgd
+
 ) > $results 2>&1
 
 if [ x`which unix2dos.exe` != x ]; then

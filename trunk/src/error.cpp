@@ -78,6 +78,7 @@ namespace Exiv2 {
         ErrMsg( 34, "%1: Not supported"), // %1=function
         ErrMsg( 35, "ImageFactory registry full"),
         ErrMsg( 36, "Failed to decode %1 metadata"), // %1=type of metadata (Exif, IPTC)
+        ErrMsg( 37, "Size of %1 JPEG segment is larger than 65535 bytes"), // %1=type of metadata (Exif, IPTC, JPEG comment)
 
         // Last error message (message is not used)
         ErrMsg( -2, "(Unknown Error)")

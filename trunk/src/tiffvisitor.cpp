@@ -190,8 +190,8 @@ namespace Exiv2 {
         assert(pImage_ != 0);
         if (!object->pData()) return;
         byte const* record = 0;
-        uint16_t sizeHdr = 0;
-        uint16_t sizeData = 0;
+        uint32_t sizeHdr = 0;
+        uint32_t sizeData = 0;
         if (0 != Photoshop::locateIptcIrb(object->pData(), object->size(),
                                           &record, &sizeHdr, &sizeData)) {
             return;
