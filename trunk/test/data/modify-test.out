@@ -43,9 +43,9 @@ exiv2-gc.jpg          Exif.Photo.ShutterSpeedValue                 SRational   1
 exiv2-gc.jpg          Exif.Photo.ApertureValue                     Rational    1  F9.2
 exiv2-gc.jpg          Exif.Photo.ExposureBiasValue                 SRational   1  0
 exiv2-gc.jpg          Exif.Photo.MaxApertureValue                  Rational    1  F2.9
-exiv2-gc.jpg          Exif.Photo.MeteringMode                      Short       1  Matrix
+exiv2-gc.jpg          Exif.Photo.MeteringMode                      Short       1  Multi-segment
 exiv2-gc.jpg          Exif.Photo.LightSource                       Short       1  Unknown
-exiv2-gc.jpg          Exif.Photo.Flash                             Short       1  No
+exiv2-gc.jpg          Exif.Photo.Flash                             Short       1  No flash
 exiv2-gc.jpg          Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
 exiv2-gc.jpg          Exif.Photo.ColorSpace                        Short       1  sRGB
 exiv2-gc.jpg          Exif.Photo.PixelXDimension                   Long        1  1600
