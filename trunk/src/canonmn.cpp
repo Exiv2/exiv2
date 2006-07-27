@@ -97,28 +97,172 @@ namespace Exiv2 {
         TagInfo(0xffff, "(UnknownCanonMakerNoteTag)", "(UnknownCanonMakerNoteTag)", "Unknown CanonMakerNote tag", canonIfdId, makerTags, invalidTypeId, printValue)
     };
 
+    //! Macro, tag 0x0001
+    extern const TagDetails canonCs1Macro[] = {
+        { 1, "On"  },
+        { 2, "Off" }
+    };
+
+    //! Quality, tag 0x0003
+    extern const TagDetails canonCs1Quality[] = {
+        { 2, "Normal"    },
+        { 3, "Fine"      },
+        { 4, "Raw"       },
+        { 5, "Superfine" }
+    };
+
+    //! FlashMode, tag 0x0004
+    extern const TagDetails canonCs1FlashMode[] = {
+        {  0, "Off"            },
+        {  1, "Auto"           },
+        {  2, "On"             },
+        {  3, "Red-eye"        },
+        {  4, "Slow sync"      },
+        {  5, "Auto + red-eye" },
+        {  6, "On + red-eye"   },
+        { 16, "External"       }
+    };
+
+    //! DriveMode, tag 0x0005
+    extern const TagDetails canonCs1DriveMode[] = {
+        {  0, "Single / timer" },
+        {  1, "Continuous"     }
+    };
+
+    //! FocusMode, tag 0x0007
+    extern const TagDetails canonCs1FocusMode[] = {
+        {  0, "One shot"   },
+        {  1, "AI servo"   },
+        {  2, "AI focus"   },
+        {  3, "MF"         },
+        {  4, "Single"     },
+        {  5, "Continuous" },
+        {  6, "MF"         }
+    };
+
+    //! ImageSize, tag 0x000a
+    extern const TagDetails canonCs1ImageSize[] = {
+        { 0, "Large"  },
+        { 1, "Medium" },
+        { 2, "Small"  }
+    };
+
+    //! EasyMode, tag 0x000b
+    extern const TagDetails canonCs1EasyMode[] = {
+        {  0, "Full auto"        },
+        {  1, "Manual"           },
+        {  2, "Landscape"        },
+        {  3, "Fast shutter"     },
+        {  4, "Slow shutter"     },
+        {  5, "Night Scene"      },
+        {  6, "B&W"              },
+        {  7, "Sepia"            },
+        {  8, "Portrait"         },
+        {  9, "Sports"           },
+        { 10, "Macro / close-up" },
+        { 11, "Pan focus"        },
+        { 18, "Foliage"          },
+        { 19, "Indoor"           },
+        { 20, "Fireworks"        },
+        { 21, "Beach"            },
+        { 23, "Snow"             },
+        { 25, "Night SnapShot"   },
+        { 27, "My Colors"        },
+        { 28, "Movie"            }
+    };
+
+    //! DigitalZoom, tag 0x000c
+    extern const TagDetails canonCs1DigitalZoom[] = {
+        { 0, "None" },
+        { 1, "2x"   },
+        { 2, "4x"   }
+    };
+
+    //! Contrast, Saturation Sharpness, tags 0x000d, 0x000e, 0x000f
+    extern const TagDetails canonCs1Lnh[] = {
+        { 0xffff, "Low"    },
+        { 0x0000, "Normal" },
+        { 0x0001, "High"   }
+    };
+
+    //! ISOSpeeds, tag 0x0010
+    extern const TagDetails canonCs1ISOSpeed[] = {
+        {  0, "n/a"  },
+        { 15, "Auto" },
+        { 16, "50"   },
+        { 17, "100"  },
+        { 18, "200"  },
+        { 19, "400"  }
+    };
+
+    //! MeteringMode, tag 0x0011
+    extern const TagDetails canonCs1MeteringMode[] = {
+        { 3, "Evaluative"      },
+        { 4, "Partial"         },
+        { 5, "Center weighted" }
+    };
+
+    //! FocusType, tag 0x0012
+    extern const TagDetails canonCs1FocusType[] = {
+        { 0, "Manual"            },
+        { 1, "Auto"              },
+        { 3, "Close-up (macro)"  },
+        { 8, "Locked (pan mode)" }
+    };
+
+    //! AFPoint, tag 0x0013
+    extern const TagDetails canonCs1AfPoint[] = {
+        { 0x3000, "None (MF)"     },
+        { 0x3001, "Auto-selected" },
+        { 0x3002, "Right"         },
+        { 0x3003, "Center"        },
+        { 0x3004, "Left"          }
+    };
+
+    //! ExposureProgram, tag 0x0014
+    extern const TagDetails canonCs1ExposureProgram[] = {
+        { 0, "Easy shooting (Auto)"   },
+        { 1, "Program (P)"            },
+        { 2, "Shutter priority (Tv)"  },
+        { 3, "Aperture priority (Av)" },
+        { 4, "Manual (M)"             },
+        { 5, "A-DEP"                  }
+    };
+
+    //! FlashActivity, tag 0x001c
+    extern const TagDetails canonCs1FlashActivity[] = {
+        { 0, "Did not fire" },
+        { 1, "Fired"        }
+    };
+
+    //! FocusContinuous, tag 0x0020
+    extern const TagDetails canonCs1FocusContinuous[] = {
+        { 0, "Single"     },
+        { 1, "Continuous" }
+    };
+
     // Canon Camera Settings 1 Tag Info
     const TagInfo CanonMakerNote::tagInfoCs1_[] = {
-        TagInfo(0x0001, "Macro", "Macro", "Macro mode", canonCs1IfdId, makerTags, unsignedShort, printCs10x0001),
+        TagInfo(0x0001, "Macro", "Macro", "Macro mode", canonCs1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCs1Macro)),
         TagInfo(0x0002, "Selftimer", "Selftimer", "Self timer", canonCs1IfdId, makerTags, unsignedShort, printCs10x0002),
-        TagInfo(0x0003, "Quality", "Quality", "Quality", canonCs1IfdId, makerTags, unsignedShort, printCs10x0003),
-        TagInfo(0x0004, "FlashMode", "Flash Mode", "Flash mode setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0004),
-        TagInfo(0x0005, "DriveMode", "Drive Mode", "Drive mode setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0005),
+        TagInfo(0x0003, "Quality", "Quality", "Quality", canonCs1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCs1Quality)),
+        TagInfo(0x0004, "FlashMode", "Flash Mode", "Flash mode setting", canonCs1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCs1FlashMode)),
+        TagInfo(0x0005, "DriveMode", "Drive Mode", "Drive mode setting", canonCs1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCs1DriveMode)),
         TagInfo(0x0006, "0x0006", "0x0006", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0007, "FocusMode", "Focus Mode", "Focus mode setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0007),
+        TagInfo(0x0007, "FocusMode", "Focus Mode", "Focus mode setting", canonCs1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCs1FocusMode)),
         TagInfo(0x0008, "0x0008", "0x0008", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0009, "0x0009", "0x0009", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x000a, "ImageSize", "Image Size", "Image size", canonCs1IfdId, makerTags, unsignedShort, printCs10x000a),
-        TagInfo(0x000b, "EasyMode", "Easy Mode", "Easy shooting mode", canonCs1IfdId, makerTags, unsignedShort, printCs10x000b),
-        TagInfo(0x000c, "DigitalZoom", "Digital Zoom", "Digital zoom", canonCs1IfdId, makerTags, unsignedShort, printCs10x000c),
-        TagInfo(0x000d, "Contrast", "Contrast", "Contrast setting", canonCs1IfdId, makerTags, unsignedShort, printCs1Lnh),
-        TagInfo(0x000e, "Saturation", "Saturation", "Saturation setting", canonCs1IfdId, makerTags, unsignedShort, printCs1Lnh),
-        TagInfo(0x000f, "Sharpness", "Sharpness", "Sharpness setting", canonCs1IfdId, makerTags, unsignedShort, printCs1Lnh),
-        TagInfo(0x0010, "ISOSpeed", "ISO Speed Mode", "ISO speed setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0010),
-        TagInfo(0x0011, "MeteringMode", "Metering Mode", "Metering mode setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0011),
-        TagInfo(0x0012, "FocusType", "Focus Type", "Focus type setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0012),
-        TagInfo(0x0013, "AFPoint", "AFPoint", "AF point selected", canonCs1IfdId, makerTags, unsignedShort, printCs10x0013),
-        TagInfo(0x0014, "ExposureProgram", "Exposure Program", "Exposure mode setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0014),
+        TagInfo(0x000a, "ImageSize", "Image Size", "Image size", canonCs1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCs1ImageSize)),
+        TagInfo(0x000b, "EasyMode", "Easy Mode", "Easy shooting mode", canonCs1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCs1EasyMode)),
+        TagInfo(0x000c, "DigitalZoom", "Digital Zoom", "Digital zoom", canonCs1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCs1DigitalZoom)),
+        TagInfo(0x000d, "Contrast", "Contrast", "Contrast setting", canonCs1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCs1Lnh)),
+        TagInfo(0x000e, "Saturation", "Saturation", "Saturation setting", canonCs1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCs1Lnh)),
+        TagInfo(0x000f, "Sharpness", "Sharpness", "Sharpness setting", canonCs1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCs1Lnh)),
+        TagInfo(0x0010, "ISOSpeed", "ISO Speed Mode", "ISO speed setting", canonCs1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCs1ISOSpeed)),
+        TagInfo(0x0011, "MeteringMode", "Metering Mode", "Metering mode setting", canonCs1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCs1MeteringMode)),
+        TagInfo(0x0012, "FocusType", "Focus Type", "Focus type setting", canonCs1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCs1FocusType)),
+        TagInfo(0x0013, "AFPoint", "AFPoint", "AF point selected", canonCs1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCs1AfPoint)),
+        TagInfo(0x0014, "ExposureProgram", "Exposure Program", "Exposure mode setting", canonCs1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCs1ExposureProgram)),
         TagInfo(0x0015, "0x0015", "0x0015", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0016, "0x0016", "0x0016", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0017, "Lens", "Lens", "'long' and 'short' focal length of lens (in 'focal units') and 'focal units' per mm", canonCs1IfdId, makerTags, unsignedShort, printCs1Lens),
@@ -126,11 +270,11 @@ namespace Exiv2 {
         TagInfo(0x0019, "0x0019", "0x0019", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x001a, "0x001a", "0x001a", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x001b, "0x001b", "0x001b", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x001c, "FlashActivity", "FlashActivity", "Flash activity", canonCs1IfdId, makerTags, unsignedShort, printCs10x001c),
+        TagInfo(0x001c, "FlashActivity", "FlashActivity", "Flash activity", canonCs1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCs1FlashActivity)),
         TagInfo(0x001d, "FlashDetails", "FlashDetails", "Flash details", canonCs1IfdId, makerTags, unsignedShort, printCs10x001d),
         TagInfo(0x001e, "0x001e", "0x001e", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x001f, "0x001f", "0x001f", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0020, "FocusMode", "FocusMode", "Focus mode setting", canonCs1IfdId, makerTags, unsignedShort, printCs10x0020),
+        TagInfo(0x0020, "FocusContinuous", "Focus Continuous", "Focus continuous setting", canonCs1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCs1FocusContinuous)),
         TagInfo(0x0021, "0x0021", "0x0021", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0022, "0x0022", "0x0022", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0023, "0x0023", "0x0023", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
@@ -142,6 +286,38 @@ namespace Exiv2 {
         TagInfo(0xffff, "(UnknownCanonCs1Tag)", "(UnknownCanonCs1Tag)", "Unknown Canon Camera Settings 1 tag", canonCs1IfdId, makerTags, invalidTypeId, printValue)
     };
 
+    //! WhiteBalance, tag 0x0007
+    extern const TagDetails canonCs2WhiteBalance[] = {
+        { 0, "Auto"        },
+        { 1, "Sunny"       },
+        { 2, "Cloudy"      },
+        { 3, "Tungsten"    },
+        { 4, "Fluorescent" },
+        { 5, "Flash"       },
+        { 6, "Custom"      }
+    };
+
+    //! FlashBias, tag 0x000f
+    extern const TagDetails canonCs2FlashBias[] = {
+        { 0xffc0, "-2 EV"    },
+        { 0xffcc, "-1.67 EV" },
+        { 0xffd0, "-1.50 EV" },
+        { 0xffd4, "-1.33 EV" },
+        { 0xffe0, "-1 EV"    },
+        { 0xffec, "-0.67 EV" },
+        { 0xfff0, "-0.50 EV" },
+        { 0xfff4, "-0.33 EV" },
+        { 0x0000, "0 EV"     },
+        { 0x000c, "0.33 EV"  },
+        { 0x0010, "0.50 EV"  },
+        { 0x0014, "0.67 EV"  },
+        { 0x0020, "1 EV"     },
+        { 0x002c, "1.33 EV"  },
+        { 0x0030, "1.50 EV"  },
+        { 0x0034, "1.67 EV"  },
+        { 0x0040, "2 EV"     }
+    };
+
     // Canon Camera Settings 2 Tag Info
     const TagInfo CanonMakerNote::tagInfoCs2_[] = {
         TagInfo(0x0001, "0x0001", "0x0001", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
@@ -150,7 +326,7 @@ namespace Exiv2 {
         TagInfo(0x0004, "TargetAperture", "TargetAperture", "Target Aperture", canonCs2IfdId, makerTags, unsignedShort, printCs20x0015),
         TagInfo(0x0005, "TargetShutterSpeed", "TargetShutterSpeed", "Target shutter speed", canonCs2IfdId, makerTags, unsignedShort, printCs20x0016),
         TagInfo(0x0006, "0x0006", "0x0006", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0007, "WhiteBalance", "WhiteBalance", "White balance setting", canonCs2IfdId, makerTags, unsignedShort, printCs20x0007),
+        TagInfo(0x0007, "WhiteBalance", "WhiteBalance", "White balance setting", canonCs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCs2WhiteBalance)),
         TagInfo(0x0008, "0x0008", "0x0008", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0009, "Sequence", "Sequence", "Sequence number (if in a continuous burst)", canonCs2IfdId, makerTags, unsignedShort, printCs20x0009),
         TagInfo(0x000a, "0x000a", "0x000a", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
@@ -158,7 +334,7 @@ namespace Exiv2 {
         TagInfo(0x000c, "0x000c", "0x000c", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x000d, "0x000d", "0x000d", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x000e, "AFPointUsed", "AFPointUsed", "AF point used", canonCs2IfdId, makerTags, unsignedShort, printCs20x000e),
-        TagInfo(0x000f, "FlashBias", "FlashBias", "Flash bias", canonCs2IfdId, makerTags, unsignedShort, printCs20x000f),
+        TagInfo(0x000f, "FlashBias", "FlashBias", "Flash bias", canonCs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCs2FlashBias)),
         TagInfo(0x0010, "0x0010", "0x0010", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0011, "0x0011", "0x0011", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0012, "0x0012", "0x0012", "Unknown", canonCs2IfdId, makerTags, unsignedShort, printValue),
@@ -453,19 +629,6 @@ namespace Exiv2 {
                   << (l & 0x0000ffff);
     }
 
-    std::ostream& CanonMakerNote::printCs10x0001(std::ostream& os,
-                                                 const Value& value)
-    {
-        if (value.typeId() != unsignedShort) return os << value;
-        long l = value.toLong();
-        switch (l) {
-        case 1: os << "On"; break;
-        case 2: os << "Off"; break;
-        default: os << "(" << l << ")"; break;
-        }
-        return os;
-    }
-
     std::ostream& CanonMakerNote::printCs10x0002(std::ostream& os,
                                                  const Value& value)
     {
@@ -476,236 +639,6 @@ namespace Exiv2 {
         }
         else {
             os << l / 10.0 << " s";
-        }
-        return os;
-    }
-
-    std::ostream& CanonMakerNote::printCs10x0003(std::ostream& os,
-                                                 const Value& value)
-    {
-        if (value.typeId() != unsignedShort) return os << value;
-        long l = value.toLong();
-        switch (l) {
-        case 2: os << "Normal"; break;
-        case 3: os << "Fine"; break;
-        case 4: os << "Raw"; break;
-        case 5: os << "Superfine"; break;
-        default: os << "(" << l << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& CanonMakerNote::printCs10x0004(std::ostream& os,
-                                                 const Value& value)
-    {
-        if (value.typeId() != unsignedShort) return os << value;
-        long l = value.toLong();
-        switch (l) {
-        case 0: os << "Off"; break;
-        case 1: os << "Auto"; break;
-        case 2: os << "On"; break;
-        case 3: os << "Red-eye"; break;
-        case 4: os << "Slow sync"; break;
-        case 5: os << "Auto + red-eye"; break;
-        case 6: os << "On + red-eye"; break;
-        case 16: os << "External"; break;
-        default: os << "(" << l << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& CanonMakerNote::printCs10x0005(std::ostream& os,
-                                                 const Value& value)
-    {
-        if (value.typeId() != unsignedShort) return os << value;
-        long l = value.toLong();
-        switch (l) {
-        case 0: os << "Single / timer"; break;
-        case 1: os << "Continuous"; break;
-        default: os << "(" << l << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& CanonMakerNote::printCs10x0007(std::ostream& os,
-                                                 const Value& value)
-    {
-        if (value.typeId() != unsignedShort) return os << value;
-        long l = value.toLong();
-        switch (l) {
-        case 0: os << "One shot"; break;
-        case 1: os << "AI servo"; break;
-        case 2: os << "AI Focus"; break;
-        case 3: os << "MF"; break;
-        case 4: os << "Single"; break;
-        case 5: os << "Continuous"; break;
-        case 6: os << "MF"; break;
-        default: os << "(" << l << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& CanonMakerNote::printCs10x000a(std::ostream& os,
-                                                 const Value& value)
-    {
-        if (value.typeId() != unsignedShort) return os << value;
-        long l = value.toLong();
-        switch (l) {
-        case 0: os << "Large"; break;
-        case 1: os << "Medium"; break;
-        case 2: os << "Small"; break;
-        default: os << "(" << l << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& CanonMakerNote::printCs10x000b(std::ostream& os,
-                                                 const Value& value)
-    {
-        if (value.typeId() != unsignedShort) return os << value;
-        long l = value.toLong();
-        switch (l) {
-        case  0: os << "Full auto"; break;
-        case  1: os << "Manual"; break;
-        case  2: os << "Landscape"; break;
-        case  3: os << "Fast shutter"; break;
-        case  4: os << "Slow shutter"; break;
-        case  5: os << "Night Scene"; break;
-        case  6: os << "B&W"; break;
-        case  7: os << "Sepia"; break;
-        case  8: os << "Portrait"; break;
-        case  9: os << "Sports"; break;
-        case 10: os << "Macro / close-up"; break;
-        case 11: os << "Pan focus"; break;
-        case 18: os << "Foliage"; break;
-        case 19: os << "Indoor"; break;
-        case 20: os << "Fireworks"; break;
-        case 21: os << "Beach"; break;
-        case 23: os << "Snow"; break;
-        case 25: os << "Night SnapShot"; break;
-        case 27: os << "My Colors"; break;
-        case 28: os << "Movie"; break;
-        default: os << "(" << l << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& CanonMakerNote::printCs10x000c(std::ostream& os,
-                                                 const Value& value)
-    {
-        if (value.typeId() != unsignedShort) return os << value;
-        long l = value.toLong();
-        switch (l) {
-        case 0: os << "None"; break;
-        case 1: os << "2x"; break;
-        case 2: os << "4x"; break;
-        default: os << "(" << l << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& CanonMakerNote::printCs1Lnh(std::ostream& os,
-                                              const Value& value)
-    {
-        if (value.typeId() != unsignedShort) return os << value;
-        long l = value.toLong();
-        switch (l) {
-        case 0xffff: os << "Low"; break;
-        case 0x0000: os << "Normal"; break;
-        case 0x0001: os << "High"; break;
-        default: os << "(" << l << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& CanonMakerNote::printCs10x0010(std::ostream& os,
-                                                 const Value& value)
-    {
-        if (value.typeId() != unsignedShort) return os << value;
-        long l = value.toLong();
-        switch (l) {
-        case  0: os << "n/a"; break;
-        case 15: os << "Auto"; break;
-        case 16: os << "50"; break;
-        case 17: os << "100"; break;
-        case 18: os << "200"; break;
-        case 19: os << "400"; break;
-        default: os << "(" << l << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& CanonMakerNote::printCs10x0011(std::ostream& os,
-                                                 const Value& value)
-    {
-        if (value.typeId() != unsignedShort) return os << value;
-        long l = value.toLong();
-        switch (l) {
-        case 3: os << "Evaluative"; break;
-        case 4: os << "Partial"; break;
-        case 5: os << "Center weighted"; break;
-        default: os << "(" << l << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& CanonMakerNote::printCs10x0012(std::ostream& os,
-                                                 const Value& value)
-    {
-        if (value.typeId() != unsignedShort) return os << value;
-        long l = value.toLong();
-        switch (l) {
-        case 0: os << "Manual"; break;
-        case 1: os << "Auto"; break;
-        case 3: os << "Close-up (macro)"; break;
-        case 8: os << "Locked (pan mode)"; break;
-        default: os << "(" << l << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& CanonMakerNote::printCs10x0013(std::ostream& os,
-                                                 const Value& value)
-    {
-        if (value.typeId() != unsignedShort) return os << value;
-        long l = value.toLong();
-        switch (l) {
-        case 0x3000: os << "None (MF)"; break;
-        case 0x3001: os << "Auto-selected"; break;
-        case 0x3002: os << "Right"; break;
-        case 0x3003: os << "Center"; break;
-        case 0x3004: os << "Left"; break;
-        default: os << "(" << l << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& CanonMakerNote::printCs10x0014(std::ostream& os,
-                                                 const Value& value)
-    {
-        if (value.typeId() != unsignedShort) return os << value;
-        long l = value.toLong();
-        switch (l) {
-        case 0: os << "Easy shooting (Auto)"; break;
-        case 1: os << "Program (P)"; break;
-        case 2: os << "Shutter priority (Tv)"; break;
-        case 3: os << "Aperture priority (Av)"; break;
-        case 4: os << "Manual (M)"; break;
-        case 5: os << "A-DEP"; break;
-        default: os << "(" << l << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& CanonMakerNote::printCs10x001c(std::ostream& os,
-                                                 const Value& value)
-    {
-        if (value.typeId() != unsignedShort) return os << value;
-        long l = value.toLong();
-        switch (l) {
-        case 0: os << "Did not fire"; break;
-        case 1: os << "Fired"; break;
-        default: os << "(" << l << ")"; break;
         }
         return os;
     }
@@ -744,19 +677,6 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& CanonMakerNote::printCs10x0020(std::ostream& os,
-                                                 const Value& value)
-    {
-        if (value.typeId() != unsignedShort) return os << value;
-        long l = value.toLong();
-        switch (l) {
-        case 0: os << "Single"; break;
-        case 1: os << "Continuous"; break;
-        default: os << "(" << l << ")"; break;
-        }
-        return os;
-    }
-
     std::ostream& CanonMakerNote::printCs1Lens(std::ostream& os,
                                                 const Value& value)
     {
@@ -780,24 +700,6 @@ namespace Exiv2 {
     {
         // Ported from Exiftool by Will Stokes
         return os << exp(canonEv(value.toLong()) * log(2.0)) * 100.0 / 32.0;
-    }
-
-    std::ostream& CanonMakerNote::printCs20x0007(std::ostream& os,
-                                                 const Value& value)
-    {
-        if (value.typeId() != unsignedShort) return os << value;
-        long l = value.toLong();
-        switch (l) {
-        case 0: os << "Auto"; break;
-        case 1: os << "Sunny"; break;
-        case 2: os << "Cloudy"; break;
-        case 3: os << "Tungsten"; break;
-        case 4: os << "Fluorescent"; break;
-        case 5: os << "Flash"; break;
-        case 6: os << "Custom"; break;
-        default: os << "(" << l << ")"; break;
-        }
-        return os;
     }
 
     std::ostream& CanonMakerNote::printCs20x0009(std::ostream& os,
@@ -840,34 +742,6 @@ namespace Exiv2 {
             }
         }
         os << " used";
-        return os;
-    }
-
-    std::ostream& CanonMakerNote::printCs20x000f(std::ostream& os,
-                                                 const Value& value)
-    {
-        if (value.typeId() != unsignedShort) return os << value;
-        long l = value.toLong();
-        switch (l) {
-        case 0xffc0: os << "-2 EV"; break;
-        case 0xffcc: os << "-1.67 EV"; break;
-        case 0xffd0: os << "-1.50 EV"; break;
-        case 0xffd4: os << "-1.33 EV"; break;
-        case 0xffe0: os << "-1 EV"; break;
-        case 0xffec: os << "-0.67 EV"; break;
-        case 0xfff0: os << "-0.50 EV"; break;
-        case 0xfff4: os << "-0.33 EV"; break;
-        case 0x0000: os << "0 EV"; break;
-        case 0x000c: os << "0.33 EV"; break;
-        case 0x0010: os << "0.50 EV"; break;
-        case 0x0014: os << "0.67 EV"; break;
-        case 0x0020: os << "1 EV"; break;
-        case 0x002c: os << "1.33 EV"; break;
-        case 0x0030: os << "1.50 EV"; break;
-        case 0x0034: os << "1.67 EV"; break;
-        case 0x0040: os << "2 EV"; break;
-        default: os << "(" << l << ")"; break;
-        }
         return os;
     }
 

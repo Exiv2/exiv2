@@ -137,55 +137,18 @@ namespace Exiv2 {
         static std::ostream& print0x0008(std::ostream& os, const Value& value);
         //! Print the serial number of the camera
         static std::ostream& print0x000c(std::ostream& os, const Value& value);
-
-        //! Macro mode
-        static std::ostream& printCs10x0001(std::ostream& os, const Value& value);
         //! Self timer
         static std::ostream& printCs10x0002(std::ostream& os, const Value& value);
-        //! Quality
-        static std::ostream& printCs10x0003(std::ostream& os, const Value& value);
-        //! Flash mode
-        static std::ostream& printCs10x0004(std::ostream& os, const Value& value);
-        //! Drive mode
-        static std::ostream& printCs10x0005(std::ostream& os, const Value& value);
-        //! Focus mode (G1 seems to use field 32 in preference to this)
-        static std::ostream& printCs10x0007(std::ostream& os, const Value& value);
-        //! Image size
-        static std::ostream& printCs10x000a(std::ostream& os, const Value& value);
-        //! Easy shooting
-        static std::ostream& printCs10x000b(std::ostream& os, const Value& value);
-        //! Digital zoom
-        static std::ostream& printCs10x000c(std::ostream& os, const Value& value);
-        //! ISO
-        static std::ostream& printCs10x0010(std::ostream& os, const Value& value);
-        //! Metering mode
-        static std::ostream& printCs10x0011(std::ostream& os, const Value& value);
-        //! Focus type
-        static std::ostream& printCs10x0012(std::ostream& os, const Value& value);
-        //! AF point selected
-        static std::ostream& printCs10x0013(std::ostream& os, const Value& value);
-        //! Exposure mode
-        static std::ostream& printCs10x0014(std::ostream& os, const Value& value);
-        //! Flash activity
-        static std::ostream& printCs10x001c(std::ostream& os, const Value& value);
         //! Flash details
         static std::ostream& printCs10x001d(std::ostream& os, const Value& value);
-        //! Focus mode (G1 seems to use this in preference to field 7)
-        static std::ostream& printCs10x0020(std::ostream& os, const Value& value);
-        //! Low, normal, high print function
-        static std::ostream& printCs1Lnh(std::ostream& os, const Value& value);
         //! Camera lens information
         static std::ostream& printCs1Lens(std::ostream& os, const Value& value);
         //! ISO speed used
         static std::ostream& printCs20x0002(std::ostream& os, const Value& value);
-        //! White balance
-        static std::ostream& printCs20x0007(std::ostream& os, const Value& value);
         //! Sequence number
         static std::ostream& printCs20x0009(std::ostream& os, const Value& value);
         //! AF point used
         static std::ostream& printCs20x000e(std::ostream& os, const Value& value);
-        //! Flash bias
-        static std::ostream& printCs20x000f(std::ostream& os, const Value& value);
         //! Subject distance
         static std::ostream& printCs20x0013(std::ostream& os, const Value& value);
         //! Aperture

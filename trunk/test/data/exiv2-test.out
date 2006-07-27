@@ -529,7 +529,7 @@ File  2/12: 20031214_000043.jpg
 20031214_000043.jpg   Exif.CanonCs1.FlashDetails                   Short       1  
 20031214_000043.jpg   Exif.CanonCs1.0x001e                         Short       1  0
 20031214_000043.jpg   Exif.CanonCs1.0x001f                         Short       1  0
-20031214_000043.jpg   Exif.CanonCs1.FocusMode                      Short       1  Single
+20031214_000043.jpg   Exif.CanonCs1.FocusContinuous                Short       1  Single
 20031214_000043.jpg   Exif.CanonCs1.0x0021                         Short       1  0
 20031214_000043.jpg   Exif.CanonCs1.0x0022                         Short       1  65535
 20031214_000043.jpg   Exif.CanonCs1.0x0023                         Short       1  49
@@ -860,7 +860,7 @@ File  6/12: 20030925_201850.jpg
 20030925_201850.jpg   Exif.CanonCs1.FlashMode                      Short       1  Off
 20030925_201850.jpg   Exif.CanonCs1.DriveMode                      Short       1  Single / timer
 20030925_201850.jpg   Exif.CanonCs1.0x0006                         Short       1  0
-20030925_201850.jpg   Exif.CanonCs1.FocusMode                      Short       1  AI Focus
+20030925_201850.jpg   Exif.CanonCs1.FocusMode                      Short       1  AI focus
 20030925_201850.jpg   Exif.CanonCs1.0x0008                         Short       1  0
 20030925_201850.jpg   Exif.CanonCs1.0x0009                         Short       1  1
 20030925_201850.jpg   Exif.CanonCs1.ImageSize                      Short       1  Large
@@ -883,7 +883,7 @@ File  6/12: 20030925_201850.jpg
 20030925_201850.jpg   Exif.CanonCs1.FlashDetails                   Short       1  
 20030925_201850.jpg   Exif.CanonCs1.0x001e                         Short       1  0
 20030925_201850.jpg   Exif.CanonCs1.0x001f                         Short       1  0
-20030925_201850.jpg   Exif.CanonCs1.FocusMode                      Short       1  (65535)
+20030925_201850.jpg   Exif.CanonCs1.FocusContinuous                Short       1  (65535)
 20030925_201850.jpg   Exif.CanonCs1.0x0021                         Short       1  65535
 20030925_201850.jpg   Exif.CanonCs1.0x0022                         Short       1  65535
 20030925_201850.jpg   Exif.CanonCs1.0x0023                         Short       1  0
@@ -1470,7 +1470,7 @@ Compare image data and extracted data ------------------------------------
 < 20031214_000043.jpg   Exif.CanonCs1.FlashDetails                   Short       1  
 < 20031214_000043.jpg   Exif.CanonCs1.0x001e                         Short       1  0
 < 20031214_000043.jpg   Exif.CanonCs1.0x001f                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs1.FocusMode                      Short       1  Single
+< 20031214_000043.jpg   Exif.CanonCs1.FocusContinuous                Short       1  Single
 < 20031214_000043.jpg   Exif.CanonCs1.0x0021                         Short       1  0
 < 20031214_000043.jpg   Exif.CanonCs1.0x0022                         Short       1  65535
 < 20031214_000043.jpg   Exif.CanonCs1.0x0023                         Short       1  49
@@ -1801,7 +1801,7 @@ Compare image data and extracted data ------------------------------------
 < 20030925_201850.jpg   Exif.CanonCs1.FlashMode                      Short       1  Off
 < 20030925_201850.jpg   Exif.CanonCs1.DriveMode                      Short       1  Single / timer
 < 20030925_201850.jpg   Exif.CanonCs1.0x0006                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs1.FocusMode                      Short       1  AI Focus
+< 20030925_201850.jpg   Exif.CanonCs1.FocusMode                      Short       1  AI focus
 < 20030925_201850.jpg   Exif.CanonCs1.0x0008                         Short       1  0
 < 20030925_201850.jpg   Exif.CanonCs1.0x0009                         Short       1  1
 < 20030925_201850.jpg   Exif.CanonCs1.ImageSize                      Short       1  Large
@@ -1824,7 +1824,7 @@ Compare image data and extracted data ------------------------------------
 < 20030925_201850.jpg   Exif.CanonCs1.FlashDetails                   Short       1  
 < 20030925_201850.jpg   Exif.CanonCs1.0x001e                         Short       1  0
 < 20030925_201850.jpg   Exif.CanonCs1.0x001f                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs1.FocusMode                      Short       1  (65535)
+< 20030925_201850.jpg   Exif.CanonCs1.FocusContinuous                Short       1  (65535)
 < 20030925_201850.jpg   Exif.CanonCs1.0x0021                         Short       1  65535
 < 20030925_201850.jpg   Exif.CanonCs1.0x0022                         Short       1  65535
 < 20030925_201850.jpg   Exif.CanonCs1.0x0023                         Short       1  0
@@ -2355,7 +2355,7 @@ Compare image data and extracted data ------------------------------------
 > 20031214_000043.exv   Exif.CanonCs1.FlashDetails                   Short       1  
 > 20031214_000043.exv   Exif.CanonCs1.0x001e                         Short       1  0
 > 20031214_000043.exv   Exif.CanonCs1.0x001f                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs1.FocusMode                      Short       1  Single
+> 20031214_000043.exv   Exif.CanonCs1.FocusContinuous                Short       1  Single
 > 20031214_000043.exv   Exif.CanonCs1.0x0021                         Short       1  0
 > 20031214_000043.exv   Exif.CanonCs1.0x0022                         Short       1  65535
 > 20031214_000043.exv   Exif.CanonCs1.0x0023                         Short       1  49
@@ -2686,7 +2686,7 @@ Compare image data and extracted data ------------------------------------
 > 20030925_201850.exv   Exif.CanonCs1.FlashMode                      Short       1  Off
 > 20030925_201850.exv   Exif.CanonCs1.DriveMode                      Short       1  Single / timer
 > 20030925_201850.exv   Exif.CanonCs1.0x0006                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs1.FocusMode                      Short       1  AI Focus
+> 20030925_201850.exv   Exif.CanonCs1.FocusMode                      Short       1  AI focus
 > 20030925_201850.exv   Exif.CanonCs1.0x0008                         Short       1  0
 > 20030925_201850.exv   Exif.CanonCs1.0x0009                         Short       1  1
 > 20030925_201850.exv   Exif.CanonCs1.ImageSize                      Short       1  Large
@@ -2709,7 +2709,7 @@ Compare image data and extracted data ------------------------------------
 > 20030925_201850.exv   Exif.CanonCs1.FlashDetails                   Short       1  
 > 20030925_201850.exv   Exif.CanonCs1.0x001e                         Short       1  0
 > 20030925_201850.exv   Exif.CanonCs1.0x001f                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs1.FocusMode                      Short       1  (65535)
+> 20030925_201850.exv   Exif.CanonCs1.FocusContinuous                Short       1  (65535)
 > 20030925_201850.exv   Exif.CanonCs1.0x0021                         Short       1  65535
 > 20030925_201850.exv   Exif.CanonCs1.0x0022                         Short       1  65535
 > 20030925_201850.exv   Exif.CanonCs1.0x0023                         Short       1  0
@@ -3368,7 +3368,7 @@ Compare original and inserted image data ---------------------------------
 < 20031214_000043.jpg   Exif.CanonCs1.FlashDetails                   Short       1  
 < 20031214_000043.jpg   Exif.CanonCs1.0x001e                         Short       1  0
 < 20031214_000043.jpg   Exif.CanonCs1.0x001f                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs1.FocusMode                      Short       1  Single
+< 20031214_000043.jpg   Exif.CanonCs1.FocusContinuous                Short       1  Single
 < 20031214_000043.jpg   Exif.CanonCs1.0x0021                         Short       1  0
 < 20031214_000043.jpg   Exif.CanonCs1.0x0022                         Short       1  65535
 < 20031214_000043.jpg   Exif.CanonCs1.0x0023                         Short       1  49
@@ -3699,7 +3699,7 @@ Compare original and inserted image data ---------------------------------
 < 20030925_201850.jpg   Exif.CanonCs1.FlashMode                      Short       1  Off
 < 20030925_201850.jpg   Exif.CanonCs1.DriveMode                      Short       1  Single / timer
 < 20030925_201850.jpg   Exif.CanonCs1.0x0006                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs1.FocusMode                      Short       1  AI Focus
+< 20030925_201850.jpg   Exif.CanonCs1.FocusMode                      Short       1  AI focus
 < 20030925_201850.jpg   Exif.CanonCs1.0x0008                         Short       1  0
 < 20030925_201850.jpg   Exif.CanonCs1.0x0009                         Short       1  1
 < 20030925_201850.jpg   Exif.CanonCs1.ImageSize                      Short       1  Large
@@ -3722,7 +3722,7 @@ Compare original and inserted image data ---------------------------------
 < 20030925_201850.jpg   Exif.CanonCs1.FlashDetails                   Short       1  
 < 20030925_201850.jpg   Exif.CanonCs1.0x001e                         Short       1  0
 < 20030925_201850.jpg   Exif.CanonCs1.0x001f                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs1.FocusMode                      Short       1  (65535)
+< 20030925_201850.jpg   Exif.CanonCs1.FocusContinuous                Short       1  (65535)
 < 20030925_201850.jpg   Exif.CanonCs1.0x0021                         Short       1  65535
 < 20030925_201850.jpg   Exif.CanonCs1.0x0022                         Short       1  65535
 < 20030925_201850.jpg   Exif.CanonCs1.0x0023                         Short       1  0
@@ -4253,7 +4253,7 @@ Compare original and inserted image data ---------------------------------
 > 20031214_000043.exv   Exif.CanonCs1.FlashDetails                   Short       1  
 > 20031214_000043.exv   Exif.CanonCs1.0x001e                         Short       1  0
 > 20031214_000043.exv   Exif.CanonCs1.0x001f                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs1.FocusMode                      Short       1  Single
+> 20031214_000043.exv   Exif.CanonCs1.FocusContinuous                Short       1  Single
 > 20031214_000043.exv   Exif.CanonCs1.0x0021                         Short       1  0
 > 20031214_000043.exv   Exif.CanonCs1.0x0022                         Short       1  65535
 > 20031214_000043.exv   Exif.CanonCs1.0x0023                         Short       1  49
@@ -4584,7 +4584,7 @@ Compare original and inserted image data ---------------------------------
 > 20030925_201850.exv   Exif.CanonCs1.FlashMode                      Short       1  Off
 > 20030925_201850.exv   Exif.CanonCs1.DriveMode                      Short       1  Single / timer
 > 20030925_201850.exv   Exif.CanonCs1.0x0006                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs1.FocusMode                      Short       1  AI Focus
+> 20030925_201850.exv   Exif.CanonCs1.FocusMode                      Short       1  AI focus
 > 20030925_201850.exv   Exif.CanonCs1.0x0008                         Short       1  0
 > 20030925_201850.exv   Exif.CanonCs1.0x0009                         Short       1  1
 > 20030925_201850.exv   Exif.CanonCs1.ImageSize                      Short       1  Large
@@ -4607,7 +4607,7 @@ Compare original and inserted image data ---------------------------------
 > 20030925_201850.exv   Exif.CanonCs1.FlashDetails                   Short       1  
 > 20030925_201850.exv   Exif.CanonCs1.0x001e                         Short       1  0
 > 20030925_201850.exv   Exif.CanonCs1.0x001f                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs1.FocusMode                      Short       1  (65535)
+> 20030925_201850.exv   Exif.CanonCs1.FocusContinuous                Short       1  (65535)
 > 20030925_201850.exv   Exif.CanonCs1.0x0021                         Short       1  65535
 > 20030925_201850.exv   Exif.CanonCs1.0x0022                         Short       1  65535
 > 20030925_201850.exv   Exif.CanonCs1.0x0023                         Short       1  0
