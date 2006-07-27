@@ -61,28 +61,96 @@ namespace Exiv2 {
     }
     //! @endcond
 
+    //! OffOn, multiple tags
+    extern const TagDetails fujiOffOn[] = {
+        { 0, "Off" },
+        { 1, "On"  }
+    };
+
+    //! Sharpness, tag 0x1001
+    extern const TagDetails fujiSharpness[] = {
+        { 1, "Soft"   },
+        { 2, "Soft"   },
+        { 3, "Normal" },
+        { 4, "Hard"   },
+        { 5, "Hard"   }
+    };
+
+    //! WhiteBalance, tag 0x1002
+    extern const TagDetails fujiWhiteBalance[] = {
+        {    0, "Auto"                     },
+        {  256, "Daylight"                 },
+        {  512, "Cloudy"                   },
+        {  768, "Fluorescent (daylight)"   },
+        {  769, "Fluorescent (warm white)" },
+        {  770, "Fluorescent (cool white)" },
+        { 1024, "Incandescent"             },
+        { 3480, "Custom"                   }
+    };
+
+    //! Color, tag 0x1003
+    extern const TagDetails fujiColor[] = {
+        {   0, "Standard" },
+        { 256, "High"     },
+        { 512, "Original" }
+    };
+
+    //! Tone, tag 0x1004
+    extern const TagDetails fujiTone[] = {
+        {   0, "Standard" },
+        { 256, "Hard"     },
+        { 512, "Original" }
+    };
+
+    //! FlashMode, tag 0x1010
+    extern const TagDetails fujiFlashMode[] = {
+        { 0, "Auto"    },
+        { 1, "On"      },
+        { 2, "Off"     },
+        { 3, "Red-eye" }
+    };
+
+    //! FocusMode, tag 0x1021
+    extern const TagDetails fujiFocusMode[] = {
+        { 0, "Auto"   },
+        { 1, "Manual" }
+    };
+
+    //! PictureMode, tag 0x1031
+    extern const TagDetails fujiPictureMode[] = {
+        {   0, "Auto"              },
+        {   1, "Portrait"          },
+        {   2, "Landscape"         },
+        {   4, "Sports"            },
+        {   5, "Night"             },
+        {   6, "Program"           },
+        { 256, "Aperture priority" },
+        { 512, "Shutter priority"  },
+        { 768, "Manual"            }
+    };
+
     // Fujifilm MakerNote Tag Info
     const TagInfo FujiMakerNote::tagInfo_[] = {
         TagInfo(0x0000, "Version", "Version", "Fujifilm Makernote version", fujiIfdId, makerTags, undefined, printValue),
         TagInfo(0x1000, "Quality", "Quality", "Image quality setting", fujiIfdId, makerTags, asciiString, printValue),
-        TagInfo(0x1001, "Sharpness", "Sharpness", "Sharpness setting", fujiIfdId, makerTags, unsignedShort, print0x1001),
-        TagInfo(0x1002, "WhiteBalance", "WhiteBalance", "White balance setting", fujiIfdId, makerTags, unsignedShort, print0x1002),
-        TagInfo(0x1003, "Color", "Color", "Chroma saturation setting", fujiIfdId, makerTags, unsignedShort, print0x1003),
-        TagInfo(0x1004, "Tone", "Tone", "Contrast setting", fujiIfdId, makerTags, unsignedShort, print0x1004),
-        TagInfo(0x1010, "FlashMode", "FlashMode", "Flash firing mode setting", fujiIfdId, makerTags, unsignedShort, print0x1010),
+        TagInfo(0x1001, "Sharpness", "Sharpness", "Sharpness setting", fujiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(fujiSharpness)),
+        TagInfo(0x1002, "WhiteBalance", "WhiteBalance", "White balance setting", fujiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(fujiWhiteBalance)),
+        TagInfo(0x1003, "Color", "Color", "Chroma saturation setting", fujiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(fujiColor)),
+        TagInfo(0x1004, "Tone", "Tone", "Contrast setting", fujiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(fujiTone)),
+        TagInfo(0x1010, "FlashMode", "FlashMode", "Flash firing mode setting", fujiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(fujiFlashMode)),
         TagInfo(0x1011, "FlashStrength", "FlashStrength", "Flash firing strength compensation setting", fujiIfdId, makerTags, signedRational, printValue),
-        TagInfo(0x1020, "Macro", "Macro", "Macro mode setting", fujiIfdId, makerTags, unsignedShort, printOffOn),
-        TagInfo(0x1021, "FocusMode", "FocusMode", "Focusing mode setting", fujiIfdId, makerTags, unsignedShort, print0x1021),
+        TagInfo(0x1020, "Macro", "Macro", "Macro mode setting", fujiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(fujiOffOn)),
+        TagInfo(0x1021, "FocusMode", "FocusMode", "Focusing mode setting", fujiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(fujiFocusMode)),
         TagInfo(0x1022, "0x1022", "0x1022", "Unknown", fujiIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x1030, "SlowSync", "SlowSync", "Slow synchro mode setting", fujiIfdId, makerTags, unsignedShort, printOffOn),
-        TagInfo(0x1031, "PictureMode", "PictureMode", "Picture mode setting", fujiIfdId, makerTags, unsignedShort, print0x1031),
+        TagInfo(0x1030, "SlowSync", "SlowSync", "Slow synchro mode setting", fujiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(fujiOffOn)),
+        TagInfo(0x1031, "PictureMode", "PictureMode", "Picture mode setting", fujiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(fujiPictureMode)),
         TagInfo(0x1032, "0x1032", "0x1032", "Unknown", fujiIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x1100, "Continuous", "Continuous", "Continuous shooting or auto bracketing setting", fujiIfdId, makerTags, unsignedShort, printOffOn),
+        TagInfo(0x1100, "Continuous", "Continuous", "Continuous shooting or auto bracketing setting", fujiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(fujiOffOn)),
         TagInfo(0x1101, "0x1101", "0x1101", "Unknown", fujiIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x1200, "0x1200", "0x1200", "Unknown", fujiIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x1300, "BlurWarning", "BlurWarning", "Blur warning status", fujiIfdId, makerTags, unsignedShort, printOffOn),
-        TagInfo(0x1301, "FocusWarning", "FocusWarning", "Auto Focus warning status", fujiIfdId, makerTags, unsignedShort, printOffOn),
-        TagInfo(0x1302, "AeWarning", "AeWarning", "Auto Exposure warning status", fujiIfdId, makerTags, unsignedShort, printOffOn),
+        TagInfo(0x1300, "BlurWarning", "BlurWarning", "Blur warning status", fujiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(fujiOffOn)),
+        TagInfo(0x1301, "FocusWarning", "FocusWarning", "Auto Focus warning status", fujiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(fujiOffOn)),
+        TagInfo(0x1302, "AeWarning", "AeWarning", "Auto Exposure warning status", fujiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(fujiOffOn)),
         // End of list marker
         TagInfo(0xffff, "(UnknownFujiMakerNoteTag)", "(UnknownFujiMakerNoteTag)", "Unknown FujiMakerNote tag", fujiIfdId, makerTags, invalidTypeId, printValue)
     };
@@ -150,114 +218,6 @@ namespace Exiv2 {
     FujiMakerNote* FujiMakerNote::clone_() const
     {
         return new FujiMakerNote(*this);
-    }
-
-    std::ostream& FujiMakerNote::printOffOn(std::ostream& os,
-                                            const Value& value)
-    {
-        switch (value.toLong()) {
-        case 0: os << "Off"; break;
-        case 1: os << "On"; break;
-        default: os << "(" << value << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& FujiMakerNote::print0x1001(std::ostream& os,
-                                             const Value& value)
-    {
-        switch (value.toLong()) {
-        case 1: // fallthrough
-        case 2: os << "Soft"; break;
-        case 3: os << "Normal"; break;
-        case 4: // fallthrough
-        case 5: os << "Hard"; break;
-        default: os << "(" << value << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& FujiMakerNote::print0x1002(std::ostream& os,
-                                             const Value& value)
-    {
-        switch (value.toLong()) {
-        case    0: os << "Auto"; break;
-        case  256: os << "Daylight"; break;
-        case  512: os << "Cloudy"; break;
-        case  768: os << "Fluorescent (daylight)"; break;
-        case  769: os << "Fluorescent (warm white)"; break;
-        case  770: os << "Fluorescent (cool white)"; break;
-        case 1024: os << "Incandescent"; break;
-        case 3480: os << "Custom"; break;
-        default: os << "(" << value << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& FujiMakerNote::print0x1003(std::ostream& os,
-                                             const Value& value)
-    {
-        switch (value.toLong()) {
-        case   0: os << "Standard"; break;
-        case 256: os << "High"; break;
-        case 512: os << "Original"; break;
-        default: os << "(" << value << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& FujiMakerNote::print0x1004(std::ostream& os,
-                                             const Value& value)
-    {
-        switch (value.toLong()) {
-        case   0: os << "Standard"; break;
-        case 256: os << "Hard"; break;
-        case 512: os << "Original"; break;
-        default: os << "(" << value << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& FujiMakerNote::print0x1010(std::ostream& os,
-                                             const Value& value)
-    {
-        switch (value.toLong()) {
-        case 0: os << "Auto"; break;
-        case 1: os << "On"; break;
-        case 2: os << "Off"; break;
-        case 3: os << "Red-eye"; break;
-        default: os << "(" << value << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& FujiMakerNote::print0x1021(std::ostream& os,
-                                             const Value& value)
-    {
-        switch (value.toLong()) {
-        case 0: os << "Auto"; break;
-        case 1: os << "Manual"; break;
-        default: os << "(" << value << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& FujiMakerNote::print0x1031(std::ostream& os,
-                                             const Value& value)
-    {
-        switch (value.toLong()) {
-        case   0: os << "Auto"; break;
-        case   1: os << "Portrait"; break;
-        case   2: os << "Landscape"; break;
-        case   4: os << "Sports"; break;
-        case   5: os << "Night"; break;
-        case   6: os << "Program"; break;
-        case 256: os << "Aperture priority"; break;
-        case 512: os << "Shutter priority"; break;
-        case 768: os << "Manual"; break;
-        default: os << "(" << value << ")"; break;
-        }
-        return os;
     }
 
 // *****************************************************************************

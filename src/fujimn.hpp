@@ -118,26 +118,6 @@ namespace Exiv2 {
         AutoPtr clone() const;
         //@}
 
-        //! @name Print functions for Fujifilm %MakerNote tags
-        //@{
-        //! Print Off or On status
-        static std::ostream& printOffOn(std::ostream& os, const Value& value);
-        //! Print sharpness
-        static std::ostream& print0x1001(std::ostream& os, const Value& value);
-        //! Print white balance
-        static std::ostream& print0x1002(std::ostream& os, const Value& value);
-        //! Print color
-        static std::ostream& print0x1003(std::ostream& os, const Value& value);
-        //! Print tone
-        static std::ostream& print0x1004(std::ostream& os, const Value& value);
-        //! Print flash mode
-        static std::ostream& print0x1010(std::ostream& os, const Value& value);
-        //! Print focus mode
-        static std::ostream& print0x1021(std::ostream& os, const Value& value);
-        //! Print picture mode
-        static std::ostream& print0x1031(std::ostream& os, const Value& value);
-        //@}
-
         //! @cond IGNORE
         // Public only so that we can create a static instance
         struct RegisterMn {
