@@ -244,7 +244,7 @@ Exif.CanonCs1.FlashActivity                   0x001c Makernote    Short       1 
 Exif.CanonCs1.FlashDetails                    0x001d Makernote    Short       1 0
 Exif.CanonCs1.0x001e                          0x001e Makernote    Short       1 0
 Exif.CanonCs1.0x001f                          0x001f Makernote    Short       1 0
-Exif.CanonCs1.FocusMode                       0x0020 Makernote    Short       1 0
+Exif.CanonCs1.FocusContinuous                 0x0020 Makernote    Short       1 0
 Exif.CanonCs1.0x0021                          0x0021 Makernote    Short       1 0
 Exif.CanonCs1.0x0022                          0x0022 Makernote    Short       1 65535
 Exif.CanonCs1.0x0023                          0x0023 Makernote    Short       1 49
@@ -368,7 +368,7 @@ Exif.CanonCs1.FlashActivity                   0x001c Makernote    Short       1 
 Exif.CanonCs1.FlashDetails                    0x001d Makernote    Short       1 0
 Exif.CanonCs1.0x001e                          0x001e Makernote    Short       1 0
 Exif.CanonCs1.0x001f                          0x001f Makernote    Short       1 0
-Exif.CanonCs1.FocusMode                       0x0020 Makernote    Short       1 0
+Exif.CanonCs1.FocusContinuous                 0x0020 Makernote    Short       1 0
 Exif.CanonCs1.0x0021                          0x0021 Makernote    Short       1 0
 Exif.CanonCs1.0x0022                          0x0022 Makernote    Short       1 65535
 Exif.CanonCs1.0x0023                          0x0023 Makernote    Short       1 49
@@ -493,7 +493,7 @@ Exif.CanonCs1.FlashActivity                   0x001c Makernote    Short       1 
 Exif.CanonCs1.FlashDetails                    0x001d Makernote    Short       1 0
 Exif.CanonCs1.0x001e                          0x001e Makernote    Short       1 0
 Exif.CanonCs1.0x001f                          0x001f Makernote    Short       1 0
-Exif.CanonCs1.FocusMode                       0x0020 Makernote    Short       1 0
+Exif.CanonCs1.FocusContinuous                 0x0020 Makernote    Short       1 0
 Exif.CanonCs1.0x0021                          0x0021 Makernote    Short       1 0
 Exif.CanonCs1.0x0022                          0x0022 Makernote    Short       1 65535
 Exif.CanonCs1.0x0023                          0x0023 Makernote    Short       1 49
@@ -617,7 +617,7 @@ Exif.CanonCs1.FlashActivity                   0x001c Makernote    Short       1 
 Exif.CanonCs1.FlashDetails                    0x001d Makernote    Short       1 0
 Exif.CanonCs1.0x001e                          0x001e Makernote    Short       1 0
 Exif.CanonCs1.0x001f                          0x001f Makernote    Short       1 0
-Exif.CanonCs1.FocusMode                       0x0020 Makernote    Short       1 0
+Exif.CanonCs1.FocusContinuous                 0x0020 Makernote    Short       1 0
 Exif.CanonCs1.0x0021                          0x0021 Makernote    Short       1 0
 Exif.CanonCs1.0x0022                          0x0022 Makernote    Short       1 65535
 Exif.CanonCs1.0x0023                          0x0023 Makernote    Short       1 49

@@ -157,7 +157,7 @@ Exif.CanonCs1.FlashActivity                  Short       1  Did not fire
 Exif.CanonCs1.FlashDetails                   Short       1  
 Exif.CanonCs1.0x001e                         Short       1  0
 Exif.CanonCs1.0x001f                         Short       1  0
-Exif.CanonCs1.FocusMode                      Short       1  Single
+Exif.CanonCs1.FocusContinuous                Short       1  Single
 Exif.CanonCs1.0x0021                         Short       1  0
 Exif.CanonCs1.0x0022                         Short       1  65535
 Exif.CanonCs1.0x0023                         Short       1  49
