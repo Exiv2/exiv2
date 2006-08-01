@@ -753,7 +753,7 @@ namespace Exiv2 {
                 return;
             }
             object->pData_ = pData_ + baseOffset() + object->offset();
-            if (object->pData() + object->size() > pLast_) {
+            if (object->size() > static_cast<uint32_t>(pLast_ - object->pData())) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Warning: Upper boundary of data for "
                           << "directory " << object->groupName()
