@@ -550,19 +550,28 @@ namespace Exiv2 {
         if (p + 2 > pLast_) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Error: "
-                      << "Directory " << object->groupName() << ": "
-                      << " IFD exceeds data buffer, cannot read entry count.\n";
+                      << "Directory " << object->groupName()
+                      << ": IFD exceeds data buffer, cannot read entry count.\n";
 #endif
             return;
         }
         const uint16_t n = getUShort(p, byteOrder());
         p += 2;
+        // Sanity check with an "unreasonably" large number
+        if (n > 512) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Error: " 
+                      << "Directory " << object->groupName() << " with " 
+                      << n << " entries considered invalid; not read.\n";
+#endif
+            return;
+        }
         for (uint16_t i = 0; i < n; ++i) {
             if (p + 12 > pLast_) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Error: "
-                          << "Directory " << object->groupName() << ": "
-                          << " IFD entry " << i
+                          << "Directory " << object->groupName()
+                          << ": IFD entry " << i
                           << " lies outside of the data buffer.\n";
 #endif
                 return;
@@ -578,8 +587,8 @@ namespace Exiv2 {
         if (p + 4 > pLast_) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Error: "
-                          << "Directory " << object->groupName() << ": "
-                          << " IFD exceeds data buffer, cannot read next pointer.\n";
+                          << "Directory " << object->groupName()
+                          << ": IFD exceeds data buffer, cannot read next pointer.\n";
 #endif
                 return;
         }
@@ -600,8 +609,8 @@ namespace Exiv2 {
                 if (baseOffset() + next > size_) {
 #ifndef SUPPRESS_WARNINGS
                     std::cerr << "Error: "
-                              << "Directory " << object->groupName() << ": "
-                              << " Next pointer is out of bounds.\n";
+                              << "Directory " << object->groupName()
+                              << ": Next pointer is out of bounds.\n";
 #endif
                     return;
                 }
@@ -728,19 +737,30 @@ namespace Exiv2 {
         // Component already has tag
         p += 2;
         object->type_ = getUShort(p, byteOrder());
-        // todo: check type
+        long typeSize = TypeInfo::typeSize(object->typeId());
+        if (0 == typeSize) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Error: Directory " << object->groupName()
+                      << ", entry 0x" << std::setw(4)
+                      << std::setfill('0') << std::hex << object->tag()
+                      << " has an invalid type:\n"
+                      << "Type = " << std::dec << object->type_
+                      << "; skipping entry.\n";
+#endif
+            return;
+        }
         p += 2;
         object->count_ = getULong(p, byteOrder());
         p += 4;
-        object->size_ = TypeInfo::typeSize(object->typeId()) * object->count();
+        object->size_ = typeSize * object->count();
         object->offset_ = getULong(p, byteOrder());
         object->pData_ = p;
         if (object->size() > 4) {
             if (baseOffset() + object->offset() >= size_) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Error: Offset of "
-                          << "directory " << object->groupName() << ", "
-                          << " entry 0x" << std::setw(4)
+                          << "directory " << object->groupName()
+                          << ", entry 0x" << std::setw(4)
                           << std::setfill('0') << std::hex << object->tag()
                           << " is out of bounds:\n"
                           << "Offset = 0x" << std::setw(8)
