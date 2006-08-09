@@ -139,8 +139,6 @@ namespace Exiv2 {
         static std::ostream& print0x000c(std::ostream& os, const Value& value);
         //! Self timer
         static std::ostream& printCs10x0002(std::ostream& os, const Value& value);
-        //! Flash details
-        static std::ostream& printCs10x001d(std::ostream& os, const Value& value);
         //! Camera lens information
         static std::ostream& printCs1Lens(std::ostream& os, const Value& value);
         //! ISO speed used
