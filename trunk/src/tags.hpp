@@ -160,7 +160,7 @@ namespace Exiv2 {
     template <int N, const TagDetailsBitmask (&array)[N]>
     std::ostream& printTagBitmask(std::ostream& os, const Value& value)
     {
-        const uint32_t val = value.toLong();
+        const uint32_t val = static_cast<uint32_t>(value.toLong());
         bool sep = false;
         for (int i = 0; i < N; i++) {
             const TagDetailsBitmask* td = &array[i];
