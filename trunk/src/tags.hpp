@@ -125,6 +125,15 @@ namespace Exiv2 {
     }; // struct TagDetails
 
     /*!
+      @brief Helper structure for lookup tables for translations of bitmask
+             values to human readable labels.
+     */
+    struct TagDetailsBitmask {
+        uint32_t mask_;                         //!< Bitmask value
+        char* label_;                           //!< Description of the tag value
+    }; // struct TagDetailsBitmask
+
+    /*!
       @brief Generic print function to translate a long value to a description
              by looking up a reference table.
      */
@@ -143,6 +152,34 @@ namespace Exiv2 {
 
 //! Shortcut for the printTag template which requires typing the array name only once.
 #define EXV_PRINT_TAG(array) printTag<EXV_COUNTOF(array), array>
+
+    /*!
+      @brief Generic print function to translate a long value to a description
+             by looking up bitmasks in a reference table.
+     */
+    template <int N, const TagDetailsBitmask (&array)[N]>
+    std::ostream& printTagBitmask(std::ostream& os, const Value& value)
+    {
+        const uint32_t val = value.toLong();
+        bool sep = false;
+        for (int i = 0; i < N; i++) {
+            const TagDetailsBitmask* td = &array[i];
+
+            if (val & td->mask_) {
+                if (sep) {
+                    os << ", " << td->label_;
+                }
+                else {
+                    os << td->label_;
+                    sep = true;
+                }
+            }
+        }
+        return os;
+    }
+
+//! Shortcut for the printTagBitmask template which requires typing the array name only once.
+#define EXV_PRINT_TAG_BITMASK(array) printTagBitmask<EXV_COUNTOF(array), array>
 
     //! Container for Exif tag information. Implemented as a static class.
     class ExifTags {
