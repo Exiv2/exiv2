@@ -241,6 +241,19 @@ namespace Exiv2 {
         { 1, "Continuous" }
     };
 
+    //! FlashDetails, tag 0x001d
+    extern const TagDetailsBitmask canonCs1FlashDetails[] = {
+        { 0x4000, "External flash"        },
+        { 0x2000, "Internal flash"        },
+        { 0x0001, "Manual"                },
+        { 0x0002, "TTL"                   },
+        { 0x0004, "A-TTL"                 },
+        { 0x0008, "E-TTL"                 },
+        { 0x0010, "FP sync enabled"       },
+        { 0x0080, "2nd-curtain sync used" },
+        { 0x0800, "FP sync used"          }
+    };
+
     // Canon Camera Settings 1 Tag Info
     const TagInfo CanonMakerNote::tagInfoCs1_[] = {
         TagInfo(0x0001, "Macro", "Macro", "Macro mode", canonCs1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCs1Macro)),
@@ -271,7 +284,7 @@ namespace Exiv2 {
         TagInfo(0x001a, "0x001a", "0x001a", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x001b, "0x001b", "0x001b", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x001c, "FlashActivity", "FlashActivity", "Flash activity", canonCs1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCs1FlashActivity)),
-        TagInfo(0x001d, "FlashDetails", "FlashDetails", "Flash details", canonCs1IfdId, makerTags, unsignedShort, printCs10x001d),
+        TagInfo(0x001d, "FlashDetails", "FlashDetails", "Flash details", canonCs1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG_BITMASK(canonCs1FlashDetails)),
         TagInfo(0x001e, "0x001e", "0x001e", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x001f, "0x001f", "0x001f", "Unknown", canonCs1IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0020, "FocusContinuous", "Focus Continuous", "Focus continuous setting", canonCs1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCs1FocusContinuous)),
@@ -295,6 +308,13 @@ namespace Exiv2 {
         { 4, "Fluorescent" },
         { 5, "Flash"       },
         { 6, "Custom"      }
+    };
+
+    //! AFPointUsed, tag 0x000e
+    extern const TagDetailsBitmask canonCs2AFPointUsed[] = {
+        { 0x0004, "left"   },
+        { 0x0002, "center" },
+        { 0x0001, "right"  }
     };
 
     //! FlashBias, tag 0x000f
@@ -643,40 +663,6 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& CanonMakerNote::printCs10x001d(std::ostream& os,
-                                                 const Value& value)
-    {
-        if (value.typeId() != unsignedShort) return os << value;
-        long l = value.toLong();
-        bool coma = false;
-        if (l & 0x4000) {
-            if (coma) os << ", ";
-            os << "External TTL";
-            coma = true;
-        }
-        if (l & 0x2000) {
-            if (coma) os << ", ";
-            os << "Internal flash";
-            coma = true;
-        }
-        if (l & 0x0800) {
-            if (coma) os << ", ";
-            os << "FP sync used";
-            coma = true;
-        }
-        if (l & 0x0080) {
-            if (coma) os << ", ";
-            os << "Rear curtain sync used";
-            coma = true;
-        }
-        if (l & 0x0010) {
-            if (coma) os << ", ";
-            os << "FP sync enabled";
-            coma = true;
-        }
-        return os;
-    }
-
     std::ostream& CanonMakerNote::printCs1Lens(std::ostream& os,
                                                 const Value& value)
     {
@@ -724,22 +710,7 @@ namespace Exiv2 {
             os << "none";
         }
         else {
-            bool coma = false;
-            if (l & 0x0004) {
-                if (coma) os << ", ";
-                os << "left";
-                coma = true;
-            }
-            if (l & 0x0002) {
-                if (coma) os << ", ";
-                os << "center";
-                coma = true;
-            }
-            if (l & 0x0001) {
-                if (coma) os << ", ";
-                os << "right";
-                coma = true;
-            }
+            EXV_PRINT_TAG_BITMASK(canonCs2AFPointUsed)(os, value);
         }
         os << " used";
         return os;
