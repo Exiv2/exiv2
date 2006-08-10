@@ -860,7 +860,7 @@ File  6/12: 20030925_201850.jpg
 20030925_201850.jpg   Exif.CanonCs1.FlashMode                      Short       1  Off
 20030925_201850.jpg   Exif.CanonCs1.DriveMode                      Short       1  Single / timer
 20030925_201850.jpg   Exif.CanonCs1.0x0006                         Short       1  0
-20030925_201850.jpg   Exif.CanonCs1.FocusMode                      Short       1  AI focus
+20030925_201850.jpg   Exif.CanonCs1.FocusMode                      Short       1  AI focus AF
 20030925_201850.jpg   Exif.CanonCs1.0x0008                         Short       1  0
 20030925_201850.jpg   Exif.CanonCs1.0x0009                         Short       1  1
 20030925_201850.jpg   Exif.CanonCs1.ImageSize                      Short       1  Large
@@ -871,8 +871,8 @@ File  6/12: 20030925_201850.jpg
 20030925_201850.jpg   Exif.CanonCs1.Sharpness                      Short       1  High
 20030925_201850.jpg   Exif.CanonCs1.ISOSpeed                       Short       1  n/a
 20030925_201850.jpg   Exif.CanonCs1.MeteringMode                   Short       1  Evaluative
-20030925_201850.jpg   Exif.CanonCs1.FocusType                      Short       1  (2)
-20030925_201850.jpg   Exif.CanonCs1.AFPoint                        Short       1  (8197)
+20030925_201850.jpg   Exif.CanonCs1.FocusType                      Short       1  Not known
+20030925_201850.jpg   Exif.CanonCs1.AFPoint                        Short       1  Manual AF point selection
 20030925_201850.jpg   Exif.CanonCs1.ExposureProgram                Short       1  Program (P)
 20030925_201850.jpg   Exif.CanonCs1.0x0015                         Short       1  32767
 20030925_201850.jpg   Exif.CanonCs1.0x0016                         Short       1  65535
@@ -1801,7 +1801,7 @@ Compare image data and extracted data ------------------------------------
 < 20030925_201850.jpg   Exif.CanonCs1.FlashMode                      Short       1  Off
 < 20030925_201850.jpg   Exif.CanonCs1.DriveMode                      Short       1  Single / timer
 < 20030925_201850.jpg   Exif.CanonCs1.0x0006                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs1.FocusMode                      Short       1  AI focus
+< 20030925_201850.jpg   Exif.CanonCs1.FocusMode                      Short       1  AI focus AF
 < 20030925_201850.jpg   Exif.CanonCs1.0x0008                         Short       1  0
 < 20030925_201850.jpg   Exif.CanonCs1.0x0009                         Short       1  1
 < 20030925_201850.jpg   Exif.CanonCs1.ImageSize                      Short       1  Large
@@ -1812,8 +1812,8 @@ Compare image data and extracted data ------------------------------------
 < 20030925_201850.jpg   Exif.CanonCs1.Sharpness                      Short       1  High
 < 20030925_201850.jpg   Exif.CanonCs1.ISOSpeed                       Short       1  n/a
 < 20030925_201850.jpg   Exif.CanonCs1.MeteringMode                   Short       1  Evaluative
-< 20030925_201850.jpg   Exif.CanonCs1.FocusType                      Short       1  (2)
-< 20030925_201850.jpg   Exif.CanonCs1.AFPoint                        Short       1  (8197)
+< 20030925_201850.jpg   Exif.CanonCs1.FocusType                      Short       1  Not known
+< 20030925_201850.jpg   Exif.CanonCs1.AFPoint                        Short       1  Manual AF point selection
 < 20030925_201850.jpg   Exif.CanonCs1.ExposureProgram                Short       1  Program (P)
 < 20030925_201850.jpg   Exif.CanonCs1.0x0015                         Short       1  32767
 < 20030925_201850.jpg   Exif.CanonCs1.0x0016                         Short       1  65535
@@ -2686,7 +2686,7 @@ Compare image data and extracted data ------------------------------------
 > 20030925_201850.exv   Exif.CanonCs1.FlashMode                      Short       1  Off
 > 20030925_201850.exv   Exif.CanonCs1.DriveMode                      Short       1  Single / timer
 > 20030925_201850.exv   Exif.CanonCs1.0x0006                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs1.FocusMode                      Short       1  AI focus
+> 20030925_201850.exv   Exif.CanonCs1.FocusMode                      Short       1  AI focus AF
 > 20030925_201850.exv   Exif.CanonCs1.0x0008                         Short       1  0
 > 20030925_201850.exv   Exif.CanonCs1.0x0009                         Short       1  1
 > 20030925_201850.exv   Exif.CanonCs1.ImageSize                      Short       1  Large
@@ -2697,8 +2697,8 @@ Compare image data and extracted data ------------------------------------
 > 20030925_201850.exv   Exif.CanonCs1.Sharpness                      Short       1  High
 > 20030925_201850.exv   Exif.CanonCs1.ISOSpeed                       Short       1  n/a
 > 20030925_201850.exv   Exif.CanonCs1.MeteringMode                   Short       1  Evaluative
-> 20030925_201850.exv   Exif.CanonCs1.FocusType                      Short       1  (2)
-> 20030925_201850.exv   Exif.CanonCs1.AFPoint                        Short       1  (8197)
+> 20030925_201850.exv   Exif.CanonCs1.FocusType                      Short       1  Not known
+> 20030925_201850.exv   Exif.CanonCs1.AFPoint                        Short       1  Manual AF point selection
 > 20030925_201850.exv   Exif.CanonCs1.ExposureProgram                Short       1  Program (P)
 > 20030925_201850.exv   Exif.CanonCs1.0x0015                         Short       1  32767
 > 20030925_201850.exv   Exif.CanonCs1.0x0016                         Short       1  65535
@@ -3699,7 +3699,7 @@ Compare original and inserted image data ---------------------------------
 < 20030925_201850.jpg   Exif.CanonCs1.FlashMode                      Short       1  Off
 < 20030925_201850.jpg   Exif.CanonCs1.DriveMode                      Short       1  Single / timer
 < 20030925_201850.jpg   Exif.CanonCs1.0x0006                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs1.FocusMode                      Short       1  AI focus
+< 20030925_201850.jpg   Exif.CanonCs1.FocusMode                      Short       1  AI focus AF
 < 20030925_201850.jpg   Exif.CanonCs1.0x0008                         Short       1  0
 < 20030925_201850.jpg   Exif.CanonCs1.0x0009                         Short       1  1
 < 20030925_201850.jpg   Exif.CanonCs1.ImageSize                      Short       1  Large
@@ -3710,8 +3710,8 @@ Compare original and inserted image data ---------------------------------
 < 20030925_201850.jpg   Exif.CanonCs1.Sharpness                      Short       1  High
 < 20030925_201850.jpg   Exif.CanonCs1.ISOSpeed                       Short       1  n/a
 < 20030925_201850.jpg   Exif.CanonCs1.MeteringMode                   Short       1  Evaluative
-< 20030925_201850.jpg   Exif.CanonCs1.FocusType                      Short       1  (2)
-< 20030925_201850.jpg   Exif.CanonCs1.AFPoint                        Short       1  (8197)
+< 20030925_201850.jpg   Exif.CanonCs1.FocusType                      Short       1  Not known
+< 20030925_201850.jpg   Exif.CanonCs1.AFPoint                        Short       1  Manual AF point selection
 < 20030925_201850.jpg   Exif.CanonCs1.ExposureProgram                Short       1  Program (P)
 < 20030925_201850.jpg   Exif.CanonCs1.0x0015                         Short       1  32767
 < 20030925_201850.jpg   Exif.CanonCs1.0x0016                         Short       1  65535
@@ -4584,7 +4584,7 @@ Compare original and inserted image data ---------------------------------
 > 20030925_201850.exv   Exif.CanonCs1.FlashMode                      Short       1  Off
 > 20030925_201850.exv   Exif.CanonCs1.DriveMode                      Short       1  Single / timer
 > 20030925_201850.exv   Exif.CanonCs1.0x0006                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs1.FocusMode                      Short       1  AI focus
+> 20030925_201850.exv   Exif.CanonCs1.FocusMode                      Short       1  AI focus AF
 > 20030925_201850.exv   Exif.CanonCs1.0x0008                         Short       1  0
 > 20030925_201850.exv   Exif.CanonCs1.0x0009                         Short       1  1
 > 20030925_201850.exv   Exif.CanonCs1.ImageSize                      Short       1  Large
@@ -4595,8 +4595,8 @@ Compare original and inserted image data ---------------------------------
 > 20030925_201850.exv   Exif.CanonCs1.Sharpness                      Short       1  High
 > 20030925_201850.exv   Exif.CanonCs1.ISOSpeed                       Short       1  n/a
 > 20030925_201850.exv   Exif.CanonCs1.MeteringMode                   Short       1  Evaluative
-> 20030925_201850.exv   Exif.CanonCs1.FocusType                      Short       1  (2)
-> 20030925_201850.exv   Exif.CanonCs1.AFPoint                        Short       1  (8197)
+> 20030925_201850.exv   Exif.CanonCs1.FocusType                      Short       1  Not known
+> 20030925_201850.exv   Exif.CanonCs1.AFPoint                        Short       1  Manual AF point selection
 > 20030925_201850.exv   Exif.CanonCs1.ExposureProgram                Short       1  Program (P)
 > 20030925_201850.exv   Exif.CanonCs1.0x0015                         Short       1  32767
 > 20030925_201850.exv   Exif.CanonCs1.0x0016                         Short       1  65535
