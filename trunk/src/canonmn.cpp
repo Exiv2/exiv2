@@ -105,9 +105,10 @@ namespace Exiv2 {
 
     //! Quality, tag 0x0003
     extern const TagDetails canonCs1Quality[] = {
+        { 1, "Economy"   },
         { 2, "Normal"    },
         { 3, "Fine"      },
-        { 4, "Raw"       },
+        { 4, "RAW"       },
         { 5, "Superfine" }
     };
 
@@ -125,26 +126,34 @@ namespace Exiv2 {
 
     //! DriveMode, tag 0x0005
     extern const TagDetails canonCs1DriveMode[] = {
-        {  0, "Single / timer" },
-        {  1, "Continuous"     }
+        { 0, "Single / timer"             },
+        { 1, "Continuous"                 },
+        { 2, "Movie"                      },
+        { 3, "Continuous, speed priority" },
+        { 4, "Continuous, low"            },
+        { 5, "Continuous, high"           }
     };
 
     //! FocusMode, tag 0x0007
     extern const TagDetails canonCs1FocusMode[] = {
-        {  0, "One shot"   },
-        {  1, "AI servo"   },
-        {  2, "AI focus"   },
-        {  3, "MF"         },
-        {  4, "Single"     },
-        {  5, "Continuous" },
-        {  6, "MF"         }
+        {  0, "One shot AF"  },
+        {  1, "AI servo AF"  },
+        {  2, "AI focus AF"  },
+        {  3, "Manual focus" },
+        {  4, "Single"       },
+        {  5, "Continuous"   },
+        {  6, "Manual focus" },
+        { 16, "Pan focus"    }
     };
 
     //! ImageSize, tag 0x000a
     extern const TagDetails canonCs1ImageSize[] = {
-        { 0, "Large"  },
-        { 1, "Medium" },
-        { 2, "Small"  }
+        { 0, "Large"    },
+        { 1, "Medium"   },
+        { 2, "Small"    },
+        { 5, "Medium 1" },
+        { 6, "Medium 2" },
+        { 7, "Medium 3" }
     };
 
     //! EasyMode, tag 0x000b
@@ -155,27 +164,37 @@ namespace Exiv2 {
         {  3, "Fast shutter"     },
         {  4, "Slow shutter"     },
         {  5, "Night Scene"      },
-        {  6, "B&W"              },
+        {  6, "Gray scale"       },
         {  7, "Sepia"            },
         {  8, "Portrait"         },
         {  9, "Sports"           },
         { 10, "Macro / close-up" },
-        { 11, "Pan focus"        },
+        { 11, "Black & white"    },
+        { 12, "Pan focus"        },
+        { 13, "Vivid"            },
+        { 14, "Neutral"          },
+        { 15, "Flash off"        },
+        { 16, "Long shutter"     },
+        { 17, "Super macro"      },
         { 18, "Foliage"          },
         { 19, "Indoor"           },
         { 20, "Fireworks"        },
         { 21, "Beach"            },
+        { 22, "Underwater"       },
         { 23, "Snow"             },
+        { 24, "Kids & pets"      },
         { 25, "Night SnapShot"   },
+        { 26, "Digital macro"    },
         { 27, "My Colors"        },
-        { 28, "Movie"            }
+        { 28, "Still image"      }
     };
 
     //! DigitalZoom, tag 0x000c
     extern const TagDetails canonCs1DigitalZoom[] = {
-        { 0, "None" },
-        { 1, "2x"   },
-        { 2, "4x"   }
+        { 0, "None"  },
+        { 1, "2x"    },
+        { 2, "4x"    },
+        { 3, "Other" }
     };
 
     //! Contrast, Saturation Sharpness, tags 0x000d, 0x000e, 0x000f
@@ -197,6 +216,9 @@ namespace Exiv2 {
 
     //! MeteringMode, tag 0x0011
     extern const TagDetails canonCs1MeteringMode[] = {
+        { 0, "Default"         },
+        { 1, "Spot"            },
+        { 2, "Average"         },
         { 3, "Evaluative"      },
         { 4, "Partial"         },
         { 5, "Center weighted" }
@@ -204,19 +226,28 @@ namespace Exiv2 {
 
     //! FocusType, tag 0x0012
     extern const TagDetails canonCs1FocusType[] = {
-        { 0, "Manual"            },
-        { 1, "Auto"              },
-        { 3, "Close-up (macro)"  },
-        { 8, "Locked (pan mode)" }
+        {  0, "Manual"       },
+        {  1, "Auto"         },
+        {  2, "Not known"    },
+        {  3, "Macro"        },
+        {  4, "Very close"   },
+        {  5, "Close"        },
+        {  6, "Middle range" },
+        {  7, "Far range"    },
+        {  8, "Pan focus"    },
+        {  9, "Super macro"  },
+        { 10, "Infinity"     }
     };
 
     //! AFPoint, tag 0x0013
     extern const TagDetails canonCs1AfPoint[] = {
-        { 0x3000, "None (MF)"     },
-        { 0x3001, "Auto-selected" },
-        { 0x3002, "Right"         },
-        { 0x3003, "Center"        },
-        { 0x3004, "Left"          }
+        { 0x2005, "Manual AF point selection" },
+        { 0x3000, "None (MF)"                 },
+        { 0x3001, "Auto-selected"             },
+        { 0x3002, "Right"                     },
+        { 0x3003, "Center"                    },
+        { 0x3004, "Left"                      },
+        { 0x4001, "Auto AF point selection"   }
     };
 
     //! ExposureProgram, tag 0x0014
@@ -226,19 +257,14 @@ namespace Exiv2 {
         { 2, "Shutter priority (Tv)"  },
         { 3, "Aperture priority (Av)" },
         { 4, "Manual (M)"             },
-        { 5, "A-DEP"                  }
+        { 5, "A-DEP"                  },
+        { 6, "M-DEP"                  }
     };
 
     //! FlashActivity, tag 0x001c
     extern const TagDetails canonCs1FlashActivity[] = {
         { 0, "Did not fire" },
         { 1, "Fired"        }
-    };
-
-    //! FocusContinuous, tag 0x0020
-    extern const TagDetails canonCs1FocusContinuous[] = {
-        { 0, "Single"     },
-        { 1, "Continuous" }
     };
 
     //! FlashDetails, tag 0x001d
@@ -252,6 +278,12 @@ namespace Exiv2 {
         { 0x0010, "FP sync enabled"       },
         { 0x0080, "2nd-curtain sync used" },
         { 0x0800, "FP sync used"          }
+    };
+
+    //! FocusContinuous, tag 0x0020
+    extern const TagDetails canonCs1FocusContinuous[] = {
+        { 0, "Single"     },
+        { 1, "Continuous" }
     };
 
     // Canon Camera Settings 1 Tag Info
@@ -301,13 +333,23 @@ namespace Exiv2 {
 
     //! WhiteBalance, tag 0x0007
     extern const TagDetails canonCs2WhiteBalance[] = {
-        { 0, "Auto"        },
-        { 1, "Sunny"       },
-        { 2, "Cloudy"      },
-        { 3, "Tungsten"    },
-        { 4, "Fluorescent" },
-        { 5, "Flash"       },
-        { 6, "Custom"      }
+        {  0, "Auto"                        },
+        {  1, "Sunny"                       },
+        {  2, "Cloudy"                      },
+        {  3, "Tungsten"                    },
+        {  4, "Fluorescent"                 },
+        {  5, "Flash"                       },
+        {  6, "Custom"                      },
+        {  7, "Black & White"               },
+        {  8, "Shade"                       },
+        {  9, "Manual Temperature (Kelvin)" },
+        { 10, "PC Set 1"                    },
+        { 11, "PC Set 2"                    },
+        { 12, "PC Set 3"                    },
+        { 14, "Daylight Fluorescent"        },
+        { 15, "Custom 1"                    },
+        { 16, "Custom 2"                    },
+        { 17, "Underwater"                  }
     };
 
     //! AFPointUsed, tag 0x000e
