@@ -703,7 +703,7 @@ namespace Exiv2 {
             std::ostringstream offset;
             if (i->size() > 4) {
                 offset << " 0x" << std::setw(8) << std::setfill('0')
-                       << std::hex << std::right << i->offset();
+                       << std::hex << std::right << static_cast<int32_t>(i->offset());
             }
             else {
                 const byte* data = i->data();
