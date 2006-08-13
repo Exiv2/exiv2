@@ -22,7 +22,7 @@ Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 Boston, MA 02110-1301 USA
 
 Exiv2 help ---------------------------------------------------------------
-Usage: exiv2 [ options ] [ action ] file ...
+Usage: lt-exiv2 [ options ] [ action ] file ...
 
 Manipulate the Exif metadata of images.
 
@@ -500,69 +500,69 @@ File  2/12: 20031214_000043.jpg
 20031214_000043.jpg   Exif.Canon.OwnerName                         Ascii      32  Andreas Huggel
 20031214_000043.jpg   Exif.Canon.0x0010                            Long        1  17891328
 20031214_000043.jpg   Exif.Canon.0x000d                            Short      21  42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
-20031214_000043.jpg   Exif.CanonCs1.Macro                          Short       1  Off
-20031214_000043.jpg   Exif.CanonCs1.Selftimer                      Short       1  Off
-20031214_000043.jpg   Exif.CanonCs1.Quality                        Short       1  Superfine
-20031214_000043.jpg   Exif.CanonCs1.FlashMode                      Short       1  Auto
-20031214_000043.jpg   Exif.CanonCs1.DriveMode                      Short       1  Single / timer
-20031214_000043.jpg   Exif.CanonCs1.0x0006                         Short       1  0
-20031214_000043.jpg   Exif.CanonCs1.FocusMode                      Short       1  Single
-20031214_000043.jpg   Exif.CanonCs1.0x0008                         Short       1  0
-20031214_000043.jpg   Exif.CanonCs1.0x0009                         Short       1  1
-20031214_000043.jpg   Exif.CanonCs1.ImageSize                      Short       1  Large
-20031214_000043.jpg   Exif.CanonCs1.EasyMode                       Short       1  Manual
-20031214_000043.jpg   Exif.CanonCs1.DigitalZoom                    Short       1  None
-20031214_000043.jpg   Exif.CanonCs1.Contrast                       Short       1  Normal
-20031214_000043.jpg   Exif.CanonCs1.Saturation                     Short       1  Normal
-20031214_000043.jpg   Exif.CanonCs1.Sharpness                      Short       1  Normal
-20031214_000043.jpg   Exif.CanonCs1.ISOSpeed                       Short       1  100
-20031214_000043.jpg   Exif.CanonCs1.MeteringMode                   Short       1  Center weighted
-20031214_000043.jpg   Exif.CanonCs1.FocusType                      Short       1  Auto
-20031214_000043.jpg   Exif.CanonCs1.AFPoint                        Short       1  Center
-20031214_000043.jpg   Exif.CanonCs1.ExposureProgram                Short       1  Program (P)
-20031214_000043.jpg   Exif.CanonCs1.0x0015                         Short       1  65535
-20031214_000043.jpg   Exif.CanonCs1.0x0016                         Short       1  65535
-20031214_000043.jpg   Exif.CanonCs1.Lens                           Short       3  7.1 - 21.3 mm
-20031214_000043.jpg   Exif.CanonCs1.0x001a                         Short       1  149
-20031214_000043.jpg   Exif.CanonCs1.0x001b                         Short       1  192
-20031214_000043.jpg   Exif.CanonCs1.FlashActivity                  Short       1  Did not fire
-20031214_000043.jpg   Exif.CanonCs1.FlashDetails                   Short       1  
-20031214_000043.jpg   Exif.CanonCs1.0x001e                         Short       1  0
-20031214_000043.jpg   Exif.CanonCs1.0x001f                         Short       1  0
-20031214_000043.jpg   Exif.CanonCs1.FocusContinuous                Short       1  Single
-20031214_000043.jpg   Exif.CanonCs1.0x0021                         Short       1  0
-20031214_000043.jpg   Exif.CanonCs1.0x0022                         Short       1  65535
-20031214_000043.jpg   Exif.CanonCs1.0x0023                         Short       1  49
-20031214_000043.jpg   Exif.CanonCs1.0x0024                         Short       1  2272
-20031214_000043.jpg   Exif.CanonCs1.0x0025                         Short       1  2272
-20031214_000043.jpg   Exif.CanonCs1.0x0026                         Short       1  0
-20031214_000043.jpg   Exif.CanonCs1.0x0027                         Short       1  1
-20031214_000043.jpg   Exif.CanonCs2.0x0001                         Short       1  0
-20031214_000043.jpg   Exif.CanonCs2.ISOSpeed                       Short       1  100
-20031214_000043.jpg   Exif.CanonCs2.0x0003                         Short       1  276
-20031214_000043.jpg   Exif.CanonCs2.TargetAperture                 Short       1  F5
-20031214_000043.jpg   Exif.CanonCs2.TargetShutterSpeed             Short       1  1/501 s
-20031214_000043.jpg   Exif.CanonCs2.0x0006                         Short       1  0
-20031214_000043.jpg   Exif.CanonCs2.WhiteBalance                   Short       1  Auto
-20031214_000043.jpg   Exif.CanonCs2.0x0008                         Short       1  0
-20031214_000043.jpg   Exif.CanonCs2.Sequence                       Short       1  0
-20031214_000043.jpg   Exif.CanonCs2.0x000a                         Short       1  6
-20031214_000043.jpg   Exif.CanonCs2.0x000b                         Short       1  0
-20031214_000043.jpg   Exif.CanonCs2.0x000c                         Short       1  0
-20031214_000043.jpg   Exif.CanonCs2.0x000d                         Short       1  0
-20031214_000043.jpg   Exif.CanonCs2.AFPointUsed                    Short       1  3 focus points; center used
-20031214_000043.jpg   Exif.CanonCs2.FlashBias                      Short       1  0 EV
-20031214_000043.jpg   Exif.CanonCs2.0x0010                         Short       1  0
-20031214_000043.jpg   Exif.CanonCs2.0x0011                         Short       1  0
-20031214_000043.jpg   Exif.CanonCs2.0x0012                         Short       1  1
-20031214_000043.jpg   Exif.CanonCs2.SubjectDistance                Short       1  782
-20031214_000043.jpg   Exif.CanonCs2.0x0014                         Short       1  0
-20031214_000043.jpg   Exif.CanonCs2.ApertureValue                  Short       1  F5
-20031214_000043.jpg   Exif.CanonCs2.ShutterSpeedValue              Short       1  1/523 s
-20031214_000043.jpg   Exif.CanonCs2.0x0017                         Short       1  0
-20031214_000043.jpg   Exif.CanonCs2.0x0018                         Short       1  0
-20031214_000043.jpg   Exif.CanonCs2.0x0019                         Short       1  0
-20031214_000043.jpg   Exif.CanonCs2.0x001a                         Short       1  250
+20031214_000043.jpg   Exif.CanonCs.Macro                           Short       1  Off
+20031214_000043.jpg   Exif.CanonCs.Selftimer                       Short       1  Off
+20031214_000043.jpg   Exif.CanonCs.Quality                         Short       1  Superfine
+20031214_000043.jpg   Exif.CanonCs.FlashMode                       Short       1  Auto
+20031214_000043.jpg   Exif.CanonCs.DriveMode                       Short       1  Single / timer
+20031214_000043.jpg   Exif.CanonCs.0x0006                          Short       1  0
+20031214_000043.jpg   Exif.CanonCs.FocusMode                       Short       1  Single
+20031214_000043.jpg   Exif.CanonCs.0x0008                          Short       1  0
+20031214_000043.jpg   Exif.CanonCs.0x0009                          Short       1  1
+20031214_000043.jpg   Exif.CanonCs.ImageSize                       Short       1  Large
+20031214_000043.jpg   Exif.CanonCs.EasyMode                        Short       1  Manual
+20031214_000043.jpg   Exif.CanonCs.DigitalZoom                     Short       1  None
+20031214_000043.jpg   Exif.CanonCs.Contrast                        Short       1  Normal
+20031214_000043.jpg   Exif.CanonCs.Saturation                      Short       1  Normal
+20031214_000043.jpg   Exif.CanonCs.Sharpness                       Short       1  Normal
+20031214_000043.jpg   Exif.CanonCs.ISOSpeed                        Short       1  100
+20031214_000043.jpg   Exif.CanonCs.MeteringMode                    Short       1  Center weighted
+20031214_000043.jpg   Exif.CanonCs.FocusType                       Short       1  Auto
+20031214_000043.jpg   Exif.CanonCs.AFPoint                         Short       1  Center
+20031214_000043.jpg   Exif.CanonCs.ExposureProgram                 Short       1  Program (P)
+20031214_000043.jpg   Exif.CanonCs.0x0015                          Short       1  65535
+20031214_000043.jpg   Exif.CanonCs.0x0016                          Short       1  65535
+20031214_000043.jpg   Exif.CanonCs.Lens                            Short       3  7.1 - 21.3 mm
+20031214_000043.jpg   Exif.CanonCs.0x001a                          Short       1  149
+20031214_000043.jpg   Exif.CanonCs.0x001b                          Short       1  192
+20031214_000043.jpg   Exif.CanonCs.FlashActivity                   Short       1  Did not fire
+20031214_000043.jpg   Exif.CanonCs.FlashDetails                    Short       1  
+20031214_000043.jpg   Exif.CanonCs.0x001e                          Short       1  0
+20031214_000043.jpg   Exif.CanonCs.0x001f                          Short       1  0
+20031214_000043.jpg   Exif.CanonCs.FocusContinuous                 Short       1  Single
+20031214_000043.jpg   Exif.CanonCs.0x0021                          Short       1  0
+20031214_000043.jpg   Exif.CanonCs.0x0022                          Short       1  65535
+20031214_000043.jpg   Exif.CanonCs.0x0023                          Short       1  49
+20031214_000043.jpg   Exif.CanonCs.0x0024                          Short       1  2272
+20031214_000043.jpg   Exif.CanonCs.0x0025                          Short       1  2272
+20031214_000043.jpg   Exif.CanonCs.0x0026                          Short       1  0
+20031214_000043.jpg   Exif.CanonCs.0x0027                          Short       1  1
+20031214_000043.jpg   Exif.CanonSi.0x0001                          Short       1  0
+20031214_000043.jpg   Exif.CanonSi.ISOSpeed                        Short       1  100
+20031214_000043.jpg   Exif.CanonSi.0x0003                          Short       1  276
+20031214_000043.jpg   Exif.CanonSi.TargetAperture                  Short       1  F5
+20031214_000043.jpg   Exif.CanonSi.TargetShutterSpeed              Short       1  1/501 s
+20031214_000043.jpg   Exif.CanonSi.0x0006                          Short       1  0
+20031214_000043.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Auto
+20031214_000043.jpg   Exif.CanonSi.0x0008                          Short       1  0
+20031214_000043.jpg   Exif.CanonSi.Sequence                        Short       1  0
+20031214_000043.jpg   Exif.CanonSi.0x000a                          Short       1  6
+20031214_000043.jpg   Exif.CanonSi.0x000b                          Short       1  0
+20031214_000043.jpg   Exif.CanonSi.0x000c                          Short       1  0
+20031214_000043.jpg   Exif.CanonSi.0x000d                          Short       1  0
+20031214_000043.jpg   Exif.CanonSi.AFPointUsed                     Short       1  3 focus points; center used
+20031214_000043.jpg   Exif.CanonSi.FlashBias                       Short       1  0 EV
+20031214_000043.jpg   Exif.CanonSi.0x0010                          Short       1  0
+20031214_000043.jpg   Exif.CanonSi.0x0011                          Short       1  0
+20031214_000043.jpg   Exif.CanonSi.0x0012                          Short       1  1
+20031214_000043.jpg   Exif.CanonSi.SubjectDistance                 Short       1  782
+20031214_000043.jpg   Exif.CanonSi.0x0014                          Short       1  0
+20031214_000043.jpg   Exif.CanonSi.ApertureValue                   Short       1  F5
+20031214_000043.jpg   Exif.CanonSi.ShutterSpeedValue               Short       1  1/523 s
+20031214_000043.jpg   Exif.CanonSi.0x0017                          Short       1  0
+20031214_000043.jpg   Exif.CanonSi.0x0018                          Short       1  0
+20031214_000043.jpg   Exif.CanonSi.0x0019                          Short       1  0
+20031214_000043.jpg   Exif.CanonSi.0x001a                          Short       1  250
 20031214_000043.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 20031214_000043.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 20031214_000043.jpg   Exif.Iop.RelatedImageWidth                   Short       1  2272
@@ -854,81 +854,81 @@ File  6/12: 20030925_201850.jpg
 20030925_201850.jpg   Exif.Canon.0x0013                            Short       4  0 159 7 112
 20030925_201850.jpg   Exif.Canon.0x0000                            Short       5  0 0 0 0 0
 20030925_201850.jpg   Exif.Canon.0x00b6                            Long       12  24 2 380376 1536 1024 2449882 3072000 892 2048000 595 65540 262146
-20030925_201850.jpg   Exif.CanonCs1.Macro                          Short       1  (0)
-20030925_201850.jpg   Exif.CanonCs1.Selftimer                      Short       1  Off
-20030925_201850.jpg   Exif.CanonCs1.Quality                        Short       1  Fine
-20030925_201850.jpg   Exif.CanonCs1.FlashMode                      Short       1  Off
-20030925_201850.jpg   Exif.CanonCs1.DriveMode                      Short       1  Single / timer
-20030925_201850.jpg   Exif.CanonCs1.0x0006                         Short       1  0
-20030925_201850.jpg   Exif.CanonCs1.FocusMode                      Short       1  AI focus AF
-20030925_201850.jpg   Exif.CanonCs1.0x0008                         Short       1  0
-20030925_201850.jpg   Exif.CanonCs1.0x0009                         Short       1  1
-20030925_201850.jpg   Exif.CanonCs1.ImageSize                      Short       1  Large
-20030925_201850.jpg   Exif.CanonCs1.EasyMode                       Short       1  Manual
-20030925_201850.jpg   Exif.CanonCs1.DigitalZoom                    Short       1  (65535)
-20030925_201850.jpg   Exif.CanonCs1.Contrast                       Short       1  High
-20030925_201850.jpg   Exif.CanonCs1.Saturation                     Short       1  High
-20030925_201850.jpg   Exif.CanonCs1.Sharpness                      Short       1  High
-20030925_201850.jpg   Exif.CanonCs1.ISOSpeed                       Short       1  n/a
-20030925_201850.jpg   Exif.CanonCs1.MeteringMode                   Short       1  Evaluative
-20030925_201850.jpg   Exif.CanonCs1.FocusType                      Short       1  Not known
-20030925_201850.jpg   Exif.CanonCs1.AFPoint                        Short       1  Manual AF point selection
-20030925_201850.jpg   Exif.CanonCs1.ExposureProgram                Short       1  Program (P)
-20030925_201850.jpg   Exif.CanonCs1.0x0015                         Short       1  32767
-20030925_201850.jpg   Exif.CanonCs1.0x0016                         Short       1  65535
-20030925_201850.jpg   Exif.CanonCs1.Lens                           Short       3  18.0 - 55.0 mm
-20030925_201850.jpg   Exif.CanonCs1.0x001a                         Short       1  116
-20030925_201850.jpg   Exif.CanonCs1.0x001b                         Short       1  285
-20030925_201850.jpg   Exif.CanonCs1.FlashActivity                  Short       1  Did not fire
-20030925_201850.jpg   Exif.CanonCs1.FlashDetails                   Short       1  
-20030925_201850.jpg   Exif.CanonCs1.0x001e                         Short       1  0
-20030925_201850.jpg   Exif.CanonCs1.0x001f                         Short       1  0
-20030925_201850.jpg   Exif.CanonCs1.FocusContinuous                Short       1  (65535)
-20030925_201850.jpg   Exif.CanonCs1.0x0021                         Short       1  65535
-20030925_201850.jpg   Exif.CanonCs1.0x0022                         Short       1  65535
-20030925_201850.jpg   Exif.CanonCs1.0x0023                         Short       1  0
-20030925_201850.jpg   Exif.CanonCs1.0x0024                         Short       1  3072
-20030925_201850.jpg   Exif.CanonCs1.0x0025                         Short       1  3072
-20030925_201850.jpg   Exif.CanonCs1.0x0026                         Short       1  0
-20030925_201850.jpg   Exif.CanonCs1.0x0027                         Short       1  65535
-20030925_201850.jpg   Exif.CanonCs1.0x0028                         Short       1  65535
-20030925_201850.jpg   Exif.CanonCs1.0x0029                         Short       1  0
-20030925_201850.jpg   Exif.CanonCs1.0x002a                         Short       1  0
-20030925_201850.jpg   Exif.CanonCs1.0x002b                         Short       1  32767
-20030925_201850.jpg   Exif.CanonCs1.0x002c                         Short       1  65535
-20030925_201850.jpg   Exif.CanonCs1.0x002d                         Short       1  65535
-20030925_201850.jpg   Exif.CanonCs2.0x0001                         Short       1  0
-20030925_201850.jpg   Exif.CanonCs2.ISOSpeed                       Short       1  100
-20030925_201850.jpg   Exif.CanonCs2.0x0003                         Short       1  200
-20030925_201850.jpg   Exif.CanonCs2.TargetAperture                 Short       1  F5.6
-20030925_201850.jpg   Exif.CanonCs2.TargetShutterSpeed             Short       1  1/79 s
-20030925_201850.jpg   Exif.CanonCs2.0x0006                         Short       1  0
-20030925_201850.jpg   Exif.CanonCs2.WhiteBalance                   Short       1  Auto
-20030925_201850.jpg   Exif.CanonCs2.0x0008                         Short       1  3
-20030925_201850.jpg   Exif.CanonCs2.Sequence                       Short       1  0
-20030925_201850.jpg   Exif.CanonCs2.0x000a                         Short       1  8
-20030925_201850.jpg   Exif.CanonCs2.0x000b                         Short       1  8
-20030925_201850.jpg   Exif.CanonCs2.0x000c                         Short       1  0
-20030925_201850.jpg   Exif.CanonCs2.0x000d                         Short       1  0
-20030925_201850.jpg   Exif.CanonCs2.AFPointUsed                    Short       1  0 focus points; none used
-20030925_201850.jpg   Exif.CanonCs2.FlashBias                      Short       1  0 EV
-20030925_201850.jpg   Exif.CanonCs2.0x0010                         Short       1  0
-20030925_201850.jpg   Exif.CanonCs2.0x0011                         Short       1  0
-20030925_201850.jpg   Exif.CanonCs2.0x0012                         Short       1  1
-20030925_201850.jpg   Exif.CanonCs2.SubjectDistance                Short       1  Infinite
-20030925_201850.jpg   Exif.CanonCs2.0x0014                         Short       1  546
-20030925_201850.jpg   Exif.CanonCs2.ApertureValue                  Short       1  F5.4
-20030925_201850.jpg   Exif.CanonCs2.ShutterSpeedValue              Short       1  1/81 s
-20030925_201850.jpg   Exif.CanonCs2.0x0017                         Short       1  140
-20030925_201850.jpg   Exif.CanonCs2.0x0018                         Short       1  0
-20030925_201850.jpg   Exif.CanonCs2.0x0019                         Short       1  0
-20030925_201850.jpg   Exif.CanonCs2.0x001a                         Short       1  252
-20030925_201850.jpg   Exif.CanonCs2.0x001b                         Short       1  1
-20030925_201850.jpg   Exif.CanonCs2.0x001c                         Short       1  65535
-20030925_201850.jpg   Exif.CanonCs2.0x001d                         Short       1  0
-20030925_201850.jpg   Exif.CanonCs2.0x001e                         Short       1  0
-20030925_201850.jpg   Exif.CanonCs2.0x001f                         Short       1  0
-20030925_201850.jpg   Exif.CanonCs2.0x0020                         Short       1  0
+20030925_201850.jpg   Exif.CanonCs.Macro                           Short       1  (0)
+20030925_201850.jpg   Exif.CanonCs.Selftimer                       Short       1  Off
+20030925_201850.jpg   Exif.CanonCs.Quality                         Short       1  Fine
+20030925_201850.jpg   Exif.CanonCs.FlashMode                       Short       1  Off
+20030925_201850.jpg   Exif.CanonCs.DriveMode                       Short       1  Single / timer
+20030925_201850.jpg   Exif.CanonCs.0x0006                          Short       1  0
+20030925_201850.jpg   Exif.CanonCs.FocusMode                       Short       1  AI focus AF
+20030925_201850.jpg   Exif.CanonCs.0x0008                          Short       1  0
+20030925_201850.jpg   Exif.CanonCs.0x0009                          Short       1  1
+20030925_201850.jpg   Exif.CanonCs.ImageSize                       Short       1  Large
+20030925_201850.jpg   Exif.CanonCs.EasyMode                        Short       1  Manual
+20030925_201850.jpg   Exif.CanonCs.DigitalZoom                     Short       1  (65535)
+20030925_201850.jpg   Exif.CanonCs.Contrast                        Short       1  High
+20030925_201850.jpg   Exif.CanonCs.Saturation                      Short       1  High
+20030925_201850.jpg   Exif.CanonCs.Sharpness                       Short       1  High
+20030925_201850.jpg   Exif.CanonCs.ISOSpeed                        Short       1  n/a
+20030925_201850.jpg   Exif.CanonCs.MeteringMode                    Short       1  Evaluative
+20030925_201850.jpg   Exif.CanonCs.FocusType                       Short       1  Not known
+20030925_201850.jpg   Exif.CanonCs.AFPoint                         Short       1  Manual AF point selection
+20030925_201850.jpg   Exif.CanonCs.ExposureProgram                 Short       1  Program (P)
+20030925_201850.jpg   Exif.CanonCs.0x0015                          Short       1  32767
+20030925_201850.jpg   Exif.CanonCs.0x0016                          Short       1  65535
+20030925_201850.jpg   Exif.CanonCs.Lens                            Short       3  18.0 - 55.0 mm
+20030925_201850.jpg   Exif.CanonCs.0x001a                          Short       1  116
+20030925_201850.jpg   Exif.CanonCs.0x001b                          Short       1  285
+20030925_201850.jpg   Exif.CanonCs.FlashActivity                   Short       1  Did not fire
+20030925_201850.jpg   Exif.CanonCs.FlashDetails                    Short       1  
+20030925_201850.jpg   Exif.CanonCs.0x001e                          Short       1  0
+20030925_201850.jpg   Exif.CanonCs.0x001f                          Short       1  0
+20030925_201850.jpg   Exif.CanonCs.FocusContinuous                 Short       1  (65535)
+20030925_201850.jpg   Exif.CanonCs.0x0021                          Short       1  65535
+20030925_201850.jpg   Exif.CanonCs.0x0022                          Short       1  65535
+20030925_201850.jpg   Exif.CanonCs.0x0023                          Short       1  0
+20030925_201850.jpg   Exif.CanonCs.0x0024                          Short       1  3072
+20030925_201850.jpg   Exif.CanonCs.0x0025                          Short       1  3072
+20030925_201850.jpg   Exif.CanonCs.0x0026                          Short       1  0
+20030925_201850.jpg   Exif.CanonCs.0x0027                          Short       1  65535
+20030925_201850.jpg   Exif.CanonCs.0x0028                          Short       1  65535
+20030925_201850.jpg   Exif.CanonCs.0x0029                          Short       1  0
+20030925_201850.jpg   Exif.CanonCs.0x002a                          Short       1  0
+20030925_201850.jpg   Exif.CanonCs.0x002b                          Short       1  32767
+20030925_201850.jpg   Exif.CanonCs.0x002c                          Short       1  65535
+20030925_201850.jpg   Exif.CanonCs.0x002d                          Short       1  65535
+20030925_201850.jpg   Exif.CanonSi.0x0001                          Short       1  0
+20030925_201850.jpg   Exif.CanonSi.ISOSpeed                        Short       1  100
+20030925_201850.jpg   Exif.CanonSi.0x0003                          Short       1  200
+20030925_201850.jpg   Exif.CanonSi.TargetAperture                  Short       1  F5.6
+20030925_201850.jpg   Exif.CanonSi.TargetShutterSpeed              Short       1  1/79 s
+20030925_201850.jpg   Exif.CanonSi.0x0006                          Short       1  0
+20030925_201850.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Auto
+20030925_201850.jpg   Exif.CanonSi.0x0008                          Short       1  3
+20030925_201850.jpg   Exif.CanonSi.Sequence                        Short       1  0
+20030925_201850.jpg   Exif.CanonSi.0x000a                          Short       1  8
+20030925_201850.jpg   Exif.CanonSi.0x000b                          Short       1  8
+20030925_201850.jpg   Exif.CanonSi.0x000c                          Short       1  0
+20030925_201850.jpg   Exif.CanonSi.0x000d                          Short       1  0
+20030925_201850.jpg   Exif.CanonSi.AFPointUsed                     Short       1  0 focus points; none used
+20030925_201850.jpg   Exif.CanonSi.FlashBias                       Short       1  0 EV
+20030925_201850.jpg   Exif.CanonSi.0x0010                          Short       1  0
+20030925_201850.jpg   Exif.CanonSi.0x0011                          Short       1  0
+20030925_201850.jpg   Exif.CanonSi.0x0012                          Short       1  1
+20030925_201850.jpg   Exif.CanonSi.SubjectDistance                 Short       1  Infinite
+20030925_201850.jpg   Exif.CanonSi.0x0014                          Short       1  546
+20030925_201850.jpg   Exif.CanonSi.ApertureValue                   Short       1  F5.4
+20030925_201850.jpg   Exif.CanonSi.ShutterSpeedValue               Short       1  1/81 s
+20030925_201850.jpg   Exif.CanonSi.0x0017                          Short       1  140
+20030925_201850.jpg   Exif.CanonSi.0x0018                          Short       1  0
+20030925_201850.jpg   Exif.CanonSi.0x0019                          Short       1  0
+20030925_201850.jpg   Exif.CanonSi.0x001a                          Short       1  252
+20030925_201850.jpg   Exif.CanonSi.0x001b                          Short       1  1
+20030925_201850.jpg   Exif.CanonSi.0x001c                          Short       1  65535
+20030925_201850.jpg   Exif.CanonSi.0x001d                          Short       1  0
+20030925_201850.jpg   Exif.CanonSi.0x001e                          Short       1  0
+20030925_201850.jpg   Exif.CanonSi.0x001f                          Short       1  0
+20030925_201850.jpg   Exif.CanonSi.0x0020                          Short       1  0
 20030925_201850.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 20030925_201850.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 20030925_201850.jpg   Exif.Iop.RelatedImageWidth                   Short       1  3072
@@ -1441,69 +1441,69 @@ Compare image data and extracted data ------------------------------------
 < 20031214_000043.jpg   Exif.Canon.OwnerName                         Ascii      32  Andreas Huggel
 < 20031214_000043.jpg   Exif.Canon.0x0010                            Long        1  17891328
 < 20031214_000043.jpg   Exif.Canon.0x000d                            Short      21  42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
-< 20031214_000043.jpg   Exif.CanonCs1.Macro                          Short       1  Off
-< 20031214_000043.jpg   Exif.CanonCs1.Selftimer                      Short       1  Off
-< 20031214_000043.jpg   Exif.CanonCs1.Quality                        Short       1  Superfine
-< 20031214_000043.jpg   Exif.CanonCs1.FlashMode                      Short       1  Auto
-< 20031214_000043.jpg   Exif.CanonCs1.DriveMode                      Short       1  Single / timer
-< 20031214_000043.jpg   Exif.CanonCs1.0x0006                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs1.FocusMode                      Short       1  Single
-< 20031214_000043.jpg   Exif.CanonCs1.0x0008                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs1.0x0009                         Short       1  1
-< 20031214_000043.jpg   Exif.CanonCs1.ImageSize                      Short       1  Large
-< 20031214_000043.jpg   Exif.CanonCs1.EasyMode                       Short       1  Manual
-< 20031214_000043.jpg   Exif.CanonCs1.DigitalZoom                    Short       1  None
-< 20031214_000043.jpg   Exif.CanonCs1.Contrast                       Short       1  Normal
-< 20031214_000043.jpg   Exif.CanonCs1.Saturation                     Short       1  Normal
-< 20031214_000043.jpg   Exif.CanonCs1.Sharpness                      Short       1  Normal
-< 20031214_000043.jpg   Exif.CanonCs1.ISOSpeed                       Short       1  100
-< 20031214_000043.jpg   Exif.CanonCs1.MeteringMode                   Short       1  Center weighted
-< 20031214_000043.jpg   Exif.CanonCs1.FocusType                      Short       1  Auto
-< 20031214_000043.jpg   Exif.CanonCs1.AFPoint                        Short       1  Center
-< 20031214_000043.jpg   Exif.CanonCs1.ExposureProgram                Short       1  Program (P)
-< 20031214_000043.jpg   Exif.CanonCs1.0x0015                         Short       1  65535
-< 20031214_000043.jpg   Exif.CanonCs1.0x0016                         Short       1  65535
-< 20031214_000043.jpg   Exif.CanonCs1.Lens                           Short       3  7.1 - 21.3 mm
-< 20031214_000043.jpg   Exif.CanonCs1.0x001a                         Short       1  149
-< 20031214_000043.jpg   Exif.CanonCs1.0x001b                         Short       1  192
-< 20031214_000043.jpg   Exif.CanonCs1.FlashActivity                  Short       1  Did not fire
-< 20031214_000043.jpg   Exif.CanonCs1.FlashDetails                   Short       1  
-< 20031214_000043.jpg   Exif.CanonCs1.0x001e                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs1.0x001f                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs1.FocusContinuous                Short       1  Single
-< 20031214_000043.jpg   Exif.CanonCs1.0x0021                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs1.0x0022                         Short       1  65535
-< 20031214_000043.jpg   Exif.CanonCs1.0x0023                         Short       1  49
-< 20031214_000043.jpg   Exif.CanonCs1.0x0024                         Short       1  2272
-< 20031214_000043.jpg   Exif.CanonCs1.0x0025                         Short       1  2272
-< 20031214_000043.jpg   Exif.CanonCs1.0x0026                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs1.0x0027                         Short       1  1
-< 20031214_000043.jpg   Exif.CanonCs2.0x0001                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs2.ISOSpeed                       Short       1  100
-< 20031214_000043.jpg   Exif.CanonCs2.0x0003                         Short       1  276
-< 20031214_000043.jpg   Exif.CanonCs2.TargetAperture                 Short       1  F5
-< 20031214_000043.jpg   Exif.CanonCs2.TargetShutterSpeed             Short       1  1/501 s
-< 20031214_000043.jpg   Exif.CanonCs2.0x0006                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs2.WhiteBalance                   Short       1  Auto
-< 20031214_000043.jpg   Exif.CanonCs2.0x0008                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs2.Sequence                       Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs2.0x000a                         Short       1  6
-< 20031214_000043.jpg   Exif.CanonCs2.0x000b                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs2.0x000c                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs2.0x000d                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs2.AFPointUsed                    Short       1  3 focus points; center used
-< 20031214_000043.jpg   Exif.CanonCs2.FlashBias                      Short       1  0 EV
-< 20031214_000043.jpg   Exif.CanonCs2.0x0010                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs2.0x0011                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs2.0x0012                         Short       1  1
-< 20031214_000043.jpg   Exif.CanonCs2.SubjectDistance                Short       1  782
-< 20031214_000043.jpg   Exif.CanonCs2.0x0014                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs2.ApertureValue                  Short       1  F5
-< 20031214_000043.jpg   Exif.CanonCs2.ShutterSpeedValue              Short       1  1/523 s
-< 20031214_000043.jpg   Exif.CanonCs2.0x0017                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs2.0x0018                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs2.0x0019                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs2.0x001a                         Short       1  250
+< 20031214_000043.jpg   Exif.CanonCs.Macro                           Short       1  Off
+< 20031214_000043.jpg   Exif.CanonCs.Selftimer                       Short       1  Off
+< 20031214_000043.jpg   Exif.CanonCs.Quality                         Short       1  Superfine
+< 20031214_000043.jpg   Exif.CanonCs.FlashMode                       Short       1  Auto
+< 20031214_000043.jpg   Exif.CanonCs.DriveMode                       Short       1  Single / timer
+< 20031214_000043.jpg   Exif.CanonCs.0x0006                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonCs.FocusMode                       Short       1  Single
+< 20031214_000043.jpg   Exif.CanonCs.0x0008                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonCs.0x0009                          Short       1  1
+< 20031214_000043.jpg   Exif.CanonCs.ImageSize                       Short       1  Large
+< 20031214_000043.jpg   Exif.CanonCs.EasyMode                        Short       1  Manual
+< 20031214_000043.jpg   Exif.CanonCs.DigitalZoom                     Short       1  None
+< 20031214_000043.jpg   Exif.CanonCs.Contrast                        Short       1  Normal
+< 20031214_000043.jpg   Exif.CanonCs.Saturation                      Short       1  Normal
+< 20031214_000043.jpg   Exif.CanonCs.Sharpness                       Short       1  Normal
+< 20031214_000043.jpg   Exif.CanonCs.ISOSpeed                        Short       1  100
+< 20031214_000043.jpg   Exif.CanonCs.MeteringMode                    Short       1  Center weighted
+< 20031214_000043.jpg   Exif.CanonCs.FocusType                       Short       1  Auto
+< 20031214_000043.jpg   Exif.CanonCs.AFPoint                         Short       1  Center
+< 20031214_000043.jpg   Exif.CanonCs.ExposureProgram                 Short       1  Program (P)
+< 20031214_000043.jpg   Exif.CanonCs.0x0015                          Short       1  65535
+< 20031214_000043.jpg   Exif.CanonCs.0x0016                          Short       1  65535
+< 20031214_000043.jpg   Exif.CanonCs.Lens                            Short       3  7.1 - 21.3 mm
+< 20031214_000043.jpg   Exif.CanonCs.0x001a                          Short       1  149
+< 20031214_000043.jpg   Exif.CanonCs.0x001b                          Short       1  192
+< 20031214_000043.jpg   Exif.CanonCs.FlashActivity                   Short       1  Did not fire
+< 20031214_000043.jpg   Exif.CanonCs.FlashDetails                    Short       1  
+< 20031214_000043.jpg   Exif.CanonCs.0x001e                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonCs.0x001f                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonCs.FocusContinuous                 Short       1  Single
+< 20031214_000043.jpg   Exif.CanonCs.0x0021                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonCs.0x0022                          Short       1  65535
+< 20031214_000043.jpg   Exif.CanonCs.0x0023                          Short       1  49
+< 20031214_000043.jpg   Exif.CanonCs.0x0024                          Short       1  2272
+< 20031214_000043.jpg   Exif.CanonCs.0x0025                          Short       1  2272
+< 20031214_000043.jpg   Exif.CanonCs.0x0026                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonCs.0x0027                          Short       1  1
+< 20031214_000043.jpg   Exif.CanonSi.0x0001                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.ISOSpeed                        Short       1  100
+< 20031214_000043.jpg   Exif.CanonSi.0x0003                          Short       1  276
+< 20031214_000043.jpg   Exif.CanonSi.TargetAperture                  Short       1  F5
+< 20031214_000043.jpg   Exif.CanonSi.TargetShutterSpeed              Short       1  1/501 s
+< 20031214_000043.jpg   Exif.CanonSi.0x0006                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Auto
+< 20031214_000043.jpg   Exif.CanonSi.0x0008                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.Sequence                        Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.0x000a                          Short       1  6
+< 20031214_000043.jpg   Exif.CanonSi.0x000b                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.0x000c                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.0x000d                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.AFPointUsed                     Short       1  3 focus points; center used
+< 20031214_000043.jpg   Exif.CanonSi.FlashBias                       Short       1  0 EV
+< 20031214_000043.jpg   Exif.CanonSi.0x0010                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.0x0011                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.0x0012                          Short       1  1
+< 20031214_000043.jpg   Exif.CanonSi.SubjectDistance                 Short       1  782
+< 20031214_000043.jpg   Exif.CanonSi.0x0014                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.ApertureValue                   Short       1  F5
+< 20031214_000043.jpg   Exif.CanonSi.ShutterSpeedValue               Short       1  1/523 s
+< 20031214_000043.jpg   Exif.CanonSi.0x0017                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.0x0018                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.0x0019                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.0x001a                          Short       1  250
 < 20031214_000043.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20031214_000043.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 < 20031214_000043.jpg   Exif.Iop.RelatedImageWidth                   Short       1  2272
@@ -1795,81 +1795,81 @@ Compare image data and extracted data ------------------------------------
 < 20030925_201850.jpg   Exif.Canon.0x0013                            Short       4  0 159 7 112
 < 20030925_201850.jpg   Exif.Canon.0x0000                            Short       5  0 0 0 0 0
 < 20030925_201850.jpg   Exif.Canon.0x00b6                            Long       12  24 2 380376 1536 1024 2449882 3072000 892 2048000 595 65540 262146
-< 20030925_201850.jpg   Exif.CanonCs1.Macro                          Short       1  (0)
-< 20030925_201850.jpg   Exif.CanonCs1.Selftimer                      Short       1  Off
-< 20030925_201850.jpg   Exif.CanonCs1.Quality                        Short       1  Fine
-< 20030925_201850.jpg   Exif.CanonCs1.FlashMode                      Short       1  Off
-< 20030925_201850.jpg   Exif.CanonCs1.DriveMode                      Short       1  Single / timer
-< 20030925_201850.jpg   Exif.CanonCs1.0x0006                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs1.FocusMode                      Short       1  AI focus AF
-< 20030925_201850.jpg   Exif.CanonCs1.0x0008                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs1.0x0009                         Short       1  1
-< 20030925_201850.jpg   Exif.CanonCs1.ImageSize                      Short       1  Large
-< 20030925_201850.jpg   Exif.CanonCs1.EasyMode                       Short       1  Manual
-< 20030925_201850.jpg   Exif.CanonCs1.DigitalZoom                    Short       1  (65535)
-< 20030925_201850.jpg   Exif.CanonCs1.Contrast                       Short       1  High
-< 20030925_201850.jpg   Exif.CanonCs1.Saturation                     Short       1  High
-< 20030925_201850.jpg   Exif.CanonCs1.Sharpness                      Short       1  High
-< 20030925_201850.jpg   Exif.CanonCs1.ISOSpeed                       Short       1  n/a
-< 20030925_201850.jpg   Exif.CanonCs1.MeteringMode                   Short       1  Evaluative
-< 20030925_201850.jpg   Exif.CanonCs1.FocusType                      Short       1  Not known
-< 20030925_201850.jpg   Exif.CanonCs1.AFPoint                        Short       1  Manual AF point selection
-< 20030925_201850.jpg   Exif.CanonCs1.ExposureProgram                Short       1  Program (P)
-< 20030925_201850.jpg   Exif.CanonCs1.0x0015                         Short       1  32767
-< 20030925_201850.jpg   Exif.CanonCs1.0x0016                         Short       1  65535
-< 20030925_201850.jpg   Exif.CanonCs1.Lens                           Short       3  18.0 - 55.0 mm
-< 20030925_201850.jpg   Exif.CanonCs1.0x001a                         Short       1  116
-< 20030925_201850.jpg   Exif.CanonCs1.0x001b                         Short       1  285
-< 20030925_201850.jpg   Exif.CanonCs1.FlashActivity                  Short       1  Did not fire
-< 20030925_201850.jpg   Exif.CanonCs1.FlashDetails                   Short       1  
-< 20030925_201850.jpg   Exif.CanonCs1.0x001e                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs1.0x001f                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs1.FocusContinuous                Short       1  (65535)
-< 20030925_201850.jpg   Exif.CanonCs1.0x0021                         Short       1  65535
-< 20030925_201850.jpg   Exif.CanonCs1.0x0022                         Short       1  65535
-< 20030925_201850.jpg   Exif.CanonCs1.0x0023                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs1.0x0024                         Short       1  3072
-< 20030925_201850.jpg   Exif.CanonCs1.0x0025                         Short       1  3072
-< 20030925_201850.jpg   Exif.CanonCs1.0x0026                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs1.0x0027                         Short       1  65535
-< 20030925_201850.jpg   Exif.CanonCs1.0x0028                         Short       1  65535
-< 20030925_201850.jpg   Exif.CanonCs1.0x0029                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs1.0x002a                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs1.0x002b                         Short       1  32767
-< 20030925_201850.jpg   Exif.CanonCs1.0x002c                         Short       1  65535
-< 20030925_201850.jpg   Exif.CanonCs1.0x002d                         Short       1  65535
-< 20030925_201850.jpg   Exif.CanonCs2.0x0001                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs2.ISOSpeed                       Short       1  100
-< 20030925_201850.jpg   Exif.CanonCs2.0x0003                         Short       1  200
-< 20030925_201850.jpg   Exif.CanonCs2.TargetAperture                 Short       1  F5.6
-< 20030925_201850.jpg   Exif.CanonCs2.TargetShutterSpeed             Short       1  1/79 s
-< 20030925_201850.jpg   Exif.CanonCs2.0x0006                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs2.WhiteBalance                   Short       1  Auto
-< 20030925_201850.jpg   Exif.CanonCs2.0x0008                         Short       1  3
-< 20030925_201850.jpg   Exif.CanonCs2.Sequence                       Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs2.0x000a                         Short       1  8
-< 20030925_201850.jpg   Exif.CanonCs2.0x000b                         Short       1  8
-< 20030925_201850.jpg   Exif.CanonCs2.0x000c                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs2.0x000d                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs2.AFPointUsed                    Short       1  0 focus points; none used
-< 20030925_201850.jpg   Exif.CanonCs2.FlashBias                      Short       1  0 EV
-< 20030925_201850.jpg   Exif.CanonCs2.0x0010                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs2.0x0011                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs2.0x0012                         Short       1  1
-< 20030925_201850.jpg   Exif.CanonCs2.SubjectDistance                Short       1  Infinite
-< 20030925_201850.jpg   Exif.CanonCs2.0x0014                         Short       1  546
-< 20030925_201850.jpg   Exif.CanonCs2.ApertureValue                  Short       1  F5.4
-< 20030925_201850.jpg   Exif.CanonCs2.ShutterSpeedValue              Short       1  1/81 s
-< 20030925_201850.jpg   Exif.CanonCs2.0x0017                         Short       1  140
-< 20030925_201850.jpg   Exif.CanonCs2.0x0018                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs2.0x0019                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs2.0x001a                         Short       1  252
-< 20030925_201850.jpg   Exif.CanonCs2.0x001b                         Short       1  1
-< 20030925_201850.jpg   Exif.CanonCs2.0x001c                         Short       1  65535
-< 20030925_201850.jpg   Exif.CanonCs2.0x001d                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs2.0x001e                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs2.0x001f                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs2.0x0020                         Short       1  0
+< 20030925_201850.jpg   Exif.CanonCs.Macro                           Short       1  (0)
+< 20030925_201850.jpg   Exif.CanonCs.Selftimer                       Short       1  Off
+< 20030925_201850.jpg   Exif.CanonCs.Quality                         Short       1  Fine
+< 20030925_201850.jpg   Exif.CanonCs.FlashMode                       Short       1  Off
+< 20030925_201850.jpg   Exif.CanonCs.DriveMode                       Short       1  Single / timer
+< 20030925_201850.jpg   Exif.CanonCs.0x0006                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonCs.FocusMode                       Short       1  AI focus AF
+< 20030925_201850.jpg   Exif.CanonCs.0x0008                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonCs.0x0009                          Short       1  1
+< 20030925_201850.jpg   Exif.CanonCs.ImageSize                       Short       1  Large
+< 20030925_201850.jpg   Exif.CanonCs.EasyMode                        Short       1  Manual
+< 20030925_201850.jpg   Exif.CanonCs.DigitalZoom                     Short       1  (65535)
+< 20030925_201850.jpg   Exif.CanonCs.Contrast                        Short       1  High
+< 20030925_201850.jpg   Exif.CanonCs.Saturation                      Short       1  High
+< 20030925_201850.jpg   Exif.CanonCs.Sharpness                       Short       1  High
+< 20030925_201850.jpg   Exif.CanonCs.ISOSpeed                        Short       1  n/a
+< 20030925_201850.jpg   Exif.CanonCs.MeteringMode                    Short       1  Evaluative
+< 20030925_201850.jpg   Exif.CanonCs.FocusType                       Short       1  Not known
+< 20030925_201850.jpg   Exif.CanonCs.AFPoint                         Short       1  Manual AF point selection
+< 20030925_201850.jpg   Exif.CanonCs.ExposureProgram                 Short       1  Program (P)
+< 20030925_201850.jpg   Exif.CanonCs.0x0015                          Short       1  32767
+< 20030925_201850.jpg   Exif.CanonCs.0x0016                          Short       1  65535
+< 20030925_201850.jpg   Exif.CanonCs.Lens                            Short       3  18.0 - 55.0 mm
+< 20030925_201850.jpg   Exif.CanonCs.0x001a                          Short       1  116
+< 20030925_201850.jpg   Exif.CanonCs.0x001b                          Short       1  285
+< 20030925_201850.jpg   Exif.CanonCs.FlashActivity                   Short       1  Did not fire
+< 20030925_201850.jpg   Exif.CanonCs.FlashDetails                    Short       1  
+< 20030925_201850.jpg   Exif.CanonCs.0x001e                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonCs.0x001f                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonCs.FocusContinuous                 Short       1  (65535)
+< 20030925_201850.jpg   Exif.CanonCs.0x0021                          Short       1  65535
+< 20030925_201850.jpg   Exif.CanonCs.0x0022                          Short       1  65535
+< 20030925_201850.jpg   Exif.CanonCs.0x0023                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonCs.0x0024                          Short       1  3072
+< 20030925_201850.jpg   Exif.CanonCs.0x0025                          Short       1  3072
+< 20030925_201850.jpg   Exif.CanonCs.0x0026                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonCs.0x0027                          Short       1  65535
+< 20030925_201850.jpg   Exif.CanonCs.0x0028                          Short       1  65535
+< 20030925_201850.jpg   Exif.CanonCs.0x0029                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonCs.0x002a                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonCs.0x002b                          Short       1  32767
+< 20030925_201850.jpg   Exif.CanonCs.0x002c                          Short       1  65535
+< 20030925_201850.jpg   Exif.CanonCs.0x002d                          Short       1  65535
+< 20030925_201850.jpg   Exif.CanonSi.0x0001                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonSi.ISOSpeed                        Short       1  100
+< 20030925_201850.jpg   Exif.CanonSi.0x0003                          Short       1  200
+< 20030925_201850.jpg   Exif.CanonSi.TargetAperture                  Short       1  F5.6
+< 20030925_201850.jpg   Exif.CanonSi.TargetShutterSpeed              Short       1  1/79 s
+< 20030925_201850.jpg   Exif.CanonSi.0x0006                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Auto
+< 20030925_201850.jpg   Exif.CanonSi.0x0008                          Short       1  3
+< 20030925_201850.jpg   Exif.CanonSi.Sequence                        Short       1  0
+< 20030925_201850.jpg   Exif.CanonSi.0x000a                          Short       1  8
+< 20030925_201850.jpg   Exif.CanonSi.0x000b                          Short       1  8
+< 20030925_201850.jpg   Exif.CanonSi.0x000c                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonSi.0x000d                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonSi.AFPointUsed                     Short       1  0 focus points; none used
+< 20030925_201850.jpg   Exif.CanonSi.FlashBias                       Short       1  0 EV
+< 20030925_201850.jpg   Exif.CanonSi.0x0010                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonSi.0x0011                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonSi.0x0012                          Short       1  1
+< 20030925_201850.jpg   Exif.CanonSi.SubjectDistance                 Short       1  Infinite
+< 20030925_201850.jpg   Exif.CanonSi.0x0014                          Short       1  546
+< 20030925_201850.jpg   Exif.CanonSi.ApertureValue                   Short       1  F5.4
+< 20030925_201850.jpg   Exif.CanonSi.ShutterSpeedValue               Short       1  1/81 s
+< 20030925_201850.jpg   Exif.CanonSi.0x0017                          Short       1  140
+< 20030925_201850.jpg   Exif.CanonSi.0x0018                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonSi.0x0019                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonSi.0x001a                          Short       1  252
+< 20030925_201850.jpg   Exif.CanonSi.0x001b                          Short       1  1
+< 20030925_201850.jpg   Exif.CanonSi.0x001c                          Short       1  65535
+< 20030925_201850.jpg   Exif.CanonSi.0x001d                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonSi.0x001e                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonSi.0x001f                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonSi.0x0020                          Short       1  0
 < 20030925_201850.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20030925_201850.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 < 20030925_201850.jpg   Exif.Iop.RelatedImageWidth                   Short       1  3072
@@ -2326,69 +2326,69 @@ Compare image data and extracted data ------------------------------------
 > 20031214_000043.exv   Exif.Canon.OwnerName                         Ascii      32  Andreas Huggel
 > 20031214_000043.exv   Exif.Canon.0x0010                            Long        1  17891328
 > 20031214_000043.exv   Exif.Canon.0x000d                            Short      21  42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
-> 20031214_000043.exv   Exif.CanonCs1.Macro                          Short       1  Off
-> 20031214_000043.exv   Exif.CanonCs1.Selftimer                      Short       1  Off
-> 20031214_000043.exv   Exif.CanonCs1.Quality                        Short       1  Superfine
-> 20031214_000043.exv   Exif.CanonCs1.FlashMode                      Short       1  Auto
-> 20031214_000043.exv   Exif.CanonCs1.DriveMode                      Short       1  Single / timer
-> 20031214_000043.exv   Exif.CanonCs1.0x0006                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs1.FocusMode                      Short       1  Single
-> 20031214_000043.exv   Exif.CanonCs1.0x0008                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs1.0x0009                         Short       1  1
-> 20031214_000043.exv   Exif.CanonCs1.ImageSize                      Short       1  Large
-> 20031214_000043.exv   Exif.CanonCs1.EasyMode                       Short       1  Manual
-> 20031214_000043.exv   Exif.CanonCs1.DigitalZoom                    Short       1  None
-> 20031214_000043.exv   Exif.CanonCs1.Contrast                       Short       1  Normal
-> 20031214_000043.exv   Exif.CanonCs1.Saturation                     Short       1  Normal
-> 20031214_000043.exv   Exif.CanonCs1.Sharpness                      Short       1  Normal
-> 20031214_000043.exv   Exif.CanonCs1.ISOSpeed                       Short       1  100
-> 20031214_000043.exv   Exif.CanonCs1.MeteringMode                   Short       1  Center weighted
-> 20031214_000043.exv   Exif.CanonCs1.FocusType                      Short       1  Auto
-> 20031214_000043.exv   Exif.CanonCs1.AFPoint                        Short       1  Center
-> 20031214_000043.exv   Exif.CanonCs1.ExposureProgram                Short       1  Program (P)
-> 20031214_000043.exv   Exif.CanonCs1.0x0015                         Short       1  65535
-> 20031214_000043.exv   Exif.CanonCs1.0x0016                         Short       1  65535
-> 20031214_000043.exv   Exif.CanonCs1.Lens                           Short       3  7.1 - 21.3 mm
-> 20031214_000043.exv   Exif.CanonCs1.0x001a                         Short       1  149
-> 20031214_000043.exv   Exif.CanonCs1.0x001b                         Short       1  192
-> 20031214_000043.exv   Exif.CanonCs1.FlashActivity                  Short       1  Did not fire
-> 20031214_000043.exv   Exif.CanonCs1.FlashDetails                   Short       1  
-> 20031214_000043.exv   Exif.CanonCs1.0x001e                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs1.0x001f                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs1.FocusContinuous                Short       1  Single
-> 20031214_000043.exv   Exif.CanonCs1.0x0021                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs1.0x0022                         Short       1  65535
-> 20031214_000043.exv   Exif.CanonCs1.0x0023                         Short       1  49
-> 20031214_000043.exv   Exif.CanonCs1.0x0024                         Short       1  2272
-> 20031214_000043.exv   Exif.CanonCs1.0x0025                         Short       1  2272
-> 20031214_000043.exv   Exif.CanonCs1.0x0026                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs1.0x0027                         Short       1  1
-> 20031214_000043.exv   Exif.CanonCs2.0x0001                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs2.ISOSpeed                       Short       1  100
-> 20031214_000043.exv   Exif.CanonCs2.0x0003                         Short       1  276
-> 20031214_000043.exv   Exif.CanonCs2.TargetAperture                 Short       1  F5
-> 20031214_000043.exv   Exif.CanonCs2.TargetShutterSpeed             Short       1  1/501 s
-> 20031214_000043.exv   Exif.CanonCs2.0x0006                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs2.WhiteBalance                   Short       1  Auto
-> 20031214_000043.exv   Exif.CanonCs2.0x0008                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs2.Sequence                       Short       1  0
-> 20031214_000043.exv   Exif.CanonCs2.0x000a                         Short       1  6
-> 20031214_000043.exv   Exif.CanonCs2.0x000b                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs2.0x000c                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs2.0x000d                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs2.AFPointUsed                    Short       1  3 focus points; center used
-> 20031214_000043.exv   Exif.CanonCs2.FlashBias                      Short       1  0 EV
-> 20031214_000043.exv   Exif.CanonCs2.0x0010                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs2.0x0011                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs2.0x0012                         Short       1  1
-> 20031214_000043.exv   Exif.CanonCs2.SubjectDistance                Short       1  782
-> 20031214_000043.exv   Exif.CanonCs2.0x0014                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs2.ApertureValue                  Short       1  F5
-> 20031214_000043.exv   Exif.CanonCs2.ShutterSpeedValue              Short       1  1/523 s
-> 20031214_000043.exv   Exif.CanonCs2.0x0017                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs2.0x0018                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs2.0x0019                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs2.0x001a                         Short       1  250
+> 20031214_000043.exv   Exif.CanonCs.Macro                           Short       1  Off
+> 20031214_000043.exv   Exif.CanonCs.Selftimer                       Short       1  Off
+> 20031214_000043.exv   Exif.CanonCs.Quality                         Short       1  Superfine
+> 20031214_000043.exv   Exif.CanonCs.FlashMode                       Short       1  Auto
+> 20031214_000043.exv   Exif.CanonCs.DriveMode                       Short       1  Single / timer
+> 20031214_000043.exv   Exif.CanonCs.0x0006                          Short       1  0
+> 20031214_000043.exv   Exif.CanonCs.FocusMode                       Short       1  Single
+> 20031214_000043.exv   Exif.CanonCs.0x0008                          Short       1  0
+> 20031214_000043.exv   Exif.CanonCs.0x0009                          Short       1  1
+> 20031214_000043.exv   Exif.CanonCs.ImageSize                       Short       1  Large
+> 20031214_000043.exv   Exif.CanonCs.EasyMode                        Short       1  Manual
+> 20031214_000043.exv   Exif.CanonCs.DigitalZoom                     Short       1  None
+> 20031214_000043.exv   Exif.CanonCs.Contrast                        Short       1  Normal
+> 20031214_000043.exv   Exif.CanonCs.Saturation                      Short       1  Normal
+> 20031214_000043.exv   Exif.CanonCs.Sharpness                       Short       1  Normal
+> 20031214_000043.exv   Exif.CanonCs.ISOSpeed                        Short       1  100
+> 20031214_000043.exv   Exif.CanonCs.MeteringMode                    Short       1  Center weighted
+> 20031214_000043.exv   Exif.CanonCs.FocusType                       Short       1  Auto
+> 20031214_000043.exv   Exif.CanonCs.AFPoint                         Short       1  Center
+> 20031214_000043.exv   Exif.CanonCs.ExposureProgram                 Short       1  Program (P)
+> 20031214_000043.exv   Exif.CanonCs.0x0015                          Short       1  65535
+> 20031214_000043.exv   Exif.CanonCs.0x0016                          Short       1  65535
+> 20031214_000043.exv   Exif.CanonCs.Lens                            Short       3  7.1 - 21.3 mm
+> 20031214_000043.exv   Exif.CanonCs.0x001a                          Short       1  149
+> 20031214_000043.exv   Exif.CanonCs.0x001b                          Short       1  192
+> 20031214_000043.exv   Exif.CanonCs.FlashActivity                   Short       1  Did not fire
+> 20031214_000043.exv   Exif.CanonCs.FlashDetails                    Short       1  
+> 20031214_000043.exv   Exif.CanonCs.0x001e                          Short       1  0
+> 20031214_000043.exv   Exif.CanonCs.0x001f                          Short       1  0
+> 20031214_000043.exv   Exif.CanonCs.FocusContinuous                 Short       1  Single
+> 20031214_000043.exv   Exif.CanonCs.0x0021                          Short       1  0
+> 20031214_000043.exv   Exif.CanonCs.0x0022                          Short       1  65535
+> 20031214_000043.exv   Exif.CanonCs.0x0023                          Short       1  49
+> 20031214_000043.exv   Exif.CanonCs.0x0024                          Short       1  2272
+> 20031214_000043.exv   Exif.CanonCs.0x0025                          Short       1  2272
+> 20031214_000043.exv   Exif.CanonCs.0x0026                          Short       1  0
+> 20031214_000043.exv   Exif.CanonCs.0x0027                          Short       1  1
+> 20031214_000043.exv   Exif.CanonSi.0x0001                          Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.ISOSpeed                        Short       1  100
+> 20031214_000043.exv   Exif.CanonSi.0x0003                          Short       1  276
+> 20031214_000043.exv   Exif.CanonSi.TargetAperture                  Short       1  F5
+> 20031214_000043.exv   Exif.CanonSi.TargetShutterSpeed              Short       1  1/501 s
+> 20031214_000043.exv   Exif.CanonSi.0x0006                          Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.WhiteBalance                    Short       1  Auto
+> 20031214_000043.exv   Exif.CanonSi.0x0008                          Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.Sequence                        Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.0x000a                          Short       1  6
+> 20031214_000043.exv   Exif.CanonSi.0x000b                          Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.0x000c                          Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.0x000d                          Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.AFPointUsed                     Short       1  3 focus points; center used
+> 20031214_000043.exv   Exif.CanonSi.FlashBias                       Short       1  0 EV
+> 20031214_000043.exv   Exif.CanonSi.0x0010                          Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.0x0011                          Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.0x0012                          Short       1  1
+> 20031214_000043.exv   Exif.CanonSi.SubjectDistance                 Short       1  782
+> 20031214_000043.exv   Exif.CanonSi.0x0014                          Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.ApertureValue                   Short       1  F5
+> 20031214_000043.exv   Exif.CanonSi.ShutterSpeedValue               Short       1  1/523 s
+> 20031214_000043.exv   Exif.CanonSi.0x0017                          Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.0x0018                          Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.0x0019                          Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.0x001a                          Short       1  250
 > 20031214_000043.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20031214_000043.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 > 20031214_000043.exv   Exif.Iop.RelatedImageWidth                   Short       1  2272
@@ -2680,81 +2680,81 @@ Compare image data and extracted data ------------------------------------
 > 20030925_201850.exv   Exif.Canon.0x0013                            Short       4  0 159 7 112
 > 20030925_201850.exv   Exif.Canon.0x0000                            Short       5  0 0 0 0 0
 > 20030925_201850.exv   Exif.Canon.0x00b6                            Long       12  24 2 380376 1536 1024 2449882 3072000 892 2048000 595 65540 262146
-> 20030925_201850.exv   Exif.CanonCs1.Macro                          Short       1  (0)
-> 20030925_201850.exv   Exif.CanonCs1.Selftimer                      Short       1  Off
-> 20030925_201850.exv   Exif.CanonCs1.Quality                        Short       1  Fine
-> 20030925_201850.exv   Exif.CanonCs1.FlashMode                      Short       1  Off
-> 20030925_201850.exv   Exif.CanonCs1.DriveMode                      Short       1  Single / timer
-> 20030925_201850.exv   Exif.CanonCs1.0x0006                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs1.FocusMode                      Short       1  AI focus AF
-> 20030925_201850.exv   Exif.CanonCs1.0x0008                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs1.0x0009                         Short       1  1
-> 20030925_201850.exv   Exif.CanonCs1.ImageSize                      Short       1  Large
-> 20030925_201850.exv   Exif.CanonCs1.EasyMode                       Short       1  Manual
-> 20030925_201850.exv   Exif.CanonCs1.DigitalZoom                    Short       1  (65535)
-> 20030925_201850.exv   Exif.CanonCs1.Contrast                       Short       1  High
-> 20030925_201850.exv   Exif.CanonCs1.Saturation                     Short       1  High
-> 20030925_201850.exv   Exif.CanonCs1.Sharpness                      Short       1  High
-> 20030925_201850.exv   Exif.CanonCs1.ISOSpeed                       Short       1  n/a
-> 20030925_201850.exv   Exif.CanonCs1.MeteringMode                   Short       1  Evaluative
-> 20030925_201850.exv   Exif.CanonCs1.FocusType                      Short       1  Not known
-> 20030925_201850.exv   Exif.CanonCs1.AFPoint                        Short       1  Manual AF point selection
-> 20030925_201850.exv   Exif.CanonCs1.ExposureProgram                Short       1  Program (P)
-> 20030925_201850.exv   Exif.CanonCs1.0x0015                         Short       1  32767
-> 20030925_201850.exv   Exif.CanonCs1.0x0016                         Short       1  65535
-> 20030925_201850.exv   Exif.CanonCs1.Lens                           Short       3  18.0 - 55.0 mm
-> 20030925_201850.exv   Exif.CanonCs1.0x001a                         Short       1  116
-> 20030925_201850.exv   Exif.CanonCs1.0x001b                         Short       1  285
-> 20030925_201850.exv   Exif.CanonCs1.FlashActivity                  Short       1  Did not fire
-> 20030925_201850.exv   Exif.CanonCs1.FlashDetails                   Short       1  
-> 20030925_201850.exv   Exif.CanonCs1.0x001e                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs1.0x001f                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs1.FocusContinuous                Short       1  (65535)
-> 20030925_201850.exv   Exif.CanonCs1.0x0021                         Short       1  65535
-> 20030925_201850.exv   Exif.CanonCs1.0x0022                         Short       1  65535
-> 20030925_201850.exv   Exif.CanonCs1.0x0023                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs1.0x0024                         Short       1  3072
-> 20030925_201850.exv   Exif.CanonCs1.0x0025                         Short       1  3072
-> 20030925_201850.exv   Exif.CanonCs1.0x0026                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs1.0x0027                         Short       1  65535
-> 20030925_201850.exv   Exif.CanonCs1.0x0028                         Short       1  65535
-> 20030925_201850.exv   Exif.CanonCs1.0x0029                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs1.0x002a                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs1.0x002b                         Short       1  32767
-> 20030925_201850.exv   Exif.CanonCs1.0x002c                         Short       1  65535
-> 20030925_201850.exv   Exif.CanonCs1.0x002d                         Short       1  65535
-> 20030925_201850.exv   Exif.CanonCs2.0x0001                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs2.ISOSpeed                       Short       1  100
-> 20030925_201850.exv   Exif.CanonCs2.0x0003                         Short       1  200
-> 20030925_201850.exv   Exif.CanonCs2.TargetAperture                 Short       1  F5.6
-> 20030925_201850.exv   Exif.CanonCs2.TargetShutterSpeed             Short       1  1/79 s
-> 20030925_201850.exv   Exif.CanonCs2.0x0006                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs2.WhiteBalance                   Short       1  Auto
-> 20030925_201850.exv   Exif.CanonCs2.0x0008                         Short       1  3
-> 20030925_201850.exv   Exif.CanonCs2.Sequence                       Short       1  0
-> 20030925_201850.exv   Exif.CanonCs2.0x000a                         Short       1  8
-> 20030925_201850.exv   Exif.CanonCs2.0x000b                         Short       1  8
-> 20030925_201850.exv   Exif.CanonCs2.0x000c                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs2.0x000d                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs2.AFPointUsed                    Short       1  0 focus points; none used
-> 20030925_201850.exv   Exif.CanonCs2.FlashBias                      Short       1  0 EV
-> 20030925_201850.exv   Exif.CanonCs2.0x0010                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs2.0x0011                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs2.0x0012                         Short       1  1
-> 20030925_201850.exv   Exif.CanonCs2.SubjectDistance                Short       1  Infinite
-> 20030925_201850.exv   Exif.CanonCs2.0x0014                         Short       1  546
-> 20030925_201850.exv   Exif.CanonCs2.ApertureValue                  Short       1  F5.4
-> 20030925_201850.exv   Exif.CanonCs2.ShutterSpeedValue              Short       1  1/81 s
-> 20030925_201850.exv   Exif.CanonCs2.0x0017                         Short       1  140
-> 20030925_201850.exv   Exif.CanonCs2.0x0018                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs2.0x0019                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs2.0x001a                         Short       1  252
-> 20030925_201850.exv   Exif.CanonCs2.0x001b                         Short       1  1
-> 20030925_201850.exv   Exif.CanonCs2.0x001c                         Short       1  65535
-> 20030925_201850.exv   Exif.CanonCs2.0x001d                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs2.0x001e                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs2.0x001f                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs2.0x0020                         Short       1  0
+> 20030925_201850.exv   Exif.CanonCs.Macro                           Short       1  (0)
+> 20030925_201850.exv   Exif.CanonCs.Selftimer                       Short       1  Off
+> 20030925_201850.exv   Exif.CanonCs.Quality                         Short       1  Fine
+> 20030925_201850.exv   Exif.CanonCs.FlashMode                       Short       1  Off
+> 20030925_201850.exv   Exif.CanonCs.DriveMode                       Short       1  Single / timer
+> 20030925_201850.exv   Exif.CanonCs.0x0006                          Short       1  0
+> 20030925_201850.exv   Exif.CanonCs.FocusMode                       Short       1  AI focus AF
+> 20030925_201850.exv   Exif.CanonCs.0x0008                          Short       1  0
+> 20030925_201850.exv   Exif.CanonCs.0x0009                          Short       1  1
+> 20030925_201850.exv   Exif.CanonCs.ImageSize                       Short       1  Large
+> 20030925_201850.exv   Exif.CanonCs.EasyMode                        Short       1  Manual
+> 20030925_201850.exv   Exif.CanonCs.DigitalZoom                     Short       1  (65535)
+> 20030925_201850.exv   Exif.CanonCs.Contrast                        Short       1  High
+> 20030925_201850.exv   Exif.CanonCs.Saturation                      Short       1  High
+> 20030925_201850.exv   Exif.CanonCs.Sharpness                       Short       1  High
+> 20030925_201850.exv   Exif.CanonCs.ISOSpeed                        Short       1  n/a
+> 20030925_201850.exv   Exif.CanonCs.MeteringMode                    Short       1  Evaluative
+> 20030925_201850.exv   Exif.CanonCs.FocusType                       Short       1  Not known
+> 20030925_201850.exv   Exif.CanonCs.AFPoint                         Short       1  Manual AF point selection
+> 20030925_201850.exv   Exif.CanonCs.ExposureProgram                 Short       1  Program (P)
+> 20030925_201850.exv   Exif.CanonCs.0x0015                          Short       1  32767
+> 20030925_201850.exv   Exif.CanonCs.0x0016                          Short       1  65535
+> 20030925_201850.exv   Exif.CanonCs.Lens                            Short       3  18.0 - 55.0 mm
+> 20030925_201850.exv   Exif.CanonCs.0x001a                          Short       1  116
+> 20030925_201850.exv   Exif.CanonCs.0x001b                          Short       1  285
+> 20030925_201850.exv   Exif.CanonCs.FlashActivity                   Short       1  Did not fire
+> 20030925_201850.exv   Exif.CanonCs.FlashDetails                    Short       1  
+> 20030925_201850.exv   Exif.CanonCs.0x001e                          Short       1  0
+> 20030925_201850.exv   Exif.CanonCs.0x001f                          Short       1  0
+> 20030925_201850.exv   Exif.CanonCs.FocusContinuous                 Short       1  (65535)
+> 20030925_201850.exv   Exif.CanonCs.0x0021                          Short       1  65535
+> 20030925_201850.exv   Exif.CanonCs.0x0022                          Short       1  65535
+> 20030925_201850.exv   Exif.CanonCs.0x0023                          Short       1  0
+> 20030925_201850.exv   Exif.CanonCs.0x0024                          Short       1  3072
+> 20030925_201850.exv   Exif.CanonCs.0x0025                          Short       1  3072
+> 20030925_201850.exv   Exif.CanonCs.0x0026                          Short       1  0
+> 20030925_201850.exv   Exif.CanonCs.0x0027                          Short       1  65535
+> 20030925_201850.exv   Exif.CanonCs.0x0028                          Short       1  65535
+> 20030925_201850.exv   Exif.CanonCs.0x0029                          Short       1  0
+> 20030925_201850.exv   Exif.CanonCs.0x002a                          Short       1  0
+> 20030925_201850.exv   Exif.CanonCs.0x002b                          Short       1  32767
+> 20030925_201850.exv   Exif.CanonCs.0x002c                          Short       1  65535
+> 20030925_201850.exv   Exif.CanonCs.0x002d                          Short       1  65535
+> 20030925_201850.exv   Exif.CanonSi.0x0001                          Short       1  0
+> 20030925_201850.exv   Exif.CanonSi.ISOSpeed                        Short       1  100
+> 20030925_201850.exv   Exif.CanonSi.0x0003                          Short       1  200
+> 20030925_201850.exv   Exif.CanonSi.TargetAperture                  Short       1  F5.6
+> 20030925_201850.exv   Exif.CanonSi.TargetShutterSpeed              Short       1  1/79 s
+> 20030925_201850.exv   Exif.CanonSi.0x0006                          Short       1  0
+> 20030925_201850.exv   Exif.CanonSi.WhiteBalance                    Short       1  Auto
+> 20030925_201850.exv   Exif.CanonSi.0x0008                          Short       1  3
+> 20030925_201850.exv   Exif.CanonSi.Sequence                        Short       1  0
+> 20030925_201850.exv   Exif.CanonSi.0x000a                          Short       1  8
+> 20030925_201850.exv   Exif.CanonSi.0x000b                          Short       1  8
+> 20030925_201850.exv   Exif.CanonSi.0x000c                          Short       1  0
+> 20030925_201850.exv   Exif.CanonSi.0x000d                          Short       1  0
+> 20030925_201850.exv   Exif.CanonSi.AFPointUsed                     Short       1  0 focus points; none used
+> 20030925_201850.exv   Exif.CanonSi.FlashBias                       Short       1  0 EV
+> 20030925_201850.exv   Exif.CanonSi.0x0010                          Short       1  0
+> 20030925_201850.exv   Exif.CanonSi.0x0011                          Short       1  0
+> 20030925_201850.exv   Exif.CanonSi.0x0012                          Short       1  1
+> 20030925_201850.exv   Exif.CanonSi.SubjectDistance                 Short       1  Infinite
+> 20030925_201850.exv   Exif.CanonSi.0x0014                          Short       1  546
+> 20030925_201850.exv   Exif.CanonSi.ApertureValue                   Short       1  F5.4
+> 20030925_201850.exv   Exif.CanonSi.ShutterSpeedValue               Short       1  1/81 s
+> 20030925_201850.exv   Exif.CanonSi.0x0017                          Short       1  140
+> 20030925_201850.exv   Exif.CanonSi.0x0018                          Short       1  0
+> 20030925_201850.exv   Exif.CanonSi.0x0019                          Short       1  0
+> 20030925_201850.exv   Exif.CanonSi.0x001a                          Short       1  252
+> 20030925_201850.exv   Exif.CanonSi.0x001b                          Short       1  1
+> 20030925_201850.exv   Exif.CanonSi.0x001c                          Short       1  65535
+> 20030925_201850.exv   Exif.CanonSi.0x001d                          Short       1  0
+> 20030925_201850.exv   Exif.CanonSi.0x001e                          Short       1  0
+> 20030925_201850.exv   Exif.CanonSi.0x001f                          Short       1  0
+> 20030925_201850.exv   Exif.CanonSi.0x0020                          Short       1  0
 > 20030925_201850.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20030925_201850.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 > 20030925_201850.exv   Exif.Iop.RelatedImageWidth                   Short       1  3072
@@ -3339,69 +3339,69 @@ Compare original and inserted image data ---------------------------------
 < 20031214_000043.jpg   Exif.Canon.OwnerName                         Ascii      32  Andreas Huggel
 < 20031214_000043.jpg   Exif.Canon.0x0010                            Long        1  17891328
 < 20031214_000043.jpg   Exif.Canon.0x000d                            Short      21  42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
-< 20031214_000043.jpg   Exif.CanonCs1.Macro                          Short       1  Off
-< 20031214_000043.jpg   Exif.CanonCs1.Selftimer                      Short       1  Off
-< 20031214_000043.jpg   Exif.CanonCs1.Quality                        Short       1  Superfine
-< 20031214_000043.jpg   Exif.CanonCs1.FlashMode                      Short       1  Auto
-< 20031214_000043.jpg   Exif.CanonCs1.DriveMode                      Short       1  Single / timer
-< 20031214_000043.jpg   Exif.CanonCs1.0x0006                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs1.FocusMode                      Short       1  Single
-< 20031214_000043.jpg   Exif.CanonCs1.0x0008                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs1.0x0009                         Short       1  1
-< 20031214_000043.jpg   Exif.CanonCs1.ImageSize                      Short       1  Large
-< 20031214_000043.jpg   Exif.CanonCs1.EasyMode                       Short       1  Manual
-< 20031214_000043.jpg   Exif.CanonCs1.DigitalZoom                    Short       1  None
-< 20031214_000043.jpg   Exif.CanonCs1.Contrast                       Short       1  Normal
-< 20031214_000043.jpg   Exif.CanonCs1.Saturation                     Short       1  Normal
-< 20031214_000043.jpg   Exif.CanonCs1.Sharpness                      Short       1  Normal
-< 20031214_000043.jpg   Exif.CanonCs1.ISOSpeed                       Short       1  100
-< 20031214_000043.jpg   Exif.CanonCs1.MeteringMode                   Short       1  Center weighted
-< 20031214_000043.jpg   Exif.CanonCs1.FocusType                      Short       1  Auto
-< 20031214_000043.jpg   Exif.CanonCs1.AFPoint                        Short       1  Center
-< 20031214_000043.jpg   Exif.CanonCs1.ExposureProgram                Short       1  Program (P)
-< 20031214_000043.jpg   Exif.CanonCs1.0x0015                         Short       1  65535
-< 20031214_000043.jpg   Exif.CanonCs1.0x0016                         Short       1  65535
-< 20031214_000043.jpg   Exif.CanonCs1.Lens                           Short       3  7.1 - 21.3 mm
-< 20031214_000043.jpg   Exif.CanonCs1.0x001a                         Short       1  149
-< 20031214_000043.jpg   Exif.CanonCs1.0x001b                         Short       1  192
-< 20031214_000043.jpg   Exif.CanonCs1.FlashActivity                  Short       1  Did not fire
-< 20031214_000043.jpg   Exif.CanonCs1.FlashDetails                   Short       1  
-< 20031214_000043.jpg   Exif.CanonCs1.0x001e                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs1.0x001f                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs1.FocusContinuous                Short       1  Single
-< 20031214_000043.jpg   Exif.CanonCs1.0x0021                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs1.0x0022                         Short       1  65535
-< 20031214_000043.jpg   Exif.CanonCs1.0x0023                         Short       1  49
-< 20031214_000043.jpg   Exif.CanonCs1.0x0024                         Short       1  2272
-< 20031214_000043.jpg   Exif.CanonCs1.0x0025                         Short       1  2272
-< 20031214_000043.jpg   Exif.CanonCs1.0x0026                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs1.0x0027                         Short       1  1
-< 20031214_000043.jpg   Exif.CanonCs2.0x0001                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs2.ISOSpeed                       Short       1  100
-< 20031214_000043.jpg   Exif.CanonCs2.0x0003                         Short       1  276
-< 20031214_000043.jpg   Exif.CanonCs2.TargetAperture                 Short       1  F5
-< 20031214_000043.jpg   Exif.CanonCs2.TargetShutterSpeed             Short       1  1/501 s
-< 20031214_000043.jpg   Exif.CanonCs2.0x0006                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs2.WhiteBalance                   Short       1  Auto
-< 20031214_000043.jpg   Exif.CanonCs2.0x0008                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs2.Sequence                       Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs2.0x000a                         Short       1  6
-< 20031214_000043.jpg   Exif.CanonCs2.0x000b                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs2.0x000c                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs2.0x000d                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs2.AFPointUsed                    Short       1  3 focus points; center used
-< 20031214_000043.jpg   Exif.CanonCs2.FlashBias                      Short       1  0 EV
-< 20031214_000043.jpg   Exif.CanonCs2.0x0010                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs2.0x0011                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs2.0x0012                         Short       1  1
-< 20031214_000043.jpg   Exif.CanonCs2.SubjectDistance                Short       1  782
-< 20031214_000043.jpg   Exif.CanonCs2.0x0014                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs2.ApertureValue                  Short       1  F5
-< 20031214_000043.jpg   Exif.CanonCs2.ShutterSpeedValue              Short       1  1/523 s
-< 20031214_000043.jpg   Exif.CanonCs2.0x0017                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs2.0x0018                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs2.0x0019                         Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs2.0x001a                         Short       1  250
+< 20031214_000043.jpg   Exif.CanonCs.Macro                           Short       1  Off
+< 20031214_000043.jpg   Exif.CanonCs.Selftimer                       Short       1  Off
+< 20031214_000043.jpg   Exif.CanonCs.Quality                         Short       1  Superfine
+< 20031214_000043.jpg   Exif.CanonCs.FlashMode                       Short       1  Auto
+< 20031214_000043.jpg   Exif.CanonCs.DriveMode                       Short       1  Single / timer
+< 20031214_000043.jpg   Exif.CanonCs.0x0006                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonCs.FocusMode                       Short       1  Single
+< 20031214_000043.jpg   Exif.CanonCs.0x0008                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonCs.0x0009                          Short       1  1
+< 20031214_000043.jpg   Exif.CanonCs.ImageSize                       Short       1  Large
+< 20031214_000043.jpg   Exif.CanonCs.EasyMode                        Short       1  Manual
+< 20031214_000043.jpg   Exif.CanonCs.DigitalZoom                     Short       1  None
+< 20031214_000043.jpg   Exif.CanonCs.Contrast                        Short       1  Normal
+< 20031214_000043.jpg   Exif.CanonCs.Saturation                      Short       1  Normal
+< 20031214_000043.jpg   Exif.CanonCs.Sharpness                       Short       1  Normal
+< 20031214_000043.jpg   Exif.CanonCs.ISOSpeed                        Short       1  100
+< 20031214_000043.jpg   Exif.CanonCs.MeteringMode                    Short       1  Center weighted
+< 20031214_000043.jpg   Exif.CanonCs.FocusType                       Short       1  Auto
+< 20031214_000043.jpg   Exif.CanonCs.AFPoint                         Short       1  Center
+< 20031214_000043.jpg   Exif.CanonCs.ExposureProgram                 Short       1  Program (P)
+< 20031214_000043.jpg   Exif.CanonCs.0x0015                          Short       1  65535
+< 20031214_000043.jpg   Exif.CanonCs.0x0016                          Short       1  65535
+< 20031214_000043.jpg   Exif.CanonCs.Lens                            Short       3  7.1 - 21.3 mm
+< 20031214_000043.jpg   Exif.CanonCs.0x001a                          Short       1  149
+< 20031214_000043.jpg   Exif.CanonCs.0x001b                          Short       1  192
+< 20031214_000043.jpg   Exif.CanonCs.FlashActivity                   Short       1  Did not fire
+< 20031214_000043.jpg   Exif.CanonCs.FlashDetails                    Short       1  
+< 20031214_000043.jpg   Exif.CanonCs.0x001e                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonCs.0x001f                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonCs.FocusContinuous                 Short       1  Single
+< 20031214_000043.jpg   Exif.CanonCs.0x0021                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonCs.0x0022                          Short       1  65535
+< 20031214_000043.jpg   Exif.CanonCs.0x0023                          Short       1  49
+< 20031214_000043.jpg   Exif.CanonCs.0x0024                          Short       1  2272
+< 20031214_000043.jpg   Exif.CanonCs.0x0025                          Short       1  2272
+< 20031214_000043.jpg   Exif.CanonCs.0x0026                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonCs.0x0027                          Short       1  1
+< 20031214_000043.jpg   Exif.CanonSi.0x0001                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.ISOSpeed                        Short       1  100
+< 20031214_000043.jpg   Exif.CanonSi.0x0003                          Short       1  276
+< 20031214_000043.jpg   Exif.CanonSi.TargetAperture                  Short       1  F5
+< 20031214_000043.jpg   Exif.CanonSi.TargetShutterSpeed              Short       1  1/501 s
+< 20031214_000043.jpg   Exif.CanonSi.0x0006                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Auto
+< 20031214_000043.jpg   Exif.CanonSi.0x0008                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.Sequence                        Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.0x000a                          Short       1  6
+< 20031214_000043.jpg   Exif.CanonSi.0x000b                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.0x000c                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.0x000d                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.AFPointUsed                     Short       1  3 focus points; center used
+< 20031214_000043.jpg   Exif.CanonSi.FlashBias                       Short       1  0 EV
+< 20031214_000043.jpg   Exif.CanonSi.0x0010                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.0x0011                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.0x0012                          Short       1  1
+< 20031214_000043.jpg   Exif.CanonSi.SubjectDistance                 Short       1  782
+< 20031214_000043.jpg   Exif.CanonSi.0x0014                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.ApertureValue                   Short       1  F5
+< 20031214_000043.jpg   Exif.CanonSi.ShutterSpeedValue               Short       1  1/523 s
+< 20031214_000043.jpg   Exif.CanonSi.0x0017                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.0x0018                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.0x0019                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.0x001a                          Short       1  250
 < 20031214_000043.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20031214_000043.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 < 20031214_000043.jpg   Exif.Iop.RelatedImageWidth                   Short       1  2272
@@ -3693,81 +3693,81 @@ Compare original and inserted image data ---------------------------------
 < 20030925_201850.jpg   Exif.Canon.0x0013                            Short       4  0 159 7 112
 < 20030925_201850.jpg   Exif.Canon.0x0000                            Short       5  0 0 0 0 0
 < 20030925_201850.jpg   Exif.Canon.0x00b6                            Long       12  24 2 380376 1536 1024 2449882 3072000 892 2048000 595 65540 262146
-< 20030925_201850.jpg   Exif.CanonCs1.Macro                          Short       1  (0)
-< 20030925_201850.jpg   Exif.CanonCs1.Selftimer                      Short       1  Off
-< 20030925_201850.jpg   Exif.CanonCs1.Quality                        Short       1  Fine
-< 20030925_201850.jpg   Exif.CanonCs1.FlashMode                      Short       1  Off
-< 20030925_201850.jpg   Exif.CanonCs1.DriveMode                      Short       1  Single / timer
-< 20030925_201850.jpg   Exif.CanonCs1.0x0006                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs1.FocusMode                      Short       1  AI focus AF
-< 20030925_201850.jpg   Exif.CanonCs1.0x0008                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs1.0x0009                         Short       1  1
-< 20030925_201850.jpg   Exif.CanonCs1.ImageSize                      Short       1  Large
-< 20030925_201850.jpg   Exif.CanonCs1.EasyMode                       Short       1  Manual
-< 20030925_201850.jpg   Exif.CanonCs1.DigitalZoom                    Short       1  (65535)
-< 20030925_201850.jpg   Exif.CanonCs1.Contrast                       Short       1  High
-< 20030925_201850.jpg   Exif.CanonCs1.Saturation                     Short       1  High
-< 20030925_201850.jpg   Exif.CanonCs1.Sharpness                      Short       1  High
-< 20030925_201850.jpg   Exif.CanonCs1.ISOSpeed                       Short       1  n/a
-< 20030925_201850.jpg   Exif.CanonCs1.MeteringMode                   Short       1  Evaluative
-< 20030925_201850.jpg   Exif.CanonCs1.FocusType                      Short       1  Not known
-< 20030925_201850.jpg   Exif.CanonCs1.AFPoint                        Short       1  Manual AF point selection
-< 20030925_201850.jpg   Exif.CanonCs1.ExposureProgram                Short       1  Program (P)
-< 20030925_201850.jpg   Exif.CanonCs1.0x0015                         Short       1  32767
-< 20030925_201850.jpg   Exif.CanonCs1.0x0016                         Short       1  65535
-< 20030925_201850.jpg   Exif.CanonCs1.Lens                           Short       3  18.0 - 55.0 mm
-< 20030925_201850.jpg   Exif.CanonCs1.0x001a                         Short       1  116
-< 20030925_201850.jpg   Exif.CanonCs1.0x001b                         Short       1  285
-< 20030925_201850.jpg   Exif.CanonCs1.FlashActivity                  Short       1  Did not fire
-< 20030925_201850.jpg   Exif.CanonCs1.FlashDetails                   Short       1  
-< 20030925_201850.jpg   Exif.CanonCs1.0x001e                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs1.0x001f                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs1.FocusContinuous                Short       1  (65535)
-< 20030925_201850.jpg   Exif.CanonCs1.0x0021                         Short       1  65535
-< 20030925_201850.jpg   Exif.CanonCs1.0x0022                         Short       1  65535
-< 20030925_201850.jpg   Exif.CanonCs1.0x0023                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs1.0x0024                         Short       1  3072
-< 20030925_201850.jpg   Exif.CanonCs1.0x0025                         Short       1  3072
-< 20030925_201850.jpg   Exif.CanonCs1.0x0026                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs1.0x0027                         Short       1  65535
-< 20030925_201850.jpg   Exif.CanonCs1.0x0028                         Short       1  65535
-< 20030925_201850.jpg   Exif.CanonCs1.0x0029                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs1.0x002a                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs1.0x002b                         Short       1  32767
-< 20030925_201850.jpg   Exif.CanonCs1.0x002c                         Short       1  65535
-< 20030925_201850.jpg   Exif.CanonCs1.0x002d                         Short       1  65535
-< 20030925_201850.jpg   Exif.CanonCs2.0x0001                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs2.ISOSpeed                       Short       1  100
-< 20030925_201850.jpg   Exif.CanonCs2.0x0003                         Short       1  200
-< 20030925_201850.jpg   Exif.CanonCs2.TargetAperture                 Short       1  F5.6
-< 20030925_201850.jpg   Exif.CanonCs2.TargetShutterSpeed             Short       1  1/79 s
-< 20030925_201850.jpg   Exif.CanonCs2.0x0006                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs2.WhiteBalance                   Short       1  Auto
-< 20030925_201850.jpg   Exif.CanonCs2.0x0008                         Short       1  3
-< 20030925_201850.jpg   Exif.CanonCs2.Sequence                       Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs2.0x000a                         Short       1  8
-< 20030925_201850.jpg   Exif.CanonCs2.0x000b                         Short       1  8
-< 20030925_201850.jpg   Exif.CanonCs2.0x000c                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs2.0x000d                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs2.AFPointUsed                    Short       1  0 focus points; none used
-< 20030925_201850.jpg   Exif.CanonCs2.FlashBias                      Short       1  0 EV
-< 20030925_201850.jpg   Exif.CanonCs2.0x0010                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs2.0x0011                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs2.0x0012                         Short       1  1
-< 20030925_201850.jpg   Exif.CanonCs2.SubjectDistance                Short       1  Infinite
-< 20030925_201850.jpg   Exif.CanonCs2.0x0014                         Short       1  546
-< 20030925_201850.jpg   Exif.CanonCs2.ApertureValue                  Short       1  F5.4
-< 20030925_201850.jpg   Exif.CanonCs2.ShutterSpeedValue              Short       1  1/81 s
-< 20030925_201850.jpg   Exif.CanonCs2.0x0017                         Short       1  140
-< 20030925_201850.jpg   Exif.CanonCs2.0x0018                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs2.0x0019                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs2.0x001a                         Short       1  252
-< 20030925_201850.jpg   Exif.CanonCs2.0x001b                         Short       1  1
-< 20030925_201850.jpg   Exif.CanonCs2.0x001c                         Short       1  65535
-< 20030925_201850.jpg   Exif.CanonCs2.0x001d                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs2.0x001e                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs2.0x001f                         Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs2.0x0020                         Short       1  0
+< 20030925_201850.jpg   Exif.CanonCs.Macro                           Short       1  (0)
+< 20030925_201850.jpg   Exif.CanonCs.Selftimer                       Short       1  Off
+< 20030925_201850.jpg   Exif.CanonCs.Quality                         Short       1  Fine
+< 20030925_201850.jpg   Exif.CanonCs.FlashMode                       Short       1  Off
+< 20030925_201850.jpg   Exif.CanonCs.DriveMode                       Short       1  Single / timer
+< 20030925_201850.jpg   Exif.CanonCs.0x0006                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonCs.FocusMode                       Short       1  AI focus AF
+< 20030925_201850.jpg   Exif.CanonCs.0x0008                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonCs.0x0009                          Short       1  1
+< 20030925_201850.jpg   Exif.CanonCs.ImageSize                       Short       1  Large
+< 20030925_201850.jpg   Exif.CanonCs.EasyMode                        Short       1  Manual
+< 20030925_201850.jpg   Exif.CanonCs.DigitalZoom                     Short       1  (65535)
+< 20030925_201850.jpg   Exif.CanonCs.Contrast                        Short       1  High
+< 20030925_201850.jpg   Exif.CanonCs.Saturation                      Short       1  High
+< 20030925_201850.jpg   Exif.CanonCs.Sharpness                       Short       1  High
+< 20030925_201850.jpg   Exif.CanonCs.ISOSpeed                        Short       1  n/a
+< 20030925_201850.jpg   Exif.CanonCs.MeteringMode                    Short       1  Evaluative
+< 20030925_201850.jpg   Exif.CanonCs.FocusType                       Short       1  Not known
+< 20030925_201850.jpg   Exif.CanonCs.AFPoint                         Short       1  Manual AF point selection
+< 20030925_201850.jpg   Exif.CanonCs.ExposureProgram                 Short       1  Program (P)
+< 20030925_201850.jpg   Exif.CanonCs.0x0015                          Short       1  32767
+< 20030925_201850.jpg   Exif.CanonCs.0x0016                          Short       1  65535
+< 20030925_201850.jpg   Exif.CanonCs.Lens                            Short       3  18.0 - 55.0 mm
+< 20030925_201850.jpg   Exif.CanonCs.0x001a                          Short       1  116
+< 20030925_201850.jpg   Exif.CanonCs.0x001b                          Short       1  285
+< 20030925_201850.jpg   Exif.CanonCs.FlashActivity                   Short       1  Did not fire
+< 20030925_201850.jpg   Exif.CanonCs.FlashDetails                    Short       1  
+< 20030925_201850.jpg   Exif.CanonCs.0x001e                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonCs.0x001f                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonCs.FocusContinuous                 Short       1  (65535)
+< 20030925_201850.jpg   Exif.CanonCs.0x0021                          Short       1  65535
+< 20030925_201850.jpg   Exif.CanonCs.0x0022                          Short       1  65535
+< 20030925_201850.jpg   Exif.CanonCs.0x0023                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonCs.0x0024                          Short       1  3072
+< 20030925_201850.jpg   Exif.CanonCs.0x0025                          Short       1  3072
+< 20030925_201850.jpg   Exif.CanonCs.0x0026                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonCs.0x0027                          Short       1  65535
+< 20030925_201850.jpg   Exif.CanonCs.0x0028                          Short       1  65535
+< 20030925_201850.jpg   Exif.CanonCs.0x0029                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonCs.0x002a                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonCs.0x002b                          Short       1  32767
+< 20030925_201850.jpg   Exif.CanonCs.0x002c                          Short       1  65535
+< 20030925_201850.jpg   Exif.CanonCs.0x002d                          Short       1  65535
+< 20030925_201850.jpg   Exif.CanonSi.0x0001                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonSi.ISOSpeed                        Short       1  100
+< 20030925_201850.jpg   Exif.CanonSi.0x0003                          Short       1  200
+< 20030925_201850.jpg   Exif.CanonSi.TargetAperture                  Short       1  F5.6
+< 20030925_201850.jpg   Exif.CanonSi.TargetShutterSpeed              Short       1  1/79 s
+< 20030925_201850.jpg   Exif.CanonSi.0x0006                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Auto
+< 20030925_201850.jpg   Exif.CanonSi.0x0008                          Short       1  3
+< 20030925_201850.jpg   Exif.CanonSi.Sequence                        Short       1  0
+< 20030925_201850.jpg   Exif.CanonSi.0x000a                          Short       1  8
+< 20030925_201850.jpg   Exif.CanonSi.0x000b                          Short       1  8
+< 20030925_201850.jpg   Exif.CanonSi.0x000c                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonSi.0x000d                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonSi.AFPointUsed                     Short       1  0 focus points; none used
+< 20030925_201850.jpg   Exif.CanonSi.FlashBias                       Short       1  0 EV
+< 20030925_201850.jpg   Exif.CanonSi.0x0010                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonSi.0x0011                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonSi.0x0012                          Short       1  1
+< 20030925_201850.jpg   Exif.CanonSi.SubjectDistance                 Short       1  Infinite
+< 20030925_201850.jpg   Exif.CanonSi.0x0014                          Short       1  546
+< 20030925_201850.jpg   Exif.CanonSi.ApertureValue                   Short       1  F5.4
+< 20030925_201850.jpg   Exif.CanonSi.ShutterSpeedValue               Short       1  1/81 s
+< 20030925_201850.jpg   Exif.CanonSi.0x0017                          Short       1  140
+< 20030925_201850.jpg   Exif.CanonSi.0x0018                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonSi.0x0019                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonSi.0x001a                          Short       1  252
+< 20030925_201850.jpg   Exif.CanonSi.0x001b                          Short       1  1
+< 20030925_201850.jpg   Exif.CanonSi.0x001c                          Short       1  65535
+< 20030925_201850.jpg   Exif.CanonSi.0x001d                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonSi.0x001e                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonSi.0x001f                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonSi.0x0020                          Short       1  0
 < 20030925_201850.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20030925_201850.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 < 20030925_201850.jpg   Exif.Iop.RelatedImageWidth                   Short       1  3072
@@ -4224,69 +4224,69 @@ Compare original and inserted image data ---------------------------------
 > 20031214_000043.exv   Exif.Canon.OwnerName                         Ascii      32  Andreas Huggel
 > 20031214_000043.exv   Exif.Canon.0x0010                            Long        1  17891328
 > 20031214_000043.exv   Exif.Canon.0x000d                            Short      21  42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
-> 20031214_000043.exv   Exif.CanonCs1.Macro                          Short       1  Off
-> 20031214_000043.exv   Exif.CanonCs1.Selftimer                      Short       1  Off
-> 20031214_000043.exv   Exif.CanonCs1.Quality                        Short       1  Superfine
-> 20031214_000043.exv   Exif.CanonCs1.FlashMode                      Short       1  Auto
-> 20031214_000043.exv   Exif.CanonCs1.DriveMode                      Short       1  Single / timer
-> 20031214_000043.exv   Exif.CanonCs1.0x0006                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs1.FocusMode                      Short       1  Single
-> 20031214_000043.exv   Exif.CanonCs1.0x0008                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs1.0x0009                         Short       1  1
-> 20031214_000043.exv   Exif.CanonCs1.ImageSize                      Short       1  Large
-> 20031214_000043.exv   Exif.CanonCs1.EasyMode                       Short       1  Manual
-> 20031214_000043.exv   Exif.CanonCs1.DigitalZoom                    Short       1  None
-> 20031214_000043.exv   Exif.CanonCs1.Contrast                       Short       1  Normal
-> 20031214_000043.exv   Exif.CanonCs1.Saturation                     Short       1  Normal
-> 20031214_000043.exv   Exif.CanonCs1.Sharpness                      Short       1  Normal
-> 20031214_000043.exv   Exif.CanonCs1.ISOSpeed                       Short       1  100
-> 20031214_000043.exv   Exif.CanonCs1.MeteringMode                   Short       1  Center weighted
-> 20031214_000043.exv   Exif.CanonCs1.FocusType                      Short       1  Auto
-> 20031214_000043.exv   Exif.CanonCs1.AFPoint                        Short       1  Center
-> 20031214_000043.exv   Exif.CanonCs1.ExposureProgram                Short       1  Program (P)
-> 20031214_000043.exv   Exif.CanonCs1.0x0015                         Short       1  65535
-> 20031214_000043.exv   Exif.CanonCs1.0x0016                         Short       1  65535
-> 20031214_000043.exv   Exif.CanonCs1.Lens                           Short       3  7.1 - 21.3 mm
-> 20031214_000043.exv   Exif.CanonCs1.0x001a                         Short       1  149
-> 20031214_000043.exv   Exif.CanonCs1.0x001b                         Short       1  192
-> 20031214_000043.exv   Exif.CanonCs1.FlashActivity                  Short       1  Did not fire
-> 20031214_000043.exv   Exif.CanonCs1.FlashDetails                   Short       1  
-> 20031214_000043.exv   Exif.CanonCs1.0x001e                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs1.0x001f                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs1.FocusContinuous                Short       1  Single
-> 20031214_000043.exv   Exif.CanonCs1.0x0021                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs1.0x0022                         Short       1  65535
-> 20031214_000043.exv   Exif.CanonCs1.0x0023                         Short       1  49
-> 20031214_000043.exv   Exif.CanonCs1.0x0024                         Short       1  2272
-> 20031214_000043.exv   Exif.CanonCs1.0x0025                         Short       1  2272
-> 20031214_000043.exv   Exif.CanonCs1.0x0026                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs1.0x0027                         Short       1  1
-> 20031214_000043.exv   Exif.CanonCs2.0x0001                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs2.ISOSpeed                       Short       1  100
-> 20031214_000043.exv   Exif.CanonCs2.0x0003                         Short       1  276
-> 20031214_000043.exv   Exif.CanonCs2.TargetAperture                 Short       1  F5
-> 20031214_000043.exv   Exif.CanonCs2.TargetShutterSpeed             Short       1  1/501 s
-> 20031214_000043.exv   Exif.CanonCs2.0x0006                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs2.WhiteBalance                   Short       1  Auto
-> 20031214_000043.exv   Exif.CanonCs2.0x0008                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs2.Sequence                       Short       1  0
-> 20031214_000043.exv   Exif.CanonCs2.0x000a                         Short       1  6
-> 20031214_000043.exv   Exif.CanonCs2.0x000b                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs2.0x000c                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs2.0x000d                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs2.AFPointUsed                    Short       1  3 focus points; center used
-> 20031214_000043.exv   Exif.CanonCs2.FlashBias                      Short       1  0 EV
-> 20031214_000043.exv   Exif.CanonCs2.0x0010                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs2.0x0011                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs2.0x0012                         Short       1  1
-> 20031214_000043.exv   Exif.CanonCs2.SubjectDistance                Short       1  782
-> 20031214_000043.exv   Exif.CanonCs2.0x0014                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs2.ApertureValue                  Short       1  F5
-> 20031214_000043.exv   Exif.CanonCs2.ShutterSpeedValue              Short       1  1/523 s
-> 20031214_000043.exv   Exif.CanonCs2.0x0017                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs2.0x0018                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs2.0x0019                         Short       1  0
-> 20031214_000043.exv   Exif.CanonCs2.0x001a                         Short       1  250
+> 20031214_000043.exv   Exif.CanonCs.Macro                           Short       1  Off
+> 20031214_000043.exv   Exif.CanonCs.Selftimer                       Short       1  Off
+> 20031214_000043.exv   Exif.CanonCs.Quality                         Short       1  Superfine
+> 20031214_000043.exv   Exif.CanonCs.FlashMode                       Short       1  Auto
+> 20031214_000043.exv   Exif.CanonCs.DriveMode                       Short       1  Single / timer
+> 20031214_000043.exv   Exif.CanonCs.0x0006                          Short       1  0
+> 20031214_000043.exv   Exif.CanonCs.FocusMode                       Short       1  Single
+> 20031214_000043.exv   Exif.CanonCs.0x0008                          Short       1  0
+> 20031214_000043.exv   Exif.CanonCs.0x0009                          Short       1  1
+> 20031214_000043.exv   Exif.CanonCs.ImageSize                       Short       1  Large
+> 20031214_000043.exv   Exif.CanonCs.EasyMode                        Short       1  Manual
+> 20031214_000043.exv   Exif.CanonCs.DigitalZoom                     Short       1  None
+> 20031214_000043.exv   Exif.CanonCs.Contrast                        Short       1  Normal
+> 20031214_000043.exv   Exif.CanonCs.Saturation                      Short       1  Normal
+> 20031214_000043.exv   Exif.CanonCs.Sharpness                       Short       1  Normal
+> 20031214_000043.exv   Exif.CanonCs.ISOSpeed                        Short       1  100
+> 20031214_000043.exv   Exif.CanonCs.MeteringMode                    Short       1  Center weighted
+> 20031214_000043.exv   Exif.CanonCs.FocusType                       Short       1  Auto
+> 20031214_000043.exv   Exif.CanonCs.AFPoint                         Short       1  Center
+> 20031214_000043.exv   Exif.CanonCs.ExposureProgram                 Short       1  Program (P)
+> 20031214_000043.exv   Exif.CanonCs.0x0015                          Short       1  65535
+> 20031214_000043.exv   Exif.CanonCs.0x0016                          Short       1  65535
+> 20031214_000043.exv   Exif.CanonCs.Lens                            Short       3  7.1 - 21.3 mm
+> 20031214_000043.exv   Exif.CanonCs.0x001a                          Short       1  149
+> 20031214_000043.exv   Exif.CanonCs.0x001b                          Short       1  192
+> 20031214_000043.exv   Exif.CanonCs.FlashActivity                   Short       1  Did not fire
+> 20031214_000043.exv   Exif.CanonCs.FlashDetails                    Short       1  
+> 20031214_000043.exv   Exif.CanonCs.0x001e                          Short       1  0
+> 20031214_000043.exv   Exif.CanonCs.0x001f                          Short       1  0
+> 20031214_000043.exv   Exif.CanonCs.FocusContinuous                 Short       1  Single
+> 20031214_000043.exv   Exif.CanonCs.0x0021                          Short       1  0
+> 20031214_000043.exv   Exif.CanonCs.0x0022                          Short       1  65535
+> 20031214_000043.exv   Exif.CanonCs.0x0023                          Short       1  49
+> 20031214_000043.exv   Exif.CanonCs.0x0024                          Short       1  2272
+> 20031214_000043.exv   Exif.CanonCs.0x0025                          Short       1  2272
+> 20031214_000043.exv   Exif.CanonCs.0x0026                          Short       1  0
+> 20031214_000043.exv   Exif.CanonCs.0x0027                          Short       1  1
+> 20031214_000043.exv   Exif.CanonSi.0x0001                          Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.ISOSpeed                        Short       1  100
+> 20031214_000043.exv   Exif.CanonSi.0x0003                          Short       1  276
+> 20031214_000043.exv   Exif.CanonSi.TargetAperture                  Short       1  F5
+> 20031214_000043.exv   Exif.CanonSi.TargetShutterSpeed              Short       1  1/501 s
+> 20031214_000043.exv   Exif.CanonSi.0x0006                          Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.WhiteBalance                    Short       1  Auto
+> 20031214_000043.exv   Exif.CanonSi.0x0008                          Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.Sequence                        Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.0x000a                          Short       1  6
+> 20031214_000043.exv   Exif.CanonSi.0x000b                          Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.0x000c                          Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.0x000d                          Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.AFPointUsed                     Short       1  3 focus points; center used
+> 20031214_000043.exv   Exif.CanonSi.FlashBias                       Short       1  0 EV
+> 20031214_000043.exv   Exif.CanonSi.0x0010                          Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.0x0011                          Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.0x0012                          Short       1  1
+> 20031214_000043.exv   Exif.CanonSi.SubjectDistance                 Short       1  782
+> 20031214_000043.exv   Exif.CanonSi.0x0014                          Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.ApertureValue                   Short       1  F5
+> 20031214_000043.exv   Exif.CanonSi.ShutterSpeedValue               Short       1  1/523 s
+> 20031214_000043.exv   Exif.CanonSi.0x0017                          Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.0x0018                          Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.0x0019                          Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.0x001a                          Short       1  250
 > 20031214_000043.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20031214_000043.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 > 20031214_000043.exv   Exif.Iop.RelatedImageWidth                   Short       1  2272
@@ -4578,81 +4578,81 @@ Compare original and inserted image data ---------------------------------
 > 20030925_201850.exv   Exif.Canon.0x0013                            Short       4  0 159 7 112
 > 20030925_201850.exv   Exif.Canon.0x0000                            Short       5  0 0 0 0 0
 > 20030925_201850.exv   Exif.Canon.0x00b6                            Long       12  24 2 380376 1536 1024 2449882 3072000 892 2048000 595 65540 262146
-> 20030925_201850.exv   Exif.CanonCs1.Macro                          Short       1  (0)
-> 20030925_201850.exv   Exif.CanonCs1.Selftimer                      Short       1  Off
-> 20030925_201850.exv   Exif.CanonCs1.Quality                        Short       1  Fine
-> 20030925_201850.exv   Exif.CanonCs1.FlashMode                      Short       1  Off
-> 20030925_201850.exv   Exif.CanonCs1.DriveMode                      Short       1  Single / timer
-> 20030925_201850.exv   Exif.CanonCs1.0x0006                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs1.FocusMode                      Short       1  AI focus AF
-> 20030925_201850.exv   Exif.CanonCs1.0x0008                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs1.0x0009                         Short       1  1
-> 20030925_201850.exv   Exif.CanonCs1.ImageSize                      Short       1  Large
-> 20030925_201850.exv   Exif.CanonCs1.EasyMode                       Short       1  Manual
-> 20030925_201850.exv   Exif.CanonCs1.DigitalZoom                    Short       1  (65535)
-> 20030925_201850.exv   Exif.CanonCs1.Contrast                       Short       1  High
-> 20030925_201850.exv   Exif.CanonCs1.Saturation                     Short       1  High
-> 20030925_201850.exv   Exif.CanonCs1.Sharpness                      Short       1  High
-> 20030925_201850.exv   Exif.CanonCs1.ISOSpeed                       Short       1  n/a
-> 20030925_201850.exv   Exif.CanonCs1.MeteringMode                   Short       1  Evaluative
-> 20030925_201850.exv   Exif.CanonCs1.FocusType                      Short       1  Not known
-> 20030925_201850.exv   Exif.CanonCs1.AFPoint                        Short       1  Manual AF point selection
-> 20030925_201850.exv   Exif.CanonCs1.ExposureProgram                Short       1  Program (P)
-> 20030925_201850.exv   Exif.CanonCs1.0x0015                         Short       1  32767
-> 20030925_201850.exv   Exif.CanonCs1.0x0016                         Short       1  65535
-> 20030925_201850.exv   Exif.CanonCs1.Lens                           Short       3  18.0 - 55.0 mm
-> 20030925_201850.exv   Exif.CanonCs1.0x001a                         Short       1  116
-> 20030925_201850.exv   Exif.CanonCs1.0x001b                         Short       1  285
-> 20030925_201850.exv   Exif.CanonCs1.FlashActivity                  Short       1  Did not fire
-> 20030925_201850.exv   Exif.CanonCs1.FlashDetails                   Short       1  
-> 20030925_201850.exv   Exif.CanonCs1.0x001e                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs1.0x001f                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs1.FocusContinuous                Short       1  (65535)
-> 20030925_201850.exv   Exif.CanonCs1.0x0021                         Short       1  65535
-> 20030925_201850.exv   Exif.CanonCs1.0x0022                         Short       1  65535
-> 20030925_201850.exv   Exif.CanonCs1.0x0023                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs1.0x0024                         Short       1  3072
-> 20030925_201850.exv   Exif.CanonCs1.0x0025                         Short       1  3072
-> 20030925_201850.exv   Exif.CanonCs1.0x0026                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs1.0x0027                         Short       1  65535
-> 20030925_201850.exv   Exif.CanonCs1.0x0028                         Short       1  65535
-> 20030925_201850.exv   Exif.CanonCs1.0x0029                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs1.0x002a                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs1.0x002b                         Short       1  32767
-> 20030925_201850.exv   Exif.CanonCs1.0x002c                         Short       1  65535
-> 20030925_201850.exv   Exif.CanonCs1.0x002d                         Short       1  65535
-> 20030925_201850.exv   Exif.CanonCs2.0x0001                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs2.ISOSpeed                       Short       1  100
-> 20030925_201850.exv   Exif.CanonCs2.0x0003                         Short       1  200
-> 20030925_201850.exv   Exif.CanonCs2.TargetAperture                 Short       1  F5.6
-> 20030925_201850.exv   Exif.CanonCs2.TargetShutterSpeed             Short       1  1/79 s
-> 20030925_201850.exv   Exif.CanonCs2.0x0006                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs2.WhiteBalance                   Short       1  Auto
-> 20030925_201850.exv   Exif.CanonCs2.0x0008                         Short       1  3
-> 20030925_201850.exv   Exif.CanonCs2.Sequence                       Short       1  0
-> 20030925_201850.exv   Exif.CanonCs2.0x000a                         Short       1  8
-> 20030925_201850.exv   Exif.CanonCs2.0x000b                         Short       1  8
-> 20030925_201850.exv   Exif.CanonCs2.0x000c                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs2.0x000d                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs2.AFPointUsed                    Short       1  0 focus points; none used
-> 20030925_201850.exv   Exif.CanonCs2.FlashBias                      Short       1  0 EV
-> 20030925_201850.exv   Exif.CanonCs2.0x0010                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs2.0x0011                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs2.0x0012                         Short       1  1
-> 20030925_201850.exv   Exif.CanonCs2.SubjectDistance                Short       1  Infinite
-> 20030925_201850.exv   Exif.CanonCs2.0x0014                         Short       1  546
-> 20030925_201850.exv   Exif.CanonCs2.ApertureValue                  Short       1  F5.4
-> 20030925_201850.exv   Exif.CanonCs2.ShutterSpeedValue              Short       1  1/81 s
-> 20030925_201850.exv   Exif.CanonCs2.0x0017                         Short       1  140
-> 20030925_201850.exv   Exif.CanonCs2.0x0018                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs2.0x0019                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs2.0x001a                         Short       1  252
-> 20030925_201850.exv   Exif.CanonCs2.0x001b                         Short       1  1
-> 20030925_201850.exv   Exif.CanonCs2.0x001c                         Short       1  65535
-> 20030925_201850.exv   Exif.CanonCs2.0x001d                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs2.0x001e                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs2.0x001f                         Short       1  0
-> 20030925_201850.exv   Exif.CanonCs2.0x0020                         Short       1  0
+> 20030925_201850.exv   Exif.CanonCs.Macro                           Short       1  (0)
+> 20030925_201850.exv   Exif.CanonCs.Selftimer                       Short       1  Off
+> 20030925_201850.exv   Exif.CanonCs.Quality                         Short       1  Fine
+> 20030925_201850.exv   Exif.CanonCs.FlashMode                       Short       1  Off
+> 20030925_201850.exv   Exif.CanonCs.DriveMode                       Short       1  Single / timer
+> 20030925_201850.exv   Exif.CanonCs.0x0006                          Short       1  0
+> 20030925_201850.exv   Exif.CanonCs.FocusMode                       Short       1  AI focus AF
+> 20030925_201850.exv   Exif.CanonCs.0x0008                          Short       1  0
+> 20030925_201850.exv   Exif.CanonCs.0x0009                          Short       1  1
+> 20030925_201850.exv   Exif.CanonCs.ImageSize                       Short       1  Large
+> 20030925_201850.exv   Exif.CanonCs.EasyMode                        Short       1  Manual
+> 20030925_201850.exv   Exif.CanonCs.DigitalZoom                     Short       1  (65535)
+> 20030925_201850.exv   Exif.CanonCs.Contrast                        Short       1  High
+> 20030925_201850.exv   Exif.CanonCs.Saturation                      Short       1  High
+> 20030925_201850.exv   Exif.CanonCs.Sharpness                       Short       1  High
+> 20030925_201850.exv   Exif.CanonCs.ISOSpeed                        Short       1  n/a
+> 20030925_201850.exv   Exif.CanonCs.MeteringMode                    Short       1  Evaluative
+> 20030925_201850.exv   Exif.CanonCs.FocusType                       Short       1  Not known
+> 20030925_201850.exv   Exif.CanonCs.AFPoint                         Short       1  Manual AF point selection
+> 20030925_201850.exv   Exif.CanonCs.ExposureProgram                 Short       1  Program (P)
+> 20030925_201850.exv   Exif.CanonCs.0x0015                          Short       1  32767
+> 20030925_201850.exv   Exif.CanonCs.0x0016                          Short       1  65535
+> 20030925_201850.exv   Exif.CanonCs.Lens                            Short       3  18.0 - 55.0 mm
+> 20030925_201850.exv   Exif.CanonCs.0x001a                          Short       1  116
+> 20030925_201850.exv   Exif.CanonCs.0x001b                          Short       1  285
+> 20030925_201850.exv   Exif.CanonCs.FlashActivity                   Short       1  Did not fire
+> 20030925_201850.exv   Exif.CanonCs.FlashDetails                    Short       1  
+> 20030925_201850.exv   Exif.CanonCs.0x001e                          Short       1  0
+> 20030925_201850.exv   Exif.CanonCs.0x001f                          Short       1  0
+> 20030925_201850.exv   Exif.CanonCs.FocusContinuous                 Short       1  (65535)
+> 20030925_201850.exv   Exif.CanonCs.0x0021                          Short       1  65535
+> 20030925_201850.exv   Exif.CanonCs.0x0022                          Short       1  65535
+> 20030925_201850.exv   Exif.CanonCs.0x0023                          Short       1  0
+> 20030925_201850.exv   Exif.CanonCs.0x0024                          Short       1  3072
+> 20030925_201850.exv   Exif.CanonCs.0x0025                          Short       1  3072
+> 20030925_201850.exv   Exif.CanonCs.0x0026                          Short       1  0
+> 20030925_201850.exv   Exif.CanonCs.0x0027                          Short       1  65535
+> 20030925_201850.exv   Exif.CanonCs.0x0028                          Short       1  65535
+> 20030925_201850.exv   Exif.CanonCs.0x0029                          Short       1  0
+> 20030925_201850.exv   Exif.CanonCs.0x002a                          Short       1  0
+> 20030925_201850.exv   Exif.CanonCs.0x002b                          Short       1  32767
+> 20030925_201850.exv   Exif.CanonCs.0x002c                          Short       1  65535
+> 20030925_201850.exv   Exif.CanonCs.0x002d                          Short       1  65535
+> 20030925_201850.exv   Exif.CanonSi.0x0001                          Short       1  0
+> 20030925_201850.exv   Exif.CanonSi.ISOSpeed                        Short       1  100
+> 20030925_201850.exv   Exif.CanonSi.0x0003                          Short       1  200
+> 20030925_201850.exv   Exif.CanonSi.TargetAperture                  Short       1  F5.6
+> 20030925_201850.exv   Exif.CanonSi.TargetShutterSpeed              Short       1  1/79 s
+> 20030925_201850.exv   Exif.CanonSi.0x0006                          Short       1  0
+> 20030925_201850.exv   Exif.CanonSi.WhiteBalance                    Short       1  Auto
+> 20030925_201850.exv   Exif.CanonSi.0x0008                          Short       1  3
+> 20030925_201850.exv   Exif.CanonSi.Sequence                        Short       1  0
+> 20030925_201850.exv   Exif.CanonSi.0x000a                          Short       1  8
+> 20030925_201850.exv   Exif.CanonSi.0x000b                          Short       1  8
+> 20030925_201850.exv   Exif.CanonSi.0x000c                          Short       1  0
+> 20030925_201850.exv   Exif.CanonSi.0x000d                          Short       1  0
+> 20030925_201850.exv   Exif.CanonSi.AFPointUsed                     Short       1  0 focus points; none used
+> 20030925_201850.exv   Exif.CanonSi.FlashBias                       Short       1  0 EV
+> 20030925_201850.exv   Exif.CanonSi.0x0010                          Short       1  0
+> 20030925_201850.exv   Exif.CanonSi.0x0011                          Short       1  0
+> 20030925_201850.exv   Exif.CanonSi.0x0012                          Short       1  1
+> 20030925_201850.exv   Exif.CanonSi.SubjectDistance                 Short       1  Infinite
+> 20030925_201850.exv   Exif.CanonSi.0x0014                          Short       1  546
+> 20030925_201850.exv   Exif.CanonSi.ApertureValue                   Short       1  F5.4
+> 20030925_201850.exv   Exif.CanonSi.ShutterSpeedValue               Short       1  1/81 s
+> 20030925_201850.exv   Exif.CanonSi.0x0017                          Short       1  140
+> 20030925_201850.exv   Exif.CanonSi.0x0018                          Short       1  0
+> 20030925_201850.exv   Exif.CanonSi.0x0019                          Short       1  0
+> 20030925_201850.exv   Exif.CanonSi.0x001a                          Short       1  252
+> 20030925_201850.exv   Exif.CanonSi.0x001b                          Short       1  1
+> 20030925_201850.exv   Exif.CanonSi.0x001c                          Short       1  65535
+> 20030925_201850.exv   Exif.CanonSi.0x001d                          Short       1  0
+> 20030925_201850.exv   Exif.CanonSi.0x001e                          Short       1  0
+> 20030925_201850.exv   Exif.CanonSi.0x001f                          Short       1  0
+> 20030925_201850.exv   Exif.CanonSi.0x0020                          Short       1  0
 > 20030925_201850.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20030925_201850.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 > 20030925_201850.exv   Exif.Iop.RelatedImageWidth                   Short       1  3072

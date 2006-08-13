@@ -986,8 +986,8 @@ namespace Exiv2 {
 
         IfdId ifdId = ifdIdNotSet;
         switch (pCrwMapping->tag_) {
-        case 0x0001: ifdId = canonCs1IfdId; break;
-        case 0x0004: ifdId = canonCs2IfdId; break;
+        case 0x0001: ifdId = canonCsIfdId; break;
+        case 0x0004: ifdId = canonSiIfdId; break;
         case 0x000f: ifdId = canonCfIfdId;  break;
         }
         assert(ifdId != ifdIdNotSet);
@@ -998,15 +998,15 @@ namespace Exiv2 {
             uint16_t n = 1;
             ExifKey key(c, ifdItem);
             UShortValue value;
-            if (ifdId == canonCs1IfdId && c == 23 && ciffComponent.size() > 50) n = 3;
+            if (ifdId == canonCsIfdId && c == 23 && ciffComponent.size() > 50) n = 3;
             value.read(ciffComponent.pData() + c*2, n*2, byteOrder);
             image.exifData().add(key, &value);
-            if (ifdId == canonCs2IfdId && c == 21) aperture = value.toLong();
-            if (ifdId == canonCs2IfdId && c == 22) shutterSpeed = value.toLong();
+            if (ifdId == canonSiIfdId && c == 21) aperture = value.toLong();
+            if (ifdId == canonSiIfdId && c == 22) shutterSpeed = value.toLong();
             c += n;
         }
 
-        if (ifdId == canonCs2IfdId) {
+        if (ifdId == canonSiIfdId) {
             // Exif.Photo.FNumber
             float f = fnumber(canonEv(aperture));
             // Beware: primitive conversion algorithm
@@ -1232,8 +1232,8 @@ namespace Exiv2 {
 
         IfdId ifdId = ifdIdNotSet;
         switch (pCrwMapping->tag_) {
-        case 0x0001: ifdId = canonCs1IfdId; break;
-        case 0x0004: ifdId = canonCs2IfdId; break;
+        case 0x0001: ifdId = canonCsIfdId; break;
+        case 0x0004: ifdId = canonSiIfdId; break;
         case 0x000f: ifdId = canonCfIfdId;  break;
         }
         assert(ifdId != ifdIdNotSet);

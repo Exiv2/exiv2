@@ -287,7 +287,7 @@ namespace Action {
         done = false;
         printLabel("Flash bias");
         if (!done) {
-            done = 0 != printTag(exifData, "Exif.CanonCs2.FlashBias");
+            done = 0 != printTag(exifData, "Exif.CanonSi.FlashBias");
         }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Panasonic.FlashBias");
@@ -317,7 +317,7 @@ namespace Action {
             done = 0 != printTag(exifData, "Exif.Photo.SubjectDistance");
         }
         if (!done) {
-            done = 0 != printTag(exifData, "Exif.CanonCs2.SubjectDistance");
+            done = 0 != printTag(exifData, "Exif.CanonSi.SubjectDistance");
         }
         std::cout << std::endl;
 
@@ -329,7 +329,7 @@ namespace Action {
             done = 0 != printTag(exifData, "Exif.Photo.ISOSpeedRatings");
         }
         if (!done) {
-            done = 0 != printTag(exifData, "Exif.CanonCs2.ISOSpeed");
+            done = 0 != printTag(exifData, "Exif.CanonSi.ISOSpeed");
         }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Nikon1.ISOSpeed");
@@ -362,7 +362,7 @@ namespace Action {
             done = 0 != printTag(exifData, "Exif.Photo.ExposureProgram");
         }
         if (!done) {
-            done = 0 != printTag(exifData, "Exif.CanonCs1.ExposureProgram");
+            done = 0 != printTag(exifData, "Exif.CanonCs.ExposureProgram");
         }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.MinoltaCs7D.ExposureMode");
@@ -386,7 +386,7 @@ namespace Action {
         printLabel("Macro mode");
         done = false;
         if (!done) {
-            done = 0 != printTag(exifData, "Exif.CanonCs1.Macro");
+            done = 0 != printTag(exifData, "Exif.CanonCs.Macro");
         }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Fujifilm.Macro");
@@ -410,7 +410,7 @@ namespace Action {
         printLabel("Image quality");
         done = false;
         if (!done) {
-            done = 0 != printTag(exifData, "Exif.CanonCs1.Quality");
+            done = 0 != printTag(exifData, "Exif.CanonCs.Quality");
         }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Fujifilm.Quality");
@@ -478,7 +478,7 @@ namespace Action {
         printLabel("White balance");
         done = false;
         if (!done) {
-            done = 0 != printTag(exifData, "Exif.CanonCs2.WhiteBalance");
+            done = 0 != printTag(exifData, "Exif.CanonSi.WhiteBalance");
         }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Fujifilm.WhiteBalance");

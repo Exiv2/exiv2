@@ -74,8 +74,8 @@ namespace Exiv2 {
         { 257, "Olympus"      },
         { 258, "Fujifilm"     },
         { 259, "Canon"        },
-        { 260, "CanonCs1"     },
-        { 261, "CanonCs2"     },
+        { 260, "CanonCs"     },
+        { 261, "CanonSi"     },
         { 262, "CanonCf"      },
         // 263 not needed (nikonmn)
         { 264, "Nikon1"       },
