@@ -14,7 +14,7 @@
 #  Only tested with GNU make.
 #
 
-TABLES = Exif Canon CanonCs1 CanonCs2 CanonCf Fujifilm Minolta MinoltaCsNew \
+TABLES = Exif Canon CanonCs CanonSi CanonCf Fujifilm Minolta MinoltaCsNew \
 	 MinoltaCs5D MinoltaCs7D Nikon1 Nikon2 Nikon3 Olympus Panasonic     \
 	 Sigma Sony
 

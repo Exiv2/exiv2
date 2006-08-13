@@ -20,17 +20,15 @@
  */
 /*!
   @file    canonmn.hpp
-  @brief   Canon MakerNote implemented according to the specification
-           <a href="http://www.burren.cx/david/canon.html">
-           EXIF MakerNote of Canon</a> by David Burren<br>
-           and with reference to tag information from
-           <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">
-           ExifTool</a> by Phil Harvey
+  @brief   Canon MakerNote.<BR> References:<BR>
+           <a href="http://www.burren.cx/david/canon.html">EXIF MakerNote of Canon</a> by David Burren<br>
+           <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Canon.html">Canon makernote tags</a> by Phil Harvey
   @version $Rev$
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
+  @author  <a href="mailto:ahuggel@gmx.net">Andreas Huggel (ahu)</a><br>
+           <a href="mailto:david@edeca.net">David Cannings (dc)</a>
   @date    18-Feb-04, ahu: created<BR>
-           07-Mar-04, ahu: isolated as a separate component
+           07-Mar-04, ahu: isolated as a separate component<BR>
+           12-Aug-06,  dc: started updating all tags
  */
 #ifndef CANONMN_HPP_
 #define CANONMN_HPP_
@@ -138,21 +136,21 @@ namespace Exiv2 {
         //! Print the serial number of the camera
         static std::ostream& print0x000c(std::ostream& os, const Value& value);
         //! Self timer
-        static std::ostream& printCs10x0002(std::ostream& os, const Value& value);
+        static std::ostream& printCs0x0002(std::ostream& os, const Value& value);
         //! Camera lens information
-        static std::ostream& printCs1Lens(std::ostream& os, const Value& value);
+        static std::ostream& printCsLens(std::ostream& os, const Value& value);
         //! ISO speed used
-        static std::ostream& printCs20x0002(std::ostream& os, const Value& value);
+        static std::ostream& printSi0x0002(std::ostream& os, const Value& value);
         //! Sequence number
-        static std::ostream& printCs20x0009(std::ostream& os, const Value& value);
+        static std::ostream& printSi0x0009(std::ostream& os, const Value& value);
         //! AF point used
-        static std::ostream& printCs20x000e(std::ostream& os, const Value& value);
+        static std::ostream& printSi0x000e(std::ostream& os, const Value& value);
         //! Subject distance
-        static std::ostream& printCs20x0013(std::ostream& os, const Value& value);
+        static std::ostream& printSi0x0013(std::ostream& os, const Value& value);
         //! Aperture
-        static std::ostream& printCs20x0015(std::ostream& os, const Value& value);
+        static std::ostream& printSi0x0015(std::ostream& os, const Value& value);
         //! Shutter speed
-        static std::ostream& printCs20x0016(std::ostream& os, const Value& value);
+        static std::ostream& printSi0x0016(std::ostream& os, const Value& value);
         //@}
 
         //! @cond IGNORE
@@ -192,8 +190,8 @@ namespace Exiv2 {
 
         //! Tag information
         static const TagInfo tagInfo_[];
-        static const TagInfo tagInfoCs1_[];
-        static const TagInfo tagInfoCs2_[];
+        static const TagInfo tagInfoCs_[];
+        static const TagInfo tagInfoSi_[];
         static const TagInfo tagInfoCf_[];
 
     }; // class CanonMakerNote
