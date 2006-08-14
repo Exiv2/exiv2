@@ -73,7 +73,9 @@ namespace {
     //! Helper class to map Exif orientation values to CRW rotation degrees
     class RotationMap {
     public:
+        //! Get the orientation number for a degree value
         static uint16_t orientation(int32_t degrees);
+        //! Get the degree value for an orientation number
         static int32_t  degrees(uint16_t orientation);
     private:
         // DATA
