@@ -193,6 +193,7 @@ namespace Exiv2 {
         static const TagInfo tagInfoCs_[];
         static const TagInfo tagInfoSi_[];
         static const TagInfo tagInfoCf_[];
+        static const TagInfo tagInfoPi_[];
 
     }; // class CanonMakerNote
 

@@ -74,8 +74,8 @@ namespace Exiv2 {
         { 257, "Olympus"      },
         { 258, "Fujifilm"     },
         { 259, "Canon"        },
-        { 260, "CanonCs"     },
-        { 261, "CanonSi"     },
+        { 260, "CanonCs"      },
+        { 261, "CanonSi"      },
         { 262, "CanonCf"      },
         // 263 not needed (nikonmn)
         { 264, "Nikon1"       },
@@ -90,7 +90,8 @@ namespace Exiv2 {
         { 273, "MinoltaCsOld" },
         { 274, "MinoltaCsNew" },
         { 275, "MinoltaCs5D"  },
-        { 276, "MinoltaCs7D"  }
+        { 276, "MinoltaCs7D"  },
+        { 277, "CanonPi"      }
     };
 
     bool TiffGroupInfo::operator==(uint16_t group) const

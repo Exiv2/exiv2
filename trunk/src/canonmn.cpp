@@ -64,11 +64,14 @@ namespace Exiv2 {
             canonSiIfdId, MakerNote::AutoPtr(new CanonMakerNote));
         MakerNoteFactory::registerMakerNote(
             canonCfIfdId, MakerNote::AutoPtr(new CanonMakerNote));
+        MakerNoteFactory::registerMakerNote(
+            canonPiIfdId, MakerNote::AutoPtr(new CanonMakerNote));
 
         ExifTags::registerMakerTagInfo(canonIfdId, tagInfo_);
         ExifTags::registerMakerTagInfo(canonCsIfdId, tagInfoCs_);
         ExifTags::registerMakerTagInfo(canonSiIfdId, tagInfoSi_);
         ExifTags::registerMakerTagInfo(canonCfIfdId, tagInfoCf_);
+        ExifTags::registerMakerTagInfo(canonPiIfdId, tagInfoPi_);
     }
     //! @endcond
 
@@ -431,6 +434,43 @@ namespace Exiv2 {
         TagInfo(0xffff, "(UnknownCanonCfTag)", "(UnknownCanonCfTag)", "Unknown Canon Custom Function tag", canonCfIfdId, makerTags, invalidTypeId, printValue)
     };
 
+    //! AFPointsUsed, tag 0x0016
+    extern const TagDetailsBitmask canonPiAFPointsUsed[] = {
+        { 0x01, "right"     },
+        { 0x02, "mid-right" },
+        { 0x04, "bottom"    },
+        { 0x08, "center"    },
+        { 0x10, "top"       },
+        { 0x20, "mid-left"  },
+        { 0x40, "left"      }
+    };
+
+    //! AFPointsUsed20D, tag 0x001a
+    extern const TagDetailsBitmask canonPiAFPointsUsed20D[] = {
+        { 0x001, "top"         },
+        { 0x002, "upper-left"  },
+        { 0x004, "upper-right" },
+        { 0x008, "left"        },
+        { 0x010, "center"      },
+        { 0x020, "right"       },
+        { 0x040, "lower-left"  },
+        { 0x080, "lower-right" },
+        { 0x100, "bottom"      }
+    };
+
+    // Canon Picture Info Tag
+    const TagInfo CanonMakerNote::tagInfoPi_[] = {
+        TagInfo(0x0002, "ImageWidth", "ImageWidth", "Image width", canonPiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0003, "ImageHeight", "ImageHeight", "Image height", canonPiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0004, "ImageWidthAsShot", "ImageWidthAsShot", "Image width (as shot)", canonPiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0005, "ImageHeightAsShot", "ImageHeightAsShot", "Image height (as shot)", canonPiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0016, "AFPointsUsed", "AFPointsUsed", "AF points used", canonPiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG_BITMASK(canonPiAFPointsUsed20D)),
+        TagInfo(0x001a, "AFPointsUsed20D", "AFPointsUsed20D", "AF points used (20D)", canonPiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG_BITMASK(canonPiAFPointsUsed20D)),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownCanonPiTag)", "(UnknownCanonPiTag)", "Unknown Canon Picture Info tag", canonPiIfdId, makerTags, invalidTypeId, printValue)
+    };
+
+
     int CanonMakerNote::read(const byte* buf,
                              long len,
                              long start,
@@ -481,6 +521,17 @@ namespace Exiv2 {
             ifd_.erase(cs);
         }
 
+        // Decode picture info and add each as an additional entry
+        cs = ifd_.findTag(0x0012);
+        if (cs != ifd_.end() && cs->type() == unsignedShort) {
+            for (uint16_t c = 1; cs->count() > c; ++c) {
+                addCsEntry(canonPiIfdId, c, cs->offset() + c*2,
+                           cs->data() + c*2, 1);
+            }
+            // Discard the original entry
+            ifd_.erase(cs);
+        }
+
         // Copy remaining ifd entries
         entries_.insert(entries_.begin(), ifd_.begin(), ifd_.end());
 
@@ -514,7 +565,8 @@ namespace Exiv2 {
         assert(   entry.ifdId() == canonIfdId
                || entry.ifdId() == canonCsIfdId
                || entry.ifdId() == canonSiIfdId
-               || entry.ifdId() == canonCfIfdId);
+               || entry.ifdId() == canonCfIfdId
+               || entry.ifdId() == canonPiIfdId);
         // allow duplicates
         entries_.push_back(entry);
     }
@@ -550,6 +602,12 @@ namespace Exiv2 {
         if (assemble(cf, canonCfIfdId, 0x000f, byteOrder_)) {
             ifd_.erase(0x000f);
             ifd_.add(cf);
+        }
+        // Collect picture info entries and add the original Canon tag
+        Entry pi;
+        if (assemble(pi, canonPiIfdId, 0x0012, byteOrder_)) {
+            ifd_.erase(0x0012);
+            ifd_.add(pi);
         }
 
         return IfdMakerNote::copy(buf, byteOrder_, offset);
@@ -594,6 +652,12 @@ namespace Exiv2 {
         if (assemble(cf, canonCfIfdId, 0x000f, littleEndian)) {
             ifd.erase(0x000f);
             ifd.add(cf);
+        }
+        // Collect picture info entries and add the original Canon tag
+        Entry pi(alloc_);
+        if (assemble(pi, canonPiIfdId, 0x0012, littleEndian)) {
+            ifd.erase(0x0012);
+            ifd.add(pi);
         }
 
         return headerSize() + ifd.size() + ifd.dataSize();

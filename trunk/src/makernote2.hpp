@@ -49,7 +49,7 @@ namespace Exiv2 {
         const uint16_t canonmn   = 259; //!< Canon makernote
         const uint16_t canoncs   = 260; //!< Canon camera settings
         const uint16_t canonsi   = 261; //!< Canon shot info
-        const uint16_t canoncf   = 262; //!< Canon customer functions
+        const uint16_t canoncf   = 262; //!< Canon custom functions
         const uint16_t nikonmn   = 263; //!< Any Nikon makernote (pseudo group)
         const uint16_t nikon1mn  = 264; //!< Nikon1 makernote
         const uint16_t nikon2mn  = 265; //!< Nikon2 makernote
@@ -64,6 +64,7 @@ namespace Exiv2 {
         const uint16_t minocsn   = 274; //!< Minolta camera settings (new)
         const uint16_t minocs5   = 275; //!< Minolta camera settings (D5)
         const uint16_t minocs7   = 276; //!< Minolta camera settings (D7)
+        const uint16_t canonpi   = 277; //!< Canon picture info
     }
 
 // *****************************************************************************

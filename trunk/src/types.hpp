@@ -106,6 +106,7 @@ namespace Exiv2 {
     enum IfdId { ifdIdNotSet,
                  ifd0Id, exifIfdId, gpsIfdId, iopIfdId, ifd1Id,
                  canonIfdId, canonCsIfdId, canonSiIfdId, canonCfIfdId,
+                 canonPiIfdId,
                  fujiIfdId,
                  minoltaIfdId, minoltaCs5DIfdId, minoltaCs7DIfdId,
                  minoltaCsOldIfdId, minoltaCsNewIfdId,
