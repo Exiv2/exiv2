@@ -22,7 +22,7 @@ Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 Boston, MA 02110-1301 USA
 
 Exiv2 help ---------------------------------------------------------------
-Usage: lt-exiv2 [ options ] [ action ] file ...
+Usage: exiv2 [ options ] [ action ] file ...
 
 Manipulate the Exif metadata of images.
 
@@ -850,7 +850,6 @@ File  6/12: 20030925_201850.jpg
 20030925_201850.jpg   Exif.Canon.WhiteBalanceTable                 Short      41  82 1751 836 827 1074 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 128 128 128 128
 20030925_201850.jpg   Exif.Canon.0x00ae                            Short       1  5200
 20030925_201850.jpg   Exif.Canon.0x00b4                            Short       1  1
-20030925_201850.jpg   Exif.Canon.PictureInfo                       Short      24  7 7 3072 2048 3072 2048 151 151 1014 608 0 0 0 64928 64522 0 0 65030 0 506 0 0 8 65535
 20030925_201850.jpg   Exif.Canon.0x0013                            Short       4  0 159 7 112
 20030925_201850.jpg   Exif.Canon.0x0000                            Short       5  0 0 0 0 0
 20030925_201850.jpg   Exif.Canon.0x00b6                            Long       12  24 2 380376 1536 1024 2449882 3072000 892 2048000 595 65540 262146
@@ -929,6 +928,29 @@ File  6/12: 20030925_201850.jpg
 20030925_201850.jpg   Exif.CanonSi.0x001e                          Short       1  0
 20030925_201850.jpg   Exif.CanonSi.0x001f                          Short       1  0
 20030925_201850.jpg   Exif.CanonSi.0x0020                          Short       1  0
+20030925_201850.jpg   Exif.CanonPi.0x0001                          Short       1  7
+20030925_201850.jpg   Exif.CanonPi.ImageWidth                      Short       1  3072
+20030925_201850.jpg   Exif.CanonPi.ImageHeight                     Short       1  2048
+20030925_201850.jpg   Exif.CanonPi.ImageWidthAsShot                Short       1  3072
+20030925_201850.jpg   Exif.CanonPi.ImageHeightAsShot               Short       1  2048
+20030925_201850.jpg   Exif.CanonPi.0x0006                          Short       1  151
+20030925_201850.jpg   Exif.CanonPi.0x0007                          Short       1  151
+20030925_201850.jpg   Exif.CanonPi.0x0008                          Short       1  1014
+20030925_201850.jpg   Exif.CanonPi.0x0009                          Short       1  608
+20030925_201850.jpg   Exif.CanonPi.0x000a                          Short       1  0
+20030925_201850.jpg   Exif.CanonPi.0x000b                          Short       1  0
+20030925_201850.jpg   Exif.CanonPi.0x000c                          Short       1  0
+20030925_201850.jpg   Exif.CanonPi.0x000d                          Short       1  64928
+20030925_201850.jpg   Exif.CanonPi.0x000e                          Short       1  64522
+20030925_201850.jpg   Exif.CanonPi.0x000f                          Short       1  0
+20030925_201850.jpg   Exif.CanonPi.0x0010                          Short       1  0
+20030925_201850.jpg   Exif.CanonPi.0x0011                          Short       1  65030
+20030925_201850.jpg   Exif.CanonPi.0x0012                          Short       1  0
+20030925_201850.jpg   Exif.CanonPi.0x0013                          Short       1  506
+20030925_201850.jpg   Exif.CanonPi.0x0014                          Short       1  0
+20030925_201850.jpg   Exif.CanonPi.0x0015                          Short       1  0
+20030925_201850.jpg   Exif.CanonPi.AFPointsUsed                    Short       1  left
+20030925_201850.jpg   Exif.CanonPi.0x0017                          Short       1  65535
 20030925_201850.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 20030925_201850.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 20030925_201850.jpg   Exif.Iop.RelatedImageWidth                   Short       1  3072
@@ -1389,7 +1411,7 @@ Writing JPEG thumbnail (15605 Bytes) to file ./20050527_051833-thumb.jpg
 exiv2-empty.exv: No Exif data found in the file
 
 Compare image data and extracted data ------------------------------------
-1,884c1,884
+1,906c1,906
 < File  1/12: exiv2-empty.jpg
 < File  2/12: 20031214_000043.jpg
 < 20031214_000043.jpg   Exif.Image.Make                              Ascii       6  Canon
@@ -1791,7 +1813,6 @@ Compare image data and extracted data ------------------------------------
 < 20030925_201850.jpg   Exif.Canon.WhiteBalanceTable                 Short      41  82 1751 836 827 1074 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 128 128 128 128
 < 20030925_201850.jpg   Exif.Canon.0x00ae                            Short       1  5200
 < 20030925_201850.jpg   Exif.Canon.0x00b4                            Short       1  1
-< 20030925_201850.jpg   Exif.Canon.PictureInfo                       Short      24  7 7 3072 2048 3072 2048 151 151 1014 608 0 0 0 64928 64522 0 0 65030 0 506 0 0 8 65535
 < 20030925_201850.jpg   Exif.Canon.0x0013                            Short       4  0 159 7 112
 < 20030925_201850.jpg   Exif.Canon.0x0000                            Short       5  0 0 0 0 0
 < 20030925_201850.jpg   Exif.Canon.0x00b6                            Long       12  24 2 380376 1536 1024 2449882 3072000 892 2048000 595 65540 262146
@@ -1870,6 +1891,29 @@ Compare image data and extracted data ------------------------------------
 < 20030925_201850.jpg   Exif.CanonSi.0x001e                          Short       1  0
 < 20030925_201850.jpg   Exif.CanonSi.0x001f                          Short       1  0
 < 20030925_201850.jpg   Exif.CanonSi.0x0020                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonPi.0x0001                          Short       1  7
+< 20030925_201850.jpg   Exif.CanonPi.ImageWidth                      Short       1  3072
+< 20030925_201850.jpg   Exif.CanonPi.ImageHeight                     Short       1  2048
+< 20030925_201850.jpg   Exif.CanonPi.ImageWidthAsShot                Short       1  3072
+< 20030925_201850.jpg   Exif.CanonPi.ImageHeightAsShot               Short       1  2048
+< 20030925_201850.jpg   Exif.CanonPi.0x0006                          Short       1  151
+< 20030925_201850.jpg   Exif.CanonPi.0x0007                          Short       1  151
+< 20030925_201850.jpg   Exif.CanonPi.0x0008                          Short       1  1014
+< 20030925_201850.jpg   Exif.CanonPi.0x0009                          Short       1  608
+< 20030925_201850.jpg   Exif.CanonPi.0x000a                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonPi.0x000b                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonPi.0x000c                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonPi.0x000d                          Short       1  64928
+< 20030925_201850.jpg   Exif.CanonPi.0x000e                          Short       1  64522
+< 20030925_201850.jpg   Exif.CanonPi.0x000f                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonPi.0x0010                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonPi.0x0011                          Short       1  65030
+< 20030925_201850.jpg   Exif.CanonPi.0x0012                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonPi.0x0013                          Short       1  506
+< 20030925_201850.jpg   Exif.CanonPi.0x0014                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonPi.0x0015                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonPi.AFPointsUsed                    Short       1  left
+< 20030925_201850.jpg   Exif.CanonPi.0x0017                          Short       1  65535
 < 20030925_201850.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20030925_201850.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 < 20030925_201850.jpg   Exif.Iop.RelatedImageWidth                   Short       1  3072
@@ -2676,7 +2720,6 @@ Compare image data and extracted data ------------------------------------
 > 20030925_201850.exv   Exif.Canon.WhiteBalanceTable                 Short      41  82 1751 836 827 1074 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 128 128 128 128
 > 20030925_201850.exv   Exif.Canon.0x00ae                            Short       1  5200
 > 20030925_201850.exv   Exif.Canon.0x00b4                            Short       1  1
-> 20030925_201850.exv   Exif.Canon.PictureInfo                       Short      24  7 7 3072 2048 3072 2048 151 151 1014 608 0 0 0 64928 64522 0 0 65030 0 506 0 0 8 65535
 > 20030925_201850.exv   Exif.Canon.0x0013                            Short       4  0 159 7 112
 > 20030925_201850.exv   Exif.Canon.0x0000                            Short       5  0 0 0 0 0
 > 20030925_201850.exv   Exif.Canon.0x00b6                            Long       12  24 2 380376 1536 1024 2449882 3072000 892 2048000 595 65540 262146
@@ -2755,6 +2798,29 @@ Compare image data and extracted data ------------------------------------
 > 20030925_201850.exv   Exif.CanonSi.0x001e                          Short       1  0
 > 20030925_201850.exv   Exif.CanonSi.0x001f                          Short       1  0
 > 20030925_201850.exv   Exif.CanonSi.0x0020                          Short       1  0
+> 20030925_201850.exv   Exif.CanonPi.0x0001                          Short       1  7
+> 20030925_201850.exv   Exif.CanonPi.ImageWidth                      Short       1  3072
+> 20030925_201850.exv   Exif.CanonPi.ImageHeight                     Short       1  2048
+> 20030925_201850.exv   Exif.CanonPi.ImageWidthAsShot                Short       1  3072
+> 20030925_201850.exv   Exif.CanonPi.ImageHeightAsShot               Short       1  2048
+> 20030925_201850.exv   Exif.CanonPi.0x0006                          Short       1  151
+> 20030925_201850.exv   Exif.CanonPi.0x0007                          Short       1  151
+> 20030925_201850.exv   Exif.CanonPi.0x0008                          Short       1  1014
+> 20030925_201850.exv   Exif.CanonPi.0x0009                          Short       1  608
+> 20030925_201850.exv   Exif.CanonPi.0x000a                          Short       1  0
+> 20030925_201850.exv   Exif.CanonPi.0x000b                          Short       1  0
+> 20030925_201850.exv   Exif.CanonPi.0x000c                          Short       1  0
+> 20030925_201850.exv   Exif.CanonPi.0x000d                          Short       1  64928
+> 20030925_201850.exv   Exif.CanonPi.0x000e                          Short       1  64522
+> 20030925_201850.exv   Exif.CanonPi.0x000f                          Short       1  0
+> 20030925_201850.exv   Exif.CanonPi.0x0010                          Short       1  0
+> 20030925_201850.exv   Exif.CanonPi.0x0011                          Short       1  65030
+> 20030925_201850.exv   Exif.CanonPi.0x0012                          Short       1  0
+> 20030925_201850.exv   Exif.CanonPi.0x0013                          Short       1  506
+> 20030925_201850.exv   Exif.CanonPi.0x0014                          Short       1  0
+> 20030925_201850.exv   Exif.CanonPi.0x0015                          Short       1  0
+> 20030925_201850.exv   Exif.CanonPi.AFPointsUsed                    Short       1  left
+> 20030925_201850.exv   Exif.CanonPi.0x0017                          Short       1  65535
 > 20030925_201850.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20030925_201850.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 > 20030925_201850.exv   Exif.Iop.RelatedImageWidth                   Short       1  3072
@@ -3287,7 +3353,7 @@ Writing Exif data from ./20050527_051833.exv to 20050527_051833.jpg
 exiv2-empty.exv: No Exif data found in the file
 
 Compare original and inserted image data ---------------------------------
-1,884c1,884
+1,906c1,906
 < File  1/12: exiv2-empty.jpg
 < File  2/12: 20031214_000043.jpg
 < 20031214_000043.jpg   Exif.Image.Make                              Ascii       6  Canon
@@ -3689,7 +3755,6 @@ Compare original and inserted image data ---------------------------------
 < 20030925_201850.jpg   Exif.Canon.WhiteBalanceTable                 Short      41  82 1751 836 827 1074 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 128 128 128 128
 < 20030925_201850.jpg   Exif.Canon.0x00ae                            Short       1  5200
 < 20030925_201850.jpg   Exif.Canon.0x00b4                            Short       1  1
-< 20030925_201850.jpg   Exif.Canon.PictureInfo                       Short      24  7 7 3072 2048 3072 2048 151 151 1014 608 0 0 0 64928 64522 0 0 65030 0 506 0 0 8 65535
 < 20030925_201850.jpg   Exif.Canon.0x0013                            Short       4  0 159 7 112
 < 20030925_201850.jpg   Exif.Canon.0x0000                            Short       5  0 0 0 0 0
 < 20030925_201850.jpg   Exif.Canon.0x00b6                            Long       12  24 2 380376 1536 1024 2449882 3072000 892 2048000 595 65540 262146
@@ -3768,6 +3833,29 @@ Compare original and inserted image data ---------------------------------
 < 20030925_201850.jpg   Exif.CanonSi.0x001e                          Short       1  0
 < 20030925_201850.jpg   Exif.CanonSi.0x001f                          Short       1  0
 < 20030925_201850.jpg   Exif.CanonSi.0x0020                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonPi.0x0001                          Short       1  7
+< 20030925_201850.jpg   Exif.CanonPi.ImageWidth                      Short       1  3072
+< 20030925_201850.jpg   Exif.CanonPi.ImageHeight                     Short       1  2048
+< 20030925_201850.jpg   Exif.CanonPi.ImageWidthAsShot                Short       1  3072
+< 20030925_201850.jpg   Exif.CanonPi.ImageHeightAsShot               Short       1  2048
+< 20030925_201850.jpg   Exif.CanonPi.0x0006                          Short       1  151
+< 20030925_201850.jpg   Exif.CanonPi.0x0007                          Short       1  151
+< 20030925_201850.jpg   Exif.CanonPi.0x0008                          Short       1  1014
+< 20030925_201850.jpg   Exif.CanonPi.0x0009                          Short       1  608
+< 20030925_201850.jpg   Exif.CanonPi.0x000a                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonPi.0x000b                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonPi.0x000c                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonPi.0x000d                          Short       1  64928
+< 20030925_201850.jpg   Exif.CanonPi.0x000e                          Short       1  64522
+< 20030925_201850.jpg   Exif.CanonPi.0x000f                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonPi.0x0010                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonPi.0x0011                          Short       1  65030
+< 20030925_201850.jpg   Exif.CanonPi.0x0012                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonPi.0x0013                          Short       1  506
+< 20030925_201850.jpg   Exif.CanonPi.0x0014                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonPi.0x0015                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonPi.AFPointsUsed                    Short       1  left
+< 20030925_201850.jpg   Exif.CanonPi.0x0017                          Short       1  65535
 < 20030925_201850.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20030925_201850.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 < 20030925_201850.jpg   Exif.Iop.RelatedImageWidth                   Short       1  3072
@@ -4574,7 +4662,6 @@ Compare original and inserted image data ---------------------------------
 > 20030925_201850.exv   Exif.Canon.WhiteBalanceTable                 Short      41  82 1751 836 827 1074 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 128 128 128 128
 > 20030925_201850.exv   Exif.Canon.0x00ae                            Short       1  5200
 > 20030925_201850.exv   Exif.Canon.0x00b4                            Short       1  1
-> 20030925_201850.exv   Exif.Canon.PictureInfo                       Short      24  7 7 3072 2048 3072 2048 151 151 1014 608 0 0 0 64928 64522 0 0 65030 0 506 0 0 8 65535
 > 20030925_201850.exv   Exif.Canon.0x0013                            Short       4  0 159 7 112
 > 20030925_201850.exv   Exif.Canon.0x0000                            Short       5  0 0 0 0 0
 > 20030925_201850.exv   Exif.Canon.0x00b6                            Long       12  24 2 380376 1536 1024 2449882 3072000 892 2048000 595 65540 262146
@@ -4653,6 +4740,29 @@ Compare original and inserted image data ---------------------------------
 > 20030925_201850.exv   Exif.CanonSi.0x001e                          Short       1  0
 > 20030925_201850.exv   Exif.CanonSi.0x001f                          Short       1  0
 > 20030925_201850.exv   Exif.CanonSi.0x0020                          Short       1  0
+> 20030925_201850.exv   Exif.CanonPi.0x0001                          Short       1  7
+> 20030925_201850.exv   Exif.CanonPi.ImageWidth                      Short       1  3072
+> 20030925_201850.exv   Exif.CanonPi.ImageHeight                     Short       1  2048
+> 20030925_201850.exv   Exif.CanonPi.ImageWidthAsShot                Short       1  3072
+> 20030925_201850.exv   Exif.CanonPi.ImageHeightAsShot               Short       1  2048
+> 20030925_201850.exv   Exif.CanonPi.0x0006                          Short       1  151
+> 20030925_201850.exv   Exif.CanonPi.0x0007                          Short       1  151
+> 20030925_201850.exv   Exif.CanonPi.0x0008                          Short       1  1014
+> 20030925_201850.exv   Exif.CanonPi.0x0009                          Short       1  608
+> 20030925_201850.exv   Exif.CanonPi.0x000a                          Short       1  0
+> 20030925_201850.exv   Exif.CanonPi.0x000b                          Short       1  0
+> 20030925_201850.exv   Exif.CanonPi.0x000c                          Short       1  0
+> 20030925_201850.exv   Exif.CanonPi.0x000d                          Short       1  64928
+> 20030925_201850.exv   Exif.CanonPi.0x000e                          Short       1  64522
+> 20030925_201850.exv   Exif.CanonPi.0x000f                          Short       1  0
+> 20030925_201850.exv   Exif.CanonPi.0x0010                          Short       1  0
+> 20030925_201850.exv   Exif.CanonPi.0x0011                          Short       1  65030
+> 20030925_201850.exv   Exif.CanonPi.0x0012                          Short       1  0
+> 20030925_201850.exv   Exif.CanonPi.0x0013                          Short       1  506
+> 20030925_201850.exv   Exif.CanonPi.0x0014                          Short       1  0
+> 20030925_201850.exv   Exif.CanonPi.0x0015                          Short       1  0
+> 20030925_201850.exv   Exif.CanonPi.AFPointsUsed                    Short       1  left
+> 20030925_201850.exv   Exif.CanonPi.0x0017                          Short       1  65535
 > 20030925_201850.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20030925_201850.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 > 20030925_201850.exv   Exif.Iop.RelatedImageWidth                   Short       1  3072

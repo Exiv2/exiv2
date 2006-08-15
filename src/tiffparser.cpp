@@ -114,9 +114,11 @@ namespace Exiv2 {
         {    0x0001, Group::canonmn,   newTiffArrayEntry<2>, Group::canoncs },
         {    0x0004, Group::canonmn,   newTiffArrayEntry<2>, Group::canonsi },
         {    0x000f, Group::canonmn,   newTiffArrayEntry<2>, Group::canoncf },
+        {    0x0012, Group::canonmn,   newTiffArrayEntry<2>, Group::canonpi },
         {  Tag::all, Group::canoncs,   newTiffArrayElement<unsignedShort>, Group::canoncs },
         {  Tag::all, Group::canonsi,   newTiffArrayElement<unsignedShort>, Group::canonsi },
         {  Tag::all, Group::canoncf,   newTiffArrayElement<unsignedShort>, Group::canoncf },
+        {  Tag::all, Group::canonpi,   newTiffArrayElement<unsignedShort>, Group::canonpi },
         // Some Olympus cameras use Minolta structures
         {    0x0001, Group::olympmn,   newTiffArrayEntry<4>, Group::minocso },
         {    0x0003, Group::olympmn,   newTiffArrayEntry<4>, Group::minocsn },

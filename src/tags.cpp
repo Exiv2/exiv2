@@ -69,6 +69,7 @@ namespace Exiv2 {
         IfdInfo(canonCsIfdId, "Makernote", "CanonCs"),
         IfdInfo(canonSiIfdId, "Makernote", "CanonSi"),
         IfdInfo(canonCfIfdId, "Makernote", "CanonCf"),
+        IfdInfo(canonPiIfdId, "Makernote", "CanonPi"),
         IfdInfo(fujiIfdId, "Makernote", "Fujifilm"),
         IfdInfo(minoltaIfdId, "Makernote", "Minolta"),
         IfdInfo(minoltaCs5DIfdId, "Makernote", "MinoltaCs5D"),

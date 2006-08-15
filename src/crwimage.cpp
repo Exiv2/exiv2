@@ -115,7 +115,7 @@ namespace Exiv2 {
         CrwMapping(0x102a, 0x300b,   0, 0x0004, canonIfdId,  decodeArray,  encodeArray),
         CrwMapping(0x102d, 0x300b,   0, 0x0001, canonIfdId,  decodeArray,  encodeArray),
         CrwMapping(0x1033, 0x300b,   0, 0x000f, canonIfdId,  decodeArray,  encodeArray),
-        CrwMapping(0x1038, 0x300b,   0, 0x0012, canonIfdId,  decodeBasic,  encodeBasic),
+        CrwMapping(0x1038, 0x300b,   0, 0x0012, canonIfdId,  decodeArray,  encodeArray),
         CrwMapping(0x10a9, 0x300b,   0, 0x00a9, canonIfdId,  decodeBasic,  encodeBasic),
         // Mapped to Exif.Photo.ColorSpace instead (see below)
         //CrwMapping(0x10b4, 0x300b,   0, 0x00b4, canonIfdId,  decodeBasic,  encodeBasic),
@@ -990,7 +990,8 @@ namespace Exiv2 {
         switch (pCrwMapping->tag_) {
         case 0x0001: ifdId = canonCsIfdId; break;
         case 0x0004: ifdId = canonSiIfdId; break;
-        case 0x000f: ifdId = canonCfIfdId;  break;
+        case 0x000f: ifdId = canonCfIfdId; break;
+        case 0x0012: ifdId = canonPiIfdId; break;
         }
         assert(ifdId != ifdIdNotSet);
 
@@ -1236,7 +1237,8 @@ namespace Exiv2 {
         switch (pCrwMapping->tag_) {
         case 0x0001: ifdId = canonCsIfdId; break;
         case 0x0004: ifdId = canonSiIfdId; break;
-        case 0x000f: ifdId = canonCfIfdId;  break;
+        case 0x000f: ifdId = canonCfIfdId; break;
+        case 0x0012: ifdId = canonPiIfdId; break;
         }
         assert(ifdId != ifdIdNotSet);
         DataBuf buf = packIfdId(image.exifData(), ifdId, pHead->byteOrder());

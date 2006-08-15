@@ -68,6 +68,7 @@ try {
     edMn1["Exif.CanonCs.0x0002"] = uint16_t(41);
     edMn1["Exif.CanonSi.0x0005"] = uint16_t(42);
     edMn1["Exif.CanonCf.0x0001"] = uint16_t(43);
+    edMn1["Exif.CanonPi.0x0001"] = uint16_t(44);
     write(file, edMn1);
     print(file);
 
