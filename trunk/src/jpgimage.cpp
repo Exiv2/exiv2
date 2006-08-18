@@ -313,9 +313,10 @@ namespace Exiv2 {
                 uint32_t sizeHdr = 0;
                 // Find actual Iptc data within the APP13 segment
                 if (!Photoshop::locateIptcIrb(psData.pData_, psData.size_,
-                                          &record, &sizeHdr, &sizeIptc)) {
-                    assert(sizeIptc);
-                    if (iptcData_.load(record + sizeHdr, sizeIptc)) throw Error(36, "IPTC");
+                                              &record, &sizeHdr, &sizeIptc)) {
+                    if (sizeIptc) {
+                        if (iptcData_.load(record + sizeHdr, sizeIptc)) throw Error(36, "IPTC");
+                    }
                 }
                 --search;
             }
