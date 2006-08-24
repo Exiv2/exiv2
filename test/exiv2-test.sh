@@ -20,6 +20,10 @@ fi
 diffargs="$da1 $da2"
 
 (
+# Add each image to the following three lists.
+# The image basename in the second and third lists
+# is the Exif timestamp adjusted by -12:01:01.
+
 images="exiv2-empty.jpg \
         exiv2-canon-powershot-s40.jpg \
         exiv2-nikon-e990.jpg \
@@ -31,7 +35,10 @@ images="exiv2-empty.jpg \
         exiv2-sigma-d10.jpg \
         exiv2-olympus-c8080wz.jpg \
         exiv2-panasonic-dmc-fz5.jpg \
-        exiv2-sony-dsc-w7.jpg"
+        exiv2-sony-dsc-w7.jpg \
+        exiv2-canon-eos-20d.jpg \
+        exiv2-canon-eos-d30.jpg \
+        exiv2-canon-powershot-a520.jpg"
 
 image2="exiv2-empty.jpg \
         20031214_000043.jpg \
@@ -44,7 +51,10 @@ image2="exiv2-empty.jpg \
         20040316_075137.jpg \
         20040208_093744.jpg \
         20050218_212016.jpg \
-        20050527_051833.jpg"
+        20050527_051833.jpg \
+        20060802_095200.jpg \
+        20001004_015404.jpg \
+        20060127_225027.jpg"
 
 image3="exiv2-empty.exv \
         20031214_000043.exv \
@@ -57,7 +67,10 @@ image3="exiv2-empty.exv \
         20040316_075137.exv \
         20040208_093744.exv \
         20050218_212016.exv \
-        20050527_051833.exv"
+        20050527_051833.exv \
+        20060802_095200.exv \
+        20001004_015404.exv \
+        20060127_225027.exv"
 
 for i in $images; do cp -f data/$i tmp/; done
 echo "Exiv2 test directory -----------------------------------------------------"

@@ -65,6 +65,7 @@ namespace Exiv2 {
         const uint16_t minocs5   = 275; //!< Minolta camera settings (D5)
         const uint16_t minocs7   = 276; //!< Minolta camera settings (D7)
         const uint16_t canonpi   = 277; //!< Canon picture info
+        const uint16_t canonpa   = 278; //!< Canon panorama
     }
 
 // *****************************************************************************

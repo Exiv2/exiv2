@@ -113,10 +113,12 @@ namespace Exiv2 {
         // Canon makernote structure
         {    0x0001, Group::canonmn,   newTiffArrayEntry<2>, Group::canoncs },
         {    0x0004, Group::canonmn,   newTiffArrayEntry<2>, Group::canonsi },
+        {    0x0005, Group::canonmn,   newTiffArrayEntry<2>, Group::canonpa },
         {    0x000f, Group::canonmn,   newTiffArrayEntry<2>, Group::canoncf },
         {    0x0012, Group::canonmn,   newTiffArrayEntry<2>, Group::canonpi },
         {  Tag::all, Group::canoncs,   newTiffArrayElement<unsignedShort>, Group::canoncs },
         {  Tag::all, Group::canonsi,   newTiffArrayElement<unsignedShort>, Group::canonsi },
+        {  Tag::all, Group::canonpa,   newTiffArrayElement<unsignedShort>, Group::canonpa },
         {  Tag::all, Group::canoncf,   newTiffArrayElement<unsignedShort>, Group::canoncf },
         {  Tag::all, Group::canonpi,   newTiffArrayElement<unsignedShort>, Group::canonpi },
         // Some Olympus cameras use Minolta structures

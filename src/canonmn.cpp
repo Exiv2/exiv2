@@ -63,6 +63,8 @@ namespace Exiv2 {
         MakerNoteFactory::registerMakerNote(
             canonSiIfdId, MakerNote::AutoPtr(new CanonMakerNote));
         MakerNoteFactory::registerMakerNote(
+            canonPaIfdId, MakerNote::AutoPtr(new CanonMakerNote));
+        MakerNoteFactory::registerMakerNote(
             canonCfIfdId, MakerNote::AutoPtr(new CanonMakerNote));
         MakerNoteFactory::registerMakerNote(
             canonPiIfdId, MakerNote::AutoPtr(new CanonMakerNote));
@@ -70,6 +72,7 @@ namespace Exiv2 {
         ExifTags::registerMakerTagInfo(canonIfdId, tagInfo_);
         ExifTags::registerMakerTagInfo(canonCsIfdId, tagInfoCs_);
         ExifTags::registerMakerTagInfo(canonSiIfdId, tagInfoSi_);
+        ExifTags::registerMakerTagInfo(canonPaIfdId, tagInfoPa_);
         ExifTags::registerMakerTagInfo(canonCfIfdId, tagInfoCf_);
         ExifTags::registerMakerTagInfo(canonPiIfdId, tagInfoPi_);
     }
@@ -82,6 +85,7 @@ namespace Exiv2 {
         TagInfo(0x0002, "0x0002", "0x0002", "Unknown", canonIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0003, "0x0003", "0x0003", "Unknown", canonIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0004, "ShotInfo", "ShotInfo", "Shot information", canonIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0005, "Panorama", "Panorama", "Panorama", canonIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0006, "ImageType", "ImageType", "Image type", canonIfdId, makerTags, asciiString, printValue),
         TagInfo(0x0007, "FirmwareVersion", "Firmware Version", "Firmware version", canonIfdId, makerTags, asciiString, printValue),
         TagInfo(0x0008, "ImageNumber", "ImageNumber", "Image number", canonIfdId, makerTags, unsignedLong, print0x0008),
@@ -413,6 +417,23 @@ namespace Exiv2 {
         TagInfo(0xffff, "(UnknownCanonSiTag)", "(UnknownCanonSiTag)", "Unknown Canon Camera Settings 2 tag", canonSiIfdId, makerTags, invalidTypeId, printValue)
     };
 
+    //! PanoramaDirection, tag 0x0005
+    extern const TagDetails canonPaDirection[] = {
+        { 0, "Left to right"          },
+        { 1, "Right to left"          },
+        { 2, "Bottom to top"          },
+        { 3, "Top to bottom"          },
+        { 4, "2x2 matrix (Clockwise)" }
+    };
+
+    // Canon Panorama Info
+    const TagInfo CanonMakerNote::tagInfoPa_[] = {
+        TagInfo(0x0002, "PanoramaFrame", "PanoramaFrame", "Panorama frame number", canonPaIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0005, "PanoramaDirection", "PanoramaDirection", "Panorama direction", canonPaIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonPaDirection)),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownCanonCs2Tag)", "(UnknownCanonCs2Tag)", "Unknown Canon Panorama tag", canonPaIfdId, makerTags, invalidTypeId, printValue)
+    };
+
     // Canon Custom Function Tag Info
     const TagInfo CanonMakerNote::tagInfoCf_[] = {
         TagInfo(0x0001, "NoiseReduction", "NoiseReduction", "Long exposure noise reduction", canonCfIfdId, makerTags, unsignedShort, printValue),
@@ -510,6 +531,17 @@ namespace Exiv2 {
             ifd_.erase(cs);
         }
 
+        // Decode panorama information and add each as an additional entry
+        cs = ifd_.findTag(0x0005);
+        if (cs != ifd_.end() && cs->type() == unsignedShort) {
+            for (uint16_t c = 1; cs->count() > c; ++c) {
+                addCsEntry(canonPaIfdId, c, cs->offset() + c*2,
+                           cs->data() + c*2, 1);
+            }
+            // Discard the original entry
+            ifd_.erase(cs);
+        }
+
         // Decode custom functions and add each as an additional entry
         cs = ifd_.findTag(0x000f);
         if (cs != ifd_.end() && cs->type() == unsignedShort) {
@@ -565,6 +597,7 @@ namespace Exiv2 {
         assert(   entry.ifdId() == canonIfdId
                || entry.ifdId() == canonCsIfdId
                || entry.ifdId() == canonSiIfdId
+               || entry.ifdId() == canonPaIfdId
                || entry.ifdId() == canonCfIfdId
                || entry.ifdId() == canonPiIfdId);
         // allow duplicates
@@ -585,17 +618,23 @@ namespace Exiv2 {
                 ifd_.add(*i);
             }
         }
-        // Collect camera settings 1 entries and add the original Canon tag
-        Entry cs1;
-        if (assemble(cs1, canonCsIfdId, 0x0001, byteOrder_)) {
+        // Collect camera settings entries and add the original Canon tag
+        Entry cs;
+        if (assemble(cs, canonCsIfdId, 0x0001, byteOrder_)) {
             ifd_.erase(0x0001);
-            ifd_.add(cs1);
+            ifd_.add(cs);
         }
-        // Collect camera settings 2 entries and add the original Canon tag
-        Entry cs2;
-        if (assemble(cs2, canonSiIfdId, 0x0004, byteOrder_)) {
+        // Collect shot info entries and add the original Canon tag
+        Entry si;
+        if (assemble(si, canonSiIfdId, 0x0004, byteOrder_)) {
             ifd_.erase(0x0004);
-            ifd_.add(cs2);
+            ifd_.add(si);
+        }
+        // Collect panorama entries and add the original Canon tag
+        Entry pa;
+        if (assemble(pa, canonPaIfdId, 0x0005, byteOrder_)) {
+            ifd_.erase(0x0005);
+            ifd_.add(pa);
         }
         // Collect custom function entries and add the original Canon tag
         Entry cf;
@@ -635,17 +674,23 @@ namespace Exiv2 {
                 ifd.add(*i);
             }
         }
-        // Collect camera settings 1 entries and add the original Canon tag
-        Entry cs1(alloc_);
-        if (assemble(cs1, canonCsIfdId, 0x0001, littleEndian)) {
+        // Collect camera settings entries and add the original Canon tag
+        Entry cs(alloc_);
+        if (assemble(cs, canonCsIfdId, 0x0001, littleEndian)) {
             ifd.erase(0x0001);
-            ifd.add(cs1);
+            ifd.add(cs);
         }
-        // Collect camera settings 2 entries and add the original Canon tag
-        Entry cs2(alloc_);
-        if (assemble(cs2, canonSiIfdId, 0x0004, littleEndian)) {
+        // Collect shot info entries and add the original Canon tag
+        Entry si(alloc_);
+        if (assemble(si, canonSiIfdId, 0x0004, littleEndian)) {
             ifd.erase(0x0004);
-            ifd.add(cs2);
+            ifd.add(si);
+        }
+        // Collect panorama entries and add the original Canon tag
+        Entry pa(alloc_);
+        if (assemble(pa, canonPaIfdId, 0x0005, littleEndian)) {
+            ifd.erase(0x0005);
+            ifd.add(pa);
         }
         // Collect custom function entries and add the original Canon tag
         Entry cf(alloc_);
