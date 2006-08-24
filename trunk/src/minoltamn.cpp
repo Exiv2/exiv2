@@ -53,23 +53,30 @@ namespace Exiv2 {
 
     //! Lookup table to translate Minolta color mode values to readable labels
     extern const TagDetails minoltaColorMode[] = {
-        { 0,  "Natural Color" },
-        { 1,  "Black & White" },
-        { 2,  "Vivid Color"   },
-        { 3,  "Solarization"  },
-        { 4,  "AdobeRGB"      },
-        { 13, "Natural sRGB"  },
-        { 14, "Natural+ sRGB" }
+        { 0,  "Natural Color"  },
+        { 1,  "Black & White"  },
+        { 2,  "Vivid Color"    },
+        { 3,  "Solarization"   },
+        { 4,  "AdobeRGB"       },
+        { 5,  "Sepia"          },
+        { 9,  "Natural"        },
+        { 12, "Portrait"       },
+        { 13, "Natural sRGB"   },
+        { 14, "Natural+ sRGB"  },
+        { 15, "Landscape"      },
+        { 16, "Evening"        },	
+        { 17, "Night Scene"    },    
+        { 18, "Night Portrait" }    
     };
 
     //! Lookup table to translate Minolta image quality values to readable labels
     extern const TagDetails minoltaImageQuality[] = {
-        { 0, "Raw"       },
-        { 1, "Superfine" },
-        { 2, "Fine"      },
-        { 3, "Standard"  },
-        { 4, "Economy"   },
-        { 5, "Extrafine" }
+        { 0, "Raw"        },
+        { 1, "Super Fine" },
+        { 2, "Fine"       },
+        { 3, "Standard"   },
+        { 4, "Economy"    },
+        { 5, "Extra Fine" }
     };
 
     //! Lookup table to translate Minolta zone matching values
@@ -215,7 +222,7 @@ namespace Exiv2 {
     //! Lookup table to translate Minolta Std camera settings image quality values to readable labels
     extern const TagDetails minoltaImageQualityStd[] = {
         { 0, "Raw"        },
-        { 1, "Superfine"  },
+        { 1, "Super Fine"  },
         { 2, "Fine"       },
         { 3, "Standard"   },
         { 4, "Economy"    },
@@ -297,9 +304,9 @@ namespace Exiv2 {
         { 0, "None"           },
         { 1, "Portrait"       },
         { 2, "Text"           },
-        { 3, "Night portrait" },
+        { 3, "Night Portrait" },
         { 4, "Sunset"         },
-        { 5, "Sports action"  }
+        { 5, "Sports Action"  }
     };
 
     //! Lookup table to translate Minolta Std camera settings ISO settings values to readable labels
@@ -314,14 +321,14 @@ namespace Exiv2 {
 
     //! Lookup table to translate Minolta Std camera settings model values to readable labels
     extern const TagDetails minoltaModelStd[] = {
-        { 0, "DiMAGE 7 or X31"   },
-        { 1, "DiMAGE 5"          },
-        { 2, "DiMAGE S304"       },
-        { 3, "DiMAGE S404"       },
-        { 4, "DiMAGE 7i"         },
-        { 5, "DiMAGE 7Hi"        },
-        { 6, "DiMAGE A1"         },
-        { 7, "DiMAGE A2 or S414" }
+        { 0, "DiMAGE 7, X1, X21, or X31" },
+        { 1, "DiMAGE 5"                  },
+        { 2, "DiMAGE S304"               },
+        { 3, "DiMAGE S404"               },
+        { 4, "DiMAGE 7i"                 },
+        { 5, "DiMAGE 7Hi"                },
+        { 6, "DiMAGE A1"                 },
+        { 7, "DiMAGE A2 or S414"         }
     };
 
     //! Lookup table to translate Minolta Std camera settings interval mode values to readable labels
@@ -399,7 +406,7 @@ namespace Exiv2 {
     extern const TagDetails minoltaFlashMeteringStd[] = {
         { 0, "ADI (Advanced Distance Integration)" },
         { 1, "Pre-flash TTl"                       },
-        { 2, "Manual flash control"                }
+        { 2, "Manual Flash Control"                }
     };
 
     std::ostream& MinoltaMakerNote::printMinoltaExposureSpeedStd(std::ostream& os, const Value& value)
@@ -544,7 +551,7 @@ namespace Exiv2 {
         { 3, "Manual"            },
         { 4, "Auto"              },
         { 5, "Program-shift A"   },
-        { 5, "Program-shift S"   }
+        { 6, "Program-shift S"   }
     };
 
     //! Lookup table to translate Minolta Dynax 7D camera settings image size values to readable labels
@@ -585,15 +592,15 @@ namespace Exiv2 {
 
     //! Lookup table to translate Minolta Dynax 7D camera settings AF points values to readable labels
     extern const TagDetails minoltaAFPoints7D[] = {
-        { 0, "Center"        },
-        { 1, "Top"           },
-        { 2, "Top-Right"     },
-        { 3, "Right"         },
-        { 4, "Bottom-Right " },
-        { 5, "Bottom"        },
-        { 6, "Bottom-Left"   },
-        { 7, "Left"          },
-        { 8, "Top-Left"      }
+        { 1,   "Center"        },
+        { 2,   "Top"           },
+        { 4,   "Top-Right"     },
+        { 8,   "Right"         },
+        { 16,  "Bottom-Right " },
+        { 32,  "Bottom"        },
+        { 64,  "Bottom-Left"   },
+        { 128, "Left"          },
+        { 256, "Top-Left"      }
     };
 
     //! Lookup table to translate Minolta Dynax 7D camera settings white balance values to readable labels
@@ -604,6 +611,7 @@ namespace Exiv2 {
 
     //! Lookup table to translate Minolta Dynax 7D camera settings ISO settings values to readable labels
     extern const TagDetails minoltaISOSetting7D[] = {
+        { 0, "Auto"  },
         { 1, "100"  },
         { 3, "200"  },
         { 4, "400"  },
@@ -681,13 +689,6 @@ namespace Exiv2 {
 
     // -- Minolta Dynax 5D camera settings ---------------------------------------------------------------
 
-    //! Lookup table to translate Minolta Dynax 5D camera settings image size values to readable labels
-    extern const TagDetails minoltaImageSize5D[] = {
-        { 0, "Large"  },
-        { 1, "Medium" },
-        { 2, "Small"  }
-    };
-
     //! Lookup table to translate Minolta Dynax 5D camera settings exposure mode values to readable labels
     extern const TagDetails minoltaExposureMode5D[] = {
         { 0,    "Program"           },
@@ -696,6 +697,13 @@ namespace Exiv2 {
         { 3,    "Manual"            },
         { 4,    "Auto"              },
         { 4131, "Connected Copying" }
+    };
+
+    //! Lookup table to translate Minolta Dynax 5D camera settings image size values to readable labels
+    extern const TagDetails minoltaImageSize5D[] = {
+        { 0, "Large"  },
+        { 1, "Medium" },
+        { 2, "Small"  }
     };
 
     //! Lookup table to translate Minolta Dynax 5D camera settings image quality values to readable labels
