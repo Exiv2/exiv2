@@ -14,9 +14,9 @@
 #  Only tested with GNU make.
 #
 
-TABLES = Exif Canon CanonCs CanonSi CanonCf CanonPi Fujifilm Minolta MinoltaCsNew \
-	 MinoltaCs5D MinoltaCs7D Nikon1 Nikon2 Nikon3 Olympus Panasonic     \
-	 Sigma Sony
+TABLES = Exif Canon CanonCs CanonSi CanonCf CanonPi CanonPa Fujifilm Minolta \
+	 MinoltaCsNew MinoltaCs5D MinoltaCs7D Nikon1 Nikon2 Nikon3 Olympus \
+	 Panasonic Sigma Sony
 
 TAGLIST = ../../src/taglist
 

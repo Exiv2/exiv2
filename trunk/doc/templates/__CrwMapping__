@@ -49,7 +49,7 @@ Exif.Photo.ExposureTime (not used on write)</td>
 <td>0x300b</td>
 </tr>
 <tr class="EvenRow">
-<td>Exif.CanonCs1.*</td>
+<td>Exif.CanonCs.*</td>
 <td>0x102d</td>
 <td>0x300b</td>
 </tr>
@@ -59,7 +59,7 @@ Exif.Photo.ExposureTime (not used on write)</td>
 <td>0x300b</td>
 </tr>
 <tr class="EvenRow">
-<td>Exif.Canon.PictureInfo</td>
+<td>Exif.CanonPi.*</td>
 <td>0x1038</td>
 <td>0x300b</td>
 </tr>

@@ -21,6 +21,7 @@ Exif.CanonSi.ISOSpeed                         0x0002 Makernote    Short       1 
 Exif.CanonSi.0x0003                           0x0003 Makernote    Short       1 0
 Exif.CanonSi.TargetAperture                   0x0004 Makernote    Short       1 0
 Exif.CanonSi.TargetShutterSpeed               0x0005 Makernote    Short       1 42
+Exif.CanonPa.0x0001                           0x0001 Makernote    Short       1 45
 Exif.CanonCf.NoiseReduction                   0x0001 Makernote    Short       1 43
 Exif.CanonPi.0x0001                           0x0001 Makernote    Short       1 44
 
@@ -36,6 +37,7 @@ Exif.CanonSi.ISOSpeed                         0x0002 Makernote    Short       1 
 Exif.CanonSi.0x0003                           0x0003 Makernote    Short       1 0
 Exif.CanonSi.TargetAperture                   0x0004 Makernote    Short       1 99
 Exif.CanonSi.TargetShutterSpeed               0x0005 Makernote    Short       1 42
+Exif.CanonPa.0x0001                           0x0001 Makernote    Short       1 45
 Exif.CanonCf.NoiseReduction                   0x0001 Makernote    Short       1 43
 Exif.CanonPi.0x0001                           0x0001 Makernote    Short       1 44
 
