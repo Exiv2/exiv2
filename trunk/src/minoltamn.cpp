@@ -145,6 +145,7 @@ namespace Exiv2 {
         { 26081, "AF300mm F2.8G"                                                              },
         { 26121, "AF200mm F2.8G(D)"                                                           },
         { 26131, "AF50mm F1.7"                                                                },
+	{ 26151, "AF28-105mm F3.5-4.5 Xi"                                                     },
         { 26241, "AF35-80mm F4-5.6"                                                           },
         { 45741, "AF200mm F2.8G x2 or TOKINA 300mm F2.8 x2"                                   }
     };
