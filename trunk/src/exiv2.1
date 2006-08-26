@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "April 23rd, 2006"
+.TH EXIV2 1 "August 26th, 2006"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -17,7 +17,7 @@
 .\" .sp <n>    insert n+1 empty lines
 .\" for manpage-specific macros, see man(7)
 .SH NAME
-exiv2 \- EXIF/IPTC metadata manipulation tool
+exiv2 \- Exif/IPTC metadata manipulation tool
 .SH SYNOPSIS
 .B exiv2
 [\fIoptions\fP] [\fIaction\fP] \fIfile\fP ...
@@ -28,18 +28,18 @@ exiv2 \- EXIF/IPTC metadata manipulation tool
 .\" \fI<whatever>\fP escape sequences to invode bold face and italics, 
 .\" respectively.
 .B exiv2
-is a program to read and write EXIF/IPTC metadata. Supported image
-formats are JPEG, Canon CRW and Canon THM.  Read-only support is
-currently available for TIFF format and includes TIFF-based RAW
-formats such as Nikon NEF, Canon CR2, Sony SR2, Pentax PEF, 
-Adobe DNG and Minolta MRW.
+is a program to read and write Exif and IPTC image metadata and image
+comments. Supported image formats are JPEG, Canon CRW and Canon THM.
+Read-only support is currently available for PNG and TIFF format and
+includes TIFF-based RAW formats such as Nikon NEF, Canon CR2, Sony
+SR2, Sony ARW, Pentax PEF, Adobe DNG and Minolta MRW.
 .SH ACTIONS
-The \fIaction\fP argument is only required if it is not clear which
-action is implied.
+The \fIaction\fP argument is only required if it is not clear from the
+\fIoptions\fP which action is implied.
 .TP
 .B pr | print
 Print image metadata. This is the default action, i.e., the command
-\fIexiv2 image.jpg\fP will print a summary of the image EXIF metadata.
+\fIexiv2 image.jpg\fP will print a summary of the image Exif metadata.
 .TP
 .B ex | extract
 Extract metadata to *.exv and thumbnail image files.
@@ -54,15 +54,15 @@ to copy the metadata between files of different formats.
 Delete image metadata from the files.
 .TP
 .B ad | adjust
-Adjust EXIF timestamps by the given time. Requires option \fB\-a\fP
+Adjust Exif timestamps by the given time. Requires option \fB\-a\fP
 \fItime\fP.
 .TP
 .B mo | modify
-Apply commands to modify (add, set, delete) the EXIF/IPTC metadata of image
+Apply commands to modify (add, set, delete) the Exif/IPTC metadata of image
 files. Requires option \fB\-c\fP, \fB\-m\fP or \fB\-M\fP.
 .TP
 .B mv | rename
-Rename files and/or set file timestamps according to the EXIF create
+Rename files and/or set file timestamps according to the Exif create
 timestamp. The filename format can be set with \fB\-r\fP \fIfmt\fP,
 timestamp options are \fB\-t\fP and \fB\-T\fP.
 .TP
@@ -93,12 +93,12 @@ all options which update files. The flag is ignored by read-only
 options.
 .TP
 .B \-t
-Set the file timestamp according to the EXIF create timestamp in
+Set the file timestamp according to the Exif create timestamp in
 addition to renaming the file (overrides \fB\-k\fP). This option is
 only used with the 'rename' action.
 .TP
 .B \-T
-Only set the file timestamp according to the EXIF create timestamp, do
+Only set the file timestamp according to the Exif create timestamp, do
 not rename the file (overrides \fB\-k\fP). This option is only used
 with the 'rename' action.
 .TP
@@ -117,13 +117,13 @@ adds one hour and one minute, \-0:00:30 subtracts 30 seconds.
 .B \-p \fImode\fP
 Print mode for the 'print' action. Possible modes are:
 .br
-s : print a summary of the EXIF metadata (the default)
+s : print a summary of the Exif metadata (the default)
 .br
-t : interpreted (translated) EXIF data (shortcut for -Pkyct) 
+t : interpreted (translated) Exif data (shortcut for -Pkyct) 
 .br
-v : plain EXIF data values (shortcut for -Pxgnycv)
+v : plain Exif data values (shortcut for -Pxgnycv)
 .br
-h : hexdump of the EXIF data (shortcut for -Pxgnycsh)
+h : hexdump of the Exif data (shortcut for -Pxgnycsh)
 .br
 i : IPTC data values
 .br
@@ -160,29 +160,30 @@ Delete target(s) for the 'delete' action. Possible targets are:
 .br
 a : all supported metadata (the default)
 .br
-e : EXIF section
+e : Exif section
 .br
-t : EXIF thumbnail only
+t : Exif thumbnail only
 .br
 i : IPTC data
 .br
 c : JPEG comment
 .TP
 .B \-i \fItgt\fP
-Insert target(s) for the 'insert' action. Possible targets are the same as
-those for the \fB\-d\fP option. Only JPEG thumbnails can be inserted, they
-need to be named \fIfile\fP\-thumb.jpg.
+Insert target(s) for the 'insert' action. Possible targets are the
+same as those for the \fB\-d\fP option. Only JPEG thumbnails can be
+inserted (not TIFF thumbnails), they need to be named
+\fIfile\fP\-thumb.jpg.
 .TP
 .B \-e \fItgt\fP
-Extract target(s) for the 'extract' action. Possible targets the same as
-those for the \fB\-d\fP option.
+Extract target(s) for the 'extract' action. Possible targets are the same 
+as those for the \fB\-d\fP option.
 .TP
 .B \-r \fIfmt\fP
 Filename format for the 'rename' action. The format string follows
 \fBstrftime\fP(3). Default filename format is %Y%m%d_%H%M%S.
 .TP
 .B \-c \fItxt\fP
-Jpeg comment string to set in the image ('modify' action).
+JPEG comment string to set in the image ('modify' action).
 .TP
 .B \-m \fIfile\fP
 Command file for the 'modify' action.
@@ -211,11 +212,11 @@ or given on the command line, as in
 .sp 1
 Note the quotes. Multiple \fB\-m\fP and \fB\-M\fP options can be combined.
 .sp 1
-When writing EXIF/IPTC metadata, 
+When writing Exif/IPTC metadata, 
 .B exiv2 
 enforces only a correct
 metadata structure. It is possible to write tags with types and values
-different from those specified in the standards, duplicate EXIF tags,
+different from those specified in the standards, duplicate Exif tags,
 undefined tags, or incomplete metadata. While 
 .B exiv2 
 is able to read
@@ -234,17 +235,17 @@ add the tag.
 .TP
 .B add
 Add a tag (unless \fIkey\fP is a non\-repeatable IPTC key; nothing
-prevents you from adding duplicate EXIF tags).
+prevents you from adding duplicate Exif tags).
 .TP
 .B del
-Delete all occurences of a tag (requires only a \fIkey\fP).
+Delete all occurrences of a tag (requires only a \fIkey\fP).
 .TP
 .I key
-Exiv2 EXIF or IPTC key.
+Exiv2 Exif or IPTC key.
 .TP
 .I type
 .B Byte | Ascii | Short | Long | Rational | Undefined | SShort | SLong | SRational | Comment
-for EXIF keys, and
+for Exif keys, and
 .br
 .B String | Date | Time | Short | Undefined
 for IPTC keys.
@@ -256,7 +257,7 @@ is determined based on \fIkey\fP.
 The remaining text on the line is the value. It can optionally be
 enclosed in double quotes ("\fIvalue\fP").
 .sp 1
-The format of EXIF \fBComment\fP values includes an optional charset
+The format of Exif \fBComment\fP values includes an optional charset
 specification at the beginning:
 .sp 1
 .B   [charset=Ascii|Jis|Unicode|Undefined ]\fIcomment\fP
@@ -265,7 +266,7 @@ specification at the beginning:
 is used by default if the value doesn't start with a charset
 definition.
 .sp 1
-The format for IPTC \fBDate\fP values is YYYY\-MM\-DD (year, month, day)
+The format for IPTC \fBDate\fP values is YYYY\-MM\-DD (year, month, day),
 that for IPTC \fBTime\fP values is HH:MM:SS+|\-HH:MM, where HH:MM:SS
 refers to local hour, minute and seconds and +|\-HH:MM refers to hours
 and minutes ahead or behind Universal Coordinated Time (+|\- means
@@ -276,7 +277,7 @@ ignored (comments). Remaining lines are commands as described above.
 .SH EXAMPLES
 .TP
 exiv2 *.jpg
-Prints a summary of the EXIF information for all JPEG files in the directory.
+Prints a summary of the Exif information for all JPEG files in the directory.
 .TP
 exiv2 -pi image.jpg
 Prints the IPTC metadata of the image.
@@ -288,7 +289,7 @@ exiv2 ex img1.jpg img2.jpg
 Extracts metadata from the two files into files img1.exv and img2.exv.
 .TP
 exiv2 \-et img1.jpg img2.jpg
-Extracts the EXIF thumbnails from the two files into img1\-thumb.jpg
+Extracts the Exif thumbnails from the two files into img1\-thumb.jpg
 and img2\-thumb.jpg.
 .TP
 exiv2 \-it img1.jpg img2.jpg
@@ -296,19 +297,28 @@ Inserts (copies) metadata from img1.exv to img1.jpg and from img2.exv
 to img2.jpg.
 .TP
 .nf
-exiv2 \-M"set Exif.Photo.UserComment charset=Ascii New EXIF comment" image.jpg
+exiv2 \-M"set Exif.Photo.UserComment charset=Ascii New Exif comment" image.jpg
 .fi
-Sets the EXIF comment to an ASCII string.
+Sets the Exif comment to an ASCII string.
 .TP
 .nf
 exiv2 \-M"set Exif.GPSInfo.GPSLatitude 4/1 15/1 33/1" \\
 \-M"set Exif.GPSInfo.GPSLatitudeRef N" image.jpg
 .fi
 Sets the latitude to 4 degrees, 15 minutes and 33 seconds north. The
-EXIF standard stipulates that the GPSLatitude tag consists of three
+Exif standard stipulates that the GPSLatitude tag consists of three
 Rational numbers for the degrees, minutes and seconds of the latitude
 and GPSLatitudeRef contains either 'N' or 'S' for north or south
 latitude respectively.
+.TP
+.nf
+exiv2 insert -l/tmp -S.CRW /data/*.JPG
+.fi
+Copy all metadata from CRW files in the /tmp directory to JPG files
+with corresponding basenames in the /data directory. Note that this
+copies metadata as is, without any modifications to adapt it to the
+requirements of the target format. Some tags copied like this may not
+make sense in the target image.
 .SH SEE ALSO
 .TP
 .I http://www.exiv2.org/sample.html#modify
