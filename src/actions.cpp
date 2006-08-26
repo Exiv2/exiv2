@@ -1235,14 +1235,18 @@ namespace Action {
         Exiv2::ExifData &exifData = image_->exifData();
         Exiv2::IptcData &iptcData = image_->iptcData();
         if (modifyCmd.metadataId_ == exif) {
-            Exiv2::ExifData::iterator pos =
-                exifData.findKey(Exiv2::ExifKey(modifyCmd.key_));
-            if (pos != exifData.end()) exifData.erase(pos);
+            Exiv2::ExifData::iterator pos;
+            Exiv2::ExifKey exifKey = Exiv2::ExifKey(modifyCmd.key_);
+            while((pos = exifData.findKey(exifKey)) != exifData.end()) {
+                exifData.erase(pos);
+            }
         }
         if (modifyCmd.metadataId_ == iptc) {
-            Exiv2::IptcData::iterator pos =
-                iptcData.findKey(Exiv2::IptcKey(modifyCmd.key_));
-            if (pos != iptcData.end()) iptcData.erase(pos);
+            Exiv2::IptcData::iterator pos;
+            Exiv2::IptcKey iptcKey = Exiv2::IptcKey(modifyCmd.key_);
+            while((pos = iptcData.findKey(iptcKey)) != iptcData.end()) {
+                iptcData.erase(pos);
+            }
         }
     }
 
