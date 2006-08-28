@@ -3,7 +3,7 @@
  * Copyright (C) 2004, 2005, 2006 Andreas Huggel <ahuggel@gmx.net>
  *
  * Lens database to decode Exif.Nikon3.LensData
- * Copyright (C) 2005 Robert Rottmerhusen <email@rottmerhusen.com>
+ * Copyright (C) 2005, 2006 Robert Rottmerhusen <email@rottmerhusen.com>
  *
  * This program is part of the Exiv2 distribution.
  *
@@ -239,14 +239,58 @@ namespace Exiv2 {
     }
     //! @endcond
 
+    //! Quality, tag 0x0003
+    extern const TagDetails nikon2Quality[] = {
+        { 1, "VGA Basic"   },
+        { 2, "VGA Normal"  },
+        { 3, "VGA Fine"    },
+        { 4, "SXGA Basic"  },
+        { 5, "SXGA Normal" },
+        { 6, "SXGA Fine"   }
+    };
+
+    //! ColorMode, tag 0x0004
+    extern const TagDetails nikon2ColorMode[] = {
+        { 1, "Color"      },
+        { 2, "Monochrome" }
+    };
+
+    //! ImageAdjustment, tag 0x0005
+    extern const TagDetails nikon2ImageAdjustment[] = {
+        { 0, "Normal"    },
+        { 1, "Bright+"   },
+        { 2, "Bright-"   },
+        { 3, "Contrast+" },
+        { 4, "Contrast-" }
+    };
+
+    //! ISOSpeed, tag 0x0006
+    extern const TagDetails nikon2IsoSpeed[] = {
+        { 0, "80"  },
+        { 2, "160" },
+        { 4, "320" },
+        { 5, "100" }
+    };
+
+    //! WhiteBalance, tag 0x0007
+    extern const TagDetails nikon2WhiteBalance[] = {
+        { 0, "Auto"         },
+        { 1, "Preset"       },
+        { 2, "Daylight"     },
+        { 3, "Incandescent" },
+        { 4, "Fluorescent"  },
+        { 5, "Cloudy"       },
+        { 6, "Speedlight"   }
+    };
+
     // Nikon2 MakerNote Tag Info
     const TagInfo Nikon2MakerNote::tagInfo_[] = {
         TagInfo(0x0002, "0x0002", "0x0002", "Unknown", nikon2IfdId, makerTags, asciiString, printValue),
-        TagInfo(0x0003, "Quality", "Quality", "Image quality setting", nikon2IfdId, makerTags, unsignedShort, print0x0003),
-        TagInfo(0x0004, "ColorMode", "ColorMode", "Color mode", nikon2IfdId, makerTags, unsignedShort, print0x0004),
-        TagInfo(0x0005, "ImageAdjustment", "ImageAdjustment", "Image adjustment setting", nikon2IfdId, makerTags, unsignedShort, print0x0005),
-        TagInfo(0x0006, "ISOSpeed", "ISOSpeed", "ISO speed setting", nikon2IfdId, makerTags, unsignedShort, print0x0006),
-        TagInfo(0x0007, "WhiteBalance", "WhiteBalance", "White balance", nikon2IfdId, makerTags, unsignedShort, print0x0007),
+        TagInfo(0x0003, "Quality", "Quality", "Image quality setting", nikon2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(nikon2Quality)),
+        TagInfo(0x0004, "ColorMode", "ColorMode", "Color mode", nikon2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(nikon2ColorMode)),
+        TagInfo(0x0005, "ImageAdjustment", "ImageAdjustment", "Image adjustment setting", nikon2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(nikon2ImageAdjustment)),
+        TagInfo(0x0006, "ISOSpeed", "ISOSpeed", "ISO speed setting", nikon2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(nikon2IsoSpeed)),
+        TagInfo(0x0007, "WhiteBalance", "WhiteBalance", "White balance", nikon2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(nikon2WhiteBalance)),
         TagInfo(0x0008, "Focus", "Focus", "Focus mode", nikon2IfdId, makerTags, unsignedRational, printValue),
         TagInfo(0x0009, "0x0009", "0x0009", "Unknown", nikon2IfdId, makerTags, asciiString, printValue),
         TagInfo(0x000a, "DigitalZoom", "DigitalZoom", "Digital zoom setting", nikon2IfdId, makerTags, unsignedRational, print0x000a),
@@ -317,80 +361,6 @@ namespace Exiv2 {
         return new Nikon2MakerNote(*this);
     }
 
-    std::ostream& Nikon2MakerNote::print0x0003(std::ostream& os,
-                                               const Value& value)
-    {
-        long quality = value.toLong();
-        switch (quality) {
-        case 1: os << "VGA Basic"; break;
-        case 2: os << "VGA Normal"; break;
-        case 3: os << "VGA Fine"; break;
-        case 4: os << "SXGA Basic"; break;
-        case 5: os << "SXGA Normal"; break;
-        case 6: os << "SXGA Fine"; break;
-        default: os << "(" << value << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& Nikon2MakerNote::print0x0004(std::ostream& os,
-                                               const Value& value)
-    {
-        long color = value.toLong();
-        switch (color) {
-        case 1: os << "Color"; break;
-        case 2: os << "Monochrome"; break;
-        default: os << "(" << value << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& Nikon2MakerNote::print0x0005(std::ostream& os,
-                                               const Value& value)
-    {
-        long adjustment = value.toLong();
-        switch (adjustment) {
-        case 0: os << "Normal"; break;
-        case 1: os << "Bright+"; break;
-        case 2: os << "Bright-"; break;
-        case 3: os << "Contrast+"; break;
-        case 4: os << "Contrast-"; break;
-        default: os << "(" << value << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& Nikon2MakerNote::print0x0006(std::ostream& os,
-                                               const Value& value)
-    {
-        long iso = value.toLong();
-        switch (iso) {
-        case 0: os << "80"; break;
-        case 2: os << "160"; break;
-        case 4: os << "320"; break;
-        case 5: os << "100"; break;
-        default: os << "(" << value << ")"; break;
-        }
-        return os;
-    }
-
-    std::ostream& Nikon2MakerNote::print0x0007(std::ostream& os,
-                                               const Value& value)
-    {
-        long wb = value.toLong();
-        switch (wb) {
-        case 0: os << "Auto"; break;
-        case 1: os << "Preset"; break;
-        case 2: os << "Daylight"; break;
-        case 3: os << "Incandescent"; break;
-        case 4: os << "Fluorescent"; break;
-        case 5: os << "Cloudy"; break;
-        case 6: os << "Speedlight"; break;
-        default: os << "(" << value << ")"; break;
-        }
-        return os;
-    }
-
     std::ostream& Nikon2MakerNote::print0x000a(std::ostream& os,
                                                const Value& value)
     {
@@ -422,6 +392,48 @@ namespace Exiv2 {
     }
     //! @endcond
 
+    //! FlashComp, tag 0x0012
+    extern const TagDetails nikon3FlashComp[] = {
+        // From the PHP JPEG Metadata Toolkit
+        { 0x06, "+1.0 EV" },
+        { 0x04, "+0.7 EV" },
+        { 0x03, "+0.5 EV" },
+        { 0x02, "+0.3 EV" },
+        { 0x00,  "0.0 EV" },
+        { 0xfe, "-0.3 EV" },
+        { 0xfd, "-0.5 EV" },
+        { 0xfc, "-0.7 EV" },
+        { 0xfa, "-1.0 EV" },
+        { 0xf8, "-1.3 EV" },
+        { 0xf7, "-1.5 EV" },
+        { 0xf6, "-1.7 EV" },
+        { 0xf4, "-2.0 EV" },
+        { 0xf2, "-2.3 EV" },
+        { 0xf1, "-2.5 EV" },
+        { 0xf0, "-2.7 EV" },
+        { 0xee, "-3.0 EV" }
+    };
+
+    //! FlashType, tag 0x0087
+    extern const TagDetails nikon3FlashType[] = {
+        // From Exiftool
+        { 0, "Not used"              },
+        { 8, "Fired, commander mode" },
+        { 9, "Fired, TTL mode"       }
+    };
+
+    //! Bracketing, tag 0x0089
+    extern const TagDetails nikon3Bracketing[] = {
+        // From Exiftool
+        { 0x00, "Single"                   },
+        { 0x01, "Continuous"               },
+        { 0x02, "Delay"                    },
+        { 0x03, "Remote with delay"        },
+        { 0x04, "Remote"                   },
+        { 0x16, "Exposure bracketing"      },
+        { 0x64, "White balance bracketing" }
+    };
+
     // Nikon3 MakerNote Tag Info
     const TagInfo Nikon3MakerNote::tagInfo_[] = {
         TagInfo(0x0001, "Version", "Version", "Nikon Makernote version", nikon3IfdId, makerTags, undefined, printValue),
@@ -440,11 +452,11 @@ namespace Exiv2 {
         TagInfo(0x000f, "ISOSelection", "ISOSelection", "ISO selection", nikon3IfdId, makerTags, asciiString, printValue),
         TagInfo(0x0010, "DataDump", "DataDump", "Data dump", nikon3IfdId, makerTags, undefined, printValue),
         TagInfo(0x0011, "ThumbOffset", "ThumbOffset", "Thumbnail IFD offset", nikon3IfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x0012, "FlashComp", "FlashComp", "Flash compensation setting", nikon3IfdId, makerTags, undefined, print0x0012),
+        TagInfo(0x0012, "FlashComp", "FlashComp", "Flash compensation setting", nikon3IfdId, makerTags, undefined, EXV_PRINT_TAG(nikon3FlashComp)),
         TagInfo(0x0013, "ISOSetting", "ISOSetting", "ISO speed setting", nikon3IfdId, makerTags, unsignedShort, print0x0002), // use 0x0002 print fct
         TagInfo(0x0016, "ImageBoundry", "ImageBoundry", "Image boundry", nikon3IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0017, "0x0017", "0x0017", "Unknown", nikon3IfdId, makerTags, undefined, printValue),
-        TagInfo(0x0018, "FlashBracketComp", "FlashBracketComp", "Flash bracket compensation applied", nikon3IfdId, makerTags, undefined, print0x0012), // use 0x0012 print fct
+        TagInfo(0x0018, "FlashBracketComp", "FlashBracketComp", "Flash bracket compensation applied", nikon3IfdId, makerTags, undefined, EXV_PRINT_TAG(nikon3FlashComp)), // use 0x0012 print fct
         TagInfo(0x0019, "ExposureBracketComp", "ExposureBracketComp", "AE bracket compensation applied", nikon3IfdId, makerTags, signedRational, printValue),
         TagInfo(0x0080, "ImageAdjustment", "ImageAdjustment", "Image adjustment setting", nikon3IfdId, makerTags, asciiString, printValue),
         TagInfo(0x0081, "ToneComp", "ToneComp", "Tone compensation setting (contrast)", nikon3IfdId, makerTags, asciiString, printValue),
@@ -453,9 +465,9 @@ namespace Exiv2 {
         TagInfo(0x0084, "Lens", "Lens", "Lens", nikon3IfdId, makerTags, unsignedRational, print0x0084),
         TagInfo(0x0085, "FocusDistance", "FocusDistance", "Manual focus distance", nikon3IfdId, makerTags, unsignedRational, printValue),
         TagInfo(0x0086, "DigitalZoom", "DigitalZoom", "Digital zoom setting", nikon3IfdId, makerTags, unsignedRational, printValue),
-        TagInfo(0x0087, "FlashType", "FlashType", "Type of flash used", nikon3IfdId, makerTags, unsignedByte, print0x0087),
+        TagInfo(0x0087, "FlashType", "FlashType", "Type of flash used", nikon3IfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikon3FlashType)),
         TagInfo(0x0088, "AFFocusPos", "AFFocusPos", "AF focus position", nikon3IfdId, makerTags, undefined, print0x0088),
-        TagInfo(0x0089, "Bracketing", "Bracketing", "Bracketing", nikon3IfdId, makerTags, unsignedShort, print0x0089),
+        TagInfo(0x0089, "Bracketing", "Bracketing", "Bracketing", nikon3IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(nikon3Bracketing)),
         TagInfo(0x008a, "0x008a", "0x008a", "Unknown", nikon3IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x008b, "LensFStops", "LensFStops", "Number of lens stops", nikon3IfdId, makerTags, undefined, print0x008b),
         TagInfo(0x008c, "ToneCurve", "ToneCurve", "Tone curve", nikon3IfdId, makerTags, undefined, printValue),
@@ -567,34 +579,6 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& Nikon3MakerNote::print0x0012(std::ostream& os,
-                                               const Value& value)
-    {
-        // From the PHP JPEG Metadata Toolkit
-        long fec = value.toLong();
-        switch (fec) {
-        case 0x06: os << "+1.0 EV"; break;
-        case 0x04: os << "+0.7 EV"; break;
-        case 0x03: os << "+0.5 EV"; break;
-        case 0x02: os << "+0.3 EV"; break;
-        case 0x00: os << "0.0 EV"; break;
-        case 0xfe: os << "-0.3 EV"; break;
-        case 0xfd: os << "-0.5 EV"; break;
-        case 0xfc: os << "-0.7 EV"; break;
-        case 0xfa: os << "-1.0 EV"; break;
-        case 0xf8: os << "-1.3 EV"; break;
-        case 0xf7: os << "-1.5 EV"; break;
-        case 0xf6: os << "-1.7 EV"; break;
-        case 0xf4: os << "-2.0 EV"; break;
-        case 0xf2: os << "-2.3 EV"; break;
-        case 0xf1: os << "-2.5 EV"; break;
-        case 0xf0: os << "-2.7 EV"; break;
-        case 0xee: os << "-3.0 EV"; break;
-        default: os << "(" << value << ")"; break;
-        }
-        return os;
-    }
-
     std::ostream& Nikon3MakerNote::print0x0084(std::ostream& os,
                                                const Value& value)
     {
@@ -620,20 +604,6 @@ namespace Exiv2 {
         }
         else {
             os << "(" << value << ")";
-        }
-        return os;
-    }
-
-    std::ostream& Nikon3MakerNote::print0x0087(std::ostream& os,
-                                               const Value& value)
-    {
-        // From Exiftool
-        long flash = value.toLong();
-        switch (flash) {
-        case 0: os << "Not used"; break;
-        case 8: os << "Fired, commander mode"; break;
-        case 9: os << "Fired, TTL mode"; break;
-        default: os << "(" << value << ")"; break;
         }
         return os;
     }
@@ -703,24 +673,6 @@ namespace Exiv2 {
             os << " used";
         }
 
-        return os;
-    }
-
-    std::ostream& Nikon3MakerNote::print0x0089(std::ostream& os,
-                                               const Value& value)
-    {
-        // From Exiftool
-        long b = value.toLong();
-        switch (b) {
-        case 0x00: os << "Single"; break;
-        case 0x01: os << "Continuous"; break;
-        case 0x02: os << "Delay"; break;
-        case 0x03: os << "Remote with delay"; break;
-        case 0x04: os << "Remote"; break;
-        case 0x16: os << "Exposure bracketing"; break;
-        case 0x64: os << "White balance bracketing"; break;
-        default: os << "(" << value << ")"; break;
-        }
         return os;
     }
 

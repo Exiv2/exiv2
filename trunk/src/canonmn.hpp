@@ -20,7 +20,7 @@
  */
 /*!
   @file    canonmn.hpp
-  @brief   Canon MakerNote.<BR> References:<BR>
+  @brief   Canon MakerNote.<BR>References:<BR>
            <a href="http://www.burren.cx/david/canon.html">EXIF MakerNote of Canon</a> by David Burren<br>
            <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Canon.html">Canon makernote tags</a> by Phil Harvey
   @version $Rev$

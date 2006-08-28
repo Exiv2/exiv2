@@ -20,23 +20,14 @@
  */
 /*!
   @file    nikonmn.hpp
-  @brief   Nikon MakerNote formats.
-
-  The Nikon MakerNote formats are implemented according to the following references<BR>
-  Format 1:
-  <ul>
-  <li><a href="http://www.tawbaware.com/990exif.htm">MakerNote EXIF Tag of the Nikon 990</a> by Max Lyons</li></ul>
-  Format 2:
-  <ul><li>"Appendix 2: Makernote of Nikon" of the document
-  <a href="http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html">
-  Exif file format</a> by TsuruZoh Tachibanaya</li></ul>
-  Format 3:
-  <ul><li>"EXIFutils Field Reference Guide"</li>
-  <li><a href="http://www.ozhiker.com/electronics/pjmt/jpeg_info/nikon_mn.html#Nikon_Type_3_Tags">Nikon Type 3 Makernote Tags Definition</a>
-  of the PHP JPEG Metadata Toolkit by Evan Hunter</li>
-  <li>Nikon tag information from <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a> by Phil Harvey</li>
-  <li>Email communication with <a href="http://www.rottmerhusen.com">Robert Rottmerhusen</a></li>
-  </ul>
+  @brief   Nikon MakerNote formats.<BR>References:<BR>
+  <a href="http://www.tawbaware.com/990exif.htm">MakerNote EXIF Tag of the Nikon 990</a> by Max Lyons<BR>
+  <a href="http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html">Exif file format</a> by TsuruZoh Tachibanaya<BR>
+  "EXIFutils Field Reference Guide"<BR>
+  <a href="http://www.ozhiker.com/electronics/pjmt/jpeg_info/nikon_mn.html#Nikon_Type_3_Tags">Nikon Type 3 Makernote Tags Definition</a> of the PHP JPEG Metadata Toolkit by Evan Hunter<BR>
+  <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a> by Phil Harvey<BR>
+  Email communication with <a href="http://www.rottmerhusen.com">Robert Rottmerhusen</a><BR>
+  Email communication with Roger Larsson<BR>
 
   @version $Rev$
   @author  Andreas Huggel (ahu)
@@ -197,16 +188,6 @@ namespace Exiv2 {
 
         //! @name Print functions for Nikon2 %MakerNote tags
         //@{
-        //! Print quality setting
-        static std::ostream& print0x0003(std::ostream& os, const Value& value);
-        //! Print color mode setting
-        static std::ostream& print0x0004(std::ostream& os, const Value& value);
-        //! Print image adjustment setting
-        static std::ostream& print0x0005(std::ostream& os, const Value& value);
-        //! Print ISO speed setting
-        static std::ostream& print0x0006(std::ostream& os, const Value& value);
-        //! Print white balance setting
-        static std::ostream& print0x0007(std::ostream& os, const Value& value);
         //! Print digital zoom setting
         static std::ostream& print0x000a(std::ostream& os, const Value& value);
         //@}
@@ -268,16 +249,10 @@ namespace Exiv2 {
         //@{
         //! Print ISO setting
         static std::ostream& print0x0002(std::ostream& os, const Value& value);
-        //! Print flash compensation
-        static std::ostream& print0x0012(std::ostream& os, const Value& value);
         //! Print lens information
         static std::ostream& print0x0084(std::ostream& os, const Value& value);
-        //! Print flash used information
-        static std::ostream& print0x0087(std::ostream& os, const Value& value);
         //! Print AF point
         static std::ostream& print0x0088(std::ostream& os, const Value& value);
-        //! Print bracketing information
-        static std::ostream& print0x0089(std::ostream& os, const Value& value);
         //! Print number of lens stops
         static std::ostream& print0x008b(std::ostream& os, const Value& value);
         //! Print number of lens data
