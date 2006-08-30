@@ -158,11 +158,11 @@ Exif.CanonCs.FlashDetails                    Short       1
 Exif.CanonCs.0x001e                          Short       1  0
 Exif.CanonCs.0x001f                          Short       1  0
 Exif.CanonCs.FocusContinuous                 Short       1  Single
-Exif.CanonCs.0x0021                          Short       1  0
-Exif.CanonCs.0x0022                          Short       1  65535
-Exif.CanonCs.0x0023                          Short       1  49
-Exif.CanonCs.0x0024                          Short       1  2272
-Exif.CanonCs.0x0025                          Short       1  2272
+Exif.CanonCs.AESetting                       Short       1  Normal AE
+Exif.CanonCs.ImageStabilization              Short       1  (65535)
+Exif.CanonCs.DisplayAperture                 Short       1  49
+Exif.CanonCs.ZoomSourceWidth                 Short       1  2272
+Exif.CanonCs.ZoomTargetWidth                 Short       1  2272
 Exif.CanonCs.0x0026                          Short       1  0
 Exif.CanonCs.0x0027                          Short       1  1
 Exif.CanonSi.0x0001                          Short       1  0
