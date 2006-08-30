@@ -216,7 +216,8 @@ namespace Exiv2 {
         { 16, "50"   },
         { 17, "100"  },
         { 18, "200"  },
-        { 19, "400"  }
+        { 19, "400"  },
+        { 20, "800"  }
     };
 
     //! MeteringMode, tag 0x0011
@@ -291,6 +292,34 @@ namespace Exiv2 {
         { 1, "Continuous" }
     };
 
+    //! AESetting, tag 0x0021
+    extern const TagDetails canonCsAESetting[] = {
+        { 0, "Normal AE"                       },
+        { 1, "Exposure compensation"           },
+        { 2, "AE lock"                         },
+        { 3, "AE lock + exposure compensation" },
+        { 4, "No AE"                           }
+    };
+
+    //! ImageStabilization, tag 0x0022
+    extern const TagDetails canonCsImageStabilization[] = {
+        { 0, "Off"           },
+        { 1, "On"            },
+        { 2, "On, shot only" }
+    };
+
+    //! PhotoEffect, tag 0x0028
+    extern const TagDetails canonCsPhotoEffect[] = {
+        { 0,   "Off"           },
+        { 1,   "Vivid"         },
+        { 2,   "Neutral"       },
+        { 3,   "Smooth"        },
+        { 4,   "Sepia"         },
+        { 5,   "B&W"           },
+        { 6,   "Custom"        },
+        { 100, "My color data" }
+    };
+
     // Canon Camera Settings Tag Info
     const TagInfo CanonMakerNote::tagInfoCs_[] = {
         TagInfo(0x0001, "Macro", "Macro", "Macro mode", canonCsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCsMacro)),
@@ -325,13 +354,16 @@ namespace Exiv2 {
         TagInfo(0x001e, "0x001e", "0x001e", "Unknown", canonCsIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x001f, "0x001f", "0x001f", "Unknown", canonCsIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0020, "FocusContinuous", "Focus Continuous", "Focus continuous setting", canonCsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCsFocusContinuous)),
-        TagInfo(0x0021, "0x0021", "0x0021", "Unknown", canonCsIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0022, "0x0022", "0x0022", "Unknown", canonCsIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0023, "0x0023", "0x0023", "Unknown", canonCsIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0024, "0x0024", "0x0024", "Unknown", canonCsIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0025, "0x0025", "0x0025", "Unknown", canonCsIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0021, "AESetting", "AESetting", "AE setting", canonCsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCsAESetting)),
+        TagInfo(0x0022, "ImageStabilization", "ImageStabilization", "Image stabilization", canonCsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCsImageStabilization)),
+        TagInfo(0x0023, "DisplayAperture", "DisplayAperture", "Display aperture", canonCsIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0024, "ZoomSourceWidth", "ZoomSourceWidth", "Zoom source width", canonCsIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0025, "ZoomTargetWidth", "ZoomTargetWidth", "Zoom target width", canonCsIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0026, "0x0026", "0x0026", "Unknown", canonCsIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0027, "0x0027", "0x0027", "Unknown", canonCsIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0028, "PhotoEffect", "PhotoEffect", "Photo effect", canonCsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(canonCsPhotoEffect)),
+        TagInfo(0x0029, "0x0029", "0x0029", "Unknown", canonCsIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x002a, "ColorTone", "ColorTone", "Color tone", canonCsIfdId, makerTags, unsignedShort, printValue),
         // End of list marker
         TagInfo(0xffff, "(UnknownCanonCsTag)", "(UnknownCanonCsTag)", "Unknown Canon Camera Settings 1 tag", canonCsIfdId, makerTags, invalidTypeId, printValue)
     };
@@ -824,8 +856,12 @@ namespace Exiv2 {
         float len2 = value.toLong(1) / fu;
         std::ostringstream oss;
         oss.copyfmt(os);
-        os << std::fixed << std::setprecision(1)
-           << len2 << " - " << len1 << " mm";
+        os << std::fixed << std::setprecision(1);
+        if (len1 == len2) {
+            os << len1 << " mm";
+        } else {
+            os << len2 << " - " << len1 << " mm";
+        }
         os.copyfmt(oss);
         return os;
     }
