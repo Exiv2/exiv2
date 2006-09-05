@@ -163,7 +163,8 @@ namespace Exiv2 {
         const uint32_t val = static_cast<uint32_t>(value.toLong());
         bool sep = false;
         for (int i = 0; i < N; i++) {
-            const TagDetailsBitmask* td = &array[i];
+            // *& acrobatics is a workaround for a MSVC 7.1 bug
+            const TagDetailsBitmask* td = *(&array) + i;
 
             if (val & td->mask_) {
                 if (sep) {
