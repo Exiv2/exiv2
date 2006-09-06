@@ -130,7 +130,7 @@ namespace Exiv2 {
         { 25621, "AF50mm F1.4 NEW"                                                            },
         { 25631, "AF300mm F2.8G"                                                              },
         { 25641, "AF50mm F2.8 Macro"                                                          },
-        { 25661, "AF24mm F2.8"                                                                },
+        { 25661, "AF24mm F2.8 or SIGMA 17-35mm F2.8-4.0 EX-D"                                 },
         { 25721, "AF500mm F8 Reflex"                                                          },
         { 25781, "AF16mm F2.8 Fisheye or SIGMA 8mm F4 Fisheye"                                },
         { 25791, "AF20mm F2.8"                                                                },
