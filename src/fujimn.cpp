@@ -129,6 +129,13 @@ namespace Exiv2 {
         { 768, "Manual"            }
     };
 
+    //! FinePixColor, tag 0x1210
+    extern const TagDetails fujiFinePixColor[] = {
+        { 0, "Normal"   },
+        { 16, "Chrome" },
+        { 48, "B&W" }
+    };
+
     // Fujifilm MakerNote Tag Info
     const TagInfo FujiMakerNote::tagInfo_[] = {
         TagInfo(0x0000, "Version", "Version", "Fujifilm Makernote version", fujiIfdId, makerTags, undefined, printValue),
@@ -148,6 +155,7 @@ namespace Exiv2 {
         TagInfo(0x1100, "Continuous", "Continuous", "Continuous shooting or auto bracketing setting", fujiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(fujiOffOn)),
         TagInfo(0x1101, "0x1101", "0x1101", "Unknown", fujiIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x1200, "0x1200", "0x1200", "Unknown", fujiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x1210, "FinePixColor", "FinePixColor", "Fuji FinePix Color setting", fujiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(fujiFinePixColor)),
         TagInfo(0x1300, "BlurWarning", "BlurWarning", "Blur warning status", fujiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(fujiOffOn)),
         TagInfo(0x1301, "FocusWarning", "FocusWarning", "Auto Focus warning status", fujiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(fujiOffOn)),
         TagInfo(0x1302, "AeWarning", "AeWarning", "Auto Exposure warning status", fujiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(fujiOffOn)),
