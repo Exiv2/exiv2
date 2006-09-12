@@ -903,12 +903,8 @@ namespace {
 
             value = line.substr(valStart, valEnd+1-valStart);
             std::string::size_type last = value.length()-1;
-            if (  (value[0] == '"' || value[last] == '"')
-                && value[0] != value[last]) {
-                throw Exiv2::Error(1, Exiv2::toString(num)
-                                    + ": Unbalanced quotes");
-            }
-            if (value[0] == '"') {
+            if (   (value[0] == '"' && value[last] == '"')
+                || (value[0] == '\'' && value[last] == '\'')) {
                 value = value.substr(1, value.length()-2);
             }
         }
