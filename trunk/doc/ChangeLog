@@ -1,3 +1,43 @@
+Changes from version 0.10 to 0.11
+---------------------------------
+
+* Exiv2 utility
+	- 0000485: [tools] Weird behaviour when Exif comments contain quotes (Reported
+	           by Scott Baker)
+	         - Changed exiv2 del command to delete all occurences of a tag. (Toff)
+
+* Exiv2 library
+	- 0000483: [jpeg i/o] Assertion `sizeIptc' fails when reading metadata from
+	           JPEG file. This happened when an image has an empty IPTC IRB.
+		   (digikam bug 132582)
+	- 0000482: [exif] SONY DSLR-A100 RAW image crashes Exiv2. (Reported to ufraw 
+	           by Vishnu Natchu)
+	- 0000480: [iptc] JPEG APP13 (used to store IPTC IRB) can not be larger than
+	           64kB but IRB buffers can. (digikam bug 130525)
+	- 0000479: [exif] JPEGs edited with LightZone crash Exiv2. (Reported by Daniel
+	           Hobe)
+	- 0000475: [design] Performance: Don't read TIFF-based files completely, use
+	           memory mapping (only on Linux) to read only what is needed. Improves
+		   performance by factor 6.
+	- 0000471: [exif] New TIFF parser: Create a CommentValue rather than a 
+	           DataValue for Exif.Photo.UserComment. (Reported with test program
+		   by Marcel Wiesweg)
+	         - [exif] New TIFF parser: Extract TIFF thumbnail from IFD1 if there 
+		   is one.
+	         - [exif] Added read support for PNG images (Gilles Caulier)
+		 - [exif] Updated Canon makernote tags and decoded additional composite
+	           tags, based on Exiftool. Note that some tag names changed. 
+		   (David Cannings)
+		 - [exif] Updated Nikon lens info to v2.02 of Robert Rottmerhusen's 
+	           lens database.
+		 - [exif] Various smaller tag updates (Gilles Caulier, Jim Westveer, 
+	           Nicolas Vilars, Robert Peter)
+
+* MSVC related
+	- 0000455: [build environment] Exiv2 finally works with MSVC 2005. (Thanks to 
+	           Stephen and Maciej Sakrejda aka Maciek)
+
+
 Changes from version 0.9.1 to 0.10
 ----------------------------------
 
