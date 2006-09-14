@@ -8,7 +8,7 @@
   @date    07-Feb-04, ahu: created
  */
 /*!
-  @mainpage Exif and Iptc metadata manipulation library and tools v0.10
+  @mainpage Exif and Iptc metadata manipulation library and tools v0.11
 
   @section overview Exiv2 Overview
 
@@ -81,12 +81,12 @@ bug tracking system</a>.</p>
 
   @verbatim $ svn checkout svn://dev.robotbattle.com/exiv2/trunk . @endverbatim
 
-  <p>To download the test data and test drivers for version 0.10 from
-  the repository, change to your local exiv2-0.10 directory and use the
+  <p>To download the test data and test drivers for version 0.11 from
+  the repository, change to your local exiv2-0.11 directory and use the
   following command:
   </p>
 
-  @verbatim $ svn export svn://dev.robotbattle.com/exiv2/tags/0.10/test @endverbatim
+  @verbatim $ svn export svn://dev.robotbattle.com/exiv2/tags/0.11/test @endverbatim
 
   <P>If you'd like to contribute code, please <A HREF="mailto:ahuggel@gmx.net">contact me</A>.
 
