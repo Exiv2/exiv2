@@ -40,7 +40,7 @@
 /*!
   @brief %Exiv2 MINOR version number.
  */
-#define EXIV2_MINOR_VERSION (10)
+#define EXIV2_MINOR_VERSION (11)
 /*!
   @brief %Exiv2 PATCH version number.
  */
