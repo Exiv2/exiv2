@@ -8,7 +8,7 @@
   @date    07-Feb-04, ahu: created
  */
 /*!
-  @mainpage Exif and Iptc metadata manipulation library and tools v0.11
+  @mainpage Exif and IPTC metadata manipulation library and tools v0.11
 
   @section overview Exiv2 Overview
 
@@ -17,9 +17,9 @@
   <A HREF="http://www.exiv2.org/">http://www.exiv2.org/</A>.
 
   The %Exiv2 library provides
-  - full read and write access to the Exif and Iptc metadata of an image through
+  - full read and write access to the Exif and IPTC metadata of an image through
     %Exiv2 keys and standard C++ iterators
-  - a smart Iptc implementation that does not affect data that programs like
+  - a smart IPTC implementation that does not affect data that programs like
     Photoshop store in the same image segment
   - Exif <A HREF="makernote.html">MakerNote</A> support:
     - %MakerNote tags can be accessed just like any other Exif metadata
@@ -27,17 +27,17 @@
       <br>&nbsp;&nbsp;1) the %MakerNote is not re-located if possible at all, and
       <br>&nbsp;&nbsp;2) %MakerNote %Ifd offsets are re-calculated if the
                          %MakerNote needs to be moved (for known %Ifd %MakerNotes)
-  - extract and delete methods for Exif thumbnails (both, Jpeg and Tiff thumbnails)
-  - set methods for Exif thumbnails (Jpeg only, Tiff thumbnails can be set from
+  - extract and delete methods for Exif thumbnails (both, JPEG and TIFF thumbnails)
+  - set methods for Exif thumbnails (JPEG only, TIFF thumbnails can be set from
     individual tags)
-  - complete API documentation (by Doxygen)
+  - complete API documentation
 
   @section getting-started Getting started
 
   <A HREF="getting-started.html">A few pointers</A> to get you started with
   the %Exiv2 library without delay.
 
-  @section metadata Exif and MakerNote tags and Iptc datasets
+  @section metadata Exif and MakerNote tags and IPTC datasets
 
   - <A HREF="tags-exif.html">Standard Exif tags</A>
   - <A HREF="tags-canon.html">Canon MakerNote tags</A>
@@ -48,13 +48,14 @@
   - <A HREF="tags-panasonic.html">Panasonic MakerNote tags</A>
   - <A HREF="tags-sigma.html">Sigma/Foveon MakerNote tags</A>
   - <A HREF="tags-sony.html">Sony MakerNote tags</A>
-  - <A HREF="tags-iptc.html">Iptc datasets</A>
+  - <A HREF="tags-iptc.html">IPTC datasets</A>
 
   @section formats File Formats
 
-  - Jpeg
+  - JPEG
   - <A HREF="crw-mapping.html">Canon CRW</A>
-  - TIFF and related RAW formats (Canon CR2, Nikon NEF, Pentax PEF, Sony SR2, Adobe DNG, and Minolta MRW), read-only
+  - TIFF and related RAW formats (Canon CR2, Nikon NEF, Pentax PEF, Sony SR2, Sony ARW, Adobe DNG, and Minolta MRW), read-only
+  - PNG, read-only
 
   @section supp Support
 
@@ -99,6 +100,10 @@ bug tracking system</a>.</p>
   published by the Free Software Foundation; either version 2 of the License, or
   (at your option) any later version.</P>
 
+  <P>Alternatively, %Exiv2 is also available with a commercial license, which 
+  allows it to be used in closed-source projects. 
+  <A HREF="mailto:ahuggel@gmx.net">Contact me</A> for more information.</P>
+
   <P>%Exiv2 is distributed in the hope that it will be useful, but WITHOUT ANY
   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
   A PARTICULAR PURPOSE.  See the GNU General Public License for more
@@ -106,7 +111,7 @@ bug tracking system</a>.</p>
 
   <P>You should have received a copy of the GNU General Public License along
   with this program; if not, write to the Free Software Foundation, Inc.,
-  51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
+  51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.</P>
 */
 /*!
   @example addmoddel.cpp
@@ -122,9 +127,9 @@ bug tracking system</a>.</p>
  */
 /*!
   @example iptcprint.cpp
-  Sample program to print the Iptc metadata of an image
+  Sample program to print the IPTC metadata of an image
  */
 /*!
   @example iptceasy.cpp
-  The quickest way to access, set or modify Iptc metadata
+  The quickest way to access, set or modify IPTC metadata
  */

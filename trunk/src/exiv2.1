@@ -100,7 +100,8 @@ only used with the 'rename' action.
 .B \-T
 Only set the file timestamp according to the Exif create timestamp, do
 not rename the file (overrides \fB\-k\fP). This option is only used
-with the 'rename' action.
+with the 'rename' action. Note: On Windows you may have to set the TZ
+environment variable for this option to work correctly.
 .TP
 .B \-f
 Do not prompt before overwriting existing files (force overwrite).

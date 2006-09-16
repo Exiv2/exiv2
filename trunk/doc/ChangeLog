@@ -4,7 +4,8 @@ Changes from version 0.10 to 0.11
 * Exiv2 utility
 	- 0000485: [tools] Weird behaviour when Exif comments contain quotes (Reported
 	           by Scott Baker)
-	         - Changed exiv2 del command to delete all occurences of a tag. (Toff)
+	         - Changed exiv2 del command to delete all occurences of a tag. 
+	           (Christophe Paris)
 
 * Exiv2 library
 	- 0000483: [jpeg i/o] Assertion `sizeIptc' fails when reading metadata from
