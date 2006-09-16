@@ -28,13 +28,17 @@ If you downloaded the source code directly from the subversion
 repository, you won't have a configure script. Run make config to 
 generate it and see the section "Hacking" below.
 
+zlib (http://www.zlib.net/) is required for PNG support, so you'll need 
+to have the zlib library and header files installed or run configure 
+with the --without-zlib flag.
+
 The default install locations are /usr/local/lib for the library,
 /usr/local/bin for the exiv2 utility and /usr/local/include/exiv2 for
 the header files. Use the --prefix=directory option of the configure
 script to change this default. Run ./configure --help to see a list of
 all options.
 
-To build Exiv2 with MSVC 7.1, use the solution file msvc/exiv2.sln.
+To build Exiv2 with MSVC 7.1 or 8.0, use the solution file msvc/exiv2.sln.
 
 To uninstall Exiv2 from a UNIX-like system, run:
 
@@ -93,15 +97,19 @@ License
 
 Copyright (C) 2004, 2005, 2006 Andreas Huggel <ahuggel@gmx.net>
 
-Exiv2 is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
+Exiv2 is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free
+Software Foundation; either version 2 of the License, or (at your
+option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+Alternatively, Exiv2 is also available with a commercial license,
+which allows it to be used in closed-source projects. Contact me for
+more information.
+
+Exiv2 is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software

@@ -23,8 +23,7 @@ the members of the Exiv2 namespace.</p>
  
 (don't let the components diagram below mislead you). Exiv2::Image
 defines the interface to access various image metadata. Derived from
-Exiv2::Image are the implementations of different image formats.
-However, the only image format currently supported is Jpeg. Most
+Exiv2::Image are the implementations of different image formats. Most
 applications will use
 <a class="el" href="classExiv2_1_1ImageFactory.html">Exiv2::ImageFactory</a> 
 to access images in files or memory, in which case the image format 
@@ -34,20 +33,20 @@ is transparent to them.</p>
 <a class="el" href="classExiv2_1_1ExifData.html">Exiv2::ExifData</a> 
 and <a class="el" href="classExiv2_1_1IptcData.html">Exiv2::IptcData</a>
 of the Exiv2 library. They hold a container
-of Exif and Iptc metadata, respectively, and define related methods to
+of Exif and IPTC metadata, respectively, and define related methods to
 access and manipulate the metadata. The containers hold objects derived from
 <a class="el" href="classExiv2_1_1Metadatum.html">Exiv2::Metadatum</a>. 
 Interface class Exiv2::Metadatum defines methods to access the
-information of one Exif tag or Iptc dataset. It models the tag data as
+information of one Exif tag or IPTC dataset. It models the tag data as
 a key and value pair. 
 The abstract base class 
 <a class="el" href="classExiv2_1_1Key.html">Exiv2::Key</a> defines the 
-interface for a key. Concrete keys implement Exif and Iptc keys.
+interface for a key. Concrete keys implement Exif and IPTC keys.
 The abstract base class 
 <a class="el" href="classExiv2_1_1Value.html">Exiv2::Value</a> defines 
 the interface to access tag information, from which concrete values are
 derived. The actual value used in a metadatum depends on the type of
-the Exif tag or Iptc dataset. It is usually determined when the Exif metadata 
+the Exif tag or IPTC dataset. It is usually determined when the Exif metadata 
 is read from an image. It is also possible to manually create a Value and
 together with a key add it to an ExifData or IptcData container.</p>
 
@@ -57,7 +56,7 @@ together with a key add it to an ExifData or IptcData container.</p>
 functionality: <a href="exifprint_8cpp-example.html">Exifprint</a> 
 shows how the Exif data of an image can be read and written to the screen.
 <a href="iptcprint_8cpp-example.html">Iptcprint</a> is a similar 
-example to print Iptc data.
+example to print IPTC data.
 <a href="addmoddel_8cpp-example.html">Addmoddel</a> shows how to
 add, modify and delete Exif metadata. 
 <a href="exifcomment_8cpp-example.html">Exifcomment</a> shows how to
