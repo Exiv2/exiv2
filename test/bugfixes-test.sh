@@ -64,7 +64,7 @@ $binpath/largeiptc-test $filename ../data/imagemagick.png
 
 ) > $results 2>&1
 
-if [ x`which unix2dos.exe` != x ]; then
+if [ x"`which unix2dos.exe`" != x ]; then
     unix2dos.exe -q $results
 fi
 diff -q $diffargs $results $good
