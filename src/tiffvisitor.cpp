@@ -36,8 +36,8 @@ EXIV2_RCSID("@(#) $Id$")
 # include "exv_conf.h"
 #endif
 
-#include "tiffvisitor.hpp"
-#include "tiffcomposite.hpp"
+#include "tiffcomposite.hpp"  // Do not change the order of these 2 includes,
+#include "tiffvisitor.hpp"    // see bug #487
 #include "tiffparser.hpp"
 #include "makernote2.hpp"
 #include "exif.hpp"
