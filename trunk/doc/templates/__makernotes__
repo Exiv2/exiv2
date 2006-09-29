@@ -52,8 +52,8 @@
     <td>Minolta, KONICA&nbsp;MINOLTA</td>
     <td>IFD</td>
     <td>None</td>
-    <td>&nbsp</td>
-    <td>&nbsp</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
     <td><a href="#R5">[5]</a></td>
     <td>Camera settings tag is encoded in big-endian (MM) style, regardless of
     the encoding style of the Exif data</td>
