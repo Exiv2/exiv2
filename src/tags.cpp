@@ -268,7 +268,7 @@ namespace Exiv2 {
         TagInfo(0xffff, "(UnknownIfdTag)", "Unknown IFD tag", "Unknown IFD tag", ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
     };
 
-    //! ExposureProgram, tag t0x8822
+    //! ExposureProgram, tag 0x8822
     extern const TagDetails exifExposureProgram[] = {
         { 0, "Not defined"       },
         { 1, "Manual"            },
@@ -494,31 +494,56 @@ namespace Exiv2 {
         TagInfo(0xffff, "(UnknownExifTag)", "Unknown Exif tag", "Unknown Exif tag", ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
     };
 
+    //! GPS latitude reference, tag 0x0001; also GPSDestLatitudeRef, tag 0x0013
+    extern const TagDetails exifGPSLatitudeRef[] = {
+        { 78, "North" },
+        { 83, "South" }
+    };
+
+    //! GPS longitude reference, tag 0x0003; also GPSDestLongitudeRef, tag 0x0015
+    extern const TagDetails exifGPSLongitudeRef[] = {
+        { 69, "East" },
+        { 87, "West" }
+    };
+
+    //! GPS altitude reference, tag 0x0005
+    extern const TagDetails exifGPSAltitudeRef[] = {
+        { 0, "Above sea level" },
+        { 1, "Below sea level" }
+    };
+
+    //! GPS speed reference, tag 0x000c
+    extern const TagDetails exifGPSSpeedRef[] = {
+        { 75, "km/h" },
+        { 77, "mph" },
+        { 78, "knots" }
+    };
+
     // GPS Info Tags
     static const TagInfo gpsTagInfo[] = {
         TagInfo(0x0000, "GPSVersionID", "GPSVersionID", "GPS tag version", gpsIfdId, gpsTags, unsignedByte, printValue),
-        TagInfo(0x0001, "GPSLatitudeRef", "GPSLatitudeRef", "North or South Latitude", gpsIfdId, gpsTags, asciiString, printValue),
-        TagInfo(0x0002, "GPSLatitude", "GPSLatitude", "Latitude", gpsIfdId, gpsTags, unsignedRational, printValue),
-        TagInfo(0x0003, "GPSLongitudeRef", "GPSLongitudeRef", "East or West Longitude", gpsIfdId, gpsTags, asciiString, printValue),
-        TagInfo(0x0004, "GPSLongitude", "GPSLongitude", "Longitude", gpsIfdId, gpsTags, unsignedRational, printValue),
-        TagInfo(0x0005, "GPSAltitudeRef", "GPSAltitudeRef", "Altitude reference", gpsIfdId, gpsTags, unsignedByte, printValue),
-        TagInfo(0x0006, "GPSAltitude", "GPSAltitude", "Altitude", gpsIfdId, gpsTags, unsignedRational, printValue),
+        TagInfo(0x0001, "GPSLatitudeRef", "GPSLatitudeRef", "North or South Latitude", gpsIfdId, gpsTags, asciiString, EXV_PRINT_TAG(exifGPSLatitudeRef)),
+        TagInfo(0x0002, "GPSLatitude", "GPSLatitude", "Latitude", gpsIfdId, gpsTags, unsignedRational, printDegrees),
+        TagInfo(0x0003, "GPSLongitudeRef", "GPSLongitudeRef", "East or West Longitude", gpsIfdId, gpsTags, asciiString, EXV_PRINT_TAG(exifGPSLongitudeRef)),
+        TagInfo(0x0004, "GPSLongitude", "GPSLongitude", "Longitude", gpsIfdId, gpsTags, unsignedRational, printDegrees),
+        TagInfo(0x0005, "GPSAltitudeRef", "GPSAltitudeRef", "Altitude reference", gpsIfdId, gpsTags, unsignedByte, EXV_PRINT_TAG(exifGPSAltitudeRef)),
+        TagInfo(0x0006, "GPSAltitude", "GPSAltitude", "Altitude", gpsIfdId, gpsTags, unsignedRational, print0x0006),
         TagInfo(0x0007, "GPSTimeStamp", "GPSTimeStamp", "GPS time (atomic clock)", gpsIfdId, gpsTags, unsignedRational, printValue),
         TagInfo(0x0008, "GPSSatellites", "GPSSatellites", "GPS satellites used for measurement", gpsIfdId, gpsTags, asciiString, printValue),
         TagInfo(0x0009, "GPSStatus", "GPSStatus", "GPS receiver status", gpsIfdId, gpsTags, asciiString, printValue),
         TagInfo(0x000a, "GPSMeasureMode", "GPSMeasureMode", "GPS measurement mode", gpsIfdId, gpsTags, asciiString, printValue),
         TagInfo(0x000b, "GPSDOP", "GPSDOP", "Measurement precision", gpsIfdId, gpsTags, unsignedRational, printValue),
-        TagInfo(0x000c, "GPSSpeedRef", "GPSSpeedRef", "Speed unit", gpsIfdId, gpsTags, asciiString, printValue),
+        TagInfo(0x000c, "GPSSpeedRef", "GPSSpeedRef", "Speed unit", gpsIfdId, gpsTags, asciiString, EXV_PRINT_TAG(exifGPSSpeedRef)),
         TagInfo(0x000d, "GPSSpeed", "GPSSpeed", "Speed of GPS receiver", gpsIfdId, gpsTags, unsignedRational, printValue),
         TagInfo(0x000e, "GPSTrackRef", "GPSTrackRef", "Reference for direction of movement", gpsIfdId, gpsTags, asciiString, printValue),
         TagInfo(0x000f, "GPSTrack", "GPSTrack", "Direction of movement", gpsIfdId, gpsTags, unsignedRational, printValue),
         TagInfo(0x0010, "GPSImgDirectionRef", "GPSImgDirectionRef", "Reference for direction of image", gpsIfdId, gpsTags, asciiString, printValue),
         TagInfo(0x0011, "GPSImgDirection", "GPSImgDirection", "Direction of image", gpsIfdId, gpsTags, unsignedRational, printValue),
         TagInfo(0x0012, "GPSMapDatum", "GPSMapDatum", "Geodetic survey data used", gpsIfdId, gpsTags, asciiString, printValue),
-        TagInfo(0x0013, "GPSDestLatitudeRef", "GPSDestLatitudeRef", "Reference for latitude of destination", gpsIfdId, gpsTags, asciiString, printValue),
-        TagInfo(0x0014, "GPSDestLatitude", "GPSDestLatitude", "Latitude of destination", gpsIfdId, gpsTags, unsignedRational, printValue),
-        TagInfo(0x0015, "GPSDestLongitudeRef", "GPSDestLongitudeRef", "Reference for longitude of destination", gpsIfdId, gpsTags, asciiString, printValue),
-        TagInfo(0x0016, "GPSDestLongitude", "GPSDestLongitude", "Longitude of destination", gpsIfdId, gpsTags, unsignedRational, printValue),
+        TagInfo(0x0013, "GPSDestLatitudeRef", "GPSDestLatitudeRef", "Reference for latitude of destination", gpsIfdId, gpsTags, asciiString, EXV_PRINT_TAG(exifGPSLatitudeRef)),
+        TagInfo(0x0014, "GPSDestLatitude", "GPSDestLatitude", "Latitude of destination", gpsIfdId, gpsTags, unsignedRational, printDegrees),
+        TagInfo(0x0015, "GPSDestLongitudeRef", "GPSDestLongitudeRef", "Reference for longitude of destination", gpsIfdId, gpsTags, asciiString, EXV_PRINT_TAG(exifGPSLongitudeRef)),
+        TagInfo(0x0016, "GPSDestLongitude", "GPSDestLongitude", "Longitude of destination", gpsIfdId, gpsTags, unsignedRational, printDegrees),
         TagInfo(0x0017, "GPSDestBearingRef", "GPSDestBearingRef", "Reference for bearing of destination", gpsIfdId, gpsTags, asciiString, printValue),
         TagInfo(0x0018, "GPSDestBearing", "GPSDestBearing", "Bearing of destination", gpsIfdId, gpsTags, unsignedRational, printValue),
         TagInfo(0x0019, "GPSDestDistanceRef", "GPSDestDistanceRef", "Reference for distance to destination", gpsIfdId, gpsTags, asciiString, printValue),
@@ -1024,6 +1049,43 @@ namespace Exiv2 {
         if (r.second != 0) return os << static_cast<float>(r.first) / r.second;
         return os << "(" << value << ")";
     } // printFloat
+
+    std::ostream& printDegrees(std::ostream& os, const Value& value)
+    {
+        if (value.count() == 3) {
+            std::ostringstream oss;
+            oss.copyfmt(os);
+            static const char unit[4] = "°'\"";
+            int n;
+            for (n = 2; n > 0; --n) {
+                if (value.toRational(n).first != 0) break;
+            }
+            for (int i = 0; i < n + 1; ++i) {
+                const int32_t d = value.toRational(i).second;
+                const int p = d > 1 ? d > 19 ? d > 199 ? d > 1999 ? 4 : 3 : 2 : 1 : 0;
+                os << std::fixed << std::setprecision(p) << value.toFloat(i)
+                   << unit[i] << " ";
+            }
+            os.copyfmt(oss);
+        }
+        else {
+            os << value;
+        }
+
+        return os;
+    } // printDegrees
+    
+    std::ostream& print0x0006(std::ostream& os, const Value& value)
+    {
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        const int32_t d = value.toRational().second;
+        const int p = d > 1 ? 1 : 0;
+        os << std::fixed << std::setprecision(p) << value.toFloat() << " m";
+        os.copyfmt(oss);
+
+        return os;
+    }
 
     std::ostream& print0x8298(std::ostream& os, const Value& value)
     {

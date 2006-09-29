@@ -432,7 +432,11 @@ namespace Exiv2 {
     std::ostream& printLong(std::ostream& os, const Value& value);
     //! Print a Rational or URational value in floating point format
     std::ostream& printFloat(std::ostream& os, const Value& value);
+    //! Print a longitude or latitude value
+    std::ostream& printDegrees(std::ostream& os, const Value& value);
 
+    //! Print GPS altitude
+    std::ostream& print0x0006(std::ostream& os, const Value& value);
     //! Print the copyright
     std::ostream& print0x8298(std::ostream& os, const Value& value);
     //! Print the exposure time
