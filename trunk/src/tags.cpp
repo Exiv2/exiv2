@@ -528,7 +528,7 @@ namespace Exiv2 {
         TagInfo(0x0004, "GPSLongitude", "GPSLongitude", "Longitude", gpsIfdId, gpsTags, unsignedRational, printDegrees),
         TagInfo(0x0005, "GPSAltitudeRef", "GPSAltitudeRef", "Altitude reference", gpsIfdId, gpsTags, unsignedByte, EXV_PRINT_TAG(exifGPSAltitudeRef)),
         TagInfo(0x0006, "GPSAltitude", "GPSAltitude", "Altitude", gpsIfdId, gpsTags, unsignedRational, print0x0006),
-        TagInfo(0x0007, "GPSTimeStamp", "GPSTimeStamp", "GPS time (atomic clock)", gpsIfdId, gpsTags, unsignedRational, printValue),
+        TagInfo(0x0007, "GPSTimeStamp", "GPSTimeStamp", "GPS time (atomic clock)", gpsIfdId, gpsTags, unsignedRational, print0x0007),
         TagInfo(0x0008, "GPSSatellites", "GPSSatellites", "GPS satellites used for measurement", gpsIfdId, gpsTags, asciiString, printValue),
         TagInfo(0x0009, "GPSStatus", "GPSStatus", "GPS receiver status", gpsIfdId, gpsTags, asciiString, printValue),
         TagInfo(0x000a, "GPSMeasureMode", "GPSMeasureMode", "GPS measurement mode", gpsIfdId, gpsTags, asciiString, printValue),
@@ -1083,6 +1083,35 @@ namespace Exiv2 {
         const int p = d > 1 ? 1 : 0;
         os << std::fixed << std::setprecision(p) << value.toFloat() << " m";
         os.copyfmt(oss);
+
+        return os;
+    }
+
+    std::ostream& print0x0007(std::ostream& os, const Value& value)
+    {
+        if (value.count() == 3) {
+            std::ostringstream oss;
+            oss.copyfmt(os);
+            const float sec = 3600 * value.toFloat(0) 
+                              + 60 * value.toFloat(1) 
+                              + value.toFloat(2);
+            int p = 0;
+            if (sec != static_cast<int>(sec)) p = 1;
+
+            const int hh = static_cast<int>(sec / 3600);
+            const int mm = static_cast<int>((sec - 3600 * hh) / 60);
+            const float ss = sec - 3600 * hh - 60 * mm;
+
+            os << std::setw(2) << std::setfill('0') << std::right << hh << ":" 
+               << std::setw(2) << std::setfill('0') << std::right << mm << ":"
+               << std::setw(2 + p * 2) << std::setfill('0') << std::right 
+               << std::fixed << std::setprecision(p) << ss;
+
+            os.copyfmt(oss);
+        }
+        else {
+            os << value;
+        }
 
         return os;
     }
