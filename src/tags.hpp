@@ -437,6 +437,8 @@ namespace Exiv2 {
 
     //! Print GPS altitude
     std::ostream& print0x0006(std::ostream& os, const Value& value);
+    //! Print GPS timestamp
+    std::ostream& print0x0007(std::ostream& os, const Value& value);
     //! Print the copyright
     std::ostream& print0x8298(std::ostream& os, const Value& value);
     //! Print the exposure time
