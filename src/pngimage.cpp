@@ -135,6 +135,18 @@ namespace Exiv2 {
         clearMetadata();
         PngChunk::decode(this, io_->mmap(), io_->size());
 
+        /*
+          Todo:
+
+          - readMetadata implements the loop over the chunks in the image and
+            makes decisions what to do. It reads only one chunk at a time
+            instead of the whole file.
+
+          - new class PngChunk, initialized with the memory of one chunk and 
+            has all the access methods required to determine the field, key, 
+            to access and decompress data etc.
+        */
+
     } // PngImage::readMetadata
 
     void PngImage::writeMetadata()

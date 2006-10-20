@@ -137,11 +137,6 @@ MCSRC = utils.cpp
 LIBRARY = libexiv2.la
 
 # ******************************************************************************
-# Defines, Includes and Libraries
-CXXDEFS = $(DEFS)
-CXXINCS = $(INCS)
-
-# ******************************************************************************
 # Initialisations
 SHELL = /bin/sh
 
@@ -193,8 +188,8 @@ POSTDEPEND = if test ! -d $(DEPDIR); then mkdir $(DEPDIR); fi; \
 endif
 
 # Compilation shortcuts
-COMPILE.cc = $(CXX) $(CXXFLAGS) $(CXXDEFS) $(CXXINCS) -c
-COMPILE.c = $(CC) $(CFLAGS) $(DEFS) $(INCS) -c
+COMPILE.cc = $(CXX) $(CXXFLAGS) $(CPPFLAGS) -c
+COMPILE.c = $(CC) $(CFLAGS) $(CPPFLAGS) -c
 # LINK.cc does not need $(LIBS), libtool's dark magic takes care of that
 LINK.cc = $(CXX) $(CXXFLAGS) $(LIBRARY) $(LDFLAGS) -rpath $(libdir)
 
@@ -222,7 +217,7 @@ $(sort $(BINOBJ) $(EXIV2OBJ) $(MCOBJ) path-test.o): %.o: %.cpp
 
 %.ii: %.cpp
 	set -e; \
-	$(CXXCPP) $(CPPFLAGS) $(CXXDEFS) $(CXXINCS) $< | sed '/^[ 	]*$$/d' > $@
+	$(CXXCPP) $(CPPFLAGS) $< | sed '/^[ 	]*$$/d' > $@
 
 # ******************************************************************************
 # Targets
