@@ -5972,13 +5972,12 @@ dnl   #endif /* HAVE_LIBZ */
 dnl
 dnl @version $Id: aclocal.m4,v 1.7 2000/06/26 10:04:08 loic dead $
 dnl @author Loic Dachary <loic@senga.org>
+dnl with modifications by Andreas Huggel <ahuggel@gmx.net>
 dnl
-
 AC_DEFUN([CHECK_ZLIB],
 #
 # Handle user hints
 #
-
 [AC_MSG_CHECKING(if zlib is wanted)
 AC_ARG_WITH(zlib,
 [  --with-zlib=DIR root directory path of zlib installation [defaults to
@@ -5997,14 +5996,13 @@ then
 	ZLIB_HOME=/usr
 fi
 ])
-
 #
 # Locate zlib, if wanted
 #
 if test -n "${ZLIB_HOME}"
 then
 	ZLIB_OLD_LDFLAGS=$LDFLAGS
-	ZLIB_OLD_CPPFLAGS=$LDFLAGS
+	ZLIB_OLD_CPPFLAGS=$CPPFLAGS
 	#
 	# Adding /usr/lib or /usr/include to the flags/libs may
 	# hurt if using a compiler not installed in the standard 
@@ -6018,7 +6016,7 @@ then
         AC_LANG_SAVE
         AC_LANG_C
 	AC_CHECK_LIB(z, inflateEnd, [zlib_cv_libz=yes], [zlib_cv_libz=no])
-        AC_CHECK_HEADER(zlib.h, [zlib_cv_zlib_h=yes], [zlib_cvs_zlib_h=no])
+        AC_CHECK_HEADER(zlib.h, [zlib_cv_zlib_h=yes], [zlib_cv_zlib_h=no])
         AC_LANG_RESTORE
 	if test "$zlib_cv_libz" = "yes" -a "$zlib_cv_zlib_h" = "yes"
 	then
