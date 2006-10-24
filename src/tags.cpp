@@ -347,7 +347,7 @@ namespace Exiv2 {
     //! ColorSpace, tag 0xa001
     extern const TagDetails exifColorSpace[] = {
         {      1, "sRGB"         },
-        {      2, "Adobe RGB"    },
+        {      2, "Adobe RGB"    },    // Not defined to Exif 2.2 spec. But used by a lot of cameras.
         { 0xffff, "Uncalibrated" }
     };
 
@@ -364,7 +364,9 @@ namespace Exiv2 {
 
     //! FileSource, tag 0xa300
     extern const TagDetails exifFileSource[] = {
-        { 3, "Digital still camera" }
+        { 1, "Film scanner"            },	// Not defined to Exif 2.2 spec. 
+        { 2, "Reflexion print scanner" },	// but used by some scanner device softwares.
+        { 3, "Digital still camera"    }
     };
 
     //! SceneType, tag 0xa301
