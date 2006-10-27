@@ -374,6 +374,12 @@ namespace Exiv2 {
         { 1, "Directly photographed" }
     };
 
+    //! exifCustomRendered, tag 0xa401
+    extern const TagDetails exifCustomRendered[] = {
+        { 0, "Normal process" },
+        { 1, "Custom process" }
+    };
+
     //! ExposureMode, tag 0xa402
     extern const TagDetails exifExposureMode[] = {
         { 0, "Auto"         },
@@ -479,7 +485,7 @@ namespace Exiv2 {
         TagInfo(0xa300, "FileSource", "File Source", "File source", exifIfdId, captureCond, undefined, EXV_PRINT_TAG(exifFileSource)),
         TagInfo(0xa301, "SceneType", "Scene Type", "Scene type", exifIfdId, captureCond, undefined, EXV_PRINT_TAG(exifSceneType)),
         TagInfo(0xa302, "CFAPattern", "CFA Pattern", "CFA pattern", exifIfdId, captureCond, undefined, printValue),
-        TagInfo(0xa401, "CustomRendered", "Custom Rendered", "Custom image processing", exifIfdId, captureCond, unsignedShort, printValue),
+        TagInfo(0xa401, "CustomRendered", "Custom Rendered", "Custom image processing", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifCustomRendered)),
         TagInfo(0xa402, "ExposureMode", "Exposure Mode", "Exposure mode", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifExposureMode)),
         TagInfo(0xa403, "WhiteBalance", "White Balance", "White balance", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifWhiteBalance)),
         TagInfo(0xa404, "DigitalZoomRatio", "Digital Zoom Ratio", "Digital zoom ratio", exifIfdId, captureCond, unsignedRational, print0xa404),
