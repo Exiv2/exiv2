@@ -645,48 +645,197 @@ namespace Exiv2 {
 
     // Exif IFD Tags
     static const TagInfo exifTagInfo[] = {
-        TagInfo(0x829a, "ExposureTime", "Exposure Time", "Exposure time", exifIfdId, captureCond, unsignedRational, print0x829a),
-        TagInfo(0x829d, "FNumber", "FNumber", "F number", exifIfdId, captureCond, unsignedRational, print0x829d),
-        TagInfo(0x8822, "ExposureProgram", "ExposureProgram", "Exposure program", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifExposureProgram)),
-        TagInfo(0x8824, "SpectralSensitivity", "Spectral Sensitivity", "Spectral sensitivity", exifIfdId, captureCond, asciiString, printValue),
-        TagInfo(0x8827, "ISOSpeedRatings", "ISO Speed Ratings", "ISO speed ratings", exifIfdId, captureCond, unsignedShort, print0x8827),
-        TagInfo(0x8828, "OECF", "OECF", "Optoelectric coefficient", exifIfdId, captureCond, undefined, printValue),
-        TagInfo(0x9000, "ExifVersion", "Exif Version", "Exif Version", exifIfdId, exifVersion, undefined, printValue),
-        TagInfo(0x9003, "DateTimeOriginal", "Date and Time (original)", "Date and time original image was generated", exifIfdId, dateTime, asciiString, printValue),
-        TagInfo(0x9004, "DateTimeDigitized", "Date and Time (digitized)", "Date and time image was made digital data", exifIfdId, dateTime, asciiString, printValue),
-        TagInfo(0x9101, "ComponentsConfiguration", "ComponentsConfiguration", "Meaning of each component", exifIfdId, imgConfig, undefined, print0x9101),
-        TagInfo(0x9102, "CompressedBitsPerPixel", "Compressed Bits per Pixel", "Image compression mode", exifIfdId, imgConfig, unsignedRational, printFloat),
-        TagInfo(0x9201, "ShutterSpeedValue", "Shutter speed", "Shutter speed", exifIfdId, captureCond, signedRational, print0x9201),
-        TagInfo(0x9202, "ApertureValue", "Aperture", "Aperture", exifIfdId, captureCond, unsignedRational, print0x9202),
-        TagInfo(0x9203, "BrightnessValue", "Brightness", "Brightness", exifIfdId, captureCond, signedRational, printFloat),
-        TagInfo(0x9204, "ExposureBiasValue", "Exposure Bias", "Exposure bias", exifIfdId, captureCond, signedRational, print0x9204),
-        TagInfo(0x9205, "MaxApertureValue", "MaxApertureValue", "Maximum lens aperture", exifIfdId, captureCond, unsignedRational, print0x9202),
-        TagInfo(0x9206, "SubjectDistance", "Subject Distance", "Subject distance", exifIfdId, captureCond, unsignedRational, print0x9206),
-        TagInfo(0x9207, "MeteringMode", "Metering Mode", "Metering mode", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifMeteringMode)),
-        TagInfo(0x9208, "LightSource", "Light Source", "Light source", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifLightSource)),
-        TagInfo(0x9209, "Flash", "Flash", "Flash", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifFlash)),
-        TagInfo(0x920a, "FocalLength", "Focal Length", "Lens focal length", exifIfdId, captureCond, unsignedRational, print0x920a),
-        TagInfo(0x9214, "SubjectArea", "Subject Area", "Subject area", exifIfdId, captureCond, unsignedShort, printValue),
-        TagInfo(0x927c, "MakerNote", "Maker Note", "Manufacturer notes", exifIfdId, userInfo, undefined, printValue),
-        TagInfo(0x9286, "UserComment", "User Comment", "User comments", exifIfdId, userInfo, comment, print0x9286),
-        TagInfo(0x9290, "SubSecTime", "SubsecTime", "DateTime subseconds", exifIfdId, dateTime, asciiString, printValue),
-        TagInfo(0x9291, "SubSecTimeOriginal", "SubSecTimeOriginal", "DateTimeOriginal subseconds", exifIfdId, dateTime, asciiString, printValue),
-        TagInfo(0x9292, "SubSecTimeDigitized", "SubSecTimeDigitized", "DateTimeDigitized subseconds", exifIfdId, dateTime, asciiString, printValue),
-        TagInfo(0xa000, "FlashpixVersion", "FlashPixVersion", "Supported Flashpix version", exifIfdId, exifVersion, undefined, printValue),
-        TagInfo(0xa001, "ColorSpace", "Color Space", "Color space information", exifIfdId, imgCharacter, unsignedShort, EXV_PRINT_TAG(exifColorSpace)),
-        TagInfo(0xa002, "PixelXDimension", "PixelXDimension", "Valid image width", exifIfdId, imgConfig, unsignedLong, printValue),
-        TagInfo(0xa003, "PixelYDimension", "PixelYDimension", "Valid image height", exifIfdId, imgConfig, unsignedLong, printValue),
-        TagInfo(0xa004, "RelatedSoundFile", "RelatedSoundFile", "Related audio file", exifIfdId, relatedFile, asciiString, printValue),
-        TagInfo(0xa005, "InteroperabilityTag", "InteroperabilityIFDPointer", "Interoperability IFD Pointer", exifIfdId, exifFormat, unsignedLong, printValue),
-        TagInfo(0xa20b, "FlashEnergy", "Flash Energy", "Flash energy", exifIfdId, captureCond, unsignedRational, printValue),
-        TagInfo(0xa20c, "SpatialFrequencyResponse", "Spatial Frequency Response", "Spatial frequency response", exifIfdId, captureCond, undefined, printValue),
-        TagInfo(0xa20e, "FocalPlaneXResolution", "Focal Plane x-Resolution", "Focal plane X resolution", exifIfdId, captureCond, unsignedRational, printFloat),
-        TagInfo(0xa20f, "FocalPlaneYResolution", "Focal Plane y-Resolution", "Focal plane Y resolution", exifIfdId, captureCond, unsignedRational, printFloat),
-        TagInfo(0xa210, "FocalPlaneResolutionUnit", "Focal Plane Resolution Unit", "Focal plane resolution unit", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifUnit)),
-        TagInfo(0xa214, "SubjectLocation", "Subject Location", "Subject location", exifIfdId, captureCond, unsignedShort, printValue),
-        TagInfo(0xa215, "ExposureIndex", "Exposure index", "Exposure index", exifIfdId, captureCond, unsignedRational, printValue),
-        TagInfo(0xa217, "SensingMethod", "Sensing Method", "Sensing method", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifSensingMethod)),
-        TagInfo(0xa300, "FileSource", "File Source", "File source", exifIfdId, captureCond, undefined, EXV_PRINT_TAG(exifFileSource)),
+        TagInfo(0x829a, "ExposureTime", "Exposure Time", 
+                "Exposure time, given in seconds (sec).", 
+                exifIfdId, captureCond, unsignedRational, print0x829a),
+        TagInfo(0x829d, "FNumber", "FNumber", 
+                "The F number.", 
+                exifIfdId, captureCond, unsignedRational, print0x829d),
+        TagInfo(0x8822, "ExposureProgram", "ExposureProgram", 
+                "The class of the program used by the camera to set exposure "
+                "when the picture is taken.", 
+                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifExposureProgram)),
+        TagInfo(0x8824, "SpectralSensitivity", "Spectral Sensitivity", 
+                "Indicates the spectral sensitivity of each channel of the "
+                "camera used. The tag value is an ASCII string compatible "
+                "with the standard developed by the ASTM Technical Committee.", 
+                exifIfdId, captureCond, asciiString, printValue),
+        TagInfo(0x8827, "ISOSpeedRatings", "ISO Speed Ratings", 
+                "Indicates the ISO Speed and ISO Latitude of the camera or "
+                "input device as specified in ISO 12232.", 
+                exifIfdId, captureCond, unsignedShort, print0x8827),
+        TagInfo(0x8828, "OECF", "OECF", 
+                "Indicates the Opto-Electoric Conversion Function (OECF) "
+                "specified in ISO 14524. <OECF> is the relationship between "
+                "the camera optical input and the image values.", 
+                exifIfdId, captureCond, undefined, printValue),
+        TagInfo(0x9000, "ExifVersion", "Exif Version", 
+                "The version of this standard supported. Nonexistence of this "
+                "field is taken to mean nonconformance to the standard.", 
+                exifIfdId, exifVersion, undefined, printValue),
+        TagInfo(0x9003, "DateTimeOriginal", "Date and Time (original)", 
+                "The date and time when the original image data was generated. "
+                "For a digital still camera "
+                "the date and time the picture was taken are recorded.", 
+                exifIfdId, dateTime, asciiString, printValue),
+        TagInfo(0x9004, "DateTimeDigitized", "Date and Time (digitized)", 
+                "The date and time when the image was stored as digital data.", 
+                exifIfdId, dateTime, asciiString, printValue),
+        TagInfo(0x9101, "ComponentsConfiguration", "ComponentsConfiguration", 
+                "Information specific to compressed data. The channels of "
+                "each component are arranged in order from the 1st "
+                "component to the 4th. For uncompressed data the data "
+                "arrangement is given in the <PhotometricInterpretation> tag. "
+                "However, since <PhotometricInterpretation> can only "
+                "express the order of Y, Cb and Cr, this tag is provided "
+                "for cases when compressed data uses components other than "
+                "Y, Cb, and Cr and to enable support of other sequences.", 
+                exifIfdId, imgConfig, undefined, print0x9101),
+        TagInfo(0x9102, "CompressedBitsPerPixel", "Compressed Bits per Pixel", 
+                "Information specific to compressed data. The compression mode "
+                "used for a compressed image is indicated in unit bits per pixel.", 
+                exifIfdId, imgConfig, unsignedRational, printFloat),
+        TagInfo(0x9201, "ShutterSpeedValue", "Shutter speed", 
+                "Shutter speed. The unit is the APEX (Additive System of "
+                "Photographic Exposure) setting.", 
+                exifIfdId, captureCond, signedRational, print0x9201),
+        TagInfo(0x9202, "ApertureValue", "Aperture", 
+                "The lens aperture. The unit is the APEX value.", 
+                exifIfdId, captureCond, unsignedRational, print0x9202),
+        TagInfo(0x9203, "BrightnessValue", "Brightness", 
+                "The value of brightness. The unit is the APEX value. "
+                "Ordinarily it is given in the range of -99.99 to 99.99.", 
+                exifIfdId, captureCond, signedRational, printFloat),
+        TagInfo(0x9204, "ExposureBiasValue", "Exposure Bias", 
+                "The exposure bias. The units is the APEX value. Ordinarily "
+                "it is given in the range of -99.99 to 99.99.", 
+                exifIfdId, captureCond, signedRational, print0x9204),
+        TagInfo(0x9205, "MaxApertureValue", "MaxApertureValue", 
+                "The smallest F number of the lens. The unit is the APEX value. "
+                "Ordinarily it is given in the range of 00.00 to 99.99, "
+                "but it is not limited to this range.", 
+                exifIfdId, captureCond, unsignedRational, print0x9202),
+        TagInfo(0x9206, "SubjectDistance", "Subject Distance", 
+                "The distance to the subject, given in meters.", 
+                exifIfdId, captureCond, unsignedRational, print0x9206),
+        TagInfo(0x9207, "MeteringMode", "Metering Mode", 
+                "The metering mode.", 
+                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifMeteringMode)),
+        TagInfo(0x9208, "LightSource", "Light Source", 
+                "The kind of light source.", 
+                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifLightSource)),
+        TagInfo(0x9209, "Flash", "Flash", 
+                "This tag is recorded when an image is taken using a strobe light (flash).", 
+                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifFlash)),
+        TagInfo(0x920a, "FocalLength", "Focal Length", 
+                "The actual focal length of the lens, in mm. Conversion is not "
+                "made to the focal length of a 35 mm film camera.", 
+                exifIfdId, captureCond, unsignedRational, print0x920a),
+        TagInfo(0x9214, "SubjectArea", "Subject Area", 
+                "This tag indicates the location and area of the main subject "
+                "in the overall scene.", 
+                exifIfdId, captureCond, unsignedShort, printValue),
+        TagInfo(0x927c, "MakerNote", "Maker Note", 
+                "A tag for manufacturers of Exif writers to record any desired "
+                "information. The contents are up to the manufacturer.", 
+                exifIfdId, userInfo, undefined, printValue),
+        TagInfo(0x9286, "UserComment", "User Comment", 
+                "A tag for Exif users to write keywords or comments on the image "
+                "besides those in <ImageDescription>, and without the "
+                "character code limitations of the <ImageDescription> tag.", 
+                exifIfdId, userInfo, comment, print0x9286),
+        TagInfo(0x9290, "SubSecTime", "SubsecTime", 
+                "A tag used to record fractions of seconds for the <DateTime> tag.", 
+                exifIfdId, dateTime, asciiString, printValue),
+        TagInfo(0x9291, "SubSecTimeOriginal", "SubSecTimeOriginal", 
+                "A tag used to record fractions of seconds for the <DateTimeOriginal> tag.", 
+                exifIfdId, dateTime, asciiString, printValue),
+        TagInfo(0x9292, "SubSecTimeDigitized", "SubSecTimeDigitized", 
+                "A tag used to record fractions of seconds for the <DateTimeDigitized> tag.", 
+                exifIfdId, dateTime, asciiString, printValue),
+        TagInfo(0xa000, "FlashpixVersion", "FlashPixVersion", 
+                "The FlashPix format version supported by a FPXR file.", 
+                exifIfdId, exifVersion, undefined, printValue),
+        TagInfo(0xa001, "ColorSpace", "Color Space", 
+                "The color space information tag is always "
+                "recorded as the color space specifier. Normally sRGB (=1) "
+                "is used to define the color space based on the PC monitor "
+                "conditions and environment. If a color space other than "
+                "sRGB is used, Uncalibrated (=FFFF.H) is set. Image data "
+                "recorded as Uncalibrated can be treated as sRGB when it is "
+                "converted to FlashPix.", 
+                exifIfdId, imgCharacter, unsignedShort, EXV_PRINT_TAG(exifColorSpace)),
+        TagInfo(0xa002, "PixelXDimension", "PixelXDimension", 
+                "Information specific to compressed data. When a "
+                "compressed file is recorded, the valid width of the "
+                "meaningful image must be recorded in this tag, whether or "
+                "not there is padding data or a restart marker. This tag "
+                "should not exist in an uncompressed file.", 
+                exifIfdId, imgConfig, unsignedLong, printValue),
+        TagInfo(0xa003, "PixelYDimension", "PixelYDimension", 
+                "Information specific to compressed data. When a compressed "
+                "file is recorded, the valid height of the meaningful image "
+                "must be recorded in this tag, whether or not there is padding "
+                "data or a restart marker. This tag should not exist in an "
+                "uncompressed file. Since data padding is unnecessary in the vertical "
+                "direction, the number of lines recorded in this valid image height tag "
+	        "will in fact be the same as that recorded in the SOF.", 
+                exifIfdId, imgConfig, unsignedLong, printValue),
+        TagInfo(0xa004, "RelatedSoundFile", "RelatedSoundFile", 
+                "This tag is used to record the name of an audio file related "
+                "to the image data. The only relational information "
+                "recorded here is the Exif audio file name and extension (an "
+                "ASCII string consisting of 8 characters + '.' + 3 "
+                "characters). The path is not recorded.",
+                exifIfdId, relatedFile, asciiString, printValue),
+        TagInfo(0xa005, "InteroperabilityTag", "InteroperabilityIFDPointer", 
+                "Interoperability IFD is composed of tags which stores the "
+                "information to ensure the Interoperability and pointed "
+                "by the following tag located in Exif IFD. "
+                "The Interoperability structure of Interoperability IFD is "
+                "the same as TIFF defined IFD structure but does not contain the "
+                "image data characteristically compared with normal TIFF IFD.", 
+                exifIfdId, exifFormat, unsignedLong, printValue),
+        TagInfo(0xa20b, "FlashEnergy", "Flash Energy", 
+                "Indicates the strobe energy at the time the image is "
+                "captured, as measured in Beam Candle Power Seconds (BCPS).", 
+                exifIfdId, captureCond, unsignedRational, printValue),
+        TagInfo(0xa20c, "SpatialFrequencyResponse", "Spatial Frequency Response", 
+                "This tag records the camera or input device spatial frequency "
+                "table and SFR values in the direction of image width, "
+                "image height, and diagonal direction, as specified in ISO 12233.", 
+                exifIfdId, captureCond, undefined, printValue),
+        TagInfo(0xa20e, "FocalPlaneXResolution", "Focal Plane x-Resolution", 
+                "Indicates the number of pixels in the image width (X) direction "
+                "per <FocalPlaneResolutionUnit> on the camera focal plane.", 
+                exifIfdId, captureCond, unsignedRational, printFloat),
+        TagInfo(0xa20f, "FocalPlaneYResolution", "Focal Plane y-Resolution", 
+                "Indicates the number of pixels in the image height (V) direction "
+                "per <FocalPlaneResolutionUnit> on the camera focal plane.", 
+                exifIfdId, captureCond, unsignedRational, printFloat),
+        TagInfo(0xa210, "FocalPlaneResolutionUnit", "Focal Plane Resolution Unit", 
+                "Indicates the unit for measuring <FocalPlaneXResolution> and "
+                "<FocalPlaneYResolution>. This value is the same as the <ResolutionUnit>.", 
+                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifUnit)),
+        TagInfo(0xa214, "SubjectLocation", "Subject Location", 
+                "Indicates the location of the main subject in the scene. The "
+                "value of this tag represents the pixel at the center of the "
+                "main subject relative to the left edge, prior to rotation "
+                "processing as per the <Rotation> tag. The first value "
+                "indicates the X column number and second indicates the Y row number.", 
+                exifIfdId, captureCond, unsignedShort, printValue),
+        TagInfo(0xa215, "ExposureIndex", "Exposure index", 
+                "Indicates the exposure index selected on the camera or "
+                "input device at the time the image is captured.", 
+                exifIfdId, captureCond, unsignedRational, printValue),
+        TagInfo(0xa217, "SensingMethod", "Sensing Method", 
+                "Indicates the image sensor type on the camera or input device.", 
+                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifSensingMethod)),
+        TagInfo(0xa300, "FileSource", "File Source", 
+                "Indicates the image source. If a DSC recorded the image, "
+                "this tag value of this tag always be set to 3, indicating "
+                "that the image was recorded on a DSC.", 
+                exifIfdId, captureCond, undefined, EXV_PRINT_TAG(exifFileSource)),
         TagInfo(0xa301, "SceneType", "Scene Type", "Scene type", exifIfdId, captureCond, undefined, EXV_PRINT_TAG(exifSceneType)),
         TagInfo(0xa302, "CFAPattern", "CFA Pattern", "CFA pattern", exifIfdId, captureCond, undefined, printValue),
         TagInfo(0xa401, "CustomRendered", "Custom Rendered", "Custom image processing", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifCustomRendered)),
