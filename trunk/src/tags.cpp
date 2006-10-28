@@ -246,59 +246,230 @@ namespace Exiv2 {
                 "The pixel composition. In JPEG compressed data a JPEG "
                 "marker is used instead of this tag.",
                 ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifPhotometricInterpretation)),
-        TagInfo(0x010a, "FillOrder", "Fill Order", "The logical order of bits within a byte", ifd0Id, imgStruct, unsignedShort, printValue), // TIFF tag
-        TagInfo(0x010d, "DocumentName", "Document Name", "The name of the document from which this image was scanned", ifd0Id, imgStruct, asciiString, printValue), // TIFF tag
-        TagInfo(0x010e, "ImageDescription", "Image Description", 
+        TagInfo(0x010a, "FillOrder", "Fill Order", 
+                "The logical order of bits within a byte", 
+                ifd0Id, imgStruct, unsignedShort, printValue), // TIFF tag
+        TagInfo(0x010d, "DocumentName", "Document Name", 
+                "The name of the document from which this image was scanned", 
+                ifd0Id, imgStruct, asciiString, printValue), // TIFF tag
+        TagInfo(0x010e, "ImageDescription", "Image Description",
                 "A character string giving the title of the image. It may be "
                 "a comment such as \"1988 company picnic\" or "
                 "the like. Two-bytes character codes cannot be used. "
                 "When a 2-bytes code is necessary, the Exif Private tag "
                 "<UserComment> is to be used.",
                 ifd0Id, otherTags, asciiString, printValue),
-        TagInfo(0x010f, "Make", "Manufacturer", 
+        TagInfo(0x010f, "Make", "Manufacturer",
                 "The manufacturer of the recording "
                 "equipment. This is the manufacturer of the DSC, scanner, "
                 "video digitizer or other equipment that generated the "
                 "image. When the field is left blank, it is treated as unknown.",
                 ifd0Id, otherTags, asciiString, printValue),
-        TagInfo(0x0110, "Model", "Model", "Model of image input equipment", ifd0Id, otherTags, asciiString, printValue),
-        TagInfo(0x0111, "StripOffsets", "Strip Offsets", "Image data location", ifd0Id, recOffset, unsignedLong, printValue),
-        TagInfo(0x0112, "Orientation", "Orientation", "Orientation of image", ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifOrientation)),
-        TagInfo(0x0115, "SamplesPerPixel", "Samples per Pixel", "Number of components", ifd0Id, imgStruct, unsignedShort, printValue),
-        TagInfo(0x0116, "RowsPerStrip", "Rows per Strip", "Number of rows per strip", ifd0Id, recOffset, unsignedLong, printValue),
-        TagInfo(0x0117, "StripByteCounts", "Strip Byte Count", "Bytes per compressed strip", ifd0Id, recOffset, unsignedLong, printValue),
-        TagInfo(0x011a, "XResolution", "x-Resolution", "Image resolution in width direction", ifd0Id, imgStruct, unsignedRational, printLong),
-        TagInfo(0x011b, "YResolution", "y-Resolution", "Image resolution in height direction", ifd0Id, imgStruct, unsignedRational, printLong),
-        TagInfo(0x011c, "PlanarConfiguration", "Planar Configuration", "Image data arrangement", ifd0Id, imgStruct, unsignedShort, printValue),
-        TagInfo(0x0128, "ResolutionUnit", "Resolution Unit", "Unit of X and Y resolution", ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifUnit)),
-        TagInfo(0x012d, "TransferFunction", "Transfer Function", "Transfer function", ifd0Id, imgCharacter, unsignedShort, printValue),
-        TagInfo(0x0131, "Software", "Software", "Software used", ifd0Id, otherTags, asciiString, printValue),
-        TagInfo(0x0132, "DateTime", "Date and Time", "File change date and time", ifd0Id, otherTags, asciiString, printValue),
-        TagInfo(0x013b, "Artist", "Artist", "Person who created the image", ifd0Id, otherTags, asciiString, printValue),
-        TagInfo(0x013e, "WhitePoint", "White Point", "White point chromaticity", ifd0Id, imgCharacter, unsignedRational, printValue),
-        TagInfo(0x013f, "PrimaryChromaticities", "Primary Chromaticities", "Chromaticities of primaries", ifd0Id, imgCharacter, unsignedRational, printValue),
-        TagInfo(0x014a, "SubIFDs", "SubIFD Offsets", "Defined by Adobe Corporation to enable TIFF Trees within a TIFF file.", ifd0Id, otherTags, unsignedLong, printValue),
-        TagInfo(0x0156, "TransferRange", "Transfer Range", "Expands the range of the TransferFunction", ifd0Id, imgCharacter, unsignedShort, printValue), // TIFF tag
-        TagInfo(0x0200, "JPEGProc", "JPEGProc", "This field indicates the process used to produce the compressed data", ifd0Id, recOffset, unsignedLong, printValue), // TIFF tag
-        TagInfo(0x0201, "JPEGInterchangeFormat", "JPEG Interchange Format", "Offset to JPEG SOI", ifd0Id, recOffset, unsignedLong, printValue),
-        TagInfo(0x0202, "JPEGInterchangeFormatLength", "JPEG Interchange Format Length", "Bytes of JPEG data", ifd0Id, recOffset, unsignedLong, printValue),
-        TagInfo(0x0211, "YCbCrCoefficients", "YCbCr Coefficients", "Color space transformation matrix coefficients", ifd0Id, imgCharacter, unsignedRational, printValue),
-        TagInfo(0x0212, "YCbCrSubSampling", "YCbCr Sub-Sampling", "Subsampling ratio of Y to C", ifd0Id, imgStruct, unsignedShort, printValue),
-        TagInfo(0x0213, "YCbCrPositioning", "YCbCr Positioning", "Y and C positioning", ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifYCbCrPositioning)),
-        TagInfo(0x0214, "ReferenceBlackWhite", "Reference Black/White", "Pair of black and white reference values", ifd0Id, imgCharacter, unsignedRational, printValue),
-        TagInfo(0x02bc, "XMLPacket", "XML Packet", "XMP Metadata (Adobe technote 9-14-02)", ifd0Id, otherTags, unsignedByte, printValue),
-        TagInfo(0x828d, "CFARepeatPatternDim", "CFARepeatPatternDim", "Contains two values representing the minimum rows and columns to define the repeating patterns of the color filter array", ifd0Id, otherTags, unsignedShort, printValue), // TIFF/EP Tag
-        TagInfo(0x828e, "CFAPattern", "CFA Pattern", "Indicates the color filter array (CFA) geometric pattern of the image sensor when a one-chip color area sensor is used. It does not apply to all sensing methods", ifd0Id, otherTags, unsignedByte, printValue), // TIFF/EP Tag
-        TagInfo(0x828f, "BatteryLevel", "Battery Level", "Contains a value of the battery level as a fraction or string", ifd0Id, otherTags, unsignedRational, printValue), // TIFF/EP Tag
-        TagInfo(0x83bb, "IPTCNAA", "IPTC/NAA", "Contains an IPTC/NAA record", ifd0Id, otherTags, unsignedLong, printValue), // TIFF/EP Tag
-        TagInfo(0x8298, "Copyright", "Copyright", "Copyright holder", ifd0Id, otherTags, asciiString, print0x8298),
-        TagInfo(0x8649, "ImageResources", "Image Resources Block", "Contains information embedded by the Adobe Photoshop application", ifd0Id, otherTags, undefined, printValue),
-        TagInfo(0x8769, "ExifTag", "ExifIFDPointer", "Exif IFD Pointer", ifd0Id, exifFormat, unsignedLong, printValue),
-        TagInfo(0x8773, "InterColorProfile", "InterColorProfile", "Contains an InterColor Consortium (ICC) format color space characterization/profile", ifd0Id, otherTags, undefined, printValue),
-        TagInfo(0x8825, "GPSTag", "GPSInfoIFDPointer", "GPSInfo IFD Pointer", ifd0Id, exifFormat, unsignedLong, printValue),
-        TagInfo(0x9216, "TIFFEPStandardID", "TIFF/EP Standard ID", "Contains four ASCII characters representing the TIFF/EP standard version of a TIFF/EP file, eg '1', '0', '0', '0'", ifd0Id, otherTags, unsignedByte, printValue), // TIFF/EP Tag
+        TagInfo(0x0110, "Model", "Model",
+                "The model name or model number of the equipment. This is the "
+                "model name or number of the DSC, scanner, video digitizer "
+                "or other equipment that generated the image. When the field "
+                "is left blank, it is treated as unknown.",
+                ifd0Id, otherTags, asciiString, printValue),
+        TagInfo(0x0111, "StripOffsets", "Strip Offsets",
+                "For each strip, the byte offset of that strip. It is "
+                "recommended that this be selected so the number of strip "
+                "bytes does not exceed 64 Kbytes. With JPEG compressed "
+                "data this designation is not needed and is omitted. See also "
+                "<RowsPerStrip> and <StripByteCounts>.",
+                ifd0Id, recOffset, unsignedLong, printValue),
+        TagInfo(0x0112, "Orientation", "Orientation",
+                "The image orientation viewed in terms of rows and columns.",
+                ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifOrientation)),
+        TagInfo(0x0115, "SamplesPerPixel", "Samples per Pixel",
+                "The number of components per pixel. Since this standard applies "
+                "to RGB and YCbCr images, the value set for this tag is 3. "
+                "In JPEG compressed data a JPEG marker is used instead of this tag.",
+                ifd0Id, imgStruct, unsignedShort, printValue),
+        TagInfo(0x0116, "RowsPerStrip", "Rows per Strip",
+                "The number of rows per strip. This is the number of rows "
+                "in the image of one strip when an image is divided into "
+                "strips. With JPEG compressed data this designation is not "
+                "needed and is omitted. See also <StripOffsets> and <StripByteCounts>.",
+                ifd0Id, recOffset, unsignedLong, printValue),
+        TagInfo(0x0117, "StripByteCounts", "Strip Byte Count",
+                "The total number of bytes in each strip. With JPEG compressed "
+                "data this designation is not needed and is omitted.",
+                ifd0Id, recOffset, unsignedLong, printValue),
+        TagInfo(0x011a, "XResolution", "x-Resolution",
+                "The number of pixels per <ResolutionUnit> in the <ImageWidth> "
+                "direction. When the image resolution is unknown, 72 [dpi] is designated.",
+                ifd0Id, imgStruct, unsignedRational, printLong),
+        TagInfo(0x011b, "YResolution", "y-Resolution",
+                "The number of pixels per <ResolutionUnit> in the <ImageLength> "
+                "direction. The same value as <XResolution> is designated.",
+                ifd0Id, imgStruct, unsignedRational, printLong),
+        TagInfo(0x011c, "PlanarConfiguration", "Planar Configuration",
+                "Indicates whether pixel components are recorded in a chunky "
+                "or planar format. In JPEG compressed files a JPEG marker "
+                "is used instead of this tag. If this field does not exist, "
+                "the TIFF default of 1 (chunky) is assumed.",
+                ifd0Id, imgStruct, unsignedShort, printValue),
+        TagInfo(0x0128, "ResolutionUnit", "Resolution Unit",
+                "The unit for measuring <XResolution> and <YResolution>. The same "
+                "unit is used for both <XResolution> and <YResolution>. If "
+                "the image resolution is unknown, 2 (inches) is designated.",
+                ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifUnit)),
+        TagInfo(0x012d, "TransferFunction", "Transfer Function",
+                "A transfer function for the image, described in tabular style. "
+                "Normally this tag is not necessary, since color space is "
+                "specified in the color space information tag (<ColorSpace>).",
+                ifd0Id, imgCharacter, unsignedShort, printValue),
+        TagInfo(0x0131, "Software", "Software",
+                "This tag records the name and version of the software or "
+                "firmware of the camera or image input device used to "
+                "generate the image. The detailed format is not specified, but "
+                "it is recommended that the example shown below be "
+                "followed. When the field is left blank, it is treated as unknown.", 
+                ifd0Id, otherTags, asciiString, printValue),
+        TagInfo(0x0132, "DateTime", "Date and Time",
+                "The date and time of image creation. In this standard "
+                "(EXIF-2.1) it is the date and time the file was changed.",
+                ifd0Id, otherTags, asciiString, printValue),
+        TagInfo(0x013b, "Artist", "Artist",
+                "This tag records the name of the camera owner, photographer or "
+                "image creator. The detailed format is not specified, but it is "
+                "recommended that the information be written as in the example "
+                "below for ease of Interoperability. When the field is "
+                "left blank, it is treated as unknown.",
+                ifd0Id, otherTags, asciiString, printValue),
+        TagInfo(0x013e, "WhitePoint", "White Point",
+                "The chromaticity of the white point of the image. Normally "
+                "this tag is not necessary, since color space is specified "
+                "in the colorspace information tag (<ColorSpace>).",
+                ifd0Id, imgCharacter, unsignedRational, printValue),
+        TagInfo(0x013f, "PrimaryChromaticities", "Primary Chromaticities",
+                "The chromaticity of the three primary colors of the image. "
+                "Normally this tag is not necessary, since colorspace is "
+                "specified in the colorspace information tag (<ColorSpace>).",
+                ifd0Id, imgCharacter, unsignedRational, printValue),
+        TagInfo(0x014a, "SubIFDs", "SubIFD Offsets",
+                "Defined by Adobe Corporation to enable TIFF Trees within a TIFF file.",
+                ifd0Id, otherTags, unsignedLong, printValue),
+        TagInfo(0x0156, "TransferRange", "Transfer Range",
+                "Expands the range of the TransferFunction",
+                ifd0Id, imgCharacter, unsignedShort, printValue), // TIFF tag
+        TagInfo(0x0200, "JPEGProc", "JPEGProc",
+                "This field indicates the process used to produce the compressed data",
+                ifd0Id, recOffset, unsignedLong, printValue), // TIFF tag
+        TagInfo(0x0201, "JPEGInterchangeFormat", "JPEG Interchange Format",
+                "The offset to the start byte (SOI) of JPEG compressed "
+                "thumbnail data. This is not used for primary image JPEG data.",
+                ifd0Id, recOffset, unsignedLong, printValue),
+        TagInfo(0x0202, "JPEGInterchangeFormatLength", "JPEG Interchange Format Length",
+                "The number of bytes of JPEG compressed thumbnail data. This "
+                "is not used for primary image JPEG data. JPEG thumbnails "
+                "are not divided but are recorded as a continuous JPEG "
+                "bitstream from SOI to EOI. Appn and COM markers should "
+                "not be recorded. Compressed thumbnails must be recorded in no "
+                "more than 64 Kbytes, including all other data to be recorded in APP1.",
+                ifd0Id, recOffset, unsignedLong, printValue),
+        TagInfo(0x0211, "YCbCrCoefficients", "YCbCr Coefficients",
+                "The matrix coefficients for transformation from RGB to YCbCr "
+                "image data. No default is given in TIFF; but here the "
+                "value given in Appendix E, \"Color Space Guidelines\", is used "
+                "as the default. The color space is declared in a "
+                "color space information tag, with the default being the value "
+                "that gives the optimal image characteristics "
+                "Interoperability this condition.",
+                ifd0Id, imgCharacter, unsignedRational, printValue),
+        TagInfo(0x0212, "YCbCrSubSampling", "YCbCr Sub-Sampling",
+                "The sampling ratio of chrominance components in relation to the "
+                "luminance component. In JPEG compressed data a JPEG marker "
+                "is used instead of this tag.",
+                ifd0Id, imgStruct, unsignedShort, printValue),
+        TagInfo(0x0213, "YCbCrPositioning", "YCbCr Positioning",
+                "The position of chrominance components in relation to the "
+                "luminance component. This field is designated only for "
+                "JPEG compressed data or uncompressed YCbCr data. The TIFF "
+                "default is 1 (centered); but when Y:Cb:Cr = 4:2:2 it is "
+                "recommended in this standard that 2 (co-sited) be used to "
+                "record data, in order to improve the image quality when viewed "
+                "on TV systems. When this field does not exist, the reader shall "
+                "assume the TIFF default. In the case of Y:Cb:Cr = 4:2:0, the "
+                "TIFF default (centered) is recommended. If the reader "
+                "does not have the capability of supporting both kinds of "
+                "<YCbCrPositioning>, it shall follow the TIFF default regardless "
+                "of the value in this field. It is preferable that readers "
+                "be able to support both centered and co-sited positioning.",
+                ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifYCbCrPositioning)),
+        TagInfo(0x0214, "ReferenceBlackWhite", "Reference Black/White",
+                "The reference black point value and reference white point "
+                "value. No defaults are given in TIFF, but the values "
+                "below are given as defaults here. The color space is declared "
+                "in a color space information tag, with the default "
+                "being the value that gives the optimal image characteristics "
+                "Interoperability these conditions.",
+                ifd0Id, imgCharacter, unsignedRational, printValue),
+        TagInfo(0x02bc, "XMLPacket", "XML Packet",
+                "XMP Metadata (Adobe technote 9-14-02)",
+                ifd0Id, otherTags, unsignedByte, printValue),
+        TagInfo(0x828d, "CFARepeatPatternDim", "CFARepeatPatternDim",
+                "Contains two values representing the minimum rows and columns "
+                "to define the repeating patterns of the color filter array",
+                ifd0Id, otherTags, unsignedShort, printValue), // TIFF/EP Tag
+        TagInfo(0x828e, "CFAPattern", "CFA Pattern", 
+                "Indicates the color filter array (CFA) geometric pattern of the image "
+                "sensor when a one-chip color area sensor is used. It does not apply to "
+                "all sensing methods", 
+                ifd0Id, otherTags, unsignedByte, printValue), // TIFF/EP Tag
+        TagInfo(0x828f, "BatteryLevel", "Battery Level",
+                "Contains a value of the battery level as a fraction or string",
+                ifd0Id, otherTags, unsignedRational, printValue), // TIFF/EP Tag
+        TagInfo(0x83bb, "IPTCNAA", "IPTC/NAA",
+                "Contains an IPTC/NAA record",
+                ifd0Id, otherTags, unsignedLong, printValue), // TIFF/EP Tag
+        TagInfo(0x8298, "Copyright", "Copyright",
+                "Copyright information. In this standard the tag is used to "
+                "indicate both the photographer and editor copyrights. It is "
+                "the copyright notice of the person or organization claiming "
+                "rights to the image. The Interoperability copyright "
+                "statement including date and rights should be written in this "
+                "field; e.g., \"Copyright, John Smith, 19xx. All rights "
+                "reserved.\". In this standard the field records both the "
+                "photographer and editor copyrights, with each recorded in a "
+                "separate part of the statement. When there is a clear "
+                "distinction between the photographer and editor copyrights, "
+                "these are to be written in the order of photographer followed "
+                "by editor copyright, separated by NULL (in this case, "
+                "since the statement also ends with a NULL, there are two NULL "
+                "codes) (see example 1). When only the photographer is given, "
+                "it is terminated by one NULL code (see example 2). When only "
+                "the editor copyright is given, "
+                "the photographer copyright part consists of one space followed "
+                "by a terminating NULL code, then the editor copyright is given "
+                "(see example 3). When the field is left blank, it is treated as unknown.",
+                ifd0Id, otherTags, asciiString, print0x8298),
+        TagInfo(0x8649, "ImageResources", "Image Resources Block",
+                "Contains information embedded by the Adobe Photoshop application",
+                ifd0Id, otherTags, undefined, printValue),
+        TagInfo(0x8769, "ExifTag", "ExifIFDPointer",
+                "A pointer to the Exif IFD. Interoperability, Exif IFD has the "
+                "same structure as that of the IFD specified in TIFF. "
+                "ordinarily, however, it does not contain image data as in "
+                "the case of TIFF.",
+                ifd0Id, exifFormat, unsignedLong, printValue),
+        TagInfo(0x8773, "InterColorProfile", "InterColorProfile",
+                "Contains an InterColor Consortium (ICC) format color space characterization/profile",
+                ifd0Id, otherTags, undefined, printValue),
+        TagInfo(0x8825, "GPSTag", "GPSInfoIFDPointer",
+                "A pointer to the GPS Info IFD. The "
+                "Interoperability structure of the GPS Info IFD, like that of "
+                "Exif IFD, has no image data.",
+                ifd0Id, exifFormat, unsignedLong, printValue),
+        TagInfo(0x9216, "TIFFEPStandardID", "TIFF/EP Standard ID", 
+                "Contains four ASCII characters representing the TIFF/EP standard "
+                "version of a TIFF/EP file, eg '1', '0', '0', '0'", 
+                ifd0Id, otherTags, unsignedByte, printValue), // TIFF/EP Tag
         // End of list marker
-        TagInfo(0xffff, "(UnknownIfdTag)", "Unknown IFD tag", "Unknown IFD tag", ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
+        TagInfo(0xffff, "(UnknownIfdTag)", "Unknown IFD tag",
+                "Unknown IFD tag",
+                ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
     };
 
     //! ExposureProgram, tag 0x8822
@@ -607,9 +778,15 @@ namespace Exiv2 {
                 "for other tags used for ExifR98.",
                 iopIfdId, iopTags, asciiString, printValue),
         TagInfo(0x0002, "InteroperabilityVersion", "InteroperabilityVersion", "Interoperability version", iopIfdId, iopTags, undefined, printValue),
-        TagInfo(0x1000, "RelatedImageFileFormat", "RelatedImageFileFormat", "File format of image file", iopIfdId, iopTags, asciiString, printValue),
-        TagInfo(0x1001, "RelatedImageWidth", "RelatedImageWidth", "Image width", iopIfdId, iopTags, unsignedLong, printValue),
-        TagInfo(0x1002, "RelatedImageLength", "RelatedImageLength", "Image height", iopIfdId, iopTags, unsignedLong, printValue),
+        TagInfo(0x1000, "RelatedImageFileFormat", "RelatedImageFileFormat",
+                "File format of image file",
+                iopIfdId, iopTags, asciiString, printValue),
+        TagInfo(0x1001, "RelatedImageWidth", "RelatedImageWidth",
+                "Image width",
+                iopIfdId, iopTags, unsignedLong, printValue),
+        TagInfo(0x1002, "RelatedImageLength", "RelatedImageLength",
+                "Image height",
+                iopIfdId, iopTags, unsignedLong, printValue),
         // End of list marker
         TagInfo(0xffff, "(UnknownIopTag)", "Unknown Exif Interoperability tag", "Unknown Exif Interoperability tag", ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
     };
