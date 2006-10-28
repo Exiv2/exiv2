@@ -218,16 +218,49 @@ namespace Exiv2 {
 
     //! Base IFD Tags (IFD0 and IFD1)
     static const TagInfo ifdTagInfo[] = {
-        TagInfo(0x00fe, "NewSubfileType", "New Subfile Type", "A general indication of the kind of data contained in this subfile.", ifd0Id, imgStruct, unsignedLong, EXV_PRINT_TAG(exifNewSubfileType)), // TIFF tag
-        TagInfo(0x0100, "ImageWidth", "Image Width", "Image width", ifd0Id, imgStruct, unsignedLong, printValue),
-        TagInfo(0x0101, "ImageLength", "Image Length", "Image height", ifd0Id, imgStruct, unsignedLong, printValue),
-        TagInfo(0x0102, "BitsPerSample", "Bits per Sample", "Number of bits per component", ifd0Id, imgStruct, unsignedShort, printValue),
-        TagInfo(0x0103, "Compression", "Compression", "Compression scheme", ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifCompression)),
-        TagInfo(0x0106, "PhotometricInterpretation", "Photometric Interpretation", "Pixel composition", ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifPhotometricInterpretation)),
+        TagInfo(0x00fe, "NewSubfileType", "New Subfile Type", 
+                "A general indication of the kind of data contained in this subfile.",
+                ifd0Id, imgStruct, unsignedLong, EXV_PRINT_TAG(exifNewSubfileType)), // TIFF tag
+        TagInfo(0x0100, "ImageWidth", "Image Width",
+                "The number of columns of image data, equal to the number of "
+                "pixels per row. In JPEG compressed data a JPEG marker is "
+                "used instead of this tag.",
+                ifd0Id, imgStruct, unsignedLong, printValue),
+        TagInfo(0x0101, "ImageLength", "Image Length",
+                "The number of rows of image data. In JPEG compressed data a "
+                "JPEG marker is used instead of this tag.",
+                ifd0Id, imgStruct, unsignedLong, printValue),
+        TagInfo(0x0102, "BitsPerSample", "Bits per Sample",
+                "The number of bits per image component. In this standard each "
+                "component of the image is 8 bits, so the value for this "
+                "tag is 8. See also <SamplesPerPixel>. In JPEG compressed data "
+                "a JPEG marker is used instead of this tag.",
+                ifd0Id, imgStruct, unsignedShort, printValue),
+        TagInfo(0x0103, "Compression", "Compression",
+                "The compression scheme used for the image data. When a "
+                "primary image is JPEG compressed, this designation is "
+                "not necessary and is omitted. When thumbnails use JPEG "
+                "compression, this tag value is set to 6.",
+                ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifCompression)),
+        TagInfo(0x0106, "PhotometricInterpretation", "Photometric Interpretation", 
+                "The pixel composition. In JPEG compressed data a JPEG "
+                "marker is used instead of this tag.",
+                ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifPhotometricInterpretation)),
         TagInfo(0x010a, "FillOrder", "Fill Order", "The logical order of bits within a byte", ifd0Id, imgStruct, unsignedShort, printValue), // TIFF tag
         TagInfo(0x010d, "DocumentName", "Document Name", "The name of the document from which this image was scanned", ifd0Id, imgStruct, asciiString, printValue), // TIFF tag
-        TagInfo(0x010e, "ImageDescription", "Image Description", "Image title", ifd0Id, otherTags, asciiString, printValue),
-        TagInfo(0x010f, "Make", "Manufacturer", "Manufacturer of image input equipment", ifd0Id, otherTags, asciiString, printValue),
+        TagInfo(0x010e, "ImageDescription", "Image Description", 
+                "A character string giving the title of the image. It may be "
+                "a comment such as \"1988 company picnic\" or "
+                "the like. Two-bytes character codes cannot be used. "
+                "When a 2-bytes code is necessary, the Exif Private tag "
+                "<UserComment> is to be used.",
+                ifd0Id, otherTags, asciiString, printValue),
+        TagInfo(0x010f, "Make", "Manufacturer", 
+                "The manufacturer of the recording "
+                "equipment. This is the manufacturer of the DSC, scanner, "
+                "video digitizer or other equipment that generated the "
+                "image. When the field is left blank, it is treated as unknown.",
+                ifd0Id, otherTags, asciiString, printValue),
         TagInfo(0x0110, "Model", "Model", "Model of image input equipment", ifd0Id, otherTags, asciiString, printValue),
         TagInfo(0x0111, "StripOffsets", "Strip Offsets", "Image data location", ifd0Id, recOffset, unsignedLong, printValue),
         TagInfo(0x0112, "Orientation", "Orientation", "Orientation of image", ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifOrientation)),
@@ -566,7 +599,13 @@ namespace Exiv2 {
 
     // Exif Interoperability IFD Tags
     static const TagInfo iopTagInfo[] = {
-        TagInfo(0x0001, "InteroperabilityIndex", "InteroperabilityIndex", "Interoperability Identification", iopIfdId, iopTags, asciiString, printValue),
+        TagInfo(0x0001, "InteroperabilityIndex", "InteroperabilityIndex", 
+                "Indicates the identification of the Interoperability rule. "
+                "Use \"R98\" for stating ExifR98 Rules. Four bytes used "
+                "including the termination code (NULL). see the separate "
+                "volume of Recommended Exif Interoperability Rules (ExifR98) "
+                "for other tags used for ExifR98.",
+                iopIfdId, iopTags, asciiString, printValue),
         TagInfo(0x0002, "InteroperabilityVersion", "InteroperabilityVersion", "Interoperability version", iopIfdId, iopTags, undefined, printValue),
         TagInfo(0x1000, "RelatedImageFileFormat", "RelatedImageFileFormat", "File format of image file", iopIfdId, iopTags, asciiString, printValue),
         TagInfo(0x1001, "RelatedImageWidth", "RelatedImageWidth", "Image width", iopIfdId, iopTags, unsignedLong, printValue),
@@ -1063,7 +1102,7 @@ namespace Exiv2 {
         if (value.count() == 3) {
             std::ostringstream oss;
             oss.copyfmt(os);
-            static const char unit[4] = "°'\"";
+            static const char unit[4] = "'\"";
             int n;
             for (n = 2; n > 0; --n) {
                 if (value.toRational(n).first != 0) break;
