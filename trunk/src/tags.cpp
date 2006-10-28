@@ -328,8 +328,8 @@ namespace Exiv2 {
                 "followed. When the field is left blank, it is treated as unknown.", 
                 ifd0Id, otherTags, asciiString, printValue),
         TagInfo(0x0132, "DateTime", "Date and Time",
-                "The date and time of image creation. In this standard "
-                "(EXIF-2.1) it is the date and time the file was changed.",
+                "The date and time of image creation. In Exif standard, "
+                "it is the date and time the file was changed.",
                 ifd0Id, otherTags, asciiString, printValue),
         TagInfo(0x013b, "Artist", "Artist",
                 "This tag records the name of the camera owner, photographer or "
@@ -433,17 +433,8 @@ namespace Exiv2 {
                 "field; e.g., \"Copyright, John Smith, 19xx. All rights "
                 "reserved.\". In this standard the field records both the "
                 "photographer and editor copyrights, with each recorded in a "
-                "separate part of the statement. When there is a clear "
-                "distinction between the photographer and editor copyrights, "
-                "these are to be written in the order of photographer followed "
-                "by editor copyright, separated by NULL (in this case, "
-                "since the statement also ends with a NULL, there are two NULL "
-                "codes) (see example 1). When only the photographer is given, "
-                "it is terminated by one NULL code (see example 2). When only "
-                "the editor copyright is given, "
-                "the photographer copyright part consists of one space followed "
-                "by a terminating NULL code, then the editor copyright is given "
-                "(see example 3). When the field is left blank, it is treated as unknown.",
+                "separate part of the statement. When the field "
+                "is left blank, it is treated as unknown.",
                 ifd0Id, otherTags, asciiString, print0x8298),
         TagInfo(0x8649, "ImageResources", "Image Resources Block",
                 "Contains information embedded by the Adobe Photoshop application",
@@ -468,8 +459,7 @@ namespace Exiv2 {
                 ifd0Id, otherTags, unsignedByte, printValue), // TIFF/EP Tag
         // End of list marker
         TagInfo(0xffff, "(UnknownIfdTag)", "Unknown IFD tag",
-                "Unknown IFD tag",
-                ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
+                "Unknown IFD tag", ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
     };
 
     //! ExposureProgram, tag 0x8822
@@ -836,23 +826,77 @@ namespace Exiv2 {
                 "this tag value of this tag always be set to 3, indicating "
                 "that the image was recorded on a DSC.", 
                 exifIfdId, captureCond, undefined, EXV_PRINT_TAG(exifFileSource)),
-        TagInfo(0xa301, "SceneType", "Scene Type", "Scene type", exifIfdId, captureCond, undefined, EXV_PRINT_TAG(exifSceneType)),
-        TagInfo(0xa302, "CFAPattern", "CFA Pattern", "CFA pattern", exifIfdId, captureCond, undefined, printValue),
-        TagInfo(0xa401, "CustomRendered", "Custom Rendered", "Custom image processing", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifCustomRendered)),
-        TagInfo(0xa402, "ExposureMode", "Exposure Mode", "Exposure mode", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifExposureMode)),
-        TagInfo(0xa403, "WhiteBalance", "White Balance", "White balance", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifWhiteBalance)),
-        TagInfo(0xa404, "DigitalZoomRatio", "Digital Zoom Ratio", "Digital zoom ratio", exifIfdId, captureCond, unsignedRational, print0xa404),
-        TagInfo(0xa405, "FocalLengthIn35mmFilm", "Focal Length In 35mm Film", "Focal length in 35 mm film", exifIfdId, captureCond, unsignedShort, print0xa405),
-        TagInfo(0xa406, "SceneCaptureType", "Scene Capture Type", "Scene capture type", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifSceneCaptureType)),
-        TagInfo(0xa407, "GainControl", "Gain Control", "Gain control", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifGainControl)),
-        TagInfo(0xa408, "Contrast", "Contrast", "Contrast", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifContrast)),
-        TagInfo(0xa409, "Saturation", "Saturation", "Saturation", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifSaturation)),
-        TagInfo(0xa40a, "Sharpness", "Sharpness", "Sharpness", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifSharpness)),
-        TagInfo(0xa40b, "DeviceSettingDescription", "Device Setting Description", "Device settings description", exifIfdId, captureCond, undefined, printValue),
-        TagInfo(0xa40c, "SubjectDistanceRange", "Subject Distance Range", "Subject distance range", exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifSubjectDistanceRange)),
-        TagInfo(0xa420, "ImageUniqueID", "Image Unique ID", "Unique image ID", exifIfdId, otherTags, asciiString, printValue),
+        TagInfo(0xa301, "SceneType", "Scene Type", 
+                "Indicates the type of scene. If a DSC recorded the image, "
+                "this tag value must always be set to 1, indicating that the "
+                "image was directly photographed.", 
+                exifIfdId, captureCond, undefined, EXV_PRINT_TAG(exifSceneType)),
+        TagInfo(0xa302, "CFAPattern", "CFA Pattern", 
+                "Indicates the color filter array (CFA) geometric pattern of the "
+                "image sensor when a one-chip color area sensor is used. "
+                "It does not apply to all sensing methods.", 
+                exifIfdId, captureCond, undefined, printValue),
+        TagInfo(0xa401, "CustomRendered", "Custom Rendered", 
+                "This tag indicates the use of special processing on image "
+                "data, such as rendering geared to output. When special "
+                "processing is performed, the reader is expected to disable "
+                "or minimize any further processing.", 
+                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifCustomRendered)),
+        TagInfo(0xa402, "ExposureMode", "Exposure Mode", 
+                "This tag indicates the exposure mode set when the image was "
+                "shot. In auto-bracketing mode, the camera shoots a series of "
+                "frames of the same scene at different exposure settings.", 
+                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifExposureMode)),
+        TagInfo(0xa403, "WhiteBalance", "White Balance", 
+                "This tag indicates the white balance mode set when the image was shot.", 
+                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifWhiteBalance)),
+        TagInfo(0xa404, "DigitalZoomRatio", "Digital Zoom Ratio", 
+                "This tag indicates the digital zoom ratio when the image was "
+                "shot. If the numerator of the recorded value is 0, this "
+                "indicates that digital zoom was not used.", 
+                exifIfdId, captureCond, unsignedRational, print0xa404),
+        TagInfo(0xa405, "FocalLengthIn35mmFilm", "Focal Length In 35mm Film", 
+                "This tag indicates the equivalent focal length assuming a "
+                "35mm film camera, in mm. A value of 0 means the focal "
+                "length is unknown. Note that this tag differs from the "
+                "<FocalLength> tag.", 
+                exifIfdId, captureCond, unsignedShort, print0xa405),
+        TagInfo(0xa406, "SceneCaptureType", "Scene Capture Type", 
+                "This tag indicates the type of scene that was shot. It can "
+                "also be used to record the mode in which the image was "
+                "shot. Note that this differs from the <SceneType> tag.", 
+                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifSceneCaptureType)),
+        TagInfo(0xa407, "GainControl", "Gain Control", 
+                "This tag indicates the degree of overall image gain adjustment.", 
+                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifGainControl)),
+        TagInfo(0xa408, "Contrast", "Contrast", 
+                "This tag indicates the direction of contrast processing "
+                "applied by the camera when the image was shot.", 
+                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifContrast)),
+        TagInfo(0xa409, "Saturation", "Saturation", 
+                "This tag indicates the direction of saturation processing "
+                "applied by the camera when the image was shot.", 
+                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifSaturation)),
+        TagInfo(0xa40a, "Sharpness", "Sharpness", 
+                "This tag indicates the direction of sharpness processing "
+                "applied by the camera when the image was shot.", 
+                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifSharpness)),
+        TagInfo(0xa40b, "DeviceSettingDescription", "Device Setting Description", 
+                "This tag indicates information on the picture-taking "
+                "conditions of a particular camera model. The tag is used "
+                "only to indicate the picture-taking conditions in the reader.", 
+                exifIfdId, captureCond, undefined, printValue),
+        TagInfo(0xa40c, "SubjectDistanceRange", "Subject Distance Range", 
+                "This tag indicates the distance to the subject.", 
+                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifSubjectDistanceRange)),
+        TagInfo(0xa420, "ImageUniqueID", "Image Unique ID", 
+                "This tag indicates an identifier assigned uniquely to "
+                "each image. It is recorded as an ASCII string equivalent "
+                "to hexadecimal notation and 128-bit fixed length.", 
+                exifIfdId, otherTags, asciiString, printValue),
         // End of list marker
-        TagInfo(0xffff, "(UnknownExifTag)", "Unknown Exif tag", "Unknown Exif tag", ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
+        TagInfo(0xffff, "(UnknownExifTag)", "Unknown Exif tag", 
+                "Unknown Exif tag", ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
     };
 
     //! GPS latitude reference, tag 0x0001; also GPSDestLatitudeRef, tag 0x0013
