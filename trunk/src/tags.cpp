@@ -971,30 +971,104 @@ namespace Exiv2 {
                 "Indicates the altitude based on the reference in GPSAltitudeRef. "
                 "Altitude is expressed as one RATIONAL value. The reference unit is meters.", 
                 gpsIfdId, gpsTags, unsignedRational, print0x0006),
-        TagInfo(0x0007, "GPSTimeStamp", "GPSTimeStamp", "GPS time (atomic clock)", gpsIfdId, gpsTags, unsignedRational, print0x0007),
-        TagInfo(0x0008, "GPSSatellites", "GPSSatellites", "GPS satellites used for measurement", gpsIfdId, gpsTags, asciiString, printValue),
-        TagInfo(0x0009, "GPSStatus", "GPSStatus", "GPS receiver status", gpsIfdId, gpsTags, asciiString, printValue),
-        TagInfo(0x000a, "GPSMeasureMode", "GPSMeasureMode", "GPS measurement mode", gpsIfdId, gpsTags, asciiString, printValue),
-        TagInfo(0x000b, "GPSDOP", "GPSDOP", "Measurement precision", gpsIfdId, gpsTags, unsignedRational, printValue),
-        TagInfo(0x000c, "GPSSpeedRef", "GPSSpeedRef", "Speed unit", gpsIfdId, gpsTags, asciiString, EXV_PRINT_TAG(exifGPSSpeedRef)),
-        TagInfo(0x000d, "GPSSpeed", "GPSSpeed", "Speed of GPS receiver", gpsIfdId, gpsTags, unsignedRational, printValue),
-        TagInfo(0x000e, "GPSTrackRef", "GPSTrackRef", "Reference for direction of movement", gpsIfdId, gpsTags, asciiString, printValue),
-        TagInfo(0x000f, "GPSTrack", "GPSTrack", "Direction of movement", gpsIfdId, gpsTags, unsignedRational, printValue),
-        TagInfo(0x0010, "GPSImgDirectionRef", "GPSImgDirectionRef", "Reference for direction of image", gpsIfdId, gpsTags, asciiString, printValue),
-        TagInfo(0x0011, "GPSImgDirection", "GPSImgDirection", "Direction of image", gpsIfdId, gpsTags, unsignedRational, printValue),
-        TagInfo(0x0012, "GPSMapDatum", "GPSMapDatum", "Geodetic survey data used", gpsIfdId, gpsTags, asciiString, printValue),
-        TagInfo(0x0013, "GPSDestLatitudeRef", "GPSDestLatitudeRef", "Reference for latitude of destination", gpsIfdId, gpsTags, asciiString, EXV_PRINT_TAG(exifGPSLatitudeRef)),
-        TagInfo(0x0014, "GPSDestLatitude", "GPSDestLatitude", "Latitude of destination", gpsIfdId, gpsTags, unsignedRational, printDegrees),
-        TagInfo(0x0015, "GPSDestLongitudeRef", "GPSDestLongitudeRef", "Reference for longitude of destination", gpsIfdId, gpsTags, asciiString, EXV_PRINT_TAG(exifGPSLongitudeRef)),
-        TagInfo(0x0016, "GPSDestLongitude", "GPSDestLongitude", "Longitude of destination", gpsIfdId, gpsTags, unsignedRational, printDegrees),
-        TagInfo(0x0017, "GPSDestBearingRef", "GPSDestBearingRef", "Reference for bearing of destination", gpsIfdId, gpsTags, asciiString, printValue),
-        TagInfo(0x0018, "GPSDestBearing", "GPSDestBearing", "Bearing of destination", gpsIfdId, gpsTags, unsignedRational, printValue),
-        TagInfo(0x0019, "GPSDestDistanceRef", "GPSDestDistanceRef", "Reference for distance to destination", gpsIfdId, gpsTags, asciiString, printValue),
-        TagInfo(0x001a, "GPSDestDistance", "GPSDestDistance", "Distance to destination", gpsIfdId, gpsTags, unsignedRational, printValue),
-        TagInfo(0x001b, "GPSProcessingMethod", "GPSProcessingMethod", "Name of GPS processing method", gpsIfdId, gpsTags, undefined, printValue),
-        TagInfo(0x001c, "GPSAreaInformation", "GPSAreaInformation", "Name of GPS area", gpsIfdId, gpsTags, undefined, printValue),
-        TagInfo(0x001d, "GPSDateStamp", "GPSDateStamp", "GPS date", gpsIfdId, gpsTags, asciiString, printValue),
-        TagInfo(0x001e, "GPSDifferential", "GPSDifferential", "GPS differential correction", gpsIfdId, gpsTags, unsignedShort, printValue),
+        TagInfo(0x0007, "GPSTimeStamp", "GPSTimeStamp", 
+                "Indicates the time as UTC (Coordinated Universal Time). "
+                "<TimeStamp> is expressed as three RATIONAL values "
+                "giving the hour, minute, and second (atomic clock).", 
+                gpsIfdId, gpsTags, unsignedRational, print0x0007),
+        TagInfo(0x0008, "GPSSatellites", "GPSSatellites", 
+                "Indicates the GPS satellites used for measurements. This tag can be used "
+                "to describe the number of satellites, their ID number, angle of elevation, "
+                "azimuth, SNR and other information in ASCII notation. The format is not "
+                "specified. If the GPS receiver is incapable of taking measurements, value "
+                "of the tag is set to NULL.", 
+                gpsIfdId, gpsTags, asciiString, printValue),
+        TagInfo(0x0009, "GPSStatus", "GPSStatus", 
+                "Indicates the status of the GPS receiver when the image is recorded. "
+                "\"A\" means measurement is in progress, and \"V\" means the measurement is Interoperability.", 
+                gpsIfdId, gpsTags, asciiString, printValue),
+        TagInfo(0x000a, "GPSMeasureMode", "GPSMeasureMode", 
+                "Indicates the GPS measurement mode. \"2\" means two-dimensional measurement and \"3\" "
+                "means three-dimensional measurement is in progress.", 
+                gpsIfdId, gpsTags, asciiString, printValue),
+        TagInfo(0x000b, "GPSDOP", "GPSDOP", 
+                "Indicates the GPS DOP (data degree of precision). An HDOP value is written "
+                "during two-dimensional measurement, and PDOP during three-dimensional measurement.", 
+                gpsIfdId, gpsTags, unsignedRational, printValue),
+        TagInfo(0x000c, "GPSSpeedRef", "GPSSpeedRef", 
+                "Indicates the unit used to express the GPS receiver speed of movement. "
+                "\"K\" \"M\" and \"N\" represents kilometers per hour, miles per hour, and knots.", 
+                gpsIfdId, gpsTags, asciiString, EXV_PRINT_TAG(exifGPSSpeedRef)),
+        TagInfo(0x000d, "GPSSpeed", "GPSSpeed", 
+                "Indicates the speed of GPS receiver movement.", 
+                gpsIfdId, gpsTags, unsignedRational, printValue),
+        TagInfo(0x000e, "GPSTrackRef", "GPSTrackRef", 
+                "Indicates the reference for giving the direction of GPS receiver movement. "
+                "\"T\" denotes true direction and \"M\" is magnetic direction.", 
+                gpsIfdId, gpsTags, asciiString, printValue),
+        TagInfo(0x000f, "GPSTrack", "GPSTrack", 
+                "Indicates the direction of GPS receiver movement. The range of values is from 0.00 to 359.99.", 
+                gpsIfdId, gpsTags, unsignedRational, printValue),
+        TagInfo(0x0010, "GPSImgDirectionRef", "GPSImgDirectionRef", 
+                "Indicates the reference for giving the direction of the image when it is captured. "
+                "\"T\" denotes true direction and \"M\" is magnetic direction.", 
+                gpsIfdId, gpsTags, asciiString, printValue),
+        TagInfo(0x0011, "GPSImgDirection", "GPSImgDirection", 
+                "Indicates the direction of the image when it was captured. The range of values is from 0.00 to 359.99.", 
+                gpsIfdId, gpsTags, unsignedRational, printValue),
+        TagInfo(0x0012, "GPSMapDatum", "GPSMapDatum", 
+                "Indicates the geodetic survey data used by the GPS receiver. If the survey data "
+                "is restricted to Japan, the value of this tag is \"TOKYO\" or \"WGS-84\".", 
+                gpsIfdId, gpsTags, asciiString, printValue),
+        TagInfo(0x0013, "GPSDestLatitudeRef", "GPSDestLatitudeRef", 
+                "Indicates whether the latitude of the destination point is north or south latitude. "
+                "The ASCII value \"N\" indicates north latitude, and \"S\" is south latitude.", 
+                gpsIfdId, gpsTags, asciiString, EXV_PRINT_TAG(exifGPSLatitudeRef)),
+        TagInfo(0x0014, "GPSDestLatitude", "GPSDestLatitude", 
+                "Indicates the latitude of the destination point. The latitude is expressed as three RATIONAL "
+                "values giving the degrees, minutes, and seconds, respectively. If latitude is expressed as degrees, "
+                "minutes and seconds, a typical format would be dd/1,mm/1,ss/1. When degrees and minutes are used and, "
+                "for example, fractions of minutes are given up to two decimal places, the format would be dd/1,mmmm/100,0/1.", 
+                gpsIfdId, gpsTags, unsignedRational, printDegrees),
+        TagInfo(0x0015, "GPSDestLongitudeRef", "GPSDestLongitudeRef", 
+                "Indicates whether the longitude of the destination point is east or west longitude. "
+                "ASCII \"E\" indicates east longitude, and \"W\" is west longitude.", 
+                gpsIfdId, gpsTags, asciiString, EXV_PRINT_TAG(exifGPSLongitudeRef)),
+        TagInfo(0x0016, "GPSDestLongitude", "GPSDestLongitude", 
+                "Indicates the longitude of the destination point. The longitude is expressed as three RATIONAL "
+                "values giving the degrees, minutes, and seconds, respectively. If longitude is expressed as degrees, "
+                "minutes and seconds, a typical format would be ddd/1,mm/1,ss/1. When degrees and minutes are used and, "
+                "for example, fractions of minutes are given up to two decimal places, the format would be ddd/1,mmmm/100,0/1.", 
+                gpsIfdId, gpsTags, unsignedRational, printDegrees),
+        TagInfo(0x0017, "GPSDestBearingRef", "GPSDestBearingRef", 
+                "Indicates the reference used for giving the bearing to the destination point. "
+                "\"T\" denotes true direction and \"M\" is magnetic direction.", 
+                gpsIfdId, gpsTags, asciiString, printValue),
+        TagInfo(0x0018, "GPSDestBearing", "GPSDestBearing", 
+                "Indicates the bearing to the destination point. The range of values is from 0.00 to 359.99.", 
+                gpsIfdId, gpsTags, unsignedRational, printValue),
+        TagInfo(0x0019, "GPSDestDistanceRef", "GPSDestDistanceRef", 
+                "Indicates the unit used to express the distance to the destination point. "
+                "\"K\", \"M\" and \"N\" represent kilometers, miles and knots.", 
+                gpsIfdId, gpsTags, asciiString, printValue),
+        TagInfo(0x001a, "GPSDestDistance", "GPSDestDistance", 
+                "Indicates the distance to the destination point.", 
+                gpsIfdId, gpsTags, unsignedRational, printValue),
+        TagInfo(0x001b, "GPSProcessingMethod", "GPSProcessingMethod", 
+                "A character string recording the name of the method used for location finding. "
+                "The first byte indicates the character code used, and this is followed by the name of the method.", 
+                gpsIfdId, gpsTags, undefined, printValue),
+        TagInfo(0x001c, "GPSAreaInformation", "GPSAreaInformation", 
+                "A character string recording the name of the GPS area. The first byte indicates "
+                "the character code used, and this is followed by the name of the GPS area.", 
+                gpsIfdId, gpsTags, undefined, printValue),
+        TagInfo(0x001d, "GPSDateStamp", "GPSDateStamp", 
+                "A character string recording date and time information relative to UTC (Coordinated Universal Time). "
+                "The format is \"YYYY:MM:DD.\".", 
+                gpsIfdId, gpsTags, asciiString, printValue),
+        TagInfo(0x001e, "GPSDifferential", "GPSDifferential", 
+                "Indicates whether differential correction is applied to the GPS receiver.", 
+                gpsIfdId, gpsTags, unsignedShort, printValue),
         // End of list marker
         TagInfo(0xffff, "(UnknownGpsTag)", "Unknown GPSInfo tag", 
                 "Unknown GPSInfo tag", ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
