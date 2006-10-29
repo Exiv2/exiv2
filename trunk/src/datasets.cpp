@@ -80,20 +80,81 @@ namespace Exiv2 {
     };
 
     static const DataSet envelopeRecord[] = {
-        DataSet(IptcDataSets::ModelVersion, "ModelVersion", "ModelVersion", "Version of IIM part 1", true, false, 2, 2, Exiv2::unsignedShort, IptcDataSets::envelope, ""),
-        DataSet(IptcDataSets::Destination, "Destination", "Destination", "Routing information", false, true, 0, 1024, Exiv2::string, IptcDataSets::envelope, ""),
-        DataSet(IptcDataSets::FileFormat, "FileFormat", "FileFormat", "IIM appendix A file format", true, false, 2, 2, Exiv2::unsignedShort, IptcDataSets::envelope, ""),
-        DataSet(IptcDataSets::FileVersion, "FileVersion", "FileVersion", "File format version", true, false, 2, 2, Exiv2::unsignedShort, IptcDataSets::envelope, ""),
-        DataSet(IptcDataSets::ServiceId, "ServiceId", "ServiceId", "Identifies the provider and product", true, false, 0, 10, Exiv2::string, IptcDataSets::envelope, ""),
-        DataSet(IptcDataSets::EnvelopeNumber, "EnvelopeNumber", "EnvelopeNumber", "Combined unique identification", true, false, 8, 8, Exiv2::string, IptcDataSets::envelope, ""),
-        DataSet(IptcDataSets::ProductId, "ProductId", "ProductId", "Identifies service subset", false, true, 0, 32, Exiv2::string, IptcDataSets::envelope, ""),
-        DataSet(IptcDataSets::EnvelopePriority, "EnvelopePriority", "EnvelopePriority", "Envelope handling priority", false, false, 1, 1, Exiv2::string, IptcDataSets::envelope, ""),
-        DataSet(IptcDataSets::DateSent, "DateSent", "DateSent", "Date material was sent", true, false, 8, 8, Exiv2::date, IptcDataSets::envelope, ""),
-        DataSet(IptcDataSets::TimeSent, "TimeSent", "TimeSent", "Time material was sent", false, false, 11, 11, Exiv2::time, IptcDataSets::envelope, ""),
-        DataSet(IptcDataSets::CharacterSet, "CharacterSet", "CharacterSet", "Specifies character sets", false, false, 0, 32, Exiv2::undefined, IptcDataSets::envelope, ""),
-        DataSet(IptcDataSets::UNO, "UNO", "UNO", "Unique Name of Object", false, false, 14, 80, Exiv2::string, IptcDataSets::envelope, ""),
-        DataSet(IptcDataSets::ARMId, "ARMId", "ARMId", "Abstract Relationship Method identifier", false, false, 2, 2, Exiv2::unsignedShort, IptcDataSets::envelope, ""),
-        DataSet(IptcDataSets::ARMVersion, "ARMVersion", "ARMVersion", "Abstract Relationship Method version", false, false, 2, 2, Exiv2::unsignedShort, IptcDataSets::envelope, ""),
+        DataSet(IptcDataSets::ModelVersion, "ModelVersion", "ModelVersion", 
+                "A binary number identifying the version of the Information "
+                "Interchange Model, Part I, utilised by the provider. Version "
+                "numbers are assigned by IPTC and NAA organizations.", 
+                true, false, 2, 2, Exiv2::unsignedShort, IptcDataSets::envelope, ""),
+        DataSet(IptcDataSets::Destination, "Destination", "Destination", 
+                "This DataSet is to accommodate some providers who require "
+                "routing information above the appropriate OSI layers.", 
+                false, true, 0, 1024, Exiv2::string, IptcDataSets::envelope, ""),
+        DataSet(IptcDataSets::FileFormat, "FileFormat", "FileFormat", 
+                "A binary number representing the file format. The file format "
+                "must be registered with IPTC or NAA with a unique number "
+                "assigned to it. The information is used to route "
+                "the data to the appropriate system and to allow the receiving "
+                "system to perform the appropriate actions there to.", 
+                true, false, 2, 2, Exiv2::unsignedShort, IptcDataSets::envelope, ""),
+        DataSet(IptcDataSets::FileVersion, "FileVersion", "FileVersion", 
+                "A binary number representing the particular version of the File "
+                "Format specified by <FileFormat> tag.", 
+                true, false, 2, 2, Exiv2::unsignedShort, IptcDataSets::envelope, ""),
+        DataSet(IptcDataSets::ServiceId, "ServiceId", "ServiceId", 
+                "Identifies the provider and product", 
+                true, false, 0, 10, Exiv2::string, IptcDataSets::envelope, ""),
+        DataSet(IptcDataSets::EnvelopeNumber, "EnvelopeNumber", "EnvelopeNumber", 
+                "The characters form a number that will be unique for the date "
+                "specified in <DateSent> tag and for the Service Identifier "
+                "specified by <ServiceIdentifier> tag. "
+                "If identical envelope numbers appear with the same date and "
+                "with the same Service Identifier, records 2-9 must be unchanged "
+                "from the original. This is not intended to be a sequential serial "
+                "number reception check.", 
+                true, false, 8, 8, Exiv2::string, IptcDataSets::envelope, ""),
+        DataSet(IptcDataSets::ProductId, "ProductId", "ProductId", 
+                "Allows a provider to identify subsets of its overall service. Used "
+                "to provide receiving organisation data on which to select, route, "
+                "or otherwise handle data.", 
+                false, true, 0, 32, Exiv2::string, IptcDataSets::envelope, ""),
+        DataSet(IptcDataSets::EnvelopePriority, "EnvelopePriority", "EnvelopePriority", 
+                "Specifies the envelope handling priority and not the editorial "
+                "urgency (see <Urgency> tag). \"1\" indicates the most urgent, \"5\" "
+                "the normal urgency, and \"8\" the least urgent copy. The numeral "
+                "\"9\" indicates a User Defined Priority. The numeral \"0\" is reserved "
+                "for future use.", 
+                false, false, 1, 1, Exiv2::string, IptcDataSets::envelope, ""),
+        DataSet(IptcDataSets::DateSent, "DateSent", "DateSent", 
+                "Uses the format CCYYMMDD (century, year, month, day) as de-fined "
+                "in ISO 8601 to indicate year, month and day the service sent the material.", 
+                true, false, 8, 8, Exiv2::date, IptcDataSets::envelope, ""),
+        DataSet(IptcDataSets::TimeSent, "TimeSent", "TimeSent", 
+                "Uses the format HHMMSS±HHMM where HHMMSS refers to "
+                "local hour, minute and seconds and HHMM refers to hours and "
+                "minutes ahead (+) or behind (-) Universal Coordinated Time as "
+                "described in ISO 8601. This is the time the service sent the material.", 
+                false, false, 11, 11, Exiv2::time, IptcDataSets::envelope, ""),
+        DataSet(IptcDataSets::CharacterSet, "CharacterSet", "CharacterSet", 
+                "This tag consisting of one or more control functions used for the announcement, "
+                "invocation or designation of coded character sets. The control functions follow "
+                "the ISO 2022 standard and may consist of the escape control "
+                "character and one or more graphic characters.", 
+                false, false, 0, 32, Exiv2::undefined, IptcDataSets::envelope, ""),
+        DataSet(IptcDataSets::UNO, "UNO", "UNO", 
+                "Unique Name of Object, providing eternal, globally unique "
+                "identification for objects as specified in the IIM, independent of "
+                "provider and for any media form. The provider must ensure the "
+                "UNO is unique. Objects with the same UNO are identical.", 
+                false, false, 14, 80, Exiv2::string, IptcDataSets::envelope, ""),
+        DataSet(IptcDataSets::ARMId, "ARMId", "ARMId", 
+                "The DataSet identifies the Abstract Relationship Method  identifier (ARM) "
+                "which is described in a document registered by the originator of "
+                "the ARM with the IPTC and NAA organizations.", 
+                false, false, 2, 2, Exiv2::unsignedShort, IptcDataSets::envelope, ""),
+        DataSet(IptcDataSets::ARMVersion, "ARMVersion", "ARMVersion", 
+                "This tag consisting of a binary number representing the particular "
+                "version of the ARM specified by tag <ARMId>.", 
+                false, false, 2, 2, Exiv2::unsignedShort, IptcDataSets::envelope, ""),
         DataSet(0xffff, "(Invalid)", "(Invalid)", "(Invalid)", false, false, 0, 0, Exiv2::unsignedShort, IptcDataSets::envelope, "")
     };
 
