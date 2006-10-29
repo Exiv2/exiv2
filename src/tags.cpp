@@ -22,6 +22,7 @@
   File:      tags.cpp
   Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
+             Gilles Caulier (gc) <caulier.gilles@kdemail.net>
   History:   15-Jan-04, ahu: created
              21-Jan-05, ahu: added MakerNote TagInfo registry and related code
  */
@@ -926,13 +927,50 @@ namespace Exiv2 {
 
     // GPS Info Tags
     static const TagInfo gpsTagInfo[] = {
-        TagInfo(0x0000, "GPSVersionID", "GPSVersionID", "GPS tag version", gpsIfdId, gpsTags, unsignedByte, printValue),
-        TagInfo(0x0001, "GPSLatitudeRef", "GPSLatitudeRef", "North or South Latitude", gpsIfdId, gpsTags, asciiString, EXV_PRINT_TAG(exifGPSLatitudeRef)),
-        TagInfo(0x0002, "GPSLatitude", "GPSLatitude", "Latitude", gpsIfdId, gpsTags, unsignedRational, printDegrees),
-        TagInfo(0x0003, "GPSLongitudeRef", "GPSLongitudeRef", "East or West Longitude", gpsIfdId, gpsTags, asciiString, EXV_PRINT_TAG(exifGPSLongitudeRef)),
-        TagInfo(0x0004, "GPSLongitude", "GPSLongitude", "Longitude", gpsIfdId, gpsTags, unsignedRational, printDegrees),
-        TagInfo(0x0005, "GPSAltitudeRef", "GPSAltitudeRef", "Altitude reference", gpsIfdId, gpsTags, unsignedByte, EXV_PRINT_TAG(exifGPSAltitudeRef)),
-        TagInfo(0x0006, "GPSAltitude", "GPSAltitude", "Altitude", gpsIfdId, gpsTags, unsignedRational, print0x0006),
+        TagInfo(0x0000, "GPSVersionID", "GPSVersionID", 
+                "Indicates the version of <GPSInfoIFD>. The version is given "
+                "as 2.0.0.0. This tag is mandatory when <GPSInfo> tag is "
+                "present. (Note: The <GPSVersionID> tag is given in bytes, "
+                "unlike the <ExifVersion> tag. When the version is "
+                "2.0.0.0, the tag value is 02000000.H).", 
+                gpsIfdId, gpsTags, unsignedByte, printValue),
+        TagInfo(0x0001, "GPSLatitudeRef", "GPSLatitudeRef", 
+                "Indicates whether the latitude is north or south latitude. The "
+                "ASCII value 'N' indicates north latitude, and 'S' is south "
+                "latitude.", 
+                gpsIfdId, gpsTags, asciiString, EXV_PRINT_TAG(exifGPSLatitudeRef)),
+        TagInfo(0x0002, "GPSLatitude", "GPSLatitude", 
+                "Indicates the latitude. The latitude is expressed as three "
+                "RATIONAL values giving the degrees, minutes, and seconds, "
+                "respectively. When degrees, minutes and seconds are expressed, "
+                "the format is dd/1,mm/1,ss/1. When degrees and minutes are used "
+                "and, for example, fractions of minutes are given up to two "
+                "decimal places, the format is dd/1,mmmm/100,0/1.", 
+                gpsIfdId, gpsTags, unsignedRational, printDegrees),
+        TagInfo(0x0003, "GPSLongitudeRef", "GPSLongitudeRef", 
+                "Indicates whether the longitude is east or west longitude. "
+                "ASCII 'E' indicates east longitude, and 'W' is west longitude.", 
+                gpsIfdId, gpsTags, asciiString, EXV_PRINT_TAG(exifGPSLongitudeRef)),
+        TagInfo(0x0004, "GPSLongitude", "GPSLongitude", 
+                "Indicates the longitude. The longitude is expressed as three "
+                "RATIONAL values giving the degrees, minutes, and seconds, "
+                "respectively. When degrees, minutes and seconds are expressed, "
+                "the format is ddd/1,mm/1,ss/1. When degrees and minutes are "
+                "used and, for example, fractions of minutes are given up to "
+                "two decimal places, the format is ddd/1,mmmm/100,0/1.", 
+                gpsIfdId, gpsTags, unsignedRational, printDegrees),
+        TagInfo(0x0005, "GPSAltitudeRef", "GPSAltitudeRef", 
+                "Indicates the altitude used as the reference altitude. If the "
+                "reference is sea level and the altitude is above sea level, 0 "
+                "is given. If the altitude is below sea level, a value of 1 is given "
+                "and the altitude is indicated as an absolute value in the "
+                "GSPAltitude tag. The reference unit is meters. Note that this tag "
+                "is BYTE type, unlike other reference tags.", 
+                gpsIfdId, gpsTags, unsignedByte, EXV_PRINT_TAG(exifGPSAltitudeRef)),
+        TagInfo(0x0006, "GPSAltitude", "GPSAltitude", 
+                "Indicates the altitude based on the reference in GPSAltitudeRef. "
+                "Altitude is expressed as one RATIONAL value. The reference unit is meters.", 
+                gpsIfdId, gpsTags, unsignedRational, print0x0006),
         TagInfo(0x0007, "GPSTimeStamp", "GPSTimeStamp", "GPS time (atomic clock)", gpsIfdId, gpsTags, unsignedRational, print0x0007),
         TagInfo(0x0008, "GPSSatellites", "GPSSatellites", "GPS satellites used for measurement", gpsIfdId, gpsTags, asciiString, printValue),
         TagInfo(0x0009, "GPSStatus", "GPSStatus", "GPS receiver status", gpsIfdId, gpsTags, asciiString, printValue),
@@ -958,7 +996,8 @@ namespace Exiv2 {
         TagInfo(0x001d, "GPSDateStamp", "GPSDateStamp", "GPS date", gpsIfdId, gpsTags, asciiString, printValue),
         TagInfo(0x001e, "GPSDifferential", "GPSDifferential", "GPS differential correction", gpsIfdId, gpsTags, unsignedShort, printValue),
         // End of list marker
-        TagInfo(0xffff, "(UnknownGpsTag)", "Unknown GPSInfo tag", "Unknown GPSInfo tag", ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
+        TagInfo(0xffff, "(UnknownGpsTag)", "Unknown GPSInfo tag", 
+                "Unknown GPSInfo tag", ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
     };
 
     // Exif Interoperability IFD Tags
@@ -970,7 +1009,9 @@ namespace Exiv2 {
                 "volume of Recommended Exif Interoperability Rules (ExifR98) "
                 "for other tags used for ExifR98.",
                 iopIfdId, iopTags, asciiString, printValue),
-        TagInfo(0x0002, "InteroperabilityVersion", "InteroperabilityVersion", "Interoperability version", iopIfdId, iopTags, undefined, printValue),
+        TagInfo(0x0002, "InteroperabilityVersion", "InteroperabilityVersion", 
+                "Interoperability version", 
+                iopIfdId, iopTags, undefined, printValue),
         TagInfo(0x1000, "RelatedImageFileFormat", "RelatedImageFileFormat",
                 "File format of image file",
                 iopIfdId, iopTags, asciiString, printValue),
@@ -981,11 +1022,13 @@ namespace Exiv2 {
                 "Image height",
                 iopIfdId, iopTags, unsignedLong, printValue),
         // End of list marker
-        TagInfo(0xffff, "(UnknownIopTag)", "Unknown Exif Interoperability tag", "Unknown Exif Interoperability tag", ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
+        TagInfo(0xffff, "(UnknownIopTag)", "Unknown Exif Interoperability tag", 
+                "Unknown Exif Interoperability tag", ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
     };
 
     // Unknown Tag
-    static const TagInfo unknownTag(0xffff, "Unknown tag", "Unknown tag", "Unknown tag", ifdIdNotSet, sectionIdNotSet, asciiString, printValue);
+    static const TagInfo unknownTag(0xffff, "Unknown tag", "Unknown tag", 
+                                    "Unknown tag", ifdIdNotSet, sectionIdNotSet, asciiString, printValue);
 
     // Tag lookup lists with tag names, desc and where they (preferably) belong to;
     // this is an array with pointers to one list per IFD. The IfdId is used as the
