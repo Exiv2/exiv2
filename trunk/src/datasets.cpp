@@ -204,25 +204,95 @@ namespace Exiv2 {
         DataSet(IptcDataSets::Subject, "Subject", "Subject", 
                 "The Subject Reference is a structured definition of the subject matter.", 
                 false, true, 13, 236, Exiv2::string, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::Category, "Category", "Category", "Identifies the subject", false, false, 0, 3, Exiv2::string, IptcDataSets::application2, "Category"),
-        DataSet(IptcDataSets::SuppCategory, "SuppCategory", "SuppCategory", "Refines the subject", false, true, 0, 32, Exiv2::string, IptcDataSets::application2, "Supplemental Categories"),
-        DataSet(IptcDataSets::FixtureId, "FixtureId", "FixtureId", "Identifies content that recurs", false, false, 0, 32, Exiv2::string, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::Keywords, "Keywords", "Keywords", "Information retrieval words", false, true, 0, 64, Exiv2::string, IptcDataSets::application2, "Keywords"),
-        DataSet(IptcDataSets::LocationCode, "LocationCode", "LocationCode", "ISO country code for content", false, true, 3, 3, Exiv2::string, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::LocationName, "LocationName", "LocationName", "Full country name for content", false, true, 0, 64, Exiv2::string, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::ReleaseDate, "ReleaseDate", "ReleaseDate", "Earliest intended usable date", false, false, 8, 8, Exiv2::date, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::ReleaseTime, "ReleaseTime", "ReleaseTime", "Earliest intended usable time", false, false, 11, 11, Exiv2::time, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::ExpirationDate, "ExpirationDate", "ExpirationDate", "Latest intended usable date", false, false, 8, 8, Exiv2::date, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::ExpirationTime, "ExpirationTime", "ExpirationTime", "Latest intended usable time", false, false, 11, 11, Exiv2::time, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::SpecialInstructions, "SpecialInstructions", "SpecialInstructions", "Editorial usage instructions", false, false, 0, 256, Exiv2::string, IptcDataSets::application2, "Instructions"),
-        DataSet(IptcDataSets::ActionAdvised, "ActionAdvised", "ActionAdvised", "Action provided to previous data", false, false, 2, 2, Exiv2::string, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::ReferenceService, "ReferenceService", "ReferenceService", "Service Identifier of a prior envelope", false, true, 0, 10, Exiv2::string, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::ReferenceDate, "ReferenceDate", "ReferenceDate", "Date of a prior envelope", false, true, 8, 8, Exiv2::date, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::ReferenceNumber, "ReferenceNumber", "ReferenceNumber", "Envelope Number of a prior envelope", false, true, 8, 8, Exiv2::string, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::DateCreated, "DateCreated", "DateCreated", "Creation date of intellectual content", false, false, 8, 8, Exiv2::date, IptcDataSets::application2, "Date created"),
-        DataSet(IptcDataSets::TimeCreated, "TimeCreated", "TimeCreated", "Creation time of intellectual content", false, false, 11, 11, Exiv2::time, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::DigitizationDate, "DigitizationDate", "DigitizationDate", "Creation date of digital representation", false, false, 8, 8, Exiv2::date, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::DigitizationTime, "DigitizationTime", "DigitizationTime", "Creation time of digital representation", false, false, 11, 11, Exiv2::time, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::Category, "Category", "Category", 
+                "Identifies the subject of the object data in the opinion of the provider. "
+                "A list of categories will be maintained by a regional registry, "
+                "where available, otherwise by the provider.", 
+                false, false, 0, 3, Exiv2::string, IptcDataSets::application2, "Category"),
+        DataSet(IptcDataSets::SuppCategory, "SuppCategory", "SuppCategory", 
+                "Supplemental categories further refine the subject of an "
+                "object data. A supplemental category may include "
+                "any of the recognised categories as used in tag <Category>. Otherwise, "
+                "selection of supplemental categories are left to the provider.", 
+                false, true, 0, 32, Exiv2::string, IptcDataSets::application2, "Supplemental Categories"),
+        DataSet(IptcDataSets::FixtureId, "FixtureId", "FixtureId", 
+                "Identifies object data that recurs often and predictably. Enables "
+                "users to immediately find or recall such an object.", 
+                false, false, 0, 32, Exiv2::string, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::Keywords, "Keywords", "Keywords", 
+                "Used to indicate specific information retrieval words. "
+                "It is expected that a provider of various types of data that are related "
+                "in subject matter uses the same keyword, enabling the receiving system "
+                "or subsystems to search across all types of data for related material.", 
+                false, true, 0, 64, Exiv2::string, IptcDataSets::application2, "Keywords"),
+        DataSet(IptcDataSets::LocationCode, "LocationCode", "LocationCode", 
+                "Indicates the code of a country/geographical location referenced "
+                "by the content of the object. Where ISO has established an appropriate "
+                "country code under ISO 3166, that code will be used. When ISO 3166 does not "
+                "adequately provide for identification of a location or a country, "
+                "e.g. ships at sea, space, IPTC will assign an appropriate three-character "
+                "code under the provisions of ISO 3166 to avoid conflicts.", 
+                false, true, 3, 3, Exiv2::string, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::LocationName, "LocationName", "LocationName", 
+                "Provides a full, publishable name of a country/geographical "
+                "location referenced by the content of the object, according to "
+                "guidelines of the provider.", 
+                false, true, 0, 64, Exiv2::string, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::ReleaseDate, "ReleaseDate", "ReleaseDate", 
+                "Designates in the form CCYYMMDD the earliest date the "
+                "provider intends the object to be used. Follows ISO 8601 standard.", 
+                false, false, 8, 8, Exiv2::date, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::ReleaseTime, "ReleaseTime", "ReleaseTime", 
+                "Designates in the form HHMMSS±HHMM the earliest time the "
+                "provider intends the object to be used. Follows ISO 8601 standard.", 
+                false, false, 11, 11, Exiv2::time, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::ExpirationDate, "ExpirationDate", "ExpirationDate", 
+                "Designates in the form CCYYMMDD the latest date the provider "
+                "or owner intends the object data to be used. Follows ISO 8601 standard.", 
+                false, false, 8, 8, Exiv2::date, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::ExpirationTime, "ExpirationTime", "ExpirationTime", 
+                "Designates in the form HHMMSS±HHMM the latest time the "
+                "provider or owner intends the object data to be used. Follows ISO 8601 standard.", 
+                false, false, 11, 11, Exiv2::time, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::SpecialInstructions, "SpecialInstructions", "SpecialInstructions", 
+                "Other editorial instructions concerning the use of the object data, "
+                "such as embargoes and warnings.", 
+                false, false, 0, 256, Exiv2::string, IptcDataSets::application2, "Instructions"),
+        DataSet(IptcDataSets::ActionAdvised, "ActionAdvised", "ActionAdvised", 
+                "Indicates the type of action that this object provides to a "
+                "previous object. The link to the previous object is made using "
+                "tags <ARMIdentifier> and <ARMVersion>, according to the practices of the provider.", 
+                false, false, 2, 2, Exiv2::string, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::ReferenceService, "ReferenceService", "ReferenceService", 
+                "Identifies the Service Identifier of a prior envelope to which the "
+                "current object refers.", 
+                false, true, 0, 10, Exiv2::string, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::ReferenceDate, "ReferenceDate", "ReferenceDate", 
+                "Identifies the date of a prior envelope to which the current object refers.", 
+                false, true, 8, 8, Exiv2::date, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::ReferenceNumber, "ReferenceNumber", "ReferenceNumber", 
+                "Identifies the Envelope Number of a prior envelope to which the current object refers.", 
+                false, true, 8, 8, Exiv2::string, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::DateCreated, "DateCreated", "DateCreated", 
+                "Represented in the form CCYYMMDD to designate the date the "
+                "intellectual content of the object data was created rather than the "
+                "date of the creation of the physical representation. Follows ISO 8601 standard.", 
+                false, false, 8, 8, Exiv2::date, IptcDataSets::application2, "Date created"),
+        DataSet(IptcDataSets::TimeCreated, "TimeCreated", "TimeCreated", 
+                "Represented in the form HHMMSS±HHMM to designate the "
+                "time the intellectual content of the object data current source "
+                "material was created rather than the creation of the physical "
+                "representation. Follows ISO 8601 standard.", 
+                false, false, 11, 11, Exiv2::time, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::DigitizationDate, "DigitizationDate", "DigitizationDate", 
+                "Represented in the form CCYYMMDD to designate the date the "
+                "digital representation of the object data was created. Follows ISO 8601 standard.",
+                false, false, 8, 8, Exiv2::date, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::DigitizationTime, "DigitizationTime", "DigitizationTime", 
+                "Represented in the form HHMMSS±HHMM to designate the "
+                "time the digital representation of the object data was created. "
+                "Follows ISO 8601 standard.", 
+                false, false, 11, 11, Exiv2::time, IptcDataSets::application2, ""),
         DataSet(IptcDataSets::Program, "Program", "Program", "Content creation program", false, false, 0, 32, Exiv2::string, IptcDataSets::application2, ""),
         DataSet(IptcDataSets::ProgramVersion, "ProgramVersion", "ProgramVersion", "Content creation program version", false, false, 0, 10, Exiv2::string, IptcDataSets::application2, ""),
         DataSet(IptcDataSets::ObjectCycle, "ObjectCycle", "ObjectCycle", "Morning, evening, or both", false, false, 1, 1, Exiv2::string, IptcDataSets::application2, ""),
