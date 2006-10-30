@@ -22,6 +22,7 @@
   File:      datasets.cpp
   Version:   $Rev$
   Author(s): Brad Schick (brad) <brad@robotbattle.com>
+             Gilles Caulier (gc) <caulier.gilles@kdemail.net>
   History:   24-Jul-04, brad: created
  */
 // *****************************************************************************
@@ -352,14 +353,14 @@ namespace Exiv2 {
                 false, false, 0, 128, Exiv2::string, IptcDataSets::application2, "Copyright notice"),
         DataSet(IptcDataSets::Contact, "Contact", "Contact", 
                 "Identifies the person or organisation which can provide further "
-                "background information on the objectdata.", 
+                "background information on the object data.", 
                 false, true, 0, 128, Exiv2::string, IptcDataSets::application2, ""),
         DataSet(IptcDataSets::Caption, "Caption", "Caption", 
                 "A textual description of the object data.", 
                 false, false, 0, 2000, Exiv2::string, IptcDataSets::application2, "Description"),
         DataSet(IptcDataSets::Writer, "Writer", "Writer", 
                 "Identification of the name of the person involved in the writing, "
-                "editing or correcting the objectdata or caption/abstract.", 
+                "editing or correcting the object data or caption/abstract.", 
                 false, true, 0, 32, Exiv2::string, IptcDataSets::application2, "Description writer"),
         DataSet(IptcDataSets::RasterizedCaption, "RasterizedCaption", "RasterizedCaption", 
                 "Contains the rasterized object data description and is used "
@@ -377,15 +378,36 @@ namespace Exiv2 {
                 "any coded character set, but is used for internal routing, e.g. to "
                 "various editorial desks.", 
                 false, false, 2, 3, Exiv2::string, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::AudioType, "AudioType", "AudioType", "Information about audio content", false, false, 2, 2, Exiv2::string, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::AudioRate, "AudioRate", "AudioRate", "Sampling rate of audio content", false, false, 6, 6, Exiv2::string, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::AudioResolution, "AudioResolution", "AudioResolution", "Sampling resolution of audio content", false, false, 2, 2, Exiv2::string, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::AudioDuration, "AudioDuration", "AudioDuration", "Duration of audio content", false, false, 6, 6, Exiv2::string, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::AudioOutcue, "AudioOutcue", "AudioOutcue", "Final words or sounds of audio content", false, false, 0, 64, Exiv2::string, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::PreviewFormat, "PreviewFormat", "PreviewFormat", "IIM appendix A file format of preview", false, false, 2, 2, Exiv2::unsignedShort, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::PreviewVersion, "PreviewVersion", "PreviewVersion", "File format version of preview", false, false, 2, 2, Exiv2::unsignedShort, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::Preview, "Preview", "Preview", "Binary preview data", false, false, 0, 256000, Exiv2::undefined, IptcDataSets::application2, ""),
-        DataSet(0xffff, "(Invalid)", "(Invalid)", "(Invalid)", false, false, 0, 0, Exiv2::unsignedShort, IptcDataSets::application2, "")
+        DataSet(IptcDataSets::AudioType, "AudioType", "AudioType", 
+                "Indicates the type of an audio content.", 
+                false, false, 2, 2, Exiv2::string, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::AudioRate, "AudioRate", "AudioRate", 
+                "Indicates the sampling rate in Hertz of an audio content.", 
+                false, false, 6, 6, Exiv2::string, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::AudioResolution, "AudioResolution", "AudioResolution", 
+                "Indicates the sampling resolution of an audio content.", 
+                false, false, 2, 2, Exiv2::string, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::AudioDuration, "AudioDuration", "AudioDuration", 
+                "Indicates the duration of an audio content.", 
+                false, false, 6, 6, Exiv2::string, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::AudioOutcue, "AudioOutcue", "AudioOutcue", 
+                "Identifies the content of the end of an audio object data, "
+                "according to guidelines established by the provider.", 
+                false, false, 0, 64, Exiv2::string, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::PreviewFormat, "PreviewFormat", "PreviewFormat", 
+                "A binary number representing the file format of the object data "
+                "preview. The file format must be registered with IPTC or NAA organizations "
+                "with a unique number assigned to it.", 
+                false, false, 2, 2, Exiv2::unsignedShort, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::PreviewVersion, "PreviewVersion", "PreviewVersion", 
+                "A binary number representing the particular version of the "
+                "object data preview file format specified in tag <PreviewFormat>.", 
+                false, false, 2, 2, Exiv2::unsignedShort, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::Preview, "Preview", "Preview", 
+                "Binary image preview data.", 
+                false, false, 0, 256000, Exiv2::undefined, IptcDataSets::application2, ""),
+        DataSet(0xffff, "(Invalid)", "(Invalid)", 
+                "(Invalid)", false, false, 0, 0, Exiv2::unsignedShort, IptcDataSets::application2, "")
     };
 
     static const DataSet unknownDataSet(0xffff, "Unknown dataset", "Unknown dataset", "Unknown dataset", false, true, 0, 0xffffffff, Exiv2::string, IptcDataSets::invalidRecord, "Unknown dataset");
