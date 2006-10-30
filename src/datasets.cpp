@@ -155,18 +155,55 @@ namespace Exiv2 {
                 "This tag consisting of a binary number representing the particular "
                 "version of the ARM specified by tag <ARMId>.", 
                 false, false, 2, 2, Exiv2::unsignedShort, IptcDataSets::envelope, ""),
-        DataSet(0xffff, "(Invalid)", "(Invalid)", "(Invalid)", false, false, 0, 0, Exiv2::unsignedShort, IptcDataSets::envelope, "")
+        DataSet(0xffff, "(Invalid)", "(Invalid)", 
+                "(Invalid)", false, false, 0, 0, Exiv2::unsignedShort, IptcDataSets::envelope, "")
     };
 
     static const DataSet application2Record[] = {
-        DataSet(IptcDataSets::RecordVersion, "RecordVersion", "RecordVersion", "Version of IIM part 2", true, false, 2, 2, Exiv2::unsignedShort, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::ObjectType, "ObjectType", "ObjectType", "IIM appendix G object type", false, false, 3, 67, Exiv2::string, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::ObjectAttribute, "ObjectAttribute", "ObjectAttribute", "IIM appendix G object attribute", false, true, 4, 68, Exiv2::string, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::ObjectName, "ObjectName", "ObjectName", "Shorthand reference of content", false, false, 0, 64, Exiv2::string, IptcDataSets::application2, "Document title"),
-        DataSet(IptcDataSets::EditStatus, "EditStatus", "EditStatus", "Content status", false, false, 0, 64, Exiv2::string, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::EditorialUpdate, "EditorialUpdate", "EditorialUpdate", "Indicates the type of update", false, false, 2, 2, Exiv2::string, IptcDataSets::application2, ""),
-        DataSet(IptcDataSets::Urgency, "Urgency", "Urgency", "Editorial urgency of content", false, false, 1, 1, Exiv2::string, IptcDataSets::application2, "Urgency"),
-        DataSet(IptcDataSets::Subject, "Subject", "Subject", "Structured definition of the subject", false, true, 13, 236, Exiv2::string, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::RecordVersion, "RecordVersion", "RecordVersion", 
+                "A binary number identifying the version of the Information "
+                "Interchange Model, Part II, utilised by the provider. "
+                "Version numbers are assigned by IPTC and NAA organizations.", 
+                true, false, 2, 2, Exiv2::unsignedShort, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::ObjectType, "ObjectType", "ObjectType", 
+                "The Object Type is used to distinguish between different types "
+                "of objects within the IIM. The first part is a number representing "
+                "a language independent international reference to an Object Type "
+                "followed by a colon separator. The second part, if used, is a text "
+                "representation of the Object Type Number consisting of graphic "
+                "characters plus spaces either in English or in the language of the "
+                "service as indicated in tag <LanguageIdentifier>", 
+                false, false, 3, 67, Exiv2::string, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::ObjectAttribute, "ObjectAttribute", "ObjectAttribute", 
+                "The Object Attribute defines the nature of the object "
+                "independent of the Subject. The first part is a number representing "
+                "a language independent international reference to an Object Attribute "
+                "followed by a colon separator. The second part, if used, is a text "
+                "representation of the Object Attribute Number consisting of graphic "
+                "characters plus spaces either in English, or in the language of the "
+                "service as indicated in tag <LanguageIdentifier>", 
+                false, true, 4, 68, Exiv2::string, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::ObjectName, "ObjectName", "ObjectName", 
+                "Used as a shorthand reference for the object. Changes to exist-ing "
+                "data, such as updated stories or new crops on photos, should be "
+                "identified in tag <EditStatus>.", 
+                false, false, 0, 64, Exiv2::string, IptcDataSets::application2, "Document title"),
+        DataSet(IptcDataSets::EditStatus, "EditStatus", "EditStatus", 
+                "Status of the object data, according to the practice of the provider.", 
+                false, false, 0, 64, Exiv2::string, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::EditorialUpdate, "EditorialUpdate", "EditorialUpdate", 
+                "Indicates the type of update that this object provides to a "
+                "previous object. The link to the previous object is made using "
+                "the tags <ARMIdentifier> and <ARMVersion>, according to the practices of the provider.", 
+                false, false, 2, 2, Exiv2::string, IptcDataSets::application2, ""),
+        DataSet(IptcDataSets::Urgency, "Urgency", "Urgency", 
+                "Specifies the editorial urgency of content and not necessarily the "
+                "envelope handling priority (see tag <EnvelopePriority>). The \"1\" "
+                "is most urgent, \"5\" normal and \"8\" denotes the least-urgent copy.", 
+                false, false, 1, 1, Exiv2::string, IptcDataSets::application2, "Urgency"),
+        DataSet(IptcDataSets::Subject, "Subject", "Subject", 
+                "The Subject Reference is a structured definition of the subject matter.", 
+                false, true, 13, 236, Exiv2::string, IptcDataSets::application2, ""),
         DataSet(IptcDataSets::Category, "Category", "Category", "Identifies the subject", false, false, 0, 3, Exiv2::string, IptcDataSets::application2, "Category"),
         DataSet(IptcDataSets::SuppCategory, "SuppCategory", "SuppCategory", "Refines the subject", false, true, 0, 32, Exiv2::string, IptcDataSets::application2, "Supplemental Categories"),
         DataSet(IptcDataSets::FixtureId, "FixtureId", "FixtureId", "Identifies content that recurs", false, false, 0, 32, Exiv2::string, IptcDataSets::application2, ""),
