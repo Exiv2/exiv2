@@ -1454,6 +1454,7 @@ namespace {
             || timeStr[13] != ':' || timeStr[16] != ':') return 3;
         if (0 == tm) return 4;
         memset(tm, 0x0, sizeof(struct tm));
+        tm->tm_isdst = -1;
 
         long tmp;
         if (!Util::strtol(timeStr.substr(0,4).c_str(), tmp)) return 5;
