@@ -325,11 +325,22 @@ namespace Exiv2 {
 #endif
             rc = 6;
         }
+        int n = 0;
         if (rc == 0) {
             offset_ = start - shift;
-            int n = getUShort(buf + o, byteOrder);
+            n = getUShort(buf + o, byteOrder);
             o += 2;
-
+            // Sanity check with an "unreasonably" large number
+            if (n > 256) {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Error: " 
+                          << "Directory " << ExifTags::ifdName(ifdId_) << " with "
+                          << n << " entries considered invalid; not read.\n";
+#endif
+                rc = 6;
+            }
+        }
+        if (rc == 0) {
             for (int i = 0; i < n; ++i) {
                 if (len < o + 12) {
 #ifndef SUPPRESS_WARNINGS

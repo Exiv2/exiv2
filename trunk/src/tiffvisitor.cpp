@@ -558,7 +558,7 @@ namespace Exiv2 {
         const uint16_t n = getUShort(p, byteOrder());
         p += 2;
         // Sanity check with an "unreasonably" large number
-        if (n > 512) {
+        if (n > 256) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Error: " 
                       << "Directory " << object->groupName() << " with " 
