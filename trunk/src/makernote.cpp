@@ -142,9 +142,7 @@ namespace Exiv2 {
 
     void IfdMakerNote::updateBase(byte* pNewBase)
     {
-        if (absShift_) {
-            ifd_.updateBase(pNewBase);
-        }
+        ifd_.updateBase(pNewBase);
     }
 
     int IfdMakerNote::checkHeader() const
