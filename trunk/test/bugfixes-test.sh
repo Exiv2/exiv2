@@ -62,6 +62,9 @@ num=480
 filename=`prep_file $num`
 $binpath/largeiptc-test $filename ../data/imagemagick.png
 
+num=495
+filename=`prep_file $num`
+$binpath/exiv2 -pi $filename
 ) > $results 2>&1
 
 if [ x"`which unix2dos.exe`" != x ]; then

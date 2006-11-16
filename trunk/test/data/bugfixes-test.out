@@ -243,3 +243,10 @@ IRB buffer : 144788
 Comparing IPTC and IRB size... ok
 Comparing IPTC and IRB data... ok
 Caught Exiv2 exception 'Size of IPTC JPEG segment is larger than 65535 bytes'
+------> Bug 495 <-------
+Error: Directory Iop with 768 entries considered invalid; not read.
+Warning: IFD1: Pointer to next IFD is out of bounds; ignored.
+Error: Upper boundary of the 1st data entry of IFD1 is out of bounds:
+ Offset = 0x0203fa04, exceeds buffer size by 168813082 Bytes
+Exiv2 exception in print action for file exiv2-bug495.jpg:
+Failed to decode Exif metadata
