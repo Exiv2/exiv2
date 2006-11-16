@@ -581,7 +581,7 @@ File  2/15: 20031214_000043.jpg
 20031214_000043.jpg   Exif.Photo.FocalPlaneResolutionUnit          Short       1  inch
 20031214_000043.jpg   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 20031214_000043.jpg   Exif.Photo.FileSource                        Undefined   1  Digital still camera
-20031214_000043.jpg   Exif.Photo.CustomRendered                    Short       1  0
+20031214_000043.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 20031214_000043.jpg   Exif.Photo.ExposureMode                      Short       1  Auto
 20031214_000043.jpg   Exif.Photo.WhiteBalance                      Short       1  Auto
 20031214_000043.jpg   Exif.Photo.DigitalZoomRatio                  Rational    1  1.0
@@ -769,7 +769,7 @@ File  4/15: 20040329_224245.jpg
 20040329_224245.jpg   Exif.Photo.FileSource                        Undefined   1  Digital still camera
 20040329_224245.jpg   Exif.Photo.SceneType                         Undefined   1  Directly photographed
 20040329_224245.jpg   Exif.Photo.CFAPattern                        Undefined   8  0 2 0 2 2 1 1 0 
-20040329_224245.jpg   Exif.Photo.CustomRendered                    Short       1  0
+20040329_224245.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 20040329_224245.jpg   Exif.Photo.ExposureMode                      Short       1  Auto
 20040329_224245.jpg   Exif.Photo.WhiteBalance                      Short       1  Auto
 20040329_224245.jpg   Exif.Photo.DigitalZoomRatio                  Rational    1  1.0
@@ -922,7 +922,7 @@ File  6/15: 20030925_201850.jpg
 20030925_201850.jpg   Exif.Photo.FocalPlaneResolutionUnit          Short       1  inch
 20030925_201850.jpg   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 20030925_201850.jpg   Exif.Photo.FileSource                        Undefined   1  Digital still camera
-20030925_201850.jpg   Exif.Photo.CustomRendered                    Short       1  0
+20030925_201850.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 20030925_201850.jpg   Exif.Photo.ExposureMode                      Short       1  Auto
 20030925_201850.jpg   Exif.Photo.WhiteBalance                      Short       1  Auto
 20030925_201850.jpg   Exif.Photo.SceneCaptureType                  Short       1  Standard
@@ -1137,7 +1137,7 @@ File  8/15: 20030926_111535.jpg
 20030926_111535.jpg   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 20030926_111535.jpg   Exif.Photo.FileSource                        Undefined   1  Digital still camera
 20030926_111535.jpg   Exif.Photo.SceneType                         Undefined   1  Directly photographed
-20030926_111535.jpg   Exif.Photo.CustomRendered                    Short       1  0
+20030926_111535.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 20030926_111535.jpg   Exif.Photo.ExposureMode                      Short       1  Auto
 20030926_111535.jpg   Exif.Photo.WhiteBalance                      Short       1  Auto
 20030926_111535.jpg   Exif.Photo.FocalLengthIn35mmFilm             Short       1  42.0 mm
@@ -1202,7 +1202,7 @@ File  9/15: 20040316_075137.jpg
 20040316_075137.jpg   Exif.Photo.PixelYDimension                   Long        1  1512
 20040316_075137.jpg   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 20040316_075137.jpg   Exif.Photo.FileSource                        Undefined   4  Digital still camera
-20040316_075137.jpg   Exif.Photo.CustomRendered                    Short       1  1
+20040316_075137.jpg   Exif.Photo.CustomRendered                    Short       1  Custom process
 20040316_075137.jpg   Exif.Photo.ExposureMode                      Short       1  Manual
 20040316_075137.jpg   Exif.Photo.WhiteBalance                      Short       1  Manual
 20040316_075137.jpg   Exif.Photo.FocalLengthIn35mmFilm             Short       1  24.0 mm
@@ -1274,7 +1274,7 @@ File 10/15: 20040208_093744.jpg
 20040208_093744.jpg   Exif.Photo.InteroperabilityTag               Long        1  1268
 20040208_093744.jpg   Exif.Photo.FileSource                        Undefined   1  Digital still camera
 20040208_093744.jpg   Exif.Photo.SceneType                         Undefined   1  Directly photographed
-20040208_093744.jpg   Exif.Photo.CustomRendered                    Short       1  0
+20040208_093744.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 20040208_093744.jpg   Exif.Photo.ExposureMode                      Short       1  Manual
 20040208_093744.jpg   Exif.Photo.WhiteBalance                      Short       1  Manual
 20040208_093744.jpg   Exif.Photo.DigitalZoomRatio                  Rational    1  0.0
@@ -1342,7 +1342,7 @@ File 11/15: 20050218_212016.jpg
 20050218_212016.jpg   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 20050218_212016.jpg   Exif.Photo.FileSource                        Undefined   1  Digital still camera
 20050218_212016.jpg   Exif.Photo.SceneType                         Undefined   1  Directly photographed
-20050218_212016.jpg   Exif.Photo.CustomRendered                    Short       1  0
+20050218_212016.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 20050218_212016.jpg   Exif.Photo.ExposureMode                      Short       1  Auto
 20050218_212016.jpg   Exif.Photo.WhiteBalance                      Short       1  Auto
 20050218_212016.jpg   Exif.Photo.DigitalZoomRatio                  Rational    1  0.0
@@ -1423,7 +1423,7 @@ File 12/15: 20050527_051833.jpg
 20050527_051833.jpg   Exif.Photo.InteroperabilityTag               Long        1  2278
 20050527_051833.jpg   Exif.Photo.FileSource                        Undefined   1  Digital still camera
 20050527_051833.jpg   Exif.Photo.SceneType                         Undefined   1  Directly photographed
-20050527_051833.jpg   Exif.Photo.CustomRendered                    Short       1  0
+20050527_051833.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 20050527_051833.jpg   Exif.Photo.ExposureMode                      Short       1  Auto
 20050527_051833.jpg   Exif.Photo.WhiteBalance                      Short       1  Auto
 20050527_051833.jpg   Exif.Photo.SceneCaptureType                  Short       1  Standard
@@ -1485,7 +1485,7 @@ Warning: Makernote: Pointer to next IFD is out of bounds; ignored.
 20060802_095200.jpg   Exif.Photo.FocalPlaneXResolution             Rational    1  3959.32
 20060802_095200.jpg   Exif.Photo.FocalPlaneYResolution             Rational    1  3959.32
 20060802_095200.jpg   Exif.Photo.FocalPlaneResolutionUnit          Short       1  inch
-20060802_095200.jpg   Exif.Photo.CustomRendered                    Short       1  0
+20060802_095200.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 20060802_095200.jpg   Exif.Photo.ExposureMode                      Short       1  Auto
 20060802_095200.jpg   Exif.Photo.WhiteBalance                      Short       1  Manual
 20060802_095200.jpg   Exif.Photo.SceneCaptureType                  Short       1  Standard
@@ -1798,7 +1798,7 @@ File 15/15: 20060127_225027.jpg
 20060127_225027.jpg   Exif.Photo.FocalPlaneResolutionUnit          Short       1  inch
 20060127_225027.jpg   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 20060127_225027.jpg   Exif.Photo.FileSource                        Undefined   1  Digital still camera
-20060127_225027.jpg   Exif.Photo.CustomRendered                    Short       1  0
+20060127_225027.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 20060127_225027.jpg   Exif.Photo.ExposureMode                      Short       1  Auto
 20060127_225027.jpg   Exif.Photo.WhiteBalance                      Short       1  Auto
 20060127_225027.jpg   Exif.Photo.DigitalZoomRatio                  Rational    1  1.0
@@ -2043,7 +2043,7 @@ Compare image data and extracted data ------------------------------------
 < 20031214_000043.jpg   Exif.Photo.FocalPlaneResolutionUnit          Short       1  inch
 < 20031214_000043.jpg   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 < 20031214_000043.jpg   Exif.Photo.FileSource                        Undefined   1  Digital still camera
-< 20031214_000043.jpg   Exif.Photo.CustomRendered                    Short       1  0
+< 20031214_000043.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 < 20031214_000043.jpg   Exif.Photo.ExposureMode                      Short       1  Auto
 < 20031214_000043.jpg   Exif.Photo.WhiteBalance                      Short       1  Auto
 < 20031214_000043.jpg   Exif.Photo.DigitalZoomRatio                  Rational    1  1.0
@@ -2231,7 +2231,7 @@ Compare image data and extracted data ------------------------------------
 < 20040329_224245.jpg   Exif.Photo.FileSource                        Undefined   1  Digital still camera
 < 20040329_224245.jpg   Exif.Photo.SceneType                         Undefined   1  Directly photographed
 < 20040329_224245.jpg   Exif.Photo.CFAPattern                        Undefined   8  0 2 0 2 2 1 1 0 
-< 20040329_224245.jpg   Exif.Photo.CustomRendered                    Short       1  0
+< 20040329_224245.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 < 20040329_224245.jpg   Exif.Photo.ExposureMode                      Short       1  Auto
 < 20040329_224245.jpg   Exif.Photo.WhiteBalance                      Short       1  Auto
 < 20040329_224245.jpg   Exif.Photo.DigitalZoomRatio                  Rational    1  1.0
@@ -2384,7 +2384,7 @@ Compare image data and extracted data ------------------------------------
 < 20030925_201850.jpg   Exif.Photo.FocalPlaneResolutionUnit          Short       1  inch
 < 20030925_201850.jpg   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 < 20030925_201850.jpg   Exif.Photo.FileSource                        Undefined   1  Digital still camera
-< 20030925_201850.jpg   Exif.Photo.CustomRendered                    Short       1  0
+< 20030925_201850.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 < 20030925_201850.jpg   Exif.Photo.ExposureMode                      Short       1  Auto
 < 20030925_201850.jpg   Exif.Photo.WhiteBalance                      Short       1  Auto
 < 20030925_201850.jpg   Exif.Photo.SceneCaptureType                  Short       1  Standard
@@ -2599,7 +2599,7 @@ Compare image data and extracted data ------------------------------------
 < 20030926_111535.jpg   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 < 20030926_111535.jpg   Exif.Photo.FileSource                        Undefined   1  Digital still camera
 < 20030926_111535.jpg   Exif.Photo.SceneType                         Undefined   1  Directly photographed
-< 20030926_111535.jpg   Exif.Photo.CustomRendered                    Short       1  0
+< 20030926_111535.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 < 20030926_111535.jpg   Exif.Photo.ExposureMode                      Short       1  Auto
 < 20030926_111535.jpg   Exif.Photo.WhiteBalance                      Short       1  Auto
 < 20030926_111535.jpg   Exif.Photo.FocalLengthIn35mmFilm             Short       1  42.0 mm
@@ -2664,7 +2664,7 @@ Compare image data and extracted data ------------------------------------
 < 20040316_075137.jpg   Exif.Photo.PixelYDimension                   Long        1  1512
 < 20040316_075137.jpg   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 < 20040316_075137.jpg   Exif.Photo.FileSource                        Undefined   4  Digital still camera
-< 20040316_075137.jpg   Exif.Photo.CustomRendered                    Short       1  1
+< 20040316_075137.jpg   Exif.Photo.CustomRendered                    Short       1  Custom process
 < 20040316_075137.jpg   Exif.Photo.ExposureMode                      Short       1  Manual
 < 20040316_075137.jpg   Exif.Photo.WhiteBalance                      Short       1  Manual
 < 20040316_075137.jpg   Exif.Photo.FocalLengthIn35mmFilm             Short       1  24.0 mm
@@ -2736,7 +2736,7 @@ Compare image data and extracted data ------------------------------------
 < 20040208_093744.jpg   Exif.Photo.InteroperabilityTag               Long        1  1268
 < 20040208_093744.jpg   Exif.Photo.FileSource                        Undefined   1  Digital still camera
 < 20040208_093744.jpg   Exif.Photo.SceneType                         Undefined   1  Directly photographed
-< 20040208_093744.jpg   Exif.Photo.CustomRendered                    Short       1  0
+< 20040208_093744.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 < 20040208_093744.jpg   Exif.Photo.ExposureMode                      Short       1  Manual
 < 20040208_093744.jpg   Exif.Photo.WhiteBalance                      Short       1  Manual
 < 20040208_093744.jpg   Exif.Photo.DigitalZoomRatio                  Rational    1  0.0
@@ -2804,7 +2804,7 @@ Compare image data and extracted data ------------------------------------
 < 20050218_212016.jpg   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 < 20050218_212016.jpg   Exif.Photo.FileSource                        Undefined   1  Digital still camera
 < 20050218_212016.jpg   Exif.Photo.SceneType                         Undefined   1  Directly photographed
-< 20050218_212016.jpg   Exif.Photo.CustomRendered                    Short       1  0
+< 20050218_212016.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 < 20050218_212016.jpg   Exif.Photo.ExposureMode                      Short       1  Auto
 < 20050218_212016.jpg   Exif.Photo.WhiteBalance                      Short       1  Auto
 < 20050218_212016.jpg   Exif.Photo.DigitalZoomRatio                  Rational    1  0.0
@@ -2885,7 +2885,7 @@ Compare image data and extracted data ------------------------------------
 < 20050527_051833.jpg   Exif.Photo.InteroperabilityTag               Long        1  2278
 < 20050527_051833.jpg   Exif.Photo.FileSource                        Undefined   1  Digital still camera
 < 20050527_051833.jpg   Exif.Photo.SceneType                         Undefined   1  Directly photographed
-< 20050527_051833.jpg   Exif.Photo.CustomRendered                    Short       1  0
+< 20050527_051833.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 < 20050527_051833.jpg   Exif.Photo.ExposureMode                      Short       1  Auto
 < 20050527_051833.jpg   Exif.Photo.WhiteBalance                      Short       1  Auto
 < 20050527_051833.jpg   Exif.Photo.SceneCaptureType                  Short       1  Standard
@@ -2946,7 +2946,7 @@ Compare image data and extracted data ------------------------------------
 < 20060802_095200.jpg   Exif.Photo.FocalPlaneXResolution             Rational    1  3959.32
 < 20060802_095200.jpg   Exif.Photo.FocalPlaneYResolution             Rational    1  3959.32
 < 20060802_095200.jpg   Exif.Photo.FocalPlaneResolutionUnit          Short       1  inch
-< 20060802_095200.jpg   Exif.Photo.CustomRendered                    Short       1  0
+< 20060802_095200.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 < 20060802_095200.jpg   Exif.Photo.ExposureMode                      Short       1  Auto
 < 20060802_095200.jpg   Exif.Photo.WhiteBalance                      Short       1  Manual
 < 20060802_095200.jpg   Exif.Photo.SceneCaptureType                  Short       1  Standard
@@ -3259,7 +3259,7 @@ Compare image data and extracted data ------------------------------------
 < 20060127_225027.jpg   Exif.Photo.FocalPlaneResolutionUnit          Short       1  inch
 < 20060127_225027.jpg   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 < 20060127_225027.jpg   Exif.Photo.FileSource                        Undefined   1  Digital still camera
-< 20060127_225027.jpg   Exif.Photo.CustomRendered                    Short       1  0
+< 20060127_225027.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 < 20060127_225027.jpg   Exif.Photo.ExposureMode                      Short       1  Auto
 < 20060127_225027.jpg   Exif.Photo.WhiteBalance                      Short       1  Auto
 < 20060127_225027.jpg   Exif.Photo.DigitalZoomRatio                  Rational    1  1.0
@@ -3432,7 +3432,7 @@ Compare image data and extracted data ------------------------------------
 > 20031214_000043.exv   Exif.Photo.FocalPlaneResolutionUnit          Short       1  inch
 > 20031214_000043.exv   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 > 20031214_000043.exv   Exif.Photo.FileSource                        Undefined   1  Digital still camera
-> 20031214_000043.exv   Exif.Photo.CustomRendered                    Short       1  0
+> 20031214_000043.exv   Exif.Photo.CustomRendered                    Short       1  Normal process
 > 20031214_000043.exv   Exif.Photo.ExposureMode                      Short       1  Auto
 > 20031214_000043.exv   Exif.Photo.WhiteBalance                      Short       1  Auto
 > 20031214_000043.exv   Exif.Photo.DigitalZoomRatio                  Rational    1  1.0
@@ -3620,7 +3620,7 @@ Compare image data and extracted data ------------------------------------
 > 20040329_224245.exv   Exif.Photo.FileSource                        Undefined   1  Digital still camera
 > 20040329_224245.exv   Exif.Photo.SceneType                         Undefined   1  Directly photographed
 > 20040329_224245.exv   Exif.Photo.CFAPattern                        Undefined   8  0 2 0 2 2 1 1 0 
-> 20040329_224245.exv   Exif.Photo.CustomRendered                    Short       1  0
+> 20040329_224245.exv   Exif.Photo.CustomRendered                    Short       1  Normal process
 > 20040329_224245.exv   Exif.Photo.ExposureMode                      Short       1  Auto
 > 20040329_224245.exv   Exif.Photo.WhiteBalance                      Short       1  Auto
 > 20040329_224245.exv   Exif.Photo.DigitalZoomRatio                  Rational    1  1.0
@@ -3773,7 +3773,7 @@ Compare image data and extracted data ------------------------------------
 > 20030925_201850.exv   Exif.Photo.FocalPlaneResolutionUnit          Short       1  inch
 > 20030925_201850.exv   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 > 20030925_201850.exv   Exif.Photo.FileSource                        Undefined   1  Digital still camera
-> 20030925_201850.exv   Exif.Photo.CustomRendered                    Short       1  0
+> 20030925_201850.exv   Exif.Photo.CustomRendered                    Short       1  Normal process
 > 20030925_201850.exv   Exif.Photo.ExposureMode                      Short       1  Auto
 > 20030925_201850.exv   Exif.Photo.WhiteBalance                      Short       1  Auto
 > 20030925_201850.exv   Exif.Photo.SceneCaptureType                  Short       1  Standard
@@ -3988,7 +3988,7 @@ Compare image data and extracted data ------------------------------------
 > 20030926_111535.exv   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 > 20030926_111535.exv   Exif.Photo.FileSource                        Undefined   1  Digital still camera
 > 20030926_111535.exv   Exif.Photo.SceneType                         Undefined   1  Directly photographed
-> 20030926_111535.exv   Exif.Photo.CustomRendered                    Short       1  0
+> 20030926_111535.exv   Exif.Photo.CustomRendered                    Short       1  Normal process
 > 20030926_111535.exv   Exif.Photo.ExposureMode                      Short       1  Auto
 > 20030926_111535.exv   Exif.Photo.WhiteBalance                      Short       1  Auto
 > 20030926_111535.exv   Exif.Photo.FocalLengthIn35mmFilm             Short       1  42.0 mm
@@ -4053,7 +4053,7 @@ Compare image data and extracted data ------------------------------------
 > 20040316_075137.exv   Exif.Photo.PixelYDimension                   Long        1  1512
 > 20040316_075137.exv   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 > 20040316_075137.exv   Exif.Photo.FileSource                        Undefined   4  Digital still camera
-> 20040316_075137.exv   Exif.Photo.CustomRendered                    Short       1  1
+> 20040316_075137.exv   Exif.Photo.CustomRendered                    Short       1  Custom process
 > 20040316_075137.exv   Exif.Photo.ExposureMode                      Short       1  Manual
 > 20040316_075137.exv   Exif.Photo.WhiteBalance                      Short       1  Manual
 > 20040316_075137.exv   Exif.Photo.FocalLengthIn35mmFilm             Short       1  24.0 mm
@@ -4125,7 +4125,7 @@ Compare image data and extracted data ------------------------------------
 > 20040208_093744.exv   Exif.Photo.InteroperabilityTag               Long        1  1268
 > 20040208_093744.exv   Exif.Photo.FileSource                        Undefined   1  Digital still camera
 > 20040208_093744.exv   Exif.Photo.SceneType                         Undefined   1  Directly photographed
-> 20040208_093744.exv   Exif.Photo.CustomRendered                    Short       1  0
+> 20040208_093744.exv   Exif.Photo.CustomRendered                    Short       1  Normal process
 > 20040208_093744.exv   Exif.Photo.ExposureMode                      Short       1  Manual
 > 20040208_093744.exv   Exif.Photo.WhiteBalance                      Short       1  Manual
 > 20040208_093744.exv   Exif.Photo.DigitalZoomRatio                  Rational    1  0.0
@@ -4193,7 +4193,7 @@ Compare image data and extracted data ------------------------------------
 > 20050218_212016.exv   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 > 20050218_212016.exv   Exif.Photo.FileSource                        Undefined   1  Digital still camera
 > 20050218_212016.exv   Exif.Photo.SceneType                         Undefined   1  Directly photographed
-> 20050218_212016.exv   Exif.Photo.CustomRendered                    Short       1  0
+> 20050218_212016.exv   Exif.Photo.CustomRendered                    Short       1  Normal process
 > 20050218_212016.exv   Exif.Photo.ExposureMode                      Short       1  Auto
 > 20050218_212016.exv   Exif.Photo.WhiteBalance                      Short       1  Auto
 > 20050218_212016.exv   Exif.Photo.DigitalZoomRatio                  Rational    1  0.0
@@ -4274,7 +4274,7 @@ Compare image data and extracted data ------------------------------------
 > 20050527_051833.exv   Exif.Photo.InteroperabilityTag               Long        1  2278
 > 20050527_051833.exv   Exif.Photo.FileSource                        Undefined   1  Digital still camera
 > 20050527_051833.exv   Exif.Photo.SceneType                         Undefined   1  Directly photographed
-> 20050527_051833.exv   Exif.Photo.CustomRendered                    Short       1  0
+> 20050527_051833.exv   Exif.Photo.CustomRendered                    Short       1  Normal process
 > 20050527_051833.exv   Exif.Photo.ExposureMode                      Short       1  Auto
 > 20050527_051833.exv   Exif.Photo.WhiteBalance                      Short       1  Auto
 > 20050527_051833.exv   Exif.Photo.SceneCaptureType                  Short       1  Standard
@@ -4335,7 +4335,7 @@ Compare image data and extracted data ------------------------------------
 > 20060802_095200.exv   Exif.Photo.FocalPlaneXResolution             Rational    1  3959.32
 > 20060802_095200.exv   Exif.Photo.FocalPlaneYResolution             Rational    1  3959.32
 > 20060802_095200.exv   Exif.Photo.FocalPlaneResolutionUnit          Short       1  inch
-> 20060802_095200.exv   Exif.Photo.CustomRendered                    Short       1  0
+> 20060802_095200.exv   Exif.Photo.CustomRendered                    Short       1  Normal process
 > 20060802_095200.exv   Exif.Photo.ExposureMode                      Short       1  Auto
 > 20060802_095200.exv   Exif.Photo.WhiteBalance                      Short       1  Manual
 > 20060802_095200.exv   Exif.Photo.SceneCaptureType                  Short       1  Standard
@@ -4648,7 +4648,7 @@ Compare image data and extracted data ------------------------------------
 > 20060127_225027.exv   Exif.Photo.FocalPlaneResolutionUnit          Short       1  inch
 > 20060127_225027.exv   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 > 20060127_225027.exv   Exif.Photo.FileSource                        Undefined   1  Digital still camera
-> 20060127_225027.exv   Exif.Photo.CustomRendered                    Short       1  0
+> 20060127_225027.exv   Exif.Photo.CustomRendered                    Short       1  Normal process
 > 20060127_225027.exv   Exif.Photo.ExposureMode                      Short       1  Auto
 > 20060127_225027.exv   Exif.Photo.WhiteBalance                      Short       1  Auto
 > 20060127_225027.exv   Exif.Photo.DigitalZoomRatio                  Rational    1  1.0
@@ -4984,7 +4984,7 @@ Compare original and inserted image data ---------------------------------
 < 20031214_000043.jpg   Exif.Photo.FocalPlaneResolutionUnit          Short       1  inch
 < 20031214_000043.jpg   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 < 20031214_000043.jpg   Exif.Photo.FileSource                        Undefined   1  Digital still camera
-< 20031214_000043.jpg   Exif.Photo.CustomRendered                    Short       1  0
+< 20031214_000043.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 < 20031214_000043.jpg   Exif.Photo.ExposureMode                      Short       1  Auto
 < 20031214_000043.jpg   Exif.Photo.WhiteBalance                      Short       1  Auto
 < 20031214_000043.jpg   Exif.Photo.DigitalZoomRatio                  Rational    1  1.0
@@ -5172,7 +5172,7 @@ Compare original and inserted image data ---------------------------------
 < 20040329_224245.jpg   Exif.Photo.FileSource                        Undefined   1  Digital still camera
 < 20040329_224245.jpg   Exif.Photo.SceneType                         Undefined   1  Directly photographed
 < 20040329_224245.jpg   Exif.Photo.CFAPattern                        Undefined   8  0 2 0 2 2 1 1 0 
-< 20040329_224245.jpg   Exif.Photo.CustomRendered                    Short       1  0
+< 20040329_224245.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 < 20040329_224245.jpg   Exif.Photo.ExposureMode                      Short       1  Auto
 < 20040329_224245.jpg   Exif.Photo.WhiteBalance                      Short       1  Auto
 < 20040329_224245.jpg   Exif.Photo.DigitalZoomRatio                  Rational    1  1.0
@@ -5325,7 +5325,7 @@ Compare original and inserted image data ---------------------------------
 < 20030925_201850.jpg   Exif.Photo.FocalPlaneResolutionUnit          Short       1  inch
 < 20030925_201850.jpg   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 < 20030925_201850.jpg   Exif.Photo.FileSource                        Undefined   1  Digital still camera
-< 20030925_201850.jpg   Exif.Photo.CustomRendered                    Short       1  0
+< 20030925_201850.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 < 20030925_201850.jpg   Exif.Photo.ExposureMode                      Short       1  Auto
 < 20030925_201850.jpg   Exif.Photo.WhiteBalance                      Short       1  Auto
 < 20030925_201850.jpg   Exif.Photo.SceneCaptureType                  Short       1  Standard
@@ -5540,7 +5540,7 @@ Compare original and inserted image data ---------------------------------
 < 20030926_111535.jpg   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 < 20030926_111535.jpg   Exif.Photo.FileSource                        Undefined   1  Digital still camera
 < 20030926_111535.jpg   Exif.Photo.SceneType                         Undefined   1  Directly photographed
-< 20030926_111535.jpg   Exif.Photo.CustomRendered                    Short       1  0
+< 20030926_111535.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 < 20030926_111535.jpg   Exif.Photo.ExposureMode                      Short       1  Auto
 < 20030926_111535.jpg   Exif.Photo.WhiteBalance                      Short       1  Auto
 < 20030926_111535.jpg   Exif.Photo.FocalLengthIn35mmFilm             Short       1  42.0 mm
@@ -5605,7 +5605,7 @@ Compare original and inserted image data ---------------------------------
 < 20040316_075137.jpg   Exif.Photo.PixelYDimension                   Long        1  1512
 < 20040316_075137.jpg   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 < 20040316_075137.jpg   Exif.Photo.FileSource                        Undefined   4  Digital still camera
-< 20040316_075137.jpg   Exif.Photo.CustomRendered                    Short       1  1
+< 20040316_075137.jpg   Exif.Photo.CustomRendered                    Short       1  Custom process
 < 20040316_075137.jpg   Exif.Photo.ExposureMode                      Short       1  Manual
 < 20040316_075137.jpg   Exif.Photo.WhiteBalance                      Short       1  Manual
 < 20040316_075137.jpg   Exif.Photo.FocalLengthIn35mmFilm             Short       1  24.0 mm
@@ -5677,7 +5677,7 @@ Compare original and inserted image data ---------------------------------
 < 20040208_093744.jpg   Exif.Photo.InteroperabilityTag               Long        1  1268
 < 20040208_093744.jpg   Exif.Photo.FileSource                        Undefined   1  Digital still camera
 < 20040208_093744.jpg   Exif.Photo.SceneType                         Undefined   1  Directly photographed
-< 20040208_093744.jpg   Exif.Photo.CustomRendered                    Short       1  0
+< 20040208_093744.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 < 20040208_093744.jpg   Exif.Photo.ExposureMode                      Short       1  Manual
 < 20040208_093744.jpg   Exif.Photo.WhiteBalance                      Short       1  Manual
 < 20040208_093744.jpg   Exif.Photo.DigitalZoomRatio                  Rational    1  0.0
@@ -5745,7 +5745,7 @@ Compare original and inserted image data ---------------------------------
 < 20050218_212016.jpg   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 < 20050218_212016.jpg   Exif.Photo.FileSource                        Undefined   1  Digital still camera
 < 20050218_212016.jpg   Exif.Photo.SceneType                         Undefined   1  Directly photographed
-< 20050218_212016.jpg   Exif.Photo.CustomRendered                    Short       1  0
+< 20050218_212016.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 < 20050218_212016.jpg   Exif.Photo.ExposureMode                      Short       1  Auto
 < 20050218_212016.jpg   Exif.Photo.WhiteBalance                      Short       1  Auto
 < 20050218_212016.jpg   Exif.Photo.DigitalZoomRatio                  Rational    1  0.0
@@ -5826,7 +5826,7 @@ Compare original and inserted image data ---------------------------------
 < 20050527_051833.jpg   Exif.Photo.InteroperabilityTag               Long        1  2278
 < 20050527_051833.jpg   Exif.Photo.FileSource                        Undefined   1  Digital still camera
 < 20050527_051833.jpg   Exif.Photo.SceneType                         Undefined   1  Directly photographed
-< 20050527_051833.jpg   Exif.Photo.CustomRendered                    Short       1  0
+< 20050527_051833.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 < 20050527_051833.jpg   Exif.Photo.ExposureMode                      Short       1  Auto
 < 20050527_051833.jpg   Exif.Photo.WhiteBalance                      Short       1  Auto
 < 20050527_051833.jpg   Exif.Photo.SceneCaptureType                  Short       1  Standard
@@ -5887,7 +5887,7 @@ Compare original and inserted image data ---------------------------------
 < 20060802_095200.jpg   Exif.Photo.FocalPlaneXResolution             Rational    1  3959.32
 < 20060802_095200.jpg   Exif.Photo.FocalPlaneYResolution             Rational    1  3959.32
 < 20060802_095200.jpg   Exif.Photo.FocalPlaneResolutionUnit          Short       1  inch
-< 20060802_095200.jpg   Exif.Photo.CustomRendered                    Short       1  0
+< 20060802_095200.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 < 20060802_095200.jpg   Exif.Photo.ExposureMode                      Short       1  Auto
 < 20060802_095200.jpg   Exif.Photo.WhiteBalance                      Short       1  Manual
 < 20060802_095200.jpg   Exif.Photo.SceneCaptureType                  Short       1  Standard
@@ -6200,7 +6200,7 @@ Compare original and inserted image data ---------------------------------
 < 20060127_225027.jpg   Exif.Photo.FocalPlaneResolutionUnit          Short       1  inch
 < 20060127_225027.jpg   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 < 20060127_225027.jpg   Exif.Photo.FileSource                        Undefined   1  Digital still camera
-< 20060127_225027.jpg   Exif.Photo.CustomRendered                    Short       1  0
+< 20060127_225027.jpg   Exif.Photo.CustomRendered                    Short       1  Normal process
 < 20060127_225027.jpg   Exif.Photo.ExposureMode                      Short       1  Auto
 < 20060127_225027.jpg   Exif.Photo.WhiteBalance                      Short       1  Auto
 < 20060127_225027.jpg   Exif.Photo.DigitalZoomRatio                  Rational    1  1.0
@@ -6373,7 +6373,7 @@ Compare original and inserted image data ---------------------------------
 > 20031214_000043.exv   Exif.Photo.FocalPlaneResolutionUnit          Short       1  inch
 > 20031214_000043.exv   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 > 20031214_000043.exv   Exif.Photo.FileSource                        Undefined   1  Digital still camera
-> 20031214_000043.exv   Exif.Photo.CustomRendered                    Short       1  0
+> 20031214_000043.exv   Exif.Photo.CustomRendered                    Short       1  Normal process
 > 20031214_000043.exv   Exif.Photo.ExposureMode                      Short       1  Auto
 > 20031214_000043.exv   Exif.Photo.WhiteBalance                      Short       1  Auto
 > 20031214_000043.exv   Exif.Photo.DigitalZoomRatio                  Rational    1  1.0
@@ -6561,7 +6561,7 @@ Compare original and inserted image data ---------------------------------
 > 20040329_224245.exv   Exif.Photo.FileSource                        Undefined   1  Digital still camera
 > 20040329_224245.exv   Exif.Photo.SceneType                         Undefined   1  Directly photographed
 > 20040329_224245.exv   Exif.Photo.CFAPattern                        Undefined   8  0 2 0 2 2 1 1 0 
-> 20040329_224245.exv   Exif.Photo.CustomRendered                    Short       1  0
+> 20040329_224245.exv   Exif.Photo.CustomRendered                    Short       1  Normal process
 > 20040329_224245.exv   Exif.Photo.ExposureMode                      Short       1  Auto
 > 20040329_224245.exv   Exif.Photo.WhiteBalance                      Short       1  Auto
 > 20040329_224245.exv   Exif.Photo.DigitalZoomRatio                  Rational    1  1.0
@@ -6714,7 +6714,7 @@ Compare original and inserted image data ---------------------------------
 > 20030925_201850.exv   Exif.Photo.FocalPlaneResolutionUnit          Short       1  inch
 > 20030925_201850.exv   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 > 20030925_201850.exv   Exif.Photo.FileSource                        Undefined   1  Digital still camera
-> 20030925_201850.exv   Exif.Photo.CustomRendered                    Short       1  0
+> 20030925_201850.exv   Exif.Photo.CustomRendered                    Short       1  Normal process
 > 20030925_201850.exv   Exif.Photo.ExposureMode                      Short       1  Auto
 > 20030925_201850.exv   Exif.Photo.WhiteBalance                      Short       1  Auto
 > 20030925_201850.exv   Exif.Photo.SceneCaptureType                  Short       1  Standard
@@ -6929,7 +6929,7 @@ Compare original and inserted image data ---------------------------------
 > 20030926_111535.exv   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 > 20030926_111535.exv   Exif.Photo.FileSource                        Undefined   1  Digital still camera
 > 20030926_111535.exv   Exif.Photo.SceneType                         Undefined   1  Directly photographed
-> 20030926_111535.exv   Exif.Photo.CustomRendered                    Short       1  0
+> 20030926_111535.exv   Exif.Photo.CustomRendered                    Short       1  Normal process
 > 20030926_111535.exv   Exif.Photo.ExposureMode                      Short       1  Auto
 > 20030926_111535.exv   Exif.Photo.WhiteBalance                      Short       1  Auto
 > 20030926_111535.exv   Exif.Photo.FocalLengthIn35mmFilm             Short       1  42.0 mm
@@ -6994,7 +6994,7 @@ Compare original and inserted image data ---------------------------------
 > 20040316_075137.exv   Exif.Photo.PixelYDimension                   Long        1  1512
 > 20040316_075137.exv   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 > 20040316_075137.exv   Exif.Photo.FileSource                        Undefined   4  Digital still camera
-> 20040316_075137.exv   Exif.Photo.CustomRendered                    Short       1  1
+> 20040316_075137.exv   Exif.Photo.CustomRendered                    Short       1  Custom process
 > 20040316_075137.exv   Exif.Photo.ExposureMode                      Short       1  Manual
 > 20040316_075137.exv   Exif.Photo.WhiteBalance                      Short       1  Manual
 > 20040316_075137.exv   Exif.Photo.FocalLengthIn35mmFilm             Short       1  24.0 mm
@@ -7066,7 +7066,7 @@ Compare original and inserted image data ---------------------------------
 > 20040208_093744.exv   Exif.Photo.InteroperabilityTag               Long        1  1268
 > 20040208_093744.exv   Exif.Photo.FileSource                        Undefined   1  Digital still camera
 > 20040208_093744.exv   Exif.Photo.SceneType                         Undefined   1  Directly photographed
-> 20040208_093744.exv   Exif.Photo.CustomRendered                    Short       1  0
+> 20040208_093744.exv   Exif.Photo.CustomRendered                    Short       1  Normal process
 > 20040208_093744.exv   Exif.Photo.ExposureMode                      Short       1  Manual
 > 20040208_093744.exv   Exif.Photo.WhiteBalance                      Short       1  Manual
 > 20040208_093744.exv   Exif.Photo.DigitalZoomRatio                  Rational    1  0.0
@@ -7134,7 +7134,7 @@ Compare original and inserted image data ---------------------------------
 > 20050218_212016.exv   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 > 20050218_212016.exv   Exif.Photo.FileSource                        Undefined   1  Digital still camera
 > 20050218_212016.exv   Exif.Photo.SceneType                         Undefined   1  Directly photographed
-> 20050218_212016.exv   Exif.Photo.CustomRendered                    Short       1  0
+> 20050218_212016.exv   Exif.Photo.CustomRendered                    Short       1  Normal process
 > 20050218_212016.exv   Exif.Photo.ExposureMode                      Short       1  Auto
 > 20050218_212016.exv   Exif.Photo.WhiteBalance                      Short       1  Auto
 > 20050218_212016.exv   Exif.Photo.DigitalZoomRatio                  Rational    1  0.0
@@ -7215,7 +7215,7 @@ Compare original and inserted image data ---------------------------------
 > 20050527_051833.exv   Exif.Photo.InteroperabilityTag               Long        1  2278
 > 20050527_051833.exv   Exif.Photo.FileSource                        Undefined   1  Digital still camera
 > 20050527_051833.exv   Exif.Photo.SceneType                         Undefined   1  Directly photographed
-> 20050527_051833.exv   Exif.Photo.CustomRendered                    Short       1  0
+> 20050527_051833.exv   Exif.Photo.CustomRendered                    Short       1  Normal process
 > 20050527_051833.exv   Exif.Photo.ExposureMode                      Short       1  Auto
 > 20050527_051833.exv   Exif.Photo.WhiteBalance                      Short       1  Auto
 > 20050527_051833.exv   Exif.Photo.SceneCaptureType                  Short       1  Standard
@@ -7276,7 +7276,7 @@ Compare original and inserted image data ---------------------------------
 > 20060802_095200.exv   Exif.Photo.FocalPlaneXResolution             Rational    1  3959.32
 > 20060802_095200.exv   Exif.Photo.FocalPlaneYResolution             Rational    1  3959.32
 > 20060802_095200.exv   Exif.Photo.FocalPlaneResolutionUnit          Short       1  inch
-> 20060802_095200.exv   Exif.Photo.CustomRendered                    Short       1  0
+> 20060802_095200.exv   Exif.Photo.CustomRendered                    Short       1  Normal process
 > 20060802_095200.exv   Exif.Photo.ExposureMode                      Short       1  Auto
 > 20060802_095200.exv   Exif.Photo.WhiteBalance                      Short       1  Manual
 > 20060802_095200.exv   Exif.Photo.SceneCaptureType                  Short       1  Standard
@@ -7589,7 +7589,7 @@ Compare original and inserted image data ---------------------------------
 > 20060127_225027.exv   Exif.Photo.FocalPlaneResolutionUnit          Short       1  inch
 > 20060127_225027.exv   Exif.Photo.SensingMethod                     Short       1  One-chip color area
 > 20060127_225027.exv   Exif.Photo.FileSource                        Undefined   1  Digital still camera
-> 20060127_225027.exv   Exif.Photo.CustomRendered                    Short       1  0
+> 20060127_225027.exv   Exif.Photo.CustomRendered                    Short       1  Normal process
 > 20060127_225027.exv   Exif.Photo.ExposureMode                      Short       1  Auto
 > 20060127_225027.exv   Exif.Photo.WhiteBalance                      Short       1  Auto
 > 20060127_225027.exv   Exif.Photo.DigitalZoomRatio                  Rational    1  1.0
