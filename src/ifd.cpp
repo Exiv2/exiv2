@@ -483,7 +483,7 @@ namespace Exiv2 {
                 this->add(e);
             }
         }
-        if (!alloc_) pBase_ = const_cast<byte*>(buf + shift);
+        if (!alloc_) pBase_ = const_cast<byte*>(buf);
         if (rc) this->clear();
 
         return rc;
