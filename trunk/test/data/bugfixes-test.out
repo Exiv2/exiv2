@@ -25,7 +25,7 @@ Iptc.Application2.Source                     String      2  AP
 Iptc.Application2.Caption                    String    282  Chicago White Sox pitcher John Garland, left, pours champagne on Freddy Garcia in the locker room after their 4-2 win against the Detroit Tigers in Detroit, Thursday, Sept. 29, 2005. With the win the White Sox clinched their first AL Central title since 2000. (AP Photo/Paul Sancya)
 Iptc.Application2.Writer                     String     15  DD PCS DD**NY**
 ------> Bug 443 <-------
-Error: Iop entry 2796 lies outside of the IFD memory buffer.
+Error: Directory Iop with 5233 entries considered invalid; not read.
 Exif.Image.Make                              Ascii      22  EASTMAN KODAK COMPANY
 Exif.Image.Model                             Ascii      28  KODAK DX3600 DIGITAL CAMERA
 Exif.Image.Orientation                       Short       1  top, left
@@ -113,7 +113,7 @@ Exif.Photo.FocalPlaneYResolution             Rational    1  8114.29
 Exif.Photo.FocalPlaneResolutionUnit          Short       1  inch
 Exif.Photo.SensingMethod                     Short       1  One-chip color area
 Exif.Photo.FileSource                        Undefined   1  Digital still camera
-Exif.Photo.CustomRendered                    Short       1  0
+Exif.Photo.CustomRendered                    Short       1  Normal process
 Exif.Photo.ExposureMode                      Short       1  Auto
 Exif.Photo.WhiteBalance                      Short       1  Auto
 Exif.Photo.DigitalZoomRatio                  Rational    1  1.0
