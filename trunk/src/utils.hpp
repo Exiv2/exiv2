@@ -160,6 +160,12 @@ private:
      */
     bool strtol(const char* nptr, long& n);
 
+    /*!
+      @brief Replaces all occurences of \em searchText in the \em text string
+             by \em replaceText.
+     */
+    void replace(std::string& text, const std::string& searchText, const std::string& replaceText);
+
 }                                       // namespace Util
 
 #endif                                  // #ifndef UTILS_HPP_

@@ -22,7 +22,7 @@ Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 Boston, MA 02110-1301 USA
 
 Exiv2 help ---------------------------------------------------------------
-Usage: exiv2 [ options ] [ action ] file ...
+Usage: lt-exiv2 [ options ] [ action ] file ...
 
 Manipulate the Exif metadata of images.
 
@@ -88,7 +88,11 @@ Options:
    -e tgt  Extract target(s) for the 'extract' action. Possible targets
            are the same as those for the -d option.
    -r fmt  Filename format for the 'rename' action. The format string
-           follows strftime(3). Default filename format is %Y%m%d_%H%M%S.
+           follows strftime(3). The following keywords are supported:
+             :basename:   - original filename without extension
+             :dirname:    - name of the directory holding the original file
+             :parentname: - name of parent directory
+           Default filename format is %Y%m%d_%H%M%S.
    -c txt  Jpeg comment string to set in the image.
    -m file Command file for the modify action. The format for commands is
            set|add|del <key> [[<type>] <value>].

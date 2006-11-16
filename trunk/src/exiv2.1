@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "September 12th, 2006"
+.TH EXIV2 1 "November 16th, 2006"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -181,7 +181,15 @@ as those for the \fB\-d\fP option.
 .TP
 .B \-r \fIfmt\fP
 Filename format for the 'rename' action. The format string follows
-\fBstrftime\fP(3). Default filename format is %Y%m%d_%H%M%S.
+\fBstrftime\fP(3) and supports the following keywords:
+.br
+:basename:   - original filename without extension
+.br
+:dirname:    - name of the directory holding the original file
+.br
+:parentname: - name of parent directory
+.br
+Default filename format is %Y%m%d_%H%M%S.
 .TP
 .B \-c \fItxt\fP
 JPEG comment string to set in the image ('modify' action).
@@ -283,8 +291,11 @@ Prints a summary of the Exif information for all JPEG files in the directory.
 exiv2 -pi image.jpg
 Prints the IPTC metadata of the image.
 .TP
-exiv2 rename image.jpg
-Renames image.jpg (taken on 13\-Nov\-05 at 22:58:31) to 20051113_225831.jpg
+exiv2 rename img_1234.jpg
+Renames img_1234.jpg (taken on 13\-Nov\-05 at 22:58:31) to 20051113_225831.jpg
+.TP
+exiv2 -r':basename:_%Y%m' rename img_1234.jpg
+Renames img_1234.jpg to img_1234_200511.jpg
 .TP
 exiv2 ex img1.jpg img2.jpg
 Extracts metadata from the two files into files img1.exv and img2.exv.
@@ -327,7 +338,7 @@ Sample command file.
 .TP
 .I http://www.exiv2.org/metadata.html
 Taglists with \fIkey\fP and default \fItype\fP values.
-.SH AUTHOR
+.SH AUTHORS
 .B exiv2 
 was written by Andreas HUGGEL <ahuggel@gmx.net>.
 .PP
