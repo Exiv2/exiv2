@@ -130,7 +130,7 @@ namespace Exiv2 {
                 "in ISO 8601 to indicate year, month and day the service sent the material.", 
                 true, false, 8, 8, Exiv2::date, IptcDataSets::envelope, ""),
         DataSet(IptcDataSets::TimeSent, "TimeSent", "TimeSent", 
-                "Uses the format HHMMSSÂ±HHMM where HHMMSS refers to "
+                "Uses the format HHMMSS±HHMM where HHMMSS refers to "
                 "local hour, minute and seconds and HHMM refers to hours and "
                 "minutes ahead (+) or behind (-) Universal Coordinated Time as "
                 "described in ISO 8601. This is the time the service sent the material.", 

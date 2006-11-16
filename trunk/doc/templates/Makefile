@@ -39,7 +39,7 @@ tags: $(TABLES) Iptc
 
 $(TABLES): $(TAGLIST)
 	@echo Generating $@ table...
-	@$(TAGLIST) $@ | awk -f tags.awk > $@.xml
+	@$(TAGLIST) $@ | sed -e"s/</\&lt;/g" -e"s/>/\&gt;/g" | awk -f tags.awk > $@.xml
 	@xsltproc tags.xsl $@.xml > $@.tmp
 	@sed "s/report1/$@/" $@.tmp > __$@__
 	@touch $@
@@ -47,7 +47,8 @@ $(TABLES): $(TAGLIST)
 
 Iptc: $(TAGLIST)
 	@echo Generating $@ table...
-	@$(TAGLIST) $@ | awk -f iptc.awk > $@.xml
+	@$(TAGLIST) $@ | sed -e"s/</\&lt;/g" -e"s/>/\&gt;/g" -e"s/±/\&#177;/g" \
+	               | awk -f iptc.awk > $@.xml
 	@xsltproc iptc.xsl $@.xml > $@.tmp
 	@sed "s/report1/$@/g" $@.tmp > __$@__
 	@touch $@
