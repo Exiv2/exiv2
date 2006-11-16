@@ -1560,10 +1560,15 @@ namespace {
     int renameFile(std::string& newPath, const struct tm* tm)
     {
         std::string path = newPath;
+        std::string format = Params::instance().format_;
+        Util::replace(format, ":basename:",   Util::basename(path, true));
+        Util::replace(format, ":dirname:",    Util::basename(Util::dirname(path)));
+        Util::replace(format, ":parentname:", Util::basename(Util::dirname(Util::dirname(path))));
+
         const size_t max = 1024;
         char basename[max];
         memset(basename, 0x0, max);
-        if (strftime(basename, max, Params::instance().format_.c_str(), tm) == 0) {
+        if (strftime(basename, max, format.c_str(), tm) == 0) {
             std::cerr << "Filename format yields empty filename for the file "
                       << path << "\n";
             return 1;

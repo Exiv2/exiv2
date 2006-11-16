@@ -143,4 +143,14 @@ namespace Util {
         return true;
     }
 
+    void replace(std::string& text, const std::string& searchText, const std::string& replaceText)
+    {
+        std::string::size_type index = 0;
+        while ((index = text.find(searchText, index)) != std::string::npos)
+        {
+            text.replace(index, searchText.length(), replaceText.c_str(), replaceText.length());
+            index++;
+        }
+    }
+
 }                                       // namespace Util
