@@ -20,7 +20,7 @@
  */
 /*!
   @file    iptc.hpp
-  @brief   Encoding and decoding of Iptc data
+  @brief   Encoding and decoding of IPTC data
   @version $Rev$
   @author  Brad Schick (brad)
            <a href="mailto:brad@robotbattle.com">brad@robotbattle.com</a>
@@ -49,7 +49,7 @@ namespace Exiv2 {
 // class definitions
 
     /*!
-      @brief Information related to one Iptc dataset. An Iptc metadatum consists
+      @brief Information related to one IPTC dataset. An IPTC metadatum consists
              of an IptcKey and a Value and provides methods to manipulate these.
      */
     class Iptcdatum : public Metadatum {
@@ -267,15 +267,15 @@ namespace Exiv2 {
     }; // class FindMetadatumById
 
     /*!
-      @brief A container for Iptc data. This is a top-level class of
+      @brief A container for IPTC data. This is a top-level class of
              the %Exiv2 library.
 
-      Provide high-level access to the Iptc data of an image:
-      - read Iptc information from JPEG files
+      Provide high-level access to the IPTC data of an image:
+      - read IPTC information from JPEG files
       - access metadata through keys and standard C++ iterators
       - add, modify and delete metadata
-      - write Iptc data to JPEG files
-      - extract Iptc metadata to files, insert from these files
+      - write IPTC data to JPEG files
+      - extract IPTC metadata to files, insert from these files
     */
     class IptcData {
     public:
@@ -289,12 +289,12 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         /*!
-          @brief Load the Iptc data from a byte buffer. The format must follow
+          @brief Load the IPTC data from a byte buffer. The format must follow
                  the IPTC IIM4 standard.
           @param buf Pointer to the data buffer to read from
           @param len Number of bytes in the data buffer
           @return 0 if successful;<BR>
-                 5 if Iptc data is invalid or corrupt;<BR>
+                 5 if IPTC data is invalid or corrupt;<BR>
          */
         int load(const byte* buf, long len);
         /*!
@@ -315,7 +315,7 @@ namespace Exiv2 {
          */
         int add(const IptcKey& key, Value* value);
         /*!
-          @brief Add a copy of the Iptcdatum to the Iptc metadata. A check
+          @brief Add a copy of the Iptcdatum to the IPTC metadata. A check
                  for non-repeatable datasets is performed.
           @return 0 if successful;<BR>
                  6 if the dataset already exists and is not repeatable;<BR>
@@ -363,10 +363,10 @@ namespace Exiv2 {
         //! End of the metadata
         const_iterator end() const { return iptcMetadata_.end(); }
         /*!
-          @brief Write the Iptc data to a data buffer and return the data buffer.
+          @brief Write the IPTC data to a data buffer and return the data buffer.
                  Caller owns this buffer. The copied data follows the IPTC IIM4
                  standard.
-          @return Data buffer containing the Iptc data.
+          @return Data buffer containing the IPTC data.
          */
         DataBuf copy() const;
         /*!
@@ -383,12 +383,12 @@ namespace Exiv2 {
          */
         const_iterator findId(uint16_t dataset,
                               uint16_t record = IptcDataSets::application2) const;
-        //! Return true if there is no Iptc metadata
+        //! Return true if there is no IPTC metadata
         bool empty() const { return count() == 0; }
         //! Get the number of metadata entries
         long count() const { return static_cast<long>(iptcMetadata_.size()); }
         /*!
-          @brief Return the exact size of all contained Iptc metadata
+          @brief Return the exact size of all contained IPTC metadata
          */
         long size() const;
         //@}

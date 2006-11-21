@@ -11,34 +11,48 @@ __index1__
 
 <p>
 The Makernote is tag 0x927c in the Exif IFD. According to the 
-<a title="The Exif 2.2 standard (PDF)" href="http://tsc.jeita.or.jp/avs/data/cp3451.pdf">
+<a title="The Exif 2.2 standard (PDF)" href="http://www.exif.org/Exif2-2.PDF">
 Exif 2.2 standard</a>, the makernote is <i>"a tag for manufacturers of
 Exif writers to record any desired information. The contents are up to
 the manufacturer, but this tag should not be used for any other than
 its intended purpose."</i></p> 
 
-<p>Unfortunately, most vendors do not publish their makernote specifications. (Why not?) 
-Most of the <a href="#R0">specifications available on the Internet</a> 
-were reverse-engineered. Judging from the size of many makernote fields, manufacturers 
-apparently store a lot of information there and from the available specifications, 
-some of this is certainly quite interesting. For example, makernotes may contain 
-information about the lens used, contrast, saturation and sharpness settings, image 
-quality settings, etc.</p>
+<p>Most vendors do not publish their makernote specifications. Most of the 
+<a href="#R0">specifications available on the Internet</a> 
+were reverse-engineered. Judging from the size of many makernote
+fields, manufacturers store a lot of information there and from the
+available specifications, some of this is certainly quite
+interesting. For example, makernotes may contain information about the
+lens used, contrast, saturation and sharpness settings, image quality
+settings, etc. For some more advanced camera settings, the Exif
+standard doesn't define a standard tag, so camera vendors have to
+resort to using the makernote. Unfortunately, in some cases, camera
+vendors store important information only in proprietary makernote
+fields, instead of using available Exif standard tags. The most
+infamous example for this is Nikon's ISO settings tag.</p>
 
-<p>Many (but not all) vendors write the makernote in TIFF IFD (Image File Directory) format, 
-i.e., in the same format as the rest of the Exif information is encoded. Although this may 
-appear to make sense at first glance, it actually complicates the situation for programs that 
-attempt to write to the Exif data. The problem is that IFDs contain offsets relative to the 
-start of the Exif data. That implies that if an Exif writer moves a makernote field encoded in 
-IFD format to a different location within the Exif data, it gets corrupted. The reason to
-write to the Exif data could be as simple as to add copyright information, an Exif comment, 
-etc. In my opinion, this is a bug in the specification. In fact, some vendors seem to have
-recognized this problem and use offsets relative to somewhere at the beginning of the makernote 
-field for the makernote IFD.</p>
+<p>Most vendors write the makernote in TIFF format, i.e., in the same
+format as the rest of the Exif information is encoded. This appears to
+be a sensible thing at first glance. Unfortunately, in general it
+means that <i>any</i> change of an Exif tag, which moves the
+makernote field, will corrupt it. It is an inherent problem of the
+TIFF format that a writer must know the format and all extensions
+used, in order to be able to write changes correctly; unknown tags are
+potentially corrupted when they are moved (rearranged). But since
+makernotes are usually proprietary, Exif writers often don't know
+these details. The reason to write to the Exif data could be as simple
+as to add copyright information, an Exif comment, etc. Some camera
+manufacturers seem to have recognized this problem and now use a
+modified TIFF format with offsets relative to somewhere at the
+beginning of the makernote field for the makernote IFD to address the
+issue.</p>
 
-<p>The following table summarizes the structures of the makernote field used by some vendors. 
-Please let me know if you find further specifications on the Internet.</p>
+<p>The following table summarizes the structures of the makernote
+field used by some vendors.  Please let me know if you have additional
+information.</p>
+
 __makernotes__
+
 <p><a href="http://www.exif.org/">Exif.org</a> has another table with similar 
   info and sample pictures: <a href="http://www.exif.org/samples.html">Digital 
   Camera Sample Images</a>. According to this source, (at least some) Ricoh and 

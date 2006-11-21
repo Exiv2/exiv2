@@ -8,7 +8,7 @@
   @date    07-Feb-04, ahu: created
  */
 /*!
-  @mainpage Exif and IPTC metadata manipulation library and tools v0.11
+  @mainpage Exif and IPTC metadata library and tools v0.11
 
   @section overview Exiv2 Overview
 

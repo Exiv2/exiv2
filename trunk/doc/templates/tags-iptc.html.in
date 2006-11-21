@@ -6,9 +6,9 @@ __header2__
 <div id="content">
 __index1__
 __index2__
-<h2>Iptc datasets defined in Exiv2</h2>
+<h2>IPTC datasets defined in Exiv2</h2>
 
-<p>Datasets are defined according to the specification of the Iptc 
+<p>Datasets are defined according to the specification of the IPTC 
 <a href="http://www.iptc.org/IIM/">Information Interchange Model (IIM)</a>.</p>
 
 <p>Click on a column header to sort the table.</p>

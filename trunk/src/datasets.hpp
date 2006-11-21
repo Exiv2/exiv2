@@ -20,7 +20,7 @@
  */
 /*!
   @file    datasets.hpp
-  @brief   Iptc dataSet and type information
+  @brief   IPTC dataset and type information
   @version $Rev$
   @author  Brad Schick (brad) <brad@robotbattle.com>
   @date    24-Jul-04, brad: created
@@ -84,13 +84,13 @@ namespace Exiv2 {
         const char* photoshop_;                 //!< Photoshop string
     }; // struct DataSet
 
-    //! Container for Iptc dataset information. Implemented as a static class.
+    //! Container for IPTC dataset information. Implemented as a static class.
     class IptcDataSets {
     public:
         /*!
           @name Record identifiers
           @brief Record identifiers to logically group dataSets. There are other
-                 possible record types, but they are not standardized by the Iptc
+                 possible record types, but they are not standardized by the IPTC
                  IIM4 standard (and not commonly used in images).
          */
         //@{
@@ -186,7 +186,7 @@ namespace Exiv2 {
         /*!
           @brief Return the name of the dataset.
           @param number The dataset number
-          @param recordId The Iptc record Id
+          @param recordId The IPTC record Id
           @return The name of the dataset or a string containing the hexadecimal
                   value of the dataset in the form "0x01ff", if this is an unknown
                   dataset.
@@ -195,21 +195,21 @@ namespace Exiv2 {
         /*!
           @brief Return the title (label) of the dataset.
           @param number The dataset number
-          @param recordId The Iptc record Id
+          @param recordId The IPTC record Id
           @return The title (label) of the dataset
          */
         static const char* dataSetTitle(uint16_t number, uint16_t recordId);
         /*!
           @brief Return the description of the dataset.
           @param number The dataset number
-          @param recordId The Iptc record Id
+          @param recordId The IPTC record Id
           @return The description of the dataset
          */
         static const char* dataSetDesc(uint16_t number, uint16_t recordId);
         /*!
           @brief Return the photohsop name of a given dataset.
           @param number The dataset number
-          @param recordId The Iptc record Id
+          @param recordId The IPTC record Id
           @return The name used by photoshop for a dataset or an empty
                  string if photoshop does not use the dataset.
          */
@@ -217,7 +217,7 @@ namespace Exiv2 {
         /*!
           @brief Check if a given dataset is repeatable
           @param number The dataset number
-          @param recordId The Iptc record Id
+          @param recordId The IPTC record Id
           @return true if the given dataset is repeatable otherwise false
          */
         static bool dataSetRepeatable(uint16_t number, uint16_t recordId);
@@ -272,7 +272,7 @@ namespace Exiv2 {
     }; // class IptcDataSets
 
     /*!
-      @brief Concrete keys for Iptc metadata.
+      @brief Concrete keys for IPTC metadata.
      */
     class IptcKey : public Key {
     public:
@@ -282,7 +282,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         /*!
-          @brief Constructor to create an Iptc key from a key string.
+          @brief Constructor to create an IPTC key from a key string.
 
           @param key The key string.
           @throw Error if the first part of the key is not '<b>Iptc</b>' or
@@ -291,7 +291,7 @@ namespace Exiv2 {
         */
         explicit IptcKey(const std::string& key);
         /*!
-          @brief Constructor to create an Iptc key from dataset and record ids.
+          @brief Constructor to create an IPTC key from dataset and record ids.
           @param tag Dataset id
           @param record Record id
          */
@@ -314,7 +314,7 @@ namespace Exiv2 {
         virtual const char* familyName() const { return familyName_; }
         /*!
           @brief Return the name of the group (the second part of the key).
-                 For Iptc keys, the group name is the record name.
+                 For IPTC keys, the group name is the record name.
         */
         virtual std::string groupName() const { return recordName(); }
         virtual std::string tagName() const
