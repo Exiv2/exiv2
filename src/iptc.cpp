@@ -170,7 +170,7 @@ namespace Exiv2 {
         }
 
         return 0;
-    } // IptcData::read
+    } // IptcData::load
 
     int IptcData::readData(uint16_t dataSet, uint16_t record,
                            const byte* data, uint32_t sizeData)
