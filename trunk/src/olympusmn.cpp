@@ -164,6 +164,11 @@ namespace Exiv2 {
         TagInfo(0xffff, "(UnknownOlympusMakerNoteTag)", "(UnknownOlympusMakerNoteTag)", "Unknown OlympusMakerNote tag", olympusIfdId, makerTags, invalidTypeId, printValue)
     };
 
+    const TagInfo* OlympusMakerNote::tagList()
+    {
+        return tagInfo_;
+    }
+
     OlympusMakerNote::OlympusMakerNote(bool alloc)
         : IfdMakerNote(olympusIfdId, alloc)
     {

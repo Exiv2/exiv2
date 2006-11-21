@@ -116,6 +116,8 @@ namespace Exiv2 {
         int checkHeader() const;
         AutoPtr create(bool alloc =true) const;
         AutoPtr clone() const;
+        //! Return read-only list of built-in Panasonic tags
+        static const TagInfo* tagList();
         //@}
 
         //! @name Print functions for Panasonic %MakerNote tags

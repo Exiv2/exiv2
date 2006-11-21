@@ -126,6 +126,14 @@ namespace Exiv2 {
         long size() const;
         AutoPtr create(bool alloc =true) const;
         AutoPtr clone() const;
+        //! Return read-only list of built-in Minolta tags
+        static const TagInfo* tagList();
+        //! Return read-only list of built-in Minolta Standard Camera Settings tags
+        static const TagInfo* tagListCsStd();
+        //! Return read-only list of built-in Minolta 7D Camera Settings tags
+        static const TagInfo* tagListCs7D();
+        //! Return read-only list of built-in Minolta 5D Camera Settings tags
+        static const TagInfo* tagListCs5D();
         //@}
 
         //! @name Print functions for Minolta %MakerNote tags

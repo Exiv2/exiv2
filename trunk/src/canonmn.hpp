@@ -127,6 +127,18 @@ namespace Exiv2 {
         long size() const;
         AutoPtr create(bool alloc =true) const;
         AutoPtr clone() const;
+        //! Return read-only list of built-in Canon tags
+        static const TagInfo* tagList();
+        //! Return read-only list of built-in Canon Camera Settings tags
+        static const TagInfo* tagListCs();
+        //! Return read-only list of built-in Canon Shot Info tags
+        static const TagInfo* tagListSi();
+        //! Return read-only list of built-in Canon Panorama tags
+        static const TagInfo* tagListPa();
+        //! Return read-only list of built-in Canon Custom Function tags
+        static const TagInfo* tagListCf();
+        //! Return read-only list of built-in Canon Picture Info tags
+        static const TagInfo* tagListPi();
         //@}
 
         //! @name Print functions for Canon %MakerNote tags

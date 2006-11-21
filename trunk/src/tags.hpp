@@ -272,6 +272,14 @@ namespace Exiv2 {
                                       uint16_t tag,
                                       IfdId ifdId,
                                       const Value& value);
+        //! Return read-only list of built-in IFD0/1 tags
+        static const TagInfo* ifdTagList();
+        //! Return read-only list of built-in Exif IFD tags
+        static const TagInfo* exifTagList();
+        //! Return read-only list of built-in IOP tags
+        static const TagInfo* iopTagList();
+        //! Return read-only list of built-in GPS tags
+        static const TagInfo* gpsTagList();
         //! Print a list of all standard Exif tags to output stream
         static void taglist(std::ostream& os);
         //! Print a list of all tags related to one makernote %IfdId

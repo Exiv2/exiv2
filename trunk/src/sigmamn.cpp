@@ -89,6 +89,11 @@ namespace Exiv2 {
         TagInfo(0xffff, "(UnknownSigmaMakerNoteTag)", "(UnknownSigmaMakerNoteTag)", "Unknown SigmaMakerNote tag", sigmaIfdId, makerTags, invalidTypeId, printValue)
     };
 
+    const TagInfo* SigmaMakerNote::tagList()
+    {
+        return tagInfo_;
+    }
+
     SigmaMakerNote::SigmaMakerNote(bool alloc)
         : IfdMakerNote(sigmaIfdId, alloc)
     {
