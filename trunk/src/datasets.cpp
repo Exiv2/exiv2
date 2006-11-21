@@ -160,6 +160,11 @@ namespace Exiv2 {
                 "(Invalid)", false, false, 0, 0, Exiv2::unsignedShort, IptcDataSets::envelope, "")
     };
 
+    const DataSet* IptcDataSets::envelopeRecordList()
+    {
+        return envelopeRecord;
+    }
+
     static const DataSet application2Record[] = {
         DataSet(IptcDataSets::RecordVersion, "RecordVersion", "RecordVersion", 
                 "A binary number identifying the version of the Information "
@@ -409,6 +414,11 @@ namespace Exiv2 {
         DataSet(0xffff, "(Invalid)", "(Invalid)", 
                 "(Invalid)", false, false, 0, 0, Exiv2::unsignedShort, IptcDataSets::application2, "")
     };
+
+    const DataSet* IptcDataSets::application2RecordList()
+    {
+        return application2Record;
+    }
 
     static const DataSet unknownDataSet(0xffff, "Unknown dataset", "Unknown dataset", "Unknown dataset", false, true, 0, 0xffffffff, Exiv2::string, IptcDataSets::invalidRecord, "Unknown dataset");
 
