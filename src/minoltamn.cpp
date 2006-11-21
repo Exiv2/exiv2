@@ -240,6 +240,11 @@ namespace Exiv2 {
         TagInfo(0xffff, "(UnknownMinoltaMakerNoteTag)", "(UnknownMinoltaMakerNoteTag)", "Unknown MinoltaMakerNote tag", minoltaIfdId, makerTags, invalidTypeId, printValue)
     };
 
+    const TagInfo* MinoltaMakerNote::tagList()
+    {
+        return tagInfo_;
+    }
+
     // -- Standard Minolta camera settings ---------------------------------------------------------------
 
     //! Lookup table to translate Minolta Std camera settings exposure mode values to readable labels
@@ -601,8 +606,13 @@ namespace Exiv2 {
         TagInfo(0x003F, "FlashMetering", "Flash Metering", "Flash metering", minoltaCsNewIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaFlashMeteringStd)),
 
         // End of list marker
-        TagInfo(0xffff, "(UnknownMinoltaCsTag)", "(UnknownMinoltaCsTag)", "Unknown Minolta Camera Settings tag", minoltaCsNewIfdId, makerTags, invalidTypeId, printValue)
+        TagInfo(0xffff, "(UnknownMinoltaCsStdTag)", "(UnknownMinoltaCsStdTag)", "Unknown Minolta Camera Settings tag", minoltaCsNewIfdId, makerTags, invalidTypeId, printValue)
     };
+
+    const TagInfo* MinoltaMakerNote::tagListCsStd()
+    {
+        return tagInfoCsStd_;
+    }
 
     // -- Minolta Dynax 7D camera settings ---------------------------------------------------------------
 
@@ -749,6 +759,11 @@ namespace Exiv2 {
         // End of list marker
         TagInfo(0xffff, "(UnknownMinoltaCs7DTag)", "(UnknownMinoltaCs7DTag)", "Unknown Minolta Camera Settings 7D tag", minoltaCs7DIfdId, makerTags, invalidTypeId, printValue)
     };
+
+    const TagInfo* MinoltaMakerNote::tagListCs7D()
+    {
+        return tagInfoCs7D_;
+    }
 
     // -- Minolta Dynax 5D camera settings ---------------------------------------------------------------
 
@@ -933,6 +948,11 @@ namespace Exiv2 {
         // End of list marker
         TagInfo(0xffff, "(UnknownMinoltaCs5DTag)", "(UnknownMinoltaCs5DTag)", "Unknown Minolta Camera Settings 5D tag", minoltaCs5DIfdId, makerTags, invalidTypeId, printValue)
     };
+
+    const TagInfo* MinoltaMakerNote::tagListCs5D()
+    {
+        return tagInfoCs5D_;
+    }
 
     // TODO : Add camera settings tags info "New2"...
 

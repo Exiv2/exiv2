@@ -163,6 +163,11 @@ namespace Exiv2 {
         TagInfo(0xffff, "(UnknownFujiMakerNoteTag)", "(UnknownFujiMakerNoteTag)", "Unknown FujiMakerNote tag", fujiIfdId, makerTags, invalidTypeId, printValue)
     };
 
+    const TagInfo* FujiMakerNote::tagList()
+    {
+        return tagInfo_;
+    }
+
     FujiMakerNote::FujiMakerNote(bool alloc)
         : IfdMakerNote(fujiIfdId, alloc)
     {

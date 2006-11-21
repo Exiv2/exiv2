@@ -102,6 +102,11 @@ namespace Exiv2 {
         TagInfo(0xffff, "(UnknownCanonMakerNoteTag)", "(UnknownCanonMakerNoteTag)", "Unknown CanonMakerNote tag", canonIfdId, makerTags, invalidTypeId, printValue)
     };
 
+    const TagInfo* CanonMakerNote::tagList()
+    {
+        return tagInfo_;
+    }
+
     //! Macro, tag 0x0001
     extern const TagDetails canonCsMacro[] = {
         { 1, "On"  },
@@ -368,6 +373,11 @@ namespace Exiv2 {
         TagInfo(0xffff, "(UnknownCanonCsTag)", "(UnknownCanonCsTag)", "Unknown Canon Camera Settings 1 tag", canonCsIfdId, makerTags, invalidTypeId, printValue)
     };
 
+    const TagInfo* CanonMakerNote::tagListCs()
+    {
+        return tagInfoCs_;
+    }
+
     //! WhiteBalance, tag 0x0007
     extern const TagDetails canonSiWhiteBalance[] = {
         {  0, "Auto"                        },
@@ -449,6 +459,11 @@ namespace Exiv2 {
         TagInfo(0xffff, "(UnknownCanonSiTag)", "(UnknownCanonSiTag)", "Unknown Canon Camera Settings 2 tag", canonSiIfdId, makerTags, invalidTypeId, printValue)
     };
 
+    const TagInfo* CanonMakerNote::tagListSi()
+    {
+        return tagInfoSi_;
+    }
+
     //! PanoramaDirection, tag 0x0005
     extern const TagDetails canonPaDirection[] = {
         { 0, "Left to right"          },
@@ -465,6 +480,11 @@ namespace Exiv2 {
         // End of list marker
         TagInfo(0xffff, "(UnknownCanonCs2Tag)", "(UnknownCanonCs2Tag)", "Unknown Canon Panorama tag", canonPaIfdId, makerTags, invalidTypeId, printValue)
     };
+
+    const TagInfo* CanonMakerNote::tagListPa()
+    {
+        return tagInfoPa_;
+    }
 
     // Canon Custom Function Tag Info
     const TagInfo CanonMakerNote::tagInfoCf_[] = {
@@ -486,6 +506,11 @@ namespace Exiv2 {
         // End of list marker
         TagInfo(0xffff, "(UnknownCanonCfTag)", "(UnknownCanonCfTag)", "Unknown Canon Custom Function tag", canonCfIfdId, makerTags, invalidTypeId, printValue)
     };
+
+    const TagInfo* CanonMakerNote::tagListCf()
+    {
+        return tagInfoCf_;
+    }
 
     //! AFPointsUsed, tag 0x0016
     extern const TagDetailsBitmask canonPiAFPointsUsed[] = {
@@ -523,6 +548,10 @@ namespace Exiv2 {
         TagInfo(0xffff, "(UnknownCanonPiTag)", "(UnknownCanonPiTag)", "Unknown Canon Picture Info tag", canonPiIfdId, makerTags, invalidTypeId, printValue)
     };
 
+    const TagInfo* CanonMakerNote::tagListPi()
+    {
+        return tagInfoPi_;
+    }
 
     int CanonMakerNote::read(const byte* buf,
                              long len,

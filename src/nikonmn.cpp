@@ -106,6 +106,11 @@ namespace Exiv2 {
         TagInfo(0xffff, "(UnknownNikon1MnTag)", "(UnknownNikon1MnTag)", "Unknown Nikon1MakerNote tag", nikon1IfdId, makerTags, invalidTypeId, printValue)
     };
 
+    const TagInfo* Nikon1MakerNote::tagList()
+    {
+        return tagInfo_;
+    }
+
     Nikon1MakerNote::Nikon1MakerNote(bool alloc)
         : IfdMakerNote(nikon1IfdId, alloc)
     {
@@ -299,6 +304,11 @@ namespace Exiv2 {
         // End of list marker
         TagInfo(0xffff, "(UnknownNikon2MnTag)", "(UnknownNikon2MnTag)", "Unknown Nikon2MakerNote tag", nikon2IfdId, makerTags, invalidTypeId, printValue)
     };
+
+    const TagInfo* Nikon2MakerNote::tagList()
+    {
+        return tagInfo_;
+    }
 
     Nikon2MakerNote::Nikon2MakerNote(bool alloc)
         : IfdMakerNote(nikon2IfdId, alloc)
@@ -499,6 +509,11 @@ namespace Exiv2 {
         // End of list marker
         TagInfo(0xffff, "(UnknownNikon3MnTag)", "(UnknownNikon3MnTag)", "Unknown Nikon3MakerNote tag", nikon3IfdId, makerTags, invalidTypeId, printValue)
     };
+
+    const TagInfo* Nikon3MakerNote::tagList()
+    {
+        return tagInfo_;
+    }
 
     Nikon3MakerNote::Nikon3MakerNote(bool alloc)
         : IfdMakerNote(nikon3IfdId, alloc)

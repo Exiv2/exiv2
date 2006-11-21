@@ -181,6 +181,11 @@ namespace Exiv2 {
         TagInfo(0xffff, "(UnknownPanasonicMakerNoteTag)", "(UnknownPanasonicMakerNoteTag)", "Unknown PanasonicMakerNote tag", panasonicIfdId, makerTags, invalidTypeId, printValue)
     };
 
+    const TagInfo* PanasonicMakerNote::tagList()
+    {
+        return tagInfo_;
+    }
+
     PanasonicMakerNote::PanasonicMakerNote(bool alloc)
         : IfdMakerNote(panasonicIfdId, alloc, false)
     {

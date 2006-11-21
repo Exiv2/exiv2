@@ -71,6 +71,11 @@ namespace Exiv2 {
         TagInfo(0xffff, "(UnknownSonyMakerNoteTag)", "Unknown SonyMakerNote tag", "Unknown SonyMakerNote tag", sonyIfdId, makerTags, invalidTypeId, printValue)
     };
 
+    const TagInfo* SonyMakerNote::tagList()
+    {
+        return tagInfo_;
+    }
+
     SonyMakerNote::SonyMakerNote(bool alloc)
         : IfdMakerNote(sonyIfdId, alloc, false)
     {

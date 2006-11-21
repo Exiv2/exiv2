@@ -114,6 +114,8 @@ namespace Exiv2 {
         //@{
         AutoPtr create(bool alloc =true) const;
         AutoPtr clone() const;
+        //! Return read-only list of built-in Nikon1 tags
+        static const TagInfo* tagList();
         //@}
 
         //! @name Print functions for Nikon1 %MakerNote tags
@@ -184,6 +186,8 @@ namespace Exiv2 {
         int checkHeader() const;
         AutoPtr create(bool alloc =true) const;
         AutoPtr clone() const;
+        //! Return read-only list of built-in Nikon2 tags
+        static const TagInfo* tagList();
         //@}
 
         //! @name Print functions for Nikon2 %MakerNote tags
@@ -243,6 +247,8 @@ namespace Exiv2 {
         int checkHeader() const;
         AutoPtr create(bool alloc =true) const;
         AutoPtr clone() const;
+        //! Return read-only list of built-in Nikon3 tags
+        static const TagInfo* tagList();
         //@}
 
         //! @name Print functions for Nikon3 %MakerNote tags

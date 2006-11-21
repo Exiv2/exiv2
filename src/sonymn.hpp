@@ -113,6 +113,8 @@ namespace Exiv2 {
         int checkHeader() const;
         AutoPtr create(bool alloc =true) const;
         AutoPtr clone() const;
+        //! Return read-only list of built-in Sony tags
+        static const TagInfo* tagList();
         //@}
 
         //! @cond IGNORE

@@ -119,6 +119,8 @@ namespace Exiv2 {
         int checkHeader() const;
         AutoPtr create(bool alloc =true) const;
         AutoPtr clone() const;
+        //! Return read-only list of built-in Olympus tags
+        static const TagInfo* tagList();
         //@}
 
         //! @name Print functions for Olympus %MakerNote tags

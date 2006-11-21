@@ -463,6 +463,11 @@ namespace Exiv2 {
                 "Unknown IFD tag", ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
     };
 
+    const TagInfo* ExifTags::ifdTagList()
+    {
+        return ifdTagInfo;
+    }
+
     //! ExposureProgram, tag 0x8822
     extern const TagDetails exifExposureProgram[] = {
         { 0, "Not defined"       },
@@ -900,6 +905,11 @@ namespace Exiv2 {
                 "Unknown Exif tag", ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
     };
 
+    const TagInfo* ExifTags::exifTagList()
+    {
+        return exifTagInfo;
+    }
+
     //! GPS latitude reference, tag 0x0001; also GPSDestLatitudeRef, tag 0x0013
     extern const TagDetails exifGPSLatitudeRef[] = {
         { 78, "North" },
@@ -1074,6 +1084,11 @@ namespace Exiv2 {
                 "Unknown GPSInfo tag", ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
     };
 
+    const TagInfo* ExifTags::gpsTagList()
+    {
+        return gpsTagInfo;
+    }
+
     // Exif Interoperability IFD Tags
     static const TagInfo iopTagInfo[] = {
         TagInfo(0x0001, "InteroperabilityIndex", "InteroperabilityIndex", 
@@ -1099,6 +1114,11 @@ namespace Exiv2 {
         TagInfo(0xffff, "(UnknownIopTag)", "Unknown Exif Interoperability tag", 
                 "Unknown Exif Interoperability tag", ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
     };
+
+    const TagInfo* ExifTags::iopTagList()
+    {
+        return iopTagInfo;
+    }
 
     // Unknown Tag
     static const TagInfo unknownTag(0xffff, "Unknown tag", "Unknown tag", 
