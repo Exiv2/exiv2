@@ -12,7 +12,7 @@ diff -q $da1 $tmpfile $tmpfile 2>/dev/null
 if [ $? -ne 0 ] ; then
     da1=""
 fi
-da2="--ignore-matching-lines=^Usage:.exiv2"
+da2="--ignore-matching-lines=^Usage:.*exiv2"
 diff -q $da2 $tmpfile $tmpfile 2>/dev/null
 if [ $? -ne 0 ] ; then
     da2=""
