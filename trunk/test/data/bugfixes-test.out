@@ -251,3 +251,12 @@ Error: Upper boundary of the 1st data entry of IFD1 is out of bounds:
 Iptc.Application2.Caption                    String     56  Die Insel Stromboli mit dem Vulkan Stromboli, 1000m hoch
 Iptc.Application2.Program                    String      7  digiKam
 Iptc.Application2.ProgramVersion             String     11  0.9.0-beta3
+File 1/1: exiv2-bug498.jpg
+Set Exif.GPSInfo.GPSLatitude "0/1 1/1 2/1" (Rational)
+File 1/1: exiv2-bug498.jpg
+0x8825 Image        GPSTag                      Long        1  26
+0x0002 GPSInfo      GPSLatitude                 Rational    3  0/1 1/1 2/1
+File 1/1: exiv2-bug498.jpg
+Del Exif.GPSInfo.GPSLatitude
+File 1/1: exiv2-bug498.jpg
+exiv2-bug498.jpg: No Exif data found in the file

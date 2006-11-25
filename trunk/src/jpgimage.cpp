@@ -478,21 +478,23 @@ namespace Exiv2 {
                     --search;
                 }
                 if (exifData_.count() > 0) {
-                    // Write APP1 marker, size of APP1 field, Exif id and Exif data
                     DataBuf rawExif = exifData_.copy();
-                    tmpBuf[0] = 0xff;
-                    tmpBuf[1] = app1_;
+                    if (rawExif.size_ > 0) {
+                        // Write APP1 marker, size of APP1 field, Exif id and Exif data
+                        tmpBuf[0] = 0xff;
+                        tmpBuf[1] = app1_;
 
-                    if (rawExif.size_ + 8 > 0xffff) throw Error(37, "Exif");
-                    us2Data(tmpBuf + 2, static_cast<uint16_t>(rawExif.size_ + 8), bigEndian);
-                    memcpy(tmpBuf + 4, exifId_, 6);
-                    if (outIo.write(tmpBuf, 10) != 10) throw Error(21);
+                        if (rawExif.size_ + 8 > 0xffff) throw Error(37, "Exif");
+                        us2Data(tmpBuf + 2, static_cast<uint16_t>(rawExif.size_ + 8), bigEndian);
+                        memcpy(tmpBuf + 4, exifId_, 6);
+                        if (outIo.write(tmpBuf, 10) != 10) throw Error(21);
 
-                    // Write new Exif data buffer
-                    if (   outIo.write(rawExif.pData_, rawExif.size_)
-                        != rawExif.size_) throw Error(21);
-                    if (outIo.error()) throw Error(21);
-                    --search;
+                        // Write new Exif data buffer
+                        if (   outIo.write(rawExif.pData_, rawExif.size_)
+                               != rawExif.size_) throw Error(21);
+                        if (outIo.error()) throw Error(21);
+                        --search;
+                    }
                 }
                 if (psData.size_ > 0 || iptcData_.count() > 0) {
                     // Set the new IPTC IRB, keeps existing IRBs but removes the

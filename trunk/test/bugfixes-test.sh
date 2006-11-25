@@ -65,6 +65,15 @@ $binpath/largeiptc-test $filename ../data/imagemagick.png
 num=495
 filename=`prep_file $num`
 $binpath/exiv2 -pi $filename
+
+num=498
+filename=exiv2-bug$num.jpg
+cp -f ../data/exiv2-empty.jpg $filename
+$binpath/exiv2 -v -M"set Exif.GPSInfo.GPSLatitude 0/1 1/1 2/1" $filename
+$binpath/exiv2 -v -pv $filename
+$binpath/exiv2 -v -M"del Exif.GPSInfo.GPSLatitude" $filename
+$binpath/exiv2 -v -pv $filename
+
 ) > $results 2>&1
 
 if [ x"`which unix2dos.exe`" != x ]; then

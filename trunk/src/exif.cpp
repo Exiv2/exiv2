@@ -720,12 +720,16 @@ namespace Exiv2 {
         }
 
         // Allocate a data buffer big enough for all metadata
-        long size = tiffHeader.size();
-        size += ifd0.size() + ifd0.dataSize();
+        long size = ifd0.size() + ifd0.dataSize();
         size += exifIfd.size() + exifIfd.dataSize();
         size += iopIfd.size() + iopIfd.dataSize();
         size += gpsIfd.size() + gpsIfd.dataSize();
         size += ifd1.size() + ifd1.dataSize();
+
+        // Return an empty buffer without TIFF header if there is nothing to write
+        if (size == 0) return DataBuf(0);
+
+        size += tiffHeader.size();
         DataBuf buf(size);
 
         // Copy the TIFF header, all IFDs, MakerNote and thumbnail to the buffer
