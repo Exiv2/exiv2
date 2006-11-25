@@ -468,27 +468,36 @@ namespace Exiv2 {
         if (!buf || len == 0) return -1;
 
         // Copy the data buffer
-        delete[] pData_;
-        pData_ = new byte[len];
-        memcpy(pData_, buf, len);
-        size_ = len;
+        DataBuf tmpData(len);
+        memcpy(tmpData.pData_, buf, len);
 
         // Read the TIFF header
-        delete pTiffHeader_;
-        pTiffHeader_ = new TiffHeader;
-        assert(pTiffHeader_ != 0);
-        int rc = pTiffHeader_->read(pData_);
+        std::auto_ptr<TiffHeader> tmpTiffHeader(new TiffHeader);
+        assert(tmpTiffHeader.get() != 0);
+        if (tmpData.size_ < tmpTiffHeader->size()) return 1;
+        int rc = tmpTiffHeader->read(tmpData.pData_);
         if (rc) return rc;
 
         // Read IFD0
-        delete pIfd0_;
-        pIfd0_ = new Ifd(ifd0Id, 0, false);
-        assert(pIfd0_ != 0);
-        rc = pIfd0_->read(pData_, size_, pTiffHeader_->offset(), byteOrder());
+        std::auto_ptr<Ifd> tmpIfd0(new Ifd(ifd0Id, 0, false));
+        assert(tmpIfd0.get() != 0);
+        rc = tmpIfd0->read(tmpData.pData_,
+                           tmpData.size_,
+                           tmpTiffHeader->offset(), 
+                           tmpTiffHeader->byteOrder());
         if (rc) return rc; // no point to continue if there is no IFD0
 
-        delete pExifIfd_;
-        pExifIfd_ = 0;
+        // We have at least a valid IFD0, so replace old metadata with new now
+        // After this point we only return 0 (success), although parts of the 
+        // Exif data may be missing due to problems reading specific IFDs.
+
+        this->clear(); // Deletes existing pointers
+        pData_ = tmpData.pData_;
+        size_ = tmpData.size_;
+        tmpData.release();
+        pTiffHeader_ = tmpTiffHeader.release();
+        pIfd0_ = tmpIfd0.release();
+
         std::auto_ptr<Ifd> tmpExif(new Ifd(exifIfdId, 0, false));
         assert(tmpExif.get() != 0);
         // Find and read ExifIFD sub-IFD of IFD0
@@ -496,13 +505,12 @@ namespace Exiv2 {
         if (0 == rc) {
             pExifIfd_ = tmpExif.release();
         }
+
         if (pExifIfd_) {
             // Find MakerNote in ExifIFD, create a MakerNote class
             Ifd::iterator pos = pExifIfd_->findTag(0x927c);
             Ifd::iterator make = pIfd0_->findTag(0x010f);
             Ifd::iterator model = pIfd0_->findTag(0x0110);
-            delete pMakerNote_;
-            pMakerNote_ = 0;
             MakerNote::AutoPtr tmpMakerNote;
             if (   pos  != pExifIfd_->end()
                 && make != pIfd0_->end() && model != pIfd0_->end()) {
@@ -538,8 +546,6 @@ namespace Exiv2 {
                 pExifIfd_->erase(pos);
             }
 
-            delete pIopIfd_;
-            pIopIfd_ = 0;
             std::auto_ptr<Ifd> tmpIop(new Ifd(iopIfdId, 0, false));
             assert(tmpIop.get() != 0);
             // Find and read Interoperability IFD in ExifIFD
@@ -549,8 +555,6 @@ namespace Exiv2 {
             }
         } // if (pExifIfd_)
 
-        delete pGpsIfd_;
-        pGpsIfd_ = 0;
         std::auto_ptr<Ifd> tmpGps(new Ifd(gpsIfdId, 0, false));
         assert(tmpGps.get() != 0);
         // Find and read GPSInfo sub-IFD in IFD0
@@ -559,8 +563,6 @@ namespace Exiv2 {
             pGpsIfd_ = tmpGps.release();
         }
 
-        delete pIfd1_;
-        pIfd1_ = 0;
         std::auto_ptr<Ifd> tmpIfd1(new Ifd(ifd1Id, 0, false));
         assert(tmpIfd1.get() != 0);
         // Read IFD1
@@ -575,17 +577,14 @@ namespace Exiv2 {
             Ifd::iterator pos = pIfd1_->findTag(0x8769);
             if (pos != pIfd1_->end()) {
                 pIfd1_->erase(pos);
-                rc = 7;
             }
             // Find and delete GPSInfo sub-IFD in IFD1
             pos = pIfd1_->findTag(0x8825);
             if (pos != pIfd1_->end()) {
                 pIfd1_->erase(pos);
-                rc = 7;
             }
         }
         // Copy all entries from the IFDs and the MakerNote to the metadata
-        exifMetadata_.clear();
         add(pIfd0_->begin(), pIfd0_->end(), byteOrder());
         if (pExifIfd_) add(pExifIfd_->begin(), pExifIfd_->end(), byteOrder());
         if (pMakerNote_) {
@@ -599,7 +598,7 @@ namespace Exiv2 {
         // Read the thumbnail (but don't worry whether it was successful or not)
         readThumbnail();
 
-        return rc;
+        return 0;
     } // ExifData::load
 
     DataBuf ExifData::copy()
@@ -804,6 +803,28 @@ namespace Exiv2 {
     {
         return std::find_if(exifMetadata_.begin(), exifMetadata_.end(),
                             FindMetadatumByIfdIdIdx(ifdId, idx));
+    }
+
+    void ExifData::clear()
+    {
+        eraseThumbnail();
+        exifMetadata_.clear();
+        delete pTiffHeader_;
+        pTiffHeader_ = 0;
+        delete pIfd0_;
+        pIfd0_ = 0;
+        delete pExifIfd_;
+        pExifIfd_ = 0;
+        delete pIopIfd_;
+        pIopIfd_ = 0;
+        delete pGpsIfd_;
+        pGpsIfd_ = 0;
+        delete pIfd1_;
+        pIfd1_ = 0;
+        delete pMakerNote_;
+        pMakerNote_ = 0;
+        delete[] pData_;
+        pData_ = 0;
     }
 
     void ExifData::sortByKey()
