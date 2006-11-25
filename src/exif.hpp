@@ -573,7 +573,7 @@ namespace Exiv2 {
           @brief Delete all Exifdatum instances resulting in an empty container.
                  Note that this also removes thumbnails.
          */
-        void clear() { eraseThumbnail(); exifMetadata_.clear(); }
+        void clear();
         //! Sort metadata by key
         void sortByKey();
         //! Sort metadata by tag
