@@ -511,7 +511,7 @@ namespace Exiv2 {
         /*!
           @brief Write the Exif data to a data buffer, which is returned.  The
                  caller owns this copy and %DataBuf ensures that it will be
-                 deleted.  The copied data starts with the TIFF header.
+                 deleted. The copied data starts with the TIFF header.
 
           Tries to update the original data buffer and write it back with
           minimal changes, in a 'non-intrusive' fashion, if possible. In this
@@ -525,6 +525,9 @@ namespace Exiv2 {
           be different from their original position. Furthermore, in this case,
           the Exif data is updated with the metadata from the actual thumbnail
           image (overriding existing metadata).
+
+          @note If there is no Exif data to write, the buffer is empty, i.e.,
+          no TIFF header is written in this case.
 
           @return A %DataBuf containing the Exif data.
          */
