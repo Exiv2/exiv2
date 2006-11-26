@@ -8,14 +8,19 @@ Changes from version 0.11 to 0.12
 	           the rename option. (Patch by Tobias Jahn)
 
 * Exiv2 library
+	- 0000498: [exif] Exiv2 cannot read the Exif data written after deleting all
+	           tags.
 	- 0000496: [metadata] Digikam bug 136855: Editing metadata on a few selected
 	           imagefiles and clicking forward or apply crashes digikam.
 		   (Reported by several digikam users)
 	- 0000495: [exif] Image with corrupted metadata crashes Exiv2. (Reported as 
 	           digikam bug 136932 by Rainer Krienke)
-	- 0000488: [metadata] GPSInfo Metadata should return decimal numbers.
+	- 0000490: [build environment] PNG support doesn't compile on MinGW/msys.
+	           (Reported by Udi Fuchs and Will Stokes)
 	- 0000489: [build environment] exiv2.pc.in includes private/static libs by 
 	           default. (Reported with patch by Rex Dieter)
+	- 0000488: [metadata] GPSInfo Metadata should return decimal numbers.
+	           (Feature requested by Fabien)
 	- 0000486: [build environment] Test bugfixes-test.sh error under Mac OS X x86.
 	           (Reported with fix by Max Lapshin)
 		 - [exif] Updated Nikon lens info to v2.07 of Robert Rottmerhusen's 
