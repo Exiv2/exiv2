@@ -1609,15 +1609,19 @@ namespace Exiv2 {
         if (value.count() == 3) {
             std::ostringstream oss;
             oss.copyfmt(os);
-            static const char unit[4] = "'\"";
+            static const char* unit[] = { "deg", "'", "\"" };
+            static const int prec[] = { 7, 5, 3 };
             int n;
             for (n = 2; n > 0; --n) {
                 if (value.toRational(n).first != 0) break;
             }
-            for (int i = 0; i < n + 1; ++i) {
+            for (int i = 0; i < n + 1; ++i) {                
+                const int32_t z = value.toRational(i).first;
                 const int32_t d = value.toRational(i).second;
-                const int p = d > 1 ? d > 19 ? d > 199 ? d > 1999 ? 4 : 3 : 2 : 1 : 0;
-                os << std::fixed << std::setprecision(p) << value.toFloat(i)
+                // Hack: Need Value::toDouble
+                double b = static_cast<double>(z)/d;
+                const int p = z % d == 0 ? 0 : prec[i];
+                os << std::fixed << std::setprecision(p) << b
                    << unit[i] << " ";
             }
             os.copyfmt(oss);
