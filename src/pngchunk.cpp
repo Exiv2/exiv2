@@ -123,7 +123,7 @@ namespace Exiv2 {
 
                     // compressed string after the compression technique spec
                     const byte* compressedText = &PNG_CHUNK_DATA(pData, index, keysize+2);
-                    uint compressedTextSize    = getLong(&pData[index], bigEndian)-keysize-2;
+                    unsigned int compressedTextSize = getLong(&pData[index], bigEndian)-keysize-2;
 
                     // security check, also considering overflow wraparound from the addition --
                     // we may endup with a /smaller/ index if we wrap all the way around
@@ -266,7 +266,7 @@ namespace Exiv2 {
         register long           i;
         register unsigned char *dp;
         const char             *sp;
-        uint                    nibbles;
+        unsigned int            nibbles;
         long                    length;
         unsigned char           unhex[103]={0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,
                                             0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,
