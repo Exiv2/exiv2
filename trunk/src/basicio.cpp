@@ -44,12 +44,12 @@ EXIV2_RCSID("@(#) $Id$")
 // + standard includes
 #include <string>
 #include <cassert>
-#include <cstdio>                       // for remove(), rename()
-#include <cstdlib>                      // for alloc(), realloc(), free()
-#include <sys/types.h>                  // for stat()
-#include <sys/stat.h>                   // for stat()
+#include <cstdio>                       // for remove, rename
+#include <cstdlib>                      // for alloc, realloc, free
+#include <sys/types.h>                  // for stat, chmod
+#include <sys/stat.h>                   // for stat, chmod
 #ifdef EXV_HAVE_SYS_MMAN_H
-# include <sys/mman.h>                  // for mmap() and munmap()
+# include <sys/mman.h>                  // for mmap and munmap
 #endif
 #ifdef EXV_HAVE_PROCESS_H
 # include <process.h>
@@ -219,9 +219,17 @@ namespace Exiv2 {
 
         FileIo *fileIo = dynamic_cast<FileIo*>(&src);
         if (fileIo) {
-            // Optimization if this is another instance of FileIo
-            close();
+            // Optimization if src is another instance of FileIo
             fileIo->close();
+            // Check if the file can be written to, if it already exists
+            if (open("w+b") != 0) {
+                throw Error(10, path_, "w+b", strError());
+            }
+            close();
+            struct stat buf;
+            if (stat(path_.c_str(), &buf) == -1) {
+                throw Error(2, path_, strError(), "stat");
+            }
             // MSVCRT rename that does not overwrite existing files
             if (fileExists(path_) && std::remove(path_.c_str()) != 0) {
                 throw Error(2, path_, strError(), "std::remove");
@@ -230,6 +238,10 @@ namespace Exiv2 {
                 throw Error(17, fileIo->path_, path_, strError());
             }
             std::remove(fileIo->path_.c_str());
+            // Set original file permissions
+            if (chmod(path_.c_str(), buf.st_mode) == -1) {
+                throw Error(2, fileIo->path_, strError(), "chmod");
+            }
         }
         else {
             // Generic handling, reopen both to reset to start
@@ -443,7 +455,7 @@ namespace Exiv2 {
     {
         MemIo *memIo = dynamic_cast<MemIo*>(&src);
         if (memIo) {
-            // Optimization if this is another instance of MemIo
+            // Optimization if src is another instance of MemIo
             if (true == isMalloced_) {
                 std::free(data_);
             }
