@@ -32,6 +32,8 @@
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
+  @author  Gilles Caulier (gc)
+           <a href="mailto:caulier dot gilles at kdemail dot net">caulier dot gilles at kdemail dot net</a>
   @date    17-May-04, ahu: created<BR>
            25-May-04, ahu: combined all Nikon formats in one component
  */
@@ -255,8 +257,16 @@ namespace Exiv2 {
         //@{
         //! Print ISO setting
         static std::ostream& print0x0002(std::ostream& os, const Value& value);
+        //! Print autofocus mode
+        static std::ostream& print0x0007(std::ostream& os, const Value& value);
+        //! Print lens type
+        static std::ostream& print0x0083(std::ostream& os, const Value& value);
         //! Print lens information
         static std::ostream& print0x0084(std::ostream& os, const Value& value);
+        //! Print manual focus distance
+        static std::ostream& print0x0085(std::ostream& os, const Value& value);
+        //! Print digital zoom setting
+        static std::ostream& print0x0086(std::ostream& os, const Value& value);
         //! Print AF point
         static std::ostream& print0x0088(std::ostream& os, const Value& value);
         //! Print number of lens stops

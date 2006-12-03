@@ -47,6 +47,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "value.hpp"
 #include "tags.hpp"
 #include "canonmn.hpp"
+#include "i18n.h"                // NLS support.
 
 // + standard includes
 #include <iostream>
@@ -638,7 +639,7 @@ namespace Exiv2 {
     void CiffHeader::print(std::ostream& os, const std::string& prefix) const
     {
         os << prefix
-           << "Header, offset = 0x" << std::setw(8) << std::setfill('0')
+           << _("Header, offset") << " = 0x" << std::setw(8) << std::setfill('0')
            << std::hex << std::right << offset_ << "\n";
         if (pRootDir_) pRootDir_->print(os, byteOrder_, prefix);
     } // CiffHeader::print
@@ -655,13 +656,13 @@ namespace Exiv2 {
                                 const std::string& prefix) const
     {
         os << prefix
-           << "tag = 0x" << std::setw(4) << std::setfill('0')
+           << _("tag") << " = 0x" << std::setw(4) << std::setfill('0')
            << std::hex << std::right << tagId()
-           << ", dir = 0x" << std::setw(4) << std::setfill('0')
+           << ", " << _("dir") << " = 0x" << std::setw(4) << std::setfill('0')
            << std::hex << std::right << dir()
-           << ", type = " << TypeInfo::typeName(typeId())
-           << ", size = " << std::dec << size_
-           << ", offset = " << offset_ << "\n";
+           << ", " << _("type") << " = " << TypeInfo::typeName(typeId())
+           << ", " << _("size") << " = " << std::dec << size_
+           << ", " << _("offset") << " = " << offset_ << "\n";
 
         Value::AutoPtr value;
         if (typeId() != directory) {

@@ -1,0 +1,26 @@
+# List of source files which contain translatable strings.
+# Note: after to have added a new file in this list, please run 'make update-po'.
+
+# Common Library implementation.
+
+src/actions.cpp
+src/cr2image.cpp
+src/crwimage.cpp
+src/datasets.cpp
+src/exiv2.cpp
+src/error.cpp
+src/ifd.cpp
+src/tags.cpp
+src/tiffimage.cpp
+src/tiffvisitor.cpp
+
+# Makernotes parser.
+
+src/canonmn.cpp
+src/fujimn.cpp
+src/minoltamn.cpp
+src/nikonmn.cpp
+src/olympusmn.cpp
+src/panasonicmn.cpp
+src/sigmamn.cpp
+src/sonymn.cpp

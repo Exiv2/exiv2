@@ -159,9 +159,9 @@ namespace Exiv2 {
         //! Print Brightness setting from standard Minolta Camera Settings makernote
         static std::ostream& printMinoltaBrightnessStd(std::ostream& os, const Value& value);
 
-	//! Print Exposure Manual Bias setting from 5D Minolta Camera Settings makernote
+        //! Print Exposure Manual Bias setting from 5D Minolta Camera Settings makernote
         static std::ostream& printMinoltaExposureManualBias5D(std::ostream& os, const Value& value);
-	//! Print Exposure Compensation setting from 5D Minolta Camera Settings makernote
+        //! Print Exposure Compensation setting from 5D Minolta Camera Settings makernote
         static std::ostream& printMinoltaExposureCompensation5D(std::ostream& os, const Value& value);
         //@}
 

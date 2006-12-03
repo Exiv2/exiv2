@@ -41,6 +41,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "exiv2.hpp"
 #include "actions.hpp"
 #include "utils.hpp"
+#include "i18n.h"      // NLS support.
 
 #include <string>
 #include <iostream>
@@ -109,6 +110,11 @@ namespace {
 // Main
 int main(int argc, char* const argv[])
 {
+    // NLS support.
+    setlocale(LC_ALL, "");
+    bindtextdomain(EXV_PACKAGE, EXV_LOCALEDIR);
+    textdomain(EXV_PACKAGE);
+
     // Handle command line arguments
     Params& params = Params::instance();
     if (params.getopt(argc, argv)) {
@@ -137,7 +143,7 @@ int main(int argc, char* const argv[])
     Params::Files::const_iterator e = params.files_.end();
     for (Params::Files::const_iterator i = params.files_.begin(); i != e; ++i) {
         if (params.verbose_) {
-            std::cout << "File " << std::setw(w) << n++ << "/" << s << ": "
+            std::cout << _("File") << " " << std::setw(w) << n++ << "/" << s << ": "
                       << *i << std::endl;
         }
         task->run(*i);
@@ -170,107 +176,108 @@ void Params::cleanup()
 void Params::version(std::ostream& os) const
 {
     os << EXV_PACKAGE_STRING << "\n"
-       << "Copyright (C) 2004, 2005, 2006 Andreas Huggel.\n"
+       << _("Copyright (C) 2004, 2005, 2006 Andreas Huggel.\n")
        << "\n"
-       << "This program is free software; you can redistribute it and/or\n"
-       << "modify it under the terms of the GNU General Public License\n"
-       << "as published by the Free Software Foundation; either version 2\n"
-       << "of the License, or (at your option) any later version.\n"
+       << _("This program is free software; you can redistribute it and/or\n"
+            "modify it under the terms of the GNU General Public License\n"
+            "as published by the Free Software Foundation; either version 2\n"
+            "of the License, or (at your option) any later version.\n")
        << "\n"
-       << "This program is distributed in the hope that it will be useful,\n"
-       << "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
-       << "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
-       << "GNU General Public License for more details.\n"
+       << _("This program is distributed in the hope that it will be useful,\n"
+            "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+            "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+            "GNU General Public License for more details.\n")
        << "\n"
-       << "You should have received a copy of the GNU General Public\n"
-       << "License along with this program; if not, write to the Free\n"
-       << "Software Foundation, Inc., 51 Franklin Street, Fifth Floor,\n"
-       << "Boston, MA 02110-1301 USA\n";
+       << _("You should have received a copy of the GNU General Public\n"
+            "License along with this program; if not, write to the Free\n"
+            "Software Foundation, Inc., 51 Franklin Street, Fifth Floor,\n"
+            "Boston, MA 02110-1301 USA\n");
 }
 
 void Params::usage(std::ostream& os) const
 {
-    os << "Usage: " << progname()
-       << " [ options ] [ action ] file ...\n\n"
-       << "Manipulate the Exif metadata of images.\n";
+    os << _("Usage:") << " " << progname()
+       << " " << _("[ options ] [ action ] file ...\n\n")
+       << _("Manipulate the Exif metadata of images.\n");
 }
 
 void Params::help(std::ostream& os) const
 {
     usage(os);
-    os << "\nActions:\n"
-       << "  ad | adjust   Adjust Exif timestamps by the given time. This\n"
-       << "                action requires the option -a time.\n"
-       << "  pr | print    Print image metadata.\n"
-       << "  rm | delete   Delete image metadata from the files.\n"
-       << "  in | insert   Insert metadata from corresponding *.exv files.\n"
-       << "                Use option -S to change the suffix of the input files.\n"
-       << "  ex | extract  Extract metadata to *.exv and thumbnail image files.\n"
-       << "  mv | rename   Rename files and/or set file timestamps according to the\n"
-       << "                Exif create timestamp. The filename format can be set with\n"
-       << "                -r format, timestamp options are controlled with -t and -T.\n"
-       << "  mo | modify   Apply commands to modify (add, set, delete) the Exif and\n"
-       << "                Iptc metadata of image files or set the Jpeg comment.\n"
-       << "                Requires option -c, -m or -M.\n"
-       << "  fi | fixiso   Copy ISO setting from the Nikon Makernote to the regular\n"
-       << "                Exif tag.\n"
-       << "\nOptions:\n"
-       << "   -h      Display this help and exit.\n"
-       << "   -V      Show the program version and exit.\n"
-       << "   -v      Be verbose during the program run.\n"
-       << "   -b      Show large binary values.\n"
-       << "   -u      Don't show unknown tags.\n"
-       << "   -k      Preserve file timestamps (keep).\n"
-       << "   -t      Also set the file timestamp in 'rename' action (overrides -k).\n"
-       << "   -T      Only set the file timestamp in 'rename' action, do not rename\n"
-       << "           the file (overrides -k).\n"
-       << "   -f      Do not prompt before overwriting existing files (force).\n"
-       << "   -F      Do not prompt before renaming files (Force).\n"
-       << "   -a time Time adjustment in the format [-]HH[:MM[:SS]]. This option\n"
-       << "           is only used with the 'adjust' action.\n"
-       << "   -p mode Print mode for the 'print' action. Possible modes are:\n"
-       << "             s : print a summary of the Exif metadata (the default)\n"
-       << "             t : interpreted (translated) Exif data (shortcut for -Pkyct)\n"
-       << "             v : plain Exif data values (shortcut for -Pxgnycv)\n"
-       << "             h : hexdump of the Exif data (shortcut for -Pxgnycsh)\n"
-       << "             i : Iptc data values\n"
-       << "             c : Jpeg comment\n"
-       << "   -P cols Print columns for the Exif taglist ('print' action). Valid are:\n"
-       << "             x : print a column with the tag value\n"
-       << "             g : group name\n"
-       << "             k : key\n"
-       << "             l : tag label\n"
-       << "             n : tag name\n"
-       << "             y : type\n"
-       << "             c : number of components (count)\n"
-       << "             s : size in bytes\n"
-       << "             v : plain data value\n"
-       << "             t : interpreted (translated) data\n"
-       << "             h : hexdump of the data\n"
-       << "   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n"
-       << "             a : all supported metadata (the default)\n"
-       << "             e : Exif section\n"
-       << "             t : Exif thumbnail only\n"
-       << "             i : Iptc data\n"
-       << "             c : Jpeg comment\n"
-       << "   -i tgt  Insert target(s) for the 'insert' action. Possible targets are\n"
-       << "           the same as those for the -d option. Only Jpeg thumbnails can\n"
-       << "           be inserted, they need to be named <file>-thumb.jpg\n"
-       << "   -e tgt  Extract target(s) for the 'extract' action. Possible targets\n"
-       << "           are the same as those for the -d option.\n"
-       << "   -r fmt  Filename format for the 'rename' action. The format string\n"
-       << "           follows strftime(3). The following keywords are supported:\n"
-       << "             :basename:   - original filename without extension\n"
-       << "             :dirname:    - name of the directory holding the original file\n"
-       << "             :parentname: - name of parent directory\n"
-       << "           Default filename format is " << format_ << ".\n"
-       << "   -c txt  Jpeg comment string to set in the image.\n"
-       << "   -m file Command file for the modify action. The format for commands is\n"
-       << "           set|add|del <key> [[<type>] <value>].\n"
-       << "   -M cmd  Command line for the modify action. The format for the\n"
-       << "           commands is the same as that of the lines of a command file.\n"
-       << "   -l dir  Location (directory) for files to be inserted from or extracted to.\n"
-       << "   -S .suf Use suffix .suf for source files for insert command.\n\n";
+    os << _("\nActions:\n")
+       << _("  ad | adjust   Adjust Exif timestamps by the given time. This\n"
+            "                action requires the option -a time.\n")
+       << _("  pr | print    Print image metadata.\n")
+       << _("  rm | delete   Delete image metadata from the files.\n")
+       << _("  in | insert   Insert metadata from corresponding *.exv files.\n"
+            "                Use option -S to change the suffix of the input files.\n")
+       << _("  ex | extract  Extract metadata to *.exv and thumbnail image files.\n")
+       << _("  mv | rename   Rename files and/or set file timestamps according to the\n"
+            "                Exif create timestamp. The filename format can be set with\n"
+            "                -r format, timestamp options are controlled with -t and -T.\n")
+       << _("  mo | modify   Apply commands to modify (add, set, delete) the Exif and\n"
+            "                Iptc metadata of image files or set the Jpeg comment.\n"
+            "                Requires option -c, -m or -M.\n")
+       << _("  fi | fixiso   Copy ISO setting from the Nikon Makernote to the regular\n"
+            "                Exif tag.\n")
+       << _("\nOptions:\n")
+       << _("   -h      Display this help and exit.\n")
+       << _("   -V      Show the program version and exit.\n")
+       << _("   -v      Be verbose during the program run.\n")
+       << _("   -b      Show large binary values.\n")
+       << _("   -u      Don't show unknown tags.\n")
+       << _("   -k      Preserve file timestamps (keep).\n")
+       << _("   -t      Also set the file timestamp in 'rename' action (overrides -k).\n")
+       << _("   -T      Only set the file timestamp in 'rename' action, do not rename\n"
+            "           the file (overrides -k).\n")
+       << _("   -f      Do not prompt before overwriting existing files (force).\n")
+       << _("   -F      Do not prompt before renaming files (Force).\n")
+       << _("   -a time Time adjustment in the format [-]HH[:MM[:SS]]. This option\n"
+            "           is only used with the 'adjust' action.\n")
+       << _("   -p mode Print mode for the 'print' action. Possible modes are:\n")
+       << _("             s : print a summary of the Exif metadata (the default)\n")
+       << _("             t : interpreted (translated) Exif data (shortcut for -Pkyct)\n")
+       << _("             v : plain Exif data values (shortcut for -Pxgnycv)\n")
+       << _("             h : hexdump of the Exif data (shortcut for -Pxgnycsh)\n")
+       << _("             i : Iptc data values\n")
+       << _("             c : Jpeg comment\n")
+       << _("   -P cols Print columns for the Exif taglist ('print' action). Valid are:\n")
+       << _("             x : print a column with the tag value\n")
+       << _("             g : group name\n")
+       << _("             k : key\n")
+       << _("             l : tag label\n")
+       << _("             n : tag name\n")
+       << _("             y : type\n")
+       << _("             c : number of components (count)\n")
+       << _("             s : size in bytes\n")
+       << _("             v : plain data value\n")
+       << _("             t : interpreted (translated) data\n")
+       << _("             h : hexdump of the data\n")
+       << _("   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n")
+       << _("             a : all supported metadata (the default)\n")
+       << _("             e : Exif section\n")
+       << _("             t : Exif thumbnail only\n")
+       << _("             i : Iptc data\n")
+       << _("             c : Jpeg comment\n")
+       << _("   -i tgt  Insert target(s) for the 'insert' action. Possible targets are\n"
+            "           the same as those for the -d option. Only Jpeg thumbnails can\n"
+            "           be inserted, they need to be named <file>-thumb.jpg\n")
+       << _("   -e tgt  Extract target(s) for the 'extract' action. Possible targets\n"
+            "           are the same as those for the -d option.\n")
+       << _("   -r fmt  Filename format for the 'rename' action. The format string\n"
+            "           follows strftime(3). The following keywords are supported:\n")
+       << _("             :basename:   - original filename without extension\n")
+       << _("             :dirname:    - name of the directory holding the original file\n")
+       << _("             :parentname: - name of parent directory\n")
+       << _("           Default filename format is ")
+       <<               format_ << ".\n"
+       << _("   -c txt  Jpeg comment string to set in the image.\n")
+       << _("   -m file Command file for the modify action. The format for commands is\n"
+            "           set|add|del <key> [[<type>] <value>].\n")
+       << _("   -M cmd  Command line for the modify action. The format for the\n"
+            "           commands is the same as that of the lines of a command file.\n")
+       << _("   -l dir  Location (directory) for files to be inserted from or extracted to.\n")
+       << _("   -S .suf Use suffix .suf for source files for insert command.\n\n");
 } // Params::help
 
 int Params::option(int opt, const std::string& optarg, int optopt)
@@ -300,18 +307,18 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     case 'l': directory_ = optarg; break;
     case 'S': suffix_ = optarg; break;
     case ':':
-        std::cerr << progname() << ": Option -" << static_cast<char>(optopt)
-                  << " requires an argument\n";
+        std::cerr << progname() << ": " << _("Option") << " -" << static_cast<char>(optopt)
+                   << " " << _("requires an argument\n");
         rc = 1;
         break;
     case '?':
-        std::cerr << progname() << ": Unrecognized option -"
+        std::cerr << progname() << ": " << _("Unrecognized option") << " -"
                   << static_cast<char>(optopt) << "\n";
         rc = 1;
         break;
     default:
         std::cerr << progname()
-                  << ": getopt returned unexpected character code "
+                  << ": " << _("getopt returned unexpected character code") << " " 
                   << std::hex << opt << "\n";
         rc = 1;
         break;
@@ -334,13 +341,13 @@ int Params::evalRename(int opt, const std::string& optarg)
     case Action::rename:
         if (opt == 'r' && !format_.empty()) {
             std::cerr << progname()
-                      << ": Ignoring surplus option -r \"" << optarg << "\"\n";
+                      << ": " << _("Ignoring surplus option") << " -r \"" << optarg << "\"\n";
         }
         break;
     default:
         std::cerr << progname()
-                  << ": Option -" << (char)opt
-                  << " is not compatible with a previous option\n";
+                  << ": " << _("Option") << " -" << (char)opt
+                  << " " << _("is not compatible with a previous option\n");
         rc = 1;
         break;
     }
@@ -355,18 +362,18 @@ int Params::evalAdjust(const std::string& optarg)
         action_ = Action::adjust;
         adjust_ = parseTime(optarg, adjustment_);
         if (!adjust_) {
-            std::cerr << progname() << ": Error parsing -a option argument `"
+            std::cerr << progname() << ": " << _("Error parsing -a option argument") << " `" 
                       << optarg << "'\n";
             rc = 1;
         }
         break;
     case Action::adjust:
         std::cerr << progname()
-                  << ": Ignoring surplus option -a " << optarg << "\n";
+                  << ": " << _("Ignoring surplus option -a")  << " " << optarg << "\n";
         break;
     default:
         std::cerr << progname()
-                  << ": Option -a is not compatible with a previous option\n";
+                  << ": " << _("Option -a is not compatible with a previous option\n");
         rc = 1;
         break;
     }
@@ -386,19 +393,19 @@ int Params::evalPrint(const std::string& optarg)
         case 'i': printMode_ = pmIptc; break;
         case 'c': printMode_ = pmComment; break;
         default:
-            std::cerr << progname() << ": Unrecognized print mode `"
+            std::cerr << progname() << ": " << _("Unrecognized print mode") << " `" 
                       << optarg << "'\n";
             rc = 1;
             break;
         }
         break;
     case Action::print:
-        std::cerr << progname()
-                  << ": Ignoring surplus option -p" << optarg << "\n";
+        std::cerr << progname() << ": " 
+                  << _("Ignoring surplus option -p") << optarg << "\n";
         break;
     default:
-        std::cerr << progname()
-                  << ": Option -p is not compatible with a previous option\n";
+        std::cerr << progname() << ": " 
+                  << _("Option -p is not compatible with a previous option\n");
         rc = 1;
         break;
     }
@@ -426,7 +433,7 @@ int Params::evalPrintCols(const std::string& optarg)
             case 't': printItems_ |= prTrans; break;
             case 'h': printItems_ |= prHex;   break;
             default:
-                std::cerr << progname() << ": Unrecognized print item `"
+                std::cerr << progname() << ": " << _("Unrecognized print item") << " `" 
                           << optarg[i] << "'\n";
                 rc = 1;
                 break;
@@ -434,12 +441,12 @@ int Params::evalPrintCols(const std::string& optarg)
         }
         break;
     case Action::print:
-        std::cerr << progname()
-                  << ": Ignoring surplus option -P" << optarg << "\n";
+        std::cerr << progname() << ": " 
+                  << _("Ignoring surplus option -P") << optarg << "\n";
         break;
     default:
-        std::cerr << progname()
-                  << ": Option -P is not compatible with a previous option\n";
+        std::cerr << progname() << ": " 
+                  << _("Option -P is not compatible with a previous option\n");
         rc = 1;
         break;
     }
@@ -465,8 +472,8 @@ int Params::evalDelete(const std::string& optarg)
         }
         break;
     default:
-        std::cerr << progname()
-                  << ": Option -d is not compatible with a previous option\n";
+        std::cerr << progname() << ": " 
+                  << _("Option -d is not compatible with a previous option\n");
         rc = 1;
         break;
     }
@@ -492,8 +499,8 @@ int Params::evalExtract(const std::string& optarg)
         }
         break;
     default:
-        std::cerr << progname()
-                  << ": Option -e is not compatible with a previous option\n";
+        std::cerr << progname() << ": " 
+                  << _("Option -e is not compatible with a previous option\n");
         rc = 1;
         break;
     }
@@ -519,8 +526,8 @@ int Params::evalInsert(const std::string& optarg)
         }
         break;
     default:
-        std::cerr << progname()
-                  << ": Option -i is not compatible with a previous option\n";
+        std::cerr << progname() << ": " 
+                  << _("Option -i is not compatible with a previous option\n");
         rc = 1;
         break;
     }
@@ -540,9 +547,9 @@ int Params::evalModify(int opt, const std::string& optarg)
         if (opt == 'M') cmdLines_.push_back(optarg);  // parse the commands later
         break;
     default:
-        std::cerr << progname()
-                  << ": Option -" << (char)opt
-                  << " is not compatible with a previous option\n";
+        std::cerr << progname() << ": " 
+                  << _("Option") << " -" << (char)opt << " "
+                  << _("is not compatible with a previous option\n");
         rc = 1;
         break;
     }
@@ -558,8 +565,8 @@ int Params::nonoption(const std::string& argv)
         first_ = false;
         if (argv == "ad" || argv == "adjust") {
             if (action_ != Action::none && action_ != Action::adjust) {
-                std::cerr << progname() << ": Action adjust is not "
-                          << "compatible with the given options\n";
+                std::cerr << progname() << ": " 
+                          << _("Action adjust is not compatible with the given options\n");
                 rc = 1;
             }
             action = true;
@@ -567,8 +574,8 @@ int Params::nonoption(const std::string& argv)
         }
         if (argv == "pr" || argv == "print") {
             if (action_ != Action::none && action_ != Action::print) {
-                std::cerr << progname() << ": Action print is not "
-                          << "compatible with the given options\n";
+                std::cerr << progname() << ": " 
+                          << _("Action print is not compatible with the given options\n");
                 rc = 1;
             }
             action = true;
@@ -576,8 +583,8 @@ int Params::nonoption(const std::string& argv)
         }
         if (argv == "rm" || argv == "delete") {
             if (action_ != Action::none && action_ != Action::erase) {
-                std::cerr << progname() << ": Action delete is not "
-                          << "compatible with the given options\n";
+                std::cerr << progname() << ": " 
+                          << _("Action delete is not compatible with the given options\n");
                 rc = 1;
             }
             action = true;
@@ -585,8 +592,8 @@ int Params::nonoption(const std::string& argv)
         }
         if (argv == "ex" || argv == "extract") {
             if (action_ != Action::none && action_ != Action::extract) {
-                std::cerr << progname() << ": Action extract is not "
-                          << "compatible with the given options\n";
+                std::cerr << progname() << ": " 
+                          << _("Action extract is not compatible with the given options\n");
                 rc = 1;
             }
             action = true;
@@ -594,8 +601,8 @@ int Params::nonoption(const std::string& argv)
         }
         if (argv == "in" || argv == "insert") {
             if (action_ != Action::none && action_ != Action::insert) {
-                std::cerr << progname() << ": Action insert is not "
-                          << "compatible with the given options\n";
+                std::cerr << progname() << ": " 
+                          << _("Action insert is not compatible with the given options\n");
                 rc = 1;
             }
             action = true;
@@ -603,8 +610,8 @@ int Params::nonoption(const std::string& argv)
         }
         if (argv == "mv" || argv == "rename") {
             if (action_ != Action::none && action_ != Action::rename) {
-                std::cerr << progname() << ": Action rename is not "
-                          << "compatible with the given options\n";
+                std::cerr << progname() << ": " 
+                          << _("Action rename is not compatible with the given options\n");
                 rc = 1;
             }
             action = true;
@@ -612,8 +619,8 @@ int Params::nonoption(const std::string& argv)
         }
         if (argv == "mo" || argv == "modify") {
             if (action_ != Action::none && action_ != Action::modify) {
-                std::cerr << progname() << ": Action modify is not "
-                          << "compatible with the given options\n";
+                std::cerr << progname() << ": " 
+                          << _("Action modify is not compatible with the given options\n");
                 rc = 1;
             }
             action = true;
@@ -621,8 +628,8 @@ int Params::nonoption(const std::string& argv)
         }
         if (argv == "fi" || argv == "fixiso") {
             if (action_ != Action::none && action_ != Action::fixiso) {
-                std::cerr << progname() << ": Action fixiso is not "
-                          << "compatible with the given options\n";
+                std::cerr << progname() << ": " 
+                          << _("Action fixiso is not compatible with the given options\n");
                 rc = 1;
             }
             action = true;
@@ -646,57 +653,57 @@ int Params::getopt(int argc, char* const argv[])
     if (help_ || version_) return 0;
     if (action_ == Action::none) {
         // This shouldn't happen since print is taken as default action
-        std::cerr << progname() << ": An action must be specified\n";
+        std::cerr << progname() << ": " << _("An action must be specified\n");
         rc = 1;
     }
     if (action_ == Action::adjust && !adjust_) {
-        std::cerr << progname()
-                  << ": Adjust action requires option -a time\n";
+        std::cerr << progname() << ": " 
+                  << _("Adjust action requires option -a time\n");
         rc = 1;
     }
     if (   action_ == Action::modify
         && cmdFiles_.empty() && cmdLines_.empty() && jpegComment_.empty()) {
-        std::cerr << progname()
-                  << ": Modify action requires at least one -c, -m or -M option\n";
+        std::cerr << progname() << ": " 
+                  << _("Modify action requires at least one -c, -m or -M option\n");
         rc = 1;
     }
     if (0 == files_.size()) {
-        std::cerr << progname() << ": At least one file is required\n";
+        std::cerr << progname() << ": " << _("At least one file is required\n");
         rc = 1;
     }
     if (rc == 0 && action_ == Action::modify) {
         // Parse command files
         if (!parseCmdFiles(modifyCmds_, cmdFiles_)) {
-            std::cerr << progname() << ": Error parsing -m option arguments\n";
+            std::cerr << progname() << ": " << _("Error parsing -m option arguments\n");
             rc = 1;
         }
     }
     if (rc ==0 && action_ == Action::modify) {
         // Parse command lines
         if (!parseCmdLines(modifyCmds_, cmdLines_)) {
-            std::cerr << progname() << ": Error parsing -M option arguments\n";
+            std::cerr << progname() << ": " << _("Error parsing -M option arguments\n");
             rc = 1;
         }
     }
     if (   !directory_.empty()
         && !(action_ == Action::insert || action_ == Action::extract)) {
-        std::cerr << progname()
-                  << ": -l option can only be used with extract or insert actions\n";
+        std::cerr << progname() << ": " 
+                  << _("-l option can only be used with extract or insert actions\n");
         rc = 1;
     }
     if (!suffix_.empty() && !(action_ == Action::insert)) {
-        std::cerr << progname()
-                  << ": -S option can only be used with insert action\n";
+        std::cerr << progname() << ": " 
+                  << _("-S option can only be used with insert action\n");
         rc = 1;
     }
     if (timestamp_ && !(action_ == Action::rename)) {
-        std::cerr << progname()
-                  << ": -t option can only be used with rename action\n";
+        std::cerr << progname() << ": " 
+                  << _("-t option can only be used with rename action\n");
         rc = 1;
     }
     if (timestampOnly_ && !(action_ == Action::rename)) {
-        std::cerr << progname()
-                  << ": -T option can only be used with rename action\n";
+        std::cerr << progname() << ": " 
+                  << _("-T option can only be used with rename action\n");
         rc = 1;
     }
     return rc;
@@ -761,8 +768,8 @@ namespace {
                                 | Params::ctIptc
                                 | Params::ctComment; break;
             default:
-                std::cerr << Params::instance().progname() << ": Unrecognized "
-                          << action << " target `" << optarg[i] << "'\n";
+                std::cerr << Params::instance().progname() << ": " << _("Unrecognized ")
+                          << action << " " << _("target") << " `"  << optarg[i] << "'\n";
                 rc = -1;
                 break;
             }
@@ -779,8 +786,8 @@ namespace {
             try {
                 std::ifstream file(filename->c_str());
                 if (!file) {
-                    std::cerr << *filename
-                              << ": Failed to open command file for reading\n";
+                    std::cerr << *filename << ": " 
+                              << _("Failed to open command file for reading\n");
                     return false;
                 }
                 int num = 0;
@@ -793,7 +800,7 @@ namespace {
                 }
             }
             catch (const Exiv2::AnyError& error) {
-                std::cerr << *filename << ", line " << error << "\n";
+                std::cerr << *filename << ", " << _("line") << " " << error << "\n";
                 return false;
             }
         }
@@ -816,7 +823,7 @@ namespace {
             return true;
         }
         catch (const Exiv2::AnyError& error) {
-            std::cerr << "-M option " << error << "\n";
+            std::cerr << _("-M option") << " " << error << "\n";
             return false;
 	}
     } // parseCmdLines
@@ -837,14 +844,14 @@ namespace {
             || cmdEnd == std::string::npos
             || keyStart == std::string::npos) {
             throw Exiv2::Error(1, Exiv2::toString(num)
-                               + ": Invalid command line");
+                               + ": " + _("Invalid command line"));
         }
 
         std::string cmd(line.substr(cmdStart, cmdEnd-cmdStart));
         CmdId cmdId = commandId(cmd);
         if (cmdId == invalidCmdId) {
             throw Exiv2::Error(1, Exiv2::toString(num)
-                               + ": Invalid command `" + cmd + "'");
+                               + ": " + _("Invalid command") + " `" + cmd + "'");
         }
 
         Exiv2::TypeId defaultType = Exiv2::invalidTypeId;
@@ -868,7 +875,7 @@ namespace {
         }
         if (metadataId == invalidMetadataId) {
             throw Exiv2::Error(1, Exiv2::toString(num)
-                                + ": Invalid key `" + key + "'");
+                               + ": " + _("Invalid key") + " `" + key + "'");
         }
 
         std::string value;
@@ -887,7 +894,7 @@ namespace {
                 || typeStart == std::string::npos
                 || valStart == std::string::npos) {
                 throw Exiv2::Error(1, Exiv2::toString(num)
-                                    + ": Invalid command line ");
+                                   + ": " + _("Invalid command line") + " " );
             }
 
             if (typeEnd != std::string::npos) {
@@ -897,7 +904,7 @@ namespace {
                     valStart = line.find_first_not_of(delim, typeEnd+1);
                     if (valStart == std::string::npos) {
                         throw Exiv2::Error(1, Exiv2::toString(num)
-                                            + ": Invalid command line  ");
+                                           + ": " + _("Invalid command line") + " " );
                     }
                     type = tmpType;
                     explicitType = true;

@@ -37,6 +37,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "sigmamn.hpp"
 #include "makernote.hpp"
 #include "value.hpp"
+#include "i18n.h"                // NLS support.
 
 // + standard includes
 #include <string>
@@ -62,31 +63,78 @@ namespace Exiv2 {
 
     // Sigma (Foveon) MakerNote Tag Info
     const TagInfo SigmaMakerNote::tagInfo_[] = {
-        TagInfo(0x0002, "SerialNumber", "SerialNumber", "Camera serial number", sigmaIfdId, makerTags, asciiString, printValue),
-        TagInfo(0x0003, "DriveMode", "DriveMode", "Drive Mode", sigmaIfdId, makerTags, asciiString, printValue),
-        TagInfo(0x0004, "ResolutionMode", "ResolutionMode", "Resolution Mode", sigmaIfdId, makerTags, asciiString, printValue),
-        TagInfo(0x0005, "AutofocusMode", "AutofocusMode", "Autofocus mode", sigmaIfdId, makerTags, asciiString, printValue),
-        TagInfo(0x0006, "FocusSetting", "FocusSetting", "Focus setting", sigmaIfdId, makerTags, asciiString, printValue),
-        TagInfo(0x0007, "WhiteBalance", "WhiteBalance", "White balance", sigmaIfdId, makerTags, asciiString, printValue),
-        TagInfo(0x0008, "ExposureMode", "ExposureMode", "Exposure mode", sigmaIfdId, makerTags, asciiString, print0x0008),
-        TagInfo(0x0009, "MeteringMode", "MeteringMode", "Metering mode", sigmaIfdId, makerTags, asciiString, print0x0009),
-        TagInfo(0x000a, "LensRange", "LensRange", "Lens focal length range", sigmaIfdId, makerTags, asciiString, printValue),
-        TagInfo(0x000b, "ColorSpace", "ColorSpace", "Color space", sigmaIfdId, makerTags, asciiString, printValue),
-        TagInfo(0x000c, "Exposure", "Exposure", "Exposure", sigmaIfdId, makerTags, asciiString, printStripLabel),
-        TagInfo(0x000d, "Contrast", "Contrast", "Contrast", sigmaIfdId, makerTags, asciiString, printStripLabel),
-        TagInfo(0x000e, "Shadow", "Shadow", "Shadow", sigmaIfdId, makerTags, asciiString, printStripLabel),
-        TagInfo(0x000f, "Highlight", "Highlight", "Highlight", sigmaIfdId, makerTags, asciiString, printStripLabel),
-        TagInfo(0x0010, "Saturation", "Saturation", "Saturation", sigmaIfdId, makerTags, asciiString, printStripLabel),
-        TagInfo(0x0011, "Sharpness", "Sharpness", "Sharpness", sigmaIfdId, makerTags, asciiString, printStripLabel),
-        TagInfo(0x0012, "FillLight", "FillLight", "X3 Fill light", sigmaIfdId, makerTags, asciiString, printStripLabel),
-        TagInfo(0x0014, "ColorAdjustment", "ColorAdjustment", "Color adjustment", sigmaIfdId, makerTags, asciiString, printStripLabel),
-        TagInfo(0x0015, "AdjustmentMode", "AdjustmentMode", "Adjustment mode", sigmaIfdId, makerTags, asciiString, printValue),
-        TagInfo(0x0016, "Quality", "Quality", "Quality", sigmaIfdId, makerTags, asciiString, printStripLabel),
-        TagInfo(0x0017, "Firmware", "Firmware", "Firmware", sigmaIfdId, makerTags, asciiString, printValue),
-        TagInfo(0x0018, "Software", "Software", "Software", sigmaIfdId, makerTags, asciiString, printValue),
-        TagInfo(0x0019, "AutoBracket", "AutoBracket", "Auto bracket", sigmaIfdId, makerTags, asciiString, printValue),
+        TagInfo(0x0002, "SerialNumber", N_("Serial Number"), 
+                N_("Camera serial number"), 
+                sigmaIfdId, makerTags, asciiString, printValue),
+        TagInfo(0x0003, "DriveMode", N_("Drive Mode"), 
+                N_("Drive mode"), 
+                sigmaIfdId, makerTags, asciiString, printValue),
+        TagInfo(0x0004, "ResolutionMode", N_("Resolution Mode"), 
+                N_("Resolution mode"), sigmaIfdId, makerTags, asciiString, printValue),
+        TagInfo(0x0005, "AutofocusMode", N_("Autofocus Mode"), 
+                N_("Autofocus mode"), 
+                sigmaIfdId, makerTags, asciiString, printValue),
+        TagInfo(0x0006, "FocusSetting", N_("Focus Setting"), 
+                N_("Focus setting"), 
+                sigmaIfdId, makerTags, asciiString, printValue),
+        TagInfo(0x0007, "WhiteBalance", N_("White Balance"), 
+                N_("White balance"), 
+                sigmaIfdId, makerTags, asciiString, printValue),
+        TagInfo(0x0008, "ExposureMode", N_("Exposure Mode"), 
+                N_("Exposure mode"), 
+                sigmaIfdId, makerTags, asciiString, print0x0008),
+        TagInfo(0x0009, "MeteringMode", N_("Metering Mode"), 
+                N_("Metering mode"), 
+                sigmaIfdId, makerTags, asciiString, print0x0009),
+        TagInfo(0x000a, "LensRange", N_("Lens Range"), 
+                N_("Lens focal length range"), 
+                sigmaIfdId, makerTags, asciiString, printValue),
+        TagInfo(0x000b, "ColorSpace", N_("Color Space"), 
+                N_("Color space"), 
+                sigmaIfdId, makerTags, asciiString, printValue),
+        TagInfo(0x000c, "Exposure", N_("Exposure"), 
+                N_("Exposure"), 
+                sigmaIfdId, makerTags, asciiString, printStripLabel),
+        TagInfo(0x000d, "Contrast", N_("Contrast"), 
+                N_("Contrast"), 
+                sigmaIfdId, makerTags, asciiString, printStripLabel),
+        TagInfo(0x000e, "Shadow", N_("Shadow"), 
+                N_("Shadow"), 
+                sigmaIfdId, makerTags, asciiString, printStripLabel),
+        TagInfo(0x000f, "Highlight", N_("Highlight"), 
+                N_("Highlight"), 
+                sigmaIfdId, makerTags, asciiString, printStripLabel),
+        TagInfo(0x0010, "Saturation", N_("Saturation"), 
+                N_("Saturation"), 
+                sigmaIfdId, makerTags, asciiString, printStripLabel),
+        TagInfo(0x0011, "Sharpness", N_("Sharpness"), 
+                N_("Sharpness"), 
+                sigmaIfdId, makerTags, asciiString, printStripLabel),
+        TagInfo(0x0012, "FillLight", N_("Fill Light"), 
+                N_("X3 Fill light"), 
+                sigmaIfdId, makerTags, asciiString, printStripLabel),
+        TagInfo(0x0014, "ColorAdjustment", N_("Color Adjustment"), 
+                N_("Color adjustment"), 
+                sigmaIfdId, makerTags, asciiString, printStripLabel),
+        TagInfo(0x0015, "AdjustmentMode", N_("Adjustment Mode"), 
+                N_("Adjustment mode"), 
+                sigmaIfdId, makerTags, asciiString, printValue),
+        TagInfo(0x0016, "Quality", N_("Quality"), 
+                N_("Quality"), 
+                sigmaIfdId, makerTags, asciiString, printStripLabel),
+        TagInfo(0x0017, "Firmware", N_("Firmware"), 
+                N_("Firmware"), 
+                sigmaIfdId, makerTags, asciiString, printValue),
+        TagInfo(0x0018, "Software", N_("Software"), 
+                N_("Software"), 
+                sigmaIfdId, makerTags, asciiString, printValue),
+        TagInfo(0x0019, "AutoBracket", N_("Auto Bracket"), 
+                N_("Auto bracket"), 
+                sigmaIfdId, makerTags, asciiString, printValue),
         // End of list marker
-        TagInfo(0xffff, "(UnknownSigmaMakerNoteTag)", "(UnknownSigmaMakerNoteTag)", "Unknown SigmaMakerNote tag", sigmaIfdId, makerTags, invalidTypeId, printValue)
+        TagInfo(0xffff, "(UnknownSigmaMakerNoteTag)", "(UnknownSigmaMakerNoteTag)",
+                N_("Unknown SigmaMakerNote tag"), 
+                sigmaIfdId, makerTags, invalidTypeId, printValue)
     };
 
     const TagInfo* SigmaMakerNote::tagList()
@@ -177,10 +225,10 @@ namespace Exiv2 {
                                               const Value& value)
     {
         switch (value.toString()[0]) {
-        case 'P': os << "Program"; break;
-        case 'A': os << "Aperture priority"; break;
-        case 'S': os << "Shutter priority"; break;
-        case 'M': os << "Manual"; break;
+        case 'P': os << _("Program"); break;
+        case 'A': os << _("Aperture priority"); break;
+        case 'S': os << _("Shutter priority"); break;
+        case 'M': os << _("Manual"); break;
         default: os << "(" << value << ")"; break;
         }
         return os;
@@ -190,9 +238,9 @@ namespace Exiv2 {
                                               const Value& value)
     {
         switch (value.toString()[0]) {
-        case 'A': os << "Average"; break;
-        case 'C': os << "Center"; break;
-        case '8': os << "8-Segment"; break;
+        case 'A': os << _("Average"); break;
+        case 'C': os << _("Center"); break;
+        case '8': os << _("8-Segment"); break;
         default: os << "(" << value << ")"; break;
         }
         return os;
