@@ -22,7 +22,7 @@ Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 Boston, MA 02110-1301 USA
 
 Exiv2 help ---------------------------------------------------------------
-Usage: lt-exiv2 [ options ] [ action ] file ...
+Usage: exiv2 [ options ] [ action ] file ...
 
 Manipulate the Exif metadata of images.
 
@@ -198,8 +198,8 @@ Print --------------------------------------------------------------------
 File  1/15: exiv2-empty.jpg
 exiv2-empty.jpg: No Exif data found in the file
 File  2/15: 20031214_000043.jpg
-20031214_000043.jpg  Filename        : 20031214_000043.jpg
-20031214_000043.jpg  Filesize        : 12425 Bytes
+20031214_000043.jpg  File name       : 20031214_000043.jpg
+20031214_000043.jpg  File size       : 12425 Bytes
 20031214_000043.jpg  Camera make     : Canon
 20031214_000043.jpg  Camera model    : Canon PowerShot S40
 20031214_000043.jpg  Image timestamp : 2003:12:14 00:00:43
@@ -223,8 +223,8 @@ File  2/15: 20031214_000043.jpg
 20031214_000043.jpg  Exif comment    : 
 
 File 3 /15: 20000506_020544.jpg
-20000506_020544.jpg  Filename        : 20000506_020544.jpg
-20000506_020544.jpg  Filesize        : 19152 Bytes
+20000506_020544.jpg  File name       : 20000506_020544.jpg
+20000506_020544.jpg  File size       : 19152 Bytes
 20000506_020544.jpg  Camera make     : NIKON
 20000506_020544.jpg  Camera model    : E990
 20000506_020544.jpg  Image timestamp : 2000:05:06 02:05:44
@@ -248,8 +248,8 @@ File 3 /15: 20000506_020544.jpg
 20000506_020544.jpg  Exif comment    :                                                                                                                      
 
 File 4 /15: 20040329_224245.jpg
-20040329_224245.jpg  Filename        : 20040329_224245.jpg
-20040329_224245.jpg  Filesize        : 44129 Bytes
+20040329_224245.jpg  File name       : 20040329_224245.jpg
+20040329_224245.jpg  File size       : 44129 Bytes
 20040329_224245.jpg  Camera make     : NIKON CORPORATION
 20040329_224245.jpg  Camera model    : NIKON D70
 20040329_224245.jpg  Image timestamp : 2004:03:29 22:42:45
@@ -273,8 +273,8 @@ File 4 /15: 20040329_224245.jpg
 20040329_224245.jpg  Exif comment    :                                     
 
 File 5 /15: 20010405_235039.jpg
-20010405_235039.jpg  Filename        : 20010405_235039.jpg
-20010405_235039.jpg  Filesize        : 11984 Bytes
+20010405_235039.jpg  File name       : 20010405_235039.jpg
+20010405_235039.jpg  File size       : 11984 Bytes
 20010405_235039.jpg  Camera make     : NIKON
 20010405_235039.jpg  Camera model    : E950
 20010405_235039.jpg  Image timestamp : 2001:04:05 23:50:39
@@ -298,8 +298,8 @@ File 5 /15: 20010405_235039.jpg
 20010405_235039.jpg  Exif comment    :                                                                                                                      
 
 File 6 /15: 20030925_201850.jpg
-20030925_201850.jpg  Filename        : 20030925_201850.jpg
-20030925_201850.jpg  Filesize        : 17033 Bytes
+20030925_201850.jpg  File name       : 20030925_201850.jpg
+20030925_201850.jpg  File size       : 17033 Bytes
 20030925_201850.jpg  Camera make     : Canon
 20030925_201850.jpg  Camera model    : Canon EOS 300D DIGITAL
 20030925_201850.jpg  Image timestamp : 2003:09:25 20:18:50
@@ -323,8 +323,8 @@ File 6 /15: 20030925_201850.jpg
 20030925_201850.jpg  Exif comment    : 
 
 File 7 /15: 20001026_044550.jpg
-20001026_044550.jpg  Filename        : 20001026_044550.jpg
-20001026_044550.jpg  Filesize        : 26485 Bytes
+20001026_044550.jpg  File name       : 20001026_044550.jpg
+20001026_044550.jpg  File size       : 26485 Bytes
 20001026_044550.jpg  Camera make     : Eastman Kodak Company
 20001026_044550.jpg  Camera model    : DC210 Zoom (V05.00)
 20001026_044550.jpg  Image timestamp : 2000:10:26 04:45:50
@@ -348,8 +348,8 @@ File 7 /15: 20001026_044550.jpg
 20001026_044550.jpg  Exif comment    : 
 
 File 8 /15: 20030926_111535.jpg
-20030926_111535.jpg  Filename        : 20030926_111535.jpg
-20030926_111535.jpg  Filesize        : 15537 Bytes
+20030926_111535.jpg  File name       : 20030926_111535.jpg
+20030926_111535.jpg  File size       : 15537 Bytes
 20030926_111535.jpg  Camera make     : FUJIFILM
 20030926_111535.jpg  Camera model    : FinePixS2Pro
 20030926_111535.jpg  Image timestamp : 2003:09:26 11:15:35
@@ -373,8 +373,8 @@ File 8 /15: 20030926_111535.jpg
 20030926_111535.jpg  Exif comment    : 
 
 File 9 /15: 20040316_075137.jpg
-20040316_075137.jpg  Filename        : 20040316_075137.jpg
-20040316_075137.jpg  Filesize        : 18307 Bytes
+20040316_075137.jpg  File name       : 20040316_075137.jpg
+20040316_075137.jpg  File size       : 18307 Bytes
 20040316_075137.jpg  Camera make     : SIGMA
 20040316_075137.jpg  Camera model    : SIGMA SD10
 20040316_075137.jpg  Image timestamp : 2004:03:16 07:51:37
@@ -398,8 +398,8 @@ File 9 /15: 20040316_075137.jpg
 20040316_075137.jpg  Exif comment    : 
 
 File 10/15: 20040208_093744.jpg
-20040208_093744.jpg  Filename        : 20040208_093744.jpg
-20040208_093744.jpg  Filesize        : 19152 Bytes
+20040208_093744.jpg  File name       : 20040208_093744.jpg
+20040208_093744.jpg  File size       : 19152 Bytes
 20040208_093744.jpg  Camera make     : OLYMPUS CORPORATION
 20040208_093744.jpg  Camera model    : C8080WZ
 20040208_093744.jpg  Image timestamp : 2004:02:08 09:37:44
@@ -423,8 +423,8 @@ File 10/15: 20040208_093744.jpg
 20040208_093744.jpg  Exif comment    :                                                                                                                      
 
 File 11/15: 20050218_212016.jpg
-20050218_212016.jpg  Filename        : 20050218_212016.jpg
-20050218_212016.jpg  Filesize        : 32041 Bytes
+20050218_212016.jpg  File name       : 20050218_212016.jpg
+20050218_212016.jpg  File size       : 32041 Bytes
 20050218_212016.jpg  Camera make     : Panasonic
 20050218_212016.jpg  Camera model    : DMC-FZ5
 20050218_212016.jpg  Image timestamp : 2005:02:18 21:20:16
@@ -448,8 +448,8 @@ File 11/15: 20050218_212016.jpg
 20050218_212016.jpg  Exif comment    : 
 
 File 12/15: 20050527_051833.jpg
-20050527_051833.jpg  Filename        : 20050527_051833.jpg
-20050527_051833.jpg  Filesize        : 22844 Bytes
+20050527_051833.jpg  File name       : 20050527_051833.jpg
+20050527_051833.jpg  File size       : 22844 Bytes
 20050527_051833.jpg  Camera make     : SONY
 20050527_051833.jpg  Camera model    : DSC-W7
 20050527_051833.jpg  Image timestamp : 2005:05:27 05:18:33
@@ -474,8 +474,8 @@ File 12/15: 20050527_051833.jpg
 
 File 13/15: 20060802_095200.jpg
 Warning: Makernote: Pointer to next IFD is out of bounds; ignored.
-20060802_095200.jpg  Filename        : 20060802_095200.jpg
-20060802_095200.jpg  Filesize        : 20733 Bytes
+20060802_095200.jpg  File name       : 20060802_095200.jpg
+20060802_095200.jpg  File size       : 20733 Bytes
 20060802_095200.jpg  Camera make     : Canon
 20060802_095200.jpg  Camera model    : Canon EOS 20D
 20060802_095200.jpg  Image timestamp : 2006:08:02 09:52:00
@@ -499,8 +499,8 @@ Warning: Makernote: Pointer to next IFD is out of bounds; ignored.
 20060802_095200.jpg  Exif comment    : 
 
 File 14/15: 20001004_015404.jpg
-20001004_015404.jpg  Filename        : 20001004_015404.jpg
-20001004_015404.jpg  Filesize        : 20617 Bytes
+20001004_015404.jpg  File name       : 20001004_015404.jpg
+20001004_015404.jpg  File size       : 20617 Bytes
 20001004_015404.jpg  Camera make     : Canon
 20001004_015404.jpg  Camera model    : Canon EOS D30
 20001004_015404.jpg  Image timestamp : 2000:10:04 01:54:04
@@ -524,8 +524,8 @@ File 14/15: 20001004_015404.jpg
 20001004_015404.jpg  Exif comment    : 
 
 File 15/15: 20060127_225027.jpg
-20060127_225027.jpg  Filename        : 20060127_225027.jpg
-20060127_225027.jpg  Filesize        : 13449 Bytes
+20060127_225027.jpg  File name       : 20060127_225027.jpg
+20060127_225027.jpg  File size       : 13449 Bytes
 20060127_225027.jpg  Camera make     : Canon
 20060127_225027.jpg  Camera model    : Canon PowerShot A520
 20060127_225027.jpg  Image timestamp : 2006:01:27 22:50:27
@@ -715,14 +715,14 @@ File  3/15: 20000506_020544.jpg
 20000506_020544.jpg   Exif.Nikon1.WhiteBalance                     Ascii      13  AUTO        
 20000506_020544.jpg   Exif.Nikon1.Sharpening                       Ascii       7  AUTO  
 20000506_020544.jpg   Exif.Nikon1.Focus                            Ascii       7  Continuous autofocus
-20000506_020544.jpg   Exif.Nikon1.Flash                            Ascii       8         
+20000506_020544.jpg   Exif.Nikon1.FlashSetting                     Ascii       8         
 20000506_020544.jpg   Exif.Nikon1.0x000a                           Rational    1  8832/1000
 20000506_020544.jpg   Exif.Nikon1.ISOSelection                     Ascii       7  AUTO  
 20000506_020544.jpg   Exif.Nikon1.ImageAdjustment                  Ascii      14  AUTO         
-20000506_020544.jpg   Exif.Nikon1.Adapter                          Ascii      13  OFF         
+20000506_020544.jpg   Exif.Nikon1.AuxiliaryLens                    Ascii      13  OFF         
 20000506_020544.jpg   Exif.Nikon1.FocusDistance                    Rational    1  Unknown
 20000506_020544.jpg   Exif.Nikon1.DigitalZoom                      Rational    1  1.0x
-20000506_020544.jpg   Exif.Nikon1.AFFocusPos                       Undefined   4  0; Left
+20000506_020544.jpg   Exif.Nikon1.AFFocusPos                       Undefined   4  Single area; Left
 20000506_020544.jpg   Exif.Nikon1.DataDump                         Undefined 174  1 45 0 128 1 76 0 0 0 0 255 1 0 0 0 0 2 74 42 160 0 0 0 0 2 183 0 0 31 8 0 0 21 202 0 0 33 124 0 0 33 124 0 0 31 6 13 132 0 74 0 0 0 0 9 181 9 74 8 109 7 54 208 1 11 122 0 0 0 0 45 33 21 0 0 0 32 0 0 0 0 0 0 0 0 0 68 27 0 0 74 3 23 207 9 30 59 31 0 71 0 0 19 21 18 18 21 24 0 0 100 0 25 76 0 0 0 1 255 240 101 68 0 0 0 2 0 0 0 0 15 3 194 141 1 13 18 34 0 0 81 90 0 246 1 43 48 32 18 7 40 16 78 72 11 122 0 0 117 252 235 98 11 16 6 6 0 100 0 216 18 52 67 33 
 20000506_020544.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 20000506_020544.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
@@ -790,29 +790,29 @@ File  4/15: 20040329_224245.jpg
 20040329_224245.jpg   Exif.Nikon3.Quality                          Ascii       8  FINE   
 20040329_224245.jpg   Exif.Nikon3.WhiteBalance                     Ascii      13  AUTO        
 20040329_224245.jpg   Exif.Nikon3.Sharpening                       Ascii       7  AUTO  
-20040329_224245.jpg   Exif.Nikon3.Focus                            Ascii       7  AF-S  
+20040329_224245.jpg   Exif.Nikon3.Focus                            Ascii       7  Single autofocus
 20040329_224245.jpg   Exif.Nikon3.FlashSetting                     Ascii      13  NORMAL      
-20040329_224245.jpg   Exif.Nikon3.FlashMode                        Ascii      13              
+20040329_224245.jpg   Exif.Nikon3.FlashDevice                      Ascii      13              
 20040329_224245.jpg   Exif.Nikon3.WhiteBalanceBias                 SShort      1  0
-20040329_224245.jpg   Exif.Nikon3.0x000d                           Undefined   4  0 1 6 0 
+20040329_224245.jpg   Exif.Nikon3.ProgramShift                     Undefined   4  0 1 6 0 
 20040329_224245.jpg   Exif.Nikon3.ExposureDiff                     Undefined   4  0 1 12 0 
-20040329_224245.jpg   Exif.Nikon3.ThumbOffset                      Long        1  1430
+20040329_224245.jpg   Exif.Nikon3.Preview                          Long        1  1430
 20040329_224245.jpg   Exif.Nikon3.FlashComp                        Undefined   4  0.0 EV
-20040329_224245.jpg   Exif.Nikon3.ISOSetting                       Short       2  200
-20040329_224245.jpg   Exif.Nikon3.ImageBoundry                     Short       4  0 0 3008 2000
+20040329_224245.jpg   Exif.Nikon3.ISOSettings                      Short       2  200
+20040329_224245.jpg   Exif.Nikon3.ImageBoundary                    Short       4  0 0 3008 2000
 20040329_224245.jpg   Exif.Nikon3.0x0017                           Undefined   4  0 1 6 0 
 20040329_224245.jpg   Exif.Nikon3.FlashBracketComp                 Undefined   4  0.0 EV
 20040329_224245.jpg   Exif.Nikon3.ExposureBracketComp              SRational   1  0/1
 20040329_224245.jpg   Exif.Nikon3.ToneComp                         Ascii       9  AUTO    
-20040329_224245.jpg   Exif.Nikon3.LensType                         Byte        1  6 
+20040329_224245.jpg   Exif.Nikon3.LensType                         Byte        1  D G 
 20040329_224245.jpg   Exif.Nikon3.Lens                             Rational    4  18-70mm F3.5-4.5
-20040329_224245.jpg   Exif.Nikon3.FlashType                        Byte        1  Not used
+20040329_224245.jpg   Exif.Nikon3.FlashMode                        Byte        1  Did not fire
 20040329_224245.jpg   Exif.Nikon3.AFFocusPos                       Undefined   4  Single area; Center used
-20040329_224245.jpg   Exif.Nikon3.Bracketing                       Short       1  Single
-20040329_224245.jpg   Exif.Nikon3.0x008a                           Short       1  0
+20040329_224245.jpg   Exif.Nikon3.ShootingMode                     Short       1  (0)
+20040329_224245.jpg   Exif.Nikon3.AutoBracketRelease               Short       1  None
 20040329_224245.jpg   Exif.Nikon3.LensFStops                       Undefined   4  5.33333
 20040329_224245.jpg   Exif.Nikon3.ColorMode                        Ascii       9  MODE1a  
-20040329_224245.jpg   Exif.Nikon3.LightingType                     Ascii      12  NATURAL    
+20040329_224245.jpg   Exif.Nikon3.LightSource                      Ascii      12  NATURAL    
 20040329_224245.jpg   Exif.Nikon3.0x0091                           Undefined 465  48 49 48 51 0 0 0 124 0 0 5 13 113 0 0 0 0 1 0 0 11 0 0 0 0 0 20 0 0 31 0 0 0 0 0 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 32 0 0 31 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 0 0 0 0 0 0 0 45 0 0 0 0 0 1 0 0 0 0 89 1 2 205 51 206 179 54 56 53 54 48 51 0 218 0 214 0 167 0 171 0 50 0 51 0 5 0 0 0 0 0 0 0 0 0 1 0 5 0 0 3 194 0 0 0 100 30 161 200 95 222 59 231 63 201 147 36 178 108 51 110 51 142 15 205 20 205 255 24 187 172 35 200 39 84 41 220 51 68 39 136 59 158 49 239 176 221 55 206 242 77 6 206 51 212 169 76 179 220 17 174 50 140 159 228 51 220 49 78 186 201 119 196 225 223 50 196 178 204 146 204 17 54 56 53 54 48 49 0 101 0 161 0 172 172 169 163 163 168 169 169 168 168 170 171 164 152 149 5 249 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 38 72 0 8 1 78 226 1 0 72 49 38 48 0 0 0 3 7 252 11 226 0 4 169 1 72 0 128 16 0 0 3 151 96 196 12 145 80 60 0 0 4 190 3 111 0 0 9 186 0 0 4 197 0 0 4 190 3 111 0 0 0 0 3 0 0 0 0 200 0 60 52 62 143 63 0 0 4 176 0 0 4 162 0 0 4 177 0 0 4 126 255 127 255 127 255 127 255 127 8 128 3 111 3 28 2 157 18 17 1 0 0 0 0 72 240 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 64 0 0 0 0 64 
 20040329_224245.jpg   Exif.Nikon3.HueAdjustment                    SShort      1  0
 20040329_224245.jpg   Exif.Nikon3.NoiseReduction                   Ascii       5  OFF 
@@ -820,7 +820,7 @@ File  4/15: 20040329_224245.jpg
 20040329_224245.jpg   Exif.Nikon3.LensData                         Undefined  31  Nikon AF-S DX Zoom-Nikkor 18-70mm f/3.5-4.5G IF-ED
 20040329_224245.jpg   Exif.Nikon3.SensorPixelSize                  Rational    2  78/10 78/10
 20040329_224245.jpg   Exif.Nikon3.SerialNumber                     Ascii      21  NO= 100005e5        
-20040329_224245.jpg   Exif.Nikon3.0x00a2                           Long        1  2929656
+20040329_224245.jpg   Exif.Nikon3.ImageDataSize                    Long        1  2929656
 20040329_224245.jpg   Exif.Nikon3.0x00a3                           Byte        1  0 
 20040329_224245.jpg   Exif.Nikon3.ShutterCount                     Long        1  1193
 20040329_224245.jpg   Exif.Nikon3.0x00a8                           Undefined  20  48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
@@ -880,7 +880,7 @@ File  5/15: 20010405_235039.jpg
 20010405_235039.jpg   Exif.Nikon2.Focus                            Rational    1  0/0
 20010405_235039.jpg   Exif.Nikon2.0x0009                           Ascii      20  
 20010405_235039.jpg   Exif.Nikon2.DigitalZoom                      Rational    1  Not used
-20010405_235039.jpg   Exif.Nikon2.Adapter                          Short       1  0
+20010405_235039.jpg   Exif.Nikon2.AuxiliaryLens                    Short       1  0
 20010405_235039.jpg   Exif.Nikon2.0x0f00                           Long       30  0 0 16777216 0 2685774096 0 34833 6931 16178 4372 4372 3322676767 3373084416 15112 0 0 1151495 252903424 17 0 0 844038208 55184128 218129428 1476410198 370540566 4044363286 16711749 204629079 1729
 20010405_235039.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 20010405_235039.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
@@ -1154,17 +1154,17 @@ File  8/15: 20030926_111535.jpg
 20030926_111535.jpg   Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
 20030926_111535.jpg   Exif.Fujifilm.Sharpness                      Short       1  Normal
 20030926_111535.jpg   Exif.Fujifilm.WhiteBalance                   Short       1  Daylight
-20030926_111535.jpg   Exif.Fujifilm.Color                          Short       1  Standard
-20030926_111535.jpg   Exif.Fujifilm.Tone                           Short       1  Standard
+20030926_111535.jpg   Exif.Fujifilm.Color                          Short       1  Normal
+20030926_111535.jpg   Exif.Fujifilm.Tone                           Short       1  Normal
 20030926_111535.jpg   Exif.Fujifilm.FlashMode                      Short       1  On
 20030926_111535.jpg   Exif.Fujifilm.FlashStrength                  SRational   1  10/10
 20030926_111535.jpg   Exif.Fujifilm.FocusMode                      Short       1  Auto
 20030926_111535.jpg   Exif.Fujifilm.0x1022                         Short       1  1
 20030926_111535.jpg   Exif.Fujifilm.SlowSync                       Short       1  Off
-20030926_111535.jpg   Exif.Fujifilm.PictureMode                    Short       1  Aperture priority
+20030926_111535.jpg   Exif.Fujifilm.PictureMode                    Short       1  Aperture-priority AE
 20030926_111535.jpg   Exif.Fujifilm.0x1032                         Short       1  1
 20030926_111535.jpg   Exif.Fujifilm.Continuous                     Short       1  Off
-20030926_111535.jpg   Exif.Fujifilm.0x1101                         Short       1  0
+20030926_111535.jpg   Exif.Fujifilm.SequenceNumber                 Short       1  0
 20030926_111535.jpg   Exif.Fujifilm.0x1200                         Short       1  0
 20030926_111535.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 20030926_111535.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
@@ -1290,10 +1290,10 @@ File 10/15: 20040208_093744.jpg
 20040208_093744.jpg   Exif.Olympus.SpecialMode                     Long        3  Normal
 20040208_093744.jpg   Exif.Olympus.Quality                         Short       1  (7)
 20040208_093744.jpg   Exif.Olympus.Macro                           Short       1  Off
-20040208_093744.jpg   Exif.Olympus.BWMode                          Short       1  0
+20040208_093744.jpg   Exif.Olympus.BWMode                          Short       1  Off
 20040208_093744.jpg   Exif.Olympus.DigitalZoom                     Rational    1  1.7x
 20040208_093744.jpg   Exif.Olympus.FocalPlaneDiagonal              Rational    1  904/100
-20040208_093744.jpg   Exif.Olympus.0x0206                          SShort      6  -39 -408 -1 93 103 286
+20040208_093744.jpg   Exif.Olympus.LensDistortionParams            SShort      6  -39 -408 -1 93 103 286
 20040208_093744.jpg   Exif.Olympus.FirmwareVersion                 Ascii       8  SX757
 20040208_093744.jpg   Exif.Olympus.PictureInfo                     Ascii      52  [pictureInfo] Resolution=2 [Camera Info] Type=SX757
 20040208_093744.jpg   Exif.Olympus.CameraID                        Undefined  32  79 76 89 77 80 85 83 32 68 73 71 73 84 65 76 32 67 65 77 69 82 65 0 255 255 255 255 255 255 255 255 255 
@@ -1302,7 +1302,7 @@ File 10/15: 20040208_093744.jpg
 20040208_093744.jpg   Exif.Olympus.OneTouchWB                      Short       1  On
 20040208_093744.jpg   Exif.Olympus.0x0303                          Short       1  0
 20040208_093744.jpg   Exif.Olympus.0x0304                          Short       1  0
-20040208_093744.jpg   Exif.Olympus.DataDump                        Undefined 494  1 75 2 3 2 93 0 0 0 0 255 0 0 0 25 97 18 49 0 0 5 236 0 0 57 36 0 0 1 155 0 0 10 47 0 0 22 242 0 0 5 192 0 0 24 68 0 100 0 166 0 50 0 36 0 0 0 0 0 0 0 0 0 0 54 21 0 0 0 0 53 61 22 4 0 0 0 0 0 0 0 0 0 0 0 0 16 32 0 0 57 0 14 86 0 0 0 0 0 0 0 0 0 0 0 0 0 100 3 158 0 0 0 0 255 253 255 249 255 245 255 236 255 237 255 232 255 230 0 0 34 34 34 34 17 17 17 17 1 86 3 150 3 243 1 33 2 0 1 76 2 116 2 3 1 2 96 90 0 2 3 52 0 25 0 10 0 25 0 10 0 5 0 10 0 1 0 0 0 0 0 16 0 0 0 16 0 1 1 0 0 166 1 79 1 246 2 159 3 70 1 2 1 75 2 3 2 93 0 0 21 54 21 231 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 136 136 1 0 3 254 0 59 0 0 0 0 0 0 2 226 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 6 121 6 129 6 124 6 156 208 0 3 254 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 12 57 12 88 12 103 12 177 12 88 12 6 11 190 11 10 34 68 34 128 34 238 35 119 34 83 33 125 32 132 30 98 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 119 119 119 119 33 33 33 33 33 33 19 30 17 25 41 80 32 0 224 0 0 0 0 0 0 0 0 0 128 0 20 70 12 0 0 0 34 33 0 0 34 34 33 33 2 34 1 115 1 70 2 120 0 0 0 43 0 40 0 30 1 76 2 116 34 33 34 34 0 77 0 1 0 128 0 0 0 20 0 0 
+20040208_093744.jpg   Exif.Olympus.DataDump1                       Undefined 494  1 75 2 3 2 93 0 0 0 0 255 0 0 0 25 97 18 49 0 0 5 236 0 0 57 36 0 0 1 155 0 0 10 47 0 0 22 242 0 0 5 192 0 0 24 68 0 100 0 166 0 50 0 36 0 0 0 0 0 0 0 0 0 0 54 21 0 0 0 0 53 61 22 4 0 0 0 0 0 0 0 0 0 0 0 0 16 32 0 0 57 0 14 86 0 0 0 0 0 0 0 0 0 0 0 0 0 100 3 158 0 0 0 0 255 253 255 249 255 245 255 236 255 237 255 232 255 230 0 0 34 34 34 34 17 17 17 17 1 86 3 150 3 243 1 33 2 0 1 76 2 116 2 3 1 2 96 90 0 2 3 52 0 25 0 10 0 25 0 10 0 5 0 10 0 1 0 0 0 0 0 16 0 0 0 16 0 1 1 0 0 166 1 79 1 246 2 159 3 70 1 2 1 75 2 3 2 93 0 0 21 54 21 231 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 136 136 1 0 3 254 0 59 0 0 0 0 0 0 2 226 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 6 121 6 129 6 124 6 156 208 0 3 254 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 12 57 12 88 12 103 12 177 12 88 12 6 11 190 11 10 34 68 34 128 34 238 35 119 34 83 33 125 32 132 30 98 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 119 119 119 119 33 33 33 33 33 33 19 30 17 25 41 80 32 0 224 0 0 0 0 0 0 0 0 0 128 0 20 70 12 0 0 0 34 33 0 0 34 34 33 33 2 34 1 115 1 70 2 120 0 0 0 43 0 40 0 30 1 76 2 116 34 33 34 34 0 77 0 1 0 128 0 0 0 20 0 0 
 20040208_093744.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 20040208_093744.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 20040208_093744.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -1374,15 +1374,15 @@ File 11/15: 20050218_212016.jpg
 20050218_212016.jpg   Exif.Panasonic.0x0027                        Short       1  0
 20050218_212016.jpg   Exif.Panasonic.ColorEffect                   Short       1  Off
 20050218_212016.jpg   Exif.Panasonic.0x0029                        Long        1  1450
-20050218_212016.jpg   Exif.Panasonic.0x002a                        Short       1  0
-20050218_212016.jpg   Exif.Panasonic.0x002b                        Long        1  0
-20050218_212016.jpg   Exif.Panasonic.Contrast                      Short       1  Standard
+20050218_212016.jpg   Exif.Panasonic.BurstMode                     Short       1  Off
+20050218_212016.jpg   Exif.Panasonic.SequenceNumber                Long        1  0
+20050218_212016.jpg   Exif.Panasonic.Contrast                      Short       1  Normal
 20050218_212016.jpg   Exif.Panasonic.NoiseReduction                Short       1  Standard
-20050218_212016.jpg   Exif.Panasonic.0x002e                        Short       1  1
+20050218_212016.jpg   Exif.Panasonic.SelfTimer                     Short       1  Off
 20050218_212016.jpg   Exif.Panasonic.0x002f                        Short       1  1
-20050218_212016.jpg   Exif.Panasonic.0x0030                        Short       1  1
+20050218_212016.jpg   Exif.Panasonic.Rotation                      Short       1  Horizontal (normal)
 20050218_212016.jpg   Exif.Panasonic.0x0031                        Short       1  2
-20050218_212016.jpg   Exif.Panasonic.0x0032                        Short       1  0
+20050218_212016.jpg   Exif.Panasonic.ColorMode                     Short       1  Normal
 20050218_212016.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 20050218_212016.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 20050218_212016.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -2177,14 +2177,14 @@ Compare image data and extracted data ------------------------------------
 < 20000506_020544.jpg   Exif.Nikon1.WhiteBalance                     Ascii      13  AUTO        
 < 20000506_020544.jpg   Exif.Nikon1.Sharpening                       Ascii       7  AUTO  
 < 20000506_020544.jpg   Exif.Nikon1.Focus                            Ascii       7  Continuous autofocus
-< 20000506_020544.jpg   Exif.Nikon1.Flash                            Ascii       8         
+< 20000506_020544.jpg   Exif.Nikon1.FlashSetting                     Ascii       8         
 < 20000506_020544.jpg   Exif.Nikon1.0x000a                           Rational    1  8832/1000
 < 20000506_020544.jpg   Exif.Nikon1.ISOSelection                     Ascii       7  AUTO  
 < 20000506_020544.jpg   Exif.Nikon1.ImageAdjustment                  Ascii      14  AUTO         
-< 20000506_020544.jpg   Exif.Nikon1.Adapter                          Ascii      13  OFF         
+< 20000506_020544.jpg   Exif.Nikon1.AuxiliaryLens                    Ascii      13  OFF         
 < 20000506_020544.jpg   Exif.Nikon1.FocusDistance                    Rational    1  Unknown
 < 20000506_020544.jpg   Exif.Nikon1.DigitalZoom                      Rational    1  1.0x
-< 20000506_020544.jpg   Exif.Nikon1.AFFocusPos                       Undefined   4  0; Left
+< 20000506_020544.jpg   Exif.Nikon1.AFFocusPos                       Undefined   4  Single area; Left
 < 20000506_020544.jpg   Exif.Nikon1.DataDump                         Undefined 174  1 45 0 128 1 76 0 0 0 0 255 1 0 0 0 0 2 74 42 160 0 0 0 0 2 183 0 0 31 8 0 0 21 202 0 0 33 124 0 0 33 124 0 0 31 6 13 132 0 74 0 0 0 0 9 181 9 74 8 109 7 54 208 1 11 122 0 0 0 0 45 33 21 0 0 0 32 0 0 0 0 0 0 0 0 0 68 27 0 0 74 3 23 207 9 30 59 31 0 71 0 0 19 21 18 18 21 24 0 0 100 0 25 76 0 0 0 1 255 240 101 68 0 0 0 2 0 0 0 0 15 3 194 141 1 13 18 34 0 0 81 90 0 246 1 43 48 32 18 7 40 16 78 72 11 122 0 0 117 252 235 98 11 16 6 6 0 100 0 216 18 52 67 33 
 < 20000506_020544.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20000506_020544.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
@@ -2252,29 +2252,29 @@ Compare image data and extracted data ------------------------------------
 < 20040329_224245.jpg   Exif.Nikon3.Quality                          Ascii       8  FINE   
 < 20040329_224245.jpg   Exif.Nikon3.WhiteBalance                     Ascii      13  AUTO        
 < 20040329_224245.jpg   Exif.Nikon3.Sharpening                       Ascii       7  AUTO  
-< 20040329_224245.jpg   Exif.Nikon3.Focus                            Ascii       7  AF-S  
+< 20040329_224245.jpg   Exif.Nikon3.Focus                            Ascii       7  Single autofocus
 < 20040329_224245.jpg   Exif.Nikon3.FlashSetting                     Ascii      13  NORMAL      
-< 20040329_224245.jpg   Exif.Nikon3.FlashMode                        Ascii      13              
+< 20040329_224245.jpg   Exif.Nikon3.FlashDevice                      Ascii      13              
 < 20040329_224245.jpg   Exif.Nikon3.WhiteBalanceBias                 SShort      1  0
-< 20040329_224245.jpg   Exif.Nikon3.0x000d                           Undefined   4  0 1 6 0 
+< 20040329_224245.jpg   Exif.Nikon3.ProgramShift                     Undefined   4  0 1 6 0 
 < 20040329_224245.jpg   Exif.Nikon3.ExposureDiff                     Undefined   4  0 1 12 0 
-< 20040329_224245.jpg   Exif.Nikon3.ThumbOffset                      Long        1  1430
+< 20040329_224245.jpg   Exif.Nikon3.Preview                          Long        1  1430
 < 20040329_224245.jpg   Exif.Nikon3.FlashComp                        Undefined   4  0.0 EV
-< 20040329_224245.jpg   Exif.Nikon3.ISOSetting                       Short       2  200
-< 20040329_224245.jpg   Exif.Nikon3.ImageBoundry                     Short       4  0 0 3008 2000
+< 20040329_224245.jpg   Exif.Nikon3.ISOSettings                      Short       2  200
+< 20040329_224245.jpg   Exif.Nikon3.ImageBoundary                    Short       4  0 0 3008 2000
 < 20040329_224245.jpg   Exif.Nikon3.0x0017                           Undefined   4  0 1 6 0 
 < 20040329_224245.jpg   Exif.Nikon3.FlashBracketComp                 Undefined   4  0.0 EV
 < 20040329_224245.jpg   Exif.Nikon3.ExposureBracketComp              SRational   1  0/1
 < 20040329_224245.jpg   Exif.Nikon3.ToneComp                         Ascii       9  AUTO    
-< 20040329_224245.jpg   Exif.Nikon3.LensType                         Byte        1  6 
+< 20040329_224245.jpg   Exif.Nikon3.LensType                         Byte        1  D G 
 < 20040329_224245.jpg   Exif.Nikon3.Lens                             Rational    4  18-70mm F3.5-4.5
-< 20040329_224245.jpg   Exif.Nikon3.FlashType                        Byte        1  Not used
+< 20040329_224245.jpg   Exif.Nikon3.FlashMode                        Byte        1  Did not fire
 < 20040329_224245.jpg   Exif.Nikon3.AFFocusPos                       Undefined   4  Single area; Center used
-< 20040329_224245.jpg   Exif.Nikon3.Bracketing                       Short       1  Single
-< 20040329_224245.jpg   Exif.Nikon3.0x008a                           Short       1  0
+< 20040329_224245.jpg   Exif.Nikon3.ShootingMode                     Short       1  (0)
+< 20040329_224245.jpg   Exif.Nikon3.AutoBracketRelease               Short       1  None
 < 20040329_224245.jpg   Exif.Nikon3.LensFStops                       Undefined   4  5.33333
 < 20040329_224245.jpg   Exif.Nikon3.ColorMode                        Ascii       9  MODE1a  
-< 20040329_224245.jpg   Exif.Nikon3.LightingType                     Ascii      12  NATURAL    
+< 20040329_224245.jpg   Exif.Nikon3.LightSource                      Ascii      12  NATURAL    
 < 20040329_224245.jpg   Exif.Nikon3.0x0091                           Undefined 465  48 49 48 51 0 0 0 124 0 0 5 13 113 0 0 0 0 1 0 0 11 0 0 0 0 0 20 0 0 31 0 0 0 0 0 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 32 0 0 31 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 0 0 0 0 0 0 0 45 0 0 0 0 0 1 0 0 0 0 89 1 2 205 51 206 179 54 56 53 54 48 51 0 218 0 214 0 167 0 171 0 50 0 51 0 5 0 0 0 0 0 0 0 0 0 1 0 5 0 0 3 194 0 0 0 100 30 161 200 95 222 59 231 63 201 147 36 178 108 51 110 51 142 15 205 20 205 255 24 187 172 35 200 39 84 41 220 51 68 39 136 59 158 49 239 176 221 55 206 242 77 6 206 51 212 169 76 179 220 17 174 50 140 159 228 51 220 49 78 186 201 119 196 225 223 50 196 178 204 146 204 17 54 56 53 54 48 49 0 101 0 161 0 172 172 169 163 163 168 169 169 168 168 170 171 164 152 149 5 249 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 38 72 0 8 1 78 226 1 0 72 49 38 48 0 0 0 3 7 252 11 226 0 4 169 1 72 0 128 16 0 0 3 151 96 196 12 145 80 60 0 0 4 190 3 111 0 0 9 186 0 0 4 197 0 0 4 190 3 111 0 0 0 0 3 0 0 0 0 200 0 60 52 62 143 63 0 0 4 176 0 0 4 162 0 0 4 177 0 0 4 126 255 127 255 127 255 127 255 127 8 128 3 111 3 28 2 157 18 17 1 0 0 0 0 72 240 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 64 0 0 0 0 64 
 < 20040329_224245.jpg   Exif.Nikon3.HueAdjustment                    SShort      1  0
 < 20040329_224245.jpg   Exif.Nikon3.NoiseReduction                   Ascii       5  OFF 
@@ -2282,7 +2282,7 @@ Compare image data and extracted data ------------------------------------
 < 20040329_224245.jpg   Exif.Nikon3.LensData                         Undefined  31  Nikon AF-S DX Zoom-Nikkor 18-70mm f/3.5-4.5G IF-ED
 < 20040329_224245.jpg   Exif.Nikon3.SensorPixelSize                  Rational    2  78/10 78/10
 < 20040329_224245.jpg   Exif.Nikon3.SerialNumber                     Ascii      21  NO= 100005e5        
-< 20040329_224245.jpg   Exif.Nikon3.0x00a2                           Long        1  2929656
+< 20040329_224245.jpg   Exif.Nikon3.ImageDataSize                    Long        1  2929656
 < 20040329_224245.jpg   Exif.Nikon3.0x00a3                           Byte        1  0 
 < 20040329_224245.jpg   Exif.Nikon3.ShutterCount                     Long        1  1193
 < 20040329_224245.jpg   Exif.Nikon3.0x00a8                           Undefined  20  48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
@@ -2342,7 +2342,7 @@ Compare image data and extracted data ------------------------------------
 < 20010405_235039.jpg   Exif.Nikon2.Focus                            Rational    1  0/0
 < 20010405_235039.jpg   Exif.Nikon2.0x0009                           Ascii      20  
 < 20010405_235039.jpg   Exif.Nikon2.DigitalZoom                      Rational    1  Not used
-< 20010405_235039.jpg   Exif.Nikon2.Adapter                          Short       1  0
+< 20010405_235039.jpg   Exif.Nikon2.AuxiliaryLens                    Short       1  0
 < 20010405_235039.jpg   Exif.Nikon2.0x0f00                           Long       30  0 0 16777216 0 2685774096 0 34833 6931 16178 4372 4372 3322676767 3373084416 15112 0 0 1151495 252903424 17 0 0 844038208 55184128 218129428 1476410198 370540566 4044363286 16711749 204629079 1729
 < 20010405_235039.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20010405_235039.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
@@ -2616,17 +2616,17 @@ Compare image data and extracted data ------------------------------------
 < 20030926_111535.jpg   Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
 < 20030926_111535.jpg   Exif.Fujifilm.Sharpness                      Short       1  Normal
 < 20030926_111535.jpg   Exif.Fujifilm.WhiteBalance                   Short       1  Daylight
-< 20030926_111535.jpg   Exif.Fujifilm.Color                          Short       1  Standard
-< 20030926_111535.jpg   Exif.Fujifilm.Tone                           Short       1  Standard
+< 20030926_111535.jpg   Exif.Fujifilm.Color                          Short       1  Normal
+< 20030926_111535.jpg   Exif.Fujifilm.Tone                           Short       1  Normal
 < 20030926_111535.jpg   Exif.Fujifilm.FlashMode                      Short       1  On
 < 20030926_111535.jpg   Exif.Fujifilm.FlashStrength                  SRational   1  10/10
 < 20030926_111535.jpg   Exif.Fujifilm.FocusMode                      Short       1  Auto
 < 20030926_111535.jpg   Exif.Fujifilm.0x1022                         Short       1  1
 < 20030926_111535.jpg   Exif.Fujifilm.SlowSync                       Short       1  Off
-< 20030926_111535.jpg   Exif.Fujifilm.PictureMode                    Short       1  Aperture priority
+< 20030926_111535.jpg   Exif.Fujifilm.PictureMode                    Short       1  Aperture-priority AE
 < 20030926_111535.jpg   Exif.Fujifilm.0x1032                         Short       1  1
 < 20030926_111535.jpg   Exif.Fujifilm.Continuous                     Short       1  Off
-< 20030926_111535.jpg   Exif.Fujifilm.0x1101                         Short       1  0
+< 20030926_111535.jpg   Exif.Fujifilm.SequenceNumber                 Short       1  0
 < 20030926_111535.jpg   Exif.Fujifilm.0x1200                         Short       1  0
 < 20030926_111535.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20030926_111535.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
@@ -2752,10 +2752,10 @@ Compare image data and extracted data ------------------------------------
 < 20040208_093744.jpg   Exif.Olympus.SpecialMode                     Long        3  Normal
 < 20040208_093744.jpg   Exif.Olympus.Quality                         Short       1  (7)
 < 20040208_093744.jpg   Exif.Olympus.Macro                           Short       1  Off
-< 20040208_093744.jpg   Exif.Olympus.BWMode                          Short       1  0
+< 20040208_093744.jpg   Exif.Olympus.BWMode                          Short       1  Off
 < 20040208_093744.jpg   Exif.Olympus.DigitalZoom                     Rational    1  1.7x
 < 20040208_093744.jpg   Exif.Olympus.FocalPlaneDiagonal              Rational    1  904/100
-< 20040208_093744.jpg   Exif.Olympus.0x0206                          SShort      6  -39 -408 -1 93 103 286
+< 20040208_093744.jpg   Exif.Olympus.LensDistortionParams            SShort      6  -39 -408 -1 93 103 286
 < 20040208_093744.jpg   Exif.Olympus.FirmwareVersion                 Ascii       8  SX757
 < 20040208_093744.jpg   Exif.Olympus.PictureInfo                     Ascii      52  [pictureInfo] Resolution=2 [Camera Info] Type=SX757
 < 20040208_093744.jpg   Exif.Olympus.CameraID                        Undefined  32  79 76 89 77 80 85 83 32 68 73 71 73 84 65 76 32 67 65 77 69 82 65 0 255 255 255 255 255 255 255 255 255 
@@ -2764,7 +2764,7 @@ Compare image data and extracted data ------------------------------------
 < 20040208_093744.jpg   Exif.Olympus.OneTouchWB                      Short       1  On
 < 20040208_093744.jpg   Exif.Olympus.0x0303                          Short       1  0
 < 20040208_093744.jpg   Exif.Olympus.0x0304                          Short       1  0
-< 20040208_093744.jpg   Exif.Olympus.DataDump                        Undefined 494  1 75 2 3 2 93 0 0 0 0 255 0 0 0 25 97 18 49 0 0 5 236 0 0 57 36 0 0 1 155 0 0 10 47 0 0 22 242 0 0 5 192 0 0 24 68 0 100 0 166 0 50 0 36 0 0 0 0 0 0 0 0 0 0 54 21 0 0 0 0 53 61 22 4 0 0 0 0 0 0 0 0 0 0 0 0 16 32 0 0 57 0 14 86 0 0 0 0 0 0 0 0 0 0 0 0 0 100 3 158 0 0 0 0 255 253 255 249 255 245 255 236 255 237 255 232 255 230 0 0 34 34 34 34 17 17 17 17 1 86 3 150 3 243 1 33 2 0 1 76 2 116 2 3 1 2 96 90 0 2 3 52 0 25 0 10 0 25 0 10 0 5 0 10 0 1 0 0 0 0 0 16 0 0 0 16 0 1 1 0 0 166 1 79 1 246 2 159 3 70 1 2 1 75 2 3 2 93 0 0 21 54 21 231 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 136 136 1 0 3 254 0 59 0 0 0 0 0 0 2 226 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 6 121 6 129 6 124 6 156 208 0 3 254 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 12 57 12 88 12 103 12 177 12 88 12 6 11 190 11 10 34 68 34 128 34 238 35 119 34 83 33 125 32 132 30 98 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 119 119 119 119 33 33 33 33 33 33 19 30 17 25 41 80 32 0 224 0 0 0 0 0 0 0 0 0 128 0 20 70 12 0 0 0 34 33 0 0 34 34 33 33 2 34 1 115 1 70 2 120 0 0 0 43 0 40 0 30 1 76 2 116 34 33 34 34 0 77 0 1 0 128 0 0 0 20 0 0 
+< 20040208_093744.jpg   Exif.Olympus.DataDump1                       Undefined 494  1 75 2 3 2 93 0 0 0 0 255 0 0 0 25 97 18 49 0 0 5 236 0 0 57 36 0 0 1 155 0 0 10 47 0 0 22 242 0 0 5 192 0 0 24 68 0 100 0 166 0 50 0 36 0 0 0 0 0 0 0 0 0 0 54 21 0 0 0 0 53 61 22 4 0 0 0 0 0 0 0 0 0 0 0 0 16 32 0 0 57 0 14 86 0 0 0 0 0 0 0 0 0 0 0 0 0 100 3 158 0 0 0 0 255 253 255 249 255 245 255 236 255 237 255 232 255 230 0 0 34 34 34 34 17 17 17 17 1 86 3 150 3 243 1 33 2 0 1 76 2 116 2 3 1 2 96 90 0 2 3 52 0 25 0 10 0 25 0 10 0 5 0 10 0 1 0 0 0 0 0 16 0 0 0 16 0 1 1 0 0 166 1 79 1 246 2 159 3 70 1 2 1 75 2 3 2 93 0 0 21 54 21 231 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 136 136 1 0 3 254 0 59 0 0 0 0 0 0 2 226 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 6 121 6 129 6 124 6 156 208 0 3 254 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 12 57 12 88 12 103 12 177 12 88 12 6 11 190 11 10 34 68 34 128 34 238 35 119 34 83 33 125 32 132 30 98 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 119 119 119 119 33 33 33 33 33 33 19 30 17 25 41 80 32 0 224 0 0 0 0 0 0 0 0 0 128 0 20 70 12 0 0 0 34 33 0 0 34 34 33 33 2 34 1 115 1 70 2 120 0 0 0 43 0 40 0 30 1 76 2 116 34 33 34 34 0 77 0 1 0 128 0 0 0 20 0 0 
 < 20040208_093744.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20040208_093744.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 < 20040208_093744.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -2836,15 +2836,15 @@ Compare image data and extracted data ------------------------------------
 < 20050218_212016.jpg   Exif.Panasonic.0x0027                        Short       1  0
 < 20050218_212016.jpg   Exif.Panasonic.ColorEffect                   Short       1  Off
 < 20050218_212016.jpg   Exif.Panasonic.0x0029                        Long        1  1450
-< 20050218_212016.jpg   Exif.Panasonic.0x002a                        Short       1  0
-< 20050218_212016.jpg   Exif.Panasonic.0x002b                        Long        1  0
-< 20050218_212016.jpg   Exif.Panasonic.Contrast                      Short       1  Standard
+< 20050218_212016.jpg   Exif.Panasonic.BurstMode                     Short       1  Off
+< 20050218_212016.jpg   Exif.Panasonic.SequenceNumber                Long        1  0
+< 20050218_212016.jpg   Exif.Panasonic.Contrast                      Short       1  Normal
 < 20050218_212016.jpg   Exif.Panasonic.NoiseReduction                Short       1  Standard
-< 20050218_212016.jpg   Exif.Panasonic.0x002e                        Short       1  1
+< 20050218_212016.jpg   Exif.Panasonic.SelfTimer                     Short       1  Off
 < 20050218_212016.jpg   Exif.Panasonic.0x002f                        Short       1  1
-< 20050218_212016.jpg   Exif.Panasonic.0x0030                        Short       1  1
+< 20050218_212016.jpg   Exif.Panasonic.Rotation                      Short       1  Horizontal (normal)
 < 20050218_212016.jpg   Exif.Panasonic.0x0031                        Short       1  2
-< 20050218_212016.jpg   Exif.Panasonic.0x0032                        Short       1  0
+< 20050218_212016.jpg   Exif.Panasonic.ColorMode                     Short       1  Normal
 < 20050218_212016.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20050218_212016.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 < 20050218_212016.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -3566,14 +3566,14 @@ Compare image data and extracted data ------------------------------------
 > 20000506_020544.exv   Exif.Nikon1.WhiteBalance                     Ascii      13  AUTO        
 > 20000506_020544.exv   Exif.Nikon1.Sharpening                       Ascii       7  AUTO  
 > 20000506_020544.exv   Exif.Nikon1.Focus                            Ascii       7  Continuous autofocus
-> 20000506_020544.exv   Exif.Nikon1.Flash                            Ascii       8         
+> 20000506_020544.exv   Exif.Nikon1.FlashSetting                     Ascii       8         
 > 20000506_020544.exv   Exif.Nikon1.0x000a                           Rational    1  8832/1000
 > 20000506_020544.exv   Exif.Nikon1.ISOSelection                     Ascii       7  AUTO  
 > 20000506_020544.exv   Exif.Nikon1.ImageAdjustment                  Ascii      14  AUTO         
-> 20000506_020544.exv   Exif.Nikon1.Adapter                          Ascii      13  OFF         
+> 20000506_020544.exv   Exif.Nikon1.AuxiliaryLens                    Ascii      13  OFF         
 > 20000506_020544.exv   Exif.Nikon1.FocusDistance                    Rational    1  Unknown
 > 20000506_020544.exv   Exif.Nikon1.DigitalZoom                      Rational    1  1.0x
-> 20000506_020544.exv   Exif.Nikon1.AFFocusPos                       Undefined   4  0; Left
+> 20000506_020544.exv   Exif.Nikon1.AFFocusPos                       Undefined   4  Single area; Left
 > 20000506_020544.exv   Exif.Nikon1.DataDump                         Undefined 174  1 45 0 128 1 76 0 0 0 0 255 1 0 0 0 0 2 74 42 160 0 0 0 0 2 183 0 0 31 8 0 0 21 202 0 0 33 124 0 0 33 124 0 0 31 6 13 132 0 74 0 0 0 0 9 181 9 74 8 109 7 54 208 1 11 122 0 0 0 0 45 33 21 0 0 0 32 0 0 0 0 0 0 0 0 0 68 27 0 0 74 3 23 207 9 30 59 31 0 71 0 0 19 21 18 18 21 24 0 0 100 0 25 76 0 0 0 1 255 240 101 68 0 0 0 2 0 0 0 0 15 3 194 141 1 13 18 34 0 0 81 90 0 246 1 43 48 32 18 7 40 16 78 72 11 122 0 0 117 252 235 98 11 16 6 6 0 100 0 216 18 52 67 33 
 > 20000506_020544.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20000506_020544.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
@@ -3641,29 +3641,29 @@ Compare image data and extracted data ------------------------------------
 > 20040329_224245.exv   Exif.Nikon3.Quality                          Ascii       8  FINE   
 > 20040329_224245.exv   Exif.Nikon3.WhiteBalance                     Ascii      13  AUTO        
 > 20040329_224245.exv   Exif.Nikon3.Sharpening                       Ascii       7  AUTO  
-> 20040329_224245.exv   Exif.Nikon3.Focus                            Ascii       7  AF-S  
+> 20040329_224245.exv   Exif.Nikon3.Focus                            Ascii       7  Single autofocus
 > 20040329_224245.exv   Exif.Nikon3.FlashSetting                     Ascii      13  NORMAL      
-> 20040329_224245.exv   Exif.Nikon3.FlashMode                        Ascii      13              
+> 20040329_224245.exv   Exif.Nikon3.FlashDevice                      Ascii      13              
 > 20040329_224245.exv   Exif.Nikon3.WhiteBalanceBias                 SShort      1  0
-> 20040329_224245.exv   Exif.Nikon3.0x000d                           Undefined   4  0 1 6 0 
+> 20040329_224245.exv   Exif.Nikon3.ProgramShift                     Undefined   4  0 1 6 0 
 > 20040329_224245.exv   Exif.Nikon3.ExposureDiff                     Undefined   4  0 1 12 0 
-> 20040329_224245.exv   Exif.Nikon3.ThumbOffset                      Long        1  1430
+> 20040329_224245.exv   Exif.Nikon3.Preview                          Long        1  1430
 > 20040329_224245.exv   Exif.Nikon3.FlashComp                        Undefined   4  0.0 EV
-> 20040329_224245.exv   Exif.Nikon3.ISOSetting                       Short       2  200
-> 20040329_224245.exv   Exif.Nikon3.ImageBoundry                     Short       4  0 0 3008 2000
+> 20040329_224245.exv   Exif.Nikon3.ISOSettings                      Short       2  200
+> 20040329_224245.exv   Exif.Nikon3.ImageBoundary                    Short       4  0 0 3008 2000
 > 20040329_224245.exv   Exif.Nikon3.0x0017                           Undefined   4  0 1 6 0 
 > 20040329_224245.exv   Exif.Nikon3.FlashBracketComp                 Undefined   4  0.0 EV
 > 20040329_224245.exv   Exif.Nikon3.ExposureBracketComp              SRational   1  0/1
 > 20040329_224245.exv   Exif.Nikon3.ToneComp                         Ascii       9  AUTO    
-> 20040329_224245.exv   Exif.Nikon3.LensType                         Byte        1  6 
+> 20040329_224245.exv   Exif.Nikon3.LensType                         Byte        1  D G 
 > 20040329_224245.exv   Exif.Nikon3.Lens                             Rational    4  18-70mm F3.5-4.5
-> 20040329_224245.exv   Exif.Nikon3.FlashType                        Byte        1  Not used
+> 20040329_224245.exv   Exif.Nikon3.FlashMode                        Byte        1  Did not fire
 > 20040329_224245.exv   Exif.Nikon3.AFFocusPos                       Undefined   4  Single area; Center used
-> 20040329_224245.exv   Exif.Nikon3.Bracketing                       Short       1  Single
-> 20040329_224245.exv   Exif.Nikon3.0x008a                           Short       1  0
+> 20040329_224245.exv   Exif.Nikon3.ShootingMode                     Short       1  (0)
+> 20040329_224245.exv   Exif.Nikon3.AutoBracketRelease               Short       1  None
 > 20040329_224245.exv   Exif.Nikon3.LensFStops                       Undefined   4  5.33333
 > 20040329_224245.exv   Exif.Nikon3.ColorMode                        Ascii       9  MODE1a  
-> 20040329_224245.exv   Exif.Nikon3.LightingType                     Ascii      12  NATURAL    
+> 20040329_224245.exv   Exif.Nikon3.LightSource                      Ascii      12  NATURAL    
 > 20040329_224245.exv   Exif.Nikon3.0x0091                           Undefined 465  48 49 48 51 0 0 0 124 0 0 5 13 113 0 0 0 0 1 0 0 11 0 0 0 0 0 20 0 0 31 0 0 0 0 0 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 32 0 0 31 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 0 0 0 0 0 0 0 45 0 0 0 0 0 1 0 0 0 0 89 1 2 205 51 206 179 54 56 53 54 48 51 0 218 0 214 0 167 0 171 0 50 0 51 0 5 0 0 0 0 0 0 0 0 0 1 0 5 0 0 3 194 0 0 0 100 30 161 200 95 222 59 231 63 201 147 36 178 108 51 110 51 142 15 205 20 205 255 24 187 172 35 200 39 84 41 220 51 68 39 136 59 158 49 239 176 221 55 206 242 77 6 206 51 212 169 76 179 220 17 174 50 140 159 228 51 220 49 78 186 201 119 196 225 223 50 196 178 204 146 204 17 54 56 53 54 48 49 0 101 0 161 0 172 172 169 163 163 168 169 169 168 168 170 171 164 152 149 5 249 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 38 72 0 8 1 78 226 1 0 72 49 38 48 0 0 0 3 7 252 11 226 0 4 169 1 72 0 128 16 0 0 3 151 96 196 12 145 80 60 0 0 4 190 3 111 0 0 9 186 0 0 4 197 0 0 4 190 3 111 0 0 0 0 3 0 0 0 0 200 0 60 52 62 143 63 0 0 4 176 0 0 4 162 0 0 4 177 0 0 4 126 255 127 255 127 255 127 255 127 8 128 3 111 3 28 2 157 18 17 1 0 0 0 0 72 240 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 64 0 0 0 0 64 
 > 20040329_224245.exv   Exif.Nikon3.HueAdjustment                    SShort      1  0
 > 20040329_224245.exv   Exif.Nikon3.NoiseReduction                   Ascii       5  OFF 
@@ -3671,7 +3671,7 @@ Compare image data and extracted data ------------------------------------
 > 20040329_224245.exv   Exif.Nikon3.LensData                         Undefined  31  Nikon AF-S DX Zoom-Nikkor 18-70mm f/3.5-4.5G IF-ED
 > 20040329_224245.exv   Exif.Nikon3.SensorPixelSize                  Rational    2  78/10 78/10
 > 20040329_224245.exv   Exif.Nikon3.SerialNumber                     Ascii      21  NO= 100005e5        
-> 20040329_224245.exv   Exif.Nikon3.0x00a2                           Long        1  2929656
+> 20040329_224245.exv   Exif.Nikon3.ImageDataSize                    Long        1  2929656
 > 20040329_224245.exv   Exif.Nikon3.0x00a3                           Byte        1  0 
 > 20040329_224245.exv   Exif.Nikon3.ShutterCount                     Long        1  1193
 > 20040329_224245.exv   Exif.Nikon3.0x00a8                           Undefined  20  48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
@@ -3731,7 +3731,7 @@ Compare image data and extracted data ------------------------------------
 > 20010405_235039.exv   Exif.Nikon2.Focus                            Rational    1  0/0
 > 20010405_235039.exv   Exif.Nikon2.0x0009                           Ascii      20  
 > 20010405_235039.exv   Exif.Nikon2.DigitalZoom                      Rational    1  Not used
-> 20010405_235039.exv   Exif.Nikon2.Adapter                          Short       1  0
+> 20010405_235039.exv   Exif.Nikon2.AuxiliaryLens                    Short       1  0
 > 20010405_235039.exv   Exif.Nikon2.0x0f00                           Long       30  0 0 16777216 0 2685774096 0 34833 6931 16178 4372 4372 3322676767 3373084416 15112 0 0 1151495 252903424 17 0 0 844038208 55184128 218129428 1476410198 370540566 4044363286 16711749 204629079 1729
 > 20010405_235039.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20010405_235039.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
@@ -4005,17 +4005,17 @@ Compare image data and extracted data ------------------------------------
 > 20030926_111535.exv   Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
 > 20030926_111535.exv   Exif.Fujifilm.Sharpness                      Short       1  Normal
 > 20030926_111535.exv   Exif.Fujifilm.WhiteBalance                   Short       1  Daylight
-> 20030926_111535.exv   Exif.Fujifilm.Color                          Short       1  Standard
-> 20030926_111535.exv   Exif.Fujifilm.Tone                           Short       1  Standard
+> 20030926_111535.exv   Exif.Fujifilm.Color                          Short       1  Normal
+> 20030926_111535.exv   Exif.Fujifilm.Tone                           Short       1  Normal
 > 20030926_111535.exv   Exif.Fujifilm.FlashMode                      Short       1  On
 > 20030926_111535.exv   Exif.Fujifilm.FlashStrength                  SRational   1  10/10
 > 20030926_111535.exv   Exif.Fujifilm.FocusMode                      Short       1  Auto
 > 20030926_111535.exv   Exif.Fujifilm.0x1022                         Short       1  1
 > 20030926_111535.exv   Exif.Fujifilm.SlowSync                       Short       1  Off
-> 20030926_111535.exv   Exif.Fujifilm.PictureMode                    Short       1  Aperture priority
+> 20030926_111535.exv   Exif.Fujifilm.PictureMode                    Short       1  Aperture-priority AE
 > 20030926_111535.exv   Exif.Fujifilm.0x1032                         Short       1  1
 > 20030926_111535.exv   Exif.Fujifilm.Continuous                     Short       1  Off
-> 20030926_111535.exv   Exif.Fujifilm.0x1101                         Short       1  0
+> 20030926_111535.exv   Exif.Fujifilm.SequenceNumber                 Short       1  0
 > 20030926_111535.exv   Exif.Fujifilm.0x1200                         Short       1  0
 > 20030926_111535.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20030926_111535.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
@@ -4141,10 +4141,10 @@ Compare image data and extracted data ------------------------------------
 > 20040208_093744.exv   Exif.Olympus.SpecialMode                     Long        3  Normal
 > 20040208_093744.exv   Exif.Olympus.Quality                         Short       1  (7)
 > 20040208_093744.exv   Exif.Olympus.Macro                           Short       1  Off
-> 20040208_093744.exv   Exif.Olympus.BWMode                          Short       1  0
+> 20040208_093744.exv   Exif.Olympus.BWMode                          Short       1  Off
 > 20040208_093744.exv   Exif.Olympus.DigitalZoom                     Rational    1  1.7x
 > 20040208_093744.exv   Exif.Olympus.FocalPlaneDiagonal              Rational    1  904/100
-> 20040208_093744.exv   Exif.Olympus.0x0206                          SShort      6  -39 -408 -1 93 103 286
+> 20040208_093744.exv   Exif.Olympus.LensDistortionParams            SShort      6  -39 -408 -1 93 103 286
 > 20040208_093744.exv   Exif.Olympus.FirmwareVersion                 Ascii       8  SX757
 > 20040208_093744.exv   Exif.Olympus.PictureInfo                     Ascii      52  [pictureInfo] Resolution=2 [Camera Info] Type=SX757
 > 20040208_093744.exv   Exif.Olympus.CameraID                        Undefined  32  79 76 89 77 80 85 83 32 68 73 71 73 84 65 76 32 67 65 77 69 82 65 0 255 255 255 255 255 255 255 255 255 
@@ -4153,7 +4153,7 @@ Compare image data and extracted data ------------------------------------
 > 20040208_093744.exv   Exif.Olympus.OneTouchWB                      Short       1  On
 > 20040208_093744.exv   Exif.Olympus.0x0303                          Short       1  0
 > 20040208_093744.exv   Exif.Olympus.0x0304                          Short       1  0
-> 20040208_093744.exv   Exif.Olympus.DataDump                        Undefined 494  1 75 2 3 2 93 0 0 0 0 255 0 0 0 25 97 18 49 0 0 5 236 0 0 57 36 0 0 1 155 0 0 10 47 0 0 22 242 0 0 5 192 0 0 24 68 0 100 0 166 0 50 0 36 0 0 0 0 0 0 0 0 0 0 54 21 0 0 0 0 53 61 22 4 0 0 0 0 0 0 0 0 0 0 0 0 16 32 0 0 57 0 14 86 0 0 0 0 0 0 0 0 0 0 0 0 0 100 3 158 0 0 0 0 255 253 255 249 255 245 255 236 255 237 255 232 255 230 0 0 34 34 34 34 17 17 17 17 1 86 3 150 3 243 1 33 2 0 1 76 2 116 2 3 1 2 96 90 0 2 3 52 0 25 0 10 0 25 0 10 0 5 0 10 0 1 0 0 0 0 0 16 0 0 0 16 0 1 1 0 0 166 1 79 1 246 2 159 3 70 1 2 1 75 2 3 2 93 0 0 21 54 21 231 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 136 136 1 0 3 254 0 59 0 0 0 0 0 0 2 226 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 6 121 6 129 6 124 6 156 208 0 3 254 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 12 57 12 88 12 103 12 177 12 88 12 6 11 190 11 10 34 68 34 128 34 238 35 119 34 83 33 125 32 132 30 98 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 119 119 119 119 33 33 33 33 33 33 19 30 17 25 41 80 32 0 224 0 0 0 0 0 0 0 0 0 128 0 20 70 12 0 0 0 34 33 0 0 34 34 33 33 2 34 1 115 1 70 2 120 0 0 0 43 0 40 0 30 1 76 2 116 34 33 34 34 0 77 0 1 0 128 0 0 0 20 0 0 
+> 20040208_093744.exv   Exif.Olympus.DataDump1                       Undefined 494  1 75 2 3 2 93 0 0 0 0 255 0 0 0 25 97 18 49 0 0 5 236 0 0 57 36 0 0 1 155 0 0 10 47 0 0 22 242 0 0 5 192 0 0 24 68 0 100 0 166 0 50 0 36 0 0 0 0 0 0 0 0 0 0 54 21 0 0 0 0 53 61 22 4 0 0 0 0 0 0 0 0 0 0 0 0 16 32 0 0 57 0 14 86 0 0 0 0 0 0 0 0 0 0 0 0 0 100 3 158 0 0 0 0 255 253 255 249 255 245 255 236 255 237 255 232 255 230 0 0 34 34 34 34 17 17 17 17 1 86 3 150 3 243 1 33 2 0 1 76 2 116 2 3 1 2 96 90 0 2 3 52 0 25 0 10 0 25 0 10 0 5 0 10 0 1 0 0 0 0 0 16 0 0 0 16 0 1 1 0 0 166 1 79 1 246 2 159 3 70 1 2 1 75 2 3 2 93 0 0 21 54 21 231 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 136 136 1 0 3 254 0 59 0 0 0 0 0 0 2 226 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 6 121 6 129 6 124 6 156 208 0 3 254 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 12 57 12 88 12 103 12 177 12 88 12 6 11 190 11 10 34 68 34 128 34 238 35 119 34 83 33 125 32 132 30 98 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 119 119 119 119 33 33 33 33 33 33 19 30 17 25 41 80 32 0 224 0 0 0 0 0 0 0 0 0 128 0 20 70 12 0 0 0 34 33 0 0 34 34 33 33 2 34 1 115 1 70 2 120 0 0 0 43 0 40 0 30 1 76 2 116 34 33 34 34 0 77 0 1 0 128 0 0 0 20 0 0 
 > 20040208_093744.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20040208_093744.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 > 20040208_093744.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -4225,15 +4225,15 @@ Compare image data and extracted data ------------------------------------
 > 20050218_212016.exv   Exif.Panasonic.0x0027                        Short       1  0
 > 20050218_212016.exv   Exif.Panasonic.ColorEffect                   Short       1  Off
 > 20050218_212016.exv   Exif.Panasonic.0x0029                        Long        1  1450
-> 20050218_212016.exv   Exif.Panasonic.0x002a                        Short       1  0
-> 20050218_212016.exv   Exif.Panasonic.0x002b                        Long        1  0
-> 20050218_212016.exv   Exif.Panasonic.Contrast                      Short       1  Standard
+> 20050218_212016.exv   Exif.Panasonic.BurstMode                     Short       1  Off
+> 20050218_212016.exv   Exif.Panasonic.SequenceNumber                Long        1  0
+> 20050218_212016.exv   Exif.Panasonic.Contrast                      Short       1  Normal
 > 20050218_212016.exv   Exif.Panasonic.NoiseReduction                Short       1  Standard
-> 20050218_212016.exv   Exif.Panasonic.0x002e                        Short       1  1
+> 20050218_212016.exv   Exif.Panasonic.SelfTimer                     Short       1  Off
 > 20050218_212016.exv   Exif.Panasonic.0x002f                        Short       1  1
-> 20050218_212016.exv   Exif.Panasonic.0x0030                        Short       1  1
+> 20050218_212016.exv   Exif.Panasonic.Rotation                      Short       1  Horizontal (normal)
 > 20050218_212016.exv   Exif.Panasonic.0x0031                        Short       1  2
-> 20050218_212016.exv   Exif.Panasonic.0x0032                        Short       1  0
+> 20050218_212016.exv   Exif.Panasonic.ColorMode                     Short       1  Normal
 > 20050218_212016.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20050218_212016.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 > 20050218_212016.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -5118,14 +5118,14 @@ Compare original and inserted image data ---------------------------------
 < 20000506_020544.jpg   Exif.Nikon1.WhiteBalance                     Ascii      13  AUTO        
 < 20000506_020544.jpg   Exif.Nikon1.Sharpening                       Ascii       7  AUTO  
 < 20000506_020544.jpg   Exif.Nikon1.Focus                            Ascii       7  Continuous autofocus
-< 20000506_020544.jpg   Exif.Nikon1.Flash                            Ascii       8         
+< 20000506_020544.jpg   Exif.Nikon1.FlashSetting                     Ascii       8         
 < 20000506_020544.jpg   Exif.Nikon1.0x000a                           Rational    1  8832/1000
 < 20000506_020544.jpg   Exif.Nikon1.ISOSelection                     Ascii       7  AUTO  
 < 20000506_020544.jpg   Exif.Nikon1.ImageAdjustment                  Ascii      14  AUTO         
-< 20000506_020544.jpg   Exif.Nikon1.Adapter                          Ascii      13  OFF         
+< 20000506_020544.jpg   Exif.Nikon1.AuxiliaryLens                    Ascii      13  OFF         
 < 20000506_020544.jpg   Exif.Nikon1.FocusDistance                    Rational    1  Unknown
 < 20000506_020544.jpg   Exif.Nikon1.DigitalZoom                      Rational    1  1.0x
-< 20000506_020544.jpg   Exif.Nikon1.AFFocusPos                       Undefined   4  0; Left
+< 20000506_020544.jpg   Exif.Nikon1.AFFocusPos                       Undefined   4  Single area; Left
 < 20000506_020544.jpg   Exif.Nikon1.DataDump                         Undefined 174  1 45 0 128 1 76 0 0 0 0 255 1 0 0 0 0 2 74 42 160 0 0 0 0 2 183 0 0 31 8 0 0 21 202 0 0 33 124 0 0 33 124 0 0 31 6 13 132 0 74 0 0 0 0 9 181 9 74 8 109 7 54 208 1 11 122 0 0 0 0 45 33 21 0 0 0 32 0 0 0 0 0 0 0 0 0 68 27 0 0 74 3 23 207 9 30 59 31 0 71 0 0 19 21 18 18 21 24 0 0 100 0 25 76 0 0 0 1 255 240 101 68 0 0 0 2 0 0 0 0 15 3 194 141 1 13 18 34 0 0 81 90 0 246 1 43 48 32 18 7 40 16 78 72 11 122 0 0 117 252 235 98 11 16 6 6 0 100 0 216 18 52 67 33 
 < 20000506_020544.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20000506_020544.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
@@ -5193,29 +5193,29 @@ Compare original and inserted image data ---------------------------------
 < 20040329_224245.jpg   Exif.Nikon3.Quality                          Ascii       8  FINE   
 < 20040329_224245.jpg   Exif.Nikon3.WhiteBalance                     Ascii      13  AUTO        
 < 20040329_224245.jpg   Exif.Nikon3.Sharpening                       Ascii       7  AUTO  
-< 20040329_224245.jpg   Exif.Nikon3.Focus                            Ascii       7  AF-S  
+< 20040329_224245.jpg   Exif.Nikon3.Focus                            Ascii       7  Single autofocus
 < 20040329_224245.jpg   Exif.Nikon3.FlashSetting                     Ascii      13  NORMAL      
-< 20040329_224245.jpg   Exif.Nikon3.FlashMode                        Ascii      13              
+< 20040329_224245.jpg   Exif.Nikon3.FlashDevice                      Ascii      13              
 < 20040329_224245.jpg   Exif.Nikon3.WhiteBalanceBias                 SShort      1  0
-< 20040329_224245.jpg   Exif.Nikon3.0x000d                           Undefined   4  0 1 6 0 
+< 20040329_224245.jpg   Exif.Nikon3.ProgramShift                     Undefined   4  0 1 6 0 
 < 20040329_224245.jpg   Exif.Nikon3.ExposureDiff                     Undefined   4  0 1 12 0 
-< 20040329_224245.jpg   Exif.Nikon3.ThumbOffset                      Long        1  1430
+< 20040329_224245.jpg   Exif.Nikon3.Preview                          Long        1  1430
 < 20040329_224245.jpg   Exif.Nikon3.FlashComp                        Undefined   4  0.0 EV
-< 20040329_224245.jpg   Exif.Nikon3.ISOSetting                       Short       2  200
-< 20040329_224245.jpg   Exif.Nikon3.ImageBoundry                     Short       4  0 0 3008 2000
+< 20040329_224245.jpg   Exif.Nikon3.ISOSettings                      Short       2  200
+< 20040329_224245.jpg   Exif.Nikon3.ImageBoundary                    Short       4  0 0 3008 2000
 < 20040329_224245.jpg   Exif.Nikon3.0x0017                           Undefined   4  0 1 6 0 
 < 20040329_224245.jpg   Exif.Nikon3.FlashBracketComp                 Undefined   4  0.0 EV
 < 20040329_224245.jpg   Exif.Nikon3.ExposureBracketComp              SRational   1  0/1
 < 20040329_224245.jpg   Exif.Nikon3.ToneComp                         Ascii       9  AUTO    
-< 20040329_224245.jpg   Exif.Nikon3.LensType                         Byte        1  6 
+< 20040329_224245.jpg   Exif.Nikon3.LensType                         Byte        1  D G 
 < 20040329_224245.jpg   Exif.Nikon3.Lens                             Rational    4  18-70mm F3.5-4.5
-< 20040329_224245.jpg   Exif.Nikon3.FlashType                        Byte        1  Not used
+< 20040329_224245.jpg   Exif.Nikon3.FlashMode                        Byte        1  Did not fire
 < 20040329_224245.jpg   Exif.Nikon3.AFFocusPos                       Undefined   4  Single area; Center used
-< 20040329_224245.jpg   Exif.Nikon3.Bracketing                       Short       1  Single
-< 20040329_224245.jpg   Exif.Nikon3.0x008a                           Short       1  0
+< 20040329_224245.jpg   Exif.Nikon3.ShootingMode                     Short       1  (0)
+< 20040329_224245.jpg   Exif.Nikon3.AutoBracketRelease               Short       1  None
 < 20040329_224245.jpg   Exif.Nikon3.LensFStops                       Undefined   4  5.33333
 < 20040329_224245.jpg   Exif.Nikon3.ColorMode                        Ascii       9  MODE1a  
-< 20040329_224245.jpg   Exif.Nikon3.LightingType                     Ascii      12  NATURAL    
+< 20040329_224245.jpg   Exif.Nikon3.LightSource                      Ascii      12  NATURAL    
 < 20040329_224245.jpg   Exif.Nikon3.0x0091                           Undefined 465  48 49 48 51 0 0 0 124 0 0 5 13 113 0 0 0 0 1 0 0 11 0 0 0 0 0 20 0 0 31 0 0 0 0 0 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 32 0 0 31 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 0 0 0 0 0 0 0 45 0 0 0 0 0 1 0 0 0 0 89 1 2 205 51 206 179 54 56 53 54 48 51 0 218 0 214 0 167 0 171 0 50 0 51 0 5 0 0 0 0 0 0 0 0 0 1 0 5 0 0 3 194 0 0 0 100 30 161 200 95 222 59 231 63 201 147 36 178 108 51 110 51 142 15 205 20 205 255 24 187 172 35 200 39 84 41 220 51 68 39 136 59 158 49 239 176 221 55 206 242 77 6 206 51 212 169 76 179 220 17 174 50 140 159 228 51 220 49 78 186 201 119 196 225 223 50 196 178 204 146 204 17 54 56 53 54 48 49 0 101 0 161 0 172 172 169 163 163 168 169 169 168 168 170 171 164 152 149 5 249 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 38 72 0 8 1 78 226 1 0 72 49 38 48 0 0 0 3 7 252 11 226 0 4 169 1 72 0 128 16 0 0 3 151 96 196 12 145 80 60 0 0 4 190 3 111 0 0 9 186 0 0 4 197 0 0 4 190 3 111 0 0 0 0 3 0 0 0 0 200 0 60 52 62 143 63 0 0 4 176 0 0 4 162 0 0 4 177 0 0 4 126 255 127 255 127 255 127 255 127 8 128 3 111 3 28 2 157 18 17 1 0 0 0 0 72 240 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 64 0 0 0 0 64 
 < 20040329_224245.jpg   Exif.Nikon3.HueAdjustment                    SShort      1  0
 < 20040329_224245.jpg   Exif.Nikon3.NoiseReduction                   Ascii       5  OFF 
@@ -5223,7 +5223,7 @@ Compare original and inserted image data ---------------------------------
 < 20040329_224245.jpg   Exif.Nikon3.LensData                         Undefined  31  Nikon AF-S DX Zoom-Nikkor 18-70mm f/3.5-4.5G IF-ED
 < 20040329_224245.jpg   Exif.Nikon3.SensorPixelSize                  Rational    2  78/10 78/10
 < 20040329_224245.jpg   Exif.Nikon3.SerialNumber                     Ascii      21  NO= 100005e5        
-< 20040329_224245.jpg   Exif.Nikon3.0x00a2                           Long        1  2929656
+< 20040329_224245.jpg   Exif.Nikon3.ImageDataSize                    Long        1  2929656
 < 20040329_224245.jpg   Exif.Nikon3.0x00a3                           Byte        1  0 
 < 20040329_224245.jpg   Exif.Nikon3.ShutterCount                     Long        1  1193
 < 20040329_224245.jpg   Exif.Nikon3.0x00a8                           Undefined  20  48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
@@ -5283,7 +5283,7 @@ Compare original and inserted image data ---------------------------------
 < 20010405_235039.jpg   Exif.Nikon2.Focus                            Rational    1  0/0
 < 20010405_235039.jpg   Exif.Nikon2.0x0009                           Ascii      20  
 < 20010405_235039.jpg   Exif.Nikon2.DigitalZoom                      Rational    1  Not used
-< 20010405_235039.jpg   Exif.Nikon2.Adapter                          Short       1  0
+< 20010405_235039.jpg   Exif.Nikon2.AuxiliaryLens                    Short       1  0
 < 20010405_235039.jpg   Exif.Nikon2.0x0f00                           Long       30  0 0 16777216 0 2685774096 0 34833 6931 16178 4372 4372 3322676767 3373084416 15112 0 0 1151495 252903424 17 0 0 844038208 55184128 218129428 1476410198 370540566 4044363286 16711749 204629079 1729
 < 20010405_235039.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20010405_235039.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
@@ -5557,17 +5557,17 @@ Compare original and inserted image data ---------------------------------
 < 20030926_111535.jpg   Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
 < 20030926_111535.jpg   Exif.Fujifilm.Sharpness                      Short       1  Normal
 < 20030926_111535.jpg   Exif.Fujifilm.WhiteBalance                   Short       1  Daylight
-< 20030926_111535.jpg   Exif.Fujifilm.Color                          Short       1  Standard
-< 20030926_111535.jpg   Exif.Fujifilm.Tone                           Short       1  Standard
+< 20030926_111535.jpg   Exif.Fujifilm.Color                          Short       1  Normal
+< 20030926_111535.jpg   Exif.Fujifilm.Tone                           Short       1  Normal
 < 20030926_111535.jpg   Exif.Fujifilm.FlashMode                      Short       1  On
 < 20030926_111535.jpg   Exif.Fujifilm.FlashStrength                  SRational   1  10/10
 < 20030926_111535.jpg   Exif.Fujifilm.FocusMode                      Short       1  Auto
 < 20030926_111535.jpg   Exif.Fujifilm.0x1022                         Short       1  1
 < 20030926_111535.jpg   Exif.Fujifilm.SlowSync                       Short       1  Off
-< 20030926_111535.jpg   Exif.Fujifilm.PictureMode                    Short       1  Aperture priority
+< 20030926_111535.jpg   Exif.Fujifilm.PictureMode                    Short       1  Aperture-priority AE
 < 20030926_111535.jpg   Exif.Fujifilm.0x1032                         Short       1  1
 < 20030926_111535.jpg   Exif.Fujifilm.Continuous                     Short       1  Off
-< 20030926_111535.jpg   Exif.Fujifilm.0x1101                         Short       1  0
+< 20030926_111535.jpg   Exif.Fujifilm.SequenceNumber                 Short       1  0
 < 20030926_111535.jpg   Exif.Fujifilm.0x1200                         Short       1  0
 < 20030926_111535.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20030926_111535.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
@@ -5693,10 +5693,10 @@ Compare original and inserted image data ---------------------------------
 < 20040208_093744.jpg   Exif.Olympus.SpecialMode                     Long        3  Normal
 < 20040208_093744.jpg   Exif.Olympus.Quality                         Short       1  (7)
 < 20040208_093744.jpg   Exif.Olympus.Macro                           Short       1  Off
-< 20040208_093744.jpg   Exif.Olympus.BWMode                          Short       1  0
+< 20040208_093744.jpg   Exif.Olympus.BWMode                          Short       1  Off
 < 20040208_093744.jpg   Exif.Olympus.DigitalZoom                     Rational    1  1.7x
 < 20040208_093744.jpg   Exif.Olympus.FocalPlaneDiagonal              Rational    1  904/100
-< 20040208_093744.jpg   Exif.Olympus.0x0206                          SShort      6  -39 -408 -1 93 103 286
+< 20040208_093744.jpg   Exif.Olympus.LensDistortionParams            SShort      6  -39 -408 -1 93 103 286
 < 20040208_093744.jpg   Exif.Olympus.FirmwareVersion                 Ascii       8  SX757
 < 20040208_093744.jpg   Exif.Olympus.PictureInfo                     Ascii      52  [pictureInfo] Resolution=2 [Camera Info] Type=SX757
 < 20040208_093744.jpg   Exif.Olympus.CameraID                        Undefined  32  79 76 89 77 80 85 83 32 68 73 71 73 84 65 76 32 67 65 77 69 82 65 0 255 255 255 255 255 255 255 255 255 
@@ -5705,7 +5705,7 @@ Compare original and inserted image data ---------------------------------
 < 20040208_093744.jpg   Exif.Olympus.OneTouchWB                      Short       1  On
 < 20040208_093744.jpg   Exif.Olympus.0x0303                          Short       1  0
 < 20040208_093744.jpg   Exif.Olympus.0x0304                          Short       1  0
-< 20040208_093744.jpg   Exif.Olympus.DataDump                        Undefined 494  1 75 2 3 2 93 0 0 0 0 255 0 0 0 25 97 18 49 0 0 5 236 0 0 57 36 0 0 1 155 0 0 10 47 0 0 22 242 0 0 5 192 0 0 24 68 0 100 0 166 0 50 0 36 0 0 0 0 0 0 0 0 0 0 54 21 0 0 0 0 53 61 22 4 0 0 0 0 0 0 0 0 0 0 0 0 16 32 0 0 57 0 14 86 0 0 0 0 0 0 0 0 0 0 0 0 0 100 3 158 0 0 0 0 255 253 255 249 255 245 255 236 255 237 255 232 255 230 0 0 34 34 34 34 17 17 17 17 1 86 3 150 3 243 1 33 2 0 1 76 2 116 2 3 1 2 96 90 0 2 3 52 0 25 0 10 0 25 0 10 0 5 0 10 0 1 0 0 0 0 0 16 0 0 0 16 0 1 1 0 0 166 1 79 1 246 2 159 3 70 1 2 1 75 2 3 2 93 0 0 21 54 21 231 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 136 136 1 0 3 254 0 59 0 0 0 0 0 0 2 226 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 6 121 6 129 6 124 6 156 208 0 3 254 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 12 57 12 88 12 103 12 177 12 88 12 6 11 190 11 10 34 68 34 128 34 238 35 119 34 83 33 125 32 132 30 98 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 119 119 119 119 33 33 33 33 33 33 19 30 17 25 41 80 32 0 224 0 0 0 0 0 0 0 0 0 128 0 20 70 12 0 0 0 34 33 0 0 34 34 33 33 2 34 1 115 1 70 2 120 0 0 0 43 0 40 0 30 1 76 2 116 34 33 34 34 0 77 0 1 0 128 0 0 0 20 0 0 
+< 20040208_093744.jpg   Exif.Olympus.DataDump1                       Undefined 494  1 75 2 3 2 93 0 0 0 0 255 0 0 0 25 97 18 49 0 0 5 236 0 0 57 36 0 0 1 155 0 0 10 47 0 0 22 242 0 0 5 192 0 0 24 68 0 100 0 166 0 50 0 36 0 0 0 0 0 0 0 0 0 0 54 21 0 0 0 0 53 61 22 4 0 0 0 0 0 0 0 0 0 0 0 0 16 32 0 0 57 0 14 86 0 0 0 0 0 0 0 0 0 0 0 0 0 100 3 158 0 0 0 0 255 253 255 249 255 245 255 236 255 237 255 232 255 230 0 0 34 34 34 34 17 17 17 17 1 86 3 150 3 243 1 33 2 0 1 76 2 116 2 3 1 2 96 90 0 2 3 52 0 25 0 10 0 25 0 10 0 5 0 10 0 1 0 0 0 0 0 16 0 0 0 16 0 1 1 0 0 166 1 79 1 246 2 159 3 70 1 2 1 75 2 3 2 93 0 0 21 54 21 231 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 136 136 1 0 3 254 0 59 0 0 0 0 0 0 2 226 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 6 121 6 129 6 124 6 156 208 0 3 254 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 12 57 12 88 12 103 12 177 12 88 12 6 11 190 11 10 34 68 34 128 34 238 35 119 34 83 33 125 32 132 30 98 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 119 119 119 119 33 33 33 33 33 33 19 30 17 25 41 80 32 0 224 0 0 0 0 0 0 0 0 0 128 0 20 70 12 0 0 0 34 33 0 0 34 34 33 33 2 34 1 115 1 70 2 120 0 0 0 43 0 40 0 30 1 76 2 116 34 33 34 34 0 77 0 1 0 128 0 0 0 20 0 0 
 < 20040208_093744.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20040208_093744.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 < 20040208_093744.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -5777,15 +5777,15 @@ Compare original and inserted image data ---------------------------------
 < 20050218_212016.jpg   Exif.Panasonic.0x0027                        Short       1  0
 < 20050218_212016.jpg   Exif.Panasonic.ColorEffect                   Short       1  Off
 < 20050218_212016.jpg   Exif.Panasonic.0x0029                        Long        1  1450
-< 20050218_212016.jpg   Exif.Panasonic.0x002a                        Short       1  0
-< 20050218_212016.jpg   Exif.Panasonic.0x002b                        Long        1  0
-< 20050218_212016.jpg   Exif.Panasonic.Contrast                      Short       1  Standard
+< 20050218_212016.jpg   Exif.Panasonic.BurstMode                     Short       1  Off
+< 20050218_212016.jpg   Exif.Panasonic.SequenceNumber                Long        1  0
+< 20050218_212016.jpg   Exif.Panasonic.Contrast                      Short       1  Normal
 < 20050218_212016.jpg   Exif.Panasonic.NoiseReduction                Short       1  Standard
-< 20050218_212016.jpg   Exif.Panasonic.0x002e                        Short       1  1
+< 20050218_212016.jpg   Exif.Panasonic.SelfTimer                     Short       1  Off
 < 20050218_212016.jpg   Exif.Panasonic.0x002f                        Short       1  1
-< 20050218_212016.jpg   Exif.Panasonic.0x0030                        Short       1  1
+< 20050218_212016.jpg   Exif.Panasonic.Rotation                      Short       1  Horizontal (normal)
 < 20050218_212016.jpg   Exif.Panasonic.0x0031                        Short       1  2
-< 20050218_212016.jpg   Exif.Panasonic.0x0032                        Short       1  0
+< 20050218_212016.jpg   Exif.Panasonic.ColorMode                     Short       1  Normal
 < 20050218_212016.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20050218_212016.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 < 20050218_212016.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -6507,14 +6507,14 @@ Compare original and inserted image data ---------------------------------
 > 20000506_020544.exv   Exif.Nikon1.WhiteBalance                     Ascii      13  AUTO        
 > 20000506_020544.exv   Exif.Nikon1.Sharpening                       Ascii       7  AUTO  
 > 20000506_020544.exv   Exif.Nikon1.Focus                            Ascii       7  Continuous autofocus
-> 20000506_020544.exv   Exif.Nikon1.Flash                            Ascii       8         
+> 20000506_020544.exv   Exif.Nikon1.FlashSetting                     Ascii       8         
 > 20000506_020544.exv   Exif.Nikon1.0x000a                           Rational    1  8832/1000
 > 20000506_020544.exv   Exif.Nikon1.ISOSelection                     Ascii       7  AUTO  
 > 20000506_020544.exv   Exif.Nikon1.ImageAdjustment                  Ascii      14  AUTO         
-> 20000506_020544.exv   Exif.Nikon1.Adapter                          Ascii      13  OFF         
+> 20000506_020544.exv   Exif.Nikon1.AuxiliaryLens                    Ascii      13  OFF         
 > 20000506_020544.exv   Exif.Nikon1.FocusDistance                    Rational    1  Unknown
 > 20000506_020544.exv   Exif.Nikon1.DigitalZoom                      Rational    1  1.0x
-> 20000506_020544.exv   Exif.Nikon1.AFFocusPos                       Undefined   4  0; Left
+> 20000506_020544.exv   Exif.Nikon1.AFFocusPos                       Undefined   4  Single area; Left
 > 20000506_020544.exv   Exif.Nikon1.DataDump                         Undefined 174  1 45 0 128 1 76 0 0 0 0 255 1 0 0 0 0 2 74 42 160 0 0 0 0 2 183 0 0 31 8 0 0 21 202 0 0 33 124 0 0 33 124 0 0 31 6 13 132 0 74 0 0 0 0 9 181 9 74 8 109 7 54 208 1 11 122 0 0 0 0 45 33 21 0 0 0 32 0 0 0 0 0 0 0 0 0 68 27 0 0 74 3 23 207 9 30 59 31 0 71 0 0 19 21 18 18 21 24 0 0 100 0 25 76 0 0 0 1 255 240 101 68 0 0 0 2 0 0 0 0 15 3 194 141 1 13 18 34 0 0 81 90 0 246 1 43 48 32 18 7 40 16 78 72 11 122 0 0 117 252 235 98 11 16 6 6 0 100 0 216 18 52 67 33 
 > 20000506_020544.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20000506_020544.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
@@ -6582,29 +6582,29 @@ Compare original and inserted image data ---------------------------------
 > 20040329_224245.exv   Exif.Nikon3.Quality                          Ascii       8  FINE   
 > 20040329_224245.exv   Exif.Nikon3.WhiteBalance                     Ascii      13  AUTO        
 > 20040329_224245.exv   Exif.Nikon3.Sharpening                       Ascii       7  AUTO  
-> 20040329_224245.exv   Exif.Nikon3.Focus                            Ascii       7  AF-S  
+> 20040329_224245.exv   Exif.Nikon3.Focus                            Ascii       7  Single autofocus
 > 20040329_224245.exv   Exif.Nikon3.FlashSetting                     Ascii      13  NORMAL      
-> 20040329_224245.exv   Exif.Nikon3.FlashMode                        Ascii      13              
+> 20040329_224245.exv   Exif.Nikon3.FlashDevice                      Ascii      13              
 > 20040329_224245.exv   Exif.Nikon3.WhiteBalanceBias                 SShort      1  0
-> 20040329_224245.exv   Exif.Nikon3.0x000d                           Undefined   4  0 1 6 0 
+> 20040329_224245.exv   Exif.Nikon3.ProgramShift                     Undefined   4  0 1 6 0 
 > 20040329_224245.exv   Exif.Nikon3.ExposureDiff                     Undefined   4  0 1 12 0 
-> 20040329_224245.exv   Exif.Nikon3.ThumbOffset                      Long        1  1430
+> 20040329_224245.exv   Exif.Nikon3.Preview                          Long        1  1430
 > 20040329_224245.exv   Exif.Nikon3.FlashComp                        Undefined   4  0.0 EV
-> 20040329_224245.exv   Exif.Nikon3.ISOSetting                       Short       2  200
-> 20040329_224245.exv   Exif.Nikon3.ImageBoundry                     Short       4  0 0 3008 2000
+> 20040329_224245.exv   Exif.Nikon3.ISOSettings                      Short       2  200
+> 20040329_224245.exv   Exif.Nikon3.ImageBoundary                    Short       4  0 0 3008 2000
 > 20040329_224245.exv   Exif.Nikon3.0x0017                           Undefined   4  0 1 6 0 
 > 20040329_224245.exv   Exif.Nikon3.FlashBracketComp                 Undefined   4  0.0 EV
 > 20040329_224245.exv   Exif.Nikon3.ExposureBracketComp              SRational   1  0/1
 > 20040329_224245.exv   Exif.Nikon3.ToneComp                         Ascii       9  AUTO    
-> 20040329_224245.exv   Exif.Nikon3.LensType                         Byte        1  6 
+> 20040329_224245.exv   Exif.Nikon3.LensType                         Byte        1  D G 
 > 20040329_224245.exv   Exif.Nikon3.Lens                             Rational    4  18-70mm F3.5-4.5
-> 20040329_224245.exv   Exif.Nikon3.FlashType                        Byte        1  Not used
+> 20040329_224245.exv   Exif.Nikon3.FlashMode                        Byte        1  Did not fire
 > 20040329_224245.exv   Exif.Nikon3.AFFocusPos                       Undefined   4  Single area; Center used
-> 20040329_224245.exv   Exif.Nikon3.Bracketing                       Short       1  Single
-> 20040329_224245.exv   Exif.Nikon3.0x008a                           Short       1  0
+> 20040329_224245.exv   Exif.Nikon3.ShootingMode                     Short       1  (0)
+> 20040329_224245.exv   Exif.Nikon3.AutoBracketRelease               Short       1  None
 > 20040329_224245.exv   Exif.Nikon3.LensFStops                       Undefined   4  5.33333
 > 20040329_224245.exv   Exif.Nikon3.ColorMode                        Ascii       9  MODE1a  
-> 20040329_224245.exv   Exif.Nikon3.LightingType                     Ascii      12  NATURAL    
+> 20040329_224245.exv   Exif.Nikon3.LightSource                      Ascii      12  NATURAL    
 > 20040329_224245.exv   Exif.Nikon3.0x0091                           Undefined 465  48 49 48 51 0 0 0 124 0 0 5 13 113 0 0 0 0 1 0 0 11 0 0 0 0 0 20 0 0 31 0 0 0 0 0 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 32 0 0 31 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 0 0 0 0 0 0 0 45 0 0 0 0 0 1 0 0 0 0 89 1 2 205 51 206 179 54 56 53 54 48 51 0 218 0 214 0 167 0 171 0 50 0 51 0 5 0 0 0 0 0 0 0 0 0 1 0 5 0 0 3 194 0 0 0 100 30 161 200 95 222 59 231 63 201 147 36 178 108 51 110 51 142 15 205 20 205 255 24 187 172 35 200 39 84 41 220 51 68 39 136 59 158 49 239 176 221 55 206 242 77 6 206 51 212 169 76 179 220 17 174 50 140 159 228 51 220 49 78 186 201 119 196 225 223 50 196 178 204 146 204 17 54 56 53 54 48 49 0 101 0 161 0 172 172 169 163 163 168 169 169 168 168 170 171 164 152 149 5 249 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 38 72 0 8 1 78 226 1 0 72 49 38 48 0 0 0 3 7 252 11 226 0 4 169 1 72 0 128 16 0 0 3 151 96 196 12 145 80 60 0 0 4 190 3 111 0 0 9 186 0 0 4 197 0 0 4 190 3 111 0 0 0 0 3 0 0 0 0 200 0 60 52 62 143 63 0 0 4 176 0 0 4 162 0 0 4 177 0 0 4 126 255 127 255 127 255 127 255 127 8 128 3 111 3 28 2 157 18 17 1 0 0 0 0 72 240 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 64 0 0 0 0 64 
 > 20040329_224245.exv   Exif.Nikon3.HueAdjustment                    SShort      1  0
 > 20040329_224245.exv   Exif.Nikon3.NoiseReduction                   Ascii       5  OFF 
@@ -6612,7 +6612,7 @@ Compare original and inserted image data ---------------------------------
 > 20040329_224245.exv   Exif.Nikon3.LensData                         Undefined  31  Nikon AF-S DX Zoom-Nikkor 18-70mm f/3.5-4.5G IF-ED
 > 20040329_224245.exv   Exif.Nikon3.SensorPixelSize                  Rational    2  78/10 78/10
 > 20040329_224245.exv   Exif.Nikon3.SerialNumber                     Ascii      21  NO= 100005e5        
-> 20040329_224245.exv   Exif.Nikon3.0x00a2                           Long        1  2929656
+> 20040329_224245.exv   Exif.Nikon3.ImageDataSize                    Long        1  2929656
 > 20040329_224245.exv   Exif.Nikon3.0x00a3                           Byte        1  0 
 > 20040329_224245.exv   Exif.Nikon3.ShutterCount                     Long        1  1193
 > 20040329_224245.exv   Exif.Nikon3.0x00a8                           Undefined  20  48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
@@ -6672,7 +6672,7 @@ Compare original and inserted image data ---------------------------------
 > 20010405_235039.exv   Exif.Nikon2.Focus                            Rational    1  0/0
 > 20010405_235039.exv   Exif.Nikon2.0x0009                           Ascii      20  
 > 20010405_235039.exv   Exif.Nikon2.DigitalZoom                      Rational    1  Not used
-> 20010405_235039.exv   Exif.Nikon2.Adapter                          Short       1  0
+> 20010405_235039.exv   Exif.Nikon2.AuxiliaryLens                    Short       1  0
 > 20010405_235039.exv   Exif.Nikon2.0x0f00                           Long       30  0 0 16777216 0 2685774096 0 34833 6931 16178 4372 4372 3322676767 3373084416 15112 0 0 1151495 252903424 17 0 0 844038208 55184128 218129428 1476410198 370540566 4044363286 16711749 204629079 1729
 > 20010405_235039.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20010405_235039.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
@@ -6946,17 +6946,17 @@ Compare original and inserted image data ---------------------------------
 > 20030926_111535.exv   Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
 > 20030926_111535.exv   Exif.Fujifilm.Sharpness                      Short       1  Normal
 > 20030926_111535.exv   Exif.Fujifilm.WhiteBalance                   Short       1  Daylight
-> 20030926_111535.exv   Exif.Fujifilm.Color                          Short       1  Standard
-> 20030926_111535.exv   Exif.Fujifilm.Tone                           Short       1  Standard
+> 20030926_111535.exv   Exif.Fujifilm.Color                          Short       1  Normal
+> 20030926_111535.exv   Exif.Fujifilm.Tone                           Short       1  Normal
 > 20030926_111535.exv   Exif.Fujifilm.FlashMode                      Short       1  On
 > 20030926_111535.exv   Exif.Fujifilm.FlashStrength                  SRational   1  10/10
 > 20030926_111535.exv   Exif.Fujifilm.FocusMode                      Short       1  Auto
 > 20030926_111535.exv   Exif.Fujifilm.0x1022                         Short       1  1
 > 20030926_111535.exv   Exif.Fujifilm.SlowSync                       Short       1  Off
-> 20030926_111535.exv   Exif.Fujifilm.PictureMode                    Short       1  Aperture priority
+> 20030926_111535.exv   Exif.Fujifilm.PictureMode                    Short       1  Aperture-priority AE
 > 20030926_111535.exv   Exif.Fujifilm.0x1032                         Short       1  1
 > 20030926_111535.exv   Exif.Fujifilm.Continuous                     Short       1  Off
-> 20030926_111535.exv   Exif.Fujifilm.0x1101                         Short       1  0
+> 20030926_111535.exv   Exif.Fujifilm.SequenceNumber                 Short       1  0
 > 20030926_111535.exv   Exif.Fujifilm.0x1200                         Short       1  0
 > 20030926_111535.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20030926_111535.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
@@ -7082,10 +7082,10 @@ Compare original and inserted image data ---------------------------------
 > 20040208_093744.exv   Exif.Olympus.SpecialMode                     Long        3  Normal
 > 20040208_093744.exv   Exif.Olympus.Quality                         Short       1  (7)
 > 20040208_093744.exv   Exif.Olympus.Macro                           Short       1  Off
-> 20040208_093744.exv   Exif.Olympus.BWMode                          Short       1  0
+> 20040208_093744.exv   Exif.Olympus.BWMode                          Short       1  Off
 > 20040208_093744.exv   Exif.Olympus.DigitalZoom                     Rational    1  1.7x
 > 20040208_093744.exv   Exif.Olympus.FocalPlaneDiagonal              Rational    1  904/100
-> 20040208_093744.exv   Exif.Olympus.0x0206                          SShort      6  -39 -408 -1 93 103 286
+> 20040208_093744.exv   Exif.Olympus.LensDistortionParams            SShort      6  -39 -408 -1 93 103 286
 > 20040208_093744.exv   Exif.Olympus.FirmwareVersion                 Ascii       8  SX757
 > 20040208_093744.exv   Exif.Olympus.PictureInfo                     Ascii      52  [pictureInfo] Resolution=2 [Camera Info] Type=SX757
 > 20040208_093744.exv   Exif.Olympus.CameraID                        Undefined  32  79 76 89 77 80 85 83 32 68 73 71 73 84 65 76 32 67 65 77 69 82 65 0 255 255 255 255 255 255 255 255 255 
@@ -7094,7 +7094,7 @@ Compare original and inserted image data ---------------------------------
 > 20040208_093744.exv   Exif.Olympus.OneTouchWB                      Short       1  On
 > 20040208_093744.exv   Exif.Olympus.0x0303                          Short       1  0
 > 20040208_093744.exv   Exif.Olympus.0x0304                          Short       1  0
-> 20040208_093744.exv   Exif.Olympus.DataDump                        Undefined 494  1 75 2 3 2 93 0 0 0 0 255 0 0 0 25 97 18 49 0 0 5 236 0 0 57 36 0 0 1 155 0 0 10 47 0 0 22 242 0 0 5 192 0 0 24 68 0 100 0 166 0 50 0 36 0 0 0 0 0 0 0 0 0 0 54 21 0 0 0 0 53 61 22 4 0 0 0 0 0 0 0 0 0 0 0 0 16 32 0 0 57 0 14 86 0 0 0 0 0 0 0 0 0 0 0 0 0 100 3 158 0 0 0 0 255 253 255 249 255 245 255 236 255 237 255 232 255 230 0 0 34 34 34 34 17 17 17 17 1 86 3 150 3 243 1 33 2 0 1 76 2 116 2 3 1 2 96 90 0 2 3 52 0 25 0 10 0 25 0 10 0 5 0 10 0 1 0 0 0 0 0 16 0 0 0 16 0 1 1 0 0 166 1 79 1 246 2 159 3 70 1 2 1 75 2 3 2 93 0 0 21 54 21 231 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 136 136 1 0 3 254 0 59 0 0 0 0 0 0 2 226 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 6 121 6 129 6 124 6 156 208 0 3 254 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 12 57 12 88 12 103 12 177 12 88 12 6 11 190 11 10 34 68 34 128 34 238 35 119 34 83 33 125 32 132 30 98 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 119 119 119 119 33 33 33 33 33 33 19 30 17 25 41 80 32 0 224 0 0 0 0 0 0 0 0 0 128 0 20 70 12 0 0 0 34 33 0 0 34 34 33 33 2 34 1 115 1 70 2 120 0 0 0 43 0 40 0 30 1 76 2 116 34 33 34 34 0 77 0 1 0 128 0 0 0 20 0 0 
+> 20040208_093744.exv   Exif.Olympus.DataDump1                       Undefined 494  1 75 2 3 2 93 0 0 0 0 255 0 0 0 25 97 18 49 0 0 5 236 0 0 57 36 0 0 1 155 0 0 10 47 0 0 22 242 0 0 5 192 0 0 24 68 0 100 0 166 0 50 0 36 0 0 0 0 0 0 0 0 0 0 54 21 0 0 0 0 53 61 22 4 0 0 0 0 0 0 0 0 0 0 0 0 16 32 0 0 57 0 14 86 0 0 0 0 0 0 0 0 0 0 0 0 0 100 3 158 0 0 0 0 255 253 255 249 255 245 255 236 255 237 255 232 255 230 0 0 34 34 34 34 17 17 17 17 1 86 3 150 3 243 1 33 2 0 1 76 2 116 2 3 1 2 96 90 0 2 3 52 0 25 0 10 0 25 0 10 0 5 0 10 0 1 0 0 0 0 0 16 0 0 0 16 0 1 1 0 0 166 1 79 1 246 2 159 3 70 1 2 1 75 2 3 2 93 0 0 21 54 21 231 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 136 136 1 0 3 254 0 59 0 0 0 0 0 0 2 226 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 6 121 6 129 6 124 6 156 208 0 3 254 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 12 57 12 88 12 103 12 177 12 88 12 6 11 190 11 10 34 68 34 128 34 238 35 119 34 83 33 125 32 132 30 98 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 119 119 119 119 33 33 33 33 33 33 19 30 17 25 41 80 32 0 224 0 0 0 0 0 0 0 0 0 128 0 20 70 12 0 0 0 34 33 0 0 34 34 33 33 2 34 1 115 1 70 2 120 0 0 0 43 0 40 0 30 1 76 2 116 34 33 34 34 0 77 0 1 0 128 0 0 0 20 0 0 
 > 20040208_093744.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20040208_093744.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 > 20040208_093744.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -7166,15 +7166,15 @@ Compare original and inserted image data ---------------------------------
 > 20050218_212016.exv   Exif.Panasonic.0x0027                        Short       1  0
 > 20050218_212016.exv   Exif.Panasonic.ColorEffect                   Short       1  Off
 > 20050218_212016.exv   Exif.Panasonic.0x0029                        Long        1  1450
-> 20050218_212016.exv   Exif.Panasonic.0x002a                        Short       1  0
-> 20050218_212016.exv   Exif.Panasonic.0x002b                        Long        1  0
-> 20050218_212016.exv   Exif.Panasonic.Contrast                      Short       1  Standard
+> 20050218_212016.exv   Exif.Panasonic.BurstMode                     Short       1  Off
+> 20050218_212016.exv   Exif.Panasonic.SequenceNumber                Long        1  0
+> 20050218_212016.exv   Exif.Panasonic.Contrast                      Short       1  Normal
 > 20050218_212016.exv   Exif.Panasonic.NoiseReduction                Short       1  Standard
-> 20050218_212016.exv   Exif.Panasonic.0x002e                        Short       1  1
+> 20050218_212016.exv   Exif.Panasonic.SelfTimer                     Short       1  Off
 > 20050218_212016.exv   Exif.Panasonic.0x002f                        Short       1  1
-> 20050218_212016.exv   Exif.Panasonic.0x0030                        Short       1  1
+> 20050218_212016.exv   Exif.Panasonic.Rotation                      Short       1  Horizontal (normal)
 > 20050218_212016.exv   Exif.Panasonic.0x0031                        Short       1  2
-> 20050218_212016.exv   Exif.Panasonic.0x0032                        Short       1  0
+> 20050218_212016.exv   Exif.Panasonic.ColorMode                     Short       1  Normal
 > 20050218_212016.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20050218_212016.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
 > 20050218_212016.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)

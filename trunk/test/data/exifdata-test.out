@@ -722,27 +722,27 @@ Exif.Nikon3.WhiteBalance                      0x0005 Makernote    Ascii      13 
 Exif.Nikon3.Sharpening                        0x0006 Makernote    Ascii       7 AUTO  
 Exif.Nikon3.Focus                             0x0007 Makernote    Ascii       7 AF-S  
 Exif.Nikon3.FlashSetting                      0x0008 Makernote    Ascii      13 NORMAL      
-Exif.Nikon3.FlashMode                         0x0009 Makernote    Ascii      13             
+Exif.Nikon3.FlashDevice                       0x0009 Makernote    Ascii      13             
 Exif.Nikon3.WhiteBalanceBias                  0x000b Makernote    SShort      1 0
-Exif.Nikon3.0x000d                            0x000d Makernote    Undefined   4 0 1 6 0 
+Exif.Nikon3.ProgramShift                      0x000d Makernote    Undefined   4 0 1 6 0 
 Exif.Nikon3.ExposureDiff                      0x000e Makernote    Undefined   4 0 1 12 0 
-Exif.Nikon3.ThumbOffset                       0x0011 Makernote    Long        1 1430
+Exif.Nikon3.Preview                           0x0011 Makernote    Long        1 1430
 Exif.Nikon3.FlashComp                         0x0012 Makernote    Undefined   4 0 1 6 0 
-Exif.Nikon3.ISOSetting                        0x0013 Makernote    Short       2 0 200
-Exif.Nikon3.ImageBoundry                      0x0016 Makernote    Short       4 0 0 3008 2000
+Exif.Nikon3.ISOSettings                       0x0013 Makernote    Short       2 0 200
+Exif.Nikon3.ImageBoundary                     0x0016 Makernote    Short       4 0 0 3008 2000
 Exif.Nikon3.0x0017                            0x0017 Makernote    Undefined   4 0 1 6 0 
 Exif.Nikon3.FlashBracketComp                  0x0018 Makernote    Undefined   4 0 1 6 0 
 Exif.Nikon3.ExposureBracketComp               0x0019 Makernote    SRational   1 0/1
 Exif.Nikon3.ToneComp                          0x0081 Makernote    Ascii       9 AUTO    
 Exif.Nikon3.LensType                          0x0083 Makernote    Byte        1 6 
 Exif.Nikon3.Lens                              0x0084 Makernote    Rational    4 180/10 700/10 35/10 45/10
-Exif.Nikon3.FlashType                         0x0087 Makernote    Byte        1 0 
+Exif.Nikon3.FlashMode                         0x0087 Makernote    Byte        1 0 
 Exif.Nikon3.AFFocusPos                        0x0088 Makernote    Undefined   4 0 0 0 1 
-Exif.Nikon3.Bracketing                        0x0089 Makernote    Short       1 0
-Exif.Nikon3.0x008a                            0x008a Makernote    Short       1 0
+Exif.Nikon3.ShootingMode                      0x0089 Makernote    Short       1 0
+Exif.Nikon3.AutoBracketRelease                0x008a Makernote    Short       1 0
 Exif.Nikon3.LensFStops                        0x008b Makernote    Undefined   4 64 1 12 0 
 Exif.Nikon3.ColorMode                         0x008d Makernote    Ascii       9 MODE1a  
-Exif.Nikon3.LightingType                      0x0090 Makernote    Ascii      12 NATURAL    
+Exif.Nikon3.LightSource                       0x0090 Makernote    Ascii      12 NATURAL    
 Exif.Nikon3.0x0091                            0x0091 Makernote    Undefined 465 48 49 48 51 0 0 0 124 0 0 5 13 113 0 0 0 0 1 0 0 11 0 0 0 0 0 20 0 0 31 0 0 0 0 0 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 32 0 0 31 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 0 0 0 0 0 0 0 45 0 0 0 0 0 1 0 0 0 0 89 1 2 205 51 206 179 54 56 53 54 48 51 0 218 0 214 0 167 0 171 0 50 0 51 0 5 0 0 0 0 0 0 0 0 0 1 0 5 0 0 3 194 0 0 0 100 30 161 200 95 222 59 231 63 201 147 36 178 108 51 110 51 142 15 205 20 205 255 24 187 172 35 200 39 84 41 220 51 68 39 136 59 158 49 239 176 221 55 206 242 77 6 206 51 212 169 76 179 220 17 174 50 140 159 228 51 220 49 78 186 201 119 196 225 223 50 196 178 204 146 204 17 54 56 53 54 48 49 0 101 0 161 0 172 172 169 163 163 168 169 169 168 168 170 171 164 152 149 5 249 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 38 72 0 8 1 78 226 1 0 72 49 38 48 0 0 0 3 7 252 11 226 0 4 169 1 72 0 128 16 0 0 3 151 96 196 12 145 80 60 0 0 4 190 3 111 0 0 9 186 0 0 4 197 0 0 4 190 3 111 0 0 0 0 3 0 0 0 0 200 0 60 52 62 143 63 0 0 4 176 0 0 4 162 0 0 4 177 0 0 4 126 255 127 255 127 255 127 255 127 8 128 3 111 3 28 2 157 18 17 1 0 0 0 0 72 240 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 64 0 0 0 0 64 
 Exif.Nikon3.HueAdjustment                     0x0092 Makernote    SShort      1 0
 Exif.Nikon3.NoiseReduction                    0x0095 Makernote    Ascii       5 OFF 
@@ -750,7 +750,7 @@ Exif.Nikon3.ColorBalance2                     0x0097 Makernote    Undefined 140 
 Exif.Nikon3.LensData                          0x0098 Makernote    Undefined  31 48 49 48 49 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 
 Exif.Nikon3.SensorPixelSize                   0x009a Makernote    Rational    2 78/10 78/10
 Exif.Nikon3.SerialNumber                      0x00a0 Makernote    Ascii      21 NO= 100005e5        
-Exif.Nikon3.0x00a2                            0x00a2 Makernote    Long        1 2929656
+Exif.Nikon3.ImageDataSize                     0x00a2 Makernote    Long        1 2929656
 Exif.Nikon3.0x00a3                            0x00a3 Makernote    Byte        1 0 
 Exif.Nikon3.ShutterCount                      0x00a7 Makernote    Long        1 1193
 Exif.Nikon3.0x00a8                            0x00a8 Makernote    Undefined  20 48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
@@ -827,27 +827,27 @@ Exif.Nikon3.WhiteBalance                      0x0005 Makernote    Ascii      13 
 Exif.Nikon3.Sharpening                        0x0006 Makernote    Ascii       7 AUTO  
 Exif.Nikon3.Focus                             0x0007 Makernote    Ascii       7 AF-S  
 Exif.Nikon3.FlashSetting                      0x0008 Makernote    Ascii      13 NORMAL      
-Exif.Nikon3.FlashMode                         0x0009 Makernote    Ascii      13             
+Exif.Nikon3.FlashDevice                       0x0009 Makernote    Ascii      13             
 Exif.Nikon3.WhiteBalanceBias                  0x000b Makernote    SShort      1 0
-Exif.Nikon3.0x000d                            0x000d Makernote    Undefined   4 0 1 6 0 
+Exif.Nikon3.ProgramShift                      0x000d Makernote    Undefined   4 0 1 6 0 
 Exif.Nikon3.ExposureDiff                      0x000e Makernote    Undefined   4 0 1 12 0 
-Exif.Nikon3.ThumbOffset                       0x0011 Makernote    Long        1 1430
+Exif.Nikon3.Preview                           0x0011 Makernote    Long        1 1430
 Exif.Nikon3.FlashComp                         0x0012 Makernote    Undefined   4 0 1 6 0 
-Exif.Nikon3.ISOSetting                        0x0013 Makernote    Short       2 0 200
-Exif.Nikon3.ImageBoundry                      0x0016 Makernote    Short       4 0 0 3008 2000
+Exif.Nikon3.ISOSettings                       0x0013 Makernote    Short       2 0 200
+Exif.Nikon3.ImageBoundary                     0x0016 Makernote    Short       4 0 0 3008 2000
 Exif.Nikon3.0x0017                            0x0017 Makernote    Undefined   4 0 1 6 0 
 Exif.Nikon3.FlashBracketComp                  0x0018 Makernote    Undefined   4 0 1 6 0 
 Exif.Nikon3.ExposureBracketComp               0x0019 Makernote    SRational   1 0/1
 Exif.Nikon3.ToneComp                          0x0081 Makernote    Ascii       9 AUTO    
 Exif.Nikon3.LensType                          0x0083 Makernote    Byte        1 6 
 Exif.Nikon3.Lens                              0x0084 Makernote    Rational    4 180/10 700/10 35/10 45/10
-Exif.Nikon3.FlashType                         0x0087 Makernote    Byte        1 0 
+Exif.Nikon3.FlashMode                         0x0087 Makernote    Byte        1 0 
 Exif.Nikon3.AFFocusPos                        0x0088 Makernote    Undefined   4 0 0 0 1 
-Exif.Nikon3.Bracketing                        0x0089 Makernote    Short       1 0
-Exif.Nikon3.0x008a                            0x008a Makernote    Short       1 0
+Exif.Nikon3.ShootingMode                      0x0089 Makernote    Short       1 0
+Exif.Nikon3.AutoBracketRelease                0x008a Makernote    Short       1 0
 Exif.Nikon3.LensFStops                        0x008b Makernote    Undefined   4 64 1 12 0 
 Exif.Nikon3.ColorMode                         0x008d Makernote    Ascii       9 MODE1a  
-Exif.Nikon3.LightingType                      0x0090 Makernote    Ascii      12 NATURAL    
+Exif.Nikon3.LightSource                       0x0090 Makernote    Ascii      12 NATURAL    
 Exif.Nikon3.0x0091                            0x0091 Makernote    Undefined 465 48 49 48 51 0 0 0 124 0 0 5 13 113 0 0 0 0 1 0 0 11 0 0 0 0 0 20 0 0 31 0 0 0 0 0 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 32 0 0 31 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 0 0 0 0 0 0 0 45 0 0 0 0 0 1 0 0 0 0 89 1 2 205 51 206 179 54 56 53 54 48 51 0 218 0 214 0 167 0 171 0 50 0 51 0 5 0 0 0 0 0 0 0 0 0 1 0 5 0 0 3 194 0 0 0 100 30 161 200 95 222 59 231 63 201 147 36 178 108 51 110 51 142 15 205 20 205 255 24 187 172 35 200 39 84 41 220 51 68 39 136 59 158 49 239 176 221 55 206 242 77 6 206 51 212 169 76 179 220 17 174 50 140 159 228 51 220 49 78 186 201 119 196 225 223 50 196 178 204 146 204 17 54 56 53 54 48 49 0 101 0 161 0 172 172 169 163 163 168 169 169 168 168 170 171 164 152 149 5 249 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 38 72 0 8 1 78 226 1 0 72 49 38 48 0 0 0 3 7 252 11 226 0 4 169 1 72 0 128 16 0 0 3 151 96 196 12 145 80 60 0 0 4 190 3 111 0 0 9 186 0 0 4 197 0 0 4 190 3 111 0 0 0 0 3 0 0 0 0 200 0 60 52 62 143 63 0 0 4 176 0 0 4 162 0 0 4 177 0 0 4 126 255 127 255 127 255 127 255 127 8 128 3 111 3 28 2 157 18 17 1 0 0 0 0 72 240 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 64 0 0 0 0 64 
 Exif.Nikon3.HueAdjustment                     0x0092 Makernote    SShort      1 0
 Exif.Nikon3.NoiseReduction                    0x0095 Makernote    Ascii       5 OFF 
@@ -855,7 +855,7 @@ Exif.Nikon3.ColorBalance2                     0x0097 Makernote    Undefined 140 
 Exif.Nikon3.LensData                          0x0098 Makernote    Undefined  31 48 49 48 49 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 
 Exif.Nikon3.SensorPixelSize                   0x009a Makernote    Rational    2 78/10 78/10
 Exif.Nikon3.SerialNumber                      0x00a0 Makernote    Ascii      21 NO= 100005e5        
-Exif.Nikon3.0x00a2                            0x00a2 Makernote    Long        1 2929656
+Exif.Nikon3.ImageDataSize                     0x00a2 Makernote    Long        1 2929656
 Exif.Nikon3.0x00a3                            0x00a3 Makernote    Byte        1 0 
 Exif.Nikon3.ShutterCount                      0x00a7 Makernote    Long        1 1193
 Exif.Nikon3.0x00a8                            0x00a8 Makernote    Undefined  20 48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
@@ -933,27 +933,27 @@ Exif.Nikon3.WhiteBalance                      0x0005 Makernote    Ascii      13 
 Exif.Nikon3.Sharpening                        0x0006 Makernote    Ascii       7 AUTO  
 Exif.Nikon3.Focus                             0x0007 Makernote    Ascii       7 AF-S  
 Exif.Nikon3.FlashSetting                      0x0008 Makernote    Ascii      13 NORMAL      
-Exif.Nikon3.FlashMode                         0x0009 Makernote    Ascii      13             
+Exif.Nikon3.FlashDevice                       0x0009 Makernote    Ascii      13             
 Exif.Nikon3.WhiteBalanceBias                  0x000b Makernote    SShort      1 0
-Exif.Nikon3.0x000d                            0x000d Makernote    Undefined   4 0 1 6 0 
+Exif.Nikon3.ProgramShift                      0x000d Makernote    Undefined   4 0 1 6 0 
 Exif.Nikon3.ExposureDiff                      0x000e Makernote    Undefined   4 0 1 12 0 
-Exif.Nikon3.ThumbOffset                       0x0011 Makernote    Long        1 1430
+Exif.Nikon3.Preview                           0x0011 Makernote    Long        1 1430
 Exif.Nikon3.FlashComp                         0x0012 Makernote    Undefined   4 0 1 6 0 
-Exif.Nikon3.ISOSetting                        0x0013 Makernote    Short       2 0 200
-Exif.Nikon3.ImageBoundry                      0x0016 Makernote    Short       4 0 0 3008 2000
+Exif.Nikon3.ISOSettings                       0x0013 Makernote    Short       2 0 200
+Exif.Nikon3.ImageBoundary                     0x0016 Makernote    Short       4 0 0 3008 2000
 Exif.Nikon3.0x0017                            0x0017 Makernote    Undefined   4 0 1 6 0 
 Exif.Nikon3.FlashBracketComp                  0x0018 Makernote    Undefined   4 0 1 6 0 
 Exif.Nikon3.ExposureBracketComp               0x0019 Makernote    SRational   1 0/1
 Exif.Nikon3.ToneComp                          0x0081 Makernote    Ascii       9 AUTO    
 Exif.Nikon3.LensType                          0x0083 Makernote    Byte        1 6 
 Exif.Nikon3.Lens                              0x0084 Makernote    Rational    4 180/10 700/10 35/10 45/10
-Exif.Nikon3.FlashType                         0x0087 Makernote    Byte        1 0 
+Exif.Nikon3.FlashMode                         0x0087 Makernote    Byte        1 0 
 Exif.Nikon3.AFFocusPos                        0x0088 Makernote    Undefined   4 0 0 0 1 
-Exif.Nikon3.Bracketing                        0x0089 Makernote    Short       1 0
-Exif.Nikon3.0x008a                            0x008a Makernote    Short       1 0
+Exif.Nikon3.ShootingMode                      0x0089 Makernote    Short       1 0
+Exif.Nikon3.AutoBracketRelease                0x008a Makernote    Short       1 0
 Exif.Nikon3.LensFStops                        0x008b Makernote    Undefined   4 64 1 12 0 
 Exif.Nikon3.ColorMode                         0x008d Makernote    Ascii       9 MODE1a  
-Exif.Nikon3.LightingType                      0x0090 Makernote    Ascii      12 NATURAL    
+Exif.Nikon3.LightSource                       0x0090 Makernote    Ascii      12 NATURAL    
 Exif.Nikon3.0x0091                            0x0091 Makernote    Undefined 465 48 49 48 51 0 0 0 124 0 0 5 13 113 0 0 0 0 1 0 0 11 0 0 0 0 0 20 0 0 31 0 0 0 0 0 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 32 0 0 31 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 0 0 0 0 0 0 0 45 0 0 0 0 0 1 0 0 0 0 89 1 2 205 51 206 179 54 56 53 54 48 51 0 218 0 214 0 167 0 171 0 50 0 51 0 5 0 0 0 0 0 0 0 0 0 1 0 5 0 0 3 194 0 0 0 100 30 161 200 95 222 59 231 63 201 147 36 178 108 51 110 51 142 15 205 20 205 255 24 187 172 35 200 39 84 41 220 51 68 39 136 59 158 49 239 176 221 55 206 242 77 6 206 51 212 169 76 179 220 17 174 50 140 159 228 51 220 49 78 186 201 119 196 225 223 50 196 178 204 146 204 17 54 56 53 54 48 49 0 101 0 161 0 172 172 169 163 163 168 169 169 168 168 170 171 164 152 149 5 249 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 38 72 0 8 1 78 226 1 0 72 49 38 48 0 0 0 3 7 252 11 226 0 4 169 1 72 0 128 16 0 0 3 151 96 196 12 145 80 60 0 0 4 190 3 111 0 0 9 186 0 0 4 197 0 0 4 190 3 111 0 0 0 0 3 0 0 0 0 200 0 60 52 62 143 63 0 0 4 176 0 0 4 162 0 0 4 177 0 0 4 126 255 127 255 127 255 127 255 127 8 128 3 111 3 28 2 157 18 17 1 0 0 0 0 72 240 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 64 0 0 0 0 64 
 Exif.Nikon3.HueAdjustment                     0x0092 Makernote    SShort      1 0
 Exif.Nikon3.NoiseReduction                    0x0095 Makernote    Ascii       5 OFF 
@@ -961,7 +961,7 @@ Exif.Nikon3.ColorBalance2                     0x0097 Makernote    Undefined 140 
 Exif.Nikon3.LensData                          0x0098 Makernote    Undefined  31 48 49 48 49 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 
 Exif.Nikon3.SensorPixelSize                   0x009a Makernote    Rational    2 78/10 78/10
 Exif.Nikon3.SerialNumber                      0x00a0 Makernote    Ascii      21 NO= 100005e5        
-Exif.Nikon3.0x00a2                            0x00a2 Makernote    Long        1 2929656
+Exif.Nikon3.ImageDataSize                     0x00a2 Makernote    Long        1 2929656
 Exif.Nikon3.0x00a3                            0x00a3 Makernote    Byte        1 0 
 Exif.Nikon3.ShutterCount                      0x00a7 Makernote    Long        1 1193
 Exif.Nikon3.0x00a8                            0x00a8 Makernote    Undefined  20 48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
@@ -1038,27 +1038,27 @@ Exif.Nikon3.WhiteBalance                      0x0005 Makernote    Ascii      13 
 Exif.Nikon3.Sharpening                        0x0006 Makernote    Ascii       7 AUTO  
 Exif.Nikon3.Focus                             0x0007 Makernote    Ascii       7 AF-S  
 Exif.Nikon3.FlashSetting                      0x0008 Makernote    Ascii      13 NORMAL      
-Exif.Nikon3.FlashMode                         0x0009 Makernote    Ascii      13             
+Exif.Nikon3.FlashDevice                       0x0009 Makernote    Ascii      13             
 Exif.Nikon3.WhiteBalanceBias                  0x000b Makernote    SShort      1 0
-Exif.Nikon3.0x000d                            0x000d Makernote    Undefined   4 0 1 6 0 
+Exif.Nikon3.ProgramShift                      0x000d Makernote    Undefined   4 0 1 6 0 
 Exif.Nikon3.ExposureDiff                      0x000e Makernote    Undefined   4 0 1 12 0 
-Exif.Nikon3.ThumbOffset                       0x0011 Makernote    Long        1 1430
+Exif.Nikon3.Preview                           0x0011 Makernote    Long        1 1430
 Exif.Nikon3.FlashComp                         0x0012 Makernote    Undefined   4 0 1 6 0 
-Exif.Nikon3.ISOSetting                        0x0013 Makernote    Short       2 0 200
-Exif.Nikon3.ImageBoundry                      0x0016 Makernote    Short       4 0 0 3008 2000
+Exif.Nikon3.ISOSettings                       0x0013 Makernote    Short       2 0 200
+Exif.Nikon3.ImageBoundary                     0x0016 Makernote    Short       4 0 0 3008 2000
 Exif.Nikon3.0x0017                            0x0017 Makernote    Undefined   4 0 1 6 0 
 Exif.Nikon3.FlashBracketComp                  0x0018 Makernote    Undefined   4 0 1 6 0 
 Exif.Nikon3.ExposureBracketComp               0x0019 Makernote    SRational   1 0/1
 Exif.Nikon3.ToneComp                          0x0081 Makernote    Ascii       9 AUTO    
 Exif.Nikon3.LensType                          0x0083 Makernote    Byte        1 6 
 Exif.Nikon3.Lens                              0x0084 Makernote    Rational    4 180/10 700/10 35/10 45/10
-Exif.Nikon3.FlashType                         0x0087 Makernote    Byte        1 0 
+Exif.Nikon3.FlashMode                         0x0087 Makernote    Byte        1 0 
 Exif.Nikon3.AFFocusPos                        0x0088 Makernote    Undefined   4 0 0 0 1 
-Exif.Nikon3.Bracketing                        0x0089 Makernote    Short       1 0
-Exif.Nikon3.0x008a                            0x008a Makernote    Short       1 0
+Exif.Nikon3.ShootingMode                      0x0089 Makernote    Short       1 0
+Exif.Nikon3.AutoBracketRelease                0x008a Makernote    Short       1 0
 Exif.Nikon3.LensFStops                        0x008b Makernote    Undefined   4 64 1 12 0 
 Exif.Nikon3.ColorMode                         0x008d Makernote    Ascii       9 MODE1a  
-Exif.Nikon3.LightingType                      0x0090 Makernote    Ascii      12 NATURAL    
+Exif.Nikon3.LightSource                       0x0090 Makernote    Ascii      12 NATURAL    
 Exif.Nikon3.0x0091                            0x0091 Makernote    Undefined 465 48 49 48 51 0 0 0 124 0 0 5 13 113 0 0 0 0 1 0 0 11 0 0 0 0 0 20 0 0 31 0 0 0 0 0 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 32 0 0 31 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 248 0 0 248 0 0 0 0 0 0 0 0 0 0 0 0 0 45 0 0 0 0 0 1 0 0 0 0 89 1 2 205 51 206 179 54 56 53 54 48 51 0 218 0 214 0 167 0 171 0 50 0 51 0 5 0 0 0 0 0 0 0 0 0 1 0 5 0 0 3 194 0 0 0 100 30 161 200 95 222 59 231 63 201 147 36 178 108 51 110 51 142 15 205 20 205 255 24 187 172 35 200 39 84 41 220 51 68 39 136 59 158 49 239 176 221 55 206 242 77 6 206 51 212 169 76 179 220 17 174 50 140 159 228 51 220 49 78 186 201 119 196 225 223 50 196 178 204 146 204 17 54 56 53 54 48 49 0 101 0 161 0 172 172 169 163 163 168 169 169 168 168 170 171 164 152 149 5 249 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 38 72 0 8 1 78 226 1 0 72 49 38 48 0 0 0 3 7 252 11 226 0 4 169 1 72 0 128 16 0 0 3 151 96 196 12 145 80 60 0 0 4 190 3 111 0 0 9 186 0 0 4 197 0 0 4 190 3 111 0 0 0 0 3 0 0 0 0 200 0 60 52 62 143 63 0 0 4 176 0 0 4 162 0 0 4 177 0 0 4 126 255 127 255 127 255 127 255 127 8 128 3 111 3 28 2 157 18 17 1 0 0 0 0 72 240 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 64 0 0 0 0 64 
 Exif.Nikon3.HueAdjustment                     0x0092 Makernote    SShort      1 0
 Exif.Nikon3.NoiseReduction                    0x0095 Makernote    Ascii       5 OFF 
@@ -1066,7 +1066,7 @@ Exif.Nikon3.ColorBalance2                     0x0097 Makernote    Undefined 140 
 Exif.Nikon3.LensData                          0x0098 Makernote    Undefined  31 48 49 48 49 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 
 Exif.Nikon3.SensorPixelSize                   0x009a Makernote    Rational    2 78/10 78/10
 Exif.Nikon3.SerialNumber                      0x00a0 Makernote    Ascii      21 NO= 100005e5        
-Exif.Nikon3.0x00a2                            0x00a2 Makernote    Long        1 2929656
+Exif.Nikon3.ImageDataSize                     0x00a2 Makernote    Long        1 2929656
 Exif.Nikon3.0x00a3                            0x00a3 Makernote    Byte        1 0 
 Exif.Nikon3.ShutterCount                      0x00a7 Makernote    Long        1 1193
 Exif.Nikon3.0x00a8                            0x00a8 Makernote    Undefined  20 48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
