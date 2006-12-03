@@ -1,7 +1,6 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Andreas Huggel
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Exiv2 POT file.
+# Copyright (C) 2006 Andreas Huggel <ahuggel@gmx.net>
+# This file is distributed under the same license as the Exiv2 package.
 #
 #, fuzzy
 msgid ""
