@@ -110,10 +110,11 @@ namespace {
 // Main
 int main(int argc, char* const argv[])
 {
-    // NLS support.
+#ifdef EXV_ENABLE_NLS
     setlocale(LC_ALL, "");
     bindtextdomain(EXV_PACKAGE, EXV_LOCALEDIR);
     textdomain(EXV_PACKAGE);
+#endif
 
     // Handle command line arguments
     Params& params = Params::instance();
