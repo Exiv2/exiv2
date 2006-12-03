@@ -44,6 +44,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "image.hpp"
 #include "error.hpp"
 #include "futils.hpp"
+#include "i18n.h"                // NLS support.
 
 // + standard includes
 #include <iostream>
@@ -237,12 +238,12 @@ namespace Exiv2 {
     void Cr2Header::print(std::ostream& os, const std::string& prefix) const
     {
         os << prefix
-           << "Header, offset = 0x" << std::setw(8) << std::setfill('0')
+           << _("Header, offset") << " = 0x" << std::setw(8) << std::setfill('0')
            << std::hex << std::right << offset_;
 
         switch (byteOrder_) {
-        case littleEndian:     os << ", little endian encoded"; break;
-        case bigEndian:        os << ", big endian encoded"; break;
+        case littleEndian:     os << ", " << _("little endian encoded"); break;
+        case bigEndian:        os << ", " << _("big endian encoded"); break;
         case invalidByteOrder: break;
         }
         os << "\n";

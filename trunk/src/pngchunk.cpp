@@ -296,7 +296,9 @@ namespace Exiv2 {
 
         if (length == 0)
         {
+#ifdef DEBUG
             std::cerr << "Exiv2::PngChunk::readRawProfile: Unable To Copy Raw Profile: invalid profile length\n";
+#endif
             return DataBuf();
         }
 
@@ -304,7 +306,9 @@ namespace Exiv2 {
 
         if (info.size_ != length)
         {
+#ifdef DEBUG
             std::cerr << "Exiv2::PngChunk::readRawProfile: Unable To Copy Raw Profile: cannot allocate memory\n";
+#endif
             return DataBuf();
         }
 
@@ -319,7 +323,9 @@ namespace Exiv2 {
             {
                 if (*sp == '\0')
                 {
+#ifdef DEBUG
                     std::cerr << "Exiv2::PngChunk::readRawProfile: Unable To Copy Raw Profile: ran out of data\n";
+#endif
                     return DataBuf();
                 }
 

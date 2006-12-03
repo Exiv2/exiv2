@@ -142,7 +142,7 @@ namespace Exiv2 {
     {
         const TagDetails* td = find(array, value.toLong());
         if (td) {
-            os << td->label_;
+            os << exvGettext(td->label_);
         }
         else {
             os << "(" << value << ")";
@@ -168,10 +168,10 @@ namespace Exiv2 {
 
             if (val & td->mask_) {
                 if (sep) {
-                    os << ", " << td->label_;
+                    os << ", " << exvGettext(td->label_);
                 }
                 else {
-                    os << td->label_;
+                    os << exvGettext(td->label_);
                     sep = true;
                 }
             }

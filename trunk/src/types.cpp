@@ -32,6 +32,7 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // included header files
 #include "types.hpp"
+#include "i18n.h"                               // for _exvGettext
 
 // + standard includes
 #include <string>
@@ -334,4 +335,30 @@ namespace Exiv2 {
         return rc;
     } // exifTime
 
+    const char* exvGettext(const char* str)
+    {
+#ifdef EXV_ENABLE_NLS
+        return _exvGettext(str);
+#else
+        return str;
+#endif
+    }
 }                                       // namespace Exiv2
+
+#ifdef EXV_ENABLE_NLS
+// Declaration is in i18n.h
+const char* _exvGettext(const char* str)
+{
+    static bool exvGettextInitialized = false;
+
+    if (!exvGettextInitialized) {
+        bindtextdomain(EXV_PACKAGE, EXV_LOCALEDIR);
+# ifdef HAVE_BIND_TEXTDOMAIN_CODESET
+        bind_textdomain_codeset (EXV_PACKAGE, "UTF-8");
+# endif
+        exvGettextInitialized = true;
+    }
+  
+    return dgettext(EXV_PACKAGE, str);
+}
+#endif // EXV_ENABLE_NLS
