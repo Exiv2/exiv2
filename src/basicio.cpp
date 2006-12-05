@@ -223,6 +223,8 @@ namespace Exiv2 {
             fileIo->close();
             // Check if the file can be written to, if it already exists
             if (open("w+b") != 0) {
+                // Remove the (temporary) file 
+                std::remove(fileIo->path_.c_str());
                 throw Error(10, path_, "w+b", strError());
             }
             close();

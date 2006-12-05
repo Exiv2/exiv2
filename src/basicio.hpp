@@ -391,6 +391,9 @@ namespace Exiv2 {
           method returns. This method exists primarily to be used with
           the BasicIo::temporary() method.
 
+          @note If the caller doesn't have permissions to write to the file,
+              an exception is raised and \em src is deleted.
+
           @param src Reference to another BasicIo instance. The entire contents
               of src are transferred to this object. The \em src object is
               invalidated by the method.
