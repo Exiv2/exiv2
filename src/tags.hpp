@@ -442,6 +442,8 @@ namespace Exiv2 {
     std::ostream& printFloat(std::ostream& os, const Value& value);
     //! Print a longitude or latitude value
     std::ostream& printDegrees(std::ostream& os, const Value& value);
+    //! Print function converting from UCS-2LE to UTF-8
+    std::ostream& printUcs2(std::ostream& os, const Value& value);
 
     //! Print GPS altitude
     std::ostream& print0x0006(std::ostream& os, const Value& value);

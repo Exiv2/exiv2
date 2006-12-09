@@ -37,6 +37,15 @@
 /* Define to 1 if you have the <libintl.h> header file. */
 #undef HAVE_LIBINTL_H
 
+/* Define to 1 if you have the `iconv' function. */
+#undef HAVE_ICONV
+
+/* Define to `const' or to empty, depending on the second argument of `iconv'. */
+#undef ICONV_CONST
+
+/* Define to 1 if you have the <libintl.h> header file. */
+#undef HAVE_LIBINTL_H
+
 /* Define to 1 if your system has a GNU libc compatible `malloc' function, and
    to 0 otherwise. */
 #undef HAVE_MALLOC

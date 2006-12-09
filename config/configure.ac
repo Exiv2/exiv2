@@ -30,14 +30,6 @@ AC_PROG_RANLIB
 # ---------------------------------------------------------------------------
 AM_GNU_GETTEXT([external])
 
-#dnl We cannot use AC_DEFINE_UNQUOTED() for these definitions, as
-#dnl we require make to do insert the proper $(datadir) value
-#localedir="\$(datadir)/locale"
-#AC_SUBST(localedir)
-#AM_CPPFLAGS="$CPPFLAGS"
-#AM_CPPFLAGS="$AM_CPPFLAGS -DLOCALEDIR=\\\"${localedir}\\\""
-#AC_SUBST(AM_CPPFLAGS)
-
 # ---------------------------------------------------------------------------
 # Libtool support
 # ---------------------------------------------------------------------------
@@ -50,12 +42,13 @@ AC_CHECK_LIBM()
 LIBS="$LIBS $LIBM"
 CHECK_ZLIB()
 AC_SUBST(HAVE_LIBZ,$HAVE_LIBZ)
+AM_ICONV
 
 # ---------------------------------------------------------------------------
 # Checks for header files.
 # ---------------------------------------------------------------------------
 AC_HEADER_STDC
-AC_CHECK_HEADERS([libintl.h malloc.h stdint.h stdlib.h string.h unistd.h wchar.h sys/mman.h])
+AC_CHECK_HEADERS([libintl.h locale.h malloc.h stdint.h stdlib.h string.h unistd.h sys/mman.h utime.h])
 
 # ---------------------------------------------------------------------------
 # Checks for typedefs, structures, and compiler characteristics.
@@ -66,6 +59,11 @@ AC_C_INLINE
 AC_TYPE_PID_T
 AC_TYPE_SIZE_T
 AC_STRUCT_TM
+AC_TYPE_UINT8_T
+AC_TYPE_UINT16_T
+AC_TYPE_UINT32_T
+AC_TYPE_INT16_T
+AC_TYPE_INT32_T
 
 # ---------------------------------------------------------------------------
 # Checks for library functions.
@@ -74,6 +72,7 @@ AC_FUNC_ALLOCA
 AC_FUNC_MALLOC
 AC_FUNC_MEMCMP
 AC_FUNC_MKTIME
+AC_FUNC_MMAP
 AC_FUNC_REALLOC
 AC_FUNC_STAT
 AC_FUNC_STRERROR_R

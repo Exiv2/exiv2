@@ -32,9 +32,10 @@ EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 // included header files
+#include "types.hpp"
 #include "tags.hpp"
 #include "error.hpp"
-#include "types.hpp"
+#include "futils.hpp"
 #include "ifd.hpp"
 #include "value.hpp"
 #include "makernote.hpp"
@@ -48,6 +49,10 @@ EXIV2_RCSID("@(#) $Id$")
 #include <cstdlib>
 #include <cassert>
 #include <cmath>
+
+#ifdef EXV_HAVE_ICONV
+# include <iconv.h>
+#endif
 
 // *****************************************************************************
 // class member definitions
@@ -459,6 +464,21 @@ namespace Exiv2 {
                 N_("Contains four ASCII characters representing the TIFF/EP standard "
                 "version of a TIFF/EP file, eg '1', '0', '0', '0'"), 
                 ifd0Id, otherTags, unsignedByte, printValue), // TIFF/EP Tag
+        TagInfo(0x9c9b, "XPTitle", N_("Windows Title"),
+                N_("Title tag used by Windows, encoded in UCS2"), 
+                ifd0Id, otherTags, unsignedByte, printUcs2), // Windows Tag
+        TagInfo(0x9c9c, "XPComment", N_("Windows Comment"), 
+                N_("Comment tag used by Windows, encoded in UCS2"), 
+                ifd0Id, otherTags, unsignedByte, printUcs2), // Windows Tag
+        TagInfo(0x9c9d, "XPAuthor", N_("Windows Author"), 
+                N_("Author tag used by Windows, encoded in UCS2"),
+                ifd0Id, otherTags, unsignedByte, printUcs2), // Windows Tag
+        TagInfo(0x9c9e, "XPKeywords", N_("Windows Keywords"), 
+                N_("Keywords tag used by Windows, encoded in UCS2"),
+                ifd0Id, otherTags, unsignedByte, printUcs2), // Windows Tag
+        TagInfo(0x9c9f, "XPSubject", N_("Windows Subject"), 
+                N_("Subject tag used by Windows, encoded in UCS2"),
+                ifd0Id, otherTags, unsignedByte, printUcs2), // Windows Tag
         // End of list marker
         TagInfo(0xffff, "(UnknownIfdTag)", N_("Unknown IFD tag"),
                 N_("Unknown IFD tag"), 
@@ -1645,6 +1665,64 @@ namespace Exiv2 {
         return os;
     } // printDegrees
     
+    std::ostream& printUcs2(std::ostream& os, const Value& value)
+    {
+#ifdef EXV_HAVE_ICONV
+        bool go = true;
+        iconv_t cd = (iconv_t)(-1);
+        if (value.typeId() != unsignedByte) {
+            go = false;
+        }
+        if (go) {
+            cd = iconv_open("UTF-8", "UCS-2LE");
+            if (cd == (iconv_t)(-1)) {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Warning: iconv_open: " << strError() << "\n";
+#endif
+                go = false;
+            }
+        }
+        if (go) {
+            DataBuf ib(value.size());
+            value.copy(ib.pData_, invalidByteOrder);
+            DataBuf ob(value.size());
+            char* outptr = reinterpret_cast<char*>(ob.pData_);
+            const char* outbuf = outptr;
+            size_t outbytesleft = ob.size_;
+            EXV_ICONV_CONST char* inbuf 
+                = reinterpret_cast<EXV_ICONV_CONST char*>(ib.pData_);
+            size_t inbytesleft = ib.size_;
+            size_t rc = iconv(cd,
+                              &inbuf, 
+                              &inbytesleft, 
+                              &outptr,
+                              &outbytesleft);
+            if (rc == size_t(-1)) {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Warning: iconv: "
+                          << strError() 
+                          << " inbytesleft = " << inbytesleft << "\n";
+#endif
+                go = false;
+            }
+            if (go) {
+                // Todo: What if outbytesleft == 0
+                os << std::string(outbuf, outptr-outbuf);
+            }
+        }
+        if (cd != (iconv_t)(-1)) {
+            iconv_close(cd);
+        }
+        if (!go) {
+            os << value;
+        }
+#else // !EXV_HAVE_ICONV
+        os << value;
+#endif // EXV_HAVE_ICONV
+        return os;
+
+    } // printUcs2
+
     std::ostream& print0x0006(std::ostream& os, const Value& value)
     {
         std::ostringstream oss;
