@@ -55,7 +55,7 @@ CPPFLAGS = -I. @CPPFLAGS@ -DEXV_LOCALEDIR=\"$(localedir)\"
 
 # Linker flags and libraries
 LDFLAGS = @LDFLAGS@
-LIBS = @LTLIBINTL@ @LIBS@
+LIBS = @LTLIBINTL@ @LTLIBICONV@ @LIBS@
 
 # Suffix of executables
 EXEEXT := @EXEEXT@

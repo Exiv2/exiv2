@@ -54,6 +54,10 @@ num=447 # Problem only visible in Valgrind
 filename=`prep_file $num`
 $binpath/exiv2 -pi $filename
 
+num=460
+filename=`prep_file $num`
+$binpath/exiv2 -pt $filename
+
 num=479
 filename=`prep_file $num`
 $binpath/exiv2 -pt $filename
