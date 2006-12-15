@@ -1086,7 +1086,7 @@ namespace Exiv2 {
     {
 #ifdef EXV_HAVE_LENSDATA
         //#-----------------------------------------
-        //# List of AF F-Mount lenses - version 2.07
+        //# List of AF F-Mount lenses - version 2.08
         //#-----------------------------------------
         //#
         //# created by Robert Rottmerhusen 2005 - 2006
@@ -1204,9 +1204,9 @@ namespace Exiv2 {
             {0x8A,0x54,0x6A,0x6A,0x24,0x24,0x8C,0x0E, N_("Nikon"), N_("AF-S VR Micro-Nikkor 105mm f/2.8G IF-ED")},
             {0x8B,0x40,0x2D,0x80,0x2C,0x3C,0x8D,0x0E, N_("Nikon"), N_("AF-S DX VR Zoom-Nikkor 18-200mm f/3.5-5.6G IF-ED")},
             {0x8C,0x40,0x2D,0x53,0x2C,0x3C,0x8E,0x06, N_("Nikon"), N_("AF-S DX Zoom-Nikkor 18-55mm f/3.5-5.6G ED")},
+            {0x8D,0x44,0x5C,0x8E,0x34,0x3C,0x8F,0x0E, N_("Nikon"), N_("AF-S VR Zoom-Nikkor 70-300mm f/4.5-5.6G IF-ED")},
             {0x8F,0x40,0x2D,0x72,0x2C,0x3C,0x91,0x06, N_("Nikon"), N_("AF-S DX Zoom-Nikkor 18-135mm f/3.5-5.6G IF-ED")},
             {0x94,0x40,0x2D,0x53,0x2C,0x3C,0x96,0x06, N_("Nikon"), N_("AF-S DX Zoom-Nikkor 18-55mm f/3.5-5.6G ED II")},
-            //#"?? ?? 5C 8E 34 3C ??" "0E" "Nikon" "AF-S VR Zoom-Nikkor 70-300mm f/4.5-5.6G IF-ED";
             //#
             {0x06,0x3F,0x68,0x68,0x2C,0x2C,0x06,0x00, N_("Cosina"), N_("100mm F/3.5 Macro")},
             //#
