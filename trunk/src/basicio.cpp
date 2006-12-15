@@ -67,7 +67,7 @@ EXIV2_RCSID("@(#) $Id$")
 namespace Exiv2 {
 
     FileIo::FileIo(const std::string& path)
-        : path_(path), fp_(0), opMode_(opSeek), 
+        : path_(path), fp_(0), opMode_(opSeek),
           pMappedArea_(0), mappedLength_(0), isMalloced_(false)
     {
     }
@@ -223,7 +223,7 @@ namespace Exiv2 {
             fileIo->close();
             // Check if the file can be written to, if it already exists
             if (open("w+b") != 0) {
-                // Remove the (temporary) file 
+                // Remove the (temporary) file
                 std::remove(fileIo->path_.c_str());
                 throw Error(10, path_, "w+b", strError());
             }

@@ -20,7 +20,7 @@
  */
 /*
   File:      i18n.h
-  Brief:     i18n definitions. Do not use. This is an Exiv2 internal header. 
+  Brief:     i18n definitions. Do not use. This is an Exiv2 internal header.
   Version:   $Rev$
   Author(s): Gilles Caulier (gc) <caulier.gilles@kdemail.net>
   History:   01-Nov-06, gc: created

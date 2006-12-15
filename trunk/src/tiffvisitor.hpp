@@ -389,7 +389,7 @@ namespace Exiv2 {
         //! Return the base offset. See class TiffRwState for details
         uint32_t baseOffset() const;
         //! Create a TIFF component for \em extendedTag and group
-        std::auto_ptr<TiffComponent> create(uint32_t extendedTag, 
+        std::auto_ptr<TiffComponent> create(uint32_t extendedTag,
                                             uint16_t group) const;
         //@}
 

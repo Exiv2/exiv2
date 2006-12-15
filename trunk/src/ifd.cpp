@@ -334,7 +334,7 @@ namespace Exiv2 {
             // Sanity check with an "unreasonably" large number
             if (n > 256) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Error: " 
+                std::cerr << "Error: "
                           << "Directory " << ExifTags::ifdName(ifdId_) << " with "
                           << n << " entries considered invalid; not read.\n";
 #endif
@@ -380,7 +380,7 @@ namespace Exiv2 {
                     pNext_ = const_cast<byte*>(buf + o);
                 }
                 next_ = getULong(buf + o, byteOrder);
-                if (   static_cast<long>(next_) + shift < 0 
+                if (   static_cast<long>(next_) + shift < 0
                     || static_cast<long>(next_) + shift >= len) {
 #ifndef SUPPRESS_WARNINGS
                     std::cerr << "Warning: " << ExifTags::ifdName(ifdId_)

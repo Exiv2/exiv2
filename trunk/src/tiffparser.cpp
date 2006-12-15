@@ -145,12 +145,12 @@ namespace Exiv2 {
         { "*",         0x8649, Group::ifd0,    &TiffMetadataDecoder::decodeIrbIptc      }
     };
 
-    const DecoderFct TiffDecoder::findDecoder(const std::string& make, 
+    const DecoderFct TiffDecoder::findDecoder(const std::string& make,
                                                     uint32_t     extendedTag,
                                                     uint16_t     group)
     {
         DecoderFct decoderFct = &TiffMetadataDecoder::decodeStdTiffEntry;
-        const TiffDecoderInfo* td = find(tiffDecoderInfo_, 
+        const TiffDecoderInfo* td = find(tiffDecoderInfo_,
                                          TiffDecoderInfo::Key(make, extendedTag, group));
         if (td) {
             // This may set decoderFct to 0, meaning that the tag should not be decoded

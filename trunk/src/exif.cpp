@@ -483,12 +483,12 @@ namespace Exiv2 {
         assert(tmpIfd0.get() != 0);
         rc = tmpIfd0->read(tmpData.pData_,
                            tmpData.size_,
-                           tmpTiffHeader->offset(), 
+                           tmpTiffHeader->offset(),
                            tmpTiffHeader->byteOrder());
         if (rc) return rc; // no point to continue if there is no IFD0
 
         // We have at least a valid IFD0, so replace old metadata with new now
-        // After this point we only return 0 (success), although parts of the 
+        // After this point we only return 0 (success), although parts of the
         // Exif data may be missing due to problems reading specific IFDs.
 
         this->clear(); // Deletes existing pointers

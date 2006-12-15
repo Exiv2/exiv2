@@ -358,7 +358,7 @@ const char* _exvGettext(const char* str)
 # endif
         exvGettextInitialized = true;
     }
-  
+
     return dgettext(EXV_PACKAGE, str);
 }
 #endif // EXV_ENABLE_NLS

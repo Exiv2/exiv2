@@ -100,8 +100,8 @@ bug tracking system</a>.</p>
   published by the Free Software Foundation; either version 2 of the License, or
   (at your option) any later version.</P>
 
-  <P>Alternatively, %Exiv2 is also available with a commercial license, which 
-  allows it to be used in closed-source projects. 
+  <P>Alternatively, %Exiv2 is also available with a commercial license, which
+  allows it to be used in closed-source projects.
   <A HREF="mailto:ahuggel@gmx.net">Contact me</A> for more information.</P>
 
   <P>%Exiv2 is distributed in the hope that it will be useful, but WITHOUT ANY
