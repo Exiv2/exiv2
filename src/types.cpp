@@ -353,7 +353,7 @@ const char* _exvGettext(const char* str)
 
     if (!exvGettextInitialized) {
         bindtextdomain(EXV_PACKAGE, EXV_LOCALEDIR);
-# ifdef HAVE_BIND_TEXTDOMAIN_CODESET
+# ifdef EXV_HAVE_BIND_TEXTDOMAIN_CODESET
         bind_textdomain_codeset (EXV_PACKAGE, "UTF-8");
 # endif
         exvGettextInitialized = true;
