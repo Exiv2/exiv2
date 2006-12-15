@@ -225,7 +225,7 @@ namespace Exiv2 {
 
     //! Base IFD Tags (IFD0 and IFD1)
     static const TagInfo ifdTagInfo[] = {
-        TagInfo(0x00fe, "NewSubfileType", N_("New Subfile Type"), 
+        TagInfo(0x00fe, "NewSubfileType", N_("New Subfile Type"),
                 N_("A general indication of the kind of data contained in this subfile."),
                 ifd0Id, imgStruct, unsignedLong, EXV_PRINT_TAG(exifNewSubfileType)), // TIFF tag
         TagInfo(0x0100, "ImageWidth", N_("Image Width"),
@@ -249,15 +249,15 @@ namespace Exiv2 {
                 "not necessary and is omitted. When thumbnails use JPEG "
                 "compression, this tag value is set to 6."),
                 ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifCompression)),
-        TagInfo(0x0106, "PhotometricInterpretation", N_("Photometric Interpretation"), 
+        TagInfo(0x0106, "PhotometricInterpretation", N_("Photometric Interpretation"),
                 N_("The pixel composition. In JPEG compressed data a JPEG "
                 "marker is used instead of this tag."),
                 ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifPhotometricInterpretation)),
-        TagInfo(0x010a, "FillOrder", N_("Fill Order"), 
-                N_("The logical order of bits within a byte"), 
+        TagInfo(0x010a, "FillOrder", N_("Fill Order"),
+                N_("The logical order of bits within a byte"),
                 ifd0Id, imgStruct, unsignedShort, printValue), // TIFF tag
-        TagInfo(0x010d, "DocumentName", N_("Document Name"), 
-                N_("The name of the document from which this image was scanned"), 
+        TagInfo(0x010d, "DocumentName", N_("Document Name"),
+                N_("The name of the document from which this image was scanned"),
                 ifd0Id, imgStruct, asciiString, printValue), // TIFF tag
         TagInfo(0x010e, "ImageDescription", N_("Image Description"),
                 N_("A character string giving the title of the image. It may be "
@@ -332,7 +332,7 @@ namespace Exiv2 {
                 "firmware of the camera or image input device used to "
                 "generate the image. The detailed format is not specified, but "
                 "it is recommended that the example shown below be "
-                "followed. When the field is left blank, it is treated as unknown."), 
+                "followed. When the field is left blank, it is treated as unknown."),
                 ifd0Id, otherTags, asciiString, printValue),
         TagInfo(0x0132, "DateTime", N_("Date and Time"),
                 N_("The date and time of image creation. In Exif standard, "
@@ -420,10 +420,10 @@ namespace Exiv2 {
                 N_("Contains two values representing the minimum rows and columns "
                 "to define the repeating patterns of the color filter array"),
                 ifd0Id, otherTags, unsignedShort, printValue), // TIFF/EP Tag
-        TagInfo(0x828e, "CFAPattern", N_("CFA Pattern"), 
+        TagInfo(0x828e, "CFAPattern", N_("CFA Pattern"),
                 N_("Indicates the color filter array (CFA) geometric pattern of the image "
                 "sensor when a one-chip color area sensor is used. It does not apply to "
-                "all sensing methods"), 
+                "all sensing methods"),
                 ifd0Id, otherTags, unsignedByte, printValue), // TIFF/EP Tag
         TagInfo(0x828f, "BatteryLevel", N_("Battery Level"),
                 "Contains a value of the battery level as a fraction or string",
@@ -460,28 +460,28 @@ namespace Exiv2 {
                 "Interoperability structure of the GPS Info IFD, like that of "
                 "Exif IFD, has no image data."),
                 ifd0Id, exifFormat, unsignedLong, printValue),
-        TagInfo(0x9216, "TIFFEPStandardID", N_("TIFF/EP Standard ID"), 
+        TagInfo(0x9216, "TIFFEPStandardID", N_("TIFF/EP Standard ID"),
                 N_("Contains four ASCII characters representing the TIFF/EP standard "
-                "version of a TIFF/EP file, eg '1', '0', '0', '0'"), 
+                "version of a TIFF/EP file, eg '1', '0', '0', '0'"),
                 ifd0Id, otherTags, unsignedByte, printValue), // TIFF/EP Tag
         TagInfo(0x9c9b, "XPTitle", N_("Windows Title"),
-                N_("Title tag used by Windows, encoded in UCS2"), 
+                N_("Title tag used by Windows, encoded in UCS2"),
                 ifd0Id, otherTags, unsignedByte, printUcs2), // Windows Tag
-        TagInfo(0x9c9c, "XPComment", N_("Windows Comment"), 
-                N_("Comment tag used by Windows, encoded in UCS2"), 
+        TagInfo(0x9c9c, "XPComment", N_("Windows Comment"),
+                N_("Comment tag used by Windows, encoded in UCS2"),
                 ifd0Id, otherTags, unsignedByte, printUcs2), // Windows Tag
-        TagInfo(0x9c9d, "XPAuthor", N_("Windows Author"), 
+        TagInfo(0x9c9d, "XPAuthor", N_("Windows Author"),
                 N_("Author tag used by Windows, encoded in UCS2"),
                 ifd0Id, otherTags, unsignedByte, printUcs2), // Windows Tag
-        TagInfo(0x9c9e, "XPKeywords", N_("Windows Keywords"), 
+        TagInfo(0x9c9e, "XPKeywords", N_("Windows Keywords"),
                 N_("Keywords tag used by Windows, encoded in UCS2"),
                 ifd0Id, otherTags, unsignedByte, printUcs2), // Windows Tag
-        TagInfo(0x9c9f, "XPSubject", N_("Windows Subject"), 
+        TagInfo(0x9c9f, "XPSubject", N_("Windows Subject"),
                 N_("Subject tag used by Windows, encoded in UCS2"),
                 ifd0Id, otherTags, unsignedByte, printUcs2), // Windows Tag
         // End of list marker
         TagInfo(0xffff, "(UnknownIfdTag)", N_("Unknown IFD tag"),
-                N_("Unknown IFD tag"), 
+                N_("Unknown IFD tag"),
                 ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
     };
 
@@ -586,7 +586,7 @@ namespace Exiv2 {
 
     //! FileSource, tag 0xa300
     extern const TagDetails exifFileSource[] = {
-        { 1, N_("Film scanner")            },	// Not defined to Exif 2.2 spec. 
+        { 1, N_("Film scanner")            },	// Not defined to Exif 2.2 spec.
         { 2, N_("Reflexion print scanner") },	// but used by some scanner device softwares.
         { 3, N_("Digital still camera")    }
     };
@@ -663,42 +663,42 @@ namespace Exiv2 {
 
     // Exif IFD Tags
     static const TagInfo exifTagInfo[] = {
-        TagInfo(0x829a, "ExposureTime", N_("Exposure Time"), 
-                N_("Exposure time, given in seconds (sec)."), 
+        TagInfo(0x829a, "ExposureTime", N_("Exposure Time"),
+                N_("Exposure time, given in seconds (sec)."),
                 exifIfdId, captureCond, unsignedRational, print0x829a),
-        TagInfo(0x829d, "FNumber", N_("FNumber"), 
-                N_("The F number."), 
+        TagInfo(0x829d, "FNumber", N_("FNumber"),
+                N_("The F number."),
                 exifIfdId, captureCond, unsignedRational, print0x829d),
-        TagInfo(0x8822, "ExposureProgram", N_("Exposure Program"), 
+        TagInfo(0x8822, "ExposureProgram", N_("Exposure Program"),
                 N_("The class of the program used by the camera to set exposure "
-                "when the picture is taken."), 
+                "when the picture is taken."),
                 exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifExposureProgram)),
-        TagInfo(0x8824, "SpectralSensitivity", N_("Spectral Sensitivity"), 
+        TagInfo(0x8824, "SpectralSensitivity", N_("Spectral Sensitivity"),
                 N_("Indicates the spectral sensitivity of each channel of the "
                 "camera used. The tag value is an ASCII string compatible "
-                "with the standard developed by the ASTM Technical Committee."), 
+                "with the standard developed by the ASTM Technical Committee."),
                 exifIfdId, captureCond, asciiString, printValue),
-        TagInfo(0x8827, "ISOSpeedRatings", N_("ISO Speed Ratings"), 
+        TagInfo(0x8827, "ISOSpeedRatings", N_("ISO Speed Ratings"),
                 N_("Indicates the ISO Speed and ISO Latitude of the camera or "
-                "input device as specified in ISO 12232."), 
+                "input device as specified in ISO 12232."),
                 exifIfdId, captureCond, unsignedShort, print0x8827),
-        TagInfo(0x8828, "OECF", N_("Opto-Electoric Conversion Function"), 
+        TagInfo(0x8828, "OECF", N_("Opto-Electoric Conversion Function"),
                 N_("Indicates the Opto-Electoric Conversion Function (OECF) "
                 "specified in ISO 14524. <OECF> is the relationship between "
-                "the camera optical input and the image values."), 
+                "the camera optical input and the image values."),
                 exifIfdId, captureCond, undefined, printValue),
-        TagInfo(0x9000, "ExifVersion", N_("Exif Version"), 
+        TagInfo(0x9000, "ExifVersion", N_("Exif Version"),
                 N_("The version of this standard supported. Nonexistence of this "
-                "field is taken to mean nonconformance to the standard."), 
+                "field is taken to mean nonconformance to the standard."),
                 exifIfdId, exifVersion, undefined, printValue),
-        TagInfo(0x9003, "DateTimeOriginal", N_("Date and Time (original)"), 
+        TagInfo(0x9003, "DateTimeOriginal", N_("Date and Time (original)"),
                 N_("The date and time when the original image data was generated. "
-                "For a digital still camera the date and time the picture was taken are recorded."), 
+                "For a digital still camera the date and time the picture was taken are recorded."),
                 exifIfdId, dateTime, asciiString, printValue),
-        TagInfo(0x9004, "DateTimeDigitized", N_("Date and Time (digitized)"), 
-                N_("The date and time when the image was stored as digital data."), 
+        TagInfo(0x9004, "DateTimeDigitized", N_("Date and Time (digitized)"),
+                N_("The date and time when the image was stored as digital data."),
                 exifIfdId, dateTime, asciiString, printValue),
-        TagInfo(0x9101, "ComponentsConfiguration", N_("Components Configuration"), 
+        TagInfo(0x9101, "ComponentsConfiguration", N_("Components Configuration"),
                 N_("Information specific to compressed data. The channels of "
                 "each component are arranged in order from the 1st "
                 "component to the 4th. For uncompressed data the data "
@@ -706,224 +706,224 @@ namespace Exiv2 {
                 "However, since <PhotometricInterpretation> can only "
                 "express the order of Y, Cb and Cr, this tag is provided "
                 "for cases when compressed data uses components other than "
-                "Y, Cb, and Cr and to enable support of other sequences."), 
+                "Y, Cb, and Cr and to enable support of other sequences."),
                 exifIfdId, imgConfig, undefined, print0x9101),
-        TagInfo(0x9102, "CompressedBitsPerPixel", N_("Compressed Bits per Pixel"), 
+        TagInfo(0x9102, "CompressedBitsPerPixel", N_("Compressed Bits per Pixel"),
                 N_("Information specific to compressed data. The compression mode "
-                "used for a compressed image is indicated in unit bits per pixel."), 
+                "used for a compressed image is indicated in unit bits per pixel."),
                 exifIfdId, imgConfig, unsignedRational, printFloat),
-        TagInfo(0x9201, "ShutterSpeedValue", N_("Shutter speed"), 
+        TagInfo(0x9201, "ShutterSpeedValue", N_("Shutter speed"),
                 N_("Shutter speed. The unit is the APEX (Additive System of "
-                "Photographic Exposure) setting."), 
+                "Photographic Exposure) setting."),
                 exifIfdId, captureCond, signedRational, print0x9201),
-        TagInfo(0x9202, "ApertureValue", N_("Aperture"), 
-                N_("The lens aperture. The unit is the APEX value."), 
+        TagInfo(0x9202, "ApertureValue", N_("Aperture"),
+                N_("The lens aperture. The unit is the APEX value."),
                 exifIfdId, captureCond, unsignedRational, print0x9202),
-        TagInfo(0x9203, "BrightnessValue", N_("Brightness"), 
+        TagInfo(0x9203, "BrightnessValue", N_("Brightness"),
                 N_("The value of brightness. The unit is the APEX value. "
-                "Ordinarily it is given in the range of -99.99 to 99.99."), 
+                "Ordinarily it is given in the range of -99.99 to 99.99."),
                 exifIfdId, captureCond, signedRational, printFloat),
-        TagInfo(0x9204, "ExposureBiasValue", N_("Exposure Bias"), 
+        TagInfo(0x9204, "ExposureBiasValue", N_("Exposure Bias"),
                 N_("The exposure bias. The units is the APEX value. Ordinarily "
-                "it is given in the range of -99.99 to 99.99."), 
+                "it is given in the range of -99.99 to 99.99."),
                 exifIfdId, captureCond, signedRational, print0x9204),
-        TagInfo(0x9205, "MaxApertureValue", N_("Max Aperture Value"), 
+        TagInfo(0x9205, "MaxApertureValue", N_("Max Aperture Value"),
                 N_("The smallest F number of the lens. The unit is the APEX value. "
                 "Ordinarily it is given in the range of 00.00 to 99.99, "
-                "but it is not limited to this range."), 
+                "but it is not limited to this range."),
                 exifIfdId, captureCond, unsignedRational, print0x9202),
-        TagInfo(0x9206, "SubjectDistance", N_("Subject Distance"), 
-                N_("The distance to the subject, given in meters."), 
+        TagInfo(0x9206, "SubjectDistance", N_("Subject Distance"),
+                N_("The distance to the subject, given in meters."),
                 exifIfdId, captureCond, unsignedRational, print0x9206),
-        TagInfo(0x9207, "MeteringMode", N_("Metering Mode"), 
-                N_("The metering mode."), 
+        TagInfo(0x9207, "MeteringMode", N_("Metering Mode"),
+                N_("The metering mode."),
                 exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifMeteringMode)),
-        TagInfo(0x9208, "LightSource", N_("Light Source"), 
-                N_("The kind of light source."), 
+        TagInfo(0x9208, "LightSource", N_("Light Source"),
+                N_("The kind of light source."),
                 exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifLightSource)),
-        TagInfo(0x9209, "Flash", N_("Flash"), 
-                N_("This tag is recorded when an image is taken using a strobe light (flash)."), 
+        TagInfo(0x9209, "Flash", N_("Flash"),
+                N_("This tag is recorded when an image is taken using a strobe light (flash)."),
                 exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifFlash)),
-        TagInfo(0x920a, "FocalLength", N_("Focal Length"), 
+        TagInfo(0x920a, "FocalLength", N_("Focal Length"),
                 N_("The actual focal length of the lens, in mm. Conversion is not "
-                "made to the focal length of a 35 mm film camera."), 
+                "made to the focal length of a 35 mm film camera."),
                 exifIfdId, captureCond, unsignedRational, print0x920a),
-        TagInfo(0x9214, "SubjectArea", N_("Subject Area"), 
+        TagInfo(0x9214, "SubjectArea", N_("Subject Area"),
                 N_("This tag indicates the location and area of the main subject "
-                "in the overall scene."), 
+                "in the overall scene."),
                 exifIfdId, captureCond, unsignedShort, printValue),
-        TagInfo(0x927c, "MakerNote", N_("Maker Note"), 
+        TagInfo(0x927c, "MakerNote", N_("Maker Note"),
                 N_("A tag for manufacturers of Exif writers to record any desired "
-                "information. The contents are up to the manufacturer."), 
+                "information. The contents are up to the manufacturer."),
                 exifIfdId, userInfo, undefined, printValue),
-        TagInfo(0x9286, "UserComment", N_("User Comment"), 
+        TagInfo(0x9286, "UserComment", N_("User Comment"),
                 N_("A tag for Exif users to write keywords or comments on the image "
                 "besides those in <ImageDescription>, and without the "
-                "character code limitations of the <ImageDescription> tag."), 
+                "character code limitations of the <ImageDescription> tag."),
                 exifIfdId, userInfo, comment, print0x9286),
-        TagInfo(0x9290, "SubSecTime", N_("Sub-seconds Time"), 
-                N_("A tag used to record fractions of seconds for the <DateTime> tag."), 
+        TagInfo(0x9290, "SubSecTime", N_("Sub-seconds Time"),
+                N_("A tag used to record fractions of seconds for the <DateTime> tag."),
                 exifIfdId, dateTime, asciiString, printValue),
-        TagInfo(0x9291, "SubSecTimeOriginal", N_("Sub-seconds Time Original"), 
-                N_("A tag used to record fractions of seconds for the <DateTimeOriginal> tag."), 
+        TagInfo(0x9291, "SubSecTimeOriginal", N_("Sub-seconds Time Original"),
+                N_("A tag used to record fractions of seconds for the <DateTimeOriginal> tag."),
                 exifIfdId, dateTime, asciiString, printValue),
-        TagInfo(0x9292, "SubSecTimeDigitized", N_("Sub-seconds Time Digitized"), 
-                N_("A tag used to record fractions of seconds for the <DateTimeDigitized> tag."), 
+        TagInfo(0x9292, "SubSecTimeDigitized", N_("Sub-seconds Time Digitized"),
+                N_("A tag used to record fractions of seconds for the <DateTimeDigitized> tag."),
                 exifIfdId, dateTime, asciiString, printValue),
-        TagInfo(0xa000, "FlashpixVersion", N_("FlashPix Version"), 
-                N_("The FlashPix format version supported by a FPXR file."), 
+        TagInfo(0xa000, "FlashpixVersion", N_("FlashPix Version"),
+                N_("The FlashPix format version supported by a FPXR file."),
                 exifIfdId, exifVersion, undefined, printValue),
-        TagInfo(0xa001, "ColorSpace", N_("Color Space"), 
+        TagInfo(0xa001, "ColorSpace", N_("Color Space"),
                 N_("The color space information tag is always "
                 "recorded as the color space specifier. Normally sRGB "
                 "is used to define the color space based on the PC monitor "
                 "conditions and environment. If a color space other than "
                 "sRGB is used, Uncalibrated is set. Image data "
                 "recorded as Uncalibrated can be treated as sRGB when it is "
-                "converted to FlashPix."), 
+                "converted to FlashPix."),
                 exifIfdId, imgCharacter, unsignedShort, EXV_PRINT_TAG(exifColorSpace)),
-        TagInfo(0xa002, "PixelXDimension", N_("Pixel X Dimension"), 
+        TagInfo(0xa002, "PixelXDimension", N_("Pixel X Dimension"),
                 N_("Information specific to compressed data. When a "
                 "compressed file is recorded, the valid width of the "
                 "meaningful image must be recorded in this tag, whether or "
                 "not there is padding data or a restart marker. This tag "
-                "should not exist in an uncompressed file."), 
+                "should not exist in an uncompressed file."),
                 exifIfdId, imgConfig, unsignedLong, printValue),
-        TagInfo(0xa003, "PixelYDimension", N_("Pixel Y Dimension"), 
+        TagInfo(0xa003, "PixelYDimension", N_("Pixel Y Dimension"),
                 N_("Information specific to compressed data. When a compressed "
                 "file is recorded, the valid height of the meaningful image "
                 "must be recorded in this tag, whether or not there is padding "
                 "data or a restart marker. This tag should not exist in an "
                 "uncompressed file. Since data padding is unnecessary in the vertical "
                 "direction, the number of lines recorded in this valid image height tag "
-	        "will in fact be the same as that recorded in the SOF."), 
+	        "will in fact be the same as that recorded in the SOF."),
                 exifIfdId, imgConfig, unsignedLong, printValue),
-        TagInfo(0xa004, "RelatedSoundFile", N_("Related Sound File"), 
+        TagInfo(0xa004, "RelatedSoundFile", N_("Related Sound File"),
                 N_("This tag is used to record the name of an audio file related "
                 "to the image data. The only relational information "
                 "recorded here is the Exif audio file name and extension (an "
                 "ASCII string consisting of 8 characters + '.' + 3 "
                 "characters). The path is not recorded."),
                 exifIfdId, relatedFile, asciiString, printValue),
-        TagInfo(0xa005, "InteroperabilityTag", N_("Interoperability IFD Pointer"), 
+        TagInfo(0xa005, "InteroperabilityTag", N_("Interoperability IFD Pointer"),
                 N_("Interoperability IFD is composed of tags which stores the "
                 "information to ensure the Interoperability and pointed "
                 "by the following tag located in Exif IFD. "
                 "The Interoperability structure of Interoperability IFD is "
                 "the same as TIFF defined IFD structure but does not contain the "
-                "image data characteristically compared with normal TIFF IFD."), 
+                "image data characteristically compared with normal TIFF IFD."),
                 exifIfdId, exifFormat, unsignedLong, printValue),
-        TagInfo(0xa20b, "FlashEnergy", N_("Flash Energy"), 
+        TagInfo(0xa20b, "FlashEnergy", N_("Flash Energy"),
                 N_("Indicates the strobe energy at the time the image is "
-                "captured, as measured in Beam Candle Power Seconds (BCPS)."), 
+                "captured, as measured in Beam Candle Power Seconds (BCPS)."),
                 exifIfdId, captureCond, unsignedRational, printValue),
-        TagInfo(0xa20c, "SpatialFrequencyResponse", N_("Spatial Frequency Response"), 
+        TagInfo(0xa20c, "SpatialFrequencyResponse", N_("Spatial Frequency Response"),
                 N_("This tag records the camera or input device spatial frequency "
                 "table and SFR values in the direction of image width, "
-                "image height, and diagonal direction, as specified in ISO 12233."), 
+                "image height, and diagonal direction, as specified in ISO 12233."),
                 exifIfdId, captureCond, undefined, printValue),
-        TagInfo(0xa20e, "FocalPlaneXResolution", N_("Focal Plane X-Resolution"), 
+        TagInfo(0xa20e, "FocalPlaneXResolution", N_("Focal Plane X-Resolution"),
                 N_("Indicates the number of pixels in the image width (X) direction "
-                "per <FocalPlaneResolutionUnit> on the camera focal plane."), 
+                "per <FocalPlaneResolutionUnit> on the camera focal plane."),
                 exifIfdId, captureCond, unsignedRational, printFloat),
-        TagInfo(0xa20f, "FocalPlaneYResolution", N_("Focal Plane Y-Resolution"), 
+        TagInfo(0xa20f, "FocalPlaneYResolution", N_("Focal Plane Y-Resolution"),
                 N_("Indicates the number of pixels in the image height (V) direction "
-                "per <FocalPlaneResolutionUnit> on the camera focal plane."), 
+                "per <FocalPlaneResolutionUnit> on the camera focal plane."),
                 exifIfdId, captureCond, unsignedRational, printFloat),
-        TagInfo(0xa210, "FocalPlaneResolutionUnit", N_("Focal Plane Resolution Unit"), 
+        TagInfo(0xa210, "FocalPlaneResolutionUnit", N_("Focal Plane Resolution Unit"),
                 N_("Indicates the unit for measuring <FocalPlaneXResolution> and "
-                "<FocalPlaneYResolution>. This value is the same as the <ResolutionUnit>."), 
+                "<FocalPlaneYResolution>. This value is the same as the <ResolutionUnit>."),
                 exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifUnit)),
-        TagInfo(0xa214, "SubjectLocation", N_("Subject Location"), 
+        TagInfo(0xa214, "SubjectLocation", N_("Subject Location"),
                 N_("Indicates the location of the main subject in the scene. The "
                 "value of this tag represents the pixel at the center of the "
                 "main subject relative to the left edge, prior to rotation "
                 "processing as per the <Rotation> tag. The first value "
-                "indicates the X column number and second indicates the Y row number."), 
+                "indicates the X column number and second indicates the Y row number."),
                 exifIfdId, captureCond, unsignedShort, printValue),
-        TagInfo(0xa215, "ExposureIndex", N_("Exposure index"), 
+        TagInfo(0xa215, "ExposureIndex", N_("Exposure index"),
                 N_("Indicates the exposure index selected on the camera or "
-                "input device at the time the image is captured."), 
+                "input device at the time the image is captured."),
                 exifIfdId, captureCond, unsignedRational, printValue),
-        TagInfo(0xa217, "SensingMethod", N_("Sensing Method"), 
-                N_("Indicates the image sensor type on the camera or input device."), 
+        TagInfo(0xa217, "SensingMethod", N_("Sensing Method"),
+                N_("Indicates the image sensor type on the camera or input device."),
                 exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifSensingMethod)),
-        TagInfo(0xa300, "FileSource", N_("File Source"), 
+        TagInfo(0xa300, "FileSource", N_("File Source"),
                 N_("Indicates the image source. If a DSC recorded the image, "
                 "this tag value of this tag always be set to 3, indicating "
-                "that the image was recorded on a DSC."), 
+                "that the image was recorded on a DSC."),
                 exifIfdId, captureCond, undefined, EXV_PRINT_TAG(exifFileSource)),
-        TagInfo(0xa301, "SceneType", N_("Scene Type"), 
+        TagInfo(0xa301, "SceneType", N_("Scene Type"),
                 N_("Indicates the type of scene. If a DSC recorded the image, "
                 "this tag value must always be set to 1, indicating that the "
-                "image was directly photographed."), 
+                "image was directly photographed."),
                 exifIfdId, captureCond, undefined, EXV_PRINT_TAG(exifSceneType)),
-        TagInfo(0xa302, "CFAPattern", N_("Color Filter Array Pattern"), 
+        TagInfo(0xa302, "CFAPattern", N_("Color Filter Array Pattern"),
                 N_("Indicates the color filter array (CFA) geometric pattern of the "
                 "image sensor when a one-chip color area sensor is used. "
-                "It does not apply to all sensing methods."), 
+                "It does not apply to all sensing methods."),
                 exifIfdId, captureCond, undefined, printValue),
-        TagInfo(0xa401, "CustomRendered", N_("Custom Rendered"), 
+        TagInfo(0xa401, "CustomRendered", N_("Custom Rendered"),
                 N_("This tag indicates the use of special processing on image "
                 "data, such as rendering geared to output. When special "
                 "processing is performed, the reader is expected to disable "
-                "or minimize any further processing."), 
+                "or minimize any further processing."),
                 exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifCustomRendered)),
-        TagInfo(0xa402, "ExposureMode", N_("Exposure Mode"), 
+        TagInfo(0xa402, "ExposureMode", N_("Exposure Mode"),
                 N_("This tag indicates the exposure mode set when the image was "
                 "shot. In auto-bracketing mode, the camera shoots a series of "
-                "frames of the same scene at different exposure settings."), 
+                "frames of the same scene at different exposure settings."),
                 exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifExposureMode)),
-        TagInfo(0xa403, "WhiteBalance", N_("White Balance"), 
-                N_("This tag indicates the white balance mode set when the image was shot."), 
+        TagInfo(0xa403, "WhiteBalance", N_("White Balance"),
+                N_("This tag indicates the white balance mode set when the image was shot."),
                 exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifWhiteBalance)),
-        TagInfo(0xa404, "DigitalZoomRatio", N_("Digital Zoom Ratio"), 
+        TagInfo(0xa404, "DigitalZoomRatio", N_("Digital Zoom Ratio"),
                 N_("This tag indicates the digital zoom ratio when the image was "
                 "shot. If the numerator of the recorded value is 0, this "
-                "indicates that digital zoom was not used."), 
+                "indicates that digital zoom was not used."),
                 exifIfdId, captureCond, unsignedRational, print0xa404),
-        TagInfo(0xa405, "FocalLengthIn35mmFilm", N_("Focal Length In 35mm Film"), 
+        TagInfo(0xa405, "FocalLengthIn35mmFilm", N_("Focal Length In 35mm Film"),
                 N_("This tag indicates the equivalent focal length assuming a "
                 "35mm film camera, in mm. A value of 0 means the focal "
                 "length is unknown. Note that this tag differs from the "
-                "<FocalLength> tag."), 
+                "<FocalLength> tag."),
                 exifIfdId, captureCond, unsignedShort, print0xa405),
-        TagInfo(0xa406, "SceneCaptureType", N_("Scene Capture Type"), 
+        TagInfo(0xa406, "SceneCaptureType", N_("Scene Capture Type"),
                 N_("This tag indicates the type of scene that was shot. It can "
                 "also be used to record the mode in which the image was "
-                "shot. Note that this differs from the <SceneType> tag."), 
+                "shot. Note that this differs from the <SceneType> tag."),
                 exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifSceneCaptureType)),
-        TagInfo(0xa407, "GainControl", N_("Gain Control"), 
-                N_("This tag indicates the degree of overall image gain adjustment."), 
+        TagInfo(0xa407, "GainControl", N_("Gain Control"),
+                N_("This tag indicates the degree of overall image gain adjustment."),
                 exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifGainControl)),
-        TagInfo(0xa408, "Contrast", N_("Contrast"), 
+        TagInfo(0xa408, "Contrast", N_("Contrast"),
                 N_("This tag indicates the direction of contrast processing "
-                "applied by the camera when the image was shot."), 
+                "applied by the camera when the image was shot."),
                 exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifContrast)),
-        TagInfo(0xa409, "Saturation", N_("Saturation"), 
+        TagInfo(0xa409, "Saturation", N_("Saturation"),
                 N_("This tag indicates the direction of saturation processing "
-                "applied by the camera when the image was shot."), 
+                "applied by the camera when the image was shot."),
                 exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifSaturation)),
-        TagInfo(0xa40a, "Sharpness", N_("Sharpness"), 
+        TagInfo(0xa40a, "Sharpness", N_("Sharpness"),
                 N_("This tag indicates the direction of sharpness processing "
-                "applied by the camera when the image was shot."), 
+                "applied by the camera when the image was shot."),
                 exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifSharpness)),
-        TagInfo(0xa40b, "DeviceSettingDescription", N_("Device Setting Description"), 
+        TagInfo(0xa40b, "DeviceSettingDescription", N_("Device Setting Description"),
                 N_("This tag indicates information on the picture-taking "
                 "conditions of a particular camera model. The tag is used "
-                "only to indicate the picture-taking conditions in the reader."), 
+                "only to indicate the picture-taking conditions in the reader."),
                 exifIfdId, captureCond, undefined, printValue),
-        TagInfo(0xa40c, "SubjectDistanceRange", N_("Subject Distance Range"), 
-                N_("This tag indicates the distance to the subject."), 
+        TagInfo(0xa40c, "SubjectDistanceRange", N_("Subject Distance Range"),
+                N_("This tag indicates the distance to the subject."),
                 exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifSubjectDistanceRange)),
-        TagInfo(0xa420, "ImageUniqueID", N_("Image Unique ID"), 
+        TagInfo(0xa420, "ImageUniqueID", N_("Image Unique ID"),
                 N_("This tag indicates an identifier assigned uniquely to "
                 "each image. It is recorded as an ASCII string equivalent "
-                "to hexadecimal notation and 128-bit fixed length."), 
+                "to hexadecimal notation and 128-bit fixed length."),
                 exifIfdId, otherTags, asciiString, printValue),
         // End of list marker
-        TagInfo(0xffff, "(UnknownExifTag)", N_("Unknown Exif tag"), 
-                N_("Unknown Exif tag"), 
+        TagInfo(0xffff, "(UnknownExifTag)", N_("Unknown Exif tag"),
+                N_("Unknown Exif tag"),
                 ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
     };
 
@@ -959,158 +959,158 @@ namespace Exiv2 {
 
     // GPS Info Tags
     static const TagInfo gpsTagInfo[] = {
-        TagInfo(0x0000, "GPSVersionID", N_("GPS Version ID"), 
+        TagInfo(0x0000, "GPSVersionID", N_("GPS Version ID"),
                 N_("Indicates the version of <GPSInfoIFD>. The version is given "
                 "as 2.0.0.0. This tag is mandatory when <GPSInfo> tag is "
                 "present. (Note: The <GPSVersionID> tag is given in bytes, "
                 "unlike the <ExifVersion> tag. When the version is "
-                "2.0.0.0, the tag value is 02000000.H)."), 
+                "2.0.0.0, the tag value is 02000000.H)."),
                 gpsIfdId, gpsTags, unsignedByte, printValue),
-        TagInfo(0x0001, "GPSLatitudeRef", N_("GPS Latitude Reference"), 
+        TagInfo(0x0001, "GPSLatitudeRef", N_("GPS Latitude Reference"),
                 N_("Indicates whether the latitude is north or south latitude. The "
-                "ASCII value 'N' indicates north latitude, and 'S' is south latitude."), 
+                "ASCII value 'N' indicates north latitude, and 'S' is south latitude."),
                 gpsIfdId, gpsTags, asciiString, EXV_PRINT_TAG(exifGPSLatitudeRef)),
-        TagInfo(0x0002, "GPSLatitude", N_("GPS Latitude"), 
+        TagInfo(0x0002, "GPSLatitude", N_("GPS Latitude"),
                 N_("Indicates the latitude. The latitude is expressed as three "
                 "RATIONAL values giving the degrees, minutes, and seconds, "
                 "respectively. When degrees, minutes and seconds are expressed, "
                 "the format is dd/1,mm/1,ss/1. When degrees and minutes are used "
                 "and, for example, fractions of minutes are given up to two "
-                "decimal places, the format is dd/1,mmmm/100,0/1."), 
+                "decimal places, the format is dd/1,mmmm/100,0/1."),
                 gpsIfdId, gpsTags, unsignedRational, printDegrees),
-        TagInfo(0x0003, "GPSLongitudeRef", N_("GPS Longitude Reference"), 
+        TagInfo(0x0003, "GPSLongitudeRef", N_("GPS Longitude Reference"),
                 N_("Indicates whether the longitude is east or west longitude. "
-                "ASCII 'E' indicates east longitude, and 'W' is west longitude."), 
+                "ASCII 'E' indicates east longitude, and 'W' is west longitude."),
                 gpsIfdId, gpsTags, asciiString, EXV_PRINT_TAG(exifGPSLongitudeRef)),
-        TagInfo(0x0004, "GPSLongitude", N_("GPS Longitude"), 
+        TagInfo(0x0004, "GPSLongitude", N_("GPS Longitude"),
                 N_("Indicates the longitude. The longitude is expressed as three "
                 "RATIONAL values giving the degrees, minutes, and seconds, "
                 "respectively. When degrees, minutes and seconds are expressed, "
                 "the format is ddd/1,mm/1,ss/1. When degrees and minutes are "
                 "used and, for example, fractions of minutes are given up to "
-                "two decimal places, the format is ddd/1,mmmm/100,0/1."), 
+                "two decimal places, the format is ddd/1,mmmm/100,0/1."),
                 gpsIfdId, gpsTags, unsignedRational, printDegrees),
-        TagInfo(0x0005, "GPSAltitudeRef", N_("GPS Altitude Reference"), 
+        TagInfo(0x0005, "GPSAltitudeRef", N_("GPS Altitude Reference"),
                 N_("Indicates the altitude used as the reference altitude. If the "
                 "reference is sea level and the altitude is above sea level, 0 "
                 "is given. If the altitude is below sea level, a value of 1 is given "
                 "and the altitude is indicated as an absolute value in the "
                 "GSPAltitude tag. The reference unit is meters. Note that this tag "
-                "is BYTE type, unlike other reference tags."), 
+                "is BYTE type, unlike other reference tags."),
                 gpsIfdId, gpsTags, unsignedByte, EXV_PRINT_TAG(exifGPSAltitudeRef)),
-        TagInfo(0x0006, "GPSAltitude", N_("GPS Altitude"), 
+        TagInfo(0x0006, "GPSAltitude", N_("GPS Altitude"),
                 N_("Indicates the altitude based on the reference in GPSAltitudeRef. "
-                "Altitude is expressed as one RATIONAL value. The reference unit is meters."), 
+                "Altitude is expressed as one RATIONAL value. The reference unit is meters."),
                 gpsIfdId, gpsTags, unsignedRational, print0x0006),
-        TagInfo(0x0007, "GPSTimeStamp", N_("GPS Time Stamp"), 
+        TagInfo(0x0007, "GPSTimeStamp", N_("GPS Time Stamp"),
                 N_("Indicates the time as UTC (Coordinated Universal Time). "
                 "<TimeStamp> is expressed as three RATIONAL values "
-                "giving the hour, minute, and second (atomic clock)."), 
+                "giving the hour, minute, and second (atomic clock)."),
                 gpsIfdId, gpsTags, unsignedRational, print0x0007),
-        TagInfo(0x0008, "GPSSatellites", N_("GPS Satellites"), 
+        TagInfo(0x0008, "GPSSatellites", N_("GPS Satellites"),
                 N_("Indicates the GPS satellites used for measurements. This tag can be used "
                 "to describe the number of satellites, their ID number, angle of elevation, "
                 "azimuth, SNR and other information in ASCII notation. The format is not "
                 "specified. If the GPS receiver is incapable of taking measurements, value "
-                "of the tag is set to NULL."), 
+                "of the tag is set to NULL."),
                 gpsIfdId, gpsTags, asciiString, printValue),
-        TagInfo(0x0009, "GPSStatus", N_("GPS Status"), 
+        TagInfo(0x0009, "GPSStatus", N_("GPS Status"),
                 N_("Indicates the status of the GPS receiver when the image is recorded. "
                 "\"A\" means measurement is in progress, and \"V\" means the measurement "
-                "is Interoperability."), 
+                "is Interoperability."),
                 gpsIfdId, gpsTags, asciiString, printValue),
-        TagInfo(0x000a, "GPSMeasureMode", N_("GPS Measure Mode"), 
+        TagInfo(0x000a, "GPSMeasureMode", N_("GPS Measure Mode"),
                 N_("Indicates the GPS measurement mode. \"2\" means two-dimensional measurement and \"3\" "
-                "means three-dimensional measurement is in progress."), 
+                "means three-dimensional measurement is in progress."),
                 gpsIfdId, gpsTags, asciiString, printValue),
-        TagInfo(0x000b, "GPSDOP", N_("GPS Data Degree of Precision"), 
+        TagInfo(0x000b, "GPSDOP", N_("GPS Data Degree of Precision"),
                 N_("Indicates the GPS DOP (data degree of precision). An HDOP value is written "
-                "during two-dimensional measurement, and PDOP during three-dimensional measurement."), 
+                "during two-dimensional measurement, and PDOP during three-dimensional measurement."),
                 gpsIfdId, gpsTags, unsignedRational, printValue),
-        TagInfo(0x000c, "GPSSpeedRef", N_("GPS Speed Reference"), 
+        TagInfo(0x000c, "GPSSpeedRef", N_("GPS Speed Reference"),
                 N_("Indicates the unit used to express the GPS receiver speed of movement. "
-                "\"K\" \"M\" and \"N\" represents kilometers per hour, miles per hour, and knots."), 
+                "\"K\" \"M\" and \"N\" represents kilometers per hour, miles per hour, and knots."),
                 gpsIfdId, gpsTags, asciiString, EXV_PRINT_TAG(exifGPSSpeedRef)),
-        TagInfo(0x000d, "GPSSpeed", N_("GPS Speed"), 
-                N_("Indicates the speed of GPS receiver movement."), 
+        TagInfo(0x000d, "GPSSpeed", N_("GPS Speed"),
+                N_("Indicates the speed of GPS receiver movement."),
                 gpsIfdId, gpsTags, unsignedRational, printValue),
-        TagInfo(0x000e, "GPSTrackRef", N_("GPS Track Ref"), 
+        TagInfo(0x000e, "GPSTrackRef", N_("GPS Track Ref"),
                 N_("Indicates the reference for giving the direction of GPS receiver movement. "
-                "\"T\" denotes true direction and \"M\" is magnetic direction."), 
+                "\"T\" denotes true direction and \"M\" is magnetic direction."),
                 gpsIfdId, gpsTags, asciiString, printValue),
-        TagInfo(0x000f, "GPSTrack", N_("GPS Track"), 
+        TagInfo(0x000f, "GPSTrack", N_("GPS Track"),
                 N_("Indicates the direction of GPS receiver movement. The range of values is "
-                "from 0.00 to 359.99."), 
+                "from 0.00 to 359.99."),
                 gpsIfdId, gpsTags, unsignedRational, printValue),
-        TagInfo(0x0010, "GPSImgDirectionRef", N_("GPS Image Direction Reference"), 
+        TagInfo(0x0010, "GPSImgDirectionRef", N_("GPS Image Direction Reference"),
                 N_("Indicates the reference for giving the direction of the image when it is captured. "
-                "\"T\" denotes true direction and \"M\" is magnetic direction."), 
+                "\"T\" denotes true direction and \"M\" is magnetic direction."),
                 gpsIfdId, gpsTags, asciiString, printValue),
-        TagInfo(0x0011, "GPSImgDirection", N_("GPS Image Direction"), 
+        TagInfo(0x0011, "GPSImgDirection", N_("GPS Image Direction"),
                 N_("Indicates the direction of the image when it was captured. The range of values "
-                "is from 0.00 to 359.99."), 
+                "is from 0.00 to 359.99."),
                 gpsIfdId, gpsTags, unsignedRational, printValue),
-        TagInfo(0x0012, "GPSMapDatum", N_("GPS Map Datum"), 
+        TagInfo(0x0012, "GPSMapDatum", N_("GPS Map Datum"),
                 N_("Indicates the geodetic survey data used by the GPS receiver. If the survey data "
-                "is restricted to Japan, the value of this tag is \"TOKYO\" or \"WGS-84\"."), 
+                "is restricted to Japan, the value of this tag is \"TOKYO\" or \"WGS-84\"."),
                 gpsIfdId, gpsTags, asciiString, printValue),
-        TagInfo(0x0013, "GPSDestLatitudeRef", N_("GPS Destination Latitude Refeference"), 
+        TagInfo(0x0013, "GPSDestLatitudeRef", N_("GPS Destination Latitude Refeference"),
                 N_("Indicates whether the latitude of the destination point is north or south latitude. "
-                "The ASCII value \"N\" indicates north latitude, and \"S\" is south latitude."), 
+                "The ASCII value \"N\" indicates north latitude, and \"S\" is south latitude."),
                 gpsIfdId, gpsTags, asciiString, EXV_PRINT_TAG(exifGPSLatitudeRef)),
-        TagInfo(0x0014, "GPSDestLatitude", N_("GPS Destination Latitude"), 
+        TagInfo(0x0014, "GPSDestLatitude", N_("GPS Destination Latitude"),
                 N_("Indicates the latitude of the destination point. The latitude is expressed as "
                 "three RATIONAL values giving the degrees, minutes, and seconds, respectively. "
                 "If latitude is expressed as degrees, minutes and seconds, a typical format would "
                 "be dd/1,mm/1,ss/1. When degrees and minutes are used and, for example, "
                 "fractions of minutes are given up to two decimal places, the format would be "
-                "dd/1,mmmm/100,0/1."), 
+                "dd/1,mmmm/100,0/1."),
                 gpsIfdId, gpsTags, unsignedRational, printDegrees),
-        TagInfo(0x0015, "GPSDestLongitudeRef", N_("GPS Destination Longitude Reference"), 
+        TagInfo(0x0015, "GPSDestLongitudeRef", N_("GPS Destination Longitude Reference"),
                 N_("Indicates whether the longitude of the destination point is east or west longitude. "
-                "ASCII \"E\" indicates east longitude, and \"W\" is west longitude."), 
+                "ASCII \"E\" indicates east longitude, and \"W\" is west longitude."),
                 gpsIfdId, gpsTags, asciiString, EXV_PRINT_TAG(exifGPSLongitudeRef)),
-        TagInfo(0x0016, "GPSDestLongitude", N_("GPS Destination Longitude"), 
+        TagInfo(0x0016, "GPSDestLongitude", N_("GPS Destination Longitude"),
                 N_("Indicates the longitude of the destination point. The longitude is expressed "
                 "as three RATIONAL values giving the degrees, minutes, and seconds, respectively. "
                 "If longitude is expressed as degrees, minutes and seconds, a typical format would be "
                 "ddd/1,mm/1,ss/1. When degrees and minutes are used and, for example, fractions of "
-                "minutes are given up to two decimal places, the format would be ddd/1,mmmm/100,0/1."), 
+                "minutes are given up to two decimal places, the format would be ddd/1,mmmm/100,0/1."),
                 gpsIfdId, gpsTags, unsignedRational, printDegrees),
-        TagInfo(0x0017, "GPSDestBearingRef", N_("GPS Destination Bearing Reference"), 
+        TagInfo(0x0017, "GPSDestBearingRef", N_("GPS Destination Bearing Reference"),
                 N_("Indicates the reference used for giving the bearing to the destination point. "
-                "\"T\" denotes true direction and \"M\" is magnetic direction."), 
+                "\"T\" denotes true direction and \"M\" is magnetic direction."),
                 gpsIfdId, gpsTags, asciiString, printValue),
-        TagInfo(0x0018, "GPSDestBearing", N_("GPS Destination Bearing"), 
+        TagInfo(0x0018, "GPSDestBearing", N_("GPS Destination Bearing"),
                 N_("Indicates the bearing to the destination point. The range of values is from "
-                "0.00 to 359.99."), 
+                "0.00 to 359.99."),
                 gpsIfdId, gpsTags, unsignedRational, printValue),
-        TagInfo(0x0019, "GPSDestDistanceRef", N_("GPS Destination Distance Reference"), 
+        TagInfo(0x0019, "GPSDestDistanceRef", N_("GPS Destination Distance Reference"),
                 N_("Indicates the unit used to express the distance to the destination point. "
-                "\"K\", \"M\" and \"N\" represent kilometers, miles and knots."), 
+                "\"K\", \"M\" and \"N\" represent kilometers, miles and knots."),
                 gpsIfdId, gpsTags, asciiString, printValue),
-        TagInfo(0x001a, "GPSDestDistance", N_("GPS Destination Distance"), 
-                N_("Indicates the distance to the destination point."), 
+        TagInfo(0x001a, "GPSDestDistance", N_("GPS Destination Distance"),
+                N_("Indicates the distance to the destination point."),
                 gpsIfdId, gpsTags, unsignedRational, printValue),
-        TagInfo(0x001b, "GPSProcessingMethod", N_("GPS Processing Method"), 
+        TagInfo(0x001b, "GPSProcessingMethod", N_("GPS Processing Method"),
                 N_("A character string recording the name of the method used for location finding. "
                 "The first byte indicates the character code used, and this is followed by the name "
-                "of the method."), 
+                "of the method."),
                 gpsIfdId, gpsTags, undefined, printValue),
-        TagInfo(0x001c, "GPSAreaInformation", N_("GPS Area Information"), 
+        TagInfo(0x001c, "GPSAreaInformation", N_("GPS Area Information"),
                 N_("A character string recording the name of the GPS area. The first byte indicates "
-                "the character code used, and this is followed by the name of the GPS area."), 
+                "the character code used, and this is followed by the name of the GPS area."),
                 gpsIfdId, gpsTags, undefined, printValue),
-        TagInfo(0x001d, "GPSDateStamp", N_("GPS Date Stamp"), 
+        TagInfo(0x001d, "GPSDateStamp", N_("GPS Date Stamp"),
                 N_("A character string recording date and time information relative to UTC "
-                "(Coordinated Universal Time). The format is \"YYYY:MM:DD.\"."), 
+                "(Coordinated Universal Time). The format is \"YYYY:MM:DD.\"."),
                 gpsIfdId, gpsTags, asciiString, printValue),
-        TagInfo(0x001e, "GPSDifferential", N_("GPS Differential"), 
-                N_("Indicates whether differential correction is applied to the GPS receiver."), 
+        TagInfo(0x001e, "GPSDifferential", N_("GPS Differential"),
+                N_("Indicates whether differential correction is applied to the GPS receiver."),
                 gpsIfdId, gpsTags, unsignedShort, printValue),
         // End of list marker
-        TagInfo(0xffff, "(UnknownGpsTag)", N_("Unknown GPSInfo tag"), 
-                N_("Unknown GPSInfo tag"), 
+        TagInfo(0xffff, "(UnknownGpsTag)", N_("Unknown GPSInfo tag"),
+                N_("Unknown GPSInfo tag"),
                 ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
     };
 
@@ -1121,15 +1121,15 @@ namespace Exiv2 {
 
     // Exif Interoperability IFD Tags
     static const TagInfo iopTagInfo[] = {
-        TagInfo(0x0001, "InteroperabilityIndex", N_("Interoperability Index"), 
+        TagInfo(0x0001, "InteroperabilityIndex", N_("Interoperability Index"),
                 N_("Indicates the identification of the Interoperability rule. "
                 "Use \"R98\" for stating ExifR98 Rules. Four bytes used "
                 "including the termination code (NULL). see the separate "
                 "volume of Recommended Exif Interoperability Rules (ExifR98) "
                 "for other tags used for ExifR98."),
                 iopIfdId, iopTags, asciiString, printValue),
-        TagInfo(0x0002, "InteroperabilityVersion", N_("Interoperability Version"), 
-                N_("Interoperability version"), 
+        TagInfo(0x0002, "InteroperabilityVersion", N_("Interoperability Version"),
+                N_("Interoperability version"),
                 iopIfdId, iopTags, undefined, printValue),
         TagInfo(0x1000, "RelatedImageFileFormat", N_("Related Image File Format"),
                 N_("File format of image file"),
@@ -1141,8 +1141,8 @@ namespace Exiv2 {
                 N_("Image height"),
                 iopIfdId, iopTags, unsignedLong, printValue),
         // End of list marker
-        TagInfo(0xffff, "(UnknownIopTag)", N_("Unknown Exif Interoperability tag"), 
-                N_("Unknown Exif Interoperability tag"), 
+        TagInfo(0xffff, "(UnknownIopTag)", N_("Unknown Exif Interoperability tag"),
+                N_("Unknown Exif Interoperability tag"),
                 ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
     };
 
@@ -1152,8 +1152,8 @@ namespace Exiv2 {
     }
 
     // Unknown Tag
-    static const TagInfo unknownTag(0xffff, "Unknown tag", N_("Unknown tag"), 
-                                    N_("Unknown tag"), 
+    static const TagInfo unknownTag(0xffff, "Unknown tag", N_("Unknown tag"),
+                                    N_("Unknown tag"),
                                     ifdIdNotSet, sectionIdNotSet, asciiString, printValue);
 
     // Tag lookup lists with tag names, desc and where they (preferably) belong to;
@@ -1647,7 +1647,7 @@ namespace Exiv2 {
             for (n = 2; n > 0; --n) {
                 if (value.toRational(n).first != 0) break;
             }
-            for (int i = 0; i < n + 1; ++i) {                
+            for (int i = 0; i < n + 1; ++i) {
                 const int32_t z = value.toRational(i).first;
                 const int32_t d = value.toRational(i).second;
                 // Hack: Need Value::toDouble
@@ -1664,7 +1664,7 @@ namespace Exiv2 {
 
         return os;
     } // printDegrees
-    
+
     std::ostream& printUcs2(std::ostream& os, const Value& value)
     {
 #ifdef EXV_HAVE_ICONV
@@ -1689,18 +1689,18 @@ namespace Exiv2 {
             char* outptr = reinterpret_cast<char*>(ob.pData_);
             const char* outbuf = outptr;
             size_t outbytesleft = ob.size_;
-            EXV_ICONV_CONST char* inbuf 
+            EXV_ICONV_CONST char* inbuf
                 = reinterpret_cast<EXV_ICONV_CONST char*>(ib.pData_);
             size_t inbytesleft = ib.size_;
             size_t rc = iconv(cd,
-                              &inbuf, 
-                              &inbytesleft, 
+                              &inbuf,
+                              &inbytesleft,
                               &outptr,
                               &outbytesleft);
             if (rc == size_t(-1)) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Warning: iconv: "
-                          << strError() 
+                          << strError()
                           << " inbytesleft = " << inbytesleft << "\n";
 #endif
                 go = false;
@@ -1740,8 +1740,8 @@ namespace Exiv2 {
         if (value.count() == 3) {
             std::ostringstream oss;
             oss.copyfmt(os);
-            const float sec = 3600 * value.toFloat(0) 
-                              + 60 * value.toFloat(1) 
+            const float sec = 3600 * value.toFloat(0)
+                              + 60 * value.toFloat(1)
                               + value.toFloat(2);
             int p = 0;
             if (sec != static_cast<int>(sec)) p = 1;
@@ -1750,9 +1750,9 @@ namespace Exiv2 {
             const int mm = static_cast<int>((sec - 3600 * hh) / 60);
             const float ss = sec - 3600 * hh - 60 * mm;
 
-            os << std::setw(2) << std::setfill('0') << std::right << hh << ":" 
+            os << std::setw(2) << std::setfill('0') << std::right << hh << ":"
                << std::setw(2) << std::setfill('0') << std::right << mm << ":"
-               << std::setw(2 + p * 2) << std::setfill('0') << std::right 
+               << std::setw(2 + p * 2) << std::setfill('0') << std::right
                << std::fixed << std::setprecision(p) << ss;
 
             os.copyfmt(oss);

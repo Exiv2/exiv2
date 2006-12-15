@@ -20,7 +20,7 @@
  */
 /*!
   @file    makernote2.hpp
-  @brief   Makernote TIFF composite class TiffIfdMakernote and classes for 
+  @brief   Makernote TIFF composite class TiffIfdMakernote and classes for
            various makernote headers.
   @version $Rev$
   @author  Andreas Huggel (ahu)
@@ -163,7 +163,7 @@ namespace Exiv2 {
         virtual ByteOrder byteOrder() const { return invalidByteOrder; }
         /*!
           @brief Return the base offset for the makernote IFD entries relative
-                 to the start of the TIFF header. \em mnOffset is the offset 
+                 to the start of the TIFF header. \em mnOffset is the offset
                  to the makernote from the start of the TIFF header.
          */
         virtual uint32_t baseOffset(uint32_t /*mnOffset*/) const { return 0; }

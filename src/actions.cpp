@@ -1604,7 +1604,7 @@ namespace {
                 case Params::askPolicy:
                     std::cout << Params::instance().progname()
                               << ": " << _("File") << " `" << newPath
-                              << "' " << _("exists. [O]verwrite, [r]ename or [s]kip?") 
+                              << "' " << _("exists. [O]verwrite, [r]ename or [s]kip?")
                               << " ";
                     std::cin >> s;
                     switch (s[0]) {

@@ -48,13 +48,13 @@ try {
     uint32_t sizeData;
     Exiv2::Photoshop::locateIptcIrb(irb.pData_, irb.size_, &record, &sizeHdr, &sizeData);
     Exiv2::DataBuf rawIptc = iptcData.copy();
-    std::cout << "Comparing IPTC and IRB size... "; 
+    std::cout << "Comparing IPTC and IRB size... ";
     if (static_cast<uint32_t>(rawIptc.size_) != sizeData) {
-        std::cout << "not ";        
+        std::cout << "not ";
     }
     std::cout << "ok\n";
 
-    std::cout << "Comparing IPTC and IRB data... "; 
+    std::cout << "Comparing IPTC and IRB data... ";
     if (0 != memcmp(rawIptc.pData_, record + sizeHdr, sizeData)) {
         std::cout << "not ";
     }

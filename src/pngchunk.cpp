@@ -94,7 +94,7 @@ namespace Exiv2 {
                 const byte *key = &PNG_CHUNK_DATA(pData, index, 0);
 
                 int keysize=0;
-                for ( ; key[keysize] != 0 ; keysize++) 
+                for ( ; key[keysize] != 0 ; keysize++)
                 {
                     // look if we reached the end of the file (it might be corrupted)
                     if (8+index+keysize >= size)
@@ -103,7 +103,7 @@ namespace Exiv2 {
 
                 DataBuf arr;
 
-                if(!strncmp((char*)PNG_CHUNK_TYPE(pData, index), "zTXt", 4)) 
+                if(!strncmp((char*)PNG_CHUNK_TYPE(pData, index), "zTXt", 4))
                 {
                     // Extract a deflate compressed Latin-1 text chunk
 
@@ -112,7 +112,7 @@ namespace Exiv2 {
 #endif
                     // we get the compression method after the key
                     const byte* compressionMethod = &PNG_CHUNK_DATA(pData, index, keysize+1);
-                    if ( *compressionMethod != 0x00 ) 
+                    if ( *compressionMethod != 0x00 )
                     {
                         // then it isn't zlib compressed and we are sunk
 #ifdef DEBUG
@@ -141,12 +141,12 @@ namespace Exiv2 {
                         zlibResult = uncompress((Bytef*)arr.pData_, &uncompressedLen,
                                                 compressedText, compressedTextSize);
 
-                        if (Z_OK == zlibResult) 
+                        if (Z_OK == zlibResult)
                         {
                             // then it is all OK
                             arr.alloc(uncompressedLen);
                         }
-                        else if (Z_BUF_ERROR == zlibResult) 
+                        else if (Z_BUF_ERROR == zlibResult)
                         {
                             // the uncompressedArray needs to be larger
 #ifdef DEBUG
@@ -158,18 +158,18 @@ namespace Exiv2 {
                             if ( uncompressedLen > 131072 )
                                 break;
                         }
-                        else 
+                        else
                         {
                             // something bad happened
                             throw Error(14);
                         }
-                    } 
+                    }
                     while (Z_BUF_ERROR == zlibResult);
 
                     if (zlibResult != Z_OK)
                         throw Error(14);
                 }
-                else if (!strncmp((char*)PNG_CHUNK_TYPE(pData, index), "tEXt", 4)) 
+                else if (!strncmp((char*)PNG_CHUNK_TYPE(pData, index), "tEXt", 4))
                 {
                     // Extract a non-compressed Latin-1 text chunk
 #ifdef DEBUG
@@ -201,7 +201,7 @@ namespace Exiv2 {
                 }
 
 #ifdef DEBUG
-                std::cerr << "Exiv2::PngChunk::decode: Found PNG entry " << std::string((const char*)key) << " / " 
+                std::cerr << "Exiv2::PngChunk::decode: Found PNG entry " << std::string((const char*)key) << " / "
                           << std::string((const char*)arr.pData_, 64) << "\n";
 #endif
 
@@ -237,7 +237,7 @@ namespace Exiv2 {
                             std::cerr << "Exiv2::PngChunk::decode: Exif header found at position " << pos << "\n";
 #endif
                             pos = pos + sizeof(exifHeader);
-                            TiffParser::decode(pImage, exifData.pData_ + pos, length - pos, 
+                            TiffParser::decode(pImage, exifData.pData_ + pos, length - pos,
                                                TiffCreator::create, TiffDecoder::findDecoder);
                         }
                     }

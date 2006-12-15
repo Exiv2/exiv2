@@ -73,14 +73,14 @@ namespace Exiv2 {
 // class definitions
 
     /*!
-      @brief Function pointer type for a TiffMetadataDecoder member function 
+      @brief Function pointer type for a TiffMetadataDecoder member function
              to decode a TIFF component.
      */
     typedef void (TiffMetadataDecoder::*DecoderFct)(const TiffEntryBase*);
     /*!
       @brief Type for a function pointer for a function to decode a TIFF component.
      */
-    typedef const DecoderFct (*FindDecoderFct)(const std::string& make, 
+    typedef const DecoderFct (*FindDecoderFct)(const std::string& make,
                                                      uint32_t     extendedTag,
                                                      uint16_t     group);
     /*!
@@ -91,7 +91,7 @@ namespace Exiv2 {
     typedef std::auto_ptr<TiffComponent> (*NewTiffCompFct)(      uint16_t       tag,
                                                            const TiffStructure* ts);
     /*!
-      @brief Type for a factory function to create new TIFF components. 
+      @brief Type for a factory function to create new TIFF components.
              Use TiffComponent::AutoPtr, it is not used in this declaration only
              to reduce dependencies.
      */

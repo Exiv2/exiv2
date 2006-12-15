@@ -60,7 +60,7 @@ namespace Exiv2 {
     PngImage::PngImage(BasicIo::AutoPtr io, bool create)
         : Image(mdExif | mdIptc), io_(io)
     {
-        if (create) 
+        if (create)
         {
             IoCloser closer(*io_);
             io_->open();
@@ -121,13 +121,13 @@ namespace Exiv2 {
 #ifdef DEBUG
         std::cerr << "Exiv2::PngImage::readMetadata: Reading PNG file " << io_->path() << "\n";
 #endif
-        if (io_->open() != 0) 
+        if (io_->open() != 0)
         {
             throw Error(9, io_->path(), strError());
         }
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
-        if (!isThisType(*io_, false)) 
+        if (!isThisType(*io_, false))
         {
             if (io_->error() || io_->eof()) throw Error(14);
             throw Error(3, "PNG");
@@ -142,8 +142,8 @@ namespace Exiv2 {
             makes decisions what to do. It reads only one chunk at a time
             instead of the whole file.
 
-          - new class PngChunk, initialized with the memory of one chunk and 
-            has all the access methods required to determine the field, key, 
+          - new class PngChunk, initialized with the memory of one chunk and
+            has all the access methods required to determine the field, key,
             to access and decompress data etc.
         */
 
@@ -167,7 +167,7 @@ namespace Exiv2 {
     Image::AutoPtr newPngInstance(BasicIo::AutoPtr io, bool create)
     {
         Image::AutoPtr image(new PngImage(io, create));
-        if (!image->good()) 
+        if (!image->good())
         {
             image.reset();
         }
@@ -180,12 +180,12 @@ namespace Exiv2 {
         const unsigned char pngID[8] = { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
         byte buf[len];
         iIo.read(buf, len);
-        if (iIo.error() || iIo.eof()) 
+        if (iIo.error() || iIo.eof())
         {
             return false;
         }
         int rc = memcmp(buf, pngID, 8);
-        if (!advance || rc != 0) 
+        if (!advance || rc != 0)
         {
             iIo.seek(-len, BasicIo::cur);
         }

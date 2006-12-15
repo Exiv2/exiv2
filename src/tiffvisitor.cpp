@@ -121,7 +121,7 @@ namespace Exiv2 {
                                              TiffComponent* const pRoot,
                                              FindDecoderFct findDecoderFct,
                                              uint32_t threshold)
-        : pImage_(pImage), 
+        : pImage_(pImage),
           pRoot_(pRoot),
           findDecoderFct_(findDecoderFct),
           threshold_(threshold)
@@ -240,7 +240,7 @@ namespace Exiv2 {
             groupType_[object->group()] = object->pValue()->toLong();
         }
 
-        const DecoderFct decoderFct = findDecoderFct_(make_, 
+        const DecoderFct decoderFct = findDecoderFct_(make_,
                                                       object->tag(),
                                                       object->group());
         // skip decoding if decoderFct == 0
@@ -516,7 +516,7 @@ namespace Exiv2 {
         long offset = pOffset->toLong(0);
         // Todo: Remove limitation of Jpeg writer: strips must be contiguous
         // Until then we check: last offset + last size - first offset == size?
-        if (  pOffset->toLong(pOffset->count()-1) 
+        if (  pOffset->toLong(pOffset->count()-1)
             + pSize->toLong(pSize->count()-1)
             - offset != size) {
 #ifndef SUPPRESS_WARNINGS
@@ -561,8 +561,8 @@ namespace Exiv2 {
         // Sanity check with an "unreasonably" large number
         if (n > 256) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Error: " 
-                      << "Directory " << object->groupName() << " with " 
+            std::cerr << "Error: "
+                      << "Directory " << object->groupName() << " with "
                       << n << " entries considered invalid; not read.\n";
 #endif
             return;
@@ -797,8 +797,8 @@ namespace Exiv2 {
         // Todo: This should be somewhere else, maybe in a Value factory
         // which takes a Key and Type
         TypeId t = TypeId(object->typeId());
-        if (   object->tag()    == 0x9286 
-            && object->group()  == Group::exif 
+        if (   object->tag()    == 0x9286
+            && object->group()  == Group::exif
             && object->typeId() == undefined) {
             t = comment;
         }
