@@ -183,6 +183,15 @@ namespace Exiv2 {
             IptcKey key(dataSet, record);
             add(key, value.get());
         }
+        else if (1 == rc) {
+            // If the first attempt failed, try with a string value
+            value = Value::create(string);
+            int rc = value->read(data, sizeData, bigEndian);
+            if (0 == rc) {
+                IptcKey key(dataSet, record);
+                add(key, value.get());
+            }
+        }
         return rc;
     }
 
