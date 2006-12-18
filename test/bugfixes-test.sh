@@ -78,6 +78,10 @@ $binpath/exiv2 -v -pv $filename
 $binpath/exiv2 -v -M"del Exif.GPSInfo.GPSLatitude" $filename
 $binpath/exiv2 -v -pv $filename
 
+num=501
+filename=`prep_file $num`
+$binpath/exiv2 -pi $filename
+
 ) > $results 2>&1
 
 if [ x"`which unix2dos.exe`" != x ]; then

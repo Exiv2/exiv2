@@ -266,3 +266,29 @@ File 1/1: exiv2-bug498.jpg
 Del Exif.GPSInfo.GPSLatitude
 File 1/1: exiv2-bug498.jpg
 exiv2-bug498.jpg: No Exif data found in the file
+------> Bug 501 <-------
+Warning: Unsupported time format
+Iptc.Application2.RecordVersion              Short       1  2
+Iptc.Application2.Caption                    String     15  Porträtt på Eva
+Iptc.Application2.Writer                     String     10  Elsa Nordh
+Iptc.Application2.Byline                     String     10  Elsa Nordh
+Iptc.Application2.ObjectName                 String      7  Hundbus
+Iptc.Application2.DateCreated                Date        8  2006-10-31
+Iptc.Application2.City                       String      8  Göteborg
+Iptc.Application2.ProvinceState              String     15  Västra Götaland
+Iptc.Application2.CountryName                String      6  Sweden
+Iptc.Application2.Keywords                   String      3  Eva
+Iptc.Application2.Keywords                   String      7  Gallery
+Iptc.Application2.Keywords                   String     21  Framkalla jul06 mamma
+Iptc.Application2.Copyright                  String     19  http://nordharna.se
+Iptc.Application2.ExpirationTime             String      2  SE
+Iptc.Application2.SubLocation                String      9  KÃ¥lltorp
+Iptc.Application2.0x00d1                     String      9  GÃ¶teborg
+Iptc.Application2.0x00d2                     String     17  VÃ¤stra GÃ¶taland
+Iptc.Application2.0x00d3                     String      6  416 81
+Iptc.Application2.0x00d4                     String      6  Sweden
+Iptc.Application2.0x00d5                     String     19  +46-(0)736-21 50 74
+Iptc.Application2.0x00d6                     String     17  foto@nordharna.se
+Iptc.Application2.0x00d7                     String     27  http://gallery.nordharna.se
+Iptc.Application2.0x00e3                     String     27  http://gallery.nordharna.se
+Iptc.Application2.0x00f2                     String      1  4

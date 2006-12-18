@@ -327,7 +327,7 @@ namespace Exiv2 {
             charsetId = CharsetInfo::charsetIdByName(name);
             if (charsetId == invalidCharsetId) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << Error(28, name) << "\n";
+                std::cerr << "Warning: " << Error(28, name) << "\n";
 #endif
                 return 1;
             }
@@ -391,7 +391,7 @@ namespace Exiv2 {
         // Hard coded to read Iptc style dates
         if (len != 8) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << Error(29) << "\n";
+            std::cerr << "Warning: " << Error(29) << "\n";
 #endif
             return 1;
         }
@@ -402,7 +402,7 @@ namespace Exiv2 {
                              &date_.year, &date_.month, &date_.day);
         if (scanned != 3) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << Error(29) << "\n";
+            std::cerr << "Warning: " << Error(29) << "\n";
 #endif
             return 1;
         }
@@ -414,7 +414,7 @@ namespace Exiv2 {
         // Hard coded to read Iptc style dates
         if (buf.length() < 8) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << Error(29) << "\n";
+            std::cerr << "Warning: " << Error(29) << "\n";
 #endif
             return 1;
         }
@@ -422,7 +422,7 @@ namespace Exiv2 {
                              &date_.year, &date_.month, &date_.day);
         if (scanned != 3) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << Error(29) << "\n";
+            std::cerr << "Warning: " << Error(29) << "\n";
 #endif
             return 1;
         }
@@ -511,11 +511,12 @@ namespace Exiv2 {
         if (len == 11) {
             rc = scanTime6(b, "%2d%2d%2d%1c%2d%2d");
         }
-#ifndef SUPPRESS_WARNINGS
         if (rc) {
-            std::cerr << Error(30) << "\n";
-        }
+            rc = 1;
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Warning: " << Error(30) << "\n";
 #endif
+        }
         return rc;
     }
 
@@ -530,11 +531,12 @@ namespace Exiv2 {
         else {
             rc = scanTime6(buf.c_str(), "%d:%d:%d%1c%d:%d");
         }
-#ifndef SUPPRESS_WARNINGS
         if (rc) {
-            std::cerr << Error(30) << "\n";
-        }
+            rc = 1;
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Warning: " << Error(30) << "\n";
 #endif
+        }
         return rc;
     }
 
