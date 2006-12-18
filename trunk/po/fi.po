@@ -1,0 +1,7502 @@
+# translation of Exiv2.po to
+# Exiv2 POT file.
+# Copyright (C) 2006 Andreas Huggel <ahuggel@gmx.net>
+# This file is distributed under the same license as the Exiv2 package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Exiv2\n"
+"Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
+"POT-Creation-Date: 2006-11-15 16:34+0100\n"
+"PO-Revision-Date: 2006-12-18 16:08+0200\n"
+"Last-Translator: Mikael Lammentausta\n"
+"Language-Team:  <fi@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: src/actions.cpp:218 src/actions.cpp:574 src/actions.cpp:694
+#: src/actions.cpp:732 src/actions.cpp:759 src/actions.cpp:840
+#: src/actions.cpp:966 src/actions.cpp:1025 src/actions.cpp:1068
+#: src/actions.cpp:1073 src/actions.cpp:1101 src/actions.cpp:1270
+#: src/actions.cpp:1354 src/actions.cpp:1507
+msgid "Failed to open the file\n"
+msgstr ""
+
+#: src/actions.cpp:227 src/actions.cpp:583 src/actions.cpp:772
+#: src/actions.cpp:975 src/actions.cpp:1283 src/actions.cpp:1367
+msgid "No Exif data found in the file\n"
+msgstr ""
+
+#: src/actions.cpp:233
+msgid "File name"
+msgstr ""
+
+#: src/actions.cpp:239
+msgid "File size"
+msgstr ""
+
+#: src/actions.cpp:240 src/actions.cpp:528 src/actions.cpp:993
+msgid "Bytes"
+msgstr "tavua"
+
+#: src/actions.cpp:244
+msgid "Camera make"
+msgstr "Kameran merkki"
+
+#: src/actions.cpp:247
+msgid "Camera model"
+msgstr "Kameran malli"
+
+#: src/actions.cpp:250
+msgid "Image timestamp"
+msgstr "Kuvan aikaleima"
+
+#: src/actions.cpp:254 src/minoltamn.cpp:663 src/minoltamn.cpp:927
+#: src/minoltamn.cpp:934 src/minoltamn.cpp:1166
+msgid "Image number"
+msgstr "Kuvan numero"
+
+#: src/actions.cpp:259 src/minoltamn.cpp:618 src/minoltamn.cpp:920
+#: src/minoltamn.cpp:1133
+msgid "Exposure time"
+msgstr "Valotusaika"
+
+#: src/actions.cpp:271 src/tags.cpp:694
+msgid "Aperture"
+msgstr "Aukon koko"
+
+#: src/actions.cpp:281
+msgid "Exposure bias"
+msgstr "Valotuksen bias"
+
+#: src/actions.cpp:284 src/tags.cpp:499 src/tags.cpp:719 src/minoltamn.cpp:647
+#: src/minoltamn.cpp:881 src/minoltamn.cpp:882 src/minoltamn.cpp:985
+#: src/minoltamn.cpp:1114 src/minoltamn.cpp:1115 src/panasonicmn.cpp:77
+msgid "Flash"
+msgstr "Salama"
+
+#: src/actions.cpp:289 src/panasonicmn.cpp:223
+msgid "Flash bias"
+msgstr "Salaman bias"
+
+#: src/actions.cpp:304 src/minoltamn.cpp:642
+msgid "Focal length"
+msgstr ""
+
+#: src/actions.cpp:309
+msgid "35 mm equivalent"
+msgstr ""
+
+#: src/actions.cpp:315
+msgid "Subject distance"
+msgstr "Kohteen etäisyys"
+
+#: src/actions.cpp:327
+msgid "ISO speed"
+msgstr "ISO-arvo"
+
+#: src/actions.cpp:360 src/minoltamn.cpp:594 src/minoltamn.cpp:864
+#: src/minoltamn.cpp:1097 src/sigmamn.cpp:84
+msgid "Exposure mode"
+msgstr "Valotustila"
+
+#: src/actions.cpp:383 src/minoltamn.cpp:612 src/minoltamn.cpp:1118
+#: src/sigmamn.cpp:87
+msgid "Metering mode"
+msgstr "Mittaustila"
+
+#: src/actions.cpp:387 src/minoltamn.cpp:624 src/olympusmn.cpp:129
+#: src/panasonicmn.cpp:205
+msgid "Macro mode"
+msgstr "Makrotila"
+
+#: src/actions.cpp:411 src/minoltamn.cpp:251 src/minoltamn.cpp:606
+#: src/minoltamn.cpp:870 src/minoltamn.cpp:1103
+msgid "Image quality"
+msgstr "Kuvan laatu"
+
+#: src/actions.cpp:455
+msgid "Exif Resolution"
+msgstr ""
+
+#: src/actions.cpp:479 src/minoltamn.cpp:600 src/minoltamn.cpp:873
+#: src/minoltamn.cpp:1106 src/nikonmn.cpp:178 src/nikonmn.cpp:466
+#: src/nikonmn.cpp:596 src/sigmamn.cpp:81
+msgid "White balance"
+msgstr "Valkotasapaino"
+
+#: src/actions.cpp:520 src/minoltamn.cpp:238 src/olympusmn.cpp:355
+msgid "Thumbnail"
+msgstr "Tunnistekuva"
+
+#: src/actions.cpp:523 src/tags.cpp:603 src/minoltamn.cpp:408
+#: src/minoltamn.cpp:502 src/nikonmn.cpp:138 src/olympusmn.cpp:84
+#: src/olympusmn.cpp:506
+msgid "None"
+msgstr "Ei mitään"
+
+#: src/actions.cpp:533 src/datasets.cpp:371 src/tags.cpp:429
+msgid "Copyright"
+msgstr ""
+
+#: src/actions.cpp:536
+msgid "Exif comment"
+msgstr "Exif-kommentti"
+
+#: src/actions.cpp:655 src/actions.cpp:666 src/actions.cpp:677
+msgid "(Binary value suppressed)"
+msgstr ""
+
+#: src/actions.cpp:703
+msgid "No Iptc data found in the file\n"
+msgstr ""
+
+#: src/actions.cpp:739
+msgid "Jpeg comment"
+msgstr "Jpeg-kommentti"
+
+#: src/actions.cpp:778
+msgid "Metadatum with key"
+msgstr ""
+
+#: src/actions.cpp:779
+msgid "not found in the file"
+msgstr ""
+
+#: src/actions.cpp:784
+msgid "Image file creation timestamp not set in the file"
+msgstr ""
+
+#: src/actions.cpp:790
+msgid "Failed to parse timestamp"
+msgstr ""
+
+#: src/actions.cpp:791
+msgid "in the file"
+msgstr ""
+
+#: src/actions.cpp:802
+msgid "Updating timestamp to"
+msgstr ""
+
+#: src/actions.cpp:889
+msgid "Erasing"
+msgstr ""
+
+#: src/actions.cpp:890
+msgid "Bytes of thumbnail data"
+msgstr ""
+
+#: src/actions.cpp:898
+msgid "Erasing Exif data from the file"
+msgstr ""
+
+#: src/actions.cpp:907
+msgid "Erasing Iptc data from the file"
+msgstr ""
+
+#: src/actions.cpp:916
+msgid "Erasing Jpeg comment from the file"
+msgstr ""
+
+#: src/actions.cpp:946 src/actions.cpp:998
+msgid "Overwrite"
+msgstr ""
+
+#: src/actions.cpp:986
+msgid "Image does not contain an Exif thumbnail\n"
+msgstr ""
+
+#: src/actions.cpp:991
+msgid "Writing"
+msgstr ""
+
+#: src/actions.cpp:992
+msgid "thumbnail"
+msgstr ""
+
+#: src/actions.cpp:993
+msgid "to file"
+msgstr ""
+
+#: src/actions.cpp:1005
+msgid "Exif data doesn't contain a thumbnail\n"
+msgstr ""
+
+#: src/actions.cpp:1114
+msgid "Setting Jpeg comment"
+msgstr ""
+
+#: src/actions.cpp:1162
+msgid "Add"
+msgstr ""
+
+#: src/actions.cpp:1183
+msgid "Set"
+msgstr ""
+
+#: src/actions.cpp:1233
+msgid "Del"
+msgstr ""
+
+#: src/actions.cpp:1325
+msgid "Timestamp of metadatum with key"
+msgstr ""
+
+#: src/actions.cpp:1326
+msgid "not set\n"
+msgstr ""
+
+#: src/actions.cpp:1331
+msgid "Failed to parse or convert timestamp"
+msgstr ""
+
+#: src/actions.cpp:1336
+msgid "Adjusting"
+msgstr ""
+
+#: src/actions.cpp:1336
+msgid "by"
+msgstr ""
+
+#: src/actions.cpp:1338
+msgid " s to "
+msgstr ""
+
+#: src/actions.cpp:1384
+msgid "Setting Exif ISO value to"
+msgstr ""
+
+#: src/actions.cpp:1528
+msgid "Writing Exif data from"
+msgstr ""
+
+#: src/actions.cpp:1529 src/actions.cpp:1537 src/actions.cpp:1545
+#: src/actions.cpp:1641
+msgid "to"
+msgstr ""
+
+#: src/actions.cpp:1536
+msgid "Writing Iptc data from"
+msgstr ""
+
+#: src/actions.cpp:1544
+msgid "Writing Jpeg comment from"
+msgstr ""
+
+#: src/actions.cpp:1554
+msgid "Could not write metadata to file"
+msgstr ""
+
+#: src/actions.cpp:1567
+msgid "Filename format yields empty filename for the file"
+msgstr ""
+
+#: src/actions.cpp:1576
+msgid "This file already has the correct name"
+msgstr ""
+
+#: src/actions.cpp:1600 src/exiv2.cpp:146
+msgid "File"
+msgstr ""
+
+#: src/actions.cpp:1601
+msgid "exists. [O]verwrite, [r]ename or [s]kip?"
+msgstr ""
+
+#: src/actions.cpp:1629
+msgid "Renaming file to"
+msgstr ""
+
+#: src/actions.cpp:1631
+msgid "updating timestamp"
+msgstr ""
+
+#: src/actions.cpp:1640
+msgid "Failed to rename"
+msgstr ""
+
+#: src/cr2image.cpp:241 src/crwimage.cpp:642 src/tiffimage.cpp:206
+msgid "Header, offset"
+msgstr ""
+
+#: src/cr2image.cpp:245 src/tiffimage.cpp:210
+msgid "little endian encoded"
+msgstr ""
+
+#: src/cr2image.cpp:246 src/tiffimage.cpp:211
+msgid "big endian encoded"
+msgstr ""
+
+#: src/crwimage.cpp:659 src/tiffvisitor.cpp:381 src/tiffvisitor.cpp:404
+msgid "tag"
+msgstr ""
+
+#: src/crwimage.cpp:661
+msgid "dir"
+msgstr ""
+
+#: src/crwimage.cpp:663 src/tiffvisitor.cpp:383
+msgid "type"
+msgstr ""
+
+#: src/crwimage.cpp:664
+msgid "size"
+msgstr ""
+
+#: src/crwimage.cpp:665 src/tiffvisitor.cpp:387
+msgid "offset"
+msgstr ""
+
+#: src/datasets.cpp:79
+msgid "(invalid)"
+msgstr ""
+
+#: src/datasets.cpp:80
+msgid "IIM envelope record"
+msgstr ""
+
+#: src/datasets.cpp:81
+msgid "IIM application record 2"
+msgstr ""
+
+#: src/datasets.cpp:85
+msgid "Model Version"
+msgstr ""
+
+#: src/datasets.cpp:86
+msgid ""
+"A binary number identifying the version of the Information Interchange "
+"Model, Part I, utilised by the provider. Version numbers are assigned by "
+"IPTC and NAA organizations."
+msgstr ""
+
+#: src/datasets.cpp:90
+msgid "Destination"
+msgstr ""
+
+#: src/datasets.cpp:91
+msgid ""
+"This DataSet is to accommodate some providers who require routing "
+"information above the appropriate OSI layers."
+msgstr ""
+
+#: src/datasets.cpp:94
+msgid "File Format"
+msgstr ""
+
+#: src/datasets.cpp:95
+msgid ""
+"A binary number representing the file format. The file format must be "
+"registered with IPTC or NAA with a unique number assigned to it. The "
+"information is used to route the data to the appropriate system and to allow "
+"the receiving system to perform the appropriate actions there to."
+msgstr ""
+
+#: src/datasets.cpp:101
+msgid "File Version"
+msgstr ""
+
+#: src/datasets.cpp:102
+msgid ""
+"A binary number representing the particular version of the File Format "
+"specified by <FileFormat> tag."
+msgstr ""
+
+#: src/datasets.cpp:105
+msgid "Service Id"
+msgstr ""
+
+#: src/datasets.cpp:106
+msgid "Identifies the provider and product"
+msgstr ""
+
+#: src/datasets.cpp:108
+msgid "Envelope Number"
+msgstr ""
+
+#: src/datasets.cpp:109
+msgid ""
+"The characters form a number that will be unique for the date specified in "
+"<DateSent> tag and for the Service Identifier specified by "
+"<ServiceIdentifier> tag. If identical envelope numbers appear with the same "
+"date and with the same Service Identifier, records 2-9 must be unchanged "
+"from the original. This is not intended to be a sequential serial number "
+"reception check."
+msgstr ""
+
+#: src/datasets.cpp:117
+msgid "Product Id"
+msgstr ""
+
+#: src/datasets.cpp:118
+msgid ""
+"Allows a provider to identify subsets of its overall service. Used to "
+"provide receiving organisation data on which to select, route, or otherwise "
+"handle data."
+msgstr ""
+
+#: src/datasets.cpp:122
+msgid "Envelope Priority"
+msgstr ""
+
+#: src/datasets.cpp:123
+msgid ""
+"Specifies the envelope handling priority and not the editorial urgency (see "
+"<Urgency> tag). \"1\" indicates the most urgent, \"5\" the normal urgency, "
+"and \"8\" the least urgent copy. The numeral \"9\" indicates a User Defined "
+"Priority. The numeral \"0\" is reserved for future use."
+msgstr ""
+
+#: src/datasets.cpp:129
+msgid "Date Sent"
+msgstr ""
+
+#: src/datasets.cpp:130
+msgid ""
+"Uses the format CCYYMMDD (century, year, month, day) as de-fined in ISO 8601 "
+"to indicate year, month and day the service sent the material."
+msgstr ""
+
+#: src/datasets.cpp:133
+msgid "Time Sent"
+msgstr ""
+
+#: src/datasets.cpp:134
+msgid ""
+"Uses the format HHMMSS:HHMM where HHMMSS refers to local hour, minute and "
+"seconds and HHMM refers to hours and minutes ahead (+) or behind (-) "
+"Universal Coordinated Time as described in ISO 8601. This is the time the "
+"service sent the material."
+msgstr ""
+
+#: src/datasets.cpp:139
+msgid "Character Set"
+msgstr ""
+
+#: src/datasets.cpp:140
+msgid ""
+"This tag consisting of one or more control functions used for the "
+"announcement, invocation or designation of coded character sets. The control "
+"functions follow the ISO 2022 standard and may consist of the escape control "
+"character and one or more graphic characters."
+msgstr ""
+
+#: src/datasets.cpp:145
+msgid "Unique Name Object"
+msgstr ""
+
+#: src/datasets.cpp:146
+msgid ""
+"This tag provide a globally unique identification for objects as specified "
+"in the IIM, independent of provider and for any media form. The provider "
+"must ensure the UNO is unique. Objects with the same UNO are identical."
+msgstr ""
+
+#: src/datasets.cpp:151
+msgid "ARM Identifier"
+msgstr ""
+
+#: src/datasets.cpp:152
+msgid ""
+"The DataSet identifies the Abstract Relationship Method identifier (ARM) "
+"which is described in a document registered by the originator of the ARM "
+"with the IPTC and NAA organizations."
+msgstr ""
+
+#: src/datasets.cpp:156
+msgid "ARM Version"
+msgstr ""
+
+#: src/datasets.cpp:157
+msgid ""
+"This tag consisting of a binary number representing the particular version "
+"of the ARM specified by tag <ARMId>."
+msgstr ""
+
+#: src/datasets.cpp:165
+msgid "Record Version"
+msgstr ""
+
+#: src/datasets.cpp:166
+msgid ""
+"A binary number identifying the version of the Information Interchange "
+"Model, Part II, utilised by the provider. Version numbers are assigned by "
+"IPTC and NAA organizations."
+msgstr ""
+
+#: src/datasets.cpp:170
+msgid "Object Type"
+msgstr ""
+
+#: src/datasets.cpp:171
+msgid ""
+"The Object Type is used to distinguish between different types of objects "
+"within the IIM. The first part is a number representing a language "
+"independent international reference to an Object Type followed by a colon "
+"separator. The second part, if used, is a text representation of the Object "
+"Type Number consisting of graphic characters plus spaces either in English "
+"or in the language of the service as indicated in tag <LanguageIdentifier>"
+msgstr ""
+
+#: src/datasets.cpp:179
+msgid "Object Attribute"
+msgstr ""
+
+#: src/datasets.cpp:180
+msgid ""
+"The Object Attribute defines the nature of the object independent of the "
+"Subject. The first part is a number representing a language independent "
+"international reference to an Object Attribute followed by a colon "
+"separator. The second part, if used, is a text representation of the Object "
+"Attribute Number consisting of graphic characters plus spaces either in "
+"English, or in the language of the service as indicated in tag "
+"<LanguageIdentifier>"
+msgstr ""
+
+#: src/datasets.cpp:188
+msgid "Object Name"
+msgstr ""
+
+#: src/datasets.cpp:189
+msgid ""
+"Used as a shorthand reference for the object. Changes to exist-ing data, "
+"such as updated stories or new crops on photos, should be identified in tag "
+"<EditStatus>."
+msgstr ""
+
+#: src/datasets.cpp:193
+msgid "Document Title"
+msgstr ""
+
+#: src/datasets.cpp:194
+msgid "Edit Status"
+msgstr ""
+
+#: src/datasets.cpp:195
+msgid "Status of the object data, according to the practice of the provider."
+msgstr ""
+
+#: src/datasets.cpp:197
+msgid "Editorial Update"
+msgstr ""
+
+#: src/datasets.cpp:198
+msgid ""
+"Indicates the type of update that this object provides to a previous object. "
+"The link to the previous object is made using the tags <ARMIdentifier> and "
+"<ARMVersion>, according to the practices of the provider."
+msgstr ""
+
+#: src/datasets.cpp:202 src/datasets.cpp:207
+msgid "Urgency"
+msgstr ""
+
+#: src/datasets.cpp:203
+msgid ""
+"Specifies the editorial urgency of content and not necessarily the envelope "
+"handling priority (see tag <EnvelopePriority>). The \"1\" is most urgent, \"5"
+"\" normal and \"8\" denotes the least-urgent copy."
+msgstr ""
+
+#: src/datasets.cpp:208
+msgid "Subject"
+msgstr ""
+
+#: src/datasets.cpp:209
+msgid "The Subject Reference is a structured definition of the subject matter."
+msgstr ""
+
+#: src/datasets.cpp:211 src/datasets.cpp:216
+msgid "Category"
+msgstr ""
+
+#: src/datasets.cpp:212
+msgid ""
+"Identifies the subject of the object data in the opinion of the provider. A "
+"list of categories will be maintained by a regional registry, where "
+"available, otherwise by the provider."
+msgstr ""
+
+#: src/datasets.cpp:217
+msgid "Supplemental Category"
+msgstr ""
+
+#: src/datasets.cpp:218
+msgid ""
+"Supplemental categories further refine the subject of an object data. A "
+"supplemental category may include any of the recognised categories as used "
+"in tag <Category>. Otherwise, selection of supplemental categories are left "
+"to the provider."
+msgstr ""
+
+#: src/datasets.cpp:223
+msgid "Supplemental Categories"
+msgstr ""
+
+#: src/datasets.cpp:224
+msgid "Fixture Id"
+msgstr ""
+
+#: src/datasets.cpp:225
+msgid ""
+"Identifies object data that recurs often and predictably. Enables users to "
+"immediately find or recall such an object."
+msgstr ""
+
+#: src/datasets.cpp:228 src/datasets.cpp:234
+msgid "Keywords"
+msgstr "Avainsanat"
+
+#: src/datasets.cpp:229
+msgid ""
+"Used to indicate specific information retrieval words. It is expected that a "
+"provider of various types of data that are related in subject matter uses "
+"the same keyword, enabling the receiving system or subsystems to search "
+"across all types of data for related material."
+msgstr ""
+
+#: src/datasets.cpp:235
+msgid "Location Code"
+msgstr ""
+
+#: src/datasets.cpp:236
+msgid ""
+"Indicates the code of a country/geographical location referenced by the "
+"content of the object. Where ISO has established an appropriate country code "
+"under ISO 3166, that code will be used. When ISO 3166 does not adequately "
+"provide for identification of a location or a country, e.g. ships at sea, "
+"space, IPTC will assign an appropriate three-character code under the "
+"provisions of ISO 3166 to avoid conflicts."
+msgstr ""
+
+#: src/datasets.cpp:243
+msgid "Location Name"
+msgstr ""
+
+#: src/datasets.cpp:244
+msgid ""
+"Provides a full, publishable name of a country/geographical location "
+"referenced by the content of the object, according to guidelines of the "
+"provider."
+msgstr ""
+
+#: src/datasets.cpp:248
+msgid "Release Date"
+msgstr ""
+
+#: src/datasets.cpp:249
+msgid ""
+"Designates in the form CCYYMMDD the earliest date the provider intends the "
+"object to be used. Follows ISO 8601 standard."
+msgstr ""
+
+#: src/datasets.cpp:252
+msgid "Release Time"
+msgstr ""
+
+#: src/datasets.cpp:253
+msgid ""
+"Designates in the form HHMMSS:HHMM the earliest time the provider intends "
+"the object to be used. Follows ISO 8601 standard."
+msgstr ""
+
+#: src/datasets.cpp:256
+msgid "Expiration Date"
+msgstr ""
+
+#: src/datasets.cpp:257
+msgid ""
+"Designates in the form CCYYMMDD the latest date the provider or owner "
+"intends the object data to be used. Follows ISO 8601 standard."
+msgstr ""
+
+#: src/datasets.cpp:260
+msgid "ExpirationTime"
+msgstr ""
+
+#: src/datasets.cpp:261
+msgid ""
+"Designates in the form HHMMSS:HHMM the latest time the provider or owner "
+"intends the object data to be used. Follows ISO 8601 standard."
+msgstr ""
+
+#: src/datasets.cpp:264
+msgid "Special Instructions"
+msgstr ""
+
+#: src/datasets.cpp:265
+msgid ""
+"Other editorial instructions concerning the use of the object data, such as "
+"embargoes and warnings."
+msgstr ""
+
+#: src/datasets.cpp:268
+msgid "Instructions"
+msgstr ""
+
+#: src/datasets.cpp:269
+msgid "Action Advised"
+msgstr ""
+
+#: src/datasets.cpp:270
+msgid ""
+"Indicates the type of action that this object provides to a previous object. "
+"The link to the previous object is made using tags <ARMIdentifier> and "
+"<ARMVersion>, according to the practices of the provider."
+msgstr ""
+
+#: src/datasets.cpp:274
+msgid "Reference Service"
+msgstr ""
+
+#: src/datasets.cpp:275
+msgid ""
+"Identifies the Service Identifier of a prior envelope to which the current "
+"object refers."
+msgstr ""
+
+#: src/datasets.cpp:278
+msgid "Reference Date"
+msgstr ""
+
+#: src/datasets.cpp:279
+msgid "Identifies the date of a prior envelope to which the current object refers."
+msgstr ""
+
+#: src/datasets.cpp:281
+msgid "Reference Number"
+msgstr ""
+
+#: src/datasets.cpp:282
+msgid ""
+"Identifies the Envelope Number of a prior envelope to which the current "
+"object refers."
+msgstr ""
+
+#: src/datasets.cpp:284 src/datasets.cpp:289
+msgid "Date Created"
+msgstr ""
+
+#: src/datasets.cpp:285
+msgid ""
+"Represented in the form CCYYMMDD to designate the date the intellectual "
+"content of the object data was created rather than the date of the creation "
+"of the physical representation. Follows ISO 8601 standard."
+msgstr ""
+
+#: src/datasets.cpp:290
+msgid "Time Created"
+msgstr ""
+
+#: src/datasets.cpp:291
+msgid ""
+"Represented in the form HHMMSS:HHMM to designate the time the intellectual "
+"content of the object data current source material was created rather than "
+"the creation of the physical representation. Follows ISO 8601 standard."
+msgstr ""
+
+#: src/datasets.cpp:296
+msgid "Digitization Date"
+msgstr ""
+
+#: src/datasets.cpp:297
+msgid ""
+"Represented in the form CCYYMMDD to designate the date the digital "
+"representation of the object data was created. Follows ISO 8601 standard."
+msgstr ""
+
+#: src/datasets.cpp:300
+msgid "Digitization Time"
+msgstr ""
+
+#: src/datasets.cpp:301
+msgid ""
+"Represented in the form HHMMSS:HHMM to designate the time the digital "
+"representation of the object data was created. Follows ISO 8601 standard."
+msgstr ""
+
+#: src/datasets.cpp:305 src/minoltamn.cpp:288 src/minoltamn.cpp:754
+#: src/minoltamn.cpp:953 src/panasonicmn.cpp:110 src/sigmamn.cpp:223
+msgid "Program"
+msgstr ""
+
+#: src/datasets.cpp:306
+msgid "Identifies the type of program used to originate the object data."
+msgstr ""
+
+#: src/datasets.cpp:308
+msgid "Program Version"
+msgstr ""
+
+#: src/datasets.cpp:309
+msgid "Used to identify the version of the program mentioned in tag <Program>."
+msgstr ""
+
+#: src/datasets.cpp:311
+msgid "Object Cycle"
+msgstr ""
+
+#: src/datasets.cpp:312
+msgid "Used to identify the editorial cycle of object data."
+msgstr ""
+
+#: src/datasets.cpp:314
+msgid "By-line"
+msgstr ""
+
+#: src/datasets.cpp:315
+msgid ""
+"Contains name of the creator of the object data, e.g. writer, photographer "
+"or graphic artist."
+msgstr ""
+
+#: src/datasets.cpp:318
+msgid "Author"
+msgstr ""
+
+#: src/datasets.cpp:319
+msgid "By-line Title"
+msgstr ""
+
+#: src/datasets.cpp:320
+msgid ""
+"A by-line title is the title of the creator or creators of an object data. "
+"Where used, a by-line title should follow the by-line it modifies."
+msgstr ""
+
+#: src/datasets.cpp:323 src/datasets.cpp:327
+msgid "City"
+msgstr ""
+
+#: src/datasets.cpp:324
+msgid ""
+"Identifies city of object data origin according to guidelines established by "
+"the provider."
+msgstr ""
+
+#: src/datasets.cpp:328
+msgid "Sub Location"
+msgstr ""
+
+#: src/datasets.cpp:329
+msgid ""
+"Identifies the location within a city from which the object data originates, "
+"according to guidelines established by the provider."
+msgstr ""
+
+#: src/datasets.cpp:332
+msgid "Province State"
+msgstr ""
+
+#: src/datasets.cpp:333
+msgid ""
+"Identifies Province/State of origin according to guidelines established by "
+"the provider."
+msgstr ""
+
+#: src/datasets.cpp:336
+msgid "State/Province"
+msgstr ""
+
+#: src/datasets.cpp:337
+msgid "Country Code"
+msgstr ""
+
+#: src/datasets.cpp:338
+msgid ""
+"Indicates the code of the country/primary location where the intellectual "
+"property of the object data was created, e.g. a photo was taken, an event "
+"occurred. Where ISO has established an appropriate country code under ISO "
+"3166, that code will be used. When ISO 3166 does not adequately provide for "
+"identification of a location or a new country, e.g. ships at sea, space, "
+"IPTC will assign an appropriate three-character code under the provisions of "
+"ISO 3166 to avoid conflicts."
+msgstr ""
+
+#: src/datasets.cpp:347
+msgid "Country Name"
+msgstr ""
+
+#: src/datasets.cpp:348
+msgid ""
+"Provides full, publishable, name of the country/primary location where the "
+"intellectual property of the object data was created, according to "
+"guidelines of the provider."
+msgstr ""
+
+#: src/datasets.cpp:352
+msgid "Country"
+msgstr ""
+
+#: src/datasets.cpp:353 src/datasets.cpp:357
+msgid "Transmission Reference"
+msgstr ""
+
+#: src/datasets.cpp:354
+msgid ""
+"A code representing the location of original transmission according to "
+"practices of the provider."
+msgstr ""
+
+#: src/datasets.cpp:358 src/datasets.cpp:361
+msgid "Headline"
+msgstr ""
+
+#: src/datasets.cpp:359
+msgid "A publishable entry providing a synopsis of the contents of the object data."
+msgstr ""
+
+#: src/datasets.cpp:362 src/datasets.cpp:365
+msgid "Credit"
+msgstr ""
+
+#: src/datasets.cpp:363
+msgid ""
+"Identifies the provider of the object data, not necessarily the owner/"
+"creator."
+msgstr ""
+
+#: src/datasets.cpp:366 src/datasets.cpp:370
+msgid "Source"
+msgstr ""
+
+#: src/datasets.cpp:367
+msgid ""
+"Identifies the original owner of the intellectual content of the object "
+"data. This could be an agency, a member of an agency or an individual."
+msgstr ""
+
+#: src/datasets.cpp:372
+msgid "Contains any necessary copyright notice."
+msgstr ""
+
+#: src/datasets.cpp:374
+msgid "Copyright Notice"
+msgstr ""
+
+#: src/datasets.cpp:375
+msgid "Contact"
+msgstr ""
+
+#: src/datasets.cpp:376
+msgid ""
+"Identifies the person or organisation which can provide further background "
+"information on the object data."
+msgstr ""
+
+#: src/datasets.cpp:379
+msgid "Caption"
+msgstr ""
+
+#: src/datasets.cpp:380
+msgid "A textual description of the object data."
+msgstr ""
+
+#: src/datasets.cpp:382
+msgid "Description"
+msgstr ""
+
+#: src/datasets.cpp:383
+msgid "Writer"
+msgstr ""
+
+#: src/datasets.cpp:384
+msgid ""
+"Identification of the name of the person involved in the writing, editing or "
+"correcting the object data or caption/abstract."
+msgstr ""
+
+#: src/datasets.cpp:387
+msgid "Rasterized Caption"
+msgstr ""
+
+#: src/datasets.cpp:388
+msgid ""
+"Contains the rasterized object data description and is used where characters "
+"that have not been coded are required for the caption."
+msgstr ""
+
+#: src/datasets.cpp:391
+msgid "Image Type"
+msgstr ""
+
+#: src/datasets.cpp:392
+msgid "Indicates the color components of an image."
+msgstr ""
+
+#: src/datasets.cpp:394
+msgid "Image Orientation"
+msgstr ""
+
+#: src/datasets.cpp:395
+msgid "Indicates the layout of an image."
+msgstr ""
+
+#: src/datasets.cpp:397
+msgid "Language"
+msgstr ""
+
+#: src/datasets.cpp:398
+msgid ""
+"Describes the major national language of the object, according to the 2-"
+"letter codes of ISO 639:1988. Does not define or imply any coded character "
+"set, but is used for internal routing, e.g. to various editorial desks."
+msgstr ""
+
+#: src/datasets.cpp:403
+msgid "Audio Type"
+msgstr ""
+
+#: src/datasets.cpp:404
+msgid "Indicates the type of an audio content."
+msgstr ""
+
+#: src/datasets.cpp:406
+msgid "Audio Rate"
+msgstr ""
+
+#: src/datasets.cpp:407
+msgid "Indicates the sampling rate in Hertz of an audio content."
+msgstr ""
+
+#: src/datasets.cpp:409
+msgid "Audio Resolution"
+msgstr ""
+
+#: src/datasets.cpp:410
+msgid "Indicates the sampling resolution of an audio content."
+msgstr ""
+
+#: src/datasets.cpp:412
+msgid "Audio Duration"
+msgstr ""
+
+#: src/datasets.cpp:413
+msgid "Indicates the duration of an audio content."
+msgstr ""
+
+#: src/datasets.cpp:415
+msgid "Audio Outcue"
+msgstr ""
+
+#: src/datasets.cpp:416
+msgid ""
+"Identifies the content of the end of an audio object data, according to "
+"guidelines established by the provider."
+msgstr ""
+
+#: src/datasets.cpp:419
+msgid "Preview Format"
+msgstr ""
+
+#: src/datasets.cpp:420
+msgid ""
+"A binary number representing the file format of the object data preview. The "
+"file format must be registered with IPTC or NAA organizations with a unique "
+"number assigned to it."
+msgstr ""
+
+#: src/datasets.cpp:424
+msgid "Preview Version"
+msgstr ""
+
+#: src/datasets.cpp:425
+msgid ""
+"A binary number representing the particular version of the object data "
+"preview file format specified in tag <PreviewFormat>."
+msgstr ""
+
+#: src/datasets.cpp:428
+msgid "Preview Data"
+msgstr ""
+
+#: src/datasets.cpp:429
+msgid "Binary image preview data."
+msgstr ""
+
+#: src/datasets.cpp:431 src/datasets.cpp:432
+msgid "(Invalid)"
+msgstr ""
+
+#: src/datasets.cpp:436 src/datasets.cpp:437 src/datasets.cpp:440
+msgid "Unknown dataset"
+msgstr ""
+
+#: src/exiv2.cpp:179
+msgid "Copyright (C) 2004, 2005, 2006 Andreas Huggel.\n"
+msgstr ""
+
+#: src/exiv2.cpp:181
+msgid ""
+"This program is free software; you can redistribute it and/or\n"
+"modify it under the terms of the GNU General Public License\n"
+"as published by the Free Software Foundation; either version 2\n"
+"of the License, or (at your option) any later version.\n"
+msgstr ""
+
+#: src/exiv2.cpp:186
+msgid ""
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+msgstr ""
+
+#: src/exiv2.cpp:191
+msgid ""
+"You should have received a copy of the GNU General Public\n"
+"License along with this program; if not, write to the Free\n"
+"Software Foundation, Inc., 51 Franklin Street, Fifth Floor,\n"
+"Boston, MA 02110-1301 USA\n"
+msgstr ""
+
+#: src/exiv2.cpp:199
+msgid "Usage:"
+msgstr ""
+
+#: src/exiv2.cpp:200
+msgid ""
+"[ options ] [ action ] file ...\n"
+"\n"
+msgstr ""
+
+#: src/exiv2.cpp:201
+msgid "Manipulate the Exif metadata of images.\n"
+msgstr ""
+
+#: src/exiv2.cpp:207
+msgid ""
+"\n"
+"Actions:\n"
+msgstr ""
+
+#: src/exiv2.cpp:208
+msgid ""
+"  ad | adjust   Adjust Exif timestamps by the given time. This\n"
+"                action requires the option -a time.\n"
+msgstr ""
+
+#: src/exiv2.cpp:210
+msgid "  pr | print    Print image metadata.\n"
+msgstr ""
+
+#: src/exiv2.cpp:211
+msgid "  rm | delete   Delete image metadata from the files.\n"
+msgstr ""
+
+#: src/exiv2.cpp:212
+msgid ""
+"  in | insert   Insert metadata from corresponding *.exv files.\n"
+"                Use option -S to change the suffix of the input files.\n"
+msgstr ""
+
+#: src/exiv2.cpp:214
+msgid "  ex | extract  Extract metadata to *.exv and thumbnail image files.\n"
+msgstr ""
+
+#: src/exiv2.cpp:215
+msgid ""
+"  mv | rename   Rename files and/or set file timestamps according to the\n"
+"                Exif create timestamp. The filename format can be set with\n"
+"                -r format, timestamp options are controlled with -t and -T.\n"
+msgstr ""
+
+#: src/exiv2.cpp:218
+msgid ""
+"  mo | modify   Apply commands to modify (add, set, delete) the Exif and\n"
+"                Iptc metadata of image files or set the Jpeg comment.\n"
+"                Requires option -c, -m or -M.\n"
+msgstr ""
+
+#: src/exiv2.cpp:221
+msgid ""
+"  fi | fixiso   Copy ISO setting from the Nikon Makernote to the regular\n"
+"                Exif tag.\n"
+msgstr ""
+
+#: src/exiv2.cpp:223
+msgid ""
+"\n"
+"Options:\n"
+msgstr ""
+
+#: src/exiv2.cpp:224
+msgid "   -h      Display this help and exit.\n"
+msgstr ""
+
+#: src/exiv2.cpp:225
+msgid "   -V      Show the program version and exit.\n"
+msgstr ""
+
+#: src/exiv2.cpp:226
+msgid "   -v      Be verbose during the program run.\n"
+msgstr ""
+
+#: src/exiv2.cpp:227
+msgid "   -b      Show large binary values.\n"
+msgstr ""
+
+#: src/exiv2.cpp:228
+msgid "   -u      Don't show unknown tags.\n"
+msgstr ""
+
+#: src/exiv2.cpp:229
+msgid "   -k      Preserve file timestamps (keep).\n"
+msgstr ""
+
+#: src/exiv2.cpp:230
+msgid "   -t      Also set the file timestamp in 'rename' action (overrides -k).\n"
+msgstr ""
+
+#: src/exiv2.cpp:231
+msgid ""
+"   -T      Only set the file timestamp in 'rename' action, do not rename\n"
+"           the file (overrides -k).\n"
+msgstr ""
+
+#: src/exiv2.cpp:233
+msgid "   -f      Do not prompt before overwriting existing files (force).\n"
+msgstr ""
+
+#: src/exiv2.cpp:234
+msgid "   -F      Do not prompt before renaming files (Force).\n"
+msgstr ""
+
+#: src/exiv2.cpp:235
+msgid ""
+"   -a time Time adjustment in the format [-]HH[:MM[:SS]]. This option\n"
+"           is only used with the 'adjust' action.\n"
+msgstr ""
+
+#: src/exiv2.cpp:237
+msgid "   -p mode Print mode for the 'print' action. Possible modes are:\n"
+msgstr ""
+
+#: src/exiv2.cpp:238
+msgid "             s : print a summary of the Exif metadata (the default)\n"
+msgstr ""
+
+#: src/exiv2.cpp:239
+msgid "             t : interpreted (translated) Exif data (shortcut for -Pkyct)\n"
+msgstr ""
+
+#: src/exiv2.cpp:240
+msgid "             v : plain Exif data values (shortcut for -Pxgnycv)\n"
+msgstr ""
+
+#: src/exiv2.cpp:241
+msgid "             h : hexdump of the Exif data (shortcut for -Pxgnycsh)\n"
+msgstr ""
+
+#: src/exiv2.cpp:242
+msgid "             i : Iptc data values\n"
+msgstr ""
+
+#: src/exiv2.cpp:243 src/exiv2.cpp:261
+msgid "             c : Jpeg comment\n"
+msgstr ""
+
+#: src/exiv2.cpp:244
+msgid "   -P cols Print columns for the Exif taglist ('print' action). Valid are:\n"
+msgstr ""
+
+#: src/exiv2.cpp:245
+msgid "             x : print a column with the tag value\n"
+msgstr ""
+
+#: src/exiv2.cpp:246
+msgid "             g : group name\n"
+msgstr ""
+
+#: src/exiv2.cpp:247
+msgid "             k : key\n"
+msgstr ""
+
+#: src/exiv2.cpp:248
+msgid "             l : tag label\n"
+msgstr ""
+
+#: src/exiv2.cpp:249
+msgid "             n : tag name\n"
+msgstr ""
+
+#: src/exiv2.cpp:250
+msgid "             y : type\n"
+msgstr ""
+
+#: src/exiv2.cpp:251
+msgid "             c : number of components (count)\n"
+msgstr ""
+
+#: src/exiv2.cpp:252
+msgid "             s : size in bytes\n"
+msgstr ""
+
+#: src/exiv2.cpp:253
+msgid "             v : plain data value\n"
+msgstr ""
+
+#: src/exiv2.cpp:254
+msgid "             t : interpreted (translated) data\n"
+msgstr ""
+
+#: src/exiv2.cpp:255
+msgid "             h : hexdump of the data\n"
+msgstr ""
+
+#: src/exiv2.cpp:256
+msgid "   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n"
+msgstr ""
+
+#: src/exiv2.cpp:257
+msgid "             a : all supported metadata (the default)\n"
+msgstr ""
+
+#: src/exiv2.cpp:258
+msgid "             e : Exif section\n"
+msgstr ""
+
+#: src/exiv2.cpp:259
+msgid "             t : Exif thumbnail only\n"
+msgstr ""
+
+#: src/exiv2.cpp:260
+msgid "             i : Iptc data\n"
+msgstr ""
+
+#: src/exiv2.cpp:262
+msgid ""
+"   -i tgt  Insert target(s) for the 'insert' action. Possible targets are\n"
+"           the same as those for the -d option. Only Jpeg thumbnails can\n"
+"           be inserted, they need to be named <file>-thumb.jpg\n"
+msgstr ""
+
+#: src/exiv2.cpp:265
+msgid ""
+"   -e tgt  Extract target(s) for the 'extract' action. Possible targets\n"
+"           are the same as those for the -d option.\n"
+msgstr ""
+
+#: src/exiv2.cpp:267
+msgid ""
+"   -r fmt  Filename format for the 'rename' action. The format string\n"
+"           follows strftime(3). Default filename format is "
+msgstr ""
+
+#: src/exiv2.cpp:270
+msgid "   -c txt  Jpeg comment string to set in the image.\n"
+msgstr ""
+
+#: src/exiv2.cpp:271
+msgid ""
+"   -m file Command file for the modify action. The format for commands is\n"
+"           set|add|del <key> [[<type>] <value>].\n"
+msgstr ""
+
+#: src/exiv2.cpp:273
+msgid ""
+"   -M cmd  Command line for the modify action. The format for the\n"
+"           commands is the same as that of the lines of a command file.\n"
+msgstr ""
+
+#: src/exiv2.cpp:275
+msgid ""
+"   -l dir  Location (directory) for files to be inserted from or extracted "
+"to.\n"
+msgstr ""
+
+#: src/exiv2.cpp:276
+msgid ""
+"   -S .suf Use suffix .suf for source files for insert command.\n"
+"\n"
+msgstr ""
+
+#: src/exiv2.cpp:306 src/exiv2.cpp:345 src/exiv2.cpp:547
+msgid "Option"
+msgstr ""
+
+#: src/exiv2.cpp:307
+msgid "requires an argument\n"
+msgstr ""
+
+#: src/exiv2.cpp:311
+msgid "Unrecognized option"
+msgstr ""
+
+#: src/exiv2.cpp:317
+msgid "getopt returned unexpected character code"
+msgstr ""
+
+#: src/exiv2.cpp:340
+msgid "Ignoring surplus option"
+msgstr ""
+
+#: src/exiv2.cpp:346 src/exiv2.cpp:548
+msgid "is not compatible with a previous option\n"
+msgstr ""
+
+#: src/exiv2.cpp:361
+msgid "Error parsing -a option argument"
+msgstr ""
+
+#: src/exiv2.cpp:368
+msgid "Ignoring surplus option -a"
+msgstr ""
+
+#: src/exiv2.cpp:372
+msgid "Option -a is not compatible with a previous option\n"
+msgstr ""
+
+#: src/exiv2.cpp:392
+msgid "Unrecognized print mode"
+msgstr ""
+
+#: src/exiv2.cpp:400
+msgid "Ignoring surplus option -p"
+msgstr ""
+
+#: src/exiv2.cpp:404
+msgid "Option -p is not compatible with a previous option\n"
+msgstr ""
+
+#: src/exiv2.cpp:432
+msgid "Unrecognized print item"
+msgstr ""
+
+#: src/exiv2.cpp:441
+msgid "Ignoring surplus option -P"
+msgstr ""
+
+#: src/exiv2.cpp:445
+msgid "Option -P is not compatible with a previous option\n"
+msgstr ""
+
+#: src/exiv2.cpp:472
+msgid "Option -d is not compatible with a previous option\n"
+msgstr ""
+
+#: src/exiv2.cpp:499
+msgid "Option -e is not compatible with a previous option\n"
+msgstr ""
+
+#: src/exiv2.cpp:526
+msgid "Option -i is not compatible with a previous option\n"
+msgstr ""
+
+#: src/exiv2.cpp:565
+msgid "Action adjust is not compatible with the given options\n"
+msgstr ""
+
+#: src/exiv2.cpp:574
+msgid "Action print is not compatible with the given options\n"
+msgstr ""
+
+#: src/exiv2.cpp:583
+msgid "Action delete is not compatible with the given options\n"
+msgstr ""
+
+#: src/exiv2.cpp:592
+msgid "Action extract is not compatible with the given options\n"
+msgstr ""
+
+#: src/exiv2.cpp:601
+msgid "Action insert is not compatible with the given options\n"
+msgstr ""
+
+#: src/exiv2.cpp:610
+msgid "Action rename is not compatible with the given options\n"
+msgstr ""
+
+#: src/exiv2.cpp:619
+msgid "Action modify is not compatible with the given options\n"
+msgstr ""
+
+#: src/exiv2.cpp:628
+msgid "Action fixiso is not compatible with the given options\n"
+msgstr ""
+
+#: src/exiv2.cpp:652
+msgid "An action must be specified\n"
+msgstr ""
+
+#: src/exiv2.cpp:657
+msgid "Adjust action requires option -a time\n"
+msgstr ""
+
+#: src/exiv2.cpp:663
+msgid "Modify action requires at least one -c, -m or -M option\n"
+msgstr ""
+
+#: src/exiv2.cpp:667
+msgid "At least one file is required\n"
+msgstr ""
+
+#: src/exiv2.cpp:673
+msgid "Error parsing -m option arguments\n"
+msgstr ""
+
+#: src/exiv2.cpp:680
+msgid "Error parsing -M option arguments\n"
+msgstr ""
+
+#: src/exiv2.cpp:687
+msgid "-l option can only be used with extract or insert actions\n"
+msgstr ""
+
+#: src/exiv2.cpp:692
+msgid "-S option can only be used with insert action\n"
+msgstr ""
+
+#: src/exiv2.cpp:697
+msgid "-t option can only be used with rename action\n"
+msgstr ""
+
+#: src/exiv2.cpp:702
+msgid "-T option can only be used with rename action\n"
+msgstr ""
+
+#: src/exiv2.cpp:767
+msgid "Unrecognized "
+msgstr ""
+
+#: src/exiv2.cpp:768
+msgid "target"
+msgstr ""
+
+#: src/exiv2.cpp:786
+msgid "Failed to open command file for reading\n"
+msgstr ""
+
+#: src/exiv2.cpp:799
+msgid "line"
+msgstr ""
+
+#: src/exiv2.cpp:822
+msgid "-M option"
+msgstr ""
+
+#: src/exiv2.cpp:843 src/exiv2.cpp:893 src/exiv2.cpp:903
+msgid "Invalid command line"
+msgstr ""
+
+#: src/exiv2.cpp:850
+msgid "Invalid command"
+msgstr ""
+
+#: src/exiv2.cpp:874
+msgid "Invalid key"
+msgstr ""
+
+#: src/error.cpp:44
+msgid "Error %0: arg1=%1, arg2=%2, arg3=%3."
+msgstr ""
+
+#: src/error.cpp:45
+msgid "Success"
+msgstr ""
+
+#: src/error.cpp:48
+msgid "This does not look like a %1 image"
+msgstr ""
+
+#: src/error.cpp:49
+msgid "Invalid dataset name `%1'"
+msgstr ""
+
+#: src/error.cpp:50
+msgid "Invalid record name `%1'"
+msgstr ""
+
+#: src/error.cpp:51
+msgid "Invalid key `%1'"
+msgstr ""
+
+#: src/error.cpp:52
+msgid "Invalid tag name or ifdId `%1', ifdId %2"
+msgstr ""
+
+#: src/error.cpp:53
+msgid "Value not set"
+msgstr ""
+
+#: src/error.cpp:54
+msgid "%1: Failed to open the data source: %2"
+msgstr ""
+
+#: src/error.cpp:55
+msgid "%1: Failed to open file (%2): %3"
+msgstr ""
+
+#: src/error.cpp:56
+msgid "%1: The file contains data of an unknown image type"
+msgstr ""
+
+#: src/error.cpp:57
+msgid "The memory contains data of an unknown image type"
+msgstr ""
+
+#: src/error.cpp:58
+msgid "Image type %1 is not supported"
+msgstr ""
+
+#: src/error.cpp:59
+msgid "Failed to read image data"
+msgstr ""
+
+#: src/error.cpp:60
+msgid "This does not look like a JPEG image"
+msgstr ""
+
+#: src/error.cpp:61
+msgid "MakerTagInfo registry full"
+msgstr ""
+
+#: src/error.cpp:62
+msgid "%1: Failed to rename file to %2: %3"
+msgstr ""
+
+#: src/error.cpp:63
+msgid "%1: Transfer failed: %2"
+msgstr ""
+
+#: src/error.cpp:64
+msgid "Memory transfer failed: %1"
+msgstr ""
+
+#: src/error.cpp:65
+msgid "Failed to read input data"
+msgstr ""
+
+#: src/error.cpp:66
+msgid "Failed to write image"
+msgstr ""
+
+#: src/error.cpp:67
+msgid "Input data does not contain a valid image"
+msgstr ""
+
+#: src/error.cpp:68
+msgid "Failed to create Makernote for ifdId %1"
+msgstr ""
+
+#: src/error.cpp:69
+msgid "Entry::setValue: Value too large (tag=%1, size=%2, requested=%3)"
+msgstr ""
+
+#: src/error.cpp:70
+msgid "Entry::setDataArea: Value too large (tag=%1, size=%2, requested=%3)"
+msgstr ""
+
+#: src/error.cpp:71
+msgid "Offset out of range"
+msgstr ""
+
+#: src/error.cpp:72
+msgid "Unsupported data area offset type"
+msgstr ""
+
+#: src/error.cpp:73
+msgid "Invalid charset: `%1'"
+msgstr ""
+
+#: src/error.cpp:74
+msgid "Unsupported date format"
+msgstr ""
+
+#: src/error.cpp:75
+msgid "Unsupported time format"
+msgstr ""
+
+#: src/error.cpp:76
+msgid "%1: CRW images don't support IPTC metadata"
+msgstr ""
+
+#: src/error.cpp:77
+msgid "%1: CRW images don't support JPEG comments"
+msgstr ""
+
+#: src/error.cpp:78
+msgid "This does not look like a CRW image"
+msgstr ""
+
+#: src/error.cpp:79
+msgid "%1: Not supported"
+msgstr ""
+
+#: src/error.cpp:80
+msgid "ImageFactory registry full"
+msgstr ""
+
+#: src/error.cpp:81
+msgid "Failed to decode %1 metadata"
+msgstr ""
+
+#: src/error.cpp:82
+msgid "Size of %1 JPEG segment is larger than 65535 bytes"
+msgstr ""
+
+#: src/error.cpp:85
+msgid "(Unknown Error)"
+msgstr ""
+
+#: src/ifd.cpp:691
+msgid "IFD Offset"
+msgstr ""
+
+#: src/ifd.cpp:694
+msgid "IFD Entries"
+msgstr ""
+
+#: src/ifd.cpp:697
+msgid "Entry     Tag  Format   (Bytes each)  Number  Offset\n"
+msgstr ""
+
+#: src/ifd.cpp:729
+msgid "Next IFD"
+msgstr ""
+
+#: src/ifd.cpp:736
+msgid "Data of entry"
+msgstr ""
+
+#: src/tags.cpp:102
+msgid "Unknown section"
+msgstr ""
+
+#: src/tags.cpp:103
+msgid "Image data structure"
+msgstr ""
+
+#: src/tags.cpp:104
+msgid "Recording offset"
+msgstr ""
+
+#: src/tags.cpp:105
+msgid "Image data characteristics"
+msgstr ""
+
+#: src/tags.cpp:106
+msgid "Other data"
+msgstr ""
+
+#: src/tags.cpp:107
+msgid "Exif data structure"
+msgstr ""
+
+#: src/tags.cpp:108
+msgid "Exif version"
+msgstr ""
+
+#: src/tags.cpp:109
+msgid "Image configuration"
+msgstr ""
+
+#: src/tags.cpp:110
+msgid "User information"
+msgstr ""
+
+#: src/tags.cpp:111
+msgid "Related file"
+msgstr ""
+
+#: src/tags.cpp:112
+msgid "Date and time"
+msgstr ""
+
+#: src/tags.cpp:113
+msgid "Picture taking conditions"
+msgstr ""
+
+#: src/tags.cpp:114
+msgid "GPS information"
+msgstr ""
+
+#: src/tags.cpp:115
+msgid "Interoperability information"
+msgstr ""
+
+#: src/tags.cpp:116
+msgid "Vendor specific information"
+msgstr ""
+
+#: src/tags.cpp:117
+msgid "Last section"
+msgstr ""
+
+#: src/tags.cpp:137
+msgid "Primary image"
+msgstr ""
+
+#: src/tags.cpp:138
+msgid "Thumbnail/Preview image"
+msgstr ""
+
+#: src/tags.cpp:139
+msgid "Primary image, Multi page file"
+msgstr ""
+
+#: src/tags.cpp:140
+msgid "Thumbnail/Preview image, Multi page file"
+msgstr ""
+
+#: src/tags.cpp:141
+msgid "Primary image, Transparency mask"
+msgstr ""
+
+#: src/tags.cpp:142
+msgid "Thumbnail/Preview image, Transparency mask"
+msgstr ""
+
+#: src/tags.cpp:143
+msgid "Primary image, Multi page file, Transparency mask"
+msgstr ""
+
+#: src/tags.cpp:144
+msgid "Thumbnail/Preview image, Multi page file, Transparency mask"
+msgstr ""
+
+#: src/tags.cpp:149 src/nikonmn.cpp:1038
+msgid "none"
+msgstr ""
+
+#: src/tags.cpp:150
+msgid "inch"
+msgstr ""
+
+#: src/tags.cpp:151
+msgid "cm"
+msgstr ""
+
+#: src/tags.cpp:156
+msgid "Uncompressed"
+msgstr ""
+
+#: src/tags.cpp:157
+msgid "CCITT RLE"
+msgstr ""
+
+#: src/tags.cpp:158
+msgid "T4/Group 3 Fax"
+msgstr ""
+
+#: src/tags.cpp:159
+msgid "T6/Group 4 Fax"
+msgstr ""
+
+#: src/tags.cpp:160
+msgid "LZW"
+msgstr ""
+
+#: src/tags.cpp:161
+msgid "JPEG (old-style)"
+msgstr ""
+
+#: src/tags.cpp:162
+msgid "JPEG"
+msgstr ""
+
+#: src/tags.cpp:163
+msgid "Adobe Deflate"
+msgstr ""
+
+#: src/tags.cpp:164
+msgid "JBIG B&W"
+msgstr ""
+
+#: src/tags.cpp:165
+msgid "JBIG Color"
+msgstr ""
+
+#: src/tags.cpp:166
+msgid "Next 2-bits RLE"
+msgstr ""
+
+#: src/tags.cpp:167
+msgid "CCITT RLE 1-word"
+msgstr ""
+
+#: src/tags.cpp:168
+msgid "PackBits (Macintosh RLE)"
+msgstr ""
+
+#: src/tags.cpp:169
+msgid "Thunderscan RLE"
+msgstr ""
+
+#: src/tags.cpp:170
+msgid "IT8 CT Padding"
+msgstr ""
+
+#: src/tags.cpp:171
+msgid "IT8 Linework RLE"
+msgstr ""
+
+#: src/tags.cpp:172
+msgid "IT8 Monochrome Picture"
+msgstr ""
+
+#: src/tags.cpp:173
+msgid "IT8 Binary Lineart"
+msgstr ""
+
+#: src/tags.cpp:174
+msgid "Pixar Film (10-bits LZW)"
+msgstr ""
+
+#: src/tags.cpp:175
+msgid "Pixar Log (11-bits ZIP)"
+msgstr ""
+
+#: src/tags.cpp:176
+msgid "Pixar Deflate"
+msgstr ""
+
+#: src/tags.cpp:177
+msgid "Kodak DCS Encoding"
+msgstr ""
+
+#: src/tags.cpp:178
+msgid "ISO JBIG"
+msgstr ""
+
+#: src/tags.cpp:179
+msgid "SGI Log Luminance RLE"
+msgstr ""
+
+#: src/tags.cpp:180
+msgid "SGI Log 24-bits packed"
+msgstr ""
+
+#: src/tags.cpp:181
+msgid "Leadtools JPEG 2000"
+msgstr ""
+
+#: src/tags.cpp:182
+msgid "Nikon NEF Compressed"
+msgstr ""
+
+#: src/tags.cpp:187
+msgid "White Is Zero"
+msgstr ""
+
+#: src/tags.cpp:188
+msgid "Black Is Zero"
+msgstr ""
+
+#: src/tags.cpp:189
+msgid "RGB"
+msgstr ""
+
+#: src/tags.cpp:190
+msgid "RGB Palette"
+msgstr ""
+
+#: src/tags.cpp:191
+msgid "Transparency Mask"
+msgstr ""
+
+#: src/tags.cpp:192
+msgid "CMYK"
+msgstr ""
+
+#: src/tags.cpp:193
+msgid "YCbCr"
+msgstr ""
+
+#: src/tags.cpp:194
+msgid "CIELab"
+msgstr ""
+
+#: src/tags.cpp:195
+msgid "ICCLab"
+msgstr ""
+
+#: src/tags.cpp:196
+msgid "ITULab"
+msgstr ""
+
+#: src/tags.cpp:197
+msgid "Color Filter Array"
+msgstr ""
+
+#: src/tags.cpp:198
+msgid "Pixar LogL"
+msgstr ""
+
+#: src/tags.cpp:199
+msgid "Pixar LogLuv"
+msgstr ""
+
+#: src/tags.cpp:200
+msgid "Linear Raw"
+msgstr ""
+
+#: src/tags.cpp:205
+msgid "top, left"
+msgstr ""
+
+#: src/tags.cpp:206
+msgid "top, right"
+msgstr ""
+
+#: src/tags.cpp:207
+msgid "bottom, right"
+msgstr ""
+
+#: src/tags.cpp:208
+msgid "bottom, left"
+msgstr ""
+
+#: src/tags.cpp:209
+msgid "left, top"
+msgstr ""
+
+#: src/tags.cpp:210
+msgid "right, top"
+msgstr ""
+
+#: src/tags.cpp:211
+msgid "right, bottom"
+msgstr ""
+
+#: src/tags.cpp:212
+msgid "left, bottom"
+msgstr ""
+
+#: src/tags.cpp:217
+msgid "Centered"
+msgstr ""
+
+#: src/tags.cpp:218
+msgid "Co-sited"
+msgstr ""
+
+#: src/tags.cpp:223
+msgid "New Subfile Type"
+msgstr ""
+
+#: src/tags.cpp:224
+msgid "A general indication of the kind of data contained in this subfile."
+msgstr ""
+
+#: src/tags.cpp:226 src/olympusmn.cpp:334
+msgid "Image Width"
+msgstr ""
+
+#: src/tags.cpp:227
+msgid ""
+"The number of columns of image data, equal to the number of pixels per row. "
+"In JPEG compressed data a JPEG marker is used instead of this tag."
+msgstr ""
+
+#: src/tags.cpp:231
+msgid "Image Length"
+msgstr ""
+
+#: src/tags.cpp:232
+msgid ""
+"The number of rows of image data. In JPEG compressed data a JPEG marker is "
+"used instead of this tag."
+msgstr ""
+
+#: src/tags.cpp:235
+msgid "Bits per Sample"
+msgstr ""
+
+#: src/tags.cpp:236
+msgid ""
+"The number of bits per image component. In this standard each component of "
+"the image is 8 bits, so the value for this tag is 8. See also "
+"<SamplesPerPixel>. In JPEG compressed data a JPEG marker is used instead of "
+"this tag."
+msgstr ""
+
+#: src/tags.cpp:241
+msgid "Compression"
+msgstr ""
+
+#: src/tags.cpp:242
+msgid ""
+"The compression scheme used for the image data. When a primary image is JPEG "
+"compressed, this designation is not necessary and is omitted. When "
+"thumbnails use JPEG compression, this tag value is set to 6."
+msgstr ""
+
+#: src/tags.cpp:247
+msgid "Photometric Interpretation"
+msgstr ""
+
+#: src/tags.cpp:248
+msgid ""
+"The pixel composition. In JPEG compressed data a JPEG marker is used instead "
+"of this tag."
+msgstr ""
+
+#: src/tags.cpp:251
+msgid "Fill Order"
+msgstr ""
+
+#: src/tags.cpp:252
+msgid "The logical order of bits within a byte"
+msgstr ""
+
+#: src/tags.cpp:254
+msgid "Document Name"
+msgstr ""
+
+#: src/tags.cpp:255
+msgid "The name of the document from which this image was scanned"
+msgstr ""
+
+#: src/tags.cpp:257
+msgid "Image Description"
+msgstr ""
+
+#: src/tags.cpp:258
+msgid ""
+"A character string giving the title of the image. It may be a comment such "
+"as \"1988 company picnic\" or the like. Two-bytes character codes cannot be "
+"used. When a 2-bytes code is necessary, the Exif Private tag <UserComment> "
+"is to be used."
+msgstr ""
+
+#: src/tags.cpp:264
+msgid "Manufacturer"
+msgstr ""
+
+#: src/tags.cpp:265
+msgid ""
+"The manufacturer of the recording equipment. This is the manufacturer of the "
+"DSC, scanner, video digitizer or other equipment that generated the image. "
+"When the field is left blank, it is treated as unknown."
+msgstr ""
+
+#: src/tags.cpp:270
+msgid "Model"
+msgstr ""
+
+#: src/tags.cpp:271
+msgid ""
+"The model name or model number of the equipment. This is the model name or "
+"number of the DSC, scanner, video digitizer or other equipment that "
+"generated the image. When the field is left blank, it is treated as unknown."
+msgstr ""
+
+#: src/tags.cpp:276
+msgid "Strip Offsets"
+msgstr ""
+
+#: src/tags.cpp:277
+msgid ""
+"For each strip, the byte offset of that strip. It is recommended that this "
+"be selected so the number of strip bytes does not exceed 64 Kbytes. With "
+"JPEG compressed data this designation is not needed and is omitted. See also "
+"<RowsPerStrip> and <StripByteCounts>."
+msgstr ""
+
+#: src/tags.cpp:283
+msgid "Orientation"
+msgstr ""
+
+#: src/tags.cpp:284
+msgid "The image orientation viewed in terms of rows and columns."
+msgstr ""
+
+#: src/tags.cpp:286
+msgid "Samples per Pixel"
+msgstr ""
+
+#: src/tags.cpp:287
+msgid ""
+"The number of components per pixel. Since this standard applies to RGB and "
+"YCbCr images, the value set for this tag is 3. In JPEG compressed data a "
+"JPEG marker is used instead of this tag."
+msgstr ""
+
+#: src/tags.cpp:291
+msgid "Rows per Strip"
+msgstr ""
+
+#: src/tags.cpp:292
+msgid ""
+"The number of rows per strip. This is the number of rows in the image of one "
+"strip when an image is divided into strips. With JPEG compressed data this "
+"designation is not needed and is omitted. See also <StripOffsets> and "
+"<StripByteCounts>."
+msgstr ""
+
+#: src/tags.cpp:297
+msgid "Strip Byte Count"
+msgstr ""
+
+#: src/tags.cpp:298
+msgid ""
+"The total number of bytes in each strip. With JPEG compressed data this "
+"designation is not needed and is omitted."
+msgstr ""
+
+#: src/tags.cpp:301
+msgid "X-Resolution"
+msgstr ""
+
+#: src/tags.cpp:302
+msgid ""
+"The number of pixels per <ResolutionUnit> in the <ImageWidth> direction. "
+"When the image resolution is unknown, 72 [dpi] is designated."
+msgstr ""
+
+#: src/tags.cpp:305
+msgid "Y-Resolution"
+msgstr ""
+
+#: src/tags.cpp:306
+msgid ""
+"The number of pixels per <ResolutionUnit> in the <ImageLength> direction. "
+"The same value as <XResolution> is designated."
+msgstr ""
+
+#: src/tags.cpp:309
+msgid "Planar Configuration"
+msgstr ""
+
+#: src/tags.cpp:310
+msgid ""
+"Indicates whether pixel components are recorded in a chunky or planar "
+"format. In JPEG compressed files a JPEG marker is used instead of this tag. "
+"If this field does not exist, the TIFF default of 1 (chunky) is assumed."
+msgstr ""
+
+#: src/tags.cpp:315
+msgid "Resolution Unit"
+msgstr ""
+
+#: src/tags.cpp:316
+msgid ""
+"The unit for measuring <XResolution> and <YResolution>. The same unit is "
+"used for both <XResolution> and <YResolution>. If the image resolution is "
+"unknown, 2 (inches) is designated."
+msgstr ""
+
+#: src/tags.cpp:320
+msgid "Transfer Function"
+msgstr ""
+
+#: src/tags.cpp:321
+msgid ""
+"A transfer function for the image, described in tabular style. Normally this "
+"tag is not necessary, since color space is specified in the color space "
+"information tag (<ColorSpace>)."
+msgstr ""
+
+#: src/tags.cpp:325 src/sigmamn.cpp:128 src/sigmamn.cpp:129
+msgid "Software"
+msgstr ""
+
+#: src/tags.cpp:326
+msgid ""
+"This tag records the name and version of the software or firmware of the "
+"camera or image input device used to generate the image. The detailed format "
+"is not specified, but it is recommended that the example shown below be "
+"followed. When the field is left blank, it is treated as unknown."
+msgstr ""
+
+#: src/tags.cpp:332
+msgid "Date and Time"
+msgstr ""
+
+#: src/tags.cpp:333
+msgid ""
+"The date and time of image creation. In Exif standard, it is the date and "
+"time the file was changed."
+msgstr ""
+
+#: src/tags.cpp:336
+msgid "Artist"
+msgstr ""
+
+#: src/tags.cpp:337
+msgid ""
+"This tag records the name of the camera owner, photographer or image "
+"creator. The detailed format is not specified, but it is recommended that "
+"the information be written as in the example below for ease of "
+"Interoperability. When the field is left blank, it is treated as unknown."
+msgstr ""
+
+#: src/tags.cpp:343
+msgid "White Point"
+msgstr ""
+
+#: src/tags.cpp:344
+msgid ""
+"The chromaticity of the white point of the image. Normally this tag is not "
+"necessary, since color space is specified in the colorspace information tag "
+"(<ColorSpace>)."
+msgstr ""
+
+#: src/tags.cpp:348
+msgid "Primary Chromaticities"
+msgstr ""
+
+#: src/tags.cpp:349
+msgid ""
+"The chromaticity of the three primary colors of the image. Normally this tag "
+"is not necessary, since colorspace is specified in the colorspace "
+"information tag (<ColorSpace>)."
+msgstr ""
+
+#: src/tags.cpp:353
+msgid "SubIFD Offsets"
+msgstr ""
+
+#: src/tags.cpp:354
+msgid "Defined by Adobe Corporation to enable TIFF Trees within a TIFF file."
+msgstr ""
+
+#: src/tags.cpp:356
+msgid "Transfer Range"
+msgstr ""
+
+#: src/tags.cpp:357
+msgid "Expands the range of the TransferFunction"
+msgstr ""
+
+#: src/tags.cpp:359
+msgid "JPEG Process"
+msgstr ""
+
+#: src/tags.cpp:360
+msgid "This field indicates the process used to produce the compressed data"
+msgstr ""
+
+#: src/tags.cpp:362
+msgid "JPEG Interchange Format"
+msgstr ""
+
+#: src/tags.cpp:363
+msgid ""
+"The offset to the start byte (SOI) of JPEG compressed thumbnail data. This "
+"is not used for primary image JPEG data."
+msgstr ""
+
+#: src/tags.cpp:366
+msgid "JPEG Interchange Format Length"
+msgstr ""
+
+#: src/tags.cpp:367
+msgid ""
+"The number of bytes of JPEG compressed thumbnail data. This is not used for "
+"primary image JPEG data. JPEG thumbnails are not divided but are recorded as "
+"a continuous JPEG bitstream from SOI to EOI. Appn and COM markers should not "
+"be recorded. Compressed thumbnails must be recorded in no more than 64 "
+"Kbytes, including all other data to be recorded in APP1."
+msgstr ""
+
+#: src/tags.cpp:374
+msgid "YCbCr Coefficients"
+msgstr ""
+
+#: src/tags.cpp:375
+msgid ""
+"The matrix coefficients for transformation from RGB to YCbCr image data. No "
+"default is given in TIFF; but here the value given in Appendix E, \"Color "
+"Space Guidelines\", is used as the default. The color space is declared in a "
+"color space information tag, with the default being the value that gives the "
+"optimal image characteristics Interoperability this condition."
+msgstr ""
+
+#: src/tags.cpp:383
+msgid "YCbCr Sub-Sampling"
+msgstr ""
+
+#: src/tags.cpp:384
+msgid ""
+"The sampling ratio of chrominance components in relation to the luminance "
+"component. In JPEG compressed data a JPEG marker is used instead of this tag."
+msgstr ""
+
+#: src/tags.cpp:388
+msgid "YCbCr Positioning"
+msgstr ""
+
+#: src/tags.cpp:389
+msgid ""
+"The position of chrominance components in relation to the luminance "
+"component. This field is designated only for JPEG compressed data or "
+"uncompressed YCbCr data. The TIFF default is 1 (centered); but when Y:Cb:Cr "
+"= 4:2:2 it is recommended in this standard that 2 (co-sited) be used to "
+"record data, in order to improve the image quality when viewed on TV "
+"systems. When this field does not exist, the reader shall assume the TIFF "
+"default. In the case of Y:Cb:Cr = 4:2:0, the TIFF default (centered) is "
+"recommended. If the reader does not have the capability of supporting both "
+"kinds of <YCbCrPositioning>, it shall follow the TIFF default regardless of "
+"the value in this field. It is preferable that readers be able to support "
+"both centered and co-sited positioning."
+msgstr ""
+
+#: src/tags.cpp:403
+msgid "Reference Black/White"
+msgstr ""
+
+#: src/tags.cpp:404
+msgid ""
+"The reference black point value and reference white point value. No defaults "
+"are given in TIFF, but the values below are given as defaults here. The "
+"color space is declared in a color space information tag, with the default "
+"being the value that gives the optimal image characteristics "
+"Interoperability these conditions."
+msgstr ""
+
+#: src/tags.cpp:411
+msgid "XML Packet"
+msgstr ""
+
+#: src/tags.cpp:412
+msgid "XMP Metadata (Adobe technote 9-14-02)"
+msgstr ""
+
+#: src/tags.cpp:414
+msgid "CFA Repeat Pattern Dimension"
+msgstr ""
+
+#: src/tags.cpp:415
+msgid ""
+"Contains two values representing the minimum rows and columns to define the "
+"repeating patterns of the color filter array"
+msgstr ""
+
+#: src/tags.cpp:418
+msgid "CFA Pattern"
+msgstr ""
+
+#: src/tags.cpp:419
+msgid ""
+"Indicates the color filter array (CFA) geometric pattern of the image sensor "
+"when a one-chip color area sensor is used. It does not apply to all sensing "
+"methods"
+msgstr ""
+
+#: src/tags.cpp:423
+msgid "Battery Level"
+msgstr ""
+
+#: src/tags.cpp:426
+msgid "IPTC/NAA"
+msgstr ""
+
+#: src/tags.cpp:427
+msgid "Contains an IPTC/NAA record"
+msgstr ""
+
+#: src/tags.cpp:430
+msgid ""
+"Copyright information. In this standard the tag is used to indicate both the "
+"photographer and editor copyrights. It is the copyright notice of the person "
+"or organization claiming rights to the image. The Interoperability copyright "
+"statement including date and rights should be written in this field; e.g., "
+"\"Copyright, John Smith, 19xx. All rights reserved.\". In this standard the "
+"field records both the photographer and editor copyrights, with each "
+"recorded in a separate part of the statement. When the field is left blank, "
+"it is treated as unknown."
+msgstr ""
+
+#: src/tags.cpp:441
+msgid "Image Resources Block"
+msgstr ""
+
+#: src/tags.cpp:442
+msgid "Contains information embedded by the Adobe Photoshop application"
+msgstr ""
+
+#: src/tags.cpp:444
+msgid "Exif IFD Pointer"
+msgstr ""
+
+#: src/tags.cpp:445
+msgid ""
+"A pointer to the Exif IFD. Interoperability, Exif IFD has the same structure "
+"as that of the IFD specified in TIFF. ordinarily, however, it does not "
+"contain image data as in the case of TIFF."
+msgstr ""
+
+#: src/tags.cpp:450
+msgid "Inter Color Profile"
+msgstr ""
+
+#: src/tags.cpp:451
+msgid ""
+"Contains an InterColor Consortium (ICC) format color space characterization/"
+"profile"
+msgstr ""
+
+#: src/tags.cpp:453
+msgid "GPS Info IFD Pointer"
+msgstr ""
+
+#: src/tags.cpp:454
+msgid ""
+"A pointer to the GPS Info IFD. The Interoperability structure of the GPS "
+"Info IFD, like that of Exif IFD, has no image data."
+msgstr ""
+
+#: src/tags.cpp:458
+msgid "TIFF/EP Standard ID"
+msgstr ""
+
+#: src/tags.cpp:459
+msgid ""
+"Contains four ASCII characters representing the TIFF/EP standard version of "
+"a TIFF/EP file, eg '1', '0', '0', '0'"
+msgstr ""
+
+#: src/tags.cpp:463 src/tags.cpp:464
+msgid "Unknown IFD tag"
+msgstr ""
+
+#: src/tags.cpp:470 src/tags.cpp:553
+msgid "Not defined"
+msgstr ""
+
+#: src/tags.cpp:471 src/tags.cpp:583 src/tags.cpp:590 src/fujimn.cpp:116
+#: src/fujimn.cpp:141 src/minoltamn.cpp:291 src/minoltamn.cpp:757
+#: src/minoltamn.cpp:788 src/minoltamn.cpp:796 src/minoltamn.cpp:956
+#: src/minoltamn.cpp:987 src/olympusmn.cpp:93 src/panasonicmn.cpp:76
+#: src/panasonicmn.cpp:84 src/panasonicmn.cpp:114 src/sigmamn.cpp:226
+msgid "Manual"
+msgstr ""
+
+#: src/tags.cpp:472 src/tags.cpp:582 src/tags.cpp:589 src/fujimn.cpp:80
+#: src/fujimn.cpp:107 src/fujimn.cpp:115 src/fujimn.cpp:121
+#: src/minoltamn.cpp:304 src/minoltamn.cpp:422 src/minoltamn.cpp:758
+#: src/minoltamn.cpp:781 src/minoltamn.cpp:820 src/minoltamn.cpp:957
+#: src/minoltamn.cpp:979 src/minoltamn.cpp:1005 src/nikonmn.cpp:439
+#: src/olympusmn.cpp:92 src/olympusmn.cpp:521 src/olympusmn.cpp:527
+#: src/olympusmn.cpp:528 src/panasonicmn.cpp:72 src/panasonicmn.cpp:83
+msgid "Auto"
+msgstr ""
+
+#: src/tags.cpp:473 src/minoltamn.cpp:289 src/minoltamn.cpp:755
+#: src/minoltamn.cpp:954 src/panasonicmn.cpp:111 src/sigmamn.cpp:224
+msgid "Aperture priority"
+msgstr ""
+
+#: src/tags.cpp:474 src/minoltamn.cpp:290 src/minoltamn.cpp:756
+#: src/minoltamn.cpp:955 src/sigmamn.cpp:225
+msgid "Shutter priority"
+msgstr ""
+
+#: src/tags.cpp:475
+msgid "Creative program"
+msgstr ""
+
+#: src/tags.cpp:476
+msgid "Action program"
+msgstr ""
+
+#: src/tags.cpp:477
+msgid "Portrait mode"
+msgstr ""
+
+#: src/tags.cpp:478
+msgid "Landscape mode"
+msgstr ""
+
+#: src/tags.cpp:483 src/tags.cpp:495 src/tags.cpp:633 src/tags.cpp:1791
+#: src/tags.cpp:1862 src/fujimn.cpp:220 src/fujimn.cpp:229 src/fujimn.cpp:238
+#: src/nikonmn.cpp:190 src/nikonmn.cpp:289 src/nikonmn.cpp:451
+#: src/nikonmn.cpp:472 src/nikonmn.cpp:481 src/nikonmn.cpp:611
+#: src/nikonmn.cpp:647 src/nikonmn.cpp:716 src/nikonmn.cpp:746
+#: src/nikonmn.cpp:749 src/nikonmn.cpp:758 src/nikonmn.cpp:770
+#: src/nikonmn.cpp:949 src/nikonmn.cpp:1277 src/nikonmn.cpp:1278
+#: src/nikonmn.cpp:1279 src/olympusmn.cpp:173 src/olympusmn.cpp:179
+#: src/olympusmn.cpp:182 src/olympusmn.cpp:224 src/olympusmn.cpp:227
+#: src/olympusmn.cpp:254 src/olympusmn.cpp:257 src/olympusmn.cpp:263
+#: src/olympusmn.cpp:272 src/olympusmn.cpp:278 src/olympusmn.cpp:281
+#: src/olympusmn.cpp:284 src/olympusmn.cpp:287 src/olympusmn.cpp:290
+#: src/olympusmn.cpp:293 src/olympusmn.cpp:296 src/olympusmn.cpp:299
+#: src/olympusmn.cpp:305 src/olympusmn.cpp:308 src/olympusmn.cpp:341
+#: src/olympusmn.cpp:344 src/olympusmn.cpp:347 src/olympusmn.cpp:350
+#: src/panasonicmn.cpp:194 src/panasonicmn.cpp:217 src/panasonicmn.cpp:230
+#: src/panasonicmn.cpp:233 src/panasonicmn.cpp:239 src/panasonicmn.cpp:257
+#: src/panasonicmn.cpp:263 src/panasonicmn.cpp:275 src/sonymn.cpp:63
+#: src/sonymn.cpp:66 src/sonymn.cpp:69 src/sonymn.cpp:72 src/sonymn.cpp:75
+#: src/sonymn.cpp:78 src/sonymn.cpp:81 src/sonymn.cpp:84 src/sonymn.cpp:87
+msgid "Unknown"
+msgstr ""
+
+#: src/tags.cpp:484 src/sigmamn.cpp:236
+msgid "Average"
+msgstr ""
+
+#: src/tags.cpp:485
+msgid "Center weighted average"
+msgstr ""
+
+#: src/tags.cpp:486 src/minoltamn.cpp:351 src/minoltamn.cpp:1000
+#: src/minoltamn.cpp:1053
+msgid "Spot"
+msgstr ""
+
+#: src/tags.cpp:487
+msgid "Multi-spot"
+msgstr ""
+
+#: src/tags.cpp:488 src/minoltamn.cpp:349 src/minoltamn.cpp:998
+msgid "Multi-segment"
+msgstr ""
+
+#: src/tags.cpp:489
+msgid "Partial"
+msgstr ""
+
+#: src/tags.cpp:490
+msgid "Other"
+msgstr ""
+
+#: src/tags.cpp:496 src/fujimn.cpp:81 src/minoltamn.cpp:305
+#: src/minoltamn.cpp:782 src/minoltamn.cpp:980 src/nikonmn.cpp:441
+#: src/panasonicmn.cpp:73
+msgid "Daylight"
+msgstr ""
+
+#: src/tags.cpp:497 src/minoltamn.cpp:309 src/minoltamn.cpp:786
+#: src/minoltamn.cpp:984 src/nikonmn.cpp:443
+msgid "Fluorescent"
+msgstr ""
+
+#: src/tags.cpp:498
+msgid "Tungsten (incandescent light)"
+msgstr ""
+
+#: src/tags.cpp:500
+msgid "Fine weather"
+msgstr ""
+
+#: src/tags.cpp:501
+msgid "Cloudy weather"
+msgstr ""
+
+#: src/tags.cpp:502 src/minoltamn.cpp:783 src/minoltamn.cpp:982
+msgid "Shade"
+msgstr ""
+
+#: src/tags.cpp:503
+msgid "Daylight fluorescent (D 5700 - 7100K)"
+msgstr ""
+
+#: src/tags.cpp:504
+msgid "Day white fluorescent (N 4600 - 5400K)"
+msgstr ""
+
+#: src/tags.cpp:505
+msgid "Cool white fluorescent (W 3900 - 4500K)"
+msgstr ""
+
+#: src/tags.cpp:506
+msgid "White fluorescent (WW 3200 - 3700K)"
+msgstr ""
+
+#: src/tags.cpp:507
+msgid "Standard light A"
+msgstr ""
+
+#: src/tags.cpp:508
+msgid "Standard light B"
+msgstr ""
+
+#: src/tags.cpp:509
+msgid "Standard light C"
+msgstr ""
+
+#: src/tags.cpp:510
+msgid "D55"
+msgstr ""
+
+#: src/tags.cpp:511
+msgid "D65"
+msgstr ""
+
+#: src/tags.cpp:512
+msgid "D75"
+msgstr ""
+
+#: src/tags.cpp:513
+msgid "D50"
+msgstr ""
+
+#: src/tags.cpp:514
+msgid "ISO studio tungsten"
+msgstr ""
+
+#: src/tags.cpp:515
+msgid "Other light source"
+msgstr ""
+
+#: src/tags.cpp:520
+msgid "No flash"
+msgstr ""
+
+#: src/tags.cpp:521 src/minoltamn.cpp:390 src/minoltamn.cpp:462
+#: src/minoltamn.cpp:815 src/minoltamn.cpp:993
+msgid "Fired"
+msgstr ""
+
+#: src/tags.cpp:522
+msgid "Fired, strobe return light not detected"
+msgstr ""
+
+#: src/tags.cpp:523
+msgid "Fired, strobe return light detected"
+msgstr ""
+
+#: src/tags.cpp:524
+msgid "Yes, compulsory"
+msgstr ""
+
+#: src/tags.cpp:525
+msgid "Yes, compulsory, return light not detected"
+msgstr ""
+
+#: src/tags.cpp:526
+msgid "Yes, compulsory, return light detected"
+msgstr ""
+
+#: src/tags.cpp:527
+msgid "No, compulsory"
+msgstr ""
+
+#: src/tags.cpp:528
+msgid "No, auto"
+msgstr ""
+
+#: src/tags.cpp:529
+msgid "Yes, auto"
+msgstr ""
+
+#: src/tags.cpp:530
+msgid "Yes, auto, return light not detected"
+msgstr ""
+
+#: src/tags.cpp:531
+msgid "Yes, auto, return light detected"
+msgstr ""
+
+#: src/tags.cpp:532
+msgid "No flash function"
+msgstr ""
+
+#: src/tags.cpp:533
+msgid "Yes, red-eye reduction"
+msgstr ""
+
+#: src/tags.cpp:534
+msgid "Yes, red-eye reduction, return light not detected"
+msgstr ""
+
+#: src/tags.cpp:535
+msgid "Yes, red-eye reduction, return light detected"
+msgstr ""
+
+#: src/tags.cpp:536
+msgid "Yes, compulsory, red-eye reduction"
+msgstr ""
+
+#: src/tags.cpp:537
+msgid "Yes, compulsory, red-eye reduction, return light not detected"
+msgstr ""
+
+#: src/tags.cpp:538
+msgid "Yes, compulsory, red-eye reduction, return light detected"
+msgstr ""
+
+#: src/tags.cpp:539
+msgid "Yes, auto, red-eye reduction"
+msgstr ""
+
+#: src/tags.cpp:540
+msgid "Yes, auto, red-eye reduction, return light not detected"
+msgstr ""
+
+#: src/tags.cpp:541
+msgid "Yes, auto, red-eye reduction, return light detected"
+msgstr ""
+
+#: src/tags.cpp:546 src/nikonmn.cpp:112
+msgid "sRGB"
+msgstr ""
+
+#: src/tags.cpp:547 src/minoltamn.cpp:456 src/minoltamn.cpp:833
+#: src/nikonmn.cpp:113
+msgid "Adobe RGB"
+msgstr ""
+
+#: src/tags.cpp:548
+msgid "Uncalibrated"
+msgstr ""
+
+#: src/tags.cpp:554
+msgid "One-chip color area"
+msgstr ""
+
+#: src/tags.cpp:555
+msgid "Two-chip color area"
+msgstr ""
+
+#: src/tags.cpp:556
+msgid "Three-chip color area"
+msgstr ""
+
+#: src/tags.cpp:557
+msgid "Color sequential area"
+msgstr ""
+
+#: src/tags.cpp:558
+msgid "Trilinear sensor"
+msgstr ""
+
+#: src/tags.cpp:559
+msgid "Color sequential linear"
+msgstr ""
+
+#: src/tags.cpp:564
+msgid "Film scanner"
+msgstr ""
+
+#: src/tags.cpp:565
+msgid "Reflexion print scanner"
+msgstr ""
+
+#: src/tags.cpp:566
+msgid "Digital still camera"
+msgstr ""
+
+#: src/tags.cpp:571
+msgid "Directly photographed"
+msgstr ""
+
+#: src/tags.cpp:576
+msgid "Normal process"
+msgstr ""
+
+#: src/tags.cpp:577
+msgid "Custom process"
+msgstr ""
+
+#: src/tags.cpp:584 src/sigmamn.cpp:132
+msgid "Auto bracket"
+msgstr ""
+
+#: src/tags.cpp:595 src/fujimn.cpp:153 src/fujimn.cpp:160 src/minoltamn.cpp:77
+#: src/minoltamn.cpp:331 src/panasonicmn.cpp:151 src/panasonicmn.cpp:157
+msgid "Standard"
+msgstr ""
+
+#: src/tags.cpp:596 src/fujimn.cpp:123 src/minoltamn.cpp:66
+msgid "Landscape"
+msgstr ""
+
+#: src/tags.cpp:597 src/fujimn.cpp:122 src/minoltamn.cpp:63
+#: src/minoltamn.cpp:409 src/panasonicmn.cpp:106
+msgid "Portrait"
+msgstr ""
+
+#: src/tags.cpp:598 src/fujimn.cpp:125
+msgid "Night scene"
+msgstr ""
+
+#: src/tags.cpp:604
+msgid "Low gain up"
+msgstr ""
+
+#: src/tags.cpp:605
+msgid "High gain up"
+msgstr ""
+
+#: src/tags.cpp:606
+msgid "Low gain down"
+msgstr ""
+
+#: src/tags.cpp:607
+msgid "High gain down"
+msgstr ""
+
+#: src/tags.cpp:612 src/tags.cpp:619 src/tags.cpp:626 src/fujimn.cpp:73
+#: src/fujimn.cpp:92 src/fujimn.cpp:100 src/minoltamn.cpp:402
+#: src/minoltamn.cpp:774 src/minoltamn.cpp:972 src/nikonmn.cpp:148
+#: src/nikonmn.cpp:422 src/olympusmn.cpp:98 src/olympusmn.cpp:106
+#: src/olympusmn.cpp:479 src/panasonicmn.cpp:65 src/panasonicmn.cpp:105
+#: src/panasonicmn.cpp:147 src/panasonicmn.cpp:178
+msgid "Normal"
+msgstr ""
+
+#: src/tags.cpp:613 src/tags.cpp:627 src/minoltamn.cpp:403
+#: src/olympusmn.cpp:100
+msgid "Soft"
+msgstr ""
+
+#: src/tags.cpp:614 src/tags.cpp:628 src/minoltamn.cpp:401
+#: src/olympusmn.cpp:99
+msgid "Hard"
+msgstr ""
+
+#: src/tags.cpp:620 src/fujimn.cpp:94 src/fujimn.cpp:102 src/olympusmn.cpp:107
+#: src/panasonicmn.cpp:148 src/panasonicmn.cpp:150 src/panasonicmn.cpp:158
+msgid "Low"
+msgstr ""
+
+#: src/tags.cpp:621 src/fujimn.cpp:93 src/fujimn.cpp:101 src/olympusmn.cpp:105
+#: src/panasonicmn.cpp:64 src/panasonicmn.cpp:149 src/panasonicmn.cpp:152
+#: src/panasonicmn.cpp:159
+msgid "High"
+msgstr ""
+
+#: src/tags.cpp:634 src/fujimn.cpp:213 src/olympusmn.cpp:128
+#: src/panasonicmn.cpp:113 src/panasonicmn.cpp:204
+msgid "Macro"
+msgstr ""
+
+#: src/tags.cpp:635
+msgid "Close view"
+msgstr ""
+
+#: src/tags.cpp:636
+msgid "Distant view"
+msgstr ""
+
+#: src/tags.cpp:641 src/minoltamn.cpp:617 src/minoltamn.cpp:919
+#: src/minoltamn.cpp:1132
+msgid "Exposure Time"
+msgstr ""
+
+#: src/tags.cpp:642
+msgid "Exposure time, given in seconds (sec)."
+msgstr ""
+
+#: src/tags.cpp:644 src/minoltamn.cpp:620 src/minoltamn.cpp:916
+#: src/minoltamn.cpp:1135
+msgid "FNumber"
+msgstr ""
+
+#: src/tags.cpp:645
+msgid "The F number."
+msgstr ""
+
+#: src/tags.cpp:647
+msgid "Exposure Program"
+msgstr ""
+
+#: src/tags.cpp:648
+msgid ""
+"The class of the program used by the camera to set exposure when the picture "
+"is taken."
+msgstr ""
+
+#: src/tags.cpp:651
+msgid "Spectral Sensitivity"
+msgstr ""
+
+#: src/tags.cpp:652
+msgid ""
+"Indicates the spectral sensitivity of each channel of the camera used. The "
+"tag value is an ASCII string compatible with the standard developed by the "
+"ASTM Technical Committee."
+msgstr ""
+
+#: src/tags.cpp:656
+msgid "ISO Speed Ratings"
+msgstr ""
+
+#: src/tags.cpp:657
+msgid ""
+"Indicates the ISO Speed and ISO Latitude of the camera or input device as "
+"specified in ISO 12232."
+msgstr ""
+
+#: src/tags.cpp:660
+msgid "Opto-Electoric Conversion Function"
+msgstr ""
+
+#: src/tags.cpp:661
+msgid ""
+"Indicates the Opto-Electoric Conversion Function (OECF) specified in ISO "
+"14524. <OECF> is the relationship between the camera optical input and the "
+"image values."
+msgstr ""
+
+#: src/tags.cpp:665
+msgid "Exif Version"
+msgstr ""
+
+#: src/tags.cpp:666
+msgid ""
+"The version of this standard supported. Nonexistence of this field is taken "
+"to mean nonconformance to the standard."
+msgstr ""
+
+#: src/tags.cpp:669
+msgid "Date and Time (original)"
+msgstr ""
+
+#: src/tags.cpp:670
+msgid ""
+"The date and time when the original image data was generated. For a digital "
+"still camera the date and time the picture was taken are recorded."
+msgstr ""
+
+#: src/tags.cpp:673
+msgid "Date and Time (digitized)"
+msgstr ""
+
+#: src/tags.cpp:674
+msgid "The date and time when the image was stored as digital data."
+msgstr ""
+
+#: src/tags.cpp:676
+msgid "Components Configuration"
+msgstr ""
+
+#: src/tags.cpp:677
+msgid ""
+"Information specific to compressed data. The channels of each component are "
+"arranged in order from the 1st component to the 4th. For uncompressed data "
+"the data arrangement is given in the <PhotometricInterpretation> tag. "
+"However, since <PhotometricInterpretation> can only express the order of Y, "
+"Cb and Cr, this tag is provided for cases when compressed data uses "
+"components other than Y, Cb, and Cr and to enable support of other sequences."
+msgstr ""
+
+#: src/tags.cpp:686
+msgid "Compressed Bits per Pixel"
+msgstr ""
+
+#: src/tags.cpp:687
+msgid ""
+"Information specific to compressed data. The compression mode used for a "
+"compressed image is indicated in unit bits per pixel."
+msgstr ""
+
+#: src/tags.cpp:690
+msgid "Shutter speed"
+msgstr ""
+
+#: src/tags.cpp:691
+msgid ""
+"Shutter speed. The unit is the APEX (Additive System of Photographic "
+"Exposure) setting."
+msgstr ""
+
+#: src/tags.cpp:695
+msgid "The lens aperture. The unit is the APEX value."
+msgstr ""
+
+#: src/tags.cpp:697 src/minoltamn.cpp:713 src/minoltamn.cpp:714
+#: src/olympusmn.cpp:205
+msgid "Brightness"
+msgstr ""
+
+#: src/tags.cpp:698
+msgid ""
+"The value of brightness. The unit is the APEX value. Ordinarily it is given "
+"in the range of -99.99 to 99.99."
+msgstr ""
+
+#: src/tags.cpp:701
+msgid "Exposure Bias"
+msgstr ""
+
+#: src/tags.cpp:702
+msgid ""
+"The exposure bias. The units is the APEX value. Ordinarily it is given in "
+"the range of -99.99 to 99.99."
+msgstr ""
+
+#: src/tags.cpp:705
+msgid "Max Aperture Value"
+msgstr ""
+
+#: src/tags.cpp:706
+msgid ""
+"The smallest F number of the lens. The unit is the APEX value. Ordinarily it "
+"is given in the range of 00.00 to 99.99, but it is not limited to this range."
+msgstr ""
+
+#: src/tags.cpp:710
+msgid "Subject Distance"
+msgstr ""
+
+#: src/tags.cpp:711
+msgid "The distance to the subject, given in meters."
+msgstr ""
+
+#: src/tags.cpp:713 src/minoltamn.cpp:611 src/minoltamn.cpp:1117
+#: src/sigmamn.cpp:86
+msgid "Metering Mode"
+msgstr ""
+
+#: src/tags.cpp:714
+msgid "The metering mode."
+msgstr ""
+
+#: src/tags.cpp:716 src/nikonmn.cpp:712
+msgid "Light Source"
+msgstr ""
+
+#: src/tags.cpp:717
+msgid "The kind of light source."
+msgstr ""
+
+#: src/tags.cpp:720
+msgid "This tag is recorded when an image is taken using a strobe light (flash)."
+msgstr ""
+
+#: src/tags.cpp:722 src/minoltamn.cpp:641
+msgid "Focal Length"
+msgstr ""
+
+#: src/tags.cpp:723
+msgid ""
+"The actual focal length of the lens, in mm. Conversion is not made to the "
+"focal length of a 35 mm film camera."
+msgstr ""
+
+#: src/tags.cpp:726
+msgid "Subject Area"
+msgstr ""
+
+#: src/tags.cpp:727
+msgid ""
+"This tag indicates the location and area of the main subject in the overall "
+"scene."
+msgstr ""
+
+#: src/tags.cpp:730
+msgid "Maker Note"
+msgstr ""
+
+#: src/tags.cpp:731
+msgid ""
+"A tag for manufacturers of Exif writers to record any desired information. "
+"The contents are up to the manufacturer."
+msgstr ""
+
+#: src/tags.cpp:734
+msgid "User Comment"
+msgstr ""
+
+#: src/tags.cpp:735
+msgid ""
+"A tag for Exif users to write keywords or comments on the image besides "
+"those in <ImageDescription>, and without the character code limitations of "
+"the <ImageDescription> tag."
+msgstr ""
+
+#: src/tags.cpp:739
+msgid "Sub-seconds Time"
+msgstr ""
+
+#: src/tags.cpp:740
+msgid "A tag used to record fractions of seconds for the <DateTime> tag."
+msgstr ""
+
+#: src/tags.cpp:742
+msgid "Sub-seconds Time Original"
+msgstr ""
+
+#: src/tags.cpp:743
+msgid "A tag used to record fractions of seconds for the <DateTimeOriginal> tag."
+msgstr ""
+
+#: src/tags.cpp:745
+msgid "Sub-seconds Time Digitized"
+msgstr ""
+
+#: src/tags.cpp:746
+msgid "A tag used to record fractions of seconds for the <DateTimeDigitized> tag."
+msgstr ""
+
+#: src/tags.cpp:748
+msgid "FlashPix Version"
+msgstr ""
+
+#: src/tags.cpp:749
+msgid "The FlashPix format version supported by a FPXR file."
+msgstr ""
+
+#: src/tags.cpp:751 src/minoltamn.cpp:893 src/nikonmn.cpp:664
+#: src/sigmamn.cpp:92
+msgid "Color Space"
+msgstr ""
+
+#: src/tags.cpp:752
+msgid ""
+"The color space information tag is always recorded as the color space "
+"specifier. Normally sRGB is used to define the color space based on the PC "
+"monitor conditions and environment. If a color space other than sRGB is "
+"used, Uncalibrated is set. Image data recorded as Uncalibrated can be "
+"treated as sRGB when it is converted to FlashPix."
+msgstr ""
+
+#: src/tags.cpp:760
+msgid "Pixel X Dimension"
+msgstr ""
+
+#: src/tags.cpp:761
+msgid ""
+"Information specific to compressed data. When a compressed file is recorded, "
+"the valid width of the meaningful image must be recorded in this tag, "
+"whether or not there is padding data or a restart marker. This tag should "
+"not exist in an uncompressed file."
+msgstr ""
+
+#: src/tags.cpp:767
+msgid "Pixel Y Dimension"
+msgstr ""
+
+#: src/tags.cpp:768
+msgid ""
+"Information specific to compressed data. When a compressed file is recorded, "
+"the valid height of the meaningful image must be recorded in this tag, "
+"whether or not there is padding data or a restart marker. This tag should "
+"not exist in an uncompressed file. Since data padding is unnecessary in the "
+"vertical direction, the number of lines recorded in this valid image height "
+"tag will in fact be the same as that recorded in the SOF."
+msgstr ""
+
+#: src/tags.cpp:776
+msgid "Related Sound File"
+msgstr ""
+
+#: src/tags.cpp:777
+msgid ""
+"This tag is used to record the name of an audio file related to the image "
+"data. The only relational information recorded here is the Exif audio file "
+"name and extension (an ASCII string consisting of 8 characters + '.' + 3 "
+"characters). The path is not recorded."
+msgstr ""
+
+#: src/tags.cpp:783
+msgid "Interoperability IFD Pointer"
+msgstr ""
+
+#: src/tags.cpp:784
+msgid ""
+"Interoperability IFD is composed of tags which stores the information to "
+"ensure the Interoperability and pointed by the following tag located in Exif "
+"IFD. The Interoperability structure of Interoperability IFD is the same as "
+"TIFF defined IFD structure but does not contain the image data "
+"characteristically compared with normal TIFF IFD."
+msgstr ""
+
+#: src/tags.cpp:791
+msgid "Flash Energy"
+msgstr ""
+
+#: src/tags.cpp:792
+msgid ""
+"Indicates the strobe energy at the time the image is captured, as measured "
+"in Beam Candle Power Seconds (BCPS)."
+msgstr ""
+
+#: src/tags.cpp:795
+msgid "Spatial Frequency Response"
+msgstr ""
+
+#: src/tags.cpp:796
+msgid ""
+"This tag records the camera or input device spatial frequency table and SFR "
+"values in the direction of image width, image height, and diagonal "
+"direction, as specified in ISO 12233."
+msgstr ""
+
+#: src/tags.cpp:800
+msgid "Focal Plane X-Resolution"
+msgstr ""
+
+#: src/tags.cpp:801
+msgid ""
+"Indicates the number of pixels in the image width (X) direction per "
+"<FocalPlaneResolutionUnit> on the camera focal plane."
+msgstr ""
+
+#: src/tags.cpp:804
+msgid "Focal Plane Y-Resolution"
+msgstr ""
+
+#: src/tags.cpp:805
+msgid ""
+"Indicates the number of pixels in the image height (V) direction per "
+"<FocalPlaneResolutionUnit> on the camera focal plane."
+msgstr ""
+
+#: src/tags.cpp:808
+msgid "Focal Plane Resolution Unit"
+msgstr ""
+
+#: src/tags.cpp:809
+msgid ""
+"Indicates the unit for measuring <FocalPlaneXResolution> and "
+"<FocalPlaneYResolution>. This value is the same as the <ResolutionUnit>."
+msgstr ""
+
+#: src/tags.cpp:812
+msgid "Subject Location"
+msgstr ""
+
+#: src/tags.cpp:813
+msgid ""
+"Indicates the location of the main subject in the scene. The value of this "
+"tag represents the pixel at the center of the main subject relative to the "
+"left edge, prior to rotation processing as per the <Rotation> tag. The first "
+"value indicates the X column number and second indicates the Y row number."
+msgstr ""
+
+#: src/tags.cpp:819
+msgid "Exposure index"
+msgstr ""
+
+#: src/tags.cpp:820
+msgid ""
+"Indicates the exposure index selected on the camera or input device at the "
+"time the image is captured."
+msgstr ""
+
+#: src/tags.cpp:823
+msgid "Sensing Method"
+msgstr ""
+
+#: src/tags.cpp:824
+msgid "Indicates the image sensor type on the camera or input device."
+msgstr ""
+
+#: src/tags.cpp:826 src/fujimn.cpp:276
+msgid "File Source"
+msgstr ""
+
+#: src/tags.cpp:827
+msgid ""
+"Indicates the image source. If a DSC recorded the image, this tag value of "
+"this tag always be set to 3, indicating that the image was recorded on a DSC."
+msgstr ""
+
+#: src/tags.cpp:831
+msgid "Scene Type"
+msgstr ""
+
+#: src/tags.cpp:832
+msgid ""
+"Indicates the type of scene. If a DSC recorded the image, this tag value "
+"must always be set to 1, indicating that the image was directly photographed."
+msgstr ""
+
+#: src/tags.cpp:836
+msgid "Color Filter Array Pattern"
+msgstr ""
+
+#: src/tags.cpp:837
+msgid ""
+"Indicates the color filter array (CFA) geometric pattern of the image sensor "
+"when a one-chip color area sensor is used. It does not apply to all sensing "
+"methods."
+msgstr ""
+
+#: src/tags.cpp:841
+msgid "Custom Rendered"
+msgstr ""
+
+#: src/tags.cpp:842
+msgid ""
+"This tag indicates the use of special processing on image data, such as "
+"rendering geared to output. When special processing is performed, the reader "
+"is expected to disable or minimize any further processing."
+msgstr ""
+
+#: src/tags.cpp:847 src/minoltamn.cpp:593 src/minoltamn.cpp:863
+#: src/minoltamn.cpp:1096 src/sigmamn.cpp:83
+msgid "Exposure Mode"
+msgstr ""
+
+#: src/tags.cpp:848
+msgid ""
+"This tag indicates the exposure mode set when the image was shot. In auto-"
+"bracketing mode, the camera shoots a series of frames of the same scene at "
+"different exposure settings."
+msgstr ""
+
+#: src/tags.cpp:852 src/fujimn.cpp:198 src/minoltamn.cpp:599
+#: src/minoltamn.cpp:872 src/minoltamn.cpp:1105 src/nikonmn.cpp:177
+#: src/nikonmn.cpp:465 src/nikonmn.cpp:595 src/olympusmn.cpp:259
+#: src/panasonicmn.cpp:190 src/sigmamn.cpp:80
+msgid "White Balance"
+msgstr ""
+
+#: src/tags.cpp:853
+msgid "This tag indicates the white balance mode set when the image was shot."
+msgstr ""
+
+#: src/tags.cpp:855
+msgid "Digital Zoom Ratio"
+msgstr ""
+
+#: src/tags.cpp:856
+msgid ""
+"This tag indicates the digital zoom ratio when the image was shot. If the "
+"numerator of the recorded value is 0, this indicates that digital zoom was "
+"not used."
+msgstr ""
+
+#: src/tags.cpp:860
+msgid "Focal Length In 35mm Film"
+msgstr ""
+
+#: src/tags.cpp:861
+msgid ""
+"This tag indicates the equivalent focal length assuming a 35mm film camera, "
+"in mm. A value of 0 means the focal length is unknown. Note that this tag "
+"differs from the <FocalLength> tag."
+msgstr ""
+
+#: src/tags.cpp:866
+msgid "Scene Capture Type"
+msgstr ""
+
+#: src/tags.cpp:867
+msgid ""
+"This tag indicates the type of scene that was shot. It can also be used to "
+"record the mode in which the image was shot. Note that this differs from the "
+"<SceneType> tag."
+msgstr ""
+
+#: src/tags.cpp:871
+msgid "Gain Control"
+msgstr ""
+
+#: src/tags.cpp:872
+msgid "This tag indicates the degree of overall image gain adjustment."
+msgstr ""
+
+#: src/tags.cpp:874 src/minoltamn.cpp:489 src/minoltamn.cpp:677
+#: src/minoltamn.cpp:678 src/minoltamn.cpp:899 src/minoltamn.cpp:900
+#: src/minoltamn.cpp:1126 src/minoltamn.cpp:1127 src/olympusmn.cpp:319
+#: src/panasonicmn.cpp:247 src/sigmamn.cpp:98 src/sigmamn.cpp:99
+msgid "Contrast"
+msgstr ""
+
+#: src/tags.cpp:875
+msgid ""
+"This tag indicates the direction of contrast processing applied by the "
+"camera when the image was shot."
+msgstr ""
+
+#: src/tags.cpp:878 src/minoltamn.cpp:490 src/minoltamn.cpp:674
+#: src/minoltamn.cpp:675 src/minoltamn.cpp:902 src/minoltamn.cpp:903
+#: src/minoltamn.cpp:1129 src/minoltamn.cpp:1130 src/nikonmn.cpp:721
+#: src/nikonmn.cpp:722 src/nikonmn.cpp:775 src/nikonmn.cpp:776
+#: src/sigmamn.cpp:107 src/sigmamn.cpp:108
+msgid "Saturation"
+msgstr ""
+
+#: src/tags.cpp:879
+msgid ""
+"This tag indicates the direction of saturation processing applied by the "
+"camera when the image was shot."
+msgstr ""
+
+#: src/tags.cpp:882 src/fujimn.cpp:195 src/minoltamn.cpp:680
+#: src/minoltamn.cpp:681 src/minoltamn.cpp:896 src/minoltamn.cpp:897
+#: src/minoltamn.cpp:1123 src/minoltamn.cpp:1124 src/sigmamn.cpp:110
+#: src/sigmamn.cpp:111
+msgid "Sharpness"
+msgstr ""
+
+#: src/tags.cpp:883
+msgid ""
+"This tag indicates the direction of sharpness processing applied by the "
+"camera when the image was shot."
+msgstr ""
+
+#: src/tags.cpp:886
+msgid "Device Setting Description"
+msgstr ""
+
+#: src/tags.cpp:887
+msgid ""
+"This tag indicates information on the picture-taking conditions of a "
+"particular camera model. The tag is used only to indicate the picture-taking "
+"conditions in the reader."
+msgstr ""
+
+#: src/tags.cpp:891
+msgid "Subject Distance Range"
+msgstr ""
+
+#: src/tags.cpp:892
+msgid "This tag indicates the distance to the subject."
+msgstr ""
+
+#: src/tags.cpp:894
+msgid "Image Unique ID"
+msgstr ""
+
+#: src/tags.cpp:895
+msgid ""
+"This tag indicates an identifier assigned uniquely to each image. It is "
+"recorded as an ASCII string equivalent to hexadecimal notation and 128-bit "
+"fixed length."
+msgstr ""
+
+#: src/tags.cpp:900 src/tags.cpp:901
+msgid "Unknown Exif tag"
+msgstr ""
+
+#: src/tags.cpp:907
+msgid "North"
+msgstr ""
+
+#: src/tags.cpp:908
+msgid "South"
+msgstr ""
+
+#: src/tags.cpp:913
+msgid "East"
+msgstr ""
+
+#: src/tags.cpp:914
+msgid "West"
+msgstr ""
+
+#: src/tags.cpp:919
+msgid "Above sea level"
+msgstr ""
+
+#: src/tags.cpp:920
+msgid "Below sea level"
+msgstr ""
+
+#: src/tags.cpp:925
+msgid "km/h"
+msgstr ""
+
+#: src/tags.cpp:926
+msgid "mph"
+msgstr ""
+
+#: src/tags.cpp:927
+msgid "knots"
+msgstr ""
+
+#: src/tags.cpp:932
+msgid "GPS Version ID"
+msgstr ""
+
+#: src/tags.cpp:933
+msgid ""
+"Indicates the version of <GPSInfoIFD>. The version is given as 2.0.0.0. This "
+"tag is mandatory when <GPSInfo> tag is present. (Note: The <GPSVersionID> "
+"tag is given in bytes, unlike the <ExifVersion> tag. When the version is "
+"2.0.0.0, the tag value is 02000000.H)."
+msgstr ""
+
+#: src/tags.cpp:939
+msgid "GPS Latitude Reference"
+msgstr ""
+
+#: src/tags.cpp:940
+msgid ""
+"Indicates whether the latitude is north or south latitude. The ASCII value "
+"'N' indicates north latitude, and 'S' is south latitude."
+msgstr ""
+
+#: src/tags.cpp:943
+msgid "GPS Latitude"
+msgstr ""
+
+#: src/tags.cpp:944
+msgid ""
+"Indicates the latitude. The latitude is expressed as three RATIONAL values "
+"giving the degrees, minutes, and seconds, respectively. When degrees, "
+"minutes and seconds are expressed, the format is dd/1,mm/1,ss/1. When "
+"degrees and minutes are used and, for example, fractions of minutes are "
+"given up to two decimal places, the format is dd/1,mmmm/100,0/1."
+msgstr ""
+
+#: src/tags.cpp:951
+msgid "GPS Longitude Reference"
+msgstr ""
+
+#: src/tags.cpp:952
+msgid ""
+"Indicates whether the longitude is east or west longitude. ASCII 'E' "
+"indicates east longitude, and 'W' is west longitude."
+msgstr ""
+
+#: src/tags.cpp:955
+msgid "GPS Longitude"
+msgstr ""
+
+#: src/tags.cpp:956
+msgid ""
+"Indicates the longitude. The longitude is expressed as three RATIONAL values "
+"giving the degrees, minutes, and seconds, respectively. When degrees, "
+"minutes and seconds are expressed, the format is ddd/1,mm/1,ss/1. When "
+"degrees and minutes are used and, for example, fractions of minutes are "
+"given up to two decimal places, the format is ddd/1,mmmm/100,0/1."
+msgstr ""
+
+#: src/tags.cpp:963
+msgid "GPS Altitude Reference"
+msgstr ""
+
+#: src/tags.cpp:964
+msgid ""
+"Indicates the altitude used as the reference altitude. If the reference is "
+"sea level and the altitude is above sea level, 0 is given. If the altitude "
+"is below sea level, a value of 1 is given and the altitude is indicated as "
+"an absolute value in the GSPAltitude tag. The reference unit is meters. Note "
+"that this tag is BYTE type, unlike other reference tags."
+msgstr ""
+
+#: src/tags.cpp:971
+msgid "GPS Altitude"
+msgstr ""
+
+#: src/tags.cpp:972
+msgid ""
+"Indicates the altitude based on the reference in GPSAltitudeRef. Altitude is "
+"expressed as one RATIONAL value. The reference unit is meters."
+msgstr ""
+
+#: src/tags.cpp:975
+msgid "GPS Time Stamp"
+msgstr ""
+
+#: src/tags.cpp:976
+msgid ""
+"Indicates the time as UTC (Coordinated Universal Time). <TimeStamp> is "
+"expressed as three RATIONAL values giving the hour, minute, and second "
+"(atomic clock)."
+msgstr ""
+
+#: src/tags.cpp:980
+msgid "GPS Satellites"
+msgstr ""
+
+#: src/tags.cpp:981
+msgid ""
+"Indicates the GPS satellites used for measurements. This tag can be used to "
+"describe the number of satellites, their ID number, angle of elevation, "
+"azimuth, SNR and other information in ASCII notation. The format is not "
+"specified. If the GPS receiver is incapable of taking measurements, value of "
+"the tag is set to NULL."
+msgstr ""
+
+#: src/tags.cpp:987
+msgid "GPS Status"
+msgstr ""
+
+#: src/tags.cpp:988
+msgid ""
+"Indicates the status of the GPS receiver when the image is recorded. \"A\" "
+"means measurement is in progress, and \"V\" means the measurement is "
+"Interoperability."
+msgstr ""
+
+#: src/tags.cpp:992
+msgid "GPS Measure Mode"
+msgstr ""
+
+#: src/tags.cpp:993
+msgid ""
+"Indicates the GPS measurement mode. \"2\" means two-dimensional measurement "
+"and \"3\" means three-dimensional measurement is in progress."
+msgstr ""
+
+#: src/tags.cpp:996
+msgid "GPS Data Degree of Precision"
+msgstr ""
+
+#: src/tags.cpp:997
+msgid ""
+"Indicates the GPS DOP (data degree of precision). An HDOP value is written "
+"during two-dimensional measurement, and PDOP during three-dimensional "
+"measurement."
+msgstr ""
+
+#: src/tags.cpp:1000
+msgid "GPS Speed Reference"
+msgstr ""
+
+#: src/tags.cpp:1001
+msgid ""
+"Indicates the unit used to express the GPS receiver speed of movement. \"K\" "
+"\"M\" and \"N\" represents kilometers per hour, miles per hour, and knots."
+msgstr ""
+
+#: src/tags.cpp:1004
+msgid "GPS Speed"
+msgstr ""
+
+#: src/tags.cpp:1005
+msgid "Indicates the speed of GPS receiver movement."
+msgstr ""
+
+#: src/tags.cpp:1007
+msgid "GPS Track Ref"
+msgstr ""
+
+#: src/tags.cpp:1008
+msgid ""
+"Indicates the reference for giving the direction of GPS receiver movement. "
+"\"T\" denotes true direction and \"M\" is magnetic direction."
+msgstr ""
+
+#: src/tags.cpp:1011
+msgid "GPS Track"
+msgstr ""
+
+#: src/tags.cpp:1012
+msgid ""
+"Indicates the direction of GPS receiver movement. The range of values is "
+"from 0.00 to 359.99."
+msgstr ""
+
+#: src/tags.cpp:1015
+msgid "GPS Image Direction Reference"
+msgstr ""
+
+#: src/tags.cpp:1016
+msgid ""
+"Indicates the reference for giving the direction of the image when it is "
+"captured. \"T\" denotes true direction and \"M\" is magnetic direction."
+msgstr ""
+
+#: src/tags.cpp:1019
+msgid "GPS Image Direction"
+msgstr ""
+
+#: src/tags.cpp:1020
+msgid ""
+"Indicates the direction of the image when it was captured. The range of "
+"values is from 0.00 to 359.99."
+msgstr ""
+
+#: src/tags.cpp:1023
+msgid "GPS Map Datum"
+msgstr ""
+
+#: src/tags.cpp:1024
+msgid ""
+"Indicates the geodetic survey data used by the GPS receiver. If the survey "
+"data is restricted to Japan, the value of this tag is \"TOKYO\" or \"WGS-84"
+"\"."
+msgstr ""
+
+#: src/tags.cpp:1027
+msgid "GPS Destination Latitude Refeference"
+msgstr ""
+
+#: src/tags.cpp:1028
+msgid ""
+"Indicates whether the latitude of the destination point is north or south "
+"latitude. The ASCII value \"N\" indicates north latitude, and \"S\" is south "
+"latitude."
+msgstr ""
+
+#: src/tags.cpp:1031
+msgid "GPS Destination Latitude"
+msgstr ""
+
+#: src/tags.cpp:1032
+msgid ""
+"Indicates the latitude of the destination point. The latitude is expressed "
+"as three RATIONAL values giving the degrees, minutes, and seconds, "
+"respectively. If latitude is expressed as degrees, minutes and seconds, a "
+"typical format would be dd/1,mm/1,ss/1. When degrees and minutes are used "
+"and, for example, fractions of minutes are given up to two decimal places, "
+"the format would be dd/1,mmmm/100,0/1."
+msgstr ""
+
+#: src/tags.cpp:1039
+msgid "GPS Destination Longitude Reference"
+msgstr ""
+
+#: src/tags.cpp:1040
+msgid ""
+"Indicates whether the longitude of the destination point is east or west "
+"longitude. ASCII \"E\" indicates east longitude, and \"W\" is west longitude."
+msgstr ""
+
+#: src/tags.cpp:1043
+msgid "GPS Destination Longitude"
+msgstr ""
+
+#: src/tags.cpp:1044
+msgid ""
+"Indicates the longitude of the destination point. The longitude is expressed "
+"as three RATIONAL values giving the degrees, minutes, and seconds, "
+"respectively. If longitude is expressed as degrees, minutes and seconds, a "
+"typical format would be ddd/1,mm/1,ss/1. When degrees and minutes are used "
+"and, for example, fractions of minutes are given up to two decimal places, "
+"the format would be ddd/1,mmmm/100,0/1."
+msgstr ""
+
+#: src/tags.cpp:1050
+msgid "GPS Destination Bearing Reference"
+msgstr ""
+
+#: src/tags.cpp:1051
+msgid ""
+"Indicates the reference used for giving the bearing to the destination "
+"point. \"T\" denotes true direction and \"M\" is magnetic direction."
+msgstr ""
+
+#: src/tags.cpp:1054
+msgid "GPS Destination Bearing"
+msgstr ""
+
+#: src/tags.cpp:1055
+msgid ""
+"Indicates the bearing to the destination point. The range of values is from "
+"0.00 to 359.99."
+msgstr ""
+
+#: src/tags.cpp:1058
+msgid "GPS Destination Distance Reference"
+msgstr ""
+
+#: src/tags.cpp:1059
+msgid ""
+"Indicates the unit used to express the distance to the destination point. \"K"
+"\", \"M\" and \"N\" represent kilometers, miles and knots."
+msgstr ""
+
+#: src/tags.cpp:1062
+msgid "GPS Destination Distance"
+msgstr ""
+
+#: src/tags.cpp:1063
+msgid "Indicates the distance to the destination point."
+msgstr ""
+
+#: src/tags.cpp:1065
+msgid "GPS Processing Method"
+msgstr ""
+
+#: src/tags.cpp:1066
+msgid ""
+"A character string recording the name of the method used for location "
+"finding. The first byte indicates the character code used, and this is "
+"followed by the name of the method."
+msgstr ""
+
+#: src/tags.cpp:1070
+msgid "GPS Area Information"
+msgstr ""
+
+#: src/tags.cpp:1071
+msgid ""
+"A character string recording the name of the GPS area. The first byte "
+"indicates the character code used, and this is followed by the name of the "
+"GPS area."
+msgstr ""
+
+#: src/tags.cpp:1074
+msgid "GPS Date Stamp"
+msgstr ""
+
+#: src/tags.cpp:1075
+msgid ""
+"A character string recording date and time information relative to UTC "
+"(Coordinated Universal Time). The format is \"YYYY:MM:DD.\"."
+msgstr ""
+
+#: src/tags.cpp:1078
+msgid "GPS Differential"
+msgstr ""
+
+#: src/tags.cpp:1079
+msgid "Indicates whether differential correction is applied to the GPS receiver."
+msgstr ""
+
+#: src/tags.cpp:1082 src/tags.cpp:1083
+msgid "Unknown GPSInfo tag"
+msgstr ""
+
+#: src/tags.cpp:1089
+msgid "Interoperability Index"
+msgstr ""
+
+#: src/tags.cpp:1090
+msgid ""
+"Indicates the identification of the Interoperability rule. Use \"R98\" for "
+"stating ExifR98 Rules. Four bytes used including the termination code "
+"(NULL). see the separate volume of Recommended Exif Interoperability Rules "
+"(ExifR98) for other tags used for ExifR98."
+msgstr ""
+
+#: src/tags.cpp:1096
+msgid "Interoperability Version"
+msgstr ""
+
+#: src/tags.cpp:1097
+msgid "Interoperability version"
+msgstr ""
+
+#: src/tags.cpp:1099
+msgid "Related Image File Format"
+msgstr ""
+
+#: src/tags.cpp:1100
+msgid "File format of image file"
+msgstr ""
+
+#: src/tags.cpp:1102
+msgid "Related Image Width"
+msgstr ""
+
+#: src/tags.cpp:1103 src/olympusmn.cpp:335
+msgid "Image width"
+msgstr ""
+
+#: src/tags.cpp:1105
+msgid "Related Image Length"
+msgstr ""
+
+#: src/tags.cpp:1106 src/olympusmn.cpp:338
+msgid "Image height"
+msgstr ""
+
+#: src/tags.cpp:1109 src/tags.cpp:1110
+msgid "Unknown Exif Interoperability tag"
+msgstr ""
+
+#: src/tags.cpp:1115 src/tags.cpp:1116
+msgid "Unknown tag"
+msgstr ""
+
+#: src/tags.cpp:1794
+msgid "Infinity"
+msgstr ""
+
+#: src/tags.cpp:1846
+msgid "Digital zoom not used"
+msgstr ""
+
+#: src/tiffvisitor.cpp:320
+msgid "Data area"
+msgstr ""
+
+#: src/tiffvisitor.cpp:322
+msgid "bytes.\n"
+msgstr ""
+
+#: src/tiffvisitor.cpp:335
+msgid "directory with"
+msgstr ""
+
+#: src/tiffvisitor.cpp:338
+msgid "entry:\n"
+msgstr ""
+
+#: src/tiffvisitor.cpp:339
+msgid "entries:\n"
+msgstr ""
+
+#: src/tiffvisitor.cpp:348
+msgid "Next directory:\n"
+msgstr ""
+
+#: src/tiffvisitor.cpp:349
+msgid "No next directory\n"
+msgstr ""
+
+#: src/tiffvisitor.cpp:360
+msgid "Sub-IFD"
+msgstr ""
+
+#: src/tiffvisitor.cpp:367
+msgid "Makernote"
+msgstr ""
+
+#: src/tiffvisitor.cpp:384
+msgid "component"
+msgstr ""
+
+#: src/tiffvisitor.cpp:386
+msgid "bytes"
+msgstr ""
+
+#: src/tiffvisitor.cpp:403
+msgid "Array Entry"
+msgstr ""
+
+#: src/fujimn.cpp:65 src/fujimn.cpp:109 src/fujimn.cpp:146
+#: src/minoltamn.cpp:91 src/minoltamn.cpp:356 src/minoltamn.cpp:362
+#: src/minoltamn.cpp:395 src/minoltamn.cpp:845 src/minoltamn.cpp:851
+#: src/minoltamn.cpp:857 src/minoltamn.cpp:1025 src/minoltamn.cpp:1031
+#: src/nikonmn.cpp:145 src/olympusmn.cpp:56 src/olympusmn.cpp:70
+#: src/olympusmn.cpp:77 src/panasonicmn.cpp:92 src/panasonicmn.cpp:99
+#: src/panasonicmn.cpp:131 src/panasonicmn.cpp:140 src/panasonicmn.cpp:164
+#: src/panasonicmn.cpp:353
+msgid "Off"
+msgstr ""
+
+#: src/fujimn.cpp:66 src/fujimn.cpp:108 src/fujimn.cpp:147
+#: src/minoltamn.cpp:92 src/minoltamn.cpp:357 src/minoltamn.cpp:396
+#: src/minoltamn.cpp:846 src/minoltamn.cpp:852 src/minoltamn.cpp:858
+#: src/minoltamn.cpp:1026 src/minoltamn.cpp:1032 src/olympusmn.cpp:57
+#: src/olympusmn.cpp:71 src/olympusmn.cpp:78 src/panasonicmn.cpp:98
+#: src/panasonicmn.cpp:352
+msgid "On"
+msgstr ""
+
+#: src/fujimn.cpp:71
+msgid "Soft mode 1"
+msgstr ""
+
+#: src/fujimn.cpp:72
+msgid "Soft mode 2"
+msgstr ""
+
+#: src/fujimn.cpp:74
+msgid "Hard mode 1"
+msgstr ""
+
+#: src/fujimn.cpp:75
+msgid "Hard mode 2"
+msgstr ""
+
+#: src/fujimn.cpp:82 src/minoltamn.cpp:306 src/minoltamn.cpp:784
+#: src/minoltamn.cpp:981 src/nikonmn.cpp:444 src/panasonicmn.cpp:74
+msgid "Cloudy"
+msgstr ""
+
+#: src/fujimn.cpp:83
+msgid "Fluorescent (daylight)"
+msgstr ""
+
+#: src/fujimn.cpp:84
+msgid "Fluorescent (warm white)"
+msgstr ""
+
+#: src/fujimn.cpp:85
+msgid "Fluorescent (cool white)"
+msgstr ""
+
+#: src/fujimn.cpp:86 src/nikonmn.cpp:442
+msgid "Incandescent"
+msgstr ""
+
+#: src/fujimn.cpp:87 src/minoltamn.cpp:308
+msgid "Custom"
+msgstr ""
+
+#: src/fujimn.cpp:95
+msgid "None (black & white)"
+msgstr ""
+
+#: src/fujimn.cpp:110 src/minoltamn.cpp:297
+msgid "Red-eye reduction"
+msgstr ""
+
+#: src/fujimn.cpp:124 src/panasonicmn.cpp:108
+msgid "Sports"
+msgstr ""
+
+#: src/fujimn.cpp:126
+msgid "Program AE"
+msgstr ""
+
+#: src/fujimn.cpp:127
+msgid "Natural light"
+msgstr ""
+
+#: src/fujimn.cpp:128
+msgid "Anti-blur"
+msgstr ""
+
+#: src/fujimn.cpp:129 src/minoltamn.cpp:412
+msgid "Sunset"
+msgstr ""
+
+#: src/fujimn.cpp:130
+msgid "Museum"
+msgstr ""
+
+#: src/fujimn.cpp:131 src/panasonicmn.cpp:117
+msgid "Party"
+msgstr ""
+
+#: src/fujimn.cpp:132
+msgid "Flower"
+msgstr ""
+
+#: src/fujimn.cpp:133 src/minoltamn.cpp:410 src/minoltamn.cpp:505
+msgid "Text"
+msgstr ""
+
+#: src/fujimn.cpp:134
+msgid "Natural light & flash"
+msgstr ""
+
+#: src/fujimn.cpp:135
+msgid "Beach"
+msgstr ""
+
+#: src/fujimn.cpp:136 src/panasonicmn.cpp:118
+msgid "Snow"
+msgstr ""
+
+#: src/fujimn.cpp:137 src/panasonicmn.cpp:116
+msgid "Fireworks"
+msgstr ""
+
+#: src/fujimn.cpp:138
+msgid "Underwater"
+msgstr ""
+
+#: src/fujimn.cpp:139
+msgid "Aperture-priority AE"
+msgstr ""
+
+#: src/fujimn.cpp:140
+msgid "Shutter speed priority AE"
+msgstr ""
+
+#: src/fujimn.cpp:148
+msgid "No flash & flash"
+msgstr ""
+
+#: src/fujimn.cpp:154
+msgid "Chrome"
+msgstr ""
+
+#: src/fujimn.cpp:155
+msgid "Black & white"
+msgstr ""
+
+#: src/fujimn.cpp:161 src/minoltamn.cpp:1037 src/minoltamn.cpp:1051
+msgid "Wide"
+msgstr ""
+
+#: src/fujimn.cpp:166
+msgid "F0/Standard"
+msgstr ""
+
+#: src/fujimn.cpp:167
+msgid "F1/Studio portrait"
+msgstr ""
+
+#: src/fujimn.cpp:168
+msgid "F2/Fujichrome"
+msgstr ""
+
+#: src/fujimn.cpp:169
+msgid "F3/Studio portrait Ex"
+msgstr ""
+
+#: src/fujimn.cpp:170
+msgid "F4/Velvia"
+msgstr ""
+
+#: src/fujimn.cpp:175
+msgid "Auto (100-400%)"
+msgstr ""
+
+#: src/fujimn.cpp:176 src/minoltamn.cpp:74 src/minoltamn.cpp:328
+#: src/minoltamn.cpp:772 src/minoltamn.cpp:970 src/olympusmn.cpp:65
+#: src/panasonicmn.cpp:67
+msgid "Raw"
+msgstr ""
+
+#: src/fujimn.cpp:177
+msgid "Standard (100%)"
+msgstr ""
+
+#: src/fujimn.cpp:178
+msgid "Wide mode 1 (230%)"
+msgstr ""
+
+#: src/fujimn.cpp:179
+msgid "Wide mode 2 (400%)"
+msgstr ""
+
+#: src/fujimn.cpp:180
+msgid "Film simulation mode"
+msgstr ""
+
+#: src/fujimn.cpp:185 src/nikonmn.cpp:165 src/nikonmn.cpp:583
+msgid "Version"
+msgstr ""
+
+#: src/fujimn.cpp:186
+msgid "Fujifilm Makernote version"
+msgstr ""
+
+#: src/fujimn.cpp:188 src/nikonmn.cpp:661 src/nikonmn.cpp:662
+#: src/nikonmn.cpp:751 src/olympusmn.cpp:184 src/panasonicmn.cpp:225
+#: src/sigmamn.cpp:66
+msgid "Serial Number"
+msgstr ""
+
+#: src/fujimn.cpp:189 src/panasonicmn.cpp:226
+msgid ""
+"This number is unique, and contains the date of manufacture, but is not the "
+"same as the number printed on the camera body."
+msgstr ""
+
+#: src/fujimn.cpp:192 src/nikonmn.cpp:174 src/nikonmn.cpp:453
+#: src/nikonmn.cpp:592 src/olympusmn.cpp:125 src/panasonicmn.cpp:184
+#: src/sigmamn.cpp:122 src/sigmamn.cpp:123
+msgid "Quality"
+msgstr ""
+
+#: src/fujimn.cpp:193 src/nikonmn.cpp:175 src/nikonmn.cpp:454
+#: src/nikonmn.cpp:593 src/olympusmn.cpp:126
+msgid "Image quality setting"
+msgstr ""
+
+#: src/fujimn.cpp:196
+msgid "Sharpness setting"
+msgstr ""
+
+#: src/fujimn.cpp:199 src/panasonicmn.cpp:191
+msgid "White balance setting"
+msgstr ""
+
+#: src/fujimn.cpp:201 src/nikonmn.cpp:416
+msgid "Color"
+msgstr ""
+
+#: src/fujimn.cpp:202
+msgid "Chroma saturation setting"
+msgstr ""
+
+#: src/fujimn.cpp:204
+msgid "Tone"
+msgstr ""
+
+#: src/fujimn.cpp:205 src/olympusmn.cpp:320 src/panasonicmn.cpp:248
+msgid "Contrast setting"
+msgstr ""
+
+#: src/fujimn.cpp:207 src/minoltamn.cpp:596 src/minoltamn.cpp:884
+#: src/nikonmn.cpp:688 src/olympusmn.cpp:208
+msgid "Flash Mode"
+msgstr ""
+
+#: src/fujimn.cpp:208
+msgid "Flash firing mode setting"
+msgstr ""
+
+#: src/fujimn.cpp:210
+msgid "Flash Strength"
+msgstr ""
+
+#: src/fujimn.cpp:211
+msgid "Flash firing strength compensation setting"
+msgstr ""
+
+#: src/fujimn.cpp:214
+msgid "Macro mode setting"
+msgstr ""
+
+#: src/fujimn.cpp:216 src/minoltamn.cpp:725 src/minoltamn.cpp:875
+#: src/minoltamn.cpp:1144 src/nikonmn.cpp:468 src/olympusmn.cpp:229
+#: src/panasonicmn.cpp:196
+msgid "Focus Mode"
+msgstr ""
+
+#: src/fujimn.cpp:217
+msgid "Focusing mode setting"
+msgstr ""
+
+#: src/fujimn.cpp:222
+msgid "Slow Sync"
+msgstr ""
+
+#: src/fujimn.cpp:223
+msgid "Slow synchro mode setting"
+msgstr ""
+
+#: src/fujimn.cpp:225
+msgid "Picture Mode"
+msgstr ""
+
+#: src/fujimn.cpp:226
+msgid "Picture mode setting"
+msgstr ""
+
+#: src/fujimn.cpp:231 src/minoltamn.cpp:339 src/nikonmn.cpp:127
+msgid "Continuous"
+msgstr ""
+
+#: src/fujimn.cpp:232
+msgid "Continuous shooting or auto bracketing setting"
+msgstr ""
+
+#: src/fujimn.cpp:234 src/panasonicmn.cpp:244
+msgid "Sequence Number"
+msgstr ""
+
+#: src/fujimn.cpp:235 src/olympusmn.cpp:487 src/panasonicmn.cpp:245
+msgid "Sequence number"
+msgstr ""
+
+#: src/fujimn.cpp:240
+msgid "FinePix Color"
+msgstr ""
+
+#: src/fujimn.cpp:241
+msgid "Fuji FinePix color setting"
+msgstr ""
+
+#: src/fujimn.cpp:243
+msgid "Blur Warning"
+msgstr ""
+
+#: src/fujimn.cpp:244
+msgid "Blur warning status"
+msgstr ""
+
+#: src/fujimn.cpp:246
+msgid "Focus Warning"
+msgstr ""
+
+#: src/fujimn.cpp:247
+msgid "Auto Focus warning status"
+msgstr ""
+
+#: src/fujimn.cpp:249
+msgid "Exposure Warning"
+msgstr ""
+
+#: src/fujimn.cpp:250
+msgid "Auto exposure warning status"
+msgstr ""
+
+#: src/fujimn.cpp:252
+msgid "Dynamic Range"
+msgstr ""
+
+#: src/fujimn.cpp:253
+msgid "Dynamic range"
+msgstr ""
+
+#: src/fujimn.cpp:255
+msgid "Film Mode"
+msgstr ""
+
+#: src/fujimn.cpp:256
+msgid "Film mode"
+msgstr ""
+
+#: src/fujimn.cpp:258
+msgid "Dynamic Range Setting"
+msgstr ""
+
+#: src/fujimn.cpp:259
+msgid "Dynamic range settings"
+msgstr ""
+
+#: src/fujimn.cpp:261
+msgid "Development Dynamic Range"
+msgstr ""
+
+#: src/fujimn.cpp:262
+msgid "Development dynamic range"
+msgstr ""
+
+#: src/fujimn.cpp:264
+msgid "Minimum Focal Length"
+msgstr ""
+
+#: src/fujimn.cpp:265
+msgid "Minimum focal length"
+msgstr ""
+
+#: src/fujimn.cpp:267
+msgid "Maximum Focal Length"
+msgstr ""
+
+#: src/fujimn.cpp:268
+msgid "Maximum focal length"
+msgstr ""
+
+#: src/fujimn.cpp:270
+msgid "Maximum Aperture at Mininimum Focal"
+msgstr ""
+
+#: src/fujimn.cpp:271
+msgid "Maximum aperture at mininimum focal"
+msgstr ""
+
+#: src/fujimn.cpp:273
+msgid "Maximum Aperture at Maxinimum Focal"
+msgstr ""
+
+#: src/fujimn.cpp:274
+msgid "Maximum aperture at maxinimum focal"
+msgstr ""
+
+#: src/fujimn.cpp:277
+msgid "File source"
+msgstr ""
+
+#: src/fujimn.cpp:279
+msgid "Order Number"
+msgstr ""
+
+#: src/fujimn.cpp:280
+msgid "Order number"
+msgstr ""
+
+#: src/fujimn.cpp:282
+msgid "Frame Number"
+msgstr ""
+
+#: src/fujimn.cpp:283
+msgid "Frame number"
+msgstr ""
+
+#: src/fujimn.cpp:288
+msgid "Unknown FujiMakerNote tag"
+msgstr ""
+
+#: src/minoltamn.cpp:56
+msgid "Natural Color"
+msgstr ""
+
+#: src/minoltamn.cpp:57
+msgid "Black & White"
+msgstr ""
+
+#: src/minoltamn.cpp:58
+msgid "Vivid Color"
+msgstr ""
+
+#: src/minoltamn.cpp:59 src/minoltamn.cpp:455
+msgid "Solarization"
+msgstr ""
+
+#: src/minoltamn.cpp:60
+msgid "AdobeRGB"
+msgstr ""
+
+#: src/minoltamn.cpp:61 src/panasonicmn.cpp:135
+msgid "Sepia"
+msgstr ""
+
+#: src/minoltamn.cpp:62 src/panasonicmn.cpp:179
+msgid "Natural"
+msgstr ""
+
+#: src/minoltamn.cpp:64
+msgid "Natural sRGB"
+msgstr ""
+
+#: src/minoltamn.cpp:65
+msgid "Natural+ sRGB"
+msgstr ""
+
+#: src/minoltamn.cpp:67
+msgid "Evening"
+msgstr ""
+
+#: src/minoltamn.cpp:68
+msgid "Night Scene"
+msgstr ""
+
+#: src/minoltamn.cpp:69
+msgid "Night Portrait"
+msgstr ""
+
+#: src/minoltamn.cpp:75
+msgid "Super Fine"
+msgstr ""
+
+#: src/minoltamn.cpp:76 src/minoltamn.cpp:330 src/minoltamn.cpp:773
+#: src/minoltamn.cpp:971
+msgid "Fine"
+msgstr ""
+
+#: src/minoltamn.cpp:78 src/minoltamn.cpp:332 src/minoltamn.cpp:776
+#: src/minoltamn.cpp:974
+msgid "Economy"
+msgstr ""
+
+#: src/minoltamn.cpp:79
+msgid "Extra Fine"
+msgstr ""
+
+#: src/minoltamn.cpp:84
+msgid "ISO Setting Used"
+msgstr ""
+
+#: src/minoltamn.cpp:85
+msgid "High Key"
+msgstr ""
+
+#: src/minoltamn.cpp:86
+msgid "Low Key"
+msgstr ""
+
+#: src/minoltamn.cpp:220
+msgid "Makernote Version"
+msgstr ""
+
+#: src/minoltamn.cpp:221
+msgid "String 'MLT0' (not null terminated)"
+msgstr ""
+
+#: src/minoltamn.cpp:223
+msgid "Camera Settings (Std Old)"
+msgstr ""
+
+#: src/minoltamn.cpp:224
+msgid "Standard Camera settings (Old Camera models like D5, D7, S304, and S404)"
+msgstr ""
+
+#: src/minoltamn.cpp:226
+msgid "Camera Settings (Std New)"
+msgstr ""
+
+#: src/minoltamn.cpp:227
+msgid "Standard Camera settings (New Camera Models like D7u, D7i, and D7hi)"
+msgstr ""
+
+#: src/minoltamn.cpp:229
+msgid "Camera Settings (7D)"
+msgstr ""
+
+#: src/minoltamn.cpp:230
+msgid "Camera Settings (for Dynax 7D model)"
+msgstr ""
+
+#: src/minoltamn.cpp:232
+msgid "Image Stabilization Data"
+msgstr ""
+
+#: src/minoltamn.cpp:233
+msgid "Image stabilization data"
+msgstr ""
+
+#: src/minoltamn.cpp:235
+msgid "Compressed Image Size"
+msgstr ""
+
+#: src/minoltamn.cpp:236
+msgid "Compressed image size"
+msgstr ""
+
+#: src/minoltamn.cpp:239
+msgid "Jpeg thumbnail 640x480 pixels"
+msgstr ""
+
+#: src/minoltamn.cpp:241 src/olympusmn.cpp:358
+msgid "Thumbnail Offset"
+msgstr ""
+
+#: src/minoltamn.cpp:242
+msgid "Offset of the thumbnail"
+msgstr ""
+
+#: src/minoltamn.cpp:244 src/olympusmn.cpp:361
+msgid "Thumbnail Length"
+msgstr ""
+
+#: src/minoltamn.cpp:245
+msgid "Size of the thumbnail"
+msgstr ""
+
+#: src/minoltamn.cpp:247 src/nikonmn.cpp:171 src/nikonmn.cpp:456
+#: src/nikonmn.cpp:589 src/nikonmn.cpp:706 src/panasonicmn.cpp:265
+msgid "Color Mode"
+msgstr ""
+
+#: src/minoltamn.cpp:248 src/nikonmn.cpp:172 src/nikonmn.cpp:457
+#: src/nikonmn.cpp:590 src/nikonmn.cpp:707 src/panasonicmn.cpp:266
+msgid "Color mode"
+msgstr ""
+
+#: src/minoltamn.cpp:250 src/minoltamn.cpp:605 src/minoltamn.cpp:869
+#: src/minoltamn.cpp:1102 src/panasonicmn.cpp:185
+msgid "Image Quality"
+msgstr ""
+
+#: src/minoltamn.cpp:256 src/minoltamn.cpp:936 src/minoltamn.cpp:1171
+#: src/nikonmn.cpp:781
+msgid "Image Stabilization"
+msgstr ""
+
+#: src/minoltamn.cpp:257 src/minoltamn.cpp:937 src/minoltamn.cpp:1172
+#: src/nikonmn.cpp:782
+msgid "Image stabilization"
+msgstr ""
+
+#: src/minoltamn.cpp:259
+msgid "Zone Matching"
+msgstr ""
+
+#: src/minoltamn.cpp:260
+msgid "Zone matching"
+msgstr ""
+
+#: src/minoltamn.cpp:262 src/minoltamn.cpp:908 src/minoltamn.cpp:1147
+msgid "Color Temperature"
+msgstr ""
+
+#: src/minoltamn.cpp:263 src/minoltamn.cpp:909 src/minoltamn.cpp:1148
+msgid "Color temperature"
+msgstr ""
+
+#: src/minoltamn.cpp:265
+msgid "Lens ID"
+msgstr ""
+
+#: src/minoltamn.cpp:266
+msgid "Lens identifier"
+msgstr ""
+
+#: src/minoltamn.cpp:268
+msgid "Camera Settings (5D)"
+msgstr ""
+
+#: src/minoltamn.cpp:269
+msgid "Camera Settings (for Dynax 5D model)"
+msgstr ""
+
+#: src/minoltamn.cpp:271 src/nikonmn.cpp:790 src/olympusmn.cpp:187
+#: src/panasonicmn.cpp:271
+msgid "Print IM"
+msgstr ""
+
+#: src/minoltamn.cpp:272 src/nikonmn.cpp:791 src/olympusmn.cpp:188
+#: src/panasonicmn.cpp:272
+msgid "PrintIM information"
+msgstr ""
+
+#: src/minoltamn.cpp:274
+msgid "Camera Settings (Z1)"
+msgstr ""
+
+#: src/minoltamn.cpp:275
+msgid "Camera Settings (for Z1, DImage X, and F100 models)"
+msgstr ""
+
+#: src/minoltamn.cpp:280
+msgid "Unknown Minolta MakerNote tag"
+msgstr ""
+
+#: src/minoltamn.cpp:296
+msgid "Fill flash"
+msgstr ""
+
+#: src/minoltamn.cpp:298
+msgid "Rear flash sync"
+msgstr ""
+
+#: src/minoltamn.cpp:299
+msgid "Wireless"
+msgstr ""
+
+#: src/minoltamn.cpp:307 src/minoltamn.cpp:785 src/minoltamn.cpp:983
+msgid "Tungsten"
+msgstr ""
+
+#: src/minoltamn.cpp:310
+msgid "Fluorescent 2"
+msgstr ""
+
+#: src/minoltamn.cpp:311
+msgid "Custom 2"
+msgstr ""
+
+#: src/minoltamn.cpp:312
+msgid "Custom 3"
+msgstr ""
+
+#: src/minoltamn.cpp:317
+msgid "Full size"
+msgstr ""
+
+#: src/minoltamn.cpp:329
+msgid "Super fine"
+msgstr ""
+
+#: src/minoltamn.cpp:333
+msgid "Extra fine"
+msgstr ""
+
+#: src/minoltamn.cpp:338
+msgid "Single"
+msgstr ""
+
+#: src/minoltamn.cpp:340
+msgid "Self-timer"
+msgstr ""
+
+#: src/minoltamn.cpp:341
+msgid "Bracketing"
+msgstr ""
+
+#: src/minoltamn.cpp:342
+msgid "Interval"
+msgstr ""
+
+#: src/minoltamn.cpp:343
+msgid "UHS continuous"
+msgstr ""
+
+#: src/minoltamn.cpp:344
+msgid "HS continuous"
+msgstr ""
+
+#: src/minoltamn.cpp:350 src/minoltamn.cpp:999
+msgid "Center weighted"
+msgstr ""
+
+#: src/minoltamn.cpp:363
+msgid "Electronic magnification"
+msgstr ""
+
+#: src/minoltamn.cpp:376 src/minoltamn.cpp:801 src/nikonmn.cpp:75
+#: src/sigmamn.cpp:237
+msgid "Center"
+msgstr ""
+
+#: src/minoltamn.cpp:377 src/minoltamn.cpp:802 src/nikonmn.cpp:76
+msgid "Top"
+msgstr ""
+
+#: src/minoltamn.cpp:378 src/minoltamn.cpp:803
+msgid "Top-right"
+msgstr ""
+
+#: src/minoltamn.cpp:379 src/minoltamn.cpp:804 src/minoltamn.cpp:1041
+#: src/nikonmn.cpp:79
+msgid "Right"
+msgstr ""
+
+#: src/minoltamn.cpp:380 src/minoltamn.cpp:805
+msgid "Bottom-right"
+msgstr ""
+
+#: src/minoltamn.cpp:381 src/minoltamn.cpp:806 src/nikonmn.cpp:77
+msgid "Bottom"
+msgstr ""
+
+#: src/minoltamn.cpp:382 src/minoltamn.cpp:807
+msgid "Bottom-left"
+msgstr ""
+
+#: src/minoltamn.cpp:383 src/minoltamn.cpp:808 src/minoltamn.cpp:1045
+#: src/nikonmn.cpp:78
+msgid "Left"
+msgstr ""
+
+#: src/minoltamn.cpp:384 src/minoltamn.cpp:809
+msgid "Top-left"
+msgstr ""
+
+#: src/minoltamn.cpp:389 src/minoltamn.cpp:461 src/minoltamn.cpp:814
+#: src/minoltamn.cpp:992 src/nikonmn.cpp:118
+msgid "Did not fire"
+msgstr ""
+
+#: src/minoltamn.cpp:411 src/panasonicmn.cpp:109
+msgid "Night portrait"
+msgstr ""
+
+#: src/minoltamn.cpp:413
+msgid "Sports action"
+msgstr ""
+
+#: src/minoltamn.cpp:440
+msgid "Still image"
+msgstr ""
+
+#: src/minoltamn.cpp:441
+msgid "Time-lapse movie"
+msgstr ""
+
+#: src/minoltamn.cpp:446
+msgid "Standard form"
+msgstr ""
+
+#: src/minoltamn.cpp:447
+msgid "Data form"
+msgstr ""
+
+#: src/minoltamn.cpp:452
+msgid "Natural color"
+msgstr ""
+
+#: src/minoltamn.cpp:453 src/panasonicmn.cpp:78 src/panasonicmn.cpp:134
+msgid "Black and white"
+msgstr ""
+
+#: src/minoltamn.cpp:454
+msgid "Vivid color"
+msgstr ""
+
+#: src/minoltamn.cpp:467
+msgid "No zone"
+msgstr ""
+
+#: src/minoltamn.cpp:468
+msgid "Center zone (horizontal orientation)"
+msgstr ""
+
+#: src/minoltamn.cpp:469
+msgid "Center zone (vertical orientation)"
+msgstr ""
+
+#: src/minoltamn.cpp:470
+msgid "Left zone"
+msgstr ""
+
+#: src/minoltamn.cpp:471
+msgid "Right zone"
+msgstr ""
+
+#: src/minoltamn.cpp:476
+msgid "Auto focus"
+msgstr ""
+
+#: src/minoltamn.cpp:477
+msgid "Manual focus"
+msgstr ""
+
+#: src/minoltamn.cpp:482
+msgid "Wide focus (normal)"
+msgstr ""
+
+#: src/minoltamn.cpp:483
+msgid "Spot focus"
+msgstr ""
+
+#: src/minoltamn.cpp:488 src/sigmamn.cpp:95 src/sigmamn.cpp:96
+msgid "Exposure"
+msgstr ""
+
+#: src/minoltamn.cpp:491
+msgid "Filter"
+msgstr ""
+
+#: src/minoltamn.cpp:496
+msgid "Not embedded"
+msgstr ""
+
+#: src/minoltamn.cpp:497
+msgid "Embedded"
+msgstr ""
+
+#: src/minoltamn.cpp:506
+msgid "Text + ID#"
+msgstr ""
+
+#: src/minoltamn.cpp:511
+msgid "ADI (Advanced Distance Integration)"
+msgstr ""
+
+#: src/minoltamn.cpp:512
+msgid "Pre-flash TTl"
+msgstr ""
+
+#: src/minoltamn.cpp:513
+msgid "Manual flash control"
+msgstr ""
+
+#: src/minoltamn.cpp:597 src/minoltamn.cpp:648 src/minoltamn.cpp:885
+#: src/olympusmn.cpp:209
+msgid "Flash mode"
+msgstr ""
+
+#: src/minoltamn.cpp:602 src/minoltamn.cpp:866 src/minoltamn.cpp:1099
+msgid "Image Size"
+msgstr ""
+
+#: src/minoltamn.cpp:603 src/minoltamn.cpp:867 src/minoltamn.cpp:1100
+msgid "Image size"
+msgstr ""
+
+#: src/minoltamn.cpp:608 src/sigmamn.cpp:69
+msgid "Drive Mode"
+msgstr ""
+
+#: src/minoltamn.cpp:609 src/sigmamn.cpp:70
+msgid "Drive mode"
+msgstr ""
+
+#: src/minoltamn.cpp:614
+msgid "Exposure Speed"
+msgstr ""
+
+#: src/minoltamn.cpp:615
+msgid "Exposure speed"
+msgstr ""
+
+#: src/minoltamn.cpp:621 src/minoltamn.cpp:917 src/minoltamn.cpp:1136
+msgid "The F-Number"
+msgstr ""
+
+#: src/minoltamn.cpp:623
+msgid "Macro Mode"
+msgstr ""
+
+#: src/minoltamn.cpp:626 src/nikonmn.cpp:207 src/nikonmn.cpp:474
+#: src/nikonmn.cpp:685 src/olympusmn.cpp:134
+msgid "Digital Zoom"
+msgstr ""
+
+#: src/minoltamn.cpp:627
+msgid "Digital zoom"
+msgstr ""
+
+#: src/minoltamn.cpp:629 src/minoltamn.cpp:890 src/minoltamn.cpp:1153
+msgid "Exposure Compensation"
+msgstr ""
+
+#: src/minoltamn.cpp:630 src/minoltamn.cpp:891 src/minoltamn.cpp:1154
+msgid "Exposure compensation"
+msgstr ""
+
+#: src/minoltamn.cpp:632
+msgid "Bracket Step"
+msgstr ""
+
+#: src/minoltamn.cpp:633
+msgid "Bracket step"
+msgstr ""
+
+#: src/minoltamn.cpp:635
+msgid "Interval Length"
+msgstr ""
+
+#: src/minoltamn.cpp:636
+msgid "Interval length"
+msgstr ""
+
+#: src/minoltamn.cpp:638
+msgid "Interval Number"
+msgstr ""
+
+#: src/minoltamn.cpp:639
+msgid "Interval number"
+msgstr ""
+
+#: src/minoltamn.cpp:644 src/nikonmn.cpp:204 src/nikonmn.cpp:682
+#: src/olympusmn.cpp:232
+msgid "Focus Distance"
+msgstr ""
+
+#: src/minoltamn.cpp:645
+msgid "Focus distance"
+msgstr ""
+
+#: src/minoltamn.cpp:650
+msgid "Minolta Date"
+msgstr ""
+
+#: src/minoltamn.cpp:651
+msgid "Minolta date"
+msgstr ""
+
+#: src/minoltamn.cpp:653
+msgid "Minolta Time"
+msgstr ""
+
+#: src/minoltamn.cpp:654
+msgid "Minolta time"
+msgstr ""
+
+#: src/minoltamn.cpp:656
+msgid "Max Aperture"
+msgstr ""
+
+#: src/minoltamn.cpp:657
+msgid "Max aperture"
+msgstr ""
+
+#: src/minoltamn.cpp:659
+msgid "File Number Memory"
+msgstr ""
+
+#: src/minoltamn.cpp:660
+msgid "File number memory"
+msgstr ""
+
+#: src/minoltamn.cpp:662 src/minoltamn.cpp:926 src/minoltamn.cpp:933
+#: src/minoltamn.cpp:1165
+msgid "Image Number"
+msgstr ""
+
+#: src/minoltamn.cpp:665
+msgid "Color Balance Red"
+msgstr ""
+
+#: src/minoltamn.cpp:666
+msgid "Color balance red"
+msgstr ""
+
+#: src/minoltamn.cpp:668
+msgid "Color Balance Green"
+msgstr ""
+
+#: src/minoltamn.cpp:669
+msgid "Color balance green"
+msgstr ""
+
+#: src/minoltamn.cpp:671
+msgid "Color Balance Blue"
+msgstr ""
+
+#: src/minoltamn.cpp:672
+msgid "Color balance blue"
+msgstr ""
+
+#: src/minoltamn.cpp:683
+msgid "Subject Program"
+msgstr ""
+
+#: src/minoltamn.cpp:684
+msgid "Subject program"
+msgstr ""
+
+#: src/minoltamn.cpp:686
+msgid "Flash Exposure Compensation"
+msgstr ""
+
+#: src/minoltamn.cpp:687
+msgid "Flash exposure compensation in EV"
+msgstr ""
+
+#: src/minoltamn.cpp:689 src/minoltamn.cpp:887 src/minoltamn.cpp:1120
+msgid "ISO Speed Mode"
+msgstr ""
+
+#: src/minoltamn.cpp:690 src/minoltamn.cpp:888 src/minoltamn.cpp:1121
+#: src/nikonmn.cpp:169 src/nikonmn.cpp:463 src/nikonmn.cpp:587
+msgid "ISO speed setting"
+msgstr ""
+
+#: src/minoltamn.cpp:692
+msgid "Minolta Model"
+msgstr ""
+
+#: src/minoltamn.cpp:693
+msgid "Minolta model"
+msgstr ""
+
+#: src/minoltamn.cpp:695
+msgid "Interval Mode"
+msgstr ""
+
+#: src/minoltamn.cpp:696
+msgid "Interval mode"
+msgstr ""
+
+#: src/minoltamn.cpp:698
+msgid "Folder Name"
+msgstr ""
+
+#: src/minoltamn.cpp:699
+msgid "Folder name"
+msgstr ""
+
+#: src/minoltamn.cpp:701 src/minoltamn.cpp:702
+msgid "ColorMode"
+msgstr ""
+
+#: src/minoltamn.cpp:704
+msgid "Color Filter"
+msgstr ""
+
+#: src/minoltamn.cpp:705
+msgid "Color filter"
+msgstr ""
+
+#: src/minoltamn.cpp:707
+msgid "Black and White Filter"
+msgstr ""
+
+#: src/minoltamn.cpp:708
+msgid "Black and white filter"
+msgstr ""
+
+#: src/minoltamn.cpp:710
+msgid "Internal Flash"
+msgstr ""
+
+#: src/minoltamn.cpp:711
+msgid "Internal flash"
+msgstr ""
+
+#: src/minoltamn.cpp:716
+msgid "Spot Focus Point X"
+msgstr ""
+
+#: src/minoltamn.cpp:717
+msgid "Spot focus point X"
+msgstr ""
+
+#: src/minoltamn.cpp:719
+msgid "Spot Focus Point Y"
+msgstr ""
+
+#: src/minoltamn.cpp:720
+msgid "Spot focus point Y"
+msgstr ""
+
+#: src/minoltamn.cpp:722
+msgid "Wide Focus Zone"
+msgstr ""
+
+#: src/minoltamn.cpp:723
+msgid "Wide focus zone"
+msgstr ""
+
+#: src/minoltamn.cpp:726 src/minoltamn.cpp:876 src/minoltamn.cpp:1145
+#: src/nikonmn.cpp:184 src/nikonmn.cpp:469 src/nikonmn.cpp:602
+#: src/olympusmn.cpp:230 src/panasonicmn.cpp:197
+msgid "Focus mode"
+msgstr ""
+
+#: src/minoltamn.cpp:728 src/minoltamn.cpp:729 src/minoltamn.cpp:1112
+msgid "Focus area"
+msgstr ""
+
+#: src/minoltamn.cpp:731
+msgid "DEC Switch Position"
+msgstr ""
+
+#: src/minoltamn.cpp:732
+msgid "DEC switch position"
+msgstr ""
+
+#: src/minoltamn.cpp:734
+msgid "Color Profile"
+msgstr ""
+
+#: src/minoltamn.cpp:735
+msgid "Color profile"
+msgstr ""
+
+#: src/minoltamn.cpp:737 src/minoltamn.cpp:738
+msgid "Data Imprint"
+msgstr ""
+
+#: src/minoltamn.cpp:740
+msgid "Flash Metering"
+msgstr ""
+
+#: src/minoltamn.cpp:741
+msgid "Flash metering"
+msgstr ""
+
+#: src/minoltamn.cpp:746
+msgid "Unknown Minolta Camera Settings tag"
+msgstr ""
+
+#: src/minoltamn.cpp:759
+msgid "Program-shift A"
+msgstr ""
+
+#: src/minoltamn.cpp:760
+msgid "Program-shift S"
+msgstr ""
+
+#: src/minoltamn.cpp:765 src/minoltamn.cpp:963
+msgid "Large"
+msgstr ""
+
+#: src/minoltamn.cpp:766 src/minoltamn.cpp:964
+msgid "Medium"
+msgstr ""
+
+#: src/minoltamn.cpp:767 src/minoltamn.cpp:965
+msgid "Small"
+msgstr ""
+
+#: src/minoltamn.cpp:775 src/minoltamn.cpp:973
+msgid "Raw+Jpeg"
+msgstr ""
+
+#: src/minoltamn.cpp:787 src/minoltamn.cpp:986
+msgid "Kelvin"
+msgstr ""
+
+#: src/minoltamn.cpp:793
+msgid "Single-shot AF"
+msgstr ""
+
+#: src/minoltamn.cpp:794
+msgid "Continuous AF"
+msgstr ""
+
+#: src/minoltamn.cpp:795
+msgid "Automatic AF"
+msgstr ""
+
+#: src/minoltamn.cpp:831
+msgid "sRGB (Natural)"
+msgstr ""
+
+#: src/minoltamn.cpp:832
+msgid "sRGB (Natural+)"
+msgstr ""
+
+#: src/minoltamn.cpp:838 src/minoltamn.cpp:1018 src/panasonicmn.cpp:171
+msgid "Horizontal (normal)"
+msgstr ""
+
+#: src/minoltamn.cpp:839 src/minoltamn.cpp:1019 src/panasonicmn.cpp:172
+msgid "Rotate 90 CW"
+msgstr ""
+
+#: src/minoltamn.cpp:840 src/minoltamn.cpp:1020 src/panasonicmn.cpp:173
+msgid "Rotate 270 CW"
+msgstr ""
+
+#: src/minoltamn.cpp:878
+msgid "AF Points"
+msgstr ""
+
+#: src/minoltamn.cpp:879
+msgid "AF points"
+msgstr ""
+
+#: src/minoltamn.cpp:894 src/nikonmn.cpp:665 src/sigmamn.cpp:93
+msgid "Color space"
+msgstr ""
+
+#: src/minoltamn.cpp:905 src/minoltamn.cpp:923 src/minoltamn.cpp:1138
+#: src/minoltamn.cpp:1156
+msgid "Free Memory Card Images"
+msgstr ""
+
+#: src/minoltamn.cpp:906 src/minoltamn.cpp:924 src/minoltamn.cpp:1139
+#: src/minoltamn.cpp:1157
+msgid "Free memory card images"
+msgstr ""
+
+#: src/minoltamn.cpp:911
+msgid "Hue"
+msgstr ""
+
+#: src/minoltamn.cpp:913 src/minoltamn.cpp:914 src/minoltamn.cpp:1150
+#: src/minoltamn.cpp:1151 src/panasonicmn.cpp:259 src/panasonicmn.cpp:260
+msgid "Rotation"
+msgstr ""
+
+#: src/minoltamn.cpp:929 src/minoltamn.cpp:1168 src/nikonmn.cpp:724
+#: src/olympusmn.cpp:367
+msgid "Noise Reduction"
+msgstr ""
+
+#: src/minoltamn.cpp:930 src/minoltamn.cpp:1169 src/nikonmn.cpp:725
+#: src/olympusmn.cpp:368 src/panasonicmn.cpp:251
+msgid "Noise reduction"
+msgstr ""
+
+#: src/minoltamn.cpp:939
+msgid "Zone Matching On"
+msgstr ""
+
+#: src/minoltamn.cpp:940
+msgid "Zone matching on"
+msgstr ""
+
+#: src/minoltamn.cpp:945
+msgid "Unknown Minolta Camera Settings 7D tag"
+msgstr ""
+
+#: src/minoltamn.cpp:958
+msgid "Connected copying"
+msgstr ""
+
+#: src/minoltamn.cpp:1012
+msgid "200 (Zone Matching High)"
+msgstr ""
+
+#: src/minoltamn.cpp:1013
+msgid "80 (Zone Matching Low)"
+msgstr ""
+
+#: src/minoltamn.cpp:1038
+msgid "Central"
+msgstr ""
+
+#: src/minoltamn.cpp:1039
+msgid "Up"
+msgstr ""
+
+#: src/minoltamn.cpp:1040
+msgid "Up right"
+msgstr ""
+
+#: src/minoltamn.cpp:1042
+msgid "Down right"
+msgstr ""
+
+#: src/minoltamn.cpp:1043
+msgid "Down"
+msgstr ""
+
+#: src/minoltamn.cpp:1044
+msgid "Down left"
+msgstr ""
+
+#: src/minoltamn.cpp:1046
+msgid "Up left"
+msgstr ""
+
+#: src/minoltamn.cpp:1052
+msgid "Selection"
+msgstr ""
+
+#: src/minoltamn.cpp:1108
+msgid "Focus Position"
+msgstr ""
+
+#: src/minoltamn.cpp:1109
+msgid "Focus position"
+msgstr ""
+
+#: src/minoltamn.cpp:1111
+msgid "Focus Area"
+msgstr ""
+
+#: src/minoltamn.cpp:1141
+msgid "Exposure Revision"
+msgstr ""
+
+#: src/minoltamn.cpp:1142
+msgid "Exposure revision"
+msgstr ""
+
+#: src/minoltamn.cpp:1159
+msgid "Exposure Manual Bias"
+msgstr ""
+
+#: src/minoltamn.cpp:1160
+msgid "Exposure manual bias"
+msgstr ""
+
+#: src/minoltamn.cpp:1162
+msgid "AF Mode"
+msgstr ""
+
+#: src/minoltamn.cpp:1163
+msgid "AF mode"
+msgstr ""
+
+#: src/minoltamn.cpp:1183
+msgid "Unknown Minolta Camera Settings 5D tag"
+msgstr ""
+
+#: src/nikonmn.cpp:62 src/nikonmn.cpp:1012
+msgid "Single area"
+msgstr ""
+
+#: src/nikonmn.cpp:63 src/nikonmn.cpp:1013
+msgid "Dynamic area"
+msgstr ""
+
+#: src/nikonmn.cpp:64
+msgid "Dynamic area, closest subject"
+msgstr ""
+
+#: src/nikonmn.cpp:65
+msgid "Group dynamic"
+msgstr ""
+
+#: src/nikonmn.cpp:66 src/nikonmn.cpp:1016
+msgid "Single area (wide)"
+msgstr ""
+
+#: src/nikonmn.cpp:67
+msgid "Dynamic area (wide"
+msgstr ""
+
+#: src/nikonmn.cpp:80
+msgid "Upper-left"
+msgstr ""
+
+#: src/nikonmn.cpp:81
+msgid "Upper-right"
+msgstr ""
+
+#: src/nikonmn.cpp:82
+msgid "Lower-left"
+msgstr ""
+
+#: src/nikonmn.cpp:83
+msgid "Lower-right"
+msgstr ""
+
+#: src/nikonmn.cpp:84
+msgid "Left-most"
+msgstr ""
+
+#: src/nikonmn.cpp:85
+msgid "Right-most"
+msgstr ""
+
+#: src/nikonmn.cpp:119
+msgid "Fire, manual"
+msgstr ""
+
+#: src/nikonmn.cpp:120
+msgid "Fire, external"
+msgstr ""
+
+#: src/nikonmn.cpp:121
+msgid "Fire, commander mode"
+msgstr ""
+
+#: src/nikonmn.cpp:122
+msgid "Fire, TTL mode"
+msgstr ""
+
+#: src/nikonmn.cpp:128
+msgid "Delay"
+msgstr ""
+
+#: src/nikonmn.cpp:129
+msgid "PC control"
+msgstr ""
+
+#: src/nikonmn.cpp:130
+msgid "Exposure bracketing"
+msgstr ""
+
+#: src/nikonmn.cpp:131
+msgid "Unused LE-NR slowdown"
+msgstr ""
+
+#: src/nikonmn.cpp:132
+msgid "White balance bracketing"
+msgstr ""
+
+#: src/nikonmn.cpp:133
+msgid "IR control"
+msgstr ""
+
+#: src/nikonmn.cpp:139
+msgid "Auto release"
+msgstr ""
+
+#: src/nikonmn.cpp:140
+msgid "Manual release"
+msgstr ""
+
+#: src/nikonmn.cpp:146
+msgid "On for ISO 1600/3200"
+msgstr ""
+
+#: src/nikonmn.cpp:147
+msgid "Weak"
+msgstr ""
+
+#: src/nikonmn.cpp:149
+msgid "Strong"
+msgstr ""
+
+#: src/nikonmn.cpp:166 src/nikonmn.cpp:584
+msgid "Nikon Makernote version"
+msgstr ""
+
+#: src/nikonmn.cpp:168 src/nikonmn.cpp:462 src/nikonmn.cpp:586
+#: src/olympusmn.cpp:199
+msgid "ISO Speed"
+msgstr ""
+
+#: src/nikonmn.cpp:180 src/nikonmn.cpp:598
+msgid "Sharpening"
+msgstr ""
+
+#: src/nikonmn.cpp:181 src/nikonmn.cpp:599
+msgid "Image sharpening setting"
+msgstr ""
+
+#: src/nikonmn.cpp:183 src/nikonmn.cpp:601
+msgid "Focus"
+msgstr ""
+
+#: src/nikonmn.cpp:186 src/nikonmn.cpp:604
+msgid "Flash Setting"
+msgstr ""
+
+#: src/nikonmn.cpp:187 src/nikonmn.cpp:605
+msgid "Flash setting"
+msgstr ""
+
+#: src/nikonmn.cpp:192 src/nikonmn.cpp:625
+msgid "ISO Selection"
+msgstr ""
+
+#: src/nikonmn.cpp:193 src/nikonmn.cpp:626
+msgid "ISO selection"
+msgstr ""
+
+#: src/nikonmn.cpp:195 src/nikonmn.cpp:628 src/panasonicmn.cpp:213
+msgid "Data Dump"
+msgstr ""
+
+#: src/nikonmn.cpp:196 src/nikonmn.cpp:629 src/panasonicmn.cpp:214
+msgid "Data dump"
+msgstr ""
+
+#: src/nikonmn.cpp:198 src/nikonmn.cpp:459 src/nikonmn.cpp:667
+msgid "Image Adjustment"
+msgstr ""
+
+#: src/nikonmn.cpp:199 src/nikonmn.cpp:460 src/nikonmn.cpp:668
+msgid "Image adjustment setting"
+msgstr ""
+
+#: src/nikonmn.cpp:201 src/nikonmn.cpp:477 src/nikonmn.cpp:673
+msgid "Auxiliary Lens"
+msgstr ""
+
+#: src/nikonmn.cpp:202 src/nikonmn.cpp:478 src/nikonmn.cpp:674
+msgid "Auxiliary lens (adapter)"
+msgstr ""
+
+#: src/nikonmn.cpp:205 src/nikonmn.cpp:683 src/olympusmn.cpp:233
+msgid "Manual focus distance"
+msgstr ""
+
+#: src/nikonmn.cpp:208 src/nikonmn.cpp:475 src/nikonmn.cpp:686
+msgid "Digital zoom setting"
+msgstr ""
+
+#: src/nikonmn.cpp:210 src/nikonmn.cpp:691
+msgid "AF Focus Position"
+msgstr ""
+
+#: src/nikonmn.cpp:211 src/nikonmn.cpp:692
+msgid "AF focus position information"
+msgstr ""
+
+#: src/nikonmn.cpp:216
+msgid "Unknown Nikon1MakerNote tag"
+msgstr ""
+
+#: src/nikonmn.cpp:266 src/nikonmn.cpp:897
+msgid "Continuous autofocus"
+msgstr ""
+
+#: src/nikonmn.cpp:267 src/nikonmn.cpp:898
+msgid "Single autofocus"
+msgstr ""
+
+#: src/nikonmn.cpp:310 src/nikonmn.cpp:555 src/nikonmn.cpp:970
+msgid "Not used"
+msgstr ""
+
+#: src/nikonmn.cpp:349
+msgid "guess"
+msgstr ""
+
+#: src/nikonmn.cpp:406
+msgid "VGA Basic"
+msgstr ""
+
+#: src/nikonmn.cpp:407
+msgid "VGA Normal"
+msgstr ""
+
+#: src/nikonmn.cpp:408
+msgid "VGA Fine"
+msgstr ""
+
+#: src/nikonmn.cpp:409
+msgid "SXGA Basic"
+msgstr ""
+
+#: src/nikonmn.cpp:410
+msgid "SXGA Normal"
+msgstr ""
+
+#: src/nikonmn.cpp:411
+msgid "SXGA Fine"
+msgstr ""
+
+#: src/nikonmn.cpp:417
+msgid "Monochrome"
+msgstr ""
+
+#: src/nikonmn.cpp:423
+msgid "Bright+"
+msgstr ""
+
+#: src/nikonmn.cpp:424
+msgid "Bright-"
+msgstr ""
+
+#: src/nikonmn.cpp:425
+msgid "Contrast+"
+msgstr ""
+
+#: src/nikonmn.cpp:426
+msgid "Contrast-"
+msgstr ""
+
+#: src/nikonmn.cpp:440
+msgid "Preset"
+msgstr ""
+
+#: src/nikonmn.cpp:445
+msgid "Speedlight"
+msgstr ""
+
+#: src/nikonmn.cpp:485
+msgid "Unknown Nikon2MakerNote tag"
+msgstr ""
+
+#: src/nikonmn.cpp:607 src/olympusmn.cpp:211
+msgid "Flash Device"
+msgstr ""
+
+#: src/nikonmn.cpp:608 src/olympusmn.cpp:212
+msgid "Flash device"
+msgstr ""
+
+#: src/nikonmn.cpp:613 src/panasonicmn.cpp:219
+msgid "White Balance Bias"
+msgstr ""
+
+#: src/nikonmn.cpp:614
+msgid "White balance bias"
+msgstr ""
+
+#: src/nikonmn.cpp:616
+msgid "Color Balance 1"
+msgstr ""
+
+#: src/nikonmn.cpp:617
+msgid "Color balance 1"
+msgstr ""
+
+#: src/nikonmn.cpp:619
+msgid "Program Shift"
+msgstr ""
+
+#: src/nikonmn.cpp:620
+msgid "Program shift"
+msgstr ""
+
+#: src/nikonmn.cpp:622
+msgid "Exposure Difference"
+msgstr ""
+
+#: src/nikonmn.cpp:623
+msgid "Exposure difference"
+msgstr ""
+
+#: src/nikonmn.cpp:633
+msgid "Preview Informations"
+msgstr ""
+
+#: src/nikonmn.cpp:634
+msgid "Preview informations"
+msgstr ""
+
+#: src/nikonmn.cpp:637
+msgid "Flash Comp"
+msgstr ""
+
+#: src/nikonmn.cpp:638
+msgid "Flash compensation setting"
+msgstr ""
+
+#: src/nikonmn.cpp:640
+msgid "ISO Settings"
+msgstr ""
+
+#: src/nikonmn.cpp:641
+msgid "ISO setting"
+msgstr ""
+
+#: src/nikonmn.cpp:643
+msgid "Image Boundary"
+msgstr ""
+
+#: src/nikonmn.cpp:644
+msgid "Image boundary"
+msgstr ""
+
+#: src/nikonmn.cpp:649
+msgid "Flash Bracket Comp"
+msgstr ""
+
+#: src/nikonmn.cpp:650
+msgid "Flash bracket compensation applied"
+msgstr ""
+
+#: src/nikonmn.cpp:652
+msgid "Exposure Bracket Comp"
+msgstr ""
+
+#: src/nikonmn.cpp:653
+msgid "AE bracket compensation applied"
+msgstr ""
+
+#: src/nikonmn.cpp:655 src/olympusmn.cpp:385
+msgid "Image Processing"
+msgstr ""
+
+#: src/nikonmn.cpp:656
+msgid "Image processing"
+msgstr ""
+
+#: src/nikonmn.cpp:658
+msgid "Crop High Speed"
+msgstr ""
+
+#: src/nikonmn.cpp:659
+msgid "Crop high speed"
+msgstr ""
+
+#: src/nikonmn.cpp:670
+msgid "Tone Compensation"
+msgstr ""
+
+#: src/nikonmn.cpp:671
+msgid "Tone compensation"
+msgstr ""
+
+#: src/nikonmn.cpp:676
+msgid "Lens Type"
+msgstr ""
+
+#: src/nikonmn.cpp:677
+msgid "Lens type"
+msgstr ""
+
+#: src/nikonmn.cpp:679 src/nikonmn.cpp:680
+msgid "Lens"
+msgstr ""
+
+#: src/nikonmn.cpp:689
+msgid "Mode of flash used"
+msgstr ""
+
+#: src/nikonmn.cpp:694 src/panasonicmn.cpp:207
+msgid "Shooting Mode"
+msgstr ""
+
+#: src/nikonmn.cpp:695 src/panasonicmn.cpp:208
+msgid "Shooting mode"
+msgstr ""
+
+#: src/nikonmn.cpp:697
+msgid "Auto Bracket Release"
+msgstr ""
+
+#: src/nikonmn.cpp:698
+msgid "Auto bracket release"
+msgstr ""
+
+#: src/nikonmn.cpp:700 src/nikonmn.cpp:701
+msgid "Lens FStops"
+msgstr ""
+
+#: src/nikonmn.cpp:703
+msgid "Tone Curve"
+msgstr ""
+
+#: src/nikonmn.cpp:704
+msgid "Tone curve"
+msgstr ""
+
+#: src/nikonmn.cpp:709
+msgid "Scene Mode"
+msgstr ""
+
+#: src/nikonmn.cpp:710
+msgid "Scene mode"
+msgstr ""
+
+#: src/nikonmn.cpp:713
+msgid "Light source"
+msgstr ""
+
+#: src/nikonmn.cpp:718
+msgid "Hue Adjustment"
+msgstr ""
+
+#: src/nikonmn.cpp:719
+msgid "Hue adjustment"
+msgstr ""
+
+#: src/nikonmn.cpp:727
+msgid "Compression Curve"
+msgstr ""
+
+#: src/nikonmn.cpp:728
+msgid "Compression curve"
+msgstr ""
+
+#: src/nikonmn.cpp:732
+msgid "Color Balance"
+msgstr ""
+
+#: src/nikonmn.cpp:733
+msgid "Color balance settings"
+msgstr ""
+
+#: src/nikonmn.cpp:736
+msgid "Lens Data"
+msgstr ""
+
+#: src/nikonmn.cpp:737
+msgid "Lens data settings"
+msgstr ""
+
+#: src/nikonmn.cpp:739
+msgid "NEF Thumbnail Size"
+msgstr ""
+
+#: src/nikonmn.cpp:740
+msgid "NEF thumbnail size"
+msgstr ""
+
+#: src/nikonmn.cpp:742
+msgid "Sensor Pixel Size"
+msgstr ""
+
+#: src/nikonmn.cpp:743
+msgid "Sensor pixel size"
+msgstr ""
+
+#: src/nikonmn.cpp:752 src/sigmamn.cpp:67
+msgid "Camera serial number"
+msgstr ""
+
+#: src/nikonmn.cpp:754
+msgid "Image Data Size"
+msgstr ""
+
+#: src/nikonmn.cpp:755
+msgid "Image data size"
+msgstr ""
+
+#: src/nikonmn.cpp:760
+msgid "Image Count"
+msgstr ""
+
+#: src/nikonmn.cpp:761
+msgid "Image count"
+msgstr ""
+
+#: src/nikonmn.cpp:763
+msgid "Delete Image Count"
+msgstr ""
+
+#: src/nikonmn.cpp:764
+msgid "Delete image count"
+msgstr ""
+
+#: src/nikonmn.cpp:766
+msgid "Shutter Count"
+msgstr ""
+
+#: src/nikonmn.cpp:767
+msgid "Number of shots taken by camera"
+msgstr ""
+
+#: src/nikonmn.cpp:772
+msgid "Image Optimization"
+msgstr ""
+
+#: src/nikonmn.cpp:773
+msgid "Image optimization"
+msgstr ""
+
+#: src/nikonmn.cpp:778
+msgid "Program Variation"
+msgstr ""
+
+#: src/nikonmn.cpp:779
+msgid "Program variation"
+msgstr ""
+
+#: src/nikonmn.cpp:784
+msgid "AF Response"
+msgstr ""
+
+#: src/nikonmn.cpp:785
+msgid "AF response"
+msgstr ""
+
+#: src/nikonmn.cpp:787 src/nikonmn.cpp:788
+msgid "High ISO Noise Reduction"
+msgstr ""
+
+#: src/nikonmn.cpp:795
+msgid "Capture Data"
+msgstr ""
+
+#: src/nikonmn.cpp:796
+msgid "Capture data"
+msgstr ""
+
+#: src/nikonmn.cpp:799
+msgid "Capture Version"
+msgstr ""
+
+#: src/nikonmn.cpp:800
+msgid "Capture version"
+msgstr ""
+
+#: src/nikonmn.cpp:804
+msgid "Capture Offsets"
+msgstr ""
+
+#: src/nikonmn.cpp:805
+msgid "Capture offsets"
+msgstr ""
+
+#: src/nikonmn.cpp:810
+msgid "Unknown Nikon3MakerNote tag"
+msgstr ""
+
+#: src/nikonmn.cpp:1014
+msgid "Closest subject"
+msgstr ""
+
+#: src/nikonmn.cpp:1015
+msgid "Group dynamic-AF"
+msgstr ""
+
+#: src/nikonmn.cpp:1017
+msgid "Dynamic area (wide)"
+msgstr ""
+
+#: src/nikonmn.cpp:1048
+msgid "used"
+msgstr ""
+
+#: src/nikonmn.cpp:1087 src/nikonmn.cpp:1088 src/nikonmn.cpp:1089
+#: src/nikonmn.cpp:1090 src/nikonmn.cpp:1091 src/nikonmn.cpp:1092
+#: src/nikonmn.cpp:1093 src/nikonmn.cpp:1094 src/nikonmn.cpp:1095
+#: src/nikonmn.cpp:1096 src/nikonmn.cpp:1097 src/nikonmn.cpp:1098
+#: src/nikonmn.cpp:1099 src/nikonmn.cpp:1100 src/nikonmn.cpp:1101
+#: src/nikonmn.cpp:1102 src/nikonmn.cpp:1103 src/nikonmn.cpp:1104
+#: src/nikonmn.cpp:1105 src/nikonmn.cpp:1106 src/nikonmn.cpp:1107
+#: src/nikonmn.cpp:1108 src/nikonmn.cpp:1109 src/nikonmn.cpp:1110
+#: src/nikonmn.cpp:1111 src/nikonmn.cpp:1112 src/nikonmn.cpp:1113
+#: src/nikonmn.cpp:1114 src/nikonmn.cpp:1115 src/nikonmn.cpp:1116
+#: src/nikonmn.cpp:1117 src/nikonmn.cpp:1118 src/nikonmn.cpp:1119
+#: src/nikonmn.cpp:1120 src/nikonmn.cpp:1121 src/nikonmn.cpp:1122
+#: src/nikonmn.cpp:1123 src/nikonmn.cpp:1124 src/nikonmn.cpp:1125
+#: src/nikonmn.cpp:1126 src/nikonmn.cpp:1127 src/nikonmn.cpp:1128
+#: src/nikonmn.cpp:1129 src/nikonmn.cpp:1130 src/nikonmn.cpp:1131
+#: src/nikonmn.cpp:1132 src/nikonmn.cpp:1133 src/nikonmn.cpp:1134
+#: src/nikonmn.cpp:1135 src/nikonmn.cpp:1136 src/nikonmn.cpp:1137
+#: src/nikonmn.cpp:1138 src/nikonmn.cpp:1139 src/nikonmn.cpp:1140
+#: src/nikonmn.cpp:1141 src/nikonmn.cpp:1142 src/nikonmn.cpp:1143
+#: src/nikonmn.cpp:1144 src/nikonmn.cpp:1145 src/nikonmn.cpp:1146
+#: src/nikonmn.cpp:1147 src/nikonmn.cpp:1148 src/nikonmn.cpp:1149
+#: src/nikonmn.cpp:1150 src/nikonmn.cpp:1151 src/nikonmn.cpp:1152
+#: src/nikonmn.cpp:1153 src/nikonmn.cpp:1154 src/nikonmn.cpp:1155
+#: src/nikonmn.cpp:1156 src/nikonmn.cpp:1157 src/nikonmn.cpp:1158
+#: src/nikonmn.cpp:1159 src/nikonmn.cpp:1160 src/nikonmn.cpp:1161
+#: src/nikonmn.cpp:1162 src/nikonmn.cpp:1163 src/nikonmn.cpp:1164
+#: src/nikonmn.cpp:1165 src/nikonmn.cpp:1166 src/nikonmn.cpp:1167
+#: src/nikonmn.cpp:1168 src/nikonmn.cpp:1169 src/nikonmn.cpp:1170
+#: src/nikonmn.cpp:1171 src/nikonmn.cpp:1172 src/nikonmn.cpp:1173
+#: src/nikonmn.cpp:1174 src/nikonmn.cpp:1175 src/nikonmn.cpp:1176
+#: src/nikonmn.cpp:1177 src/nikonmn.cpp:1178 src/nikonmn.cpp:1179
+#: src/nikonmn.cpp:1180 src/nikonmn.cpp:1181 src/nikonmn.cpp:1182
+#: src/nikonmn.cpp:1183 src/nikonmn.cpp:1184 src/nikonmn.cpp:1185
+#: src/nikonmn.cpp:1186 src/nikonmn.cpp:1187 src/nikonmn.cpp:1188
+#: src/nikonmn.cpp:1189
+msgid "Nikon"
+msgstr ""
+
+#: src/nikonmn.cpp:1087
+msgid "AF Nikkor 50mm f/1.8"
+msgstr ""
+
+#: src/nikonmn.cpp:1088 src/nikonmn.cpp:1089
+msgid "AF Zoom-Nikkor 35-70mm f/3.3-4.5"
+msgstr ""
+
+#: src/nikonmn.cpp:1090 src/nikonmn.cpp:1100
+msgid "AF Zoom-Nikkor 70-210mm f/4"
+msgstr ""
+
+#: src/nikonmn.cpp:1091
+msgid "AF Nikkor 28mm f/2.8"
+msgstr ""
+
+#: src/nikonmn.cpp:1092
+msgid "AF Nikkor 50mm f/1.4"
+msgstr ""
+
+#: src/nikonmn.cpp:1093
+msgid "AF Micro-Nikkor 55mm f/2.8"
+msgstr ""
+
+#: src/nikonmn.cpp:1094
+msgid "AF Zoom-Nikkor 28-85mm f/3.5-4.5"
+msgstr ""
+
+#: src/nikonmn.cpp:1095
+msgid "AF Zoom-Nikkor 35-105mm f/3.5-4.5"
+msgstr ""
+
+#: src/nikonmn.cpp:1096
+msgid "AF Nikkor 24mm f/2.8"
+msgstr ""
+
+#: src/nikonmn.cpp:1097
+msgid "AF Nikkor 300mm f/2.8 IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1098
+msgid "AF Nikkor 180mm f/2.8 IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1099
+msgid "AF Zoom-Nikkor 35-135mm f/3.5-4.5"
+msgstr ""
+
+#: src/nikonmn.cpp:1101
+msgid "AF Nikkor 50mm f/1.8 N"
+msgstr ""
+
+#: src/nikonmn.cpp:1102
+msgid "AF Nikkor 300mm f/4 IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1103
+msgid "AF Zoom-Nikkor 35-70mm f/2.8"
+msgstr ""
+
+#: src/nikonmn.cpp:1104
+msgid "AF Nikkor 70-210mm f/4-5.6"
+msgstr ""
+
+#: src/nikonmn.cpp:1105
+msgid "AF Zoom-Nikkor 24-50mm f/3.3-4.5"
+msgstr ""
+
+#: src/nikonmn.cpp:1106
+msgid "AF Zoom-Nikkor 80-200mm f/2.8 ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1107
+msgid "AF Nikkor 85mm f/1.8"
+msgstr ""
+
+#: src/nikonmn.cpp:1108
+msgid "Nikkor 500mm f/4 P"
+msgstr ""
+
+#: src/nikonmn.cpp:1109
+msgid "AF Zoom-Nikkor 35-135mm f/3.5-4.5 N"
+msgstr ""
+
+#: src/nikonmn.cpp:1110
+msgid "AF Nikkor 35mm f/2"
+msgstr ""
+
+#: src/nikonmn.cpp:1111
+msgid "AF Zoom-Nikkor 75-300mm f/4.5-5.6"
+msgstr ""
+
+#: src/nikonmn.cpp:1112
+msgid "AF Nikkor 20mm f/2.8"
+msgstr ""
+
+#: src/nikonmn.cpp:1113
+msgid "AF Zoom-Nikkor 35-70mm f/3.3-4.5 N"
+msgstr ""
+
+#: src/nikonmn.cpp:1114
+msgid "AF Micro-Nikkor 60mm f/2.8"
+msgstr ""
+
+#: src/nikonmn.cpp:1115
+msgid "AF Zoom-Nikkor ED 80-200mm f/2.8"
+msgstr ""
+
+#: src/nikonmn.cpp:1116
+msgid "AF DC-Nikkor 135mm f/2"
+msgstr ""
+
+#: src/nikonmn.cpp:1117
+msgid "AF Zoom-Nikkor ED 80-200mm f/2.8D"
+msgstr ""
+
+#: src/nikonmn.cpp:1118
+msgid "AF Zoom-Nikkor 35-70mm f/2.8D"
+msgstr ""
+
+#: src/nikonmn.cpp:1119 src/nikonmn.cpp:1135
+msgid "AF Zoom-Nikkor 35-70mm f/2.8D N"
+msgstr ""
+
+#: src/nikonmn.cpp:1120 src/nikonmn.cpp:1121
+msgid "AF-I Nikkor 300mm f/2.8D IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1122
+msgid "AF-I Nikkor 600mm f/4D IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1123
+msgid "AF Nikkor 28mm f/1.4D"
+msgstr ""
+
+#: src/nikonmn.cpp:1124
+msgid "AF DC-Nikkor 105mm f/2D"
+msgstr ""
+
+#: src/nikonmn.cpp:1125
+msgid "AF Micro-Nikkor 200mm f/4D IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1126
+msgid "AF Nikkor 70-210mm f/4-5.6D"
+msgstr ""
+
+#: src/nikonmn.cpp:1127
+msgid "AF Zoom-Nikkor 20-35mm f/2.8(IF)"
+msgstr ""
+
+#: src/nikonmn.cpp:1128
+msgid "AF Micro-Nikkor 60mm f/2.8D"
+msgstr ""
+
+#: src/nikonmn.cpp:1129
+msgid "AF Micro-Nikkor 105mm f/2.8D"
+msgstr ""
+
+#: src/nikonmn.cpp:1130
+msgid "AF Nikkor 18mm f/2.8D"
+msgstr ""
+
+#: src/nikonmn.cpp:1131
+msgid "AF Fisheye Nikkor 16mm f/2.8D"
+msgstr ""
+
+#: src/nikonmn.cpp:1132
+msgid "AF Nikkor 24mm f/2.8D"
+msgstr ""
+
+#: src/nikonmn.cpp:1133
+msgid "AF Nikkor 20mm f/2.8D"
+msgstr ""
+
+#: src/nikonmn.cpp:1134
+msgid "AF Nikkor 85mm f/1.8D"
+msgstr ""
+
+#: src/nikonmn.cpp:1136
+msgid "AF Zoom-Nikkor 35-80mm f/4-5.6D"
+msgstr ""
+
+#: src/nikonmn.cpp:1137
+msgid "AF Nikkor 28mm f/2.8D"
+msgstr ""
+
+#: src/nikonmn.cpp:1138
+msgid "AF Nikkor 180mm f/2.8D IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1139
+msgid "AF Nikkor 35mm f/2D"
+msgstr ""
+
+#: src/nikonmn.cpp:1140
+msgid "AF Nikkor 50mm f/1.4D"
+msgstr ""
+
+#: src/nikonmn.cpp:1141
+msgid "AF Zoom-Nikkor 35-80mm f/4-5.6D N"
+msgstr ""
+
+#: src/nikonmn.cpp:1142
+msgid "AF Zoom-Nikkor 24-50mm f/3.3-4.5D"
+msgstr ""
+
+#: src/nikonmn.cpp:1143
+msgid "AF-S Nikkor 300mm f/2.8D IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1144
+msgid "AF Nikkor 85mm f/1.4D IF"
+msgstr ""
+
+#: src/nikonmn.cpp:1145
+msgid "AF Zoom-Nikkor 24-120mm f/3.5-5.6D IF"
+msgstr ""
+
+#: src/nikonmn.cpp:1146
+msgid "AF Zoom-Nikkor 28-200mm f/3.5-5.6D IF"
+msgstr ""
+
+#: src/nikonmn.cpp:1147
+msgid "AF DC-Nikkor 135mm f/2D"
+msgstr ""
+
+#: src/nikonmn.cpp:1148
+msgid "IX-Nikkor 24-70mm f/3.5-5.6"
+msgstr ""
+
+#: src/nikonmn.cpp:1149
+msgid "AF Zoom-Nikkor 80-200mm f/2.8D ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1150
+msgid "AF Zoom-Micro Nikkor 70-180mm f/4.5-5.6D ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1151
+msgid "AF Zoom-Nikkor 70-300mm f/4-5.6D ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1152
+msgid "AF-S Nikkor 400mm f/2.8D IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1153
+msgid "IX-Nikkor 30-60mm f/4-5.6"
+msgstr ""
+
+#: src/nikonmn.cpp:1154
+msgid "AF-S Zoom-Nikkor 28-70mm f/2.8D IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1155
+msgid "AF-S Zoom-Nikkor 80-200mm f/2.8D IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1156
+msgid "AF Zoom-Nikkor 28-105mm f/3.5-4.5D IF"
+msgstr ""
+
+#: src/nikonmn.cpp:1157
+msgid "AF Zoom-Nikkor 75-240mm f/4.5-5.6D"
+msgstr ""
+
+#: src/nikonmn.cpp:1158
+msgid "AF-S Nikkor 17-35mm f/2.8D IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1159
+msgid "PC Micro-Nikkor 85mm f/2.8D"
+msgstr ""
+
+#: src/nikonmn.cpp:1160
+msgid "AF VR Zoom-Nikkor 80-400mm f/4.5-5.6D ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1161
+msgid "AF Zoom-Nikkor 18-35mm f/3.5-4.5D IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1162
+msgid "AF Zoom-Nikkor 24-85mm f/2.8-4D IF"
+msgstr ""
+
+#: src/nikonmn.cpp:1163
+msgid "AF Zoom-Nikkor 28-80mm f/3.3-5.6G"
+msgstr ""
+
+#: src/nikonmn.cpp:1164
+msgid "AF Zoom-Nikkor 70-300mm f/4-5.6G"
+msgstr ""
+
+#: src/nikonmn.cpp:1165
+msgid "AF-S Nikkor 300mm f/4D IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1166
+msgid "AF Nikkor ED 14mm f/2.8D"
+msgstr ""
+
+#: src/nikonmn.cpp:1167
+msgid "AF-S Nikkor 300mm f/2.8D IF-ED II"
+msgstr ""
+
+#: src/nikonmn.cpp:1168
+msgid "AF-S Nikkor 400mm f/2.8D IF-ED II"
+msgstr ""
+
+#: src/nikonmn.cpp:1169
+msgid "AF-S Nikkor 500mm f/4D IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1170
+msgid "AF-S Nikkor 600mm f/4D IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1171
+msgid "Nikkor 45mm f/2.8 P"
+msgstr ""
+
+#: src/nikonmn.cpp:1172
+msgid "AF-S Zoom-Nikkor 24-85mm f/3.5-4.5G IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1173
+msgid "AF Zoom-Nikkor 28-100mm f/3.5-5.6G"
+msgstr ""
+
+#: src/nikonmn.cpp:1174
+msgid "AF Nikkor 50mm f/1.8D"
+msgstr ""
+
+#: src/nikonmn.cpp:1175
+msgid "AF-S VR Zoom-Nikkor 70-200mm f/2.8G IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1176
+msgid "AF-S VR Zoom-Nikkor 24-120mm f/3.5-5.6G IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1177
+msgid "AF Zoom-Nikkor 28-200mm f/3.5-5.6G IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1178
+msgid "AF-S DX Zoom-Nikkor 12-24mm f/4G IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1179
+msgid "AF-S VR Zoom-Nikkor 200-400mm f/4G IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1180
+msgid "AF-S DX Zoom-Nikkor 17-55mm f/2.8G IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1181
+msgid "AF-S DX Zoom-Nikkor 18-70mm f/3.5-4.5G IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1182
+msgid "AF DX Fisheye-Nikkor 10.5mm f/2.8G ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1183
+msgid "AF-S VR Nikkor 200mm f/2G IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1184
+msgid "AF-S VR Nikkor 300mm f/2.8G IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1185
+msgid "AF-S DX Zoom-Nikkor 55-200mm f/4-5.6G ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1186
+msgid "AF-S VR Micro-Nikkor 105mm f/2.8G IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1187
+msgid "AF-S DX VR Zoom-Nikkor 18-200mm f/3.5-5.6G IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1188
+msgid "AF-S DX Zoom-Nikkor 18-55mm f/3.5-5.6G ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1189
+msgid "AF-S DX Zoom-Nikkor 18-135mm f/3.5-5.6G IF-ED"
+msgstr ""
+
+#: src/nikonmn.cpp:1192
+msgid "Cosina"
+msgstr ""
+
+#: src/nikonmn.cpp:1192
+msgid "100mm F/3.5 Macro"
+msgstr ""
+
+#: src/nikonmn.cpp:1194 src/nikonmn.cpp:1195 src/nikonmn.cpp:1196
+#: src/nikonmn.cpp:1197 src/nikonmn.cpp:1198 src/nikonmn.cpp:1199
+#: src/nikonmn.cpp:1200 src/nikonmn.cpp:1201 src/nikonmn.cpp:1202
+#: src/nikonmn.cpp:1203 src/nikonmn.cpp:1204 src/nikonmn.cpp:1205
+#: src/nikonmn.cpp:1206 src/nikonmn.cpp:1207 src/nikonmn.cpp:1208
+#: src/nikonmn.cpp:1209 src/nikonmn.cpp:1210 src/nikonmn.cpp:1211
+#: src/nikonmn.cpp:1212 src/nikonmn.cpp:1213 src/nikonmn.cpp:1214
+#: src/nikonmn.cpp:1215 src/nikonmn.cpp:1216 src/nikonmn.cpp:1217
+#: src/nikonmn.cpp:1218 src/nikonmn.cpp:1219 src/nikonmn.cpp:1220
+#: src/nikonmn.cpp:1221 src/nikonmn.cpp:1222 src/nikonmn.cpp:1223
+#: src/nikonmn.cpp:1224 src/nikonmn.cpp:1225 src/nikonmn.cpp:1226
+#: src/nikonmn.cpp:1227 src/nikonmn.cpp:1228 src/nikonmn.cpp:1229
+#: src/nikonmn.cpp:1230 src/nikonmn.cpp:1231 src/nikonmn.cpp:1232
+#: src/nikonmn.cpp:1233 src/nikonmn.cpp:1234 src/nikonmn.cpp:1235
+#: src/nikonmn.cpp:1236 src/nikonmn.cpp:1237 src/nikonmn.cpp:1238
+#: src/nikonmn.cpp:1239 src/nikonmn.cpp:1240 src/nikonmn.cpp:1241
+#: src/nikonmn.cpp:1242
+msgid "Sigma"
+msgstr ""
+
+#: src/nikonmn.cpp:1194
+msgid "8mm F4 EX Circular Fisheye"
+msgstr ""
+
+#: src/nikonmn.cpp:1195
+msgid "10-20mm F4-5.6 EX DC HSM"
+msgstr ""
+
+#: src/nikonmn.cpp:1196
+msgid "12-24mm F4.5-5.6 EX Aspherical DG HSM"
+msgstr ""
+
+#: src/nikonmn.cpp:1197
+msgid "14mm F3.5"
+msgstr ""
+
+#: src/nikonmn.cpp:1198
+msgid "14mm F2.8 EX ASPHERICAL HSM"
+msgstr ""
+
+#: src/nikonmn.cpp:1199
+msgid "15mm F2.8 EX Diagonal Fish-Eye"
+msgstr ""
+
+#: src/nikonmn.cpp:1200
+msgid "15-30mm F3.5-4.5 EX Aspherical DG DF"
+msgstr ""
+
+#: src/nikonmn.cpp:1201
+msgid "17-35mm F2.8-4 EX DG  Aspherical HSM"
+msgstr ""
+
+#: src/nikonmn.cpp:1202
+msgid "17-35mm F2.8-4 EX ASPHERICAL"
+msgstr ""
+
+#: src/nikonmn.cpp:1203
+msgid "18-50mm F2.8 EX DC"
+msgstr ""
+
+#: src/nikonmn.cpp:1204
+msgid "18-50mm F3.5-5.6 DC"
+msgstr ""
+
+#: src/nikonmn.cpp:1205
+msgid "18-125mm F3.5-5.6 DC"
+msgstr ""
+
+#: src/nikonmn.cpp:1206
+msgid "18-200mm F3.5-6.3 DC"
+msgstr ""
+
+#: src/nikonmn.cpp:1207
+msgid "20mm F1.8 EX Aspherical DG DF RF"
+msgstr ""
+
+#: src/nikonmn.cpp:1208
+msgid "24mm F1.8 EX Aspherical DG DF MACRO"
+msgstr ""
+
+#: src/nikonmn.cpp:1209
+msgid "24mm F2.8 Macro"
+msgstr ""
+
+#: src/nikonmn.cpp:1210
+msgid "24-60mm F2.8 EX DG"
+msgstr ""
+
+#: src/nikonmn.cpp:1211
+msgid "24-70mm F2.8 EX DG Macro"
+msgstr ""
+
+#: src/nikonmn.cpp:1212
+msgid "24-70mm F3.5-5.6 ASPHERICAL HF"
+msgstr ""
+
+#: src/nikonmn.cpp:1213
+msgid "24-135mm F2.8-4.5"
+msgstr ""
+
+#: src/nikonmn.cpp:1214
+msgid "28-70mm F2.8 EX DG"
+msgstr ""
+
+#: src/nikonmn.cpp:1215
+msgid "28-70mm F2.8-4 HIGH SPEED ZOOM"
+msgstr ""
+
+#: src/nikonmn.cpp:1216
+msgid "28-70mm F2.8"
+msgstr ""
+
+#: src/nikonmn.cpp:1217
+msgid "28-70mm F3.5-4.5 UC"
+msgstr ""
+
+#: src/nikonmn.cpp:1218
+msgid "28-80mm F3.5-5.6 Mini Zoom Macro II Aspherical"
+msgstr ""
+
+#: src/nikonmn.cpp:1219
+msgid "28-105mm F3.8-5.6 UC-III ASPHERICAL IF"
+msgstr ""
+
+#: src/nikonmn.cpp:1220 src/nikonmn.cpp:1221
+msgid "28-200mm F3.5-5.6 Compact Aspherical Hyperzoom Macro"
+msgstr ""
+
+#: src/nikonmn.cpp:1222
+msgid "28-300mm F3.5-6.3 DG MACRO"
+msgstr ""
+
+#: src/nikonmn.cpp:1223
+msgid "28-300mm F3.5-6.3 Macro"
+msgstr ""
+
+#: src/nikonmn.cpp:1224
+msgid "30mm F1.4 EX DC HSM"
+msgstr ""
+
+#: src/nikonmn.cpp:1225
+msgid "35-135mm F3.5-4.5 a"
+msgstr ""
+
+#: src/nikonmn.cpp:1226
+msgid "50mm F2.8 EX DG Macro"
+msgstr ""
+
+#: src/nikonmn.cpp:1227
+msgid "50-500mmF4-6.3 EX APO RF HSM"
+msgstr ""
+
+#: src/nikonmn.cpp:1228
+msgid "55-200mm F4-5.6 DC"
+msgstr ""
+
+#: src/nikonmn.cpp:1229
+msgid "70-200mm F2.8 EX APO IF HSM"
+msgstr ""
+
+#: src/nikonmn.cpp:1230
+msgid "70-300mm F4-5.6 DG MACRO"
+msgstr ""
+
+#: src/nikonmn.cpp:1231
+msgid "70-300mm F4-5.6 APO Macro Super II"
+msgstr ""
+
+#: src/nikonmn.cpp:1232
+msgid "75-300mm F4.5-5.6 APO"
+msgstr ""
+
+#: src/nikonmn.cpp:1233
+msgid "90mm F2.8 Macro"
+msgstr ""
+
+#: src/nikonmn.cpp:1234
+msgid "80-400mm f4.5-5.6 EX OS"
+msgstr ""
+
+#: src/nikonmn.cpp:1235
+msgid "100-300mm F4 EX IF HSM"
+msgstr ""
+
+#: src/nikonmn.cpp:1236
+msgid "135-400mm F4.5-5.6 APO Aspherical"
+msgstr ""
+
+#: src/nikonmn.cpp:1237
+msgid "150mm F2.8 EX DG APO Macro HSM"
+msgstr ""
+
+#: src/nikonmn.cpp:1238
+msgid "APO 170-500mm F5-6.3 ASPHERICAL RF"
+msgstr ""
+
+#: src/nikonmn.cpp:1239
+msgid "APO MACRO 180mm F3.5 EX DG HSM"
+msgstr ""
+
+#: src/nikonmn.cpp:1240
+msgid "APO 300mm F2.8 EX DG HSM"
+msgstr ""
+
+#: src/nikonmn.cpp:1241
+msgid "APO TELE MACRO 300mm F4"
+msgstr ""
+
+#: src/nikonmn.cpp:1242
+msgid "400mm F5.6 APO"
+msgstr ""
+
+#: src/nikonmn.cpp:1244
+msgid "Soligor"
+msgstr ""
+
+#: src/nikonmn.cpp:1244
+msgid "AF C/D ZOOM UMCS 70-210mm 1:4.5"
+msgstr ""
+
+#: src/nikonmn.cpp:1246 src/nikonmn.cpp:1247 src/nikonmn.cpp:1248
+#: src/nikonmn.cpp:1249 src/nikonmn.cpp:1250 src/nikonmn.cpp:1251
+#: src/nikonmn.cpp:1252 src/nikonmn.cpp:1253 src/nikonmn.cpp:1254
+msgid "Tokina"
+msgstr ""
+
+#: src/nikonmn.cpp:1246
+msgid "AT-X 124 AF PRO DX - AF 12-24mm f/4"
+msgstr ""
+
+#: src/nikonmn.cpp:1247
+msgid "AT-X 17 AF PRO - AF 17mm f/3.5"
+msgstr ""
+
+#: src/nikonmn.cpp:1248
+msgid "AT-X287AF PRO SV 28-70mm F2.8"
+msgstr ""
+
+#: src/nikonmn.cpp:1249
+msgid "AT-X280AF PRO 28-80mm F2.8 ASPHERICAL"
+msgstr ""
+
+#: src/nikonmn.cpp:1250
+msgid "AT-X828AF 80-200mm F2.8"
+msgstr ""
+
+#: src/nikonmn.cpp:1251
+msgid "AT-X840AF II 80-400mm F4.5-5.6"
+msgstr ""
+
+#: src/nikonmn.cpp:1252
+msgid "AT-X M100 PRO D - 100mm F2.8"
+msgstr ""
+
+#: src/nikonmn.cpp:1253
+msgid "AT-X340AF II 100-300mm F4"
+msgstr ""
+
+#: src/nikonmn.cpp:1254
+msgid "AT-X300AF PRO 300mm F2.8"
+msgstr ""
+
+#: src/nikonmn.cpp:1256 src/nikonmn.cpp:1257 src/nikonmn.cpp:1258
+#: src/nikonmn.cpp:1259 src/nikonmn.cpp:1260 src/nikonmn.cpp:1261
+#: src/nikonmn.cpp:1262 src/nikonmn.cpp:1263 src/nikonmn.cpp:1264
+#: src/nikonmn.cpp:1265 src/nikonmn.cpp:1266 src/nikonmn.cpp:1267
+#: src/nikonmn.cpp:1268 src/nikonmn.cpp:1269 src/nikonmn.cpp:1270
+#: src/nikonmn.cpp:1271 src/nikonmn.cpp:1272 src/nikonmn.cpp:1273
+#: src/nikonmn.cpp:1274
+msgid "Tamron"
+msgstr ""
+
+#: src/nikonmn.cpp:1256
+msgid "SP AF11-18mm F/4.5-5.6 Di II LD Aspherical (IF)"
+msgstr ""
+
+#: src/nikonmn.cpp:1257
+msgid "SP AF17-35mm F/2.8-4 Di LD Aspherical (IF)"
+msgstr ""
+
+#: src/nikonmn.cpp:1258
+msgid "AF18-200mm f/3.5-6.3 XR Di II LD Aspherical (IF)"
+msgstr ""
+
+#: src/nikonmn.cpp:1259
+msgid "AF18-200mm f/3.5-6.3 XR Di II LD Aspherical (IF) MACRO"
+msgstr ""
+
+#: src/nikonmn.cpp:1260
+msgid "AF19-35mm F3.5-4.5"
+msgstr ""
+
+#: src/nikonmn.cpp:1261
+msgid "SP AF24-135mm F3.5-5.6 AD ASPHERICAL(IF)MACRO"
+msgstr ""
+
+#: src/nikonmn.cpp:1262
+msgid "SP AF28-75mm F2.8 XR Di LD ASPHERICAL(IF)MACRO"
+msgstr ""
+
+#: src/nikonmn.cpp:1263
+msgid "AF28-80mm f/3.5-5.6 Aspherical"
+msgstr ""
+
+#: src/nikonmn.cpp:1264
+msgid "SP AF28-105mm f/2.8"
+msgstr ""
+
+#: src/nikonmn.cpp:1265
+msgid "AF28-200mm f/3.8-5.6D"
+msgstr ""
+
+#: src/nikonmn.cpp:1266
+msgid "AF28-200mm f/3.8-5.6"
+msgstr ""
+
+#: src/nikonmn.cpp:1267
+msgid "AF28-300mm f/3.5-6.3 XR Di LD Aspherical (IF)"
+msgstr ""
+
+#: src/nikonmn.cpp:1268
+msgid "AF28-300mm f/3.5-6.3D"
+msgstr ""
+
+#: src/nikonmn.cpp:1269
+msgid "AF70-300mm F4-5.6 LD MACRO 1:2"
+msgstr ""
+
+#: src/nikonmn.cpp:1270
+msgid "SP AF90mm f/2.8 Di 1:1 Macro"
+msgstr ""
+
+#: src/nikonmn.cpp:1271
+msgid "SP AF180mm F3.5 Di Model B01"
+msgstr ""
+
+#: src/nikonmn.cpp:1272
+msgid "AF200-400mm f/5.6 LD IF"
+msgstr ""
+
+#: src/nikonmn.cpp:1273
+msgid "SP AF200-500mm f/5-6.3 Di LD (IF)"
+msgstr ""
+
+#: src/nikonmn.cpp:1274
+msgid "SP AF200-500mm F5-6.3 Di"
+msgstr ""
+
+#: src/nikonmn.cpp:1276
+msgid "Manual Lens"
+msgstr ""
+
+#: src/nikonmn.cpp:1276
+msgid "No CPU"
+msgstr ""
+
+#: src/nikonmn.cpp:1277
+msgid "90mm F/2.5"
+msgstr ""
+
+#: src/nikonmn.cpp:1278
+msgid "20-35mm F/3.5-4.5D"
+msgstr ""
+
+#: src/nikonmn.cpp:1279
+msgid "100-290mm F5.6-6.7"
+msgstr ""
+
+#: src/olympusmn.cpp:62
+msgid "Standard Quality (SQ)"
+msgstr ""
+
+#: src/olympusmn.cpp:63
+msgid "High Quality (HQ)"
+msgstr ""
+
+#: src/olympusmn.cpp:64
+msgid "Super High Quality (SHQ)"
+msgstr ""
+
+#: src/olympusmn.cpp:72
+msgid "Super macro"
+msgstr ""
+
+#: src/olympusmn.cpp:79
+msgid "On (preset)"
+msgstr ""
+
+#: src/olympusmn.cpp:85
+msgid "Internal"
+msgstr ""
+
+#: src/olympusmn.cpp:86
+msgid "External"
+msgstr ""
+
+#: src/olympusmn.cpp:87
+msgid "Internal + External"
+msgstr ""
+
+#: src/olympusmn.cpp:112
+msgid "Interlaced"
+msgstr ""
+
+#: src/olympusmn.cpp:113
+msgid "Progressive"
+msgstr ""
+
+#: src/olympusmn.cpp:122
+msgid "Special Mode"
+msgstr ""
+
+#: src/olympusmn.cpp:123
+msgid "Picture taking mode"
+msgstr ""
+
+#: src/olympusmn.cpp:131
+msgid "Black & White Mode"
+msgstr ""
+
+#: src/olympusmn.cpp:132
+msgid "Black and white mode"
+msgstr ""
+
+#: src/olympusmn.cpp:135
+msgid "Digital zoom ratio"
+msgstr ""
+
+#: src/olympusmn.cpp:137
+msgid "Focal Plane Diagonal"
+msgstr ""
+
+#: src/olympusmn.cpp:138
+msgid "Focal plane diagonal"
+msgstr ""
+
+#: src/olympusmn.cpp:140
+msgid "Lens Distortion Parameters"
+msgstr ""
+
+#: src/olympusmn.cpp:141
+msgid "Lens distortion parameters"
+msgstr ""
+
+#: src/olympusmn.cpp:143 src/panasonicmn.cpp:187
+msgid "Firmware Version"
+msgstr ""
+
+#: src/olympusmn.cpp:144
+msgid "Software firmware version"
+msgstr ""
+
+#: src/olympusmn.cpp:146
+msgid "Picture Info"
+msgstr ""
+
+#: src/olympusmn.cpp:147
+msgid "ASCII format data such as [PictureInfo]"
+msgstr ""
+
+#: src/olympusmn.cpp:149
+msgid "Camera ID"
+msgstr ""
+
+#: src/olympusmn.cpp:150
+msgid "Camera ID data"
+msgstr ""
+
+#: src/olympusmn.cpp:169
+msgid "Pre Capture Frames"
+msgstr ""
+
+#: src/olympusmn.cpp:170
+msgid "Pre-capture frames"
+msgstr ""
+
+#: src/olympusmn.cpp:175
+msgid "One Touch WB"
+msgstr ""
+
+#: src/olympusmn.cpp:176
+msgid "One touch white balance"
+msgstr ""
+
+#: src/olympusmn.cpp:185
+msgid "Serial number"
+msgstr ""
+
+#: src/olympusmn.cpp:190
+msgid "Data Dump 1"
+msgstr ""
+
+#: src/olympusmn.cpp:191
+msgid "Various camera settings 1"
+msgstr ""
+
+#: src/olympusmn.cpp:193
+msgid "Data Dump 2"
+msgstr ""
+
+#: src/olympusmn.cpp:194
+msgid "Various camera settings 2"
+msgstr ""
+
+#: src/olympusmn.cpp:196
+msgid "Shutter Speed"
+msgstr ""
+
+#: src/olympusmn.cpp:197
+msgid "Shutter speed value"
+msgstr ""
+
+#: src/olympusmn.cpp:200
+msgid "ISO speed value"
+msgstr ""
+
+#: src/olympusmn.cpp:202
+msgid "Aperture Value"
+msgstr "Aukon koko"
+
+#: src/olympusmn.cpp:203
+msgid "Aperture value"
+msgstr "Aukon koko"
+
+#: src/olympusmn.cpp:206
+msgid "Brightness value"
+msgstr ""
+
+#: src/olympusmn.cpp:214
+msgid "Bracket"
+msgstr ""
+
+#: src/olympusmn.cpp:215
+msgid "Exposure compensation value"
+msgstr ""
+
+#: src/olympusmn.cpp:217
+msgid "Sensor Temperature"
+msgstr ""
+
+#: src/olympusmn.cpp:218
+msgid "Sensor temperature"
+msgstr ""
+
+#: src/olympusmn.cpp:220
+msgid "Lens Temperature"
+msgstr ""
+
+#: src/olympusmn.cpp:221
+msgid "Lens temperature"
+msgstr ""
+
+#: src/olympusmn.cpp:235
+msgid "Zoom"
+msgstr ""
+
+#: src/olympusmn.cpp:236
+msgid "Zoom step count"
+msgstr ""
+
+#: src/olympusmn.cpp:238
+msgid "Macro Focus"
+msgstr ""
+
+#: src/olympusmn.cpp:239
+msgid "Macro focus step count"
+msgstr ""
+
+#: src/olympusmn.cpp:241 src/olympusmn.cpp:322
+msgid "Sharpness Factor"
+msgstr ""
+
+#: src/olympusmn.cpp:242 src/olympusmn.cpp:323
+msgid "Sharpness factor"
+msgstr ""
+
+#: src/olympusmn.cpp:244
+msgid "Flash Charge Level"
+msgstr ""
+
+#: src/olympusmn.cpp:245
+msgid "Flash charge level"
+msgstr ""
+
+#: src/olympusmn.cpp:247
+msgid "Color Matrix"
+msgstr ""
+
+#: src/olympusmn.cpp:248
+msgid "Color matrix"
+msgstr ""
+
+#: src/olympusmn.cpp:250
+msgid "BlackLevel"
+msgstr ""
+
+#: src/olympusmn.cpp:251
+msgid "Black level"
+msgstr ""
+
+#: src/olympusmn.cpp:260
+msgid "White balance mode"
+msgstr ""
+
+#: src/olympusmn.cpp:265
+msgid "Red Balance"
+msgstr ""
+
+#: src/olympusmn.cpp:266
+msgid "Red balance"
+msgstr ""
+
+#: src/olympusmn.cpp:268
+msgid "Blue Balance"
+msgstr ""
+
+#: src/olympusmn.cpp:269
+msgid "Blue balance"
+msgstr ""
+
+#: src/olympusmn.cpp:274
+msgid "Serial Number 2"
+msgstr ""
+
+#: src/olympusmn.cpp:275
+msgid "Serial number 2"
+msgstr ""
+
+#: src/olympusmn.cpp:301
+msgid "Flash Bias"
+msgstr ""
+
+#: src/olympusmn.cpp:302
+msgid "Flash exposure compensation"
+msgstr ""
+
+#: src/olympusmn.cpp:310
+msgid "External Flash Bounce"
+msgstr ""
+
+#: src/olympusmn.cpp:311
+msgid "External flash bounce"
+msgstr ""
+
+#: src/olympusmn.cpp:313
+msgid "External Flash Zoom"
+msgstr ""
+
+#: src/olympusmn.cpp:314
+msgid "External flash zoom"
+msgstr ""
+
+#: src/olympusmn.cpp:316
+msgid "External Flash Mode"
+msgstr ""
+
+#: src/olympusmn.cpp:317
+msgid "External flash mode"
+msgstr ""
+
+#: src/olympusmn.cpp:325
+msgid "Color Control"
+msgstr ""
+
+#: src/olympusmn.cpp:326
+msgid "Color control"
+msgstr ""
+
+#: src/olympusmn.cpp:328
+msgid "ValidBits"
+msgstr ""
+
+#: src/olympusmn.cpp:329
+msgid "Valid bits"
+msgstr ""
+
+#: src/olympusmn.cpp:331
+msgid "CoringFilter"
+msgstr ""
+
+#: src/olympusmn.cpp:332
+msgid "Coring filter"
+msgstr ""
+
+#: src/olympusmn.cpp:337
+msgid "Image Height"
+msgstr ""
+
+#: src/olympusmn.cpp:352
+msgid "Compression Ratio"
+msgstr ""
+
+#: src/olympusmn.cpp:353
+msgid "Compression ratio"
+msgstr ""
+
+#: src/olympusmn.cpp:356
+msgid "Preview image embedded"
+msgstr ""
+
+#: src/olympusmn.cpp:359
+msgid "Offset of the preview image"
+msgstr ""
+
+#: src/olympusmn.cpp:362
+msgid "Size of the preview image"
+msgstr ""
+
+#: src/olympusmn.cpp:364
+msgid "CCD Scan Mode"
+msgstr ""
+
+#: src/olympusmn.cpp:365
+msgid "CCD scan mode"
+msgstr ""
+
+#: src/olympusmn.cpp:370
+msgid "Infinity Lens Step"
+msgstr ""
+
+#: src/olympusmn.cpp:371
+msgid "Infinity lens step"
+msgstr ""
+
+#: src/olympusmn.cpp:373
+msgid "Near Lens Step"
+msgstr ""
+
+#: src/olympusmn.cpp:374
+msgid "Near lens step"
+msgstr ""
+
+#: src/olympusmn.cpp:376
+msgid "Equipment Info"
+msgstr ""
+
+#: src/olympusmn.cpp:377
+msgid "Camera equipment information"
+msgstr ""
+
+#: src/olympusmn.cpp:379
+msgid "Camera Settings"
+msgstr ""
+
+#: src/olympusmn.cpp:380
+msgid "Camera Settings information"
+msgstr ""
+
+#: src/olympusmn.cpp:382
+msgid "Raw Development"
+msgstr ""
+
+#: src/olympusmn.cpp:383
+msgid "Raw development information"
+msgstr ""
+
+#: src/olympusmn.cpp:386
+msgid "Image processing information"
+msgstr ""
+
+#: src/olympusmn.cpp:388
+msgid "Focus Info"
+msgstr ""
+
+#: src/olympusmn.cpp:389
+msgid "Focus information"
+msgstr ""
+
+#: src/olympusmn.cpp:391
+msgid "Raw Info"
+msgstr ""
+
+#: src/olympusmn.cpp:392
+msgid "Raw information"
+msgstr ""
+
+#: src/olympusmn.cpp:397
+msgid "Unknown OlympusMakerNote tag"
+msgstr ""
+
+#: src/olympusmn.cpp:480
+msgid "Fast"
+msgstr ""
+
+#: src/olympusmn.cpp:481
+msgid "Panorama"
+msgstr ""
+
+#: src/olympusmn.cpp:493
+msgid "Left to right"
+msgstr ""
+
+#: src/olympusmn.cpp:494
+msgid "Right to left"
+msgstr ""
+
+#: src/olympusmn.cpp:495
+msgid "Bottom to top"
+msgstr ""
+
+#: src/olympusmn.cpp:496
+msgid "Top to bottom"
+msgstr ""
+
+#: src/olympusmn.cpp:533
+msgid "3000 Kelvin"
+msgstr ""
+
+#: src/olympusmn.cpp:534
+msgid "3700 Kelvin"
+msgstr ""
+
+#: src/olympusmn.cpp:535
+msgid "4000 Kelvin"
+msgstr ""
+
+#: src/olympusmn.cpp:536
+msgid "4500 Kelvin"
+msgstr ""
+
+#: src/olympusmn.cpp:537
+msgid "5500 Kelvin"
+msgstr ""
+
+#: src/olympusmn.cpp:538
+msgid "6500 Kelvin"
+msgstr ""
+
+#: src/olympusmn.cpp:539
+msgid "7500 Kelvin"
+msgstr ""
+
+#: src/olympusmn.cpp:545
+msgid "One-touch"
+msgstr ""
+
+#: src/panasonicmn.cpp:66
+msgid "Very High"
+msgstr ""
+
+#: src/panasonicmn.cpp:75
+msgid "Halogen"
+msgstr ""
+
+#: src/panasonicmn.cpp:85
+msgid "Auto, focus button"
+msgstr ""
+
+#: src/panasonicmn.cpp:86
+msgid "Auto, continuous"
+msgstr ""
+
+#: src/panasonicmn.cpp:91
+msgid "On, Mode 1"
+msgstr ""
+
+#: src/panasonicmn.cpp:93
+msgid "On, Mode 2"
+msgstr ""
+
+#: src/panasonicmn.cpp:100
+msgid "Tele-macro"
+msgstr ""
+
+#: src/panasonicmn.cpp:107
+msgid "Scenery"
+msgstr ""
+
+#: src/panasonicmn.cpp:112
+msgid "Shutter-speed priority"
+msgstr ""
+
+#: src/panasonicmn.cpp:115
+msgid "Panning"
+msgstr ""
+
+#: src/panasonicmn.cpp:119
+msgid "Night scenery"
+msgstr ""
+
+#: src/panasonicmn.cpp:120
+msgid "Food"
+msgstr ""
+
+#: src/panasonicmn.cpp:125
+msgid "Yes"
+msgstr ""
+
+#: src/panasonicmn.cpp:126
+msgid "No"
+msgstr ""
+
+#: src/panasonicmn.cpp:132
+msgid "Warm"
+msgstr ""
+
+#: src/panasonicmn.cpp:133
+msgid "Cool"
+msgstr ""
+
+#: src/panasonicmn.cpp:141
+msgid "Low/High quality"
+msgstr ""
+
+#: src/panasonicmn.cpp:142
+msgid "Infinite"
+msgstr ""
+
+#: src/panasonicmn.cpp:165
+msgid "10s"
+msgstr ""
+
+#: src/panasonicmn.cpp:166
+msgid "2s"
+msgstr ""
+
+#: src/panasonicmn.cpp:188
+msgid "Firmware version"
+msgstr ""
+
+#: src/panasonicmn.cpp:199
+msgid "Spot Mode"
+msgstr ""
+
+#: src/panasonicmn.cpp:199
+msgid "Spot mode"
+msgstr ""
+
+#: src/panasonicmn.cpp:201
+msgid "ImageStabilizer"
+msgstr ""
+
+#: src/panasonicmn.cpp:202
+msgid "Image stabilizer"
+msgstr ""
+
+#: src/panasonicmn.cpp:210 src/panasonicmn.cpp:211
+msgid "Audio"
+msgstr ""
+
+#: src/panasonicmn.cpp:220
+msgid "White balance adjustment"
+msgstr ""
+
+#: src/panasonicmn.cpp:222
+msgid "FlashBias"
+msgstr ""
+
+#: src/panasonicmn.cpp:235
+msgid "Color Effect"
+msgstr ""
+
+#: src/panasonicmn.cpp:236
+msgid "Color effect"
+msgstr ""
+
+#: src/panasonicmn.cpp:241
+msgid "Burst Mode"
+msgstr ""
+
+#: src/panasonicmn.cpp:242
+msgid "Burst mode"
+msgstr ""
+
+#: src/panasonicmn.cpp:250
+msgid "NoiseReduction"
+msgstr ""
+
+#: src/panasonicmn.cpp:253
+msgid "Self Timer"
+msgstr ""
+
+#: src/panasonicmn.cpp:254
+msgid "Self timer"
+msgstr ""
+
+#: src/panasonicmn.cpp:268
+msgid "Travel Day"
+msgstr ""
+
+#: src/panasonicmn.cpp:269
+msgid "Travel day"
+msgstr ""
+
+#: src/panasonicmn.cpp:279
+msgid "Unknown PanasonicMakerNote tag"
+msgstr ""
+
+#: src/panasonicmn.cpp:364
+msgid " EV"
+msgstr ""
+
+#: src/sigmamn.cpp:72
+msgid "Resolution Mode"
+msgstr ""
+
+#: src/sigmamn.cpp:73
+msgid "Resolution mode"
+msgstr ""
+
+#: src/sigmamn.cpp:74
+msgid "Autofocus Mode"
+msgstr ""
+
+#: src/sigmamn.cpp:75
+msgid "Autofocus mode"
+msgstr ""
+
+#: src/sigmamn.cpp:77
+msgid "Focus Setting"
+msgstr ""
+
+#: src/sigmamn.cpp:78
+msgid "Focus setting"
+msgstr ""
+
+#: src/sigmamn.cpp:89
+msgid "Lens Range"
+msgstr ""
+
+#: src/sigmamn.cpp:90
+msgid "Lens focal length range"
+msgstr ""
+
+#: src/sigmamn.cpp:101 src/sigmamn.cpp:102
+msgid "Shadow"
+msgstr ""
+
+#: src/sigmamn.cpp:104 src/sigmamn.cpp:105
+msgid "Highlight"
+msgstr ""
+
+#: src/sigmamn.cpp:113
+msgid "Fill Light"
+msgstr ""
+
+#: src/sigmamn.cpp:114
+msgid "X3 Fill light"
+msgstr ""
+
+#: src/sigmamn.cpp:116
+msgid "Color Adjustment"
+msgstr ""
+
+#: src/sigmamn.cpp:117
+msgid "Color adjustment"
+msgstr ""
+
+#: src/sigmamn.cpp:119
+msgid "Adjustment Mode"
+msgstr ""
+
+#: src/sigmamn.cpp:120
+msgid "Adjustment mode"
+msgstr ""
+
+#: src/sigmamn.cpp:125 src/sigmamn.cpp:126
+msgid "Firmware"
+msgstr ""
+
+#: src/sigmamn.cpp:131
+msgid "Auto Bracket"
+msgstr ""
+
+#: src/sigmamn.cpp:136
+msgid "Unknown SigmaMakerNote tag"
+msgstr ""
+
+#: src/sigmamn.cpp:238
+msgid "8-Segment"
+msgstr ""
+
+#: src/sonymn.cpp:91
+msgid "Unknown SonyMakerNote tag"
+msgstr ""
+
