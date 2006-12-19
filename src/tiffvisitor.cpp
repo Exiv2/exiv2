@@ -124,7 +124,8 @@ namespace Exiv2 {
         : pImage_(pImage),
           pRoot_(pRoot),
           findDecoderFct_(findDecoderFct),
-          threshold_(threshold)
+          threshold_(threshold),
+          decodedIptc_(false)
     {
         // Find camera make
         TiffFinder finder(0x010f, Group::ifd0);
@@ -185,32 +186,75 @@ namespace Exiv2 {
         }
     }
 
-    void TiffMetadataDecoder::decodeIrbIptc(const TiffEntryBase* object)
+    void TiffMetadataDecoder::decodeIptc(const TiffEntryBase* object)
     {
-        assert(object != 0);
-        assert(pImage_ != 0);
-        if (!object->pData()) return;
-        byte const* record = 0;
-        uint32_t sizeHdr = 0;
-        uint32_t sizeData = 0;
-        if (0 != Photoshop::locateIptcIrb(object->pData(), object->size(),
-                                          &record, &sizeHdr, &sizeData)) {
+        // add Exif tag anyway
+        decodeStdTiffEntry(object);
+
+        // All tags are read at this point, so the first time we come here,
+        // find the relevant IPTC tag and decode IPTC if found
+        if (decodedIptc_) {
             return;
         }
-        if (0 != pImage_->iptcData().load(record + sizeHdr, sizeData)) {
-#ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: Failed to decode IPTC block found in "
-                      << "Directory " << object->groupName()
-                      << ", entry 0x" << std::setw(4)
-                      << std::setfill('0') << std::hex << object->tag()
-                      << "\n";
-#endif
-            // Todo: ExifKey should have an appropriate c'tor, it should not be
-            //       necessary to use groupName here
-            ExifKey key(object->tag(), object->groupName());
-            setExifTag(key, object->pValue());
+        decodedIptc_ = true;
+        // 1st choice: IPTCNAA
+        byte const* pData = 0;
+        long size = 0;
+        if (object->tag() == 0x83bb) {
+            pData = object->pData();
+            size = object->size();
         }
-    } // TiffMetadataDecoder::decodeIrbIptc
+        if (pData == 0) {
+            TiffFinder finder(0x83bb, Group::ifd0);
+            pRoot_->accept(finder);
+            TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
+            if (te) {
+                pData = te->pData();
+                size = te->size();
+            }
+        }
+        if (pData) {
+            if (0 == pImage_->iptcData().load(pData, size)) {
+                return;
+            }
+#ifndef SUPPRESS_WARNINGS
+            else {
+                std::cerr << "Warning: Failed to decode IPTC block found in "
+                          << "Directory Image, entry 0x83bb\n";
+            }
+#endif
+        }
+
+        // 2nd choice if no IPTCNAA record found or failed to decode it:
+        // ImageResources
+        TiffEntryBase const* te = 0;
+        if (object->tag() == 0x8649) {
+            te = object;
+        }
+        else {
+            TiffFinder finder(0x83bb, Group::ifd0);
+            pRoot_->accept(finder);
+            te = dynamic_cast<TiffEntryBase*>(finder.result());
+        }
+        if (te) {
+            byte const* record = 0;
+            uint32_t sizeHdr = 0;
+            uint32_t sizeData = 0;
+            if (0 != Photoshop::locateIptcIrb(te->pData(), te->size(), 
+                                              &record, &sizeHdr, &sizeData)) {
+                return;
+            }
+            if (0 == pImage_->iptcData().load(record + sizeHdr, sizeData)) {
+                return;
+            }
+#ifndef SUPPRESS_WARNINGS
+            else {
+                std::cerr << "Warning: Failed to decode IPTC block found in "
+                          << "Directory Image, entry 0x8649\n";
+            }
+#endif
+        }
+    } // TiffMetadataDecoder::decodeIptc
 
     void TiffMetadataDecoder::decodeSubIfd(const TiffEntryBase* object)
     {
