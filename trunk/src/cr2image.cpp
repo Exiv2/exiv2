@@ -69,7 +69,8 @@ namespace Exiv2 {
         { "*",         0x011a, Group::ifd0,    0 },
         { "*",         0x011b, Group::ifd0,    0 },
         { "*",         0x0128, Group::ifd0,    0 },
-        { "*",         0x8649, Group::ifd0,    &TiffMetadataDecoder::decodeIrbIptc    }
+        { "*",         0x83bb, Group::ifd0,    &TiffMetadataDecoder::decodeIptc },
+        { "*",         0x8649, Group::ifd0,    &TiffMetadataDecoder::decodeIptc }
     };
 
     const DecoderFct Cr2Decoder::findDecoder(const std::string& make,

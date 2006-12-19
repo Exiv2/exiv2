@@ -244,8 +244,8 @@ namespace Exiv2 {
         void decodeOlympThumb(const TiffEntryBase* object);
         //! Decode SubIFD contents to Image group if it contains primary image data
         void decodeSubIfd(const TiffEntryBase* object);
-        //! Decode IPTC data from a Photoshop IRB tag
-        void decodeIrbIptc(const TiffEntryBase* object);
+        //! Decode IPTC data from an IPTCNAA tag or Photoshop ImageResources
+        void decodeIptc(const TiffEntryBase* object);
         //@}
 
     private:
@@ -263,6 +263,7 @@ namespace Exiv2 {
         typedef std::map<uint16_t, uint32_t> GroupType;
         GroupType groupType_;        //!< NewSubfileType for each group
 
+        bool decodedIptc_;           //!< Indicates if IPTC has been decoded yet
     }; // class TiffMetadataDecoder
 
     /*!

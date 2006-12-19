@@ -142,7 +142,8 @@ namespace Exiv2 {
         { "*",         0x014a, Group::ifd0,    0 }, // Todo: Controversial, causes problems with Exiftool
         { "*",       Tag::all, Group::sub0_0,  &TiffMetadataDecoder::decodeSubIfd       },
         { "*",       Tag::all, Group::sub0_1,  &TiffMetadataDecoder::decodeSubIfd       },
-        { "*",         0x8649, Group::ifd0,    &TiffMetadataDecoder::decodeIrbIptc      }
+        { "*",         0x83bb, Group::ifd0,    &TiffMetadataDecoder::decodeIptc         },
+        { "*",         0x8649, Group::ifd0,    &TiffMetadataDecoder::decodeIptc         }
     };
 
     const DecoderFct TiffDecoder::findDecoder(const std::string& make,
