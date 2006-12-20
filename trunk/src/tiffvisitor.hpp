@@ -251,6 +251,19 @@ namespace Exiv2 {
     private:
         //! Set an Exif tag in the image. Overwrites existing tags
         void setExifTag(const ExifKey& key, const Value* pValue);
+        /*!
+          @brief Get the data for a \em tag and \em group, either from the 
+                 \em object provided, if it matches or from the matching element 
+                 in the hierarchy.
+
+          Populates \em pData and \em size with the result. If no matching 
+          element is found the function leaves both of these parameters unchanged.
+        */
+        void getObjData(byte const*&         pData,
+                        long&                size,
+                        uint16_t             tag,
+                        uint16_t             group,
+                        const TiffEntryBase* object);
 
         // DATA
         Image* pImage_;              //!< Pointer to the image to which the metadata is added

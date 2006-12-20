@@ -186,6 +186,27 @@ namespace Exiv2 {
         }
     }
 
+    void TiffMetadataDecoder::getObjData(byte const*& pData,
+                                         long& size,
+                                         uint16_t tag,
+                                         uint16_t group,
+                                         const TiffEntryBase* object)
+    {
+        if (object && object->tag() == tag && object->group() == group) {
+            pData = object->pData();
+            size = object->size();
+            return;
+        }
+        TiffFinder finder(tag, group);
+        pRoot_->accept(finder);
+        TiffEntryBase const* te = dynamic_cast<TiffEntryBase*>(finder.result());
+        if (te) {
+            pData = te->pData();
+            size = te->size();
+            return;
+        }
+    }
+
     void TiffMetadataDecoder::decodeIptc(const TiffEntryBase* object)
     {
         // add Exif tag anyway
@@ -200,19 +221,7 @@ namespace Exiv2 {
         // 1st choice: IPTCNAA
         byte const* pData = 0;
         long size = 0;
-        if (object->tag() == 0x83bb) {
-            pData = object->pData();
-            size = object->size();
-        }
-        if (pData == 0) {
-            TiffFinder finder(0x83bb, Group::ifd0);
-            pRoot_->accept(finder);
-            TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
-            if (te) {
-                pData = te->pData();
-                size = te->size();
-            }
-        }
+        getObjData(pData, size, 0x83bb, Group::ifd0, object);
         if (pData) {
             if (0 == pImage_->iptcData().load(pData, size)) {
                 return;
@@ -227,20 +236,14 @@ namespace Exiv2 {
 
         // 2nd choice if no IPTCNAA record found or failed to decode it:
         // ImageResources
-        TiffEntryBase const* te = 0;
-        if (object->tag() == 0x8649) {
-            te = object;
-        }
-        else {
-            TiffFinder finder(0x83bb, Group::ifd0);
-            pRoot_->accept(finder);
-            te = dynamic_cast<TiffEntryBase*>(finder.result());
-        }
-        if (te) {
+        pData = 0;
+        size = 0;
+        getObjData(pData, size, 0x8649, Group::ifd0, object);
+        if (pData) {
             byte const* record = 0;
             uint32_t sizeHdr = 0;
             uint32_t sizeData = 0;
-            if (0 != Photoshop::locateIptcIrb(te->pData(), te->size(), 
+            if (0 != Photoshop::locateIptcIrb(pData, size, 
                                               &record, &sizeHdr, &sizeData)) {
                 return;
             }
