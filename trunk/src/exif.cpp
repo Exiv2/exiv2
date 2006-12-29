@@ -1122,9 +1122,10 @@ namespace Exiv2 {
                 break;
             }
             // Make sure that the size of the Exifdatum fits the available size
-            // of the entry
+            // of the entry and the types are the same
             if (   md->size() > rc.second->size()
-                || md->sizeDataArea() > rc.second->sizeDataArea()) {
+                || md->sizeDataArea() > rc.second->sizeDataArea()
+                || md->typeId() != rc.second->type()) {
                 compatible = false;
                 break;
             }
