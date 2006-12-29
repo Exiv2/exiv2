@@ -54,6 +54,14 @@ num=447 # Problem only visible in Valgrind
 filename=`prep_file $num`
 $binpath/exiv2 -pi $filename
 
+num=452
+filename=exiv2-bug$num.jpg
+cp -f ../data/exiv2-empty.jpg $filename
+$binpath/exiv2 -v -M"set Exif.GPSInfo.GPSLatitude SRational -1/3 -2/3 -3/3" $filename
+$binpath/exiv2 -pv $filename
+$binpath/exiv2 -v -M"set Exif.GPSInfo.GPSLatitude Rational 1/3 2/3 3/3" $filename
+$binpath/exiv2 -pv $filename
+
 num=460
 filename=`prep_file $num`
 $binpath/exiv2 -pt $filename
