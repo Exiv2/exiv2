@@ -586,22 +586,19 @@ namespace Exiv2 {
         //! End of the metadata
         iterator end() { return exifMetadata_.end(); }
         /*!
-          @brief Find a Exifdatum with the given \em key, return an iterator to
-                 it.  If multiple metadata with the same key exist, it is
-                 undefined which of the matching metadata is found.
+          @brief Find the first Exifdatum with the given \em key, return an 
+                 iterator to it.  
          */
         iterator findKey(const ExifKey& key);
         /*!
-          @brief Find the Exifdatum with the given \em ifdId and \em idx,
+          @brief Find the first Exifdatum with the given \em ifdId and \em idx,
                  return an iterator to it.
 
           This method can be used to uniquely identify an exifdatum that was
           created from an IFD or from the makernote (with idx greater than
           0). Metadata created by an application (not read from an IFD or a
           makernote) all have their idx field set to 0, i.e., they cannot be
-          uniquely identified with this method.  If multiple metadata with the
-          same key exist, it is undefined which of the matching metadata is
-          found.
+          uniquely identified with this method.
          */
         iterator findIfdIdIdx(IfdId ifdId, int idx);
         /*!
@@ -694,22 +691,19 @@ namespace Exiv2 {
         //! End of the metadata
         const_iterator end() const { return exifMetadata_.end(); }
         /*!
-          @brief Find an exifdatum with the given \em key, return a const
-                 iterator to it.  If multiple metadata with the same key exist,
-                 it is undefined which of the matching metadata is found.
+          @brief Find the first Exifdatum with the given \em key, return a const
+                 iterator to it.
          */
         const_iterator findKey(const ExifKey& key) const;
         /*!
-          @brief Find the exifdatum with the given \em ifdId and \em idx,
+          @brief Find the first Exifdatum with the given \em ifdId and \em idx,
                  return an iterator to it.
 
           This method can be used to uniquely identify a Exifdatum that was
           created from an IFD or from the makernote (with idx greater than
           0). Metadata created by an application (not read from an IFD or a
           makernote) all have their idx field set to 0, i.e., they cannot be
-          uniquely identified with this method.  If multiple metadata with the
-          same key exist, it is undefined which of the matching metadata is
-          found.
+          uniquely identified with this method.
          */
         const_iterator findIfdIdIdx(IfdId ifdId, int idx) const;
         //! Return true if there is no Exif metadata
