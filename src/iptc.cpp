@@ -165,7 +165,16 @@ namespace Exiv2 {
                 sizeData = getUShort(pRead, bigEndian);
                 pRead += 2;
             }
-            readData(dataSet, record, pRead, sizeData);
+            if (pRead + sizeData <= buf + len) {
+                readData(dataSet, record, pRead, sizeData);
+            }
+#ifndef SUPPRESS_WARNINGS
+            else {
+                std::cerr << "Warning: "
+                          << "IPTC dataset " << IptcKey(dataSet, record)
+                          << " has invalid size " << sizeData << "; skipped.\n";
+            }
+#endif
             pRead += sizeData;
         }
 
