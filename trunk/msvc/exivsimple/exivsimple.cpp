@@ -22,6 +22,7 @@
   File:      exivsimple.cpp
   Version:   $Rev$
   Author(s): Brad Schick <brad@robotbattle.com>
+             Christian Kuster <christian@kusti.ch>
   History:   12-Nov-04, brad: created
  */
 // *****************************************************************************
@@ -32,6 +33,7 @@
 #include "exif.hpp"
 #include "iptc.hpp"
 #include <cassert>
+#include <cstring>
 
 struct ImageWrapper
 {
@@ -148,6 +150,30 @@ EXIVSIMPLE_API int ImageData(HIMAGE img, BYTE *buffer, unsigned int size)
         io.close();
     }
     return result;
+}
+
+EXIVSIMPLE_API void SetThumbnail(HIMAGE img, const BYTE *buffer, unsigned int size)
+{
+    ImageWrapper *imgWrap = (ImageWrapper*)img;
+    Exiv2::ExifData &exifData = imgWrap->image->exifData();
+    exifData.setJpegThumbnail(buffer, size);
+}
+
+EXIVSIMPLE_API unsigned int GetThumbnail(HIMAGE img, BYTE *buffer, unsigned int size)
+{
+    ImageWrapper *imgWrap = (ImageWrapper*)img;
+    Exiv2::ExifData &exifData = imgWrap->image->exifData();
+    Exiv2::Thumbnail::AutoPtr thumbnail;
+    thumbnail = exifData.getThumbnail();
+    if (thumbnail.get() == 0) {
+        return 0;
+    }
+    Exiv2::DataBuf buf = thumbnail->copy(exifData);
+    if (buf.size_ > (long)size) {
+        return unsigned int(-1);
+    }
+    memcpy(buffer, buf.pData_, buf.size_);
+    return buf.size_;
 }
 
 // This is weird because iptc and exif have not been "unified". Once
