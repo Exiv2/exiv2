@@ -22,8 +22,10 @@
   @file    exivsimple.h
   @brief   Limited metadata dll for win32
   @version $Rev$
-  @author  Brad Schick (brad) 
+  @author  Brad Schick (brad)
            <a href="mailto:brad@robotbattle.com">brad@robotbattle.com</a>
+           Christian Kuster (kusti)
+           <a href="mailto:christian@kusti.ch">christian@kusti.ch</a>
   @date    12-Nov-04, brad: created
  */
 #ifndef EXIVSIMPLE_H_
@@ -69,10 +71,28 @@ EXIVSIMPLE_API int EnumMeta(HIMAGE img, METAENUMPROC proc, void *user);
 EXIVSIMPLE_API int AddMeta(HIMAGE img, const char *key, const char *val, DllTypeId type);
 EXIVSIMPLE_API int ModifyMeta(HIMAGE img, const char *key, const char *val, DllTypeId type);
 EXIVSIMPLE_API int RemoveMeta(HIMAGE img, const char *key);
+/*!
+  @brief Set the Thumbnail
+
+  @param img    Handle to the image
+  @param buffer Pointer to the Thumbnail data (JPEG)
+  @param size   Size of the thumbnail in bytes
+*/
+EXIVSIMPLE_API void SetThumbnail(HIMAGE img, const BYTE *buffer, unsigned int size);
+/*!
+  @brief Get the Thumbnail
+
+  @param img    Handle to the image
+  @param buffer Pointer where the thumbnaildata is written to (large enough!)
+  @param size   Size of buffer
+
+  @return size of the thumbnail, 0 if failed to read the thumbnail, 
+          (unsigned int)-1 if buffer is too small.
+*/
+EXIVSIMPLE_API unsigned int GetThumbnail(HIMAGE img, BYTE *buffer, unsigned int size);
 
 #ifdef __cplusplus
 }
 #endif
 
 #endif                                  // #ifndef EXIVSIMPLE_H_
-
