@@ -73,8 +73,8 @@ namespace Exiv2 {
         ErrMsg( 28, N_("Invalid charset: `%1'")), // %1=charset name
         ErrMsg( 29, N_("Unsupported date format")),
         ErrMsg( 30, N_("Unsupported time format")),
-        ErrMsg( 31, N_("%1: CRW images don't support IPTC metadata")), // %1=function
-        ErrMsg( 32, N_("%1: CRW images don't support JPEG comments")), // %1=function
+        ErrMsg( 31, N_("Writing %1 to %2 images is not supported")), // %1=metadata type, %2=image format
+        ErrMsg( 32, N_("%1 in %2 images is not supported")), // %1=metadata type, %2=image format
         ErrMsg( 33, N_("This does not look like a CRW image")),
         ErrMsg( 34, N_("%1: Not supported")), // %1=function
         ErrMsg( 35, N_("ImageFactory registry full")),

@@ -70,16 +70,21 @@ namespace Exiv2 {
         return isThisType(*io_, false);
     }
 
+    AccessMode TiffImage::checkMode(MetadataId metadataId) const
+    {
+        return ImageFactory::checkMode(ImageType::tiff, metadataId);
+    }
+
     void TiffImage::clearMetadata()
     {
         clearExifData();
-        clearComment();
+        clearIptcData();
     }
 
     void TiffImage::setMetadata(const Image& image)
     {
         setExifData(image.exifData());
-        setComment(image.comment());
+        setIptcData(image.iptcData());
     }
 
     void TiffImage::clearExifData()
@@ -104,12 +109,13 @@ namespace Exiv2 {
 
     void TiffImage::clearComment()
     {
-        comment_.erase();
+        // not supported, do nothing
     }
 
-    void TiffImage::setComment(const std::string& comment)
+    void TiffImage::setComment(const std::string& /*comment*/)
     {
-        comment_ = comment;
+        // not supported
+        throw(Error(32, "Image comment", "TIFF"));
     }
 
     void TiffImage::readMetadata()
@@ -134,44 +140,10 @@ namespace Exiv2 {
 
     void TiffImage::writeMetadata()
     {
-/*
-
-       Todo: implement me!
-
-#ifdef DEBUG
-        std::cerr << "Writing TIFF file " << io_->path() << "\n";
-#endif
-        // Read existing image
-        DataBuf buf;
-        if (io_->open() == 0) {
-            IoCloser closer(*io_);
-            // Ensure that this is the correct image type
-            if (isThisType(*io_, false)) {
-                // Read the image into a memory buffer
-                buf.alloc(io_->size());
-                io_->read(buf.pData_, buf.size_);
-                if (io_->error() || io_->eof()) {
-                    buf.reset();
-                }
-            }
-        }
-
-        // Parse image, starting with a TIFF header component
-        TiffHeade2::AutoPtr head(new TiffHeade2);
-        if (buf.size_ != 0) {
-            head->read(buf.pData_, buf.size_);
-        }
-
-        Blob blob;
-        TiffParser::encode(blob, head.get(), this);
-
-        // Write new buffer to file
-        BasicIo::AutoPtr tempIo(io_->temporary()); // may throw
-        assert (tempIo.get() != 0);
-        tempIo->write(&blob[0], static_cast<long>(blob.size()));
-        io_->close();
-        io_->transfer(*tempIo); // may throw
-*/
+        /*
+          Todo: implement me!
+         */
+        throw(Error(31, "metadata", "TIFF"));
     } // TiffImage::writeMetadata
 
     bool TiffImage::isThisType(BasicIo& iIo, bool advance) const

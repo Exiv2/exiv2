@@ -124,27 +124,27 @@ namespace Exiv2 {
         //@}
         //! @name Manipulators
         //@{
-        void readMetadata();
-        void writeMetadata();
-        void setExifData(const ExifData& exifData);
-        void clearExifData();
-        void setIptcData(const IptcData& iptcData);
-        void clearIptcData();
-        void setComment(const std::string& comment);
-        void clearComment();
-        void setMetadata(const Image& image);
-        void clearMetadata();
+        void            readMetadata();
+        void            writeMetadata();
+        void            setExifData(const ExifData& exifData);
+        void            clearExifData();
+        void            setIptcData(const IptcData& iptcData);
+        void            clearIptcData();
+        void            setComment(const std::string& comment);
+        void            clearComment();
+        void            setMetadata(const Image& image);
+        void            clearMetadata();
+        ExifData&       exifData()       { return exifData_; }
+        IptcData&       iptcData()       { return iptcData_; }
         //@}
 
         //! @name Accessors
         //@{
-        bool good() const;
+        bool            good()     const;
         const ExifData& exifData() const { return exifData_; }
-        ExifData& exifData() { return exifData_; }
         const IptcData& iptcData() const { return iptcData_; }
-        IptcData& iptcData() { return iptcData_; }
-        std::string comment() const { return comment_; }
-        BasicIo& io() const { return *io_; }
+        std::string     comment()  const { return comment_; }
+        BasicIo&        io()       const { return *io_; }
         //@}
     protected:
         //! @name Creators
@@ -283,6 +283,10 @@ namespace Exiv2 {
         //! Destructor
         ~JpegImage() {}
         //@}
+        //! @name Accessors
+        //@{
+        AccessMode checkMode(MetadataId metadataId) const;
+        //@}
     protected:
         //! @name Accessors
         //@{
@@ -338,6 +342,10 @@ namespace Exiv2 {
         ExvImage(BasicIo::AutoPtr io, bool create);
         //! Destructor
         ~ExvImage() {}
+        //@}
+        //! @name Accessors
+        //@{
+        AccessMode checkMode(MetadataId metadataId) const;
         //@}
     protected:
         //! @name Accessors

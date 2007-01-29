@@ -66,7 +66,6 @@ CCSRC =  basicio.cpp          \
 	 fujimn.cpp           \
 	 ifd.cpp              \
 	 image.cpp            \
-	 imgreg.cpp           \
 	 iptc.cpp             \
 	 jpgimage.cpp         \
 	 makernote.cpp        \

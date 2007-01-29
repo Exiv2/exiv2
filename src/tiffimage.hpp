@@ -93,13 +93,17 @@ namespace Exiv2 {
         void            readMetadata();
         /*!
           @brief Todo: Write metadata back to the image. This method is not
-                 yet implemented.
+              yet implemented. Calling it will throw an Error(31).
          */
         void            writeMetadata();
         void            setExifData(const ExifData& exifData);
         void            clearExifData();
         void            setIptcData(const IptcData& iptcData);
         void            clearIptcData();
+        /*!
+          @brief Not supported. TIFF format does not contain a comment.
+              Calling this function will throw an Error(32).
+         */
         void            setComment(const std::string& comment);
         void            clearComment();
         void            setMetadata(const Image& image);
@@ -115,6 +119,7 @@ namespace Exiv2 {
         const IptcData& iptcData() const { return iptcData_; }
         std::string     comment()  const { return comment_; }
         BasicIo&        io()       const { return *io_; }
+        AccessMode      checkMode(MetadataId metadataId) const;
         //@}
 
     private:

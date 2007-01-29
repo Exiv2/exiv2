@@ -235,9 +235,17 @@ namespace Exiv2 {
              Image class will not see those changes until the readMetadata()
              method is called.
          */
-        virtual BasicIo& io() const = 0;
+        virtual BasicIo& io() const =0;
+        /*!
+          @brief Returns the access mode, i.e., the metadata functions, which 
+             this image supports for the metadata type \em metadataId.
+          @param metadataId The metadata identifier.
+          @return Access mode for the requested image type and metadata identifier.
+         */
+        virtual AccessMode checkMode(MetadataId metadataId) const =0;
         /*!
           @brief Check if image supports a particular type of metadata.
+             This method is deprecated. Use checkMode() instead.
          */
         bool supportsMetadata(MetadataId metadataId) const;
         //@}
@@ -274,27 +282,6 @@ namespace Exiv2 {
     */
     class ImageFactory {
     public:
-        //! @name Manipulators
-        //@{
-        /*!
-          @brief Register image type together with its function pointers.
-
-          The image factory creates new images by calling their associated
-          function pointer. Additional images can be added by registering
-          new type and function pointers. If called for a type that already
-          exists in the list, the corresponding functions are replaced.
-
-          @param type Image type.
-          @param newInst Function pointer for creating image instances.
-          @param isType Function pointer to test for matching image types.
-        */
-        static void registerImage(int type,
-                                  NewInstanceFct newInst,
-                                  IsThisTypeFct isType);
-        //@}
-
-        //! @name Accessors
-        //@{
         /*!
           @brief Create an Image subclass of the appropriate type by reading
               the specified file. %Image type is derived from the file
@@ -394,9 +381,31 @@ namespace Exiv2 {
           @return %Image type or Image::none if the type is not recognized.
          */
         static int getType(BasicIo& io);
-        //@}
+        /*!
+          @brief Returns the access mode or supported metadata functions for an 
+              image type and a metadata type.
+          @param imageType  The image type.
+          @param metadataId The metadata identifier.
+          @return Access mode for the requested image type and metadata identifier.
+          @throw Error(13) if the image type is not supported.
+         */
+        static AccessMode checkMode(int imageType, MetadataId metadataId);
 
     private:
+        //! Struct for storing image types and function pointers.
+        struct Registry {
+            //! Comparison operator to compare a Registry structure with an image type
+            bool operator==(const int& imageType) const;
+
+            // DATA
+            int            imageType_;
+            NewInstanceFct newInstance_;
+            IsThisTypeFct  isThisType_;
+            AccessMode     exifSupport_;
+            AccessMode     iptcSupport_;
+            AccessMode     commentSupport_;
+        };
+
         //! @name Creators
         //@{
         //! Prevent construction: not implemented.
@@ -405,35 +414,9 @@ namespace Exiv2 {
         ImageFactory(const ImageFactory& rhs);
         //@}
 
-        //! Struct for storing image types and function pointers.
-        struct Registry
-        {
-            //! Default constructor
-            Registry()
-                : imageType_(ImageType::none),
-                  newInstance_(0),
-                  isThisType_(0)
-                {}
-            //! Constructor
-            Registry(int            imageType,
-                     NewInstanceFct newInstance,
-                     IsThisTypeFct  isThisType)
-                : imageType_(imageType),
-                  newInstance_(newInstance),
-                  isThisType_(isThisType)
-                {}
-            int            imageType_;
-            NewInstanceFct newInstance_;
-            IsThisTypeFct  isThisType_;
-        };
-
-        //! Return the registry entry for type
-        static const Registry* find(int imageType);
-
         // DATA
-        static const unsigned int MAX_IMAGE_FORMATS = 32;
-        //! List of image types and corresponding creation functions.
-        static Registry registry_[MAX_IMAGE_FORMATS];
+        //! List of image types, creation functions and access modes
+        static const Registry registry_[];
     }; // class ImageFactory
 
     //! Helper class modelling the TIFF header structure.
