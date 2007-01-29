@@ -70,14 +70,21 @@ namespace Exiv2 {
         return isThisType(*io_, false);
     }
 
+    AccessMode MrwImage::checkMode(MetadataId metadataId) const
+    {
+        return ImageFactory::checkMode(ImageType::mrw, metadataId);
+    }
+
     void MrwImage::clearMetadata()
     {
         clearExifData();
+        clearIptcData();
     }
 
     void MrwImage::setMetadata(const Image& image)
     {
         setExifData(image.exifData());
+        setIptcData(image.iptcData());
     }
 
     void MrwImage::clearExifData()
@@ -102,12 +109,13 @@ namespace Exiv2 {
 
     void MrwImage::clearComment()
     {
-        // not supported
+        // not supported, do nothing
     }
 
     void MrwImage::setComment(const std::string& /*comment*/)
     {
         // not supported
+        throw(Error(32, "Image comment", "MRW"));
     }
 
     void MrwImage::readMetadata()
@@ -161,44 +169,10 @@ namespace Exiv2 {
 
     void MrwImage::writeMetadata()
     {
-/*
-
-       Todo: implement me!
-
-#ifdef DEBUG
-        std::cerr << "Writing MRW file " << io_->path() << "\n";
-#endif
-        // Read existing image
-        DataBuf buf;
-        if (io_->open() == 0) {
-            IoCloser closer(*io_);
-            // Ensure that this is the correct image type
-            if (isThisType(*io_, false)) {
-                // Read the image into a memory buffer
-                buf.alloc(io_->size());
-                io_->read(buf.pData_, buf.size_);
-                if (io_->error() || io_->eof()) {
-                    buf.reset();
-                }
-            }
-        }
-
-        // Parse image, starting with a MRW header component
-        TiffHeade2::AutoPtr head(new TiffHeade2);
-        if (buf.size_ != 0) {
-            head->read(buf.pData_, buf.size_);
-        }
-
-        Blob blob;
-        TiffParser::encode(blob, head.get(), this);
-
-        // Write new buffer to file
-        BasicIo::AutoPtr tempIo(io_->temporary()); // may throw
-        assert (tempIo.get() != 0);
-        tempIo->write(&blob[0], static_cast<long>(blob.size()));
-        io_->close();
-        io_->transfer(*tempIo); // may throw
-*/
+        /*
+          Todo: implement me!
+         */
+        throw(Error(31, "metadata", "MRW"));
     } // MrwImage::writeMetadata
 
     bool MrwImage::isThisType(BasicIo& iIo, bool advance) const

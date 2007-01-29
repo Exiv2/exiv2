@@ -83,7 +83,7 @@ namespace Exiv2 {
 
     /*!
       @brief Class to access raw Canon Crw images. Only Exif metadata and a
-             comment are supported. Crw format does not contain Iptc metadata.
+             comment are supported. Crw format does not contain IPTC metadata.
      */
     class CrwImage : public Image {
         friend bool isCrwType(BasicIo& iIo, bool advance);
@@ -122,22 +122,14 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         void            readMetadata();
-        /*!
-          @brief Todo: Write metadata back to the image. This method is not
-                 yet implemented.
-         */
         void            writeMetadata();
         void            setExifData(const ExifData& exifData);
         void            clearExifData();
         /*!
-          @brief Not supported. Crw format does not contain Iptc metadata.
-                 Calling this function will do nothing.
+          @brief Not supported. CRW format does not contain IPTC metadata.
+              Calling this function will throw an Error(32).
          */
         void            setIptcData(const IptcData& iptcData);
-        /*!
-          @brief Not supported. Crw format does not contain Iptc metadata.
-                 Calling this function will do nothing.
-         */
         void            clearIptcData();
         void            setComment(const std::string& comment);
         void            clearComment();
@@ -154,6 +146,7 @@ namespace Exiv2 {
         const IptcData& iptcData() const { return iptcData_; }
         std::string     comment()  const { return comment_; }
         BasicIo&        io()       const { return *io_; }
+        AccessMode      checkMode(MetadataId metadataId) const;
         //@}
 
     private:

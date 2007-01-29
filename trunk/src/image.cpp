@@ -44,6 +44,15 @@ EXIV2_RCSID("@(#) $Id$")
 #include "error.hpp"
 #include "futils.hpp"
 
+#include "jpgimage.hpp"
+#include "cr2image.hpp"
+#include "crwimage.hpp"
+#include "mrwimage.hpp"
+#include "tiffimage.hpp"
+#ifdef EXV_HAVE_LIBZ
+# include "pngimage.hpp"
+#endif // EXV_HAVE_LIBZ
+
 // + standard includes
 #include <cerrno>
 #include <cstdio>
@@ -62,31 +71,50 @@ EXIV2_RCSID("@(#) $Id$")
 // class member definitions
 namespace Exiv2 {
 
+    const ImageFactory::Registry ImageFactory::registry_[] = {
+        //image type       creation fct     type check  Exif mode    IPTC mode    Comment mode
+        //---------------  ---------------  ----------  -----------  -----------  ------------
+        { ImageType::jpeg, newJpegInstance, isJpegType, amReadWrite, amReadWrite, amReadWrite },
+        { ImageType::exv,  newExvInstance,  isExvType,  amReadWrite, amReadWrite, amReadWrite },
+        { ImageType::cr2,  newCr2Instance,  isCr2Type,  amRead,      amRead,      amNone      },
+        { ImageType::crw,  newCrwInstance,  isCrwType,  amReadWrite, amNone,      amReadWrite },
+        { ImageType::mrw,  newMrwInstance,  isMrwType,  amRead,      amRead,      amNone      },
+        { ImageType::tiff, newTiffInstance, isTiffType, amRead,      amRead,      amNone      },
+#ifdef EXV_HAVE_LIBZ
+        { ImageType::png,  newPngInstance,  isPngType,  amRead,      amRead,      amNone      },
+#endif // EXV_HAVE_LIBZ
+        // End of list marker
+        { ImageType::none, 0,               0,          amNone,      amNone,      amNone      }
+    };
+
+    bool ImageFactory::Registry::operator==(const int& imageType) const
+    {
+        return imageType == imageType_;
+    }
+
     bool Image::supportsMetadata(MetadataId metadataId) const
     {
         return (supportedMetadata_ & metadataId) != 0;
     }
 
-    const ImageFactory::Registry* ImageFactory::find(int imageType)
+    AccessMode ImageFactory::checkMode(int imageType, MetadataId metadataId)
     {
-        for (unsigned int i = 0; registry_[i].imageType_ != ImageType::none; ++i) {
-            if (registry_[i].imageType_ == imageType) return &registry_[i];
+        const Registry* r = find(registry_, imageType);
+        if (!r) throw Error(13, imageType);
+        AccessMode am = amNone;
+        switch (metadataId) {
+        case mdExif:
+            am = r->exifSupport_;
+            break;
+        case mdIptc:
+            am = r->iptcSupport_;
+            break;
+        case mdComment:
+            am = r->commentSupport_;
+            break;
+        // no default: let the compiler complain
         }
-        return 0;
-    }
-
-    void ImageFactory::registerImage(int            type,
-                                     NewInstanceFct newInst,
-                                     IsThisTypeFct  isType)
-    {
-        unsigned int i = 0;
-        for (; i < MAX_IMAGE_FORMATS; ++i) {
-            if (registry_[i].imageType_ == ImageType::none) {
-                registry_[i] = Registry(type, newInst, isType);
-                break;
-            }
-        }
-        if (i == MAX_IMAGE_FORMATS) throw Error(35);
+        return am;
     }
 
     int ImageFactory::getType(const std::string& path)
@@ -169,7 +197,7 @@ namespace Exiv2 {
                                         BasicIo::AutoPtr io)
     {
         // BasicIo instance does not need to be open
-        const Registry* r = find(type);
+        const Registry* r = find(registry_, type);
         if (0 != r) {
             return r->newInstance_(io, true);
         }

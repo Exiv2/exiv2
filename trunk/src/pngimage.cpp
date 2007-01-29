@@ -74,14 +74,21 @@ namespace Exiv2 {
         return isThisType(*io_, false);
     }
 
+    AccessMode PngImage::checkMode(MetadataId metadataId) const
+    {
+        return ImageFactory::checkMode(ImageType::png, metadataId);
+    }
+
     void PngImage::clearMetadata()
     {
         clearExifData();
+        clearIptcData();
     }
 
     void PngImage::setMetadata(const Image& image)
     {
         setExifData(image.exifData());
+        setIptcData(image.iptcData());
     }
 
     void PngImage::clearExifData()
@@ -106,7 +113,7 @@ namespace Exiv2 {
 
     void PngImage::clearComment()
     {
-        // not yet supported.
+        // not yet supported, do nothing
         // TODO : Add 'iTXt' chunk 'Description' tag support here
     }
 
@@ -114,6 +121,7 @@ namespace Exiv2 {
     {
         // not yet supported
         // TODO : Add 'iTXt' chunk 'Description' tag support here
+        throw(Error(32, "Image comment", "PNG"));
     }
 
     void PngImage::readMetadata()
@@ -151,9 +159,10 @@ namespace Exiv2 {
 
     void PngImage::writeMetadata()
     {
-    /*
-       TODO: implement me!
-    */
+        /*
+          Todo: implement me!
+         */
+        throw(Error(31, "metadata", "PNG"));
     } // PngImage::writeMetadata
 
     bool PngImage::isThisType(BasicIo& iIo, bool advance) const

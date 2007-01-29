@@ -182,6 +182,11 @@ namespace Exiv2 {
         return isThisType(*io_, false);
     }
 
+    AccessMode CrwImage::checkMode(MetadataId metadataId) const
+    {
+        return ImageFactory::checkMode(ImageType::crw, metadataId);
+    }
+
     void CrwImage::clearMetadata()
     {
         clearExifData();
@@ -206,12 +211,13 @@ namespace Exiv2 {
 
     void CrwImage::clearIptcData()
     {
-        // not supported
+        // not supported, do nothing
     }
 
     void CrwImage::setIptcData(const IptcData& /*iptcData*/)
     {
         // not supported
+        throw(Error(32, "IPTC metadata", "CRW"));
     }
 
     void CrwImage::clearComment()

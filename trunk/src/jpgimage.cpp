@@ -581,6 +581,11 @@ namespace Exiv2 {
     {
     }
 
+    AccessMode JpegImage::checkMode(MetadataId metadataId) const
+    {
+        return ImageFactory::checkMode(ImageType::jpeg, metadataId);
+    }
+
     int JpegImage::writeHeader(BasicIo& outIo) const
     {
         // Jpeg header
@@ -626,6 +631,11 @@ namespace Exiv2 {
     ExvImage::ExvImage(BasicIo::AutoPtr io, bool create)
         : JpegBase(io, create, blank_, sizeof(blank_))
     {
+    }
+
+    AccessMode ExvImage::checkMode(MetadataId metadataId) const
+    {
+        return ImageFactory::checkMode(ImageType::exv, metadataId);
     }
 
     int ExvImage::writeHeader(BasicIo& outIo) const
