@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "November 16th, 2006"
+.TH EXIV2 1 "January 30th, 2007"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -42,13 +42,15 @@ Print image metadata. This is the default action, i.e., the command
 \fIexiv2 image.jpg\fP will print a summary of the image Exif metadata.
 .TP
 .B ex | extract
-Extract metadata to *.exv and thumbnail image files.
+Extract metadata to *.exv and thumbnail image files. Modification
+commands can be applied on-the-fly.
 .TP
 .B in | insert
 Insert metadata from corresponding *.exv files.  Use option \fB\-S\fP
 \fI.suf\fP to change the suffix of the input files. Since files of any
 supported format can be used as input files, this command can be used
-to copy the metadata between files of different formats.
+to copy the metadata between files of different formats. Modification
+commands can be applied on-the-fly.
 .TP
 .B rm | delete
 Delete image metadata from the files.
@@ -192,14 +194,19 @@ Filename format for the 'rename' action. The format string follows
 Default filename format is %Y%m%d_%H%M%S.
 .TP
 .B \-c \fItxt\fP
-JPEG comment string to set in the image ('modify' action).
+JPEG comment string to set in the image ('modify' action). This option
+can also be used with the 'extract' and 'insert' actions to modify
+metadata on-the-fly.
 .TP
 .B \-m \fIfile\fP
-Command file for the 'modify' action.
+Command file for the 'modify' action. This option can also be used
+with the 'extract' and 'insert' actions to modify metadata on-the-fly.
 .TP
 .B \-M \fIcmd\fP
-Command line for the 'modify' action. The format for the commands is the same
-as that of the lines of a command file.
+Command line for the 'modify' action. This option can also be used
+with the 'extract' and 'insert' actions to modify metadata on-the-fly.
+The format for the commands is the same as that of the lines of a
+command file.
 .TP
 .B \-l \fIdir\fP
 Location (directory) for files to be inserted or extracted.
