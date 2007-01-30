@@ -221,7 +221,7 @@ namespace Action {
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
         assert(image.get() != 0);
         image->readMetadata();
-        Exiv2::ExifData &exifData = image->exifData();
+        Exiv2::ExifData& exifData = image->exifData();
         if (exifData.empty()) {
             std::cerr << path_ << ": "
                       << _("No Exif data found in the file\n");
@@ -577,7 +577,7 @@ namespace Action {
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
         assert(image.get() != 0);
         image->readMetadata();
-        Exiv2::ExifData &exifData = image->exifData();
+        Exiv2::ExifData& exifData = image->exifData();
         if (exifData.empty()) {
             std::cerr << path_
                       << ": " << _("No Exif data found in the file\n");
@@ -697,7 +697,7 @@ namespace Action {
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
         assert(image.get() != 0);
         image->readMetadata();
-        Exiv2::IptcData &iptcData = image->iptcData();
+        Exiv2::IptcData& iptcData = image->iptcData();
         if (iptcData.empty()) {
             std::cerr << path_
                       << ": " << _("No Iptc data found in the file\n");
@@ -766,7 +766,7 @@ namespace Action {
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
-        Exiv2::ExifData &exifData = image->exifData();
+        Exiv2::ExifData& exifData = image->exifData();
         if (exifData.empty()) {
             std::cerr << path
                       << ": " << _("No Exif data found in the file\n");
@@ -879,7 +879,7 @@ namespace Action {
 
     int Erase::eraseThumbnail(Exiv2::Image* image) const
     {
-        Exiv2::ExifData &exifData = image->exifData();
+        Exiv2::ExifData& exifData = image->exifData();
         std::string thumbExt = exifData.thumbnailExtension();
         if (thumbExt.empty()) {
             return 0;
@@ -969,7 +969,7 @@ namespace Action {
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
         assert(image.get() != 0);
         image->readMetadata();
-        Exiv2::ExifData &exifData = image->exifData();
+        Exiv2::ExifData& exifData = image->exifData();
         if (exifData.empty()) {
             std::cerr << path_
                       << ": " << _("No Exif data found in the file\n");
@@ -1076,7 +1076,7 @@ namespace Action {
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
-        Exiv2::ExifData &exifData = image->exifData();
+        Exiv2::ExifData& exifData = image->exifData();
         exifData.setJpegThumbnail(thumbPath);
         image->writeMetadata();
 
@@ -1105,43 +1105,14 @@ namespace Action {
         if (Params::instance().preserve_) {
             ts.read(path);
         }
-        image_ = Exiv2::ImageFactory::open(path);
-        assert(image_.get() != 0);
-        image_->readMetadata();
+        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+        assert(image.get() != 0);
+        image->readMetadata();
 
-        if (!Params::instance().jpegComment_.empty()) {
-            if (Params::instance().verbose_) {
-                std::cout << _("Setting Jpeg comment") << " '"
-                          << Params::instance().jpegComment_
-                          << "'"
-                          << std::endl;
-            }
-            image_->setComment(Params::instance().jpegComment_);
-        }
-
-        // loop through command table and apply each command
-        ModifyCmds& modifyCmds = Params::instance().modifyCmds_;
-        ModifyCmds::const_iterator i = modifyCmds.begin();
-        ModifyCmds::const_iterator end = modifyCmds.end();
-        for (; i != end; ++i) {
-            switch (i->cmdId_) {
-            case add:
-                addMetadatum(*i);
-                break;
-            case set:
-                setMetadatum(*i);
-                break;
-            case del:
-                delMetadatum(*i);
-                break;
-            default:
-                // Todo: complain
-                break;
-            }
-        }
+        applyCommands(image.get());
 
         // Save both exif and iptc metadata
-        image_->writeMetadata();
+        image->writeMetadata();
 
         if (Params::instance().preserve_) {
             ts.touch(path);
@@ -1156,7 +1127,41 @@ namespace Action {
     }
     } // Modify::run
 
-    void Modify::addMetadatum(const ModifyCmd& modifyCmd)
+    void Modify::applyCommands(Exiv2::Image* pImage)
+    {
+        if (!Params::instance().jpegComment_.empty()) {
+            if (Params::instance().verbose_) {
+                std::cout << _("Setting Jpeg comment") << " '"
+                          << Params::instance().jpegComment_
+                          << "'"
+                          << std::endl;
+            }
+            pImage->setComment(Params::instance().jpegComment_);
+        }
+
+        // loop through command table and apply each command
+        ModifyCmds& modifyCmds = Params::instance().modifyCmds_;
+        ModifyCmds::const_iterator i = modifyCmds.begin();
+        ModifyCmds::const_iterator end = modifyCmds.end();
+        for (; i != end; ++i) {
+            switch (i->cmdId_) {
+            case add:
+                addMetadatum(pImage, *i);
+                break;
+            case set:
+                setMetadatum(pImage, *i);
+                break;
+            case del:
+                delMetadatum(pImage, *i);
+                break;
+            default:
+                // Todo: complain
+                break;
+            }
+        }
+    } // Modify::applyCommands
+
+    void Modify::addMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd)
     {
         if (Params::instance().verbose_) {
             std::cout << _("Add") << " " << modifyCmd.key_ << " \""
@@ -1164,20 +1169,22 @@ namespace Action {
                       << Exiv2::TypeInfo::typeName(modifyCmd.typeId_)
                       << ")" << std::endl;
         }
+        Exiv2::ExifData& exifData = pImage->exifData();
+        Exiv2::IptcData& iptcData = pImage->iptcData();
         Exiv2::Value::AutoPtr value = Exiv2::Value::create(modifyCmd.typeId_);
         if (0 == value->read(modifyCmd.value_)) {
             if (modifyCmd.metadataId_ == exif) {
-                image_->exifData().add(Exiv2::ExifKey(modifyCmd.key_), value.get());
+                exifData.add(Exiv2::ExifKey(modifyCmd.key_), value.get());
             }
             if (modifyCmd.metadataId_ == iptc) {
-                image_->iptcData().add(Exiv2::IptcKey(modifyCmd.key_), value.get());
+                iptcData.add(Exiv2::IptcKey(modifyCmd.key_), value.get());
             }
         }
     }
 
     // This function looks rather complex because we try to avoid adding an
     // empty metadatum if reading the value fails
-    void Modify::setMetadatum(const ModifyCmd& modifyCmd)
+    void Modify::setMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd)
     {
         if (Params::instance().verbose_) {
             std::cout << _("Set") << " " << modifyCmd.key_ << " \""
@@ -1185,8 +1192,8 @@ namespace Action {
                       << Exiv2::TypeInfo::typeName(modifyCmd.typeId_)
                       << ")" << std::endl;
         }
-        Exiv2::ExifData &exifData = image_->exifData();
-        Exiv2::IptcData &iptcData = image_->iptcData();
+        Exiv2::ExifData& exifData = pImage->exifData();
+        Exiv2::IptcData& iptcData = pImage->iptcData();
         Exiv2::Metadatum* metadatum = 0;
         if (modifyCmd.metadataId_ == exif) {
             Exiv2::ExifData::iterator pos =
@@ -1227,14 +1234,14 @@ namespace Action {
         }
     }
 
-    void Modify::delMetadatum(const ModifyCmd& modifyCmd)
+    void Modify::delMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd)
     {
         if (Params::instance().verbose_) {
             std::cout << _("Del") << " " << modifyCmd.key_ << std::endl;
         }
 
-        Exiv2::ExifData &exifData = image_->exifData();
-        Exiv2::IptcData &iptcData = image_->iptcData();
+        Exiv2::ExifData& exifData = pImage->exifData();
+        Exiv2::IptcData& iptcData = pImage->iptcData();
         if (modifyCmd.metadataId_ == exif) {
             Exiv2::ExifData::iterator pos;
             Exiv2::ExifKey exifKey = Exiv2::ExifKey(modifyCmd.key_);
@@ -1277,7 +1284,7 @@ namespace Action {
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
-        Exiv2::ExifData &exifData = image->exifData();
+        Exiv2::ExifData& exifData = image->exifData();
         if (exifData.empty()) {
             std::cerr << path
                       << ": " << _("No Exif data found in the file\n");
@@ -1361,7 +1368,7 @@ namespace Action {
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
-        Exiv2::ExifData &exifData = image->exifData();
+        Exiv2::ExifData& exifData = image->exifData();
         if (exifData.empty()) {
             std::cerr << path
                       << ": " << _("No Exif data found in the file\n");
@@ -1511,6 +1518,9 @@ namespace {
         Exiv2::Image::AutoPtr sourceImage = Exiv2::ImageFactory::open(source);
         assert(sourceImage.get() != 0);
         sourceImage->readMetadata();
+
+        // Apply any modification commands to the source image on-the-fly
+        Action::Modify::applyCommands(sourceImage.get());
 
         Exiv2::Image::AutoPtr targetImage;
         if (Exiv2::fileExists(target)) {

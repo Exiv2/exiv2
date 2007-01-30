@@ -486,6 +486,7 @@ int Params::evalExtract(const std::string& optarg)
     int rc = 0;
     switch (action_) {
     case Action::none:
+    case Action::modify:
         action_ = Action::extract;
         target_ = 0;
         // fallthrough
@@ -513,6 +514,7 @@ int Params::evalInsert(const std::string& optarg)
     int rc = 0;
     switch (action_) {
     case Action::none:
+    case Action::modify:
         action_ = Action::insert;
         target_ = 0;
         // fallthrough
@@ -543,6 +545,8 @@ int Params::evalModify(int opt, const std::string& optarg)
         action_ = Action::modify;
         // fallthrough
     case Action::modify:
+    case Action::extract:
+    case Action::insert:
         if (opt == 'c') jpegComment_ = optarg;
         if (opt == 'm') cmdFiles_.push_back(optarg);  // parse the files later
         if (opt == 'M') cmdLines_.push_back(optarg);  // parse the commands later
@@ -592,7 +596,9 @@ int Params::nonoption(const std::string& argv)
             action_ = Action::erase;
         }
         if (argv == "ex" || argv == "extract") {
-            if (action_ != Action::none && action_ != Action::extract) {
+            if (   action_ != Action::none
+                && action_ != Action::extract
+                && action_ != Action::modify) {
                 std::cerr << progname() << ": "
                           << _("Action extract is not compatible with the given options\n");
                 rc = 1;
@@ -601,7 +607,9 @@ int Params::nonoption(const std::string& argv)
             action_ = Action::extract;
         }
         if (argv == "in" || argv == "insert") {
-            if (action_ != Action::none && action_ != Action::insert) {
+            if (   action_ != Action::none
+                && action_ != Action::insert
+                && action_ != Action::modify) {
                 std::cerr << progname() << ": "
                           << _("Action insert is not compatible with the given options\n");
                 rc = 1;
@@ -672,14 +680,14 @@ int Params::getopt(int argc, char* const argv[])
         std::cerr << progname() << ": " << _("At least one file is required\n");
         rc = 1;
     }
-    if (rc == 0 && action_ == Action::modify) {
+    if (rc == 0 && !cmdFiles_.empty()) {
         // Parse command files
         if (!parseCmdFiles(modifyCmds_, cmdFiles_)) {
             std::cerr << progname() << ": " << _("Error parsing -m option arguments\n");
             rc = 1;
         }
     }
-    if (rc ==0 && action_ == Action::modify) {
+    if (rc == 0 && !cmdLines_.empty()) {
         // Parse command lines
         if (!parseCmdLines(modifyCmds_, cmdLines_)) {
             std::cerr << progname() << ": " << _("Error parsing -M option arguments\n");
