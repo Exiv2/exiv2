@@ -586,8 +586,8 @@ namespace Exiv2 {
         //! End of the metadata
         iterator end() { return exifMetadata_.end(); }
         /*!
-          @brief Find the first Exifdatum with the given \em key, return an 
-                 iterator to it.  
+          @brief Find the first Exifdatum with the given \em key, return an
+                 iterator to it.
          */
         iterator findKey(const ExifKey& key);
         /*!

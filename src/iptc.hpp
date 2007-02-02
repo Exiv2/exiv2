@@ -340,7 +340,7 @@ namespace Exiv2 {
         iterator begin() { return iptcMetadata_.begin(); }
         //! End of the metadata
         iterator end() { return iptcMetadata_.end(); }
-        /*!  
+        /*!
           @brief Find the first Iptcdatum with the given key, return an iterator
                  to it.
          */
@@ -367,12 +367,12 @@ namespace Exiv2 {
          */
         DataBuf copy() const;
         /*!
-          @brief Find the first Iptcdatum with the given key, return a const 
+          @brief Find the first Iptcdatum with the given key, return a const
                  iterator to it.
          */
         const_iterator findKey(const IptcKey& key) const;
         /*!
-          @brief Find the first Iptcdatum with the given record and dataset 
+          @brief Find the first Iptcdatum with the given record and dataset
                  number, return a const iterator to it.
          */
         const_iterator findId(uint16_t dataset,
