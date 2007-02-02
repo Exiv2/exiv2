@@ -252,11 +252,11 @@ namespace Exiv2 {
         //! Set an Exif tag in the image. Overwrites existing tags
         void setExifTag(const ExifKey& key, const Value* pValue);
         /*!
-          @brief Get the data for a \em tag and \em group, either from the 
-                 \em object provided, if it matches or from the matching element 
+          @brief Get the data for a \em tag and \em group, either from the
+                 \em object provided, if it matches or from the matching element
                  in the hierarchy.
 
-          Populates \em pData and \em size with the result. If no matching 
+          Populates \em pData and \em size with the result. If no matching
           element is found the function leaves both of these parameters unchanged.
         */
         void getObjData(byte const*&         pData,
