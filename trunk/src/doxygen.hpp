@@ -93,7 +93,7 @@ bug tracking system</a>.</p>
 
   @section license License
 
-  <P>Copyright (C) 2004, 2005, 2006 Andreas Huggel <ahuggel@gmx.net></P>
+  <P>Copyright (C) 2004-2007 Andreas Huggel <ahuggel@gmx.net></P>
 
   <P>%Exiv2 is free software; you can redistribute it and/or modify it under the
   terms of the <a href="gpl-license.html">GNU General Public License</a> as

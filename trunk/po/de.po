@@ -1201,7 +1201,7 @@ msgid "Unknown dataset"
 msgstr "Unbekannter Tag"
 
 #: src/exiv2.cpp:179
-msgid "Copyright (C) 2004, 2005, 2006 Andreas Huggel.\n"
+msgid "Copyright (C) 2004-2007 Andreas Huggel.\n"
 msgstr ""
 
 #: src/exiv2.cpp:181
