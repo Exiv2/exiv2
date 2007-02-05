@@ -44,14 +44,15 @@ EXIV2_RCSID("@(#) $Id$")
 #include "error.hpp"
 #include "futils.hpp"
 
-#include "jpgimage.hpp"
 #include "cr2image.hpp"
 #include "crwimage.hpp"
+#include "jpgimage.hpp"
 #include "mrwimage.hpp"
-#include "tiffimage.hpp"
 #ifdef EXV_HAVE_LIBZ
 # include "pngimage.hpp"
 #endif // EXV_HAVE_LIBZ
+#include "rafimage.hpp"
+#include "tiffimage.hpp"
 
 // + standard includes
 #include <cerrno>
@@ -83,6 +84,7 @@ namespace Exiv2 {
 #ifdef EXV_HAVE_LIBZ
         { ImageType::png,  newPngInstance,  isPngType,  amRead,      amRead,      amNone      },
 #endif // EXV_HAVE_LIBZ
+        { ImageType::raf,  newRafInstance,  isRafType,  amRead,      amRead,      amNone      },
         // End of list marker
         { ImageType::none, 0,               0,          amNone,      amNone,      amNone      }
     };
