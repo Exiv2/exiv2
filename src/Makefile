@@ -80,7 +80,8 @@ ifdef HAVE_LIBZ
 CCSRC += pngimage.cpp         \
 	 pngchunk.cpp
 endif
-CCSRC += sigmamn.cpp          \
+CCSRC += rafimage.cpp         \
+	 sigmamn.cpp          \
 	 sonymn.cpp           \
 	 tags.cpp             \
 	 tiffcomposite.cpp    \
