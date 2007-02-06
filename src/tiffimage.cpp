@@ -54,63 +54,10 @@ EXIV2_RCSID("@(#) $Id$")
 // class member definitions
 namespace Exiv2 {
 
-    TiffImage::TiffImage(BasicIo::AutoPtr io, bool create)
-        : Image(mdExif | mdIptc | mdComment), io_(io)
+    TiffImage::TiffImage(BasicIo::AutoPtr io, bool /*create*/)
+        : Image(ImageType::tiff, mdExif | mdIptc, io)
     {
-        if (create) {
-            IoCloser closer(*io_);
-            io_->open();
-        }
     } // TiffImage::TiffImage
-
-    bool TiffImage::good() const
-    {
-        if (io_->open() != 0) return false;
-        IoCloser closer(*io_);
-        return isThisType(*io_, false);
-    }
-
-    AccessMode TiffImage::checkMode(MetadataId metadataId) const
-    {
-        return ImageFactory::checkMode(ImageType::tiff, metadataId);
-    }
-
-    void TiffImage::clearMetadata()
-    {
-        clearExifData();
-        clearIptcData();
-    }
-
-    void TiffImage::setMetadata(const Image& image)
-    {
-        setExifData(image.exifData());
-        setIptcData(image.iptcData());
-    }
-
-    void TiffImage::clearExifData()
-    {
-        exifData_.clear();
-    }
-
-    void TiffImage::setExifData(const ExifData& exifData)
-    {
-        exifData_ = exifData;
-    }
-
-    void TiffImage::clearIptcData()
-    {
-        iptcData_.clear();
-    }
-
-    void TiffImage::setIptcData(const IptcData& iptcData)
-    {
-        iptcData_ = iptcData;
-    }
-
-    void TiffImage::clearComment()
-    {
-        // not supported, do nothing
-    }
 
     void TiffImage::setComment(const std::string& /*comment*/)
     {
@@ -123,19 +70,16 @@ namespace Exiv2 {
 #ifdef DEBUG
         std::cerr << "Reading TIFF file " << io_->path() << "\n";
 #endif
-        if (io_->open() != 0) {
-            throw Error(9, io_->path(), strError());
-        }
+        if (io_->open() != 0) throw Error(9, io_->path(), strError());
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
-        if (!isThisType(*io_, false)) {
+        if (!isTiffType(*io_, false)) {
             if (io_->error() || io_->eof()) throw Error(14);
-            throw Error(33);
+            throw Error(3, "TIFF");
         }
         clearMetadata();
         TiffParser::decode(this, io_->mmap(), io_->size(),
                            TiffCreator::create, TiffDecoder::findDecoder);
-
     } // TiffImage::readMetadata
 
     void TiffImage::writeMetadata()
@@ -145,11 +89,6 @@ namespace Exiv2 {
          */
         throw(Error(31, "metadata", "TIFF"));
     } // TiffImage::writeMetadata
-
-    bool TiffImage::isThisType(BasicIo& iIo, bool advance) const
-    {
-        return isTiffType(iIo, advance);
-    }
 
     const uint16_t TiffHeade2::tag_ = 42;
 
@@ -184,12 +123,10 @@ namespace Exiv2 {
         case invalidByteOrder: break;
         }
         os << "\n";
-
     } // TiffHeade2::print
 
     // *************************************************************************
     // free functions
-
     Image::AutoPtr newTiffInstance(BasicIo::AutoPtr io, bool create)
     {
         Image::AutoPtr image(new TiffImage(io, create));

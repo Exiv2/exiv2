@@ -176,9 +176,9 @@ namespace Exiv2 {
 
     } // Photoshop::setIptcIrb
 
-    JpegBase::JpegBase(BasicIo::AutoPtr io, bool create,
+    JpegBase::JpegBase(int type, BasicIo::AutoPtr io, bool create,
                        const byte initData[], long dataSize)
-        : Image(mdExif | mdIptc | mdComment), io_(io)
+        : Image(type, mdExif | mdIptc | mdComment, io)
     {
         if (create) {
             initImage(initData, dataSize);
@@ -195,57 +195,6 @@ namespace Exiv2 {
             return 4;
         }
         return 0;
-    }
-
-    bool JpegBase::good() const
-    {
-        if (io_->open() != 0) return false;
-        IoCloser closer(*io_);
-        return isThisType(*io_, false);
-    }
-
-    void JpegBase::clearMetadata()
-    {
-        clearIptcData();
-        clearExifData();
-        clearComment();
-    }
-
-    void JpegBase::clearIptcData()
-    {
-        iptcData_.clear();
-    }
-
-    void JpegBase::clearExifData()
-    {
-        exifData_.clear();
-    }
-
-    void JpegBase::clearComment()
-    {
-        comment_.erase();
-    }
-
-    void JpegBase::setExifData(const ExifData& exifData)
-    {
-        exifData_ = exifData;
-    }
-
-    void JpegBase::setIptcData(const IptcData& iptcData)
-    {
-        iptcData_ = iptcData;
-    }
-
-    void JpegBase::setComment(const std::string& comment)
-    {
-        comment_ = comment;
-    }
-
-    void JpegBase::setMetadata(const Image& image)
-    {
-        setIptcData(image.iptcData());
-        setExifData(image.exifData());
-        setComment(image.comment());
     }
 
     int JpegBase::advanceToMarker() const
@@ -265,9 +214,7 @@ namespace Exiv2 {
 
     void JpegBase::readMetadata()
     {
-        if (io_->open() != 0) {
-            throw Error(9, io_->path(), strError());
-        }
+        if (io_->open() != 0) throw Error(9, io_->path(), strError());
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
         if (!isThisType(*io_, true)) {
@@ -577,13 +524,8 @@ namespace Exiv2 {
         0x11,0x03,0x11,0x00,0x3F,0x00,0xA0,0x00,0x0F,0xFF,0xD9 };
 
     JpegImage::JpegImage(BasicIo::AutoPtr io, bool create)
-        : JpegBase(io, create, blank_, sizeof(blank_))
+        : JpegBase(ImageType::jpeg, io, create, blank_, sizeof(blank_))
     {
-    }
-
-    AccessMode JpegImage::checkMode(MetadataId metadataId) const
-    {
-        return ImageFactory::checkMode(ImageType::jpeg, metadataId);
     }
 
     int JpegImage::writeHeader(BasicIo& outIo) const
@@ -618,7 +560,7 @@ namespace Exiv2 {
         iIo.read(tmpBuf, 2);
         if (iIo.error() || iIo.eof()) return false;
 
-        if (0xff!=tmpBuf[0] || JpegImage::soi_!=tmpBuf[1]) {
+        if (0xff != tmpBuf[0] || JpegImage::soi_ != tmpBuf[1]) {
             result = false;
         }
         if (!advance || !result ) iIo.seek(-2, BasicIo::cur);
@@ -629,13 +571,8 @@ namespace Exiv2 {
     const byte ExvImage::blank_[] = { 0xff,0x01,'E','x','i','v','2',0xff,0xd9 };
 
     ExvImage::ExvImage(BasicIo::AutoPtr io, bool create)
-        : JpegBase(io, create, blank_, sizeof(blank_))
+        : JpegBase(ImageType::exv, io, create, blank_, sizeof(blank_))
     {
-    }
-
-    AccessMode ExvImage::checkMode(MetadataId metadataId) const
-    {
-        return ImageFactory::checkMode(ImageType::exv, metadataId);
     }
 
     int ExvImage::writeHeader(BasicIo& outIo) const

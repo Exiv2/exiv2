@@ -33,11 +33,8 @@
 
 // *****************************************************************************
 // included header files
-#include "types.hpp"
 #include "image.hpp"
 #include "basicio.hpp"
-#include "exif.hpp"
-#include "iptc.hpp"
 
 // + standard includes
 #include <string>
@@ -46,14 +43,13 @@
 // namespace extensions
 namespace Exiv2 {
 
-
 // *****************************************************************************
 // class definitions
 
-    // Supported jpeg image formats
+    // Supported JPEG image formats
     namespace ImageType {
-        const int jpeg = 1;         //!< Jpeg image type (see class JpegImage)
-        const int exv  = 2;         //!< Exv image type (see class ExvImage)
+        const int jpeg = 1;         //!< JPEG image type (see class JpegImage)
+        const int exv  = 2;         //!< EXV image type (see class ExvImage)
     }
 
     /*!
@@ -117,35 +113,12 @@ namespace Exiv2 {
      */
     class JpegBase : public Image {
     public:
-        //! @name Creators
-        //@{
-        //! Virtual destructor.
-        virtual ~JpegBase() {}
-        //@}
         //! @name Manipulators
         //@{
-        void            readMetadata();
-        void            writeMetadata();
-        void            setExifData(const ExifData& exifData);
-        void            clearExifData();
-        void            setIptcData(const IptcData& iptcData);
-        void            clearIptcData();
-        void            setComment(const std::string& comment);
-        void            clearComment();
-        void            setMetadata(const Image& image);
-        void            clearMetadata();
-        ExifData&       exifData()       { return exifData_; }
-        IptcData&       iptcData()       { return iptcData_; }
+        void readMetadata();
+        void writeMetadata();
         //@}
 
-        //! @name Accessors
-        //@{
-        bool            good()     const;
-        const ExifData& exifData() const { return exifData_; }
-        const IptcData& iptcData() const { return iptcData_; }
-        std::string     comment()  const { return comment_; }
-        BasicIo&        io()       const { return *io_; }
-        //@}
     protected:
         //! @name Creators
         //@{
@@ -153,6 +126,7 @@ namespace Exiv2 {
           @brief Constructor that can either open an existing image or create
               a new image from scratch. If a new image is to be created, any
               existing data is overwritten.
+          @param type Image type.
           @param io An auto-pointer that owns a BasicIo instance used for
               reading and writing image metadata. \b Important: The constructor
               takes ownership of the passed in BasicIo instance through the
@@ -166,19 +140,13 @@ namespace Exiv2 {
               valid image of the calling subclass.
           @param dataSize Size of initData in bytes.
          */
-        JpegBase(BasicIo::AutoPtr io, bool create,
-                 const byte initData[], long dataSize);
+        JpegBase(int              type, 
+                 BasicIo::AutoPtr io, 
+                 bool             create,
+                 const byte       initData[], 
+                 long             dataSize);
         //@}
-        //! @name Manipulators
-        //@{
-        /*!
-          @brief Writes the image header (aka signature) to the BasicIo instance.
-          @param oIo BasicIo instance that the header is written to.
-          @return 0 if successful;<BR>
-                  4 if the output file can not be written to
-         */
-        virtual int writeHeader(BasicIo& oIo) const =0;
-        //@}
+
         //! @name Accessors
         //@{
         /*!
@@ -203,6 +171,17 @@ namespace Exiv2 {
         virtual bool isThisType(BasicIo& iIo, bool advance) const =0;
         //@}
 
+        //! @name Manipulators
+        //@{
+        /*!
+          @brief Writes the image header (aka signature) to the BasicIo instance.
+          @param oIo BasicIo instance that the header is written to.
+          @return 0 if successful;<BR>
+                  4 if the output file can not be written to
+         */
+        virtual int writeHeader(BasicIo& oIo) const =0;
+        //@}
+
         // Constant Data
         static const byte sos_;                 //!< JPEG SOS marker
         static const byte eoi_;                 //!< JPEG EOI marker
@@ -214,22 +193,18 @@ namespace Exiv2 {
         static const char jfifId_[];            //!< JFIF identifier
 
     private:
-        // DATA
-        BasicIo::AutoPtr io_;                   //!< Image data io pointer
-        ExifData exifData_;                     //!< Exif data container
-        IptcData iptcData_;                     //!< Iptc data container
-        std::string comment_;                   //!< JPEG comment
+        //! @name NOT implemented
+        //@{
+        //! Default constructor.
+        JpegBase();
+        //! Copy constructor
+        JpegBase(const JpegBase& rhs);
+        //! Assignment operator
+        JpegBase& operator=(const JpegBase& rhs);
+        //@}
 
-        // METHODS
-        /*!
-          @brief Advances associated io instance to one byte past the next
-              Jpeg marker and returns the marker. This method should be called
-              when the BasicIo instance is positioned one byte past the end of a
-              Jpeg segment.
-          @return the next Jpeg segment marker if successful;<BR>
-                 -1 if a maker was not found before EOF
-         */
-        int advanceToMarker() const;
+        //! @name Manipulators
+        //@{
         /*!
           @brief Initialize the image with the provided data.
           @param initData Data to be written to the associated BasicIo
@@ -246,14 +221,21 @@ namespace Exiv2 {
           @return 4 if opening or writing to the associated BasicIo fails
          */
         void doWriteMetadata(BasicIo& oIo);
+        //@}
 
-        // NOT Implemented
-        //! Default constructor.
-        JpegBase();
-        //! Copy constructor
-        JpegBase(const JpegBase& rhs);
-        //! Assignment operator
-        JpegBase& operator=(const JpegBase& rhs);
+        //! @name Accessors
+        //@{
+        /*!
+          @brief Advances associated io instance to one byte past the next
+              Jpeg marker and returns the marker. This method should be called
+              when the BasicIo instance is positioned one byte past the end of a
+              Jpeg segment.
+          @return the next Jpeg segment marker if successful;<BR>
+                 -1 if a maker was not found before EOF
+         */
+        int advanceToMarker() const;
+        //@}
+
     }; // class JpegBase
 
     /*!
@@ -280,8 +262,6 @@ namespace Exiv2 {
               or if a new file should be created (true).
          */
         JpegImage(BasicIo::AutoPtr io, bool create);
-        //! Destructor
-        ~JpegImage() {}
         //@}
         //! @name Accessors
         //@{
@@ -325,7 +305,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         /*!
-          @brief Constructor that can either open an existing Exv image or create
+          @brief Constructor that can either open an existing EXV image or create
               a new image from scratch. If a new image is to be created, any
               existing data is overwritten. Since the constructor can not return
               a result, callers should check the good() method after object
@@ -340,8 +320,6 @@ namespace Exiv2 {
                  or if a new file should be created (true).
          */
         ExvImage(BasicIo::AutoPtr io, bool create);
-        //! Destructor
-        ~ExvImage() {}
         //@}
         //! @name Accessors
         //@{
@@ -350,7 +328,7 @@ namespace Exiv2 {
     protected:
         //! @name Accessors
         //@{
-        virtual bool isThisType(BasicIo& iIo, bool advance) const;
+        bool isThisType(BasicIo& iIo, bool advance) const;
         //@}
         //! @name Manipulators
         //@{
@@ -358,8 +336,8 @@ namespace Exiv2 {
         //@}
     private:
         // Constant data
-        static const char exiv2Id_[];    // Exv identifier
-        static const byte blank_[];      // Minimal exiv file
+        static const char exiv2Id_[];    // EXV identifier
+        static const byte blank_[];      // Minimal exiv2 file
 
         // NOT Implemented
         //! Default constructor

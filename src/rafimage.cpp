@@ -54,63 +54,10 @@ EXIV2_RCSID("@(#) $Id$")
 // class member definitions
 namespace Exiv2 {
 
-    RafImage::RafImage(BasicIo::AutoPtr io, bool create)
-        : Image(mdExif | mdIptc), io_(io)
+    RafImage::RafImage(BasicIo::AutoPtr io, bool /*create*/)
+        : Image(ImageType::raf, mdExif | mdIptc, io)
     {
-        if (create) {
-            IoCloser closer(*io_);
-            io_->open();
-        }
     } // RafImage::RafImage
-
-    bool RafImage::good() const
-    {
-        if (io_->open() != 0) return false;
-        IoCloser closer(*io_);
-        return isThisType(*io_, false);
-    }
-
-    AccessMode RafImage::checkMode(MetadataId metadataId) const
-    {
-        return ImageFactory::checkMode(ImageType::raf, metadataId);
-    }
-
-    void RafImage::clearMetadata()
-    {
-        clearExifData();
-        clearIptcData();
-    }
-
-    void RafImage::setMetadata(const Image& image)
-    {
-        setExifData(image.exifData());
-        setIptcData(image.iptcData());
-    }
-
-    void RafImage::clearExifData()
-    {
-        exifData_.clear();
-    }
-
-    void RafImage::setExifData(const ExifData& exifData)
-    {
-        exifData_ = exifData;
-    }
-
-    void RafImage::clearIptcData()
-    {
-        iptcData_.clear();
-    }
-
-    void RafImage::setIptcData(const IptcData& iptcData)
-    {
-        iptcData_ = iptcData;
-    }
-
-    void RafImage::clearComment()
-    {
-        // not supported, do nothing
-    }
 
     void RafImage::setComment(const std::string& /*comment*/)
     {
@@ -126,7 +73,7 @@ namespace Exiv2 {
         if (io_->open() != 0) throw Error(9, io_->path(), strError());
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
-        if (!isThisType(*io_, true)) {
+        if (!isRafType(*io_, true)) {
             if (io_->error() || io_->eof()) throw Error(14);
             throw Error(3, "RAF");
         }
@@ -155,14 +102,8 @@ namespace Exiv2 {
         throw(Error(31, "metadata", "RAF"));
     } // RafImage::writeMetadata
 
-    bool RafImage::isThisType(BasicIo& iIo, bool advance) const
-    {
-        return isRafType(iIo, advance);
-    }
-
     // *************************************************************************
     // free functions
-
     Image::AutoPtr newRafInstance(BasicIo::AutoPtr io, bool create)
     {
         Image::AutoPtr image(new RafImage(io, create));
