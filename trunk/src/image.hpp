@@ -28,7 +28,7 @@
            <a href="mailto:brad@robotbattle.com">brad@robotbattle.com</a>
   @date    09-Jan-04, ahu: created<BR>
            11-Feb-04, ahu: isolated as a component<BR>
-           19-Jul-04, brad: revamped to be more flexible and support Iptc
+           19-Jul-04, brad: revamped to be more flexible and support IPTC<BR>
            15-Jan-05, brad: inside-out design changes
  */
 #ifndef IMAGE_HPP_
@@ -38,6 +38,8 @@
 // included header files
 #include "types.hpp"
 #include "basicio.hpp"
+#include "exif.hpp"
+#include "iptc.hpp"
 
 // + standard includes
 #include <string>
@@ -46,11 +48,6 @@
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
-
-// *****************************************************************************
-// class declarations
-    class ExifData;
-    class IptcData;
 
 // *****************************************************************************
 // type definitions
@@ -70,9 +67,11 @@ namespace Exiv2 {
       @brief Abstract base class defining the interface for an image. This is
          the top-level interface to the Exiv2 library.
 
+      Image has containers to store image metadata and subclasses implement
+      read and save metadata from and to specific image formats.<BR>
       Most client apps will obtain an Image instance by calling a static
-      ImageFactory method. The Image class can then be used to to
-      read, write, and save metadata.
+      ImageFactory method. The Image class can then be used to to read, write,
+      and save metadata.
      */
     class Image {
     public:
@@ -81,6 +80,14 @@ namespace Exiv2 {
 
         //! @name Creators
         //@{
+        /*!
+          @brief Constructor taking the image type, a bitmap of the supported
+              metadata types and an auto-pointer that owns an IO instance. 
+              See subclass constructor doc.
+         */
+        Image(int              imageType, 
+              uint16_t         supportedMetadata,
+              BasicIo::AutoPtr io);
         //! Virtual Destructor
         virtual ~Image() {}
         //@}
@@ -89,8 +96,8 @@ namespace Exiv2 {
         //@{
         /*!
           @brief Read all metadata supported by a specific image format from the
-              image. Before this method is called, the various metadata types
-              will be empty.
+              image. Before this method is called, the image metadata will be
+              cleared.
 
           This method returns success even if no metadata is found in the
           image. Callers must therefore check the size of individual metadata
@@ -115,72 +122,50 @@ namespace Exiv2 {
          */
         virtual void writeMetadata() =0;
         /*!
-          @brief Assign new exif data. The new exif data is not written
+          @brief Assign new Exif data. The new Exif data is not written
               to the image until the writeMetadata() method is called.
-          @param exifData An ExifData instance holding exif data to be copied
+          @param exifData An ExifData instance holding Exif data to be copied
          */
-        virtual void setExifData(const ExifData& exifData) =0;
+        virtual void setExifData(const ExifData& exifData);
         /*!
           @brief Erase any buffered Exif data. Exif data is not removed from
               the actual image until the writeMetadata() method is called.
          */
-        virtual void clearExifData() =0;
+        virtual void clearExifData();
         /*!
-          @brief Assign new iptc data. The new iptc data is not written
+          @brief Assign new IPTC data. The new IPTC data is not written
               to the image until the writeMetadata() method is called.
-          @param iptcData An IptcData instance holding iptc data to be copied
+          @param iptcData An IptcData instance holding IPTC data to be copied
          */
-        virtual void setIptcData(const IptcData& iptcData) =0;
+        virtual void setIptcData(const IptcData& iptcData);
         /*!
-          @brief Erase any buffered Iptc data. Iptc data is not removed from
+          @brief Erase any buffered IPTC data. IPTC data is not removed from
               the actual image until the writeMetadata() method is called.
          */
-        virtual void clearIptcData() =0;
+        virtual void clearIptcData();
         /*!
           @brief Set the image comment. The new comment is not written
               to the image until the writeMetadata() method is called.
           @param comment String containing comment.
          */
-        virtual void setComment(const std::string& comment) =0;
+        virtual void setComment(const std::string& comment);
         /*!
           @brief Erase any buffered comment. Comment is not removed
               from the actual image until the writeMetadata() method is called.
          */
-        virtual void clearComment() =0;
+        virtual void clearComment();
         /*!
           @brief Copy all existing metadata from source Image. The data is
               copied into internal buffers and is not written to the image
               until the writeMetadata() method is called.
           @param image Metadata source. All metadata types are copied.
          */
-        virtual void setMetadata(const Image& image) =0;
+        virtual void setMetadata(const Image& image);
         /*!
           @brief Erase all buffered metadata. Metadata is not removed
               from the actual image until the writeMetadata() method is called.
          */
-        virtual void clearMetadata() =0;
-        //@}
-
-        //! @name Accessors
-        //@{
-        /*!
-          @brief Check if the Image instance is valid. Use after object
-                 construction.
-          @return true if the Image is in a valid state.
-         */
-        virtual bool good() const =0;
-        /*!
-          @brief Returns an ExifData instance containing currently buffered
-              Exif data.
-
-          The Exif data may have been read from the image by
-          a previous call to readMetadata() or added directly. The Exif
-          data in the returned instance will be written to the image when
-          writeMetadata() is called.
-
-          @return read only ExifData instance containing Exif values
-         */
-        virtual const ExifData& exifData() const =0;
+        virtual void clearMetadata();
         /*!
           @brief Returns an ExifData instance containing currently buffered
               Exif data.
@@ -192,35 +177,57 @@ namespace Exiv2 {
 
           @return modifiable ExifData instance containing Exif values
          */
-        virtual ExifData& exifData() =0;
+        virtual ExifData& exifData() { return exifData_; }
         /*!
           @brief Returns an IptcData instance containing currently buffered
-              Iptc data.
+              IPTC data.
 
-          The contained Iptc data may have been read from the image by
-          a previous call to readMetadata() or added directly. The Iptc
+          The contained IPTC data may have been read from the image by
+          a previous call to readMetadata() or added directly. The IPTC
           data in the returned instance will be written to the image when
           writeMetadata() is called.
 
-          @return modifiable IptcData instance containing Iptc values
+          @return modifiable IptcData instance containing IPTC values
          */
-        virtual const IptcData& iptcData() const =0;
-        /*!
-          @brief Returns an IptcData instance containing currently buffered
-              Iptc data.
+        virtual IptcData& iptcData() { return iptcData_; }
+        //@}
 
-          The contained Iptc data may have been read from the image by
-          a previous call to readMetadata() or added directly. The Iptc
+        //! @name Accessors
+        //@{
+        /*!
+          @brief Check if the Image instance is valid. Use after object
+              construction.
+          @return true if the Image is in a valid state.
+         */
+        bool good() const;
+        /*!
+          @brief Returns an ExifData instance containing currently buffered
+              Exif data.
+
+          The Exif data may have been read from the image by
+          a previous call to readMetadata() or added directly. The Exif
           data in the returned instance will be written to the image when
           writeMetadata() is called.
 
-          @return modifiable IptcData instance containing Iptc values
+          @return read only ExifData instance containing Exif values
          */
-        virtual IptcData& iptcData() =0;
+        virtual const ExifData& exifData() const { return exifData_; }
+        /*!
+          @brief Returns an IptcData instance containing currently buffered
+              IPTC data.
+
+          The contained IPTC data may have been read from the image by
+          a previous call to readMetadata() or added directly. The IPTC
+          data in the returned instance will be written to the image when
+          writeMetadata() is called.
+
+          @return modifiable IptcData instance containing IPTC values
+         */
+        virtual const IptcData& iptcData() const { return iptcData_; }
         /*!
           @brief Return a copy of the image comment. May be an empty string.
          */
-        virtual std::string comment() const =0;
+        virtual std::string comment() const { return comment_; }
         /*!
           @brief Return a reference to the BasicIo instance being used for Io.
 
@@ -235,14 +242,14 @@ namespace Exiv2 {
              Image class will not see those changes until the readMetadata()
              method is called.
          */
-        virtual BasicIo& io() const =0;
+        virtual BasicIo& io() const { return *io_; }
         /*!
           @brief Returns the access mode, i.e., the metadata functions, which
              this image supports for the metadata type \em metadataId.
           @param metadataId The metadata identifier.
           @return Access mode for the requested image type and metadata identifier.
          */
-        virtual AccessMode checkMode(MetadataId metadataId) const =0;
+        AccessMode checkMode(MetadataId metadataId) const;
         /*!
           @brief Check if image supports a particular type of metadata.
              This method is deprecated. Use checkMode() instead.
@@ -251,23 +258,24 @@ namespace Exiv2 {
         //@}
 
     protected:
-        //! @name Creators
-        //@{
-        //! Constructor taking a bitmap of the metadata types, which are supported
-        Image(uint16_t supportedMetadata)
-            : supportedMetadata_(supportedMetadata) {}
-        //@}
+        // DATA
+        BasicIo::AutoPtr  io_;                //!< Image data IO pointer
+        ExifData          exifData_;          //!< Exif data container
+        IptcData          iptcData_;          //!< IPTC data container
+        std::string       comment_;           //!< User comment
 
     private:
-        // NOT Implemented
+        //! @name NOT implemented
+        //@{
         //! Copy constructor
         Image(const Image& rhs);
         //! Assignment operator
         Image& operator=(const Image& rhs);
+        //@}
 
         // DATA
-        uint16_t supportedMetadata_; //!< Bitmap with all supported metadata types
-
+        const int         imageType_;         //!< Image type
+        const uint16_t    supportedMetadata_; //!< Bitmap with all supported metadata types
     }; // class Image
 
     //! Type for function pointer that creates new Image instances
@@ -281,6 +289,7 @@ namespace Exiv2 {
       The factory is implemented as a static class.
     */
     class ImageFactory {
+        friend bool Image::good() const;
     public:
         /*!
           @brief Create an Image subclass of the appropriate type by reading
@@ -384,12 +393,33 @@ namespace Exiv2 {
         /*!
           @brief Returns the access mode or supported metadata functions for an
               image type and a metadata type.
-          @param imageType  The image type.
+          @param type       The image type.
           @param metadataId The metadata identifier.
           @return Access mode for the requested image type and metadata identifier.
           @throw Error(13) if the image type is not supported.
          */
-        static AccessMode checkMode(int imageType, MetadataId metadataId);
+        static AccessMode checkMode(int type, MetadataId metadataId);
+        /*!
+          @brief Determine if the content of \em io is an image of \em type.
+
+          The \em advance flag determines if the read position in the
+          stream is moved (see below). This applies only if the type
+          matches and the function returns true. If the type does not
+          match, the stream position is not changed. However, if
+          reading from the stream fails, the stream position is
+          undefined. Consult the stream state to obtain more
+          information in this case.
+
+          @param type Type of the image.
+          @param io BasicIo instance to read from.
+          @param advance Flag indicating whether the position of the io
+              should be advanced by the number of characters read to
+              analyse the data (true) or left at its original
+              position (false). This applies only if the type matches.
+          @return  true  if the data matches the type of this class;<BR>
+                   false if the data does not match
+        */
+        static bool checkType(int type, BasicIo& io, bool advance);
 
     private:
         //! Struct for storing image types and function pointers.

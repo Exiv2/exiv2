@@ -94,15 +94,80 @@ namespace Exiv2 {
         return imageType == imageType_;
     }
 
+    Image::Image(int              imageType, 
+                 uint16_t         supportedMetadata,
+                 BasicIo::AutoPtr io)
+        : io_(io),
+          imageType_(imageType),
+          supportedMetadata_(supportedMetadata)
+    {
+    }
+
+    void Image::clearMetadata()
+    {
+        clearExifData();
+        clearIptcData();
+        clearComment();
+    }
+
+    void Image::setMetadata(const Image& image)
+    {
+        setExifData(image.exifData());
+        setIptcData(image.iptcData());
+        setComment(image.comment());
+    }
+
+    void Image::clearExifData()
+    {
+        exifData_.clear();
+    }
+
+    void Image::setExifData(const ExifData& exifData)
+    {
+        exifData_ = exifData;
+    }
+
+    void Image::clearIptcData()
+    {
+        iptcData_.clear();
+    }
+
+    void Image::setIptcData(const IptcData& iptcData)
+    {
+        iptcData_ = iptcData;
+    }
+
+    void Image::clearComment()
+    {
+        comment_.erase();
+    }
+
+    void Image::setComment(const std::string& comment)
+    {
+        comment_ = comment;
+    }
+
+    bool Image::good() const
+    {
+        if (io_->open() != 0) return false;
+        IoCloser closer(*io_);
+        return ImageFactory::checkType(imageType_, *io_, false);
+    }
+
     bool Image::supportsMetadata(MetadataId metadataId) const
     {
         return (supportedMetadata_ & metadataId) != 0;
     }
 
-    AccessMode ImageFactory::checkMode(int imageType, MetadataId metadataId)
+    AccessMode Image::checkMode(MetadataId metadataId) const
     {
-        const Registry* r = find(registry_, imageType);
-        if (!r) throw Error(13, imageType);
+        return ImageFactory::checkMode(imageType_, metadataId);
+    }
+
+    AccessMode ImageFactory::checkMode(int type, MetadataId metadataId)
+    {
+        const Registry* r = find(registry_, type);
+        if (!r) throw Error(13, type);
         AccessMode am = amNone;
         switch (metadataId) {
         case mdExif:
@@ -118,6 +183,15 @@ namespace Exiv2 {
         }
         return am;
     }
+
+    bool ImageFactory::checkType(int type, BasicIo& io, bool advance)
+    {
+        const Registry* r = find(registry_, type);
+        if (0 != r) {
+            return r->isThisType_(io, advance);
+        }
+        return false;
+    } // ImageFactory::checkType
 
     int ImageFactory::getType(const std::string& path)
     {

@@ -35,9 +35,8 @@
 
 // *****************************************************************************
 // included header files
-#include "exif.hpp"
-#include "iptc.hpp"
 #include "image.hpp"
+#include "basicio.hpp"
 
 // + standard includes
 #include <string>
@@ -55,20 +54,10 @@ namespace Exiv2 {
     }
 
     /*!
-      @brief Class to access raw PNG images. Exif/IPTC metadata are supported
-             directly.
+      @brief Class to access PNG images. Exif and IPTC metadata are supported
+          directly.
      */
     class PngImage : public Image {
-        friend bool isPngType(BasicIo& iIo, bool advance);
-
-        //! @name NOT Implemented
-        //@{
-        //! Copy constructor
-        PngImage(const PngImage& rhs);
-        //! Assignment operator
-        PngImage& operator=(const PngImage& rhs);
-        //@}
-
     public:
         //! @name Creators
         //@{
@@ -88,79 +77,32 @@ namespace Exiv2 {
               or if a new file should be created (true).
          */
         PngImage(BasicIo::AutoPtr io, bool create);
-        //! Destructor
-        ~PngImage() {}
         //@}
 
         //! @name Manipulators
         //@{
-        void            readMetadata();
+        void readMetadata();
         /*!
           @brief Todo: Write metadata back to the image. This method is not
               yet implemented. Calling it will throw an Error(31).
          */
-        void            writeMetadata();
-        void            setExifData(const ExifData& exifData);
-        void            clearExifData();
-        void            setIptcData(const IptcData& iptcData);
-        void            clearIptcData();
+        void writeMetadata();
         /*!
           @brief Not supported. PNG format does not contain a comment.
               Calling it will throw an Error(32).<br>
               Todo: Add 'iTXt' chunk 'Description' tag support here.
          */
-        void            setComment(const std::string& comment);
-        void            clearComment();
-        void            setMetadata(const Image& image);
-        void            clearMetadata();
-        ExifData&       exifData()       { return exifData_; }
-        IptcData&       iptcData()       { return iptcData_; }
-        //@}
-
-        //! @name Accessors
-        //@{
-        bool            good()     const;
-        const ExifData& exifData() const { return exifData_; }
-        const IptcData& iptcData() const { return iptcData_; }
-        std::string     comment()  const { return comment_;  }
-        BasicIo&        io()       const { return *io_;      }
-        AccessMode      checkMode(MetadataId metadataId) const;
+        void setComment(const std::string& comment);
         //@}
 
     private:
-        //! @name Accessors
+        //! @name NOT implemented
         //@{
-        /*!
-          @brief Determine if the content of the BasicIo instance is a PNG image.
-
-          The advance flag determines if the read position in the stream is
-          moved (see below). This applies only if the type matches and the
-          function returns true. If the type does not match, the stream
-          position is not changed. However, if reading from the stream fails,
-          the stream position is undefined. Consult the stream state to obtain
-          more information in this case.
-
-          @param iIo BasicIo instance to read from.
-          @param advance Flag indicating whether the position of the io
-              should be advanced by the number of characters read to
-              analyse the data (true) or left at its original
-              position (false). This applies only if the type matches.
-          @return  true  if the data matches the type of this class;<BR>
-                   false if the data does not match
-         */
-        bool isThisType(BasicIo& iIo, bool advance) const;
-        /*!
-          @brief Todo: Write PNG header. Not implemented yet.
-         */
-        int writeHeader(BasicIo& oIo) const;
-
+        //! Copy constructor
+        PngImage(const PngImage& rhs);
+        //! Assignment operator
+        PngImage& operator=(const PngImage& rhs);
         //@}
-
-        // DATA
-        BasicIo::AutoPtr  io_;                  //!< Image data io pointer
-        ExifData          exifData_;            //!< Exif data container
-        IptcData          iptcData_;            //!< IPTC data container
-        std::string       comment_;             //!< User comment
 
     }; // class PngImage
 

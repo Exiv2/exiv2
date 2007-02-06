@@ -166,68 +166,15 @@ namespace Exiv2 {
         { 0xffff, 0xffff }
     };
 
-    CrwImage::CrwImage(BasicIo::AutoPtr io, bool create)
-        : Image(mdExif | mdComment), io_(io)
+    CrwImage::CrwImage(BasicIo::AutoPtr io, bool /*create*/)
+        : Image(ImageType::crw, mdExif | mdComment, io)
     {
-        if (create) {
-            IoCloser closer(*io_);
-            io_->open();
-        }
     } // CrwImage::CrwImage
-
-    bool CrwImage::good() const
-    {
-        if (io_->open() != 0) return false;
-        IoCloser closer(*io_);
-        return isThisType(*io_, false);
-    }
-
-    AccessMode CrwImage::checkMode(MetadataId metadataId) const
-    {
-        return ImageFactory::checkMode(ImageType::crw, metadataId);
-    }
-
-    void CrwImage::clearMetadata()
-    {
-        clearExifData();
-        clearComment();
-    }
-
-    void CrwImage::setMetadata(const Image& image)
-    {
-        setExifData(image.exifData());
-        setComment(image.comment());
-    }
-
-    void CrwImage::clearExifData()
-    {
-        exifData_.clear();
-    }
-
-    void CrwImage::setExifData(const ExifData& exifData)
-    {
-        exifData_ = exifData;
-    }
-
-    void CrwImage::clearIptcData()
-    {
-        // not supported, do nothing
-    }
 
     void CrwImage::setIptcData(const IptcData& /*iptcData*/)
     {
         // not supported
         throw(Error(32, "IPTC metadata", "CRW"));
-    }
-
-    void CrwImage::clearComment()
-    {
-        comment_.erase();
-    }
-
-    void CrwImage::setComment(const std::string& comment)
-    {
-        comment_ = comment;
     }
 
     void CrwImage::readMetadata()
@@ -240,7 +187,7 @@ namespace Exiv2 {
         }
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
-        if (!isThisType(*io_, false)) {
+        if (!isCrwType(*io_, false)) {
             if (io_->error() || io_->eof()) throw Error(14);
             throw Error(33);
         }
@@ -259,7 +206,7 @@ namespace Exiv2 {
         if (io_->open() == 0) {
             IoCloser closer(*io_);
             // Ensure that this is the correct image type
-            if (isThisType(*io_, false)) {
+            if (isCrwType(*io_, false)) {
                 // Read the image into a memory buffer
                 buf.alloc(io_->size());
                 io_->read(buf.pData_, buf.size_);
@@ -286,11 +233,6 @@ namespace Exiv2 {
         io_->transfer(*tempIo); // may throw
 
     } // CrwImage::writeMetadata
-
-    bool CrwImage::isThisType(BasicIo& iIo, bool advance) const
-    {
-        return isCrwType(iIo, advance);
-    }
 
     void CrwParser::decode(CrwImage* pCrwImage, const byte* pData, uint32_t size)
     {
@@ -1349,7 +1291,6 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-
     Image::AutoPtr newCrwInstance(BasicIo::AutoPtr io, bool create)
     {
         Image::AutoPtr image(new CrwImage(io, create));

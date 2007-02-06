@@ -54,63 +54,10 @@ EXIV2_RCSID("@(#) $Id$")
 // class member definitions
 namespace Exiv2 {
 
-    MrwImage::MrwImage(BasicIo::AutoPtr io, bool create)
-        : Image(mdExif | mdIptc), io_(io)
+    MrwImage::MrwImage(BasicIo::AutoPtr io, bool /*create*/)
+        : Image(ImageType::mrw, mdExif | mdIptc, io)
     {
-        if (create) {
-            IoCloser closer(*io_);
-            io_->open();
-        }
     } // MrwImage::MrwImage
-
-    bool MrwImage::good() const
-    {
-        if (io_->open() != 0) return false;
-        IoCloser closer(*io_);
-        return isThisType(*io_, false);
-    }
-
-    AccessMode MrwImage::checkMode(MetadataId metadataId) const
-    {
-        return ImageFactory::checkMode(ImageType::mrw, metadataId);
-    }
-
-    void MrwImage::clearMetadata()
-    {
-        clearExifData();
-        clearIptcData();
-    }
-
-    void MrwImage::setMetadata(const Image& image)
-    {
-        setExifData(image.exifData());
-        setIptcData(image.iptcData());
-    }
-
-    void MrwImage::clearExifData()
-    {
-        exifData_.clear();
-    }
-
-    void MrwImage::setExifData(const ExifData& exifData)
-    {
-        exifData_ = exifData;
-    }
-
-    void MrwImage::clearIptcData()
-    {
-        iptcData_.clear();
-    }
-
-    void MrwImage::setIptcData(const IptcData& iptcData)
-    {
-        iptcData_ = iptcData;
-    }
-
-    void MrwImage::clearComment()
-    {
-        // not supported, do nothing
-    }
 
     void MrwImage::setComment(const std::string& /*comment*/)
     {
@@ -128,7 +75,7 @@ namespace Exiv2 {
         }
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
-        if (!isThisType(*io_, false)) {
+        if (!isMrwType(*io_, false)) {
             if (io_->error() || io_->eof()) throw Error(14);
             throw Error(3, "MRW");
         }
@@ -175,14 +122,8 @@ namespace Exiv2 {
         throw(Error(31, "metadata", "MRW"));
     } // MrwImage::writeMetadata
 
-    bool MrwImage::isThisType(BasicIo& iIo, bool advance) const
-    {
-        return isMrwType(iIo, advance);
-    }
-
     // *************************************************************************
     // free functions
-
     Image::AutoPtr newMrwInstance(BasicIo::AutoPtr io, bool create)
     {
         Image::AutoPtr image(new MrwImage(io, create));
