@@ -59,6 +59,18 @@ namespace Exiv2 {
     {
     } // TiffImage::TiffImage
 
+    void TiffImage::setExifData(const ExifData& /*exifData*/)
+    {
+        // Todo: implement me!
+        throw(Error(32, "Exif metadata", "TIFF"));
+    }
+
+    void TiffImage::setIptcData(const IptcData& /*iptcData*/)
+    {
+        // Todo: implement me!
+        throw(Error(32, "IPTC metadata", "TIFF"));
+    }
+
     void TiffImage::setComment(const std::string& /*comment*/)
     {
         // not supported
@@ -84,10 +96,8 @@ namespace Exiv2 {
 
     void TiffImage::writeMetadata()
     {
-        /*
-          Todo: implement me!
-         */
-        throw(Error(31, "metadata", "TIFF"));
+        //! Todo: implement me!
+        throw(Error(31, "TIFF"));
     } // TiffImage::writeMetadata
 
     const uint16_t TiffHeade2::tag_ = 42;

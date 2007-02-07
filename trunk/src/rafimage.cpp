@@ -59,6 +59,18 @@ namespace Exiv2 {
     {
     } // RafImage::RafImage
 
+    void RafImage::setExifData(const ExifData& /*exifData*/)
+    {
+        // Todo: implement me!
+        throw(Error(32, "Exif metadata", "RAF"));
+    }
+
+    void RafImage::setIptcData(const IptcData& /*iptcData*/)
+    {
+        // Todo: implement me!
+        throw(Error(32, "IPTC metadata", "RAF"));
+    }
+
     void RafImage::setComment(const std::string& /*comment*/)
     {
         // not supported
@@ -96,10 +108,8 @@ namespace Exiv2 {
 
     void RafImage::writeMetadata()
     {
-        /*
-          Todo: implement me!
-         */
-        throw(Error(31, "metadata", "RAF"));
+        //! Todo: implement me!
+        throw(Error(31, "RAF"));
     } // RafImage::writeMetadata
 
     // *************************************************************************

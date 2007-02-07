@@ -92,6 +92,18 @@ namespace Exiv2 {
     {
     } // Cr2Image::Cr2Image
 
+    void Cr2Image::setExifData(const ExifData& /*exifData*/)
+    {
+        // Todo: implement me!
+        throw(Error(32, "Exif metadata", "CR2"));
+    }
+
+    void Cr2Image::setIptcData(const IptcData& /*iptcData*/)
+    {
+        // Todo: implement me!
+        throw(Error(32, "IPTC metadata", "CR2"));
+    }
+
     void Cr2Image::setComment(const std::string& /*comment*/)
     {
         // not supported
@@ -120,10 +132,8 @@ namespace Exiv2 {
 
     void Cr2Image::writeMetadata()
     {
-        /*
-          Todo: implement me!
-         */
-        throw(Error(31, "metadata", "CR2"));
+        //! Todo: implement me!
+        throw(Error(31, "CR2"));
     } // Cr2Image::writeMetadata
 
     const uint16_t Cr2Header::tag_ = 42;

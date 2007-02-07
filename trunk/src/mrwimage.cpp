@@ -59,6 +59,18 @@ namespace Exiv2 {
     {
     } // MrwImage::MrwImage
 
+    void MrwImage::setExifData(const ExifData& /*exifData*/)
+    {
+        // Todo: implement me!
+        throw(Error(32, "Exif metadata", "MRW"));
+    }
+
+    void MrwImage::setIptcData(const IptcData& /*iptcData*/)
+    {
+        // Todo: implement me!
+        throw(Error(32, "IPTC metadata", "MRW"));
+    }
+
     void MrwImage::setComment(const std::string& /*comment*/)
     {
         // not supported
@@ -116,10 +128,8 @@ namespace Exiv2 {
 
     void MrwImage::writeMetadata()
     {
-        /*
-          Todo: implement me!
-         */
-        throw(Error(31, "metadata", "MRW"));
+        // Todo: implement me!
+        throw(Error(31, "MRW"));
     } // MrwImage::writeMetadata
 
     // *************************************************************************
