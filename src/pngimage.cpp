@@ -62,10 +62,22 @@ namespace Exiv2 {
     {
     } // PngImage::PngImage
 
+    void PngImage::setExifData(const ExifData& /*exifData*/)
+    {
+        // Todo: implement me!
+        throw(Error(32, "Exif metadata", "PNG"));
+    }
+
+    void PngImage::setIptcData(const IptcData& /*iptcData*/)
+    {
+        // Todo: implement me!
+        throw(Error(32, "IPTC metadata", "PNG"));
+    }
+
     void PngImage::setComment(const std::string& /*comment*/)
     {
-        // not yet supported
-        // TODO : Add 'iTXt' chunk 'Description' tag support here
+        // Todo: implement me!
+        // Add 'iTXt' chunk 'Description' tag support here
         throw(Error(32, "Image comment", "PNG"));
     }
 
@@ -104,10 +116,8 @@ namespace Exiv2 {
 
     void PngImage::writeMetadata()
     {
-        /*
-          Todo: implement me!
-         */
-        throw(Error(31, "metadata", "PNG"));
+        //! Todo: implement me!
+        throw(Error(31, "PNG"));
     } // PngImage::writeMetadata
 
     // *************************************************************************

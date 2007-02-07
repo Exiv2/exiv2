@@ -85,6 +85,16 @@ namespace Exiv2 {
          */
         void writeMetadata();
         /*!
+          @brief Todo: Not supported yet, requires writeMetadata(). Calling 
+              this function will throw an Error(32).
+         */
+        void setExifData(const ExifData& exifData);
+        /*!
+          @brief Todo: Not supported yet, requires writeMetadata(). Calling 
+              this function will throw an Error(32).
+         */
+        void setIptcData(const IptcData& iptcData);
+        /*!
           @brief Not supported. MRW format does not contain a comment.
               Calling this function will throw an Error(32).
          */

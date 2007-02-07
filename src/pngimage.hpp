@@ -88,9 +88,18 @@ namespace Exiv2 {
          */
         void writeMetadata();
         /*!
-          @brief Not supported. PNG format does not contain a comment.
-              Calling it will throw an Error(32).<br>
-              Todo: Add 'iTXt' chunk 'Description' tag support here.
+          @brief Todo: Not supported yet, requires writeMetadata(). Calling 
+              this function will throw an Error(32).
+         */
+        void setExifData(const ExifData& exifData);
+        /*!
+          @brief Todo: Not supported yet, requires writeMetadata(). Calling 
+              this function will throw an Error(32).
+         */
+        void setIptcData(const IptcData& iptcData);
+        /*!
+          @brief Todo: Not supported yet, requires writeMetadata(). Calling 
+              this function will throw an Error(32).
          */
         void setComment(const std::string& comment);
         //@}
