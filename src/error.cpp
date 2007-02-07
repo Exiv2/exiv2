@@ -74,7 +74,7 @@ namespace Exiv2 {
         ErrMsg( 29, N_("Unsupported date format")),
         ErrMsg( 30, N_("Unsupported time format")),
         ErrMsg( 31, N_("Writing to %2 images is not supported")), // %2=image format
-        ErrMsg( 32, N_("%1 in %2 images is not supported")), // %1=metadata type, %2=image format
+        ErrMsg( 32, N_("Setting %1 in %2 images is not supported")), // %1=metadata type, %2=image format
         ErrMsg( 33, N_("This does not look like a CRW image")),
         ErrMsg( 34, N_("%1: Not supported")), // %1=function
         ErrMsg( 35, N_("ImageFactory registry full")),
