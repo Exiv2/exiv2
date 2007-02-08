@@ -3,13 +3,7 @@
 # Copyright:
 #   Free Software Foundation, Inc., 2002
 # This file is distributed under the same license as the Exiv2 package.
-# Caulier Gilles <caulier dot gilles at kdemail dot net>, 2006.
-# Caulier Gilles <caulier dot gilles at kdemail dot net>, 2006.
-# Caulier Gilles <caulier dot gilles at kdemail dot net>, 2006.
-# Caulier Gilles <caulier dot gilles at kdemail dot net>, 2006.
-# Caulier Gilles <caulier dot gilles at kdemail dot net>, 2006.
-# Caulier Gilles <caulier dot gilles at kdemail dot net>, 2006.
-#   Arnaud Launay <asl@launay.org>, 2002.
+# Arnaud Launay <asl@launay.org>, 2002.
 # Caulier Gilles <caulier dot gilles at kdemail dot net>, 2006.
 #
 msgid ""
@@ -2197,7 +2191,7 @@ msgstr ""
 
 #: src/tags.cpp:226 src/olympusmn.cpp:334
 msgid "Image Width"
-msgstr "Hauteur de l'image"
+msgstr "Largeur de l'image"
 
 #: src/tags.cpp:227
 #, fuzzy
@@ -2211,7 +2205,7 @@ msgstr ""
 
 #: src/tags.cpp:231
 msgid "Image Length"
-msgstr "Longeur de l'image"
+msgstr "Hauteur de l'image"
 
 #: src/tags.cpp:232
 msgid ""
