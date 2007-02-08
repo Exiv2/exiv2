@@ -89,20 +89,13 @@ namespace Exiv2 {
             if (io_->error() || io_->eof()) throw Error(14);
             throw Error(3, "RAF");
         }
-        if (io_->seek(84, BasicIo::beg) != 0) throw Error(14);
-        byte tmp[4];
-        io_->read(tmp, 4);
-        if (io_->error() || io_->eof()) throw Error(14);
-        uint32_t const pos = getULong(tmp, bigEndian) + 4;
-        if (io_->seek(pos, BasicIo::beg) != 0) throw Error(14);
-        io_->read(tmp, 2);
-        if (io_->error() || io_->eof()) throw Error(14);
-        DataBuf buf(getUShort(tmp, bigEndian) - 10);
-        if (io_->seek(pos + 8, BasicIo::beg) != 0) throw Error(14);
-        io_->read(buf.pData_, buf.size_);
-        if (io_->error() || io_->eof()) throw Error(14);
+        byte const* pData = io_->mmap();
+        long size = io_->size();
+        if (size < 84 + 4) throw Error(14); // includes the test for -1
+        uint32_t const start = getULong(pData + 84, bigEndian) + 12;
+        if (static_cast<uint32_t>(size) < start) throw Error(14);
         clearMetadata();
-        TiffParser::decode(this, buf.pData_, buf.size_,
+        TiffParser::decode(this, pData + start, size - start,
                            TiffCreator::create, TiffDecoder::findDecoder);
     } // RafImage::readMetadata
 
