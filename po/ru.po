@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2007-01-27 15:09+0300\n"
+"POT-Creation-Date: 2007-02-08 08:20+0100\n"
 "PO-Revision-Date: 2006-01-27 15:52+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -21,13 +21,13 @@ msgstr ""
 #: src/actions.cpp:218 src/actions.cpp:574 src/actions.cpp:694
 #: src/actions.cpp:732 src/actions.cpp:759 src/actions.cpp:840
 #: src/actions.cpp:966 src/actions.cpp:1025 src/actions.cpp:1068
-#: src/actions.cpp:1073 src/actions.cpp:1101 src/actions.cpp:1270
-#: src/actions.cpp:1354 src/actions.cpp:1508
+#: src/actions.cpp:1073 src/actions.cpp:1101 src/actions.cpp:1277
+#: src/actions.cpp:1361 src/actions.cpp:1515
 msgid "Failed to open the file\n"
 msgstr ""
 
 #: src/actions.cpp:227 src/actions.cpp:583 src/actions.cpp:772
-#: src/actions.cpp:975 src/actions.cpp:1283 src/actions.cpp:1367
+#: src/actions.cpp:975 src/actions.cpp:1290 src/actions.cpp:1374
 msgid "No Exif data found in the file\n"
 msgstr ""
 
@@ -243,134 +243,134 @@ msgstr ""
 msgid "Exif data doesn't contain a thumbnail\n"
 msgstr ""
 
-#: src/actions.cpp:1114
+#: src/actions.cpp:1134
 #, fuzzy
 msgid "Setting Jpeg comment"
 msgstr "Настройки (вторая половина)"
 
-#: src/actions.cpp:1162
+#: src/actions.cpp:1167
 msgid "Add"
 msgstr ""
 
-#: src/actions.cpp:1183
+#: src/actions.cpp:1190
 msgid "Set"
 msgstr ""
 
-#: src/actions.cpp:1233
+#: src/actions.cpp:1240
 msgid "Del"
 msgstr ""
 
-#: src/actions.cpp:1325
+#: src/actions.cpp:1332
 msgid "Timestamp of metadatum with key"
 msgstr ""
 
-#: src/actions.cpp:1326
+#: src/actions.cpp:1333
 msgid "not set\n"
 msgstr ""
 
-#: src/actions.cpp:1331
+#: src/actions.cpp:1338
 msgid "Failed to parse or convert timestamp"
 msgstr ""
 
-#: src/actions.cpp:1336
+#: src/actions.cpp:1343
 #, fuzzy
 msgid "Adjusting"
 msgstr "Подстройка оттенка"
 
-#: src/actions.cpp:1336
+#: src/actions.cpp:1343
 msgid "by"
 msgstr ""
 
-#: src/actions.cpp:1338
+#: src/actions.cpp:1345
 msgid " s to "
 msgstr ""
 
-#: src/actions.cpp:1384
+#: src/actions.cpp:1391
 msgid "Setting Exif ISO value to"
 msgstr ""
 
-#: src/actions.cpp:1529
+#: src/actions.cpp:1539
 msgid "Writing Exif data from"
 msgstr ""
 
-#: src/actions.cpp:1530 src/actions.cpp:1538 src/actions.cpp:1546
-#: src/actions.cpp:1647
+#: src/actions.cpp:1540 src/actions.cpp:1548 src/actions.cpp:1556
+#: src/actions.cpp:1657
 #, fuzzy
 msgid "to"
 msgstr "Авто"
 
-#: src/actions.cpp:1537
+#: src/actions.cpp:1547
 msgid "Writing Iptc data from"
 msgstr ""
 
-#: src/actions.cpp:1545
+#: src/actions.cpp:1555
 msgid "Writing Jpeg comment from"
 msgstr ""
 
-#: src/actions.cpp:1555
+#: src/actions.cpp:1565
 msgid "Could not write metadata to file"
 msgstr ""
 
-#: src/actions.cpp:1573
+#: src/actions.cpp:1583
 msgid "Filename format yields empty filename for the file"
 msgstr ""
 
-#: src/actions.cpp:1582
+#: src/actions.cpp:1592
 msgid "This file already has the correct name"
 msgstr ""
 
-#: src/actions.cpp:1606 src/exiv2.cpp:147
+#: src/actions.cpp:1616 src/exiv2.cpp:147
 #, fuzzy
 msgid "File"
 msgstr "in"
 
-#: src/actions.cpp:1607
+#: src/actions.cpp:1617
 msgid "exists. [O]verwrite, [r]ename or [s]kip?"
 msgstr ""
 
-#: src/actions.cpp:1635
+#: src/actions.cpp:1645
 msgid "Renaming file to"
 msgstr ""
 
-#: src/actions.cpp:1637
+#: src/actions.cpp:1647
 msgid "updating timestamp"
 msgstr ""
 
-#: src/actions.cpp:1646
+#: src/actions.cpp:1656
 msgid "Failed to rename"
 msgstr ""
 
-#: src/cr2image.cpp:242 src/crwimage.cpp:642 src/tiffimage.cpp:206
+#: src/cr2image.cpp:166 src/crwimage.cpp:590 src/tiffimage.cpp:127
 msgid "Header, offset"
 msgstr ""
 
-#: src/cr2image.cpp:246 src/tiffimage.cpp:210
+#: src/cr2image.cpp:170 src/tiffimage.cpp:131
 msgid "little endian encoded"
 msgstr ""
 
-#: src/cr2image.cpp:247 src/tiffimage.cpp:211
+#: src/cr2image.cpp:171 src/tiffimage.cpp:132
 msgid "big endian encoded"
 msgstr ""
 
-#: src/crwimage.cpp:659 src/tiffvisitor.cpp:428 src/tiffvisitor.cpp:451
+#: src/crwimage.cpp:607 src/tiffvisitor.cpp:428 src/tiffvisitor.cpp:451
 #, fuzzy
 msgid "tag"
 msgstr "средн."
 
-#: src/crwimage.cpp:661
+#: src/crwimage.cpp:609
 msgid "dir"
 msgstr ""
 
-#: src/crwimage.cpp:663 src/tiffvisitor.cpp:430
+#: src/crwimage.cpp:611 src/tiffvisitor.cpp:430
 #, fuzzy
 msgid "type"
 msgstr "Тип объектива"
 
-#: src/crwimage.cpp:664
+#: src/crwimage.cpp:612
 msgid "size"
 msgstr ""
 
-#: src/crwimage.cpp:665 src/tiffvisitor.cpp:434
+#: src/crwimage.cpp:613 src/tiffvisitor.cpp:434
 #, fuzzy
 msgid "offset"
 msgstr "быстрый"
@@ -1502,7 +1502,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/exiv2.cpp:311 src/exiv2.cpp:350 src/exiv2.cpp:552
+#: src/exiv2.cpp:311 src/exiv2.cpp:350 src/exiv2.cpp:556
 #, fuzzy
 msgid "Option"
 msgstr "Действие"
@@ -1523,7 +1523,7 @@ msgstr ""
 msgid "Ignoring surplus option"
 msgstr ""
 
-#: src/exiv2.cpp:351 src/exiv2.cpp:553
+#: src/exiv2.cpp:351 src/exiv2.cpp:557
 msgid "is not compatible with a previous option\n"
 msgstr ""
 
@@ -1567,116 +1567,116 @@ msgstr ""
 msgid "Option -d is not compatible with a previous option\n"
 msgstr ""
 
-#: src/exiv2.cpp:504
+#: src/exiv2.cpp:505
 msgid "Option -e is not compatible with a previous option\n"
 msgstr ""
 
-#: src/exiv2.cpp:531
+#: src/exiv2.cpp:533
 msgid "Option -i is not compatible with a previous option\n"
 msgstr ""
 
-#: src/exiv2.cpp:570
+#: src/exiv2.cpp:574
 msgid "Action adjust is not compatible with the given options\n"
 msgstr ""
 
-#: src/exiv2.cpp:579
+#: src/exiv2.cpp:583
 msgid "Action print is not compatible with the given options\n"
 msgstr ""
 
-#: src/exiv2.cpp:588
+#: src/exiv2.cpp:592
 msgid "Action delete is not compatible with the given options\n"
 msgstr ""
 
-#: src/exiv2.cpp:597
+#: src/exiv2.cpp:603
 msgid "Action extract is not compatible with the given options\n"
 msgstr ""
 
-#: src/exiv2.cpp:606
+#: src/exiv2.cpp:614
 msgid "Action insert is not compatible with the given options\n"
 msgstr ""
 
-#: src/exiv2.cpp:615
+#: src/exiv2.cpp:623
 msgid "Action rename is not compatible with the given options\n"
 msgstr ""
 
-#: src/exiv2.cpp:624
+#: src/exiv2.cpp:632
 msgid "Action modify is not compatible with the given options\n"
 msgstr ""
 
-#: src/exiv2.cpp:633
+#: src/exiv2.cpp:641
 msgid "Action fixiso is not compatible with the given options\n"
 msgstr ""
 
-#: src/exiv2.cpp:657
+#: src/exiv2.cpp:665
 msgid "An action must be specified\n"
 msgstr ""
 
-#: src/exiv2.cpp:662
+#: src/exiv2.cpp:670
 msgid "Adjust action requires option -a time\n"
 msgstr ""
 
-#: src/exiv2.cpp:668
+#: src/exiv2.cpp:676
 msgid "Modify action requires at least one -c, -m or -M option\n"
 msgstr ""
 
-#: src/exiv2.cpp:672
+#: src/exiv2.cpp:680
 msgid "At least one file is required\n"
 msgstr ""
 
-#: src/exiv2.cpp:678
+#: src/exiv2.cpp:686
 msgid "Error parsing -m option arguments\n"
 msgstr ""
 
-#: src/exiv2.cpp:685
+#: src/exiv2.cpp:693
 msgid "Error parsing -M option arguments\n"
 msgstr ""
 
-#: src/exiv2.cpp:692
+#: src/exiv2.cpp:700
 msgid "-l option can only be used with extract or insert actions\n"
 msgstr ""
 
-#: src/exiv2.cpp:697
+#: src/exiv2.cpp:705
 msgid "-S option can only be used with insert action\n"
 msgstr ""
 
-#: src/exiv2.cpp:702
+#: src/exiv2.cpp:710
 msgid "-t option can only be used with rename action\n"
 msgstr ""
 
-#: src/exiv2.cpp:707
+#: src/exiv2.cpp:715
 msgid "-T option can only be used with rename action\n"
 msgstr ""
 
-#: src/exiv2.cpp:772
+#: src/exiv2.cpp:780
 msgid "Unrecognized "
 msgstr ""
 
-#: src/exiv2.cpp:773
+#: src/exiv2.cpp:781
 msgid "target"
 msgstr ""
 
-#: src/exiv2.cpp:791
+#: src/exiv2.cpp:799
 msgid "Failed to open command file for reading\n"
 msgstr ""
 
-#: src/exiv2.cpp:804
+#: src/exiv2.cpp:812
 #, fuzzy
 msgid "line"
 msgstr "in"
 
-#: src/exiv2.cpp:827
+#: src/exiv2.cpp:835
 msgid "-M option"
 msgstr ""
 
-#: src/exiv2.cpp:848 src/exiv2.cpp:898 src/exiv2.cpp:908
+#: src/exiv2.cpp:856 src/exiv2.cpp:906 src/exiv2.cpp:916
 msgid "Invalid command line"
 msgstr ""
 
-#: src/exiv2.cpp:855
+#: src/exiv2.cpp:863
 msgid "Invalid command"
 msgstr ""
 
-#: src/exiv2.cpp:879
+#: src/exiv2.cpp:887
 msgid "Invalid key"
 msgstr ""
 
@@ -1803,11 +1803,11 @@ msgid "Unsupported time format"
 msgstr "Неподдерживаемая строка JIS"
 
 #: src/error.cpp:76
-msgid "%1: CRW images don't support IPTC metadata"
+msgid "Writing to %2 images is not supported"
 msgstr ""
 
 #: src/error.cpp:77
-msgid "%1: CRW images don't support JPEG comments"
+msgid "Setting %1 in %2 images is not supported"
 msgstr ""
 
 #: src/error.cpp:78
@@ -7443,4 +7443,3 @@ msgstr ""
 #: src/sonymn.cpp:91
 msgid "Unknown SonyMakerNote tag"
 msgstr ""
-
