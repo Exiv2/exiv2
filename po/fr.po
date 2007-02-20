@@ -1,10 +1,10 @@
-# translation of fr.po to Français
 # French translations of Exiv2.
 # Copyright:
 #   Free Software Foundation, Inc., 2002
+#   Caulier Gilles <caulier dot gilles at kdemail dot net>, 2006
+#   Arnaud Launay <asl@launay.org>, 2002
+#   Olivier Tilloy <olivier@tilloy.net>, 2007
 # This file is distributed under the same license as the Exiv2 package.
-# Arnaud Launay <asl@launay.org>, 2002.
-# Caulier Gilles <caulier dot gilles at kdemail dot net>, 2006.
 #
 msgid ""
 msgstr ""
@@ -12,12 +12,11 @@ msgstr ""
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
 "POT-Creation-Date: 2007-02-08 08:20+0100\n"
 "PO-Revision-Date: 2006-11-07 10:54+0100\n"
-"Last-Translator: Caulier Gilles <caulier dot gilles at kdemail dot net>\n"
-"Language-Team: Français <fr@li.org>\n"
+"Last-Translator: Olivier Tilloy <olivier@tilloy.net>\n"
+"Language-Team: French\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.10.2\n"
 
 #: src/actions.cpp:218 src/actions.cpp:574 src/actions.cpp:694
 #: src/actions.cpp:732 src/actions.cpp:759 src/actions.cpp:840
@@ -25,51 +24,44 @@ msgstr ""
 #: src/actions.cpp:1073 src/actions.cpp:1101 src/actions.cpp:1277
 #: src/actions.cpp:1361 src/actions.cpp:1515
 msgid "Failed to open the file\n"
-msgstr ""
+msgstr "Echec de l'ouverture du fichier\n"
 
 #: src/actions.cpp:227 src/actions.cpp:583 src/actions.cpp:772
 #: src/actions.cpp:975 src/actions.cpp:1290 src/actions.cpp:1374
 msgid "No Exif data found in the file\n"
-msgstr ""
+msgstr "Pas de données Exif trouvées dans le fichier\n"
 
 #: src/actions.cpp:233
-#, fuzzy
 msgid "File name"
-msgstr "Nom du document"
+msgstr "Nom du fichier"
 
 #: src/actions.cpp:239
-#, fuzzy
 msgid "File size"
-msgstr "Source du fichier"
+msgstr "Taille du fichier"
 
 #: src/actions.cpp:240 src/actions.cpp:528 src/actions.cpp:993
 msgid "Bytes"
-msgstr ""
+msgstr "octets"
 
 #: src/actions.cpp:244
-#, fuzzy
 msgid "Camera make"
-msgstr "Contraste"
+msgstr "Marque de l'appareil"
 
 #: src/actions.cpp:247
-#, fuzzy
 msgid "Camera model"
-msgstr "Portrait"
+msgstr "Modèle de l'appareil"
 
 #: src/actions.cpp:250
-#, fuzzy
 msgid "Image timestamp"
-msgstr "Hauteur de l'image"
+msgstr "Horodatage de l'image"
 
 #: src/actions.cpp:254 src/minoltamn.cpp:668 src/minoltamn.cpp:937
 #: src/minoltamn.cpp:944 src/minoltamn.cpp:1181
-#, fuzzy
 msgid "Image number"
-msgstr "ID unique de l'image"
+msgstr "Numéro de l'image"
 
 #: src/actions.cpp:259 src/minoltamn.cpp:623 src/minoltamn.cpp:930
 #: src/minoltamn.cpp:1148
-#, fuzzy
 msgid "Exposure time"
 msgstr "Temps d'exposition"
 
@@ -78,7 +70,6 @@ msgid "Aperture"
 msgstr "Ouverture"
 
 #: src/actions.cpp:281
-#, fuzzy
 msgid "Exposure bias"
 msgstr "Correction d'exposition"
 
@@ -89,74 +80,64 @@ msgid "Flash"
 msgstr "Flash"
 
 #: src/actions.cpp:289 src/panasonicmn.cpp:223
-#, fuzzy
 msgid "Flash bias"
-msgstr "Le flash s'est déclenché."
+msgstr "Le flash s'est déclenché"
 
 #: src/actions.cpp:304 src/minoltamn.cpp:647
-#, fuzzy
 msgid "Focal length"
-msgstr "Longueur focale"
+msgstr "Distance focale"
 
 #: src/actions.cpp:309
 msgid "35 mm equivalent"
-msgstr ""
+msgstr "Equivalent à 35 mm"
 
 #: src/actions.cpp:315
-#, fuzzy
 msgid "Subject distance"
-msgstr "Distance au sujet"
+msgstr "Distance du sujet"
 
 #: src/actions.cpp:327
-#, fuzzy
 msgid "ISO speed"
-msgstr "Netteté"
+msgstr "Sensibilité ISO"
 
 #: src/actions.cpp:360 src/minoltamn.cpp:599 src/minoltamn.cpp:874
 #: src/minoltamn.cpp:1112 src/sigmamn.cpp:84
-#, fuzzy
 msgid "Exposure mode"
 msgstr "Mode d'exposition"
 
 #: src/actions.cpp:383 src/minoltamn.cpp:617 src/minoltamn.cpp:1133
 #: src/sigmamn.cpp:87
-#, fuzzy
 msgid "Metering mode"
 msgstr "Mode de mesure"
 
 #: src/actions.cpp:387 src/minoltamn.cpp:629 src/olympusmn.cpp:129
 #: src/panasonicmn.cpp:205
-#, fuzzy
 msgid "Macro mode"
-msgstr "Macro"
+msgstr "Mode macro"
 
 #: src/actions.cpp:411 src/minoltamn.cpp:251 src/minoltamn.cpp:611
 #: src/minoltamn.cpp:880 src/minoltamn.cpp:1118
-#, fuzzy
 msgid "Image quality"
-msgstr "Hauteur de l'image"
+msgstr "Qualité de l'image"
 
 #: src/actions.cpp:455
-#, fuzzy
 msgid "Exif Resolution"
-msgstr "y-résolution"
+msgstr "Résolution Exif"
 
 #: src/actions.cpp:479 src/minoltamn.cpp:605 src/minoltamn.cpp:883
 #: src/minoltamn.cpp:1121 src/nikonmn.cpp:178 src/nikonmn.cpp:459
 #: src/nikonmn.cpp:594 src/sigmamn.cpp:81
-#, fuzzy
 msgid "White balance"
 msgstr "Balance des blancs"
 
 #: src/actions.cpp:520 src/minoltamn.cpp:238 src/olympusmn.cpp:355
 msgid "Thumbnail"
-msgstr ""
+msgstr "Miniature"
 
 #: src/actions.cpp:523 src/tags.cpp:628 src/minoltamn.cpp:413
 #: src/minoltamn.cpp:507 src/nikonmn.cpp:138 src/olympusmn.cpp:84
 #: src/olympusmn.cpp:511
 msgid "None"
-msgstr ""
+msgstr "Aucune"
 
 #: src/actions.cpp:533 src/datasets.cpp:376 src/tags.cpp:434
 msgid "Copyright"
@@ -164,222 +145,212 @@ msgstr "Copyright"
 
 #: src/actions.cpp:536
 msgid "Exif comment"
-msgstr ""
+msgstr "Commentaire Exif"
 
 #: src/actions.cpp:655 src/actions.cpp:666 src/actions.cpp:677
 msgid "(Binary value suppressed)"
-msgstr ""
+msgstr "(Valeur binaire supprimée)"
 
 #: src/actions.cpp:703
 msgid "No Iptc data found in the file\n"
-msgstr ""
+msgstr "Pas de données Iptc trouvées dans le fichier\n"
 
 #: src/actions.cpp:739
-#, fuzzy
 msgid "Jpeg comment"
-msgstr "Commentaire de l'utilisateur"
+msgstr "Commentaire Jpeg"
 
 #: src/actions.cpp:778
 msgid "Metadatum with key"
-msgstr ""
+msgstr "Méta-donnée de clé"
 
 #: src/actions.cpp:779
 msgid "not found in the file"
-msgstr ""
+msgstr "non trouvée dans le fichier"
 
 #: src/actions.cpp:784
 msgid "Image file creation timestamp not set in the file"
-msgstr ""
+msgstr "Horodatage de création du fichier image non défini dans le fichier"
 
 #: src/actions.cpp:790
 msgid "Failed to parse timestamp"
-msgstr ""
+msgstr "Echec de l'analyse de l'horodatage"
 
 #: src/actions.cpp:791
-#, fuzzy
 msgid "in the file"
-msgstr "Le flash ne s'est pas déclenché."
+msgstr "dans le fichier"
 
 #: src/actions.cpp:802
 msgid "Updating timestamp to"
-msgstr ""
+msgstr "Mise à jour de l'horodatage à"
 
 #: src/actions.cpp:889
 msgid "Erasing"
-msgstr ""
+msgstr "Effacement de"
 
 #: src/actions.cpp:890
 msgid "Bytes of thumbnail data"
-msgstr ""
+msgstr "octets de données de la miniature"
 
 #: src/actions.cpp:898
 msgid "Erasing Exif data from the file"
-msgstr ""
+msgstr "Effacement des données Exif du fichier"
 
 #: src/actions.cpp:907
 msgid "Erasing Iptc data from the file"
-msgstr ""
+msgstr "Effacement des données Iptc du fichier"
 
 #: src/actions.cpp:916
 msgid "Erasing Jpeg comment from the file"
-msgstr ""
+msgstr "Effacement du commentaire Jpeg du fichier"
 
 #: src/actions.cpp:946 src/actions.cpp:998
 msgid "Overwrite"
-msgstr ""
+msgstr "Ecraser"
 
 #: src/actions.cpp:986
 msgid "Image does not contain an Exif thumbnail\n"
-msgstr ""
+msgstr "L'image ne contient pas de miniature Exif\n"
 
 #: src/actions.cpp:991
 msgid "Writing"
-msgstr ""
+msgstr "Ecriture au format"
 
 #: src/actions.cpp:992
-#, fuzzy
 msgid "thumbnail"
-msgstr "Longeur de l'image"
+msgstr "de la miniature"
 
 #: src/actions.cpp:993
-#, fuzzy
 msgid "to file"
-msgstr "Espace des couleurs"
+msgstr "dans le fichier"
 
 #: src/actions.cpp:1005
 msgid "Exif data doesn't contain a thumbnail\n"
-msgstr ""
+msgstr "Les données Exif ne contiennent pas de miniature\n"
 
 #: src/actions.cpp:1134
 msgid "Setting Jpeg comment"
-msgstr ""
+msgstr "Définition du commentaire Jpeg"
 
 #: src/actions.cpp:1167
 msgid "Add"
-msgstr ""
+msgstr "Ajout de"
 
 #: src/actions.cpp:1190
-#, fuzzy
 msgid "Set"
-msgstr "Aire du sujet"
+msgstr "Définition de"
 
 #: src/actions.cpp:1240
 msgid "Del"
-msgstr ""
+msgstr "Effacement de"
 
 #: src/actions.cpp:1332
 msgid "Timestamp of metadatum with key"
-msgstr ""
+msgstr "Horodatage de la donnée de clé"
 
 #: src/actions.cpp:1333
 msgid "not set\n"
-msgstr ""
+msgstr "non défini\n"
 
 #: src/actions.cpp:1338
 msgid "Failed to parse or convert timestamp"
-msgstr ""
+msgstr "Echec de l'analyse ou de la conversion de l'horodatage"
 
 #: src/actions.cpp:1343
 msgid "Adjusting"
-msgstr ""
+msgstr "Ajustement de"
 
 #: src/actions.cpp:1343
 msgid "by"
-msgstr ""
+msgstr "de"
 
 #: src/actions.cpp:1345
 msgid " s to "
-msgstr ""
+msgstr " s à "
 
 #: src/actions.cpp:1391
 msgid "Setting Exif ISO value to"
-msgstr ""
+msgstr "Définition de la valeur Exif de l'ISO à"
 
 #: src/actions.cpp:1539
 msgid "Writing Exif data from"
-msgstr ""
+msgstr "Ecriture des données Exif de"
 
 #: src/actions.cpp:1540 src/actions.cpp:1548 src/actions.cpp:1556
 #: src/actions.cpp:1657
-#, fuzzy
 msgid "to"
-msgstr "action"
+msgstr "vers"
 
 #: src/actions.cpp:1547
 msgid "Writing Iptc data from"
-msgstr ""
+msgstr "Ecriture des données Iptc de"
 
 #: src/actions.cpp:1555
 msgid "Writing Jpeg comment from"
-msgstr ""
+msgstr "Ecriture du commentaire Jpeg de"
 
 #: src/actions.cpp:1565
 msgid "Could not write metadata to file"
-msgstr ""
+msgstr "Impossible d'écrire les méta-données dans le fichier"
 
 #: src/actions.cpp:1583
 msgid "Filename format yields empty filename for the file"
-msgstr ""
+msgstr "Le format spécifié pour le nom du fichier produit un nom de fichier vide"
 
 #: src/actions.cpp:1592
 msgid "This file already has the correct name"
-msgstr ""
+msgstr "Le nom de ce fichier est déjà correct"
 
 #: src/actions.cpp:1616 src/exiv2.cpp:147
-#, fuzzy
 msgid "File"
-msgstr "Ordre de remplissage"
+msgstr "Le fichier"
 
 #: src/actions.cpp:1617
 msgid "exists. [O]verwrite, [r]ename or [s]kip?"
-msgstr ""
+msgstr " existe. Ecraser [O], [r]enommer ou passer au [s]uivant?"
 
 #: src/actions.cpp:1645
 msgid "Renaming file to"
-msgstr ""
+msgstr "Renommage du fichier en"
 
 #: src/actions.cpp:1647
 msgid "updating timestamp"
-msgstr ""
+msgstr "mise à jour de l'horodatage"
 
 #: src/actions.cpp:1656
 msgid "Failed to rename"
-msgstr ""
+msgstr "Echec du renommage de"
 
 #: src/cr2image.cpp:166 src/crwimage.cpp:590 src/tiffimage.cpp:127
 msgid "Header, offset"
-msgstr ""
+msgstr "En-tête, décalage"
 
 #: src/cr2image.cpp:170 src/tiffimage.cpp:131
 msgid "little endian encoded"
-msgstr ""
+msgstr "encodage petit-boutiste"
 
 #: src/cr2image.cpp:171 src/tiffimage.cpp:132
 msgid "big endian encoded"
-msgstr ""
+msgstr "encodage gros-boutiste"
 
 #: src/crwimage.cpp:607 src/tiffvisitor.cpp:428 src/tiffvisitor.cpp:451
-#, fuzzy
 msgid "tag"
-msgstr "moyenne"
+msgstr "marqueur"
 
 #: src/crwimage.cpp:609
 msgid "dir"
-msgstr ""
+msgstr "section"
 
 #: src/crwimage.cpp:611 src/tiffvisitor.cpp:430
 msgid "type"
-msgstr ""
+msgstr "type"
 
 #: src/crwimage.cpp:612
-#, fuzzy
 msgid "size"
-msgstr "Source du fichier"
+msgstr "taille"
 
 #: src/crwimage.cpp:613 src/tiffvisitor.cpp:434
-#, fuzzy
 msgid "offset"
-msgstr "Doux"
+msgstr "décalage"
 
 #: src/datasets.cpp:79
 msgid "(invalid)"
