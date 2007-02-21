@@ -34,10 +34,9 @@
 # include "exv_conf.h"
 #endif
 
-/* Includes <libintl.h> and provides most of the defines */
-#include "gettext.h"
-
+/* NLS can be disabled through the configure --disable-nls option. */
 #ifdef EXV_ENABLE_NLS
+# include <libintl.h>
 
 // Definition is in types.cpp
 const char* _exvGettext(const char* str);
