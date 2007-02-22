@@ -42,7 +42,7 @@
 const char* _exvGettext(const char* str);
 
 # define _(String) _exvGettext(String)
-# define N_(String) gettext_noop(String)
+# define N_(String) String
 
 #else /* NLS is disabled */
 
