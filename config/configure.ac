@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(Exiv2, 0.12, ahuggel@gmx.net)
+AC_INIT(Exiv2, 0.13, ahuggel@gmx.net)
 PACKAGE=$PACKAGE_NAME
 VERSION=$PACKAGE_VERSION
 AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE")

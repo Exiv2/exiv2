@@ -43,20 +43,23 @@ To uninstall Exiv2 from a UNIX-like system, run:
 Dependencies
 ============
 
-The following features are enabled by default and may require external
+The following features are enabled by default and may *) require external
 libraries. They can be controlled through configure options.
 
-Feature                    Package  Configure options
--------------------------  -------  ----------------------------
-PNG image support          zlib     --without-zlib
-                                    --with-zlib=DIR
-National language support  gettext  --disable-nls
-Decoding Windows XP tags   iconv    --without-libiconv-prefix
-                                    --with-libiconv-prefix[=DIR]
+Feature                    Package   Configure options
+-------------------------  -------   ----------------------------
+PNG image support          zlib      --without-zlib
+                                     --with-zlib=DIR
+National language support  gettext   --disable-nls
+Decoding Windows XP tags   libiconv  --without-libiconv-prefix
+                                     --with-libiconv-prefix[=DIR]
 
-zlib     http://www.zlib.net/
-gettext  http://www.gnu.org/software/gettext/
-iconv    http://www.gnu.org/software/libiconv/
+zlib         http://www.zlib.net/
+gettext  *)  http://www.gnu.org/software/gettext/
+libiconv *)  http://www.gnu.org/software/libiconv/
+
+*) Some systems have gettext and iconv in libc. The configure script 
+should detect this.
 
 
 Troubleshooting
