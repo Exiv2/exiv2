@@ -54,7 +54,7 @@
 
   - JPEG
   - <A HREF="crw-mapping.html">Canon CRW</A>
-  - TIFF and related RAW formats (Canon CR2, Nikon NEF, Pentax PEF, Sony SR2, Sony ARW, Adobe DNG, and Minolta MRW), read-only
+  - TIFF and related RAW formats (Adobe DNG, Canon CR2, Fujifilm RAF, Minolta MRW, Nikon NEF, Pentax PEF, Sony ARW and Sony SR2), read-only
   - PNG, read-only
 
   @section supp Support
