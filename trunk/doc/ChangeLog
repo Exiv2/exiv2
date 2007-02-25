@@ -18,11 +18,11 @@ Changes from version 0.12 to 0.13
 	           (Suggested by Will Stokes)
 	- 0000461: [miscellaneous] Add i18n support. Requires gettext.
 	           (Gilles Caulier)
-	           The currently available translations are (work in progress):
-	           de.po, es.po, fr.po, pl.po by Gilles Caulier ported from libexif
-	           fi.po by Mikael Lammentausta
-	           fr.po by Olivier Tilloy
-	           ru.po by Alexandre Prokoudine
+	           The currently available translations are still work in progress:
+	           German, Spanish, Polish by Gilles Caulier, ported from libexif
+	           Finnish by Mikael Lammentausta
+	           French by Gilles Caulier (ported from libexif) and Olivier Tilloy
+	           Russian by Alexandre Prokoudine
 	- 0000460: [exif] Exiv2 should support to decode/encode Windows tags
 	           Exif.Image.0x9c9b-0x9c9f. Requires libiconv. 
 	           (Suggested by Jose Oliver)
@@ -30,9 +30,10 @@ Changes from version 0.12 to 0.13
 	         - [exif] Updated Nikon lens info to v2.15 of Robert Rottmerhusen's 
 	           lens database.
 	         - [exif] Added read-support for Fujifilm RAF images.
-	         - [exif] Image now has containers and provides default 
-	           implementations for most methods. Improved consistency of handling
-	           unsupported functions across Image subclasses.
+	         - [exif] Image class hierarchy refactored: Image now has containers
+		   and provides default implementations for most methods. Calling 
+	           an unsupported method of any Image subclass now results in an 
+	           exception.
 
 * MSVC related
 	         - [exivsimple] Added get and set thumbnail functions.
