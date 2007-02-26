@@ -1,22 +1,24 @@
+# translation of de.po to
 # German translations of Exiv2.
 # Copyright:
-#   Free Software Foundation, Inc., 2002
-#   Lutz Mueller <lutz@users.sourceforge.net>, 2002.
-#   Marcus Meissner <marcus@jet.franken.de>, 2004, 2005.
 # This file is distributed under the same license as the Exiv2 package.
 #
+#   Free Software Foundation, Inc., 2002.
+#   Lutz Mueller <lutz@users.sourceforge.net>, 2002.
+#   Marcus Meissner <marcus@jet.franken.de>, 2004, 2005.
+# Oliver Dörr <kde@doerr-privat.de>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: Exiv2\n"
+"Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
 "POT-Creation-Date: 2007-02-08 08:20+0100\n"
-"PO-Revision-Date: 2005-09-18 19:25+0200\n"
-"Last-Translator: Marcus Meissner <marcus@jet.franken.de>\n"
+"PO-Revision-Date: 2007-02-21 22:43+0100\n"
+"Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
 "Language-Team:  <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.10\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: src/actions.cpp:218 src/actions.cpp:574 src/actions.cpp:694
 #: src/actions.cpp:732 src/actions.cpp:759 src/actions.cpp:840
@@ -24,42 +26,36 @@ msgstr ""
 #: src/actions.cpp:1073 src/actions.cpp:1101 src/actions.cpp:1277
 #: src/actions.cpp:1361 src/actions.cpp:1515
 msgid "Failed to open the file\n"
-msgstr ""
+msgstr "Die Datei konnte nicht geöffnet werden\n"
 
 #: src/actions.cpp:227 src/actions.cpp:583 src/actions.cpp:772
 #: src/actions.cpp:975 src/actions.cpp:1290 src/actions.cpp:1374
 msgid "No Exif data found in the file\n"
-msgstr ""
+msgstr "Es wurden keine EXIF-Daten in der Datei gefunden\n"
 
 #: src/actions.cpp:233
-#, fuzzy
 msgid "File name"
-msgstr "Name des Besitzers"
+msgstr "Dateiname"
 
 #: src/actions.cpp:239
-#, fuzzy
 msgid "File size"
-msgstr "Voll"
+msgstr "Dateigröße"
 
 #: src/actions.cpp:240 src/actions.cpp:528 src/actions.cpp:993
-#, fuzzy
 msgid "Bytes"
-msgstr "Byte"
+msgstr "Bytes"
 
 #: src/actions.cpp:244
-#, fuzzy
 msgid "Camera make"
-msgstr "Kamera ID"
+msgstr "Kamerahersteller"
 
 #: src/actions.cpp:247
-#, fuzzy
 msgid "Camera model"
-msgstr "Kamera ID"
+msgstr "Kameramodell"
 
 #: src/actions.cpp:250
-#, fuzzy
 msgid "Image timestamp"
-msgstr "Bildanpassung"
+msgstr "Zeitstempel des Bildes"
 
 #: src/actions.cpp:254 src/minoltamn.cpp:668 src/minoltamn.cpp:937
 #: src/minoltamn.cpp:944 src/minoltamn.cpp:1181
@@ -68,7 +64,6 @@ msgstr "Bildnummer"
 
 #: src/actions.cpp:259 src/minoltamn.cpp:623 src/minoltamn.cpp:930
 #: src/minoltamn.cpp:1148
-#, fuzzy
 msgid "Exposure time"
 msgstr "Belichtungszeit"
 
@@ -97,18 +92,16 @@ msgid "Focal length"
 msgstr "Brennweite"
 
 #: src/actions.cpp:309
-#, fuzzy
 msgid "35 mm equivalent"
-msgstr " (35 äquivalent: %d mm)"
+msgstr "35 mm äquivalent"
 
 #: src/actions.cpp:315
 msgid "Subject distance"
 msgstr "Entfernung des Objekts"
 
 #: src/actions.cpp:327
-#, fuzzy
 msgid "ISO speed"
-msgstr "ISO Geschwindigkeitsangabe"
+msgstr "ISO Geschwindigkeit"
 
 #: src/actions.cpp:360 src/minoltamn.cpp:599 src/minoltamn.cpp:874
 #: src/minoltamn.cpp:1112 src/sigmamn.cpp:84
@@ -128,14 +121,12 @@ msgstr "Makromodus"
 
 #: src/actions.cpp:411 src/minoltamn.cpp:251 src/minoltamn.cpp:611
 #: src/minoltamn.cpp:880 src/minoltamn.cpp:1118
-#, fuzzy
 msgid "Image quality"
-msgstr "Bildbreite"
+msgstr "Bildqualität"
 
 #: src/actions.cpp:455
-#, fuzzy
 msgid "Exif Resolution"
-msgstr "Auflösung in y-Richtung"
+msgstr "EXIF-Auflösung"
 
 #: src/actions.cpp:479 src/minoltamn.cpp:605 src/minoltamn.cpp:883
 #: src/minoltamn.cpp:1121 src/nikonmn.cpp:178 src/nikonmn.cpp:459
@@ -145,14 +136,13 @@ msgstr "Weißabgleich"
 
 #: src/actions.cpp:520 src/minoltamn.cpp:238 src/olympusmn.cpp:355
 msgid "Thumbnail"
-msgstr ""
+msgstr "Vorschau"
 
 #: src/actions.cpp:523 src/tags.cpp:628 src/minoltamn.cpp:413
 #: src/minoltamn.cpp:507 src/nikonmn.cpp:138 src/olympusmn.cpp:84
 #: src/olympusmn.cpp:511
-#, fuzzy
 msgid "None"
-msgstr "[Keins]"
+msgstr "Keine"
 
 #: src/actions.cpp:533 src/datasets.cpp:376 src/tags.cpp:434
 msgid "Copyright"
@@ -160,130 +150,123 @@ msgstr "Copyright"
 
 #: src/actions.cpp:536
 msgid "Exif comment"
-msgstr ""
+msgstr "EXIF-Kommentar"
 
 #: src/actions.cpp:655 src/actions.cpp:666 src/actions.cpp:677
 msgid "(Binary value suppressed)"
-msgstr ""
+msgstr "(Binäre Werte sind unterdrückt)"
 
 #: src/actions.cpp:703
 msgid "No Iptc data found in the file\n"
-msgstr ""
+msgstr "Es wurden keine IPTC-Daten in der Datei gefunden.\n"
 
 #: src/actions.cpp:739
-#, fuzzy
 msgid "Jpeg comment"
-msgstr "Anmerkung des Nutzers"
+msgstr "JPEG-Kommentar"
 
 #: src/actions.cpp:778
 msgid "Metadatum with key"
-msgstr ""
+msgstr "Metadatum mit Schlüssel"
 
 #: src/actions.cpp:779
 msgid "not found in the file"
-msgstr ""
+msgstr "wurde nicht in der Datei gefunden"
 
 #: src/actions.cpp:784
 msgid "Image file creation timestamp not set in the file"
-msgstr ""
+msgstr "Der Erstellungszeitstempel der Bilddatei ist nicht in der Datei gesetzt."
 
 #: src/actions.cpp:790
 msgid "Failed to parse timestamp"
-msgstr ""
+msgstr "Der Zeitstempel konnte nicht verarbeitet werden."
 
 #: src/actions.cpp:791
-#, fuzzy
 msgid "in the file"
-msgstr "Blitz löste nicht aus"
+msgstr "in der Datei"
 
 #: src/actions.cpp:802
 msgid "Updating timestamp to"
-msgstr ""
+msgstr "Aktualisiere den Zeitstempel auf"
 
 #: src/actions.cpp:889
-#, fuzzy
 msgid "Erasing"
-msgstr "einzeln"
+msgstr "Lösche"
 
 #: src/actions.cpp:890
 msgid "Bytes of thumbnail data"
-msgstr ""
+msgstr "Bytes der Bildvorschau"
 
 #: src/actions.cpp:898
 msgid "Erasing Exif data from the file"
-msgstr ""
+msgstr "Die EXIF-Daten der Datei werden gelöscht."
 
 #: src/actions.cpp:907
 msgid "Erasing Iptc data from the file"
-msgstr ""
+msgstr "Die IPTC-Daten der Datei werden gelöscht."
 
 #: src/actions.cpp:916
 msgid "Erasing Jpeg comment from the file"
-msgstr ""
+msgstr "Der JPEG-Kommentar der Datei wird gelöscht."
 
 #: src/actions.cpp:946 src/actions.cpp:998
 msgid "Overwrite"
-msgstr ""
+msgstr "Überschreiben"
 
 #: src/actions.cpp:986
 msgid "Image does not contain an Exif thumbnail\n"
-msgstr ""
+msgstr "Das Bild enthält keine EXIF-Bildvorschau.\n"
 
 #: src/actions.cpp:991
 msgid "Writing"
-msgstr ""
+msgstr "Schreibe"
 
 #: src/actions.cpp:992
-#, fuzzy
 msgid "thumbnail"
-msgstr "Strip Offsets"
+msgstr "Vorschau"
 
 #: src/actions.cpp:993
-#, fuzzy
 msgid "to file"
-msgstr "Farbton"
+msgstr "in die Datei"
 
 #: src/actions.cpp:1005
 msgid "Exif data doesn't contain a thumbnail\n"
-msgstr ""
+msgstr "Die EXIF-Daten enthalten keine Vorschau.\n"
 
 #: src/actions.cpp:1134
-#, fuzzy
 msgid "Setting Jpeg comment"
-msgstr "Einstellungen (zweiter Teil)"
+msgstr "Der JPEG-Kommentar wird gesetzt."
 
 #: src/actions.cpp:1167
 msgid "Add"
-msgstr ""
+msgstr "Hinzufügen"
 
 #: src/actions.cpp:1190
-#, fuzzy
 msgid "Set"
-msgstr "Motivbereich"
+msgstr "Setzen"
 
 #: src/actions.cpp:1240
 msgid "Del"
-msgstr ""
+msgstr "Löschen"
 
 #: src/actions.cpp:1332
 msgid "Timestamp of metadatum with key"
-msgstr ""
+msgstr "Zeitstempel des Metadatums mit Schlüssel"
 
 #: src/actions.cpp:1333
 msgid "not set\n"
-msgstr ""
+msgstr "nicht gesetzt\n"
 
 #: src/actions.cpp:1338
 msgid "Failed to parse or convert timestamp"
-msgstr ""
+msgstr "Fehler beim verarbeiten oder konvertieren des Zeitstempels."
 
 #: src/actions.cpp:1343
 msgid "Adjusting"
-msgstr ""
+msgstr "Justiere"
 
 #: src/actions.cpp:1343
 msgid "by"
-msgstr ""
+msgstr "durch"
 
 #: src/actions.cpp:1345
 msgid " s to "
@@ -291,59 +274,56 @@ msgstr ""
 
 #: src/actions.cpp:1391
 msgid "Setting Exif ISO value to"
-msgstr ""
+msgstr "Setze den EXIF-ISO Wert auf"
 
 #: src/actions.cpp:1539
 msgid "Writing Exif data from"
-msgstr ""
+msgstr "Schreibe die EXIF-Daten von"
 
 #: src/actions.cpp:1540 src/actions.cpp:1548 src/actions.cpp:1556
 #: src/actions.cpp:1657
-#, fuzzy
 msgid "to"
-msgstr "Automatisch"
+msgstr "nach"
 
 #: src/actions.cpp:1547
 msgid "Writing Iptc data from"
-msgstr ""
+msgstr "Schreibe die IPTC-Daten von"
 
 #: src/actions.cpp:1555
 msgid "Writing Jpeg comment from"
-msgstr ""
+msgstr "Schreibe den JPEG-Kommentar von"
 
 #: src/actions.cpp:1565
 msgid "Could not write metadata to file"
-msgstr ""
+msgstr "Die Metadaten konnten nicht in die Datei geschrieben werden"
 
 #: src/actions.cpp:1583
 msgid "Filename format yields empty filename for the file"
-msgstr ""
+msgstr "Das Format des Dateinamens führt zu keinem Dateinamen für die Datei"
 
 #: src/actions.cpp:1592
 msgid "This file already has the correct name"
-msgstr ""
+msgstr "Diese Datei hat schon den richtigen Namen"
 
 #: src/actions.cpp:1616 src/exiv2.cpp:147
-#, fuzzy
 msgid "File"
-msgstr "Füllreihenfolge"
+msgstr "Datei"
 
 #: src/actions.cpp:1617
 msgid "exists. [O]verwrite, [r]ename or [s]kip?"
 msgstr ""
 
 #: src/actions.cpp:1645
-#, fuzzy
 msgid "Renaming file to"
-msgstr "Bildsensor"
+msgstr "Die Datei wird umbenannt nach"
 
 #: src/actions.cpp:1647
 msgid "updating timestamp"
-msgstr ""
+msgstr "aktualisiere Zeitstempel"
 
 #: src/actions.cpp:1656
 msgid "Failed to rename"
-msgstr ""
+msgstr "Fehler beim umbenennen"
 
 #: src/cr2image.cpp:166 src/crwimage.cpp:590 src/tiffimage.cpp:127
 msgid "Header, offset"
@@ -358,23 +338,20 @@ msgid "big endian encoded"
 msgstr ""
 
 #: src/crwimage.cpp:607 src/tiffvisitor.cpp:428 src/tiffvisitor.cpp:451
-#, fuzzy
 msgid "tag"
-msgstr "mittel"
+msgstr "Stichwort"
 
 #: src/crwimage.cpp:609
 msgid "dir"
-msgstr ""
+msgstr "Ordner"
 
 #: src/crwimage.cpp:611 src/tiffvisitor.cpp:430
-#, fuzzy
 msgid "type"
-msgstr "Lichtart"
+msgstr "Typ"
 
 #: src/crwimage.cpp:612
-#, fuzzy
 msgid "size"
-msgstr "Voll"
+msgstr "GrößeVoll"
 
 #: src/crwimage.cpp:613 src/tiffvisitor.cpp:434
 #, fuzzy
@@ -383,43 +360,40 @@ msgstr "Weich"
 
 #: src/datasets.cpp:79
 msgid "(invalid)"
-msgstr ""
+msgstr "(ungültig)"
 
 #: src/datasets.cpp:80
 msgid "IIM envelope record"
-msgstr ""
+msgstr "IIM Umschlagsdatensatz"
 
 #: src/datasets.cpp:81
 msgid "IIM application record 2"
-msgstr ""
+msgstr "IIM Anwendungsdatensatz 2"
 
 #: src/datasets.cpp:85
-#, fuzzy
 msgid "Model Version"
-msgstr "Exif Version"
+msgstr "Modellversion"
 
 #: src/datasets.cpp:86
 msgid ""
 "A binary number identifying the version of the Information Interchange "
 "Model, Part I, utilised by the provider. Version numbers are assigned by "
 "IPTC and NAA organizations."
-msgstr ""
+msgstr "Eine binäre Zahl, die die Version des Informations-Austausch-Modell (IIM) vom Anbieter, Teil 1identifiziert. Die Versionsnummern werden von der IPTC und NAA Organisationen zugewiesen."
 
 #: src/datasets.cpp:90
-#, fuzzy
 msgid "Destination"
-msgstr "Orientierung"
+msgstr "Ziel"
 
 #: src/datasets.cpp:91
 msgid ""
 "This DataSet is to accommodate some providers who require routing "
 "information above the appropriate OSI layers."
-msgstr ""
+msgstr "Dieser Datensatz ist für die Anbieter die Weiterleitungsinformationen oberhalb der entsprechenden OSI-Layer benötigen."
 
 #: src/datasets.cpp:94
-#, fuzzy
 msgid "File Format"
-msgstr "Dateiquelle"
+msgstr "Dateiformat"
 
 #: src/datasets.cpp:95
 msgid ""
@@ -427,30 +401,29 @@ msgid ""
 "registered with IPTC or NAA with a unique number assigned to it. The "
 "information is used to route the data to the appropriate system and to allow "
 "the receiving system to perform the appropriate actions there to."
-msgstr ""
+msgstr "Eine binäre Nummer die das Dateiformat repräsentiert. Das Format muss bei IPTC oder NAA durch eine eindeutige Nummer registriert werden, die dem Format zugeordnet wird. Diese Information wird benutzt, um die Daten an das richtige System weiterzuleiten und erlaubt es dem empfangenden System die richtigen Aktionen durchzuführen."
 
 #: src/datasets.cpp:101
-#, fuzzy
 msgid "File Version"
-msgstr "Firmware Version"
+msgstr "Dateiversion"
 
 #: src/datasets.cpp:102
 msgid ""
 "A binary number representing the particular version of the File Format "
 "specified by <FileFormat> tag."
-msgstr ""
+msgstr "Eine binäre Zahl, die genaue Version des Dateiformats angibt, das durch den <FileFormat> Tag angegeben wurde."
 
 #: src/datasets.cpp:105
 msgid "Service Id"
-msgstr ""
+msgstr "Dienst-ID"
 
 #: src/datasets.cpp:106
 msgid "Identifies the provider and product"
-msgstr ""
+msgstr "Identifiziert den Anbieter und das Produkt"
 
 #: src/datasets.cpp:108
 msgid "Envelope Number"
-msgstr ""
+msgstr "Umschlagsnummer"
 
 #: src/datasets.cpp:109
 msgid ""
@@ -460,23 +433,22 @@ msgid ""
 "date and with the same Service Identifier, records 2-9 must be unchanged "
 "from the original. This is not intended to be a sequential serial number "
 "reception check."
-msgstr ""
+msgstr "Die Zeichen ergeben eine Zahl, die eindeutig ist für das Datum, dass durch den <DateSent> Tag angegeben wurde und für die Dienst-ID, die durch den <ServiceIdentifier>-Tag  angegeben wurde, ist. Wenn identische Umschlagsnummern mit dem gleichen Datum und der gleichen Dienst-ID auftauchen, dann müssen die Datensätze 2-9 identisch mit dem Original sein. Dies ist nicht als fortlaufende Seriennummer gedacht."
 
 #: src/datasets.cpp:117
 msgid "Product Id"
-msgstr ""
+msgstr "Produkt-ID"
 
 #: src/datasets.cpp:118
 msgid ""
 "Allows a provider to identify subsets of its overall service. Used to "
 "provide receiving organisation data on which to select, route, or otherwise "
 "handle data."
-msgstr ""
+msgstr "Erlaubt es einem Anbieter eine Teilmenge seiner Dienste zu identifizieren. Sie wird dazu benutzt, damit die empfangende Organisation wählen kann wie die Daten weitergeleitet oder anderweitig behandelt werden."
 
 #: src/datasets.cpp:122
-#, fuzzy
 msgid "Envelope Priority"
-msgstr "Tv-Priorität"
+msgstr "Unschlagspriorität"
 
 #: src/datasets.cpp:123
 msgid ""
@@ -484,22 +456,21 @@ msgid ""
 "<Urgency> tag). \"1\" indicates the most urgent, \"5\" the normal urgency, "
 "and \"8\" the least urgent copy. The numeral \"9\" indicates a User Defined "
 "Priority. The numeral \"0\" is reserved for future use."
-msgstr ""
+msgstr "Gibt die Behandlungspriorität des Umschlags an und nicht die redaktionelle Wichtigkeit. Dazu ist das <Urgency> Tag gedacht. \"1\" steht für die höchste Priorität, \"5\" für normal und \"8\" für die geringste . Die Nummer \"9\" ist für eine benutzerdefinierte Priorität und \"0\" für eine zukünftige Anwendung."
 
 #: src/datasets.cpp:129
-#, fuzzy
 msgid "Date Sent"
-msgstr "Datum und Uhrzeit"
+msgstr "Sendedatum"
 
 #: src/datasets.cpp:130
 msgid ""
 "Uses the format CCYYMMDD (century, year, month, day) as de-fined in ISO 8601 "
 "to indicate year, month and day the service sent the material."
-msgstr ""
+msgstr "Benutzt das Format CCYYMMDD (Jahrhundert/C, Jahr/Y, Monat/M, Tag/D), wie im ISO Standard 8601 angegeben, um das Jahr, den Monat und den Tag anzugeben an dem das Material gesendet wurde."
 
 #: src/datasets.cpp:133
 msgid "Time Sent"
-msgstr ""
+msgstr "Sendezeit"
 
 #: src/datasets.cpp:134
 msgid ""
@@ -507,11 +478,11 @@ msgid ""
 "seconds and HHMM refers to hours and minutes ahead (+) or behind (-) "
 "Universal Coordinated Time as described in ISO 8601. This is the time the "
 "service sent the material."
-msgstr ""
+msgstr "Benutzt das Format HHMMSS:HHMM wobei HHMMSS die lokale Stunde/H, Minute/M und Sekunden/S darstellt und HHMM die Stunden/H und Minuten/M bevor (+) oder hinter (-) der UTC Zeit die im ISO Standard 8601 beschrieben wird. Dies ist die Zeit zu der das Material versendet wurde."
 
 #: src/datasets.cpp:139
 msgid "Character Set"
-msgstr ""
+msgstr "Zeichensatz"
 
 #: src/datasets.cpp:140
 msgid ""
@@ -544,9 +515,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:156
-#, fuzzy
 msgid "ARM Version"
-msgstr "Exif Version"
+msgstr "ARM-Version"
 
 #: src/datasets.cpp:157
 msgid ""
@@ -555,9 +525,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:170
-#, fuzzy
 msgid "Record Version"
-msgstr "Exif Version"
+msgstr "Datensatzversion"
 
 #: src/datasets.cpp:171
 msgid ""
@@ -567,9 +536,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:175
-#, fuzzy
 msgid "Object Type"
-msgstr "Motivbereich"
+msgstr "Motivtyp"
 
 #: src/datasets.cpp:176
 msgid ""
@@ -582,9 +550,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:184
-#, fuzzy
 msgid "Object Attribute"
-msgstr "Motivbereich"
+msgstr "Motivattribut"
 
 #: src/datasets.cpp:185
 msgid ""
@@ -598,29 +565,27 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:193
-#, fuzzy
 msgid "Object Name"
-msgstr "Motivbereich"
+msgstr "Motivname"
 
 #: src/datasets.cpp:194
 msgid ""
 "Used as a shorthand reference for the object. Changes to exist-ing data, "
 "such as updated stories or new crops on photos, should be identified in tag "
 "<EditStatus>."
-msgstr ""
+msgstr "Wird als Kurzreferenz für das Motiv benutzt. Wird zu existierenden Daten wie z.B. aktualisierten Stories, neuen Zuschnitten der geändert Photos, aktualisiert. Sollte mit dem Tag <EditStatus> identifiziert werden."
 
 #: src/datasets.cpp:198
-#, fuzzy
 msgid "Document Title"
-msgstr "Dokumentenname"
+msgstr "Dokumententitel"
 
 #: src/datasets.cpp:199
 msgid "Edit Status"
-msgstr ""
+msgstr "Bearbeitungsstatus"
 
 #: src/datasets.cpp:200
 msgid "Status of the object data, according to the practice of the provider."
-msgstr ""
+msgstr "Der Status der Motivdaten wie der Anbieter ihn benutzen will."
 
 #: src/datasets.cpp:202
 msgid "Editorial Update"
@@ -812,8 +777,7 @@ msgid "Reference Date"
 msgstr "Schwarz/Weiß Referenz"
 
 #: src/datasets.cpp:284
-msgid ""
-"Identifies the date of a prior envelope to which the current object refers."
+msgid "Identifies the date of a prior envelope to which the current object refers."
 msgstr ""
 
 #: src/datasets.cpp:286
@@ -1005,8 +969,7 @@ msgid "Headline"
 msgstr ""
 
 #: src/datasets.cpp:364
-msgid ""
-"A publishable entry providing a synopsis of the contents of the object data."
+msgid "A publishable entry providing a synopsis of the contents of the object data."
 msgstr ""
 
 #: src/datasets.cpp:367 src/datasets.cpp:370
@@ -1323,8 +1286,7 @@ msgid "   -k      Preserve file timestamps (keep).\n"
 msgstr ""
 
 #: src/exiv2.cpp:231
-msgid ""
-"   -t      Also set the file timestamp in 'rename' action (overrides -k).\n"
+msgid "   -t      Also set the file timestamp in 'rename' action (overrides -k).\n"
 msgstr ""
 
 #: src/exiv2.cpp:232
@@ -1356,8 +1318,7 @@ msgid "             s : print a summary of the Exif metadata (the default)\n"
 msgstr ""
 
 #: src/exiv2.cpp:240
-msgid ""
-"             t : interpreted (translated) Exif data (shortcut for -Pkyct)\n"
+msgid "             t : interpreted (translated) Exif data (shortcut for -Pkyct)\n"
 msgstr ""
 
 #: src/exiv2.cpp:241
@@ -1377,8 +1338,7 @@ msgid "             c : Jpeg comment\n"
 msgstr ""
 
 #: src/exiv2.cpp:245
-msgid ""
-"   -P cols Print columns for the Exif taglist ('print' action). Valid are:\n"
+msgid "   -P cols Print columns for the Exif taglist ('print' action). Valid are:\n"
 msgstr ""
 
 #: src/exiv2.cpp:246
@@ -1426,8 +1386,7 @@ msgid "             h : hexdump of the data\n"
 msgstr ""
 
 #: src/exiv2.cpp:257
-msgid ""
-"   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n"
+msgid "   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n"
 msgstr ""
 
 #: src/exiv2.cpp:258
@@ -1470,8 +1429,7 @@ msgid "             :basename:   - original filename without extension\n"
 msgstr ""
 
 #: src/exiv2.cpp:271
-msgid ""
-"             :dirname:    - name of the directory holding the original file\n"
+msgid "             :dirname:    - name of the directory holding the original file\n"
 msgstr ""
 
 #: src/exiv2.cpp:272
@@ -3075,8 +3033,7 @@ msgstr ""
 #: src/tags.cpp:550
 #, fuzzy
 msgid "Yes, compulsory, return light not detected"
-msgstr ""
-"Blitz ausgelöst, festgelegter Blitzmodus, Blitzreflektion nicht erkannt."
+msgstr "Blitz ausgelöst, festgelegter Blitzmodus, Blitzreflektion nicht erkannt."
 
 #: src/tags.cpp:551
 #, fuzzy
@@ -3120,8 +3077,7 @@ msgstr "Rote-Augen Reduktion"
 #: src/tags.cpp:559
 #, fuzzy
 msgid "Yes, red-eye reduction, return light not detected"
-msgstr ""
-"Blitz ausgelöst, Rote Augen Reduktions Modus, Blitzreflektion nicht erkannt."
+msgstr "Blitz ausgelöst, Rote Augen Reduktions Modus, Blitzreflektion nicht erkannt."
 
 #: src/tags.cpp:560
 #, fuzzy
@@ -3155,8 +3111,7 @@ msgstr "automatisch + rote Augen Reduktion"
 #: src/tags.cpp:565
 #, fuzzy
 msgid "Yes, auto, red-eye reduction, return light not detected"
-msgstr ""
-"Blitz ausgelöst, Rote Augen Reduktions Modus, Blitzreflektion nicht erkannt."
+msgstr "Blitz ausgelöst, Rote Augen Reduktions Modus, Blitzreflektion nicht erkannt."
 
 #: src/tags.cpp:566
 #, fuzzy
@@ -3533,8 +3488,7 @@ msgid "The kind of light source."
 msgstr "Die Art der Lichtquelle."
 
 #: src/tags.cpp:745
-msgid ""
-"This tag is recorded when an image is taken using a strobe light (flash)."
+msgid "This tag is recorded when an image is taken using a strobe light (flash)."
 msgstr ""
 "Dieser Eintrag wird aufgezeichnet, wenn das Bild mit einem Blitz gemacht "
 "wurde."
@@ -3559,8 +3513,7 @@ msgstr "Motivbereich"
 msgid ""
 "This tag indicates the location and area of the main subject in the overall "
 "scene."
-msgstr ""
-"Dieser Tag gibt die Position und Größe des Hauptmotivs in der Szene an."
+msgstr "Dieser Tag gibt die Position und Größe des Hauptmotivs in der Szene an."
 
 #: src/tags.cpp:755
 msgid "Maker Note"
@@ -3601,8 +3554,7 @@ msgid "Sub-seconds Time Original"
 msgstr "Datum und Uhrzeit (original)"
 
 #: src/tags.cpp:768
-msgid ""
-"A tag used to record fractions of seconds for the <DateTimeOriginal> tag."
+msgid "A tag used to record fractions of seconds for the <DateTimeOriginal> tag."
 msgstr ""
 "Der Tag wird benutzt um Sekundenbruchteile für den <DateTimeOriginal> Tag zu "
 "erfassen."
@@ -3613,8 +3565,7 @@ msgid "Sub-seconds Time Digitized"
 msgstr "Datum und Uhrzeit (digitalisiert)"
 
 #: src/tags.cpp:771
-msgid ""
-"A tag used to record fractions of seconds for the <DateTimeDigitized> tag."
+msgid "A tag used to record fractions of seconds for the <DateTimeDigitized> tag."
 msgstr ""
 "Der Tag wird benutzt um Sekundenbruchteile für den <DateTimeDigitized> Tag "
 "zu erfassen."
@@ -3892,8 +3843,7 @@ msgstr "Weißabgleich"
 
 #: src/tags.cpp:878
 msgid "This tag indicates the white balance mode set when the image was shot."
-msgstr ""
-"Dieser Tag gibt die Weißabgleichsmodus der zur Aufnahme eingestellt war."
+msgstr "Dieser Tag gibt die Weißabgleichsmodus der zur Aufnahme eingestellt war."
 
 #: src/tags.cpp:880
 msgid "Digital Zoom Ratio"
@@ -4465,8 +4415,7 @@ msgid "GPS Differential"
 msgstr ""
 
 #: src/tags.cpp:1109
-msgid ""
-"Indicates whether differential correction is applied to the GPS receiver."
+msgid "Indicates whether differential correction is applied to the GPS receiver."
 msgstr ""
 
 #: src/tags.cpp:1112 src/tags.cpp:1113
@@ -5195,8 +5144,7 @@ msgid "Camera Settings (Std Old)"
 msgstr ""
 
 #: src/minoltamn.cpp:224
-msgid ""
-"Standard Camera settings (Old Camera models like D5, D7, S304, and S404)"
+msgid "Standard Camera settings (Old Camera models like D5, D7, S304, and S404)"
 msgstr ""
 
 #: src/minoltamn.cpp:226
@@ -7710,833 +7658,3 @@ msgstr ""
 msgid "Unknown SonyMakerNote tag"
 msgstr "Unbekannte Exif-Version"
 
-#, fuzzy
-#~ msgid "Color balance 1"
-#~ msgstr "Farbraum"
-
-#, fuzzy
-#~ msgid "Preview Informations"
-#~ msgstr "Debug Informationen."
-
-#, fuzzy
-#~ msgid "Preview informations"
-#~ msgstr "Debug Informationen."
-
-#, fuzzy
-#~ msgid "Color Balance"
-#~ msgstr "Farbraum"
-
-#, fuzzy
-#~ msgid "White balance fine tune"
-#~ msgstr "Weißabgleicheinstellung"
-
-#, fuzzy
-#~ msgid "Flash exposure bracket value"
-#~ msgstr "Blitzkompensation ?"
-
-#, fuzzy
-#~ msgid "Exposure bracket value"
-#~ msgstr "Blitzkompensation ?"
-
-#, fuzzy
-#~ msgid "Lens Adapter"
-#~ msgstr "Adapter"
-
-#, fuzzy
-#~ msgid "Lens adapter used"
-#~ msgstr "Farbraum"
-
-#, fuzzy
-#~ msgid "Color Hue"
-#~ msgstr "Farbmodus"
-
-#, fuzzy
-#~ msgid "Color hue"
-#~ msgstr "Farbmodus"
-
-#, fuzzy
-#~ msgid "Raw Image Center"
-#~ msgstr "Bildlänge"
-
-#, fuzzy
-#~ msgid "Raw image center"
-#~ msgstr "Bildlänge"
-
-#, fuzzy
-#~ msgid "FlashMode"
-#~ msgstr "Blitzmodus"
-
-#, fuzzy
-#~ msgid "Internal Serial Number"
-#~ msgstr "Seriennummer"
-
-#~ msgid "Invalid format '%s', expected '%s'."
-#~ msgstr "Ungültiges Format '%s', '%s' wurde erwartet."
-
-#~ msgid "Invalid number of components (%i, expected %i)."
-#~ msgstr "Ungültige Anzahl von Komponenten (%i, %i wurden erwartet)."
-
-#~ msgid "Invalid number of components (%i, expected %i or %i)."
-#~ msgstr "Ungültige Anzahl von Komponenten (%i, %i oder %i wurden erwartet)."
-
-#~ msgid "normal"
-#~ msgstr "Normal"
-
-#~ msgid "flash did not fire"
-#~ msgstr "Blitz löste nicht aus."
-
-#~ msgid "red eyes reduction"
-#~ msgstr "Rote Augen Reduktion"
-
-#~ msgid "on + red eyes reduction"
-#~ msgstr "An + rote Augen Reduktion"
-
-# focuses just one time (when half pressing shutter)
-#~ msgid "one-Shot"
-#~ msgstr "Einzel Fokus"
-
-# continuous auto refocus while half-pressing shutter.
-#~ msgid "AI Servo"
-#~ msgstr "Al Servo"
-
-#~ msgid "MF"
-#~ msgstr "MF"
-
-#~ msgid "full auto"
-#~ msgstr "vollautomatisch"
-
-#~ msgid "landscape"
-#~ msgstr "Landschaft"
-
-#~ msgid "fast shutter"
-#~ msgstr "kurze Belichtungszeit"
-
-#~ msgid "slow shutter"
-#~ msgstr "lange Belichtungszeit"
-
-#~ msgid "Macro / Close-Up"
-#~ msgstr "Makro / Nahaufnahme"
-
-#~ msgid "high"
-#~ msgstr "hoch"
-
-#~ msgid "200"
-#~ msgstr "200"
-
-#~ msgid "400"
-#~ msgstr "400"
-
-#~ msgid "evaluative"
-#~ msgstr "entfernungsgekoppelt"
-
-#~ msgid "partial"
-#~ msgstr "partiell"
-
-#~ msgid "none (manual focus)"
-#~ msgstr "keine (manueller Fokus)"
-
-#~ msgid "auto-selected"
-#~ msgstr "automatisch selektiert"
-
-#~ msgid "right"
-#~ msgstr "rechts"
-
-#~ msgid "easy shooting"
-#~ msgstr "einfaches Fotografieren"
-
-#~ msgid "Av-priority"
-#~ msgstr "Av-Priorität"
-
-#~ msgid "A-DEP"
-#~ msgstr "A-DEP"
-
-#~ msgid "Sigma 50mm f/2.8 EX or 28mm f/1.8"
-#~ msgstr "Sigma 50mm f/2.8 EX or 28mm f/1.8"
-
-#~ msgid "Canon EF 35mm f/2"
-#~ msgstr "Canon EF 35mm f/2"
-
-#~ msgid "Tamron AF Aspherical 28-200mm f/3.8-5.6"
-#~ msgstr "Tamron AF Aspherical 28-200mm f/3.8-5.6"
-
-#~ msgid "Canon EF 50mm f/1.8 MkII"
-#~ msgstr "Canon EF 50mm f/1.8 MkII"
-
-#~ msgid "Canon MP-E 65mm f/2.8 1-5x Macro Photo"
-#~ msgstr "Canon MP-E 65mm f/2.8 1-5x Macro Photo"
-
-#~ msgid "Canon TS-E 24mm f/3.5L"
-#~ msgstr "Canon TS-E 24mm f/3.5L"
-
-#~ msgid "Canon EF 200mm f/1.8L"
-#~ msgstr "Canon EF 200mm f/1.8L"
-
-#~ msgid "Canon EF 300mm f/2.8L"
-#~ msgstr "Canon EF 300mm f/2.8L"
-
-#~ msgid "Canon EF 400mm f/2.8L"
-#~ msgstr "Canon EF 400mm f/2.8L"
-
-#~ msgid "Canon EF 500mm f/4.5L"
-#~ msgstr "Canon EF 500mm f/4.5L"
-
-#~ msgid "Canon EF 100mm f/2"
-#~ msgstr "Canon EF 100mm f/2"
-
-#~ msgid "Sigma 20mm EX f/1.8"
-#~ msgstr "Sigma 20mm EX f/1.8"
-
-#~ msgid "Canon EF 200mm f/2.8L"
-#~ msgstr "Canon EF 200mm f/2.8L"
-
-#~ msgid "Canon EF 35-350mm f/3.5-5.6L"
-#~ msgstr "Canon EF 35-350mm f/3.5-5.6L"
-
-#~ msgid "Canon EF 85mm f/1.8 USM"
-#~ msgstr "Canon EF 85mm f/1.8 USM"
-
-#~ msgid "Canon EF 28-70mm f/2.8L or Sigma 24-70mm EX f/2.8"
-#~ msgstr "Canon EF 28-70mm f/2.8L or Sigma 24-70mm EX f/2.8"
-
-#~ msgid "Canon EF 70-200mm f/2.8 L"
-#~ msgstr "Canon EF 70-200mm f/2.8 L"
-
-#~ msgid "Canon EF 70-200mm f/2.8 L + x1.4"
-#~ msgstr "Canon EF 70-200mm f/2.8 L + x1.4"
-
-#~ msgid "Canon EF 70-200mm f/2.8 L + x2"
-#~ msgstr "Canon EF 70-200mm f/2.8 L + x2"
-
-#~ msgid "Canon EF 200mm f/2.8L II"
-#~ msgstr "Canon EF 200mm f/2.8L II"
-
-#~ msgid "Canon EF 180mm Macro f/3.5L or Sigma 180mm EX HSM Macro f/3.5"
-#~ msgstr "Canon EF 180mm Macro f/3.5L or Sigma 180mm EX HSM Macro f/3.5"
-
-#~ msgid "Canon EF 135mm f/2L"
-#~ msgstr "Canon EF 135mm f/2L"
-
-#~ msgid "Canon EF 24-85mm f/3.5-4.5 USM"
-#~ msgstr "Canon EF 24-85mm f/3.5-4.5 USM"
-
-#~ msgid "Canon EF 300mm f/4L IS"
-#~ msgstr "Canon EF 300mm f/4L IS"
-
-#~ msgid "Canon EF 35mm f/1.4L"
-#~ msgstr "Canon EF 35mm f/1.4L"
-
-#~ msgid "Canon EF 100-400mm f/4.5-5.6L IS + x2"
-#~ msgstr "Canon EF 100-400mm f/4.5-5.6L IS + x2"
-
-#~ msgid "Canon EF 70-200mm f/4L"
-#~ msgstr "Canon EF 70-200mm f/4L"
-
-#~ msgid "Canon EF 400mm f/4 DO IS"
-#~ msgstr "Canon EF 400mm f/4 DO IS"
-
-#~ msgid "Canon EF 28-80 f/3.5-5.6 USM IV"
-#~ msgstr "Canon EF 28-80 f/3.5-5.6 USM IV"
-
-#~ msgid "Canon EF 90-300mm f/4.5-5.6"
-#~ msgstr "Canon EF 90-300mm f/4.5-5.6"
-
-#~ msgid "Canon EF 16-35mm f/2.8L"
-#~ msgstr "Canon EF 16-35mm f/2.8L"
-
-#~ msgid "Canon EF 24-70mm f/2.8L"
-#~ msgstr "Canon EF 24-70mm f/2.8L"
-
-#~ msgid "Canon EF 17-40mm f/4L"
-#~ msgstr "Canon EF 17-40mm f/4L"
-
-#~ msgid "%i (ms)"
-#~ msgstr "%i (ms)"
-
-#~ msgid "%u mm"
-#~ msgstr "%u mm"
-
-#~ msgid "FP sync used"
-#~ msgstr "FP sync benutzt"
-
-#~ msgid "FP sync enabled"
-#~ msgstr "FP sync angeschaltet"
-
-#~ msgid "Sunny"
-#~ msgstr "Sonnig"
-
-#~ msgid "Flourescent"
-#~ msgstr "Neonlicht"
-
-#~ msgid " (1 available focus point)"
-#~ msgstr " (1 vorhandener Fokuspunkt)"
-
-#~ msgid " (%u available focus points)"
-#~ msgstr " (%u vorhandene Fokuspunkte)"
-
-#~ msgid "Settings (first part)"
-#~ msgstr "Einstellungen (erster Teil)"
-
-#
-#~ msgid "Continuous drive mode"
-#~ msgstr "Serienbild Modus"
-
-#~ msgid "ISO"
-#~ msgstr "ISO"
-
-#~ msgid "Focus type"
-#~ msgstr "Fokusart"
-
-#~ msgid "AF point selected"
-#~ msgstr "AF Punkt Selektion"
-
-#~ msgid "Short focal length of lens"
-#~ msgstr "Kurze Brennweite der Linse"
-
-#~ msgid "Focal units per mm"
-#~ msgstr "Fokuseinheiten pro mm"
-
-#~ msgid "Flash activity"
-#~ msgstr "Blitz Aktivitåt"
-
-#~ msgid "Flash details"
-#~ msgstr "Blitz Details"
-
-#~ msgid "Zoomed resolution"
-#~ msgstr "gezoomte Auflösung"
-
-#~ msgid "Zoomed resolution base"
-#~ msgstr "Basis der gezoomten Auflösung"
-
-#~ msgid "Motorola"
-#~ msgstr "Motorola"
-
-#~ msgid "Size of data too small to allow for EXIF data."
-#~ msgstr "Größe der Daten zu klein um EXIF Daten aufzunehmen."
-
-#~ msgid "EXIF marker not found."
-#~ msgstr "EXIF Marker nicht gefunden."
-
-#~ msgid "EXIF header not found."
-#~ msgstr "EXIF Informationen nicht gefunden."
-
-#~ msgid "Unknown encoding."
-#~ msgstr "Unbekannte Kodierung."
-
-#~ msgid "Ignore unknown tags"
-#~ msgstr "Ignoriere unbekannte EXIF Tags."
-
-#~ msgid "Ignore unknown tags when loading EXIF data."
-#~ msgstr "Ignoriere unbekannte Tags beim Laden der EXIF Daten."
-
-#~ msgid ""
-#~ "Add, correct and remove entries to get EXIF data that follows the "
-#~ "specification."
-#~ msgstr ""
-#~ "Korrigiere, entferne oder füge fehlende Einträge zu den EXIF Daten hinzu, "
-#~ "um Daten zu erhalten, die der Spezifikation entsprechen."
-
-#~ msgid ""
-#~ "Tag '%s' was of format '%s' (which is against specification) and has been "
-#~ "changed to format '%s'."
-#~ msgstr ""
-#~ "Der Tag »%s« war im Format »%s« (entgegen der Spezifikation) und wurde in "
-#~ "das Format »%s« umgewandelt."
-
-#~ msgid ""
-#~ "Tag 'UserComment' had invalid format '%s'. Format has been set to "
-#~ "'undefined'."
-#~ msgstr ""
-#~ "Der Tag \"UserComment\" hatte das ungültige Format »%s«. Das Format wurde "
-#~ "auf \"undefiniert\" geändert."
-
-#~ msgid ""
-#~ "Tag 'UserComment' has been expanded to at least 8 bytes in order to "
-#~ "follow the specification."
-#~ msgstr ""
-#~ "Der Tag \"UserComment\" wurde auf 8 Byte Mindestlänge expandiert, um der "
-#~ "Spezifikation zu folgen."
-
-#~ msgid ""
-#~ "Tag 'UserComment' did not start with format identifier. This has been "
-#~ "fixed."
-#~ msgstr ""
-#~ "Der Tag \"UserComment\" begann nicht mit einem Formattyp. Dieser Fehler "
-#~ "wurde behoben."
-
-#~ msgid ""
-#~ "The tag '%s' contains data of an invalid format ('%s', expected '%s')."
-#~ msgstr ""
-#~ "Der Tag '%s' enthält ein ungültiges Datenformat ('%s', '%s' wurde "
-#~ "erwartet)."
-
-#~ msgid ""
-#~ "The tag '%s' contains an invalid number of components (%i, expected %i)."
-#~ msgstr ""
-#~ "Der Tag '%s' enthält eine ungültige Anzahl von Komponenten (%i, %i wurden "
-#~ "erwartet)."
-
-#~ msgid "chunky format"
-#~ msgstr "progressives Format"
-
-#~ msgid "Manual white balance"
-#~ msgstr "Manueller Weißabgleich"
-
-#~ msgid "Center-Weight"
-#~ msgstr "Mittelpunkt gewichtet"
-
-#~ msgid "Pattern"
-#~ msgstr "Raster"
-
-#~ msgid "LZW compression"
-#~ msgstr "LZW Kompression"
-
-#~ msgid "cloudy"
-#~ msgstr "wolkig"
-
-#~ msgid "in"
-#~ msgstr "Zoll"
-
-#~ msgid "Centimeter"
-#~ msgstr "Zentimeter"
-
-#~ msgid "Normal program"
-#~ msgstr "Normalprogramm"
-
-#~ msgid "Creative program (biased toward depth of field)"
-#~ msgstr "Kreatives Programm (bevorzugt Schärfentiefe)"
-
-#~ msgid "Creative program (biased toward fast shutter speed)"
-#~ msgstr "Kreatives Programm (bevorzugt kurze Belichtungszeit)"
-
-#~ msgid "Portrait mode (for closeup photos with the background out of focus)"
-#~ msgstr "Portrait Modus (für Nahaufnahmen mit unscharfem Hintergrund)"
-
-#~ msgid "Landscape mode (for landscape photos with the background in focus)"
-#~ msgstr ""
-#~ "Landschafts Modus (für Landschaftsaufnahmen mit scharfem Hintergrund)"
-
-#~ msgid "Flash did not fire."
-#~ msgstr "Blitz löste nicht aus."
-
-#~ msgid "Flash fired."
-#~ msgstr "Blitz löste aus."
-
-#~ msgid "W/o strobe"
-#~ msgstr "Ohne Röhrenblitz"
-
-#~ msgid "W. strobe"
-#~ msgstr "Mit Röhrenblitz"
-
-#~ msgid "Flash fired, compulsatory flash mode"
-#~ msgstr "Blitz ausgelöst, festgelegter Blitzmodus"
-
-#~ msgid "Flash did not fire, compulsatory flash mode."
-#~ msgstr "Blitz löste nicht aus, erzwungener Blitzmodus."
-
-#~ msgid "Flash did not fire, auto mode."
-#~ msgstr "Blitz löste nicht aus, automatischer Modus."
-
-#~ msgid "Flash fired, auto mode."
-#~ msgstr "Blitz löste aus, automatischer Modus."
-
-#~ msgid "Flash fired, auto mode, return light not detected."
-#~ msgstr ""
-#~ "Blitz löste aus, automatischer Modus, keine Blitzreflektion erkannt."
-
-#~ msgid "Flash fired, auto mode, return light detected."
-#~ msgstr "Blitz ausgelöst, automatischer Modus, Blitzreflektion erkannt."
-
-#~ msgid "Flash fired, red-eye reduction mode."
-#~ msgstr "Blitz ausgelöst, Rote Augen Reduktions Modus."
-
-#~ msgid "Flash did not fire, auto mode, red-eye reduction mode"
-#~ msgstr ""
-#~ "Blitz nicht ausgelöst, automatischer Modus, Rote Augen Reduktions Modus."
-
-#~ msgid "Flash fired, auto mode, red-eye reduction mode"
-#~ msgstr "Blitz ausgelöst, automatischer Modus, Rote Augen Reduktions Modus."
-
-#~ msgid ""
-#~ "Flash fired, auto mode, return light not detected, red-eye reduction mode."
-#~ msgstr ""
-#~ "Blitz ausgelöst, automatischer Modus, Blitzreflektion nicht erkannt, Rote "
-#~ "Augen Reduktionsmodus."
-
-#~ msgid ""
-#~ "Flash fired, auto mode, return light detected, red-eye reduction mode."
-#~ msgstr ""
-#~ "Blitz ausgelöst, automatischer Modus, Blitzreflektion erkannt, Rote Augen "
-#~ "Reduktionsmodus."
-
-#~ msgid "?"
-#~ msgstr "?"
-
-#~ msgid "close"
-#~ msgstr "nah"
-
-#~ msgid "distant"
-#~ msgstr "entfernt"
-
-#~ msgid "Invalid size of entry (%i, expected %li x %i)."
-#~ msgstr "Ungültige Größe des Eintrags (%i, erwartet %li x %i)."
-
-#~ msgid "Unsupported UNICODE string"
-#~ msgstr "Nicht unterstützter UNICODE String."
-
-#~ msgid "Tag UserComment does not comply with standard but contains data."
-#~ msgstr ""
-#~ "Der Tag \"UserComment\" ist nicht standard konform, enthält aber Daten."
-
-#~ msgid "Byte at position %i: 0x%02x"
-#~ msgstr "Byte an Position %i: 0x%02x"
-
-#~ msgid "Exif Version %d.%d"
-#~ msgstr "Exif Version %d.%d"
-
-#~ msgid "FlashPix Version 1.01"
-#~ msgstr "FlashPix Version 1.01"
-
-#~ msgid "Unknown FlashPix Version"
-#~ msgstr "Unbekannte FlashPix Version"
-
-#~ msgid "(Photographer)"
-#~ msgstr "(Photograph)"
-
-#~ msgid "(Editor)"
-#~ msgstr "(Editor)"
-
-#~ msgid "1/%d"
-#~ msgstr "1/%d"
-
-#~ msgid "%d"
-#~ msgstr "%d"
-
-#~ msgid " sec."
-#~ msgstr "sek."
-
-#~ msgid "DSC"
-#~ msgstr "DSC"
-
-#~ msgid "-"
-#~ msgstr "-"
-
-#~ msgid "Y"
-#~ msgstr "Y"
-
-#~ msgid "Cb"
-#~ msgstr "Cb"
-
-#~ msgid "Cr"
-#~ msgstr "Cr"
-
-#~ msgid "R"
-#~ msgstr "R"
-
-#~ msgid "G"
-#~ msgstr "G"
-
-#~ msgid "B"
-#~ msgstr "B"
-
-#~ msgid "reserved"
-#~ msgstr "reserviert"
-
-#~ msgid "YCbCr4:2:2"
-#~ msgstr "YCbCr4:2:2"
-
-#~ msgid "YCbCr4:2:0"
-#~ msgstr "YCbCr4:2:0"
-
-#~ msgid "%i bytes unknown data"
-#~ msgstr "%i Byte(s) unbekannte Daten"
-
-#~ msgid "Within distance %i of (x,y) = (%i,%i)"
-#~ msgstr "Innerhalb einer Entfernung %i von (x,y) = (%i,%i)"
-
-#~ msgid "Within rectangle (width %i, height %i) around (x,y) = (%i,%i)"
-#~ msgstr "Innerhalb eines Rechtecks (Breite %i, Höhe %i) um (x,y) = (%i,%i)"
-
-#~ msgid "Unexpected number of components (%li, expected 2, 3, or 4)."
-#~ msgstr "Unerwartete Nummer von Komponenten (%li, erwartete 2, 3 oder 4)."
-
-#~ msgid "Internal error (unknown value %i)."
-#~ msgstr "Interner Fehler (unbekannter Wert %i)."
-
-#~ msgid "Ascii"
-#~ msgstr "ASCII"
-
-#~ msgid "Long"
-#~ msgstr "Long Int"
-
-#~ msgid "SByte"
-#~ msgstr "SByte"
-
-#~ msgid "SShort"
-#~ msgstr "SShort"
-
-#~ msgid "Float"
-#~ msgstr "Float"
-
-#~ msgid "Double"
-#~ msgstr "Double"
-
-#~ msgid "Undefined"
-#~ msgstr "Undefiniert"
-
-#~ msgid "The file '%s' could not be opened."
-#~ msgstr "Die Datei »%s« konnte nicht geöffnet werden."
-
-#~ msgid "The data supplied does not seem to contain EXIF data."
-#~ msgstr "Die übergebenen Daten scheinen keine EXIF Daten zu enthalten."
-
-#~ msgid "Debugging information is available."
-#~ msgstr "Debug Informationen sind vorhanden."
-
-#~ msgid "Not enough memory"
-#~ msgstr "Nicht genug Speicher."
-
-#~ msgid "The system cannot provide enough memory."
-#~ msgstr "Es ist nicht genug Speicher vorhanden."
-
-#~ msgid "Corrupt data"
-#~ msgstr "Korrupte Daten"
-
-#~ msgid "The data provided does not follow the specification."
-#~ msgstr "Die Daten folgen nicht der Spezifikation."
-
-#~ msgid "XMP Metadata"
-#~ msgstr "XMP Metadaten"
-
-#~ msgid "North or South Latitude"
-#~ msgstr "Nördlicher oder südlicher Breitengrad"
-
-#~ msgid "East or West Longitude"
-#~ msgstr "Östliche oder Westliche Länge"
-
-#~ msgid ""
-#~ "A tag for Exif users to write keywords or comments on the image besides "
-#~ "those in <ImageDescription>, and without the character code limitations "
-#~ "of the <ImageDescription> tag. The character code used in the "
-#~ "<UserComment> tag is identified based on an ID code in a fixed 8-byte "
-#~ "area at the start of the tag data area. The unused portion of the area is "
-#~ "padded with NULL (\"00.h\"). ID codes are assigned by means of "
-#~ "registration. The designation method and references for each character "
-#~ "code are given in Table 6. The value of CountN is determinated based on "
-#~ "the 8 bytes in the character code area and the number of bytes in the "
-#~ "user comment part. Since the TYPE is not ASCII, NULL termination is not "
-#~ "necessary (see Fig. 9). The ID code for the <UserComment> area may be a "
-#~ "Defined code such as JIS or ASCII, or may be Undefined. The Undefined "
-#~ "name is UndefinedText, and the ID code is filled with 8 bytes of all "
-#~ "\"NULL\" (\"00.H\"). An Exif reader that reads the <UserComment> tag must "
-#~ "have a function for determining the ID code. This function is not "
-#~ "required in Exif readers that do not use the <UserComment> tag (see Table "
-#~ "7). When a <UserComment> area is set aside, it is recommended that the ID "
-#~ "code be ASCII and that the following user comment part be filled with "
-#~ "blank characters [20.H]."
-#~ msgstr ""
-#~ "Ein Tag für Exif Benutzer um spezielle Stichworte oder Kommentare über "
-#~ "das Bild zu notieren unabhängig von denen im <ImageDescription> Tag und "
-#~ "ohne dessen Encoding Limitierung. Das Encoding im <UserComment> Tag wird "
-#~ "durch einen ID Code in einem fixen 8-Byte Bereich am Beginn des "
-#~ "Datenbereichs identifiziert. Der unbenutzte Teil dieses Bereiches wird "
-#~ "mit Nullen aufgefüllt (00h). ID Codes werden durch Registration vergeben. "
-#~ "Die Angaben und Referenzen sind in Tabelle 6 spezifiziert. Der Wert von "
-#~ "CountN wird ermittelt anhand der 8 Byte im Character Code Bereich und der "
-#~ "Anzahl an Bytes im User Kommentar Bereich. Da der TYPE nicht ASCII ist "
-#~ "ist eine NULL Terminierung nicht nötig (siehe Abbildung 9). Der ID Code "
-#~ "des <UserComment> Bereichs kann ein \"Defined Code\" wie z.B. JIS oder "
-#~ "ASCII sein, oder kann \"Undefined\" sein. Der \"Undefined\" Name ist "
-#~ "undefinierter Text und der ID Code ist mit 8 Bytes NULL (00h) gefüllt. "
-#~ "Ein Exif Leser der dieses Feld ausliest muss eine Funktion zum Ermitteln "
-#~ "dieses Codes besitzen. Diese Funktion wird nicht verlangt in Lesern, die "
-#~ "das Feld nicht benutzen (siehe Tabelle 7). Wenn ein <UserComment> Bereich "
-#~ "angelegt wurde, ist der empfohlene ID Code ASCII und der folgende User "
-#~ "Kommentar Bereich ist mit Leerzeichen aufgefüllt (20h)."
-
-#~ msgid ""
-#~ "This tag is used to record the name of an audio file related to the image "
-#~ "data. The only relational information recorded here is the Exif audio "
-#~ "file name and extension (an ASCII string consisting of 8 characters + '.' "
-#~ "+ 3 characters). The path is not recorded. Stipulations on audio are "
-#~ "given in  section 3.6.3. File naming conventions are given in section "
-#~ "3.7.1. When using this tag, audio files must be recorded in conformance "
-#~ "to the Exif audio format. Writers are also allowed to store the data such "
-#~ "as Audio within APP2 as FlashPix extension stream data. Audio files must "
-#~ "be recorded in conformance to the Exif audio format. The mapping of Exif "
-#~ "image files and audio files is done in any of the three ways shown in "
-#~ "Table 8. If multiple files are mapped to one file as in [2] or [3] of "
-#~ "this table, the above format is used to record just one audio file name. "
-#~ "If there are multiple audio files, the first recorded file is given. In "
-#~ "the case of [3] in Table 8, for example, for the Exif image file "
-#~ "\"DSC00001.JPG\" only  \"SND00001.WAV\" is given as the related Exif "
-#~ "audio file. When there are three Exif audio files \"SND00001.WAV\", "
-#~ "\"SND00002.WAV\" and \"SND00003.WAV\", the Exif image file name for each "
-#~ "of them, \"DSC00001.JPG\", is indicated. By combining multiple relational "
-#~ "information, a variety of playback possibilities can be supported. The "
-#~ "method of using relational information is left to the implementation on "
-#~ "the playback side. Since this information is an ASCII character string, "
-#~ "it is terminated by NULL. When this tag is used to map audio files, the "
-#~ "relation of the audio file to image data must also be indicated on the "
-#~ "audio file end."
-#~ msgstr ""
-#~ "Dieser Tag wird dazu benutzt, um den Namen einer Audiodatei zu speichern, "
-#~ "die zu den Bilddaten gehört. Die einzige Information hier ist der Exif "
-#~ "Audiodateiname und die Extension (ein ASCII String mit 8 Zeichen, \".\" "
-#~ "und 3 Zeichen). Der Pfad ist nicht enthalten. Dieser String wird durch "
-#~ "NULL (00h) terminiert."
-
-#~ msgid "Gamma"
-#~ msgstr "Gamma"
-
-#~ msgid "Unknown (related to Epson's PRINT Image Matching technology)"
-#~ msgstr "Unbekannt (zugehörig zur Epson PRINT Image Matching Technologie)"
-
-#~ msgid "AF non D Lens"
-#~ msgstr "AF nicht D Linse"
-
-#~ msgid "AF-D or AF-S Lens"
-#~ msgstr "AF-D oder AF-S Linse"
-
-#~ msgid "AF-D G Lens"
-#~ msgstr "AF-D G Linse"
-
-#~ msgid "AF-D VR Lens"
-#~ msgstr "AF-D VR Linse"
-
-#~ msgid "Flash unit unknown"
-#~ msgstr "Blitzeinheit unbekannt"
-
-#~ msgid "Flash is on Camera"
-#~ msgstr "Blitz ist in der Kamera"
-
-#~ msgid "2 MPixel Basic"
-#~ msgstr "2 MPixel Basic"
-
-#~ msgid "2 MPixel Normal"
-#~ msgstr "2 MPixel Normal"
-
-#~ msgid "ISO80"
-#~ msgstr "ISO80"
-
-#~ msgid "ISO160"
-#~ msgstr "ISO160"
-
-#~ msgid "ISO320"
-#~ msgstr "ISO320"
-
-#~ msgid "ISO100"
-#~ msgstr "ISO100"
-
-#~ msgid "No Fisheye"
-#~ msgstr "Kein Fischauge"
-
-#~ msgid "Fisheye On"
-#~ msgstr "Fischauge An"
-
-#~ msgid "SQ"
-#~ msgstr "SQ"
-
-#~ msgid "HQ"
-#~ msgstr "HQ"
-
-#~ msgid "SHQ"
-#~ msgstr "SHQ"
-
-#~ msgid "1x"
-#~ msgstr "1x"
-
-#~ msgid "2x"
-#~ msgstr "2x"
-
-#~ msgid "Fill"
-#~ msgstr "Zwischen"
-
-#~ msgid "Red Correction %f, Blue Correction %f"
-#~ msgstr "Rot Korrektion %f, Blau Korrektion %f"
-
-#~ msgid "%2.2f meters"
-#~ msgstr "%2.2f Meter"
-
-#~ msgid "No manual focus selection"
-#~ msgstr "Keine manuelle Fokusselektion"
-
-#~ msgid "AF Position: Center"
-#~ msgstr "AF Position: Mitte"
-
-#~ msgid "AF Position: Top"
-#~ msgstr "AF Position: Oben"
-
-#~ msgid "AF Position: Bottom"
-#~ msgstr "AF Position: Unten"
-
-#~ msgid "AF Position: Left"
-#~ msgstr "AF Position: Links"
-
-#~ msgid "AF Position: Right"
-#~ msgstr "AF Position: Rechts"
-
-#~ msgid "Unknown value %hi"
-#~ msgstr "Unbekannter Wert %hi"
-
-#~ msgid "unknown"
-#~ msgstr "unbekannt"
-
-#~ msgid "%li"
-#~ msgstr "%li"
-
-#~ msgid "Manual: Unknown"
-#~ msgstr "Manuell: Unbekannt"
-
-#~ msgid "%li bytes unknown data: "
-#~ msgstr "%li Byte unbekannte Daten: "
-
-#~ msgid "Colormode (?)"
-#~ msgstr "Farbmodus (?)"
-
-#~ msgid "Whitebalance"
-#~ msgstr "Weißabgleich"
-
-#~ msgid "Whitebalance RB"
-#~ msgstr "Weißabgleich RB"
-
-#~ msgid "Exposurediff ?"
-#~ msgstr "Belichtungsdifferenz ?"
-
-#~ msgid "Total number of pictures taken"
-#~ msgstr "Anzahl aller aufgenommenen Bilder"
-
-#~ msgid "Optimize Image"
-#~ msgstr "Bild optimieren"
-
-#~ msgid "CCD Sensitivity"
-#~ msgstr "CCD Empfindlichkeit"
-
-#~ msgid "Converter"
-#~ msgstr "Konverter"
-
-#~ msgid "Speed/Sequence/Panorama direction"
-#~ msgstr "Geschwindigkeit/Sequenz/Panorama Richtung"
-
-#~ msgid "Night-scene"
-#~ msgstr "Nachtsszene"
-
-#~ msgid "Better"
-#~ msgstr "Besser"
-
-#~ msgid "Flash off"
-#~ msgstr "Blitz aus"
-
-#~ msgid "PrintIM Settings"
-#~ msgstr "PrintIM Einstellungen"
-
-#~ msgid "TimeZone"
-#~ msgstr "Zeitzone"
-
-#~ msgid "DaylightSavings"
-#~ msgstr "Sommerzeit"
-
-# This is a very special string. It is used for test purposes, and
-# we only test the de locale as a proof-of-concept example. There is
-# no need for anybody to translate it.
-#~ msgid "[DO_NOT_TRANSLATE_THIS_MARKER]"
-#~ msgstr "[DO_NOT_TRANSLATE_THIS_MARKER_de]"
