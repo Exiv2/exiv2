@@ -118,6 +118,11 @@ namespace Exiv2 {
         void setIptcData(const IptcData& iptcData);
         //@}
 
+        //! @name Accessors
+        //@{
+        std::string mimeType() const { return "image/x-canon-crw"; }
+        //@}
+
     private:
         //! @name NOT Implemented
         //@{

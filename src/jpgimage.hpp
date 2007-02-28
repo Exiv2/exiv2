@@ -265,7 +265,7 @@ namespace Exiv2 {
         //@}
         //! @name Accessors
         //@{
-        AccessMode checkMode(MetadataId metadataId) const;
+        std::string mimeType() const { return "image/jpeg"; }
         //@}
     protected:
         //! @name Accessors
@@ -323,7 +323,7 @@ namespace Exiv2 {
         //@}
         //! @name Accessors
         //@{
-        AccessMode checkMode(MetadataId metadataId) const;
+        std::string mimeType() const { return "image/x-exv"; }
         //@}
     protected:
         //! @name Accessors
