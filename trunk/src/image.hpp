@@ -201,6 +201,17 @@ namespace Exiv2 {
          */
         bool good() const;
         /*!
+          @brief Return the MIME type of the image.
+
+          @note For each supported image format, the library knows only one MIME
+          type.  This may not be the most specific MIME type for that format. In
+          particular, several RAW formats are variants of the TIFF format with
+          the same magic as TIFF itself. Class TiffImage handles most of them
+          and thus they all have MIME type "image/tiff", although a more
+          specific MIME type may exist (e.g., "image/x-nikon-nef").
+         */
+        virtual std::string mimeType() const =0;
+        /*!
           @brief Returns an ExifData instance containing currently buffered
               Exif data.
 

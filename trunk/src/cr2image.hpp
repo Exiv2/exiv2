@@ -102,6 +102,11 @@ namespace Exiv2 {
         void setComment(const std::string& comment);
         //@}
 
+        //! @name Accessors
+        //@{
+        std::string mimeType() const { return "image/x-canon-cr2"; }
+        //@}
+
     private:
         //! @name NOT implemented
         //@{

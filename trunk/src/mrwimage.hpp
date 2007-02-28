@@ -101,6 +101,11 @@ namespace Exiv2 {
         void setComment(const std::string& comment);
         //@}
 
+        //! @name Accessors
+        //@{
+        std::string mimeType() const { return "image/x-minolta-mrw"; }
+        //@}
+
     private:
         //! @name NOT Implemented
         //@{

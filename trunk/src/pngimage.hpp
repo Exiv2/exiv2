@@ -104,6 +104,11 @@ namespace Exiv2 {
         void setComment(const std::string& comment);
         //@}
 
+        //! @name Accessors
+        //@{
+        std::string mimeType() const { return "image/png"; }
+        //@}
+
     private:
         //! @name NOT implemented
         //@{
