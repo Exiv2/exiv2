@@ -1,9 +1,5 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
-/* Define to 1 if translation of program messages to the user's
-   native language is requested. */
-#undef ENABLE_NLS
-
 /* Define to one of `_getb67', `GETB67', `getb67' for Cray-2 and Cray-YMP
    systems. This function is required for `alloca.c' support on those systems. */
 #undef CRAY_STACKSEG_END
@@ -37,8 +33,19 @@
 /* Define to 1 if you have the <libintl.h> header file. */
 #undef HAVE_LIBINTL_H
 
+#ifndef EXV_COMMERCIAL_VERSION
+
+/* Define to 1 to enable translation of Exif.Nikon3.LensData. */
+#undef HAVE_LENSDATA
+
+/* Define to 1 if translation of program messages to the user's
+   native language is requested. */
+#undef ENABLE_NLS
+
 /* Define to 1 if you have the `iconv' function. */
 #undef HAVE_ICONV
+
+#endif /* !EXV_COMMERCIAL_VERSION */
 
 /* Define to `const' or to empty, depending on the second argument of `iconv'. */
 #undef ICONV_CONST
