@@ -79,7 +79,7 @@ while test $# -gt 0; do
         ;;
 
     --libs)
-       	echo -L$libdir -lexiv2 @LIBS@
+       	echo -L$libdir -lexiv2 @LDFLAGS@ @LTLIBINTL@ @LTLIBICONV@ @LIBS@
        	;;
 
     *)
