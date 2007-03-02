@@ -34,6 +34,20 @@
 /* Define to `int' if <sys/types.h> does not define pid_t. */
 #define pid_t int
 
+#ifndef EXV_COMMERCIAL_VERSION
+
+/* Define to 1 to enable translation of Exif.Nikon3.LensData. */
+# define EXV_HAVE_LENSDATA 1
+
+/* Define to 1 if translation of program messages to the user's
+   native language is requested. */
+# undef EXV_ENABLE_NLS
+
+/* Define to 1 if you have the `iconv' function. */
+# undef EXV_HAVE_ICONV
+
+#endif /* !EXV_COMMERCIAL_VERSION */
+
 /* File path seperator */
 #define EXV_SEPERATOR_STR "\\"
 #define EXV_SEPERATOR_CHR '\\'

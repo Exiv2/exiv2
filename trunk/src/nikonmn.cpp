@@ -51,8 +51,6 @@ EXIV2_RCSID("@(#) $Id$")
 #include <cassert>
 #include <cstring>
 
-#define EXV_HAVE_LENSDATA
-
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
