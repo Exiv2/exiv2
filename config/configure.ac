@@ -112,7 +112,6 @@ fi
 # Create output files.
 # ---------------------------------------------------------------------------
 AC_CONFIG_FILES([./config/config.mk])
-AC_CONFIG_FILES([./config/exiv2-config], [chmod +x ./config/exiv2-config])
 AC_CONFIG_FILES([./config/exiv2.pc])
 AC_CONFIG_FILES([./po/Makefile.in])
 AC_OUTPUT
