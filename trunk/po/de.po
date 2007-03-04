@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
 "POT-Creation-Date: 2007-02-08 08:20+0100\n"
-"PO-Revision-Date: 2007-02-21 22:43+0100\n"
+"PO-Revision-Date: 2007-03-03 23:14+0100\n"
 "Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
 "Language-Team:  <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -87,7 +87,6 @@ msgid "Flash bias"
 msgstr "Blitzabweichung"
 
 #: src/actions.cpp:304 src/minoltamn.cpp:647
-#, fuzzy
 msgid "Focal length"
 msgstr "Brennweite"
 
@@ -105,9 +104,8 @@ msgstr "ISO Geschwindigkeit"
 
 #: src/actions.cpp:360 src/minoltamn.cpp:599 src/minoltamn.cpp:874
 #: src/minoltamn.cpp:1112 src/sigmamn.cpp:84
-#, fuzzy
 msgid "Exposure mode"
-msgstr "Belichtungsart"
+msgstr "Belichtungsmodus"
 
 #: src/actions.cpp:383 src/minoltamn.cpp:617 src/minoltamn.cpp:1133
 #: src/sigmamn.cpp:87
@@ -311,7 +309,7 @@ msgstr "Datei"
 
 #: src/actions.cpp:1617
 msgid "exists. [O]verwrite, [r]ename or [s]kip?"
-msgstr ""
+msgstr "existiert [O]überschreiben, [r]umbennenen oder [s]überspringen?"
 
 #: src/actions.cpp:1645
 msgid "Renaming file to"
@@ -327,15 +325,15 @@ msgstr "Fehler beim umbenennen"
 
 #: src/cr2image.cpp:166 src/crwimage.cpp:590 src/tiffimage.cpp:127
 msgid "Header, offset"
-msgstr ""
+msgstr "Header, offset"
 
 #: src/cr2image.cpp:170 src/tiffimage.cpp:131
 msgid "little endian encoded"
-msgstr ""
+msgstr "\"Little-Endian\" kodiert"
 
 #: src/cr2image.cpp:171 src/tiffimage.cpp:132
 msgid "big endian encoded"
-msgstr ""
+msgstr "\"Big Endian\" kodiert"
 
 #: src/crwimage.cpp:607 src/tiffvisitor.cpp:428 src/tiffvisitor.cpp:451
 msgid "tag"
@@ -354,9 +352,8 @@ msgid "size"
 msgstr "GrößeVoll"
 
 #: src/crwimage.cpp:613 src/tiffvisitor.cpp:434
-#, fuzzy
 msgid "offset"
-msgstr "Weich"
+msgstr "Offset"
 
 #: src/datasets.cpp:79
 msgid "(invalid)"
@@ -490,18 +487,18 @@ msgid ""
 "announcement, invocation or designation of coded character sets. The control "
 "functions follow the ISO 2022 standard and may consist of the escape control "
 "character and one or more graphic characters."
-msgstr ""
+msgstr "Dieses Stichwort enthält eine oder mehrere Kontrollfunktionen die benutzt werden für die Ankündigung, Aufruf oder Zuweisung von kodierten Zeichensätzen. Die Kontrollfunktionen folgen dem ISO 2022 Standard und können aus einem Escape Kontrollzeichen und mehreren Graphikzeichen bestehen."
 
 #: src/datasets.cpp:145
 msgid "Unique Name Object"
-msgstr ""
+msgstr "Eindeutiges Namensobjekt"
 
 #: src/datasets.cpp:146
 msgid ""
 "This tag provide a globally unique identification for objects as specified "
 "in the IIM, independent of provider and for any media form. The provider "
 "must ensure the UNO is unique. Objects with the same UNO are identical."
-msgstr ""
+msgstr "Dieses Stichwort stellt, wie im IIM spezifiziert, eine globale eindeutige Identifikation für Objekte  zur Verfügung, die unabhängig vom Anbieter und der Medienform ist. Der Anbieter muss gewährleisten, dass das eindeutige Namensobjekt auch wirklich eindeutig ist. D.h. Objekte mit demselben Namensobjekt sind identisch."
 
 #: src/datasets.cpp:151
 msgid "ARM Identifier"
@@ -610,9 +607,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:213
-#, fuzzy
 msgid "Subject"
-msgstr "Motivbereich"
+msgstr "Motiv"
 
 #: src/datasets.cpp:214
 msgid "The Subject Reference is a structured definition of the subject matter."
@@ -682,9 +678,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:248
-#, fuzzy
 msgid "Location Name"
-msgstr "Dokumentenname"
+msgstr "Ortsname"
 
 #: src/datasets.cpp:249
 msgid ""
@@ -744,14 +739,12 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:273
-#, fuzzy
 msgid "Instructions"
-msgstr "Benutzerdefinierte Funktionen"
+msgstr "Anleitung"
 
 #: src/datasets.cpp:274
-#, fuzzy
 msgid "Action Advised"
-msgstr "Action"
+msgstr "Empfohlene Aktion"
 
 #: src/datasets.cpp:275
 msgid ""
@@ -761,9 +754,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:279
-#, fuzzy
 msgid "Reference Service"
-msgstr "Schwarz/Weiß Referenz"
+msgstr "Referenzdienst"
 
 #: src/datasets.cpp:280
 msgid ""
@@ -772,18 +764,16 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:283
-#, fuzzy
 msgid "Reference Date"
-msgstr "Schwarz/Weiß Referenz"
+msgstr "Referenzdatum"
 
 #: src/datasets.cpp:284
 msgid "Identifies the date of a prior envelope to which the current object refers."
 msgstr ""
 
 #: src/datasets.cpp:286
-#, fuzzy
 msgid "Reference Number"
-msgstr "Sequenznummer"
+msgstr "Referenznummer"
 
 #: src/datasets.cpp:287
 msgid ""
@@ -792,9 +782,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:289 src/datasets.cpp:294
-#, fuzzy
 msgid "Date Created"
-msgstr "Datum und Uhrzeit"
+msgstr "Erstellungsdatum"
 
 #: src/datasets.cpp:290
 msgid ""
@@ -825,9 +814,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:305
-#, fuzzy
 msgid "Digitization Time"
-msgstr "Datum und Uhrzeit"
+msgstr "Digitalisierungszeit"
 
 #: src/datasets.cpp:306
 msgid ""
@@ -837,18 +825,16 @@ msgstr ""
 
 #: src/datasets.cpp:310 src/minoltamn.cpp:293 src/minoltamn.cpp:764
 #: src/minoltamn.cpp:968 src/panasonicmn.cpp:110 src/sigmamn.cpp:228
-#, fuzzy
 msgid "Program"
-msgstr "Belichtungsart"
+msgstr "Programm"
 
 #: src/datasets.cpp:311
 msgid "Identifies the type of program used to originate the object data."
 msgstr ""
 
 #: src/datasets.cpp:313
-#, fuzzy
 msgid "Program Version"
-msgstr "Firmware Version"
+msgstr "Programmversion"
 
 #: src/datasets.cpp:314
 msgid "Used to identify the version of the program mentioned in tag <Program>."
@@ -873,9 +859,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:323
-#, fuzzy
 msgid "Author"
-msgstr "Automatisch"
+msgstr "Autor"
 
 #: src/datasets.cpp:324
 msgid "By-line Title"
@@ -938,9 +923,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:352
-#, fuzzy
 msgid "Country Name"
-msgstr "Dokumentenname"
+msgstr "Ländername"
 
 #: src/datasets.cpp:353
 msgid ""
@@ -950,9 +934,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:357
-#, fuzzy
 msgid "Country"
-msgstr "Dokumentenname"
+msgstr "Land"
 
 #: src/datasets.cpp:358 src/datasets.cpp:362
 msgid "Transmission Reference"
@@ -983,9 +966,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:371 src/datasets.cpp:375
-#, fuzzy
 msgid "Source"
-msgstr "Dateiquelle"
+msgstr "Quelle"
 
 #: src/datasets.cpp:372
 msgid ""
@@ -998,14 +980,12 @@ msgid "Contains any necessary copyright notice."
 msgstr ""
 
 #: src/datasets.cpp:379
-#, fuzzy
 msgid "Copyright Notice"
-msgstr "Copyright"
+msgstr "Copyright-Notiz"
 
 #: src/datasets.cpp:380
-#, fuzzy
 msgid "Contact"
-msgstr "Kontrast"
+msgstr "Kontakt"
 
 #: src/datasets.cpp:381
 msgid ""
@@ -1014,18 +994,16 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:384
-#, fuzzy
 msgid "Caption"
-msgstr "Bruch"
+msgstr "Abschnitt"
 
 #: src/datasets.cpp:385
 msgid "A textual description of the object data."
 msgstr ""
 
 #: src/datasets.cpp:387
-#, fuzzy
 msgid "Description"
-msgstr "Bildbeschreibung"
+msgstr "Beschreibung"
 
 #: src/datasets.cpp:388
 msgid "Writer"
@@ -1048,7 +1026,6 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:396
-#, fuzzy
 msgid "Image Type"
 msgstr "Bildtyp"
 
@@ -1057,9 +1034,8 @@ msgid "Indicates the color components of an image."
 msgstr ""
 
 #: src/datasets.cpp:399
-#, fuzzy
 msgid "Image Orientation"
-msgstr "Orientierung"
+msgstr "Bild-Orientierung"
 
 #: src/datasets.cpp:400
 msgid "Indicates the layout of an image."
@@ -1078,41 +1054,35 @@ msgstr ""
 
 #: src/datasets.cpp:408
 msgid "Audio Type"
-msgstr ""
+msgstr "Audiotyp"
 
 #: src/datasets.cpp:409
-#, fuzzy
 msgid "Indicates the type of an audio content."
-msgstr "Gibt den Wert des Gamma Koeffizienten an."
+msgstr "Gibt den Typen eines Audioinhalts an."
 
 #: src/datasets.cpp:411
 msgid "Audio Rate"
-msgstr ""
+msgstr "Audiorate"
 
 #: src/datasets.cpp:412
-#, fuzzy
 msgid "Indicates the sampling rate in Hertz of an audio content."
-msgstr "Dieser Tag gibt den Motivabstand an."
+msgstr "Gibt die Sampling Rate eines Audioinhalts in Hertz an."
 
 #: src/datasets.cpp:414
-#, fuzzy
 msgid "Audio Resolution"
-msgstr "Auflösung in y-Richtung"
+msgstr "Audioauflösung"
 
 #: src/datasets.cpp:415
-#, fuzzy
 msgid "Indicates the sampling resolution of an audio content."
-msgstr "Dieser Tag gibt den Motivabstand an."
+msgstr "Gibt die Sampling-Auflösung eines Audioinhalts an."
 
 #: src/datasets.cpp:417
-#, fuzzy
 msgid "Audio Duration"
-msgstr "Geringe Sättigung"
+msgstr "Audiodauer"
 
 #: src/datasets.cpp:418
-#, fuzzy
 msgid "Indicates the duration of an audio content."
-msgstr "Dieser Tag gibt den Motivabstand an."
+msgstr "Gibt der Dauer eines Audioinhalts an."
 
 #: src/datasets.cpp:420
 msgid "Audio Outcue"
@@ -1136,36 +1106,34 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:429
-#, fuzzy
 msgid "Preview Version"
-msgstr "Exif Version"
+msgstr "Vorschauversion"
 
 #: src/datasets.cpp:430
 msgid ""
 "A binary number representing the particular version of the object data "
 "preview file format specified in tag <PreviewFormat>."
-msgstr ""
+msgstr "Eine binäre Zahl die die genaue Version eines der Vorschau eines Datenobjektes im Stichwort <PreviewFormat> angibt."
 
 #: src/datasets.cpp:433
 msgid "Preview Data"
-msgstr ""
+msgstr "Vorschaudaten"
 
 #: src/datasets.cpp:434
 msgid "Binary image preview data."
-msgstr ""
+msgstr "Vorschaudaten des binären Bildes."
 
 #: src/datasets.cpp:436 src/datasets.cpp:437
 msgid "(Invalid)"
-msgstr ""
+msgstr "(Ungültig)"
 
 #: src/datasets.cpp:446 src/datasets.cpp:447 src/datasets.cpp:450
-#, fuzzy
 msgid "Unknown dataset"
-msgstr "Unbekannter Tag"
+msgstr "Unbekannter Datensatz"
 
 #: src/exiv2.cpp:180
 msgid "Copyright (C) 2004-2007 Andreas Huggel.\n"
-msgstr ""
+msgstr "Copyright (C) 2004-2007 Andreas Huggel.\n"
 
 #: src/exiv2.cpp:182
 msgid ""
@@ -1193,17 +1161,19 @@ msgstr ""
 
 #: src/exiv2.cpp:200
 msgid "Usage:"
-msgstr ""
+msgstr "Benutzung:"
 
 #: src/exiv2.cpp:201
 msgid ""
 "[ options ] [ action ] file ...\n"
 "\n"
 msgstr ""
+"[ Optionen ] [ Aktionen ] Datei ...\n"
+"\n"
 
 #: src/exiv2.cpp:202
 msgid "Manipulate the Exif metadata of images.\n"
-msgstr ""
+msgstr "Ändert die EXIF-Metadaten von Bildern.\n"
 
 #: src/exiv2.cpp:208
 msgid ""
@@ -1469,193 +1439,188 @@ msgid ""
 msgstr ""
 
 #: src/exiv2.cpp:311 src/exiv2.cpp:350 src/exiv2.cpp:556
-#, fuzzy
 msgid "Option"
-msgstr "Bruch"
+msgstr "Option"
 
 #: src/exiv2.cpp:312
 msgid "requires an argument\n"
-msgstr ""
+msgstr "benötigt ein Argument\n"
 
 #: src/exiv2.cpp:316
 msgid "Unrecognized option"
-msgstr ""
+msgstr "Unbekannte Option"
 
 #: src/exiv2.cpp:322
 msgid "getopt returned unexpected character code"
-msgstr ""
+msgstr "\"getopt\" gab einen unerwarteten Zeichencode zurück"
 
 #: src/exiv2.cpp:345
 msgid "Ignoring surplus option"
-msgstr ""
+msgstr "Die überzählige Option wird ignoriert"
 
 #: src/exiv2.cpp:351 src/exiv2.cpp:557
 msgid "is not compatible with a previous option\n"
-msgstr ""
+msgstr "kann nicht mit der vorangegangene Option zusammen benutzt werden\n"
 
 #: src/exiv2.cpp:366
 msgid "Error parsing -a option argument"
-msgstr ""
+msgstr "Fehler beim Verarbeiten des Arguments \"-a\""
 
 #: src/exiv2.cpp:373
 msgid "Ignoring surplus option -a"
-msgstr ""
+msgstr "Die überflüssige Option \"-a\" wird ignoriert"
 
 #: src/exiv2.cpp:377
 msgid "Option -a is not compatible with a previous option\n"
-msgstr ""
+msgstr "Die Option \"-a\" kann nicht mit der vorangegangene Option zusammen benutzt werden\n"
 
 #: src/exiv2.cpp:397
 msgid "Unrecognized print mode"
-msgstr ""
+msgstr "Unbekannter Druckmodus"
 
 #: src/exiv2.cpp:405
 msgid "Ignoring surplus option -p"
-msgstr ""
+msgstr "Die überflüssige Option \"-p\" wird ignoriert"
 
 #: src/exiv2.cpp:409
 msgid "Option -p is not compatible with a previous option\n"
-msgstr ""
+msgstr "Die Option \"-p\" kann nicht mit der vorangegangene Option zusammen benutzt werden\n"
 
 #: src/exiv2.cpp:437
 msgid "Unrecognized print item"
-msgstr ""
+msgstr "Unbekannter Druckeintrag"
 
 #: src/exiv2.cpp:446
 msgid "Ignoring surplus option -P"
-msgstr ""
+msgstr "Die überflüssige Option \"-P\" wird ignoriert"
 
 #: src/exiv2.cpp:450
 msgid "Option -P is not compatible with a previous option\n"
-msgstr ""
+msgstr "Die Option \"-P\" kann nicht mit der vorangegangene Option zusammen benutzt werden\n"
 
 #: src/exiv2.cpp:477
 msgid "Option -d is not compatible with a previous option\n"
-msgstr ""
+msgstr "Die Option \"-d\" kann nicht mit der vorangegangene Option zusammen benutzt werden\n"
 
 #: src/exiv2.cpp:505
 msgid "Option -e is not compatible with a previous option\n"
-msgstr ""
+msgstr "Die Option \"-e\" kann nicht mit der vorangegangene Option zusammen benutzt werden\n"
 
 #: src/exiv2.cpp:533
 msgid "Option -i is not compatible with a previous option\n"
-msgstr ""
+msgstr "Die Option \"-i\" kann nicht mit der vorangegangene Option zusammen benutzt werden\n"
 
 #: src/exiv2.cpp:574
 msgid "Action adjust is not compatible with the given options\n"
-msgstr ""
+msgstr "Die Aktion \"adjust\" kann nicht mit den anderen Optionen zusammen benutzt werden\n"
 
 #: src/exiv2.cpp:583
 msgid "Action print is not compatible with the given options\n"
-msgstr ""
+msgstr "Die Aktion \"print\" kann nicht mit den anderen Optionen zusammen benutzt werden\n"
 
 #: src/exiv2.cpp:592
 msgid "Action delete is not compatible with the given options\n"
-msgstr ""
+msgstr "Die Aktion \"delete\" kann nicht mit den anderen Option zusammen benutzt werden\n"
 
 #: src/exiv2.cpp:603
 msgid "Action extract is not compatible with the given options\n"
-msgstr ""
+msgstr "Die Aktion \"extract\" kann nicht mit den anderen Optionen zusammen benutzt werden\n"
 
 #: src/exiv2.cpp:614
 msgid "Action insert is not compatible with the given options\n"
-msgstr ""
+msgstr "Die Aktion \"insert\" kann nicht mit den anderen Optionen zusammen benutzt werden\n"
 
 #: src/exiv2.cpp:623
 msgid "Action rename is not compatible with the given options\n"
-msgstr ""
+msgstr "Die Aktion \"rename\" kann nicht mit den anderen Optionen zusammen benutzt werden\n"
 
 #: src/exiv2.cpp:632
 msgid "Action modify is not compatible with the given options\n"
-msgstr ""
+msgstr "Die Aktion \"modify\" kann nicht mit den anderen Optionen zusammen benutzt werden\n"
 
 #: src/exiv2.cpp:641
 msgid "Action fixiso is not compatible with the given options\n"
-msgstr ""
+msgstr "Die Aktion \"fixiso\" kann nicht mit den anderen Optionen zusammen benutzt werden \n"
 
 #: src/exiv2.cpp:665
 msgid "An action must be specified\n"
-msgstr ""
+msgstr "Eine Aktion muss angegeben werden\n"
 
 #: src/exiv2.cpp:670
 msgid "Adjust action requires option -a time\n"
-msgstr ""
+msgstr "Die Aktion \"adjust\" benötigt die Option \"-a Zeit\"\n"
 
 #: src/exiv2.cpp:676
 msgid "Modify action requires at least one -c, -m or -M option\n"
-msgstr ""
+msgstr "Die Aktion \"modify\" benötigt mindestens eine der Optionen \"-c\", \"-m\" oder \"-M\"\n"
 
 #: src/exiv2.cpp:680
 msgid "At least one file is required\n"
-msgstr ""
+msgstr "Es muss mindestens eine Datei angegeben werden\n"
 
 #: src/exiv2.cpp:686
 msgid "Error parsing -m option arguments\n"
-msgstr ""
+msgstr "Fehler beim verarbeiten der Argumente der Option \"-m\"\n"
 
 #: src/exiv2.cpp:693
 msgid "Error parsing -M option arguments\n"
-msgstr ""
+msgstr "Fehler beim verarbeiten der Argumente der Option \"-M\"\n"
 
 #: src/exiv2.cpp:700
 msgid "-l option can only be used with extract or insert actions\n"
-msgstr ""
+msgstr "-l Option kann nur bei den Aktionen \"extract\" und \"insert\" benutzt werden\n"
 
 #: src/exiv2.cpp:705
 msgid "-S option can only be used with insert action\n"
-msgstr ""
+msgstr "-S Option kann nur bei der Aktion \"insert\" benutzt werden\n"
 
 #: src/exiv2.cpp:710
 msgid "-t option can only be used with rename action\n"
-msgstr ""
+msgstr "-t Option kann nur bei der Aktion \"rename\" benutzt werden.\n"
 
 #: src/exiv2.cpp:715
 msgid "-T option can only be used with rename action\n"
-msgstr ""
+msgstr "-T Option kann nur bei der Aktion \"rename\" benutzt werden.\n"
 
 #: src/exiv2.cpp:780
 msgid "Unrecognized "
-msgstr ""
+msgstr "Unbekannt"
 
 #: src/exiv2.cpp:781
-#, fuzzy
 msgid "target"
-msgstr "Groß"
+msgstr "Ziel"
 
 #: src/exiv2.cpp:799
 msgid "Failed to open command file for reading\n"
-msgstr ""
+msgstr "Die Kommandozeile konnte nicht gelesen werden\n"
 
 #: src/exiv2.cpp:812
-#, fuzzy
 msgid "line"
-msgstr "VGA Fein"
+msgstr "Zeile"
 
 #: src/exiv2.cpp:835
-#, fuzzy
 msgid "-M option"
-msgstr "Bruch"
+msgstr "Option \"-M\""
 
 #: src/exiv2.cpp:856 src/exiv2.cpp:906 src/exiv2.cpp:916
 msgid "Invalid command line"
-msgstr ""
+msgstr "Ungültige Kommandozeile"
 
 #: src/exiv2.cpp:863
 msgid "Invalid command"
-msgstr ""
+msgstr "Ungültiges Kommando"
 
 #: src/exiv2.cpp:887
 msgid "Invalid key"
-msgstr ""
+msgstr "Ungültiger Schlüssel"
 
 #: src/error.cpp:44
 msgid "Error %0: arg1=%1, arg2=%2, arg3=%3."
-msgstr ""
+msgstr "Fahler %0: arg1=%1, arg2=%2, arg3=%3."
 
 #: src/error.cpp:45
-#, fuzzy
 msgid "Success"
-msgstr "Dateiquelle"
+msgstr "Erfolgreich"
 
 #: src/error.cpp:48
 msgid "This does not look like a %1 image"
