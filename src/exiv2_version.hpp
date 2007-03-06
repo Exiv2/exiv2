@@ -19,9 +19,8 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*!
-  @file    exiv2_version.h
-  @brief   Define to check the %Exiv2 version. The %Exiv2 library itself does not
-           use the defines in this file, they are meant for use by applications.
+  @file    exiv2_version.hpp
+  @brief   Define to check the %Exiv2 version. 
            References: Similar versioning defines are used in KDE, GTK and other
            libraries. See http://apr.apache.org/versioning.html for accompanying
            guidelines.
@@ -30,19 +29,19 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    31-May-06, ahu: created
  */
-#ifndef EXIV2_VERSION_H_
-#define EXIV2_VERSION_H_
+#ifndef EXIV2_VERSION_HPP_
+#define EXIV2_VERSION_HPP_
 
 /*!
-  @brief %Exiv2 MAJOR version number.
+  @brief %Exiv2 MAJOR version number of the library used at compile-time.
  */
 #define EXIV2_MAJOR_VERSION  (0)
 /*!
-  @brief %Exiv2 MINOR version number.
+  @brief %Exiv2 MINOR version number of the library used at compile-time.
  */
 #define EXIV2_MINOR_VERSION (13)
 /*!
-  @brief %Exiv2 PATCH version number.
+  @brief %Exiv2 PATCH version number of the library used at compile-time.
  */
 #define EXIV2_PATCH_VERSION  (0)
 /*!
@@ -52,13 +51,14 @@
 #define EXIV2_MAKE_VERSION(major,minor,patch) \
     (((major) << 16) | ((minor) << 8) | (patch))
 /*!
-  @brief The %Exiv2 version number as an integer number for easy comparison.
+  @brief The %Exiv2 version number of the library used at compile-time as 
+         an integer number for easy comparison.
  */
 #define EXIV2_VERSION \
     EXIV2_MAKE_VERSION(EXIV2_MAJOR_VERSION,EXIV2_MINOR_VERSION,EXIV2_PATCH_VERSION)
 /*!
-  @brief Check the version of the %Exiv2 library. Return TRUE if the version of
-         %Exiv2 is the same as or newer than the passed-in version.
+  @brief Check the version of the available %Exiv2 library at runtime. Return 
+         true if it is the same as or newer than the passed-in version.
 
   Versions are denoted using a standard triplet of integers:
   MAJOR.MINOR.PATCH. The basic intent is that MAJOR versions are incompatible,
@@ -74,8 +74,8 @@
   regard to the restrictions detailed in the above document.
 
   @code
-  // Don't include the exiv2_version.h file, it is included by types.hpp
-  // Exiv2 versions before 0.10 didn't have this file and the macros
+  // Don't include the exiv2_version.hpp file, it is included by types.hpp
+  // Early Exiv2 versions didn't have this file and the macros
 
   #ifndef EXIV2_CHECK_VERSION
   # define EXIV2_CHECK_VERSION(a,b,c) (false)
@@ -83,16 +83,32 @@
 
   // ...
 
+  std::cout << "Compiled with Exiv2 version " << EXV_PACKAGE_VERSION << "\n"
+            << "Runtime Exiv2 version is    " << Exiv2::version() << "\n";
+
   // Check the Exiv2 version available at runtime
-  if (EXIV2_CHECK_VERSION(0,10,0)) {
-      // Available Exiv2 version is equal to or greater than requested
+  if (EXIV2_CHECK_VERSION(0,13,0)) {
+      std::cout << "Available Exiv2 version is equal to or greater than 0.13\n";
   }
   else {
-      // Installed Exiv2 version is less than requested
+      std::cout << "Installed Exiv2 version is less than 0.13\n";
   }
+  return 0;
   @endcode
  */
 #define EXIV2_CHECK_VERSION(major,minor,patch) \
-    ( EXIV2_VERSION >= EXIV2_MAKE_VERSION(major,minor,patch) )
+    ( Exiv2::versionNumber() >= EXIV2_MAKE_VERSION(major,minor,patch) )
 
-#endif /* EXIV2_VERSION_H_ */
+// *****************************************************************************
+// namespace extensions
+namespace Exiv2 {
+    /*!
+      @brief Return the version of %Exiv2 available at runtime as an integer.
+    */
+    int versionNumber();
+    /*!
+      @brief Return the version of %Exiv2 available at runtime as a string.
+    */
+    const char* version();
+}                                       // namespace Exiv2
+#endif                                  // EXIV2_VERSION_HPP_
