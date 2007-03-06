@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*!
-  @file    exiv2_version.hpp
+  @file    version.hpp
   @brief   Define to check the %Exiv2 version. 
            References: Similar versioning defines are used in KDE, GTK and other
            libraries. See http://apr.apache.org/versioning.html for accompanying
@@ -29,8 +29,8 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    31-May-06, ahu: created
  */
-#ifndef EXIV2_VERSION_HPP_
-#define EXIV2_VERSION_HPP_
+#ifndef VERSION_HPP_
+#define VERSION_HPP_
 
 /*!
   @brief %Exiv2 MAJOR version number of the library used at compile-time.
@@ -74,7 +74,7 @@
   regard to the restrictions detailed in the above document.
 
   @code
-  // Don't include the exiv2_version.hpp file, it is included by types.hpp
+  // Don't include the version.hpp file, it is included by types.hpp
   // Early Exiv2 versions didn't have this file and the macros
 
   #ifndef EXIV2_CHECK_VERSION
@@ -111,4 +111,4 @@ namespace Exiv2 {
     */
     const char* version();
 }                                       // namespace Exiv2
-#endif                                  // EXIV2_VERSION_HPP_
+#endif                                  // VERSION_HPP_

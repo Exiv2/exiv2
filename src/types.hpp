@@ -39,7 +39,7 @@
 # include "exv_conf.h"
 #endif
 
-#include "exiv2_version.hpp"
+#include "version.hpp"
 
 // + standard includes
 #include <string>
