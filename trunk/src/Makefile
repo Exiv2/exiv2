@@ -47,7 +47,7 @@ include $(top_srcdir)/config/config.mk
 # Source files
 
 # Add standalone C++ header files to this list
-CCHDR =  exiv2_version.h      \
+CCHDR =  exiv2_version.hpp    \
          exv_conf.h           \
          exv_msvc.h           \
          mn.hpp               \
@@ -62,6 +62,7 @@ CCSRC =  basicio.cpp          \
 	 datasets.cpp         \
 	 error.cpp            \
 	 exif.cpp             \
+	 exiv2_version.cpp    \
 	 futils.cpp           \
 	 fujimn.cpp           \
 	 ifd.cpp              \
@@ -93,7 +94,7 @@ CCSRC += rafimage.cpp         \
 
 # Add library C source files to this list
 ifndef HAVE_TIMEGM
-CSRC = localtime.c
+CSRC =   localtime.c
 endif
 
 # Add source files of simple applications to this list
