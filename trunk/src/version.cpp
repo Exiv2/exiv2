@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*
-  File:      exiv2_version.cpp
+  File:      version.cpp
   Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   06-Mar-07, ahu: created
@@ -37,7 +37,7 @@ EXIV2_RCSID("@(#) $Id$")
 # include "exv_conf.h"
 #endif
 
-#include "exiv2_version.hpp"
+#include "version.hpp"
 
 namespace Exiv2 {
     int versionNumber()
