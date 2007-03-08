@@ -85,7 +85,7 @@ namespace Exiv2 {
         if (io_->open() != 0) throw Error(9, io_->path(), strError());
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
-        if (!isRafType(*io_, true)) {
+        if (!isRafType(*io_, false)) {
             if (io_->error() || io_->eof()) throw Error(14);
             throw Error(3, "RAF");
         }
