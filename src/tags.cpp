@@ -416,6 +416,12 @@ namespace Exiv2 {
         TagInfo(0x02bc, "XMLPacket", N_("XML Packet"),
                 N_("XMP Metadata (Adobe technote 9-14-02)"),
                 ifd0Id, otherTags, unsignedByte, printValue),
+        TagInfo(0x4746, "Rating", N_("Windows Rating"),
+                N_("Rating tag used by Windows"),
+                ifd0Id, otherTags, unsignedShort, printValue), // Windows Tag
+        TagInfo(0x4749, "RatingPercent", N_("Windows Rating Percent"),
+                N_("Rating tag used by Windows, value in percent"),
+                ifd0Id, otherTags, unsignedShort, printValue), // Windows Tag
         TagInfo(0x828d, "CFARepeatPatternDim", N_("CFA Repeat Pattern Dimension"),
                 N_("Contains two values representing the minimum rows and columns "
                 "to define the repeating patterns of the color filter array"),
