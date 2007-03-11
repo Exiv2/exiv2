@@ -71,11 +71,9 @@ AC_SUBST(GCC,$GCC)
 # Checks for library functions.
 # ---------------------------------------------------------------------------
 AC_FUNC_ALLOCA
-AC_FUNC_MALLOC
 AC_FUNC_MEMCMP
 AC_FUNC_MKTIME
 AC_FUNC_MMAP
-AC_FUNC_REALLOC
 AC_FUNC_STAT
 AC_FUNC_STRERROR_R
 AC_FUNC_STRFTIME
@@ -107,6 +105,13 @@ AC_MSG_RESULT($USE_LENSDATA)
 if test "$USE_LENSDATA" = "yes"; then
     AC_DEFINE(HAVE_LENSDATA,1)
 fi
+
+if test "$enable_shared" = "no"; then
+    EXV_LIB_STATIC=$LTLIBICONV
+else
+    EXV_LIB_STATIC=
+fi
+AC_SUBST(EXV_LIB_STATIC)
 
 # ---------------------------------------------------------------------------
 # Create output files.
