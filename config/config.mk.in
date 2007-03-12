@@ -28,8 +28,8 @@
 #
 
 # **********************************************************************
-# Exiv2 version
-EXIV2_VERSION = @PACKAGE_VERSION@
+# Exiv2 version for use with libtool (-version-info argument)
+EXIV2_LTVERSION = @EXIV2_LTVERSION@
 
 # **********************************************************************
 # Libtool
