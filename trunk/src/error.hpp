@@ -35,6 +35,7 @@
 #include "types.hpp"
 
 // + standard includes
+#include <exception>
 #include <string>
 #include <iosfwd>
 
@@ -52,20 +53,23 @@ namespace Exiv2 {
             : code_(code), message_(message)
         {
         }
-        int code_;                             //!< Error code
+        int code_;                              //!< Error code
         const char* message_;                   //!< Error message
     };
 
     /*!
       @brief Error class interface. Allows the definition and use of a hierarchy
              of error classes which can all be handled in one catch block.
+             Inherits from the standard exception base-class, to make life
+             easier for library users (they have the option of catching most
+             things via std::exception).
      */
-    class AnyError {
+    class AnyError : public std::exception {
     public:
         //! @name Creators
         //@{
         //! Virtual destructor.
-        virtual ~AnyError()
+        virtual ~AnyError() throw()
         {
         }
         //@}
@@ -73,14 +77,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         //! Return the error code.
-        virtual int code() const =0;
-        /*!
-          @brief Return the error message. Consider using the output operator
-                 operator<<(std::ostream &os, const AnyError& error) instead.
-          @note  Unlike std::exception::what(), this function returns an
-                 std::string.
-         */
-        virtual std::string what() const =0;
+        virtual int code() const throw() =0;
     }; // AnyError
 
     //! %AnyBase output operator
@@ -101,12 +98,14 @@ namespace Exiv2 {
         explicit Error(int code)
             : code_(code), count_(0)
         {
+            setMsg();
         }
         //! Constructor taking an error code and one argument
         template<typename A>
         Error(int code, const A& arg1)
             : code_(code), count_(1), arg1_(toString(arg1))
         {
+            setMsg();
         }
         //! Constructor taking an error code and two arguments
         template<typename A, typename B>
@@ -114,6 +113,7 @@ namespace Exiv2 {
             : code_(code), count_(2),
               arg1_(toString(arg1)), arg2_(toString(arg2))
         {
+            setMsg();
         }
         //! Constructor taking an error code and three arguments
         template<typename A, typename B, typename C>
@@ -121,16 +121,30 @@ namespace Exiv2 {
             : code_(code), count_(3),
               arg1_(toString(arg1)), arg2_(toString(arg2)), arg3_(toString(arg3))
         {
+            setMsg();
+        }
+        //! Virtual destructor.
+        virtual ~Error() throw()
+        {
         }
         //@}
 
         //! @name Accessors
         //@{
-        virtual int code() const { return code_; }
-        virtual std::string what() const;
+        virtual int code() const throw() { return code_; }
+        /*!
+          @brief Return the error message. The pointer returned by what()
+                 is valid only as long as the Error object exists.
+         */
+        virtual const char* what() const throw() { return msg_.c_str(); }
         //@}
 
     private:
+        //! @name Manipulators
+        //@{
+        void setMsg();
+        //@}
+
         static int errorIdx(int code);
 
         // DATA
@@ -139,6 +153,7 @@ namespace Exiv2 {
         std::string arg1_;                      //!< First argument
         std::string arg2_;                      //!< Second argument
         std::string arg3_;                      //!< Third argument
+        std::string msg_;                       //!< Complete error message
 
         static const ErrMsg errMsg_[];          //!< List of error messages
     }; // class Error
