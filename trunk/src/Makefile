@@ -243,7 +243,7 @@ $(LIBTOOL): $(LIBTOOL_DEPS)
 bin: lib $(BINARY) $(EXIV2BIN) $(MCBIN) path-test
 
 lib: $(OBJ)
-	$(LIBTOOL) --mode=link $(CXX) $(LDFLAGS) $(LOBJ) -o $(LIBRARY) -rpath $(libdir) -release $(EXIV2_VERSION) $(LIBS)
+	$(LIBTOOL) --mode=link $(CXX) $(LDFLAGS) $(LOBJ) -o $(LIBRARY) -rpath $(libdir) -version-info $(EXIV2_LTVERSION) $(LIBS)
 	@touch lib
 
 path-test: path-test.o utils.o
