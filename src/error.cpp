@@ -94,34 +94,33 @@ namespace Exiv2 {
         return idx;
     }
 
-    std::string Error::what() const
+    void Error::setMsg()
     {
         int idx = errorIdx(code_);
-        std::string msg = std::string(_(errMsg_[idx].message_));
+        msg_ = std::string(_(errMsg_[idx].message_));
         std::string::size_type pos;
-        pos = msg.find("%0");
+        pos = msg_.find("%0");
         if (pos != std::string::npos) {
-            msg.replace(pos, 2, toString(code_));
+            msg_.replace(pos, 2, toString(code_));
         }
         if (count_ > 0) {
-            pos = msg.find("%1");
+            pos = msg_.find("%1");
             if (pos != std::string::npos) {
-                msg.replace(pos, 2, arg1_);
+                msg_.replace(pos, 2, arg1_);
             }
         }
         if (count_ > 1) {
-            pos = msg.find("%2");
+            pos = msg_.find("%2");
             if (pos != std::string::npos) {
-                msg.replace(pos, 2, arg2_);
+                msg_.replace(pos, 2, arg2_);
             }
         }
         if (count_ > 2) {
-            pos = msg.find("%3");
+            pos = msg_.find("%3");
             if (pos != std::string::npos) {
-                msg.replace(pos, 2, arg3_);
+                msg_.replace(pos, 2, arg3_);
             }
         }
-        return msg;
     }
 
 }                                       // namespace Exiv2
