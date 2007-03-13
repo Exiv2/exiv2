@@ -65,12 +65,6 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // local declarations
 namespace {
-    //! Helper structure for the mapping list
-    struct OmList {
-        uint16_t orientation; //!< Exif orientation value
-        int32_t  degrees;     //!< CRW Rotation degrees
-    };
-
     //! Helper class to map Exif orientation values to CRW rotation degrees
     class RotationMap {
     public:
@@ -79,6 +73,11 @@ namespace {
         //! Get the degree value for an orientation number
         static int32_t  degrees(uint16_t orientation);
     private:
+        //! Helper structure for the mapping list
+        struct OmList {
+            uint16_t orientation; //!< Exif orientation value
+            int32_t  degrees;     //!< CRW Rotation degrees
+        };
         // DATA
         static const OmList omList_[];
     }; // class RotationMap
@@ -1348,14 +1347,14 @@ namespace Exiv2 {
 // *****************************************************************************
 // local definitions
 namespace {
-    const OmList RotationMap::omList_[] = {
+    const RotationMap::OmList RotationMap::omList_[] = {
         { 1,    0 },
         { 3,  180 },
         { 3, -180 },
-        { 6,  270 },
-        { 6,  -90 },
-        { 8,   90 },
-        { 8, -270 },
+        { 6,   90 },
+        { 6, -270 },
+        { 8,  270 },
+        { 8,  -90 },
         // last entry
         { 0,    0 }
     };
