@@ -334,15 +334,22 @@ int Params::evalRename(int opt, const std::string& optarg)
     case Action::none:
         action_ = Action::rename;
         switch (opt) {
-        case 'r': format_ = optarg; break;
+        case 'r': 
+            format_ = optarg; 
+            formatSet_ = true;
+            break;
         case 't': timestamp_ = true; break;
         case 'T': timestampOnly_ = true; break;
         }
         break;
     case Action::rename:
-        if (opt == 'r' && !format_.empty()) {
+        if (opt == 'r' && (formatSet_ || timestampOnly_)) {
             std::cerr << progname()
                       << ": " << _("Ignoring surplus option") << " -r \"" << optarg << "\"\n";
+        }
+        else {
+            format_ = optarg; 
+            formatSet_ = true;
         }
         break;
     default:

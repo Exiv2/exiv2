@@ -164,6 +164,7 @@ public:
 
     long adjustment_;                   //!< Adjustment in seconds.
     std::string format_;                //!< Filename format (-r option arg).
+    bool formatSet_;                    //!< Whether the format is set with -r
     CmdFiles cmdFiles_;                 //!< Names of the modification command files
     CmdLines cmdLines_;                 //!< Commands from the command line
     ModifyCmds modifyCmds_;             //!< Parsed modification commands
@@ -195,6 +196,7 @@ private:
                target_(ctExif|ctIptc|ctComment),
                adjustment_(0),
                format_("%Y%m%d_%H%M%S"),
+               formatSet_(false),
                first_(true) {}
 
     //! Prevent copy-construction: not implemented.
