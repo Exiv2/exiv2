@@ -18,8 +18,12 @@ AC_CONFIG_AUX_DIR([./config])
 # ---------------------------------------------------------------------------
 # Checks for programs.
 # ---------------------------------------------------------------------------
+# Don't use -g to compile C++ code
+ac_cv_prog_cxx_g=no
 AC_PROG_CXX
 AC_PROG_CXXCPP
+# Don't use -g to compile C code
+ac_cv_prog_cc_g=no
 AC_PROG_CC
 AC_PROG_CPP
 AC_PROG_INSTALL
