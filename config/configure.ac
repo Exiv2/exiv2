@@ -121,4 +121,5 @@ AC_SUBST(EXV_LIB_STATIC)
 AC_CONFIG_FILES([./config/config.mk])
 AC_CONFIG_FILES([./config/exiv2.pc])
 AC_CONFIG_FILES([./po/Makefile.in])
+AC_CONFIG_FILES([./src/doxygen.hpp])
 AC_OUTPUT
