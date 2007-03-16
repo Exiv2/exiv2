@@ -226,8 +226,8 @@ namespace Exiv2 {
     //! Base IFD Tags (IFD0 and IFD1)
     static const TagInfo ifdTagInfo[] = {
         TagInfo(0x000b, "ProcessingSoftware", N_("Processing Software"),
-                N_("This tag records the name and version of the software witch have "
-		   "post-processed picture."),                                       // ACD Systems Digital Imaging tag
+                N_("The name and version of the software used to post-process "
+                   "the picture."), // ACD Systems Digital Imaging tag
                 ifd0Id, otherTags, asciiString, printValue),
         TagInfo(0x00fe, "NewSubfileType", N_("New Subfile Type"),
                 N_("A general indication of the kind of data contained in this subfile."),
