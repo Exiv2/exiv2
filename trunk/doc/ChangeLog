@@ -1,3 +1,33 @@
+Changes from version 0.13 to 0.14
+---------------------------------
+
+* Exiv2 utility
+	         - [tools] exiv2 utility: Fixed handling of multiple rename options 
+	           -r, -t, -T
+
+* Exiv2 library
+	- 0000507: [exif] Fixed RAF read-support for systems without mmap.
+	         - [exif] Fixed mapping of CRW rotation info to Exif orientation.
+	           (Reported and analysed by Marco Piovanelli)
+	         - [exif] Added tag names for a few tags used by Windows Vista and 
+	           ACDSee. (Gilles Caulier)
+	         - [exif] Updated Nikon lens info to v2.20 of Robert Rottmerhusen's 
+	           lens database.
+	         - [build environment] Switched to libtool's -version-info versioning
+	           system.
+	         - [build environment] Changed configuration to not use -g by default.
+	         - [build environment] Changes to make Exiv2 cross-compile smoothly 
+	           for win32 (Udi Fuchs)
+	         - [build environment] Removed deprecated exiv2-config script.
+	         - [miscellaneous] Changed AnyError to inherit from std::exception; 
+	           changed the signature of AnyError::what(). (Suggested by Marco 
+	           Piovanelli)
+	         - [miscellaneous] Fixed version check macro to actually check the 
+	           runtime version and not the compile-time version. Added version() 
+	           and versionNumber() functions.
+	         - [miscellaneous] Updated German translation. (Oliver Dörr)
+
+
 Changes from version 0.12 to 0.13
 ---------------------------------
 
@@ -39,6 +69,7 @@ Changes from version 0.12 to 0.13
 * MSVC related
 	         - [exivsimple] Added get and set thumbnail functions.
 	           (Christian Kuster)
+
 
 Changes from version 0.11 to 0.12
 ---------------------------------
