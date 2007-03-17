@@ -34,14 +34,7 @@ AC_PROG_RANLIB
 # ---------------------------------------------------------------------------
 # i18n support
 # ---------------------------------------------------------------------------
-AC_MSG_CHECKING([whether to build with NLS ])
-AC_ARG_ENABLE(nls,
-    ,
-    USE_NLS=$enableval, USE_NLS=yes)
-AC_MSG_RESULT($USE_NLS)
-if test "$USE_NLS" = "yes"; then
-    AM_GNU_GETTEXT([external])
-fi
+AM_GNU_GETTEXT([external])
 
 # ---------------------------------------------------------------------------
 # Libtool support
