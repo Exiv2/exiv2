@@ -1,28 +1,11 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
-/* Define to one of `_getb67', `GETB67', `getb67' for Cray-2 and Cray-YMP
-   systems. This function is required for `alloca.c' support on those systems. */
-#undef CRAY_STACKSEG_END
-
-/* Define to 1 if using `alloca.c'. */
-#undef C_ALLOCA
-
 /* Define to 1 if you have the `alarm' function. */
 #undef HAVE_ALARM
-
-/* Define to 1 if you have `alloca', as a function or macro. */
-#undef HAVE_ALLOCA
-
-/* Define to 1 if you have <alloca.h> and it should be used (not on Ultrix).
-   */
-#undef HAVE_ALLOCA_H
 
 /* Define to 1 if you have the declaration of `strerror_r', and to 0 if you
    don't. */
 #undef HAVE_DECL_STRERROR_R
-
-/* Define to 1 if you don't have `vprintf' but do have `_doprnt.' */
-#undef HAVE_DOPRNT
 
 /* Define to 1 if you have the `gmtime_r' function. */
 #undef HAVE_GMTIME_R
@@ -70,10 +53,6 @@
    and to 0 otherwise. */
 #undef HAVE_REALLOC
 
-/* Define to 1 if `stat' has the bug that it succeeds when given the
-   zero-length file name argument. */
-#undef HAVE_STAT_EMPTY_STRING_BUG
-
 /* Define to 1 if stdbool.h conforms to C99. */
 #undef HAVE_STDBOOL_H
 
@@ -91,9 +70,6 @@
 
 /* Define to 1 if you have the `strerror_r' function. */
 #undef HAVE_STRERROR_R
-
-/* Define to 1 if you have the `strftime' function. */
-#undef HAVE_STRFTIME
 
 /* Define to 1 if you have the <strings.h> header file. */
 #undef HAVE_STRINGS_H
@@ -161,14 +137,6 @@
 
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
-
-/* If using the C implementation of alloca, define if you know the
-   direction of stack growth for your system; otherwise it will be
-   automatically deduced at run-time.
-	STACK_DIRECTION > 0 => grows toward higher addresses
-	STACK_DIRECTION < 0 => grows toward lower addresses
-	STACK_DIRECTION = 0 => direction of growth unknown */
-#undef STACK_DIRECTION
 
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
