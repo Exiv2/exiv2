@@ -34,7 +34,14 @@ AC_PROG_RANLIB
 # ---------------------------------------------------------------------------
 # i18n support
 # ---------------------------------------------------------------------------
-AM_GNU_GETTEXT([external])
+AC_MSG_CHECKING([whether to build with NLS ])
+AC_ARG_ENABLE(nls,
+    ,
+    USE_NLS=$enableval, USE_NLS=yes)
+AC_MSG_RESULT($USE_NLS)
+if test "$USE_NLS" = "yes"; then
+    AM_GNU_GETTEXT([external])
+fi
 
 # ---------------------------------------------------------------------------
 # Libtool support
@@ -48,7 +55,15 @@ AC_CHECK_LIBM()
 LIBS="$LIBS $LIBM"
 CHECK_ZLIB()
 AC_SUBST(HAVE_LIBZ,$HAVE_LIBZ)
-AM_ICONV
+
+AC_MSG_CHECKING([whether to use libiconv])
+AC_ARG_ENABLE(libiconv,
+    [  --disable-libiconv      do not use libiconv to translate Windows XP tags ],
+    USE_LIBICONV=$enableval, USE_LIBICONV=yes)
+AC_MSG_RESULT($USE_LIBICONV)
+if test "$USE_LIBICONV" = "yes"; then
+    AM_ICONV
+fi
 
 # ---------------------------------------------------------------------------
 # Checks for header files.
