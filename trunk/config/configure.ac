@@ -48,15 +48,7 @@ AC_CHECK_LIBM()
 LIBS="$LIBS $LIBM"
 CHECK_ZLIB()
 AC_SUBST(HAVE_LIBZ,$HAVE_LIBZ)
-
-AC_MSG_CHECKING([whether to use libiconv])
-AC_ARG_ENABLE(libiconv,
-    [  --disable-libiconv      do not use libiconv to translate Windows XP tags ],
-    USE_LIBICONV=$enableval, USE_LIBICONV=yes)
-AC_MSG_RESULT($USE_LIBICONV)
-if test "$USE_LIBICONV" = "yes"; then
-    AM_ICONV
-fi
+AM_ICONV
 
 # ---------------------------------------------------------------------------
 # Checks for header files.
@@ -84,14 +76,9 @@ AC_SUBST(GCC,$GCC)
 # ---------------------------------------------------------------------------
 # Checks for library functions.
 # ---------------------------------------------------------------------------
-AC_FUNC_ALLOCA
-AC_FUNC_MEMCMP
 AC_FUNC_MKTIME
 AC_FUNC_MMAP
-AC_FUNC_STAT
 AC_FUNC_STRERROR_R
-AC_FUNC_STRFTIME
-AC_FUNC_VPRINTF
 AC_CHECK_FUNCS([gmtime_r memset strchr strerror strtol mmap munmap])
 AC_CHECK_FUNCS([timegm], HAVE_TIMEGM=1)
 AC_SUBST(HAVE_TIMEGM,$HAVE_TIMEGM)
