@@ -6,10 +6,10 @@ write Exif and IPTC image metadata. The homepage of Exiv2 is:
 
     http://www.exiv2.org/
 
-Point your browser to doc/index.html for the complete Exiv2 API
-documentation and metadata tag reference.
-
 See doc/ChangeLog for a description of recent changes to Exiv2.
+
+If you have the doc package, you can point your browser to doc/index.html 
+for the complete Exiv2 API documentation and metadata tag reference.
 
 
 Building and Installing
@@ -48,7 +48,7 @@ libraries. They can be controlled through configure options. See also
 './configure --help'.
 
 Feature                     Package   Configure options
---------------------------  -------   ----------------------------
+--------------------------  --------  ----------------------------
 PNG image support           zlib      --without-zlib
                                       --with-zlib=DIR
 National language support   gettext   --disable-nls
