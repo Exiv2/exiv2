@@ -6,7 +6,8 @@ Changes from version 0.13 to 0.14
 	           -r, -t, -T
 
 * Exiv2 library
-	- 0000507: [exif] Fixed RAF read-support for systems without mmap.
+	- 0000507: [exif] Fixed RAF read-support for systems without mmap. (Reported
+	           by Udi Fuchs)
 	         - [exif] Fixed mapping of CRW rotation info to Exif orientation.
 	           (Reported and analysed by Marco Piovanelli)
 	         - [exif] Added tag names for a few tags used by Windows Vista and 
@@ -15,10 +16,13 @@ Changes from version 0.13 to 0.14
 	           lens database.
 	         - [build environment] Switched to libtool's -version-info versioning
 	           system.
-	         - [build environment] Changed configuration to not use -g by default.
+	         - [build environment] By default, do not use the -g compiler option.
+	         - [build environment] Added --disable-printucs2 configuration option
+	           to disable Windows tag character convertion using libiconv.
 	         - [build environment] Changes to make Exiv2 cross-compile smoothly 
 	           for win32 (Udi Fuchs)
-	         - [build environment] Removed deprecated exiv2-config script.
+	         - [build environment] Removed deprecated exiv2-config script and
+	           some obsolescent autoconf macros pointed out by Udi Fuchs.
 	         - [miscellaneous] Changed AnyError to inherit from std::exception; 
 	           changed the signature of AnyError::what(). (Suggested by Marco 
 	           Piovanelli)
@@ -26,6 +30,8 @@ Changes from version 0.13 to 0.14
 	           runtime version and not the compile-time version. Added version() 
 	           and versionNumber() functions.
 	         - [miscellaneous] Updated German translation. (Oliver Dörr)
+	         - [miscellaneous] Changed name of installed translation files to
+	           lower case exiv2.mo. (Highlighted by Angelo Naselli)
 
 
 Changes from version 0.12 to 0.13
