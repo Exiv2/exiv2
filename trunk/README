@@ -44,15 +44,16 @@ Dependencies
 ============
 
 The following features are enabled by default and may *) require external
-libraries. They can be controlled through configure options.
+libraries. They can be controlled through configure options. See also
+'./configure --help'.
 
-Feature                    Package   Configure options
--------------------------  -------   ----------------------------
-PNG image support          zlib      --without-zlib
-                                     --with-zlib=DIR
-National language support  gettext   --disable-nls
-Decoding Windows XP tags   libiconv  --without-libiconv-prefix
-                                     --with-libiconv-prefix[=DIR]
+Feature                     Package   Configure options
+--------------------------  -------   ----------------------------
+PNG image support           zlib      --without-zlib
+                                      --with-zlib=DIR
+National language support   gettext   --disable-nls
+Converting Windows XP tags  libiconv  --disable-printucs2
+                                      --with-libiconv-prefix[=DIR]
 
 zlib         http://www.zlib.net/
 gettext  *)  http://www.gnu.org/software/gettext/
