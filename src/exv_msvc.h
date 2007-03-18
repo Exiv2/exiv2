@@ -46,6 +46,9 @@
 /* Define to 1 if you have the `iconv' function. */
 # undef EXV_HAVE_ICONV
 
+/* Define to 1 to enable conversion of UCS2 encoded Windows tags to UTF-8. */
+# undef EXV_HAVE_PRINTUCS2
+
 #endif /* !EXV_COMMERCIAL_VERSION */
 
 /* File path seperator */

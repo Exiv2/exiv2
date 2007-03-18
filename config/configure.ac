@@ -107,6 +107,23 @@ if test "$USE_LENSDATA" = "yes"; then
     AC_DEFINE(HAVE_LENSDATA,1)
 fi
 
+AC_MSG_CHECKING([whether to convert UCS2 encoded Windows tags with iconv ])
+AC_ARG_ENABLE(printucs2,
+    [  --disable-printucs2     do not convert UCS2 encoded Windows tag to UTF-8 ],
+    USE_PRINTUCS2=$enableval, USE_PRINTUCS2=yes)
+AC_MSG_RESULT($USE_PRINTUCS2)
+if test "$USE_PRINTUCS2" = "yes"; then
+    AC_DEFINE(HAVE_PRINTUCS2,1)
+else
+# if NLS is also disabled, don't link with iconv
+# (since in some cases, AM_GNU_GETTEXT and/or AM_ICONV configure for this anyway)
+    if test "$USE_NLS" = "no"; then
+        unset LIBICONV
+        unset LTLIBICONV
+    fi
+fi
+
+# Udi's hack to add libiconv to the Libs section in exiv2.pc
 if test "$enable_shared" = "no"; then
     EXV_LIB_STATIC=$LTLIBICONV
 else

@@ -1677,7 +1677,7 @@ namespace Exiv2 {
 
     std::ostream& printUcs2(std::ostream& os, const Value& value)
     {
-#ifdef EXV_HAVE_ICONV
+#if defined EXV_HAVE_ICONV && defined EXV_HAVE_PRINTUCS2
         bool go = true;
         iconv_t cd = (iconv_t)(-1);
         if (value.typeId() != unsignedByte) {
@@ -1726,9 +1726,9 @@ namespace Exiv2 {
         if (!go) {
             os << value;
         }
-#else // !EXV_HAVE_ICONV
+#else // !(EXV_HAVE_ICONV && EXV_HAVE_PRINTUCS2)
         os << value;
-#endif // EXV_HAVE_ICONV
+#endif // EXV_HAVE_ICONV && EXV_HAVE_PRINTUCS2
         return os;
 
     } // printUcs2
