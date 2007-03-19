@@ -20,10 +20,10 @@
 #define EXV_PACKAGE_BUGREPORT "ahuggel@gmx.net"
 
 /* Define to the full name of this package. */
-#define EXV_PACKAGE_NAME "Exiv2"
+#define EXV_PACKAGE_NAME "exiv2"
 
 /* Define to the full name and version of this package. */
-#define EXV_PACKAGE_STRING "Exiv2 0.14"
+#define EXV_PACKAGE_STRING "exiv2 0.14"
 
 /* Define to the one symbol short name of this package. */
 #define EXV_PACKAGE_TARNAME "exiv2"
