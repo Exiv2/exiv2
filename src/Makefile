@@ -325,7 +325,7 @@ clean: mostlyclean
 # Run `make distclean' from the top source directory to also remove
 # files created by configuring the program.
 distclean: clean
-	$(RM) exv_conf.h
+	$(RM) exv_conf.h doxygen.hpp
 ifdef DEP_TRACKING
 	$(RM) $(DEP)
 	-rmdir $(DEPDIR)
