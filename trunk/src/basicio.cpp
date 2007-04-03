@@ -43,6 +43,7 @@ EXIV2_RCSID("@(#) $Id$")
 
 // + standard includes
 #include <string>
+#include <memory>
 #include <cassert>
 #include <cstdio>                       // for remove, rename
 #include <cstdlib>                      // for alloc, realloc, free
