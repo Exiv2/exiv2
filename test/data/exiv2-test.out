@@ -1049,7 +1049,7 @@ File  6/15: 20030925_201850.jpg
 20030925_201850.jpg   Exif.CanonPi.0x0013                          Short       1  506
 20030925_201850.jpg   Exif.CanonPi.0x0014                          Short       1  0
 20030925_201850.jpg   Exif.CanonPi.0x0015                          Short       1  0
-20030925_201850.jpg   Exif.CanonPi.AFPointsUsed                    Short       1  left
+20030925_201850.jpg   Exif.CanonPi.AFPointsUsed                    Short       1  center
 20030925_201850.jpg   Exif.CanonPi.0x0017                          Short       1  65535
 20030925_201850.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 20030925_201850.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
@@ -1628,7 +1628,7 @@ Warning: Makernote: Pointer to next IFD is out of bounds; ignored.
 20060802_095200.jpg   Exif.CanonPi.0x0013                          Short       1  270
 20060802_095200.jpg   Exif.CanonPi.0x0014                          Short       1  4
 20060802_095200.jpg   Exif.CanonPi.0x0015                          Short       1  4
-20060802_095200.jpg   Exif.CanonPi.AFPointsUsed                    Short       1  upper-right
+20060802_095200.jpg   Exif.CanonPi.AFPointsUsed                    Short       1  bottom
 20060802_095200.jpg   Exif.CanonPi.0x0017                          Short       1  65274
 20060802_095200.jpg   Exif.CanonPi.0x0018                          Short       1  65274
 20060802_095200.jpg   Exif.CanonPi.0x0019                          Short       1  65040
@@ -2511,7 +2511,7 @@ Compare image data and extracted data ------------------------------------
 < 20030925_201850.jpg   Exif.CanonPi.0x0013                          Short       1  506
 < 20030925_201850.jpg   Exif.CanonPi.0x0014                          Short       1  0
 < 20030925_201850.jpg   Exif.CanonPi.0x0015                          Short       1  0
-< 20030925_201850.jpg   Exif.CanonPi.AFPointsUsed                    Short       1  left
+< 20030925_201850.jpg   Exif.CanonPi.AFPointsUsed                    Short       1  center
 < 20030925_201850.jpg   Exif.CanonPi.0x0017                          Short       1  65535
 < 20030925_201850.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20030925_201850.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
@@ -3089,7 +3089,7 @@ Compare image data and extracted data ------------------------------------
 < 20060802_095200.jpg   Exif.CanonPi.0x0013                          Short       1  270
 < 20060802_095200.jpg   Exif.CanonPi.0x0014                          Short       1  4
 < 20060802_095200.jpg   Exif.CanonPi.0x0015                          Short       1  4
-< 20060802_095200.jpg   Exif.CanonPi.AFPointsUsed                    Short       1  upper-right
+< 20060802_095200.jpg   Exif.CanonPi.AFPointsUsed                    Short       1  bottom
 < 20060802_095200.jpg   Exif.CanonPi.0x0017                          Short       1  65274
 < 20060802_095200.jpg   Exif.CanonPi.0x0018                          Short       1  65274
 < 20060802_095200.jpg   Exif.CanonPi.0x0019                          Short       1  65040
@@ -3900,7 +3900,7 @@ Compare image data and extracted data ------------------------------------
 > 20030925_201850.exv   Exif.CanonPi.0x0013                          Short       1  506
 > 20030925_201850.exv   Exif.CanonPi.0x0014                          Short       1  0
 > 20030925_201850.exv   Exif.CanonPi.0x0015                          Short       1  0
-> 20030925_201850.exv   Exif.CanonPi.AFPointsUsed                    Short       1  left
+> 20030925_201850.exv   Exif.CanonPi.AFPointsUsed                    Short       1  center
 > 20030925_201850.exv   Exif.CanonPi.0x0017                          Short       1  65535
 > 20030925_201850.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20030925_201850.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
@@ -4478,7 +4478,7 @@ Compare image data and extracted data ------------------------------------
 > 20060802_095200.exv   Exif.CanonPi.0x0013                          Short       1  270
 > 20060802_095200.exv   Exif.CanonPi.0x0014                          Short       1  4
 > 20060802_095200.exv   Exif.CanonPi.0x0015                          Short       1  4
-> 20060802_095200.exv   Exif.CanonPi.AFPointsUsed                    Short       1  upper-right
+> 20060802_095200.exv   Exif.CanonPi.AFPointsUsed                    Short       1  bottom
 > 20060802_095200.exv   Exif.CanonPi.0x0017                          Short       1  65274
 > 20060802_095200.exv   Exif.CanonPi.0x0018                          Short       1  65274
 > 20060802_095200.exv   Exif.CanonPi.0x0019                          Short       1  65040
@@ -5452,7 +5452,7 @@ Compare original and inserted image data ---------------------------------
 < 20030925_201850.jpg   Exif.CanonPi.0x0013                          Short       1  506
 < 20030925_201850.jpg   Exif.CanonPi.0x0014                          Short       1  0
 < 20030925_201850.jpg   Exif.CanonPi.0x0015                          Short       1  0
-< 20030925_201850.jpg   Exif.CanonPi.AFPointsUsed                    Short       1  left
+< 20030925_201850.jpg   Exif.CanonPi.AFPointsUsed                    Short       1  center
 < 20030925_201850.jpg   Exif.CanonPi.0x0017                          Short       1  65535
 < 20030925_201850.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 < 20030925_201850.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
@@ -6030,7 +6030,7 @@ Compare original and inserted image data ---------------------------------
 < 20060802_095200.jpg   Exif.CanonPi.0x0013                          Short       1  270
 < 20060802_095200.jpg   Exif.CanonPi.0x0014                          Short       1  4
 < 20060802_095200.jpg   Exif.CanonPi.0x0015                          Short       1  4
-< 20060802_095200.jpg   Exif.CanonPi.AFPointsUsed                    Short       1  upper-right
+< 20060802_095200.jpg   Exif.CanonPi.AFPointsUsed                    Short       1  bottom
 < 20060802_095200.jpg   Exif.CanonPi.0x0017                          Short       1  65274
 < 20060802_095200.jpg   Exif.CanonPi.0x0018                          Short       1  65274
 < 20060802_095200.jpg   Exif.CanonPi.0x0019                          Short       1  65040
@@ -6841,7 +6841,7 @@ Compare original and inserted image data ---------------------------------
 > 20030925_201850.exv   Exif.CanonPi.0x0013                          Short       1  506
 > 20030925_201850.exv   Exif.CanonPi.0x0014                          Short       1  0
 > 20030925_201850.exv   Exif.CanonPi.0x0015                          Short       1  0
-> 20030925_201850.exv   Exif.CanonPi.AFPointsUsed                    Short       1  left
+> 20030925_201850.exv   Exif.CanonPi.AFPointsUsed                    Short       1  center
 > 20030925_201850.exv   Exif.CanonPi.0x0017                          Short       1  65535
 > 20030925_201850.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
 > 20030925_201850.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
@@ -7419,7 +7419,7 @@ Compare original and inserted image data ---------------------------------
 > 20060802_095200.exv   Exif.CanonPi.0x0013                          Short       1  270
 > 20060802_095200.exv   Exif.CanonPi.0x0014                          Short       1  4
 > 20060802_095200.exv   Exif.CanonPi.0x0015                          Short       1  4
-> 20060802_095200.exv   Exif.CanonPi.AFPointsUsed                    Short       1  upper-right
+> 20060802_095200.exv   Exif.CanonPi.AFPointsUsed                    Short       1  bottom
 > 20060802_095200.exv   Exif.CanonPi.0x0017                          Short       1  65274
 > 20060802_095200.exv   Exif.CanonPi.0x0018                          Short       1  65274
 > 20060802_095200.exv   Exif.CanonPi.0x0019                          Short       1  65040

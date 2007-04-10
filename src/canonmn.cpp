@@ -542,7 +542,7 @@ namespace Exiv2 {
         TagInfo(0x0003, "ImageHeight", "ImageHeight", "Image height", canonPiIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0004, "ImageWidthAsShot", "ImageWidthAsShot", "Image width (as shot)", canonPiIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0005, "ImageHeightAsShot", "ImageHeightAsShot", "Image height (as shot)", canonPiIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0016, "AFPointsUsed", "AFPointsUsed", "AF points used", canonPiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG_BITMASK(canonPiAFPointsUsed20D)),
+        TagInfo(0x0016, "AFPointsUsed", "AFPointsUsed", "AF points used", canonPiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG_BITMASK(canonPiAFPointsUsed)),
         TagInfo(0x001a, "AFPointsUsed20D", "AFPointsUsed20D", "AF points used (20D)", canonPiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG_BITMASK(canonPiAFPointsUsed20D)),
         // End of list marker
         TagInfo(0xffff, "(UnknownCanonPiTag)", "(UnknownCanonPiTag)", "Unknown Canon Picture Info tag", canonPiIfdId, makerTags, invalidTypeId, printValue)
