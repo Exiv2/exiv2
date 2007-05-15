@@ -1,22 +1,25 @@
+# translation of fr.po to
 # French translations of Exiv2.
 # Copyright:
-#   Free Software Foundation, Inc., 2002
-#   Caulier Gilles <caulier dot gilles at kdemail dot net>, 2006
-#   Arnaud Launay <asl@launay.org>, 2002
-#   Olivier Tilloy <olivier@tilloy.net>, 2007
 # This file is distributed under the same license as the Exiv2 package.
 #
+#   Free Software Foundation, Inc., 2002.
+#   Caulier Gilles <caulier dot gilles at kdemail dot net>, 2006.
+#   Arnaud Launay <asl@launay.org>, 2002.
+#   Olivier Tilloy <olivier@tilloy.net>, 2007.
+#   Stéphane Pontier <shadow.walker@free.fr>, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2007-04-07 22:48+0200\n"
-"PO-Revision-Date: 2006-11-07 10:54+0100\n"
-"Last-Translator: Olivier Tilloy <olivier@tilloy.net>\n"
+"POT-Creation-Date: 2007-05-08 17:08+0200\n"
+"PO-Revision-Date: 2007-05-08 18:15+0200\n"
+"Last-Translator: Stéphane Pontier <shadow.walker@free.fr>\n"
 "Language-Team: French\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: src/actions.cpp:218 src/actions.cpp:574 src/actions.cpp:694
 #: src/actions.cpp:732 src/actions.cpp:759 src/actions.cpp:840
@@ -41,7 +44,7 @@ msgstr "Taille du fichier"
 
 #: src/actions.cpp:240 src/actions.cpp:528 src/actions.cpp:993
 msgid "Bytes"
-msgstr "octets"
+msgstr "Octets"
 
 #: src/actions.cpp:244
 msgid "Camera make"
@@ -55,8 +58,8 @@ msgstr "Modèle de l'appareil"
 msgid "Image timestamp"
 msgstr "Horodatage de l'image"
 
-#: src/actions.cpp:254 src/minoltamn.cpp:668 src/minoltamn.cpp:937
-#: src/minoltamn.cpp:944 src/minoltamn.cpp:1181
+#: src/actions.cpp:254 src/canonmn.cpp:91 src/minoltamn.cpp:668
+#: src/minoltamn.cpp:937 src/minoltamn.cpp:944 src/minoltamn.cpp:1181
 msgid "Image number"
 msgstr "Numéro de l'image"
 
@@ -65,7 +68,7 @@ msgstr "Numéro de l'image"
 msgid "Exposure time"
 msgstr "Temps d'exposition"
 
-#: src/actions.cpp:271 src/tags.cpp:729
+#: src/actions.cpp:271 src/tags.cpp:729 src/canonmn.cpp:460
 msgid "Aperture"
 msgstr "Ouverture"
 
@@ -73,15 +76,16 @@ msgstr "Ouverture"
 msgid "Exposure bias"
 msgstr "Correction d'exposition"
 
-#: src/actions.cpp:284 src/tags.cpp:534 src/tags.cpp:754 src/minoltamn.cpp:652
-#: src/minoltamn.cpp:891 src/minoltamn.cpp:892 src/minoltamn.cpp:1000
-#: src/minoltamn.cpp:1129 src/minoltamn.cpp:1130 src/panasonicmn.cpp:77
+#: src/actions.cpp:284 src/tags.cpp:534 src/tags.cpp:754 src/canonmn.cpp:396
+#: src/minoltamn.cpp:652 src/minoltamn.cpp:891 src/minoltamn.cpp:892
+#: src/minoltamn.cpp:1000 src/minoltamn.cpp:1129 src/minoltamn.cpp:1130
+#: src/panasonicmn.cpp:77
 msgid "Flash"
 msgstr "Flash"
 
-#: src/actions.cpp:289 src/panasonicmn.cpp:223
+#: src/actions.cpp:289 src/canonmn.cpp:454 src/panasonicmn.cpp:223
 msgid "Flash bias"
-msgstr "Le flash s'est déclenché"
+msgstr "Biais flash"
 
 #: src/actions.cpp:304 src/minoltamn.cpp:647
 msgid "Focal length"
@@ -109,8 +113,8 @@ msgstr "Mode d'exposition"
 msgid "Metering mode"
 msgstr "Mode de mesure"
 
-#: src/actions.cpp:387 src/minoltamn.cpp:629 src/olympusmn.cpp:129
-#: src/panasonicmn.cpp:205
+#: src/actions.cpp:387 src/canonmn.cpp:338 src/minoltamn.cpp:629
+#: src/olympusmn.cpp:129 src/panasonicmn.cpp:205
 msgid "Macro mode"
 msgstr "Mode macro"
 
@@ -133,15 +137,15 @@ msgstr "Balance des blancs"
 msgid "Thumbnail"
 msgstr "Miniature"
 
-#: src/actions.cpp:523 src/tags.cpp:638 src/minoltamn.cpp:413
-#: src/minoltamn.cpp:507 src/nikonmn.cpp:136 src/olympusmn.cpp:84
-#: src/olympusmn.cpp:511
+#: src/actions.cpp:523 src/tags.cpp:638 src/canonmn.cpp:204
+#: src/minoltamn.cpp:413 src/minoltamn.cpp:507 src/nikonmn.cpp:136
+#: src/olympusmn.cpp:84 src/olympusmn.cpp:511
 msgid "None"
-msgstr "Aucune"
+msgstr "Aucun"
 
 #: src/actions.cpp:533 src/datasets.cpp:376 src/tags.cpp:444
 msgid "Copyright"
-msgstr "Copyright"
+msgstr "Droit d'auteur"
 
 #: src/actions.cpp:536
 msgid "Exif comment"
@@ -294,8 +298,7 @@ msgstr "Impossible d'écrire les méta-données dans le fichier"
 
 #: src/actions.cpp:1583
 msgid "Filename format yields empty filename for the file"
-msgstr ""
-"Le format spécifié pour le nom du fichier produit un nom de fichier vide"
+msgstr "Le format spécifié pour le nom du fichier produit un nom de fichier vide"
 
 #: src/actions.cpp:1592
 msgid "This file already has the correct name"
@@ -355,7 +358,7 @@ msgstr "décalage"
 
 #: src/datasets.cpp:79
 msgid "(invalid)"
-msgstr ""
+msgstr "(invalide)"
 
 #: src/datasets.cpp:80
 msgid "IIM envelope record"
@@ -366,9 +369,8 @@ msgid "IIM application record 2"
 msgstr ""
 
 #: src/datasets.cpp:85
-#, fuzzy
 msgid "Model Version"
-msgstr "Version d'exif"
+msgstr "Version du Modèle"
 
 #: src/datasets.cpp:86
 msgid ""
@@ -378,9 +380,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:90
-#, fuzzy
 msgid "Destination"
-msgstr "Orientation"
+msgstr "Destination"
 
 #: src/datasets.cpp:91
 msgid ""
@@ -389,9 +390,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:94
-#, fuzzy
 msgid "File Format"
-msgstr "Source du fichier"
+msgstr "Format du fichier"
 
 #: src/datasets.cpp:95
 msgid ""
@@ -402,9 +402,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:101
-#, fuzzy
 msgid "File Version"
-msgstr "Version d'exif"
+msgstr "Version du fichier"
 
 #: src/datasets.cpp:102
 msgid ""
@@ -414,11 +413,11 @@ msgstr ""
 
 #: src/datasets.cpp:105
 msgid "Service Id"
-msgstr ""
+msgstr "Identifiant du service"
 
 #: src/datasets.cpp:106
 msgid "Identifies the provider and product"
-msgstr ""
+msgstr "Identifie le fournisseur et le produit"
 
 #: src/datasets.cpp:108
 msgid "Envelope Number"
@@ -436,7 +435,7 @@ msgstr ""
 
 #: src/datasets.cpp:117
 msgid "Product Id"
-msgstr ""
+msgstr "Identifiant produit"
 
 #: src/datasets.cpp:118
 msgid ""
@@ -446,9 +445,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:122
-#, fuzzy
 msgid "Envelope Priority"
-msgstr "Priorité ouverture"
+msgstr "Priorité de l'enveloppe"
 
 #: src/datasets.cpp:123
 msgid ""
@@ -459,9 +457,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:129
-#, fuzzy
 msgid "Date Sent"
-msgstr "Date et heure"
+msgstr "Date d'envoi"
 
 #: src/datasets.cpp:130
 msgid ""
@@ -471,7 +468,7 @@ msgstr ""
 
 #: src/datasets.cpp:133
 msgid "Time Sent"
-msgstr ""
+msgstr "Heure d'envoi"
 
 #: src/datasets.cpp:134
 msgid ""
@@ -483,7 +480,7 @@ msgstr ""
 
 #: src/datasets.cpp:139
 msgid "Character Set"
-msgstr ""
+msgstr "jeu de caractère"
 
 #: src/datasets.cpp:140
 msgid ""
@@ -495,7 +492,7 @@ msgstr ""
 
 #: src/datasets.cpp:145
 msgid "Unique Name Object"
-msgstr ""
+msgstr "Nom d'objet unique"
 
 #: src/datasets.cpp:146
 msgid ""
@@ -506,7 +503,7 @@ msgstr ""
 
 #: src/datasets.cpp:151
 msgid "ARM Identifier"
-msgstr ""
+msgstr "Identifiant ARM"
 
 #: src/datasets.cpp:152
 msgid ""
@@ -516,9 +513,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:156
-#, fuzzy
 msgid "ARM Version"
-msgstr "Version d'exif"
+msgstr "Version d'ARM"
 
 #: src/datasets.cpp:157
 msgid ""
@@ -527,9 +523,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:170
-#, fuzzy
 msgid "Record Version"
-msgstr "Version d'exif"
+msgstr "Version d'enregistrement"
 
 #: src/datasets.cpp:171
 msgid ""
@@ -539,9 +534,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:175
-#, fuzzy
 msgid "Object Type"
-msgstr "Aire du sujet"
+msgstr "type d'objet"
 
 #: src/datasets.cpp:176
 msgid ""
@@ -554,9 +548,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:184
-#, fuzzy
 msgid "Object Attribute"
-msgstr "Aire du sujet"
+msgstr "Attributs de l'objet"
 
 #: src/datasets.cpp:185
 msgid ""
@@ -570,9 +563,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:193
-#, fuzzy
 msgid "Object Name"
-msgstr "Aire du sujet"
+msgstr "Nom de l'objet"
 
 #: src/datasets.cpp:194
 msgid ""
@@ -582,13 +574,12 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:198
-#, fuzzy
 msgid "Document Title"
 msgstr "Nom du document"
 
 #: src/datasets.cpp:199
 msgid "Edit Status"
-msgstr ""
+msgstr "Statut des modifications"
 
 #: src/datasets.cpp:200
 msgid "Status of the object data, according to the practice of the provider."
@@ -596,7 +587,7 @@ msgstr ""
 
 #: src/datasets.cpp:202
 msgid "Editorial Update"
-msgstr ""
+msgstr "Mise à jour éditorial"
 
 #: src/datasets.cpp:203
 msgid ""
@@ -607,7 +598,7 @@ msgstr ""
 
 #: src/datasets.cpp:207 src/datasets.cpp:212
 msgid "Urgency"
-msgstr ""
+msgstr "Priorité"
 
 #: src/datasets.cpp:208
 msgid ""
@@ -617,9 +608,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:213
-#, fuzzy
 msgid "Subject"
-msgstr "Aire du sujet"
+msgstr "Sujet"
 
 #: src/datasets.cpp:214
 msgid "The Subject Reference is a structured definition of the subject matter."
@@ -627,7 +617,7 @@ msgstr ""
 
 #: src/datasets.cpp:216 src/datasets.cpp:221
 msgid "Category"
-msgstr ""
+msgstr "Catégorie"
 
 #: src/datasets.cpp:217
 msgid ""
@@ -638,7 +628,7 @@ msgstr ""
 
 #: src/datasets.cpp:222
 msgid "Supplemental Category"
-msgstr ""
+msgstr "Catégorie Supplémentaire"
 
 #: src/datasets.cpp:223
 msgid ""
@@ -650,11 +640,11 @@ msgstr ""
 
 #: src/datasets.cpp:228
 msgid "Supplemental Categories"
-msgstr ""
+msgstr "Catégories Supplémentaires"
 
 #: src/datasets.cpp:229
 msgid "Fixture Id"
-msgstr ""
+msgstr "Identificateur"
 
 #: src/datasets.cpp:230
 msgid ""
@@ -664,7 +654,7 @@ msgstr ""
 
 #: src/datasets.cpp:233 src/datasets.cpp:239
 msgid "Keywords"
-msgstr ""
+msgstr "Mots-clefs"
 
 #: src/datasets.cpp:234
 msgid ""
@@ -676,7 +666,7 @@ msgstr ""
 
 #: src/datasets.cpp:240
 msgid "Location Code"
-msgstr ""
+msgstr "Code du pays"
 
 #: src/datasets.cpp:241
 msgid ""
@@ -689,9 +679,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:248
-#, fuzzy
 msgid "Location Name"
-msgstr "Nom du document"
+msgstr "Nom du pays"
 
 #: src/datasets.cpp:249
 msgid ""
@@ -702,7 +691,7 @@ msgstr ""
 
 #: src/datasets.cpp:253
 msgid "Release Date"
-msgstr ""
+msgstr "Date de publication"
 
 #: src/datasets.cpp:254
 msgid ""
@@ -712,7 +701,7 @@ msgstr ""
 
 #: src/datasets.cpp:257
 msgid "Release Time"
-msgstr ""
+msgstr "Heure de publication"
 
 #: src/datasets.cpp:258
 msgid ""
@@ -722,7 +711,7 @@ msgstr ""
 
 #: src/datasets.cpp:261
 msgid "Expiration Date"
-msgstr ""
+msgstr "Date d'expiration"
 
 #: src/datasets.cpp:262
 msgid ""
@@ -732,7 +721,7 @@ msgstr ""
 
 #: src/datasets.cpp:265
 msgid "ExpirationTime"
-msgstr ""
+msgstr "Heure d'expiration"
 
 #: src/datasets.cpp:266
 msgid ""
@@ -742,7 +731,7 @@ msgstr ""
 
 #: src/datasets.cpp:269
 msgid "Special Instructions"
-msgstr ""
+msgstr "Instructions particulières"
 
 #: src/datasets.cpp:270
 msgid ""
@@ -751,14 +740,12 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:273
-#, fuzzy
 msgid "Instructions"
-msgstr "Processus personnel"
+msgstr "Instructions"
 
 #: src/datasets.cpp:274
-#, fuzzy
 msgid "Action Advised"
-msgstr "action"
+msgstr "Action conseillée"
 
 #: src/datasets.cpp:275
 msgid ""
@@ -768,9 +755,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:279
-#, fuzzy
 msgid "Reference Service"
-msgstr "Référence Noir/Blanc"
+msgstr "  Service de référence"
 
 #: src/datasets.cpp:280
 msgid ""
@@ -779,19 +765,16 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:283
-#, fuzzy
 msgid "Reference Date"
-msgstr "Référence Noir/Blanc"
+msgstr "Date de référence"
 
 #: src/datasets.cpp:284
-msgid ""
-"Identifies the date of a prior envelope to which the current object refers."
+msgid "Identifies the date of a prior envelope to which the current object refers."
 msgstr ""
 
 #: src/datasets.cpp:286
-#, fuzzy
 msgid "Reference Number"
-msgstr "Le nombre F."
+msgstr "Numéro de référence"
 
 #: src/datasets.cpp:287
 msgid ""
@@ -800,9 +783,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:289 src/datasets.cpp:294
-#, fuzzy
 msgid "Date Created"
-msgstr "Date et heure"
+msgstr "Date de création"
 
 #: src/datasets.cpp:290
 msgid ""
@@ -813,7 +795,7 @@ msgstr ""
 
 #: src/datasets.cpp:295
 msgid "Time Created"
-msgstr ""
+msgstr "Heure de création"
 
 #: src/datasets.cpp:296
 msgid ""
@@ -824,7 +806,7 @@ msgstr ""
 
 #: src/datasets.cpp:301
 msgid "Digitization Date"
-msgstr ""
+msgstr "Date de numérisation"
 
 #: src/datasets.cpp:302
 msgid ""
@@ -833,9 +815,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:305
-#, fuzzy
 msgid "Digitization Time"
-msgstr "Date et heure"
+msgstr "Heure de numérisation"
 
 #: src/datasets.cpp:306
 msgid ""
@@ -845,18 +826,16 @@ msgstr ""
 
 #: src/datasets.cpp:310 src/minoltamn.cpp:293 src/minoltamn.cpp:764
 #: src/minoltamn.cpp:968 src/panasonicmn.cpp:110 src/sigmamn.cpp:228
-#, fuzzy
 msgid "Program"
-msgstr "Mode d'exposition"
+msgstr "Logiciel"
 
 #: src/datasets.cpp:311
 msgid "Identifies the type of program used to originate the object data."
 msgstr ""
 
 #: src/datasets.cpp:313
-#, fuzzy
 msgid "Program Version"
-msgstr "Version d'exif"
+msgstr "Version du logiciel"
 
 #: src/datasets.cpp:314
 msgid "Used to identify the version of the program mentioned in tag <Program>."
@@ -864,7 +843,7 @@ msgstr ""
 
 #: src/datasets.cpp:316
 msgid "Object Cycle"
-msgstr ""
+msgstr "Cycle de l'objet"
 
 #: src/datasets.cpp:317
 msgid "Used to identify the editorial cycle of object data."
@@ -872,7 +851,7 @@ msgstr ""
 
 #: src/datasets.cpp:319
 msgid "By-line"
-msgstr ""
+msgstr "Créateur"
 
 #: src/datasets.cpp:320
 msgid ""
@@ -881,13 +860,12 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:323
-#, fuzzy
 msgid "Author"
-msgstr "action"
+msgstr "Auteur"
 
 #: src/datasets.cpp:324
 msgid "By-line Title"
-msgstr ""
+msgstr "Titre du créateur"
 
 #: src/datasets.cpp:325
 msgid ""
@@ -897,7 +875,7 @@ msgstr ""
 
 #: src/datasets.cpp:328 src/datasets.cpp:332
 msgid "City"
-msgstr ""
+msgstr "Ville"
 
 #: src/datasets.cpp:329
 msgid ""
@@ -906,9 +884,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:333
-#, fuzzy
 msgid "Sub Location"
-msgstr "Emplacement du sujet"
+msgstr "Lieu précis"
 
 #: src/datasets.cpp:334
 msgid ""
@@ -918,7 +895,7 @@ msgstr ""
 
 #: src/datasets.cpp:337
 msgid "Province State"
-msgstr ""
+msgstr "État Région"
 
 #: src/datasets.cpp:338
 msgid ""
@@ -928,11 +905,11 @@ msgstr ""
 
 #: src/datasets.cpp:341
 msgid "State/Province"
-msgstr ""
+msgstr "État/Région"
 
 #: src/datasets.cpp:342
 msgid "Country Code"
-msgstr ""
+msgstr "Code du pays"
 
 #: src/datasets.cpp:343
 msgid ""
@@ -946,9 +923,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:352
-#, fuzzy
 msgid "Country Name"
-msgstr "Nom du document"
+msgstr "Libellé du pays"
 
 #: src/datasets.cpp:353
 msgid ""
@@ -958,13 +934,12 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:357
-#, fuzzy
 msgid "Country"
-msgstr "Nom du document"
+msgstr "Pays"
 
 #: src/datasets.cpp:358 src/datasets.cpp:362
 msgid "Transmission Reference"
-msgstr ""
+msgstr "Référence de la transmission"
 
 #: src/datasets.cpp:359
 msgid ""
@@ -974,16 +949,15 @@ msgstr ""
 
 #: src/datasets.cpp:363 src/datasets.cpp:366
 msgid "Headline"
-msgstr ""
+msgstr "Chapô"
 
 #: src/datasets.cpp:364
-msgid ""
-"A publishable entry providing a synopsis of the contents of the object data."
+msgid "A publishable entry providing a synopsis of the contents of the object data."
 msgstr ""
 
 #: src/datasets.cpp:367 src/datasets.cpp:370
 msgid "Credit"
-msgstr ""
+msgstr "Crédit"
 
 #: src/datasets.cpp:368
 msgid ""
@@ -992,9 +966,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:371 src/datasets.cpp:375
-#, fuzzy
 msgid "Source"
-msgstr "Source du fichier"
+msgstr "Source"
 
 #: src/datasets.cpp:372
 msgid ""
@@ -1007,14 +980,12 @@ msgid "Contains any necessary copyright notice."
 msgstr ""
 
 #: src/datasets.cpp:379
-#, fuzzy
 msgid "Copyright Notice"
-msgstr "Copyright"
+msgstr "Notice Droit d'auteur"
 
 #: src/datasets.cpp:380
-#, fuzzy
 msgid "Contact"
-msgstr "Contraste"
+msgstr "Contact"
 
 #: src/datasets.cpp:381
 msgid ""
@@ -1023,22 +994,20 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:384
-#, fuzzy
 msgid "Caption"
-msgstr "action"
+msgstr "Légende"
 
 #: src/datasets.cpp:385
 msgid "A textual description of the object data."
 msgstr ""
 
 #: src/datasets.cpp:387
-#, fuzzy
 msgid "Description"
-msgstr "Description de l'image"
+msgstr "Description"
 
 #: src/datasets.cpp:388
 msgid "Writer"
-msgstr ""
+msgstr "Auteur de la Description"
 
 #: src/datasets.cpp:389
 msgid ""
@@ -1056,17 +1025,15 @@ msgid ""
 "that have not been coded are required for the caption."
 msgstr ""
 
-#: src/datasets.cpp:396
-#, fuzzy
+#: src/datasets.cpp:396 src/canonmn.cpp:89
 msgid "Image Type"
-msgstr "Hauteur de l'image"
+msgstr "Type d'image"
 
 #: src/datasets.cpp:397
 msgid "Indicates the color components of an image."
 msgstr ""
 
 #: src/datasets.cpp:399
-#, fuzzy
 msgid "Image Orientation"
 msgstr "Orientation"
 
@@ -1076,7 +1043,7 @@ msgstr ""
 
 #: src/datasets.cpp:402
 msgid "Language"
-msgstr ""
+msgstr "Langue"
 
 #: src/datasets.cpp:403
 msgid ""
@@ -1087,41 +1054,35 @@ msgstr ""
 
 #: src/datasets.cpp:408
 msgid "Audio Type"
-msgstr ""
+msgstr "Type audio"
 
 #: src/datasets.cpp:409
-#, fuzzy
 msgid "Indicates the type of an audio content."
-msgstr "Ce marqueur indique la distance au sujet."
+msgstr ""
 
 #: src/datasets.cpp:411
 msgid "Audio Rate"
-msgstr ""
+msgstr "Débit audio"
 
 #: src/datasets.cpp:412
-#, fuzzy
 msgid "Indicates the sampling rate in Hertz of an audio content."
-msgstr "Ce marqueur indique la distance au sujet."
+msgstr ""
 
 #: src/datasets.cpp:414
-#, fuzzy
 msgid "Audio Resolution"
-msgstr "y-résolution"
+msgstr "Résolution audio"
 
 #: src/datasets.cpp:415
-#, fuzzy
 msgid "Indicates the sampling resolution of an audio content."
-msgstr "Ce marqueur indique la distance au sujet."
+msgstr ""
 
 #: src/datasets.cpp:417
-#, fuzzy
 msgid "Audio Duration"
-msgstr "Saturation faible"
+msgstr "Durée audio"
 
 #: src/datasets.cpp:418
-#, fuzzy
 msgid "Indicates the duration of an audio content."
-msgstr "Ce marqueur indique la distance au sujet."
+msgstr ""
 
 #: src/datasets.cpp:420
 msgid "Audio Outcue"
@@ -1135,7 +1096,7 @@ msgstr ""
 
 #: src/datasets.cpp:424
 msgid "Preview Format"
-msgstr ""
+msgstr "Format de prévisualisation"
 
 #: src/datasets.cpp:425
 msgid ""
@@ -1145,9 +1106,8 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:429
-#, fuzzy
 msgid "Preview Version"
-msgstr "Version d'exif"
+msgstr "Version de prévisualisation"
 
 #: src/datasets.cpp:430
 msgid ""
@@ -1157,7 +1117,7 @@ msgstr ""
 
 #: src/datasets.cpp:433
 msgid "Preview Data"
-msgstr ""
+msgstr "Données de prévisualisation"
 
 #: src/datasets.cpp:434
 msgid "Binary image preview data."
@@ -1165,16 +1125,15 @@ msgstr ""
 
 #: src/datasets.cpp:436 src/datasets.cpp:437
 msgid "(Invalid)"
-msgstr ""
+msgstr "(Invalide)"
 
 #: src/datasets.cpp:446 src/datasets.cpp:447 src/datasets.cpp:450
-#, fuzzy
 msgid "Unknown dataset"
-msgstr "Inconnu"
+msgstr "Données inconnues"
 
 #: src/exiv2.cpp:180
 msgid "Copyright (C) 2004-2007 Andreas Huggel.\n"
-msgstr ""
+msgstr "Copyright (C) 2004-2007 Andreas Huggel.\n"
 
 #: src/exiv2.cpp:182
 msgid ""
@@ -1201,12 +1160,10 @@ msgid ""
 msgstr ""
 
 #: src/exiv2.cpp:200
-#, fuzzy
 msgid "Usage:"
-msgstr "Usage :"
+msgstr "Utilisation :"
 
 #: src/exiv2.cpp:201
-#, fuzzy
 msgid ""
 "[ options ] [ action ] file ...\n"
 "\n"
@@ -1223,30 +1180,39 @@ msgid ""
 "\n"
 "Actions:\n"
 msgstr ""
+"\n"
+"Actions :\n"
 
 #: src/exiv2.cpp:209
 msgid ""
 "  ad | adjust   Adjust Exif timestamps by the given time. This\n"
 "                action requires the option -a time.\n"
 msgstr ""
+"  ad | adjust   Ajuste l'horodatade Exif par la date donnée. Cette\n"
+"                action nécessite l'option -a date.\n"
 
 #: src/exiv2.cpp:211
 msgid "  pr | print    Print image metadata.\n"
-msgstr ""
+msgstr "  pr | print    Affiche les méta-données de l'image.\n"
 
 #: src/exiv2.cpp:212
 msgid "  rm | delete   Delete image metadata from the files.\n"
-msgstr ""
+msgstr "  rm | delete   Supprime les méta-données de l'image.\n"
 
 #: src/exiv2.cpp:213
 msgid ""
 "  in | insert   Insert metadata from corresponding *.exv files.\n"
 "                Use option -S to change the suffix of the input files.\n"
 msgstr ""
+"  in | insert   Insert les méta-données des fichiers *.exv correspondants.\n"
+"                Utilisez l'option -S pour changer le suffixe des fichiers "
+"d'entrées.\n"
 
 #: src/exiv2.cpp:215
 msgid "  ex | extract  Extract metadata to *.exv and thumbnail image files.\n"
 msgstr ""
+"  ex | extract  Extrait les méta-données dans un ficher *.exv et l'aperçu de "
+"l'image.\n"
 
 #: src/exiv2.cpp:216
 msgid ""
@@ -1254,6 +1220,12 @@ msgid ""
 "                Exif create timestamp. The filename format can be set with\n"
 "                -r format, timestamp options are controlled with -t and -T.\n"
 msgstr ""
+"  mv | rename   Renomme les fichier et/ou change l'horodatage en "
+"concordance\n"
+"                avec l'horodatage Exif. Le format de nom du fichier peut "
+"être définit avec\n"
+"                -r format, les options d'horodatage sont controllés par -t "
+"et -T.\n"
 
 #: src/exiv2.cpp:219
 msgid ""
@@ -1261,166 +1233,186 @@ msgid ""
 "                Iptc metadata of image files or set the Jpeg comment.\n"
 "                Requires option -c, -m or -M.\n"
 msgstr ""
+"  mo | modify   Commande pour modifier (add, set, delete) les métadonnées\n"
+"                Exif et Iptc ou le commentaire Jpeg de l'image.\n"
+"                Nécessite l'option -c, -m ou -M.\n"
 
 #: src/exiv2.cpp:222
 msgid ""
 "  fi | fixiso   Copy ISO setting from the Nikon Makernote to the regular\n"
 "                Exif tag.\n"
 msgstr ""
+"  fi | fixiso   Copie le paramêtre ISO du marqueur Nikon dans le marqueur\n"
+"                Exif standard.\n"
 
 #: src/exiv2.cpp:224
 msgid ""
 "\n"
 "Options:\n"
 msgstr ""
+"\n"
+"Options :\n"
 
 #: src/exiv2.cpp:225
 msgid "   -h      Display this help and exit.\n"
-msgstr ""
+msgstr "   -h      Affiche cette aide et sort.\n"
 
 #: src/exiv2.cpp:226
 msgid "   -V      Show the program version and exit.\n"
-msgstr ""
+msgstr "   -V      Affiche la version du logiciel et sort.\n"
 
 #: src/exiv2.cpp:227
 msgid "   -v      Be verbose during the program run.\n"
-msgstr ""
+msgstr "   -v      Bavard lors de l'execution du programme.\n"
 
 #: src/exiv2.cpp:228
 msgid "   -b      Show large binary values.\n"
-msgstr ""
+msgstr "   -b      Affiche les grandes données binaires.\n"
 
 #: src/exiv2.cpp:229
 msgid "   -u      Don't show unknown tags.\n"
-msgstr ""
+msgstr "   -u      N'affiche pas les marqueurs inconnus.\n"
 
 #: src/exiv2.cpp:230
 msgid "   -k      Preserve file timestamps (keep).\n"
-msgstr ""
+msgstr "   -k      Preserve l'horodatage des fichiers.\n"
 
 #: src/exiv2.cpp:231
-msgid ""
-"   -t      Also set the file timestamp in 'rename' action (overrides -k).\n"
+msgid "   -t      Also set the file timestamp in 'rename' action (overrides -k).\n"
 msgstr ""
+"   -t      Change aussi l'horodatage du fichier lors de l'action "
+"'rename' (redéfini -k).\n"
 
 #: src/exiv2.cpp:232
 msgid ""
 "   -T      Only set the file timestamp in 'rename' action, do not rename\n"
 "           the file (overrides -k).\n"
 msgstr ""
+"   -T      Change seulement l'horodatage du fichier lors de l'action "
+"'rename'\n"
+"           ne nenomme pas le fichier (redéfini -k).\n"
 
 #: src/exiv2.cpp:234
 msgid "   -f      Do not prompt before overwriting existing files (force).\n"
-msgstr ""
+msgstr "   -f      Ne demande pas avant de réécrire un fichier existant (force).\n"
 
 #: src/exiv2.cpp:235
 msgid "   -F      Do not prompt before renaming files (Force).\n"
-msgstr ""
+msgstr "   -F      Ne demande pas avant de renommer un fichier (Force).\n"
 
 #: src/exiv2.cpp:236
 msgid ""
 "   -a time Time adjustment in the format [-]HH[:MM[:SS]]. This option\n"
 "           is only used with the 'adjust' action.\n"
 msgstr ""
+"   -a time Ajustement temporel au format [-]HH[:MM[:SS]]. Cette option\n"
+"           est seulement utilisée avec l'action 'adjust'.\n"
 
 #: src/exiv2.cpp:238
 msgid "   -p mode Print mode for the 'print' action. Possible modes are:\n"
 msgstr ""
+"   -p mode Mode d'affichage pour l'action 'print'. Les modes possible "
+"sont :\n"
 
 #: src/exiv2.cpp:239
 msgid "             s : print a summary of the Exif metadata (the default)\n"
-msgstr ""
+msgstr "             s : Affiche un résumé des méta-données Exif (par défaut)\n"
 
 #: src/exiv2.cpp:240
-msgid ""
-"             t : interpreted (translated) Exif data (shortcut for -Pkyct)\n"
+msgid "             t : interpreted (translated) Exif data (shortcut for -Pkyct)\n"
 msgstr ""
+"             t : Interprete les méta-données Exif data (raccourci pour -"
+"Pkyct)\n"
 
 #: src/exiv2.cpp:241
 msgid "             v : plain Exif data values (shortcut for -Pxgnycv)\n"
-msgstr ""
+msgstr "             v : Valeurs brutes des méta-données Exif (raccourci -Pxgnycv)\n"
 
 #: src/exiv2.cpp:242
 msgid "             h : hexdump of the Exif data (shortcut for -Pxgnycsh)\n"
 msgstr ""
+"             h : hexdump des méta-données Exif data (raccourci pour -"
+"Pxgnycsh)\n"
 
 #: src/exiv2.cpp:243
 msgid "             i : Iptc data values\n"
-msgstr ""
+msgstr "             i : Données Iptc\n"
 
 #: src/exiv2.cpp:244 src/exiv2.cpp:262
 msgid "             c : Jpeg comment\n"
-msgstr ""
+msgstr "             c : Commentaire Jpeg\n"
 
 #: src/exiv2.cpp:245
-msgid ""
-"   -P cols Print columns for the Exif taglist ('print' action). Valid are:\n"
+msgid "   -P cols Print columns for the Exif taglist ('print' action). Valid are:\n"
 msgstr ""
+"   -P cols Affiche les colonnes pour la liste de marqueurs Exif (action "
+"'print'). Colonnes Valides :\n"
 
 #: src/exiv2.cpp:246
 msgid "             x : print a column with the tag value\n"
-msgstr ""
+msgstr "             x : affiche une colonne avec la valeur du marqueur\n"
 
 #: src/exiv2.cpp:247
 msgid "             g : group name\n"
-msgstr ""
+msgstr "             g : nom du group\n"
 
 #: src/exiv2.cpp:248
 msgid "             k : key\n"
-msgstr ""
+msgstr "             k : clef\n"
 
 #: src/exiv2.cpp:249
 msgid "             l : tag label\n"
-msgstr ""
+msgstr "             l : intitulé du marqueur\n"
 
 #: src/exiv2.cpp:250
 msgid "             n : tag name\n"
-msgstr ""
+msgstr "             n : nom du marqueur\n"
 
 #: src/exiv2.cpp:251
 msgid "             y : type\n"
-msgstr ""
+msgstr "             y : type\n"
 
 #: src/exiv2.cpp:252
 msgid "             c : number of components (count)\n"
-msgstr ""
+msgstr "             c : nombre de composant\n"
 
 #: src/exiv2.cpp:253
 msgid "             s : size in bytes\n"
-msgstr ""
+msgstr "             s : taille en octets\n"
 
 #: src/exiv2.cpp:254
 msgid "             v : plain data value\n"
-msgstr ""
+msgstr "             v : valeur brute\n"
 
 #: src/exiv2.cpp:255
 msgid "             t : interpreted (translated) data\n"
-msgstr ""
+msgstr "             t : valeur interprété\n"
 
 #: src/exiv2.cpp:256
 msgid "             h : hexdump of the data\n"
-msgstr ""
+msgstr "             h : hexdump de la donnée\n"
 
 #: src/exiv2.cpp:257
-msgid ""
-"   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n"
+msgid "   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n"
 msgstr ""
+"   -d tgt  Efface la(les) cible(s) de l'action 'delete'. Les cibles "
+"possibles sont :\n"
 
 #: src/exiv2.cpp:258
 msgid "             a : all supported metadata (the default)\n"
-msgstr ""
+msgstr "             a : toutes les méta-données (par défaut)\n"
 
 #: src/exiv2.cpp:259
 msgid "             e : Exif section\n"
-msgstr ""
+msgstr "             e : section Exif\n"
 
 #: src/exiv2.cpp:260
 msgid "             t : Exif thumbnail only\n"
-msgstr ""
+msgstr "             t : aperçu Exif seulement\n"
 
 #: src/exiv2.cpp:261
 msgid "             i : Iptc data\n"
-msgstr ""
+msgstr "             i : données Iptc\n"
 
 #: src/exiv2.cpp:263
 msgid ""
@@ -1428,268 +1420,285 @@ msgid ""
 "           the same as those for the -d option. Only Jpeg thumbnails can\n"
 "           be inserted, they need to be named <file>-thumb.jpg\n"
 msgstr ""
+"   -i tgt  Insert la(les) cible(s) pour l'action 'insert'. Les cibles "
+"possible sont\n"
+"           les même que pour l'option -d. Seul les aperçus Jpeg peuvent\n"
+"           inséré, ils doivent être nommés <fichier>-thumb.jpg\n"
 
 #: src/exiv2.cpp:266
 msgid ""
 "   -e tgt  Extract target(s) for the 'extract' action. Possible targets\n"
 "           are the same as those for the -d option.\n"
 msgstr ""
+"   -e tgt  Extrait la(les) cible(s) pour l'action 'extract'. Les cibles "
+"possible sont\n"
+"           les même que pour l'option -d.\n"
 
 #: src/exiv2.cpp:268
 msgid ""
 "   -r fmt  Filename format for the 'rename' action. The format string\n"
 "           follows strftime(3). The following keywords are supported:\n"
 msgstr ""
+"   -r fmt  Format de nom de fichier pour l'action 'rename'. la chaine de "
+"format\n"
+"           suit strftime(3). Les mots-clefs suivant sont supportés :\n"
 
 #: src/exiv2.cpp:270
 msgid "             :basename:   - original filename without extension\n"
-msgstr ""
+msgstr "             :basename:   - nom de fichier original sans extensions\n"
 
 #: src/exiv2.cpp:271
-msgid ""
-"             :dirname:    - name of the directory holding the original file\n"
-msgstr ""
+msgid "             :dirname:    - name of the directory holding the original file\n"
+msgstr "             :dirname:    - nom du répertoire contenant le fichier original\n"
 
 #: src/exiv2.cpp:272
 msgid "             :parentname: - name of parent directory\n"
-msgstr ""
+msgstr "             :parentname: - nom du répertoire parent\n"
 
 #: src/exiv2.cpp:273
 msgid "           Default filename format is "
-msgstr ""
+msgstr "           Le format du nom par défaut est "
 
 #: src/exiv2.cpp:275
 msgid "   -c txt  Jpeg comment string to set in the image.\n"
-msgstr ""
+msgstr "   -c txt  Commentaire Jpeg a appliquer à l'image.\n"
 
 #: src/exiv2.cpp:276
 msgid ""
 "   -m file Command file for the modify action. The format for commands is\n"
 "           set|add|del <key> [[<type>] <value>].\n"
 msgstr ""
+"   -m file Fichier de commandes pour l'action modifier . Le format des "
+"commande est\n"
+"           set|add|del <clef> [[<type>] <valeur>].\n"
 
 #: src/exiv2.cpp:278
 msgid ""
 "   -M cmd  Command line for the modify action. The format for the\n"
 "           commands is the same as that of the lines of a command file.\n"
 msgstr ""
+"   -M file Ligne de commandes pour l'action modifier . Le format des "
+"commande est\n"
+"           le meme que celui utilisé dans le fichier de commande.\n"
 
 #: src/exiv2.cpp:280
 msgid ""
 "   -l dir  Location (directory) for files to be inserted from or extracted "
 "to.\n"
 msgstr ""
+"   -l dir  Emplacement (répertoire) pour les fichiers qui seront insérés de "
+"ou extraits dans.\n"
 
 #: src/exiv2.cpp:281
 msgid ""
 "   -S .suf Use suffix .suf for source files for insert command.\n"
 "\n"
 msgstr ""
+"   -S .suf Utilise le suffixe suf comme source du ficher pour la commande "
+"insertion.\n"
+"\n"
 
 #: src/exiv2.cpp:311 src/exiv2.cpp:357 src/exiv2.cpp:563
-#, fuzzy
 msgid "Option"
-msgstr "action"
+msgstr "Оption"
 
 #: src/exiv2.cpp:312
 msgid "requires an argument\n"
-msgstr ""
+msgstr "nécessite un argument\n"
 
 #: src/exiv2.cpp:316
 msgid "Unrecognized option"
-msgstr ""
+msgstr "Option non reconnue"
 
 #: src/exiv2.cpp:322
 msgid "getopt returned unexpected character code"
-msgstr ""
+msgstr "getopt a retourné un caractère non attendu"
 
 #: src/exiv2.cpp:348
 msgid "Ignoring surplus option"
-msgstr ""
+msgstr "Ignore l'option suplémentaire"
 
 #: src/exiv2.cpp:358 src/exiv2.cpp:564
 msgid "is not compatible with a previous option\n"
-msgstr ""
+msgstr "n'est pas compatible avec une option précédente\n"
 
 #: src/exiv2.cpp:373
 msgid "Error parsing -a option argument"
-msgstr ""
+msgstr "Erreur en traitant l'argument de l'option -a"
 
 #: src/exiv2.cpp:380
 msgid "Ignoring surplus option -a"
-msgstr ""
+msgstr "Ignore l'option suplémentaire -a"
 
 #: src/exiv2.cpp:384
 msgid "Option -a is not compatible with a previous option\n"
-msgstr ""
+msgstr "L'option -a n'est pas compatible avec une option précédente\n"
 
 #: src/exiv2.cpp:404
 msgid "Unrecognized print mode"
-msgstr ""
+msgstr "Mode d'affichage non reconnu"
 
 #: src/exiv2.cpp:412
 msgid "Ignoring surplus option -p"
-msgstr ""
+msgstr "Ignore l'option suplémentaire -p"
 
 #: src/exiv2.cpp:416
 msgid "Option -p is not compatible with a previous option\n"
-msgstr ""
+msgstr "L'option -p n'est pas compatible avec une option précédente\n"
 
 #: src/exiv2.cpp:444
 msgid "Unrecognized print item"
-msgstr ""
+msgstr "Elément d'affichage non reconnu"
 
 #: src/exiv2.cpp:453
 msgid "Ignoring surplus option -P"
-msgstr ""
+msgstr "Ignore l'option suplémentaire -P"
 
 #: src/exiv2.cpp:457
 msgid "Option -P is not compatible with a previous option\n"
-msgstr ""
+msgstr "L'option -P n'est pas compatible avec une option précédente\n"
 
 #: src/exiv2.cpp:484
 msgid "Option -d is not compatible with a previous option\n"
-msgstr ""
+msgstr "L'option -d n'est pas compatible avec une option précédente\n"
 
 #: src/exiv2.cpp:512
 msgid "Option -e is not compatible with a previous option\n"
-msgstr ""
+msgstr "L'option -e n'est pas compatible avec une option précédente\n"
 
 #: src/exiv2.cpp:540
 msgid "Option -i is not compatible with a previous option\n"
-msgstr ""
+msgstr "L'option -i n'est pas compatible avec une option précédente\n"
 
 #: src/exiv2.cpp:581
 msgid "Action adjust is not compatible with the given options\n"
-msgstr ""
+msgstr "L'action ajuster n'est pas compatible avec les options données\n"
 
 #: src/exiv2.cpp:590
 msgid "Action print is not compatible with the given options\n"
-msgstr ""
+msgstr "L'action afficher n'est pas compatible avec les options données\n"
 
 #: src/exiv2.cpp:599
 msgid "Action delete is not compatible with the given options\n"
-msgstr ""
+msgstr "L'action effacer n'est pas compatible avec les options données\n"
 
 #: src/exiv2.cpp:610
 msgid "Action extract is not compatible with the given options\n"
-msgstr ""
+msgstr "L'action extraire n'est pas compatible avec les options données\n"
 
 #: src/exiv2.cpp:621
 msgid "Action insert is not compatible with the given options\n"
-msgstr ""
+msgstr "L'action inserer n'est pas compatible avec les options données\n"
 
 #: src/exiv2.cpp:630
 msgid "Action rename is not compatible with the given options\n"
-msgstr ""
+msgstr "L'action renommer n'est pas compatible avec les options données\n"
 
 #: src/exiv2.cpp:639
 msgid "Action modify is not compatible with the given options\n"
-msgstr ""
+msgstr "L'action modifier n'est pas compatible avec les options données\n"
 
 #: src/exiv2.cpp:648
 msgid "Action fixiso is not compatible with the given options\n"
-msgstr ""
+msgstr "L'action fixiso n'est pas compatible avec les options données\n"
 
 #: src/exiv2.cpp:672
 msgid "An action must be specified\n"
-msgstr ""
+msgstr "Une action doit être spécifié\n"
 
 #: src/exiv2.cpp:677
 msgid "Adjust action requires option -a time\n"
-msgstr ""
+msgstr "L'action ajuster nécessite l'option -a heure\n"
 
 #: src/exiv2.cpp:683
 msgid "Modify action requires at least one -c, -m or -M option\n"
-msgstr ""
+msgstr "L'action modifier nécessite au moins une option -c, -m ou -M\n"
 
 #: src/exiv2.cpp:687
 msgid "At least one file is required\n"
-msgstr ""
+msgstr "Au moins un fichier est nécessaire\n"
 
 #: src/exiv2.cpp:693
 msgid "Error parsing -m option arguments\n"
-msgstr ""
+msgstr "Erreur en traitant les arguments de l'option -m\n"
 
 #: src/exiv2.cpp:700
 msgid "Error parsing -M option arguments\n"
-msgstr ""
+msgstr "Erreur en traitant les arguments de l'option -M\n"
 
 #: src/exiv2.cpp:707
 msgid "-l option can only be used with extract or insert actions\n"
 msgstr ""
+"L'option -I ne peut être utilisé qu'avec des actions d'insertion ou "
+"d'extraction\n"
 
 #: src/exiv2.cpp:712
 msgid "-S option can only be used with insert action\n"
-msgstr ""
+msgstr "L'option -S ne peut être utilisé qu'avec l'action d'insertion\n"
 
 #: src/exiv2.cpp:717
 msgid "-t option can only be used with rename action\n"
-msgstr ""
+msgstr "L'option -t ne peut être utilisé qu'avec l'actions de renommage\n"
 
 #: src/exiv2.cpp:722
 msgid "-T option can only be used with rename action\n"
-msgstr ""
+msgstr "L'option -T ne peut être utilisé qu'avec l'actions de renommage\n"
 
 #: src/exiv2.cpp:787
 msgid "Unrecognized "
-msgstr ""
+msgstr "Non reconnu"
 
 #: src/exiv2.cpp:788
-#, fuzzy
 msgid "target"
-msgstr "moyenne"
+msgstr "cible"
 
 #: src/exiv2.cpp:806
 msgid "Failed to open command file for reading\n"
-msgstr ""
+msgstr "Impossible d'ouvrir le fichier à lire\n"
 
 #: src/exiv2.cpp:819
-#, fuzzy
 msgid "line"
-msgstr "pouces"
+msgstr "ligne"
 
 #: src/exiv2.cpp:842
-#, fuzzy
 msgid "-M option"
-msgstr "action"
+msgstr "option -M"
 
 #: src/exiv2.cpp:863 src/exiv2.cpp:913 src/exiv2.cpp:923
 msgid "Invalid command line"
-msgstr ""
+msgstr "ligne de commande invalide"
 
 #: src/exiv2.cpp:870
 msgid "Invalid command"
-msgstr ""
+msgstr "commande invalide"
 
 #: src/exiv2.cpp:894
 msgid "Invalid key"
-msgstr ""
+msgstr "clef invalide"
 
 #: src/error.cpp:44
 msgid "Error %0: arg1=%1, arg2=%2, arg3=%3."
-msgstr ""
+msgstr "Erreur %0 : arg1=%1, arg2=%2, arg3=%3."
 
 #: src/error.cpp:45
-#, fuzzy
 msgid "Success"
-msgstr "Source du fichier"
+msgstr "Réussite"
 
 #: src/error.cpp:48
 msgid "This does not look like a %1 image"
-msgstr ""
+msgstr "Cela ne ressemble pas a une image %1"
 
 #: src/error.cpp:49
 msgid "Invalid dataset name `%1'"
-msgstr ""
+msgstr "Nom de donnés `%1' invalide"
 
 #: src/error.cpp:50
 msgid "Invalid record name `%1'"
-msgstr ""
+msgstr "Nom d'enregistrement `%1' invalide"
 
 #: src/error.cpp:51
 msgid "Invalid key `%1'"
-msgstr ""
+msgstr "Clef `%1' invalide"
 
 #: src/error.cpp:52
 msgid "Invalid tag name or ifdId `%1', ifdId %2"
@@ -1697,19 +1706,19 @@ msgstr ""
 
 #: src/error.cpp:53
 msgid "Value not set"
-msgstr ""
+msgstr "Valeur non réglée"
 
 #: src/error.cpp:54
 msgid "%1: Failed to open the data source: %2"
-msgstr ""
+msgstr "%1 : Impossible d'ouvrir la source de données : %2"
 
 #: src/error.cpp:55
 msgid "%1: Failed to open file (%2): %3"
-msgstr ""
+msgstr "%1 : Impossible d'ouvrir le fichier (%2) : %3"
 
 #: src/error.cpp:56
 msgid "%1: The file contains data of an unknown image type"
-msgstr "%1: Le fichier contient des données de type inconnu"
+msgstr "%1 : Le fichier contient des données de type inconnu"
 
 #: src/error.cpp:57
 msgid "The memory contains data of an unknown image type"
@@ -1717,59 +1726,59 @@ msgstr "La mémoire contient des données de type inconnu"
 
 #: src/error.cpp:58
 msgid "Image type %1 is not supported"
-msgstr ""
+msgstr "Le type d'image %1 n'est pas supporté"
 
 #: src/error.cpp:59
 msgid "Failed to read image data"
-msgstr ""
+msgstr "Impossible de lire les données de l'image"
 
 #: src/error.cpp:60
 msgid "This does not look like a JPEG image"
-msgstr ""
+msgstr "Cela ne semble pas être une image JPEG"
 
 #: src/error.cpp:61
 msgid "MakerTagInfo registry full"
-msgstr ""
+msgstr "Registre MakerTagInfo plein"
 
 #: src/error.cpp:62
 msgid "%1: Failed to rename file to %2: %3"
-msgstr ""
+msgstr "%1 : Impossible de renomer le fichier en %2 : %3"
 
 #: src/error.cpp:63
 msgid "%1: Transfer failed: %2"
-msgstr ""
+msgstr "%1 : Transfert échoué : %2"
 
 #: src/error.cpp:64
 msgid "Memory transfer failed: %1"
-msgstr ""
+msgstr "Transfert de mémoire échoué : %1"
 
 #: src/error.cpp:65
 msgid "Failed to read input data"
-msgstr ""
+msgstr "Impossible de lire les données d'entrée"
 
 #: src/error.cpp:66
 msgid "Failed to write image"
-msgstr ""
+msgstr "Impossible d'écrire l'image"
 
 #: src/error.cpp:67
 msgid "Input data does not contain a valid image"
-msgstr ""
+msgstr "Les données d'entrée ne contiennent pas d'image valide"
 
 #: src/error.cpp:68
 msgid "Failed to create Makernote for ifdId %1"
-msgstr ""
+msgstr "Impossible de créer des note du fabriquant pour ifdId %1"
 
 #: src/error.cpp:69
 msgid "Entry::setValue: Value too large (tag=%1, size=%2, requested=%3)"
-msgstr ""
+msgstr "Entry::setValue : valeur trop grande (marqueur=%1, taille=%2, demandé=%3)"
 
 #: src/error.cpp:70
 msgid "Entry::setDataArea: Value too large (tag=%1, size=%2, requested=%3)"
-msgstr ""
+msgstr "Entry::setDataArea : valeur trop grande (marqueur=%1, taille=%2, demandé=%3)"
 
 #: src/error.cpp:71
 msgid "Offset out of range"
-msgstr ""
+msgstr "Décalage hors de porté"
 
 #: src/error.cpp:72
 msgid "Unsupported data area offset type"
@@ -1781,106 +1790,99 @@ msgstr ""
 
 #: src/error.cpp:74
 msgid "Unsupported date format"
-msgstr ""
+msgstr "Format de date non supporté"
 
 #: src/error.cpp:75
 msgid "Unsupported time format"
-msgstr ""
+msgstr "Format d'heure non supporté"
 
 #: src/error.cpp:76
 msgid "Writing to %2 images is not supported"
-msgstr ""
+msgstr "Ecrire dans des images %2 n'est pas supporté"
 
 #: src/error.cpp:77
 msgid "Setting %1 in %2 images is not supported"
-msgstr ""
+msgstr "Régler %1 dans des image %2 n'est pas supporté"
 
 #: src/error.cpp:78
 msgid "This does not look like a CRW image"
-msgstr ""
+msgstr "Cela ne semble pas être une image CRW"
 
 #: src/error.cpp:79
 msgid "%1: Not supported"
-msgstr ""
+msgstr "%1 : non supporté"
 
 #: src/error.cpp:80
 msgid "ImageFactory registry full"
-msgstr ""
+msgstr "Registre ImageFactory plein"
 
 #: src/error.cpp:81
 msgid "Failed to decode %1 metadata"
-msgstr ""
+msgstr "Impossible de décoder les métadonnées %1"
 
 #: src/error.cpp:82
 msgid "Size of %1 JPEG segment is larger than 65535 bytes"
-msgstr ""
+msgstr "Taille du segment JPEG %1 est plus grand que 65535 octets"
 
 #: src/error.cpp:85
-#, fuzzy
 msgid "(Unknown Error)"
-msgstr "Inconnu"
+msgstr "(Erreur inconnue)"
 
-#: src/ifd.cpp:702
-#, fuzzy
+#: src/ifd.cpp:716
 msgid "IFD Offset"
-msgstr "Doux"
+msgstr "Décalage IFD"
 
-#: src/ifd.cpp:705
+#: src/ifd.cpp:719
 msgid "IFD Entries"
-msgstr ""
+msgstr "Entrées IFD"
 
-#: src/ifd.cpp:708
+#: src/ifd.cpp:722
 msgid "Entry     Tag  Format   (Bytes each)  Number  Offset\n"
 msgstr ""
 
-#: src/ifd.cpp:740
+#: src/ifd.cpp:754
 msgid "Next IFD"
+msgstr "IFD suivant"
+
+#: src/ifd.cpp:761
+msgid "Data of entry"
 msgstr ""
 
-#: src/ifd.cpp:747
-#, fuzzy
-msgid "Data of entry"
-msgstr "Date et heure"
-
 #: src/tags.cpp:107
-#, fuzzy
 msgid "Unknown section"
-msgstr "Version d'exif"
+msgstr "Section inconnue"
 
 #: src/tags.cpp:108
 msgid "Image data structure"
-msgstr ""
+msgstr "Structure des données de l'image"
 
 #: src/tags.cpp:109
 msgid "Recording offset"
-msgstr ""
+msgstr "Décalage d'enregistrement"
 
 #: src/tags.cpp:110
 msgid "Image data characteristics"
-msgstr ""
+msgstr "Caractéristique des données de l'image"
 
 #: src/tags.cpp:111
-#, fuzzy
 msgid "Other data"
-msgstr "Autre"
+msgstr "Autre données"
 
 #: src/tags.cpp:112
 msgid "Exif data structure"
-msgstr ""
+msgstr "Structure des donnée Exif"
 
 #: src/tags.cpp:113
-#, fuzzy
 msgid "Exif version"
 msgstr "Version d'exif"
 
 #: src/tags.cpp:114
-#, fuzzy
 msgid "Image configuration"
-msgstr "Configuration du plan"
+msgstr "Configuration image"
 
 #: src/tags.cpp:115
 msgid "User information"
-msgstr ""
+msgstr "Information utilisateur"
 
 #: src/tags.cpp:116
 msgid "Related file"
@@ -1892,23 +1894,23 @@ msgstr "Date et heure"
 
 #: src/tags.cpp:118
 msgid "Picture taking conditions"
-msgstr ""
+msgstr "Condition de prise de vue"
 
 #: src/tags.cpp:119
 msgid "GPS information"
-msgstr ""
+msgstr "Information GPS"
 
 #: src/tags.cpp:120
 msgid "Interoperability information"
-msgstr ""
+msgstr "Information d'interopérabilité"
 
 #: src/tags.cpp:121
 msgid "Vendor specific information"
-msgstr ""
+msgstr "Information Spécifique au vendeur"
 
 #: src/tags.cpp:122
 msgid "Last section"
-msgstr ""
+msgstr "Dernière section"
 
 #: src/tags.cpp:142
 msgid "Primary image"
@@ -1944,10 +1946,9 @@ msgstr ""
 
 #: src/tags.cpp:154 src/nikonmn.cpp:1054
 msgid "none"
-msgstr ""
+msgstr "Aucun"
 
 #: src/tags.cpp:155
-#, fuzzy
 msgid "inch"
 msgstr "Pouce"
 
@@ -1973,28 +1974,27 @@ msgstr ""
 
 #: src/tags.cpp:165
 msgid "LZW"
-msgstr ""
+msgstr "LZW"
 
 #: src/tags.cpp:166
 msgid "JPEG (old-style)"
-msgstr ""
+msgstr "JPEG (ancienne version)"
 
 #: src/tags.cpp:167
 msgid "JPEG"
-msgstr ""
+msgstr "JPEG"
 
 #: src/tags.cpp:168
 msgid "Adobe Deflate"
-msgstr ""
+msgstr "Décompression Adobe"
 
 #: src/tags.cpp:169
 msgid "JBIG B&W"
-msgstr ""
+msgstr "JBIG Noir & Blanc"
 
 #: src/tags.cpp:170
-#, fuzzy
 msgid "JBIG Color"
-msgstr "Espace des couleurs"
+msgstr "JBIG Couleur"
 
 #: src/tags.cpp:171
 msgid "Next 2-bits RLE"
@@ -2061,17 +2061,16 @@ msgid "Leadtools JPEG 2000"
 msgstr ""
 
 #: src/tags.cpp:187
-#, fuzzy
 msgid "Nikon NEF Compressed"
-msgstr "Non compressé"
+msgstr "compression NEF Nikon"
 
 #: src/tags.cpp:192
 msgid "White Is Zero"
-msgstr ""
+msgstr "Blanc est zéro"
 
 #: src/tags.cpp:193
 msgid "Black Is Zero"
-msgstr ""
+msgstr "Noir est zéro"
 
 #: src/tags.cpp:194
 msgid "RGB"
@@ -2079,15 +2078,15 @@ msgstr "RGB"
 
 #: src/tags.cpp:195
 msgid "RGB Palette"
-msgstr ""
+msgstr "Palette RGB"
 
 #: src/tags.cpp:196
 msgid "Transparency Mask"
-msgstr ""
+msgstr "Masque de transparence"
 
 #: src/tags.cpp:197
 msgid "CMYK"
-msgstr ""
+msgstr "CMJN"
 
 #: src/tags.cpp:198
 msgid "YCbCr"
@@ -2095,19 +2094,19 @@ msgstr "YCbCr"
 
 #: src/tags.cpp:199
 msgid "CIELab"
-msgstr ""
+msgstr "CIELab"
 
 #: src/tags.cpp:200
 msgid "ICCLab"
-msgstr ""
+msgstr "ICCLab"
 
 #: src/tags.cpp:201
 msgid "ITULab"
-msgstr ""
+msgstr "ITULab"
 
 #: src/tags.cpp:202
 msgid "Color Filter Array"
-msgstr ""
+msgstr "Matrice de filtre de couleur"
 
 #: src/tags.cpp:203
 msgid "Pixar LogL"
@@ -2122,49 +2121,40 @@ msgid "Linear Raw"
 msgstr ""
 
 #: src/tags.cpp:210
-#, fuzzy
 msgid "top, left"
-msgstr "haut - gauche"
+msgstr "haut, gauche"
 
 #: src/tags.cpp:211
-#, fuzzy
 msgid "top, right"
-msgstr "haut - droit"
+msgstr "haut, droit"
 
 #: src/tags.cpp:212
-#, fuzzy
 msgid "bottom, right"
-msgstr "bas - droit"
+msgstr "bas, droit"
 
 #: src/tags.cpp:213
-#, fuzzy
 msgid "bottom, left"
-msgstr "bas - gauche"
+msgstr "bas, gauche"
 
 #: src/tags.cpp:214
-#, fuzzy
 msgid "left, top"
-msgstr "gauche - haut"
+msgstr "gauche, haut"
 
 #: src/tags.cpp:215
-#, fuzzy
 msgid "right, top"
-msgstr "droit - haut"
+msgstr "droit, haut"
 
 #: src/tags.cpp:216
-#, fuzzy
 msgid "right, bottom"
-msgstr "droit - bas"
+msgstr "droit, bas"
 
 #: src/tags.cpp:217
-#, fuzzy
 msgid "left, bottom"
-msgstr "gauche - bas"
+msgstr "gauche, bas"
 
 #: src/tags.cpp:222
-#, fuzzy
 msgid "Centered"
-msgstr "centré"
+msgstr "Centré"
 
 #: src/tags.cpp:223
 msgid "Co-sited"
@@ -2172,7 +2162,7 @@ msgstr ""
 
 #: src/tags.cpp:228
 msgid "Processing Software"
-msgstr ""
+msgstr "Logiciel de traitement"
 
 #: src/tags.cpp:229
 msgid "The name and version of the software used to post-process the picture."
@@ -2180,18 +2170,17 @@ msgstr ""
 
 #: src/tags.cpp:232
 msgid "New Subfile Type"
-msgstr ""
+msgstr "Nouveau type de sous fichier"
 
 #: src/tags.cpp:233
 msgid "A general indication of the kind of data contained in this subfile."
 msgstr ""
 
-#: src/tags.cpp:235 src/olympusmn.cpp:334
+#: src/tags.cpp:235 src/canonmn.cpp:549 src/olympusmn.cpp:334
 msgid "Image Width"
 msgstr "Largeur de l'image"
 
 #: src/tags.cpp:236
-#, fuzzy
 msgid ""
 "The number of columns of image data, equal to the number of pixels per row. "
 "In JPEG compressed data a JPEG marker is used instead of this tag."
@@ -2217,7 +2206,6 @@ msgid "Bits per Sample"
 msgstr "Bits des échantillons"
 
 #: src/tags.cpp:245
-#, fuzzy
 msgid ""
 "The number of bits per image component. In this standard each component of "
 "the image is 8 bits, so the value for this tag is 8. See also "
@@ -2335,7 +2323,6 @@ msgid "Orientation"
 msgstr "Orientation"
 
 #: src/tags.cpp:293
-#, fuzzy
 msgid "The image orientation viewed in terms of rows and columns."
 msgstr "L'orientation de l'image vue en terme de lignes et colonnes."
 
@@ -2376,9 +2363,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:310
-#, fuzzy
 msgid "X-Resolution"
-msgstr "y-résolution"
+msgstr "Résolution X"
 
 #: src/tags.cpp:311
 msgid ""
@@ -2389,9 +2375,8 @@ msgstr ""
 "Lorsque la résolution de l'image est inconnu, 72 [dpi] sont utilisés."
 
 #: src/tags.cpp:314
-#, fuzzy
 msgid "Y-Resolution"
-msgstr "y-résolution"
+msgstr "Résolution Y"
 
 #: src/tags.cpp:315
 msgid ""
@@ -2402,9 +2387,8 @@ msgstr ""
 "même valeur que pour <XResolution> est utilisée."
 
 #: src/tags.cpp:318
-#, fuzzy
 msgid "Planar Configuration"
-msgstr "Configuration du plan"
+msgstr "Configuration planaire"
 
 #: src/tags.cpp:319
 msgid ""
@@ -2415,7 +2399,7 @@ msgstr ""
 
 #: src/tags.cpp:324
 msgid "Resolution Unit"
-msgstr "Unité de la résolution"
+msgstr "Unité de résolution"
 
 #: src/tags.cpp:325
 msgid ""
@@ -2459,18 +2443,16 @@ msgstr ""
 "dessous soit suivi. Lorsque le champ est vide, il est traité comme inconnu."
 
 #: src/tags.cpp:341
-#, fuzzy
 msgid "Date and Time"
 msgstr "Date et heure"
 
 #: src/tags.cpp:342
-#, fuzzy
 msgid ""
 "The date and time of image creation. In Exif standard, it is the date and "
 "time the file was changed."
 msgstr ""
-"La date et l'heure de création de l'image. Dans ce standard (EXIF-2.1) il "
-"s'agit de la date et de l'heure de modification du fichier."
+"La date et l'heure de création de l'image. Dans ce standard, il s'agit de la "
+"date et de l'heure de modification du fichier."
 
 #: src/tags.cpp:345
 msgid "Artist"
@@ -2494,32 +2476,25 @@ msgid "White Point"
 msgstr "Point blanc"
 
 #: src/tags.cpp:353
-#, fuzzy
 msgid ""
 "The chromaticity of the white point of the image. Normally this tag is not "
 "necessary, since color space is specified in the colorspace information tag "
 "(<ColorSpace>)."
 msgstr ""
-"Une fonction de transfert pour l'image, décrite en style tableau. "
-"Normalement, ce marqueur n'est pas nécessaire, puisque l'espace des couleurs "
-"est spécifié dans le marqueur d'information sur l'espace des couleurs "
-"(<ColorSpace>)."
+"La chromaticité du point blanc de l'image. Normalement, ce marqueur n'est "
+"pas nécessaire, puisque l'espace des couleurs est spécifié dans le marqueur "
+"d'information sur l'espace des couleurs (<ColorSpace>)."
 
 #: src/tags.cpp:357
 msgid "Primary Chromaticities"
-msgstr ""
+msgstr "Chromaticitées Primaire"
 
 #: src/tags.cpp:358
-#, fuzzy
 msgid ""
 "The chromaticity of the three primary colors of the image. Normally this tag "
 "is not necessary, since colorspace is specified in the colorspace "
 "information tag (<ColorSpace>)."
 msgstr ""
-"Une fonction de transfert pour l'image, décrite en style tableau. "
-"Normalement, ce marqueur n'est pas nécessaire, puisque l'espace des couleurs "
-"est spécifié dans le marqueur d'information sur l'espace des couleurs "
-"(<ColorSpace>)."
 
 #: src/tags.cpp:362
 msgid "SubIFD Offsets"
@@ -2538,9 +2513,8 @@ msgid "Expands the range of the TransferFunction"
 msgstr ""
 
 #: src/tags.cpp:368
-#, fuzzy
 msgid "JPEG Process"
-msgstr "Compression JPEG"
+msgstr "Processus JPEG"
 
 #: src/tags.cpp:369
 msgid "This field indicates the process used to produce the compressed data"
@@ -2597,7 +2571,7 @@ msgstr ""
 
 #: src/tags.cpp:392
 msgid "YCbCr Sub-Sampling"
-msgstr ""
+msgstr "Sous échantillonage YCbCr"
 
 #: src/tags.cpp:393
 #, fuzzy
@@ -2629,7 +2603,7 @@ msgstr ""
 
 #: src/tags.cpp:412
 msgid "Reference Black/White"
-msgstr "Référence Noir/Blanc"
+msgstr "Noir/Blanc de Référence"
 
 #: src/tags.cpp:413
 msgid ""
@@ -2647,16 +2621,15 @@ msgstr ""
 
 #: src/tags.cpp:420
 msgid "XML Packet"
-msgstr ""
+msgstr "Paquets XML"
 
 #: src/tags.cpp:421
 msgid "XMP Metadata (Adobe technote 9-14-02)"
-msgstr ""
+msgstr "Métadonnées XMP (Adobe technote 9-14-02)"
 
 #: src/tags.cpp:423
-#, fuzzy
 msgid "Windows Rating"
-msgstr "action"
+msgstr "Classement Windows"
 
 #: src/tags.cpp:424
 msgid "Rating tag used by Windows"
@@ -2664,7 +2637,7 @@ msgstr ""
 
 #: src/tags.cpp:426
 msgid "Windows Rating Percent"
-msgstr ""
+msgstr "Classement Windows (pourcentage)"
 
 #: src/tags.cpp:427
 msgid "Rating tag used by Windows, value in percent"
@@ -2672,7 +2645,7 @@ msgstr ""
 
 #: src/tags.cpp:429
 msgid "CFA Repeat Pattern Dimension"
-msgstr ""
+msgstr "Dimension motif CFA"
 
 #: src/tags.cpp:430
 msgid ""
@@ -2697,7 +2670,7 @@ msgstr "Niveau de charge"
 
 #: src/tags.cpp:441
 msgid "IPTC/NAA"
-msgstr ""
+msgstr "IPTC/NAA"
 
 #: src/tags.cpp:442
 msgid "Contains an IPTC/NAA record"
@@ -2725,7 +2698,7 @@ msgstr ""
 
 #: src/tags.cpp:459
 msgid "Exif IFD Pointer"
-msgstr ""
+msgstr "Pointeur IFD Exif"
 
 #: src/tags.cpp:460
 msgid ""
@@ -2746,7 +2719,7 @@ msgstr ""
 
 #: src/tags.cpp:468
 msgid "GPS Info IFD Pointer"
-msgstr ""
+msgstr "Pointeur IFD information GPS"
 
 #: src/tags.cpp:469
 msgid ""
@@ -2766,25 +2739,23 @@ msgstr ""
 
 #: src/tags.cpp:477
 msgid "Windows Title"
-msgstr ""
+msgstr "Titre Windows"
 
 #: src/tags.cpp:478
 msgid "Title tag used by Windows, encoded in UCS2"
 msgstr ""
 
 #: src/tags.cpp:480
-#, fuzzy
 msgid "Windows Comment"
-msgstr "Commentaire de l'utilisateur"
+msgstr "Commentaire Windows"
 
 #: src/tags.cpp:481
 msgid "Comment tag used by Windows, encoded in UCS2"
 msgstr ""
 
 #: src/tags.cpp:483
-#, fuzzy
 msgid "Windows Author"
-msgstr "action"
+msgstr "Auteur Windows"
 
 #: src/tags.cpp:484
 msgid "Author tag used by Windows, encoded in UCS2"
@@ -2792,31 +2763,30 @@ msgstr ""
 
 #: src/tags.cpp:486
 msgid "Windows Keywords"
-msgstr ""
+msgstr "mots-clefs Windows"
 
 #: src/tags.cpp:487
 msgid "Keywords tag used by Windows, encoded in UCS2"
 msgstr ""
 
 #: src/tags.cpp:489
-#, fuzzy
 msgid "Windows Subject"
-msgstr "Aire du sujet"
+msgstr "Sujet Windows"
 
 #: src/tags.cpp:490
 msgid "Subject tag used by Windows, encoded in UCS2"
 msgstr ""
 
 #: src/tags.cpp:493 src/tags.cpp:494
-#, fuzzy
 msgid "Unknown IFD tag"
-msgstr "Inconnu"
+msgstr "Marqueur IFD inconnu"
 
 #: src/tags.cpp:505 src/tags.cpp:588
 msgid "Not defined"
 msgstr "Non défini"
 
-#: src/tags.cpp:506 src/tags.cpp:618 src/tags.cpp:625 src/fujimn.cpp:116
+#: src/tags.cpp:506 src/tags.cpp:618 src/tags.cpp:625 src/canonmn.cpp:172
+#: src/canonmn.cpp:248 src/canonmn.cpp:293 src/fujimn.cpp:116
 #: src/fujimn.cpp:141 src/minoltamn.cpp:296 src/minoltamn.cpp:767
 #: src/minoltamn.cpp:798 src/minoltamn.cpp:806 src/minoltamn.cpp:971
 #: src/minoltamn.cpp:1002 src/olympusmn.cpp:93 src/panasonicmn.cpp:76
@@ -2824,16 +2794,16 @@ msgstr "Non défini"
 msgid "Manual"
 msgstr "Manuel"
 
-#: src/tags.cpp:507 src/tags.cpp:617 src/tags.cpp:624 src/fujimn.cpp:80
-#: src/fujimn.cpp:107 src/fujimn.cpp:115 src/fujimn.cpp:121
+#: src/tags.cpp:507 src/tags.cpp:617 src/tags.cpp:624 src/canonmn.cpp:128
+#: src/canonmn.cpp:221 src/canonmn.cpp:249 src/canonmn.cpp:391
+#: src/fujimn.cpp:80 src/fujimn.cpp:107 src/fujimn.cpp:115 src/fujimn.cpp:121
 #: src/minoltamn.cpp:309 src/minoltamn.cpp:427 src/minoltamn.cpp:768
 #: src/minoltamn.cpp:791 src/minoltamn.cpp:830 src/minoltamn.cpp:972
 #: src/minoltamn.cpp:994 src/minoltamn.cpp:1020 src/nikonmn.cpp:430
 #: src/olympusmn.cpp:92 src/olympusmn.cpp:526 src/olympusmn.cpp:532
 #: src/olympusmn.cpp:533 src/panasonicmn.cpp:72 src/panasonicmn.cpp:83
-#, fuzzy
 msgid "Auto"
-msgstr "action"
+msgstr "Automatique"
 
 #: src/tags.cpp:508 src/minoltamn.cpp:294 src/minoltamn.cpp:765
 #: src/minoltamn.cpp:969 src/panasonicmn.cpp:111 src/sigmamn.cpp:229
@@ -2846,58 +2816,66 @@ msgid "Shutter priority"
 msgstr "Priorité obturation"
 
 #: src/tags.cpp:510
-#, fuzzy
 msgid "Creative program"
-msgstr "créatif"
+msgstr "Programme Créatif"
 
 #: src/tags.cpp:511
-#, fuzzy
 msgid "Action program"
-msgstr "normal"
+msgstr "Programme Action"
 
 #: src/tags.cpp:512
-#, fuzzy
 msgid "Portrait mode"
-msgstr "Portrait"
+msgstr "Mode portrait"
 
 #: src/tags.cpp:513
-#, fuzzy
 msgid "Landscape mode"
-msgstr "Paysage"
+msgstr "Mode paysage"
 
 #: src/tags.cpp:518 src/tags.cpp:530 src/tags.cpp:668 src/tags.cpp:1903
-#: src/tags.cpp:1974 src/fujimn.cpp:220 src/fujimn.cpp:229 src/fujimn.cpp:238
-#: src/nikonmn.cpp:188 src/nikonmn.cpp:280 src/nikonmn.cpp:442
-#: src/nikonmn.cpp:463 src/nikonmn.cpp:472 src/nikonmn.cpp:607
-#: src/nikonmn.cpp:640 src/nikonmn.cpp:709 src/nikonmn.cpp:736
-#: src/nikonmn.cpp:739 src/nikonmn.cpp:748 src/nikonmn.cpp:760
-#: src/nikonmn.cpp:965 src/olympusmn.cpp:173 src/olympusmn.cpp:179
-#: src/olympusmn.cpp:182 src/olympusmn.cpp:224 src/olympusmn.cpp:227
-#: src/olympusmn.cpp:254 src/olympusmn.cpp:257 src/olympusmn.cpp:263
-#: src/olympusmn.cpp:272 src/olympusmn.cpp:278 src/olympusmn.cpp:281
-#: src/olympusmn.cpp:284 src/olympusmn.cpp:287 src/olympusmn.cpp:290
-#: src/olympusmn.cpp:293 src/olympusmn.cpp:296 src/olympusmn.cpp:299
-#: src/olympusmn.cpp:305 src/olympusmn.cpp:308 src/olympusmn.cpp:341
-#: src/olympusmn.cpp:344 src/olympusmn.cpp:347 src/olympusmn.cpp:350
-#: src/panasonicmn.cpp:194 src/panasonicmn.cpp:217 src/panasonicmn.cpp:230
-#: src/panasonicmn.cpp:233 src/panasonicmn.cpp:239 src/panasonicmn.cpp:257
-#: src/panasonicmn.cpp:263 src/panasonicmn.cpp:275 src/sonymn.cpp:63
-#: src/sonymn.cpp:66 src/sonymn.cpp:69 src/sonymn.cpp:72 src/sonymn.cpp:75
-#: src/sonymn.cpp:78 src/sonymn.cpp:81 src/sonymn.cpp:84 src/sonymn.cpp:87
+#: src/tags.cpp:1974 src/canonmn.cpp:83 src/canonmn.cpp:85 src/canonmn.cpp:86
+#: src/canonmn.cpp:94 src/canonmn.cpp:98 src/canonmn.cpp:99
+#: src/canonmn.cpp:100 src/canonmn.cpp:343 src/canonmn.cpp:345
+#: src/canonmn.cpp:346 src/canonmn.cpp:358 src/canonmn.cpp:359
+#: src/canonmn.cpp:361 src/canonmn.cpp:362 src/canonmn.cpp:363
+#: src/canonmn.cpp:364 src/canonmn.cpp:367 src/canonmn.cpp:368
+#: src/canonmn.cpp:375 src/canonmn.cpp:376 src/canonmn.cpp:378
+#: src/canonmn.cpp:440 src/canonmn.cpp:442 src/canonmn.cpp:445
+#: src/canonmn.cpp:447 src/canonmn.cpp:449 src/canonmn.cpp:450
+#: src/canonmn.cpp:451 src/canonmn.cpp:452 src/canonmn.cpp:455
+#: src/canonmn.cpp:456 src/canonmn.cpp:457 src/canonmn.cpp:459
+#: src/canonmn.cpp:462 src/canonmn.cpp:463 src/canonmn.cpp:464
+#: src/canonmn.cpp:465 src/fujimn.cpp:220 src/fujimn.cpp:229
+#: src/fujimn.cpp:238 src/nikonmn.cpp:188 src/nikonmn.cpp:280
+#: src/nikonmn.cpp:442 src/nikonmn.cpp:463 src/nikonmn.cpp:472
+#: src/nikonmn.cpp:607 src/nikonmn.cpp:640 src/nikonmn.cpp:709
+#: src/nikonmn.cpp:736 src/nikonmn.cpp:739 src/nikonmn.cpp:748
+#: src/nikonmn.cpp:760 src/nikonmn.cpp:965 src/olympusmn.cpp:173
+#: src/olympusmn.cpp:179 src/olympusmn.cpp:182 src/olympusmn.cpp:224
+#: src/olympusmn.cpp:227 src/olympusmn.cpp:254 src/olympusmn.cpp:257
+#: src/olympusmn.cpp:263 src/olympusmn.cpp:272 src/olympusmn.cpp:278
+#: src/olympusmn.cpp:281 src/olympusmn.cpp:284 src/olympusmn.cpp:287
+#: src/olympusmn.cpp:290 src/olympusmn.cpp:293 src/olympusmn.cpp:296
+#: src/olympusmn.cpp:299 src/olympusmn.cpp:305 src/olympusmn.cpp:308
+#: src/olympusmn.cpp:341 src/olympusmn.cpp:344 src/olympusmn.cpp:347
+#: src/olympusmn.cpp:350 src/panasonicmn.cpp:194 src/panasonicmn.cpp:217
+#: src/panasonicmn.cpp:230 src/panasonicmn.cpp:233 src/panasonicmn.cpp:239
+#: src/panasonicmn.cpp:257 src/panasonicmn.cpp:263 src/panasonicmn.cpp:275
+#: src/sonymn.cpp:63 src/sonymn.cpp:66 src/sonymn.cpp:69 src/sonymn.cpp:72
+#: src/sonymn.cpp:75 src/sonymn.cpp:78 src/sonymn.cpp:81 src/sonymn.cpp:84
+#: src/sonymn.cpp:87
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: src/tags.cpp:519 src/sigmamn.cpp:241
+#: src/tags.cpp:519 src/canonmn.cpp:240 src/sigmamn.cpp:241
 msgid "Average"
 msgstr "Moyenne"
 
 #: src/tags.cpp:520
-#, fuzzy
 msgid "Center weighted average"
-msgstr "Mesure pondérée centrale"
+msgstr "Moyenne pondérée au centre"
 
-#: src/tags.cpp:521 src/minoltamn.cpp:356 src/minoltamn.cpp:1015
-#: src/minoltamn.cpp:1068
+#: src/tags.cpp:521 src/canonmn.cpp:239 src/minoltamn.cpp:356
+#: src/minoltamn.cpp:1015 src/minoltamn.cpp:1068
 msgid "Spot"
 msgstr "Spot"
 
@@ -2909,14 +2887,13 @@ msgstr "Multi-spots"
 msgid "Multi-segment"
 msgstr "Multi-segments"
 
-#: src/tags.cpp:524
+#: src/tags.cpp:524 src/canonmn.cpp:242
 msgid "Partial"
-msgstr "Partiel"
+msgstr "Partielle"
 
-#: src/tags.cpp:525
-#, fuzzy
+#: src/tags.cpp:525 src/canonmn.cpp:207
 msgid "Other"
-msgstr "autre"
+msgstr "Autre"
 
 #: src/tags.cpp:531 src/fujimn.cpp:81 src/minoltamn.cpp:310
 #: src/minoltamn.cpp:792 src/minoltamn.cpp:995 src/nikonmn.cpp:432
@@ -2924,43 +2901,43 @@ msgstr "autre"
 msgid "Daylight"
 msgstr "Lumière du jour"
 
-#: src/tags.cpp:532 src/minoltamn.cpp:314 src/minoltamn.cpp:796
-#: src/minoltamn.cpp:999 src/nikonmn.cpp:434
+#: src/tags.cpp:532 src/canonmn.cpp:395 src/minoltamn.cpp:314
+#: src/minoltamn.cpp:796 src/minoltamn.cpp:999 src/nikonmn.cpp:434
 msgid "Fluorescent"
 msgstr "Fluorescent"
 
 #: src/tags.cpp:533
-#, fuzzy
 msgid "Tungsten (incandescent light)"
-msgstr "Tungstène (lumière incandescente)"
+msgstr "Tungstène (lampe à incandescence)"
 
 #: src/tags.cpp:535
 msgid "Fine weather"
-msgstr "Temps clair"
+msgstr "Ensoleillé"
 
 #: src/tags.cpp:536
 msgid "Cloudy weather"
-msgstr "Temps couvert"
+msgstr "Nuageux"
 
-#: src/tags.cpp:537 src/minoltamn.cpp:793 src/minoltamn.cpp:997
+#: src/tags.cpp:537 src/canonmn.cpp:399 src/minoltamn.cpp:793
+#: src/minoltamn.cpp:997
 msgid "Shade"
 msgstr "Ombragé"
 
 #: src/tags.cpp:538
 msgid "Daylight fluorescent (D 5700 - 7100K)"
-msgstr ""
+msgstr "Lumière du jour fluorescent (D 5700 - 7100K)"
 
 #: src/tags.cpp:539
 msgid "Day white fluorescent (N 4600 - 5400K)"
-msgstr ""
+msgstr "Blanc chaud fluorescent (N 4600 - 5400K)"
 
 #: src/tags.cpp:540
 msgid "Cool white fluorescent (W 3900 - 4500K)"
-msgstr ""
+msgstr "Blanc froid fluorescent (W 3900 - 4500K)"
 
 #: src/tags.cpp:541
 msgid "White fluorescent (WW 3200 - 3700K)"
-msgstr ""
+msgstr "Blanc fluorescent (WW 3200 - 3700K)"
 
 #: src/tags.cpp:542
 msgid "Standard light A"
@@ -2987,134 +2964,109 @@ msgid "D75"
 msgstr "D75"
 
 #: src/tags.cpp:548
-#, fuzzy
 msgid "D50"
-msgstr "D75"
+msgstr "D55"
 
 #: src/tags.cpp:549
 msgid "ISO studio tungsten"
-msgstr "Tungstène de studio ISO"
+msgstr "Lampe de studio tungstène ISO"
 
 #: src/tags.cpp:550
-#, fuzzy
 msgid "Other light source"
-msgstr "Le type de source lumineuse."
+msgstr "Autre source lumineuse"
 
 #: src/tags.cpp:555
-#, fuzzy
 msgid "No flash"
-msgstr "Flash"
+msgstr "Pas de flash"
 
-#: src/tags.cpp:556 src/minoltamn.cpp:395 src/minoltamn.cpp:467
-#: src/minoltamn.cpp:825 src/minoltamn.cpp:1008
+#: src/tags.cpp:556 src/canonmn.cpp:286 src/minoltamn.cpp:395
+#: src/minoltamn.cpp:467 src/minoltamn.cpp:825 src/minoltamn.cpp:1008
 msgid "Fired"
-msgstr ""
+msgstr "Déclenché"
 
 #: src/tags.cpp:557
-#, fuzzy
 msgid "Fired, strobe return light not detected"
-msgstr "Flash déclenché, mode auto, lumière de retour non détectée."
+msgstr "Flash déclenché, mode auto, lumière de retour non détectée"
 
 #: src/tags.cpp:558
-#, fuzzy
 msgid "Fired, strobe return light detected"
-msgstr "Flash déclenché, mode auto, lumière de retour détectée."
+msgstr "Flash déclenché, mode auto, lumière de retour détectée"
 
 #: src/tags.cpp:559
 msgid "Yes, compulsory"
-msgstr ""
+msgstr "Flash déclenché, mode de flash obligatoire"
 
 #: src/tags.cpp:560
-#, fuzzy
 msgid "Yes, compulsory, return light not detected"
-msgstr ""
-"Flash déclenché, mode de flash obligatoire, lumière de retour non détectée."
+msgstr "Flash déclenché, mode de flash obligatoire, lumière de retour non détectée"
 
 #: src/tags.cpp:561
-#, fuzzy
 msgid "Yes, compulsory, return light detected"
-msgstr ""
-"Flash déclenché, mode de flash obligatoire, lumière de retour détectée."
+msgstr "Flash déclenché, mode de flash obligatoire, lumière de retour détectée"
 
 #: src/tags.cpp:562
 msgid "No, compulsory"
 msgstr "Non, inhibé"
 
 #: src/tags.cpp:563
-#, fuzzy
 msgid "No, auto"
-msgstr "action"
+msgstr "Non, mode auto"
 
 #: src/tags.cpp:564
-#, fuzzy
 msgid "Yes, auto"
-msgstr "action"
+msgstr "Flash déclenché, mode auto"
 
 #: src/tags.cpp:565
-#, fuzzy
 msgid "Yes, auto, return light not detected"
-msgstr "Flash déclenché, mode auto, lumière de retour non détectée."
+msgstr "Flash déclenché, mode auto, lumière de retour non détectée"
 
 #: src/tags.cpp:566
-#, fuzzy
 msgid "Yes, auto, return light detected"
-msgstr "Flash déclenché, mode auto, lumière de retour détectée."
+msgstr "Flash déclenché, mode auto, lumière de retour détectée"
 
 #: src/tags.cpp:567
-#, fuzzy
 msgid "No flash function"
-msgstr "Pas de fonction flash."
+msgstr "Pas de fonction flash"
 
 #: src/tags.cpp:568
-#, fuzzy
 msgid "Yes, red-eye reduction"
-msgstr "Flash déclenché, mode anti-yeux rouges."
+msgstr "Flash déclenché, mode anti-yeux rouges"
 
 #: src/tags.cpp:569
-#, fuzzy
 msgid "Yes, red-eye reduction, return light not detected"
-msgstr ""
-"Flash déclenché, mode anti-yeux rouges, lumière de retour non détectée."
+msgstr "Flash déclenché, mode anti-yeux rouges, lumière de retour non détectée"
 
 #: src/tags.cpp:570
-#, fuzzy
 msgid "Yes, red-eye reduction, return light detected"
-msgstr "Flash déclenché, mode anti-yeux rouges, lumière de retour détectée."
+msgstr "Flash déclenché, mode anti-yeux rouges, lumière de retour détectée"
 
 #: src/tags.cpp:571
-#, fuzzy
 msgid "Yes, compulsory, red-eye reduction"
-msgstr "Flash déclenché, mode de flash obligatoire, mode anti-yeux rouges."
+msgstr "Flash déclenché, mode de flash obligatoire, mode anti-yeux rouges"
 
 #: src/tags.cpp:572
-#, fuzzy
 msgid "Yes, compulsory, red-eye reduction, return light not detected"
 msgstr ""
 "Flash déclenché, mode de flash obligatoire, mode anti-yeux rouges, lumière "
-"de retour non détectée."
+"de retour non détectée"
 
 #: src/tags.cpp:573
-#, fuzzy
 msgid "Yes, compulsory, red-eye reduction, return light detected"
 msgstr ""
 "Flash déclenché, mode de flash obligatoire, mode anti-yeux rouges, lumière "
 "de retour détectée"
 
 #: src/tags.cpp:574
-#, fuzzy
 msgid "Yes, auto, red-eye reduction"
-msgstr "Flash déclenché, mode anti-yeux rouges."
+msgstr "Flash déclenché, mode anti-yeux rouges"
 
 #: src/tags.cpp:575
-#, fuzzy
 msgid "Yes, auto, red-eye reduction, return light not detected"
-msgstr ""
-"Flash déclenché, mode anti-yeux rouges, lumière de retour non détectée."
+msgstr "Flash déclenché, mode anti-yeux rouges, lumière de retour non détectée"
 
 #: src/tags.cpp:576
-#, fuzzy
 msgid "Yes, auto, red-eye reduction, return light detected"
-msgstr "Flash déclenché, mode anti-yeux rouges, lumière de retour détectée."
+msgstr "Flash déclenché, mode anti-yeux rouges, lumière de retour détectée"
 
 #: src/tags.cpp:581 src/nikonmn.cpp:110
 msgid "sRGB"
@@ -3123,7 +3075,7 @@ msgstr "sRGB"
 #: src/tags.cpp:582 src/minoltamn.cpp:461 src/minoltamn.cpp:843
 #: src/nikonmn.cpp:111
 msgid "Adobe RGB"
-msgstr ""
+msgstr "Adobe RGB"
 
 #: src/tags.cpp:583
 msgid "Uncalibrated"
@@ -3131,45 +3083,43 @@ msgstr "Non calibré"
 
 #: src/tags.cpp:589
 msgid "One-chip color area"
-msgstr ""
+msgstr "Mono-CCD"
 
 #: src/tags.cpp:590
 msgid "Two-chip color area"
-msgstr ""
+msgstr "Bi-CCD"
 
 #: src/tags.cpp:591
 msgid "Three-chip color area"
-msgstr ""
+msgstr "Tri-CCD"
 
 #: src/tags.cpp:592
-#, fuzzy
 msgid "Color sequential area"
-msgstr "Capteur linéaire séquentiel de couleur"
+msgstr "CCD séquentiel"
 
 #: src/tags.cpp:593
 msgid "Trilinear sensor"
 msgstr "Capteur trilinéaire"
 
 #: src/tags.cpp:594
-#, fuzzy
 msgid "Color sequential linear"
-msgstr "Capteur linéaire séquentiel de couleur"
+msgstr "Capteur séquentiel linéaire"
 
 #: src/tags.cpp:599
 msgid "Film scanner"
-msgstr ""
+msgstr "Numériseur de film"
 
 #: src/tags.cpp:600
 msgid "Reflexion print scanner"
-msgstr ""
+msgstr "Numériseur de documents imprimés"
 
 #: src/tags.cpp:601
 msgid "Digital still camera"
-msgstr ""
+msgstr "Appareil photo numérique"
 
 #: src/tags.cpp:606
 msgid "Directly photographed"
-msgstr ""
+msgstr "Photographié directement"
 
 #: src/tags.cpp:611
 msgid "Normal process"
@@ -3188,12 +3138,13 @@ msgstr "Bracketing automatique"
 msgid "Standard"
 msgstr "Standard"
 
-#: src/tags.cpp:631 src/fujimn.cpp:123 src/minoltamn.cpp:66
+#: src/tags.cpp:631 src/canonmn.cpp:173 src/fujimn.cpp:123
+#: src/minoltamn.cpp:66
 msgid "Landscape"
 msgstr "Paysage"
 
-#: src/tags.cpp:632 src/fujimn.cpp:122 src/minoltamn.cpp:63
-#: src/minoltamn.cpp:414 src/panasonicmn.cpp:106
+#: src/tags.cpp:632 src/canonmn.cpp:179 src/fujimn.cpp:122
+#: src/minoltamn.cpp:63 src/minoltamn.cpp:414 src/panasonicmn.cpp:106
 msgid "Portrait"
 msgstr "Portrait"
 
@@ -3203,27 +3154,26 @@ msgstr "Scène de nuit"
 
 #: src/tags.cpp:639
 msgid "Low gain up"
-msgstr ""
+msgstr "Faible augmentation du gain"
 
 #: src/tags.cpp:640
 msgid "High gain up"
-msgstr ""
+msgstr "Forte augmentation du gain"
 
 #: src/tags.cpp:641
 msgid "Low gain down"
-msgstr ""
+msgstr "Faible réduction du gain"
 
 #: src/tags.cpp:642
-#, fuzzy
 msgid "High gain down"
-msgstr "Saturation forte"
+msgstr "Forte réduction du gain"
 
-#: src/tags.cpp:647 src/tags.cpp:654 src/tags.cpp:661 src/fujimn.cpp:73
-#: src/fujimn.cpp:92 src/fujimn.cpp:100 src/minoltamn.cpp:407
-#: src/minoltamn.cpp:784 src/minoltamn.cpp:987 src/nikonmn.cpp:146
-#: src/nikonmn.cpp:413 src/olympusmn.cpp:98 src/olympusmn.cpp:106
-#: src/olympusmn.cpp:484 src/panasonicmn.cpp:65 src/panasonicmn.cpp:105
-#: src/panasonicmn.cpp:147 src/panasonicmn.cpp:178
+#: src/tags.cpp:647 src/tags.cpp:654 src/tags.cpp:661 src/canonmn.cpp:119
+#: src/canonmn.cpp:213 src/fujimn.cpp:73 src/fujimn.cpp:92 src/fujimn.cpp:100
+#: src/minoltamn.cpp:407 src/minoltamn.cpp:784 src/minoltamn.cpp:987
+#: src/nikonmn.cpp:146 src/nikonmn.cpp:413 src/olympusmn.cpp:98
+#: src/olympusmn.cpp:106 src/olympusmn.cpp:484 src/panasonicmn.cpp:65
+#: src/panasonicmn.cpp:105 src/panasonicmn.cpp:147 src/panasonicmn.cpp:178
 msgid "Normal"
 msgstr "Normal"
 
@@ -3237,30 +3187,30 @@ msgstr "Doux"
 msgid "Hard"
 msgstr "Dur"
 
-#: src/tags.cpp:655 src/fujimn.cpp:94 src/fujimn.cpp:102 src/olympusmn.cpp:107
-#: src/panasonicmn.cpp:148 src/panasonicmn.cpp:150 src/panasonicmn.cpp:158
+#: src/tags.cpp:655 src/canonmn.cpp:212 src/fujimn.cpp:94 src/fujimn.cpp:102
+#: src/olympusmn.cpp:107 src/panasonicmn.cpp:148 src/panasonicmn.cpp:150
+#: src/panasonicmn.cpp:158
 msgid "Low"
-msgstr ""
+msgstr "Faible"
 
-#: src/tags.cpp:656 src/fujimn.cpp:93 src/fujimn.cpp:101 src/olympusmn.cpp:105
-#: src/panasonicmn.cpp:64 src/panasonicmn.cpp:149 src/panasonicmn.cpp:152
-#: src/panasonicmn.cpp:159
-#, fuzzy
+#: src/tags.cpp:656 src/canonmn.cpp:214 src/fujimn.cpp:93 src/fujimn.cpp:101
+#: src/olympusmn.cpp:105 src/panasonicmn.cpp:64 src/panasonicmn.cpp:149
+#: src/panasonicmn.cpp:152 src/panasonicmn.cpp:159
 msgid "High"
-msgstr "Lumière du jour"
+msgstr "Élevée"
 
-#: src/tags.cpp:669 src/fujimn.cpp:213 src/olympusmn.cpp:128
-#: src/panasonicmn.cpp:113 src/panasonicmn.cpp:204
+#: src/tags.cpp:669 src/canonmn.cpp:251 src/canonmn.cpp:338 src/fujimn.cpp:213
+#: src/olympusmn.cpp:128 src/panasonicmn.cpp:113 src/panasonicmn.cpp:204
 msgid "Macro"
 msgstr "Macro"
 
 #: src/tags.cpp:670
 msgid "Close view"
-msgstr "Vue de près"
+msgstr "Gros plan"
 
 #: src/tags.cpp:671
 msgid "Distant view"
-msgstr "Vue de loin"
+msgstr "Plan large"
 
 #: src/tags.cpp:676 src/minoltamn.cpp:622 src/minoltamn.cpp:929
 #: src/minoltamn.cpp:1147
@@ -3274,13 +3224,13 @@ msgstr "Temps d'exposition, en secondes (sec)."
 #: src/tags.cpp:679 src/minoltamn.cpp:625 src/minoltamn.cpp:926
 #: src/minoltamn.cpp:1150
 msgid "FNumber"
-msgstr "Ouverture"
+msgstr "Nombre F"
 
 #: src/tags.cpp:680
 msgid "The F number."
 msgstr "Le nombre F."
 
-#: src/tags.cpp:682
+#: src/tags.cpp:682 src/canonmn.cpp:357
 msgid "Exposure Program"
 msgstr "Programme d'exposition"
 
@@ -3294,7 +3244,7 @@ msgstr ""
 
 #: src/tags.cpp:686
 msgid "Spectral Sensitivity"
-msgstr "Sensitivité spectrale"
+msgstr "Sensibilité spectrale"
 
 #: src/tags.cpp:687
 msgid ""
@@ -3315,7 +3265,7 @@ msgstr ""
 
 #: src/tags.cpp:695
 msgid "Opto-Electoric Conversion Function"
-msgstr ""
+msgstr "Fonction de conversion opto-electrique"
 
 #: src/tags.cpp:696
 msgid ""
@@ -3325,7 +3275,6 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:700
-#, fuzzy
 msgid "Exif Version"
 msgstr "Version d'exif"
 
@@ -3340,27 +3289,24 @@ msgid "Date and Time (original)"
 msgstr "Date et heure (originel)"
 
 #: src/tags.cpp:705
-#, fuzzy
 msgid ""
 "The date and time when the original image data was generated. For a digital "
 "still camera the date and time the picture was taken are recorded."
 msgstr ""
-"La date et l'heure de création de l'image. Dans ce standard (EXIF-2.1) il "
-"s'agit de la date et de l'heure de modification du fichier."
+"La date et l'heure de création de l'image originale. Pour un apareil photo "
+"numérique il s'agit de la date et heure à laquelle la photo a été prise."
 
 #: src/tags.cpp:708
 msgid "Date and Time (digitized)"
-msgstr "Date et heure (numérique)"
+msgstr "Date et heure (numérisé)"
 
 #: src/tags.cpp:709
-#, fuzzy
 msgid "The date and time when the image was stored as digital data."
 msgstr "La date et l'heure où l'image a été sauvée sous forme digitale."
 
 #: src/tags.cpp:711
-#, fuzzy
 msgid "Components Configuration"
-msgstr "Configuration du plan"
+msgstr ""
 
 #: src/tags.cpp:712
 msgid ""
@@ -3382,7 +3328,7 @@ msgid ""
 "compressed image is indicated in unit bits per pixel."
 msgstr ""
 
-#: src/tags.cpp:725
+#: src/tags.cpp:725 src/canonmn.cpp:461
 msgid "Shutter speed"
 msgstr "Vitesse d'obturation"
 
@@ -3394,7 +3340,7 @@ msgstr ""
 
 #: src/tags.cpp:730
 msgid "The lens aperture. The unit is the APEX value."
-msgstr "Ouverture de la lentille. L'unité est la valeur APEX."
+msgstr "Ouverture de l'objectif. L'unité est la valeur APEX."
 
 #: src/tags.cpp:732 src/minoltamn.cpp:718 src/minoltamn.cpp:719
 #: src/olympusmn.cpp:205
@@ -3418,9 +3364,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:740
-#, fuzzy
 msgid "Max Aperture Value"
-msgstr "ouverture"
+msgstr "Valeur maximal d'ouverture"
 
 #: src/tags.cpp:741
 msgid ""
@@ -3428,7 +3373,7 @@ msgid ""
 "is given in the range of 00.00 to 99.99, but it is not limited to this range."
 msgstr ""
 
-#: src/tags.cpp:745
+#: src/tags.cpp:745 src/canonmn.cpp:458
 msgid "Subject Distance"
 msgstr "Distance au sujet"
 
@@ -3436,8 +3381,8 @@ msgstr "Distance au sujet"
 msgid "The distance to the subject, given in meters."
 msgstr "La distance au sujet, donnée en mètres."
 
-#: src/tags.cpp:748 src/minoltamn.cpp:616 src/minoltamn.cpp:1132
-#: src/sigmamn.cpp:86
+#: src/tags.cpp:748 src/canonmn.cpp:354 src/minoltamn.cpp:616
+#: src/minoltamn.cpp:1132 src/sigmamn.cpp:86
 msgid "Metering Mode"
 msgstr "Mode de mesure"
 
@@ -3454,8 +3399,7 @@ msgid "The kind of light source."
 msgstr "Le type de source lumineuse."
 
 #: src/tags.cpp:755
-msgid ""
-"This tag is recorded when an image is taken using a strobe light (flash)."
+msgid "This tag is recorded when an image is taken using a strobe light (flash)."
 msgstr ""
 
 #: src/tags.cpp:757 src/minoltamn.cpp:646
@@ -3482,7 +3426,7 @@ msgstr ""
 
 #: src/tags.cpp:765
 msgid "Maker Note"
-msgstr "Note du créateur"
+msgstr "Note du fabriquant"
 
 #: src/tags.cpp:766
 msgid ""
@@ -3519,8 +3463,7 @@ msgid "Sub-seconds Time Original"
 msgstr "Date et heure (originel)"
 
 #: src/tags.cpp:778
-msgid ""
-"A tag used to record fractions of seconds for the <DateTimeOriginal> tag."
+msgid "A tag used to record fractions of seconds for the <DateTimeOriginal> tag."
 msgstr ""
 "Marqueur utilisé pour enregistrer des fractions de secondes pour le marqueur "
 "<DateTimeOriginal>."
@@ -3531,16 +3474,14 @@ msgid "Sub-seconds Time Digitized"
 msgstr "Date et heure (numérique)"
 
 #: src/tags.cpp:781
-msgid ""
-"A tag used to record fractions of seconds for the <DateTimeDigitized> tag."
+msgid "A tag used to record fractions of seconds for the <DateTimeDigitized> tag."
 msgstr ""
 "Marqueur utilisé pour enregistrer des fractions de secondes pour le marqueur "
 "<DateTimeDigitized>."
 
 #: src/tags.cpp:783
-#, fuzzy
 msgid "FlashPix Version"
-msgstr "Flash"
+msgstr "Version FlashPix"
 
 #: src/tags.cpp:784
 msgid "The FlashPix format version supported by a FPXR file."
@@ -3600,7 +3541,7 @@ msgstr ""
 
 #: src/tags.cpp:818
 msgid "Interoperability IFD Pointer"
-msgstr ""
+msgstr "Pointeur IDF interopérabilité"
 
 #: src/tags.cpp:819
 msgid ""
@@ -3612,9 +3553,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:826
-#, fuzzy
 msgid "Flash Energy"
-msgstr "Flash"
+msgstr "Puissance flash"
 
 #: src/tags.cpp:827
 msgid ""
@@ -3634,7 +3574,6 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:835
-#, fuzzy
 msgid "Focal Plane X-Resolution"
 msgstr "x-Résolution du plan focal"
 
@@ -3647,7 +3586,6 @@ msgstr ""
 "<FocalPlaneResolutionUnit> sur le plan focal de l'appareil."
 
 #: src/tags.cpp:839
-#, fuzzy
 msgid "Focal Plane Y-Resolution"
 msgstr "x-Résolution du plan focal"
 
@@ -3695,7 +3633,7 @@ msgstr ""
 
 #: src/tags.cpp:858
 msgid "Sensing Method"
-msgstr ""
+msgstr "Méthode de capture numérique"
 
 #: src/tags.cpp:859
 msgid "Indicates the image sensor type on the camera or input device."
@@ -3761,10 +3699,10 @@ msgid ""
 "different exposure settings."
 msgstr ""
 
-#: src/tags.cpp:887 src/fujimn.cpp:198 src/minoltamn.cpp:604
-#: src/minoltamn.cpp:882 src/minoltamn.cpp:1120 src/nikonmn.cpp:175
-#: src/nikonmn.cpp:456 src/nikonmn.cpp:591 src/olympusmn.cpp:259
-#: src/panasonicmn.cpp:190 src/sigmamn.cpp:80
+#: src/tags.cpp:887 src/canonmn.cpp:446 src/fujimn.cpp:198
+#: src/minoltamn.cpp:604 src/minoltamn.cpp:882 src/minoltamn.cpp:1120
+#: src/nikonmn.cpp:175 src/nikonmn.cpp:456 src/nikonmn.cpp:591
+#: src/olympusmn.cpp:259 src/panasonicmn.cpp:190 src/sigmamn.cpp:80
 msgid "White Balance"
 msgstr "Balance des blancs"
 
@@ -3776,7 +3714,7 @@ msgstr ""
 
 #: src/tags.cpp:890
 msgid "Digital Zoom Ratio"
-msgstr "Valeur du zoom numérique"
+msgstr "Rapport de zoom numérique"
 
 #: src/tags.cpp:891
 msgid ""
@@ -3793,7 +3731,6 @@ msgid "Focal Length In 35mm Film"
 msgstr "Longueur focale dans un film de 35mm"
 
 #: src/tags.cpp:896
-#, fuzzy
 msgid ""
 "This tag indicates the equivalent focal length assuming a 35mm film camera, "
 "in mm. A value of 0 means the focal length is unknown. Note that this tag "
@@ -3801,22 +3738,18 @@ msgid ""
 msgstr ""
 "Ce marqueur indique la longueur focale équivalente en assumant un appareil "
 "avec un film de 35mm, en mm. Une valeur de 0 indique que la longueur focale "
-"est inconnue. Notez que ce marqueur est différent du marqueur FocalLength."
+"est inconnue. Notez que ce marqueur est différent du marqueur <FocalLength>."
 
 #: src/tags.cpp:901
 msgid "Scene Capture Type"
-msgstr "Type de capture de la scène"
+msgstr "Type de scène photographiée"
 
 #: src/tags.cpp:902
-#, fuzzy
 msgid ""
 "This tag indicates the type of scene that was shot. It can also be used to "
 "record the mode in which the image was shot. Note that this differs from the "
 "<SceneType> tag."
 msgstr ""
-"Ce marqueur indique la longueur focale équivalente en assumant un appareil "
-"avec un film de 35mm, en mm. Une valeur de 0 indique que la longueur focale "
-"est inconnue. Notez que ce marqueur est différent du marqueur FocalLength."
 
 #: src/tags.cpp:906
 msgid "Gain Control"
@@ -3826,10 +3759,11 @@ msgstr "Contrôle du gain"
 msgid "This tag indicates the degree of overall image gain adjustment."
 msgstr "Ce marqueur indique le degré général d'ajustement du gain de l'image."
 
-#: src/tags.cpp:909 src/minoltamn.cpp:494 src/minoltamn.cpp:682
-#: src/minoltamn.cpp:683 src/minoltamn.cpp:909 src/minoltamn.cpp:910
-#: src/minoltamn.cpp:1141 src/minoltamn.cpp:1142 src/olympusmn.cpp:319
-#: src/panasonicmn.cpp:247 src/sigmamn.cpp:98 src/sigmamn.cpp:99
+#: src/tags.cpp:909 src/canonmn.cpp:350 src/minoltamn.cpp:494
+#: src/minoltamn.cpp:682 src/minoltamn.cpp:683 src/minoltamn.cpp:909
+#: src/minoltamn.cpp:910 src/minoltamn.cpp:1141 src/minoltamn.cpp:1142
+#: src/olympusmn.cpp:319 src/panasonicmn.cpp:247 src/sigmamn.cpp:98
+#: src/sigmamn.cpp:99
 msgid "Contrast"
 msgstr "Contraste"
 
@@ -3842,11 +3776,11 @@ msgstr ""
 "Ce marqueur indique le mode de balance des blancs positionné lorsque l'image "
 "a été enregistrée."
 
-#: src/tags.cpp:913 src/minoltamn.cpp:495 src/minoltamn.cpp:679
-#: src/minoltamn.cpp:680 src/minoltamn.cpp:912 src/minoltamn.cpp:913
-#: src/minoltamn.cpp:1144 src/minoltamn.cpp:1145 src/nikonmn.cpp:714
-#: src/nikonmn.cpp:715 src/nikonmn.cpp:765 src/nikonmn.cpp:766
-#: src/sigmamn.cpp:107 src/sigmamn.cpp:108
+#: src/tags.cpp:913 src/canonmn.cpp:351 src/minoltamn.cpp:495
+#: src/minoltamn.cpp:679 src/minoltamn.cpp:680 src/minoltamn.cpp:912
+#: src/minoltamn.cpp:913 src/minoltamn.cpp:1144 src/minoltamn.cpp:1145
+#: src/nikonmn.cpp:714 src/nikonmn.cpp:715 src/nikonmn.cpp:765
+#: src/nikonmn.cpp:766 src/sigmamn.cpp:107 src/sigmamn.cpp:108
 msgid "Saturation"
 msgstr "Saturation"
 
@@ -3859,10 +3793,10 @@ msgstr ""
 "Ce marqueur indique le mode de balance des blancs positionné lorsque l'image "
 "a été enregistrée."
 
-#: src/tags.cpp:917 src/fujimn.cpp:195 src/minoltamn.cpp:685
-#: src/minoltamn.cpp:686 src/minoltamn.cpp:906 src/minoltamn.cpp:907
-#: src/minoltamn.cpp:1138 src/minoltamn.cpp:1139 src/sigmamn.cpp:110
-#: src/sigmamn.cpp:111
+#: src/tags.cpp:917 src/canonmn.cpp:352 src/fujimn.cpp:195
+#: src/minoltamn.cpp:685 src/minoltamn.cpp:686 src/minoltamn.cpp:906
+#: src/minoltamn.cpp:907 src/minoltamn.cpp:1138 src/minoltamn.cpp:1139
+#: src/sigmamn.cpp:110 src/sigmamn.cpp:111
 msgid "Sharpness"
 msgstr "Netteté"
 
@@ -3877,7 +3811,7 @@ msgstr ""
 
 #: src/tags.cpp:921
 msgid "Device Setting Description"
-msgstr "Description des paramètres du périphérique"
+msgstr "Description des paramètres du matériel"
 
 #: src/tags.cpp:922
 msgid ""
@@ -3912,51 +3846,48 @@ msgstr ""
 "hexadécimale et d'une longueur fixe de 128 bits."
 
 #: src/tags.cpp:935 src/tags.cpp:936
-#, fuzzy
 msgid "Unknown Exif tag"
-msgstr "Inconnu"
+msgstr "Marqueur Exif inconnue"
 
 #: src/tags.cpp:947
-#, fuzzy
 msgid "North"
-msgstr "autre"
+msgstr "Nord"
 
 #: src/tags.cpp:948
-#, fuzzy
 msgid "South"
-msgstr "Spot"
+msgstr "Sud"
 
 #: src/tags.cpp:953
 msgid "East"
-msgstr ""
+msgstr "Est"
 
 #: src/tags.cpp:954
 msgid "West"
-msgstr ""
+msgstr "Ouest"
 
 #: src/tags.cpp:959
 msgid "Above sea level"
-msgstr ""
+msgstr "Au dessus du niveau de la mer"
 
 #: src/tags.cpp:960
 msgid "Below sea level"
-msgstr ""
+msgstr "En dessous du niveau de la mer"
 
 #: src/tags.cpp:965
 msgid "km/h"
-msgstr ""
+msgstr "Km/h"
 
 #: src/tags.cpp:966
 msgid "mph"
-msgstr ""
+msgstr "mph"
 
 #: src/tags.cpp:967
 msgid "knots"
-msgstr ""
+msgstr "Noeuds"
 
 #: src/tags.cpp:972
 msgid "GPS Version ID"
-msgstr ""
+msgstr "ID version GPS"
 
 #: src/tags.cpp:973
 msgid ""
@@ -3968,7 +3899,7 @@ msgstr ""
 
 #: src/tags.cpp:979
 msgid "GPS Latitude Reference"
-msgstr ""
+msgstr "Référence de latitude GPS"
 
 #: src/tags.cpp:980
 msgid ""
@@ -3978,7 +3909,7 @@ msgstr ""
 
 #: src/tags.cpp:983
 msgid "GPS Latitude"
-msgstr ""
+msgstr "Latitude GPS"
 
 #: src/tags.cpp:984
 msgid ""
@@ -3991,7 +3922,7 @@ msgstr ""
 
 #: src/tags.cpp:991
 msgid "GPS Longitude Reference"
-msgstr ""
+msgstr "Référence de longiture GPS"
 
 #: src/tags.cpp:992
 msgid ""
@@ -4001,7 +3932,7 @@ msgstr ""
 
 #: src/tags.cpp:995
 msgid "GPS Longitude"
-msgstr ""
+msgstr "Longitude GPS"
 
 #: src/tags.cpp:996
 msgid ""
@@ -4014,7 +3945,7 @@ msgstr ""
 
 #: src/tags.cpp:1003
 msgid "GPS Altitude Reference"
-msgstr ""
+msgstr "Référence d'altitude GPS"
 
 #: src/tags.cpp:1004
 msgid ""
@@ -4027,7 +3958,7 @@ msgstr ""
 
 #: src/tags.cpp:1011
 msgid "GPS Altitude"
-msgstr ""
+msgstr "Altitude GPS"
 
 #: src/tags.cpp:1012
 msgid ""
@@ -4037,7 +3968,7 @@ msgstr ""
 
 #: src/tags.cpp:1015
 msgid "GPS Time Stamp"
-msgstr ""
+msgstr "Horodateur GPS"
 
 #: src/tags.cpp:1016
 msgid ""
@@ -4048,7 +3979,7 @@ msgstr ""
 
 #: src/tags.cpp:1020
 msgid "GPS Satellites"
-msgstr ""
+msgstr "Satellites GPS"
 
 #: src/tags.cpp:1021
 msgid ""
@@ -4061,7 +3992,7 @@ msgstr ""
 
 #: src/tags.cpp:1027
 msgid "GPS Status"
-msgstr ""
+msgstr "Statut GPS"
 
 #: src/tags.cpp:1028
 msgid ""
@@ -4071,9 +4002,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:1032
-#, fuzzy
 msgid "GPS Measure Mode"
-msgstr "Mode d'exposition"
+msgstr "Mode de mesure GPS"
 
 #: src/tags.cpp:1033
 msgid ""
@@ -4083,7 +4013,7 @@ msgstr ""
 
 #: src/tags.cpp:1036
 msgid "GPS Data Degree of Precision"
-msgstr ""
+msgstr "Degrés de précision des données GPS"
 
 #: src/tags.cpp:1037
 msgid ""
@@ -4094,7 +4024,7 @@ msgstr ""
 
 #: src/tags.cpp:1040
 msgid "GPS Speed Reference"
-msgstr ""
+msgstr "Référence de vitesse de GPS"
 
 #: src/tags.cpp:1041
 msgid ""
@@ -4104,7 +4034,7 @@ msgstr ""
 
 #: src/tags.cpp:1044
 msgid "GPS Speed"
-msgstr ""
+msgstr "Vitesse GPS"
 
 #: src/tags.cpp:1045
 msgid "Indicates the speed of GPS receiver movement."
@@ -4132,7 +4062,7 @@ msgstr ""
 
 #: src/tags.cpp:1055
 msgid "GPS Image Direction Reference"
-msgstr ""
+msgstr "Référence de direction de l'image GPS"
 
 #: src/tags.cpp:1056
 msgid ""
@@ -4141,9 +4071,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:1059
-#, fuzzy
 msgid "GPS Image Direction"
-msgstr "Description de l'image"
+msgstr "Direction de l'image GPS"
 
 #: src/tags.cpp:1060
 msgid ""
@@ -4164,7 +4093,7 @@ msgstr ""
 
 #: src/tags.cpp:1067
 msgid "GPS Destination Latitude Refeference"
-msgstr ""
+msgstr "Référence de latitude de destination GPS"
 
 #: src/tags.cpp:1068
 msgid ""
@@ -4175,7 +4104,7 @@ msgstr ""
 
 #: src/tags.cpp:1071
 msgid "GPS Destination Latitude"
-msgstr ""
+msgstr "Latitude de destination GPS"
 
 #: src/tags.cpp:1072
 msgid ""
@@ -4189,7 +4118,7 @@ msgstr ""
 
 #: src/tags.cpp:1079
 msgid "GPS Destination Longitude Reference"
-msgstr ""
+msgstr "Référence de longitude de destination GPS"
 
 #: src/tags.cpp:1080
 msgid ""
@@ -4199,7 +4128,7 @@ msgstr ""
 
 #: src/tags.cpp:1083
 msgid "GPS Destination Longitude"
-msgstr ""
+msgstr "Longitude de destination GPS"
 
 #: src/tags.cpp:1084
 msgid ""
@@ -4242,14 +4171,12 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:1102
-#, fuzzy
 msgid "GPS Destination Distance"
-msgstr "Distance au sujet"
+msgstr "Distance à la destination GPS"
 
 #: src/tags.cpp:1103
-#, fuzzy
 msgid "Indicates the distance to the destination point."
-msgstr "Ce marqueur indique la distance au sujet."
+msgstr ""
 
 #: src/tags.cpp:1105
 msgid "GPS Processing Method"
@@ -4275,7 +4202,7 @@ msgstr ""
 
 #: src/tags.cpp:1114
 msgid "GPS Date Stamp"
-msgstr ""
+msgstr "Horodatage GPS"
 
 #: src/tags.cpp:1115
 msgid ""
@@ -4288,18 +4215,16 @@ msgid "GPS Differential"
 msgstr ""
 
 #: src/tags.cpp:1119
-msgid ""
-"Indicates whether differential correction is applied to the GPS receiver."
+msgid "Indicates whether differential correction is applied to the GPS receiver."
 msgstr ""
 
 #: src/tags.cpp:1122 src/tags.cpp:1123
-#, fuzzy
 msgid "Unknown GPSInfo tag"
-msgstr "Inconnu"
+msgstr "Marqueur GPSInfo inconnu"
 
 #: src/tags.cpp:1134
 msgid "Interoperability Index"
-msgstr ""
+msgstr "Index interopérabilité"
 
 #: src/tags.cpp:1135
 msgid ""
@@ -4316,11 +4241,11 @@ msgstr ""
 
 #: src/tags.cpp:1141
 msgid "Interoperability Version"
-msgstr ""
+msgstr "Version interopérabilité"
 
 #: src/tags.cpp:1142
 msgid "Interoperability version"
-msgstr ""
+msgstr "Version interopérabilité"
 
 #: src/tags.cpp:1144
 msgid "Related Image File Format"
@@ -4328,100 +4253,177 @@ msgstr ""
 
 #: src/tags.cpp:1145
 msgid "File format of image file"
-msgstr ""
+msgstr "Format du fichier image"
 
 #: src/tags.cpp:1147
 #, fuzzy
 msgid "Related Image Width"
 msgstr "Hauteur de l'image"
 
-#: src/tags.cpp:1148 src/olympusmn.cpp:335
-#, fuzzy
+#: src/tags.cpp:1148 src/canonmn.cpp:549 src/olympusmn.cpp:335
 msgid "Image width"
-msgstr "Hauteur de l'image"
+msgstr "Largeur de l'image"
 
 #: src/tags.cpp:1150
 #, fuzzy
 msgid "Related Image Length"
 msgstr "Longeur de l'image"
 
-#: src/tags.cpp:1151 src/olympusmn.cpp:338
-#, fuzzy
+#: src/tags.cpp:1151 src/canonmn.cpp:550 src/olympusmn.cpp:338
 msgid "Image height"
-msgstr "Longeur de l'image"
+msgstr "Hauteur de l'image"
 
 #: src/tags.cpp:1154 src/tags.cpp:1155
-#, fuzzy
 msgid "Unknown Exif Interoperability tag"
-msgstr "Version d'exif"
+msgstr "Marqueur Interopérabilité Exif inconnu"
 
 #: src/tags.cpp:1165 src/tags.cpp:1166
-#, fuzzy
 msgid "Unknown tag"
-msgstr "Inconnu"
+msgstr "Marqueur inconnu"
 
-#: src/tags.cpp:1906
-#, fuzzy
+#: src/tags.cpp:1906 src/canonmn.cpp:258
 msgid "Infinity"
-msgstr "Intel"
+msgstr "Infinie"
 
 #: src/tags.cpp:1958
-#, fuzzy
 msgid "Digital zoom not used"
-msgstr "Valeur du zoom numérique"
+msgstr "Zoom numérique non utilisé"
 
 #: src/tiffvisitor.cpp:367
-#, fuzzy
 msgid "Data area"
-msgstr "Date et heure"
+msgstr "Zone de données"
 
 #: src/tiffvisitor.cpp:369
 msgid "bytes.\n"
-msgstr ""
+msgstr "octets.\n"
 
 #: src/tiffvisitor.cpp:382
 msgid "directory with"
-msgstr ""
+msgstr "répertoire avec"
 
 #: src/tiffvisitor.cpp:385
-#, fuzzy
 msgid "entry:\n"
-msgstr "Centimère"
+msgstr "entrée :\n"
 
 #: src/tiffvisitor.cpp:386
 msgid "entries:\n"
-msgstr ""
+msgstr "entrées :\n"
 
 #: src/tiffvisitor.cpp:395
 msgid "Next directory:\n"
-msgstr ""
+msgstr "Répertoire suivant :\n"
 
 #: src/tiffvisitor.cpp:396
 msgid "No next directory\n"
-msgstr ""
+msgstr "Pas de répertoire suivant\n"
 
 #: src/tiffvisitor.cpp:407
 msgid "Sub-IFD"
-msgstr ""
+msgstr "Sous-IFD"
 
 #: src/tiffvisitor.cpp:414
-#, fuzzy
 msgid "Makernote"
-msgstr "Note du créateur"
+msgstr "Note du fabriquant"
 
 #: src/tiffvisitor.cpp:431
 msgid "component"
-msgstr ""
+msgstr "composant"
 
 #: src/tiffvisitor.cpp:433
 msgid "bytes"
-msgstr ""
+msgstr "octets"
 
 #: src/tiffvisitor.cpp:450
 msgid "Array Entry"
 msgstr ""
 
-#: src/fujimn.cpp:65 src/fujimn.cpp:109 src/fujimn.cpp:146
+#: src/canonmn.cpp:84 src/olympusmn.cpp:379
+msgid "Camera Settings"
+msgstr "Réglage appareil photo"
+
+#: src/canonmn.cpp:84
+msgid "Various camera settings"
+msgstr "Divers réglages de l'appareil photo"
+
+#: src/canonmn.cpp:87
+msgid "Shot Info"
+msgstr "Infos prise de vue"
+
+#: src/canonmn.cpp:87
+msgid "Shot information"
+msgstr "Informations prise de vue"
+
+#: src/canonmn.cpp:88 src/olympusmn.cpp:486
+msgid "Panorama"
+msgstr "Panorama"
+
+#: src/canonmn.cpp:89
+msgid "Image type"
+msgstr "Type d'image"
+
+#: src/canonmn.cpp:90 src/olympusmn.cpp:143 src/panasonicmn.cpp:187
+msgid "Firmware Version"
+msgstr "Version du microcode"
+
+#: src/canonmn.cpp:90 src/panasonicmn.cpp:188
+msgid "Firmware version"
+msgstr "Version de microcode"
+
+#: src/canonmn.cpp:91 src/minoltamn.cpp:667 src/minoltamn.cpp:936
+#: src/minoltamn.cpp:943 src/minoltamn.cpp:1180
+msgid "Image Number"
+msgstr "Numéro d'image"
+
+#: src/canonmn.cpp:92
+msgid "Owner Name"
+msgstr "Nom du propriétaire"
+
+#: src/canonmn.cpp:93 src/fujimn.cpp:188 src/nikonmn.cpp:654
+#: src/nikonmn.cpp:655 src/nikonmn.cpp:741 src/olympusmn.cpp:184
+#: src/panasonicmn.cpp:225 src/sigmamn.cpp:66
+msgid "Serial Number"
+msgstr "Numéro de série"
+
+#: src/canonmn.cpp:93 src/nikonmn.cpp:742 src/sigmamn.cpp:67
+msgid "Camera serial number"
+msgstr "Numéro de série de l'appareil photo"
+
+#: src/canonmn.cpp:95
+msgid "Custom Functions"
+msgstr "Fonctions personalisées"
+
+#: src/canonmn.cpp:96 src/olympusmn.cpp:146
+msgid "Picture Info"
+msgstr "Infos image"
+
+#: src/canonmn.cpp:96
+msgid "Picture info"
+msgstr "Infos image"
+
+#: src/canonmn.cpp:97
+msgid "White Balance Table"
+msgstr "Table de balance des blancs"
+
+#: src/canonmn.cpp:97
+msgid "White balance table"
+msgstr "Table de balance des blancs"
+
+#: src/canonmn.cpp:102
+msgid "Unknown CanonMakerNote tag"
+msgstr "Marqueur de note du fabriquant Canon inconnu"
+
+#: src/canonmn.cpp:112 src/canonmn.cpp:129 src/canonmn.cpp:320
+#: src/fujimn.cpp:66 src/fujimn.cpp:108 src/fujimn.cpp:147
+#: src/minoltamn.cpp:92 src/minoltamn.cpp:362 src/minoltamn.cpp:401
+#: src/minoltamn.cpp:856 src/minoltamn.cpp:862 src/minoltamn.cpp:868
+#: src/minoltamn.cpp:1041 src/minoltamn.cpp:1047 src/olympusmn.cpp:57
+#: src/olympusmn.cpp:71 src/olympusmn.cpp:78 src/panasonicmn.cpp:98
+#: src/panasonicmn.cpp:357
+msgid "On"
+msgstr "Activé"
+
+#: src/canonmn.cpp:113 src/canonmn.cpp:127 src/canonmn.cpp:319
+#: src/canonmn.cpp:326 src/fujimn.cpp:65 src/fujimn.cpp:109 src/fujimn.cpp:146
 #: src/minoltamn.cpp:91 src/minoltamn.cpp:361 src/minoltamn.cpp:367
 #: src/minoltamn.cpp:400 src/minoltamn.cpp:855 src/minoltamn.cpp:861
 #: src/minoltamn.cpp:867 src/minoltamn.cpp:1040 src/minoltamn.cpp:1046
@@ -4430,229 +4432,1122 @@ msgstr ""
 #: src/panasonicmn.cpp:131 src/panasonicmn.cpp:140 src/panasonicmn.cpp:164
 #: src/panasonicmn.cpp:358
 msgid "Off"
+msgstr "Désactivé"
+
+#: src/canonmn.cpp:118 src/minoltamn.cpp:78 src/minoltamn.cpp:337
+#: src/minoltamn.cpp:786 src/minoltamn.cpp:989
+msgid "Economy"
+msgstr "Economie"
+
+#: src/canonmn.cpp:120 src/minoltamn.cpp:76 src/minoltamn.cpp:335
+#: src/minoltamn.cpp:783 src/minoltamn.cpp:986
+msgid "Fine"
+msgstr "Fin"
+
+#: src/canonmn.cpp:121
+msgid "RAW"
+msgstr "BRUT"
+
+#: src/canonmn.cpp:122
+msgid "Superfine"
+msgstr "Super fin"
+
+#: src/canonmn.cpp:130
+msgid "Red-eye"
+msgstr "Réduction yeux rouges"
+
+#: src/canonmn.cpp:131
+msgid "Slow sync"
+msgstr "Synchro lente"
+
+#: src/canonmn.cpp:132
+msgid "Auto + red-eye"
+msgstr "Flash automatique + réduction yeux rouges"
+
+#: src/canonmn.cpp:133
+msgid "On + red-eye"
+msgstr "Flash + réduction yeux rouges"
+
+#: src/canonmn.cpp:134 src/olympusmn.cpp:86
+msgid "External"
+msgstr "Externe"
+
+#: src/canonmn.cpp:139
+#, fuzzy
+msgid "Single / timer"
+msgstr "Temporisateur"
+
+#: src/canonmn.cpp:140 src/canonmn.cpp:154 src/canonmn.cpp:305
+#: src/fujimn.cpp:231 src/minoltamn.cpp:344 src/nikonmn.cpp:125
+msgid "Continuous"
+msgstr "Continue"
+
+#: src/canonmn.cpp:141
+msgid "Movie"
+msgstr "Film"
+
+#: src/canonmn.cpp:142
+msgid "Continuous, speed priority"
+msgstr "Continue, Priorité vitesse obturation"
+
+#: src/canonmn.cpp:143
+msgid "Continuous, low"
+msgstr "Continue, basse"
+
+#: src/canonmn.cpp:144
+msgid "Continuous, high"
+msgstr "Continue, Haute"
+
+#: src/canonmn.cpp:149
+msgid "One shot AF"
 msgstr ""
 
-#: src/fujimn.cpp:66 src/fujimn.cpp:108 src/fujimn.cpp:147
-#: src/minoltamn.cpp:92 src/minoltamn.cpp:362 src/minoltamn.cpp:401
-#: src/minoltamn.cpp:856 src/minoltamn.cpp:862 src/minoltamn.cpp:868
-#: src/minoltamn.cpp:1041 src/minoltamn.cpp:1047 src/olympusmn.cpp:57
-#: src/olympusmn.cpp:71 src/olympusmn.cpp:78 src/panasonicmn.cpp:98
-#: src/panasonicmn.cpp:357
-msgid "On"
+#: src/canonmn.cpp:150
+msgid "AI servo AF"
 msgstr ""
+
+#: src/canonmn.cpp:151
+msgid "AI focus AF"
+msgstr ""
+
+#: src/canonmn.cpp:152 src/canonmn.cpp:155 src/minoltamn.cpp:482
+msgid "Manual focus"
+msgstr "Mise au point manuel"
+
+#: src/canonmn.cpp:153 src/canonmn.cpp:304 src/minoltamn.cpp:343
+msgid "Single"
+msgstr ""
+
+#: src/canonmn.cpp:156 src/canonmn.cpp:183 src/canonmn.cpp:256
+msgid "Pan focus"
+msgstr ""
+
+#: src/canonmn.cpp:161 src/minoltamn.cpp:775 src/minoltamn.cpp:978
+msgid "Large"
+msgstr "Grande"
+
+#: src/canonmn.cpp:162 src/minoltamn.cpp:776 src/minoltamn.cpp:979
+msgid "Medium"
+msgstr "Moyenne"
+
+#: src/canonmn.cpp:163 src/minoltamn.cpp:777 src/minoltamn.cpp:980
+msgid "Small"
+msgstr "Petite"
+
+#: src/canonmn.cpp:164
+msgid "Medium 1"
+msgstr "Moyenne 1"
+
+#: src/canonmn.cpp:165
+msgid "Medium 2"
+msgstr "Moyenne 2"
+
+#: src/canonmn.cpp:166
+msgid "Medium 3"
+msgstr "Moyenne 3"
+
+#: src/canonmn.cpp:171
+msgid "Full auto"
+msgstr "Complètement automatique"
+
+#: src/canonmn.cpp:174
+msgid "Fast shutter"
+msgstr "Obturation rapide"
+
+#: src/canonmn.cpp:175
+msgid "Slow shutter"
+msgstr "Obturation lente"
+
+#: src/canonmn.cpp:176 src/minoltamn.cpp:68
+msgid "Night Scene"
+msgstr "Scène de nuit"
+
+#: src/canonmn.cpp:177
+msgid "Gray scale"
+msgstr "Niveaux de gris"
+
+#: src/canonmn.cpp:178 src/canonmn.cpp:330 src/minoltamn.cpp:61
+#: src/panasonicmn.cpp:135
+msgid "Sepia"
+msgstr "Sépia"
+
+#: src/canonmn.cpp:180 src/fujimn.cpp:124 src/panasonicmn.cpp:108
+msgid "Sports"
+msgstr "Sports"
+
+#: src/canonmn.cpp:181
+msgid "Macro / close-up"
+msgstr "Macro / gros plan"
+
+#: src/canonmn.cpp:182 src/fujimn.cpp:155
+msgid "Black & white"
+msgstr "Noir & Blanc"
+
+#: src/canonmn.cpp:184 src/canonmn.cpp:327
+msgid "Vivid"
+msgstr "Vif"
+
+#: src/canonmn.cpp:185 src/canonmn.cpp:328
+msgid "Neutral"
+msgstr "Neutre"
+
+#: src/canonmn.cpp:186
+msgid "Flash off"
+msgstr "Flash désactivé"
+
+#: src/canonmn.cpp:187
+msgid "Long shutter"
+msgstr ""
+
+#: src/canonmn.cpp:188 src/canonmn.cpp:257 src/olympusmn.cpp:72
+msgid "Super macro"
+msgstr "Super macro"
+
+#: src/canonmn.cpp:189
+msgid "Foliage"
+msgstr "Feuillage"
+
+#: src/canonmn.cpp:190
+msgid "Indoor"
+msgstr "Intérieur"
+
+#: src/canonmn.cpp:191 src/fujimn.cpp:137 src/panasonicmn.cpp:116
+msgid "Fireworks"
+msgstr "Feux d'artifices"
+
+#: src/canonmn.cpp:192 src/fujimn.cpp:135
+msgid "Beach"
+msgstr "Plage"
+
+#: src/canonmn.cpp:193 src/canonmn.cpp:407 src/fujimn.cpp:138
+msgid "Underwater"
+msgstr "Sous marin"
+
+#: src/canonmn.cpp:194 src/fujimn.cpp:136 src/panasonicmn.cpp:118
+msgid "Snow"
+msgstr "Neige"
+
+#: src/canonmn.cpp:195
+msgid "Kids & pets"
+msgstr "Enfants & animaux"
+
+#: src/canonmn.cpp:196
+msgid "Night SnapShot"
+msgstr "Instantané de nuit"
+
+#: src/canonmn.cpp:197
+msgid "Digital macro"
+msgstr "Zoom numérique"
+
+#: src/canonmn.cpp:198
+msgid "My Colors"
+msgstr "Mes couleurs"
+
+#: src/canonmn.cpp:199 src/minoltamn.cpp:445
+msgid "Still image"
+msgstr "Image fixe"
+
+#: src/canonmn.cpp:219
+msgid "n/a"
+msgstr "n/a"
+
+#: src/canonmn.cpp:220
+msgid "Auto High"
+msgstr ""
+
+#: src/canonmn.cpp:238
+msgid "Default"
+msgstr "Défaut"
+
+#: src/canonmn.cpp:241
+msgid "Evaluative"
+msgstr "Évaluatif"
+
+#: src/canonmn.cpp:243 src/minoltamn.cpp:355 src/minoltamn.cpp:1014
+msgid "Center weighted"
+msgstr "Centre pondéré"
+
+#: src/canonmn.cpp:250
+msgid "Not known"
+msgstr "Non connu"
+
+#: src/canonmn.cpp:252
+msgid "Very close"
+msgstr "Très près"
+
+#: src/canonmn.cpp:253
+msgid "Close"
+msgstr "Près"
+
+#: src/canonmn.cpp:254
+msgid "Middle range"
+msgstr ""
+
+#: src/canonmn.cpp:255
+msgid "Far range"
+msgstr "Loin"
+
+#: src/canonmn.cpp:263
+msgid "Manual AF point selection"
+msgstr "Sélection point AF manuelle"
+
+#: src/canonmn.cpp:264
+msgid "None (MF)"
+msgstr "Aucun (MF)"
+
+#: src/canonmn.cpp:265
+msgid "Auto-selected"
+msgstr "Sélection automatique"
+
+#: src/canonmn.cpp:266 src/minoltamn.cpp:384 src/minoltamn.cpp:814
+#: src/minoltamn.cpp:1056 src/nikonmn.cpp:77
+msgid "Right"
+msgstr "Droit"
+
+#: src/canonmn.cpp:267 src/minoltamn.cpp:381 src/minoltamn.cpp:811
+#: src/nikonmn.cpp:73 src/sigmamn.cpp:242
+msgid "Center"
+msgstr "Centre"
+
+#: src/canonmn.cpp:268 src/minoltamn.cpp:388 src/minoltamn.cpp:818
+#: src/minoltamn.cpp:1060 src/nikonmn.cpp:76
+msgid "Left"
+msgstr "Gauche"
+
+#: src/canonmn.cpp:269
+msgid "Auto AF point selection"
+msgstr "Sélection point AF automatique"
+
+#: src/canonmn.cpp:274
+msgid "Easy shooting (Auto)"
+msgstr "Prise de vue facile (Auto)"
+
+#: src/canonmn.cpp:275
+msgid "Program (P)"
+msgstr "Programme (P)"
+
+#: src/canonmn.cpp:276
+msgid "Shutter priority (Tv)"
+msgstr "Priorité obturation (Tv)"
+
+#: src/canonmn.cpp:277
+msgid "Aperture priority (Av)"
+msgstr "Priorité ouverture (Av)"
+
+#: src/canonmn.cpp:278
+msgid "Manual (M)"
+msgstr "Manuel (M)"
+
+#: src/canonmn.cpp:279
+msgid "A-DEP"
+msgstr ""
+
+#: src/canonmn.cpp:280
+msgid "M-DEP"
+msgstr ""
+
+#: src/canonmn.cpp:285 src/minoltamn.cpp:394 src/minoltamn.cpp:466
+#: src/minoltamn.cpp:824 src/minoltamn.cpp:1007 src/nikonmn.cpp:116
+msgid "Did not fire"
+msgstr "Le flash ne s'est pas déclenché."
+
+#: src/canonmn.cpp:291
+msgid "External flash"
+msgstr "Flash externe"
+
+#: src/canonmn.cpp:292 src/minoltamn.cpp:716
+msgid "Internal flash"
+msgstr "Flash interne"
+
+#: src/canonmn.cpp:294
+msgid "TTL"
+msgstr "TTL"
+
+#: src/canonmn.cpp:295
+msgid "A-TTL"
+msgstr "A-TTL"
+
+#: src/canonmn.cpp:296
+msgid "E-TTL"
+msgstr "E-TTL"
+
+#: src/canonmn.cpp:297
+msgid "FP sync enabled"
+msgstr ""
+
+#: src/canonmn.cpp:298
+msgid "2nd-curtain sync used"
+msgstr ""
+
+#: src/canonmn.cpp:299
+msgid "FP sync used"
+msgstr ""
+
+#: src/canonmn.cpp:310
+msgid "Normal AE"
+msgstr "AE Normal"
+
+#: src/canonmn.cpp:311 src/minoltamn.cpp:635 src/minoltamn.cpp:901
+#: src/minoltamn.cpp:1169
+msgid "Exposure compensation"
+msgstr "Compensation d'exposition"
+
+#: src/canonmn.cpp:312
+msgid "AE lock"
+msgstr "AE verrouillé"
+
+#: src/canonmn.cpp:313
+msgid "AE lock + exposure compensation"
+msgstr "AE verrouillé + compensation d'exposition"
+
+#: src/canonmn.cpp:314
+msgid "No AE"
+msgstr "Pas d'AE"
+
+#: src/canonmn.cpp:321
+msgid "On, shot only"
+msgstr ""
+
+#: src/canonmn.cpp:329
+msgid "Smooth"
+msgstr ""
+
+#: src/canonmn.cpp:331
+msgid "B&W"
+msgstr "N&B"
+
+#: src/canonmn.cpp:332 src/canonmn.cpp:397 src/fujimn.cpp:87
+#: src/minoltamn.cpp:313
+msgid "Custom"
+msgstr "Personnel"
+
+#: src/canonmn.cpp:333
+msgid "My color data"
+msgstr "Données de mes couleurs"
+
+#: src/canonmn.cpp:339
+msgid "Selftimer"
+msgstr "Retardateur"
+
+#: src/canonmn.cpp:339 src/panasonicmn.cpp:254
+msgid "Self timer"
+msgstr "Retardateur"
+
+#: src/canonmn.cpp:340 src/fujimn.cpp:192 src/nikonmn.cpp:172
+#: src/nikonmn.cpp:444 src/nikonmn.cpp:588 src/olympusmn.cpp:125
+#: src/panasonicmn.cpp:184 src/sigmamn.cpp:122 src/sigmamn.cpp:123
+msgid "Quality"
+msgstr "Qualité"
+
+#: src/canonmn.cpp:341 src/fujimn.cpp:207 src/minoltamn.cpp:601
+#: src/minoltamn.cpp:894 src/nikonmn.cpp:681 src/olympusmn.cpp:208
+msgid "Flash Mode"
+msgstr "Mode flash"
+
+#: src/canonmn.cpp:341
+msgid "Flash mode setting"
+msgstr "Réglage mode flash"
+
+#: src/canonmn.cpp:342 src/minoltamn.cpp:613 src/sigmamn.cpp:69
+msgid "Drive Mode"
+msgstr "Mode controle"
+
+#: src/canonmn.cpp:342
+msgid "Drive mode setting"
+msgstr "Réglage mode controle"
+
+#: src/canonmn.cpp:344 src/fujimn.cpp:216 src/minoltamn.cpp:730
+#: src/minoltamn.cpp:885 src/minoltamn.cpp:1159 src/nikonmn.cpp:459
+#: src/olympusmn.cpp:229 src/panasonicmn.cpp:196
+msgid "Focus Mode"
+msgstr "Mode mise au point"
+
+#: src/canonmn.cpp:344
+msgid "Focus mode setting"
+msgstr "Réglage mode de mise au point"
+
+#: src/canonmn.cpp:347 src/minoltamn.cpp:607 src/minoltamn.cpp:876
+#: src/minoltamn.cpp:1114
+msgid "Image Size"
+msgstr "Taille de l'image"
+
+#: src/canonmn.cpp:347 src/minoltamn.cpp:608 src/minoltamn.cpp:877
+#: src/minoltamn.cpp:1115
+msgid "Image size"
+msgstr "Taille de l'image"
+
+#: src/canonmn.cpp:348
+msgid "Easy Mode"
+msgstr "Mode prise de vue"
+
+#: src/canonmn.cpp:348
+msgid "Easy shooting mode"
+msgstr "Mode de prise de vue"
+
+#: src/canonmn.cpp:349 src/minoltamn.cpp:631 src/nikonmn.cpp:205
+#: src/nikonmn.cpp:465 src/nikonmn.cpp:678 src/olympusmn.cpp:134
+msgid "Digital Zoom"
+msgstr "Zoom numérique"
+
+#: src/canonmn.cpp:349 src/minoltamn.cpp:632
+msgid "Digital zoom"
+msgstr "Zoom numérique"
+
+#: src/canonmn.cpp:350 src/fujimn.cpp:205 src/olympusmn.cpp:320
+#: src/panasonicmn.cpp:248
+msgid "Contrast setting"
+msgstr "Réglage de contraste"
+
+#: src/canonmn.cpp:351
+msgid "Saturation setting"
+msgstr "Réglage de saturation"
+
+#: src/canonmn.cpp:352 src/fujimn.cpp:196
+msgid "Sharpness setting"
+msgstr "Réglage de Netteté"
+
+#: src/canonmn.cpp:353 src/minoltamn.cpp:694 src/minoltamn.cpp:897
+#: src/minoltamn.cpp:1135
+msgid "ISO Speed Mode"
+msgstr "Mode vitesse ISO"
+
+#: src/canonmn.cpp:353 src/minoltamn.cpp:695 src/minoltamn.cpp:898
+#: src/minoltamn.cpp:1136 src/nikonmn.cpp:167 src/nikonmn.cpp:454
+#: src/nikonmn.cpp:583
+msgid "ISO speed setting"
+msgstr "Réglage vitesse ISO"
+
+#: src/canonmn.cpp:354
+msgid "Metering mode setting"
+msgstr "Réglages mode mesure"
+
+#: src/canonmn.cpp:355
+msgid "Focus Type"
+msgstr "Type de mise au point"
+
+#: src/canonmn.cpp:355
+msgid "Focus type setting"
+msgstr "Réglage mise au point"
+
+#: src/canonmn.cpp:356
+msgid "AF Point"
+msgstr "Point AF"
+
+#: src/canonmn.cpp:356
+msgid "AF point selected"
+msgstr "Point AF sélectionné"
+
+#: src/canonmn.cpp:357
+msgid "Exposure mode setting"
+msgstr "Réglage mode exposition"
+
+#: src/canonmn.cpp:360 src/nikonmn.cpp:672 src/nikonmn.cpp:673
+msgid "Lens"
+msgstr "Objectif"
+
+#: src/canonmn.cpp:360
+msgid ""
+"'long' and 'short' focal length of lens (in 'focal units') and 'focal units' "
+"per mm"
+msgstr ""
+
+#: src/canonmn.cpp:365
+msgid "Flash Activity"
+msgstr "Activité flash"
+
+#: src/canonmn.cpp:365
+msgid "Flash activity"
+msgstr "Activité flash"
+
+#: src/canonmn.cpp:366
+msgid "Flash Details"
+msgstr "Détails flash"
+
+#: src/canonmn.cpp:366
+msgid "Flash details"
+msgstr "Détails flash"
+
+#: src/canonmn.cpp:369
+msgid "Focus Continuous"
+msgstr ""
+
+#: src/canonmn.cpp:369
+msgid "Focus continuous setting"
+msgstr ""
+
+#: src/canonmn.cpp:370
+msgid "AESetting"
+msgstr "Réglage AE"
+
+#: src/canonmn.cpp:370
+msgid "AE setting"
+msgstr "Réglage AE"
+
+#: src/canonmn.cpp:371 src/minoltamn.cpp:256 src/minoltamn.cpp:946
+#: src/minoltamn.cpp:1186 src/nikonmn.cpp:771
+msgid "Image Stabilization"
+msgstr "Stabilisation de l'image"
+
+#: src/canonmn.cpp:371 src/minoltamn.cpp:257 src/minoltamn.cpp:947
+#: src/minoltamn.cpp:1187 src/nikonmn.cpp:772
+msgid "Image stabilization"
+msgstr "Stabilisation de l'image"
+
+#: src/canonmn.cpp:372
+msgid "Display Aperture"
+msgstr ""
+
+#: src/canonmn.cpp:372
+msgid "Display aperture"
+msgstr ""
+
+#: src/canonmn.cpp:373
+msgid "Zoom Source Width"
+msgstr ""
+
+#: src/canonmn.cpp:373
+msgid "Zoom source width"
+msgstr ""
+
+#: src/canonmn.cpp:374
+msgid "Zoom Target Width"
+msgstr ""
+
+#: src/canonmn.cpp:374
+msgid "Zoom target width"
+msgstr ""
+
+#: src/canonmn.cpp:377
+msgid "Photo Effect"
+msgstr "Effet photo"
+
+#: src/canonmn.cpp:377
+msgid "Photo effect"
+msgstr "Effet photo"
+
+#: src/canonmn.cpp:379
+msgid "Color Tone"
+msgstr "Tonalité couleur"
+
+#: src/canonmn.cpp:379
+msgid "Color tone"
+msgstr "Tonalité couleur"
+
+#: src/canonmn.cpp:381
+msgid "Unknown Canon Camera Settings 1 tag"
+msgstr "Marqueur 1 réglage appareil photo Canon inconnu"
+
+#: src/canonmn.cpp:392
+msgid "Sunny"
+msgstr "Ensoleillé"
+
+#: src/canonmn.cpp:393 src/fujimn.cpp:82 src/minoltamn.cpp:311
+#: src/minoltamn.cpp:794 src/minoltamn.cpp:996 src/nikonmn.cpp:435
+#: src/panasonicmn.cpp:74
+msgid "Cloudy"
+msgstr "Nuageux"
+
+#: src/canonmn.cpp:394 src/minoltamn.cpp:312 src/minoltamn.cpp:795
+#: src/minoltamn.cpp:998
+msgid "Tungsten"
+msgstr "Tungsten"
+
+#: src/canonmn.cpp:398 src/minoltamn.cpp:57
+msgid "Black & White"
+msgstr "Noir & Blanc"
+
+#: src/canonmn.cpp:400
+msgid "Manual Temperature (Kelvin)"
+msgstr "Température manuelle (Kelvin)"
+
+#: src/canonmn.cpp:401
+msgid "PC Set 1"
+msgstr "Réglage PC 1"
+
+#: src/canonmn.cpp:402
+msgid "PC Set 2"
+msgstr "Réglage PC 3"
+
+#: src/canonmn.cpp:403
+msgid "PC Set 3"
+msgstr "Réglage PC 3"
+
+#: src/canonmn.cpp:404
+msgid "Daylight Fluorescent"
+msgstr "Lumière du jour fluorescent"
+
+#: src/canonmn.cpp:405
+msgid "Custom 1"
+msgstr "Personnel 1"
+
+#: src/canonmn.cpp:406 src/minoltamn.cpp:316
+msgid "Custom 2"
+msgstr "Personnel 2"
+
+#: src/canonmn.cpp:412 src/canonmn.cpp:531 src/canonmn.cpp:539
+msgid "left"
+msgstr "gauche"
+
+#: src/canonmn.cpp:413 src/canonmn.cpp:528 src/canonmn.cpp:540
+msgid "center"
+msgstr "centre"
+
+#: src/canonmn.cpp:414 src/canonmn.cpp:525 src/canonmn.cpp:541
+msgid "right"
+msgstr "droite"
+
+#: src/canonmn.cpp:441
+msgid "ISO Speed Used"
+msgstr "Vitesse ISO utilisée"
+
+#: src/canonmn.cpp:441
+msgid "ISO speed used"
+msgstr "Vitesse ISO utilisée"
+
+#: src/canonmn.cpp:443
+msgid "Target Aperture"
+msgstr ""
+
+#: src/canonmn.cpp:444
+msgid "Target Shutter Speed"
+msgstr ""
+
+#: src/canonmn.cpp:444
+msgid "Target shutter speed"
+msgstr ""
+
+#: src/canonmn.cpp:446 src/fujimn.cpp:199 src/panasonicmn.cpp:191
+msgid "White balance setting"
+msgstr "Réglage balance des blancs"
+
+#: src/canonmn.cpp:448
+msgid "Sequence"
+msgstr "Séquence"
+
+#: src/canonmn.cpp:448
+msgid "Sequence number (if in a continuous burst)"
+msgstr "Numéro séquence (si en mode rafale)"
+
+#: src/canonmn.cpp:453
+msgid "AF Point Used"
+msgstr "Point AF utilisé"
+
+#: src/canonmn.cpp:453
+msgid "AF point used"
+msgstr "Point AF utilisé"
+
+#: src/canonmn.cpp:454 src/olympusmn.cpp:301
+msgid "Flash Bias"
+msgstr "Biais du flash"
+
+#: src/canonmn.cpp:458
+msgid "Subject distance (units are not clear)"
+msgstr "Distance au sujet (les unités ne sont pas clair)"
+
+#: src/canonmn.cpp:460 src/olympusmn.cpp:202
+msgid "Aperture Value"
+msgstr "Valeur d'ouverture"
+
+#: src/canonmn.cpp:461
+msgid "Shutter Speed Value"
+msgstr "Valeur de vitesse d'obturation"
+
+#: src/canonmn.cpp:467
+msgid "Unknown Canon Camera Settings 2 tag"
+msgstr "Marqueur 2 réglage appareil photo Canon inconnu"
+
+#: src/canonmn.cpp:477 src/olympusmn.cpp:498
+msgid "Left to right"
+msgstr "De gauche à droite"
+
+#: src/canonmn.cpp:478 src/olympusmn.cpp:499
+msgid "Right to left"
+msgstr "De droite à gauche"
+
+#: src/canonmn.cpp:479 src/olympusmn.cpp:500
+msgid "Bottom to top"
+msgstr "Du bas vers le haut"
+
+#: src/canonmn.cpp:480 src/olympusmn.cpp:501
+msgid "Top to bottom"
+msgstr "Du haut vers le bas"
+
+#: src/canonmn.cpp:481
+msgid "2x2 matrix (Clockwise)"
+msgstr "Matrice 2x2 (Sens horaire)"
+
+#: src/canonmn.cpp:486
+msgid "Panorama Frame"
+msgstr "Frame panorama"
+
+#: src/canonmn.cpp:486
+msgid "Panorama frame number"
+msgstr "Numéro frame panorama"
+
+#: src/canonmn.cpp:487
+msgid "Panorama Direction"
+msgstr "Direction panorama"
+
+#: src/canonmn.cpp:487
+msgid "Panorama direction"
+msgstr "Direction panorama"
+
+#: src/canonmn.cpp:489
+msgid "Unknown Canon Panorama tag"
+msgstr "Marqueur panorama Canon inconnu"
+
+#: src/canonmn.cpp:499 src/minoltamn.cpp:939 src/minoltamn.cpp:1183
+#: src/nikonmn.cpp:717 src/olympusmn.cpp:367
+msgid "Noise Reduction"
+msgstr "Réduction du bruit"
+
+#: src/canonmn.cpp:499
+#, fuzzy
+msgid "Long exposure noise reduction"
+msgstr "Réduction du bruit"
+
+#: src/canonmn.cpp:500
+msgid "Shutter Ae Lock"
+msgstr ""
+
+#: src/canonmn.cpp:500
+msgid "Shutter/AE lock buttons"
+msgstr ""
+
+#: src/canonmn.cpp:501
+msgid "Mirror Lockup"
+msgstr ""
+
+#: src/canonmn.cpp:501
+msgid "Mirror lockup"
+msgstr ""
+
+#: src/canonmn.cpp:502
+msgid "Exposure Level Increments"
+msgstr "Incrément de niveau d'exposition"
+
+#: src/canonmn.cpp:502
+msgid "Tv/Av and exposure level"
+msgstr "Niveaux d'exposition et Tv/Av"
+
+#: src/canonmn.cpp:503
+msgid "AF Assist"
+msgstr "Faisceau AF"
+
+#: src/canonmn.cpp:503
+msgid "AF assist light"
+msgstr "Faisceau AF"
+
+#: src/canonmn.cpp:504
+msgid "Flash Sync Speed Av"
+msgstr ""
+
+#: src/canonmn.cpp:504
+msgid "Shutter speed in Av mode"
+msgstr "Vitesse d'obturation en mode Av"
+
+#: src/canonmn.cpp:505
+msgid "AEB Sequence"
+msgstr ""
+
+#: src/canonmn.cpp:505
+msgid "AEB sequence/auto cancellation"
+msgstr ""
+
+#: src/canonmn.cpp:506
+msgid "Shutter Curtain Sync"
+msgstr ""
+
+#: src/canonmn.cpp:506
+msgid "Shutter curtain sync"
+msgstr ""
+
+#: src/canonmn.cpp:507
+msgid "Lens AF Stop Button"
+msgstr ""
+
+#: src/canonmn.cpp:507
+msgid "Lens AF stop button Fn. Switch"
+msgstr ""
+
+#: src/canonmn.cpp:508
+msgid "Fill Flash Auto Reduction"
+msgstr ""
+
+#: src/canonmn.cpp:508
+msgid "Auto reduction of fill flash"
+msgstr ""
+
+#: src/canonmn.cpp:509
+msgid "Menu Button Return"
+msgstr ""
+
+#: src/canonmn.cpp:509
+msgid "Menu button return position"
+msgstr ""
+
+#: src/canonmn.cpp:510
+msgid "Set Button Function"
+msgstr ""
+
+#: src/canonmn.cpp:510
+msgid "SET button func. when shooting"
+msgstr ""
+
+#: src/canonmn.cpp:511
+msgid "Sensor Cleaning"
+msgstr "Nettoyage capteur"
+
+#: src/canonmn.cpp:511
+msgid "Sensor cleaning"
+msgstr "Nettoyage capteur"
+
+#: src/canonmn.cpp:512
+msgid "Superimposed Display"
+msgstr ""
+
+#: src/canonmn.cpp:512
+msgid "Superimposed display"
+msgstr ""
+
+#: src/canonmn.cpp:513
+msgid "Shutter Release No CF Card"
+msgstr ""
+
+#: src/canonmn.cpp:513
+msgid "Shutter Release W/O CF Card"
+msgstr ""
+
+#: src/canonmn.cpp:515
+#, fuzzy
+msgid "Unknown Canon Custom Function tag"
+msgstr "Marqueur réglage appareil photo Canon inconnu"
+
+#: src/canonmn.cpp:526
+msgid "mid-right"
+msgstr "milieu-droit"
+
+#: src/canonmn.cpp:527 src/canonmn.cpp:544
+msgid "bottom"
+msgstr "bas"
+
+#: src/canonmn.cpp:529 src/canonmn.cpp:536
+msgid "top"
+msgstr "haut"
+
+#: src/canonmn.cpp:530
+msgid "mid-left"
+msgstr "milieu-gauche"
+
+#: src/canonmn.cpp:537
+msgid "upper-left"
+msgstr "haut-gauche"
+
+#: src/canonmn.cpp:538
+msgid "upper-right"
+msgstr "haut-droit"
+
+#: src/canonmn.cpp:542
+msgid "lower-left"
+msgstr "bas-gauche"
+
+#: src/canonmn.cpp:543
+msgid "lower-right"
+msgstr "bas-droit"
+
+#: src/canonmn.cpp:550 src/olympusmn.cpp:337
+msgid "Image Height"
+msgstr "Hauteur de l'image"
+
+#: src/canonmn.cpp:551
+#, fuzzy
+msgid "Image Width As Shot"
+msgstr "Largeur de l'image"
+
+#: src/canonmn.cpp:551
+#, fuzzy
+msgid "Image width (as shot)"
+msgstr "Largeur de l'image"
+
+#: src/canonmn.cpp:552
+#, fuzzy
+msgid "Image Height As Shot"
+msgstr "Hauteur de l'image"
+
+#: src/canonmn.cpp:552
+#, fuzzy
+msgid "Image height (as shot)"
+msgstr "Hauteur de l'image"
+
+#: src/canonmn.cpp:553
+msgid "AF Points Used"
+msgstr "Points AF utilisés"
+
+#: src/canonmn.cpp:553
+msgid "AF points used"
+msgstr "Points AF utilisés"
+
+#: src/canonmn.cpp:554
+msgid "AF Points Used 20D"
+msgstr "Points AF utilisés 20D"
+
+#: src/canonmn.cpp:554
+msgid "AF points used (20D)"
+msgstr "Points AF utilisés (20D)"
+
+#: src/canonmn.cpp:556
+msgid "Unknown Canon Picture Info tag"
+msgstr "Marqueur info image Canon inconnu"
 
 #: src/fujimn.cpp:71
 msgid "Soft mode 1"
-msgstr ""
+msgstr "Mode doux 1"
 
 #: src/fujimn.cpp:72
 msgid "Soft mode 2"
-msgstr ""
+msgstr "Mode doux 2"
 
 #: src/fujimn.cpp:74
-#, fuzzy
 msgid "Hard mode 1"
-msgstr "Macro"
+msgstr "Mode dur 1"
 
 #: src/fujimn.cpp:75
-#, fuzzy
 msgid "Hard mode 2"
-msgstr "Macro"
-
-#: src/fujimn.cpp:82 src/minoltamn.cpp:311 src/minoltamn.cpp:794
-#: src/minoltamn.cpp:996 src/nikonmn.cpp:435 src/panasonicmn.cpp:74
-#, fuzzy
-msgid "Cloudy"
-msgstr "nuageux"
+msgstr "Mode dur 2"
 
 #: src/fujimn.cpp:83
-#, fuzzy
 msgid "Fluorescent (daylight)"
-msgstr "Fluorescent"
+msgstr "Fluorescent (lumière du jour)"
 
 #: src/fujimn.cpp:84
-#, fuzzy
 msgid "Fluorescent (warm white)"
-msgstr "Fluorescent"
+msgstr "Fluorescent (blanc chaud)"
 
 #: src/fujimn.cpp:85
-#, fuzzy
 msgid "Fluorescent (cool white)"
-msgstr "Fluorescent"
+msgstr "Fluorescent (blanc froid)"
 
 #: src/fujimn.cpp:86 src/nikonmn.cpp:433
 msgid "Incandescent"
-msgstr ""
-
-#: src/fujimn.cpp:87 src/minoltamn.cpp:313
-#, fuzzy
-msgid "Custom"
-msgstr "Processus personnel"
+msgstr "Incandescent"
 
 #: src/fujimn.cpp:95
 msgid "None (black & white)"
-msgstr ""
+msgstr "Aucun (Noir & Blanc)"
 
 #: src/fujimn.cpp:110 src/minoltamn.cpp:302
-#, fuzzy
 msgid "Red-eye reduction"
-msgstr "Flash déclenché, mode anti-yeux rouges."
-
-#: src/fujimn.cpp:124 src/panasonicmn.cpp:108
-#, fuzzy
-msgid "Sports"
-msgstr "Spot"
+msgstr "Mode anti-yeux rouges."
 
 #: src/fujimn.cpp:126
-#, fuzzy
 msgid "Program AE"
-msgstr "Mode d'exposition"
+msgstr ""
 
 #: src/fujimn.cpp:127
-#, fuzzy
 msgid "Natural light"
-msgstr "Manuel"
+msgstr "Lumière naturelle"
 
 #: src/fujimn.cpp:128
 msgid "Anti-blur"
-msgstr ""
+msgstr "Anti flou"
 
 #: src/fujimn.cpp:129 src/minoltamn.cpp:417
-#, fuzzy
 msgid "Sunset"
-msgstr "Aire du sujet"
+msgstr "Ensoleillé"
 
 #: src/fujimn.cpp:130
 msgid "Museum"
-msgstr ""
+msgstr "Musée"
 
 #: src/fujimn.cpp:131 src/panasonicmn.cpp:117
-#, fuzzy
 msgid "Party"
-msgstr "Partiel"
+msgstr "Fête"
 
 #: src/fujimn.cpp:132
-#, fuzzy
 msgid "Flower"
-msgstr "Ordre de remplissage"
+msgstr "Fleur"
 
 #: src/fujimn.cpp:133 src/minoltamn.cpp:415 src/minoltamn.cpp:510
 msgid "Text"
-msgstr ""
+msgstr "Texte"
 
 #: src/fujimn.cpp:134
 msgid "Natural light & flash"
-msgstr ""
-
-#: src/fujimn.cpp:135
-msgid "Beach"
-msgstr ""
-
-#: src/fujimn.cpp:136 src/panasonicmn.cpp:118
-msgid "Snow"
-msgstr ""
-
-#: src/fujimn.cpp:137 src/panasonicmn.cpp:116
-msgid "Fireworks"
-msgstr ""
-
-#: src/fujimn.cpp:138
-#, fuzzy
-msgid "Underwater"
-msgstr "Temps clair"
+msgstr "Lumière naturelle et flash"
 
 #: src/fujimn.cpp:139
-#, fuzzy
 msgid "Aperture-priority AE"
-msgstr "Priorité ouverture"
+msgstr "Priorité ouverture AE"
 
 #: src/fujimn.cpp:140
-#, fuzzy
 msgid "Shutter speed priority AE"
-msgstr "Priorité obturation"
+msgstr "Priorité vitesse obturation AE"
 
 #: src/fujimn.cpp:148
-#, fuzzy
 msgid "No flash & flash"
-msgstr "Flash"
+msgstr "Pas de flash & flash"
 
 #: src/fujimn.cpp:154
 msgid "Chrome"
-msgstr ""
-
-#: src/fujimn.cpp:155
-msgid "Black & white"
-msgstr ""
+msgstr "Chrome"
 
 #: src/fujimn.cpp:161 src/minoltamn.cpp:1052 src/minoltamn.cpp:1066
 msgid "Wide"
-msgstr ""
+msgstr "Large"
 
 #: src/fujimn.cpp:166
-#, fuzzy
 msgid "F0/Standard"
-msgstr "Standard"
+msgstr "F0/Standard"
 
 #: src/fujimn.cpp:167
-#, fuzzy
 msgid "F1/Studio portrait"
-msgstr "portrait"
+msgstr "F1/Portrait studio"
 
 #: src/fujimn.cpp:168
 msgid "F2/Fujichrome"
-msgstr ""
+msgstr "F2/Fujichrome"
 
 #: src/fujimn.cpp:169
 msgid "F3/Studio portrait Ex"
-msgstr ""
+msgstr "F3/Portrait Studio Ex"
 
 #: src/fujimn.cpp:170
 msgid "F4/Velvia"
-msgstr ""
+msgstr "F4/Velvia"
 
 #: src/fujimn.cpp:175
 msgid "Auto (100-400%)"
-msgstr ""
+msgstr "Auto (100-400%)"
 
 #: src/fujimn.cpp:176 src/minoltamn.cpp:74 src/minoltamn.cpp:333
 #: src/minoltamn.cpp:782 src/minoltamn.cpp:985 src/olympusmn.cpp:65
 #: src/panasonicmn.cpp:67
 msgid "Raw"
-msgstr ""
+msgstr "Brut"
 
 #: src/fujimn.cpp:177
-#, fuzzy
 msgid "Standard (100%)"
-msgstr "Standard"
+msgstr "Standard (100%)"
 
 #: src/fujimn.cpp:178
 msgid "Wide mode 1 (230%)"
-msgstr ""
+msgstr "Mode large 1 (230%)"
 
 #: src/fujimn.cpp:179
 msgid "Wide mode 2 (400%)"
-msgstr ""
+msgstr "Mode large 2 (400%)"
 
 #: src/fujimn.cpp:180
 msgid "Film simulation mode"
-msgstr ""
+msgstr "Mode simulation de film"
 
 #: src/fujimn.cpp:185 src/nikonmn.cpp:163 src/nikonmn.cpp:579
-#, fuzzy
 msgid "Version"
-msgstr "Version d'exif"
+msgstr "Version"
 
 #: src/fujimn.cpp:186
-#, fuzzy
 msgid "Fujifilm Makernote version"
-msgstr "Version d'exif"
-
-#: src/fujimn.cpp:188 src/nikonmn.cpp:654 src/nikonmn.cpp:655
-#: src/nikonmn.cpp:741 src/olympusmn.cpp:184 src/panasonicmn.cpp:225
-#: src/sigmamn.cpp:66
-#, fuzzy
-msgid "Serial Number"
-msgstr "Le nombre F."
+msgstr "Version des notes de fabriquant Fujifilm"
 
 #: src/fujimn.cpp:189 src/panasonicmn.cpp:226
 msgid ""
@@ -4660,179 +5555,126 @@ msgid ""
 "same as the number printed on the camera body."
 msgstr ""
 
-#: src/fujimn.cpp:192 src/nikonmn.cpp:172 src/nikonmn.cpp:444
-#: src/nikonmn.cpp:588 src/olympusmn.cpp:125 src/panasonicmn.cpp:184
-#: src/sigmamn.cpp:122 src/sigmamn.cpp:123
-#, fuzzy
-msgid "Quality"
-msgstr "Niveau de charge"
-
 #: src/fujimn.cpp:193 src/nikonmn.cpp:173 src/nikonmn.cpp:445
 #: src/nikonmn.cpp:589 src/olympusmn.cpp:126
-#, fuzzy
 msgid "Image quality setting"
-msgstr "Hauteur de l'image"
-
-#: src/fujimn.cpp:196
-#, fuzzy
-msgid "Sharpness setting"
-msgstr "Netteté"
-
-#: src/fujimn.cpp:199 src/panasonicmn.cpp:191
-#, fuzzy
-msgid "White balance setting"
-msgstr "Balance des blancs"
+msgstr "Réglage de qualité de l'image"
 
 #: src/fujimn.cpp:201 src/nikonmn.cpp:407
-#, fuzzy
 msgid "Color"
-msgstr "Espace des couleurs"
+msgstr "Couleur"
 
 #: src/fujimn.cpp:202
 msgid "Chroma saturation setting"
-msgstr ""
+msgstr "Réglage de saturation chromatique"
 
 #: src/fujimn.cpp:204
 msgid "Tone"
-msgstr ""
-
-#: src/fujimn.cpp:205 src/olympusmn.cpp:320 src/panasonicmn.cpp:248
-#, fuzzy
-msgid "Contrast setting"
-msgstr "Contraste"
-
-#: src/fujimn.cpp:207 src/minoltamn.cpp:601 src/minoltamn.cpp:894
-#: src/nikonmn.cpp:681 src/olympusmn.cpp:208
-#, fuzzy
-msgid "Flash Mode"
-msgstr "Flash"
+msgstr "Ton"
 
 #: src/fujimn.cpp:208
-#, fuzzy
 msgid "Flash firing mode setting"
-msgstr "Contraste"
+msgstr "Mode de déclenchement du flash"
 
 #: src/fujimn.cpp:210
-#, fuzzy
 msgid "Flash Strength"
-msgstr "Contraste"
+msgstr "Puissance Flash"
 
 #: src/fujimn.cpp:211
 msgid "Flash firing strength compensation setting"
 msgstr ""
 
 #: src/fujimn.cpp:214
-#, fuzzy
 msgid "Macro mode setting"
-msgstr "Macro"
-
-#: src/fujimn.cpp:216 src/minoltamn.cpp:730 src/minoltamn.cpp:885
-#: src/minoltamn.cpp:1159 src/nikonmn.cpp:459 src/olympusmn.cpp:229
-#: src/panasonicmn.cpp:196
-#, fuzzy
-msgid "Focus Mode"
-msgstr "Mode d'exposition"
+msgstr "Réglages du mode macro"
 
 #: src/fujimn.cpp:217
-#, fuzzy
 msgid "Focusing mode setting"
-msgstr "Mode d'exposition"
+msgstr "Réglage de mode de mise au point"
 
 #: src/fujimn.cpp:222
 msgid "Slow Sync"
-msgstr ""
+msgstr "Synchro lente"
 
 #: src/fujimn.cpp:223
 msgid "Slow synchro mode setting"
-msgstr ""
+msgstr "Réglage de mode de synchro lente"
 
 #: src/fujimn.cpp:225
-#, fuzzy
 msgid "Picture Mode"
-msgstr "Mode d'exposition"
+msgstr "Mode d'image"
 
 #: src/fujimn.cpp:226
 msgid "Picture mode setting"
-msgstr ""
-
-#: src/fujimn.cpp:231 src/minoltamn.cpp:344 src/nikonmn.cpp:125
-msgid "Continuous"
-msgstr ""
+msgstr "Réglage de mode d'image"
 
 #: src/fujimn.cpp:232
 msgid "Continuous shooting or auto bracketing setting"
-msgstr ""
+msgstr "Réglage prise de vue continue ou auto-bracketing"
 
 #: src/fujimn.cpp:234 src/panasonicmn.cpp:244
-#, fuzzy
 msgid "Sequence Number"
-msgstr "Le nombre F."
+msgstr "Numéro Séquence"
 
 #: src/fujimn.cpp:235 src/olympusmn.cpp:492 src/panasonicmn.cpp:245
-#, fuzzy
 msgid "Sequence number"
-msgstr "Le nombre F."
+msgstr "Numéro Séquence"
 
 #: src/fujimn.cpp:240
 msgid "FinePix Color"
-msgstr ""
+msgstr "Couleur FinePix"
 
 #: src/fujimn.cpp:241
 msgid "Fuji FinePix color setting"
-msgstr ""
+msgstr "Réglage couleur FinePix"
 
 #: src/fujimn.cpp:243
 msgid "Blur Warning"
-msgstr ""
+msgstr "Avertissement Flou"
 
 #: src/fujimn.cpp:244
 msgid "Blur warning status"
-msgstr ""
+msgstr "Statut avertissement Flou"
 
 #: src/fujimn.cpp:246
-#, fuzzy
 msgid "Focus Warning"
-msgstr "Mode d'exposition"
+msgstr "Avertissement mise au point"
 
 #: src/fujimn.cpp:247
 msgid "Auto Focus warning status"
-msgstr ""
+msgstr "Statut avertissement mise au point auto"
 
 #: src/fujimn.cpp:249
-#, fuzzy
 msgid "Exposure Warning"
-msgstr "Index d'exposition"
+msgstr "Avertissement exposition"
 
 #: src/fujimn.cpp:250
 msgid "Auto exposure warning status"
-msgstr ""
+msgstr "Statut avertissement auto exposition"
 
 #: src/fujimn.cpp:252
 msgid "Dynamic Range"
-msgstr ""
+msgstr "Gamme dynamique"
 
 #: src/fujimn.cpp:253
 msgid "Dynamic range"
-msgstr ""
+msgstr "Gamme dynamique"
 
 #: src/fujimn.cpp:255
-#, fuzzy
 msgid "Film Mode"
-msgstr "Mode d'exposition"
+msgstr "Mode Pellicule"
 
 #: src/fujimn.cpp:256
-#, fuzzy
 msgid "Film mode"
-msgstr "Flash"
+msgstr "Mode Pellicule"
 
 #: src/fujimn.cpp:258
-#, fuzzy
 msgid "Dynamic Range Setting"
-msgstr "Balance des blancs"
+msgstr "Réglage gamme dynamique"
 
 #: src/fujimn.cpp:259
 msgid "Dynamic range settings"
-msgstr ""
+msgstr "Réglage gamme dynamique"
 
 #: src/fujimn.cpp:261
 msgid "Development Dynamic Range"
@@ -4843,259 +5685,203 @@ msgid "Development dynamic range"
 msgstr ""
 
 #: src/fujimn.cpp:264
-#, fuzzy
 msgid "Minimum Focal Length"
-msgstr "Longueur focale"
+msgstr "Longueur focale minimale"
 
 #: src/fujimn.cpp:265
-#, fuzzy
 msgid "Minimum focal length"
-msgstr "Longueur focale"
+msgstr "Longueur focale minimale"
 
 #: src/fujimn.cpp:267
-#, fuzzy
 msgid "Maximum Focal Length"
-msgstr "Longueur focale"
+msgstr "Longueur focale maximum"
 
 #: src/fujimn.cpp:268
-#, fuzzy
 msgid "Maximum focal length"
-msgstr "Longueur focale"
+msgstr "Longueur focale maximum"
 
 #: src/fujimn.cpp:270
 msgid "Maximum Aperture at Mininimum Focal"
-msgstr ""
+msgstr "Ouverture maximum à focal minimum"
 
 #: src/fujimn.cpp:271
 msgid "Maximum aperture at mininimum focal"
-msgstr ""
+msgstr "Ouverture maximum à focal minimum"
 
 #: src/fujimn.cpp:273
 msgid "Maximum Aperture at Maxinimum Focal"
-msgstr ""
+msgstr "Ouverture maximum à focal maximum"
 
 #: src/fujimn.cpp:274
 msgid "Maximum aperture at maxinimum focal"
-msgstr ""
+msgstr "Ouverture maximum à focal maximum"
 
 #: src/fujimn.cpp:277
-#, fuzzy
 msgid "File source"
 msgstr "Source du fichier"
 
 #: src/fujimn.cpp:279
-#, fuzzy
 msgid "Order Number"
-msgstr "ID unique de l'image"
+msgstr "Numéro ordre"
 
 #: src/fujimn.cpp:280
-#, fuzzy
 msgid "Order number"
-msgstr "ID unique de l'image"
+msgstr "Numéro ordre"
 
 #: src/fujimn.cpp:282
-#, fuzzy
 msgid "Frame Number"
-msgstr "ID unique de l'image"
+msgstr "Numéro frame"
 
 #: src/fujimn.cpp:283
-#, fuzzy
 msgid "Frame number"
-msgstr "ID unique de l'image"
+msgstr "Numéro frame"
 
 #: src/fujimn.cpp:288
-#, fuzzy
 msgid "Unknown FujiMakerNote tag"
-msgstr "Version d'exif"
+msgstr "Marqueur FujiMakerNote inconnu"
 
 #: src/minoltamn.cpp:56
 msgid "Natural Color"
-msgstr ""
-
-#: src/minoltamn.cpp:57
-msgid "Black & White"
-msgstr ""
+msgstr "Couleur naturelle"
 
 #: src/minoltamn.cpp:58
 msgid "Vivid Color"
-msgstr ""
+msgstr "Couleurs vives"
 
 #: src/minoltamn.cpp:59 src/minoltamn.cpp:460
-#, fuzzy
 msgid "Solarization"
-msgstr "Saturation"
+msgstr "Solarisation"
 
 #: src/minoltamn.cpp:60
 msgid "AdobeRGB"
-msgstr ""
-
-#: src/minoltamn.cpp:61 src/panasonicmn.cpp:135
-msgid "Sepia"
-msgstr ""
+msgstr "AdobeRGB"
 
 #: src/minoltamn.cpp:62 src/panasonicmn.cpp:179
-#, fuzzy
 msgid "Natural"
-msgstr "Manuel"
+msgstr "Naturel"
 
 #: src/minoltamn.cpp:64
 msgid "Natural sRGB"
-msgstr ""
+msgstr "sRGB naturel"
 
 #: src/minoltamn.cpp:65
 msgid "Natural+ sRGB"
-msgstr ""
+msgstr "sRGB naturel+"
 
 #: src/minoltamn.cpp:67
 msgid "Evening"
-msgstr ""
-
-#: src/minoltamn.cpp:68
-#, fuzzy
-msgid "Night Scene"
-msgstr "Scène de nuit"
+msgstr "Soirée"
 
 #: src/minoltamn.cpp:69
-#, fuzzy
 msgid "Night Portrait"
-msgstr "Portrait"
+msgstr "Portrait de nuit"
 
 #: src/minoltamn.cpp:75
 msgid "Super Fine"
-msgstr ""
-
-#: src/minoltamn.cpp:76 src/minoltamn.cpp:335 src/minoltamn.cpp:783
-#: src/minoltamn.cpp:986
-#, fuzzy
-msgid "Fine"
-msgstr "pouces"
-
-#: src/minoltamn.cpp:78 src/minoltamn.cpp:337 src/minoltamn.cpp:786
-#: src/minoltamn.cpp:989
-msgid "Economy"
-msgstr ""
+msgstr "Super fin"
 
 #: src/minoltamn.cpp:79
 msgid "Extra Fine"
-msgstr ""
+msgstr "Extra fin"
 
 #: src/minoltamn.cpp:84
-#, fuzzy
 msgid "ISO Setting Used"
-msgstr "Netteté"
+msgstr "Réglase ISO utilisé"
 
 #: src/minoltamn.cpp:85
-#, fuzzy
 msgid "High Key"
-msgstr "Lumière du jour"
+msgstr "Clef haute"
 
 #: src/minoltamn.cpp:86
 msgid "Low Key"
-msgstr ""
+msgstr "Clef basse"
 
 #: src/minoltamn.cpp:220
-#, fuzzy
 msgid "Makernote Version"
-msgstr "Version d'exif"
+msgstr "Version des Notes du fabriquant"
 
 #: src/minoltamn.cpp:221
 msgid "String 'MLT0' (not null terminated)"
-msgstr ""
+msgstr "Chaine 'MLT0' (non terminée par null)"
 
 #: src/minoltamn.cpp:223
 msgid "Camera Settings (Std Old)"
-msgstr ""
+msgstr "Réglage appareil photo (ancien standard)"
 
 #: src/minoltamn.cpp:224
-msgid ""
-"Standard Camera settings (Old Camera models like D5, D7, S304, and S404)"
+msgid "Standard Camera settings (Old Camera models like D5, D7, S304, and S404)"
 msgstr ""
+"Réglage appareil photo standard (Anciens modèles comme les D5, D7, S304, et "
+"S404)"
 
 #: src/minoltamn.cpp:226
 msgid "Camera Settings (Std New)"
-msgstr ""
+msgstr "Réglage appareil photo (Nouveau standard)"
 
 #: src/minoltamn.cpp:227
 msgid "Standard Camera settings (New Camera Models like D7u, D7i, and D7hi)"
 msgstr ""
+"Réglage appareil photo standard (Nouveaux modèles comme les D7u, D7i, et "
+"D7hi)"
 
 #: src/minoltamn.cpp:229
-#, fuzzy
 msgid "Camera Settings (7D)"
-msgstr "Contraste"
+msgstr "Réglage appareil photo (7D)"
 
 #: src/minoltamn.cpp:230
 msgid "Camera Settings (for Dynax 7D model)"
-msgstr ""
+msgstr "Réglage appareil photo (pour modèle Dymax 7D)"
 
 #: src/minoltamn.cpp:232
 msgid "Image Stabilization Data"
-msgstr ""
+msgstr "Données stabilisation image"
 
 #: src/minoltamn.cpp:233
 msgid "Image stabilization data"
-msgstr ""
+msgstr "Données stabilisation image"
 
 #: src/minoltamn.cpp:235
-#, fuzzy
 msgid "Compressed Image Size"
-msgstr "Bits compressés par pixel"
+msgstr "Taille image compressée"
 
 #: src/minoltamn.cpp:236
-#, fuzzy
 msgid "Compressed image size"
-msgstr "Bits compressés par pixel"
+msgstr "Taille image compressée"
 
 #: src/minoltamn.cpp:239
 msgid "Jpeg thumbnail 640x480 pixels"
-msgstr ""
+msgstr "Aperçu Jpeg 640x480 pixels"
 
 #: src/minoltamn.cpp:241 src/olympusmn.cpp:358
 msgid "Thumbnail Offset"
-msgstr ""
+msgstr "Décalage aperçu"
 
 #: src/minoltamn.cpp:242
 msgid "Offset of the thumbnail"
-msgstr ""
+msgstr "Décalage de l'aperçu"
 
 #: src/minoltamn.cpp:244 src/olympusmn.cpp:361
-#, fuzzy
 msgid "Thumbnail Length"
-msgstr "Longeur de l'image"
+msgstr "Longeur de l'aperçu"
 
 #: src/minoltamn.cpp:245
 msgid "Size of the thumbnail"
-msgstr ""
+msgstr "Taille de l'aperçu"
 
 #: src/minoltamn.cpp:247 src/nikonmn.cpp:169 src/nikonmn.cpp:447
 #: src/nikonmn.cpp:585 src/nikonmn.cpp:699 src/panasonicmn.cpp:265
-#, fuzzy
 msgid "Color Mode"
-msgstr "Espace des couleurs"
+msgstr "Mode couleur"
 
 #: src/minoltamn.cpp:248 src/nikonmn.cpp:170 src/nikonmn.cpp:448
 #: src/nikonmn.cpp:586 src/nikonmn.cpp:700 src/panasonicmn.cpp:266
-#, fuzzy
 msgid "Color mode"
-msgstr "Espace des couleurs"
+msgstr "Mode couleur"
 
 #: src/minoltamn.cpp:250 src/minoltamn.cpp:610 src/minoltamn.cpp:879
 #: src/minoltamn.cpp:1117 src/panasonicmn.cpp:185
-#, fuzzy
 msgid "Image Quality"
-msgstr "Hauteur de l'image"
-
-#: src/minoltamn.cpp:256 src/minoltamn.cpp:946 src/minoltamn.cpp:1186
-#: src/nikonmn.cpp:771
-#, fuzzy
-msgid "Image Stabilization"
-msgstr "Orientation"
-
-#: src/minoltamn.cpp:257 src/minoltamn.cpp:947 src/minoltamn.cpp:1187
-#: src/nikonmn.cpp:772
-#, fuzzy
-msgid "Image stabilization"
-msgstr "Orientation"
+msgstr "Qualité de l'image"
 
 #: src/minoltamn.cpp:259
 msgid "Zone Matching"
@@ -5106,121 +5892,94 @@ msgid "Zone matching"
 msgstr ""
 
 #: src/minoltamn.cpp:262 src/minoltamn.cpp:918 src/minoltamn.cpp:1162
-#, fuzzy
 msgid "Color Temperature"
-msgstr "Espace des couleurs"
+msgstr "Température des couleurs"
 
 #: src/minoltamn.cpp:263 src/minoltamn.cpp:919 src/minoltamn.cpp:1163
-#, fuzzy
 msgid "Color temperature"
-msgstr "Espace des couleurs"
+msgstr "Température des couleurs"
 
 #: src/minoltamn.cpp:265
-#, fuzzy
 msgid "Lens ID"
-msgstr "Hauteur de l'image"
+msgstr "ID Objectif"
 
 #: src/minoltamn.cpp:266
 msgid "Lens identifier"
-msgstr ""
+msgstr "Identifiant objectif"
 
 #: src/minoltamn.cpp:268
-#, fuzzy
 msgid "Camera Settings (5D)"
-msgstr "Contraste"
+msgstr "Réglage appareil photo (5D)"
 
 #: src/minoltamn.cpp:269
 msgid "Camera Settings (for Dynax 5D model)"
-msgstr ""
+msgstr "Réglage appareil photo (pour modèles Dymax 5D)"
 
 #: src/minoltamn.cpp:271 src/nikonmn.cpp:780 src/olympusmn.cpp:187
 #: src/panasonicmn.cpp:271
 msgid "Print IM"
-msgstr ""
+msgstr "Print IM"
 
 #: src/minoltamn.cpp:272 src/nikonmn.cpp:781 src/olympusmn.cpp:188
 #: src/panasonicmn.cpp:272
-#, fuzzy
 msgid "PrintIM information"
-msgstr "Orientation"
+msgstr "Information PrintIM"
 
 #: src/minoltamn.cpp:274
-#, fuzzy
 msgid "Camera Settings (Z1)"
-msgstr "Contraste"
+msgstr "Réglage appareil photo (Z1)"
 
 #: src/minoltamn.cpp:275
 msgid "Camera Settings (for Z1, DImage X, and F100 models)"
-msgstr ""
+msgstr "Réglage appareil photo (pour modèles Z1, DImage X, et F100)"
 
 #: src/minoltamn.cpp:280
-#, fuzzy
 msgid "Unknown Minolta MakerNote tag"
-msgstr "Version d'exif"
+msgstr "Marqueur de note du fabriquant Minolta inconnu"
 
 #: src/minoltamn.cpp:301
-#, fuzzy
 msgid "Fill flash"
-msgstr "Flash"
+msgstr ""
 
 #: src/minoltamn.cpp:303
 msgid "Rear flash sync"
-msgstr ""
+msgstr "Synchro flash arrière"
 
 #: src/minoltamn.cpp:304
 msgid "Wireless"
-msgstr ""
-
-#: src/minoltamn.cpp:312 src/minoltamn.cpp:795 src/minoltamn.cpp:998
-#, fuzzy
-msgid "Tungsten"
-msgstr "tungsten"
+msgstr "Sans fil"
 
 #: src/minoltamn.cpp:315
-#, fuzzy
 msgid "Fluorescent 2"
-msgstr "Fluorescent"
-
-#: src/minoltamn.cpp:316
-#, fuzzy
-msgid "Custom 2"
-msgstr "Processus personnel"
+msgstr "Fluorescent 2"
 
 #: src/minoltamn.cpp:317
-#, fuzzy
 msgid "Custom 3"
-msgstr "Processus personnel"
+msgstr "Processus personnel 2"
 
 #: src/minoltamn.cpp:322
 msgid "Full size"
-msgstr ""
+msgstr "Pleine taille"
 
 #: src/minoltamn.cpp:334
 msgid "Super fine"
-msgstr ""
+msgstr "Super fin"
 
 #: src/minoltamn.cpp:338
 msgid "Extra fine"
-msgstr ""
-
-#: src/minoltamn.cpp:343
-msgid "Single"
-msgstr ""
+msgstr "Extra fin"
 
 #: src/minoltamn.cpp:345
-#, fuzzy
 msgid "Self-timer"
-msgstr "Centimère"
+msgstr "retardateur"
 
 #: src/minoltamn.cpp:346
-#, fuzzy
 msgid "Bracketing"
-msgstr "action"
+msgstr "bracketing"
 
 #: src/minoltamn.cpp:347
-#, fuzzy
 msgid "Interval"
-msgstr "Intel"
+msgstr "Interval"
 
 #: src/minoltamn.cpp:348
 msgid "UHS continuous"
@@ -5230,139 +5989,93 @@ msgstr ""
 msgid "HS continuous"
 msgstr ""
 
-#: src/minoltamn.cpp:355 src/minoltamn.cpp:1014
-#, fuzzy
-msgid "Center weighted"
-msgstr "Centre pondéré"
-
 #: src/minoltamn.cpp:368
 msgid "Electronic magnification"
-msgstr ""
-
-#: src/minoltamn.cpp:381 src/minoltamn.cpp:811 src/nikonmn.cpp:73
-#: src/sigmamn.cpp:242
-#, fuzzy
-msgid "Center"
-msgstr "Centimère"
+msgstr "Augmentation electronique"
 
 #: src/minoltamn.cpp:382 src/minoltamn.cpp:812 src/nikonmn.cpp:74
 msgid "Top"
-msgstr ""
+msgstr "Haut"
 
 #: src/minoltamn.cpp:383 src/minoltamn.cpp:813
-#, fuzzy
 msgid "Top-right"
-msgstr "Copyright"
-
-#: src/minoltamn.cpp:384 src/minoltamn.cpp:814 src/minoltamn.cpp:1056
-#: src/nikonmn.cpp:77
-#, fuzzy
-msgid "Right"
-msgstr "Scène de nuit"
+msgstr "Haut-droit"
 
 #: src/minoltamn.cpp:385 src/minoltamn.cpp:815
-#, fuzzy
 msgid "Bottom-right"
-msgstr "bas - droit"
+msgstr "Bas-droit"
 
 #: src/minoltamn.cpp:386 src/minoltamn.cpp:816 src/nikonmn.cpp:75
 msgid "Bottom"
-msgstr ""
+msgstr "Bas"
 
 #: src/minoltamn.cpp:387 src/minoltamn.cpp:817
-#, fuzzy
 msgid "Bottom-left"
-msgstr "bas - gauche"
-
-#: src/minoltamn.cpp:388 src/minoltamn.cpp:818 src/minoltamn.cpp:1060
-#: src/nikonmn.cpp:76
-msgid "Left"
-msgstr ""
+msgstr "Bas-gauche"
 
 #: src/minoltamn.cpp:389 src/minoltamn.cpp:819
-#, fuzzy
 msgid "Top-left"
-msgstr "haut - gauche"
-
-#: src/minoltamn.cpp:394 src/minoltamn.cpp:466 src/minoltamn.cpp:824
-#: src/minoltamn.cpp:1007 src/nikonmn.cpp:116
-#, fuzzy
-msgid "Did not fire"
-msgstr "Le flash ne s'est pas déclenché."
+msgstr "Haut-gauche"
 
 #: src/minoltamn.cpp:416 src/panasonicmn.cpp:109
-#, fuzzy
 msgid "Night portrait"
-msgstr "portrait"
+msgstr "Portrait de nuit"
 
 #: src/minoltamn.cpp:418
-#, fuzzy
 msgid "Sports action"
-msgstr "Spot"
-
-#: src/minoltamn.cpp:445
-msgid "Still image"
-msgstr ""
+msgstr "Action sports"
 
 #: src/minoltamn.cpp:446
 msgid "Time-lapse movie"
 msgstr ""
 
 #: src/minoltamn.cpp:451
-#, fuzzy
 msgid "Standard form"
-msgstr "Standard"
+msgstr "Formulaire standard"
 
 #: src/minoltamn.cpp:452
 msgid "Data form"
-msgstr ""
+msgstr "Formulaire de donné"
 
 #: src/minoltamn.cpp:457
 msgid "Natural color"
-msgstr ""
+msgstr "Couleur naturelle"
 
 #: src/minoltamn.cpp:458 src/panasonicmn.cpp:78 src/panasonicmn.cpp:134
 msgid "Black and white"
-msgstr ""
+msgstr "Noir et Blanc"
 
 #: src/minoltamn.cpp:459
 msgid "Vivid color"
-msgstr ""
+msgstr "Couleur vive"
 
 #: src/minoltamn.cpp:472
 msgid "No zone"
-msgstr ""
+msgstr "Pas de zone"
 
 #: src/minoltamn.cpp:473
 msgid "Center zone (horizontal orientation)"
-msgstr ""
+msgstr "Zone centrale (orientation horizontale)"
 
 #: src/minoltamn.cpp:474
 msgid "Center zone (vertical orientation)"
-msgstr ""
+msgstr "Zone centrale (orientation verticale)"
 
 #: src/minoltamn.cpp:475
 msgid "Left zone"
-msgstr ""
+msgstr "Zone gauche"
 
 #: src/minoltamn.cpp:476
-#, fuzzy
 msgid "Right zone"
-msgstr "Scène de nuit"
+msgstr "Zone droite"
 
 #: src/minoltamn.cpp:481
-#, fuzzy
 msgid "Auto focus"
-msgstr "Exposition automatique"
-
-#: src/minoltamn.cpp:482
-#, fuzzy
-msgid "Manual focus"
-msgstr "Exposition manuel"
+msgstr "Mise au point auto"
 
 #: src/minoltamn.cpp:487
 msgid "Wide focus (normal)"
-msgstr ""
+msgstr "Mise au point large (normale)"
 
 #: src/minoltamn.cpp:488
 #, fuzzy
@@ -5370,27 +6083,24 @@ msgid "Spot focus"
 msgstr "Spot"
 
 #: src/minoltamn.cpp:493 src/sigmamn.cpp:95 src/sigmamn.cpp:96
-#, fuzzy
 msgid "Exposure"
-msgstr "Mode d'exposition"
+msgstr "Exposition"
 
 #: src/minoltamn.cpp:496
-#, fuzzy
 msgid "Filter"
-msgstr "Ordre de remplissage"
+msgstr "Filtre"
 
 #: src/minoltamn.cpp:501
-#, fuzzy
 msgid "Not embedded"
-msgstr "Non défini"
+msgstr "Non embarqué"
 
 #: src/minoltamn.cpp:502
 msgid "Embedded"
-msgstr ""
+msgstr "Embarqué"
 
 #: src/minoltamn.cpp:511
 msgid "Text + ID#"
-msgstr ""
+msgstr "Texte + N° ID"
 
 #: src/minoltamn.cpp:516
 msgid "ADI (Advanced Distance Integration)"
@@ -5398,144 +6108,97 @@ msgstr ""
 
 #: src/minoltamn.cpp:517
 msgid "Pre-flash TTl"
-msgstr ""
+msgstr "Pré-flash TTl"
 
 #: src/minoltamn.cpp:518
 msgid "Manual flash control"
-msgstr ""
+msgstr "Contrôle de flash manuel"
 
 #: src/minoltamn.cpp:602 src/minoltamn.cpp:653 src/minoltamn.cpp:895
 #: src/olympusmn.cpp:209
-#, fuzzy
 msgid "Flash mode"
-msgstr "Flash"
-
-#: src/minoltamn.cpp:607 src/minoltamn.cpp:876 src/minoltamn.cpp:1114
-#, fuzzy
-msgid "Image Size"
-msgstr "Hauteur de l'image"
-
-#: src/minoltamn.cpp:608 src/minoltamn.cpp:877 src/minoltamn.cpp:1115
-#, fuzzy
-msgid "Image size"
-msgstr "Hauteur de l'image"
-
-#: src/minoltamn.cpp:613 src/sigmamn.cpp:69
-#, fuzzy
-msgid "Drive Mode"
-msgstr "Mode de mesure"
+msgstr "Mode flash"
 
 #: src/minoltamn.cpp:614 src/sigmamn.cpp:70
-#, fuzzy
 msgid "Drive mode"
-msgstr "Portrait"
+msgstr "Mode controle"
 
 #: src/minoltamn.cpp:619
-#, fuzzy
 msgid "Exposure Speed"
-msgstr "Mode d'exposition"
+msgstr "Vitesse d'exposition"
 
 #: src/minoltamn.cpp:620
-#, fuzzy
 msgid "Exposure speed"
-msgstr "Mode d'exposition"
+msgstr "Vitesse d'exposition"
 
 #: src/minoltamn.cpp:626 src/minoltamn.cpp:927 src/minoltamn.cpp:1151
-#, fuzzy
 msgid "The F-Number"
-msgstr "Le nombre F."
+msgstr "Le F-nombre"
 
 #: src/minoltamn.cpp:628
-#, fuzzy
 msgid "Macro Mode"
-msgstr "Macro"
-
-#: src/minoltamn.cpp:631 src/nikonmn.cpp:205 src/nikonmn.cpp:465
-#: src/nikonmn.cpp:678 src/olympusmn.cpp:134
-#, fuzzy
-msgid "Digital Zoom"
-msgstr "Valeur du zoom numérique"
-
-#: src/minoltamn.cpp:632
-#, fuzzy
-msgid "Digital zoom"
-msgstr "Valeur du zoom numérique"
+msgstr "Mode macro"
 
 #: src/minoltamn.cpp:634 src/minoltamn.cpp:900 src/minoltamn.cpp:1168
-#, fuzzy
 msgid "Exposure Compensation"
-msgstr "Temps d'exposition"
-
-#: src/minoltamn.cpp:635 src/minoltamn.cpp:901 src/minoltamn.cpp:1169
-#, fuzzy
-msgid "Exposure compensation"
-msgstr "Temps d'exposition"
+msgstr "Compensation d'exposition"
 
 #: src/minoltamn.cpp:637
-#, fuzzy
 msgid "Bracket Step"
-msgstr "action"
+msgstr "Pas du bracket"
 
 #: src/minoltamn.cpp:638
-#, fuzzy
 msgid "Bracket step"
-msgstr "action"
+msgstr "Pas du bracket"
 
 #: src/minoltamn.cpp:640
-#, fuzzy
 msgid "Interval Length"
-msgstr "Longueur focale"
+msgstr "Longueur intervalle"
 
 #: src/minoltamn.cpp:641
 msgid "Interval length"
-msgstr ""
+msgstr "Longueur intervalle"
 
 #: src/minoltamn.cpp:643
-#, fuzzy
 msgid "Interval Number"
-msgstr "Le nombre F."
+msgstr "Nombre d'intervalle"
 
 #: src/minoltamn.cpp:644
-#, fuzzy
 msgid "Interval number"
-msgstr "Le nombre F."
+msgstr "Nombre d'intervalle"
 
 #: src/minoltamn.cpp:649 src/nikonmn.cpp:202 src/nikonmn.cpp:675
 #: src/olympusmn.cpp:232
-#, fuzzy
 msgid "Focus Distance"
-msgstr "Balance des blancs manuelle"
+msgstr "Distance de mise au point"
 
 #: src/minoltamn.cpp:650
-#, fuzzy
 msgid "Focus distance"
-msgstr "Balance des blancs manuelle"
+msgstr "Distance de mise au point"
 
 #: src/minoltamn.cpp:655
 msgid "Minolta Date"
-msgstr ""
+msgstr "Date Minolta"
 
 #: src/minoltamn.cpp:656
 msgid "Minolta date"
-msgstr ""
+msgstr "Date Minolta"
 
 #: src/minoltamn.cpp:658
 msgid "Minolta Time"
-msgstr ""
+msgstr "Heure Minolta"
 
 #: src/minoltamn.cpp:659
 msgid "Minolta time"
-msgstr ""
+msgstr "Heure Minolta"
 
 #: src/minoltamn.cpp:661
-#, fuzzy
 msgid "Max Aperture"
-msgstr "Ouverture"
+msgstr "Ouverture maximale"
 
 #: src/minoltamn.cpp:662
-#, fuzzy
 msgid "Max aperture"
-msgstr "ouverture"
+msgstr "Ouverture maximale"
 
 #: src/minoltamn.cpp:664
 msgid "File Number Memory"
@@ -5545,130 +6208,93 @@ msgstr ""
 msgid "File number memory"
 msgstr ""
 
-#: src/minoltamn.cpp:667 src/minoltamn.cpp:936 src/minoltamn.cpp:943
-#: src/minoltamn.cpp:1180
-#, fuzzy
-msgid "Image Number"
-msgstr "ID unique de l'image"
-
 #: src/minoltamn.cpp:670
-#, fuzzy
 msgid "Color Balance Red"
-msgstr "Espace des couleurs"
+msgstr "Balance des rouges"
 
 #: src/minoltamn.cpp:671
-#, fuzzy
 msgid "Color balance red"
-msgstr "Espace des couleurs"
+msgstr "Balance des rouges"
 
 #: src/minoltamn.cpp:673
-#, fuzzy
 msgid "Color Balance Green"
-msgstr "Espace des couleurs"
+msgstr "Balance des verts"
 
 #: src/minoltamn.cpp:674
-#, fuzzy
 msgid "Color balance green"
-msgstr "Espace des couleurs"
+msgstr "Balance des verts"
 
 #: src/minoltamn.cpp:676
-#, fuzzy
 msgid "Color Balance Blue"
-msgstr "Espace des couleurs"
+msgstr "Balance des bleus"
 
 #: src/minoltamn.cpp:677
-#, fuzzy
 msgid "Color balance blue"
-msgstr "Espace des couleurs"
+msgstr "Balance des bleus"
 
 #: src/minoltamn.cpp:688
-#, fuzzy
 msgid "Subject Program"
-msgstr "Aire du sujet"
+msgstr ""
 
 #: src/minoltamn.cpp:689
-#, fuzzy
 msgid "Subject program"
-msgstr "Aire du sujet"
+msgstr ""
 
 #: src/minoltamn.cpp:691
 msgid "Flash Exposure Compensation"
-msgstr ""
+msgstr "Compensation exposition flash"
 
 #: src/minoltamn.cpp:692
 msgid "Flash exposure compensation in EV"
-msgstr ""
-
-#: src/minoltamn.cpp:694 src/minoltamn.cpp:897 src/minoltamn.cpp:1135
-#, fuzzy
-msgid "ISO Speed Mode"
-msgstr "Netteté"
-
-#: src/minoltamn.cpp:695 src/minoltamn.cpp:898 src/minoltamn.cpp:1136
-#: src/nikonmn.cpp:167 src/nikonmn.cpp:454 src/nikonmn.cpp:583
-#, fuzzy
-msgid "ISO speed setting"
-msgstr "Netteté"
+msgstr "Compensation exposition flash en EV"
 
 #: src/minoltamn.cpp:697
-#, fuzzy
 msgid "Minolta Model"
-msgstr "Mode de mesure"
+msgstr "Modèle Minolta"
 
 #: src/minoltamn.cpp:698
-#, fuzzy
 msgid "Minolta model"
-msgstr "Portrait"
+msgstr "Modèle Minolta"
 
 #: src/minoltamn.cpp:700
-#, fuzzy
 msgid "Interval Mode"
-msgstr "Mode de mesure"
+msgstr "Mode interval"
 
 #: src/minoltamn.cpp:701
-#, fuzzy
 msgid "Interval mode"
-msgstr "Portrait"
+msgstr "Mode interval"
 
 #: src/minoltamn.cpp:703
-#, fuzzy
 msgid "Folder Name"
-msgstr "Nom du document"
+msgstr "Nom répertoire"
 
 #: src/minoltamn.cpp:704
 msgid "Folder name"
-msgstr ""
+msgstr "Nom répertoire"
 
 #: src/minoltamn.cpp:706 src/minoltamn.cpp:707
-#, fuzzy
 msgid "ColorMode"
-msgstr "Espace des couleurs"
+msgstr "Mode couleur"
 
 #: src/minoltamn.cpp:709
-#, fuzzy
 msgid "Color Filter"
-msgstr "Espace des couleurs"
+msgstr "Filtre couleur"
 
 #: src/minoltamn.cpp:710
-#, fuzzy
 msgid "Color filter"
-msgstr "Espace des couleurs"
+msgstr "Filtre couleur"
 
 #: src/minoltamn.cpp:712
 msgid "Black and White Filter"
-msgstr ""
+msgstr "Filtre Noir et Blanc"
 
 #: src/minoltamn.cpp:713
 msgid "Black and white filter"
-msgstr ""
+msgstr "Filtre Noir et Blanc"
 
 #: src/minoltamn.cpp:715
 msgid "Internal Flash"
-msgstr ""
-
-#: src/minoltamn.cpp:716
-msgid "Internal flash"
-msgstr ""
+msgstr "Flash interne"
 
 #: src/minoltamn.cpp:721
 msgid "Spot Focus Point X"
@@ -5687,25 +6313,22 @@ msgid "Spot focus point Y"
 msgstr ""
 
 #: src/minoltamn.cpp:727
-#, fuzzy
 msgid "Wide Focus Zone"
-msgstr "Mode d'exposition"
+msgstr "Zone mise au point large"
 
 #: src/minoltamn.cpp:728
 msgid "Wide focus zone"
-msgstr ""
+msgstr "Zone mise au point large"
 
 #: src/minoltamn.cpp:731 src/minoltamn.cpp:886 src/minoltamn.cpp:1160
 #: src/nikonmn.cpp:182 src/nikonmn.cpp:460 src/nikonmn.cpp:598
 #: src/olympusmn.cpp:230 src/panasonicmn.cpp:197
-#, fuzzy
 msgid "Focus mode"
-msgstr "Mode d'exposition"
+msgstr "Mode mise au point"
 
 #: src/minoltamn.cpp:733 src/minoltamn.cpp:734 src/minoltamn.cpp:1127
-#, fuzzy
 msgid "Focus area"
-msgstr "Mode d'exposition"
+msgstr "Zone mise au point"
 
 #: src/minoltamn.cpp:736
 msgid "DEC Switch Position"
@@ -5716,63 +6339,44 @@ msgid "DEC switch position"
 msgstr ""
 
 #: src/minoltamn.cpp:739
-#, fuzzy
 msgid "Color Profile"
-msgstr "Espace des couleurs"
+msgstr "Profil couleur"
 
 #: src/minoltamn.cpp:740
-#, fuzzy
 msgid "Color profile"
-msgstr "Espace des couleurs"
+msgstr "Profil couleur"
 
 #: src/minoltamn.cpp:742 src/minoltamn.cpp:743
 msgid "Data Imprint"
 msgstr ""
 
 #: src/minoltamn.cpp:745
-#, fuzzy
 msgid "Flash Metering"
-msgstr "Contraste"
+msgstr ""
 
 #: src/minoltamn.cpp:746
-#, fuzzy
 msgid "Flash metering"
-msgstr "Contraste"
+msgstr ""
 
 #: src/minoltamn.cpp:751
 msgid "Unknown Minolta Camera Settings tag"
-msgstr ""
+msgstr "Marqueur réglage appareil photo Minolta inconnu"
 
 #: src/minoltamn.cpp:769
-#, fuzzy
 msgid "Program-shift A"
-msgstr "Mode d'exposition"
-
-#: src/minoltamn.cpp:770
-#, fuzzy
-msgid "Program-shift S"
-msgstr "Mode d'exposition"
-
-#: src/minoltamn.cpp:775 src/minoltamn.cpp:978
-#, fuzzy
-msgid "Large"
-msgstr "moyenne"
-
-#: src/minoltamn.cpp:776 src/minoltamn.cpp:979
-msgid "Medium"
 msgstr ""
 
-#: src/minoltamn.cpp:777 src/minoltamn.cpp:980
-msgid "Small"
+#: src/minoltamn.cpp:770
+msgid "Program-shift S"
 msgstr ""
 
 #: src/minoltamn.cpp:785 src/minoltamn.cpp:988
 msgid "Raw+Jpeg"
-msgstr ""
+msgstr "Brut+Jpeg"
 
 #: src/minoltamn.cpp:797 src/minoltamn.cpp:1001
 msgid "Kelvin"
-msgstr ""
+msgstr "Kelvin"
 
 #: src/minoltamn.cpp:803
 msgid "Single-shot AF"
@@ -5784,39 +6388,37 @@ msgstr ""
 
 #: src/minoltamn.cpp:805
 msgid "Automatic AF"
-msgstr ""
+msgstr "AF automatique"
 
 #: src/minoltamn.cpp:841
 msgid "sRGB (Natural)"
-msgstr ""
+msgstr "sRGB (naturel)"
 
 #: src/minoltamn.cpp:842
 msgid "sRGB (Natural+)"
-msgstr ""
+msgstr "sRGB (naturel+)"
 
 #: src/minoltamn.cpp:848 src/minoltamn.cpp:1033 src/panasonicmn.cpp:171
 msgid "Horizontal (normal)"
-msgstr ""
+msgstr "Horizontale (normale)"
 
 #: src/minoltamn.cpp:849 src/minoltamn.cpp:1034 src/panasonicmn.cpp:172
 msgid "Rotate 90 CW"
-msgstr ""
+msgstr "Rotation 90° Horaire"
 
 #: src/minoltamn.cpp:850 src/minoltamn.cpp:1035 src/panasonicmn.cpp:173
 msgid "Rotate 270 CW"
-msgstr ""
+msgstr "Rotation 270° Horaire"
 
 #: src/minoltamn.cpp:888
-#, fuzzy
 msgid "AF Points"
-msgstr "Point blanc"
+msgstr "Points AF"
 
 #: src/minoltamn.cpp:889
 msgid "AF points"
-msgstr ""
+msgstr "AF Points"
 
 #: src/minoltamn.cpp:904 src/nikonmn.cpp:658 src/sigmamn.cpp:93
-#, fuzzy
 msgid "Color space"
 msgstr "Espace des couleurs"
 
@@ -5832,25 +6434,17 @@ msgstr ""
 
 #: src/minoltamn.cpp:921
 msgid "Hue"
-msgstr ""
+msgstr "tonalité"
 
 #: src/minoltamn.cpp:923 src/minoltamn.cpp:924 src/minoltamn.cpp:1165
 #: src/minoltamn.cpp:1166 src/panasonicmn.cpp:259 src/panasonicmn.cpp:260
-#, fuzzy
 msgid "Rotation"
-msgstr "action"
-
-#: src/minoltamn.cpp:939 src/minoltamn.cpp:1183 src/nikonmn.cpp:717
-#: src/olympusmn.cpp:367
-#, fuzzy
-msgid "Noise Reduction"
-msgstr "Flash déclenché, mode anti-yeux rouges."
+msgstr "Rotation"
 
 #: src/minoltamn.cpp:940 src/minoltamn.cpp:1184 src/nikonmn.cpp:718
 #: src/olympusmn.cpp:368 src/panasonicmn.cpp:251
-#, fuzzy
 msgid "Noise reduction"
-msgstr "Flash déclenché, mode anti-yeux rouges."
+msgstr "Réduction du bruit"
 
 #: src/minoltamn.cpp:949
 msgid "Zone Matching On"
@@ -5862,7 +6456,7 @@ msgstr ""
 
 #: src/minoltamn.cpp:955
 msgid "Unknown Minolta Camera Settings 7D tag"
-msgstr ""
+msgstr "Marqueur 7D réglage appareil photo Minolta inconnu"
 
 #: src/minoltamn.cpp:973
 msgid "Connected copying"
@@ -5877,104 +6471,88 @@ msgid "80 (Zone Matching Low)"
 msgstr ""
 
 #: src/minoltamn.cpp:1053
-#, fuzzy
 msgid "Central"
-msgstr "Centimère"
+msgstr "Central"
 
 #: src/minoltamn.cpp:1054
 msgid "Up"
-msgstr ""
+msgstr "Haut"
 
 #: src/minoltamn.cpp:1055
-#, fuzzy
 msgid "Up right"
-msgstr "haut - droit"
+msgstr "Haut droit"
 
 #: src/minoltamn.cpp:1057
-#, fuzzy
 msgid "Down right"
-msgstr "haut - droit"
+msgstr "Bas droit"
 
 #: src/minoltamn.cpp:1058
 msgid "Down"
-msgstr ""
+msgstr "Bas"
 
 #: src/minoltamn.cpp:1059
-#, fuzzy
 msgid "Down left"
-msgstr "haut - gauche"
+msgstr "Bas gauche"
 
 #: src/minoltamn.cpp:1061
-#, fuzzy
 msgid "Up left"
-msgstr "haut - gauche"
+msgstr "Haut gauche"
 
 #: src/minoltamn.cpp:1067
-#, fuzzy
 msgid "Selection"
-msgstr "Flash déclenché, mode anti-yeux rouges."
+msgstr "Sélection"
 
 #: src/minoltamn.cpp:1123
-#, fuzzy
 msgid "Focus Position"
-msgstr "Positionnement YCbCr"
+msgstr "Position mise au point"
 
 #: src/minoltamn.cpp:1124
 msgid "Focus position"
-msgstr ""
+msgstr "Position mise au point"
 
 #: src/minoltamn.cpp:1126
-#, fuzzy
 msgid "Focus Area"
-msgstr "Mode d'exposition"
+msgstr "Zone mise au point"
 
 #: src/minoltamn.cpp:1156
-#, fuzzy
 msgid "Exposure Revision"
-msgstr "Temps d'exposition"
+msgstr ""
 
 #: src/minoltamn.cpp:1157
-#, fuzzy
 msgid "Exposure revision"
-msgstr "Temps d'exposition"
+msgstr ""
 
 #: src/minoltamn.cpp:1174
-#, fuzzy
 msgid "Exposure Manual Bias"
-msgstr "Temps d'exposition"
+msgstr "Biais manuel d'exposition"
 
 #: src/minoltamn.cpp:1175
-#, fuzzy
 msgid "Exposure manual bias"
-msgstr "Temps d'exposition"
+msgstr "Biais manuel d'exposition"
 
 #: src/minoltamn.cpp:1177
-#, fuzzy
 msgid "AF Mode"
-msgstr "Mode d'exposition"
+msgstr "Mode mise au point automatique"
 
 #: src/minoltamn.cpp:1178
-#, fuzzy
 msgid "AF mode"
-msgstr "Flash"
+msgstr "Mode mise au point automatique"
 
 #: src/minoltamn.cpp:1198
 msgid "Unknown Minolta Camera Settings 5D tag"
-msgstr ""
+msgstr "Marqueur 5D réglage appareil photo Minolta inconnu"
 
 #: src/nikonmn.cpp:60 src/nikonmn.cpp:1028
-#, fuzzy
 msgid "Single area"
-msgstr "Nom du document"
+msgstr "Zone unique"
 
 #: src/nikonmn.cpp:61 src/nikonmn.cpp:1029
-#, fuzzy
 msgid "Dynamic area"
-msgstr "Date et heure"
+msgstr "Zone dynamique"
 
 #: src/nikonmn.cpp:62
 msgid "Dynamic area, closest subject"
-msgstr ""
+msgstr "Zone dynamique, sujet proche"
 
 #: src/nikonmn.cpp:63
 msgid "Group dynamic"
@@ -5982,156 +6560,132 @@ msgstr ""
 
 #: src/nikonmn.cpp:64 src/nikonmn.cpp:1032
 msgid "Single area (wide)"
-msgstr ""
+msgstr "Zone unique (large)"
 
 #: src/nikonmn.cpp:65
-#, fuzzy
 msgid "Dynamic area (wide"
-msgstr "Balance des blancs"
+msgstr "Zone dynamique (large)"
 
 #: src/nikonmn.cpp:78
-#, fuzzy
 msgid "Upper-left"
-msgstr "haut - gauche"
+msgstr "Haut-gauche"
 
 #: src/nikonmn.cpp:79
-#, fuzzy
 msgid "Upper-right"
-msgstr "haut - droit"
+msgstr "Haut-droit"
 
 #: src/nikonmn.cpp:80
-#, fuzzy
 msgid "Lower-left"
-msgstr "haut - gauche"
+msgstr "Bas-gauche"
 
 #: src/nikonmn.cpp:81
-#, fuzzy
 msgid "Lower-right"
-msgstr "Copyright"
+msgstr "Bas-droit"
 
 #: src/nikonmn.cpp:82
 msgid "Left-most"
-msgstr ""
+msgstr "Plus à gauche"
 
 #: src/nikonmn.cpp:83
-#, fuzzy
 msgid "Right-most"
-msgstr "Scène de nuit"
+msgstr "Plus à droite"
 
 #: src/nikonmn.cpp:117
 msgid "Fire, manual"
-msgstr ""
+msgstr "Flash déclenché, manuel"
 
 #: src/nikonmn.cpp:118
-#, fuzzy
 msgid "Fire, external"
-msgstr "Intel"
+msgstr "Flash déclenché, externe"
 
 #: src/nikonmn.cpp:119
 msgid "Fire, commander mode"
-msgstr ""
+msgstr "Flash déclenché, mode maître"
 
 #: src/nikonmn.cpp:120
-#, fuzzy
 msgid "Fire, TTL mode"
-msgstr "Flash"
+msgstr "Flash déclenché, mode TTL"
 
 #: src/nikonmn.cpp:126
 msgid "Delay"
-msgstr ""
+msgstr "Délai"
 
 #: src/nikonmn.cpp:127
-#, fuzzy
 msgid "PC control"
-msgstr "Espace des couleurs"
+msgstr "Contrôle PC"
 
 #: src/nikonmn.cpp:128
-#, fuzzy
 msgid "Exposure bracketing"
-msgstr "Correction d'exposition"
+msgstr ""
 
 #: src/nikonmn.cpp:129
 msgid "Unused LE-NR slowdown"
 msgstr ""
 
 #: src/nikonmn.cpp:130
-#, fuzzy
 msgid "White balance bracketing"
-msgstr "Balance des blancs"
+msgstr ""
 
 #: src/nikonmn.cpp:131
-#, fuzzy
 msgid "IR control"
-msgstr "Espace des couleurs"
+msgstr "Contrôle infrarouge"
 
 #: src/nikonmn.cpp:137
-#, fuzzy
 msgid "Auto release"
-msgstr "Bracketing automatique"
+msgstr "Déclenchement automatique"
 
 #: src/nikonmn.cpp:138
-#, fuzzy
 msgid "Manual release"
-msgstr "Exposition manuel"
+msgstr "Déclenchement  manuel"
 
 #: src/nikonmn.cpp:144
 msgid "On for ISO 1600/3200"
-msgstr ""
+msgstr "Activé pour ISO 1600/3200"
 
 #: src/nikonmn.cpp:145
 msgid "Weak"
-msgstr ""
+msgstr "Faible"
 
 #: src/nikonmn.cpp:147
-#, fuzzy
 msgid "Strong"
-msgstr "Saturation"
+msgstr "Fort"
 
 #: src/nikonmn.cpp:164 src/nikonmn.cpp:580
-#, fuzzy
 msgid "Nikon Makernote version"
-msgstr "Version d'exif"
+msgstr "Version des note du fabriquant Nikon"
 
 #: src/nikonmn.cpp:166 src/nikonmn.cpp:453 src/nikonmn.cpp:582
 #: src/olympusmn.cpp:199
-#, fuzzy
 msgid "ISO Speed"
-msgstr "Netteté"
+msgstr "Vitesse ISO"
 
 #: src/nikonmn.cpp:178 src/nikonmn.cpp:594
-#, fuzzy
 msgid "Sharpening"
 msgstr "Netteté"
 
 #: src/nikonmn.cpp:179 src/nikonmn.cpp:595
-#, fuzzy
 msgid "Image sharpening setting"
-msgstr "Hauteur de l'image"
+msgstr "Réglage netteté image"
 
 #: src/nikonmn.cpp:181 src/nikonmn.cpp:597
-#, fuzzy
 msgid "Focus"
-msgstr "Mode d'exposition"
+msgstr "Mise au point"
 
 #: src/nikonmn.cpp:184 src/nikonmn.cpp:600
-#, fuzzy
 msgid "Flash Setting"
-msgstr "Contraste"
+msgstr "Réglage flash"
 
 #: src/nikonmn.cpp:185 src/nikonmn.cpp:601
-#, fuzzy
 msgid "Flash setting"
-msgstr "Contraste"
+msgstr "Réglage flash"
 
 #: src/nikonmn.cpp:190 src/nikonmn.cpp:621
-#, fuzzy
 msgid "ISO Selection"
-msgstr "Flash déclenché, mode anti-yeux rouges."
+msgstr "Sélection ISO"
 
 #: src/nikonmn.cpp:191 src/nikonmn.cpp:622
-#, fuzzy
 msgid "ISO selection"
-msgstr "Flash déclenché, mode anti-yeux rouges."
+msgstr "Sélection ISO"
 
 #: src/nikonmn.cpp:193 src/nikonmn.cpp:624 src/panasonicmn.cpp:213
 msgid "Data Dump"
@@ -6142,251 +6696,208 @@ msgid "Data dump"
 msgstr ""
 
 #: src/nikonmn.cpp:196 src/nikonmn.cpp:450 src/nikonmn.cpp:660
-#, fuzzy
 msgid "Image Adjustment"
-msgstr "Longeur de l'image"
+msgstr "Ajustement image"
 
 #: src/nikonmn.cpp:197 src/nikonmn.cpp:451 src/nikonmn.cpp:661
-#, fuzzy
 msgid "Image adjustment setting"
-msgstr "Hauteur de l'image"
+msgstr "Réglage ajustement image"
 
 #: src/nikonmn.cpp:199 src/nikonmn.cpp:468 src/nikonmn.cpp:666
-#, fuzzy
 msgid "Auxiliary Lens"
-msgstr "Capteur trilinéaire"
+msgstr "Objectif auxiliaire"
 
 #: src/nikonmn.cpp:200 src/nikonmn.cpp:469 src/nikonmn.cpp:667
 msgid "Auxiliary lens (adapter)"
-msgstr ""
+msgstr "Objectif auxiliaire (adaptateur)"
 
 #: src/nikonmn.cpp:203 src/nikonmn.cpp:676 src/olympusmn.cpp:233
-#, fuzzy
 msgid "Manual focus distance"
-msgstr "Balance des blancs manuelle"
+msgstr "Distance mise au point manuelle"
 
 #: src/nikonmn.cpp:206 src/nikonmn.cpp:466 src/nikonmn.cpp:679
-#, fuzzy
 msgid "Digital zoom setting"
-msgstr "Valeur du zoom numérique"
+msgstr "Réglage du zoom numérique"
 
 #: src/nikonmn.cpp:208 src/nikonmn.cpp:684
-#, fuzzy
 msgid "AF Focus Position"
-msgstr "Positionnement YCbCr"
+msgstr ""
 
 #: src/nikonmn.cpp:209 src/nikonmn.cpp:685
-#, fuzzy
 msgid "AF focus position information"
-msgstr "Positionnement YCbCr"
+msgstr ""
 
 #: src/nikonmn.cpp:214
-#, fuzzy
 msgid "Unknown Nikon1MakerNote tag"
-msgstr "Version d'exif"
+msgstr "Marqueur 1 de note du fabriquant Nikon inconnu"
 
 #: src/nikonmn.cpp:269 src/nikonmn.cpp:892
 msgid "Continuous autofocus"
 msgstr ""
 
 #: src/nikonmn.cpp:270 src/nikonmn.cpp:893
-#, fuzzy
 msgid "Single autofocus"
-msgstr "Exposition automatique"
+msgstr ""
 
 #: src/nikonmn.cpp:301 src/nikonmn.cpp:551 src/nikonmn.cpp:986
-#, fuzzy
 msgid "Not used"
-msgstr "Non défini"
+msgstr "Non utilisé"
 
 #: src/nikonmn.cpp:340
-#, fuzzy
 msgid "guess"
-msgstr "Source du fichier"
+msgstr "deviné"
 
 #: src/nikonmn.cpp:397
 msgid "VGA Basic"
-msgstr ""
+msgstr "VGA grossier"
 
 #: src/nikonmn.cpp:398
-#, fuzzy
 msgid "VGA Normal"
-msgstr "Normal"
+msgstr "VGA normal"
 
 #: src/nikonmn.cpp:399
-#, fuzzy
 msgid "VGA Fine"
-msgstr "pouces"
+msgstr "VGA fin"
 
 #: src/nikonmn.cpp:400
 msgid "SXGA Basic"
-msgstr ""
+msgstr "SXGA grossier"
 
 #: src/nikonmn.cpp:401
-#, fuzzy
 msgid "SXGA Normal"
-msgstr "Normal"
+msgstr "SXGA normal"
 
 #: src/nikonmn.cpp:402
-#, fuzzy
 msgid "SXGA Fine"
-msgstr "pouces"
+msgstr "SXGA fin"
 
 #: src/nikonmn.cpp:408
-#, fuzzy
 msgid "Monochrome"
-msgstr "Macro"
+msgstr "Monochrome"
 
 #: src/nikonmn.cpp:414
-#, fuzzy
 msgid "Bright+"
-msgstr "Luminosité"
+msgstr "Luminosité+"
 
 #: src/nikonmn.cpp:415
-#, fuzzy
 msgid "Bright-"
-msgstr "Luminosité"
+msgstr "Luminosité-"
 
 #: src/nikonmn.cpp:416
-#, fuzzy
 msgid "Contrast+"
-msgstr "Contraste"
+msgstr "Contraste+"
 
 #: src/nikonmn.cpp:417
-#, fuzzy
 msgid "Contrast-"
-msgstr "Contraste"
+msgstr "Contraste-"
 
 #: src/nikonmn.cpp:431
 msgid "Preset"
-msgstr ""
+msgstr "Préselection"
 
 #: src/nikonmn.cpp:436
 msgid "Speedlight"
-msgstr ""
+msgstr "Vitesse lumière"
 
 #: src/nikonmn.cpp:476
-#, fuzzy
 msgid "Unknown Nikon2MakerNote tag"
-msgstr "Version d'exif"
+msgstr "Marqueur 2 de note du fabriquant Nikon inconnu"
 
 #: src/nikonmn.cpp:603 src/olympusmn.cpp:211
-#, fuzzy
 msgid "Flash Device"
-msgstr "Flash"
+msgstr "Matériel du flash"
 
 #: src/nikonmn.cpp:604 src/olympusmn.cpp:212
-#, fuzzy
 msgid "Flash device"
-msgstr "Flash"
+msgstr "Matériel du flash"
 
 #: src/nikonmn.cpp:609 src/panasonicmn.cpp:219
-#, fuzzy
 msgid "White Balance Bias"
-msgstr "Balance des blancs"
+msgstr "Biais de balance des blancs"
 
 #: src/nikonmn.cpp:610
-#, fuzzy
 msgid "White balance bias"
-msgstr "Balance des blancs"
+msgstr "Biais de balance des blancs"
 
 #: src/nikonmn.cpp:612
-#, fuzzy
 msgid "Color Balance 1"
-msgstr "Espace des couleurs"
+msgstr "Balance des couleurs 1"
 
 #: src/nikonmn.cpp:613
-#, fuzzy
 msgid "Color balance settings 1"
-msgstr "Espace des couleurs"
+msgstr "Réglage balance des couleurs 1"
 
 #: src/nikonmn.cpp:615
-#, fuzzy
 msgid "Program Shift"
-msgstr "Mode d'exposition"
+msgstr ""
 
 #: src/nikonmn.cpp:616
-#, fuzzy
 msgid "Program shift"
-msgstr "Mode d'exposition"
+msgstr ""
 
 #: src/nikonmn.cpp:618
-#, fuzzy
 msgid "Exposure Difference"
-msgstr "Index d'exposition"
+msgstr "Différence d'exposition"
 
 #: src/nikonmn.cpp:619
-#, fuzzy
 msgid "Exposure difference"
-msgstr "Index d'exposition"
+msgstr "Différence d'exposition"
 
 #: src/nikonmn.cpp:627
 msgid "Pointer to a preview image"
-msgstr ""
+msgstr "Pointeur vers l'image d'aperçu"
 
 #: src/nikonmn.cpp:628
 msgid "Offset to an IFD containing a preview image"
-msgstr ""
+msgstr "Décalage vers l'IFD contenant l'aperçu"
 
 #: src/nikonmn.cpp:630
-#, fuzzy
 msgid "Flash Comp"
-msgstr "Flash"
+msgstr "Compensation Flash"
 
 #: src/nikonmn.cpp:631
-#, fuzzy
 msgid "Flash compensation setting"
-msgstr "Temps d'exposition"
+msgstr "Réglage compensation Flash"
 
 #: src/nikonmn.cpp:633
-#, fuzzy
 msgid "ISO Settings"
-msgstr "Netteté"
+msgstr "Réglage ISO"
 
 #: src/nikonmn.cpp:634
-#, fuzzy
 msgid "ISO setting"
-msgstr "Netteté"
+msgstr "Réglage ISO"
 
 #: src/nikonmn.cpp:636
-#, fuzzy
 msgid "Image Boundary"
-msgstr "Hauteur de l'image"
+msgstr "Limite de l'image"
 
 #: src/nikonmn.cpp:637
-#, fuzzy
 msgid "Image boundary"
-msgstr "Hauteur de l'image"
+msgstr "Limite de l'image"
 
 #: src/nikonmn.cpp:642
-#, fuzzy
 msgid "Flash Bracket Comp"
-msgstr "Le flash s'est déclenché."
+msgstr ""
 
 #: src/nikonmn.cpp:643
-#, fuzzy
 msgid "Flash bracket compensation applied"
-msgstr "Temps d'exposition"
+msgstr ""
 
 #: src/nikonmn.cpp:645
-#, fuzzy
 msgid "Exposure Bracket Comp"
-msgstr "Correction d'exposition"
+msgstr ""
 
 #: src/nikonmn.cpp:646
-#, fuzzy
 msgid "AE bracket compensation applied"
-msgstr "Temps d'exposition"
+msgstr ""
 
 #: src/nikonmn.cpp:648 src/olympusmn.cpp:385
-#, fuzzy
 msgid "Image Processing"
-msgstr "Longeur de l'image"
+msgstr "  Traitement d'image"
 
 #: src/nikonmn.cpp:649
-#, fuzzy
 msgid "Image processing"
-msgstr "Longeur de l'image"
+msgstr "  Traitement d'image"
 
 #: src/nikonmn.cpp:651
 msgid "Crop High Speed"
@@ -6397,43 +6908,32 @@ msgid "Crop high speed"
 msgstr ""
 
 #: src/nikonmn.cpp:663
-#, fuzzy
 msgid "Tone Compensation"
-msgstr "Temps d'exposition"
+msgstr "Compensation de tonalité"
 
 #: src/nikonmn.cpp:664
-#, fuzzy
 msgid "Tone compensation"
-msgstr "Temps d'exposition"
+msgstr "Compensation de tonalité"
 
 #: src/nikonmn.cpp:669
-#, fuzzy
 msgid "Lens Type"
-msgstr "Type de scène"
+msgstr "Type d'objectif"
 
 #: src/nikonmn.cpp:670
-#, fuzzy
 msgid "Lens type"
-msgstr "Espace des couleurs"
-
-#: src/nikonmn.cpp:672 src/nikonmn.cpp:673
-#, fuzzy
-msgid "Lens"
-msgstr "Hauteur de l'image"
+msgstr "Type d'objectif"
 
 #: src/nikonmn.cpp:682
 msgid "Mode of flash used"
-msgstr ""
+msgstr "Mode de flash utilisé"
 
 #: src/nikonmn.cpp:687 src/panasonicmn.cpp:207
-#, fuzzy
 msgid "Shooting Mode"
-msgstr "Mode de mesure"
+msgstr "Mode de prise de vue"
 
 #: src/nikonmn.cpp:688 src/panasonicmn.cpp:208
-#, fuzzy
 msgid "Shooting mode"
-msgstr "Mode de mesure"
+msgstr "Mode de prise de vue"
 
 #: src/nikonmn.cpp:690
 #, fuzzy
@@ -6446,342 +6946,268 @@ msgid "Auto bracket release"
 msgstr "Bracketing automatique"
 
 #: src/nikonmn.cpp:693 src/nikonmn.cpp:694
-#, fuzzy
 msgid "Lens FStops"
-msgstr "Espace des couleurs"
+msgstr ""
 
 #: src/nikonmn.cpp:696
 msgid "Tone Curve"
-msgstr ""
+msgstr "Courbe de tonalité"
 
 #: src/nikonmn.cpp:697
 msgid "Tone curve"
-msgstr ""
+msgstr "Courbe de tonalité"
 
 #: src/nikonmn.cpp:702
-#, fuzzy
 msgid "Scene Mode"
-msgstr "Type de scène"
+msgstr "Mode scène"
 
 #: src/nikonmn.cpp:703
-#, fuzzy
 msgid "Scene mode"
-msgstr "Type de scène"
+msgstr "Mode scène"
 
 #: src/nikonmn.cpp:706
-#, fuzzy
 msgid "Light source"
 msgstr "Source lumineuse"
 
 #: src/nikonmn.cpp:711
-#, fuzzy
 msgid "Hue Adjustment"
-msgstr "Longeur de l'image"
+msgstr "Ajustement de teinte"
 
 #: src/nikonmn.cpp:712
-#, fuzzy
 msgid "Hue adjustment"
-msgstr "Longeur de l'image"
+msgstr "Ajustement de teinte"
 
 #: src/nikonmn.cpp:720
-#, fuzzy
 msgid "Compression Curve"
-msgstr "Compression"
+msgstr "Courbe de compression"
 
 #: src/nikonmn.cpp:721
-#, fuzzy
 msgid "Compression curve"
-msgstr "Compression"
+msgstr "Courbe de compression"
 
 #: src/nikonmn.cpp:723
-#, fuzzy
 msgid "Color Balance 2"
-msgstr "Espace des couleurs"
+msgstr "Balance des couleurs 1"
 
 #: src/nikonmn.cpp:724
-#, fuzzy
 msgid "Color balance settings 2"
-msgstr "Espace des couleurs"
+msgstr "Réglage balance des couleurs 2"
 
 #: src/nikonmn.cpp:726
-#, fuzzy
 msgid "Lens Data"
-msgstr "Hauteur de l'image"
+msgstr "Données de l'objectif"
 
 #: src/nikonmn.cpp:727
-#, fuzzy
 msgid "Lens data settings"
-msgstr "Contraste"
+msgstr "Réglage des données de l'objectif"
 
 #: src/nikonmn.cpp:729
-#, fuzzy
 msgid "NEF Thumbnail Size"
-msgstr "Longeur de l'image"
+msgstr "Taille aperçu NEF"
 
 #: src/nikonmn.cpp:730
-#, fuzzy
 msgid "NEF thumbnail size"
-msgstr "Longeur de l'image"
+msgstr "Taille aperçu NEF"
 
 #: src/nikonmn.cpp:732
 msgid "Sensor Pixel Size"
-msgstr ""
+msgstr "Taille pixel du capteur"
 
 #: src/nikonmn.cpp:733
 msgid "Sensor pixel size"
-msgstr ""
-
-#: src/nikonmn.cpp:742 src/sigmamn.cpp:67
-#, fuzzy
-msgid "Camera serial number"
-msgstr "Le nombre F."
+msgstr "Taille pixel du capteur"
 
 #: src/nikonmn.cpp:744
-#, fuzzy
 msgid "Image Data Size"
-msgstr "Hauteur de l'image"
+msgstr "Taille des données de l'image"
 
 #: src/nikonmn.cpp:745
-#, fuzzy
 msgid "Image data size"
-msgstr "Hauteur de l'image"
+msgstr "Taille des données de l'image"
 
 #: src/nikonmn.cpp:750
-#, fuzzy
 msgid "Image Count"
-msgstr "Hauteur de l'image"
+msgstr "Comptage d'image"
 
 #: src/nikonmn.cpp:751
-#, fuzzy
 msgid "Image count"
-msgstr "Hauteur de l'image"
+msgstr "Comptage d'image"
 
 #: src/nikonmn.cpp:753
-#, fuzzy
 msgid "Delete Image Count"
-msgstr "Longeur de l'image"
+msgstr "Effacer le comptage d'image"
 
 #: src/nikonmn.cpp:754
-#, fuzzy
 msgid "Delete image count"
-msgstr "Longeur de l'image"
+msgstr "Effacer le comptage d'image"
 
 #: src/nikonmn.cpp:756
-#, fuzzy
 msgid "Shutter Count"
-msgstr "Priorité obturation"
+msgstr ""
 
 #: src/nikonmn.cpp:757
 msgid "Number of shots taken by camera"
-msgstr ""
+msgstr "Nombre de photo pris par l'appareil"
 
 #: src/nikonmn.cpp:762
-#, fuzzy
 msgid "Image Optimization"
-msgstr "Orientation"
+msgstr "Optimisation d'image"
 
 #: src/nikonmn.cpp:763
-#, fuzzy
 msgid "Image optimization"
-msgstr "Orientation"
+msgstr "Optimisation d'image"
 
 #: src/nikonmn.cpp:768
-#, fuzzy
 msgid "Program Variation"
-msgstr "Version d'exif"
+msgstr ""
 
 #: src/nikonmn.cpp:769
-#, fuzzy
 msgid "Program variation"
-msgstr "Version d'exif"
+msgstr ""
 
 #: src/nikonmn.cpp:774
-#, fuzzy
 msgid "AF Response"
-msgstr "Point blanc"
+msgstr "Réponse mise au point automatique"
 
 #: src/nikonmn.cpp:775
-#, fuzzy
 msgid "AF response"
-msgstr "Point blanc"
+msgstr "Réponse mise au point automatique"
 
 #: src/nikonmn.cpp:777 src/nikonmn.cpp:778
-#, fuzzy
 msgid "High ISO Noise Reduction"
-msgstr "Flash déclenché, mode anti-yeux rouges."
+msgstr "Réduction de bruit Iso élevé"
 
 #: src/nikonmn.cpp:785
-#, fuzzy
 msgid "Capture Data"
-msgstr "Type de capture de la scène"
+msgstr ""
 
 #: src/nikonmn.cpp:786
-#, fuzzy
 msgid "Capture data"
-msgstr "Autre"
+msgstr ""
 
 #: src/nikonmn.cpp:789
-#, fuzzy
 msgid "Capture Version"
-msgstr "Version d'exif"
+msgstr ""
 
 #: src/nikonmn.cpp:790
-#, fuzzy
 msgid "Capture version"
-msgstr "Version d'exif"
+msgstr ""
 
 #: src/nikonmn.cpp:794
-#, fuzzy
 msgid "Capture Offsets"
-msgstr "Type de capture de la scène"
+msgstr ""
 
 #: src/nikonmn.cpp:795
-#, fuzzy
 msgid "Capture offsets"
-msgstr "Type de capture de la scène"
+msgstr ""
 
 #: src/nikonmn.cpp:800
-#, fuzzy
 msgid "Unknown Nikon3MakerNote tag"
-msgstr "Version d'exif"
+msgstr "Marqueur 3 de note du fabriquant Nikon inconnu"
 
 #: src/nikonmn.cpp:1030
 msgid "Closest subject"
-msgstr ""
+msgstr "Sujet proche"
 
 #: src/nikonmn.cpp:1031
 msgid "Group dynamic-AF"
 msgstr ""
 
 #: src/nikonmn.cpp:1033
-#, fuzzy
 msgid "Dynamic area (wide)"
-msgstr "Balance des blancs"
+msgstr "Zone dynamique (large)"
 
 #: src/nikonmn.cpp:1064
-#, fuzzy
 msgid "used"
-msgstr "Non défini"
+msgstr "utilisé"
 
 #: src/olympusmn.cpp:62
-#, fuzzy
 msgid "Standard Quality (SQ)"
-msgstr "Lumière standard A"
+msgstr "Qualité standard (SQ)"
 
 #: src/olympusmn.cpp:63
-#, fuzzy
 msgid "High Quality (HQ)"
-msgstr "Hauteur de l'image"
+msgstr "Qualité haute (HQ)"
 
 #: src/olympusmn.cpp:64
 msgid "Super High Quality (SHQ)"
-msgstr ""
-
-#: src/olympusmn.cpp:72
-msgid "Super macro"
-msgstr ""
+msgstr "Qualité très haute (HQ)"
 
 #: src/olympusmn.cpp:79
 msgid "On (preset)"
 msgstr ""
 
 #: src/olympusmn.cpp:85
-#, fuzzy
 msgid "Internal"
-msgstr "Intel"
-
-#: src/olympusmn.cpp:86
-#, fuzzy
-msgid "External"
-msgstr "Intel"
+msgstr "Interne"
 
 #: src/olympusmn.cpp:87
-#, fuzzy
 msgid "Internal + External"
-msgstr "Le nombre F."
+msgstr "Interne + Externe"
 
 #: src/olympusmn.cpp:112
-#, fuzzy
 msgid "Interlaced"
-msgstr "Intel"
+msgstr "Entrelacé"
 
 #: src/olympusmn.cpp:113
-#, fuzzy
 msgid "Progressive"
-msgstr "Version d'exif"
+msgstr "Progressif"
 
 #: src/olympusmn.cpp:122
-#, fuzzy
 msgid "Special Mode"
-msgstr "Mode de mesure"
+msgstr "Mode spécial"
 
 #: src/olympusmn.cpp:123
-#, fuzzy
 msgid "Picture taking mode"
-msgstr "Mode d'exposition"
+msgstr "Mode de prise de vue"
 
 #: src/olympusmn.cpp:131
 msgid "Black & White Mode"
-msgstr ""
+msgstr "Mode noir & blanc"
 
 #: src/olympusmn.cpp:132
 msgid "Black and white mode"
-msgstr ""
+msgstr "Mode noir et blanc"
 
 #: src/olympusmn.cpp:135
-#, fuzzy
 msgid "Digital zoom ratio"
-msgstr "Valeur du zoom numérique"
+msgstr "Rapport de zoom numérique"
 
 #: src/olympusmn.cpp:137
-#, fuzzy
 msgid "Focal Plane Diagonal"
-msgstr "y-Résolution du plan focal"
+msgstr "Diagonal du plan focal"
 
 #: src/olympusmn.cpp:138
-#, fuzzy
 msgid "Focal plane diagonal"
-msgstr "y-Résolution du plan focal"
+msgstr "Diagonal du plan focal"
 
 #: src/olympusmn.cpp:140
 msgid "Lens Distortion Parameters"
-msgstr ""
+msgstr "Paramètre de distorsion de l'objectif"
 
 #: src/olympusmn.cpp:141
 msgid "Lens distortion parameters"
-msgstr ""
-
-#: src/olympusmn.cpp:143 src/panasonicmn.cpp:187
-#, fuzzy
-msgid "Firmware Version"
-msgstr "Version d'exif"
+msgstr "Paramètre de distorsion de l'objectif"
 
 #: src/olympusmn.cpp:144
-#, fuzzy
 msgid "Software firmware version"
-msgstr "Version d'exif"
-
-#: src/olympusmn.cpp:146
-#, fuzzy
-msgid "Picture Info"
-msgstr "Mode d'exposition"
+msgstr "Version du microcode"
 
 #: src/olympusmn.cpp:147
 msgid "ASCII format data such as [PictureInfo]"
-msgstr ""
+msgstr "Format de données ASCII comme [PictureInfo]"
 
 #: src/olympusmn.cpp:149
 msgid "Camera ID"
-msgstr ""
+msgstr "Identifiant appareil photo"
 
 #: src/olympusmn.cpp:150
 msgid "Camera ID data"
-msgstr ""
+msgstr "Données de l'identifiant appareil photo"
 
 #: src/olympusmn.cpp:169
-#, fuzzy
 msgid "Pre Capture Frames"
-msgstr "Type de capture de la scène"
+msgstr ""
 
 #: src/olympusmn.cpp:170
 msgid "Pre-capture frames"
@@ -6789,122 +7215,99 @@ msgstr ""
 
 #: src/olympusmn.cpp:175
 msgid "One Touch WB"
-msgstr ""
+msgstr "Balance des blancs en une touche"
 
 #: src/olympusmn.cpp:176
-#, fuzzy
 msgid "One touch white balance"
-msgstr "Balance des blancs automatique"
+msgstr "Balance des blancs en une touche"
 
 #: src/olympusmn.cpp:185
-#, fuzzy
 msgid "Serial number"
-msgstr "Le nombre F."
+msgstr "Numéro de série"
 
 #: src/olympusmn.cpp:190
 msgid "Data Dump 1"
 msgstr ""
 
 #: src/olympusmn.cpp:191
-#, fuzzy
 msgid "Various camera settings 1"
-msgstr "Contraste"
+msgstr "Divers réglages de l'appareil photo 1"
 
 #: src/olympusmn.cpp:193
 msgid "Data Dump 2"
 msgstr ""
 
 #: src/olympusmn.cpp:194
-#, fuzzy
 msgid "Various camera settings 2"
-msgstr "Macro"
+msgstr "Divers réglages de l'appareil photo 1"
 
 #: src/olympusmn.cpp:196
-#, fuzzy
 msgid "Shutter Speed"
 msgstr "Vitesse d'obturation"
 
 #: src/olympusmn.cpp:197
-#, fuzzy
 msgid "Shutter speed value"
-msgstr "Vitesse d'obturation"
+msgstr "Valeur de vitesse d'obturation"
 
 #: src/olympusmn.cpp:200
-#, fuzzy
 msgid "ISO speed value"
-msgstr "Netteté"
-
-#: src/olympusmn.cpp:202
-#, fuzzy
-msgid "Aperture Value"
-msgstr "ouverture"
+msgstr "Valeur de vitesse ISO"
 
 #: src/olympusmn.cpp:203
-#, fuzzy
 msgid "Aperture value"
-msgstr "ouverture"
+msgstr "Valeur d'ouverture"
 
 #: src/olympusmn.cpp:206
-#, fuzzy
 msgid "Brightness value"
-msgstr "Luminosité"
+msgstr "Valeur de luminosité"
 
 #: src/olympusmn.cpp:214
-#, fuzzy
 msgid "Bracket"
-msgstr "action"
+msgstr "Bracket"
 
 #: src/olympusmn.cpp:215
-#, fuzzy
 msgid "Exposure compensation value"
-msgstr "Temps d'exposition"
+msgstr "Valeur de compensation d'exposition"
 
 #: src/olympusmn.cpp:217
-#, fuzzy
 msgid "Sensor Temperature"
-msgstr "Espace des couleurs"
+msgstr "Température de la sonde"
 
 #: src/olympusmn.cpp:218
-#, fuzzy
 msgid "Sensor temperature"
-msgstr "Espace des couleurs"
+msgstr "Température de la sonde"
 
 #: src/olympusmn.cpp:220
-#, fuzzy
 msgid "Lens Temperature"
-msgstr "Espace des couleurs"
+msgstr "Température de l'objectif"
 
 #: src/olympusmn.cpp:221
-#, fuzzy
 msgid "Lens temperature"
-msgstr "Espace des couleurs"
+msgstr "Température de l'objectif"
 
 #: src/olympusmn.cpp:235
 msgid "Zoom"
-msgstr ""
+msgstr "Zoom"
 
 #: src/olympusmn.cpp:236
 msgid "Zoom step count"
 msgstr ""
 
 #: src/olympusmn.cpp:238
-#, fuzzy
 msgid "Macro Focus"
-msgstr "Macro"
+msgstr "Mise au point macro"
 
 #: src/olympusmn.cpp:239
 msgid "Macro focus step count"
 msgstr ""
 
 #: src/olympusmn.cpp:241 src/olympusmn.cpp:322
-#, fuzzy
 msgid "Sharpness Factor"
-msgstr "Netteté"
+msgstr "Facteur de netteté"
 
 #: src/olympusmn.cpp:242 src/olympusmn.cpp:323
-#, fuzzy
 msgid "Sharpness factor"
-msgstr "Netteté"
+msgstr "Facteur de netteté"
 
 #: src/olympusmn.cpp:244
 msgid "Flash Charge Level"
@@ -6915,68 +7318,52 @@ msgid "Flash charge level"
 msgstr ""
 
 #: src/olympusmn.cpp:247
-#, fuzzy
 msgid "Color Matrix"
-msgstr "Espace des couleurs"
+msgstr "Matrice des couleurs"
 
 #: src/olympusmn.cpp:248
-#, fuzzy
 msgid "Color matrix"
-msgstr "Espace des couleurs"
+msgstr "Matrice des couleurs"
 
 #: src/olympusmn.cpp:250
-#, fuzzy
 msgid "BlackLevel"
-msgstr "Niveau de charge"
+msgstr "Niveau de noir"
 
 #: src/olympusmn.cpp:251
 msgid "Black level"
-msgstr ""
+msgstr "Niveau de noir"
 
 #: src/olympusmn.cpp:260
-#, fuzzy
 msgid "White balance mode"
-msgstr "Balance des blancs"
+msgstr "Mode balance des blancs"
 
 #: src/olympusmn.cpp:265
-#, fuzzy
 msgid "Red Balance"
-msgstr "Balance des blancs"
+msgstr "Balance des rouges"
 
 #: src/olympusmn.cpp:266
-#, fuzzy
 msgid "Red balance"
-msgstr "Balance des blancs"
+msgstr "Balance des rouges"
 
 #: src/olympusmn.cpp:268
-#, fuzzy
 msgid "Blue Balance"
-msgstr "Balance des blancs"
+msgstr "Balance des bleus"
 
 #: src/olympusmn.cpp:269
-#, fuzzy
 msgid "Blue balance"
-msgstr "Balance des blancs"
+msgstr "Balance des bleus"
 
 #: src/olympusmn.cpp:274
-#, fuzzy
 msgid "Serial Number 2"
-msgstr "Le nombre F."
+msgstr "Numéro de série 2"
 
 #: src/olympusmn.cpp:275
-#, fuzzy
 msgid "Serial number 2"
-msgstr "Le nombre F."
-
-#: src/olympusmn.cpp:301
-#, fuzzy
-msgid "Flash Bias"
-msgstr "Le flash s'est déclenché."
+msgstr "Numéro de série 2"
 
 #: src/olympusmn.cpp:302
-#, fuzzy
 msgid "Flash exposure compensation"
-msgstr "Temps d'exposition"
+msgstr "Compensation d'exposition du flash"
 
 #: src/olympusmn.cpp:310
 msgid "External Flash Bounce"
@@ -6988,31 +7375,27 @@ msgstr ""
 
 #: src/olympusmn.cpp:313
 msgid "External Flash Zoom"
-msgstr ""
+msgstr "Zoom flash externe"
 
 #: src/olympusmn.cpp:314
 msgid "External flash zoom"
-msgstr ""
+msgstr "Zoom flash externe"
 
 #: src/olympusmn.cpp:316
-#, fuzzy
 msgid "External Flash Mode"
-msgstr "Flash"
+msgstr "Mode flash externe"
 
 #: src/olympusmn.cpp:317
-#, fuzzy
 msgid "External flash mode"
-msgstr "Portrait"
+msgstr "Mode flash externe"
 
 #: src/olympusmn.cpp:325
-#, fuzzy
 msgid "Color Control"
-msgstr "Espace des couleurs"
+msgstr "Contrôle des couleurs"
 
 #: src/olympusmn.cpp:326
-#, fuzzy
 msgid "Color control"
-msgstr "Espace des couleurs"
+msgstr "Contrôle des couleurs"
 
 #: src/olympusmn.cpp:328
 msgid "ValidBits"
@@ -7023,41 +7406,32 @@ msgid "Valid bits"
 msgstr ""
 
 #: src/olympusmn.cpp:331
-#, fuzzy
 msgid "CoringFilter"
-msgstr "Espace des couleurs"
+msgstr ""
 
 #: src/olympusmn.cpp:332
-#, fuzzy
 msgid "Coring filter"
-msgstr "Espace des couleurs"
-
-#: src/olympusmn.cpp:337
-#, fuzzy
-msgid "Image Height"
-msgstr "Longeur de l'image"
+msgstr ""
 
 #: src/olympusmn.cpp:352
-#, fuzzy
 msgid "Compression Ratio"
-msgstr "Compression"
+msgstr "Rapport de compression"
 
 #: src/olympusmn.cpp:353
-#, fuzzy
 msgid "Compression ratio"
-msgstr "Compression"
+msgstr "Rapport de compression"
 
 #: src/olympusmn.cpp:356
 msgid "Preview image embedded"
-msgstr ""
+msgstr "Aperçu embarqué"
 
 #: src/olympusmn.cpp:359
 msgid "Offset of the preview image"
-msgstr ""
+msgstr "Décalage de l'aperçu"
 
 #: src/olympusmn.cpp:362
 msgid "Size of the preview image"
-msgstr ""
+msgstr "Taille de l'aperçu"
 
 #: src/olympusmn.cpp:364
 msgid "CCD Scan Mode"
@@ -7068,14 +7442,12 @@ msgid "CCD scan mode"
 msgstr ""
 
 #: src/olympusmn.cpp:370
-#, fuzzy
 msgid "Infinity Lens Step"
-msgstr "Intel"
+msgstr ""
 
 #: src/olympusmn.cpp:371
-#, fuzzy
 msgid "Infinity lens step"
-msgstr "Intel"
+msgstr ""
 
 #: src/olympusmn.cpp:373
 msgid "Near Lens Step"
@@ -7087,141 +7459,99 @@ msgstr ""
 
 #: src/olympusmn.cpp:376
 msgid "Equipment Info"
-msgstr ""
+msgstr "Informations équipement"
 
 #: src/olympusmn.cpp:377
-#, fuzzy
 msgid "Camera equipment information"
-msgstr "Orientation"
-
-#: src/olympusmn.cpp:379
-#, fuzzy
-msgid "Camera Settings"
-msgstr "Contraste"
+msgstr "Informations équipement de l'appareil"
 
 #: src/olympusmn.cpp:380
-#, fuzzy
 msgid "Camera Settings information"
-msgstr "Contraste"
+msgstr "informations de réglage appareil photo"
 
 #: src/olympusmn.cpp:382
 msgid "Raw Development"
 msgstr ""
 
 #: src/olympusmn.cpp:383
-#, fuzzy
 msgid "Raw development information"
-msgstr "Orientation"
+msgstr ""
 
 #: src/olympusmn.cpp:386
-#, fuzzy
 msgid "Image processing information"
-msgstr "Configuration du plan"
+msgstr "Informations du traitement d'image"
 
 #: src/olympusmn.cpp:388
-#, fuzzy
 msgid "Focus Info"
-msgstr "Mode d'exposition"
+msgstr "Informations mise au point"
 
 #: src/olympusmn.cpp:389
-#, fuzzy
 msgid "Focus information"
-msgstr "Positionnement YCbCr"
+msgstr "Informations mise au point"
 
 #: src/olympusmn.cpp:391
 msgid "Raw Info"
-msgstr ""
+msgstr "Informations brutes"
 
 #: src/olympusmn.cpp:392
-#, fuzzy
 msgid "Raw information"
-msgstr "Orientation"
+msgstr "Informations brutes"
 
 #: src/olympusmn.cpp:397
-#, fuzzy
 msgid "Unknown OlympusMakerNote tag"
-msgstr "Version d'exif"
+msgstr "Marqueur de note du fabriquant Olympus inconnu"
 
 #: src/olympusmn.cpp:485
-#, fuzzy
 msgid "Fast"
-msgstr "Flash"
-
-#: src/olympusmn.cpp:486
-#, fuzzy
-msgid "Panorama"
-msgstr "normal"
-
-#: src/olympusmn.cpp:498
-#, fuzzy
-msgid "Left to right"
-msgstr "bas - droit"
-
-#: src/olympusmn.cpp:499
-#, fuzzy
-msgid "Right to left"
-msgstr "droit - haut"
-
-#: src/olympusmn.cpp:500
-#, fuzzy
-msgid "Bottom to top"
-msgstr "bas - gauche"
-
-#: src/olympusmn.cpp:501
-#, fuzzy
-msgid "Top to bottom"
-msgstr "gauche - bas"
+msgstr "Rapide"
 
 #: src/olympusmn.cpp:538
 msgid "3000 Kelvin"
-msgstr ""
+msgstr "3000 Kelvin"
 
 #: src/olympusmn.cpp:539
 msgid "3700 Kelvin"
-msgstr ""
+msgstr "3700 Kelvin"
 
 #: src/olympusmn.cpp:540
 msgid "4000 Kelvin"
-msgstr ""
+msgstr "4000 Kelvin"
 
 #: src/olympusmn.cpp:541
 msgid "4500 Kelvin"
-msgstr ""
+msgstr "4500 Kelvin"
 
 #: src/olympusmn.cpp:542
 msgid "5500 Kelvin"
-msgstr ""
+msgstr "5500 Kelvin"
 
 #: src/olympusmn.cpp:543
 msgid "6500 Kelvin"
-msgstr ""
+msgstr "6500 Kelvin"
 
 #: src/olympusmn.cpp:544
 msgid "7500 Kelvin"
-msgstr ""
+msgstr "7500 Kelvin"
 
 #: src/olympusmn.cpp:550
 msgid "One-touch"
 msgstr ""
 
 #: src/panasonicmn.cpp:66
-#, fuzzy
 msgid "Very High"
-msgstr "Lumière du jour"
+msgstr "Très haute"
 
 #: src/panasonicmn.cpp:75
 msgid "Halogen"
-msgstr ""
+msgstr "Halogène"
 
 #: src/panasonicmn.cpp:85
-#, fuzzy
 msgid "Auto, focus button"
-msgstr "Exposition automatique"
+msgstr ""
 
 #: src/panasonicmn.cpp:86
-#, fuzzy
 msgid "Auto, continuous"
-msgstr "Exposition automatique"
+msgstr ""
 
 #: src/panasonicmn.cpp:91
 msgid "On, Mode 1"
@@ -7232,143 +7562,112 @@ msgid "On, Mode 2"
 msgstr ""
 
 #: src/panasonicmn.cpp:100
-#, fuzzy
 msgid "Tele-macro"
-msgstr "Macro"
+msgstr ""
 
 #: src/panasonicmn.cpp:107
-#, fuzzy
 msgid "Scenery"
-msgstr "centré"
+msgstr ""
 
 #: src/panasonicmn.cpp:112
-#, fuzzy
 msgid "Shutter-speed priority"
-msgstr "Priorité obturation"
+msgstr "Priorité vitesse obturation"
 
 #: src/panasonicmn.cpp:115
 msgid "Panning"
 msgstr ""
 
 #: src/panasonicmn.cpp:119
-#, fuzzy
 msgid "Night scenery"
 msgstr "Scène de nuit"
 
 #: src/panasonicmn.cpp:120
 msgid "Food"
-msgstr ""
+msgstr "Nouriture"
 
 #: src/panasonicmn.cpp:125
-#, fuzzy
 msgid "Yes"
-msgstr "oui"
+msgstr "Oui"
 
 #: src/panasonicmn.cpp:126
 msgid "No"
-msgstr ""
+msgstr "Non"
 
 #: src/panasonicmn.cpp:132
 msgid "Warm"
-msgstr ""
+msgstr "Chaud"
 
 #: src/panasonicmn.cpp:133
-#, fuzzy
 msgid "Cool"
-msgstr "Espace des couleurs"
+msgstr "Froid"
 
 #: src/panasonicmn.cpp:141
-#, fuzzy
 msgid "Low/High quality"
-msgstr "Hauteur de l'image"
+msgstr "Qualité basse/haute"
 
 #: src/panasonicmn.cpp:142
-#, fuzzy
 msgid "Infinite"
-msgstr "Intel"
+msgstr "Infini"
 
 #: src/panasonicmn.cpp:165
 msgid "10s"
-msgstr ""
+msgstr "10s"
 
 #: src/panasonicmn.cpp:166
 msgid "2s"
+msgstr "2s"
+
+#: src/panasonicmn.cpp:199
+msgid "Spot Mode"
 msgstr ""
 
-#: src/panasonicmn.cpp:188
-#, fuzzy
-msgid "Firmware version"
-msgstr "Version d'exif"
-
 #: src/panasonicmn.cpp:199
-#, fuzzy
-msgid "Spot Mode"
-msgstr "Mode de mesure"
-
-#: src/panasonicmn.cpp:199
-#, fuzzy
 msgid "Spot mode"
-msgstr "Portrait"
+msgstr ""
 
 #: src/panasonicmn.cpp:201
-#, fuzzy
 msgid "ImageStabilizer"
-msgstr "Orientation"
+msgstr "Stabilisateur d'image"
 
 #: src/panasonicmn.cpp:202
-#, fuzzy
 msgid "Image stabilizer"
-msgstr "Orientation"
+msgstr "Stabilisateur d'image"
 
 #: src/panasonicmn.cpp:210 src/panasonicmn.cpp:211
-#, fuzzy
 msgid "Audio"
-msgstr "action"
+msgstr "Audio"
 
 #: src/panasonicmn.cpp:220
-#, fuzzy
 msgid "White balance adjustment"
-msgstr "Balance des blancs"
+msgstr "Ajustement de la balance des blancs"
 
 #: src/panasonicmn.cpp:222
-#, fuzzy
 msgid "FlashBias"
-msgstr "Le flash s'est déclenché."
+msgstr "Biais du flash"
 
 #: src/panasonicmn.cpp:235
-#, fuzzy
 msgid "Color Effect"
-msgstr "Espace des couleurs"
+msgstr "Effet de couleurs"
 
 #: src/panasonicmn.cpp:236
-#, fuzzy
 msgid "Color effect"
-msgstr "Espace des couleurs"
+msgstr "Effet de couleurs"
 
 #: src/panasonicmn.cpp:241
-#, fuzzy
 msgid "Burst Mode"
-msgstr "Mode d'exposition"
+msgstr "Mode rafale"
 
 #: src/panasonicmn.cpp:242
-#, fuzzy
 msgid "Burst mode"
-msgstr "Mode d'exposition"
+msgstr "Mode rafale"
 
 #: src/panasonicmn.cpp:250
-#, fuzzy
 msgid "NoiseReduction"
-msgstr "Flash déclenché, mode anti-yeux rouges."
+msgstr "Réduction de bruit"
 
 #: src/panasonicmn.cpp:253
-#, fuzzy
 msgid "Self Timer"
-msgstr "Centimère"
-
-#: src/panasonicmn.cpp:254
-#, fuzzy
-msgid "Self timer"
-msgstr "Centimère"
+msgstr "Retardateur"
 
 #: src/panasonicmn.cpp:268
 msgid "Travel Day"
@@ -7379,97 +7678,80 @@ msgid "Travel day"
 msgstr ""
 
 #: src/panasonicmn.cpp:279
-#, fuzzy
 msgid "Unknown PanasonicMakerNote tag"
-msgstr "Version d'exif"
+msgstr "Marqueur de note du fabriquant Panasonic inconnu"
 
 #: src/panasonicmn.cpp:369
 msgid " EV"
-msgstr ""
+msgstr " EV"
 
 #: src/sigmamn.cpp:72
-#, fuzzy
 msgid "Resolution Mode"
-msgstr "x-résolution"
+msgstr "Mode résolution"
 
 #: src/sigmamn.cpp:73
-#, fuzzy
 msgid "Resolution mode"
-msgstr "x-résolution"
+msgstr "Mode résolution"
 
 #: src/sigmamn.cpp:74
-#, fuzzy
 msgid "Autofocus Mode"
-msgstr "Exposition automatique"
+msgstr "Mode autofocus"
 
 #: src/sigmamn.cpp:75
-#, fuzzy
 msgid "Autofocus mode"
-msgstr "Exposition automatique"
+msgstr "Mode autofocus"
 
 #: src/sigmamn.cpp:77
-#, fuzzy
 msgid "Focus Setting"
-msgstr "Mode d'exposition"
+msgstr "Réglage mise au point"
 
 #: src/sigmamn.cpp:78
-#, fuzzy
 msgid "Focus setting"
-msgstr "Mode d'exposition"
+msgstr "Réglage mise au point"
 
 #: src/sigmamn.cpp:89
-#, fuzzy
 msgid "Lens Range"
-msgstr "Échelle de transfert"
+msgstr ""
 
 #: src/sigmamn.cpp:90
-#, fuzzy
 msgid "Lens focal length range"
-msgstr "Longueur focale"
+msgstr ""
 
 #: src/sigmamn.cpp:101 src/sigmamn.cpp:102
-#, fuzzy
 msgid "Shadow"
 msgstr "Ombragé"
 
 #: src/sigmamn.cpp:104 src/sigmamn.cpp:105
-#, fuzzy
 msgid "Highlight"
-msgstr "Lumière du jour"
+msgstr "Ensoleillé"
 
 #: src/sigmamn.cpp:113
-#, fuzzy
 msgid "Fill Light"
-msgstr "Flash"
+msgstr ""
 
 #: src/sigmamn.cpp:114
-#, fuzzy
 msgid "X3 Fill light"
-msgstr "Flash"
+msgstr ""
 
 #: src/sigmamn.cpp:116
-#, fuzzy
 msgid "Color Adjustment"
-msgstr "Longeur de l'image"
+msgstr "justement couleurs"
 
 #: src/sigmamn.cpp:117
-#, fuzzy
 msgid "Color adjustment"
-msgstr "Longeur de l'image"
+msgstr "Ajustement couleurs"
 
 #: src/sigmamn.cpp:119
-#, fuzzy
 msgid "Adjustment Mode"
-msgstr "Longeur de l'image"
+msgstr "Mode ajustement"
 
 #: src/sigmamn.cpp:120
-#, fuzzy
 msgid "Adjustment mode"
-msgstr "Longeur de l'image"
+msgstr "Mode ajustement"
 
 #: src/sigmamn.cpp:125 src/sigmamn.cpp:126
 msgid "Firmware"
-msgstr ""
+msgstr "Microcode"
 
 #: src/sigmamn.cpp:131
 #, fuzzy
@@ -7477,72 +7759,14 @@ msgid "Auto Bracket"
 msgstr "Bracketing automatique"
 
 #: src/sigmamn.cpp:136
-#, fuzzy
 msgid "Unknown SigmaMakerNote tag"
-msgstr "Version d'exif"
+msgstr "Marqueur de note du fabriquant Sigma inconnu"
 
 #: src/sigmamn.cpp:243
-#, fuzzy
 msgid "8-Segment"
-msgstr "Multi-segments"
+msgstr "8-segments"
 
 #: src/sonymn.cpp:91
-#, fuzzy
 msgid "Unknown SonyMakerNote tag"
-msgstr "Version d'exif"
+msgstr "Marqueur de note du fabriquant Sony inconnu"
 
-#, fuzzy
-#~ msgid "Color balance 1"
-#~ msgstr "Espace des couleurs"
-
-#, fuzzy
-#~ msgid "Preview Informations"
-#~ msgstr "Orientation"
-
-#, fuzzy
-#~ msgid "Preview informations"
-#~ msgstr "Orientation"
-
-#, fuzzy
-#~ msgid "Color Balance"
-#~ msgstr "Espace des couleurs"
-
-#, fuzzy
-#~ msgid "White balance fine tune"
-#~ msgstr "Balance des blancs"
-
-#, fuzzy
-#~ msgid "Flash exposure bracket value"
-#~ msgstr "Temps d'exposition"
-
-#, fuzzy
-#~ msgid "Exposure bracket value"
-#~ msgstr "Temps d'exposition"
-
-#, fuzzy
-#~ msgid "Lens Adapter"
-#~ msgstr "Échelle de transfert"
-
-#, fuzzy
-#~ msgid "Lens adapter used"
-#~ msgstr "Espace des couleurs"
-
-#, fuzzy
-#~ msgid "Color Hue"
-#~ msgstr "Espace des couleurs"
-
-#, fuzzy
-#~ msgid "Color hue"
-#~ msgstr "Espace des couleurs"
-
-#, fuzzy
-#~ msgid "Raw Image Center"
-#~ msgstr "Longeur de l'image"
-
-#, fuzzy
-#~ msgid "Raw image center"
-#~ msgstr "Longeur de l'image"
-
-#, fuzzy
-#~ msgid "FlashMode"
-#~ msgstr "Flash"
