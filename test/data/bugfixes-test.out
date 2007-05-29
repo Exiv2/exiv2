@@ -126,7 +126,7 @@ Exif.Canon.ImageType                         Ascii      32  IMG:PowerShot S40 JP
 Exif.Canon.FirmwareVersion                   Ascii      24  Firmware Version 1.10
 Exif.Canon.ImageNumber                       Long        1  117-1771
 Exif.Canon.OwnerName                         Ascii      32  Andreas Huggel
-Exif.Canon.0x0010                            Long        1  17891328
+Exif.Canon.ModelID                           Long        1  PowerShot S40
 Exif.Canon.0x000d                            Short      21  42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
 Exif.CanonCs.Macro                           Short       1  Off
 Exif.CanonCs.Selftimer                       Short       1  Off
