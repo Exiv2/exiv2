@@ -347,7 +347,8 @@ namespace Exiv2 {
                 "image creator. The detailed format is not specified, but it is "
                 "recommended that the information be written as in the example "
                 "below for ease of Interoperability. When the field is "
-                "left blank, it is treated as unknown."),
+                "left blank, it is treated as unknown. Ex.) \"Camera owner, John "
+                "Smith; Photographer, Michael Brown; Image creator, Ken James\""),
                 ifd0Id, otherTags, asciiString, printValue),
         TagInfo(0x013e, "WhitePoint", N_("White Point"),
                 N_("The chromaticity of the white point of the image. Normally "
@@ -450,8 +451,16 @@ namespace Exiv2 {
                 "field; e.g., \"Copyright, John Smith, 19xx. All rights "
                 "reserved.\". In this standard the field records both the "
                 "photographer and editor copyrights, with each recorded in a "
-                "separate part of the statement. When the field "
-                "is left blank, it is treated as unknown."),
+                "separate part of the statement. When there is a clear distinction "
+                "between the photographer and editor copyrights, these are to be "
+                "written in the order of photographer followed by editor copyright, "
+                "separated by NULL (in this case since the statement also ends with "
+                "a NULL, there are two NULL codes). When only the photographer "
+                "copyright is given, it is terminated by one NULL code . When only "
+                "the editor copyright is given, the photographer copyright part "
+                "consists of one space followed by a terminating NULL code, then "
+                "the editor copyright is given. When the field is left blank, it is "
+                "treated as unknown."),
                 ifd0Id, otherTags, asciiString, print0x8298),
         TagInfo(0x8649, "ImageResources", N_("Image Resources Block"),
                 N_("Contains information embedded by the Adobe Photoshop application"),
