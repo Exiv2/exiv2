@@ -775,14 +775,19 @@ namespace Action {
         Exiv2::ExifKey key("Exif.Photo.DateTimeOriginal");
         Exiv2::ExifData::iterator md = exifData.findKey(key);
         if (md == exifData.end()) {
-            std::cerr << _("Metadatum with key") << " `" << key << "' "
-                      << _("not found in the file") << " " << path << "\n";
+            key = Exiv2::ExifKey("Exif.Image.DateTime");
+            md = exifData.findKey(key);
+        }
+        if (md == exifData.end()) {
+            std::cerr << _("Neither tag") << " `Exif.Photo.DateTimeOriginal' "
+                      << _("nor") << " `Exif.Image.DateTime' "
+                      << _("found in the file") << " " << path << "\n";
             return 1;
         }
         std::string v = md->toString();
         if (v.length() == 0 || v[0] == ' ') {
-            std::cerr << _("Image file creation timestamp not set in the file") << " "
-                      << path << "\n";
+            std::cerr << _("Image file creation timestamp not set in the file")
+                      << " " << path << "\n";
             return 1;
         }
         struct tm tm;
