@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "February 25th, 2007"
+.TH EXIV2 1 "June 3rd, 2007"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -65,8 +65,10 @@ files. Requires option \fB\-c\fP, \fB\-m\fP or \fB\-M\fP.
 .TP
 .B mv | rename
 Rename files and/or set file timestamps according to the Exif create
-timestamp. The filename format can be set with \fB\-r\fP \fIfmt\fP,
-timestamp options are \fB\-t\fP and \fB\-T\fP.
+timestamp. Uses the value of tag Exif.Photo.DateTimeOriginal or, if
+not present, Exif.Image.DateTime to determine the timestamp. The
+filename format can be set with \fB\-r\fP \fIfmt\fP, timestamp options
+are \fB\-t\fP and \fB\-T\fP.
 .TP
 .B fi | fixiso
 Copy the ISO setting from any of the proprietary Nikon makernote ISO
