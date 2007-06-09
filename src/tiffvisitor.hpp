@@ -302,7 +302,7 @@ namespace Exiv2 {
               createFct_(createFct) {}
         //@}
 
-        //! @name Manipulators
+        //! @name Accessors
         //@{
         /*!
           @brief Return the applicable byte order. May be different for
