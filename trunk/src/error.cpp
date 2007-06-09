@@ -77,8 +77,8 @@ namespace Exiv2 {
         ErrMsg( 32, N_("Setting %1 in %2 images is not supported")), // %1=metadata type, %2=image format
         ErrMsg( 33, N_("This does not look like a CRW image")),
         ErrMsg( 34, N_("%1: Not supported")), // %1=function
-        ErrMsg( 35, N_("ImageFactory registry full")),
-        ErrMsg( 36, N_("Failed to decode %1 metadata")), // %1=type of metadata (Exif, IPTC)
+        // 35
+        // 36
         ErrMsg( 37, N_("Size of %1 JPEG segment is larger than 65535 bytes")), // %1=type of metadata (Exif, IPTC, JPEG comment)
 
         // Last error message (message is not used)

@@ -207,7 +207,7 @@ namespace Exiv2 {
 
         // Markers can start with any number of 0xff
         while ((c=io_->getb()) == 0xff) {
-            if (c == EOF) return -1;
+            if (c == EOF) return -2;
         }
         return c;
     }
@@ -239,13 +239,18 @@ namespace Exiv2 {
 
             if (marker == app1_ && memcmp(buf.pData_ + 2, exifId_, 6) == 0) {
                 if (size < 8) throw Error(15);
-                // Seek to begining and read the Exif data
+                // Seek to beginning and read the Exif data
                 io_->seek(8-bufRead, BasicIo::cur);
                 long sizeExifData = size - 8;
                 DataBuf rawExif(sizeExifData);
                 io_->read(rawExif.pData_, sizeExifData);
                 if (io_->error() || io_->eof()) throw Error(14);
-                if (exifData_.load(rawExif.pData_, sizeExifData)) throw Error(36, "Exif");
+                if (exifData_.load(rawExif.pData_, sizeExifData)) {
+#ifndef SUPPRESS_WARNINGS
+                    std::cerr << "Warning: Failed to decode Exif metadata.\n";
+#endif
+                    exifData_.clear();
+                }
                 --search;
             }
             else if (marker == app13_ && memcmp(buf.pData_ + 2, Photoshop::ps3Id_, 14) == 0) {
@@ -262,7 +267,12 @@ namespace Exiv2 {
                 if (!Photoshop::locateIptcIrb(psData.pData_, psData.size_,
                                               &record, &sizeHdr, &sizeIptc)) {
                     if (sizeIptc) {
-                        if (iptcData_.load(record + sizeHdr, sizeIptc)) throw Error(36, "IPTC");
+                        if (iptcData_.load(record + sizeHdr, sizeIptc)) {
+#ifndef SUPPRESS_WARNINGS
+                            std::cerr << "Warning: Failed to decode IPTC metadata.\n";
+#endif
+                            iptcData_.clear();
+                        }
                     }
                 }
                 --search;
@@ -291,7 +301,12 @@ namespace Exiv2 {
             }
             // Read the beginning of the next segment
             marker = advanceToMarker();
-            if (marker < 0) throw Error(15);
+            if (marker < 0) {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Warning: JPEG format error.\n";
+#endif
+                break;
+            }
         }
     } // JpegBase::readMetadata
 
