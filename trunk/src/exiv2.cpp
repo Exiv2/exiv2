@@ -138,22 +138,24 @@ int main(int argc, char* const argv[])
     assert(task.get());
 
     // Process all files
+    int rc = 0;
     int n = 1;
     int s = static_cast<int>(params.files_.size());
     int w = s > 9 ? s > 99 ? 3 : 2 : 1;
-    Params::Files::const_iterator e = params.files_.end();
-    for (Params::Files::const_iterator i = params.files_.begin(); i != e; ++i) {
+    for (Params::Files::const_iterator i = params.files_.begin(); 
+         i != params.files_.end(); ++i) {
         if (params.verbose_) {
             std::cout << _("File") << " " << std::setw(w) << n++ << "/" << s << ": "
                       << *i << std::endl;
         }
-        task->run(*i);
+        int ret = task->run(*i);
+        if (rc == 0) rc = ret;
     }
 
     taskFactory.cleanup();
     params.cleanup();
 
-    return 0;
+    return rc;
 } // main
 
 // *****************************************************************************
