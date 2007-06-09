@@ -20,11 +20,11 @@
  */
 /*!
   @file    version.hpp
-  @brief   Define to check the %Exiv2 version. 
+  @brief   Precompiler define and a function to test the %Exiv2 version.
            References: Similar versioning defines are used in KDE, GTK and other
            libraries. See http://apr.apache.org/versioning.html for accompanying
            guidelines.
-  @version $Rev$
+  @version $revision$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    31-May-06, ahu: created
@@ -57,47 +57,57 @@
 #define EXIV2_VERSION \
     EXIV2_MAKE_VERSION(EXIV2_MAJOR_VERSION,EXIV2_MINOR_VERSION,EXIV2_PATCH_VERSION)
 /*!
-  @brief Check the version of the available %Exiv2 library at runtime. Return 
-         true if it is the same as or newer than the passed-in version.
+  @brief Deprecated version check macro. Do not use.
 
-  Versions are denoted using a standard triplet of integers:
-  MAJOR.MINOR.PATCH. The basic intent is that MAJOR versions are incompatible,
-  large-scale upgrades of the API. MINOR versions retain source and binary
-  compatibility with older minor versions, and changes in the PATCH level are
-  perfectly compatible, forwards and backwards.
+  This macro has flaws and only remains for backward compatibility. 
+  Use EXIV2_TEST_VERSION and testVersion() instead.
+ */
+#define EXIV2_CHECK_VERSION(major,minor,patch) \
+    ( Exiv2::versionNumber() >= EXIV2_MAKE_VERSION(major,minor,patch) )
+/*!
+  @brief Macro to test the version of the available %Exiv2 library at compile-time.
+         Return true if it is the same as or newer than the passed-in version.
 
-  Details of these guidelines are described in http://apr.apache.org/versioning.html
-
-  It is important to note that as long as the library has not reached 1.0.0 it
-  is not subject to the guidelines described in the document above. Before a 1.0
-  release (version 0.x.y), the API can and will be changing freely, without
-  regard to the restrictions detailed in the above document.
+  Versions are denoted using a triplet of integers: \em MAJOR.MINOR.PATCH .
 
   @code
-  // Don't include the version.hpp file, it is included by types.hpp
-  // Early Exiv2 versions didn't have this file and the macros
+  // Don't include the <exiv2/version.hpp> file directly, it is included by
+  // <exiv2/types.hpp>. Early Exiv2 versions didn't have version.hpp and the macros.
 
-  #ifndef EXIV2_CHECK_VERSION
-  # define EXIV2_CHECK_VERSION(a,b,c) (false)
+  #include <exiv2/types.hpp>
+  
+  // Make sure an EXIV2_TEST_VERSION macro exists:
+  
+  #ifdef EXIV2_VERSION
+  # ifndef EXIV2_TEST_VERSION
+  # define EXIV2_TEST_VERSION(major,minor,patch) \
+      ( EXIV2_VERSION >= EXIV2_MAKE_VERSION(major,minor,patch) )
+  # endif
+  #else
+  # define EXIV2_TEST_VERSION(major,minor,patch) (false)
   #endif
-
-  // ...
-
+  
   std::cout << "Compiled with Exiv2 version " << EXV_PACKAGE_VERSION << "\n"
-            << "Runtime Exiv2 version is    " << Exiv2::version() << "\n";
-
-  // Check the Exiv2 version available at runtime
-  if (EXIV2_CHECK_VERSION(0,13,0)) {
+            << "Runtime Exiv2 version is    " << Exiv2::version()    << "\n";
+  
+  // Test the Exiv2 version available at runtime but compile the if-clause only if
+  // the compile-time version is at least 0.14.1. Earlier versions didn't have a
+  // testVersion() function:
+  
+  #if EXIV2_TEST_VERSION(0,14,1)
+  if (Exiv2::testVersion(0,13,0)) {
       std::cout << "Available Exiv2 version is equal to or greater than 0.13\n";
   }
   else {
       std::cout << "Installed Exiv2 version is less than 0.13\n";
   }
-  return 0;
+  #else
+  std::cout << "Compile-time Exiv2 version doesn't have Exiv2::testVersion()\n";
+  #endif
   @endcode
  */
-#define EXIV2_CHECK_VERSION(major,minor,patch) \
-    ( Exiv2::versionNumber() >= EXIV2_MAKE_VERSION(major,minor,patch) )
+#define EXIV2_TEST_VERSION(major,minor,patch) \
+    ( EXIV2_VERSION >= EXIV2_MAKE_VERSION(major,minor,patch) )
 
 // *****************************************************************************
 // namespace extensions
@@ -110,5 +120,48 @@ namespace Exiv2 {
       @brief Return the version of %Exiv2 available at runtime as a string.
     */
     const char* version();
+    /*!
+      @brief Test the version of the available %Exiv2 library at runtime. Return 
+             true if it is the same as or newer than the passed-in version.
+    
+      Versions are denoted using a triplet of integers: \em major.minor.patch .
+    
+      @code
+      // Don't include the <exiv2/version.hpp> file directly, it is included by
+      // <exiv2/types.hpp>. Early Exiv2 versions didn't have version.hpp and the macros.
+
+      #include <exiv2/types.hpp>
+    
+      // Make sure an EXIV2_TEST_VERSION macro exists:
+      
+      #ifdef EXIV2_VERSION
+      # ifndef EXIV2_TEST_VERSION
+      # define EXIV2_TEST_VERSION(major,minor,patch) \
+          ( EXIV2_VERSION >= EXIV2_MAKE_VERSION(major,minor,patch) )
+      # endif
+      #else
+      # define EXIV2_TEST_VERSION(major,minor,patch) (false)
+      #endif
+    
+      std::cout << "Compiled with Exiv2 version " << EXV_PACKAGE_VERSION << "\n"
+                << "Runtime Exiv2 version is    " << Exiv2::version()    << "\n";
+    
+      // Test the Exiv2 version available at runtime but compile the if-clause only if
+      // the compile-time version is at least 0.14.1. Earlier versions didn't have a
+      // testVersion() function:
+
+      #if EXIV2_TEST_VERSION(0,14,1)
+      if (Exiv2::testVersion(0,13,0)) {
+          std::cout << "Available Exiv2 version is equal to or greater than 0.13\n";
+      }
+      else {
+          std::cout << "Installed Exiv2 version is less than 0.13\n";
+      }
+      #else
+      std::cout << "Compile-time Exiv2 version doesn't have Exiv2::testVersion()\n";
+      #endif
+      @endcode
+     */
+    bool testVersion(int major, int minor, int patch);
 }                                       // namespace Exiv2
 #endif                                  // VERSION_HPP_

@@ -49,4 +49,9 @@ namespace Exiv2 {
     {
         return EXV_PACKAGE_VERSION;
     }
+
+    bool testVersion(int major, int minor, int patch)
+    {
+        return versionNumber() >= EXIV2_MAKE_VERSION(major,minor,patch);
+    }
 }                                       // namespace Exiv2
