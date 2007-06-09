@@ -3,7 +3,7 @@
  * Copyright (C) 2004-2007 Andreas Huggel <ahuggel@gmx.net>
  *
  * Lens database to decode Exif.Nikon3.LensData
- * Copyright (C) 2005, 2006 Robert Rottmerhusen <email@rottmerhusen.com>
+ * Copyright (C) 2005-2007 Robert Rottmerhusen <email@rottmerhusen.com>
  *
  * This program is part of the Exiv2 distribution.
  *
@@ -1098,7 +1098,7 @@ namespace Exiv2 {
         //#
         //#"data from TAG 0x98" "ltyp""manuf" "lens name from manuf";
         //#
-        struct {unsigned char lid,stps,focs,focl,aps,apl,lfw, ltype; char *manuf, *lensname;}
+        struct {unsigned char lid,stps,focs,focl,aps,apl,lfw, ltype; const char *manuf, *lensname;}
         fmountlens[] = {
             {0x01,0x58,0x50,0x50,0x14,0x14,0x02,0x00, "Nikon", "AF Nikkor 50mm f/1.8"},
             {0x01,0x00,0x00,0x00,0x00,0x00,0x02,0x00, "Nikon", "AF Teleconverter TC-16A 1.6x"},
