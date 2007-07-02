@@ -357,18 +357,16 @@ namespace Exiv2 {
                 pe.type_ = getUShort(buf + o + 2, byteOrder);
                 pe.count_ = getULong(buf + o + 4, byteOrder);
                 uint32_t ts = TypeInfo::typeSize(TypeId(pe.type_));
-                if (pe.count_ >= 0x10000000 && ts != 0) {
-                    if (pe.count_ >= 0x80000000 / ts) {
+                if (pe.count_ >= 0x10000000) {
 #ifndef SUPPRESS_WARNINGS
-                        std::cerr << "Warning: "
-                                  << ExifTags::ifdName(ifdId_) << " tag 0x"
-                                  << std::setw(4) << std::setfill('0') << std::hex
-                                  << pe.tag_ << " has invalid size "
-                                  << std::dec << pe.count_ << "*" << ts 
-                                  << "; truncating the data.\n";
+                    std::cerr << "Warning: "
+                              << ExifTags::ifdName(ifdId_) << " tag 0x"
+                              << std::setw(4) << std::setfill('0') << std::hex
+                              << pe.tag_ << " has invalid size "
+                              << std::dec << pe.count_ << "*" << ts 
+                              << "; truncating the data.\n";
 #endif
-                        pe.count_ = 0;
-                    }
+                    pe.count_ = 0;
                 }
                 pe.size_ = pe.count_ * ts;
                 pe.offsetLoc_ = o + 8 - shift;
