@@ -8951,6 +8951,3 @@ msgstr ""
 #: src/sonymn.cpp:91
 msgid "Unknown SonyMakerNote tag"
 msgstr ""
-
-#~ msgid "Failed to decode %1 metadata"
-#~ msgstr "Die Metadaten %1 konnten nicht dekodiert werden."

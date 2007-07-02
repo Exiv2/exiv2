@@ -8212,12 +8212,3 @@ msgstr "8-segments"
 #: src/sonymn.cpp:91
 msgid "Unknown SonyMakerNote tag"
 msgstr "Marqueur de note du fabriquant Sony inconnu"
-
-#~ msgid "ImageFactory registry full"
-#~ msgstr "Registre ImageFactory plein"
-
-#~ msgid "Failed to decode %1 metadata"
-#~ msgstr "Impossible de décoder les métadonnées %1"
-
-#~ msgid "Metadatum with key"
-#~ msgstr "Méta-donnée de clé"

@@ -9514,27 +9514,6 @@ msgstr "Versión Exif"
 #~ msgid " / Subject Distance (mm) : %u"
 #~ msgstr "Distancia del sujeto"
 
-#~ msgid "center-weight"
-#~ msgstr "peso centrado"
-
-#~ msgid "spot"
-#~ msgstr "lugar"
-
-#~ msgid "matrix"
-#~ msgstr "matriz"
-
-#~ msgid "sunny"
-#~ msgstr "soleado"
-
-#~ msgid "fluorescent"
-#~ msgstr "fluorescente"
-
-#~ msgid "tungsten"
-#~ msgstr "tungsteno"
-
-#~ msgid "yes"
-#~ msgstr "sí"
-
 #, fuzzy
 #~ msgid "Unknown 1"
 #~ msgstr "Desconocido"
