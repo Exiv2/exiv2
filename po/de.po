@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
 "POT-Creation-Date: 2007-07-02 12:11+0800\n"
-"PO-Revision-Date: 2007-06-30 01:18+0200\n"
+"PO-Revision-Date: 2007-07-05 12:30+0200\n"
 "Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
 "Language-Team:  <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -176,8 +176,7 @@ msgstr "wurde in der Datei gefunden"
 
 #: src/actions.cpp:789
 msgid "Image file creation timestamp not set in the file"
-msgstr ""
-"Der Erstellungszeitstempel der Bilddatei ist nicht in der Datei gesetzt."
+msgstr "Der Erstellungszeitstempel der Bilddatei ist nicht in der Datei gesetzt."
 
 #: src/actions.cpp:795
 msgid "Failed to parse timestamp"
@@ -641,7 +640,7 @@ msgid ""
 "<EditStatus>."
 msgstr ""
 "Wird als Kurzreferenz für das Motiv benutzt. Wird zu existierenden Daten wie "
-"z.B. aktualisierten Stories, neuen Zuschnitten der geändert Photos, "
+"z.B. aktualisierten Stories, neuen Zuschnitten der geänderten Fotos, "
 "aktualisiert. Sollte mit dem Stichwort <EditStatus> identifiziert werden."
 
 #: src/datasets.cpp:198
@@ -665,7 +664,7 @@ msgid ""
 "Indicates the type of update that this object provides to a previous object. "
 "The link to the previous object is made using the tags <ARMIdentifier> and "
 "<ARMVersion>, according to the practices of the provider."
-msgstr ""
+msgstr "Gibt den Typ der Aktualisierung zwischen diesem und dem vorangegangenen Objekt an. Die Verknüpfung zu dem vorangegangenen Objekt wird über die Stichwörter <ARMIdentifier> und <ARMVersion> hergestellt. Dies geschieht durch die Standards des Anbieters."
 
 #: src/datasets.cpp:207 src/datasets.cpp:212
 msgid "Urgency"
@@ -676,7 +675,7 @@ msgid ""
 "Specifies the editorial urgency of content and not necessarily the envelope "
 "handling priority (see tag <EnvelopePriority>). The \"1\" is most urgent, \"5"
 "\" normal and \"8\" denotes the least-urgent copy."
-msgstr ""
+msgstr "Gibt die redaktionelle Wichtigkeit des Inhalts und nicht notwendigerweise Die Wichtigkeit mit der der Umschlag behandelt werden muß. Siehe dazu daß Sichwort <EnvelopePriority>. \"1\" ist die höchste, \"5\" normal und \"8\" die niedrigste Wichtigkeit."
 
 #: src/datasets.cpp:213
 msgid "Subject"
@@ -684,7 +683,7 @@ msgstr "Motiv"
 
 #: src/datasets.cpp:214
 msgid "The Subject Reference is a structured definition of the subject matter."
-msgstr ""
+msgstr "Die Referenz des Motivs ist eine strukturierte Definition des Motivs, um das es sich dreht."
 
 #: src/datasets.cpp:216 src/datasets.cpp:221
 msgid "Category"
@@ -695,11 +694,11 @@ msgid ""
 "Identifies the subject of the object data in the opinion of the provider. A "
 "list of categories will be maintained by a regional registry, where "
 "available, otherwise by the provider."
-msgstr ""
+msgstr "Identifiziert das Motiv der Objektdaten aus der Sicht des Anbieters. Eine Liste von Kategorien wird durch eine regionale Instanz, insofern vorhanden, verwaltet. Wenn nicht wird die Liste vom Anbieter bereit gestellt."
 
 #: src/datasets.cpp:222
 msgid "Supplemental Category"
-msgstr ""
+msgstr "Zusätzliche Kategorie"
 
 #: src/datasets.cpp:223
 msgid ""
@@ -707,11 +706,11 @@ msgid ""
 "supplemental category may include any of the recognised categories as used "
 "in tag <Category>. Otherwise, selection of supplemental categories are left "
 "to the provider."
-msgstr ""
+msgstr "Zusätzliche Kategorien verfeinern das Motiv der Objektdaten. Eine zusätzliche Kategorie kann jede bekannte Kategorie die im Stichwort <Category> enthalten ist. Falls nicht, so bleibt die Auswahl der zusätzlichen Kategorie beim Anbieter."
 
 #: src/datasets.cpp:228
 msgid "Supplemental Categories"
-msgstr ""
+msgstr "Zusätzliche Kategorien"
 
 #: src/datasets.cpp:229
 msgid "Fixture Id"
@@ -721,7 +720,7 @@ msgstr ""
 msgid ""
 "Identifies object data that recurs often and predictably. Enables users to "
 "immediately find or recall such an object."
-msgstr ""
+msgstr "Identifiziert Objektdaten die häufiger und vorhersagbar wieder auftreten. Dadurch wird es dem Benutzer möglich ein solches Objekt schnell zu finden oder wieder aufzurufen."
 
 #: src/datasets.cpp:233 src/datasets.cpp:239
 msgid "Keywords"
@@ -737,7 +736,7 @@ msgstr ""
 
 #: src/datasets.cpp:240
 msgid "Location Code"
-msgstr ""
+msgstr "Ortscode"
 
 #: src/datasets.cpp:241
 msgid ""
@@ -840,8 +839,7 @@ msgid "Reference Date"
 msgstr "Referenzdatum"
 
 #: src/datasets.cpp:284
-msgid ""
-"Identifies the date of a prior envelope to which the current object refers."
+msgid "Identifies the date of a prior envelope to which the current object refers."
 msgstr ""
 
 #: src/datasets.cpp:286
@@ -1025,8 +1023,7 @@ msgid "Headline"
 msgstr "Schlagzeile"
 
 #: src/datasets.cpp:364
-msgid ""
-"A publishable entry providing a synopsis of the contents of the object data."
+msgid "A publishable entry providing a synopsis of the contents of the object data."
 msgstr ""
 
 #: src/datasets.cpp:367 src/datasets.cpp:370
@@ -1336,8 +1333,7 @@ msgid "   -k      Preserve file timestamps (keep).\n"
 msgstr ""
 
 #: src/exiv2.cpp:233
-msgid ""
-"   -t      Also set the file timestamp in 'rename' action (overrides -k).\n"
+msgid "   -t      Also set the file timestamp in 'rename' action (overrides -k).\n"
 msgstr ""
 
 #: src/exiv2.cpp:234
@@ -1369,8 +1365,7 @@ msgid "             s : print a summary of the Exif metadata (the default)\n"
 msgstr ""
 
 #: src/exiv2.cpp:242
-msgid ""
-"             t : interpreted (translated) Exif data (shortcut for -Pkyct)\n"
+msgid "             t : interpreted (translated) Exif data (shortcut for -Pkyct)\n"
 msgstr ""
 
 #: src/exiv2.cpp:243
@@ -1390,8 +1385,7 @@ msgid "             c : Jpeg comment\n"
 msgstr ""
 
 #: src/exiv2.cpp:247
-msgid ""
-"   -P cols Print columns for the Exif taglist ('print' action). Valid are:\n"
+msgid "   -P cols Print columns for the Exif taglist ('print' action). Valid are:\n"
 msgstr ""
 
 #: src/exiv2.cpp:248
@@ -1439,8 +1433,7 @@ msgid "             h : hexdump of the data\n"
 msgstr ""
 
 #: src/exiv2.cpp:259
-msgid ""
-"   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n"
+msgid "   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n"
 msgstr ""
 
 #: src/exiv2.cpp:260
@@ -1483,8 +1476,7 @@ msgid "             :basename:   - original filename without extension\n"
 msgstr ""
 
 #: src/exiv2.cpp:273
-msgid ""
-"             :dirname:    - name of the directory holding the original file\n"
+msgid "             :dirname:    - name of the directory holding the original file\n"
 msgstr ""
 
 #: src/exiv2.cpp:274
@@ -2531,7 +2523,7 @@ msgid ""
 "Ken James\""
 msgstr ""
 "Dieses Stichwort enthält den Namen des Besitzers der Kamera, des "
-"Photographen oder Bilderschaffers. Das Format ist nicht festgelegt, aber es "
+"Fotographen oder Bilderschaffers. Das Format ist nicht festgelegt, aber es "
 "wird empfohlen die Informationen wie in unten stehendem Beispiel anzugeben "
 "für besser Interoperabilität. Wenn das Feld leer ist, wird der Name als "
 "unbekannt angenommen."
@@ -2714,8 +2706,7 @@ msgstr "Windows-Bewertung in Prozent"
 
 #: src/tags.cpp:428
 msgid "Rating tag used by Windows, value in percent"
-msgstr ""
-"Bewertungsstichwort das von Windows benutzt wird. Der Wert ist in Prozent."
+msgstr "Bewertungsstichwort das von Windows benutzt wird. Der Wert ist in Prozent."
 
 #: src/tags.cpp:430
 msgid "CFA Repeat Pattern Dimension"
@@ -2772,12 +2763,12 @@ msgid ""
 "it is treated as unknown."
 msgstr ""
 "Copyright Information. In diesem Standard wird dieses Stichwort dafür "
-"benutzt, um sowohl das Copyright des Photographen als auch des Editors "
+"benutzt, um sowohl das Copyright des Fotographen als auch des Editors "
 "anzugeben. Es beinhaltet die Copyright Notiz der Person oder der "
 "Organisation die Rechte an dem Bild einfordert. Die interoperable "
 "Copyrightnotiz sollte in dieses Stichworrt geschrieben werden; z.B., "
 "\"Copyright Claudia Mustermann, 200x. All rights reserved.\" In diesem "
-"Standard enthält dieses Feld sowohl Copyright des Photographen als auch des "
+"Standard enthält dieses Feld sowohl Copyright des Fotographen als auch des "
 "Editors in getrennten Feldern. Wenn das Feld leer ist, wird es als "
 "unbekannte gewertet."
 
@@ -3150,13 +3141,11 @@ msgstr "Blitz ausgelöst, fester Modus, Rote-Augen-Reduktion"
 
 #: src/tags.cpp:581
 msgid "Yes, compulsory, red-eye reduction, return light not detected"
-msgstr ""
-"Blitz ausgelöst, fester Modus, Rote-Augen-Reduktion, keine Reflektion erkannt"
+msgstr "Blitz ausgelöst, fester Modus, Rote-Augen-Reduktion, keine Reflektion erkannt"
 
 #: src/tags.cpp:582
 msgid "Yes, compulsory, red-eye reduction, return light detected"
-msgstr ""
-"Blitz ausgelöst, fester Modus, Rote-Augen-Reduktion, Reflektion erkannt"
+msgstr "Blitz ausgelöst, fester Modus, Rote-Augen-Reduktion, Reflektion erkannt"
 
 #: src/tags.cpp:583
 msgid "Yes, auto, red-eye reduction"
@@ -3221,7 +3210,7 @@ msgstr "Digitalkamera"
 
 #: src/tags.cpp:615
 msgid "Directly photographed"
-msgstr "Direkt photographiert"
+msgstr "Direkt fotographiert"
 
 #: src/tags.cpp:620
 msgid "Normal process"
@@ -3414,8 +3403,7 @@ msgstr "Datum und Uhrzeit (digitalisiert)"
 
 #: src/tags.cpp:718
 msgid "The date and time when the image was stored as digital data."
-msgstr ""
-"Das Datum und die Uhrzeit der Speicherung des Bildes als digitale Daten."
+msgstr "Das Datum und die Uhrzeit der Speicherung des Bildes als digitale Daten."
 
 #: src/tags.cpp:720
 msgid "Components Configuration"
@@ -3531,8 +3519,7 @@ msgid "The kind of light source."
 msgstr "Die Art der Lichtquelle."
 
 #: src/tags.cpp:764
-msgid ""
-"This tag is recorded when an image is taken using a strobe light (flash)."
+msgid "This tag is recorded when an image is taken using a strobe light (flash)."
 msgstr ""
 "Dieser Eintrag wird aufgezeichnet, wenn das Bild mit einem Blitz gemacht "
 "wurde."
@@ -3557,8 +3544,7 @@ msgstr "Motivbereich"
 msgid ""
 "This tag indicates the location and area of the main subject in the overall "
 "scene."
-msgstr ""
-"Dieses Stichwort gibt die Position und Größe des Hauptmotivs in der Szene an."
+msgstr "Dieses Stichwort gibt die Position und Größe des Hauptmotivs in der Szene an."
 
 #: src/tags.cpp:774
 msgid "Maker Note"
@@ -3599,8 +3585,7 @@ msgid "Sub-seconds Time Original"
 msgstr "Datum und Uhrzeit (original)"
 
 #: src/tags.cpp:787
-msgid ""
-"A tag used to record fractions of seconds for the <DateTimeOriginal> tag."
+msgid "A tag used to record fractions of seconds for the <DateTimeOriginal> tag."
 msgstr ""
 "Das Stichwort wird benutzt um Sekundenbruchteile für des <DateTimeOriginal>-"
 "Stichwort zu erfassen."
@@ -3610,8 +3595,7 @@ msgid "Sub-seconds Time Digitized"
 msgstr "Sekundenbruchteile (digitalisiert)"
 
 #: src/tags.cpp:790
-msgid ""
-"A tag used to record fractions of seconds for the <DateTimeDigitized> tag."
+msgid "A tag used to record fractions of seconds for the <DateTimeDigitized> tag."
 msgstr ""
 "Das Stichwort wird benutzt um Sekundenbruchteile für das <DateTimeDigitized>-"
 "Stichwort zu erfassen."
@@ -3834,8 +3818,7 @@ msgid ""
 "must always be set to 1, indicating that the image was directly photographed."
 msgstr ""
 "Gibt den Typ der Szene an. Wenn eine Digitalkamera die Szene aufgenommen "
-"hat, muß diese Zahl immer auf 1 gesetzt werden, um anzugeben, das die Szene "
-"direkt photographiert wurde."
+"hat, muß diese Zahl immer auf 1 gesetzt werden, um anzugeben, das die Szene direkt fotographiert wurde."
 
 #: src/tags.cpp:880
 msgid "Color Filter Array Pattern"
@@ -4445,7 +4428,7 @@ msgstr ""
 
 #: src/tags.cpp:1123
 msgid "GPS Date Stamp"
-msgstr ""
+msgstr "GPS Datumsstempel"
 
 #: src/tags.cpp:1124
 msgid ""
@@ -4458,8 +4441,7 @@ msgid "GPS Differential"
 msgstr ""
 
 #: src/tags.cpp:1128
-msgid ""
-"Indicates whether differential correction is applied to the GPS receiver."
+msgid "Indicates whether differential correction is applied to the GPS receiver."
 msgstr ""
 
 #: src/tags.cpp:1131 src/tags.cpp:1132
@@ -4485,42 +4467,36 @@ msgstr ""
 "die für ExifR98 benutzt werden."
 
 #: src/tags.cpp:1150
-#, fuzzy
 msgid "Interoperability Version"
-msgstr "Debug Informationen."
+msgstr "Interoperabilitätsversion"
 
 #: src/tags.cpp:1151
-#, fuzzy
 msgid "Interoperability version"
-msgstr "Debug Informationen."
+msgstr "Interoperabilitätsversion"
 
 #: src/tags.cpp:1153
 msgid "Related Image File Format"
-msgstr ""
+msgstr "Zugehöriges Bilddateiformat"
 
 #: src/tags.cpp:1154
 msgid "File format of image file"
-msgstr ""
+msgstr "Dateiformat der Bilddatei"
 
 #: src/tags.cpp:1156
-#, fuzzy
 msgid "Related Image Width"
-msgstr "Bildbreite"
+msgstr "Zugehörige Bildbreite"
 
 #: src/tags.cpp:1157 src/canonmn.cpp:656 src/olympusmn.cpp:335
-#, fuzzy
 msgid "Image width"
 msgstr "Bildbreite"
 
 #: src/tags.cpp:1159
-#, fuzzy
 msgid "Related Image Length"
-msgstr "Bildlänge"
+msgstr "Zugehörige Bildlänge"
 
 #: src/tags.cpp:1160 src/canonmn.cpp:657 src/olympusmn.cpp:338
-#, fuzzy
 msgid "Image height"
-msgstr "Bildlänge"
+msgstr "Bildhöhe"
 
 #: src/tags.cpp:1163 src/tags.cpp:1164
 msgid "Unknown Exif Interoperability tag"
@@ -4531,45 +4507,40 @@ msgid "Unknown tag"
 msgstr "Unbekanntes Stichwort"
 
 #: src/tags.cpp:1915 src/canonmn.cpp:365
-#, fuzzy
 msgid "Infinity"
 msgstr "Unendlich"
 
 #: src/tags.cpp:1967
-#, fuzzy
 msgid "Digital zoom not used"
-msgstr "Digital Zoom"
+msgstr "Digital Zoom wurde nicht benutzt"
 
 #: src/tiffvisitor.cpp:367
-#, fuzzy
 msgid "Data area"
-msgstr "lineares Format"
+msgstr "Datenbereich"
 
 #: src/tiffvisitor.cpp:369
-#, fuzzy
 msgid "bytes.\n"
-msgstr "Byte"
+msgstr "Bytes.\n"
 
 #: src/tiffvisitor.cpp:382
 msgid "directory with"
-msgstr ""
+msgstr "Ordner mit"
 
 #: src/tiffvisitor.cpp:385
-#, fuzzy
 msgid "entry:\n"
-msgstr "zentriert"
+msgstr "Eintrag:\n"
 
 #: src/tiffvisitor.cpp:386
 msgid "entries:\n"
-msgstr ""
+msgstr "Einträge:\n"
 
 #: src/tiffvisitor.cpp:395
 msgid "Next directory:\n"
-msgstr ""
+msgstr "Nächster Ordner:\n"
 
 #: src/tiffvisitor.cpp:396
 msgid "No next directory\n"
-msgstr ""
+msgstr "Kein weitere Ordner\n"
 
 #: src/tiffvisitor.cpp:407
 msgid "Sub-IFD"
@@ -4585,393 +4556,392 @@ msgid "component"
 msgstr ""
 
 #: src/tiffvisitor.cpp:433
-#, fuzzy
 msgid "bytes"
-msgstr "Byte"
+msgstr "Bytes"
 
 #: src/tiffvisitor.cpp:450
 msgid "Array Entry"
-msgstr ""
+msgstr "Feldeintrag"
 
 #: src/canonmn.cpp:84
 msgid "PowerShot A30"
-msgstr ""
+msgstr "PowerShot A30"
 
 #: src/canonmn.cpp:85
 msgid "PowerShot S300 / Digital IXUS 300 / IXY Digital 300"
-msgstr ""
+msgstr "PowerShot S300 / Digital IXUS 300 / IXY Digital 300"
 
 #: src/canonmn.cpp:86
 msgid "PowerShot A20"
-msgstr ""
+msgstr "PowerShot A20"
 
 #: src/canonmn.cpp:87
 msgid "PowerShot A10"
-msgstr ""
+msgstr "PowerShot A10"
 
 #: src/canonmn.cpp:88
 msgid "PowerShot S110 / Digital IXUS v / IXY Digital 200"
-msgstr ""
+msgstr "PowerShot S110 / Digital IXUS v / IXY Digital 200"
 
 #: src/canonmn.cpp:89
 msgid "PowerShot G2"
-msgstr ""
+msgstr "PowerShot G2"
 
 #: src/canonmn.cpp:90
 msgid "PowerShot S40"
-msgstr ""
+msgstr "PowerShot S40"
 
 #: src/canonmn.cpp:91
 msgid "PowerShot S30"
-msgstr ""
+msgstr "PowerShot S30"
 
 #: src/canonmn.cpp:92
 msgid "PowerShot A40"
-msgstr ""
+msgstr "PowerShot A40"
 
 #: src/canonmn.cpp:93
 msgid "EOS D30"
-msgstr ""
+msgstr "EOS D30"
 
 #: src/canonmn.cpp:94
 msgid "PowerShot A100"
-msgstr ""
+msgstr "PowerShot A100"
 
 #: src/canonmn.cpp:95
 msgid "PowerShot S200 / Digital IXUS v2 / IXY Digital 200a"
-msgstr ""
+msgstr "PowerShot S200 / Digital IXUS v2 / IXY Digital 200a"
 
 #: src/canonmn.cpp:96
 msgid "PowerShot A200"
-msgstr ""
+msgstr "PowerShot A200"
 
 #: src/canonmn.cpp:97
 msgid "PowerShot S330 / Digital IXUS 330 / IXY Digital 300a"
-msgstr ""
+msgstr "PowerShot S330 / Digital IXUS 330 / IXY Digital 300a"
 
 #: src/canonmn.cpp:98
 msgid "PowerShot G3"
-msgstr ""
+msgstr "PowerShot G3"
 
 #: src/canonmn.cpp:99
 msgid "PowerShot S45"
-msgstr ""
+msgstr "PowerShot S45"
 
 #: src/canonmn.cpp:100
 msgid "PowerShot SD100 / Digital IXUS II / IXY Digital 30"
-msgstr ""
+msgstr "PowerShot SD100 / Digital IXUS II / IXY Digital 30"
 
 #: src/canonmn.cpp:101
 msgid "PowerShot S230 / Digital IXUS v3 / IXY Digital 320"
-msgstr ""
+msgstr "PowerShot S230 / Digital IXUS v3 / IXY Digital 320"
 
 #: src/canonmn.cpp:102
 msgid "PowerShot A70"
-msgstr ""
+msgstr "PowerShot A70"
 
 #: src/canonmn.cpp:103
 msgid "PowerShot A60"
-msgstr ""
+msgstr "PowerShot A60"
 
 #: src/canonmn.cpp:104
 msgid "PowerShot S400 / Digital IXUS 400 / IXY Digital 400"
-msgstr ""
+msgstr "PowerShot S400 / Digital IXUS 400 / IXY Digital 400"
 
 #: src/canonmn.cpp:105
 msgid "PowerShot G5"
-msgstr ""
+msgstr "PowerShot G5"
 
 #: src/canonmn.cpp:106
 msgid "PowerShot A300"
-msgstr ""
+msgstr "PowerShot A300"
 
 #: src/canonmn.cpp:107
 msgid "PowerShot S50"
-msgstr ""
+msgstr "PowerShot S50"
 
 #: src/canonmn.cpp:108
 msgid "PowerShot A80"
-msgstr ""
+msgstr "PowerShot A80"
 
 #: src/canonmn.cpp:109
 msgid "PowerShot SD10 / Digital IXUS i / IXY Digital L"
-msgstr ""
+msgstr "PowerShot SD10 / Digital IXUS i / IXY Digital L"
 
 #: src/canonmn.cpp:110
 msgid "PowerShot S1 IS"
-msgstr ""
+msgstr "PowerShot S1 IS"
 
 #: src/canonmn.cpp:111
 msgid "PowerShot Pro1"
-msgstr ""
+msgstr "PowerShot Pro1"
 
 #: src/canonmn.cpp:112
 msgid "PowerShot S70"
-msgstr ""
+msgstr "PowerShot S70"
 
 #: src/canonmn.cpp:113
 msgid "PowerShot S60"
-msgstr ""
+msgstr "PowerShot S60"
 
 #: src/canonmn.cpp:114
 msgid "PowerShot G6"
-msgstr ""
+msgstr "PowerShot G6"
 
 #: src/canonmn.cpp:115
 msgid "PowerShot S500 / Digital IXUS 500 / IXY Digital 500"
-msgstr ""
+msgstr "PowerShot S500 / Digital IXUS 500 / IXY Digital 500"
 
 #: src/canonmn.cpp:116
 msgid "PowerShot A75"
-msgstr ""
+msgstr "PowerShot A75"
 
 #: src/canonmn.cpp:117
 msgid "PowerShot SD110 / Digital IXUS IIs / IXY Digital 30a"
-msgstr ""
+msgstr "PowerShot SD110 / Digital IXUS IIs / IXY Digital 30a"
 
 #: src/canonmn.cpp:118
 msgid "PowerShot A400"
-msgstr ""
+msgstr "PowerShot A400"
 
 #: src/canonmn.cpp:119
 msgid "PowerShot A310"
-msgstr ""
+msgstr "PowerShot A310"
 
 #: src/canonmn.cpp:120
 msgid "PowerShot A85"
-msgstr ""
+msgstr "PowerShot A85"
 
 #: src/canonmn.cpp:121
 msgid "PowerShot S410 / Digital IXUS 430 / IXY Digital 450"
-msgstr ""
+msgstr "PowerShot S410 / Digital IXUS 430 / IXY Digital 450"
 
 #: src/canonmn.cpp:122
 msgid "PowerShot A95"
-msgstr ""
+msgstr "PowerShot A95"
 
 #: src/canonmn.cpp:123
 msgid "PowerShot SD300 / Digital IXUS 40 / IXY Digital 50"
-msgstr ""
+msgstr "PowerShot SD300 / Digital IXUS 40 / IXY Digital 50"
 
 #: src/canonmn.cpp:124
 msgid "PowerShot SD200 / Digital IXUS 30 / IXY Digital 40"
-msgstr ""
+msgstr "PowerShot SD200 / Digital IXUS 30 / IXY Digital 40"
 
 #: src/canonmn.cpp:125
 msgid "PowerShot A520"
-msgstr ""
+msgstr "PowerShot A520"
 
 #: src/canonmn.cpp:126
 msgid "PowerShot A510"
-msgstr ""
+msgstr "PowerShot A510"
 
 #: src/canonmn.cpp:127
 msgid "PowerShot SD20 / Digital IXUS i5 / IXY Digital L2"
-msgstr ""
+msgstr "PowerShot SD20 / Digital IXUS i5 / IXY Digital L2"
 
 #: src/canonmn.cpp:128
 msgid "PowerShot S2 IS"
-msgstr ""
+msgstr "PowerShot S2 IS"
 
 #: src/canonmn.cpp:129
 msgid "PowerShot SD430 / IXUS Wireless / IXY Wireless"
-msgstr ""
+msgstr "PowerShot SD430 / IXUS Wireless / IXY Wireless"
 
 #: src/canonmn.cpp:130
 msgid "PowerShot SD500 / Digital IXUS 700 / IXY Digital 600"
-msgstr ""
+msgstr "PowerShot SD500 / Digital IXUS 700 / IXY Digital 600"
 
 #: src/canonmn.cpp:131
 msgid "EOS D60"
-msgstr ""
+msgstr "EOS D60"
 
 #: src/canonmn.cpp:132
 msgid "PowerShot SD30 / Digital IXUS i zoom / IXY Digital L3"
-msgstr ""
+msgstr "PowerShot SD30 / Digital IXUS i zoom / IXY Digital L3"
 
 #: src/canonmn.cpp:133
 msgid "PowerShot A430"
-msgstr ""
+msgstr "PowerShot A430"
 
 #: src/canonmn.cpp:134
 msgid "PowerShot A410"
-msgstr ""
+msgstr "PowerShot A410"
 
 #: src/canonmn.cpp:135
 msgid "PowerShot S80"
-msgstr ""
+msgstr "PowerShot S80"
 
 #: src/canonmn.cpp:136
 msgid "PowerShot A620"
-msgstr ""
+msgstr "PowerShot A620"
 
 #: src/canonmn.cpp:137
 msgid "PowerShot A610"
-msgstr ""
+msgstr "PowerShot A610"
 
 #: src/canonmn.cpp:138
 msgid "PowerShot SD630 / Digital IXUS 65 / IXY Digital 80"
-msgstr ""
+msgstr "PowerShot SD630 / Digital IXUS 65 / IXY Digital 80"
 
 #: src/canonmn.cpp:139
 msgid "PowerShot SD450 / Digital IXUS 55 / IXY Digital 60"
-msgstr ""
+msgstr "PowerShot SD450 / Digital IXUS 55 / IXY Digital 60"
 
 #: src/canonmn.cpp:140
 msgid "PowerShot TX1"
-msgstr ""
+msgstr "PowerShot TX1"
 
 #: src/canonmn.cpp:141
 msgid "PowerShot SD400 / Digital IXUS 50 / IXY Digital 55"
-msgstr ""
+msgstr "PowerShot SD400 / Digital IXUS 50 / IXY Digital 55"
 
 #: src/canonmn.cpp:142
 msgid "PowerShot A420"
-msgstr ""
+msgstr "PowerShot A420"
 
 #: src/canonmn.cpp:143
 msgid "PowerShot SD900 / Digital IXUS 900 Ti / IXY Digital 1000"
-msgstr ""
+msgstr "PowerShot SD900 / Digital IXUS 900 Ti / IXY Digital 1000"
 
 #: src/canonmn.cpp:144
 msgid "PowerShot SD550 / Digital IXUS 750 / IXY Digital 700"
-msgstr ""
+msgstr "PowerShot SD550 / Digital IXUS 750 / IXY Digital 700"
 
 #: src/canonmn.cpp:145
 msgid "PowerShot A700"
-msgstr ""
+msgstr "PowerShot A700"
 
 #: src/canonmn.cpp:146
 msgid "PowerShot SD700 IS / Digital IXUS 800 IS / IXY Digital 800 IS"
-msgstr ""
+msgstr "PowerShot SD700 IS / Digital IXUS 800 IS / IXY Digital 800 IS"
 
 #: src/canonmn.cpp:147
 msgid "PowerShot S3 IS"
-msgstr ""
+msgstr "PowerShot S3 IS"
 
 #: src/canonmn.cpp:148
 msgid "PowerShot A540"
-msgstr ""
+msgstr "PowerShot A540"
 
 #: src/canonmn.cpp:149
 msgid "PowerShot SD600 / Digital IXUS 60 / IXY Digital 70"
-msgstr ""
+msgstr "PowerShot SD600 / Digital IXUS 60 / IXY Digital 70"
 
 #: src/canonmn.cpp:150
 msgid "PowerShot G7"
-msgstr ""
+msgstr "PowerShot G7"
 
 #: src/canonmn.cpp:151
 msgid "PowerShot A530"
-msgstr ""
+msgstr "PowerShot A530"
 
 #: src/canonmn.cpp:152
 msgid "PowerShot SD800 IS / Digital IXUS 850 IS / IXY Digital 900 IS"
-msgstr ""
+msgstr "PowerShot SD800 IS / Digital IXUS 850 IS / IXY Digital 900 IS"
 
 #: src/canonmn.cpp:153
 msgid "PowerShot SD40 / Digital IXUS i7 / IXY Digital L4"
-msgstr ""
+msgstr "PowerShot SD40 / Digital IXUS i7 / IXY Digital L4"
 
 #: src/canonmn.cpp:154
 msgid "PowerShot A710 IS"
-msgstr ""
+msgstr "PowerShot A710 IS"
 
 #: src/canonmn.cpp:155
 msgid "PowerShot A640"
-msgstr ""
+msgstr "PowerShot A640"
 
 #: src/canonmn.cpp:156
 msgid "PowerShot A630"
-msgstr ""
+msgstr "PowerShot A630"
 
 #: src/canonmn.cpp:157
 msgid "PowerShot S5 IS"
-msgstr ""
+msgstr "PowerShot S5 IS"
 
 #: src/canonmn.cpp:158
 msgid "PowerShot A460"
-msgstr ""
+msgstr "PowerShot A460"
 
 #: src/canonmn.cpp:159
 msgid "PowerShot SD850 IS / Digital IXUS 950 IS"
-msgstr ""
+msgstr "PowerShot SD850 IS / Digital IXUS 950 IS"
 
 #: src/canonmn.cpp:160
 msgid "PowerShot A570 IS"
-msgstr ""
+msgstr "PowerShot A570 IS"
 
 #: src/canonmn.cpp:161
 msgid "PowerShot A560"
-msgstr ""
+msgstr "PowerShot A560"
 
 #: src/canonmn.cpp:162
 msgid "PowerShot SD750 / Digital IXUS 75 / IXY Digital 90"
-msgstr ""
+msgstr "PowerShot SD750 / Digital IXUS 75 / IXY Digital 90"
 
 #: src/canonmn.cpp:163
 msgid "PowerShot SD1000 / Digital IXUS 70 / IXY Digital 10"
-msgstr ""
+msgstr "PowerShot SD1000 / Digital IXUS 70 / IXY Digital 10"
 
 #: src/canonmn.cpp:164
 msgid "PowerShot A550"
-msgstr ""
+msgstr "PowerShot A550"
 
 #: src/canonmn.cpp:165
 msgid "PowerShot A450"
-msgstr ""
+msgstr "PowerShot A450"
 
 #: src/canonmn.cpp:166
 msgid "PowerShot Pro90 IS"
-msgstr ""
+msgstr "PowerShot Pro90 IS"
 
 #: src/canonmn.cpp:167
 msgid "PowerShot G1"
-msgstr ""
+msgstr "PowerShot G1"
 
 #: src/canonmn.cpp:168
 msgid "PowerShot S100 / Digital IXUS / IXY Digital"
-msgstr ""
+msgstr "PowerShot S100 / Digital IXUS / IXY Digital"
 
 #: src/canonmn.cpp:169
 msgid "HV10"
-msgstr ""
+msgstr "HV10"
 
 #: src/canonmn.cpp:170
 msgid "iVIS DC50"
-msgstr ""
+msgstr "iVIS DC50"
 
 #: src/canonmn.cpp:171
 msgid "iVIS HV20"
-msgstr ""
+msgstr "iVIS HV20"
 
 #: src/canonmn.cpp:172
 msgid "EOS-1D"
-msgstr ""
+msgstr "EOS-1D"
 
 #: src/canonmn.cpp:173
 msgid "EOS-1DS"
-msgstr ""
+msgstr "EOS-1DS"
 
 #: src/canonmn.cpp:174
 msgid "EOS 10D"
-msgstr ""
+msgstr "EOS 10D"
 
 #: src/canonmn.cpp:175
 msgid "EOS-1D Mark III"
-msgstr ""
+msgstr "EOS-1D Mark III"
 
 #: src/canonmn.cpp:176
 msgid "EOS Digital Rebel / 300D / Kiss Digital"
-msgstr ""
+msgstr "EOS Digital Rebel / 300D / Kiss Digital"
 
 #: src/canonmn.cpp:177
 msgid "EOS-1D Mark II"
-msgstr ""
+msgstr "EOS-1D Mark II"
 
 #: src/canonmn.cpp:178
 msgid "EOS 20D"
-msgstr ""
+msgstr "EOS 20D"
 
 #: src/canonmn.cpp:179
 msgid "EOS-1Ds Mark II"
@@ -4998,14 +4968,12 @@ msgid "EOS Digital Rebel XTi / 400D / Kiss Digital X"
 msgstr ""
 
 #: src/canonmn.cpp:190 src/olympusmn.cpp:379
-#, fuzzy
 msgid "Camera Settings"
-msgstr "Kontrasteinstellung"
+msgstr "Kameraeinstellungen"
 
 #: src/canonmn.cpp:190
-#, fuzzy
 msgid "Various camera settings"
-msgstr "Kontrasteinstellung"
+msgstr "Verschiedene Kameraeinstellungen"
 
 #: src/canonmn.cpp:193
 #, fuzzy
@@ -5018,47 +4986,39 @@ msgid "Shot information"
 msgstr "GPS-Informationen"
 
 #: src/canonmn.cpp:194 src/olympusmn.cpp:486
-#, fuzzy
 msgid "Panorama"
 msgstr "Panorama"
 
 #: src/canonmn.cpp:195
-#, fuzzy
 msgid "Image type"
 msgstr "Bildtyp"
 
 #: src/canonmn.cpp:196 src/olympusmn.cpp:143 src/panasonicmn.cpp:187
-#, fuzzy
 msgid "Firmware Version"
 msgstr "Firmware Version"
 
 #: src/canonmn.cpp:196 src/panasonicmn.cpp:188
-#, fuzzy
 msgid "Firmware version"
 msgstr "Firmware Version"
 
 #: src/canonmn.cpp:197 src/minoltamn.cpp:667 src/minoltamn.cpp:936
 #: src/minoltamn.cpp:943 src/minoltamn.cpp:1180
-#, fuzzy
 msgid "Image Number"
 msgstr "Bildnummer"
 
 #: src/canonmn.cpp:198
-#, fuzzy
 msgid "Owner Name"
-msgstr "Dokumentenname"
+msgstr "Besitzername"
 
 #: src/canonmn.cpp:199 src/fujimn.cpp:188 src/nikonmn.cpp:654
 #: src/nikonmn.cpp:655 src/nikonmn.cpp:741 src/olympusmn.cpp:184
 #: src/panasonicmn.cpp:225 src/sigmamn.cpp:66
-#, fuzzy
 msgid "Serial Number"
 msgstr "Seriennummer"
 
 #: src/canonmn.cpp:199 src/nikonmn.cpp:742 src/sigmamn.cpp:67
-#, fuzzy
 msgid "Camera serial number"
-msgstr "Seriennummer"
+msgstr "Kamera-Seriennummer"
 
 #: src/canonmn.cpp:201
 #, fuzzy
@@ -5066,34 +5026,28 @@ msgid "Custom Functions"
 msgstr "Anleitung"
 
 #: src/canonmn.cpp:202
-#, fuzzy
 msgid "ModelID"
-msgstr "Modell"
+msgstr "Modell-ID"
 
 #: src/canonmn.cpp:202
-#, fuzzy
 msgid "Model ID"
-msgstr "Modell"
+msgstr "Modell-ID"
 
 #: src/canonmn.cpp:203 src/olympusmn.cpp:146
-#, fuzzy
 msgid "Picture Info"
-msgstr "Aufnahme Modus"
+msgstr "Bild-Info"
 
 #: src/canonmn.cpp:203
-#, fuzzy
 msgid "Picture info"
-msgstr "Aufnahme Modus"
+msgstr "Bild-Info"
 
 #: src/canonmn.cpp:204
-#, fuzzy
 msgid "White Balance Table"
-msgstr "Weißabgleich"
+msgstr "Weißabgleichstabelle"
 
 #: src/canonmn.cpp:204
-#, fuzzy
 msgid "White balance table"
-msgstr "Weißabgleich"
+msgstr "Weißabgleichstabelle"
 
 #: src/canonmn.cpp:209
 msgid "Unknown CanonMakerNote tag"
@@ -5107,7 +5061,7 @@ msgstr ""
 #: src/olympusmn.cpp:71 src/olympusmn.cpp:78 src/panasonicmn.cpp:98
 #: src/panasonicmn.cpp:357
 msgid "On"
-msgstr ""
+msgstr "An"
 
 #: src/canonmn.cpp:220 src/canonmn.cpp:234 src/canonmn.cpp:426
 #: src/canonmn.cpp:433 src/fujimn.cpp:65 src/fujimn.cpp:109 src/fujimn.cpp:146
@@ -5128,41 +5082,36 @@ msgstr ""
 
 #: src/canonmn.cpp:227 src/minoltamn.cpp:76 src/minoltamn.cpp:335
 #: src/minoltamn.cpp:783 src/minoltamn.cpp:986
-#, fuzzy
 msgid "Fine"
-msgstr "VGA Fein"
+msgstr "Fein"
 
 #: src/canonmn.cpp:228
 msgid "RAW"
-msgstr ""
+msgstr "Roh"
 
 #: src/canonmn.cpp:229
-#, fuzzy
 msgid "Superfine"
-msgstr "SXGA Fein"
+msgstr "Superfein"
 
 #: src/canonmn.cpp:237
 msgid "Red-eye"
-msgstr ""
+msgstr "Rote-Augen"
 
 #: src/canonmn.cpp:238
-#, fuzzy
 msgid "Slow sync"
 msgstr "Langsame Synchronisation"
 
 #: src/canonmn.cpp:239
-#, fuzzy
 msgid "Auto + red-eye"
-msgstr "Automatischer Erfassung"
+msgstr "Auto + Rote-Augen"
 
 #: src/canonmn.cpp:240
 msgid "On + red-eye"
-msgstr ""
+msgstr "An + Rote-Augen"
 
 #: src/canonmn.cpp:241 src/olympusmn.cpp:86
-#, fuzzy
 msgid "External"
-msgstr "Externes E-TTL"
+msgstr "Extern"
 
 #: src/canonmn.cpp:246
 #, fuzzy
@@ -5175,9 +5124,8 @@ msgid "Continuous"
 msgstr "Kontinuierlich"
 
 #: src/canonmn.cpp:248
-#, fuzzy
 msgid "Movie"
-msgstr "Modell"
+msgstr "Film"
 
 #: src/canonmn.cpp:249
 #, fuzzy
@@ -5185,14 +5133,12 @@ msgid "Continuous, speed priority"
 msgstr "optimiert nach Belichtungszeit"
 
 #: src/canonmn.cpp:250
-#, fuzzy
 msgid "Continuous, low"
-msgstr "Kontinuierlich"
+msgstr "Kontinuierlich, niedrig"
 
 #: src/canonmn.cpp:251
-#, fuzzy
 msgid "Continuous, high"
-msgstr "Kontinuierlich"
+msgstr "Kontinuierlich, hoch"
 
 #: src/canonmn.cpp:256
 #, fuzzy
@@ -5222,38 +5168,32 @@ msgid "Pan focus"
 msgstr "Manueller Fokus"
 
 #: src/canonmn.cpp:268 src/minoltamn.cpp:775 src/minoltamn.cpp:978
-#, fuzzy
 msgid "Large"
 msgstr "Groß"
 
 #: src/canonmn.cpp:269 src/minoltamn.cpp:776 src/minoltamn.cpp:979
-#, fuzzy
 msgid "Medium"
 msgstr "Mittel"
 
 #: src/canonmn.cpp:270 src/minoltamn.cpp:777 src/minoltamn.cpp:980
-#, fuzzy
 msgid "Small"
 msgstr "Klein"
 
 #: src/canonmn.cpp:271
-#, fuzzy
 msgid "Medium 1"
-msgstr "Mittel"
+msgstr "Mittel 1"
 
 #: src/canonmn.cpp:272
-#, fuzzy
 msgid "Medium 2"
-msgstr "Mittel"
+msgstr "Mittel 2"
 
 #: src/canonmn.cpp:273
-#, fuzzy
 msgid "Medium 3"
-msgstr "Mittel"
+msgstr "Mittel 3"
 
 #: src/canonmn.cpp:278
 msgid "Full auto"
-msgstr ""
+msgstr "Vollautomatisch"
 
 #: src/canonmn.cpp:281
 msgid "Fast shutter"
@@ -5264,13 +5204,12 @@ msgid "Slow shutter"
 msgstr ""
 
 #: src/canonmn.cpp:283 src/minoltamn.cpp:68
-#, fuzzy
 msgid "Night Scene"
 msgstr "Nachtszene"
 
 #: src/canonmn.cpp:284
 msgid "Gray scale"
-msgstr ""
+msgstr "Grauskalierung"
 
 #: src/canonmn.cpp:285 src/canonmn.cpp:437 src/minoltamn.cpp:61
 #: src/panasonicmn.cpp:135
@@ -5278,9 +5217,8 @@ msgid "Sepia"
 msgstr "Sepia"
 
 #: src/canonmn.cpp:287 src/fujimn.cpp:124 src/panasonicmn.cpp:108
-#, fuzzy
 msgid "Sports"
-msgstr "Punkt"
+msgstr "Sport"
 
 #: src/canonmn.cpp:288
 #, fuzzy
@@ -5288,23 +5226,20 @@ msgid "Macro / close-up"
 msgstr "Makromodus"
 
 #: src/canonmn.cpp:289 src/fujimn.cpp:155
-#, fuzzy
 msgid "Black & white"
-msgstr "Schwarz & Weiß"
+msgstr "Schwarz/Weiß"
 
 #: src/canonmn.cpp:291 src/canonmn.cpp:434
 msgid "Vivid"
-msgstr ""
+msgstr "Vivid"
 
 #: src/canonmn.cpp:292 src/canonmn.cpp:435
-#, fuzzy
 msgid "Neutral"
-msgstr "Manuell"
+msgstr "Neutral"
 
 #: src/canonmn.cpp:293
-#, fuzzy
 msgid "Flash off"
-msgstr "Blitz an"
+msgstr "Blitz aus"
 
 #: src/canonmn.cpp:294
 msgid "Long shutter"
@@ -5324,24 +5259,23 @@ msgstr ""
 
 #: src/canonmn.cpp:298 src/fujimn.cpp:137 src/panasonicmn.cpp:116
 msgid "Fireworks"
-msgstr ""
+msgstr "Feuerwerk"
 
 #: src/canonmn.cpp:299 src/fujimn.cpp:135
 msgid "Beach"
-msgstr ""
+msgstr "Strand"
 
 #: src/canonmn.cpp:300 src/canonmn.cpp:514 src/fujimn.cpp:138
-#, fuzzy
 msgid "Underwater"
-msgstr "Gutes Wetter"
+msgstr "Unterwasser"
 
 #: src/canonmn.cpp:301 src/fujimn.cpp:136 src/panasonicmn.cpp:118
 msgid "Snow"
-msgstr ""
+msgstr "Schnee"
 
 #: src/canonmn.cpp:302
 msgid "Kids & pets"
-msgstr ""
+msgstr "Kinder & Tiere"
 
 #: src/canonmn.cpp:303
 #, fuzzy
@@ -5354,9 +5288,8 @@ msgid "Digital macro"
 msgstr "Digitaler Zoom"
 
 #: src/canonmn.cpp:305
-#, fuzzy
 msgid "My Colors"
-msgstr "Farbmodus"
+msgstr "Meine Farben"
 
 #: src/canonmn.cpp:306 src/minoltamn.cpp:445
 #, fuzzy
@@ -5373,9 +5306,8 @@ msgid "Auto High"
 msgstr "oben - rechts"
 
 #: src/canonmn.cpp:345
-#, fuzzy
 msgid "Default"
-msgstr "Löschen"
+msgstr "Standard"
 
 #: src/canonmn.cpp:348
 msgid "Evaluative"
@@ -5387,27 +5319,24 @@ msgid "Center weighted"
 msgstr "zentriert"
 
 #: src/canonmn.cpp:357
-#, fuzzy
 msgid "Not known"
 msgstr "Unbekannt"
 
 #: src/canonmn.cpp:359
 msgid "Very close"
-msgstr ""
+msgstr "Sehr nahe Aufnahme"
 
 #: src/canonmn.cpp:360
-#, fuzzy
 msgid "Close"
 msgstr "Nahaufnahme"
 
 #: src/canonmn.cpp:361
 msgid "Middle range"
-msgstr ""
+msgstr "Mittlere Entfernung"
 
 #: src/canonmn.cpp:362
-#, fuzzy
 msgid "Far range"
-msgstr "Transferbereich"
+msgstr "Weite Entfernung"
 
 #: src/canonmn.cpp:370
 msgid "Manual AF point selection"
@@ -6687,8 +6616,7 @@ msgid "Camera Settings (Std Old)"
 msgstr ""
 
 #: src/minoltamn.cpp:224
-msgid ""
-"Standard Camera settings (Old Camera models like D5, D7, S304, and S404)"
+msgid "Standard Camera settings (Old Camera models like D5, D7, S304, and S404)"
 msgstr ""
 
 #: src/minoltamn.cpp:226
@@ -8101,27 +8029,23 @@ msgstr "Belichtungszeit"
 
 #: src/nikonmn.cpp:757
 msgid "Number of shots taken by camera"
-msgstr ""
+msgstr "Anzahl der Fotos dieser Kamera"
 
 #: src/nikonmn.cpp:762
-#, fuzzy
 msgid "Image Optimization"
-msgstr "Orientierung"
+msgstr "Bildoptimierung"
 
 #: src/nikonmn.cpp:763
-#, fuzzy
 msgid "Image optimization"
-msgstr "Orientierung"
+msgstr "Bildoptimierung"
 
 #: src/nikonmn.cpp:768
-#, fuzzy
 msgid "Program Variation"
-msgstr "Firmware Version"
+msgstr "Programmvariation"
 
 #: src/nikonmn.cpp:769
-#, fuzzy
 msgid "Program variation"
-msgstr "Firmware Version"
+msgstr "Programmvariation"
 
 #: src/nikonmn.cpp:774
 #, fuzzy
@@ -8186,37 +8110,32 @@ msgid "Dynamic area (wide)"
 msgstr "Weißabgleicheinstellung"
 
 #: src/nikonmn.cpp:1064
-#, fuzzy
 msgid "used"
-msgstr "Undefiniert"
+msgstr "benutzt"
 
 #: src/olympusmn.cpp:62
-#, fuzzy
 msgid "Standard Quality (SQ)"
-msgstr "Standard Licht A"
+msgstr "Standard Qualität (SQ)"
 
 #: src/olympusmn.cpp:63
-#, fuzzy
 msgid "High Quality (HQ)"
-msgstr "Bildbreite"
+msgstr "Hohe Qualität (HQ)"
 
 #: src/olympusmn.cpp:64
 msgid "Super High Quality (SHQ)"
-msgstr ""
+msgstr "Super Hohe Qualität (SHQ)"
 
 #: src/olympusmn.cpp:79
 msgid "On (preset)"
 msgstr ""
 
 #: src/olympusmn.cpp:85
-#, fuzzy
 msgid "Internal"
-msgstr "Intel"
+msgstr "Intern"
 
 #: src/olympusmn.cpp:87
-#, fuzzy
 msgid "Internal + External"
-msgstr "Interner Fehler."
+msgstr "Intern + Extern"
 
 #: src/olympusmn.cpp:112
 #, fuzzy
@@ -8229,27 +8148,22 @@ msgid "Progressive"
 msgstr "Firmware Version"
 
 #: src/olympusmn.cpp:122
-#, fuzzy
 msgid "Special Mode"
-msgstr "Messmodus"
+msgstr "Spezialmodus"
 
 #: src/olympusmn.cpp:123
-#, fuzzy
 msgid "Picture taking mode"
-msgstr "Aufnahme Modus"
+msgstr "Bildaufnahmemodus"
 
 #: src/olympusmn.cpp:131
-#, fuzzy
 msgid "Black & White Mode"
-msgstr "Schwarz & Weiß"
+msgstr "Schwarz/Weiß-Modus"
 
 #: src/olympusmn.cpp:132
-#, fuzzy
 msgid "Black and white mode"
-msgstr "Schwarz & Weiß"
+msgstr "Schwarz/Weiß-Modus"
 
 #: src/olympusmn.cpp:135
-#, fuzzy
 msgid "Digital zoom ratio"
 msgstr "Digitale Zoomrate"
 
@@ -8272,9 +8186,8 @@ msgid "Lens distortion parameters"
 msgstr ""
 
 #: src/olympusmn.cpp:144
-#, fuzzy
 msgid "Software firmware version"
-msgstr "Firmware Version"
+msgstr "Firmware-Version der Software"
 
 #: src/olympusmn.cpp:147
 msgid "ASCII format data such as [PictureInfo]"
@@ -8285,9 +8198,8 @@ msgid "Camera ID"
 msgstr "Kamera ID"
 
 #: src/olympusmn.cpp:150
-#, fuzzy
 msgid "Camera ID data"
-msgstr "Kamera ID"
+msgstr "Kamera ID-Daten"
 
 #: src/olympusmn.cpp:169
 #, fuzzy
@@ -8308,29 +8220,24 @@ msgid "One touch white balance"
 msgstr "Automatischer Weißabgleich"
 
 #: src/olympusmn.cpp:185
-#, fuzzy
 msgid "Serial number"
 msgstr "Seriennummer"
 
 #: src/olympusmn.cpp:190
-#, fuzzy
 msgid "Data Dump 1"
-msgstr "lineares Format"
+msgstr "Datendump 1"
 
 #: src/olympusmn.cpp:191
-#, fuzzy
 msgid "Various camera settings 1"
-msgstr "Kontrasteinstellung"
+msgstr "Verschiedene Kameraeinstellungen 1"
 
 #: src/olympusmn.cpp:193
-#, fuzzy
 msgid "Data Dump 2"
-msgstr "lineares Format"
+msgstr "Datendump 2"
 
 #: src/olympusmn.cpp:194
-#, fuzzy
 msgid "Various camera settings 2"
-msgstr "Makromodus"
+msgstr "Verschiedene Kameraeinstellungen 2"
 
 #: src/olympusmn.cpp:196
 #, fuzzy
@@ -8343,9 +8250,8 @@ msgid "Shutter speed value"
 msgstr "Verschlusszeit"
 
 #: src/olympusmn.cpp:200
-#, fuzzy
 msgid "ISO speed value"
-msgstr "ISO Geschwindigkeitsangabe"
+msgstr "ISO-Geschwindigkeitswert"
 
 #: src/olympusmn.cpp:203
 #, fuzzy
@@ -8353,9 +8259,8 @@ msgid "Aperture value"
 msgstr "Maximale Blende"
 
 #: src/olympusmn.cpp:206
-#, fuzzy
 msgid "Brightness value"
-msgstr "Helligkeit"
+msgstr "Helligkeitswert"
 
 #: src/olympusmn.cpp:214
 #, fuzzy
@@ -8363,38 +8268,32 @@ msgid "Bracket"
 msgstr "Automatischer Erfassung"
 
 #: src/olympusmn.cpp:215
-#, fuzzy
 msgid "Exposure compensation value"
-msgstr "Blitzkompensation ?"
+msgstr "Blitzkompensationswert"
 
 #: src/olympusmn.cpp:217
-#, fuzzy
 msgid "Sensor Temperature"
-msgstr "Farbraum"
+msgstr "Sensortemperatur"
 
 #: src/olympusmn.cpp:218
-#, fuzzy
 msgid "Sensor temperature"
-msgstr "Farbraum"
+msgstr "Sensortemperatur"
 
 #: src/olympusmn.cpp:220
-#, fuzzy
 msgid "Lens Temperature"
-msgstr "Farbraum"
+msgstr "Linsentemperatur"
 
 #: src/olympusmn.cpp:221
-#, fuzzy
 msgid "Lens temperature"
-msgstr "Farbraum"
+msgstr "Linsentemperatur"
 
 #: src/olympusmn.cpp:235
-#, fuzzy
 msgid "Zoom"
 msgstr "Zoom"
 
 #: src/olympusmn.cpp:236
 msgid "Zoom step count"
-msgstr ""
+msgstr "Zoom-Schrittweite"
 
 #: src/olympusmn.cpp:238
 #, fuzzy
@@ -8406,32 +8305,28 @@ msgid "Macro focus step count"
 msgstr ""
 
 #: src/olympusmn.cpp:241 src/olympusmn.cpp:322
-#, fuzzy
 msgid "Sharpness Factor"
-msgstr "Schärfe"
+msgstr "Schärfefaktor"
 
 #: src/olympusmn.cpp:242 src/olympusmn.cpp:323
-#, fuzzy
 msgid "Sharpness factor"
-msgstr "Schärfe"
+msgstr "Schärfefaktor"
 
 #: src/olympusmn.cpp:244
 msgid "Flash Charge Level"
-msgstr ""
+msgstr "Batteriestatus des Blitzes"
 
 #: src/olympusmn.cpp:245
 msgid "Flash charge level"
-msgstr ""
+msgstr "Batteriestatus des Blitzes"
 
 #: src/olympusmn.cpp:247
-#, fuzzy
 msgid "Color Matrix"
-msgstr "Farbton"
+msgstr "Farbmatrix"
 
 #: src/olympusmn.cpp:248
-#, fuzzy
 msgid "Color matrix"
-msgstr "Farbraum"
+msgstr "Farbmatrix"
 
 #: src/olympusmn.cpp:250
 #, fuzzy
@@ -8443,39 +8338,32 @@ msgid "Black level"
 msgstr ""
 
 #: src/olympusmn.cpp:260
-#, fuzzy
 msgid "White balance mode"
-msgstr "Weißabgleich"
+msgstr "Weißabgleichsmodus"
 
 #: src/olympusmn.cpp:265
-#, fuzzy
 msgid "Red Balance"
-msgstr "Weißabgleich"
+msgstr "Rotabgleich"
 
 #: src/olympusmn.cpp:266
-#, fuzzy
 msgid "Red balance"
-msgstr "Weißabgleich"
+msgstr "Rotabgleich"
 
 #: src/olympusmn.cpp:268
-#, fuzzy
 msgid "Blue Balance"
-msgstr "Weißabgleich"
+msgstr "Blauabgleich"
 
 #: src/olympusmn.cpp:269
-#, fuzzy
 msgid "Blue balance"
-msgstr "Weißabgleich"
+msgstr "Blauabgleich"
 
 #: src/olympusmn.cpp:274
-#, fuzzy
 msgid "Serial Number 2"
-msgstr "Seriennummer"
+msgstr "Seriennummer 2"
 
 #: src/olympusmn.cpp:275
-#, fuzzy
 msgid "Serial number 2"
-msgstr "Seriennummer"
+msgstr "Seriennummer 2"
 
 #: src/olympusmn.cpp:302
 #, fuzzy
@@ -8493,42 +8381,36 @@ msgid "External flash bounce"
 msgstr "Eingebauter Blitz"
 
 #: src/olympusmn.cpp:313
-#, fuzzy
 msgid "External Flash Zoom"
-msgstr "Eingebauter Blitz"
+msgstr "Externer Blitzzoom"
 
 #: src/olympusmn.cpp:314
-#, fuzzy
 msgid "External flash zoom"
-msgstr "Eingebauter Blitz"
+msgstr "Externer Blitzzoom"
 
 #: src/olympusmn.cpp:316
-#, fuzzy
 msgid "External Flash Mode"
-msgstr "Eingebauter Blitz"
+msgstr "Externer Blitzmodus"
 
 #: src/olympusmn.cpp:317
-#, fuzzy
 msgid "External flash mode"
-msgstr "Eingebauter Blitz"
+msgstr "Externer Blitzmodus"
 
 #: src/olympusmn.cpp:325
-#, fuzzy
 msgid "Color Control"
-msgstr "Farbton"
+msgstr "Farbkontrolle"
 
 #: src/olympusmn.cpp:326
-#, fuzzy
 msgid "Color control"
-msgstr "Farbton"
+msgstr "Farbkontrolle"
 
 #: src/olympusmn.cpp:328
 msgid "ValidBits"
-msgstr ""
+msgstr "Gültige Bits"
 
 #: src/olympusmn.cpp:329
 msgid "Valid bits"
-msgstr ""
+msgstr "Gültige Bits"
 
 #: src/olympusmn.cpp:331
 #, fuzzy
@@ -8541,18 +8423,16 @@ msgid "Coring filter"
 msgstr "Farbton"
 
 #: src/olympusmn.cpp:352
-#, fuzzy
 msgid "Compression Ratio"
-msgstr "Kompression"
+msgstr "Kompressionsrate"
 
 #: src/olympusmn.cpp:353
-#, fuzzy
 msgid "Compression ratio"
-msgstr "Kompression"
+msgstr "Kompressionsrate"
 
 #: src/olympusmn.cpp:356
 msgid "Preview image embedded"
-msgstr ""
+msgstr "Eingebettetes Vorschaubild"
 
 #: src/olympusmn.cpp:359
 msgid "Offset of the preview image"
@@ -8560,7 +8440,7 @@ msgstr ""
 
 #: src/olympusmn.cpp:362
 msgid "Size of the preview image"
-msgstr ""
+msgstr "Größe des Vorschaubildes"
 
 #: src/olympusmn.cpp:364
 msgid "CCD Scan Mode"
@@ -8605,104 +8485,95 @@ msgstr "Kontrasteinstellung"
 
 #: src/olympusmn.cpp:382
 msgid "Raw Development"
-msgstr ""
+msgstr "Rohentwicklung"
 
 #: src/olympusmn.cpp:383
-#, fuzzy
 msgid "Raw development information"
-msgstr "Debug Informationen."
+msgstr "Roh-Entwicklungsinformation"
 
 #: src/olympusmn.cpp:386
 msgid "Image processing information"
 msgstr "Informationen zur Bildverarbeitung"
 
 #: src/olympusmn.cpp:388
-#, fuzzy
 msgid "Focus Info"
-msgstr "Fokus Modus"
+msgstr "Fokus-Info"
 
 #: src/olympusmn.cpp:389
-#, fuzzy
 msgid "Focus information"
-msgstr "Debug Informationen."
+msgstr "Fokus-Information"
 
 #: src/olympusmn.cpp:391
-#, fuzzy
 msgid "Raw Info"
-msgstr "Information"
+msgstr "Rohinfo"
 
 #: src/olympusmn.cpp:392
-#, fuzzy
 msgid "Raw information"
-msgstr "Debug Informationen."
+msgstr "Rohinformation"
 
 #: src/olympusmn.cpp:397
 msgid "Unknown OlympusMakerNote tag"
 msgstr ""
 
 #: src/olympusmn.cpp:485
-#, fuzzy
 msgid "Fast"
-msgstr "schnell"
+msgstr "Schnell"
 
 #: src/olympusmn.cpp:538
 msgid "3000 Kelvin"
-msgstr ""
+msgstr "3000 Kelvin"
 
 #: src/olympusmn.cpp:539
 msgid "3700 Kelvin"
-msgstr ""
+msgstr "3700 Kelvin"
 
 #: src/olympusmn.cpp:540
 msgid "4000 Kelvin"
-msgstr ""
+msgstr "4000 Kelvin"
 
 #: src/olympusmn.cpp:541
 msgid "4500 Kelvin"
-msgstr ""
+msgstr "4500 Kelvin"
 
 #: src/olympusmn.cpp:542
 msgid "5500 Kelvin"
-msgstr ""
+msgstr "5500 Kelvin"
 
 #: src/olympusmn.cpp:543
 msgid "6500 Kelvin"
-msgstr ""
+msgstr "6500 Kelvin"
 
 #: src/olympusmn.cpp:544
 msgid "7500 Kelvin"
-msgstr ""
+msgstr "7500 Kelvin"
 
 #: src/olympusmn.cpp:550
 msgid "One-touch"
-msgstr ""
+msgstr "Eine Berührung"
 
 #: src/panasonicmn.cpp:66
-#, fuzzy
 msgid "Very High"
-msgstr "Hoch"
+msgstr "Sehr hoch"
 
 #: src/panasonicmn.cpp:75
 msgid "Halogen"
-msgstr ""
+msgstr "Halogen"
 
 #: src/panasonicmn.cpp:85
-#, fuzzy
 msgid "Auto, focus button"
-msgstr "AI Focus"
+msgstr "Automatisch, Fokusknopf"
 
 #: src/panasonicmn.cpp:86
-#, fuzzy
 msgid "Auto, continuous"
-msgstr "dauerhaft"
+msgstr "Automatisch, dauerhaft"
 
 #: src/panasonicmn.cpp:91
 msgid "On, Mode 1"
-msgstr ""
+msgstr "An, Modus 1"
 
 #: src/panasonicmn.cpp:93
 msgid "On, Mode 2"
-msgstr ""
+msgstr "An, Modus 2"
 
 #: src/panasonicmn.cpp:100
 #, fuzzy
@@ -8710,9 +8581,8 @@ msgid "Tele-macro"
 msgstr "Makro"
 
 #: src/panasonicmn.cpp:107
-#, fuzzy
 msgid "Scenery"
-msgstr "mittig"
+msgstr "Szene"
 
 #: src/panasonicmn.cpp:112
 #, fuzzy
@@ -8724,14 +8594,12 @@ msgid "Panning"
 msgstr ""
 
 #: src/panasonicmn.cpp:119
-#, fuzzy
 msgid "Night scenery"
 msgstr "Nachtszene"
 
 #: src/panasonicmn.cpp:120
-#, fuzzy
 msgid "Food"
-msgstr "Gut"
+msgstr "Essen"
 
 #: src/panasonicmn.cpp:125
 msgid "Yes"
@@ -8743,12 +8611,11 @@ msgstr "Nein"
 
 #: src/panasonicmn.cpp:132
 msgid "Warm"
-msgstr ""
+msgstr "Warm"
 
 #: src/panasonicmn.cpp:133
-#, fuzzy
 msgid "Cool"
-msgstr "Farbmodus"
+msgstr "Kalt"
 
 #: src/panasonicmn.cpp:141
 #, fuzzy
@@ -8761,13 +8628,12 @@ msgid "Infinite"
 msgstr "Unendlich"
 
 #: src/panasonicmn.cpp:165
-#, fuzzy
 msgid "10s"
-msgstr "100"
+msgstr "10s"
 
 #: src/panasonicmn.cpp:166
 msgid "2s"
-msgstr ""
+msgstr "2s"
 
 #: src/panasonicmn.cpp:199
 #, fuzzy
@@ -8891,7 +8757,6 @@ msgid "Lens focal length range"
 msgstr "Lange Brennweite der Linse"
 
 #: src/sigmamn.cpp:101 src/sigmamn.cpp:102
-#, fuzzy
 msgid "Shadow"
 msgstr "Schatten"
 
@@ -8931,9 +8796,8 @@ msgid "Adjustment mode"
 msgstr "Sättigungsanpassung"
 
 #: src/sigmamn.cpp:125 src/sigmamn.cpp:126
-#, fuzzy
 msgid "Firmware"
-msgstr "Firmware Version"
+msgstr "Firmware"
 
 #: src/sigmamn.cpp:131
 #, fuzzy
@@ -8951,3 +8815,4 @@ msgstr ""
 #: src/sonymn.cpp:91
 msgid "Unknown SonyMakerNote tag"
 msgstr ""
+
