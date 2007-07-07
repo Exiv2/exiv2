@@ -1,3 +1,42 @@
+Changes from version 0.14 to 0.15
+---------------------------------
+
+* Exiv2 utility
+	- 0000518: Return code 0 when unable to insert exif tags.
+	           (Reported by Daniel J Blueman)
+	         - Rename action: Use Exif.Image.DateTime if 
+	           Exif.Photo.DateTimeOriginal is not present. (Highlighted by 
+	           mflanagan_swim)
+
+* Exiv2 library
+	- 0000521: [exif] Image with large invalid Exif tag crashes exiv2.
+	           (Reported by Marco Piovanelli)
+	- 0000520: [exif] crash when loading certain image.
+	           (Reported by Christian Weiske)
+	- 0000519: [exif] Another Minolta G500 file impossible to read after fix.
+	           (Reported by Alexander Rabtchevich)
+	- 0000513: [exif] Sony Makernote crashes exiv2.
+	           (Reported by Aaron D. Campbell)
+	- 0000512: [exif] Wrong AFPoints mapping for Canon cameras.
+	           (Reported with patch by Rob Walker)
+	- 0000511: [exif] Minolta G500 RAW format support.
+	           (Reported by Udi Fuchs)
+	- 0000509: [miscellaneous] Since v0.14 the version check macro doesn't work
+	           in a precompiler #if test anymore. (Reported by Udi Fuchs)
+	- 0000449: [jpeg i/o] Uncouple IPTC and Exif reading.
+	         - [exif] Updated Nikon lens info to v2.30 of Robert Rottmerhusen's 
+	           lens database.
+	         - [Exif] Added additional values to the Exif.CanonCs.ISOSpeed.
+	           lookup table. (Patrick Markert)
+	         - [Exif] Canon ModelId patch. (Gerry Patterson)
+	         - [miscellaneous] Updated German translation. 
+	           (Oliver Dörr)
+	         - [miscellaneous] Updated Russian translation. 
+	           (Alexandre Prokoudine)
+	         - [miscellaneous] Updated French translation. 
+	           (Stephane Pontier)
+
+
 Changes from version 0.13 to 0.14
 ---------------------------------
 

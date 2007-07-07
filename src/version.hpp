@@ -39,7 +39,7 @@
 /*!
   @brief %Exiv2 MINOR version number of the library used at compile-time.
  */
-#define EXIV2_MINOR_VERSION (14)
+#define EXIV2_MINOR_VERSION (15)
 /*!
   @brief %Exiv2 PATCH version number of the library used at compile-time.
  */
@@ -91,10 +91,10 @@
             << "Runtime Exiv2 version is    " << Exiv2::version()    << "\n";
   
   // Test the Exiv2 version available at runtime but compile the if-clause only if
-  // the compile-time version is at least 0.14.1. Earlier versions didn't have a
+  // the compile-time version is at least 0.15. Earlier versions didn't have a
   // testVersion() function:
   
-  #if EXIV2_TEST_VERSION(0,14,1)
+  #if EXIV2_TEST_VERSION(0,15,0)
   if (Exiv2::testVersion(0,13,0)) {
       std::cout << "Available Exiv2 version is equal to or greater than 0.13\n";
   }
@@ -147,10 +147,10 @@ namespace Exiv2 {
                 << "Runtime Exiv2 version is    " << Exiv2::version()    << "\n";
     
       // Test the Exiv2 version available at runtime but compile the if-clause only if
-      // the compile-time version is at least 0.14.1. Earlier versions didn't have a
+      // the compile-time version is at least 0.15. Earlier versions didn't have a
       // testVersion() function:
 
-      #if EXIV2_TEST_VERSION(0,14,1)
+      #if EXIV2_TEST_VERSION(0,15,0)
       if (Exiv2::testVersion(0,13,0)) {
           std::cout << "Available Exiv2 version is equal to or greater than 0.13\n";
       }
