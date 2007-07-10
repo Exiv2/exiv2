@@ -132,6 +132,13 @@ else
 fi
 AC_SUBST(EXV_LIB_STATIC)
 
+AC_MSG_CHECKING([whether to compile a commercial version of the Exiv2 library])
+AC_ARG_ENABLE(commercial,
+    [  --enable-commercial     compile with the EXV_COMMERCIAL_VERSION symbol set ],
+    COMMERCIAL_VERSION=$enableval, COMMERCIAL_VERSION=no)
+AC_MSG_RESULT($COMMERCIAL_VERSION)
+AC_SUBST(COMMERCIAL_VERSION,$COMMERCIAL_VERSION)
+
 # ---------------------------------------------------------------------------
 # Create output files.
 # ---------------------------------------------------------------------------

@@ -30,6 +30,8 @@
 # **********************************************************************
 # Exiv2 version for use with libtool (-version-info argument)
 EXIV2_LTVERSION = @EXIV2_LTVERSION@
+# Compile for use with a commercial license
+COMMERCIAL_VERSION = @COMMERCIAL_VERSION@
 
 # **********************************************************************
 # Libtool
@@ -52,6 +54,9 @@ CXXCPP = @CXXCPP@
 
 # Preprocessor flags
 CPPFLAGS = -I. @CPPFLAGS@ -DEXV_LOCALEDIR=\"$(localedir)\"
+ifeq ($(COMMERCIAL_VERSION),yes)
+	CPPFLAGS += -DEXV_COMMERCIAL_VERSION=1
+endif
 
 # Linker flags and libraries
 LDFLAGS = @LDFLAGS@
