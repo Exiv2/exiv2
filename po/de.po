@@ -1,3 +1,4 @@
+# translation of de.po to german
 # translation of de.po to
 # German translations of Exiv2.
 # Copyright:
@@ -12,9 +13,9 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
 "POT-Creation-Date: 2007-07-02 12:11+0800\n"
-"PO-Revision-Date: 2007-07-12 16:29+0200\n"
+"PO-Revision-Date: 2007-07-12 22:05+0200\n"
 "Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
-"Language-Team:  <de@li.org>\n"
+"Language-Team: german <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -733,7 +734,7 @@ msgid ""
 "provider of various types of data that are related in subject matter uses "
 "the same keyword, enabling the receiving system or subsystems to search "
 "across all types of data for related material."
-msgstr ""
+msgstr "Schlüsselbegriffe werden benutzt, um spezielle Abfrageworte zu hinterlegen. Dabei wird davon ausgegangen, dass verschiedenen Typen von Daten, die mit demselben Motiv in Verbindung stehen, dieselben Schlüsselbegriffe benutzen. Dies erlaubt es dem empfangenden System oder den Subsystemen über alle Typen von Daten zu suchen um zusammengehörendes Material zu finden."
 
 #: src/datasets.cpp:240
 msgid "Location Code"
@@ -747,7 +748,7 @@ msgid ""
 "provide for identification of a location or a country, e.g. ships at sea, "
 "space, IPTC will assign an appropriate three-character code under the "
 "provisions of ISO 3166 to avoid conflicts."
-msgstr ""
+msgstr "Gibt den Code des Landes bzw. der geographischen Lage an, die den Inhalt des Motivs entspricht. Wenn ISO einen passenden Ländercode in der ISO 3166 eingeführt hat, dann wird dieser benutzt. Wenn kein Code für die Lokation existiert, z.B. für Schiffe auf See oder im Weltraum, dann wird IPTC einen entsprechenden Code gemäß der Vorschriften von ISO 3166 aus drei Zeichen einführen um Konflikte zu vermeiden."
 
 #: src/datasets.cpp:248
 msgid "Location Name"
@@ -758,7 +759,7 @@ msgid ""
 "Provides a full, publishable name of a country/geographical location "
 "referenced by the content of the object, according to guidelines of the "
 "provider."
-msgstr ""
+msgstr "Stellt einen kompletten, veröffentlichbaren Namen des Landes/des geographischen Ortes zur Verfügung der dem Inhalt des Motivs entspricht. Dies geschieht nach den Richtlinien des Anbieters."
 
 #: src/datasets.cpp:253
 msgid "Release Date"
@@ -768,7 +769,7 @@ msgstr "Freigabedatum"
 msgid ""
 "Designates in the form CCYYMMDD the earliest date the provider intends the "
 "object to be used. Follows ISO 8601 standard."
-msgstr ""
+msgstr "Gibt im Format JJJJMMTT das früheste Datum an, an dem der Anbieter eine Benutzung des Motivs vorgesehen hat. Es folgt dem ISO 8601 Standard."
 
 #: src/datasets.cpp:257
 msgid "Release Time"
@@ -778,7 +779,7 @@ msgstr "Freigabezeit"
 msgid ""
 "Designates in the form HHMMSS:HHMM the earliest time the provider intends "
 "the object to be used. Follows ISO 8601 standard."
-msgstr ""
+msgstr "Gibt im Format SSMMSS:SSMM die früheste Zeit an, an dem der Anbieter eine Benutzung des Motivs vorgesehen hat. Es folgt dem ISO 8601 Standard."
 
 #: src/datasets.cpp:261
 msgid "Expiration Date"
@@ -788,7 +789,7 @@ msgstr "Verfalldatum"
 msgid ""
 "Designates in the form CCYYMMDD the latest date the provider or owner "
 "intends the object data to be used. Follows ISO 8601 standard."
-msgstr ""
+msgstr "Gibt im Format JJJJMMTT das letzte Datum an, an dem der Anbieter eine Benutzung des Motivs vorgesehen hat. Es folgt dem ISO 8601 Standard."
 
 #: src/datasets.cpp:265
 msgid "ExpirationTime"
@@ -798,7 +799,7 @@ msgstr "Verfallzeit"
 msgid ""
 "Designates in the form HHMMSS:HHMM the latest time the provider or owner "
 "intends the object data to be used. Follows ISO 8601 standard."
-msgstr ""
+msgstr "Gibt im Format SSMMSS:SSMM die letzte Zeit an, an dem der Anbieter eine Benutzung des Motivs vorgesehen hat. Es folgt dem ISO 8601 Standard."
 
 #: src/datasets.cpp:269
 msgid "Special Instructions"
