@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
 "POT-Creation-Date: 2007-07-02 12:11+0800\n"
-"PO-Revision-Date: 2007-07-12 22:05+0200\n"
+"PO-Revision-Date: 2007-07-13 14:48+0200\n"
 "Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
 "Language-Team: german <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -514,7 +514,7 @@ msgstr ""
 "Benutzt das Format HHMMSS:HHMM wobei HHMMSS die lokale Stunde/H, Minute/M "
 "und Sekunden/S darstellt und HHMM die Stunden/H und Minuten/M bevor (+) oder "
 "hinter (-) der UTC Zeit die im ISO Standard 8601 beschrieben wird. Dies ist "
-"die Zeit zu der das Material versendet wurde."
+"die Uhrzeit zu der das Material versendet wurde."
 
 #: src/datasets.cpp:139
 msgid "Character Set"
@@ -716,7 +716,7 @@ msgstr "Zusätzliche Kategorien"
 
 #: src/datasets.cpp:229
 msgid "Fixture Id"
-msgstr ""
+msgstr "Fix-ID"
 
 #: src/datasets.cpp:230
 msgid ""
@@ -779,7 +779,7 @@ msgstr "Freigabezeit"
 msgid ""
 "Designates in the form HHMMSS:HHMM the earliest time the provider intends "
 "the object to be used. Follows ISO 8601 standard."
-msgstr "Gibt im Format SSMMSS:SSMM die früheste Zeit an, an dem der Anbieter eine Benutzung des Motivs vorgesehen hat. Es folgt dem ISO 8601 Standard."
+msgstr "Gibt im Format SSMMSS:HHMM die früheste Zeit an, an dem der Anbieter eine Benutzung des Motivs vorgesehen hat. Es folgt dem ISO 8601 Standard."
 
 #: src/datasets.cpp:261
 msgid "Expiration Date"
@@ -799,7 +799,7 @@ msgstr "Verfallzeit"
 msgid ""
 "Designates in the form HHMMSS:HHMM the latest time the provider or owner "
 "intends the object data to be used. Follows ISO 8601 standard."
-msgstr "Gibt im Format SSMMSS:SSMM die letzte Zeit an, an dem der Anbieter eine Benutzung des Motivs vorgesehen hat. Es folgt dem ISO 8601 Standard."
+msgstr "Gibt im Format SSMMSS:HHMM die letzte Zeit an, an dem der Anbieter eine Benutzung des Motivs vorgesehen hat. Es folgt dem ISO 8601 Standard."
 
 #: src/datasets.cpp:269
 msgid "Special Instructions"
@@ -809,7 +809,7 @@ msgstr "Besondere Anweisungen"
 msgid ""
 "Other editorial instructions concerning the use of the object data, such as "
 "embargoes and warnings."
-msgstr ""
+msgstr "Andere redaktionelle Anweisungen, wie z.B. Embargos und Warnungen, bezüglich der Benutzung der Objektdaten."
 
 #: src/datasets.cpp:273
 msgid "Instructions"
@@ -824,7 +824,7 @@ msgid ""
 "Indicates the type of action that this object provides to a previous object. "
 "The link to the previous object is made using tags <ARMIdentifier> and "
 "<ARMVersion>, according to the practices of the provider."
-msgstr ""
+msgstr "Gibt den Typ der Aktion an, die dieses Objekt für ein vorangegangenes Objekt zur Verfügung stellt. Die Verknüpfung zum vorangegangenen Objekt wird mit den Stichwörtern <ARMIdentifier> und <ARMVersion> nach den Standards des Anbieters hergestellt."
 
 #: src/datasets.cpp:279
 msgid "Reference Service"
@@ -834,7 +834,7 @@ msgstr "Referenzdienst"
 msgid ""
 "Identifies the Service Identifier of a prior envelope to which the current "
 "object refers."
-msgstr ""
+msgstr "Gibt den Dienstidentifizierer eines vorangegangenen Umschlags an, auf den aktuelle Objekt verweist."
 
 #: src/datasets.cpp:283
 msgid "Reference Date"
@@ -842,7 +842,7 @@ msgstr "Referenzdatum"
 
 #: src/datasets.cpp:284
 msgid "Identifies the date of a prior envelope to which the current object refers."
-msgstr ""
+msgstr "Gibt das Datum eines vorangegangenen Umschlags an, auf den das aktuelle Objekt verweist."
 
 #: src/datasets.cpp:286
 msgid "Reference Number"
@@ -852,7 +852,7 @@ msgstr "Referenznummer"
 msgid ""
 "Identifies the Envelope Number of a prior envelope to which the current "
 "object refers."
-msgstr ""
+msgstr "Gibt die Umschlagsnummer eines vorangegangenen Umschlags an, auf den das aktuelle Objekt verweist."
 
 #: src/datasets.cpp:289 src/datasets.cpp:294
 msgid "Date Created"
@@ -863,7 +863,7 @@ msgid ""
 "Represented in the form CCYYMMDD to designate the date the intellectual "
 "content of the object data was created rather than the date of the creation "
 "of the physical representation. Follows ISO 8601 standard."
-msgstr ""
+msgstr "Gibt in der Form JJJJMMTT das Datum des intellektuellen Inhalts an dem die Objektdaten erstellt wurden an. Nicht jedoch das datum der Erstellung der phyiskalischen Repräsentation. Es wird der ISO 8601 Standard benutzt."
 
 #: src/datasets.cpp:295
 msgid "Time Created"
@@ -874,7 +874,7 @@ msgid ""
 "Represented in the form HHMMSS:HHMM to designate the time the intellectual "
 "content of the object data current source material was created rather than "
 "the creation of the physical representation. Follows ISO 8601 standard."
-msgstr ""
+msgstr "Gibt in der Form SSMMSS:HHMM die Uhrzeit des intellektuellen Inhalts an dem die Objektdaten erstellt wurden an. Nicht jedoch das datum der Erstellung der phyiskalischen Repräsentation. Es wird der ISO 8601 Standard benutzt."
 
 #: src/datasets.cpp:301
 msgid "Digitization Date"
@@ -884,7 +884,7 @@ msgstr "Digitalisierungsdatum"
 msgid ""
 "Represented in the form CCYYMMDD to designate the date the digital "
 "representation of the object data was created. Follows ISO 8601 standard."
-msgstr ""
+msgstr "Gibt in der Form JJJJMMTT das Datum an, an dem die digitale Version der Objektdaten erstellt wurde. Es wird der ISO 8601 Standard benutzt."
 
 #: src/datasets.cpp:305
 msgid "Digitization Time"
@@ -894,7 +894,7 @@ msgstr "Digitalisierungszeit"
 msgid ""
 "Represented in the form HHMMSS:HHMM to designate the time the digital "
 "representation of the object data was created. Follows ISO 8601 standard."
-msgstr ""
+msgstr "Gibt in der Form SSMMSS:HHMM die Uhrzeit an, an dem die digitale Version der Objektdaten erstellt wurde. Es wird der ISO 8601 Standard benutzt."
 
 #: src/datasets.cpp:310 src/minoltamn.cpp:293 src/minoltamn.cpp:764
 #: src/minoltamn.cpp:968 src/panasonicmn.cpp:110 src/sigmamn.cpp:228
@@ -903,7 +903,7 @@ msgstr "Programm"
 
 #: src/datasets.cpp:311
 msgid "Identifies the type of program used to originate the object data."
-msgstr ""
+msgstr "Gibt den benutzen Programmtyp zum Erzeugen der Objektdaten an."
 
 #: src/datasets.cpp:313
 msgid "Program Version"
@@ -911,7 +911,7 @@ msgstr "Programmversion"
 
 #: src/datasets.cpp:314
 msgid "Used to identify the version of the program mentioned in tag <Program>."
-msgstr ""
+msgstr "Gibt die Version des Programmes an, dass mit dem Stichwort <Program> angegeben wurde."
 
 #: src/datasets.cpp:316
 msgid "Object Cycle"
@@ -919,11 +919,11 @@ msgstr "Objektzyklus"
 
 #: src/datasets.cpp:317
 msgid "Used to identify the editorial cycle of object data."
-msgstr ""
+msgstr "Gibt den redaktionellen Zyklus der Objektdaten an."
 
 #: src/datasets.cpp:319
 msgid "By-line"
-msgstr ""
+msgstr "Verfasserzeile"
 
 #: src/datasets.cpp:320
 msgid ""
@@ -937,13 +937,13 @@ msgstr "Autor"
 
 #: src/datasets.cpp:324
 msgid "By-line Title"
-msgstr ""
+msgstr "Titel der Verfasserzeile"
 
 #: src/datasets.cpp:325
 msgid ""
 "A by-line title is the title of the creator or creators of an object data. "
 "Where used, a by-line title should follow the by-line it modifies."
-msgstr ""
+msgstr "Der Titel der Verfasserzeile ist der Titel des oder der Ersteller der Objektdaten."
 
 #: src/datasets.cpp:328 src/datasets.cpp:332
 msgid "City"
@@ -1017,7 +1017,7 @@ msgstr "Übertragungsreferenz"
 msgid ""
 "A code representing the location of original transmission according to "
 "practices of the provider."
-msgstr ""
+msgstr "Ein Code nach den Standards des  Anbieters, der den Ursprung der Originalübertragung angibt."
 
 #: src/datasets.cpp:363 src/datasets.cpp:366
 msgid "Headline"
@@ -1025,7 +1025,7 @@ msgstr "Schlagzeile"
 
 #: src/datasets.cpp:364
 msgid "A publishable entry providing a synopsis of the contents of the object data."
-msgstr ""
+msgstr "Ein veröffentlichbarer Eintrag, der eine Zusammenfassung des Inhalts der Objektdaten zur Verfügung stellt."
 
 #: src/datasets.cpp:367 src/datasets.cpp:370
 msgid "Credit"
@@ -2506,7 +2506,7 @@ msgid ""
 "The date and time of image creation. In Exif standard, it is the date and "
 "time the file was changed."
 msgstr ""
-"Das Datum und die Zeit der Erstellung des Bildes. In diesem EXIF-Standard "
+"Das Datum und die Uhrzeit der Erstellung des Bildes. In diesem EXIF-Standard "
 "ist es das Datum und die Zeit der letzten Änderung."
 
 #: src/tags.cpp:345
@@ -3394,7 +3394,7 @@ msgid ""
 "The date and time when the original image data was generated. For a digital "
 "still camera the date and time the picture was taken are recorded."
 msgstr ""
-"Das Datum und die Zeit zu der das Bild generiert wurde. Für eine "
+"Das Datum und die Uhrzeit zu der das Bild generiert wurde. Für eine "
 "Digitalkamera ist das der Zeitpunkt an dem das Bild geschossen wurde."
 
 #: src/tags.cpp:717
