@@ -47,6 +47,7 @@ EXIV2_RCSID("@(#) $Id$")
 
 // + standard includes
 #include <cassert>
+#include <memory>
 
 /* --------------------------------------------------------------------------
 
@@ -180,21 +181,27 @@ namespace Exiv2 {
                             const byte*        pData,
                             uint32_t           size,
                             TiffCompFactoryFct createFct,
-                            FindDecoderFct     findDecoderFct)
+                            FindDecoderFct     findDecoderFct,
+			    TiffHeaderBase*    pHeader)
     {
         assert(pImage != 0);
         assert(pData != 0);
 
-        TiffHeade2 tiffHeader;
-        if (!tiffHeader.read(pData, size) || tiffHeader.ifdOffset() >= size) {
+        std::auto_ptr<TiffHeaderBase> ph;
+        if (!pHeader) {
+            ph = std::auto_ptr<TiffHeaderBase>(new TiffHeade2);
+            pHeader = ph.get();
+        }
+
+        if (!pHeader->read(pData, size) || pHeader->offset() >= size) {
             throw Error(3, "TIFF");
         }
         TiffComponent::AutoPtr rootDir = createFct(Tag::root, Group::none);
         if (0 == rootDir.get()) return;
-        rootDir->setStart(pData + tiffHeader.ifdOffset());
+        rootDir->setStart(pData + pHeader->offset());
 
         TiffRwState::AutoPtr state(
-            new TiffRwState(tiffHeader.byteOrder(), 0, createFct));
+            new TiffRwState(pHeader->byteOrder(), 0, createFct));
         TiffReader reader(pData, size, rootDir.get(), state);
         rootDir->accept(reader);
 

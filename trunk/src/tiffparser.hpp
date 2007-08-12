@@ -86,12 +86,15 @@ namespace Exiv2 {
           @param size      Length of the data buffer.
           @param createFct Factory function to create new TIFF components.
           @param findDecoderFct Function to access special decoding info.
+          @param pHeader   Optional pointer to a TIFF header. If not provided,
+                           a standard TIFF header is used.
         */
         static void decode(      Image*             pImage,
                            const byte*              pData,
                                  uint32_t           size,
                                  TiffCompFactoryFct createFct,
-                                 FindDecoderFct     findDecoderFct);
+                                 FindDecoderFct     findDecoderFct,
+                                 TiffHeaderBase*    pHeader =0);
     }; // class TiffParser
 
     /*!

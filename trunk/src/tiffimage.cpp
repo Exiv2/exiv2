@@ -100,9 +100,22 @@ namespace Exiv2 {
         throw(Error(31, "TIFF"));
     } // TiffImage::writeMetadata
 
-    const uint16_t TiffHeade2::tag_ = 42;
+    TiffHeaderBase::TiffHeaderBase(uint16_t  tag,
+                                   uint32_t  size,
+                                   ByteOrder byteOrder,
+                                   uint32_t  offset)
+        : tag_(tag),
+          size_(size),
+          byteOrder_(byteOrder),
+          offset_(offset)
+    {
+    }
 
-    bool TiffHeade2::read(const byte* pData, uint32_t size)
+    TiffHeaderBase::~TiffHeaderBase()
+    {
+    }
+
+    bool TiffHeaderBase::read(const byte* pData, uint32_t size)
     {
         if (size < 8) return false;
 
@@ -119,13 +132,19 @@ namespace Exiv2 {
         offset_ = getULong(pData + 4, byteOrder_);
 
         return true;
-    } // TiffHeade2::read
+    } // TiffHeaderBase::read
 
-    void TiffHeade2::print(std::ostream& os, const std::string& prefix) const
+    void TiffHeaderBase::write(Blob& blob) const
+    {
+        // Todo: Implement me!
+    }
+
+    void TiffHeaderBase::print(std::ostream& os, const std::string& prefix) const
     {
         os << prefix
-           << _("Header, offset") << " = 0x" << std::setw(8) << std::setfill('0')
-           << std::hex << std::right << offset_;
+           << _("TIFF header, offset") << " = 0x" 
+           << std::setw(8) << std::setfill('0') << std::hex << std::right
+           << offset_;
 
         switch (byteOrder_) {
         case littleEndian:     os << ", " << _("little endian encoded"); break;
@@ -133,7 +152,46 @@ namespace Exiv2 {
         case invalidByteOrder: break;
         }
         os << "\n";
-    } // TiffHeade2::print
+    } // TiffHeaderBase::print
+
+    ByteOrder TiffHeaderBase::byteOrder() const
+    {
+        return byteOrder_;
+    }
+
+    void TiffHeaderBase::setByteOrder(ByteOrder byteOrder)
+    {
+        byteOrder_ = byteOrder;
+    }
+
+    uint32_t TiffHeaderBase::offset() const
+    {
+        return offset_;
+    }
+
+    void TiffHeaderBase::setOffset(uint32_t offset)
+    {
+        offset_ = offset;
+    }
+
+    uint32_t TiffHeaderBase::size() const
+    {
+        return size_;
+    }
+
+    uint16_t TiffHeaderBase::tag() const
+    {
+        return tag_;
+    }
+
+    TiffHeade2::TiffHeade2()
+        : TiffHeaderBase(42, 8, littleEndian, 0x00000008)
+    {
+    }
+
+    TiffHeade2::~TiffHeade2()
+    {
+    }
 
     // *************************************************************************
     // free functions

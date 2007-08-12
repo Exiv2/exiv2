@@ -47,7 +47,7 @@ try {
     if (0 == rootDir.get()) {
         throw Error(1, "No root element defined in TIFF structure");
     }
-    rootDir->setStart(buf.pData_ + tiffHeader.ifdOffset());
+    rootDir->setStart(buf.pData_ + tiffHeader.offset());
 
     TiffRwState::AutoPtr state(
         new TiffRwState(tiffHeader.byteOrder(), 0, createFct));

@@ -19,22 +19,20 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*!
-  @file    cr2image.hpp
-  @brief   Class Cr2Image
+  @file    orfimage.hpp
+  @brief   Olympus RAW image
   @version $Rev$
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    22-Apr-06, ahu: created
+  @author  Jeff Costlow
+           <a href="mailto:costlow@gmail.com">costlow@gmail.com</a>
+  @date    31-Jul-07, costlow: created
  */
-#ifndef CR2IMAGE_HPP_
-#define CR2IMAGE_HPP_
+#ifndef ORFIMAGE_HPP_
+#define ORFIMAGE_HPP_
 
 // *****************************************************************************
 // included header files
 #include "image.hpp"
 #include "basicio.hpp"
-#include "tifffwd.hpp"
-#include "types.hpp"
 #include "tiffimage.hpp"
 
 // + standard includes
@@ -47,21 +45,21 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
-    // Add CR2 to the supported image formats
+    // Add ORF to the supported image formats
     namespace ImageType {
-        const int cr2 = 7;          //!< CR2 image type (see class Cr2Image)
+        const int orf = 9;          //!< ORF image type (see class OrfImage)
     }
 
     /*!
-      @brief Class to access raw Canon CR2 images.  Exif metadata
-          is supported directly, IPTC is read from the Exif data, if present.
+      @brief Class to access raw Olympus ORF images. Exif metadata is supported
+             directly, IPTC is read from the Exif data, if present.
      */
-    class Cr2Image : public Image {
+    class OrfImage : public Image {
     public:
         //! @name Creators
         //@{
         /*!
-          @brief Constructor that can either open an existing CR2 image or create
+          @brief Constructor that can either open an existing ORF image or create
               a new image from scratch. If a new image is to be created, any
               existing data is overwritten. Since the constructor can not return
               a result, callers should check the good() method after object
@@ -75,7 +73,7 @@ namespace Exiv2 {
           @param create Specifies if an existing image should be read (false)
               or if a new file should be created (true).
          */
-        Cr2Image(BasicIo::AutoPtr io, bool create);
+        OrfImage(BasicIo::AutoPtr io, bool create);
         //@}
 
         //! @name Manipulators
@@ -97,7 +95,7 @@ namespace Exiv2 {
          */
         void setIptcData(const IptcData& iptcData);
         /*!
-          @brief Not supported. CR2 format does not contain a comment.
+          @brief Not supported. MRW format does not contain a comment.
               Calling this function will throw an Error(32).
          */
         void setComment(const std::string& comment);
@@ -105,58 +103,31 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        std::string mimeType() const { return "image/x-canon-cr2"; }
+        std::string mimeType() const { return "image/x-olympus-orf"; }
         //@}
 
     private:
-        //! @name NOT implemented
+        //! @name NOT Implemented
         //@{
         //! Copy constructor
-        Cr2Image(const Cr2Image& rhs);
+        OrfImage(const OrfImage& rhs);
         //! Assignment operator
-        Cr2Image& operator=(const Cr2Image& rhs);
+        OrfImage& operator=(const OrfImage& rhs);
         //@}
 
-    }; // class Cr2Image
+    }; // class OrfImage
 
     /*!
-      @brief Table of Cr2 decoding functions and find function. See
-             TiffDecoder for details.
+      @brief Olympus ORF header structure.
      */
-    class Cr2Decoder {
-    public:
-        /*!
-          @brief Find the decoder function for a key.
-
-          If the returned pointer is 0, the tag should not be decoded,
-          else the decoder function should be used.
-
-          @param make Camera make
-          @param extendedTag Extended tag
-          @param group %Group
-
-          @return Pointer to the decoder function
-         */
-        static const DecoderFct findDecoder(const std::string& make,
-                                                  uint32_t     extendedTag,
-                                                  uint16_t     group);
-
-    private:
-        static const TiffDecoderInfo cr2DecoderInfo_[]; //<! CR2 decoder table
-
-    }; // class Cr2Decoder
-
-    /*!
-      @brief Canon CR2 header structure.
-     */
-    class Cr2Header : public TiffHeaderBase {
+    class OrfHeader : public TiffHeaderBase {
     public:
         //! @name Creators
         //@{
         //! Default constructor
-        Cr2Header();
+        OrfHeader();
         //! Destructor.
-        ~Cr2Header();
+        ~OrfHeader();
         //@}
 
         //! @name Manipulators
@@ -168,12 +139,9 @@ namespace Exiv2 {
         //@{
         void write(Blob& blob) const;
         //@}
+    }; // class OrfHeader
 
-    private:
-        // DATA
-        uint32_t              offset2_;   //!< Bytes 12-15 from the header
-        static const char*    cr2sig_;    //!< Signature for CR2 type TIFF
-    }; // class Cr2Header
+
 
 // *****************************************************************************
 // template, inline and free functions
@@ -181,15 +149,15 @@ namespace Exiv2 {
     // These could be static private functions on Image subclasses but then
     // ImageFactory needs to be made a friend.
     /*!
-      @brief Create a new Cr2Image instance and return an auto-pointer to it.
+      @brief Create a new MrwImage instance and return an auto-pointer to it.
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    Image::AutoPtr newCr2Instance(BasicIo::AutoPtr io, bool create);
+    Image::AutoPtr newOrfInstance(BasicIo::AutoPtr io, bool create);
 
-    //! Check if the file iIo is a CR2 image.
-    bool isCr2Type(BasicIo& iIo, bool advance);
+    //! Check if the file iIo is a MRW image.
+    bool isOrfType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
 
-#endif                                  // #ifndef CR2IMAGE_HPP_
+#endif                                  // #ifndef ORFIMAGE_HPP_

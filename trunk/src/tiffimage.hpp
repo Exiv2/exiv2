@@ -117,66 +117,89 @@ namespace Exiv2 {
     }; // class TiffImage
 
     /*!
-      @brief This class models a TIFF header structure.
+      @brief Abstract base class defining the interface of an image header.
+             Used internally by classes for TIFF-based images.  Default
+             implementation is for the regular TIFF header.
      */
-    class TiffHeade2 {
+    class TiffHeaderBase {
     public:
-        //! @name Creators
+        //! @name Constructors
         //@{
-        //! Default constructor
-        TiffHeade2()
-            : byteOrder_ (littleEndian),
-              offset_    (0x00000008)
-            {}
+        //! Constructor taking \em tag, \em size and default \em byteOrder and \em offset.
+        TiffHeaderBase(uint16_t  tag,
+                       uint32_t  size,
+                       ByteOrder byteOrder,
+                       uint32_t  offset);
+        //! Virtual destructor.
+        virtual ~TiffHeaderBase() =0;
         //@}
 
         //! @name Manipulators
         //@{
         /*!
-          @brief Read the TIFF header from a data buffer. Return false if the
-                 data buffer does not contain a TIFF header, else true.
+          @brief Read the image header from a data buffer. Return false if the
+                 data buffer does not contain an image header of the expected
+                 format, else true.
 
           @param pData Pointer to the data buffer.
           @param size  Number of bytes in the data buffer.
          */
-        bool read(const byte* pData, uint32_t size);
+        virtual bool read(const byte* pData, uint32_t size);
+        //! Set the byte order.
+        virtual void setByteOrder(ByteOrder byteOrder);
+        //! Set the offset to the start of the root directory.
+        virtual void setOffset(uint32_t offset);
         //@}
 
         //! @name Accessors
         //@{
         /*!
-          @brief Write the TIFF header to the binary image \em blob.
+          @brief Write the image header to the binary image \em blob.
                  This method appends to the blob.
 
           @param blob Binary image to add to.
 
           @throw Error If the header cannot be written.
          */
-        void write(Blob& blob) const;
+        virtual void write(Blob& blob) const;
         /*!
-          @brief Print debug info for the TIFF header to \em os.
+          @brief Print debug info for the image header to \em os.
 
           @param os Output stream to write to.
           @param prefix Prefix to be written before each line of output.
          */
-        void print(std::ostream& os, const std::string& prefix ="") const;
+        virtual void print(std::ostream& os, const std::string& prefix ="") const;
         //! Return the byte order (little or big endian).
-        ByteOrder byteOrder() const { return byteOrder_; }
-        //! Return the offset to the start of the root directory
-        uint32_t ifdOffset() const { return offset_; }
-        //! Return the size (in bytes) of the TIFF header
-        uint32_t size() const { return 8; }
+        virtual ByteOrder byteOrder() const;
+        //! Return the offset to the start of the root directory.
+        virtual uint32_t offset() const;
+        //! Return the size (in bytes) of the image header.
+        virtual uint32_t size() const;
         //! Return the tag value (magic number) which identifies the buffer as TIFF data
-        uint16_t tag() const { return tag_; }
+        virtual uint16_t tag() const;
         //@}
 
     private:
         // DATA
-        ByteOrder             byteOrder_; //!< Applicable byte order
-        uint32_t              offset_;    //!< Offset to the start of the root dir
+        const uint16_t tag_;       //!< Tag to identify the buffer as TIFF data
+        const uint32_t size_;      //!< Size of the header
+        ByteOrder      byteOrder_; //!< Applicable byte order
+        uint32_t       offset_;    //!< Offset to the start of the root dir
 
-        static const uint16_t tag_;       //!< 42, identifies the buffer as TIFF data
+    }; // class TiffHeaderBase
 
+    /*!
+      @brief Standard TIFF header structure.
+     */
+    class TiffHeade2 : public TiffHeaderBase {
+    public:
+        //! @name Creators
+        //@{
+        //! Default constructor
+        TiffHeade2();
+        //! Destructor
+        ~TiffHeade2();
+        //@}
     }; // class TiffHeade2
 
 // *****************************************************************************
