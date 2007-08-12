@@ -125,8 +125,10 @@ namespace Exiv2 {
             throw Error(3, "CR2");
         }
         clearMetadata();
+        Cr2Header cr2Header;
         TiffParser::decode(this, io_->mmap(), io_->size(),
-                           TiffCreator::create, Cr2Decoder::findDecoder);
+                           TiffCreator::create, Cr2Decoder::findDecoder,
+                           &cr2Header);
 
     } // Cr2Image::readMetadata
 
@@ -136,44 +138,43 @@ namespace Exiv2 {
         throw(Error(31, "CR2"));
     } // Cr2Image::writeMetadata
 
-    const uint16_t Cr2Header::tag_ = 42;
     const char* Cr2Header::cr2sig_ = "CR\2\0";
+
+    Cr2Header::Cr2Header()
+        : TiffHeaderBase(42, 16, littleEndian, 0x00000010),
+          offset2_(0x00000000)
+    {
+    }
+
+    Cr2Header::~Cr2Header()
+    {
+    }
 
     bool Cr2Header::read(const byte* pData, uint32_t size)
     {
         if (size < 16) return false;
 
         if (pData[0] == 0x49 && pData[1] == 0x49) {
-            byteOrder_ = littleEndian;
+            setByteOrder(littleEndian);
         }
         else if (pData[0] == 0x4d && pData[1] == 0x4d) {
-            byteOrder_ = bigEndian;
+            setByteOrder(bigEndian);
         }
         else {
             return false;
         }
-        if (tag_ != getUShort(pData + 2, byteOrder_)) return false;
-        offset_ = getULong(pData + 4, byteOrder_);
+        if (tag() != getUShort(pData + 2, byteOrder())) return false;
+        setOffset(getULong(pData + 4, byteOrder()));
         if (0 != memcmp(pData + 8, cr2sig_, 4)) return false;
-        offset2_ = getULong(pData + 12, byteOrder_);
+        offset2_ = getULong(pData + 12, byteOrder());
 
         return true;
     } // Cr2Header::read
 
-    void Cr2Header::print(std::ostream& os, const std::string& prefix) const
+    void Cr2Header::write(Blob& blob) const
     {
-        os << prefix
-           << _("Header, offset") << " = 0x" << std::setw(8) << std::setfill('0')
-           << std::hex << std::right << offset_;
-
-        switch (byteOrder_) {
-        case littleEndian:     os << ", " << _("little endian encoded"); break;
-        case bigEndian:        os << ", " << _("big endian encoded"); break;
-        case invalidByteOrder: break;
-        }
-        os << "\n";
-
-    } // Cr2Header::print
+        // Todo: Implement me!
+    }
 
     // *************************************************************************
     // free functions

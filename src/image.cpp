@@ -53,6 +53,7 @@ EXIV2_RCSID("@(#) $Id$")
 #endif // EXV_HAVE_LIBZ
 #include "rafimage.hpp"
 #include "tiffimage.hpp"
+#include "orfimage.hpp"
 
 // + standard includes
 #include <cerrno>
@@ -81,6 +82,7 @@ namespace Exiv2 {
         { ImageType::crw,  newCrwInstance,  isCrwType,  amReadWrite, amNone,      amReadWrite },
         { ImageType::mrw,  newMrwInstance,  isMrwType,  amRead,      amRead,      amNone      },
         { ImageType::tiff, newTiffInstance, isTiffType, amRead,      amRead,      amNone      },
+        { ImageType::orf,  newOrfInstance,  isOrfType,  amRead,      amRead,      amNone      },
 #ifdef EXV_HAVE_LIBZ
         { ImageType::png,  newPngInstance,  isPngType,  amRead,      amRead,      amNone      },
 #endif // EXV_HAVE_LIBZ

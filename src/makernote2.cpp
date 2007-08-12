@@ -243,7 +243,7 @@ namespace Exiv2 {
         TiffHeade2 th;
         if (!th.read(buf_.pData_ + 10, 8)) return false;
         byteOrder_ = th.byteOrder();
-        start_ = 10 + th.ifdOffset();
+        start_ = 10 + th.offset();
         return true;
 
     } // Nikon3MnHeader::read

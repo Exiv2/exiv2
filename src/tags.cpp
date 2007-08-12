@@ -498,6 +498,9 @@ namespace Exiv2 {
         TagInfo(0x9c9f, "XPSubject", N_("Windows Subject"),
                 N_("Subject tag used by Windows, encoded in UCS2"),
                 ifd0Id, otherTags, unsignedByte, printUcs2), // Windows Tag
+	TagInfo(0xc4a5, "PrintImageMatching", N_("Print Image Matching"),
+		N_("Print Image Matching, descriptiont needed."),
+		ifd0Id, otherTags, undefined, printValue),
         // End of list marker
         TagInfo(0xffff, "(UnknownIfdTag)", N_("Unknown IFD tag"),
                 N_("Unknown IFD tag"),
