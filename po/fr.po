@@ -13,13 +13,12 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
 "POT-Creation-Date: 2007-07-02 12:11+0800\n"
-"PO-Revision-Date: 2007-05-08 18:15+0200\n"
-"Last-Translator: Stéphane Pontier <shadow.walker@free.fr>\n"
+"PO-Revision-Date: 2007-08-19 18:48+0200\n"
+"Last-Translator: Olivier Tilloy <olivier@tilloy.net>\n"
 "Language-Team: French\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
 
 #: src/actions.cpp:218 src/actions.cpp:574 src/actions.cpp:694
 #: src/actions.cpp:732 src/actions.cpp:759 src/actions.cpp:845
@@ -164,19 +163,16 @@ msgid "Jpeg comment"
 msgstr "Commentaire Jpeg"
 
 #: src/actions.cpp:782
-#, fuzzy
 msgid "Neither tag"
-msgstr "Autre données"
+msgstr "Aucun des marqueurs"
 
 #: src/actions.cpp:783
-#, fuzzy
 msgid "nor"
-msgstr "Intérieur"
+msgstr "ou"
 
 #: src/actions.cpp:784
-#, fuzzy
 msgid "found in the file"
-msgstr "non trouvée dans le fichier"
+msgstr "n'a été trouvé dans le fichier"
 
 #: src/actions.cpp:789
 msgid "Image file creation timestamp not set in the file"
@@ -370,11 +366,11 @@ msgstr "(invalide)"
 
 #: src/datasets.cpp:80
 msgid "IIM envelope record"
-msgstr ""
+msgstr "Enregistrement IIM enveloppe"
 
 #: src/datasets.cpp:81
 msgid "IIM application record 2"
-msgstr ""
+msgstr "Enregistrement IIM application 2"
 
 #: src/datasets.cpp:85
 msgid "Model Version"
@@ -386,6 +382,9 @@ msgid ""
 "Model, Part I, utilised by the provider. Version numbers are assigned by "
 "IPTC and NAA organizations."
 msgstr ""
+"Un champ binaire identifiant la version de l'Information Interchange "
+"Model, Part I, utilisé par le fournisseur. Les numéros de version sont assignés par "
+"l'IPTC et la NAA."
 
 #: src/datasets.cpp:90
 msgid "Destination"
@@ -396,6 +395,8 @@ msgid ""
 "This DataSet is to accommodate some providers who require routing "
 "information above the appropriate OSI layers."
 msgstr ""
+"Ce jeu de données est présent pour satisfaire certains fournisseurs qui attendent "
+"des informations de routage en sus des couches OSI appropriées."
 
 #: src/datasets.cpp:94
 msgid "File Format"
@@ -408,6 +409,10 @@ msgid ""
 "information is used to route the data to the appropriate system and to allow "
 "the receiving system to perform the appropriate actions there to."
 msgstr ""
+"Un champ binaire représentant le format du fichier. Le format du fichier doit être "
+"enregistré auprès de l'IPTC ou de la NAA au moyen d'un identifiant unique. "
+"L'information est utilisée pour router les données vers le système approprié et permettre "
+"au système cible de leur appliquer les actions appropriées."
 
 #: src/datasets.cpp:101
 msgid "File Version"
@@ -418,10 +423,12 @@ msgid ""
 "A binary number representing the particular version of the File Format "
 "specified by <FileFormat> tag."
 msgstr ""
+"Un champ binaire représentant la version courante du format du fichier "
+"spécifié par le marqueur <FileFormat>."
 
 #: src/datasets.cpp:105
 msgid "Service Id"
-msgstr "Identifiant du service"
+msgstr "Identifiant de service"
 
 #: src/datasets.cpp:106
 msgid "Identifies the provider and product"
@@ -429,7 +436,7 @@ msgstr "Identifie le fournisseur et le produit"
 
 #: src/datasets.cpp:108
 msgid "Envelope Number"
-msgstr ""
+msgstr "Numéro d'enveloppe"
 
 #: src/datasets.cpp:109
 msgid ""
@@ -440,10 +447,15 @@ msgid ""
 "from the original. This is not intended to be a sequential serial number "
 "reception check."
 msgstr ""
+"Les caractères forment un numéro qui est unique pour la date spécifiée dans le "
+"marqueur <DateSent> et pour l'identifiant de service spécifié dans le marqueur "
+"<ServiceIdentifier>. Si des numéros d'enveloppe identiques apparaissent avec les mêmes "
+"dates et identifiants de service, les enregistrements 2 à 9 doivent rester identiques "
+"à l'original. Ce numéro ne permet pas de tester l'ordre de réception en séquence."
 
 #: src/datasets.cpp:117
 msgid "Product Id"
-msgstr "Identifiant produit"
+msgstr "Identifiant du produit"
 
 #: src/datasets.cpp:118
 msgid ""
@@ -451,6 +463,9 @@ msgid ""
 "provide receiving organisation data on which to select, route, or otherwise "
 "handle data."
 msgstr ""
+"Permet à un fournisseur d'identifier des sous-sections de son service global. Utilisé pour "
+"fournir à l'organisation cible des informations sur la manière dont les données doivent "
+"être sélectionnées, routées et manipulées."
 
 #: src/datasets.cpp:122
 msgid "Envelope Priority"
@@ -463,6 +478,10 @@ msgid ""
 "and \"8\" the least urgent copy. The numeral \"9\" indicates a User Defined "
 "Priority. The numeral \"0\" is reserved for future use."
 msgstr ""
+"Spécifie la priorité de traitement de l'enveloppe et non pas la priorité d'édition (voir "
+"le marqueur <Urgency>). \"1\" désigne la plus grande priorité, \"5\" une priorité normale, "
+"et \"8\" la copie la moins prioritaire. Le chiffre \"9\" indique une priorité définie par "
+"l'utilisateur. Le chiffre \"0\" est réservé pour un usage ultérieur."
 
 #: src/datasets.cpp:129
 msgid "Date Sent"
@@ -473,6 +492,8 @@ msgid ""
 "Uses the format CCYYMMDD (century, year, month, day) as de-fined in ISO 8601 "
 "to indicate year, month and day the service sent the material."
 msgstr ""
+"Utilise le format CCYYMMDD (siècle, année, mois, jour) tel que défini par la norme ISO 8601 "
+"pour indiquer l'année, le mois et le jour où le service a envoyé les données."
 
 #: src/datasets.cpp:133
 msgid "Time Sent"
@@ -485,10 +506,15 @@ msgid ""
 "Universal Coordinated Time as described in ISO 8601. This is the time the "
 "service sent the material."
 msgstr ""
+"Utilise le format HHMMSS:HHMM où HHMMSS désigne dans le référentiel local les "
+"heures, les minutes et les secondes, et où HHMM indique les heures et les "
+"minutes à soustraire (+) ou à ajouter (-) pour obtenir l'heure UTC comme "
+"décrit dans la norme ISO 8601. Ceci est l'heure à laquelle le service a "
+"envoyé les données."
 
 #: src/datasets.cpp:139
 msgid "Character Set"
-msgstr "jeu de caractère"
+msgstr "Jeu de caractères"
 
 #: src/datasets.cpp:140
 msgid ""
