@@ -59,6 +59,16 @@ EXIV2_RCSID("@(#) $Id: pngchunk.cpp 823 2006-06-23 07:35:00Z cgilles $")
 #include <iostream>
 #include <cassert>
 
+/*
+
+URLs to find informations about PNG chunks :
+
+tEXt and zTXt chuncks : http://www.vias.org/pngguide/chapter11_04.html
+iTXt chunck           : http://www.vias.org/pngguide/chapter11_05.html
+PNG tags              : http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/PNG.html#TextualData
+
+*/
+
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
