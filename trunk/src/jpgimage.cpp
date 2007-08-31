@@ -59,6 +59,7 @@ namespace Exiv2 {
     const byte     JpegBase::com_      = 0xfe;
     const char     JpegBase::exifId_[] = "Exif\0\0";
     const char     JpegBase::jfifId_[] = "JFIF\0";
+    const char     JpegBase::xmpId_[]  = "http://ns.adobe.com/xap/1.0/\0";
 
     const char     Photoshop::ps3Id_[] = "Photoshop 3.0\0";
     const char     Photoshop::bimId_[] = "8BIM";
@@ -244,8 +245,8 @@ namespace Exiv2 {
             throw Error(15);
         }
         clearMetadata();
-        int search = 3;
-        const long bufMinSize = 16;
+        int search = 4;
+        const long bufMinSize = 36;
         long bufRead = 0;
         DataBuf buf(bufMinSize);
 
@@ -255,8 +256,10 @@ namespace Exiv2 {
 
         while (marker != sos_ && marker != eoi_ && search > 0) {
             // Read size and signature (ok if this hits EOF)
+            memset(buf.pData_, 0x0, buf.size_);
             bufRead = io_->read(buf.pData_, bufMinSize);
             if (io_->error()) throw Error(14);
+            if (bufRead < 2) throw Error(15);
             uint16_t size = getUShort(buf.pData_, bigEndian);
 
             if (marker == app1_ && memcmp(buf.pData_ + 2, exifId_, 6) == 0) {
@@ -265,17 +268,30 @@ namespace Exiv2 {
                     break;
                 }
                 // Seek to beginning and read the Exif data
-                io_->seek(8-bufRead, BasicIo::cur);
-                long sizeExifData = size - 8;
-                DataBuf rawExif(sizeExifData);
-                io_->read(rawExif.pData_, sizeExifData);
+                io_->seek(8 - bufRead, BasicIo::cur);
+                DataBuf rawExif(size - 8);
+                io_->read(rawExif.pData_, rawExif.size_);
                 if (io_->error() || io_->eof()) throw Error(14);
-                if (exifData_.load(rawExif.pData_, sizeExifData)) {
+                if (exifData_.load(rawExif.pData_, rawExif.size_)) {
 #ifndef SUPPRESS_WARNINGS
                     std::cerr << "Warning: Failed to decode Exif metadata.\n";
 #endif
                     exifData_.clear();
                 }
+                --search;
+            }
+            else if (marker == app1_ && memcmp(buf.pData_ + 2, xmpId_, 29) == 0) {
+                if (size < 31) {
+                    rc = 6;
+                    break;
+                }
+                // Seek to beginning and read the XMP packet
+                io_->seek(31 - bufRead, BasicIo::cur);
+                DataBuf xmpPacket(size - 31);
+                io_->read(xmpPacket.pData_, xmpPacket.size_);
+                if (io_->error() || io_->eof()) throw Error(14);
+                xmpPacket_.assign(reinterpret_cast<char*>(xmpPacket.pData_), xmpPacket.size_);
+                // Todo: Update here when merging branches/xmp 
                 --search;
             }
             else if (   marker == app13_
@@ -285,14 +301,14 @@ namespace Exiv2 {
                     break;
                 }
                 // Read the rest of the APP13 segment
-                // needed if bufMinSize!=16: io_->seek(16-bufRead, BasicIo::cur);
+                io_->seek(16 - bufRead, BasicIo::cur);
                 DataBuf psData(size - 16);
                 io_->read(psData.pData_, psData.size_);
                 if (io_->error() || io_->eof()) throw Error(14);
                 const byte *record = 0;
                 uint32_t sizeIptc = 0;
                 uint32_t sizeHdr = 0;
-                // Find actual Iptc data within the APP13 segment
+                // Find actual IPTC data within the APP13 segment
                 if (!Photoshop::locateIptcIrb(psData.pData_, psData.size_,
                                               &record, &sizeHdr, &sizeIptc)) {
                     if (sizeIptc) {
@@ -312,14 +328,14 @@ namespace Exiv2 {
                     rc = 3;
                     break;
                 }
-                // Jpegs can have multiple comments, but for now only read
+                // JPEGs can have multiple comments, but for now only read
                 // the first one (most jpegs only have one anyway). Comments
                 // are simple single byte ISO-8859-1 strings.
-                io_->seek(2-bufRead, BasicIo::cur);
-                buf.alloc(size-2);
-                io_->read(buf.pData_, size-2);
+                io_->seek(2 - bufRead, BasicIo::cur);
+                DataBuf comment(size - 2);
+                io_->read(comment.pData_, comment.size_);
                 if (io_->error() || io_->eof()) throw Error(14);
-                comment_.assign(reinterpret_cast<char*>(buf.pData_), size-2);
+                comment_.assign(reinterpret_cast<char*>(comment.pData_), comment.size_);
                 while (   comment_.length()
                        && comment_.at(comment_.length()-1) == '\0') {
                     comment_.erase(comment_.length()-1);
@@ -373,7 +389,7 @@ namespace Exiv2 {
             throw Error(22);
         }
 
-        const long bufMinSize = 16;
+        const long bufMinSize = 31;
         long bufRead = 0;
         DataBuf buf(bufMinSize);
         const long seek = io_->tell();
@@ -381,6 +397,7 @@ namespace Exiv2 {
         int search = 0;
         int insertPos = 0;
         int skipApp1Exif = -1;
+        int skipApp1Xmp = -1;
         int skipApp13Ps3 = -1;
         int skipCom = -1;
         DataBuf psData;
@@ -395,7 +412,7 @@ namespace Exiv2 {
         // First find segments of interest. Normally app0 is first and we want
         // to insert after it. But if app0 comes after com, app1 and app13 then
         // don't bother.
-        while (marker != sos_ && marker != eoi_ && search < 3) {
+        while (marker != sos_ && marker != eoi_ && search < 4) {
             // Read size and signature (ok if this hits EOF)
             bufRead = io_->read(buf.pData_, bufMinSize);
             if (io_->error()) throw Error(20);
@@ -412,11 +429,17 @@ namespace Exiv2 {
                 ++search;
                 if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(22);
             }
+            else if (marker == app1_ && memcmp(buf.pData_ + 2, xmpId_, 29) == 0) {
+                if (size < 31) throw Error(22);
+                skipApp1Xmp = count;
+                ++search;
+                if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(22);
+            }
             else if (marker == app13_ && memcmp(buf.pData_ + 2, Photoshop::ps3Id_, 14) == 0) {
                 if (size < 16) throw Error(22);
                 skipApp13Ps3 = count;
                 ++search;
-                // needed if bufMinSize!=16: io_->seek(16-bufRead, BasicIo::cur);
+                io_->seek(16 - bufRead, BasicIo::cur);
                 psData.alloc(size - 16);
                 // Load PS data now to allow reinsertion at any point
                 io_->read(psData.pData_, psData.size_);
@@ -440,6 +463,8 @@ namespace Exiv2 {
         }
 
         if (exifData_.count() > 0) ++search;
+        // Todo: Update here when merging branches/xmp 
+        if (xmpPacket_.size() > 0) ++search;
         if (iptcData_.count() > 0) ++search;
         if (!comment_.empty()) ++search;
 
@@ -461,7 +486,7 @@ namespace Exiv2 {
             uint16_t size = getUShort(buf.pData_, bigEndian);
 
             if (insertPos == count) {
-                byte tmpBuf[18];
+                byte tmpBuf[64];
                 if (!comment_.empty()) {
                     // Write COM marker, size of comment, and string
                     tmpBuf[0] = 0xff;
@@ -491,10 +516,27 @@ namespace Exiv2 {
 
                         // Write new Exif data buffer
                         if (   outIo.write(rawExif.pData_, rawExif.size_)
-                               != rawExif.size_) throw Error(21);
+                            != rawExif.size_) throw Error(21);
                         if (outIo.error()) throw Error(21);
                         --search;
                     }
+                }
+                // Todo: Update here when merging branches/xmp 
+                if (xmpPacket_.size() > 0) {
+                    // Write APP1 marker, size of APP1 field, XMP id and XMP packet
+                    tmpBuf[0] = 0xff;
+                    tmpBuf[1] = app1_;
+
+                    if (xmpPacket_.size() + 31 > 0xffff) throw Error(37, "XMP");
+                    us2Data(tmpBuf + 2, static_cast<uint16_t>(xmpPacket_.size() + 31), bigEndian);
+                    memcpy(tmpBuf + 4, xmpId_, 29);
+                    if (outIo.write(tmpBuf, 33) != 33) throw Error(21);
+
+                    // Write new XMP packet
+                    if (   outIo.write(reinterpret_cast<const byte*>(xmpPacket_.data()), xmpPacket_.size())
+                        != static_cast<long>(xmpPacket_.size())) throw Error(21);
+                    if (outIo.error()) throw Error(21);
+                    --search;
                 }
                 if (psData.size_ > 0 || iptcData_.count() > 0) {
                     // Set the new IPTC IRB, keeps existing IRBs but removes the
@@ -526,7 +568,10 @@ namespace Exiv2 {
             if (marker == eoi_) {
                 break;
             }
-            else if (skipApp1Exif==count || skipApp13Ps3==count || skipCom==count) {
+            else if (   skipApp1Exif == count
+                     || skipApp1Xmp  == count
+                     || skipApp13Ps3 == count
+                     || skipCom      == count) {
                 --search;
                 io_->seek(size-bufRead, BasicIo::cur);
             }
