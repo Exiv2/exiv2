@@ -44,6 +44,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include <cstring>
 #include <ctime>
 #include <cstdlib>
+#include <ctype.h>
 
 // *****************************************************************************
 // class member definitions
@@ -105,6 +106,9 @@ namespace Exiv2 {
         case comment:
             value = AutoPtr(new CommentValue);
             break;
+        case xmpText:
+            value = AutoPtr(new XmpTextValue);
+            break;
         default:
             value = AutoPtr(new DataValue(typeId));
             break;
@@ -122,6 +126,11 @@ namespace Exiv2 {
         std::ostringstream os;
         write(os);
         return os.str();
+    }
+
+    std::string Value::toString(long /*n*/) const
+    {
+        return toString();
     }
 
     DataValue& DataValue::operator=(const DataValue& rhs)
@@ -144,7 +153,9 @@ namespace Exiv2 {
         std::istringstream is(buf);
         int tmp;
         value_.clear();
-        while (is >> tmp) {
+        while (!(is.eof())) {
+            is >> tmp;
+            if (is.fail()) return 1;
             value_.push_back(static_cast<byte>(tmp));
         }
         return 0;
@@ -175,6 +186,13 @@ namespace Exiv2 {
             os << static_cast<int>(value_[i]) << " ";
         }
         return os;
+    }
+
+    std::string DataValue::toString(long n) const
+    {
+        std::ostringstream os;
+        os << static_cast<int>(value_[n]);
+        return os.str();
     }
 
     StringValueBase& StringValueBase::operator=(const StringValueBase& rhs)
@@ -367,6 +385,115 @@ namespace Exiv2 {
     CommentValue* CommentValue::clone_() const
     {
         return new CommentValue(*this);
+    }
+
+    XmpTextValue& XmpTextValue::operator=(const XmpTextValue& rhs)
+    {
+        if (this == &rhs) return *this;
+        Value::operator=(rhs);
+        value_ = rhs.value_;
+        return *this;
+    }
+
+    int XmpTextValue::read(const std::string& buf)
+    {
+        std::string::size_type start = 0;
+        bool escaped = false;
+
+        for (std::string::size_type i = 0; i < buf.size(); ++i) {
+            if (start == 0) {
+                // skip whitespace leading to the quote
+                if (isspace(buf[i])) continue;
+                // first character after that must be a quote
+                if (buf[i] == quoteChar[0]) {
+                    start = i + 1;
+                    continue;
+                }
+                return 1;
+            }
+            // look for the first unescaped quote
+            if (buf[i] == escapeChar[0] && !escaped) {
+                escaped = true;
+                continue;
+            }
+            if (buf[i] == quoteChar[0] && !escaped) {
+                value_.push_back(buf.substr(start, i - start));
+                // remove escape characters
+                unescapeText(value_.back());
+                start = 0;
+                continue;
+            }
+            escaped = false;
+        }
+        // check for premature end of string
+        if (escaped || start != 0) return 2;
+
+        return 0;
+    }
+
+    int XmpTextValue::read(const byte* buf,
+                           long len,
+                           ByteOrder /*byteOrder*/)
+    {
+        std::string s(reinterpret_cast<const char*>(buf), len);
+        return read(s);
+    }
+
+    long XmpTextValue::copy(byte* buf,
+                            ByteOrder /*byteOrder*/) const
+    {
+        std::ostringstream os;
+        write(os);
+        std::string s = os.str();
+        memcpy(buf, &s[0], s.size());
+        return s.size();
+    }
+
+    long XmpTextValue::size() const
+    {
+        std::ostringstream os;
+        write(os);
+        return os.str().size();
+    }
+
+    std::ostream& XmpTextValue::write(std::ostream& os) const
+    {
+        for (std::vector<std::string>::const_iterator i = value_.begin();
+             i != value_.end(); ++i) {
+            if (i != value_.begin()) os << " ";
+            std::string s(*i);
+            quoteText(s);
+            os << s;
+        }
+        return os;
+    }
+
+    std::string XmpTextValue::toString(long n) const 
+    {
+        return value_[n]; 
+    }
+
+    long XmpTextValue::toLong(long n) const
+    {
+        bool ok;
+        return stringTo<long>(value_[n], ok);
+    }
+
+    float XmpTextValue::toFloat(long n) const
+    {
+        bool ok;
+        return stringTo<float>(value_[n], ok);
+    }
+
+    Rational XmpTextValue::toRational(long n) const
+    {
+        bool ok;
+        return stringTo<Rational>(value_[n], ok);
+    }
+
+    XmpTextValue* XmpTextValue::clone_() const
+    {
+        return new XmpTextValue(*this);
     }
 
     DateValue::DateValue(int year, int month, int day)
@@ -635,5 +762,32 @@ namespace Exiv2 {
         }
         return result;
     }
+
+// *****************************************************************************
+// free functions
+
+    const char quoteChar[] = "\"";
+    const char escapeChar[] = "\\";
+    
+    void quoteText(std::string& text)
+    {
+        for (std::string::iterator i = text.begin(); i != text.end(); ++i) {
+            if (*i == escapeChar[0] || *i == quoteChar[0]) {
+                i = text.insert(i, escapeChar[0]);
+                if (++i == text.end()) break;
+            }
+        }
+        text = quoteChar + text + quoteChar;
+    } // quoteText
+
+    void unescapeText(std::string& text)
+    {
+        for (std::string::iterator i = text.begin(); i != text.end(); ++i) {
+            if (*i == escapeChar[0]) {
+                i = text.erase(i); // returns next pos, i.e., skips the escaped char
+                if (i == text.end()) break;
+            }
+        }
+    } // unescapeText
 
 }                                       // namespace Exiv2

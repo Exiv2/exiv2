@@ -164,6 +164,8 @@ namespace Action {
         int printComment();
         //! Print uninterpreted Iptc information
         int printIptc();
+        //! print uninterpreted XMP information
+        int printXmp();
         //! Print Exif summary information
         int printSummary();
         //! Print the list of Exif data in user defined format
@@ -268,6 +270,8 @@ namespace Action {
                  on the format of the Exif thumbnail image.
          */
         int writeThumbnail() const;
+        //! Write the XMP packet to a file.
+        int writeXmp() const;
 
     private:
         virtual Extract* clone_() const;

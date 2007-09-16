@@ -90,7 +90,7 @@ namespace Exiv2 {
     enum ByteOrder { invalidByteOrder, littleEndian, bigEndian };
 
     //! An identifier for each type of metadata
-    enum MetadataId { mdExif=1, mdIptc=2, mdComment=4 };
+    enum MetadataId { mdExif=1, mdIptc=2, mdComment=4, mdXmp=8 };
 
     //! An identifier for each mode of metadata support
     enum AccessMode { amNone=0, amRead=1, amWrite=2, amReadWrite=3 };
@@ -102,6 +102,7 @@ namespace Exiv2 {
                   string, date, time,
                   comment,
                   directory,
+                  xmpText,
                   lastTypeId };
 
     // Todo: decentralize IfdId, so that new ids can be defined elsewhere
@@ -386,6 +387,16 @@ namespace Exiv2 {
         std::ostringstream os;
         os << arg;
         return os.str();
+    }
+
+    //! Utility function to convert a string to a value of type T.
+    template<typename T>
+    T stringTo(const std::string& s, bool& ok)
+    {
+        std::istringstream is(s);
+        T tmp;
+        ok = is >> tmp ? true : false;
+        return tmp;
     }
 
     /*!

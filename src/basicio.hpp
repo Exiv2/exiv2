@@ -676,6 +676,13 @@ namespace Exiv2 {
         // METHODS
         void reserve(long wcount);
     }; // class MemIo
+
+// *****************************************************************************
+// template, inline and free functions
+
+    //! Read file \em path into a DataBuf, which is returned.
+    DataBuf readFile(const std::string& path);
+
 }                                       // namespace Exiv2
 
 #endif                                  // #ifndef BASICIO_HPP_

@@ -1,0 +1,77 @@
+XMP support
+===========
+Exiv2 uses the Adobe XMP toolkit (XMP SDK) to parse
+and serialize XMP packets (only the XMPCore component).
+
+Todo: XMP support is controlled with the ENABLE_XMP directive 
+in config/config.mk.in. This will be a configure option
+eventually.
+
+Top-level classes to access XMP metadata are XmpData,
+XmpDatum and XmpKey. They work similar to the corresponding 
+Exif and IPTC classes. The property-repository is XmpProperties.
+In addition to the expected new members, class Image also
+has a new interface to access the raw XMP packet.
+
+Supported XMP types
+-------------------
+Simple types : supported
+Structures   : not supported
+Arrays       : unordered and ordered arrays are supported
+               alternative arrays are not supported
+
+Property Qualifiers : not supported
+Language Alternatives : not supported
+
+XMP properties are accessed through keys of the form
+"Xmp.<Prefix>.<Property>", where <Prefix> is the preferred
+(or rather, registered) prefix for a schema namespace and
+<Property> is the name of a property in that namespace. Only 
+known properties in known namespaces are supported at the
+moment. Functions to register namespaces and properterties
+are not provided yet.
+
+Note: Unlike Exif and IPTC tags, XMP properties do not have
+a tag number.
+
+XMP toolkit installation
+========================
+This is what worked for me on a Debian GNU/Linux (testing) 
+system. Your mileage may vary. Please check with Adobe if 
+you encounter problems with the XMP toolkit installation.
+
+Installation directory
+----------------------
+The top-level exiv2 directory ($HOME/src/exiv2/ on my system).
+
+If you install XMP elsewhere, or use different OS or STAGE
+options to the make command below, you will need to manually
+modify the exiv2/config/config.mk.in (before running the 
+configure script). There is no autoconf-magic yet to set 
+this via configure options.
+
+External packages (non-Debian)
+-----------------
+xmp_v411_sdk.zip    - from adobe.com:       http://www.adobe.com/devnet/xmp/sdk/eula.html
+expat-2.0.1.tar.gz  - from sourceforge.net: http://sourceforge.net/project/showfiles.php?group_id=10127
+exiv2               - from SVN
+
+Installation steps
+------------------
+cd $HOME/src/exiv2/
+cp /path/to/xmp_v411_sdk.zip ./
+unzip xmp_v411_sdk.zip
+
+cp /path/to/expat-2.0.1.tar.gz XMP-SDK/third-party/
+cd XMP-SDK/third-party/
+tar zxvf expat-2.0.1.tar.gz
+mv expat expat-orig
+mv expat-2.0.1 expat
+
+cd ../build/gcc
+make -f XMPCore.mak OS=i80386linux STAGE=debug
+
+Expected result
+---------------
+Now there should be a library
+../../public/libraries/i80386linux/debug/libXMPCoreStaticDebug.a

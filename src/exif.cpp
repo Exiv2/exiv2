@@ -82,9 +82,6 @@ namespace {
                       uint32_t offset,
                       Exiv2::ByteOrder byteOrder);
 
-    // Read file path into a DataBuf, which is returned.
-    Exiv2::DataBuf readFile(const std::string& path);
-
 }
 
 // *****************************************************************************
@@ -1298,24 +1295,6 @@ namespace {
             pos = ifd.findTag(tag);
         }
         pos->setValue(offset, byteOrder);
-    }
-
-    Exiv2::DataBuf readFile(const std::string& path)
-    {
-        Exiv2::FileIo file(path);
-        if (file.open("rb") != 0) {
-            throw Exiv2::Error(10, path, "rb", Exiv2::strError());
-        }
-        struct stat st;
-        if (0 != stat(path.c_str(), &st)) {
-            throw Exiv2::Error(2, path, Exiv2::strError(), "::stat");
-        }
-        Exiv2::DataBuf buf(st.st_size);
-        long len = file.read(buf.pData_, buf.size_);
-        if (len != buf.size_) {
-            throw Exiv2::Error(2, path, Exiv2::strError(), "FileIo::read");
-        }
-        return buf;
     }
 
 }

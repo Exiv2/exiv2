@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "June 3rd, 2007"
+.TH EXIV2 1 "August 27th, 2007"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -17,7 +17,7 @@
 .\" .sp <n>    insert n+1 empty lines
 .\" for manpage-specific macros, see man(7)
 .SH NAME
-exiv2 \- Exif/IPTC metadata manipulation tool
+exiv2 \- Image metadata manipulation tool
 .SH SYNOPSIS
 .B exiv2
 [\fIoptions\fP] [\fIaction\fP] \fIfile\fP ...
@@ -28,11 +28,12 @@ exiv2 \- Exif/IPTC metadata manipulation tool
 .\" \fI<whatever>\fP escape sequences to invode bold face and italics, 
 .\" respectively.
 .B exiv2
-is a program to read and write Exif and IPTC image metadata and image
-comments. Supported image formats are JPEG, Canon CRW and Canon THM.
-Read-only support is currently available for PNG and TIFF format and
-includes TIFF-based RAW formats such as Adobe DNG, Canon CR2, Fujifilm
-RAF, Minolta MRW, Nikon NEF, Pentax PEF, Sony ARW and Sony SR2.
+is a program to read and write Exif, IPTC and XMP image metadata and
+image comments. Supported image formats are JPEG, Canon CRW and Canon
+THM.  Read-only support is currently available for PNG and TIFF format
+and includes TIFF-based RAW formats such as Adobe DNG, Canon CR2,
+Fujifilm RAF, Minolta MRW, Nikon NEF, Pentax PEF, Sony ARW and Sony
+SR2.
 .SH ACTIONS
 The \fIaction\fP argument is only required if it is not clear from the
 \fIoptions\fP which action is implied.
@@ -42,15 +43,15 @@ Print image metadata. This is the default action, i.e., the command
 \fIexiv2 image.jpg\fP will print a summary of the image Exif metadata.
 .TP
 .B ex | extract
-Extract metadata to *.exv and thumbnail image files. Modification
-commands can be applied on-the-fly.
+Extract metadata to *.exv, *.xmp and thumbnail image files. 
+Modification commands can be applied on-the-fly.
 .TP
 .B in | insert
-Insert metadata from corresponding *.exv files.  Use option \fB\-S\fP
-\fI.suf\fP to change the suffix of the input files. Since files of any
-supported format can be used as input files, this command can be used
-to copy the metadata between files of different formats. Modification
-commands can be applied on-the-fly.
+Insert metadata from corresponding *.exv, *.xmp and thumbnail files.
+Use option \fB\-S\fP \fI.suf\fP to change the suffix of the input
+files. Since files of any supported format can be used as input files,
+this command can be used to copy the metadata between files of
+different formats. Modification commands can be applied on-the-fly.
 .TP
 .B rm | delete
 Delete image metadata from the files.
@@ -132,6 +133,8 @@ h : hexdump of the Exif data (shortcut for -Pxgnycsh)
 .br
 i : IPTC data values
 .br
+x : XMP properties
+.br
 c : JPEG comment
 .TP
 .B \-P \fIcols\fP
@@ -171,17 +174,24 @@ t : Exif thumbnail only
 .br
 i : IPTC data
 .br
+x : XMP packet
+.br
 c : JPEG comment
 .TP
 .B \-i \fItgt\fP
 Insert target(s) for the 'insert' action. Possible targets are the
-same as those for the \fB\-d\fP option. Only JPEG thumbnails can be
-inserted (not TIFF thumbnails), they need to be named
-\fIfile\fP\-thumb.jpg.
+same as those for the \fB\-d\fP option, plus:
+.br
+X : Insert XMP packet from <file>.xmp
+.br
+Only JPEG thumbnails can be inserted (not TIFF thumbnails), they need to 
+be named \fIfile\fP\-thumb.jpg.
 .TP
 .B \-e \fItgt\fP
 Extract target(s) for the 'extract' action. Possible targets are the same 
-as those for the \fB\-d\fP option.
+as those for the \fB\-d\fP option, plus:
+.br
+X : Extract XMP packet to <file>.xmp
 .TP
 .B \-r \fIfmt\fP
 Filename format for the 'rename' action. The format string follows
@@ -349,7 +359,7 @@ Sample command file.
 Taglists with \fIkey\fP and default \fItype\fP values.
 .SH AUTHORS
 .B exiv2 
-was written by Andreas HUGGEL <ahuggel@gmx.net>.
+was written by Andreas Huggel <ahuggel@gmx.net>.
 .PP
 This manual page was originally written by KELEMEN Peter <fuji@debian.org>,
 for the Debian project.

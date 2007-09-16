@@ -118,11 +118,6 @@ namespace Exiv2 {
         //! Return the type identifier (Exif data format type).
         TypeId typeId() const { return type_; }
         /*!
-          @brief Return the value as a string. Implemented in terms of
-                 write(std::ostream& os) const of the concrete class.
-         */
-        std::string toString() const;
-        /*!
           @brief Return an auto-pointer to a copy of itself (deep copy).
                  The caller owns this copy and the auto-pointer ensures that
                  it will be deleted.
@@ -151,25 +146,37 @@ namespace Exiv2 {
         */
         virtual std::ostream& write(std::ostream& os) const =0;
         /*!
-          @brief Convert the n-th component of the value to a long. The
-                 behaviour of this method may be undefined if there is no
-                 n-th component.
+          @brief Return the value as a string. Implemented in terms of
+                 write(std::ostream& os) const of the concrete class.
+         */
+        std::string toString() const;
+        /*!
+          @brief Return the <EM>n</EM>-th component of the value as a string.
+                 The default implementation returns toString(). The behaviour
+                 of this method may be undefined if there is no <EM>n</EM>-th
+                 component.
+         */
+        virtual std::string toString(long n) const;
+        /*!
+          @brief Convert the <EM>n</EM>-th component of the value to a long.
+                 The behaviour of this method may be undefined if there is no
+                 <EM>n</EM>-th component.
 
           @return The converted value.
          */
         virtual long toLong(long n =0) const =0;
         /*!
-          @brief Convert the n-th component of the value to a float. The
-                 behaviour of this method may be undefined if there is no
-                 n-th component.
+          @brief Convert the <EM>n</EM>-th component of the value to a float.
+                 The behaviour of this method may be undefined if there is no
+                 <EM>n</EM>-th component.
 
           @return The converted value.
          */
         virtual float toFloat(long n =0) const =0;
         /*!
-          @brief Convert the n-th component of the value to a Rational. The
-                 behaviour of this method may be undefined if there is no
-                 n-th component.
+          @brief Convert the <EM>n</EM>-th component of the value to a Rational.
+                 The behaviour of this method may be undefined if there is no
+                 <EM>n</EM>-th component.
 
           @return The converted value.
          */
@@ -212,6 +219,7 @@ namespace Exiv2 {
           <TR><TD class="indexkey">date</TD><TD class="indexvalue">%DateValue</TD></TR>
           <TR><TD class="indexkey">time</TD><TD class="indexvalue">%TimeValue</TD></TR>
           <TR><TD class="indexkey">comment</TD><TD class="indexvalue">%CommentValue</TD></TR>
+          <TR><TD class="indexkey">xmpText</TD><TD class="indexvalue">%XmpTextValue</TD></TR>
           <TR><TD class="indexkey"><EM>default:</EM></TD><TD class="indexvalue">%DataValue(typeId)</TD></TR>
           </TABLE>
 
@@ -304,6 +312,12 @@ namespace Exiv2 {
         virtual long count() const { return size(); }
         virtual long size() const;
         virtual std::ostream& write(std::ostream& os) const;
+        /*!
+          @brief Return the <EM>n</EM>-th component of the value as a string.
+                 The behaviour of this method may be undefined if there is no
+                 <EM>n</EM>-th component.
+         */
+        virtual std::string toString(long n) const;
         virtual long toLong(long n =0) const { return value_[n]; }
         virtual float toFloat(long n =0) const { return value_[n]; }
         virtual Rational toRational(long n =0) const
@@ -603,6 +617,103 @@ namespace Exiv2 {
     }; // class CommentValue
 
     /*!
+      @brief %Value type suitable for XMP Text properties and arrays thereof.
+
+      Uses a vector of std::string to store the text(s).
+     */
+    class XmpTextValue : public Value {
+    public:
+        //! Shortcut for a %XmpTextValue auto pointer.
+        typedef std::auto_ptr<XmpTextValue> AutoPtr;
+
+        //! @name Creators
+        //@{
+        //! Constructor for subclasses
+        XmpTextValue()
+            : Value(xmpText) {}
+        //! Constructor for subclasses
+        XmpTextValue(const std::string& buf)
+            : Value(xmpText) { read(buf); }
+        //! Copy constructor
+        XmpTextValue(const XmpTextValue& rhs)
+            : Value(rhs), value_(rhs.value_) {}
+
+        //! Virtual destructor.
+        virtual ~XmpTextValue() {}
+        //@}
+
+        //! @name Manipulators
+        //@{
+        //! Assignment operator.
+        XmpTextValue& operator=(const XmpTextValue& rhs);
+        /*!
+          @brief Read a text property value or array items from \em buf.
+
+          Expects a list of quoted strings, one for each array item. The 
+          quoted strings may be separated by whitespace. Double quotes in 
+          the strings must be escaped with a backslash character: \\".
+          Examples: ""\\"foo\\", he said"" or ""foo" "bar"".
+         */
+        virtual int read(const std::string& buf);
+        /*!
+          @brief Read the value from a character buffer.
+
+          Uses read(const std::string& buf)
+
+          @note The byte order is required by the interface but not used by this
+                method, so just use the default.
+
+          @param buf Pointer to the data buffer to read from
+          @param len Number of bytes in the data buffer
+          @param byteOrder Byte order. Not needed.
+
+          @return 0 if successful.
+         */
+        virtual int read(const byte* buf,
+                         long len,
+                         ByteOrder byteOrder =invalidByteOrder);
+        //@}
+
+        //! @name Accessors
+        //@{
+        AutoPtr clone() const { return AutoPtr(clone_()); }
+        /*!
+          @brief Write value to a character data buffer.
+
+          The user must ensure that the buffer has enough memory. Otherwise
+          the call results in undefined behaviour.
+
+          @note The byte order is required by the interface but not used by this
+                method, so just use the default.
+
+          @param buf Data buffer to write to.
+          @param byteOrder Byte order. Not used.
+          @return Number of characters written.
+        */
+        virtual long copy(byte* buf, ByteOrder byteOrder =invalidByteOrder) const;
+        virtual long count() const { return static_cast<long>(value_.size()); }
+        virtual long size() const;
+        /*!
+          @brief Return the <EM>n</EM>-th component of the value as a string.
+                 The behaviour of this method may be undefined if there is no
+                 <EM>n</EM>-th component.
+         */
+        virtual std::string toString(long n) const;
+        virtual long toLong(long n =0) const;
+        virtual float toFloat(long n =0) const;
+        virtual Rational toRational(long n =0) const;
+        virtual std::ostream& write(std::ostream& os) const;
+        //@}
+
+    protected:
+        //! Internal virtual copy constructor.
+        virtual XmpTextValue* clone_() const;
+        // DATA
+        std::vector<std::string> value_;        //!< Stores the string values.
+
+    }; // class XmpTextValue
+
+    /*!
       @brief %Value for simple ISO 8601 dates
 
       This class is limited to parsing simple date strings in the ISO 8601
@@ -685,13 +796,13 @@ namespace Exiv2 {
         virtual const Date& getDate() const { return date_; }
         virtual long count() const { return size(); }
         virtual long size() const;
-        /*!
-          @brief Write the value to an output stream. .
-        */
         virtual std::ostream& write(std::ostream& os) const;
+        //! Return the value as a UNIX calender time converted to long.
         virtual long toLong(long n =0) const;
+        //! Return the value as a UNIX calender time converted to float.
         virtual float toFloat(long n =0) const
             { return static_cast<float>(toLong(n)); }
+        //! Return the value as a UNIX calender time  converted to Rational.
         virtual Rational toRational(long n =0) const
             { return Rational(toLong(n), 1); }
         //@}
@@ -795,11 +906,13 @@ namespace Exiv2 {
         virtual const Time& getTime() const { return time_; }
         virtual long count() const { return size(); }
         virtual long size() const;
-        //! Write the value to an output stream. .
         virtual std::ostream& write(std::ostream& os) const;
+        //! Returns number of seconds in the day in UTC.
         virtual long toLong(long n =0) const;
+        //! Returns number of seconds in the day in UTC converted to float.
         virtual float toFloat(long n =0) const
             { return static_cast<float>(toLong(n)); }
+        //! Returns number of seconds in the day in UTC converted to Rational.
         virtual Rational toRational(long n =0) const
             { return Rational(toLong(n), 1); }
         //@}
@@ -841,6 +954,7 @@ namespace Exiv2 {
         Time time_;
 
     }; // class TimeValue
+
     //! Template to determine the TypeId for a type T
     template<typename T> TypeId getType();
 
@@ -858,7 +972,7 @@ namespace Exiv2 {
     template<> inline TypeId getType<Rational>() { return signedRational; }
 
     // No default implementation: let the compiler/linker complain
-//    template<typename T> inline TypeId getType() { return invalid; }
+    // template<typename T> inline TypeId getType() { return invalid; }
 
     /*!
       @brief Template for a %Value of a basic type. This is used for unsigned
@@ -910,6 +1024,13 @@ namespace Exiv2 {
         virtual long count() const { return static_cast<long>(value_.size()); }
         virtual long size() const;
         virtual std::ostream& write(std::ostream& os) const;
+        /*!
+          @brief Return the <EM>n</EM>-th component of the value as a string.
+                 The behaviour of this method may be undefined if there is no
+                 <EM>n</EM>-th
+                 component.
+         */
+        virtual std::string toString(long n) const;
         virtual long toLong(long n =0) const;
         virtual float toFloat(long n =0) const;
         virtual Rational toRational(long n =0) const;
@@ -963,8 +1084,21 @@ namespace Exiv2 {
     typedef ValueType<Rational> RationalValue;
 
 // *****************************************************************************
-// template and inline definitions
+// free functions, template and inline definitions
 
+    //! Double-quote character
+    extern const char quoteChar[];
+    //! Escape character
+    extern const char escapeChar[];
+    /*!
+      @brief Quote a string with double-quotes, escape quotes and escape 
+             characters in the string.
+     */
+    void quoteText(std::string& text);
+    /*!
+      @brief Remove escape characters from an unquoted string.
+     */
+    void unescapeText(std::string& text);
     /*!
       @brief Read a value of type T from the data buffer.
 
@@ -1150,7 +1284,9 @@ namespace Exiv2 {
         std::istringstream is(buf);
         T tmp;
         value_.clear();
-        while (is >> tmp) {
+        while (!(is.eof())) {
+            is >> tmp;
+            if (is.fail()) return 1;
             value_.push_back(tmp);
         }
         return 0;
@@ -1190,6 +1326,13 @@ namespace Exiv2 {
         }
         return os;
     }
+
+    template<typename T>
+    inline std::string ValueType<T>::toString(long n) const
+    {
+        return Exiv2::toString(value_[n]);
+    }
+
     // Default implementation
     template<typename T>
     inline long ValueType<T>::toLong(long n) const
@@ -1264,7 +1407,6 @@ namespace Exiv2 {
         sizeDataArea_ = len;
         return 0;
     }
-
 }                                       // namespace Exiv2
 
 #endif                                  // #ifndef VALUE_HPP_

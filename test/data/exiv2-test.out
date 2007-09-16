@@ -3,7 +3,7 @@ tmp/
 
 Exiv2 version ------------------------------------------------------------
 ../../src/exiv2
-exiv2 0.15
+exiv2 0.16
 Copyright (C) 2004-2007 Andreas Huggel.
 
 This program is free software; you can redistribute it and/or
@@ -33,12 +33,12 @@ Actions:
   rm | delete   Delete image metadata from the files.
   in | insert   Insert metadata from corresponding *.exv files.
                 Use option -S to change the suffix of the input files.
-  ex | extract  Extract metadata to *.exv and thumbnail image files.
+  ex | extract  Extract metadata to *.exv, *.xmp and thumbnail image files.
   mv | rename   Rename files and/or set file timestamps according to the
                 Exif create timestamp. The filename format can be set with
                 -r format, timestamp options are controlled with -t and -T.
   mo | modify   Apply commands to modify (add, set, delete) the Exif and
-                Iptc metadata of image files or set the Jpeg comment.
+                IPTC metadata of image files or set the JPEG comment.
                 Requires option -c, -m or -M.
   fi | fixiso   Copy ISO setting from the Nikon Makernote to the regular
                 Exif tag.
@@ -62,8 +62,9 @@ Options:
              t : interpreted (translated) Exif data (shortcut for -Pkyct)
              v : plain Exif data values (shortcut for -Pxgnycv)
              h : hexdump of the Exif data (shortcut for -Pxgnycsh)
-             i : Iptc data values
-             c : Jpeg comment
+             i : IPTC data values
+             x : XMP properties
+             c : JPEG comment
    -P cols Print columns for the Exif taglist ('print' action). Valid are:
              x : print a column with the tag value
              g : group name
@@ -80,20 +81,24 @@ Options:
              a : all supported metadata (the default)
              e : Exif section
              t : Exif thumbnail only
-             i : Iptc data
-             c : Jpeg comment
+             i : IPTC data
+             x : XMP packet
+             c : JPEG comment
    -i tgt  Insert target(s) for the 'insert' action. Possible targets are
-           the same as those for the -d option. Only Jpeg thumbnails can
-           be inserted, they need to be named <file>-thumb.jpg
+           the same as those for the -d option, plus:
+             X : Insert XMP packet from <file>.xmp
+           Only JPEG thumbnails can be inserted, they need to be named
+           <file>-thumb.jpg
    -e tgt  Extract target(s) for the 'extract' action. Possible targets
-           are the same as those for the -d option.
+           are the same as those for the -i option, plus:
+             X : Extract XMP packet to <file>.xmp
    -r fmt  Filename format for the 'rename' action. The format string
            follows strftime(3). The following keywords are supported:
              :basename:   - original filename without extension
              :dirname:    - name of the directory holding the original file
              :parentname: - name of parent directory
            Default filename format is %Y%m%d_%H%M%S.
-   -c txt  Jpeg comment string to set in the image.
+   -c txt  JPEG comment string to set in the image.
    -m file Command file for the modify action. The format for commands is
            set|add|del <key> [[<type>] <value>].
    -M cmd  Command line for the modify action. The format for the
@@ -1955,7 +1960,7 @@ File  6/15: 20030925_201850.jpg
 Writing Exif data from 20030925_201850.jpg to ./20030925_201850.exv
 File  7/15: 20001026_044550.jpg
 Writing Exif data from 20001026_044550.jpg to ./20001026_044550.exv
-Writing Jpeg comment from 20001026_044550.jpg to ./20001026_044550.exv
+Writing JPEG comment from 20001026_044550.jpg to ./20001026_044550.exv
 File  8/15: 20030926_111535.jpg
 Writing Exif data from 20030926_111535.jpg to ./20030926_111535.exv
 File  9/15: 20040316_075137.jpg
@@ -4866,7 +4871,7 @@ File  6/15: 20030925_201850.jpg
 Erasing Exif data from the file
 File  7/15: 20001026_044550.jpg
 Erasing Exif data from the file
-Erasing Jpeg comment from the file
+Erasing JPEG comment from the file
 File  8/15: 20030926_111535.jpg
 Erasing Exif data from the file
 File  9/15: 20040316_075137.jpg
@@ -4929,7 +4934,7 @@ File  6/15: 20030925_201850.jpg
 Writing Exif data from ./20030925_201850.exv to 20030925_201850.jpg
 File  7/15: 20001026_044550.jpg
 Writing Exif data from ./20001026_044550.exv to 20001026_044550.jpg
-Writing Jpeg comment from ./20001026_044550.exv to 20001026_044550.jpg
+Writing JPEG comment from ./20001026_044550.exv to 20001026_044550.jpg
 File  8/15: 20030926_111535.jpg
 Writing Exif data from ./20030926_111535.exv to 20030926_111535.jpg
 File  9/15: 20040316_075137.jpg

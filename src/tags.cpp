@@ -1620,7 +1620,8 @@ namespace Exiv2 {
         int32_t denominator;
         char c;
         is >> nominator >> c >> denominator;
-        if (is && c == '/') r = std::make_pair(nominator, denominator);
+        if (c != '/') is.setstate(std::ios::failbit);
+        if (is) r = std::make_pair(nominator, denominator);
         return is;
     }
 
@@ -1633,9 +1634,10 @@ namespace Exiv2 {
     {
         uint32_t nominator;
         uint32_t denominator;
-        char c;
+        char c('\0');
         is >> nominator >> c >> denominator;
-        if (is && c == '/') r = std::make_pair(nominator, denominator);
+        if (c != '/') is.setstate(std::ios::failbit);
+        if (is) r = std::make_pair(nominator, denominator);
         return is;
     }
 

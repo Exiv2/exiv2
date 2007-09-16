@@ -72,6 +72,7 @@ namespace Exiv2 {
         TypeInfoTable(time,             "Time",        11),
         TypeInfoTable(comment,          "Comment",     1),
         TypeInfoTable(directory,        "Directory",   1),
+        TypeInfoTable(xmpText,          "XmpText",     1),
         // End of list marker
         TypeInfoTable(lastTypeId,       "(Unknown)",   0)
     };

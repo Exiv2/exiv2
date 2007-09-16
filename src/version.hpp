@@ -39,7 +39,7 @@
 /*!
   @brief %Exiv2 MINOR version number of the library used at compile-time.
  */
-#define EXIV2_MINOR_VERSION (15)
+#define EXIV2_MINOR_VERSION (16)
 /*!
   @brief %Exiv2 PATCH version number of the library used at compile-time.
  */
