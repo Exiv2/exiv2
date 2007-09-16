@@ -1,38 +1,42 @@
 XMP support
 ===========
-Exiv2 uses the Adobe XMP toolkit (XMP SDK) to parse
-and serialize XMP packets (only the XMPCore component).
+Top-level Exiv2 classes to access XMP metadata are XmpData,
+Xmpdatum and XmpKey. They work similar to the corresponding 
+Exif and IPTC classes. The property-repository is XmpProperties.
+In addition to the expected new members, class Image also
+has a new interface to access the raw XMP packet.
 
 Todo: XMP support is controlled with the ENABLE_XMP directive 
 in config/config.mk.in. This will be a configure option
 eventually.
 
-Top-level classes to access XMP metadata are XmpData,
-XmpDatum and XmpKey. They work similar to the corresponding 
-Exif and IPTC classes. The property-repository is XmpProperties.
-In addition to the expected new members, class Image also
-has a new interface to access the raw XMP packet.
+Exiv2 uses the Adobe XMP toolkit (XMP SDK) to parse
+and serialize XMP packets (only the XMPCore component).
 
-Supported XMP types
--------------------
-Simple types : supported
-Structures   : not supported
-Arrays       : unordered and ordered arrays are supported
-               alternative arrays are not supported
-
-Property Qualifiers : not supported
-Language Alternatives : not supported
+Supported XMP value types
+-------------------------
+All XMP value types are supported: Simple types, structures,
+arrays, property qualifiers and language alternatives.
 
 XMP properties are accessed through keys of the form
-"Xmp.<Prefix>.<Property>", where <Prefix> is the preferred
-(or rather, registered) prefix for a schema namespace and
-<Property> is the name of a property in that namespace. Only 
-known properties in known namespaces are supported at the
-moment. Functions to register namespaces and properterties
-are not provided yet.
+"Xmp.<Prefix>.<PropertyPath>", where <Prefix> is the preferred 
+(or rather, registered) prefix for a schema namespace and 
+<PropertyPath> is the path of the XMP node. In its most basic
+form, to address simple properties, <PropertyPath> is the name
+of the property. In general, <PropertyPath> can be used to 
+address any XMP node, including array items, structure fields
+qualifiers and deeply nested properties.
+
+Any properties in known namespaces are supported and additional
+namespaces can be registered.
+
+The specialized Exiv2 values XmpArrayValue and LangAltValue are
+provided to simplify the use of XMP properties.
 
 Note: Unlike Exif and IPTC tags, XMP properties do not have
 a tag number.
+
+Todo: Conversion between XMP and Exif/IPTC metadata.
 
 XMP toolkit installation
 ========================
@@ -52,8 +56,8 @@ this via configure options.
 
 External packages (non-Debian)
 -----------------
-xmp_v411_sdk.zip    - from adobe.com:       http://www.adobe.com/devnet/xmp/sdk/eula.html
-expat-2.0.1.tar.gz  - from sourceforge.net: http://sourceforge.net/project/showfiles.php?group_id=10127
+xmp_v411_sdk.zip    - http://www.adobe.com/devnet/xmp/sdk/eula.html
+expat-2.0.1.tar.gz  - http://sourceforge.net/project/showfiles.php?group_id=10127
 exiv2               - from SVN
 
 Installation steps

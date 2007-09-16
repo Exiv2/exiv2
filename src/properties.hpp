@@ -141,7 +141,7 @@ namespace Exiv2 {
            @return the namespace name
            @throw Error if no namespace is registered with \em prefix.
          */
-        static const char* ns(const std::string& prefix);
+        static std::string ns(const std::string& prefix);
         /*!
            @brief Return the namespace description for the schema associated
                   with \em prefix.
@@ -167,13 +167,27 @@ namespace Exiv2 {
          */
         static const XmpNsInfo* nsInfo(const std::string& prefix);
         /*!
-           @brief Return the (preferred) prefix for schema namespace \em ns
+           @brief Return the (preferred) prefix for schema namespace \em ns.
            @param ns Schema namespace
-           @return the prefix or 0 if namespace \em ns is not registered.
+           @return the prefix or an empty string if namespace \em ns is not
+                  registered.
          */
-        static const char* prefix(const std::string& ns);
+        static std::string prefix(const std::string& ns);
         //! Print a list of properties of a schema namespace to output stream \em os.
         static void printProperties(std::ostream& os, const std::string& prefix);
+
+        /*!
+          @brief Register namespace \em ns with preferred prefix \em prefix.
+
+          If the namespace is a known or previously registered namespace, the
+          prefix is overwritten. This also invalidates XMP keys generated with
+          the previous prefix.
+         */
+        static void registerNs(const std::string& ns, const std::string& prefix);
+
+    private:
+        typedef std::map<std::string, std::string> NsRegistry;
+        static NsRegistry nsRegistry_;
 
     }; // class XmpProperties
 
@@ -192,8 +206,8 @@ namespace Exiv2 {
 
           @param key The key string.
           @throw Error if the first part of the key is not '<b>Xmp</b>' or
-                 the remaining parts of the key cannot be parsed and
-                 converted to a known schema prefix and property name.
+                 the second part of the key cannot be parsed and converted
+                 to a known schema prefix.
         */
         explicit XmpKey(const std::string& key);
         /*!
@@ -203,8 +217,7 @@ namespace Exiv2 {
           @param prefix   Schema prefix name
           @param property Property name
 
-          @throw Error if the schema prefix or the property name are not
-                 known.
+          @throw Error if the schema prefix is not known.
         */
         XmpKey(const std::string& prefix, const std::string& property);
         //! Copy constructor.
@@ -237,7 +250,7 @@ namespace Exiv2 {
 
         // Todo: Should this be removed? What about tagLabel then?
         //! Return the schema namespace for the prefix of the key
-        const char* ns() const;
+        std::string ns() const;
         //@}
 
     private:

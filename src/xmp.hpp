@@ -276,6 +276,23 @@ namespace Exiv2 {
         */
         static int encode(      std::string& xmpPacket,
                           const XmpData&     xmpData);
+        /*!
+          @brief Initialize the XMP Toolkit.
+
+          Calling this method is usually not needed, as encode() and 
+          decode() will initialize the XMP Toolkit if necessary.
+
+          @return True if the initialization was successful, else false.
+         */
+        static bool initialize();
+        /*!
+          @brief Terminate the XMP Toolkit.
+
+          Call this method when the XmpParser is no longer needed to
+          allow the XMP Toolkit to cleanly shutdown.
+         */
+        static void terminate();
+
     private:
         static bool initialized_; //! Indicates if the XMP Toolkit has been initialized
 

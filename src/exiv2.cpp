@@ -42,6 +42,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "actions.hpp"
 #include "utils.hpp"
 #include "i18n.h"      // NLS support.
+#include "xmp.hpp"
 
 #include <string>
 #include <iostream>
@@ -154,6 +155,7 @@ int main(int argc, char* const argv[])
 
     taskFactory.cleanup();
     params.cleanup();
+    Exiv2::XmpParser::terminate();
 
     return rc;
 } // main

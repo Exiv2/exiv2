@@ -43,6 +43,7 @@ try {
                   << std::dec << md->value()
                   << std::endl;
     }
+    Exiv2::XmpParser::terminate();
     return 0;
 }
 catch (Exiv2::AnyError& e) {

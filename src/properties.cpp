@@ -52,11 +52,14 @@ namespace Exiv2 {
     extern const XmpPropertyInfo xmpXmpMMInfo[];
     extern const XmpPropertyInfo xmpXmpBJInfo[];
     extern const XmpPropertyInfo xmpXmpTPgInfo[];
-    extern const XmpPropertyInfo xmpPhotoshopInfo[];
     extern const XmpPropertyInfo xmpXmpDMInfo[];
     extern const XmpPropertyInfo xmpPdfInfo[];
+    extern const XmpPropertyInfo xmpPhotoshopInfo[];
+    extern const XmpPropertyInfo xmpCrsInfo[];
     extern const XmpPropertyInfo xmpTiffInfo[];
     extern const XmpPropertyInfo xmpExifInfo[];
+    extern const XmpPropertyInfo xmpAuxInfo[];
+    extern const XmpPropertyInfo xmpIptcInfo[];
 
     extern const XmpNsInfo xmpNsInfo[] = {
         // Schemas
@@ -69,11 +72,11 @@ namespace Exiv2 {
         { "http://ns.adobe.com/xmp/1.0/DynamicMedia/",    "xmpDM",        xmpXmpDMInfo,     "XMP Dynamic Media schema" },
         { "http://ns.adobe.com/pdf/1.3/",                 "pdf",          xmpPdfInfo,       "Adobe PDF schema" },
         { "http://ns.adobe.com/photoshop/1.0/",           "photoshop",    xmpPhotoshopInfo, "Adobe photoshop schema" },
-        { "http://ns.adobe.com/camera-raw-settings/1.0/", "crs",          0, "Camera Raw schema" },
+        { "http://ns.adobe.com/camera-raw-settings/1.0/", "crs",          xmpCrsInfo,       "Camera Raw schema" },
         { "http://ns.adobe.com/tiff/1.0/",                "tiff",         xmpTiffInfo,      "Exif Schema for TIFF Properties" },
         { "http://ns.adobe.com/exif/1.0/",                "exif",         xmpExifInfo,      "Exif schema for Exif-specific Properties" },
-        { "http://ns.adobe.com/exif/1.0/aux/",            "aux",          0, "Exif schema for Additional Exif Properties" },
-        { "http://iptc.org/std/Iptc4xmpCore/1.0/xmlns/",  "iptc" /*Iptc4xmpCore*/, 0, "IPTC Core schema" },
+        { "http://ns.adobe.com/exif/1.0/aux/",            "aux",          xmpAuxInfo,       "Exif schema for Additional Exif Properties" },
+        { "http://iptc.org/std/Iptc4xmpCore/1.0/xmlns/",  "iptc",         xmpIptcInfo,      "IPTC Core schema" }, // 'Iptc4xmpCore' is just too long
 
         // Structures
         { "http://ns.adobe.com/xap/1.0/g/",                   "xapG",    0, "Colorant structure" },
@@ -322,6 +325,61 @@ namespace Exiv2 {
         { "SupplementalCategories", "SupplementalCategories", "bag Text", xmpText, xmpExternal, "Supplemental category." },
         { "TransmissionReference", "TransmissionReference", "Text", xmpText,       xmpExternal, "Original transmission reference." },
         { "Urgency",          "Urgency",          "Integer",     xmpText,          xmpExternal, "Urgency. Valid range is 1-8." },
+        // End of list marker
+        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+    };
+
+    //! crs:CropUnits
+    extern const TagDetails xmpCrsCropUnits[] = {
+        { 0, "pixels" },
+        { 1, "inches" },
+        { 2, "cm"     }
+    };
+
+    extern const XmpPropertyInfo xmpCrsInfo[] = {
+        { "AutoBrightness",   "AutoBrightness",   "Boolean",     xmpText,          xmpExternal, "When true, \"Brightness\" is automatically adjusted." },
+        { "AutoContrast",     "AutoContrast",     "Boolean",     xmpText,          xmpExternal, "When true, \"Contrast\" is automatically adjusted." },
+        { "AutoExposure",     "AutoExposure",     "Boolean",     xmpText,          xmpExternal, "When true, \"Exposure\" is automatically adjusted." },
+        { "AutoShadows",      "AutoShadows",      "Boolean",     xmpText,          xmpExternal, "When true,\"Shadows\" is automatically adjusted." },
+        { "BlueHue",          "BlueHue",          "Integer",     signedShort,      xmpExternal, "\"Blue Hue\" setting. Range -100 to 100." },
+        { "BlueSaturation",   "BlueSaturation",   "Integer",     signedShort,      xmpExternal, "\"Blue Saturation\" setting. Range -100 to +100." },
+        { "Brightness",       "Brightness",       "Integer",     unsignedShort,    xmpExternal, "\"Brightness\" setting. Range 0 to +150." },
+        { "CameraProfile",    "CameraProfile",    "Text",        xmpText,          xmpExternal, "\"Camera Profile\" setting." },
+        { "ChromaticAberrationB", "ChromaticAberrationB", "Integer", signedShort,  xmpExternal, "\"Chomatic Aberration, Fix Blue/Yellow Fringe\" setting. Range -100 to +100." },
+        { "ChromaticAberrationR", "ChromaticAberrationR", "Integer", signedShort,  xmpExternal, "\"Chomatic Aberration, Fix Red/Cyan Fringe\" setting. Range -100 to +100." },
+        { "ColorNoiseReduction", "ColorNoiseReduction", "Integer", unsignedShort,  xmpExternal, "\"Color Noise Reducton\" setting. Range 0 to +100." },
+        { "Contrast",         "Contrast",         "Integer",     signedShort,      xmpExternal, "\"Contrast\" setting. Range -50 to +100." },
+        { "CropTop",          "CropTop",          "Real",        xmpText,          xmpExternal, "When HasCrop is true, top of crop rectangle" },
+        { "CropLeft",         "CropLeft",         "Real",        xmpText,          xmpExternal, "When HasCrop is true, left of crop rectangle." },
+        { "CropBottom",       "CropBottom",       "Real",        xmpText,          xmpExternal, "When HasCrop is true, bottom of crop rectangle." },
+        { "CropRight",        "CropRight",        "Real",        xmpText,          xmpExternal, "When HasCrop is true, right of crop rectangle." },
+        { "CropAngle",        "CropAngle",        "Real",        xmpText,          xmpExternal, "When HasCrop is true, angle of crop rectangle." },
+        { "CropWidth",        "CropWidth",        "Real",        xmpText,          xmpExternal, "Width of resulting cropped image in CropUnits units." },
+        { "CropHeight",       "CropHeight",       "Real",        xmpText,          xmpExternal, "Height of resulting cropped image in CropUnits units." },
+        { "CropUnits",        "CropUnits",        "Integer",     unsignedShort,    xmpExternal, "Units for CropWidth and CropHeight. 0=pixels, 1=inches, 2=cm" },
+        { "Exposure",         "Exposure",         "Real",        xmpText,          xmpExternal, "\"Exposure\" setting. Range -4.0 to +4.0." },
+        { "GreenHue",         "GreenHue",         "Integer",     signedShort,      xmpExternal, "\"Green Hue\" setting. Range -100 to +100." },
+        { "GreenSaturation",  "GreenSaturation",  "Integer",     signedShort,      xmpExternal, "\"Green Saturation\" setting. Range -100 to +100." },
+        { "HasCrop",          "HasCrop",          "Boolean",     xmpText,          xmpExternal, "When true, image has a cropping rectangle." },
+        { "HasSettings",      "HasSettings",      "Boolean",     xmpText,          xmpExternal, "When true, non-default camera raw settings." },
+        { "LuminanceSmoothing", "LuminanceSmoothing", "Integer", unsignedShort,    xmpExternal, "\"Luminance Smoothing\" setting. Range 0 to +100." },
+        { "RawFileName",      "RawFileName",      "Text",        xmpText,          xmpInternal, "File name fo raw file (not a complete path)." },
+        { "RedHue",           "RedHue",           "Integer",     signedShort,      xmpExternal, "\"Red Hue\" setting. Range -100 to +100." },
+        { "RedSaturation",    "RedSaturation",    "Integer",     signedShort,      xmpExternal, "\"Red Saturation\" setting. Range -100 to +100." },
+        { "Saturation",       "Saturation",       "Integer",     signedShort,      xmpExternal, "\"Saturation\" setting. Range -100 to +100." },
+        { "Shadows",          "Shadows",          "Integer",     unsignedShort,    xmpExternal, "\"Shadows\" setting. Range 0 to +100." },
+        { "ShadowTint",       "ShadowTint",       "Integer",     signedShort,      xmpExternal, "\"Shadow Tint\" setting. Range -100 to +100." },
+        { "Sharpness",        "Sharpness",        "Integer",     unsignedShort,    xmpExternal, "\"Sharpness\" setting. Range 0 to +100." },
+        { "Temperature",      "Temperature",      "Integer",     unsignedShort,    xmpExternal, "\"Temperature\" setting. Range 2000 to 50000." },
+        { "Tint",             "Tint",             "Integer",     signedShort,      xmpExternal, "\"Tint\" setting. Range -150 to +150." },
+        { "ToneCurve",        "ToneCurve",        "Seq of points (Integer, Integer)", xmpText, xmpExternal, "Array of points (Integer, Integer) defining a \"Tone Curve\"." },
+        { "ToneCurveName",    "ToneCurveName",    "Choice Text", xmpText,          xmpInternal, "The name of the Tone Curve described by ToneCurve. One of: Linear, Medium Contrast, "
+                                                                                                "Strong Contrast, Custom or a user-defined preset name." },
+        { "Version",          "Version",          "Text",        xmpText,          xmpInternal, "Version of Camera Raw plugin." },
+        { "VignetteAmount",   "VignetteAmount",   "Integer",     signedShort,      xmpExternal, "\"Vignetting Amount\" setting. Range -100 to +100." },
+        { "VignetteMidpoint", "VignetteMidpoint", "Integer",     unsignedShort,    xmpExternal, "\"Vignetting Midpoint\" setting. Range 0 to +100." },
+        { "WhiteBalance",     "WhiteBalance",     "Closed Choice Text", xmpText,   xmpExternal, "\"White Balance\" setting. One of: As Shot, Auto, Daylight, Cloudy, Shade, Tungsten, "
+                                                                                                "Fluorescent, Flash, Custom" },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
@@ -663,6 +721,44 @@ namespace Exiv2 {
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
 
+    extern const XmpPropertyInfo xmpAuxInfo[] = {
+        { "Lens",             "Lens",             "Text",        xmpText,          xmpInternal, "A description of the lens used to take the photograph. For example, \"70-200 mm f/2.8-4.0\"." },
+        { "SerialNumber",     "SerialNumber",     "Text",        xmpText,          xmpInternal, "The serial number of the camera or camera body used to take the photograph." },
+        // End of list marker
+        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+    };
+
+    extern const XmpPropertyInfo xmpIptcInfo[] = {
+        { "CiAdrCity",        "Contact Info-City", "Text",       xmpText,          xmpExternal, "The contact information city part." },
+        { "CiAdrCtry",        "Contact Info-Country", "Text",    xmpText,          xmpExternal, "The contact information country part." },
+        { "CiAdrExtadr",      "Contact Info-Address", "Text",    xmpText,          xmpExternal, "The contact information address part. Comprises an optional company name and all required "
+                                                                                                "information to locate the building or postbox to which mail should be sent." },
+        { "CiAdrPcode",       "Contact Info-Postal Code", "Text", xmpText,         xmpExternal, "The contact information part denoting the local postal code." },
+        { "CiAdrRegion",      "Contact Info-State/Province", "Text", xmpText,      xmpExternal, "The contact information part denoting regional information like state or province." },
+        { "CiEmailWork",      "Contact Info-Email", "Text",      xmpText,          xmpExternal, "The contact information email address part." },
+        { "CiTelWork",        "Contact Info-Phone", "Text",      xmpText,          xmpExternal, "The contact information phone number part." },
+        { "CiUrlWork",        "Contact Info-Web URL", "Text",    xmpText,          xmpExternal, "The contact information web address part." },
+        { "CountryCode",      "Country Code",     "closed Choice of Text", xmpText, xmpExternal, "Code of the country the content is focussing on -- either the country shown in visual "
+                                                                                                "media or referenced in text or audio media. This element is at the top/first level of "
+                                                                                                "a top-down geographical hierarchy. The code should be taken from ISO 3166 two or three "
+                                                                                                "letter code. The full name of a country should go to the \"Country\" element." },
+        { "CreatorContactInfo", "Creator's Contact Info", "ContactInfo", xmpText,  xmpExternal, "The creator's contact information provides all necessary information to get in contact "
+                                                                                                "with the creator of this news object and comprises a set of sub-properties for proper addressing." },
+        { "IntellectualGenre", "Intellectual Genre", "Text",     xmpText,          xmpExternal, "Describes the nature, intellectual or journalistic characteristic of a news object, not "
+                                                                                                "specifically its content." },
+        { "Location",         "Location",         "Text",        xmpText,          xmpExternal, "Name of a location the content is focussing on -- either the location shown in visual "
+                                                                                                "media or referenced by text or audio media. This location name could either be the name "
+                                                                                                "of a sublocation to a city or the name of a well known location or (natural) monument "
+                                                                                                "outside a city. In the sense of a sublocation to a city this element is at the fourth "
+                                                                                                "level of a top-down geographical hierarchy." },
+        { "Scene",            "IPTC Scene",       "bag closed Choice of Text", xmpText, xmpExternal, "Describes the scene of a photo content. Specifies one or more terms from the IPTC "
+                                                                                                "\"Scene-NewsCodes\". Each Scene is represented as a string of 6 digits in an unordered list." },
+        { "SubjectCode",      "IPTC Subject Code", "bag closed Choice of Text", xmpText, xmpExternal, "Specifies one or more Subjects from the IPTC \"Subject-NewsCodes\" taxonomy to "
+                                                                                                "categorize the content. Each Subject is represented as a string of 8 digits in an unordered list." },
+        // End of list marker
+        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+    };
+
     XmpNsInfo::Ns::Ns(const std::string& ns)
         : ns_(ns)
     {
@@ -689,6 +785,44 @@ namespace Exiv2 {
     {
         std::string n(name_);
         return n == name;
+    }
+
+    XmpProperties::NsRegistry XmpProperties::nsRegistry_;
+
+    void XmpProperties::registerNs(const std::string& ns,
+                                   const std::string& prefix)
+    {
+        std::string ns2 = ns;
+        if (ns2.substr(ns2.size() - 1, 1) != "/") ns2 += "/";
+        nsRegistry_[ns2] = prefix;
+    }
+
+    std::string XmpProperties::prefix(const std::string& ns)
+    {
+        std::string ns2 = ns;
+        if (ns2.substr(ns2.size() - 1, 1) != "/") ns2 += "/";
+        NsRegistry::const_iterator i = nsRegistry_.find(ns2);
+        std::string p;
+        if (i != nsRegistry_.end()) {
+            p = i->second;
+        }
+        else {
+            const XmpNsInfo* xn = find(xmpNsInfo, XmpNsInfo::Ns(ns2));
+            if (xn) p = std::string(xn->prefix_);
+        }
+        return p;
+    }
+
+    std::string XmpProperties::ns(const std::string& prefix)
+    {
+        std::string n;
+        for (NsRegistry::const_iterator i = nsRegistry_.begin();
+             i != nsRegistry_.end(); ++i) {
+            if (i->second == prefix) {
+                return i->first;
+            }
+        }
+        return nsInfo(prefix)->ns_;
     }
 
     const char* XmpProperties::propertyTitle(const XmpKey& key)
@@ -721,11 +855,6 @@ namespace Exiv2 {
         return pi;
     }
 
-    const char* XmpProperties::ns(const std::string& prefix)
-    {
-        return nsInfo(prefix)->ns_;
-    }
-
     const char* XmpProperties::nsDesc(const std::string& prefix)
     {
         return nsInfo(prefix)->desc_;
@@ -741,12 +870,6 @@ namespace Exiv2 {
         const XmpNsInfo* xn = find(xmpNsInfo, XmpNsInfo::Prefix(prefix));
         if (!xn) throw Error(35, prefix);
         return xn;
-    }
-
-    const char* XmpProperties::prefix(const std::string& ns)
-    {
-        const XmpNsInfo* xn = find(xmpNsInfo, XmpNsInfo::Ns(ns));
-        return xn ? xn->prefix_ : 0;
     }
 
     void XmpProperties::printProperties(std::ostream& os, const std::string& prefix)
@@ -765,7 +888,7 @@ namespace Exiv2 {
 
     //! Internal Pimpl structure with private members and data of class XmpKey.
     struct XmpKey::Impl {
-        Impl();                         //!< Default constructor
+        Impl() {}                       //!< Default constructor
         Impl(const std::string& prefix, const std::string& property); //!< Constructor
 
         /*!
@@ -775,7 +898,7 @@ namespace Exiv2 {
 
           @throw Error if the key cannot be decomposed.
         */
-        void decomposeKey(const XmpKey* self, const std::string& key);
+        void decomposeKey(const std::string& key);
 
         // DATA
         static const char* familyName_; //!< "Xmp"
@@ -785,13 +908,13 @@ namespace Exiv2 {
     };
     //! @endcond
 
-    XmpKey::Impl::Impl()
-    {
-    }
-
     XmpKey::Impl::Impl(const std::string& prefix, const std::string& property)
-        : prefix_(prefix), property_(property)
     {
+        // Validate prefix
+        if (XmpProperties::ns(prefix).empty()) throw Error(46, prefix);
+
+        property_ = property;
+        prefix_ = prefix;
     }
 
     const char* XmpKey::Impl::familyName_ = "Xmp";
@@ -799,14 +922,12 @@ namespace Exiv2 {
     XmpKey::XmpKey(const std::string& key)
         : p_(new Impl)
     {
-        p_->decomposeKey(this, key);
+        p_->decomposeKey(key);
     }
 
     XmpKey::XmpKey(const std::string& prefix, const std::string& property)
         : p_(new Impl(prefix, property))
     {
-        // Validate prefix and property, throws
-        XmpProperties::propertyInfo(*this);
     }
 
     XmpKey::~XmpKey()
@@ -861,12 +982,12 @@ namespace Exiv2 {
         return XmpProperties::propertyTitle(*this);
     }
 
-    const char* XmpKey::ns() const
+    std::string XmpKey::ns() const
     {
         return XmpProperties::ns(p_->prefix_);
     }
 
-    void XmpKey::Impl::decomposeKey(const XmpKey* self, const std::string& key)
+    void XmpKey::Impl::decomposeKey(const std::string& key)
     {
         // Get the family name, prefix and property name parts of the key
         std::string::size_type pos1 = key.find('.');
@@ -883,12 +1004,11 @@ namespace Exiv2 {
         std::string property = key.substr(pos1 + 1);
         if (property == "") throw Error(6, key);
 
+        // Validate prefix
+        if (XmpProperties::ns(prefix).empty()) throw Error(46, prefix);
+
         property_ = property;
         prefix_ = prefix;
-
-        // Validate prefix and property
-        XmpProperties::propertyInfo(*self);
-
     } // XmpKey::Impl::decomposeKey
 
     // *************************************************************************

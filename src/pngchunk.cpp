@@ -36,7 +36,7 @@ EXIV2_RCSID("@(#) $Id: pngchunk.cpp 823 2006-06-23 07:35:00Z cgilles $")
 # include "exv_conf.h"
 #endif
 
-#define DEBUG 1
+//#define DEBUG 1
 
 // some defines to make it easier
 #define PNG_CHUNK_TYPE(data, index)  &data[index+4]

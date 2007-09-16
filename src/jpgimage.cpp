@@ -291,11 +291,10 @@ namespace Exiv2 {
                 io_->read(xmpPacket.pData_, xmpPacket.size_);
                 if (io_->error() || io_->eof()) throw Error(14);
                 xmpPacket_.assign(reinterpret_cast<char*>(xmpPacket.pData_), xmpPacket.size_);
-                if (XmpParser::decode(xmpData_, xmpPacket_)) {
+                if (xmpPacket_.size() > 0 && XmpParser::decode(xmpData_, xmpPacket_)) {
 #ifndef SUPPRESS_WARNINGS
                     std::cerr << "Warning: Failed to decode XMP metadata.\n";
 #endif
-                    xmpData_.clear();
                 }
                 --search;
             }
@@ -394,7 +393,7 @@ namespace Exiv2 {
             throw Error(22);
         }
 
-        const long bufMinSize = 31;
+        const long bufMinSize = 36;
         long bufRead = 0;
         DataBuf buf(bufMinSize);
         const long seek = io_->tell();
@@ -468,8 +467,7 @@ namespace Exiv2 {
         }
 
         if (exifData_.count() > 0) ++search;
-        // Todo: Update here when merging branches/xmp 
-        if (xmpPacket_.size() > 0) ++search;
+        if (xmpData_.count() > 0) ++search;
         if (iptcData_.count() > 0) ++search;
         if (!comment_.empty()) ++search;
 
@@ -526,22 +524,28 @@ namespace Exiv2 {
                         --search;
                     }
                 }
-                // Todo: Update here when merging branches/xmp 
-                if (xmpPacket_.size() > 0) {
-                    // Write APP1 marker, size of APP1 field, XMP id and XMP packet
-                    tmpBuf[0] = 0xff;
-                    tmpBuf[1] = app1_;
+                if (xmpData_.count() > 0) {
+                    if (XmpParser::encode(xmpPacket_, xmpData_)) {
+#ifndef SUPPRESS_WARNINGS
+                        std::cerr << "Warning: Failed to encode XMP metadata.\n";
+#endif
+                    }
+                    if (xmpPacket_.size() > 0) {
+                        // Write APP1 marker, size of APP1 field, XMP id and XMP packet
+                        tmpBuf[0] = 0xff;
+                        tmpBuf[1] = app1_;
 
-                    if (xmpPacket_.size() + 31 > 0xffff) throw Error(37, "XMP");
-                    us2Data(tmpBuf + 2, static_cast<uint16_t>(xmpPacket_.size() + 31), bigEndian);
-                    memcpy(tmpBuf + 4, xmpId_, 29);
-                    if (outIo.write(tmpBuf, 33) != 33) throw Error(21);
+                        if (xmpPacket_.size() + 31 > 0xffff) throw Error(37, "XMP");
+                        us2Data(tmpBuf + 2, static_cast<uint16_t>(xmpPacket_.size() + 31), bigEndian);
+                        memcpy(tmpBuf + 4, xmpId_, 29);
+                        if (outIo.write(tmpBuf, 33) != 33) throw Error(21);
 
-                    // Write new XMP packet
-                    if (   outIo.write(reinterpret_cast<const byte*>(xmpPacket_.data()), xmpPacket_.size())
-                        != static_cast<long>(xmpPacket_.size())) throw Error(21);
-                    if (outIo.error()) throw Error(21);
-                    --search;
+                        // Write new XMP packet
+                        if (   outIo.write(reinterpret_cast<const byte*>(xmpPacket_.data()), xmpPacket_.size())
+                            != static_cast<long>(xmpPacket_.size())) throw Error(21);
+                        if (outIo.error()) throw Error(21);
+                        --search;
+                    }
                 }
                 if (psData.size_ > 0 || iptcData_.count() > 0) {
                     // Set the new IPTC IRB, keeps existing IRBs but removes the
