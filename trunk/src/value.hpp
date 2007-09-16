@@ -38,6 +38,7 @@
 // + standard includes
 #include <string>
 #include <vector>
+#include <map>
 #include <iostream>
 #include <sstream>
 #include <memory>
@@ -52,11 +53,10 @@ namespace Exiv2 {
     /*!
       @brief Common interface for all types of values used with metadata.
 
-      The interface provides a uniform way to access values independent from
+      The interface provides a uniform way to access values independent of
       their actual C++ type for simple tasks like reading the values from a
       string or data buffer.  For other tasks, like modifying values you may
-      need to downcast it to the actual subclass of %Value so that you can
-      access the subclass specific interface.
+      need to downcast it to a specific subclass to access its interface.
      */
     class Value {
     public:
@@ -66,15 +66,10 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor, taking a type id to initialize the base class with
-        explicit Value(TypeId typeId)
-            : type_(typeId) {}
-        //! Copy constructor
-        Value(const Value& rhs)
-            : type_(rhs.type_) {}
+        explicit Value(TypeId typeId);
         //! Virtual destructor.
         virtual ~Value() {}
         //@}
-
         //! @name Manipulators
         //@{
         /*!
@@ -196,6 +191,11 @@ namespace Exiv2 {
                   DataBuf if the value does not have a data area assigned.
          */
         virtual DataBuf dataArea() const { return DataBuf(0, 0); };
+        /*!
+          @brief Check the \em ok status indicator. After a to<Type> conversion,
+                 this indicator shows whether the conversion was successful.
+         */
+        bool ok() const { return ok_; }
         //@}
 
         /*!
@@ -220,6 +220,8 @@ namespace Exiv2 {
           <TR><TD class="indexkey">time</TD><TD class="indexvalue">%TimeValue</TD></TR>
           <TR><TD class="indexkey">comment</TD><TD class="indexvalue">%CommentValue</TD></TR>
           <TR><TD class="indexkey">xmpText</TD><TD class="indexvalue">%XmpTextValue</TD></TR>
+          <TR><TD class="indexkey">xmpArray</TD><TD class="indexvalue">%XmpArrayValue</TD></TR>
+          <TR><TD class="indexkey">langAlt</TD><TD class="indexvalue">%LangAltValue</TD></TR>
           <TR><TD class="indexkey"><EM>default:</EM></TD><TD class="indexvalue">%DataValue(typeId)</TD></TR>
           </TABLE>
 
@@ -235,12 +237,14 @@ namespace Exiv2 {
                  by subclasses but not directly.
          */
         Value& operator=(const Value& rhs);
+        // DATA
+        mutable bool ok_;                //!< Indicates the status of the previous to<Type> conversion
 
     private:
         //! Internal virtual copy constructor.
         virtual Value* clone_() const =0;
         // DATA
-        TypeId type_;                           //!< Type of the data
+        TypeId type_;                    //!< Type of the data
 
     }; // class Value
 
@@ -259,7 +263,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor.
-        DataValue(TypeId typeId =undefined) : Value(typeId) {}
+        explicit DataValue(TypeId typeId =undefined) : Value(typeId) {}
         //! Constructor
         DataValue(const byte* buf,
                   long len, ByteOrder byteOrder =invalidByteOrder,
@@ -271,8 +275,6 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        //! Assignment operator.
-        DataValue& operator=(const DataValue& rhs);
         /*!
           @brief Read the value from a character buffer.
 
@@ -318,17 +320,20 @@ namespace Exiv2 {
                  <EM>n</EM>-th component.
          */
         virtual std::string toString(long n) const;
-        virtual long toLong(long n =0) const { return value_[n]; }
-        virtual float toFloat(long n =0) const { return value_[n]; }
-        virtual Rational toRational(long n =0) const
-            { return Rational(value_[n], 1); }
+        virtual long toLong(long n =0) const;
+        virtual float toFloat(long n =0) const;
+        virtual Rational toRational(long n =0) const;
         //@}
 
     private:
         //! Internal virtual copy constructor.
         virtual DataValue* clone_() const;
+
+    public:
+        //! Type used to store the data.
+        typedef std::vector<byte> ValueType;
         // DATA
-        std::vector<byte> value_;
+        ValueType value_;
 
     }; // class DataValue
 
@@ -346,7 +351,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor for subclasses
-        StringValueBase(TypeId typeId)
+        explicit StringValueBase(TypeId typeId)
             : Value(typeId) {}
         //! Constructor for subclasses
         StringValueBase(TypeId typeId, const std::string& buf)
@@ -361,8 +366,6 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        //! Assignment operator.
-        StringValueBase& operator=(const StringValueBase& rhs);
         //! Read the value from buf. This default implementation uses buf as it is.
         virtual int read(const std::string& buf);
         /*!
@@ -378,8 +381,8 @@ namespace Exiv2 {
           @return 0 if successful.
          */
         virtual int read(const byte* buf,
-                          long len,
-                          ByteOrder byteOrder =invalidByteOrder);
+                         long len,
+                         ByteOrder byteOrder =invalidByteOrder);
         //@}
 
         //! @name Accessors
@@ -401,16 +404,19 @@ namespace Exiv2 {
         virtual long copy(byte* buf, ByteOrder byteOrder =invalidByteOrder) const;
         virtual long count() const { return size(); }
         virtual long size() const;
-        virtual long toLong(long n =0) const { return value_[n]; }
-        virtual float toFloat(long n =0) const { return value_[n]; }
-        virtual Rational toRational(long n =0) const
-            { return Rational(value_[n], 1); }
+        virtual long toLong(long n =0) const;
+        virtual float toFloat(long n =0) const;
+        virtual Rational toRational(long n =0) const;
         virtual std::ostream& write(std::ostream& os) const;
         //@}
 
     protected:
+        //! Assignment operator.
+        StringValueBase& operator=(const StringValueBase& rhs);
         //! Internal virtual copy constructor.
         virtual StringValueBase* clone_() const =0;
+
+    public:
         // DATA
         std::string value_;                     //!< Stores the string value.
 
@@ -434,18 +440,10 @@ namespace Exiv2 {
         StringValue()
             : StringValueBase(string) {}
         //! Constructor
-        StringValue(const std::string& buf)
+        explicit StringValue(const std::string& buf)
             : StringValueBase(string, buf) {}
-        //! Copy constructor
-        StringValue(const StringValue& rhs)
-            : StringValueBase(rhs) {}
         //! Virtual destructor.
         virtual ~StringValue() {}
-        //@}
-
-        //! @name Manipulators
-        //@{
-        StringValue& operator=(const StringValue& rhs);
         //@}
 
         //! @name Accessors
@@ -476,19 +474,14 @@ namespace Exiv2 {
         AsciiValue()
             : StringValueBase(asciiString) {}
         //! Constructor
-        AsciiValue(const std::string &buf)
+        explicit AsciiValue(const std::string& buf)
             : StringValueBase(asciiString, buf) {}
-        //! Copy constructor
-        AsciiValue(const AsciiValue& rhs)
-            : StringValueBase(rhs) {}
         //! Virtual destructor.
         virtual ~AsciiValue() {}
         //@}
 
         //! @name Manipulators
         //@{
-        //! Assignment operator
-        AsciiValue& operator=(const AsciiValue& rhs);
         /*!
           @brief Set the value to that of the string buf. Overrides base class
                  to append a terminating '\\0' character if buf doesn't end
@@ -569,18 +562,13 @@ namespace Exiv2 {
         CommentValue()
             : StringValueBase(Exiv2::undefined) {}
         //! Constructor, uses read(const std::string& comment)
-        CommentValue(const std::string& comment);
-        //! Copy constructor
-        CommentValue(const CommentValue& rhs)
-            : StringValueBase(rhs) {}
+        explicit CommentValue(const std::string& comment);
         //! Virtual destructor.
         virtual ~CommentValue() {}
         //@}
 
         //! @name Manipulators
         //@{
-        //! Assignment operator.
-        CommentValue& operator=(const CommentValue& rhs);
         /*!
           @brief Read the value from a comment
 
@@ -617,44 +605,52 @@ namespace Exiv2 {
     }; // class CommentValue
 
     /*!
-      @brief %Value type suitable for XMP Text properties and arrays thereof.
-
-      Uses a vector of std::string to store the text(s).
+      @brief Base class for all Exiv2 values used to store XMP property values.
      */
-    class XmpTextValue : public Value {
+    class XmpValue : public Value {
     public:
-        //! Shortcut for a %XmpTextValue auto pointer.
-        typedef std::auto_ptr<XmpTextValue> AutoPtr;
+        //! Shortcut for a %XmpValue auto pointer.
+        typedef std::auto_ptr<XmpValue> AutoPtr;
+
+        //! XMP array types.
+        enum XmpArrayType { xaNone, xaAlt, xaBag, xaSeq };
+        //! XMP structure indicator.
+        enum XmpStruct { xsNone, xsStruct };
 
         //! @name Creators
         //@{
-        //! Constructor for subclasses
-        XmpTextValue()
-            : Value(xmpText) {}
-        //! Constructor for subclasses
-        XmpTextValue(const std::string& buf)
-            : Value(xmpText) { read(buf); }
-        //! Copy constructor
-        XmpTextValue(const XmpTextValue& rhs)
-            : Value(rhs), value_(rhs.value_) {}
+        explicit XmpValue(TypeId typeId);
+        //@}
 
-        //! Virtual destructor.
-        virtual ~XmpTextValue() {}
+        //! @name Accessors
+        //@{
+        //! Return XMP array type, indicates if an XMP value is an array.
+        XmpArrayType xmpArrayType() const;
+        //! Return XMP struct, indicates if an XMP value is a structure.
+        XmpStruct xmpStruct() const;
+        virtual long size() const;
+        /*!
+          @brief Write value to a character data buffer.
+
+          The user must ensure that the buffer has enough memory. Otherwise
+          the call results in undefined behaviour.
+
+          @note The byte order is required by the interface but not used by this
+                method, so just use the default.
+
+          @param buf Data buffer to write to.
+          @param byteOrder Byte order. Not used.
+          @return Number of characters written.
+        */
+        virtual long copy(byte* buf, ByteOrder byteOrder =invalidByteOrder) const;
         //@}
 
         //! @name Manipulators
         //@{
-        //! Assignment operator.
-        XmpTextValue& operator=(const XmpTextValue& rhs);
-        /*!
-          @brief Read a text property value or array items from \em buf.
-
-          Expects a list of quoted strings, one for each array item. The 
-          quoted strings may be separated by whitespace. Double quotes in 
-          the strings must be escaped with a backslash character: \\".
-          Examples: ""\\"foo\\", he said"" or ""foo" "bar"".
-         */
-        virtual int read(const std::string& buf);
+        //! Set the XMP array type to indicate that an XMP value is an array.
+        void setXmpArrayType(XmpArrayType xmpArrayType);
+        //! Set the XMP struct type to indicate that an XMP value is a structure.
+        void setXmpStruct(XmpStruct xmpStruct);
         /*!
           @brief Read the value from a character buffer.
 
@@ -672,27 +668,126 @@ namespace Exiv2 {
         virtual int read(const byte* buf,
                          long len,
                          ByteOrder byteOrder =invalidByteOrder);
+        virtual int read(const std::string& buf) =0;
+        //@}
+
+    protected:
+        /*!
+          @brief Assignment operator. Protected so that it can only be used
+                 by subclasses but not directly.
+         */
+        XmpValue& operator=(const XmpValue& rhs);
+
+    private:
+        // DATA
+        XmpArrayType xmpArrayType_;             //!< Type of XMP array
+        XmpStruct    xmpStruct_;                //!< XMP structure indicator
+
+    }; // class XmpValue
+
+    /*!
+      @brief %Value type suitable for simple XMP properties and 
+             XMP nodes of complex types which are not parsed into
+             specific values.
+
+      Uses a std::string to store the value.
+     */
+    class XmpTextValue : public XmpValue {
+    public:
+        //! Shortcut for a %XmpTextValue auto pointer.
+        typedef std::auto_ptr<XmpTextValue> AutoPtr;
+
+        //! @name Creators
+        //@{
+        //! Constructor.
+        XmpTextValue();
+        //! Constructor, reads the value from a string.
+        explicit XmpTextValue(const std::string& buf);
+        //@}
+
+        //! @name Manipulators
+        //@{
+        virtual int read(const std::string& buf);
         //@}
 
         //! @name Accessors
         //@{
-        AutoPtr clone() const { return AutoPtr(clone_()); }
+        AutoPtr clone() const;
+        long size() const;
+        virtual long count() const;
         /*!
-          @brief Write value to a character data buffer.
+          @brief Convert the value to a long.
+                 The optional parameter \em n is not used and is ignored.
 
-          The user must ensure that the buffer has enough memory. Otherwise
-          the call results in undefined behaviour.
+          @return The converted value.
+         */
+        virtual long toLong(long n =0) const;
+        /*!
+          @brief Convert the value to a float.
+                 The optional parameter \em n is not used and is ignored.
 
-          @note The byte order is required by the interface but not used by this
-                method, so just use the default.
+          @return The converted value.
+         */
+        virtual float toFloat(long n =0) const;
+        /*!
+          @brief Convert the value to a Rational.
+                 The optional parameter \em n is not used and is ignored.
 
-          @param buf Data buffer to write to.
-          @param byteOrder Byte order. Not used.
-          @return Number of characters written.
-        */
-        virtual long copy(byte* buf, ByteOrder byteOrder =invalidByteOrder) const;
-        virtual long count() const { return static_cast<long>(value_.size()); }
-        virtual long size() const;
+          @return The converted value.
+         */
+        virtual Rational toRational(long n =0) const;
+        virtual std::ostream& write(std::ostream& os) const;
+        //@}
+
+    private:
+        //! Internal virtual copy constructor.
+        virtual XmpTextValue* clone_() const;
+
+    public:
+        // DATA
+        std::string value_;                     //!< Stores the string values.
+
+    }; // class XmpTextValue
+
+    /*!
+      @brief %Value type for simple arrays. Each item in the array is a simple
+             value, without qualifiers. The array may be an ordered (\em seq), 
+             unordered (\em bag) or alternative array (\em alt). The array 
+             items must not contain qualifiers. For language alternatives use
+             LangAltValue.
+
+      Uses a vector of std::string to store the value(s).
+     */
+    class XmpArrayValue : public XmpValue {
+    public:
+        //! Shortcut for a %XmpArrayValue auto pointer.
+        typedef std::auto_ptr<XmpArrayValue> AutoPtr;
+
+        //! @name Creators
+        //@{
+        //! Constructor.
+        XmpArrayValue();
+        //@}
+
+        //! @name Manipulators
+        //@{
+        /*!
+          @brief Read a simple property value from \em buf and append it 
+                 to the value.
+
+          Appends \em buf to the value after the last existing array element.
+          Subsequent calls will therefore populate multiple array elements in 
+          the order they are read.
+
+          @return 0 if successful.
+         */
+        virtual int read(const std::string& buf);
+        //@}
+
+        //! @name Accessors
+        //@{
+        AutoPtr clone() const;
+        virtual long count() const;
         /*!
           @brief Return the <EM>n</EM>-th component of the value as a string.
                  The behaviour of this method may be undefined if there is no
@@ -702,16 +797,105 @@ namespace Exiv2 {
         virtual long toLong(long n =0) const;
         virtual float toFloat(long n =0) const;
         virtual Rational toRational(long n =0) const;
+        /*!
+          @brief Write all elements of the value to \em os, separated by commas.
+
+          @note The output of this method cannot directly be used as the parameter
+                for read().
+         */
         virtual std::ostream& write(std::ostream& os) const;
         //@}
 
-    protected:
+    private:
         //! Internal virtual copy constructor.
-        virtual XmpTextValue* clone_() const;
+        virtual XmpArrayValue* clone_() const;
+
+    public:
+        //! Type used to store XMP array elements.
+        typedef std::vector<std::string> ValueType;
         // DATA
         std::vector<std::string> value_;        //!< Stores the string values.
 
-    }; // class XmpTextValue
+    }; // class XmpArrayValue
+
+    /*!
+      @brief %Value type for XMP language alternative properties. 
+
+      A language alternative is an array consisting of simple text values,
+      each of which has a language qualifier.
+     */
+    class LangAltValue : public XmpValue {
+    public:
+        //! Shortcut for a %LangAltValue auto pointer.
+        typedef std::auto_ptr<LangAltValue> AutoPtr;
+
+        //! @name Creators
+        //@{
+        //! Constructor.
+        LangAltValue();
+        //! Constructor, reads the value from a string.
+        explicit LangAltValue(const std::string& buf);
+        //@}
+
+        //! @name Manipulators
+        //@{
+        /*!
+          @brief Read a simple property value from \em buf and append it 
+                 to the value.
+
+          Appends \em buf to the value after the last existing array element.
+          Subsequent calls will therefore populate multiple array elements in 
+          the order they are read.
+
+          The format of \em buf is:
+          <BR>
+          <CODE>[lang=["]language code["] ]text</CODE>
+          <BR>
+          The XMP default language code <CODE>x-default</CODE> is used if 
+          \em buf doesn't start with the keyword <CODE>lang</CODE>.
+
+          @return 0 if successful.
+         */
+        virtual int read(const std::string& buf);
+        //@}
+
+        //! @name Accessors
+        //@{
+        AutoPtr clone() const;
+        virtual long count() const;
+        /*!
+          @brief Return the <EM>n</EM>-th component of the value as a string.
+                 The behaviour of this method may be undefined if there is no
+                 <EM>n</EM>-th component.
+         */
+        virtual std::string toString(long n) const;
+        virtual long toLong(long n =0) const;
+        virtual float toFloat(long n =0) const;
+        virtual Rational toRational(long n =0) const;
+        /*!
+          @brief Write all elements of the value to \em os, separated by commas.
+
+          @note The output of this method cannot directly be used as the parameter
+                for read().
+         */
+        virtual std::ostream& write(std::ostream& os) const;
+        //@}
+
+    private:
+        //! Internal virtual copy constructor.
+        virtual LangAltValue* clone_() const;
+
+    public:
+        //! Type used to store language alternative arrays.
+        typedef std::map<std::string, std::string> ValueType;
+        // DATA
+        /*!
+          @brief Map to store the language alternative values. The language
+                 qualifier is used as the key for the map entries.
+         */
+        ValueType value_; 
+
+    }; // class LangAltValue
 
     /*!
       @brief %Value for simple ISO 8601 dates
@@ -744,8 +928,6 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        //! Assignment operator.
-        DateValue& operator=(const DateValue& rhs);
         /*!
           @brief Read the value from a character buffer.
 
@@ -810,6 +992,7 @@ namespace Exiv2 {
     private:
         //! Internal virtual copy constructor.
         virtual DateValue* clone_() const;
+
         // DATA
         Date date_;
 
@@ -854,8 +1037,6 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        //! Assignment operator.
-        TimeValue& operator=(const TimeValue& rhs);
         /*!
           @brief Read the value from a character buffer.
 
@@ -991,7 +1172,7 @@ namespace Exiv2 {
         //! Constructor
         ValueType(const byte* buf, long len, ByteOrder byteOrder);
         //! Constructor
-        ValueType(const T& val, ByteOrder byteOrder =littleEndian);
+        explicit ValueType(const T& val, ByteOrder byteOrder =littleEndian);
         //! Copy constructor
         ValueType(const ValueType<T>& rhs);
         //! Virtual destructor.
@@ -1086,19 +1267,6 @@ namespace Exiv2 {
 // *****************************************************************************
 // free functions, template and inline definitions
 
-    //! Double-quote character
-    extern const char quoteChar[];
-    //! Escape character
-    extern const char escapeChar[];
-    /*!
-      @brief Quote a string with double-quotes, escape quotes and escape 
-             characters in the string.
-     */
-    void quoteText(std::string& text);
-    /*!
-      @brief Remove escape characters from an unquoted string.
-     */
-    void unescapeText(std::string& text);
     /*!
       @brief Read a value of type T from the data buffer.
 
@@ -1330,6 +1498,7 @@ namespace Exiv2 {
     template<typename T>
     inline std::string ValueType<T>::toString(long n) const
     {
+        ok_ = true;
         return Exiv2::toString(value_[n]);
     }
 
@@ -1337,54 +1506,63 @@ namespace Exiv2 {
     template<typename T>
     inline long ValueType<T>::toLong(long n) const
     {
+        ok_ = true;
         return value_[n];
     }
     // Specialization for rational
     template<>
     inline long ValueType<Rational>::toLong(long n) const
     {
+        ok_ = (value_[n].second != 0);
         return value_[n].first / value_[n].second;
     }
     // Specialization for unsigned rational
     template<>
     inline long ValueType<URational>::toLong(long n) const
     {
+        ok_ = (value_[n].second != 0);
         return value_[n].first / value_[n].second;
     }
     // Default implementation
     template<typename T>
     inline float ValueType<T>::toFloat(long n) const
     {
+        ok_ = true;
         return static_cast<float>(value_[n]);
     }
     // Specialization for rational
     template<>
     inline float ValueType<Rational>::toFloat(long n) const
     {
+        ok_ = (value_[n].second != 0);
         return static_cast<float>(value_[n].first) / value_[n].second;
     }
     // Specialization for unsigned rational
     template<>
     inline float ValueType<URational>::toFloat(long n) const
     {
+        ok_ = (value_[n].second != 0);
         return static_cast<float>(value_[n].first) / value_[n].second;
     }
     // Default implementation
     template<typename T>
     inline Rational ValueType<T>::toRational(long n) const
     {
+        ok_ = true;
         return Rational(value_[n], 1);
     }
     // Specialization for rational
     template<>
     inline Rational ValueType<Rational>::toRational(long n) const
     {
+        ok_ = true;
         return Rational(value_[n].first, value_[n].second);
     }
     // Specialization for unsigned rational
     template<>
     inline Rational ValueType<URational>::toRational(long n) const
     {
+        ok_ = true;
         return Rational(value_[n].first, value_[n].second);
     }
 

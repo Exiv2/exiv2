@@ -102,7 +102,7 @@ namespace Exiv2 {
                   string, date, time,
                   comment,
                   directory,
-                  xmpText,
+                  xmpText, xmpArray, langAlt,
                   lastTypeId };
 
     // Todo: decentralize IfdId, so that new ids can be defined elsewhere
