@@ -77,10 +77,11 @@ namespace Exiv2 {
         ErrMsg( 32, N_("Setting %1 in %2 images is not supported")), // %1=metadata type, %2=image format
         ErrMsg( 33, N_("This does not look like a CRW image")),
         ErrMsg( 34, N_("%1: Not supported")), // %1=function
-        // 35
-        // 36
+        ErrMsg( 35, N_("Unknown XMP prefix `%1'")), // %1=prefix
+        ErrMsg( 36, N_("No XMP property list for prefix `%1'")), // %1=prefix
         ErrMsg( 37, N_("Size of %1 JPEG segment is larger than 65535 bytes")), // %1=type of metadata (Exif, IPTC, JPEG comment)
-
+        ErrMsg( 38, N_("Unknown XMP property `%1:%2'")), // %1=prefix, %2=property name
+        ErrMsg( 39, N_("XMP Toolkit error %1: %2")), // %1=XMP_Error::GetID(), %2=XMP_Error::GetErrMsg()
         // Last error message (message is not used)
         ErrMsg( -2, N_("(Unknown Error)"))
     };

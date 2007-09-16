@@ -214,12 +214,12 @@ void Params::help(std::ostream& os) const
        << _("  rm | delete   Delete image metadata from the files.\n")
        << _("  in | insert   Insert metadata from corresponding *.exv files.\n"
             "                Use option -S to change the suffix of the input files.\n")
-       << _("  ex | extract  Extract metadata to *.exv and thumbnail image files.\n")
+       << _("  ex | extract  Extract metadata to *.exv, *.xmp and thumbnail image files.\n")
        << _("  mv | rename   Rename files and/or set file timestamps according to the\n"
             "                Exif create timestamp. The filename format can be set with\n"
             "                -r format, timestamp options are controlled with -t and -T.\n")
        << _("  mo | modify   Apply commands to modify (add, set, delete) the Exif and\n"
-            "                Iptc metadata of image files or set the Jpeg comment.\n"
+            "                IPTC metadata of image files or set the JPEG comment.\n"
             "                Requires option -c, -m or -M.\n")
        << _("  fi | fixiso   Copy ISO setting from the Nikon Makernote to the regular\n"
             "                Exif tag.\n")
@@ -242,8 +242,9 @@ void Params::help(std::ostream& os) const
        << _("             t : interpreted (translated) Exif data (shortcut for -Pkyct)\n")
        << _("             v : plain Exif data values (shortcut for -Pxgnycv)\n")
        << _("             h : hexdump of the Exif data (shortcut for -Pxgnycsh)\n")
-       << _("             i : Iptc data values\n")
-       << _("             c : Jpeg comment\n")
+       << _("             i : IPTC data values\n")
+       << _("             x : XMP properties\n")
+       << _("             c : JPEG comment\n")
        << _("   -P cols Print columns for the Exif taglist ('print' action). Valid are:\n")
        << _("             x : print a column with the tag value\n")
        << _("             g : group name\n")
@@ -260,13 +261,17 @@ void Params::help(std::ostream& os) const
        << _("             a : all supported metadata (the default)\n")
        << _("             e : Exif section\n")
        << _("             t : Exif thumbnail only\n")
-       << _("             i : Iptc data\n")
-       << _("             c : Jpeg comment\n")
+       << _("             i : IPTC data\n")
+       << _("             x : XMP packet\n")
+       << _("             c : JPEG comment\n")
        << _("   -i tgt  Insert target(s) for the 'insert' action. Possible targets are\n"
-            "           the same as those for the -d option. Only Jpeg thumbnails can\n"
-            "           be inserted, they need to be named <file>-thumb.jpg\n")
+            "           the same as those for the -d option, plus:\n"
+            "             X : Insert XMP packet from <file>.xmp\n"
+            "           Only JPEG thumbnails can be inserted, they need to be named\n"
+            "           <file>-thumb.jpg\n")
        << _("   -e tgt  Extract target(s) for the 'extract' action. Possible targets\n"
-            "           are the same as those for the -d option.\n")
+            "           are the same as those for the -i option, plus:\n"
+            "             X : Extract XMP packet to <file>.xmp\n")
        << _("   -r fmt  Filename format for the 'rename' action. The format string\n"
             "           follows strftime(3). The following keywords are supported:\n")
        << _("             :basename:   - original filename without extension\n")
@@ -274,7 +279,7 @@ void Params::help(std::ostream& os) const
        << _("             :parentname: - name of parent directory\n")
        << _("           Default filename format is ")
        <<               format_ << ".\n"
-       << _("   -c txt  Jpeg comment string to set in the image.\n")
+       << _("   -c txt  JPEG comment string to set in the image.\n")
        << _("   -m file Command file for the modify action. The format for commands is\n"
             "           set|add|del <key> [[<type>] <value>].\n")
        << _("   -M cmd  Command line for the modify action. The format for the\n"
@@ -401,6 +406,7 @@ int Params::evalPrint(const std::string& optarg)
         case 'v': rc = evalPrintCols("xgnycv"); break;
         case 'h': rc = evalPrintCols("xgnycsh"); break;
         case 'i': printMode_ = pmIptc; break;
+        case 'x': printMode_ = pmXmp; break;
         case 'c': printMode_ = pmComment; break;
         default:
             std::cerr << progname() << ": " << _("Unrecognized print mode") << " `"
@@ -780,11 +786,14 @@ namespace {
             switch (optarg[i]) {
             case 'e': target |= Params::ctExif; break;
             case 'i': target |= Params::ctIptc; break;
+            case 'x': target |= Params::ctXmp; break;
+            case 'X': target |= Params::ctXmpPacket; break;
             case 'c': target |= Params::ctComment; break;
             case 't': target |= Params::ctThumb; break;
             case 'a': target |=   Params::ctExif
                                 | Params::ctIptc
-                                | Params::ctComment; break;
+                                | Params::ctComment
+                                | Params::ctXmp; break;
             default:
                 std::cerr << Params::instance().progname() << ": " << _("Unrecognized ")
                           << action << " " << _("target") << " `"  << optarg[i] << "'\n";

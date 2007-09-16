@@ -95,10 +95,6 @@ namespace Exiv2 {
                  Calls setValue(const Value*).
          */
         Iptcdatum& operator=(const Value& value);
-        /*!
-          @brief Set the Value. This method copies (clones) the %Value pointed
-                 to by \em pValue.
-         */
         void setValue(const Value* pValue);
         /*!
           @brief Set the value to the string \em value, using
@@ -113,23 +109,12 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        /*!
-          @brief Write value to a data buffer and return the number
-                 of bytes written.
-
-          The user must ensure that the buffer has enough memory. Otherwise
-          the call results in undefined behaviour.
-
-          @param buf Data buffer to write to.
-          @param byteOrder Applicable byte order (little or big endian).
-          @return Number of characters written.
-        */
         long copy(byte* buf, ByteOrder byteOrder) const
             { return value_.get() == 0 ? 0 : value_->copy(buf, byteOrder); }
         /*!
           @brief Return the key of the Iptcdatum. The key is of the form
                  '<b>Iptc</b>.recordName.datasetName'. Note however that the key
-                 is not necessarily unique, i.e., an IptcData may contain
+                 is not necessarily unique, i.e., an IptcData object may contain
                  multiple metadata with the same key.
          */
         std::string key() const { return key_.get() == 0 ? "" : key_->key(); }
@@ -156,78 +141,24 @@ namespace Exiv2 {
         //! Return the tag (aka dataset) number
         uint16_t tag() const
             { return key_.get() == 0 ? 0 : key_->tag(); }
-        //! Return the type id of the value
         TypeId typeId() const
             { return value_.get() == 0 ? invalidTypeId : value_->typeId(); }
-        //! Return the name of the type
         const char* typeName() const { return TypeInfo::typeName(typeId()); }
-        //! Return the size in bytes of one component of this type
         long typeSize() const { return TypeInfo::typeSize(typeId()); }
-        //! Return the number of components in the value
         long count() const { return value_.get() == 0 ? 0 : value_->count(); }
-        //! Return the size of the value in bytes
         long size() const { return value_.get() == 0 ? 0 : value_->size(); }
-        //! Return the value as a string.
         std::string toString() const
             { return value_.get() == 0 ? "" : value_->toString(); }
-        /*!
-          @brief Return the n-th component of the value converted to long. The
-                 return value is -1 if the value of the Iptcdatum is not set and
-                 the behaviour of the method is undefined if there is no n-th
-                 component.
-         */
+        std::string toString(long n) const
+            { return value_.get() == 0 ? "" : value_->toString(n); }
         long toLong(long n =0) const
             { return value_.get() == 0 ? -1 : value_->toLong(n); }
-        /*!
-          @brief Return the n-th component of the value converted to float.  The
-                 return value is -1 if the value of the Iptcdatum is not set and
-                 the behaviour of the method is undefined if there is no n-th
-                 component.
-         */
         float toFloat(long n =0) const
             { return value_.get() == 0 ? -1 : value_->toFloat(n); }
-        /*!
-          @brief Return the n-th component of the value converted to
-                 Rational. The return value is -1/1 if the value of the
-                 Iptcdatum is not set and the behaviour of the method is
-                 undefined if there is no n-th component.
-         */
         Rational toRational(long n =0) const
             { return value_.get() == 0 ? Rational(-1, 1) : value_->toRational(n); }
-        /*!
-          @brief Return an auto-pointer to a copy (clone) of the value. The
-                 caller owns this copy and the auto-pointer ensures that it will
-                 be deleted.
-
-          This method is provided for users who need full control over the
-          value. A caller may, e.g., downcast the pointer to the appropriate
-          subclass of Value to make use of the interface of the subclass to set
-          or modify its contents.
-
-          @return An auto-pointer to a copy (clone) of the value, 0 if the value
-                  is not set.
-         */
         Value::AutoPtr getValue() const
             { return value_.get() == 0 ? Value::AutoPtr(0) : value_->clone(); }
-        /*!
-          @brief Return a constant reference to the value.
-
-          This method is provided mostly for convenient and versatile output of
-          the value which can (to some extent) be formatted through standard
-          stream manipulators.  Do not attempt to write to the value through
-          this reference.
-
-          <b>Example:</b> <br>
-          @code
-          IptcData::const_iterator i = iptcData.findKey(key);
-          if (i != iptcData.end()) {
-              std::cout << i->key() << " " << std::hex << i->value() << "\n";
-          }
-          @endcode
-
-          @return A constant reference to the value.
-          @throw Error If the value is not set.
-         */
         const Value& value() const;
         //@}
 

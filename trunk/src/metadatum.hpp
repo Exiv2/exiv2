@@ -146,7 +146,8 @@ namespace Exiv2 {
         /*!
           @brief Set the value to the string buf.
                  Uses Value::read(const std::string& buf). If the metadatum does
-                 not have a value yet, then an AsciiValue is created.
+                 not have a value yet, then one is created. See subclasses for
+                 more details.
          */
         virtual void setValue(const std::string& buf) =0;
         //@}
@@ -168,8 +169,8 @@ namespace Exiv2 {
         /*!
           @brief Return the key of the metadatum. The key is of the form
                  'familyName.ifdItem.tagName'. Note however that the key
-                 is not necessarily unique, i.e., an ExifData may contain
-                 multiple metadata with the same key.
+                 is not necessarily unique, i.e., an ExifData object may
+                 contain multiple metadata with the same key.
          */
         virtual std::string key() const =0;
         //! Return the name of the tag (which is also the third part of the key)
@@ -191,24 +192,27 @@ namespace Exiv2 {
         //! Return the value as a string.
         virtual std::string toString() const =0;
         /*!
-          @brief Return the n-th component of the value converted to long. The
-                 return value is -1 if the value of the Metadatum is not set and
-                 the behaviour of the method is undefined if there is no n-th
-                 component.
+          @brief Return the <EM>n</EM>-th component of the value converted to
+                 a string. The behaviour of the method is undefined if there
+                 is no <EM>n</EM>-th component.
+         */        
+        virtual std::string toString(long n) const =0;
+        /*!
+          @brief Return the <EM>n</EM>-th component of the value converted to long.
+                 The return value is -1 if the value is not set and the behaviour
+                 of the method is undefined if there is no <EM>n</EM>-th component.
          */
         virtual long toLong(long n =0) const =0;
         /*!
-          @brief Return the n-th component of the value converted to float.  The
-                 return value is -1 if the value of the Metadatum is not set and
-                 the behaviour of the method is undefined if there is no n-th
-                 component.
+          @brief Return the <EM>n</EM>-th component of the value converted to float.
+                 The return value is -1 if the value is not set and the behaviour
+                 of the method is undefined if there is no <EM>n</EM>-th component.
          */
         virtual float toFloat(long n =0) const =0;
         /*!
-          @brief Return the n-th component of the value converted to
-                 Rational. The return value is -1/1 if the value of the
-                 Metadatum is not set and the behaviour of the method is
-                 undefined if there is no n-th component.
+          @brief Return the <EM>n</EM>-th component of the value converted to Rational.
+                 The return value is -1/1 if the value is not set and the behaviour
+                 of the method is undefined if there is no <EM>n</EM>-th component.
          */
         virtual Rational toRational(long n =0) const =0;
         /*!

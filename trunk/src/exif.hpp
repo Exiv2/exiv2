@@ -135,10 +135,6 @@ namespace Exiv2 {
                  Calls setValue(const Value*).
          */
         Exifdatum& operator=(const Value& value);
-        /*!
-          @brief Set the value. This method copies (clones) the value pointed
-                 to by \em pValue.
-         */
         void setValue(const Value* pValue);
         /*!
           @brief Set the value to the string \em value.  Uses Value::read(const
@@ -224,64 +220,16 @@ namespace Exiv2 {
         //! Return the value as a string.
         std::string toString() const
             { return value_.get() == 0 ? "" : value_->toString(); }
-        /*!
-          @brief Return the <EM>n</EM>-th component of the value converted to
-                 long. The return value is -1 if the value of the Exifdatum is
-                 not set and the behaviour of the method is undefined if there
-                 is no n-th component.
-         */
+        std::string toString(long n) const
+            { return value_.get() == 0 ? "" : value_->toString(n); }
         long toLong(long n =0) const
             { return value_.get() == 0 ? -1 : value_->toLong(n); }
-        /*!
-          @brief Return the <EM>n</EM>-th component of the value converted to
-                 float.  The return value is -1 if the value of the Exifdatum is
-                 not set and the behaviour of the method is undefined if there
-                 is no n-th component.
-         */
         float toFloat(long n =0) const
             { return value_.get() == 0 ? -1 : value_->toFloat(n); }
-        /*!
-          @brief Return the <EM>n</EM>-th component of the value converted to
-                 Rational. The return value is -1/1 if the value of the
-                 Exifdatum is not set and the behaviour of the method is
-                 undefined if there is no n-th component.
-         */
         Rational toRational(long n =0) const
             { return value_.get() == 0 ? Rational(-1, 1) : value_->toRational(n); }
-        /*!
-          @brief Return an auto-pointer to a copy (clone) of the value. The
-                 caller owns this copy and the auto-pointer ensures that it will
-                 be deleted.
-
-          This method is provided for users who need full control over the
-          value. A caller may, e.g., downcast the pointer to the appropriate
-          subclass of Value to make use of the interface of the subclass to set
-          or modify its contents.
-
-          @return An auto-pointer to a copy (clone) of the value, 0 if the value
-                  is not set.
-         */
         Value::AutoPtr getValue() const
             { return value_.get() == 0 ? Value::AutoPtr(0) : value_->clone(); }
-        /*!
-          @brief Return a constant reference to the value.
-
-          This method is provided mostly for convenient and versatile output of
-          the value which can (to some extent) be formatted through standard
-          stream manipulators.  Do not attempt to write to the value through
-          this reference.
-
-          <b>Example:</b> <br>
-          @code
-          ExifData::const_iterator i = exifData.findKey(key);
-          if (i != exifData.end()) {
-              std::cout << i->key() << " " << std::hex << i->value() << "\n";
-          }
-          @endcode
-
-          @return A constant reference to the value.
-          @throw Error if the value is not set.
-         */
         const Value& value() const;
         //! Return the size of the data area.
         long sizeDataArea() const
@@ -300,7 +248,6 @@ namespace Exiv2 {
          */
         DataBuf dataArea() const
             { return value_.get() == 0 ? DataBuf(0, 0) : value_->dataArea(); }
-
         //@}
 
     private:

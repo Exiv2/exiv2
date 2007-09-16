@@ -40,6 +40,7 @@
 #include "basicio.hpp"
 #include "exif.hpp"
 #include "iptc.hpp"
+#include "xmp.hpp"
 
 // + standard includes
 #include <string>
@@ -152,6 +153,17 @@ namespace Exiv2 {
          */
         virtual void clearXmpPacket();
         /*!
+          @brief Assign new XMP data. The new XMP data is not written
+              to the image until the writeMetadata() method is called.
+          @param xmpData An XmpData instance holding XMP data to be copied
+         */
+        virtual void setXmpData(const XmpData& xmpData);
+        /*!
+          @brief Erase any buffered XMP data. XMP data is not removed from
+              the actual image until the writeMetadata() method is called.
+         */
+        virtual void clearXmpData();
+        /*!
           @brief Set the image comment. The new comment is not written
               to the image until the writeMetadata() method is called.
           @param comment String containing comment.
@@ -198,6 +210,18 @@ namespace Exiv2 {
           @return modifiable IptcData instance containing IPTC values
          */
         virtual IptcData& iptcData() { return iptcData_; }
+        /*!
+          @brief Returns an XmpData instance containing currently buffered
+              XMP data.
+
+          The contained XMP data may have been read from the image by
+          a previous call to readMetadata() or added directly. The XMP
+          data in the returned instance will be written to the image when
+          writeMetadata() is called.
+
+          @return modifiable XmpData instance containing XMP values
+         */
+        virtual XmpData& xmpData() { return xmpData_; }
         /*!
           @brief Return a modifiable reference to the raw XMP packet.
          */
@@ -248,6 +272,18 @@ namespace Exiv2 {
          */
         virtual const IptcData& iptcData() const { return iptcData_; }
         /*!
+          @brief Returns an XmpData instance containing currently buffered
+              XMP data.
+
+          The contained XMP data may have been read from the image by
+          a previous call to readMetadata() or added directly. The XMP
+          data in the returned instance will be written to the image when
+          writeMetadata() is called.
+
+          @return modifiable XmpData instance containing XMP values
+         */
+        virtual const XmpData& xmpData() const { return xmpData_; }
+        /*!
           @brief Return a copy of the image comment. May be an empty string.
          */
         virtual std::string comment() const { return comment_; }
@@ -289,6 +325,7 @@ namespace Exiv2 {
         BasicIo::AutoPtr  io_;                //!< Image data IO pointer
         ExifData          exifData_;          //!< Exif data container
         IptcData          iptcData_;          //!< IPTC data container
+        XmpData           xmpData_;           //!< XMP data container
         std::string       comment_;           //!< User comment
         std::string       xmpPacket_;         //!< XMP packet
 
@@ -461,6 +498,7 @@ namespace Exiv2 {
             IsThisTypeFct  isThisType_;
             AccessMode     exifSupport_;
             AccessMode     iptcSupport_;
+            AccessMode     xmpSupport_;
             AccessMode     commentSupport_;
         };
 
