@@ -4,7 +4,7 @@
 AC_PREREQ(2.59)
 AC_INIT(exiv2, 0.16, ahuggel@gmx.net)
 # See http://www.gnu.org/software/libtool/manual.html#Updating-version-info
-EXIV2_LTVERSION=1:0:1
+EXIV2_LTVERSION=2:0:0
 PACKAGE=$PACKAGE_NAME
 VERSION=$PACKAGE_VERSION
 AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE")
