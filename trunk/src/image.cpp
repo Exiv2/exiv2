@@ -101,7 +101,12 @@ namespace Exiv2 {
                  BasicIo::AutoPtr io)
         : io_(io),
           imageType_(imageType),
-          supportedMetadata_(supportedMetadata)
+          supportedMetadata_(supportedMetadata),
+#ifdef EXV_HAVE_XMP_TOOLKIT
+          writeXmpFromPacket_(false)
+#else 
+          writeXmpFromPacket_(true)
+#endif
     {
     }
 
@@ -118,6 +123,7 @@ namespace Exiv2 {
     {
         setExifData(image.exifData());
         setIptcData(image.iptcData());
+        setXmpPacket(image.xmpPacket());
         setXmpData(image.xmpData());
         setComment(image.comment());
     }
@@ -145,21 +151,32 @@ namespace Exiv2 {
     void Image::clearXmpPacket()
     {
         xmpPacket_.clear();
+        writeXmpFromPacket(true);
     }
 
     void Image::setXmpPacket(const std::string& xmpPacket)
     {
         xmpPacket_ = xmpPacket;
+        writeXmpFromPacket(true);
     }
 
     void Image::clearXmpData()
     {
         xmpData_.clear();
+        writeXmpFromPacket(false);
     }
 
     void Image::setXmpData(const XmpData& xmpData)
     {
         xmpData_ = xmpData;
+        writeXmpFromPacket(false);
+    }
+
+    void Image::writeXmpFromPacket(bool flag)
+    {
+#ifdef EXV_HAVE_XMP_TOOLKIT
+        writeXmpFromPacket_ = flag; 
+#endif
     }
 
     void Image::clearComment()

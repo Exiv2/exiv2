@@ -925,10 +925,7 @@ namespace Action {
             rc = eraseComment(image.get());
         }
         if (0 == rc && Params::instance().target_ & Params::ctXmp) {
-            // Todo: Implement me!
-            if (!image->xmpData().empty()) {
-                std::cerr << "Deletion of XMP data not implemented yet.\n";
-            }
+            rc = eraseXmpData(image.get());
         }
         if (0 == rc) {
             image->writeMetadata();
@@ -985,6 +982,15 @@ namespace Action {
             std::cout << _("Erasing JPEG comment from the file") << std::endl;
         }
         image->clearComment();
+        return 0;
+    }
+
+    int Erase::eraseXmpData(Exiv2::Image* image) const
+    {
+        if (Params::instance().verbose_ && image->xmpData().count() > 0) {
+            std::cout << _("Erasing XMP data from the file") << std::endl;
+        }
+        image->clearXmpPacket();
         return 0;
     }
 
@@ -1129,8 +1135,7 @@ namespace Action {
             rc = metacopy(exvPath, path, true);
         }
         if (0 == rc && Params::instance().target_ & Params::ctXmpPacket) {
-            // Todo: Implement me!
-            std::cerr << "Insertion of XMP packet from *.xmp file not implemented yet.\n";
+            rc = insertXmpPacket(path);
         }
         if (Params::instance().preserve_) {
             ts.touch(path);
@@ -1143,6 +1148,31 @@ namespace Action {
                   << ":\n" << e << "\n";
         return 1;
     } // Insert::run
+
+    int Insert::insertXmpPacket(const std::string& path) const
+    {
+        std::string xmpPath = newFilePath(path, ".xmp");
+        if (!Exiv2::fileExists(xmpPath, true)) {
+            std::cerr << xmpPath
+                      << ": " << _("Failed to open the file\n");
+            return -1;
+        }
+        if (!Exiv2::fileExists(path, true)) {
+            std::cerr << path
+                      << ": " << _("Failed to open the file\n");
+            return -1;
+        }
+        Exiv2::DataBuf buf = Exiv2::readFile(xmpPath);
+        std::string xmpPacket;
+        xmpPacket.assign(reinterpret_cast<char*>(buf.pData_), buf.size_);
+        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+        assert(image.get() != 0);
+        image->readMetadata();
+        image->setXmpPacket(xmpPacket);
+        image->writeMetadata();
+
+        return 0;
+    }
 
     int Insert::insertThumbnail(const std::string& path) const
     {

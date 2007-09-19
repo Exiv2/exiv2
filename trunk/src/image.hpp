@@ -145,22 +145,55 @@ namespace Exiv2 {
          */
         virtual void clearIptcData();
         /*!
-          @brief Set the raw XMP packet to \em xmpPacket.
+          @brief Assign a raw XMP packet. The new XMP packet is not written
+              to the image until the writeMetadata() method is called.
+
+          Subsequent calls to writeMetadata() write the XMP packet from 
+          the buffered raw XMP packet rather than from buffered parsed XMP 
+          data. In order to write from parsed XMP data again, use
+          either writeXmpFromPacket(false) or setXmpData().
+
+          @param xmpPacket A string containing the raw XMP packet.
          */
         virtual void setXmpPacket(const std::string& xmpPacket);
         /*!
-          @brief Set the raw XMP packet to \em xmpPacket.
+          @brief Erase the buffered XMP packet. XMP data is not removed from
+              the actual image until the writeMetadata() method is called.
+
+          This has the same effect as clearXmpData() but operates on the 
+          buffered raw XMP packet only, not the parsed XMP data.
+
+          Subsequent calls to writeMetadata() write the XMP packet from 
+          the buffered raw XMP packet rather than from buffered parsed XMP
+          data. In order to write from parsed XMP data again, use
+          either writeXmpFromPacket(false) or setXmpData().
          */
         virtual void clearXmpPacket();
         /*!
           @brief Assign new XMP data. The new XMP data is not written
               to the image until the writeMetadata() method is called.
+
+          Subsequent calls to writeMetadata() encode the XMP data to
+          a raw XMP packet and write the newly encoded packet to the image.
+          In the process, the buffered raw XMP packet is updated. 
+          In order to write directly from the raw XMP packet, use
+          writeXmpFromPacket(true) or setXmpPacket().
+
           @param xmpData An XmpData instance holding XMP data to be copied
          */
         virtual void setXmpData(const XmpData& xmpData);
         /*!
           @brief Erase any buffered XMP data. XMP data is not removed from
               the actual image until the writeMetadata() method is called.
+
+          This has the same effect as clearXmpPacket() but operates on the 
+          buffered parsed XMP data.
+
+          Subsequent calls to writeMetadata() encode the XMP data to
+          a raw XMP packet and write the newly encoded packet to the image.
+          In the process, the buffered raw XMP packet is updated.
+          In order to write directly from the raw XMP packet, use
+          writeXmpFromPacket(true) or setXmpPacket().
          */
         virtual void clearXmpData();
         /*!
@@ -226,6 +259,21 @@ namespace Exiv2 {
           @brief Return a modifiable reference to the raw XMP packet.
          */
         virtual std::string& xmpPacket() { return xmpPacket_; }
+        /*!
+          @brief Determine the source when writing XMP.
+
+          Depending on the setting of this flag, writeMetadata() writes
+          XMP from the buffered raw XMP packet or from parsed XMP data.
+          The default is to write from parsed XMP data. The switch is also
+          set by all functions to set and clear the buffered raw XMP packet
+          and parsed XMP data, so using this function should usually not be 
+          necessary.
+
+          If %Exiv2 was compiled without XMP support, the default for this 
+          flag is true and it will never be changed in order to preserve 
+          access to the raw XMP packet.
+         */
+        void writeXmpFromPacket(bool flag);
         //@}
 
         //! @name Accessors
@@ -318,6 +366,8 @@ namespace Exiv2 {
              This method is deprecated. Use checkMode() instead.
          */
         bool supportsMetadata(MetadataId metadataId) const;
+        //! Return the flag indicating the source when writing XMP metadata.
+        bool writeXmpFromPacket() const { return writeXmpFromPacket_; }
         //@}
 
     protected:
@@ -341,6 +391,8 @@ namespace Exiv2 {
         // DATA
         const int         imageType_;         //!< Image type
         const uint16_t    supportedMetadata_; //!< Bitmap with all supported metadata types
+        bool              writeXmpFromPacket_;//!< Determines the source when writing XMP
+
     }; // class Image
 
     //! Type for function pointer that creates new Image instances
