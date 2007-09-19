@@ -81,7 +81,7 @@ namespace Exiv2 {
         Xmpdatum& operator=(const Xmpdatum& rhs);
         /*!
           @brief Assign \em value to the %Xmpdatum. The type of the new Value
-                 is set to UShortValue.
+                 is set to XmpTextValue.
          */
         Xmpdatum& operator=(const uint16_t& value);
         /*!
@@ -99,7 +99,8 @@ namespace Exiv2 {
           @brief Set the value to the string \em value. Uses Value::read(const
                  std::string&).  If the %Xmpdatum does not have a Value yet,
                  then a %Value of the correct type for this %Xmpdatum is
-                 created.
+                 created. If the key is unknown, a XmpTextValue is used as 
+                 default.
          */
         void setValue(const std::string& value);
         //@}

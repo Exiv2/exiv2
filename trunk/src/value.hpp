@@ -333,7 +333,7 @@ namespace Exiv2 {
         //! Type used to store the data.
         typedef std::vector<byte> ValueType;
         // DATA
-        ValueType value_;
+        ValueType value_;                       //!< Stores the data value 
 
     }; // class DataValue
 

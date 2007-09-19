@@ -1,0 +1,48 @@
+    <rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+      <rdf:Description rdf:about='' xmlns:ns1='ns:test1/' xmlns:ns2='ns:test2/'>
+    
+        <ns1:SimpleProp1>Simple1 value</ns1:SimpleProp1>
+        <ns1:SimpleProp2 xml:lang='x-default'>Simple2 value</ns1:SimpleProp2>
+    
+        <ns1:ArrayProp1>
+          <rdf:Bag>
+            <rdf:li>Item1.1 value</rdf:li>
+            <rdf:li>Item1.2 value</rdf:li>
+          </rdf:Bag>
+        </ns1:ArrayProp1>
+    
+        <ns1:ArrayProp2>
+          <rdf:Alt>
+            <rdf:li xml:lang='x-one'>Item2.1 value</rdf:li>
+            <rdf:li xml:lang='x-two'>Item2.2 value</rdf:li>
+          </rdf:Alt>
+        </ns1:ArrayProp2>
+    
+        <ns1:StructProp rdf:parseType='Resource'>
+          <ns2:Field1>Field1 value</ns2:Field1>
+          <ns2:Field2>Field2 value</ns2:Field2>
+        </ns1:StructProp>
+    
+        <ns1:QualProp1 rdf:parseType='Resource'>
+          <rdf:value>Prop value</rdf:value>
+          <ns2:Qual>Qual value</ns2:Qual>
+        </ns1:QualProp1>
+    
+        <ns1:QualProp2 rdf:parseType='Resource'>
+          <rdf:value xml:lang='x-default'>Prop value</rdf:value>
+          <ns2:Qual>Qual value</ns2:Qual>
+        </ns1:QualProp2>
+    
+        <ns1:NestedStructProp rdf:parseType='Resource'>
+          <ns2:Outer rdf:parseType='Resource'>
+            <ns2:Middle rdf:parseType='Resource'>
+              <ns2:Inner rdf:parseType='Resource'>
+                <ns2:Field1>Field1 value</ns2:Field1>
+                <ns2:Field2>Field2 value</ns2:Field2>
+              </ns2:Inner>
+            </ns2:Middle>
+          </ns2:Outer>
+        </ns1:NestedStructProp>
+    
+      </rdf:Description>
+    </rdf:RDF>
