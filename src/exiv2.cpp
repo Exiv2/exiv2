@@ -903,6 +903,14 @@ namespace {
             catch (const Exiv2::AnyError&) {}
         }
         if (metadataId == invalidMetadataId) {
+            try {
+                Exiv2::XmpKey xmpKey(key);
+                metadataId = xmp;
+                defaultType = Exiv2::XmpProperties::propertyType(xmpKey);
+            }
+            catch (const Exiv2::AnyError&) {}
+        }
+        if (metadataId == invalidMetadataId) {
             throw Exiv2::Error(1, Exiv2::toString(num)
                                + ": " + _("Invalid key") + " `" + key + "'");
         }

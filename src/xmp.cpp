@@ -274,11 +274,7 @@ namespace Exiv2 {
         if (p_->value_.get() == 0) {
             TypeId type = xmpText;
             if (0 != p_->key_.get()) {
-                try {
-                    type = XmpProperties::propertyType(*p_->key_.get());
-                }
-                catch (const AnyError&) {
-                }
+                type = XmpProperties::propertyType(*p_->key_.get());
             }
             p_->value_ = Value::create(type);
         }

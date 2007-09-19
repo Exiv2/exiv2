@@ -45,7 +45,7 @@
 //! Command identifiers
 enum CmdId { invalidCmdId, add, set, del };
 //! Metadata identifiers
-enum MetadataId { invalidMetadataId, iptc, exif };
+enum MetadataId { invalidMetadataId, iptc, exif, xmp };
 //! Structure for one parsed modification command
 struct ModifyCmd {
     //! C'tor

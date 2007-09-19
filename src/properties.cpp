@@ -837,13 +837,18 @@ namespace Exiv2 {
 
     TypeId XmpProperties::propertyType(const XmpKey& key)
     {
-        return propertyInfo(key)->typeId_;
+        const XmpPropertyInfo* pi = propertyInfo(key, false);
+        return pi ? pi->typeId_ : xmpText;
     }
 
-    const XmpPropertyInfo* XmpProperties::propertyInfo(const XmpKey& key)
+    const XmpPropertyInfo* XmpProperties::propertyInfo(const XmpKey& key,
+                                                             bool    doThrow)
     {
         const XmpPropertyInfo* pl = propertyList(key.groupName());
-        if (!pl) throw Error(36, key.groupName());
+        if (!pl) {
+            if (doThrow) throw Error(36, key.groupName());
+            else return 0;
+        }
         const XmpPropertyInfo* pi = 0;
         for (int i = 0; pl[i].name_ != 0; ++i) {
             if (std::string(pl[i].name_) == key.tagName()) {
@@ -851,7 +856,7 @@ namespace Exiv2 {
                 break;
             }
         }
-        if (!pi) throw Error(38, key.groupName(), key.tagName());
+        if (!pi && doThrow) throw Error(38, key.groupName(), key.tagName());
         return pi;
     }
 

@@ -115,6 +115,9 @@ namespace Exiv2 {
         case xmpText:
             value = AutoPtr(new XmpTextValue);
             break;
+        case xmpArray:
+            value = AutoPtr(new XmpArrayValue);
+            break;
         case langAlt:
             value = AutoPtr(new LangAltValue);
             break;
@@ -525,6 +528,7 @@ namespace Exiv2 {
     XmpArrayValue::XmpArrayValue()
         : XmpValue(xmpArray)
     {
+        setXmpArrayType(xaBag);
     }
 
     int XmpArrayValue::read(const std::string& buf)
