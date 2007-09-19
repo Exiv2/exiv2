@@ -1268,7 +1268,7 @@ namespace Action {
             case del:
                 delMetadatum(pImage, *i);
                 break;
-            default:
+            case invalidCmdId:
                 // Todo: complain
                 break;
             }
@@ -1285,6 +1285,7 @@ namespace Action {
         }
         Exiv2::ExifData& exifData = pImage->exifData();
         Exiv2::IptcData& iptcData = pImage->iptcData();
+        Exiv2::XmpData&  xmpData  = pImage->xmpData();
         Exiv2::Value::AutoPtr value = Exiv2::Value::create(modifyCmd.typeId_);
         if (0 == value->read(modifyCmd.value_)) {
             if (modifyCmd.metadataId_ == exif) {
@@ -1292,6 +1293,9 @@ namespace Action {
             }
             if (modifyCmd.metadataId_ == iptc) {
                 iptcData.add(Exiv2::IptcKey(modifyCmd.key_), value.get());
+            }
+            if (modifyCmd.metadataId_ == xmp) {
+                xmpData.add(Exiv2::XmpKey(modifyCmd.key_), value.get());
             }
         }
     }
@@ -1308,6 +1312,7 @@ namespace Action {
         }
         Exiv2::ExifData& exifData = pImage->exifData();
         Exiv2::IptcData& iptcData = pImage->iptcData();
+        Exiv2::XmpData&  xmpData  = pImage->xmpData();
         Exiv2::Metadatum* metadatum = 0;
         if (modifyCmd.metadataId_ == exif) {
             Exiv2::ExifData::iterator pos =
@@ -1320,6 +1325,13 @@ namespace Action {
             Exiv2::IptcData::iterator pos =
                 iptcData.findKey(Exiv2::IptcKey(modifyCmd.key_));
             if (pos != iptcData.end()) {
+                metadatum = &(*pos);
+            }
+        }
+        if (modifyCmd.metadataId_ == xmp) {
+            Exiv2::XmpData::iterator pos =
+                xmpData.findKey(Exiv2::XmpKey(modifyCmd.key_));
+            if (pos != xmpData.end()) {
                 metadatum = &(*pos);
             }
         }
@@ -1344,6 +1356,9 @@ namespace Action {
                 if (modifyCmd.metadataId_ == iptc) {
                     iptcData.add(Exiv2::IptcKey(modifyCmd.key_), value.get());
                 }
+                if (modifyCmd.metadataId_ == xmp) {
+                    xmpData.add(Exiv2::XmpKey(modifyCmd.key_), value.get());
+                }
             }
         }
         else {
@@ -1363,6 +1378,7 @@ namespace Action {
 
         Exiv2::ExifData& exifData = pImage->exifData();
         Exiv2::IptcData& iptcData = pImage->iptcData();
+        Exiv2::XmpData&  xmpData  = pImage->xmpData();
         if (modifyCmd.metadataId_ == exif) {
             Exiv2::ExifData::iterator pos;
             Exiv2::ExifKey exifKey = Exiv2::ExifKey(modifyCmd.key_);
@@ -1375,6 +1391,13 @@ namespace Action {
             Exiv2::IptcKey iptcKey = Exiv2::IptcKey(modifyCmd.key_);
             while((pos = iptcData.findKey(iptcKey)) != iptcData.end()) {
                 iptcData.erase(pos);
+            }
+        }
+        if (modifyCmd.metadataId_ == xmp) {
+            Exiv2::XmpData::iterator pos;
+            Exiv2::XmpKey xmpKey = Exiv2::XmpKey(modifyCmd.key_);
+            while((pos = xmpData.findKey(xmpKey)) != xmpData.end()) {
+                xmpData.erase(pos);
             }
         }
     }

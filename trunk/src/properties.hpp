@@ -120,20 +120,24 @@ namespace Exiv2 {
          */
         static const char* propertyDesc(const XmpKey& key);
         /*!
-          @brief Return the type for property \em key
+          @brief Return the type for property \em key. The default
+                 for unknown keys is xmpText.
           @param key The property key
           @return The type of the property
-          @throw Error if the key is invalid.
          */
         static TypeId propertyType(const XmpKey& key);
         /*!
           @brief Return information for the property for key.
                  Always returns a valid pointer.
           @param key The property key
+          @param doThrow Flag indicating whether to throw an Error or 
+                 return 0 if the key is not valid or unknown.
           @return a pointer to the property information
-          @throw Error if the key is invalid.
+          @throw Error if the key is unknown and the \em doThrow
+                 flag is true.
          */
-        static const XmpPropertyInfo* propertyInfo(const XmpKey& key);
+        static const XmpPropertyInfo* propertyInfo(const XmpKey& key,
+                                                         bool    doThrow =true);
         /*!
            @brief Return the namespace name for the schema associated
                   with \em prefix.
@@ -207,7 +211,7 @@ namespace Exiv2 {
           @param key The key string.
           @throw Error if the first part of the key is not '<b>Xmp</b>' or
                  the second part of the key cannot be parsed and converted
-                 to a known schema prefix.
+                 to a known (i.e., built-in or registered) schema prefix.
         */
         explicit XmpKey(const std::string& key);
         /*!
