@@ -246,6 +246,10 @@ namespace Action {
           @brief Erase Jpeg comment from the file.
          */
         int eraseComment(Exiv2::Image* image) const;
+        /*!
+          @brief Erase XMP packet from the file.
+         */
+        int eraseXmpData(Exiv2::Image* image) const;
 
     private:
         virtual Erase* clone_() const;
@@ -291,10 +295,16 @@ namespace Action {
 
         /*!
           @brief Insert a Jpeg thumbnail image from a file into file \em path.
-                 The filename of the thumbanail is expected to be the image
+                 The filename of the thumbnail is expected to be the image
                  filename (\em path) minus its suffix plus "-thumb.jpg".
          */
         int insertThumbnail(const std::string& path) const;
+        /*!
+          @brief Insert an XMP packet from a file into file \em path.
+                 The filename of the XMP packet is expected to be the image
+                 filename (\em path) minus its suffix plus ".xmp".
+         */
+        int insertXmpPacket(const std::string& path) const;
 
     private:
         virtual Insert* clone_() const;

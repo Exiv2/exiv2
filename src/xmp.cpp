@@ -100,7 +100,6 @@ namespace {
 // class member definitions
 namespace Exiv2 {
 
-    //! @cond IGNORE
     //! Internal Pimpl structure of class Xmpdatum.
     struct Xmpdatum::Impl {
         Impl(const XmpKey& key, const Value* pValue);  //!< Constructor
@@ -111,7 +110,6 @@ namespace Exiv2 {
         XmpKey::AutoPtr key_;                          //!< Key
         Value::AutoPtr  value_;                        //!< Value
     };
-    //! @endcond
 
     Xmpdatum::Impl::Impl(const XmpKey& key, const Value* pValue)
         : key_(key.clone())
@@ -389,6 +387,7 @@ namespace Exiv2 {
                           const std::string& xmpPacket)
     { try {
         xmpData.clear();
+        if (xmpPacket.empty()) return 0;
 
         if (!initialize()) {
 #ifndef SUPPRESS_WARNINGS
@@ -524,6 +523,7 @@ namespace Exiv2 {
     int XmpParser::decode(      XmpData&     /*xmpData*/,
                           const std::string& xmpPacket)
     {
+        xmpData.clear();
         if (!xmpPacket.empty()) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: XMP toolkit support not compiled in.\n";
@@ -535,9 +535,10 @@ namespace Exiv2 {
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
     int XmpParser::encode(      std::string& xmpPacket,
-                           const XmpData&     xmpData)
+                          const XmpData&     xmpData)
     { try {
         xmpPacket.clear();
+        if (xmpData.empty()) return 0;
 
         if (!initialize()) {
 #ifndef SUPPRESS_WARNINGS
@@ -604,9 +605,10 @@ namespace Exiv2 {
         return 3;
     }} // XmpParser::decode
 #else
-    void XmpParser::encode(      std::string& /*xmpPacket*/,
+    void XmpParser::encode(      std::string& xmpPacket,
                            const XmpData&     xmpData)
     {
+        xmpPacket.clear();
         if (!xmpData.empty()) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: XMP toolkit support not compiled in.\n";
