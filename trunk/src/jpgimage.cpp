@@ -467,7 +467,8 @@ namespace Exiv2 {
         }
 
         if (exifData_.count() > 0) ++search;
-        if (xmpData_.count() > 0) ++search;
+        if (writeXmpFromPacket() == false && xmpData_.count() > 0) ++search;
+        if (writeXmpFromPacket() == true && xmpPacket_.size() > 0) ++search;
         if (iptcData_.count() > 0) ++search;
         if (!comment_.empty()) ++search;
 
