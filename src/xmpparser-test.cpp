@@ -21,6 +21,7 @@ try {
     Exiv2::DataBuf buf = Exiv2::readFile(filename);
     std::string xmpPacket;
     xmpPacket.assign(reinterpret_cast<char*>(buf.pData_), buf.size_);
+    std::cerr << "-----> Decoding XMP data read from " << filename << " <-----\n";
     Exiv2::XmpData xmpData;
     if (0 != Exiv2::XmpParser::decode(xmpData, xmpPacket)) {
         std::string error(argv[1]);
@@ -45,13 +46,13 @@ try {
                   << std::dec << md->value()
                   << std::endl;
     }
-    std::cerr << "-----------------------------------------------\n";
+    filename += "-new";
+    std::cerr << "-----> Encoding XMP data to write to " << filename << " <-----\n";
     if (0 != Exiv2::XmpParser::encode(xmpPacket, xmpData)) {
         std::string error(argv[1]);
         error += ": Failed to encode the XMP data";
         throw Exiv2::Error(1, error);
     }
-    filename += "-new";
     Exiv2::FileIo file(filename);
     if (file.open("wb") != 0) {
         throw Exiv2::Error(10, filename, "wb", Exiv2::strError());

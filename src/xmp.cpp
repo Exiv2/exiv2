@@ -82,7 +82,6 @@ namespace {
     //! Convert Value::XmpArrayType to XMP Toolkit array option bits
     XMP_OptionBits xmpOptionBits(Exiv2::XmpValue::XmpArrayType xat);
 
-#define DEBUG
 # ifdef DEBUG
     //! Print information about a parsed XMP node
     void printNode(const std::string& schemaNs,
@@ -102,8 +101,7 @@ namespace {
 namespace Exiv2 {
 
     //! @cond IGNORE
-
-    //! Internal Pimpl structure with private members and data of class Xmpdatum.
+    //! Internal Pimpl structure of class Xmpdatum.
     struct Xmpdatum::Impl {
         Impl(const XmpKey& key, const Value* pValue);  //!< Constructor
         Impl(const Impl& rhs);                         //!< Copy constructor
@@ -249,8 +247,8 @@ namespace Exiv2 {
 
     Xmpdatum& Xmpdatum::operator=(const uint16_t& value)
     {
-        UShortValue::AutoPtr v(new UShortValue);
-        v->value_.push_back(value);
+        XmpTextValue::AutoPtr v(new XmpTextValue);
+        v->read(toString(value));
         p_->value_ = v;
         return *this;
     }
@@ -275,10 +273,15 @@ namespace Exiv2 {
 
     void Xmpdatum::setValue(const std::string& value)
     {
-        // Todo: What's the correct default? Adjust doc
         if (p_->value_.get() == 0) {
-            assert(0 != p_->key_.get());
-            TypeId type = XmpProperties::propertyType(*p_->key_.get());
+            TypeId type = xmpText;
+            if (0 != p_->key_.get()) {
+                try {
+                    type = XmpProperties::propertyType(*p_->key_.get());
+                }
+                catch (const AnyError&) {
+                }
+            }
             p_->value_ = Value::create(type);
         }
         p_->value_->read(value);
@@ -577,10 +580,6 @@ namespace Exiv2 {
                 meta.SetProperty(ns.c_str(), i->tagName().c_str(), 0, options);
                 for (int idx = 0; idx < i->count(); ++idx) {
                     const std::string item = i->tagName() + "[" + toString(idx + 1) + "]";
-
-                    //-ahu
-                    std::cerr << "Element " << item << " = " << i->toString(idx) << "\n";
-
                     meta.SetProperty(ns.c_str(), item.c_str(), i->toString(idx).c_str());
                 }
             }

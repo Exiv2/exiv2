@@ -1,0 +1,281 @@
+-----> Decoding XMP data read from BlueSquare.xmp <-----
+Xmp.dc.format                                XmpText    10  image/jpeg
+Xmp.dc.title                                 LangAlt     3  lang="de-CH" Blaues Quadrat Test Datei - .jpg, lang="en-US" Blue Square Test File - .jpg, lang="x-default" Blue Square Test File - .jpg
+Xmp.dc.description                           LangAlt     1  lang="x-default" XMPFiles BlueSquare test file, created in Photoshop CS2, saved as .psd, .jpg, and .tif.
+Xmp.dc.subject                               XmpArray    5  XMP, Blue Square, test file, Photoshop, .jpg
+Xmp.xmp.CreatorTool                          XmpText    29  Adobe Photoshop CS2 Macintosh
+Xmp.xmp.CreateDate                           XmpText    25  2005-09-07T15:07:40-07:00
+Xmp.xmp.ModifyDate                           XmpText    25  2005-09-07T15:09:51-07:00
+Xmp.xmp.MetadataDate                         XmpText    25  2006-04-10T13:37:10-07:00
+Xmp.xmpMM.DocumentID                         XmpText    37  uuid:9A3B7F52214211DAB6308A7391270C13
+Xmp.xmpMM.InstanceID                         XmpText    37  uuid:B59AC1B3214311DAB6308A7391270C13
+Xmp.xmpMM.DerivedFrom                        XmpText     0  
+Xmp.xmpMM.DerivedFrom/stRef:instanceID       XmpText    37  uuid:9A3B7F4F214211DAB6308A7391270C13
+Xmp.xmpMM.DerivedFrom/stRef:documentID       XmpText    37  uuid:9A3B7F4E214211DAB6308A7391270C13
+Xmp.photoshop.ColorMode                      XmpText     1  3
+Xmp.photoshop.ICCProfile                     XmpText    17  sRGB IEC61966-2.1
+Xmp.tiff.Orientation                         XmpText     1  1
+Xmp.tiff.XResolution                         XmpText    12  720000/10000
+Xmp.tiff.YResolution                         XmpText    12  720000/10000
+Xmp.tiff.ResolutionUnit                      XmpText     1  2
+Xmp.tiff.ImageWidth                          XmpText     3  360
+Xmp.tiff.ImageLength                         XmpText     3  216
+Xmp.tiff.NativeDigest                        XmpText   134  256,257,258,259,262,274,277,284,530,531,282,283,296,301,318,319,529,532,306,270,271,272,305,315,33432;D0485928256FC8D17D036C26919E106D
+Xmp.tiff.Make                                XmpText     5  Nikon
+Xmp.tiff.BitsPerSample                       XmpArray    3  8, 8, 8
+Xmp.exif.PixelXDimension                     XmpText     3  360
+Xmp.exif.PixelYDimension                     XmpText     3  216
+Xmp.exif.ColorSpace                          XmpText     1  1
+Xmp.exif.NativeDigest                        XmpText   414  36864,40960,40961,37121,37122,40962,40963,37510,40964,36867,36868,33434,33437,34850,34852,34855,34856,37377,37378,37379,37380,37381,37382,37383,37384,37385,37386,37396,41483,41484,41486,41487,41488,41492,41493,41495,41728,41729,41730,41985,41986,41987,41988,41989,41990,41991,41992,41993,41994,41995,41996,42016,0,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,22,23,24,25,26,27,28,30;76DBD9F0A5E7ED8F62B4CE8EFA6478B4
+-----> Encoding XMP data to write to BlueSquare.xmp-new <-----
+2c2
+< <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="3.1.2-113">
+---
+> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.1.1">
+35d34
+<      <rdf:li xml:lang="en-US">Blue Square Test File - .jpg</rdf:li>
+36a36
+>      <rdf:li xml:lang="en-US">Blue Square Test File - .jpg</rdf:li>
+-----> Decoding XMP data read from StaffPhotographer-Example.xmp <-----
+Xmp.iptc.IntellectualGenre                   XmpText     7  Profile
+Xmp.iptc.Location                            XmpText    17  Moore family farm
+Xmp.iptc.CountryCode                         XmpText     2  US
+Xmp.iptc.CreatorContactInfo                  XmpText     0  
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrExtadr XmpText    30  Big Newspaper, 123 Main Street
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrCity XmpText     6  Boston
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrRegion XmpText    13  Massachusetts
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrPcode XmpText     5  O2134
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrCtry XmpText     3  USA
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiTelWork XmpText    16  +1 (800) 1234567
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiEmailWork XmpText    24  johndoe@bignewspaper.com
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiUrlWork XmpText    20  www.bignewspaper.com
+Xmp.iptc.SubjectCode                         XmpArray    2  04001000, 04001001
+Xmp.iptc.Scene                               XmpArray    1  011900
+Xmp.exif.PixelXDimension                     XmpText     3  432
+Xmp.exif.PixelYDimension                     XmpText     3  293
+Xmp.exif.ColorSpace                          XmpText     1  1
+Xmp.exif.NativeDigest                        XmpText   414  36864,40960,40961,37121,37122,40962,40963,37510,40964,36867,36868,33434,33437,34850,34852,34855,34856,37377,37378,37379,37380,37381,37382,37383,37384,37385,37386,37396,41483,41484,41486,41487,41488,41492,41493,41495,41728,41729,41730,41985,41986,41987,41988,41989,41990,41991,41992,41993,41994,41995,41996,42016,0,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,22,23,24,25,26,27,28,30;D9980F58F1A438A8507C7664C7084D77
+Xmp.photoshop.Credit                         XmpText    13  Big Newspaper
+Xmp.photoshop.City                           XmpText     7  Watseka
+Xmp.photoshop.State                          XmpText     8  Illinois
+Xmp.photoshop.Country                        XmpText     3  USA
+Xmp.photoshop.DateCreated                    XmpText    10  2003-04-03
+Xmp.photoshop.AuthorsPosition                XmpText    18  Staff Photographer
+Xmp.photoshop.Headline                       XmpText    22  Farmer planting onions
+Xmp.photoshop.CaptionWriter                  XmpText    11  Susan Brown
+Xmp.photoshop.TransmissionReference          XmpText     9  CSA farms
+Xmp.photoshop.Source                         XmpText    24  John Doe / Big Newspaper
+Xmp.photoshop.Instructions                   XmpText   127  Newspapers Out, Original Artixscan 4000 of color negative file, 160 ISO (frame 35a) is 7.6 x 11.2 at 500ppi, in Colormatch RGB.
+Xmp.photoshop.ICCProfile                     XmpText    17  sRGB IEC61966-2.1
+Xmp.photoshop.ColorMode                      XmpText     1  3
+Xmp.tiff.XResolution                         XmpText     4  72/1
+Xmp.tiff.YResolution                         XmpText     4  72/1
+Xmp.tiff.ResolutionUnit                      XmpText     1  2
+Xmp.tiff.Orientation                         XmpText     1  1
+Xmp.tiff.ImageWidth                          XmpText     3  432
+Xmp.tiff.ImageLength                         XmpText     3  293
+Xmp.tiff.NativeDigest                        XmpText   134  256,257,258,259,262,274,277,284,530,531,282,283,296,301,318,319,529,532,306,270,271,272,305,315,33432;24B61B075FA9960B09291337508795BF
+Xmp.tiff.BitsPerSample                       XmpArray    3  8, 8, 8
+Xmp.xmp.CreateDate                           XmpText    25  2005-03-13T02:01:44-06:00
+Xmp.xmp.ModifyDate                           XmpText    25  2005-03-13T02:01:44-06:00
+Xmp.xmp.MetadataDate                         XmpText    25  2007-01-08T13:25:45+01:00
+Xmp.xmp.CreatorTool                          XmpText    26  Adobe Photoshop CS Windows
+Xmp.xmpMM.DocumentID                         XmpText    58  adobe:docid:photoshop:0f410643-9396-11d9-bb8e-a67e6693b6e9
+Xmp.xmpMM.DerivedFrom                        XmpText     0  
+Xmp.xmpMM.DerivedFrom/stRef:instanceID       XmpText    41  uuid:0f410640-9396-11d9-bb8e-a67e6693b6e9
+Xmp.xmpMM.DerivedFrom/stRef:documentID       XmpText    58  adobe:docid:photoshop:e4d002a0-9392-11d9-bb8e-a67e6693b6e9
+Xmp.xmpMM.InstanceID                         XmpText    41  uuid:0f410644-9396-11d9-bb8e-a67e6693b6e9
+Xmp.xmpRights.WebStatement                   XmpText    28  http://www.bignewspaper.com/
+Xmp.xmpRights.Marked                         XmpText     4  True
+Xmp.xmpRights.RightsUsageTerms               LangAlt     1  lang="x-default" For consideration only, no reproduction without prior permission
+Xmp.xmpRights.UsageTerms                     LangAlt     1  lang="x-default" For consideration only, no reproduction without prior permission
+Xmp.dc.format                                XmpText    10  image/jpeg
+Xmp.dc.description                           LangAlt     1  lang="x-default" After digging the furrows another ten yards with the tractor, Jim Moore hops off to hand-set more leeks and onions.
+Xmp.dc.title                                 LangAlt     1  lang="x-default" 01661gdx
+Xmp.dc.rights                                LangAlt     1  lang="x-default" ©2003 Big Newspaper, all rights reserved
+Xmp.dc.creator                               XmpArray    1  John Doe
+Xmp.dc.subject                               XmpArray   22  agriculture, farm laborer, farmer, field hand, field worker, humans, occupation, people, agricultural, agronomy, crops, onions, vegetable crops, plants, vegetables, outdoors, outside, agricultural equipment, tractor, gender, male, men
+Xmp.wine.Recommend                           XmpText     5  False
+-----> Encoding XMP data to write to StaffPhotographer-Example.xmp-new <-----
+2c2
+< <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="3.1.2-113">
+---
+> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.1.1">
+4c4
+<   <rdf:Description rdf:about="uuid:0f410644-9396-11d9-bb8e-a67e6693b6e9"
+---
+>   <rdf:Description rdf:about=""
+46a47
+>    xapMM:InstanceID="uuid:0f410644-9396-11d9-bb8e-a67e6693b6e9"
+160,191c161
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                                                                                                     
+<                    
+---
+>                            
+-----> Decoding XMP data read from xmpsdk.xmp <-----
+Xmp.ns1.SimpleProp1                          XmpText    13  Simple1 value
+Xmp.ns1.SimpleProp2                          XmpText    13  Simple2 value
+Xmp.ns1.SimpleProp2/?xml:lang                XmpText     9  x-default
+Xmp.ns1.ArrayProp1                           XmpArray    2  Item1.1 value, Item1.2 value
+Xmp.ns1.ArrayProp2                           LangAlt     2  lang="x-one" Item2.1 value, lang="x-two" Item2.2 value
+Xmp.ns1.StructProp                           XmpText     0  
+Xmp.ns1.StructProp/ns2:Field1                XmpText    12  Field1 value
+Xmp.ns1.StructProp/ns2:Field2                XmpText    12  Field2 value
+Xmp.ns1.QualProp1                            XmpText    10  Prop value
+Xmp.ns1.QualProp1/?ns2:Qual                  XmpText    10  Qual value
+Xmp.ns1.QualProp2                            XmpText    10  Prop value
+Xmp.ns1.QualProp2/?xml:lang                  XmpText     9  x-default
+Xmp.ns1.QualProp2/?ns2:Qual                  XmpText    10  Qual value
+Xmp.ns1.NestedStructProp                     XmpText     0  
+Xmp.ns1.NestedStructProp/ns2:Outer           XmpText     0  
+Xmp.ns1.NestedStructProp/ns2:Outer/ns2:Middle XmpText     0  
+Xmp.ns1.NestedStructProp/ns2:Outer/ns2:Middle/ns2:Inner XmpText     0  
+Xmp.ns1.NestedStructProp/ns2:Outer/ns2:Middle/ns2:Inner/ns2:Field1 XmpText    12  Field1 value
+Xmp.ns1.NestedStructProp/ns2:Outer/ns2:Middle/ns2:Inner/ns2:Field2 XmpText    12  Field2 value
+-----> Encoding XMP data to write to xmpsdk.xmp-new <-----
+1,48c1,65
+<     <rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+<       <rdf:Description rdf:about='' xmlns:ns1='ns:test1/' xmlns:ns2='ns:test2/'>
+<     
+<         <ns1:SimpleProp1>Simple1 value</ns1:SimpleProp1>
+<         <ns1:SimpleProp2 xml:lang='x-default'>Simple2 value</ns1:SimpleProp2>
+<     
+<         <ns1:ArrayProp1>
+<           <rdf:Bag>
+<             <rdf:li>Item1.1 value</rdf:li>
+<             <rdf:li>Item1.2 value</rdf:li>
+<           </rdf:Bag>
+<         </ns1:ArrayProp1>
+<     
+<         <ns1:ArrayProp2>
+<           <rdf:Alt>
+<             <rdf:li xml:lang='x-one'>Item2.1 value</rdf:li>
+<             <rdf:li xml:lang='x-two'>Item2.2 value</rdf:li>
+<           </rdf:Alt>
+<         </ns1:ArrayProp2>
+<     
+<         <ns1:StructProp rdf:parseType='Resource'>
+<           <ns2:Field1>Field1 value</ns2:Field1>
+<           <ns2:Field2>Field2 value</ns2:Field2>
+<         </ns1:StructProp>
+<     
+<         <ns1:QualProp1 rdf:parseType='Resource'>
+<           <rdf:value>Prop value</rdf:value>
+<           <ns2:Qual>Qual value</ns2:Qual>
+<         </ns1:QualProp1>
+<     
+<         <ns1:QualProp2 rdf:parseType='Resource'>
+<           <rdf:value xml:lang='x-default'>Prop value</rdf:value>
+<           <ns2:Qual>Qual value</ns2:Qual>
+<         </ns1:QualProp2>
+<     
+<         <ns1:NestedStructProp rdf:parseType='Resource'>
+<           <ns2:Outer rdf:parseType='Resource'>
+<             <ns2:Middle rdf:parseType='Resource'>
+<               <ns2:Inner rdf:parseType='Resource'>
+<                 <ns2:Field1>Field1 value</ns2:Field1>
+<                 <ns2:Field2>Field2 value</ns2:Field2>
+<               </ns2:Inner>
+<             </ns2:Middle>
+<           </ns2:Outer>
+<         </ns1:NestedStructProp>
+<     
+<       </rdf:Description>
+<     </rdf:RDF>
+---
+> <?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
+> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.1.1">
+>  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+>   <rdf:Description rdf:about=""
+>     xmlns:ns1="ns:test1/"
+>     xmlns:ns2="ns:test2/"
+>    ns1:SimpleProp1="Simple1 value">
+>    <ns1:SimpleProp2 xml:lang="x-default">Simple2 value</ns1:SimpleProp2>
+>    <ns1:ArrayProp1>
+>     <rdf:Bag>
+>      <rdf:li>Item1.1 value</rdf:li>
+>      <rdf:li>Item1.2 value</rdf:li>
+>     </rdf:Bag>
+>    </ns1:ArrayProp1>
+>    <ns1:ArrayProp2>
+>     <rdf:Alt>
+>      <rdf:li xml:lang="x-one">Item2.1 value</rdf:li>
+>      <rdf:li xml:lang="x-two">Item2.2 value</rdf:li>
+>     </rdf:Alt>
+>    </ns1:ArrayProp2>
+>    <ns1:StructProp
+>     ns2:Field1="Field1 value"
+>     ns2:Field2="Field2 value"/>
+>    <ns1:QualProp1 rdf:parseType="Resource">
+>     <rdf:value>Prop value</rdf:value>
+>     <ns2:Qual>Qual value</ns2:Qual>
+>    </ns1:QualProp1>
+>    <ns1:QualProp2 xml:lang="x-default" rdf:parseType="Resource">
+>     <rdf:value>Prop value</rdf:value>
+>     <ns2:Qual>Qual value</ns2:Qual>
+>    </ns1:QualProp2>
+>    <ns1:NestedStructProp rdf:parseType="Resource">
+>     <ns2:Outer rdf:parseType="Resource">
+>      <ns2:Middle rdf:parseType="Resource">
+>       <ns2:Inner
+>        ns2:Field1="Field1 value"
+>        ns2:Field2="Field2 value"/>
+>      </ns2:Middle>
+>     </ns2:Outer>
+>    </ns1:NestedStructProp>
+>   </rdf:Description>
+>  </rdf:RDF>
+> </x:xmpmeta>
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                            
+> <?xpacket end="w"?>
+\ No newline at end of file

@@ -93,31 +93,31 @@ namespace Exiv2 {
     };
 
     extern const XmpPropertyInfo xmpDcInfo[] = {
-        { "contributor",      "contributor",      "bag ProperName", xmpText,       xmpExternal, "Contributors to the resource (other than the authors)." },
+        { "contributor",      "contributor",      "bag ProperName", xmpArray,      xmpExternal, "Contributors to the resource (other than the authors)." },
         { "coverage",         "coverage",         "Text",        xmpText,          xmpExternal, "The extent or scope of the resource." },
-        { "creator",          "creator",          "seq ProperName", xmpText,       xmpExternal, "The authors of the resource (listed in order of precedence, if significant)." },
-        { "date",             "date",             "seq Date",    xmpText,          xmpExternal, "Date(s) that something interesting happened to the resource." },
-        { "description",      "description",      "Lang Alt",    xmpText,          xmpExternal, "A textual description of the content of the resource. Multiple values may be "
+        { "creator",          "creator",          "seq ProperName", xmpArray,      xmpExternal, "The authors of the resource (listed in order of precedence, if significant)." },
+        { "date",             "date",             "seq Date",    xmpArray,         xmpExternal, "Date(s) that something interesting happened to the resource." },
+        { "description",      "description",      "Lang Alt",    langAlt,          xmpExternal, "A textual description of the content of the resource. Multiple values may be "
                                                                                                 "present for different languages." },
         { "format",           "format",           "MIMEType",    xmpText,          xmpInternal, "The file format used when saving the resource. Tools and applications should set "
                                                                                                 "this property to the save format of the data. It may include appropriate qualifiers." },
         { "identifier",       "identifier",       "Text",        xmpText,          xmpExternal, "Unique identifier of the resource." },
-        { "language",         "language",         "bag Locale",  xmpText,          xmpInternal, "An unordered array specifying the languages used in the resource." },
-        { "publisher",        "publisher",        "bag ProperName", xmpText,       xmpExternal, "Publishers." },
-        { "relation",         "relation",         "bag Text",    xmpText,          xmpInternal, "Relationships to other documents." },
-        { "rights",           "rights",           "Lang Alt",    xmpText,          xmpExternal, "Informal rights statement, selected by language." },
+        { "language",         "language",         "bag Locale",  xmpArray,         xmpInternal, "An unordered array specifying the languages used in the resource." },
+        { "publisher",        "publisher",        "bag ProperName", xmpArray,      xmpExternal, "Publishers." },
+        { "relation",         "relation",         "bag Text",    xmpArray,         xmpInternal, "Relationships to other documents." },
+        { "rights",           "rights",           "Lang Alt",    langAlt,          xmpExternal, "Informal rights statement, selected by language." },
         { "source",           "source",           "Text",        xmpText,          xmpExternal, "Unique identifier of the work from which this resource was derived." },
-        { "subject",          "subject",          "bag Text",    xmpText,          xmpExternal, "An unordered array of descriptive phrases or keywords that specify the topic of the "
+        { "subject",          "subject",          "bag Text",    xmpArray,         xmpExternal, "An unordered array of descriptive phrases or keywords that specify the topic of the "
                                                                                                 "content of the resource." },
-        { "title",            "title",            "Lang Alt",    xmpText,          xmpExternal, "The title of the document, or the name given to the resource. Typically, it will be "
+        { "title",            "title",            "Lang Alt",    langAlt,          xmpExternal, "The title of the document, or the name given to the resource. Typically, it will be "
                                                                                                 "a name by which the resource is formally known." },
-        { "type",             "type",             "bag open Choice", xmpText,      xmpExternal, "A document type; for example, novel, poem, or working paper." },
+        { "type",             "type",             "bag open Choice", xmpArray,     xmpExternal, "A document type; for example, novel, poem, or working paper." },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
 
     extern const XmpPropertyInfo xmpXmpInfo[] = {
-        { "Advisory",         "Advisory",         "bag XPath",   xmpText,          xmpExternal, "An unordered array specifying properties that were edited outside the authoring "
+        { "Advisory",         "Advisory",         "bag XPath",   xmpArray,         xmpExternal, "An unordered array specifying properties that were edited outside the authoring "
                                                                                                 "application. Each item should contain a single namespace and XPath separated by "
                                                                                                 "one ASCII space (U+0020)." },
         { "BaseURL",          "BaseURL",          "URL",         xmpText,          xmpInternal, "The base URL for relative URLs in the document content. If this document contains "
@@ -129,7 +129,7 @@ namespace Exiv2 {
         { "CreatorTool",      "CreatorTool",      "AgentName",   xmpText,          xmpInternal, "The name of the first known tool used to create the resource. If history is "
                                                                                                 "present in the metadata, this value should be equivalent to that of "
                                                                                                 "xmpMM:History's softwareAgent property." },
-        { "Identifier",       "Identifier",       "bag Text",    xmpText,          xmpExternal, "An unordered array of text strings that unambiguously identify the resource within "
+        { "Identifier",       "Identifier",       "bag Text",    xmpArray,         xmpExternal, "An unordered array of text strings that unambiguously identify the resource within "
                                                                                                 "a given context. An array item may be qualified with xmpidq:Scheme to denote the "
                                                                                                 "formal identification system to which that identifier conforms. Note: The "
                                                                                                 "dc:identifier property is not used because it lacks a defined scheme qualifier and "
@@ -142,7 +142,7 @@ namespace Exiv2 {
                                                                                                 "is not necessarily the same as the file's system modification date because it is "
                                                                                                 "set before the file is saved." },
         { "Nickname",         "Nickname",         "Text",        xmpText,          xmpExternal, "A short informal name for the resource." },
-        { "Rating",           "Rating",           "Closed Choice of Integer", signedLong, xmpExternal, "A number that indicates a document's status relative to other documents, "
+        { "Rating",           "Rating",           "Closed Choice of Integer", xmpText, xmpExternal, "A number that indicates a document's status relative to other documents, "
                                                                                                 "used to organize documents in a file browser. Values are user-defined within an "
                                                                                                 "application-defined range." },
         { "Thumbnails",       "Thumbnails",       "alt Thumbnail", undefined,      xmpInternal, "An alternative array of thumbnail images for a file, which can differ in "
@@ -154,8 +154,8 @@ namespace Exiv2 {
     extern const XmpPropertyInfo xmpXmpRightsInfo[] = {
         { "Certificate",      "Certificate",      "URL",         xmpText,          xmpExternal, "Online rights management certificate." },
         { "Marked",           "Marked",           "Boolean",     xmpText,          xmpExternal, "Indicates that this is a rights-managed resource." },
-        { "Owner",            "Owner",            "bag ProperName", xmpText,       xmpExternal, "An unordered array specifying the legal owner(s) of a resource." },
-        { "UsageTerms",       "UsageTerms",       "Lang Alt",    xmpText,          xmpExternal, "Text instructions on how a resource can be legally used." },
+        { "Owner",            "Owner",            "bag ProperName", xmpArray,      xmpExternal, "An unordered array specifying the legal owner(s) of a resource." },
+        { "UsageTerms",       "UsageTerms",       "Lang Alt",    langAlt,          xmpExternal, "Text instructions on how a resource can be legally used." },
         { "WebStatement",     "WebStatement",     "URL",         xmpText,          xmpExternal, "The location of a web page describing the owner and/or rights statement for this resource." },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
@@ -205,7 +205,7 @@ namespace Exiv2 {
         { "LastURL",          "LastURL",          "URL",         xmpText,          xmpInternal, "Deprecated for privacy protection." },
         { "RenditionOf",      "RenditionOf",      "ResourceRef", xmpText,          xmpInternal, "Deprecated in favor of xmpMM:DerivedFrom. A reference to the document of which this is "
                                                                                                 "a rendition." },
-        { "SaveID",           "SaveID",           "Integer",     signedLong,       xmpInternal, "Deprecated. Previously used only to support the xmpMM:LastURL property." },
+        { "SaveID",           "SaveID",           "Integer",     xmpText,          xmpInternal, "Deprecated. Previously used only to support the xmpMM:LastURL property." },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
@@ -221,10 +221,10 @@ namespace Exiv2 {
 
     extern const XmpPropertyInfo xmpXmpTPgInfo[] = {
         { "MaxPageSize",      "MaxPageSize",      "Dimensions",  xmpText,          xmpInternal, "The size of the largest page in the document (including any in contained documents)." },
-        { "NPages",           "NPages",           "Integer",     unsignedLong,     xmpInternal, "The number of pages in the document (including any in contained documents)." },
+        { "NPages",           "NPages",           "Integer",     xmpText,          xmpInternal, "The number of pages in the document (including any in contained documents)." },
         { "Fonts",            "Fonts",            "bag Font",    xmpText,          xmpInternal, "An unordered array of fonts that are used in the document (including any in contained documents)." },
         { "Colorants",        "Colorants",        "seq Colorant", xmpText,         xmpInternal, "An ordered array of colorants (swatches) that are used in the document (including any in contained documents)." },
-        { "PlateNames",       "PlateNames",       "seq Text",    xmpText,          xmpInternal, "An ordered array of plate names that are needed to print the document (including any in contained documents)." },
+        { "PlateNames",       "PlateNames",       "seq Text",    xmpArray,         xmpInternal, "An ordered array of plate names that are needed to print the document (including any in contained documents)." },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
@@ -233,7 +233,7 @@ namespace Exiv2 {
         { "projectRef",       "projectRef",       "ProjectLink", xmpText,          xmpInternal, "A reference to the project that created this file." },
         { "videoFrameRate",   "videoFrameRate",   "open Choice of Text", xmpText,  xmpInternal, "The video frame rate. One of: 24, NTSC, PAL." },
         { "videoFrameSize",   "videoFrameSize",   "Dimensions",  xmpText,          xmpInternal, "The frame size. For example: w:720, h: 480, unit:pixels" },
-        { "videoPixelAspectRatio", "videoPixelAspectRatio", "Rational", unsignedRational, xmpInternal, "The aspect ratio, expressed as ht/wd. For example: \"648/720\" = 0.9" },
+        { "videoPixelAspectRatio", "videoPixelAspectRatio", "Rational", xmpText,   xmpInternal, "The aspect ratio, expressed as ht/wd. For example: \"648/720\" = 0.9" },
         { "videoPixelDepth",  "videoPixelDepth",  "closed Choice of Text", xmpText, xmpInternal, "The size in bits of each color component of a pixel. Standard Windows 32-bit "
                                                                                                 "pixels have 8 bits per component. One of: 8Int, 16Int, 32Int, 32Float." },
         { "videoColorSpace",  "videoColorSpace",  "closed Choice of Text", xmpText, xmpInternal, "The color space. One of: sRGB (used by Photoshop), CCIR-601 (used for NTSC), "
@@ -246,13 +246,13 @@ namespace Exiv2 {
         { "videoFieldOrder",  "videoFieldOrder",  "closed Choice of Text", xmpText, xmpInternal, "The field order for video. One of: Upper, Lower, Progressive." },
         { "pullDown",         "pullDown",         "closed Choice of Text", xmpText, xmpInternal, "The sampling phase of film to be converted to video (pull-down). One of: "
                                                                                                 "WSSWW, SSWWW, SWWWS, WWWSS, WWSSW, WSSWW_24p, SSWWW_24p, SWWWS_24p, WWWSS_24p, WWSSW_24p." },
-        { "audioSampleRate",  "audioSampleRate",  "Integer",     unsignedLong,     xmpInternal, "The audio sample rate. Can be any value, but commonly 32000, 41100, or 48000." },
+        { "audioSampleRate",  "audioSampleRate",  "Integer",     xmpText,          xmpInternal, "The audio sample rate. Can be any value, but commonly 32000, 41100, or 48000." },
         { "audioSampleType",  "audioSampleType",  "closed Choice of Text", xmpText, xmpInternal, "The audio sample type. One of: 8Int, 16Int, 32Int, 32Float." },
         { "audioChannelType", "audioChannelType", "closed Choice of Text", xmpText, xmpInternal, "The audio channel type. One of: Mono, Stereo, 5.1, 7.1." },
         { "audioCompressor",  "audioCompressor",  "Text",        xmpText,          xmpInternal, "The audio compression used. For example, MP3." },
         { "speakerPlacement", "speakerPlacement", "Text",        xmpText,          xmpExternal, "A description of the speaker angles from center front in degrees. For example: "
                                                                                                 "\"Left = -30, Right = 30, Center = 0, LFE = 45, Left Surround = -110, Right Surround = 110\"" },
-        { "fileDataRate",     "fileDataRate",     "Rational",    unsignedRational, xmpInternal, "The file data rate in megabytes per second. For example: \"36/10\" = 3.6 MB/sec" },
+        { "fileDataRate",     "fileDataRate",     "Rational",    xmpText,          xmpInternal, "The file data rate in megabytes per second. For example: \"36/10\" = 3.6 MB/sec" },
         { "tapeName",         "tapeName",         "Text",        xmpText,          xmpExternal, "The name of the tape from which the clip was captured, as set during the capture process." },
         { "altTapeName",      "altTapeName",      "Text",        xmpText,          xmpExternal, "An alternative tape name, set via the project window or timecode dialog in Premiere. "
                                                                                                 "If an alternative name has been set and has not been reverted, that name is displayed." },
@@ -274,7 +274,7 @@ namespace Exiv2 {
         { "metadataModDate",  "metadataModDate",  "Date",        xmpText,          xmpInternal, "The date and time when the metadata was last modified." },
         { "artist",           "artist",           "Text",        xmpText,          xmpExternal, "The name of the artist or artists." },
         { "album",            "album",            "Text",        xmpText,          xmpExternal, "The name of the album." },
-        { "trackNumber",      "trackNumber",      "Integer",     unsignedShort,    xmpExternal, "A numeric value indicating the order of the audio file within its original recording." },
+        { "trackNumber",      "trackNumber",      "Integer",     xmpText,          xmpExternal, "A numeric value indicating the order of the audio file within its original recording." },
         { "genre",            "genre",            "Text",        xmpText,          xmpExternal, "The name of the genre." },
         { "copyright",        "copyright",        "Text",        xmpText,          xmpExternal, "The copyright information." },
         { "releaseDate",      "releaseDate",      "Date",        xmpText,          xmpExternal, "The date the title was released." },
@@ -322,7 +322,7 @@ namespace Exiv2 {
         { "Instructions",     "Instructions",     "Text",        xmpText,          xmpExternal, "Special instructions." },
         { "Source",           "Source",           "Text",        xmpText,          xmpExternal, "Source." },
         { "State",            "State",            "Text",        xmpText,          xmpExternal, "Province/state." },
-        { "SupplementalCategories", "SupplementalCategories", "bag Text", xmpText, xmpExternal, "Supplemental category." },
+        { "SupplementalCategories", "SupplementalCategories", "bag Text", xmpArray, xmpExternal, "Supplemental category." },
         { "TransmissionReference", "TransmissionReference", "Text", xmpText,       xmpExternal, "Original transmission reference." },
         { "Urgency",          "Urgency",          "Integer",     xmpText,          xmpExternal, "Urgency. Valid range is 1-8." },
         // End of list marker
@@ -341,14 +341,14 @@ namespace Exiv2 {
         { "AutoContrast",     "AutoContrast",     "Boolean",     xmpText,          xmpExternal, "When true, \"Contrast\" is automatically adjusted." },
         { "AutoExposure",     "AutoExposure",     "Boolean",     xmpText,          xmpExternal, "When true, \"Exposure\" is automatically adjusted." },
         { "AutoShadows",      "AutoShadows",      "Boolean",     xmpText,          xmpExternal, "When true,\"Shadows\" is automatically adjusted." },
-        { "BlueHue",          "BlueHue",          "Integer",     signedShort,      xmpExternal, "\"Blue Hue\" setting. Range -100 to 100." },
-        { "BlueSaturation",   "BlueSaturation",   "Integer",     signedShort,      xmpExternal, "\"Blue Saturation\" setting. Range -100 to +100." },
-        { "Brightness",       "Brightness",       "Integer",     unsignedShort,    xmpExternal, "\"Brightness\" setting. Range 0 to +150." },
+        { "BlueHue",          "BlueHue",          "Integer",     xmpText,          xmpExternal, "\"Blue Hue\" setting. Range -100 to 100." },
+        { "BlueSaturation",   "BlueSaturation",   "Integer",     xmpText,          xmpExternal, "\"Blue Saturation\" setting. Range -100 to +100." },
+        { "Brightness",       "Brightness",       "Integer",     xmpText,          xmpExternal, "\"Brightness\" setting. Range 0 to +150." },
         { "CameraProfile",    "CameraProfile",    "Text",        xmpText,          xmpExternal, "\"Camera Profile\" setting." },
-        { "ChromaticAberrationB", "ChromaticAberrationB", "Integer", signedShort,  xmpExternal, "\"Chomatic Aberration, Fix Blue/Yellow Fringe\" setting. Range -100 to +100." },
-        { "ChromaticAberrationR", "ChromaticAberrationR", "Integer", signedShort,  xmpExternal, "\"Chomatic Aberration, Fix Red/Cyan Fringe\" setting. Range -100 to +100." },
-        { "ColorNoiseReduction", "ColorNoiseReduction", "Integer", unsignedShort,  xmpExternal, "\"Color Noise Reducton\" setting. Range 0 to +100." },
-        { "Contrast",         "Contrast",         "Integer",     signedShort,      xmpExternal, "\"Contrast\" setting. Range -50 to +100." },
+        { "ChromaticAberrationB", "ChromaticAberrationB", "Integer", xmpText,      xmpExternal, "\"Chomatic Aberration, Fix Blue/Yellow Fringe\" setting. Range -100 to +100." },
+        { "ChromaticAberrationR", "ChromaticAberrationR", "Integer", xmpText,      xmpExternal, "\"Chomatic Aberration, Fix Red/Cyan Fringe\" setting. Range -100 to +100." },
+        { "ColorNoiseReduction", "ColorNoiseReduction", "Integer", xmpText,        xmpExternal, "\"Color Noise Reducton\" setting. Range 0 to +100." },
+        { "Contrast",         "Contrast",         "Integer",     xmpText,          xmpExternal, "\"Contrast\" setting. Range -50 to +100." },
         { "CropTop",          "CropTop",          "Real",        xmpText,          xmpExternal, "When HasCrop is true, top of crop rectangle" },
         { "CropLeft",         "CropLeft",         "Real",        xmpText,          xmpExternal, "When HasCrop is true, left of crop rectangle." },
         { "CropBottom",       "CropBottom",       "Real",        xmpText,          xmpExternal, "When HasCrop is true, bottom of crop rectangle." },
@@ -356,28 +356,28 @@ namespace Exiv2 {
         { "CropAngle",        "CropAngle",        "Real",        xmpText,          xmpExternal, "When HasCrop is true, angle of crop rectangle." },
         { "CropWidth",        "CropWidth",        "Real",        xmpText,          xmpExternal, "Width of resulting cropped image in CropUnits units." },
         { "CropHeight",       "CropHeight",       "Real",        xmpText,          xmpExternal, "Height of resulting cropped image in CropUnits units." },
-        { "CropUnits",        "CropUnits",        "Integer",     unsignedShort,    xmpExternal, "Units for CropWidth and CropHeight. 0=pixels, 1=inches, 2=cm" },
+        { "CropUnits",        "CropUnits",        "Integer",     xmpText,          xmpExternal, "Units for CropWidth and CropHeight. 0=pixels, 1=inches, 2=cm" },
         { "Exposure",         "Exposure",         "Real",        xmpText,          xmpExternal, "\"Exposure\" setting. Range -4.0 to +4.0." },
-        { "GreenHue",         "GreenHue",         "Integer",     signedShort,      xmpExternal, "\"Green Hue\" setting. Range -100 to +100." },
-        { "GreenSaturation",  "GreenSaturation",  "Integer",     signedShort,      xmpExternal, "\"Green Saturation\" setting. Range -100 to +100." },
+        { "GreenHue",         "GreenHue",         "Integer",     xmpText,          xmpExternal, "\"Green Hue\" setting. Range -100 to +100." },
+        { "GreenSaturation",  "GreenSaturation",  "Integer",     xmpText,          xmpExternal, "\"Green Saturation\" setting. Range -100 to +100." },
         { "HasCrop",          "HasCrop",          "Boolean",     xmpText,          xmpExternal, "When true, image has a cropping rectangle." },
         { "HasSettings",      "HasSettings",      "Boolean",     xmpText,          xmpExternal, "When true, non-default camera raw settings." },
-        { "LuminanceSmoothing", "LuminanceSmoothing", "Integer", unsignedShort,    xmpExternal, "\"Luminance Smoothing\" setting. Range 0 to +100." },
+        { "LuminanceSmoothing", "LuminanceSmoothing", "Integer", xmpText,          xmpExternal, "\"Luminance Smoothing\" setting. Range 0 to +100." },
         { "RawFileName",      "RawFileName",      "Text",        xmpText,          xmpInternal, "File name fo raw file (not a complete path)." },
-        { "RedHue",           "RedHue",           "Integer",     signedShort,      xmpExternal, "\"Red Hue\" setting. Range -100 to +100." },
-        { "RedSaturation",    "RedSaturation",    "Integer",     signedShort,      xmpExternal, "\"Red Saturation\" setting. Range -100 to +100." },
-        { "Saturation",       "Saturation",       "Integer",     signedShort,      xmpExternal, "\"Saturation\" setting. Range -100 to +100." },
-        { "Shadows",          "Shadows",          "Integer",     unsignedShort,    xmpExternal, "\"Shadows\" setting. Range 0 to +100." },
-        { "ShadowTint",       "ShadowTint",       "Integer",     signedShort,      xmpExternal, "\"Shadow Tint\" setting. Range -100 to +100." },
-        { "Sharpness",        "Sharpness",        "Integer",     unsignedShort,    xmpExternal, "\"Sharpness\" setting. Range 0 to +100." },
-        { "Temperature",      "Temperature",      "Integer",     unsignedShort,    xmpExternal, "\"Temperature\" setting. Range 2000 to 50000." },
-        { "Tint",             "Tint",             "Integer",     signedShort,      xmpExternal, "\"Tint\" setting. Range -150 to +150." },
+        { "RedHue",           "RedHue",           "Integer",     xmpText,          xmpExternal, "\"Red Hue\" setting. Range -100 to +100." },
+        { "RedSaturation",    "RedSaturation",    "Integer",     xmpText,          xmpExternal, "\"Red Saturation\" setting. Range -100 to +100." },
+        { "Saturation",       "Saturation",       "Integer",     xmpText,          xmpExternal, "\"Saturation\" setting. Range -100 to +100." },
+        { "Shadows",          "Shadows",          "Integer",     xmpText,          xmpExternal, "\"Shadows\" setting. Range 0 to +100." },
+        { "ShadowTint",       "ShadowTint",       "Integer",     xmpText,          xmpExternal, "\"Shadow Tint\" setting. Range -100 to +100." },
+        { "Sharpness",        "Sharpness",        "Integer",     xmpText,          xmpExternal, "\"Sharpness\" setting. Range 0 to +100." },
+        { "Temperature",      "Temperature",      "Integer",     xmpText,          xmpExternal, "\"Temperature\" setting. Range 2000 to 50000." },
+        { "Tint",             "Tint",             "Integer",     xmpText,          xmpExternal, "\"Tint\" setting. Range -150 to +150." },
         { "ToneCurve",        "ToneCurve",        "Seq of points (Integer, Integer)", xmpText, xmpExternal, "Array of points (Integer, Integer) defining a \"Tone Curve\"." },
         { "ToneCurveName",    "ToneCurveName",    "Choice Text", xmpText,          xmpInternal, "The name of the Tone Curve described by ToneCurve. One of: Linear, Medium Contrast, "
                                                                                                 "Strong Contrast, Custom or a user-defined preset name." },
         { "Version",          "Version",          "Text",        xmpText,          xmpInternal, "Version of Camera Raw plugin." },
-        { "VignetteAmount",   "VignetteAmount",   "Integer",     signedShort,      xmpExternal, "\"Vignetting Amount\" setting. Range -100 to +100." },
-        { "VignetteMidpoint", "VignetteMidpoint", "Integer",     unsignedShort,    xmpExternal, "\"Vignetting Midpoint\" setting. Range 0 to +100." },
+        { "VignetteAmount",   "VignetteAmount",   "Integer",     xmpText,          xmpExternal, "\"Vignetting Amount\" setting. Range -100 to +100." },
+        { "VignetteMidpoint", "VignetteMidpoint", "Integer",     xmpText,          xmpExternal, "\"Vignetting Midpoint\" setting. Range 0 to +100." },
         { "WhiteBalance",     "WhiteBalance",     "Closed Choice Text", xmpText,   xmpExternal, "\"White Balance\" setting. One of: As Shot, Auto, Daylight, Cloudy, Shade, Tungsten, "
                                                                                                 "Fluorescent, Flash, Custom" },
         // End of list marker
@@ -385,12 +385,12 @@ namespace Exiv2 {
     };
 
     extern const XmpPropertyInfo xmpTiffInfo[] = {
-        { "ImageWidth",       "ImageWidth",       "Integer",     unsignedLong,     xmpInternal, "TIFF tag 256, 0x100. Image width in pixels." },
-        { "ImageLength",      "ImageLength",      "Integer",     unsignedLong,     xmpInternal, "TIFF tag 257, 0x101. Image height in pixels." },
-        { "BitsPerSample",    "BitsPerSample",    "seq Integer", unsignedShort,    xmpInternal, "TIFF tag 258, 0x102. Number of bits per component in each channel." },
-        { "Compression",      "Compression",      "Closed Choice of Integer", unsignedShort, xmpInternal, "TIFF tag 259, 0x103. Compression scheme: 1 = uncompressed; 6 = JPEG." },
-        { "PhotometricInterpretation", "PhotometricInterpretation", "Closed Choice of Integer", unsignedShort, xmpInternal, "TIFF tag 262, 0x106. Pixel Composition: 2 = RGB; 6 = YCbCr." },
-        { "Orientation",      "Orientation",      "Closed Choice of Integer", unsignedShort, xmpInternal, "TIFF tag 274, 0x112. Orientation:"
+        { "ImageWidth",       "ImageWidth",       "Integer",     xmpText,          xmpInternal, "TIFF tag 256, 0x100. Image width in pixels." },
+        { "ImageLength",      "ImageLength",      "Integer",     xmpText,          xmpInternal, "TIFF tag 257, 0x101. Image height in pixels." },
+        { "BitsPerSample",    "BitsPerSample",    "seq Integer", xmpArray,         xmpInternal, "TIFF tag 258, 0x102. Number of bits per component in each channel." },
+        { "Compression",      "Compression",      "Closed Choice of Integer", xmpText, xmpInternal, "TIFF tag 259, 0x103. Compression scheme: 1 = uncompressed; 6 = JPEG." },
+        { "PhotometricInterpretation", "PhotometricInterpretation", "Closed Choice of Integer", xmpText, xmpInternal, "TIFF tag 262, 0x106. Pixel Composition: 2 = RGB; 6 = YCbCr." },
+        { "Orientation",      "Orientation",      "Closed Choice of Integer", xmpText, xmpInternal, "TIFF tag 274, 0x112. Orientation:"
                                                                                                 "1 = 0th row at top, 0th column at left "
                                                                                                 "2 = 0th row at top, 0th column at right "
                                                                                                 "3 = 0th row at bottom, 0th column at right "
@@ -399,36 +399,36 @@ namespace Exiv2 {
                                                                                                 "6 = 0th row at right, 0th column at top "
                                                                                                 "7 = 0th row at right, 0th column at bottom "
                                                                                                 "8 = 0th row at left, 0th column at bottom" },
-        { "SamplesPerPixel",  "SamplesPerPixel",  "Integer",     unsignedShort,    xmpInternal, "TIFF tag 277, 0x115. Number of components per pixel." },
-        { "PlanarConfiguration", "PlanarConfiguration", "Closed Choice of Integer", unsignedShort, xmpInternal, "TIFF tag 284, 0x11C. Data layout:1 = chunky; 2 = planar." },
-        { "YCbCrSubSampling", "YCbCrSubSampling", "Closed Choice of seq Integer", unsignedShort, xmpInternal, "TIFF tag 530, 0x212. Sampling ratio of chrominance "
+        { "SamplesPerPixel",  "SamplesPerPixel",  "Integer",     xmpText,          xmpInternal, "TIFF tag 277, 0x115. Number of components per pixel." },
+        { "PlanarConfiguration", "PlanarConfiguration", "Closed Choice of Integer", xmpText, xmpInternal, "TIFF tag 284, 0x11C. Data layout:1 = chunky; 2 = planar." },
+        { "YCbCrSubSampling", "YCbCrSubSampling", "Closed Choice of seq Integer", xmpArray, xmpInternal, "TIFF tag 530, 0x212. Sampling ratio of chrominance "
                                                                                                 "components: [2, 1] = YCbCr4:2:2; [2, 2] = YCbCr4:2:0" },
-        { "YCbCrPositioning", "YCbCrPositioning", "Closed Choice of Integer", unsignedShort, xmpInternal, "TIFF tag 531, 0x213. Position of chrominance vs. "
+        { "YCbCrPositioning", "YCbCrPositioning", "Closed Choice of Integer", xmpText, xmpInternal, "TIFF tag 531, 0x213. Position of chrominance vs. "
                                                                                                 "luminance components: 1 = centered; 2 = co-sited." },
-        { "XResolution",      "XResolution",      "Rational",    unsignedRational, xmpInternal, "TIFF tag 282, 0x11A. Horizontal resolution in pixels per unit." },
-        { "YResolution",      "YResolution",      "Rational",    unsignedRational, xmpInternal, "TIFF tag 283, 0x11B. Vertical resolution in pixels per unit." },
-        { "ResolutionUnit",   "ResolutionUnit",   "Closed Choice of Integer", unsignedShort, xmpInternal, "TIFF tag 296, 0x128. Unit used for XResolution and "
+        { "XResolution",      "XResolution",      "Rational",    xmpText,          xmpInternal, "TIFF tag 282, 0x11A. Horizontal resolution in pixels per unit." },
+        { "YResolution",      "YResolution",      "Rational",    xmpText,          xmpInternal, "TIFF tag 283, 0x11B. Vertical resolution in pixels per unit." },
+        { "ResolutionUnit",   "ResolutionUnit",   "Closed Choice of Integer", xmpText, xmpInternal, "TIFF tag 296, 0x128. Unit used for XResolution and "
                                                                                                 "YResolution. Value is one of: 2 = inches; 3 = centimeters." },
-        { "TransferFunction", "TransferFunction", "seq Integer", unsignedShort,    xmpInternal, "TIFF tag 301, 0x12D. Transfer function for image "
+        { "TransferFunction", "TransferFunction", "seq Integer", xmpArray,         xmpInternal, "TIFF tag 301, 0x12D. Transfer function for image "
                                                                                                 "described in tabular style with 3 * 256 entries." },
-        { "WhitePoint",       "WhitePoint",       "seq Rational", unsignedRational, xmpInternal, "TIFF tag 318, 0x13E. Chromaticity of white point." },
-        { "PrimaryChromaticities", "PrimaryChromaticities", "seq Rational", unsignedRational, xmpInternal, "TIFF tag 319, 0x13F. Chromaticity of the three primary colors." },
-        { "YCbCrCoefficients", "YCbCrCoefficients", "seq Rational", unsignedRational, xmpInternal, "TIFF tag 529, 0x211. Matrix coefficients for RGB to YCbCr transformation." },
-        { "ReferenceBlackWhite", "ReferenceBlackWhite", "seq Rational", unsignedRational, xmpInternal, "TIFF tag 532, 0x214. Reference black and white point values." },
+        { "WhitePoint",       "WhitePoint",       "seq Rational", xmpArray,        xmpInternal, "TIFF tag 318, 0x13E. Chromaticity of white point." },
+        { "PrimaryChromaticities", "PrimaryChromaticities", "seq Rational", xmpArray, xmpInternal, "TIFF tag 319, 0x13F. Chromaticity of the three primary colors." },
+        { "YCbCrCoefficients", "YCbCrCoefficients", "seq Rational", xmpArray,      xmpInternal, "TIFF tag 529, 0x211. Matrix coefficients for RGB to YCbCr transformation." },
+        { "ReferenceBlackWhite", "ReferenceBlackWhite", "seq Rational", xmpArray,  xmpInternal, "TIFF tag 532, 0x214. Reference black and white point values." },
         { "DateTime",         "DateTime",         "Date",        date,             xmpInternal, "TIFF tag 306, 0x132 (primary) and EXIF tag 37520, "
                                                                                                 "0x9290 (subseconds). Date and time of image creation "
                                                                                                 "(no time zone in EXIF), stored in ISO 8601 format, not "
                                                                                                 "the original EXIF format. This property includes the "
                                                                                                 "value for the EXIF SubSecTime attribute. "
                                                                                                 "NOTE: This property is stored in XMP as xmp:ModifyDate." },
-        { "ImageDescription", "ImageDescription", "Lang Alt",    xmpText,          xmpExternal, "TIFF tag 270, 0x10E. Description of the image. Note: This property is stored in XMP as dc:description." },
+        { "ImageDescription", "ImageDescription", "Lang Alt",    langAlt,          xmpExternal, "TIFF tag 270, 0x10E. Description of the image. Note: This property is stored in XMP as dc:description." },
         { "Make",             "Make",             "ProperName",  xmpText,          xmpInternal, "TIFF tag 271, 0x10F. Manufacturer of recording equipment." },
         { "Model",            "Model",            "ProperName",  xmpText,          xmpInternal, "TIFF tag 272, 0x110. Model name or number of equipment." },
         { "Software",         "Software",         "AgentName",   xmpText,          xmpInternal, "TIFF tag 305, 0x131. Software or firmware used to generate image. "
                                                                                                 "Note: This property is stored in XMP as xmp:CreatorTool. " },
         { "Artist",           "Artist",           "ProperName",  xmpText,          xmpExternal, "TIFF tag 315, 0x13B. Camera owner, photographer or image creator. "
                                                                                                 "Note: This property is stored in XMP as the first item in the dc:creator array." },
-        { "Copyright",        "Copyright",        "Lang Alt",    xmpText,          xmpExternal, "TIFF tag 33432, 0x8298. Copyright information. "
+        { "Copyright",        "Copyright",        "Lang Alt",    langAlt,          xmpExternal, "TIFF tag 33432, 0x8298. Copyright information. "
                                                                                                 "Note: This property is stored in XMP as dc:rights." },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
@@ -633,90 +633,90 @@ namespace Exiv2 {
     extern const XmpPropertyInfo xmpExifInfo[] = {
         { "ExifVersion",      "ExifVersion",      "Closed Choice of Text", xmpText, xmpInternal, "EXIF tag 36864, 0x9000. EXIF version number." },
         { "FlashpixVersion",  "FlashpixVersion",  "Closed Choice of Text", xmpText, xmpInternal, "EXIF tag 40960, 0xA000. Version of FlashPix." },
-        { "ColorSpace",       "ColorSpace",       "Closed Choice of Integer", unsignedShort, xmpInternal, "EXIF tag 40961, 0xA001. Color space information" },
-        { "ComponentsConfiguration", "ComponentsConfiguration", "Closed Choice of seq Integer", unsignedShort, xmpInternal, "EXIF tag 37121, 0x9101. Configuration of components in data: 4 5 6 0 (if RGB compressed data), 1 2 3 0 (other cases)." },
-        { "CompressedBitsPerPixel", "CompressedBitsPerPixel", "Rational", unsignedRational, xmpInternal, "EXIF tag 37122, 0x9102. Compression mode used for a compressed image is indicated in unit bits per pixel." },
-        { "PixelXDimension",  "PixelXDimension",  "Integer",     unsignedLong,     xmpInternal, "EXIF tag 40962, 0xA002. Valid image width, in pixels." },
-        { "PixelYDimension",  "PixelYDimension",  "Integer",     unsignedLong,     xmpInternal, "EXIF tag 40963, 0xA003. Valid image height, in pixels." },
-        { "UserComment",      "UserComment",      "Lang Alt",    xmpText,          xmpExternal, "EXIF tag 37510, 0x9286. Comments from user." },
+        { "ColorSpace",       "ColorSpace",       "Closed Choice of Integer", xmpText, xmpInternal, "EXIF tag 40961, 0xA001. Color space information" },
+        { "ComponentsConfiguration", "ComponentsConfiguration", "Closed Choice of seq Integer", xmpArray, xmpInternal, "EXIF tag 37121, 0x9101. Configuration of components in data: 4 5 6 0 (if RGB compressed data), 1 2 3 0 (other cases)." },
+        { "CompressedBitsPerPixel", "CompressedBitsPerPixel", "Rational",  xmpText, xmpInternal, "EXIF tag 37122, 0x9102. Compression mode used for a compressed image is indicated in unit bits per pixel." },
+        { "PixelXDimension",  "PixelXDimension",  "Integer",     xmpText,          xmpInternal, "EXIF tag 40962, 0xA002. Valid image width, in pixels." },
+        { "PixelYDimension",  "PixelYDimension",  "Integer",     xmpText,          xmpInternal, "EXIF tag 40963, 0xA003. Valid image height, in pixels." },
+        { "UserComment",      "UserComment",      "Lang Alt",    langAlt,          xmpExternal, "EXIF tag 37510, 0x9286. Comments from user." },
         { "RelatedSoundFile", "RelatedSoundFile", "Text",        xmpText,          xmpInternal, "EXIF tag 40964, 0xA004. An \"8.3\" file name for the related sound file." },
         { "DateTimeOriginal", "DateTimeOriginal", "Date",        xmpText,          xmpInternal, "EXIF tags 36867, 0x9003 (primary) and 37521, 0x9291 (subseconds). Date and time when original image was generated, in ISO 8601 format. Includes the EXIF SubSecTimeOriginal data." },
         { "DateTimeDigitized", "DateTimeDigitized", "Date",      xmpText,          xmpInternal, "EXIF tag 36868, 0x9004 (primary) and 37522, 0x9292 (subseconds). Date and time when "
                                                                                                 "image was stored as digital data, can be the same as DateTimeOriginal if originally "
                                                                                                 "stored in digital form. Stored in ISO 8601 format. Includes the EXIF SubSecTimeDigitized data." },
-        { "ExposureTime",     "ExposureTime",     "Rational",    unsignedRational, xmpInternal, "EXIF tag 33434, 0x829A. Exposure time in seconds." },
-        { "FNumber",          "FNumber",          "Rational",    unsignedRational, xmpInternal, "EXIF tag 33437, 0x829D. F number." },
-        { "ExposureProgram",  "ExposureProgram",  "Closed Choice of Integer", unsignedShort, xmpInternal, "EXIF tag 34850, 0x8822. Class of program used for exposure." },
+        { "ExposureTime",     "ExposureTime",     "Rational",    xmpText,          xmpInternal, "EXIF tag 33434, 0x829A. Exposure time in seconds." },
+        { "FNumber",          "FNumber",          "Rational",    xmpText,          xmpInternal, "EXIF tag 33437, 0x829D. F number." },
+        { "ExposureProgram",  "ExposureProgram",  "Closed Choice of Integer", xmpText, xmpInternal, "EXIF tag 34850, 0x8822. Class of program used for exposure." },
         { "SpectralSensitivity", "SpectralSensitivity", "Text",  xmpText,          xmpInternal, "EXIF tag 34852, 0x8824. Spectral sensitivity of each channel." },
-        { "ISOSpeedRatings",  "ISOSpeedRatings",  "seq Integer", unsignedShort,    xmpInternal, "EXIF tag 34855, 0x8827. ISO Speed and ISO Latitude of the input device as specified in ISO 12232." },
+        { "ISOSpeedRatings",  "ISOSpeedRatings",  "seq Integer", xmpArray,         xmpInternal, "EXIF tag 34855, 0x8827. ISO Speed and ISO Latitude of the input device as specified in ISO 12232." },
         { "OECF",             "OECF",             "OECF/SFR",    xmpText,          xmpInternal, "EXIF tag 34856, 0x8828. Opto-Electoric Conversion Function as specified in ISO 14524." },
-        { "ShutterSpeedValue", "ShutterSpeedValue", "Rational",  signedRational,   xmpInternal, "EXIF tag 37377, 0x9201. Shutter speed, unit is APEX. See Annex C of the EXIF specification." },
-        { "ApertureValue",    "ApertureValue",    "Rational",    unsignedRational, xmpInternal, "EXIF tag 37378, 0x9202. Lens aperture, unit is APEX." },
-        { "BrightnessValue",  "BrightnessValue",  "Rational",    signedRational,   xmpInternal, "EXIF tag 37379, 0x9203. Brightness, unit is APEX." },
-        { "ExposureBiasValue", "ExposureBiasValue", "Rational",  signedRational,   xmpInternal, "EXIF tag 37380, 0x9204. Exposure bias, unit is APEX." },
-        { "MaxApertureValue", "MaxApertureValue", "Rational",    unsignedRational, xmpInternal, "EXIF tag 37381, 0x9205. Smallest F number of lens, in APEX." },
-        { "SubjectDistance",  "SubjectDistance",  "Rational",    unsignedRational, xmpInternal, "EXIF tag 37382, 0x9206. Distance to subject, in meters." },
-        { "MeteringMode",     "MeteringMode",     "Closed Choice of Integer", unsignedShort, xmpInternal, "EXIF tag 37383, 0x9207. Metering mode." },
-        { "LightSource",      "LightSource",      "Closed Choice of Integer", unsignedShort, xmpInternal, "EXIF tag 37384, 0x9208. Light source." },
+        { "ShutterSpeedValue", "ShutterSpeedValue", "Rational",  xmpText,          xmpInternal, "EXIF tag 37377, 0x9201. Shutter speed, unit is APEX. See Annex C of the EXIF specification." },
+        { "ApertureValue",    "ApertureValue",    "Rational",    xmpText,          xmpInternal, "EXIF tag 37378, 0x9202. Lens aperture, unit is APEX." },
+        { "BrightnessValue",  "BrightnessValue",  "Rational",    xmpText,          xmpInternal, "EXIF tag 37379, 0x9203. Brightness, unit is APEX." },
+        { "ExposureBiasValue", "ExposureBiasValue", "Rational",  xmpText,          xmpInternal, "EXIF tag 37380, 0x9204. Exposure bias, unit is APEX." },
+        { "MaxApertureValue", "MaxApertureValue", "Rational",    xmpText,          xmpInternal, "EXIF tag 37381, 0x9205. Smallest F number of lens, in APEX." },
+        { "SubjectDistance",  "SubjectDistance",  "Rational",    xmpText,          xmpInternal, "EXIF tag 37382, 0x9206. Distance to subject, in meters." },
+        { "MeteringMode",     "MeteringMode",     "Closed Choice of Integer", xmpText, xmpInternal, "EXIF tag 37383, 0x9207. Metering mode." },
+        { "LightSource",      "LightSource",      "Closed Choice of Integer", xmpText, xmpInternal, "EXIF tag 37384, 0x9208. Light source." },
         { "Flash",            "Flash",            "Flash",       xmpText,          xmpInternal, "EXIF tag 37385, 0x9209. Strobe light (flash) source data." },
-        { "FocalLength",      "FocalLength",      "Rational",    unsignedRational, xmpInternal, "EXIF tag 37386, 0x920A. Focal length of the lens, in millimeters." },
-        { "SubjectArea",      "SubjectArea",      "seq Integer", unsignedShort,    xmpInternal, "EXIF tag 37396, 0x9214. The location and area of the main subject in the overall scene." },
-        { "FlashEnergy",      "FlashEnergy",      "Rational",    unsignedRational, xmpInternal, "EXIF tag 41483, 0xA20B. Strobe energy during image capture." },
+        { "FocalLength",      "FocalLength",      "Rational",    xmpText,          xmpInternal, "EXIF tag 37386, 0x920A. Focal length of the lens, in millimeters." },
+        { "SubjectArea",      "SubjectArea",      "seq Integer", xmpArray,         xmpInternal, "EXIF tag 37396, 0x9214. The location and area of the main subject in the overall scene." },
+        { "FlashEnergy",      "FlashEnergy",      "Rational",    xmpText,          xmpInternal, "EXIF tag 41483, 0xA20B. Strobe energy during image capture." },
         { "SpatialFrequencyResponse", "SpatialFrequencyResponse", "OECF/SFR", xmpText, xmpInternal, "EXIF tag 41484, 0xA20C. Input device spatial frequency table and SFR values as specified in ISO 12233." },
-        { "FocalPlaneXResolution", "FocalPlaneXResolution", "Rational", unsignedRational, xmpInternal, "EXIF tag 41486, 0xA20E. Horizontal focal resolution, measured pixels per unit." },
-        { "FocalPlaneYResolution", "FocalPlaneYResolution", "Rational", unsignedRational, xmpInternal, "EXIF tag 41487, 0xA20F. Vertical focal resolution, measured in pixels per unit." },
-        { "FocalPlaneResolutionUnit", "FocalPlaneResolutionUnit", "Closed Choice of Integer", unsignedShort, xmpInternal, "EXIF tag 41488, 0xA210. Unit used for FocalPlaneXResolution and FocalPlaneYResolution." },
-        { "SubjectLocation",  "SubjectLocation",  "seq Integer", unsignedShort,    xmpInternal, "EXIF tag 41492, 0xA214. Location of the main subject of the scene. The first value is the "
+        { "FocalPlaneXResolution", "FocalPlaneXResolution", "Rational", xmpText,   xmpInternal, "EXIF tag 41486, 0xA20E. Horizontal focal resolution, measured pixels per unit." },
+        { "FocalPlaneYResolution", "FocalPlaneYResolution", "Rational", xmpText,   xmpInternal, "EXIF tag 41487, 0xA20F. Vertical focal resolution, measured in pixels per unit." },
+        { "FocalPlaneResolutionUnit", "FocalPlaneResolutionUnit", "Closed Choice of Integer", xmpText, xmpInternal, "EXIF tag 41488, 0xA210. Unit used for FocalPlaneXResolution and FocalPlaneYResolution." },
+        { "SubjectLocation",  "SubjectLocation",  "seq Integer", xmpArray,         xmpInternal, "EXIF tag 41492, 0xA214. Location of the main subject of the scene. The first value is the "
                                                                                                 "horizontal pixel and the second value is the vertical pixel at which the main subject appears." },
-        { "ExposureIndex",    "ExposureIndex",    "Rational",    unsignedRational, xmpInternal, "EXIF tag 41493, 0xA215. Exposure index of input device." },
-        { "SensingMethod",    "SensingMethod",    "Closed Choice of Integer", unsignedShort, xmpInternal, "EXIF tag 41495, 0xA217. Image sensor type on input device." },
-        { "FileSource",       "FileSource",       "Closed Choice of Integer", unsignedShort, xmpInternal, "EXIF tag 41728, 0xA300. Indicates image source." },
-        { "SceneType",        "SceneType",        "Closed Choice of Integer", unsignedShort, xmpInternal, "EXIF tag 41729, 0xA301. Indicates the type of scene." },
+        { "ExposureIndex",    "ExposureIndex",    "Rational",    xmpText,          xmpInternal, "EXIF tag 41493, 0xA215. Exposure index of input device." },
+        { "SensingMethod",    "SensingMethod",    "Closed Choice of Integer", xmpText, xmpInternal, "EXIF tag 41495, 0xA217. Image sensor type on input device." },
+        { "FileSource",       "FileSource",       "Closed Choice of Integer", xmpText, xmpInternal, "EXIF tag 41728, 0xA300. Indicates image source." },
+        { "SceneType",        "SceneType",        "Closed Choice of Integer", xmpText, xmpInternal, "EXIF tag 41729, 0xA301. Indicates the type of scene." },
         { "CFAPattern",       "CFAPattern",       "CFAPattern",  xmpText,          xmpInternal, "EXIF tag 41730, 0xA302. Color filter array geometric pattern of the image sense." },
-        { "CustomRendered",   "CustomRendered",   "Closed Choice of Integer", unsignedShort, xmpInternal, "EXIF tag 41985, 0xA401. Indicates the use of special processing on image data." },
-        { "ExposureMode",     "ExposureMode",     "Closed Choice of Integer", unsignedShort, xmpInternal, "EXIF tag 41986, 0xA402. Indicates the exposure mode set when the image was shot." },
-        { "WhiteBalance",     "WhiteBalance",     "Closed Choice of Integer", unsignedShort, xmpInternal, "EXIF tag 41987, 0xA403. Indicates the white balance mode set when the image was shot." },
-        { "DigitalZoomRatio", "DigitalZoomRatio", "Rational",    unsignedRational, xmpInternal, "EXIF tag 41988, 0xA404. Indicates the digital zoom ratio when the image was shot." },
-        { "FocalLengthIn35mmFilm", "FocalLengthIn35mmFilm", "Integer", unsignedShort, xmpInternal, "EXIF tag 41989, 0xA405. Indicates the equivalent focal length assuming a 35mm film "
+        { "CustomRendered",   "CustomRendered",   "Closed Choice of Integer", xmpText, xmpInternal, "EXIF tag 41985, 0xA401. Indicates the use of special processing on image data." },
+        { "ExposureMode",     "ExposureMode",     "Closed Choice of Integer", xmpText, xmpInternal, "EXIF tag 41986, 0xA402. Indicates the exposure mode set when the image was shot." },
+        { "WhiteBalance",     "WhiteBalance",     "Closed Choice of Integer", xmpText, xmpInternal, "EXIF tag 41987, 0xA403. Indicates the white balance mode set when the image was shot." },
+        { "DigitalZoomRatio", "DigitalZoomRatio", "Rational",    xmpText,          xmpInternal, "EXIF tag 41988, 0xA404. Indicates the digital zoom ratio when the image was shot." },
+        { "FocalLengthIn35mmFilm", "FocalLengthIn35mmFilm", "Integer", xmpText,    xmpInternal, "EXIF tag 41989, 0xA405. Indicates the equivalent focal length assuming a 35mm film "
                                                                                                 "camera, in mm. A value of 0 means the focal length is unknown. Note that this tag differs from the FocalLength tag." },
-        { "SceneCaptureType", "SceneCaptureType", "Closed Choice of Integer", unsignedShort, xmpInternal, "EXIF tag 41990, 0xA406. Indicates the type of scene that was shot." },
-        { "GainControl",      "GainControl", "Closed Choice of Integer", unsignedShort, xmpInternal, "EXIF tag 41991, 0xA407. Indicates the degree of overall image gain adjustment." },
-        { "Contrast",         "Contrast", "Closed Choice of Integer", unsignedShort, xmpInternal, "EXIF tag 41992, 0xA408. Indicates the direction of contrast processing applied by the camera." },
-        { "Saturation",       "Saturation", "Closed Choice of Integer", unsignedShort, xmpInternal, "EXIF tag 41993, 0xA409. Indicates the direction of saturation processing applied by the camera." },
-        { "Sharpness",        "Sharpness", "Closed Choice of Integer", unsignedShort, xmpInternal, "EXIF tag 41994, 0xA40A. Indicates the direction of sharpness processing applied by the camera." },
+        { "SceneCaptureType", "SceneCaptureType", "Closed Choice of Integer", xmpText, xmpInternal, "EXIF tag 41990, 0xA406. Indicates the type of scene that was shot." },
+        { "GainControl",      "GainControl", "Closed Choice of Integer", xmpText,  xmpInternal, "EXIF tag 41991, 0xA407. Indicates the degree of overall image gain adjustment." },
+        { "Contrast",         "Contrast", "Closed Choice of Integer", xmpText,     xmpInternal, "EXIF tag 41992, 0xA408. Indicates the direction of contrast processing applied by the camera." },
+        { "Saturation",       "Saturation", "Closed Choice of Integer", xmpText,   xmpInternal, "EXIF tag 41993, 0xA409. Indicates the direction of saturation processing applied by the camera." },
+        { "Sharpness",        "Sharpness", "Closed Choice of Integer", xmpText,    xmpInternal, "EXIF tag 41994, 0xA40A. Indicates the direction of sharpness processing applied by the camera." },
         { "DeviceSettingDescription", "DeviceSettingDescription", "DeviceSettings", xmpText, xmpInternal, "EXIF tag 41995, 0xA40B. Indicates information on the picture-taking conditions of a particular camera model." },
-        { "SubjectDistanceRange", "SubjectDistanceRange", "Closed Choice of Integer", unsignedShort, xmpInternal, "EXIF tag 41996, 0xA40C. Indicates the distance to the subject." },
+        { "SubjectDistanceRange", "SubjectDistanceRange", "Closed Choice of Integer", xmpText, xmpInternal, "EXIF tag 41996, 0xA40C. Indicates the distance to the subject." },
         { "ImageUniqueID",    "ImageUniqueID",    "Text",        xmpText,          xmpInternal, "EXIF tag 42016, 0xA420. An identifier assigned uniquely to each image. It is recorded as a 32 "
                                                                                                 "character ASCII string, equivalent to hexadecimal notation and 128-bit fixed length." },
         { "GPSVersionID",     "GPSVersionID",     "Text",        xmpText,          xmpInternal, "GPS tag 0, 0x00. A decimal encoding of each of the four EXIF bytes with period separators. The current value is \"2.0.0.0\"." },
         { "GPSLatitude",      "GPSLatitude",      "GPSCoordinate", xmpText,        xmpInternal, "GPS tag 2, 0x02 (position) and 1, 0x01 (North/South). Indicates latitude." },
         { "GPSLongitude",     "GPSLongitude",     "GPSCoordinate", xmpText,        xmpInternal, "GPS tag 4, 0x04 (position) and 3, 0x03 (East/West). Indicates longitude." },
-        { "GPSAltitudeRef",   "GPSAltitudeRef",   "Closed Choice of Integer", unsignedByte, xmpInternal, "GPS tag 5, 0x5. Indicates whether the altitude is above or below sea level." },
-        { "GPSAltitude",      "GPSAltitude",      "Rational",    unsignedRational, xmpInternal, "GPS tag 6, 0x06. Indicates altitude in meters." },
-        { "GPSTimeStamp",     "GPSTimeStamp",     "Date",        xmpText,      xmpInternal, "GPS tag 29 (date), 0x1D, and, and GPS tag 7 (time), 0x07. Time stamp of GPS data, in Coordinated Universal Time. "
+        { "GPSAltitudeRef",   "GPSAltitudeRef",   "Closed Choice of Integer", xmpText, xmpInternal, "GPS tag 5, 0x5. Indicates whether the altitude is above or below sea level." },
+        { "GPSAltitude",      "GPSAltitude",      "Rational",    xmpText,          xmpInternal, "GPS tag 6, 0x06. Indicates altitude in meters." },
+        { "GPSTimeStamp",     "GPSTimeStamp",     "Date",        xmpText,          xmpInternal, "GPS tag 29 (date), 0x1D, and, and GPS tag 7 (time), 0x07. Time stamp of GPS data, in Coordinated Universal Time. "
                                                                                                 "Note: The GPSDateStamp tag is new in EXIF 2.2. The GPS timestamp in EXIF 2.1 does not include a date. If not present, "
                                                                                                 "the date component for the XMP should be taken from exif:DateTimeOriginal, or if that is "
                                                                                                 "also lacking from exif:DateTimeDigitized. If no date is available, do not write exif:GPSTimeStamp to XMP." },
         { "GPSSatellites",    "GPSSatellites",    "Text",        xmpText,          xmpInternal, "GPS tag 8, 0x08. Satellite information, format is unspecified." },
         { "GPSStatus",        "GPSStatus",        "Closed Choice of Text", xmpText, xmpInternal, "GPS tag 9, 0x09. Status of GPS receiver at image creation time." },
         { "GPSMeasureMode",   "GPSMeasureMode",   "Text",        xmpText,          xmpInternal, "GPS tag 10, 0x0A. GPS measurement mode, Text type." },
-        { "GPSDOP",           "GPSDOP",           "Rational",    unsignedRational, xmpInternal, "GPS tag 11, 0x0B. Degree of precision for GPS data." },
+        { "GPSDOP",           "GPSDOP",           "Rational",    xmpText,          xmpInternal, "GPS tag 11, 0x0B. Degree of precision for GPS data." },
         { "GPSSpeedRef",      "GPSSpeedRef",      "Closed Choice of Text", xmpText, xmpInternal, "GPS tag 12, 0x0C. Units used to speed measurement." },
-        { "GPSSpeed",         "GPSSpeed",         "Rational",    unsignedRational, xmpInternal, "GPS tag 13, 0x0D. Speed of GPS receiver movement." },
+        { "GPSSpeed",         "GPSSpeed",         "Rational",    xmpText,          xmpInternal, "GPS tag 13, 0x0D. Speed of GPS receiver movement." },
         { "GPSTrackRef",      "GPSTrackRef",      "Closed Choice of Text", xmpText, xmpInternal, "GPS tag 14, 0x0E. Reference for movement direction." },
-        { "GPSTrack",         "GPSTrack",         "Rational",    unsignedRational, xmpInternal, "GPS tag 15, 0x0F. Direction of GPS movement, values range from 0 to 359.99." },
+        { "GPSTrack",         "GPSTrack",         "Rational",    xmpText,          xmpInternal, "GPS tag 15, 0x0F. Direction of GPS movement, values range from 0 to 359.99." },
         { "GPSImgDirectionRef", "GPSImgDirectionRef", "Closed Choice of Text", xmpText, xmpInternal, "GPS tag 16, 0x10. Reference for movement direction." },
-        { "GPSImgDirection",  "GPSImgDirection",  "Rational",    unsignedRational, xmpInternal, "GPS tag 17, 0x11. Direction of image when captured, values range from 0 to 359.99." },
+        { "GPSImgDirection",  "GPSImgDirection",  "Rational",    xmpText,          xmpInternal, "GPS tag 17, 0x11. Direction of image when captured, values range from 0 to 359.99." },
         { "GPSMapDatum",      "GPSMapDatum",      "Text",        xmpText,          xmpInternal, "GPS tag 18, 0x12. Geodetic survey data." },
         { "GPSDestLatitude",  "GPSDestLatitude",  "GPSCoordinate", xmpText,        xmpInternal, "GPS tag 20, 0x14 (position) and 19, 0x13 (North/South). Indicates destination latitude." },
         { "GPSDestLongitude", "GPSDestLongitude", "GPSCoordinate", xmpText,        xmpInternal, "GPS tag 22, 0x16 (position) and 21, 0x15 (East/West). Indicates destination longitude." },
         { "GPSDestBearingRef", "GPSDestBearingRef", "Closed Choice of Text", xmpText, xmpInternal, "GPS tag 23, 0x17. Reference for movement direction." },
-        { "GPSDestBearing",   "GPSDestBearing",   "Rational",    unsignedRational, xmpInternal, "GPS tag 24, 0x18. Destination bearing, values from 0 to 359.99." },
+        { "GPSDestBearing",   "GPSDestBearing",   "Rational",    xmpText,          xmpInternal, "GPS tag 24, 0x18. Destination bearing, values from 0 to 359.99." },
         { "GPSDestDistanceRef", "GPSDestDistanceRef", "Closed Choice  of Text", xmpText, xmpInternal, "GPS tag 25, 0x19. Units used for speed measurement." },
-        { "GPSDestDistance",  "GPSDestDistance",  "Rational",    unsignedRational, xmpInternal, "GPS tag 26, 0x1A. Distance to destination." },
+        { "GPSDestDistance",  "GPSDestDistance",  "Rational",    xmpText,          xmpInternal, "GPS tag 26, 0x1A. Distance to destination." },
         { "GPSProcessingMethod", "GPSProcessingMethod", "Text",  xmpText,          xmpInternal, "GPS tag 27, 0x1B. A character string recording the name of the method used for location finding." },
         { "GPSAreaInformation", "GPSAreaInformation", "Text",    xmpText,          xmpInternal, "GPS tag 28, 0x1C. A character string recording the name of the GPS area." },
-        { "GPSDifferential",  "GPSDifferential",  "Closed Choice of Integer", unsignedShort, xmpInternal, "GPS tag 30, 0x1E. Indicates whether differential correction is applied to the GPS receiver." },
+        { "GPSDifferential",  "GPSDifferential",  "Closed Choice of Integer", xmpText, xmpInternal, "GPS tag 30, 0x1E. Indicates whether differential correction is applied to the GPS receiver." },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
@@ -751,9 +751,9 @@ namespace Exiv2 {
                                                                                                 "of a sublocation to a city or the name of a well known location or (natural) monument "
                                                                                                 "outside a city. In the sense of a sublocation to a city this element is at the fourth "
                                                                                                 "level of a top-down geographical hierarchy." },
-        { "Scene",            "IPTC Scene",       "bag closed Choice of Text", xmpText, xmpExternal, "Describes the scene of a photo content. Specifies one or more terms from the IPTC "
+        { "Scene",            "IPTC Scene",       "bag closed Choice of Text", xmpArray, xmpExternal, "Describes the scene of a photo content. Specifies one or more terms from the IPTC "
                                                                                                 "\"Scene-NewsCodes\". Each Scene is represented as a string of 6 digits in an unordered list." },
-        { "SubjectCode",      "IPTC Subject Code", "bag closed Choice of Text", xmpText, xmpExternal, "Specifies one or more Subjects from the IPTC \"Subject-NewsCodes\" taxonomy to "
+        { "SubjectCode",      "IPTC Subject Code", "bag closed Choice of Text", xmpArray, xmpExternal, "Specifies one or more Subjects from the IPTC \"Subject-NewsCodes\" taxonomy to "
                                                                                                 "categorize the content. Each Subject is represented as a string of 8 digits in an unordered list." },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
