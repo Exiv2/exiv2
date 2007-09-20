@@ -365,7 +365,11 @@ namespace Exiv2 {
     bool XmpParser::initialize()
     {
         if (!initialized_) {
+#ifdef EXV_HAVE_XMP_TOOLKIT
             initialized_ = SXMPMeta::Initialize();
+#else
+            initialized_ = true;
+#endif
         }
         return initialized_;
     }
@@ -373,7 +377,9 @@ namespace Exiv2 {
     void XmpParser::terminate()
     {
         if (initialized_) {
+#ifdef EXV_HAVE_XMP_TOOLKIT
             SXMPMeta::Terminate();
+#endif
             initialized_ = false;
         }
     }
@@ -516,7 +522,7 @@ namespace Exiv2 {
         return 3;
     }} // XmpParser::decode
 #else
-    int XmpParser::decode(      XmpData&     /*xmpData*/,
+    int XmpParser::decode(      XmpData&     xmpData,
                           const std::string& xmpPacket)
     {
         xmpData.clear();
@@ -603,16 +609,16 @@ namespace Exiv2 {
         return 3;
     }} // XmpParser::decode
 #else
-    void XmpParser::encode(      std::string& xmpPacket,
-                           const XmpData&     xmpData)
+    int XmpParser::encode(      std::string& xmpPacket,
+                          const XmpData&     xmpData)
     {
         xmpPacket.clear();
         if (!xmpData.empty()) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: XMP toolkit support not compiled in.\n";
 #endif
-        return 1;
         }
+        return 1;
     } // XmpParser::encode
 #endif // !EXV_HAVE_XMP_TOOLKIT
 
