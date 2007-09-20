@@ -91,11 +91,9 @@ CCSRC += rafimage.cpp         \
 	 tiffvisitor.cpp      \
 	 types.cpp            \
 	 value.cpp            \
-	 version.cpp
-ifdef ENABLE_XMP
-CCSRC += properties.cpp       \
+	 version.cpp          \
+         properties.cpp       \
 	 xmp.cpp
-endif
 
 # Add library C source files to this list
 ifndef HAVE_TIMEGM
@@ -121,9 +119,11 @@ BINSRC = addmoddel.cpp        \
          taglist.cpp          \
          write-test.cpp       \
          write2-test.cpp      \
-         tiffparse.cpp        \
-         xmpparse.cpp         \
+         tiffparse.cpp
+ifdef ENABLE_XMP
+BINSRC += xmpparse.cpp        \
          xmpparser-test.cpp
+endif
 
 # Main source file of the Exiv2 application
 EXIV2MAIN = exiv2.cpp

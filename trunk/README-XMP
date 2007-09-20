@@ -8,7 +8,9 @@ has a new interface to access the raw XMP packet.
 
 Todo: XMP support is controlled with the ENABLE_XMP directive 
 in config/config.mk.in. This will be a configure option
-eventually.
+eventually. For now, comment the line "ENABLE_XMP = 1" either
+in config.mk.in before running ./configure or in config.mk to
+build without XMP support.
 
 Exiv2 uses the Adobe XMP toolkit (XMP SDK) to parse
 and serialize XMP packets (only the XMPCore component).

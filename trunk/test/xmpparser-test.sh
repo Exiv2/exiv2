@@ -2,6 +2,13 @@
 # XMP parser test driver
 
 # ----------------------------------------------------------------------
+# Check if xmpparser-test exists
+if [ ! -x ../../src/xmpparser-test ] ; then
+    echo "xmpparser-test not found. Assuming XMP support is not enabled."
+    exit 0
+fi
+
+# ----------------------------------------------------------------------
 # Setup
 results="./tmp/xmpparser-test.out"
 good="./data/xmpparser-test.out"
