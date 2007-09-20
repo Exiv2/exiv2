@@ -76,6 +76,9 @@ namespace {
     //! Convert Value::XmpStruct to XMP Toolkit array option bits
     XMP_OptionBits xmpOptionBits(Exiv2::XmpValue::XmpStruct xs);
 
+    //! Convert XMP Toolkit array option bits to array TypeId
+    Exiv2::TypeId arrayValueTypeId(const XMP_OptionBits& opt);
+
     //! Convert XMP Toolkit array option bits to Value::XmpArrayType
     Exiv2::XmpValue::XmpArrayType xmpArrayType(const XMP_OptionBits& opt);
 
@@ -471,17 +474,13 @@ namespace Exiv2 {
                         ||  XMP_NodeIsSchema(aOpt)
                         ||  XMP_PropIsAlias(aOpt)) {
                         simpleArray = false;
-
-                        std::cerr << "NOT SO SIMPLE ==> " << propPath << ", " << aPropPath << "\n";
-
                         break;
                     }
                 }
                 if (simpleArray) {
                     // Read the array into an XmpArrayValue
-                    XmpArrayValue::AutoPtr val(new XmpArrayValue);
+                    XmpArrayValue::AutoPtr val(new XmpArrayValue(arrayValueTypeId(opt)));
                     XMP_Index count = meta.CountArrayItems(schemaNs.c_str(), propPath.c_str());
-                    val->setXmpArrayType(xmpArrayType(opt));
                     while (count-- > 0) {
                         iter.Next(&schemaNs, &propPath, &propValue, &opt);
 #ifdef DEBUG
@@ -568,6 +567,9 @@ namespace Exiv2 {
                 int idx = 1;
                 for (LangAltValue::ValueType::const_iterator k = la->value_.begin();
                      k != la->value_.end(); ++k) {
+#ifdef DEBUG
+                    printNode(ns, i->tagName(), k->second, 0);
+#endif
                     meta.AppendArrayItem(ns.c_str(), i->tagName().c_str(), kXMP_PropArrayIsAltText, k->second.c_str());
                     const std::string item = i->tagName() + "[" + toString(idx++) + "]";
                     meta.SetQualifier(ns.c_str(), item.c_str(), kXMP_NS_XML, "lang", k->first.c_str());
@@ -582,17 +584,29 @@ namespace Exiv2 {
             if (   i->typeId() == xmpBag
                 || i->typeId() == xmpSeq
                 || i->typeId() == xmpAlt) {
+#ifdef DEBUG
+                printNode(ns, i->tagName(), "", options);
+#endif
                 meta.SetProperty(ns.c_str(), i->tagName().c_str(), 0, options);
                 for (int idx = 0; idx < i->count(); ++idx) {
                     const std::string item = i->tagName() + "[" + toString(idx + 1) + "]";
+#ifdef DEBUG
+                    printNode(ns, item, i->toString(idx), 0);
+#endif
                     meta.SetProperty(ns.c_str(), item.c_str(), i->toString(idx).c_str());
                 }
             }
             if (i->typeId() == xmpText) {
                 if (i->count() == 0) {
+#ifdef DEBUG
+                    printNode(ns, i->tagName(), "", options);
+#endif
                     meta.SetProperty(ns.c_str(), i->tagName().c_str(), 0, options);
                 }
                 else {
+#ifdef DEBUG
+                    printNode(ns, i->tagName(), i->toString(0), options);
+#endif
                     meta.SetProperty(ns.c_str(), i->tagName().c_str(), i->toString(0).c_str(), options);
                 }
             }
@@ -658,15 +672,20 @@ namespace {
         return var;
     }
 
+    Exiv2::TypeId arrayValueTypeId(const XMP_OptionBits& opt)
+    {
+        Exiv2::TypeId typeId(Exiv2::invalidTypeId);
+        if (XMP_PropIsArray(opt)) {
+            if (XMP_ArrayIsAlternate(opt))      typeId = Exiv2::xmpAlt;
+            else if (XMP_ArrayIsOrdered(opt))   typeId = Exiv2::xmpSeq;
+            else if (XMP_ArrayIsUnordered(opt)) typeId = Exiv2::xmpBag;
+        }
+        return typeId;
+    }
+
     Exiv2::XmpValue::XmpArrayType xmpArrayType(const XMP_OptionBits& opt)
     {
-        Exiv2::XmpValue::XmpArrayType var(Exiv2::XmpValue::xaNone);
-        if (XMP_PropIsArray(opt)) {
-            if (XMP_ArrayIsAlternate(opt))      var = Exiv2::XmpValue::xaAlt;
-            else if (XMP_ArrayIsOrdered(opt))   var = Exiv2::XmpValue::xaSeq;
-            else if (XMP_ArrayIsUnordered(opt)) var = Exiv2::XmpValue::xaBag;
-        }
-        return var;
+        return Exiv2::XmpValue::xmpArrayType(arrayValueTypeId(opt));
     }
 
     XMP_OptionBits xmpOptionBits(Exiv2::XmpValue::XmpArrayType xat)
@@ -690,7 +709,7 @@ namespace {
         return var;
     }
 
-# ifdef DEBUG
+#ifdef DEBUG
     void printNode(const std::string& schemaNs,
                    const std::string& propPath,
                    const std::string& propValue,
@@ -699,10 +718,12 @@ namespace {
         static bool first = true;
         if (first) {
             first = false;
-            std::cout << "ashisaas\n"
-                      << "lcqqtrti\n";
+            std::cout << "ashisabsals\n"
+                      << "lcqqtrgqlai\n";
         }
-        enum { alia=0, sche, hasq, isqu, stru, arra, lang, simp, len };
+        enum { alia=0, sche, hasq, isqu, stru, arra,
+               abag, aseq, aalt, lang, simp, len };
+
         std::string opts(len, '.');
         if (XMP_PropIsAlias(opt))       opts[alia] = 'X';
         if (XMP_NodeIsSchema(opt))      opts[sche] = 'X';
@@ -710,6 +731,9 @@ namespace {
         if (XMP_PropIsQualifier(opt))   opts[isqu] = 'X';
         if (XMP_PropIsStruct(opt))      opts[stru] = 'X';
         if (XMP_PropIsArray(opt))       opts[arra] = 'X';
+        if (XMP_ArrayIsUnordered(opt))  opts[abag] = 'X';
+        if (XMP_ArrayIsOrdered(opt))    opts[aseq] = 'X';
+        if (XMP_ArrayIsAlternate(opt))  opts[aalt] = 'X';
         if (XMP_ArrayIsAltText(opt))    opts[lang] = 'X';
         if (XMP_PropIsSimple(opt))      opts[simp] = 'X';
 
@@ -722,7 +746,7 @@ namespace {
         }
         std::cout << std::endl;
     }
-# endif // DEBUG
+#endif // DEBUG
 #endif // EXV_HAVE_XMP_TOOLKIT
 
     Exiv2::XmpKey::AutoPtr makeXmpKey(const std::string& schemaNs,

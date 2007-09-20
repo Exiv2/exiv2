@@ -440,6 +440,20 @@ namespace Exiv2 {
         return xmpArrayType_;
     }
 
+    XmpValue::XmpArrayType XmpValue::xmpArrayType(TypeId typeId)
+    {
+        XmpArrayType xa = xaNone;
+        switch (typeId) {
+        case xmpAlt: xa = xaAlt; break;
+        case xmpBag: xa = xaBag; break;
+        case xmpSeq: xa = xaSeq; break;
+        default:
+            throw Error(48, TypeInfo::typeName(typeId));
+            break;
+        }
+        return xa;
+    }
+
     XmpValue::XmpStruct XmpValue::xmpStruct() const
     {
         return xmpStruct_;
@@ -530,14 +544,7 @@ namespace Exiv2 {
     XmpArrayValue::XmpArrayValue(TypeId typeId)
         : XmpValue(typeId)
     {
-        switch (typeId) {
-        case xmpAlt: setXmpArrayType(xaAlt); break;
-        case xmpBag: setXmpArrayType(xaBag); break;
-        case xmpSeq: setXmpArrayType(xaSeq); break;
-        default:
-            throw Error(48, TypeInfo::typeName(typeId));
-            break;
-        }
+        setXmpArrayType(xmpArrayType(typeId));
     }
 
     int XmpArrayValue::read(const std::string& buf)
