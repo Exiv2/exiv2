@@ -573,7 +573,9 @@ namespace Exiv2 {
             assert(val);
             options =   xmpOptionBits(val->xmpArrayType())
                       | xmpOptionBits(val->xmpStruct());
-            if (i->typeId() == xmpArray) {
+            if (   i->typeId() == xmpBag
+                || i->typeId() == xmpSeq
+                || i->typeId() == xmpAlt) {
                 meta.SetProperty(ns.c_str(), i->tagName().c_str(), 0, options);
                 for (int idx = 0; idx < i->count(); ++idx) {
                     const std::string item = i->tagName() + "[" + toString(idx + 1) + "]";

@@ -220,7 +220,9 @@ namespace Exiv2 {
           <TR><TD class="indexkey">time</TD><TD class="indexvalue">%TimeValue</TD></TR>
           <TR><TD class="indexkey">comment</TD><TD class="indexvalue">%CommentValue</TD></TR>
           <TR><TD class="indexkey">xmpText</TD><TD class="indexvalue">%XmpTextValue</TD></TR>
-          <TR><TD class="indexkey">xmpArray</TD><TD class="indexvalue">%XmpArrayValue</TD></TR>
+          <TR><TD class="indexkey">xmpBag</TD><TD class="indexvalue">%XmpArrayValue</TD></TR>
+          <TR><TD class="indexkey">xmpSeq</TD><TD class="indexvalue">%XmpArrayValue</TD></TR>
+          <TR><TD class="indexkey">xmpAlt</TD><TD class="indexvalue">%XmpArrayValue</TD></TR>
           <TR><TD class="indexkey">langAlt</TD><TD class="indexvalue">%LangAltValue</TD></TR>
           <TR><TD class="indexkey"><EM>default:</EM></TD><TD class="indexvalue">%DataValue(typeId)</TD></TR>
           </TABLE>
@@ -765,8 +767,8 @@ namespace Exiv2 {
 
         //! @name Creators
         //@{
-        //! Constructor.
-        XmpArrayValue();
+        //! Constructor. \em typeId can be one of xmpBag, xmpSeq or xmpAlt.
+        explicit XmpArrayValue(TypeId typeId =xmpBag);
         //@}
 
         //! @name Manipulators
