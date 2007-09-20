@@ -2,7 +2,7 @@
 Xmp.dc.format                                XmpText    10  image/jpeg
 Xmp.dc.title                                 LangAlt     3  lang="de-CH" Blaues Quadrat Test Datei - .jpg, lang="en-US" Blue Square Test File - .jpg, lang="x-default" Blue Square Test File - .jpg
 Xmp.dc.description                           LangAlt     1  lang="x-default" XMPFiles BlueSquare test file, created in Photoshop CS2, saved as .psd, .jpg, and .tif.
-Xmp.dc.subject                               XmpArray    5  XMP, Blue Square, test file, Photoshop, .jpg
+Xmp.dc.subject                               XmpBag      5  XMP, Blue Square, test file, Photoshop, .jpg
 Xmp.xmp.CreatorTool                          XmpText    29  Adobe Photoshop CS2 Macintosh
 Xmp.xmp.CreateDate                           XmpText    25  2005-09-07T15:07:40-07:00
 Xmp.xmp.ModifyDate                           XmpText    25  2005-09-07T15:09:51-07:00
@@ -22,7 +22,7 @@ Xmp.tiff.ImageWidth                          XmpText     3  360
 Xmp.tiff.ImageLength                         XmpText     3  216
 Xmp.tiff.NativeDigest                        XmpText   134  256,257,258,259,262,274,277,284,530,531,282,283,296,301,318,319,529,532,306,270,271,272,305,315,33432;D0485928256FC8D17D036C26919E106D
 Xmp.tiff.Make                                XmpText     5  Nikon
-Xmp.tiff.BitsPerSample                       XmpArray    3  8, 8, 8
+Xmp.tiff.BitsPerSample                       XmpBag      3  8, 8, 8
 Xmp.exif.PixelXDimension                     XmpText     3  360
 Xmp.exif.PixelYDimension                     XmpText     3  216
 Xmp.exif.ColorSpace                          XmpText     1  1
@@ -49,8 +49,8 @@ Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrCtry XmpText     3  USA
 Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiTelWork XmpText    16  +1 (800) 1234567
 Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiEmailWork XmpText    24  johndoe@bignewspaper.com
 Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiUrlWork XmpText    20  www.bignewspaper.com
-Xmp.iptc.SubjectCode                         XmpArray    2  04001000, 04001001
-Xmp.iptc.Scene                               XmpArray    1  011900
+Xmp.iptc.SubjectCode                         XmpBag      2  04001000, 04001001
+Xmp.iptc.Scene                               XmpBag      1  011900
 Xmp.exif.PixelXDimension                     XmpText     3  432
 Xmp.exif.PixelYDimension                     XmpText     3  293
 Xmp.exif.ColorSpace                          XmpText     1  1
@@ -75,7 +75,7 @@ Xmp.tiff.Orientation                         XmpText     1  1
 Xmp.tiff.ImageWidth                          XmpText     3  432
 Xmp.tiff.ImageLength                         XmpText     3  293
 Xmp.tiff.NativeDigest                        XmpText   134  256,257,258,259,262,274,277,284,530,531,282,283,296,301,318,319,529,532,306,270,271,272,305,315,33432;24B61B075FA9960B09291337508795BF
-Xmp.tiff.BitsPerSample                       XmpArray    3  8, 8, 8
+Xmp.tiff.BitsPerSample                       XmpBag      3  8, 8, 8
 Xmp.xmp.CreateDate                           XmpText    25  2005-03-13T02:01:44-06:00
 Xmp.xmp.ModifyDate                           XmpText    25  2005-03-13T02:01:44-06:00
 Xmp.xmp.MetadataDate                         XmpText    25  2007-01-08T13:25:45+01:00
@@ -93,8 +93,8 @@ Xmp.dc.format                                XmpText    10  image/jpeg
 Xmp.dc.description                           LangAlt     1  lang="x-default" After digging the furrows another ten yards with the tractor, Jim Moore hops off to hand-set more leeks and onions.
 Xmp.dc.title                                 LangAlt     1  lang="x-default" 01661gdx
 Xmp.dc.rights                                LangAlt     1  lang="x-default" ©2003 Big Newspaper, all rights reserved
-Xmp.dc.creator                               XmpArray    1  John Doe
-Xmp.dc.subject                               XmpArray   22  agriculture, farm laborer, farmer, field hand, field worker, humans, occupation, people, agricultural, agronomy, crops, onions, vegetable crops, plants, vegetables, outdoors, outside, agricultural equipment, tractor, gender, male, men
+Xmp.dc.creator                               XmpBag      1  John Doe
+Xmp.dc.subject                               XmpBag     22  agriculture, farm laborer, farmer, field hand, field worker, humans, occupation, people, agricultural, agronomy, crops, onions, vegetable crops, plants, vegetables, outdoors, outside, agricultural equipment, tractor, gender, male, men
 Xmp.wine.Recommend                           XmpText     5  False
 -----> Encoding XMP data to write to StaffPhotographer-Example.xmp-new <-----
 2c2
@@ -146,7 +146,7 @@ Xmp.wine.Recommend                           XmpText     5  False
 Xmp.ns1.SimpleProp1                          XmpText    13  Simple1 value
 Xmp.ns1.SimpleProp2                          XmpText    13  Simple2 value
 Xmp.ns1.SimpleProp2/?xml:lang                XmpText     9  x-default
-Xmp.ns1.ArrayProp1                           XmpArray    2  Item1.1 value, Item1.2 value
+Xmp.ns1.ArrayProp1                           XmpBag      2  Item1.1 value, Item1.2 value
 Xmp.ns1.ArrayProp2                           LangAlt     2  lang="x-one" Item2.1 value, lang="x-two" Item2.2 value
 Xmp.ns1.StructProp                           XmpText     0  
 Xmp.ns1.StructProp/ns2:Field1                XmpText    12  Field1 value

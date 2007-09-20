@@ -115,8 +115,10 @@ namespace Exiv2 {
         case xmpText:
             value = AutoPtr(new XmpTextValue);
             break;
-        case xmpArray:
-            value = AutoPtr(new XmpArrayValue);
+        case xmpBag:
+        case xmpSeq:
+        case xmpAlt:
+            value = AutoPtr(new XmpArrayValue(typeId));
             break;
         case langAlt:
             value = AutoPtr(new LangAltValue);
@@ -525,10 +527,17 @@ namespace Exiv2 {
         return new XmpTextValue(*this);
     }
 
-    XmpArrayValue::XmpArrayValue()
-        : XmpValue(xmpArray)
+    XmpArrayValue::XmpArrayValue(TypeId typeId)
+        : XmpValue(typeId)
     {
-        setXmpArrayType(xaBag);
+        switch (typeId) {
+        case xmpAlt: setXmpArrayType(xaAlt); break;
+        case xmpBag: setXmpArrayType(xaBag); break;
+        case xmpSeq: setXmpArrayType(xaSeq); break;
+        default:
+            throw Error(48, TypeInfo::typeName(typeId));
+            break;
+        }
     }
 
     int XmpArrayValue::read(const std::string& buf)
