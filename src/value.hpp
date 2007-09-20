@@ -673,6 +673,9 @@ namespace Exiv2 {
         virtual int read(const std::string& buf) =0;
         //@}
 
+        //! Return XMP array type for an array Value TypeId
+        static XmpArrayType xmpArrayType(TypeId typeId);
+
     protected:
         /*!
           @brief Assignment operator. Protected so that it can only be used
