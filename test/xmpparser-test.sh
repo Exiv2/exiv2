@@ -3,7 +3,7 @@
 
 # ----------------------------------------------------------------------
 # Check if xmpparser-test exists
-if [ ! -x ../../src/xmpparser-test ] ; then
+if [ ! -e ../src/xmpparser-test ] ; then
     echo "xmpparser-test not found. Assuming XMP support is not enabled."
     exit 0
 fi
