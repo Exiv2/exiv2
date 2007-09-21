@@ -169,6 +169,7 @@ namespace Exiv2 {
         {     9, N_("JBIG B&W")                 },
         {    10, N_("JBIG Color")               },
         { 32766, N_("Next 2-bits RLE")          },
+        { 32769, N_("Epson ERF Compressed")     },
         { 32771, N_("CCITT RLE 1-word")         },
         { 32773, N_("PackBits (Macintosh RLE)") },
         { 32809, N_("Thunderscan RLE")          },
@@ -184,7 +185,9 @@ namespace Exiv2 {
         { 34676, N_("SGI Log Luminance RLE")    },
         { 34677, N_("SGI Log 24-bits packed")   },
         { 34712, N_("Leadtools JPEG 2000")      },
-        { 34713, N_("Nikon NEF Compressed")     }
+        { 34713, N_("Nikon NEF Compressed")     },
+        { 65000, N_("Kodak DCR Compressed")     },
+        { 65535, N_("Pentax PEF Compressed")    }
     };
 
     //! PhotometricInterpretation, tag 0x0106
