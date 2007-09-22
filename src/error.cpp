@@ -90,7 +90,6 @@ namespace Exiv2 {
         ErrMsg( 45, N_("Schema namespace %1 is not registered with the XMP Toolkit")), // %1=namespace
         ErrMsg( 46, N_("No namespace registered for prefix `%1'")), // %1=prefix
         ErrMsg( 47, N_("No prefix registered for namespace `%1'")), // %1=namespace
-        ErrMsg( 48, N_("Invalid type `%1' to create an XmpArrayValue")), // %1=typeName
 
         // Last error message (message is not used)
         ErrMsg( -2, N_("(Unknown Error)"))
