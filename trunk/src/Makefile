@@ -122,7 +122,8 @@ BINSRC = addmoddel.cpp        \
          tiffparse.cpp
 ifdef ENABLE_XMP
 BINSRC += xmpparse.cpp        \
-         xmpparser-test.cpp
+         xmpparser-test.cpp   \
+         xmpsample.cpp
 endif
 
 # Main source file of the Exiv2 application

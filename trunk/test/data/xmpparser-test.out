@@ -22,7 +22,7 @@ Xmp.tiff.ImageWidth                          XmpText     3  360
 Xmp.tiff.ImageLength                         XmpText     3  216
 Xmp.tiff.NativeDigest                        XmpText   134  256,257,258,259,262,274,277,284,530,531,282,283,296,301,318,319,529,532,306,270,271,272,305,315,33432;D0485928256FC8D17D036C26919E106D
 Xmp.tiff.Make                                XmpText     5  Nikon
-Xmp.tiff.BitsPerSample                       XmpBag      3  8, 8, 8
+Xmp.tiff.BitsPerSample                       XmpSeq      3  8, 8, 8
 Xmp.exif.PixelXDimension                     XmpText     3  360
 Xmp.exif.PixelYDimension                     XmpText     3  216
 Xmp.exif.ColorSpace                          XmpText     1  1
@@ -34,7 +34,7 @@ Xmp.exif.NativeDigest                        XmpText   414  36864,40960,40961,37
 > <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.1.1">
 35d34
 <      <rdf:li xml:lang="en-US">Blue Square Test File - .jpg</rdf:li>
-36a36
+37a37
 >      <rdf:li xml:lang="en-US">Blue Square Test File - .jpg</rdf:li>
 -----> Decoding XMP data read from StaffPhotographer-Example.xmp <-----
 Xmp.iptc.IntellectualGenre                   XmpText     7  Profile
@@ -75,7 +75,7 @@ Xmp.tiff.Orientation                         XmpText     1  1
 Xmp.tiff.ImageWidth                          XmpText     3  432
 Xmp.tiff.ImageLength                         XmpText     3  293
 Xmp.tiff.NativeDigest                        XmpText   134  256,257,258,259,262,274,277,284,530,531,282,283,296,301,318,319,529,532,306,270,271,272,305,315,33432;24B61B075FA9960B09291337508795BF
-Xmp.tiff.BitsPerSample                       XmpBag      3  8, 8, 8
+Xmp.tiff.BitsPerSample                       XmpSeq      3  8, 8, 8
 Xmp.xmp.CreateDate                           XmpText    25  2005-03-13T02:01:44-06:00
 Xmp.xmp.ModifyDate                           XmpText    25  2005-03-13T02:01:44-06:00
 Xmp.xmp.MetadataDate                         XmpText    25  2007-01-08T13:25:45+01:00
@@ -93,7 +93,7 @@ Xmp.dc.format                                XmpText    10  image/jpeg
 Xmp.dc.description                           LangAlt     1  lang="x-default" After digging the furrows another ten yards with the tractor, Jim Moore hops off to hand-set more leeks and onions.
 Xmp.dc.title                                 LangAlt     1  lang="x-default" 01661gdx
 Xmp.dc.rights                                LangAlt     1  lang="x-default" ©2003 Big Newspaper, all rights reserved
-Xmp.dc.creator                               XmpBag      1  John Doe
+Xmp.dc.creator                               XmpSeq      1  John Doe
 Xmp.dc.subject                               XmpBag     22  agriculture, farm laborer, farmer, field hand, field worker, humans, occupation, people, agricultural, agronomy, crops, onions, vegetable crops, plants, vegetables, outdoors, outside, agricultural equipment, tractor, gender, male, men
 Xmp.wine.Recommend                           XmpText     5  False
 -----> Encoding XMP data to write to StaffPhotographer-Example.xmp-new <-----

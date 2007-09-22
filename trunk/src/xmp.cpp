@@ -565,12 +565,22 @@ namespace Exiv2 {
                 const LangAltValue* la = dynamic_cast<const LangAltValue*>(&i->value());
                 if (la == 0) throw Error(43, i->key());
                 int idx = 1;
-                for (LangAltValue::ValueType::const_iterator k = la->value_.begin();
-                     k != la->value_.end(); ++k) {
+                // write the default first
+                LangAltValue::ValueType::const_iterator k = la->value_.find("x-default");
+                if (k != la->value_.end()) {
 #ifdef DEBUG
                     printNode(ns, i->tagName(), k->second, 0);
 #endif
-                    meta.AppendArrayItem(ns.c_str(), i->tagName().c_str(), kXMP_PropArrayIsAltText, k->second.c_str());
+                    meta.AppendArrayItem(ns.c_str(), i->tagName().c_str(), kXMP_PropArrayIsAlternate, k->second.c_str());
+                    const std::string item = i->tagName() + "[" + toString(idx++) + "]";
+                    meta.SetQualifier(ns.c_str(), item.c_str(), kXMP_NS_XML, "lang", k->first.c_str());
+                }
+                for (k = la->value_.begin(); k != la->value_.end(); ++k) {
+                    if (k->first == "x-default") continue;
+#ifdef DEBUG
+                    printNode(ns, i->tagName(), k->second, 0);
+#endif
+                    meta.AppendArrayItem(ns.c_str(), i->tagName().c_str(), kXMP_PropArrayIsAlternate, k->second.c_str());
                     const std::string item = i->tagName() + "[" + toString(idx++) + "]";
                     meta.SetQualifier(ns.c_str(), item.c_str(), kXMP_NS_XML, "lang", k->first.c_str());
                 }

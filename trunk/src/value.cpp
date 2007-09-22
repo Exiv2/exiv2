@@ -447,9 +447,7 @@ namespace Exiv2 {
         case xmpAlt: xa = xaAlt; break;
         case xmpBag: xa = xaBag; break;
         case xmpSeq: xa = xaSeq; break;
-        default:
-            throw Error(48, TypeInfo::typeName(typeId));
-            break;
+        default: break;
         }
         return xa;
     }
