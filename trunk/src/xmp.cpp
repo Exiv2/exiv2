@@ -387,6 +387,17 @@ namespace Exiv2 {
         }
     }
 
+    bool XmpParser::registerNs(const std::string& ns, 
+                               const std::string& prefix)
+    {
+        initialize();
+#ifdef EXV_HAVE_XMP_TOOLKIT
+        return SXMPMeta::RegisterNamespace(ns.c_str(), prefix.c_str(), 0);
+#else
+        return true;
+#endif
+    }
+
 #ifdef EXV_HAVE_XMP_TOOLKIT
     int XmpParser::decode(      XmpData&     xmpData,
                           const std::string& xmpPacket)
@@ -549,15 +560,8 @@ namespace Exiv2 {
         }
 
         SXMPMeta meta;
-
         for (XmpData::const_iterator i = xmpData.begin(); i != xmpData.end(); ++i) {
-
-            std::string ns = XmpProperties::ns(i->groupName());
-
-            // Todo: Make sure the namespace is registered with XMP-SDK
-
-            // Todo: What about structure namespaces?
-
+            const std::string ns = XmpProperties::ns(i->groupName());
             XMP_OptionBits options = 0;
 
             if (i->typeId() == langAlt) {
@@ -605,6 +609,7 @@ namespace Exiv2 {
 #endif
                     meta.SetProperty(ns.c_str(), item.c_str(), i->toString(idx).c_str());
                 }
+                continue;
             }
             if (i->typeId() == xmpText) {
                 if (i->count() == 0) {
@@ -619,7 +624,10 @@ namespace Exiv2 {
 #endif
                     meta.SetProperty(ns.c_str(), i->tagName().c_str(), i->toString(0).c_str(), options);
                 }
+                continue;
             }
+            // Don't let any Xmpdatum go by unnoticed
+            throw Error(38, i->tagName(), TypeInfo::typeName(i->typeId()));
         }
         meta.SerializeToBuffer(&xmpPacket, kXMP_UseCompactFormat);
 
@@ -771,7 +779,7 @@ namespace {
         property = propPath.substr(idx + 1);
         std::string prefix = Exiv2::XmpProperties::prefix(schemaNs);
         if (prefix.empty()) {
-            throw Exiv2::Error(47, propPath, schemaNs);
+            throw Exiv2::Error(36, propPath, schemaNs);
         }
         return Exiv2::XmpKey::AutoPtr(new Exiv2::XmpKey(prefix, property));
     } // makeXmpKey

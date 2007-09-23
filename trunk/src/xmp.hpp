@@ -32,9 +32,9 @@
 // *****************************************************************************
 // included header files
 #include "metadatum.hpp"
-#include "types.hpp"
-#include "value.hpp"
 #include "properties.hpp"
+#include "value.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <string>
@@ -245,6 +245,7 @@ namespace Exiv2 {
              the XMP toolkit to do the job.
      */
     class XmpParser {
+        friend void XmpProperties::registerNs(const std::string&, const std::string&);
     public:
         /*!
           @brief Decode XMP metadata from an XMP packet \em xmpPacket into
@@ -295,6 +296,17 @@ namespace Exiv2 {
         static void terminate();
 
     private:
+        /*!
+          @brief Register a namespace with the XMP Toolkit.
+
+          XmpProperties::registerNs calls this to synchronize namespaces.
+
+          @return \em true if the registered prefix matches the suggested prefix.
+         */
+        static bool registerNs(const std::string& ns,
+                               const std::string& prefix);
+
+        // DATA
         static bool initialized_; //! Indicates if the XMP Toolkit has been initialized
 
     }; // class XmpParser

@@ -37,6 +37,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "value.hpp"
 #include "metadatum.hpp"
 #include "i18n.h"                // NLS support.
+#include "xmp.hpp"
 
 #include <iostream>
 #include <iomanip>
@@ -793,8 +794,10 @@ namespace Exiv2 {
                                    const std::string& prefix)
     {
         std::string ns2 = ns;
-        if (ns2.substr(ns2.size() - 1, 1) != "/") ns2 += "/";
+        if (   ns2.substr(ns2.size() - 1, 1) != "/"
+            && ns2.substr(ns2.size() - 1, 1) != "#") ns2 += "/";
         nsRegistry_[ns2] = prefix;
+        XmpParser::registerNs(ns2, prefix);
     }
 
     std::string XmpProperties::prefix(const std::string& ns)
@@ -827,28 +830,26 @@ namespace Exiv2 {
 
     const char* XmpProperties::propertyTitle(const XmpKey& key)
     {
-        return propertyInfo(key)->title_;
+        const XmpPropertyInfo* pi = propertyInfo(key);
+        return pi ? pi->title_ : 0;
     }
 
     const char* XmpProperties::propertyDesc(const XmpKey& key)
     {
-        return propertyInfo(key)->desc_;
+        const XmpPropertyInfo* pi = propertyInfo(key);
+        return pi ? pi->desc_ : 0;
     }
 
     TypeId XmpProperties::propertyType(const XmpKey& key)
     {
-        const XmpPropertyInfo* pi = propertyInfo(key, false);
+        const XmpPropertyInfo* pi = propertyInfo(key);
         return pi ? pi->typeId_ : xmpText;
     }
 
-    const XmpPropertyInfo* XmpProperties::propertyInfo(const XmpKey& key,
-                                                             bool    doThrow)
+    const XmpPropertyInfo* XmpProperties::propertyInfo(const XmpKey& key)
     {
         const XmpPropertyInfo* pl = propertyList(key.groupName());
-        if (!pl) {
-            if (doThrow) throw Error(36, key.groupName());
-            else return 0;
-        }
+        if (!pl) return 0;
         const XmpPropertyInfo* pi = 0;
         for (int i = 0; pl[i].name_ != 0; ++i) {
             if (std::string(pl[i].name_) == key.tagName()) {
@@ -856,7 +857,6 @@ namespace Exiv2 {
                 break;
             }
         }
-        if (!pi && doThrow) throw Error(38, key.groupName(), key.tagName());
         return pi;
     }
 

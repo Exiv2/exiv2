@@ -133,3 +133,7 @@ bug tracking system</a>.</p>
   @example iptceasy.cpp
   The quickest way to access, set or modify IPTC metadata
  */
+/*!
+  @example xmpsample.cpp
+  Sample usage of high-level XMP classes.
+ */

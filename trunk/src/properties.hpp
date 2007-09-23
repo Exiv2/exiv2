@@ -108,15 +108,15 @@ namespace Exiv2 {
         /*!
           @brief Return the title (label) of the property.
           @param key The property key
-          @return The title (label) of the property
-          @throw Error if the key is invalid.
+          @return The title (label) of the property, 0 if the 
+                 key is of an unknown property.
          */
         static const char* propertyTitle(const XmpKey& key);
         /*!
           @brief Return the description of the property.
           @param key The property key
-          @return The description of the property
-          @throw Error if the key is invalid.
+          @return The description of the property, 0 if the 
+                 key is of an unknown property.
          */
         static const char* propertyDesc(const XmpKey& key);
         /*!
@@ -128,21 +128,16 @@ namespace Exiv2 {
         static TypeId propertyType(const XmpKey& key);
         /*!
           @brief Return information for the property for key.
-                 Always returns a valid pointer.
           @param key The property key
-          @param doThrow Flag indicating whether to throw an Error or 
-                 return 0 if the key is not valid or unknown.
-          @return a pointer to the property information
-          @throw Error if the key is unknown and the \em doThrow
-                 flag is true.
+          @return A pointer to the property information, 0 if the 
+                 key is of an unknown property.
          */
-        static const XmpPropertyInfo* propertyInfo(const XmpKey& key,
-                                                         bool    doThrow =true);
+        static const XmpPropertyInfo* propertyInfo(const XmpKey& key);
         /*!
            @brief Return the namespace name for the schema associated
                   with \em prefix.
            @param prefix Prefix
-           @return the namespace name
+           @return The namespace name
            @throw Error if no namespace is registered with \em prefix.
          */
         static std::string ns(const std::string& prefix);
@@ -150,7 +145,7 @@ namespace Exiv2 {
            @brief Return the namespace description for the schema associated
                   with \em prefix.
            @param prefix Prefix
-           @return the namespace description
+           @return The namespace description
            @throw Error if no namespace is registered with \em prefix.
          */
         static const char* nsDesc(const std::string& prefix);
@@ -166,14 +161,14 @@ namespace Exiv2 {
           @brief Return information about a schema namespace for \em prefix.
                  Always returns a valid pointer.
           @param prefix The prefix
-          @return a pointer to the related information
+          @return A pointer to the related information
           @throw Error if no namespace is registered with \em prefix.
          */
         static const XmpNsInfo* nsInfo(const std::string& prefix);
         /*!
            @brief Return the (preferred) prefix for schema namespace \em ns.
            @param ns Schema namespace
-           @return the prefix or an empty string if namespace \em ns is not
+           @return The prefix or an empty string if namespace \em ns is not
                   registered.
          */
         static std::string prefix(const std::string& ns);
