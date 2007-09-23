@@ -652,7 +652,7 @@ namespace Exiv2 {
         //! Set the XMP array type to indicate that an XMP value is an array.
         void setXmpArrayType(XmpArrayType xmpArrayType);
         //! Set the XMP struct type to indicate that an XMP value is a structure.
-        void setXmpStruct(XmpStruct xmpStruct);
+        void setXmpStruct(XmpStruct xmpStruct =xsStruct);
         /*!
           @brief Read the value from a character buffer.
 

@@ -78,9 +78,9 @@ namespace Exiv2 {
         ErrMsg( 33, N_("This does not look like a CRW image")),
         ErrMsg( 34, N_("%1: Not supported")), // %1=function
         ErrMsg( 35, N_("No namespace info available for XMP prefix `%1'")), // %1=prefix
-        ErrMsg( 36, N_("No XMP property list for prefix `%1'")), // %1=prefix
+        ErrMsg( 36, N_("No prefix registered for namespace `%1'")), // %1=namespace
         ErrMsg( 37, N_("Size of %1 JPEG segment is larger than 65535 bytes")), // %1=type of metadata (Exif, IPTC, JPEG comment)
-        ErrMsg( 38, N_("Unknown XMP property `%1:%2'")), // %1=prefix, %2=property name
+        ErrMsg( 38, N_("Unhandled Xmpdatum %1 of type %2")), // %1=key, %2=value type
         ErrMsg( 39, N_("Unhandled XMP node %1 with opt=%2")), // %1=key, %2=XMP Toolkit option flags
         ErrMsg( 40, N_("XMP Toolkit error %1: %2")), // %1=XMP_Error::GetID(), %2=XMP_Error::GetErrMsg()
         ErrMsg( 41, N_("Failed to decode Lang Alt property %1 with opt=%2")), // %1=property path, %3=XMP Toolkit option flags
@@ -89,7 +89,6 @@ namespace Exiv2 {
         ErrMsg( 44, N_("Failed to determine property name from path %1, namespace %2")), // %1=property path, %2=namespace
         ErrMsg( 45, N_("Schema namespace %1 is not registered with the XMP Toolkit")), // %1=namespace
         ErrMsg( 46, N_("No namespace registered for prefix `%1'")), // %1=prefix
-        ErrMsg( 47, N_("No prefix registered for namespace `%1'")), // %1=namespace
 
         // Last error message (message is not used)
         ErrMsg( -2, N_("(Unknown Error)"))

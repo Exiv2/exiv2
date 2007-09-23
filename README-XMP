@@ -6,17 +6,6 @@ Exif and IPTC classes. The property-repository is XmpProperties.
 In addition to the expected new members, class Image also
 has a new interface to access the raw XMP packet.
 
-Todo: XMP support is controlled with the ENABLE_XMP directive 
-in config/config.mk.in. This will be a configure option
-eventually. For now, comment the line "ENABLE_XMP = 1" either
-in config.mk.in before running ./configure or in config.mk to
-build without XMP support.
-
-Exiv2 uses the Adobe XMP toolkit (XMP SDK) to parse
-and serialize XMP packets (only the XMPCore component).
-
-Supported XMP value types
--------------------------
 All XMP value types are supported: Simple types, structures,
 arrays, property qualifiers and language alternatives.
 
@@ -35,16 +24,28 @@ namespaces can be registered.
 The specialized Exiv2 values XmpArrayValue and LangAltValue are
 provided to simplify the use of XMP properties.
 
+See xmpsample.cpp for examples of how to set various types of
+XMP properties.
+
 Note: Unlike Exif and IPTC tags, XMP properties do not have
 a tag number.
 
 Todo: Conversion between XMP and Exif/IPTC metadata.
 
-XMP toolkit installation
+Todo: XMP support is controlled with the ENABLE_XMP directive 
+in config/config.mk.in. This will be a configure option
+eventually. For now, comment the line "ENABLE_XMP = 1" either
+in config.mk.in before running ./configure or in config.mk to
+build without XMP support.
+
+Exiv2 uses the Adobe XMP Toolkit (XMP SDK) to parse
+and serialize XMP packets (only the XMPCore component).
+
+XMP Toolkit installation
 ========================
 This is what worked for me on a Debian GNU/Linux (testing) 
 system. Your mileage may vary. Please check with Adobe if 
-you encounter problems with the XMP toolkit installation.
+you encounter problems with the XMP Toolkit installation.
 
 Installation directory
 ----------------------

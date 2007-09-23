@@ -52,6 +52,10 @@ $binpath/xmpparse ${testfile} > t1 2>&1
 $binpath/xmpparse ${testfile}-new > t2 2>&1
 diff t1 t2
 
+# ----------------------------------------------------------------------
+# xmpsample
+$binpath/xmpsample
+
 ) > $results 2>&1
 
 # ----------------------------------------------------------------------
