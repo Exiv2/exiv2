@@ -44,6 +44,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include <sstream>
 #include <iomanip>
 #include <cassert>
+#include <cstring>
 
 // *****************************************************************************
 // class member definitions
@@ -166,7 +167,7 @@ namespace Exiv2 {
         // extra bytes (0x01, 0x00) between the ID string and the start of the
         // Makernote IFD. So we copy 10 bytes into the header.
         header_.alloc(10);
-        memcpy(header_.pData_, buf, header_.size_);
+        std::memcpy(header_.pData_, buf, header_.size_);
         // Adjust the offset of the IFD for the prefix
         start_ = 10;
         return 0;

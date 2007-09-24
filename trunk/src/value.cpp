@@ -699,7 +699,7 @@ namespace Exiv2 {
         }
         // Make the buffer a 0 terminated C-string for sscanf
         char b[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        memcpy(b, reinterpret_cast<const char*>(buf), 8);
+        std::memcpy(b, reinterpret_cast<const char*>(buf), 8);
         int scanned = sscanf(b, "%4d%2d%2d",
                              &date_.year, &date_.month, &date_.day);
         if (scanned != 3) {
@@ -746,7 +746,7 @@ namespace Exiv2 {
         int wrote = sprintf(temp, "%04d%02d%02d",
                             date_.year, date_.month, date_.day);
         assert(wrote == 8);
-        memcpy(buf, temp, 8);
+        std::memcpy(buf, temp, 8);
         return 8;
     }
 
@@ -772,7 +772,7 @@ namespace Exiv2 {
         // Range of tm struct is limited to about 1970 to 2038
         // This will return -1 if outside that range
         std::tm tms;
-        memset(&tms, 0, sizeof(tms));
+        std::memset(&tms, 0, sizeof(tms));
         tms.tm_mday = date_.day;
         tms.tm_mon = date_.month - 1;
         tms.tm_year = date_.year - 1900;
@@ -802,7 +802,7 @@ namespace Exiv2 {
     {
         // Make the buffer a 0 terminated C-string for scanTime[36]
         char b[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        memcpy(b, reinterpret_cast<const char*>(buf), (len < 12 ? len : 11));
+        std::memcpy(b, reinterpret_cast<const char*>(buf), (len < 12 ? len : 11));
         // Hard coded to read HHMMSS or Iptc style times
         int rc = 1;
         if (len == 6) {
@@ -881,7 +881,7 @@ namespace Exiv2 {
 
     void TimeValue::setTime( const Time& src )
     {
-        memcpy(&time_, &src, sizeof(time_));
+        std::memcpy(&time_, &src, sizeof(time_));
     }
 
     long TimeValue::copy(byte* buf, ByteOrder /*byteOrder*/) const
@@ -897,7 +897,7 @@ namespace Exiv2 {
                    plusMinus, abs(time_.tzHour), abs(time_.tzMinute));
 
         assert(wrote == 11);
-        memcpy(buf, temp, 11);
+        std::memcpy(buf, temp, 11);
         return 11;
     }
 

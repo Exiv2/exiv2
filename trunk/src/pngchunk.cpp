@@ -531,7 +531,7 @@ namespace Exiv2 {
         DDebug() << "Writing Raw profile: type=" << profile_type << ", length=" << length << endl;
         
         text               = (png_textp) png_malloc(ping, (png_uint_32) sizeof(png_text));
-        description_length = strlen((const char *) profile_type);
+        description_length = std::strlen((const char *) profile_type);
         allocated_length   = (png_uint_32) (length*2 + (length >> 5) + 20 + description_length);
         
         text[0].text   = (png_charp) png_malloc(ping, allocated_length);

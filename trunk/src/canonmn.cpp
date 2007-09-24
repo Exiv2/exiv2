@@ -890,7 +890,7 @@ namespace Exiv2 {
                                   ByteOrder byteOrder) const
     {
         DataBuf buf(1024);
-        memset(buf.pData_, 0x0, 1024);
+        std::memset(buf.pData_, 0x0, 1024);
         uint16_t len = 0;
         Entries::const_iterator end = entries_.end();
         for (Entries::const_iterator i = entries_.begin(); i != end; ++i) {
@@ -898,7 +898,7 @@ namespace Exiv2 {
                 uint16_t pos = i->tag() * 2;
                 uint16_t size = pos + static_cast<uint16_t>(i->size());
                 assert(size <= 1024);
-                memcpy(buf.pData_ + pos, i->data(), i->size());
+                std::memcpy(buf.pData_ + pos, i->data(), i->size());
                 if (len < size) len = size;
             }
         }

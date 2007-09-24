@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <string>
+#include <cstring>
 
 void remove(Exiv2::CiffHeader* pHead);
 void add(Exiv2::CiffHeader* pHead);
@@ -117,7 +118,7 @@ void add(Exiv2::CiffHeader* pHead)
     std::cin >> cmd;
     if (cmd != 'n' && cmd != 'N') {
         Exiv2::DataBuf buf(size);
-        memset(buf.pData_, 0xaa, size);
+        std::memset(buf.pData_, 0xaa, size);
         pHead->add(crwTag, crwDir, buf);
     }
     else {

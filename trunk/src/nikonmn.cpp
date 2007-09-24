@@ -503,7 +503,7 @@ namespace Exiv2 {
         if (len < 8) return 1;
 
         header_.alloc(8);
-        memcpy(header_.pData_, buf, header_.size_);
+        std::memcpy(header_.pData_, buf, header_.size_);
         start_ = 8;
         return 0;
     }
@@ -829,7 +829,7 @@ namespace Exiv2 {
         if (len < 18) return 1;
 
         header_.alloc(18);
-        memcpy(header_.pData_, buf, header_.size_);
+        std::memcpy(header_.pData_, buf, header_.size_);
         TiffHeader tiffHeader;
         tiffHeader.read(header_.pData_ + 10);
         byteOrder_ = tiffHeader.byteOrder();
