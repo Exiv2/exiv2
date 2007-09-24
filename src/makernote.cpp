@@ -44,6 +44,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include <iomanip>
 #include <iostream>
 #include <cassert>
+#include <cstring>
 
 // *****************************************************************************
 // class member definitions
@@ -74,7 +75,7 @@ namespace Exiv2 {
         : MakerNote(rhs), absShift_(rhs.absShift_), shift_(rhs.shift_),
           start_(rhs.start_), header_(rhs.header_.size_), ifd_(rhs.ifd_)
     {
-        memcpy(header_.pData_, rhs.header_.pData_, header_.size_);
+        std::memcpy(header_.pData_, rhs.header_.pData_, header_.size_);
     }
 
     int IfdMakerNote::read(const byte* buf,
@@ -153,7 +154,7 @@ namespace Exiv2 {
 
     long IfdMakerNote::copyHeader(byte* buf) const
     {
-        if (header_.size_ != 0) memcpy(buf, header_.pData_, header_.size_);
+        if (header_.size_ != 0) std::memcpy(buf, header_.pData_, header_.size_);
         return header_.size_;
     }
 

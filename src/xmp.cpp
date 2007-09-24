@@ -126,7 +126,7 @@ namespace Exiv2 {
         if (rhs.value_.get() != 0) value_ = rhs.value_->clone(); // deep copy
     }
 
-    Xmpdatum::Impl::Impl& Xmpdatum::Impl::operator=(const Impl& rhs)
+    Xmpdatum::Impl& Xmpdatum::Impl::operator=(const Impl& rhs)
     {
         if (this == &rhs) return *this;
         key_.reset();

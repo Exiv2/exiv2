@@ -543,8 +543,8 @@ namespace Exiv2 {
                     if (outIo.write(tmpBuf, 33) != 33) throw Error(21);
 
                     // Write new XMP packet
-                    if (   outIo.write(reinterpret_cast<const byte*>(xmpPacket_.data()), xmpPacket_.size())
-                           != static_cast<long>(xmpPacket_.size())) throw Error(21);
+                    if (   outIo.write(reinterpret_cast<const byte*>(xmpPacket_.data()), static_cast<long>(xmpPacket_.size()))
+                        != static_cast<long>(xmpPacket_.size())) throw Error(21);
                     if (outIo.error()) throw Error(21);
                     --search;
                 }

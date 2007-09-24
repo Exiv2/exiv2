@@ -44,6 +44,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include <ctime>
 #include <cstdio>
 #include <cassert>
+#include <cstring>
 
 // *****************************************************************************
 // class member definitions
@@ -111,7 +112,7 @@ namespace Exiv2 {
     {
         if (size > 0) {
             pData_ = new byte[size];
-            memcpy(pData_, pData, size);
+            std::memcpy(pData_, pData, size);
             size_ = size;
         }
     }
@@ -326,8 +327,8 @@ namespace Exiv2 {
         assert(tm != 0);
         int rc = 1;
         int year, mon, mday, hour, min, sec;
-        int scanned = sscanf(buf, "%4d:%2d:%2d %2d:%2d:%2d",
-                             &year, &mon, &mday, &hour, &min, &sec);
+        int scanned = std::sscanf(buf, "%4d:%2d:%2d %2d:%2d:%2d",
+                                  &year, &mon, &mday, &hour, &min, &sec);
         if (scanned == 6) {
             tm->tm_year = year - 1900;
             tm->tm_mon  = mon - 1;

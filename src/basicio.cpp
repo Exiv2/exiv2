@@ -44,6 +44,7 @@ EXIV2_RCSID("@(#) $Id$")
 // + standard includes
 #include <string>
 #include <memory>
+#include <cstring>
 #include <cassert>
 #include <cstdio>                       // for remove, rename
 #include <cstdlib>                      // for alloc, realloc, free
@@ -128,7 +129,7 @@ namespace Exiv2 {
 
         // If file is > 1MB then use a file, otherwise use memory buffer
         if (ret != 0 || buf.st_size > 1048576) {
-            pid_t pid = getpid();
+            pid_t pid = ::getpid();
             std::string tmpname = path_ + toString(pid);
             std::auto_ptr<FileIo> fileIo(new FileIo(tmpname));
             if (fileIo->open("w+b") != 0) {
@@ -172,22 +173,22 @@ namespace Exiv2 {
             if (oldOpMode == opSeek) return 0;
 
             // Flush. On msvcrt fflush does not do the job
-            fseek(fp_, 0, SEEK_CUR);
+            std::fseek(fp_, 0, SEEK_CUR);
             return 0;
         }
 
         // Reopen the file
-        long offset = ftell(fp_);
+        long offset = std::ftell(fp_);
         if (offset == -1) return -1;
         if (open("r+b") != 0) return 1;
-        return fseek(fp_, offset, SEEK_SET);
+        return std::fseek(fp_, offset, SEEK_SET);
     }
 
     long FileIo::write(const byte* data, long wcount)
     {
         assert(fp_ != 0);
         if (switchMode(opWrite) != 0) return 0;
-        return (long)fwrite(data, 1, wcount, fp_);
+        return (long)std::fwrite(data, 1, wcount, fp_);
     }
 
     long FileIo::write(BasicIo& src)
@@ -202,7 +203,7 @@ namespace Exiv2 {
         long writeCount = 0;
         long writeTotal = 0;
         while ((readCount = src.read(buf, sizeof(buf)))) {
-            writeTotal += writeCount = (long)fwrite(buf, 1, readCount, fp_);
+            writeTotal += writeCount = (long)std::fwrite(buf, 1, readCount, fp_);
             if (writeCount != readCount) {
                 // try to reset back to where write stopped
                 src.seek(writeCount-readCount, BasicIo::cur);
@@ -230,7 +231,7 @@ namespace Exiv2 {
             }
             close();
             struct stat buf;
-            if (stat(path_.c_str(), &buf) == -1) {
+            if (::stat(path_.c_str(), &buf) == -1) {
                 throw Error(2, path_, strError(), "stat");
             }
             // MSVCRT rename that does not overwrite existing files
@@ -242,7 +243,7 @@ namespace Exiv2 {
             }
             std::remove(fileIo->path_.c_str());
             // Set original file permissions
-            if (chmod(path_.c_str(), buf.st_mode) == -1) {
+            if (::chmod(path_.c_str(), buf.st_mode) == -1) {
                 throw Error(2, fileIo->path_, strError(), "chmod");
             }
         }
@@ -287,13 +288,13 @@ namespace Exiv2 {
         }
 
         if (switchMode(opSeek) != 0) return 1;
-        return fseek(fp_, offset, fileSeek);
+        return std::fseek(fp_, offset, fileSeek);
     }
 
     long FileIo::tell() const
     {
         assert(fp_ != 0);
-        return ftell(fp_);
+        return std::ftell(fp_);
     }
 
 
@@ -301,7 +302,7 @@ namespace Exiv2 {
     {
         // Flush and commit only if the file is open for writing
         if (fp_ != 0 && (openMode_[0] != 'r' || openMode_[1] == '+')) {
-            fflush(fp_);
+            std::fflush(fp_);
 #if defined WIN32 && !defined __CYGWIN__
             // This is required on msvcrt before stat after writing to a file
             _commit(_fileno(fp_));
@@ -309,7 +310,7 @@ namespace Exiv2 {
         }
 
         struct stat buf;
-        int ret = stat(path_.c_str(), &buf);
+        int ret = ::stat(path_.c_str(), &buf);
 
         if (ret != 0) return -1;
         return buf.st_size;
@@ -324,12 +325,12 @@ namespace Exiv2 {
     int FileIo::open(const std::string& mode)
     {
         if (fp_ != 0) {
-            fclose(fp_);
+            std::fclose(fp_);
         }
 
         openMode_ = mode;
         opMode_ = opSeek;
-        fp_ = fopen(path_.c_str(), mode.c_str());
+        fp_ = std::fopen(path_.c_str(), mode.c_str());
         if (!fp_) return 1;
         return 0;
     }
@@ -342,7 +343,7 @@ namespace Exiv2 {
     int FileIo::close()
     {
         if (fp_ != 0) {
-            fclose(fp_);
+            std::fclose(fp_);
             fp_= 0;
         }
         return 0;
@@ -361,7 +362,7 @@ namespace Exiv2 {
     {
         assert(fp_ != 0);
         if (switchMode(opRead) != 0) return 0;
-        return (long)fread(buf, 1, rcount, fp_);
+        return (long)std::fread(buf, 1, rcount, fp_);
     }
 
     int FileIo::getb()
@@ -379,7 +380,7 @@ namespace Exiv2 {
     bool FileIo::eof() const
     {
         assert(fp_ != 0);
-        return feof(fp_) != 0;
+		return feof(fp_) != 0;
     }
 
     std::string FileIo::path() const
@@ -449,7 +450,7 @@ namespace Exiv2 {
     {
         reserve(wcount);
         assert(isMalloced_);
-        memcpy(&data_[idx_], data, wcount);
+        std::memcpy(&data_[idx_], data, wcount);
         idx_ += wcount;
         return wcount;
     }
@@ -562,7 +563,7 @@ namespace Exiv2 {
     {
         long avail = size_ - idx_;
         long allow = std::min(rcount, avail);
-        memcpy(buf, &data_[idx_], allow);
+        std::memcpy(buf, &data_[idx_], allow);
         idx_ += allow;
         if (rcount > avail) eof_ = true;
         return allow;
@@ -602,7 +603,7 @@ namespace Exiv2 {
             throw Error(10, path, "rb", strError());
         }
         struct stat st;
-        if (0 != stat(path.c_str(), &st)) {
+        if (0 != ::stat(path.c_str(), &st)) {
             throw Error(2, path, strError(), "stat");
         }
         DataBuf buf(st.st_size);
