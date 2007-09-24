@@ -377,6 +377,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\src\orfimage.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\tiffparser.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -437,6 +440,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\src\properties.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\types.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -465,6 +471,9 @@
 						Name="VCCLCompilerTool"
 						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\xmp.cpp">
 			</File>
 		</Filter>
 		<Filter
@@ -538,6 +547,9 @@
 				RelativePath="..\..\src\panasonicmn.hpp">
 			</File>
 			<File
+				RelativePath="..\..\src\properties.hpp">
+			</File>
+			<File
 				RelativePath="..\..\src\rafimage.hpp">
 			</File>
 			<File
@@ -556,6 +568,9 @@
 				RelativePath="..\..\src\tiffimage.hpp">
 			</File>
 			<File
+				RelativePath="..\..\src\orfimage.hpp">
+			</File>
+			<File
 				RelativePath="..\..\src\tiffparser.hpp">
 			</File>
 			<File
@@ -572,6 +587,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\value.hpp">
+			</File>
+			<File
+				RelativePath="..\..\src\xmp.hpp">
 			</File>
 		</Filter>
 		<Filter

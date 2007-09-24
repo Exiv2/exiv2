@@ -33,6 +33,7 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "basicio.hpp"
+#include <cstring>
 #include <iostream>
 
 using Exiv2::byte;
@@ -135,8 +136,8 @@ int WriteReadSeek(BasicIo &io)
     const char tester2[] = "Appending this on the end";
     const char expect[] = "this is a little teAppending this on the end";
     const long insert = 19;
-    const long len1 = (long)strlen(tester1) + 1;
-    const long len2 = (long)strlen(tester2) + 1;
+    const long len1 = (long)std::strlen(tester1) + 1;
+    const long len2 = (long)std::strlen(tester2) + 1;
 
     if (io.open() != 0) {
         throw Error(9, io.path(), strError());
@@ -155,7 +156,7 @@ int WriteReadSeek(BasicIo &io)
     io.seek(-len1, BasicIo::cur);
 
     int c = EOF;
-    memset(buf, -1, sizeof(buf));
+    std::memset(buf, -1, sizeof(buf));
     for (int i = 0; (c=io.getb()) != EOF; ++i) {
         buf[i] = (byte)c;
     }
@@ -204,7 +205,7 @@ int WriteReadSeek(BasicIo &io)
     if (io.open() != 0)  {
         throw Error(9, io.path(), strError());
     }
-    memset(buf, -1, sizeof(buf));
+    std::memset(buf, -1, sizeof(buf));
     if (io.read(buf, sizeof(buf)) != insert + len2) {
         std::cerr << ": WRS something went wrong\n";
         return 10;
@@ -216,11 +217,10 @@ int WriteReadSeek(BasicIo &io)
         return 11;
     }
 
-    if (strcmp(expect, (char*)buf) != 0 ) {
+    if (std::strcmp(expect, (char*)buf) != 0 ) {
         std::cerr << ": WRS strings don't match 2\n";
         return 12;
     }
 
     return 0;
 }
-

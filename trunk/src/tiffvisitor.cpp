@@ -221,8 +221,8 @@ namespace Exiv2 {
             std::string::size_type idx = xmpPacket.find_first_of('<');
             if (idx != std::string::npos && idx > 0) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: Removing " << idx << " characters "
-                          << "from the beginning of the XMP packet\n";
+                std::cerr << "Warning: Removing " << static_cast<unsigned long>(idx)
+						  << " characters from the beginning of the XMP packet\n";
 #endif
                 xmpPacket = xmpPacket.substr(idx);
             }

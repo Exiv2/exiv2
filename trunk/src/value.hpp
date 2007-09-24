@@ -42,6 +42,7 @@
 #include <iostream>
 #include <sstream>
 #include <memory>
+#include <cstring>
 
 // *****************************************************************************
 // namespace extensions
@@ -919,7 +920,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor.
-        DateValue() : Value(date) { memset(&date_, 0, sizeof(date_)); }
+        DateValue();
         //! Constructor
         DateValue(int year, int month, int day);
         //! Virtual destructor.
@@ -929,6 +930,7 @@ namespace Exiv2 {
         //! Simple Date helper structure
         struct Date
         {
+            Date() : year(0), month(0), day(0) {}
             int year;                           //!< Year
             int month;                          //!< Month
             int day;                            //!< Day
@@ -950,8 +952,8 @@ namespace Exiv2 {
                   1 in case of an unsupported date format
          */
         virtual int read(const byte* buf,
-                          long len,
-                          ByteOrder byteOrder =invalidByteOrder);
+                         long len,
+                         ByteOrder byteOrder =invalidByteOrder);
         /*!
           @brief Set the value to that of the string buf.
 
@@ -1022,7 +1024,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor.
-        TimeValue() : Value(time) { memset(&time_, 0, sizeof(time_)); }
+        TimeValue();
         //! Constructor
         TimeValue(int hour, int minute, int second =0,
                   int tzHour =0, int tzMinute =0);
@@ -1414,7 +1416,7 @@ namespace Exiv2 {
     {
         if (rhs.sizeDataArea_ > 0) {
             pDataArea_ = new byte[rhs.sizeDataArea_];
-            memcpy(pDataArea_, rhs.pDataArea_, rhs.sizeDataArea_);
+            std::memcpy(pDataArea_, rhs.pDataArea_, rhs.sizeDataArea_);
             sizeDataArea_ = rhs.sizeDataArea_;
         }
     }
@@ -1435,7 +1437,7 @@ namespace Exiv2 {
         byte* tmp = 0;
         if (rhs.sizeDataArea_ > 0) {
             tmp = new byte[rhs.sizeDataArea_];
-            memcpy(tmp, rhs.pDataArea_, rhs.sizeDataArea_);
+            std::memcpy(tmp, rhs.pDataArea_, rhs.sizeDataArea_);
         }
         delete[] pDataArea_;
         pDataArea_ = tmp;
@@ -1586,7 +1588,7 @@ namespace Exiv2 {
         byte* tmp = 0;
         if (len > 0) {
             tmp = new byte[len];
-            memcpy(tmp, buf, len);
+            std::memcpy(tmp, buf, len);
         }
         delete[] pDataArea_;
         pDataArea_ = tmp;

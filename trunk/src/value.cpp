@@ -463,8 +463,8 @@ namespace Exiv2 {
         std::ostringstream os;
         write(os);
         std::string s = os.str();
-        memcpy(buf, &s[0], s.size());
-        return s.size();
+		std::memcpy(buf, &s[0], s.size());
+        return static_cast<long>(s.size());
     }
 
     int XmpValue::read(const byte* buf,
@@ -479,7 +479,7 @@ namespace Exiv2 {
     {
         std::ostringstream os;
         write(os);
-        return os.str().size();
+        return static_cast<long>(os.str().size());
     }
 
     XmpTextValue::XmpTextValue()
@@ -675,6 +675,11 @@ namespace Exiv2 {
         return new LangAltValue(*this);
     }
 
+    DateValue::DateValue() 
+        : Value(date)
+    {
+    }
+    
     DateValue::DateValue(int year, int month, int day)
         : Value(date)
     {
@@ -774,6 +779,11 @@ namespace Exiv2 {
         long l = static_cast<long>(std::mktime(&tms));
         ok_ = (l != -1);
         return l;
+    }
+
+    TimeValue::TimeValue() 
+        : Value(time)
+    {
     }
 
     TimeValue::TimeValue(int hour, int minute,
