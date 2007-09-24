@@ -1,5 +1,11 @@
 XMP support
 ===========
+Todo: XMP support is controlled with the ENABLE_XMP directive 
+in config/config.mk.in. This will be a configure option
+eventually. To build Exiv2 without XMP support, comment the
+line "ENABLE_XMP = 1" either in config.mk.in before running
+./configure or in config.mk for now.
+
 Top-level Exiv2 classes to access XMP metadata are XmpData,
 Xmpdatum and XmpKey. They work similar to the corresponding 
 Exif and IPTC classes. The property-repository is XmpProperties.
@@ -32,20 +38,20 @@ a tag number.
 
 Todo: Conversion between XMP and Exif/IPTC metadata.
 
-Todo: XMP support is controlled with the ENABLE_XMP directive 
-in config/config.mk.in. This will be a configure option
-eventually. For now, comment the line "ENABLE_XMP = 1" either
-in config.mk.in before running ./configure or in config.mk to
-build without XMP support.
-
+XMP Toolkit installation
+========================
 Exiv2 uses the Adobe XMP Toolkit (XMP SDK) to parse
 and serialize XMP packets (only the XMPCore component).
 
-XMP Toolkit installation
-========================
-This is what worked for me on a Debian GNU/Linux (testing) 
-system. Your mileage may vary. Please check with Adobe if 
-you encounter problems with the XMP Toolkit installation.
+Todo: Integrate the XMPCore component of the XMP Toolkit with
+Exiv2 and make the build process transparent for users. The
+final solution will be to use an external XMP Toolkit eventually,
+once it is available as a standalone package from Linux distros.
+
+Below are the installation steps that worked for me on a
+Debian GNU/Linux (testing) system. Your mileage may vary.
+Please check with Adobe if you encounter problems with the
+XMP Toolkit installation.
 
 Installation directory
 ----------------------
