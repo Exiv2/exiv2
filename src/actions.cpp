@@ -1605,7 +1605,7 @@ namespace {
         if (   timeStr[4]  != ':' || timeStr[7]  != ':' || timeStr[10] != ' '
             || timeStr[13] != ':' || timeStr[16] != ':') return 3;
         if (0 == tm) return 4;
-        memset(tm, 0x0, sizeof(struct tm));
+        std::memset(tm, 0x0, sizeof(struct tm));
         tm->tm_isdst = -1;
 
         long tmp;
@@ -1731,7 +1731,7 @@ namespace {
 
         const size_t max = 1024;
         char basename[max];
-        memset(basename, 0x0, max);
+        std::memset(basename, 0x0, max);
         if (strftime(basename, max, format.c_str(), tm) == 0) {
             std::cerr << _("Filename format yields empty filename for the file") << " "
                       << path << "\n";

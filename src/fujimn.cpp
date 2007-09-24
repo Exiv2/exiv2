@@ -44,6 +44,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include <sstream>
 #include <iomanip>
 #include <cassert>
+#include <cstring>
 
 // *****************************************************************************
 // class member definitions
@@ -317,7 +318,7 @@ namespace Exiv2 {
         if (len < 12) return 1;
 
         header_.alloc(12);
-        memcpy(header_.pData_, buf, header_.size_);
+        std::memcpy(header_.pData_, buf, header_.size_);
         // Read offset to the IFD relative to the start of the makernote
         // from the header. Note that we ignore the byteOrder paramter
         start_ = getUShort(header_.pData_ + 8, byteOrder_);

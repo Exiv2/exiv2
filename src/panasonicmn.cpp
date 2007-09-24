@@ -43,6 +43,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include <sstream>
 #include <iomanip>
 #include <cassert>
+#include <cstring>
 
 // *****************************************************************************
 // class member definitions
@@ -306,7 +307,7 @@ namespace Exiv2 {
         if (len < 12) return 1;
 
         header_.alloc(12);
-        memcpy(header_.pData_, buf, header_.size_);
+        std::memcpy(header_.pData_, buf, header_.size_);
         // Adjust the offset of the IFD for the prefix
         start_ = 12;
         return 0;

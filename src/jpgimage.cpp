@@ -168,7 +168,7 @@ namespace Exiv2 {
         DataBuf rawIptc(iptcData.copy());
         if (rawIptc.size_ > 0) {
             byte tmpBuf[12];
-            memcpy(tmpBuf, Photoshop::bimId_, 4);
+            std::memcpy(tmpBuf, Photoshop::bimId_, 4);
             us2Data(tmpBuf + 4, iptc_, bigEndian);
             tmpBuf[6] = 0;
             tmpBuf[7] = 0;
@@ -256,7 +256,7 @@ namespace Exiv2 {
 
         while (marker != sos_ && marker != eoi_ && search > 0) {
             // Read size and signature (ok if this hits EOF)
-            memset(buf.pData_, 0x0, buf.size_);
+            std::memset(buf.pData_, 0x0, buf.size_);
             bufRead = io_->read(buf.pData_, bufMinSize);
             if (io_->error()) throw Error(14);
             if (bufRead < 2) throw Error(15);
@@ -515,7 +515,7 @@ namespace Exiv2 {
 
                         if (rawExif.size_ + 8 > 0xffff) throw Error(37, "Exif");
                         us2Data(tmpBuf + 2, static_cast<uint16_t>(rawExif.size_ + 8), bigEndian);
-                        memcpy(tmpBuf + 4, exifId_, 6);
+                        std::memcpy(tmpBuf + 4, exifId_, 6);
                         if (outIo.write(tmpBuf, 10) != 10) throw Error(21);
 
                         // Write new Exif data buffer
@@ -539,7 +539,7 @@ namespace Exiv2 {
 
                     if (xmpPacket_.size() + 31 > 0xffff) throw Error(37, "XMP");
                     us2Data(tmpBuf + 2, static_cast<uint16_t>(xmpPacket_.size() + 31), bigEndian);
-                    memcpy(tmpBuf + 4, xmpId_, 29);
+                    std::memcpy(tmpBuf + 4, xmpId_, 29);
                     if (outIo.write(tmpBuf, 33) != 33) throw Error(21);
 
                     // Write new XMP packet
@@ -561,7 +561,7 @@ namespace Exiv2 {
 
                         if (newPsData.size_ + 16 > 0xffff) throw Error(37, "IPTC");
                         us2Data(tmpBuf + 2, static_cast<uint16_t>(newPsData.size_ + 16), bigEndian);
-                        memcpy(tmpBuf + 4, Photoshop::ps3Id_, 14);
+                        std::memcpy(tmpBuf + 4, Photoshop::ps3Id_, 14);
                         if (outIo.write(tmpBuf, 18) != 18) throw Error(21);
                         if (outIo.error()) throw Error(21);
 
@@ -689,7 +689,7 @@ namespace Exiv2 {
         byte tmpBuf[7];
         tmpBuf[0] = 0xff;
         tmpBuf[1] = 0x01;
-        memcpy(tmpBuf + 2, exiv2Id_, 5);
+        std::memcpy(tmpBuf + 2, exiv2Id_, 5);
         if (outIo.write(tmpBuf, 7) != 7) return 4;
         if (outIo.error()) return 4;
         return 0;

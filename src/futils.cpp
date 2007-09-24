@@ -84,11 +84,11 @@ namespace Exiv2 {
 # ifdef EXV_STRERROR_R_CHAR_P
         char *buf = 0;
         char buf2[n];
-        memset(buf2, 0x0, n);
+        std::memset(buf2, 0x0, n);
         buf = strerror_r(error, buf2, n);
 # else
         char buf[n];
-        memset(buf, 0x0, n);
+        std::memset(buf, 0x0, n);
         strerror_r(error, buf, n);
 # endif
         os << buf;

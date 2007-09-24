@@ -43,6 +43,7 @@ EXIV2_RCSID("@(#) $Id$")
 
 // + standard includes
 #include <string>
+#include <cstring>
 
 // *****************************************************************************
 // class member definitions
@@ -152,7 +153,7 @@ namespace Exiv2 {
         if (size < size_) return false;
 
         header_.alloc(size_);
-        memcpy(header_.pData_, pData, header_.size_);
+        std::memcpy(header_.pData_, pData, header_.size_);
         if (   static_cast<uint32_t>(header_.size_) < size_
             || 0 != memcmp(header_.pData_, signature_, 5)) {
             return false;
@@ -180,7 +181,7 @@ namespace Exiv2 {
         if (size < size_) return false;
 
         header_.alloc(size_);
-        memcpy(header_.pData_, pData, header_.size_);
+        std::memcpy(header_.pData_, pData, header_.size_);
 
         // Read offset to the IFD relative to the start of the makernote
         // from the header. Note that we ignore the byteOrder argument
@@ -213,7 +214,7 @@ namespace Exiv2 {
         if (size < size_) return false;
         if (0 != memcmp(pData, signature_, 6)) return false;
         buf_.alloc(size_);
-        memcpy(buf_.pData_, pData, buf_.size_);
+        std::memcpy(buf_.pData_, pData, buf_.size_);
         start_ = size_;
         return true;
 
@@ -239,7 +240,7 @@ namespace Exiv2 {
         if (size < size_) return false;
         if (0 != memcmp(pData, signature_, 6)) return false;
         buf_.alloc(size_);
-        memcpy(buf_.pData_, pData, buf_.size_);
+        std::memcpy(buf_.pData_, pData, buf_.size_);
         TiffHeade2 th;
         if (!th.read(buf_.pData_ + 10, 8)) return false;
         byteOrder_ = th.byteOrder();
@@ -267,7 +268,7 @@ namespace Exiv2 {
         if (size < size_) return false;
         if (0 != memcmp(pData, signature_, 9)) return false;
         buf_.alloc(size_);
-        memcpy(buf_.pData_, pData, buf_.size_);
+        std::memcpy(buf_.pData_, pData, buf_.size_);
         start_ = size_;
         return true;
 
@@ -296,7 +297,7 @@ namespace Exiv2 {
         if (   0 != memcmp(pData, signature1_, 8)
             && 0 != memcmp(pData, signature2_, 8)) return false;
         buf_.alloc(size_);
-        memcpy(buf_.pData_, pData, buf_.size_);
+        std::memcpy(buf_.pData_, pData, buf_.size_);
         start_ = size_;
         return true;
 
@@ -321,7 +322,7 @@ namespace Exiv2 {
         if (size < size_) return false;
         if (0 != memcmp(pData, signature_, size_)) return false;
         buf_.alloc(size_);
-        memcpy(buf_.pData_, pData, buf_.size_);
+        std::memcpy(buf_.pData_, pData, buf_.size_);
         start_ = size_;
         return true;
 

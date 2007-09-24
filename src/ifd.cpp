@@ -74,11 +74,11 @@ namespace Exiv2 {
         if (alloc_) {
             if (rhs.pData_) {
                 pData_ = new byte[rhs.size()];
-                memcpy(pData_, rhs.pData_, rhs.size());
+                std::memcpy(pData_, rhs.pData_, rhs.size());
             }
             if (rhs.pDataArea_) {
                 pDataArea_ = new byte[rhs.sizeDataArea()];
-                memcpy(pDataArea_, rhs.pDataArea_, rhs.sizeDataArea());
+                std::memcpy(pDataArea_, rhs.pDataArea_, rhs.sizeDataArea());
             }
         }
         else {
@@ -105,13 +105,13 @@ namespace Exiv2 {
             pData_ = 0;
             if (rhs.pData_) {
                 pData_ = new byte[rhs.size()];
-                memcpy(pData_, rhs.pData_, rhs.size());
+                std::memcpy(pData_, rhs.pData_, rhs.size());
             }
             delete[] pDataArea_;
             pDataArea_ = 0;
             if (rhs.pDataArea_) {
                 pDataArea_ = new byte[rhs.sizeDataArea()];
-                memcpy(pDataArea_, rhs.pDataArea_, rhs.sizeDataArea());
+                std::memcpy(pDataArea_, rhs.pDataArea_, rhs.sizeDataArea());
             }
         }
         else {
@@ -144,8 +144,8 @@ namespace Exiv2 {
         if (alloc_) {
             delete[] pData_;
             pData_ = new byte[len];
-            memset(pData_, 0x0, len);
-            memcpy(pData_, buf, dataSize);
+            std::memset(pData_, 0x0, len);
+            std::memcpy(pData_, buf, dataSize);
             size_ = len;
         }
         else {
@@ -157,8 +157,8 @@ namespace Exiv2 {
             else {
                 // Overwrite existing data if it fits into the buffer
                 if (size_ < dataSize) throw Error(24, tag(), dataSize, size_);
-                memset(pData_, 0x0, size_);
-                memcpy(pData_, buf, dataSize);
+                std::memset(pData_, 0x0, size_);
+                std::memcpy(pData_, buf, dataSize);
                 // do not change size_
             }
         }
@@ -171,7 +171,7 @@ namespace Exiv2 {
         if (alloc_) {
             delete[] pDataArea_;
             pDataArea_ = new byte[len];
-            memcpy(pDataArea_, buf, len);
+            std::memcpy(pDataArea_, buf, len);
             sizeDataArea_ = len;
         }
         else {
@@ -185,8 +185,8 @@ namespace Exiv2 {
                 if (sizeDataArea_ < len) {
                     throw Error(25, tag(), sizeDataArea_, len);
                 }
-                memset(pDataArea_, 0x0, sizeDataArea_);
-                memcpy(pDataArea_, buf, len);
+                std::memset(pDataArea_, 0x0, sizeDataArea_);
+                std::memcpy(pDataArea_, buf, len);
                 // do not change sizeDataArea_
             }
         }
@@ -270,7 +270,7 @@ namespace Exiv2 {
           dataOffset_(0), hasNext_(true), pNext_(0), next_(0)
     {
         pNext_ = new byte[4];
-        memset(pNext_, 0x0, 4);
+        std::memset(pNext_, 0x0, 4);
     }
 
     Ifd::Ifd(IfdId ifdId, long offset)
@@ -278,7 +278,7 @@ namespace Exiv2 {
           dataOffset_(0), hasNext_(true), pNext_(0), next_(0)
     {
         pNext_ = new byte[4];
-        memset(pNext_, 0x0, 4);
+        std::memset(pNext_, 0x0, 4);
     }
 
     Ifd::Ifd(IfdId ifdId, long offset, bool alloc, bool hasNext)
@@ -287,7 +287,7 @@ namespace Exiv2 {
     {
         if (alloc_ && hasNext_) {
             pNext_ = new byte[4];
-            memset(pNext_, 0x0, 4);
+            std::memset(pNext_, 0x0, 4);
         }
     }
 
@@ -304,8 +304,8 @@ namespace Exiv2 {
     {
         if (alloc_ && hasNext_) {
             pNext_ = new byte[4];
-            memset(pNext_, 0x0, 4);
-            if (rhs.pNext_) memcpy(pNext_, rhs.pNext_, 4);
+            std::memset(pNext_, 0x0, 4);
+            if (rhs.pNext_) std::memcpy(pNext_, rhs.pNext_, 4);
         }
     }
 
@@ -386,7 +386,7 @@ namespace Exiv2 {
             }
             else {
                 if (alloc_) {
-                    memcpy(pNext_, buf + o, 4);
+                    std::memcpy(pNext_, buf + o, 4);
                 }
                 else {
                     pNext_ = const_cast<byte*>(buf + o);
@@ -587,8 +587,8 @@ namespace Exiv2 {
             }
             else {
                 // Copy data into the offset field
-                memset(buf + o + 8, 0x0, 4);
-                memcpy(buf + o + 8, i->data(), i->size());
+                std::memset(buf + o + 8, 0x0, 4);
+                std::memcpy(buf + o + 8, i->data(), i->size());
             }
             o += 12;
         }
@@ -596,10 +596,10 @@ namespace Exiv2 {
         if (hasNext_) {
             // Add the offset to the next IFD to the data buffer
             if (pNext_) {
-                memcpy(buf + o, pNext_, 4);
+                std::memcpy(buf + o, pNext_, 4);
             }
             else {
-                memset(buf + o, 0x0, 4);
+                std::memset(buf + o, 0x0, 4);
             }
             o += 4;
         }
@@ -607,7 +607,7 @@ namespace Exiv2 {
         // Add the data of all IFD entries to the data buffer
         for (i = b; i != e; ++i) {
             if (i->size() > 4) {
-                memcpy(buf + o, i->data(), i->size());
+                std::memcpy(buf + o, i->data(), i->size());
                 o += i->size();
             }
         }
@@ -615,7 +615,7 @@ namespace Exiv2 {
         // Add all data areas to the data buffer
         for (i = b; i != e; ++i) {
             if (i->sizeDataArea() > 0) {
-                memcpy(buf + o, i->dataArea(), i->sizeDataArea());
+                std::memcpy(buf + o, i->dataArea(), i->sizeDataArea());
                 o += i->sizeDataArea();
             }
         }
@@ -630,7 +630,7 @@ namespace Exiv2 {
         dataOffset_ = 0;
         if (hasNext_) {
             if (alloc_) {
-                memset(pNext_, 0x0, 4);
+                std::memset(pNext_, 0x0, 4);
             }
             else {
                 pBase_ = 0;

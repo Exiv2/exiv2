@@ -240,7 +240,7 @@ namespace Exiv2 {
             lastSize = size;
             if (len < offset + size) return 1;
 
-            memcpy(stripsBuf.pData_ + currentOffset, buf + offset, size);
+            std::memcpy(stripsBuf.pData_ + currentOffset, buf + offset, size);
             os << currentOffset << " ";
             currentOffset += size;
         }
@@ -348,7 +348,7 @@ namespace Exiv2 {
     {
         pData_ = new byte[rhs.size_];
         size_ = rhs.size_;
-        memcpy(pData_, rhs.pData_, rhs.size_);
+        std::memcpy(pData_, rhs.pData_, rhs.size_);
 
         if (rhs.pTiffHeader_) {
             pTiffHeader_ = new TiffHeader(*rhs.pTiffHeader_);
@@ -401,7 +401,7 @@ namespace Exiv2 {
         delete[] pData_;
         pData_ = new byte[rhs.size_];
         size_ = rhs.size_;
-        memcpy(pData_, rhs.pData_, rhs.size_);
+        std::memcpy(pData_, rhs.pData_, rhs.size_);
 
         delete pTiffHeader_;
         pTiffHeader_ = 0;
@@ -466,7 +466,7 @@ namespace Exiv2 {
 
         // Copy the data buffer
         DataBuf tmpData(len);
-        memcpy(tmpData.pData_, buf, len);
+        std::memcpy(tmpData.pData_, buf, len);
 
         // Read the TIFF header
         std::auto_ptr<TiffHeader> tmpTiffHeader(new TiffHeader);
@@ -609,7 +609,7 @@ namespace Exiv2 {
             std::cerr << "->>>>>> using non-intrusive writing <<<<<<-\n";
 #endif
             buf.alloc(size_);
-            memcpy(buf.pData_, pData_, size_);
+            std::memcpy(buf.pData_, pData_, size_);
         }
         // Else we have to do it the hard way...
         else {
@@ -644,7 +644,7 @@ namespace Exiv2 {
             e.setIfdId(exifIfd.ifdId());
             e.setTag(0x927c);
             DataBuf tmpBuf(makerNote->size());
-            memset(tmpBuf.pData_, 0x0, tmpBuf.size_);
+            std::memset(tmpBuf.pData_, 0x0, tmpBuf.size_);
             e.setValue(undefined, tmpBuf.size_, tmpBuf.pData_, tmpBuf.size_);
             exifIfd.erase(0x927c);
             exifIfd.add(e);

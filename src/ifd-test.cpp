@@ -194,9 +194,9 @@ try {
     ifd5.print(std::cout);
 
     Exiv2::byte* newBuf = new Exiv2::byte[len];
-    memset(newBuf, 0x00, len);
-    memcpy(newBuf, buf, len);
-    memset(buf, 0x0, len);
+    std::memset(newBuf, 0x00, len);
+    std::memcpy(newBuf, buf, len);
+    std::memset(buf, 0x0, len);
     ifd5.updateBase(newBuf);
     ifd5.print(std::cout);
     delete[] newBuf;
