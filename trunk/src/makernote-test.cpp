@@ -11,6 +11,7 @@ int main()
     testMatch("Canon", "Canon");
     testMatch("Canon*", "Canon");
     testMatch("Canon*", "Canon Corp.");
+    testMatch("PENTAX*", "PENTAX Corporation");
     testMatch("*foo*bar*", "foobar");
     testMatch("*foo*bar*", "barfoofoobarbar");
     testMatch("foo*bar", "foo");

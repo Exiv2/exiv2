@@ -1,6 +1,7 @@
 Key 'Canon' matches 'Canon' with a score of 7.
 Key 'Canon' matches 'Canon*' with a score of 6.
 Key 'Canon Corp.' matches 'Canon*' with a score of 6.
+Key 'PENTAX Corporation' matches 'PENTAX*' with a score of 7.
 Key 'foobar' matches '*foo*bar*' with a score of 7.
 Key 'barfoofoobarbar' matches '*foo*bar*' with a score of 7.
 Key 'foo' does not match 'foo*bar'.

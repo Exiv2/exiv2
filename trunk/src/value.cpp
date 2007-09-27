@@ -85,8 +85,8 @@ namespace Exiv2 {
         case unsignedRational:
             value = AutoPtr(new ValueType<URational>);
             break;
-        case invalid6:
-            value = AutoPtr(new DataValue(invalid6));
+        case signedByte:
+            value = AutoPtr(new DataValue(signedByte));
             break;
         case undefined:
             value = AutoPtr(new DataValue);

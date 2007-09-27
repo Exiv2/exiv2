@@ -38,6 +38,7 @@
 #include "nikonmn.hpp"
 #include "olympusmn.hpp"
 #include "panasonicmn.hpp"
+#include "pentaxmn.hpp"
 #include "sigmamn.hpp"
 #include "sonymn.hpp"
 

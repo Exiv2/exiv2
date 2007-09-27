@@ -63,7 +63,7 @@ namespace Exiv2 {
         TypeInfoTable(unsignedShort,    "Short",       2),
         TypeInfoTable(unsignedLong,     "Long",        4),
         TypeInfoTable(unsignedRational, "Rational",    8),
-        TypeInfoTable(invalid6,         "Invalid(6)",  1),
+        TypeInfoTable(signedByte,       "SByte",       1),
         TypeInfoTable(undefined,        "Undefined",   1),
         TypeInfoTable(signedShort,      "SShort",      2),
         TypeInfoTable(signedLong,       "SLong",       4),
