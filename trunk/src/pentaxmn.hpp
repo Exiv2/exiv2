@@ -21,7 +21,7 @@
 /*!
   @file    pentaxmn.hpp
   @brief   Pentax MakerNote implemented according to the specification
-             http://www.gvsoft.homedns.org/exif/makernote-pentax-type3.html and
+           http://www.gvsoft.homedns.org/exif/makernote-pentax-type3.html and
            based on ExifTool implementation and
            <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Pentax.html">Pentax Makernote list</a> by Phil Harvey<br>
   @version $Rev$
@@ -40,7 +40,8 @@
 
 // + standard includes
 #include <string>
-#include <iosfwd>
+#include <iostream>
+#include <iomanip>
 #include <memory>
 
 // *****************************************************************************
@@ -77,10 +78,10 @@ namespace Exiv2 {
              deleted.
      */
     MakerNote::AutoPtr createPentaxMakerNote(bool alloc,
-                                           const byte* buf,
-                                           long len,
-                                           ByteOrder byteOrder,
-                                           long offset);
+                                             const byte* buf,
+                                             long len,
+                                             ByteOrder byteOrder,
+                                             long offset);
 
 // *****************************************************************************
 // class definitions
@@ -138,10 +139,6 @@ namespace Exiv2 {
         static std::ostream& printPentaxTemperature(std::ostream& os, const Value& value);
         static std::ostream& printPentaxFlashCompensation(std::ostream& os, const Value& value);
         static std::ostream& printPentaxBracketing(std::ostream& os, const Value& value);
-        static std::ostream& printPentaxImageProcessing(std::ostream& os, const Value& value);
-        static std::ostream& printPentaxPictureMode(std::ostream& os, const Value& value);
-        static std::ostream& printPentaxDriveMode(std::ostream& os, const Value& value);
-        static std::ostream& printPentaxLensType(std::ostream& os, const Value& value);
 
     private:
         //! Internal virtual create function.
@@ -154,6 +151,40 @@ namespace Exiv2 {
     }; // class PentaxMakerNote
 
     static PentaxMakerNote::RegisterMn registerPentaxMakerNote;
+
+    /*!
+      @brief Print function to translate Pentax "combi-values" to a description
+             by looking up a reference table.
+     */
+    template <int N, const TagDetails (&array)[N], int count>
+    std::ostream& printCombiTag(std::ostream& os, const Value& value)
+    {
+        if (value.count() != count || count > 4) {
+            return printValue(os, value);
+        }
+        unsigned long l = 0;
+        for (int c = 0; c < count; ++c) {
+            if (value.toLong(c) < 0 || value.toLong(c) > 255) {
+                return printValue(os, value);
+            }
+            l += (value.toLong(c) << ((count - c - 1) * 8));
+        }
+        const TagDetails* td = find(array, l);
+        if (td) {
+            os << exvGettext(td->label_);
+        }
+        else {
+            os << exvGettext("Unknown") << " (0x"
+               << std::setw(2 * count) << std::setfill('0')
+               << std::hex << l << std::dec << ")";
+        }
+
+        return os;
+    }
+
+//! Shortcut for the printCombiTag template which requires typing the array name only once.
+#define EXV_PRINT_COMBITAG(array, count) printCombiTag<EXV_COUNTOF(array), array, count>
+
 }                                       // namespace Exiv2
 
 #endif                                  // #ifndef PENTAXMN_HPP_
