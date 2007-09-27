@@ -21,8 +21,8 @@
 /*!
   @file    pentaxmn.hpp
   @brief   Pentax MakerNote implemented according to the specification
-  		   http://www.gvsoft.homedns.org/exif/makernote-pentax-type3.html and 
-		   based on ExifTool implementation and 
+             http://www.gvsoft.homedns.org/exif/makernote-pentax-type3.html and
+           based on ExifTool implementation and
            <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Pentax.html">Pentax Makernote list</a> by Phil Harvey<br>
   @version $Rev$
   @author  Michal Cihar
@@ -127,21 +127,21 @@ namespace Exiv2 {
         };
         //! @endcond
 
-		static std::ostream& printPentaxVersion(std::ostream& os, const Value& value);
-		static std::ostream& printPentaxResolution(std::ostream& os, const Value& value);
-    	static std::ostream& printPentaxDate(std::ostream& os, const Value& value);
-    	static std::ostream& printPentaxTime(std::ostream& os, const Value& value);
-    	static std::ostream& printPentaxExposure(std::ostream& os, const Value& value);
-    	static std::ostream& printPentaxFValue(std::ostream& os, const Value& value);
-    	static std::ostream& printPentaxFocalLength(std::ostream& os, const Value& value);
-    	static std::ostream& printPentaxCompensation(std::ostream& os, const Value& value);
-    	static std::ostream& printPentaxTemperature(std::ostream& os, const Value& value);
-    	static std::ostream& printPentaxFlashCompensation(std::ostream& os, const Value& value);
-    	static std::ostream& printPentaxBracketing(std::ostream& os, const Value& value);
-    	static std::ostream& printPentaxImageProcessing(std::ostream& os, const Value& value);
-    	static std::ostream& printPentaxPictureMode(std::ostream& os, const Value& value);
-    	static std::ostream& printPentaxDriveMode(std::ostream& os, const Value& value);
-    	static std::ostream& printPentaxLensType(std::ostream& os, const Value& value);
+        static std::ostream& printPentaxVersion(std::ostream& os, const Value& value);
+        static std::ostream& printPentaxResolution(std::ostream& os, const Value& value);
+        static std::ostream& printPentaxDate(std::ostream& os, const Value& value);
+        static std::ostream& printPentaxTime(std::ostream& os, const Value& value);
+        static std::ostream& printPentaxExposure(std::ostream& os, const Value& value);
+        static std::ostream& printPentaxFValue(std::ostream& os, const Value& value);
+        static std::ostream& printPentaxFocalLength(std::ostream& os, const Value& value);
+        static std::ostream& printPentaxCompensation(std::ostream& os, const Value& value);
+        static std::ostream& printPentaxTemperature(std::ostream& os, const Value& value);
+        static std::ostream& printPentaxFlashCompensation(std::ostream& os, const Value& value);
+        static std::ostream& printPentaxBracketing(std::ostream& os, const Value& value);
+        static std::ostream& printPentaxImageProcessing(std::ostream& os, const Value& value);
+        static std::ostream& printPentaxPictureMode(std::ostream& os, const Value& value);
+        static std::ostream& printPentaxDriveMode(std::ostream& os, const Value& value);
+        static std::ostream& printPentaxLensType(std::ostream& os, const Value& value);
 
     private:
         //! Internal virtual create function.
