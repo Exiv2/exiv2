@@ -97,7 +97,7 @@ namespace Exiv2 {
 
     //! Type identifiers for IFD format types
     enum TypeId { invalidTypeId, unsignedByte, asciiString, unsignedShort,
-                  unsignedLong, unsignedRational, invalid6, undefined,
+                  unsignedLong, unsignedRational, signedByte, undefined,
                   signedShort, signedLong, signedRational,
                   string, date, time,
                   comment,
@@ -115,7 +115,7 @@ namespace Exiv2 {
                  minoltaIfdId, minoltaCs5DIfdId, minoltaCs7DIfdId,
                  minoltaCsOldIfdId, minoltaCsNewIfdId,
                  nikon1IfdId, nikon2IfdId, nikon3IfdId,
-                 olympusIfdId, panasonicIfdId, sigmaIfdId, sonyIfdId,
+                 olympusIfdId, panasonicIfdId, pentaxIfdId, sigmaIfdId, sonyIfdId,
                  lastIfdId };
 
     //! Type to identify where the data is stored in a directory

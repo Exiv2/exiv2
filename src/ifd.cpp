@@ -482,7 +482,7 @@ namespace Exiv2 {
                 e.setOffset(tmpOffset - offset_);
                 // Set the size to at least for bytes to accomodate offset-data
 #ifndef SUPPRESS_WARNINGS
-                if (i->type_ < 1 || i->type_ > 10 || i->type_ == 6) {
+                if (i->type_ < 1 || i->type_ > 10) {
                     std::cerr << "Warning: "
                               << ExifTags::ifdName(ifdId_) << " tag 0x"
                               << std::setw(4) << std::setfill('0') << std::hex

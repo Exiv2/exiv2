@@ -83,6 +83,7 @@ CCSRC += pngimage.cpp         \
 endif
 CCSRC += rafimage.cpp         \
 	 sigmamn.cpp          \
+	 pentaxmn.cpp          \
 	 sonymn.cpp           \
 	 tags.cpp             \
 	 tiffcomposite.cpp    \
