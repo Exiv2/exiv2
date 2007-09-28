@@ -438,6 +438,7 @@ namespace Exiv2 {
     //! exif:ColorSpace
     extern const TagDetails xmpExifColorSpace[] = {
         { 1,     N_("sRGB")         },
+        { 2,     N_("Adobe RGB")    },    // Not defined to Exif 2.2 spec. But used by a lot of cameras.
         { 65535, N_("uncalibrated") }
     };
 
