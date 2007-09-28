@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2007-09-28 19:14-0400\n"
+"POT-Creation-Date: 2007-09-28 20:35-0400\n"
 "PO-Revision-Date: 2005-03-12 05:43+0100\n"
 "Last-Translator: Fabian Mandelbaum <fabman@mandrakesoft.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -686,7 +686,7 @@ msgid ""
 "\" normal and \"8\" denotes the least-urgent copy."
 msgstr ""
 
-#: src/datasets.cpp:213
+#: src/datasets.cpp:213 src/properties.cpp:112
 #, fuzzy
 msgid "Subject"
 msgstr "Área del sujeto"
@@ -1062,7 +1062,7 @@ msgid ""
 "creator."
 msgstr ""
 
-#: src/datasets.cpp:371 src/datasets.cpp:375
+#: src/datasets.cpp:371 src/datasets.cpp:375 src/properties.cpp:111
 #, fuzzy
 msgid "Source"
 msgstr "Fuente de archivo"
@@ -1102,7 +1102,7 @@ msgstr "acción"
 msgid "A textual description of the object data."
 msgstr ""
 
-#: src/datasets.cpp:387
+#: src/datasets.cpp:387 src/properties.cpp:102
 #, fuzzy
 msgid "Description"
 msgstr "Descripción de la imagen"
@@ -1145,7 +1145,7 @@ msgstr "Orientación"
 msgid "Indicates the layout of an image."
 msgstr ""
 
-#: src/datasets.cpp:402
+#: src/datasets.cpp:402 src/properties.cpp:107
 msgid "Language"
 msgstr ""
 
@@ -2013,6 +2013,512 @@ msgstr ""
 
 #: src/properties.cpp:80
 msgid "IPTC Core schema"
+msgstr ""
+
+#: src/properties.cpp:84
+#, fuzzy
+msgid "Colorant structure"
+msgstr "Espacio de color"
+
+#: src/properties.cpp:85
+msgid "Dimensions structure"
+msgstr ""
+
+#: src/properties.cpp:86
+msgid "Font structure"
+msgstr ""
+
+#: src/properties.cpp:87
+#, fuzzy
+msgid "Thumbnail structure"
+msgstr "Desplazamiento de tira"
+
+#: src/properties.cpp:88
+msgid "Resource Event structure"
+msgstr ""
+
+#: src/properties.cpp:89
+msgid "ResourceRef structure"
+msgstr ""
+
+#: src/properties.cpp:90
+msgid "Version structure"
+msgstr ""
+
+#: src/properties.cpp:91
+msgid "Basic Job/Workflow structure"
+msgstr ""
+
+#: src/properties.cpp:94
+msgid "Qualifier for xmp:Identifier"
+msgstr ""
+
+#: src/properties.cpp:98
+#, fuzzy
+msgid "Contributor"
+msgstr "Contraste"
+
+#: src/properties.cpp:98
+msgid "Contributors to the resource (other than the authors)."
+msgstr ""
+
+#: src/properties.cpp:99
+#, fuzzy
+msgid "Coverage"
+msgstr "Promedio"
+
+#: src/properties.cpp:99
+msgid "The extent or scope of the resource."
+msgstr ""
+
+#: src/properties.cpp:100
+#, fuzzy
+msgid "Creator"
+msgstr "Centímetro"
+
+#: src/properties.cpp:100
+msgid ""
+"The authors of the resource (listed in order of precedence, if significant)."
+msgstr ""
+
+#: src/properties.cpp:101 src/pentaxmn.cpp:769 src/pentaxmn.cpp:770
+#, fuzzy
+msgid "Date"
+msgstr "Fecha y hora"
+
+#: src/properties.cpp:101
+msgid "Date(s) that something interesting happened to the resource."
+msgstr ""
+
+#: src/properties.cpp:102
+msgid ""
+"A textual description of the content of the resource. Multiple values may be "
+"present for different languages."
+msgstr ""
+
+#: src/properties.cpp:104
+#, fuzzy
+msgid "Format"
+msgstr "Fuente de archivo"
+
+#: src/properties.cpp:104
+msgid ""
+"The file format used when saving the resource. Tools and applications should "
+"set this property to the save format of the data. It may include appropriate "
+"qualifiers."
+msgstr ""
+
+#: src/properties.cpp:106 src/properties.cpp:134
+#, fuzzy
+msgid "Identifier"
+msgstr "Centímetro"
+
+#: src/properties.cpp:106
+msgid "Unique identifier of the resource."
+msgstr ""
+
+#: src/properties.cpp:107
+msgid "An unordered array specifying the languages used in the resource."
+msgstr ""
+
+#: src/properties.cpp:108
+msgid "Publisher"
+msgstr ""
+
+#: src/properties.cpp:108
+msgid "Publishers."
+msgstr ""
+
+#: src/properties.cpp:109
+#, fuzzy
+msgid "Relation"
+msgstr "acción"
+
+#: src/properties.cpp:109
+msgid "Relationships to other documents."
+msgstr ""
+
+#: src/properties.cpp:110
+#, fuzzy
+msgid "Rights"
+msgstr "Escena nocturna"
+
+#: src/properties.cpp:110
+msgid "Informal rights statement, selected by language."
+msgstr ""
+
+#: src/properties.cpp:111
+msgid "Unique identifier of the work from which this resource was derived."
+msgstr ""
+
+#: src/properties.cpp:112
+msgid ""
+"An unordered array of descriptive phrases or keywords that specify the topic "
+"of the content of the resource."
+msgstr ""
+
+#: src/properties.cpp:114
+#, fuzzy
+msgid "Title"
+msgstr "Orden de llenado"
+
+#: src/properties.cpp:114
+msgid ""
+"The title of the document, or the name given to the resource. Typically, it "
+"will be a name by which the resource is formally known."
+msgstr ""
+
+#: src/properties.cpp:116
+#, fuzzy
+msgid "Type"
+msgstr "Escena nocturna"
+
+#: src/properties.cpp:116
+msgid "A document type; for example, novel, poem, or working paper."
+msgstr ""
+
+#: src/properties.cpp:122
+#, fuzzy
+msgid "Advisory"
+msgstr "acción"
+
+#: src/properties.cpp:122
+msgid ""
+"An unordered array specifying properties that were edited outside the "
+"authoring application. Each item should contain a single namespace and XPath "
+"separated by one ASCII space (U+0020)."
+msgstr ""
+
+#: src/properties.cpp:125
+msgid "Base URL"
+msgstr ""
+
+#: src/properties.cpp:125
+msgid ""
+"The base URL for relative URLs in the document content. If this document "
+"contains Internet links, and those links are relative, they are relative to "
+"this base URL. This property provides a standard way for embedded relative "
+"URLs to be interpreted by tools. Web authoring tools should set the value "
+"based on their notion of where URLs will be interpreted."
+msgstr ""
+
+#: src/properties.cpp:130
+#, fuzzy
+msgid "Create Date"
+msgstr "Tipo de captura de escena"
+
+#: src/properties.cpp:130
+#, fuzzy
+msgid "The date and time the resource was originally created."
+msgstr ""
+"La fehca y hora cuando se almacenó la imagen en forma de datos digitales."
+
+#: src/properties.cpp:131
+msgid "Creator Tool"
+msgstr ""
+
+#: src/properties.cpp:131
+msgid ""
+"The name of the first known tool used to create the resource. If history is "
+"present in the metadata, this value should be equivalent to that of xmpMM:"
+"History's softwareAgent property."
+msgstr ""
+
+#: src/properties.cpp:134
+msgid ""
+"An unordered array of text strings that unambiguously identify the resource "
+"within a given context. An array item may be qualified with xmpidq:Scheme to "
+"denote the formal identification system to which that identifier conforms. "
+"Note: The dc:identifier property is not used because it lacks a defined "
+"scheme qualifier and has been defined in the XMP Specification as a simple "
+"(single-valued) property."
+msgstr ""
+
+#: src/properties.cpp:139
+#, fuzzy
+msgid "Label"
+msgstr "promedio"
+
+#: src/properties.cpp:139
+msgid ""
+"A word or short phrase that identifies a document as a member of a user-"
+"defined collection. Used to organize documents in a file browser."
+msgstr ""
+
+#: src/properties.cpp:141
+msgid "Metadata Date"
+msgstr ""
+
+#: src/properties.cpp:141
+msgid ""
+"The date and time that any metadata for this resource was last changed. It "
+"should be the same as or more recent than xmp:ModifyDate."
+msgstr ""
+
+#: src/properties.cpp:143
+msgid "Modify Date"
+msgstr ""
+
+#: src/properties.cpp:143
+msgid ""
+"The date and time the resource was last modified. Note: The value of this "
+"property is not necessarily the same as the file's system modification date "
+"because it is set before the file is saved."
+msgstr ""
+
+#: src/properties.cpp:146
+msgid "Nickname"
+msgstr ""
+
+#: src/properties.cpp:146
+msgid "A short informal name for the resource."
+msgstr ""
+
+#: src/properties.cpp:147
+#, fuzzy
+msgid "Rating"
+msgstr "acción"
+
+#: src/properties.cpp:147
+msgid ""
+"A number that indicates a document's status relative to other documents, "
+"used to organize documents in a file browser. Values are user-defined within "
+"an application-defined range."
+msgstr ""
+
+#: src/properties.cpp:150
+#, fuzzy
+msgid "Thumbnails"
+msgstr "Desplazamiento de tira"
+
+#: src/properties.cpp:150
+msgid ""
+"An alternative array of thumbnail images for a file, which can differ in "
+"characteristics such as size or image encoding."
+msgstr ""
+
+#: src/properties.cpp:157
+msgid "Certificate"
+msgstr ""
+
+#: src/properties.cpp:157
+msgid "Online rights management certificate."
+msgstr ""
+
+#: src/properties.cpp:158
+#, fuzzy
+msgid "Marked"
+msgstr "Duro"
+
+#: src/properties.cpp:158
+msgid "Indicates that this is a rights-managed resource."
+msgstr ""
+
+#: src/properties.cpp:159
+#, fuzzy
+msgid "Owner"
+msgstr "Nombre del documento"
+
+#: src/properties.cpp:159
+msgid "An unordered array specifying the legal owner(s) of a resource."
+msgstr ""
+
+#: src/properties.cpp:160
+msgid "Usage Terms"
+msgstr ""
+
+#: src/properties.cpp:160
+msgid "Text instructions on how a resource can be legally used."
+msgstr ""
+
+#: src/properties.cpp:161
+msgid "Web Statement"
+msgstr ""
+
+#: src/properties.cpp:161
+msgid ""
+"The location of a web page describing the owner and/or rights statement for "
+"this resource."
+msgstr ""
+
+#: src/properties.cpp:167
+#, fuzzy
+msgid "Derived From"
+msgstr "Modo de métrica"
+
+#: src/properties.cpp:167
+msgid ""
+"A reference to the original document from which this one is derived. It is a "
+"minimal reference; missing components can be assumed to be unchanged. For "
+"example, a new version might only need to specify the instance ID and "
+"version number of the previous version, or a rendition might only need to "
+"specify the instance ID and rendition class of the original."
+msgstr ""
+
+#: src/properties.cpp:172
+#, fuzzy
+msgid "Document ID"
+msgstr "Nombre del documento"
+
+#: src/properties.cpp:172
+msgid ""
+"The common identifier for all versions and renditions of a document. It "
+"should be based on a UUID; see Document and Instance IDs below."
+msgstr ""
+
+#: src/properties.cpp:174
+msgid "History"
+msgstr ""
+
+#: src/properties.cpp:174
+msgid ""
+"An ordered array of high-level user actions that resulted in this resource. "
+"It is intended to give human readers a general indication of the steps taken "
+"to make the changes from the previous version to this one. The list should "
+"be at an abstract level; it is not intended to be an exhaustive keystroke or "
+"other detailed history."
+msgstr ""
+
+#: src/properties.cpp:178
+msgid "Instance ID"
+msgstr ""
+
+#: src/properties.cpp:178
+msgid ""
+"An identifier for a specific incarnation of a document, updated each time a "
+"file is saved. It should be based on a UUID; see Document and Instance IDs "
+"below."
+msgstr ""
+
+#: src/properties.cpp:180
+msgid "Managed From"
+msgstr ""
+
+#: src/properties.cpp:180
+msgid ""
+"A reference to the document as it was prior to becoming managed. It is set "
+"when a managed document is introduced to an asset management system that "
+"does not currently own it. It may or may not include references to different "
+"management systems."
+msgstr ""
+
+#: src/properties.cpp:183
+#, fuzzy
+msgid "Manager"
+msgstr "Fabricante"
+
+#: src/properties.cpp:183
+msgid ""
+"The name of the asset management system that manages this resource. Along "
+"with xmpMM: ManagerVariant, it tells applications which asset management "
+"system to contact concerning this document."
+msgstr ""
+
+#: src/properties.cpp:186
+msgid "Manage To"
+msgstr ""
+
+#: src/properties.cpp:186
+msgid ""
+"A URI identifying the managed resource to the asset management system; the "
+"presence of this property is the formal indication that this resource is "
+"managed. The form and content of this URI is private to the asset management "
+"system."
+msgstr ""
+
+#: src/properties.cpp:189
+msgid "Manage UI"
+msgstr ""
+
+#: src/properties.cpp:189
+msgid ""
+"A URI that can be used to access information about the managed resource "
+"through a web browser. It might require a custom browser plug- in."
+msgstr ""
+
+#: src/properties.cpp:191
+msgid "Manager Variant"
+msgstr ""
+
+#: src/properties.cpp:191
+msgid ""
+"Specifies a particular variant of the asset management system. The format of "
+"this property is private to the specific asset management system."
+msgstr ""
+
+#: src/properties.cpp:193
+msgid "Rendition Class"
+msgstr ""
+
+#: src/properties.cpp:193
+msgid ""
+"The rendition class name for this resource. This property should be absent "
+"or set to default for a document version that is not a derived rendition."
+msgstr ""
+
+#: src/properties.cpp:195
+msgid "Rendition Params"
+msgstr ""
+
+#: src/properties.cpp:195
+msgid ""
+"Can be used to provide additional rendition parameters that are too complex "
+"or verbose to encode in xmpMM: RenditionClass."
+msgstr ""
+
+#: src/properties.cpp:197
+#, fuzzy
+msgid "Version ID"
+msgstr "Versión Exif"
+
+#: src/properties.cpp:197
+msgid ""
+"The document version identifier for this resource. Each version of a "
+"document gets a new identifier, usually simply by incrementing integers 1, "
+"2, 3 . . . and so on. Media management systems can have other conventions or "
+"support branching which requires a more complex scheme."
+msgstr ""
+
+#: src/properties.cpp:201
+#, fuzzy
+msgid "Versions"
+msgstr "Versión Exif"
+
+#: src/properties.cpp:201
+msgid ""
+"The version history associated with this resource. Entry [1] is the oldest "
+"known version for this document, entry [last()] is the most recent version. "
+"Typically, a media management system would fill in the version information "
+"in the metadata on check-in. It is not guaranteed that a complete history  "
+"versions from the first to this one will be present in the xmpMM:Versions "
+"property. Interior version information can be compressed or eliminated and "
+"the version history can be truncated at some point."
+msgstr ""
+
+#: src/properties.cpp:207
+msgid "Last URL"
+msgstr ""
+
+#: src/properties.cpp:207
+msgid "Deprecated for privacy protection."
+msgstr ""
+
+#: src/properties.cpp:208
+msgid "Rendition Of"
+msgstr ""
+
+#: src/properties.cpp:208
+msgid ""
+"Deprecated in favor of xmpMM:DerivedFrom. A reference to the document of "
+"which this is a rendition."
+msgstr ""
+
+#: src/properties.cpp:210
+msgid "Save ID"
+msgstr ""
+
+#: src/properties.cpp:210
+msgid "Deprecated. Previously used only to support the xmpMM:LastURL property."
 msgstr ""
 
 #: src/properties.cpp:441 src/tags.cpp:602 src/nikonmn.cpp:110
@@ -10507,11 +11013,6 @@ msgstr "Versión Exif"
 #: src/pentaxmn.cpp:767
 msgid "Pentax model idenfication"
 msgstr ""
-
-#: src/pentaxmn.cpp:769 src/pentaxmn.cpp:770
-#, fuzzy
-msgid "Date"
-msgstr "Fecha y hora"
 
 #: src/pentaxmn.cpp:772 src/pentaxmn.cpp:773
 msgid "Time"
