@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2007-09-28 18:18-0400\n"
+"POT-Creation-Date: 2007-09-28 19:14-0400\n"
 "PO-Revision-Date: 2006-12-18 16:08+0200\n"
 "Last-Translator: Mikael Lammentausta\n"
 "Language-Team:  <fi@li.org>\n"
@@ -72,10 +72,11 @@ msgstr "Aukon koko"
 msgid "Exposure bias"
 msgstr "Valotuksen bias"
 
-#: src/actions.cpp:303 src/tags.cpp:550 src/tags.cpp:775 src/canonmn.cpp:503
-#: src/minoltamn.cpp:665 src/minoltamn.cpp:904 src/minoltamn.cpp:905
-#: src/minoltamn.cpp:1013 src/minoltamn.cpp:1142 src/minoltamn.cpp:1143
-#: src/panasonicmn.cpp:78 src/pentaxmn.cpp:266
+#: src/actions.cpp:303 src/properties.cpp:488 src/tags.cpp:550
+#: src/tags.cpp:775 src/canonmn.cpp:503 src/minoltamn.cpp:665
+#: src/minoltamn.cpp:904 src/minoltamn.cpp:905 src/minoltamn.cpp:1013
+#: src/minoltamn.cpp:1142 src/minoltamn.cpp:1143 src/panasonicmn.cpp:78
+#: src/pentaxmn.cpp:266
 msgid "Flash"
 msgstr "Salama"
 
@@ -133,9 +134,9 @@ msgstr "Valkotasapaino"
 msgid "Thumbnail"
 msgstr "Tunnistekuva"
 
-#: src/actions.cpp:542 src/tags.cpp:659 src/canonmn.cpp:311
-#: src/minoltamn.cpp:426 src/minoltamn.cpp:520 src/nikonmn.cpp:136
-#: src/olympusmn.cpp:85 src/olympusmn.cpp:512
+#: src/actions.cpp:542 src/properties.cpp:563 src/tags.cpp:659
+#: src/canonmn.cpp:311 src/minoltamn.cpp:426 src/minoltamn.cpp:520
+#: src/nikonmn.cpp:136 src/olympusmn.cpp:85 src/olympusmn.cpp:512
 msgid "None"
 msgstr "Ei mitään"
 
@@ -1867,6 +1868,487 @@ msgstr ""
 msgid "Data of entry"
 msgstr ""
 
+#: src/properties.cpp:67
+msgid "Dublin Core schema"
+msgstr ""
+
+#: src/properties.cpp:68
+msgid "XMP Basic schema"
+msgstr ""
+
+#: src/properties.cpp:69
+msgid "XMP Rights Management schema"
+msgstr ""
+
+#: src/properties.cpp:70
+msgid "XMP Media Management schema"
+msgstr ""
+
+#: src/properties.cpp:71
+msgid "XMP Basic Job Ticket schema"
+msgstr ""
+
+#: src/properties.cpp:72
+msgid "XMP Paged-Text schema"
+msgstr ""
+
+#: src/properties.cpp:73
+msgid "XMP Dynamic Media schema"
+msgstr ""
+
+#: src/properties.cpp:74
+msgid "Adobe PDF schema"
+msgstr ""
+
+#: src/properties.cpp:75
+msgid "Adobe photoshop schema"
+msgstr ""
+
+#: src/properties.cpp:76
+#, fuzzy
+msgid "Camera Raw schema"
+msgstr "Kameran merkki"
+
+#: src/properties.cpp:77
+msgid "Exif Schema for TIFF Properties"
+msgstr ""
+
+#: src/properties.cpp:78
+msgid "Exif schema for Exif-specific Properties"
+msgstr ""
+
+#: src/properties.cpp:79
+msgid "Exif schema for Additional Exif Properties"
+msgstr ""
+
+#: src/properties.cpp:80
+msgid "IPTC Core schema"
+msgstr ""
+
+#: src/properties.cpp:441 src/tags.cpp:602 src/nikonmn.cpp:110
+#: src/pentaxmn.cpp:479
+msgid "sRGB"
+msgstr ""
+
+#: src/properties.cpp:442 src/tags.cpp:603 src/minoltamn.cpp:474
+#: src/minoltamn.cpp:856 src/nikonmn.cpp:111 src/pentaxmn.cpp:480
+msgid "Adobe RGB"
+msgstr ""
+
+#: src/properties.cpp:443
+msgid "uncalibrated"
+msgstr ""
+
+#: src/properties.cpp:459
+msgid "not defined"
+msgstr ""
+
+#: src/properties.cpp:460 src/tags.cpp:522 src/tags.cpp:639 src/tags.cpp:646
+#: src/canonmn.cpp:279 src/canonmn.cpp:355 src/canonmn.cpp:400
+#: src/fujimn.cpp:117 src/fujimn.cpp:142 src/minoltamn.cpp:309
+#: src/minoltamn.cpp:780 src/minoltamn.cpp:811 src/minoltamn.cpp:819
+#: src/minoltamn.cpp:984 src/minoltamn.cpp:1015 src/olympusmn.cpp:94
+#: src/panasonicmn.cpp:77 src/panasonicmn.cpp:85 src/panasonicmn.cpp:115
+#: src/pentaxmn.cpp:69 src/pentaxmn.cpp:184 src/pentaxmn.cpp:262
+#: src/pentaxmn.cpp:438 src/pentaxmn.cpp:450 src/sigmamn.cpp:232
+msgid "Manual"
+msgstr ""
+
+#: src/properties.cpp:461
+msgid "Normal program"
+msgstr ""
+
+#: src/properties.cpp:462 src/tags.cpp:524 src/minoltamn.cpp:307
+#: src/minoltamn.cpp:778 src/minoltamn.cpp:982 src/panasonicmn.cpp:112
+#: src/sigmamn.cpp:230
+msgid "Aperture priority"
+msgstr ""
+
+#: src/properties.cpp:463 src/tags.cpp:525 src/minoltamn.cpp:308
+#: src/minoltamn.cpp:779 src/minoltamn.cpp:983 src/sigmamn.cpp:231
+msgid "Shutter priority"
+msgstr ""
+
+#: src/properties.cpp:464 src/tags.cpp:526
+msgid "Creative program"
+msgstr ""
+
+#: src/properties.cpp:465 src/tags.cpp:527
+msgid "Action program"
+msgstr ""
+
+#: src/properties.cpp:466 src/tags.cpp:528
+msgid "Portrait mode"
+msgstr ""
+
+#: src/properties.cpp:467 src/tags.cpp:529
+msgid "Landscape mode"
+msgstr ""
+
+#: src/properties.cpp:472 src/properties.cpp:484
+msgid "unknown"
+msgstr ""
+
+#: src/properties.cpp:473 src/tags.cpp:535 src/canonmn.cpp:347
+#: src/sigmamn.cpp:242
+msgid "Average"
+msgstr ""
+
+#: src/properties.cpp:474
+msgid "CenterWeightedAverage"
+msgstr ""
+
+#: src/properties.cpp:475 src/tags.cpp:537 src/canonmn.cpp:346
+#: src/minoltamn.cpp:369 src/minoltamn.cpp:1028 src/minoltamn.cpp:1081
+#: src/pentaxmn.cpp:252
+msgid "Spot"
+msgstr ""
+
+#: src/properties.cpp:476
+msgid "MultiSpot"
+msgstr ""
+
+#: src/properties.cpp:477
+msgid "Pattern"
+msgstr ""
+
+#: src/properties.cpp:478 src/tags.cpp:540 src/canonmn.cpp:349
+msgid "Partial"
+msgstr ""
+
+#: src/properties.cpp:479 src/properties.cpp:504
+msgid "other"
+msgstr ""
+
+#: src/properties.cpp:485 src/tags.cpp:547 src/fujimn.cpp:82
+#: src/minoltamn.cpp:323 src/minoltamn.cpp:805 src/minoltamn.cpp:1008
+#: src/nikonmn.cpp:432 src/panasonicmn.cpp:74 src/pentaxmn.cpp:258
+msgid "Daylight"
+msgstr ""
+
+#: src/properties.cpp:486 src/tags.cpp:548 src/canonmn.cpp:502
+#: src/minoltamn.cpp:327 src/minoltamn.cpp:809 src/minoltamn.cpp:1012
+#: src/nikonmn.cpp:434 src/pentaxmn.cpp:260
+msgid "Fluorescent"
+msgstr ""
+
+#: src/properties.cpp:487 src/canonmn.cpp:501 src/minoltamn.cpp:325
+#: src/minoltamn.cpp:808 src/minoltamn.cpp:1011 src/pentaxmn.cpp:261
+msgid "Tungsten"
+msgstr ""
+
+#: src/properties.cpp:489 src/tags.cpp:551
+msgid "Fine weather"
+msgstr ""
+
+#: src/properties.cpp:490 src/tags.cpp:552
+msgid "Cloudy weather"
+msgstr ""
+
+#: src/properties.cpp:491 src/tags.cpp:553 src/canonmn.cpp:506
+#: src/minoltamn.cpp:806 src/minoltamn.cpp:1010 src/pentaxmn.cpp:259
+msgid "Shade"
+msgstr ""
+
+#: src/properties.cpp:492 src/tags.cpp:554
+msgid "Daylight fluorescent (D 5700 - 7100K)"
+msgstr ""
+
+#: src/properties.cpp:493 src/tags.cpp:555
+msgid "Day white fluorescent (N 4600 - 5400K)"
+msgstr ""
+
+#: src/properties.cpp:494 src/tags.cpp:556
+msgid "Cool white fluorescent (W 3900 - 4500K)"
+msgstr ""
+
+#: src/properties.cpp:495 src/tags.cpp:557
+msgid "White fluorescent (WW 3200 - 3700K)"
+msgstr ""
+
+#: src/properties.cpp:496 src/tags.cpp:558
+msgid "Standard light A"
+msgstr ""
+
+#: src/properties.cpp:497 src/tags.cpp:559
+msgid "Standard light B"
+msgstr ""
+
+#: src/properties.cpp:498 src/tags.cpp:560
+msgid "Standard light C"
+msgstr ""
+
+#: src/properties.cpp:499 src/tags.cpp:561
+msgid "D55"
+msgstr ""
+
+#: src/properties.cpp:500 src/tags.cpp:562
+msgid "D65"
+msgstr ""
+
+#: src/properties.cpp:501 src/tags.cpp:563
+msgid "D75"
+msgstr ""
+
+#: src/properties.cpp:502 src/tags.cpp:564
+msgid "D50"
+msgstr ""
+
+#: src/properties.cpp:503 src/tags.cpp:565
+msgid "ISO studio tungsten"
+msgstr ""
+
+#: src/properties.cpp:509
+msgid "inches"
+msgstr ""
+
+#: src/properties.cpp:510
+msgid "centimeters"
+msgstr ""
+
+#: src/properties.cpp:515 src/tags.cpp:521 src/tags.cpp:609
+msgid "Not defined"
+msgstr ""
+
+#: src/properties.cpp:516
+msgid "One-chip color area sensor"
+msgstr ""
+
+#: src/properties.cpp:517
+msgid "Two-chip color area sensor"
+msgstr ""
+
+#: src/properties.cpp:518
+msgid "Three-chip color area sensor"
+msgstr ""
+
+#: src/properties.cpp:519
+msgid "Color sequential area sensor"
+msgstr ""
+
+#: src/properties.cpp:520 src/tags.cpp:614
+msgid "Trilinear sensor"
+msgstr ""
+
+#: src/properties.cpp:521
+msgid "Color sequential linear sensor"
+msgstr ""
+
+#: src/properties.cpp:526
+msgid "DSC"
+msgstr ""
+
+#: src/properties.cpp:531
+msgid "directly photographed image"
+msgstr ""
+
+#: src/properties.cpp:536 src/tags.cpp:632
+msgid "Normal process"
+msgstr ""
+
+#: src/properties.cpp:537 src/tags.cpp:633
+msgid "Custom process"
+msgstr ""
+
+#: src/properties.cpp:542
+msgid "Auto exposure"
+msgstr ""
+
+#: src/properties.cpp:543
+msgid "Manual exposure"
+msgstr ""
+
+#: src/properties.cpp:544 src/tags.cpp:640 src/sigmamn.cpp:133
+msgid "Auto bracket"
+msgstr ""
+
+#: src/properties.cpp:549
+#, fuzzy
+msgid "Auto white balance"
+msgstr "Valkotasapaino"
+
+#: src/properties.cpp:550
+#, fuzzy
+msgid "Manual white balance"
+msgstr "Valkotasapaino"
+
+#: src/properties.cpp:555 src/tags.cpp:651 src/fujimn.cpp:154
+#: src/fujimn.cpp:161 src/minoltamn.cpp:78 src/minoltamn.cpp:349
+#: src/panasonicmn.cpp:152 src/panasonicmn.cpp:158 src/pentaxmn.cpp:411
+msgid "Standard"
+msgstr ""
+
+#: src/properties.cpp:556 src/tags.cpp:652 src/canonmn.cpp:280
+#: src/fujimn.cpp:124 src/minoltamn.cpp:67 src/pentaxmn.cpp:413
+msgid "Landscape"
+msgstr ""
+
+#: src/properties.cpp:557 src/tags.cpp:653 src/canonmn.cpp:286
+#: src/fujimn.cpp:123 src/minoltamn.cpp:64 src/minoltamn.cpp:427
+#: src/panasonicmn.cpp:107 src/pentaxmn.cpp:412
+msgid "Portrait"
+msgstr ""
+
+#: src/properties.cpp:558 src/tags.cpp:654 src/fujimn.cpp:126
+msgid "Night scene"
+msgstr ""
+
+#: src/properties.cpp:564 src/tags.cpp:660
+msgid "Low gain up"
+msgstr ""
+
+#: src/properties.cpp:565 src/tags.cpp:661
+msgid "High gain up"
+msgstr ""
+
+#: src/properties.cpp:566 src/tags.cpp:662
+msgid "Low gain down"
+msgstr ""
+
+#: src/properties.cpp:567 src/tags.cpp:663
+msgid "High gain down"
+msgstr ""
+
+#: src/properties.cpp:572 src/properties.cpp:579 src/tags.cpp:668
+#: src/tags.cpp:675 src/tags.cpp:682 src/canonmn.cpp:226 src/canonmn.cpp:320
+#: src/fujimn.cpp:74 src/fujimn.cpp:93 src/fujimn.cpp:101
+#: src/minoltamn.cpp:420 src/minoltamn.cpp:797 src/minoltamn.cpp:1000
+#: src/nikonmn.cpp:146 src/nikonmn.cpp:413 src/olympusmn.cpp:99
+#: src/olympusmn.cpp:107 src/olympusmn.cpp:485 src/panasonicmn.cpp:66
+#: src/panasonicmn.cpp:106 src/panasonicmn.cpp:148 src/panasonicmn.cpp:179
+#: src/pentaxmn.cpp:181 src/pentaxmn.cpp:288 src/pentaxmn.cpp:299
+#: src/pentaxmn.cpp:310
+msgid "Normal"
+msgstr ""
+
+#: src/properties.cpp:573 src/tags.cpp:669 src/tags.cpp:683
+#: src/minoltamn.cpp:421 src/olympusmn.cpp:101 src/pentaxmn.cpp:309
+msgid "Soft"
+msgstr ""
+
+#: src/properties.cpp:574 src/tags.cpp:670 src/tags.cpp:684
+#: src/minoltamn.cpp:419 src/olympusmn.cpp:100 src/pentaxmn.cpp:311
+msgid "Hard"
+msgstr ""
+
+#: src/properties.cpp:580
+msgid "Low saturation"
+msgstr ""
+
+#: src/properties.cpp:581
+msgid "High saturation"
+msgstr ""
+
+#: src/properties.cpp:586 src/tags.cpp:534 src/tags.cpp:546 src/tags.cpp:689
+#: src/tags.cpp:1926 src/tags.cpp:1997 src/canonmn.cpp:189 src/canonmn.cpp:191
+#: src/canonmn.cpp:192 src/canonmn.cpp:200 src/canonmn.cpp:205
+#: src/canonmn.cpp:206 src/canonmn.cpp:207 src/canonmn.cpp:450
+#: src/canonmn.cpp:452 src/canonmn.cpp:453 src/canonmn.cpp:465
+#: src/canonmn.cpp:466 src/canonmn.cpp:468 src/canonmn.cpp:469
+#: src/canonmn.cpp:470 src/canonmn.cpp:471 src/canonmn.cpp:474
+#: src/canonmn.cpp:475 src/canonmn.cpp:482 src/canonmn.cpp:483
+#: src/canonmn.cpp:485 src/canonmn.cpp:547 src/canonmn.cpp:549
+#: src/canonmn.cpp:552 src/canonmn.cpp:554 src/canonmn.cpp:556
+#: src/canonmn.cpp:557 src/canonmn.cpp:558 src/canonmn.cpp:559
+#: src/canonmn.cpp:562 src/canonmn.cpp:563 src/canonmn.cpp:564
+#: src/canonmn.cpp:566 src/canonmn.cpp:569 src/canonmn.cpp:570
+#: src/canonmn.cpp:571 src/canonmn.cpp:572 src/fujimn.cpp:221
+#: src/fujimn.cpp:230 src/fujimn.cpp:239 src/nikonmn.cpp:188
+#: src/nikonmn.cpp:280 src/nikonmn.cpp:442 src/nikonmn.cpp:463
+#: src/nikonmn.cpp:472 src/nikonmn.cpp:607 src/nikonmn.cpp:640
+#: src/nikonmn.cpp:709 src/nikonmn.cpp:736 src/nikonmn.cpp:739
+#: src/nikonmn.cpp:748 src/nikonmn.cpp:760 src/nikonmn.cpp:965
+#: src/olympusmn.cpp:174 src/olympusmn.cpp:180 src/olympusmn.cpp:183
+#: src/olympusmn.cpp:225 src/olympusmn.cpp:228 src/olympusmn.cpp:255
+#: src/olympusmn.cpp:258 src/olympusmn.cpp:264 src/olympusmn.cpp:273
+#: src/olympusmn.cpp:279 src/olympusmn.cpp:282 src/olympusmn.cpp:285
+#: src/olympusmn.cpp:288 src/olympusmn.cpp:291 src/olympusmn.cpp:294
+#: src/olympusmn.cpp:297 src/olympusmn.cpp:300 src/olympusmn.cpp:306
+#: src/olympusmn.cpp:309 src/olympusmn.cpp:342 src/olympusmn.cpp:345
+#: src/olympusmn.cpp:348 src/olympusmn.cpp:351 src/panasonicmn.cpp:195
+#: src/panasonicmn.cpp:218 src/panasonicmn.cpp:231 src/panasonicmn.cpp:234
+#: src/panasonicmn.cpp:240 src/panasonicmn.cpp:258 src/panasonicmn.cpp:264
+#: src/panasonicmn.cpp:276 src/pentaxmn.cpp:268 src/sonymn.cpp:64
+#: src/sonymn.cpp:67 src/sonymn.cpp:70 src/sonymn.cpp:73 src/sonymn.cpp:76
+#: src/sonymn.cpp:79 src/sonymn.cpp:82 src/sonymn.cpp:85 src/sonymn.cpp:88
+msgid "Unknown"
+msgstr ""
+
+#: src/properties.cpp:587 src/tags.cpp:690 src/canonmn.cpp:358
+#: src/canonmn.cpp:445 src/fujimn.cpp:214 src/olympusmn.cpp:129
+#: src/panasonicmn.cpp:114 src/panasonicmn.cpp:205 src/pentaxmn.cpp:182
+#: src/pentaxmn.cpp:414
+msgid "Macro"
+msgstr ""
+
+#: src/properties.cpp:588 src/tags.cpp:691
+msgid "Close view"
+msgstr ""
+
+#: src/properties.cpp:589 src/tags.cpp:692
+msgid "Distant view"
+msgstr ""
+
+#: src/properties.cpp:594 src/tags.cpp:980
+msgid "Above sea level"
+msgstr ""
+
+#: src/properties.cpp:595 src/tags.cpp:981
+msgid "Below sea level"
+msgstr ""
+
+#: src/properties.cpp:600
+msgid "measurement in progress"
+msgstr ""
+
+#: src/properties.cpp:601
+msgid "measurement is interoperability"
+msgstr ""
+
+#: src/properties.cpp:606
+msgid "two-dimensional measurement"
+msgstr ""
+
+#: src/properties.cpp:607
+msgid "three-dimensional measurement"
+msgstr ""
+
+#: src/properties.cpp:612
+msgid "kilometers per hour"
+msgstr ""
+
+#: src/properties.cpp:613
+msgid "miles per hour"
+msgstr ""
+
+#: src/properties.cpp:614 src/properties.cpp:627 src/tags.cpp:988
+msgid "knots"
+msgstr ""
+
+#: src/properties.cpp:619
+msgid "true direction"
+msgstr ""
+
+#: src/properties.cpp:620
+msgid "magnetic direction"
+msgstr ""
+
+#: src/properties.cpp:625
+msgid "kilometers"
+msgstr ""
+
+#: src/properties.cpp:626
+msgid "miles"
+msgstr ""
+
+#: src/properties.cpp:632
+msgid "Without correction"
+msgstr ""
+
+#: src/properties.cpp:633
+msgid "Correction applied"
+msgstr ""
+
 #: src/tags.cpp:108
 msgid "Unknown section"
 msgstr ""
@@ -2754,21 +3236,6 @@ msgstr ""
 msgid "Unknown IFD tag"
 msgstr ""
 
-#: src/tags.cpp:521 src/tags.cpp:609
-msgid "Not defined"
-msgstr ""
-
-#: src/tags.cpp:522 src/tags.cpp:639 src/tags.cpp:646 src/canonmn.cpp:279
-#: src/canonmn.cpp:355 src/canonmn.cpp:400 src/fujimn.cpp:117
-#: src/fujimn.cpp:142 src/minoltamn.cpp:309 src/minoltamn.cpp:780
-#: src/minoltamn.cpp:811 src/minoltamn.cpp:819 src/minoltamn.cpp:984
-#: src/minoltamn.cpp:1015 src/olympusmn.cpp:94 src/panasonicmn.cpp:77
-#: src/panasonicmn.cpp:85 src/panasonicmn.cpp:115 src/pentaxmn.cpp:69
-#: src/pentaxmn.cpp:184 src/pentaxmn.cpp:262 src/pentaxmn.cpp:438
-#: src/pentaxmn.cpp:450 src/sigmamn.cpp:232
-msgid "Manual"
-msgstr ""
-
 #: src/tags.cpp:523 src/tags.cpp:638 src/tags.cpp:645 src/canonmn.cpp:235
 #: src/canonmn.cpp:328 src/canonmn.cpp:356 src/canonmn.cpp:498
 #: src/fujimn.cpp:81 src/fujimn.cpp:108 src/fujimn.cpp:116 src/fujimn.cpp:122
@@ -2781,78 +3248,8 @@ msgstr ""
 msgid "Auto"
 msgstr ""
 
-#: src/tags.cpp:524 src/minoltamn.cpp:307 src/minoltamn.cpp:778
-#: src/minoltamn.cpp:982 src/panasonicmn.cpp:112 src/sigmamn.cpp:230
-msgid "Aperture priority"
-msgstr ""
-
-#: src/tags.cpp:525 src/minoltamn.cpp:308 src/minoltamn.cpp:779
-#: src/minoltamn.cpp:983 src/sigmamn.cpp:231
-msgid "Shutter priority"
-msgstr ""
-
-#: src/tags.cpp:526
-msgid "Creative program"
-msgstr ""
-
-#: src/tags.cpp:527
-msgid "Action program"
-msgstr ""
-
-#: src/tags.cpp:528
-msgid "Portrait mode"
-msgstr ""
-
-#: src/tags.cpp:529
-msgid "Landscape mode"
-msgstr ""
-
-#: src/tags.cpp:534 src/tags.cpp:546 src/tags.cpp:689 src/tags.cpp:1926
-#: src/tags.cpp:1997 src/canonmn.cpp:189 src/canonmn.cpp:191
-#: src/canonmn.cpp:192 src/canonmn.cpp:200 src/canonmn.cpp:205
-#: src/canonmn.cpp:206 src/canonmn.cpp:207 src/canonmn.cpp:450
-#: src/canonmn.cpp:452 src/canonmn.cpp:453 src/canonmn.cpp:465
-#: src/canonmn.cpp:466 src/canonmn.cpp:468 src/canonmn.cpp:469
-#: src/canonmn.cpp:470 src/canonmn.cpp:471 src/canonmn.cpp:474
-#: src/canonmn.cpp:475 src/canonmn.cpp:482 src/canonmn.cpp:483
-#: src/canonmn.cpp:485 src/canonmn.cpp:547 src/canonmn.cpp:549
-#: src/canonmn.cpp:552 src/canonmn.cpp:554 src/canonmn.cpp:556
-#: src/canonmn.cpp:557 src/canonmn.cpp:558 src/canonmn.cpp:559
-#: src/canonmn.cpp:562 src/canonmn.cpp:563 src/canonmn.cpp:564
-#: src/canonmn.cpp:566 src/canonmn.cpp:569 src/canonmn.cpp:570
-#: src/canonmn.cpp:571 src/canonmn.cpp:572 src/fujimn.cpp:221
-#: src/fujimn.cpp:230 src/fujimn.cpp:239 src/nikonmn.cpp:188
-#: src/nikonmn.cpp:280 src/nikonmn.cpp:442 src/nikonmn.cpp:463
-#: src/nikonmn.cpp:472 src/nikonmn.cpp:607 src/nikonmn.cpp:640
-#: src/nikonmn.cpp:709 src/nikonmn.cpp:736 src/nikonmn.cpp:739
-#: src/nikonmn.cpp:748 src/nikonmn.cpp:760 src/nikonmn.cpp:965
-#: src/olympusmn.cpp:174 src/olympusmn.cpp:180 src/olympusmn.cpp:183
-#: src/olympusmn.cpp:225 src/olympusmn.cpp:228 src/olympusmn.cpp:255
-#: src/olympusmn.cpp:258 src/olympusmn.cpp:264 src/olympusmn.cpp:273
-#: src/olympusmn.cpp:279 src/olympusmn.cpp:282 src/olympusmn.cpp:285
-#: src/olympusmn.cpp:288 src/olympusmn.cpp:291 src/olympusmn.cpp:294
-#: src/olympusmn.cpp:297 src/olympusmn.cpp:300 src/olympusmn.cpp:306
-#: src/olympusmn.cpp:309 src/olympusmn.cpp:342 src/olympusmn.cpp:345
-#: src/olympusmn.cpp:348 src/olympusmn.cpp:351 src/panasonicmn.cpp:195
-#: src/panasonicmn.cpp:218 src/panasonicmn.cpp:231 src/panasonicmn.cpp:234
-#: src/panasonicmn.cpp:240 src/panasonicmn.cpp:258 src/panasonicmn.cpp:264
-#: src/panasonicmn.cpp:276 src/pentaxmn.cpp:268 src/sonymn.cpp:64
-#: src/sonymn.cpp:67 src/sonymn.cpp:70 src/sonymn.cpp:73 src/sonymn.cpp:76
-#: src/sonymn.cpp:79 src/sonymn.cpp:82 src/sonymn.cpp:85 src/sonymn.cpp:88
-msgid "Unknown"
-msgstr ""
-
-#: src/tags.cpp:535 src/canonmn.cpp:347 src/sigmamn.cpp:242
-msgid "Average"
-msgstr ""
-
 #: src/tags.cpp:536
 msgid "Center weighted average"
-msgstr ""
-
-#: src/tags.cpp:537 src/canonmn.cpp:346 src/minoltamn.cpp:369
-#: src/minoltamn.cpp:1028 src/minoltamn.cpp:1081 src/pentaxmn.cpp:252
-msgid "Spot"
 msgstr ""
 
 #: src/tags.cpp:538
@@ -2863,89 +3260,12 @@ msgstr ""
 msgid "Multi-segment"
 msgstr ""
 
-#: src/tags.cpp:540 src/canonmn.cpp:349
-msgid "Partial"
-msgstr ""
-
 #: src/tags.cpp:541 src/canonmn.cpp:314
 msgid "Other"
 msgstr ""
 
-#: src/tags.cpp:547 src/fujimn.cpp:82 src/minoltamn.cpp:323
-#: src/minoltamn.cpp:805 src/minoltamn.cpp:1008 src/nikonmn.cpp:432
-#: src/panasonicmn.cpp:74 src/pentaxmn.cpp:258
-msgid "Daylight"
-msgstr ""
-
-#: src/tags.cpp:548 src/canonmn.cpp:502 src/minoltamn.cpp:327
-#: src/minoltamn.cpp:809 src/minoltamn.cpp:1012 src/nikonmn.cpp:434
-#: src/pentaxmn.cpp:260
-msgid "Fluorescent"
-msgstr ""
-
 #: src/tags.cpp:549
 msgid "Tungsten (incandescent light)"
-msgstr ""
-
-#: src/tags.cpp:551
-msgid "Fine weather"
-msgstr ""
-
-#: src/tags.cpp:552
-msgid "Cloudy weather"
-msgstr ""
-
-#: src/tags.cpp:553 src/canonmn.cpp:506 src/minoltamn.cpp:806
-#: src/minoltamn.cpp:1010 src/pentaxmn.cpp:259
-msgid "Shade"
-msgstr ""
-
-#: src/tags.cpp:554
-msgid "Daylight fluorescent (D 5700 - 7100K)"
-msgstr ""
-
-#: src/tags.cpp:555
-msgid "Day white fluorescent (N 4600 - 5400K)"
-msgstr ""
-
-#: src/tags.cpp:556
-msgid "Cool white fluorescent (W 3900 - 4500K)"
-msgstr ""
-
-#: src/tags.cpp:557
-msgid "White fluorescent (WW 3200 - 3700K)"
-msgstr ""
-
-#: src/tags.cpp:558
-msgid "Standard light A"
-msgstr ""
-
-#: src/tags.cpp:559
-msgid "Standard light B"
-msgstr ""
-
-#: src/tags.cpp:560
-msgid "Standard light C"
-msgstr ""
-
-#: src/tags.cpp:561
-msgid "D55"
-msgstr ""
-
-#: src/tags.cpp:562
-msgid "D65"
-msgstr ""
-
-#: src/tags.cpp:563
-msgid "D75"
-msgstr ""
-
-#: src/tags.cpp:564
-msgid "D50"
-msgstr ""
-
-#: src/tags.cpp:565
-msgid "ISO studio tungsten"
 msgstr ""
 
 #: src/tags.cpp:566
@@ -3061,15 +3381,6 @@ msgstr ""
 msgid "Yes, auto, red-eye reduction, return light detected"
 msgstr ""
 
-#: src/tags.cpp:602 src/nikonmn.cpp:110 src/pentaxmn.cpp:479
-msgid "sRGB"
-msgstr ""
-
-#: src/tags.cpp:603 src/minoltamn.cpp:474 src/minoltamn.cpp:856
-#: src/nikonmn.cpp:111 src/pentaxmn.cpp:480
-msgid "Adobe RGB"
-msgstr ""
-
 #: src/tags.cpp:604
 msgid "Uncalibrated"
 msgstr ""
@@ -3088,10 +3399,6 @@ msgstr ""
 
 #: src/tags.cpp:613
 msgid "Color sequential area"
-msgstr ""
-
-#: src/tags.cpp:614
-msgid "Trilinear sensor"
 msgstr ""
 
 #: src/tags.cpp:615
@@ -3114,76 +3421,6 @@ msgstr ""
 msgid "Directly photographed"
 msgstr ""
 
-#: src/tags.cpp:632
-msgid "Normal process"
-msgstr ""
-
-#: src/tags.cpp:633
-msgid "Custom process"
-msgstr ""
-
-#: src/tags.cpp:640 src/sigmamn.cpp:133
-msgid "Auto bracket"
-msgstr ""
-
-#: src/tags.cpp:651 src/fujimn.cpp:154 src/fujimn.cpp:161 src/minoltamn.cpp:78
-#: src/minoltamn.cpp:349 src/panasonicmn.cpp:152 src/panasonicmn.cpp:158
-#: src/pentaxmn.cpp:411
-msgid "Standard"
-msgstr ""
-
-#: src/tags.cpp:652 src/canonmn.cpp:280 src/fujimn.cpp:124
-#: src/minoltamn.cpp:67 src/pentaxmn.cpp:413
-msgid "Landscape"
-msgstr ""
-
-#: src/tags.cpp:653 src/canonmn.cpp:286 src/fujimn.cpp:123
-#: src/minoltamn.cpp:64 src/minoltamn.cpp:427 src/panasonicmn.cpp:107
-#: src/pentaxmn.cpp:412
-msgid "Portrait"
-msgstr ""
-
-#: src/tags.cpp:654 src/fujimn.cpp:126
-msgid "Night scene"
-msgstr ""
-
-#: src/tags.cpp:660
-msgid "Low gain up"
-msgstr ""
-
-#: src/tags.cpp:661
-msgid "High gain up"
-msgstr ""
-
-#: src/tags.cpp:662
-msgid "Low gain down"
-msgstr ""
-
-#: src/tags.cpp:663
-msgid "High gain down"
-msgstr ""
-
-#: src/tags.cpp:668 src/tags.cpp:675 src/tags.cpp:682 src/canonmn.cpp:226
-#: src/canonmn.cpp:320 src/fujimn.cpp:74 src/fujimn.cpp:93 src/fujimn.cpp:101
-#: src/minoltamn.cpp:420 src/minoltamn.cpp:797 src/minoltamn.cpp:1000
-#: src/nikonmn.cpp:146 src/nikonmn.cpp:413 src/olympusmn.cpp:99
-#: src/olympusmn.cpp:107 src/olympusmn.cpp:485 src/panasonicmn.cpp:66
-#: src/panasonicmn.cpp:106 src/panasonicmn.cpp:148 src/panasonicmn.cpp:179
-#: src/pentaxmn.cpp:181 src/pentaxmn.cpp:288 src/pentaxmn.cpp:299
-#: src/pentaxmn.cpp:310
-msgid "Normal"
-msgstr ""
-
-#: src/tags.cpp:669 src/tags.cpp:683 src/minoltamn.cpp:421
-#: src/olympusmn.cpp:101 src/pentaxmn.cpp:309
-msgid "Soft"
-msgstr ""
-
-#: src/tags.cpp:670 src/tags.cpp:684 src/minoltamn.cpp:419
-#: src/olympusmn.cpp:100 src/pentaxmn.cpp:311
-msgid "Hard"
-msgstr ""
-
 #: src/tags.cpp:676 src/canonmn.cpp:319 src/fujimn.cpp:95 src/fujimn.cpp:103
 #: src/olympusmn.cpp:108 src/panasonicmn.cpp:149 src/panasonicmn.cpp:151
 #: src/panasonicmn.cpp:159 src/pentaxmn.cpp:287 src/pentaxmn.cpp:298
@@ -3195,20 +3432,6 @@ msgstr ""
 #: src/panasonicmn.cpp:153 src/panasonicmn.cpp:160 src/pentaxmn.cpp:289
 #: src/pentaxmn.cpp:300
 msgid "High"
-msgstr ""
-
-#: src/tags.cpp:690 src/canonmn.cpp:358 src/canonmn.cpp:445 src/fujimn.cpp:214
-#: src/olympusmn.cpp:129 src/panasonicmn.cpp:114 src/panasonicmn.cpp:205
-#: src/pentaxmn.cpp:182 src/pentaxmn.cpp:414
-msgid "Macro"
-msgstr ""
-
-#: src/tags.cpp:691
-msgid "Close view"
-msgstr ""
-
-#: src/tags.cpp:692
-msgid "Distant view"
 msgstr ""
 
 #: src/tags.cpp:697 src/minoltamn.cpp:635 src/minoltamn.cpp:942
@@ -3820,24 +4043,12 @@ msgstr ""
 msgid "West"
 msgstr ""
 
-#: src/tags.cpp:980
-msgid "Above sea level"
-msgstr ""
-
-#: src/tags.cpp:981
-msgid "Below sea level"
-msgstr ""
-
 #: src/tags.cpp:986
 msgid "km/h"
 msgstr ""
 
 #: src/tags.cpp:987
 msgid "mph"
-msgstr ""
-
-#: src/tags.cpp:988
-msgid "knots"
 msgstr ""
 
 #: src/tags.cpp:993
@@ -5429,11 +5640,6 @@ msgstr ""
 #: src/minoltamn.cpp:807 src/minoltamn.cpp:1009 src/nikonmn.cpp:435
 #: src/panasonicmn.cpp:75 src/pentaxmn.cpp:267
 msgid "Cloudy"
-msgstr ""
-
-#: src/canonmn.cpp:501 src/minoltamn.cpp:325 src/minoltamn.cpp:808
-#: src/minoltamn.cpp:1011 src/pentaxmn.cpp:261
-msgid "Tungsten"
 msgstr ""
 
 #: src/canonmn.cpp:505 src/minoltamn.cpp:58
