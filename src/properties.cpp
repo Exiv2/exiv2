@@ -119,36 +119,36 @@ namespace Exiv2 {
     };
 
     extern const XmpPropertyInfo xmpXmpInfo[] = {
-        { "Advisory",         "Advisory",         "bag XPath",   xmpBag,           xmpExternal, "An unordered array specifying properties that were edited outside the authoring "
-                                                                                                "application. Each item should contain a single namespace and XPath separated by "
-                                                                                                "one ASCII space (U+0020)." },
-        { "BaseURL",          "BaseURL",          "URL",         xmpText,          xmpInternal, "The base URL for relative URLs in the document content. If this document contains "
-                                                                                                "Internet links, and those links are relative, they are relative to this base URL. "
-                                                                                                "This property provides a standard way for embedded relative URLs to be interpreted "
-                                                                                                "by tools. Web authoring tools should set the value based on their notion of where "
-                                                                                                "URLs will be interpreted." },
-        { "CreateDate",       "CreateDate",       "Date",        xmpText,          xmpInternal, "The date and time the resource was originally created." },
-        { "CreatorTool",      "CreatorTool",      "AgentName",   xmpText,          xmpInternal, "The name of the first known tool used to create the resource. If history is "
-                                                                                                "present in the metadata, this value should be equivalent to that of "
-                                                                                                "xmpMM:History's softwareAgent property." },
-        { "Identifier",       "Identifier",       "bag Text",    xmpBag,           xmpExternal, "An unordered array of text strings that unambiguously identify the resource within "
-                                                                                                "a given context. An array item may be qualified with xmpidq:Scheme to denote the "
-                                                                                                "formal identification system to which that identifier conforms. Note: The "
-                                                                                                "dc:identifier property is not used because it lacks a defined scheme qualifier and "
-                                                                                                "has been defined in the XMP Specification as a simple (single-valued) property." },
-        { "Label",            "Label",            "Text",        xmpText,          xmpExternal, "A word or short phrase that identifies a document as a member of a user-defined "
-                                                                                                "collection. Used to organize documents in a file browser." },
-        { "MetadataDate",     "MetadataDate",     "Date",        xmpText,          xmpInternal, "The date and time that any metadata for this resource was last changed. It should "
-                                                                                                "be the same as or more recent than xmp:ModifyDate." },
-        { "ModifyDate",       "ModifyDate",       "Date",        xmpText,          xmpInternal, "The date and time the resource was last modified. Note: The value of this property "
-                                                                                                "is not necessarily the same as the file's system modification date because it is "
-                                                                                                "set before the file is saved." },
-        { "Nickname",         "Nickname",         "Text",        xmpText,          xmpExternal, "A short informal name for the resource." },
-        { "Rating",           "Rating",           "Closed Choice of Integer", xmpText, xmpExternal, "A number that indicates a document's status relative to other documents, "
-                                                                                                "used to organize documents in a file browser. Values are user-defined within an "
-                                                                                                "application-defined range." },
-        { "Thumbnails",       "Thumbnails",       "alt Thumbnail", undefined,      xmpInternal, "An alternative array of thumbnail images for a file, which can differ in "
-                                                                                                "characteristics such as size or image encoding." },
+        { "Advisory",         N_("Advisory"),         "bag XPath",                xmpBag,    xmpExternal, N_("An unordered array specifying properties that were edited outside the authoring "
+                                                                                                             "application. Each item should contain a single namespace and XPath separated by "
+                                                                                                             "one ASCII space (U+0020).") },
+        { "BaseURL",          N_("Base URL"),         "URL",                      xmpText,   xmpInternal, N_("The base URL for relative URLs in the document content. If this document contains "
+                                                                                                             "Internet links, and those links are relative, they are relative to this base URL. "
+                                                                                                             "This property provides a standard way for embedded relative URLs to be interpreted "
+                                                                                                             "by tools. Web authoring tools should set the value based on their notion of where "
+                                                                                                             "URLs will be interpreted.") },
+        { "CreateDate",       N_("Create Date"),      "Date",                     xmpText,   xmpInternal, N_("The date and time the resource was originally created.") },
+        { "CreatorTool",      N_("Creator Tool"),     "AgentName",                xmpText,   xmpInternal, N_("The name of the first known tool used to create the resource. If history is "
+                                                                                                             "present in the metadata, this value should be equivalent to that of "
+                                                                                                             "xmpMM:History's softwareAgent property.") },
+        { "Identifier",       N_("Identifier"),       "bag Text",                 xmpBag,    xmpExternal, N_("An unordered array of text strings that unambiguously identify the resource within "
+                                                                                                             "a given context. An array item may be qualified with xmpidq:Scheme to denote the "
+                                                                                                             "formal identification system to which that identifier conforms. Note: The "
+                                                                                                             "dc:identifier property is not used because it lacks a defined scheme qualifier and "
+                                                                                                             "has been defined in the XMP Specification as a simple (single-valued) property.") },
+        { "Label",            N_("Label"),            "Text",                     xmpText,   xmpExternal, N_("A word or short phrase that identifies a document as a member of a user-defined "
+                                                                                                             "collection. Used to organize documents in a file browser.") },
+        { "MetadataDate",     N_("Metadata Date"),    "Date",                     xmpText,   xmpInternal, N_("The date and time that any metadata for this resource was last changed. It should "
+                                                                                                             "be the same as or more recent than xmp:ModifyDate.") },
+        { "ModifyDate",       N_("Modify Date"),      "Date",                     xmpText,   xmpInternal, N_("The date and time the resource was last modified. Note: The value of this property "
+                                                                                                             "is not necessarily the same as the file's system modification date because it is "
+                                                                                                             "set before the file is saved.") },
+        { "Nickname",         N_("Nickname"),         "Text",                     xmpText,   xmpExternal, N_("A short informal name for the resource.") },
+        { "Rating",           N_("Rating"),           "Closed Choice of Integer", xmpText,   xmpExternal, N_("A number that indicates a document's status relative to other documents, "
+                                                                                                             "used to organize documents in a file browser. Values are user-defined within an "
+                                                                                                             "application-defined range.") },
+        { "Thumbnails",       N_("Thumbnails"),       "alt Thumbnail",            undefined, xmpInternal, N_("An alternative array of thumbnail images for a file, which can differ in "
+                                                                                                             "characteristics such as size or image encoding.") },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
