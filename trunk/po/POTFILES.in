@@ -21,7 +21,6 @@ src/fujimn.cpp
 src/minoltamn.cpp
 src/nikonmn.cpp
 src/olympusmn.cpp
-src/olympusmn.cpp
 src/panasonicmn.cpp
 src/pentaxmn.cpp
 src/sigmamn.cpp
