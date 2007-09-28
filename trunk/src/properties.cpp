@@ -64,20 +64,21 @@ namespace Exiv2 {
 
     extern const XmpNsInfo xmpNsInfo[] = {
         // Schemas
-        { "http://purl.org/dc/elements/1.1/",             "dc",           xmpDcInfo,        "Dublin Core schema" },
-        { "http://ns.adobe.com/xap/1.0/",                 "xmp",          xmpXmpInfo,       "XMP Basic schema" },
-        { "http://ns.adobe.com/xap/1.0/rights/",          "xmpRights",    xmpXmpRightsInfo, "XMP Rights Management schema" },
-        { "http://ns.adobe.com/xap/1.0/mm/",              "xmpMM",        xmpXmpMMInfo,     "XMP Media Management schema" },
-        { "http://ns.adobe.com/xap/1.0/bj/",              "xmpBJ",        xmpXmpBJInfo,     "XMP Basic Job Ticket schema" },
-        { "http://ns.adobe.com/xap/1.0/t/pg/",            "xmpTPg",       xmpXmpTPgInfo,    "XMP Paged-Text schema" },
-        { "http://ns.adobe.com/xmp/1.0/DynamicMedia/",    "xmpDM",        xmpXmpDMInfo,     "XMP Dynamic Media schema" },
-        { "http://ns.adobe.com/pdf/1.3/",                 "pdf",          xmpPdfInfo,       "Adobe PDF schema" },
-        { "http://ns.adobe.com/photoshop/1.0/",           "photoshop",    xmpPhotoshopInfo, "Adobe photoshop schema" },
-        { "http://ns.adobe.com/camera-raw-settings/1.0/", "crs",          xmpCrsInfo,       "Camera Raw schema" },
-        { "http://ns.adobe.com/tiff/1.0/",                "tiff",         xmpTiffInfo,      "Exif Schema for TIFF Properties" },
-        { "http://ns.adobe.com/exif/1.0/",                "exif",         xmpExifInfo,      "Exif schema for Exif-specific Properties" },
-        { "http://ns.adobe.com/exif/1.0/aux/",            "aux",          xmpAuxInfo,       "Exif schema for Additional Exif Properties" },
-        { "http://iptc.org/std/Iptc4xmpCore/1.0/xmlns/",  "iptc",         xmpIptcInfo,      "IPTC Core schema" }, // 'Iptc4xmpCore' is just too long
+        { "http://purl.org/dc/elements/1.1/",             "dc",           xmpDcInfo,        N_("Dublin Core schema")                        },
+        { "http://ns.adobe.com/xap/1.0/",                 "xmp",          xmpXmpInfo,       N_("XMP Basic schema")                          },
+        { "http://ns.adobe.com/xap/1.0/rights/",          "xmpRights",    xmpXmpRightsInfo, N_("XMP Rights Management schema")              },
+        { "http://ns.adobe.com/xap/1.0/mm/",              "xmpMM",        xmpXmpMMInfo,     N_("XMP Media Management schema")               },
+        { "http://ns.adobe.com/xap/1.0/bj/",              "xmpBJ",        xmpXmpBJInfo,     N_("XMP Basic Job Ticket schema")               },
+        { "http://ns.adobe.com/xap/1.0/t/pg/",            "xmpTPg",       xmpXmpTPgInfo,    N_("XMP Paged-Text schema")                     },
+        { "http://ns.adobe.com/xmp/1.0/DynamicMedia/",    "xmpDM",        xmpXmpDMInfo,     N_("XMP Dynamic Media schema")                  },
+        { "http://ns.adobe.com/pdf/1.3/",                 "pdf",          xmpPdfInfo,       N_("Adobe PDF schema")                          },
+        { "http://ns.adobe.com/photoshop/1.0/",           "photoshop",    xmpPhotoshopInfo, N_("Adobe photoshop schema")                    },
+        { "http://ns.adobe.com/camera-raw-settings/1.0/", "crs",          xmpCrsInfo,       N_("Camera Raw schema")                         },
+        { "http://ns.adobe.com/tiff/1.0/",                "tiff",         xmpTiffInfo,      N_("Exif Schema for TIFF Properties")           },
+        { "http://ns.adobe.com/exif/1.0/",                "exif",         xmpExifInfo,      N_("Exif schema for Exif-specific Properties")  },
+        { "http://ns.adobe.com/exif/1.0/aux/",            "aux",          xmpAuxInfo,       N_("Exif schema for Additional Exif Properties")},
+        { "http://iptc.org/std/Iptc4xmpCore/1.0/xmlns/",  "iptc",         xmpIptcInfo,      N_("IPTC Core schema")                          }, 
+                                                                                             // NOTE: 'Iptc4xmpCore' is just too long
 
         // Structures
         { "http://ns.adobe.com/xap/1.0/g/",                   "xapG",    0, "Colorant structure" },
