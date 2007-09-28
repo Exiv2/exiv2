@@ -81,39 +81,39 @@ namespace Exiv2 {
                                                                                              // NOTE: 'Iptc4xmpCore' is just too long
 
         // Structures
-        { "http://ns.adobe.com/xap/1.0/g/",                   "xapG",    0, "Colorant structure" },
-        { "http://ns.adobe.com/xap/1.0/sType/Dimensions#",    "stDim",   0, "Dimensions structure" },
-        { "http://ns.adobe.com/xap/1.0/sType/Font#",          "stFnt",   0, "Font structure" },
-        { "http://ns.adobe.com/xap/1.0/g/img/",               "xapGImg", 0, "Thumbnail structure" },
-        { "http://ns.adobe.com/xap/1.0/sType/ResourceEvent#", "stEvt",   0, "Resource Event structure" },
-        { "http://ns.adobe.com/xap/1.0/sType/ResourceRef#",   "stRef",   0, "ResourceRef structure" },
-        { "http://ns.adobe.com/xap/1.0/sType/Version#",       "stVer",   0, "Version structure" },
-        { "http://ns.adobe.com/xap/1.0/sType/Job#",           "stJob",   0, "Basic Job/Workflow structure" },
+        { "http://ns.adobe.com/xap/1.0/g/",                   "xapG",    0, N_("Colorant structure")           },
+        { "http://ns.adobe.com/xap/1.0/sType/Dimensions#",    "stDim",   0, N_("Dimensions structure")         },
+        { "http://ns.adobe.com/xap/1.0/sType/Font#",          "stFnt",   0, N_("Font structure")               },
+        { "http://ns.adobe.com/xap/1.0/g/img/",               "xapGImg", 0, N_("Thumbnail structure")          },
+        { "http://ns.adobe.com/xap/1.0/sType/ResourceEvent#", "stEvt",   0, N_("Resource Event structure")     },
+        { "http://ns.adobe.com/xap/1.0/sType/ResourceRef#",   "stRef",   0, N_("ResourceRef structure")        },
+        { "http://ns.adobe.com/xap/1.0/sType/Version#",       "stVer",   0, N_("Version structure")            },
+        { "http://ns.adobe.com/xap/1.0/sType/Job#",           "stJob",   0, N_("Basic Job/Workflow structure") },
 
         // Qualifiers
-        { "http://ns.adobe.com/xmp/Identifier/qual/1.0/", "xmpidq", 0, "Qualifier for xmp:Identifier" }
+        { "http://ns.adobe.com/xmp/Identifier/qual/1.0/", "xmpidq", 0, N_("Qualifier for xmp:Identifier") }
     };
 
     extern const XmpPropertyInfo xmpDcInfo[] = {
-        { "contributor",      "contributor",      "bag ProperName", xmpBag,        xmpExternal, "Contributors to the resource (other than the authors)." },
-        { "coverage",         "coverage",         "Text",        xmpText,          xmpExternal, "The extent or scope of the resource." },
-        { "creator",          "creator",          "seq ProperName", xmpSeq,        xmpExternal, "The authors of the resource (listed in order of precedence, if significant)." },
-        { "date",             "date",             "seq Date",    xmpSeq,           xmpExternal, "Date(s) that something interesting happened to the resource." },
-        { "description",      "description",      "Lang Alt",    langAlt,          xmpExternal, "A textual description of the content of the resource. Multiple values may be "
-                                                                                                "present for different languages." },
-        { "format",           "format",           "MIMEType",    xmpText,          xmpInternal, "The file format used when saving the resource. Tools and applications should set "
-                                                                                                "this property to the save format of the data. It may include appropriate qualifiers." },
-        { "identifier",       "identifier",       "Text",        xmpText,          xmpExternal, "Unique identifier of the resource." },
-        { "language",         "language",         "bag Locale",  xmpBag,           xmpInternal, "An unordered array specifying the languages used in the resource." },
-        { "publisher",        "publisher",        "bag ProperName", xmpBag,        xmpExternal, "Publishers." },
-        { "relation",         "relation",         "bag Text",    xmpBag,           xmpInternal, "Relationships to other documents." },
-        { "rights",           "rights",           "Lang Alt",    langAlt,          xmpExternal, "Informal rights statement, selected by language." },
-        { "source",           "source",           "Text",        xmpText,          xmpExternal, "Unique identifier of the work from which this resource was derived." },
-        { "subject",          "subject",          "bag Text",    xmpBag,           xmpExternal, "An unordered array of descriptive phrases or keywords that specify the topic of the "
-                                                                                                "content of the resource." },
-        { "title",            "title",            "Lang Alt",    langAlt,          xmpExternal, "The title of the document, or the name given to the resource. Typically, it will be "
-                                                                                                "a name by which the resource is formally known." },
-        { "type",             "type",             "bag open Choice", xmpBag,       xmpExternal, "A document type; for example, novel, poem, or working paper." },
+        { "contributor",      N_("Contributor"),      "bag ProperName",  xmpBag,       xmpExternal, N_("Contributors to the resource (other than the authors).") },
+        { "coverage",         N_("Coverage"),         "Text",            xmpText,      xmpExternal, N_("The extent or scope of the resource.") },
+        { "creator",          N_("Creator"),          "seq ProperName",  xmpSeq,       xmpExternal, N_("The authors of the resource (listed in order of precedence, if significant).") },
+        { "date",             N_("Date"),             "seq Date",        xmpSeq,       xmpExternal, N_("Date(s) that something interesting happened to the resource.") },
+        { "description",      N_("Description"),      "Lang Alt",        langAlt,      xmpExternal, N_("A textual description of the content of the resource. Multiple values may be "
+                                                                                                       "present for different languages.") },
+        { "format",           N_("Format"),           "MIMEType",        xmpText,      xmpInternal, N_("The file format used when saving the resource. Tools and applications should set "
+                                                                                                       "this property to the save format of the data. It may include appropriate qualifiers.") },
+        { "identifier",       N_("Identifier"),       "Text",            xmpText,      xmpExternal, N_("Unique identifier of the resource.") },
+        { "language",         N_("Language"),         "bag Locale",      xmpBag,       xmpInternal, N_("An unordered array specifying the languages used in the resource.") },
+        { "publisher",        N_("Publisher"),        "bag ProperName",  xmpBag,       xmpExternal, N_("Publishers.") },
+        { "relation",         N_("Relation"),         "bag Text",        xmpBag,       xmpInternal, N_("Relationships to other documents.") },
+        { "rights",           N_("Rights"),           "Lang Alt",        langAlt,      xmpExternal, N_("Informal rights statement, selected by language.") },
+        { "source",           N_("Source"),           "Text",            xmpText,      xmpExternal, N_("Unique identifier of the work from which this resource was derived.") },
+        { "subject",          N_("Subject"),          "bag Text",        xmpBag,       xmpExternal, N_("An unordered array of descriptive phrases or keywords that specify the topic of the "
+                                                                                                       "content of the resource.") },
+        { "title",            N_("Title"),            "Lang Alt",        langAlt,      xmpExternal, N_("The title of the document, or the name given to the resource. Typically, it will be "
+                                                                                                       "a name by which the resource is formally known.") },
+        { "type",             N_("Type"),             "bag open Choice", xmpBag,       xmpExternal, N_("A document type; for example, novel, poem, or working paper.") },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
