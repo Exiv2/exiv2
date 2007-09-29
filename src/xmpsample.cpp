@@ -15,6 +15,14 @@ try {
     Exiv2::XmpData xmpData;
 
     // -------------------------------------------------------------------------
+    // Teaser: The quickest way to add simple XMP properties using Exiv2
+
+    xmpData["Xmp.dc.source"]  = "xmpsample.cpp";    // a simple text value
+    xmpData["Xmp.dc.subject"] = "Palmtree";         // an array item
+    xmpData["Xmp.dc.subject"] = "Rubbertree";       // add a 2nd array item
+    xmpData["Xmp.dc.title"]   = "lang=en-US Beach"; // a language alternative
+
+    // -------------------------------------------------------------------------
     // Exiv2 has specialized values for simple XMP properties, arrays of simple
     // properties and language alternatives.
 
@@ -35,12 +43,6 @@ try {
     v->read("lang=de-DE Hallo, Welt");       // The default doesn't need a 
     v->read("Hello, World");                 // qualifier
     xmpData.add(Exiv2::XmpKey("Xmp.dc.description"), v.get());
-
-    // Or all of the above but using associative array style syntax
-    xmpData["Xmp.dc.format"] = "image/tiff";      // overwrites existing value
-    xmpData["Xmp.dc.subject"] = "Palmtree";       // adds a new array value 
-    xmpData["Xmp.dc.subject"] = "Rubbertree";     // adds a second array item
-    xmpData["Xmp.dc.title"] = "lang=en-US Beach"; // a language alternative
 
     // -------------------------------------------------------------------------
     // Register a namespace which Exiv2 doesn't know yet. This is only needed
