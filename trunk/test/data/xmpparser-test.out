@@ -279,9 +279,11 @@ Xmp.ns1.NestedStructProp/ns2:Outer/ns2:Middle/ns2:Inner/ns2:Field2 XmpText    12
 >                            
 > <?xpacket end="w"?>
 \ No newline at end of file
-Xmp.dc.format                                XmpText    10  image/jpeg
+Xmp.dc.format                                XmpText    10  image/tiff
 Xmp.dc.creator                               XmpSeq      3  1) The first creator, 2) The second creator, 3) And another one
 Xmp.dc.description                           LangAlt     2  lang="de-DE" Hallo, Welt, lang="x-default" Hello, World
+Xmp.dc.subject                               XmpBag      2  Palmtree, Rubbertree
+Xmp.dc.title                                 LangAlt     1  lang="en-US" Beach
 Xmp.xmpDM.videoFrameSize/stDim:w             XmpText     2  16
 Xmp.xmpDM.videoFrameSize/stDim:h             XmpText     1  9
 Xmp.xmpDM.videoFrameSize/stDim:unit          XmpText     4  inch
@@ -303,7 +305,7 @@ Xmp.xmpBJ.JobRef[2]/stJob:role               XmpText     8  Best man
     xmlns:stDim="http://ns.adobe.com/xap/1.0/sType/Dimensions#"
     xmlns:xapBJ="http://ns.adobe.com/xap/1.0/bj/"
     xmlns:stJob="http://ns.adobe.com/xap/1.0/sType/Job#"
-   dc:format="image/jpeg">
+   dc:format="image/tiff">
    <dc:creator>
     <rdf:Seq>
      <rdf:li>1) The first creator</rdf:li>
@@ -320,6 +322,17 @@ Xmp.xmpBJ.JobRef[2]/stJob:role               XmpText     8  Best man
      <rdf:li xml:lang="de-DE">Hallo, Welt</rdf:li>
     </rdf:Alt>
    </dc:description>
+   <dc:subject>
+    <rdf:Bag>
+     <rdf:li>Palmtree</rdf:li>
+     <rdf:li>Rubbertree</rdf:li>
+    </rdf:Bag>
+   </dc:subject>
+   <dc:title>
+    <rdf:Alt>
+     <rdf:li xml:lang="en-US">Beach</rdf:li>
+    </rdf:Alt>
+   </dc:title>
    <dc:publisher rdf:parseType="Resource">
     <rdf:value>James Bond</rdf:value>
     <ns:role>secret agent</ns:role>
