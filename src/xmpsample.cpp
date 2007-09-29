@@ -36,6 +36,12 @@ try {
     v->read("Hello, World");                 // qualifier
     xmpData.add(Exiv2::XmpKey("Xmp.dc.description"), v.get());
 
+    // Or all of the above but using associative array style syntax
+    xmpData["Xmp.dc.format"] = "image/tiff";      // overwrites existing value
+    xmpData["Xmp.dc.subject"] = "Palmtree";       // adds a new array value 
+    xmpData["Xmp.dc.subject"] = "Rubbertree";     // adds a second array item
+    xmpData["Xmp.dc.title"] = "lang=en-US Beach"; // a language alternative
+
     // -------------------------------------------------------------------------
     // Register a namespace which Exiv2 doesn't know yet. This is only needed
     // when properties are added manually. If the XMP metadata is read from an
