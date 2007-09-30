@@ -282,6 +282,13 @@ Xmp.ns1.NestedStructProp/ns2:Outer/ns2:Middle/ns2:Inner/ns2:Field2 XmpText    12
 Xmp.dc.source                                XmpText    13  xmpsample.cpp
 Xmp.dc.subject                               XmpBag      2  Palmtree, Rubbertree
 Xmp.dc.title                                 LangAlt     1  lang="en-US" Beach
+Xmp.dc.one                                   XmpText     2  -1
+Xmp.dc.two                                   XmpText     6  3.1415
+Xmp.dc.three                                 XmpText     3  5/7
+Xmp.dc.four                                  XmpText     3  255
+Xmp.dc.five                                  XmpText     3  256
+Xmp.dc.six                                   XmpText     5  false
+Xmp.dc.seven                                 XmpText     5  Seven
 Xmp.dc.format                                XmpText    10  image/jpeg
 Xmp.dc.creator                               XmpSeq      3  1) The first creator, 2) The second creator, 3) And another one
 Xmp.dc.description                           LangAlt     2  lang="de-DE" Hallo, Welt, lang="x-default" Hello, World
@@ -307,6 +314,13 @@ Xmp.xmpBJ.JobRef[2]/stJob:role               XmpText     8  Best man
     xmlns:xapBJ="http://ns.adobe.com/xap/1.0/bj/"
     xmlns:stJob="http://ns.adobe.com/xap/1.0/sType/Job#"
    dc:source="xmpsample.cpp"
+   dc:one="-1"
+   dc:two="3.1415"
+   dc:three="5/7"
+   dc:four="255"
+   dc:five="256"
+   dc:six="false"
+   dc:seven="Seven"
    dc:format="image/jpeg">
    <dc:subject>
     <rdf:Bag>

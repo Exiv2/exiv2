@@ -80,17 +80,28 @@ namespace Exiv2 {
         //! Assignment operator
         Xmpdatum& operator=(const Xmpdatum& rhs);
         /*!
-          @brief Assign \em value to the %Xmpdatum. The type of the new Value
-                 is set to XmpTextValue.
-         */
-        Xmpdatum& operator=(const uint16_t& value);
-        /*!
-          @brief Assign \em value to the %Xmpdatum.
+          @brief Assign std::string \em value to the %Xmpdatum.
                  Calls setValue(const std::string&).
          */
         Xmpdatum& operator=(const std::string& value);
         /*!
-          @brief Assign \em value to the %Xmpdatum.
+          @brief Assign const char* \em value to the %Xmpdatum.
+                 Calls operator=(const std::string&).
+         */
+        Xmpdatum& operator=(const char* value);
+        /*!
+          @brief Assign a boolean \em value to the %Xmpdatum.
+                 Translates the value to a string "true" or "false".
+         */
+        Xmpdatum& operator=(const bool& value);
+        /*!
+          @brief Assign a \em value of any type with an output operator
+                 to the %Xmpdatum. Calls operator=(const std::string&).
+         */
+        template<typename T>
+        Xmpdatum& operator=(const T& value);
+        /*!
+          @brief Assign Value \em value to the %Xmpdatum.
                  Calls setValue(const Value*).
          */
         Xmpdatum& operator=(const Value& value);
@@ -310,6 +321,26 @@ namespace Exiv2 {
         static bool initialized_; //! Indicates if the XMP Toolkit has been initialized
 
     }; // class XmpParser
+
+// *****************************************************************************
+// free functions, template and inline definitions
+
+    inline Xmpdatum& Xmpdatum::operator=(const char* value)
+    {
+        return Xmpdatum::operator=(std::string(value));
+    }
+
+    inline Xmpdatum& Xmpdatum::operator=(const bool& value)
+    {
+        return operator=(value ? "true" : "false");
+    }
+
+    template<typename T>
+    Xmpdatum& Xmpdatum::operator=(const T& value)
+    {
+        setValue(Exiv2::toString(value));
+        return *this;
+    }
 
 }                                       // namespace Exiv2
 
