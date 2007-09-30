@@ -28,7 +28,7 @@
   @version $Rev: 823 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @author  Gilles Caulier (gc)
+  @author  Gilles Caulier (cgilles)
            <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a>
   @date    12-Jun-06, gc: submitted
  */
