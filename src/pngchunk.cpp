@@ -21,6 +21,7 @@
 /*
   File:    pngchunk.cpp
   Version: $Rev: 823 $
+  Author(s): Gilles Caulier (cgilles) <caulier dot gilles at gmail dot com>
   History: 12-Jun-06, gc: submitted
   Credits: See header file
  */
