@@ -246,14 +246,6 @@ namespace Exiv2 {
         return 0;
     }
 
-    Xmpdatum& Xmpdatum::operator=(const uint16_t& value)
-    {
-        XmpTextValue::AutoPtr v(new XmpTextValue);
-        v->read(toString(value));
-        p_->value_ = v;
-        return *this;
-    }
-
     Xmpdatum& Xmpdatum::operator=(const std::string& value)
     {
         setValue(value);

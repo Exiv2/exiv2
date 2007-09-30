@@ -15,12 +15,26 @@ try {
     Exiv2::XmpData xmpData;
 
     // -------------------------------------------------------------------------
-    // Teaser: The quickest way to add simple XMP properties using Exiv2
+    // Teaser: Setting XMP properties doesn't get much easier than this:
 
     xmpData["Xmp.dc.source"]  = "xmpsample.cpp";    // a simple text value
     xmpData["Xmp.dc.subject"] = "Palmtree";         // an array item
     xmpData["Xmp.dc.subject"] = "Rubbertree";       // add a 2nd array item
     xmpData["Xmp.dc.title"]   = "lang=en-US Beach"; // a language alternative
+
+    // -------------------------------------------------------------------------
+    // Any properties can be set provided the namespace is known. Values of any
+    // type can be assigned to an Xmpdatum (requires an output operator). The
+    // default XMP value type for unknown properties is a simple text value.
+
+    xmpData["Xmp.dc.one"]     = -1;
+    xmpData["Xmp.dc.two"]     = 3.1415;
+    xmpData["Xmp.dc.three"]   = Exiv2::Rational(5, 7);
+    xmpData["Xmp.dc.four"]    = uint16_t(255);
+    xmpData["Xmp.dc.five"]    = int32_t(256);
+    xmpData["Xmp.dc.six"]     = false;
+    Exiv2::XmpTextValue val("Seven");
+    xmpData["Xmp.dc.seven"]   = val;
 
     // -------------------------------------------------------------------------
     // Exiv2 has specialized values for simple XMP properties, arrays of simple
@@ -52,7 +66,7 @@ try {
 
     // -------------------------------------------------------------------------
     // There are no specialized values for structures, qualifiers and nested
-    // types. However, these can be added by using a XmpTextValue and a path as
+    // types. However, these can be added by using an XmpTextValue and a path as
     // the key.
 
     // Add a structure
@@ -74,11 +88,11 @@ try {
     xmpData.add(Exiv2::XmpKey("Xmp.dc.creator[2]/?ns:role"), &tv);
 
     // Add an array of structures
-    tv.read("");
+    tv.read("");                                         // Clear the value
     tv.setXmpArrayType(Exiv2::XmpValue::xaBag);
     xmpData.add(Exiv2::XmpKey("Xmp.xmpBJ.JobRef"), &tv); // Set the array type.
-    tv.setXmpArrayType(Exiv2::XmpValue::xaNone);
 
+    tv.setXmpArrayType(Exiv2::XmpValue::xaNone);
     tv.read("Birtday party");
     xmpData.add(Exiv2::XmpKey("Xmp.xmpBJ.JobRef[1]/stJob:name"), &tv);
     tv.read("Photographer");
