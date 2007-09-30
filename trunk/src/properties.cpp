@@ -214,51 +214,51 @@ namespace Exiv2 {
     };
 
     extern const XmpPropertyInfo xmpXmpBJInfo[] = {
-        { "JobRef",           "JobRef",           "bag Job",     xmpText,          xmpExternal, "References an external job management file for a job process in which the document is being used. Use of job "
+        { "JobRef",           N_("Job Reference"),     "bag Job",   xmpText,    xmpExternal, N_("References an external job management file for a job process in which the document is being used. Use of job "
                                                                                                 "names is under user control. Typical use would be to identify all documents that are part of a particular job or contract. "
                                                                                                 "There are multiple values because there can be more than one job using a particular document at any time, and it can "
-                                                                                                "also be useful to keep historical information about what jobs a document was part of previously." },
+                                                                                                "also be useful to keep historical information about what jobs a document was part of previously.") },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
 
     extern const XmpPropertyInfo xmpXmpTPgInfo[] = {
-        { "MaxPageSize",      "MaxPageSize",      "Dimensions",  xmpText,          xmpInternal, "The size of the largest page in the document (including any in contained documents)." },
-        { "NPages",           "NPages",           "Integer",     xmpText,          xmpInternal, "The number of pages in the document (including any in contained documents)." },
-        { "Fonts",            "Fonts",            "bag Font",    xmpText,          xmpInternal, "An unordered array of fonts that are used in the document (including any in contained documents)." },
-        { "Colorants",        "Colorants",        "seq Colorant", xmpText,         xmpInternal, "An ordered array of colorants (swatches) that are used in the document (including any in contained documents)." },
-        { "PlateNames",       "PlateNames",       "seq Text",    xmpSeq,           xmpInternal, "An ordered array of plate names that are needed to print the document (including any in contained documents)." },
+        { "MaxPageSize",      N_("MaxPageSize"),  "Dimensions",   xmpText,    xmpInternal, N_("The size of the largest page in the document (including any in contained documents).") },
+        { "NPages",           N_("NPages"),       "Integer",      xmpText,    xmpInternal, N_("The number of pages in the document (including any in contained documents).") },
+        { "Fonts",            N_("Fonts"),        "bag Font",     xmpText,    xmpInternal, N_("An unordered array of fonts that are used in the document (including any in contained documents).") },
+        { "Colorants",        N_("Colorants"),    "seq Colorant", xmpText,    xmpInternal, N_("An ordered array of colorants (swatches) that are used in the document (including any in contained documents).") },
+        { "PlateNames",       N_("PlateNames"),   "seq Text",     xmpSeq,     xmpInternal, N_("An ordered array of plate names that are needed to print the document (including any in contained documents).") },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
 
     extern const XmpPropertyInfo xmpXmpDMInfo[] = {
-        { "projectRef",       "projectRef",       "ProjectLink", xmpText,          xmpInternal, "A reference to the project that created this file." },
-        { "videoFrameRate",   "videoFrameRate",   "open Choice of Text", xmpText,  xmpInternal, "The video frame rate. One of: 24, NTSC, PAL." },
-        { "videoFrameSize",   "videoFrameSize",   "Dimensions",  xmpText,          xmpInternal, "The frame size. For example: w:720, h: 480, unit:pixels" },
-        { "videoPixelAspectRatio", "videoPixelAspectRatio", "Rational", xmpText,   xmpInternal, "The aspect ratio, expressed as ht/wd. For example: \"648/720\" = 0.9" },
-        { "videoPixelDepth",  "videoPixelDepth",  "closed Choice of Text", xmpText, xmpInternal, "The size in bits of each color component of a pixel. Standard Windows 32-bit "
-                                                                                                "pixels have 8 bits per component. One of: 8Int, 16Int, 32Int, 32Float." },
-        { "videoColorSpace",  "videoColorSpace",  "closed Choice of Text", xmpText, xmpInternal, "The color space. One of: sRGB (used by Photoshop), CCIR-601 (used for NTSC), "
-                                                                                                "CCIR-709 (used for HD)." },
-        { "videoAlphaMode",   "videoAlphaMode",   "closed Choice of Text", xmpText, xmpExternal, "The alpha mode. One of: straight, pre-multiplied." },
-        { "videoAlphaPremultipleColor", "videoAlphaPremultipleColor", "Colorant", xmpText, xmpExternal, "A color in CMYK or RGB to be used as the pre-multiple color when "
-                                                                                                "alpha mode is pre-multiplied." },
-        { "videoAlphaUnityIsTransparent", "videoAlphaUnityIsTransparent", "Boolean", xmpText, xmpInternal, "When true, unity is clear, when false, it is opaque." },
-        { "videoCompressor",  "videoCompressor",  "Text",        xmpText,          xmpInternal, "Video compression used. For example, jpeg." },
-        { "videoFieldOrder",  "videoFieldOrder",  "closed Choice of Text", xmpText, xmpInternal, "The field order for video. One of: Upper, Lower, Progressive." },
-        { "pullDown",         "pullDown",         "closed Choice of Text", xmpText, xmpInternal, "The sampling phase of film to be converted to video (pull-down). One of: "
-                                                                                                "WSSWW, SSWWW, SWWWS, WWWSS, WWSSW, WSSWW_24p, SSWWW_24p, SWWWS_24p, WWWSS_24p, WWSSW_24p." },
-        { "audioSampleRate",  "audioSampleRate",  "Integer",     xmpText,          xmpInternal, "The audio sample rate. Can be any value, but commonly 32000, 41100, or 48000." },
-        { "audioSampleType",  "audioSampleType",  "closed Choice of Text", xmpText, xmpInternal, "The audio sample type. One of: 8Int, 16Int, 32Int, 32Float." },
-        { "audioChannelType", "audioChannelType", "closed Choice of Text", xmpText, xmpInternal, "The audio channel type. One of: Mono, Stereo, 5.1, 7.1." },
-        { "audioCompressor",  "audioCompressor",  "Text",        xmpText,          xmpInternal, "The audio compression used. For example, MP3." },
-        { "speakerPlacement", "speakerPlacement", "Text",        xmpText,          xmpExternal, "A description of the speaker angles from center front in degrees. For example: "
-                                                                                                "\"Left = -30, Right = 30, Center = 0, LFE = 45, Left Surround = -110, Right Surround = 110\"" },
-        { "fileDataRate",     "fileDataRate",     "Rational",    xmpText,          xmpInternal, "The file data rate in megabytes per second. For example: \"36/10\" = 3.6 MB/sec" },
-        { "tapeName",         "tapeName",         "Text",        xmpText,          xmpExternal, "The name of the tape from which the clip was captured, as set during the capture process." },
-        { "altTapeName",      "altTapeName",      "Text",        xmpText,          xmpExternal, "An alternative tape name, set via the project window or timecode dialog in Premiere. "
-                                                                                                "If an alternative name has been set and has not been reverted, that name is displayed." },
+        { "projectRef",                   N_("Project Ref"),                      "ProjectLink",           xmpText, xmpInternal, N_("A reference to the project that created this file.") },
+        { "videoFrameRate",               N_("Video Frame Rate"),                 "open Choice of Text",   xmpText, xmpInternal, N_("The video frame rate. One of: 24, NTSC, PAL.") },
+        { "videoFrameSize",               N_("Video Frame Size"),                 "Dimensions",            xmpText, xmpInternal, N_("The frame size. For example: w:720, h: 480, unit:pixels") },
+        { "videoPixelAspectRatio",        N_("Video Pixel Aspect Ratio"),         "Rational",              xmpText, xmpInternal, N_("The aspect ratio, expressed as ht/wd. For example: \"648/720\" = 0.9") },
+        { "videoPixelDepth",              N_("Video Pixel Depth"),                "closed Choice of Text", xmpText, xmpInternal, N_("The size in bits of each color component of a pixel. Standard Windows 32-bit "
+                                                                                                                                    "pixels have 8 bits per component. One of: 8Int, 16Int, 32Int, 32Float.") },
+        { "videoColorSpace",              N_("Video Color Space"),                "closed Choice of Text", xmpText, xmpInternal, N_("The color space. One of: sRGB (used by Photoshop), CCIR-601 (used for NTSC), "
+                                                                                                                                    "CCIR-709 (used for HD).") },
+        { "videoAlphaMode",               N_("Video Alpha Mode"),                 "closed Choice of Text", xmpText, xmpExternal, N_("The alpha mode. One of: straight, pre-multiplied.") },
+        { "videoAlphaPremultipleColor",   N_("Video Alpha Premultiple Color"),    "Colorant",              xmpText, xmpExternal, N_("A color in CMYK or RGB to be used as the pre-multiple color when "
+                                                                                                                                    "alpha mode is pre-multiplied.") },
+        { "videoAlphaUnityIsTransparent", N_("Video Alpha Unity Is Transparent"), "Boolean",               xmpText, xmpInternal, N_("When true, unity is clear, when false, it is opaque.") },
+        { "videoCompressor",              N_("Video Compressor"),                 "Text",                  xmpText, xmpInternal, N_("Video compression used. For example, jpeg.") },
+        { "videoFieldOrder",              N_("Video Field Order"),                "closed Choice of Text", xmpText, xmpInternal, N_("The field order for video. One of: Upper, Lower, Progressive.") },
+        { "pullDown",                     N_("Pull Down"),                        "closed Choice of Text", xmpText, xmpInternal, N_("The sampling phase of film to be converted to video (pull-down). One of: "
+                                                                                                                                    "WSSWW, SSWWW, SWWWS, WWWSS, WWSSW, WSSWW_24p, SSWWW_24p, SWWWS_24p, WWWSS_24p, WWSSW_24p.") },
+        { "audioSampleRate",              N_("Audio Sample Rate"),                "Integer",               xmpText, xmpInternal, N_("The audio sample rate. Can be any value, but commonly 32000, 41100, or 48000.") },
+        { "audioSampleType",              N_("Audio Sample Type"),                "closed Choice of Text", xmpText, xmpInternal, N_("The audio sample type. One of: 8Int, 16Int, 32Int, 32Float.") },
+        { "audioChannelType",             N_("Audio Channel Type"),               "closed Choice of Text", xmpText, xmpInternal, N_("The audio channel type. One of: Mono, Stereo, 5.1, 7.1.") },
+        { "audioCompressor",              N_("Audio Compressor"),                 "Text",                  xmpText, xmpInternal, N_("The audio compression used. For example, MP3.") },
+        { "speakerPlacement",             N_("Speaker Placement"),                "Text",                  xmpText, xmpExternal, N_("A description of the speaker angles from center front in degrees. For example: "
+                                                                                                                                    "\"Left = -30, Right = 30, Center = 0, LFE = 45, Left Surround = -110, Right Surround = 110\"") },
+        { "fileDataRate",                 N_("File Data Rate"),                   "Rational",              xmpText, xmpInternal, N_("The file data rate in megabytes per second. For example: \"36/10\" = 3.6 MB/sec") },
+        { "tapeName",                     N_("Tape Name"),                        "Text",                  xmpText, xmpExternal, N_("The name of the tape from which the clip was captured, as set during the capture process.") },
+        { "altTapeName",                  N_("Alt Tape Name"),                    "Text",                  xmpText, xmpExternal, N_("An alternative tape name, set via the project window or timecode dialog in Premiere. "
+                                                                                                                                    "If an alternative name has been set and has not been reverted, that name is displayed.") },
         { "startTimecode",    "startTimecode",    "Timecode",    xmpText,          xmpInternal, "The timecode of the first frame of video in the file, as obtained from the device control." },
         { "altTimecode",      "altTimecode",      "Timecode",    xmpText,          xmpExternal, "A timecode set by the user. When specified, it is used instead of the startTimecode." },
         { "duration",         "duration",         "Time",        xmpText,          xmpInternal, "The duration of the media file." },
