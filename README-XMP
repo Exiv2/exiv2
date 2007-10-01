@@ -1,16 +1,17 @@
 XMP support
-===========
-Todo: XMP support is controlled with the ENABLE_XMP directive 
-in config/config.mk.in. This will be a configure option
-eventually. To build Exiv2 without XMP support, comment the
-line "ENABLE_XMP = 1" either in config.mk.in before running
-./configure or in config.mk for now.
+***********
+
+XMP support is controlled with the --enable-xmp and 
+--disable-xmp options of the configure script. Building Exiv2
+with XMP support requires the Expat XMP parser library, which
+is widely available. The --with-expat configure option can
+be used if it is installed in a non-standard directory.
 
 Top-level Exiv2 classes to access XMP metadata are XmpData,
 Xmpdatum and XmpKey. They work similar to the corresponding 
 Exif and IPTC classes. The property-repository is XmpProperties.
 In addition to the expected new members, class Image also
-has a new interface to access the raw XMP packet.
+has an interface to access the raw XMP packet.
 
 All XMP value types are supported: Simple types, structures,
 arrays, property qualifiers and language alternatives.
@@ -37,54 +38,3 @@ Note: Unlike Exif and IPTC tags, XMP properties do not have
 a tag number.
 
 Todo: Conversion between XMP and Exif/IPTC metadata.
-
-XMP Toolkit installation
-========================
-Exiv2 uses the Adobe XMP Toolkit (XMP SDK) to parse
-and serialize XMP packets (only the XMPCore component).
-
-Todo: Integrate the XMPCore component of the XMP Toolkit with
-Exiv2 and make the build process transparent for users. The
-final solution will be to use an external XMP Toolkit eventually,
-once it is available as a standalone package from Linux distros.
-
-Below are the installation steps that worked for me on a
-Debian GNU/Linux (testing) system. Your mileage may vary.
-Please check with Adobe if you encounter problems with the
-XMP Toolkit installation.
-
-Installation directory
-----------------------
-The top-level exiv2 directory ($HOME/src/exiv2/ on my system).
-
-If you install XMP elsewhere, or use different OS or STAGE
-options to the make command below, you will need to manually
-modify the exiv2/config/config.mk.in (before running the 
-configure script). There is no autoconf-magic yet to set 
-this via configure options.
-
-External packages (non-Debian)
------------------
-xmp_v411_sdk.zip    - http://www.adobe.com/devnet/xmp/sdk/eula.html
-expat-2.0.1.tar.gz  - http://sourceforge.net/project/showfiles.php?group_id=10127
-exiv2               - from SVN
-
-Installation steps
-------------------
-cd $HOME/src/exiv2/
-cp /path/to/xmp_v411_sdk.zip ./
-unzip xmp_v411_sdk.zip
-
-cp /path/to/expat-2.0.1.tar.gz XMP-SDK/third-party/
-cd XMP-SDK/third-party/
-tar zxvf expat-2.0.1.tar.gz
-mv expat expat-orig
-mv expat-2.0.1 expat
-
-cd ../build/gcc
-make -f XMPCore.mak OS=i80386linux STAGE=debug
-
-Expected result
----------------
-Now there should be a library
-../../public/libraries/i80386linux/debug/libXMPCoreStaticDebug.a

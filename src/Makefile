@@ -155,6 +155,10 @@ SHELL = /bin/sh
 
 .PRECIOUS: %.cpp
 
+CPPFLAGS += $(XMPSDK_CPPFLAGS)
+LDFLAGS += $(EXPAT_LDFLAGS) $(XMPSDK_LDFLAGS)
+LIBS += $(EXPAT_LIBS) $(XMPSDK_LIBS)
+
 # Generic variables
 CCHDR := $(CCHDR) $(CCSRC:.cpp=.hpp)
 CCOBJ = $(CCSRC:.cpp=.o)
@@ -182,6 +186,14 @@ MCBIN = $(MCMAIN:.cpp=)
 MCEXE = $(MCMAIN:.cpp=$(EXEEXT))
 
 ifdef DEP_TRACKING
+# Compiler flags to generate dependency files at the same time 
+# as object files (for gcc)
+ifeq ($(GXX),yes)
+	CXXFLAGS += -MMD
+	CFLAGS += -MMD
+	MAKEDEPEND =
+endif
+
 DEPDIR = .deps
 DEP = $(CCSRC:%.cpp=$(DEPDIR)/%.d) $(CSRC:%.c=$(DEPDIR)/%.d) \
       $(BINSRC:%.cpp=$(DEPDIR)/%.d) \

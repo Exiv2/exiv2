@@ -77,17 +77,25 @@ endif
 
 # **********************************************************************
 # XMP support
-ENABLE_XMP = 1
+ENABLE_XMP = @ENABLE_XMP@
 
 ifdef ENABLE_XMP
-	CPPFLAGS += -DEXV_HAVE_XMP_TOOLKIT -DUNIX_ENV -I$(top_srcdir)/XMP-SDK/public/include
-	LDFLAGS += -L$(top_srcdir)/XMP-SDK/public/libraries/i80386linux/debug -lXMPCoreStaticDebug
+	XMPSDK_DIR = $(top_srcdir)/xmpsdk
+	XMPSDK_CPPFLAGS = -DUNIX_ENV -I$(XMPSDK_DIR)/include
+	XMPSDK_LDFLAGS = -L$(XMPSDK_DIR)/lib
+	XMPSDK_LIBS = -lxmpsdk
 else
-        # XMP Toolkit doesn't compile cleanly with these
+        # Enable additional warnings. XMP Toolkit doesn't compile
+        # with these.
 	ifeq ($(GXX),yes)
 		CXXFLAGS += -Wundef -pedantic
 	endif
 endif
+
+# Expat library needed to compile the XMP Toolkit
+EXPAT_LDFLAGS = @EXPAT_LDFLAGS@
+EXPAT_CPPFLAGS = @EXPAT_CPPFLAGS@
+EXPAT_LIBS = @EXPAT_LIBS@
 
 # **********************************************************************
 # Libraries and Functions
@@ -100,20 +108,11 @@ HAVE_TIMEGM = @HAVE_TIMEGM@
 DEP_TRACKING = @DEP_TRACKING@
 
 ifdef DEP_TRACKING
-# Compiler flags to generate dependency files at the same time 
-# as object files (for gcc)
-ifeq ($(GXX),yes)
-	CXXFLAGS += -MMD
-	CFLAGS += -MMD
-	MAKEDEPEND =
-else
-# Command to run the compiler or preprocessor to produce dependencies.
-# If you're not using gcc, you may need to change this to something 
-# suitable for your compiler or simply unset the variable. See the link
-# above for suggestions
+        # Command to run the compiler or preprocessor to produce 
+        # dependencies. If you're not using gcc, you may need to change
+        # this to something suitable for your compiler or simply unset
+        # the variable. See the link above for suggestions.
 	MAKEDEPEND = $(CXX) -MM $(CPPFLAGS) -o $*.d $<
-endif
-
 endif
 
 # **********************************************************************

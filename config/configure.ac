@@ -139,6 +139,51 @@ AC_ARG_ENABLE(commercial,
 AC_MSG_RESULT($COMMERCIAL_VERSION)
 AC_SUBST(COMMERCIAL_VERSION,$COMMERCIAL_VERSION)
 
+AC_MSG_CHECKING([whether to enable XMP support (requires expat)])
+AC_ARG_ENABLE(xmp,
+    [  --disable-xmp           do not compile XMP support and the XMP Toolkit ],
+    USE_XMP_TOOLKIT=$enableval, USE_XMP_TOOLKIT=yes)
+AC_MSG_RESULT($USE_XMP_TOOLKIT)
+
+# expat option might change flags, so we save them initially
+_cppflags="${CPPFLAGS}"
+_ldflags="${LDFLAGS}"
+
+AC_ARG_WITH(expat,
+[  --with-expat[[=DIR]]    use libexpat in DIR],[
+  if test "$withval" != "no" -a "$withval" != "yes"; then
+    EXPAT_DIR=$withval
+    CPPFLAGS="${CPPFLAGS} -I$withval/include"
+    LDFLAGS="${LDFLAGS} -L$withval/lib"
+  fi
+])
+
+ENABLE_XMP=
+if test "$USE_XMP_TOOLKIT" = "yes"; then
+    # Check for expat library
+    if test "$with_expat" = "no"; then
+       AC_MSG_ERROR(either specify a valid expat installation with --with-expat=DIR or disable XMP support with --disable-xmp)
+    else
+        AC_CHECK_HEADERS(expat.h,
+            AC_CHECK_LIB(expat, XML_ParserCreate,[
+                AC_DEFINE([HAVE_EXPAT], [], [Have Expat XML parser library])
+                EXPAT_LIBS="-lexpat"
+                if test "x${EXPAT_DIR}" != "x"; then
+                    EXPAT_CPPFLAGS="-I${EXPAT_DIR}/include"
+                    EXPAT_LDFLAGS="-L${EXPAT_DIR}/lib"
+                fi]))
+    fi
+    AC_DEFINE(HAVE_XMP_TOOLKIT,1)
+    ENABLE_XMP=1
+    AC_SUBST(EXPAT_CPPFLAGS)
+    AC_SUBST(EXPAT_LDFLAGS)
+    AC_SUBST(EXPAT_LIBS)
+fi
+AC_SUBST(ENABLE_XMP)
+
+CPPFLAGS=${_cppflags}
+LDFLAGS=${_ldflags}
+
 # ---------------------------------------------------------------------------
 # Create output files.
 # ---------------------------------------------------------------------------

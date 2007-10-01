@@ -57,10 +57,13 @@ PNG image support           zlib      --without-zlib
 National language support   gettext   --disable-nls
 Converting Windows XP tags  libiconv  --disable-printucs2
                                       --with-libiconv-prefix[=DIR]
+XMP support                 expat     --disable-xmp
+                                      --with-expat=DIR
 
 zlib         http://www.zlib.net/
 gettext  *)  http://www.gnu.org/software/gettext/
 libiconv *)  http://www.gnu.org/software/libiconv/
+expat        http://expat.sourceforge.net/
 
 *) Some systems have gettext and iconv in libc. The configure script 
 should detect this.

@@ -1,0 +1,347 @@
+// =================================================================================================
+// ADOBE SYSTEMS INCORPORATED
+// Copyright 2002-2007 Adobe Systems Incorporated
+// All Rights Reserved
+//
+// NOTICE:	Adobe permits you to use, modify, and distribute this file in accordance with the terms
+// of the Adobe license agreement accompanying it.
+// =================================================================================================
+
+//  ================================================================================================
+/// \file TXMPFiles.incl_cpp
+/// \brief The implementation of the TXMPFiles template class.
+
+#if WIN_ENV
+	#pragma warning ( disable : 4003 )	// not enough actual parameters for macro
+	#pragma warning ( disable : 4800 )	// forcing value to bool 'true' or 'false' (performance warning)
+#endif
+
+#include "client-glue/WXMP_Common.hpp"
+#include "client-glue/WXMPFiles.hpp"
+
+// =================================================================================================
+// Implementation Guidelines
+// =========================
+//
+// The implementations of the template functions are very stylized. The jobs done in this code are:
+//
+//	1. ...
+//
+// =================================================================================================
+
+#ifndef XMPFiles_TraceCTorDTor
+	#define XMPFiles_TraceCTorDTor 0
+#endif
+
+#if XMPFiles_TraceCTorDTor
+	class XFPeek {	// Hack to peek at the client ref count in the internal object.
+	public:
+		XFPeek();
+		virtual ~XFPeek();
+		XMP_Int32 clientRefs;
+	};
+#endif
+
+// =================================================================================================
+
+XMP_MethodIntro(TXMPFiles,void)::
+GetVersionInfo ( XMP_VersionInfo * versionInfo )
+{
+	WrapNoCheckVoid ( zXMPFiles_GetVersionInfo_1 ( versionInfo ) );
+}
+
+// -------------------------------------------------------------------------------------------------
+
+XMP_MethodIntro(TXMPFiles,bool)::
+Initialize()
+{
+	WrapCheckBool ( ok, zXMPFiles_Initialize_2 ( 0 ) );
+	return ok;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+XMP_MethodIntro(TXMPFiles,bool)::
+Initialize ( XMP_OptionBits options )
+{
+	WrapCheckBool ( ok, zXMPFiles_Initialize_2 ( options ) );
+	return ok;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+XMP_MethodIntro(TXMPFiles,void)::
+Terminate()
+{
+	WrapNoCheckVoid ( zXMPFiles_Terminate_1() );
+}
+
+// =================================================================================================
+
+static XMPFilesRef Default_CTor()
+{
+	WrapCheckXMPFilesRef ( newRef, zXMPFiles_CTor_1() );
+	return newRef;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+XMP_CTorDTorIntro(TXMPFiles)::
+TXMPFiles() : xmpFilesRef(Default_CTor())
+{
+	#if XMPFiles_TraceCTorDTor
+		XFPeek* xfPtr = (XFPeek*)this->xmpFilesRef;
+		printf ( "Default construct TXMPFiles @ %.8X, ref = %.8X, count = %d\n", this, xfPtr, xfPtr->clientRefs );
+	#endif
+}
+
+// -------------------------------------------------------------------------------------------------
+
+XMP_CTorDTorIntro(TXMPFiles)::
+TXMPFiles ( const TXMPFiles<tStringObj> & original ) : xmpFilesRef(original.xmpFilesRef)
+{
+	WXMPFiles_IncrementRefCount_1 ( this->xmpFilesRef );
+	#if XMPFiles_TraceCTorDTor
+		XFPeek* xfPtr = (XFPeek*)this->xmpFilesRef;
+		printf ( "Copy construct TXMPFiles @ %.8X, ref = %.8X, count = %d\n", this, xfPtr, xfPtr->clientRefs );
+	#endif
+}
+
+// -------------------------------------------------------------------------------------------------
+
+XMP_MethodIntro(TXMPFiles,void)::
+operator= ( const TXMPFiles<tStringObj> & rhs )
+{
+	#if XMPFiles_TraceCTorDTor
+		XFPeek* xfLHS = (XFPeek*)this->xmpFilesRef;
+		XFPeek* xfRHS = (XFPeek*)rhs.xmpFilesRef;
+		printf ( "Assign TXMPFiles, lhs @ %.8X, rhs @ %.8X\n", this, &rhs );
+		printf ( "   original lhs ref = %.8X, count = %d\n", xfLHS, xfLHS->clientRefs );
+		printf ( "   original rhs ref = %.8X, count = %d\n", xfRHS, xfRHS->clientRefs );
+	#endif
+	XMPFilesRef oldRef = this->xmpFilesRef;					// ! Decrement last so errors leave client object OK.
+	this->xmpFilesRef = rhs.xmpFilesRef;
+	WXMPFiles_IncrementRefCount_1 ( this->xmpFilesRef );	// Increment the count on the new ref.
+	WXMPFiles_DecrementRefCount_1 ( oldRef );				// Decrement the count on the old ref.
+	#if XMPFiles_TraceCTorDTor
+		printf ( "   result   lhs ref = %.8X, count = %d\n", xfLHS, xfLHS->clientRefs );
+	#endif
+}
+
+// -------------------------------------------------------------------------------------------------
+
+XMP_CTorDTorIntro(TXMPFiles)::
+TXMPFiles ( XMPFilesRef _xmpFilesRef ) : xmpFilesRef(_xmpFilesRef)
+{
+	WXMPFiles_IncrementRefCount_1 ( this->xmpFilesRef );
+	#if XMPFiles_TraceCTorDTor
+		XFPeek* xfPtr = (XFPeek*)this->xmpFilesRef;
+		printf ( "Ref construct TXMPFiles @ %.8X, ref = %.8X, count = %d\n", this, xfPtr, xfPtr->clientRefs );
+	#endif
+}
+
+// -------------------------------------------------------------------------------------------------
+
+XMP_CTorDTorIntro(TXMPFiles)::
+TXMPFiles ( XMP_StringPtr  filePath,
+	        XMP_FileFormat format /* = kXMP_UnknownFile */,
+			XMP_OptionBits openFlags /* = 0 */ ) : xmpFilesRef(Default_CTor())
+{
+	#if XMPFiles_TraceCTorDTor
+		XFPeek* xfPtr = (XFPeek*)this->xmpFilesRef;
+		printf ( "File construct TXMPFiles @ %.8X, ref = %.8X, count = %d\n", this, xfPtr, xfPtr->clientRefs );
+	#endif
+	bool ok = this->OpenFile ( filePath, format, openFlags );
+	if ( ! ok ) throw XMP_Error ( kXMPErr_NoFileHandler, "OpenFile returned false" );
+}
+
+// -------------------------------------------------------------------------------------------------
+
+XMP_CTorDTorIntro(TXMPFiles)::
+TXMPFiles ( const tStringObj & filePath,
+	        XMP_FileFormat     format /* = kXMP_UnknownFile */,
+			XMP_OptionBits     openFlags /* = 0 */ ) : xmpFilesRef(Default_CTor())
+{
+	#if XMPFiles_TraceCTorDTor
+		XFPeek* xfPtr = (XFPeek*)this->xmpFilesRef;
+		printf ( "File construct TXMPFiles @ %.8X, ref = %.8X, count = %d\n", this, xfPtr, xfPtr->clientRefs );
+	#endif
+	bool ok = this->OpenFile ( filePath.c_str(), format, openFlags );
+	if ( ! ok ) throw XMP_Error ( kXMPErr_NoFileHandler, "OpenFile returned false" );
+}
+
+// -------------------------------------------------------------------------------------------------
+
+XMP_CTorDTorIntro(TXMPFiles)::
+~TXMPFiles () throw()
+{
+	#if XMPFiles_TraceCTorDTor
+		XFPeek* xfPtr = (XFPeek*)this->xmpFilesRef;
+		printf ( "Destruct TXMPFiles @ %.8X, ref= %.8X, count = %d\n", this, xfPtr, xfPtr->clientRefs );
+	#endif
+	WXMPFiles_DecrementRefCount_1 ( this->xmpFilesRef );
+	this->xmpFilesRef = 0;
+}
+
+// =================================================================================================
+
+XMP_MethodIntro(TXMPFiles,bool)::
+GetFormatInfo ( XMP_FileFormat   format,
+    			XMP_OptionBits * flags )
+{
+	WrapCheckBool ( found, zXMPFiles_GetFormatInfo_1 ( format, flags ) );
+	return found;
+}
+
+// =================================================================================================
+
+XMP_MethodIntro(TXMPFiles,XMPFilesRef)::
+GetInternalRef()
+{
+	return this->xmpFilesRef;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+XMP_MethodIntro(TXMPFiles,bool)::
+OpenFile ( XMP_StringPtr  filePath,
+		   XMP_FileFormat format /* = kXMP_UnknownFile */,
+		   XMP_OptionBits openFlags /* =0 */ )
+{
+	WrapCheckBool ( ok, zXMPFiles_OpenFile_1 ( filePath, format, openFlags ) );
+	return ok;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+XMP_MethodIntro(TXMPFiles,bool)::
+OpenFile ( const tStringObj & filePath,
+		   XMP_FileFormat     format /* = kXMP_UnknownFile */,
+		   XMP_OptionBits     openFlags /* =0 */ )
+{
+	return this->OpenFile ( filePath.c_str(), format, openFlags );
+}
+
+// -------------------------------------------------------------------------------------------------
+
+XMP_MethodIntro(TXMPFiles,void)::
+CloseFile ( XMP_OptionBits closeFlags /* =0 */ )
+{
+	WrapCheckVoid ( zXMPFiles_CloseFile_1 ( closeFlags ) );
+}
+
+// -------------------------------------------------------------------------------------------------
+
+XMP_MethodIntro(TXMPFiles,bool)::
+GetFileInfo ( tStringObj *     filePath /* = 0 */,
+		      XMP_OptionBits * openFlags /* =0 */,
+		      XMP_FileFormat * format /* = 0 */,
+		      XMP_OptionBits * handlerFlags /* =0 */ )
+{
+	XMP_StringPtr   pathStr;
+	XMP_StringLen   pathLen;
+	
+	WrapCheckBool ( isOpen, zXMPFiles_GetFileInfo_1 ( &pathStr, &pathLen, openFlags, format, handlerFlags ) );
+	if ( isOpen ) {
+		if ( filePath != 0 ) filePath->assign ( pathStr, pathLen );
+		WXMPFiles_UnlockObj_1 ( this->xmpFilesRef );
+	}
+	return isOpen;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+XMP_MethodIntro(TXMPFiles,void)::
+SetAbortProc ( XMP_AbortProc abortProc,
+			   void *        abortArg )
+{
+	WrapCheckVoid ( zXMPFiles_SetAbortProc_1 ( abortProc, abortArg ) );
+}
+
+// -------------------------------------------------------------------------------------------------
+
+XMP_MethodIntro(TXMPFiles,bool)::
+GetXMP ( SXMPMeta *       xmpObj /* = 0 */,
+    	 tStringObj *     xmpPacket /* = 0 */,
+    	 XMP_PacketInfo * packetInfo /* =0 */ )
+{
+	XMP_StringPtr   xmpStr;
+	XMP_StringLen   xmpLen;
+	
+	XMPMetaRef xmpRef = 0;
+	if ( xmpObj != 0 ) {
+		SXMPUtils::RemoveProperties ( xmpObj, 0, 0, kXMPUtil_DoAllProperties );
+		// *** Need an SXMPMeta::Clear method:
+		xmpRef = xmpObj->GetInternalRef();
+	}
+	
+	WrapCheckBool ( hasXMP, zXMPFiles_GetXMP_1 ( xmpRef, &xmpStr, &xmpLen, packetInfo ) );
+	if ( hasXMP ) {
+		if ( xmpPacket != 0 ) xmpPacket->assign ( xmpStr, xmpLen );
+		WXMPFiles_UnlockObj_1 ( this->xmpFilesRef );
+	}
+	return hasXMP;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+XMP_MethodIntro(TXMPFiles,bool)::
+GetThumbnail ( XMP_ThumbnailInfo * tnailInfo )
+{
+	WrapCheckBool ( hasTNail, zXMPFiles_GetThumbnail_1 ( tnailInfo ) );
+	return hasTNail;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+XMP_MethodIntro(TXMPFiles,void)::
+PutXMP ( const SXMPMeta & xmpObj )
+{
+	WrapCheckVoid ( zXMPFiles_PutXMP_1 ( xmpObj.GetInternalRef(), 0, 0 ) );
+}
+
+// -------------------------------------------------------------------------------------------------
+
+XMP_MethodIntro(TXMPFiles,void)::
+PutXMP ( XMP_StringPtr xmpPacket,
+         XMP_StringLen xmpLength /* = kXMP_UseNullTermination */ )
+{
+	WrapCheckVoid ( zXMPFiles_PutXMP_1 ( 0, xmpPacket, xmpLength ) );
+}
+
+// -------------------------------------------------------------------------------------------------
+
+XMP_MethodIntro(TXMPFiles,void)::
+PutXMP ( const tStringObj & xmpPacket )
+{
+	this->PutXMP ( xmpPacket.c_str(), xmpPacket.size() );
+}
+
+// -------------------------------------------------------------------------------------------------
+
+XMP_MethodIntro(TXMPFiles,bool)::
+CanPutXMP ( const SXMPMeta & xmpObj )
+{
+	WrapCheckBool ( canPut, zXMPFiles_CanPutXMP_1 ( xmpObj.GetInternalRef(), 0, 0 ) );
+	return canPut;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+XMP_MethodIntro(TXMPFiles,bool)::
+CanPutXMP ( XMP_StringPtr xmpPacket,
+            XMP_StringLen xmpLength /* = kXMP_UseNullTermination */ )
+{
+	WrapCheckBool ( canPut, zXMPFiles_CanPutXMP_1 ( 0, xmpPacket, xmpLength ) );
+	return canPut;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+XMP_MethodIntro(TXMPFiles,bool)::
+CanPutXMP ( const tStringObj & xmpPacket )
+{
+	return this->CanPutXMP ( xmpPacket.c_str(), xmpPacket.size() );
+}
+
+// =================================================================================================

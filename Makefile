@@ -12,9 +12,15 @@
 #  Requires GNU make.
 #
 
-.PHONY: all install uninstall doc config mostlyclean clean distclean maintainer-clean
+.PHONY: all doc config xmpsdk                        \
+        mostlyclean clean distclean maintainer-clean \
+        install uninstall
 
-all install uninstall: config/config.mk
+all install: config/config.mk xmpsdk
+	cd src && $(MAKE) $(MAKECMDGOALS)
+	cd po && $(MAKE) $(MAKECMDGOALS)
+
+uninstall: config/config.mk
 	cd src && $(MAKE) $(MAKECMDGOALS)
 	cd po && $(MAKE) $(MAKECMDGOALS)
 
@@ -24,9 +30,13 @@ doc: config/config.mk
 config:
 	cd config && $(MAKE) $(MAKECMDGOALS)
 
+xmpsdk: config/config.mk
+	cd xmpsdk/src && $(MAKE) $(MAKECMDGOALS)
+
 mostlyclean clean: config/config.mk
 	cd src && $(MAKE) $(MAKECMDGOALS)
 	cd doc && $(MAKE) $(MAKECMDGOALS)
+	cd xmpsdk/src && $(MAKE) $(MAKECMDGOALS)
 	cd config && $(MAKE) $(MAKECMDGOALS)
 	cd po && $(MAKE) $(MAKECMDGOALS)
 
