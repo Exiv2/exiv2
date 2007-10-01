@@ -51,6 +51,12 @@
 
 #endif /* !EXV_COMMERCIAL_VERSION */
 
+/* Define to 1 if you have the `zlib' library. */
+#undef HAVE_LIBZ
+
+/* Define to 1 if you have the Adobe XMP Toolkit. */
+#undef HAVE_XMP_TOOLKIT
+
 /* File path seperator */
 #define EXV_SEPERATOR_STR "\\"
 #define EXV_SEPERATOR_CHR '\\'
