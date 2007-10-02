@@ -54,7 +54,7 @@ Feature                     Package   Configure options
 --------------------------  --------  ----------------------------
 PNG image support           zlib      --without-zlib
                                       --with-zlib=DIR
-National language support   gettext   --disable-nls
+Native language support     gettext   --disable-nls
 Converting Windows XP tags  libiconv  --disable-printucs2
                                       --with-libiconv-prefix[=DIR]
 XMP support                 expat     --disable-xmp
