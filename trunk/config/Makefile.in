@@ -41,9 +41,7 @@ config:
 	cd config && $(MAKE) -f config.make $(MAKECMDGOALS)
 
 xmpsdk: config/config.mk
-	if test "x$(ENABLE_XMP)" = "x1" ; then \
-	    cd xmpsdk/src && $(MAKE) $(MAKECMDGOALS); \
-	fi;
+	if test "x$(ENABLE_XMP)" = "x1"; then cd xmpsdk/src && $(MAKE) $(MAKECMDGOALS); fi;
 
 mostlyclean clean: config/config.mk
 	cd src && $(MAKE) $(MAKECMDGOALS)
