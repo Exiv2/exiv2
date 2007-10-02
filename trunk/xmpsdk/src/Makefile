@@ -96,11 +96,10 @@ $(LIBTOOL): $(LIBTOOL_DEPS)
 
 xmpsdk: install
 
-lib: $(CCOBJ)
+$(LIBRARY): $(CCOBJ)
 	$(LIBTOOL) --mode=link $(CXX) $(LDFLAGS) $(CCLOBJ) -o $(LIBRARY) -static
-	@touch lib
 
-install: lib
+install: $(LIBRARY)
 	$(INSTALL_DATA) $(LIBRARY) ../lib/$(LIBRARY)
 
 uninstall:
@@ -109,7 +108,6 @@ uninstall:
 mostlyclean:
 	$(RM) core
 	$(RM) $(CCSRC:.cpp=.ii)
-	$(RM) lib
 	$(RM) $(CCSRC:%.cpp=.libs/%.d)
 	@$(LIBTOOL) --mode=clean $(RM) $(CCLOBJ)
 
