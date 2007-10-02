@@ -161,9 +161,8 @@ AC_ARG_WITH(expat,
 ENABLE_XMP=
 if test "$USE_XMP_TOOLKIT" = "yes"; then
     # Check for expat library
-    if test "$with_expat" = "no"; then
-       AC_MSG_ERROR(either specify a valid expat installation with --with-expat=DIR or disable XMP support with --disable-xmp)
-    else
+    found_expat=yes
+    if test "$with_expat" != "no"; then
         AC_CHECK_HEADERS(expat.h,
             AC_CHECK_LIB(expat, XML_ParserCreate,[
                 AC_DEFINE([HAVE_EXPAT], [], [Have Expat XML parser library])
@@ -171,7 +170,10 @@ if test "$USE_XMP_TOOLKIT" = "yes"; then
                 if test "x${EXPAT_DIR}" != "x"; then
                     EXPAT_CPPFLAGS="-I${EXPAT_DIR}/include"
                     EXPAT_LDFLAGS="-L${EXPAT_DIR}/lib"
-                fi]))
+                fi],[found_expat=no]),[found_expat=no])
+    fi
+    if test "$with_expat" = "no" -o "$found_expat" = "no"; then
+        AC_MSG_ERROR(either specify a valid expat installation with --with-expat=DIR or disable XMP support with --disable-xmp)
     fi
     AC_DEFINE(HAVE_XMP_TOOLKIT,1)
     ENABLE_XMP=1
