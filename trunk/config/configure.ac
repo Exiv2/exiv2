@@ -195,3 +195,65 @@ AC_CONFIG_FILES([./config/exiv2.pc])
 AC_CONFIG_FILES([./po/Makefile.in])
 AC_CONFIG_FILES([./src/doxygen.hpp])
 AC_OUTPUT
+
+# ---------------------------------------------------------------------------
+# Configuration summary.
+# ---------------------------------------------------------------------------
+
+echo ""
+echo "-- Exiv2 feature configuration summary ---------------------------"
+
+case "$enable_shared" in
+yes) echo "-- Build a shared library......... YES" ;;
+*)   echo "-- Build a shared library......... NO" ;;
+esac
+
+case "x$HAVE_LIBZ" in
+x1)  echo "-- PNG image support.............. YES" ;;
+*)   echo "-- PNG image support.............. NO"
+     echo ""
+     echo "zlib is required for PNG support. Make sure the zlib header files"
+     echo "are installed and use --with-zlib=DIR if it is in a non-standard"
+     echo "location. You can get zlib from http://www.zlib.net/"
+     echo "" ;;
+esac
+
+case "$USE_NLS" in
+yes) echo "-- Native language support........ YES" ;;
+*)   echo "-- Native language support........ NO"
+     echo ""
+     echo "gettext is required for native language support. Make sure the"
+     echo "gettext header files are installed. You can get gettext from"
+     echo "http://www.gnu.org/software/gettext/"
+     echo "" ;;
+esac
+
+case "$USE_PRINTUCS2" in
+yes) echo "-- Conversion of Windows XP tags.. YES" ;;
+*)   echo "-- Conversion of Windows XP tags.. NO"
+     echo ""
+     echo "libiconv is required for the conversion of Windows XP tags."
+     echo "Make sure that the libiconv header files are installed and use"
+     echo "--with-libiconv-prefix=DIR if it is in a non-standard location."
+     echo "You can get libiconv from http://www.gnu.org/software/libiconv/"
+     echo "" ;;
+esac
+
+case "$USE_LENSDATA" in
+yes) echo "-- Nikon lens database............ YES" ;;
+*)   echo "-- Nikon lens database............ NO" ;;
+esac
+
+case "$USE_XMP_TOOLKIT" in
+yes) echo "-- XMP metadata support........... YES" ;;
+*)   echo "-- XMP metadata support........... NO"
+     echo ""
+     echo "Expat is required for XMP support. Make sure the Expat header"
+     echo "files are installed and use --with-expat=DIR if it is in a"
+     echo "non-standard location. You can get Expat from"
+     echo "http://expat.sourceforge.net/"
+     echo "" ;;
+esac
+
+echo "------------------------------------------------------------------"
+echo ""
