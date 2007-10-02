@@ -187,6 +187,7 @@ LDFLAGS=${_ldflags}
 # ---------------------------------------------------------------------------
 # Create output files.
 # ---------------------------------------------------------------------------
+AC_CONFIG_FILES([./Makefile:./config/Makefile.in])
 AC_CONFIG_FILES([./config/config.mk])
 AC_CONFIG_FILES([./config/exiv2.pc])
 AC_CONFIG_FILES([./po/Makefile.in])

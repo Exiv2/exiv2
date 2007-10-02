@@ -6,11 +6,21 @@
 # History:   15-Jan-04, ahu: created
 #
 # Description:
-#  Simple makefile that mainly forwards to makefiles in subdirectories.
+#  Simple top-level makefile that mainly forwards to makefiles in 
+#  subdirectories.
 #
 # Restrictions:
 #  Requires GNU make.
 #
+
+########################################################################
+# This is a generated file. Do NOT change any settings here.
+# Run ./configure with the appropriate options to regenerate this file
+# and possibly others.
+########################################################################
+
+SHELL = /bin/sh
+ENABLE_XMP = 1
 
 .PHONY: all doc config xmpsdk                        \
         mostlyclean clean distclean maintainer-clean \
@@ -28,16 +38,18 @@ doc: config/config.mk
 	cd doc && $(MAKE) $(MAKECMDGOALS)
 
 config:
-	cd config && $(MAKE) $(MAKECMDGOALS)
+	cd config && $(MAKE) -f config.make $(MAKECMDGOALS)
 
 xmpsdk: config/config.mk
-	cd xmpsdk/src && $(MAKE) $(MAKECMDGOALS)
+	if test "x$(ENABLE_XMP)" = "x1" ; then \
+	    cd xmpsdk/src && $(MAKE) $(MAKECMDGOALS); \
+	fi;
 
 mostlyclean clean: config/config.mk
 	cd src && $(MAKE) $(MAKECMDGOALS)
 	cd doc && $(MAKE) $(MAKECMDGOALS)
 	cd xmpsdk/src && $(MAKE) $(MAKECMDGOALS)
-	cd config && $(MAKE) $(MAKECMDGOALS)
+	cd config && $(MAKE) -f config.make $(MAKECMDGOALS)
 	cd po && $(MAKE) $(MAKECMDGOALS)
 
 # `make distclean' also removes files created by configuring 
