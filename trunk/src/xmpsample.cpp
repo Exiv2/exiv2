@@ -57,6 +57,7 @@ try {
     v->read("lang=de-DE Hallo, Welt");       // The default doesn't need a 
     v->read("Hello, World");                 // qualifier
     xmpData.add(Exiv2::XmpKey("Xmp.dc.description"), v.get());
+    xmpData.add(Exiv2::XmpKey("Xmp.tiff.ImageDescription"), v.get());
 
     // -------------------------------------------------------------------------
     // Register a namespace which Exiv2 doesn't know yet. This is only needed
