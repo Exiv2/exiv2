@@ -13,14 +13,14 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
 "POT-Creation-Date: 2007-09-30 20:39-0400\n"
-"PO-Revision-Date: 2007-07-13 14:48+0200\n"
+"PO-Revision-Date: 2007-10-03 21:08+0200\n"
 "Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
 "Language-Team: german <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: src/actions.cpp:237 src/actions.cpp:593 src/actions.cpp:713
 #: src/actions.cpp:751 src/actions.cpp:789 src/actions.cpp:817
@@ -159,19 +159,16 @@ msgid "(Binary value suppressed)"
 msgstr "(Binäre Werte sind unterdrückt)"
 
 #: src/actions.cpp:722
-#, fuzzy
 msgid "No IPTC data found in the file\n"
 msgstr "Es wurden keine IPTC-Daten in der Datei gefunden.\n"
 
 #: src/actions.cpp:760
-#, fuzzy
 msgid "No XMP data found in the file\n"
-msgstr "Es wurden keine EXIF-Daten in der Datei gefunden\n"
+msgstr "Es wurden keine XMP-Daten in der Datei gefunden.\n"
 
 #: src/actions.cpp:796
-#, fuzzy
 msgid "JPEG comment"
-msgstr "EXIF-Kommentar"
+msgstr "JPEG-Kommentar"
 
 #: src/actions.cpp:840
 msgid "Neither tag"
@@ -187,8 +184,7 @@ msgstr "wurde in der Datei gefunden"
 
 #: src/actions.cpp:847
 msgid "Image file creation timestamp not set in the file"
-msgstr ""
-"Der Erstellungszeitstempel der Bilddatei ist nicht in der Datei gesetzt."
+msgstr "Der Erstellungszeitstempel der Bilddatei ist nicht in der Datei gesetzt."
 
 #: src/actions.cpp:853
 msgid "Failed to parse timestamp"
@@ -215,24 +211,20 @@ msgid "Erasing Exif data from the file"
 msgstr "Die EXIF-Daten der Datei werden gelöscht."
 
 #: src/actions.cpp:973
-#, fuzzy
 msgid "Erasing IPTC data from the file"
 msgstr "Die IPTC-Daten der Datei werden gelöscht."
 
 #: src/actions.cpp:982
-#, fuzzy
 msgid "Erasing JPEG comment from the file"
 msgstr "Der JPEG-Kommentar der Datei wird gelöscht."
 
 #: src/actions.cpp:991
-#, fuzzy
 msgid "Erasing XMP data from the file"
-msgstr "Die EXIF-Daten der Datei werden gelöscht."
+msgstr "Die XMP-Daten der Datei werden gelöscht."
 
 #: src/actions.cpp:1048
-#, fuzzy
 msgid "Writing XMP packet from"
-msgstr "Schreibe die EXIF-Daten von"
+msgstr "Schreibe die XMP-Daten von"
 
 #: src/actions.cpp:1049 src/actions.cpp:1684 src/actions.cpp:1692
 #: src/actions.cpp:1700 src/actions.cpp:1709 src/actions.cpp:1810
@@ -240,9 +232,8 @@ msgid "to"
 msgstr "nach"
 
 #: src/actions.cpp:1054
-#, fuzzy
 msgid "Failed to open file "
-msgstr "Die Datei konnte nicht geöffnet werden\n"
+msgstr "Die Datei konnte nicht geöffnet werden."
 
 #: src/actions.cpp:1081
 msgid "Image does not contain an Exif thumbnail\n"
@@ -265,7 +256,6 @@ msgid "Exif data doesn't contain a thumbnail\n"
 msgstr "Die EXIF-Daten enthalten keine Vorschau.\n"
 
 #: src/actions.cpp:1248
-#, fuzzy
 msgid "Setting JPEG comment"
 msgstr "Der JPEG-Kommentar wird gesetzt."
 
@@ -278,19 +268,16 @@ msgid "Set"
 msgstr "Setzen"
 
 #: src/actions.cpp:1365
-#, fuzzy
 msgid "Warning"
-msgstr "Schreibe"
+msgstr "Warnung"
 
 #: src/actions.cpp:1366
-#, fuzzy
 msgid "Failed to read"
-msgstr "Fehler beim umbenennen"
+msgstr "Fehler beim lesen"
 
 #: src/actions.cpp:1368
-#, fuzzy
 msgid "value"
-msgstr "Bewertend"
+msgstr "Wert"
 
 #: src/actions.cpp:1376
 msgid "Del"
@@ -329,17 +316,14 @@ msgid "Writing Exif data from"
 msgstr "Schreibe die EXIF-Daten von"
 
 #: src/actions.cpp:1691
-#, fuzzy
 msgid "Writing IPTC data from"
 msgstr "Schreibe die IPTC-Daten von"
 
 #: src/actions.cpp:1699
-#, fuzzy
 msgid "Writing XMP data from"
-msgstr "Schreibe die EXIF-Daten von"
+msgstr "Schreibe die XMP-Daten von"
 
 #: src/actions.cpp:1708
-#, fuzzy
 msgid "Writing JPEG comment from"
 msgstr "Schreibe den JPEG-Kommentar von"
 
@@ -934,8 +918,7 @@ msgid "Reference Date"
 msgstr "Referenzdatum"
 
 #: src/datasets.cpp:284
-msgid ""
-"Identifies the date of a prior envelope to which the current object refers."
+msgid "Identifies the date of a prior envelope to which the current object refers."
 msgstr ""
 "Gibt das Datum eines vorangegangenen Umschlags an, auf den das aktuelle "
 "Objekt verweist."
@@ -1147,8 +1130,7 @@ msgid "Headline"
 msgstr "Schlagzeile"
 
 #: src/datasets.cpp:364
-msgid ""
-"A publishable entry providing a synopsis of the contents of the object data."
+msgid "A publishable entry providing a synopsis of the contents of the object data."
 msgstr ""
 "Ein veröffentlichbarer Eintrag, der eine Zusammenfassung des Inhalts der "
 "Objektdaten zur Verfügung stellt."
@@ -1175,7 +1157,7 @@ msgstr ""
 
 #: src/datasets.cpp:377
 msgid "Contains any necessary copyright notice."
-msgstr ""
+msgstr "Enthält die Notwendigen Copyright-Notizen."
 
 #: src/datasets.cpp:379
 msgid "Copyright Notice"
@@ -1404,8 +1386,7 @@ msgid ""
 msgstr ""
 
 #: src/exiv2.cpp:219
-msgid ""
-"  ex | extract  Extract metadata to *.exv, *.xmp and thumbnail image files.\n"
+msgid "  ex | extract  Extract metadata to *.exv, *.xmp and thumbnail image files.\n"
 msgstr ""
 
 #: src/exiv2.cpp:220
@@ -1461,8 +1442,7 @@ msgid "   -k      Preserve file timestamps (keep).\n"
 msgstr ""
 
 #: src/exiv2.cpp:235
-msgid ""
-"   -t      Also set the file timestamp in 'rename' action (overrides -k).\n"
+msgid "   -t      Also set the file timestamp in 'rename' action (overrides -k).\n"
 msgstr ""
 
 #: src/exiv2.cpp:236
@@ -1494,8 +1474,7 @@ msgid "             s : print a summary of the Exif metadata (the default)\n"
 msgstr ""
 
 #: src/exiv2.cpp:244
-msgid ""
-"             t : interpreted (translated) Exif data (shortcut for -Pkyct)\n"
+msgid "             t : interpreted (translated) Exif data (shortcut for -Pkyct)\n"
 msgstr ""
 
 #: src/exiv2.cpp:245
@@ -1519,8 +1498,7 @@ msgid "             c : JPEG comment\n"
 msgstr ""
 
 #: src/exiv2.cpp:250
-msgid ""
-"   -P cols Print columns for the Exif taglist ('print' action). Valid are:\n"
+msgid "   -P cols Print columns for the Exif taglist ('print' action). Valid are:\n"
 msgstr ""
 
 #: src/exiv2.cpp:251
@@ -1568,8 +1546,7 @@ msgid "             h : hexdump of the data\n"
 msgstr ""
 
 #: src/exiv2.cpp:262
-msgid ""
-"   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n"
+msgid "   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n"
 msgstr ""
 
 #: src/exiv2.cpp:263
@@ -1619,8 +1596,7 @@ msgid "             :basename:   - original filename without extension\n"
 msgstr ""
 
 #: src/exiv2.cpp:280
-msgid ""
-"             :dirname:    - name of the directory holding the original file\n"
+msgid "             :dirname:    - name of the directory holding the original file\n"
 msgstr ""
 
 #: src/exiv2.cpp:281
@@ -2100,59 +2076,52 @@ msgid "XMP Paged-Text schema"
 msgstr ""
 
 #: src/properties.cpp:74
-#, fuzzy
 msgid "XMP Dynamic Media schema"
-msgstr "Dynamischer Bereich"
+msgstr "XMP-Dynamisches Medienschema"
 
 #: src/properties.cpp:75
-#, fuzzy
 msgid "Adobe PDF schema"
-msgstr "Adobe Deflate"
+msgstr "Adobe PDF-Schema"
 
 #: src/properties.cpp:76
 msgid "Adobe photoshop schema"
-msgstr ""
+msgstr "Adobe Photoshop-Schema"
 
 #: src/properties.cpp:77
-#, fuzzy
 msgid "Camera Raw schema"
-msgstr "Kamerahersteller"
+msgstr "Kamera-Rohschema"
 
 #: src/properties.cpp:78
 msgid "Exif Schema for TIFF Properties"
-msgstr ""
+msgstr "EXIF-Schema für TIFF-Eigenschaften"
 
 #: src/properties.cpp:79
 msgid "Exif schema for Exif-specific Properties"
-msgstr ""
+msgstr "EXIF-Schema für EXIF-spezifische Eigenschaften"
 
 #: src/properties.cpp:80
 msgid "Exif schema for Additional Exif Properties"
-msgstr ""
+msgstr "EXIF-Schema für zusätzliche EXIF-Eigenschaften"
 
 #: src/properties.cpp:81
 msgid "IPTC Core schema"
-msgstr ""
+msgstr "IPTC-Hauptschema"
 
 #: src/properties.cpp:85
-#, fuzzy
 msgid "Colorant structure"
-msgstr "Farbtemperatur"
+msgstr "Farbmittelstruktur"
 
 #: src/properties.cpp:86
-#, fuzzy
 msgid "Dimensions structure"
-msgstr "Bilddatenstruktur"
+msgstr "Dimensionsstruktur"
 
 #: src/properties.cpp:87
-#, fuzzy
 msgid "Font structure"
-msgstr "EXIF-Datenstruktur"
+msgstr "Schriftartstruktur"
 
 #: src/properties.cpp:88
-#, fuzzy
 msgid "Thumbnail structure"
-msgstr "Vorschau"
+msgstr "Vorschaustruktur"
 
 #: src/properties.cpp:89
 msgid "Resource Event structure"
@@ -2163,9 +2132,8 @@ msgid "ResourceRef structure"
 msgstr ""
 
 #: src/properties.cpp:91
-#, fuzzy
 msgid "Version structure"
-msgstr "EXIF-Datenstruktur"
+msgstr "Versionsstruktur"
 
 #: src/properties.cpp:92
 msgid "Basic Job/Workflow structure"
@@ -2176,37 +2144,32 @@ msgid "Qualifier for xmp:Identifier"
 msgstr ""
 
 #: src/properties.cpp:99
-#, fuzzy
 msgid "Contributor"
-msgstr "Kontinuierlich"
+msgstr "Mitwirkende"
 
 #: src/properties.cpp:99
 msgid "Contributors to the resource (other than the authors)."
 msgstr ""
 
 #: src/properties.cpp:100
-#, fuzzy
 msgid "Coverage"
-msgstr "Durchschnitt"
+msgstr "Abdeckung"
 
 #: src/properties.cpp:100
 msgid "The extent or scope of the resource."
 msgstr ""
 
 #: src/properties.cpp:101
-#, fuzzy
 msgid "Creator"
-msgstr "Kategorie"
+msgstr "Ersteller"
 
 #: src/properties.cpp:101
-msgid ""
-"The authors of the resource (listed in order of precedence, if significant)."
+msgid "The authors of the resource (listed in order of precedence, if significant)."
 msgstr ""
 
 #: src/properties.cpp:102 src/pentaxmn.cpp:769 src/pentaxmn.cpp:770
-#, fuzzy
 msgid "Date"
-msgstr "Sendedatum"
+msgstr "Datum"
 
 #: src/properties.cpp:102
 msgid "Date(s) that something interesting happened to the resource."
@@ -2219,9 +2182,8 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:105
-#, fuzzy
 msgid "Format"
-msgstr "Dateiformat"
+msgstr "Format"
 
 #: src/properties.cpp:105
 msgid ""
@@ -2231,9 +2193,8 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:107 src/properties.cpp:135
-#, fuzzy
 msgid "Identifier"
-msgstr "ARM-ID"
+msgstr "Identifizierer"
 
 #: src/properties.cpp:107
 msgid "Unique identifier of the resource."
@@ -2245,34 +2206,31 @@ msgstr ""
 
 #: src/properties.cpp:109
 msgid "Publisher"
-msgstr ""
+msgstr "Herausgeber"
 
 #: src/properties.cpp:109
 msgid "Publishers."
-msgstr ""
+msgstr "Herausgeber."
 
 #: src/properties.cpp:110
-#, fuzzy
 msgid "Relation"
-msgstr "Drehung"
+msgstr "Beziehung"
 
 #: src/properties.cpp:110
 msgid "Relationships to other documents."
-msgstr ""
+msgstr "Beziehung zu anderen Dokumenten"
 
 #: src/properties.cpp:111
-#, fuzzy
 msgid "Rights"
-msgstr "Rechts"
+msgstr "Rechte"
 
 #: src/properties.cpp:111
 msgid "Informal rights statement, selected by language."
 msgstr ""
 
 #: src/properties.cpp:112
-#, fuzzy
 msgid "Unique identifier of the work from which this resource was derived."
-msgstr "Der Name des Dokuments von dem das Bild eingelesen wurde."
+msgstr ""
 
 #: src/properties.cpp:113
 msgid ""
@@ -2281,9 +2239,8 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:115
-#, fuzzy
 msgid "Title"
-msgstr "Datei"
+msgstr "Titel"
 
 #: src/properties.cpp:115
 msgid ""
@@ -2292,7 +2249,6 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:117
-#, fuzzy
 msgid "Type"
 msgstr "Typ"
 
@@ -2301,9 +2257,8 @@ msgid "A document type; for example, novel, poem, or working paper."
 msgstr ""
 
 #: src/properties.cpp:123
-#, fuzzy
 msgid "Advisory"
-msgstr "Audio"
+msgstr "Gutachten"
 
 #: src/properties.cpp:123
 msgid ""
@@ -2326,19 +2281,16 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:131
-#, fuzzy
 msgid "Create Date"
-msgstr "Freigabedatum"
+msgstr "Erstellungsdatum"
 
 #: src/properties.cpp:131
-#, fuzzy
 msgid "The date and time the resource was originally created."
-msgstr ""
-"Das Datum und die Uhrzeit der Speicherung des Bildes als digitale Daten."
+msgstr "Das Datum und die Uhrzeit an dem die Ressource im Original erstellt wurde."
 
 #: src/properties.cpp:132
 msgid "Creator Tool"
-msgstr ""
+msgstr "Erstellungswerkzeug"
 
 #: src/properties.cpp:132
 msgid ""
@@ -2358,9 +2310,8 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:140
-#, fuzzy
 msgid "Label"
-msgstr "Groß"
+msgstr "Name"
 
 #: src/properties.cpp:140
 msgid ""
@@ -2369,9 +2320,8 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:142
-#, fuzzy
 msgid "Metadata Date"
-msgstr "Minolta Datum"
+msgstr "Metadaten-Datum"
 
 #: src/properties.cpp:142
 msgid ""
@@ -2380,9 +2330,8 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:144
-#, fuzzy
 msgid "Modify Date"
-msgstr "Minolta Datum"
+msgstr "Änderungsdatum"
 
 #: src/properties.cpp:144
 msgid ""
@@ -2393,16 +2342,15 @@ msgstr ""
 
 #: src/properties.cpp:147
 msgid "Nickname"
-msgstr ""
+msgstr "Spitzname"
 
 #: src/properties.cpp:147
 msgid "A short informal name for the resource."
-msgstr ""
+msgstr "Ein kurzer informeller Name für die Ressource."
 
 #: src/properties.cpp:148
-#, fuzzy
 msgid "Rating"
-msgstr "Drehung"
+msgstr "Bewertung"
 
 #: src/properties.cpp:148
 msgid ""
@@ -2412,9 +2360,8 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:151
-#, fuzzy
 msgid "Thumbnails"
-msgstr "Vorschau"
+msgstr "Vorschaubilder"
 
 #: src/properties.cpp:151
 msgid ""
@@ -2424,25 +2371,23 @@ msgstr ""
 
 #: src/properties.cpp:158
 msgid "Certificate"
-msgstr ""
+msgstr "Zertifikat"
 
 #: src/properties.cpp:158
 msgid "Online rights management certificate."
-msgstr ""
+msgstr "Online-Rechteverwaltungszertifikat"
 
 #: src/properties.cpp:159
-#, fuzzy
 msgid "Marked"
-msgstr "Hart"
+msgstr "Markiert"
 
 #: src/properties.cpp:159
 msgid "Indicates that this is a rights-managed resource."
-msgstr ""
+msgstr "Zeigt an, dass dies eine Ressource ist deren Rechet verwaltet sind."
 
 #: src/properties.cpp:160
-#, fuzzy
 msgid "Owner"
-msgstr "Besitzername"
+msgstr "Besitzer"
 
 #: src/properties.cpp:160
 msgid "An unordered array specifying the legal owner(s) of a resource."
@@ -2480,9 +2425,8 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:173
-#, fuzzy
 msgid "Document ID"
-msgstr "Dokumentenname"
+msgstr "Dokumenten-ID"
 
 #: src/properties.cpp:173
 msgid ""
@@ -2492,7 +2436,7 @@ msgstr ""
 
 #: src/properties.cpp:175
 msgid "History"
-msgstr ""
+msgstr "Geschichte"
 
 #: src/properties.cpp:175
 msgid ""
@@ -2527,9 +2471,8 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:184
-#, fuzzy
 msgid "Manager"
-msgstr "Sprache"
+msgstr "Verwalter"
 
 #: src/properties.cpp:184
 msgid ""
@@ -2591,9 +2534,8 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:198
-#, fuzzy
 msgid "Version ID"
-msgstr "GPS Version ID"
+msgstr "Version-ID"
 
 #: src/properties.cpp:198
 msgid ""
@@ -2604,9 +2546,8 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:202
-#, fuzzy
 msgid "Versions"
-msgstr "Version"
+msgstr "Versionen"
 
 #: src/properties.cpp:202
 msgid ""
@@ -2638,18 +2579,16 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:211
-#, fuzzy
 msgid "Save ID"
-msgstr "Kamera ID"
+msgstr "Speicherungs-ID"
 
 #: src/properties.cpp:211
 msgid "Deprecated. Previously used only to support the xmpMM:LastURL property."
 msgstr ""
 
 #: src/properties.cpp:217
-#, fuzzy
 msgid "Job Reference"
-msgstr "Referenzdatum"
+msgstr "Jobreferenz"
 
 #: src/properties.cpp:217
 msgid ""
@@ -2662,9 +2601,8 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:226
-#, fuzzy
 msgid "MaxPageSize"
-msgstr "Bildgrõße"
+msgstr "MaxSeitenGröße"
 
 #: src/properties.cpp:226
 msgid ""
@@ -2677,14 +2615,12 @@ msgid "NPages"
 msgstr ""
 
 #: src/properties.cpp:227
-msgid ""
-"The number of pages in the document (including any in contained documents)."
+msgid "The number of pages in the document (including any in contained documents)."
 msgstr ""
 
 #: src/properties.cpp:228
-#, fuzzy
 msgid "Fonts"
-msgstr "AF Punkt"
+msgstr "Schriftarten"
 
 #: src/properties.cpp:228
 msgid ""
@@ -2693,9 +2629,8 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:229
-#, fuzzy
 msgid "Colorants"
-msgstr "Farbe"
+msgstr "Farbmittel"
 
 #: src/properties.cpp:229
 msgid ""
@@ -2756,9 +2691,8 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:242
-#, fuzzy
 msgid "Video Color Space"
-msgstr "Farbraum"
+msgstr "Video-Farbraum"
 
 #: src/properties.cpp:242
 msgid ""
@@ -2767,9 +2701,8 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:244
-#, fuzzy
 msgid "Video Alpha Mode"
-msgstr "Minolta Modell"
+msgstr "Video-Alphamodus"
 
 #: src/properties.cpp:244
 msgid "The alpha mode. One of: straight, pre-multiplied."
@@ -2794,27 +2727,24 @@ msgid "When true, unity is clear, when false, it is opaque."
 msgstr ""
 
 #: src/properties.cpp:248
-#, fuzzy
 msgid "Video Compressor"
-msgstr "Kompression"
+msgstr "Video-Kompression"
 
 #: src/properties.cpp:248
 msgid "Video compression used. For example, jpeg."
 msgstr ""
 
 #: src/properties.cpp:249
-#, fuzzy
 msgid "Video Field Order"
-msgstr "Füllreihenfolge"
+msgstr "Video-Feldreihenfolge"
 
 #: src/properties.cpp:249
 msgid "The field order for video. One of: Upper, Lower, Progressive."
 msgstr ""
 
 #: src/properties.cpp:250
-#, fuzzy
 msgid "Pull Down"
-msgstr "Abwärts"
+msgstr "Nach unten ziehen"
 
 #: src/properties.cpp:250
 msgid ""
@@ -2824,41 +2754,36 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:252
-#, fuzzy
 msgid "Audio Sample Rate"
-msgstr "Audiorate"
+msgstr "Audio-Abtastrate"
 
 #: src/properties.cpp:252
-msgid ""
-"The audio sample rate. Can be any value, but commonly 32000, 41100, or 48000."
+msgid "The audio sample rate. Can be any value, but commonly 32000, 41100, or 48000."
 msgstr ""
 
 #: src/properties.cpp:253
-#, fuzzy
 msgid "Audio Sample Type"
-msgstr "Audiotyp"
+msgstr "Audio-Abtasttyp"
 
 #: src/properties.cpp:253
 msgid "The audio sample type. One of: 8Int, 16Int, 32Int, 32Float."
 msgstr ""
 
 #: src/properties.cpp:254
-#, fuzzy
 msgid "Audio Channel Type"
-msgstr "Audiotyp"
+msgstr "Audio-Kanaltyp"
 
 #: src/properties.cpp:254
 msgid "The audio channel type. One of: Mono, Stereo, 5.1, 7.1."
 msgstr ""
 
 #: src/properties.cpp:255
-#, fuzzy
 msgid "Audio Compressor"
-msgstr "Kompression"
+msgstr "Audio-Kompression"
 
 #: src/properties.cpp:255
 msgid "The audio compression used. For example, MP3."
-msgstr ""
+msgstr "Die benutzte Audio-Kompression, z.B. MP3."
 
 #: src/properties.cpp:256
 msgid "Speaker Placement"
@@ -2872,9 +2797,8 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:258
-#, fuzzy
 msgid "File Data Rate"
-msgstr "Minolta Datum"
+msgstr "Dateidatenrate"
 
 #: src/properties.cpp:258
 msgid ""
@@ -2883,9 +2807,8 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:259
-#, fuzzy
 msgid "Tape Name"
-msgstr "Besitzername"
+msgstr "Bandname"
 
 #: src/properties.cpp:259
 msgid ""
@@ -2895,7 +2818,7 @@ msgstr ""
 
 #: src/properties.cpp:260
 msgid "Alt Tape Name"
-msgstr ""
+msgstr "Alternativer Bandname"
 
 #: src/properties.cpp:260
 msgid ""
@@ -2915,12 +2838,10 @@ msgid "Adobe RGB"
 msgstr "Adobe RGB"
 
 #: src/properties.cpp:444
-#, fuzzy
 msgid "uncalibrated"
 msgstr "Unkalibriert"
 
 #: src/properties.cpp:460
-#, fuzzy
 msgid "not defined"
 msgstr "Undefiniert"
 
@@ -2936,9 +2857,8 @@ msgid "Manual"
 msgstr "Manuell"
 
 #: src/properties.cpp:462
-#, fuzzy
 msgid "Normal program"
-msgstr "Normale Verarbeitung"
+msgstr "Normales Programm"
 
 #: src/properties.cpp:463 src/tags.cpp:524 src/minoltamn.cpp:307
 #: src/minoltamn.cpp:778 src/minoltamn.cpp:982 src/panasonicmn.cpp:112
@@ -2968,7 +2888,6 @@ msgid "Landscape mode"
 msgstr "Landschaftsmodus"
 
 #: src/properties.cpp:473 src/properties.cpp:485
-#, fuzzy
 msgid "unknown"
 msgstr "Unbekannt"
 
@@ -2978,9 +2897,8 @@ msgid "Average"
 msgstr "Durchschnitt"
 
 #: src/properties.cpp:475
-#, fuzzy
 msgid "CenterWeightedAverage"
-msgstr "Mittelpunkt gewichteter Durchschnitt"
+msgstr "MittelGewichteterDurchschnitt"
 
 #: src/properties.cpp:476 src/tags.cpp:537 src/canonmn.cpp:346
 #: src/minoltamn.cpp:369 src/minoltamn.cpp:1028 src/minoltamn.cpp:1081
@@ -2989,21 +2907,18 @@ msgid "Spot"
 msgstr "Punkt"
 
 #: src/properties.cpp:477
-#, fuzzy
 msgid "MultiSpot"
-msgstr "Mehr-Punkt"
+msgstr "Mehrpunkt"
 
 #: src/properties.cpp:478
-#, fuzzy
 msgid "Pattern"
-msgstr "CFA Pattern"
+msgstr "Muster"
 
 #: src/properties.cpp:479 src/tags.cpp:540 src/canonmn.cpp:349
 msgid "Partial"
 msgstr "Partiell"
 
 #: src/properties.cpp:480 src/properties.cpp:505
-#, fuzzy
 msgid "other"
 msgstr "Andere"
 
@@ -3086,56 +3001,48 @@ msgid "ISO studio tungsten"
 msgstr "ISO Studio Wolfram"
 
 #: src/properties.cpp:510
-#, fuzzy
 msgid "inches"
 msgstr "Zoll"
 
 #: src/properties.cpp:511
-#, fuzzy
 msgid "centimeters"
-msgstr "Zentriert"
+msgstr "Zentimeter"
 
 #: src/properties.cpp:516 src/tags.cpp:521 src/tags.cpp:609
 msgid "Not defined"
 msgstr "Undefiniert"
 
 #: src/properties.cpp:517
-#, fuzzy
 msgid "One-chip color area sensor"
-msgstr "Einzel-Chip-Farbsensor"
+msgstr "Einzel-Chip-Farbbereichssensor"
 
 #: src/properties.cpp:518
-#, fuzzy
 msgid "Two-chip color area sensor"
-msgstr "Zwei-Chip-Farbsensor"
+msgstr "Zwei-Chip-Farbbereichssensor"
 
 #: src/properties.cpp:519
-#, fuzzy
 msgid "Three-chip color area sensor"
-msgstr "Drei-Chip-Farbsensor"
+msgstr "Drei-Chip-Farbbereichssensor"
 
 #: src/properties.cpp:520
-#, fuzzy
 msgid "Color sequential area sensor"
-msgstr "Farb-sequentieller Bereich"
+msgstr "Farb-sequentieller Bereichsensor"
 
 #: src/properties.cpp:521 src/tags.cpp:614
 msgid "Trilinear sensor"
 msgstr "Trilinearer Sensor"
 
 #: src/properties.cpp:522
-#, fuzzy
 msgid "Color sequential linear sensor"
-msgstr "Farb-sequentieller linear"
+msgstr "Farb-sequentieller linearer Sensor"
 
 #: src/properties.cpp:527
 msgid "DSC"
 msgstr ""
 
 #: src/properties.cpp:532
-#, fuzzy
 msgid "directly photographed image"
-msgstr "Direkt fotographiert"
+msgstr "Direkt fotographiertes Bild"
 
 #: src/properties.cpp:537 src/tags.cpp:632
 msgid "Normal process"
@@ -3146,28 +3053,24 @@ msgid "Custom process"
 msgstr "Gesonderte Verarbeitung"
 
 #: src/properties.cpp:543
-#, fuzzy
 msgid "Auto exposure"
-msgstr "Belichtung"
+msgstr "Automatische Belichtung"
 
 #: src/properties.cpp:544
-#, fuzzy
 msgid "Manual exposure"
-msgstr "Belichtung"
+msgstr "Manuelle Belichtung"
 
 #: src/properties.cpp:545 src/tags.cpp:640 src/sigmamn.cpp:133
 msgid "Auto bracket"
 msgstr "Automatischer Erfassung"
 
 #: src/properties.cpp:550
-#, fuzzy
 msgid "Auto white balance"
-msgstr "Weißabgleich"
+msgstr "Automatischer Weißabgleich"
 
 #: src/properties.cpp:551
-#, fuzzy
 msgid "Manual white balance"
-msgstr "Weißabgleich"
+msgstr "Manueller Weißabgleich"
 
 #: src/properties.cpp:556 src/tags.cpp:651 src/fujimn.cpp:154
 #: src/fujimn.cpp:161 src/minoltamn.cpp:78 src/minoltamn.cpp:349
@@ -3229,14 +3132,12 @@ msgid "Hard"
 msgstr "Hart"
 
 #: src/properties.cpp:581
-#, fuzzy
 msgid "Low saturation"
-msgstr "Sättigung"
+msgstr "Niedrige Sättigung"
 
 #: src/properties.cpp:582
-#, fuzzy
 msgid "High saturation"
-msgstr "Sättigung"
+msgstr "Hohe Sättigung"
 
 #: src/properties.cpp:587 src/tags.cpp:534 src/tags.cpp:546 src/tags.cpp:689
 #: src/tags.cpp:1926 src/tags.cpp:1997 src/canonmn.cpp:189 src/canonmn.cpp:191
@@ -3298,7 +3199,7 @@ msgstr "Unter dem Meeresspiegel"
 
 #: src/properties.cpp:601
 msgid "measurement in progress"
-msgstr ""
+msgstr "Messung wird durchgeführt"
 
 #: src/properties.cpp:602
 msgid "measurement is interoperability"
@@ -3306,51 +3207,47 @@ msgstr ""
 
 #: src/properties.cpp:607
 msgid "two-dimensional measurement"
-msgstr ""
+msgstr "Zweidimensionale Messung"
 
 #: src/properties.cpp:608
 msgid "three-dimensional measurement"
-msgstr ""
+msgstr "Dreidimensionale Messung"
 
 #: src/properties.cpp:613
 msgid "kilometers per hour"
-msgstr ""
+msgstr "Kilometer Pro Stunde"
 
 #: src/properties.cpp:614
 msgid "miles per hour"
-msgstr ""
+msgstr "Meilen pro Stunde"
 
 #: src/properties.cpp:615 src/properties.cpp:628 src/tags.cpp:988
 msgid "knots"
 msgstr "Knoten"
 
 #: src/properties.cpp:620
-#, fuzzy
 msgid "true direction"
-msgstr "Pamoramarichtung"
+msgstr "Echte Richtung"
 
 #: src/properties.cpp:621
-#, fuzzy
 msgid "magnetic direction"
-msgstr "GPS-Bildrichtung"
+msgstr "Magnetische Richtung"
 
 #: src/properties.cpp:626
-#, fuzzy
 msgid "kilometers"
-msgstr "Filter"
+msgstr "Kilometer"
 
 #: src/properties.cpp:627
-#, fuzzy
 msgid "miles"
-msgstr "Datei"
+msgstr "Meilen"
 
 #: src/properties.cpp:633
 msgid "Without correction"
-msgstr ""
+msgstr "Ohne Korrektur"
 
 #: src/properties.cpp:634
 msgid "Correction applied"
-msgstr ""
+msgstr "Korrektur wurde angewendet"
 
 #: src/tags.cpp:108
 msgid "Unknown section"
@@ -3502,12 +3399,11 @@ msgstr "JBIG Farbe"
 
 #: src/tags.cpp:172
 msgid "Next 2-bits RLE"
-msgstr ""
+msgstr "Nächsten 2-Bits RLE"
 
 #: src/tags.cpp:173
-#, fuzzy
 msgid "Epson ERF Compressed"
-msgstr "Nikon NEF Komprimiert"
+msgstr "Epson ERF komprimiert"
 
 #: src/tags.cpp:174
 msgid "CCITT RLE 1-word"
@@ -3571,17 +3467,15 @@ msgstr ""
 
 #: src/tags.cpp:189
 msgid "Nikon NEF Compressed"
-msgstr "Nikon NEF Komprimiert"
+msgstr "Nikon NEF komprimiert"
 
 #: src/tags.cpp:190
-#, fuzzy
 msgid "Kodak DCR Compressed"
-msgstr "Nikon NEF Komprimiert"
+msgstr "Kodak DCR komprimiert"
 
 #: src/tags.cpp:191
-#, fuzzy
 msgid "Pentax PEF Compressed"
-msgstr "Nikon NEF Komprimiert"
+msgstr "Pentax PEF komprimiert"
 
 #: src/tags.cpp:196
 msgid "White Is Zero"
@@ -4185,8 +4079,7 @@ msgstr "Windows-Bewertung in Prozent"
 
 #: src/tags.cpp:432
 msgid "Rating tag used by Windows, value in percent"
-msgstr ""
-"Bewertungsstichwort das von Windows benutzt wird. Der Wert ist in Prozent."
+msgstr "Bewertungsstichwort das von Windows benutzt wird. Der Wert ist in Prozent."
 
 #: src/tags.cpp:434
 msgid "CFA Repeat Pattern Dimension"
@@ -4418,7 +4311,6 @@ msgid "Fired, strobe return light detected"
 msgstr "Blitz ausgelöst, Reflektion erkannt"
 
 #: src/tags.cpp:575
-#, fuzzy
 msgid "Yes, did not fire"
 msgstr "Blitz löste nicht aus"
 
@@ -4439,9 +4331,8 @@ msgid "No, compulsory"
 msgstr "Blitz nicht ausgelöst, festgelegter Modus"
 
 #: src/tags.cpp:580
-#, fuzzy
 msgid "No, did not fire, return not detected"
-msgstr "Blitz ausgelöst, keine Reflektion erkannt"
+msgstr "Blitz wurde nicht ausgelöst, keine Reflektion erkannt"
 
 #: src/tags.cpp:581
 msgid "No, auto"
@@ -4464,7 +4355,6 @@ msgid "No flash function"
 msgstr "Keine Blitzlichtfunktion."
 
 #: src/tags.cpp:586
-#, fuzzy
 msgid "No, no flash function"
 msgstr "Keine Blitzlichtfunktion."
 
@@ -4486,23 +4376,19 @@ msgstr "Blitz ausgelöst, fester Modus, Rote-Augen-Reduktion"
 
 #: src/tags.cpp:591
 msgid "Yes, compulsory, red-eye reduction, return light not detected"
-msgstr ""
-"Blitz ausgelöst, fester Modus, Rote-Augen-Reduktion, keine Reflektion erkannt"
+msgstr "Blitz ausgelöst, fester Modus, Rote-Augen-Reduktion, keine Reflektion erkannt"
 
 #: src/tags.cpp:592
 msgid "Yes, compulsory, red-eye reduction, return light detected"
-msgstr ""
-"Blitz ausgelöst, fester Modus, Rote-Augen-Reduktion, Reflektion erkannt"
+msgstr "Blitz ausgelöst, fester Modus, Rote-Augen-Reduktion, Reflektion erkannt"
 
 #: src/tags.cpp:593
-#, fuzzy
 msgid "No, red-eye reduction"
-msgstr "Blitz ausgelöst, Rote-Augen-Reduktion"
+msgstr "Blitz nicht ausgelöst, Rote-Augen-Reduktion"
 
 #: src/tags.cpp:594
-#, fuzzy
 msgid "No, auto, red-eye reduction"
-msgstr "Blitz ausgelöst, automatisch, Rote-Augen-Reduktion"
+msgstr "Blitz nicht ausgelöst, automatisch, Rote-Augen-Reduktion"
 
 #: src/tags.cpp:595
 msgid "Yes, auto, red-eye reduction"
@@ -4669,8 +4555,7 @@ msgstr "Datum und Uhrzeit (digitalisiert)"
 
 #: src/tags.cpp:730
 msgid "The date and time when the image was stored as digital data."
-msgstr ""
-"Das Datum und die Uhrzeit der Speicherung des Bildes als digitale Daten."
+msgstr "Das Datum und die Uhrzeit der Speicherung des Bildes als digitale Daten."
 
 #: src/tags.cpp:732
 msgid "Components Configuration"
@@ -4786,8 +4671,7 @@ msgid "The kind of light source."
 msgstr "Die Art der Lichtquelle."
 
 #: src/tags.cpp:776
-msgid ""
-"This tag is recorded when an image is taken using a strobe light (flash)."
+msgid "This tag is recorded when an image is taken using a strobe light (flash)."
 msgstr ""
 "Dieser Eintrag wird aufgezeichnet, wenn das Bild mit einem Blitz gemacht "
 "wurde."
@@ -4812,8 +4696,7 @@ msgstr "Motivbereich"
 msgid ""
 "This tag indicates the location and area of the main subject in the overall "
 "scene."
-msgstr ""
-"Dieses Stichwort gibt die Position und Größe des Hauptmotivs in der Szene an."
+msgstr "Dieses Stichwort gibt die Position und Größe des Hauptmotivs in der Szene an."
 
 #: src/tags.cpp:786
 msgid "Maker Note"
@@ -4853,8 +4736,7 @@ msgid "Sub-seconds Time Original"
 msgstr "Sekundenbruchteile (original)"
 
 #: src/tags.cpp:799
-msgid ""
-"A tag used to record fractions of seconds for the <DateTimeOriginal> tag."
+msgid "A tag used to record fractions of seconds for the <DateTimeOriginal> tag."
 msgstr ""
 "Das Stichwort wird benutzt um Sekundenbruchteile für des <DateTimeOriginal>-"
 "Stichwort zu erfassen."
@@ -4864,8 +4746,7 @@ msgid "Sub-seconds Time Digitized"
 msgstr "Sekundenbruchteile (digitalisiert)"
 
 #: src/tags.cpp:802
-msgid ""
-"A tag used to record fractions of seconds for the <DateTimeDigitized> tag."
+msgid "A tag used to record fractions of seconds for the <DateTimeDigitized> tag."
 msgstr ""
 "Das Stichwort wird benutzt um Sekundenbruchteile für das <DateTimeDigitized>-"
 "Stichwort zu erfassen."
@@ -5130,10 +5011,7 @@ msgid ""
 "This tag indicates the exposure mode set when the image was shot. In auto-"
 "bracketing mode, the camera shoots a series of frames of the same scene at "
 "different exposure settings."
-msgstr ""
-"Dieses Stichwort gibt den Belichtungsmodus bei der Aufnahme des Bildes an. "
-"In \"autobracketing\" Modus nimmt die Kamera mehrere Bilder derselben Szene "
-"mit verschiedenen Belichtungseinstellungen auf."
+msgstr "Dieses Stichwort gibt den Belichtungsmodus bei der Aufnahme des Bildes an. Bei der automatischen Erfassung nimmt die Kamera mehrere Bilder derselben Szene mit verschiedenen Belichtungseinstellungen auf."
 
 #: src/tags.cpp:908 src/canonmn.cpp:553 src/fujimn.cpp:199
 #: src/minoltamn.cpp:617 src/minoltamn.cpp:895 src/minoltamn.cpp:1133
@@ -5191,7 +5069,7 @@ msgstr ""
 
 #: src/tags.cpp:927
 msgid "Gain Control"
-msgstr ""
+msgstr "Körnungskontrolle"
 
 #: src/tags.cpp:928
 msgid "This tag indicates the degree of overall image gain adjustment."
@@ -5707,8 +5585,7 @@ msgid "GPS Differential"
 msgstr ""
 
 #: src/tags.cpp:1140
-msgid ""
-"Indicates whether differential correction is applied to the GPS receiver."
+msgid "Indicates whether differential correction is applied to the GPS receiver."
 msgstr ""
 
 #: src/tags.cpp:1143 src/tags.cpp:1144
@@ -5781,9 +5658,8 @@ msgid "Digital zoom not used"
 msgstr "Digital Zoom wurde nicht benutzt"
 
 #: src/tiffimage.cpp:145
-#, fuzzy
 msgid "TIFF header, offset"
-msgstr "Header, offset"
+msgstr "TIFF-Header, offset"
 
 #: src/tiffimage.cpp:150
 msgid "little endian encoded"
@@ -7705,7 +7581,7 @@ msgstr ""
 
 #: src/minoltamn.cpp:233
 msgid "Makernote Version"
-msgstr ""
+msgstr "Version der Herstellerbemerkung"
 
 #: src/minoltamn.cpp:234
 msgid "String 'MLT0' (not null terminated)"
@@ -7716,8 +7592,7 @@ msgid "Camera Settings (Std Old)"
 msgstr ""
 
 #: src/minoltamn.cpp:237
-msgid ""
-"Standard Camera settings (Old Camera models like D5, D7, S304, and S404)"
+msgid "Standard Camera settings (Old Camera models like D5, D7, S304, and S404)"
 msgstr ""
 
 #: src/minoltamn.cpp:239
@@ -7879,7 +7754,7 @@ msgstr "Selbstauslöser"
 
 #: src/minoltamn.cpp:359
 msgid "Bracketing"
-msgstr ""
+msgstr "Automatische Erfassung"
 
 #: src/minoltamn.cpp:360
 msgid "Interval"
@@ -8051,11 +7926,11 @@ msgstr "Belichtungskompensierung"
 
 #: src/minoltamn.cpp:650
 msgid "Bracket Step"
-msgstr ""
+msgstr "Automatischer Erfassungsschritt"
 
 #: src/minoltamn.cpp:651
 msgid "Bracket step"
-msgstr ""
+msgstr "Automatischer Erfassungsschritt"
 
 #: src/minoltamn.cpp:653
 msgid "Interval Length"
@@ -8380,7 +8255,7 @@ msgstr ""
 
 #: src/minoltamn.cpp:1066
 msgid "Central"
-msgstr ""
+msgstr "Zentriert"
 
 #: src/minoltamn.cpp:1067
 msgid "Up"
@@ -8524,7 +8399,7 @@ msgstr "PC Kontrolle"
 
 #: src/nikonmn.cpp:128
 msgid "Exposure bracketing"
-msgstr ""
+msgstr "Belichtungserfassung"
 
 #: src/nikonmn.cpp:129
 msgid "Unused LE-NR slowdown"
@@ -9053,7 +8928,7 @@ msgstr "Intern + Extern"
 
 #: src/olympusmn.cpp:113
 msgid "Interlaced"
-msgstr ""
+msgstr "Interlaced"
 
 #: src/olympusmn.cpp:114
 msgid "Progressive"
@@ -9592,166 +9467,140 @@ msgid " EV"
 msgstr " EV"
 
 #: src/pentaxmn.cpp:68
-#, fuzzy
 msgid "Night-Scene"
 msgstr "Nachtszene"
 
 #: src/pentaxmn.cpp:74
 msgid "Optio 330/430"
-msgstr ""
+msgstr "Optio 330/430"
 
 #: src/pentaxmn.cpp:75
-#, fuzzy
 msgid "Optio 230"
-msgstr "Option"
+msgstr "Optio 230"
 
 #: src/pentaxmn.cpp:76
 msgid "Optio 330GS"
-msgstr ""
+msgstr "Optio 330GS"
 
 #: src/pentaxmn.cpp:77
 msgid "Optio 450/550"
-msgstr ""
+msgstr "Optio 450/550"
 
 #: src/pentaxmn.cpp:78
-#, fuzzy
 msgid "Optio S"
-msgstr "Option"
+msgstr "Optio S"
 
 #: src/pentaxmn.cpp:79
 msgid "*ist D"
 msgstr ""
 
 #: src/pentaxmn.cpp:80
-#, fuzzy
 msgid "Optio 33L"
-msgstr "Option"
+msgstr "Optio 33L"
 
 #: src/pentaxmn.cpp:81
-#, fuzzy
 msgid "Optio 33LF"
-msgstr "Option"
+msgstr "Optio 33LF"
 
 #: src/pentaxmn.cpp:82
 msgid "Optio 33WR/43WR/555"
-msgstr ""
+msgstr "Optio 33WR/43WR/555"
 
 #: src/pentaxmn.cpp:83
-#, fuzzy
 msgid "Optio S4"
-msgstr "Option"
+msgstr "Optio S4"
 
 #: src/pentaxmn.cpp:84
-#, fuzzy
 msgid "Optio MX"
-msgstr "Option"
+msgstr "Optio MX"
 
 #: src/pentaxmn.cpp:85
-#, fuzzy
 msgid "Optio S40"
-msgstr "Option"
+msgstr "Optio S40"
 
 #: src/pentaxmn.cpp:86
-#, fuzzy
 msgid "Optio S4i"
-msgstr "Option"
+msgstr "Optio S4i"
 
 #: src/pentaxmn.cpp:87
-#, fuzzy
 msgid "Optio 30"
-msgstr "Option"
+msgstr "Optio 30"
 
 #: src/pentaxmn.cpp:88
-#, fuzzy
 msgid "Optio S30"
-msgstr "Option"
+msgstr "Optio S30"
 
 #: src/pentaxmn.cpp:89
-#, fuzzy
 msgid "Optio 750Z"
-msgstr "Option"
+msgstr "Optio 750Z"
 
 #: src/pentaxmn.cpp:90
-#, fuzzy
 msgid "Optio SV"
-msgstr "Option"
+msgstr "Optio SV"
 
 #: src/pentaxmn.cpp:91
-#, fuzzy
 msgid "Optio SVi"
-msgstr "Option"
+msgstr "Optio SVi"
 
 #: src/pentaxmn.cpp:92
-#, fuzzy
 msgid "Optio X"
-msgstr "Option"
+msgstr "Optio X"
 
 #: src/pentaxmn.cpp:93
-#, fuzzy
 msgid "Optio S5i"
-msgstr "Option"
+msgstr "Optio S5i"
 
 #: src/pentaxmn.cpp:94
-#, fuzzy
 msgid "Optio S50"
-msgstr "Option"
+msgstr "Optio S50"
 
 #: src/pentaxmn.cpp:95
 msgid "*ist DS"
 msgstr ""
 
 #: src/pentaxmn.cpp:96
-#, fuzzy
 msgid "Optio MX4"
-msgstr "Option"
+msgstr "Optio MX4"
 
 #: src/pentaxmn.cpp:97
-#, fuzzy
 msgid "Optio S5n"
-msgstr "Option"
+msgstr "Optio S5n"
 
 #: src/pentaxmn.cpp:98
-#, fuzzy
 msgid "Optio WP"
-msgstr "Option"
+msgstr "Optio WP"
 
 #: src/pentaxmn.cpp:99
-#, fuzzy
 msgid "Optio S55"
-msgstr "Option"
+msgstr "Optio S55"
 
 #: src/pentaxmn.cpp:100
-#, fuzzy
 msgid "Optio S5z"
-msgstr "Option"
+msgstr "Optio S5z"
 
 #: src/pentaxmn.cpp:101
 msgid "*ist DL"
 msgstr ""
 
 #: src/pentaxmn.cpp:102
-#, fuzzy
 msgid "Optio S60"
-msgstr "Option"
+msgstr "Optio S60"
 
 #: src/pentaxmn.cpp:103
-#, fuzzy
 msgid "Optio S45"
-msgstr "Option"
+msgstr "Optio S45"
 
 #: src/pentaxmn.cpp:104
-#, fuzzy
 msgid "Optio S6"
-msgstr "Option"
+msgstr "Optio S6"
 
 #: src/pentaxmn.cpp:105
-#, fuzzy
 msgid "Optio WPi"
-msgstr "Option"
+msgstr "Optio WPi"
 
 #: src/pentaxmn.cpp:106
 msgid "BenQ DC X600"
-msgstr ""
+msgstr "BenQ DC X600"
 
 #: src/pentaxmn.cpp:107
 msgid "*ist DS2"
@@ -9759,12 +9608,11 @@ msgstr ""
 
 #: src/pentaxmn.cpp:108
 msgid "Samsung GX-1S"
-msgstr ""
+msgstr "Samsung GX-1S"
 
 #: src/pentaxmn.cpp:109
-#, fuzzy
 msgid "Optio A10"
-msgstr "Option"
+msgstr "Optio A10"
 
 #: src/pentaxmn.cpp:110
 msgid "*ist DL2"
@@ -9772,11 +9620,11 @@ msgstr ""
 
 #: src/pentaxmn.cpp:111
 msgid "Samsung GX-1L"
-msgstr ""
+msgstr "Samsung GX-1L"
 
 #: src/pentaxmn.cpp:112
 msgid "K100D"
-msgstr ""
+msgstr "K100D"
 
 #: src/pentaxmn.cpp:113
 msgid "K110D"
@@ -9787,19 +9635,16 @@ msgid "K100D Super"
 msgstr ""
 
 #: src/pentaxmn.cpp:115
-#, fuzzy
 msgid "Optio T10"
-msgstr "Option"
+msgstr "Optio T10"
 
 #: src/pentaxmn.cpp:116
-#, fuzzy
 msgid "Optio W10"
-msgstr "Option"
+msgstr "Optio W10"
 
 #: src/pentaxmn.cpp:117
-#, fuzzy
 msgid "Optio M10"
-msgstr "Option"
+msgstr "Optio M10"
 
 #: src/pentaxmn.cpp:118
 msgid "K10D"
@@ -9810,112 +9655,96 @@ msgid "Samsung GX10"
 msgstr ""
 
 #: src/pentaxmn.cpp:120
-#, fuzzy
 msgid "Optio S7"
-msgstr "Option"
+msgstr "Optio S7"
 
 #: src/pentaxmn.cpp:121
-#, fuzzy
 msgid "Optio M20"
-msgstr "Option"
+msgstr "Optio M20"
 
 #: src/pentaxmn.cpp:122
-#, fuzzy
 msgid "Optio W20"
-msgstr "Option"
+msgstr "Optio W20"
 
 #: src/pentaxmn.cpp:123
-#, fuzzy
 msgid "Optio A20"
-msgstr "Option"
+msgstr "Optio A20"
 
 #: src/pentaxmn.cpp:124
-#, fuzzy
 msgid "Optio M30"
-msgstr "Option"
+msgstr "Optio M30"
 
 #: src/pentaxmn.cpp:125
-#, fuzzy
 msgid "Optio E30"
-msgstr "Option"
+msgstr "Optio E30"
 
 #: src/pentaxmn.cpp:126
-#, fuzzy
 msgid "Optio T30"
-msgstr "Option"
+msgstr "Optio T30"
 
 #: src/pentaxmn.cpp:127
-#, fuzzy
 msgid "Optio W30"
-msgstr "Option"
+msgstr "Optio W30"
 
 #: src/pentaxmn.cpp:128
-#, fuzzy
 msgid "Optio A30"
-msgstr "Option"
+msgstr "Optio A30"
 
 #: src/pentaxmn.cpp:129
-#, fuzzy
 msgid "Optio E40"
-msgstr "Option"
+msgstr "Optio E40"
 
 #: src/pentaxmn.cpp:130
-#, fuzzy
 msgid "Optio M40"
-msgstr "Option"
+msgstr "Optio M40"
 
 #: src/pentaxmn.cpp:131
-#, fuzzy
 msgid "Optio S10"
-msgstr "Option"
+msgstr "Optio S10"
 
 #: src/pentaxmn.cpp:136
-#, fuzzy
 msgid "Good"
-msgstr "Essen"
+msgstr "Gut"
 
 #: src/pentaxmn.cpp:137
-#, fuzzy
 msgid "Better"
-msgstr "Zentriert"
+msgstr "Besser"
 
 #: src/pentaxmn.cpp:138
-#, fuzzy
 msgid "Best"
-msgstr "Westen"
+msgstr "Am Besten"
 
 #: src/pentaxmn.cpp:139
 msgid "TIFF"
-msgstr ""
+msgstr "TIFF"
 
 #: src/pentaxmn.cpp:145
 msgid "640x480"
-msgstr ""
+msgstr "640x480"
 
 #: src/pentaxmn.cpp:146
-#, fuzzy
 msgid "Full"
-msgstr "Vollautomatisch"
+msgstr "Vollbild"
 
 #: src/pentaxmn.cpp:147
 msgid "1024x768"
-msgstr ""
+msgstr "1024x768"
 
 #: src/pentaxmn.cpp:148
 msgid "1280x960"
-msgstr ""
+msgstr "1280x960"
 
 #: src/pentaxmn.cpp:149
 msgid "1600x1200"
-msgstr ""
+msgstr "1600x1200"
 
 #: src/pentaxmn.cpp:150
 msgid "2048x1536"
-msgstr ""
+msgstr "2048x1536"
 
 #: src/pentaxmn.cpp:151
 msgid "2560x1920 or 2304x1728"
-msgstr ""
+msgstr "2560x1920 oder 2304x1728"
 
 #: src/pentaxmn.cpp:152
 msgid "3072x2304"
@@ -9954,626 +9783,556 @@ msgid "3648x2736"
 msgstr ""
 
 #: src/pentaxmn.cpp:165
-#, fuzzy
 msgid "Auto, Did not fire"
-msgstr "Blitz löste nicht aus"
+msgstr "Blitz nicht ausgelöst, automatisch"
 
 #: src/pentaxmn.cpp:167
-#, fuzzy
 msgid "Auto, Did not fire, Red-eye reduction"
-msgstr "Blitz ausgelöst, automatisch, Rote-Augen-Reduktion"
+msgstr "Blitz nicht ausgelöst, automatisch, Rote-Augen-Reduktion"
 
 #: src/pentaxmn.cpp:168
-#, fuzzy
 msgid "Auto, Fired"
-msgstr "Auto + Rote-Augen"
+msgstr "Blitz ausgelöst, automatisch"
 
 #: src/pentaxmn.cpp:170
-#, fuzzy
 msgid "Auto, Fired, Red-eye reduction"
 msgstr "Blitz ausgelöst, automatisch, Rote-Augen-Reduktion"
 
 #: src/pentaxmn.cpp:171
-#, fuzzy
 msgid "On, Red-eye reduction"
-msgstr "Rote Augen reduzieren"
+msgstr "Ein, Rote Augen reduzieren"
 
 #: src/pentaxmn.cpp:172
-#, fuzzy
 msgid "On, Wireless"
-msgstr "Drahtlos"
+msgstr "Ein, Drahtlos"
 
 #: src/pentaxmn.cpp:173
-#, fuzzy
 msgid "On, Soft"
-msgstr "Weich"
+msgstr "Ein, weich"
 
 #: src/pentaxmn.cpp:174
-#, fuzzy
 msgid "On, Slow-sync"
-msgstr "Langsame Synchronisation"
+msgstr "Ein, langsame Synchronisation"
 
 #: src/pentaxmn.cpp:175
-#, fuzzy
 msgid "On, Slow-sync, Red-eye reduction"
-msgstr "Blitz ausgelöst, Rote-Augen-Reduktion"
+msgstr "Ein, langsame Synchronisation, Rote-Augen-Reduktion"
 
 #: src/pentaxmn.cpp:176
 msgid "On, Trailing-curtain Sync"
 msgstr ""
 
 #: src/pentaxmn.cpp:185
-#, fuzzy
 msgid "Pan Focus"
 msgstr "Schwenk-Fokus"
 
 #: src/pentaxmn.cpp:186
 msgid "AF-S"
-msgstr ""
+msgstr "AF-S"
 
 #: src/pentaxmn.cpp:187
 msgid "AF-C"
-msgstr ""
+msgstr "AF-C"
 
 #: src/pentaxmn.cpp:193
-#, fuzzy
 msgid "Fixed Center"
-msgstr "Gutes Wetter"
+msgstr "Fixierte Mitte"
 
 #: src/pentaxmn.cpp:198
-#, fuzzy
 msgid "Mid-left"
 msgstr "Mitte - links"
 
 #: src/pentaxmn.cpp:200
-#, fuzzy
 msgid "Mid-right"
 msgstr "Mitte - rechts"
 
 #: src/pentaxmn.cpp:209 src/pentaxmn.cpp:226
-#, fuzzy
 msgid "50"
-msgstr "D50"
+msgstr "50"
 
 #: src/pentaxmn.cpp:210
 msgid "64"
-msgstr ""
+msgstr "64"
 
 #: src/pentaxmn.cpp:211
 msgid "80"
-msgstr ""
+msgstr "80"
 
 #: src/pentaxmn.cpp:212 src/pentaxmn.cpp:227
-#, fuzzy
 msgid "100"
-msgstr "10s"
+msgstr "100"
 
 #: src/pentaxmn.cpp:213
 msgid "125"
-msgstr ""
+msgstr "125"
 
 #: src/pentaxmn.cpp:214
-#, fuzzy
 msgid "160"
-msgstr "10s"
+msgstr "160"
 
 #: src/pentaxmn.cpp:215 src/pentaxmn.cpp:228 src/pentaxmn.cpp:229
 msgid "200"
-msgstr ""
+msgstr "200"
 
 #: src/pentaxmn.cpp:216
-#, fuzzy
 msgid "250"
-msgstr "D50"
+msgstr "250"
 
 #: src/pentaxmn.cpp:217
 msgid "320"
-msgstr ""
+msgstr "320"
 
 #: src/pentaxmn.cpp:218 src/pentaxmn.cpp:230
 msgid "400"
-msgstr ""
+msgstr "400"
 
 #: src/pentaxmn.cpp:219
-#, fuzzy
 msgid "500"
-msgstr "D50"
+msgstr "500"
 
 #: src/pentaxmn.cpp:220
 msgid "640"
-msgstr ""
+msgstr "640"
 
 #: src/pentaxmn.cpp:221 src/pentaxmn.cpp:231
 msgid "800"
-msgstr ""
+msgstr "800"
 
 #: src/pentaxmn.cpp:222
 msgid "1000"
-msgstr ""
+msgstr "1000"
 
 #: src/pentaxmn.cpp:223
 msgid "1250"
-msgstr ""
+msgstr "1250"
 
 #: src/pentaxmn.cpp:224 src/pentaxmn.cpp:232
 msgid "1600"
-msgstr ""
+msgstr "1600"
 
 #: src/pentaxmn.cpp:225 src/pentaxmn.cpp:233
 msgid "3200"
-msgstr ""
+msgstr "3200"
 
 #: src/pentaxmn.cpp:250
-#, fuzzy
 msgid "Multi Segment"
 msgstr "Mehr-Segment"
 
 #: src/pentaxmn.cpp:251
-#, fuzzy
 msgid "Center Weighted"
 msgstr "Zentriert gewichtet"
 
 #: src/pentaxmn.cpp:263
-#, fuzzy
 msgid "DaylightFluorescent"
 msgstr "Tageslicht fluoreszent"
 
 #: src/pentaxmn.cpp:264
-#, fuzzy
 msgid "DaywhiteFluorescent"
-msgstr "Tageslicht fluoreszent"
+msgstr "Tagesweiß fluoreszent"
 
 #: src/pentaxmn.cpp:265
-#, fuzzy
 msgid "WhiteFluorescent"
-msgstr "Leuchstoffröhre"
+msgstr "Weiß fluoreszent"
 
 #: src/pentaxmn.cpp:269
-#, fuzzy
 msgid "User Selected"
-msgstr "Automatische Erfassung"
+msgstr "Vom Benutzer ausgewählt"
 
 #: src/pentaxmn.cpp:274
-#, fuzzy
 msgid "Auto (Daylight)"
-msgstr "Tageslicht"
+msgstr "Automatisch (Tageslicht)"
 
 #: src/pentaxmn.cpp:275
 msgid "Auto (Shade)"
-msgstr ""
+msgstr "Automatisch (Schatten)"
 
 #: src/pentaxmn.cpp:276
-#, fuzzy
 msgid "Auto (Flash)"
-msgstr "Kein Blitz"
+msgstr "Automatisch (Blitz)"
 
 #: src/pentaxmn.cpp:277
-#, fuzzy
 msgid "Auto (Tungsten)"
-msgstr "Wolframlicht"
+msgstr "Automatisch (Wolframlicht)"
 
 #: src/pentaxmn.cpp:278
-#, fuzzy
 msgid "Auto (DaywhiteFluorescent)"
-msgstr "Tageslicht fluoreszent"
+msgstr "Automatisch (Tageslicht fluoreszent)"
 
 #: src/pentaxmn.cpp:279
-#, fuzzy
 msgid "Auto (WhiteFluorescent)"
-msgstr "Leuchstoffröhre"
+msgstr "Automatisch (Leuchstoffröhre)"
 
 #: src/pentaxmn.cpp:280
-#, fuzzy
 msgid "Auto (Cloudy)"
-msgstr "Wolkiges Wetter"
+msgstr "Automatisch (Wolkiges Wetter)"
 
 #: src/pentaxmn.cpp:281
-#, fuzzy
 msgid "User-Selected"
-msgstr "Automatische Erfassung"
+msgstr "Vom Benutzer ausgewählt"
 
 #: src/pentaxmn.cpp:282
-#, fuzzy
 msgid "Preset (Fireworks?)"
-msgstr "Feuerwerk"
+msgstr "Voreingestellt (Feuerwerk?)"
 
 #: src/pentaxmn.cpp:290 src/pentaxmn.cpp:301
-#, fuzzy
 msgid "Med Low"
-msgstr "Niedrig"
+msgstr "Mitte bis niedrig"
 
 #: src/pentaxmn.cpp:291 src/pentaxmn.cpp:302
-#, fuzzy
 msgid "Med High"
-msgstr "Sehr hoch"
+msgstr "Mitte bis hoch"
 
 #: src/pentaxmn.cpp:292 src/pentaxmn.cpp:303
-#, fuzzy
 msgid "Very Low"
-msgstr "Sehr nahe Aufnahme"
+msgstr "Sehr niedrig"
 
 #: src/pentaxmn.cpp:312
-#, fuzzy
 msgid "Med Soft"
-msgstr "Weich"
+msgstr "Mitte bis weich"
 
 #: src/pentaxmn.cpp:313
-#, fuzzy
 msgid "Med Hard"
-msgstr "Hart"
+msgstr "Mitte bis hart"
 
 #: src/pentaxmn.cpp:314
-#, fuzzy
 msgid "Very Soft"
-msgstr "Sehr nahe Aufnahme"
+msgstr "Sehr weich"
 
 #: src/pentaxmn.cpp:315
-#, fuzzy
 msgid "Very Hard"
-msgstr "Sehr hoch"
+msgstr "Sehr hart"
 
 #: src/pentaxmn.cpp:320 src/pentaxmn.cpp:836
 msgid "Home town"
-msgstr ""
+msgstr "Heimatstadt"
 
 #: src/pentaxmn.cpp:326
 msgid "Pago Pago"
-msgstr ""
+msgstr "Pago Pago"
 
 #: src/pentaxmn.cpp:327
 msgid "Honolulu"
-msgstr ""
+msgstr "Honolulu"
 
 #: src/pentaxmn.cpp:328
-#, fuzzy
 msgid "Anchorage"
-msgstr "Durchschnitt"
+msgstr "Anchorage"
 
 #: src/pentaxmn.cpp:329
 msgid "Vancouver"
-msgstr ""
+msgstr "Vancouver"
 
 #: src/pentaxmn.cpp:330
 msgid "San Fransisco"
-msgstr ""
+msgstr "San Fransisco"
 
 #: src/pentaxmn.cpp:331
 msgid "Los Angeles"
-msgstr ""
+msgstr "Los Angeles"
 
 #: src/pentaxmn.cpp:332
-#, fuzzy
 msgid "Calgary"
-msgstr "Kategorie"
+msgstr "Calgary"
 
 #: src/pentaxmn.cpp:333
-#, fuzzy
 msgid "Denver"
-msgstr "Zentriert"
+msgstr "Denver"
 
 #: src/pentaxmn.cpp:334
 msgid "Mexico City"
-msgstr ""
+msgstr "Mexico Stadt"
 
 #: src/pentaxmn.cpp:335
 msgid "Chicago"
-msgstr ""
+msgstr "Chicago"
 
 #: src/pentaxmn.cpp:336
 msgid "Miami"
-msgstr ""
+msgstr "Miami"
 
 #: src/pentaxmn.cpp:337
-#, fuzzy
 msgid "Toronto"
-msgstr "Farbkontrolle"
+msgstr "Toronto"
 
 #: src/pentaxmn.cpp:338
 msgid "New York"
-msgstr ""
+msgstr "New York"
 
 #: src/pentaxmn.cpp:339
 msgid "Santiago"
-msgstr ""
+msgstr "Santiago"
 
 #: src/pentaxmn.cpp:340
 msgid "Caracus"
-msgstr ""
+msgstr "Caracas"
 
 #: src/pentaxmn.cpp:341
 msgid "Halifax"
-msgstr ""
+msgstr "Halifax"
 
 #: src/pentaxmn.cpp:342
 msgid "Buenos Aires"
-msgstr ""
+msgstr "Buenos Aires"
 
 #: src/pentaxmn.cpp:343
 msgid "Sao Paulo"
-msgstr ""
+msgstr "Sao Paulo"
 
 #: src/pentaxmn.cpp:344
 msgid "Rio de Janeiro"
-msgstr ""
+msgstr "Rio de Janeiro"
 
 #: src/pentaxmn.cpp:345
-#, fuzzy
 msgid "Madrid"
-msgstr "Hart"
+msgstr "Madrid"
 
 #: src/pentaxmn.cpp:346
-#, fuzzy
 msgid "London"
-msgstr "Langsame Abnahme"
+msgstr "London"
 
 #: src/pentaxmn.cpp:347
-#, fuzzy
 msgid "Paris"
-msgstr "Partiell"
+msgstr "Paris"
 
 #: src/pentaxmn.cpp:348
 msgid "Milan"
-msgstr ""
+msgstr "Mailand"
 
 #: src/pentaxmn.cpp:349
-#, fuzzy
 msgid "Rome"
-msgstr "Chrom"
+msgstr "Rom"
 
 #: src/pentaxmn.cpp:350
-#, fuzzy
 msgid "Berlin"
-msgstr "Kelvin"
+msgstr "Berlin"
 
 #: src/pentaxmn.cpp:351
 msgid "Johannesburg"
-msgstr ""
+msgstr "Johannesburg"
 
 #: src/pentaxmn.cpp:352
 msgid "Istanbul"
-msgstr ""
+msgstr "Istanbul"
 
 #: src/pentaxmn.cpp:353
-#, fuzzy
 msgid "Cairo"
-msgstr "Abschnitt"
+msgstr "Kairo"
 
 #: src/pentaxmn.cpp:354
 msgid "Jerusalem"
-msgstr ""
+msgstr "Jerusalem"
 
 #: src/pentaxmn.cpp:355
 msgid "Moscow"
-msgstr ""
+msgstr "Moskau"
 
 #: src/pentaxmn.cpp:356
 msgid "Jeddah"
-msgstr ""
+msgstr "Dschidda"
 
 #: src/pentaxmn.cpp:357
 msgid "Tehran"
-msgstr ""
+msgstr "Tehran"
 
 #: src/pentaxmn.cpp:358
 msgid "Dubai"
-msgstr ""
+msgstr "Dubai"
 
 #: src/pentaxmn.cpp:359
 msgid "Karachi"
-msgstr ""
+msgstr "Karatschi"
 
 #: src/pentaxmn.cpp:360
 msgid "Kabul"
 msgstr ""
 
 #: src/pentaxmn.cpp:361
-#, fuzzy
 msgid "Male"
-msgstr "Manuell"
+msgstr "Male"
 
 #: src/pentaxmn.cpp:362
-#, fuzzy
 msgid "Delhi"
-msgstr "Löschen"
+msgstr "Delhi"
 
 #: src/pentaxmn.cpp:363
-#, fuzzy
 msgid "Colombo"
-msgstr "Farbmodus"
+msgstr "Colombo"
 
 #: src/pentaxmn.cpp:364
 msgid "Kathmandu"
-msgstr ""
+msgstr "Kathmandu"
 
 #: src/pentaxmn.cpp:365
 msgid "Dacca"
-msgstr ""
+msgstr "Dacca"
 
 #: src/pentaxmn.cpp:366
-#, fuzzy
 msgid "Yangon"
-msgstr "Keine"
+msgstr "Yangon"
 
 #: src/pentaxmn.cpp:367
 msgid "Bangkok"
-msgstr ""
+msgstr "Bangkok"
 
 #: src/pentaxmn.cpp:368
 msgid "Kuala Lumpur"
-msgstr ""
+msgstr "Kuala Lumpur"
 
 #: src/pentaxmn.cpp:369
-#, fuzzy
 msgid "Vientiane"
-msgstr "Orientierung"
+msgstr "Vientiane"
 
 #: src/pentaxmn.cpp:370
-#, fuzzy
 msgid "Singapore"
-msgstr "Einzelbereich"
+msgstr "Singapur"
 
 #: src/pentaxmn.cpp:371
 msgid "Phnom Penh"
-msgstr ""
+msgstr "Phnom Penh"
 
 #: src/pentaxmn.cpp:372
 msgid "Ho Chi Minh"
-msgstr ""
+msgstr "Ho Chi Minh"
 
 #: src/pentaxmn.cpp:373
 msgid "Jakarta"
-msgstr ""
+msgstr "Jakarta"
 
 #: src/pentaxmn.cpp:374
 msgid "Hong Kong"
-msgstr ""
+msgstr "Hongkong"
 
 #: src/pentaxmn.cpp:375
-#, fuzzy
 msgid "Perth"
-msgstr "Norden"
+msgstr "Perth"
 
 #: src/pentaxmn.cpp:376
 msgid "Beijing"
-msgstr ""
+msgstr "Peking"
 
 #: src/pentaxmn.cpp:377
 msgid "Shanghai"
-msgstr ""
+msgstr "Shanghai"
 
 #: src/pentaxmn.cpp:378
-#, fuzzy
 msgid "Manila"
-msgstr "Manuell"
+msgstr "Manila"
 
 #: src/pentaxmn.cpp:379
 msgid "Taipei"
-msgstr ""
+msgstr "Taipei"
 
 #: src/pentaxmn.cpp:380
-#, fuzzy
 msgid "Seoul"
-msgstr "Süden"
+msgstr "Seoul"
 
 #: src/pentaxmn.cpp:381
 msgid "Adelaide"
-msgstr ""
+msgstr "Adelaide"
 
 #: src/pentaxmn.cpp:382
 msgid "Tokyo"
-msgstr ""
+msgstr "Tokio"
 
 #: src/pentaxmn.cpp:383
 msgid "Guam"
-msgstr ""
+msgstr "Guam"
 
 #: src/pentaxmn.cpp:384
-#, fuzzy
 msgid "Sydney"
-msgstr "Szene"
+msgstr "Sydney"
 
 #: src/pentaxmn.cpp:385
-#, fuzzy
 msgid "Noumea"
-msgstr "Normal"
+msgstr "Numea"
 
 #: src/pentaxmn.cpp:386
 msgid "Wellington"
-msgstr ""
+msgstr "Wellington"
 
 #: src/pentaxmn.cpp:387
 msgid "Auckland"
-msgstr ""
+msgstr "Auckland"
 
 #: src/pentaxmn.cpp:388
 msgid "Lima"
-msgstr ""
+msgstr "Lima"
 
 #: src/pentaxmn.cpp:389
 msgid "Dakar"
-msgstr ""
+msgstr "Dakar"
 
 #: src/pentaxmn.cpp:390
 msgid "Algiers"
-msgstr ""
+msgstr "Algier"
 
 #: src/pentaxmn.cpp:391
-#, fuzzy
 msgid "Helsinki"
-msgstr "Schlagzeile"
+msgstr "Helsinki"
 
 #: src/pentaxmn.cpp:392
-#, fuzzy
 msgid "Athens"
-msgstr "Linse"
+msgstr "Athen"
 
 #: src/pentaxmn.cpp:393
 msgid "Nairobi"
-msgstr ""
+msgstr "Nairobi"
 
 #: src/pentaxmn.cpp:394
 msgid "Amsterdam"
-msgstr ""
+msgstr "Amsterdam"
 
 #: src/pentaxmn.cpp:395
 msgid "Stockholm"
-msgstr ""
+msgstr "Stockholm"
 
 #: src/pentaxmn.cpp:396
 msgid "Lisbon"
-msgstr ""
+msgstr "Lisabon"
 
 #: src/pentaxmn.cpp:401
-#, fuzzy
 msgid "Unprocessed"
-msgstr "Unkomprimiert"
+msgstr "Unverarbeitet"
 
 #: src/pentaxmn.cpp:402
-#, fuzzy
 msgid "Digital Filter"
-msgstr "Digitalkamera"
+msgstr "Digitaler Filter"
 
 #: src/pentaxmn.cpp:403
-#, fuzzy
 msgid "Cropped"
-msgstr "Danksagung"
+msgstr "Zugeschnitten"
 
 #: src/pentaxmn.cpp:405
 msgid "Frame Synthesis?"
 msgstr ""
 
 #: src/pentaxmn.cpp:415
-#, fuzzy
 msgid "Sport"
 msgstr "Sport"
 
 #: src/pentaxmn.cpp:416
-#, fuzzy
 msgid "Night Scene Portrait"
 msgstr "Nachtportrait"
 
 #: src/pentaxmn.cpp:417
-#, fuzzy
 msgid "No Flash"
 msgstr "Kein Blitz"
 
 #: src/pentaxmn.cpp:420
 msgid "Surf & Snow"
-msgstr ""
+msgstr "Surfen & Schnee"
 
 #: src/pentaxmn.cpp:423
 msgid "Kids"
-msgstr ""
+msgstr "Kinder"
 
 #: src/pentaxmn.cpp:424
-#, fuzzy
 msgid "Pet"
-msgstr "Setzen"
+msgstr "Haustier"
 
 #: src/pentaxmn.cpp:425
-#, fuzzy
 msgid "Candlelight"
-msgstr "Tageslicht"
+msgstr "Kerzenlicht"
 
 #: src/pentaxmn.cpp:428
 msgid "Auto PICT (Standard)"
@@ -10584,9 +10343,8 @@ msgid "Auto PICT (Portrait)"
 msgstr ""
 
 #: src/pentaxmn.cpp:430
-#, fuzzy
 msgid "Auto PICT (Landscape)"
-msgstr "Landschaft"
+msgstr ""
 
 #: src/pentaxmn.cpp:431
 msgid "Auto PICT (Macro)"
@@ -10597,17 +10355,14 @@ msgid "Auto PICT (Sport)"
 msgstr ""
 
 #: src/pentaxmn.cpp:435 src/pentaxmn.cpp:445
-#, fuzzy
 msgid "Green Mode"
-msgstr "Szenenmodus"
+msgstr "Grüner Modus"
 
 #: src/pentaxmn.cpp:436 src/pentaxmn.cpp:446
-#, fuzzy
 msgid "Shutter Speed Priority"
 msgstr "Verschlussgeschwindigkeit-Priorität"
 
 #: src/pentaxmn.cpp:437 src/pentaxmn.cpp:447
-#, fuzzy
 msgid "Aperture Priority"
 msgstr "Blendenpriorität"
 
@@ -10616,34 +10371,28 @@ msgid "Bulb"
 msgstr ""
 
 #: src/pentaxmn.cpp:442
-#, fuzzy
 msgid "Hi-speed Program"
-msgstr "Belichtungsprogramm"
+msgstr "Hi-Speed Programm"
 
 #: src/pentaxmn.cpp:443
-#, fuzzy
 msgid "DOF Program"
-msgstr "Programm"
+msgstr "DOF Programm"
 
 #: src/pentaxmn.cpp:444
-#, fuzzy
 msgid "MTF Program"
-msgstr "Programm"
+msgstr "MTF Programm"
 
 #: src/pentaxmn.cpp:448
-#, fuzzy
 msgid "Program Tv Shift"
-msgstr "Programmvariation"
+msgstr ""
 
 #: src/pentaxmn.cpp:449
-#, fuzzy
 msgid "Program Av Shift"
-msgstr "Programmvariation"
+msgstr ""
 
 #: src/pentaxmn.cpp:452
-#, fuzzy
 msgid "Aperture Priority (Off-Auto-Aperture)"
-msgstr "Blendenpriorität (Av)"
+msgstr ""
 
 #: src/pentaxmn.cpp:453
 msgid "Manual (Off-Auto-Aperture)"
@@ -10654,19 +10403,16 @@ msgid "Bulb (Off-Auto-Aperture)"
 msgstr ""
 
 #: src/pentaxmn.cpp:456
-#, fuzzy
 msgid "Shutter Priority"
 msgstr "Verschlußpriorität"
 
 #: src/pentaxmn.cpp:457
-#, fuzzy
 msgid "Shutter & Aperture Priority AE"
-msgstr "Blendenpriorität AE"
+msgstr ""
 
 #: src/pentaxmn.cpp:458
-#, fuzzy
 msgid "Shutter & Aperture Priority AE (1)"
-msgstr "Verschlußpriorität (Tv)"
+msgstr ""
 
 #: src/pentaxmn.cpp:459
 msgid "Sensitivity Priority AE"
@@ -10690,42 +10436,36 @@ msgid "Single-frame"
 msgstr "Einzelbereich"
 
 #: src/pentaxmn.cpp:471
-#, fuzzy
 msgid "Self-timer (12 sec)"
-msgstr "Selbstauslöser"
+msgstr "Selbstauslöser (12 Sek.)"
 
 #: src/pentaxmn.cpp:472
-#, fuzzy
 msgid "Self-timer (2 sec)"
-msgstr "Selbstauslöser"
+msgstr "Selbstauslöser (2 Sek.)"
 
 #: src/pentaxmn.cpp:473
-#, fuzzy
 msgid "Remote Control?"
-msgstr "Farbkontrolle"
+msgstr "Fernbedienung ?"
 
 #: src/pentaxmn.cpp:474
-#, fuzzy
 msgid "Multiple Exposure"
-msgstr "Belichtung"
+msgstr "Mehrfache Belichtung"
 
 #: src/pentaxmn.cpp:485
 msgid "M-42 or No Lens"
 msgstr ""
 
 #: src/pentaxmn.cpp:486
-#, fuzzy
 msgid "K,M Lens"
-msgstr "Linse"
+msgstr ""
 
 #: src/pentaxmn.cpp:487
 msgid "A Series Lens"
 msgstr ""
 
 #: src/pentaxmn.cpp:609
-#, fuzzy
 msgid "Bright"
-msgstr "Helligkeit+"
+msgstr "Helligkeit"
 
 #: src/pentaxmn.cpp:718
 msgid "No extended bracketing"
@@ -10740,7 +10480,6 @@ msgid "WB-GM"
 msgstr ""
 
 #: src/pentaxmn.cpp:739
-#, fuzzy
 msgid "Unknown "
 msgstr "Unbekannt"
 
@@ -10749,101 +10488,82 @@ msgid "Pentax Makernote version"
 msgstr ""
 
 #: src/pentaxmn.cpp:755
-#, fuzzy
 msgid "Camera shooting mode"
-msgstr "Einfacher Aufnahmemodus"
+msgstr "Kamera-Aufnahmemodus"
 
 #: src/pentaxmn.cpp:757 src/pentaxmn.cpp:758
-#, fuzzy
 msgid "Resolution of a preview image"
-msgstr "Größe des Vorschaubildes"
+msgstr "Auflösung des Vorschaubildes"
 
 #: src/pentaxmn.cpp:760
-#, fuzzy
 msgid "Length of a preview image"
-msgstr "Größe des Vorschaubildes"
+msgstr "Länge des Vorschaubildes"
 
 #: src/pentaxmn.cpp:761
-#, fuzzy
 msgid "Size of an IFD containing a preview image"
-msgstr "Größe des Vorschaubildes"
+msgstr ""
 
 #: src/pentaxmn.cpp:766
-#, fuzzy
 msgid "Model identification"
-msgstr "Modellversion"
+msgstr "Modellidentifikation"
 
 #: src/pentaxmn.cpp:767
 msgid "Pentax model idenfication"
-msgstr ""
+msgstr "Pentax-Modellidentifikation"
 
 #: src/pentaxmn.cpp:772 src/pentaxmn.cpp:773
-#, fuzzy
 msgid "Time"
-msgstr "Sendezeit"
+msgstr "Zeit"
 
 #: src/pentaxmn.cpp:776
-#, fuzzy
 msgid "Image quality settings"
-msgstr "Bildqualitätseinstellung"
+msgstr "Bildqualitätseinstellungen"
 
 #: src/pentaxmn.cpp:779
-#, fuzzy
 msgid "Image size settings"
-msgstr "Bildqualitätseinstellung"
+msgstr "Bildgröße-Einstellungen"
 
 #: src/pentaxmn.cpp:783
-#, fuzzy
 msgid "Flash mode settings"
-msgstr "Blitzeinstellungen"
+msgstr "Blitzmodus-Einstellungen"
 
 #: src/pentaxmn.cpp:786
-#, fuzzy
 msgid "Focus mode settings"
-msgstr "Fokusmodus-Einstellung"
+msgstr "Fokusmodus-Einstellungen"
 
 #: src/pentaxmn.cpp:788
-#, fuzzy
 msgid "AF point"
-msgstr "AF Punkte"
+msgstr "AF-Punkt"
 
 #: src/pentaxmn.cpp:789
-#, fuzzy
 msgid "Selected AF point"
-msgstr "AF Punkte"
+msgstr "Ausgewählter AF-Punkt"
 
 #: src/pentaxmn.cpp:795 src/pentaxmn.cpp:796
-#, fuzzy
 msgid "F-Number"
-msgstr "F Nummer."
+msgstr "F-Nummer"
 
 #: src/pentaxmn.cpp:798
-#, fuzzy
 msgid "ISO sensitivity"
-msgstr "Spektrale Empfindlichkeit"
+msgstr "ISO-Empfindlichkeit"
 
 #: src/pentaxmn.cpp:799
-#, fuzzy
 msgid "ISO sensitivity settings"
-msgstr "ISO Geschwindigkeitseinstellung"
+msgstr "ISO-Empfindlichkeitseinstellungen"
 
 #: src/pentaxmn.cpp:806 src/pentaxmn.cpp:807
-#, fuzzy
 msgid "MeteringMode"
 msgstr "Messmodus"
 
 #: src/pentaxmn.cpp:809 src/pentaxmn.cpp:810
-#, fuzzy
 msgid "AutoBracketing"
 msgstr "Automatischer Erfassung"
 
 #: src/pentaxmn.cpp:812 src/pentaxmn.cpp:813
-#, fuzzy
 msgid "White ballance"
 msgstr "Weißabgleich"
 
 #: src/pentaxmn.cpp:815 src/pentaxmn.cpp:816
-#, fuzzy
 msgid "White ballance mode"
 msgstr "Weißabgleichsmodus"
 
@@ -10853,9 +10573,8 @@ msgid "FocalLength"
 msgstr "Brennweite"
 
 #: src/pentaxmn.cpp:832 src/pentaxmn.cpp:833
-#, fuzzy
 msgid "Location"
-msgstr "Genauer Ort"
+msgstr "Ort"
 
 #: src/pentaxmn.cpp:835
 msgid "Hometown"
@@ -10879,52 +10598,42 @@ msgid "Whether day saving time is active in destination"
 msgstr ""
 
 #: src/pentaxmn.cpp:855 src/pentaxmn.cpp:856
-#, fuzzy
 msgid "Picture mode"
 msgstr "Bildmodus"
 
 #: src/pentaxmn.cpp:870 src/pentaxmn.cpp:871
-#, fuzzy
 msgid "Digital filter"
-msgstr "Digitalkamera"
+msgstr "Digitaler Filter"
 
 #: src/pentaxmn.cpp:874
-#, fuzzy
 msgid "Temperature"
-msgstr "Linsentemperatur"
+msgstr "Temperatur"
 
 #: src/pentaxmn.cpp:875
-#, fuzzy
 msgid "Camera temperature"
-msgstr "Farbtemperatur"
+msgstr "Kameratemperatur"
 
 #: src/pentaxmn.cpp:886 src/pentaxmn.cpp:887
-#, fuzzy
 msgid "Image tone"
-msgstr "Bildtyp"
+msgstr "Bildton"
 
 #: src/pentaxmn.cpp:890
-#, fuzzy
 msgid "Shake reduction"
-msgstr "Rauschreduktion"
+msgstr "Schüttelreduktion"
 
 #: src/pentaxmn.cpp:891
-#, fuzzy
 msgid "Shake reduction information"
-msgstr "Information zu den Kameraeinstellungen"
+msgstr "Information zu der Schüttelreduktion"
 
 #: src/pentaxmn.cpp:893 src/pentaxmn.cpp:894
-#, fuzzy
 msgid "Shutter count"
 msgstr "Verschlusszähler"
 
 #: src/pentaxmn.cpp:897 src/pentaxmn.cpp:898
-#, fuzzy
 msgid "Black point"
-msgstr "Schwarz/Weiß"
+msgstr "Schwarzpunkt"
 
 #: src/pentaxmn.cpp:900 src/pentaxmn.cpp:901
-#, fuzzy
 msgid "White point"
 msgstr "Weißpunkt"
 
@@ -10933,29 +10642,24 @@ msgid "AEInfo"
 msgstr ""
 
 #: src/pentaxmn.cpp:907 src/pentaxmn.cpp:908
-#, fuzzy
 msgid "LensInfo"
-msgstr "Linse"
+msgstr "Linseninformation"
 
 #: src/pentaxmn.cpp:910 src/pentaxmn.cpp:911
-#, fuzzy
 msgid "FlashInfo"
-msgstr "Blitz"
+msgstr "Blitzinformation"
 
 #: src/pentaxmn.cpp:913 src/pentaxmn.cpp:914
-#, fuzzy
 msgid "AEMeteringSegments"
-msgstr "Messmodus"
+msgstr ""
 
 #: src/pentaxmn.cpp:916 src/pentaxmn.cpp:917
-#, fuzzy
 msgid "FlashADump"
-msgstr "Blitzkompensation"
+msgstr ""
 
 #: src/pentaxmn.cpp:919 src/pentaxmn.cpp:920
-#, fuzzy
 msgid "FlashBDump"
-msgstr "Blitzkompensation"
+msgstr ""
 
 #: src/pentaxmn.cpp:923 src/pentaxmn.cpp:924
 msgid "WB_RGGBLevelsDaylight"
@@ -10974,42 +10678,36 @@ msgid "WB_RGGBLevelsTungsten"
 msgstr ""
 
 #: src/pentaxmn.cpp:935 src/pentaxmn.cpp:936
-#, fuzzy
 msgid "WB_RGGBLevelsFluorescentD"
-msgstr "Leuchstoffröhre"
+msgstr ""
 
 #: src/pentaxmn.cpp:938 src/pentaxmn.cpp:939
-#, fuzzy
 msgid "WB_RGGBLevelsFluorescentN"
-msgstr "Leuchstoffröhre"
+msgstr ""
 
 #: src/pentaxmn.cpp:941 src/pentaxmn.cpp:942
-#, fuzzy
 msgid "WB_RGGBLevelsFluorescentW"
-msgstr "Leuchstoffröhre"
+msgstr ""
 
 #: src/pentaxmn.cpp:944 src/pentaxmn.cpp:945
 msgid "WB_RGGBLevelsFlash"
 msgstr ""
 
 #: src/pentaxmn.cpp:947 src/pentaxmn.cpp:948
-#, fuzzy
 msgid "CameraInfo"
-msgstr "Kamera ID"
+msgstr "Kamerainformation"
 
 #: src/pentaxmn.cpp:950 src/pentaxmn.cpp:951
 msgid "BatteryInfo"
-msgstr ""
+msgstr "Batterieinformation"
 
 #: src/pentaxmn.cpp:953 src/pentaxmn.cpp:954
-#, fuzzy
 msgid "AFInfo"
-msgstr "Fokus-Info"
+msgstr "Auto Fokus-Information"
 
 #: src/pentaxmn.cpp:961
-#, fuzzy
 msgid "Unknown PentaxMakerNote tag"
-msgstr "Unbekanntes GPSInfo-Stichwort"
+msgstr ""
 
 #: src/sigmamn.cpp:73
 msgid "Resolution Mode"
@@ -11081,7 +10779,7 @@ msgstr "Firmware"
 
 #: src/sigmamn.cpp:132
 msgid "Auto Bracket"
-msgstr ""
+msgstr "Automatische Erfassung"
 
 #: src/sigmamn.cpp:137
 msgid "Unknown SigmaMakerNote tag"
@@ -11095,5 +10793,3 @@ msgstr ""
 msgid "Unknown SonyMakerNote tag"
 msgstr ""
 
-#~ msgid "Jpeg comment"
-#~ msgstr "JPEG-Kommentar"
