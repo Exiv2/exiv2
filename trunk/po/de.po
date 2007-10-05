@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
 "POT-Creation-Date: 2007-09-30 20:39-0400\n"
-"PO-Revision-Date: 2007-10-03 21:08+0200\n"
+"PO-Revision-Date: 2007-10-05 10:25+0200\n"
 "Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
 "Language-Team: german <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -8512,7 +8512,7 @@ msgstr "AF Fokuspositioninformation"
 
 #: src/nikonmn.cpp:214
 msgid "Unknown Nikon1MakerNote tag"
-msgstr ""
+msgstr "Unbekantes Herstellerbemerkungsfeld von Nikon1"
 
 #: src/nikonmn.cpp:269 src/nikonmn.cpp:892
 msgid "Continuous autofocus"
@@ -8584,7 +8584,7 @@ msgstr ""
 
 #: src/nikonmn.cpp:476
 msgid "Unknown Nikon2MakerNote tag"
-msgstr ""
+msgstr "Unbekantes Herstellerbemerkungsfeld von Nikon2"
 
 #: src/nikonmn.cpp:603 src/olympusmn.cpp:212
 msgid "Flash Device"
@@ -8884,7 +8884,7 @@ msgstr ""
 
 #: src/nikonmn.cpp:800
 msgid "Unknown Nikon3MakerNote tag"
-msgstr ""
+msgstr "Unbekantes Herstellerbemerkungsfeld von Nikon3"
 
 #: src/nikonmn.cpp:1030
 msgid "Closest subject"
@@ -8932,7 +8932,7 @@ msgstr "Interlaced"
 
 #: src/olympusmn.cpp:114
 msgid "Progressive"
-msgstr ""
+msgstr "Progressiv"
 
 #: src/olympusmn.cpp:123
 msgid "Special Mode"
@@ -8964,11 +8964,11 @@ msgstr ""
 
 #: src/olympusmn.cpp:141
 msgid "Lens Distortion Parameters"
-msgstr ""
+msgstr "Linsenverzerrungsparameter"
 
 #: src/olympusmn.cpp:142
 msgid "Lens distortion parameters"
-msgstr ""
+msgstr "Linsenverzerrungsparameter"
 
 #: src/olympusmn.cpp:145
 msgid "Software firmware version"
@@ -9044,7 +9044,7 @@ msgstr "Helligkeitswert"
 
 #: src/olympusmn.cpp:215
 msgid "Bracket"
-msgstr ""
+msgstr "Erfassung"
 
 #: src/olympusmn.cpp:216
 msgid "Exposure compensation value"
@@ -9108,11 +9108,11 @@ msgstr "Farbmatrix"
 
 #: src/olympusmn.cpp:251
 msgid "BlackLevel"
-msgstr ""
+msgstr "Schwarzlevel"
 
 #: src/olympusmn.cpp:252
 msgid "Black level"
-msgstr ""
+msgstr "Schwarzlevel"
 
 #: src/olympusmn.cpp:261
 msgid "White balance mode"
@@ -9280,7 +9280,7 @@ msgstr "Rohinformation"
 
 #: src/olympusmn.cpp:398
 msgid "Unknown OlympusMakerNote tag"
-msgstr ""
+msgstr "Unbekantes Herstellerbemerkungsfeld von Olympus"
 
 #: src/olympusmn.cpp:486
 msgid "Fast"
@@ -9436,11 +9436,11 @@ msgstr "Farbeffekt"
 
 #: src/panasonicmn.cpp:242
 msgid "Burst Mode"
-msgstr ""
+msgstr "Burst Mode"
 
 #: src/panasonicmn.cpp:243
 msgid "Burst mode"
-msgstr ""
+msgstr "Burst Mode"
 
 #: src/panasonicmn.cpp:251
 msgid "NoiseReduction"
@@ -9460,7 +9460,7 @@ msgstr "Reisetag"
 
 #: src/panasonicmn.cpp:280
 msgid "Unknown PanasonicMakerNote tag"
-msgstr ""
+msgstr "Unbekantes Herstellerbemerkungsfeld von Panasonic"
 
 #: src/panasonicmn.cpp:370
 msgid " EV"
@@ -9628,11 +9628,11 @@ msgstr "K100D"
 
 #: src/pentaxmn.cpp:113
 msgid "K110D"
-msgstr ""
+msgstr "K110D"
 
 #: src/pentaxmn.cpp:114
 msgid "K100D Super"
-msgstr ""
+msgstr "K100D Super"
 
 #: src/pentaxmn.cpp:115
 msgid "Optio T10"
@@ -9648,11 +9648,11 @@ msgstr "Optio M10"
 
 #: src/pentaxmn.cpp:118
 msgid "K10D"
-msgstr ""
+msgstr "K10D"
 
 #: src/pentaxmn.cpp:119
 msgid "Samsung GX10"
-msgstr ""
+msgstr "Samsung GX10"
 
 #: src/pentaxmn.cpp:120
 msgid "Optio S7"
@@ -9748,39 +9748,39 @@ msgstr "2560x1920 oder 2304x1728"
 
 #: src/pentaxmn.cpp:152
 msgid "3072x2304"
-msgstr ""
+msgstr "3072x2304"
 
 #: src/pentaxmn.cpp:153
 msgid "3264x2448"
-msgstr ""
+msgstr "3264x2448"
 
 #: src/pentaxmn.cpp:154
 msgid "320x240"
-msgstr ""
+msgstr "320x240"
 
 #: src/pentaxmn.cpp:155
 msgid "2288x1712"
-msgstr ""
+msgstr "2288x1712"
 
 #: src/pentaxmn.cpp:156
 msgid "2592x1944"
-msgstr ""
+msgstr "2592x1944"
 
 #: src/pentaxmn.cpp:157
 msgid "2304x1728 or 2592x1944"
-msgstr ""
+msgstr "2304x1728 oder 2592x1944"
 
 #: src/pentaxmn.cpp:158
 msgid "3056x2296"
-msgstr ""
+msgstr "3056x2296"
 
 #: src/pentaxmn.cpp:159
 msgid "2816x2212 or 2816x2112"
-msgstr ""
+msgstr "2816x2212 oder 2816x2112"
 
 #: src/pentaxmn.cpp:160
 msgid "3648x2736"
-msgstr ""
+msgstr "3648x2736"
 
 #: src/pentaxmn.cpp:165
 msgid "Auto, Did not fire"
@@ -10144,7 +10144,7 @@ msgstr "Karatschi"
 
 #: src/pentaxmn.cpp:360
 msgid "Kabul"
-msgstr ""
+msgstr "Kabul"
 
 #: src/pentaxmn.cpp:361
 msgid "Male"
@@ -10336,23 +10336,23 @@ msgstr "Kerzenlicht"
 
 #: src/pentaxmn.cpp:428
 msgid "Auto PICT (Standard)"
-msgstr ""
+msgstr "Auto PICT (Standard)"
 
 #: src/pentaxmn.cpp:429
 msgid "Auto PICT (Portrait)"
-msgstr ""
+msgstr "Auto PICT (Portrait)"
 
 #: src/pentaxmn.cpp:430
 msgid "Auto PICT (Landscape)"
-msgstr ""
+msgstr "Auto PICT (Landschaft)"
 
 #: src/pentaxmn.cpp:431
 msgid "Auto PICT (Macro)"
-msgstr ""
+msgstr "Auto PICT (Makro)"
 
 #: src/pentaxmn.cpp:432
 msgid "Auto PICT (Sport)"
-msgstr ""
+msgstr "Auto PICT (Sport)"
 
 #: src/pentaxmn.cpp:435 src/pentaxmn.cpp:445
 msgid "Green Mode"
@@ -10368,7 +10368,7 @@ msgstr "Blendenpriorität"
 
 #: src/pentaxmn.cpp:439 src/pentaxmn.cpp:451
 msgid "Bulb"
-msgstr ""
+msgstr "Glühbirne"
 
 #: src/pentaxmn.cpp:442
 msgid "Hi-speed Program"
@@ -10453,15 +10453,15 @@ msgstr "Mehrfache Belichtung"
 
 #: src/pentaxmn.cpp:485
 msgid "M-42 or No Lens"
-msgstr ""
+msgstr "M-42 oder keine Linsen"
 
 #: src/pentaxmn.cpp:486
 msgid "K,M Lens"
-msgstr ""
+msgstr "K,M Linsen"
 
 #: src/pentaxmn.cpp:487
 msgid "A Series Lens"
-msgstr ""
+msgstr "A-Serien Linsen"
 
 #: src/pentaxmn.cpp:609
 msgid "Bright"
@@ -10469,15 +10469,15 @@ msgstr "Helligkeit"
 
 #: src/pentaxmn.cpp:718
 msgid "No extended bracketing"
-msgstr ""
+msgstr "Keine erweiterte Erfassung"
 
 #: src/pentaxmn.cpp:724
 msgid "WB-BA"
-msgstr ""
+msgstr "WB-BA"
 
 #: src/pentaxmn.cpp:727
 msgid "WB-GM"
-msgstr ""
+msgstr "WB-GM"
 
 #: src/pentaxmn.cpp:739
 msgid "Unknown "
@@ -10568,7 +10568,6 @@ msgid "White ballance mode"
 msgstr "Weißabgleichsmodus"
 
 #: src/pentaxmn.cpp:819 src/pentaxmn.cpp:820
-#, fuzzy
 msgid "FocalLength"
 msgstr "Brennweite"
 
@@ -10578,24 +10577,23 @@ msgstr "Ort"
 
 #: src/pentaxmn.cpp:835
 msgid "Hometown"
-msgstr ""
+msgstr "Heimatstadt"
 
 #: src/pentaxmn.cpp:841
 msgid "Hometown DST"
-msgstr ""
+msgstr "Heimatstadt (Sommerzeit)"
 
 #: src/pentaxmn.cpp:842
 msgid "Whether day saving time is active in home town"
-msgstr ""
+msgstr "Sommerzeit aktiv in der Heimatstadt"
 
 #: src/pentaxmn.cpp:844
-#, fuzzy
 msgid "Destination DST"
-msgstr "Ziel"
+msgstr "Zielort (Sommerzeit)"
 
 #: src/pentaxmn.cpp:845
 msgid "Whether day saving time is active in destination"
-msgstr ""
+msgstr "Ist die Sommerzeit aktiv im Zielort"
 
 #: src/pentaxmn.cpp:855 src/pentaxmn.cpp:856
 msgid "Picture mode"
@@ -10783,13 +10781,13 @@ msgstr "Automatische Erfassung"
 
 #: src/sigmamn.cpp:137
 msgid "Unknown SigmaMakerNote tag"
-msgstr ""
+msgstr "Unbekantes Herstellerbemerkungsfeld von Sigma"
 
 #: src/sigmamn.cpp:244
 msgid "8-Segment"
-msgstr ""
+msgstr "8-Segment"
 
 #: src/sonymn.cpp:92
 msgid "Unknown SonyMakerNote tag"
-msgstr ""
+msgstr "Unbekantes Herstellerbemerkungsfeld von Sony"
 
