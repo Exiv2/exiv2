@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
 "POT-Creation-Date: 2007-09-30 20:39-0400\n"
-"PO-Revision-Date: 2007-10-05 10:49+0200\n"
+"PO-Revision-Date: 2007-10-05 20:36+0200\n"
 "Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
 "Language-Team: german <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -1107,7 +1107,7 @@ msgid ""
 "Provides full, publishable, name of the country/primary location where the "
 "intellectual property of the object data was created, according to "
 "guidelines of the provider."
-msgstr ""
+msgstr "Stellt den vollen, veröffentlichbarern Namen des Landes bzw. der primären Lokation zur Verfügung, wo das intellektuelle Eigentum der Objektdaten erstellt wurde. Hierbei werden die Richtlinien des Anbieters beachtet."
 
 #: src/datasets.cpp:357
 msgid "Country"
@@ -1137,13 +1137,13 @@ msgstr ""
 
 #: src/datasets.cpp:367 src/datasets.cpp:370
 msgid "Credit"
-msgstr "Danksagung"
+msgstr "Anbieter"
 
 #: src/datasets.cpp:368
 msgid ""
 "Identifies the provider of the object data, not necessarily the owner/"
 "creator."
-msgstr ""
+msgstr "Identifiziert den Anbieter der Objektdaten. Dies ist nicht unbedingt der Besitzer oder der Ersteller."
 
 #: src/datasets.cpp:371 src/datasets.cpp:375 src/properties.cpp:112
 msgid "Source"
@@ -1153,7 +1153,7 @@ msgstr "Quelle"
 msgid ""
 "Identifies the original owner of the intellectual content of the object "
 "data. This could be an agency, a member of an agency or an individual."
-msgstr ""
+msgstr "Identifiziert den Originalbesitzer des intellektuellen Inhalts  der Objektdaten. Dies kan eine Agentur, ein Mitglied einer Agentur oder ein Individuum sein."
 
 #: src/datasets.cpp:377
 msgid "Contains any necessary copyright notice."
@@ -1171,7 +1171,7 @@ msgstr "Kontakt"
 msgid ""
 "Identifies the person or organisation which can provide further background "
 "information on the object data."
-msgstr ""
+msgstr "Identifiziert die Person oder Organisation, die weitere Hintergrundinformationen über die Objektdaten zur Verfügung stellen kann."
 
 #: src/datasets.cpp:384
 msgid "Caption"
@@ -1193,7 +1193,7 @@ msgstr "Schreiber"
 msgid ""
 "Identification of the name of the person involved in the writing, editing or "
 "correcting the object data or caption/abstract."
-msgstr ""
+msgstr "Identifiziert den Namen der Person die beim Schreiben, Bearbeiten oder dem Korrigieren der Objektdaten, der Beschriftung oder der Zusammenfassung beteilgt war."
 
 #: src/datasets.cpp:392
 msgid "Rasterized Caption"
@@ -1211,7 +1211,7 @@ msgstr "Bildtyp"
 
 #: src/datasets.cpp:397
 msgid "Indicates the color components of an image."
-msgstr ""
+msgstr "Gibt die Farbkomponenten eines Bildes an."
 
 #: src/datasets.cpp:399
 msgid "Image Orientation"
@@ -1219,7 +1219,7 @@ msgstr "Bild-Orientierung"
 
 #: src/datasets.cpp:400
 msgid "Indicates the layout of an image."
-msgstr ""
+msgstr "Gibt das Layout eines Bildes an."
 
 #: src/datasets.cpp:402 src/properties.cpp:108
 msgid "Language"
@@ -1230,7 +1230,7 @@ msgid ""
 "Describes the major national language of the object, according to the 2-"
 "letter codes of ISO 639:1988. Does not define or imply any coded character "
 "set, but is used for internal routing, e.g. to various editorial desks."
-msgstr ""
+msgstr "Beschreibt die Hauptsprache eines Objektes. Dazu wird der zwei Zeichen-Kode nach ISO 639:1988 benutzt. Dadurch wird keine Zeichensatzkodierung definiert oder impliziert. Es kann aber für eine interen Weiterleitung benutzt werden, z:B. durch die richtigen redaktionellen Abteilungen."
 
 #: src/datasets.cpp:408
 msgid "Audio Type"
