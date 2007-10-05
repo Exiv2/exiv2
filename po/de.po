@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
 "POT-Creation-Date: 2007-09-30 20:39-0400\n"
-"PO-Revision-Date: 2007-10-05 10:25+0200\n"
+"PO-Revision-Date: 2007-10-05 10:49+0200\n"
 "Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
 "Language-Team: german <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -2658,37 +2658,37 @@ msgstr ""
 
 #: src/properties.cpp:237
 msgid "Video Frame Rate"
-msgstr ""
+msgstr "Video-Bildrate"
 
 #: src/properties.cpp:237
 msgid "The video frame rate. One of: 24, NTSC, PAL."
-msgstr ""
+msgstr "Für die Video-Bildrate mögliche Werte sind: 24, NTSC, PAL."
 
 #: src/properties.cpp:238
 msgid "Video Frame Size"
-msgstr ""
+msgstr "Video-Bildgröße"
 
 #: src/properties.cpp:238
 msgid "The frame size. For example: w:720, h: 480, unit:pixels"
-msgstr ""
+msgstr "Die Größe des Video Bildes, z.B. Breite: 720, Höhe: 480, Einheit: Pixel"
 
 #: src/properties.cpp:239
 msgid "Video Pixel Aspect Ratio"
-msgstr ""
+msgstr "Video-Pixelverhältnis"
 
 #: src/properties.cpp:239
 msgid "The aspect ratio, expressed as ht/wd. For example: \"648/720\" = 0.9"
-msgstr ""
+msgstr "Das Verhältnis der Videopixel augedrückt als Höhe/Breite, z.B.: \"648/720\" = 0.9."
 
 #: src/properties.cpp:240
 msgid "Video Pixel Depth"
-msgstr ""
+msgstr "Video-Pixeltiefe"
 
 #: src/properties.cpp:240
 msgid ""
 "The size in bits of each color component of a pixel. Standard Windows 32-bit "
 "pixels have 8 bits per component. One of: 8Int, 16Int, 32Int, 32Float."
-msgstr ""
+msgstr "Die Größe in BNits für jede Farbkomponente eines Pixels. Standard Windows 32-Bit Pixel haben 8 Bit pro Farbe. Erlaubt sind : 8Int, 16Int, 32Int, 32Float."
 
 #: src/properties.cpp:242
 msgid "Video Color Space"
@@ -2698,7 +2698,7 @@ msgstr "Video-Farbraum"
 msgid ""
 "The color space. One of: sRGB (used by Photoshop), CCIR-601 (used for NTSC), "
 "CCIR-709 (used for HD)."
-msgstr ""
+msgstr "Der benutzte Farbraum. Erlaubt sind: sRGB (von Photoshop), CCIR-601 (von NTSC), CCIR-709 (von HD)."
 
 #: src/properties.cpp:244
 msgid "Video Alpha Mode"
@@ -2706,7 +2706,7 @@ msgstr "Video-Alphamodus"
 
 #: src/properties.cpp:244
 msgid "The alpha mode. One of: straight, pre-multiplied."
-msgstr ""
+msgstr "Der benutzte Alphamodus. Erlaubt sind: straight, pre-multiplied."
 
 #: src/properties.cpp:245
 msgid "Video Alpha Premultiple Color"
@@ -6965,11 +6965,11 @@ msgstr "2x2 Matrix (Im Uhrzeigersinn)"
 
 #: src/canonmn.cpp:593
 msgid "Panorama Frame"
-msgstr "Panoramarahmen"
+msgstr "Panoramaeinzelbild"
 
 #: src/canonmn.cpp:593
 msgid "Panorama frame number"
-msgstr "Nummer des Panoramarahmens"
+msgstr "Nummer des Panoramaeinzelbildes"
 
 #: src/canonmn.cpp:594
 msgid "Panorama Direction"
@@ -7513,11 +7513,11 @@ msgstr "Ablaufsnummer"
 
 #: src/fujimn.cpp:283
 msgid "Frame Number"
-msgstr "Rahmennummer"
+msgstr "Einzelbildnummer"
 
 #: src/fujimn.cpp:284 src/pentaxmn.cpp:848 src/pentaxmn.cpp:849
 msgid "Frame number"
-msgstr "Rahmennummer"
+msgstr "Einzelbildnummer"
 
 #: src/fujimn.cpp:289
 msgid "Unknown FujiMakerNote tag"
@@ -10431,9 +10431,8 @@ msgid "Flash X-Sync Speed AE (1)"
 msgstr ""
 
 #: src/pentaxmn.cpp:469
-#, fuzzy
 msgid "Single-frame"
-msgstr "Einzelbereich"
+msgstr "Einzelbild"
 
 #: src/pentaxmn.cpp:471
 msgid "Self-timer (12 sec)"
