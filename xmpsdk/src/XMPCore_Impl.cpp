@@ -684,6 +684,7 @@ ExpandXPath	( XMP_StringPtr			schemaNS,
 	XMP_StringPtr	qualName, nameEnd;
 	XMP_VarString	currStep;
 		
+	qualName = nameEnd = NULL;
 	size_t resCount = 2;	// Guess at the number of steps. At least 2, plus 1 for each '/' or '['.
 	for ( stepEnd = propPath; *stepEnd != 0; ++stepEnd ) {
 		if ( (*stepEnd == '/') || (*stepEnd == '[') ) ++resCount;
