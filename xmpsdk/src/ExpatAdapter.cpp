@@ -43,8 +43,6 @@ static void EndCdataSectionHandler       ( void * userData );
 static void ProcessingInstructionHandler ( void * userData, XMP_StringPtr target, XMP_StringPtr data );
 static void CommentHandler               ( void * userData, XMP_StringPtr comment );
 
-static void DefaultHandler               ( void * userData, XMP_StringPtr data, int len );
-
 // =================================================================================================
 // =================================================================================================
 
@@ -436,30 +434,5 @@ static void CommentHandler ( void * userData, XMP_StringPtr comment )
 	// ! Comments are ignored.
 	
 }	// CommentHandler
-
-// =================================================================================================
-
-static void DefaultHandler ( void * userData, XMP_StringPtr data, int len )
-{
-	IgnoreParam(userData);
-
-	#if XMP_DebugBuild & DumpXMLParseEvents		// Avoid unused variable warning.
-		ExpatAdapter * thiz = (ExpatAdapter*)userData;
-	#endif
-
-	if ( (data == 0) || (len == 0) ) { data = ""; len = 0; }
-	
-	#if XMP_DebugBuild & DumpXMLParseEvents
-		if ( thiz->parseLog != 0 ) {
-			PrintIndent ( thiz->parseLog, thiz->nesting );
-			fprintf ( thiz->parseLog, ">>default<<: \"" );
-			for ( ; len > 0; --len, ++data ) fprintf ( thiz->parseLog, "%c", *data );
-			fprintf ( thiz->parseLog, "\"\n" );
-		}
-	#endif
-	
-	// *** Ignore for now. Complain if not whitespace?
-	
-}	// DefaultHandler
 
 // =================================================================================================

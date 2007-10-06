@@ -707,7 +707,7 @@ TouchUpDataModel ( XMPMeta * xmp )
 		// Do a special case fix for dc:subject, make sure it is an unordered array.
 		XMP_Node * dcSubject = FindChildNode ( currSchema, "dc:subject", kXMP_ExistingOnly );
 		if ( dcSubject != 0 ) {
-			XMP_OptionBits keepMask = ~(kXMP_PropArrayIsOrdered | kXMP_PropArrayIsAlternate | kXMP_PropArrayIsAltText);
+                        XMP_OptionBits keepMask = static_cast<XMP_OptionBits>(~(kXMP_PropArrayIsOrdered | kXMP_PropArrayIsAlternate | kXMP_PropArrayIsAltText));
 			dcSubject->options &= keepMask;	// Make sure any ordered array bits are clear.
 		}
 	}

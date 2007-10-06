@@ -43,11 +43,6 @@ using namespace std;
 static const char * kPacketHeader  = "<?xpacket begin=\"\xEF\xBB\xBF\" id=\"W5M0MpCehiHzreSzNTczkc9d\"?>";
 static const char * kPacketTrailer = "<?xpacket end=\"w\"?>";	// ! The w/r is at [size-4].
 
-static const char * kPXMP_PacketStart = "<pxmp:XMP_Packet";
-static const char * kPXMP_PacketEnd   = "</pxmp:XMP_Packet>";
-
-static const char * kPXMP_SchemaGroup = "XMP_SchemaGroup";
-
 static const char * kRDF_XMPMetaStart = "<x:xmpmeta xmlns:x=\"adobe:ns:meta/\" x:xmptk=\"";
 static const char * kRDF_XMPMetaEnd   = "</x:xmpmeta>";
 
@@ -61,19 +56,10 @@ static const char * kRDF_StructStart  = "<rdf:Description>";
 static const char * kRDF_StructEnd    = "</rdf:Description>";
 
 static const char * kRDF_BagStart     = "<rdf:Bag>";
-static const char * kRDF_BagEnd       = "</rdf:Bag>";
-
-static const char * kRDF_SeqStart     = "<rdf:Seq>";
-static const char * kRDF_SeqEnd       = "</rdf:Seq>";
-
-static const char * kRDF_AltStart     = "<rdf:Alt>";
-static const char * kRDF_AltEnd       = "</rdf:Alt>";
 
 static const char * kRDF_ItemStart    = "<rdf:li>";
-static const char * kRDF_ItemEnd      = "</rdf:li>";
 
 static const char * kRDF_ValueStart   = "<rdf:value>";
-static const char * kRDF_ValueEnd     = "</rdf:value>";
 
 
 // =================================================================================================
