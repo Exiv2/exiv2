@@ -31,7 +31,7 @@ Xmp.exif.NativeDigest                        XmpText   414  36864,40960,40961,37
 2c2
 < <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="3.1.2-113">
 ---
-> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.1.1">
+> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core (Exiv2) 4.1.1">
 35d34
 <      <rdf:li xml:lang="en-US">Blue Square Test File - .jpg</rdf:li>
 37a37
@@ -100,7 +100,7 @@ Xmp.wine.Recommend                           XmpText     5  False
 2c2
 < <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="3.1.2-113">
 ---
-> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.1.1">
+> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core (Exiv2) 4.1.1">
 4c4
 <   <rdf:Description rdf:about="uuid:0f410644-9396-11d9-bb8e-a67e6693b6e9"
 ---
@@ -214,7 +214,7 @@ Xmp.ns1.NestedStructProp/ns2:Outer/ns2:Middle/ns2:Inner/ns2:Field2 XmpText    12
 <     </rdf:RDF>
 ---
 > <?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
-> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.1.1">
+> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core (Exiv2) 4.1.1">
 >  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
 >   <rdf:Description rdf:about=""
 >     xmlns:ns1="ns:test1/"
@@ -292,6 +292,7 @@ Xmp.dc.seven                                 XmpText     5  Seven
 Xmp.dc.format                                XmpText    10  image/jpeg
 Xmp.dc.creator                               XmpSeq      3  1) The first creator, 2) The second creator, 3) And another one
 Xmp.dc.description                           LangAlt     2  lang="de-DE" Hallo, Welt, lang="x-default" Hello, World
+Xmp.tiff.ImageDescription                    LangAlt     2  lang="de-DE" TIFF Bildbeschreibung, lang="x-default" TIFF image description
 Xmp.xmpDM.videoFrameSize/stDim:w             XmpText     2  16
 Xmp.xmpDM.videoFrameSize/stDim:h             XmpText     1  9
 Xmp.xmpDM.videoFrameSize/stDim:unit          XmpText     4  inch
@@ -304,11 +305,12 @@ Xmp.xmpBJ.JobRef[1]/stJob:role               XmpText    12  Photographer
 Xmp.xmpBJ.JobRef[2]/stJob:name               XmpText    16  Wedding ceremony
 Xmp.xmpBJ.JobRef[2]/stJob:role               XmpText     8  Best man
 <?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
-<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.1.1">
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core (Exiv2) 4.1.1">
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about=""
     xmlns:dc="http://purl.org/dc/elements/1.1/"
     xmlns:ns="myNamespace/"
+    xmlns:tiff="http://ns.adobe.com/tiff/1.0/"
     xmlns:xmpDM="http://ns.adobe.com/xmp/1.0/DynamicMedia/"
     xmlns:stDim="http://ns.adobe.com/xap/1.0/sType/Dimensions#"
     xmlns:xapBJ="http://ns.adobe.com/xap/1.0/bj/"
@@ -353,6 +355,12 @@ Xmp.xmpBJ.JobRef[2]/stJob:role               XmpText     8  Best man
     <rdf:value>James Bond</rdf:value>
     <ns:role>secret agent</ns:role>
    </dc:publisher>
+   <tiff:ImageDescription>
+    <rdf:Alt>
+     <rdf:li xml:lang="x-default">TIFF image description</rdf:li>
+     <rdf:li xml:lang="de-DE">TIFF Bildbeschreibung</rdf:li>
+    </rdf:Alt>
+   </tiff:ImageDescription>
    <xmpDM:videoFrameSize
     stDim:w="16"
     stDim:h="9"

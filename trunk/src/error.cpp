@@ -89,6 +89,7 @@ namespace Exiv2 {
         ErrMsg( 44, N_("Failed to determine property name from path %1, namespace %2")), // %1=property path, %2=namespace
         ErrMsg( 45, N_("Schema namespace %1 is not registered with the XMP Toolkit")), // %1=namespace
         ErrMsg( 46, N_("No namespace registered for prefix `%1'")), // %1=prefix
+        ErrMsg( 47, N_("Aliases are not supported. Please send this XMP packet to ahuggel@gmx.net `%1', `%2', `%3'")), // %1=namespace, %2=property path, %3=value
 
         // Last error message (message is not used)
         ErrMsg( -2, N_("(Unknown Error)"))

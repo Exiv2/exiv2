@@ -413,7 +413,7 @@ namespace Exiv2 {
             printNode(schemaNs, propPath, propValue, opt);
 #endif
             if (XMP_PropIsAlias(opt)) {
-                // Todo: What should we do with these? Skip for now
+                throw Error(47, schemaNs, propPath, propValue);
                 continue;
             }
             if (XMP_NodeIsSchema(opt)) {
@@ -422,7 +422,7 @@ namespace Exiv2 {
                 if (XmpProperties::prefix(schemaNs).empty()) {
                     std::string prefix;
                     bool ret = meta.GetNamespacePrefix(schemaNs.c_str(), &prefix);
-                    if (!ret) throw Exiv2::Error(45, schemaNs);
+                    if (!ret) throw Error(45, schemaNs);
                     prefix = prefix.substr(0, prefix.size() - 1);
                     XmpProperties::registerNs(schemaNs, prefix);
                 }
