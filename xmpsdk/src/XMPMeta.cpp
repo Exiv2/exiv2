@@ -552,8 +552,9 @@ XMPMeta::Initialize()
 	
 	(void) RegisterNamespace ( "adobe:ns:meta/", "x", &voidPtr, &voidLen );
 	(void) RegisterNamespace ( "http://ns.adobe.com/iX/1.0/", "iX", &voidPtr, &voidLen );
-	
-	XMPMeta::RegisterStandardAliases ( "" );
+
+// 06-Oct-07, ahu: Do not use aliases. They result in unexpected behaviour.
+//	XMPMeta::RegisterStandardAliases ( "" );
 	
 	// Initialize the other core classes.
 	

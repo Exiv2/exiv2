@@ -24,7 +24,7 @@ try {
 
     // -------------------------------------------------------------------------
     // Any properties can be set provided the namespace is known. Values of any
-    // type can be assigned to an Xmpdatum (requires an output operator). The
+    // type can be assigned to an Xmpdatum, if they have an output operator. The
     // default XMP value type for unknown properties is a simple text value.
 
     xmpData["Xmp.dc.one"]     = -1;
@@ -33,6 +33,8 @@ try {
     xmpData["Xmp.dc.four"]    = uint16_t(255);
     xmpData["Xmp.dc.five"]    = int32_t(256);
     xmpData["Xmp.dc.six"]     = false;
+
+    // In addition, there is a dedicated assignment operator for Exiv2::Value
     Exiv2::XmpTextValue val("Seven");
     xmpData["Xmp.dc.seven"]   = val;
 
@@ -57,6 +59,13 @@ try {
     v->read("lang=de-DE Hallo, Welt");       // The default doesn't need a 
     v->read("Hello, World");                 // qualifier
     xmpData.add(Exiv2::XmpKey("Xmp.dc.description"), v.get());
+
+    // According to the XMP specification, Xmp.tiff.ImageDescription is an
+    // alias for Xmp.dc.description. Exiv2 treats an alias just like any
+    // other property and leaves it to the application to implement specific
+    // behaviour if desired.
+    xmpData["Xmp.tiff.ImageDescription"] = "TIFF image description";
+    xmpData["Xmp.tiff.ImageDescription"] = "lang=de-DE TIFF Bildbeschreibung";
 
     // -------------------------------------------------------------------------
     // Register a namespace which Exiv2 doesn't know yet. This is only needed
