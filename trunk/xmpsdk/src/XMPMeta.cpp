@@ -79,7 +79,7 @@ static const char * kTenSpaces = "          ";
 #define OutProcDecInt(num)	{ snprintf ( buffer, sizeof(buffer), "%d", (num) ); /* AUDIT: Using sizeof for snprintf length is safe */	\
 							  status = (*outProc) ( refCon, buffer, strlen(buffer) );  if ( status != 0 ) goto EXIT; }
 
-#define OutProcHexInt(num)	{ snprintf ( buffer, sizeof(buffer), "%X", (num) ); /* AUDIT: Using sizeof for snprintf length is safe */	\
+#define OutProcHexInt(num)	{ snprintf ( buffer, sizeof(buffer), "%lX", (num) ); /* AUDIT: Using sizeof for snprintf length is safe */	\
 							  status = (*outProc) ( refCon, buffer, strlen(buffer) );  if ( status != 0 ) goto EXIT; }
 
 static const char * kIndent = "   ";
@@ -413,7 +413,7 @@ static void DumpXMLTree ( FILE * log, const XML_Node & node, int indent )
 // ============
 
 
-XMPMeta::XMPMeta() : tree(XMP_Node(0,"",0)), clientRefs(0), prevTkVer(0), xmlParser(0)
+XMPMeta::XMPMeta() : clientRefs(0), prevTkVer(0), tree(XMP_Node(0,"",0)), xmlParser(0)
 {
 	// Nothing more to do, clientRefs is incremented in wrapper.
 	#if XMP_TraceCTorDTor
