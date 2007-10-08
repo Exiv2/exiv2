@@ -10,15 +10,13 @@ if [ $? -ne 0 ] ; then
     diffargs=""
 fi
 (
-LD_LIBRARY_PATH=../../src:$LD_LIBRARY_PATH
-binpath="$VALGRIND ../../src"
 cp -f ./data/exiv2-empty.jpg ./tmp
 cp -f ./data/exiv2-gc.jpg ./tmp
 cd ./tmp
-$binpath/exiv2 -v -m ../data/modifycmd1.txt exiv2-empty.jpg
-$binpath/exiv2 -v -m ../data/modifycmd2.txt exiv2-gc.jpg
-$binpath/exiv2 -v -pi exiv2-empty.jpg
-$binpath/exiv2 -v -pt exiv2-empty.jpg exiv2-gc.jpg
+$VALGRIND exiv2 -v -m ../data/modifycmd1.txt exiv2-empty.jpg
+$VALGRIND exiv2 -v -m ../data/modifycmd2.txt exiv2-gc.jpg
+$VALGRIND exiv2 -v -pi exiv2-empty.jpg
+$VALGRIND exiv2 -v -pt exiv2-empty.jpg exiv2-gc.jpg
 
 ) > $results
 

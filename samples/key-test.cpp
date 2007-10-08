@@ -10,8 +10,8 @@
  */
 // *****************************************************************************
 // included header files
-#include "exif.hpp"
-#include "iptc.hpp"
+#include <exiv2/exif.hpp>
+#include <exiv2/iptc.hpp>
 #include <iostream>
 #include <string>
 

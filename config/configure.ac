@@ -201,7 +201,9 @@ AC_OUTPUT
 # ---------------------------------------------------------------------------
 
 echo ""
-echo "-- Exiv2 feature configuration summary ---------------------------"
+echo "------------------------------------------------------------------"
+echo "-- Exiv2 $VERSION feature configuration summary"
+echo "--"
 
 case "$enable_shared" in
 yes) echo "-- Build a shared library......... YES" ;;

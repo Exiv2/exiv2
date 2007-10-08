@@ -29,10 +29,10 @@
  */
 // *****************************************************************************
 // included header files
-#include "types.hpp"
-#include "error.hpp"
-#include "futils.hpp"
-#include "basicio.hpp"
+#include <exiv2/types.hpp>
+#include <exiv2/error.hpp>
+#include <exiv2/futils.hpp>
+#include <exiv2/basicio.hpp>
 #include <cstring>
 #include <iostream>
 

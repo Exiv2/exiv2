@@ -33,47 +33,49 @@
 # File:      Makefile
 # Version:   $Rev$
 # Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-# History:   30-Sep-07, ahu: created
+# History:   08-Oct-07, ahu: created
 #
 # Description:
-#  Makefile to build a from the Adobe XMP Toolkit integrated and distributed
-#  with Exiv2. Adapted from the main Exiv2 src/Makefile. This builds what the
-#  libtool manual calls a "convenience library".
+#  Simple Makefile to build sample programs. Requires installed exiv2 library
+#  and headers. Adapted from the main Exiv2 src/Makefile.
 #
 # Restrictions:
 #  Requires GNU make.
 #
 
 # Default make target
-all: install
+all: samples
 
 # Include system configuration
-top_srcdir = ../..
+top_srcdir = ..
 include $(top_srcdir)/config/config.mk
 
 # ******************************************************************************
 # Source files
 
-# Add library C++ source files to this list
-CCSRC = XMPMeta.cpp            \
-        XMPMeta-GetSet.cpp     \
-        XMPMeta-Parse.cpp      \
-        XMPMeta-Serialize.cpp  \
-        XMPIterator.cpp        \
-        XMPUtils.cpp           \
-        XMPUtils-FileInfo.cpp  \
-        XMPCore_Impl.cpp       \
-        ExpatAdapter.cpp       \
-        ParseRDF.cpp           \
-        UnicodeConversions.cpp \
-        MD5.cpp                \
-        WXMPMeta.cpp           \
-        WXMPIterator.cpp       \
-        WXMPUtils.cpp
-
-# ******************************************************************************
-# Library
-LIBRARY := lib$(XMPSDK_LIBRARY).a
+# Add source files of sample programs to this list
+BINSRC = addmoddel.cpp        \
+         crwedit.cpp          \
+         crwparse.cpp         \
+         dataarea-test.cpp    \
+         exifcomment.cpp      \
+         exifdata-test.cpp    \
+         exifprint.cpp        \
+         ifd-test.cpp         \
+         iotest.cpp           \
+         iptceasy.cpp         \
+         iptcprint.cpp        \
+         iptctest.cpp         \
+         key-test.cpp         \
+         largeiptc-test.cpp   \
+         makernote-test.cpp   \
+         taglist.cpp          \
+         write-test.cpp       \
+         write2-test.cpp      \
+         tiffparse.cpp        \
+         xmpparse.cpp         \
+         xmpparser-test.cpp   \
+         xmpsample.cpp
 
 # ******************************************************************************
 # Initialisations
@@ -84,61 +86,51 @@ SHELL = /bin/sh
 
 .PRECIOUS: %.cpp
 
-# For a debug build, replace -DNDEBUG=1 with -DDEBUG=1 -D_DEBUG=1
-CPPFLAGS += -I../include -funsigned-char -DUNIX_ENV=1 -DXMP_IMPL=1 -DXMP_ClientBuild=0 -D_FILE_OFFSET_BITS=64 -DHAVE_EXPAT_CONFIG_H=1 -DXML_STATIC=1 -DNDEBUG=1 $(EXPAT_CPPFLAGS)
-LDFLAGS += $(EXPAT_LDFLAGS)
-LIBS += $(EXPAT_LIBS)
+CPPFLAGS := `pkg-config exiv2 --cflags`
+LDFLAGS := `pkg-config exiv2 --libs`
 
-# Generic variables
-CCOBJ = $(CCSRC:.cpp=.o)
-LOBJ = $(CCSRC:.cpp=.lo)
+BINOBJ = $(BINSRC:.cpp=.o)
+BINARY = $(BINSRC:.cpp=)
+EXECUTABLE = $(BINSRC:.cpp=$(EXEEXT))
 
 ifdef DEP_TRACKING
-DEP = $(CCSRC:%.cpp=$(DEPDIR)/%.d)
+DEP = $(BINSRC:%.cpp=$(DEPDIR)/%.d)
 endif
 
 # ******************************************************************************
 # Rules
-$(CCOBJ): %.o: %.cpp
-	@$(LIBTOOL) --mode=compile $(COMPILE.cc) -o $@ $< -static -prefer-non-pic
+samples: $(BINARY)
+
+$(BINOBJ): %.o: %.cpp
+	$(COMPILE.cc) -o $@ $<
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)
 
+$(BINARY): %: %.o
+	$(LIBTOOL) --mode=link $(LINK.cc) -o $@ $@.o
+
 %.ii: %.cpp
 	set -e; \
-	$(CXXCPP) $(CPPFLAGS) $< | sed '/^[ 	]*$$/d' > $@
+	$(CXXCPP) -E $(CPPFLAGS) $< | sed '/^[ 	]*$$/d' > $@
 
 # ******************************************************************************
 # Targets
-.PHONY: all mostlyclean clean distclean maintainer-clean install uninstall
+.PHONY: all mostlyclean clean distclean maintainer-clean
 
 ifdef DEP_TRACKING
 # Include targets from dependency files
 -include $(DEP)
 endif
 
-$(LIBTOOL): $(LIBTOOL_DEPS)
-	$(SHELL) $(top_srcdir)/config.status --recheck
-
-xmpsdk: install
-
-$(LIBRARY): $(CCOBJ)
-	$(LIBTOOL) --mode=link $(LINK.cc) -o $(LIBRARY) $(LOBJ)
-
-install: $(LIBRARY)
-	$(INSTALL_DATA) $(LIBRARY) ../lib/$(LIBRARY)
-
-uninstall:
-	$(RM) ../lib/$(LIBRARY)
-
 mostlyclean:
 	$(RM) core
 	$(RM) $(CCSRC:.cpp=.ii)
-	$(RM) $(CCSRC:%.cpp=.libs/%.d)
-	@$(LIBTOOL) --mode=clean $(RM) $(LOBJ)
+	$(RM) $(CCSRC:%.cpp=.libs/%.d) $(CSRC:%.c=.libs/%.d)
+	-rmdir .libs
+	$(RM) $(BINOBJ)
 
-clean: uninstall mostlyclean
-	@$(LIBTOOL) --mode=clean $(RM) $(LIBRARY)
+clean: mostlyclean
+	$(RM) $(EXECUTABLE)
 
 # Run `make distclean' from the top source directory to also remove
 # files created by configuring the program.

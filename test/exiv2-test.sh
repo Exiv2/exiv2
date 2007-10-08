@@ -1,8 +1,6 @@
 #! /bin/sh
 # Test driver for exiv2 utility tests
-LD_LIBRARY_PATH=../../src:$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH
-exiv2="$VALGRIND ../../src/exiv2"
+exiv2="$VALGRIND exiv2"
 results="./tmp/exiv2-test.out"
 good="./data/exiv2-test.out"
 tmpfile=tmp/ttt
@@ -78,7 +76,7 @@ cd tmp/ >/dev/null || exit 1;
 echo tmp/
 echo
 echo "Exiv2 version ------------------------------------------------------------"
-ls $exiv2 || exit 2;
+which exiv2 || exit 2;
 $exiv2 -V
 echo
 echo "Exiv2 help ---------------------------------------------------------------"

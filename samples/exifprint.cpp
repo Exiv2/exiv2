@@ -1,9 +1,9 @@
 // ***************************************************************** -*- C++ -*-
-// iptcprint.cpp, $Rev$
-// Sample program to print the Iptc metadata of an image
+// exifprint.cpp, $Rev$
+// Sample program to print the Exif metadata of an image
 
-#include "image.hpp"
-#include "iptc.hpp"
+#include <exiv2/image.hpp>
+#include <exiv2/exif.hpp>
 #include <iostream>
 #include <iomanip>
 #include <cassert>
@@ -17,29 +17,28 @@ try {
     }
 
     Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(argv[1]);
-    assert (image.get() != 0);
+    assert(image.get() != 0);
     image->readMetadata();
 
-    Exiv2::IptcData &iptcData = image->iptcData();
-    if (iptcData.empty()) {
+    Exiv2::ExifData &exifData = image->exifData();
+    if (exifData.empty()) {
         std::string error(argv[1]);
-        error += ": No Iptc data found in the file";
+        error += ": No Exif data found in the file";
         throw Exiv2::Error(1, error);
     }
-
-    Exiv2::IptcData::iterator end = iptcData.end();
-    for (Exiv2::IptcData::iterator md = iptcData.begin(); md != end; ++md) {
+    Exiv2::ExifData::const_iterator end = exifData.end();
+    for (Exiv2::ExifData::const_iterator i = exifData.begin(); i != end; ++i) {
         std::cout << std::setw(44) << std::setfill(' ') << std::left
-                  << md->key() << " "
+                  << i->key() << " "
                   << "0x" << std::setw(4) << std::setfill('0') << std::right
-                  << std::hex << md->tag() << " "
+                  << std::hex << i->tag() << " "
                   << std::setw(9) << std::setfill(' ') << std::left
-                  << md->typeName() << " "
+                  << i->typeName() << " "
                   << std::dec << std::setw(3)
                   << std::setfill(' ') << std::right
-                  << md->count() << "  "
-                  << std::dec << md->value()
-                  << std::endl;
+                  << i->count() << "  "
+                  << std::dec << i->value()
+                  << "\n";
     }
 
     return 0;

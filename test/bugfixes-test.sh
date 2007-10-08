@@ -20,55 +20,54 @@ prep_file()
 }
 
 (
-LD_LIBRARY_PATH=../../src:$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH
-binpath="$VALGRIND ../../src"
+binpath="$VALGRIND ../../samples"
+exiv2="$VALGRIND exiv2"
 cd ./tmp
 
 num=426
 filename=`prep_file $num`
-$binpath/exiv2 -pi $filename
+$exiv2 -pi $filename
 
 num=440
 filename=`prep_file $num`
-$binpath/exiv2 -pi $filename
+$exiv2 -pi $filename
 
 num=443
 filename=`prep_file $num`
-$binpath/exiv2 -b -pt $filename
+$exiv2 -b -pt $filename
 
 num=444
 filename=`prep_file $num`
-$binpath/exiv2 -pi $filename
+$exiv2 -pi $filename
 
 num=445
 filename=`prep_file $num`
-$binpath/exiv2 -v -M'set Exif.Photo.UserComment A comment' $filename
-$binpath/exiv2 -b -pt $filename
+$exiv2 -v -M'set Exif.Photo.UserComment A comment' $filename
+$exiv2 -b -pt $filename
 filename=exiv2-empty.jpg
 cp -f ../data/$filename .
-$binpath/exiv2 -v -M'set Exif.Photo.UserComment A comment' $filename
-$binpath/exiv2 -b -pt $filename
+$exiv2 -v -M'set Exif.Photo.UserComment A comment' $filename
+$exiv2 -b -pt $filename
 
 num=447 # Problem only visible in Valgrind
 filename=`prep_file $num`
-$binpath/exiv2 -pi $filename
+$exiv2 -pi $filename
 
 num=452
 filename=exiv2-bug$num.jpg
 cp -f ../data/exiv2-empty.jpg $filename
-$binpath/exiv2 -v -M"set Exif.GPSInfo.GPSLatitude SRational -1/3 -2/3 -3/3" $filename
-$binpath/exiv2 -pv $filename
-$binpath/exiv2 -v -M"set Exif.GPSInfo.GPSLatitude Rational 1/3 2/3 3/3" $filename
-$binpath/exiv2 -pv $filename
+$exiv2 -v -M"set Exif.GPSInfo.GPSLatitude SRational -1/3 -2/3 -3/3" $filename
+$exiv2 -pv $filename
+$exiv2 -v -M"set Exif.GPSInfo.GPSLatitude Rational 1/3 2/3 3/3" $filename
+$exiv2 -pv $filename
 
 num=460
 filename=`prep_file $num`
-$binpath/exiv2 -pt $filename
+$exiv2 -pt $filename
 
 num=479
 filename=`prep_file $num`
-$binpath/exiv2 -pt $filename
+$exiv2 -pt $filename
 
 num=480
 filename=`prep_file $num`
@@ -76,19 +75,19 @@ $binpath/largeiptc-test $filename ../data/imagemagick.png
 
 num=495
 filename=`prep_file $num`
-$binpath/exiv2 -pi $filename
+$exiv2 -pi $filename
 
 num=498
 filename=exiv2-bug$num.jpg
 cp -f ../data/exiv2-empty.jpg $filename
-$binpath/exiv2 -v -M"set Exif.GPSInfo.GPSLatitude 0/1 1/1 2/1" $filename
-$binpath/exiv2 -v -pv $filename
-$binpath/exiv2 -v -M"del Exif.GPSInfo.GPSLatitude" $filename
-$binpath/exiv2 -v -pv $filename
+$exiv2 -v -M"set Exif.GPSInfo.GPSLatitude 0/1 1/1 2/1" $filename
+$exiv2 -v -pv $filename
+$exiv2 -v -M"del Exif.GPSInfo.GPSLatitude" $filename
+$exiv2 -v -pv $filename
 
 num=501
 filename=`prep_file $num`
-$binpath/exiv2 -pi $filename
+$exiv2 -pi $filename
 
 ) > $results 2>&1
 

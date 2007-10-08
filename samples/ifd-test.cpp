@@ -9,8 +9,8 @@
  */
 // *****************************************************************************
 // included header files
-#include "ifd.hpp"
-#include "error.hpp"
+#include <exiv2/ifd.hpp>
+#include <exiv2/error.hpp>
 
 #include <iostream>
 #include <string>

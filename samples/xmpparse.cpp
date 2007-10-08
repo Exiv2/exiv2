@@ -1,11 +1,10 @@
 // ***************************************************************** -*- C++ -*-
-// xmpparser-test.cpp, $Rev$
-// Read an XMP packet from a file, parse and re-serialize it.
+// xmpparse.cpp, $Rev$
+// Read an XMP packet from a file, parse it and print all (known) properties.
 
-#include "basicio.hpp"
-#include "xmp.hpp"
-#include "error.hpp"
-#include "futils.hpp"
+#include <exiv2/basicio.hpp>
+#include <exiv2/xmp.hpp>
+#include <exiv2/error.hpp>
 
 #include <string>
 #include <iostream>
@@ -17,11 +16,9 @@ try {
         std::cout << "Usage: " << argv[0] << " file\n";
         return 1;
     }
-    std::string filename(argv[1]);
-    Exiv2::DataBuf buf = Exiv2::readFile(filename);
+    Exiv2::DataBuf buf = Exiv2::readFile(argv[1]);
     std::string xmpPacket;
     xmpPacket.assign(reinterpret_cast<char*>(buf.pData_), buf.size_);
-    std::cerr << "-----> Decoding XMP data read from " << filename << " <-----\n";
     Exiv2::XmpData xmpData;
     if (0 != Exiv2::XmpParser::decode(xmpData, xmpPacket)) {
         std::string error(argv[1]);
@@ -45,20 +42,6 @@ try {
                   << md->count() << "  "
                   << std::dec << md->value()
                   << std::endl;
-    }
-    filename += "-new";
-    std::cerr << "-----> Encoding XMP data to write to " << filename << " <-----\n";
-    if (0 != Exiv2::XmpParser::encode(xmpPacket, xmpData)) {
-        std::string error(argv[1]);
-        error += ": Failed to encode the XMP data";
-        throw Exiv2::Error(1, error);
-    }
-    Exiv2::FileIo file(filename);
-    if (file.open("wb") != 0) {
-        throw Exiv2::Error(10, filename, "wb", Exiv2::strError());
-    }
-    if (file.write(reinterpret_cast<const Exiv2::byte*>(xmpPacket.data()), xmpPacket.size()) == 0) {
-        throw Exiv2::Error(2, filename, Exiv2::strError(), "FileIo::write");
     }
     Exiv2::XmpParser::terminate();
     return 0;

@@ -38,9 +38,7 @@ diffCheck()
 # **********************************************************************
 # main
 
-LD_LIBRARY_PATH=../../src:$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH
-binpath="$VALGRIND ../../src"
+binpath="$VALGRIND ../../samples"
 datapath="../data"
 
 test_files="table.jpg smiley2.jpg ext.dat"

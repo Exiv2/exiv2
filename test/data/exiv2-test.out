@@ -2,7 +2,7 @@ Exiv2 test directory -----------------------------------------------------
 tmp/
 
 Exiv2 version ------------------------------------------------------------
-../../src/exiv2
+/usr/local/bin/exiv2
 exiv2 0.16
 Copyright (C) 2004-2007 Andreas Huggel.
 
