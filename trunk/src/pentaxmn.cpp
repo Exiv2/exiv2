@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2007 Michal Cihar <michal@cihar.com>
+ * Copyright (C) 2007 Andreas Huggel <ahuggel@gmx.net>
  *
  * This program is part of the Exiv2 distribution.
  *
@@ -865,7 +865,7 @@ namespace Exiv2 {
         /* Some missing ! */
         TagInfo(0x003f, "LensType", N_("Lens type"),
                 N_("Lens type"),
-                pentaxIfdId, makerTags, unsignedLong, EXV_PRINT_COMBITAG(pentaxLensType, 2)),
+                pentaxIfdId, makerTags, unsignedByte, EXV_PRINT_COMBITAG(pentaxLensType, 2)),
         /* Some missing ! */
         TagInfo(0x0041, "DigitalFilter", N_("Digital filter"),
                 N_("Digital filter"),
