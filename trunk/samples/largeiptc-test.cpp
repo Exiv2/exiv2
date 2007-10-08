@@ -1,10 +1,10 @@
 // ***************************************************************** -*- C++ -*-
 // Test for large (>65535 bytes) IPTC buffer
 
-#include "iptc.hpp"
-#include "image.hpp"
-#include "jpgimage.hpp"
-#include "futils.hpp"
+#include <exiv2/iptc.hpp>
+#include <exiv2/image.hpp>
+#include <exiv2/jpgimage.hpp>
+#include <exiv2/futils.hpp>
 #include <iostream>
 #include <cassert>
 

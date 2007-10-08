@@ -15,9 +15,9 @@
  */
 // *****************************************************************************
 // included header files
-#include "image.hpp"
-#include "exif.hpp"
-#include "makernote.hpp"
+#include <exiv2/image.hpp>
+#include <exiv2/exif.hpp>
+#include <exiv2/makernote.hpp>
 
 #include <iostream>
 #include <sstream>

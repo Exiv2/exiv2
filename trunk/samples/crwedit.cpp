@@ -2,8 +2,8 @@
 // crwedit.cpp, $Rev$
 // Print the CIFF structure of a CRW file
 
-#include "crwimage.hpp"
-#include "futils.hpp"
+#include <exiv2/crwimage.hpp>
+#include <exiv2/futils.hpp>
 
 #include <iostream>
 #include <string>

@@ -2,8 +2,8 @@
 // xmpsample.cpp, $Rev$
 // Sample/test for high level XMP classes. See also addmoddel.cpp
 
-#include "xmp.hpp"
-#include "error.hpp"
+#include <exiv2/xmp.hpp>
+#include <exiv2/error.hpp>
 
 #include <string>
 #include <iostream>

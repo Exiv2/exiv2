@@ -10,10 +10,10 @@
  */
 // *****************************************************************************
 // included header files
-#include "image.hpp"
-#include "iptc.hpp"
-#include "datasets.hpp"
-#include "value.hpp"
+#include <exiv2/image.hpp>
+#include <exiv2/iptc.hpp>
+#include <exiv2/datasets.hpp>
+#include <exiv2/value.hpp>
 #include <iostream>
 #include <iomanip>
 #include <cassert>

@@ -1,9 +1,9 @@
 // ***************************************************************** -*- C++ -*-
-// exifprint.cpp, $Rev$
-// Sample program to print the Exif metadata of an image
+// iptcprint.cpp, $Rev$
+// Sample program to print the Iptc metadata of an image
 
-#include "image.hpp"
-#include "exif.hpp"
+#include <exiv2/image.hpp>
+#include <exiv2/iptc.hpp>
 #include <iostream>
 #include <iomanip>
 #include <cassert>
@@ -17,28 +17,29 @@ try {
     }
 
     Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(argv[1]);
-    assert(image.get() != 0);
+    assert (image.get() != 0);
     image->readMetadata();
 
-    Exiv2::ExifData &exifData = image->exifData();
-    if (exifData.empty()) {
+    Exiv2::IptcData &iptcData = image->iptcData();
+    if (iptcData.empty()) {
         std::string error(argv[1]);
-        error += ": No Exif data found in the file";
+        error += ": No Iptc data found in the file";
         throw Exiv2::Error(1, error);
     }
-    Exiv2::ExifData::const_iterator end = exifData.end();
-    for (Exiv2::ExifData::const_iterator i = exifData.begin(); i != end; ++i) {
+
+    Exiv2::IptcData::iterator end = iptcData.end();
+    for (Exiv2::IptcData::iterator md = iptcData.begin(); md != end; ++md) {
         std::cout << std::setw(44) << std::setfill(' ') << std::left
-                  << i->key() << " "
+                  << md->key() << " "
                   << "0x" << std::setw(4) << std::setfill('0') << std::right
-                  << std::hex << i->tag() << " "
+                  << std::hex << md->tag() << " "
                   << std::setw(9) << std::setfill(' ') << std::left
-                  << i->typeName() << " "
+                  << md->typeName() << " "
                   << std::dec << std::setw(3)
                   << std::setfill(' ') << std::right
-                  << i->count() << "  "
-                  << std::dec << i->value()
-                  << "\n";
+                  << md->count() << "  "
+                  << std::dec << md->value()
+                  << std::endl;
     }
 
     return 0;

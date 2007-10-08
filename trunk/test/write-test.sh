@@ -31,9 +31,7 @@ runTestCase()
 # **********************************************************************
 # main
 
-LD_LIBRARY_PATH=../../src:$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH
-binpath="$VALGRIND ../../src"
+binpath="$VALGRIND ../../samples"
 datapath="."
 diffargs="--strip-trailing-cr"
 tmpfile=tmp/ttt

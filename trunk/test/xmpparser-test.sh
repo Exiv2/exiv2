@@ -3,7 +3,7 @@
 
 # ----------------------------------------------------------------------
 # Check if xmpparser-test exists
-if [ ! -e ../src/xmpparser-test ] ; then
+if [ ! -e ../samples/xmpparser-test ] ; then
     echo "xmpparser-test not found. Assuming XMP support is not enabled."
     exit 0
 fi
@@ -23,9 +23,7 @@ fi
 # ----------------------------------------------------------------------
 # Main routine
 (
-LD_LIBRARY_PATH=../../src:$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH
-binpath="$VALGRIND ../../src"
+binpath="$VALGRIND ../../samples"
 cd ./tmp
 
 # ----------------------------------------------------------------------

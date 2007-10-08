@@ -2,11 +2,11 @@
 // tiffparse.cpp, $Rev$
 // Print the structure of a TIFF file
 
-#include "tiffparser.hpp"
-#include "tiffcomposite.hpp"
-#include "tiffvisitor.hpp"
-#include "tiffimage.hpp"
-#include "futils.hpp"
+#include <exiv2/tiffparser.hpp>
+#include <exiv2/tiffcomposite.hpp>
+#include <exiv2/tiffvisitor.hpp>
+#include <exiv2/tiffimage.hpp>
+#include <exiv2/futils.hpp>
 
 #include <iostream>
 

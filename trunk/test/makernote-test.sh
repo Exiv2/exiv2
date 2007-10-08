@@ -10,9 +10,7 @@ if [ $? -ne 0 ] ; then
     diffargs=""
 fi
 (
-LD_LIBRARY_PATH=../../src:$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH
-binpath="$VALGRIND ../../src"
+binpath="$VALGRIND ../../samples"
 cd ./tmp
 $binpath/makernote-test
 ) > $results
