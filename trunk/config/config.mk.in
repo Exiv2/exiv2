@@ -95,7 +95,7 @@ ifdef ENABLE_XMP
         XMPSDK_LIBRARY = xmpsdk
         XMPSDK_DIR = $(top_srcdir)/xmpsdk
         XMPSDK_CPPFLAGS = -DUNIX_ENV -I$(XMPSDK_DIR)/include
-        XMPSDK_LDFLAGS = -L$(XMPSDK_DIR)/lib
+        XMPSDK_LDFLAGS = -L$(XMPSDK_DIR)/src
         XMPSDK_LIBS = -l$(XMPSDK_LIBRARY)
 else
         # Enable additional warnings. XMP Toolkit doesn't compile
@@ -152,7 +152,7 @@ COMPILE.cc = $(CXX) $(CXXFLAGS) $(CPPFLAGS) -c
 COMPILE.c = $(CC) $(CFLAGS) $(CPPFLAGS) -c
 # LINK.cc does not need $(LIBS), libtool's dark magic takes care of that
 # when linking a binary with a libtool library.
-LINK.cc = $(CXX) $(CXXFLAGS) $(LDFLAGS)
+LINK.cc = $(CXX) $(LDFLAGS)
 
 # **********************************************************************
 # Installation programs

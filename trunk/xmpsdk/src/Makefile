@@ -45,7 +45,7 @@
 #
 
 # Default make target
-all: install
+all: xmpsdk
 
 # Include system configuration
 top_srcdir = ../..
@@ -73,7 +73,7 @@ CCSRC = XMPMeta.cpp            \
 
 # ******************************************************************************
 # Library
-LIBRARY := lib$(XMPSDK_LIBRARY).a
+LIBRARY := lib$(XMPSDK_LIBRARY).la
 
 # ******************************************************************************
 # Initialisations
@@ -100,7 +100,7 @@ endif
 # ******************************************************************************
 # Rules
 $(CCOBJ): %.o: %.cpp
-	@$(LIBTOOL) --mode=compile $(COMPILE.cc) -o $@ $< -static -prefer-non-pic
+	@$(LIBTOOL) --mode=compile $(COMPILE.cc) -o $@ $<
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)
 
@@ -110,7 +110,7 @@ $(CCOBJ): %.o: %.cpp
 
 # ******************************************************************************
 # Targets
-.PHONY: all mostlyclean clean distclean maintainer-clean install uninstall
+.PHONY: all mostlyclean clean distclean maintainer-clean
 
 ifdef DEP_TRACKING
 # Include targets from dependency files
@@ -120,16 +120,10 @@ endif
 $(LIBTOOL): $(LIBTOOL_DEPS)
 	$(SHELL) $(top_srcdir)/config.status --recheck
 
-xmpsdk: install
+xmpsdk: $(LIBRARY)
 
 $(LIBRARY): $(CCOBJ)
 	$(LIBTOOL) --mode=link $(LINK.cc) -o $(LIBRARY) $(LOBJ)
-
-install: $(LIBRARY)
-	$(INSTALL_DATA) $(LIBRARY) ../lib/$(LIBRARY)
-
-uninstall:
-	$(RM) ../lib/$(LIBRARY)
 
 mostlyclean:
 	$(RM) core
@@ -137,7 +131,7 @@ mostlyclean:
 	$(RM) $(CCSRC:%.cpp=.libs/%.d)
 	@$(LIBTOOL) --mode=clean $(RM) $(LOBJ)
 
-clean: uninstall mostlyclean
+clean: mostlyclean
 	@$(LIBTOOL) --mode=clean $(RM) $(LIBRARY)
 
 # Run `make distclean' from the top source directory to also remove
