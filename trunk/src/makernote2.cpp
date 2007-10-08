@@ -58,6 +58,7 @@ namespace Exiv2 {
         { "NIKON",          newNikonMn,     Group::nikonmn   },
         { "OLYMPUS",        newOlympusMn,   Group::olympmn   },
         { "Panasonic",      newPanasonicMn, Group::panamn    },
+        { "PENTAX",         newPentaxMn,    Group::pentaxmn  },
         { "SIGMA",          newSigmaMn,     Group::sigmamn   },
         { "SONY",           newSonyMn,      Group::sonymn    }
     };
@@ -274,6 +275,33 @@ namespace Exiv2 {
 
     } // PanasonicMnHeader::read
 
+    const byte PentaxMnHeader::signature_[] = {
+        'A', 'O', 'C', 0x00, 'M', 'M'
+    };
+    const uint32_t PentaxMnHeader::size_ = 6;
+
+    PentaxMnHeader::PentaxMnHeader()
+    {
+        read(signature_, size_, invalidByteOrder);
+    }
+
+    bool PentaxMnHeader::read(const byte* pData,
+                              uint32_t size,
+                              ByteOrder /*byteOrder*/)
+    {
+        assert (pData != 0);
+
+        if (size < size_) return false;
+
+        header_.alloc(size_);
+        std::memcpy(header_.pData_, pData, header_.size_);
+        if (   static_cast<uint32_t>(header_.size_) < size_
+            || 0 != memcmp(header_.pData_, signature_, 3)) {
+            return false;
+        }
+        return true;
+    } // PentaxMnHeader::read
+
     const byte SigmaMnHeader::signature1_[] = {
         'S', 'I', 'G', 'M', 'A', '\0', '\0', '\0', 0x01, 0x00
     };
@@ -403,6 +431,16 @@ namespace Exiv2 {
                                   ByteOrder   /*byteOrder*/)
     {
         return new TiffIfdMakernote(tag, group, mnGroup, new PanasonicMnHeader, false);
+    }
+
+    TiffComponent* newPentaxMn(uint16_t    tag,
+                                uint16_t    group,
+                                uint16_t    mnGroup,
+                                const byte* /*pData*/,
+                                uint32_t    /*size*/,
+                                ByteOrder   /*byteOrder*/)
+    {
+        return new TiffIfdMakernote(tag, group, mnGroup, new PentaxMnHeader);
     }
 
     TiffComponent* newSigmaMn(uint16_t    tag,
