@@ -2,11 +2,11 @@ Exiv2
 *****
 
 Welcome to Exiv2, a C++ library and a command line utility to read and
-write Exif and IPTC image metadata. The homepage of Exiv2 is:
+write Exif, IPTC and XMP image metadata. The homepage of Exiv2 is:
 
     http://www.exiv2.org/
 
-See doc/ChangeLog for a description of recent changes to Exiv2.
+See doc/ChangeLog for a list of recent changes to Exiv2.
 
 If you have the doc package, you can point your browser to doc/index.html 
 for the complete Exiv2 API documentation and metadata tag reference.
