@@ -124,14 +124,6 @@ else
     fi
 fi
 
-# Udi's hack to add libiconv to the Libs section in exiv2.pc
-if test "$enable_shared" = "no"; then
-    EXV_LIB_STATIC=$LTLIBICONV
-else
-    EXV_LIB_STATIC=
-fi
-AC_SUBST(EXV_LIB_STATIC)
-
 AC_MSG_CHECKING([whether to compile a commercial version of the Exiv2 library])
 AC_ARG_ENABLE(commercial,
     [  --enable-commercial     compile with the EXV_COMMERCIAL_VERSION symbol set ],
@@ -185,6 +177,14 @@ AC_SUBST(ENABLE_XMP)
 
 CPPFLAGS=${_cppflags}
 LDFLAGS=${_ldflags}
+
+# Udi's hack to add libiconv to the Libs section in exiv2.pc
+if test "$enable_shared" = "no"; then
+    EXV_LIB_STATIC=$LTLIBICONV
+else
+    EXV_LIB_STATIC=
+fi
+AC_SUBST(EXV_LIB_STATIC)
 
 # ---------------------------------------------------------------------------
 # Create output files.
