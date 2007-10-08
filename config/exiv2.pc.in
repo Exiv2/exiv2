@@ -7,5 +7,5 @@ Name: exiv2
 Description: Exif and IPTC metadata library and tools
 Version: @PACKAGE_VERSION@
 Libs: -L${libdir} -lexiv2 @EXV_LIB_STATIC@
-Libs.private: @LDFLAGS@ @LTLIBINTL@ @LTLIBICONV@ @LIBS@
+Libs.private: @LDFLAGS@ @EXPAT_LDFLAGS@ @LTLIBINTL@ @LTLIBICONV@ @LIBS@ @EXPAT_LIBS@
 Cflags: -I${includedir}
