@@ -125,6 +125,15 @@
     <td>&nbsp;</td>
    </tr>
    <tr class="EvenRow"> 
+    <td>PENTAX</td>
+    <td>IFD at offset 6</td>
+    <td>&quot;AOC\0&quot; followed by two bytes of unknown meaning</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><a href="#R11">[11]</a></td>
+    <td>&nbsp;</td>
+   </tr>
+   <tr class="OddRow"> 
     <td>SONY</td>
     <td>IFD without a next-IFD pointer at offset 12</td>
     <td>&quot;SONY DSC \0\0\0&quot;</td>
@@ -133,7 +142,7 @@
     <td>&nbsp;</td>
     <td>Seen in Jpeg images, e.g., from DSC-W7, DSC-R1</td>
    </tr>
-   <tr class="OddRow"> 
+   <tr class="EvenRow"> 
     <td>SONY</td>
     <td>IFD</td>
     <td>None</td>

@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2007 Michal Cihar <michal@cihar.com>
+ * Copyright (C) 2007 Andreas Huggel <ahuggel@gmx.net>
  *
  * This program is part of the Exiv2 distribution.
  *
@@ -128,16 +128,27 @@ namespace Exiv2 {
         };
         //! @endcond
 
+        //! Print Pentax version
         static std::ostream& printPentaxVersion(std::ostream& os, const Value& value);
+        //! Print Pentax resolution
         static std::ostream& printPentaxResolution(std::ostream& os, const Value& value);
+        //! Print Pentax date
         static std::ostream& printPentaxDate(std::ostream& os, const Value& value);
+        //! Print Pentax time
         static std::ostream& printPentaxTime(std::ostream& os, const Value& value);
+        //! Print Pentax exposure
         static std::ostream& printPentaxExposure(std::ostream& os, const Value& value);
+        //! Print Pentax F value
         static std::ostream& printPentaxFValue(std::ostream& os, const Value& value);
+        //! Print Pentax focal length
         static std::ostream& printPentaxFocalLength(std::ostream& os, const Value& value);
+        //! Print Pentax compensation
         static std::ostream& printPentaxCompensation(std::ostream& os, const Value& value);
+        //! Print Pentax temperature
         static std::ostream& printPentaxTemperature(std::ostream& os, const Value& value);
+        //! Print Pentax flash compensation
         static std::ostream& printPentaxFlashCompensation(std::ostream& os, const Value& value);
+        //! Print Pentax bracketing
         static std::ostream& printPentaxBracketing(std::ostream& os, const Value& value);
 
     private:

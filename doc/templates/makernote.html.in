@@ -77,8 +77,8 @@ __makernotes__
   <a name="R9">[9]</a> <a href="http://www.ozhiker.com/electronics/pjmt/jpeg_info/makernotes.html">
   Various Makernote specifications</a> from the <a href="http://www.ozhiker.com/electronics/pjmt/index.html">
   PHP JPEG Metadata Toolkit</a> by Evan Hunter<br>
-  <a name="R10">[10]</a> <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a>, the most complete and up-to-date tool for reading and writing meta information in image files, by Phil Harvey</p>
-
+  <a name="R10">[10]</a> <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a>, the most complete and up-to-date tool for reading and writing meta information in image files, by Phil Harvey<br>
+  <a name="R11">[11]</a> <a href="http://www.gvsoft.homedns.org/exif/makernote-pentax-type3.html">EXIF: Pentax type3 Makernotes</a> by Ger Vermeulen</p>
 </div>
 <!-- closes content -->
 
