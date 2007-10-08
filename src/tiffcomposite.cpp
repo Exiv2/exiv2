@@ -92,7 +92,8 @@ namespace Exiv2 {
         { 275, "MinoltaCs5D"  },
         { 276, "MinoltaCs7D"  },
         { 277, "CanonPi"      },
-        { 278, "CanonPa"      }
+        { 278, "CanonPa"      },
+        { 279, "Pentax"       }
     };
 
     bool TiffGroupInfo::operator==(uint16_t group) const
