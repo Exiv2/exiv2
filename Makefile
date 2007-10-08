@@ -64,17 +64,20 @@ uninstall: config/config.mk
 	cd src && $(MAKE) $(MAKECMDGOALS)
 	cd po && $(MAKE) $(MAKECMDGOALS)
 
-doc: config/config.mk
+doc: config/config.mk taglist
 	cd doc && $(MAKE) $(MAKECMDGOALS)
 
 samples: config/config.mk
 	cd samples && $(MAKE) $(MAKECMDGOALS)
 
+taglist: config/config.mk
+	cd samples && $(MAKE) $@
+
 config:
 	cd config && $(MAKE) -f config.make $(MAKECMDGOALS)
 
 xmpsdk: config/config.mk
-	if test "x$(ENABLE_XMP)" = "x1"; then cd xmpsdk/src && $(MAKE) $(MAKECMDGOALS); fi;
+	if test "x$(ENABLE_XMP)" = "x1"; then cd xmpsdk/src && $(MAKE) $@; fi;
 
 mostlyclean clean: config/config.mk
 	cd src && $(MAKE) $(MAKECMDGOALS)

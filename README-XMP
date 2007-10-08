@@ -1,40 +1,61 @@
 XMP support
 ***********
 
-XMP support is controlled with the --enable-xmp and 
---disable-xmp options of the configure script. Building Exiv2
-with XMP support requires the Expat XML parser library, which
-is widely available. The --with-expat configure option can
-be used if it is installed in a non-standard directory.
+XMP support is controlled with the --enable-xmp and --disable-xmp
+options to the configure script. Building Exiv2 with XMP support
+requires the Expat XML parser library (http://expat.sourceforge.net/).
+The --with-expat configure option can be used if it is installed in a
+non-standard directory.
 
-Top-level Exiv2 classes to access XMP metadata are XmpData,
-Xmpdatum and XmpKey. They work similar to the corresponding 
-Exif and IPTC classes. The property-repository is XmpProperties.
-In addition to the expected new members, class Image also
-has an interface to access the raw XMP packet.
+For API documentation of XMP classes and samples, build or install the 
+documentation and go to doc/html/getting-started.html
 
-All XMP value types are supported: Simple types, structures,
-arrays, property qualifiers and language alternatives.
+XMP Toolkit
+===========
 
-XMP properties are accessed through keys of the form
-"Xmp.<Prefix>.<PropertyPath>", where <Prefix> is the preferred 
-(or rather, registered) prefix for a schema namespace and 
-<PropertyPath> is the path of the XMP node. In its most basic
-form, to address simple properties, <PropertyPath> is the name
-of the property. In general, <PropertyPath> can be used to 
-address any XMP node, including array items, structure fields
-qualifiers and deeply nested properties.
+Exiv2 uses the XMPCore component of the Adobe XMP Toolkit (XMP SDK) to
+parse and serialize XMP packets. Temporarily, it is integrated and
+distributed with Exiv2. The xmpsdk/ directory of the Exiv2 distribution
+contains the XMP SDK source code. The final solution will eventually
+use an external XMP Toolkit.
 
-Any properties in known namespaces are supported and additional
-namespaces can be registered.
+Building the XMP Toolkit is transparent. Following the installation
+steps described in the main README file will ensure that the XMP
+Toolkit is compiled if necessary. It is only needed if XMP support is
+enabled. Building the XMP Toolkit results in a "convenience library"
+in xmpsdk/src/. This library is only used to link the Exiv2 library 
+with.
 
-The specialized Exiv2 values XmpArrayValue and LangAltValue are
-provided to simplify the use of XMP properties.
+If you experience problems building this library, please email to the
+Exiv2 support forum for help, see http://www.exiv2.org/support.html
+and not to Adobe directly.
 
-See xmpsample.cpp for examples of how to set various types of
-XMP properties.
 
-Note: Unlike Exif and IPTC tags, XMP properties do not have
-a tag number.
+Source
+======
 
-Todo: Conversion between XMP and Exif/IPTC metadata.
+XMP Toolkit 4.1.1 (xmp_v411_sdk.zip) from
+http://www.adobe.com/devnet/xmp/sdk/eula.html
+
+The following files were copied from the original XMP SDK
+distribution:
+
+public/include/*      -> xmpsdk/include
+source/common/*       -> xmpsdk/src
+source/XMPCore/*      -> xmpsdk/src
+build/XMP_BuildInfo.h -> xmpsdk/src
+third-party/MD5/*     -> xmpsdk/src
+
+Minor changes were applied to the original XMP SDK, see the SVN for 
+details:
+
+    http://dev.robotbattle.com/~cvsuser/cgi-bin/ns_viewcvs.cgi/exiv2/trunk/xmpsdk/
+
+
+License
+=======
+
+Copyright (c) 1999 - 2007, Adobe Systems Incorporated
+Copyright (c) 1991-2, RSA Data Security, Inc.
+
+See the file doc/COPYING-XMPSDK for the XMP Toolkit license agreements.
