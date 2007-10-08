@@ -3,7 +3,7 @@ XMP support
 
 XMP support is controlled with the --enable-xmp and 
 --disable-xmp options of the configure script. Building Exiv2
-with XMP support requires the Expat XMP parser library, which
+with XMP support requires the Expat XML parser library, which
 is widely available. The --with-expat configure option can
 be used if it is installed in a non-standard directory.
 
