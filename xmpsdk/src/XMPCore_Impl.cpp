@@ -1433,7 +1433,8 @@ NormalizeLangArray ( XMP_Node * array )
 			array->children[itemNum] = temp;
 		}
 
-		if ( itemLim == 2 ) array->children[1]->value = array->children[0]->value;
+// 09-Oct-07, ahu: disabled to avoid unexpected behaviour
+//		if ( itemLim == 2 ) array->children[1]->value = array->children[0]->value;
 
 	}
 	
