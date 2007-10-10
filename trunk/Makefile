@@ -64,14 +64,11 @@ uninstall: config/config.mk
 	cd src && $(MAKE) $(MAKECMDGOALS)
 	cd po && $(MAKE) $(MAKECMDGOALS)
 
-doc: config/config.mk taglist
+doc: config/config.mk
 	cd doc && $(MAKE) $(MAKECMDGOALS)
 
 samples: config/config.mk
 	cd samples && $(MAKE) $(MAKECMDGOALS)
-
-taglist: config/config.mk
-	cd samples && $(MAKE) $@
 
 config:
 	cd config && $(MAKE) -f config.make $(MAKECMDGOALS)

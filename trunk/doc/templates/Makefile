@@ -56,7 +56,7 @@ TABLES = Exif \
          Sigma \
          Sony
 
-TAGLIST = ../../samples/taglist
+TAGLIST = ../../src/taglist
 
 # **********************************************************************
 # ======================================================================
@@ -93,7 +93,7 @@ Iptc: $(TAGLIST)
 	@rm -f $@.tmp
 
 $(TAGLIST): 
-	$(error File $(TAGLIST) does not exist. Did you build the library and examples?)
+	$(error File $(TAGLIST) does not exist. Did you build the library and programs in the src/ directory?)
 
 mostlyclean:
 	rm -f *.xml

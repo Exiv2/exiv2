@@ -114,7 +114,7 @@ CSRC =   localtime.c
 endif
 
 # Add source files of simple applications to this list
-BINSRC = 
+BINSRC = taglist.cpp
 
 # Source files for the Exiv2 application
 EXIV2MAIN = exiv2.cpp
