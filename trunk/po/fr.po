@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2007-09-30 20:39-0400\n"
+"POT-Creation-Date: 2007-10-13 19:44+0200\n"
 "PO-Revision-Date: 2007-08-19 18:48+0200\n"
 "Last-Translator: Olivier Tilloy <olivier@tilloy.net>\n"
 "Language-Team: French\n"
@@ -676,7 +676,7 @@ msgid ""
 "<ARMVersion>, according to the practices of the provider."
 msgstr ""
 
-#: src/datasets.cpp:207 src/datasets.cpp:212
+#: src/datasets.cpp:207 src/datasets.cpp:212 src/properties.cpp:330
 msgid "Urgency"
 msgstr "Priorité"
 
@@ -695,7 +695,7 @@ msgstr "Sujet"
 msgid "The Subject Reference is a structured definition of the subject matter."
 msgstr ""
 
-#: src/datasets.cpp:216 src/datasets.cpp:221
+#: src/datasets.cpp:216 src/datasets.cpp:221 src/properties.cpp:316
 msgid "Category"
 msgstr "Catégorie"
 
@@ -718,7 +718,7 @@ msgid ""
 "to the provider."
 msgstr ""
 
-#: src/datasets.cpp:228
+#: src/datasets.cpp:228 src/properties.cpp:328
 msgid "Supplemental Categories"
 msgstr "Catégories Supplémentaires"
 
@@ -732,7 +732,7 @@ msgid ""
 "immediately find or recall such an object."
 msgstr ""
 
-#: src/datasets.cpp:233 src/datasets.cpp:239
+#: src/datasets.cpp:233 src/datasets.cpp:239 src/properties.cpp:306
 msgid "Keywords"
 msgstr "Mots-clefs"
 
@@ -819,7 +819,7 @@ msgid ""
 "embargoes and warnings."
 msgstr ""
 
-#: src/datasets.cpp:273
+#: src/datasets.cpp:273 src/properties.cpp:325
 msgid "Instructions"
 msgstr "Instructions"
 
@@ -863,7 +863,7 @@ msgid ""
 "object refers."
 msgstr ""
 
-#: src/datasets.cpp:289 src/datasets.cpp:294
+#: src/datasets.cpp:289 src/datasets.cpp:294 src/properties.cpp:320
 msgid "Date Created"
 msgstr "Date de création"
 
@@ -955,7 +955,7 @@ msgid ""
 "Where used, a by-line title should follow the by-line it modifies."
 msgstr ""
 
-#: src/datasets.cpp:328 src/datasets.cpp:332
+#: src/datasets.cpp:328 src/datasets.cpp:332 src/properties.cpp:317
 msgid "City"
 msgstr "Ville"
 
@@ -1015,11 +1015,11 @@ msgid ""
 "guidelines of the provider."
 msgstr ""
 
-#: src/datasets.cpp:357
+#: src/datasets.cpp:357 src/properties.cpp:318
 msgid "Country"
 msgstr "Pays"
 
-#: src/datasets.cpp:358 src/datasets.cpp:362
+#: src/datasets.cpp:358 src/datasets.cpp:362 src/properties.cpp:329
 msgid "Transmission Reference"
 msgstr "Référence de la transmission"
 
@@ -1029,7 +1029,7 @@ msgid ""
 "practices of the provider."
 msgstr ""
 
-#: src/datasets.cpp:363 src/datasets.cpp:366
+#: src/datasets.cpp:363 src/datasets.cpp:366 src/properties.cpp:324
 msgid "Headline"
 msgstr "Chapô"
 
@@ -1038,7 +1038,7 @@ msgid ""
 "A publishable entry providing a synopsis of the contents of the object data."
 msgstr ""
 
-#: src/datasets.cpp:367 src/datasets.cpp:370
+#: src/datasets.cpp:367 src/datasets.cpp:370 src/properties.cpp:319
 msgid "Credit"
 msgstr "Crédit"
 
@@ -1049,6 +1049,7 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:371 src/datasets.cpp:375 src/properties.cpp:112
+#: src/properties.cpp:326
 msgid "Source"
 msgstr "Source"
 
@@ -1976,7 +1977,13 @@ msgstr ""
 msgid "No namespace registered for prefix `%1'"
 msgstr ""
 
-#: src/error.cpp:94
+#: src/error.cpp:92
+msgid ""
+"Aliases are not supported. Please send this XMP packet to ahuggel@gmx.net `%"
+"1', `%2', `%3'"
+msgstr ""
+
+#: src/error.cpp:95
 msgid "(Unknown Error)"
 msgstr "(Erreur inconnue)"
 
@@ -2827,6 +2834,464 @@ msgid ""
 "An alternative tape name, set via the project window or timecode dialog in "
 "Premiere. If an alternative name has been set and has not been reverted, "
 "that name is displayed."
+msgstr ""
+
+#: src/properties.cpp:262
+msgid "Start Time Code"
+msgstr ""
+
+#: src/properties.cpp:262
+msgid ""
+"The timecode of the first frame of video in the file, as obtained from the "
+"device control."
+msgstr ""
+
+#: src/properties.cpp:263
+#, fuzzy
+msgid "Alt Time code"
+msgstr "Mode mise au point automatique"
+
+#: src/properties.cpp:263
+msgid ""
+"A timecode set by the user. When specified, it is used instead of the "
+"startTimecode."
+msgstr ""
+
+#: src/properties.cpp:264
+#, fuzzy
+msgid "Duration"
+msgstr "Saturation"
+
+#: src/properties.cpp:264
+msgid "The duration of the media file."
+msgstr ""
+
+#: src/properties.cpp:265
+#, fuzzy
+msgid "scene"
+msgstr "centre"
+
+#: src/properties.cpp:265
+#, fuzzy
+msgid "The name of the scene."
+msgstr "Le type de source lumineuse."
+
+#: src/properties.cpp:266
+#, fuzzy
+msgid "shotName"
+msgstr "Libellé du pays"
+
+#: src/properties.cpp:266
+msgid "The name of the shot or take."
+msgstr ""
+
+#: src/properties.cpp:267
+#, fuzzy
+msgid "shotDate"
+msgstr "Date d'envoi"
+
+#: src/properties.cpp:267
+#, fuzzy
+msgid "The date and time when the video was shot."
+msgstr "La date et l'heure où l'image a été sauvée sous forme digitale."
+
+#: src/properties.cpp:268
+#, fuzzy
+msgid "shotLocation"
+msgstr "Lieu précis"
+
+#: src/properties.cpp:268
+msgid ""
+"The name of the location where the video was shot. For example: "
+"\"Oktoberfest, Munich Germany\" For more accurate positioning, use the EXIF "
+"GPS values."
+msgstr ""
+
+#: src/properties.cpp:270
+#, fuzzy
+msgid "logComment"
+msgstr "Commentaire Windows"
+
+#: src/properties.cpp:270
+#, fuzzy
+msgid "User's log comments."
+msgstr "Commentaire de l'utilisateur"
+
+#: src/properties.cpp:271
+#, fuzzy
+msgid "markers"
+msgstr "Dur"
+
+#: src/properties.cpp:271
+msgid "An ordered list of markers"
+msgstr ""
+
+#: src/properties.cpp:272
+msgid "contributedMedia"
+msgstr ""
+
+#: src/properties.cpp:272
+msgid "An unordered list of all media used to create this media."
+msgstr ""
+
+#: src/properties.cpp:273
+msgid "absPeakAudioFilePath"
+msgstr ""
+
+#: src/properties.cpp:273
+msgid ""
+"The absolute path to the file's peak audio file. If empty, no peak file "
+"exists."
+msgstr ""
+
+#: src/properties.cpp:274
+msgid "relativePeakAudioFilePath"
+msgstr ""
+
+#: src/properties.cpp:274
+msgid ""
+"The relative path to the file's peak audio file. If empty, no peak file "
+"exists."
+msgstr ""
+
+#: src/properties.cpp:275
+#, fuzzy
+msgid "videoModDate"
+msgstr "Date Minolta"
+
+#: src/properties.cpp:275
+#, fuzzy
+msgid "The date and time when the video was last modified."
+msgstr "La date et l'heure où l'image a été sauvée sous forme digitale."
+
+#: src/properties.cpp:276
+#, fuzzy
+msgid "audioModDate"
+msgstr "Débit audio"
+
+#: src/properties.cpp:276
+#, fuzzy
+msgid "The date and time when the audio was last modified."
+msgstr "La date et l'heure où l'image a été sauvée sous forme digitale."
+
+#: src/properties.cpp:277
+#, fuzzy
+msgid "metadataModDate"
+msgstr "Date Minolta"
+
+#: src/properties.cpp:277
+#, fuzzy
+msgid "The date and time when the metadata was last modified."
+msgstr "La date et l'heure où l'image a été sauvée sous forme digitale."
+
+#: src/properties.cpp:278
+#, fuzzy
+msgid "artist"
+msgstr "Artiste"
+
+#: src/properties.cpp:278
+msgid "The name of the artist or artists."
+msgstr ""
+
+#: src/properties.cpp:279
+#, fuzzy
+msgid "album"
+msgstr "Évaluatif"
+
+#: src/properties.cpp:279
+msgid "The name of the album."
+msgstr ""
+
+#: src/properties.cpp:280
+#, fuzzy
+msgid "trackNumber"
+msgstr "Numéro frame"
+
+#: src/properties.cpp:280
+msgid ""
+"A numeric value indicating the order of the audio file within its original "
+"recording."
+msgstr ""
+
+#: src/properties.cpp:281
+#, fuzzy
+msgid "genre"
+msgstr "Centré"
+
+#: src/properties.cpp:281
+msgid "The name of the genre."
+msgstr ""
+
+#: src/properties.cpp:282
+#, fuzzy
+msgid "copyright"
+msgstr "Droit d'auteur"
+
+#: src/properties.cpp:282
+#, fuzzy
+msgid "The copyright information."
+msgstr "Informations prise de vue"
+
+#: src/properties.cpp:283
+#, fuzzy
+msgid "releaseDate"
+msgstr "Date de publication"
+
+#: src/properties.cpp:283
+#, fuzzy
+msgid "The date the title was released."
+msgstr "La date et l'heure où l'image a été sauvée sous forme digitale."
+
+#: src/properties.cpp:284
+#, fuzzy
+msgid "composer"
+msgstr "composant"
+
+#: src/properties.cpp:284
+msgid "The composer's name."
+msgstr ""
+
+#: src/properties.cpp:285
+#, fuzzy
+msgid "engineer"
+msgstr "centre"
+
+#: src/properties.cpp:285
+msgid "The engineer's name."
+msgstr ""
+
+#: src/properties.cpp:286
+msgid "tempo"
+msgstr ""
+
+#: src/properties.cpp:286
+msgid "The audio's tempo."
+msgstr ""
+
+#: src/properties.cpp:287
+msgid "instrument"
+msgstr ""
+
+#: src/properties.cpp:287
+msgid "The musical instrument."
+msgstr ""
+
+#: src/properties.cpp:288
+#, fuzzy
+msgid "introTime"
+msgstr "Heure Minolta"
+
+#: src/properties.cpp:288
+msgid "The duration of lead time for queuing music."
+msgstr ""
+
+#: src/properties.cpp:289
+msgid "outCue"
+msgstr ""
+
+#: src/properties.cpp:289
+msgid "The time at which to fade out."
+msgstr ""
+
+#: src/properties.cpp:290
+#, fuzzy
+msgid "relativeTimestamp"
+msgstr "mise à jour de l'horodatage"
+
+#: src/properties.cpp:290
+msgid "The start time of the media inside the audio project."
+msgstr ""
+
+#: src/properties.cpp:291
+msgid "loop"
+msgstr ""
+
+#: src/properties.cpp:291
+msgid "When true, the clip can be looped seemlessly."
+msgstr ""
+
+#: src/properties.cpp:292
+msgid "numberOfBeats"
+msgstr ""
+
+#: src/properties.cpp:292
+#, fuzzy
+msgid "The number of beats."
+msgstr "Le nombre F."
+
+#: src/properties.cpp:293
+msgid "key"
+msgstr ""
+
+#: src/properties.cpp:293
+msgid ""
+"The audio's musical key. One of: C, C#, D, D#, E, F, F#, G, G#, A, A#, B."
+msgstr ""
+
+#: src/properties.cpp:294
+#, fuzzy
+msgid "stretchMode"
+msgstr "Mode ajustement"
+
+#: src/properties.cpp:294
+msgid ""
+"The audio stretch mode. One of: Fixed length, Time-Scale, Resample, Beat "
+"Splice, Hybrid."
+msgstr ""
+
+#: src/properties.cpp:295
+msgid "timeScaleParams"
+msgstr ""
+
+#: src/properties.cpp:295
+msgid "Additional parameters for Time-Scale stretch mode."
+msgstr ""
+
+#: src/properties.cpp:296
+msgid "resampleParams"
+msgstr ""
+
+#: src/properties.cpp:296
+msgid "Additional parameters for Resample stretch mode."
+msgstr ""
+
+#: src/properties.cpp:297
+msgid "beatSpliceParams"
+msgstr ""
+
+#: src/properties.cpp:297
+msgid "Additional parameters for Beat Splice stretch mode."
+msgstr ""
+
+#: src/properties.cpp:298
+msgid "timeSignature"
+msgstr ""
+
+#: src/properties.cpp:298
+msgid ""
+"The time signature of the music. One of: 2/4, 3/4, 4/4, 5/4, 7/4, 6/8, 9/8, "
+"12/8, other."
+msgstr ""
+
+#: src/properties.cpp:299
+#, fuzzy
+msgid "scaleType"
+msgstr "Type d'image"
+
+#: src/properties.cpp:299
+msgid ""
+"The musical scale used in the music. One of: Major, Minor, Both, Neither. "
+"Neither is most often used for instruments with no associated scale, such as "
+"drums."
+msgstr ""
+
+#: src/properties.cpp:306
+#, fuzzy
+msgid "Keywords."
+msgstr "Mots-clefs"
+
+#: src/properties.cpp:307
+#, fuzzy
+msgid "PDF Version"
+msgstr "Version du fichier"
+
+#: src/properties.cpp:307
+msgid "The PDF file version (for example: 1.0, 1.3, and so on)."
+msgstr ""
+
+#: src/properties.cpp:308
+#, fuzzy
+msgid "Producer"
+msgstr "Identifiant du produit"
+
+#: src/properties.cpp:308
+msgid "The name of the tool that created the PDF document."
+msgstr ""
+
+#: src/properties.cpp:314
+#, fuzzy
+msgid "Authors Position"
+msgstr "Position mise au point"
+
+#: src/properties.cpp:314
+#, fuzzy
+msgid "By-line title."
+msgstr "Titre du créateur"
+
+#: src/properties.cpp:315
+#, fuzzy
+msgid "Caption Writer"
+msgstr "Légende"
+
+#: src/properties.cpp:315
+#, fuzzy
+msgid "Writer/editor."
+msgstr "Auteur de la Description"
+
+#: src/properties.cpp:316
+msgid "Category. Limited to 3 7-bit ASCII characters."
+msgstr ""
+
+#: src/properties.cpp:317
+#, fuzzy
+msgid "City."
+msgstr "Ville"
+
+#: src/properties.cpp:318
+msgid "Country/primary location."
+msgstr ""
+
+#: src/properties.cpp:319
+#, fuzzy
+msgid "Credit."
+msgstr "Crédit"
+
+#: src/properties.cpp:320
+msgid ""
+"The date the intellectual content of the document was created (rather than "
+"the creation date of the physical representation), following IIM "
+"conventions. For example, a photo taken during the American Civil War would "
+"have a creation date during that epoch (1861-1865) rather than the date the "
+"photo was digitized for archiving."
+msgstr ""
+
+#: src/properties.cpp:324
+#, fuzzy
+msgid "Headline."
+msgstr "Chapô"
+
+#: src/properties.cpp:325
+#, fuzzy
+msgid "Special instructions."
+msgstr "Instructions particulières"
+
+#: src/properties.cpp:326
+#, fuzzy
+msgid "Source."
+msgstr "Source"
+
+#: src/properties.cpp:327
+#, fuzzy
+msgid "State"
+msgstr "Date d'envoi"
+
+#: src/properties.cpp:327
+#, fuzzy
+msgid "Province/state."
+msgstr "État Région"
+
+#: src/properties.cpp:328
+#, fuzzy
+msgid "Supplemental category."
+msgstr "Catégorie Supplémentaire"
+
+#: src/properties.cpp:329
+#, fuzzy
+msgid "Original transmission reference."
+msgstr "Référence de la transmission"
+
+#: src/properties.cpp:330
+msgid "Urgency. Valid range is 1-8."
 msgstr ""
 
 #: src/properties.cpp:442 src/tags.cpp:602 src/nikonmn.cpp:110
