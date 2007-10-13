@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2007-10-13 19:44+0200\n"
+"POT-Creation-Date: 2007-10-13 21:04+0200\n"
 "PO-Revision-Date: 2005-03-12 05:43+0100\n"
 "Last-Translator: Fabian Mandelbaum <fabman@mandrakesoft.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -3232,6 +3232,406 @@ msgstr ""
 msgid "Urgency. Valid range is 1-8."
 msgstr ""
 
+#: src/properties.cpp:337
+msgid "pixels"
+msgstr ""
+
+#: src/properties.cpp:338 src/properties.cpp:510
+#, fuzzy
+msgid "inches"
+msgstr "Pulgada"
+
+#: src/properties.cpp:339 src/tags.cpp:157
+msgid "cm"
+msgstr "cm"
+
+#: src/properties.cpp:343
+#, fuzzy
+msgid "Auto Brightness"
+msgstr "Brillo"
+
+#: src/properties.cpp:343
+msgid "When true, \"Brightness\" is automatically adjusted."
+msgstr ""
+
+#: src/properties.cpp:344
+#, fuzzy
+msgid "Auto Contrast"
+msgstr "Contraste"
+
+#: src/properties.cpp:344
+msgid "When true, \"Contrast\" is automatically adjusted."
+msgstr ""
+
+#: src/properties.cpp:345
+#, fuzzy
+msgid "Auto Exposure"
+msgstr "Modo de exposición"
+
+#: src/properties.cpp:345
+msgid "When true, \"Exposure\" is automatically adjusted."
+msgstr ""
+
+#: src/properties.cpp:346
+#, fuzzy
+msgid "Auto Shadows"
+msgstr "Sombra"
+
+#: src/properties.cpp:346
+msgid "When true,\"Shadows\" is automatically adjusted."
+msgstr ""
+
+#: src/properties.cpp:347
+#, fuzzy
+msgid "Blue Hue"
+msgstr "Balance de blanco"
+
+#: src/properties.cpp:347
+msgid "\"Blue Hue\" setting. Range -100 to 100."
+msgstr ""
+
+#: src/properties.cpp:348
+#, fuzzy
+msgid "Blue Saturation"
+msgstr "Saturación"
+
+#: src/properties.cpp:348
+msgid "\"Blue Saturation\" setting. Range -100 to +100."
+msgstr ""
+
+#: src/properties.cpp:349 src/tags.cpp:753 src/minoltamn.cpp:731
+#: src/minoltamn.cpp:732 src/olympusmn.cpp:206
+msgid "Brightness"
+msgstr "Brillo"
+
+#: src/properties.cpp:349
+msgid "\"Brightness\" setting. Range 0 to +150."
+msgstr ""
+
+#: src/properties.cpp:350
+#, fuzzy
+msgid "Camera Profile"
+msgstr "Espacio de color"
+
+#: src/properties.cpp:350
+#, fuzzy
+msgid "\"Camera Profile\" setting."
+msgstr "Contraste"
+
+#: src/properties.cpp:351
+#, fuzzy
+msgid "Chromatic Aberration Blue"
+msgstr "Alta saturación"
+
+#: src/properties.cpp:351
+msgid ""
+"\"Chomatic Aberration, Fix Blue/Yellow Fringe\" setting. Range -100 to +100."
+msgstr ""
+
+#: src/properties.cpp:352
+#, fuzzy
+msgid "Chromatic Aberration Red"
+msgstr "Alta saturación"
+
+#: src/properties.cpp:352
+msgid ""
+"\"Chomatic Aberration, Fix Red/Cyan Fringe\" setting. Range -100 to +100."
+msgstr ""
+
+#: src/properties.cpp:353
+#, fuzzy
+msgid "Color Noise Reduction"
+msgstr "El flash disparó, modo de reducción de ojos rojos."
+
+#: src/properties.cpp:353
+msgid "\"Color Noise Reducton\" setting. Range 0 to +100."
+msgstr ""
+
+#: src/properties.cpp:354 src/tags.cpp:930 src/canonmn.cpp:457
+#: src/minoltamn.cpp:507 src/minoltamn.cpp:695 src/minoltamn.cpp:696
+#: src/minoltamn.cpp:922 src/minoltamn.cpp:923 src/minoltamn.cpp:1154
+#: src/minoltamn.cpp:1155 src/olympusmn.cpp:320 src/panasonicmn.cpp:248
+#: src/pentaxmn.cpp:736 src/pentaxmn.cpp:826 src/pentaxmn.cpp:827
+#: src/sigmamn.cpp:99 src/sigmamn.cpp:100
+msgid "Contrast"
+msgstr "Contraste"
+
+#: src/properties.cpp:354
+msgid "\"Contrast\" setting. Range -50 to +100."
+msgstr ""
+
+#: src/properties.cpp:355
+msgid "Crop Top"
+msgstr ""
+
+#: src/properties.cpp:355
+msgid "When HasCrop is true, top of crop rectangle"
+msgstr ""
+
+#: src/properties.cpp:356
+#, fuzzy
+msgid "Crop Left"
+msgstr "arriba - izquierda"
+
+#: src/properties.cpp:356
+msgid "When HasCrop is true, left of crop rectangle."
+msgstr ""
+
+#: src/properties.cpp:357
+#, fuzzy
+msgid "Crop Bottom"
+msgstr "izquierda - abajo"
+
+#: src/properties.cpp:357
+msgid "When HasCrop is true, bottom of crop rectangle."
+msgstr ""
+
+#: src/properties.cpp:358
+#, fuzzy
+msgid "Crop Right"
+msgstr "Copyright"
+
+#: src/properties.cpp:358
+msgid "When HasCrop is true, right of crop rectangle."
+msgstr ""
+
+#: src/properties.cpp:359
+msgid "Crop Angle"
+msgstr ""
+
+#: src/properties.cpp:359
+msgid "When HasCrop is true, angle of crop rectangle."
+msgstr ""
+
+#: src/properties.cpp:360
+msgid "Crop Width"
+msgstr ""
+
+#: src/properties.cpp:360
+msgid "Width of resulting cropped image in CropUnits units."
+msgstr ""
+
+#: src/properties.cpp:361
+#, fuzzy
+msgid "Crop Height"
+msgstr "Copyright"
+
+#: src/properties.cpp:361
+msgid "Height of resulting cropped image in CropUnits units."
+msgstr ""
+
+#: src/properties.cpp:362
+msgid "Crop Units"
+msgstr ""
+
+#: src/properties.cpp:362
+msgid "Units for CropWidth and CropHeight. 0=pixels, 1=inches, 2=cm"
+msgstr ""
+
+#: src/properties.cpp:363 src/minoltamn.cpp:506 src/sigmamn.cpp:96
+#: src/sigmamn.cpp:97
+#, fuzzy
+msgid "Exposure"
+msgstr "Modo de exposición"
+
+#: src/properties.cpp:363
+msgid "\"Exposure\" setting. Range -4.0 to +4.0."
+msgstr ""
+
+#: src/properties.cpp:364
+#, fuzzy
+msgid "GreenHue"
+msgstr "Modo de métrica"
+
+#: src/properties.cpp:364
+msgid "\"Green Hue\" setting. Range -100 to +100."
+msgstr ""
+
+#: src/properties.cpp:365
+#, fuzzy
+msgid "Green Saturation"
+msgstr "Saturación"
+
+#: src/properties.cpp:365
+msgid "\"Green Saturation\" setting. Range -100 to +100."
+msgstr ""
+
+#: src/properties.cpp:366
+#, fuzzy
+msgid "Has Crop"
+msgstr "Flash"
+
+#: src/properties.cpp:366
+msgid "When true, image has a cropping rectangle."
+msgstr ""
+
+#: src/properties.cpp:367
+#, fuzzy
+msgid "Has Settings"
+msgstr "Contraste"
+
+#: src/properties.cpp:367
+msgid "When true, non-default camera raw settings."
+msgstr ""
+
+#: src/properties.cpp:368
+msgid "Luminance Smoothing"
+msgstr ""
+
+#: src/properties.cpp:368
+msgid "\"Luminance Smoothing\" setting. Range 0 to +100."
+msgstr ""
+
+#: src/properties.cpp:369
+#, fuzzy
+msgid "Raw File Name"
+msgstr "Nombre del documento"
+
+#: src/properties.cpp:369
+msgid "File name fo raw file (not a complete path)."
+msgstr ""
+
+#: src/properties.cpp:370
+msgid "Red Hue"
+msgstr ""
+
+#: src/properties.cpp:370
+msgid "\"Red Hue\" setting. Range -100 to +100."
+msgstr ""
+
+#: src/properties.cpp:371
+#, fuzzy
+msgid "Red Saturation"
+msgstr "Saturación"
+
+#: src/properties.cpp:371
+msgid "\"Red Saturation\" setting. Range -100 to +100."
+msgstr ""
+
+#: src/properties.cpp:372 src/tags.cpp:934 src/canonmn.cpp:458
+#: src/minoltamn.cpp:508 src/minoltamn.cpp:692 src/minoltamn.cpp:693
+#: src/minoltamn.cpp:925 src/minoltamn.cpp:926 src/minoltamn.cpp:1157
+#: src/minoltamn.cpp:1158 src/nikonmn.cpp:714 src/nikonmn.cpp:715
+#: src/nikonmn.cpp:765 src/nikonmn.cpp:766 src/pentaxmn.cpp:730
+#: src/pentaxmn.cpp:823 src/pentaxmn.cpp:824 src/pentaxmn.cpp:956
+#: src/pentaxmn.cpp:957 src/sigmamn.cpp:108 src/sigmamn.cpp:109
+msgid "Saturation"
+msgstr "Saturación"
+
+#: src/properties.cpp:372
+#, fuzzy
+msgid "\"Saturation\" setting. Range -100 to +100."
+msgstr "Alta saturación"
+
+#: src/properties.cpp:373
+#, fuzzy
+msgid "Shadows"
+msgstr "Sombra"
+
+#: src/properties.cpp:373
+msgid "\"Shadows\" setting. Range 0 to +100."
+msgstr ""
+
+#: src/properties.cpp:374
+#, fuzzy
+msgid "Shadow Tint"
+msgstr "Sombra"
+
+#: src/properties.cpp:374
+msgid "\"Shadow Tint\" setting. Range -100 to +100."
+msgstr ""
+
+#: src/properties.cpp:375 src/tags.cpp:938 src/canonmn.cpp:459
+#: src/fujimn.cpp:196 src/minoltamn.cpp:698 src/minoltamn.cpp:699
+#: src/minoltamn.cpp:919 src/minoltamn.cpp:920 src/minoltamn.cpp:1151
+#: src/minoltamn.cpp:1152 src/pentaxmn.cpp:733 src/pentaxmn.cpp:829
+#: src/pentaxmn.cpp:830 src/sigmamn.cpp:111 src/sigmamn.cpp:112
+msgid "Sharpness"
+msgstr "Nitidez"
+
+#: src/properties.cpp:375
+#, fuzzy
+msgid "\"Sharpness\" setting. Range 0 to +100."
+msgstr "Nitidez"
+
+#: src/properties.cpp:376 src/pentaxmn.cpp:874
+#, fuzzy
+msgid "Temperature"
+msgstr "Espacio de color"
+
+#: src/properties.cpp:376
+msgid "\"Temperature\" setting. Range 2000 to 50000."
+msgstr ""
+
+#: src/properties.cpp:377
+#, fuzzy
+msgid "Tint"
+msgstr "Orden de llenado"
+
+#: src/properties.cpp:377
+msgid "\"Tint\" setting. Range -150 to +150."
+msgstr ""
+
+#: src/properties.cpp:378 src/nikonmn.cpp:696
+msgid "Tone Curve"
+msgstr ""
+
+#: src/properties.cpp:378
+msgid "Array of points (Integer, Integer) defining a \"Tone Curve\"."
+msgstr ""
+
+#: src/properties.cpp:379
+#, fuzzy
+msgid "Tone Curve Name"
+msgstr "Nombre del documento"
+
+#: src/properties.cpp:379
+msgid ""
+"The name of the Tone Curve described by ToneCurve. One of: Linear, Medium "
+"Contrast, Strong Contrast, Custom or a user-defined preset name."
+msgstr ""
+
+#: src/properties.cpp:381 src/fujimn.cpp:186 src/nikonmn.cpp:163
+#: src/nikonmn.cpp:579 src/pentaxmn.cpp:751
+#, fuzzy
+msgid "Version"
+msgstr "Versión Exif"
+
+#: src/properties.cpp:381
+msgid "Version of Camera Raw plugin."
+msgstr ""
+
+#: src/properties.cpp:382
+msgid "Vignette Amount"
+msgstr ""
+
+#: src/properties.cpp:382
+msgid "\"Vignetting Amount\" setting. Range -100 to +100."
+msgstr ""
+
+#: src/properties.cpp:383
+#, fuzzy
+msgid "Vignette Midpoint"
+msgstr "Punto blanco"
+
+#: src/properties.cpp:383
+msgid "\"Vignetting Midpoint\" setting. Range 0 to +100."
+msgstr ""
+
+#: src/properties.cpp:384 src/tags.cpp:908 src/canonmn.cpp:553
+#: src/fujimn.cpp:199 src/minoltamn.cpp:617 src/minoltamn.cpp:895
+#: src/minoltamn.cpp:1133 src/nikonmn.cpp:175 src/nikonmn.cpp:456
+#: src/nikonmn.cpp:591 src/olympusmn.cpp:260 src/panasonicmn.cpp:191
+#: src/sigmamn.cpp:81
+msgid "White Balance"
+msgstr "Balance de blanco"
+
+#: src/properties.cpp:384
+msgid ""
+"\"White Balance\" setting. One of: As Shot, Auto, Daylight, Cloudy, Shade, "
+"Tungsten, Fluorescent, Flash, Custom"
+msgstr ""
+
 #: src/properties.cpp:442 src/tags.cpp:602 src/nikonmn.cpp:110
 #: src/pentaxmn.cpp:479
 msgid "sRGB"
@@ -3420,11 +3820,6 @@ msgstr "D75"
 #: src/properties.cpp:504 src/tags.cpp:565
 msgid "ISO studio tungsten"
 msgstr "tungsteno de estudio ISO"
-
-#: src/properties.cpp:510
-#, fuzzy
-msgid "inches"
-msgstr "Pulgada"
 
 #: src/properties.cpp:511
 #, fuzzy
@@ -3797,10 +4192,6 @@ msgstr ""
 #, fuzzy
 msgid "inch"
 msgstr "Pulgada"
-
-#: src/tags.cpp:157
-msgid "cm"
-msgstr "cm"
 
 #: src/tags.cpp:162
 msgid "Uncompressed"
@@ -5150,11 +5541,6 @@ msgstr ""
 msgid "The lens aperture. The unit is the APEX value."
 msgstr "La apertura de la lente. La unidad es el valor APEX."
 
-#: src/tags.cpp:753 src/minoltamn.cpp:731 src/minoltamn.cpp:732
-#: src/olympusmn.cpp:206
-msgid "Brightness"
-msgstr "Brillo"
-
 #: src/tags.cpp:754
 msgid ""
 "The value of brightness. The unit is the APEX value. Ordinarily it is given "
@@ -5577,13 +5963,6 @@ msgstr ""
 "imagen. En el modo auto-bracketing, la cámara toma una serie de cuadros de "
 "la misma escena con ajustes de exposición diferentes."
 
-#: src/tags.cpp:908 src/canonmn.cpp:553 src/fujimn.cpp:199
-#: src/minoltamn.cpp:617 src/minoltamn.cpp:895 src/minoltamn.cpp:1133
-#: src/nikonmn.cpp:175 src/nikonmn.cpp:456 src/nikonmn.cpp:591
-#: src/olympusmn.cpp:260 src/panasonicmn.cpp:191 src/sigmamn.cpp:81
-msgid "White Balance"
-msgstr "Balance de blanco"
-
 #: src/tags.cpp:909
 msgid "This tag indicates the white balance mode set when the image was shot."
 msgstr ""
@@ -5643,15 +6022,6 @@ msgid "This tag indicates the degree of overall image gain adjustment."
 msgstr ""
 "Esta etiqueta indica el grado del ajuste de ganancia general de imagen."
 
-#: src/tags.cpp:930 src/canonmn.cpp:457 src/minoltamn.cpp:507
-#: src/minoltamn.cpp:695 src/minoltamn.cpp:696 src/minoltamn.cpp:922
-#: src/minoltamn.cpp:923 src/minoltamn.cpp:1154 src/minoltamn.cpp:1155
-#: src/olympusmn.cpp:320 src/panasonicmn.cpp:248 src/pentaxmn.cpp:736
-#: src/pentaxmn.cpp:826 src/pentaxmn.cpp:827 src/sigmamn.cpp:99
-#: src/sigmamn.cpp:100
-msgid "Contrast"
-msgstr "Contraste"
-
 #: src/tags.cpp:931
 msgid ""
 "This tag indicates the direction of contrast processing applied by the "
@@ -5660,16 +6030,6 @@ msgstr ""
 "Esta etiqueta indica la dirección del procesamiento de contraste aplicado "
 "por la cámara cuando se tomó la imagen."
 
-#: src/tags.cpp:934 src/canonmn.cpp:458 src/minoltamn.cpp:508
-#: src/minoltamn.cpp:692 src/minoltamn.cpp:693 src/minoltamn.cpp:925
-#: src/minoltamn.cpp:926 src/minoltamn.cpp:1157 src/minoltamn.cpp:1158
-#: src/nikonmn.cpp:714 src/nikonmn.cpp:715 src/nikonmn.cpp:765
-#: src/nikonmn.cpp:766 src/pentaxmn.cpp:730 src/pentaxmn.cpp:823
-#: src/pentaxmn.cpp:824 src/pentaxmn.cpp:956 src/pentaxmn.cpp:957
-#: src/sigmamn.cpp:108 src/sigmamn.cpp:109
-msgid "Saturation"
-msgstr "Saturación"
-
 #: src/tags.cpp:935
 msgid ""
 "This tag indicates the direction of saturation processing applied by the "
@@ -5677,14 +6037,6 @@ msgid ""
 msgstr ""
 "Esta etiqueta indica la dirección del procesamiento de stauración aplicado "
 "por la cámara cuando se tomó la imagen."
-
-#: src/tags.cpp:938 src/canonmn.cpp:459 src/fujimn.cpp:196
-#: src/minoltamn.cpp:698 src/minoltamn.cpp:699 src/minoltamn.cpp:919
-#: src/minoltamn.cpp:920 src/minoltamn.cpp:1151 src/minoltamn.cpp:1152
-#: src/pentaxmn.cpp:733 src/pentaxmn.cpp:829 src/pentaxmn.cpp:830
-#: src/sigmamn.cpp:111 src/sigmamn.cpp:112
-msgid "Sharpness"
-msgstr "Nitidez"
 
 #: src/tags.cpp:939
 msgid ""
@@ -8080,12 +8432,6 @@ msgstr ""
 msgid "Film simulation mode"
 msgstr ""
 
-#: src/fujimn.cpp:186 src/nikonmn.cpp:163 src/nikonmn.cpp:579
-#: src/pentaxmn.cpp:751
-#, fuzzy
-msgid "Version"
-msgstr "Versión Exif"
-
 #: src/fujimn.cpp:187
 #, fuzzy
 msgid "Fujifilm Makernote version"
@@ -8683,11 +9029,6 @@ msgstr ""
 #, fuzzy
 msgid "Spot focus"
 msgstr "Lugar"
-
-#: src/minoltamn.cpp:506 src/sigmamn.cpp:96 src/sigmamn.cpp:97
-#, fuzzy
-msgid "Exposure"
-msgstr "Modo de exposición"
 
 #: src/minoltamn.cpp:509
 #, fuzzy
@@ -9695,10 +10036,6 @@ msgstr "Auto bracket"
 #, fuzzy
 msgid "Lens FStops"
 msgstr "Espacio de color"
-
-#: src/nikonmn.cpp:696
-msgid "Tone Curve"
-msgstr ""
 
 #: src/nikonmn.cpp:697
 msgid "Tone curve"
@@ -11834,11 +12171,6 @@ msgstr "Modo de exposición"
 #, fuzzy
 msgid "Digital filter"
 msgstr "Relación de zoom digital"
-
-#: src/pentaxmn.cpp:874
-#, fuzzy
-msgid "Temperature"
-msgstr "Espacio de color"
 
 #: src/pentaxmn.cpp:875
 #, fuzzy
