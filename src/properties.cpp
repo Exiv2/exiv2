@@ -311,23 +311,23 @@ namespace Exiv2 {
     };
 
     extern const XmpPropertyInfo xmpPhotoshopInfo[] = {
-        { "AuthorsPosition",  "AuthorsPosition",  "Text",        xmpText,          xmpExternal, "By-line title." },
-        { "CaptionWriter",    "CaptionWriter",    "ProperName",  xmpText,          xmpExternal, "Writer/editor." },
-        { "Category",         "Category",         "Text",        xmpText,          xmpExternal, "Category. Limited to 3 7-bit ASCII characters." },
-        { "City",             "City",             "Text",        xmpText,          xmpExternal, "City." },
-        { "Country",          "Country",          "Text",        xmpText,          xmpExternal, "Country/primary location." },
-        { "Credit",           "Credit",           "Text",        xmpText,          xmpExternal, "Credit." },
-        { "DateCreated",      "DateCreated",      "Date",        xmpText,          xmpExternal, "The date the intellectual content of the document was created (rather than the creation "
-                                                                                                "date of the physical representation), following IIM conventions. For example, a photo "
-                                                                                                "taken during the American Civil War would have a creation date during that epoch "
-                                                                                                "(1861-1865) rather than the date the photo was digitized for archiving." },
-        { "Headline",         "Headline",         "Text",        xmpText,          xmpExternal, "Headline." },
-        { "Instructions",     "Instructions",     "Text",        xmpText,          xmpExternal, "Special instructions." },
-        { "Source",           "Source",           "Text",        xmpText,          xmpExternal, "Source." },
-        { "State",            "State",            "Text",        xmpText,          xmpExternal, "Province/state." },
-        { "SupplementalCategories", "SupplementalCategories", "bag Text", xmpBag,  xmpExternal, "Supplemental category." },
-        { "TransmissionReference", "TransmissionReference", "Text", xmpText,       xmpExternal, "Original transmission reference." },
-        { "Urgency",          "Urgency",          "Integer",     xmpText,          xmpExternal, "Urgency. Valid range is 1-8." },
+        { "AuthorsPosition",        N_("Authors Position"),        "Text",       xmpText, xmpExternal, N_("By-line title.") },
+        { "CaptionWriter",          N_("Caption Writer"),          "ProperName", xmpText, xmpExternal, N_("Writer/editor.") },
+        { "Category",               N_("Category"),                "Text",       xmpText, xmpExternal, N_("Category. Limited to 3 7-bit ASCII characters.") },
+        { "City",                   N_("City"),                    "Text",       xmpText, xmpExternal, N_("City.") },
+        { "Country",                N_("Country"),                 "Text",       xmpText, xmpExternal, N_("Country/primary location.") },
+        { "Credit",                 N_("Credit"),                  "Text",       xmpText, xmpExternal, N_("Credit.") },
+        { "DateCreated",            N_("Date Created"),            "Date",       xmpText, xmpExternal, N_("The date the intellectual content of the document was created (rather than the creation "
+                                                                                                          "date of the physical representation), following IIM conventions. For example, a photo "
+                                                                                                           "taken during the American Civil War would have a creation date during that epoch "
+                                                                                                          "(1861-1865) rather than the date the photo was digitized for archiving.") },
+        { "Headline",               N_("Headline"),                "Text",       xmpText, xmpExternal, N_("Headline.") },
+        { "Instructions",           N_("Instructions"),            "Text",       xmpText, xmpExternal, N_("Special instructions.") },
+        { "Source",                 N_("Source"),                  "Text",       xmpText, xmpExternal, N_("Source.") },
+        { "State",                  N_("State"),                   "Text",       xmpText, xmpExternal, N_("Province/state.") },
+        { "SupplementalCategories", N_("Supplemental Categories"), "bag Text",   xmpBag,  xmpExternal, N_("Supplemental category.") },
+        { "TransmissionReference",  N_("Transmission Reference"),  "Text",       xmpText, xmpExternal, N_("Original transmission reference.") },
+        { "Urgency",                N_("Urgency"),                 "Integer",    xmpText, xmpExternal, N_("Urgency. Valid range is 1-8.") },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
