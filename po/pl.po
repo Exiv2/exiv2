@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2007-10-13 21:58+0200\n"
+"POT-Creation-Date: 2007-10-13 22:02+0200\n"
 "PO-Revision-Date: 2005-03-21 09:30+0100\n"
 "Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -3883,6 +3883,10 @@ msgstr ""
 msgid "uncalibrated"
 msgstr "Nieskalibrowana"
 
+#: src/properties.cpp:449
+msgid "does not exist"
+msgstr ""
+
 #: src/properties.cpp:460
 #, fuzzy
 msgid "not defined"
@@ -3945,9 +3949,9 @@ msgstr "Brak informacji"
 msgid "Average"
 msgstr "Średnia"
 
-#: src/properties.cpp:475
+#: src/properties.cpp:475 src/tags.cpp:536
 #, fuzzy
-msgid "CenterWeightedAverage"
+msgid "Center weighted average"
 msgstr "Średnia centralnie ważona"
 
 #: src/properties.cpp:476 src/tags.cpp:537 src/canonmn.cpp:346
@@ -3958,7 +3962,7 @@ msgstr "Punktowy"
 
 #: src/properties.cpp:477
 #, fuzzy
-msgid "MultiSpot"
+msgid "Multi spot"
 msgstr "Wielopunktowy"
 
 #: src/properties.cpp:478
@@ -5315,11 +5319,6 @@ msgstr "Nieznany znacznik."
 #: src/pentaxmn.cpp:67 src/pentaxmn.cpp:192 src/pentaxmn.cpp:257
 msgid "Auto"
 msgstr "Auto"
-
-#: src/tags.cpp:536
-#, fuzzy
-msgid "Center weighted average"
-msgstr "Średnia centralnie ważona"
 
 #: src/tags.cpp:538
 #, fuzzy
@@ -12609,6 +12608,14 @@ msgstr ""
 #, fuzzy
 msgid "Unknown SonyMakerNote tag"
 msgstr "Nieznana wersja Exif"
+
+#, fuzzy
+#~ msgid "CenterWeightedAverage"
+#~ msgstr "Średnia centralnie ważona"
+
+#, fuzzy
+#~ msgid "MultiSpot"
+#~ msgstr "Wielopunktowy"
 
 #, fuzzy
 #~ msgid "Color balance 1"

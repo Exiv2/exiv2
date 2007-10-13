@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2007-10-13 21:58+0200\n"
+"POT-Creation-Date: 2007-10-13 22:02+0200\n"
 "PO-Revision-Date: 2006-12-18 16:08+0200\n"
 "Last-Translator: Mikael Lammentausta\n"
 "Language-Team:  <fi@li.org>\n"
@@ -3682,6 +3682,10 @@ msgstr ""
 msgid "uncalibrated"
 msgstr ""
 
+#: src/properties.cpp:449
+msgid "does not exist"
+msgstr ""
+
 #: src/properties.cpp:460
 msgid "not defined"
 msgstr ""
@@ -3737,8 +3741,8 @@ msgstr ""
 msgid "Average"
 msgstr ""
 
-#: src/properties.cpp:475
-msgid "CenterWeightedAverage"
+#: src/properties.cpp:475 src/tags.cpp:536
+msgid "Center weighted average"
 msgstr ""
 
 #: src/properties.cpp:476 src/tags.cpp:537 src/canonmn.cpp:346
@@ -3748,7 +3752,7 @@ msgid "Spot"
 msgstr ""
 
 #: src/properties.cpp:477
-msgid "MultiSpot"
+msgid "Multi spot"
 msgstr ""
 
 #: src/properties.cpp:478
@@ -4917,10 +4921,6 @@ msgstr ""
 #: src/olympusmn.cpp:534 src/panasonicmn.cpp:73 src/panasonicmn.cpp:84
 #: src/pentaxmn.cpp:67 src/pentaxmn.cpp:192 src/pentaxmn.cpp:257
 msgid "Auto"
-msgstr ""
-
-#: src/tags.cpp:536
-msgid "Center weighted average"
 msgstr ""
 
 #: src/tags.cpp:538
