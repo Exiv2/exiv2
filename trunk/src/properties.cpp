@@ -446,13 +446,13 @@ namespace Exiv2 {
 
     //! exif:ComponentsConfiguration
     extern const TagDetails xmpExifComponentsConfiguration[] = {
-        { 0, "does not exist" },
-        { 1, "Y"              },
-        { 2, "Cb"             },
-        { 3, "Cr"             },
-        { 4, "R"              },
-        { 5, "G"              },
-        { 6, "B"              }
+        { 0, N_("does not exist") },
+        { 1, "Y"                  },
+        { 2, "Cb"                 },
+        { 3, "Cr"                 },
+        { 4, "R"                  },
+        { 5, "G"                  },
+        { 6, "B"                  }
     };
 
     //! exif:ExposureProgram
@@ -470,14 +470,14 @@ namespace Exiv2 {
 
     //! exif:MeteringMode
     extern const TagDetails xmpExifMeteringMode[] = {
-        { 0, N_("unknown")              },
-        { 1, N_("Average")               },
-        { 2, N_("CenterWeightedAverage") },
-        { 3, N_("Spot")                  },
-        { 4, N_("MultiSpot")             },
-        { 5, N_("Pattern")               },
-        { 6, N_("Partial")               },
-        { 255, N_("other")               }
+        { 0,   N_("unknown")                 },
+        { 1,   N_("Average")                 },
+        { 2,   N_("Center weighted average") },
+        { 3,   N_("Spot")                    },
+        { 4,   N_("Multi spot")              },
+        { 5,   N_("Pattern")                 },
+        { 6,   N_("Partial")                 },
+        { 255, N_("other")                   }
     };
 
     //! exif:LightSource
