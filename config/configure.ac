@@ -154,6 +154,9 @@ ENABLE_XMP=
 if test "$USE_XMP_TOOLKIT" = "yes"; then
     # Check for expat library
     found_expat=yes
+    EXPAT_CPPFLAGS=
+    EXPAT_LDFLAGS=
+    EXPAT_LIBS=
     if test "$with_expat" != "no"; then
         AC_CHECK_HEADERS(expat.h,
             AC_CHECK_LIB(expat, XML_ParserCreate,[
