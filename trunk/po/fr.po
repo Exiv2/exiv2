@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2007-10-13 21:58+0200\n"
+"POT-Creation-Date: 2007-10-13 22:02+0200\n"
 "PO-Revision-Date: 2007-08-19 18:48+0200\n"
 "Last-Translator: Olivier Tilloy <olivier@tilloy.net>\n"
 "Language-Team: French\n"
@@ -3943,6 +3943,10 @@ msgstr "Adobe RGB"
 msgid "uncalibrated"
 msgstr "Non calibré"
 
+#: src/properties.cpp:449
+msgid "does not exist"
+msgstr ""
+
 #: src/properties.cpp:460
 #, fuzzy
 msgid "not defined"
@@ -4001,9 +4005,8 @@ msgstr "Inconnu"
 msgid "Average"
 msgstr "Moyenne"
 
-#: src/properties.cpp:475
-#, fuzzy
-msgid "CenterWeightedAverage"
+#: src/properties.cpp:475 src/tags.cpp:536
+msgid "Center weighted average"
 msgstr "Moyenne pondérée au centre"
 
 #: src/properties.cpp:476 src/tags.cpp:537 src/canonmn.cpp:346
@@ -4014,7 +4017,7 @@ msgstr "Spot"
 
 #: src/properties.cpp:477
 #, fuzzy
-msgid "MultiSpot"
+msgid "Multi spot"
 msgstr "Multi-spots"
 
 #: src/properties.cpp:478
@@ -5280,10 +5283,6 @@ msgstr "Marqueur IFD inconnu"
 #: src/pentaxmn.cpp:67 src/pentaxmn.cpp:192 src/pentaxmn.cpp:257
 msgid "Auto"
 msgstr "Automatique"
-
-#: src/tags.cpp:536
-msgid "Center weighted average"
-msgstr "Moyenne pondérée au centre"
 
 #: src/tags.cpp:538
 msgid "Multi-spot"
@@ -11824,6 +11823,14 @@ msgstr "8-segments"
 #: src/sonymn.cpp:92
 msgid "Unknown SonyMakerNote tag"
 msgstr "Marqueur de note du fabriquant Sony inconnu"
+
+#, fuzzy
+#~ msgid "CenterWeightedAverage"
+#~ msgstr "Moyenne pondérée au centre"
+
+#, fuzzy
+#~ msgid "MultiSpot"
+#~ msgstr "Multi-spots"
 
 #~ msgid "Jpeg comment"
 #~ msgstr "Commentaire Jpeg"

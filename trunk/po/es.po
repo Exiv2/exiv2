@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2007-10-13 21:58+0200\n"
+"POT-Creation-Date: 2007-10-13 22:02+0200\n"
 "PO-Revision-Date: 2005-03-12 05:43+0100\n"
 "Last-Translator: Fabian Mandelbaum <fabman@mandrakesoft.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -3883,6 +3883,10 @@ msgstr ""
 msgid "uncalibrated"
 msgstr "Descalibrado"
 
+#: src/properties.cpp:449
+msgid "does not exist"
+msgstr ""
+
 #: src/properties.cpp:460
 #, fuzzy
 msgid "not defined"
@@ -3943,9 +3947,9 @@ msgstr "desconocido"
 msgid "Average"
 msgstr "Promedio"
 
-#: src/properties.cpp:475
+#: src/properties.cpp:475 src/tags.cpp:536
 #, fuzzy
-msgid "CenterWeightedAverage"
+msgid "Center weighted average"
 msgstr "Promedio Ponderado en el Centro"
 
 #: src/properties.cpp:476 src/tags.cpp:537 src/canonmn.cpp:346
@@ -3956,8 +3960,8 @@ msgstr "Lugar"
 
 #: src/properties.cpp:477
 #, fuzzy
-msgid "MultiSpot"
-msgstr "Multi Lugar"
+msgid "Multi spot"
+msgstr "multi-lugar"
 
 #: src/properties.cpp:478
 #, fuzzy
@@ -5316,11 +5320,6 @@ msgstr "Desconocido"
 #, fuzzy
 msgid "Auto"
 msgstr "acción"
-
-#: src/tags.cpp:536
-#, fuzzy
-msgid "Center weighted average"
-msgstr "Promedio Ponderado en el Centro"
 
 #: src/tags.cpp:538
 #, fuzzy
@@ -12563,6 +12562,14 @@ msgstr "multi-lugar"
 #, fuzzy
 msgid "Unknown SonyMakerNote tag"
 msgstr "Versión Exif"
+
+#, fuzzy
+#~ msgid "CenterWeightedAverage"
+#~ msgstr "Promedio Ponderado en el Centro"
+
+#, fuzzy
+#~ msgid "MultiSpot"
+#~ msgstr "Multi Lugar"
 
 #, fuzzy
 #~ msgid "Color balance 1"

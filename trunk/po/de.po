@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2007-10-13 21:58+0200\n"
+"POT-Creation-Date: 2007-10-13 22:02+0200\n"
 "PO-Revision-Date: 2007-10-05 20:36+0200\n"
 "Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
 "Language-Team: german <kde-i18n-de@kde.org>\n"
@@ -3980,6 +3980,10 @@ msgstr "Adobe RGB"
 msgid "uncalibrated"
 msgstr "Unkalibriert"
 
+#: src/properties.cpp:449
+msgid "does not exist"
+msgstr ""
+
 #: src/properties.cpp:460
 msgid "not defined"
 msgstr "Undefiniert"
@@ -4035,9 +4039,9 @@ msgstr "Unbekannt"
 msgid "Average"
 msgstr "Durchschnitt"
 
-#: src/properties.cpp:475
-msgid "CenterWeightedAverage"
-msgstr "MittelGewichteterDurchschnitt"
+#: src/properties.cpp:475 src/tags.cpp:536
+msgid "Center weighted average"
+msgstr "Mittelpunkt gewichteter Durchschnitt"
 
 #: src/properties.cpp:476 src/tags.cpp:537 src/canonmn.cpp:346
 #: src/minoltamn.cpp:369 src/minoltamn.cpp:1028 src/minoltamn.cpp:1081
@@ -4046,8 +4050,9 @@ msgid "Spot"
 msgstr "Punkt"
 
 #: src/properties.cpp:477
-msgid "MultiSpot"
-msgstr "Mehrpunkt"
+#, fuzzy
+msgid "Multi spot"
+msgstr "Mehr-Punkt"
 
 #: src/properties.cpp:478
 msgid "Pattern"
@@ -5336,10 +5341,6 @@ msgstr "Unbekanntes IFD-Stichwort"
 #: src/pentaxmn.cpp:67 src/pentaxmn.cpp:192 src/pentaxmn.cpp:257
 msgid "Auto"
 msgstr "Automatisch"
-
-#: src/tags.cpp:536
-msgid "Center weighted average"
-msgstr "Mittelpunkt gewichteter Durchschnitt"
 
 #: src/tags.cpp:538
 msgid "Multi-spot"
@@ -11813,3 +11814,9 @@ msgstr "8-Segment"
 #: src/sonymn.cpp:92
 msgid "Unknown SonyMakerNote tag"
 msgstr "Unbekantes Herstellerbemerkungsfeld von Sony"
+
+#~ msgid "CenterWeightedAverage"
+#~ msgstr "MittelGewichteterDurchschnitt"
+
+#~ msgid "MultiSpot"
+#~ msgstr "Mehrpunkt"

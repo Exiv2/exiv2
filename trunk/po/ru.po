@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2007-10-13 21:58+0200\n"
+"POT-Creation-Date: 2007-10-13 22:02+0200\n"
 "PO-Revision-Date: 2007-07-03 11:44+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -3842,6 +3842,10 @@ msgstr "Adobe RGB"
 msgid "uncalibrated"
 msgstr "Не откалибровано"
 
+#: src/properties.cpp:449
+msgid "does not exist"
+msgstr ""
+
 #: src/properties.cpp:460
 #, fuzzy
 msgid "not defined"
@@ -3901,9 +3905,9 @@ msgstr "Неизвестно"
 msgid "Average"
 msgstr "Средний"
 
-#: src/properties.cpp:475
+#: src/properties.cpp:475 src/tags.cpp:536
 #, fuzzy
-msgid "CenterWeightedAverage"
+msgid "Center weighted average"
 msgstr "Центрально-взвешенный средний"
 
 #: src/properties.cpp:476 src/tags.cpp:537 src/canonmn.cpp:346
@@ -3913,7 +3917,7 @@ msgid "Spot"
 msgstr ""
 
 #: src/properties.cpp:477
-msgid "MultiSpot"
+msgid "Multi spot"
 msgstr ""
 
 #: src/properties.cpp:478
@@ -5194,11 +5198,6 @@ msgstr "Неизвестное поле IFD"
 #: src/pentaxmn.cpp:67 src/pentaxmn.cpp:192 src/pentaxmn.cpp:257
 msgid "Auto"
 msgstr "Авто"
-
-#: src/tags.cpp:536
-#, fuzzy
-msgid "Center weighted average"
-msgstr "Центрально-взвешенный средний"
 
 #: src/tags.cpp:538
 msgid "Multi-spot"
@@ -12175,6 +12174,10 @@ msgstr ""
 #: src/sonymn.cpp:92
 msgid "Unknown SonyMakerNote tag"
 msgstr ""
+
+#, fuzzy
+#~ msgid "CenterWeightedAverage"
+#~ msgstr "Центрально-взвешенный средний"
 
 #~ msgid "Jpeg comment"
 #~ msgstr "Комментарий JPEG"
