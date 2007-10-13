@@ -388,51 +388,51 @@ namespace Exiv2 {
     };
 
     extern const XmpPropertyInfo xmpTiffInfo[] = {
-        { "ImageWidth",       "ImageWidth",       "Integer",     xmpText,          xmpInternal, "TIFF tag 256, 0x100. Image width in pixels." },
-        { "ImageLength",      "ImageLength",      "Integer",     xmpText,          xmpInternal, "TIFF tag 257, 0x101. Image height in pixels." },
-        { "BitsPerSample",    "BitsPerSample",    "seq Integer", xmpSeq,           xmpInternal, "TIFF tag 258, 0x102. Number of bits per component in each channel." },
-        { "Compression",      "Compression",      "Closed Choice of Integer", xmpText, xmpInternal, "TIFF tag 259, 0x103. Compression scheme: 1 = uncompressed; 6 = JPEG." },
-        { "PhotometricInterpretation", "PhotometricInterpretation", "Closed Choice of Integer", xmpText, xmpInternal, "TIFF tag 262, 0x106. Pixel Composition: 2 = RGB; 6 = YCbCr." },
-        { "Orientation",      "Orientation",      "Closed Choice of Integer", xmpText, xmpInternal, "TIFF tag 274, 0x112. Orientation:"
-                                                                                                "1 = 0th row at top, 0th column at left "
-                                                                                                "2 = 0th row at top, 0th column at right "
-                                                                                                "3 = 0th row at bottom, 0th column at right "
-                                                                                                "4 = 0th row at bottom, 0th column at left "
-                                                                                                "5 = 0th row at left, 0th column at top "
-                                                                                                "6 = 0th row at right, 0th column at top "
-                                                                                                "7 = 0th row at right, 0th column at bottom "
-                                                                                                "8 = 0th row at left, 0th column at bottom" },
-        { "SamplesPerPixel",  "SamplesPerPixel",  "Integer",     xmpText,          xmpInternal, "TIFF tag 277, 0x115. Number of components per pixel." },
-        { "PlanarConfiguration", "PlanarConfiguration", "Closed Choice of Integer", xmpText, xmpInternal, "TIFF tag 284, 0x11C. Data layout:1 = chunky; 2 = planar." },
-        { "YCbCrSubSampling", "YCbCrSubSampling", "Closed Choice of seq Integer", xmpSeq, xmpInternal, "TIFF tag 530, 0x212. Sampling ratio of chrominance "
-                                                                                                "components: [2, 1] = YCbCr4:2:2; [2, 2] = YCbCr4:2:0" },
-        { "YCbCrPositioning", "YCbCrPositioning", "Closed Choice of Integer", xmpText, xmpInternal, "TIFF tag 531, 0x213. Position of chrominance vs. "
-                                                                                                "luminance components: 1 = centered; 2 = co-sited." },
-        { "XResolution",      "XResolution",      "Rational",    xmpText,          xmpInternal, "TIFF tag 282, 0x11A. Horizontal resolution in pixels per unit." },
-        { "YResolution",      "YResolution",      "Rational",    xmpText,          xmpInternal, "TIFF tag 283, 0x11B. Vertical resolution in pixels per unit." },
-        { "ResolutionUnit",   "ResolutionUnit",   "Closed Choice of Integer", xmpText, xmpInternal, "TIFF tag 296, 0x128. Unit used for XResolution and "
-                                                                                                "YResolution. Value is one of: 2 = inches; 3 = centimeters." },
-        { "TransferFunction", "TransferFunction", "seq Integer", xmpSeq,           xmpInternal, "TIFF tag 301, 0x12D. Transfer function for image "
-                                                                                                "described in tabular style with 3 * 256 entries." },
-        { "WhitePoint",       "WhitePoint",       "seq Rational", xmpSeq,          xmpInternal, "TIFF tag 318, 0x13E. Chromaticity of white point." },
-        { "PrimaryChromaticities", "PrimaryChromaticities", "seq Rational", xmpSeq, xmpInternal, "TIFF tag 319, 0x13F. Chromaticity of the three primary colors." },
-        { "YCbCrCoefficients", "YCbCrCoefficients", "seq Rational", xmpSeq,        xmpInternal, "TIFF tag 529, 0x211. Matrix coefficients for RGB to YCbCr transformation." },
-        { "ReferenceBlackWhite", "ReferenceBlackWhite", "seq Rational", xmpSeq,    xmpInternal, "TIFF tag 532, 0x214. Reference black and white point values." },
-        { "DateTime",         "DateTime",         "Date",        date,             xmpInternal, "TIFF tag 306, 0x132 (primary) and EXIF tag 37520, "
-                                                                                                "0x9290 (subseconds). Date and time of image creation "
-                                                                                                "(no time zone in EXIF), stored in ISO 8601 format, not "
-                                                                                                "the original EXIF format. This property includes the "
-                                                                                                "value for the EXIF SubSecTime attribute. "
-                                                                                                "NOTE: This property is stored in XMP as xmp:ModifyDate." },
-        { "ImageDescription", "ImageDescription", "Lang Alt",    langAlt,          xmpExternal, "TIFF tag 270, 0x10E. Description of the image. Note: This property is stored in XMP as dc:description." },
-        { "Make",             "Make",             "ProperName",  xmpText,          xmpInternal, "TIFF tag 271, 0x10F. Manufacturer of recording equipment." },
-        { "Model",            "Model",            "ProperName",  xmpText,          xmpInternal, "TIFF tag 272, 0x110. Model name or number of equipment." },
-        { "Software",         "Software",         "AgentName",   xmpText,          xmpInternal, "TIFF tag 305, 0x131. Software or firmware used to generate image. "
-                                                                                                "Note: This property is stored in XMP as xmp:CreatorTool. " },
-        { "Artist",           "Artist",           "ProperName",  xmpText,          xmpExternal, "TIFF tag 315, 0x13B. Camera owner, photographer or image creator. "
-                                                                                                "Note: This property is stored in XMP as the first item in the dc:creator array." },
-        { "Copyright",        "Copyright",        "Lang Alt",    langAlt,          xmpExternal, "TIFF tag 33432, 0x8298. Copyright information. "
-                                                                                                "Note: This property is stored in XMP as dc:rights." },
+        { "ImageWidth",                N_("Image Width"),                "Integer",                      xmpText, xmpInternal, N_("TIFF tag 256, 0x100. Image width in pixels.") },
+        { "ImageLength",               N_("Image Length"),               "Integer",                      xmpText, xmpInternal, N_("TIFF tag 257, 0x101. Image height in pixels.") },
+        { "BitsPerSample",             N_("Bits Per Sample"),            "seq Integer",                  xmpSeq,  xmpInternal, N_("TIFF tag 258, 0x102. Number of bits per component in each channel.") },
+        { "Compression",               N_("Compression"),                "Closed Choice of Integer",     xmpText, xmpInternal, N_("TIFF tag 259, 0x103. Compression scheme: 1 = uncompressed; 6 = JPEG.") },
+        { "PhotometricInterpretation", N_("Photometric Interpretation"), "Closed Choice of Integer",     xmpText, xmpInternal, N_("TIFF tag 262, 0x106. Pixel Composition: 2 = RGB; 6 = YCbCr.") },
+        { "Orientation",               N_("Orientation"),                "Closed Choice of Integer",     xmpText, xmpInternal, N_("TIFF tag 274, 0x112. Orientation:"
+                                                                                                                                  "1 = 0th row at top, 0th column at left "
+                                                                                                                                  "2 = 0th row at top, 0th column at right "
+                                                                                                                                  "3 = 0th row at bottom, 0th column at right "
+                                                                                                                                  "4 = 0th row at bottom, 0th column at left "
+                                                                                                                                  "5 = 0th row at left, 0th column at top "
+                                                                                                                                  "6 = 0th row at right, 0th column at top "
+                                                                                                                                  "7 = 0th row at right, 0th column at bottom "
+                                                                                                                                  "8 = 0th row at left, 0th column at bottom") },
+        { "SamplesPerPixel",           N_("Samples Per Pixel"),          "Integer",                      xmpText, xmpInternal, N_("TIFF tag 277, 0x115. Number of components per pixel.") },
+        { "PlanarConfiguration",       N_("Planar Configuration"),       "Closed Choice of Integer",     xmpText, xmpInternal, N_("TIFF tag 284, 0x11C. Data layout:1 = chunky; 2 = planar.") },
+        { "YCbCrSubSampling",          N_("YCbCr Sub Sampling"),         "Closed Choice of seq Integer", xmpSeq,  xmpInternal, N_("TIFF tag 530, 0x212. Sampling ratio of chrominance "
+                                                                                                                                  "components: [2, 1] = YCbCr4:2:2; [2, 2] = YCbCr4:2:0") },
+        { "YCbCrPositioning",          N_("YCbCr Positioning"),          "Closed Choice of Integer",     xmpText, xmpInternal, N_("TIFF tag 531, 0x213. Position of chrominance vs. "
+                                                                                                                                  "luminance components: 1 = centered; 2 = co-sited.") },
+        { "XResolution",               N_("X Resolution"),               "Rational",                     xmpText, xmpInternal, N_("TIFF tag 282, 0x11A. Horizontal resolution in pixels per unit.") },
+        { "YResolution",               N_("Y Resolution"),               "Rational",                     xmpText, xmpInternal, N_("TIFF tag 283, 0x11B. Vertical resolution in pixels per unit.") },
+        { "ResolutionUnit",            N_("Resolution Unit"),            "Closed Choice of Integer",     xmpText, xmpInternal, N_("TIFF tag 296, 0x128. Unit used for XResolution and "
+                                                                                                                                  "YResolution. Value is one of: 2 = inches; 3 = centimeters.") },
+        { "TransferFunction",          N_("Transfer Function"),          "seq Integer",                  xmpSeq,  xmpInternal, N_("TIFF tag 301, 0x12D. Transfer function for image "
+                                                                                                                                  "described in tabular style with 3 * 256 entries.") },
+        { "WhitePoint",                N_("White Point"),                "seq Rational",                 xmpSeq,  xmpInternal, N_("TIFF tag 318, 0x13E. Chromaticity of white point.") },
+        { "PrimaryChromaticities",     N_("Primary Chromaticities"),     "seq Rational",                 xmpSeq,  xmpInternal, N_("TIFF tag 319, 0x13F. Chromaticity of the three primary colors.") },
+        { "YCbCrCoefficients",         N_("YCbCr Coefficients"),         "seq Rational",                 xmpSeq,  xmpInternal, N_("TIFF tag 529, 0x211. Matrix coefficients for RGB to YCbCr transformation.") },
+        { "ReferenceBlackWhite",       N_("Reference Black White"),      "seq Rational",                 xmpSeq,  xmpInternal, N_("TIFF tag 532, 0x214. Reference black and white point values.") },
+        { "DateTime",                  N_("Date Time"),                  "Date",                         date,    xmpInternal, N_("TIFF tag 306, 0x132 (primary) and EXIF tag 37520, "
+                                                                                                                                  "0x9290 (subseconds). Date and time of image creation "
+                                                                                                                                  "(no time zone in EXIF), stored in ISO 8601 format, not "
+                                                                                                                                  "the original EXIF format. This property includes the "
+                                                                                                                                  "value for the EXIF SubSecTime attribute. "
+                                                                                                                                  "NOTE: This property is stored in XMP as xmp:ModifyDate.") },
+        { "ImageDescription",          N_("Image Description"),          "Lang Alt",                     langAlt, xmpExternal, N_("TIFF tag 270, 0x10E. Description of the image. Note: This property is stored in XMP as dc:description.") },
+        { "Make",                      N_("Make"),                       "ProperName",                   xmpText, xmpInternal, N_("TIFF tag 271, 0x10F. Manufacturer of recording equipment.") },
+        { "Model",                     N_("Model"),                      "ProperName",                   xmpText, xmpInternal, N_("TIFF tag 272, 0x110. Model name or number of equipment.") },
+        { "Software",                  N_("Software"),                   "AgentName",                    xmpText, xmpInternal, N_("TIFF tag 305, 0x131. Software or firmware used to generate image. "
+                                                                                                                                  "Note: This property is stored in XMP as xmp:CreatorTool. ") },
+        { "Artist",                    N_("Artist"),                     "ProperName",                   xmpText, xmpExternal, N_("TIFF tag 315, 0x13B. Camera owner, photographer or image creator. "
+                                                                                                                                  "Note: This property is stored in XMP as the first item in the dc:creator array.") },
+        { "Copyright",                 N_("Copyright"),                  "Lang Alt",                     langAlt, xmpExternal, N_("TIFF tag 33432, 0x8298. Copyright information. "
+                                                                                                                                  "Note: This property is stored in XMP as dc:rights.") },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
