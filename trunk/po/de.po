@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2007-10-13 21:04+0200\n"
+"POT-Creation-Date: 2007-10-13 21:58+0200\n"
 "PO-Revision-Date: 2007-10-05 20:36+0200\n"
 "Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
 "Language-Team: german <kde-i18n-de@kde.org>\n"
@@ -146,7 +146,8 @@ msgstr "Vorschau"
 msgid "None"
 msgstr "Keine"
 
-#: src/actions.cpp:552 src/datasets.cpp:376 src/tags.cpp:449
+#: src/actions.cpp:552 src/datasets.cpp:376 src/properties.cpp:434
+#: src/tags.cpp:449
 msgid "Copyright"
 msgstr "Copyright"
 
@@ -3732,6 +3733,239 @@ msgid ""
 "Tungsten, Fluorescent, Flash, Custom"
 msgstr ""
 
+#: src/properties.cpp:391 src/tags.cpp:239 src/canonmn.cpp:656
+#: src/olympusmn.cpp:335
+msgid "Image Width"
+msgstr "Bildbreite"
+
+#: src/properties.cpp:391
+msgid "TIFF tag 256, 0x100. Image width in pixels."
+msgstr ""
+
+#: src/properties.cpp:392 src/tags.cpp:244
+msgid "Image Length"
+msgstr "Bildlänge"
+
+#: src/properties.cpp:392
+msgid "TIFF tag 257, 0x101. Image height in pixels."
+msgstr ""
+
+#: src/properties.cpp:393
+#, fuzzy
+msgid "Bits Per Sample"
+msgstr "Bits per Sample."
+
+#: src/properties.cpp:393
+msgid "TIFF tag 258, 0x102. Number of bits per component in each channel."
+msgstr ""
+
+#: src/properties.cpp:394 src/tags.cpp:254
+msgid "Compression"
+msgstr "Kompression"
+
+#: src/properties.cpp:394
+msgid "TIFF tag 259, 0x103. Compression scheme: 1 = uncompressed; 6 = JPEG."
+msgstr ""
+
+#: src/properties.cpp:395 src/tags.cpp:260
+msgid "Photometric Interpretation"
+msgstr "Fotometrische Interpretation"
+
+#: src/properties.cpp:395
+msgid "TIFF tag 262, 0x106. Pixel Composition: 2 = RGB; 6 = YCbCr."
+msgstr ""
+
+#: src/properties.cpp:396 src/tags.cpp:296
+msgid "Orientation"
+msgstr "Orientierung"
+
+#: src/properties.cpp:396
+msgid ""
+"TIFF tag 274, 0x112. Orientation:1 = 0th row at top, 0th column at left 2 = "
+"0th row at top, 0th column at right 3 = 0th row at bottom, 0th column at "
+"right 4 = 0th row at bottom, 0th column at left 5 = 0th row at left, 0th "
+"column at top 6 = 0th row at right, 0th column at top 7 = 0th row at right, "
+"0th column at bottom 8 = 0th row at left, 0th column at bottom"
+msgstr ""
+
+#: src/properties.cpp:405
+#, fuzzy
+msgid "Samples Per Pixel"
+msgstr "Samples pro Pixel"
+
+#: src/properties.cpp:405
+msgid "TIFF tag 277, 0x115. Number of components per pixel."
+msgstr ""
+
+#: src/properties.cpp:406 src/tags.cpp:322
+msgid "Planar Configuration"
+msgstr "Planar Konfiguration"
+
+#: src/properties.cpp:406
+msgid "TIFF tag 284, 0x11C. Data layout:1 = chunky; 2 = planar."
+msgstr ""
+
+#: src/properties.cpp:407
+#, fuzzy
+msgid "YCbCr Sub Sampling"
+msgstr "YCbCr Sub Sampling"
+
+#: src/properties.cpp:407
+msgid ""
+"TIFF tag 530, 0x212. Sampling ratio of chrominance components: [2, 1] = "
+"YCbCr4:2:2; [2, 2] = YCbCr4:2:0"
+msgstr ""
+
+#: src/properties.cpp:409 src/tags.cpp:402
+msgid "YCbCr Positioning"
+msgstr "YCbCr Positionierung"
+
+#: src/properties.cpp:409
+msgid ""
+"TIFF tag 531, 0x213. Position of chrominance vs. luminance components: 1 = "
+"centered; 2 = co-sited."
+msgstr ""
+
+#: src/properties.cpp:411
+#, fuzzy
+msgid "X Resolution"
+msgstr "Auflösung in x-Richtung"
+
+#: src/properties.cpp:411
+msgid "TIFF tag 282, 0x11A. Horizontal resolution in pixels per unit."
+msgstr ""
+
+#: src/properties.cpp:412
+#, fuzzy
+msgid "Y Resolution"
+msgstr "Auflösung in y-Richtung"
+
+#: src/properties.cpp:412
+msgid "TIFF tag 283, 0x11B. Vertical resolution in pixels per unit."
+msgstr ""
+
+#: src/properties.cpp:413 src/tags.cpp:328
+msgid "Resolution Unit"
+msgstr "Maßeinheit der Auflösung"
+
+#: src/properties.cpp:413
+msgid ""
+"TIFF tag 296, 0x128. Unit used for XResolution and YResolution. Value is one "
+"of: 2 = inches; 3 = centimeters."
+msgstr ""
+
+#: src/properties.cpp:415 src/tags.cpp:333
+msgid "Transfer Function"
+msgstr "(Farb)transfer Funktion"
+
+#: src/properties.cpp:415
+msgid ""
+"TIFF tag 301, 0x12D. Transfer function for image described in tabular style "
+"with 3 * 256 entries."
+msgstr ""
+
+#: src/properties.cpp:417 src/tags.cpp:357
+msgid "White Point"
+msgstr "Weißpunkt"
+
+#: src/properties.cpp:417
+msgid "TIFF tag 318, 0x13E. Chromaticity of white point."
+msgstr ""
+
+#: src/properties.cpp:418 src/tags.cpp:362
+msgid "Primary Chromaticities"
+msgstr "Primäre Chromazität"
+
+#: src/properties.cpp:418
+msgid "TIFF tag 319, 0x13F. Chromaticity of the three primary colors."
+msgstr ""
+
+#: src/properties.cpp:419 src/tags.cpp:388
+msgid "YCbCr Coefficients"
+msgstr "YCbCr Koeffizienten"
+
+#: src/properties.cpp:419
+msgid ""
+"TIFF tag 529, 0x211. Matrix coefficients for RGB to YCbCr transformation."
+msgstr ""
+
+#: src/properties.cpp:420
+#, fuzzy
+msgid "Reference Black White"
+msgstr "Schwarz/Weiß Referenz"
+
+#: src/properties.cpp:420
+msgid "TIFF tag 532, 0x214. Reference black and white point values."
+msgstr ""
+
+#: src/properties.cpp:421
+#, fuzzy
+msgid "Date Time"
+msgstr "Datum und Uhrzeit"
+
+#: src/properties.cpp:421
+msgid ""
+"TIFF tag 306, 0x132 (primary) and EXIF tag 37520, 0x9290 (subseconds). Date "
+"and time of image creation (no time zone in EXIF), stored in ISO 8601 "
+"format, not the original EXIF format. This property includes the value for "
+"the EXIF SubSecTime attribute. NOTE: This property is stored in XMP as xmp:"
+"ModifyDate."
+msgstr ""
+
+#: src/properties.cpp:427 src/tags.cpp:270
+msgid "Image Description"
+msgstr "Bildbeschreibung"
+
+#: src/properties.cpp:427
+msgid ""
+"TIFF tag 270, 0x10E. Description of the image. Note: This property is stored "
+"in XMP as dc:description."
+msgstr ""
+
+#: src/properties.cpp:428
+#, fuzzy
+msgid "Make"
+msgstr "Markiert"
+
+#: src/properties.cpp:428
+msgid "TIFF tag 271, 0x10F. Manufacturer of recording equipment."
+msgstr ""
+
+#: src/properties.cpp:429 src/tags.cpp:283
+msgid "Model"
+msgstr "Modell"
+
+#: src/properties.cpp:429
+msgid "TIFF tag 272, 0x110. Model name or number of equipment."
+msgstr ""
+
+#: src/properties.cpp:430 src/tags.cpp:338 src/sigmamn.cpp:129
+#: src/sigmamn.cpp:130
+msgid "Software"
+msgstr "Software"
+
+#: src/properties.cpp:430
+msgid ""
+"TIFF tag 305, 0x131. Software or firmware used to generate image. Note: This "
+"property is stored in XMP as xmp:CreatorTool. "
+msgstr ""
+
+#: src/properties.cpp:432 src/tags.cpp:349
+msgid "Artist"
+msgstr "Künstler"
+
+#: src/properties.cpp:432
+msgid ""
+"TIFF tag 315, 0x13B. Camera owner, photographer or image creator. Note: This "
+"property is stored in XMP as the first item in the dc:creator array."
+msgstr ""
+
+#: src/properties.cpp:434
+msgid ""
+"TIFF tag 33432, 0x8298. Copyright information. Note: This property is stored "
+"in XMP as dc:rights."
+msgstr ""
+
 #: src/properties.cpp:442 src/tags.cpp:602 src/nikonmn.cpp:110
 #: src/pentaxmn.cpp:479
 msgid "sRGB"
@@ -4488,10 +4722,6 @@ msgstr "Neuer Unterdateityp"
 msgid "A general indication of the kind of data contained in this subfile."
 msgstr "Genereller Hinweis auf die Art der Daten in dieser Unterdatei"
 
-#: src/tags.cpp:239 src/canonmn.cpp:656 src/olympusmn.cpp:335
-msgid "Image Width"
-msgstr "Bildbreite"
-
 #: src/tags.cpp:240
 msgid ""
 "The number of columns of image data, equal to the number of pixels per row. "
@@ -4500,10 +4730,6 @@ msgstr ""
 "Die Anzahl der Spalten der Bilddaten, gleich zu der Anzahl an Pixel per "
 "Zeile. Im JPEG Datenstrom wird ein JPEG Marker anstelle dieses Stichworts "
 "verwendet."
-
-#: src/tags.cpp:244
-msgid "Image Length"
-msgstr "Bildlänge"
 
 #: src/tags.cpp:245
 msgid ""
@@ -4529,10 +4755,6 @@ msgstr ""
 "<SamplesPerlPixel>. Im JPEG Datenstrom wird ein JPEG Marker statt diesem "
 "Stichwort benutzt."
 
-#: src/tags.cpp:254
-msgid "Compression"
-msgstr "Kompression"
-
 #: src/tags.cpp:255
 msgid ""
 "The compression scheme used for the image data. When a primary image is JPEG "
@@ -4543,10 +4765,6 @@ msgstr ""
 "Primärbild komprimiert wird ist diese Spezifikation nicht notwendig und wird "
 "weggelassen. Wenn die Vorschaubilder JPEG Kompression verwenden, hat dieses "
 "Stichwort den Wert 6."
-
-#: src/tags.cpp:260
-msgid "Photometric Interpretation"
-msgstr "Fotometrische Interpretation"
 
 #: src/tags.cpp:261
 msgid ""
@@ -4571,10 +4789,6 @@ msgstr "Dokumentenname"
 #: src/tags.cpp:268
 msgid "The name of the document from which this image was scanned"
 msgstr "Der Name des Dokuments von dem das Bild eingelesen wurde."
-
-#: src/tags.cpp:270
-msgid "Image Description"
-msgstr "Bildbeschreibung"
 
 #: src/tags.cpp:271
 msgid ""
@@ -4603,10 +4817,6 @@ msgstr ""
 "welches dieses Bild erzeugte. Wenn das Feld leer ist, wird er als unbekannt "
 "behandelt."
 
-#: src/tags.cpp:283
-msgid "Model"
-msgstr "Modell"
-
 #: src/tags.cpp:284
 msgid ""
 "The model name or model number of the equipment. This is the model name or "
@@ -4633,10 +4843,6 @@ msgstr ""
 "empfohlen, diese so zu wählen, das die Anzahl an Byts pro Strip nicht 64 "
 "KBytes überschreitet. In einem JPEG Datenstrom diese Spezifikation nicht "
 "nötig und wird weggelassen. Siehe auch <RowsPerStrip> und <StripByteCounts>."
-
-#: src/tags.cpp:296
-msgid "Orientation"
-msgstr "Orientierung"
 
 #: src/tags.cpp:297
 msgid "The image orientation viewed in terms of rows and columns."
@@ -4708,10 +4914,6 @@ msgstr ""
 "Die Anzahl an Pixel pro <ResolutionUnit> in der <ImageLength> Richtung. "
 "Derselbe Wert wie in <XResolution> wird spezifiziert."
 
-#: src/tags.cpp:322
-msgid "Planar Configuration"
-msgstr "Planar Konfiguration"
-
 #: src/tags.cpp:323
 msgid ""
 "Indicates whether pixel components are recorded in a chunky or planar "
@@ -4721,10 +4923,6 @@ msgstr ""
 "Zeigt an, ob Pixelkomponenten im planarer oder \"chunky\" Format vorliegen. "
 "In einem JPEG Bild wird ein JPEG Marker statt diesem Stichwort benutzt. Wenn "
 "dieses Feld nicht existiert wird das TIFF Default 1 (\"chunky\") angenommen."
-
-#: src/tags.cpp:328
-msgid "Resolution Unit"
-msgstr "Maßeinheit der Auflösung"
 
 #: src/tags.cpp:329
 msgid ""
@@ -4736,10 +4934,6 @@ msgstr ""
 "Einheit wird für <XResolution> und <YResolution> verwendet. Wenn diese "
 "unbekannt ist, wird der Standard von 2 (Zoll) angenommen."
 
-#: src/tags.cpp:333
-msgid "Transfer Function"
-msgstr "(Farb)transfer Funktion"
-
 #: src/tags.cpp:334
 msgid ""
 "A transfer function for the image, described in tabular style. Normally this "
@@ -4749,10 +4943,6 @@ msgstr ""
 "Eine Transferfunktion für das Bild, beschrieben in tabuliertem Stil. "
 "Normalerweise ist dieses Stichwort nicht nötig, da der Farbraum bereits im "
 "Farbraum Informations Stichwort angegeben wurde (<ColorSpace>)."
-
-#: src/tags.cpp:338 src/sigmamn.cpp:129 src/sigmamn.cpp:130
-msgid "Software"
-msgstr "Software"
 
 #: src/tags.cpp:339
 msgid ""
@@ -4779,10 +4969,6 @@ msgstr ""
 "Das Datum und die Uhrzeit der Erstellung des Bildes. In diesem EXIF-Standard "
 "ist es das Datum und die Zeit der letzten Änderung."
 
-#: src/tags.cpp:349
-msgid "Artist"
-msgstr "Künstler"
-
 #: src/tags.cpp:350
 msgid ""
 "This tag records the name of the camera owner, photographer or image "
@@ -4798,10 +4984,6 @@ msgstr ""
 "besser Interoperabilität. Wenn das Feld leer ist, wird der Name als "
 "unbekannt angenommen."
 
-#: src/tags.cpp:357
-msgid "White Point"
-msgstr "Weißpunkt"
-
 #: src/tags.cpp:358
 msgid ""
 "The chromaticity of the white point of the image. Normally this tag is not "
@@ -4811,10 +4993,6 @@ msgstr ""
 "Die Chromazität des Weißpunktes des Bildes. Normalerweise ist dieses "
 "Stichwort nicht nötig, da der Farbraum im <ColorSpace>-Stichwort "
 "spezifiziert wird."
-
-#: src/tags.cpp:362
-msgid "Primary Chromaticities"
-msgstr "Primäre Chromazität"
 
 #: src/tags.cpp:363
 msgid ""
@@ -4885,10 +5063,6 @@ msgstr ""
 "aller anderen Daten in weniger als 64 KByte aufgezeichnet werden um in den "
 "APP1 JPEG Marker zu passen."
 
-#: src/tags.cpp:388
-msgid "YCbCr Coefficients"
-msgstr "YCbCr Koeffizienten"
-
 #: src/tags.cpp:389
 msgid ""
 "The matrix coefficients for transformation from RGB to YCbCr image data. No "
@@ -4916,10 +5090,6 @@ msgstr ""
 "Die Samplingrate der Chrominanz Komponenten in Bezug zu den Helligkeits "
 "Komponenten. In JPEG Datenströmen wird ein JPEG Marker anstelle dieses "
 "Stichworts verwendet."
-
-#: src/tags.cpp:402
-msgid "YCbCr Positioning"
-msgstr "YCbCr Positionierung"
 
 #: src/tags.cpp:403
 msgid ""
