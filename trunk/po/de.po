@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2007-10-14 14:44+0200\n"
+"POT-Creation-Date: 2007-10-14 20:20+0200\n"
 "PO-Revision-Date: 2007-10-05 20:36+0200\n"
 "Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
 "Language-Team: german <kde-i18n-de@kde.org>\n"
@@ -3463,12 +3463,12 @@ msgstr "Rauschunterdrückung"
 msgid "\"Color Noise Reducton\" setting. Range 0 to +100."
 msgstr "Sättigungseinstellung"
 
-#: src/properties.cpp:354 src/tags.cpp:930 src/canonmn.cpp:457
-#: src/minoltamn.cpp:507 src/minoltamn.cpp:695 src/minoltamn.cpp:696
-#: src/minoltamn.cpp:922 src/minoltamn.cpp:923 src/minoltamn.cpp:1154
-#: src/minoltamn.cpp:1155 src/olympusmn.cpp:320 src/panasonicmn.cpp:248
-#: src/pentaxmn.cpp:736 src/pentaxmn.cpp:826 src/pentaxmn.cpp:827
-#: src/sigmamn.cpp:99 src/sigmamn.cpp:100
+#: src/properties.cpp:354 src/properties.cpp:688 src/tags.cpp:930
+#: src/canonmn.cpp:457 src/minoltamn.cpp:507 src/minoltamn.cpp:695
+#: src/minoltamn.cpp:696 src/minoltamn.cpp:922 src/minoltamn.cpp:923
+#: src/minoltamn.cpp:1154 src/minoltamn.cpp:1155 src/olympusmn.cpp:320
+#: src/panasonicmn.cpp:248 src/pentaxmn.cpp:736 src/pentaxmn.cpp:826
+#: src/pentaxmn.cpp:827 src/sigmamn.cpp:99 src/sigmamn.cpp:100
 msgid "Contrast"
 msgstr "Kontrast"
 
@@ -3635,13 +3635,14 @@ msgstr "Sättigung"
 msgid "\"Red Saturation\" setting. Range -100 to +100."
 msgstr "Sättigungseinstellung"
 
-#: src/properties.cpp:372 src/tags.cpp:934 src/canonmn.cpp:458
-#: src/minoltamn.cpp:508 src/minoltamn.cpp:692 src/minoltamn.cpp:693
-#: src/minoltamn.cpp:925 src/minoltamn.cpp:926 src/minoltamn.cpp:1157
-#: src/minoltamn.cpp:1158 src/nikonmn.cpp:714 src/nikonmn.cpp:715
-#: src/nikonmn.cpp:765 src/nikonmn.cpp:766 src/pentaxmn.cpp:730
-#: src/pentaxmn.cpp:823 src/pentaxmn.cpp:824 src/pentaxmn.cpp:956
-#: src/pentaxmn.cpp:957 src/sigmamn.cpp:108 src/sigmamn.cpp:109
+#: src/properties.cpp:372 src/properties.cpp:689 src/tags.cpp:934
+#: src/canonmn.cpp:458 src/minoltamn.cpp:508 src/minoltamn.cpp:692
+#: src/minoltamn.cpp:693 src/minoltamn.cpp:925 src/minoltamn.cpp:926
+#: src/minoltamn.cpp:1157 src/minoltamn.cpp:1158 src/nikonmn.cpp:714
+#: src/nikonmn.cpp:715 src/nikonmn.cpp:765 src/nikonmn.cpp:766
+#: src/pentaxmn.cpp:730 src/pentaxmn.cpp:823 src/pentaxmn.cpp:824
+#: src/pentaxmn.cpp:956 src/pentaxmn.cpp:957 src/sigmamn.cpp:108
+#: src/sigmamn.cpp:109
 msgid "Saturation"
 msgstr "Sättigung"
 
@@ -3670,11 +3671,12 @@ msgstr "Schatten"
 msgid "\"Shadow Tint\" setting. Range -100 to +100."
 msgstr "Sättigungseinstellung"
 
-#: src/properties.cpp:375 src/tags.cpp:938 src/canonmn.cpp:459
-#: src/fujimn.cpp:196 src/minoltamn.cpp:698 src/minoltamn.cpp:699
-#: src/minoltamn.cpp:919 src/minoltamn.cpp:920 src/minoltamn.cpp:1151
-#: src/minoltamn.cpp:1152 src/pentaxmn.cpp:733 src/pentaxmn.cpp:829
-#: src/pentaxmn.cpp:830 src/sigmamn.cpp:111 src/sigmamn.cpp:112
+#: src/properties.cpp:375 src/properties.cpp:690 src/tags.cpp:938
+#: src/canonmn.cpp:459 src/fujimn.cpp:196 src/minoltamn.cpp:698
+#: src/minoltamn.cpp:699 src/minoltamn.cpp:919 src/minoltamn.cpp:920
+#: src/minoltamn.cpp:1151 src/minoltamn.cpp:1152 src/pentaxmn.cpp:733
+#: src/pentaxmn.cpp:829 src/pentaxmn.cpp:830 src/sigmamn.cpp:111
+#: src/sigmamn.cpp:112
 msgid "Sharpness"
 msgstr "Schärfe"
 
@@ -3750,11 +3752,11 @@ msgstr "Weißpunkt"
 msgid "\"Vignetting Midpoint\" setting. Range 0 to +100."
 msgstr "Sättigungseinstellung"
 
-#: src/properties.cpp:384 src/tags.cpp:908 src/canonmn.cpp:553
-#: src/fujimn.cpp:199 src/minoltamn.cpp:617 src/minoltamn.cpp:895
-#: src/minoltamn.cpp:1133 src/nikonmn.cpp:175 src/nikonmn.cpp:456
-#: src/nikonmn.cpp:591 src/olympusmn.cpp:260 src/panasonicmn.cpp:191
-#: src/sigmamn.cpp:81
+#: src/properties.cpp:384 src/properties.cpp:682 src/tags.cpp:908
+#: src/canonmn.cpp:553 src/fujimn.cpp:199 src/minoltamn.cpp:617
+#: src/minoltamn.cpp:895 src/minoltamn.cpp:1133 src/nikonmn.cpp:175
+#: src/nikonmn.cpp:456 src/nikonmn.cpp:591 src/olympusmn.cpp:260
+#: src/panasonicmn.cpp:191 src/sigmamn.cpp:81
 msgid "White Balance"
 msgstr "Weißabgleich"
 
@@ -4471,18 +4473,16 @@ msgstr ""
 "für ein komprimiertes Bild verwendet wird ist hier in Teilbits per Pixel "
 "angegeben."
 
-#: src/properties.cpp:643
-#, fuzzy
-msgid "PixelX Dimension"
+#: src/properties.cpp:643 src/tags.cpp:816
+msgid "Pixel X Dimension"
 msgstr "Pixel X-Dimension"
 
 #: src/properties.cpp:643
 msgid "EXIF tag 40962, 0xA002. Valid image width, in pixels."
 msgstr ""
 
-#: src/properties.cpp:644
-#, fuzzy
-msgid "PixelY Dimension"
+#: src/properties.cpp:644 src/tags.cpp:823
+msgid "Pixel Y Dimension"
 msgstr "Pixel Y-Dimension"
 
 #: src/properties.cpp:644
@@ -4690,6 +4690,250 @@ msgstr "Energie des Blitzes"
 #: src/properties.cpp:668
 msgid "EXIF tag 41483, 0xA20B. Strobe energy during image capture."
 msgstr ""
+
+#: src/properties.cpp:669 src/tags.cpp:851
+msgid "Spatial Frequency Response"
+msgstr ""
+
+#: src/properties.cpp:669
+#, fuzzy
+msgid ""
+"EXIF tag 41484, 0xA20C. Input device spatial frequency table and SFR values "
+"as specified in ISO 12233."
+msgstr ""
+"Gibt die ISO Geschwindigkeit und Breite der Kamera bzw. des Eingabegeräts "
+"an, wie in ISO 12232 spezifiziert."
+
+#: src/properties.cpp:670
+#, fuzzy
+msgid "Focal Plane X Resolution"
+msgstr "Fokusebene x-Auflösung"
+
+#: src/properties.cpp:670
+msgid ""
+"EXIF tag 41486, 0xA20E. Horizontal focal resolution, measured pixels per "
+"unit."
+msgstr ""
+
+#: src/properties.cpp:671
+#, fuzzy
+msgid "Focal Plane Y Resolution"
+msgstr "Fokusebene y-Auflösung"
+
+#: src/properties.cpp:671
+msgid ""
+"EXIF tag 41487, 0xA20F. Vertical focal resolution, measured in pixels per "
+"unit."
+msgstr ""
+
+#: src/properties.cpp:672 src/tags.cpp:864
+msgid "Focal Plane Resolution Unit"
+msgstr "Einheit der Angaben der Fokusebene"
+
+#: src/properties.cpp:672
+msgid ""
+"EXIF tag 41488, 0xA210. Unit used for FocalPlaneXResolution and "
+"FocalPlaneYResolution."
+msgstr ""
+
+#: src/properties.cpp:673 src/tags.cpp:868
+msgid "Subject Location"
+msgstr "Ort des Objektes"
+
+#: src/properties.cpp:673
+msgid ""
+"EXIF tag 41492, 0xA214. Location of the main subject of the scene. The first "
+"value is the horizontal pixel and the second value is the vertical pixel at "
+"which the main subject appears."
+msgstr ""
+
+#: src/properties.cpp:675
+#, fuzzy
+msgid "Exposure Index"
+msgstr "Belichtungsindex"
+
+#: src/properties.cpp:675
+msgid "EXIF tag 41493, 0xA215. Exposure index of input device."
+msgstr ""
+
+#: src/properties.cpp:676 src/tags.cpp:879
+msgid "Sensing Method"
+msgstr "Bildsensor"
+
+#: src/properties.cpp:676
+#, fuzzy
+msgid "EXIF tag 41495, 0xA217. Image sensor type on input device."
+msgstr "Gibt den Sensortyp in der Kamera bzw. Eingabegerät an."
+
+#: src/properties.cpp:677 src/tags.cpp:882 src/fujimn.cpp:277
+msgid "File Source"
+msgstr "Dateiquelle"
+
+#: src/properties.cpp:677
+msgid "EXIF tag 41728, 0xA300. Indicates image source."
+msgstr ""
+
+#: src/properties.cpp:678 src/tags.cpp:887
+msgid "Scene Type"
+msgstr "Szenentyp"
+
+#: src/properties.cpp:678
+msgid "EXIF tag 41729, 0xA301. Indicates the type of scene."
+msgstr ""
+
+#: src/properties.cpp:679 src/tags.cpp:438
+msgid "CFA Pattern"
+msgstr "CFA Pattern"
+
+#: src/properties.cpp:679
+msgid ""
+"EXIF tag 41730, 0xA302. Color filter array geometric pattern of the image "
+"sense."
+msgstr ""
+
+#: src/properties.cpp:680 src/tags.cpp:897
+msgid "Custom Rendered"
+msgstr "Besondere Verarbeitung"
+
+#: src/properties.cpp:680
+msgid ""
+"EXIF tag 41985, 0xA401. Indicates the use of special processing on image "
+"data."
+msgstr ""
+
+#: src/properties.cpp:681 src/tags.cpp:903 src/minoltamn.cpp:611
+#: src/minoltamn.cpp:886 src/minoltamn.cpp:1124 src/sigmamn.cpp:84
+msgid "Exposure Mode"
+msgstr "Belichtungsmodus"
+
+#: src/properties.cpp:681
+#, fuzzy
+msgid ""
+"EXIF tag 41986, 0xA402. Indicates the exposure mode set when the image was "
+"shot."
+msgstr ""
+"Dieses Stichwort enthält den Weißabgleichsmodus, der zur Aufnahme "
+"eingestellt war."
+
+#: src/properties.cpp:682
+#, fuzzy
+msgid ""
+"EXIF tag 41987, 0xA403. Indicates the white balance mode set when the image "
+"was shot."
+msgstr ""
+"Dieses Stichwort enthält den Weißabgleichsmodus, der zur Aufnahme "
+"eingestellt war."
+
+#: src/properties.cpp:683 src/tags.cpp:911
+msgid "Digital Zoom Ratio"
+msgstr "Digitale Zoomrate"
+
+#: src/properties.cpp:683
+#, fuzzy
+msgid ""
+"EXIF tag 41988, 0xA404. Indicates the digital zoom ratio when the image was "
+"shot."
+msgstr ""
+"Dieses Stichwort enthält den Weißabgleichsmodus, der zur Aufnahme "
+"eingestellt war."
+
+#: src/properties.cpp:684 src/tags.cpp:916
+msgid "Focal Length In 35mm Film"
+msgstr "Brennweite in 35mm Film"
+
+#: src/properties.cpp:684
+#, fuzzy
+msgid ""
+"EXIF tag 41989, 0xA405. Indicates the equivalent focal length assuming a "
+"35mm film camera, in mm. A value of 0 means the focal length is unknown. "
+"Note that this tag differs from the FocalLength tag."
+msgstr ""
+"Dieses Stichwort gibt die äquivalente Brennweite bei angenommener 35mm "
+"Filmkamera an. Der Wert 0 bedeutet das die Brennweite unbekannt ist. Dieses "
+"Stichwort unterscheidet sich vom <FocalLength>-Stichwort."
+
+#: src/properties.cpp:686 src/tags.cpp:922
+msgid "Scene Capture Type"
+msgstr "Szenenmodus"
+
+#: src/properties.cpp:686
+msgid "EXIF tag 41990, 0xA406. Indicates the type of scene that was shot."
+msgstr ""
+
+#: src/properties.cpp:687 src/tags.cpp:927
+msgid "Gain Control"
+msgstr "Körnungskontrolle"
+
+#: src/properties.cpp:687
+msgid ""
+"EXIF tag 41991, 0xA407. Indicates the degree of overall image gain "
+"adjustment."
+msgstr ""
+
+#: src/properties.cpp:688
+#, fuzzy
+msgid ""
+"EXIF tag 41992, 0xA408. Indicates the direction of contrast processing "
+"applied by the camera."
+msgstr ""
+"Dieses Stichwort gibt die Richtung der Kontrastbearbeitung an, die bei der "
+"Aufnahme des Bildes angewandt wurde."
+
+#: src/properties.cpp:689
+#, fuzzy
+msgid ""
+"EXIF tag 41993, 0xA409. Indicates the direction of saturation processing "
+"applied by the camera."
+msgstr ""
+"Dieses Stichwort gibt die Richtung der Sättigungsbearbeitung an, die bei der "
+"Aufnahme des Bildes angewandt wurde."
+
+#: src/properties.cpp:690
+#, fuzzy
+msgid ""
+"EXIF tag 41994, 0xA40A. Indicates the direction of sharpness processing "
+"applied by the camera."
+msgstr ""
+"Dieses Stichwort gibt die Richtung der Schärfebearbeitung bei der Aufnahme "
+"des Bildes an."
+
+#: src/properties.cpp:691 src/tags.cpp:942
+msgid "Device Setting Description"
+msgstr "Beschreibung der Geräteeinstellungen"
+
+#: src/properties.cpp:691
+#, fuzzy
+msgid ""
+"EXIF tag 41995, 0xA40B. Indicates information on the picture-taking "
+"conditions of a particular camera model."
+msgstr ""
+"Dieses Stichwort enthält Informationen über die Bildaufnahme Bedingungen "
+"eines bestimmten Kameramodells. Es wird nur zur Angabe der Bedingungen im "
+"Leser benutzt."
+
+#: src/properties.cpp:692 src/tags.cpp:947
+msgid "Subject Distance Range"
+msgstr "Motivabstand"
+
+#: src/properties.cpp:692
+#, fuzzy
+msgid "EXIF tag 41996, 0xA40C. Indicates the distance to the subject."
+msgstr "Dieses Stichwort gibt den Motivabstand an."
+
+#: src/properties.cpp:693 src/tags.cpp:950
+msgid "Image Unique ID"
+msgstr "Eindeutige Bildnummer"
+
+#: src/properties.cpp:693
+#, fuzzy
+msgid ""
+"EXIF tag 42016, 0xA420. An identifier assigned uniquely to each image. It is "
+"recorded as a 32 character ASCII string, equivalent to hexadecimal notation "
+"and 128-bit fixed length."
+msgstr ""
+"Dieses Stichwort gibt einen eindeutigen Bild Identifier an. Er wird als "
+"ASCII-Zeichenkette in hexadezimal Notation aufgezeichnet und hat 128 Bit "
+"Länge."
 
 #: src/tags.cpp:108
 msgid "Unknown section"
@@ -5466,10 +5710,6 @@ msgid ""
 "repeating patterns of the color filter array"
 msgstr ""
 
-#: src/tags.cpp:438
-msgid "CFA Pattern"
-msgstr "CFA Pattern"
-
 #: src/tags.cpp:439
 msgid ""
 "Indicates the color filter array (CFA) geometric pattern of the image sensor "
@@ -6097,10 +6337,6 @@ msgstr ""
 "wurden kõnnen als sRGB betrachtet werden wenn sie in FlashPix konvertiert "
 "werden."
 
-#: src/tags.cpp:816
-msgid "Pixel X Dimension"
-msgstr "Pixel X-Dimension"
-
 #: src/tags.cpp:817
 msgid ""
 "Information specific to compressed data. When a compressed file is recorded, "
@@ -6113,10 +6349,6 @@ msgstr ""
 "diesem Stichwort aufgezeichnet werden, egal ob Padding Daten oder ein "
 "Restart Marker vorhanden sind. Dieser Stichwort sollte nicht in einer "
 "unkomprimierten Datei existieren."
-
-#: src/tags.cpp:823
-msgid "Pixel Y Dimension"
-msgstr "Pixel Y-Dimension"
 
 #: src/tags.cpp:824
 msgid ""
@@ -6174,10 +6406,6 @@ msgstr ""
 "Gibt die Energie des Blitzes zum Zeitpunkt der Aufnahme an, in Beam Candle "
 "Power Seconds (BCPS)."
 
-#: src/tags.cpp:851
-msgid "Spatial Frequency Response"
-msgstr ""
-
 #: src/tags.cpp:852
 msgid ""
 "This tag records the camera or input device spatial frequency table and SFR "
@@ -6209,10 +6437,6 @@ msgstr ""
 "Gibt die Anzahl an Pixeln in der Höhe (Y Ebene) pro "
 "<FocalPlaneResolutionUnit> in der Fokusebene an."
 
-#: src/tags.cpp:864
-msgid "Focal Plane Resolution Unit"
-msgstr "Einheit der Angaben der Fokusebene"
-
 #: src/tags.cpp:865
 msgid ""
 "Indicates the unit for measuring <FocalPlaneXResolution> and "
@@ -6220,10 +6444,6 @@ msgid ""
 msgstr ""
 "Gibt die Einheit für die Messung der <FocalPlaneXResolution> und der "
 "<FocalPlaneYResolution> an. Der Wert ist der gleiche wie <ResolutionUnit>."
-
-#: src/tags.cpp:868
-msgid "Subject Location"
-msgstr "Ort des Objektes"
 
 #: src/tags.cpp:869
 msgid ""
@@ -6249,17 +6469,9 @@ msgstr ""
 "Gibt den Belichtungsindex an, der in der Kamera oder im Eingabegerät während "
 "der Aufnahme selektiert ist."
 
-#: src/tags.cpp:879
-msgid "Sensing Method"
-msgstr "Bildsensor"
-
 #: src/tags.cpp:880
 msgid "Indicates the image sensor type on the camera or input device."
 msgstr "Gibt den Sensortyp in der Kamera bzw. Eingabegerät an."
-
-#: src/tags.cpp:882 src/fujimn.cpp:277
-msgid "File Source"
-msgstr "Dateiquelle"
 
 #: src/tags.cpp:883
 msgid ""
@@ -6268,10 +6480,6 @@ msgid ""
 msgstr ""
 "Gibt die Quelle des Bildes an. Wenn das Bild durch eine Digitalkamera "
 "aufgenommen wurde, ist der Wert 3."
-
-#: src/tags.cpp:887
-msgid "Scene Type"
-msgstr "Szenentyp"
 
 #: src/tags.cpp:888
 msgid ""
@@ -6296,10 +6504,6 @@ msgstr ""
 "Array) des Bildsensors an, wenn ein 1 Chip Farbflächen Sensor benutzt wird. "
 "Es bezieht sich nicht auf alle Sensormethoden."
 
-#: src/tags.cpp:897
-msgid "Custom Rendered"
-msgstr "Besondere Verarbeitung"
-
 #: src/tags.cpp:898
 msgid ""
 "This tag indicates the use of special processing on image data, such as "
@@ -6310,11 +6514,6 @@ msgstr ""
 "Bilddaten wie z:B. den Berechnungen zur Ausgabe. Wenn eine besondere "
 "Verarbeitung durchgeführt wurde, dann wird der Betrachter gebeten keine oder "
 "nur eine minimale weitere Verarbeitung durchzuführen."
-
-#: src/tags.cpp:903 src/minoltamn.cpp:611 src/minoltamn.cpp:886
-#: src/minoltamn.cpp:1124 src/sigmamn.cpp:84
-msgid "Exposure Mode"
-msgstr "Belichtungsmodus"
 
 #: src/tags.cpp:904
 msgid ""
@@ -6332,10 +6531,6 @@ msgstr ""
 "Dieses Stichwort enthält den Weißabgleichsmodus, der zur Aufnahme "
 "eingestellt war."
 
-#: src/tags.cpp:911
-msgid "Digital Zoom Ratio"
-msgstr "Digitale Zoomrate"
-
 #: src/tags.cpp:912
 msgid ""
 "This tag indicates the digital zoom ratio when the image was shot. If the "
@@ -6344,10 +6539,6 @@ msgid ""
 msgstr ""
 "Dieses Stichwort gibt die digitale Zoomrate bei der Aufnahme des Bildes an. "
 "Wenn der Divisor 0 ist, wurde kein Digitalzoom benutzt."
-
-#: src/tags.cpp:916
-msgid "Focal Length In 35mm Film"
-msgstr "Brennweite in 35mm Film"
 
 #: src/tags.cpp:917
 msgid ""
@@ -6359,10 +6550,6 @@ msgstr ""
 "Filmkamera an. Der Wert 0 bedeutet das die Brennweite unbekannt ist. Dieses "
 "Stichwort unterscheidet sich vom <FocalLength>-Stichwort."
 
-#: src/tags.cpp:922
-msgid "Scene Capture Type"
-msgstr "Szenenmodus"
-
 #: src/tags.cpp:923
 msgid ""
 "This tag indicates the type of scene that was shot. It can also be used to "
@@ -6372,10 +6559,6 @@ msgstr ""
 "Dieses Stichwort gibt an welche Art von Szene aufgenommen wurde. Es kann "
 "auch zum Angeben des Aufnahmemodus verwendet werden. Beachten Sie, das es "
 "sich vom <SceneType>-Stichwort unterscheidet."
-
-#: src/tags.cpp:927
-msgid "Gain Control"
-msgstr "Körnungskontrolle"
 
 #: src/tags.cpp:928
 msgid "This tag indicates the degree of overall image gain adjustment."
@@ -6405,10 +6588,6 @@ msgstr ""
 "Dieses Stichwort gibt die Richtung der Schärfebearbeitung bei der Aufnahme "
 "des Bildes an."
 
-#: src/tags.cpp:942
-msgid "Device Setting Description"
-msgstr "Beschreibung der Geräteeinstellungen"
-
 #: src/tags.cpp:943
 msgid ""
 "This tag indicates information on the picture-taking conditions of a "
@@ -6419,17 +6598,9 @@ msgstr ""
 "eines bestimmten Kameramodells. Es wird nur zur Angabe der Bedingungen im "
 "Leser benutzt."
 
-#: src/tags.cpp:947
-msgid "Subject Distance Range"
-msgstr "Motivabstand"
-
 #: src/tags.cpp:948
 msgid "This tag indicates the distance to the subject."
 msgstr "Dieses Stichwort gibt den Motivabstand an."
-
-#: src/tags.cpp:950
-msgid "Image Unique ID"
-msgstr "Eindeutige Bildnummer"
 
 #: src/tags.cpp:951
 msgid ""
@@ -12045,6 +12216,14 @@ msgstr "8-Segment"
 #: src/sonymn.cpp:92
 msgid "Unknown SonyMakerNote tag"
 msgstr "Unbekantes Herstellerbemerkungsfeld von Sony"
+
+#, fuzzy
+#~ msgid "PixelX Dimension"
+#~ msgstr "Pixel X-Dimension"
+
+#, fuzzy
+#~ msgid "PixelY Dimension"
+#~ msgstr "Pixel Y-Dimension"
 
 #~ msgid "CenterWeightedAverage"
 #~ msgstr "MittelGewichteterDurchschnitt"

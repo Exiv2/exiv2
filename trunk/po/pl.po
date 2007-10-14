@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2007-10-14 14:44+0200\n"
+"POT-Creation-Date: 2007-10-14 20:20+0200\n"
 "PO-Revision-Date: 2005-03-21 09:30+0100\n"
 "Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -3361,12 +3361,12 @@ msgstr "Redukcja szumów"
 msgid "\"Color Noise Reducton\" setting. Range 0 to +100."
 msgstr "Duże nasycenie"
 
-#: src/properties.cpp:354 src/tags.cpp:930 src/canonmn.cpp:457
-#: src/minoltamn.cpp:507 src/minoltamn.cpp:695 src/minoltamn.cpp:696
-#: src/minoltamn.cpp:922 src/minoltamn.cpp:923 src/minoltamn.cpp:1154
-#: src/minoltamn.cpp:1155 src/olympusmn.cpp:320 src/panasonicmn.cpp:248
-#: src/pentaxmn.cpp:736 src/pentaxmn.cpp:826 src/pentaxmn.cpp:827
-#: src/sigmamn.cpp:99 src/sigmamn.cpp:100
+#: src/properties.cpp:354 src/properties.cpp:688 src/tags.cpp:930
+#: src/canonmn.cpp:457 src/minoltamn.cpp:507 src/minoltamn.cpp:695
+#: src/minoltamn.cpp:696 src/minoltamn.cpp:922 src/minoltamn.cpp:923
+#: src/minoltamn.cpp:1154 src/minoltamn.cpp:1155 src/olympusmn.cpp:320
+#: src/panasonicmn.cpp:248 src/pentaxmn.cpp:736 src/pentaxmn.cpp:826
+#: src/pentaxmn.cpp:827 src/sigmamn.cpp:99 src/sigmamn.cpp:100
 msgid "Contrast"
 msgstr "Kontrastowość"
 
@@ -3534,13 +3534,14 @@ msgstr "Nasycenie"
 msgid "\"Red Saturation\" setting. Range -100 to +100."
 msgstr "Duże nasycenie"
 
-#: src/properties.cpp:372 src/tags.cpp:934 src/canonmn.cpp:458
-#: src/minoltamn.cpp:508 src/minoltamn.cpp:692 src/minoltamn.cpp:693
-#: src/minoltamn.cpp:925 src/minoltamn.cpp:926 src/minoltamn.cpp:1157
-#: src/minoltamn.cpp:1158 src/nikonmn.cpp:714 src/nikonmn.cpp:715
-#: src/nikonmn.cpp:765 src/nikonmn.cpp:766 src/pentaxmn.cpp:730
-#: src/pentaxmn.cpp:823 src/pentaxmn.cpp:824 src/pentaxmn.cpp:956
-#: src/pentaxmn.cpp:957 src/sigmamn.cpp:108 src/sigmamn.cpp:109
+#: src/properties.cpp:372 src/properties.cpp:689 src/tags.cpp:934
+#: src/canonmn.cpp:458 src/minoltamn.cpp:508 src/minoltamn.cpp:692
+#: src/minoltamn.cpp:693 src/minoltamn.cpp:925 src/minoltamn.cpp:926
+#: src/minoltamn.cpp:1157 src/minoltamn.cpp:1158 src/nikonmn.cpp:714
+#: src/nikonmn.cpp:715 src/nikonmn.cpp:765 src/nikonmn.cpp:766
+#: src/pentaxmn.cpp:730 src/pentaxmn.cpp:823 src/pentaxmn.cpp:824
+#: src/pentaxmn.cpp:956 src/pentaxmn.cpp:957 src/sigmamn.cpp:108
+#: src/sigmamn.cpp:109
 msgid "Saturation"
 msgstr "Nasycenie"
 
@@ -3569,11 +3570,12 @@ msgstr "Cień"
 msgid "\"Shadow Tint\" setting. Range -100 to +100."
 msgstr "Duże nasycenie"
 
-#: src/properties.cpp:375 src/tags.cpp:938 src/canonmn.cpp:459
-#: src/fujimn.cpp:196 src/minoltamn.cpp:698 src/minoltamn.cpp:699
-#: src/minoltamn.cpp:919 src/minoltamn.cpp:920 src/minoltamn.cpp:1151
-#: src/minoltamn.cpp:1152 src/pentaxmn.cpp:733 src/pentaxmn.cpp:829
-#: src/pentaxmn.cpp:830 src/sigmamn.cpp:111 src/sigmamn.cpp:112
+#: src/properties.cpp:375 src/properties.cpp:690 src/tags.cpp:938
+#: src/canonmn.cpp:459 src/fujimn.cpp:196 src/minoltamn.cpp:698
+#: src/minoltamn.cpp:699 src/minoltamn.cpp:919 src/minoltamn.cpp:920
+#: src/minoltamn.cpp:1151 src/minoltamn.cpp:1152 src/pentaxmn.cpp:733
+#: src/pentaxmn.cpp:829 src/pentaxmn.cpp:830 src/sigmamn.cpp:111
+#: src/sigmamn.cpp:112
 msgid "Sharpness"
 msgstr "Ostrość"
 
@@ -3651,11 +3653,11 @@ msgstr "Biały punkt"
 msgid "\"Vignetting Midpoint\" setting. Range 0 to +100."
 msgstr "Duże nasycenie"
 
-#: src/properties.cpp:384 src/tags.cpp:908 src/canonmn.cpp:553
-#: src/fujimn.cpp:199 src/minoltamn.cpp:617 src/minoltamn.cpp:895
-#: src/minoltamn.cpp:1133 src/nikonmn.cpp:175 src/nikonmn.cpp:456
-#: src/nikonmn.cpp:591 src/olympusmn.cpp:260 src/panasonicmn.cpp:191
-#: src/sigmamn.cpp:81
+#: src/properties.cpp:384 src/properties.cpp:682 src/tags.cpp:908
+#: src/canonmn.cpp:553 src/fujimn.cpp:199 src/minoltamn.cpp:617
+#: src/minoltamn.cpp:895 src/minoltamn.cpp:1133 src/nikonmn.cpp:175
+#: src/nikonmn.cpp:456 src/nikonmn.cpp:591 src/olympusmn.cpp:260
+#: src/panasonicmn.cpp:191 src/sigmamn.cpp:81
 msgid "White Balance"
 msgstr "Balans bieli"
 
@@ -4408,16 +4410,16 @@ msgstr ""
 "Informacja specyficzna dla skompresowanych danych. Rodzaj kompresji użyty "
 "dla skompresowanego obrazu jest określony w jednostkach bitów na piksel."
 
-#: src/properties.cpp:643
-msgid "PixelX Dimension"
+#: src/properties.cpp:643 src/tags.cpp:816
+msgid "Pixel X Dimension"
 msgstr ""
 
 #: src/properties.cpp:643
 msgid "EXIF tag 40962, 0xA002. Valid image width, in pixels."
 msgstr ""
 
-#: src/properties.cpp:644
-msgid "PixelY Dimension"
+#: src/properties.cpp:644 src/tags.cpp:823
+msgid "Pixel Y Dimension"
 msgstr ""
 
 #: src/properties.cpp:644
@@ -4629,6 +4631,249 @@ msgstr "Energia Flesza"
 #: src/properties.cpp:668
 msgid "EXIF tag 41483, 0xA20B. Strobe energy during image capture."
 msgstr ""
+
+#: src/properties.cpp:669 src/tags.cpp:851
+msgid "Spatial Frequency Response"
+msgstr "Odpowiedź częstotliwości przestrzennej"
+
+#: src/properties.cpp:669
+#, fuzzy
+msgid ""
+"EXIF tag 41484, 0xA20C. Input device spatial frequency table and SFR values "
+"as specified in ISO 12233."
+msgstr ""
+"Określenie szybkości ISO i szerokości ISO aparatu lub urządzenia wejściowego "
+"zgodne ze specyfikacją ISO 12232."
+
+#: src/properties.cpp:670
+#, fuzzy
+msgid "Focal Plane X Resolution"
+msgstr "Rozdzielczość X płaszczyzny ogniskowej"
+
+#: src/properties.cpp:670
+msgid ""
+"EXIF tag 41486, 0xA20E. Horizontal focal resolution, measured pixels per "
+"unit."
+msgstr ""
+
+#: src/properties.cpp:671
+#, fuzzy
+msgid "Focal Plane Y Resolution"
+msgstr "Rozdzielczość X płaszczyzny ogniskowej"
+
+#: src/properties.cpp:671
+msgid ""
+"EXIF tag 41487, 0xA20F. Vertical focal resolution, measured in pixels per "
+"unit."
+msgstr ""
+
+#: src/properties.cpp:672 src/tags.cpp:864
+msgid "Focal Plane Resolution Unit"
+msgstr "Jednostka rozdzielczości płaszczyzny ogniskowej"
+
+#: src/properties.cpp:672
+msgid ""
+"EXIF tag 41488, 0xA210. Unit used for FocalPlaneXResolution and "
+"FocalPlaneYResolution."
+msgstr ""
+
+#: src/properties.cpp:673 src/tags.cpp:868
+msgid "Subject Location"
+msgstr "Położenie obiektu"
+
+#: src/properties.cpp:673
+msgid ""
+"EXIF tag 41492, 0xA214. Location of the main subject of the scene. The first "
+"value is the horizontal pixel and the second value is the vertical pixel at "
+"which the main subject appears."
+msgstr ""
+
+#: src/properties.cpp:675
+#, fuzzy
+msgid "Exposure Index"
+msgstr "Indeks ekspozycji"
+
+#: src/properties.cpp:675
+msgid "EXIF tag 41493, 0xA215. Exposure index of input device."
+msgstr ""
+
+#: src/properties.cpp:676 src/tags.cpp:879
+msgid "Sensing Method"
+msgstr "Rodzaj czujnika"
+
+#: src/properties.cpp:676
+#, fuzzy
+msgid "EXIF tag 41495, 0xA217. Image sensor type on input device."
+msgstr ""
+"Określenie rodzaju czujnika obrazu w aparacie lub urządzeniu wejściowym."
+
+#: src/properties.cpp:677 src/tags.cpp:882 src/fujimn.cpp:277
+msgid "File Source"
+msgstr "Źródło pliku"
+
+#: src/properties.cpp:677
+msgid "EXIF tag 41728, 0xA300. Indicates image source."
+msgstr ""
+
+#: src/properties.cpp:678 src/tags.cpp:887
+msgid "Scene Type"
+msgstr "Rodzaj sceny"
+
+#: src/properties.cpp:678
+msgid "EXIF tag 41729, 0xA301. Indicates the type of scene."
+msgstr ""
+
+#: src/properties.cpp:679 src/tags.cpp:438
+msgid "CFA Pattern"
+msgstr "Wzór CFA"
+
+#: src/properties.cpp:679
+msgid ""
+"EXIF tag 41730, 0xA302. Color filter array geometric pattern of the image "
+"sense."
+msgstr ""
+
+#: src/properties.cpp:680 src/tags.cpp:897
+msgid "Custom Rendered"
+msgstr "Własny rendering"
+
+#: src/properties.cpp:680
+msgid ""
+"EXIF tag 41985, 0xA401. Indicates the use of special processing on image "
+"data."
+msgstr ""
+
+#: src/properties.cpp:681 src/tags.cpp:903 src/minoltamn.cpp:611
+#: src/minoltamn.cpp:886 src/minoltamn.cpp:1124 src/sigmamn.cpp:84
+msgid "Exposure Mode"
+msgstr "Tryb ekspozycji"
+
+#: src/properties.cpp:681
+#, fuzzy
+msgid ""
+"EXIF tag 41986, 0xA402. Indicates the exposure mode set when the image was "
+"shot."
+msgstr ""
+"Ten znacznik określa tryb balansu bieli ustawiony przy robieniu zdjęcia."
+
+#: src/properties.cpp:682
+#, fuzzy
+msgid ""
+"EXIF tag 41987, 0xA403. Indicates the white balance mode set when the image "
+"was shot."
+msgstr ""
+"Ten znacznik określa tryb balansu bieli ustawiony przy robieniu zdjęcia."
+
+#: src/properties.cpp:683 src/tags.cpp:911
+msgid "Digital Zoom Ratio"
+msgstr "Współczynnik powiększenia cyfrowego"
+
+#: src/properties.cpp:683
+#, fuzzy
+msgid ""
+"EXIF tag 41988, 0xA404. Indicates the digital zoom ratio when the image was "
+"shot."
+msgstr ""
+"Ten znacznik określa tryb balansu bieli ustawiony przy robieniu zdjęcia."
+
+#: src/properties.cpp:684 src/tags.cpp:916
+msgid "Focal Length In 35mm Film"
+msgstr "Ogniskowa dla filmu 35mm"
+
+#: src/properties.cpp:684
+#, fuzzy
+msgid ""
+"EXIF tag 41989, 0xA405. Indicates the equivalent focal length assuming a "
+"35mm film camera, in mm. A value of 0 means the focal length is unknown. "
+"Note that this tag differs from the FocalLength tag."
+msgstr ""
+"Ten znacznik określa odpowiednik ogniskowej w mm przy założeniu aparatu na "
+"film 35 mm. Wartość 0 oznacza, że ogniskowa jest nieznana. Należy zauważyć, "
+"że ten znacznik różni się od znacznika FocalLength."
+
+#: src/properties.cpp:686 src/tags.cpp:922
+msgid "Scene Capture Type"
+msgstr "Rodzaj uchwycenia sceny"
+
+#: src/properties.cpp:686
+msgid "EXIF tag 41990, 0xA406. Indicates the type of scene that was shot."
+msgstr ""
+
+#: src/properties.cpp:687 src/tags.cpp:927
+msgid "Gain Control"
+msgstr "Regulacja wzmocnienia"
+
+#: src/properties.cpp:687
+#, fuzzy
+msgid ""
+"EXIF tag 41991, 0xA407. Indicates the degree of overall image gain "
+"adjustment."
+msgstr "Ten znacznik określa stopień wzmocnienia całego obrazu."
+
+#: src/properties.cpp:688
+#, fuzzy
+msgid ""
+"EXIF tag 41992, 0xA408. Indicates the direction of contrast processing "
+"applied by the camera."
+msgstr ""
+"Ten znacznik określa kierunek przetwarzania kontrastu wykonanego przez "
+"aparat przy robieniu zdjęcia."
+
+#: src/properties.cpp:689
+#, fuzzy
+msgid ""
+"EXIF tag 41993, 0xA409. Indicates the direction of saturation processing "
+"applied by the camera."
+msgstr ""
+"Ten znacznik określa kierunek przetwarzania nasycenia wykonanego przez "
+"aparat przy robieniu zdjęcia."
+
+#: src/properties.cpp:690
+#, fuzzy
+msgid ""
+"EXIF tag 41994, 0xA40A. Indicates the direction of sharpness processing "
+"applied by the camera."
+msgstr ""
+"Ten znacznik określa kierunek przetwarzania ostrości wykonanego przez aparat "
+"przy robieniu zdjęcia."
+
+#: src/properties.cpp:691 src/tags.cpp:942
+msgid "Device Setting Description"
+msgstr "Opis ustawień urządzenia"
+
+#: src/properties.cpp:691
+#, fuzzy
+msgid ""
+"EXIF tag 41995, 0xA40B. Indicates information on the picture-taking "
+"conditions of a particular camera model."
+msgstr ""
+"Ten znacznik określa informacje o warunkach robienia zdjęcia dla konkretnego "
+"modelu aparatu. Jest on używany tylko do określenia warunków robienia "
+"zdjęcia przy odczycie."
+
+#: src/properties.cpp:692 src/tags.cpp:947
+msgid "Subject Distance Range"
+msgstr "Zakres odległości obiektu"
+
+#: src/properties.cpp:692
+#, fuzzy
+msgid "EXIF tag 41996, 0xA40C. Indicates the distance to the subject."
+msgstr "Ten znacznik określa odległość od obiektu."
+
+#: src/properties.cpp:693 src/tags.cpp:950
+msgid "Image Unique ID"
+msgstr "Unikalny identyfikator obrazu"
+
+#: src/properties.cpp:693
+#, fuzzy
+msgid ""
+"EXIF tag 42016, 0xA420. An identifier assigned uniquely to each image. It is "
+"recorded as a 32 character ASCII string, equivalent to hexadecimal notation "
+"and 128-bit fixed length."
+msgstr ""
+"Ten znacznik określa unikalny identyfikator przypisany każdemu zdjęciu. Jest "
+"on zapisany jako łańcuch ASCII odpowiadający notacji szesnastkowej o stałej "
+"długości 128 bitów."
 
 #: src/tags.cpp:108
 #, fuzzy
@@ -5443,10 +5688,6 @@ msgid ""
 "repeating patterns of the color filter array"
 msgstr ""
 
-#: src/tags.cpp:438
-msgid "CFA Pattern"
-msgstr "Wzór CFA"
-
 #: src/tags.cpp:439
 #, fuzzy
 msgid ""
@@ -6127,10 +6368,6 @@ msgstr ""
 "nieskalibrowane mogą być traktowane jako sRGB przy konwersji do FlashPix. O "
 "sRGB p. załącznik E."
 
-#: src/tags.cpp:816
-msgid "Pixel X Dimension"
-msgstr ""
-
 #: src/tags.cpp:817
 #, fuzzy
 msgid ""
@@ -6144,10 +6381,6 @@ msgstr ""
 "znaczącego obrazu, niezależnie od istnienia danych dopełniających czy "
 "znacznika restartu. Ten znacznik nie powinien istnieć w pliku "
 "nieskompresowanym. Szczegóły w sekcji 2.8.1 i załączniku F."
-
-#: src/tags.cpp:823
-msgid "Pixel Y Dimension"
-msgstr ""
 
 #: src/tags.cpp:824
 #, fuzzy
@@ -6201,10 +6434,6 @@ msgstr ""
 "Określenie energii błysku w czasie robienia zdjęcia mierzonej w jednostkach "
 "BCPS (Beam Candle Power Seconds)."
 
-#: src/tags.cpp:851
-msgid "Spatial Frequency Response"
-msgstr "Odpowiedź częstotliwości przestrzennej"
-
 #: src/tags.cpp:852
 msgid ""
 "This tag records the camera or input device spatial frequency table and SFR "
@@ -6241,10 +6470,6 @@ msgstr ""
 "Określenie liczby pikseli w kierunku wysokości obrazu (Y) na "
 "<FocalPlaneResolutionUnit> w płaszczyźnie ogniskowej aparatu."
 
-#: src/tags.cpp:864
-msgid "Focal Plane Resolution Unit"
-msgstr "Jednostka rozdzielczości płaszczyzny ogniskowej"
-
 #: src/tags.cpp:865
 msgid ""
 "Indicates the unit for measuring <FocalPlaneXResolution> and "
@@ -6252,10 +6477,6 @@ msgid ""
 msgstr ""
 "Określenie jednostki miary <FocalPlaneXResolution> i "
 "<FocalPlaneYResolution>. Ta wartość jest taka sama jak <ResolutionUnit>."
-
-#: src/tags.cpp:868
-msgid "Subject Location"
-msgstr "Położenie obiektu"
 
 #: src/tags.cpp:869
 msgid ""
@@ -6281,18 +6502,10 @@ msgstr ""
 "Określenie indeksu ekspozycji wybranego przez aparat lub urządzenie "
 "wejściowe w czasie robienia zdjęcia."
 
-#: src/tags.cpp:879
-msgid "Sensing Method"
-msgstr "Rodzaj czujnika"
-
 #: src/tags.cpp:880
 msgid "Indicates the image sensor type on the camera or input device."
 msgstr ""
 "Określenie rodzaju czujnika obrazu w aparacie lub urządzeniu wejściowym."
-
-#: src/tags.cpp:882 src/fujimn.cpp:277
-msgid "File Source"
-msgstr "Źródło pliku"
 
 #: src/tags.cpp:883
 msgid ""
@@ -6301,10 +6514,6 @@ msgid ""
 msgstr ""
 "Określenie źródła obrazu. Jeśli obraz był zapisany przez DSC, wartość tego "
 "znacznika zawsze wynosi 3, oznaczając, że obraz był zapisany przez DSC."
-
-#: src/tags.cpp:887
-msgid "Scene Type"
-msgstr "Rodzaj sceny"
 
 #: src/tags.cpp:888
 msgid ""
@@ -6329,10 +6538,6 @@ msgstr ""
 "kolorów) czujnika obrazu w przypadku użycia jednoukładowego czujnika obszaru "
 "koloru. Nie odnosi się to do wszystkich metod próbkowania."
 
-#: src/tags.cpp:897
-msgid "Custom Rendered"
-msgstr "Własny rendering"
-
 #: src/tags.cpp:898
 msgid ""
 "This tag indicates the use of special processing on image data, such as "
@@ -6343,11 +6548,6 @@ msgstr ""
 "jak rendering zastosowany na wyjściu. Jeśli jest wykonane specjalne "
 "przetwarzanie, czytający powinien wyłączyć albo zminimalizować dalsze "
 "przetwarzanie."
-
-#: src/tags.cpp:903 src/minoltamn.cpp:611 src/minoltamn.cpp:886
-#: src/minoltamn.cpp:1124 src/sigmamn.cpp:84
-msgid "Exposure Mode"
-msgstr "Tryb ekspozycji"
 
 #: src/tags.cpp:904
 msgid ""
@@ -6364,10 +6564,6 @@ msgid "This tag indicates the white balance mode set when the image was shot."
 msgstr ""
 "Ten znacznik określa tryb balansu bieli ustawiony przy robieniu zdjęcia."
 
-#: src/tags.cpp:911
-msgid "Digital Zoom Ratio"
-msgstr "Współczynnik powiększenia cyfrowego"
-
 #: src/tags.cpp:912
 msgid ""
 "This tag indicates the digital zoom ratio when the image was shot. If the "
@@ -6377,10 +6573,6 @@ msgstr ""
 "Ten znacznik określa współczynnik powiększenia cyfrowego w czasie robienia "
 "zdjęcia. Jeśli licznik wartości znacznika jest równy 0, oznacza to, że nie "
 "użyto cyfrowego powiększenia."
-
-#: src/tags.cpp:916
-msgid "Focal Length In 35mm Film"
-msgstr "Ogniskowa dla filmu 35mm"
 
 #: src/tags.cpp:917
 #, fuzzy
@@ -6393,10 +6585,6 @@ msgstr ""
 "film 35 mm. Wartość 0 oznacza, że ogniskowa jest nieznana. Należy zauważyć, "
 "że ten znacznik różni się od znacznika FocalLength."
 
-#: src/tags.cpp:922
-msgid "Scene Capture Type"
-msgstr "Rodzaj uchwycenia sceny"
-
 #: src/tags.cpp:923
 #, fuzzy
 msgid ""
@@ -6407,10 +6595,6 @@ msgstr ""
 "Ten znacznik określa rodzaj sceny na zdjęciu. Może być także wykorzystany do "
 "zapisania trybu w którym było robione zdjęcie. Należy zauważyć, że ten "
 "znacznik różni się od znacznika rodzaju sceny (SceneType)."
-
-#: src/tags.cpp:927
-msgid "Gain Control"
-msgstr "Regulacja wzmocnienia"
 
 #: src/tags.cpp:928
 msgid "This tag indicates the degree of overall image gain adjustment."
@@ -6440,10 +6624,6 @@ msgstr ""
 "Ten znacznik określa kierunek przetwarzania ostrości wykonanego przez aparat "
 "przy robieniu zdjęcia."
 
-#: src/tags.cpp:942
-msgid "Device Setting Description"
-msgstr "Opis ustawień urządzenia"
-
 #: src/tags.cpp:943
 msgid ""
 "This tag indicates information on the picture-taking conditions of a "
@@ -6454,17 +6634,9 @@ msgstr ""
 "modelu aparatu. Jest on używany tylko do określenia warunków robienia "
 "zdjęcia przy odczycie."
 
-#: src/tags.cpp:947
-msgid "Subject Distance Range"
-msgstr "Zakres odległości obiektu"
-
 #: src/tags.cpp:948
 msgid "This tag indicates the distance to the subject."
 msgstr "Ten znacznik określa odległość od obiektu."
-
-#: src/tags.cpp:950
-msgid "Image Unique ID"
-msgstr "Unikalny identyfikator obrazu"
 
 #: src/tags.cpp:951
 msgid ""
