@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2007-10-14 15:58+0800\n"
+"POT-Creation-Date: 2007-10-14 14:44+0200\n"
 "PO-Revision-Date: 2007-10-14 02:56+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -75,8 +75,8 @@ msgstr "Диафрагма"
 msgid "Exposure bias"
 msgstr "Смещение экспозиции"
 
-#: src/actions.cpp:303 src/properties.cpp:489 src/tags.cpp:550
-#: src/tags.cpp:775 src/canonmn.cpp:503 src/minoltamn.cpp:665
+#: src/actions.cpp:303 src/properties.cpp:489 src/properties.cpp:665
+#: src/tags.cpp:550 src/tags.cpp:775 src/canonmn.cpp:503 src/minoltamn.cpp:665
 #: src/minoltamn.cpp:904 src/minoltamn.cpp:905 src/minoltamn.cpp:1013
 #: src/minoltamn.cpp:1142 src/minoltamn.cpp:1143 src/panasonicmn.cpp:78
 #: src/pentaxmn.cpp:266
@@ -144,7 +144,8 @@ msgstr "Эскиз"
 msgid "None"
 msgstr "Ничего"
 
-#: src/actions.cpp:552 src/datasets.cpp:376 src/tags.cpp:449
+#: src/actions.cpp:552 src/datasets.cpp:376 src/properties.cpp:434
+#: src/tags.cpp:449
 msgid "Copyright"
 msgstr "Авторские права"
 
@@ -643,7 +644,7 @@ msgid ""
 "<ARMVersion>, according to the practices of the provider."
 msgstr ""
 
-#: src/datasets.cpp:207 src/datasets.cpp:212
+#: src/datasets.cpp:207 src/datasets.cpp:212 src/properties.cpp:330
 msgid "Urgency"
 msgstr "Срочность"
 
@@ -662,7 +663,7 @@ msgstr "Предмет съёмки"
 msgid "The Subject Reference is a structured definition of the subject matter."
 msgstr ""
 
-#: src/datasets.cpp:216 src/datasets.cpp:221
+#: src/datasets.cpp:216 src/datasets.cpp:221 src/properties.cpp:316
 msgid "Category"
 msgstr "Категория"
 
@@ -685,7 +686,7 @@ msgid ""
 "to the provider."
 msgstr ""
 
-#: src/datasets.cpp:228
+#: src/datasets.cpp:228 src/properties.cpp:328
 msgid "Supplemental Categories"
 msgstr "Дополнительные категории"
 
@@ -699,7 +700,7 @@ msgid ""
 "immediately find or recall such an object."
 msgstr ""
 
-#: src/datasets.cpp:233 src/datasets.cpp:239
+#: src/datasets.cpp:233 src/datasets.cpp:239 src/properties.cpp:306
 msgid "Keywords"
 msgstr "Ключевые слова"
 
@@ -786,7 +787,7 @@ msgid ""
 "embargoes and warnings."
 msgstr ""
 
-#: src/datasets.cpp:273
+#: src/datasets.cpp:273 src/properties.cpp:325
 msgid "Instructions"
 msgstr "Инструкции"
 
@@ -833,7 +834,7 @@ msgid ""
 "object refers."
 msgstr ""
 
-#: src/datasets.cpp:289 src/datasets.cpp:294
+#: src/datasets.cpp:289 src/datasets.cpp:294 src/properties.cpp:320
 msgid "Date Created"
 msgstr "Дата создания объекта съёмки"
 
@@ -925,7 +926,7 @@ msgid ""
 "Where used, a by-line title should follow the by-line it modifies."
 msgstr ""
 
-#: src/datasets.cpp:328 src/datasets.cpp:332
+#: src/datasets.cpp:328 src/datasets.cpp:332 src/properties.cpp:317
 msgid "City"
 msgstr "Город"
 
@@ -986,11 +987,11 @@ msgid ""
 "guidelines of the provider."
 msgstr ""
 
-#: src/datasets.cpp:357
+#: src/datasets.cpp:357 src/properties.cpp:318
 msgid "Country"
 msgstr "Страна"
 
-#: src/datasets.cpp:358 src/datasets.cpp:362
+#: src/datasets.cpp:358 src/datasets.cpp:362 src/properties.cpp:329
 msgid "Transmission Reference"
 msgstr ""
 
@@ -1000,7 +1001,7 @@ msgid ""
 "practices of the provider."
 msgstr ""
 
-#: src/datasets.cpp:363 src/datasets.cpp:366
+#: src/datasets.cpp:363 src/datasets.cpp:366 src/properties.cpp:324
 msgid "Headline"
 msgstr "Заголовок"
 
@@ -1009,7 +1010,7 @@ msgid ""
 "A publishable entry providing a synopsis of the contents of the object data."
 msgstr ""
 
-#: src/datasets.cpp:367 src/datasets.cpp:370
+#: src/datasets.cpp:367 src/datasets.cpp:370 src/properties.cpp:319
 msgid "Credit"
 msgstr ""
 
@@ -1020,6 +1021,7 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:371 src/datasets.cpp:375 src/properties.cpp:112
+#: src/properties.cpp:326
 msgid "Source"
 msgstr "Источник"
 
@@ -2749,6 +2751,1088 @@ msgid ""
 "that name is displayed."
 msgstr ""
 
+#: src/properties.cpp:262
+msgid "Start Time Code"
+msgstr ""
+
+#: src/properties.cpp:262
+msgid ""
+"The timecode of the first frame of video in the file, as obtained from the "
+"device control."
+msgstr ""
+
+#: src/properties.cpp:263
+#, fuzzy
+msgid "Alt Time code"
+msgstr "Режим вспышки"
+
+#: src/properties.cpp:263
+msgid ""
+"A timecode set by the user. When specified, it is used instead of the "
+"startTimecode."
+msgstr ""
+
+#: src/properties.cpp:264
+#, fuzzy
+msgid "Duration"
+msgstr "Насыщенность"
+
+#: src/properties.cpp:264
+msgid "The duration of the media file."
+msgstr ""
+
+#: src/properties.cpp:265
+#, fuzzy
+msgid "scene"
+msgstr "Центральный"
+
+#: src/properties.cpp:265
+#, fuzzy
+msgid "The name of the scene."
+msgstr "Вид источника света"
+
+#: src/properties.cpp:266
+#, fuzzy
+msgid "shotName"
+msgstr "Название страны"
+
+#: src/properties.cpp:266
+msgid "The name of the shot or take."
+msgstr ""
+
+#: src/properties.cpp:267
+msgid "shotDate"
+msgstr ""
+
+#: src/properties.cpp:267
+#, fuzzy
+msgid "The date and time when the video was shot."
+msgstr "Дата и время сохранения изображения в цифровом виде"
+
+#: src/properties.cpp:268
+#, fuzzy
+msgid "shotLocation"
+msgstr "Местоположение объекта съёмки"
+
+#: src/properties.cpp:268
+msgid ""
+"The name of the location where the video was shot. For example: "
+"\"Oktoberfest, Munich Germany\" For more accurate positioning, use the EXIF "
+"GPS values."
+msgstr ""
+
+#: src/properties.cpp:270
+#, fuzzy
+msgid "logComment"
+msgstr "Комментарий (Windows)"
+
+#: src/properties.cpp:270
+#, fuzzy
+msgid "User's log comments."
+msgstr "Пользовательский комментарий"
+
+#: src/properties.cpp:271
+msgid "markers"
+msgstr ""
+
+#: src/properties.cpp:271
+msgid "An ordered list of markers"
+msgstr ""
+
+#: src/properties.cpp:272
+msgid "contributedMedia"
+msgstr ""
+
+#: src/properties.cpp:272
+msgid "An unordered list of all media used to create this media."
+msgstr ""
+
+#: src/properties.cpp:273
+msgid "absPeakAudioFilePath"
+msgstr ""
+
+#: src/properties.cpp:273
+msgid ""
+"The absolute path to the file's peak audio file. If empty, no peak file "
+"exists."
+msgstr ""
+
+#: src/properties.cpp:274
+msgid "relativePeakAudioFilePath"
+msgstr ""
+
+#: src/properties.cpp:274
+msgid ""
+"The relative path to the file's peak audio file. If empty, no peak file "
+"exists."
+msgstr ""
+
+#: src/properties.cpp:275
+msgid "videoModDate"
+msgstr ""
+
+#: src/properties.cpp:275
+#, fuzzy
+msgid "The date and time when the video was last modified."
+msgstr "Дата и время сохранения изображения в цифровом виде"
+
+#: src/properties.cpp:276
+#, fuzzy
+msgid "audioModDate"
+msgstr "Частота сэмплирования звукозаписи"
+
+#: src/properties.cpp:276
+#, fuzzy
+msgid "The date and time when the audio was last modified."
+msgstr "Дата и время сохранения изображения в цифровом виде"
+
+#: src/properties.cpp:277
+msgid "metadataModDate"
+msgstr ""
+
+#: src/properties.cpp:277
+#, fuzzy
+msgid "The date and time when the metadata was last modified."
+msgstr "Дата и время сохранения изображения в цифровом виде"
+
+#: src/properties.cpp:278
+#, fuzzy
+msgid "artist"
+msgstr "Исполнитель"
+
+#: src/properties.cpp:278
+msgid "The name of the artist or artists."
+msgstr ""
+
+#: src/properties.cpp:279
+#, fuzzy
+msgid "album"
+msgstr "значение"
+
+#: src/properties.cpp:279
+msgid "The name of the album."
+msgstr ""
+
+#: src/properties.cpp:280
+#, fuzzy
+msgid "trackNumber"
+msgstr "Число F"
+
+#: src/properties.cpp:280
+msgid ""
+"A numeric value indicating the order of the audio file within its original "
+"recording."
+msgstr ""
+
+#: src/properties.cpp:281
+#, fuzzy
+msgid "genre"
+msgstr "Центральная"
+
+#: src/properties.cpp:281
+msgid "The name of the genre."
+msgstr ""
+
+#: src/properties.cpp:282
+#, fuzzy
+msgid "copyright"
+msgstr "Авторские права"
+
+#: src/properties.cpp:282
+#, fuzzy
+msgid "The copyright information."
+msgstr "Способ фокусировки"
+
+#: src/properties.cpp:283
+#, fuzzy
+msgid "releaseDate"
+msgstr "Дата пубикации"
+
+#: src/properties.cpp:283
+#, fuzzy
+msgid "The date the title was released."
+msgstr "Дата и время сохранения изображения в цифровом виде"
+
+#: src/properties.cpp:284
+#, fuzzy
+msgid "composer"
+msgstr "компонент"
+
+#: src/properties.cpp:284
+msgid "The composer's name."
+msgstr ""
+
+#: src/properties.cpp:285
+#, fuzzy
+msgid "engineer"
+msgstr "Центральный"
+
+#: src/properties.cpp:285
+msgid "The engineer's name."
+msgstr ""
+
+#: src/properties.cpp:286
+msgid "tempo"
+msgstr ""
+
+#: src/properties.cpp:286
+msgid "The audio's tempo."
+msgstr ""
+
+#: src/properties.cpp:287
+msgid "instrument"
+msgstr ""
+
+#: src/properties.cpp:287
+msgid "The musical instrument."
+msgstr ""
+
+#: src/properties.cpp:288
+#, fuzzy
+msgid "introTime"
+msgstr "Время отправки"
+
+#: src/properties.cpp:288
+msgid "The duration of lead time for queuing music."
+msgstr ""
+
+#: src/properties.cpp:289
+msgid "outCue"
+msgstr ""
+
+#: src/properties.cpp:289
+msgid "The time at which to fade out."
+msgstr ""
+
+#: src/properties.cpp:290
+#, fuzzy
+msgid "relativeTimestamp"
+msgstr "обновляется отметка времени"
+
+#: src/properties.cpp:290
+msgid "The start time of the media inside the audio project."
+msgstr ""
+
+#: src/properties.cpp:291
+msgid "loop"
+msgstr ""
+
+#: src/properties.cpp:291
+msgid "When true, the clip can be looped seemlessly."
+msgstr ""
+
+#: src/properties.cpp:292
+msgid "numberOfBeats"
+msgstr ""
+
+#: src/properties.cpp:292
+#, fuzzy
+msgid "The number of beats."
+msgstr "Число F"
+
+#: src/properties.cpp:293
+msgid "key"
+msgstr ""
+
+#: src/properties.cpp:293
+msgid ""
+"The audio's musical key. One of: C, C#, D, D#, E, F, F#, G, G#, A, A#, B."
+msgstr ""
+
+#: src/properties.cpp:294
+#, fuzzy
+msgid "stretchMode"
+msgstr "Режим коррекции"
+
+#: src/properties.cpp:294
+msgid ""
+"The audio stretch mode. One of: Fixed length, Time-Scale, Resample, Beat "
+"Splice, Hybrid."
+msgstr ""
+
+#: src/properties.cpp:295
+msgid "timeScaleParams"
+msgstr ""
+
+#: src/properties.cpp:295
+msgid "Additional parameters for Time-Scale stretch mode."
+msgstr ""
+
+#: src/properties.cpp:296
+msgid "resampleParams"
+msgstr ""
+
+#: src/properties.cpp:296
+msgid "Additional parameters for Resample stretch mode."
+msgstr ""
+
+#: src/properties.cpp:297
+msgid "beatSpliceParams"
+msgstr ""
+
+#: src/properties.cpp:297
+msgid "Additional parameters for Beat Splice stretch mode."
+msgstr ""
+
+#: src/properties.cpp:298
+msgid "timeSignature"
+msgstr ""
+
+#: src/properties.cpp:298
+msgid ""
+"The time signature of the music. One of: 2/4, 3/4, 4/4, 5/4, 7/4, 6/8, 9/8, "
+"12/8, other."
+msgstr ""
+
+#: src/properties.cpp:299
+#, fuzzy
+msgid "scaleType"
+msgstr "Тип изображения"
+
+#: src/properties.cpp:299
+msgid ""
+"The musical scale used in the music. One of: Major, Minor, Both, Neither. "
+"Neither is most often used for instruments with no associated scale, such as "
+"drums."
+msgstr ""
+
+#: src/properties.cpp:306
+#, fuzzy
+msgid "Keywords."
+msgstr "Ключевые слова"
+
+#: src/properties.cpp:307
+#, fuzzy
+msgid "PDF Version"
+msgstr "Версия файла"
+
+#: src/properties.cpp:307
+msgid "The PDF file version (for example: 1.0, 1.3, and so on)."
+msgstr ""
+
+#: src/properties.cpp:308
+msgid "Producer"
+msgstr ""
+
+#: src/properties.cpp:308
+msgid "The name of the tool that created the PDF document."
+msgstr ""
+
+#: src/properties.cpp:314
+#, fuzzy
+msgid "Authors Position"
+msgstr "Неизвестная версия EXIF"
+
+#: src/properties.cpp:314
+msgid "By-line title."
+msgstr ""
+
+#: src/properties.cpp:315
+#, fuzzy
+msgid "Caption Writer"
+msgstr "Подпись"
+
+#: src/properties.cpp:315
+#, fuzzy
+msgid "Writer/editor."
+msgstr "Автор текста"
+
+#: src/properties.cpp:316
+msgid "Category. Limited to 3 7-bit ASCII characters."
+msgstr ""
+
+#: src/properties.cpp:317
+#, fuzzy
+msgid "City."
+msgstr "Город"
+
+#: src/properties.cpp:318
+msgid "Country/primary location."
+msgstr ""
+
+#: src/properties.cpp:319
+msgid "Credit."
+msgstr ""
+
+#: src/properties.cpp:320
+msgid ""
+"The date the intellectual content of the document was created (rather than "
+"the creation date of the physical representation), following IIM "
+"conventions. For example, a photo taken during the American Civil War would "
+"have a creation date during that epoch (1861-1865) rather than the date the "
+"photo was digitized for archiving."
+msgstr ""
+
+#: src/properties.cpp:324
+#, fuzzy
+msgid "Headline."
+msgstr "Заголовок"
+
+#: src/properties.cpp:325
+#, fuzzy
+msgid "Special instructions."
+msgstr "Особые инструкции"
+
+#: src/properties.cpp:326
+#, fuzzy
+msgid "Source."
+msgstr "Источник"
+
+#: src/properties.cpp:327
+#, fuzzy
+msgid "State"
+msgstr "Программное обеспечение"
+
+#: src/properties.cpp:327
+msgid "Province/state."
+msgstr ""
+
+#: src/properties.cpp:328
+#, fuzzy
+msgid "Supplemental category."
+msgstr "Дополнительная категория"
+
+#: src/properties.cpp:329
+msgid "Original transmission reference."
+msgstr ""
+
+#: src/properties.cpp:330
+msgid "Urgency. Valid range is 1-8."
+msgstr ""
+
+#: src/properties.cpp:337
+msgid "pixels"
+msgstr ""
+
+#: src/properties.cpp:338 src/properties.cpp:510
+#, fuzzy
+msgid "inches"
+msgstr "дюйм"
+
+#: src/properties.cpp:339 src/tags.cpp:157
+msgid "cm"
+msgstr "cm"
+
+#: src/properties.cpp:343
+#, fuzzy
+msgid "Auto Brightness"
+msgstr "Яркость"
+
+#: src/properties.cpp:343
+msgid "When true, \"Brightness\" is automatically adjusted."
+msgstr ""
+
+#: src/properties.cpp:344
+#, fuzzy
+msgid "Auto Contrast"
+msgstr "Контраст"
+
+#: src/properties.cpp:344
+msgid "When true, \"Contrast\" is automatically adjusted."
+msgstr ""
+
+#: src/properties.cpp:345
+#, fuzzy
+msgid "Auto Exposure"
+msgstr "Режим экспозиции"
+
+#: src/properties.cpp:345
+msgid "When true, \"Exposure\" is automatically adjusted."
+msgstr ""
+
+#: src/properties.cpp:346
+#, fuzzy
+msgid "Auto Shadows"
+msgstr "Тень"
+
+#: src/properties.cpp:346
+msgid "When true,\"Shadows\" is automatically adjusted."
+msgstr ""
+
+#: src/properties.cpp:347
+#, fuzzy
+msgid "Blue Hue"
+msgstr "Баланс белого"
+
+#: src/properties.cpp:347
+msgid "\"Blue Hue\" setting. Range -100 to 100."
+msgstr ""
+
+#: src/properties.cpp:348
+#, fuzzy
+msgid "Blue Saturation"
+msgstr "Насыщенность"
+
+#: src/properties.cpp:348
+msgid "\"Blue Saturation\" setting. Range -100 to +100."
+msgstr ""
+
+#: src/properties.cpp:349 src/tags.cpp:753 src/minoltamn.cpp:731
+#: src/minoltamn.cpp:732 src/olympusmn.cpp:206
+msgid "Brightness"
+msgstr "Яркость"
+
+#: src/properties.cpp:349
+msgid "\"Brightness\" setting. Range 0 to +150."
+msgstr ""
+
+#: src/properties.cpp:350
+#, fuzzy
+msgid "Camera Profile"
+msgstr "Модель камеры"
+
+#: src/properties.cpp:350
+#, fuzzy
+msgid "\"Camera Profile\" setting."
+msgstr "Настройки камеры"
+
+#: src/properties.cpp:351
+#, fuzzy
+msgid "Chromatic Aberration Blue"
+msgstr "Настройка контраста"
+
+#: src/properties.cpp:351
+msgid ""
+"\"Chomatic Aberration, Fix Blue/Yellow Fringe\" setting. Range -100 to +100."
+msgstr ""
+
+#: src/properties.cpp:352
+#, fuzzy
+msgid "Chromatic Aberration Red"
+msgstr "Настройка контраста"
+
+#: src/properties.cpp:352
+msgid ""
+"\"Chomatic Aberration, Fix Red/Cyan Fringe\" setting. Range -100 to +100."
+msgstr ""
+
+#: src/properties.cpp:353
+#, fuzzy
+msgid "Color Noise Reduction"
+msgstr "Подавление шума"
+
+#: src/properties.cpp:353
+msgid "\"Color Noise Reducton\" setting. Range 0 to +100."
+msgstr ""
+
+#: src/properties.cpp:354 src/tags.cpp:930 src/canonmn.cpp:457
+#: src/minoltamn.cpp:507 src/minoltamn.cpp:695 src/minoltamn.cpp:696
+#: src/minoltamn.cpp:922 src/minoltamn.cpp:923 src/minoltamn.cpp:1154
+#: src/minoltamn.cpp:1155 src/olympusmn.cpp:320 src/panasonicmn.cpp:248
+#: src/pentaxmn.cpp:736 src/pentaxmn.cpp:826 src/pentaxmn.cpp:827
+#: src/sigmamn.cpp:99 src/sigmamn.cpp:100
+msgid "Contrast"
+msgstr "Контраст"
+
+#: src/properties.cpp:354
+msgid "\"Contrast\" setting. Range -50 to +100."
+msgstr ""
+
+#: src/properties.cpp:355
+#, fuzzy
+msgid "Crop Top"
+msgstr "Монохромный"
+
+#: src/properties.cpp:355
+msgid "When HasCrop is true, top of crop rectangle"
+msgstr ""
+
+#: src/properties.cpp:356
+#, fuzzy
+msgid "Crop Left"
+msgstr "справа налево"
+
+#: src/properties.cpp:356
+msgid "When HasCrop is true, left of crop rectangle."
+msgstr ""
+
+#: src/properties.cpp:357
+#, fuzzy
+msgid "Crop Bottom"
+msgstr "снизу вверх"
+
+#: src/properties.cpp:357
+msgid "When HasCrop is true, bottom of crop rectangle."
+msgstr ""
+
+#: src/properties.cpp:358
+#, fuzzy
+msgid "Crop Right"
+msgstr "Авторские права"
+
+#: src/properties.cpp:358
+msgid "When HasCrop is true, right of crop rectangle."
+msgstr ""
+
+#: src/properties.cpp:359
+msgid "Crop Angle"
+msgstr ""
+
+#: src/properties.cpp:359
+msgid "When HasCrop is true, angle of crop rectangle."
+msgstr ""
+
+#: src/properties.cpp:360
+msgid "Crop Width"
+msgstr ""
+
+#: src/properties.cpp:360
+msgid "Width of resulting cropped image in CropUnits units."
+msgstr ""
+
+#: src/properties.cpp:361
+#, fuzzy
+msgid "Crop Height"
+msgstr "Авторские права"
+
+#: src/properties.cpp:361
+msgid "Height of resulting cropped image in CropUnits units."
+msgstr ""
+
+#: src/properties.cpp:362
+msgid "Crop Units"
+msgstr ""
+
+#: src/properties.cpp:362
+msgid "Units for CropWidth and CropHeight. 0=pixels, 1=inches, 2=cm"
+msgstr ""
+
+#: src/properties.cpp:363 src/minoltamn.cpp:506 src/sigmamn.cpp:96
+#: src/sigmamn.cpp:97
+#, fuzzy
+msgid "Exposure"
+msgstr "Режим экспозиции"
+
+#: src/properties.cpp:363
+msgid "\"Exposure\" setting. Range -4.0 to +4.0."
+msgstr ""
+
+#: src/properties.cpp:364
+#, fuzzy
+msgid "GreenHue"
+msgstr "Режим замера"
+
+#: src/properties.cpp:364
+msgid "\"Green Hue\" setting. Range -100 to +100."
+msgstr ""
+
+#: src/properties.cpp:365
+#, fuzzy
+msgid "Green Saturation"
+msgstr "Насыщенность"
+
+#: src/properties.cpp:365
+msgid "\"Green Saturation\" setting. Range -100 to +100."
+msgstr ""
+
+#: src/properties.cpp:366
+#, fuzzy
+msgid "Has Crop"
+msgstr "Режим вспышки"
+
+#: src/properties.cpp:366
+msgid "When true, image has a cropping rectangle."
+msgstr ""
+
+#: src/properties.cpp:367
+#, fuzzy
+msgid "Has Settings"
+msgstr "Настройка резкости"
+
+#: src/properties.cpp:367
+msgid "When true, non-default camera raw settings."
+msgstr ""
+
+#: src/properties.cpp:368
+msgid "Luminance Smoothing"
+msgstr ""
+
+#: src/properties.cpp:368
+msgid "\"Luminance Smoothing\" setting. Range 0 to +100."
+msgstr ""
+
+#: src/properties.cpp:369
+#, fuzzy
+msgid "Raw File Name"
+msgstr "Имя файла"
+
+#: src/properties.cpp:369
+msgid "File name fo raw file (not a complete path)."
+msgstr ""
+
+#: src/properties.cpp:370
+msgid "Red Hue"
+msgstr ""
+
+#: src/properties.cpp:370
+msgid "\"Red Hue\" setting. Range -100 to +100."
+msgstr ""
+
+#: src/properties.cpp:371
+#, fuzzy
+msgid "Red Saturation"
+msgstr "Насыщенность"
+
+#: src/properties.cpp:371
+msgid "\"Red Saturation\" setting. Range -100 to +100."
+msgstr ""
+
+#: src/properties.cpp:372 src/tags.cpp:934 src/canonmn.cpp:458
+#: src/minoltamn.cpp:508 src/minoltamn.cpp:692 src/minoltamn.cpp:693
+#: src/minoltamn.cpp:925 src/minoltamn.cpp:926 src/minoltamn.cpp:1157
+#: src/minoltamn.cpp:1158 src/nikonmn.cpp:714 src/nikonmn.cpp:715
+#: src/nikonmn.cpp:765 src/nikonmn.cpp:766 src/pentaxmn.cpp:730
+#: src/pentaxmn.cpp:823 src/pentaxmn.cpp:824 src/pentaxmn.cpp:956
+#: src/pentaxmn.cpp:957 src/sigmamn.cpp:108 src/sigmamn.cpp:109
+msgid "Saturation"
+msgstr "Насыщенность"
+
+#: src/properties.cpp:372
+#, fuzzy
+msgid "\"Saturation\" setting. Range -100 to +100."
+msgstr "Настройка контраста"
+
+#: src/properties.cpp:373
+#, fuzzy
+msgid "Shadows"
+msgstr "Тень"
+
+#: src/properties.cpp:373
+msgid "\"Shadows\" setting. Range 0 to +100."
+msgstr ""
+
+#: src/properties.cpp:374
+#, fuzzy
+msgid "Shadow Tint"
+msgstr "Тень"
+
+#: src/properties.cpp:374
+msgid "\"Shadow Tint\" setting. Range -100 to +100."
+msgstr ""
+
+#: src/properties.cpp:375 src/tags.cpp:938 src/canonmn.cpp:459
+#: src/fujimn.cpp:196 src/minoltamn.cpp:698 src/minoltamn.cpp:699
+#: src/minoltamn.cpp:919 src/minoltamn.cpp:920 src/minoltamn.cpp:1151
+#: src/minoltamn.cpp:1152 src/pentaxmn.cpp:733 src/pentaxmn.cpp:829
+#: src/pentaxmn.cpp:830 src/sigmamn.cpp:111 src/sigmamn.cpp:112
+msgid "Sharpness"
+msgstr "Резкость"
+
+#: src/properties.cpp:375
+#, fuzzy
+msgid "\"Sharpness\" setting. Range 0 to +100."
+msgstr "Настройка резкости"
+
+#: src/properties.cpp:376 src/pentaxmn.cpp:874
+#, fuzzy
+msgid "Temperature"
+msgstr "Температура цвета"
+
+#: src/properties.cpp:376
+msgid "\"Temperature\" setting. Range 2000 to 50000."
+msgstr ""
+
+#: src/properties.cpp:377
+#, fuzzy
+msgid "Tint"
+msgstr "Файл"
+
+#: src/properties.cpp:377
+msgid "\"Tint\" setting. Range -150 to +150."
+msgstr ""
+
+#: src/properties.cpp:378 src/nikonmn.cpp:696
+msgid "Tone Curve"
+msgstr "Кривая тонкоррекции"
+
+#: src/properties.cpp:378
+msgid "Array of points (Integer, Integer) defining a \"Tone Curve\"."
+msgstr ""
+
+#: src/properties.cpp:379
+#, fuzzy
+msgid "Tone Curve Name"
+msgstr "Кривая тонкоррекции"
+
+#: src/properties.cpp:379
+msgid ""
+"The name of the Tone Curve described by ToneCurve. One of: Linear, Medium "
+"Contrast, Strong Contrast, Custom or a user-defined preset name."
+msgstr ""
+
+#: src/properties.cpp:381 src/fujimn.cpp:186 src/nikonmn.cpp:163
+#: src/nikonmn.cpp:579 src/pentaxmn.cpp:751
+msgid "Version"
+msgstr "Версия"
+
+#: src/properties.cpp:381
+msgid "Version of Camera Raw plugin."
+msgstr ""
+
+#: src/properties.cpp:382
+msgid "Vignette Amount"
+msgstr ""
+
+#: src/properties.cpp:382
+msgid "\"Vignetting Amount\" setting. Range -100 to +100."
+msgstr ""
+
+#: src/properties.cpp:383
+#, fuzzy
+msgid "Vignette Midpoint"
+msgstr "Белая точка"
+
+#: src/properties.cpp:383
+msgid "\"Vignetting Midpoint\" setting. Range 0 to +100."
+msgstr ""
+
+#: src/properties.cpp:384 src/tags.cpp:908 src/canonmn.cpp:553
+#: src/fujimn.cpp:199 src/minoltamn.cpp:617 src/minoltamn.cpp:895
+#: src/minoltamn.cpp:1133 src/nikonmn.cpp:175 src/nikonmn.cpp:456
+#: src/nikonmn.cpp:591 src/olympusmn.cpp:260 src/panasonicmn.cpp:191
+#: src/sigmamn.cpp:81
+msgid "White Balance"
+msgstr "Баланс белого"
+
+#: src/properties.cpp:384
+msgid ""
+"\"White Balance\" setting. One of: As Shot, Auto, Daylight, Cloudy, Shade, "
+"Tungsten, Fluorescent, Flash, Custom"
+msgstr ""
+
+#: src/properties.cpp:391 src/tags.cpp:239 src/canonmn.cpp:656
+#: src/olympusmn.cpp:335
+msgid "Image Width"
+msgstr "Ширина изображения"
+
+#: src/properties.cpp:391
+msgid "TIFF tag 256, 0x100. Image width in pixels."
+msgstr ""
+
+#: src/properties.cpp:392 src/tags.cpp:244
+msgid "Image Length"
+msgstr "Длина изображения"
+
+#: src/properties.cpp:392
+msgid "TIFF tag 257, 0x101. Image height in pixels."
+msgstr ""
+
+#: src/properties.cpp:393
+#, fuzzy
+msgid "Bits Per Sample"
+msgstr "Битов на сэмпл"
+
+#: src/properties.cpp:393
+msgid "TIFF tag 258, 0x102. Number of bits per component in each channel."
+msgstr ""
+
+#: src/properties.cpp:394 src/tags.cpp:254
+msgid "Compression"
+msgstr "Сжатие"
+
+#: src/properties.cpp:394
+msgid "TIFF tag 259, 0x103. Compression scheme: 1 = uncompressed; 6 = JPEG."
+msgstr ""
+
+#: src/properties.cpp:395 src/tags.cpp:260
+msgid "Photometric Interpretation"
+msgstr "Фотометрическая интерпретация"
+
+#: src/properties.cpp:395
+msgid "TIFF tag 262, 0x106. Pixel Composition: 2 = RGB; 6 = YCbCr."
+msgstr ""
+
+#: src/properties.cpp:396 src/tags.cpp:296
+msgid "Orientation"
+msgstr "Ориентация"
+
+#: src/properties.cpp:396
+msgid ""
+"TIFF tag 274, 0x112. Orientation:1 = 0th row at top, 0th column at left 2 = "
+"0th row at top, 0th column at right 3 = 0th row at bottom, 0th column at "
+"right 4 = 0th row at bottom, 0th column at left 5 = 0th row at left, 0th "
+"column at top 6 = 0th row at right, 0th column at top 7 = 0th row at right, "
+"0th column at bottom 8 = 0th row at left, 0th column at bottom"
+msgstr ""
+
+#: src/properties.cpp:405
+#, fuzzy
+msgid "Samples Per Pixel"
+msgstr "Сэмплов на пиксел"
+
+#: src/properties.cpp:405
+msgid "TIFF tag 277, 0x115. Number of components per pixel."
+msgstr ""
+
+#: src/properties.cpp:406 src/tags.cpp:322
+msgid "Planar Configuration"
+msgstr "Планарная конфигурация"
+
+#: src/properties.cpp:406
+msgid "TIFF tag 284, 0x11C. Data layout:1 = chunky; 2 = planar."
+msgstr ""
+
+#: src/properties.cpp:407
+#, fuzzy
+msgid "YCbCr Sub Sampling"
+msgstr "Субсэмплинг YCbCr"
+
+#: src/properties.cpp:407
+msgid ""
+"TIFF tag 530, 0x212. Sampling ratio of chrominance components: [2, 1] = "
+"YCbCr4:2:2; [2, 2] = YCbCr4:2:0"
+msgstr ""
+
+#: src/properties.cpp:409 src/tags.cpp:402
+msgid "YCbCr Positioning"
+msgstr "Позиционирование YCbCr"
+
+#: src/properties.cpp:409
+msgid ""
+"TIFF tag 531, 0x213. Position of chrominance vs. luminance components: 1 = "
+"centered; 2 = co-sited."
+msgstr ""
+
+#: src/properties.cpp:411
+#, fuzzy
+msgid "X Resolution"
+msgstr "Разрешение по X"
+
+#: src/properties.cpp:411
+msgid "TIFF tag 282, 0x11A. Horizontal resolution in pixels per unit."
+msgstr ""
+
+#: src/properties.cpp:412
+#, fuzzy
+msgid "Y Resolution"
+msgstr "Разрешение по Y"
+
+#: src/properties.cpp:412
+msgid "TIFF tag 283, 0x11B. Vertical resolution in pixels per unit."
+msgstr ""
+
+#: src/properties.cpp:413 src/tags.cpp:328
+msgid "Resolution Unit"
+msgstr "Единица разрешения"
+
+#: src/properties.cpp:413
+msgid ""
+"TIFF tag 296, 0x128. Unit used for XResolution and YResolution. Value is one "
+"of: 2 = inches; 3 = centimeters."
+msgstr ""
+
+#: src/properties.cpp:415 src/tags.cpp:333
+msgid "Transfer Function"
+msgstr "Функция передачи"
+
+#: src/properties.cpp:415
+msgid ""
+"TIFF tag 301, 0x12D. Transfer function for image described in tabular style "
+"with 3 * 256 entries."
+msgstr ""
+
+#: src/properties.cpp:417 src/tags.cpp:357
+msgid "White Point"
+msgstr "Белая точка"
+
+#: src/properties.cpp:417
+msgid "TIFF tag 318, 0x13E. Chromaticity of white point."
+msgstr ""
+
+#: src/properties.cpp:418 src/tags.cpp:362
+msgid "Primary Chromaticities"
+msgstr ""
+
+#: src/properties.cpp:418
+msgid "TIFF tag 319, 0x13F. Chromaticity of the three primary colors."
+msgstr ""
+
+#: src/properties.cpp:419 src/tags.cpp:388
+msgid "YCbCr Coefficients"
+msgstr "Коэффициенты YCbCr"
+
+#: src/properties.cpp:419
+msgid ""
+"TIFF tag 529, 0x211. Matrix coefficients for RGB to YCbCr transformation."
+msgstr ""
+
+#: src/properties.cpp:420
+#, fuzzy
+msgid "Reference Black White"
+msgstr "Эталонный Чёрный/Белый"
+
+#: src/properties.cpp:420
+msgid "TIFF tag 532, 0x214. Reference black and white point values."
+msgstr ""
+
+#: src/properties.cpp:421
+#, fuzzy
+msgid "Date Time"
+msgstr "Дата и время"
+
+#: src/properties.cpp:421
+msgid ""
+"TIFF tag 306, 0x132 (primary) and EXIF tag 37520, 0x9290 (subseconds). Date "
+"and time of image creation (no time zone in EXIF), stored in ISO 8601 "
+"format, not the original EXIF format. This property includes the value for "
+"the EXIF SubSecTime attribute. NOTE: This property is stored in XMP as xmp:"
+"ModifyDate."
+msgstr ""
+
+#: src/properties.cpp:427 src/tags.cpp:270
+msgid "Image Description"
+msgstr "Описание снимка"
+
+#: src/properties.cpp:427
+msgid ""
+"TIFF tag 270, 0x10E. Description of the image. Note: This property is stored "
+"in XMP as dc:description."
+msgstr ""
+
+#: src/properties.cpp:428
+#, fuzzy
+msgid "Make"
+msgstr "Ручная"
+
+#: src/properties.cpp:428
+msgid "TIFF tag 271, 0x10F. Manufacturer of recording equipment."
+msgstr ""
+
+#: src/properties.cpp:429 src/tags.cpp:283
+msgid "Model"
+msgstr "Модель"
+
+#: src/properties.cpp:429
+msgid "TIFF tag 272, 0x110. Model name or number of equipment."
+msgstr ""
+
+#: src/properties.cpp:430 src/tags.cpp:338 src/sigmamn.cpp:129
+#: src/sigmamn.cpp:130
+msgid "Software"
+msgstr "Программное обеспечение"
+
+#: src/properties.cpp:430
+msgid ""
+"TIFF tag 305, 0x131. Software or firmware used to generate image. Note: This "
+"property is stored in XMP as xmp:CreatorTool. "
+msgstr ""
+
+#: src/properties.cpp:432 src/tags.cpp:349
+msgid "Artist"
+msgstr "Исполнитель"
+
+#: src/properties.cpp:432
+msgid ""
+"TIFF tag 315, 0x13B. Camera owner, photographer or image creator. Note: This "
+"property is stored in XMP as the first item in the dc:creator array."
+msgstr ""
+
+#: src/properties.cpp:434
+msgid ""
+"TIFF tag 33432, 0x8298. Copyright information. Note: This property is stored "
+"in XMP as dc:rights."
+msgstr ""
+
 #: src/properties.cpp:442 src/tags.cpp:602 src/nikonmn.cpp:110
 #: src/pentaxmn.cpp:479
 msgid "sRGB"
@@ -2763,6 +3847,10 @@ msgstr "Adobe RGB"
 #, fuzzy
 msgid "uncalibrated"
 msgstr "Не откалибровано"
+
+#: src/properties.cpp:449
+msgid "does not exist"
+msgstr ""
 
 #: src/properties.cpp:460
 #, fuzzy
@@ -2823,9 +3911,9 @@ msgstr "Неизвестно"
 msgid "Average"
 msgstr "Средний"
 
-#: src/properties.cpp:475
+#: src/properties.cpp:475 src/tags.cpp:536
 #, fuzzy
-msgid "CenterWeightedAverage"
+msgid "Center weighted average"
 msgstr "Центрально-взвешенный средний"
 
 #: src/properties.cpp:476 src/tags.cpp:537 src/canonmn.cpp:346
@@ -2835,7 +3923,7 @@ msgid "Spot"
 msgstr ""
 
 #: src/properties.cpp:477
-msgid "MultiSpot"
+msgid "Multi spot"
 msgstr ""
 
 #: src/properties.cpp:478
@@ -2929,11 +4017,6 @@ msgstr "D50"
 #: src/properties.cpp:504 src/tags.cpp:565
 msgid "ISO studio tungsten"
 msgstr ""
-
-#: src/properties.cpp:510
-#, fuzzy
-msgid "inches"
-msgstr "дюйм"
 
 #: src/properties.cpp:511
 #, fuzzy
@@ -3192,6 +4275,276 @@ msgstr ""
 msgid "Correction applied"
 msgstr "Тонкомпенсация"
 
+#: src/properties.cpp:638 src/tags.cpp:721
+msgid "Exif Version"
+msgstr "Версия EXIF"
+
+#: src/properties.cpp:638
+msgid "EXIF tag 36864, 0x9000. EXIF version number."
+msgstr ""
+
+#: src/properties.cpp:639
+#, fuzzy
+msgid "Flashpix Version"
+msgstr "Версия FlashPix"
+
+#: src/properties.cpp:639
+msgid "EXIF tag 40960, 0xA000. Version of FlashPix."
+msgstr ""
+
+#: src/properties.cpp:640 src/tags.cpp:807 src/minoltamn.cpp:916
+#: src/nikonmn.cpp:657 src/sigmamn.cpp:93
+msgid "Color Space"
+msgstr "Цветовое пространство"
+
+#: src/properties.cpp:640
+msgid "EXIF tag 40961, 0xA001. Color space information"
+msgstr ""
+
+#: src/properties.cpp:641 src/tags.cpp:732
+#, fuzzy
+msgid "Components Configuration"
+msgstr "Планарная конфигурация"
+
+#: src/properties.cpp:641
+msgid ""
+"EXIF tag 37121, 0x9101. Configuration of components in data: 4 5 6 0 (if RGB "
+"compressed data), 1 2 3 0 (other cases)."
+msgstr ""
+
+#: src/properties.cpp:642
+#, fuzzy
+msgid "Compressed Bits Per Pixel"
+msgstr "Сжатых битов на пиксел"
+
+#: src/properties.cpp:642
+#, fuzzy
+msgid ""
+"EXIF tag 37122, 0x9102. Compression mode used for a compressed image is "
+"indicated in unit bits per pixel."
+msgstr ""
+"Специфичная для сжатых данных информация. Использованный режим сжатия для "
+"сжатого изображения показывается в единице измерения \"битов на пиксел\""
+
+#: src/properties.cpp:643
+msgid "PixelX Dimension"
+msgstr ""
+
+#: src/properties.cpp:643
+msgid "EXIF tag 40962, 0xA002. Valid image width, in pixels."
+msgstr ""
+
+#: src/properties.cpp:644
+msgid "PixelY Dimension"
+msgstr ""
+
+#: src/properties.cpp:644
+msgid "EXIF tag 40963, 0xA003. Valid image height, in pixels."
+msgstr ""
+
+#: src/properties.cpp:645 src/tags.cpp:790
+msgid "User Comment"
+msgstr "Пользовательский комментарий"
+
+#: src/properties.cpp:645
+msgid "EXIF tag 37510, 0x9286. Comments from user."
+msgstr ""
+
+#: src/properties.cpp:646 src/tags.cpp:832
+msgid "Related Sound File"
+msgstr "Связанный звуковой файл"
+
+#: src/properties.cpp:646
+msgid ""
+"EXIF tag 40964, 0xA004. An \"8.3\" file name for the related sound file."
+msgstr ""
+
+#: src/properties.cpp:647
+#, fuzzy
+msgid "Date Time Original"
+msgstr "Исходная дата и время"
+
+#: src/properties.cpp:647
+msgid ""
+"EXIF tags 36867, 0x9003 (primary) and 37521, 0x9291 (subseconds). Date and "
+"time when original image was generated, in ISO 8601 format. Includes the "
+"EXIF SubSecTimeOriginal data."
+msgstr ""
+
+#: src/properties.cpp:648
+#, fuzzy
+msgid "Date Time Digitized"
+msgstr "Дата и время оцифровки"
+
+#: src/properties.cpp:648
+msgid ""
+"EXIF tag 36868, 0x9004 (primary) and 37522, 0x9292 (subseconds). Date and "
+"time when image was stored as digital data, can be the same as "
+"DateTimeOriginal if originally stored in digital form. Stored in ISO 8601 "
+"format. Includes the EXIF SubSecTimeDigitized data."
+msgstr ""
+
+#: src/properties.cpp:651 src/tags.cpp:697 src/minoltamn.cpp:635
+#: src/minoltamn.cpp:942 src/minoltamn.cpp:1160
+msgid "Exposure Time"
+msgstr "Время экспозиции"
+
+#: src/properties.cpp:651
+msgid "EXIF tag 33434, 0x829A. Exposure time in seconds."
+msgstr ""
+
+#: src/properties.cpp:652
+#, fuzzy
+msgid "F Number"
+msgstr "Число F"
+
+#: src/properties.cpp:652
+msgid "EXIF tag 33437, 0x829D. F number."
+msgstr ""
+
+#: src/properties.cpp:653 src/tags.cpp:703 src/canonmn.cpp:464
+msgid "Exposure Program"
+msgstr "Программа экспозиции"
+
+#: src/properties.cpp:653
+msgid "EXIF tag 34850, 0x8822. Class of program used for exposure."
+msgstr ""
+
+#: src/properties.cpp:654 src/tags.cpp:707
+msgid "Spectral Sensitivity"
+msgstr "Спектральная чувствительность"
+
+#: src/properties.cpp:654
+msgid "EXIF tag 34852, 0x8824. Spectral sensitivity of each channel."
+msgstr ""
+
+#: src/properties.cpp:655
+#, fuzzy
+msgid "ISOSpeedRatings"
+msgstr "Настройка резкости"
+
+#: src/properties.cpp:655
+msgid ""
+"EXIF tag 34855, 0x8827. ISO Speed and ISO Latitude of the input device as "
+"specified in ISO 12232."
+msgstr ""
+
+#: src/properties.cpp:656
+msgid "OECF"
+msgstr ""
+
+#: src/properties.cpp:656
+msgid ""
+"EXIF tag 34856, 0x8828. Opto-Electoric Conversion Function as specified in "
+"ISO 14524."
+msgstr ""
+
+#: src/properties.cpp:657 src/canonmn.cpp:568
+#, fuzzy
+msgid "Shutter Speed Value"
+msgstr "Скорость срабатывания затвора"
+
+#: src/properties.cpp:657
+msgid ""
+"EXIF tag 37377, 0x9201. Shutter speed, unit is APEX. See Annex C of the EXIF "
+"specification."
+msgstr ""
+
+#: src/properties.cpp:658 src/canonmn.cpp:567 src/olympusmn.cpp:203
+#, fuzzy
+msgid "Aperture Value"
+msgstr "Диафрагма"
+
+#: src/properties.cpp:658
+msgid "EXIF tag 37378, 0x9202. Lens aperture, unit is APEX."
+msgstr ""
+
+#: src/properties.cpp:659
+#, fuzzy
+msgid "Brightness Value"
+msgstr "Яркость"
+
+#: src/properties.cpp:659
+msgid "EXIF tag 37379, 0x9203. Brightness, unit is APEX."
+msgstr ""
+
+#: src/properties.cpp:660
+#, fuzzy
+msgid "Exposure Bias Value"
+msgstr "Смещение экспозиции"
+
+#: src/properties.cpp:660
+msgid "EXIF tag 37380, 0x9204. Exposure bias, unit is APEX."
+msgstr ""
+
+#: src/properties.cpp:661 src/tags.cpp:761
+#, fuzzy
+msgid "Max Aperture Value"
+msgstr "Максимально открытая диафрагма"
+
+#: src/properties.cpp:661
+msgid "EXIF tag 37381, 0x9205. Smallest F number of lens, in APEX."
+msgstr ""
+
+#: src/properties.cpp:662 src/tags.cpp:766 src/canonmn.cpp:565
+msgid "Subject Distance"
+msgstr "Расстояние до объекта"
+
+#: src/properties.cpp:662
+#, fuzzy
+msgid "EXIF tag 37382, 0x9206. Distance to subject, in meters."
+msgstr "Расстояние до объекта в метрах"
+
+#: src/properties.cpp:663 src/tags.cpp:769 src/canonmn.cpp:461
+#: src/minoltamn.cpp:629 src/minoltamn.cpp:1145 src/sigmamn.cpp:87
+msgid "Metering Mode"
+msgstr "Режим замера"
+
+#: src/properties.cpp:663
+msgid "EXIF tag 37383, 0x9207. Metering mode."
+msgstr ""
+
+#: src/properties.cpp:664 src/tags.cpp:772 src/nikonmn.cpp:705
+msgid "Light Source"
+msgstr "Источник света"
+
+#: src/properties.cpp:664
+msgid "EXIF tag 37384, 0x9208. Light source."
+msgstr ""
+
+#: src/properties.cpp:665
+msgid "EXIF tag 37385, 0x9209. Strobe light (flash) source data."
+msgstr ""
+
+#: src/properties.cpp:666 src/tags.cpp:778 src/minoltamn.cpp:659
+msgid "Focal Length"
+msgstr "Фокусное расстояние"
+
+#: src/properties.cpp:666
+msgid "EXIF tag 37386, 0x920A. Focal length of the lens, in millimeters."
+msgstr ""
+
+#: src/properties.cpp:667 src/tags.cpp:782
+msgid "Subject Area"
+msgstr "Область объекта съёмки"
+
+#: src/properties.cpp:667
+#, fuzzy
+msgid ""
+"EXIF tag 37396, 0x9214. The location and area of the main subject in the "
+"overall scene."
+msgstr ""
+"Это поле хранит информацию о местоположении и области объекта съёмки во всей "
+"сцене."
+
+#: src/properties.cpp:668 src/tags.cpp:847
+msgid "Flash Energy"
+msgstr ""
+
+#: src/properties.cpp:668
+msgid "EXIF tag 41483, 0xA20B. Strobe energy during image capture."
+msgstr ""
+
 #: src/tags.cpp:108
 msgid "Unknown section"
 msgstr "Неизвестный раздел"
@@ -3298,10 +4651,6 @@ msgstr "ничего"
 #: src/tags.cpp:156
 msgid "inch"
 msgstr "дюйм"
-
-#: src/tags.cpp:157
-msgid "cm"
-msgstr "cm"
 
 #: src/tags.cpp:162
 msgid "Uncompressed"
@@ -3550,10 +4899,6 @@ msgstr ""
 msgid "A general indication of the kind of data contained in this subfile."
 msgstr ""
 
-#: src/tags.cpp:239 src/canonmn.cpp:656 src/olympusmn.cpp:335
-msgid "Image Width"
-msgstr "Ширина изображения"
-
 #: src/tags.cpp:240
 msgid ""
 "The number of columns of image data, equal to the number of pixels per row. "
@@ -3561,10 +4906,6 @@ msgid ""
 msgstr ""
 "Количество столбцов данных изображения, равное количеству пикселов на ряд. В "
 "данных, сжатых по алгоритму JPEG, вместо этого тэга используется маркер."
-
-#: src/tags.cpp:244
-msgid "Image Length"
-msgstr "Длина изображения"
 
 #: src/tags.cpp:245
 msgid ""
@@ -3591,10 +4932,6 @@ msgstr ""
 "также <SamplesPerPixel>. В данных, сжатых по алгоритму JPEG, вместо этого "
 "тэга используется маркер."
 
-#: src/tags.cpp:254
-msgid "Compression"
-msgstr "Сжатие"
-
 #: src/tags.cpp:255
 msgid ""
 "The compression scheme used for the image data. When a primary image is JPEG "
@@ -3605,10 +4942,6 @@ msgstr ""
 "изображение сжато по алгоритму JPEG , это обозначение не является "
 "обязательным и опускается. Когда миниатюры используют JPEG-сжатие, значение "
 "этого тэга равно 6."
-
-#: src/tags.cpp:260
-msgid "Photometric Interpretation"
-msgstr "Фотометрическая интерпретация"
 
 #: src/tags.cpp:261
 msgid ""
@@ -3633,10 +4966,6 @@ msgstr "Имя документа"
 #: src/tags.cpp:268
 msgid "The name of the document from which this image was scanned"
 msgstr "Название отсканированного документа"
-
-#: src/tags.cpp:270
-msgid "Image Description"
-msgstr "Описание снимка"
 
 #: src/tags.cpp:271
 msgid ""
@@ -3665,10 +4994,6 @@ msgstr ""
 "которое использовалось для получения этого изображения. Если поле не "
 "заполнено, производитель считается неизвестным."
 
-#: src/tags.cpp:283
-msgid "Model"
-msgstr "Модель"
-
 #: src/tags.cpp:284
 msgid ""
 "The model name or model number of the equipment. This is the model name or "
@@ -3691,10 +5016,6 @@ msgid ""
 "JPEG compressed data this designation is not needed and is omitted. See also "
 "<RowsPerStrip> and <StripByteCounts>."
 msgstr ""
-
-#: src/tags.cpp:296
-msgid "Orientation"
-msgstr "Ориентация"
 
 #: src/tags.cpp:297
 msgid "The image orientation viewed in terms of rows and columns."
@@ -3761,20 +5082,12 @@ msgstr ""
 "Количество пикселов на <ResolutionUnit> в направлении <ImageLength>. "
 "Остальное аналогично <XResolution>."
 
-#: src/tags.cpp:322
-msgid "Planar Configuration"
-msgstr "Планарная конфигурация"
-
 #: src/tags.cpp:323
 msgid ""
 "Indicates whether pixel components are recorded in a chunky or planar "
 "format. In JPEG compressed files a JPEG marker is used instead of this tag. "
 "If this field does not exist, the TIFF default of 1 (chunky) is assumed."
 msgstr ""
-
-#: src/tags.cpp:328
-msgid "Resolution Unit"
-msgstr "Единица разрешения"
 
 #: src/tags.cpp:329
 msgid ""
@@ -3786,10 +5099,6 @@ msgstr ""
 "используется как для <XResolution>, так и для <YResolution>. Если разрешение "
 "изображения неизвестно, оно принимается за 2 (дюйма)."
 
-#: src/tags.cpp:333
-msgid "Transfer Function"
-msgstr "Функция передачи"
-
 #: src/tags.cpp:334
 msgid ""
 "A transfer function for the image, described in tabular style. Normally this "
@@ -3799,10 +5108,6 @@ msgstr ""
 "Функция передачи для изображения, описанная в виде таблицы. Обычно этот тэг "
 "не является необходимым, поскольку цветовое пространство уже указано в тэге "
 "<ColorSpace>."
-
-#: src/tags.cpp:338 src/sigmamn.cpp:129 src/sigmamn.cpp:130
-msgid "Software"
-msgstr "Программное обеспечение"
 
 #: src/tags.cpp:339
 msgid ""
@@ -3830,10 +5135,6 @@ msgstr ""
 "Дата и время создания изображения. В текущей версии стандарта EXIF это дата "
 "и время изменения файла."
 
-#: src/tags.cpp:349
-msgid "Artist"
-msgstr "Исполнитель"
-
 #: src/tags.cpp:350
 #, fuzzy
 msgid ""
@@ -3849,10 +5150,6 @@ msgstr ""
 "следовать приведённому ниже примеру. Когда поле оставлено пустым, значение "
 "принимается за неизвестное."
 
-#: src/tags.cpp:357
-msgid "White Point"
-msgstr "Белая точка"
-
 #: src/tags.cpp:358
 #, fuzzy
 msgid ""
@@ -3862,10 +5159,6 @@ msgid ""
 msgstr ""
 "Хроматичность белой точки изображения. Обычно этот тэг не является "
 "необходимым, поскольку цветовое пространство уже указано в тэге <ColorSpace>."
-
-#: src/tags.cpp:362
-msgid "Primary Chromaticities"
-msgstr ""
 
 #: src/tags.cpp:363
 msgid ""
@@ -3922,10 +5215,6 @@ msgid ""
 "Kbytes, including all other data to be recorded in APP1."
 msgstr ""
 
-#: src/tags.cpp:388
-msgid "YCbCr Coefficients"
-msgstr "Коэффициенты YCbCr"
-
 #: src/tags.cpp:389
 msgid ""
 "The matrix coefficients for transformation from RGB to YCbCr image data. No "
@@ -3950,10 +5239,6 @@ msgid ""
 "The sampling ratio of chrominance components in relation to the luminance "
 "component. In JPEG compressed data a JPEG marker is used instead of this tag."
 msgstr ""
-
-#: src/tags.cpp:402
-msgid "YCbCr Positioning"
-msgstr "Позиционирование YCbCr"
 
 #: src/tags.cpp:403
 msgid ""
@@ -4190,11 +5475,6 @@ msgstr "Неизвестное поле IFD"
 msgid "Auto"
 msgstr "Авто"
 
-#: src/tags.cpp:536
-#, fuzzy
-msgid "Center weighted average"
-msgstr "Центрально-взвешенный средний"
-
 #: src/tags.cpp:538
 msgid "Multi-spot"
 msgstr ""
@@ -4397,11 +5677,6 @@ msgstr "Низкий"
 msgid "High"
 msgstr "Высокий"
 
-#: src/tags.cpp:697 src/minoltamn.cpp:635 src/minoltamn.cpp:942
-#: src/minoltamn.cpp:1160
-msgid "Exposure Time"
-msgstr "Время экспозиции"
-
 #: src/tags.cpp:698
 msgid "Exposure time, given in seconds (sec)."
 msgstr "Время экспозиции в секундах"
@@ -4415,20 +5690,12 @@ msgstr "Число F"
 msgid "The F number."
 msgstr "Число F"
 
-#: src/tags.cpp:703 src/canonmn.cpp:464
-msgid "Exposure Program"
-msgstr "Программа экспозиции"
-
 #: src/tags.cpp:704
 msgid ""
 "The class of the program used by the camera to set exposure when the picture "
 "is taken."
 msgstr ""
 "Класс программы, использованной камерой для установки экспозиции при съёмке."
-
-#: src/tags.cpp:707
-msgid "Spectral Sensitivity"
-msgstr "Спектральная чувствительность"
 
 #: src/tags.cpp:708
 msgid ""
@@ -4458,10 +5725,6 @@ msgid ""
 "image values."
 msgstr ""
 
-#: src/tags.cpp:721
-msgid "Exif Version"
-msgstr "Версия EXIF"
-
 #: src/tags.cpp:722
 msgid ""
 "The version of this standard supported. Nonexistence of this field is taken "
@@ -4489,11 +5752,6 @@ msgstr "Дата и время оцифровки"
 #: src/tags.cpp:730
 msgid "The date and time when the image was stored as digital data."
 msgstr "Дата и время сохранения изображения в цифровом виде"
-
-#: src/tags.cpp:732
-#, fuzzy
-msgid "Components Configuration"
-msgstr "Планарная конфигурация"
 
 #: src/tags.cpp:733
 msgid ""
@@ -4541,11 +5799,6 @@ msgstr ""
 msgid "The lens aperture. The unit is the APEX value."
 msgstr "Диафрагма объектива. Эта единица измерения является APEX-значением"
 
-#: src/tags.cpp:753 src/minoltamn.cpp:731 src/minoltamn.cpp:732
-#: src/olympusmn.cpp:206
-msgid "Brightness"
-msgstr "Яркость"
-
 #: src/tags.cpp:754
 msgid ""
 "The value of brightness. The unit is the APEX value. Ordinarily it is given "
@@ -4566,11 +5819,6 @@ msgstr ""
 "Смещение экспозиции. Измеряется APEX-единицами. Обычно значение лежит в "
 "диапазоне между -99.99 и 99.99."
 
-#: src/tags.cpp:761
-#, fuzzy
-msgid "Max Aperture Value"
-msgstr "Максимально открытая диафрагма"
-
 #: src/tags.cpp:762
 msgid ""
 "The smallest F number of the lens. The unit is the APEX value. Ordinarily it "
@@ -4580,26 +5828,13 @@ msgstr ""
 "значение лежит в диапазоне между 00.00 и 99.99, но оно не ограничено этим "
 "диапазоном."
 
-#: src/tags.cpp:766 src/canonmn.cpp:565
-msgid "Subject Distance"
-msgstr "Расстояние до объекта"
-
 #: src/tags.cpp:767
 msgid "The distance to the subject, given in meters."
 msgstr "Расстояние до объекта в метрах"
 
-#: src/tags.cpp:769 src/canonmn.cpp:461 src/minoltamn.cpp:629
-#: src/minoltamn.cpp:1145 src/sigmamn.cpp:87
-msgid "Metering Mode"
-msgstr "Режим замера"
-
 #: src/tags.cpp:770
 msgid "The metering mode."
 msgstr "Режим замера"
-
-#: src/tags.cpp:772 src/nikonmn.cpp:705
-msgid "Light Source"
-msgstr "Источник света"
 
 #: src/tags.cpp:773
 msgid "The kind of light source."
@@ -4610,10 +5845,6 @@ msgid ""
 "This tag is recorded when an image is taken using a strobe light (flash)."
 msgstr "Это поле записывается при использовании эффекта стробоскопа во вспышке"
 
-#: src/tags.cpp:778 src/minoltamn.cpp:659
-msgid "Focal Length"
-msgstr "Фокусное расстояние"
-
 #: src/tags.cpp:779
 msgid ""
 "The actual focal length of the lens, in mm. Conversion is not made to the "
@@ -4621,10 +5852,6 @@ msgid ""
 msgstr ""
 "Реальное фокусное расстояние объектива. Преобразование в 35мм плёночный "
 "аналог не производится."
-
-#: src/tags.cpp:782
-msgid "Subject Area"
-msgstr "Область объекта съёмки"
 
 #: src/tags.cpp:783
 msgid ""
@@ -4645,10 +5872,6 @@ msgid ""
 msgstr ""
 "Поле для разработчиков средства записи тэгов EXIF, в который можно "
 "записывать всё, что им хочется. Содержимое зависит от разработчиков."
-
-#: src/tags.cpp:790
-msgid "User Comment"
-msgstr "Пользовательский комментарий"
 
 #: src/tags.cpp:791
 msgid ""
@@ -4695,11 +5918,6 @@ msgstr "Версия FlashPix"
 msgid "The FlashPix format version supported by a FPXR file."
 msgstr "Версия формата FlashPix, поддерживаемого в формате файлов FPXR"
 
-#: src/tags.cpp:807 src/minoltamn.cpp:916 src/nikonmn.cpp:657
-#: src/sigmamn.cpp:93
-msgid "Color Space"
-msgstr "Цветовое пространство"
-
 #: src/tags.cpp:808
 #, fuzzy
 msgid ""
@@ -4742,10 +5960,6 @@ msgid ""
 "tag will in fact be the same as that recorded in the SOF."
 msgstr ""
 
-#: src/tags.cpp:832
-msgid "Related Sound File"
-msgstr "Связанный звуковой файл"
-
 #: src/tags.cpp:833
 msgid ""
 "This tag is used to record the name of an audio file related to the image "
@@ -4765,10 +5979,6 @@ msgid ""
 "IFD. The Interoperability structure of Interoperability IFD is the same as "
 "TIFF defined IFD structure but does not contain the image data "
 "characteristically compared with normal TIFF IFD."
-msgstr ""
-
-#: src/tags.cpp:847
-msgid "Flash Energy"
 msgstr ""
 
 #: src/tags.cpp:848
@@ -4919,13 +6129,6 @@ msgstr ""
 "автоматического брекетинга камера делает серию кадров одной и той же сцены с "
 "разными настройками экспозиции."
 
-#: src/tags.cpp:908 src/canonmn.cpp:553 src/fujimn.cpp:199
-#: src/minoltamn.cpp:617 src/minoltamn.cpp:895 src/minoltamn.cpp:1133
-#: src/nikonmn.cpp:175 src/nikonmn.cpp:456 src/nikonmn.cpp:591
-#: src/olympusmn.cpp:260 src/panasonicmn.cpp:191 src/sigmamn.cpp:81
-msgid "White Balance"
-msgstr "Баланс белого"
-
 #: src/tags.cpp:909
 msgid "This tag indicates the white balance mode set when the image was shot."
 msgstr "Этот тэг отображает режим баланса белого при съёмке изображения."
@@ -4982,15 +6185,6 @@ msgstr ""
 msgid "This tag indicates the degree of overall image gain adjustment."
 msgstr ""
 
-#: src/tags.cpp:930 src/canonmn.cpp:457 src/minoltamn.cpp:507
-#: src/minoltamn.cpp:695 src/minoltamn.cpp:696 src/minoltamn.cpp:922
-#: src/minoltamn.cpp:923 src/minoltamn.cpp:1154 src/minoltamn.cpp:1155
-#: src/olympusmn.cpp:320 src/panasonicmn.cpp:248 src/pentaxmn.cpp:736
-#: src/pentaxmn.cpp:826 src/pentaxmn.cpp:827 src/sigmamn.cpp:99
-#: src/sigmamn.cpp:100
-msgid "Contrast"
-msgstr "Контраст"
-
 #: src/tags.cpp:931
 msgid ""
 "This tag indicates the direction of contrast processing applied by the "
@@ -4998,30 +6192,12 @@ msgid ""
 msgstr ""
 "Этот тэг отображает направление обработки контраста при съёмке изображения"
 
-#: src/tags.cpp:934 src/canonmn.cpp:458 src/minoltamn.cpp:508
-#: src/minoltamn.cpp:692 src/minoltamn.cpp:693 src/minoltamn.cpp:925
-#: src/minoltamn.cpp:926 src/minoltamn.cpp:1157 src/minoltamn.cpp:1158
-#: src/nikonmn.cpp:714 src/nikonmn.cpp:715 src/nikonmn.cpp:765
-#: src/nikonmn.cpp:766 src/pentaxmn.cpp:730 src/pentaxmn.cpp:823
-#: src/pentaxmn.cpp:824 src/pentaxmn.cpp:956 src/pentaxmn.cpp:957
-#: src/sigmamn.cpp:108 src/sigmamn.cpp:109
-msgid "Saturation"
-msgstr "Насыщенность"
-
 #: src/tags.cpp:935
 msgid ""
 "This tag indicates the direction of saturation processing applied by the "
 "camera when the image was shot."
 msgstr ""
 "Этот тэг отображает направление обработки насыщенности при съёмке изображения"
-
-#: src/tags.cpp:938 src/canonmn.cpp:459 src/fujimn.cpp:196
-#: src/minoltamn.cpp:698 src/minoltamn.cpp:699 src/minoltamn.cpp:919
-#: src/minoltamn.cpp:920 src/minoltamn.cpp:1151 src/minoltamn.cpp:1152
-#: src/pentaxmn.cpp:733 src/pentaxmn.cpp:829 src/pentaxmn.cpp:830
-#: src/sigmamn.cpp:111 src/sigmamn.cpp:112
-msgid "Sharpness"
-msgstr "Резкость"
 
 #: src/tags.cpp:939
 msgid ""
@@ -6892,16 +8068,6 @@ msgstr "Вспышка сработала"
 msgid "Subject distance (units are not clear)"
 msgstr ""
 
-#: src/canonmn.cpp:567 src/olympusmn.cpp:203
-#, fuzzy
-msgid "Aperture Value"
-msgstr "Диафрагма"
-
-#: src/canonmn.cpp:568
-#, fuzzy
-msgid "Shutter Speed Value"
-msgstr "Скорость срабатывания затвора"
-
 #: src/canonmn.cpp:574
 #, fuzzy
 msgid "Unknown Canon Camera Settings 2 tag"
@@ -7320,11 +8486,6 @@ msgstr ""
 #: src/fujimn.cpp:181
 msgid "Film simulation mode"
 msgstr ""
-
-#: src/fujimn.cpp:186 src/nikonmn.cpp:163 src/nikonmn.cpp:579
-#: src/pentaxmn.cpp:751
-msgid "Version"
-msgstr "Версия"
 
 #: src/fujimn.cpp:187
 msgid "Fujifilm Makernote version"
@@ -7915,11 +9076,6 @@ msgstr ""
 #, fuzzy
 msgid "Spot focus"
 msgstr "Ручная фокусировка"
-
-#: src/minoltamn.cpp:506 src/sigmamn.cpp:96 src/sigmamn.cpp:97
-#, fuzzy
-msgid "Exposure"
-msgstr "Режим экспозиции"
 
 #: src/minoltamn.cpp:509
 #, fuzzy
@@ -8899,10 +10055,6 @@ msgstr "Автобрекетирование"
 #, fuzzy
 msgid "Lens FStops"
 msgstr "Тип объектива"
-
-#: src/nikonmn.cpp:696
-msgid "Tone Curve"
-msgstr "Кривая тонкоррекции"
 
 #: src/nikonmn.cpp:697
 msgid "Tone curve"
@@ -10933,11 +12085,6 @@ msgstr "Портретный режим"
 msgid "Digital filter"
 msgstr "Цифровая фотокамера"
 
-#: src/pentaxmn.cpp:874
-#, fuzzy
-msgid "Temperature"
-msgstr "Температура цвета"
-
 #: src/pentaxmn.cpp:875
 #, fuzzy
 msgid "Camera temperature"
@@ -11143,6 +12290,10 @@ msgstr ""
 #: src/sonymn.cpp:92
 msgid "Unknown SonyMakerNote tag"
 msgstr ""
+
+#, fuzzy
+#~ msgid "CenterWeightedAverage"
+#~ msgstr "Центрально-взвешенный средний"
 
 #~ msgid "Jpeg comment"
 #~ msgstr "Комментарий JPEG"
