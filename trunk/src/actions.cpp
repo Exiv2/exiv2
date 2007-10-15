@@ -1268,8 +1268,11 @@ namespace Action {
             case del:
                 delMetadatum(pImage, *i);
                 break;
+            case reg:
+                regNamespace(*i);
+                break;
             case invalidCmdId:
-                // Todo: complain
+                assert(invalidCmdId == i->cmdId_);
                 break;
             }
         }
@@ -1342,7 +1345,9 @@ namespace Action {
         if (metadatum) {
             value = metadatum->getValue();
         }
-        if (modifyCmd.explicitType_ || value.get() == 0) {
+        if (   value.get() == 0
+            || (   modifyCmd.explicitType_
+                && modifyCmd.typeId_ != value->typeId())) {
             value = Exiv2::Value::create(modifyCmd.typeId_);
         }
         if (0 == value->read(modifyCmd.value_)) {
@@ -1400,6 +1405,15 @@ namespace Action {
                 xmpData.erase(pos);
             }
         }
+    }
+
+    void Modify::regNamespace(const ModifyCmd& modifyCmd)
+    {
+        if (Params::instance().verbose_) {
+            std::cout << _("Reg ") << modifyCmd.key_ << "=\"" 
+                      << modifyCmd.value_ << "\"" << std::endl;
+        }
+        Exiv2::XmpProperties::registerNs(modifyCmd.value_, modifyCmd.key_);
     }
 
     Modify::AutoPtr Modify::clone() const

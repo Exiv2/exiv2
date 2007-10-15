@@ -339,6 +339,8 @@ namespace Action {
         //! Delete a metadatum from \em pImage according to \em modifyCmd
         static void delMetadatum(Exiv2::Image* pImage,
                                  const ModifyCmd& modifyCmd);
+        //! Register an XMP namespace according to \em modifyCmd
+        static void regNamespace(const ModifyCmd& modifyCmd);
 
     }; // class Modify
 
