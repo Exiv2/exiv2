@@ -1,6 +1,6 @@
 -----> Decoding XMP data read from BlueSquare.xmp <-----
 Xmp.dc.format                                XmpText    10  image/jpeg
-Xmp.dc.title                                 LangAlt     3  lang="de-CH" Blaues Quadrat Test Datei - .jpg, lang="en-US" Blue Square Test File - .jpg, lang="x-default" Blue Square Test File - .jpg
+Xmp.dc.title                                 LangAlt     3  lang="x-default" Blue Square Test File - .jpg, lang="de-CH" Blaues Quadrat Test Datei - .jpg, lang="en-US" Blue Square Test File - .jpg
 Xmp.dc.description                           LangAlt     1  lang="x-default" XMPFiles BlueSquare test file, created in Photoshop CS2, saved as .psd, .jpg, and .tif.
 Xmp.dc.subject                               XmpBag      5  XMP, Blue Square, test file, Photoshop, .jpg
 Xmp.xmp.CreatorTool                          XmpText    29  Adobe Photoshop CS2 Macintosh
@@ -291,8 +291,8 @@ Xmp.dc.six                                   XmpText     5  false
 Xmp.dc.seven                                 XmpText     5  Seven
 Xmp.dc.format                                XmpText    10  image/jpeg
 Xmp.dc.creator                               XmpSeq      3  1) The first creator, 2) The second creator, 3) And another one
-Xmp.dc.description                           LangAlt     2  lang="de-DE" Hallo, Welt, lang="x-default" Hello, World
-Xmp.tiff.ImageDescription                    LangAlt     2  lang="de-DE" TIFF Bildbeschreibung, lang="x-default" TIFF image description
+Xmp.dc.description                           LangAlt     2  lang="x-default" Hello, World, lang="de-DE" Hallo, Welt
+Xmp.tiff.ImageDescription                    LangAlt     2  lang="x-default" TIFF image description, lang="de-DE" TIFF Bildbeschreibung
 Xmp.xmpDM.videoFrameSize/stDim:w             XmpText     2  16
 Xmp.xmpDM.videoFrameSize/stDim:h             XmpText     1  9
 Xmp.xmpDM.videoFrameSize/stDim:unit          XmpText     4  inch
