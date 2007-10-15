@@ -526,14 +526,10 @@ namespace Exiv2 {
                     }
                 }
                 if (writeXmpFromPacket() == false) {
-                    std::string tmpXmpPacket;
-                    if (XmpParser::encode(tmpXmpPacket, xmpData_)) {
+                    if (XmpParser::encode(xmpPacket_, xmpData_)) {
 #ifndef SUPPRESS_WARNINGS
                         std::cerr << "Error: Failed to encode XMP metadata.\n";
 #endif
-                    }
-                    else {
-                        xmpPacket_ = tmpXmpPacket;
                     }
                 }
                 if (xmpPacket_.size() > 0) {

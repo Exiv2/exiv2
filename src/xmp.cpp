@@ -544,7 +544,6 @@ namespace Exiv2 {
     int XmpParser::encode(      std::string& xmpPacket,
                           const XmpData&     xmpData)
     { try {
-        xmpPacket.clear();
         if (xmpData.empty()) return 0;
 
         if (!initialize()) {
@@ -624,7 +623,9 @@ namespace Exiv2 {
             // Don't let any Xmpdatum go by unnoticed
             throw Error(38, i->tagName(), TypeInfo::typeName(i->typeId()));
         }
-        meta.SerializeToBuffer(&xmpPacket, kXMP_UseCompactFormat);
+        std::string tmpPacket;
+        meta.SerializeToBuffer(&tmpPacket, kXMP_UseCompactFormat); // throws
+        xmpPacket = tmpPacket;
 
         return 0;
     }
@@ -632,14 +633,12 @@ namespace Exiv2 {
 #ifndef SUPPRESS_WARNINGS
         std::cerr << Error(40, e.GetID(), e.GetErrMsg()) << "\n";
 #endif
-        xmpPacket.clear();
         return 3;
     }} // XmpParser::decode
 #else
     int XmpParser::encode(      std::string& xmpPacket,
                           const XmpData&     xmpData)
     {
-        xmpPacket.clear();
         if (!xmpData.empty()) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: XMP toolkit support not compiled in.\n";

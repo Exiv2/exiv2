@@ -276,8 +276,8 @@ namespace Exiv2 {
         /*!
           @brief Encode (serialize) XMP metadata from \em xmpData into a
                  string xmpPacket. The XMP packet returned in the string
-                 follows the XMP specification. This method clears any 
-                 previous contents of \em xmpPacket.
+                 follows the XMP specification. This method only modifies
+                 \em xmpPacket if the operations succeeds (return code 0).
 
           @param xmpPacket Reference to a string to hold the encoded XMP
                            packet.
