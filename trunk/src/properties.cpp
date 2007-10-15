@@ -635,130 +635,142 @@ namespace Exiv2 {
     };
 
     extern const XmpPropertyInfo xmpExifInfo[] = {
-        { "ExifVersion",              N_("Exif Version"),                "Closed Choice of Text",        xmpText, xmpInternal, N_("EXIF tag 36864, 0x9000. EXIF version number.") },
-        { "FlashpixVersion",          N_("Flashpix Version"),            "Closed Choice of Text",        xmpText, xmpInternal, N_("EXIF tag 40960, 0xA000. Version of FlashPix.") },
-        { "ColorSpace",               N_("Color Space"),                 "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 40961, 0xA001. Color space information") },
-        { "ComponentsConfiguration",  N_("Components Configuration"),    "Closed Choice of seq Integer", xmpSeq,  xmpInternal, N_("EXIF tag 37121, 0x9101. Configuration of components in data: 4 5 6 0 (if RGB compressed data), 1 2 3 0 (other cases).") },
-        { "CompressedBitsPerPixel",   N_("Compressed Bits Per Pixel"),   "Rational",                     xmpText, xmpInternal, N_("EXIF tag 37122, 0x9102. Compression mode used for a compressed image is indicated in unit bits per pixel.") },
-        { "PixelXDimension",          N_("Pixel X Dimension"),           "Integer",                      xmpText, xmpInternal, N_("EXIF tag 40962, 0xA002. Valid image width, in pixels.") },
-        { "PixelYDimension",          N_("Pixel Y Dimension"),           "Integer",                      xmpText, xmpInternal, N_("EXIF tag 40963, 0xA003. Valid image height, in pixels.") },
-        { "UserComment",              N_("User Comment"),                "Lang Alt",                     langAlt, xmpExternal, N_("EXIF tag 37510, 0x9286. Comments from user.") },
-        { "RelatedSoundFile",         N_("Related Sound File"),          "Text",                         xmpText, xmpInternal, N_("EXIF tag 40964, 0xA004. An \"8.3\" file name for the related sound file.") },
-        { "DateTimeOriginal",         N_("Date Time Original"),          "Date",                         xmpText, xmpInternal, N_("EXIF tags 36867, 0x9003 (primary) and 37521, 0x9291 (subseconds). Date and time when original image was generated, in ISO 8601 format. Includes the EXIF SubSecTimeOriginal data.") },
-        { "DateTimeDigitized",        N_("Date Time Digitized"),         "Date",                         xmpText, xmpInternal, N_("EXIF tag 36868, 0x9004 (primary) and 37522, 0x9292 (subseconds). Date and time when "
-                                                                                                                                  "image was stored as digital data, can be the same as DateTimeOriginal if originally "
-                                                                                                                                  "stored in digital form. Stored in ISO 8601 format. Includes the EXIF SubSecTimeDigitized data.") },
-        { "ExposureTime",             N_("Exposure Time"),               "Rational",                     xmpText, xmpInternal, N_("EXIF tag 33434, 0x829A. Exposure time in seconds.") },
-        { "FNumber",                  N_("F Number"),                    "Rational",                     xmpText, xmpInternal, N_("EXIF tag 33437, 0x829D. F number.") },
-        { "ExposureProgram",          N_("Exposure Program"),            "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 34850, 0x8822. Class of program used for exposure.") },
-        { "SpectralSensitivity",      N_("Spectral Sensitivity"),        "Text",                         xmpText, xmpInternal, N_("EXIF tag 34852, 0x8824. Spectral sensitivity of each channel.") },
-        { "ISOSpeedRatings",          N_("ISOSpeedRatings"),             "seq Integer",                  xmpSeq,  xmpInternal, N_("EXIF tag 34855, 0x8827. ISO Speed and ISO Latitude of the input device as specified in ISO 12232.") },
-        { "OECF",                     N_("OECF"),                        "OECF/SFR",                     xmpText, xmpInternal, N_("EXIF tag 34856, 0x8828. Opto-Electoric Conversion Function as specified in ISO 14524.") },
-        { "ShutterSpeedValue",        N_("Shutter Speed Value"),         "Rational",                     xmpText, xmpInternal, N_("EXIF tag 37377, 0x9201. Shutter speed, unit is APEX. See Annex C of the EXIF specification.") },
-        { "ApertureValue",            N_("Aperture Value"),              "Rational",                     xmpText, xmpInternal, N_("EXIF tag 37378, 0x9202. Lens aperture, unit is APEX.") },
-        { "BrightnessValue",          N_("Brightness Value"),            "Rational",                     xmpText, xmpInternal, N_("EXIF tag 37379, 0x9203. Brightness, unit is APEX.") },
-        { "ExposureBiasValue",        N_("Exposure Bias Value"),         "Rational",                     xmpText, xmpInternal, N_("EXIF tag 37380, 0x9204. Exposure bias, unit is APEX.") },
-        { "MaxApertureValue",         N_("Max Aperture Value"),          "Rational",                     xmpText, xmpInternal, N_("EXIF tag 37381, 0x9205. Smallest F number of lens, in APEX.") },
-        { "SubjectDistance",          N_("Subject Distance"),            "Rational",                     xmpText, xmpInternal, N_("EXIF tag 37382, 0x9206. Distance to subject, in meters.") },
-        { "MeteringMode",             N_("Metering Mode"),               "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 37383, 0x9207. Metering mode.") },
-        { "LightSource",              N_("Light Source"),                "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 37384, 0x9208. Light source.") },
-        { "Flash",                    N_("Flash"),                       "Flash",                        xmpText, xmpInternal, N_("EXIF tag 37385, 0x9209. Strobe light (flash) source data.") },
-        { "FocalLength",              N_("Focal Length"),                "Rational",                     xmpText, xmpInternal, N_("EXIF tag 37386, 0x920A. Focal length of the lens, in millimeters.") },
-        { "SubjectArea",              N_("Subject Area"),                "seq Integer",                  xmpSeq,  xmpInternal, N_("EXIF tag 37396, 0x9214. The location and area of the main subject in the overall scene.") },
-        { "FlashEnergy",              N_("Flash Energy"),                "Rational",                     xmpText, xmpInternal, N_("EXIF tag 41483, 0xA20B. Strobe energy during image capture.") },
-        { "SpatialFrequencyResponse", N_("Spatial Frequency Response"),  "OECF/SFR",                     xmpText, xmpInternal, N_("EXIF tag 41484, 0xA20C. Input device spatial frequency table and SFR values as specified in ISO 12233.") },
-        { "FocalPlaneXResolution",    N_("Focal Plane X Resolution"),    "Rational",                     xmpText, xmpInternal, N_("EXIF tag 41486, 0xA20E. Horizontal focal resolution, measured pixels per unit.") },
-        { "FocalPlaneYResolution",    N_("Focal Plane Y Resolution"),    "Rational",                     xmpText, xmpInternal, N_("EXIF tag 41487, 0xA20F. Vertical focal resolution, measured in pixels per unit.") },
-        { "FocalPlaneResolutionUnit", N_("Focal Plane Resolution Unit"), "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 41488, 0xA210. Unit used for FocalPlaneXResolution and FocalPlaneYResolution.") },
-        { "SubjectLocation",          N_("Subject Location"),            "seq Integer",                  xmpSeq,  xmpInternal, N_("EXIF tag 41492, 0xA214. Location of the main subject of the scene. The first value is the "
-                                                                                                                                  "horizontal pixel and the second value is the vertical pixel at which the main subject appears.") },
-        { "ExposureIndex",            N_("Exposure Index"),              "Rational",                     xmpText, xmpInternal, N_("EXIF tag 41493, 0xA215. Exposure index of input device.") },
-        { "SensingMethod",            N_("Sensing Method"),              "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 41495, 0xA217. Image sensor type on input device.") },
-        { "FileSource",               N_("File Source"),                 "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 41728, 0xA300. Indicates image source.") },
-        { "SceneType",                N_("Scene Type"),                  "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 41729, 0xA301. Indicates the type of scene.") },
-        { "CFAPattern",               N_("CFA Pattern"),                 "CFAPattern",                   xmpText, xmpInternal, N_("EXIF tag 41730, 0xA302. Color filter array geometric pattern of the image sense.") },
-        { "CustomRendered",           N_("Custom Rendered"),             "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 41985, 0xA401. Indicates the use of special processing on image data.") },
-        { "ExposureMode",             N_("Exposure Mode"),               "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 41986, 0xA402. Indicates the exposure mode set when the image was shot.") },
-        { "WhiteBalance",             N_("White Balance"),               "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 41987, 0xA403. Indicates the white balance mode set when the image was shot.") },
-        { "DigitalZoomRatio",         N_("Digital Zoom Ratio"),          "Rational",                     xmpText, xmpInternal, N_("EXIF tag 41988, 0xA404. Indicates the digital zoom ratio when the image was shot.") },
-        { "FocalLengthIn35mmFilm",    N_("Focal Length In 35mm Film"),   "Integer",                      xmpText, xmpInternal, N_("EXIF tag 41989, 0xA405. Indicates the equivalent focal length assuming a 35mm film "
-                                                                                                                                  "camera, in mm. A value of 0 means the focal length is unknown. Note that this tag differs from the FocalLength tag.") },
-        { "SceneCaptureType",         N_("Scene Capture Type"),          "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 41990, 0xA406. Indicates the type of scene that was shot.") },
-        { "GainControl",              N_("Gain Control"),                "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 41991, 0xA407. Indicates the degree of overall image gain adjustment.") },
-        { "Contrast",                 N_("Contrast"),                    "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 41992, 0xA408. Indicates the direction of contrast processing applied by the camera.") },
-        { "Saturation",               N_("Saturation"),                  "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 41993, 0xA409. Indicates the direction of saturation processing applied by the camera.") },
-        { "Sharpness",                N_("Sharpness"),                   "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 41994, 0xA40A. Indicates the direction of sharpness processing applied by the camera.") },
-        { "DeviceSettingDescription", N_("Device Setting Description"),  "DeviceSettings",               xmpText, xmpInternal, N_("EXIF tag 41995, 0xA40B. Indicates information on the picture-taking conditions of a particular camera model.") },
-        { "SubjectDistanceRange",     N_("Subject Distance Range"),      "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 41996, 0xA40C. Indicates the distance to the subject.") },
-        { "ImageUniqueID",            N_("Image Unique ID"),             "Text",                         xmpText, xmpInternal, N_("EXIF tag 42016, 0xA420. An identifier assigned uniquely to each image. It is recorded as a 32 "
-                                                                                                                                  "character ASCII string, equivalent to hexadecimal notation and 128-bit fixed length.") },
-        { "GPSVersionID",             "GPSVersionID",                    "Text",                         xmpText, xmpInternal, "GPS tag 0, 0x00. A decimal encoding of each of the four EXIF bytes with period separators. The current value is \"2.0.0.0\"." },
-        { "GPSLatitude",              "GPSLatitude",                     "GPSCoordinate",                xmpText, xmpInternal, "GPS tag 2, 0x02 (position) and 1, 0x01 (North/South). Indicates latitude." },
-        { "GPSLongitude",             "GPSLongitude",                    "GPSCoordinate",                xmpText, xmpInternal, "GPS tag 4, 0x04 (position) and 3, 0x03 (East/West). Indicates longitude." },
-        { "GPSAltitudeRef",           "GPSAltitudeRef",                  "Closed Choice of Integer",     xmpText, xmpInternal, "GPS tag 5, 0x5. Indicates whether the altitude is above or below sea level." },
-        { "GPSAltitude",              "GPSAltitude",                     "Rational",                     xmpText, xmpInternal, "GPS tag 6, 0x06. Indicates altitude in meters." },
-        { "GPSTimeStamp",             "GPSTimeStamp",                    "Date",                         xmpText, xmpInternal, "GPS tag 29 (date), 0x1D, and, and GPS tag 7 (time), 0x07. Time stamp of GPS data, in Coordinated Universal Time. "
-                                                                                                                               "Note: The GPSDateStamp tag is new in EXIF 2.2. The GPS timestamp in EXIF 2.1 does not include a date. If not present, "
-                                                                                                                               "the date component for the XMP should be taken from exif:DateTimeOriginal, or if that is "
-                                                                                                                               "also lacking from exif:DateTimeDigitized. If no date is available, do not write exif:GPSTimeStamp to XMP." },
-        { "GPSSatellites",            "GPSSatellites",                   "Text",                         xmpText, xmpInternal, "GPS tag 8, 0x08. Satellite information, format is unspecified." },
-        { "GPSStatus",                "GPSStatus",                       "Closed Choice of Text",        xmpText, xmpInternal, "GPS tag 9, 0x09. Status of GPS receiver at image creation time." },
-        { "GPSMeasureMode",           "GPSMeasureMode",                  "Text",                         xmpText, xmpInternal, "GPS tag 10, 0x0A. GPS measurement mode, Text type." },
-        { "GPSDOP",                   "GPSDOP",                          "Rational",                     xmpText, xmpInternal, "GPS tag 11, 0x0B. Degree of precision for GPS data." },
-        { "GPSSpeedRef",              "GPSSpeedRef",                     "Closed Choice of Text",        xmpText, xmpInternal, "GPS tag 12, 0x0C. Units used to speed measurement." },
-        { "GPSSpeed",                 "GPSSpeed",                        "Rational",                     xmpText, xmpInternal, "GPS tag 13, 0x0D. Speed of GPS receiver movement." },
-        { "GPSTrackRef",              "GPSTrackRef",                     "Closed Choice of Text",        xmpText, xmpInternal, "GPS tag 14, 0x0E. Reference for movement direction." },
-        { "GPSTrack",                 "GPSTrack",                        "Rational",                     xmpText, xmpInternal, "GPS tag 15, 0x0F. Direction of GPS movement, values range from 0 to 359.99." },
-        { "GPSImgDirectionRef",       "GPSImgDirectionRef",              "Closed Choice of Text",        xmpText, xmpInternal, "GPS tag 16, 0x10. Reference for movement direction." },
-        { "GPSImgDirection",          "GPSImgDirection",                 "Rational",                     xmpText, xmpInternal, "GPS tag 17, 0x11. Direction of image when captured, values range from 0 to 359.99." },
-        { "GPSMapDatum",              "GPSMapDatum",                     "Text",                         xmpText, xmpInternal, "GPS tag 18, 0x12. Geodetic survey data." },
-        { "GPSDestLatitude",          "GPSDestLatitude",                 "GPSCoordinate",                xmpText, xmpInternal, "GPS tag 20, 0x14 (position) and 19, 0x13 (North/South). Indicates destination latitude." },
-        { "GPSDestLongitude",         "GPSDestLongitude",                "GPSCoordinate",                xmpText, xmpInternal, "GPS tag 22, 0x16 (position) and 21, 0x15 (East/West). Indicates destination longitude." },
-        { "GPSDestBearingRef",        "GPSDestBearingRef",               "Closed Choice of Text",        xmpText, xmpInternal, "GPS tag 23, 0x17. Reference for movement direction." },
-        { "GPSDestBearing",           "GPSDestBearing",                  "Rational",                     xmpText, xmpInternal, "GPS tag 24, 0x18. Destination bearing, values from 0 to 359.99." },
-        { "GPSDestDistanceRef",       "GPSDestDistanceRef",              "Closed Choice  of Text",       xmpText, xmpInternal, "GPS tag 25, 0x19. Units used for speed measurement." },
-        { "GPSDestDistance",          "GPSDestDistance",                 "Rational",                     xmpText, xmpInternal, "GPS tag 26, 0x1A. Distance to destination." },
-        { "GPSProcessingMethod",      "GPSProcessingMethod",             "Text",                         xmpText, xmpInternal, "GPS tag 27, 0x1B. A character string recording the name of the method used for location finding." },
-        { "GPSAreaInformation",       "GPSAreaInformation",              "Text",                         xmpText, xmpInternal, "GPS tag 28, 0x1C. A character string recording the name of the GPS area." },
-        { "GPSDifferential",          "GPSDifferential",                 "Closed Choice of Integer",     xmpText, xmpInternal, "GPS tag 30, 0x1E. Indicates whether differential correction is applied to the GPS receiver." },
+        { "ExifVersion",              N_("Exif Version"),                        "Closed Choice of Text",        xmpText, xmpInternal, N_("EXIF tag 36864, 0x9000. EXIF version number.") },
+        { "FlashpixVersion",          N_("Flashpix Version"),                    "Closed Choice of Text",        xmpText, xmpInternal, N_("EXIF tag 40960, 0xA000. Version of FlashPix.") },
+        { "ColorSpace",               N_("Color Space"),                         "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 40961, 0xA001. Color space information") },
+        { "ComponentsConfiguration",  N_("Components Configuration"),            "Closed Choice of seq Integer", xmpSeq,  xmpInternal, N_("EXIF tag 37121, 0x9101. Configuration of components in data: 4 5 6 0 (if RGB compressed data), "
+                                                                                                                                          "1 2 3 0 (other cases).") },
+        { "CompressedBitsPerPixel",   N_("Compressed Bits Per Pixel"),           "Rational",                     xmpText, xmpInternal, N_("EXIF tag 37122, 0x9102. Compression mode used for a compressed image is indicated "
+                                                                                                                                          "in unit bits per pixel.") },
+        { "PixelXDimension",          N_("Pixel X Dimension"),                   "Integer",                      xmpText, xmpInternal, N_("EXIF tag 40962, 0xA002. Valid image width, in pixels.") },
+        { "PixelYDimension",          N_("Pixel Y Dimension"),                   "Integer",                      xmpText, xmpInternal, N_("EXIF tag 40963, 0xA003. Valid image height, in pixels.") },
+        { "UserComment",              N_("User Comment"),                        "Lang Alt",                     langAlt, xmpExternal, N_("EXIF tag 37510, 0x9286. Comments from user.") },
+        { "RelatedSoundFile",         N_("Related Sound File"),                  "Text",                         xmpText, xmpInternal, N_("EXIF tag 40964, 0xA004. An \"8.3\" file name for the related sound file.") },
+        { "DateTimeOriginal",         N_("Date Time Original"),                  "Date",                         xmpText, xmpInternal, N_("EXIF tags 36867, 0x9003 (primary) and 37521, 0x9291 (subseconds). "
+                                                                                                                                          "Date and time when original image was generated, in ISO 8601 format. "
+                                                                                                                                          "Includes the EXIF SubSecTimeOriginal data.") },
+        { "DateTimeDigitized",        N_("Date Time Digitized"),                 "Date",                         xmpText, xmpInternal, N_("EXIF tag 36868, 0x9004 (primary) and 37522, 0x9292 (subseconds). Date and time when "
+                                                                                                                                          "image was stored as digital data, can be the same as DateTimeOriginal if originally "
+                                                                                                                                          "stored in digital form. Stored in ISO 8601 format. Includes the EXIF "
+                                                                                                                                          "SubSecTimeDigitized data.") },
+        { "ExposureTime",             N_("Exposure Time"),                       "Rational",                     xmpText, xmpInternal, N_("EXIF tag 33434, 0x829A. Exposure time in seconds.") },
+        { "FNumber",                  N_("F Number"),                            "Rational",                     xmpText, xmpInternal, N_("EXIF tag 33437, 0x829D. F number.") },
+        { "ExposureProgram",          N_("Exposure Program"),                    "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 34850, 0x8822. Class of program used for exposure.") },
+        { "SpectralSensitivity",      N_("Spectral Sensitivity"),                "Text",                         xmpText, xmpInternal, N_("EXIF tag 34852, 0x8824. Spectral sensitivity of each channel.") },
+        { "ISOSpeedRatings",          N_("ISOSpeedRatings"),                     "seq Integer",                  xmpSeq,  xmpInternal, N_("EXIF tag 34855, 0x8827. ISO Speed and ISO Latitude of the input device as "
+                                                                                                                                          "specified in ISO 12232.") },
+        { "OECF",                     N_("OECF"),                                "OECF/SFR",                     xmpText, xmpInternal, N_("EXIF tag 34856, 0x8828. Opto-Electoric Conversion Function as specified in ISO 14524.") },
+        { "ShutterSpeedValue",        N_("Shutter Speed Value"),                 "Rational",                     xmpText, xmpInternal, N_("EXIF tag 37377, 0x9201. Shutter speed, unit is APEX. See Annex C of the EXIF specification.") },
+        { "ApertureValue",            N_("Aperture Value"),                      "Rational",                     xmpText, xmpInternal, N_("EXIF tag 37378, 0x9202. Lens aperture, unit is APEX.") },
+        { "BrightnessValue",          N_("Brightness Value"),                    "Rational",                     xmpText, xmpInternal, N_("EXIF tag 37379, 0x9203. Brightness, unit is APEX.") },
+        { "ExposureBiasValue",        N_("Exposure Bias Value"),                 "Rational",                     xmpText, xmpInternal, N_("EXIF tag 37380, 0x9204. Exposure bias, unit is APEX.") },
+        { "MaxApertureValue",         N_("Max Aperture Value"),                  "Rational",                     xmpText, xmpInternal, N_("EXIF tag 37381, 0x9205. Smallest F number of lens, in APEX.") },
+        { "SubjectDistance",          N_("Subject Distance"),                    "Rational",                     xmpText, xmpInternal, N_("EXIF tag 37382, 0x9206. Distance to subject, in meters.") },
+        { "MeteringMode",             N_("Metering Mode"),                       "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 37383, 0x9207. Metering mode.") },
+        { "LightSource",              N_("Light Source"),                        "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 37384, 0x9208. Light source.") },
+        { "Flash",                    N_("Flash"),                               "Flash",                        xmpText, xmpInternal, N_("EXIF tag 37385, 0x9209. Strobe light (flash) source data.") },
+        { "FocalLength",              N_("Focal Length"),                        "Rational",                     xmpText, xmpInternal, N_("EXIF tag 37386, 0x920A. Focal length of the lens, in millimeters.") },
+        { "SubjectArea",              N_("Subject Area"),                        "seq Integer",                  xmpSeq,  xmpInternal, N_("EXIF tag 37396, 0x9214. The location and area of the main subject in the overall scene.") },
+        { "FlashEnergy",              N_("Flash Energy"),                        "Rational",                     xmpText, xmpInternal, N_("EXIF tag 41483, 0xA20B. Strobe energy during image capture.") },
+        { "SpatialFrequencyResponse", N_("Spatial Frequency Response"),          "OECF/SFR",                     xmpText, xmpInternal, N_("EXIF tag 41484, 0xA20C. Input device spatial frequency table and SFR values as "
+                                                                                                                                          "specified in ISO 12233.") },
+        { "FocalPlaneXResolution",    N_("Focal Plane X Resolution"),            "Rational",                     xmpText, xmpInternal, N_("EXIF tag 41486, 0xA20E. Horizontal focal resolution, measured pixels per unit.") },
+        { "FocalPlaneYResolution",    N_("Focal Plane Y Resolution"),            "Rational",                     xmpText, xmpInternal, N_("EXIF tag 41487, 0xA20F. Vertical focal resolution, measured in pixels per unit.") },
+        { "FocalPlaneResolutionUnit", N_("Focal Plane Resolution Unit"),         "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 41488, 0xA210. Unit used for FocalPlaneXResolution and FocalPlaneYResolution.") },
+        { "SubjectLocation",          N_("Subject Location"),                    "seq Integer",                  xmpSeq,  xmpInternal, N_("EXIF tag 41492, 0xA214. Location of the main subject of the scene. The first value is the "
+                                                                                                                                          "horizontal pixel and the second value is the vertical pixel at which the "
+                                                                                                                                          "main subject appears.") },
+        { "ExposureIndex",            N_("Exposure Index"),                      "Rational",                     xmpText, xmpInternal, N_("EXIF tag 41493, 0xA215. Exposure index of input device.") },
+        { "SensingMethod",            N_("Sensing Method"),                      "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 41495, 0xA217. Image sensor type on input device.") },
+        { "FileSource",               N_("File Source"),                         "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 41728, 0xA300. Indicates image source.") },
+        { "SceneType",                N_("Scene Type"),                          "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 41729, 0xA301. Indicates the type of scene.") },
+        { "CFAPattern",               N_("CFA Pattern"),                         "CFAPattern",                   xmpText, xmpInternal, N_("EXIF tag 41730, 0xA302. Color filter array geometric pattern of the image sense.") },
+        { "CustomRendered",           N_("Custom Rendered"),                     "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 41985, 0xA401. Indicates the use of special processing on image data.") },
+        { "ExposureMode",             N_("Exposure Mode"),                       "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 41986, 0xA402. Indicates the exposure mode set when the image was shot.") },
+        { "WhiteBalance",             N_("White Balance"),                       "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 41987, 0xA403. Indicates the white balance mode set when the image was shot.") },
+        { "DigitalZoomRatio",         N_("Digital Zoom Ratio"),                  "Rational",                     xmpText, xmpInternal, N_("EXIF tag 41988, 0xA404. Indicates the digital zoom ratio when the image was shot.") },
+        { "FocalLengthIn35mmFilm",    N_("Focal Length In 35mm Film"),           "Integer",                      xmpText, xmpInternal, N_("EXIF tag 41989, 0xA405. Indicates the equivalent focal length assuming a 35mm film "
+                                                                                                                                          "camera, in mm. A value of 0 means the focal length is unknown. Note that this tag "
+                                                                                                                                          "differs from the FocalLength tag.") },
+        { "SceneCaptureType",         N_("Scene Capture Type"),                  "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 41990, 0xA406. Indicates the type of scene that was shot.") },
+        { "GainControl",              N_("Gain Control"),                        "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 41991, 0xA407. Indicates the degree of overall image gain adjustment.") },
+        { "Contrast",                 N_("Contrast"),                            "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 41992, 0xA408. Indicates the direction of contrast processing applied by the camera.") },
+        { "Saturation",               N_("Saturation"),                          "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 41993, 0xA409. Indicates the direction of saturation processing applied by the camera.") },
+        { "Sharpness",                N_("Sharpness"),                           "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 41994, 0xA40A. Indicates the direction of sharpness processing applied by the camera.") },
+        { "DeviceSettingDescription", N_("Device Setting Description"),          "DeviceSettings",               xmpText, xmpInternal, N_("EXIF tag 41995, 0xA40B. Indicates information on the picture-taking conditions of a particular camera model.") },
+        { "SubjectDistanceRange",     N_("Subject Distance Range"),              "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 41996, 0xA40C. Indicates the distance to the subject.") },
+        { "ImageUniqueID",            N_("Image Unique ID"),                     "Text",                         xmpText, xmpInternal, N_("EXIF tag 42016, 0xA420. An identifier assigned uniquely to each image. It is recorded as a 32 "
+                                                                                                                                          "character ASCII string, equivalent to hexadecimal notation and 128-bit fixed length.") },
+        { "GPSVersionID",             N_("GPS Version ID"),                      "Text",                         xmpText, xmpInternal, N_("GPS tag 0, 0x00. A decimal encoding of each of the four EXIF bytes with period separators. "
+                                                                                                                                          "The current value is \"2.0.0.0\".") },
+        { "GPSLatitude",              N_("GPS Latitude"),                        "GPSCoordinate",                xmpText, xmpInternal, N_("GPS tag 2, 0x02 (position) and 1, 0x01 (North/South). Indicates latitude.") },
+        { "GPSLongitude",             N_("GPS Longitude"),                       "GPSCoordinate",                xmpText, xmpInternal, N_("GPS tag 4, 0x04 (position) and 3, 0x03 (East/West). Indicates longitude.") },
+        { "GPSAltitudeRef",           N_("GPS Altitude Reference"),              "Closed Choice of Integer",     xmpText, xmpInternal, N_("GPS tag 5, 0x5. Indicates whether the altitude is above or below sea level.") },
+        { "GPSAltitude",              N_("GPS Altitude"),                        "Rational",                     xmpText, xmpInternal, N_("GPS tag 6, 0x06. Indicates altitude in meters.") },
+        { "GPSTimeStamp",             N_("GPS Time Stamp"),                      "Date",                         xmpText, xmpInternal, N_("GPS tag 29 (date), 0x1D, and, and GPS tag 7 (time), 0x07. Time stamp of GPS data, "
+                                                                                                                                          "in Coordinated Universal Time. Note: The GPSDateStamp tag is new in EXIF 2.2. "
+                                                                                                                                          "The GPS timestamp in EXIF 2.1 does not include a date. If not present, "
+                                                                                                                                          "the date component for the XMP should be taken from exif:DateTimeOriginal, or if that is "
+                                                                                                                                          "also lacking from exif:DateTimeDigitized. If no date is available, do not write "
+                                                                                                                                          "exif:GPSTimeStamp to XMP.") },
+        { "GPSSatellites",            N_("GPS Satellites"),                      "Text",                         xmpText, xmpInternal, N_("GPS tag 8, 0x08. Satellite information, format is unspecified.") },
+        { "GPSStatus",                N_("GPS Status"),                          "Closed Choice of Text",        xmpText, xmpInternal, N_("GPS tag 9, 0x09. Status of GPS receiver at image creation time.") },
+        { "GPSMeasureMode",           N_("GPS Measure Mode"),                    "Text",                         xmpText, xmpInternal, N_("GPS tag 10, 0x0A. GPS measurement mode, Text type.") },
+        { "GPSDOP",                   N_("GPS DOP"),                             "Rational",                     xmpText, xmpInternal, N_("GPS tag 11, 0x0B. Degree of precision for GPS data.") },
+        { "GPSSpeedRef",              N_("GPS Speed Reference"),                 "Closed Choice of Text",        xmpText, xmpInternal, N_("GPS tag 12, 0x0C. Units used to speed measurement.") },
+        { "GPSSpeed",                 N_("GPS Speed"),                           "Rational",                     xmpText, xmpInternal, N_("GPS tag 13, 0x0D. Speed of GPS receiver movement.") },
+        { "GPSTrackRef",              N_("GPS Track Reference"),                 "Closed Choice of Text",        xmpText, xmpInternal, N_("GPS tag 14, 0x0E. Reference for movement direction.") },
+        { "GPSTrack",                 N_("GPS Track"),                           "Rational",                     xmpText, xmpInternal, N_("GPS tag 15, 0x0F. Direction of GPS movement, values range from 0 to 359.99.") },
+        { "GPSImgDirectionRef",       N_("GPS Image Direction Reference"),       "Closed Choice of Text",        xmpText, xmpInternal, N_("GPS tag 16, 0x10. Reference for movement direction.") },
+        { "GPSImgDirection",          N_("GPS Image Direction"),                 "Rational",                     xmpText, xmpInternal, N_("GPS tag 17, 0x11. Direction of image when captured, values range from 0 to 359.99.") },
+        { "GPSMapDatum",              N_("GPS Map Datum"),                       "Text",                         xmpText, xmpInternal, N_("GPS tag 18, 0x12. Geodetic survey data.") },
+        { "GPSDestLatitude",          N_("GPS Destination Latitude"),            "GPSCoordinate",                xmpText, xmpInternal, N_("GPS tag 20, 0x14 (position) and 19, 0x13 (North/South). Indicates destination latitude.") },
+        { "GPSDestLongitude",         N_("GPS Destination Longitude"),           "GPSCoordinate",                xmpText, xmpInternal, N_("GPS tag 22, 0x16 (position) and 21, 0x15 (East/West). Indicates destination longitude.") },
+        { "GPSDestBearingRef",        N_("GPS Destination Bearing Reference"),   "Closed Choice of Text",        xmpText, xmpInternal, N_("GPS tag 23, 0x17. Reference for movement direction.") },
+        { "GPSDestBearing",           N_("GPS Destination Bearing"),             "Rational",                     xmpText, xmpInternal, N_("GPS tag 24, 0x18. Destination bearing, values from 0 to 359.99.") },
+        { "GPSDestDistanceRef",       N_("GPS Destination Distance Refefrence"), "Closed Choice  of Text",       xmpText, xmpInternal, N_("GPS tag 25, 0x19. Units used for speed measurement.") },
+        { "GPSDestDistance",          N_("GPS Destination Distance"),            "Rational",                     xmpText, xmpInternal, N_("GPS tag 26, 0x1A. Distance to destination.") },
+        { "GPSProcessingMethod",      N_("GPS Processing Method"),               "Text",                         xmpText, xmpInternal, N_("GPS tag 27, 0x1B. A character string recording the name of the method used for location finding.") },
+        { "GPSAreaInformation",       N_("GPS Area Information"),                "Text",                         xmpText, xmpInternal, N_("GPS tag 28, 0x1C. A character string recording the name of the GPS area.") },
+        { "GPSDifferential",          N_("GPS Differential"),                    "Closed Choice of Integer",     xmpText, xmpInternal, N_("GPS tag 30, 0x1E. Indicates whether differential correction is applied to the GPS receiver.") },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
 
     extern const XmpPropertyInfo xmpAuxInfo[] = {
-        { "Lens",             "Lens",             "Text",        xmpText,          xmpInternal, "A description of the lens used to take the photograph. For example, \"70-200 mm f/2.8-4.0\"." },
-        { "SerialNumber",     "SerialNumber",     "Text",        xmpText,          xmpInternal, "The serial number of the camera or camera body used to take the photograph." },
+        { "Lens",             N_("Lens"),             "Text",        xmpText,          xmpInternal, N_("A description of the lens used to take the photograph. For example, \"70-200 mm f/2.8-4.0\".") },
+        { "SerialNumber",     N_("SerialNumber"),     "Text",        xmpText,          xmpInternal, N_("The serial number of the camera or camera body used to take the photograph.") },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
 
     extern const XmpPropertyInfo xmpIptcInfo[] = {
-        { "CiAdrCity",        "Contact Info-City", "Text",       xmpText,          xmpExternal, "The contact information city part." },
-        { "CiAdrCtry",        "Contact Info-Country", "Text",    xmpText,          xmpExternal, "The contact information country part." },
-        { "CiAdrExtadr",      "Contact Info-Address", "Text",    xmpText,          xmpExternal, "The contact information address part. Comprises an optional company name and all required "
-                                                                                                "information to locate the building or postbox to which mail should be sent." },
-        { "CiAdrPcode",       "Contact Info-Postal Code", "Text", xmpText,         xmpExternal, "The contact information part denoting the local postal code." },
-        { "CiAdrRegion",      "Contact Info-State/Province", "Text", xmpText,      xmpExternal, "The contact information part denoting regional information like state or province." },
-        { "CiEmailWork",      "Contact Info-Email", "Text",      xmpText,          xmpExternal, "The contact information email address part." },
-        { "CiTelWork",        "Contact Info-Phone", "Text",      xmpText,          xmpExternal, "The contact information phone number part." },
-        { "CiUrlWork",        "Contact Info-Web URL", "Text",    xmpText,          xmpExternal, "The contact information web address part." },
-        { "CountryCode",      "Country Code",     "closed Choice of Text", xmpText, xmpExternal, "Code of the country the content is focussing on -- either the country shown in visual "
-                                                                                                "media or referenced in text or audio media. This element is at the top/first level of "
-                                                                                                "a top-down geographical hierarchy. The code should be taken from ISO 3166 two or three "
-                                                                                                "letter code. The full name of a country should go to the \"Country\" element." },
-        { "CreatorContactInfo", "Creator's Contact Info", "ContactInfo", xmpText,  xmpExternal, "The creator's contact information provides all necessary information to get in contact "
-                                                                                                "with the creator of this news object and comprises a set of sub-properties for proper addressing." },
-        { "IntellectualGenre", "Intellectual Genre", "Text",     xmpText,          xmpExternal, "Describes the nature, intellectual or journalistic characteristic of a news object, not "
-                                                                                                "specifically its content." },
-        { "Location",         "Location",         "Text",        xmpText,          xmpExternal, "Name of a location the content is focussing on -- either the location shown in visual "
-                                                                                                "media or referenced by text or audio media. This location name could either be the name "
-                                                                                                "of a sublocation to a city or the name of a well known location or (natural) monument "
-                                                                                                "outside a city. In the sense of a sublocation to a city this element is at the fourth "
-                                                                                                "level of a top-down geographical hierarchy." },
-        { "Scene",            "IPTC Scene",       "bag closed Choice of Text", xmpBag, xmpExternal, "Describes the scene of a photo content. Specifies one or more terms from the IPTC "
-                                                                                                "\"Scene-NewsCodes\". Each Scene is represented as a string of 6 digits in an unordered list." },
-        { "SubjectCode",      "IPTC Subject Code", "bag closed Choice of Text", xmpBag, xmpExternal, "Specifies one or more Subjects from the IPTC \"Subject-NewsCodes\" taxonomy to "
-                                                                                                "categorize the content. Each Subject is represented as a string of 8 digits in an unordered list." },
+        { "CiAdrCity",          N_("Contact Info-City"),           "Text",                      xmpText, xmpExternal, N_("The contact information city part.") },
+        { "CiAdrCtry",          N_("Contact Info-Country"),        "Text",                      xmpText, xmpExternal, N_("The contact information country part.") },
+        { "CiAdrExtadr",        N_("Contact Info-Address"),        "Text",                      xmpText, xmpExternal, N_("The contact information address part. Comprises an optional company name and all required "
+                                                                                                                         "information to locate the building or postbox to which mail should be sent.") },
+        { "CiAdrPcode",         N_("Contact Info-Postal Code"),    "Text",                      xmpText, xmpExternal, N_("The contact information part denoting the local postal code.") },
+        { "CiAdrRegion",        N_("Contact Info-State/Province"), "Text",                      xmpText, xmpExternal, N_("The contact information part denoting regional information like state or province.") },
+        { "CiEmailWork",        N_("Contact Info-Email"),          "Text",                      xmpText, xmpExternal, N_("The contact information email address part.") },
+        { "CiTelWork",          N_("Contact Info-Phone"),          "Text",                      xmpText, xmpExternal, N_("The contact information phone number part.") },
+        { "CiUrlWork",          N_("Contact Info-Web URL"),        "Text",                      xmpText, xmpExternal, N_("The contact information web address part.") },
+        { "CountryCode",        N_("Country Code"),                "closed Choice of Text",     xmpText, xmpExternal, N_("Code of the country the content is focussing on -- either the country shown in visual "
+                                                                                                                         "media or referenced in text or audio media. This element is at the top/first level of "
+                                                                                                                         "a top-down geographical hierarchy. The code should be taken from ISO 3166 two or three "
+                                                                                                                         "letter code. The full name of a country should go to the \"Country\" element.") },
+        { "CreatorContactInfo", N_("Creator's Contact Info"),      "ContactInfo",               xmpText, xmpExternal, N_("The creator's contact information provides all necessary information to get in contact "
+                                                                                                                         "with the creator of this news object and comprises a set of sub-properties for proper addressing.") },
+        { "IntellectualGenre",  N_("Intellectual Genre"),          "Text",                      xmpText, xmpExternal, N_("Describes the nature, intellectual or journalistic characteristic of a news object, not "
+                                                                                                                         "specifically its content.") },
+        { "Location",           N_("Location"),                    "Text",                      xmpText, xmpExternal, N_("Name of a location the content is focussing on -- either the location shown in visual "
+                                                                                                                         "media or referenced by text or audio media. This location name could either be the name "
+                                                                                                                         "of a sublocation to a city or the name of a well known location or (natural) monument "
+                                                                                                                         "outside a city. In the sense of a sublocation to a city this element is at the fourth "
+                                                                                                                         "level of a top-down geographical hierarchy.") },
+        { "Scene",              N_("IPTC Scene"),                  "bag closed Choice of Text", xmpBag, xmpExternal, N_("Describes the scene of a photo content. Specifies one or more terms from the IPTC "
+                                                                                                                        "\"Scene-NewsCodes\". Each Scene is represented as a string of 6 digits in an unordered list.") },
+        { "SubjectCode",        N_("IPTC Subject Code"),           "bag closed Choice of Text", xmpBag, xmpExternal, N_("Specifies one or more Subjects from the IPTC \"Subject-NewsCodes\" taxonomy to "
+                                                                                                                        "categorize the content. Each Subject is represented as a string of 8 digits in an unordered list.") },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
