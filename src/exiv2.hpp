@@ -43,7 +43,7 @@
 // class definitions
 
 //! Command identifiers
-enum CmdId { invalidCmdId, add, set, del };
+enum CmdId { invalidCmdId, add, set, del, reg };
 //! Metadata identifiers
 enum MetadataId { invalidMetadataId, iptc, exif, xmp };
 //! Structure for one parsed modification command

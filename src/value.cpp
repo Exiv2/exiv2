@@ -637,11 +637,18 @@ namespace Exiv2 {
 
     std::ostream& LangAltValue::write(std::ostream& os) const
     {
-        for (ValueType::const_iterator i = value_.begin();
-             i != value_.end(); ++i) {
-            if (i != value_.begin()) os << ", ";
-            os << "lang=\"" << i->first << "\" "
-               << i->second;
+        bool first = true;
+        // Write the default entry first
+        ValueType::const_iterator i = value_.find("x-default");
+        if (i != value_.end()) {
+            os << "lang=\"" << i->first << "\" " << i->second;
+            first = false;
+        }
+        for (i = value_.begin(); i != value_.end(); ++i) {
+            if (i->first == "x-default") continue;
+            if (!first) os << ", ";
+            os << "lang=\"" << i->first << "\" " << i->second;
+            first = false;
         }
         return os;
     }
