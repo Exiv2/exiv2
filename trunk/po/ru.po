@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2007-10-15 08:06+0200\n"
+"POT-Creation-Date: 2007-10-15 11:23+0200\n"
 "PO-Revision-Date: 2007-10-14 02:56+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -144,8 +144,8 @@ msgstr "Эскиз"
 msgid "None"
 msgstr "Ничего"
 
-#: src/actions.cpp:552 src/datasets.cpp:376 src/properties.cpp:434
-#: src/tags.cpp:449
+#: src/actions.cpp:552 src/datasets.cpp:376 src/properties.cpp:282
+#: src/properties.cpp:434 src/tags.cpp:449
 msgid "Copyright"
 msgstr "Авторские права"
 
@@ -737,7 +737,7 @@ msgid ""
 "provider."
 msgstr ""
 
-#: src/datasets.cpp:253
+#: src/datasets.cpp:253 src/properties.cpp:283
 msgid "Release Date"
 msgstr "Дата пубикации"
 
@@ -2510,7 +2510,7 @@ msgstr ""
 
 #: src/properties.cpp:226
 #, fuzzy
-msgid "MaxPageSize"
+msgid "Maximum Page Size"
 msgstr "Размер изображения"
 
 #: src/properties.cpp:226
@@ -2520,8 +2520,9 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:227
-msgid "NPages"
-msgstr ""
+#, fuzzy
+msgid "Number of Pages"
+msgstr "Число F"
 
 #: src/properties.cpp:227
 msgid ""
@@ -2551,8 +2552,9 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:230
-msgid "PlateNames"
-msgstr ""
+#, fuzzy
+msgid "Plate Names"
+msgstr "Имя владельца"
 
 #: src/properties.cpp:230
 msgid ""
@@ -2561,8 +2563,9 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:236
-msgid "Project Ref"
-msgstr ""
+#, fuzzy
+msgid "Project Reference"
+msgstr "Эталонный Чёрный/Белый"
 
 #: src/properties.cpp:236
 msgid "A reference to the project that created this file."
@@ -2741,8 +2744,9 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:260
-msgid "Alt Tape Name"
-msgstr ""
+#, fuzzy
+msgid "Alternative Tape Name"
+msgstr "Имя владельца"
 
 #: src/properties.cpp:260
 msgid ""
@@ -2763,7 +2767,7 @@ msgstr ""
 
 #: src/properties.cpp:263
 #, fuzzy
-msgid "Alt Time code"
+msgid "Alternative Time code"
 msgstr "Режим вспышки"
 
 #: src/properties.cpp:263
@@ -2783,8 +2787,8 @@ msgstr ""
 
 #: src/properties.cpp:265
 #, fuzzy
-msgid "scene"
-msgstr "Центральный"
+msgid "Scene"
+msgstr "Тип сцены"
 
 #: src/properties.cpp:265
 #, fuzzy
@@ -2793,7 +2797,7 @@ msgstr "Вид источника света"
 
 #: src/properties.cpp:266
 #, fuzzy
-msgid "shotName"
+msgid "Shot Name"
 msgstr "Название страны"
 
 #: src/properties.cpp:266
@@ -2801,8 +2805,9 @@ msgid "The name of the shot or take."
 msgstr ""
 
 #: src/properties.cpp:267
-msgid "shotDate"
-msgstr ""
+#, fuzzy
+msgid "Shot Date"
+msgstr "Программное обеспечение"
 
 #: src/properties.cpp:267
 #, fuzzy
@@ -2811,7 +2816,7 @@ msgstr "Дата и время сохранения изображения в ц
 
 #: src/properties.cpp:268
 #, fuzzy
-msgid "shotLocation"
+msgid "Shot Location"
 msgstr "Местоположение объекта съёмки"
 
 #: src/properties.cpp:268
@@ -2823,7 +2828,7 @@ msgstr ""
 
 #: src/properties.cpp:270
 #, fuzzy
-msgid "logComment"
+msgid "Log Comment"
 msgstr "Комментарий (Windows)"
 
 #: src/properties.cpp:270
@@ -2832,23 +2837,25 @@ msgid "User's log comments."
 msgstr "Пользовательский комментарий"
 
 #: src/properties.cpp:271
-msgid "markers"
-msgstr ""
+#, fuzzy
+msgid "Markers"
+msgstr "Ручная"
 
 #: src/properties.cpp:271
 msgid "An ordered list of markers"
 msgstr ""
 
 #: src/properties.cpp:272
-msgid "contributedMedia"
-msgstr ""
+#, fuzzy
+msgid "Contributed Media"
+msgstr "Контраст"
 
 #: src/properties.cpp:272
 msgid "An unordered list of all media used to create this media."
 msgstr ""
 
 #: src/properties.cpp:273
-msgid "absPeakAudioFilePath"
+msgid "Absolute Peak Audio File Path"
 msgstr ""
 
 #: src/properties.cpp:273
@@ -2858,7 +2865,7 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:274
-msgid "relativePeakAudioFilePath"
+msgid "Relative Peak Audio File Path"
 msgstr ""
 
 #: src/properties.cpp:274
@@ -2868,8 +2875,9 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:275
-msgid "videoModDate"
-msgstr ""
+#, fuzzy
+msgid "Video Modified Date"
+msgstr "Порядок заполнения"
 
 #: src/properties.cpp:275
 #, fuzzy
@@ -2878,7 +2886,7 @@ msgstr "Дата и время сохранения изображения в ц
 
 #: src/properties.cpp:276
 #, fuzzy
-msgid "audioModDate"
+msgid "Audio Modified Date"
 msgstr "Частота сэмплирования звукозаписи"
 
 #: src/properties.cpp:276
@@ -2887,7 +2895,7 @@ msgid "The date and time when the audio was last modified."
 msgstr "Дата и время сохранения изображения в цифровом виде"
 
 #: src/properties.cpp:277
-msgid "metadataModDate"
+msgid "Metadata Modified Date"
 msgstr ""
 
 #: src/properties.cpp:277
@@ -2895,9 +2903,8 @@ msgstr ""
 msgid "The date and time when the metadata was last modified."
 msgstr "Дата и время сохранения изображения в цифровом виде"
 
-#: src/properties.cpp:278
-#, fuzzy
-msgid "artist"
+#: src/properties.cpp:278 src/properties.cpp:432 src/tags.cpp:349
+msgid "Artist"
 msgstr "Исполнитель"
 
 #: src/properties.cpp:278
@@ -2906,7 +2913,7 @@ msgstr ""
 
 #: src/properties.cpp:279
 #, fuzzy
-msgid "album"
+msgid "Album"
 msgstr "значение"
 
 #: src/properties.cpp:279
@@ -2915,7 +2922,7 @@ msgstr ""
 
 #: src/properties.cpp:280
 #, fuzzy
-msgid "trackNumber"
+msgid "Track Number"
 msgstr "Число F"
 
 #: src/properties.cpp:280
@@ -2926,7 +2933,7 @@ msgstr ""
 
 #: src/properties.cpp:281
 #, fuzzy
-msgid "genre"
+msgid "Genre"
 msgstr "Центральная"
 
 #: src/properties.cpp:281
@@ -2935,18 +2942,8 @@ msgstr ""
 
 #: src/properties.cpp:282
 #, fuzzy
-msgid "copyright"
-msgstr "Авторские права"
-
-#: src/properties.cpp:282
-#, fuzzy
 msgid "The copyright information."
 msgstr "Способ фокусировки"
-
-#: src/properties.cpp:283
-#, fuzzy
-msgid "releaseDate"
-msgstr "Дата пубикации"
 
 #: src/properties.cpp:283
 #, fuzzy
@@ -2955,7 +2952,7 @@ msgstr "Дата и время сохранения изображения в ц
 
 #: src/properties.cpp:284
 #, fuzzy
-msgid "composer"
+msgid "Composer"
 msgstr "компонент"
 
 #: src/properties.cpp:284
@@ -2964,7 +2961,7 @@ msgstr ""
 
 #: src/properties.cpp:285
 #, fuzzy
-msgid "engineer"
+msgid "Engineer"
 msgstr "Центральный"
 
 #: src/properties.cpp:285
@@ -2972,7 +2969,7 @@ msgid "The engineer's name."
 msgstr ""
 
 #: src/properties.cpp:286
-msgid "tempo"
+msgid "Tempo"
 msgstr ""
 
 #: src/properties.cpp:286
@@ -2980,8 +2977,9 @@ msgid "The audio's tempo."
 msgstr ""
 
 #: src/properties.cpp:287
-msgid "instrument"
-msgstr ""
+#, fuzzy
+msgid "Instrument"
+msgstr "Инструкции"
 
 #: src/properties.cpp:287
 msgid "The musical instrument."
@@ -2989,7 +2987,7 @@ msgstr ""
 
 #: src/properties.cpp:288
 #, fuzzy
-msgid "introTime"
+msgid "Intro Time"
 msgstr "Время отправки"
 
 #: src/properties.cpp:288
@@ -2997,7 +2995,7 @@ msgid "The duration of lead time for queuing music."
 msgstr ""
 
 #: src/properties.cpp:289
-msgid "outCue"
+msgid "Out Cue"
 msgstr ""
 
 #: src/properties.cpp:289
@@ -3006,7 +3004,7 @@ msgstr ""
 
 #: src/properties.cpp:290
 #, fuzzy
-msgid "relativeTimestamp"
+msgid "Relative Timestamp"
 msgstr "обновляется отметка времени"
 
 #: src/properties.cpp:290
@@ -3014,16 +3012,18 @@ msgid "The start time of the media inside the audio project."
 msgstr ""
 
 #: src/properties.cpp:291
-msgid "loop"
-msgstr ""
+#, fuzzy
+msgid "Loop"
+msgstr "Лондон"
 
 #: src/properties.cpp:291
 msgid "When true, the clip can be looped seemlessly."
 msgstr ""
 
 #: src/properties.cpp:292
-msgid "numberOfBeats"
-msgstr ""
+#, fuzzy
+msgid "Number Of Beats"
+msgstr "Число F"
 
 #: src/properties.cpp:292
 #, fuzzy
@@ -3031,8 +3031,9 @@ msgid "The number of beats."
 msgstr "Число F"
 
 #: src/properties.cpp:293
-msgid "key"
-msgstr ""
+#, fuzzy
+msgid "Key"
+msgstr "Низкий ключ"
 
 #: src/properties.cpp:293
 msgid ""
@@ -3041,7 +3042,7 @@ msgstr ""
 
 #: src/properties.cpp:294
 #, fuzzy
-msgid "stretchMode"
+msgid "Stretch Mode"
 msgstr "Режим коррекции"
 
 #: src/properties.cpp:294
@@ -3051,7 +3052,7 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:295
-msgid "timeScaleParams"
+msgid "Time Scale Parameters"
 msgstr ""
 
 #: src/properties.cpp:295
@@ -3059,7 +3060,7 @@ msgid "Additional parameters for Time-Scale stretch mode."
 msgstr ""
 
 #: src/properties.cpp:296
-msgid "resampleParams"
+msgid "Resample Parameters"
 msgstr ""
 
 #: src/properties.cpp:296
@@ -3067,7 +3068,7 @@ msgid "Additional parameters for Resample stretch mode."
 msgstr ""
 
 #: src/properties.cpp:297
-msgid "beatSpliceParams"
+msgid "Beat Splice Parameters"
 msgstr ""
 
 #: src/properties.cpp:297
@@ -3075,8 +3076,9 @@ msgid "Additional parameters for Beat Splice stretch mode."
 msgstr ""
 
 #: src/properties.cpp:298
-msgid "timeSignature"
-msgstr ""
+#, fuzzy
+msgid "Time Signature"
+msgstr "Время отправки"
 
 #: src/properties.cpp:298
 msgid ""
@@ -3086,7 +3088,7 @@ msgstr ""
 
 #: src/properties.cpp:299
 #, fuzzy
-msgid "scaleType"
+msgid "Scale Type"
 msgstr "Тип изображения"
 
 #: src/properties.cpp:299
@@ -3819,10 +3821,6 @@ msgid ""
 "property is stored in XMP as xmp:CreatorTool. "
 msgstr ""
 
-#: src/properties.cpp:432 src/tags.cpp:349
-msgid "Artist"
-msgstr "Исполнитель"
-
 #: src/properties.cpp:432
 msgid ""
 "TIFF tag 315, 0x13B. Camera owner, photographer or image creator. Note: This "
@@ -4479,9 +4477,9 @@ msgstr "Смещение экспозиции"
 msgid "EXIF tag 37380, 0x9204. Exposure bias, unit is APEX."
 msgstr ""
 
-#: src/properties.cpp:667 src/tags.cpp:761
+#: src/properties.cpp:667
 #, fuzzy
-msgid "Max Aperture Value"
+msgid "Maximum Aperture Value"
 msgstr "Максимально открытая диафрагма"
 
 #: src/properties.cpp:667
@@ -6440,6 +6438,11 @@ msgid ""
 msgstr ""
 "Смещение экспозиции. Измеряется APEX-единицами. Обычно значение лежит в "
 "диапазоне между -99.99 и 99.99."
+
+#: src/tags.cpp:761
+#, fuzzy
+msgid "Max Aperture Value"
+msgstr "Максимально открытая диафрагма"
 
 #: src/tags.cpp:762
 msgid ""
@@ -12741,6 +12744,22 @@ msgstr ""
 #: src/sonymn.cpp:92
 msgid "Unknown SonyMakerNote tag"
 msgstr ""
+
+#, fuzzy
+#~ msgid "scene"
+#~ msgstr "Центральный"
+
+#, fuzzy
+#~ msgid "artist"
+#~ msgstr "Исполнитель"
+
+#, fuzzy
+#~ msgid "copyright"
+#~ msgstr "Авторские права"
+
+#, fuzzy
+#~ msgid "releaseDate"
+#~ msgstr "Дата пубикации"
 
 #, fuzzy
 #~ msgid "CenterWeightedAverage"

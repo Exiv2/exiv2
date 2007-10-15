@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2007-10-15 08:06+0200\n"
+"POT-Creation-Date: 2007-10-15 11:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -140,8 +140,8 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: src/actions.cpp:552 src/datasets.cpp:376 src/properties.cpp:434
-#: src/tags.cpp:449
+#: src/actions.cpp:552 src/datasets.cpp:376 src/properties.cpp:282
+#: src/properties.cpp:434 src/tags.cpp:449
 msgid "Copyright"
 msgstr ""
 
@@ -716,7 +716,7 @@ msgid ""
 "provider."
 msgstr ""
 
-#: src/datasets.cpp:253
+#: src/datasets.cpp:253 src/properties.cpp:283
 msgid "Release Date"
 msgstr ""
 
@@ -2425,7 +2425,7 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:226
-msgid "MaxPageSize"
+msgid "Maximum Page Size"
 msgstr ""
 
 #: src/properties.cpp:226
@@ -2435,7 +2435,7 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:227
-msgid "NPages"
+msgid "Number of Pages"
 msgstr ""
 
 #: src/properties.cpp:227
@@ -2464,7 +2464,7 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:230
-msgid "PlateNames"
+msgid "Plate Names"
 msgstr ""
 
 #: src/properties.cpp:230
@@ -2474,7 +2474,7 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:236
-msgid "Project Ref"
+msgid "Project Reference"
 msgstr ""
 
 #: src/properties.cpp:236
@@ -2643,7 +2643,7 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:260
-msgid "Alt Tape Name"
+msgid "Alternative Tape Name"
 msgstr ""
 
 #: src/properties.cpp:260
@@ -2664,7 +2664,7 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:263
-msgid "Alt Time code"
+msgid "Alternative Time code"
 msgstr ""
 
 #: src/properties.cpp:263
@@ -2682,7 +2682,7 @@ msgid "The duration of the media file."
 msgstr ""
 
 #: src/properties.cpp:265
-msgid "scene"
+msgid "Scene"
 msgstr ""
 
 #: src/properties.cpp:265
@@ -2690,7 +2690,7 @@ msgid "The name of the scene."
 msgstr ""
 
 #: src/properties.cpp:266
-msgid "shotName"
+msgid "Shot Name"
 msgstr ""
 
 #: src/properties.cpp:266
@@ -2698,7 +2698,7 @@ msgid "The name of the shot or take."
 msgstr ""
 
 #: src/properties.cpp:267
-msgid "shotDate"
+msgid "Shot Date"
 msgstr ""
 
 #: src/properties.cpp:267
@@ -2706,7 +2706,7 @@ msgid "The date and time when the video was shot."
 msgstr ""
 
 #: src/properties.cpp:268
-msgid "shotLocation"
+msgid "Shot Location"
 msgstr ""
 
 #: src/properties.cpp:268
@@ -2717,7 +2717,7 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:270
-msgid "logComment"
+msgid "Log Comment"
 msgstr ""
 
 #: src/properties.cpp:270
@@ -2725,7 +2725,7 @@ msgid "User's log comments."
 msgstr ""
 
 #: src/properties.cpp:271
-msgid "markers"
+msgid "Markers"
 msgstr ""
 
 #: src/properties.cpp:271
@@ -2733,7 +2733,7 @@ msgid "An ordered list of markers"
 msgstr ""
 
 #: src/properties.cpp:272
-msgid "contributedMedia"
+msgid "Contributed Media"
 msgstr ""
 
 #: src/properties.cpp:272
@@ -2741,7 +2741,7 @@ msgid "An unordered list of all media used to create this media."
 msgstr ""
 
 #: src/properties.cpp:273
-msgid "absPeakAudioFilePath"
+msgid "Absolute Peak Audio File Path"
 msgstr ""
 
 #: src/properties.cpp:273
@@ -2751,7 +2751,7 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:274
-msgid "relativePeakAudioFilePath"
+msgid "Relative Peak Audio File Path"
 msgstr ""
 
 #: src/properties.cpp:274
@@ -2761,7 +2761,7 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:275
-msgid "videoModDate"
+msgid "Video Modified Date"
 msgstr ""
 
 #: src/properties.cpp:275
@@ -2769,7 +2769,7 @@ msgid "The date and time when the video was last modified."
 msgstr ""
 
 #: src/properties.cpp:276
-msgid "audioModDate"
+msgid "Audio Modified Date"
 msgstr ""
 
 #: src/properties.cpp:276
@@ -2777,15 +2777,15 @@ msgid "The date and time when the audio was last modified."
 msgstr ""
 
 #: src/properties.cpp:277
-msgid "metadataModDate"
+msgid "Metadata Modified Date"
 msgstr ""
 
 #: src/properties.cpp:277
 msgid "The date and time when the metadata was last modified."
 msgstr ""
 
-#: src/properties.cpp:278
-msgid "artist"
+#: src/properties.cpp:278 src/properties.cpp:432 src/tags.cpp:349
+msgid "Artist"
 msgstr ""
 
 #: src/properties.cpp:278
@@ -2793,7 +2793,7 @@ msgid "The name of the artist or artists."
 msgstr ""
 
 #: src/properties.cpp:279
-msgid "album"
+msgid "Album"
 msgstr ""
 
 #: src/properties.cpp:279
@@ -2801,7 +2801,7 @@ msgid "The name of the album."
 msgstr ""
 
 #: src/properties.cpp:280
-msgid "trackNumber"
+msgid "Track Number"
 msgstr ""
 
 #: src/properties.cpp:280
@@ -2811,7 +2811,7 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:281
-msgid "genre"
+msgid "Genre"
 msgstr ""
 
 #: src/properties.cpp:281
@@ -2819,15 +2819,7 @@ msgid "The name of the genre."
 msgstr ""
 
 #: src/properties.cpp:282
-msgid "copyright"
-msgstr ""
-
-#: src/properties.cpp:282
 msgid "The copyright information."
-msgstr ""
-
-#: src/properties.cpp:283
-msgid "releaseDate"
 msgstr ""
 
 #: src/properties.cpp:283
@@ -2835,7 +2827,7 @@ msgid "The date the title was released."
 msgstr ""
 
 #: src/properties.cpp:284
-msgid "composer"
+msgid "Composer"
 msgstr ""
 
 #: src/properties.cpp:284
@@ -2843,7 +2835,7 @@ msgid "The composer's name."
 msgstr ""
 
 #: src/properties.cpp:285
-msgid "engineer"
+msgid "Engineer"
 msgstr ""
 
 #: src/properties.cpp:285
@@ -2851,7 +2843,7 @@ msgid "The engineer's name."
 msgstr ""
 
 #: src/properties.cpp:286
-msgid "tempo"
+msgid "Tempo"
 msgstr ""
 
 #: src/properties.cpp:286
@@ -2859,7 +2851,7 @@ msgid "The audio's tempo."
 msgstr ""
 
 #: src/properties.cpp:287
-msgid "instrument"
+msgid "Instrument"
 msgstr ""
 
 #: src/properties.cpp:287
@@ -2867,7 +2859,7 @@ msgid "The musical instrument."
 msgstr ""
 
 #: src/properties.cpp:288
-msgid "introTime"
+msgid "Intro Time"
 msgstr ""
 
 #: src/properties.cpp:288
@@ -2875,7 +2867,7 @@ msgid "The duration of lead time for queuing music."
 msgstr ""
 
 #: src/properties.cpp:289
-msgid "outCue"
+msgid "Out Cue"
 msgstr ""
 
 #: src/properties.cpp:289
@@ -2883,7 +2875,7 @@ msgid "The time at which to fade out."
 msgstr ""
 
 #: src/properties.cpp:290
-msgid "relativeTimestamp"
+msgid "Relative Timestamp"
 msgstr ""
 
 #: src/properties.cpp:290
@@ -2891,7 +2883,7 @@ msgid "The start time of the media inside the audio project."
 msgstr ""
 
 #: src/properties.cpp:291
-msgid "loop"
+msgid "Loop"
 msgstr ""
 
 #: src/properties.cpp:291
@@ -2899,7 +2891,7 @@ msgid "When true, the clip can be looped seemlessly."
 msgstr ""
 
 #: src/properties.cpp:292
-msgid "numberOfBeats"
+msgid "Number Of Beats"
 msgstr ""
 
 #: src/properties.cpp:292
@@ -2907,7 +2899,7 @@ msgid "The number of beats."
 msgstr ""
 
 #: src/properties.cpp:293
-msgid "key"
+msgid "Key"
 msgstr ""
 
 #: src/properties.cpp:293
@@ -2916,7 +2908,7 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:294
-msgid "stretchMode"
+msgid "Stretch Mode"
 msgstr ""
 
 #: src/properties.cpp:294
@@ -2926,7 +2918,7 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:295
-msgid "timeScaleParams"
+msgid "Time Scale Parameters"
 msgstr ""
 
 #: src/properties.cpp:295
@@ -2934,7 +2926,7 @@ msgid "Additional parameters for Time-Scale stretch mode."
 msgstr ""
 
 #: src/properties.cpp:296
-msgid "resampleParams"
+msgid "Resample Parameters"
 msgstr ""
 
 #: src/properties.cpp:296
@@ -2942,7 +2934,7 @@ msgid "Additional parameters for Resample stretch mode."
 msgstr ""
 
 #: src/properties.cpp:297
-msgid "beatSpliceParams"
+msgid "Beat Splice Parameters"
 msgstr ""
 
 #: src/properties.cpp:297
@@ -2950,7 +2942,7 @@ msgid "Additional parameters for Beat Splice stretch mode."
 msgstr ""
 
 #: src/properties.cpp:298
-msgid "timeSignature"
+msgid "Time Signature"
 msgstr ""
 
 #: src/properties.cpp:298
@@ -2960,7 +2952,7 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:299
-msgid "scaleType"
+msgid "Scale Type"
 msgstr ""
 
 #: src/properties.cpp:299
@@ -3642,10 +3634,6 @@ msgid ""
 "property is stored in XMP as xmp:CreatorTool. "
 msgstr ""
 
-#: src/properties.cpp:432 src/tags.cpp:349
-msgid "Artist"
-msgstr ""
-
 #: src/properties.cpp:432
 msgid ""
 "TIFF tag 315, 0x13B. Camera owner, photographer or image creator. Note: This "
@@ -4268,8 +4256,8 @@ msgstr ""
 msgid "EXIF tag 37380, 0x9204. Exposure bias, unit is APEX."
 msgstr ""
 
-#: src/properties.cpp:667 src/tags.cpp:761
-msgid "Max Aperture Value"
+#: src/properties.cpp:667
+msgid "Maximum Aperture Value"
 msgstr ""
 
 #: src/properties.cpp:667
@@ -6050,6 +6038,10 @@ msgstr ""
 msgid ""
 "The exposure bias. The units is the APEX value. Ordinarily it is given in "
 "the range of -99.99 to 99.99."
+msgstr ""
+
+#: src/tags.cpp:761
+msgid "Max Aperture Value"
 msgstr ""
 
 #: src/tags.cpp:762
