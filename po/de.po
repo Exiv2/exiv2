@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2007-10-15 08:06+0200\n"
+"POT-Creation-Date: 2007-10-15 11:23+0200\n"
 "PO-Revision-Date: 2007-10-05 20:36+0200\n"
 "Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
 "Language-Team: german <kde-i18n-de@kde.org>\n"
@@ -146,8 +146,8 @@ msgstr "Vorschau"
 msgid "None"
 msgstr "Keine"
 
-#: src/actions.cpp:552 src/datasets.cpp:376 src/properties.cpp:434
-#: src/tags.cpp:449
+#: src/actions.cpp:552 src/datasets.cpp:376 src/properties.cpp:282
+#: src/properties.cpp:434 src/tags.cpp:449
 msgid "Copyright"
 msgstr "Copyright"
 
@@ -824,7 +824,7 @@ msgstr ""
 "geographischen Ortes zur Verfügung der dem Inhalt des Motivs entspricht. "
 "Dies geschieht nach den Richtlinien des Anbieters."
 
-#: src/datasets.cpp:253
+#: src/datasets.cpp:253 src/properties.cpp:283
 msgid "Release Date"
 msgstr "Freigabedatum"
 
@@ -2637,7 +2637,8 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:226
-msgid "MaxPageSize"
+#, fuzzy
+msgid "Maximum Page Size"
 msgstr "MaxSeitenGröße"
 
 #: src/properties.cpp:226
@@ -2647,8 +2648,9 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:227
-msgid "NPages"
-msgstr ""
+#, fuzzy
+msgid "Number of Pages"
+msgstr "Die F Nummer."
 
 #: src/properties.cpp:227
 msgid ""
@@ -2676,8 +2678,9 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:230
-msgid "PlateNames"
-msgstr ""
+#, fuzzy
+msgid "Plate Names"
+msgstr "Bandname"
 
 #: src/properties.cpp:230
 msgid ""
@@ -2686,8 +2689,9 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:236
-msgid "Project Ref"
-msgstr ""
+#, fuzzy
+msgid "Project Reference"
+msgstr "Jobreferenz"
 
 #: src/properties.cpp:236
 msgid "A reference to the project that created this file."
@@ -2862,7 +2866,8 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:260
-msgid "Alt Tape Name"
+#, fuzzy
+msgid "Alternative Tape Name"
 msgstr "Alternativer Bandname"
 
 #: src/properties.cpp:260
@@ -2885,7 +2890,7 @@ msgstr ""
 
 #: src/properties.cpp:263
 #, fuzzy
-msgid "Alt Time code"
+msgid "Alternative Time code"
 msgstr "Alternativer Bandname"
 
 #: src/properties.cpp:263
@@ -2906,8 +2911,8 @@ msgstr "Die Art der Lichtquelle."
 
 #: src/properties.cpp:265
 #, fuzzy
-msgid "scene"
-msgstr "Zentriert"
+msgid "Scene"
+msgstr "Szene"
 
 #: src/properties.cpp:265
 #, fuzzy
@@ -2916,7 +2921,7 @@ msgstr "Die Art der Lichtquelle."
 
 #: src/properties.cpp:266
 #, fuzzy
-msgid "shotName"
+msgid "Shot Name"
 msgstr "Ländername"
 
 #: src/properties.cpp:266
@@ -2926,7 +2931,7 @@ msgstr "Die Art der Lichtquelle."
 
 #: src/properties.cpp:267
 #, fuzzy
-msgid "shotDate"
+msgid "Shot Date"
 msgstr "Datum"
 
 #: src/properties.cpp:267
@@ -2937,7 +2942,7 @@ msgstr ""
 
 #: src/properties.cpp:268
 #, fuzzy
-msgid "shotLocation"
+msgid "Shot Location"
 msgstr "Ort"
 
 #: src/properties.cpp:268
@@ -2949,7 +2954,7 @@ msgstr ""
 
 #: src/properties.cpp:270
 #, fuzzy
-msgid "logComment"
+msgid "Log Comment"
 msgstr "Windows-Kommentar"
 
 #: src/properties.cpp:270
@@ -2959,7 +2964,7 @@ msgstr "Anmerkung des Nutzers"
 
 #: src/properties.cpp:271
 #, fuzzy
-msgid "markers"
+msgid "Markers"
 msgstr "Markiert"
 
 #: src/properties.cpp:271
@@ -2967,15 +2972,16 @@ msgid "An ordered list of markers"
 msgstr ""
 
 #: src/properties.cpp:272
-msgid "contributedMedia"
-msgstr ""
+#, fuzzy
+msgid "Contributed Media"
+msgstr "Mitwirkende"
 
 #: src/properties.cpp:272
 msgid "An unordered list of all media used to create this media."
 msgstr ""
 
 #: src/properties.cpp:273
-msgid "absPeakAudioFilePath"
+msgid "Absolute Peak Audio File Path"
 msgstr ""
 
 #: src/properties.cpp:273
@@ -2985,7 +2991,7 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:274
-msgid "relativePeakAudioFilePath"
+msgid "Relative Peak Audio File Path"
 msgstr ""
 
 #: src/properties.cpp:274
@@ -2996,7 +3002,7 @@ msgstr ""
 
 #: src/properties.cpp:275
 #, fuzzy
-msgid "videoModDate"
+msgid "Video Modified Date"
 msgstr "Änderungsdatum"
 
 #: src/properties.cpp:275
@@ -3007,7 +3013,7 @@ msgstr ""
 
 #: src/properties.cpp:276
 #, fuzzy
-msgid "audioModDate"
+msgid "Audio Modified Date"
 msgstr "Audiorate"
 
 #: src/properties.cpp:276
@@ -3018,7 +3024,7 @@ msgstr ""
 
 #: src/properties.cpp:277
 #, fuzzy
-msgid "metadataModDate"
+msgid "Metadata Modified Date"
 msgstr "Metadaten-Datum"
 
 #: src/properties.cpp:277
@@ -3027,9 +3033,8 @@ msgid "The date and time when the metadata was last modified."
 msgstr ""
 "Das Datum und die Uhrzeit der Speicherung des Bildes als digitale Daten."
 
-#: src/properties.cpp:278
-#, fuzzy
-msgid "artist"
+#: src/properties.cpp:278 src/properties.cpp:432 src/tags.cpp:349
+msgid "Artist"
 msgstr "Künstler"
 
 #: src/properties.cpp:278
@@ -3039,7 +3044,7 @@ msgstr "Die Art der Lichtquelle."
 
 #: src/properties.cpp:279
 #, fuzzy
-msgid "album"
+msgid "Album"
 msgstr "Wert"
 
 #: src/properties.cpp:279
@@ -3049,7 +3054,7 @@ msgstr "Die Art der Lichtquelle."
 
 #: src/properties.cpp:280
 #, fuzzy
-msgid "trackNumber"
+msgid "Track Number"
 msgstr "Einzelbildnummer"
 
 #: src/properties.cpp:280
@@ -3060,7 +3065,7 @@ msgstr ""
 
 #: src/properties.cpp:281
 #, fuzzy
-msgid "genre"
+msgid "Genre"
 msgstr "zentriert"
 
 #: src/properties.cpp:281
@@ -3070,18 +3075,8 @@ msgstr "Die Art der Lichtquelle."
 
 #: src/properties.cpp:282
 #, fuzzy
-msgid "copyright"
-msgstr "Copyright"
-
-#: src/properties.cpp:282
-#, fuzzy
 msgid "The copyright information."
 msgstr "Aufnahmeinformation"
-
-#: src/properties.cpp:283
-#, fuzzy
-msgid "releaseDate"
-msgstr "Freigabedatum"
 
 #: src/properties.cpp:283
 #, fuzzy
@@ -3091,7 +3086,7 @@ msgstr ""
 
 #: src/properties.cpp:284
 #, fuzzy
-msgid "composer"
+msgid "Composer"
 msgstr "Unkomprimiert"
 
 #: src/properties.cpp:284
@@ -3100,7 +3095,7 @@ msgstr ""
 
 #: src/properties.cpp:285
 #, fuzzy
-msgid "engineer"
+msgid "Engineer"
 msgstr "Zentimeter"
 
 #: src/properties.cpp:285
@@ -3108,7 +3103,7 @@ msgid "The engineer's name."
 msgstr ""
 
 #: src/properties.cpp:286
-msgid "tempo"
+msgid "Tempo"
 msgstr ""
 
 #: src/properties.cpp:286
@@ -3117,7 +3112,7 @@ msgstr ""
 
 #: src/properties.cpp:287
 #, fuzzy
-msgid "instrument"
+msgid "Instrument"
 msgstr "Minolta Zeit"
 
 #: src/properties.cpp:287
@@ -3126,7 +3121,7 @@ msgstr ""
 
 #: src/properties.cpp:288
 #, fuzzy
-msgid "introTime"
+msgid "Intro Time"
 msgstr "Minolta Zeit"
 
 #: src/properties.cpp:288
@@ -3134,7 +3129,7 @@ msgid "The duration of lead time for queuing music."
 msgstr ""
 
 #: src/properties.cpp:289
-msgid "outCue"
+msgid "Out Cue"
 msgstr ""
 
 #: src/properties.cpp:289
@@ -3143,7 +3138,7 @@ msgstr ""
 
 #: src/properties.cpp:290
 #, fuzzy
-msgid "relativeTimestamp"
+msgid "Relative Timestamp"
 msgstr "aktualisiere Zeitstempel"
 
 #: src/properties.cpp:290
@@ -3151,8 +3146,9 @@ msgid "The start time of the media inside the audio project."
 msgstr ""
 
 #: src/properties.cpp:291
-msgid "loop"
-msgstr ""
+#, fuzzy
+msgid "Loop"
+msgstr "London"
 
 #: src/properties.cpp:291
 msgid "When true, the clip can be looped seemlessly."
@@ -3160,7 +3156,7 @@ msgstr ""
 
 #: src/properties.cpp:292
 #, fuzzy
-msgid "numberOfBeats"
+msgid "Number Of Beats"
 msgstr "Die F Nummer."
 
 #: src/properties.cpp:292
@@ -3169,7 +3165,7 @@ msgid "The number of beats."
 msgstr "Die F Nummer."
 
 #: src/properties.cpp:293
-msgid "key"
+msgid "Key"
 msgstr ""
 
 #: src/properties.cpp:293
@@ -3179,7 +3175,7 @@ msgstr ""
 
 #: src/properties.cpp:294
 #, fuzzy
-msgid "stretchMode"
+msgid "Stretch Mode"
 msgstr "Anpassungsmodus"
 
 #: src/properties.cpp:294
@@ -3189,7 +3185,7 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:295
-msgid "timeScaleParams"
+msgid "Time Scale Parameters"
 msgstr ""
 
 #: src/properties.cpp:295
@@ -3197,7 +3193,7 @@ msgid "Additional parameters for Time-Scale stretch mode."
 msgstr ""
 
 #: src/properties.cpp:296
-msgid "resampleParams"
+msgid "Resample Parameters"
 msgstr ""
 
 #: src/properties.cpp:296
@@ -3205,7 +3201,7 @@ msgid "Additional parameters for Resample stretch mode."
 msgstr ""
 
 #: src/properties.cpp:297
-msgid "beatSpliceParams"
+msgid "Beat Splice Parameters"
 msgstr ""
 
 #: src/properties.cpp:297
@@ -3213,8 +3209,9 @@ msgid "Additional parameters for Beat Splice stretch mode."
 msgstr ""
 
 #: src/properties.cpp:298
-msgid "timeSignature"
-msgstr ""
+#, fuzzy
+msgid "Time Signature"
+msgstr "Sendezeit"
 
 #: src/properties.cpp:298
 msgid ""
@@ -3224,7 +3221,7 @@ msgstr ""
 
 #: src/properties.cpp:299
 #, fuzzy
-msgid "scaleType"
+msgid "Scale Type"
 msgstr "Bildtyp"
 
 #: src/properties.cpp:299
@@ -3983,10 +3980,6 @@ msgid ""
 "property is stored in XMP as xmp:CreatorTool. "
 msgstr ""
 
-#: src/properties.cpp:432 src/tags.cpp:349
-msgid "Artist"
-msgstr "Künstler"
-
 #: src/properties.cpp:432
 msgid ""
 "TIFF tag 315, 0x13B. Camera owner, photographer or image creator. Note: This "
@@ -4625,8 +4618,9 @@ msgstr "Belichtungskontrolle"
 msgid "EXIF tag 37380, 0x9204. Exposure bias, unit is APEX."
 msgstr ""
 
-#: src/properties.cpp:667 src/tags.cpp:761
-msgid "Max Aperture Value"
+#: src/properties.cpp:667
+#, fuzzy
+msgid "Maximum Aperture Value"
 msgstr "Maximale Blende"
 
 #: src/properties.cpp:667
@@ -6621,6 +6615,10 @@ msgid ""
 msgstr ""
 "Die Belichtungskontrolle. Die Einheit ist der APEX Wert. Normalerweise wird "
 "diese innerhalb des Bereiches -99.99 bis 99.99 spezifiziert."
+
+#: src/tags.cpp:761
+msgid "Max Aperture Value"
+msgstr "Maximale Blende"
 
 #: src/tags.cpp:762
 msgid ""
@@ -12518,6 +12516,22 @@ msgstr "8-Segment"
 #: src/sonymn.cpp:92
 msgid "Unknown SonyMakerNote tag"
 msgstr "Unbekantes Herstellerbemerkungsfeld von Sony"
+
+#, fuzzy
+#~ msgid "scene"
+#~ msgstr "Zentriert"
+
+#, fuzzy
+#~ msgid "artist"
+#~ msgstr "Künstler"
+
+#, fuzzy
+#~ msgid "copyright"
+#~ msgstr "Copyright"
+
+#, fuzzy
+#~ msgid "releaseDate"
+#~ msgstr "Freigabedatum"
 
 #, fuzzy
 #~ msgid "PixelX Dimension"
