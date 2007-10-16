@@ -716,6 +716,21 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
+        /*!
+          @brief Read a simple property value from \em buf to set the value.
+
+          Sets the value to the contents of \em buf. A optional keyword, 
+          \em type is supported to set the XMP value type. This is useful for
+          complex value types for which Exiv2 does not have direct support.
+
+          The format of \em buf is:
+          <BR>
+          <CODE>[type=["]Alt|Bag|Seq|Struct["] ]text</CODE>
+          <BR>
+
+          @return 0 if successful.
+         */
+
         virtual int read(const std::string& buf);
         //@}
 

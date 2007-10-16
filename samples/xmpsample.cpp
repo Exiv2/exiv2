@@ -20,7 +20,9 @@ try {
     xmpData["Xmp.dc.source"]  = "xmpsample.cpp";    // a simple text value
     xmpData["Xmp.dc.subject"] = "Palmtree";         // an array item
     xmpData["Xmp.dc.subject"] = "Rubbertree";       // add a 2nd array item
-    xmpData["Xmp.dc.title"]   = "lang=en-US Beach"; // a language alternative
+    // a language alternative with two entries and without default
+    xmpData["Xmp.dc.title"]   = "lang=de-DE Sonnenuntergang am Strand";
+    xmpData["Xmp.dc.title"]   = "lang=en-US Sunset on the beach";
 
     // -------------------------------------------------------------------------
     // Any properties can be set provided the namespace is known. Values of any
@@ -86,11 +88,9 @@ try {
     tv.read("inch");
     xmpData.add(Exiv2::XmpKey("Xmp.xmpDM.videoFrameSize/stDim:unit"), &tv);
 
-    // Add an element with a qualifier (using the namespace registered earlier)
-    tv.read("James Bond");
-    xmpData.add(Exiv2::XmpKey("Xmp.dc.publisher"), &tv);
-    tv.read("secret agent");
-    xmpData.add(Exiv2::XmpKey("Xmp.dc.publisher/?ns:role"), &tv);
+    // Add an element with a qualifier (using the namespace registered above)
+    xmpData["Xmp.dc.publisher"] = "James Bond";  // creates an unordered array
+    xmpData["Xmp.dc.publisher[1]/?ns:role"] = "secret agent";
 
     // Add a qualifer to an array element of Xmp.dc.creator (added above)
     tv.read("programmer");
@@ -102,7 +102,7 @@ try {
     xmpData.add(Exiv2::XmpKey("Xmp.xmpBJ.JobRef"), &tv); // Set the array type.
 
     tv.setXmpArrayType(Exiv2::XmpValue::xaNone);
-    tv.read("Birtday party");
+    tv.read("Birthday party");
     xmpData.add(Exiv2::XmpKey("Xmp.xmpBJ.JobRef[1]/stJob:name"), &tv);
     tv.read("Photographer");
     xmpData.add(Exiv2::XmpKey("Xmp.xmpBJ.JobRef[1]/stJob:role"), &tv);
