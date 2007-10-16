@@ -495,7 +495,36 @@ namespace Exiv2 {
 
     int XmpTextValue::read(const std::string& buf)
     {
-        value_ = buf;
+        // support a type=Alt,Bag,Seq,Struct indicator
+        std::string b = buf;
+        std::string type;
+        if (buf.length() > 5 && buf.substr(0, 5) == "type=") {
+            std::string::size_type pos = buf.find_first_of(' ');
+            type = buf.substr(5, pos-5);
+            // Strip quotes (so you can also specify the type without quotes)
+            if (type[0] == '"') type = type.substr(1);
+            if (type[type.length()-1] == '"') type = type.substr(0, type.length()-1);
+            b.clear();
+            if (pos != std::string::npos) b = buf.substr(pos+1);
+        }
+        if (!type.empty()) {
+            if (type == "Alt") {
+                setXmpArrayType(XmpValue::xaAlt);
+            }
+            else if (type == "Bag") {
+                setXmpArrayType(XmpValue::xaBag);
+            }
+            else if (type == "Seq") {
+                setXmpArrayType(XmpValue::xaSeq);
+            }
+            else if (type == "Struct") {
+                setXmpStruct();
+            }
+            else {
+                throw Error(48, type);
+            }
+        }
+        value_ = b;
         return 0;
     }
 
@@ -516,6 +545,24 @@ namespace Exiv2 {
 
     std::ostream& XmpTextValue::write(std::ostream& os) const
     {
+        bool del = false;
+        if (xmpArrayType() != XmpValue::xaNone) {
+            switch (xmpArrayType()) {
+            case XmpValue::xaAlt: os << "type=\"Alt\""; break;
+            case XmpValue::xaBag: os << "type=\"Bag\""; break;
+            case XmpValue::xaSeq: os << "type=\"Seq\""; break;
+            case XmpValue::xaNone: break; // just to suppress the warning
+            }
+            del = true;
+        }
+        else if (xmpStruct() != XmpValue::xsNone) {
+            switch (xmpStruct()) {
+            case XmpValue::xsStruct: os << "type=\"Struct\""; break;
+            case XmpValue::xsNone: break; // just to suppress the warning
+            }
+            del = true;
+        }
+        if (del && !value_.empty()) os << " ";
         return os << value_;
     }
 

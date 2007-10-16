@@ -24,6 +24,7 @@ fi
 # Main routine
 (
 binpath="$VALGRIND ../../samples"
+exiv2="$VALGRIND ../../src/exiv2"
 cd ./tmp
 
 # ----------------------------------------------------------------------
@@ -53,6 +54,12 @@ diff t1 t2
 # ----------------------------------------------------------------------
 # xmpsample
 $binpath/xmpsample
+
+# ----------------------------------------------------------------------
+# XMP sample commands
+cp -f ../data/exiv2-empty.jpg .
+$exiv2 -v -m ../data/cmdxmp.txt exiv2-empty.jpg
+$exiv2 -v -px exiv2-empty.jpg
 
 ) > $results 2>&1
 
