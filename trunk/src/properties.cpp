@@ -896,9 +896,8 @@ namespace Exiv2 {
     {
         const XmpPropertyInfo* pl = propertyList(prefix);
         if (pl) {
-            const int ck = sizeof(pl) / sizeof(pl[0]);                
-            for (int k = 0; k < ck; ++k) {
-                os << pl[k];
+            for (int i = 0; pl[i].name_ != 0; ++i) {
+                os << pl[i];
             }
         }
 
