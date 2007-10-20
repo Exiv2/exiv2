@@ -94,7 +94,7 @@ ENABLE_XMP = @ENABLE_XMP@
 ifdef ENABLE_XMP
         XMPSDK_LIBRARY = xmpsdk
         XMPSDK_DIR = $(top_srcdir)/xmpsdk
-        XMPSDK_CPPFLAGS = -DUNIX_ENV -I$(XMPSDK_DIR)/include
+        XMPSDK_CPPFLAGS = -I$(XMPSDK_DIR)/include
         XMPSDK_LDFLAGS = -L$(XMPSDK_DIR)/src
         XMPSDK_LIBS = -l$(XMPSDK_LIBRARY)
 else

@@ -85,7 +85,7 @@ SHELL = /bin/sh
 .PRECIOUS: %.cpp
 
 # For a debug build, replace -DNDEBUG=1 with -DDEBUG=1 -D_DEBUG=1
-CPPFLAGS += -I../include -funsigned-char -DUNIX_ENV=1 -DXMP_IMPL=1 -DXMP_ClientBuild=0 -D_FILE_OFFSET_BITS=64 -DHAVE_EXPAT_CONFIG_H=1 -DXML_STATIC=1 -DNDEBUG=1 $(EXPAT_CPPFLAGS)
+CPPFLAGS += -I../include -funsigned-char -DNDEBUG=1 $(EXPAT_CPPFLAGS)
 LDFLAGS += $(EXPAT_LDFLAGS)
 LIBS += $(EXPAT_LIBS)
 
