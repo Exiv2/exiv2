@@ -65,10 +65,11 @@ $exiv2 -v -px exiv2-empty.jpg
 
 # ----------------------------------------------------------------------
 # Evaluate results
-diff -q $diffargs $results $good
+cat $results | tr -d '\r' > $results-stripped
+diff -q $diffargs $results-stripped $good
 rc=$?
 if [ $rc -eq 0 ] ; then
     echo "All testcases passed."
 else
-    diff $diffargs $results $good
+    diff $diffargs $results-stripped $good
 fi
