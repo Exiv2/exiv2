@@ -16,7 +16,7 @@ XMP Toolkit
 Exiv2 uses the XMPCore component of the Adobe XMP Toolkit (XMP SDK) to
 parse and serialize XMP packets. Temporarily, it is integrated and
 distributed with Exiv2. The xmpsdk/ directory of the Exiv2 distribution
-contains the XMP SDK source code. The final solution will eventually
+contains the XMP SDK source code. The final solution should eventually
 use an external XMP Toolkit.
 
 Building the XMP Toolkit is transparent. Following the installation
@@ -24,7 +24,7 @@ steps described in the main README file will ensure that the XMP
 Toolkit is compiled if necessary. It is only needed if XMP support is
 enabled. Building the XMP Toolkit results in a "convenience library"
 in xmpsdk/src/. This library is only used to link the Exiv2 library 
-with.
+with; it is not installed.
 
 If you experience problems building this library, please email to the
 Exiv2 support forum for help, see http://www.exiv2.org/support.html
