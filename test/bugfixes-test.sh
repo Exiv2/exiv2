@@ -2,13 +2,6 @@
 # Test driver with regression tests for bugfixes
 results="./tmp/bugfixes-test.out"
 good="./data/bugfixes-test.out"
-diffargs="--strip-trailing-cr"
-tmpfile=tmp/ttt
-touch $tmpfile
-diff -q $diffargs $tmpfile $tmpfile 2>/dev/null
-if [ $? -ne 0 ] ; then
-    diffargs=""
-fi
 
 prep_file()
 {
@@ -91,13 +84,13 @@ $exiv2 -pi $filename
 
 ) > $results 2>&1
 
-if [ x"`which unix2dos.exe`" != x ]; then
-    unix2dos.exe -q $results
-fi
-diff -q $diffargs $results $good
+# ----------------------------------------------------------------------
+# Evaluate results
+cat $results | tr -d '\r' > $results-stripped
+diff -q $results-stripped $good
 rc=$?
 if [ $rc -eq 0 ] ; then
     echo "All testcases passed."
 else
-    diff $diffargs $results $good
+    diff $results-stripped $good
 fi
