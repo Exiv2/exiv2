@@ -12,13 +12,6 @@ fi
 # Setup
 results="./tmp/xmpparser-test.out"
 good="./data/xmpparser-test.out"
-diffargs="--strip-trailing-cr"
-tmpfile=tmp/ttt
-touch $tmpfile
-diff -q $diffargs $tmpfile $tmpfile 2>/dev/null
-if [ $? -ne 0 ] ; then
-    diffargs=""
-fi
 
 # ----------------------------------------------------------------------
 # Main routine
@@ -66,10 +59,10 @@ $exiv2 -v -px exiv2-empty.jpg
 # ----------------------------------------------------------------------
 # Evaluate results
 cat $results | tr -d '\r' > $results-stripped
-diff -q $diffargs $results-stripped $good
+diff -q $results-stripped $good
 rc=$?
 if [ $rc -eq 0 ] ; then
     echo "All testcases passed."
 else
-    diff $diffargs $results-stripped $good
+    diff $results-stripped $good
 fi
