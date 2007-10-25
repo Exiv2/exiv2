@@ -97,18 +97,25 @@ namespace Exiv2 {
 
     extern const XmpPropertyInfo xmpDcInfo[] = {
         { "contributor",      N_("Contributor"),      "bag ProperName",  xmpBag,       xmpExternal, N_("Contributors to the resource (other than the authors).")                               },
-        { "coverage",         N_("Coverage"),         "Text",            xmpText,      xmpExternal, N_("The extent or scope of the resource.")                                                 },
+        { "coverage",         N_("Coverage"),         "Text",            xmpText,      xmpExternal, N_("The spatial or temporal topic of the resource, the spatial applicability of the "
+	                                                                                               "resource, or the jurisdiction under which the resource is relevant.")                  },
         { "creator",          N_("Creator"),          "seq ProperName",  xmpSeq,       xmpExternal, N_("The authors of the resource (listed in order of precedence, if significant).")         },
         { "date",             N_("Date"),             "seq Date",        xmpSeq,       xmpExternal, N_("Date(s) that something interesting happened to the resource.")                         },
         { "description",      N_("Description"),      "Lang Alt",        langAlt,      xmpExternal, N_("A textual description of the content of the resource. Multiple values may be "
                                                                                                        "present for different languages.")                                                     },
         { "format",           N_("Format"),           "MIMEType",        xmpText,      xmpInternal, N_("The file format used when saving the resource. Tools and applications should set "
                                                                                                        "this property to the save format of the data. It may include appropriate qualifiers.") },
-        { "identifier",       N_("Identifier"),       "Text",            xmpText,      xmpExternal, N_("Unique identifier of the resource.")                                                   },
+        { "identifier",       N_("Identifier"),       "Text",            xmpText,      xmpExternal, N_("Unique identifier of the resource. Recommended best practice is to identify the "
+	                                                                                               "resource by means of a string conforming to a formal identification system.")          },
         { "language",         N_("Language"),         "bag Locale",      xmpBag,       xmpInternal, N_("An unordered array specifying the languages used in the resource.")                    },
-        { "publisher",        N_("Publisher"),        "bag ProperName",  xmpBag,       xmpExternal, N_("Publishers.")                                                                          },
-        { "relation",         N_("Relation"),         "bag Text",        xmpBag,       xmpInternal, N_("Relationships to other documents.")                                                    },
-        { "rights",           N_("Rights"),           "Lang Alt",        langAlt,      xmpExternal, N_("Informal rights statement, selected by language.")                                     },
+        { "publisher",        N_("Publisher"),        "bag ProperName",  xmpBag,       xmpExternal, N_("An entity responsible for making the resource available. Examples of a Publisher "
+	                                                                                               "include a person, an organization, or a service. Typically, the name of a Publisher "
+												       "should be used to indicate the entity.")                                               },
+        { "relation",         N_("Relation"),         "bag Text",        xmpBag,       xmpInternal, N_("Relationships to other documents. Recommended best practice is to identify the "
+	                                                                                               "related resource by means of a string conforming to a formal identification system.")  },
+        { "rights",           N_("Rights"),           "Lang Alt",        langAlt,      xmpExternal, N_("Informal rights statement, selected by language. Typically, rights information "
+	                                                                                               "includes a statement about various property rights associated with the resource, "
+												       "including intellectual property rights.")                                              },
         { "source",           N_("Source"),           "Text",            xmpText,      xmpExternal, N_("Unique identifier of the work from which this resource was derived.")                  },
         { "subject",          N_("Subject"),          "bag Text",        xmpBag,       xmpExternal, N_("An unordered array of descriptive phrases or keywords that specify the topic of the "
                                                                                                        "content of the resource.")                                                             },
