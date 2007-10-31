@@ -44,8 +44,9 @@
 #endif
 #if defined WIN32 && !defined __CYGWIN__
 # define WIN_ENV 1
-#elif 0
-/* Todo: How to determine MAC_ENV ?                                                               */
+/* Todo: How to correctly recognize a Mac platform? */
+#elif defined macintosh || defined MACOS_CLASSIC || defined MACOS_X_UNIX || defined MACOS_X || defined MACOS
+# define MAC_ENV 1
 #else 
 # define UNIX_ENV 1
 #endif
