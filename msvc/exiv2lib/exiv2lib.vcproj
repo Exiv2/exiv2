@@ -314,6 +314,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\src\pentaxmn.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\rafimage.cpp">
 			</File>
 			<File
@@ -545,6 +548,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\panasonicmn.hpp">
+			</File>
+			<File
+				RelativePath="..\..\src\pentaxmn.hpp">
 			</File>
 			<File
 				RelativePath="..\..\src\properties.hpp">

@@ -381,17 +381,20 @@ namespace Exiv2 {
 
     bool XmpParser::registerNs(const std::string& ns, 
                                const std::string& prefix)
-    { try {
-        initialize();
+    {
 #ifdef EXV_HAVE_XMP_TOOLKIT
-        return SXMPMeta::RegisterNamespace(ns.c_str(), prefix.c_str(), 0);
+        try {
+            initialize();
+            return SXMPMeta::RegisterNamespace(ns.c_str(), prefix.c_str(), 0);
+        }
+        catch (const XMP_Error& e) {
+            throw Error(40, e.GetID(), e.GetErrMsg());
+        }
 #else
+        initialize();
         return true;
 #endif
-    }
-    catch (const XMP_Error& e) {
-        throw Error(40, e.GetID(), e.GetErrMsg());
-    }} // XmpParser::registerNs
+	} // XmpParser::registerNs
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
     int XmpParser::decode(      XmpData&     xmpData,

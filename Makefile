@@ -50,7 +50,7 @@
 ########################################################################
 
 SHELL = /bin/sh
-ENABLE_XMP = 1
+ENABLE_XMP = 
 
 .PHONY: all doc config samples xmpsdk                \
         mostlyclean clean distclean maintainer-clean \
