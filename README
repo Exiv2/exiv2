@@ -12,6 +12,8 @@ After installing or building the documentation, you can point your
 browser to doc/index.html for the complete Exiv2 API documentation and
 metadata tag reference.
 
+For more information on XMP support in Exiv2, see doc/README-XMP.
+
 
 Building and Installing
 =======================
