@@ -47,7 +47,7 @@ try {
         try {
             XmpProperties::printProperties(std::cout, item);
         }
-        catch(const AnyError& e) {
+        catch(const AnyError&) {
             rc = 2;
         }
 
