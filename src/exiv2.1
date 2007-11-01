@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "October 23th, 2007"
+.TH EXIV2 1 "November 1st, 2007"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -31,9 +31,9 @@ exiv2 \- Image metadata manipulation tool
 is a program to read and write Exif, IPTC and XMP image metadata and
 image comments. Supported image formats are JPEG, Canon CRW and Canon
 THM.  Read-only support is currently available for PNG and TIFF format
-and includes TIFF-based RAW formats such as Adobe DNG, Canon CR2,
-Fujifilm RAF, Minolta MRW, Nikon NEF, Olympus ORF, Pentax PEF, Sony ARW
-and Sony SR2.
+and includes TIFF-based RAW formats: Adobe DNG, Canon CR2, Fujifilm
+RAF, Minolta MRW, Nikon NEF, Olympus ORF, Pentax PEF, Sony ARW and
+Sony SR2.
 .SH ACTIONS
 The \fIaction\fP argument is only required if it is not clear from the
 \fIoptions\fP which action is implied.
@@ -61,8 +61,9 @@ Adjust Exif timestamps by the given time. Requires option \fB\-a\fP
 \fItime\fP.
 .TP
 .B mo | modify
-Apply commands to modify (add, set, delete) the Exif/IPTC metadata of image
-files. Requires option \fB\-c\fP, \fB\-m\fP or \fB\-M\fP.
+Apply commands to modify (add, set, delete) the Exif, IPTC and XMP
+metadata of image files. Requires option \fB\-c\fP, \fB\-m\fP or
+\fB\-M\fP.
 .TP
 .B mv | rename
 Rename files and/or set file timestamps according to the Exif create
@@ -240,7 +241,7 @@ or given on the command line, as in
 .sp 1
 Note the quotes. Multiple \fB\-m\fP and \fB\-M\fP options can be combined.
 .sp 1
-When writing Exif/IPTC metadata, 
+When writing Exif, IPTC and XMP metadata, 
 .B exiv2 
 enforces only a correct
 metadata structure. It is possible to write tags with types and values
@@ -273,10 +274,13 @@ Exiv2 Exif or IPTC key.
 .TP
 .I type
 .B Byte | Ascii | Short | Long | Rational | Undefined | SShort | SLong | SRational | Comment
-for Exif keys, and
+for Exif keys,
 .br
 .B String | Date | Time | Short | Undefined
-for IPTC keys.
+for IPTC keys, and
+.br
+.B XmpText | XmpAlt | XmpBag | XmpSeq | LangAlt
+for XMP keys.
 .sp 1
 A default \fItype\fP is used if none is explicitely given. The default
 is determined based on \fIkey\fP.
