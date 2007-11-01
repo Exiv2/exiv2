@@ -5,16 +5,21 @@ XMP support is controlled with the --enable-xmp and --disable-xmp
 options to the configure script. Building Exiv2 with XMP support
 requires the Expat XML parser library (http://expat.sourceforge.net/).
 The --with-expat configure option can be used if it is installed in a
-non-standard directory.
+non-standard directory. See the main README file for more information
+on building exiv2.
 
 For API documentation of XMP classes and samples, build or install the 
 documentation and go to doc/html/getting-started.html
+
+For details on the XMP support of the exiv2 command line tool, see
+the exiv2(1) manual page and the sample command file doc/cmdxmp.txt
+
 
 XMP Toolkit
 ===========
 
 Exiv2 uses the XMPCore component of the Adobe XMP Toolkit (XMP SDK) to
-parse and serialize XMP packets. Temporarily, it is integrated and
+parse and serialize XMP packets. Currently, it is integrated and
 distributed with Exiv2. The xmpsdk/ directory of the Exiv2 distribution
 contains the XMP SDK source code. The final solution should eventually
 use an external XMP Toolkit.
