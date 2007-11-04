@@ -237,11 +237,11 @@ msgstr ""
 
 #: src/actions.cpp:722
 msgid "No IPTC data found in the file\n"
-msgstr "Nie znaleziono żadnych danych IPTC w pliku"
+msgstr "Nie znaleziono żadnych danych IPTC w pliku\n"
 
 #: src/actions.cpp:760
 msgid "No XMP data found in the file\n"
-msgstr "Nie znaleziono żadnych danych XMP w pliku"
+msgstr "Nie znaleziono żadnych danych XMP w pliku\n"
 
 #: src/actions.cpp:796
 msgid "JPEG comment"
