@@ -1,3 +1,34 @@
+Changes from version 0.15 to 0.16-pre1
+--------------------------------------
+
+* Exiv2 utility
+	- 0000463: [design] Add support for XMP metadata.
+
+* Exiv2 library
+	- 0000529: [exif] Add support for Pentax maker note. (Michal Cihar)
+	- 0000522: [exif] Lightzone-created JPEG causes exiv2 to segfault.
+	           (Reported by Markus Spring)
+	- 0000463: [design] Add support for XMP metadata.
+	         - [exif] Support for Olympus ORF format. (Jeff Costlow)
+	         - [exif] Updated Nikon lens info to v2.40 of Robert Rottmerhusen's
+	           lens database.
+	         - [exif] Added Minolta lenses. (Hiroshi Kawashima)
+	         - [exif] Ported various Exif tags from Exiftool.
+	           (Gilles Caulier)
+	         - Added i18n for XMP properties, XMP support in PNG images.
+	           (Gilles Caulier)
+	         - [build environment] Isolated sample programs in their own
+	           dirextory.
+	         - [miscellaneous] Updated French translation.
+	           (Olivier)
+	         - [miscellaneous] Updated German translation.
+	           (Oliver Dörr)
+	         - [miscellaneous] Updated Polish translation.
+	           (Piotr Eljasiak)
+	         - [miscellaneous] Updated Russian translation.
+	           (Alexandre Prokoudine)
+
+
 Changes from version 0.14 to 0.15
 ---------------------------------
 
