@@ -29,9 +29,9 @@
 
 #include "stdafx.h"
 #include "exivsimple.h"
-#include "image.hpp"
-#include "exif.hpp"
-#include "iptc.hpp"
+#include <exiv2/image.hpp>
+#include <exiv2/exif.hpp>
+#include <exiv2/iptc.hpp>
 #include <cassert>
 #include <cstring>
 

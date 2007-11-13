@@ -5,24 +5,19 @@
 
 // *****************************************************************************
 // included header files
-#ifdef _MSC_VER
-# include "exv_msvc.h"
-#else
-# include "exv_conf.h"
-#endif
-
-#include "actions.hpp"
-#include "image.hpp"
-#include "jpgimage.hpp"
-#include "exiv2.hpp"
-#include "utils.hpp"
-#include "types.hpp"
-#include "exif.hpp"
-#include "canonmn.hpp"
-#include "iptc.hpp"
-#include "futils.hpp"
+#include <exiv2/exv_msvc.h>
+#include <exiv2/actions.hpp>
+#include <exiv2/image.hpp>
+#include <exiv2/jpgimage.hpp>
+#include <exiv2/exiv2.hpp>
+#include <exiv2/utils.hpp>
+#include <exiv2/types.hpp>
+#include <exiv2/exif.hpp>
+#include <exiv2/canonmn.hpp>
+#include <exiv2/iptc.hpp>
+#include <exiv2/futils.hpp>
 #ifndef EXV_HAVE_TIMEGM
-# include "timegm.h"
+# include <exiv2/timegm.h>
 #endif
 
 // + standard includes
