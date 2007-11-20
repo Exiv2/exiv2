@@ -42,7 +42,8 @@
 				Name="VCMIDLTool"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="xcopy /y /i ..\..\src\*.h ..\include\exiv2\
+				CommandLine="rmdir /s /q ..\include\
+xcopy /y /i ..\..\src\*.h ..\include\exiv2\
 xcopy /y /i ..\..\src\*.hpp ..\include\exiv2\
 "/>
 			<Tool
