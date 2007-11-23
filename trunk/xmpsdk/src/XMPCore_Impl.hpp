@@ -28,7 +28,7 @@
 #if XMP_MacBuild
 	#include <Multiprocessing.h>
 #elif XMP_WinBuild
-	#include <Windows.h>
+	#include <windows.h>
 #elif XMP_UNIXBuild
 	#include <pthread.h>
 #endif
