@@ -15,12 +15,12 @@ Changes from version 0.15 to 0.16-pre1
 	         - [exif] Added Minolta lenses. (Hiroshi Kawashima)
 	         - [exif] Ported various Exif tags from Exiftool.
 	           (Gilles Caulier)
-	         - Added i18n for XMP properties, XMP support in PNG images.
-	           (Gilles Caulier)
+	         - [miscellaneous] Added i18n for XMP properties, XMP support
+	           in PNG images. (Gilles Caulier)
 	         - [build environment] Isolated sample programs in their own
 	           dirextory.
 	         - [miscellaneous] Updated French translation.
-	           (Olivier)
+	           (Olivier Tilloy)
 	         - [miscellaneous] Updated German translation.
 	           (Oliver Dörr)
 	         - [miscellaneous] Updated Polish translation.
