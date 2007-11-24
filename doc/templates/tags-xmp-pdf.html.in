@@ -9,6 +9,7 @@ __index2__
 <h2>Adobe PDF schema</h2>
 <p>This schema specifies XMP properties used with Adobe PDF documents.
  <ul>
+  <li>Exiv2 keys are <b><code>Xmp.pdf.&lt;Property&gt;</code></b>
   <li>The schema namespace URI is <b><code>http://ns.adobe.com/pdf/1.3/</code></b></li>
   <li>The preferred schema namespace prefix is <b><code>pdf</code></b></li>
  </ul>

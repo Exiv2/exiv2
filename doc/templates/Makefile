@@ -56,6 +56,21 @@ TABLES = Exif \
          Sigma \
          Sony
 
+SCHEMA = dc \
+         xmp \
+         xmpRights \
+         xmpMM \
+         xmpBJ \
+         xmpTPg \
+         xmpDM \
+         pdf \
+         photoshop \
+         crs \
+         tiff \
+         exif \
+         aux \
+         iptc
+
 TAGLIST = ../../src/taglist
 
 # **********************************************************************
@@ -72,7 +87,7 @@ all: tags
 
 .PHONY: tags mostlyclean clean distclean maintainer-clean
 
-tags: $(TABLES) Iptc
+tags: $(TABLES) Iptc $(SCHEMA)
 	@./gen.py *.html.in
 
 $(TABLES): $(TAGLIST)
@@ -92,6 +107,14 @@ Iptc: $(TAGLIST)
 	@touch $@
 	@rm -f $@.tmp
 
+$(SCHEMA): $(TAGLIST)
+	@echo Generating xmp_$@ table...
+	@$(TAGLIST) $@ | sed -e"s/</\&lt;/g" -e"s/>/\&gt;/g" | awk -f xmp.awk > xmp_$@.xml
+	@xsltproc xmp.xsl xmp_$@.xml > xmp_$@.tmp
+	@sed "s/report1/xmp_$@/" xmp_$@.tmp > __xmp_$@__
+	@touch xmp_$@
+	@rm -f xmp_$@.tmp
+
 $(TAGLIST): 
 	$(error File $(TAGLIST) does not exist. Did you build the library and programs in the src/ directory?)
 
@@ -102,6 +125,8 @@ mostlyclean:
 clean: mostlyclean
 	rm -f $(TABLES:%=__%__) __Iptc__
 	rm -f $(TABLES) Iptc
+	rm -f $(SCHEMA:%=__xmp_%__)
+	rm -f $(SCHEMA:%=xmp_%)
 	rm -f *.html
 
 distclean: clean
