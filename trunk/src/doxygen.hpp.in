@@ -37,8 +37,9 @@
   <A HREF="getting-started.html">A few pointers</A> to get you started with
   the %Exiv2 library without delay.
 
-  @section metadata Exif and MakerNote tags and IPTC datasets
+  @section metadata Metadata reference tables
 
+  Exif and MakerNote tags
   - <A HREF="tags-exif.html">Standard Exif tags</A>
   - <A HREF="tags-canon.html">Canon MakerNote tags</A>
   - <A HREF="tags-fujifilm.html">Fujifilm MakerNote tags</A>
@@ -49,20 +50,38 @@
   - <A HREF="tags-pentax.html">Pentax MakerNote tags</A>
   - <A HREF="tags-sigma.html">Sigma/Foveon MakerNote tags</A>
   - <A HREF="tags-sony.html">Sony MakerNote tags</A>
+
+  IPTC datasets
   - <A HREF="tags-iptc.html">IPTC datasets</A>
+
+  XMP properties
+  - <a href="tags-xmp-dc.html">dc schema</a>
+  - <a href="tags-xmp-xmp.html">xmp schema</a>
+  - <a href="tags-xmp-xmpRights.html">xmpRights schema</a>
+  - <a href="tags-xmp-xmpMM.html">xmpMM schema</a>
+  - <a href="tags-xmp-xmpBJ.html">xmpBJ schema</a>
+  - <a href="tags-xmp-xmpTPg.html">xmpTPg schema</a>
+  - <a href="tags-xmp-xmpDM.html">xmpDM schema</a>
+  - <a href="tags-xmp-pdf.html">pdf schema</a>
+  - <a href="tags-xmp-photoshop.html">photoshop schema</a>
+  - <a href="tags-xmp-crs.html">crs schema</a>
+  - <a href="tags-xmp-tiff.html">tiff schema</a>
+  - <a href="tags-xmp-exif.html">exif schema</a>
+  - <a href="tags-xmp-aux.html">aux schema</a>
+  - <a href="tags-xmp-iptc.html">Iptc4xmpCore schema</a>
 
   @section formats File Formats
 
   - JPEG
   - <A HREF="crw-mapping.html">Canon CRW</A>
-  - TIFF and related RAW formats (Adobe DNG, Canon CR2, Fujifilm RAF, Minolta MRW, Nikon NEF, Pentax PEF, Sony ARW and Sony SR2), read-only
+  - TIFF and related RAW formats (Adobe DNG, Canon CR2, Fujifilm RAF, Minolta MRW, Nikon NEF, Olympus ORF, Pentax PEF, Sony ARW and Sony SR2), read-only
   - PNG, read-only
 
   @section supp Support
 
   <p>Please write to the
   <a title="Exiv2 forum" href="http://uk.groups.yahoo.com/group/exiv2">Yahoo! group for Exiv2 help and discussions</a>.</p>
-  <p><a title="Join the Exiv2 forum" href="http://uk.groups.yahoo.com/group/exiv2/join">Join the group</a> to post and receive messages or use <em><a title="Post to the Exiv2 forum" href="http://uk.groups.yahoo.com/group/exiv2/post">exiv2user/password</a></em> to post anonymously. Bug reports can be submitted directly to the
+  <p><a title="Join the Exiv2 forum" href="http://uk.groups.yahoo.com/group/exiv2/join">Join the group</a> to post and receive messages or use <em><a title="Post to the Exiv2 forum" href="http://uk.groups.yahoo.com/group/exiv2/post">exiv2post/2post2exiv2</a></em> to post anonymously. Bug reports can be submitted directly to the
 <a title="Issue tracker" href="http://dev.robotbattle.com/bugs/main_page.php"
   onclick="document.images['tracker'].src='http://www.whatcounter.com/dlcount.php?id=ahu&amp;url='+this.href">
 bug tracking system</a>.</p>
