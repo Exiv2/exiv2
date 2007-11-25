@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 // iptceasy.cpp, $Rev$
-// The quickest way to access, set or modify Iptc metadata.
+// The quickest way to access, set or modify IPTC metadata.
 
 #include <exiv2/iptc.hpp>
 #include <exiv2/image.hpp>
@@ -37,7 +37,7 @@ try {
     Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(file);
     assert (image.get() != 0);
 
-    // Set Iptc data and write it to the file
+    // Set IPTC data and write it to the file
     image->setIptcData(iptcData);
     image->writeMetadata();
 
