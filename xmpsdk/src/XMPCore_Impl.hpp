@@ -122,7 +122,7 @@ extern WXMP_Result		void_wResult;
 						          (XMP_API_VERSION_MINOR << 16) |	\
 						          (XMP_API_VERSION_MICRO << 8) )
 
-	#define kXMPCoreName "XMP Core (Exiv2)"
+	#define kXMPCoreName "XMP Core"
 	#define kXMPCore_VersionMessage	kXMPCoreName " " XMP_API_VERSION_STRING
 // =================================================================================================
 // Support for asserts
