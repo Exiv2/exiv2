@@ -114,12 +114,18 @@ $(BINARY): %: %.o
 
 # ******************************************************************************
 # Targets
-.PHONY: all mostlyclean clean distclean maintainer-clean
+.PHONY: all relink binclean mostlyclean clean distclean maintainer-clean
 
 ifdef DEP_TRACKING
 # Include targets from dependency files
 -include $(DEP)
 endif
+
+relink: binclean samples
+
+# Remove binaries, e.g., to relink them
+binclean:
+	$(RM) $(EXECUTABLE)
 
 mostlyclean:
 	$(RM) core
@@ -128,8 +134,7 @@ mostlyclean:
 	-rmdir .libs
 	$(RM) $(BINOBJ)
 
-clean: mostlyclean
-	$(RM) $(EXECUTABLE)
+clean: binclean mostlyclean
 
 # Run `make distclean' from the top source directory to also remove
 # files created by configuring the program.
