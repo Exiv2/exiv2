@@ -355,8 +355,8 @@ namespace Exiv2 {
         { "BlueSaturation",       N_("Blue Saturation"),           "Integer",                          xmpText, xmpExternal, N_("\"Blue Saturation\" setting. Range -100 to +100.") },
         { "Brightness",           N_("Brightness"),                "Integer",                          xmpText, xmpExternal, N_("\"Brightness\" setting. Range 0 to +150.") },
         { "CameraProfile",        N_("Camera Profile"),            "Text",                             xmpText, xmpExternal, N_("\"Camera Profile\" setting.") },
-        { "ChromaticAberrationB", N_("Chromatic Aberration Blue"), "Integer",                          xmpText, xmpExternal, N_("\"Chomatic Aberration, Fix Blue/Yellow Fringe\" setting. Range -100 to +100.") },
-        { "ChromaticAberrationR", N_("Chromatic Aberration Red"),  "Integer",                          xmpText, xmpExternal, N_("\"Chomatic Aberration, Fix Red/Cyan Fringe\" setting. Range -100 to +100.") },
+        { "ChromaticAberrationB", N_("Chromatic Aberration Blue"), "Integer",                          xmpText, xmpExternal, N_("\"Chromatic Aberration, Fix Blue/Yellow Fringe\" setting. Range -100 to +100.") },
+        { "ChromaticAberrationR", N_("Chromatic Aberration Red"),  "Integer",                          xmpText, xmpExternal, N_("\"Chromatic Aberration, Fix Red/Cyan Fringe\" setting. Range -100 to +100.") },
         { "ColorNoiseReduction",  N_("Color Noise Reduction"),     "Integer",                          xmpText, xmpExternal, N_("\"Color Noise Reducton\" setting. Range 0 to +100.") },
         { "Contrast",             N_("Contrast"),                  "Integer",                          xmpText, xmpExternal, N_("\"Contrast\" setting. Range -50 to +100.") },
         { "CropTop",              N_("Crop Top"),                  "Real",                             xmpText, xmpExternal, N_("When HasCrop is true, top of crop rectangle") },
@@ -373,7 +373,7 @@ namespace Exiv2 {
         { "HasCrop",              N_("Has Crop"),                  "Boolean",                          xmpText, xmpExternal, N_("When true, image has a cropping rectangle.") },
         { "HasSettings",          N_("Has Settings"),              "Boolean",                          xmpText, xmpExternal, N_("When true, non-default camera raw settings.") },
         { "LuminanceSmoothing",   N_("Luminance Smoothing"),       "Integer",                          xmpText, xmpExternal, N_("\"Luminance Smoothing\" setting. Range 0 to +100.") },
-        { "RawFileName",          N_("Raw File Name"),             "Text",                             xmpText, xmpInternal, N_("File name fo raw file (not a complete path).") },
+        { "RawFileName",          N_("Raw File Name"),             "Text",                             xmpText, xmpInternal, N_("File name of raw file (not a complete path).") },
         { "RedHue",               N_("Red Hue"),                   "Integer",                          xmpText, xmpExternal, N_("\"Red Hue\" setting. Range -100 to +100.") },
         { "RedSaturation",        N_("Red Saturation"),            "Integer",                          xmpText, xmpExternal, N_("\"Red Saturation\" setting. Range -100 to +100.") },
         { "Saturation",           N_("Saturation"),                "Integer",                          xmpText, xmpExternal, N_("\"Saturation\" setting. Range -100 to +100.") },
@@ -425,7 +425,7 @@ namespace Exiv2 {
         { "PrimaryChromaticities",     N_("Primary Chromaticities"),     "seq Rational",                 xmpSeq,  xmpInternal, N_("TIFF tag 319, 0x13F. Chromaticity of the three primary colors.") },
         { "YCbCrCoefficients",         N_("YCbCr Coefficients"),         "seq Rational",                 xmpSeq,  xmpInternal, N_("TIFF tag 529, 0x211. Matrix coefficients for RGB to YCbCr transformation.") },
         { "ReferenceBlackWhite",       N_("Reference Black White"),      "seq Rational",                 xmpSeq,  xmpInternal, N_("TIFF tag 532, 0x214. Reference black and white point values.") },
-        { "DateTime",                  N_("Date Time"),                  "Date",                         date,    xmpInternal, N_("TIFF tag 306, 0x132 (primary) and EXIF tag 37520, "
+        { "DateTime",                  N_("Date and Time"),                  "Date",                         date,    xmpInternal, N_("TIFF tag 306, 0x132 (primary) and EXIF tag 37520, "
                                                                                                                                   "0x9290 (subseconds). Date and time of image creation "
                                                                                                                                   "(no time zone in EXIF), stored in ISO 8601 format, not "
                                                                                                                                   "the original EXIF format. This property includes the "
@@ -653,10 +653,10 @@ namespace Exiv2 {
         { "PixelYDimension",          N_("Pixel Y Dimension"),                   "Integer",                      xmpText, xmpInternal, N_("EXIF tag 40963, 0xA003. Valid image height, in pixels.") },
         { "UserComment",              N_("User Comment"),                        "Lang Alt",                     langAlt, xmpExternal, N_("EXIF tag 37510, 0x9286. Comments from user.") },
         { "RelatedSoundFile",         N_("Related Sound File"),                  "Text",                         xmpText, xmpInternal, N_("EXIF tag 40964, 0xA004. An \"8.3\" file name for the related sound file.") },
-        { "DateTimeOriginal",         N_("Date Time Original"),                  "Date",                         xmpText, xmpInternal, N_("EXIF tags 36867, 0x9003 (primary) and 37521, 0x9291 (subseconds). "
+        { "DateTimeOriginal",         N_("Date and Time Original"),                  "Date",                         xmpText, xmpInternal, N_("EXIF tags 36867, 0x9003 (primary) and 37521, 0x9291 (subseconds). "
                                                                                                                                           "Date and time when original image was generated, in ISO 8601 format. "
                                                                                                                                           "Includes the EXIF SubSecTimeOriginal data.") },
-        { "DateTimeDigitized",        N_("Date Time Digitized"),                 "Date",                         xmpText, xmpInternal, N_("EXIF tag 36868, 0x9004 (primary) and 37522, 0x9292 (subseconds). Date and time when "
+        { "DateTimeDigitized",        N_("Date and Time Digitized"),                 "Date",                         xmpText, xmpInternal, N_("EXIF tag 36868, 0x9004 (primary) and 37522, 0x9292 (subseconds). Date and time when "
                                                                                                                                           "image was stored as digital data, can be the same as DateTimeOriginal if originally "
                                                                                                                                           "stored in digital form. Stored in ISO 8601 format. Includes the EXIF "
                                                                                                                                           "SubSecTimeDigitized data.") },
