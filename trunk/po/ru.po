@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2007-11-27 16:50+0800\n"
+"POT-Creation-Date: 2007-12-09 17:36+0800\n"
 "PO-Revision-Date: 2007-10-14 02:56+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -3316,9 +3316,10 @@ msgid "Chromatic Aberration Blue"
 msgstr "Настройка контраста"
 
 #: src/properties.cpp:358
+#, fuzzy
 msgid ""
-"\"Chomatic Aberration, Fix Blue/Yellow Fringe\" setting. Range -100 to +100."
-msgstr ""
+"\"Chromatic Aberration, Fix Blue/Yellow Fringe\" setting. Range -100 to +100."
+msgstr "Настройка контраста"
 
 #: src/properties.cpp:359
 #, fuzzy
@@ -3326,9 +3327,10 @@ msgid "Chromatic Aberration Red"
 msgstr "Настройка контраста"
 
 #: src/properties.cpp:359
+#, fuzzy
 msgid ""
-"\"Chomatic Aberration, Fix Red/Cyan Fringe\" setting. Range -100 to +100."
-msgstr ""
+"\"Chromatic Aberration, Fix Red/Cyan Fringe\" setting. Range -100 to +100."
+msgstr "Настройка контраста"
 
 #: src/properties.cpp:360
 #, fuzzy
@@ -3481,7 +3483,7 @@ msgid "Raw File Name"
 msgstr "Имя файла"
 
 #: src/properties.cpp:376
-msgid "File name fo raw file (not a complete path)."
+msgid "File name of raw file (not a complete path)."
 msgstr ""
 
 #: src/properties.cpp:377
@@ -3791,9 +3793,8 @@ msgstr "Эталонный Чёрный/Белый"
 msgid "TIFF tag 532, 0x214. Reference black and white point values."
 msgstr ""
 
-#: src/properties.cpp:428
-#, fuzzy
-msgid "Date Time"
+#: src/properties.cpp:428 src/tags.cpp:345
+msgid "Date and Time"
 msgstr "Дата и время"
 
 #: src/properties.cpp:428
@@ -4383,7 +4384,7 @@ msgstr ""
 
 #: src/properties.cpp:656
 #, fuzzy
-msgid "Date Time Original"
+msgid "Date and Time Original"
 msgstr "Исходная дата и время"
 
 #: src/properties.cpp:656
@@ -4395,7 +4396,7 @@ msgstr ""
 
 #: src/properties.cpp:659
 #, fuzzy
-msgid "Date Time Digitized"
+msgid "Date and Time Digitized"
 msgstr "Дата и время оцифровки"
 
 #: src/properties.cpp:659
@@ -5767,10 +5768,6 @@ msgstr ""
 "создания этого изображения. Подробный стандарт не специфицирован, однако "
 "рекомендуется следовать приведённому ниже примеру. Когда поле оставлено "
 "пустым, значение принимается за неизвестное."
-
-#: src/tags.cpp:345
-msgid "Date and Time"
-msgstr "Дата и время"
 
 #: src/tags.cpp:346
 #, fuzzy
@@ -12766,6 +12763,18 @@ msgstr ""
 #: src/sonymn.cpp:92
 msgid "Unknown SonyMakerNote tag"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Date Time"
+#~ msgstr "Дата и время"
+
+#, fuzzy
+#~ msgid "Date Time Original"
+#~ msgstr "Исходная дата и время"
+
+#, fuzzy
+#~ msgid "Date Time Digitized"
+#~ msgstr "Дата и время оцифровки"
 
 #, fuzzy
 #~ msgid "scene"
