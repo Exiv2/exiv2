@@ -596,6 +596,7 @@ namespace Exiv2 {
         { 0x060d, "smc PENTAX-FA* 400mm F5.6 ED[IF]" },
         { 0x060e, "smc PENTAX-FA* MACRO 200mm F4 ED[IF]" },
         { 0x0700, "smc PENTAX-DA 21mm F3.2 AL Limited" },
+        { 0x07e7, "smc PENTAX-DA 18-250mm F3.5-6.3ED AL [IF]" },
         { 0x07ee, "TAMRON AF 18-250mm F3.5-6.3 Di II LD Aspherical [IF] MACRO" },
         { 0x07f3, "smc PENTAX-DA 70mm F2.4 Limited" },
         { 0x07f4, "smc PENTAX-DA 21mm F3.2 AL Limited" },
@@ -851,13 +852,13 @@ namespace Exiv2 {
         /* Some missing ! */
         TagInfo(0x0032, "ImageProcessing", N_("Image processing"),
                 N_("Image processing"),
-                pentaxIfdId, makerTags, undefined, EXV_PRINT_COMBITAG(pentaxImageProcessing, 4)),
+                pentaxIfdId, makerTags, undefined, EXV_PRINT_COMBITAG(pentaxImageProcessing, 4, 0)),
         TagInfo(0x0033, "PictureMode", N_("Picture mode"),
                 N_("Picture mode"),
-                pentaxIfdId, makerTags, undefined, EXV_PRINT_COMBITAG(pentaxPictureMode, 3)),
+                pentaxIfdId, makerTags, undefined, EXV_PRINT_COMBITAG(pentaxPictureMode, 3, 0)),
         TagInfo(0x0034, "DriveMode", N_("Drive mode"),
                 N_("Drive mode"),
-                pentaxIfdId, makerTags, undefined, EXV_PRINT_COMBITAG(pentaxDriveMode, 4)),
+                pentaxIfdId, makerTags, undefined, EXV_PRINT_COMBITAG(pentaxDriveMode, 4, 0)),
         /* Some missing ! */
         TagInfo(0x0037, "ColorSpace", N_("Color space"),
                 N_("Color space"),
@@ -865,7 +866,7 @@ namespace Exiv2 {
         /* Some missing ! */
         TagInfo(0x003f, "LensType", N_("Lens type"),
                 N_("Lens type"),
-                pentaxIfdId, makerTags, unsignedByte, EXV_PRINT_COMBITAG(pentaxLensType, 2)),
+                pentaxIfdId, makerTags, unsignedByte, EXV_PRINT_COMBITAG(pentaxLensType, 2, 1)),
         /* Some missing ! */
         TagInfo(0x0041, "DigitalFilter", N_("Digital filter"),
                 N_("Digital filter"),
