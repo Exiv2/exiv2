@@ -683,6 +683,9 @@ namespace Exiv2 {
     //! Read file \em path into a DataBuf, which is returned.
     DataBuf readFile(const std::string& path);
 
+    //! Write DataBuf \em buf to file \em path. Return the number of bytes written.
+    long writeFile(const DataBuf& buf, const std::string& path);
+
 }                                       // namespace Exiv2
 
 #endif                                  // #ifndef BASICIO_HPP_
