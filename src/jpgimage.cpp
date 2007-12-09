@@ -80,7 +80,9 @@ namespace Exiv2 {
         assert(sizeData);
         // Used for error checking
         long position = 0;
-
+#ifdef DEBUG
+        std::cerr << "Photoshop::locateIrb: ";
+#endif
         // Data should follow Photoshop format, if not exit
         while (   position <= sizePsData - 14
                && memcmp(pPsData + position, Photoshop::bimId_, 4) == 0) {
@@ -88,7 +90,9 @@ namespace Exiv2 {
             position += 4;
             uint16_t type = getUShort(pPsData + position, bigEndian);
             position += 2;
-
+#ifdef DEBUG
+            std::cerr << "0x" << std::hex << type << std::dec << " ";
+#endif
             // Pascal string is padded to have an even size (including size byte)
             byte psSize = pPsData[position] + 1;
             psSize += (psSize & 1);
@@ -118,6 +122,9 @@ namespace Exiv2 {
             }
 #endif
             if (type == psTag) {
+#ifdef DEBUG
+                std::cerr << "ok\n";
+#endif
                 *sizeData = dataSize;
                 *sizeHdr = psSize + 10;
                 *record = hrd;
@@ -126,6 +133,9 @@ namespace Exiv2 {
             // Data size is also padded to be even
             position += dataSize + (dataSize & 1);
         }
+#ifdef DEBUG
+        std::cerr << "pPsData doesn't start with '8BIM'\n";
+#endif
         return 3;
     } // Photoshop::locateIrb
 
@@ -249,6 +259,8 @@ namespace Exiv2 {
         const long bufMinSize = 36;
         long bufRead = 0;
         DataBuf buf(bufMinSize);
+        Blob iptcBlob;
+        bool foundPsData = false;
 
         // Read section marker
         int marker = advanceToMarker();
@@ -261,6 +273,15 @@ namespace Exiv2 {
             if (io_->error()) throw Error(14);
             if (bufRead < 2) throw Error(15);
             uint16_t size = getUShort(buf.pData_, bigEndian);
+
+            if (foundPsData && marker != app13_) {
+                // For IPTC, decrement search only after all app13 segments are
+                // loaded, assuming they all appear in sequence. But decode IPTC
+                // data after the loop, in case an app13 is the last segment
+                // before sos or eoi.
+                foundPsData = false;
+                if (--search == 0) break;
+            }
 
             if (marker == app1_ && memcmp(buf.pData_ + 2, exifId_, 6) == 0) {
                 if (size < 8) {
@@ -312,19 +333,29 @@ namespace Exiv2 {
                 const byte *record = 0;
                 uint32_t sizeIptc = 0;
                 uint32_t sizeHdr = 0;
-                // Find actual IPTC data within the APP13 segment
-                if (!Photoshop::locateIptcIrb(psData.pData_, psData.size_,
-                                              &record, &sizeHdr, &sizeIptc)) {
-                    if (sizeIptc) {
-                        if (iptcData_.load(record + sizeHdr, sizeIptc)) {
-#ifndef SUPPRESS_WARNINGS
-                            std::cerr << "Warning: Failed to decode IPTC metadata.\n";
+#ifdef DEBUG
+                std::cerr << "Found app13 segment, size = " << size << "\n";
+                //hexdump(std::cerr, psData.pData_, psData.size_);
 #endif
-                            iptcData_.clear();
-                        }
+                // Find actual IPTC data within the APP13 segment
+                const byte* pEnd = psData.pData_ + psData.size_;
+                const byte* pCur = psData.pData_;
+                while (   pCur < pEnd
+                       && 0 == Photoshop::locateIptcIrb(pCur,
+                                                        pEnd - pCur,
+                                                        &record,
+                                                        &sizeHdr,
+                                                        &sizeIptc)) {
+                    if (sizeIptc) {
+#ifdef DEBUG
+                        std::cerr << "Found IPTC IRB, size = " << sizeIptc << "\n";
+#endif
+                        append(iptcBlob, record + sizeHdr, sizeIptc);
                     }
+                    pCur = record + sizeHdr + sizeIptc;
+                    pCur += (sizeIptc & 1);
                 }
-                --search;
+                foundPsData = true;
             }
             else if (marker == com_ && comment_.empty())
             {
@@ -361,6 +392,15 @@ namespace Exiv2 {
                 break;
             }
         } // while there are segments to process
+
+        if (   iptcBlob.size() > 0
+            && iptcData_.load(&iptcBlob[0], static_cast<long>(iptcBlob.size()))) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Warning: Failed to decode IPTC metadata.\n";
+#endif
+            iptcData_.clear();
+        }
+
         if (rc != 0) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: JPEG format error, rc = " << rc << "\n";
@@ -440,6 +480,9 @@ namespace Exiv2 {
                 if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(22);
             }
             else if (marker == app13_ && memcmp(buf.pData_ + 2, Photoshop::ps3Id_, 14) == 0) {
+#ifdef DEBUG
+                std::cerr << "Found APP13 Photoshop PS3 segment\n";
+#endif
                 if (size < 16) throw Error(22);
                 skipApp13Ps3 = count;
                 ++search;
