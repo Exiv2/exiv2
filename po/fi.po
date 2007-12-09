@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2007-11-27 16:50+0800\n"
+"POT-Creation-Date: 2007-12-09 17:36+0800\n"
 "PO-Revision-Date: 2006-12-18 16:08+0200\n"
 "Last-Translator: Mikael Lammentausta\n"
 "Language-Team:  <fi@li.org>\n"
@@ -3176,7 +3176,7 @@ msgstr ""
 
 #: src/properties.cpp:358
 msgid ""
-"\"Chomatic Aberration, Fix Blue/Yellow Fringe\" setting. Range -100 to +100."
+"\"Chromatic Aberration, Fix Blue/Yellow Fringe\" setting. Range -100 to +100."
 msgstr ""
 
 #: src/properties.cpp:359
@@ -3185,7 +3185,7 @@ msgstr ""
 
 #: src/properties.cpp:359
 msgid ""
-"\"Chomatic Aberration, Fix Red/Cyan Fringe\" setting. Range -100 to +100."
+"\"Chromatic Aberration, Fix Red/Cyan Fringe\" setting. Range -100 to +100."
 msgstr ""
 
 #: src/properties.cpp:360
@@ -3329,7 +3329,7 @@ msgid "Raw File Name"
 msgstr ""
 
 #: src/properties.cpp:376
-msgid "File name fo raw file (not a complete path)."
+msgid "File name of raw file (not a complete path)."
 msgstr ""
 
 #: src/properties.cpp:377
@@ -3625,8 +3625,8 @@ msgstr ""
 msgid "TIFF tag 532, 0x214. Reference black and white point values."
 msgstr ""
 
-#: src/properties.cpp:428
-msgid "Date Time"
+#: src/properties.cpp:428 src/tags.cpp:345
+msgid "Date and Time"
 msgstr ""
 
 #: src/properties.cpp:428
@@ -4190,7 +4190,7 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:656
-msgid "Date Time Original"
+msgid "Date and Time Original"
 msgstr ""
 
 #: src/properties.cpp:656
@@ -4201,7 +4201,7 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:659
-msgid "Date Time Digitized"
+msgid "Date and Time Digitized"
 msgstr ""
 
 #: src/properties.cpp:659
@@ -5473,10 +5473,6 @@ msgid ""
 "camera or image input device used to generate the image. The detailed format "
 "is not specified, but it is recommended that the example shown below be "
 "followed. When the field is left blank, it is treated as unknown."
-msgstr ""
-
-#: src/tags.cpp:345
-msgid "Date and Time"
 msgstr ""
 
 #: src/tags.cpp:346

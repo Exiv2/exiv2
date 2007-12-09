@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2007-11-27 16:50+0800\n"
+"POT-Creation-Date: 2007-12-09 17:36+0800\n"
 "PO-Revision-Date: 2007-08-19 18:48+0200\n"
 "Last-Translator: Olivier Tilloy <olivier@tilloy.net>\n"
 "Language-Team: French\n"
@@ -3420,7 +3420,7 @@ msgstr "Réglage de saturation chromatique"
 #: src/properties.cpp:358
 #, fuzzy
 msgid ""
-"\"Chomatic Aberration, Fix Blue/Yellow Fringe\" setting. Range -100 to +100."
+"\"Chromatic Aberration, Fix Blue/Yellow Fringe\" setting. Range -100 to +100."
 msgstr "Réglage de saturation"
 
 #: src/properties.cpp:359
@@ -3431,7 +3431,7 @@ msgstr "Réglage de saturation chromatique"
 #: src/properties.cpp:359
 #, fuzzy
 msgid ""
-"\"Chomatic Aberration, Fix Red/Cyan Fringe\" setting. Range -100 to +100."
+"\"Chromatic Aberration, Fix Red/Cyan Fringe\" setting. Range -100 to +100."
 msgstr "Réglage de saturation"
 
 #: src/properties.cpp:360
@@ -3593,7 +3593,7 @@ msgid "Raw File Name"
 msgstr "Nom du fichier"
 
 #: src/properties.cpp:376
-msgid "File name fo raw file (not a complete path)."
+msgid "File name of raw file (not a complete path)."
 msgstr ""
 
 #: src/properties.cpp:377
@@ -3913,9 +3913,8 @@ msgstr "Noir/Blanc de Référence"
 msgid "TIFF tag 532, 0x214. Reference black and white point values."
 msgstr ""
 
-#: src/properties.cpp:428
-#, fuzzy
-msgid "Date Time"
+#: src/properties.cpp:428 src/tags.cpp:345
+msgid "Date and Time"
 msgstr "Date et heure"
 
 #: src/properties.cpp:428
@@ -4505,7 +4504,7 @@ msgstr ""
 
 #: src/properties.cpp:656
 #, fuzzy
-msgid "Date Time Original"
+msgid "Date and Time Original"
 msgstr "Date et heure (originel)"
 
 #: src/properties.cpp:656
@@ -4517,7 +4516,7 @@ msgstr ""
 
 #: src/properties.cpp:659
 #, fuzzy
-msgid "Date Time Digitized"
+msgid "Date and Time Digitized"
 msgstr "Date et heure (numérisé)"
 
 #: src/properties.cpp:659
@@ -5888,10 +5887,6 @@ msgstr ""
 "l'appareil ou du périphérique d'entrée utilisé pour générer l'image. Le "
 "format détaillé n'est pas spécifié, mais il est recommandé que l'exemple ci-"
 "dessous soit suivi. Lorsque le champ est vide, il est traité comme inconnu."
-
-#: src/tags.cpp:345
-msgid "Date and Time"
-msgstr "Date et heure"
 
 #: src/tags.cpp:346
 msgid ""
@@ -12536,6 +12531,18 @@ msgstr "8-segments"
 #: src/sonymn.cpp:92
 msgid "Unknown SonyMakerNote tag"
 msgstr "Marqueur de note du fabriquant Sony inconnu"
+
+#, fuzzy
+#~ msgid "Date Time"
+#~ msgstr "Date et heure"
+
+#, fuzzy
+#~ msgid "Date Time Original"
+#~ msgstr "Date et heure (originel)"
+
+#, fuzzy
+#~ msgid "Date Time Digitized"
+#~ msgstr "Date et heure (numérisé)"
 
 #, fuzzy
 #~ msgid "artist"

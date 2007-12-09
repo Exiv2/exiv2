@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2007-11-27 16:50+0800\n"
+"POT-Creation-Date: 2007-12-09 17:36+0800\n"
 "PO-Revision-Date: 2007-11-14 23:58+0100\n"
 "Last-Translator: Piotr Eljasiak <epiotr@use.pl>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -3512,7 +3512,7 @@ msgstr "Gamma podglądu - niebieski:"
 #: src/properties.cpp:358
 #, fuzzy
 msgid ""
-"\"Chomatic Aberration, Fix Blue/Yellow Fringe\" setting. Range -100 to +100."
+"\"Chromatic Aberration, Fix Blue/Yellow Fringe\" setting. Range -100 to +100."
 msgstr "Duże nasycenie"
 
 #: src/properties.cpp:359
@@ -3523,7 +3523,7 @@ msgstr "Gamma podglądu - czerwony:"
 #: src/properties.cpp:359
 #, fuzzy
 msgid ""
-"\"Chomatic Aberration, Fix Red/Cyan Fringe\" setting. Range -100 to +100."
+"\"Chromatic Aberration, Fix Red/Cyan Fringe\" setting. Range -100 to +100."
 msgstr "Duże nasycenie"
 
 #: src/properties.cpp:360
@@ -3687,7 +3687,7 @@ msgid "Raw File Name"
 msgstr "Brakująca nazwa pliku."
 
 #: src/properties.cpp:376
-msgid "File name fo raw file (not a complete path)."
+msgid "File name of raw file (not a complete path)."
 msgstr ""
 
 #: src/properties.cpp:377
@@ -4004,8 +4004,9 @@ msgstr "Czerń/biel odniesienia"
 msgid "TIFF tag 532, 0x214. Reference black and white point values."
 msgstr ""
 
-#: src/properties.cpp:428
-msgid "Date Time"
+#: src/properties.cpp:428 src/tags.cpp:345
+#, fuzzy
+msgid "Date and Time"
 msgstr "Data i czas"
 
 #: src/properties.cpp:428
@@ -4598,7 +4599,7 @@ msgstr ""
 
 #: src/properties.cpp:656
 #, fuzzy
-msgid "Date Time Original"
+msgid "Date and Time Original"
 msgstr "Data i czas (oryginału)"
 
 #: src/properties.cpp:656
@@ -4610,7 +4611,7 @@ msgstr ""
 
 #: src/properties.cpp:659
 #, fuzzy
-msgid "Date Time Digitized"
+msgid "Date and Time Digitized"
 msgstr "Data i czas (obrazu cyfrowego)"
 
 #: src/properties.cpp:659
@@ -6085,11 +6086,6 @@ msgstr ""
 "albo innego urządzenia wejściowego obrazu użytego do wygenerowania obrazu. "
 "Szczegółowy format nie jest określony, ale zaleca się naśladowanie "
 "poniższego przykładu. Jeśli pole jest puste, jest traktowane jako nieznane."
-
-#: src/tags.cpp:345
-#, fuzzy
-msgid "Date and Time"
-msgstr "Data i czas"
 
 #: src/tags.cpp:346
 msgid ""
@@ -13584,6 +13580,17 @@ msgstr "<b>Odcinek</b>"
 #, fuzzy
 msgid "Unknown SonyMakerNote tag"
 msgstr "linia %d: Nieznana etykieta: %s\n"
+
+#~ msgid "Date Time"
+#~ msgstr "Data i czas"
+
+#, fuzzy
+#~ msgid "Date Time Original"
+#~ msgstr "Data i czas (oryginału)"
+
+#, fuzzy
+#~ msgid "Date Time Digitized"
+#~ msgstr "Data i czas (obrazu cyfrowego)"
 
 #, fuzzy
 #~ msgid "The extent or scope of the resource."
