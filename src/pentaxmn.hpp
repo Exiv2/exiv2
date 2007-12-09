@@ -167,10 +167,10 @@ namespace Exiv2 {
       @brief Print function to translate Pentax "combi-values" to a description
              by looking up a reference table.
      */
-    template <int N, const TagDetails (&array)[N], int count>
+    template <int N, const TagDetails (&array)[N], int count, int ignoredcount>
     std::ostream& printCombiTag(std::ostream& os, const Value& value)
     {
-        if (value.count() != count || count > 4) {
+        if ((value.count() != count && value.count() != (count + ignoredcount)) || count > 4) {
             return printValue(os, value);
         }
         unsigned long l = 0;
@@ -194,7 +194,7 @@ namespace Exiv2 {
     }
 
 //! Shortcut for the printCombiTag template which requires typing the array name only once.
-#define EXV_PRINT_COMBITAG(array, count) printCombiTag<EXV_COUNTOF(array), array, count>
+#define EXV_PRINT_COMBITAG(array, count, ignoredcount) printCombiTag<EXV_COUNTOF(array), array, count, ignoredcount>
 
 }                                       // namespace Exiv2
 
