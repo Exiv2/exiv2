@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "November 1st, 2007"
+.TH EXIV2 1 "December 12th, 2007"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -73,9 +73,10 @@ filename format can be set with \fB\-r\fP \fIfmt\fP, timestamp options
 are \fB\-t\fP and \fB\-T\fP.
 .TP
 .B fi | fixiso
-Copy the ISO setting from any of the proprietary Nikon makernote ISO
-tags to the regular Exif ISO tag, Exif.Photo.ISOSpeedRatings. Overwrites 
-an existing Exif ISO tag.
+Copy the ISO setting from one of the proprietary Nikon or Canon
+makernote ISO tags to the regular Exif ISO tag,
+Exif.Photo.ISOSpeedRatings. Does not overwrite an existing standard
+Exif ISO tag.
 .SH OPTIONS
 .TP
 .B \-h
@@ -303,6 +304,14 @@ that for IPTC \fBTime\fP values is HH:MM:SS+|\-HH:MM, where HH:MM:SS
 refers to local hour, minute and seconds and +|\-HH:MM refers to hours
 and minutes ahead or behind Universal Coordinated Time (+|\- means
 either a + or a \- sign is required).
+.sp 1
+The format of XMP \fBLangAlt\fP values includes an optional language
+qualifier:
+.sp 1
+.B   [lang=\fIlanguage-code\fP ]\fItext\fP
+.sp 1
+.B x-default
+is used by default if the value doesn't start with a language qualifier.
 .TP
 An additional command is available to register XMP namespaces:
 .TP
@@ -363,7 +372,7 @@ make sense in the target image.
 .SH SEE ALSO
 .TP
 .I http://www.exiv2.org/sample.html#modify
-Sample command file.
+Sample command files.
 .TP
 .I http://www.exiv2.org/metadata.html
 Taglists with \fIkey\fP and default \fItype\fP values.

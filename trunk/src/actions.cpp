@@ -1532,8 +1532,18 @@ namespace Action {
                       << ": " << _("No Exif data found in the file\n");
             return -3;
         }
-        Exiv2::ExifKey key("Exif.Nikon3.ISOSpeed");
+        // Check if the standard tag exists
+        Exiv2::ExifKey key("Exif.Photo.ISOSpeedRatings");
         Exiv2::ExifData::iterator md = exifData.findKey(key);
+        if (md != exifData.end()) {
+            if (Params::instance().verbose_) {
+                std::cout << _("Standard Exif ISO tag exists; not modified\n");
+            }
+            return 0;
+        }
+        // Fix Nikon ISO setting
+        key = Exiv2::ExifKey("Exif.Nikon3.ISOSpeed");
+        md = exifData.findKey(key);
         if (md == exifData.end()) {
             key = Exiv2::ExifKey("Exif.Nikon2.ISOSpeed");
             md = exifData.findKey(key);
@@ -1542,6 +1552,16 @@ namespace Action {
             key = Exiv2::ExifKey("Exif.Nikon1.ISOSpeed");
             md = exifData.findKey(key);
         }
+        // Canon has a similar bad habit, fix that too
+        if (md == exifData.end()) {
+            key = Exiv2::ExifKey("Exif.CanonSi.ISOSpeed");
+            md = exifData.findKey(key);
+        }
+        if (md == exifData.end()) {
+            key = Exiv2::ExifKey("Exif.CanonCs.ISOSpeed");
+            md = exifData.findKey(key);
+        }
+        // Copy the proprietary tag to the standard place
         if (md != exifData.end()) {
             std::ostringstream os;
             os << *md;
