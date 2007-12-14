@@ -489,7 +489,7 @@ namespace Exiv2 {
                 io_->seek(16 - bufRead, BasicIo::cur);
                 psData.alloc(size - 16);
                 // Load PS data now to allow reinsertion at any point
-                io_->read(psData.pData_, psData.size_);
+                io_->read(psData.pData_, size - 16);
                 if (io_->error() || io_->eof()) throw Error(20);
             }
             else if (marker == com_ && skipCom == -1) {
