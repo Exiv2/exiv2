@@ -212,10 +212,12 @@ namespace Exiv2 {
         ExifData::const_iterator sizes;
         ExifKey key("Exif.Thumbnail.StripByteCounts");
         sizes = exifData.findKey(key);
-        if (sizes == exifData.end()) return 2;
+        if (sizes == exifData.end()) return 1;
 
-        long totalSize = 0;
+        uint32_t totalSize = 0;
         for (long i = 0; i < sizes->count(); ++i) {
+            uint32_t size = sizes->toLong(i);
+            if (size > 0xffffffff - totalSize) return 1;
             totalSize += sizes->toLong(i);
         }
         DataBuf stripsBuf(totalSize);
@@ -225,21 +227,23 @@ namespace Exiv2 {
         ExifData::iterator stripOffsets;
         key = ExifKey("Exif.Thumbnail.StripOffsets");
         stripOffsets = exifData.findKey(key);
-        if (stripOffsets == exifData.end()) return 2;
-        if (stripOffsets->count() != sizes->count()) return 2;
+        if (stripOffsets == exifData.end()) return 1;
+        if (stripOffsets->count() != sizes->count()) return 1;
 
         std::ostringstream os; // for the strip offsets
-        long currentOffset = 0;
-        long firstOffset = stripOffsets->toLong(0);
-        long lastOffset = 0;
-        long lastSize = 0;
+        uint32_t currentOffset = 0;
+        uint32_t firstOffset = stripOffsets->toLong(0);
+        uint32_t lastOffset = 0;
+        uint32_t lastSize = 0;
         for (long i = 0; i < stripOffsets->count(); ++i) {
-            long offset = stripOffsets->toLong(i);
+            uint32_t offset = stripOffsets->toLong(i);
             lastOffset = offset;
-            long size = sizes->toLong(i);
+            uint32_t size = sizes->toLong(i);
             lastSize = size;
-            if (len < offset + size) return 1;
-
+            if (   size > 0xffffffff - offset
+                || static_cast<uint32_t>(len) < offset + size) {
+                return 2;
+            }
             std::memcpy(stripsBuf.pData_ + currentOffset, buf + offset, size);
             os << currentOffset << " ";
             currentOffset += size;
@@ -300,12 +304,15 @@ namespace Exiv2 {
         ExifKey key("Exif.Thumbnail.JPEGInterchangeFormat");
         ExifData::iterator format = exifData.findKey(key);
         if (format == exifData.end()) return 1;
-        long offset = format->toLong();
+        uint32_t offset = format->toLong();
         key = ExifKey("Exif.Thumbnail.JPEGInterchangeFormatLength");
         ExifData::const_iterator length = exifData.findKey(key);
         if (length == exifData.end()) return 1;
-        long size = length->toLong();
-        if (len < offset + size) return 2;
+        uint32_t size = length->toLong();
+        if (   size > 0xffffffff - offset
+            || static_cast<uint32_t>(len) < offset + size) {
+            return 2;
+        }
         format->setDataArea(buf + offset, size);
         format->setValue("0");
         if (pIfd1) {
@@ -592,8 +599,14 @@ namespace Exiv2 {
         if (pIopIfd_) add(pIopIfd_->begin(), pIopIfd_->end(), byteOrder());
         if (pGpsIfd_) add(pGpsIfd_->begin(), pGpsIfd_->end(), byteOrder());
         if (pIfd1_)   add(pIfd1_->begin(),   pIfd1_->end(),   byteOrder());
-        // Read the thumbnail (but don't worry whether it was successful or not)
-        readThumbnail();
+        // Finally, read the thumbnail
+        rc = readThumbnail();
+        if (0 < rc) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Warning: Failed to read thumbnail, rc = "
+                      << rc << "\n";
+#endif
+        }
 
         return 0;
     } // ExifData::load
