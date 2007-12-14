@@ -218,7 +218,7 @@ namespace Exiv2 {
         for (long i = 0; i < sizes->count(); ++i) {
             uint32_t size = sizes->toLong(i);
             if (size > 0xffffffff - totalSize) return 1;
-            totalSize += sizes->toLong(i);
+            totalSize += size;
         }
         DataBuf stripsBuf(totalSize);
 
