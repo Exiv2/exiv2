@@ -218,6 +218,10 @@ namespace Action {
                            const std::string& path) const;
 
         long adjustment_;
+        long yearAdjustment_;
+        long monthAdjustment_;
+        long dayAdjustment_;
+
     }; // class Adjust
 
     /*!

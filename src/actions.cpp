@@ -100,11 +100,11 @@ namespace {
     // returns 0 if successful
     int str2Tm(const std::string& timeStr, struct tm* tm);
 
-    // Convert a string "YYYY:MM:DD HH:MI:SS" to a UTC time, -1 on error
-    time_t str2Time(const std::string& timeStr);
-
     // Convert a UTC time to a string "YYYY:MM:DD HH:MI:SS", "" on error
     std::string time2Str(time_t time);
+
+    // Convert a tm structure to a string "YYYY:MM:DD HH:MI:SS", "" on error
+    std::string tm2Str(struct tm* tm);
 
     /*!
       @brief Copy metadata from source to target according to Params::copyXyz
@@ -1428,7 +1428,10 @@ namespace Action {
 
     int Adjust::run(const std::string& path)
     try {
-        adjustment_ = Params::instance().adjustment_;
+        adjustment_      = Params::instance().adjustment_;
+        yearAdjustment_  = Params::instance().yodAdjust_[Params::yodYear].adjustment_;
+        monthAdjustment_ = Params::instance().yodAdjust_[Params::yodMonth].adjustment_;
+        dayAdjustment_   = Params::instance().yodAdjust_[Params::yodDay].adjustment_;
 
         if (!Exiv2::fileExists(path, true)) {
             std::cerr << path
@@ -1491,21 +1494,69 @@ namespace Action {
                       << ek << "' " << _("not set\n");
             return 1;
         }
-        time_t time = str2Time(timeStr);
-        if (time == (time_t)-1) {
-            std::cerr << path << ": " << _("Failed to parse or convert timestamp") << " `"
+        if (Params::instance().verbose_) {
+            bool comma = false;
+            std::cout << _("Adjusting") << " `" << ek << "' " << _("by");
+            if (yearAdjustment_ != 0) {
+                std::cout << (yearAdjustment_ < 0 ? " " : " +") << yearAdjustment_ << " ";
+                if (yearAdjustment_ < -1 || yearAdjustment_ > 1) {
+                    std::cout << _("years");
+                }
+                else {
+                    std::cout << _("year");
+                }
+                comma = true;
+            }
+            if (monthAdjustment_ != 0) {
+                if (comma) std::cout << ",";
+                std::cout << (monthAdjustment_ < 0 ? " " : " +") << monthAdjustment_ << " ";
+                if (monthAdjustment_ < -1 || monthAdjustment_ > 1) {
+                    std::cout << _("months");
+                }
+                else {
+                    std::cout << _("month");
+                }
+                comma = true;
+            }
+            if (dayAdjustment_ != 0) {
+                if (comma) std::cout << ",";
+                std::cout << (dayAdjustment_ < 0 ? " " : " +") << dayAdjustment_ << " ";
+                if (dayAdjustment_ < -1 || dayAdjustment_ > 1) {
+                    std::cout << _("days");
+                }
+                else {
+                    std::cout << _("day");
+                }
+                comma = true;
+            }
+            if (adjustment_ != 0) {
+                if (comma) std::cout << ",";
+                std::cout << " " << adjustment_ << _("s");
+            }
+        }
+        struct tm tm;
+        if (str2Tm(timeStr, &tm) != 0) {
+            if (Params::instance().verbose_) std::cout << std::endl;
+            std::cerr << path << ": " << _("Failed to parse timestamp") << " `"
                       << timeStr << "'\n";
             return 1;
         }
-        if (Params::instance().verbose_) {
-            std::cout << _("Adjusting") << " `" << ek << "' " << _("by")
-                      << (adjustment_ < 0 ? " " : " +")
-                      << adjustment_ << _(" s to ");
+        const long monOverflow = (tm.tm_mon + monthAdjustment_) / 12;
+        tm.tm_mon = (tm.tm_mon + monthAdjustment_) % 12;
+        tm.tm_year += yearAdjustment_ + monOverflow;
+        // Let's not create files with non-4-digit years, we can't read them.
+        if (tm.tm_year > 9999 - 1900 || tm.tm_year < 1000 - 1900) {
+            if (Params::instance().verbose_) std::cout << std::endl;
+            std::cerr << path << ": " << _("Can't adjust timestamp by") << " "
+                      << yearAdjustment_ + monOverflow
+                      << " " << _("years") << "\n";
+            return 1;
         }
-        time += adjustment_;
+        time_t time = timegm(&tm);
+        time += adjustment_ + dayAdjustment_ * 86400;
         timeStr = time2Str(time);
         if (Params::instance().verbose_) {
-            std::cout << timeStr << std::endl;
+            std::cout << " " << _("to") << " " << timeStr << std::endl;
         }
         md->setValue(timeStr);
         return 0;
@@ -1659,17 +1710,14 @@ namespace {
         return 0;
     } // str2Tm
 
-    time_t str2Time(const std::string& timeStr)
-    {
-        struct tm tm;
-        if (str2Tm(timeStr, &tm) != 0) return (time_t)-1;
-        time_t t = timegm(&tm);
-        return t;
-    }
-
     std::string time2Str(time_t time)
     {
         struct tm* tm = gmtime(&time);
+        return tm2Str(tm);
+    } // time2Str
+
+    std::string tm2Str(struct tm* tm)
+    {
         if (0 == tm) return "";
 
         std::ostringstream os;
@@ -1682,7 +1730,7 @@ namespace {
            << std::setw(2) << tm->tm_sec;
 
         return os.str();
-    } // time2Str
+    } // tm2Str
 
     int metacopy(const std::string& source,
                  const std::string& target,

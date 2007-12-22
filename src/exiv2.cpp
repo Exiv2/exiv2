@@ -165,6 +165,12 @@ int main(int argc, char* const argv[])
 // class Params
 Params* Params::instance_ = 0;
 
+const Params::YodAdjust Params::emptyYodAdjust_[] = {
+    { false, "-Y", 0 },
+    { false, "-O", 0 },
+    { false, "-D", 0 },            
+};
+
 Params& Params::instance()
 {
     if (0 == instance_) {
@@ -211,8 +217,8 @@ void Params::help(std::ostream& os) const
 {
     usage(os);
     os << _("\nActions:\n")
-       << _("  ad | adjust   Adjust Exif timestamps by the given time. This\n"
-            "                action requires the option -a time.\n")
+       << _("  ad | adjust   Adjust Exif timestamps by the given time. This action\n"
+            "                requires at least one of the -a, -Y, -O or -D options.\n")
        << _("  pr | print    Print image metadata.\n")
        << _("  rm | delete   Delete image metadata from the files.\n")
        << _("  in | insert   Insert metadata from corresponding *.exv files.\n"
@@ -240,6 +246,9 @@ void Params::help(std::ostream& os) const
        << _("   -F      Do not prompt before renaming files (Force).\n")
        << _("   -a time Time adjustment in the format [-]HH[:MM[:SS]]. This option\n"
             "           is only used with the 'adjust' action.\n")
+       << _("   -Y yrs  Year adjustment with the 'adjust' action.\n")
+       << _("   -O mon  Month adjustment with the 'adjust' action.\n")
+       << _("   -D day  Day adjustment with the 'adjust' action.\n")
        << _("   -p mode Print mode for the 'print' action. Possible modes are:\n")
        << _("             s : print a summary of the Exif metadata (the default)\n")
        << _("             t : interpreted (translated) Exif data (shortcut for -Pkyct)\n")
@@ -307,6 +316,9 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     case 't': rc = evalRename(opt, optarg); break;
     case 'T': rc = evalRename(opt, optarg); break;
     case 'a': rc = evalAdjust(optarg); break;
+    case 'Y': rc = evalYodAdjust(yodYear, optarg); break;
+    case 'O': rc = evalYodAdjust(yodMonth, optarg); break;
+    case 'D': rc = evalYodAdjust(yodDay, optarg); break;
     case 'p': rc = evalPrint(optarg); break;
     case 'P': rc = evalPrintCols(optarg); break;
     case 'd': rc = evalDelete(optarg); break;
@@ -377,6 +389,12 @@ int Params::evalAdjust(const std::string& optarg)
     int rc = 0;
     switch (action_) {
     case Action::none:
+    case Action::adjust:
+        if (adjust_) {
+            std::cerr << progname()
+                      << ": " << _("Ignoring surplus option -a")  << " " << optarg << "\n";
+            break;
+        }
         action_ = Action::adjust;
         adjust_ = parseTime(optarg, adjustment_);
         if (!adjust_) {
@@ -384,10 +402,6 @@ int Params::evalAdjust(const std::string& optarg)
                       << optarg << "'\n";
             rc = 1;
         }
-        break;
-    case Action::adjust:
-        std::cerr << progname()
-                  << ": " << _("Ignoring surplus option -a")  << " " << optarg << "\n";
         break;
     default:
         std::cerr << progname()
@@ -397,6 +411,38 @@ int Params::evalAdjust(const std::string& optarg)
     }
     return rc;
 } // Params::evalAdjust
+
+int Params::evalYodAdjust(const Yod& yod, const std::string& optarg)
+{
+    int rc = 0;
+    switch (action_) {
+    case Action::none: // fall-through
+    case Action::adjust:
+        if (yodAdjust_[yod].flag_) {
+            std::cerr << progname()
+                      << ": " << _("Ignoring surplus option") << " "
+                      << yodAdjust_[yod].option_ << " " << optarg << "\n";
+            break;
+        }
+        action_ = Action::adjust;
+        yodAdjust_[yod].flag_ = true;
+        if (!Util::strtol(optarg.c_str(), yodAdjust_[yod].adjustment_)) {
+            std::cerr << progname() << ": " << _("Error parsing") << " "
+                      << yodAdjust_[yod].option_ << " "
+                      << _("option argument") << " `" << optarg << "'\n";
+            rc = 1;
+        }
+        break;
+    default:
+        std::cerr << progname()
+                  << ": " << _("Option") << " "
+                  << yodAdjust_[yod].option_ << " "
+                  << _("is not compatible with a previous option\n");
+        rc = 1;
+        break;
+    }
+    return rc;
+} // Params::evalYodAdjust
 
 int Params::evalPrint(const std::string& optarg)
 {
@@ -683,9 +729,13 @@ int Params::getopt(int argc, char* const argv[])
         std::cerr << progname() << ": " << _("An action must be specified\n");
         rc = 1;
     }
-    if (action_ == Action::adjust && !adjust_) {
+    if (   action_ == Action::adjust
+        && !adjust_
+        && !yodAdjust_[yodYear].flag_
+        && !yodAdjust_[yodMonth].flag_
+        && !yodAdjust_[yodDay].flag_) {
         std::cerr << progname() << ": "
-                  << _("Adjust action requires option -a time\n");
+                  << _("Adjust action requires at least one -a, -Y, -O or -D option\n");
         rc = 1;
     }
     if (   action_ == Action::modify

@@ -145,6 +145,16 @@ public:
     //! Enumerates the policies to handle existing files in rename action
     enum FileExistsPolicy { overwritePolicy, renamePolicy, askPolicy };
 
+    //! Enumerates year, month and day adjustments.
+    enum Yod { yodYear, yodMonth, yodDay };
+
+    //! Structure for year, month and day adjustment command line arguments.
+    struct YodAdjust {
+        bool        flag_;              //!< Adjustment flag.
+        const char* option_;            //!< Adjustment option string.
+        long        adjustment_;        //!< Adjustment value.
+    };
+
     bool help_;                         //!< Help option flag.
     bool version_;                      //!< Version option flag.
     bool verbose_;                      //!< Verbose (talkative) option flag.
@@ -163,6 +173,7 @@ public:
     int  target_;                       //!< What common target to process.
 
     long adjustment_;                   //!< Adjustment in seconds.
+    YodAdjust yodAdjust_[3];            //!< Year, month and day adjustment info.
     std::string format_;                //!< Filename format (-r option arg).
     bool formatSet_;                    //!< Whether the format is set with -r
     CmdFiles cmdFiles_;                 //!< Names of the modification command files
@@ -174,11 +185,19 @@ public:
     Files files_;                       //!< List of non-option arguments.
 
 private:
+    //! Pointer to the global Params object.
+    static Params* instance_;
+    //! Initializer for year, month and day adjustment info.
+    static const YodAdjust emptyYodAdjust_[];
+
+    bool first_;
+
+private:
     /*!
       @brief Default constructor. Note that optstring_ is initialized here.
              The c'tor is private to force instantiation through instance().
      */
-    Params() : optstring_(":hVvfbuktTFa:r:p:P:d:e:i:c:m:M:l:S:"),
+    Params() : optstring_(":hVvfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:"),
                help_(false),
                version_(false),
                verbose_(false),
@@ -197,7 +216,12 @@ private:
                adjustment_(0),
                format_("%Y%m%d_%H%M%S"),
                formatSet_(false),
-               first_(true) {}
+               first_(true)
+    {
+        yodAdjust_[yodYear]  = emptyYodAdjust_[yodYear];
+        yodAdjust_[yodMonth] = emptyYodAdjust_[yodMonth];
+        yodAdjust_[yodDay]   = emptyYodAdjust_[yodDay];
+    }
 
     //! Prevent copy-construction: not implemented.
     Params(const Params& rhs);
@@ -206,6 +230,7 @@ private:
     //@{
     int evalRename(int opt, const std::string& optarg);
     int evalAdjust(const std::string& optarg);
+    int evalYodAdjust(const Yod& yod, const std::string& optarg);
     int evalPrint(const std::string& optarg);
     int evalPrintCols(const std::string& optarg);
     int evalDelete(const std::string& optarg);
@@ -213,11 +238,6 @@ private:
     int evalInsert(const std::string& optarg);
     int evalModify(int opt, const std::string& optarg);
     //@}
-
-    //! Pointer to the global Params object.
-    static Params* instance_;
-
-    bool first_;
 
 public:
     /*!
