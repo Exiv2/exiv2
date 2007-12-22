@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2007-12-09 17:36+0800\n"
+"POT-Creation-Date: 2007-12-22 19:20+0800\n"
 "PO-Revision-Date: 2007-08-19 18:48+0200\n"
 "Last-Translator: Olivier Tilloy <olivier@tilloy.net>\n"
 "Language-Team: French\n"
@@ -25,7 +25,7 @@ msgstr ""
 #: src/actions.cpp:903 src/actions.cpp:1035 src/actions.cpp:1066
 #: src/actions.cpp:1116 src/actions.cpp:1157 src/actions.cpp:1162
 #: src/actions.cpp:1182 src/actions.cpp:1187 src/actions.cpp:1215
-#: src/actions.cpp:1435 src/actions.cpp:1519 src/actions.cpp:1673
+#: src/actions.cpp:1435 src/actions.cpp:1519 src/actions.cpp:1693
 msgid "Failed to open the file\n"
 msgstr "Echec de l'ouverture du fichier\n"
 
@@ -64,7 +64,7 @@ msgid "Image number"
 msgstr "Numéro de l'image"
 
 #: src/actions.cpp:278 src/minoltamn.cpp:636 src/minoltamn.cpp:943
-#: src/minoltamn.cpp:1161 src/pentaxmn.cpp:792 src/pentaxmn.cpp:793
+#: src/minoltamn.cpp:1161 src/pentaxmn.cpp:793 src/pentaxmn.cpp:794
 msgid "Exposure time"
 msgstr "Temps d'exposition"
 
@@ -120,7 +120,7 @@ msgid "Macro mode"
 msgstr "Mode macro"
 
 #: src/actions.cpp:430 src/minoltamn.cpp:264 src/minoltamn.cpp:624
-#: src/minoltamn.cpp:893 src/minoltamn.cpp:1131 src/pentaxmn.cpp:775
+#: src/minoltamn.cpp:893 src/minoltamn.cpp:1131 src/pentaxmn.cpp:776
 msgid "Image quality"
 msgstr "Qualité de l'image"
 
@@ -232,8 +232,8 @@ msgstr "Effacement des données Exif du fichier"
 msgid "Writing XMP packet from"
 msgstr "Ecriture des données Exif de"
 
-#: src/actions.cpp:1049 src/actions.cpp:1698 src/actions.cpp:1706
-#: src/actions.cpp:1714 src/actions.cpp:1723 src/actions.cpp:1824
+#: src/actions.cpp:1049 src/actions.cpp:1718 src/actions.cpp:1726
+#: src/actions.cpp:1734 src/actions.cpp:1743 src/actions.cpp:1844
 msgid "to"
 msgstr "vers"
 
@@ -322,63 +322,67 @@ msgstr "de"
 msgid " s to "
 msgstr " s à "
 
-#: src/actions.cpp:1549
+#: src/actions.cpp:1540
+msgid "Standard Exif ISO tag exists; not modified\n"
+msgstr ""
+
+#: src/actions.cpp:1569
 msgid "Setting Exif ISO value to"
 msgstr "Définition de la valeur Exif de l'ISO à"
 
-#: src/actions.cpp:1697
+#: src/actions.cpp:1717
 msgid "Writing Exif data from"
 msgstr "Ecriture des données Exif de"
 
-#: src/actions.cpp:1705
+#: src/actions.cpp:1725
 #, fuzzy
 msgid "Writing IPTC data from"
 msgstr "Ecriture des données Iptc de"
 
-#: src/actions.cpp:1713
+#: src/actions.cpp:1733
 #, fuzzy
 msgid "Writing XMP data from"
 msgstr "Ecriture des données Exif de"
 
-#: src/actions.cpp:1722
+#: src/actions.cpp:1742
 #, fuzzy
 msgid "Writing JPEG comment from"
 msgstr "Ecriture du commentaire Jpeg de"
 
-#: src/actions.cpp:1732
+#: src/actions.cpp:1752
 msgid "Could not write metadata to file"
 msgstr "Impossible d'écrire les méta-données dans le fichier"
 
-#: src/actions.cpp:1750
+#: src/actions.cpp:1770
 msgid "Filename format yields empty filename for the file"
 msgstr ""
 "Le format spécifié pour le nom du fichier produit un nom de fichier vide"
 
-#: src/actions.cpp:1759
+#: src/actions.cpp:1779
 msgid "This file already has the correct name"
 msgstr "Le nom de ce fichier est déjà correct"
 
-#: src/actions.cpp:1783 src/exiv2.cpp:150
+#: src/actions.cpp:1803 src/exiv2.cpp:150
 msgid "File"
 msgstr "Le fichier"
 
-#: src/actions.cpp:1784
+#: src/actions.cpp:1804
 msgid "exists. [O]verwrite, [r]ename or [s]kip?"
 msgstr " existe. Ecraser [O], [r]enommer ou passer au [s]uivant?"
 
-#: src/actions.cpp:1812
+#: src/actions.cpp:1832
 msgid "Renaming file to"
 msgstr "Renommage du fichier en"
 
-#: src/actions.cpp:1814
+#: src/actions.cpp:1834
 msgid "updating timestamp"
 msgstr "mise à jour de l'horodatage"
 
-#: src/actions.cpp:1823
+#: src/actions.cpp:1843
 msgid "Failed to rename"
 msgstr "Echec du renommage de"
 
-#: src/actions.cpp:1845
+#: src/actions.cpp:1865
 msgid "Overwrite"
 msgstr "Ecraser"
 
@@ -432,8 +436,8 @@ msgstr ""
 "Part I, utilisé par le fournisseur. Les numéros de version sont assignés par "
 "l'IPTC et la NAA."
 
-#: src/datasets.cpp:90 src/pentaxmn.cpp:321 src/pentaxmn.cpp:838
-#: src/pentaxmn.cpp:839
+#: src/datasets.cpp:90 src/pentaxmn.cpp:321 src/pentaxmn.cpp:839
+#: src/pentaxmn.cpp:840
 msgid "Destination"
 msgstr "Destination"
 
@@ -2147,7 +2151,7 @@ msgid ""
 "The authors of the resource (listed in order of precedence, if significant)."
 msgstr ""
 
-#: src/properties.cpp:103 src/pentaxmn.cpp:769 src/pentaxmn.cpp:770
+#: src/properties.cpp:103 src/pentaxmn.cpp:770 src/pentaxmn.cpp:771
 #, fuzzy
 msgid "Date"
 msgstr "Date d'envoi"
@@ -3448,8 +3452,8 @@ msgstr "Réglage de saturation"
 #: src/canonmn.cpp:457 src/minoltamn.cpp:507 src/minoltamn.cpp:695
 #: src/minoltamn.cpp:696 src/minoltamn.cpp:922 src/minoltamn.cpp:923
 #: src/minoltamn.cpp:1154 src/minoltamn.cpp:1155 src/olympusmn.cpp:320
-#: src/panasonicmn.cpp:248 src/pentaxmn.cpp:736 src/pentaxmn.cpp:826
-#: src/pentaxmn.cpp:827 src/sigmamn.cpp:99 src/sigmamn.cpp:100
+#: src/panasonicmn.cpp:248 src/pentaxmn.cpp:737 src/pentaxmn.cpp:827
+#: src/pentaxmn.cpp:828 src/sigmamn.cpp:99 src/sigmamn.cpp:100
 msgid "Contrast"
 msgstr "Contraste"
 
@@ -3464,7 +3468,7 @@ msgid "Crop Top"
 msgstr "Crédit"
 
 #: src/properties.cpp:362
-msgid "When HasCrop is true, top of crop rectangle"
+msgid "When \"Has Crop\" is true, top of crop rectangle"
 msgstr ""
 
 #: src/properties.cpp:363
@@ -3473,7 +3477,7 @@ msgid "Crop Left"
 msgstr "haut, gauche"
 
 #: src/properties.cpp:363
-msgid "When HasCrop is true, left of crop rectangle."
+msgid "When \"Has Crop\" is true, left of crop rectangle."
 msgstr ""
 
 #: src/properties.cpp:364
@@ -3482,7 +3486,7 @@ msgid "Crop Bottom"
 msgstr "Bas"
 
 #: src/properties.cpp:364
-msgid "When HasCrop is true, bottom of crop rectangle."
+msgid "When \"Has Crop\" is true, bottom of crop rectangle."
 msgstr ""
 
 #: src/properties.cpp:365
@@ -3491,7 +3495,7 @@ msgid "Crop Right"
 msgstr "Droit d'auteur"
 
 #: src/properties.cpp:365
-msgid "When HasCrop is true, right of crop rectangle."
+msgid "When \"Has Crop\" is true, right of crop rectangle."
 msgstr ""
 
 #: src/properties.cpp:366
@@ -3500,7 +3504,7 @@ msgid "Crop Angle"
 msgstr "haut, gauche"
 
 #: src/properties.cpp:366
-msgid "When HasCrop is true, angle of crop rectangle."
+msgid "When \"Has Crop\" is true, angle of crop rectangle."
 msgstr ""
 
 #: src/properties.cpp:367
@@ -3621,8 +3625,8 @@ msgstr "Réglage de saturation"
 #: src/minoltamn.cpp:693 src/minoltamn.cpp:925 src/minoltamn.cpp:926
 #: src/minoltamn.cpp:1157 src/minoltamn.cpp:1158 src/nikonmn.cpp:714
 #: src/nikonmn.cpp:715 src/nikonmn.cpp:765 src/nikonmn.cpp:766
-#: src/pentaxmn.cpp:730 src/pentaxmn.cpp:823 src/pentaxmn.cpp:824
-#: src/pentaxmn.cpp:956 src/pentaxmn.cpp:957 src/sigmamn.cpp:108
+#: src/pentaxmn.cpp:731 src/pentaxmn.cpp:824 src/pentaxmn.cpp:825
+#: src/pentaxmn.cpp:957 src/pentaxmn.cpp:958 src/sigmamn.cpp:108
 #: src/sigmamn.cpp:109
 msgid "Saturation"
 msgstr "Saturation"
@@ -3655,8 +3659,8 @@ msgstr "Réglage de saturation"
 #: src/properties.cpp:382 src/properties.cpp:706 src/tags.cpp:938
 #: src/canonmn.cpp:459 src/fujimn.cpp:196 src/minoltamn.cpp:698
 #: src/minoltamn.cpp:699 src/minoltamn.cpp:919 src/minoltamn.cpp:920
-#: src/minoltamn.cpp:1151 src/minoltamn.cpp:1152 src/pentaxmn.cpp:733
-#: src/pentaxmn.cpp:829 src/pentaxmn.cpp:830 src/sigmamn.cpp:111
+#: src/minoltamn.cpp:1151 src/minoltamn.cpp:1152 src/pentaxmn.cpp:734
+#: src/pentaxmn.cpp:830 src/pentaxmn.cpp:831 src/sigmamn.cpp:111
 #: src/sigmamn.cpp:112
 msgid "Sharpness"
 msgstr "Netteté"
@@ -3666,7 +3670,7 @@ msgstr "Netteté"
 msgid "\"Sharpness\" setting. Range 0 to +100."
 msgstr "Réglage de Netteté"
 
-#: src/properties.cpp:383 src/pentaxmn.cpp:874
+#: src/properties.cpp:383 src/pentaxmn.cpp:875
 #, fuzzy
 msgid "Temperature"
 msgstr "Température de l'objectif"
@@ -3706,7 +3710,7 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:388 src/fujimn.cpp:186 src/nikonmn.cpp:163
-#: src/nikonmn.cpp:579 src/pentaxmn.cpp:751
+#: src/nikonmn.cpp:579 src/pentaxmn.cpp:752
 msgid "Version"
 msgstr "Version"
 
@@ -5289,7 +5293,7 @@ msgid ""
 "object, not specifically its content."
 msgstr ""
 
-#: src/properties.cpp:772 src/pentaxmn.cpp:832 src/pentaxmn.cpp:833
+#: src/properties.cpp:772 src/pentaxmn.cpp:833 src/pentaxmn.cpp:834
 #, fuzzy
 msgid "Location"
 msgstr "Lieu précis"
@@ -8162,7 +8166,7 @@ msgid "Normal AE"
 msgstr "AE Normal"
 
 #: src/canonmn.cpp:418 src/minoltamn.cpp:648 src/minoltamn.cpp:914
-#: src/minoltamn.cpp:1182 src/pentaxmn.cpp:802 src/pentaxmn.cpp:803
+#: src/minoltamn.cpp:1182 src/pentaxmn.cpp:803 src/pentaxmn.cpp:804
 msgid "Exposure compensation"
 msgstr "Compensation d'exposition"
 
@@ -8246,7 +8250,7 @@ msgid "Image Size"
 msgstr "Taille de l'image"
 
 #: src/canonmn.cpp:454 src/minoltamn.cpp:621 src/minoltamn.cpp:890
-#: src/minoltamn.cpp:1128 src/pentaxmn.cpp:778
+#: src/minoltamn.cpp:1128 src/pentaxmn.cpp:779
 msgid "Image size"
 msgstr "Taille de l'image"
 
@@ -9086,7 +9090,7 @@ msgstr "Numéro ordre"
 msgid "Frame Number"
 msgstr "Numéro frame"
 
-#: src/fujimn.cpp:284 src/pentaxmn.cpp:848 src/pentaxmn.cpp:849
+#: src/fujimn.cpp:284 src/pentaxmn.cpp:849 src/pentaxmn.cpp:850
 msgid "Frame number"
 msgstr "Numéro frame"
 
@@ -9110,7 +9114,7 @@ msgstr "Solarisation"
 msgid "AdobeRGB"
 msgstr "AdobeRGB"
 
-#: src/minoltamn.cpp:63 src/panasonicmn.cpp:180 src/pentaxmn.cpp:608
+#: src/minoltamn.cpp:63 src/panasonicmn.cpp:180 src/pentaxmn.cpp:609
 msgid "Natural"
 msgstr "Naturel"
 
@@ -9468,11 +9472,11 @@ msgid "Manual flash control"
 msgstr "Contrôle de flash manuel"
 
 #: src/minoltamn.cpp:615 src/minoltamn.cpp:666 src/minoltamn.cpp:908
-#: src/olympusmn.cpp:210 src/pentaxmn.cpp:782
+#: src/olympusmn.cpp:210 src/pentaxmn.cpp:783
 msgid "Flash mode"
 msgstr "Mode flash"
 
-#: src/minoltamn.cpp:627 src/pentaxmn.cpp:858 src/pentaxmn.cpp:859
+#: src/minoltamn.cpp:627 src/pentaxmn.cpp:859 src/pentaxmn.cpp:860
 #: src/sigmamn.cpp:71
 msgid "Drive mode"
 msgstr "Mode controle"
@@ -9676,7 +9680,7 @@ msgstr "Zone mise au point large"
 
 #: src/minoltamn.cpp:744 src/minoltamn.cpp:899 src/minoltamn.cpp:1173
 #: src/nikonmn.cpp:182 src/nikonmn.cpp:460 src/nikonmn.cpp:598
-#: src/olympusmn.cpp:231 src/panasonicmn.cpp:198 src/pentaxmn.cpp:785
+#: src/olympusmn.cpp:231 src/panasonicmn.cpp:198 src/pentaxmn.cpp:786
 msgid "Focus mode"
 msgstr "Mode mise au point"
 
@@ -9772,8 +9776,8 @@ msgstr "Points AF"
 msgid "AF points"
 msgstr "AF Points"
 
-#: src/minoltamn.cpp:917 src/nikonmn.cpp:658 src/pentaxmn.cpp:862
-#: src/pentaxmn.cpp:863 src/sigmamn.cpp:94
+#: src/minoltamn.cpp:917 src/nikonmn.cpp:658 src/pentaxmn.cpp:863
+#: src/pentaxmn.cpp:864 src/sigmamn.cpp:94
 msgid "Color space"
 msgstr "Espace des couleurs"
 
@@ -9797,8 +9801,8 @@ msgid "Rotation"
 msgstr "Rotation"
 
 #: src/minoltamn.cpp:953 src/minoltamn.cpp:1197 src/nikonmn.cpp:718
-#: src/olympusmn.cpp:369 src/panasonicmn.cpp:252 src/pentaxmn.cpp:878
-#: src/pentaxmn.cpp:879
+#: src/olympusmn.cpp:369 src/panasonicmn.cpp:252 src/pentaxmn.cpp:879
+#: src/pentaxmn.cpp:880
 msgid "Noise reduction"
 msgstr "Réduction du bruit"
 
@@ -10199,11 +10203,11 @@ msgstr "Différence d'exposition"
 msgid "Exposure difference"
 msgstr "Différence d'exposition"
 
-#: src/nikonmn.cpp:627 src/pentaxmn.cpp:763
+#: src/nikonmn.cpp:627 src/pentaxmn.cpp:764
 msgid "Pointer to a preview image"
 msgstr "Pointeur vers l'image d'aperçu"
 
-#: src/nikonmn.cpp:628 src/pentaxmn.cpp:764
+#: src/nikonmn.cpp:628 src/pentaxmn.cpp:765
 msgid "Offset to an IFD containing a preview image"
 msgstr "Décalage vers l'IFD contenant l'aperçu"
 
@@ -10251,7 +10255,7 @@ msgstr ""
 msgid "Image Processing"
 msgstr "  Traitement d'image"
 
-#: src/nikonmn.cpp:649 src/pentaxmn.cpp:852 src/pentaxmn.cpp:853
+#: src/nikonmn.cpp:649 src/pentaxmn.cpp:853 src/pentaxmn.cpp:854
 msgid "Image processing"
 msgstr "  Traitement d'image"
 
@@ -10275,7 +10279,7 @@ msgstr "Compensation de tonalité"
 msgid "Lens Type"
 msgstr "Type d'objectif"
 
-#: src/nikonmn.cpp:670 src/pentaxmn.cpp:866 src/pentaxmn.cpp:867
+#: src/nikonmn.cpp:670 src/pentaxmn.cpp:867 src/pentaxmn.cpp:868
 msgid "Lens type"
 msgstr "Type d'objectif"
 
@@ -10287,7 +10291,7 @@ msgstr "Mode de flash utilisé"
 msgid "Shooting Mode"
 msgstr "Mode de prise de vue"
 
-#: src/nikonmn.cpp:688 src/panasonicmn.cpp:209 src/pentaxmn.cpp:754
+#: src/nikonmn.cpp:688 src/panasonicmn.cpp:209 src/pentaxmn.cpp:755
 msgid "Shooting mode"
 msgstr "Mode de prise de vue"
 
@@ -10713,7 +10717,7 @@ msgstr "Numéro de série 2"
 msgid "Serial number 2"
 msgstr "Numéro de série 2"
 
-#: src/olympusmn.cpp:303 src/pentaxmn.cpp:882 src/pentaxmn.cpp:883
+#: src/olympusmn.cpp:303 src/pentaxmn.cpp:883 src/pentaxmn.cpp:884
 msgid "Flash exposure compensation"
 msgstr "Compensation d'exposition du flash"
 
@@ -11658,7 +11662,7 @@ msgstr "Très près"
 msgid "Very Hard"
 msgstr "Très haute"
 
-#: src/pentaxmn.cpp:320 src/pentaxmn.cpp:836
+#: src/pentaxmn.cpp:320 src/pentaxmn.cpp:837
 msgid "Home town"
 msgstr ""
 
@@ -12167,282 +12171,282 @@ msgstr "Objectif"
 msgid "A Series Lens"
 msgstr ""
 
-#: src/pentaxmn.cpp:609
+#: src/pentaxmn.cpp:610
 #, fuzzy
 msgid "Bright"
 msgstr "Luminosité+"
 
-#: src/pentaxmn.cpp:718
+#: src/pentaxmn.cpp:719
 msgid "No extended bracketing"
 msgstr ""
 
-#: src/pentaxmn.cpp:724
+#: src/pentaxmn.cpp:725
 msgid "WB-BA"
 msgstr ""
 
-#: src/pentaxmn.cpp:727
+#: src/pentaxmn.cpp:728
 msgid "WB-GM"
 msgstr ""
 
-#: src/pentaxmn.cpp:739
+#: src/pentaxmn.cpp:740
 #, fuzzy
 msgid "Unknown "
 msgstr "Inconnu"
 
-#: src/pentaxmn.cpp:752
+#: src/pentaxmn.cpp:753
 #, fuzzy
 msgid "Pentax Makernote version"
 msgstr "Version des note du fabriquant Nikon"
 
-#: src/pentaxmn.cpp:755
+#: src/pentaxmn.cpp:756
 #, fuzzy
 msgid "Camera shooting mode"
 msgstr "Mode de prise de vue"
 
-#: src/pentaxmn.cpp:757 src/pentaxmn.cpp:758
+#: src/pentaxmn.cpp:758 src/pentaxmn.cpp:759
 #, fuzzy
 msgid "Resolution of a preview image"
 msgstr "Pointeur vers l'image d'aperçu"
 
-#: src/pentaxmn.cpp:760
+#: src/pentaxmn.cpp:761
 #, fuzzy
 msgid "Length of a preview image"
 msgstr "Pointeur vers l'image d'aperçu"
 
-#: src/pentaxmn.cpp:761
+#: src/pentaxmn.cpp:762
 #, fuzzy
 msgid "Size of an IFD containing a preview image"
 msgstr "Décalage vers l'IFD contenant l'aperçu"
 
-#: src/pentaxmn.cpp:766
+#: src/pentaxmn.cpp:767
 #, fuzzy
 msgid "Model identification"
 msgstr "Version du Modèle"
 
-#: src/pentaxmn.cpp:767
+#: src/pentaxmn.cpp:768
 msgid "Pentax model idenfication"
 msgstr ""
 
-#: src/pentaxmn.cpp:772 src/pentaxmn.cpp:773
+#: src/pentaxmn.cpp:773 src/pentaxmn.cpp:774
 #, fuzzy
 msgid "Time"
 msgstr "Heure d'envoi"
 
-#: src/pentaxmn.cpp:776
+#: src/pentaxmn.cpp:777
 #, fuzzy
 msgid "Image quality settings"
 msgstr "Réglage de qualité de l'image"
 
-#: src/pentaxmn.cpp:779
+#: src/pentaxmn.cpp:780
 #, fuzzy
 msgid "Image size settings"
 msgstr "Réglage de qualité de l'image"
 
-#: src/pentaxmn.cpp:783
+#: src/pentaxmn.cpp:784
 #, fuzzy
 msgid "Flash mode settings"
 msgstr "Réglage mode flash"
 
-#: src/pentaxmn.cpp:786
+#: src/pentaxmn.cpp:787
 #, fuzzy
 msgid "Focus mode settings"
 msgstr "Réglage mode de mise au point"
 
-#: src/pentaxmn.cpp:788
+#: src/pentaxmn.cpp:789
 #, fuzzy
 msgid "AF point"
 msgstr "AF Points"
 
-#: src/pentaxmn.cpp:789
+#: src/pentaxmn.cpp:790
 #, fuzzy
 msgid "Selected AF point"
 msgstr "AF Points"
 
-#: src/pentaxmn.cpp:795 src/pentaxmn.cpp:796
+#: src/pentaxmn.cpp:796 src/pentaxmn.cpp:797
 #, fuzzy
 msgid "F-Number"
 msgstr "Nombre F"
 
-#: src/pentaxmn.cpp:798
+#: src/pentaxmn.cpp:799
 #, fuzzy
 msgid "ISO sensitivity"
 msgstr "Sensibilité spectrale"
 
-#: src/pentaxmn.cpp:799
+#: src/pentaxmn.cpp:800
 #, fuzzy
 msgid "ISO sensitivity settings"
 msgstr "Réglage vitesse ISO"
 
-#: src/pentaxmn.cpp:806 src/pentaxmn.cpp:807
+#: src/pentaxmn.cpp:807 src/pentaxmn.cpp:808
 #, fuzzy
 msgid "MeteringMode"
 msgstr "Mode de mesure"
 
-#: src/pentaxmn.cpp:809 src/pentaxmn.cpp:810
+#: src/pentaxmn.cpp:810 src/pentaxmn.cpp:811
 #, fuzzy
 msgid "AutoBracketing"
 msgstr "Bracketing automatique"
 
-#: src/pentaxmn.cpp:812 src/pentaxmn.cpp:813
+#: src/pentaxmn.cpp:813 src/pentaxmn.cpp:814
 #, fuzzy
 msgid "White ballance"
 msgstr "Balance des blancs"
 
-#: src/pentaxmn.cpp:815 src/pentaxmn.cpp:816
+#: src/pentaxmn.cpp:816 src/pentaxmn.cpp:817
 #, fuzzy
 msgid "White ballance mode"
 msgstr "Mode balance des blancs"
 
-#: src/pentaxmn.cpp:819 src/pentaxmn.cpp:820
+#: src/pentaxmn.cpp:820 src/pentaxmn.cpp:821
 #, fuzzy
 msgid "FocalLength"
 msgstr "Longueur focale"
 
-#: src/pentaxmn.cpp:835
+#: src/pentaxmn.cpp:836
 msgid "Hometown"
 msgstr ""
 
-#: src/pentaxmn.cpp:841
+#: src/pentaxmn.cpp:842
 msgid "Hometown DST"
 msgstr ""
 
-#: src/pentaxmn.cpp:842
+#: src/pentaxmn.cpp:843
 msgid "Whether day saving time is active in home town"
 msgstr ""
 
-#: src/pentaxmn.cpp:844
+#: src/pentaxmn.cpp:845
 #, fuzzy
 msgid "Destination DST"
 msgstr "Destination"
 
-#: src/pentaxmn.cpp:845
+#: src/pentaxmn.cpp:846
 msgid "Whether day saving time is active in destination"
 msgstr ""
 
-#: src/pentaxmn.cpp:855 src/pentaxmn.cpp:856
+#: src/pentaxmn.cpp:856 src/pentaxmn.cpp:857
 #, fuzzy
 msgid "Picture mode"
 msgstr "Mode d'image"
 
-#: src/pentaxmn.cpp:870 src/pentaxmn.cpp:871
+#: src/pentaxmn.cpp:871 src/pentaxmn.cpp:872
 #, fuzzy
 msgid "Digital filter"
 msgstr "Appareil photo numérique"
 
-#: src/pentaxmn.cpp:875
+#: src/pentaxmn.cpp:876
 #, fuzzy
 msgid "Camera temperature"
 msgstr "Température des couleurs"
 
-#: src/pentaxmn.cpp:886 src/pentaxmn.cpp:887
+#: src/pentaxmn.cpp:887 src/pentaxmn.cpp:888
 #, fuzzy
 msgid "Image tone"
 msgstr "Type d'image"
 
-#: src/pentaxmn.cpp:890
+#: src/pentaxmn.cpp:891
 #, fuzzy
 msgid "Shake reduction"
 msgstr "Réduction du bruit"
 
-#: src/pentaxmn.cpp:891
+#: src/pentaxmn.cpp:892
 #, fuzzy
 msgid "Shake reduction information"
 msgstr "informations de réglage appareil photo"
 
-#: src/pentaxmn.cpp:893 src/pentaxmn.cpp:894
+#: src/pentaxmn.cpp:894 src/pentaxmn.cpp:895
 #, fuzzy
 msgid "Shutter count"
 msgstr "Priorité obturation"
 
-#: src/pentaxmn.cpp:897 src/pentaxmn.cpp:898
+#: src/pentaxmn.cpp:898 src/pentaxmn.cpp:899
 #, fuzzy
 msgid "Black point"
 msgstr "Noir & Blanc"
 
-#: src/pentaxmn.cpp:900 src/pentaxmn.cpp:901
+#: src/pentaxmn.cpp:901 src/pentaxmn.cpp:902
 #, fuzzy
 msgid "White point"
 msgstr "Point blanc"
 
-#: src/pentaxmn.cpp:904 src/pentaxmn.cpp:905
+#: src/pentaxmn.cpp:905 src/pentaxmn.cpp:906
 msgid "AEInfo"
 msgstr ""
 
-#: src/pentaxmn.cpp:907 src/pentaxmn.cpp:908
+#: src/pentaxmn.cpp:908 src/pentaxmn.cpp:909
 #, fuzzy
 msgid "LensInfo"
 msgstr "Objectif"
 
-#: src/pentaxmn.cpp:910 src/pentaxmn.cpp:911
+#: src/pentaxmn.cpp:911 src/pentaxmn.cpp:912
 #, fuzzy
 msgid "FlashInfo"
 msgstr "Flash"
 
-#: src/pentaxmn.cpp:913 src/pentaxmn.cpp:914
+#: src/pentaxmn.cpp:914 src/pentaxmn.cpp:915
 #, fuzzy
 msgid "AEMeteringSegments"
 msgstr "Mode de mesure"
 
-#: src/pentaxmn.cpp:916 src/pentaxmn.cpp:917
+#: src/pentaxmn.cpp:917 src/pentaxmn.cpp:918
 #, fuzzy
 msgid "FlashADump"
 msgstr "Compensation Flash"
 
-#: src/pentaxmn.cpp:919 src/pentaxmn.cpp:920
+#: src/pentaxmn.cpp:920 src/pentaxmn.cpp:921
 #, fuzzy
 msgid "FlashBDump"
 msgstr "Compensation Flash"
 
-#: src/pentaxmn.cpp:923 src/pentaxmn.cpp:924
+#: src/pentaxmn.cpp:924 src/pentaxmn.cpp:925
 msgid "WB_RGGBLevelsDaylight"
 msgstr ""
 
-#: src/pentaxmn.cpp:926 src/pentaxmn.cpp:927
+#: src/pentaxmn.cpp:927 src/pentaxmn.cpp:928
 msgid "WB_RGGBLevelsShade"
 msgstr ""
 
-#: src/pentaxmn.cpp:929 src/pentaxmn.cpp:930
+#: src/pentaxmn.cpp:930 src/pentaxmn.cpp:931
 msgid "WB_RGGBLevelsCloudy"
 msgstr ""
 
-#: src/pentaxmn.cpp:932 src/pentaxmn.cpp:933
+#: src/pentaxmn.cpp:933 src/pentaxmn.cpp:934
 msgid "WB_RGGBLevelsTungsten"
 msgstr ""
 
-#: src/pentaxmn.cpp:935 src/pentaxmn.cpp:936
+#: src/pentaxmn.cpp:936 src/pentaxmn.cpp:937
 #, fuzzy
 msgid "WB_RGGBLevelsFluorescentD"
 msgstr "Fluorescent"
 
-#: src/pentaxmn.cpp:938 src/pentaxmn.cpp:939
+#: src/pentaxmn.cpp:939 src/pentaxmn.cpp:940
 #, fuzzy
 msgid "WB_RGGBLevelsFluorescentN"
 msgstr "Fluorescent"
 
-#: src/pentaxmn.cpp:941 src/pentaxmn.cpp:942
+#: src/pentaxmn.cpp:942 src/pentaxmn.cpp:943
 #, fuzzy
 msgid "WB_RGGBLevelsFluorescentW"
 msgstr "Fluorescent"
 
-#: src/pentaxmn.cpp:944 src/pentaxmn.cpp:945
+#: src/pentaxmn.cpp:945 src/pentaxmn.cpp:946
 msgid "WB_RGGBLevelsFlash"
 msgstr ""
 
-#: src/pentaxmn.cpp:947 src/pentaxmn.cpp:948
+#: src/pentaxmn.cpp:948 src/pentaxmn.cpp:949
 #, fuzzy
 msgid "CameraInfo"
 msgstr "Identifiant appareil photo"
 
-#: src/pentaxmn.cpp:950 src/pentaxmn.cpp:951
+#: src/pentaxmn.cpp:951 src/pentaxmn.cpp:952
 msgid "BatteryInfo"
 msgstr ""
 
-#: src/pentaxmn.cpp:953 src/pentaxmn.cpp:954
+#: src/pentaxmn.cpp:954 src/pentaxmn.cpp:955
 #, fuzzy
 msgid "AFInfo"
 msgstr "Informations mise au point"
 
-#: src/pentaxmn.cpp:961
+#: src/pentaxmn.cpp:962
 #, fuzzy
 msgid "Unknown PentaxMakerNote tag"
 msgstr "Marqueur de note du fabriquant Minolta inconnu"
