@@ -27,8 +27,8 @@ Usage: exiv2 [ options ] [ action ] file ...
 Manipulate the Exif metadata of images.
 
 Actions:
-  ad | adjust   Adjust Exif timestamps by the given time. This
-                action requires the option -a time.
+  ad | adjust   Adjust Exif timestamps by the given time. This action
+                requires at least one of the -a, -Y, -O or -D options.
   pr | print    Print image metadata.
   rm | delete   Delete image metadata from the files.
   in | insert   Insert metadata from corresponding *.exv files.
@@ -57,6 +57,9 @@ Options:
    -F      Do not prompt before renaming files (Force).
    -a time Time adjustment in the format [-]HH[:MM[:SS]]. This option
            is only used with the 'adjust' action.
+   -Y yrs  Year adjustment with the 'adjust' action.
+   -O mon  Month adjustment with the 'adjust' action.
+   -D day  Day adjustment with the 'adjust' action.
    -p mode Print mode for the 'print' action. Possible modes are:
              s : print a summary of the Exif metadata (the default)
              t : interpreted (translated) Exif data (shortcut for -Pkyct)
@@ -111,60 +114,60 @@ Adjust -------------------------------------------------------------------
 File  1/15: exiv2-empty.jpg
 exiv2-empty.jpg: No Exif data found in the file
 File  2/15: exiv2-canon-powershot-s40.jpg
-Adjusting `Exif.Image.DateTime' by -43261 s to 2003:12:14 00:00:43
-Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2003:12:14 00:00:43
-Adjusting `Exif.Photo.DateTimeDigitized' by -43261 s to 2003:12:14 00:00:43
+Adjusting `Exif.Image.DateTime' by -43261s to 2003:12:14 00:00:43
+Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2003:12:14 00:00:43
+Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2003:12:14 00:00:43
 File  3/15: exiv2-nikon-e990.jpg
-Adjusting `Exif.Image.DateTime' by -43261 s to 2000:05:06 02:05:44
-Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2000:05:06 02:05:44
-Adjusting `Exif.Photo.DateTimeDigitized' by -43261 s to 2000:05:06 02:05:44
+Adjusting `Exif.Image.DateTime' by -43261s to 2000:05:06 02:05:44
+Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2000:05:06 02:05:44
+Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2000:05:06 02:05:44
 File  4/15: exiv2-nikon-d70.jpg
-Adjusting `Exif.Image.DateTime' by -43261 s to 2004:03:29 22:42:45
-Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2004:03:29 22:42:45
-Adjusting `Exif.Photo.DateTimeDigitized' by -43261 s to 2004:03:29 22:42:45
+Adjusting `Exif.Image.DateTime' by -43261s to 2004:03:29 22:42:45
+Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2004:03:29 22:42:45
+Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2004:03:29 22:42:45
 File  5/15: exiv2-nikon-e950.jpg
-Adjusting `Exif.Image.DateTime' by -43261 s to 2001:04:05 23:50:39
-Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2001:04:05 23:50:39
-Adjusting `Exif.Photo.DateTimeDigitized' by -43261 s to 2001:04:05 23:50:39
+Adjusting `Exif.Image.DateTime' by -43261s to 2001:04:05 23:50:39
+Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2001:04:05 23:50:39
+Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2001:04:05 23:50:39
 File  6/15: exiv2-canon-eos-300d.jpg
-Adjusting `Exif.Image.DateTime' by -43261 s to 2003:09:25 20:18:50
-Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2003:09:25 20:18:50
-Adjusting `Exif.Photo.DateTimeDigitized' by -43261 s to 2003:09:25 20:18:50
+Adjusting `Exif.Image.DateTime' by -43261s to 2003:09:25 20:18:50
+Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2003:09:25 20:18:50
+Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2003:09:25 20:18:50
 File  7/15: exiv2-kodak-dc210.jpg
-Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2000:10:26 04:45:50
+Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2000:10:26 04:45:50
 File  8/15: exiv2-fujifilm-finepix-s2pro.jpg
-Adjusting `Exif.Image.DateTime' by -43261 s to 2003:09:26 11:15:35
-Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2003:09:26 11:15:35
-Adjusting `Exif.Photo.DateTimeDigitized' by -43261 s to 2003:09:26 11:15:35
+Adjusting `Exif.Image.DateTime' by -43261s to 2003:09:26 11:15:35
+Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2003:09:26 11:15:35
+Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2003:09:26 11:15:35
 File  9/15: exiv2-sigma-d10.jpg
-Adjusting `Exif.Image.DateTime' by -43261 s to 2004:03:18 11:39:25
-Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2004:03:16 07:51:37
-Adjusting `Exif.Photo.DateTimeDigitized' by -43261 s to 2004:03:18 11:39:25
+Adjusting `Exif.Image.DateTime' by -43261s to 2004:03:18 11:39:25
+Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2004:03:16 07:51:37
+Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2004:03:18 11:39:25
 File 10/15: exiv2-olympus-c8080wz.jpg
-Adjusting `Exif.Image.DateTime' by -43261 s to 2004:02:08 09:37:44
-Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2004:02:08 09:37:44
-Adjusting `Exif.Photo.DateTimeDigitized' by -43261 s to 2004:02:08 09:37:44
+Adjusting `Exif.Image.DateTime' by -43261s to 2004:02:08 09:37:44
+Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2004:02:08 09:37:44
+Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2004:02:08 09:37:44
 File 11/15: exiv2-panasonic-dmc-fz5.jpg
-Adjusting `Exif.Image.DateTime' by -43261 s to 2005:02:18 21:20:16
-Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2005:02:18 21:20:16
-Adjusting `Exif.Photo.DateTimeDigitized' by -43261 s to 2005:02:18 21:20:16
+Adjusting `Exif.Image.DateTime' by -43261s to 2005:02:18 21:20:16
+Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2005:02:18 21:20:16
+Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2005:02:18 21:20:16
 File 12/15: exiv2-sony-dsc-w7.jpg
-Adjusting `Exif.Image.DateTime' by -43261 s to 2005:05:27 05:18:33
-Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2005:05:27 05:18:33
-Adjusting `Exif.Photo.DateTimeDigitized' by -43261 s to 2005:05:27 05:18:33
+Adjusting `Exif.Image.DateTime' by -43261s to 2005:05:27 05:18:33
+Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2005:05:27 05:18:33
+Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2005:05:27 05:18:33
 File 13/15: exiv2-canon-eos-20d.jpg
 Warning: Makernote: Pointer to next IFD is out of bounds; ignored.
-Adjusting `Exif.Image.DateTime' by -43261 s to 2006:08:02 09:52:00
-Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2006:08:02 09:52:00
-Adjusting `Exif.Photo.DateTimeDigitized' by -43261 s to 2006:08:02 09:52:00
+Adjusting `Exif.Image.DateTime' by -43261s to 2006:08:02 09:52:00
+Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2006:08:02 09:52:00
+Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2006:08:02 09:52:00
 File 14/15: exiv2-canon-eos-d30.jpg
-Adjusting `Exif.Image.DateTime' by -43261 s to 2000:10:04 01:54:04
-Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2000:10:04 01:54:04
-Adjusting `Exif.Photo.DateTimeDigitized' by -43261 s to 2000:10:04 01:54:04
+Adjusting `Exif.Image.DateTime' by -43261s to 2000:10:04 01:54:04
+Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2000:10:04 01:54:04
+Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2000:10:04 01:54:04
 File 15/15: exiv2-canon-powershot-a520.jpg
-Adjusting `Exif.Image.DateTime' by -43261 s to 2006:01:27 22:50:27
-Adjusting `Exif.Photo.DateTimeOriginal' by -43261 s to 2006:01:27 22:50:27
-Adjusting `Exif.Photo.DateTimeDigitized' by -43261 s to 2006:01:27 22:50:27
+Adjusting `Exif.Image.DateTime' by -43261s to 2006:01:27 22:50:27
+Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2006:01:27 22:50:27
+Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2006:01:27 22:50:27
 
 Rename -------------------------------------------------------------------
 File  1/15: exiv2-empty.jpg

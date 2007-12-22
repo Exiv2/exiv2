@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "December 12th, 2007"
+.TH EXIV2 1 "December 23rd, 2007"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -57,8 +57,9 @@ different formats. Modification commands can be applied on-the-fly.
 Delete image metadata from the files.
 .TP
 .B ad | adjust
-Adjust Exif timestamps by the given time. Requires option \fB\-a\fP
-\fItime\fP.
+Adjust Exif timestamps by the given time. Requires at least one of the
+options \fB\-a\fP \fItime\fP, \fB\-Y\fP \fIyrs\fP, \fB\-O\fP
+\fImon\fP or \fB\-D\fP \fIday\fP.
 .TP
 .B mo | modify
 Apply commands to modify (add, set, delete) the Exif, IPTC and XMP
@@ -121,6 +122,18 @@ Do not prompt before renaming files (Force rename). Appends '_1'
 Time adjustment in the format [\-]HH[:MM[:SS]]. This option is only
 used with the 'adjust' action. Examples: 1 adds one hour, 1:01 
 adds one hour and one minute, \-0:00:30 subtracts 30 seconds.
+.TP
+.B \-Y \fIyrs\fP
+Time adjustment by a positive or negative number of years, for
+the 'adjust' action.
+.TP
+.B \-O \fImon\fP
+Time adjustment by a positive or negative number of months, for
+the 'adjust' action.
+.TP
+.B \-D \fIday\fP
+Time adjustment by a positive or negative number of days, for
+the 'adjust' action.
 .TP
 .B \-p \fImode\fP
 Print mode for the 'print' action. Possible modes are:
