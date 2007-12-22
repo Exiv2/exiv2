@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2007-12-09 17:36+0800\n"
+"POT-Creation-Date: 2007-12-22 19:20+0800\n"
 "PO-Revision-Date: 2007-12-10 22:17+0100\n"
 "Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
 "Language-Team: german <kde-i18n-de@kde.org>\n"
@@ -27,7 +27,7 @@ msgstr ""
 #: src/actions.cpp:903 src/actions.cpp:1035 src/actions.cpp:1066
 #: src/actions.cpp:1116 src/actions.cpp:1157 src/actions.cpp:1162
 #: src/actions.cpp:1182 src/actions.cpp:1187 src/actions.cpp:1215
-#: src/actions.cpp:1435 src/actions.cpp:1519 src/actions.cpp:1673
+#: src/actions.cpp:1435 src/actions.cpp:1519 src/actions.cpp:1693
 msgid "Failed to open the file\n"
 msgstr "Die Datei konnte nicht geöffnet werden\n"
 
@@ -66,7 +66,7 @@ msgid "Image number"
 msgstr "Bildnummer"
 
 #: src/actions.cpp:278 src/minoltamn.cpp:636 src/minoltamn.cpp:943
-#: src/minoltamn.cpp:1161 src/pentaxmn.cpp:792 src/pentaxmn.cpp:793
+#: src/minoltamn.cpp:1161 src/pentaxmn.cpp:793 src/pentaxmn.cpp:794
 msgid "Exposure time"
 msgstr "Belichtungszeit"
 
@@ -122,7 +122,7 @@ msgid "Macro mode"
 msgstr "Makromodus"
 
 #: src/actions.cpp:430 src/minoltamn.cpp:264 src/minoltamn.cpp:624
-#: src/minoltamn.cpp:893 src/minoltamn.cpp:1131 src/pentaxmn.cpp:775
+#: src/minoltamn.cpp:893 src/minoltamn.cpp:1131 src/pentaxmn.cpp:776
 msgid "Image quality"
 msgstr "Bildqualität"
 
@@ -185,7 +185,8 @@ msgstr "wurde in der Datei gefunden"
 
 #: src/actions.cpp:847
 msgid "Image file creation timestamp not set in the file"
-msgstr "Der Erstellungszeitstempel der Bilddatei ist nicht in der Datei gesetzt."
+msgstr ""
+"Der Erstellungszeitstempel der Bilddatei ist nicht in der Datei gesetzt."
 
 #: src/actions.cpp:853
 msgid "Failed to parse timestamp"
@@ -227,8 +228,8 @@ msgstr "Die XMP-Daten der Datei werden gelöscht."
 msgid "Writing XMP packet from"
 msgstr "Schreibe die XMP-Daten von"
 
-#: src/actions.cpp:1049 src/actions.cpp:1698 src/actions.cpp:1706
-#: src/actions.cpp:1714 src/actions.cpp:1723 src/actions.cpp:1824
+#: src/actions.cpp:1049 src/actions.cpp:1718 src/actions.cpp:1726
+#: src/actions.cpp:1734 src/actions.cpp:1743 src/actions.cpp:1844
 msgid "to"
 msgstr "nach"
 
@@ -312,59 +313,63 @@ msgstr "durch"
 msgid " s to "
 msgstr "nach"
 
-#: src/actions.cpp:1549
+#: src/actions.cpp:1540
+msgid "Standard Exif ISO tag exists; not modified\n"
+msgstr ""
+
+#: src/actions.cpp:1569
 msgid "Setting Exif ISO value to"
 msgstr "Setze den EXIF-ISO Wert auf"
 
-#: src/actions.cpp:1697
+#: src/actions.cpp:1717
 msgid "Writing Exif data from"
 msgstr "Schreibe die EXIF-Daten von"
 
-#: src/actions.cpp:1705
+#: src/actions.cpp:1725
 msgid "Writing IPTC data from"
 msgstr "Schreibe die IPTC-Daten von"
 
-#: src/actions.cpp:1713
+#: src/actions.cpp:1733
 msgid "Writing XMP data from"
 msgstr "Schreibe die XMP-Daten von"
 
-#: src/actions.cpp:1722
+#: src/actions.cpp:1742
 msgid "Writing JPEG comment from"
 msgstr "Schreibe den JPEG-Kommentar von"
 
-#: src/actions.cpp:1732
+#: src/actions.cpp:1752
 msgid "Could not write metadata to file"
 msgstr "Die Metadaten konnten nicht in die Datei geschrieben werden"
 
-#: src/actions.cpp:1750
+#: src/actions.cpp:1770
 msgid "Filename format yields empty filename for the file"
 msgstr "Das Format des Dateinamens führt zu keinem Dateinamen für die Datei"
 
-#: src/actions.cpp:1759
+#: src/actions.cpp:1779
 msgid "This file already has the correct name"
 msgstr "Diese Datei hat schon den richtigen Namen"
 
-#: src/actions.cpp:1783 src/exiv2.cpp:150
+#: src/actions.cpp:1803 src/exiv2.cpp:150
 msgid "File"
 msgstr "Datei"
 
-#: src/actions.cpp:1784
+#: src/actions.cpp:1804
 msgid "exists. [O]verwrite, [r]ename or [s]kip?"
 msgstr "existiert [O]überschreiben, [r]umbennenen oder [s]überspringen?"
 
-#: src/actions.cpp:1812
+#: src/actions.cpp:1832
 msgid "Renaming file to"
 msgstr "Die Datei wird umbenannt nach"
 
-#: src/actions.cpp:1814
+#: src/actions.cpp:1834
 msgid "updating timestamp"
 msgstr "aktualisiere Zeitstempel"
 
-#: src/actions.cpp:1823
+#: src/actions.cpp:1843
 msgid "Failed to rename"
 msgstr "Fehler beim umbenennen"
 
-#: src/actions.cpp:1845
+#: src/actions.cpp:1865
 msgid "Overwrite"
 msgstr "Überschreiben"
 
@@ -418,8 +423,8 @@ msgstr ""
 "vom Anbieter, Teil 1identifiziert. Die Versionsnummern werden von der IPTC "
 "und NAA Organisationen zugewiesen."
 
-#: src/datasets.cpp:90 src/pentaxmn.cpp:321 src/pentaxmn.cpp:838
-#: src/pentaxmn.cpp:839
+#: src/datasets.cpp:90 src/pentaxmn.cpp:321 src/pentaxmn.cpp:839
+#: src/pentaxmn.cpp:840
 msgid "Destination"
 msgstr "Ziel"
 
@@ -923,7 +928,8 @@ msgid "Reference Date"
 msgstr "Referenzdatum"
 
 #: src/datasets.cpp:284
-msgid "Identifies the date of a prior envelope to which the current object refers."
+msgid ""
+"Identifies the date of a prior envelope to which the current object refers."
 msgstr ""
 "Gibt das Datum eines vorangegangenen Umschlags an, auf den das aktuelle "
 "Objekt verweist."
@@ -1138,7 +1144,8 @@ msgid "Headline"
 msgstr "Schlagzeile"
 
 #: src/datasets.cpp:364
-msgid "A publishable entry providing a synopsis of the contents of the object data."
+msgid ""
+"A publishable entry providing a synopsis of the contents of the object data."
 msgstr ""
 "Ein veröffentlichbarer Eintrag, der eine Zusammenfassung des Inhalts der "
 "Objektdaten zur Verfügung stellt."
@@ -1409,7 +1416,8 @@ msgid ""
 msgstr ""
 
 #: src/exiv2.cpp:220
-msgid "  ex | extract  Extract metadata to *.exv, *.xmp and thumbnail image files.\n"
+msgid ""
+"  ex | extract  Extract metadata to *.exv, *.xmp and thumbnail image files.\n"
 msgstr ""
 
 #: src/exiv2.cpp:221
@@ -1465,7 +1473,8 @@ msgid "   -k      Preserve file timestamps (keep).\n"
 msgstr ""
 
 #: src/exiv2.cpp:236
-msgid "   -t      Also set the file timestamp in 'rename' action (overrides -k).\n"
+msgid ""
+"   -t      Also set the file timestamp in 'rename' action (overrides -k).\n"
 msgstr ""
 
 #: src/exiv2.cpp:237
@@ -1497,7 +1506,8 @@ msgid "             s : print a summary of the Exif metadata (the default)\n"
 msgstr ""
 
 #: src/exiv2.cpp:245
-msgid "             t : interpreted (translated) Exif data (shortcut for -Pkyct)\n"
+msgid ""
+"             t : interpreted (translated) Exif data (shortcut for -Pkyct)\n"
 msgstr ""
 
 #: src/exiv2.cpp:246
@@ -1521,7 +1531,8 @@ msgid "             c : JPEG comment\n"
 msgstr ""
 
 #: src/exiv2.cpp:251
-msgid "   -P cols Print columns for the Exif taglist ('print' action). Valid are:\n"
+msgid ""
+"   -P cols Print columns for the Exif taglist ('print' action). Valid are:\n"
 msgstr ""
 
 #: src/exiv2.cpp:252
@@ -1569,7 +1580,8 @@ msgid "             h : hexdump of the data\n"
 msgstr ""
 
 #: src/exiv2.cpp:263
-msgid "   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n"
+msgid ""
+"   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n"
 msgstr ""
 
 #: src/exiv2.cpp:264
@@ -1619,7 +1631,8 @@ msgid "             :basename:   - original filename without extension\n"
 msgstr ""
 
 #: src/exiv2.cpp:281
-msgid "             :dirname:    - name of the directory holding the original file\n"
+msgid ""
+"             :dirname:    - name of the directory holding the original file\n"
 msgstr ""
 
 #: src/exiv2.cpp:282
@@ -2199,10 +2212,11 @@ msgid "Creator"
 msgstr "Ersteller"
 
 #: src/properties.cpp:102
-msgid "The authors of the resource (listed in order of precedence, if significant)."
+msgid ""
+"The authors of the resource (listed in order of precedence, if significant)."
 msgstr ""
 
-#: src/properties.cpp:103 src/pentaxmn.cpp:769 src/pentaxmn.cpp:770
+#: src/properties.cpp:103 src/pentaxmn.cpp:770 src/pentaxmn.cpp:771
 msgid "Date"
 msgstr "Datum"
 
@@ -2333,7 +2347,8 @@ msgstr "Erstellungsdatum"
 
 #: src/properties.cpp:138
 msgid "The date and time the resource was originally created."
-msgstr "Das Datum und die Uhrzeit an dem die Ressource im Original erstellt wurde."
+msgstr ""
+"Das Datum und die Uhrzeit an dem die Ressource im Original erstellt wurde."
 
 #: src/properties.cpp:139
 msgid "Creator Tool"
@@ -2655,15 +2670,18 @@ msgstr "Maximale Seitengröße"
 msgid ""
 "The size of the largest page in the document (including any in contained "
 "documents)."
-msgstr "Die Größe der größten Seite, inklusive aller eingebetten Seiten, im Dokument."
+msgstr ""
+"Die Größe der größten Seite, inklusive aller eingebetten Seiten, im Dokument."
 
 #: src/properties.cpp:234
 msgid "Number of Pages"
 msgstr "Anzahl der Seiten"
 
 #: src/properties.cpp:234
-msgid "The number of pages in the document (including any in contained documents)."
-msgstr "Die Anzahl der Seiten, inklusive aller eingebetten Seiten, des Dokuments."
+msgid ""
+"The number of pages in the document (including any in contained documents)."
+msgstr ""
+"Die Anzahl der Seiten, inklusive aller eingebetten Seiten, des Dokuments."
 
 #: src/properties.cpp:235
 msgid "Fonts"
@@ -2718,7 +2736,8 @@ msgstr "Video-Bildgröße"
 
 #: src/properties.cpp:245
 msgid "The frame size. For example: w:720, h: 480, unit:pixels"
-msgstr "Die Größe des Video Bildes, z.B. Breite: 720, Höhe: 480, Einheit: Pixel"
+msgstr ""
+"Die Größe des Video Bildes, z.B. Breite: 720, Höhe: 480, Einheit: Pixel"
 
 #: src/properties.cpp:246
 msgid "Video Pixel Aspect Ratio"
@@ -2812,7 +2831,8 @@ msgid "Audio Sample Rate"
 msgstr "Audio-Abtastrate"
 
 #: src/properties.cpp:259
-msgid "The audio sample rate. Can be any value, but commonly 32000, 41100, or 48000."
+msgid ""
+"The audio sample rate. Can be any value, but commonly 32000, 41100, or 48000."
 msgstr ""
 
 #: src/properties.cpp:260
@@ -3127,7 +3147,8 @@ msgstr "Schleife"
 
 #: src/properties.cpp:298
 msgid "When true, the clip can be looped seemlessly."
-msgstr "Wenn dieser gesetzt ist, dann kann der Clip nahtlos in einer Schleife laufen."
+msgstr ""
+"Wenn dieser gesetzt ist, dann kann der Clip nahtlos in einer Schleife laufen."
 
 #: src/properties.cpp:299
 msgid "Number Of Beats"
@@ -3142,7 +3163,8 @@ msgid "Key"
 msgstr "Schlüssel"
 
 #: src/properties.cpp:300
-msgid "The audio's musical key. One of: C, C#, D, D#, E, F, F#, G, G#, A, A#, B."
+msgid ""
+"The audio's musical key. One of: C, C#, D, D#, E, F, F#, G, G#, A, A#, B."
 msgstr ""
 "Der musikalische Schlüssel des Audios. Dies ist einer aus : C, C#, D, D#, E, "
 "F, F#, G, G#, A, A#, B."
@@ -3318,7 +3340,8 @@ msgstr "Automatische Helligkeit"
 
 #: src/properties.cpp:350
 msgid "When true, \"Brightness\" is automatically adjusted."
-msgstr "Wenn diese Option gesetzt ist, dann wird die Helligkeit automatisch justiert."
+msgstr ""
+"Wenn diese Option gesetzt ist, dann wird die Helligkeit automatisch justiert."
 
 #: src/properties.cpp:351
 msgid "Auto Contrast"
@@ -3326,7 +3349,8 @@ msgstr "Autokontrast"
 
 #: src/properties.cpp:351
 msgid "When true, \"Contrast\" is automatically adjusted."
-msgstr "Wenn diese Option gesetzt ist, dann wird der kontrast automatisch justiert."
+msgstr ""
+"Wenn diese Option gesetzt ist, dann wird der kontrast automatisch justiert."
 
 #: src/properties.cpp:352
 msgid "Auto Exposure"
@@ -3334,7 +3358,8 @@ msgstr "Automatische Belichtung"
 
 #: src/properties.cpp:352
 msgid "When true, \"Exposure\" is automatically adjusted."
-msgstr "Wenn diese Option gesetzt ist, dann wird die Belichtung automatisch justiert."
+msgstr ""
+"Wenn diese Option gesetzt ist, dann wird die Belichtung automatisch justiert."
 
 #: src/properties.cpp:353
 msgid "Auto Shadows"
@@ -3342,7 +3367,8 @@ msgstr "Automatisch (Schatten)"
 
 #: src/properties.cpp:353
 msgid "When true,\"Shadows\" is automatically adjusted."
-msgstr "Wenn diese Option gesetzt ist, dann werden die Schatten automatisch justiert."
+msgstr ""
+"Wenn diese Option gesetzt ist, dann werden die Schatten automatisch justiert."
 
 #: src/properties.cpp:354
 msgid "Blue Hue"
@@ -3384,7 +3410,8 @@ msgstr "Fotometrische Interpretation"
 
 #: src/properties.cpp:358
 #, fuzzy
-msgid "\"Chromatic Aberration, Fix Blue/Yellow Fringe\" setting. Range -100 to +100."
+msgid ""
+"\"Chromatic Aberration, Fix Blue/Yellow Fringe\" setting. Range -100 to +100."
 msgstr "Sättigungseinstellung"
 
 #: src/properties.cpp:359
@@ -3394,7 +3421,8 @@ msgstr "Fotometrische Interpretation"
 
 #: src/properties.cpp:359
 #, fuzzy
-msgid "\"Chromatic Aberration, Fix Red/Cyan Fringe\" setting. Range -100 to +100."
+msgid ""
+"\"Chromatic Aberration, Fix Red/Cyan Fringe\" setting. Range -100 to +100."
 msgstr "Sättigungseinstellung"
 
 #: src/properties.cpp:360
@@ -3403,14 +3431,15 @@ msgstr "Farbrauschunterdrückung"
 
 #: src/properties.cpp:360
 msgid "\"Color Noise Reducton\" setting. Range 0 to +100."
-msgstr "Einstellung der \"Farbrauschunterdrückung\". Im Bereich von 0 bis +100."
+msgstr ""
+"Einstellung der \"Farbrauschunterdrückung\". Im Bereich von 0 bis +100."
 
 #: src/properties.cpp:361 src/properties.cpp:704 src/tags.cpp:930
 #: src/canonmn.cpp:457 src/minoltamn.cpp:507 src/minoltamn.cpp:695
 #: src/minoltamn.cpp:696 src/minoltamn.cpp:922 src/minoltamn.cpp:923
 #: src/minoltamn.cpp:1154 src/minoltamn.cpp:1155 src/olympusmn.cpp:320
-#: src/panasonicmn.cpp:248 src/pentaxmn.cpp:736 src/pentaxmn.cpp:826
-#: src/pentaxmn.cpp:827 src/sigmamn.cpp:99 src/sigmamn.cpp:100
+#: src/panasonicmn.cpp:248 src/pentaxmn.cpp:737 src/pentaxmn.cpp:827
+#: src/pentaxmn.cpp:828 src/sigmamn.cpp:99 src/sigmamn.cpp:100
 msgid "Contrast"
 msgstr "Kontrast"
 
@@ -3423,40 +3452,55 @@ msgid "Crop Top"
 msgstr "Oben zuschneiden"
 
 #: src/properties.cpp:362
-msgid "When HasCrop is true, top of crop rectangle"
-msgstr "Wenn die Option \"Zuschneiden\" gesetzt ist, dann wird das Rechteck oben zugeschnitten"
+#, fuzzy
+msgid "When \"Has Crop\" is true, top of crop rectangle"
+msgstr ""
+"Wenn die Option \"Zuschneiden\" gesetzt ist, dann wird das Rechteck oben "
+"zugeschnitten"
 
 #: src/properties.cpp:363
 msgid "Crop Left"
 msgstr "Links zuschneiden"
 
 #: src/properties.cpp:363
-msgid "When HasCrop is true, left of crop rectangle."
-msgstr "Wenn die Option \"Zuschneiden\" gesetzt ist, dann wird das Rechteck links zugeschnitten"
+#, fuzzy
+msgid "When \"Has Crop\" is true, left of crop rectangle."
+msgstr ""
+"Wenn die Option \"Zuschneiden\" gesetzt ist, dann wird das Rechteck links "
+"zugeschnitten"
 
 #: src/properties.cpp:364
 msgid "Crop Bottom"
 msgstr "Unten zuschneiden"
 
 #: src/properties.cpp:364
-msgid "When HasCrop is true, bottom of crop rectangle."
-msgstr "Wenn die Option \"Zuschneiden\" gesetzt ist, dann wird das Rechteck unten zugeschnitten"
+#, fuzzy
+msgid "When \"Has Crop\" is true, bottom of crop rectangle."
+msgstr ""
+"Wenn die Option \"Zuschneiden\" gesetzt ist, dann wird das Rechteck unten "
+"zugeschnitten"
 
 #: src/properties.cpp:365
 msgid "Crop Right"
 msgstr "Rechts zuschneiden"
 
 #: src/properties.cpp:365
-msgid "When HasCrop is true, right of crop rectangle."
-msgstr "Wenn die Option \"Zuschneiden\" gesetzt ist, dann wird das Rechteck rechts zugeschnitten"
+#, fuzzy
+msgid "When \"Has Crop\" is true, right of crop rectangle."
+msgstr ""
+"Wenn die Option \"Zuschneiden\" gesetzt ist, dann wird das Rechteck rechts "
+"zugeschnitten"
 
 #: src/properties.cpp:366
 msgid "Crop Angle"
 msgstr "Winkel zuschneiden"
 
 #: src/properties.cpp:366
-msgid "When HasCrop is true, angle of crop rectangle."
-msgstr "Wenn die Option \"Zuschneiden\" gesetzt ist, dann werden die Winkel des Rechtecks zugeschnitten"
+#, fuzzy
+msgid "When \"Has Crop\" is true, angle of crop rectangle."
+msgstr ""
+"Wenn die Option \"Zuschneiden\" gesetzt ist, dann werden die Winkel des "
+"Rechtecks zugeschnitten"
 
 #: src/properties.cpp:367
 msgid "Crop Width"
@@ -3480,7 +3524,9 @@ msgstr "Zuschnittene Einheiten"
 
 #: src/properties.cpp:369
 msgid "Units for CropWidth and CropHeight. 0=pixels, 1=inches, 2=cm"
-msgstr "Einheit für \"Breite des Zuschnitts\" und \"Höhe des Zuschnitts\": 0=Pixel, 1=Zoll, 2=Zentimeter"
+msgstr ""
+"Einheit für \"Breite des Zuschnitts\" und \"Höhe des Zuschnitts\": 0=Pixel, "
+"1=Zoll, 2=Zentimeter"
 
 #: src/properties.cpp:370 src/minoltamn.cpp:506 src/sigmamn.cpp:96
 #: src/sigmamn.cpp:97
@@ -3513,7 +3559,8 @@ msgstr "Zuschneiden"
 
 #: src/properties.cpp:373
 msgid "When true, image has a cropping rectangle."
-msgstr "Wenn die Option gesetzt ist, dann hat das Bild ein zuschneidendes Rechteck."
+msgstr ""
+"Wenn die Option gesetzt ist, dann hat das Bild ein zuschneidendes Rechteck."
 
 #: src/properties.cpp:374
 #, fuzzy
@@ -3562,8 +3609,8 @@ msgstr "Einstellungen der \"Rotsättigung\". Im Bereich von -100 bis +100."
 #: src/minoltamn.cpp:693 src/minoltamn.cpp:925 src/minoltamn.cpp:926
 #: src/minoltamn.cpp:1157 src/minoltamn.cpp:1158 src/nikonmn.cpp:714
 #: src/nikonmn.cpp:715 src/nikonmn.cpp:765 src/nikonmn.cpp:766
-#: src/pentaxmn.cpp:730 src/pentaxmn.cpp:823 src/pentaxmn.cpp:824
-#: src/pentaxmn.cpp:956 src/pentaxmn.cpp:957 src/sigmamn.cpp:108
+#: src/pentaxmn.cpp:731 src/pentaxmn.cpp:824 src/pentaxmn.cpp:825
+#: src/pentaxmn.cpp:957 src/pentaxmn.cpp:958 src/sigmamn.cpp:108
 #: src/sigmamn.cpp:109
 msgid "Saturation"
 msgstr "Sättigung"
@@ -3591,8 +3638,8 @@ msgstr "Einstellungen der\"dunklen Tinte\". Im Bereich von -100 bis +100."
 #: src/properties.cpp:382 src/properties.cpp:706 src/tags.cpp:938
 #: src/canonmn.cpp:459 src/fujimn.cpp:196 src/minoltamn.cpp:698
 #: src/minoltamn.cpp:699 src/minoltamn.cpp:919 src/minoltamn.cpp:920
-#: src/minoltamn.cpp:1151 src/minoltamn.cpp:1152 src/pentaxmn.cpp:733
-#: src/pentaxmn.cpp:829 src/pentaxmn.cpp:830 src/sigmamn.cpp:111
+#: src/minoltamn.cpp:1151 src/minoltamn.cpp:1152 src/pentaxmn.cpp:734
+#: src/pentaxmn.cpp:830 src/pentaxmn.cpp:831 src/sigmamn.cpp:111
 #: src/sigmamn.cpp:112
 msgid "Sharpness"
 msgstr "Schärfe"
@@ -3601,7 +3648,7 @@ msgstr "Schärfe"
 msgid "\"Sharpness\" setting. Range 0 to +100."
 msgstr "Einstellungen der\"Schärfe\". Im Bereich von 0 bis +100."
 
-#: src/properties.cpp:383 src/pentaxmn.cpp:874
+#: src/properties.cpp:383 src/pentaxmn.cpp:875
 msgid "Temperature"
 msgstr "Temperatur"
 
@@ -3636,7 +3683,7 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:388 src/fujimn.cpp:186 src/nikonmn.cpp:163
-#: src/nikonmn.cpp:579 src/pentaxmn.cpp:751
+#: src/nikonmn.cpp:579 src/pentaxmn.cpp:752
 msgid "Version"
 msgstr "Version"
 
@@ -3650,7 +3697,8 @@ msgstr "Vignettierungsmenge"
 
 #: src/properties.cpp:389
 msgid "\"Vignetting Amount\" setting. Range -100 to +100."
-msgstr "Einstellungen der \"Vignettierungsmenge\". Im Bereich von -100 bis +100."
+msgstr ""
+"Einstellungen der \"Vignettierungsmenge\". Im Bereich von -100 bis +100."
 
 #: src/properties.cpp:390
 msgid "Vignette Midpoint"
@@ -3658,7 +3706,8 @@ msgstr "Vignettierungsmittelpunkt"
 
 #: src/properties.cpp:390
 msgid "\"Vignetting Midpoint\" setting. Range 0 to +100."
-msgstr "Einstellung des \"Vignettierungsmittelpunkt\". Im Bereich von -150 bis +150."
+msgstr ""
+"Einstellung des \"Vignettierungsmittelpunkt\". Im Bereich von -150 bis +150."
 
 #: src/properties.cpp:391 src/properties.cpp:697 src/tags.cpp:908
 #: src/canonmn.cpp:553 src/fujimn.cpp:199 src/minoltamn.cpp:617
@@ -3697,7 +3746,8 @@ msgstr "Bits pro Abtastung"
 
 #: src/properties.cpp:400
 msgid "TIFF tag 258, 0x102. Number of bits per component in each channel."
-msgstr "TIFF-Stichwort 258, 0x102: Anzahl der Bits pro Komponente in jedem Kanal."
+msgstr ""
+"TIFF-Stichwort 258, 0x102: Anzahl der Bits pro Komponente in jedem Kanal."
 
 #: src/properties.cpp:401 src/tags.cpp:254
 msgid "Compression"
@@ -3705,7 +3755,9 @@ msgstr "Kompression"
 
 #: src/properties.cpp:401
 msgid "TIFF tag 259, 0x103. Compression scheme: 1 = uncompressed; 6 = JPEG."
-msgstr "TIFF-Stichwort 259, 0x103: Kompressionsschema: 1 = keine Kompression; 6 = JPEG."
+msgstr ""
+"TIFF-Stichwort 259, 0x103: Kompressionsschema: 1 = keine Kompression; 6 = "
+"JPEG."
 
 #: src/properties.cpp:402 src/tags.cpp:260
 msgid "Photometric Interpretation"
@@ -3770,7 +3822,8 @@ msgstr "x-Auflösung"
 
 #: src/properties.cpp:418
 msgid "TIFF tag 282, 0x11A. Horizontal resolution in pixels per unit."
-msgstr "TIFF-Stichwort 282, 0x11A. Horizontale Auflösung in Pixeln pro Einheit."
+msgstr ""
+"TIFF-Stichwort 282, 0x11A. Horizontale Auflösung in Pixeln pro Einheit."
 
 #: src/properties.cpp:419
 msgid "Y Resolution"
@@ -3788,7 +3841,9 @@ msgstr "Maßeinheit der Auflösung"
 msgid ""
 "TIFF tag 296, 0x128. Unit used for XResolution and YResolution. Value is one "
 "of: 2 = inches; 3 = centimeters."
-msgstr "TIFF-Stichwort 296, 0x128. Die für die x- und y-Auflösung benutzten Einheiten. Der Wert ist: 2 = Zoll; 3 = Zentimeter."
+msgstr ""
+"TIFF-Stichwort 296, 0x128. Die für die x- und y-Auflösung benutzten "
+"Einheiten. Der Wert ist: 2 = Zoll; 3 = Zentimeter."
 
 #: src/properties.cpp:422 src/tags.cpp:333
 msgid "Transfer Function"
@@ -3821,7 +3876,8 @@ msgid "YCbCr Coefficients"
 msgstr "YCbCr Koeffizienten"
 
 #: src/properties.cpp:426
-msgid "TIFF tag 529, 0x211. Matrix coefficients for RGB to YCbCr transformation."
+msgid ""
+"TIFF tag 529, 0x211. Matrix coefficients for RGB to YCbCr transformation."
 msgstr ""
 
 #: src/properties.cpp:427
@@ -3853,7 +3909,9 @@ msgstr "Bildbeschreibung"
 msgid ""
 "TIFF tag 270, 0x10E. Description of the image. Note: This property is stored "
 "in XMP as dc:description."
-msgstr "TIFF-Stichwort 270, 0x10E. Beschreibung des Bildes. Achtung: Diese Eigenschaft wird in XMP unter dc:description gespeichert."
+msgstr ""
+"TIFF-Stichwort 270, 0x10E. Beschreibung des Bildes. Achtung: Diese "
+"Eigenschaft wird in XMP unter dc:description gespeichert."
 
 #: src/properties.cpp:435
 msgid "Make"
@@ -3880,13 +3938,19 @@ msgstr "Software"
 msgid ""
 "TIFF tag 305, 0x131. Software or firmware used to generate image. Note: This "
 "property is stored in XMP as xmp:CreatorTool. "
-msgstr "TIFF-Stichwort 305, 0x131. Software oder Firmware, die benutzt wurde um die Bilder zu erstellen. Achtung: Diese Eigenschaft wird in XMP unter xmp:CreatorTool gespeichert."
+msgstr ""
+"TIFF-Stichwort 305, 0x131. Software oder Firmware, die benutzt wurde um die "
+"Bilder zu erstellen. Achtung: Diese Eigenschaft wird in XMP unter xmp:"
+"CreatorTool gespeichert."
 
 #: src/properties.cpp:439
 msgid ""
 "TIFF tag 315, 0x13B. Camera owner, photographer or image creator. Note: This "
 "property is stored in XMP as the first item in the dc:creator array."
-msgstr "TIFF-Stichwort 315, 0x13B. Kamerabesitzer, Fotograph oder Bildersteller. Achtung: Diese Eigenschaft wird in XMP als erster Eintrag im Feld dc:creator gespeichert."
+msgstr ""
+"TIFF-Stichwort 315, 0x13B. Kamerabesitzer, Fotograph oder Bildersteller. "
+"Achtung: Diese Eigenschaft wird in XMP als erster Eintrag im Feld dc:creator "
+"gespeichert."
 
 #: src/properties.cpp:441
 msgid ""
@@ -4359,7 +4423,9 @@ msgstr "Komprimierte Bits pro Pixel"
 msgid ""
 "EXIF tag 37122, 0x9102. Compression mode used for a compressed image is "
 "indicated in unit bits per pixel."
-msgstr "EXIF-Stichwort 37122, 0x9102. Kompressionsmodus der benutzt wurde, um das Bild zu komprimieren in der Einheit Bits pro Pixel."
+msgstr ""
+"EXIF-Stichwort 37122, 0x9102. Kompressionsmodus der benutzt wurde, um das "
+"Bild zu komprimieren in der Einheit Bits pro Pixel."
 
 #: src/properties.cpp:652 src/tags.cpp:816
 msgid "Pixel X Dimension"
@@ -4390,8 +4456,11 @@ msgid "Related Sound File"
 msgstr "Zugehörige Audiodatei"
 
 #: src/properties.cpp:655
-msgid "EXIF tag 40964, 0xA004. An \"8.3\" file name for the related sound file."
-msgstr "EXIF-Stichwort 40964, 0xA004. Ein \"8.3\" Dateiname für die zugehörige Sounddatei."
+msgid ""
+"EXIF tag 40964, 0xA004. An \"8.3\" file name for the related sound file."
+msgstr ""
+"EXIF-Stichwort 40964, 0xA004. Ein \"8.3\" Dateiname für die zugehörige "
+"Sounddatei."
 
 #: src/properties.cpp:656
 msgid "Date and Time Original"
@@ -4402,7 +4471,10 @@ msgid ""
 "EXIF tags 36867, 0x9003 (primary) and 37521, 0x9291 (subseconds). Date and "
 "time when original image was generated, in ISO 8601 format. Includes the "
 "EXIF SubSecTimeOriginal data."
-msgstr "EXIF-Stichwort 36867, 0x9003 (primär) und 37521, 0x9291 (Sekundenbruchteile). Datum und Zeit, im ISO 8601-Format, an dem das Originalbild erstellt wurde. Enthält die EXIF-SubSecTimeOriginal Daten."
+msgstr ""
+"EXIF-Stichwort 36867, 0x9003 (primär) und 37521, 0x9291 "
+"(Sekundenbruchteile). Datum und Zeit, im ISO 8601-Format, an dem das "
+"Originalbild erstellt wurde. Enthält die EXIF-SubSecTimeOriginal Daten."
 
 #: src/properties.cpp:659
 msgid "Date and Time Digitized"
@@ -4414,7 +4486,12 @@ msgid ""
 "time when image was stored as digital data, can be the same as "
 "DateTimeOriginal if originally stored in digital form. Stored in ISO 8601 "
 "format. Includes the EXIF SubSecTimeDigitized data."
-msgstr "EXIF-Stichwort36868, 0x9004 (primär) und 37522, 0x9292 (Sekundenbruchteilen). Datum und Zeit zu dem das Bild als digitale Daten gespeichert wurde. Der Wert is identisch mit DateTimeOriginal, falls das Bild im original digital gespeichert wurde. Gespeichert wird im ISO 8601-Format und enthält die EXIF-SubSecTimeDigitized-Daten."
+msgstr ""
+"EXIF-Stichwort36868, 0x9004 (primär) und 37522, 0x9292 "
+"(Sekundenbruchteilen). Datum und Zeit zu dem das Bild als digitale Daten "
+"gespeichert wurde. Der Wert is identisch mit DateTimeOriginal, falls das "
+"Bild im original digital gespeichert wurde. Gespeichert wird im ISO 8601-"
+"Format und enthält die EXIF-SubSecTimeDigitized-Daten."
 
 #: src/properties.cpp:663 src/tags.cpp:697 src/minoltamn.cpp:635
 #: src/minoltamn.cpp:942 src/minoltamn.cpp:1160
@@ -4439,7 +4516,9 @@ msgstr "Belichtungsprogramm"
 
 #: src/properties.cpp:665
 msgid "EXIF tag 34850, 0x8822. Class of program used for exposure."
-msgstr "EXIF-Stichwort 34850, 0x8822. Klasse des Programmes das für die Belichtung benutzt wurde."
+msgstr ""
+"EXIF-Stichwort 34850, 0x8822. Klasse des Programmes das für die Belichtung "
+"benutzt wurde."
 
 #: src/properties.cpp:666 src/tags.cpp:707
 msgid "Spectral Sensitivity"
@@ -4457,7 +4536,9 @@ msgstr "ISO Geschwindigkeitsangabe"
 msgid ""
 "EXIF tag 34855, 0x8827. ISO Speed and ISO Latitude of the input device as "
 "specified in ISO 12232."
-msgstr "EXIF-Stichwort 34855, 0x8827. Gibt die ISO Geschwindigkeit und -breite der Kamera bzw. des Eingabegeräts an, wie in ISO 12232 spezifiziert."
+msgstr ""
+"EXIF-Stichwort 34855, 0x8827. Gibt die ISO Geschwindigkeit und -breite der "
+"Kamera bzw. des Eingabegeräts an, wie in ISO 12232 spezifiziert."
 
 #: src/properties.cpp:669
 msgid "OECF"
@@ -4561,7 +4642,8 @@ msgstr "Motivbereich"
 msgid ""
 "EXIF tag 37396, 0x9214. The location and area of the main subject in the "
 "overall scene."
-msgstr "Dieses Stichwort gibt die Position und Größe des Hauptmotivs in der Szene an."
+msgstr ""
+"Dieses Stichwort gibt die Position und Größe des Hauptmotivs in der Szene an."
 
 #: src/properties.cpp:681 src/tags.cpp:847
 msgid "Flash Energy"
@@ -4830,7 +4912,8 @@ msgid "GPS Latitude"
 msgstr "GPS-Breitengrad"
 
 #: src/properties.cpp:713
-msgid "GPS tag 2, 0x02 (position) and 1, 0x01 (North/South). Indicates latitude."
+msgid ""
+"GPS tag 2, 0x02 (position) and 1, 0x01 (North/South). Indicates latitude."
 msgstr ""
 
 #: src/properties.cpp:714 src/tags.cpp:1016
@@ -4838,7 +4921,8 @@ msgid "GPS Longitude"
 msgstr "GPS-Längengrad"
 
 #: src/properties.cpp:714
-msgid "GPS tag 4, 0x04 (position) and 3, 0x03 (East/West). Indicates longitude."
+msgid ""
+"GPS tag 4, 0x04 (position) and 3, 0x03 (East/West). Indicates longitude."
 msgstr ""
 
 #: src/properties.cpp:715 src/tags.cpp:1024
@@ -4846,7 +4930,8 @@ msgid "GPS Altitude Reference"
 msgstr "GPS-Höhenreferenz"
 
 #: src/properties.cpp:715
-msgid "GPS tag 5, 0x5. Indicates whether the altitude is above or below sea level."
+msgid ""
+"GPS tag 5, 0x5. Indicates whether the altitude is above or below sea level."
 msgstr ""
 
 #: src/properties.cpp:716 src/tags.cpp:1032
@@ -4935,7 +5020,8 @@ msgid "GPS Track"
 msgstr "GPS-Spur"
 
 #: src/properties.cpp:730
-msgid "GPS tag 15, 0x0F. Direction of GPS movement, values range from 0 to 359.99."
+msgid ""
+"GPS tag 15, 0x0F. Direction of GPS movement, values range from 0 to 359.99."
 msgstr ""
 
 #: src/properties.cpp:731 src/tags.cpp:1076
@@ -5036,7 +5122,8 @@ msgid "GPS Area Information"
 msgstr "GPS Bereichsinformation"
 
 #: src/properties.cpp:741
-msgid "GPS tag 28, 0x1C. A character string recording the name of the GPS area."
+msgid ""
+"GPS tag 28, 0x1C. A character string recording the name of the GPS area."
 msgstr ""
 
 #: src/properties.cpp:742 src/tags.cpp:1139
@@ -5069,7 +5156,8 @@ msgid "SerialNumber"
 msgstr "Seriennummer"
 
 #: src/properties.cpp:749
-msgid "The serial number of the camera or camera body used to take the photograph."
+msgid ""
+"The serial number of the camera or camera body used to take the photograph."
 msgstr ""
 
 #: src/properties.cpp:755
@@ -5174,7 +5262,7 @@ msgid ""
 "object, not specifically its content."
 msgstr ""
 
-#: src/properties.cpp:772 src/pentaxmn.cpp:832 src/pentaxmn.cpp:833
+#: src/properties.cpp:772 src/pentaxmn.cpp:833 src/pentaxmn.cpp:834
 msgid "Location"
 msgstr "Ort"
 
@@ -5969,7 +6057,8 @@ msgstr "Windows-Bewertung in Prozent"
 
 #: src/tags.cpp:432
 msgid "Rating tag used by Windows, value in percent"
-msgstr "Bewertungsstichwort das von Windows benutzt wird. Der Wert ist in Prozent."
+msgstr ""
+"Bewertungsstichwort das von Windows benutzt wird. Der Wert ist in Prozent."
 
 #: src/tags.cpp:434
 msgid "CFA Repeat Pattern Dimension"
@@ -6258,11 +6347,13 @@ msgstr "Blitz ausgelöst, fester Modus, Rote-Augen-Reduktion"
 
 #: src/tags.cpp:591
 msgid "Yes, compulsory, red-eye reduction, return light not detected"
-msgstr "Blitz ausgelöst, fester Modus, Rote-Augen-Reduktion, keine Reflektion erkannt"
+msgstr ""
+"Blitz ausgelöst, fester Modus, Rote-Augen-Reduktion, keine Reflektion erkannt"
 
 #: src/tags.cpp:592
 msgid "Yes, compulsory, red-eye reduction, return light detected"
-msgstr "Blitz ausgelöst, fester Modus, Rote-Augen-Reduktion, Reflektion erkannt"
+msgstr ""
+"Blitz ausgelöst, fester Modus, Rote-Augen-Reduktion, Reflektion erkannt"
 
 #: src/tags.cpp:593
 msgid "No, red-eye reduction"
@@ -6420,7 +6511,8 @@ msgstr "Datum und Uhrzeit (digitalisiert)"
 
 #: src/tags.cpp:730
 msgid "The date and time when the image was stored as digital data."
-msgstr "Das Datum und die Uhrzeit der Speicherung des Bildes als digitale Daten."
+msgstr ""
+"Das Datum und die Uhrzeit der Speicherung des Bildes als digitale Daten."
 
 #: src/tags.cpp:733
 msgid ""
@@ -6514,7 +6606,8 @@ msgid "The kind of light source."
 msgstr "Die Art der Lichtquelle."
 
 #: src/tags.cpp:776
-msgid "This tag is recorded when an image is taken using a strobe light (flash)."
+msgid ""
+"This tag is recorded when an image is taken using a strobe light (flash)."
 msgstr ""
 "Dieser Eintrag wird aufgezeichnet, wenn das Bild mit einem Blitz gemacht "
 "wurde."
@@ -6531,7 +6624,8 @@ msgstr ""
 msgid ""
 "This tag indicates the location and area of the main subject in the overall "
 "scene."
-msgstr "Dieses Stichwort gibt die Position und Größe des Hauptmotivs in der Szene an."
+msgstr ""
+"Dieses Stichwort gibt die Position und Größe des Hauptmotivs in der Szene an."
 
 #: src/tags.cpp:786
 msgid "Maker Note"
@@ -6567,7 +6661,8 @@ msgid "Sub-seconds Time Original"
 msgstr "Sekundenbruchteile (original)"
 
 #: src/tags.cpp:799
-msgid "A tag used to record fractions of seconds for the <DateTimeOriginal> tag."
+msgid ""
+"A tag used to record fractions of seconds for the <DateTimeOriginal> tag."
 msgstr ""
 "Das Stichwort wird benutzt um Sekundenbruchteile für des <DateTimeOriginal>-"
 "Stichwort zu erfassen."
@@ -6577,7 +6672,8 @@ msgid "Sub-seconds Time Digitized"
 msgstr "Sekundenbruchteile (digitalisiert)"
 
 #: src/tags.cpp:802
-msgid "A tag used to record fractions of seconds for the <DateTimeDigitized> tag."
+msgid ""
+"A tag used to record fractions of seconds for the <DateTimeDigitized> tag."
 msgstr ""
 "Das Stichwort wird benutzt um Sekundenbruchteile für das <DateTimeDigitized>-"
 "Stichwort zu erfassen."
@@ -7211,7 +7307,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:1140
-msgid "Indicates whether differential correction is applied to the GPS receiver."
+msgid ""
+"Indicates whether differential correction is applied to the GPS receiver."
 msgstr ""
 
 #: src/tags.cpp:1143 src/tags.cpp:1144
@@ -8206,7 +8303,7 @@ msgid "Normal AE"
 msgstr ""
 
 #: src/canonmn.cpp:418 src/minoltamn.cpp:648 src/minoltamn.cpp:914
-#: src/minoltamn.cpp:1182 src/pentaxmn.cpp:802 src/pentaxmn.cpp:803
+#: src/minoltamn.cpp:1182 src/pentaxmn.cpp:803 src/pentaxmn.cpp:804
 msgid "Exposure compensation"
 msgstr "Belichtungskompensation"
 
@@ -8290,7 +8387,7 @@ msgid "Image Size"
 msgstr "Bildgrõße"
 
 #: src/canonmn.cpp:454 src/minoltamn.cpp:621 src/minoltamn.cpp:890
-#: src/minoltamn.cpp:1128 src/pentaxmn.cpp:778
+#: src/minoltamn.cpp:1128 src/pentaxmn.cpp:779
 msgid "Image size"
 msgstr "Bildgrõße"
 
@@ -9124,7 +9221,7 @@ msgstr "Ablaufsnummer"
 msgid "Frame Number"
 msgstr "Einzelbildnummer"
 
-#: src/fujimn.cpp:284 src/pentaxmn.cpp:848 src/pentaxmn.cpp:849
+#: src/fujimn.cpp:284 src/pentaxmn.cpp:849 src/pentaxmn.cpp:850
 msgid "Frame number"
 msgstr "Einzelbildnummer"
 
@@ -9148,7 +9245,7 @@ msgstr "Solarisation"
 msgid "AdobeRGB"
 msgstr "AdobeRGB"
 
-#: src/minoltamn.cpp:63 src/panasonicmn.cpp:180 src/pentaxmn.cpp:608
+#: src/minoltamn.cpp:63 src/panasonicmn.cpp:180 src/pentaxmn.cpp:609
 msgid "Natural"
 msgstr "Natürlich"
 
@@ -9201,7 +9298,8 @@ msgid "Camera Settings (Std Old)"
 msgstr ""
 
 #: src/minoltamn.cpp:237
-msgid "Standard Camera settings (Old Camera models like D5, D7, S304, and S404)"
+msgid ""
+"Standard Camera settings (Old Camera models like D5, D7, S304, and S404)"
 msgstr ""
 
 #: src/minoltamn.cpp:239
@@ -9500,11 +9598,11 @@ msgid "Manual flash control"
 msgstr "Manuelle Blitzkontrolle"
 
 #: src/minoltamn.cpp:615 src/minoltamn.cpp:666 src/minoltamn.cpp:908
-#: src/olympusmn.cpp:210 src/pentaxmn.cpp:782
+#: src/olympusmn.cpp:210 src/pentaxmn.cpp:783
 msgid "Flash mode"
 msgstr "Blitzmodus"
 
-#: src/minoltamn.cpp:627 src/pentaxmn.cpp:858 src/pentaxmn.cpp:859
+#: src/minoltamn.cpp:627 src/pentaxmn.cpp:859 src/pentaxmn.cpp:860
 #: src/sigmamn.cpp:71
 msgid "Drive mode"
 msgstr ""
@@ -9708,7 +9806,7 @@ msgstr ""
 
 #: src/minoltamn.cpp:744 src/minoltamn.cpp:899 src/minoltamn.cpp:1173
 #: src/nikonmn.cpp:182 src/nikonmn.cpp:460 src/nikonmn.cpp:598
-#: src/olympusmn.cpp:231 src/panasonicmn.cpp:198 src/pentaxmn.cpp:785
+#: src/olympusmn.cpp:231 src/panasonicmn.cpp:198 src/pentaxmn.cpp:786
 msgid "Focus mode"
 msgstr "Fokusmodus"
 
@@ -9804,8 +9902,8 @@ msgstr "AF Punkt"
 msgid "AF points"
 msgstr "AF Punkte"
 
-#: src/minoltamn.cpp:917 src/nikonmn.cpp:658 src/pentaxmn.cpp:862
-#: src/pentaxmn.cpp:863 src/sigmamn.cpp:94
+#: src/minoltamn.cpp:917 src/nikonmn.cpp:658 src/pentaxmn.cpp:863
+#: src/pentaxmn.cpp:864 src/sigmamn.cpp:94
 msgid "Color space"
 msgstr "Farbraum"
 
@@ -9829,8 +9927,8 @@ msgid "Rotation"
 msgstr "Drehung"
 
 #: src/minoltamn.cpp:953 src/minoltamn.cpp:1197 src/nikonmn.cpp:718
-#: src/olympusmn.cpp:369 src/panasonicmn.cpp:252 src/pentaxmn.cpp:878
-#: src/pentaxmn.cpp:879
+#: src/olympusmn.cpp:369 src/panasonicmn.cpp:252 src/pentaxmn.cpp:879
+#: src/pentaxmn.cpp:880
 msgid "Noise reduction"
 msgstr "Rauschreduktion"
 
@@ -10231,11 +10329,11 @@ msgstr "Belichtungsabstand"
 msgid "Exposure difference"
 msgstr "Belichtungsabstand"
 
-#: src/nikonmn.cpp:627 src/pentaxmn.cpp:763
+#: src/nikonmn.cpp:627 src/pentaxmn.cpp:764
 msgid "Pointer to a preview image"
 msgstr ""
 
-#: src/nikonmn.cpp:628 src/pentaxmn.cpp:764
+#: src/nikonmn.cpp:628 src/pentaxmn.cpp:765
 msgid "Offset to an IFD containing a preview image"
 msgstr ""
 
@@ -10283,7 +10381,7 @@ msgstr ""
 msgid "Image Processing"
 msgstr "Bildverarbeitung"
 
-#: src/nikonmn.cpp:649 src/pentaxmn.cpp:852 src/pentaxmn.cpp:853
+#: src/nikonmn.cpp:649 src/pentaxmn.cpp:853 src/pentaxmn.cpp:854
 msgid "Image processing"
 msgstr "Bildverarbeitung"
 
@@ -10307,7 +10405,7 @@ msgstr "Tonkompensation"
 msgid "Lens Type"
 msgstr "Linsentyp"
 
-#: src/nikonmn.cpp:670 src/pentaxmn.cpp:866 src/pentaxmn.cpp:867
+#: src/nikonmn.cpp:670 src/pentaxmn.cpp:867 src/pentaxmn.cpp:868
 msgid "Lens type"
 msgstr "Linsentyp"
 
@@ -10319,7 +10417,7 @@ msgstr "Modus des benutzten Blitzes"
 msgid "Shooting Mode"
 msgstr "Aufnahmemodus"
 
-#: src/nikonmn.cpp:688 src/panasonicmn.cpp:209 src/pentaxmn.cpp:754
+#: src/nikonmn.cpp:688 src/panasonicmn.cpp:209 src/pentaxmn.cpp:755
 msgid "Shooting mode"
 msgstr "Aufnahmemodus"
 
@@ -10743,7 +10841,7 @@ msgstr "Seriennummer 2"
 msgid "Serial number 2"
 msgstr "Seriennummer 2"
 
-#: src/olympusmn.cpp:303 src/pentaxmn.cpp:882 src/pentaxmn.cpp:883
+#: src/olympusmn.cpp:303 src/pentaxmn.cpp:883 src/pentaxmn.cpp:884
 msgid "Flash exposure compensation"
 msgstr ""
 
@@ -11603,7 +11701,7 @@ msgstr "Sehr weich"
 msgid "Very Hard"
 msgstr "Sehr hart"
 
-#: src/pentaxmn.cpp:320 src/pentaxmn.cpp:836
+#: src/pentaxmn.cpp:320 src/pentaxmn.cpp:837
 msgid "Home town"
 msgstr "Heimatstadt"
 
@@ -12063,239 +12161,239 @@ msgstr "K,M Linsen"
 msgid "A Series Lens"
 msgstr "A-Serien Linsen"
 
-#: src/pentaxmn.cpp:609
+#: src/pentaxmn.cpp:610
 msgid "Bright"
 msgstr "Helligkeit"
 
-#: src/pentaxmn.cpp:718
+#: src/pentaxmn.cpp:719
 msgid "No extended bracketing"
 msgstr "Keine erweiterte Erfassung"
 
-#: src/pentaxmn.cpp:724
+#: src/pentaxmn.cpp:725
 msgid "WB-BA"
 msgstr "WB-BA"
 
-#: src/pentaxmn.cpp:727
+#: src/pentaxmn.cpp:728
 msgid "WB-GM"
 msgstr "WB-GM"
 
-#: src/pentaxmn.cpp:739
+#: src/pentaxmn.cpp:740
 msgid "Unknown "
 msgstr "Unbekannt"
 
-#: src/pentaxmn.cpp:752
+#: src/pentaxmn.cpp:753
 msgid "Pentax Makernote version"
 msgstr ""
 
-#: src/pentaxmn.cpp:755
+#: src/pentaxmn.cpp:756
 msgid "Camera shooting mode"
 msgstr "Kamera-Aufnahmemodus"
 
-#: src/pentaxmn.cpp:757 src/pentaxmn.cpp:758
+#: src/pentaxmn.cpp:758 src/pentaxmn.cpp:759
 msgid "Resolution of a preview image"
 msgstr "Auflösung des Vorschaubildes"
 
-#: src/pentaxmn.cpp:760
+#: src/pentaxmn.cpp:761
 msgid "Length of a preview image"
 msgstr "Länge des Vorschaubildes"
 
-#: src/pentaxmn.cpp:761
+#: src/pentaxmn.cpp:762
 msgid "Size of an IFD containing a preview image"
 msgstr ""
 
-#: src/pentaxmn.cpp:766
+#: src/pentaxmn.cpp:767
 msgid "Model identification"
 msgstr "Modellidentifikation"
 
-#: src/pentaxmn.cpp:767
+#: src/pentaxmn.cpp:768
 msgid "Pentax model idenfication"
 msgstr "Pentax-Modellidentifikation"
 
-#: src/pentaxmn.cpp:772 src/pentaxmn.cpp:773
+#: src/pentaxmn.cpp:773 src/pentaxmn.cpp:774
 msgid "Time"
 msgstr "Zeit"
 
-#: src/pentaxmn.cpp:776
+#: src/pentaxmn.cpp:777
 msgid "Image quality settings"
 msgstr "Bildqualitätseinstellungen"
 
-#: src/pentaxmn.cpp:779
+#: src/pentaxmn.cpp:780
 msgid "Image size settings"
 msgstr "Bildgröße-Einstellungen"
 
-#: src/pentaxmn.cpp:783
+#: src/pentaxmn.cpp:784
 msgid "Flash mode settings"
 msgstr "Blitzmodus-Einstellungen"
 
-#: src/pentaxmn.cpp:786
+#: src/pentaxmn.cpp:787
 msgid "Focus mode settings"
 msgstr "Fokusmodus-Einstellungen"
 
-#: src/pentaxmn.cpp:788
+#: src/pentaxmn.cpp:789
 msgid "AF point"
 msgstr "AF-Punkt"
 
-#: src/pentaxmn.cpp:789
+#: src/pentaxmn.cpp:790
 msgid "Selected AF point"
 msgstr "Ausgewählter AF-Punkt"
 
-#: src/pentaxmn.cpp:795 src/pentaxmn.cpp:796
+#: src/pentaxmn.cpp:796 src/pentaxmn.cpp:797
 msgid "F-Number"
 msgstr "F-Nummer"
 
-#: src/pentaxmn.cpp:798
+#: src/pentaxmn.cpp:799
 msgid "ISO sensitivity"
 msgstr "ISO-Empfindlichkeit"
 
-#: src/pentaxmn.cpp:799
+#: src/pentaxmn.cpp:800
 msgid "ISO sensitivity settings"
 msgstr "ISO-Empfindlichkeitseinstellungen"
 
-#: src/pentaxmn.cpp:806 src/pentaxmn.cpp:807
+#: src/pentaxmn.cpp:807 src/pentaxmn.cpp:808
 msgid "MeteringMode"
 msgstr "Messmodus"
 
-#: src/pentaxmn.cpp:809 src/pentaxmn.cpp:810
+#: src/pentaxmn.cpp:810 src/pentaxmn.cpp:811
 msgid "AutoBracketing"
 msgstr "Automatischer Erfassung"
 
-#: src/pentaxmn.cpp:812 src/pentaxmn.cpp:813
+#: src/pentaxmn.cpp:813 src/pentaxmn.cpp:814
 msgid "White ballance"
 msgstr "Weißabgleich"
 
-#: src/pentaxmn.cpp:815 src/pentaxmn.cpp:816
+#: src/pentaxmn.cpp:816 src/pentaxmn.cpp:817
 msgid "White ballance mode"
 msgstr "Weißabgleichsmodus"
 
-#: src/pentaxmn.cpp:819 src/pentaxmn.cpp:820
+#: src/pentaxmn.cpp:820 src/pentaxmn.cpp:821
 msgid "FocalLength"
 msgstr "Brennweite"
 
-#: src/pentaxmn.cpp:835
+#: src/pentaxmn.cpp:836
 msgid "Hometown"
 msgstr "Heimatstadt"
 
-#: src/pentaxmn.cpp:841
+#: src/pentaxmn.cpp:842
 msgid "Hometown DST"
 msgstr "Heimatstadt (Sommerzeit)"
 
-#: src/pentaxmn.cpp:842
+#: src/pentaxmn.cpp:843
 msgid "Whether day saving time is active in home town"
 msgstr "Sommerzeit aktiv in der Heimatstadt"
 
-#: src/pentaxmn.cpp:844
+#: src/pentaxmn.cpp:845
 msgid "Destination DST"
 msgstr "Zielort (Sommerzeit)"
 
-#: src/pentaxmn.cpp:845
+#: src/pentaxmn.cpp:846
 msgid "Whether day saving time is active in destination"
 msgstr "Ist die Sommerzeit aktiv im Zielort"
 
-#: src/pentaxmn.cpp:855 src/pentaxmn.cpp:856
+#: src/pentaxmn.cpp:856 src/pentaxmn.cpp:857
 msgid "Picture mode"
 msgstr "Bildmodus"
 
-#: src/pentaxmn.cpp:870 src/pentaxmn.cpp:871
+#: src/pentaxmn.cpp:871 src/pentaxmn.cpp:872
 msgid "Digital filter"
 msgstr "Digitaler Filter"
 
-#: src/pentaxmn.cpp:875
+#: src/pentaxmn.cpp:876
 msgid "Camera temperature"
 msgstr "Kameratemperatur"
 
-#: src/pentaxmn.cpp:886 src/pentaxmn.cpp:887
+#: src/pentaxmn.cpp:887 src/pentaxmn.cpp:888
 msgid "Image tone"
 msgstr "Bildton"
 
-#: src/pentaxmn.cpp:890
+#: src/pentaxmn.cpp:891
 msgid "Shake reduction"
 msgstr "Schüttelreduktion"
 
-#: src/pentaxmn.cpp:891
+#: src/pentaxmn.cpp:892
 msgid "Shake reduction information"
 msgstr "Information zu der Schüttelreduktion"
 
-#: src/pentaxmn.cpp:893 src/pentaxmn.cpp:894
+#: src/pentaxmn.cpp:894 src/pentaxmn.cpp:895
 msgid "Shutter count"
 msgstr "Verschlusszähler"
 
-#: src/pentaxmn.cpp:897 src/pentaxmn.cpp:898
+#: src/pentaxmn.cpp:898 src/pentaxmn.cpp:899
 msgid "Black point"
 msgstr "Schwarzpunkt"
 
-#: src/pentaxmn.cpp:900 src/pentaxmn.cpp:901
+#: src/pentaxmn.cpp:901 src/pentaxmn.cpp:902
 msgid "White point"
 msgstr "Weißpunkt"
 
-#: src/pentaxmn.cpp:904 src/pentaxmn.cpp:905
+#: src/pentaxmn.cpp:905 src/pentaxmn.cpp:906
 msgid "AEInfo"
 msgstr ""
 
-#: src/pentaxmn.cpp:907 src/pentaxmn.cpp:908
+#: src/pentaxmn.cpp:908 src/pentaxmn.cpp:909
 msgid "LensInfo"
 msgstr "Linseninformation"
 
-#: src/pentaxmn.cpp:910 src/pentaxmn.cpp:911
+#: src/pentaxmn.cpp:911 src/pentaxmn.cpp:912
 msgid "FlashInfo"
 msgstr "Blitzinformation"
 
-#: src/pentaxmn.cpp:913 src/pentaxmn.cpp:914
+#: src/pentaxmn.cpp:914 src/pentaxmn.cpp:915
 msgid "AEMeteringSegments"
 msgstr ""
 
-#: src/pentaxmn.cpp:916 src/pentaxmn.cpp:917
+#: src/pentaxmn.cpp:917 src/pentaxmn.cpp:918
 msgid "FlashADump"
 msgstr ""
 
-#: src/pentaxmn.cpp:919 src/pentaxmn.cpp:920
+#: src/pentaxmn.cpp:920 src/pentaxmn.cpp:921
 msgid "FlashBDump"
 msgstr ""
 
-#: src/pentaxmn.cpp:923 src/pentaxmn.cpp:924
+#: src/pentaxmn.cpp:924 src/pentaxmn.cpp:925
 msgid "WB_RGGBLevelsDaylight"
 msgstr ""
 
-#: src/pentaxmn.cpp:926 src/pentaxmn.cpp:927
+#: src/pentaxmn.cpp:927 src/pentaxmn.cpp:928
 msgid "WB_RGGBLevelsShade"
 msgstr ""
 
-#: src/pentaxmn.cpp:929 src/pentaxmn.cpp:930
+#: src/pentaxmn.cpp:930 src/pentaxmn.cpp:931
 msgid "WB_RGGBLevelsCloudy"
 msgstr ""
 
-#: src/pentaxmn.cpp:932 src/pentaxmn.cpp:933
+#: src/pentaxmn.cpp:933 src/pentaxmn.cpp:934
 msgid "WB_RGGBLevelsTungsten"
 msgstr ""
 
-#: src/pentaxmn.cpp:935 src/pentaxmn.cpp:936
+#: src/pentaxmn.cpp:936 src/pentaxmn.cpp:937
 msgid "WB_RGGBLevelsFluorescentD"
 msgstr ""
 
-#: src/pentaxmn.cpp:938 src/pentaxmn.cpp:939
+#: src/pentaxmn.cpp:939 src/pentaxmn.cpp:940
 msgid "WB_RGGBLevelsFluorescentN"
 msgstr ""
 
-#: src/pentaxmn.cpp:941 src/pentaxmn.cpp:942
+#: src/pentaxmn.cpp:942 src/pentaxmn.cpp:943
 msgid "WB_RGGBLevelsFluorescentW"
 msgstr ""
 
-#: src/pentaxmn.cpp:944 src/pentaxmn.cpp:945
+#: src/pentaxmn.cpp:945 src/pentaxmn.cpp:946
 msgid "WB_RGGBLevelsFlash"
 msgstr ""
 
-#: src/pentaxmn.cpp:947 src/pentaxmn.cpp:948
+#: src/pentaxmn.cpp:948 src/pentaxmn.cpp:949
 msgid "CameraInfo"
 msgstr "Kamerainformation"
 
-#: src/pentaxmn.cpp:950 src/pentaxmn.cpp:951
+#: src/pentaxmn.cpp:951 src/pentaxmn.cpp:952
 msgid "BatteryInfo"
 msgstr "Batterieinformation"
 
-#: src/pentaxmn.cpp:953 src/pentaxmn.cpp:954
+#: src/pentaxmn.cpp:954 src/pentaxmn.cpp:955
 msgid "AFInfo"
 msgstr "Auto Fokus-Information"
 
-#: src/pentaxmn.cpp:961
+#: src/pentaxmn.cpp:962
 msgid "Unknown PentaxMakerNote tag"
 msgstr ""
 
@@ -12382,4 +12480,3 @@ msgstr "8-Segment"
 #: src/sonymn.cpp:92
 msgid "Unknown SonyMakerNote tag"
 msgstr "Unbekantes Herstellerbemerkungsfeld von Sony"
-
