@@ -36,8 +36,8 @@
 # History:   30-Sep-07, ahu: created
 #
 # Description:
-#  Makefile to build a from the Adobe XMP Toolkit integrated and distributed
-#  with Exiv2. Adapted from the main Exiv2 src/Makefile. This builds what the
+#  Makefile to build the Adobe XMP Toolkit integrated and distributed with
+#  Exiv2. Adapted from the main Exiv2 src/Makefile. This builds what the
 #  libtool manual calls a "convenience library".
 #
 # Restrictions:
