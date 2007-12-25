@@ -55,7 +55,7 @@
 #undef HAVE_LIBZ
 
 /* Define to 1 if you have the Adobe XMP Toolkit. */
-#undef HAVE_XMP_TOOLKIT
+#define EXV_HAVE_XMP_TOOLKIT 1
 
 /* File path seperator */
 #define EXV_SEPERATOR_STR "\\"

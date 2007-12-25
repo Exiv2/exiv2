@@ -342,7 +342,7 @@ namespace Exiv2 {
                 const byte* pCur = psData.pData_;
                 while (   pCur < pEnd
                        && 0 == Photoshop::locateIptcIrb(pCur,
-                                                        pEnd - pCur,
+                                                        static_cast<long>(pEnd - pCur),
                                                         &record,
                                                         &sizeHdr,
                                                         &sizeIptc)) {
