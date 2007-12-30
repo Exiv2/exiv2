@@ -44,9 +44,9 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="rmdir /s /q ..\include\
-xcopy /y /i ..\..\src\*.h ..\include\exiv2\
-xcopy /y /i ..\..\src\*.hpp ..\include\exiv2\
-
+xcopy /y /i ..\..\src\*.h $(SolutionDir)\include\exiv2\
+xcopy /y /i ..\..\src\*.hpp $(SolutionDir)\include\exiv2\
+copy /y $(TargetPath) $(SolutionDir)\lib\$(TargetFileName)
 "/>
 			<Tool
 				Name="VCPreBuildEventTool"/>

@@ -36,7 +36,10 @@ The default install locations are /usr/local/lib for the library,
 header files. Use the --prefix=directory option of the configure script to
 change the default. Run './configure --help' to see a list of all options.
 
-To build Exiv2 with MSVC 7.1 or 8.0, use the solution file msvc/exiv2.sln.
+To build Exiv2 with MSVC 7.1 or later, use the solution file msvc/exiv2.sln.
+XMP support is enabled in this solution, so Expat needs to be available
+(see section "Dependencies" below). E.g., copy libexpat.lib into the
+directory msvc/lib.
 
 To uninstall Exiv2 from a UNIX-like system, run:
 
