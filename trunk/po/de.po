@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
 "POT-Creation-Date: 2007-12-22 19:20+0800\n"
-"PO-Revision-Date: 2007-12-25 20:41+0100\n"
+"PO-Revision-Date: 2007-12-30 15:52+0100\n"
 "Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
 "Language-Team: german <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -314,7 +314,7 @@ msgstr "nach"
 
 #: src/actions.cpp:1540
 msgid "Standard Exif ISO tag exists; not modified\n"
-msgstr ""
+msgstr "Es existiert ein Standard-Exif-ISO-Feld exists; dies wird nicht geändert\n"
 
 #: src/actions.cpp:1569
 msgid "Setting Exif ISO value to"
@@ -1209,13 +1209,13 @@ msgstr ""
 
 #: src/datasets.cpp:392
 msgid "Rasterized Caption"
-msgstr ""
+msgstr "Gerasterte Beschriftung"
 
 #: src/datasets.cpp:393
 msgid ""
 "Contains the rasterized object data description and is used where characters "
 "that have not been coded are required for the caption."
-msgstr ""
+msgstr "Enthält die Beschreibung der Objektdaten gerastert und wird benutzt wenn nicht kodierte Zeichen für die Beschriftung benötigt werden ."
 
 #: src/datasets.cpp:396 src/canonmn.cpp:195
 msgid "Image Type"
@@ -1299,7 +1299,7 @@ msgid ""
 "A binary number representing the file format of the object data preview. The "
 "file format must be registered with IPTC or NAA organizations with a unique "
 "number assigned to it."
-msgstr ""
+msgstr "Eine binäre Zahl die das Dateiformat der Vorschau der Objektdaten repräsentiert. Das Dateiformat muss bei den Organisationen IPTC oder NAA registriert sein und bekommt dort die eindeutige Zahl zugewiesen."
 
 #: src/datasets.cpp:429
 msgid "Preview Version"
@@ -1340,6 +1340,10 @@ msgid ""
 "as published by the Free Software Foundation; either version 2\n"
 "of the License, or (at your option) any later version.\n"
 msgstr ""
+"Dieses Programm ist freie Software. Sie können es weitergeben und/oder\n"
+"verändern unter den Bedingungen der GNU General Public Lizenz, die von\n"
+"der Free Software Foundation veröffentlicht wurde. Gültig ist die Version 2\n"
+"der Lizenz oder, wenn Sie es wünschen, spätere Versionen.\n"
 
 #: src/exiv2.cpp:192
 msgid ""
@@ -1348,6 +1352,11 @@ msgid ""
 "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
 "GNU General Public License for more details.\n"
 msgstr ""
+"Dieses Programm wird Ihnen in der Hoffnung zur Verfügung gestellt,\n"
+"das Sie es brauchbar finden. Es gibt KEINE GARANTIE, noch nicht mal\n"
+"eine implizite Zusicherung allgemeiner Gebrauchstauglichkeit oder der\n"
+"Zusicherung der erforderlichen Gebrauchstauglichkeit. Weitere Details\n"
+"finden Sie in der GNU General Public Lizenz.\n"
 
 #: src/exiv2.cpp:197
 msgid ""
@@ -1356,6 +1365,10 @@ msgid ""
 "Software Foundation, Inc., 51 Franklin Street, Fifth Floor,\n"
 "Boston, MA 02110-1301 USA\n"
 msgstr ""
+"Sie sollten mit diesem Programm eine Kopie der GNU General Public\n"
+"Lizenz bekommen haben. Falls nicht, so wenden Sie sich bitte an die\n"
+"Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,\n"
+"Boston, MA 02110-1301 USA\n"
 
 #: src/exiv2.cpp:205
 msgid "Usage:"
@@ -1386,24 +1399,28 @@ msgid ""
 "  ad | adjust   Adjust Exif timestamps by the given time. This\n"
 "                action requires the option -a time.\n"
 msgstr ""
+"  ad | adjust   ändert die Exif-Zeitstempel um eine gegebene Zeit. Diese\n"
+"                Aktion benötigt die Option -a time.\n"
 
 #: src/exiv2.cpp:216
 msgid "  pr | print    Print image metadata.\n"
-msgstr ""
+msgstr "  pr | print    Druckt die Metadaten des Bildes.\n"
 
 #: src/exiv2.cpp:217
 msgid "  rm | delete   Delete image metadata from the files.\n"
-msgstr ""
+msgstr "  rm | delete   Löscht die Bildmetadaten aus den Dateien.\n"
 
 #: src/exiv2.cpp:218
 msgid ""
 "  in | insert   Insert metadata from corresponding *.exv files.\n"
 "                Use option -S to change the suffix of the input files.\n"
 msgstr ""
+"  in | insert   Fügt die Metadaten aus den zugehörigen *.exv Dateien ein.\n"
+"                Benutzen Sie die Option -S um die Erweiterung der Eingabedateien zu ändern.\n"
 
 #: src/exiv2.cpp:220
 msgid "  ex | extract  Extract metadata to *.exv, *.xmp and thumbnail image files.\n"
-msgstr ""
+msgstr "  ex | extract  Extrahiert die Metadaten in *.exv, *.xmp und Bildvorschaudateien.\n"
 
 #: src/exiv2.cpp:221
 msgid ""
@@ -1411,6 +1428,9 @@ msgid ""
 "                Exif create timestamp. The filename format can be set with\n"
 "                -r format, timestamp options are controlled with -t and -T.\n"
 msgstr ""
+"  mv | rename   Benennt Dateien und/oder setzt die Dateizeitstempel passend zu den\n"
+"                Exif-Erstellungszeitstempeln. Das Format der Dateinamen kann mit der Option\n"
+"                -r format gesetzt werden. Die Optionen der Zeitstempel werden mit -t und -T kontrolliert.\n"
 
 #: src/exiv2.cpp:224
 msgid ""
@@ -1418,12 +1438,17 @@ msgid ""
 "                IPTC metadata of image files or set the JPEG comment.\n"
 "                Requires option -c, -m or -M.\n"
 msgstr ""
+"  mo | modify   Wendet Kommandos zum Ändern (Hinzufügen, Setzen, Löschen) der Exif- und\n"
+"                IPTC Metadaten von Bilddateien an oder setzt das JPEG-Kommentar.\n"
+"                Benötigt zusätzlich eine Option von-c, -m oder -M.\n"
 
 #: src/exiv2.cpp:227
 msgid ""
 "  fi | fixiso   Copy ISO setting from the Nikon Makernote to the regular\n"
 "                Exif tag.\n"
 msgstr ""
+"  fi | fixiso   Kopiert die ISO-Einstellungen aus der Nikon-Herstellerbemerkung in das reguläre\n"
+"                Exif-Feld.\n"
 
 #: src/exiv2.cpp:229
 msgid ""
@@ -1435,131 +1460,135 @@ msgstr ""
 
 #: src/exiv2.cpp:230
 msgid "   -h      Display this help and exit.\n"
-msgstr ""
+msgstr "   -h      Gibt diese Hilfe aus und beendet sich.\n"
 
 #: src/exiv2.cpp:231
 msgid "   -V      Show the program version and exit.\n"
-msgstr ""
+msgstr "   -V      Zeigt die Programmversion an und beendet sich.\n"
 
 #: src/exiv2.cpp:232
 msgid "   -v      Be verbose during the program run.\n"
-msgstr ""
+msgstr "   -v      Ausführliche Meldungen während des Programmlaufs.\n"
 
 #: src/exiv2.cpp:233
 msgid "   -b      Show large binary values.\n"
-msgstr ""
+msgstr "   -b      zeigt große binäre Werte an.\n"
 
 #: src/exiv2.cpp:234
 msgid "   -u      Don't show unknown tags.\n"
-msgstr ""
+msgstr "   -u      Zeigt keine unbekannten Felder an.\n"
 
 #: src/exiv2.cpp:235
 msgid "   -k      Preserve file timestamps (keep).\n"
-msgstr ""
+msgstr "   -k      Bewahrt die Dateizeitstempel (keep).\n"
 
 #: src/exiv2.cpp:236
 msgid "   -t      Also set the file timestamp in 'rename' action (overrides -k).\n"
-msgstr ""
+msgstr "   -t      Setzt beim \"Umbennenen\" auch die Zeitstempel der Datei (überschreibt -k).\n"
 
 #: src/exiv2.cpp:237
 msgid ""
 "   -T      Only set the file timestamp in 'rename' action, do not rename\n"
 "           the file (overrides -k).\n"
 msgstr ""
+"   -T      Setzt nur die Dateizeitsempel in der Aktion \"umbenennen\" und benennt nicht die \n"
+"           Datei um (überschreibt -k).\n"
 
 #: src/exiv2.cpp:239
 msgid "   -f      Do not prompt before overwriting existing files (force).\n"
-msgstr ""
+msgstr "   -f      Vor dem überschreiben von existierenden Dateien nicht nachfragen (force).\n"
 
 #: src/exiv2.cpp:240
 msgid "   -F      Do not prompt before renaming files (Force).\n"
-msgstr ""
+msgstr "   -F      Vor dem umbenennen nicht nachfragen (Force).\n"
 
 #: src/exiv2.cpp:241
 msgid ""
 "   -a time Time adjustment in the format [-]HH[:MM[:SS]]. This option\n"
 "           is only used with the 'adjust' action.\n"
 msgstr ""
+"   -a time Zeitjustierung im Format [-]HH[:MM[:SS]]. Diese Option wird\n"
+"           nur in Zusammenhang mit der Aktion 'Justieren' benutzt.\n"
 
 #: src/exiv2.cpp:243
 msgid "   -p mode Print mode for the 'print' action. Possible modes are:\n"
-msgstr ""
+msgstr "   -p mode Druckmodus für die Aktion 'Drucken'. Mögliche Modi sind:\n"
 
 #: src/exiv2.cpp:244
 msgid "             s : print a summary of the Exif metadata (the default)\n"
-msgstr ""
+msgstr "             s : druckt eine Zusammenfassung der Exif-Metadaten (Standard)\n"
 
 #: src/exiv2.cpp:245
 msgid "             t : interpreted (translated) Exif data (shortcut for -Pkyct)\n"
-msgstr ""
+msgstr "             t : interpretiert (übersetzt) die Exif-Daten (Kurzform für -Pkyct)\n"
 
 #: src/exiv2.cpp:246
 msgid "             v : plain Exif data values (shortcut for -Pxgnycv)\n"
-msgstr ""
+msgstr "             v : Vollständige Exif-Datenwerte (Kurzform für -Pxgnycv)\n"
 
 #: src/exiv2.cpp:247
 msgid "             h : hexdump of the Exif data (shortcut for -Pxgnycsh)\n"
-msgstr ""
+msgstr "             h : Hexdump der Exif-Daten (Kurzform für -Pxgnycsh)\n"
 
 #: src/exiv2.cpp:248
 msgid "             i : IPTC data values\n"
-msgstr ""
+msgstr "             i : IPTC-Datenwerte\n"
 
 #: src/exiv2.cpp:249
 msgid "             x : XMP properties\n"
-msgstr ""
+msgstr "             x : XMP-Eigenschaften\n"
 
 #: src/exiv2.cpp:250 src/exiv2.cpp:269
 msgid "             c : JPEG comment\n"
-msgstr ""
+msgstr "             c : JPEG-Kommentar\n"
 
 #: src/exiv2.cpp:251
 msgid "   -P cols Print columns for the Exif taglist ('print' action). Valid are:\n"
-msgstr ""
+msgstr "   -P cols Druckt Spalten für die Exif-Feldliste (Aktion 'Drucken' action). Gültig sind:\n"
 
 #: src/exiv2.cpp:252
 msgid "             x : print a column with the tag value\n"
-msgstr ""
+msgstr "             x : Druckt eine Spalte mit dem Feldwert\n"
 
 #: src/exiv2.cpp:253
 msgid "             g : group name\n"
-msgstr ""
+msgstr "             g : Gruppenname\n"
 
 #: src/exiv2.cpp:254
 msgid "             k : key\n"
-msgstr ""
+msgstr "             k : Schlüssel\n"
 
 #: src/exiv2.cpp:255
 msgid "             l : tag label\n"
-msgstr ""
+msgstr "             l : Feldlabel\n"
 
 #: src/exiv2.cpp:256
 msgid "             n : tag name\n"
-msgstr ""
+msgstr "             n : Feldname\n"
 
 #: src/exiv2.cpp:257
 msgid "             y : type\n"
-msgstr ""
+msgstr "             y : Typ\n"
 
 #: src/exiv2.cpp:258
 msgid "             c : number of components (count)\n"
-msgstr ""
+msgstr "             c : Anzahl der Komponenten (Zähler)\n"
 
 #: src/exiv2.cpp:259
 msgid "             s : size in bytes\n"
-msgstr ""
+msgstr "             s : Größe in Bytes\n"
 
 #: src/exiv2.cpp:260
 msgid "             v : plain data value\n"
-msgstr ""
+msgstr "             v : Vollständiger Datenwert\n"
 
 #: src/exiv2.cpp:261
 msgid "             t : interpreted (translated) data\n"
-msgstr ""
+msgstr "             t : interpretierte, übersetzte Daten\n"
 
 #: src/exiv2.cpp:262
 msgid "             h : hexdump of the data\n"
-msgstr ""
+msgstr "             h : Hexdump der Daten\n"
 
 #: src/exiv2.cpp:263
 msgid "   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n"
@@ -1567,23 +1596,23 @@ msgstr ""
 
 #: src/exiv2.cpp:264
 msgid "             a : all supported metadata (the default)\n"
-msgstr ""
+msgstr "             a : Alle unterstützten Metadaten (Standard)\n"
 
 #: src/exiv2.cpp:265
 msgid "             e : Exif section\n"
-msgstr ""
+msgstr "             e : Exif-Abschnitt\n"
 
 #: src/exiv2.cpp:266
 msgid "             t : Exif thumbnail only\n"
-msgstr ""
+msgstr "             t : Nur die Exif-Vorschau\n"
 
 #: src/exiv2.cpp:267
 msgid "             i : IPTC data\n"
-msgstr ""
+msgstr "             i : IPTC-Daten\n"
 
 #: src/exiv2.cpp:268
 msgid "             x : XMP packet\n"
-msgstr ""
+msgstr "             x : XMP-Paket\n"
 
 #: src/exiv2.cpp:270
 msgid ""
@@ -1609,23 +1638,23 @@ msgstr ""
 
 #: src/exiv2.cpp:280
 msgid "             :basename:   - original filename without extension\n"
-msgstr ""
+msgstr "             :basename:   - Originaldateiname ohne Erweiterung\n"
 
 #: src/exiv2.cpp:281
 msgid "             :dirname:    - name of the directory holding the original file\n"
-msgstr ""
+msgstr "             :dirname:    - Name des Ordners in dem die Originaldatei liegt\n"
 
 #: src/exiv2.cpp:282
 msgid "             :parentname: - name of parent directory\n"
-msgstr ""
+msgstr "             :parentname: - Name des Elternordners\n"
 
 #: src/exiv2.cpp:283
 msgid "           Default filename format is "
-msgstr ""
+msgstr "           Das Standardformat des Dateinamens ist "
 
 #: src/exiv2.cpp:285
 msgid "   -c txt  JPEG comment string to set in the image.\n"
-msgstr ""
+msgstr "   -c txt  JPEG-Kommentar der im Bild gesetzt wird.\n"
 
 #: src/exiv2.cpp:286
 msgid ""
