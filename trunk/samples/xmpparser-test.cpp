@@ -57,7 +57,7 @@ try {
     if (file.open("wb") != 0) {
         throw Exiv2::Error(10, filename, "wb", Exiv2::strError());
     }
-    if (file.write(reinterpret_cast<const Exiv2::byte*>(xmpPacket.data()), xmpPacket.size()) == 0) {
+    if (file.write(reinterpret_cast<const Exiv2::byte*>(xmpPacket.data()), static_cast<long>(xmpPacket.size())) == 0) {
         throw Exiv2::Error(2, filename, Exiv2::strError(), "FileIo::write");
     }
     Exiv2::XmpParser::terminate();
