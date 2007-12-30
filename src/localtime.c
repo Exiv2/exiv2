@@ -69,7 +69,10 @@ static char	elsieid[] = "@(#)localtime.c	7.78";
 #define WILDABBR	"   "
 #endif /* !defined WILDABBR */
 
+/* ahu: added conditional */
+#ifdef TM_ZONE
 static char		wildabbr[] = "WILDABBR";
+#endif /* TM_ZONE */
 
 static const char	gmt[] = "GMT";
 
@@ -87,7 +90,7 @@ static const char	gmt[] = "GMT";
 struct ttinfo {				/* time type information */
 	long		tt_gmtoff;	/* UTC offset in seconds */
 	int		tt_isdst;	/* used to set tm_isdst */
-	size_t	tt_abbrind;	/* abbreviation list index */
+	size_t          tt_abbrind;     /* abbreviation list index */
 	int		tt_ttisstd;	/* TRUE if transition is std time */
 	int		tt_ttisgmt;	/* TRUE if transition is UTC */
 };
@@ -135,7 +138,7 @@ struct rule {
 ** Prototypes for static functions.
 */
 
-static long		detzcode P((const char * codep));
+/* ahu: deleted declaration of detzcode */
 static const char *	getzname P((const char * strp));
 static const char *	getnum P((const char * strp, int * nump, int min,
 				int max));
@@ -150,7 +153,7 @@ static void		localsub P((const time_t * timep, long offset,
 static int		increment_overflow P((int * number, int delta));
 static int		normalize_overflow P((int * tensptr, int * unitsptr,
 				int base));
-static void		settzname P((void));
+/* ahu: deleted declaration of settzname */
 static time_t		time1 P((struct tm * tmp,
 				void(*funcp) P((const time_t *,
 				long, struct tm *)),
@@ -189,14 +192,10 @@ static struct state	gmtmem;
 #define TZ_STRLEN_MAX 255
 #endif /* !defined TZ_STRLEN_MAX */
 
-static char		lcl_TZname[TZ_STRLEN_MAX + 1];
-static int		lcl_is_set;
+/* ahu: deleted definition of lcl_TZname[] and lcl_is_set */
 static int		gmt_is_set;
 
-char *			tzname[2] = {
-	wildabbr,
-	wildabbr
-};
+/* ahu: deleted definition of tzname[] */
 
 /*
 ** Section 4.12.3 of X3.159-1989 requires that
@@ -206,7 +205,7 @@ char *			tzname[2] = {
 ** Thanks to Paul Eggert (eggert@twinsun.com) for noting this.
 */
 
-static struct tm	tm;
+/* deleted definition of tm */
 
 #ifdef USG_COMPAT
 time_t			timezone = 0;
@@ -230,55 +229,7 @@ const char * const	codep;
 	return result;
 }
 
-static void
-settzname P((void))
-{
-	register struct state * const	sp = lclptr;
-	register int			i;
-
-	tzname[0] = wildabbr;
-	tzname[1] = wildabbr;
-#ifdef USG_COMPAT
-	daylight = 0;
-	timezone = 0;
-#endif /* defined USG_COMPAT */
-#ifdef ALTZONE
-	altzone = 0;
-#endif /* defined ALTZONE */
-#ifdef ALL_STATE
-	if (sp == NULL) {
-		tzname[0] = tzname[1] = gmt;
-		return;
-	}
-#endif /* defined ALL_STATE */
-	for (i = 0; i < sp->typecnt; ++i) {
-		register const struct ttinfo * const	ttisp = &sp->ttis[i];
-
-		tzname[ttisp->tt_isdst] =
-			&sp->chars[ttisp->tt_abbrind];
-#ifdef USG_COMPAT
-		if (ttisp->tt_isdst)
-			daylight = 1;
-		if (i == 0 || !ttisp->tt_isdst)
-			timezone = -(ttisp->tt_gmtoff);
-#endif /* defined USG_COMPAT */
-#ifdef ALTZONE
-		if (i == 0 || ttisp->tt_isdst)
-			altzone = -(ttisp->tt_gmtoff);
-#endif /* defined ALTZONE */
-	}
-	/*
-	** And to get the latest zone names into tzname. . .
-	*/
-	for (i = 0; i < sp->timecnt; ++i) {
-		register const struct ttinfo * const	ttisp =
-							&sp->ttis[
-								sp->types[i]];
-
-		tzname[ttisp->tt_isdst] =
-			&sp->chars[ttisp->tt_abbrind];
-	}
-}
+/* ahu: deleted definition of settzname */
 
 static int
 tzload(name, sp)
@@ -930,76 +881,9 @@ struct state * const	sp;
 		(void) tzparse(gmt, sp, TRUE);
 }
 
-#ifndef STD_INSPIRED
-/*
-** A non-static declaration of tzsetwall in a system header file
-** may cause a warning about this upcoming static declaration...
-*/
-static
-#endif /* !defined STD_INSPIRED */
-void
-tzsetwall P((void))
-{
-	if (lcl_is_set < 0)
-		return;
-	lcl_is_set = -1;
+/* ahu: deleted definition of tzsetwall */
 
-#ifdef ALL_STATE
-	if (lclptr == NULL) {
-		lclptr = (struct state *) malloc(sizeof *lclptr);
-		if (lclptr == NULL) {
-			settzname();	/* all we can do */
-			return;
-		}
-	}
-#endif /* defined ALL_STATE */
-	if (tzload((char *) NULL, lclptr) != 0)
-		gmtload(lclptr);
-	settzname();
-}
-
-void
-tzset P((void))
-{
-	register const char *	name;
-
-	name = getenv("TZ");
-	if (name == NULL) {
-		tzsetwall();
-		return;
-	}
-
-	if (lcl_is_set > 0 && strcmp(lcl_TZname, name) == 0)
-		return;
-	lcl_is_set = strlen(name) < sizeof lcl_TZname;
-	if (lcl_is_set)
-		(void) strcpy(lcl_TZname, name);
-
-#ifdef ALL_STATE
-	if (lclptr == NULL) {
-		lclptr = (struct state *) malloc(sizeof *lclptr);
-		if (lclptr == NULL) {
-			settzname();	/* all we can do */
-			return;
-		}
-	}
-#endif /* defined ALL_STATE */
-	if (*name == '\0') {
-		/*
-		** User wants it fast rather than right.
-		*/
-		lclptr->leapcnt = 0;		/* so, we're off a little */
-		lclptr->timecnt = 0;
-		lclptr->typecnt = 0;
-		lclptr->ttis[0].tt_isdst = 0;
-		lclptr->ttis[0].tt_gmtoff = 0;
-		lclptr->ttis[0].tt_abbrind = 0;
-		(void) strcpy(lclptr->chars, gmt);
-	} else if (tzload(name, lclptr) != 0)
-		if (name[0] == ':' || tzparse(name, lclptr, FALSE) != 0)
-			(void) gmtload(lclptr);
-	settzname();
-}
+/* ahu: deleted definition of tzset */
 
 /*
 ** The easy way to behave "as if no library function calls" localtime
@@ -1057,29 +941,9 @@ struct tm * const	tmp;
 #endif /* defined TM_ZONE */
 }
 
-#if _MSC_VER < 1400
-struct tm *
-localtime(timep)
-const time_t * timep;
-{
-	tzset();
-	localsub(timep, 0L, &tm);
-	return &tm;
-}
-#endif /*_MSC_VER < 1400 */
+/* ahu: deleted definition of localtime */
 
-/*
-** Re-entrant version of localtime.
-*/
-
-struct tm *
-localtime_r(timep, tm)
-const time_t * timep;
-struct tm *		tm;
-{
-	localsub(timep, 0L, tm);
-	return tm;
-}
+/* ahu: deleted definition of localtime_r */
 
 /*
 ** gmtsub is to gmtime as localsub is to localtime.
@@ -1121,41 +985,11 @@ struct tm * const	tmp;
 #endif /* defined TM_ZONE */
 }
 
-#if _MSC_VER < 1400
-struct tm *
-gmtime(timep)
-const time_t * timep;
-{
-	gmtsub(timep, 0L, &tm);
-	return &tm;
-}
-#endif /* _MSC_VER < 1400 */
+/* ahu: deleted definition of gmtime */
 
-/*
-* Re-entrant version of gmtime.
-*/
+/* ahu: deleted definition of gmtime_r */
 
-struct tm *
-gmtime_r(timep, tm)
-const time_t * const	timep;
-struct tm *		tm;
-{
-	gmtsub(timep, 0L, tm);
-	return tm;
-}
-
-#ifdef STD_INSPIRED
-
-struct tm *
-offtime(timep, offset)
-const time_t * const	timep;
-const long		offset;
-{
-	gmtsub(timep, offset, &tm);
-	return &tm;
-}
-
-#endif /* defined STD_INSPIRED */
+/* ahu: deleted definition of offtime */
 
 static void
 timesub(timep, offset, sp, tmp)
@@ -1258,20 +1092,7 @@ register struct tm * const		tmp;
 #endif /* defined TM_GMTOFF */
 }
 
-#if _MSC_VER < 1400
-char *
-ctime(timep)
-const time_t * timep;
-{
-/*
-** Section 4.12.3.2 of X3.159-1989 requires that
-**	The ctime function converts the calendar time pointed to by timer
-**	to local time in the form of a string.  It is equivalent to
-**		asctime(localtime(timer))
-*/
-	return asctime(localtime(timep));
-}
-#endif /* _MSC_VER < 1400 */
+/* ahu: deleted definition of ctime */
 
 /* ahu: deleted definition of ctime_r */
 
@@ -1585,25 +1406,11 @@ const long		offset;
 	return WRONG;
 }
 
-#if _MSC_VER < 1400
-time_t
-mktime(tmp)
-struct tm * tmp;
-{
-	tzset();
-	return time1(tmp, localsub, 0L);
-}
-#endif /* _MSC_VER < 1400 */
+/* ahu: deleted definition of mktime */
 
 #ifdef STD_INSPIRED
 
-time_t
-timelocal(tmp)
-struct tm * const	tmp;
-{
-	tmp->tm_isdst = -1;	/* in case it wasn't initialized */
-	return mktime(tmp);
-}
+/* ahu: deleted definition of timelocal */
 
 time_t
 timegm(tmp)
@@ -1613,109 +1420,14 @@ struct tm * const	tmp;
 	return time1(tmp, gmtsub, 0L);
 }
 
-time_t
-timeoff(tmp, offset)
-struct tm * const	tmp;
-const long		offset;
-{
-	tmp->tm_isdst = 0;
-	return time1(tmp, gmtsub, offset);
-}
+/* ahu: deleted definition of timeoff */
 
 #endif /* defined STD_INSPIRED */
 
-#ifdef CMUCS
+/* ahu: deleted definition of gtime */
 
-/*
-** The following is supplied for compatibility with
-** previous versions of the CMUCS runtime library.
-*/
+/* ahu: deleted definition of leapcorr */
 
-long
-gtime(tmp)
-struct tm * const	tmp;
-{
-	const time_t	t = mktime(tmp);
+/* ahu: deleted definition of time2posix */
 
-	if (t == WRONG)
-		return -1;
-	return t;
-}
-
-#endif /* defined CMUCS */
-
-/*
-** XXX--is the below the right way to conditionalize??
-*/
-
-#ifdef STD_INSPIRED
-
-/*
-** IEEE Std 1003.1-1988 (POSIX) legislates that 536457599
-** shall correspond to "Wed Dec 31 23:59:59 UTC 1986", which
-** is not the case if we are accounting for leap seconds.
-** So, we provide the following conversion routines for use
-** when exchanging timestamps with POSIX conforming systems.
-*/
-
-static long
-leapcorr(timep)
-time_t *	timep;
-{
-	register struct state *		sp;
-	register struct lsinfo *	lp;
-	register int			i;
-
-	sp = lclptr;
-	i = sp->leapcnt;
-	while (--i >= 0) {
-		lp = &sp->lsis[i];
-		if (*timep >= lp->ls_trans)
-			return lp->ls_corr;
-	}
-	return 0;
-}
-
-time_t
-time2posix(t)
-time_t	t;
-{
-	tzset();
-	return t - leapcorr(&t);
-}
-
-time_t
-posix2time(t)
-time_t	t;
-{
-	time_t	x;
-	time_t	y;
-
-	tzset();
-	/*
-	** For a positive leap second hit, the result
-	** is not unique.  For a negative leap second
-	** hit, the corresponding time doesn't exist,
-	** so we return an adjacent second.
-	*/
-	x = t + leapcorr(&t);
-	y = x - leapcorr(&x);
-	if (y < t) {
-		do {
-			x++;
-			y = x - leapcorr(&x);
-		} while (y < t);
-		if (t != y)
-			return x - 1;
-	} else if (y > t) {
-		do {
-			--x;
-			y = x - leapcorr(&x);
-		} while (y > t);
-		if (t != y)
-			return x + 1;
-	}
-	return x;
-}
-
-#endif /* defined STD_INSPIRED */
+/* ahu: deleted definition of posix2time */
