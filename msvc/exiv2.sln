@@ -110,6 +110,19 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xmpsdk", "xmpsdk\xmpsdk.vcp
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xmpsample", "xmpsample\xmpsample.vcproj", "{948E8E86-7F47-46B0-95B2-ED24805F3C9F}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xmpparse", "xmpparse\xmpparse.vcproj", "{948E8E86-7F47-46B0-95B2-ED24805F3CAF}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xmpparser-test", "xmpparser-test\xmpparser-test.vcproj", "{948E8E86-7F47-46B0-95B2-ED24805F3CBF}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -206,6 +219,18 @@ Global
 		{09877CF4-83B6-44FE-A2E2-629AA5C8093E}.Debug.Build.0 = Debug|Win32
 		{09877CF4-83B6-44FE-A2E2-629AA5C8093E}.Release.ActiveCfg = Release|Win32
 		{09877CF4-83B6-44FE-A2E2-629AA5C8093E}.Release.Build.0 = Release|Win32
+		{948E8E86-7F47-46B0-95B2-ED24805F3C9F}.Debug.ActiveCfg = Debug|Win32
+		{948E8E86-7F47-46B0-95B2-ED24805F3C9F}.Debug.Build.0 = Debug|Win32
+		{948E8E86-7F47-46B0-95B2-ED24805F3C9F}.Release.ActiveCfg = Release|Win32
+		{948E8E86-7F47-46B0-95B2-ED24805F3C9F}.Release.Build.0 = Release|Win32
+		{948E8E86-7F47-46B0-95B2-ED24805F3CAF}.Debug.ActiveCfg = Debug|Win32
+		{948E8E86-7F47-46B0-95B2-ED24805F3CAF}.Debug.Build.0 = Debug|Win32
+		{948E8E86-7F47-46B0-95B2-ED24805F3CAF}.Release.ActiveCfg = Release|Win32
+		{948E8E86-7F47-46B0-95B2-ED24805F3CAF}.Release.Build.0 = Release|Win32
+		{948E8E86-7F47-46B0-95B2-ED24805F3CBF}.Debug.ActiveCfg = Debug|Win32
+		{948E8E86-7F47-46B0-95B2-ED24805F3CBF}.Debug.Build.0 = Debug|Win32
+		{948E8E86-7F47-46B0-95B2-ED24805F3CBF}.Release.ActiveCfg = Release|Win32
+		{948E8E86-7F47-46B0-95B2-ED24805F3CBF}.Release.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
