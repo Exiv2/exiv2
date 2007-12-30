@@ -4,6 +4,7 @@
 	Version="7.10"
 	Name="exiv2"
 	ProjectGUID="{07293CAC-00DA-493E-90C9-5D010C2B1B53}"
+	RootNamespace="exiv2"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform
@@ -46,7 +47,8 @@
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				CommandLine="copy /y $(TargetPath) $(SolutionDir)\bin\$(TargetFileName)"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
