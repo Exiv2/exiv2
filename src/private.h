@@ -129,36 +129,11 @@ static char	privatehid[] = "@(#)private.h	7.53";
 
 #endif /* !defined FILENAME_MAX */
 
-/*
-** SunOS 4.1.1 libraries lack remove.
-*/
+/* ahu: deleted unlink declaration and remove define */
 
-#ifndef remove
-extern int	unlink P((const char * filename));
-#define remove	unlink
-#endif /* !defined remove */
+/* ahu: deleted errno declaration */
 
-/*
-** Some ancient errno.h implementations don't declare errno.
-** But some newer errno.h implementations define it as a macro.
-** Fix the former without affecting the latter.
-*/
-#ifndef errno
-extern int errno;
-#endif /* !defined errno */
-
-/*
-** Private function declarations.
-*/
-char *	icalloc P((int nelem, int elsize));
-char *	icatalloc P((char * old, const char * new));
-char *	icpyalloc P((const char * string));
-char *	imalloc P((int n));
-void *	irealloc P((void * pointer, int size));
-void	icfree P((char * pointer));
-void	ifree P((char * pointer));
-char *	scheck P((const char *string, const char *format));
-
+/* ahu: deleted private function declarations */
 
 /*
 ** Finally, some convenience items.
