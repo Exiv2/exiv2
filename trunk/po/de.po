@@ -7,13 +7,13 @@
 #   Free Software Foundation, Inc., 2002.
 #   Lutz Mueller <lutz@users.sourceforge.net>, 2002.
 #   Marcus Meissner <marcus@jet.franken.de>, 2004, 2005.
-# Oliver Dörr <kde@doerr-privat.de>, 2007.
+# Oliver Dörr <kde@doerr-privat.de>, 2007, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
 "POT-Creation-Date: 2007-12-22 19:20+0800\n"
-"PO-Revision-Date: 2007-12-30 15:52+0100\n"
+"PO-Revision-Date: 2008-01-02 22:49+0100\n"
 "Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
 "Language-Team: german <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -2010,11 +2010,11 @@ msgstr "Nicht unterstütztes Zeitformat"
 
 #: src/error.cpp:76
 msgid "Writing to %2 images is not supported"
-msgstr ""
+msgstr "Das Schreiben von %2 Bildern wird nicht unterstützt."
 
 #: src/error.cpp:77
 msgid "Setting %1 in %2 images is not supported"
-msgstr ""
+msgstr "Das Setzen von %1 in %2 Bildern ist nicht unterstützt."
 
 #: src/error.cpp:78
 msgid "This does not look like a CRW image"
@@ -2076,7 +2076,7 @@ msgstr ""
 msgid ""
 "Aliases are not supported. Please send this XMP packet to ahuggel@gmx.net `%"
 "1', `%2', `%3'"
-msgstr ""
+msgstr "Aliase werden nicht unterstützt. Bitte senden Sie dieses XMP-Packet an ahuggel@gmx.net `%1', `%2', `%3'"
 
 #: src/error.cpp:93
 msgid "Invalid XmpText type `%1'"
@@ -2108,27 +2108,27 @@ msgstr "Daten des Eintrags"
 
 #: src/properties.cpp:68
 msgid "Dublin Core schema"
-msgstr ""
+msgstr "Dublin-Hauptschema"
 
 #: src/properties.cpp:69
 msgid "XMP Basic schema"
-msgstr ""
+msgstr "XMP-Basisschema"
 
 #: src/properties.cpp:70
 msgid "XMP Rights Management schema"
-msgstr ""
+msgstr "XMP-Rechteverwaltungsschema"
 
 #: src/properties.cpp:71
 msgid "XMP Media Management schema"
-msgstr ""
+msgstr "XMP-Mediverwaltungsschema"
 
 #: src/properties.cpp:72
 msgid "XMP Basic Job Ticket schema"
-msgstr ""
+msgstr "XMP-Basis-Job-Ticket-Schema"
 
 #: src/properties.cpp:73
 msgid "XMP Paged-Text schema"
-msgstr ""
+msgstr "XMP eingelagertes Textschema"
 
 #: src/properties.cpp:74
 msgid "XMP Dynamic Media schema"
@@ -2482,7 +2482,7 @@ msgstr ""
 
 #: src/properties.cpp:175
 msgid "Derived From"
-msgstr ""
+msgstr "Bekommen von"
 
 #: src/properties.cpp:175
 msgid ""
@@ -2518,7 +2518,7 @@ msgstr ""
 
 #: src/properties.cpp:186
 msgid "Instance ID"
-msgstr ""
+msgstr "Instanz-ID"
 
 #: src/properties.cpp:186
 msgid ""
@@ -2529,7 +2529,7 @@ msgstr ""
 
 #: src/properties.cpp:188
 msgid "Managed From"
-msgstr ""
+msgstr "Verwaltet von"
 
 #: src/properties.cpp:188
 msgid ""
@@ -2552,7 +2552,7 @@ msgstr ""
 
 #: src/properties.cpp:194
 msgid "Manage To"
-msgstr ""
+msgstr "Verwaltet für"
 
 #: src/properties.cpp:194
 msgid ""
@@ -2574,7 +2574,7 @@ msgstr ""
 
 #: src/properties.cpp:199
 msgid "Manager Variant"
-msgstr ""
+msgstr "Verwaltungsvariante"
 
 #: src/properties.cpp:199
 msgid ""
@@ -2862,7 +2862,7 @@ msgstr "Die benutzte Audio-Kompression, z.B. MP3."
 
 #: src/properties.cpp:263
 msgid "Speaker Placement"
-msgstr ""
+msgstr "Lautsprecheraufstellung"
 
 #: src/properties.cpp:263
 msgid ""
@@ -4350,7 +4350,7 @@ msgstr "Exif-Version"
 
 #: src/properties.cpp:645
 msgid "EXIF tag 36864, 0x9000. EXIF version number."
-msgstr ""
+msgstr "Exif-Feld 36864, 0x9000. Exif-Versionsnummer."
 
 #: src/properties.cpp:646
 msgid "Flashpix Version"
@@ -4358,7 +4358,7 @@ msgstr "FlashPix Version"
 
 #: src/properties.cpp:646
 msgid "EXIF tag 40960, 0xA000. Version of FlashPix."
-msgstr ""
+msgstr "Exif-Feld 40960, 0xA000. Version des FlashPix."
 
 #: src/properties.cpp:647 src/tags.cpp:807 src/minoltamn.cpp:916
 #: src/nikonmn.cpp:657 src/sigmamn.cpp:93
@@ -4367,7 +4367,7 @@ msgstr "Farbraum"
 
 #: src/properties.cpp:647
 msgid "EXIF tag 40961, 0xA001. Color space information"
-msgstr ""
+msgstr "Exif-Feld 40961, 0xA001. Informationen über den Farbraum."
 
 #: src/properties.cpp:648 src/tags.cpp:732
 msgid "Components Configuration"
@@ -4489,13 +4489,13 @@ msgstr "Exif-Feld 34855, 0x8827. Gibt die ISO Geschwindigkeit und -breite der Ka
 
 #: src/properties.cpp:669
 msgid "OECF"
-msgstr ""
+msgstr "OECF"
 
 #: src/properties.cpp:669
 msgid ""
 "EXIF tag 34856, 0x8828. Opto-Electoric Conversion Function as specified in "
 "ISO 14524."
-msgstr ""
+msgstr "Exif-Feld 34856, 0x8828. Verfahren zur Messung optoelektronischer Kennlinien wie in ISO 14524 spezifiziert."
 
 #: src/properties.cpp:670 src/canonmn.cpp:568
 msgid "Shutter Speed Value"
@@ -4505,7 +4505,7 @@ msgstr "Verschlussgeschwindigkeitswert"
 msgid ""
 "EXIF tag 37377, 0x9201. Shutter speed, unit is APEX. See Annex C of the EXIF "
 "specification."
-msgstr ""
+msgstr "Exif-Feld 37377, 0x9201. Verschlussgeschwindigkeit. Die Einheit ist APEX. Siehe auch Anhang C der Exif-Spezifikation."
 
 #: src/properties.cpp:671 src/canonmn.cpp:567 src/olympusmn.cpp:203
 msgid "Aperture Value"
@@ -4513,7 +4513,7 @@ msgstr "Blendenwert"
 
 #: src/properties.cpp:671
 msgid "EXIF tag 37378, 0x9202. Lens aperture, unit is APEX."
-msgstr ""
+msgstr "Exif-Feld 37378, 0x9202. Linsenblende, Einheit ist APEX."
 
 #: src/properties.cpp:672
 msgid "Brightness Value"
@@ -4521,7 +4521,7 @@ msgstr "Helligkeitswert"
 
 #: src/properties.cpp:672
 msgid "EXIF tag 37379, 0x9203. Brightness, unit is APEX."
-msgstr ""
+msgstr "Exif-Feld 37379, 0x9203. Helligkeit, Einheit ist APEX."
 
 #: src/properties.cpp:673
 msgid "Exposure Bias Value"
@@ -4529,7 +4529,7 @@ msgstr "Belichtungsfehler"
 
 #: src/properties.cpp:673
 msgid "EXIF tag 37380, 0x9204. Exposure bias, unit is APEX."
-msgstr ""
+msgstr "Exif-Feld 37380, 0x9204. Belichtungsfehler, Einheit ist APEX."
 
 #: src/properties.cpp:674
 msgid "Maximum Aperture Value"
@@ -4537,7 +4537,7 @@ msgstr "Maximale Blende"
 
 #: src/properties.cpp:674
 msgid "EXIF tag 37381, 0x9205. Smallest F number of lens, in APEX."
-msgstr ""
+msgstr "Exif-Feld 37381, 0x9205. Die kleineste Blende der Linse, in APEX."
 
 #: src/properties.cpp:675 src/tags.cpp:766 src/canonmn.cpp:565
 msgid "Subject Distance"
