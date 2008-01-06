@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
 "POT-Creation-Date: 2007-12-22 19:20+0800\n"
-"PO-Revision-Date: 2008-01-02 22:49+0100\n"
+"PO-Revision-Date: 2008-01-06 22:30+0100\n"
 "Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
 "Language-Team: german <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -1282,13 +1282,13 @@ msgstr "Gibt der Dauer eines Audioinhalts an."
 
 #: src/datasets.cpp:420
 msgid "Audio Outcue"
-msgstr ""
+msgstr "Audio-Outcue"
 
 #: src/datasets.cpp:421
 msgid ""
 "Identifies the content of the end of an audio object data, according to "
 "guidelines established by the provider."
-msgstr ""
+msgstr "Identifiziert den Inhlat am Ende eines Audiodatenobjektes nach den Anbieterrichtlinen."
 
 #: src/datasets.cpp:424
 msgid "Preview Format"
@@ -1592,7 +1592,7 @@ msgstr "             h : Hexdump der Daten\n"
 
 #: src/exiv2.cpp:263
 msgid "   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n"
-msgstr ""
+msgstr "   -d ziel  Ziele für die Aktion \"Löschen\". Mögliche Ziele sind:\n"
 
 #: src/exiv2.cpp:264
 msgid "             a : all supported metadata (the default)\n"
@@ -1622,6 +1622,11 @@ msgid ""
 "           Only JPEG thumbnails can be inserted, they need to be named\n"
 "           <file>-thumb.jpg\n"
 msgstr ""
+"   -i ziel  Einfügeziele für die Aktion \"Einfügen\". Mögliche Ziele sind\n"
+"           die gleichen wie bei der Option -d und:\n"
+"             X : Fügt das XMP-Packet von <file>.xmp ein\n"
+"           Nur JPEG Bildvorschauen können eingefügt werden. Sie müssen den Namen\n"
+"           <file>-thumb.jpg haben.\n"
 
 #: src/exiv2.cpp:275
 msgid ""
@@ -1629,12 +1634,17 @@ msgid ""
 "           are the same as those for the -i option, plus:\n"
 "             X : Extract XMP packet to <file>.xmp\n"
 msgstr ""
+"   -e ziel  Extraktionsziele für die Aktion 'Extrahieren'. Mögliche Ziele sind\n"
+"           die gleichen wie bei der Option -i, und:\n"
+"             X : Extrahiert das XMP-Packet nach <file>.xmp\n"
 
 #: src/exiv2.cpp:278
 msgid ""
 "   -r fmt  Filename format for the 'rename' action. The format string\n"
 "           follows strftime(3). The following keywords are supported:\n"
 msgstr ""
+"   -r fmt  Dateinamensformat für die Aktion 'umbenennen'. Die Formatierungszeichenkette\n"
+"           entspricht strftime(3). Die folgenden Schlüsselwörter werden unterstützt:\n"
 
 #: src/exiv2.cpp:280
 msgid "             :basename:   - original filename without extension\n"
@@ -1661,24 +1671,32 @@ msgid ""
 "   -m file Command file for the modify action. The format for commands is\n"
 "           set|add|del <key> [[<type>] <value>].\n"
 msgstr ""
+"   -m datei Befehlsdatei für die Aktion \"Modifizieren\". Das Format für die Befehle ist\n"
+"           set|add|del <schlüssel> [[<typ>] <wert>].\n"
 
 #: src/exiv2.cpp:288
 msgid ""
 "   -M cmd  Command line for the modify action. The format for the\n"
 "           commands is the same as that of the lines of a command file.\n"
 msgstr ""
+"   -M bef  Befehlszeile für die Aktion \"Modifizieren\". Das Format für die\n"
+"           Befehle ist das gleiche wie der Befehlsdatei.\n"
 
 #: src/exiv2.cpp:290
 msgid ""
 "   -l dir  Location (directory) for files to be inserted from or extracted "
 "to.\n"
 msgstr ""
+"   -l ord  Lokation (Ordner) für die Dateien aus den eingefügt bzw. extrahiert "
+"wird.\n"
 
 #: src/exiv2.cpp:291
 msgid ""
 "   -S .suf Use suffix .suf for source files for insert command.\n"
 "\n"
 msgstr ""
+"   -S .suf Benutzt den Suffix .suf für die Quelldateien beim Befehl Einfügen.\n"
+"\n"
 
 #: src/exiv2.cpp:321 src/exiv2.cpp:367 src/exiv2.cpp:574
 msgid "Option"
@@ -1914,7 +1932,7 @@ msgstr "Ungültiger Schlüssel \"%1\""
 
 #: src/error.cpp:52
 msgid "Invalid tag name or ifdId `%1', ifdId %2"
-msgstr ""
+msgstr "Ungültiger Feldname oder IFD-ID `%1', IFD-ID %2"
 
 #: src/error.cpp:53
 msgid "Value not set"
@@ -1950,7 +1968,7 @@ msgstr "Dies scheint kein JPEG-Bild zu sein."
 
 #: src/error.cpp:61
 msgid "MakerTagInfo registry full"
-msgstr ""
+msgstr "Die Rgistrierung für das HerstellerfeldInfo ist voll"
 
 #: src/error.cpp:62
 msgid "%1: Failed to rename file to %2: %3"
@@ -1978,23 +1996,23 @@ msgstr "Die Eingabedaten enthalten kein gültiges Bild."
 
 #: src/error.cpp:68
 msgid "Failed to create Makernote for ifdId %1"
-msgstr ""
+msgstr "Fehler beim Erstellen der Herstellerbemerkung für die iFD-ID %1"
 
 #: src/error.cpp:69
 msgid "Entry::setValue: Value too large (tag=%1, size=%2, requested=%3)"
-msgstr ""
+msgstr "Entry::setValue: Wert zu groß (Feld=%1, Größe=%2, Angefragt=%3)"
 
 #: src/error.cpp:70
 msgid "Entry::setDataArea: Value too large (tag=%1, size=%2, requested=%3)"
-msgstr ""
+msgstr "Entry::setDataArea: Wert zu groß (Feld=%1, Größe=%2, Angefragt=%3)"
 
 #: src/error.cpp:71
 msgid "Offset out of range"
-msgstr ""
+msgstr "Offset ausserhalb des zulässigen Bereiches"
 
 #: src/error.cpp:72
 msgid "Unsupported data area offset type"
-msgstr ""
+msgstr "Nicht unterstützter Datenbereich für den Offsettyp"
 
 #: src/error.cpp:73
 msgid "Invalid charset: `%1'"
@@ -2026,11 +2044,11 @@ msgstr "%1: Nicht unterstützt"
 
 #: src/error.cpp:80
 msgid "No namespace info available for XMP prefix `%1'"
-msgstr ""
+msgstr "Keine Namensrauminformation für den XMP-Präfix `%1' verfügbar"
 
 #: src/error.cpp:81
 msgid "No prefix registered for namespace `%1'"
-msgstr ""
+msgstr "Es ist kein Präfix registriert für den Namensraum `%1'"
 
 #: src/error.cpp:82
 msgid "Size of %1 JPEG segment is larger than 65535 bytes"
@@ -2038,39 +2056,39 @@ msgstr "Die Größe des %1 JPEG-Segments ist größer als 5535 Bytes."
 
 #: src/error.cpp:83
 msgid "Unhandled Xmpdatum %1 of type %2"
-msgstr ""
+msgstr "Nicht verwaltbares XMP-Datum %1 vom Typ %2"
 
 #: src/error.cpp:84
 msgid "Unhandled XMP node %1 with opt=%2"
-msgstr ""
+msgstr "Nicht verwaltbarer XMP-Knoten %1 mit opt=%2"
 
 #: src/error.cpp:85
 msgid "XMP Toolkit error %1: %2"
-msgstr ""
+msgstr "Fehler des XMP-Werkzeugsatzes %1: %2"
 
 #: src/error.cpp:86
 msgid "Failed to decode Lang Alt property %1 with opt=%2"
-msgstr ""
+msgstr "Fehler beim Dekodieren der alternativen Spracheigenschaft %1 mit opt=%2"
 
 #: src/error.cpp:87
 msgid "Failed to decode Lang Alt qualifier %1 with opt=%2"
-msgstr ""
+msgstr "Fehler beim Dekodieren der alternativen Sprachvermerks %1 mit opt=%2"
 
 #: src/error.cpp:88
 msgid "Failed to encode Lang Alt property %1"
-msgstr ""
+msgstr "Fehler beim Enkodieren der alternativen Spracheigenschaft %1"
 
 #: src/error.cpp:89
 msgid "Failed to determine property name from path %1, namespace %2"
-msgstr ""
+msgstr "Fehler bei der Bestimmung des Eigenschaftsnamen aus dem Pfad %1, Namensraum %2"
 
 #: src/error.cpp:90
 msgid "Schema namespace %1 is not registered with the XMP Toolkit"
-msgstr ""
+msgstr "Namensraum des Schemas %1 ist nicht im XMP Werkzeugsatz registriert"
 
 #: src/error.cpp:91
 msgid "No namespace registered for prefix `%1'"
-msgstr ""
+msgstr "Es ist kein Namensraum für den Präfix `%1' registriert"
 
 #: src/error.cpp:92
 msgid ""
@@ -2096,11 +2114,11 @@ msgstr "IFD Einträge"
 
 #: src/ifd.cpp:720
 msgid "Entry     Tag  Format   (Bytes each)  Number  Offset\n"
-msgstr ""
+msgstr "Eintrag     Feld  Format   (Bytes Jeweilig)  Nummer  Offset\n"
 
 #: src/ifd.cpp:752
 msgid "Next IFD"
-msgstr ""
+msgstr "Nächster IFD"
 
 #: src/ifd.cpp:759
 msgid "Data of entry"
@@ -2180,11 +2198,11 @@ msgstr "Vorschaustruktur"
 
 #: src/properties.cpp:89
 msgid "Resource Event structure"
-msgstr ""
+msgstr "Eventstruktur der Ressource"
 
 #: src/properties.cpp:90
 msgid "ResourceRef structure"
-msgstr ""
+msgstr "RessourceRef-Struktur"
 
 #: src/properties.cpp:91
 msgid "Version structure"
@@ -2196,7 +2214,7 @@ msgstr ""
 
 #: src/properties.cpp:95
 msgid "Qualifier for xmp:Identifier"
-msgstr ""
+msgstr "Kennzeichnung für XMP:Identifikator"
 
 #: src/properties.cpp:99
 msgid "Contributor"
@@ -2204,7 +2222,7 @@ msgstr "Mitwirkende"
 
 #: src/properties.cpp:99
 msgid "Contributors to the resource (other than the authors)."
-msgstr ""
+msgstr "Andere Mitwirkende als die Autoren bei den Ressourcen."
 
 #: src/properties.cpp:100
 msgid "Coverage"
@@ -2222,7 +2240,7 @@ msgstr "Ersteller"
 
 #: src/properties.cpp:102
 msgid "The authors of the resource (listed in order of precedence, if significant)."
-msgstr ""
+msgstr "Die Autoren der Ressource in der Ordnung Ihres Beitrags."
 
 #: src/properties.cpp:103 src/pentaxmn.cpp:770 src/pentaxmn.cpp:771
 msgid "Date"
@@ -2230,13 +2248,13 @@ msgstr "Datum"
 
 #: src/properties.cpp:103
 msgid "Date(s) that something interesting happened to the resource."
-msgstr ""
+msgstr "Daten an denen etwas Interessantes an der Ressource geschah."
 
 #: src/properties.cpp:104
 msgid ""
 "A textual description of the content of the resource. Multiple values may be "
 "present for different languages."
-msgstr ""
+msgstr "Eine textliche Beschreibung des Inhalts der Ressource. Mehrere Werte können für unterschiedliche Sprachen vorhanden sein."
 
 #: src/properties.cpp:106
 msgid "Format"
@@ -2247,7 +2265,7 @@ msgid ""
 "The file format used when saving the resource. Tools and applications should "
 "set this property to the save format of the data. It may include appropriate "
 "qualifiers."
-msgstr ""
+msgstr "Das zum Speichern der Ressource benutzte Dateiformat. Werkzeuge und Programme sollten diese Eignschaft setzen, um das Format der Daten zu speichern. Es kann auch It zugehörige Kennzeichnungen enthalten."
 
 #: src/properties.cpp:108 src/properties.cpp:142
 msgid "Identifier"
@@ -2258,11 +2276,11 @@ msgid ""
 "Unique identifier of the resource. Recommended best practice is to identify "
 "the resource by means of a string conforming to a formal identification "
 "system."
-msgstr ""
+msgstr "Eindeutiger Identifikator der Ressource. Die praktische Empfehlung ist es, die Ressource über eine Zeichnkette zu identifizieren, die einem formellen Identifikationssystem entspricht."
 
 #: src/properties.cpp:110
 msgid "An unordered array specifying the languages used in the resource."
-msgstr ""
+msgstr "Eine unsortierte Liste die die in der Ressource benutzten Sprachen aufzählt."
 
 #: src/properties.cpp:111
 msgid "Publisher"
@@ -2273,7 +2291,7 @@ msgid ""
 "An entity responsible for making the resource available. Examples of a "
 "Publisher include a person, an organization, or a service. Typically, the "
 "name of a Publisher should be used to indicate the entity."
-msgstr ""
+msgstr "Eine Entität die benutzt wird, um die Ressource zur Verfügung zu stellen. Beispiele für den Herausgeber könnten eine Person, eine Organisation oder ein Dienst sein. Typischerweise sollte der Name eines Herausgebers benutzt werden, um die Entität zu kennzeichen"
 
 #: src/properties.cpp:114
 msgid "Relation"
@@ -2284,7 +2302,7 @@ msgid ""
 "Relationships to other documents. Recommended best practice is to identify "
 "the related resource by means of a string conforming to a formal "
 "identification system."
-msgstr ""
+msgstr "Beziehungen zu anderen Dokumenten. Die Empfehlung aus der Praxis ist es, die betreffende Ressource durch eine Zeichenkette zu identifizieren, die einem formellen Identifizierungssystem entspricht."
 
 #: src/properties.cpp:116
 msgid "Rights"
@@ -2295,11 +2313,11 @@ msgid ""
 "Informal rights statement, selected by language. Typically, rights "
 "information includes a statement about various property rights associated "
 "with the resource, including intellectual property rights."
-msgstr ""
+msgstr "Informelle Rechtsaussage die durch die Sprache ausgewählt wird. Typischerweise enthalten Rechtsinformationen eine Aussage über verschiedene Eigenschaftsrechte, inklusive geistige Eigentumsrechte, die mit der Ressource assoziert sind."
 
 #: src/properties.cpp:119
 msgid "Unique identifier of the work from which this resource was derived."
-msgstr ""
+msgstr "Eindeutige Identifikation der Arbeit von der diese Ressource abgeleitet wurde."
 
 #: src/properties.cpp:120
 msgid ""
@@ -2323,7 +2341,7 @@ msgstr "Typ"
 
 #: src/properties.cpp:124
 msgid "A document type; for example, novel, poem, or working paper."
-msgstr ""
+msgstr "En Dokumenttyp wie z.B. Roman, Gedicht oder Arbeitspapier."
 
 #: src/properties.cpp:130
 msgid "Advisory"
