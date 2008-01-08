@@ -71,6 +71,13 @@ PNG tags              : http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/PN
 */
 
 // *****************************************************************************
+// local declarations
+namespace {
+    // Return the checked length of a PNG chunk
+    long chunkLength(const Exiv2::byte* pData, long index);
+}
+
+// *****************************************************************************
 // class member definitions
 namespace Exiv2 {
 
@@ -83,7 +90,7 @@ namespace Exiv2 {
 
         // look for a tEXt chunk
         long index = 8;
-        index += getLong(&pData[index], bigEndian) + PNG_CHUNK_HEADER_SIZE;
+        index += chunkLength(pData, index) + PNG_CHUNK_HEADER_SIZE;
 
         while(index < size-PNG_CHUNK_HEADER_SIZE)
         {
@@ -95,7 +102,7 @@ namespace Exiv2 {
                 if (!strncmp((char*)PNG_CHUNK_TYPE(pData, index), "IEND", 4))
                     throw Error(14);
 
-                index += getLong(&pData[index], bigEndian) + PNG_CHUNK_HEADER_SIZE;
+                index += chunkLength(pData, index) + PNG_CHUNK_HEADER_SIZE;
             }
 
             if (index < size-PNG_CHUNK_HEADER_SIZE)
@@ -123,7 +130,7 @@ namespace Exiv2 {
 
                 parseChunkContent(pImage, key, arr);
 
-                index += getLong(&pData[index], bigEndian) + PNG_CHUNK_HEADER_SIZE;
+                index += chunkLength(pData, index) + PNG_CHUNK_HEADER_SIZE;
             }
         }
 
@@ -692,3 +699,14 @@ namespace Exiv2 {
 */
     
 }                                       // namespace Exiv2
+
+// *****************************************************************************
+// local definitions
+namespace {
+    long chunkLength(const Exiv2::byte* pData, long index)
+    {
+        uint32_t length = Exiv2::getULong(&pData[index], Exiv2::bigEndian);
+        if (length > 0x7FFFFFFF) throw Exiv2::Error(14);
+        return static_cast<long>(length);
+    }
+}
