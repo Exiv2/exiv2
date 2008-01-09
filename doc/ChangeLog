@@ -1,3 +1,37 @@
+Changes from version 0.16-pre1 to 0.16
+--------------------------------------
+
+* Exiv2 utility
+	- 0000484: [tools] exiv2 -T adjusts file timestamp wrongly.
+	           (Reported by Dave Locke)
+	- 0000477: [tools] Adjust year, month and day of the timestamp.
+	           (Based on a patch by David Grundberg)
+	-          [tools] Modified fixiso action to handle Canon tags as well.
+
+* Exiv2 library
+	- 0000537: [miscellaneous] Broken PNG image causes exiv2 to crash.
+	           (digiKam bug 155105, reported by Michal Kosmulski)
+	- 0000534: [exif] Integer overflow when reading thumbnail.
+	           (Reported by Meder Kydyraliev, Google Security Team)
+	- 0000533: [iptc] Read IPTC data from multiple APP13 Photoshop 3.0 segments.
+	- 0000531: [exif] Pentax lens info decoding. (Patch by Michal Cihar)
+	         - [exif] Updated Nikon lens info to v2.99 of Robert Rottmerhusen's
+	           lens database.
+	         - [doc] Added reference tables for XMP properties to documentation.
+	         - [miscellaneous] Updated German translation.
+	           (Oliver Dörr)
+	         - [miscellaneous] Updated Polish translation.
+	           (Piotr Eljasiak)
+
+* MSVC related
+	- 0000535: [build environment] unlink() declaration conflicts with Visual
+	           Studio stdio.h. (Reported with patch by Nikolai Saoukh)
+	- 0000514: [miscellaneous] Linking with libexiv2 masks system localtime,
+	           and on MinGW, that of libexiv2 doesn't handle DST correctly.
+	         - [build environment] Fixed compilation of the samples.
+	         - [build environment] Added support for XMP to MSVC project files.
+
+
 Changes from version 0.15 to 0.16-pre1
 --------------------------------------
 
@@ -18,7 +52,7 @@ Changes from version 0.15 to 0.16-pre1
 	         - [miscellaneous] Added i18n for XMP properties, XMP support
 	           in PNG images. (Gilles Caulier)
 	         - [build environment] Isolated sample programs in their own
-	           dirextory.
+	           directory.
 	         - [miscellaneous] Updated French translation.
 	           (Olivier Tilloy)
 	         - [miscellaneous] Updated German translation.
