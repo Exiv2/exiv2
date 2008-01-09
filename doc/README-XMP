@@ -1,12 +1,16 @@
 Exiv2 XMP support
 *****************
 
-XMP support is controlled with the --enable-xmp and --disable-xmp
-options to the configure script. Building Exiv2 with XMP support
-requires the Expat XML parser library (http://expat.sourceforge.net/).
-The --with-expat configure option can be used if it is installed in a
-non-standard directory. See the main README file for general build
-information.
+On UNIX-like systems, XMP support is controlled with the --enable-xmp
+and --disable-xmp options to the configure script.
+Building Exiv2 with XMP support requires the Expat XML parser library
+(http://expat.sourceforge.net/). The --with-expat configure option
+can be used if it is installed in a non-standard directory.
+The MSVC project files for Windows are setup to always build Exiv2
+with XMP support. Before compiling, copy the Expat libexpat.lib file
+to the directory msvc/lib in the Exiv2 source tree.
+
+See the main README file for general build information.
 
 For API documentation of XMP classes and samples, build or install the 
 documentation and go to doc/html/getting-started.html
