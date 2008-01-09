@@ -1,7 +1,7 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Andreas Huggel
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Exiv2 message strings
+# Copyright (C) 2004-2008 Andreas Huggel
+# This file is distributed under the same license as the Exiv2 package.
+# Andreas Huggel <ahuggel@gmx.net>, 2004-2008.
 #
 #, fuzzy
 msgid ""
