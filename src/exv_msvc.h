@@ -23,13 +23,13 @@
 #define EXV_PACKAGE_NAME "exiv2"
 
 /* Define to the full name and version of this package. */
-#define EXV_PACKAGE_STRING "exiv2 0.16-pre1"
+#define EXV_PACKAGE_STRING "exiv2 0.16"
 
 /* Define to the one symbol short name of this package. */
 #define EXV_PACKAGE_TARNAME "exiv2"
 
 /* Define to the version of this package. */
-#define EXV_PACKAGE_VERSION "0.16-pre1"
+#define EXV_PACKAGE_VERSION "0.16"
 
 /* Define to `int' if <sys/types.h> does not define pid_t. */
 #define pid_t int
