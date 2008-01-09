@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2007-12-22 19:20+0800\n"
+"POT-Creation-Date: 2008-01-10 00:41+0800\n"
 "PO-Revision-Date: 2007-10-14 02:56+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -23,12 +23,12 @@ msgstr ""
 #: src/actions.cpp:903 src/actions.cpp:1035 src/actions.cpp:1066
 #: src/actions.cpp:1116 src/actions.cpp:1157 src/actions.cpp:1162
 #: src/actions.cpp:1182 src/actions.cpp:1187 src/actions.cpp:1215
-#: src/actions.cpp:1435 src/actions.cpp:1519 src/actions.cpp:1693
+#: src/actions.cpp:1438 src/actions.cpp:1570 src/actions.cpp:1741
 msgid "Failed to open the file\n"
 msgstr "Не удалось открыть файл\n"
 
 #: src/actions.cpp:246 src/actions.cpp:602 src/actions.cpp:830
-#: src/actions.cpp:1075 src/actions.cpp:1448 src/actions.cpp:1532
+#: src/actions.cpp:1075 src/actions.cpp:1451 src/actions.cpp:1583
 msgid "No Exif data found in the file\n"
 msgstr "В этом файле не найдено данных EXIF\n"
 
@@ -188,7 +188,7 @@ msgstr "найден в этом файле"
 msgid "Image file creation timestamp not set in the file"
 msgstr "ОТметка времени создания снимка в файле отсутствует"
 
-#: src/actions.cpp:853
+#: src/actions.cpp:853 src/actions.cpp:1540
 msgid "Failed to parse timestamp"
 msgstr "Не удалось произвести синтаксический разбор отметки времени"
 
@@ -232,8 +232,9 @@ msgstr "Данные EXIF удаляются из файла"
 msgid "Writing XMP packet from"
 msgstr "Запись данных EXIF из"
 
-#: src/actions.cpp:1049 src/actions.cpp:1718 src/actions.cpp:1726
-#: src/actions.cpp:1734 src/actions.cpp:1743 src/actions.cpp:1844
+#: src/actions.cpp:1049 src/actions.cpp:1559 src/actions.cpp:1766
+#: src/actions.cpp:1774 src/actions.cpp:1782 src/actions.cpp:1791
+#: src/actions.cpp:1892
 msgid "to"
 msgstr "в"
 
@@ -297,90 +298,119 @@ msgstr "Удалить"
 msgid "Reg "
 msgstr ""
 
-#: src/actions.cpp:1490
+#: src/actions.cpp:1493
 msgid "Timestamp of metadatum with key"
 msgstr ""
 
-#: src/actions.cpp:1491
+#: src/actions.cpp:1494
 msgid "not set\n"
 msgstr "не установлено\n"
 
-#: src/actions.cpp:1496
-msgid "Failed to parse or convert timestamp"
-msgstr ""
-
-#: src/actions.cpp:1501
+#: src/actions.cpp:1499
 msgid "Adjusting"
 msgstr "Коррекция"
 
-#: src/actions.cpp:1501
+#: src/actions.cpp:1499
 msgid "by"
 msgstr ""
 
-#: src/actions.cpp:1503
-msgid " s to "
+#: src/actions.cpp:1503 src/actions.cpp:1552
+#, fuzzy
+msgid "years"
+msgstr "Байт"
+
+#: src/actions.cpp:1506
+msgid "year"
 msgstr ""
 
-#: src/actions.cpp:1540
+#: src/actions.cpp:1514
+#, fuzzy
+msgid "months"
+msgstr "Использованная точка AF"
+
+#: src/actions.cpp:1517
+#, fuzzy
+msgid "month"
+msgstr "Использованная точка AF"
+
+#: src/actions.cpp:1525
+msgid "days"
+msgstr ""
+
+#: src/actions.cpp:1528
+msgid "day"
+msgstr ""
+
+#: src/actions.cpp:1534
+#, fuzzy
+msgid "s"
+msgstr "2с"
+
+#: src/actions.cpp:1550
+#, fuzzy
+msgid "Can't adjust timestamp by"
+msgstr "Не удалось произвести синтаксический разбор отметки времени"
+
+#: src/actions.cpp:1591
 msgid "Standard Exif ISO tag exists; not modified\n"
 msgstr ""
 
-#: src/actions.cpp:1569
+#: src/actions.cpp:1620
 msgid "Setting Exif ISO value to"
 msgstr ""
 
-#: src/actions.cpp:1717
+#: src/actions.cpp:1765
 msgid "Writing Exif data from"
 msgstr "Запись данных EXIF из"
 
-#: src/actions.cpp:1725
+#: src/actions.cpp:1773
 #, fuzzy
 msgid "Writing IPTC data from"
 msgstr "Запись данных IPTC из"
 
-#: src/actions.cpp:1733
+#: src/actions.cpp:1781
 #, fuzzy
 msgid "Writing XMP data from"
 msgstr "Запись данных EXIF из"
 
-#: src/actions.cpp:1742
+#: src/actions.cpp:1790
 #, fuzzy
 msgid "Writing JPEG comment from"
 msgstr "Запись комментария JPEG из"
 
-#: src/actions.cpp:1752
+#: src/actions.cpp:1800
 msgid "Could not write metadata to file"
 msgstr "Не удалось записать метаданные в файл"
 
-#: src/actions.cpp:1770
+#: src/actions.cpp:1818
 msgid "Filename format yields empty filename for the file"
 msgstr ""
 
-#: src/actions.cpp:1779
+#: src/actions.cpp:1827
 msgid "This file already has the correct name"
 msgstr "У этого файла уже правильное имя"
 
-#: src/actions.cpp:1803 src/exiv2.cpp:150
+#: src/actions.cpp:1851 src/exiv2.cpp:150
 msgid "File"
 msgstr "Файл"
 
-#: src/actions.cpp:1804
+#: src/actions.cpp:1852
 msgid "exists. [O]verwrite, [r]ename or [s]kip?"
 msgstr "существует. Перезаписать [O], переименовать [r] или пропустить [s]?"
 
-#: src/actions.cpp:1832
+#: src/actions.cpp:1880
 msgid "Renaming file to"
 msgstr "Файл переименовывается в"
 
-#: src/actions.cpp:1834
+#: src/actions.cpp:1882
 msgid "updating timestamp"
 msgstr "обновляется отметка времени"
 
-#: src/actions.cpp:1843
+#: src/actions.cpp:1891
 msgid "Failed to rename"
 msgstr "Не удалось переименовать"
 
-#: src/actions.cpp:1865
+#: src/actions.cpp:1913
 msgid "Overwrite"
 msgstr "Перезаписать"
 
@@ -1196,11 +1226,11 @@ msgstr ""
 msgid "Unknown dataset"
 msgstr "Неизвестный набор данных"
 
-#: src/exiv2.cpp:185
-msgid "Copyright (C) 2004-2007 Andreas Huggel.\n"
-msgstr "Авторские права (C) 2004-2007 Andreas Huggel.\n"
+#: src/exiv2.cpp:191
+msgid "Copyright (C) 2004-2008 Andreas Huggel.\n"
+msgstr "Авторские права (C) 2004-2008 Andreas Huggel.\n"
 
-#: src/exiv2.cpp:187
+#: src/exiv2.cpp:193
 msgid ""
 "This program is free software; you can redistribute it and/or\n"
 "modify it under the terms of the GNU General Public License\n"
@@ -1208,7 +1238,7 @@ msgid ""
 "of the License, or (at your option) any later version.\n"
 msgstr ""
 
-#: src/exiv2.cpp:192
+#: src/exiv2.cpp:198
 msgid ""
 "This program is distributed in the hope that it will be useful,\n"
 "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
@@ -1216,7 +1246,7 @@ msgid ""
 "GNU General Public License for more details.\n"
 msgstr ""
 
-#: src/exiv2.cpp:197
+#: src/exiv2.cpp:203
 msgid ""
 "You should have received a copy of the GNU General Public\n"
 "License along with this program; if not, write to the Free\n"
@@ -1224,11 +1254,11 @@ msgid ""
 "Boston, MA 02110-1301 USA\n"
 msgstr ""
 
-#: src/exiv2.cpp:205
+#: src/exiv2.cpp:211
 msgid "Usage:"
 msgstr "Использование:"
 
-#: src/exiv2.cpp:206
+#: src/exiv2.cpp:212
 msgid ""
 "[ options ] [ action ] file ...\n"
 "\n"
@@ -1236,11 +1266,11 @@ msgstr ""
 "[ ключи ] [ действие ] файл ...\n"
 "\n"
 
-#: src/exiv2.cpp:207
+#: src/exiv2.cpp:213
 msgid "Manipulate the Exif metadata of images.\n"
 msgstr "Работа с метаданными изображений.\n"
 
-#: src/exiv2.cpp:213
+#: src/exiv2.cpp:219
 msgid ""
 "\n"
 "Actions:\n"
@@ -1248,23 +1278,24 @@ msgstr ""
 "\n"
 "Действия:\n"
 
-#: src/exiv2.cpp:214
+#: src/exiv2.cpp:220
+#, fuzzy
 msgid ""
-"  ad | adjust   Adjust Exif timestamps by the given time. This\n"
-"                action requires the option -a time.\n"
+"  ad | adjust   Adjust Exif timestamps by the given time. This action\n"
+"                requires at least one of the -a, -Y, -O or -D options.\n"
 msgstr ""
 "  ad | adjust   Заменить отметки времени EXIF на заданное время.\n"
 "  Этому действию нужен ключ -a time.\n"
 
-#: src/exiv2.cpp:216
+#: src/exiv2.cpp:222
 msgid "  pr | print    Print image metadata.\n"
 msgstr "  pr | print    Вывести на экран метаданные изображения.\n"
 
-#: src/exiv2.cpp:217
+#: src/exiv2.cpp:223
 msgid "  rm | delete   Delete image metadata from the files.\n"
 msgstr "  rm | delete  Удалить метаданные изображений из их файлов.\n"
 
-#: src/exiv2.cpp:218
+#: src/exiv2.cpp:224
 msgid ""
 "  in | insert   Insert metadata from corresponding *.exv files.\n"
 "                Use option -S to change the suffix of the input files.\n"
@@ -1272,13 +1303,13 @@ msgstr ""
 "  in | insert  Вставить метаданные из соответствующих файлов *.exv.\n"
 "                Используйте ключ -S для смены суффикса входящих файлов.\n"
 
-#: src/exiv2.cpp:220
+#: src/exiv2.cpp:226
 #, fuzzy
 msgid ""
 "  ex | extract  Extract metadata to *.exv, *.xmp and thumbnail image files.\n"
 msgstr "  ex | extract  Извлечь метаданные в файлы *.exv и файлы эскизов.\n"
 
-#: src/exiv2.cpp:221
+#: src/exiv2.cpp:227
 msgid ""
 "  mv | rename   Rename files and/or set file timestamps according to the\n"
 "                Exif create timestamp. The filename format can be set with\n"
@@ -1289,7 +1320,7 @@ msgstr ""
 "                Формат файла можно установить ключом -r, параметры отметки\n"
 "                времени контролируются ключами -t и -T.\n"
 
-#: src/exiv2.cpp:224
+#: src/exiv2.cpp:230
 #, fuzzy
 msgid ""
 "  mo | modify   Apply commands to modify (add, set, delete) the Exif and\n"
@@ -1301,7 +1332,7 @@ msgstr ""
 "комментарий JPEG.\n"
 "                Необходимо использовать в паре с ключом -c, -m или -M.\n"
 
-#: src/exiv2.cpp:227
+#: src/exiv2.cpp:233
 msgid ""
 "  fi | fixiso   Copy ISO setting from the Nikon Makernote to the regular\n"
 "                Exif tag.\n"
@@ -1309,7 +1340,7 @@ msgstr ""
 "  fi | fixiso   Скопировать значение ISO из Nikon Makernote \n"
 "                в обычное поле EXIF.\n"
 
-#: src/exiv2.cpp:229
+#: src/exiv2.cpp:235
 msgid ""
 "\n"
 "Options:\n"
@@ -1317,170 +1348,182 @@ msgstr ""
 "\n"
 "Параметры:\n"
 
-#: src/exiv2.cpp:230
+#: src/exiv2.cpp:236
 msgid "   -h      Display this help and exit.\n"
 msgstr "   -h      Показать эту справку и выйти.\n"
 
-#: src/exiv2.cpp:231
+#: src/exiv2.cpp:237
 msgid "   -V      Show the program version and exit.\n"
 msgstr "   -V      Показать версию программы и выйти.\n"
 
-#: src/exiv2.cpp:232
+#: src/exiv2.cpp:238
 msgid "   -v      Be verbose during the program run.\n"
 msgstr "   -v      Выводить подробную информацию при выполнении действий.\n"
 
-#: src/exiv2.cpp:233
+#: src/exiv2.cpp:239
 msgid "   -b      Show large binary values.\n"
 msgstr "   -b      Показать большие двоичные значения.\n"
 
-#: src/exiv2.cpp:234
+#: src/exiv2.cpp:240
 msgid "   -u      Don't show unknown tags.\n"
 msgstr "   -u      Не показывать неизвестные тэги.\n"
 
-#: src/exiv2.cpp:235
+#: src/exiv2.cpp:241
 msgid "   -k      Preserve file timestamps (keep).\n"
 msgstr "   -k      Сохранять временные отметки файлов (keep).\n"
 
-#: src/exiv2.cpp:236
+#: src/exiv2.cpp:242
 msgid ""
 "   -t      Also set the file timestamp in 'rename' action (overrides -k).\n"
 msgstr ""
 
-#: src/exiv2.cpp:237
+#: src/exiv2.cpp:243
 msgid ""
 "   -T      Only set the file timestamp in 'rename' action, do not rename\n"
 "           the file (overrides -k).\n"
 msgstr ""
 
-#: src/exiv2.cpp:239
+#: src/exiv2.cpp:245
 msgid "   -f      Do not prompt before overwriting existing files (force).\n"
 msgstr ""
 "   -F      Не запрашивать подтверждение на перезапись файлов (force).\n"
 
-#: src/exiv2.cpp:240
+#: src/exiv2.cpp:246
 msgid "   -F      Do not prompt before renaming files (Force).\n"
 msgstr ""
 "   -F      Не запрашивать подтверждение на переименование файлов (Force).\n"
 
-#: src/exiv2.cpp:241
+#: src/exiv2.cpp:247
 msgid ""
 "   -a time Time adjustment in the format [-]HH[:MM[:SS]]. This option\n"
 "           is only used with the 'adjust' action.\n"
 msgstr ""
 
-#: src/exiv2.cpp:243
+#: src/exiv2.cpp:249
+msgid "   -Y yrs  Year adjustment with the 'adjust' action.\n"
+msgstr ""
+
+#: src/exiv2.cpp:250
+msgid "   -O mon  Month adjustment with the 'adjust' action.\n"
+msgstr ""
+
+#: src/exiv2.cpp:251
+msgid "   -D day  Day adjustment with the 'adjust' action.\n"
+msgstr ""
+
+#: src/exiv2.cpp:252
 msgid "   -p mode Print mode for the 'print' action. Possible modes are:\n"
 msgstr ""
 "   -p режим Print -- режим для действия 'вывод' (print). Возможные режимы:\n"
 
-#: src/exiv2.cpp:244
+#: src/exiv2.cpp:253
 msgid "             s : print a summary of the Exif metadata (the default)\n"
 msgstr "             s : вывести сводку метаданных EXIF (по умолчанию)\n"
 
-#: src/exiv2.cpp:245
+#: src/exiv2.cpp:254
 msgid ""
 "             t : interpreted (translated) Exif data (shortcut for -Pkyct)\n"
 msgstr ""
 "             t : интерпретированные данные EXIF (короткий вариант комбинации "
 "-Pkyct)\n"
 
-#: src/exiv2.cpp:246
+#: src/exiv2.cpp:255
 msgid "             v : plain Exif data values (shortcut for -Pxgnycv)\n"
 msgstr ""
 "             v : обычные значения данных EXIF (короткий вариант комбинации -"
 "Pxgnycv)\n"
 
-#: src/exiv2.cpp:247
+#: src/exiv2.cpp:256
 msgid "             h : hexdump of the Exif data (shortcut for -Pxgnycsh)\n"
 msgstr ""
 
-#: src/exiv2.cpp:248
+#: src/exiv2.cpp:257
 msgid "             i : IPTC data values\n"
 msgstr "             i : значения данных IPTC\n"
 
-#: src/exiv2.cpp:249
+#: src/exiv2.cpp:258
 msgid "             x : XMP properties\n"
 msgstr "             x : свойства XMP\n"
 
-#: src/exiv2.cpp:250 src/exiv2.cpp:269
+#: src/exiv2.cpp:259 src/exiv2.cpp:278
 msgid "             c : JPEG comment\n"
 msgstr "             c : комментарий JPEG\n"
 
-#: src/exiv2.cpp:251
+#: src/exiv2.cpp:260
 msgid ""
 "   -P cols Print columns for the Exif taglist ('print' action). Valid are:\n"
 msgstr ""
 
-#: src/exiv2.cpp:252
+#: src/exiv2.cpp:261
 msgid "             x : print a column with the tag value\n"
 msgstr "             x : вывести столбец со значениями тэгов\n"
 
-#: src/exiv2.cpp:253
+#: src/exiv2.cpp:262
 msgid "             g : group name\n"
 msgstr "             g : имя группы\n"
 
-#: src/exiv2.cpp:254
+#: src/exiv2.cpp:263
 msgid "             k : key\n"
 msgstr "             k : ключ\n"
 
-#: src/exiv2.cpp:255
+#: src/exiv2.cpp:264
 msgid "             l : tag label\n"
 msgstr "             l : метка тэга\n"
 
-#: src/exiv2.cpp:256
+#: src/exiv2.cpp:265
 msgid "             n : tag name\n"
 msgstr "             n : имя тэга\n"
 
-#: src/exiv2.cpp:257
+#: src/exiv2.cpp:266
 msgid "             y : type\n"
 msgstr "             y : тип\n"
 
-#: src/exiv2.cpp:258
+#: src/exiv2.cpp:267
 msgid "             c : number of components (count)\n"
 msgstr "             c : количество компонентов (count)\n"
 
-#: src/exiv2.cpp:259
+#: src/exiv2.cpp:268
 msgid "             s : size in bytes\n"
 msgstr "             s : размер в байтах\n"
 
-#: src/exiv2.cpp:260
+#: src/exiv2.cpp:269
 msgid "             v : plain data value\n"
 msgstr ""
 
-#: src/exiv2.cpp:261
+#: src/exiv2.cpp:270
 msgid "             t : interpreted (translated) data\n"
 msgstr ""
 
-#: src/exiv2.cpp:262
+#: src/exiv2.cpp:271
 msgid "             h : hexdump of the data\n"
 msgstr ""
 
-#: src/exiv2.cpp:263
+#: src/exiv2.cpp:272
 msgid ""
 "   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n"
 msgstr ""
 
-#: src/exiv2.cpp:264
+#: src/exiv2.cpp:273
 msgid "             a : all supported metadata (the default)\n"
 msgstr "             a : все поддерживаемые метаданные (по умолчанию)\n"
 
-#: src/exiv2.cpp:265
+#: src/exiv2.cpp:274
 msgid "             e : Exif section\n"
 msgstr "             e : раздел EXIF\n"
 
-#: src/exiv2.cpp:266
+#: src/exiv2.cpp:275
 msgid "             t : Exif thumbnail only\n"
 msgstr "             t : только EXIF-эскиз\n"
 
-#: src/exiv2.cpp:267
+#: src/exiv2.cpp:276
 msgid "             i : IPTC data\n"
 msgstr "             i : данные IPTC\n"
 
-#: src/exiv2.cpp:268
+#: src/exiv2.cpp:277
 msgid "             x : XMP packet\n"
 msgstr "             x : пакет XMP\n"
 
-#: src/exiv2.cpp:270
+#: src/exiv2.cpp:279
 msgid ""
 "   -i tgt  Insert target(s) for the 'insert' action. Possible targets are\n"
 "           the same as those for the -d option, plus:\n"
@@ -1489,237 +1532,247 @@ msgid ""
 "           <file>-thumb.jpg\n"
 msgstr ""
 
-#: src/exiv2.cpp:275
+#: src/exiv2.cpp:284
 msgid ""
 "   -e tgt  Extract target(s) for the 'extract' action. Possible targets\n"
 "           are the same as those for the -i option, plus:\n"
 "             X : Extract XMP packet to <file>.xmp\n"
 msgstr ""
 
-#: src/exiv2.cpp:278
+#: src/exiv2.cpp:287
 msgid ""
 "   -r fmt  Filename format for the 'rename' action. The format string\n"
 "           follows strftime(3). The following keywords are supported:\n"
 msgstr ""
 
-#: src/exiv2.cpp:280
+#: src/exiv2.cpp:289
 msgid "             :basename:   - original filename without extension\n"
 msgstr ""
 
-#: src/exiv2.cpp:281
+#: src/exiv2.cpp:290
 msgid ""
 "             :dirname:    - name of the directory holding the original file\n"
 msgstr ""
 
-#: src/exiv2.cpp:282
+#: src/exiv2.cpp:291
 msgid "             :parentname: - name of parent directory\n"
 msgstr ""
 
-#: src/exiv2.cpp:283
+#: src/exiv2.cpp:292
 msgid "           Default filename format is "
 msgstr "           Форматом файлов по умолчанию является "
 
-#: src/exiv2.cpp:285
+#: src/exiv2.cpp:294
 msgid "   -c txt  JPEG comment string to set in the image.\n"
 msgstr ""
 
-#: src/exiv2.cpp:286
+#: src/exiv2.cpp:295
 msgid ""
 "   -m file Command file for the modify action. The format for commands is\n"
 "           set|add|del <key> [[<type>] <value>].\n"
 msgstr ""
 
-#: src/exiv2.cpp:288
+#: src/exiv2.cpp:297
 msgid ""
 "   -M cmd  Command line for the modify action. The format for the\n"
 "           commands is the same as that of the lines of a command file.\n"
 msgstr ""
 
-#: src/exiv2.cpp:290
+#: src/exiv2.cpp:299
 msgid ""
 "   -l dir  Location (directory) for files to be inserted from or extracted "
 "to.\n"
 msgstr ""
 
-#: src/exiv2.cpp:291
+#: src/exiv2.cpp:300
 msgid ""
 "   -S .suf Use suffix .suf for source files for insert command.\n"
 "\n"
 msgstr ""
 
-#: src/exiv2.cpp:321 src/exiv2.cpp:367 src/exiv2.cpp:574
+#: src/exiv2.cpp:333 src/exiv2.cpp:379 src/exiv2.cpp:438 src/exiv2.cpp:620
 msgid "Option"
 msgstr "Параметр"
 
-#: src/exiv2.cpp:322
+#: src/exiv2.cpp:334
 msgid "requires an argument\n"
 msgstr "требует аргумент\n"
 
-#: src/exiv2.cpp:326
+#: src/exiv2.cpp:338
 msgid "Unrecognized option"
 msgstr "Неизвестный ключ"
 
-#: src/exiv2.cpp:332
+#: src/exiv2.cpp:344
 msgid "getopt returned unexpected character code"
 msgstr ""
 
-#: src/exiv2.cpp:358
+#: src/exiv2.cpp:370 src/exiv2.cpp:423
 msgid "Ignoring surplus option"
 msgstr ""
 
-#: src/exiv2.cpp:368 src/exiv2.cpp:575
+#: src/exiv2.cpp:380 src/exiv2.cpp:440 src/exiv2.cpp:621
 msgid "is not compatible with a previous option\n"
 msgstr ""
 
-#: src/exiv2.cpp:383
-msgid "Error parsing -a option argument"
-msgstr ""
-
-#: src/exiv2.cpp:390
+#: src/exiv2.cpp:395
 msgid "Ignoring surplus option -a"
 msgstr ""
 
-#: src/exiv2.cpp:394
+#: src/exiv2.cpp:401
+msgid "Error parsing -a option argument"
+msgstr ""
+
+#: src/exiv2.cpp:408
 msgid "Option -a is not compatible with a previous option\n"
 msgstr ""
 
-#: src/exiv2.cpp:415
+#: src/exiv2.cpp:430
+#, fuzzy
+msgid "Error parsing"
+msgstr "Удаление"
+
+#: src/exiv2.cpp:432
+#, fuzzy
+msgid "option argument"
+msgstr "Имя местоположения"
+
+#: src/exiv2.cpp:461
 msgid "Unrecognized print mode"
 msgstr ""
 
-#: src/exiv2.cpp:423
+#: src/exiv2.cpp:469
 msgid "Ignoring surplus option -p"
 msgstr ""
 
-#: src/exiv2.cpp:427
+#: src/exiv2.cpp:473
 msgid "Option -p is not compatible with a previous option\n"
 msgstr ""
 
-#: src/exiv2.cpp:455
+#: src/exiv2.cpp:501
 msgid "Unrecognized print item"
 msgstr ""
 
-#: src/exiv2.cpp:464
+#: src/exiv2.cpp:510
 msgid "Ignoring surplus option -P"
 msgstr ""
 
-#: src/exiv2.cpp:468
+#: src/exiv2.cpp:514
 msgid "Option -P is not compatible with a previous option\n"
 msgstr ""
 
-#: src/exiv2.cpp:495
+#: src/exiv2.cpp:541
 msgid "Option -d is not compatible with a previous option\n"
 msgstr ""
 
-#: src/exiv2.cpp:523
+#: src/exiv2.cpp:569
 msgid "Option -e is not compatible with a previous option\n"
 msgstr ""
 
-#: src/exiv2.cpp:551
+#: src/exiv2.cpp:597
 msgid "Option -i is not compatible with a previous option\n"
 msgstr ""
 
-#: src/exiv2.cpp:592
+#: src/exiv2.cpp:638
 msgid "Action adjust is not compatible with the given options\n"
 msgstr ""
 
-#: src/exiv2.cpp:601
+#: src/exiv2.cpp:647
 msgid "Action print is not compatible with the given options\n"
 msgstr ""
 
-#: src/exiv2.cpp:610
+#: src/exiv2.cpp:656
 msgid "Action delete is not compatible with the given options\n"
 msgstr ""
 
-#: src/exiv2.cpp:621
+#: src/exiv2.cpp:667
 msgid "Action extract is not compatible with the given options\n"
 msgstr ""
 
-#: src/exiv2.cpp:632
+#: src/exiv2.cpp:678
 msgid "Action insert is not compatible with the given options\n"
 msgstr ""
 
-#: src/exiv2.cpp:641
+#: src/exiv2.cpp:687
 msgid "Action rename is not compatible with the given options\n"
 msgstr ""
 
-#: src/exiv2.cpp:650
+#: src/exiv2.cpp:696
 msgid "Action modify is not compatible with the given options\n"
 msgstr ""
 
-#: src/exiv2.cpp:659
+#: src/exiv2.cpp:705
 msgid "Action fixiso is not compatible with the given options\n"
 msgstr ""
 
-#: src/exiv2.cpp:683
+#: src/exiv2.cpp:729
 msgid "An action must be specified\n"
 msgstr ""
 
-#: src/exiv2.cpp:688
-msgid "Adjust action requires option -a time\n"
+#: src/exiv2.cpp:738
+msgid "Adjust action requires at least one -a, -Y, -O or -D option\n"
 msgstr ""
 
-#: src/exiv2.cpp:694
+#: src/exiv2.cpp:744
 msgid "Modify action requires at least one -c, -m or -M option\n"
 msgstr ""
 
-#: src/exiv2.cpp:698
+#: src/exiv2.cpp:748
 msgid "At least one file is required\n"
 msgstr ""
 
-#: src/exiv2.cpp:704
+#: src/exiv2.cpp:754
 msgid "Error parsing -m option arguments\n"
 msgstr ""
 
-#: src/exiv2.cpp:711
+#: src/exiv2.cpp:761
 msgid "Error parsing -M option arguments\n"
 msgstr ""
 
-#: src/exiv2.cpp:718
+#: src/exiv2.cpp:768
 msgid "-l option can only be used with extract or insert actions\n"
 msgstr ""
 
-#: src/exiv2.cpp:723
+#: src/exiv2.cpp:773
 msgid "-S option can only be used with insert action\n"
 msgstr ""
 
-#: src/exiv2.cpp:728
+#: src/exiv2.cpp:778
 msgid "-t option can only be used with rename action\n"
 msgstr ""
 
-#: src/exiv2.cpp:733
+#: src/exiv2.cpp:783
 msgid "-T option can only be used with rename action\n"
 msgstr ""
 
-#: src/exiv2.cpp:801
+#: src/exiv2.cpp:851
 msgid "Unrecognized "
 msgstr ""
 
-#: src/exiv2.cpp:802
+#: src/exiv2.cpp:852
 msgid "target"
 msgstr ""
 
-#: src/exiv2.cpp:820
+#: src/exiv2.cpp:870
 msgid "Failed to open command file for reading\n"
 msgstr ""
 
-#: src/exiv2.cpp:833
+#: src/exiv2.cpp:883
 msgid "line"
 msgstr "строка"
 
-#: src/exiv2.cpp:856
+#: src/exiv2.cpp:906
 msgid "-M option"
 msgstr ""
 
-#: src/exiv2.cpp:877 src/exiv2.cpp:936 src/exiv2.cpp:946
+#: src/exiv2.cpp:927 src/exiv2.cpp:986 src/exiv2.cpp:996
 msgid "Invalid command line"
 msgstr ""
 
-#: src/exiv2.cpp:884
+#: src/exiv2.cpp:934
 msgid "Invalid command"
 msgstr ""
 
-#: src/exiv2.cpp:917
+#: src/exiv2.cpp:967
 msgid "Invalid key"
 msgstr ""
 
