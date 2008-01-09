@@ -2,9 +2,9 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(exiv2, 0.16-pre1, ahuggel@gmx.net)
+AC_INIT(exiv2, 0.16, ahuggel@gmx.net)
 # See http://www.gnu.org/software/libtool/manual.html#Updating-version-info
-EXIV2_LTVERSION=2:0:0
+EXIV2_LTVERSION=3:0:1
 PACKAGE=$PACKAGE_NAME
 VERSION=$PACKAGE_VERSION
 AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE")
