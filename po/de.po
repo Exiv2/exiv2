@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
 "POT-Creation-Date: 2008-01-10 00:41+0800\n"
-"PO-Revision-Date: 2008-01-09 22:29+0100\n"
+"PO-Revision-Date: 2008-01-12 08:53+0100\n"
 "Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
 "Language-Team: german <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -7923,7 +7923,7 @@ msgstr "Weißabgleichstabelle"
 
 #: src/canonmn.cpp:209
 msgid "Unknown CanonMakerNote tag"
-msgstr ""
+msgstr "Unbekanntes Herstellerbemerkungsfeld von Canon"
 
 #: src/canonmn.cpp:219 src/canonmn.cpp:236 src/canonmn.cpp:427
 #: src/fujimn.cpp:67 src/fujimn.cpp:109 src/fujimn.cpp:148
@@ -9141,11 +9141,11 @@ msgstr ""
 
 #: src/fujimn.cpp:253
 msgid "Dynamic Range"
-msgstr ""
+msgstr "Dynamischer Bereich"
 
 #: src/fujimn.cpp:254
 msgid "Dynamic range"
-msgstr ""
+msgstr "Dynamischer Bereich"
 
 #: src/fujimn.cpp:256
 msgid "Film Mode"
@@ -9157,19 +9157,19 @@ msgstr "Filmmodus"
 
 #: src/fujimn.cpp:259
 msgid "Dynamic Range Setting"
-msgstr ""
+msgstr "Dynamische Bereichseinstellung"
 
 #: src/fujimn.cpp:260
 msgid "Dynamic range settings"
-msgstr ""
+msgstr "Dynamische Bereichseinstellung"
 
 #: src/fujimn.cpp:262
 msgid "Development Dynamic Range"
-msgstr ""
+msgstr "Entwicklungsdynamischer Bereich"
 
 #: src/fujimn.cpp:263
 msgid "Development dynamic range"
-msgstr ""
+msgstr "Entwicklungsdynamischer Bereich"
 
 #: src/fujimn.cpp:265
 msgid "Minimum Focal Length"
@@ -9225,7 +9225,7 @@ msgstr "Einzelbildnummer"
 
 #: src/fujimn.cpp:289
 msgid "Unknown FujiMakerNote tag"
-msgstr ""
+msgstr "Unbekanntes Herstellerbemerkungsfeld von Fujii"
 
 #: src/minoltamn.cpp:57
 msgid "Natural Color"
@@ -9418,7 +9418,7 @@ msgstr "Kameraeinstellungen (für Z1, DImage X und F100 Modelle)"
 
 #: src/minoltamn.cpp:293
 msgid "Unknown Minolta MakerNote tag"
-msgstr ""
+msgstr "Unbekanntes Herstellerbemerkungsfeld von Minolta"
 
 #: src/minoltamn.cpp:314
 msgid "Fill flash"
@@ -10212,7 +10212,7 @@ msgstr "AF Fokuspositioninformation"
 
 #: src/nikonmn.cpp:214
 msgid "Unknown Nikon1MakerNote tag"
-msgstr "Unbekantes Herstellerbemerkungsfeld von Nikon1"
+msgstr "Unbekanntes Herstellerbemerkungsfeld von Nikon1"
 
 #: src/nikonmn.cpp:269 src/nikonmn.cpp:892
 msgid "Continuous autofocus"
@@ -10284,7 +10284,7 @@ msgstr ""
 
 #: src/nikonmn.cpp:476
 msgid "Unknown Nikon2MakerNote tag"
-msgstr "Unbekantes Herstellerbemerkungsfeld von Nikon2"
+msgstr "Unbekanntes Herstellerbemerkungsfeld von Nikon2"
 
 #: src/nikonmn.cpp:603 src/olympusmn.cpp:212
 msgid "Flash Device"
@@ -10428,7 +10428,7 @@ msgstr ""
 
 #: src/nikonmn.cpp:693 src/nikonmn.cpp:694
 msgid "Lens FStops"
-msgstr ""
+msgstr "Blendeneinstellung der Linse"
 
 #: src/nikonmn.cpp:697
 msgid "Tone curve"
@@ -10572,15 +10572,15 @@ msgstr "Version der gelesenen Daten"
 
 #: src/nikonmn.cpp:794
 msgid "Capture Offsets"
-msgstr ""
+msgstr "Erfassungsoffsets"
 
 #: src/nikonmn.cpp:795
 msgid "Capture offsets"
-msgstr ""
+msgstr "Erfassungsoffsets"
 
 #: src/nikonmn.cpp:800
 msgid "Unknown Nikon3MakerNote tag"
-msgstr "Unbekantes Herstellerbemerkungsfeld von Nikon3"
+msgstr "Unbekanntes Herstellerbemerkungsfeld von Nikon3"
 
 #: src/nikonmn.cpp:1030
 msgid "Closest subject"
@@ -10612,7 +10612,7 @@ msgstr "Super Hohe Qualität (SHQ)"
 
 #: src/olympusmn.cpp:80
 msgid "On (preset)"
-msgstr ""
+msgstr "Ein (Standard)"
 
 #: src/olympusmn.cpp:86
 msgid "Internal"
@@ -10652,11 +10652,11 @@ msgstr "Digitale Zoomrate"
 
 #: src/olympusmn.cpp:138
 msgid "Focal Plane Diagonal"
-msgstr ""
+msgstr "Brennebene"
 
 #: src/olympusmn.cpp:139
 msgid "Focal plane diagonal"
-msgstr ""
+msgstr "Brennebene"
 
 #: src/olympusmn.cpp:141
 msgid "Lens Distortion Parameters"
@@ -10672,7 +10672,7 @@ msgstr "Firmware-Version der Software"
 
 #: src/olympusmn.cpp:148
 msgid "ASCII format data such as [PictureInfo]"
-msgstr ""
+msgstr "ASCII-Formatdaten wie z.B. bei [BildInfo]"
 
 #: src/olympusmn.cpp:150
 msgid "Camera ID"
@@ -10684,19 +10684,19 @@ msgstr "Kamera ID-Daten"
 
 #: src/olympusmn.cpp:170
 msgid "Pre Capture Frames"
-msgstr ""
+msgstr "Vorerfassungsbilder"
 
 #: src/olympusmn.cpp:171
 msgid "Pre-capture frames"
-msgstr ""
+msgstr "Vorerfassungsbilder"
 
 #: src/olympusmn.cpp:176
 msgid "One Touch WB"
-msgstr ""
+msgstr "Ein-Tasten-Weißabgleich"
 
 #: src/olympusmn.cpp:177
 msgid "One touch white balance"
-msgstr ""
+msgstr "Ein-Tasten-Weißabgleich"
 
 #: src/olympusmn.cpp:186
 msgid "Serial number"
@@ -10776,7 +10776,7 @@ msgstr "Makro-Fokus"
 
 #: src/olympusmn.cpp:240
 msgid "Macro focus step count"
-msgstr ""
+msgstr "Makro-Fokus-Schrittweite"
 
 #: src/olympusmn.cpp:242 src/olympusmn.cpp:323
 msgid "Sharpness Factor"
@@ -10884,11 +10884,11 @@ msgstr "Gültige Bits"
 
 #: src/olympusmn.cpp:332
 msgid "CoringFilter"
-msgstr ""
+msgstr "Kernfiilter"
 
 #: src/olympusmn.cpp:333
 msgid "Coring filter"
-msgstr ""
+msgstr "Kernfilter"
 
 #: src/olympusmn.cpp:353
 msgid "Compression Ratio"
@@ -10904,7 +10904,7 @@ msgstr "Eingebettetes Vorschaubild"
 
 #: src/olympusmn.cpp:360
 msgid "Offset of the preview image"
-msgstr ""
+msgstr "Offset des Vorschaubildes"
 
 #: src/olympusmn.cpp:363
 msgid "Size of the preview image"
@@ -10976,7 +10976,7 @@ msgstr "Rohinformation"
 
 #: src/olympusmn.cpp:398
 msgid "Unknown OlympusMakerNote tag"
-msgstr "Unbekantes Herstellerbemerkungsfeld von Olympus"
+msgstr "Unbekanntes Herstellerbemerkungsfeld von Olympus"
 
 #: src/olympusmn.cpp:486
 msgid "Fast"
@@ -11156,7 +11156,7 @@ msgstr "Reisetag"
 
 #: src/panasonicmn.cpp:280
 msgid "Unknown PanasonicMakerNote tag"
-msgstr "Unbekantes Herstellerbemerkungsfeld von Panasonic"
+msgstr "Unbekanntes Herstellerbemerkungsfeld von Panasonic"
 
 #: src/panasonicmn.cpp:370
 msgid " EV"
@@ -12180,7 +12180,7 @@ msgstr "Unbekannt"
 
 #: src/pentaxmn.cpp:753
 msgid "Pentax Makernote version"
-msgstr ""
+msgstr "Version der Pentax-Herstellerbemerkung"
 
 #: src/pentaxmn.cpp:756
 msgid "Camera shooting mode"
@@ -12392,7 +12392,7 @@ msgstr "Auto Fokus-Information"
 
 #: src/pentaxmn.cpp:962
 msgid "Unknown PentaxMakerNote tag"
-msgstr ""
+msgstr "Unbekanntes Herstellerbemerkungsfeld von Pentax"
 
 #: src/sigmamn.cpp:73
 msgid "Resolution Mode"
@@ -12424,7 +12424,7 @@ msgstr "Linsenweite"
 
 #: src/sigmamn.cpp:91
 msgid "Lens focal length range"
-msgstr ""
+msgstr "Linsenbrennweitenbereich"
 
 #: src/sigmamn.cpp:102 src/sigmamn.cpp:103
 msgid "Shadow"
@@ -12468,7 +12468,7 @@ msgstr "Automatische Erfassung"
 
 #: src/sigmamn.cpp:137
 msgid "Unknown SigmaMakerNote tag"
-msgstr "Unbekantes Herstellerbemerkungsfeld von Sigma"
+msgstr "Unbekanntes Herstellerbemerkungsfeld von Sigma"
 
 #: src/sigmamn.cpp:244
 msgid "8-Segment"
@@ -12476,5 +12476,5 @@ msgstr "8-Segment"
 
 #: src/sonymn.cpp:92
 msgid "Unknown SonyMakerNote tag"
-msgstr "Unbekantes Herstellerbemerkungsfeld von Sony"
+msgstr "Unbekanntes Herstellerbemerkungsfeld von Sony"
 
