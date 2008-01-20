@@ -721,7 +721,7 @@ namespace Exiv2 {
         TagInfo(0x9000, "ExifVersion", N_("Exif Version"),
                 N_("The version of this standard supported. Nonexistence of this "
                 "field is taken to mean nonconformance to the standard."),
-                exifIfdId, exifVersion, undefined, printValue),
+                exifIfdId, exifVersion, undefined, printVersion),
         TagInfo(0x9003, "DateTimeOriginal", N_("Date and Time (original)"),
                 N_("The date and time when the original image data was generated. "
                 "For a digital still camera the date and time the picture was taken are recorded."),
@@ -803,7 +803,7 @@ namespace Exiv2 {
                 exifIfdId, dateTime, asciiString, printValue),
         TagInfo(0xa000, "FlashpixVersion", N_("FlashPix Version"),
                 N_("The FlashPix format version supported by a FPXR file."),
-                exifIfdId, exifVersion, undefined, printValue),
+                exifIfdId, exifVersion, undefined, printVersion),
         TagInfo(0xa001, "ColorSpace", N_("Color Space"),
                 N_("The color space information tag is always "
                 "recorded as the color space specifier. Normally sRGB "
@@ -1161,7 +1161,7 @@ namespace Exiv2 {
                 iopIfdId, iopTags, asciiString, printValue),
         TagInfo(0x0002, "InteroperabilityVersion", N_("Interoperability Version"),
                 N_("Interoperability version"),
-                iopIfdId, iopTags, undefined, printValue),
+                iopIfdId, iopTags, undefined, printVersion),
         TagInfo(0x1000, "RelatedImageFileFormat", N_("Related Image File Format"),
                 N_("File format of image file"),
                 iopIfdId, iopTags, asciiString, printValue),
@@ -1998,6 +1998,26 @@ namespace Exiv2 {
         }
         else {
             os << length << ".0 mm";
+        }
+        return os;
+    }
+
+    std::ostream& printVersion(std::ostream& os, const Value& value)
+    {
+        if (value.size() != 4 || value.typeId() != undefined) {
+            return os << "(" << value << ")";
+        }
+
+        int i = 0;
+        /* Strip an eventual non significative digit */
+        if (value.toLong(0) == '0') {
+            i++;
+        }
+        for (; i < 4 ; ++i) {
+            os << static_cast<char>(value.toLong(i));
+            if (i == 1) {
+                os << '.';
+            }
         }
         return os;
     }
