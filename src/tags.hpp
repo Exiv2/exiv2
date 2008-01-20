@@ -475,6 +475,8 @@ namespace Exiv2 {
     std::ostream& print0xa404(std::ostream& os, const Value& value);
     //! Print 35mm equivalent focal length
     std::ostream& print0xa405(std::ostream& os, const Value& value);
+    //! Print any version packed in 4 Bytes format : major major minor minor
+    std::ostream& printVersion(std::ostream& os, const Value& value);
     //@}
 
     //! Calculate F number from an APEX aperture value

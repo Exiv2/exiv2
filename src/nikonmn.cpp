@@ -578,7 +578,7 @@ namespace Exiv2 {
     const TagInfo Nikon3MakerNote::tagInfo_[] = {
         TagInfo(0x0001, "Version", N_("Version"),
                 N_("Nikon Makernote version"),
-                nikon3IfdId, makerTags, undefined, printValue),
+                nikon3IfdId, makerTags, undefined, printVersion),
         TagInfo(0x0002, "ISOSpeed", N_("ISO Speed"),
                 N_("ISO speed setting"),
                 nikon3IfdId, makerTags, unsignedShort, print0x0002),
