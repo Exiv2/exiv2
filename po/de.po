@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
 "POT-Creation-Date: 2008-01-10 00:41+0800\n"
-"PO-Revision-Date: 2008-01-12 08:53+0100\n"
+"PO-Revision-Date: 2008-01-22 21:50+0100\n"
 "Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
 "Language-Team: german <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -287,7 +287,7 @@ msgstr "Löschen"
 
 #: src/actions.cpp:1413
 msgid "Reg "
-msgstr ""
+msgstr "Reg "
 
 #: src/actions.cpp:1493
 msgid "Timestamp of metadatum with key"
@@ -1098,7 +1098,7 @@ msgid ""
 "identification of a location or a new country, e.g. ships at sea, space, "
 "IPTC will assign an appropriate three-character code under the provisions of "
 "ISO 3166 to avoid conflicts."
-msgstr ""
+msgstr "Gibt den Kode des Landes/des primären Ortes an, in dem das geistige Eigentum der Objektdaten erstellt wurde. Dies ist z.B. für ein Foto der Ort an dem es gemacht wurde oder ein Ereigniss geschah. Für die Orte die von dem entsprechenden ISO-Länderkode 3166 erfasst sind, wird diese Kode benutzt. Wenn ISO 3166 keine adäquate Möglichkeit zur Identifikation darstellt, z.B. bei Schiffen oder im Weltraum, dann wird IPTC einen passenden Kode aus drei Zeichen zur Verfügung stellen. Hierbei wird die ISO 3166 zur Vermeidung von Konflikten berücksichtigt."
 
 #: src/datasets.cpp:352
 msgid "Country Name"
@@ -2267,7 +2267,7 @@ msgstr "Versionsstruktur"
 
 #: src/properties.cpp:92
 msgid "Basic Job/Workflow structure"
-msgstr ""
+msgstr "Basisaufgabe/Arbeitsablaufstruktur"
 
 #: src/properties.cpp:95
 msgid "Qualifier for xmp:Identifier"
@@ -2451,7 +2451,7 @@ msgid ""
 "this base URL. This property provides a standard way for embedded relative "
 "URLs to be interpreted by tools. Web authoring tools should set the value "
 "based on their notion of where URLs will be interpreted."
-msgstr ""
+msgstr "Die Basis-URL für relative URL's im Dokument. Wenn dieses Dokument Verknüpfungen im Internet enthält und diese relativ sind, dann sind sie relativ zu dieser Basis-URL. Diese Eigenschaft stellt einen Standard für eingebettete URL's zur Verfügung damit sie von Werkzeugen interpretiert werden können. Web-Autorenwerkzeuge sollten diesen Wert, basierend auf Ihrer Absicht wie URL's interpretiert werden, setzen."
 
 #: src/properties.cpp:138
 msgid "Create Date"
@@ -2470,7 +2470,7 @@ msgid ""
 "The name of the first known tool used to create the resource. If history is "
 "present in the metadata, this value should be equivalent to that of xmpMM:"
 "History's softwareAgent property."
-msgstr ""
+msgstr "Der Name des ersten bekannten Werkzeuges mit dem die Ressource erstellt wurde. Wenn in den Metadaten eine Historie geführt wird, dann sollte dieser Wert gleich dem in der Eigenschaft xmpMM:History's softwareAgent sein."
 
 #: src/properties.cpp:142
 msgid ""
@@ -2481,6 +2481,8 @@ msgid ""
 "scheme qualifier and has been defined in the XMP Specification as a simple "
 "(single-valued) property."
 msgstr ""
+"Eine ungeordnete Liste von Zeichenketten, die die Ressource in einem gegebenenen Kontext eindeutig identifizieren. Ein Listeneintrag kann mit dem xmpidq:Scheme qualifiziert werden, um das formale Identifikationssystem zu bezeichnen dem der Identifikator folgt. "
+"Achtung: Die Eigenschaft dc:identifier wird nicht benutzt, da ihr ein definierter Schemavermerk fehlt und sie in der XMP-Spezifikation als als einfache, einwertige Eigenschaft definiert wurde."
 
 #: src/properties.cpp:147
 msgid "Label"
@@ -2490,7 +2492,7 @@ msgstr "Name"
 msgid ""
 "A word or short phrase that identifies a document as a member of a user-"
 "defined collection. Used to organize documents in a file browser."
-msgstr ""
+msgstr "Ein Wort oder eine kurze Umschreibung die das Dokument als einen Teil einer benutzerdefinierten SDammlung identifiziert. Es wird benutzt, um die Dokumente in einem Dateimanager zu organisieren."
 
 #: src/properties.cpp:149
 msgid "Metadata Date"
@@ -2500,7 +2502,7 @@ msgstr "Metadaten-Datum"
 msgid ""
 "The date and time that any metadata for this resource was last changed. It "
 "should be the same as or more recent than xmp:ModifyDate."
-msgstr ""
+msgstr "Das Datum und die Zeit an dem die Metadaten dieser Ressource das letzte Mal geändert wurden. Es sollte das gleiche oder ein aktuelleres Datum als xmp:ModifyDate sein."
 
 #: src/properties.cpp:151
 msgid "Modify Date"
@@ -2512,6 +2514,8 @@ msgid ""
 "property is not necessarily the same as the file's system modification date "
 "because it is set before the file is saved."
 msgstr ""
+"Das Datum und die Zeit am dem die Ressource zuletzt geändert wurde. "
+"Achtung: Der Wert dieser Eigenschaft muss nicht der gleiche sein wie das Änderungsdatum des Dateisystems, da es gesetzt wird bevor die Datei gespeichert wird."
 
 #: src/properties.cpp:154
 msgid "Nickname"
@@ -2530,7 +2534,7 @@ msgid ""
 "A number that indicates a document's status relative to other documents, "
 "used to organize documents in a file browser. Values are user-defined within "
 "an application-defined range."
-msgstr ""
+msgstr "Eine Zahl die den Dokumentenstatus realtiv zu anderen Dokumenten beschreibt. Sie wird benutzt, um Dokumente in einem dateimanager zu organisieren. Die Werte werden vom Benutzer innerhalb eines von der Anwendung vorgegebenen Bereichs gesetzt."
 
 #: src/properties.cpp:158
 msgid "Thumbnails"
@@ -2540,7 +2544,7 @@ msgstr "Vorschaubilder"
 msgid ""
 "An alternative array of thumbnail images for a file, which can differ in "
 "characteristics such as size or image encoding."
-msgstr ""
+msgstr "Eine alternative Liste von Vorschaubildern für eine Datei. Diese können sich in Eigenschaften wie z.B. Größe oder Bildkodierung unterscheiden."
 
 #: src/properties.cpp:165
 msgid "Certificate"
@@ -2564,7 +2568,7 @@ msgstr "Besitzer"
 
 #: src/properties.cpp:167
 msgid "An unordered array specifying the legal owner(s) of a resource."
-msgstr ""
+msgstr "Eine ungeordnete Liste von einem oder mehreren rechtlichen Besitzer einer Ressource."
 
 #: src/properties.cpp:168
 msgid "Usage Terms"
@@ -5450,7 +5454,7 @@ msgstr "Unkomprimiert"
 
 #: src/tags.cpp:163
 msgid "CCITT RLE"
-msgstr ""
+msgstr "CCITT RLE"
 
 #: src/tags.cpp:164
 msgid "T4/Group 3 Fax"
@@ -5494,7 +5498,7 @@ msgstr "Epson ERF komprimiert"
 
 #: src/tags.cpp:174
 msgid "CCITT RLE 1-word"
-msgstr ""
+msgstr "CCITT RLE 1-Wort"
 
 #: src/tags.cpp:175
 msgid "PackBits (Macintosh RLE)"
@@ -5506,11 +5510,11 @@ msgstr "Thunderscan RLE"
 
 #: src/tags.cpp:177
 msgid "IT8 CT Padding"
-msgstr ""
+msgstr "IT8 CT Einlage"
 
 #: src/tags.cpp:178
 msgid "IT8 Linework RLE"
-msgstr ""
+msgstr "IT8 Zeilenarbeit RLE"
 
 #: src/tags.cpp:179
 msgid "IT8 Monochrome Picture"
@@ -5518,7 +5522,7 @@ msgstr "IT8 Monochrombild"
 
 #: src/tags.cpp:180
 msgid "IT8 Binary Lineart"
-msgstr ""
+msgstr "IT8 binäre Zeilenkunst"
 
 #: src/tags.cpp:181
 msgid "Pixar Film (10-bits LZW)"
@@ -5546,7 +5550,7 @@ msgstr "SGI Log beleuchtetes RLE"
 
 #: src/tags.cpp:187
 msgid "SGI Log 24-bits packed"
-msgstr ""
+msgstr "SGI Log 24-bits gepackt"
 
 #: src/tags.cpp:188
 msgid "Leadtools JPEG 2000"
@@ -5618,7 +5622,7 @@ msgstr "Pixar LogLuv"
 
 #: src/tags.cpp:209
 msgid "Linear Raw"
-msgstr ""
+msgstr "Lineares Roh"
 
 #: src/tags.cpp:214
 msgid "top, left"
@@ -7428,7 +7432,7 @@ msgstr "Herstellerbemerkung"
 
 #: src/tiffvisitor.cpp:458
 msgid "component"
-msgstr ""
+msgstr "Komponente"
 
 #: src/tiffvisitor.cpp:460
 msgid "bytes"
@@ -7820,27 +7824,27 @@ msgstr "EOS 20D"
 
 #: src/canonmn.cpp:179
 msgid "EOS-1Ds Mark II"
-msgstr ""
+msgstr "EOS-1Ds Mark II"
 
 #: src/canonmn.cpp:180
 msgid "EOS Digital Rebel XT / 350D / Kiss Digital N"
-msgstr ""
+msgstr "EOS Digital Rebel XT / 350D / Kiss Digital N"
 
 #: src/canonmn.cpp:181
 msgid "EOS 5D"
-msgstr ""
+msgstr "EOS 5D"
 
 #: src/canonmn.cpp:182
 msgid "EOS-1D Mark II N"
-msgstr ""
+msgstr "EOS-1D Mark II N"
 
 #: src/canonmn.cpp:183
 msgid "EOS 30D"
-msgstr ""
+msgstr "EOS 30D"
 
 #: src/canonmn.cpp:184
 msgid "EOS Digital Rebel XTi / 400D / Kiss Digital X"
-msgstr ""
+msgstr "EOS Digital Rebel XTi / 400D / Kiss Digital X"
 
 #: src/canonmn.cpp:190 src/olympusmn.cpp:380
 msgid "Camera Settings"
@@ -7987,7 +7991,7 @@ msgstr "Extern"
 
 #: src/canonmn.cpp:246
 msgid "Single / timer"
-msgstr ""
+msgstr "Einzel / Timer"
 
 #: src/canonmn.cpp:247 src/canonmn.cpp:261 src/canonmn.cpp:412
 #: src/fujimn.cpp:232 src/minoltamn.cpp:357 src/nikonmn.cpp:125
@@ -8118,11 +8122,11 @@ msgstr "Supermakro"
 
 #: src/canonmn.cpp:296
 msgid "Foliage"
-msgstr ""
+msgstr "Blätter"
 
 #: src/canonmn.cpp:297
 msgid "Indoor"
-msgstr ""
+msgstr "Innen"
 
 #: src/canonmn.cpp:298 src/fujimn.cpp:138 src/panasonicmn.cpp:117
 msgid "Fireworks"
@@ -8229,7 +8233,7 @@ msgstr "Links"
 
 #: src/canonmn.cpp:376
 msgid "Auto AF point selection"
-msgstr ""
+msgstr "Autofokus Punktauswahl"
 
 #: src/canonmn.cpp:381
 msgid "Easy shooting (Auto)"
@@ -8274,15 +8278,15 @@ msgstr "Eingebauter Blitz"
 
 #: src/canonmn.cpp:401
 msgid "TTL"
-msgstr ""
+msgstr "TTL"
 
 #: src/canonmn.cpp:402
 msgid "A-TTL"
-msgstr ""
+msgstr "A-TTL"
 
 #: src/canonmn.cpp:403
 msgid "E-TTL"
-msgstr ""
+msgstr "E-TTL"
 
 #: src/canonmn.cpp:404
 msgid "FP sync enabled"
@@ -8298,7 +8302,7 @@ msgstr ""
 
 #: src/canonmn.cpp:417
 msgid "Normal AE"
-msgstr ""
+msgstr "Normale automatische Belichtung"
 
 #: src/canonmn.cpp:418 src/minoltamn.cpp:648 src/minoltamn.cpp:914
 #: src/minoltamn.cpp:1182 src/pentaxmn.cpp:803 src/pentaxmn.cpp:804
@@ -8315,11 +8319,11 @@ msgstr ""
 
 #: src/canonmn.cpp:421
 msgid "No AE"
-msgstr ""
+msgstr "Keine automatische Belichtung"
 
 #: src/canonmn.cpp:428
 msgid "On, shot only"
-msgstr ""
+msgstr "An, nur Aufnahme"
 
 #: src/canonmn.cpp:436
 msgid "Smooth"
@@ -8336,7 +8340,7 @@ msgstr "Benutzerdefiniert"
 
 #: src/canonmn.cpp:440
 msgid "My color data"
-msgstr ""
+msgstr "Meine Farbdaten"
 
 #: src/canonmn.cpp:446
 msgid "Selftimer"
@@ -8548,7 +8552,7 @@ msgstr ""
 
 #: src/canonmn.cpp:499
 msgid "Sunny"
-msgstr ""
+msgstr "Sonnig"
 
 #: src/canonmn.cpp:500 src/fujimn.cpp:83 src/minoltamn.cpp:324
 #: src/minoltamn.cpp:807 src/minoltamn.cpp:1009 src/nikonmn.cpp:435
@@ -8566,15 +8570,15 @@ msgstr "Manuelle Temperatur (Kelvin)"
 
 #: src/canonmn.cpp:508
 msgid "PC Set 1"
-msgstr ""
+msgstr "PC Satz 1"
 
 #: src/canonmn.cpp:509
 msgid "PC Set 2"
-msgstr ""
+msgstr "PC Satz 2"
 
 #: src/canonmn.cpp:510
 msgid "PC Set 3"
-msgstr ""
+msgstr "PC Satz 3"
 
 #: src/canonmn.cpp:511
 msgid "Daylight Fluorescent"
@@ -8727,11 +8731,11 @@ msgstr ""
 
 #: src/canonmn.cpp:610
 msgid "AF Assist"
-msgstr ""
+msgstr "Autofokus-Unterstützung"
 
 #: src/canonmn.cpp:610
 msgid "AF assist light"
-msgstr ""
+msgstr "Autofokus-Lichtunterstützung"
 
 #: src/canonmn.cpp:611
 msgid "Flash Sync Speed Av"
@@ -8791,19 +8795,19 @@ msgstr ""
 
 #: src/canonmn.cpp:618
 msgid "Sensor Cleaning"
-msgstr ""
+msgstr "Sensorenreinigung"
 
 #: src/canonmn.cpp:618
 msgid "Sensor cleaning"
-msgstr ""
+msgstr "Sensorenreinigung"
 
 #: src/canonmn.cpp:619
 msgid "Superimposed Display"
-msgstr ""
+msgstr "Eingeblendetes Display"
 
 #: src/canonmn.cpp:619
 msgid "Superimposed display"
-msgstr ""
+msgstr "Eingeblendetes Display"
 
 #: src/canonmn.cpp:620
 msgid "Shutter Release No CF Card"
@@ -8871,19 +8875,19 @@ msgstr "Bildhöhe (bei der Aufnahme)"
 
 #: src/canonmn.cpp:660
 msgid "AF Points Used"
-msgstr "Benutzter AF Punkt"
+msgstr "Benutzter Autofokus Punkt"
 
 #: src/canonmn.cpp:660
 msgid "AF points used"
-msgstr "Benutzter AF Punkt"
+msgstr "Benutzter Autofokus Punkt"
 
 #: src/canonmn.cpp:661
 msgid "AF Points Used 20D"
-msgstr "Benutzter AF Punkt 20D"
+msgstr "Benutzter Autofokus Punkt 20D"
 
 #: src/canonmn.cpp:661
 msgid "AF points used (20D)"
-msgstr "Benutzter AF Punkt (20D)"
+msgstr "Benutzter Autofokus Punkt (20D)"
 
 #: src/canonmn.cpp:663
 msgid "Unknown Canon Picture Info tag"
@@ -8891,19 +8895,19 @@ msgstr ""
 
 #: src/fujimn.cpp:72
 msgid "Soft mode 1"
-msgstr ""
+msgstr "Softmodus 1"
 
 #: src/fujimn.cpp:73
 msgid "Soft mode 2"
-msgstr ""
+msgstr "Softmodus 2"
 
 #: src/fujimn.cpp:75
 msgid "Hard mode 1"
-msgstr ""
+msgstr "Hartmodus 1"
 
 #: src/fujimn.cpp:76
 msgid "Hard mode 2"
-msgstr ""
+msgstr "Hartmodus 2"
 
 #: src/fujimn.cpp:84
 msgid "Fluorescent (daylight)"
@@ -8984,7 +8988,7 @@ msgstr "Chrom"
 
 #: src/fujimn.cpp:162 src/minoltamn.cpp:1065 src/minoltamn.cpp:1079
 msgid "Wide"
-msgstr ""
+msgstr "Weit"
 
 #: src/fujimn.cpp:167
 msgid "F0/Standard"
@@ -9022,15 +9026,15 @@ msgstr "Standard (100%)"
 
 #: src/fujimn.cpp:179
 msgid "Wide mode 1 (230%)"
-msgstr ""
+msgstr "Weitenmodus 1 (230%)"
 
 #: src/fujimn.cpp:180
 msgid "Wide mode 2 (400%)"
-msgstr ""
+msgstr "Weitenmodus 2 (400%)"
 
 #: src/fujimn.cpp:181
 msgid "Film simulation mode"
-msgstr ""
+msgstr "Film-Simulationsmodus"
 
 #: src/fujimn.cpp:187
 msgid "Fujifilm Makernote version"
