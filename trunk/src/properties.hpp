@@ -181,13 +181,33 @@ namespace Exiv2 {
           @brief Register namespace \em ns with preferred prefix \em prefix.
 
           If the namespace is a known or previously registered namespace, the
-          prefix is overwritten. This also invalidates XMP keys generated with
-          the previous prefix.
+          prefix is overwritten.
+
+          @note This invalidates XMP keys generated with the previous prefix.
          */
         static void registerNs(const std::string& ns, const std::string& prefix);
+        /*!
+          @brief Unregister a custom namespace \em ns.
+
+          The function only has an effect if there is a namespace \em ns
+          registered earlier, it does not unregister built-in namespaces.
+
+          @note This invalidates XMP keys generated in this namespace.
+         */
+        static void unregisterNs(const std::string& ns);
+        /*!
+          @brief Unregister all custom namespaces.
+
+          The function only unregisters namespaces registered earlier, it does not
+          unregister built-in namespaces.
+
+          @note This invalidates XMP keys generated in any custom namespace.
+         */
+        static void unregisterNs();
 
     private:
-        typedef std::map<std::string, std::string> NsRegistry;
+        typedef std::map<std::string, XmpNsInfo> NsRegistry;
+        static const XmpNsInfo* lookupNsRegistry(const XmpNsInfo::Prefix& prefix);
         static NsRegistry nsRegistry_;
 
     }; // class XmpProperties

@@ -293,6 +293,7 @@ Xmp.dc.format                                XmpText    10  image/jpeg
 Xmp.dc.creator                               XmpSeq      3  1) The first creator, 2) The second creator, 3) And another one
 Xmp.dc.description                           LangAlt     2  lang="x-default" Hello, World, lang="de-DE" Hallo, Welt
 Xmp.tiff.ImageDescription                    LangAlt     2  lang="x-default" TIFF image description, lang="de-DE" TIFF Bildbeschreibung
+Xmp.ns.myProperty                            XmpText     7  myValue
 Xmp.xmpDM.videoFrameSize/stDim:w             XmpText     2  16
 Xmp.xmpDM.videoFrameSize/stDim:h             XmpText     1  9
 Xmp.xmpDM.videoFrameSize/stDim:unit          XmpText     4  inch
@@ -323,7 +324,8 @@ Xmp.xmpBJ.JobRef[2]/stJob:role               XmpText     8  Best man
    dc:five="256"
    dc:six="false"
    dc:seven="Seven"
-   dc:format="image/jpeg">
+   dc:format="image/jpeg"
+   ns:myProperty="myValue">
    <dc:subject>
     <rdf:Bag>
      <rdf:li>Palmtree</rdf:li>
@@ -427,11 +429,12 @@ Set Xmp.dc.description "Hello, World" (LangAlt)
 Set Xmp.tiff.ImageDescription "TIFF image description" (LangAlt)
 Set Xmp.tiff.ImageDescription "lang=de-DE TIFF Bildbeschreibung" (LangAlt)
 Reg ns="myNamespace/"
+Set Xmp.ns.myProperty "myValue" (XmpText)
 Set Xmp.xmpDM.videoFrameSize/stDim:w "16" (XmpText)
 Set Xmp.xmpDM.videoFrameSize/stDim:h "9" (XmpText)
 Set Xmp.xmpDM.videoFrameSize/stDim:unit "inch" (XmpText)
 Set Xmp.dc.publisher "James Bond" (XmpBag)
-Set Xmp.dc.publisher/?ns:role "secret agent" (XmpText)
+Set Xmp.dc.publisher[1]/?ns:role "secret agent" (XmpText)
 Set Xmp.dc.creator[2]/?ns:role "programmer" (XmpText)
 Set Xmp.xmpBJ.JobRef "type=Bag" (XmpText)
 Set Xmp.xmpBJ.JobRef[1]/stJob:name "Birthday party" (XmpText)
@@ -457,8 +460,9 @@ Xmp.dc.creator[2]/?ns:role                   XmpText    10  programmer
 Xmp.dc.creator[3]                            XmpText    18  3) And another one
 Xmp.dc.description                           LangAlt     2  lang="x-default" Hello, World, lang="de-DE" Hallo, Welt
 Xmp.dc.publisher                             XmpText     0  type="Bag"
-Xmp.dc.publisher/?ns:role                    XmpText    12  secret agent
 Xmp.dc.publisher[1]                          XmpText    10  James Bond
+Xmp.dc.publisher[1]/?ns:role                 XmpText    12  secret agent
+Xmp.ns.myProperty                            XmpText     7  myValue
 Xmp.tiff.ImageDescription                    LangAlt     2  lang="x-default" TIFF image description, lang="de-DE" TIFF Bildbeschreibung
 Xmp.xmpDM.videoFrameSize                     XmpText     0  type="Struct"
 Xmp.xmpDM.videoFrameSize/stDim:w             XmpText     2  16

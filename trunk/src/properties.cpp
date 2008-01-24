@@ -43,6 +43,8 @@ EXIV2_RCSID("@(#) $Id$")
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <cstring>
+#include <cstdlib>
 
 // *****************************************************************************
 // class member definitions
@@ -812,14 +814,55 @@ namespace Exiv2 {
 
     XmpProperties::NsRegistry XmpProperties::nsRegistry_;
 
+    const XmpNsInfo* XmpProperties::lookupNsRegistry(const XmpNsInfo::Prefix& prefix)
+    {
+        for (NsRegistry::const_iterator i = nsRegistry_.begin();
+             i != nsRegistry_.end(); ++i) {
+            if (i->second == prefix) return &(i->second);
+        }
+        return 0;
+    }
+
     void XmpProperties::registerNs(const std::string& ns,
                                    const std::string& prefix)
     {
         std::string ns2 = ns;
         if (   ns2.substr(ns2.size() - 1, 1) != "/"
             && ns2.substr(ns2.size() - 1, 1) != "#") ns2 += "/";
-        nsRegistry_[ns2] = prefix;
+        // Allocated memory is freed when the namespace is unregistered.
+        // Using malloc/free for better system compatibility in case
+        // users don't unregister their namespaces explicitely.
+        XmpNsInfo xn;
+        char* c = static_cast<char*>(std::malloc(ns2.size() + 1));
+        std::strcpy(c, ns2.c_str());
+        xn.ns_ = c;
+        c = static_cast<char*>(std::malloc(prefix.size() + 1));
+        std::strcpy(c, prefix.c_str());
+        xn.prefix_ = c;
+        xn.xmpPropertyInfo_ = 0;
+        xn.desc_ = "";
+        nsRegistry_[ns2] = xn;
         XmpParser::registerNs(ns2, prefix);
+    }
+
+    void XmpProperties::unregisterNs(const std::string& ns)
+    {
+        NsRegistry::iterator i = nsRegistry_.find(ns);
+        if (i != nsRegistry_.end()) {
+            XmpParser::unregisterNs(ns);
+            std::free(const_cast<char*>(i->second.prefix_));
+            std::free(const_cast<char*>(i->second.ns_));
+            nsRegistry_.erase(i);
+        }
+    }
+
+    void XmpProperties::unregisterNs()
+    {
+        NsRegistry::iterator i = nsRegistry_.begin();
+        while (i != nsRegistry_.end()) {
+            NsRegistry::iterator kill = i++;
+            unregisterNs(kill->first);
+        }
     }
 
     std::string XmpProperties::prefix(const std::string& ns)
@@ -829,7 +872,7 @@ namespace Exiv2 {
         NsRegistry::const_iterator i = nsRegistry_.find(ns2);
         std::string p;
         if (i != nsRegistry_.end()) {
-            p = i->second;
+            p = i->second.prefix_;
         }
         else {
             const XmpNsInfo* xn = find(xmpNsInfo, XmpNsInfo::Ns(ns2));
@@ -840,13 +883,8 @@ namespace Exiv2 {
 
     std::string XmpProperties::ns(const std::string& prefix)
     {
-        std::string n;
-        for (NsRegistry::const_iterator i = nsRegistry_.begin();
-             i != nsRegistry_.end(); ++i) {
-            if (i->second == prefix) {
-                return i->first;
-            }
-        }
+        const XmpNsInfo* xn = lookupNsRegistry(XmpNsInfo::Prefix(prefix));
+        if (xn != 0) return xn->ns_;
         return nsInfo(prefix)->ns_;
     }
 
@@ -894,7 +932,9 @@ namespace Exiv2 {
 
     const XmpNsInfo* XmpProperties::nsInfo(const std::string& prefix)
     {
-        const XmpNsInfo* xn = find(xmpNsInfo, XmpNsInfo::Prefix(prefix));
+        const XmpNsInfo::Prefix pf(prefix);
+        const XmpNsInfo* xn = lookupNsRegistry(pf);
+        if (!xn) xn = find(xmpNsInfo, pf);
         if (!xn) throw Error(35, prefix);
         return xn;
     }

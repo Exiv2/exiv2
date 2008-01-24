@@ -371,6 +371,7 @@ namespace Exiv2 {
 
     void XmpParser::terminate()
     {
+        XmpProperties::unregisterNs();
         if (initialized_) {
 #ifdef EXV_HAVE_XMP_TOOLKIT
             SXMPMeta::Terminate();
@@ -394,7 +395,20 @@ namespace Exiv2 {
         initialize();
         return true;
 #endif
-	} // XmpParser::registerNs
+    } // XmpParser::registerNs
+
+    void XmpParser::unregisterNs(const std::string& ns)
+    {
+#ifdef EXV_HAVE_XMP_TOOLKIT
+        try {
+// Throws XMP Toolkit error 8: Unimplemented method XMPMeta::DeleteNamespace
+//          SXMPMeta::DeleteNamespace(ns.c_str());
+        }
+        catch (const XMP_Error& e) {
+            throw Error(40, e.GetID(), e.GetErrMsg());
+        }
+#endif
+    } // XmpParser::unregisterNs
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
     int XmpParser::decode(      XmpData&     xmpData,
