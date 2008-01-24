@@ -54,6 +54,9 @@ set Xmp.tiff.ImageDescription lang=de-DE TIFF Bildbeschreibung
 # Register a namespace which Exiv2 doesn't know yet with a prefix.
 reg ns myNamespace/
 
+# Add a property in the new custom namespace.
+set Xmp.ns.myProperty myValue
+
 # There are no built-in Exiv2 value types for structures, qualifiers and
 # nested types. However, these can be added by using an XmpText value and a
 # path as the key.
@@ -65,7 +68,7 @@ set Xmp.xmpDM.videoFrameSize/stDim:unit inch
 
 # Add an element with a qualifier (using the namespace registered earlier)
 set Xmp.dc.publisher James Bond
-set Xmp.dc.publisher/?ns:role secret agent
+set Xmp.dc.publisher[1]/?ns:role secret agent
 
 # Add a qualifer to an array element of Xmp.dc.creator (added above)
 set Xmp.dc.creator[2]/?ns:role programmer

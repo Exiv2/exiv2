@@ -1015,6 +1015,12 @@ namespace {
         modifyCmd.explicitType_ = explicitType;
         modifyCmd.value_ = value;
 
+        if (cmdId == reg) {
+            // Registration needs to be done immediately as the new namespaces are
+            // looked up during parsing of subsequent lines (to validate XMP keys).
+            Exiv2::XmpProperties::registerNs(modifyCmd.value_, modifyCmd.key_);
+        }
+
         return true;
     } // parseLine
 

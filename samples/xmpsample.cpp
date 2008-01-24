@@ -76,6 +76,10 @@ try {
     Exiv2::XmpProperties::registerNs("myNamespace/", "ns");
 
     // -------------------------------------------------------------------------
+    // Add a property in the new custom namespace.
+    xmpData["Xmp.ns.myProperty"] = "myValue";
+
+    // -------------------------------------------------------------------------
     // There are no specialized values for structures, qualifiers and nested
     // types. However, these can be added by using an XmpTextValue and a path as
     // the key.

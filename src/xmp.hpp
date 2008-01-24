@@ -257,6 +257,7 @@ namespace Exiv2 {
      */
     class XmpParser {
         friend void XmpProperties::registerNs(const std::string&, const std::string&);
+        friend void XmpProperties::unregisterNs(const std::string&);
     public:
         /*!
           @brief Decode XMP metadata from an XMP packet \em xmpPacket into
@@ -299,7 +300,7 @@ namespace Exiv2 {
          */
         static bool initialize();
         /*!
-          @brief Terminate the XMP Toolkit.
+          @brief Terminate the XMP Toolkit and unregister custom namespaces.
 
           Call this method when the XmpParser is no longer needed to
           allow the XMP Toolkit to cleanly shutdown.
@@ -316,6 +317,12 @@ namespace Exiv2 {
          */
         static bool registerNs(const std::string& ns,
                                const std::string& prefix);
+        /*!
+          @brief Delete a namespace from the XMP Toolkit.
+
+          XmpProperties::unregisterNs calls this to synchronize namespaces.
+        */
+        static void unregisterNs(const std::string& ns);
 
         // DATA
         static bool initialized_; //! Indicates if the XMP Toolkit has been initialized
