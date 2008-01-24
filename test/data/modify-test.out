@@ -35,7 +35,7 @@ exiv2-gc.jpg          Exif.Photo.ExposureTime                      Rational    1
 exiv2-gc.jpg          Exif.Photo.FNumber                           Rational    1  F9.1
 exiv2-gc.jpg          Exif.Photo.ExposureProgram                   Short       1  Landscape mode
 exiv2-gc.jpg          Exif.Photo.ISOSpeedRatings                   Short       1  100
-exiv2-gc.jpg          Exif.Photo.ExifVersion                       Undefined   4  48 50 49 48 
+exiv2-gc.jpg          Exif.Photo.ExifVersion                       Undefined   4  2.10
 exiv2-gc.jpg          Exif.Photo.DateTimeOriginal                  Ascii      20  2004:06:08 16:04:50
 exiv2-gc.jpg          Exif.Photo.DateTimeDigitized                 Ascii      20  2004:06:08 16:04:50
 exiv2-gc.jpg          Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -46,14 +46,14 @@ exiv2-gc.jpg          Exif.Photo.MaxApertureValue                  Rational    1
 exiv2-gc.jpg          Exif.Photo.MeteringMode                      Short       1  Multi-segment
 exiv2-gc.jpg          Exif.Photo.LightSource                       Short       1  Unknown
 exiv2-gc.jpg          Exif.Photo.Flash                             Short       1  No flash
-exiv2-gc.jpg          Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+exiv2-gc.jpg          Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 exiv2-gc.jpg          Exif.Photo.ColorSpace                        Short       1  sRGB
 exiv2-gc.jpg          Exif.Photo.PixelXDimension                   Long        1  1600
 exiv2-gc.jpg          Exif.Photo.PixelYDimension                   Long        1  2400
 exiv2-gc.jpg          Exif.Photo.InteroperabilityTag               Long        1  6738
 exiv2-gc.jpg          Exif.Photo.FileSource                        Undefined   1  Digital still camera
 exiv2-gc.jpg          Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-exiv2-gc.jpg          Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+exiv2-gc.jpg          Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 exiv2-gc.jpg          Exif.Thumbnail.ImageWidth                    Long        1  133
 exiv2-gc.jpg          Exif.Thumbnail.ImageLength                   Long        1  200
 exiv2-gc.jpg          Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
