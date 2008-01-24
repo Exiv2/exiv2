@@ -784,6 +784,38 @@ namespace Exiv2 {
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
 
+    extern const XmpPrintInfo xmpPrintInfo[] = { 
+        {"Xmp.crs.CropUnits",                           EXV_PRINT_TAG(xmpCrsCropUnits)},
+        {"Xmp.exif.ColorSpace",                         EXV_PRINT_TAG(xmpExifColorSpace)},
+        {"Xmp.exif.ComponentsConfiguration",            EXV_PRINT_TAG(xmpExifComponentsConfiguration)},
+        {"Xmp.exif.Contrast",                           EXV_PRINT_TAG(xmpExifNormalSoftHard)},
+        {"Xmp.exif.CustomRendered",                     EXV_PRINT_TAG(xmpExifCustomRendered)},
+        {"Xmp.exif.ExposureProgram",                    EXV_PRINT_TAG(xmpExifExposureProgram)},
+        {"Xmp.exif.FileSource",                         EXV_PRINT_TAG(xmpExifFileSource)},
+        {"Xmp.exif.FocalPlaneResolutionUnit",           EXV_PRINT_TAG(xmpExifFocalPlaneResolutionUnit)},
+        {"Xmp.exif.GainControl",                        EXV_PRINT_TAG(xmpExifGainControl)},
+        {"Xmp.exif.LightSource",                        EXV_PRINT_TAG(xmpExifLightSource)},
+        {"Xmp.exif.MeteringMode",                       EXV_PRINT_TAG(xmpExifMeteringMode)},
+        {"Xmp.exif.Saturation",                         EXV_PRINT_TAG(xmpExifSaturation)},
+        {"Xmp.exif.SceneCaptureType",                   EXV_PRINT_TAG(xmpExifSceneCaptureType)},
+        {"Xmp.exif.SceneType",                          EXV_PRINT_TAG(xmpExifSceneType)},
+        {"Xmp.exif.SensingMethod",                      EXV_PRINT_TAG(xmpExifSensingMethod)},
+        {"Xmp.exif.Sharpness",                          EXV_PRINT_TAG(xmpExifNormalSoftHard)},
+        {"Xmp.exif.SubjectDistanceRange",               EXV_PRINT_TAG(xmpExifSubjectDistanceRange)},
+        {"Xmp.exif.WhiteBalance",                       EXV_PRINT_TAG(xmpExifWhiteBalance)},
+        {"Xmp.exif.GPSAltitudeRef",                     EXV_PRINT_TAG(xmpExifGPSAltitudeRef)},
+        {"Xmp.exif.GPSDestBearingRef",                  EXV_PRINT_TAG(xmpExifGPSDirection)},
+        {"Xmp.exif.GPSDestDistanceRef",                 EXV_PRINT_TAG(xmpExifGPSDestDistanceRef)},
+        {"Xmp.exif.GPSDifferential",                    EXV_PRINT_TAG(xmpExifGPSDifferential)},
+        {"Xmp.exif.GPSImgDirectionRef",                 EXV_PRINT_TAG(xmpExifGPSDirection)},
+        {"Xmp.exif.GPSMeasureMode",                     EXV_PRINT_TAG(xmpExifGPSMeasureMode)},
+        {"Xmp.exif.GPSSpeedRef",                        EXV_PRINT_TAG(xmpExifGPSSpeedRef)},
+        {"Xmp.exif.GPSStatus",                          EXV_PRINT_TAG(xmpExifGPSStatus)},
+        {"Xmp.exif.GPSTrackRef",                        EXV_PRINT_TAG(xmpExifGPSDirection)},
+        {"Xmp.tiff.XResolution",                        printLong},
+        {"Xmp.tiff.YResolution",                        printLong}
+    };
+
     XmpNsInfo::Ns::Ns(const std::string& ns)
         : ns_(ns)
     {
@@ -810,6 +842,11 @@ namespace Exiv2 {
     {
         std::string n(name_);
         return n == name;
+    }
+
+    bool XmpPrintInfo::operator==(const std::string& key) const
+    {
+        return std::string(key_) == key;
     }
 
     XmpProperties::NsRegistry XmpProperties::nsRegistry_;
@@ -949,6 +986,19 @@ namespace Exiv2 {
         }
 
     } // XmpProperties::printProperties
+
+    std::ostream& XmpProperties::printProperty(std::ostream& os,
+                                               const std::string& key,
+                                               const Value& value)
+    {
+        if (value.count() == 0) return os;
+
+        PrintFct fct = printValue;
+        const XmpPrintInfo* info = find(xmpPrintInfo, key);
+        if (info) fct = info->printFct_;
+
+        return fct(os, value);
+    }
 
     //! @cond IGNORE
 

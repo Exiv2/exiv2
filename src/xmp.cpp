@@ -669,7 +669,7 @@ namespace Exiv2 {
     // free functions
     std::ostream& operator<<(std::ostream& os, const Xmpdatum& md)
     {
-        return os << md.value();
+        return XmpProperties::printProperty(os, md.key(), md.value());
     }
 
 }                                       // namespace Exiv2

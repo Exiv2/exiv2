@@ -445,6 +445,8 @@ namespace Exiv2 {
     //! Print function converting from UCS-2LE to UTF-8
     std::ostream& printUcs2(std::ostream& os, const Value& value);
 
+    //! Print GPS version
+    std::ostream& print0x0000(std::ostream& os, const Value& value);
     //! Print GPS altitude
     std::ostream& print0x0006(std::ostream& os, const Value& value);
     //! Print GPS timestamp

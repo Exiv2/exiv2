@@ -996,7 +996,7 @@ namespace Exiv2 {
                 "present. (Note: The <GPSVersionID> tag is given in bytes, "
                 "unlike the <ExifVersion> tag. When the version is "
                 "2.0.0.0, the tag value is 02000000.H)."),
-                gpsIfdId, gpsTags, unsignedByte, printValue),
+                gpsIfdId, gpsTags, unsignedByte, print0x0000),
         TagInfo(0x0001, "GPSLatitudeRef", N_("GPS Latitude Reference"),
                 N_("Indicates whether the latitude is north or south latitude. The "
                 "ASCII value 'N' indicates north latitude, and 'S' is south latitude."),
@@ -1755,6 +1755,21 @@ namespace Exiv2 {
         return os;
 
     } // printUcs2
+
+    std::ostream& print0x0000(std::ostream& os, const Value& value)
+    {
+        if (value.size() != 4 || value.typeId() != unsignedByte) {
+            return os << value;
+        }
+
+        for (int i = 0; i < 3; i++) {
+            os << value.toLong(i);
+            os << ".";
+        }
+        os << value.toLong(3);
+
+        return os;
+    }
 
     std::ostream& print0x0006(std::ostream& os, const Value& value)
     {
