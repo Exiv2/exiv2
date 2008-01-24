@@ -775,7 +775,7 @@ namespace Action {
                       << std::dec << std::setw(3)
                       << std::setfill(' ') << std::right
                       << md->count() << "  "
-                      << std::dec << md->value()
+                      << std::dec << *md
                       << std::endl;
         }
 

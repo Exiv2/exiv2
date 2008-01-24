@@ -37,6 +37,7 @@
 // included header files
 #include "types.hpp"
 #include "metadatum.hpp"
+#include "tags.hpp"
 
 // + standard includes
 #include <string>
@@ -68,6 +69,15 @@ namespace Exiv2 {
         TypeId        typeId_;          //!< Exiv2 default type for the property 
         XmpCategory   xmpCategory_;     //!< Category (internal or external)
         const char*   desc_;            //!< Property description
+    };
+
+    //! Struct used in the lookup table for pretty print functions
+    struct XmpPrintInfo {
+        //! Comparison operator for key
+        bool operator==(const std::string& key) const;
+
+        const char* key_;               //!< XMP key
+        PrintFct printFct_;             //!< Print function
     };
 
     //! Structure mapping XMP namespaces and (preferred) prefixes.
@@ -176,6 +186,11 @@ namespace Exiv2 {
         static std::string prefix(const std::string& ns);
         //! Print a list of properties of a schema namespace to output stream \em os.
         static void printProperties(std::ostream& os, const std::string& prefix);
+
+        //! Interpret and print the value of an XMP property
+        static std::ostream& printProperty(std::ostream& os,
+                                           const std::string& key,
+                                           const Value& value);
 
         /*!
           @brief Register namespace \em ns with preferred prefix \em prefix.
