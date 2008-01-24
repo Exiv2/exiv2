@@ -570,7 +570,7 @@ File  2/15: 20031214_000043.jpg
 20031214_000043.jpg   Exif.Image.ExifTag                           Long        1  196
 20031214_000043.jpg   Exif.Photo.ExposureTime                      Rational    1  1/500 s
 20031214_000043.jpg   Exif.Photo.FNumber                           Rational    1  F4.9
-20031214_000043.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+20031214_000043.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.20
 20031214_000043.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2003:12:14 00:00:43
 20031214_000043.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2003:12:14 00:00:43
 20031214_000043.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -583,7 +583,7 @@ File  2/15: 20031214_000043.jpg
 20031214_000043.jpg   Exif.Photo.Flash                             Short       1  No, auto
 20031214_000043.jpg   Exif.Photo.FocalLength                       Rational    1  21.3 mm
 20031214_000043.jpg   Exif.Photo.UserComment                       Undefined 264  
-20031214_000043.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+20031214_000043.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 20031214_000043.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 20031214_000043.jpg   Exif.Photo.PixelXDimension                   Short       1  2272
 20031214_000043.jpg   Exif.Photo.PixelYDimension                   Short       1  1704
@@ -672,7 +672,7 @@ File  2/15: 20031214_000043.jpg
 20031214_000043.jpg   Exif.CanonSi.0x0019                          Short       1  0
 20031214_000043.jpg   Exif.CanonSi.0x001a                          Short       1  250
 20031214_000043.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-20031214_000043.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+20031214_000043.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 20031214_000043.jpg   Exif.Iop.RelatedImageWidth                   Short       1  2272
 20031214_000043.jpg   Exif.Iop.RelatedImageLength                  Short       1  1704
 20031214_000043.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -697,7 +697,7 @@ File  3/15: 20000506_020544.jpg
 20000506_020544.jpg   Exif.Photo.FNumber                           Rational    1  F7
 20000506_020544.jpg   Exif.Photo.ExposureProgram                   Short       1  Aperture priority
 20000506_020544.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  100
-20000506_020544.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 49 48 
+20000506_020544.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.10
 20000506_020544.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2000:05:06 02:05:44
 20000506_020544.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2000:05:06 02:05:44
 20000506_020544.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -709,7 +709,7 @@ File  3/15: 20000506_020544.jpg
 20000506_020544.jpg   Exif.Photo.Flash                             Short       1  No flash
 20000506_020544.jpg   Exif.Photo.FocalLength                       Rational    1  8.2 mm
 20000506_020544.jpg   Exif.Photo.UserComment                       Undefined 125                                                                                                                       
-20000506_020544.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+20000506_020544.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 20000506_020544.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 20000506_020544.jpg   Exif.Photo.PixelXDimension                   Long        1  2048
 20000506_020544.jpg   Exif.Photo.PixelYDimension                   Long        1  1536
@@ -733,7 +733,7 @@ File  3/15: 20000506_020544.jpg
 20000506_020544.jpg   Exif.Nikon1.AFFocusPos                       Undefined   4  Single area; Left
 20000506_020544.jpg   Exif.Nikon1.DataDump                         Undefined 174  1 45 0 128 1 76 0 0 0 0 255 1 0 0 0 0 2 74 42 160 0 0 0 0 2 183 0 0 31 8 0 0 21 202 0 0 33 124 0 0 33 124 0 0 31 6 13 132 0 74 0 0 0 0 9 181 9 74 8 109 7 54 208 1 11 122 0 0 0 0 45 33 21 0 0 0 32 0 0 0 0 0 0 0 0 0 68 27 0 0 74 3 23 207 9 30 59 31 0 71 0 0 19 21 18 18 21 24 0 0 100 0 25 76 0 0 0 1 255 240 101 68 0 0 0 2 0 0 0 0 15 3 194 141 1 13 18 34 0 0 81 90 0 246 1 43 48 32 18 7 40 16 78 72 11 122 0 0 117 252 235 98 11 16 6 6 0 100 0 216 18 52 67 33 
 20000506_020544.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-20000506_020544.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+20000506_020544.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 20000506_020544.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 20000506_020544.jpg   Exif.Thumbnail.XResolution                   Rational    1  300
 20000506_020544.jpg   Exif.Thumbnail.YResolution                   Rational    1  300
@@ -757,7 +757,7 @@ File  4/15: 20040329_224245.jpg
 20040329_224245.jpg   Exif.Photo.ExposureTime                      Rational    1  1/250 s
 20040329_224245.jpg   Exif.Photo.FNumber                           Rational    1  F9
 20040329_224245.jpg   Exif.Photo.ExposureProgram                   Short       1  Auto
-20040329_224245.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 49 
+20040329_224245.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.21
 20040329_224245.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2004:03:29 22:42:45
 20040329_224245.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:03:29 22:42:45
 20040329_224245.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -772,7 +772,7 @@ File  4/15: 20040329_224245.jpg
 20040329_224245.jpg   Exif.Photo.SubSecTime                        Ascii       3  00
 20040329_224245.jpg   Exif.Photo.SubSecTimeOriginal                Ascii       3  00
 20040329_224245.jpg   Exif.Photo.SubSecTimeDigitized               Ascii       3  00
-20040329_224245.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+20040329_224245.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 20040329_224245.jpg   Exif.Photo.ColorSpace                        Short       1  Uncalibrated
 20040329_224245.jpg   Exif.Photo.PixelXDimension                   Short       1  3008
 20040329_224245.jpg   Exif.Photo.PixelYDimension                   Short       1  2000
@@ -793,7 +793,7 @@ File  4/15: 20040329_224245.jpg
 20040329_224245.jpg   Exif.Photo.Sharpness                         Short       1  Normal
 20040329_224245.jpg   Exif.Photo.SubjectDistanceRange              Short       1  Unknown
 20040329_224245.jpg   Exif.Photo.0xa500                            Rational    1  22/10
-20040329_224245.jpg   Exif.Nikon3.Version                          Undefined   4  48 50 49 48 
+20040329_224245.jpg   Exif.Nikon3.Version                          Undefined   4  2.10
 20040329_224245.jpg   Exif.Nikon3.ISOSpeed                         Short       2  200
 20040329_224245.jpg   Exif.Nikon3.Quality                          Ascii       8  FINE   
 20040329_224245.jpg   Exif.Nikon3.WhiteBalance                     Ascii      13  AUTO        
@@ -836,7 +836,7 @@ File  4/15: 20040329_224245.jpg
 20040329_224245.jpg   Exif.Nikon3.Saturation                       Ascii      16  NORMAL         
 20040329_224245.jpg   Exif.Nikon3.VariProgram                      Ascii      16                 
 20040329_224245.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R03
-20040329_224245.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+20040329_224245.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 20040329_224245.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 20040329_224245.jpg   Exif.Thumbnail.XResolution                   Rational    1  300
 20040329_224245.jpg   Exif.Thumbnail.YResolution                   Rational    1  300
@@ -860,7 +860,7 @@ File  5/15: 20010405_235039.jpg
 20010405_235039.jpg   Exif.Photo.FNumber                           Rational    1  F5.5
 20010405_235039.jpg   Exif.Photo.ExposureProgram                   Short       1  Auto
 20010405_235039.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  80
-20010405_235039.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 49 48 
+20010405_235039.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.10
 20010405_235039.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2001:04:05 23:50:39
 20010405_235039.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2001:04:05 23:50:39
 20010405_235039.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -872,7 +872,7 @@ File  5/15: 20010405_235039.jpg
 20010405_235039.jpg   Exif.Photo.Flash                             Short       1  No flash
 20010405_235039.jpg   Exif.Photo.FocalLength                       Rational    1  12.8 mm
 20010405_235039.jpg   Exif.Photo.UserComment                       Undefined 125                                                                                                                       
-20010405_235039.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+20010405_235039.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 20010405_235039.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 20010405_235039.jpg   Exif.Photo.PixelXDimension                   Long        1  1600
 20010405_235039.jpg   Exif.Photo.PixelYDimension                   Long        1  1200
@@ -891,7 +891,7 @@ File  5/15: 20010405_235039.jpg
 20010405_235039.jpg   Exif.Nikon2.AuxiliaryLens                    Short       1  0
 20010405_235039.jpg   Exif.Nikon2.0x0f00                           Long       30  0 0 16777216 0 2685774096 0 34833 6931 16178 4372 4372 3322676767 3373084416 15112 0 0 1151495 252903424 17 0 0 844038208 55184128 218129428 1476410198 370540566 4044363286 16711749 204629079 1729
 20010405_235039.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-20010405_235039.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+20010405_235039.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 20010405_235039.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 20010405_235039.jpg   Exif.Thumbnail.XResolution                   Rational    1  300
 20010405_235039.jpg   Exif.Thumbnail.YResolution                   Rational    1  300
@@ -911,7 +911,7 @@ File  6/15: 20030925_201850.jpg
 20030925_201850.jpg   Exif.Photo.ExposureTime                      Rational    1  1/80 s
 20030925_201850.jpg   Exif.Photo.FNumber                           Rational    1  F5.6
 20030925_201850.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  100
-20030925_201850.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+20030925_201850.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.20
 20030925_201850.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2003:09:25 20:18:50
 20030925_201850.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2003:09:25 20:18:50
 20030925_201850.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -924,7 +924,7 @@ File  6/15: 20030925_201850.jpg
 20030925_201850.jpg   Exif.Photo.Flash                             Short       1  No flash
 20030925_201850.jpg   Exif.Photo.FocalLength                       Rational    1  18.0 mm
 20030925_201850.jpg   Exif.Photo.UserComment                       Undefined 264  
-20030925_201850.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+20030925_201850.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 20030925_201850.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 20030925_201850.jpg   Exif.Photo.PixelXDimension                   Short       1  3072
 20030925_201850.jpg   Exif.Photo.PixelYDimension                   Short       1  2048
@@ -1060,7 +1060,7 @@ File  6/15: 20030925_201850.jpg
 20030925_201850.jpg   Exif.CanonPi.AFPointsUsed                    Short       1  center
 20030925_201850.jpg   Exif.CanonPi.0x0017                          Short       1  65535
 20030925_201850.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-20030925_201850.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+20030925_201850.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 20030925_201850.jpg   Exif.Iop.RelatedImageWidth                   Short       1  3072
 20030925_201850.jpg   Exif.Iop.RelatedImageLength                  Short       1  2048
 20030925_201850.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -1082,7 +1082,7 @@ File  7/15: 20001026_044550.jpg
 20001026_044550.jpg   Exif.Image.ExifTag                           Long        1  374
 20001026_044550.jpg   Exif.Photo.ExposureTime                      Rational    1  1/30 s
 20001026_044550.jpg   Exif.Photo.FNumber                           Rational    1  F4
-20001026_044550.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 49 49 48 
+20001026_044550.jpg   Exif.Photo.ExifVersion                       Undefined   4  1.10
 20001026_044550.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2000:10:26 04:45:50
 20001026_044550.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 20001026_044550.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  (0/0)
@@ -1125,7 +1125,7 @@ File  8/15: 20030926_111535.jpg
 20030926_111535.jpg   Exif.Photo.FNumber                           Rational    1  F4
 20030926_111535.jpg   Exif.Photo.ExposureProgram                   Short       1  Aperture priority
 20030926_111535.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  400
-20030926_111535.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+20030926_111535.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.20
 20030926_111535.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2003:09:26 11:15:35
 20030926_111535.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2003:09:26 11:15:35
 20030926_111535.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -1138,7 +1138,7 @@ File  8/15: 20030926_111535.jpg
 20030926_111535.jpg   Exif.Photo.LightSource                       Short       1  Unknown
 20030926_111535.jpg   Exif.Photo.Flash                             Short       1  Yes, compulsory
 20030926_111535.jpg   Exif.Photo.FocalLength                       Rational    1  28.0 mm
-20030926_111535.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+20030926_111535.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 20030926_111535.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 20030926_111535.jpg   Exif.Photo.PixelXDimension                   Long        1  3024
 20030926_111535.jpg   Exif.Photo.PixelYDimension                   Long        1  2016
@@ -1175,7 +1175,7 @@ File  8/15: 20030926_111535.jpg
 20030926_111535.jpg   Exif.Fujifilm.SequenceNumber                 Short       1  0
 20030926_111535.jpg   Exif.Fujifilm.0x1200                         Short       1  0
 20030926_111535.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-20030926_111535.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+20030926_111535.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 20030926_111535.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 20030926_111535.jpg   Exif.Thumbnail.Orientation                   Short       1  top, left
 20030926_111535.jpg   Exif.Thumbnail.XResolution                   Rational    1  72
@@ -1199,7 +1199,7 @@ File  9/15: 20040316_075137.jpg
 20040316_075137.jpg   Exif.Photo.FNumber                           Rational    1  F5.6
 20040316_075137.jpg   Exif.Photo.ExposureProgram                   Short       1  Manual
 20040316_075137.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  100
-20040316_075137.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+20040316_075137.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.20
 20040316_075137.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2004:03:16 07:51:37
 20040316_075137.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:03:18 11:39:25
 20040316_075137.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -1208,7 +1208,7 @@ File  9/15: 20040316_075137.jpg
 20040316_075137.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 20040316_075137.jpg   Exif.Photo.Flash                             Short       1  No flash
 20040316_075137.jpg   Exif.Photo.FocalLength                       Rational    1  14.0 mm
-20040316_075137.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+20040316_075137.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 20040316_075137.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 20040316_075137.jpg   Exif.Photo.PixelXDimension                   Long        1  2268
 20040316_075137.jpg   Exif.Photo.PixelYDimension                   Long        1  1512
@@ -1267,7 +1267,7 @@ File 10/15: 20040208_093744.jpg
 20040208_093744.jpg   Exif.Photo.FNumber                           Rational    1  F4.5
 20040208_093744.jpg   Exif.Photo.ExposureProgram                   Short       1  Aperture priority
 20040208_093744.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  50
-20040208_093744.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+20040208_093744.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.20
 20040208_093744.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2004:02:08 09:37:44
 20040208_093744.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:02:08 09:37:44
 20040208_093744.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -1279,7 +1279,7 @@ File 10/15: 20040208_093744.jpg
 20040208_093744.jpg   Exif.Photo.Flash                             Short       1  No, compulsory
 20040208_093744.jpg   Exif.Photo.FocalLength                       Rational    1  23.4 mm
 20040208_093744.jpg   Exif.Photo.UserComment                       Undefined 125                                                                                                                       
-20040208_093744.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+20040208_093744.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 20040208_093744.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 20040208_093744.jpg   Exif.Photo.PixelXDimension                   Long        1  3264
 20040208_093744.jpg   Exif.Photo.PixelYDimension                   Long        1  2448
@@ -1312,7 +1312,7 @@ File 10/15: 20040208_093744.jpg
 20040208_093744.jpg   Exif.Olympus.0x0304                          Short       1  0
 20040208_093744.jpg   Exif.Olympus.DataDump1                       Undefined 494  1 75 2 3 2 93 0 0 0 0 255 0 0 0 25 97 18 49 0 0 5 236 0 0 57 36 0 0 1 155 0 0 10 47 0 0 22 242 0 0 5 192 0 0 24 68 0 100 0 166 0 50 0 36 0 0 0 0 0 0 0 0 0 0 54 21 0 0 0 0 53 61 22 4 0 0 0 0 0 0 0 0 0 0 0 0 16 32 0 0 57 0 14 86 0 0 0 0 0 0 0 0 0 0 0 0 0 100 3 158 0 0 0 0 255 253 255 249 255 245 255 236 255 237 255 232 255 230 0 0 34 34 34 34 17 17 17 17 1 86 3 150 3 243 1 33 2 0 1 76 2 116 2 3 1 2 96 90 0 2 3 52 0 25 0 10 0 25 0 10 0 5 0 10 0 1 0 0 0 0 0 16 0 0 0 16 0 1 1 0 0 166 1 79 1 246 2 159 3 70 1 2 1 75 2 3 2 93 0 0 21 54 21 231 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 136 136 1 0 3 254 0 59 0 0 0 0 0 0 2 226 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 6 121 6 129 6 124 6 156 208 0 3 254 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 12 57 12 88 12 103 12 177 12 88 12 6 11 190 11 10 34 68 34 128 34 238 35 119 34 83 33 125 32 132 30 98 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 119 119 119 119 33 33 33 33 33 33 19 30 17 25 41 80 32 0 224 0 0 0 0 0 0 0 0 0 128 0 20 70 12 0 0 0 34 33 0 0 34 34 33 33 2 34 1 115 1 70 2 120 0 0 0 43 0 40 0 30 1 76 2 116 34 33 34 34 0 77 0 1 0 128 0 0 0 20 0 0 
 20040208_093744.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-20040208_093744.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+20040208_093744.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 20040208_093744.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 20040208_093744.jpg   Exif.Thumbnail.XResolution                   Rational    1  72
 20040208_093744.jpg   Exif.Thumbnail.YResolution                   Rational    1  72
@@ -1335,7 +1335,7 @@ File 11/15: 20050218_212016.jpg
 20050218_212016.jpg   Exif.Photo.FNumber                           Rational    1  F4.5
 20050218_212016.jpg   Exif.Photo.ExposureProgram                   Short       1  Auto
 20050218_212016.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  80
-20050218_212016.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+20050218_212016.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.20
 20050218_212016.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2005:02:18 21:20:16
 20050218_212016.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2005:02:18 21:20:16
 20050218_212016.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -1346,7 +1346,7 @@ File 11/15: 20050218_212016.jpg
 20050218_212016.jpg   Exif.Photo.LightSource                       Short       1  Unknown
 20050218_212016.jpg   Exif.Photo.Flash                             Short       1  No, compulsory
 20050218_212016.jpg   Exif.Photo.FocalLength                       Rational    1  6.0 mm
-20050218_212016.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+20050218_212016.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 20050218_212016.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 20050218_212016.jpg   Exif.Photo.PixelXDimension                   Long        1  2560
 20050218_212016.jpg   Exif.Photo.PixelYDimension                   Long        1  1920
@@ -1392,7 +1392,7 @@ File 11/15: 20050218_212016.jpg
 20050218_212016.jpg   Exif.Panasonic.0x0031                        Short       1  2
 20050218_212016.jpg   Exif.Panasonic.ColorMode                     Short       1  Normal
 20050218_212016.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-20050218_212016.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+20050218_212016.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 20050218_212016.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 20050218_212016.jpg   Exif.Thumbnail.Orientation                   Short       1  top, left
 20050218_212016.jpg   Exif.Thumbnail.XResolution                   Rational    1  72
@@ -1417,7 +1417,7 @@ File 12/15: 20050527_051833.jpg
 20050527_051833.jpg   Exif.Photo.FNumber                           Rational    1  F2.8
 20050527_051833.jpg   Exif.Photo.ExposureProgram                   Short       1  Auto
 20050527_051833.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  100
-20050527_051833.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+20050527_051833.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.20
 20050527_051833.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2005:05:27 05:18:33
 20050527_051833.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2005:05:27 05:18:33
 20050527_051833.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -1428,7 +1428,7 @@ File 12/15: 20050527_051833.jpg
 20050527_051833.jpg   Exif.Photo.LightSource                       Short       1  Unknown
 20050527_051833.jpg   Exif.Photo.Flash                             Short       1  Yes, auto, return light detected
 20050527_051833.jpg   Exif.Photo.FocalLength                       Rational    1  7.9 mm
-20050527_051833.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+20050527_051833.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 20050527_051833.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 20050527_051833.jpg   Exif.Photo.PixelXDimension                   Long        1  300
 20050527_051833.jpg   Exif.Photo.PixelYDimension                   Long        1  225
@@ -1452,7 +1452,7 @@ File 12/15: 20050527_051833.jpg
 20050527_051833.jpg   Exif.Sony.0x9007                             Undefined 200  1 0 125 103 125 191 125 117 125 174 125 184 216 149 216 45 94 81 94 109 94 170 14 237 231 5 14 96 14 86 0 163 94 250 14 243 14 199 231 130 4 186 86 14 86 120 234 209 205 175 205 37 5 204 5 62 5 197 5 234 0 0 0 0 0 0 0 0 27 217 27 166 27 42 27 77 27 113 64 234 64 151 125 76 125 71 125 73 216 181 216 66 216 231 125 178 0 163 64 113 125 35 125 196 125 80 216 4 216 61 94 93 94 163 14 189 231 231 231 113 4 195 231 107 231 85 0 0 0 0 0 0 0 0 112 225 112 225 112 225 112 225 112 166 182 142 182 102 105 165 136 129 32 32 190 63 129 7 190 37 190 65 0 163 138 31 138 162 138 107 138 13 138 252 112 40 112 117 112 65 112 31 112 184 112 46 112 103 182 0 182 81 0 0 0 0 0 0 0 0 
 20050527_051833.jpg   Exif.Sony.0x9008                             Undefined 200  1 0 0 0 0 134 140 83 0 219 13 188 0 232 53 222 0 134 25 6 0 0 202 63 0 183 102 83 0 81 185 153 0 197 2 15 0 2 113 102 0 0 93 117 0 68 147 15 0 78 194 136 0 101 217 41 0 39 169 234 0 0 151 217 27 91 8 70 8 156 27 169 0 175 0 135 0 166 0 175 8 164 1 178 1 111 8 191 1 146 0 17 1 227 1 146 64 220 27 109 8 65 64 246 0 241 0 159 1 12 0 255 8 222 8 215 8 232 8 235 8 208 1 151 1 174 8 177 0 202 0 69 1 7 0 89 27 116 8 107 1 237 27 101 8 61 1 88 8 26 8 119 1 90 0 235 1 75 1 175 8 178 8 138 8 211 8 242 8 212 1 107 1 157 8 123 8 137 8 14 8 68 8 254 64 51 27 129 27 53 64 101 125 141 27 42 125 197 125 52 
 20050527_051833.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-20050527_051833.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+20050527_051833.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 20050527_051833.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 20050527_051833.jpg   Exif.Thumbnail.Make                          Ascii       5  SONY
 20050527_051833.jpg   Exif.Thumbnail.Model                         Ascii       7  DSC-W7
@@ -1478,7 +1478,7 @@ Warning: Makernote: Pointer to next IFD is out of bounds; ignored.
 20060802_095200.jpg   Exif.Photo.FNumber                           Rational    1  F5.6
 20060802_095200.jpg   Exif.Photo.ExposureProgram                   Short       1  Auto
 20060802_095200.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  100
-20060802_095200.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 49 
+20060802_095200.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.21
 20060802_095200.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2006:08:02 09:52:00
 20060802_095200.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2006:08:02 09:52:00
 20060802_095200.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -1489,7 +1489,7 @@ Warning: Makernote: Pointer to next IFD is out of bounds; ignored.
 20060802_095200.jpg   Exif.Photo.Flash                             Short       1  Yes, compulsory, red-eye reduction
 20060802_095200.jpg   Exif.Photo.FocalLength                       Rational    1  95.0 mm
 20060802_095200.jpg   Exif.Photo.UserComment                       Undefined 264  
-20060802_095200.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+20060802_095200.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 20060802_095200.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 20060802_095200.jpg   Exif.Photo.PixelXDimension                   Short       1  3504
 20060802_095200.jpg   Exif.Photo.PixelYDimension                   Short       1  2336
@@ -1643,7 +1643,7 @@ Warning: Makernote: Pointer to next IFD is out of bounds; ignored.
 20060802_095200.jpg   Exif.CanonPi.AFPointsUsed20D                 Short       1  center
 20060802_095200.jpg   Exif.CanonPi.0x001b                          Short       1  65535
 20060802_095200.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-20060802_095200.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+20060802_095200.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 20060802_095200.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 20060802_095200.jpg   Exif.Thumbnail.XResolution                   Rational    1  72
 20060802_095200.jpg   Exif.Thumbnail.YResolution                   Rational    1  72
@@ -1663,7 +1663,7 @@ File 14/15: 20001004_015404.jpg
 20001004_015404.jpg   Exif.Photo.ExposureTime                      Rational    1  1/350 s
 20001004_015404.jpg   Exif.Photo.FNumber                           Rational    1  F4
 20001004_015404.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  100
-20001004_015404.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 49 48 
+20001004_015404.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.10
 20001004_015404.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2000:10:04 01:54:04
 20001004_015404.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2000:10:04 01:54:04
 20001004_015404.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -1677,7 +1677,7 @@ File 14/15: 20001004_015404.jpg
 20001004_015404.jpg   Exif.Photo.Flash                             Short       1  No flash
 20001004_015404.jpg   Exif.Photo.FocalLength                       Rational    1  70.0 mm
 20001004_015404.jpg   Exif.Photo.UserComment                       Undefined 264  
-20001004_015404.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+20001004_015404.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 20001004_015404.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 20001004_015404.jpg   Exif.Photo.PixelXDimension                   Short       1  2160
 20001004_015404.jpg   Exif.Photo.PixelYDimension                   Short       1  1440
@@ -1766,7 +1766,7 @@ File 14/15: 20001004_015404.jpg
 20001004_015404.jpg   Exif.CanonCf.SetButtonFunction               Short       1  3072
 20001004_015404.jpg   Exif.CanonCf.SensorCleaning                  Short       1  3328
 20001004_015404.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-20001004_015404.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+20001004_015404.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 20001004_015404.jpg   Exif.Iop.RelatedImageWidth                   Short       1  2160
 20001004_015404.jpg   Exif.Iop.RelatedImageLength                  Short       1  1440
 20001004_015404.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -1787,7 +1787,7 @@ File 15/15: 20060127_225027.jpg
 20060127_225027.jpg   Exif.Image.ExifTag                           Long        1  196
 20060127_225027.jpg   Exif.Photo.ExposureTime                      Rational    1  1/1000 s
 20060127_225027.jpg   Exif.Photo.FNumber                           Rational    1  F4
-20060127_225027.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+20060127_225027.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.20
 20060127_225027.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2006:01:27 22:50:27
 20060127_225027.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2006:01:27 22:50:27
 20060127_225027.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -1800,7 +1800,7 @@ File 15/15: 20060127_225027.jpg
 20060127_225027.jpg   Exif.Photo.Flash                             Short       1  No, compulsory
 20060127_225027.jpg   Exif.Photo.FocalLength                       Rational    1  5.8 mm
 20060127_225027.jpg   Exif.Photo.UserComment                       Undefined 264  
-20060127_225027.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+20060127_225027.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 20060127_225027.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 20060127_225027.jpg   Exif.Photo.PixelXDimension                   Short       1  2272
 20060127_225027.jpg   Exif.Photo.PixelYDimension                   Short       1  1704
@@ -1937,7 +1937,7 @@ File 15/15: 20060127_225027.jpg
 20060127_225027.jpg   Exif.CanonPi.AFPointsUsed20D                 Short       1  center
 20060127_225027.jpg   Exif.CanonPi.0x001b                          Short       1  4
 20060127_225027.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-20060127_225027.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+20060127_225027.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 20060127_225027.jpg   Exif.Iop.RelatedImageWidth                   Short       1  2272
 20060127_225027.jpg   Exif.Iop.RelatedImageLength                  Short       1  1704
 20060127_225027.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -2032,7 +2032,7 @@ Compare image data and extracted data ------------------------------------
 < 20031214_000043.jpg   Exif.Image.ExifTag                           Long        1  196
 < 20031214_000043.jpg   Exif.Photo.ExposureTime                      Rational    1  1/500 s
 < 20031214_000043.jpg   Exif.Photo.FNumber                           Rational    1  F4.9
-< 20031214_000043.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+< 20031214_000043.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.20
 < 20031214_000043.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2003:12:14 00:00:43
 < 20031214_000043.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2003:12:14 00:00:43
 < 20031214_000043.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -2045,7 +2045,7 @@ Compare image data and extracted data ------------------------------------
 < 20031214_000043.jpg   Exif.Photo.Flash                             Short       1  No, auto
 < 20031214_000043.jpg   Exif.Photo.FocalLength                       Rational    1  21.3 mm
 < 20031214_000043.jpg   Exif.Photo.UserComment                       Undefined 264  
-< 20031214_000043.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+< 20031214_000043.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20031214_000043.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 < 20031214_000043.jpg   Exif.Photo.PixelXDimension                   Short       1  2272
 < 20031214_000043.jpg   Exif.Photo.PixelYDimension                   Short       1  1704
@@ -2134,7 +2134,7 @@ Compare image data and extracted data ------------------------------------
 < 20031214_000043.jpg   Exif.CanonSi.0x0019                          Short       1  0
 < 20031214_000043.jpg   Exif.CanonSi.0x001a                          Short       1  250
 < 20031214_000043.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-< 20031214_000043.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+< 20031214_000043.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 < 20031214_000043.jpg   Exif.Iop.RelatedImageWidth                   Short       1  2272
 < 20031214_000043.jpg   Exif.Iop.RelatedImageLength                  Short       1  1704
 < 20031214_000043.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -2159,7 +2159,7 @@ Compare image data and extracted data ------------------------------------
 < 20000506_020544.jpg   Exif.Photo.FNumber                           Rational    1  F7
 < 20000506_020544.jpg   Exif.Photo.ExposureProgram                   Short       1  Aperture priority
 < 20000506_020544.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  100
-< 20000506_020544.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 49 48 
+< 20000506_020544.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.10
 < 20000506_020544.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2000:05:06 02:05:44
 < 20000506_020544.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2000:05:06 02:05:44
 < 20000506_020544.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -2171,7 +2171,7 @@ Compare image data and extracted data ------------------------------------
 < 20000506_020544.jpg   Exif.Photo.Flash                             Short       1  No flash
 < 20000506_020544.jpg   Exif.Photo.FocalLength                       Rational    1  8.2 mm
 < 20000506_020544.jpg   Exif.Photo.UserComment                       Undefined 125                                                                                                                       
-< 20000506_020544.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+< 20000506_020544.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20000506_020544.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 < 20000506_020544.jpg   Exif.Photo.PixelXDimension                   Long        1  2048
 < 20000506_020544.jpg   Exif.Photo.PixelYDimension                   Long        1  1536
@@ -2195,7 +2195,7 @@ Compare image data and extracted data ------------------------------------
 < 20000506_020544.jpg   Exif.Nikon1.AFFocusPos                       Undefined   4  Single area; Left
 < 20000506_020544.jpg   Exif.Nikon1.DataDump                         Undefined 174  1 45 0 128 1 76 0 0 0 0 255 1 0 0 0 0 2 74 42 160 0 0 0 0 2 183 0 0 31 8 0 0 21 202 0 0 33 124 0 0 33 124 0 0 31 6 13 132 0 74 0 0 0 0 9 181 9 74 8 109 7 54 208 1 11 122 0 0 0 0 45 33 21 0 0 0 32 0 0 0 0 0 0 0 0 0 68 27 0 0 74 3 23 207 9 30 59 31 0 71 0 0 19 21 18 18 21 24 0 0 100 0 25 76 0 0 0 1 255 240 101 68 0 0 0 2 0 0 0 0 15 3 194 141 1 13 18 34 0 0 81 90 0 246 1 43 48 32 18 7 40 16 78 72 11 122 0 0 117 252 235 98 11 16 6 6 0 100 0 216 18 52 67 33 
 < 20000506_020544.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-< 20000506_020544.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+< 20000506_020544.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 < 20000506_020544.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20000506_020544.jpg   Exif.Thumbnail.XResolution                   Rational    1  300
 < 20000506_020544.jpg   Exif.Thumbnail.YResolution                   Rational    1  300
@@ -2219,7 +2219,7 @@ Compare image data and extracted data ------------------------------------
 < 20040329_224245.jpg   Exif.Photo.ExposureTime                      Rational    1  1/250 s
 < 20040329_224245.jpg   Exif.Photo.FNumber                           Rational    1  F9
 < 20040329_224245.jpg   Exif.Photo.ExposureProgram                   Short       1  Auto
-< 20040329_224245.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 49 
+< 20040329_224245.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.21
 < 20040329_224245.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2004:03:29 22:42:45
 < 20040329_224245.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:03:29 22:42:45
 < 20040329_224245.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -2234,7 +2234,7 @@ Compare image data and extracted data ------------------------------------
 < 20040329_224245.jpg   Exif.Photo.SubSecTime                        Ascii       3  00
 < 20040329_224245.jpg   Exif.Photo.SubSecTimeOriginal                Ascii       3  00
 < 20040329_224245.jpg   Exif.Photo.SubSecTimeDigitized               Ascii       3  00
-< 20040329_224245.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+< 20040329_224245.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20040329_224245.jpg   Exif.Photo.ColorSpace                        Short       1  Uncalibrated
 < 20040329_224245.jpg   Exif.Photo.PixelXDimension                   Short       1  3008
 < 20040329_224245.jpg   Exif.Photo.PixelYDimension                   Short       1  2000
@@ -2255,7 +2255,7 @@ Compare image data and extracted data ------------------------------------
 < 20040329_224245.jpg   Exif.Photo.Sharpness                         Short       1  Normal
 < 20040329_224245.jpg   Exif.Photo.SubjectDistanceRange              Short       1  Unknown
 < 20040329_224245.jpg   Exif.Photo.0xa500                            Rational    1  22/10
-< 20040329_224245.jpg   Exif.Nikon3.Version                          Undefined   4  48 50 49 48 
+< 20040329_224245.jpg   Exif.Nikon3.Version                          Undefined   4  2.10
 < 20040329_224245.jpg   Exif.Nikon3.ISOSpeed                         Short       2  200
 < 20040329_224245.jpg   Exif.Nikon3.Quality                          Ascii       8  FINE   
 < 20040329_224245.jpg   Exif.Nikon3.WhiteBalance                     Ascii      13  AUTO        
@@ -2298,7 +2298,7 @@ Compare image data and extracted data ------------------------------------
 < 20040329_224245.jpg   Exif.Nikon3.Saturation                       Ascii      16  NORMAL         
 < 20040329_224245.jpg   Exif.Nikon3.VariProgram                      Ascii      16                 
 < 20040329_224245.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R03
-< 20040329_224245.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+< 20040329_224245.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 < 20040329_224245.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20040329_224245.jpg   Exif.Thumbnail.XResolution                   Rational    1  300
 < 20040329_224245.jpg   Exif.Thumbnail.YResolution                   Rational    1  300
@@ -2322,7 +2322,7 @@ Compare image data and extracted data ------------------------------------
 < 20010405_235039.jpg   Exif.Photo.FNumber                           Rational    1  F5.5
 < 20010405_235039.jpg   Exif.Photo.ExposureProgram                   Short       1  Auto
 < 20010405_235039.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  80
-< 20010405_235039.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 49 48 
+< 20010405_235039.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.10
 < 20010405_235039.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2001:04:05 23:50:39
 < 20010405_235039.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2001:04:05 23:50:39
 < 20010405_235039.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -2334,7 +2334,7 @@ Compare image data and extracted data ------------------------------------
 < 20010405_235039.jpg   Exif.Photo.Flash                             Short       1  No flash
 < 20010405_235039.jpg   Exif.Photo.FocalLength                       Rational    1  12.8 mm
 < 20010405_235039.jpg   Exif.Photo.UserComment                       Undefined 125                                                                                                                       
-< 20010405_235039.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+< 20010405_235039.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20010405_235039.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 < 20010405_235039.jpg   Exif.Photo.PixelXDimension                   Long        1  1600
 < 20010405_235039.jpg   Exif.Photo.PixelYDimension                   Long        1  1200
@@ -2353,7 +2353,7 @@ Compare image data and extracted data ------------------------------------
 < 20010405_235039.jpg   Exif.Nikon2.AuxiliaryLens                    Short       1  0
 < 20010405_235039.jpg   Exif.Nikon2.0x0f00                           Long       30  0 0 16777216 0 2685774096 0 34833 6931 16178 4372 4372 3322676767 3373084416 15112 0 0 1151495 252903424 17 0 0 844038208 55184128 218129428 1476410198 370540566 4044363286 16711749 204629079 1729
 < 20010405_235039.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-< 20010405_235039.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+< 20010405_235039.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 < 20010405_235039.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20010405_235039.jpg   Exif.Thumbnail.XResolution                   Rational    1  300
 < 20010405_235039.jpg   Exif.Thumbnail.YResolution                   Rational    1  300
@@ -2373,7 +2373,7 @@ Compare image data and extracted data ------------------------------------
 < 20030925_201850.jpg   Exif.Photo.ExposureTime                      Rational    1  1/80 s
 < 20030925_201850.jpg   Exif.Photo.FNumber                           Rational    1  F5.6
 < 20030925_201850.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  100
-< 20030925_201850.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+< 20030925_201850.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.20
 < 20030925_201850.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2003:09:25 20:18:50
 < 20030925_201850.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2003:09:25 20:18:50
 < 20030925_201850.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -2386,7 +2386,7 @@ Compare image data and extracted data ------------------------------------
 < 20030925_201850.jpg   Exif.Photo.Flash                             Short       1  No flash
 < 20030925_201850.jpg   Exif.Photo.FocalLength                       Rational    1  18.0 mm
 < 20030925_201850.jpg   Exif.Photo.UserComment                       Undefined 264  
-< 20030925_201850.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+< 20030925_201850.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20030925_201850.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 < 20030925_201850.jpg   Exif.Photo.PixelXDimension                   Short       1  3072
 < 20030925_201850.jpg   Exif.Photo.PixelYDimension                   Short       1  2048
@@ -2522,7 +2522,7 @@ Compare image data and extracted data ------------------------------------
 < 20030925_201850.jpg   Exif.CanonPi.AFPointsUsed                    Short       1  center
 < 20030925_201850.jpg   Exif.CanonPi.0x0017                          Short       1  65535
 < 20030925_201850.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-< 20030925_201850.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+< 20030925_201850.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 < 20030925_201850.jpg   Exif.Iop.RelatedImageWidth                   Short       1  3072
 < 20030925_201850.jpg   Exif.Iop.RelatedImageLength                  Short       1  2048
 < 20030925_201850.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -2544,7 +2544,7 @@ Compare image data and extracted data ------------------------------------
 < 20001026_044550.jpg   Exif.Image.ExifTag                           Long        1  374
 < 20001026_044550.jpg   Exif.Photo.ExposureTime                      Rational    1  1/30 s
 < 20001026_044550.jpg   Exif.Photo.FNumber                           Rational    1  F4
-< 20001026_044550.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 49 49 48 
+< 20001026_044550.jpg   Exif.Photo.ExifVersion                       Undefined   4  1.10
 < 20001026_044550.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2000:10:26 04:45:50
 < 20001026_044550.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 < 20001026_044550.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  (0/0)
@@ -2587,7 +2587,7 @@ Compare image data and extracted data ------------------------------------
 < 20030926_111535.jpg   Exif.Photo.FNumber                           Rational    1  F4
 < 20030926_111535.jpg   Exif.Photo.ExposureProgram                   Short       1  Aperture priority
 < 20030926_111535.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  400
-< 20030926_111535.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+< 20030926_111535.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.20
 < 20030926_111535.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2003:09:26 11:15:35
 < 20030926_111535.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2003:09:26 11:15:35
 < 20030926_111535.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -2600,7 +2600,7 @@ Compare image data and extracted data ------------------------------------
 < 20030926_111535.jpg   Exif.Photo.LightSource                       Short       1  Unknown
 < 20030926_111535.jpg   Exif.Photo.Flash                             Short       1  Yes, compulsory
 < 20030926_111535.jpg   Exif.Photo.FocalLength                       Rational    1  28.0 mm
-< 20030926_111535.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+< 20030926_111535.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20030926_111535.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 < 20030926_111535.jpg   Exif.Photo.PixelXDimension                   Long        1  3024
 < 20030926_111535.jpg   Exif.Photo.PixelYDimension                   Long        1  2016
@@ -2637,7 +2637,7 @@ Compare image data and extracted data ------------------------------------
 < 20030926_111535.jpg   Exif.Fujifilm.SequenceNumber                 Short       1  0
 < 20030926_111535.jpg   Exif.Fujifilm.0x1200                         Short       1  0
 < 20030926_111535.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-< 20030926_111535.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+< 20030926_111535.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 < 20030926_111535.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20030926_111535.jpg   Exif.Thumbnail.Orientation                   Short       1  top, left
 < 20030926_111535.jpg   Exif.Thumbnail.XResolution                   Rational    1  72
@@ -2661,7 +2661,7 @@ Compare image data and extracted data ------------------------------------
 < 20040316_075137.jpg   Exif.Photo.FNumber                           Rational    1  F5.6
 < 20040316_075137.jpg   Exif.Photo.ExposureProgram                   Short       1  Manual
 < 20040316_075137.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  100
-< 20040316_075137.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+< 20040316_075137.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.20
 < 20040316_075137.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2004:03:16 07:51:37
 < 20040316_075137.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:03:18 11:39:25
 < 20040316_075137.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -2670,7 +2670,7 @@ Compare image data and extracted data ------------------------------------
 < 20040316_075137.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 < 20040316_075137.jpg   Exif.Photo.Flash                             Short       1  No flash
 < 20040316_075137.jpg   Exif.Photo.FocalLength                       Rational    1  14.0 mm
-< 20040316_075137.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+< 20040316_075137.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20040316_075137.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 < 20040316_075137.jpg   Exif.Photo.PixelXDimension                   Long        1  2268
 < 20040316_075137.jpg   Exif.Photo.PixelYDimension                   Long        1  1512
@@ -2729,7 +2729,7 @@ Compare image data and extracted data ------------------------------------
 < 20040208_093744.jpg   Exif.Photo.FNumber                           Rational    1  F4.5
 < 20040208_093744.jpg   Exif.Photo.ExposureProgram                   Short       1  Aperture priority
 < 20040208_093744.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  50
-< 20040208_093744.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+< 20040208_093744.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.20
 < 20040208_093744.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2004:02:08 09:37:44
 < 20040208_093744.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:02:08 09:37:44
 < 20040208_093744.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -2741,7 +2741,7 @@ Compare image data and extracted data ------------------------------------
 < 20040208_093744.jpg   Exif.Photo.Flash                             Short       1  No, compulsory
 < 20040208_093744.jpg   Exif.Photo.FocalLength                       Rational    1  23.4 mm
 < 20040208_093744.jpg   Exif.Photo.UserComment                       Undefined 125                                                                                                                       
-< 20040208_093744.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+< 20040208_093744.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20040208_093744.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 < 20040208_093744.jpg   Exif.Photo.PixelXDimension                   Long        1  3264
 < 20040208_093744.jpg   Exif.Photo.PixelYDimension                   Long        1  2448
@@ -2774,7 +2774,7 @@ Compare image data and extracted data ------------------------------------
 < 20040208_093744.jpg   Exif.Olympus.0x0304                          Short       1  0
 < 20040208_093744.jpg   Exif.Olympus.DataDump1                       Undefined 494  1 75 2 3 2 93 0 0 0 0 255 0 0 0 25 97 18 49 0 0 5 236 0 0 57 36 0 0 1 155 0 0 10 47 0 0 22 242 0 0 5 192 0 0 24 68 0 100 0 166 0 50 0 36 0 0 0 0 0 0 0 0 0 0 54 21 0 0 0 0 53 61 22 4 0 0 0 0 0 0 0 0 0 0 0 0 16 32 0 0 57 0 14 86 0 0 0 0 0 0 0 0 0 0 0 0 0 100 3 158 0 0 0 0 255 253 255 249 255 245 255 236 255 237 255 232 255 230 0 0 34 34 34 34 17 17 17 17 1 86 3 150 3 243 1 33 2 0 1 76 2 116 2 3 1 2 96 90 0 2 3 52 0 25 0 10 0 25 0 10 0 5 0 10 0 1 0 0 0 0 0 16 0 0 0 16 0 1 1 0 0 166 1 79 1 246 2 159 3 70 1 2 1 75 2 3 2 93 0 0 21 54 21 231 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 136 136 1 0 3 254 0 59 0 0 0 0 0 0 2 226 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 6 121 6 129 6 124 6 156 208 0 3 254 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 12 57 12 88 12 103 12 177 12 88 12 6 11 190 11 10 34 68 34 128 34 238 35 119 34 83 33 125 32 132 30 98 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 119 119 119 119 33 33 33 33 33 33 19 30 17 25 41 80 32 0 224 0 0 0 0 0 0 0 0 0 128 0 20 70 12 0 0 0 34 33 0 0 34 34 33 33 2 34 1 115 1 70 2 120 0 0 0 43 0 40 0 30 1 76 2 116 34 33 34 34 0 77 0 1 0 128 0 0 0 20 0 0 
 < 20040208_093744.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-< 20040208_093744.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+< 20040208_093744.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 < 20040208_093744.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20040208_093744.jpg   Exif.Thumbnail.XResolution                   Rational    1  72
 < 20040208_093744.jpg   Exif.Thumbnail.YResolution                   Rational    1  72
@@ -2797,7 +2797,7 @@ Compare image data and extracted data ------------------------------------
 < 20050218_212016.jpg   Exif.Photo.FNumber                           Rational    1  F4.5
 < 20050218_212016.jpg   Exif.Photo.ExposureProgram                   Short       1  Auto
 < 20050218_212016.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  80
-< 20050218_212016.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+< 20050218_212016.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.20
 < 20050218_212016.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2005:02:18 21:20:16
 < 20050218_212016.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2005:02:18 21:20:16
 < 20050218_212016.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -2808,7 +2808,7 @@ Compare image data and extracted data ------------------------------------
 < 20050218_212016.jpg   Exif.Photo.LightSource                       Short       1  Unknown
 < 20050218_212016.jpg   Exif.Photo.Flash                             Short       1  No, compulsory
 < 20050218_212016.jpg   Exif.Photo.FocalLength                       Rational    1  6.0 mm
-< 20050218_212016.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+< 20050218_212016.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20050218_212016.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 < 20050218_212016.jpg   Exif.Photo.PixelXDimension                   Long        1  2560
 < 20050218_212016.jpg   Exif.Photo.PixelYDimension                   Long        1  1920
@@ -2854,7 +2854,7 @@ Compare image data and extracted data ------------------------------------
 < 20050218_212016.jpg   Exif.Panasonic.0x0031                        Short       1  2
 < 20050218_212016.jpg   Exif.Panasonic.ColorMode                     Short       1  Normal
 < 20050218_212016.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-< 20050218_212016.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+< 20050218_212016.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 < 20050218_212016.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20050218_212016.jpg   Exif.Thumbnail.Orientation                   Short       1  top, left
 < 20050218_212016.jpg   Exif.Thumbnail.XResolution                   Rational    1  72
@@ -2879,7 +2879,7 @@ Compare image data and extracted data ------------------------------------
 < 20050527_051833.jpg   Exif.Photo.FNumber                           Rational    1  F2.8
 < 20050527_051833.jpg   Exif.Photo.ExposureProgram                   Short       1  Auto
 < 20050527_051833.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  100
-< 20050527_051833.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+< 20050527_051833.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.20
 < 20050527_051833.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2005:05:27 05:18:33
 < 20050527_051833.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2005:05:27 05:18:33
 < 20050527_051833.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -2890,7 +2890,7 @@ Compare image data and extracted data ------------------------------------
 < 20050527_051833.jpg   Exif.Photo.LightSource                       Short       1  Unknown
 < 20050527_051833.jpg   Exif.Photo.Flash                             Short       1  Yes, auto, return light detected
 < 20050527_051833.jpg   Exif.Photo.FocalLength                       Rational    1  7.9 mm
-< 20050527_051833.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+< 20050527_051833.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20050527_051833.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 < 20050527_051833.jpg   Exif.Photo.PixelXDimension                   Long        1  300
 < 20050527_051833.jpg   Exif.Photo.PixelYDimension                   Long        1  225
@@ -2914,7 +2914,7 @@ Compare image data and extracted data ------------------------------------
 < 20050527_051833.jpg   Exif.Sony.0x9007                             Undefined 200  1 0 125 103 125 191 125 117 125 174 125 184 216 149 216 45 94 81 94 109 94 170 14 237 231 5 14 96 14 86 0 163 94 250 14 243 14 199 231 130 4 186 86 14 86 120 234 209 205 175 205 37 5 204 5 62 5 197 5 234 0 0 0 0 0 0 0 0 27 217 27 166 27 42 27 77 27 113 64 234 64 151 125 76 125 71 125 73 216 181 216 66 216 231 125 178 0 163 64 113 125 35 125 196 125 80 216 4 216 61 94 93 94 163 14 189 231 231 231 113 4 195 231 107 231 85 0 0 0 0 0 0 0 0 112 225 112 225 112 225 112 225 112 166 182 142 182 102 105 165 136 129 32 32 190 63 129 7 190 37 190 65 0 163 138 31 138 162 138 107 138 13 138 252 112 40 112 117 112 65 112 31 112 184 112 46 112 103 182 0 182 81 0 0 0 0 0 0 0 0 
 < 20050527_051833.jpg   Exif.Sony.0x9008                             Undefined 200  1 0 0 0 0 134 140 83 0 219 13 188 0 232 53 222 0 134 25 6 0 0 202 63 0 183 102 83 0 81 185 153 0 197 2 15 0 2 113 102 0 0 93 117 0 68 147 15 0 78 194 136 0 101 217 41 0 39 169 234 0 0 151 217 27 91 8 70 8 156 27 169 0 175 0 135 0 166 0 175 8 164 1 178 1 111 8 191 1 146 0 17 1 227 1 146 64 220 27 109 8 65 64 246 0 241 0 159 1 12 0 255 8 222 8 215 8 232 8 235 8 208 1 151 1 174 8 177 0 202 0 69 1 7 0 89 27 116 8 107 1 237 27 101 8 61 1 88 8 26 8 119 1 90 0 235 1 75 1 175 8 178 8 138 8 211 8 242 8 212 1 107 1 157 8 123 8 137 8 14 8 68 8 254 64 51 27 129 27 53 64 101 125 141 27 42 125 197 125 52 
 < 20050527_051833.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-< 20050527_051833.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+< 20050527_051833.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 < 20050527_051833.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20050527_051833.jpg   Exif.Thumbnail.Make                          Ascii       5  SONY
 < 20050527_051833.jpg   Exif.Thumbnail.Model                         Ascii       7  DSC-W7
@@ -2939,7 +2939,7 @@ Compare image data and extracted data ------------------------------------
 < 20060802_095200.jpg   Exif.Photo.FNumber                           Rational    1  F5.6
 < 20060802_095200.jpg   Exif.Photo.ExposureProgram                   Short       1  Auto
 < 20060802_095200.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  100
-< 20060802_095200.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 49 
+< 20060802_095200.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.21
 < 20060802_095200.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2006:08:02 09:52:00
 < 20060802_095200.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2006:08:02 09:52:00
 < 20060802_095200.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -2950,7 +2950,7 @@ Compare image data and extracted data ------------------------------------
 < 20060802_095200.jpg   Exif.Photo.Flash                             Short       1  Yes, compulsory, red-eye reduction
 < 20060802_095200.jpg   Exif.Photo.FocalLength                       Rational    1  95.0 mm
 < 20060802_095200.jpg   Exif.Photo.UserComment                       Undefined 264  
-< 20060802_095200.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+< 20060802_095200.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20060802_095200.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 < 20060802_095200.jpg   Exif.Photo.PixelXDimension                   Short       1  3504
 < 20060802_095200.jpg   Exif.Photo.PixelYDimension                   Short       1  2336
@@ -3104,7 +3104,7 @@ Compare image data and extracted data ------------------------------------
 < 20060802_095200.jpg   Exif.CanonPi.AFPointsUsed20D                 Short       1  center
 < 20060802_095200.jpg   Exif.CanonPi.0x001b                          Short       1  65535
 < 20060802_095200.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-< 20060802_095200.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+< 20060802_095200.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 < 20060802_095200.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20060802_095200.jpg   Exif.Thumbnail.XResolution                   Rational    1  72
 < 20060802_095200.jpg   Exif.Thumbnail.YResolution                   Rational    1  72
@@ -3124,7 +3124,7 @@ Compare image data and extracted data ------------------------------------
 < 20001004_015404.jpg   Exif.Photo.ExposureTime                      Rational    1  1/350 s
 < 20001004_015404.jpg   Exif.Photo.FNumber                           Rational    1  F4
 < 20001004_015404.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  100
-< 20001004_015404.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 49 48 
+< 20001004_015404.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.10
 < 20001004_015404.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2000:10:04 01:54:04
 < 20001004_015404.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2000:10:04 01:54:04
 < 20001004_015404.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -3138,7 +3138,7 @@ Compare image data and extracted data ------------------------------------
 < 20001004_015404.jpg   Exif.Photo.Flash                             Short       1  No flash
 < 20001004_015404.jpg   Exif.Photo.FocalLength                       Rational    1  70.0 mm
 < 20001004_015404.jpg   Exif.Photo.UserComment                       Undefined 264  
-< 20001004_015404.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+< 20001004_015404.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20001004_015404.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 < 20001004_015404.jpg   Exif.Photo.PixelXDimension                   Short       1  2160
 < 20001004_015404.jpg   Exif.Photo.PixelYDimension                   Short       1  1440
@@ -3227,7 +3227,7 @@ Compare image data and extracted data ------------------------------------
 < 20001004_015404.jpg   Exif.CanonCf.SetButtonFunction               Short       1  3072
 < 20001004_015404.jpg   Exif.CanonCf.SensorCleaning                  Short       1  3328
 < 20001004_015404.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-< 20001004_015404.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+< 20001004_015404.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 < 20001004_015404.jpg   Exif.Iop.RelatedImageWidth                   Short       1  2160
 < 20001004_015404.jpg   Exif.Iop.RelatedImageLength                  Short       1  1440
 < 20001004_015404.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -3248,7 +3248,7 @@ Compare image data and extracted data ------------------------------------
 < 20060127_225027.jpg   Exif.Image.ExifTag                           Long        1  196
 < 20060127_225027.jpg   Exif.Photo.ExposureTime                      Rational    1  1/1000 s
 < 20060127_225027.jpg   Exif.Photo.FNumber                           Rational    1  F4
-< 20060127_225027.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+< 20060127_225027.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.20
 < 20060127_225027.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2006:01:27 22:50:27
 < 20060127_225027.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2006:01:27 22:50:27
 < 20060127_225027.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -3261,7 +3261,7 @@ Compare image data and extracted data ------------------------------------
 < 20060127_225027.jpg   Exif.Photo.Flash                             Short       1  No, compulsory
 < 20060127_225027.jpg   Exif.Photo.FocalLength                       Rational    1  5.8 mm
 < 20060127_225027.jpg   Exif.Photo.UserComment                       Undefined 264  
-< 20060127_225027.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+< 20060127_225027.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20060127_225027.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 < 20060127_225027.jpg   Exif.Photo.PixelXDimension                   Short       1  2272
 < 20060127_225027.jpg   Exif.Photo.PixelYDimension                   Short       1  1704
@@ -3398,7 +3398,7 @@ Compare image data and extracted data ------------------------------------
 < 20060127_225027.jpg   Exif.CanonPi.AFPointsUsed20D                 Short       1  center
 < 20060127_225027.jpg   Exif.CanonPi.0x001b                          Short       1  4
 < 20060127_225027.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-< 20060127_225027.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+< 20060127_225027.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 < 20060127_225027.jpg   Exif.Iop.RelatedImageWidth                   Short       1  2272
 < 20060127_225027.jpg   Exif.Iop.RelatedImageLength                  Short       1  1704
 < 20060127_225027.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -3421,7 +3421,7 @@ Compare image data and extracted data ------------------------------------
 > 20031214_000043.exv   Exif.Image.ExifTag                           Long        1  196
 > 20031214_000043.exv   Exif.Photo.ExposureTime                      Rational    1  1/500 s
 > 20031214_000043.exv   Exif.Photo.FNumber                           Rational    1  F4.9
-> 20031214_000043.exv   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+> 20031214_000043.exv   Exif.Photo.ExifVersion                       Undefined   4  2.20
 > 20031214_000043.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2003:12:14 00:00:43
 > 20031214_000043.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2003:12:14 00:00:43
 > 20031214_000043.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -3434,7 +3434,7 @@ Compare image data and extracted data ------------------------------------
 > 20031214_000043.exv   Exif.Photo.Flash                             Short       1  No, auto
 > 20031214_000043.exv   Exif.Photo.FocalLength                       Rational    1  21.3 mm
 > 20031214_000043.exv   Exif.Photo.UserComment                       Undefined 264  
-> 20031214_000043.exv   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+> 20031214_000043.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20031214_000043.exv   Exif.Photo.ColorSpace                        Short       1  sRGB
 > 20031214_000043.exv   Exif.Photo.PixelXDimension                   Short       1  2272
 > 20031214_000043.exv   Exif.Photo.PixelYDimension                   Short       1  1704
@@ -3523,7 +3523,7 @@ Compare image data and extracted data ------------------------------------
 > 20031214_000043.exv   Exif.CanonSi.0x0019                          Short       1  0
 > 20031214_000043.exv   Exif.CanonSi.0x001a                          Short       1  250
 > 20031214_000043.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-> 20031214_000043.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+> 20031214_000043.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 > 20031214_000043.exv   Exif.Iop.RelatedImageWidth                   Short       1  2272
 > 20031214_000043.exv   Exif.Iop.RelatedImageLength                  Short       1  1704
 > 20031214_000043.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -3548,7 +3548,7 @@ Compare image data and extracted data ------------------------------------
 > 20000506_020544.exv   Exif.Photo.FNumber                           Rational    1  F7
 > 20000506_020544.exv   Exif.Photo.ExposureProgram                   Short       1  Aperture priority
 > 20000506_020544.exv   Exif.Photo.ISOSpeedRatings                   Short       1  100
-> 20000506_020544.exv   Exif.Photo.ExifVersion                       Undefined   4  48 50 49 48 
+> 20000506_020544.exv   Exif.Photo.ExifVersion                       Undefined   4  2.10
 > 20000506_020544.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2000:05:06 02:05:44
 > 20000506_020544.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2000:05:06 02:05:44
 > 20000506_020544.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -3560,7 +3560,7 @@ Compare image data and extracted data ------------------------------------
 > 20000506_020544.exv   Exif.Photo.Flash                             Short       1  No flash
 > 20000506_020544.exv   Exif.Photo.FocalLength                       Rational    1  8.2 mm
 > 20000506_020544.exv   Exif.Photo.UserComment                       Undefined 125                                                                                                                       
-> 20000506_020544.exv   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+> 20000506_020544.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20000506_020544.exv   Exif.Photo.ColorSpace                        Short       1  sRGB
 > 20000506_020544.exv   Exif.Photo.PixelXDimension                   Long        1  2048
 > 20000506_020544.exv   Exif.Photo.PixelYDimension                   Long        1  1536
@@ -3584,7 +3584,7 @@ Compare image data and extracted data ------------------------------------
 > 20000506_020544.exv   Exif.Nikon1.AFFocusPos                       Undefined   4  Single area; Left
 > 20000506_020544.exv   Exif.Nikon1.DataDump                         Undefined 174  1 45 0 128 1 76 0 0 0 0 255 1 0 0 0 0 2 74 42 160 0 0 0 0 2 183 0 0 31 8 0 0 21 202 0 0 33 124 0 0 33 124 0 0 31 6 13 132 0 74 0 0 0 0 9 181 9 74 8 109 7 54 208 1 11 122 0 0 0 0 45 33 21 0 0 0 32 0 0 0 0 0 0 0 0 0 68 27 0 0 74 3 23 207 9 30 59 31 0 71 0 0 19 21 18 18 21 24 0 0 100 0 25 76 0 0 0 1 255 240 101 68 0 0 0 2 0 0 0 0 15 3 194 141 1 13 18 34 0 0 81 90 0 246 1 43 48 32 18 7 40 16 78 72 11 122 0 0 117 252 235 98 11 16 6 6 0 100 0 216 18 52 67 33 
 > 20000506_020544.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-> 20000506_020544.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+> 20000506_020544.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 > 20000506_020544.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20000506_020544.exv   Exif.Thumbnail.XResolution                   Rational    1  300
 > 20000506_020544.exv   Exif.Thumbnail.YResolution                   Rational    1  300
@@ -3608,7 +3608,7 @@ Compare image data and extracted data ------------------------------------
 > 20040329_224245.exv   Exif.Photo.ExposureTime                      Rational    1  1/250 s
 > 20040329_224245.exv   Exif.Photo.FNumber                           Rational    1  F9
 > 20040329_224245.exv   Exif.Photo.ExposureProgram                   Short       1  Auto
-> 20040329_224245.exv   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 49 
+> 20040329_224245.exv   Exif.Photo.ExifVersion                       Undefined   4  2.21
 > 20040329_224245.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2004:03:29 22:42:45
 > 20040329_224245.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:03:29 22:42:45
 > 20040329_224245.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -3623,7 +3623,7 @@ Compare image data and extracted data ------------------------------------
 > 20040329_224245.exv   Exif.Photo.SubSecTime                        Ascii       3  00
 > 20040329_224245.exv   Exif.Photo.SubSecTimeOriginal                Ascii       3  00
 > 20040329_224245.exv   Exif.Photo.SubSecTimeDigitized               Ascii       3  00
-> 20040329_224245.exv   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+> 20040329_224245.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20040329_224245.exv   Exif.Photo.ColorSpace                        Short       1  Uncalibrated
 > 20040329_224245.exv   Exif.Photo.PixelXDimension                   Short       1  3008
 > 20040329_224245.exv   Exif.Photo.PixelYDimension                   Short       1  2000
@@ -3644,7 +3644,7 @@ Compare image data and extracted data ------------------------------------
 > 20040329_224245.exv   Exif.Photo.Sharpness                         Short       1  Normal
 > 20040329_224245.exv   Exif.Photo.SubjectDistanceRange              Short       1  Unknown
 > 20040329_224245.exv   Exif.Photo.0xa500                            Rational    1  22/10
-> 20040329_224245.exv   Exif.Nikon3.Version                          Undefined   4  48 50 49 48 
+> 20040329_224245.exv   Exif.Nikon3.Version                          Undefined   4  2.10
 > 20040329_224245.exv   Exif.Nikon3.ISOSpeed                         Short       2  200
 > 20040329_224245.exv   Exif.Nikon3.Quality                          Ascii       8  FINE   
 > 20040329_224245.exv   Exif.Nikon3.WhiteBalance                     Ascii      13  AUTO        
@@ -3687,7 +3687,7 @@ Compare image data and extracted data ------------------------------------
 > 20040329_224245.exv   Exif.Nikon3.Saturation                       Ascii      16  NORMAL         
 > 20040329_224245.exv   Exif.Nikon3.VariProgram                      Ascii      16                 
 > 20040329_224245.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R03
-> 20040329_224245.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+> 20040329_224245.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 > 20040329_224245.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20040329_224245.exv   Exif.Thumbnail.XResolution                   Rational    1  300
 > 20040329_224245.exv   Exif.Thumbnail.YResolution                   Rational    1  300
@@ -3711,7 +3711,7 @@ Compare image data and extracted data ------------------------------------
 > 20010405_235039.exv   Exif.Photo.FNumber                           Rational    1  F5.5
 > 20010405_235039.exv   Exif.Photo.ExposureProgram                   Short       1  Auto
 > 20010405_235039.exv   Exif.Photo.ISOSpeedRatings                   Short       1  80
-> 20010405_235039.exv   Exif.Photo.ExifVersion                       Undefined   4  48 50 49 48 
+> 20010405_235039.exv   Exif.Photo.ExifVersion                       Undefined   4  2.10
 > 20010405_235039.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2001:04:05 23:50:39
 > 20010405_235039.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2001:04:05 23:50:39
 > 20010405_235039.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -3723,7 +3723,7 @@ Compare image data and extracted data ------------------------------------
 > 20010405_235039.exv   Exif.Photo.Flash                             Short       1  No flash
 > 20010405_235039.exv   Exif.Photo.FocalLength                       Rational    1  12.8 mm
 > 20010405_235039.exv   Exif.Photo.UserComment                       Undefined 125                                                                                                                       
-> 20010405_235039.exv   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+> 20010405_235039.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20010405_235039.exv   Exif.Photo.ColorSpace                        Short       1  sRGB
 > 20010405_235039.exv   Exif.Photo.PixelXDimension                   Long        1  1600
 > 20010405_235039.exv   Exif.Photo.PixelYDimension                   Long        1  1200
@@ -3742,7 +3742,7 @@ Compare image data and extracted data ------------------------------------
 > 20010405_235039.exv   Exif.Nikon2.AuxiliaryLens                    Short       1  0
 > 20010405_235039.exv   Exif.Nikon2.0x0f00                           Long       30  0 0 16777216 0 2685774096 0 34833 6931 16178 4372 4372 3322676767 3373084416 15112 0 0 1151495 252903424 17 0 0 844038208 55184128 218129428 1476410198 370540566 4044363286 16711749 204629079 1729
 > 20010405_235039.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-> 20010405_235039.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+> 20010405_235039.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 > 20010405_235039.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20010405_235039.exv   Exif.Thumbnail.XResolution                   Rational    1  300
 > 20010405_235039.exv   Exif.Thumbnail.YResolution                   Rational    1  300
@@ -3762,7 +3762,7 @@ Compare image data and extracted data ------------------------------------
 > 20030925_201850.exv   Exif.Photo.ExposureTime                      Rational    1  1/80 s
 > 20030925_201850.exv   Exif.Photo.FNumber                           Rational    1  F5.6
 > 20030925_201850.exv   Exif.Photo.ISOSpeedRatings                   Short       1  100
-> 20030925_201850.exv   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+> 20030925_201850.exv   Exif.Photo.ExifVersion                       Undefined   4  2.20
 > 20030925_201850.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2003:09:25 20:18:50
 > 20030925_201850.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2003:09:25 20:18:50
 > 20030925_201850.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -3775,7 +3775,7 @@ Compare image data and extracted data ------------------------------------
 > 20030925_201850.exv   Exif.Photo.Flash                             Short       1  No flash
 > 20030925_201850.exv   Exif.Photo.FocalLength                       Rational    1  18.0 mm
 > 20030925_201850.exv   Exif.Photo.UserComment                       Undefined 264  
-> 20030925_201850.exv   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+> 20030925_201850.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20030925_201850.exv   Exif.Photo.ColorSpace                        Short       1  sRGB
 > 20030925_201850.exv   Exif.Photo.PixelXDimension                   Short       1  3072
 > 20030925_201850.exv   Exif.Photo.PixelYDimension                   Short       1  2048
@@ -3911,7 +3911,7 @@ Compare image data and extracted data ------------------------------------
 > 20030925_201850.exv   Exif.CanonPi.AFPointsUsed                    Short       1  center
 > 20030925_201850.exv   Exif.CanonPi.0x0017                          Short       1  65535
 > 20030925_201850.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-> 20030925_201850.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+> 20030925_201850.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 > 20030925_201850.exv   Exif.Iop.RelatedImageWidth                   Short       1  3072
 > 20030925_201850.exv   Exif.Iop.RelatedImageLength                  Short       1  2048
 > 20030925_201850.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -3933,7 +3933,7 @@ Compare image data and extracted data ------------------------------------
 > 20001026_044550.exv   Exif.Image.ExifTag                           Long        1  374
 > 20001026_044550.exv   Exif.Photo.ExposureTime                      Rational    1  1/30 s
 > 20001026_044550.exv   Exif.Photo.FNumber                           Rational    1  F4
-> 20001026_044550.exv   Exif.Photo.ExifVersion                       Undefined   4  48 49 49 48 
+> 20001026_044550.exv   Exif.Photo.ExifVersion                       Undefined   4  1.10
 > 20001026_044550.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2000:10:26 04:45:50
 > 20001026_044550.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 > 20001026_044550.exv   Exif.Photo.CompressedBitsPerPixel            Rational    1  (0/0)
@@ -3976,7 +3976,7 @@ Compare image data and extracted data ------------------------------------
 > 20030926_111535.exv   Exif.Photo.FNumber                           Rational    1  F4
 > 20030926_111535.exv   Exif.Photo.ExposureProgram                   Short       1  Aperture priority
 > 20030926_111535.exv   Exif.Photo.ISOSpeedRatings                   Short       1  400
-> 20030926_111535.exv   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+> 20030926_111535.exv   Exif.Photo.ExifVersion                       Undefined   4  2.20
 > 20030926_111535.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2003:09:26 11:15:35
 > 20030926_111535.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2003:09:26 11:15:35
 > 20030926_111535.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -3989,7 +3989,7 @@ Compare image data and extracted data ------------------------------------
 > 20030926_111535.exv   Exif.Photo.LightSource                       Short       1  Unknown
 > 20030926_111535.exv   Exif.Photo.Flash                             Short       1  Yes, compulsory
 > 20030926_111535.exv   Exif.Photo.FocalLength                       Rational    1  28.0 mm
-> 20030926_111535.exv   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+> 20030926_111535.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20030926_111535.exv   Exif.Photo.ColorSpace                        Short       1  sRGB
 > 20030926_111535.exv   Exif.Photo.PixelXDimension                   Long        1  3024
 > 20030926_111535.exv   Exif.Photo.PixelYDimension                   Long        1  2016
@@ -4026,7 +4026,7 @@ Compare image data and extracted data ------------------------------------
 > 20030926_111535.exv   Exif.Fujifilm.SequenceNumber                 Short       1  0
 > 20030926_111535.exv   Exif.Fujifilm.0x1200                         Short       1  0
 > 20030926_111535.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-> 20030926_111535.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+> 20030926_111535.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 > 20030926_111535.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20030926_111535.exv   Exif.Thumbnail.Orientation                   Short       1  top, left
 > 20030926_111535.exv   Exif.Thumbnail.XResolution                   Rational    1  72
@@ -4050,7 +4050,7 @@ Compare image data and extracted data ------------------------------------
 > 20040316_075137.exv   Exif.Photo.FNumber                           Rational    1  F5.6
 > 20040316_075137.exv   Exif.Photo.ExposureProgram                   Short       1  Manual
 > 20040316_075137.exv   Exif.Photo.ISOSpeedRatings                   Short       1  100
-> 20040316_075137.exv   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+> 20040316_075137.exv   Exif.Photo.ExifVersion                       Undefined   4  2.20
 > 20040316_075137.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2004:03:16 07:51:37
 > 20040316_075137.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:03:18 11:39:25
 > 20040316_075137.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -4059,7 +4059,7 @@ Compare image data and extracted data ------------------------------------
 > 20040316_075137.exv   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 > 20040316_075137.exv   Exif.Photo.Flash                             Short       1  No flash
 > 20040316_075137.exv   Exif.Photo.FocalLength                       Rational    1  14.0 mm
-> 20040316_075137.exv   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+> 20040316_075137.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20040316_075137.exv   Exif.Photo.ColorSpace                        Short       1  sRGB
 > 20040316_075137.exv   Exif.Photo.PixelXDimension                   Long        1  2268
 > 20040316_075137.exv   Exif.Photo.PixelYDimension                   Long        1  1512
@@ -4118,7 +4118,7 @@ Compare image data and extracted data ------------------------------------
 > 20040208_093744.exv   Exif.Photo.FNumber                           Rational    1  F4.5
 > 20040208_093744.exv   Exif.Photo.ExposureProgram                   Short       1  Aperture priority
 > 20040208_093744.exv   Exif.Photo.ISOSpeedRatings                   Short       1  50
-> 20040208_093744.exv   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+> 20040208_093744.exv   Exif.Photo.ExifVersion                       Undefined   4  2.20
 > 20040208_093744.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2004:02:08 09:37:44
 > 20040208_093744.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:02:08 09:37:44
 > 20040208_093744.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -4130,7 +4130,7 @@ Compare image data and extracted data ------------------------------------
 > 20040208_093744.exv   Exif.Photo.Flash                             Short       1  No, compulsory
 > 20040208_093744.exv   Exif.Photo.FocalLength                       Rational    1  23.4 mm
 > 20040208_093744.exv   Exif.Photo.UserComment                       Undefined 125                                                                                                                       
-> 20040208_093744.exv   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+> 20040208_093744.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20040208_093744.exv   Exif.Photo.ColorSpace                        Short       1  sRGB
 > 20040208_093744.exv   Exif.Photo.PixelXDimension                   Long        1  3264
 > 20040208_093744.exv   Exif.Photo.PixelYDimension                   Long        1  2448
@@ -4163,7 +4163,7 @@ Compare image data and extracted data ------------------------------------
 > 20040208_093744.exv   Exif.Olympus.0x0304                          Short       1  0
 > 20040208_093744.exv   Exif.Olympus.DataDump1                       Undefined 494  1 75 2 3 2 93 0 0 0 0 255 0 0 0 25 97 18 49 0 0 5 236 0 0 57 36 0 0 1 155 0 0 10 47 0 0 22 242 0 0 5 192 0 0 24 68 0 100 0 166 0 50 0 36 0 0 0 0 0 0 0 0 0 0 54 21 0 0 0 0 53 61 22 4 0 0 0 0 0 0 0 0 0 0 0 0 16 32 0 0 57 0 14 86 0 0 0 0 0 0 0 0 0 0 0 0 0 100 3 158 0 0 0 0 255 253 255 249 255 245 255 236 255 237 255 232 255 230 0 0 34 34 34 34 17 17 17 17 1 86 3 150 3 243 1 33 2 0 1 76 2 116 2 3 1 2 96 90 0 2 3 52 0 25 0 10 0 25 0 10 0 5 0 10 0 1 0 0 0 0 0 16 0 0 0 16 0 1 1 0 0 166 1 79 1 246 2 159 3 70 1 2 1 75 2 3 2 93 0 0 21 54 21 231 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 136 136 1 0 3 254 0 59 0 0 0 0 0 0 2 226 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 6 121 6 129 6 124 6 156 208 0 3 254 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 12 57 12 88 12 103 12 177 12 88 12 6 11 190 11 10 34 68 34 128 34 238 35 119 34 83 33 125 32 132 30 98 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 119 119 119 119 33 33 33 33 33 33 19 30 17 25 41 80 32 0 224 0 0 0 0 0 0 0 0 0 128 0 20 70 12 0 0 0 34 33 0 0 34 34 33 33 2 34 1 115 1 70 2 120 0 0 0 43 0 40 0 30 1 76 2 116 34 33 34 34 0 77 0 1 0 128 0 0 0 20 0 0 
 > 20040208_093744.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-> 20040208_093744.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+> 20040208_093744.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 > 20040208_093744.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20040208_093744.exv   Exif.Thumbnail.XResolution                   Rational    1  72
 > 20040208_093744.exv   Exif.Thumbnail.YResolution                   Rational    1  72
@@ -4186,7 +4186,7 @@ Compare image data and extracted data ------------------------------------
 > 20050218_212016.exv   Exif.Photo.FNumber                           Rational    1  F4.5
 > 20050218_212016.exv   Exif.Photo.ExposureProgram                   Short       1  Auto
 > 20050218_212016.exv   Exif.Photo.ISOSpeedRatings                   Short       1  80
-> 20050218_212016.exv   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+> 20050218_212016.exv   Exif.Photo.ExifVersion                       Undefined   4  2.20
 > 20050218_212016.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2005:02:18 21:20:16
 > 20050218_212016.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2005:02:18 21:20:16
 > 20050218_212016.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -4197,7 +4197,7 @@ Compare image data and extracted data ------------------------------------
 > 20050218_212016.exv   Exif.Photo.LightSource                       Short       1  Unknown
 > 20050218_212016.exv   Exif.Photo.Flash                             Short       1  No, compulsory
 > 20050218_212016.exv   Exif.Photo.FocalLength                       Rational    1  6.0 mm
-> 20050218_212016.exv   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+> 20050218_212016.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20050218_212016.exv   Exif.Photo.ColorSpace                        Short       1  sRGB
 > 20050218_212016.exv   Exif.Photo.PixelXDimension                   Long        1  2560
 > 20050218_212016.exv   Exif.Photo.PixelYDimension                   Long        1  1920
@@ -4243,7 +4243,7 @@ Compare image data and extracted data ------------------------------------
 > 20050218_212016.exv   Exif.Panasonic.0x0031                        Short       1  2
 > 20050218_212016.exv   Exif.Panasonic.ColorMode                     Short       1  Normal
 > 20050218_212016.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-> 20050218_212016.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+> 20050218_212016.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 > 20050218_212016.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20050218_212016.exv   Exif.Thumbnail.Orientation                   Short       1  top, left
 > 20050218_212016.exv   Exif.Thumbnail.XResolution                   Rational    1  72
@@ -4268,7 +4268,7 @@ Compare image data and extracted data ------------------------------------
 > 20050527_051833.exv   Exif.Photo.FNumber                           Rational    1  F2.8
 > 20050527_051833.exv   Exif.Photo.ExposureProgram                   Short       1  Auto
 > 20050527_051833.exv   Exif.Photo.ISOSpeedRatings                   Short       1  100
-> 20050527_051833.exv   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+> 20050527_051833.exv   Exif.Photo.ExifVersion                       Undefined   4  2.20
 > 20050527_051833.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2005:05:27 05:18:33
 > 20050527_051833.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2005:05:27 05:18:33
 > 20050527_051833.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -4279,7 +4279,7 @@ Compare image data and extracted data ------------------------------------
 > 20050527_051833.exv   Exif.Photo.LightSource                       Short       1  Unknown
 > 20050527_051833.exv   Exif.Photo.Flash                             Short       1  Yes, auto, return light detected
 > 20050527_051833.exv   Exif.Photo.FocalLength                       Rational    1  7.9 mm
-> 20050527_051833.exv   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+> 20050527_051833.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20050527_051833.exv   Exif.Photo.ColorSpace                        Short       1  sRGB
 > 20050527_051833.exv   Exif.Photo.PixelXDimension                   Long        1  300
 > 20050527_051833.exv   Exif.Photo.PixelYDimension                   Long        1  225
@@ -4303,7 +4303,7 @@ Compare image data and extracted data ------------------------------------
 > 20050527_051833.exv   Exif.Sony.0x9007                             Undefined 200  1 0 125 103 125 191 125 117 125 174 125 184 216 149 216 45 94 81 94 109 94 170 14 237 231 5 14 96 14 86 0 163 94 250 14 243 14 199 231 130 4 186 86 14 86 120 234 209 205 175 205 37 5 204 5 62 5 197 5 234 0 0 0 0 0 0 0 0 27 217 27 166 27 42 27 77 27 113 64 234 64 151 125 76 125 71 125 73 216 181 216 66 216 231 125 178 0 163 64 113 125 35 125 196 125 80 216 4 216 61 94 93 94 163 14 189 231 231 231 113 4 195 231 107 231 85 0 0 0 0 0 0 0 0 112 225 112 225 112 225 112 225 112 166 182 142 182 102 105 165 136 129 32 32 190 63 129 7 190 37 190 65 0 163 138 31 138 162 138 107 138 13 138 252 112 40 112 117 112 65 112 31 112 184 112 46 112 103 182 0 182 81 0 0 0 0 0 0 0 0 
 > 20050527_051833.exv   Exif.Sony.0x9008                             Undefined 200  1 0 0 0 0 134 140 83 0 219 13 188 0 232 53 222 0 134 25 6 0 0 202 63 0 183 102 83 0 81 185 153 0 197 2 15 0 2 113 102 0 0 93 117 0 68 147 15 0 78 194 136 0 101 217 41 0 39 169 234 0 0 151 217 27 91 8 70 8 156 27 169 0 175 0 135 0 166 0 175 8 164 1 178 1 111 8 191 1 146 0 17 1 227 1 146 64 220 27 109 8 65 64 246 0 241 0 159 1 12 0 255 8 222 8 215 8 232 8 235 8 208 1 151 1 174 8 177 0 202 0 69 1 7 0 89 27 116 8 107 1 237 27 101 8 61 1 88 8 26 8 119 1 90 0 235 1 75 1 175 8 178 8 138 8 211 8 242 8 212 1 107 1 157 8 123 8 137 8 14 8 68 8 254 64 51 27 129 27 53 64 101 125 141 27 42 125 197 125 52 
 > 20050527_051833.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-> 20050527_051833.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+> 20050527_051833.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 > 20050527_051833.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20050527_051833.exv   Exif.Thumbnail.Make                          Ascii       5  SONY
 > 20050527_051833.exv   Exif.Thumbnail.Model                         Ascii       7  DSC-W7
@@ -4328,7 +4328,7 @@ Compare image data and extracted data ------------------------------------
 > 20060802_095200.exv   Exif.Photo.FNumber                           Rational    1  F5.6
 > 20060802_095200.exv   Exif.Photo.ExposureProgram                   Short       1  Auto
 > 20060802_095200.exv   Exif.Photo.ISOSpeedRatings                   Short       1  100
-> 20060802_095200.exv   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 49 
+> 20060802_095200.exv   Exif.Photo.ExifVersion                       Undefined   4  2.21
 > 20060802_095200.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2006:08:02 09:52:00
 > 20060802_095200.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2006:08:02 09:52:00
 > 20060802_095200.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -4339,7 +4339,7 @@ Compare image data and extracted data ------------------------------------
 > 20060802_095200.exv   Exif.Photo.Flash                             Short       1  Yes, compulsory, red-eye reduction
 > 20060802_095200.exv   Exif.Photo.FocalLength                       Rational    1  95.0 mm
 > 20060802_095200.exv   Exif.Photo.UserComment                       Undefined 264  
-> 20060802_095200.exv   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+> 20060802_095200.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20060802_095200.exv   Exif.Photo.ColorSpace                        Short       1  sRGB
 > 20060802_095200.exv   Exif.Photo.PixelXDimension                   Short       1  3504
 > 20060802_095200.exv   Exif.Photo.PixelYDimension                   Short       1  2336
@@ -4493,7 +4493,7 @@ Compare image data and extracted data ------------------------------------
 > 20060802_095200.exv   Exif.CanonPi.AFPointsUsed20D                 Short       1  center
 > 20060802_095200.exv   Exif.CanonPi.0x001b                          Short       1  65535
 > 20060802_095200.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-> 20060802_095200.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+> 20060802_095200.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 > 20060802_095200.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20060802_095200.exv   Exif.Thumbnail.XResolution                   Rational    1  72
 > 20060802_095200.exv   Exif.Thumbnail.YResolution                   Rational    1  72
@@ -4513,7 +4513,7 @@ Compare image data and extracted data ------------------------------------
 > 20001004_015404.exv   Exif.Photo.ExposureTime                      Rational    1  1/350 s
 > 20001004_015404.exv   Exif.Photo.FNumber                           Rational    1  F4
 > 20001004_015404.exv   Exif.Photo.ISOSpeedRatings                   Short       1  100
-> 20001004_015404.exv   Exif.Photo.ExifVersion                       Undefined   4  48 50 49 48 
+> 20001004_015404.exv   Exif.Photo.ExifVersion                       Undefined   4  2.10
 > 20001004_015404.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2000:10:04 01:54:04
 > 20001004_015404.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2000:10:04 01:54:04
 > 20001004_015404.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -4527,7 +4527,7 @@ Compare image data and extracted data ------------------------------------
 > 20001004_015404.exv   Exif.Photo.Flash                             Short       1  No flash
 > 20001004_015404.exv   Exif.Photo.FocalLength                       Rational    1  70.0 mm
 > 20001004_015404.exv   Exif.Photo.UserComment                       Undefined 264  
-> 20001004_015404.exv   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+> 20001004_015404.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20001004_015404.exv   Exif.Photo.ColorSpace                        Short       1  sRGB
 > 20001004_015404.exv   Exif.Photo.PixelXDimension                   Short       1  2160
 > 20001004_015404.exv   Exif.Photo.PixelYDimension                   Short       1  1440
@@ -4616,7 +4616,7 @@ Compare image data and extracted data ------------------------------------
 > 20001004_015404.exv   Exif.CanonCf.SetButtonFunction               Short       1  3072
 > 20001004_015404.exv   Exif.CanonCf.SensorCleaning                  Short       1  3328
 > 20001004_015404.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-> 20001004_015404.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+> 20001004_015404.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 > 20001004_015404.exv   Exif.Iop.RelatedImageWidth                   Short       1  2160
 > 20001004_015404.exv   Exif.Iop.RelatedImageLength                  Short       1  1440
 > 20001004_015404.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -4637,7 +4637,7 @@ Compare image data and extracted data ------------------------------------
 > 20060127_225027.exv   Exif.Image.ExifTag                           Long        1  196
 > 20060127_225027.exv   Exif.Photo.ExposureTime                      Rational    1  1/1000 s
 > 20060127_225027.exv   Exif.Photo.FNumber                           Rational    1  F4
-> 20060127_225027.exv   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+> 20060127_225027.exv   Exif.Photo.ExifVersion                       Undefined   4  2.20
 > 20060127_225027.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2006:01:27 22:50:27
 > 20060127_225027.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2006:01:27 22:50:27
 > 20060127_225027.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -4650,7 +4650,7 @@ Compare image data and extracted data ------------------------------------
 > 20060127_225027.exv   Exif.Photo.Flash                             Short       1  No, compulsory
 > 20060127_225027.exv   Exif.Photo.FocalLength                       Rational    1  5.8 mm
 > 20060127_225027.exv   Exif.Photo.UserComment                       Undefined 264  
-> 20060127_225027.exv   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+> 20060127_225027.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20060127_225027.exv   Exif.Photo.ColorSpace                        Short       1  sRGB
 > 20060127_225027.exv   Exif.Photo.PixelXDimension                   Short       1  2272
 > 20060127_225027.exv   Exif.Photo.PixelYDimension                   Short       1  1704
@@ -4787,7 +4787,7 @@ Compare image data and extracted data ------------------------------------
 > 20060127_225027.exv   Exif.CanonPi.AFPointsUsed20D                 Short       1  center
 > 20060127_225027.exv   Exif.CanonPi.0x001b                          Short       1  4
 > 20060127_225027.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-> 20060127_225027.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+> 20060127_225027.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 > 20060127_225027.exv   Exif.Iop.RelatedImageWidth                   Short       1  2272
 > 20060127_225027.exv   Exif.Iop.RelatedImageLength                  Short       1  1704
 > 20060127_225027.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -4973,7 +4973,7 @@ Compare original and inserted image data ---------------------------------
 < 20031214_000043.jpg   Exif.Image.ExifTag                           Long        1  196
 < 20031214_000043.jpg   Exif.Photo.ExposureTime                      Rational    1  1/500 s
 < 20031214_000043.jpg   Exif.Photo.FNumber                           Rational    1  F4.9
-< 20031214_000043.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+< 20031214_000043.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.20
 < 20031214_000043.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2003:12:14 00:00:43
 < 20031214_000043.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2003:12:14 00:00:43
 < 20031214_000043.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -4986,7 +4986,7 @@ Compare original and inserted image data ---------------------------------
 < 20031214_000043.jpg   Exif.Photo.Flash                             Short       1  No, auto
 < 20031214_000043.jpg   Exif.Photo.FocalLength                       Rational    1  21.3 mm
 < 20031214_000043.jpg   Exif.Photo.UserComment                       Undefined 264  
-< 20031214_000043.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+< 20031214_000043.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20031214_000043.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 < 20031214_000043.jpg   Exif.Photo.PixelXDimension                   Short       1  2272
 < 20031214_000043.jpg   Exif.Photo.PixelYDimension                   Short       1  1704
@@ -5075,7 +5075,7 @@ Compare original and inserted image data ---------------------------------
 < 20031214_000043.jpg   Exif.CanonSi.0x0019                          Short       1  0
 < 20031214_000043.jpg   Exif.CanonSi.0x001a                          Short       1  250
 < 20031214_000043.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-< 20031214_000043.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+< 20031214_000043.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 < 20031214_000043.jpg   Exif.Iop.RelatedImageWidth                   Short       1  2272
 < 20031214_000043.jpg   Exif.Iop.RelatedImageLength                  Short       1  1704
 < 20031214_000043.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -5100,7 +5100,7 @@ Compare original and inserted image data ---------------------------------
 < 20000506_020544.jpg   Exif.Photo.FNumber                           Rational    1  F7
 < 20000506_020544.jpg   Exif.Photo.ExposureProgram                   Short       1  Aperture priority
 < 20000506_020544.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  100
-< 20000506_020544.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 49 48 
+< 20000506_020544.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.10
 < 20000506_020544.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2000:05:06 02:05:44
 < 20000506_020544.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2000:05:06 02:05:44
 < 20000506_020544.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -5112,7 +5112,7 @@ Compare original and inserted image data ---------------------------------
 < 20000506_020544.jpg   Exif.Photo.Flash                             Short       1  No flash
 < 20000506_020544.jpg   Exif.Photo.FocalLength                       Rational    1  8.2 mm
 < 20000506_020544.jpg   Exif.Photo.UserComment                       Undefined 125                                                                                                                       
-< 20000506_020544.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+< 20000506_020544.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20000506_020544.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 < 20000506_020544.jpg   Exif.Photo.PixelXDimension                   Long        1  2048
 < 20000506_020544.jpg   Exif.Photo.PixelYDimension                   Long        1  1536
@@ -5136,7 +5136,7 @@ Compare original and inserted image data ---------------------------------
 < 20000506_020544.jpg   Exif.Nikon1.AFFocusPos                       Undefined   4  Single area; Left
 < 20000506_020544.jpg   Exif.Nikon1.DataDump                         Undefined 174  1 45 0 128 1 76 0 0 0 0 255 1 0 0 0 0 2 74 42 160 0 0 0 0 2 183 0 0 31 8 0 0 21 202 0 0 33 124 0 0 33 124 0 0 31 6 13 132 0 74 0 0 0 0 9 181 9 74 8 109 7 54 208 1 11 122 0 0 0 0 45 33 21 0 0 0 32 0 0 0 0 0 0 0 0 0 68 27 0 0 74 3 23 207 9 30 59 31 0 71 0 0 19 21 18 18 21 24 0 0 100 0 25 76 0 0 0 1 255 240 101 68 0 0 0 2 0 0 0 0 15 3 194 141 1 13 18 34 0 0 81 90 0 246 1 43 48 32 18 7 40 16 78 72 11 122 0 0 117 252 235 98 11 16 6 6 0 100 0 216 18 52 67 33 
 < 20000506_020544.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-< 20000506_020544.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+< 20000506_020544.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 < 20000506_020544.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20000506_020544.jpg   Exif.Thumbnail.XResolution                   Rational    1  300
 < 20000506_020544.jpg   Exif.Thumbnail.YResolution                   Rational    1  300
@@ -5160,7 +5160,7 @@ Compare original and inserted image data ---------------------------------
 < 20040329_224245.jpg   Exif.Photo.ExposureTime                      Rational    1  1/250 s
 < 20040329_224245.jpg   Exif.Photo.FNumber                           Rational    1  F9
 < 20040329_224245.jpg   Exif.Photo.ExposureProgram                   Short       1  Auto
-< 20040329_224245.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 49 
+< 20040329_224245.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.21
 < 20040329_224245.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2004:03:29 22:42:45
 < 20040329_224245.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:03:29 22:42:45
 < 20040329_224245.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -5175,7 +5175,7 @@ Compare original and inserted image data ---------------------------------
 < 20040329_224245.jpg   Exif.Photo.SubSecTime                        Ascii       3  00
 < 20040329_224245.jpg   Exif.Photo.SubSecTimeOriginal                Ascii       3  00
 < 20040329_224245.jpg   Exif.Photo.SubSecTimeDigitized               Ascii       3  00
-< 20040329_224245.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+< 20040329_224245.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20040329_224245.jpg   Exif.Photo.ColorSpace                        Short       1  Uncalibrated
 < 20040329_224245.jpg   Exif.Photo.PixelXDimension                   Short       1  3008
 < 20040329_224245.jpg   Exif.Photo.PixelYDimension                   Short       1  2000
@@ -5196,7 +5196,7 @@ Compare original and inserted image data ---------------------------------
 < 20040329_224245.jpg   Exif.Photo.Sharpness                         Short       1  Normal
 < 20040329_224245.jpg   Exif.Photo.SubjectDistanceRange              Short       1  Unknown
 < 20040329_224245.jpg   Exif.Photo.0xa500                            Rational    1  22/10
-< 20040329_224245.jpg   Exif.Nikon3.Version                          Undefined   4  48 50 49 48 
+< 20040329_224245.jpg   Exif.Nikon3.Version                          Undefined   4  2.10
 < 20040329_224245.jpg   Exif.Nikon3.ISOSpeed                         Short       2  200
 < 20040329_224245.jpg   Exif.Nikon3.Quality                          Ascii       8  FINE   
 < 20040329_224245.jpg   Exif.Nikon3.WhiteBalance                     Ascii      13  AUTO        
@@ -5239,7 +5239,7 @@ Compare original and inserted image data ---------------------------------
 < 20040329_224245.jpg   Exif.Nikon3.Saturation                       Ascii      16  NORMAL         
 < 20040329_224245.jpg   Exif.Nikon3.VariProgram                      Ascii      16                 
 < 20040329_224245.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R03
-< 20040329_224245.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+< 20040329_224245.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 < 20040329_224245.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20040329_224245.jpg   Exif.Thumbnail.XResolution                   Rational    1  300
 < 20040329_224245.jpg   Exif.Thumbnail.YResolution                   Rational    1  300
@@ -5263,7 +5263,7 @@ Compare original and inserted image data ---------------------------------
 < 20010405_235039.jpg   Exif.Photo.FNumber                           Rational    1  F5.5
 < 20010405_235039.jpg   Exif.Photo.ExposureProgram                   Short       1  Auto
 < 20010405_235039.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  80
-< 20010405_235039.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 49 48 
+< 20010405_235039.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.10
 < 20010405_235039.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2001:04:05 23:50:39
 < 20010405_235039.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2001:04:05 23:50:39
 < 20010405_235039.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -5275,7 +5275,7 @@ Compare original and inserted image data ---------------------------------
 < 20010405_235039.jpg   Exif.Photo.Flash                             Short       1  No flash
 < 20010405_235039.jpg   Exif.Photo.FocalLength                       Rational    1  12.8 mm
 < 20010405_235039.jpg   Exif.Photo.UserComment                       Undefined 125                                                                                                                       
-< 20010405_235039.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+< 20010405_235039.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20010405_235039.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 < 20010405_235039.jpg   Exif.Photo.PixelXDimension                   Long        1  1600
 < 20010405_235039.jpg   Exif.Photo.PixelYDimension                   Long        1  1200
@@ -5294,7 +5294,7 @@ Compare original and inserted image data ---------------------------------
 < 20010405_235039.jpg   Exif.Nikon2.AuxiliaryLens                    Short       1  0
 < 20010405_235039.jpg   Exif.Nikon2.0x0f00                           Long       30  0 0 16777216 0 2685774096 0 34833 6931 16178 4372 4372 3322676767 3373084416 15112 0 0 1151495 252903424 17 0 0 844038208 55184128 218129428 1476410198 370540566 4044363286 16711749 204629079 1729
 < 20010405_235039.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-< 20010405_235039.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+< 20010405_235039.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 < 20010405_235039.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20010405_235039.jpg   Exif.Thumbnail.XResolution                   Rational    1  300
 < 20010405_235039.jpg   Exif.Thumbnail.YResolution                   Rational    1  300
@@ -5314,7 +5314,7 @@ Compare original and inserted image data ---------------------------------
 < 20030925_201850.jpg   Exif.Photo.ExposureTime                      Rational    1  1/80 s
 < 20030925_201850.jpg   Exif.Photo.FNumber                           Rational    1  F5.6
 < 20030925_201850.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  100
-< 20030925_201850.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+< 20030925_201850.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.20
 < 20030925_201850.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2003:09:25 20:18:50
 < 20030925_201850.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2003:09:25 20:18:50
 < 20030925_201850.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -5327,7 +5327,7 @@ Compare original and inserted image data ---------------------------------
 < 20030925_201850.jpg   Exif.Photo.Flash                             Short       1  No flash
 < 20030925_201850.jpg   Exif.Photo.FocalLength                       Rational    1  18.0 mm
 < 20030925_201850.jpg   Exif.Photo.UserComment                       Undefined 264  
-< 20030925_201850.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+< 20030925_201850.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20030925_201850.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 < 20030925_201850.jpg   Exif.Photo.PixelXDimension                   Short       1  3072
 < 20030925_201850.jpg   Exif.Photo.PixelYDimension                   Short       1  2048
@@ -5463,7 +5463,7 @@ Compare original and inserted image data ---------------------------------
 < 20030925_201850.jpg   Exif.CanonPi.AFPointsUsed                    Short       1  center
 < 20030925_201850.jpg   Exif.CanonPi.0x0017                          Short       1  65535
 < 20030925_201850.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-< 20030925_201850.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+< 20030925_201850.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 < 20030925_201850.jpg   Exif.Iop.RelatedImageWidth                   Short       1  3072
 < 20030925_201850.jpg   Exif.Iop.RelatedImageLength                  Short       1  2048
 < 20030925_201850.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -5485,7 +5485,7 @@ Compare original and inserted image data ---------------------------------
 < 20001026_044550.jpg   Exif.Image.ExifTag                           Long        1  374
 < 20001026_044550.jpg   Exif.Photo.ExposureTime                      Rational    1  1/30 s
 < 20001026_044550.jpg   Exif.Photo.FNumber                           Rational    1  F4
-< 20001026_044550.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 49 49 48 
+< 20001026_044550.jpg   Exif.Photo.ExifVersion                       Undefined   4  1.10
 < 20001026_044550.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2000:10:26 04:45:50
 < 20001026_044550.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 < 20001026_044550.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  (0/0)
@@ -5528,7 +5528,7 @@ Compare original and inserted image data ---------------------------------
 < 20030926_111535.jpg   Exif.Photo.FNumber                           Rational    1  F4
 < 20030926_111535.jpg   Exif.Photo.ExposureProgram                   Short       1  Aperture priority
 < 20030926_111535.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  400
-< 20030926_111535.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+< 20030926_111535.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.20
 < 20030926_111535.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2003:09:26 11:15:35
 < 20030926_111535.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2003:09:26 11:15:35
 < 20030926_111535.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -5541,7 +5541,7 @@ Compare original and inserted image data ---------------------------------
 < 20030926_111535.jpg   Exif.Photo.LightSource                       Short       1  Unknown
 < 20030926_111535.jpg   Exif.Photo.Flash                             Short       1  Yes, compulsory
 < 20030926_111535.jpg   Exif.Photo.FocalLength                       Rational    1  28.0 mm
-< 20030926_111535.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+< 20030926_111535.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20030926_111535.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 < 20030926_111535.jpg   Exif.Photo.PixelXDimension                   Long        1  3024
 < 20030926_111535.jpg   Exif.Photo.PixelYDimension                   Long        1  2016
@@ -5578,7 +5578,7 @@ Compare original and inserted image data ---------------------------------
 < 20030926_111535.jpg   Exif.Fujifilm.SequenceNumber                 Short       1  0
 < 20030926_111535.jpg   Exif.Fujifilm.0x1200                         Short       1  0
 < 20030926_111535.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-< 20030926_111535.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+< 20030926_111535.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 < 20030926_111535.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20030926_111535.jpg   Exif.Thumbnail.Orientation                   Short       1  top, left
 < 20030926_111535.jpg   Exif.Thumbnail.XResolution                   Rational    1  72
@@ -5602,7 +5602,7 @@ Compare original and inserted image data ---------------------------------
 < 20040316_075137.jpg   Exif.Photo.FNumber                           Rational    1  F5.6
 < 20040316_075137.jpg   Exif.Photo.ExposureProgram                   Short       1  Manual
 < 20040316_075137.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  100
-< 20040316_075137.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+< 20040316_075137.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.20
 < 20040316_075137.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2004:03:16 07:51:37
 < 20040316_075137.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:03:18 11:39:25
 < 20040316_075137.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -5611,7 +5611,7 @@ Compare original and inserted image data ---------------------------------
 < 20040316_075137.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 < 20040316_075137.jpg   Exif.Photo.Flash                             Short       1  No flash
 < 20040316_075137.jpg   Exif.Photo.FocalLength                       Rational    1  14.0 mm
-< 20040316_075137.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+< 20040316_075137.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20040316_075137.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 < 20040316_075137.jpg   Exif.Photo.PixelXDimension                   Long        1  2268
 < 20040316_075137.jpg   Exif.Photo.PixelYDimension                   Long        1  1512
@@ -5670,7 +5670,7 @@ Compare original and inserted image data ---------------------------------
 < 20040208_093744.jpg   Exif.Photo.FNumber                           Rational    1  F4.5
 < 20040208_093744.jpg   Exif.Photo.ExposureProgram                   Short       1  Aperture priority
 < 20040208_093744.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  50
-< 20040208_093744.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+< 20040208_093744.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.20
 < 20040208_093744.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2004:02:08 09:37:44
 < 20040208_093744.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:02:08 09:37:44
 < 20040208_093744.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -5682,7 +5682,7 @@ Compare original and inserted image data ---------------------------------
 < 20040208_093744.jpg   Exif.Photo.Flash                             Short       1  No, compulsory
 < 20040208_093744.jpg   Exif.Photo.FocalLength                       Rational    1  23.4 mm
 < 20040208_093744.jpg   Exif.Photo.UserComment                       Undefined 125                                                                                                                       
-< 20040208_093744.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+< 20040208_093744.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20040208_093744.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 < 20040208_093744.jpg   Exif.Photo.PixelXDimension                   Long        1  3264
 < 20040208_093744.jpg   Exif.Photo.PixelYDimension                   Long        1  2448
@@ -5715,7 +5715,7 @@ Compare original and inserted image data ---------------------------------
 < 20040208_093744.jpg   Exif.Olympus.0x0304                          Short       1  0
 < 20040208_093744.jpg   Exif.Olympus.DataDump1                       Undefined 494  1 75 2 3 2 93 0 0 0 0 255 0 0 0 25 97 18 49 0 0 5 236 0 0 57 36 0 0 1 155 0 0 10 47 0 0 22 242 0 0 5 192 0 0 24 68 0 100 0 166 0 50 0 36 0 0 0 0 0 0 0 0 0 0 54 21 0 0 0 0 53 61 22 4 0 0 0 0 0 0 0 0 0 0 0 0 16 32 0 0 57 0 14 86 0 0 0 0 0 0 0 0 0 0 0 0 0 100 3 158 0 0 0 0 255 253 255 249 255 245 255 236 255 237 255 232 255 230 0 0 34 34 34 34 17 17 17 17 1 86 3 150 3 243 1 33 2 0 1 76 2 116 2 3 1 2 96 90 0 2 3 52 0 25 0 10 0 25 0 10 0 5 0 10 0 1 0 0 0 0 0 16 0 0 0 16 0 1 1 0 0 166 1 79 1 246 2 159 3 70 1 2 1 75 2 3 2 93 0 0 21 54 21 231 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 136 136 1 0 3 254 0 59 0 0 0 0 0 0 2 226 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 6 121 6 129 6 124 6 156 208 0 3 254 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 12 57 12 88 12 103 12 177 12 88 12 6 11 190 11 10 34 68 34 128 34 238 35 119 34 83 33 125 32 132 30 98 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 119 119 119 119 33 33 33 33 33 33 19 30 17 25 41 80 32 0 224 0 0 0 0 0 0 0 0 0 128 0 20 70 12 0 0 0 34 33 0 0 34 34 33 33 2 34 1 115 1 70 2 120 0 0 0 43 0 40 0 30 1 76 2 116 34 33 34 34 0 77 0 1 0 128 0 0 0 20 0 0 
 < 20040208_093744.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-< 20040208_093744.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+< 20040208_093744.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 < 20040208_093744.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20040208_093744.jpg   Exif.Thumbnail.XResolution                   Rational    1  72
 < 20040208_093744.jpg   Exif.Thumbnail.YResolution                   Rational    1  72
@@ -5738,7 +5738,7 @@ Compare original and inserted image data ---------------------------------
 < 20050218_212016.jpg   Exif.Photo.FNumber                           Rational    1  F4.5
 < 20050218_212016.jpg   Exif.Photo.ExposureProgram                   Short       1  Auto
 < 20050218_212016.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  80
-< 20050218_212016.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+< 20050218_212016.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.20
 < 20050218_212016.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2005:02:18 21:20:16
 < 20050218_212016.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2005:02:18 21:20:16
 < 20050218_212016.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -5749,7 +5749,7 @@ Compare original and inserted image data ---------------------------------
 < 20050218_212016.jpg   Exif.Photo.LightSource                       Short       1  Unknown
 < 20050218_212016.jpg   Exif.Photo.Flash                             Short       1  No, compulsory
 < 20050218_212016.jpg   Exif.Photo.FocalLength                       Rational    1  6.0 mm
-< 20050218_212016.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+< 20050218_212016.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20050218_212016.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 < 20050218_212016.jpg   Exif.Photo.PixelXDimension                   Long        1  2560
 < 20050218_212016.jpg   Exif.Photo.PixelYDimension                   Long        1  1920
@@ -5795,7 +5795,7 @@ Compare original and inserted image data ---------------------------------
 < 20050218_212016.jpg   Exif.Panasonic.0x0031                        Short       1  2
 < 20050218_212016.jpg   Exif.Panasonic.ColorMode                     Short       1  Normal
 < 20050218_212016.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-< 20050218_212016.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+< 20050218_212016.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 < 20050218_212016.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20050218_212016.jpg   Exif.Thumbnail.Orientation                   Short       1  top, left
 < 20050218_212016.jpg   Exif.Thumbnail.XResolution                   Rational    1  72
@@ -5820,7 +5820,7 @@ Compare original and inserted image data ---------------------------------
 < 20050527_051833.jpg   Exif.Photo.FNumber                           Rational    1  F2.8
 < 20050527_051833.jpg   Exif.Photo.ExposureProgram                   Short       1  Auto
 < 20050527_051833.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  100
-< 20050527_051833.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+< 20050527_051833.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.20
 < 20050527_051833.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2005:05:27 05:18:33
 < 20050527_051833.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2005:05:27 05:18:33
 < 20050527_051833.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -5831,7 +5831,7 @@ Compare original and inserted image data ---------------------------------
 < 20050527_051833.jpg   Exif.Photo.LightSource                       Short       1  Unknown
 < 20050527_051833.jpg   Exif.Photo.Flash                             Short       1  Yes, auto, return light detected
 < 20050527_051833.jpg   Exif.Photo.FocalLength                       Rational    1  7.9 mm
-< 20050527_051833.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+< 20050527_051833.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20050527_051833.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 < 20050527_051833.jpg   Exif.Photo.PixelXDimension                   Long        1  300
 < 20050527_051833.jpg   Exif.Photo.PixelYDimension                   Long        1  225
@@ -5855,7 +5855,7 @@ Compare original and inserted image data ---------------------------------
 < 20050527_051833.jpg   Exif.Sony.0x9007                             Undefined 200  1 0 125 103 125 191 125 117 125 174 125 184 216 149 216 45 94 81 94 109 94 170 14 237 231 5 14 96 14 86 0 163 94 250 14 243 14 199 231 130 4 186 86 14 86 120 234 209 205 175 205 37 5 204 5 62 5 197 5 234 0 0 0 0 0 0 0 0 27 217 27 166 27 42 27 77 27 113 64 234 64 151 125 76 125 71 125 73 216 181 216 66 216 231 125 178 0 163 64 113 125 35 125 196 125 80 216 4 216 61 94 93 94 163 14 189 231 231 231 113 4 195 231 107 231 85 0 0 0 0 0 0 0 0 112 225 112 225 112 225 112 225 112 166 182 142 182 102 105 165 136 129 32 32 190 63 129 7 190 37 190 65 0 163 138 31 138 162 138 107 138 13 138 252 112 40 112 117 112 65 112 31 112 184 112 46 112 103 182 0 182 81 0 0 0 0 0 0 0 0 
 < 20050527_051833.jpg   Exif.Sony.0x9008                             Undefined 200  1 0 0 0 0 134 140 83 0 219 13 188 0 232 53 222 0 134 25 6 0 0 202 63 0 183 102 83 0 81 185 153 0 197 2 15 0 2 113 102 0 0 93 117 0 68 147 15 0 78 194 136 0 101 217 41 0 39 169 234 0 0 151 217 27 91 8 70 8 156 27 169 0 175 0 135 0 166 0 175 8 164 1 178 1 111 8 191 1 146 0 17 1 227 1 146 64 220 27 109 8 65 64 246 0 241 0 159 1 12 0 255 8 222 8 215 8 232 8 235 8 208 1 151 1 174 8 177 0 202 0 69 1 7 0 89 27 116 8 107 1 237 27 101 8 61 1 88 8 26 8 119 1 90 0 235 1 75 1 175 8 178 8 138 8 211 8 242 8 212 1 107 1 157 8 123 8 137 8 14 8 68 8 254 64 51 27 129 27 53 64 101 125 141 27 42 125 197 125 52 
 < 20050527_051833.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-< 20050527_051833.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+< 20050527_051833.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 < 20050527_051833.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20050527_051833.jpg   Exif.Thumbnail.Make                          Ascii       5  SONY
 < 20050527_051833.jpg   Exif.Thumbnail.Model                         Ascii       7  DSC-W7
@@ -5880,7 +5880,7 @@ Compare original and inserted image data ---------------------------------
 < 20060802_095200.jpg   Exif.Photo.FNumber                           Rational    1  F5.6
 < 20060802_095200.jpg   Exif.Photo.ExposureProgram                   Short       1  Auto
 < 20060802_095200.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  100
-< 20060802_095200.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 49 
+< 20060802_095200.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.21
 < 20060802_095200.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2006:08:02 09:52:00
 < 20060802_095200.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2006:08:02 09:52:00
 < 20060802_095200.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -5891,7 +5891,7 @@ Compare original and inserted image data ---------------------------------
 < 20060802_095200.jpg   Exif.Photo.Flash                             Short       1  Yes, compulsory, red-eye reduction
 < 20060802_095200.jpg   Exif.Photo.FocalLength                       Rational    1  95.0 mm
 < 20060802_095200.jpg   Exif.Photo.UserComment                       Undefined 264  
-< 20060802_095200.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+< 20060802_095200.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20060802_095200.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 < 20060802_095200.jpg   Exif.Photo.PixelXDimension                   Short       1  3504
 < 20060802_095200.jpg   Exif.Photo.PixelYDimension                   Short       1  2336
@@ -6045,7 +6045,7 @@ Compare original and inserted image data ---------------------------------
 < 20060802_095200.jpg   Exif.CanonPi.AFPointsUsed20D                 Short       1  center
 < 20060802_095200.jpg   Exif.CanonPi.0x001b                          Short       1  65535
 < 20060802_095200.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-< 20060802_095200.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+< 20060802_095200.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 < 20060802_095200.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20060802_095200.jpg   Exif.Thumbnail.XResolution                   Rational    1  72
 < 20060802_095200.jpg   Exif.Thumbnail.YResolution                   Rational    1  72
@@ -6065,7 +6065,7 @@ Compare original and inserted image data ---------------------------------
 < 20001004_015404.jpg   Exif.Photo.ExposureTime                      Rational    1  1/350 s
 < 20001004_015404.jpg   Exif.Photo.FNumber                           Rational    1  F4
 < 20001004_015404.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  100
-< 20001004_015404.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 49 48 
+< 20001004_015404.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.10
 < 20001004_015404.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2000:10:04 01:54:04
 < 20001004_015404.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2000:10:04 01:54:04
 < 20001004_015404.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -6079,7 +6079,7 @@ Compare original and inserted image data ---------------------------------
 < 20001004_015404.jpg   Exif.Photo.Flash                             Short       1  No flash
 < 20001004_015404.jpg   Exif.Photo.FocalLength                       Rational    1  70.0 mm
 < 20001004_015404.jpg   Exif.Photo.UserComment                       Undefined 264  
-< 20001004_015404.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+< 20001004_015404.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20001004_015404.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 < 20001004_015404.jpg   Exif.Photo.PixelXDimension                   Short       1  2160
 < 20001004_015404.jpg   Exif.Photo.PixelYDimension                   Short       1  1440
@@ -6168,7 +6168,7 @@ Compare original and inserted image data ---------------------------------
 < 20001004_015404.jpg   Exif.CanonCf.SetButtonFunction               Short       1  3072
 < 20001004_015404.jpg   Exif.CanonCf.SensorCleaning                  Short       1  3328
 < 20001004_015404.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-< 20001004_015404.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+< 20001004_015404.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 < 20001004_015404.jpg   Exif.Iop.RelatedImageWidth                   Short       1  2160
 < 20001004_015404.jpg   Exif.Iop.RelatedImageLength                  Short       1  1440
 < 20001004_015404.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -6189,7 +6189,7 @@ Compare original and inserted image data ---------------------------------
 < 20060127_225027.jpg   Exif.Image.ExifTag                           Long        1  196
 < 20060127_225027.jpg   Exif.Photo.ExposureTime                      Rational    1  1/1000 s
 < 20060127_225027.jpg   Exif.Photo.FNumber                           Rational    1  F4
-< 20060127_225027.jpg   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+< 20060127_225027.jpg   Exif.Photo.ExifVersion                       Undefined   4  2.20
 < 20060127_225027.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2006:01:27 22:50:27
 < 20060127_225027.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2006:01:27 22:50:27
 < 20060127_225027.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -6202,7 +6202,7 @@ Compare original and inserted image data ---------------------------------
 < 20060127_225027.jpg   Exif.Photo.Flash                             Short       1  No, compulsory
 < 20060127_225027.jpg   Exif.Photo.FocalLength                       Rational    1  5.8 mm
 < 20060127_225027.jpg   Exif.Photo.UserComment                       Undefined 264  
-< 20060127_225027.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+< 20060127_225027.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20060127_225027.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 < 20060127_225027.jpg   Exif.Photo.PixelXDimension                   Short       1  2272
 < 20060127_225027.jpg   Exif.Photo.PixelYDimension                   Short       1  1704
@@ -6339,7 +6339,7 @@ Compare original and inserted image data ---------------------------------
 < 20060127_225027.jpg   Exif.CanonPi.AFPointsUsed20D                 Short       1  center
 < 20060127_225027.jpg   Exif.CanonPi.0x001b                          Short       1  4
 < 20060127_225027.jpg   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-< 20060127_225027.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+< 20060127_225027.jpg   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 < 20060127_225027.jpg   Exif.Iop.RelatedImageWidth                   Short       1  2272
 < 20060127_225027.jpg   Exif.Iop.RelatedImageLength                  Short       1  1704
 < 20060127_225027.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -6362,7 +6362,7 @@ Compare original and inserted image data ---------------------------------
 > 20031214_000043.exv   Exif.Image.ExifTag                           Long        1  196
 > 20031214_000043.exv   Exif.Photo.ExposureTime                      Rational    1  1/500 s
 > 20031214_000043.exv   Exif.Photo.FNumber                           Rational    1  F4.9
-> 20031214_000043.exv   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+> 20031214_000043.exv   Exif.Photo.ExifVersion                       Undefined   4  2.20
 > 20031214_000043.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2003:12:14 00:00:43
 > 20031214_000043.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2003:12:14 00:00:43
 > 20031214_000043.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -6375,7 +6375,7 @@ Compare original and inserted image data ---------------------------------
 > 20031214_000043.exv   Exif.Photo.Flash                             Short       1  No, auto
 > 20031214_000043.exv   Exif.Photo.FocalLength                       Rational    1  21.3 mm
 > 20031214_000043.exv   Exif.Photo.UserComment                       Undefined 264  
-> 20031214_000043.exv   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+> 20031214_000043.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20031214_000043.exv   Exif.Photo.ColorSpace                        Short       1  sRGB
 > 20031214_000043.exv   Exif.Photo.PixelXDimension                   Short       1  2272
 > 20031214_000043.exv   Exif.Photo.PixelYDimension                   Short       1  1704
@@ -6464,7 +6464,7 @@ Compare original and inserted image data ---------------------------------
 > 20031214_000043.exv   Exif.CanonSi.0x0019                          Short       1  0
 > 20031214_000043.exv   Exif.CanonSi.0x001a                          Short       1  250
 > 20031214_000043.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-> 20031214_000043.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+> 20031214_000043.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 > 20031214_000043.exv   Exif.Iop.RelatedImageWidth                   Short       1  2272
 > 20031214_000043.exv   Exif.Iop.RelatedImageLength                  Short       1  1704
 > 20031214_000043.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -6489,7 +6489,7 @@ Compare original and inserted image data ---------------------------------
 > 20000506_020544.exv   Exif.Photo.FNumber                           Rational    1  F7
 > 20000506_020544.exv   Exif.Photo.ExposureProgram                   Short       1  Aperture priority
 > 20000506_020544.exv   Exif.Photo.ISOSpeedRatings                   Short       1  100
-> 20000506_020544.exv   Exif.Photo.ExifVersion                       Undefined   4  48 50 49 48 
+> 20000506_020544.exv   Exif.Photo.ExifVersion                       Undefined   4  2.10
 > 20000506_020544.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2000:05:06 02:05:44
 > 20000506_020544.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2000:05:06 02:05:44
 > 20000506_020544.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -6501,7 +6501,7 @@ Compare original and inserted image data ---------------------------------
 > 20000506_020544.exv   Exif.Photo.Flash                             Short       1  No flash
 > 20000506_020544.exv   Exif.Photo.FocalLength                       Rational    1  8.2 mm
 > 20000506_020544.exv   Exif.Photo.UserComment                       Undefined 125                                                                                                                       
-> 20000506_020544.exv   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+> 20000506_020544.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20000506_020544.exv   Exif.Photo.ColorSpace                        Short       1  sRGB
 > 20000506_020544.exv   Exif.Photo.PixelXDimension                   Long        1  2048
 > 20000506_020544.exv   Exif.Photo.PixelYDimension                   Long        1  1536
@@ -6525,7 +6525,7 @@ Compare original and inserted image data ---------------------------------
 > 20000506_020544.exv   Exif.Nikon1.AFFocusPos                       Undefined   4  Single area; Left
 > 20000506_020544.exv   Exif.Nikon1.DataDump                         Undefined 174  1 45 0 128 1 76 0 0 0 0 255 1 0 0 0 0 2 74 42 160 0 0 0 0 2 183 0 0 31 8 0 0 21 202 0 0 33 124 0 0 33 124 0 0 31 6 13 132 0 74 0 0 0 0 9 181 9 74 8 109 7 54 208 1 11 122 0 0 0 0 45 33 21 0 0 0 32 0 0 0 0 0 0 0 0 0 68 27 0 0 74 3 23 207 9 30 59 31 0 71 0 0 19 21 18 18 21 24 0 0 100 0 25 76 0 0 0 1 255 240 101 68 0 0 0 2 0 0 0 0 15 3 194 141 1 13 18 34 0 0 81 90 0 246 1 43 48 32 18 7 40 16 78 72 11 122 0 0 117 252 235 98 11 16 6 6 0 100 0 216 18 52 67 33 
 > 20000506_020544.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-> 20000506_020544.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+> 20000506_020544.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 > 20000506_020544.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20000506_020544.exv   Exif.Thumbnail.XResolution                   Rational    1  300
 > 20000506_020544.exv   Exif.Thumbnail.YResolution                   Rational    1  300
@@ -6549,7 +6549,7 @@ Compare original and inserted image data ---------------------------------
 > 20040329_224245.exv   Exif.Photo.ExposureTime                      Rational    1  1/250 s
 > 20040329_224245.exv   Exif.Photo.FNumber                           Rational    1  F9
 > 20040329_224245.exv   Exif.Photo.ExposureProgram                   Short       1  Auto
-> 20040329_224245.exv   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 49 
+> 20040329_224245.exv   Exif.Photo.ExifVersion                       Undefined   4  2.21
 > 20040329_224245.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2004:03:29 22:42:45
 > 20040329_224245.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:03:29 22:42:45
 > 20040329_224245.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -6564,7 +6564,7 @@ Compare original and inserted image data ---------------------------------
 > 20040329_224245.exv   Exif.Photo.SubSecTime                        Ascii       3  00
 > 20040329_224245.exv   Exif.Photo.SubSecTimeOriginal                Ascii       3  00
 > 20040329_224245.exv   Exif.Photo.SubSecTimeDigitized               Ascii       3  00
-> 20040329_224245.exv   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+> 20040329_224245.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20040329_224245.exv   Exif.Photo.ColorSpace                        Short       1  Uncalibrated
 > 20040329_224245.exv   Exif.Photo.PixelXDimension                   Short       1  3008
 > 20040329_224245.exv   Exif.Photo.PixelYDimension                   Short       1  2000
@@ -6585,7 +6585,7 @@ Compare original and inserted image data ---------------------------------
 > 20040329_224245.exv   Exif.Photo.Sharpness                         Short       1  Normal
 > 20040329_224245.exv   Exif.Photo.SubjectDistanceRange              Short       1  Unknown
 > 20040329_224245.exv   Exif.Photo.0xa500                            Rational    1  22/10
-> 20040329_224245.exv   Exif.Nikon3.Version                          Undefined   4  48 50 49 48 
+> 20040329_224245.exv   Exif.Nikon3.Version                          Undefined   4  2.10
 > 20040329_224245.exv   Exif.Nikon3.ISOSpeed                         Short       2  200
 > 20040329_224245.exv   Exif.Nikon3.Quality                          Ascii       8  FINE   
 > 20040329_224245.exv   Exif.Nikon3.WhiteBalance                     Ascii      13  AUTO        
@@ -6628,7 +6628,7 @@ Compare original and inserted image data ---------------------------------
 > 20040329_224245.exv   Exif.Nikon3.Saturation                       Ascii      16  NORMAL         
 > 20040329_224245.exv   Exif.Nikon3.VariProgram                      Ascii      16                 
 > 20040329_224245.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R03
-> 20040329_224245.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+> 20040329_224245.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 > 20040329_224245.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20040329_224245.exv   Exif.Thumbnail.XResolution                   Rational    1  300
 > 20040329_224245.exv   Exif.Thumbnail.YResolution                   Rational    1  300
@@ -6652,7 +6652,7 @@ Compare original and inserted image data ---------------------------------
 > 20010405_235039.exv   Exif.Photo.FNumber                           Rational    1  F5.5
 > 20010405_235039.exv   Exif.Photo.ExposureProgram                   Short       1  Auto
 > 20010405_235039.exv   Exif.Photo.ISOSpeedRatings                   Short       1  80
-> 20010405_235039.exv   Exif.Photo.ExifVersion                       Undefined   4  48 50 49 48 
+> 20010405_235039.exv   Exif.Photo.ExifVersion                       Undefined   4  2.10
 > 20010405_235039.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2001:04:05 23:50:39
 > 20010405_235039.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2001:04:05 23:50:39
 > 20010405_235039.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -6664,7 +6664,7 @@ Compare original and inserted image data ---------------------------------
 > 20010405_235039.exv   Exif.Photo.Flash                             Short       1  No flash
 > 20010405_235039.exv   Exif.Photo.FocalLength                       Rational    1  12.8 mm
 > 20010405_235039.exv   Exif.Photo.UserComment                       Undefined 125                                                                                                                       
-> 20010405_235039.exv   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+> 20010405_235039.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20010405_235039.exv   Exif.Photo.ColorSpace                        Short       1  sRGB
 > 20010405_235039.exv   Exif.Photo.PixelXDimension                   Long        1  1600
 > 20010405_235039.exv   Exif.Photo.PixelYDimension                   Long        1  1200
@@ -6683,7 +6683,7 @@ Compare original and inserted image data ---------------------------------
 > 20010405_235039.exv   Exif.Nikon2.AuxiliaryLens                    Short       1  0
 > 20010405_235039.exv   Exif.Nikon2.0x0f00                           Long       30  0 0 16777216 0 2685774096 0 34833 6931 16178 4372 4372 3322676767 3373084416 15112 0 0 1151495 252903424 17 0 0 844038208 55184128 218129428 1476410198 370540566 4044363286 16711749 204629079 1729
 > 20010405_235039.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-> 20010405_235039.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+> 20010405_235039.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 > 20010405_235039.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20010405_235039.exv   Exif.Thumbnail.XResolution                   Rational    1  300
 > 20010405_235039.exv   Exif.Thumbnail.YResolution                   Rational    1  300
@@ -6703,7 +6703,7 @@ Compare original and inserted image data ---------------------------------
 > 20030925_201850.exv   Exif.Photo.ExposureTime                      Rational    1  1/80 s
 > 20030925_201850.exv   Exif.Photo.FNumber                           Rational    1  F5.6
 > 20030925_201850.exv   Exif.Photo.ISOSpeedRatings                   Short       1  100
-> 20030925_201850.exv   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+> 20030925_201850.exv   Exif.Photo.ExifVersion                       Undefined   4  2.20
 > 20030925_201850.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2003:09:25 20:18:50
 > 20030925_201850.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2003:09:25 20:18:50
 > 20030925_201850.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -6716,7 +6716,7 @@ Compare original and inserted image data ---------------------------------
 > 20030925_201850.exv   Exif.Photo.Flash                             Short       1  No flash
 > 20030925_201850.exv   Exif.Photo.FocalLength                       Rational    1  18.0 mm
 > 20030925_201850.exv   Exif.Photo.UserComment                       Undefined 264  
-> 20030925_201850.exv   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+> 20030925_201850.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20030925_201850.exv   Exif.Photo.ColorSpace                        Short       1  sRGB
 > 20030925_201850.exv   Exif.Photo.PixelXDimension                   Short       1  3072
 > 20030925_201850.exv   Exif.Photo.PixelYDimension                   Short       1  2048
@@ -6852,7 +6852,7 @@ Compare original and inserted image data ---------------------------------
 > 20030925_201850.exv   Exif.CanonPi.AFPointsUsed                    Short       1  center
 > 20030925_201850.exv   Exif.CanonPi.0x0017                          Short       1  65535
 > 20030925_201850.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-> 20030925_201850.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+> 20030925_201850.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 > 20030925_201850.exv   Exif.Iop.RelatedImageWidth                   Short       1  3072
 > 20030925_201850.exv   Exif.Iop.RelatedImageLength                  Short       1  2048
 > 20030925_201850.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -6874,7 +6874,7 @@ Compare original and inserted image data ---------------------------------
 > 20001026_044550.exv   Exif.Image.ExifTag                           Long        1  374
 > 20001026_044550.exv   Exif.Photo.ExposureTime                      Rational    1  1/30 s
 > 20001026_044550.exv   Exif.Photo.FNumber                           Rational    1  F4
-> 20001026_044550.exv   Exif.Photo.ExifVersion                       Undefined   4  48 49 49 48 
+> 20001026_044550.exv   Exif.Photo.ExifVersion                       Undefined   4  1.10
 > 20001026_044550.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2000:10:26 04:45:50
 > 20001026_044550.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 > 20001026_044550.exv   Exif.Photo.CompressedBitsPerPixel            Rational    1  (0/0)
@@ -6917,7 +6917,7 @@ Compare original and inserted image data ---------------------------------
 > 20030926_111535.exv   Exif.Photo.FNumber                           Rational    1  F4
 > 20030926_111535.exv   Exif.Photo.ExposureProgram                   Short       1  Aperture priority
 > 20030926_111535.exv   Exif.Photo.ISOSpeedRatings                   Short       1  400
-> 20030926_111535.exv   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+> 20030926_111535.exv   Exif.Photo.ExifVersion                       Undefined   4  2.20
 > 20030926_111535.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2003:09:26 11:15:35
 > 20030926_111535.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2003:09:26 11:15:35
 > 20030926_111535.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -6930,7 +6930,7 @@ Compare original and inserted image data ---------------------------------
 > 20030926_111535.exv   Exif.Photo.LightSource                       Short       1  Unknown
 > 20030926_111535.exv   Exif.Photo.Flash                             Short       1  Yes, compulsory
 > 20030926_111535.exv   Exif.Photo.FocalLength                       Rational    1  28.0 mm
-> 20030926_111535.exv   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+> 20030926_111535.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20030926_111535.exv   Exif.Photo.ColorSpace                        Short       1  sRGB
 > 20030926_111535.exv   Exif.Photo.PixelXDimension                   Long        1  3024
 > 20030926_111535.exv   Exif.Photo.PixelYDimension                   Long        1  2016
@@ -6967,7 +6967,7 @@ Compare original and inserted image data ---------------------------------
 > 20030926_111535.exv   Exif.Fujifilm.SequenceNumber                 Short       1  0
 > 20030926_111535.exv   Exif.Fujifilm.0x1200                         Short       1  0
 > 20030926_111535.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-> 20030926_111535.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+> 20030926_111535.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 > 20030926_111535.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20030926_111535.exv   Exif.Thumbnail.Orientation                   Short       1  top, left
 > 20030926_111535.exv   Exif.Thumbnail.XResolution                   Rational    1  72
@@ -6991,7 +6991,7 @@ Compare original and inserted image data ---------------------------------
 > 20040316_075137.exv   Exif.Photo.FNumber                           Rational    1  F5.6
 > 20040316_075137.exv   Exif.Photo.ExposureProgram                   Short       1  Manual
 > 20040316_075137.exv   Exif.Photo.ISOSpeedRatings                   Short       1  100
-> 20040316_075137.exv   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+> 20040316_075137.exv   Exif.Photo.ExifVersion                       Undefined   4  2.20
 > 20040316_075137.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2004:03:16 07:51:37
 > 20040316_075137.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:03:18 11:39:25
 > 20040316_075137.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -7000,7 +7000,7 @@ Compare original and inserted image data ---------------------------------
 > 20040316_075137.exv   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 > 20040316_075137.exv   Exif.Photo.Flash                             Short       1  No flash
 > 20040316_075137.exv   Exif.Photo.FocalLength                       Rational    1  14.0 mm
-> 20040316_075137.exv   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+> 20040316_075137.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20040316_075137.exv   Exif.Photo.ColorSpace                        Short       1  sRGB
 > 20040316_075137.exv   Exif.Photo.PixelXDimension                   Long        1  2268
 > 20040316_075137.exv   Exif.Photo.PixelYDimension                   Long        1  1512
@@ -7059,7 +7059,7 @@ Compare original and inserted image data ---------------------------------
 > 20040208_093744.exv   Exif.Photo.FNumber                           Rational    1  F4.5
 > 20040208_093744.exv   Exif.Photo.ExposureProgram                   Short       1  Aperture priority
 > 20040208_093744.exv   Exif.Photo.ISOSpeedRatings                   Short       1  50
-> 20040208_093744.exv   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+> 20040208_093744.exv   Exif.Photo.ExifVersion                       Undefined   4  2.20
 > 20040208_093744.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2004:02:08 09:37:44
 > 20040208_093744.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:02:08 09:37:44
 > 20040208_093744.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -7071,7 +7071,7 @@ Compare original and inserted image data ---------------------------------
 > 20040208_093744.exv   Exif.Photo.Flash                             Short       1  No, compulsory
 > 20040208_093744.exv   Exif.Photo.FocalLength                       Rational    1  23.4 mm
 > 20040208_093744.exv   Exif.Photo.UserComment                       Undefined 125                                                                                                                       
-> 20040208_093744.exv   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+> 20040208_093744.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20040208_093744.exv   Exif.Photo.ColorSpace                        Short       1  sRGB
 > 20040208_093744.exv   Exif.Photo.PixelXDimension                   Long        1  3264
 > 20040208_093744.exv   Exif.Photo.PixelYDimension                   Long        1  2448
@@ -7104,7 +7104,7 @@ Compare original and inserted image data ---------------------------------
 > 20040208_093744.exv   Exif.Olympus.0x0304                          Short       1  0
 > 20040208_093744.exv   Exif.Olympus.DataDump1                       Undefined 494  1 75 2 3 2 93 0 0 0 0 255 0 0 0 25 97 18 49 0 0 5 236 0 0 57 36 0 0 1 155 0 0 10 47 0 0 22 242 0 0 5 192 0 0 24 68 0 100 0 166 0 50 0 36 0 0 0 0 0 0 0 0 0 0 54 21 0 0 0 0 53 61 22 4 0 0 0 0 0 0 0 0 0 0 0 0 16 32 0 0 57 0 14 86 0 0 0 0 0 0 0 0 0 0 0 0 0 100 3 158 0 0 0 0 255 253 255 249 255 245 255 236 255 237 255 232 255 230 0 0 34 34 34 34 17 17 17 17 1 86 3 150 3 243 1 33 2 0 1 76 2 116 2 3 1 2 96 90 0 2 3 52 0 25 0 10 0 25 0 10 0 5 0 10 0 1 0 0 0 0 0 16 0 0 0 16 0 1 1 0 0 166 1 79 1 246 2 159 3 70 1 2 1 75 2 3 2 93 0 0 21 54 21 231 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 136 136 1 0 3 254 0 59 0 0 0 0 0 0 2 226 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 6 121 6 129 6 124 6 156 208 0 3 254 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 12 57 12 88 12 103 12 177 12 88 12 6 11 190 11 10 34 68 34 128 34 238 35 119 34 83 33 125 32 132 30 98 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 119 119 119 119 33 33 33 33 33 33 19 30 17 25 41 80 32 0 224 0 0 0 0 0 0 0 0 0 128 0 20 70 12 0 0 0 34 33 0 0 34 34 33 33 2 34 1 115 1 70 2 120 0 0 0 43 0 40 0 30 1 76 2 116 34 33 34 34 0 77 0 1 0 128 0 0 0 20 0 0 
 > 20040208_093744.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-> 20040208_093744.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+> 20040208_093744.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 > 20040208_093744.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20040208_093744.exv   Exif.Thumbnail.XResolution                   Rational    1  72
 > 20040208_093744.exv   Exif.Thumbnail.YResolution                   Rational    1  72
@@ -7127,7 +7127,7 @@ Compare original and inserted image data ---------------------------------
 > 20050218_212016.exv   Exif.Photo.FNumber                           Rational    1  F4.5
 > 20050218_212016.exv   Exif.Photo.ExposureProgram                   Short       1  Auto
 > 20050218_212016.exv   Exif.Photo.ISOSpeedRatings                   Short       1  80
-> 20050218_212016.exv   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+> 20050218_212016.exv   Exif.Photo.ExifVersion                       Undefined   4  2.20
 > 20050218_212016.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2005:02:18 21:20:16
 > 20050218_212016.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2005:02:18 21:20:16
 > 20050218_212016.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -7138,7 +7138,7 @@ Compare original and inserted image data ---------------------------------
 > 20050218_212016.exv   Exif.Photo.LightSource                       Short       1  Unknown
 > 20050218_212016.exv   Exif.Photo.Flash                             Short       1  No, compulsory
 > 20050218_212016.exv   Exif.Photo.FocalLength                       Rational    1  6.0 mm
-> 20050218_212016.exv   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+> 20050218_212016.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20050218_212016.exv   Exif.Photo.ColorSpace                        Short       1  sRGB
 > 20050218_212016.exv   Exif.Photo.PixelXDimension                   Long        1  2560
 > 20050218_212016.exv   Exif.Photo.PixelYDimension                   Long        1  1920
@@ -7184,7 +7184,7 @@ Compare original and inserted image data ---------------------------------
 > 20050218_212016.exv   Exif.Panasonic.0x0031                        Short       1  2
 > 20050218_212016.exv   Exif.Panasonic.ColorMode                     Short       1  Normal
 > 20050218_212016.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-> 20050218_212016.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+> 20050218_212016.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 > 20050218_212016.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20050218_212016.exv   Exif.Thumbnail.Orientation                   Short       1  top, left
 > 20050218_212016.exv   Exif.Thumbnail.XResolution                   Rational    1  72
@@ -7209,7 +7209,7 @@ Compare original and inserted image data ---------------------------------
 > 20050527_051833.exv   Exif.Photo.FNumber                           Rational    1  F2.8
 > 20050527_051833.exv   Exif.Photo.ExposureProgram                   Short       1  Auto
 > 20050527_051833.exv   Exif.Photo.ISOSpeedRatings                   Short       1  100
-> 20050527_051833.exv   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+> 20050527_051833.exv   Exif.Photo.ExifVersion                       Undefined   4  2.20
 > 20050527_051833.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2005:05:27 05:18:33
 > 20050527_051833.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2005:05:27 05:18:33
 > 20050527_051833.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -7220,7 +7220,7 @@ Compare original and inserted image data ---------------------------------
 > 20050527_051833.exv   Exif.Photo.LightSource                       Short       1  Unknown
 > 20050527_051833.exv   Exif.Photo.Flash                             Short       1  Yes, auto, return light detected
 > 20050527_051833.exv   Exif.Photo.FocalLength                       Rational    1  7.9 mm
-> 20050527_051833.exv   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+> 20050527_051833.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20050527_051833.exv   Exif.Photo.ColorSpace                        Short       1  sRGB
 > 20050527_051833.exv   Exif.Photo.PixelXDimension                   Long        1  300
 > 20050527_051833.exv   Exif.Photo.PixelYDimension                   Long        1  225
@@ -7244,7 +7244,7 @@ Compare original and inserted image data ---------------------------------
 > 20050527_051833.exv   Exif.Sony.0x9007                             Undefined 200  1 0 125 103 125 191 125 117 125 174 125 184 216 149 216 45 94 81 94 109 94 170 14 237 231 5 14 96 14 86 0 163 94 250 14 243 14 199 231 130 4 186 86 14 86 120 234 209 205 175 205 37 5 204 5 62 5 197 5 234 0 0 0 0 0 0 0 0 27 217 27 166 27 42 27 77 27 113 64 234 64 151 125 76 125 71 125 73 216 181 216 66 216 231 125 178 0 163 64 113 125 35 125 196 125 80 216 4 216 61 94 93 94 163 14 189 231 231 231 113 4 195 231 107 231 85 0 0 0 0 0 0 0 0 112 225 112 225 112 225 112 225 112 166 182 142 182 102 105 165 136 129 32 32 190 63 129 7 190 37 190 65 0 163 138 31 138 162 138 107 138 13 138 252 112 40 112 117 112 65 112 31 112 184 112 46 112 103 182 0 182 81 0 0 0 0 0 0 0 0 
 > 20050527_051833.exv   Exif.Sony.0x9008                             Undefined 200  1 0 0 0 0 134 140 83 0 219 13 188 0 232 53 222 0 134 25 6 0 0 202 63 0 183 102 83 0 81 185 153 0 197 2 15 0 2 113 102 0 0 93 117 0 68 147 15 0 78 194 136 0 101 217 41 0 39 169 234 0 0 151 217 27 91 8 70 8 156 27 169 0 175 0 135 0 166 0 175 8 164 1 178 1 111 8 191 1 146 0 17 1 227 1 146 64 220 27 109 8 65 64 246 0 241 0 159 1 12 0 255 8 222 8 215 8 232 8 235 8 208 1 151 1 174 8 177 0 202 0 69 1 7 0 89 27 116 8 107 1 237 27 101 8 61 1 88 8 26 8 119 1 90 0 235 1 75 1 175 8 178 8 138 8 211 8 242 8 212 1 107 1 157 8 123 8 137 8 14 8 68 8 254 64 51 27 129 27 53 64 101 125 141 27 42 125 197 125 52 
 > 20050527_051833.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-> 20050527_051833.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+> 20050527_051833.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 > 20050527_051833.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20050527_051833.exv   Exif.Thumbnail.Make                          Ascii       5  SONY
 > 20050527_051833.exv   Exif.Thumbnail.Model                         Ascii       7  DSC-W7
@@ -7269,7 +7269,7 @@ Compare original and inserted image data ---------------------------------
 > 20060802_095200.exv   Exif.Photo.FNumber                           Rational    1  F5.6
 > 20060802_095200.exv   Exif.Photo.ExposureProgram                   Short       1  Auto
 > 20060802_095200.exv   Exif.Photo.ISOSpeedRatings                   Short       1  100
-> 20060802_095200.exv   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 49 
+> 20060802_095200.exv   Exif.Photo.ExifVersion                       Undefined   4  2.21
 > 20060802_095200.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2006:08:02 09:52:00
 > 20060802_095200.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2006:08:02 09:52:00
 > 20060802_095200.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -7280,7 +7280,7 @@ Compare original and inserted image data ---------------------------------
 > 20060802_095200.exv   Exif.Photo.Flash                             Short       1  Yes, compulsory, red-eye reduction
 > 20060802_095200.exv   Exif.Photo.FocalLength                       Rational    1  95.0 mm
 > 20060802_095200.exv   Exif.Photo.UserComment                       Undefined 264  
-> 20060802_095200.exv   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+> 20060802_095200.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20060802_095200.exv   Exif.Photo.ColorSpace                        Short       1  sRGB
 > 20060802_095200.exv   Exif.Photo.PixelXDimension                   Short       1  3504
 > 20060802_095200.exv   Exif.Photo.PixelYDimension                   Short       1  2336
@@ -7434,7 +7434,7 @@ Compare original and inserted image data ---------------------------------
 > 20060802_095200.exv   Exif.CanonPi.AFPointsUsed20D                 Short       1  center
 > 20060802_095200.exv   Exif.CanonPi.0x001b                          Short       1  65535
 > 20060802_095200.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-> 20060802_095200.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+> 20060802_095200.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 > 20060802_095200.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20060802_095200.exv   Exif.Thumbnail.XResolution                   Rational    1  72
 > 20060802_095200.exv   Exif.Thumbnail.YResolution                   Rational    1  72
@@ -7454,7 +7454,7 @@ Compare original and inserted image data ---------------------------------
 > 20001004_015404.exv   Exif.Photo.ExposureTime                      Rational    1  1/350 s
 > 20001004_015404.exv   Exif.Photo.FNumber                           Rational    1  F4
 > 20001004_015404.exv   Exif.Photo.ISOSpeedRatings                   Short       1  100
-> 20001004_015404.exv   Exif.Photo.ExifVersion                       Undefined   4  48 50 49 48 
+> 20001004_015404.exv   Exif.Photo.ExifVersion                       Undefined   4  2.10
 > 20001004_015404.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2000:10:04 01:54:04
 > 20001004_015404.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2000:10:04 01:54:04
 > 20001004_015404.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -7468,7 +7468,7 @@ Compare original and inserted image data ---------------------------------
 > 20001004_015404.exv   Exif.Photo.Flash                             Short       1  No flash
 > 20001004_015404.exv   Exif.Photo.FocalLength                       Rational    1  70.0 mm
 > 20001004_015404.exv   Exif.Photo.UserComment                       Undefined 264  
-> 20001004_015404.exv   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+> 20001004_015404.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20001004_015404.exv   Exif.Photo.ColorSpace                        Short       1  sRGB
 > 20001004_015404.exv   Exif.Photo.PixelXDimension                   Short       1  2160
 > 20001004_015404.exv   Exif.Photo.PixelYDimension                   Short       1  1440
@@ -7557,7 +7557,7 @@ Compare original and inserted image data ---------------------------------
 > 20001004_015404.exv   Exif.CanonCf.SetButtonFunction               Short       1  3072
 > 20001004_015404.exv   Exif.CanonCf.SensorCleaning                  Short       1  3328
 > 20001004_015404.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-> 20001004_015404.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+> 20001004_015404.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 > 20001004_015404.exv   Exif.Iop.RelatedImageWidth                   Short       1  2160
 > 20001004_015404.exv   Exif.Iop.RelatedImageLength                  Short       1  1440
 > 20001004_015404.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
@@ -7578,7 +7578,7 @@ Compare original and inserted image data ---------------------------------
 > 20060127_225027.exv   Exif.Image.ExifTag                           Long        1  196
 > 20060127_225027.exv   Exif.Photo.ExposureTime                      Rational    1  1/1000 s
 > 20060127_225027.exv   Exif.Photo.FNumber                           Rational    1  F4
-> 20060127_225027.exv   Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48 
+> 20060127_225027.exv   Exif.Photo.ExifVersion                       Undefined   4  2.20
 > 20060127_225027.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2006:01:27 22:50:27
 > 20060127_225027.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2006:01:27 22:50:27
 > 20060127_225027.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
@@ -7591,7 +7591,7 @@ Compare original and inserted image data ---------------------------------
 > 20060127_225027.exv   Exif.Photo.Flash                             Short       1  No, compulsory
 > 20060127_225027.exv   Exif.Photo.FocalLength                       Rational    1  5.8 mm
 > 20060127_225027.exv   Exif.Photo.UserComment                       Undefined 264  
-> 20060127_225027.exv   Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48 
+> 20060127_225027.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20060127_225027.exv   Exif.Photo.ColorSpace                        Short       1  sRGB
 > 20060127_225027.exv   Exif.Photo.PixelXDimension                   Short       1  2272
 > 20060127_225027.exv   Exif.Photo.PixelYDimension                   Short       1  1704
@@ -7728,7 +7728,7 @@ Compare original and inserted image data ---------------------------------
 > 20060127_225027.exv   Exif.CanonPi.AFPointsUsed20D                 Short       1  center
 > 20060127_225027.exv   Exif.CanonPi.0x001b                          Short       1  4
 > 20060127_225027.exv   Exif.Iop.InteroperabilityIndex               Ascii       4  R98
-> 20060127_225027.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48 
+> 20060127_225027.exv   Exif.Iop.InteroperabilityVersion             Undefined   4  1.00
 > 20060127_225027.exv   Exif.Iop.RelatedImageWidth                   Short       1  2272
 > 20060127_225027.exv   Exif.Iop.RelatedImageLength                  Short       1  1704
 > 20060127_225027.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
