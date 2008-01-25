@@ -2037,6 +2037,24 @@ namespace Exiv2 {
         return os;
     }
 
+    std::ostream& printDate(std::ostream& os, const Value& value)
+    {
+        if (value.size() != 20 || value.typeId() != xmpText) {
+            return os << "(" << value << ")";
+        }
+        
+        std::string stringValue = value.toString();
+        if (stringValue[19] == 'Z') {
+            stringValue = stringValue.substr(0, 19);
+        }
+        for (unsigned int i = 0; i < stringValue.length(); ++i) {
+            if (stringValue[i] == 'T') stringValue[i] = ' ';
+            if (stringValue[i] == '-') stringValue[i] = ':';
+        }
+
+        return os << stringValue;
+    }
+
     float fnumber(float apertureValue)
     {
         return static_cast<float>(std::exp(std::log(2.0) * apertureValue / 2));

@@ -813,7 +813,19 @@ namespace Exiv2 {
         {"Xmp.exif.GPSStatus",                          EXV_PRINT_TAG(xmpExifGPSStatus)},
         {"Xmp.exif.GPSTrackRef",                        EXV_PRINT_TAG(xmpExifGPSDirection)},
         {"Xmp.tiff.XResolution",                        printLong},
-        {"Xmp.tiff.YResolution",                        printLong}
+        {"Xmp.tiff.YResolution",                        printLong},
+        {"Xmp.exif.DateTimeOriginal",                   printDate},
+        {"Xmp.exif.GPSTimeStamp",                       printDate},
+        {"Xmp.exif.CreateDate",                         printDate},
+        {"Xmp.exif.ModifyDate",                         printDate},
+        {"Xmp.exif.ApertureValue",                      print0x9202},
+        {"Xmp.exif.FNumber",                            print0x9202},
+        {"Xmp.exif.BrightnessValue",                    printLong},
+        {"Xmp.exif.ExposureBiasValue",                  printLong},
+        {"Xmp.exif.FocalLength",                        print0x920a},
+        {"Xmp.exif.FocalPlaneXResolution",              printFloat},
+        {"Xmp.exif.FocalPlaneYResolution",              printFloat},
+        {"Xmp.exif.ShutterSpeedValue",                  print0x9201}
     };
 
     XmpNsInfo::Ns::Ns(const std::string& ns)
