@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
 "POT-Creation-Date: 2008-01-10 00:41+0800\n"
-"PO-Revision-Date: 2008-01-22 21:50+0100\n"
+"PO-Revision-Date: 2008-01-25 22:58+0100\n"
 "Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
 "Language-Team: german <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -2590,7 +2590,7 @@ msgstr "Die Adresse einer-Web-Seite die den besitzer und/oder die Rechteangaben 
 
 #: src/properties.cpp:175
 msgid "Derived From"
-msgstr "Bekommen von"
+msgstr "Abgeleitet von"
 
 #: src/properties.cpp:175
 msgid ""
@@ -2599,7 +2599,7 @@ msgid ""
 "example, a new version might only need to specify the instance ID and "
 "version number of the previous version, or a rendition might only need to "
 "specify the instance ID and rendition class of the original."
-msgstr ""
+msgstr "Eine Referenz auf das Originaldokument von dem dieses hier abgeleitet wurde. Es handelt sich um eine minimale Referenz, Bei fehlenden Komponenten können Sie davon ausgehen, dass Sie nicht geändert wurden. So müssen Sie für eine neue Version z.B. nur die Instanz-ID und die Versionsnummer der vorangegangenen Version angeben. Eine Wiedergabe braucht also nur die Instanz-ID un die Wiedergabeklasse des Originals angeben."
 
 #: src/properties.cpp:180
 msgid "Document ID"
@@ -2609,11 +2609,11 @@ msgstr "Dokumenten-ID"
 msgid ""
 "The common identifier for all versions and renditions of a document. It "
 "should be based on a UUID; see Document and Instance IDs below."
-msgstr ""
+msgstr "Der allgemeine Identifikator für alle Versionen und Wiedergaben eines Dokuments. Er sollte daher auf der UUID basieren. Sehen Sie dazu die Dokumenten und Instanz-ID's unten."
 
 #: src/properties.cpp:182
 msgid "History"
-msgstr "Geschichte"
+msgstr "Historie"
 
 #: src/properties.cpp:182
 msgid ""
@@ -2622,7 +2622,7 @@ msgid ""
 "to make the changes from the previous version to this one. The list should "
 "be at an abstract level; it is not intended to be an exhaustive keystroke or "
 "other detailed history."
-msgstr ""
+msgstr "Eine sortierte Liste von groben umschriebenen Benutzeraktionen die zu dieser Ressource führten. Dadurch sollen menschliche Leser eine Idee von den Schritten bekommen die von der vorangegangenen Version zu dieser geführt haben. Diese Liste sollte auf einer abstrakten Ebene vorliegen. Es ist nicht gedacht als vollständige Zusammenstellung aller Tastenanschläge oder als detailierte Anleitung."
 
 #: src/properties.cpp:186
 msgid "Instance ID"
@@ -2633,7 +2633,7 @@ msgid ""
 "An identifier for a specific incarnation of a document, updated each time a "
 "file is saved. It should be based on a UUID; see Document and Instance IDs "
 "below."
-msgstr ""
+msgstr "Eine Identikator für eine spezielle Version des Dokumentes, der jedes Mal aktualisiert wird, wenn die Datei gespeichert wird. Er sollte auf einer UUID basieren. Sehen Sie dazu unten die Dokumenten und Instanz-ID."
 
 #: src/properties.cpp:188
 msgid "Managed From"
@@ -2645,7 +2645,7 @@ msgid ""
 "when a managed document is introduced to an asset management system that "
 "does not currently own it. It may or may not include references to different "
 "management systems."
-msgstr ""
+msgstr "Eine Referenz auf das Dokument das es war bevor es verwaltet wurde. Diese wird gesetzt wenn ein verwaltetes Dokument in eine Bestandsverwaltung aufgenommen wird, die es nicht besitzt. Es kann oder auch nicht Referenzen auf verschiedene Verwaltungssysteme enthalten."
 
 #: src/properties.cpp:191
 msgid "Manager"
@@ -2656,7 +2656,7 @@ msgid ""
 "The name of the asset management system that manages this resource. Along "
 "with xmpMM: ManagerVariant, it tells applications which asset management "
 "system to contact concerning this document."
-msgstr ""
+msgstr "Der Name des Verwaltungssystems das diese Ressource verwaltet. Zusammen mit xmpMM: ManagerVariant, teilt es der Anwendung mit welches Bestandsverwaltungssystem zu diesem Dokument kontaktiert werden muss."
 
 #: src/properties.cpp:194
 msgid "Manage To"
@@ -2668,17 +2668,17 @@ msgid ""
 "presence of this property is the formal indication that this resource is "
 "managed. The form and content of this URI is private to the asset management "
 "system."
-msgstr ""
+msgstr "Eine URL die die verwaltete Ressource für das Bestandsverwaltungssystem identifiziert. Das Vorhandensein dieser Eigenschaft ist ein formaler Indikator das diese Ressource verwaltet ist. Form und Inhalt dieser URL ist nur für das Bestandsverwaltungssystem."
 
 #: src/properties.cpp:197
 msgid "Manage UI"
-msgstr ""
+msgstr "Verwaltungs-URL"
 
 #: src/properties.cpp:197
 msgid ""
 "A URI that can be used to access information about the managed resource "
 "through a web browser. It might require a custom browser plug- in."
-msgstr ""
+msgstr "Eine URL die benutzt werden kann, um Informationen über die verwaltete Ressource mittels eines Web-Browsers zu bekommen. Sie kann aber auch eine eigene Browsererweiterung vorraussetzen."
 
 #: src/properties.cpp:199
 msgid "Manager Variant"
@@ -2688,27 +2688,27 @@ msgstr "Verwaltungsvariante"
 msgid ""
 "Specifies a particular variant of the asset management system. The format of "
 "this property is private to the specific asset management system."
-msgstr ""
+msgstr "Gibt eine bestimmte Variante des Bestandsverwaltungssystems an. Das Format dieser Eigenschaft ist nur für die angegebene Bestandsverwaltungssystem."
 
 #: src/properties.cpp:201
 msgid "Rendition Class"
-msgstr ""
+msgstr "Wiedergabeklasse"
 
 #: src/properties.cpp:201
 msgid ""
 "The rendition class name for this resource. This property should be absent "
 "or set to default for a document version that is not a derived rendition."
-msgstr ""
+msgstr "Die Wiedergabeklasse für diese Ressource. Diese Eigenschaft sollte fehlen oder auf den Standard gesetzt sein für alle Dokumentenversionen die keine abgeleitete Umsetzungen sind."
 
 #: src/properties.cpp:203
 msgid "Rendition Params"
-msgstr ""
+msgstr "Wiedergabeparameter"
 
 #: src/properties.cpp:203
 msgid ""
 "Can be used to provide additional rendition parameters that are too complex "
 "or verbose to encode in xmpMM: RenditionClass."
-msgstr ""
+msgstr "Kann benutzt werden, um zusätzliche Wiedergabeparameter zur Verfügung zu stellen, die zu komplex oder zu umfangreich sind, um in der Wiedergabeklasse xmpMM: gespeichert zu werden."
 
 #: src/properties.cpp:205
 msgid "Version ID"
@@ -2747,7 +2747,7 @@ msgstr ""
 
 #: src/properties.cpp:216
 msgid "Rendition Of"
-msgstr ""
+msgstr "Wiedergabe von"
 
 #: src/properties.cpp:216
 msgid ""
