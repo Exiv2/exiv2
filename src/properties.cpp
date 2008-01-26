@@ -1003,12 +1003,11 @@ namespace Exiv2 {
                                                const std::string& key,
                                                const Value& value)
     {
-        if (value.count() == 0) return os;
-
         PrintFct fct = printValue;
-        const XmpPrintInfo* info = find(xmpPrintInfo, key);
-        if (info) fct = info->printFct_;
-
+        if (value.count() != 0) {
+            const XmpPrintInfo* info = find(xmpPrintInfo, key);
+            if (info) fct = info->printFct_;
+        }
         return fct(os, value);
     }
 
