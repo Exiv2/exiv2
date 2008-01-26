@@ -346,6 +346,10 @@ namespace Exiv2 {
                 N_("The date and time of image creation. In Exif standard, "
                 "it is the date and time the file was changed."),
                 ifd0Id, otherTags, asciiString, printValue),
+        TagInfo(0x013c, "HostComputer", N_("Host computer"),
+                N_("This tag records information about the host computer used "
+                "to generate the image."),
+                ifd0Id, otherTags, asciiString, printValue),
         TagInfo(0x013b, "Artist", N_("Artist"),
                 N_("This tag records the name of the camera owner, photographer or "
                 "image creator. The detailed format is not specified, but it is "
