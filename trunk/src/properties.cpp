@@ -197,7 +197,7 @@ namespace Exiv2 {
                                                                                                         "of this property is the formal indication that this resource is managed. The form "
                                                                                                         "and content of this URI is private to the asset management system.") },
         { "ManageUI",         N_("Manage UI"),         "URI",               xmpText,    xmpInternal, N_("A URI that can be used to access information about the managed resource through a "
-                                                                                                        "web browser. It might require a custom browser plug- in.") },
+                                                                                                        "web browser. It might require a custom browser plug-in.") },
         { "ManagerVariant",   N_("Manager Variant"),   "Text",              xmpText,    xmpInternal, N_("Specifies a particular variant of the asset management system. The format of this "
                                                                                                         "property is private to the specific asset management system.") },
         { "RenditionClass",   N_("Rendition Class"),   "RenditionClass",    xmpText,    xmpInternal, N_("The rendition class name for this resource. This property should be absent or set "
