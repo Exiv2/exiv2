@@ -128,7 +128,11 @@ namespace Exiv2 {
         {    0x12ca0, N_("Optio A30") },
         {    0x12cb4, N_("Optio E40") },
         {    0x12cbe, N_("Optio M40") },
+        {    0x12cc8, N_("Optio Z10") },
         {    0x12cdc, N_("Optio S10") },
+        {    0x12ce6, N_("Optio A40") },
+        {    0x12cf0, N_("Optio V10") },
+        {    0x12cd2, N_("K20D") },
     };
 
     //! Quality, tag 0x0008
@@ -138,6 +142,7 @@ namespace Exiv2 {
         {   2, N_("Best") },
         {   3, N_("TIFF") },
         {   4, N_("RAW") },
+        {   5, N_("Premium") },
     };
 
     //! Size, tag 0x0009
@@ -596,8 +601,11 @@ namespace Exiv2 {
         { 0x060d, "smc PENTAX-FA* 400mm F5.6 ED[IF]" },
         { 0x060e, "smc PENTAX-FA* MACRO 200mm F4 ED[IF]" },
         { 0x0700, "smc PENTAX-DA 21mm F3.2 AL Limited" },
+        { 0x07e5, "smc PENTAX-DA 18-55mm F3.5-5.6 AL II" },
         { 0x07e7, "smc PENTAX-DA 18-250mm F3.5-6.3ED AL [IF]" },
         { 0x07ee, "TAMRON AF 18-250mm F3.5-6.3 Di II LD Aspherical [IF] MACRO" },
+        { 0x07f1, "smc PENTAX-DA* 50-135mm F2.8 ED [IF] SDM" },
+        { 0x07f2, "smc PENTAX-DA* 16-50mm F2.8 ED AL [IF] SDM" },
         { 0x07f3, "smc PENTAX-DA 70mm F2.4 Limited" },
         { 0x07f4, "smc PENTAX-DA 21mm F3.2 AL Limited" },
         { 0x08f1, "smc PENTAX-DA* 50-135mm F2.8 ED [IF] SDM" },
@@ -845,10 +853,19 @@ namespace Exiv2 {
         TagInfo(0x0026, "DestinationDST", N_("Destination DST"),
                 N_("Whether day saving time is active in destination"),
                 pentaxIfdId, makerTags, undefined, EXV_PRINT_TAG(pentaxYesNo)),
-        /* Some missing ! */
+        TagInfo(0x0027, "DSPFirmwareVersion", N_("DSPFirmwareVersion"),
+                N_("DSPFirmwareVersion"),
+                pentaxIfdId, makerTags, unsignedByte, printValue), /* TODO: Decoding missing */
+        TagInfo(0x0028, "CPUFirmwareVersion", N_("CPUFirmwareVersion"),
+                N_("CPUFirmwareVersion"),
+                pentaxIfdId, makerTags, unsignedByte, printValue), /* TODO: Decoding missing */
         TagInfo(0x0029, "FrameNumber", N_("Frame number"),
                 N_("Frame number"),
                 pentaxIfdId, makerTags, undefined, printValue),
+        /* Some missing ! */
+        TagInfo(0x002d, "EffectiveLV", N_("Light value"),
+                N_("Camera calculated light value, includes exposure compensation"),
+                pentaxIfdId, makerTags, unsignedShort, printValue),
         /* Some missing ! */
         TagInfo(0x0032, "ImageProcessing", N_("Image processing"),
                 N_("Image processing"),
@@ -864,10 +881,15 @@ namespace Exiv2 {
                 N_("Color space"),
                 pentaxIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(pentaxColorSpace)),
         /* Some missing ! */
+        TagInfo(0x003e, "PreviewImageBorders", N_("Preview image borders"),
+                N_("Preview image borders"),
+                pentaxIfdId, makerTags, unsignedByte, printValue),
         TagInfo(0x003f, "LensType", N_("Lens type"),
                 N_("Lens type"),
                 pentaxIfdId, makerTags, unsignedByte, EXV_PRINT_COMBITAG(pentaxLensType, 2, 1)),
-        /* Some missing ! */
+        TagInfo(0x0040, "SensitivityAdjust", N_("Sensitivity adjust"),
+                N_("Sensitivity adjust"),
+                pentaxIfdId, makerTags, unsignedLong, printValue),
         TagInfo(0x0041, "DigitalFilter", N_("Digital filter"),
                 N_("Digital filter"),
                 pentaxIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(pentaxOffOn)),
@@ -875,7 +897,9 @@ namespace Exiv2 {
         TagInfo(0x0047, "Temperature", N_("Temperature"),
                 N_("Camera temperature"),
                 pentaxIfdId, makerTags, signedByte, printPentaxTemperature),
-        /* Some missing ! */
+        TagInfo(0x0048, "AELock", N_("AE lock"),
+                N_("AE lock"),
+                pentaxIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(pentaxOffOn)),
         TagInfo(0x0049, "NoiseReduction", N_("Noise reduction"),
                 N_("Noise reduction"),
                 pentaxIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(pentaxOffOn)),
@@ -887,6 +911,9 @@ namespace Exiv2 {
         TagInfo(0x004f, "ImageTone", N_("Image tone"),
                 N_("Image tone"),
                 pentaxIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(pentaxImageTone)),
+        TagInfo(0x0050, "ColorTemperature", N_("Colort temperature"),
+                N_("Colort temperature"),
+                pentaxIfdId, makerTags, unsignedShort, printValue),
         /* Some missing ! */
         TagInfo(0x005c, "ShakeReduction", N_("Shake reduction"),
                 N_("Shake reduction information"),
@@ -902,6 +929,9 @@ namespace Exiv2 {
                 N_("White point"),
                 pentaxIfdId, makerTags, undefined, printValue),
         /* Some missing ! */
+        TagInfo(0x0205, "ShotInfo", N_("ShotInfo"),
+                N_("ShotInfo"),
+                pentaxIfdId, makerTags, undefined, printValue), /* TODO: Decoding missing */
         TagInfo(0x0206, "AEInfo", N_("AEInfo"),
                 N_("AEInfo"),
                 pentaxIfdId, makerTags, undefined, printValue), /* TODO: Decoding missing */
@@ -954,8 +984,8 @@ namespace Exiv2 {
         TagInfo(0x021f, "AFInfo", N_("AFInfo"),
                 N_("AFInfo"),
                 pentaxIfdId, makerTags, undefined, printValue), /* TODO: Decoding missing */
-        TagInfo(0x0206, "Saturation", N_("Saturation"),
-                N_("Saturation"),
+        TagInfo(0x0222, "ColorInfo", N_("ColorInfo"),
+                N_("ColorInfo"),
                 pentaxIfdId, makerTags, undefined, printValue), /* TODO: Decoding missing */
         // End of list marker
         TagInfo(0xffff, "(UnknownPentaxMakerNoteTag)", "(UnknownPentaxMakerNoteTag)",
