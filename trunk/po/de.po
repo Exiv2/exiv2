@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
 "POT-Creation-Date: 2008-01-10 00:41+0800\n"
-"PO-Revision-Date: 2008-01-25 22:58+0100\n"
+"PO-Revision-Date: 2008-01-28 21:47+0100\n"
 "Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
 "Language-Team: german <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -2586,7 +2586,7 @@ msgstr "Web-Angaben"
 msgid ""
 "The location of a web page describing the owner and/or rights statement for "
 "this resource."
-msgstr "Die Adresse einer-Web-Seite die den besitzer und/oder die Rechteangaben für die Ressource beschreibt."
+msgstr "Die Adresse einer-Web-Seite die den Besitzer und/oder die Rechteangaben für die Ressource beschreibt."
 
 #: src/properties.cpp:175
 msgid "Derived From"
@@ -2668,17 +2668,17 @@ msgid ""
 "presence of this property is the formal indication that this resource is "
 "managed. The form and content of this URI is private to the asset management "
 "system."
-msgstr "Eine URL die die verwaltete Ressource für das Bestandsverwaltungssystem identifiziert. Das Vorhandensein dieser Eigenschaft ist ein formaler Indikator das diese Ressource verwaltet ist. Form und Inhalt dieser URL ist nur für das Bestandsverwaltungssystem."
+msgstr "Eine URI die die verwaltete Ressource für das Bestandsverwaltungssystem identifiziert. Das Vorhandensein dieser Eigenschaft ist ein formaler Indikator das diese Ressource verwaltet ist. Form und Inhalt dieser URI ist nur für das Bestandsverwaltungssystem."
 
 #: src/properties.cpp:197
 msgid "Manage UI"
-msgstr "Verwaltungs-URL"
+msgstr "Verwaltungs-UI"
 
 #: src/properties.cpp:197
 msgid ""
 "A URI that can be used to access information about the managed resource "
 "through a web browser. It might require a custom browser plug- in."
-msgstr "Eine URL die benutzt werden kann, um Informationen über die verwaltete Ressource mittels eines Web-Browsers zu bekommen. Sie kann aber auch eine eigene Browsererweiterung vorraussetzen."
+msgstr "Eine URI die benutzt werden kann, um Informationen über die verwaltete Ressource mittels eines Web-Browsers zu bekommen. Sie kann aber auch eine eigene Browsererweiterung vorraussetzen."
 
 #: src/properties.cpp:199
 msgid "Manager Variant"
@@ -2720,7 +2720,7 @@ msgid ""
 "document gets a new identifier, usually simply by incrementing integers 1, "
 "2, 3 . . . and so on. Media management systems can have other conventions or "
 "support branching which requires a more complex scheme."
-msgstr ""
+msgstr "Der Identifikator für die Version des Dokumentes für diese Ressource. Jede Version eines Dokumentes bekommt einen neuen Identifikator, der normalerweise einfach durch das Hochzählen 1, 2, 3 . . . und so weiter gebildet. Medienverwaltungssystemw haben unter Umständen andere Konventionen oder unterstützen Abzweigungen die ein komplexeres Schema benötigen."
 
 #: src/properties.cpp:209
 msgid "Versions"
@@ -2735,7 +2735,7 @@ msgid ""
 "versions from the first to this one will be present in the xmpMM:Versions "
 "property. Interior version information can be compressed or eliminated and "
 "the version history can be truncated at some point."
-msgstr ""
+msgstr "Die Historie der Versionen die mit dieser Ressource assoziert ist. Der Eintrag [1] ist die älteste bekannte Version für dieses Dokument, der Eintrag [letzter()] ist die aktuellste Version. Typischerweise trägt ein Medienverwaltungssystem die Versionsinformationen in den Metadaten bei der Aufnahme ein. Es gibt aber keine Garantie, dass eine komplette Historie von dem ersten bis zu dem gerade präsentierten in der Eigenschaft xmpMM:Versions vorhanden ist. Interne Versionsinformationen können komprimiert oder gelöscht und die Versionshistorie kann an einem Punkt abgeschnitten werden."
 
 #: src/properties.cpp:215
 msgid "Last URL"
@@ -2743,7 +2743,7 @@ msgstr "Letzte Adresse"
 
 #: src/properties.cpp:215
 msgid "Deprecated for privacy protection."
-msgstr ""
+msgstr "Veraltet wegen dem Schutz der Privatsphäre."
 
 #: src/properties.cpp:216
 msgid "Rendition Of"
@@ -2753,7 +2753,7 @@ msgstr "Wiedergabe von"
 msgid ""
 "Deprecated in favor of xmpMM:DerivedFrom. A reference to the document of "
 "which this is a rendition."
-msgstr ""
+msgstr "Veraltet und durch xmpMM:DerivedFrom ersetzt. Eine Referenz auf das Dokument von dem dieses eine Ableitung ist."
 
 #: src/properties.cpp:218
 msgid "Save ID"
@@ -2761,7 +2761,7 @@ msgstr "Speicherungs-ID"
 
 #: src/properties.cpp:218
 msgid "Deprecated. Previously used only to support the xmpMM:LastURL property."
-msgstr ""
+msgstr "Veraltet. Wurde vorher benutzt, um die Eigenschaft xmpMM:LastURL zu unterstützen"
 
 #: src/properties.cpp:224
 msgid "Job Reference"
@@ -2775,7 +2775,7 @@ msgid ""
 "contract. There are multiple values because there can be more than one job "
 "using a particular document at any time, and it can also be useful to keep "
 "historical information about what jobs a document was part of previously."
-msgstr ""
+msgstr "Referenzen auf ein externe Jobverwaltungsdatei für einen for einen Prozess in dem das Dokument benutzt wird. Die Benutzung der Jobnamen liegt unter dre Kontrolle des Benutzers. Eine typische Anwendung ist es alle Dokumente zu identifizieren, die Teil eines bestimmten Jobs oder Vertrags sind. Es können mehrere Werte eingegeben werden, da ein Dokument zu mehr als einen Job zur gleichen Zeit zugehören kann. Ebenfalls kann es sinnvoll sein historische Informationen zu speichern, in welchem Jobs das Dokument früher benutzt wurde."
 
 #: src/properties.cpp:233
 msgid "Maximum Page Size"
@@ -2803,7 +2803,7 @@ msgstr "Schriftarten"
 msgid ""
 "An unordered array of fonts that are used in the document (including any in "
 "contained documents)."
-msgstr ""
+msgstr "Eine ungeordnete Liste von Zeichensätzen die in diesem Dokument benutzt werden. Diese enthält auch die Zeichensätze von eingebetteten Dokumenten."
 
 #: src/properties.cpp:236
 msgid "Colorants"
@@ -2813,17 +2813,17 @@ msgstr "Farbmittel"
 msgid ""
 "An ordered array of colorants (swatches) that are used in the document "
 "(including any in contained documents)."
-msgstr ""
+msgstr "Eine ungeordnete Liste von Farbmitteln die in diesem Dokument benutzt werden. Diese enthält auch alle Farbmittel in eingebetteten Dokumenten."
 
 #: src/properties.cpp:237
 msgid "Plate Names"
-msgstr ""
+msgstr "Druckstocknamen"
 
 #: src/properties.cpp:237
 msgid ""
 "An ordered array of plate names that are needed to print the document "
 "(including any in contained documents)."
-msgstr ""
+msgstr "Eine geordnete Liste von Druckstocknamen, die benötigt werden um das Dokument zu drucken. Diese enthält auch die Druckstöcke aus allen eingebetteten Druckstöcken."
 
 #: src/properties.cpp:243
 msgid "Project Reference"
@@ -2831,7 +2831,7 @@ msgstr "Projektreferenz"
 
 #: src/properties.cpp:243
 msgid "A reference to the project that created this file."
-msgstr ""
+msgstr "Eine Referenz zu dem Projekt das diese Datei erstellt hat."
 
 #: src/properties.cpp:244
 msgid "Video Frame Rate"
@@ -2911,11 +2911,11 @@ msgstr ""
 
 #: src/properties.cpp:255
 msgid "Video Compressor"
-msgstr "Video-Kompression"
+msgstr "Videokompression"
 
 #: src/properties.cpp:255
 msgid "Video compression used. For example, jpeg."
-msgstr ""
+msgstr "Benutzte Videokompression, z.B. jpeg."
 
 #: src/properties.cpp:256
 msgid "Video Field Order"
@@ -10059,23 +10059,23 @@ msgstr "Aufwärts-Links"
 
 #: src/nikonmn.cpp:79 src/pentaxmn.cpp:196
 msgid "Upper-right"
-msgstr ""
+msgstr "Aufwärts-Rechts"
 
 #: src/nikonmn.cpp:80 src/pentaxmn.cpp:202
 msgid "Lower-left"
-msgstr ""
+msgstr "Abwärts-Links"
 
 #: src/nikonmn.cpp:81 src/pentaxmn.cpp:204
 msgid "Lower-right"
-msgstr ""
+msgstr "Abwärts-Rechts"
 
 #: src/nikonmn.cpp:82
 msgid "Left-most"
-msgstr ""
+msgstr "Ganz Links"
 
 #: src/nikonmn.cpp:83
 msgid "Right-most"
-msgstr ""
+msgstr "Ganz Rechts"
 
 #: src/nikonmn.cpp:117
 msgid "Fire, manual"
@@ -10316,11 +10316,11 @@ msgstr "Farbabgleich-Einstellungen 1"
 
 #: src/nikonmn.cpp:615
 msgid "Program Shift"
-msgstr ""
+msgstr "Programmwechsel"
 
 #: src/nikonmn.cpp:616
 msgid "Program shift"
-msgstr ""
+msgstr "Programmwechsel"
 
 #: src/nikonmn.cpp:618
 msgid "Exposure Difference"
@@ -12340,47 +12340,47 @@ msgstr "Blitzinformation"
 
 #: src/pentaxmn.cpp:914 src/pentaxmn.cpp:915
 msgid "AEMeteringSegments"
-msgstr ""
+msgstr "AEMeteringSegments"
 
 #: src/pentaxmn.cpp:917 src/pentaxmn.cpp:918
 msgid "FlashADump"
-msgstr ""
+msgstr "FlashADump"
 
 #: src/pentaxmn.cpp:920 src/pentaxmn.cpp:921
 msgid "FlashBDump"
-msgstr ""
+msgstr "FlashBDump"
 
 #: src/pentaxmn.cpp:924 src/pentaxmn.cpp:925
 msgid "WB_RGGBLevelsDaylight"
-msgstr ""
+msgstr "WB_RGGBLevelsDaylight"
 
 #: src/pentaxmn.cpp:927 src/pentaxmn.cpp:928
 msgid "WB_RGGBLevelsShade"
-msgstr ""
+msgstr "WB_RGGBLevelsShade"
 
 #: src/pentaxmn.cpp:930 src/pentaxmn.cpp:931
 msgid "WB_RGGBLevelsCloudy"
-msgstr ""
+msgstr "WB_RGGBLevelsCloudy"
 
 #: src/pentaxmn.cpp:933 src/pentaxmn.cpp:934
 msgid "WB_RGGBLevelsTungsten"
-msgstr ""
+msgstr "WB_RGGBLevelsTungsten"
 
 #: src/pentaxmn.cpp:936 src/pentaxmn.cpp:937
 msgid "WB_RGGBLevelsFluorescentD"
-msgstr ""
+msgstr "WB_RGGBLevelsFluorescentD"
 
 #: src/pentaxmn.cpp:939 src/pentaxmn.cpp:940
 msgid "WB_RGGBLevelsFluorescentN"
-msgstr ""
+msgstr "WB_RGGBLevelsFluorescentN"
 
 #: src/pentaxmn.cpp:942 src/pentaxmn.cpp:943
 msgid "WB_RGGBLevelsFluorescentW"
-msgstr ""
+msgstr "WB_RGGBLevelsFluorescentW"
 
 #: src/pentaxmn.cpp:945 src/pentaxmn.cpp:946
 msgid "WB_RGGBLevelsFlash"
-msgstr ""
+msgstr "WB_RGGBLevelsFlash"
 
 #: src/pentaxmn.cpp:948 src/pentaxmn.cpp:949
 msgid "CameraInfo"
