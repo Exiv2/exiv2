@@ -55,6 +55,13 @@ EXIV2_RCSID("@(#) $Id$")
 #endif
 
 // *****************************************************************************
+// local declarations
+namespace {
+    // Print version string from an intermediate string
+    std::ostream& printVersion(std::ostream& os, const std::string& str);
+}
+
+// *****************************************************************************
 // class member definitions
 namespace Exiv2 {
 
@@ -295,7 +302,7 @@ namespace Exiv2 {
                 ifd0Id, recOffset, unsignedLong, printValue),
         TagInfo(0x0112, "Orientation", N_("Orientation"),
                 N_("The image orientation viewed in terms of rows and columns."),
-                ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifOrientation)),
+                ifd0Id, imgStruct, unsignedShort, print0x0112),
         TagInfo(0x0115, "SamplesPerPixel", N_("Samples per Pixel"),
                 N_("The number of components per pixel. Since this standard applies "
                 "to RGB and YCbCr images, the value set for this tag is 3. "
@@ -329,7 +336,7 @@ namespace Exiv2 {
                 N_("The unit for measuring <XResolution> and <YResolution>. The same "
                 "unit is used for both <XResolution> and <YResolution>. If "
                 "the image resolution is unknown, 2 (inches) is designated."),
-                ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifUnit)),
+                ifd0Id, imgStruct, unsignedShort, printExifUnit),
         TagInfo(0x012d, "TransferFunction", N_("Transfer Function"),
                 N_("A transfer function for the image, described in tabular style. "
                 "Normally this tag is not necessary, since color space is "
@@ -417,7 +424,7 @@ namespace Exiv2 {
                 "<YCbCrPositioning>, it shall follow the TIFF default regardless "
                 "of the value in this field. It is preferable that readers "
                 "be able to support both centered and co-sited positioning."),
-                ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifYCbCrPositioning)),
+                ifd0Id, imgStruct, unsignedShort, print0x0213),
         TagInfo(0x0214, "ReferenceBlackWhite", N_("Reference Black/White"),
                 N_("The reference black point value and reference white point "
                 "value. No defaults are given in TIFF, but the values "
@@ -725,7 +732,7 @@ namespace Exiv2 {
         TagInfo(0x9000, "ExifVersion", N_("Exif Version"),
                 N_("The version of this standard supported. Nonexistence of this "
                 "field is taken to mean nonconformance to the standard."),
-                exifIfdId, exifVersion, undefined, printVersion),
+                exifIfdId, exifVersion, undefined, printExifVersion),
         TagInfo(0x9003, "DateTimeOriginal", N_("Date and Time (original)"),
                 N_("The date and time when the original image data was generated. "
                 "For a digital still camera the date and time the picture was taken are recorded."),
@@ -807,7 +814,7 @@ namespace Exiv2 {
                 exifIfdId, dateTime, asciiString, printValue),
         TagInfo(0xa000, "FlashpixVersion", N_("FlashPix Version"),
                 N_("The FlashPix format version supported by a FPXR file."),
-                exifIfdId, exifVersion, undefined, printVersion),
+                exifIfdId, exifVersion, undefined, printExifVersion),
         TagInfo(0xa001, "ColorSpace", N_("Color Space"),
                 N_("The color space information tag is always "
                 "recorded as the color space specifier. Normally sRGB "
@@ -868,7 +875,7 @@ namespace Exiv2 {
         TagInfo(0xa210, "FocalPlaneResolutionUnit", N_("Focal Plane Resolution Unit"),
                 N_("Indicates the unit for measuring <FocalPlaneXResolution> and "
                 "<FocalPlaneYResolution>. This value is the same as the <ResolutionUnit>."),
-                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifUnit)),
+                exifIfdId, captureCond, unsignedShort, printExifUnit),
         TagInfo(0xa214, "SubjectLocation", N_("Subject Location"),
                 N_("Indicates the location of the main subject in the scene. The "
                 "value of this tag represents the pixel at the center of the "
@@ -1165,7 +1172,7 @@ namespace Exiv2 {
                 iopIfdId, iopTags, asciiString, printValue),
         TagInfo(0x0002, "InteroperabilityVersion", N_("Interoperability Version"),
                 N_("Interoperability version"),
-                iopIfdId, iopTags, undefined, printVersion),
+                iopIfdId, iopTags, undefined, printExifVersion),
         TagInfo(0x1000, "RelatedImageFileFormat", N_("Related Image File Format"),
                 N_("File format of image file"),
                 iopIfdId, iopTags, asciiString, printValue),
@@ -1760,6 +1767,11 @@ namespace Exiv2 {
 
     } // printUcs2
 
+    std::ostream& printExifUnit(std::ostream& os, const Value& value)
+    {
+        return EXV_PRINT_TAG(exifUnit)(os, value);
+    }
+
     std::ostream& print0x0000(std::ostream& os, const Value& value)
     {
         if (value.size() != 4 || value.typeId() != unsignedByte) {
@@ -1814,6 +1826,16 @@ namespace Exiv2 {
         }
 
         return os;
+    }
+
+    std::ostream& print0x0112(std::ostream& os, const Value& value)
+    {
+        return EXV_PRINT_TAG(exifOrientation)(os, value);
+    }
+
+    std::ostream& print0x0213(std::ostream& os, const Value& value)
+    {
+        return EXV_PRINT_TAG(exifYCbCrPositioning)(os, value);
     }
 
     std::ostream& print0x8298(std::ostream& os, const Value& value)
@@ -1899,7 +1921,10 @@ namespace Exiv2 {
 
     std::ostream& print0x9201(std::ostream& os, const Value& value)
     {
-        URational ur = exposureTime(value.toFloat());
+        Rational r = value.toRational();
+        if (!value.ok() || r.second == 0) return os << "(" << value << ")";
+
+        URational ur = exposureTime(static_cast<float>(r.first) / r.second);
         os << ur.first;
         if (ur.second > 1) {
             os << "/" << ur.second;
@@ -2021,33 +2046,37 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& printVersion(std::ostream& os, const Value& value)
+    std::ostream& printExifVersion(std::ostream& os, const Value& value)
     {
         if (value.size() != 4 || value.typeId() != undefined) {
             return os << "(" << value << ")";
         }
 
-        int i = 0;
-        /* Strip an eventual non significative digit */
-        if (value.toLong(0) == '0') {
-            i++;
+        char s[5];
+        for (int i = 0; i < 4; ++i) {
+            s[i] = value.toLong(i);
         }
-        for (; i < 4 ; ++i) {
-            os << static_cast<char>(value.toLong(i));
-            if (i == 1) {
-                os << '.';
-            }
-        }
-        return os;
+        s[4] = '\0';
+
+        return printVersion(os, s);
     }
 
-    std::ostream& printDate(std::ostream& os, const Value& value)
+    std::ostream& printXmpVersion(std::ostream& os, const Value& value)
+    {
+        if (value.size() != 4 || value.typeId() != xmpText) {
+            return os << "(" << value << ")";
+        }
+        
+        return printVersion(os, value.toString());
+    }
+
+    std::ostream& printXmpDate(std::ostream& os, const Value& value)
     {
         if (value.size() != 20 || value.typeId() != xmpText) {
             return os << "(" << value << ")";
         }
-        
-        std::string stringValue = value.toString();
+
+	std::string stringValue = value.toString();
         if (stringValue[19] == 'Z') {
             stringValue = stringValue.substr(0, 19);
         }
@@ -2078,3 +2107,14 @@ namespace Exiv2 {
     }
 
 }                                       // namespace Exiv2
+
+namespace {
+    std::ostream& printVersion(std::ostream& os, const std::string& str)
+    {
+        if (str.size() != 4) {
+            return os << "(" << str << ")";
+        }
+        if (str[0] != '0') os << str[0];
+        return os << str[1] << "." << str[2] << str[3];
+    }
+}
