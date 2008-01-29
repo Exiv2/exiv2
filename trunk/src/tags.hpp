@@ -444,13 +444,18 @@ namespace Exiv2 {
     std::ostream& printDegrees(std::ostream& os, const Value& value);
     //! Print function converting from UCS-2LE to UTF-8
     std::ostream& printUcs2(std::ostream& os, const Value& value);
-
+    //! Print function for Exif units (wrapper to be able to this also for XMP properties)
+    std::ostream& printExifUnit(std::ostream& os, const Value& value);
     //! Print GPS version
     std::ostream& print0x0000(std::ostream& os, const Value& value);
     //! Print GPS altitude
     std::ostream& print0x0006(std::ostream& os, const Value& value);
     //! Print GPS timestamp
     std::ostream& print0x0007(std::ostream& os, const Value& value);
+    //! Print orientation (wrapper to be able to this also for XMP properties)
+    std::ostream& print0x0112(std::ostream& os, const Value& value);
+    //! Print YCbCrPositioning (wrapper to be able to this also for XMP properties)
+    std::ostream& print0x0213(std::ostream& os, const Value& value);
     //! Print the copyright
     std::ostream& print0x8298(std::ostream& os, const Value& value);
     //! Print the exposure time
@@ -478,9 +483,11 @@ namespace Exiv2 {
     //! Print 35mm equivalent focal length
     std::ostream& print0xa405(std::ostream& os, const Value& value);
     //! Print any version packed in 4 Bytes format : major major minor minor
-    std::ostream& printVersion(std::ostream& os, const Value& value);
+    std::ostream& printExifVersion(std::ostream& os, const Value& value);
+    //! Print any version encoded in the ASCII string majormajorminorminor
+    std::ostream& printXmpVersion(std::ostream& os, const Value& value);
     //! Print a date following the format YYYY-MM-DDTHH:MM:SSZ
-    std::ostream& printDate(std::ostream& os, const Value& value);
+    std::ostream& printXmpDate(std::ostream& os, const Value& value);
     //@}
 
     //! Calculate F number from an APEX aperture value

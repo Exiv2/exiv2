@@ -397,7 +397,7 @@ namespace Exiv2 {
 #endif
     } // XmpParser::registerNs
 
-    void XmpParser::unregisterNs(const std::string& ns)
+    void XmpParser::unregisterNs(const std::string& /*ns*/)
     {
 #ifdef EXV_HAVE_XMP_TOOLKIT
         try {

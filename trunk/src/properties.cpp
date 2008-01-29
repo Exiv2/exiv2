@@ -450,7 +450,7 @@ namespace Exiv2 {
     extern const TagDetails xmpExifColorSpace[] = {
         { 1,     N_("sRGB")         },
         { 2,     N_("Adobe RGB")    },    // Not defined to Exif 2.2 spec. But used by a lot of cameras.
-        { 65535, N_("uncalibrated") }
+        { 65535, N_("Uncalibrated") }
     };
 
     //! exif:ComponentsConfiguration
@@ -483,8 +483,8 @@ namespace Exiv2 {
         { 1,   N_("Average")                 },
         { 2,   N_("Center weighted average") },
         { 3,   N_("Spot")                    },
-        { 4,   N_("Multi spot")              },
-        { 5,   N_("Pattern")                 },
+        { 4,   N_("Multi-spot")              },
+        { 5,   N_("Multi-segment")           },
         { 6,   N_("Partial")                 },
         { 255, N_("other")                   }
     };
@@ -523,12 +523,12 @@ namespace Exiv2 {
     //! exif:SensingMethod
     extern const TagDetails xmpExifSensingMethod[] = {
         { 1, N_("Not defined")                    },
-        { 2, N_("One-chip color area sensor")     },
-        { 3, N_("Two-chip color area sensor")     },
-        { 4, N_("Three-chip color area sensor")   },
-        { 5, N_("Color sequential area sensor")   },
+        { 2, N_("One-chip color area")     },
+        { 3, N_("Two-chip color area")     },
+        { 4, N_("Three-chip color area")   },
+        { 5, N_("Color sequential area")   },
         { 7, N_("Trilinear sensor")               },
-        { 8, N_("Color sequential linear sensor") }
+        { 8, N_("Color sequential linear") }
     };
 
     //! exif:FileSource
@@ -785,47 +785,52 @@ namespace Exiv2 {
     };
 
     extern const XmpPrintInfo xmpPrintInfo[] = { 
-        {"Xmp.crs.CropUnits",                           EXV_PRINT_TAG(xmpCrsCropUnits)},
-        {"Xmp.exif.ColorSpace",                         EXV_PRINT_TAG(xmpExifColorSpace)},
-        {"Xmp.exif.ComponentsConfiguration",            EXV_PRINT_TAG(xmpExifComponentsConfiguration)},
-        {"Xmp.exif.Contrast",                           EXV_PRINT_TAG(xmpExifNormalSoftHard)},
-        {"Xmp.exif.CustomRendered",                     EXV_PRINT_TAG(xmpExifCustomRendered)},
-        {"Xmp.exif.ExposureProgram",                    EXV_PRINT_TAG(xmpExifExposureProgram)},
-        {"Xmp.exif.FileSource",                         EXV_PRINT_TAG(xmpExifFileSource)},
-        {"Xmp.exif.FocalPlaneResolutionUnit",           EXV_PRINT_TAG(xmpExifFocalPlaneResolutionUnit)},
-        {"Xmp.exif.GainControl",                        EXV_PRINT_TAG(xmpExifGainControl)},
-        {"Xmp.exif.LightSource",                        EXV_PRINT_TAG(xmpExifLightSource)},
-        {"Xmp.exif.MeteringMode",                       EXV_PRINT_TAG(xmpExifMeteringMode)},
-        {"Xmp.exif.Saturation",                         EXV_PRINT_TAG(xmpExifSaturation)},
-        {"Xmp.exif.SceneCaptureType",                   EXV_PRINT_TAG(xmpExifSceneCaptureType)},
-        {"Xmp.exif.SceneType",                          EXV_PRINT_TAG(xmpExifSceneType)},
-        {"Xmp.exif.SensingMethod",                      EXV_PRINT_TAG(xmpExifSensingMethod)},
-        {"Xmp.exif.Sharpness",                          EXV_PRINT_TAG(xmpExifNormalSoftHard)},
-        {"Xmp.exif.SubjectDistanceRange",               EXV_PRINT_TAG(xmpExifSubjectDistanceRange)},
-        {"Xmp.exif.WhiteBalance",                       EXV_PRINT_TAG(xmpExifWhiteBalance)},
-        {"Xmp.exif.GPSAltitudeRef",                     EXV_PRINT_TAG(xmpExifGPSAltitudeRef)},
-        {"Xmp.exif.GPSDestBearingRef",                  EXV_PRINT_TAG(xmpExifGPSDirection)},
-        {"Xmp.exif.GPSDestDistanceRef",                 EXV_PRINT_TAG(xmpExifGPSDestDistanceRef)},
-        {"Xmp.exif.GPSDifferential",                    EXV_PRINT_TAG(xmpExifGPSDifferential)},
-        {"Xmp.exif.GPSImgDirectionRef",                 EXV_PRINT_TAG(xmpExifGPSDirection)},
-        {"Xmp.exif.GPSMeasureMode",                     EXV_PRINT_TAG(xmpExifGPSMeasureMode)},
-        {"Xmp.exif.GPSSpeedRef",                        EXV_PRINT_TAG(xmpExifGPSSpeedRef)},
-        {"Xmp.exif.GPSStatus",                          EXV_PRINT_TAG(xmpExifGPSStatus)},
-        {"Xmp.exif.GPSTrackRef",                        EXV_PRINT_TAG(xmpExifGPSDirection)},
-        {"Xmp.tiff.XResolution",                        printLong},
-        {"Xmp.tiff.YResolution",                        printLong},
-        {"Xmp.exif.DateTimeOriginal",                   printDate},
-        {"Xmp.exif.GPSTimeStamp",                       printDate},
-        {"Xmp.exif.CreateDate",                         printDate},
-        {"Xmp.exif.ModifyDate",                         printDate},
-        {"Xmp.exif.ApertureValue",                      print0x9202},
-        {"Xmp.exif.FNumber",                            print0x9202},
-        {"Xmp.exif.BrightnessValue",                    printLong},
-        {"Xmp.exif.ExposureBiasValue",                  printLong},
-        {"Xmp.exif.FocalLength",                        print0x920a},
-        {"Xmp.exif.FocalPlaneXResolution",              printFloat},
-        {"Xmp.exif.FocalPlaneYResolution",              printFloat},
-        {"Xmp.exif.ShutterSpeedValue",                  print0x9201}
+        {"Xmp.crs.CropUnits",                 EXV_PRINT_TAG(xmpCrsCropUnits)                 },
+        {"Xmp.exif.ApertureValue",            print0x9202                                    },
+        {"Xmp.exif.BrightnessValue",          printFloat                                     },
+        {"Xmp.exif.ColorSpace",               EXV_PRINT_TAG(xmpExifColorSpace)               },
+        {"Xmp.exif.ComponentsConfiguration",  EXV_PRINT_TAG(xmpExifComponentsConfiguration)  },
+        {"Xmp.exif.Contrast",                 EXV_PRINT_TAG(xmpExifNormalSoftHard)           },
+        {"Xmp.exif.CreateDate",               printXmpDate                                   },
+        {"Xmp.exif.CustomRendered",           EXV_PRINT_TAG(xmpExifCustomRendered)           },
+        {"Xmp.exif.DateTimeOriginal",         printXmpDate                                   },
+        {"Xmp.exif.ExifVersion",              printXmpVersion                                },
+        {"Xmp.exif.ExposureBiasValue",        print0x9204                                    },
+        {"Xmp.exif.ExposureProgram",          EXV_PRINT_TAG(xmpExifExposureProgram)          },
+        {"Xmp.exif.FileSource",               EXV_PRINT_TAG(xmpExifFileSource)               },
+        {"Xmp.exif.FlashpixVersion",          printXmpVersion                                },
+        {"Xmp.exif.FNumber",                  print0x829d                                    },
+        {"Xmp.exif.FocalLength",              print0x920a                                    },
+        {"Xmp.exif.FocalPlaneResolutionUnit", EXV_PRINT_TAG(xmpExifFocalPlaneResolutionUnit) },
+        {"Xmp.exif.FocalPlaneXResolution",    printFloat                                     },
+        {"Xmp.exif.FocalPlaneYResolution",    printFloat                                     },
+        {"Xmp.exif.GainControl",              EXV_PRINT_TAG(xmpExifGainControl)              },
+        {"Xmp.exif.GPSAltitudeRef",           EXV_PRINT_TAG(xmpExifGPSAltitudeRef)           },
+        {"Xmp.exif.GPSDestBearingRef",        EXV_PRINT_TAG(xmpExifGPSDirection)             },
+        {"Xmp.exif.GPSDestDistanceRef",       EXV_PRINT_TAG(xmpExifGPSDestDistanceRef)       },
+        {"Xmp.exif.GPSDifferential",          EXV_PRINT_TAG(xmpExifGPSDifferential)          },
+        {"Xmp.exif.GPSImgDirectionRef",       EXV_PRINT_TAG(xmpExifGPSDirection)             },
+        {"Xmp.exif.GPSMeasureMode",           EXV_PRINT_TAG(xmpExifGPSMeasureMode)           },
+        {"Xmp.exif.GPSSpeedRef",              EXV_PRINT_TAG(xmpExifGPSSpeedRef)              },
+        {"Xmp.exif.GPSStatus",                EXV_PRINT_TAG(xmpExifGPSStatus)                },
+        {"Xmp.exif.GPSTimeStamp",             printXmpDate                                   },
+        {"Xmp.exif.GPSTrackRef",              EXV_PRINT_TAG(xmpExifGPSDirection)             },
+        {"Xmp.exif.LightSource",              EXV_PRINT_TAG(xmpExifLightSource)              },
+        {"Xmp.exif.MeteringMode",             EXV_PRINT_TAG(xmpExifMeteringMode)             },
+        {"Xmp.exif.ModifyDate",               printXmpDate                                   },
+        {"Xmp.exif.Saturation",               EXV_PRINT_TAG(xmpExifSaturation)               },
+        {"Xmp.exif.SceneCaptureType",         EXV_PRINT_TAG(xmpExifSceneCaptureType)         },
+        {"Xmp.exif.SceneType",                EXV_PRINT_TAG(xmpExifSceneType)                },
+        {"Xmp.exif.SensingMethod",            EXV_PRINT_TAG(xmpExifSensingMethod)            },
+        {"Xmp.exif.Sharpness",                EXV_PRINT_TAG(xmpExifNormalSoftHard)           },
+        {"Xmp.exif.ShutterSpeedValue",        print0x9201                                    },
+        {"Xmp.exif.SubjectDistanceRange",     EXV_PRINT_TAG(xmpExifSubjectDistanceRange)     },
+        {"Xmp.exif.WhiteBalance",             EXV_PRINT_TAG(xmpExifWhiteBalance)             },
+        {"Xmp.tiff.Orientation",              print0x0112                                    },
+        {"Xmp.tiff.ResolutionUnit",           printExifUnit                                  },
+        {"Xmp.tiff.XResolution",              printLong                                      },
+        {"Xmp.tiff.YCbCrPositioning",         print0x0213                                    },
+        {"Xmp.tiff.YResolution",              printLong                                      }
     };
 
     XmpNsInfo::Ns::Ns(const std::string& ns)
