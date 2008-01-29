@@ -444,7 +444,7 @@ namespace Exiv2 {
     std::ostream& printDegrees(std::ostream& os, const Value& value);
     //! Print function converting from UCS-2LE to UTF-8
     std::ostream& printUcs2(std::ostream& os, const Value& value);
-    //! Print function for Exif units (wrapper to be able to this also for XMP properties)
+    //! Print function for Exif units (wrapper to be able to use this also for XMP properties)
     std::ostream& printExifUnit(std::ostream& os, const Value& value);
     //! Print GPS version
     std::ostream& print0x0000(std::ostream& os, const Value& value);
@@ -452,9 +452,9 @@ namespace Exiv2 {
     std::ostream& print0x0006(std::ostream& os, const Value& value);
     //! Print GPS timestamp
     std::ostream& print0x0007(std::ostream& os, const Value& value);
-    //! Print orientation (wrapper to be able to this also for XMP properties)
+    //! Print orientation (wrapper to be able to use this also for XMP properties)
     std::ostream& print0x0112(std::ostream& os, const Value& value);
-    //! Print YCbCrPositioning (wrapper to be able to this also for XMP properties)
+    //! Print YCbCrPositioning (wrapper to be able to use this also for XMP properties)
     std::ostream& print0x0213(std::ostream& os, const Value& value);
     //! Print the copyright
     std::ostream& print0x8298(std::ostream& os, const Value& value);
@@ -462,6 +462,8 @@ namespace Exiv2 {
     std::ostream& print0x829a(std::ostream& os, const Value& value);
     //! Print the f-number
     std::ostream& print0x829d(std::ostream& os, const Value& value);
+    //! Print exposure program (wrapper to be able to use this also for XMP properties)
+    std::ostream& print0x8822(std::ostream& os, const Value& value);
     //! Print ISO speed ratings
     std::ostream& print0x8827(std::ostream& os, const Value& value);
     //! Print components configuration specific to compressed data
@@ -474,10 +476,14 @@ namespace Exiv2 {
     std::ostream& print0x9204(std::ostream& os, const Value& value);
     //! Print the subject distance
     std::ostream& print0x9206(std::ostream& os, const Value& value);
+    //! Print metering mode (wrapper to be able to use this also for XMP properties)
+    std::ostream& print0x9207(std::ostream& os, const Value& value);
     //! Print the actual focal length of the lens
     std::ostream& print0x920a(std::ostream& os, const Value& value);
     //! Print the user comment
     std::ostream& print0x9286(std::ostream& os, const Value& value);
+    //! Print color space (wrapper to be able to use this also for XMP properties)
+    std::ostream& print0xa001(std::ostream& os, const Value& value);
     //! Print digital zoom ratio
     std::ostream& print0xa404(std::ostream& os, const Value& value);
     //! Print 35mm equivalent focal length

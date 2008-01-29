@@ -446,49 +446,6 @@ namespace Exiv2 {
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
 
-    //! exif:ColorSpace
-    extern const TagDetails xmpExifColorSpace[] = {
-        { 1,     N_("sRGB")         },
-        { 2,     N_("Adobe RGB")    },    // Not defined to Exif 2.2 spec. But used by a lot of cameras.
-        { 65535, N_("Uncalibrated") }
-    };
-
-    //! exif:ComponentsConfiguration
-    extern const TagDetails xmpExifComponentsConfiguration[] = {
-        { 0, N_("does not exist") },
-        { 1, "Y"                  },
-        { 2, "Cb"                 },
-        { 3, "Cr"                 },
-        { 4, "R"                  },
-        { 5, "G"                  },
-        { 6, "B"                  }
-    };
-
-    //! exif:ExposureProgram
-    extern const TagDetails xmpExifExposureProgram[] = {
-        { 0, N_("not defined")       },
-        { 1, N_("Manual")            },
-        { 2, N_("Normal program")    },
-        { 3, N_("Aperture priority") },
-        { 4, N_("Shutter priority")  },
-        { 5, N_("Creative program")  },
-        { 6, N_("Action program")    },
-        { 7, N_("Portrait mode")     },
-        { 8, N_("Landscape mode")    }
-    };
-
-    //! exif:MeteringMode
-    extern const TagDetails xmpExifMeteringMode[] = {
-        { 0,   N_("unknown")                 },
-        { 1,   N_("Average")                 },
-        { 2,   N_("Center weighted average") },
-        { 3,   N_("Spot")                    },
-        { 4,   N_("Multi-spot")              },
-        { 5,   N_("Multi-segment")           },
-        { 6,   N_("Partial")                 },
-        { 255, N_("other")                   }
-    };
-
     //! exif:LightSource
     extern const TagDetails xmpExifLightSource[] = {
         {   0, N_("unknown")                                 },
@@ -788,15 +745,15 @@ namespace Exiv2 {
         {"Xmp.crs.CropUnits",                 EXV_PRINT_TAG(xmpCrsCropUnits)                 },
         {"Xmp.exif.ApertureValue",            print0x9202                                    },
         {"Xmp.exif.BrightnessValue",          printFloat                                     },
-        {"Xmp.exif.ColorSpace",               EXV_PRINT_TAG(xmpExifColorSpace)               },
-        {"Xmp.exif.ComponentsConfiguration",  EXV_PRINT_TAG(xmpExifComponentsConfiguration)  },
+        {"Xmp.exif.ColorSpace",               print0xa001                                    },
+        {"Xmp.exif.ComponentsConfiguration",  print0x9101                                    },
         {"Xmp.exif.Contrast",                 EXV_PRINT_TAG(xmpExifNormalSoftHard)           },
         {"Xmp.exif.CreateDate",               printXmpDate                                   },
         {"Xmp.exif.CustomRendered",           EXV_PRINT_TAG(xmpExifCustomRendered)           },
         {"Xmp.exif.DateTimeOriginal",         printXmpDate                                   },
         {"Xmp.exif.ExifVersion",              printXmpVersion                                },
         {"Xmp.exif.ExposureBiasValue",        print0x9204                                    },
-        {"Xmp.exif.ExposureProgram",          EXV_PRINT_TAG(xmpExifExposureProgram)          },
+        {"Xmp.exif.ExposureProgram",          print0x8822                                    },
         {"Xmp.exif.FileSource",               EXV_PRINT_TAG(xmpExifFileSource)               },
         {"Xmp.exif.FlashpixVersion",          printXmpVersion                                },
         {"Xmp.exif.FNumber",                  print0x829d                                    },
@@ -816,7 +773,7 @@ namespace Exiv2 {
         {"Xmp.exif.GPSTimeStamp",             printXmpDate                                   },
         {"Xmp.exif.GPSTrackRef",              EXV_PRINT_TAG(xmpExifGPSDirection)             },
         {"Xmp.exif.LightSource",              EXV_PRINT_TAG(xmpExifLightSource)              },
-        {"Xmp.exif.MeteringMode",             EXV_PRINT_TAG(xmpExifMeteringMode)             },
+        {"Xmp.exif.MeteringMode",             print0x9207                                    },
         {"Xmp.exif.ModifyDate",               printXmpDate                                   },
         {"Xmp.exif.Saturation",               EXV_PRINT_TAG(xmpExifSaturation)               },
         {"Xmp.exif.SceneCaptureType",         EXV_PRINT_TAG(xmpExifSceneCaptureType)         },
