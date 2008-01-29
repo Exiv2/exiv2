@@ -714,7 +714,7 @@ namespace Exiv2 {
         TagInfo(0x8822, "ExposureProgram", N_("Exposure Program"),
                 N_("The class of the program used by the camera to set exposure "
                 "when the picture is taken."),
-                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifExposureProgram)),
+                exifIfdId, captureCond, unsignedShort, print0x8822),
         TagInfo(0x8824, "SpectralSensitivity", N_("Spectral Sensitivity"),
                 N_("Indicates the spectral sensitivity of each channel of the "
                 "camera used. The tag value is an ASCII string compatible "
@@ -779,7 +779,7 @@ namespace Exiv2 {
                 exifIfdId, captureCond, unsignedRational, print0x9206),
         TagInfo(0x9207, "MeteringMode", N_("Metering Mode"),
                 N_("The metering mode."),
-                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifMeteringMode)),
+                exifIfdId, captureCond, unsignedShort, print0x9207),
         TagInfo(0x9208, "LightSource", N_("Light Source"),
                 N_("The kind of light source."),
                 exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifLightSource)),
@@ -823,7 +823,7 @@ namespace Exiv2 {
                 "sRGB is used, Uncalibrated is set. Image data "
                 "recorded as Uncalibrated can be treated as sRGB when it is "
                 "converted to FlashPix."),
-                exifIfdId, imgCharacter, unsignedShort, EXV_PRINT_TAG(exifColorSpace)),
+                exifIfdId, imgCharacter, unsignedShort, print0xa001),
         TagInfo(0xa002, "PixelXDimension", N_("Pixel X Dimension"),
                 N_("Information specific to compressed data. When a "
                 "compressed file is recorded, the valid width of the "
@@ -1896,6 +1896,11 @@ namespace Exiv2 {
         return os;
     }
 
+    std::ostream& print0x8822(std::ostream& os, const Value& value)
+    {
+        return EXV_PRINT_TAG(exifExposureProgram)(os, value);
+    }
+
     std::ostream& print0x8827(std::ostream& os, const Value& value)
     {
         return os << value.toLong();
@@ -1986,6 +1991,11 @@ namespace Exiv2 {
         return os;
     }
 
+    std::ostream& print0x9207(std::ostream& os, const Value& value)
+    {
+        return EXV_PRINT_TAG(exifMeteringMode)(os, value);
+    }
+
     std::ostream& print0x920a(std::ostream& os, const Value& value)
     {
         Rational length = value.toRational();
@@ -2016,6 +2026,11 @@ namespace Exiv2 {
             os << userComment.substr(0, pos + 1);
         }
         return os;
+    }
+
+    std::ostream& print0xa001(std::ostream& os, const Value& value)
+    {
+        return EXV_PRINT_TAG(exifColorSpace)(os, value);
     }
 
     std::ostream& print0xa404(std::ostream& os, const Value& value)
