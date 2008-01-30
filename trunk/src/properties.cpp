@@ -446,77 +446,6 @@ namespace Exiv2 {
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
 
-    //! exif:LightSource
-    extern const TagDetails xmpExifLightSource[] = {
-        {   0, N_("unknown")                                 },
-        {   1, N_("Daylight")                                },
-        {   2, N_("Fluorescent")                             },
-        {   3, N_("Tungsten")                                },
-        {   4, N_("Flash")                                   },
-        {   9, N_("Fine weather")                            },
-        {  10, N_("Cloudy weather")                          },
-        {  11, N_("Shade")                                   },
-        {  12, N_("Daylight fluorescent (D 5700 - 7100K)")   },
-        {  13, N_("Day white fluorescent (N 4600 - 5400K)")  },
-        {  14, N_("Cool white fluorescent (W 3900 - 4500K)") },
-        {  15, N_("White fluorescent (WW 3200 - 3700K)")     },
-        {  17, N_("Standard light A")                        },
-        {  18, N_("Standard light B")                        },
-        {  19, N_("Standard light C")                        },
-        {  20, N_("D55")                                     },
-        {  21, N_("D65")                                     },
-        {  22, N_("D75")                                     },
-        {  23, N_("D50")                                     },
-        {  24, N_("ISO studio tungsten")                     },
-        { 255, N_("other")                                   }
-    };
-
-    //! exif:FocalPlaneResolutionUnit
-    extern const TagDetails xmpExifFocalPlaneResolutionUnit[] = {
-        { 2, N_("inches")      },
-        { 3, N_("centimeters") }
-    };
-
-    //! exif:SensingMethod
-    extern const TagDetails xmpExifSensingMethod[] = {
-        { 1, N_("Not defined")                    },
-        { 2, N_("One-chip color area")     },
-        { 3, N_("Two-chip color area")     },
-        { 4, N_("Three-chip color area")   },
-        { 5, N_("Color sequential area")   },
-        { 7, N_("Trilinear sensor")               },
-        { 8, N_("Color sequential linear") }
-    };
-
-    //! exif:FileSource
-    extern const TagDetails xmpExifFileSource[] = {
-        { 3, N_("DSC") }
-    };
-
-    //! exif:SceneType
-    extern const TagDetails xmpExifSceneType[] = {
-        { 1, N_("directly photographed image") }
-    };
-
-    //! exif:CustomRendered
-    extern const TagDetails xmpExifCustomRendered[] = {
-        { 0, N_("Normal process") },
-        { 1, N_("Custom process") }
-    };
-
-    //! exif:ExposureMode
-    extern const TagDetails xmpExifExposureMode[] = {
-        { 0, N_("Auto exposure")   },
-        { 1, N_("Manual exposure") },
-        { 2, N_("Auto bracket")    }
-    };
-
-    //! exif:WhiteBalance
-    extern const TagDetails xmpExifWhiteBalance[] = {
-        { 0, N_("Auto white balance")   },
-        { 1, N_("Manual white balance") }
-    };
-
     //! exif:SceneCaptureType
     extern const TagDetails xmpExifSceneCaptureType[] = {
         { 0, N_("Standard")    },
@@ -749,16 +678,17 @@ namespace Exiv2 {
         {"Xmp.exif.ComponentsConfiguration",  print0x9101                                    },
         {"Xmp.exif.Contrast",                 EXV_PRINT_TAG(xmpExifNormalSoftHard)           },
         {"Xmp.exif.CreateDate",               printXmpDate                                   },
-        {"Xmp.exif.CustomRendered",           EXV_PRINT_TAG(xmpExifCustomRendered)           },
+        {"Xmp.exif.CustomRendered",           print0xa401                                    },
         {"Xmp.exif.DateTimeOriginal",         printXmpDate                                   },
         {"Xmp.exif.ExifVersion",              printXmpVersion                                },
         {"Xmp.exif.ExposureBiasValue",        print0x9204                                    },
+        {"Xmp.exif.ExposureMode",             print0xa402                                    },
         {"Xmp.exif.ExposureProgram",          print0x8822                                    },
-        {"Xmp.exif.FileSource",               EXV_PRINT_TAG(xmpExifFileSource)               },
+        {"Xmp.exif.FileSource",               print0xa300                                    },
         {"Xmp.exif.FlashpixVersion",          printXmpVersion                                },
         {"Xmp.exif.FNumber",                  print0x829d                                    },
         {"Xmp.exif.FocalLength",              print0x920a                                    },
-        {"Xmp.exif.FocalPlaneResolutionUnit", EXV_PRINT_TAG(xmpExifFocalPlaneResolutionUnit) },
+        {"Xmp.exif.FocalPlaneResolutionUnit", printExifUnit                                  },
         {"Xmp.exif.FocalPlaneXResolution",    printFloat                                     },
         {"Xmp.exif.FocalPlaneYResolution",    printFloat                                     },
         {"Xmp.exif.GainControl",              EXV_PRINT_TAG(xmpExifGainControl)              },
@@ -772,17 +702,17 @@ namespace Exiv2 {
         {"Xmp.exif.GPSStatus",                EXV_PRINT_TAG(xmpExifGPSStatus)                },
         {"Xmp.exif.GPSTimeStamp",             printXmpDate                                   },
         {"Xmp.exif.GPSTrackRef",              EXV_PRINT_TAG(xmpExifGPSDirection)             },
-        {"Xmp.exif.LightSource",              EXV_PRINT_TAG(xmpExifLightSource)              },
+        {"Xmp.exif.LightSource",              print0x9208                                    },
         {"Xmp.exif.MeteringMode",             print0x9207                                    },
         {"Xmp.exif.ModifyDate",               printXmpDate                                   },
         {"Xmp.exif.Saturation",               EXV_PRINT_TAG(xmpExifSaturation)               },
         {"Xmp.exif.SceneCaptureType",         EXV_PRINT_TAG(xmpExifSceneCaptureType)         },
-        {"Xmp.exif.SceneType",                EXV_PRINT_TAG(xmpExifSceneType)                },
-        {"Xmp.exif.SensingMethod",            EXV_PRINT_TAG(xmpExifSensingMethod)            },
+        {"Xmp.exif.SceneType",                print0xa301                                    },
+        {"Xmp.exif.SensingMethod",            print0xa217                                    },
         {"Xmp.exif.Sharpness",                EXV_PRINT_TAG(xmpExifNormalSoftHard)           },
         {"Xmp.exif.ShutterSpeedValue",        print0x9201                                    },
         {"Xmp.exif.SubjectDistanceRange",     EXV_PRINT_TAG(xmpExifSubjectDistanceRange)     },
-        {"Xmp.exif.WhiteBalance",             EXV_PRINT_TAG(xmpExifWhiteBalance)             },
+        {"Xmp.exif.WhiteBalance",             print0xa403                                    },
         {"Xmp.tiff.Orientation",              print0x0112                                    },
         {"Xmp.tiff.ResolutionUnit",           printExifUnit                                  },
         {"Xmp.tiff.XResolution",              printLong                                      },
