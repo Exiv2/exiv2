@@ -638,7 +638,7 @@ namespace Exiv2 {
         { 1, N_("Directly photographed") }
     };
 
-    //! exifCustomRendered, tag 0xa401
+    //! CustomRendered, tag 0xa401
     extern const TagDetails exifCustomRendered[] = {
         { 0, N_("Normal process") },
         { 1, N_("Custom process") }
@@ -782,7 +782,7 @@ namespace Exiv2 {
                 exifIfdId, captureCond, unsignedShort, print0x9207),
         TagInfo(0x9208, "LightSource", N_("Light Source"),
                 N_("The kind of light source."),
-                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifLightSource)),
+                exifIfdId, captureCond, unsignedShort, print0x9208),
         TagInfo(0x9209, "Flash", N_("Flash"),
                 N_("This tag is recorded when an image is taken using a strobe light (flash)."),
                 exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifFlash)),
@@ -889,17 +889,17 @@ namespace Exiv2 {
                 exifIfdId, captureCond, unsignedRational, printValue),
         TagInfo(0xa217, "SensingMethod", N_("Sensing Method"),
                 N_("Indicates the image sensor type on the camera or input device."),
-                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifSensingMethod)),
+                exifIfdId, captureCond, unsignedShort, print0xa217),
         TagInfo(0xa300, "FileSource", N_("File Source"),
                 N_("Indicates the image source. If a DSC recorded the image, "
                 "this tag value of this tag always be set to 3, indicating "
                 "that the image was recorded on a DSC."),
-                exifIfdId, captureCond, undefined, EXV_PRINT_TAG(exifFileSource)),
+                exifIfdId, captureCond, undefined, print0xa300),
         TagInfo(0xa301, "SceneType", N_("Scene Type"),
                 N_("Indicates the type of scene. If a DSC recorded the image, "
                 "this tag value must always be set to 1, indicating that the "
                 "image was directly photographed."),
-                exifIfdId, captureCond, undefined, EXV_PRINT_TAG(exifSceneType)),
+                exifIfdId, captureCond, undefined, print0xa301),
         TagInfo(0xa302, "CFAPattern", N_("Color Filter Array Pattern"),
                 N_("Indicates the color filter array (CFA) geometric pattern of the "
                 "image sensor when a one-chip color area sensor is used. "
@@ -910,15 +910,15 @@ namespace Exiv2 {
                 "data, such as rendering geared to output. When special "
                 "processing is performed, the reader is expected to disable "
                 "or minimize any further processing."),
-                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifCustomRendered)),
+                exifIfdId, captureCond, unsignedShort, print0xa401),
         TagInfo(0xa402, "ExposureMode", N_("Exposure Mode"),
                 N_("This tag indicates the exposure mode set when the image was "
                 "shot. In auto-bracketing mode, the camera shoots a series of "
                 "frames of the same scene at different exposure settings."),
-                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifExposureMode)),
+                exifIfdId, captureCond, unsignedShort, print0xa402),
         TagInfo(0xa403, "WhiteBalance", N_("White Balance"),
                 N_("This tag indicates the white balance mode set when the image was shot."),
-                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifWhiteBalance)),
+                exifIfdId, captureCond, unsignedShort, print0xa403),
         TagInfo(0xa404, "DigitalZoomRatio", N_("Digital Zoom Ratio"),
                 N_("This tag indicates the digital zoom ratio when the image was "
                 "shot. If the numerator of the recorded value is 0, this "
@@ -1996,6 +1996,11 @@ namespace Exiv2 {
         return EXV_PRINT_TAG(exifMeteringMode)(os, value);
     }
 
+    std::ostream& print0x9208(std::ostream& os, const Value& value)
+    {
+        return EXV_PRINT_TAG(exifLightSource)(os, value);
+    }
+
     std::ostream& print0x920a(std::ostream& os, const Value& value)
     {
         Rational length = value.toRational();
@@ -2031,6 +2036,36 @@ namespace Exiv2 {
     std::ostream& print0xa001(std::ostream& os, const Value& value)
     {
         return EXV_PRINT_TAG(exifColorSpace)(os, value);
+    }
+
+    std::ostream& print0xa217(std::ostream& os, const Value& value)
+    {
+        return EXV_PRINT_TAG(exifSensingMethod)(os, value);
+    }
+
+    std::ostream& print0xa300(std::ostream& os, const Value& value)
+    {
+        return EXV_PRINT_TAG(exifFileSource)(os, value);
+    }
+
+    std::ostream& print0xa301(std::ostream& os, const Value& value)
+    {
+        return EXV_PRINT_TAG(exifSceneType)(os, value);
+    }
+
+    std::ostream& print0xa401(std::ostream& os, const Value& value)
+    {
+        return EXV_PRINT_TAG(exifCustomRendered)(os, value);
+    }
+
+    std::ostream& print0xa402(std::ostream& os, const Value& value)
+    {
+        return EXV_PRINT_TAG(exifExposureMode)(os, value);
+    }
+
+    std::ostream& print0xa403(std::ostream& os, const Value& value)
+    {
+        return EXV_PRINT_TAG(exifWhiteBalance)(os, value);
     }
 
     std::ostream& print0xa404(std::ostream& os, const Value& value)
