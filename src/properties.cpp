@@ -446,45 +446,6 @@ namespace Exiv2 {
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
 
-    //! exif:SceneCaptureType
-    extern const TagDetails xmpExifSceneCaptureType[] = {
-        { 0, N_("Standard")    },
-        { 1, N_("Landscape")   },
-        { 2, N_("Portrait")    },
-        { 3, N_("Night scene") }
-    };
-
-    //! exif:GainControl
-    extern const TagDetails xmpExifGainControl[] = {
-        { 0, N_("None")           },
-        { 1, N_("Low gain up")    },
-        { 2, N_("High gain up")   },
-        { 3, N_("Low gain down")  },
-        { 4, N_("High gain down") }
-    };
-
-    //! exif:Contrast, exif:Sharpness
-    extern const TagDetails xmpExifNormalSoftHard[] = {
-        { 0, N_("Normal") },
-        { 1, N_("Soft")   },
-        { 2, N_("Hard")   }
-    };
-
-    //! exif:Saturation
-    extern const TagDetails xmpExifSaturation[] = {
-        { 0, N_("Normal")          },
-        { 1, N_("Low saturation")  },
-        { 2, N_("High saturation") }
-    };
-
-    //! exif:SubjectDistanceRange
-    extern const TagDetails xmpExifSubjectDistanceRange[] = {
-        { 0, N_("Unknown")      },
-        { 1, N_("Macro")        },
-        { 2, N_("Close view")   },
-        { 3, N_("Distant view") }
-    };
-
     //! exif:GPSAltitudeRef
     extern const TagDetails xmpExifGPSAltitudeRef[] = {
         { 0, N_("Above sea level") },
@@ -676,7 +637,7 @@ namespace Exiv2 {
         {"Xmp.exif.BrightnessValue",          printFloat                                     },
         {"Xmp.exif.ColorSpace",               print0xa001                                    },
         {"Xmp.exif.ComponentsConfiguration",  print0x9101                                    },
-        {"Xmp.exif.Contrast",                 EXV_PRINT_TAG(xmpExifNormalSoftHard)           },
+        {"Xmp.exif.Contrast",                 printNormalSoftHard                            },
         {"Xmp.exif.CreateDate",               printXmpDate                                   },
         {"Xmp.exif.CustomRendered",           print0xa401                                    },
         {"Xmp.exif.DateTimeOriginal",         printXmpDate                                   },
@@ -691,7 +652,7 @@ namespace Exiv2 {
         {"Xmp.exif.FocalPlaneResolutionUnit", printExifUnit                                  },
         {"Xmp.exif.FocalPlaneXResolution",    printFloat                                     },
         {"Xmp.exif.FocalPlaneYResolution",    printFloat                                     },
-        {"Xmp.exif.GainControl",              EXV_PRINT_TAG(xmpExifGainControl)              },
+        {"Xmp.exif.GainControl",              print0xa407                                    },
         {"Xmp.exif.GPSAltitudeRef",           EXV_PRINT_TAG(xmpExifGPSAltitudeRef)           },
         {"Xmp.exif.GPSDestBearingRef",        EXV_PRINT_TAG(xmpExifGPSDirection)             },
         {"Xmp.exif.GPSDestDistanceRef",       EXV_PRINT_TAG(xmpExifGPSDestDistanceRef)       },
@@ -705,13 +666,13 @@ namespace Exiv2 {
         {"Xmp.exif.LightSource",              print0x9208                                    },
         {"Xmp.exif.MeteringMode",             print0x9207                                    },
         {"Xmp.exif.ModifyDate",               printXmpDate                                   },
-        {"Xmp.exif.Saturation",               EXV_PRINT_TAG(xmpExifSaturation)               },
-        {"Xmp.exif.SceneCaptureType",         EXV_PRINT_TAG(xmpExifSceneCaptureType)         },
+        {"Xmp.exif.Saturation",               print0xa409                                    },
+        {"Xmp.exif.SceneCaptureType",         print0xa406                                    },
         {"Xmp.exif.SceneType",                print0xa301                                    },
         {"Xmp.exif.SensingMethod",            print0xa217                                    },
-        {"Xmp.exif.Sharpness",                EXV_PRINT_TAG(xmpExifNormalSoftHard)           },
+        {"Xmp.exif.Sharpness",                printNormalSoftHard                            },
         {"Xmp.exif.ShutterSpeedValue",        print0x9201                                    },
-        {"Xmp.exif.SubjectDistanceRange",     EXV_PRINT_TAG(xmpExifSubjectDistanceRange)     },
+        {"Xmp.exif.SubjectDistanceRange",     print0xa40c                                    },
         {"Xmp.exif.WhiteBalance",             print0xa403                                    },
         {"Xmp.tiff.Orientation",              print0x0112                                    },
         {"Xmp.tiff.ResolutionUnit",           printExifUnit                                  },
