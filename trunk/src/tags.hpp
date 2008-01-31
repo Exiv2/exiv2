@@ -502,6 +502,16 @@ namespace Exiv2 {
     std::ostream& print0xa404(std::ostream& os, const Value& value);
     //! Print 35mm equivalent focal length
     std::ostream& print0xa405(std::ostream& os, const Value& value);
+    //! Print scene capture type
+    std::ostream& print0xa406(std::ostream& os, const Value& value);
+    //! Print gain control
+    std::ostream& print0xa407(std::ostream& os, const Value& value);
+    //! Print saturation
+    std::ostream& print0xa409(std::ostream& os, const Value& value);
+    //! Print subject distance range
+    std::ostream& print0xa40c(std::ostream& os, const Value& value);
+    //! Print contrast, sharpness (normal, soft, hard)
+    std::ostream& printNormalSoftHard(std::ostream& os, const Value& value);
     //! Print any version packed in 4 Bytes format : major major minor minor
     std::ostream& printExifVersion(std::ostream& os, const Value& value);
     //! Print any version encoded in the ASCII string majormajorminorminor

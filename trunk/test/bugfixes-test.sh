@@ -82,6 +82,10 @@ num=501
 filename=`prep_file $num`
 $exiv2 -pi $filename
 
+num=540
+filename=`prep_file $num`
+$exiv2 -px $filename
+
 ) > $results 2>&1
 
 # ----------------------------------------------------------------------

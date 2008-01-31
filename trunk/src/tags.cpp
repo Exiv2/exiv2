@@ -674,8 +674,8 @@ namespace Exiv2 {
         { 4, N_("High gain down") }
     };
 
-    //! Contrast, tag 0xa408
-    extern const TagDetails exifContrast[] = {
+    //! Contrast, tag 0xa408 and Sharpness, tag 0xa40a
+    extern const TagDetails exifNormalSoftHard[] = {
         { 0, N_("Normal") },
         { 1, N_("Soft")   },
         { 2, N_("Hard")   }
@@ -686,13 +686,6 @@ namespace Exiv2 {
         { 0, N_("Normal") },
         { 1, N_("Low")    },
         { 2, N_("High")   }
-    };
-
-    //! Sharpness, tag 0xa40a
-    extern const TagDetails exifSharpness[] = {
-        { 0, N_("Normal") },
-        { 1, N_("Soft")   },
-        { 2, N_("Hard")   }
     };
 
     //! SubjectDistanceRange, tag 0xa40c
@@ -934,22 +927,22 @@ namespace Exiv2 {
                 N_("This tag indicates the type of scene that was shot. It can "
                 "also be used to record the mode in which the image was "
                 "shot. Note that this differs from the <SceneType> tag."),
-                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifSceneCaptureType)),
+                exifIfdId, captureCond, unsignedShort, print0xa406),
         TagInfo(0xa407, "GainControl", N_("Gain Control"),
                 N_("This tag indicates the degree of overall image gain adjustment."),
-                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifGainControl)),
+                exifIfdId, captureCond, unsignedShort, print0xa407),
         TagInfo(0xa408, "Contrast", N_("Contrast"),
                 N_("This tag indicates the direction of contrast processing "
                 "applied by the camera when the image was shot."),
-                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifContrast)),
+                exifIfdId, captureCond, unsignedShort, printNormalSoftHard),
         TagInfo(0xa409, "Saturation", N_("Saturation"),
                 N_("This tag indicates the direction of saturation processing "
                 "applied by the camera when the image was shot."),
-                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifSaturation)),
+                exifIfdId, captureCond, unsignedShort, print0xa409),
         TagInfo(0xa40a, "Sharpness", N_("Sharpness"),
                 N_("This tag indicates the direction of sharpness processing "
                 "applied by the camera when the image was shot."),
-                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifSharpness)),
+                exifIfdId, captureCond, unsignedShort, printNormalSoftHard),
         TagInfo(0xa40b, "DeviceSettingDescription", N_("Device Setting Description"),
                 N_("This tag indicates information on the picture-taking "
                 "conditions of a particular camera model. The tag is used "
@@ -957,7 +950,7 @@ namespace Exiv2 {
                 exifIfdId, captureCond, undefined, printValue),
         TagInfo(0xa40c, "SubjectDistanceRange", N_("Subject Distance Range"),
                 N_("This tag indicates the distance to the subject."),
-                exifIfdId, captureCond, unsignedShort, EXV_PRINT_TAG(exifSubjectDistanceRange)),
+                exifIfdId, captureCond, unsignedShort, print0xa40c),
         TagInfo(0xa420, "ImageUniqueID", N_("Image Unique ID"),
                 N_("This tag indicates an identifier assigned uniquely to "
                 "each image. It is recorded as an ASCII string equivalent "
@@ -2094,6 +2087,31 @@ namespace Exiv2 {
             os << length << ".0 mm";
         }
         return os;
+    }
+
+    std::ostream& print0xa406(std::ostream& os, const Value& value)
+    {
+        return EXV_PRINT_TAG(exifSceneCaptureType)(os, value);
+    }
+
+    std::ostream& print0xa407(std::ostream& os, const Value& value)
+    {
+        return EXV_PRINT_TAG(exifGainControl)(os, value);
+    }
+
+    std::ostream& print0xa409(std::ostream& os, const Value& value)
+    {
+        return EXV_PRINT_TAG(exifSaturation)(os, value);
+    }
+
+    std::ostream& print0xa40c(std::ostream& os, const Value& value)
+    {
+        return EXV_PRINT_TAG(exifSubjectDistanceRange)(os, value);
+    }
+
+    std::ostream& printNormalSoftHard(std::ostream& os, const Value& value)
+    {
+        return EXV_PRINT_TAG(exifNormalSoftHard)(os, value);
     }
 
     std::ostream& printExifVersion(std::ostream& os, const Value& value)
