@@ -985,11 +985,42 @@ namespace Exiv2 {
         { 1, N_("Below sea level") }
     };
 
+    //! GPS status, tag 0x0009
+    extern const TagDetails exifGPSStatus[] = {
+        { 'A', N_("Measurement in progress")      },
+        { 'V', N_("Measurement Interoperability") }
+    };
+
+    //! GPS measurement mode, tag 0x000a
+    extern const TagDetails exifGPSMeasureMode[] = {
+        { '2', N_("Two-dimensional measurement")   },
+        { '3', N_("Three-dimensional measurement") }
+    };
+
     //! GPS speed reference, tag 0x000c
     extern const TagDetails exifGPSSpeedRef[] = {
-        { 75, N_("km/h")  },
-        { 77, N_("mph")   },
-        { 78, N_("knots") }
+        { 'K', N_("km/h")  },
+        { 'M', N_("mph")   },
+        { 'N', N_("knots") }
+    };
+
+    //! GPS direction ref, tags 0x000e, 0x0010, 0x0017
+    extern const TagDetails exifGPSDirRef[] = {
+        { 'T', N_("True direction")     },
+        { 'M', N_("Magnetic direction") }
+    };
+
+    //! GPS Destination distance ref, tag 0x0019
+    extern const TagDetails exifGPSDestDistanceRef[] = {
+        { 'K', N_("Kilometers") },
+        { 'M', N_("Miles")      },
+        { 'N', N_("Knots")      }
+    };
+
+    //! GPS Differential, tag 0x001e
+    extern const TagDetails exifGPSDifferential[] = {
+        { 0, N_("Without correction") },
+        { 1, N_("Correction applied") }
     };
 
     // GPS Info Tags
@@ -1032,7 +1063,7 @@ namespace Exiv2 {
                 "and the altitude is indicated as an absolute value in the "
                 "GSPAltitude tag. The reference unit is meters. Note that this tag "
                 "is BYTE type, unlike other reference tags."),
-                gpsIfdId, gpsTags, unsignedByte, EXV_PRINT_TAG(exifGPSAltitudeRef)),
+                gpsIfdId, gpsTags, unsignedByte, print0x0005),
         TagInfo(0x0006, "GPSAltitude", N_("GPS Altitude"),
                 N_("Indicates the altitude based on the reference in GPSAltitudeRef. "
                 "Altitude is expressed as one RATIONAL value. The reference unit is meters."),
@@ -1053,11 +1084,11 @@ namespace Exiv2 {
                 N_("Indicates the status of the GPS receiver when the image is recorded. "
                 "\"A\" means measurement is in progress, and \"V\" means the measurement "
                 "is Interoperability."),
-                gpsIfdId, gpsTags, asciiString, printValue),
+                gpsIfdId, gpsTags, asciiString, print0x0009),
         TagInfo(0x000a, "GPSMeasureMode", N_("GPS Measure Mode"),
                 N_("Indicates the GPS measurement mode. \"2\" means two-dimensional measurement and \"3\" "
                 "means three-dimensional measurement is in progress."),
-                gpsIfdId, gpsTags, asciiString, printValue),
+                gpsIfdId, gpsTags, asciiString, print0x000a),
         TagInfo(0x000b, "GPSDOP", N_("GPS Data Degree of Precision"),
                 N_("Indicates the GPS DOP (data degree of precision). An HDOP value is written "
                 "during two-dimensional measurement, and PDOP during three-dimensional measurement."),
@@ -1065,14 +1096,14 @@ namespace Exiv2 {
         TagInfo(0x000c, "GPSSpeedRef", N_("GPS Speed Reference"),
                 N_("Indicates the unit used to express the GPS receiver speed of movement. "
                 "\"K\" \"M\" and \"N\" represents kilometers per hour, miles per hour, and knots."),
-                gpsIfdId, gpsTags, asciiString, EXV_PRINT_TAG(exifGPSSpeedRef)),
+                gpsIfdId, gpsTags, asciiString, print0x000c),
         TagInfo(0x000d, "GPSSpeed", N_("GPS Speed"),
                 N_("Indicates the speed of GPS receiver movement."),
                 gpsIfdId, gpsTags, unsignedRational, printValue),
         TagInfo(0x000e, "GPSTrackRef", N_("GPS Track Ref"),
                 N_("Indicates the reference for giving the direction of GPS receiver movement. "
                 "\"T\" denotes true direction and \"M\" is magnetic direction."),
-                gpsIfdId, gpsTags, asciiString, printValue),
+                gpsIfdId, gpsTags, asciiString, printGPSDirRef),
         TagInfo(0x000f, "GPSTrack", N_("GPS Track"),
                 N_("Indicates the direction of GPS receiver movement. The range of values is "
                 "from 0.00 to 359.99."),
@@ -1080,7 +1111,7 @@ namespace Exiv2 {
         TagInfo(0x0010, "GPSImgDirectionRef", N_("GPS Image Direction Reference"),
                 N_("Indicates the reference for giving the direction of the image when it is captured. "
                 "\"T\" denotes true direction and \"M\" is magnetic direction."),
-                gpsIfdId, gpsTags, asciiString, printValue),
+                gpsIfdId, gpsTags, asciiString, printGPSDirRef),
         TagInfo(0x0011, "GPSImgDirection", N_("GPS Image Direction"),
                 N_("Indicates the direction of the image when it was captured. The range of values "
                 "is from 0.00 to 359.99."),
@@ -1115,7 +1146,7 @@ namespace Exiv2 {
         TagInfo(0x0017, "GPSDestBearingRef", N_("GPS Destination Bearing Reference"),
                 N_("Indicates the reference used for giving the bearing to the destination point. "
                 "\"T\" denotes true direction and \"M\" is magnetic direction."),
-                gpsIfdId, gpsTags, asciiString, printValue),
+                gpsIfdId, gpsTags, asciiString, printGPSDirRef),
         TagInfo(0x0018, "GPSDestBearing", N_("GPS Destination Bearing"),
                 N_("Indicates the bearing to the destination point. The range of values is from "
                 "0.00 to 359.99."),
@@ -1123,7 +1154,7 @@ namespace Exiv2 {
         TagInfo(0x0019, "GPSDestDistanceRef", N_("GPS Destination Distance Reference"),
                 N_("Indicates the unit used to express the distance to the destination point. "
                 "\"K\", \"M\" and \"N\" represent kilometers, miles and knots."),
-                gpsIfdId, gpsTags, asciiString, printValue),
+                gpsIfdId, gpsTags, asciiString, print0x0019),
         TagInfo(0x001a, "GPSDestDistance", N_("GPS Destination Distance"),
                 N_("Indicates the distance to the destination point."),
                 gpsIfdId, gpsTags, unsignedRational, printValue),
@@ -1142,7 +1173,7 @@ namespace Exiv2 {
                 gpsIfdId, gpsTags, asciiString, printValue),
         TagInfo(0x001e, "GPSDifferential", N_("GPS Differential"),
                 N_("Indicates whether differential correction is applied to the GPS receiver."),
-                gpsIfdId, gpsTags, unsignedShort, printValue),
+                gpsIfdId, gpsTags, unsignedShort, print0x001e),
         // End of list marker
         TagInfo(0xffff, "(UnknownGpsTag)", N_("Unknown GPSInfo tag"),
                 N_("Unknown GPSInfo tag"),
@@ -1780,6 +1811,11 @@ namespace Exiv2 {
         return os;
     }
 
+    std::ostream& print0x0005(std::ostream& os, const Value& value)
+    {
+        return EXV_PRINT_TAG(exifGPSAltitudeRef)(os, value);
+    }
+
     std::ostream& print0x0006(std::ostream& os, const Value& value)
     {
         std::ostringstream oss;
@@ -1819,6 +1855,31 @@ namespace Exiv2 {
         }
 
         return os;
+    }
+
+    std::ostream& print0x0009(std::ostream& os, const Value& value)
+    {
+        return EXV_PRINT_TAG(exifGPSStatus)(os, value);
+    }
+
+    std::ostream& print0x000a(std::ostream& os, const Value& value)
+    {
+        return EXV_PRINT_TAG(exifGPSMeasureMode)(os, value);
+    }
+
+    std::ostream& print0x000c(std::ostream& os, const Value& value)
+    {
+        return EXV_PRINT_TAG(exifGPSSpeedRef)(os, value);
+    }
+
+    std::ostream& print0x0019(std::ostream& os, const Value& value)
+    {
+        return EXV_PRINT_TAG(exifGPSDestDistanceRef)(os, value);
+    }
+
+    std::ostream& print0x001e(std::ostream& os, const Value& value)
+    {
+        return EXV_PRINT_TAG(exifGPSDifferential)(os, value);
     }
 
     std::ostream& print0x0112(std::ostream& os, const Value& value)
@@ -2107,6 +2168,11 @@ namespace Exiv2 {
     std::ostream& print0xa40c(std::ostream& os, const Value& value)
     {
         return EXV_PRINT_TAG(exifSubjectDistanceRange)(os, value);
+    }
+
+    std::ostream& printGPSDirRef(std::ostream& os, const Value& value)
+    {
+        return EXV_PRINT_TAG(exifGPSDirRef)(os, value);
     }
 
     std::ostream& printNormalSoftHard(std::ostream& os, const Value& value)

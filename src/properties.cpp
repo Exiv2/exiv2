@@ -446,50 +446,6 @@ namespace Exiv2 {
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
 
-    //! exif:GPSAltitudeRef
-    extern const TagDetails xmpExifGPSAltitudeRef[] = {
-        { 0, N_("Above sea level") },
-        { 1, N_("Below sea level") }
-    };
-
-    //! exif:GPSStatus
-    extern const TagDetails xmpExifGPSStatus[] = {
-        { 'A', N_("measurement in progress")         },
-        { 'V', N_("measurement is interoperability") }
-    };
-
-    //! exif:GPSMeasureMode
-    extern const TagDetails xmpExifGPSMeasureMode[] = {
-        { 2, N_("two-dimensional measurement")   },
-        { 3, N_("three-dimensional measurement") }
-    };
-
-    //! exif:GPSSpeedRef
-    extern const TagDetails xmpExifGPSSpeedRef[] = {
-        { 'K', N_("kilometers per hour") },
-        { 'M', N_("miles per hour")      },
-        { 'N', N_("knots")               }
-    };
-
-    //! exif:GPSTrackRef, exif:GPSImgDirectionRef, exif:GPSDestBearingRef
-    extern const TagDetails xmpExifGPSDirection[] = {
-        { 'T', N_("true direction")     },
-        { 'M', N_("magnetic direction") }
-    };
-
-    //! exif:GPSDestDistanceRef
-    extern const TagDetails xmpExifGPSDestDistanceRef[] = {
-        { 'K', N_("kilometers") },
-        { 'M', N_("miles")      },
-        { 'N', N_("knots")      }
-    };
-
-    //! exif:GPSDifferential
-    extern const TagDetails xmpExifGPSDifferential[] = {
-        { 0, N_("Without correction") },
-        { 1, N_("Correction applied") }
-    };
-
     extern const XmpPropertyInfo xmpExifInfo[] = {
         { "ExifVersion",              N_("Exif Version"),                        "Closed Choice of Text",        xmpText, xmpInternal, N_("EXIF tag 36864, 0x9000. EXIF version number.") },
         { "FlashpixVersion",          N_("Flashpix Version"),                    "Closed Choice of Text",        xmpText, xmpInternal, N_("EXIF tag 40960, 0xA000. Version of FlashPix.") },
@@ -632,53 +588,53 @@ namespace Exiv2 {
     };
 
     extern const XmpPrintInfo xmpPrintInfo[] = { 
-        {"Xmp.crs.CropUnits",                 EXV_PRINT_TAG(xmpCrsCropUnits)                 },
-        {"Xmp.exif.ApertureValue",            print0x9202                                    },
-        {"Xmp.exif.BrightnessValue",          printFloat                                     },
-        {"Xmp.exif.ColorSpace",               print0xa001                                    },
-        {"Xmp.exif.ComponentsConfiguration",  print0x9101                                    },
-        {"Xmp.exif.Contrast",                 printNormalSoftHard                            },
-        {"Xmp.exif.CreateDate",               printXmpDate                                   },
-        {"Xmp.exif.CustomRendered",           print0xa401                                    },
-        {"Xmp.exif.DateTimeOriginal",         printXmpDate                                   },
-        {"Xmp.exif.ExifVersion",              printXmpVersion                                },
-        {"Xmp.exif.ExposureBiasValue",        print0x9204                                    },
-        {"Xmp.exif.ExposureMode",             print0xa402                                    },
-        {"Xmp.exif.ExposureProgram",          print0x8822                                    },
-        {"Xmp.exif.FileSource",               print0xa300                                    },
-        {"Xmp.exif.FlashpixVersion",          printXmpVersion                                },
-        {"Xmp.exif.FNumber",                  print0x829d                                    },
-        {"Xmp.exif.FocalLength",              print0x920a                                    },
-        {"Xmp.exif.FocalPlaneResolutionUnit", printExifUnit                                  },
-        {"Xmp.exif.FocalPlaneXResolution",    printFloat                                     },
-        {"Xmp.exif.FocalPlaneYResolution",    printFloat                                     },
-        {"Xmp.exif.GainControl",              print0xa407                                    },
-        {"Xmp.exif.GPSAltitudeRef",           EXV_PRINT_TAG(xmpExifGPSAltitudeRef)           },
-        {"Xmp.exif.GPSDestBearingRef",        EXV_PRINT_TAG(xmpExifGPSDirection)             },
-        {"Xmp.exif.GPSDestDistanceRef",       EXV_PRINT_TAG(xmpExifGPSDestDistanceRef)       },
-        {"Xmp.exif.GPSDifferential",          EXV_PRINT_TAG(xmpExifGPSDifferential)          },
-        {"Xmp.exif.GPSImgDirectionRef",       EXV_PRINT_TAG(xmpExifGPSDirection)             },
-        {"Xmp.exif.GPSMeasureMode",           EXV_PRINT_TAG(xmpExifGPSMeasureMode)           },
-        {"Xmp.exif.GPSSpeedRef",              EXV_PRINT_TAG(xmpExifGPSSpeedRef)              },
-        {"Xmp.exif.GPSStatus",                EXV_PRINT_TAG(xmpExifGPSStatus)                },
-        {"Xmp.exif.GPSTimeStamp",             printXmpDate                                   },
-        {"Xmp.exif.GPSTrackRef",              EXV_PRINT_TAG(xmpExifGPSDirection)             },
-        {"Xmp.exif.LightSource",              print0x9208                                    },
-        {"Xmp.exif.MeteringMode",             print0x9207                                    },
-        {"Xmp.exif.ModifyDate",               printXmpDate                                   },
-        {"Xmp.exif.Saturation",               print0xa409                                    },
-        {"Xmp.exif.SceneCaptureType",         print0xa406                                    },
-        {"Xmp.exif.SceneType",                print0xa301                                    },
-        {"Xmp.exif.SensingMethod",            print0xa217                                    },
-        {"Xmp.exif.Sharpness",                printNormalSoftHard                            },
-        {"Xmp.exif.ShutterSpeedValue",        print0x9201                                    },
-        {"Xmp.exif.SubjectDistanceRange",     print0xa40c                                    },
-        {"Xmp.exif.WhiteBalance",             print0xa403                                    },
-        {"Xmp.tiff.Orientation",              print0x0112                                    },
-        {"Xmp.tiff.ResolutionUnit",           printExifUnit                                  },
-        {"Xmp.tiff.XResolution",              printLong                                      },
-        {"Xmp.tiff.YCbCrPositioning",         print0x0213                                    },
-        {"Xmp.tiff.YResolution",              printLong                                      }
+        {"Xmp.crs.CropUnits",                 EXV_PRINT_TAG(xmpCrsCropUnits)},
+        {"Xmp.exif.ApertureValue",            print0x9202                   },
+        {"Xmp.exif.BrightnessValue",          printFloat                    },
+        {"Xmp.exif.ColorSpace",               print0xa001                   },
+        {"Xmp.exif.ComponentsConfiguration",  print0x9101                   },
+        {"Xmp.exif.Contrast",                 printNormalSoftHard           },
+        {"Xmp.exif.CreateDate",               printXmpDate                  },
+        {"Xmp.exif.CustomRendered",           print0xa401                   },
+        {"Xmp.exif.DateTimeOriginal",         printXmpDate                  },
+        {"Xmp.exif.ExifVersion",              printXmpVersion               },
+        {"Xmp.exif.ExposureBiasValue",        print0x9204                   },
+        {"Xmp.exif.ExposureMode",             print0xa402                   },
+        {"Xmp.exif.ExposureProgram",          print0x8822                   },
+        {"Xmp.exif.FileSource",               print0xa300                   },
+        {"Xmp.exif.FlashpixVersion",          printXmpVersion               },
+        {"Xmp.exif.FNumber",                  print0x829d                   },
+        {"Xmp.exif.FocalLength",              print0x920a                   },
+        {"Xmp.exif.FocalPlaneResolutionUnit", printExifUnit                 },
+        {"Xmp.exif.FocalPlaneXResolution",    printFloat                    },
+        {"Xmp.exif.FocalPlaneYResolution",    printFloat                    },
+        {"Xmp.exif.GainControl",              print0xa407                   },
+        {"Xmp.exif.GPSAltitudeRef",           print0x0005                   },
+        {"Xmp.exif.GPSDestBearingRef",        printGPSDirRef                },
+        {"Xmp.exif.GPSDestDistanceRef",       print0x0019                   },
+        {"Xmp.exif.GPSDifferential",          print0x001e                   },
+        {"Xmp.exif.GPSImgDirectionRef",       printGPSDirRef                },
+        {"Xmp.exif.GPSMeasureMode",           print0x000a                   },
+        {"Xmp.exif.GPSSpeedRef",              print0x000c                   },
+        {"Xmp.exif.GPSStatus",                print0x0009                   },
+        {"Xmp.exif.GPSTimeStamp",             printXmpDate                  },
+        {"Xmp.exif.GPSTrackRef",              printGPSDirRef                },
+        {"Xmp.exif.LightSource",              print0x9208                   },
+        {"Xmp.exif.MeteringMode",             print0x9207                   },
+        {"Xmp.exif.ModifyDate",               printXmpDate                  },
+        {"Xmp.exif.Saturation",               print0xa409                   },
+        {"Xmp.exif.SceneCaptureType",         print0xa406                   },
+        {"Xmp.exif.SceneType",                print0xa301                   },
+        {"Xmp.exif.SensingMethod",            print0xa217                   },
+        {"Xmp.exif.Sharpness",                printNormalSoftHard           },
+        {"Xmp.exif.ShutterSpeedValue",        print0x9201                   },
+        {"Xmp.exif.SubjectDistanceRange",     print0xa40c                   },
+        {"Xmp.exif.WhiteBalance",             print0xa403                   },
+        {"Xmp.tiff.Orientation",              print0x0112                   },
+        {"Xmp.tiff.ResolutionUnit",           printExifUnit                 },
+        {"Xmp.tiff.XResolution",              printLong                     },
+        {"Xmp.tiff.YCbCrPositioning",         print0x0213                   },
+        {"Xmp.tiff.YResolution",              printLong                     }
     };
 
     XmpNsInfo::Ns::Ns(const std::string& ns)
