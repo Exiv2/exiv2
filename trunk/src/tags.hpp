@@ -448,10 +448,22 @@ namespace Exiv2 {
     std::ostream& printExifUnit(std::ostream& os, const Value& value);
     //! Print GPS version
     std::ostream& print0x0000(std::ostream& os, const Value& value);
+    //! Print GPS altitude ref
+    std::ostream& print0x0005(std::ostream& os, const Value& value);
     //! Print GPS altitude
     std::ostream& print0x0006(std::ostream& os, const Value& value);
     //! Print GPS timestamp
     std::ostream& print0x0007(std::ostream& os, const Value& value);
+    //! Print GPS status
+    std::ostream& print0x0009(std::ostream& os, const Value& value);
+    //! Print GPS measurement mode
+    std::ostream& print0x000a(std::ostream& os, const Value& value);
+    //! Print GPS speed ref
+    std::ostream& print0x000c(std::ostream& os, const Value& value);
+    //! Print GPS destination distance ref
+    std::ostream& print0x0019(std::ostream& os, const Value& value);
+    //! Print GPS differential correction
+    std::ostream& print0x001e(std::ostream& os, const Value& value);
     //! Print orientation
     std::ostream& print0x0112(std::ostream& os, const Value& value);
     //! Print YCbCrPositioning
@@ -510,6 +522,8 @@ namespace Exiv2 {
     std::ostream& print0xa409(std::ostream& os, const Value& value);
     //! Print subject distance range
     std::ostream& print0xa40c(std::ostream& os, const Value& value);
+    //! Print GPS direction ref
+    std::ostream& printGPSDirRef(std::ostream& os, const Value& value);
     //! Print contrast, sharpness (normal, soft, hard)
     std::ostream& printNormalSoftHard(std::ostream& os, const Value& value);
     //! Print any version packed in 4 Bytes format : major major minor minor
