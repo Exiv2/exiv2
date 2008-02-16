@@ -111,6 +111,7 @@ namespace Exiv2 {
         //@{
         long copy(byte* buf, ByteOrder byteOrder) const
             { return value_.get() == 0 ? 0 : value_->copy(buf, byteOrder); }
+        std::ostream& write(std::ostream& os) const;
         /*!
           @brief Return the key of the Iptcdatum. The key is of the form
                  '<b>Iptc</b>.recordName.datasetName'. Note however that the key
@@ -168,12 +169,6 @@ namespace Exiv2 {
         Value::AutoPtr   value_;                //!< Value
 
     }; // class Iptcdatum
-
-    /*!
-      @brief Output operator for Iptcdatum types, printing the interpreted
-             tag value.
-     */
-    std::ostream& operator<<(std::ostream& os, const Iptcdatum& md);
 
     //! Container type to hold all metadata
     typedef std::vector<Iptcdatum> IptcMetadata;

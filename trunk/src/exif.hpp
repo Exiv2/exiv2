@@ -66,7 +66,6 @@ namespace Exiv2 {
              an ExifKey and a Value and provides methods to manipulate these.
      */
     class Exifdatum : public Metadatum {
-        friend std::ostream& operator<<(std::ostream&, const Exifdatum&);
         template<typename T> friend Exifdatum& setValue(Exifdatum&, const T&);
     public:
         //! @name Creators
@@ -202,6 +201,7 @@ namespace Exiv2 {
         */
         long copy(byte* buf, ByteOrder byteOrder) const
             { return value_.get() == 0 ? 0 : value_->copy(buf, byteOrder); }
+        std::ostream& write(std::ostream& os) const;
         //! Return the type id of the value
         TypeId typeId() const
             { return value_.get() == 0 ? invalidTypeId : value_->typeId(); }
@@ -256,12 +256,6 @@ namespace Exiv2 {
         Value::AutoPtr   value_;                //!< Value
 
     }; // class Exifdatum
-
-    /*!
-      @brief Output operator for Exifdatum types, prints the interpreted
-             tag value.
-     */
-    std::ostream& operator<<(std::ostream& os, const Exifdatum& md);
 
     /*!
       @brief Set the value of \em exifDatum to \em value. If the object already

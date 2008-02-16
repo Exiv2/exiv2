@@ -120,6 +120,7 @@ namespace Exiv2 {
         //@{
         //! Not implemented. Calling this method will raise an exception.
         long copy(byte* buf, ByteOrder byteOrder) const;
+        std::ostream& write(std::ostream& os) const;
         /*!
           @brief Return the key of the Xmpdatum. The key is of the form
                  '<b>Xmp</b>.prefix.property'. Note however that the
@@ -156,12 +157,6 @@ namespace Exiv2 {
         Impl* p_;
 
     }; // class Xmpdatum
-
-    /*!
-      @brief Output operator for Xmpdatum types, printing the interpreted
-             tag value.
-     */
-    std::ostream& operator<<(std::ostream& os, const Xmpdatum& md);
 
     //! Container type to hold all metadata
     typedef std::vector<Xmpdatum> XmpMetadata;

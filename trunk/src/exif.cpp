@@ -111,6 +111,11 @@ namespace Exiv2 {
         if (rhs.value_.get() != 0) value_ = rhs.value_->clone(); // deep copy
     }
 
+    std::ostream& Exifdatum::write(std::ostream& os) const
+    {
+        return ExifTags::printTag(os, tag(), ifdId(), value());
+    }
+
     const Value& Exifdatum::value() const
     {
         if (value_.get() == 0) throw Error(8);
@@ -1281,10 +1286,6 @@ namespace Exiv2 {
         makerNote->add(e);
     } // addToMakerNote
 
-    std::ostream& operator<<(std::ostream& os, const Exifdatum& md)
-    {
-        return ExifTags::printTag(os, md.tag(), md.ifdId(), md.value());
-    }
 }                                       // namespace Exiv2
 
 // *****************************************************************************
