@@ -70,17 +70,11 @@ namespace Exiv2 {
         return *this;
     }
 
-    std::ostream& operator<<(std::ostream& os, const Metadatum& md)
+    std::string Metadatum::print() const
     {
-        os << "0x" << std::setw(4) << std::setfill('0') << std::right
-                  << std::hex << md.tag() << " "
-                  << std::setw(40) << std::setfill(' ') << std::left
-                  << md.key() << " "
-                  << std::setw(9) << std::setfill(' ') << std::left
-                  << md.typeName() << " "
-                  << std::dec << md.value()
-                  << "\n";
-        return os;
+        std::ostringstream os;
+        write(os);
+        return os.str();
     }
 
     bool cmpMetadataByTag(const Metadatum& lhs, const Metadatum& rhs)

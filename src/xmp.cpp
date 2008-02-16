@@ -246,6 +246,11 @@ namespace Exiv2 {
         return 0;
     }
 
+    std::ostream& Xmpdatum::write(std::ostream& os) const
+    {
+        return XmpProperties::printProperty(os, key(), value());
+    }
+
     Xmpdatum& Xmpdatum::operator=(const std::string& value)
     {
         setValue(value);
@@ -664,14 +669,6 @@ namespace Exiv2 {
         return 1;
     } // XmpParser::encode
 #endif // !EXV_HAVE_XMP_TOOLKIT
-
-    // *************************************************************************
-    // free functions
-
-    std::ostream& operator<<(std::ostream& os, const Xmpdatum& md)
-    {
-        return XmpProperties::printProperty(os, md.key(), md.value());
-    }
 
 }                                       // namespace Exiv2
 

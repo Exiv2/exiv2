@@ -63,6 +63,11 @@ namespace Exiv2 {
     {
     }
 
+    std::ostream& Iptcdatum::write(std::ostream& os) const
+    {
+        return os << value();
+    }
+
     const Value& Iptcdatum::value() const
     {
         if (value_.get() == 0) throw Error(8);
@@ -321,13 +326,6 @@ namespace Exiv2 {
     IptcData::iterator IptcData::erase(IptcData::iterator pos)
     {
         return iptcMetadata_.erase(pos);
-    }
-
-    // *************************************************************************
-    // free functions
-    std::ostream& operator<<(std::ostream& os, const Iptcdatum& md)
-    {
-        return os << md.value();
     }
 
 }                                       // namespace Exiv2

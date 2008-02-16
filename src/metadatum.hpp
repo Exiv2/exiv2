@@ -155,6 +155,12 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         /*!
+          @brief Write the interpreted value to a string.
+
+          Implemented in terms of std::ostream& write(std::ostream& os).
+         */
+        std::string print() const;
+        /*!
           @brief Write value to a data buffer and return the number
                  of bytes written.
 
@@ -166,6 +172,17 @@ namespace Exiv2 {
           @return Number of characters written.
         */
         virtual long copy(byte* buf, ByteOrder byteOrder) const =0;
+        /*!
+          @brief Write the interpreted value to an output stream, return
+                 the stream.
+
+          You do not usually have to use this function; it is used for the
+          implementation of the output operator for %Metadatum,
+          operator<<(std::ostream &os, const Metadatum &md). See also
+          std::string print() const, which prints the interpreted value
+          to a string.
+         */
+        virtual std::ostream& write(std::ostream& os) const =0;
         /*!
           @brief Return the key of the metadatum. The key is of the form
                  'familyName.ifdItem.tagName'. Note however that the key
@@ -280,12 +297,15 @@ namespace Exiv2 {
 
     }; // class FindMetadatumByTag
 
-
     /*!
-      @brief Output operator for Metadatum types, printing the interpreted
+      @brief Output operator for Metadatum types, writing the interpreted
              tag value.
      */
-    std::ostream& operator<<(std::ostream& os, const Metadatum& md);
+    inline std::ostream& operator<<(std::ostream& os, const Metadatum& md)
+    {
+        return md.write(os);
+    }
+
     /*!
       @brief Compare two metadata by tag. Return true if the tag of metadatum
              lhs is less than that of rhs.
