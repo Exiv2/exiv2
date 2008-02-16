@@ -915,7 +915,9 @@ namespace Exiv2 {
 
     std::string XmpKey::tagLabel() const
     {
-        return XmpProperties::propertyTitle(*this);
+        const char* pt = XmpProperties::propertyTitle(*this);
+        if (!pt) return tagName();
+        return pt;
     }
 
     std::string XmpKey::ns() const
