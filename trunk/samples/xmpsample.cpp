@@ -8,6 +8,14 @@
 #include <string>
 #include <iostream>
 #include <iomanip>
+#include <cassert>
+#include <cmath>
+
+bool isEqual(float a, float b)
+{
+    double d = std::fabs(a - b);
+    return d < 0.00001;
+}
 
 int main()
 try {
@@ -39,6 +47,59 @@ try {
     // In addition, there is a dedicated assignment operator for Exiv2::Value
     Exiv2::XmpTextValue val("Seven");
     xmpData["Xmp.dc.seven"]   = val;
+    xmpData["Xmp.dc.eight"]   = true;
+
+    // Extracting values
+    assert(xmpData["Xmp.dc.one"].toLong() == -1);
+    assert(xmpData["Xmp.dc.one"].value().ok());
+
+    const Exiv2::Value &getv1 = xmpData["Xmp.dc.one"].value();
+    assert(isEqual(getv1.toFloat(), -1)); 
+    assert(getv1.ok());
+    assert(getv1.toRational() == Exiv2::Rational(-1, 1));
+    assert(getv1.ok());
+
+    const Exiv2::Value &getv2 = xmpData["Xmp.dc.two"].value();
+    assert(isEqual(getv2.toFloat(), 3.1415)); 
+    assert(getv2.ok());
+    assert(getv2.toLong() == 3);
+    assert(getv2.ok());
+    Exiv2::Rational R = getv2.toRational();
+    assert(getv2.ok());
+    assert(isEqual(static_cast<float>(R.first) / R.second, 3.1415 ));
+
+    const Exiv2::Value &getv3 = xmpData["Xmp.dc.three"].value();
+    assert(isEqual(getv3.toFloat(), 5.0/7.0)); 
+    assert(getv3.ok());
+    assert(getv3.toLong() == 0);  // long(5.0 / 7.0) 
+    assert(getv3.ok());
+    assert(getv3.toRational() == Exiv2::Rational(5, 7));
+    assert(getv3.ok());
+    
+    const Exiv2::Value &getv6 = xmpData["Xmp.dc.six"].value();
+    assert(getv6.toLong() == 0);
+    assert(getv6.ok());
+    assert(getv6.toFloat() == 0.0);
+    assert(getv6.ok());
+    assert(getv6.toRational() == Exiv2::Rational(0, 1));
+    assert(getv6.ok());
+    
+    const Exiv2::Value &getv7 = xmpData["Xmp.dc.seven"].value();
+    getv7.toLong(); // this should fail
+    assert(!getv7.ok()); 
+
+    const Exiv2::Value &getv8 = xmpData["Xmp.dc.eight"].value();
+    assert(getv8.toLong() == 1);
+    assert(getv8.ok());
+    assert(getv8.toFloat() == 1.0);
+    assert(getv8.ok());
+    assert(getv8.toRational() == Exiv2::Rational(1, 1));
+    assert(getv8.ok());
+
+    // Deleting an XMP property
+    Exiv2::XmpData::iterator pos = xmpData.findKey(Exiv2::XmpKey("Xmp.dc.eight"));
+    if (pos == xmpData.end()) throw Exiv2::Error(1, "Key not found");
+    xmpData.erase(pos);
 
     // -------------------------------------------------------------------------
     // Exiv2 has specialized values for simple XMP properties, arrays of simple

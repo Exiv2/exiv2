@@ -287,7 +287,7 @@ Xmp.dc.two                                   XmpText     6  3.1415
 Xmp.dc.three                                 XmpText     3  5/7
 Xmp.dc.four                                  XmpText     3  255
 Xmp.dc.five                                  XmpText     3  256
-Xmp.dc.six                                   XmpText     5  false
+Xmp.dc.six                                   XmpText     5  False
 Xmp.dc.seven                                 XmpText     5  Seven
 Xmp.dc.format                                XmpText    10  image/jpeg
 Xmp.dc.creator                               XmpSeq      3  1) The first creator, 2) The second creator, 3) And another one
@@ -322,7 +322,7 @@ Xmp.xmpBJ.JobRef[2]/stJob:role               XmpText     8  Best man
    dc:three="5/7"
    dc:four="255"
    dc:five="256"
-   dc:six="false"
+   dc:six="False"
    dc:seven="Seven"
    dc:format="image/jpeg"
    ns:myProperty="myValue">

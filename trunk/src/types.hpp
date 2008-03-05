@@ -321,6 +321,58 @@ namespace Exiv2 {
      */
     const char* exvGettext(const char* str);
 
+    /*!
+      @brief Return a \em long set to the value represented by \em s. 
+
+      Besides strings that represent \em long values, the function also
+      handles \em float, \em Rational and boolean
+      (see also: stringTo(const std::string& s, bool& ok)).
+
+      @param  s  String to parse
+      @param  ok Output variable indicating the success of the operation.
+      @return Returns the \em long value represented by \em s and sets \em ok
+              to \c true if the conversion was successful or \c false if not.
+    */
+    long parseLong(const std::string& s, bool& ok);
+
+    /*!
+      @brief Return a \em float set to the value represented by \em s. 
+
+      Besides strings that represent \em float values, the function also
+      handles \em long, \em Rational and boolean
+      (see also: stringTo(const std::string& s, bool& ok)).
+
+      @param  s  String to parse
+      @param  ok Output variable indicating the success of the operation.
+      @return Returns the \em float value represented by \em s and sets \em ok
+              to \c true if the conversion was successful or \c false if not.
+    */
+    float parseFloat(const std::string& s, bool& ok);
+    
+    /*!
+      @brief Return a \em Rational set to the value represented by \em s. 
+
+      Besides strings that represent \em Rational values, the function also
+      handles \em long, \em float and boolean
+      (see also: stringTo(const std::string& s, bool& ok)).
+      Uses floatToRationalCast(float f) if the string can be parsed into a
+      \em float.
+
+      @param  s  String to parse
+      @param  ok Output variable indicating the success of the operation.
+      @return Returns the \em Rational value represented by \em s and sets \em ok
+              to \c true if the conversion was successful or \c false if not.
+    */
+    Rational parseRational(const std::string& s, bool& ok);
+
+    /*!
+      @brief Very simple conversion of a \em float to a \em Rational.
+
+      Test it with the values that you expect and check the implementation
+      to see if this is really what you want!
+     */
+    Rational floatToRationalCast(float f);
+
 // *****************************************************************************
 // template and inline definitions
 
@@ -378,7 +430,7 @@ namespace Exiv2 {
     //! Template used in the COUNTOF macro to determine the size of an array
     template <typename T, int N> char (&sizer(T (&)[N]))[N];
 //! Macro to determine the size of an array
-#define EXV_COUNTOF(a) (sizeof(sizer(a)))
+#define EXV_COUNTOF(a) (sizeof(Exiv2::sizer(a)))
 
     //! Utility function to convert the argument of any type to a string
     template<typename T>
@@ -389,19 +441,42 @@ namespace Exiv2 {
         return os.str();
     }
 
-    //! Utility function to convert a string to a value of type T.
+    /*!
+      @brief Utility function to convert a string to a value of type \c T.
+
+      The string representation of the value must match that recognized by
+      the input operator for \c T for this function to succeed.
+
+      @param  s  String to convert
+      @param  ok Output variable indicating the success of the operation.
+      @return Returns the converted value and sets \em ok to \c true if the 
+              conversion was successful or \c false if not.
+     */
     template<typename T>
     T stringTo(const std::string& s, bool& ok)
     {
         std::istringstream is(s);
         T tmp;
         ok = is >> tmp ? true : false;
+        std::string rest;
+        is >> std::skipws >> rest;
+        if (!rest.empty()) ok = false;
         return tmp;
     }
 
     /*!
+      @brief Specialization of stringTo(const std::string& s, bool& ok) for \em bool.
+
+      Handles the same string values as the XMP SDK. Converts the string to lowercase
+      and returns \c true if it is "true", "t" or "1", and \c false if it is 
+      "false", "f" or "0".
+     */
+    template<>
+    bool stringTo<bool>(const std::string& s, bool& ok);
+
+    /*!
       @brief Return the greatest common denominator of n and m.
-             (implementation from Boost rational.hpp)
+             (Implementation from Boost rational.hpp)
 
       @note We use n and m as temporaries in this function, so there is no
             value in using const IntType& as we would only need to make a copy

@@ -43,6 +43,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include <cctype>
 #include <ctime>
 #include <cstdio>
+#include <cstdlib>
 #include <cassert>
 #include <cstring>
 
@@ -349,6 +350,104 @@ namespace Exiv2 {
         return str;
 #endif
     }
+
+    template<>
+    bool stringTo<bool>(const std::string& s, bool& ok)
+    {
+        std::string lcs(s); /* lowercase string */
+        for(unsigned i = 0; i < lcs.length(); i++) {
+            lcs[i] = std::tolower(s[i]);
+        }
+        /* handle the same values as xmp sdk */
+        if (lcs == "false" || lcs == "f" || lcs == "0") {
+            ok = true;
+            return false;
+        }
+        if (lcs == "true" || lcs == "t" || lcs == "1") {
+            ok = true;
+            return true;
+        }
+        ok = false;
+        return false;
+    }
+
+    long parseLong(const std::string& s, bool& ok)
+    {
+        long ret = stringTo<long>(s, ok);
+        if (ok) return ret;
+
+        float f = stringTo<float>(s, ok);
+        if (ok) return static_cast<long>(f);
+
+        Rational r = stringTo<Rational>(s, ok);
+        if (ok) {
+            if (r.second == 0) {
+                ok = false;
+                return 0;
+            }
+            return static_cast<long>(static_cast<float>(r.first) / r.second);
+        }
+
+        bool b = stringTo<bool>(s, ok);
+        if (ok) return b ? 1 : 0;
+
+        // everything failed, return from stringTo<long> is probably the best fit
+        return ret; 
+    }
+
+    float parseFloat(const std::string& s, bool& ok)
+    {
+        float ret = stringTo<float>(s, ok);
+        if (ok) return ret;
+
+        Rational r = stringTo<Rational>(s, ok);
+        if (ok) {
+            if (r.second == 0) {
+                ok = false;
+                return 0.0;
+            }
+            return static_cast<float>(r.first) / r.second;
+        }
+
+        bool b = stringTo<bool>(s, ok);
+        if (ok) return b ? 1.0 : 0.0;
+
+        // everything failed, return from stringTo<float> is probably the best fit
+        return ret;
+    }
+
+    Rational parseRational(const std::string& s, bool& ok)
+    {
+        Rational ret = stringTo<Rational>(s, ok);
+        if (ok) return ret;
+
+        long l = stringTo<long>(s, ok);
+        if (ok) return Rational(l, 1);
+
+        float f = stringTo<float>(s, ok);
+        if (ok) return floatToRationalCast(f);
+
+        bool b = stringTo<bool>(s, ok);
+        if (ok) return b ? Rational(1, 1) : Rational(0, 1);
+
+        // everything failed, return from stringTo<Rational> is probably the best fit
+        return ret;
+    }
+
+    Rational floatToRationalCast(float f)
+    {
+        // Beware: primitive conversion algorithm
+        int32_t den = 1000000;
+        if (std::labs(static_cast<long>(f)) > 2147) den = 10000;
+        if (std::labs(static_cast<long>(f)) > 214748) den = 100;
+        if (std::labs(static_cast<long>(f)) > 21474836) den = 1;
+        const float rnd = f >= 0 ? 0.5 : -0.5;
+        const int32_t nom = static_cast<int32_t>(f * den + rnd);
+        const int32_t g = gcd(nom, den);
+
+        return Rational(nom/g, den/g);
+    }
+
 }                                       // namespace Exiv2
 
 #ifdef EXV_ENABLE_NLS
