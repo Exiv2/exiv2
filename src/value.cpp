@@ -568,17 +568,17 @@ namespace Exiv2 {
 
     long XmpTextValue::toLong(long /*n*/) const
     {
-        return stringTo<long>(value_, ok_);
+        return parseLong(value_, ok_);
     }
 
     float XmpTextValue::toFloat(long /*n*/) const
     {
-        return stringTo<float>(value_, ok_);
+        return parseFloat(value_, ok_);
     }
 
     Rational XmpTextValue::toRational(long /*n*/) const
     {
-        return stringTo<Rational>(value_, ok_);
+        return parseRational(value_, ok_);
     }
 
     XmpTextValue* XmpTextValue::clone_() const
@@ -626,17 +626,17 @@ namespace Exiv2 {
 
     long XmpArrayValue::toLong(long n) const
     {
-        return stringTo<long>(value_[n], ok_);
+        return parseLong(value_[n], ok_);
     }
 
     float XmpArrayValue::toFloat(long n) const
     {
-        return stringTo<float>(value_[n], ok_);
+        return parseFloat(value_[n], ok_);
     }
 
     Rational XmpArrayValue::toRational(long n) const
     {
-        return stringTo<Rational>(value_[n], ok_);
+        return parseRational(value_[n], ok_);
     }
 
     XmpArrayValue* XmpArrayValue::clone_() const

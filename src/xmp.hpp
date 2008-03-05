@@ -334,7 +334,7 @@ namespace Exiv2 {
 
     inline Xmpdatum& Xmpdatum::operator=(const bool& value)
     {
-        return operator=(value ? "true" : "false");
+        return operator=(value ? "True" : "False");
     }
 
     template<typename T>

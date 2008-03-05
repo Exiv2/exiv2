@@ -960,11 +960,7 @@ namespace Exiv2 {
         if (ifdId == canonSiIfdId) {
             // Exif.Photo.FNumber
             float f = fnumber(canonEv(aperture));
-            // Beware: primitive conversion algorithm
-            uint32_t den = 1000000;
-            uint32_t nom = static_cast<uint32_t>(f * den);
-            uint32_t g = gcd(nom, den);
-            URational ur(nom/g, den/g);
+            URational ur = floatToRationalCast(f);
             URationalValue fn;
             fn.value_.push_back(ur);
             image.exifData().add(ExifKey("Exif.Photo.FNumber"), &fn);

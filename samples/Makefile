@@ -69,6 +69,7 @@ BINSRC = addmoddel.cpp        \
          key-test.cpp         \
          largeiptc-test.cpp   \
          makernote-test.cpp   \
+         stringto-test.cpp    \
          write-test.cpp       \
          write2-test.cpp      \
          tiffparse.cpp        \
