@@ -19,21 +19,20 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*!
-  @file    orfimage.hpp
-  @brief   Olympus RAW image
+  @file    xmpsidecar.hpp
+  @brief   An Image subclass to support XMP sidecar files
   @version $Rev$
-  @author  Jeff Costlow
-           <a href="mailto:costlow@gmail.com">costlow@gmail.com</a>
-  @date    31-Jul-07, costlow: created
+  @author  Andreas Huggel
+           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
+  @date    07-Mar-08, ahu: created
  */
-#ifndef ORFIMAGE_HPP_
-#define ORFIMAGE_HPP_
+#ifndef XMPSIDECAR_HPP_
+#define XMPSIDECAR_HPP_
 
 // *****************************************************************************
 // included header files
 #include "image.hpp"
 #include "basicio.hpp"
-#include "tiffimage.hpp"
 
 // + standard includes
 #include <string>
@@ -45,101 +44,68 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
-    // Add ORF to the supported image formats
+    // Add XMP to the supported image formats
     namespace ImageType {
-        const int orf = 9;          //!< ORF image type (see class OrfImage)
+        const int xmp = 10;          //!< XMP sidecar files (see class XmpSidecar)
     }
 
     /*!
-      @brief Class to access raw Olympus ORF images. Exif metadata is supported
-             directly, IPTC is read from the Exif data, if present.
+      @brief Class to access XMP sidecar files. They contain only XMP metadata.
      */
-    class OrfImage : public Image {
+    class XmpSidecar : public Image {
     public:
         //! @name Creators
         //@{
         /*!
-          @brief Constructor that can either open an existing ORF image or create
-              a new image from scratch. If a new image is to be created, any
-              existing data is overwritten. Since the constructor can not return
-              a result, callers should check the good() method after object
-              construction to determine success or failure.
+          @brief Constructor for an XMP sidecar file. Since the constructor
+              can not return a result, callers should check the good() method
+              after object construction to determine success or failure.
           @param io An auto-pointer that owns a BasicIo instance used for
               reading and writing image metadata. \b Important: The constructor
               takes ownership of the passed in BasicIo instance through the
               auto-pointer. Callers should not continue to use the BasicIo
-              instance after it is passed to this method.  Use the Image::io()
+              instance after it is passed to this method. Use the Image::io()
               method to get a temporary reference.
-          @param create Specifies if an existing image should be read (false)
-              or if a new file should be created (true).
          */
-        OrfImage(BasicIo::AutoPtr io, bool create);
+        XmpSidecar(BasicIo::AutoPtr io);
         //@}
 
         //! @name Manipulators
         //@{
         void readMetadata();
-        /*!
-          @brief Todo: Write metadata back to the image. This method is not
-              yet implemented. Calling it will throw an Error(31).
-         */
         void writeMetadata();
         /*!
-          @brief Todo: Not supported yet, requires writeMetadata(). Calling 
-              this function will throw an Error(32).
+          @brief Todo: Not supported yet, requires conversion from Exif to XMP.
+              Calling this function will throw an instance of Error(32).
          */
         void setExifData(const ExifData& exifData);
         /*!
-          @brief Todo: Not supported yet, requires writeMetadata(). Calling 
-              this function will throw an Error(32).
+          @brief Todo: Not supported yet, requires conversion from IPTC to XMP.
+              Calling this function will throw an instance of Error(32).
          */
         void setIptcData(const IptcData& iptcData);
         /*!
-          @brief Not supported. ORF format does not contain a comment.
-              Calling this function will throw an Error(32).
+          @brief Not supported. XMP sidecar files do not contain a comment.
+              Calling this function will throw an instance of Error(32).
          */
         void setComment(const std::string& comment);
         //@}
 
         //! @name Accessors
         //@{
-        std::string mimeType() const { return "image/x-olympus-orf"; }
+        std::string mimeType() const { return "application/rdf+xml"; }
         //@}
 
     private:
         //! @name NOT Implemented
         //@{
         //! Copy constructor
-        OrfImage(const OrfImage& rhs);
+        XmpSidecar(const XmpSidecar& rhs);
         //! Assignment operator
-        OrfImage& operator=(const OrfImage& rhs);
+        XmpSidecar& operator=(const XmpSidecar& rhs);
         //@}
 
-    }; // class OrfImage
-
-    /*!
-      @brief Olympus ORF header structure.
-     */
-    class OrfHeader : public TiffHeaderBase {
-    public:
-        //! @name Creators
-        //@{
-        //! Default constructor
-        OrfHeader();
-        //! Destructor.
-        ~OrfHeader();
-        //@}
-
-        //! @name Manipulators
-        //@{
-        bool read(const byte* pData, uint32_t size);
-        //@}
-
-        //! @name Accessors
-        //@{
-        void write(Blob& blob) const;
-        //@}
-    }; // class OrfHeader
+    }; // class XmpSidecar
 
 // *****************************************************************************
 // template, inline and free functions
@@ -147,15 +113,15 @@ namespace Exiv2 {
     // These could be static private functions on Image subclasses but then
     // ImageFactory needs to be made a friend.
     /*!
-      @brief Create a new OrfImage instance and return an auto-pointer to it.
+      @brief Create a new XmpSidecar instance and return an auto-pointer to it.
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    Image::AutoPtr newOrfInstance(BasicIo::AutoPtr io, bool create);
+    Image::AutoPtr newXmpInstance(BasicIo::AutoPtr io, bool create);
 
-    //! Check if the file iIo is an ORF image.
-    bool isOrfType(BasicIo& iIo, bool advance);
+    //! Check if the file iIo is an XMP sidecar file.
+    bool isXmpType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
 
-#endif                                  // #ifndef ORFIMAGE_HPP_
+#endif                                  // #ifndef XMPSIDECAR_HPP_

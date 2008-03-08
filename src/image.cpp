@@ -54,6 +54,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "rafimage.hpp"
 #include "tiffimage.hpp"
 #include "orfimage.hpp"
+#include "xmpsidecar.hpp"
 
 // + standard includes
 #include <cerrno>
@@ -87,6 +88,7 @@ namespace Exiv2 {
         { ImageType::png,  newPngInstance,  isPngType,  amRead,      amRead,      amRead,      amNone      },
 #endif // EXV_HAVE_LIBZ                                                                        
         { ImageType::raf,  newRafInstance,  isRafType,  amRead,      amRead,      amRead,      amNone      },
+        { ImageType::xmp,  newXmpInstance,  isXmpType,  amNone,      amNone,      amReadWrite, amNone      },
         // End of list marker                                                                  
         { ImageType::none, 0,               0,          amNone,      amNone,      amNone,      amNone      }
     };
