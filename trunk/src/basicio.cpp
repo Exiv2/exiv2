@@ -380,7 +380,7 @@ namespace Exiv2 {
     bool FileIo::eof() const
     {
         assert(fp_ != 0);
-		return feof(fp_) != 0;
+        return feof(fp_) != 0;
     }
 
     std::string FileIo::path() const

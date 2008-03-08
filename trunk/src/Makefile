@@ -105,8 +105,9 @@ CCSRC += rafimage.cpp         \
 	 types.cpp            \
 	 value.cpp            \
 	 version.cpp          \
-         properties.cpp       \
-	 xmp.cpp
+	 properties.cpp       \
+	 xmp.cpp              \
+	 xmpsidecar.cpp
 
 # Add library C source files to this list
 ifndef HAVE_TIMEGM
@@ -119,7 +120,7 @@ BINSRC = taglist.cpp
 # Source files for the Exiv2 application
 EXIV2MAIN = exiv2.cpp
 EXIV2SRC  = actions.cpp       \
-            utils.cpp
+	    utils.cpp
 # C source files for the Exiv2 application
 ifndef HAVE_TIMEGM
 EXIVCSRC  = localtime.c

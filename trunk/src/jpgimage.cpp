@@ -746,12 +746,7 @@ namespace Exiv2 {
     Image::AutoPtr newExvInstance(BasicIo::AutoPtr io, bool create)
     {
         Image::AutoPtr image;
-        if (create) {
-            image = Image::AutoPtr(new ExvImage(io, true));
-        }
-        else {
-            image = Image::AutoPtr(new ExvImage(io, false));
-        }
+        image = Image::AutoPtr(new ExvImage(io, create));
         if (!image->good()) image.reset();
         return image;
     }
@@ -767,7 +762,7 @@ namespace Exiv2 {
             || memcmp(tmpBuf + 2, ExvImage::exiv2Id_, 5) != 0) {
             result = false;
         }
-        if (!advance || !result ) iIo.seek(-7, BasicIo::cur);
+        if (!advance || !result) iIo.seek(-7, BasicIo::cur);
         return result;
     }
 
