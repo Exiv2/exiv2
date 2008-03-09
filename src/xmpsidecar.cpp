@@ -116,13 +116,16 @@ namespace Exiv2 {
         IoCloser closer(*io_);
 
         if (writeXmpFromPacket() == false) {
-            if (XmpParser::encode(xmpPacket_, xmpData_)) {
+            if (XmpParser::encode(xmpPacket_, xmpData_, XmpParser::omitPacketWrapper|XmpParser::useCompactFormat)) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Error: Failed to encode XMP metadata.\n";
 #endif
             }
         }
         if (xmpPacket_.size() > 0) {
+            if (xmpPacket_.substr(0, 5)  != "<?xml") {
+                xmpPacket_ = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + xmpPacket_;
+            }
             BasicIo::AutoPtr tempIo(io_->temporary()); // may throw
             assert(tempIo.get() != 0);
             // Write XMP packet
