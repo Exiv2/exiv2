@@ -74,7 +74,7 @@ namespace {
     Exiv2::XmpValue::XmpStruct xmpStruct(const XMP_OptionBits& opt);
 
     //! Convert Value::XmpStruct to XMP Toolkit array option bits
-    XMP_OptionBits xmpOptionBits(Exiv2::XmpValue::XmpStruct xs);
+    XMP_OptionBits xmpArrayOptionBits(Exiv2::XmpValue::XmpStruct xs);
 
     //! Convert XMP Toolkit array option bits to array TypeId
     Exiv2::TypeId arrayValueTypeId(const XMP_OptionBits& opt);
@@ -83,7 +83,10 @@ namespace {
     Exiv2::XmpValue::XmpArrayType xmpArrayType(const XMP_OptionBits& opt);
 
     //! Convert Value::XmpArrayType to XMP Toolkit array option bits
-    XMP_OptionBits xmpOptionBits(Exiv2::XmpValue::XmpArrayType xat);
+    XMP_OptionBits xmpArrayOptionBits(Exiv2::XmpValue::XmpArrayType xat);
+
+    //! Convert XmpFormatFlags to XMP Toolkit format option bits
+    XMP_OptionBits xmpFormatOptionBits(Exiv2::XmpParser::XmpFormatFlags flags);
 
 # ifdef DEBUG
     //! Print information about a parsed XMP node
@@ -564,7 +567,9 @@ namespace Exiv2 {
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
     int XmpParser::encode(      std::string& xmpPacket,
-                          const XmpData&     xmpData)
+                          const XmpData&     xmpData,
+                                uint16_t     formatFlags,
+                                uint32_t     padding)
     { try {
         if (xmpData.empty()) return 0;
 
@@ -609,8 +614,8 @@ namespace Exiv2 {
             // Todo: Xmpdatum should have an XmpValue, not a Value
             const XmpValue* val = dynamic_cast<const XmpValue*>(&i->value());
             assert(val);
-            options =   xmpOptionBits(val->xmpArrayType())
-                      | xmpOptionBits(val->xmpStruct());
+            options =   xmpArrayOptionBits(val->xmpArrayType())
+                      | xmpArrayOptionBits(val->xmpStruct());
             if (   i->typeId() == xmpBag
                 || i->typeId() == xmpSeq
                 || i->typeId() == xmpAlt) {
@@ -646,7 +651,7 @@ namespace Exiv2 {
             throw Error(38, i->tagName(), TypeInfo::typeName(i->typeId()));
         }
         std::string tmpPacket;
-        meta.SerializeToBuffer(&tmpPacket, kXMP_UseCompactFormat); // throws
+        meta.SerializeToBuffer(&tmpPacket, xmpFormatOptionBits(static_cast<XmpFormatFlags>(formatFlags)), padding); // throws
         xmpPacket = tmpPacket;
 
         return 0;
@@ -686,7 +691,7 @@ namespace {
         return var;
     }
 
-    XMP_OptionBits xmpOptionBits(Exiv2::XmpValue::XmpStruct xs)
+    XMP_OptionBits xmpArrayOptionBits(Exiv2::XmpValue::XmpStruct xs)
     {
         XMP_OptionBits var(0);
         switch (xs) {
@@ -715,7 +720,7 @@ namespace {
         return Exiv2::XmpValue::xmpArrayType(arrayValueTypeId(opt));
     }
 
-    XMP_OptionBits xmpOptionBits(Exiv2::XmpValue::XmpArrayType xat)
+    XMP_OptionBits xmpArrayOptionBits(Exiv2::XmpValue::XmpArrayType xat)
     {
         XMP_OptionBits var(0);
         switch (xat) {
@@ -733,6 +738,19 @@ namespace {
             XMP_SetOption(var, kXMP_PropValueIsArray);
             break;
         }
+        return var;
+    }
+
+    XMP_OptionBits xmpFormatOptionBits(Exiv2::XmpParser::XmpFormatFlags flags)
+    {
+        XMP_OptionBits var(0);
+        if (flags & Exiv2::XmpParser::omitPacketWrapper)   var |= kXMP_OmitPacketWrapper;
+        if (flags & Exiv2::XmpParser::readOnlyPacket)      var |= kXMP_ReadOnlyPacket;
+        if (flags & Exiv2::XmpParser::useCompactFormat)    var |= kXMP_UseCompactFormat;
+        if (flags & Exiv2::XmpParser::includeThumbnailPad) var |= kXMP_IncludeThumbnailPad;
+        if (flags & Exiv2::XmpParser::exactPacketLength)   var |= kXMP_ExactPacketLength;
+        if (flags & Exiv2::XmpParser::writeAliasComments)  var |= kXMP_WriteAliasComments;
+        if (flags & Exiv2::XmpParser::omitAllFormatting)   var |= kXMP_OmitAllFormatting;
         return var;
     }
 

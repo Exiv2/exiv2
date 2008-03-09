@@ -254,6 +254,16 @@ namespace Exiv2 {
         friend void XmpProperties::registerNs(const std::string&, const std::string&);
         friend void XmpProperties::unregisterNs(const std::string&);
     public:
+        //! Options to control the format of the serialized XMP packet.
+        enum XmpFormatFlags {
+            omitPacketWrapper   = 0x0010UL,  //!< Omit the XML packet wrapper.
+            readOnlyPacket      = 0x0020UL,  //!< Default is a writeable packet.
+            useCompactFormat    = 0x0040UL,  //!< Use a compact form of RDF.
+            includeThumbnailPad = 0x0100UL,  //!< Include a padding allowance for a thumbnail image.
+            exactPacketLength   = 0x0200UL,  //!< The padding parameter is the overall packet length.
+            writeAliasComments  = 0x0400UL,  //!< Show aliases as XML comments.
+            omitAllFormatting   = 0x0800UL   //!< Omit all formatting whitespace.
+        };
         /*!
           @brief Decode XMP metadata from an XMP packet \em xmpPacket into
                  \em xmpData. The format of the XMP packet must follow the
@@ -275,16 +285,21 @@ namespace Exiv2 {
                  follows the XMP specification. This method only modifies
                  \em xmpPacket if the operations succeeds (return code 0).
 
-          @param xmpPacket Reference to a string to hold the encoded XMP
-                           packet.
-          @param xmpData   XMP properties to encode.
+          @param xmpPacket   Reference to a string to hold the encoded XMP
+                             packet.
+          @param xmpData     XMP properties to encode.
+          @param formatFlags Flags that control the format of the XMP packet,
+                             see enum XmpFormatFlags.
+          @param padding     Padding length.
           @return 0 if successful;<BR>
                   1 if XMP support has not been compiled-in;<BR>
                   2 if the XMP toolkit failed to initialize;<BR>
                   3 if the XMP toolkit failed and raised an XMP_Error
         */
         static int encode(      std::string& xmpPacket,
-                          const XmpData&     xmpData);
+                          const XmpData&     xmpData,
+                                uint16_t     formatFlags =useCompactFormat,
+                                uint32_t     padding =0);
         /*!
           @brief Initialize the XMP Toolkit.
 
