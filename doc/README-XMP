@@ -12,7 +12,8 @@ to the directory msvc/lib in the Exiv2 source tree.
 
 See the main README file for general build information.
 
-For API documentation of XMP classes and samples, build or install the 
+For API documentation of XMP classes and samples, consult the online
+documentation at http://www.exiv2.org/doc or download or build the
 documentation and go to doc/html/getting-started.html
 
 For details on the XMP support of the exiv2 command line tool, see
@@ -29,11 +30,11 @@ contains the XMP SDK source code. The final solution should eventually
 use an external XMP Toolkit.
 
 Building the XMP Toolkit is transparent. Following the installation
-steps described in the main README file will ensure that the XMP
-Toolkit is compiled if necessary. It is only needed if XMP support is
-enabled. Building the XMP Toolkit results in a "convenience library"
-in xmpsdk/src/. This library is only used to link the Exiv2 library 
-with; it is not installed.
+steps described in the main README will ensure that the XMP Toolkit is
+compiled if necessary. It is only needed if XMP support is enabled.
+Building the XMP Toolkit results in a "convenience library" in
+xmpsdk/src/. This library is only used to link the Exiv2 library with;
+it is not installed.
 
 If you experience problems building this library, please email to the
 Exiv2 support forum for help, see http://www.exiv2.org/support.html
