@@ -8,9 +8,8 @@ write Exif, IPTC and XMP image metadata. The homepage of Exiv2 is:
 
 See doc/ChangeLog for a list of recent changes to Exiv2.
 
-After installing or building the documentation, you can point your
-browser to doc/index.html for the complete Exiv2 API documentation and
-metadata tag reference.
+The complete Exiv2 documentation is online at http://www.exiv2.org/doc
+or you can download or build it and point your browser to doc/index.html
 
 For more information on XMP support in Exiv2, see doc/README-XMP.
 
@@ -171,6 +170,6 @@ version of the Exiv2 library.
 
 To do this on Windows, compile the library with the preprocessor
 symbol EXV_COMMERCIAL_VERSION defined. See the file src/exv_msvc.h
-for details. 
+for details.
 On UNIX-like systems, run the configure script with the options
 --enable-commercial --disable-nls --disable-printucs2 --disable-lensdata
