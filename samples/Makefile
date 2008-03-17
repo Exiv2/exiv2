@@ -55,6 +55,7 @@ include $(top_srcdir)/config/config.mk
 
 # Add source files of sample programs to this list
 BINSRC = addmoddel.cpp        \
+         convert-test.cpp     \
          crwedit.cpp          \
          crwparse.cpp         \
          dataarea-test.cpp    \
