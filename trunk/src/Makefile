@@ -69,6 +69,7 @@ CCHDR =  exv_conf.h           \
 # Add library C++ source files to this list
 CCSRC =  basicio.cpp          \
 	 canonmn.cpp          \
+	 convert.cpp          \
 	 cr2image.cpp         \
 	 crwimage.cpp         \
 	 datasets.cpp         \
