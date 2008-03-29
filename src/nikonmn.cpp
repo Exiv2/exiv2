@@ -931,29 +931,31 @@ namespace Exiv2 {
     std::ostream& Nikon3MakerNote::print0x0084(std::ostream& os,
                                                const Value& value)
     {
-        if (value.count() == 4) {
-            long len1 = value.toLong(0);
-            long len2 = value.toLong(1);
-            Rational fno1 = value.toRational(2);
-            Rational fno2 = value.toRational(3);
-            os << len1;
-            if (len2 != len1) {
-                os << "-" << len2;
-            }
-            os << "mm ";
-            std::ostringstream oss;
-            oss.copyfmt(os);
-            os << "F" << std::setprecision(2)
-               << static_cast<float>(fno1.first) / fno1.second;
-            if (fno2 != fno1) {
-                os << "-" << std::setprecision(2)
-                   << static_cast<float>(fno2.first) / fno2.second;
-            }
-            os.copyfmt(oss);
-        }
-        else {
+        if (   value.count() != 4
+            || value.toRational(0).second == 0
+            || value.toRational(1).second == 0) {
             os << "(" << value << ")";
+            return os;
         }
+        long len1 = value.toLong(0);
+        long len2 = value.toLong(1);
+
+        Rational fno1 = value.toRational(2);
+        Rational fno2 = value.toRational(3);
+        os << len1;
+        if (len2 != len1) {
+            os << "-" << len2;
+        }
+        os << "mm ";
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        os << "F" << std::setprecision(2)
+           << static_cast<float>(fno1.first) / fno1.second;
+        if (fno2 != fno1) {
+            os << "-" << std::setprecision(2)
+               << static_cast<float>(fno2.first) / fno2.second;
+        }
+        os.copyfmt(oss);
         return os;
     }
 
