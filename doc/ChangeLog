@@ -7,6 +7,7 @@ Changes from version 0.16-pre1 to 0.16
 	- 0000477: [tools] Adjust year, month and day of the timestamp.
 	           (Based on a patch by David Grundberg)
 	-          [tools] Modified fixiso action to handle Canon tags as well.
+	           (Highlighted by Michael Mather)
 
 * Exiv2 library
 	- 0000537: [miscellaneous] Broken PNG image causes exiv2 to crash.
