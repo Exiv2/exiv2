@@ -178,10 +178,10 @@ namespace Exiv2 {
         int rc = 0;
         // Check the SIGMA or FOVEON prefix
         if (   header_.size_ < 10
-            || std::string(reinterpret_cast<char*>(header_.pData_), 8)
+            || (   std::string(reinterpret_cast<char*>(header_.pData_), 8)
                         != std::string("SIGMA\0\0\0", 8)
-            && std::string(reinterpret_cast<char*>(header_.pData_), 8)
-                        != std::string("FOVEON\0\0", 8)) {
+                && std::string(reinterpret_cast<char*>(header_.pData_), 8)
+                        != std::string("FOVEON\0\0", 8))) {
             rc = 2;
         }
         return rc;

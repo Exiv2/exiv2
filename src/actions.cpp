@@ -1125,10 +1125,10 @@ namespace Action {
             rc = insertThumbnail(path);
         }
         if (   rc == 0
-            && Params::instance().target_ & Params::ctExif
-            || Params::instance().target_ & Params::ctIptc
-            || Params::instance().target_ & Params::ctComment
-            || Params::instance().target_ & Params::ctXmp) {
+            && (   Params::instance().target_ & Params::ctExif
+                || Params::instance().target_ & Params::ctIptc
+                || Params::instance().target_ & Params::ctComment
+                || Params::instance().target_ & Params::ctXmp)) {
             std::string suffix = Params::instance().suffix_;
             if (suffix.empty()) suffix = ".exv";
             std::string exvPath = newFilePath(path, suffix);

@@ -24,6 +24,7 @@
 #include <map>
 
 #include <cassert>
+#include <cstring>
 
 #if XMP_MacBuild
 	#include <Multiprocessing.h>

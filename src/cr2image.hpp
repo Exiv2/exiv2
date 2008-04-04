@@ -137,9 +137,9 @@ namespace Exiv2 {
 
           @return Pointer to the decoder function
          */
-        static const DecoderFct findDecoder(const std::string& make,
-                                                  uint32_t     extendedTag,
-                                                  uint16_t     group);
+        static DecoderFct findDecoder(const std::string& make,
+                                            uint32_t     extendedTag,
+                                            uint16_t     group);
 
     private:
         static const TiffDecoderInfo cr2DecoderInfo_[]; //<! CR2 decoder table

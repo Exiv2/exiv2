@@ -81,9 +81,9 @@ namespace Exiv2 {
     /*!
       @brief Type for a function pointer for a function to decode a TIFF component.
      */
-    typedef const DecoderFct (*FindDecoderFct)(const std::string& make,
-                                                     uint32_t     extendedTag,
-                                                     uint16_t     group);
+    typedef DecoderFct (*FindDecoderFct)(const std::string& make,
+                                               uint32_t     extendedTag,
+                                               uint16_t     group);
     /*!
       @brief Type for a function pointer for a function to create a TIFF component.
              Use TiffComponent::AutoPtr, it is not used in this declaration only

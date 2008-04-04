@@ -959,7 +959,7 @@ namespace Exiv2 {
                                                 + pGpsIfd_->dataSize());
             }
             if (   maxOffset > pIfd1_->offset()
-                || maxOffset > pIfd1_->dataOffset() && pIfd1_->dataOffset() > 0)
+                || (maxOffset > pIfd1_->dataOffset() && pIfd1_->dataOffset() > 0))
                 rc = false;
             /*
                Todo: Removed condition from the above if(). Should be re-added...

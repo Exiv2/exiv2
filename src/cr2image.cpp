@@ -74,9 +74,9 @@ namespace Exiv2 {
         { "*",         0x8649, Group::ifd0,    &TiffMetadataDecoder::decodeIptc }
     };
 
-    const DecoderFct Cr2Decoder::findDecoder(const std::string& make,
-                                                   uint32_t     extendedTag,
-                                                   uint16_t     group)
+    DecoderFct Cr2Decoder::findDecoder(const std::string& make,
+                                             uint32_t     extendedTag,
+                                             uint16_t     group)
     {
         DecoderFct decoderFct = &TiffMetadataDecoder::decodeStdTiffEntry;
         const TiffDecoderInfo* td = find(cr2DecoderInfo_,
