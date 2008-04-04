@@ -133,6 +133,12 @@ namespace Exiv2 {
         {    0x12ce6, N_("Optio A40") },
         {    0x12cf0, N_("Optio V10") },
         {    0x12cd2, N_("K20D") },
+        {    0x12cdc, N_("Optio S10") },
+        {    0x12ce6, N_("Optio A40") },
+        {    0x12cf0, N_("Optio V10") },
+        {    0x12cfa, N_("K200D") },
+        {    0x12d0e, N_("Optio E50") },
+        {    0x12d18, N_("Optio M50") },
     };
 
     //! Quality, tag 0x0008
@@ -413,6 +419,7 @@ namespace Exiv2 {
     //! PictureMode, combi-tag 0x0033 (3 bytes)
     extern const TagDetails pentaxPictureMode[] = {
         { 0x000000, N_("Program") },
+        { 0x000300, N_("MTF Program") },
         { 0x000400, N_("Standard") },
         { 0x000500, N_("Portrait") },
         { 0x000600, N_("Landscape") },
@@ -473,9 +480,12 @@ namespace Exiv2 {
     extern const TagDetails pentaxDriveMode[] = {
         { 0x00000000, N_("Single-frame") },
         { 0x01000000, N_("Continuous") },
+        { 0x02000000, N_("Continuous (Hi)") },
+        { 0x03000000, N_("Burst") },
         { 0x00010000, N_("Self-timer (12 sec)") },
         { 0x00020000, N_("Self-timer (2 sec)") },
-        { 0x00000100, N_("Remote Control?") },
+        { 0x00000100, N_("Remote Control (3 sec)") },
+        { 0x00000200, N_("Remote Control") },
         { 0x00000001, N_("Multiple Exposure") },
     };
 
@@ -602,12 +612,18 @@ namespace Exiv2 {
         { 0x060e, "smc PENTAX-FA* MACRO 200mm F4 ED[IF]" },
         { 0x0700, "smc PENTAX-DA 21mm F3.2 AL Limited" },
         { 0x07e5, "smc PENTAX-DA 18-55mm F3.5-5.6 AL II" },
+        { 0x07e6, "Tamron AF 17-50mm F2.8 XR Di-II LD (Model A16)" },
         { 0x07e7, "smc PENTAX-DA 18-250mm F3.5-6.3ED AL [IF]" },
+        { 0x07e9, "smc PENTAX-DA 35mm F2.8 Macro Limited" },
+        { 0x07ea, "smc PENTAX-DA* 300 mm F4ED [IF] SDM (SDM not used)" },
+        { 0x07eb, "smc PENTAX-DA* 200mm F2.8 ED [IF] SDM (SDM not used)" },
         { 0x07ee, "TAMRON AF 18-250mm F3.5-6.3 Di II LD Aspherical [IF] MACRO" },
-        { 0x07f1, "smc PENTAX-DA* 50-135mm F2.8 ED [IF] SDM" },
-        { 0x07f2, "smc PENTAX-DA* 16-50mm F2.8 ED AL [IF] SDM" },
+        { 0x07f1, "smc PENTAX-DA* 50-135mm F2.8 ED [IF] SDM (SDM not used)" },
+        { 0x07f2, "smc PENTAX-DA* 16-50mm F2.8 ED AL [IF] SDM (SDM not used)" },
         { 0x07f3, "smc PENTAX-DA 70mm F2.4 Limited" },
         { 0x07f4, "smc PENTAX-DA 21mm F3.2 AL Limited" },
+        { 0x08ea, "smc PENTAX-DA* 300 mm F4ED [IF] SDM" },
+        { 0x08eb, "smc PENTAX-DA* 200mm F2.8 ED [IF] SDM" },
         { 0x08f1, "smc PENTAX-DA* 50-135mm F2.8 ED [IF] SDM" },
         { 0x08f2, "smc PENTAX-DA* 16-50mm F2.8 ED AL [IF] SDM" },
     };
@@ -616,6 +632,24 @@ namespace Exiv2 {
     extern const TagDetails pentaxImageTone[] = {
         {    0, N_("Natural") },
         {    1, N_("Bright") },
+        {    2, N_("Portrait") },
+        {    3, N_("Landscape") },
+        {    4, N_("Vibrant") },
+        {    5, N_("Monochrome") },
+    };
+    
+    //! DynamicRangeExpansion, tag 0x0069
+    extern const TagDetails pentaxDynamicRangeExpansion[] = {
+        {   0, N_("Off") },
+        {   0x1000000, N_("On") },
+    };
+
+    //! HighISONoiseReduction, tag 0x0071
+    extern const TagDetails pentaxHighISONoiseReduction[] = {
+        {   0, N_("Off") },
+        {   1, N_("Weakest") },
+        {   2, N_("Weak") },
+        {   3, N_("Strong") },
     };
 
     std::ostream& PentaxMakerNote::printPentaxVersion(std::ostream& os, const Value& value)
@@ -921,6 +955,12 @@ namespace Exiv2 {
         TagInfo(0x005d, "ShutterCount", N_("Shutter count"),
                 N_("Shutter count"),
                 pentaxIfdId, makerTags, undefined, printValue), /* TODO: This has some encryption by date (see exiftool) */
+        TagInfo(0x0069, "DynamicRangeExpansion", N_("Dynamic range expansion"),
+                N_("Dynamic range expansion"),
+                pentaxIfdId, makerTags, undefined, EXV_PRINT_COMBITAG(pentaxDynamicRangeExpansion, 4, 0)),
+        TagInfo(0x0071, "HighISONoiseReduction", N_("High ISO noise reduction"),
+                N_("High ISO noise reduction"),
+                pentaxIfdId, makerTags, unsignedByte, EXV_PRINT_TAG(pentaxHighISONoiseReduction)),
         /* Many missing ! */
         TagInfo(0x0200, "BlackPoint", N_("Black point"),
                 N_("Black point"),
