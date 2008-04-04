@@ -1269,7 +1269,7 @@ namespace Exiv2 {
     const TagInfo* ExifTags::makerTagInfo(uint16_t tag, IfdId ifdId)
     {
         int i = 0;
-        for (; i < MAX_MAKER_TAG_INFOS && makerIfdIds_[i] != ifdId; ++i);
+        for (; i < MAX_MAKER_TAG_INFOS && makerIfdIds_[i] != ifdId; ++i) {}
         if (i == MAX_MAKER_TAG_INFOS) return 0;
 
         for (int k = 0; makerTagInfos_[i][k].tag_ != 0xffff; ++k) {
@@ -1283,7 +1283,7 @@ namespace Exiv2 {
                                           IfdId ifdId)
     {
         int i = 0;
-        for (; i < MAX_MAKER_TAG_INFOS && makerIfdIds_[i] != ifdId; ++i);
+        for (; i < MAX_MAKER_TAG_INFOS && makerIfdIds_[i] != ifdId; ++i) {}
         if (i == MAX_MAKER_TAG_INFOS) return 0;
 
         for (int k = 0; makerTagInfos_[i][k].tag_ != 0xffff; ++k) {
@@ -1298,7 +1298,7 @@ namespace Exiv2 {
     bool ExifTags::isMakerIfd(IfdId ifdId)
     {
         int i = 0;
-        for (; i < MAX_MAKER_TAG_INFOS && makerIfdIds_[i] != ifdId; ++i);
+        for (; i < MAX_MAKER_TAG_INFOS && makerIfdIds_[i] != ifdId; ++i) {}
         return i != MAX_MAKER_TAG_INFOS && makerIfdIds_[i] != IfdId(0);
     }
 
@@ -1491,7 +1491,7 @@ namespace Exiv2 {
     void ExifTags::makerTaglist(std::ostream& os, IfdId ifdId)
     {
         int i = 0;
-        for (; i < MAX_MAKER_TAG_INFOS && makerIfdIds_[i] != ifdId; ++i);
+        for (; i < MAX_MAKER_TAG_INFOS && makerIfdIds_[i] != ifdId; ++i) {}
         if (i != MAX_MAKER_TAG_INFOS) {
             const TagInfo* mnTagInfo = makerTagInfos_[i];
             for (int k=0; mnTagInfo[k].tag_ != 0xffff; ++k) {
