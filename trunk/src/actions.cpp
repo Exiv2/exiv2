@@ -241,11 +241,6 @@ namespace Action {
         assert(image.get() != 0);
         image->readMetadata();
         Exiv2::ExifData& exifData = image->exifData();
-        if (exifData.empty()) {
-            std::cerr << path_ << ": "
-                      << _("No Exif data found in the file\n");
-            return -3;
-        }
         align_ = 16;
 
         // Filename
@@ -257,6 +252,20 @@ namespace Action {
         if (0 == stat(path_.c_str(), &buf)) {
             printLabel(_("File size"));
             std::cout << buf.st_size << " " << _("Bytes") << std::endl;
+        }
+
+        // MIME type 
+        printLabel(_("MIME type"));
+        std::cout << image->mimeType() << "\n";
+
+        // Image size
+        printLabel(_("Image size"));
+        std::cout << image->pixelWidth() << " x " << image->pixelHeight() << "\n";
+
+        if (exifData.empty()) {
+            std::cerr << path_ << ": "
+                      << _("No Exif data found in the file\n");
+            return -3;
         }
 
         // Camera make

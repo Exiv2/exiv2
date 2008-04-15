@@ -59,6 +59,26 @@ namespace Exiv2 {
     {
     } // OrfImage::OrfImage
 
+    int OrfImage::pixelWidth() const
+    {
+        ExifData::const_iterator imageWidth;
+        if ((imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.Image.ImageWidth"))) != exifData_.end())
+        {
+            return imageWidth->toLong();
+        }
+        return 0;
+    }
+
+    int OrfImage::pixelHeight() const
+    {
+        ExifData::const_iterator imageHeight;
+        if ((imageHeight = exifData_.findKey(Exiv2::ExifKey("Exif.Image.ImageLength"))) != exifData_.end())
+        {
+            return imageHeight->toLong();
+        }
+        return 0;
+    }
+
     void OrfImage::setExifData(const ExifData& /*exifData*/)
     {
         // Todo: implement me!

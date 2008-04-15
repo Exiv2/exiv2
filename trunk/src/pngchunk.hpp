@@ -69,10 +69,14 @@ namespace Exiv2 {
           @param pData     Pointer to the data buffer. Must point to PNG chunk data;
                            no checks are performed.
           @param size      Length of the data buffer.
+          @param outWidth  Integer pointer to be set to the width of the image.
+          @param outHeight Integer pointer to be set to the height of the image.
         */
         static void decode(Image*      pImage,
                            const byte* pData,
-                           long        size);
+                           long        size,
+                           int*        outWidth,
+                           int*        outHeight);
 
     private:
         //! @name Accessors

@@ -54,6 +54,11 @@ EXIV2_RCSID("@(#) $Id$")
 #include "rafimage.hpp"
 #include "tiffimage.hpp"
 #include "orfimage.hpp"
+#include "gifimage.hpp"
+#include "psdimage.hpp"
+#include "tgaimage.hpp"
+#include "bmpimage.hpp"
+#include "jp2image.hpp"
 #include "xmpsidecar.hpp"
 
 // + standard includes
@@ -84,12 +89,17 @@ namespace Exiv2 {
         { ImageType::mrw,  newMrwInstance,  isMrwType,  amRead,      amRead,      amRead,      amNone      },
         { ImageType::tiff, newTiffInstance, isTiffType, amRead,      amRead,      amRead,      amNone      },
         { ImageType::orf,  newOrfInstance,  isOrfType,  amRead,      amRead,      amRead,      amNone      },
-#ifdef EXV_HAVE_LIBZ                                                                           
+  #ifdef EXV_HAVE_LIBZ
         { ImageType::png,  newPngInstance,  isPngType,  amRead,      amRead,      amRead,      amNone      },
-#endif // EXV_HAVE_LIBZ                                                                        
+  #endif // EXV_HAVE_LIBZ
         { ImageType::raf,  newRafInstance,  isRafType,  amRead,      amRead,      amRead,      amNone      },
         { ImageType::xmp,  newXmpInstance,  isXmpType,  amNone,      amNone,      amReadWrite, amNone      },
-        // End of list marker                                                                  
+        { ImageType::gif,  newGifInstance,  isGifType,  amNone,      amNone,      amNone,      amNone      },
+        { ImageType::psd,  newPsdInstance,  isPsdType,  amRead,      amRead,      amRead,      amNone      },
+        { ImageType::tga,  newTgaInstance,  isTgaType,  amNone,      amNone,      amNone,      amNone      },
+        { ImageType::bmp,  newBmpInstance,  isBmpType,  amNone,      amNone,      amNone,      amNone      },
+        { ImageType::jp2,  newJp2Instance,  isJp2Type,  amRead,      amRead,      amRead,      amNone      },
+        // End of list marker
         { ImageType::none, 0,               0,          amNone,      amNone,      amNone,      amNone      }
     };
 
@@ -102,6 +112,8 @@ namespace Exiv2 {
                  uint16_t         supportedMetadata,
                  BasicIo::AutoPtr io)
         : io_(io),
+          pixelWidth_(0),
+          pixelHeight_(0),
           imageType_(imageType),
           supportedMetadata_(supportedMetadata),
 #ifdef EXV_HAVE_XMP_TOOLKIT
@@ -214,6 +226,8 @@ namespace Exiv2 {
         if (!r) throw Error(13, type);
         AccessMode am = amNone;
         switch (metadataId) {
+        case mdNone:
+            break;
         case mdExif:
             am = r->exifSupport_;
             break;

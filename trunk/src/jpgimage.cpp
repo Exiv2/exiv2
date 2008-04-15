@@ -57,6 +57,28 @@ namespace Exiv2 {
     const byte     JpegBase::app1_     = 0xe1;
     const byte     JpegBase::app13_    = 0xed;
     const byte     JpegBase::com_      = 0xfe;
+
+// Start of Frame markers, nondifferential Huffman-coding frames
+    const byte     JpegBase::sof0_     = 0xc0;        // start of frame 0, baseline DCT
+    const byte     JpegBase::sof1_     = 0xc1;        // start of frame 1, extended sequential DCT, Huffman coding
+    const byte     JpegBase::sof2_     = 0xc2;        // start of frame 2, progressive DCT, Huffman coding
+    const byte     JpegBase::sof3_     = 0xc3;        // start of frame 3, lossless sequential, Huffman coding
+
+// Start of Frame markers, differential Huffman-coding frames
+    const byte     JpegBase::sof5_     = 0xc5;        // start of frame 5, differential sequential DCT, Huffman coding
+    const byte     JpegBase::sof6_     = 0xc6;        // start of frame 6, differential progressive DCT, Huffman coding
+    const byte     JpegBase::sof7_     = 0xc7;        // start of frame 7, differential lossless, Huffman coding
+
+// Start of Frame markers, nondifferential arithmetic-coding frames
+    const byte     JpegBase::sof9_     = 0xc9;        // start of frame 9, extended sequential DCT, arithmetic coding
+    const byte     JpegBase::sof10_    = 0xca;        // start of frame 10, progressive DCT, arithmetic coding
+    const byte     JpegBase::sof11_    = 0xcb;        // start of frame 11, lossless sequential, arithmetic coding
+
+// Start of Frame markers, differential arithmetic-coding frames
+    const byte     JpegBase::sof13_    = 0xcd;        // start of frame 13, differential sequential DCT, arithmetic coding
+    const byte     JpegBase::sof14_    = 0xce;        // start of frame 14, progressive DCT, arithmetic coding
+    const byte     JpegBase::sof15_    = 0xcf;        // start of frame 15, differential lossless, arithmetic coding
+
     const char     JpegBase::exifId_[] = "Exif\0\0";
     const char     JpegBase::jfifId_[] = "JFIF\0";
     const char     JpegBase::xmpId_[]  = "http://ns.adobe.com/xap/1.0/\0";
@@ -255,7 +277,7 @@ namespace Exiv2 {
             throw Error(15);
         }
         clearMetadata();
-        int search = 4;
+        int search = 5;
         const long bufMinSize = 36;
         long bufRead = 0;
         DataBuf buf(bufMinSize);
@@ -376,6 +398,18 @@ namespace Exiv2 {
                     comment_.erase(comment_.length()-1);
                 }
                 --search;
+            }
+            else if (   pixelHeight_ == 0
+                     && (   marker == sof0_  || marker == sof1_  || marker == sof2_
+                         || marker == sof3_  || marker == sof5_  || marker == sof6_ 
+                         || marker == sof7_  || marker == sof9_  || marker == sof10_
+                         || marker == sof11_ || marker == sof13_ || marker == sof14_
+                         || marker == sof15_)) {
+                // we hit a SOFn (start-of-frame) marker
+                if (size < 8) throw Error(15);
+                pixelHeight_ = getUShort(buf.pData_ + 3, bigEndian);
+                pixelWidth_ = getUShort(buf.pData_ + 5, bigEndian);
+                if (pixelHeight_ != 0) --search;
             }
             else {
                 if (size < 2) {

@@ -296,6 +296,14 @@ namespace Exiv2 {
          */
         virtual std::string mimeType() const =0;
         /*!
+          @brief Return the pixel width of the image.
+         */
+        virtual int pixelWidth() const { return pixelWidth_; }
+        /*!
+          @brief Return the pixel height of the image.
+         */
+        virtual int pixelHeight() const { return pixelHeight_; }
+        /*!
           @brief Returns an ExifData instance containing currently buffered
               Exif data.
 
@@ -378,6 +386,8 @@ namespace Exiv2 {
         XmpData           xmpData_;           //!< XMP data container
         std::string       comment_;           //!< User comment
         std::string       xmpPacket_;         //!< XMP packet
+        int               pixelWidth_;        //!< image pixel width
+        int               pixelHeight_;       //!< image pixel height
 
     private:
         //! @name NOT implemented

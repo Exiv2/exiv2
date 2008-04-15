@@ -104,6 +104,8 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         std::string mimeType() const { return "image/x-olympus-orf"; }
+        int pixelWidth() const;
+        int pixelHeight() const;
         //@}
 
     private:

@@ -170,6 +170,18 @@ namespace Exiv2 {
     {
     } // CrwImage::CrwImage
 
+    int CrwImage::pixelWidth() const
+    {
+        Exiv2::ExifData::const_iterator widthIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
+        return (widthIter == exifData_.end()) ? 0 : widthIter->toLong();
+    }
+
+    int CrwImage::pixelHeight() const
+    {
+        Exiv2::ExifData::const_iterator heightIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
+        return (heightIter == exifData_.end()) ? 0 : heightIter->toLong();
+    }
+
     void CrwImage::setIptcData(const IptcData& /*iptcData*/)
     {
         // not supported

@@ -104,6 +104,8 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         std::string mimeType() const { return "image/x-minolta-mrw"; }
+        int pixelWidth() const;
+        int pixelHeight() const;
         //@}
 
     private:

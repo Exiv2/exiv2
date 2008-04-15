@@ -93,6 +93,18 @@ namespace Exiv2 {
     {
     } // Cr2Image::Cr2Image
 
+    int Cr2Image::pixelWidth() const
+    {
+        Exiv2::ExifData::const_iterator widthIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
+        return (widthIter == exifData_.end()) ? 0 : widthIter->toLong();
+    }
+
+    int Cr2Image::pixelHeight() const
+    {
+        Exiv2::ExifData::const_iterator heightIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
+        return (heightIter == exifData_.end()) ? 0 : heightIter->toLong();
+    }
+
     void Cr2Image::setExifData(const ExifData& /*exifData*/)
     {
         // Todo: implement me!

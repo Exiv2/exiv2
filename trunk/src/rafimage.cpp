@@ -59,6 +59,18 @@ namespace Exiv2 {
     {
     } // RafImage::RafImage
 
+    int RafImage::pixelWidth() const
+    {
+        Exiv2::ExifData::const_iterator widthIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
+        return (widthIter == exifData_.end()) ? 0 : widthIter->toLong();
+    }
+
+    int RafImage::pixelHeight() const
+    {
+        Exiv2::ExifData::const_iterator heightIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
+        return (heightIter == exifData_.end()) ? 0 : heightIter->toLong();
+    }
+
     void RafImage::setExifData(const ExifData& /*exifData*/)
     {
         // Todo: implement me!
