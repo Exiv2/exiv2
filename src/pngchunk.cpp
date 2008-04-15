@@ -81,15 +81,27 @@ namespace {
 // class member definitions
 namespace Exiv2 {
 
-    void PngChunk::decode(Image* pImage,
-                          const  byte* pData,
-                          long   size)
+    void PngChunk::decode(Image*      pImage,
+                          const byte* pData,
+                          long        size,
+                          int*        outWidth,
+                          int*        outHeight)
     {
         assert(pImage != 0);
         assert(pData != 0);
+        assert(outWidth != 0);
+        assert(outHeight != 0);
+
+        long index = 8;
+
+        // extract width and height from IHDR chunk, which *must* be the first chunk in the PNG file
+        if (strncmp((const char *)PNG_CHUNK_TYPE(pData, index), "IHDR", 4) == 0)
+        {
+            *outWidth = getLong((const byte*)&PNG_CHUNK_DATA(pData, index, 0), bigEndian);
+            *outHeight = getLong((const byte*)&PNG_CHUNK_DATA(pData, index, 4), bigEndian);
+        }
 
         // look for a tEXt chunk
-        long index = 8;
         index += chunkLength(pData, index) + PNG_CHUNK_HEADER_SIZE;
 
         while(index < size-PNG_CHUNK_HEADER_SIZE)

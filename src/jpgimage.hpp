@@ -189,6 +189,19 @@ namespace Exiv2 {
         static const byte app1_;                //!< JPEG APP1 marker
         static const byte app13_;               //!< JPEG APP13 marker
         static const byte com_;                 //!< JPEG Comment marker
+        static const byte sof0_;                //!< JPEG Start-Of-Frame marker
+        static const byte sof1_;                //!< JPEG Start-Of-Frame marker
+        static const byte sof2_;                //!< JPEG Start-Of-Frame marker
+        static const byte sof3_;                //!< JPEG Start-Of-Frame marker
+        static const byte sof5_;                //!< JPEG Start-Of-Frame marker
+        static const byte sof6_;                //!< JPEG Start-Of-Frame marker
+        static const byte sof7_;                //!< JPEG Start-Of-Frame marker
+        static const byte sof9_;                //!< JPEG Start-Of-Frame marker
+        static const byte sof10_;               //!< JPEG Start-Of-Frame marker
+        static const byte sof11_;               //!< JPEG Start-Of-Frame marker
+        static const byte sof13_;               //!< JPEG Start-Of-Frame marker
+        static const byte sof14_;               //!< JPEG Start-Of-Frame marker
+        static const byte sof15_;               //!< JPEG Start-Of-Frame marker
         static const char exifId_[];            //!< Exif identifier
         static const char jfifId_[];            //!< JFIF identifier
         static const char xmpId_[];             //!< XMP packet identifier
@@ -268,6 +281,7 @@ namespace Exiv2 {
         //@{
         std::string mimeType() const { return "image/jpeg"; }
         //@}
+
     protected:
         //! @name Accessors
         //@{
@@ -326,6 +340,7 @@ namespace Exiv2 {
         //@{
         std::string mimeType() const { return "image/x-exv"; }
         //@}
+
     protected:
         //! @name Accessors
         //@{

@@ -68,6 +68,7 @@ CCHDR =  exv_conf.h           \
 
 # Add library C++ source files to this list
 CCSRC =  basicio.cpp          \
+	 bmpimage.cpp         \
 	 canonmn.cpp          \
 	 convert.cpp          \
 	 cr2image.cpp         \
@@ -77,9 +78,11 @@ CCSRC =  basicio.cpp          \
 	 exif.cpp             \
 	 futils.cpp           \
 	 fujimn.cpp           \
+	 gifimage.cpp         \
 	 ifd.cpp              \
 	 image.cpp            \
 	 iptc.cpp             \
+	 jp2image.cpp         \
 	 jpgimage.cpp         \
 	 makernote.cpp        \
 	 makernote2.cpp       \
@@ -94,11 +97,13 @@ ifdef HAVE_LIBZ
 CCSRC += pngimage.cpp         \
 	 pngchunk.cpp
 endif
-CCSRC += rafimage.cpp         \
+CCSRC += psdimage.cpp         \
+	 rafimage.cpp         \
 	 sigmamn.cpp          \
 	 pentaxmn.cpp         \
 	 sonymn.cpp           \
 	 tags.cpp             \
+	 tgaimage.cpp         \
 	 tiffcomposite.cpp    \
 	 tiffimage.cpp        \
 	 tiffparser.cpp       \

@@ -99,7 +99,7 @@ namespace Exiv2 {
             throw Error(3, "PNG");
         }
         clearMetadata();
-        PngChunk::decode(this, io_->mmap(), io_->size());
+        PngChunk::decode(this, io_->mmap(), io_->size(), &pixelWidth_, &pixelHeight_);
 
         /*
           Todo:
