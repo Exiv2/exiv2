@@ -416,6 +416,7 @@ namespace Exiv2 {
     private:
         //! @name Manipulators
         //@{
+        using CiffComponent::doAdd;
         // See base class comment
         virtual void doAdd(AutoPtr component);
         /*!
