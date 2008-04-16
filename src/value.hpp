@@ -485,6 +485,7 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
+        using StringValueBase::read;
         /*!
           @brief Set the value to that of the string buf. Overrides base class
                  to append a terminating '\\0' character if buf doesn't end
@@ -572,6 +573,7 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
+        using StringValueBase::read;
         /*!
           @brief Read the value from a comment
 
@@ -716,6 +718,7 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
+        using XmpValue::read;
         /*!
           @brief Read a simple property value from \em buf to set the value.
 
@@ -795,6 +798,7 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
+        using XmpValue::read;
         /*!
           @brief Read a simple property value from \em buf and append it 
                  to the value.
@@ -863,6 +867,7 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
+        using XmpValue::read;
         /*!
           @brief Read a simple property value from \em buf and append it 
                  to the value.

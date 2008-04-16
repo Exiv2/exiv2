@@ -58,7 +58,7 @@ GXX = @GXX@
 # Common compiler flags (warnings, symbols [-ggdb], optimization [-O2], etc)
 CXXFLAGS = @CXXFLAGS@
 ifeq ($(GXX),yes)
-	CXXFLAGS += -Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -W
+	CXXFLAGS += -Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W
 endif
 
 # Command to run only the preprocessor
