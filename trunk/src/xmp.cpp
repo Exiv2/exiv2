@@ -388,10 +388,10 @@ namespace Exiv2 {
         }
     }
 
+#ifdef EXV_HAVE_XMP_TOOLKIT
     bool XmpParser::registerNs(const std::string& ns, 
                                const std::string& prefix)
     {
-#ifdef EXV_HAVE_XMP_TOOLKIT
         try {
             initialize();
             return SXMPMeta::RegisterNamespace(ns.c_str(), prefix.c_str(), 0);
@@ -399,11 +399,15 @@ namespace Exiv2 {
         catch (const XMP_Error& e) {
             throw Error(40, e.GetID(), e.GetErrMsg());
         }
+    } // XmpParser::registerNs
 #else
+    bool XmpParser::registerNs(const std::string& /*ns*/, 
+                               const std::string& /*prefix*/)
+    {
         initialize();
         return true;
-#endif
     } // XmpParser::registerNs
+#endif
 
     void XmpParser::unregisterNs(const std::string& /*ns*/)
     {
@@ -663,8 +667,10 @@ namespace Exiv2 {
         return 3;
     }} // XmpParser::decode
 #else
-    int XmpParser::encode(      std::string& xmpPacket,
-                          const XmpData&     xmpData)
+    int XmpParser::encode(      std::string& /*xmpPacket*/,
+                          const XmpData&     xmpData,
+                                uint16_t     /*formatFlags*/,
+                                uint32_t     /*padding*/)
     {
         if (!xmpData.empty()) {
 #ifndef SUPPRESS_WARNINGS
