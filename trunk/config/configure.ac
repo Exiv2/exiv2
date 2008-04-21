@@ -77,7 +77,7 @@ AC_SUBST(GCC,$GCC)
 # ---------------------------------------------------------------------------
 # Checks for library functions.
 # ---------------------------------------------------------------------------
-AC_FUNC_MKTIME
+#AC_FUNC_MKTIME - fails when using old autoconf with gcc-4.3, see eg. Debian Bug#425544, and we don't use the result anyway
 AC_FUNC_MMAP
 AC_FUNC_STRERROR_R
 AC_CHECK_FUNCS([gmtime_r memset strchr strerror strtol mmap munmap])
