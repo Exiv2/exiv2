@@ -32,7 +32,7 @@
 #define EXV_PACKAGE_VERSION "0.16"
 
 /* Define to `int' if <sys/types.h> does not define pid_t. */
-#define pid_t int
+typedef int pid_t;
 
 #ifndef EXV_COMMERCIAL_VERSION
 
