@@ -22,7 +22,7 @@
   @file    bmpimage.hpp
   @brief   Windows Bitmap (BMP) image
   @version $Rev$
-  @author  Marco Piovanelli, Ovolabs (marco)
+  @author  Marco Piovanelli, Ovolab (marco)
            <a href="mailto:marco.piovanelli@pobox.com">marco.piovanelli@pobox.com</a>
   @date    05-Mar-2007, marco: created
  */

@@ -23,7 +23,7 @@
   @brief   JPEG-2000 image, implemented using the following references:
            <a href="http://jpeg.org/public/fcd15444-6.pdf">ISO/IEC JTC 1/SC 29/WG1 N2401: JPEG 2000 Part 6 FCD 15444-6</a><br>
   @version $Rev$
-  @author  Marco Piovanelli, Ovolabs (marco)
+  @author  Marco Piovanelli, Ovolab (marco)
            <a href="mailto:marco.piovanelli@pobox.com">marco.piovanelli@pobox.com</a>
   @date    12-Mar-2007, marco: created
  */
