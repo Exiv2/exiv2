@@ -893,11 +893,19 @@ namespace Exiv2 {
         AutoPtr clone() const;
         virtual long count() const;
         /*!
-          @brief Return the <EM>n</EM>-th component of the value as a string.
-                 The behaviour of this method may be undefined if there is no
-                 <EM>n</EM>-th component.
+          @brief Return the text value associated with the default language
+                 qualifier \c x-default. The parameter \em n is not used, but
+                 it is suggested that only 0 is passed in. Returns an empty
+                 string and sets the ok-flag to \c false if there is no
+                 default value.
          */
         virtual std::string toString(long n) const;
+        /*!
+          @brief Return the text value associated with the language qualifier
+                 \em qualifier. Returns an empty string and sets the ok-flag
+                 to \c false if there is no entry for the language qualifier.
+         */
+        std::string toString(const std::string& qualifier) const;
         virtual long toLong(long n =0) const;
         virtual float toFloat(long n =0) const;
         virtual Rational toRational(long n =0) const;
