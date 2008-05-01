@@ -295,7 +295,7 @@ namespace Exiv2 {
         return *pos;
     }
 
-    int XmpData::add(const XmpKey& key, Value* value)
+    int XmpData::add(const XmpKey& key, const Value* value)
     {
         return add(Xmpdatum(key, value));
     }

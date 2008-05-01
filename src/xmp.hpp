@@ -194,7 +194,7 @@ namespace Exiv2 {
                  method copies (clones) the value.
           @return 0 if successful.
          */
-        int add(const XmpKey& key, Value* value);
+        int add(const XmpKey& key, const Value* value);
         /*!
           @brief Add a copy of the Xmpdatum to the XMP metadata.
           @return 0 if successful.
