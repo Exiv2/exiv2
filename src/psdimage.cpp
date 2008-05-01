@@ -21,7 +21,7 @@
 /*
   File:      psdimage.cpp
   Version:   $Rev$
-  Author(s): Marco Piovanelli, Ovolabs (marco)
+  Author(s): Marco Piovanelli, Ovolab (marco)
   History:   05-Mar-2007, marco: created
  */
 // *****************************************************************************

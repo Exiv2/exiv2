@@ -23,7 +23,7 @@
   @brief   GIF image, implemented using the following references:
            <a href="http://www.w3.org/Graphics/GIF/spec-gif89a.txt">GIF89 specification</a> by W3C<br>
   @version $Rev$
-  @author  Marco Piovanelli, Ovolabs (marco)
+  @author  Marco Piovanelli, Ovolab (marco)
            <a href="mailto:marco.piovanelli@pobox.com">marco.piovanelli@pobox.com</a>
   @date    26-Feb-2007, marco: created
  */

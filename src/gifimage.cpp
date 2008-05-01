@@ -21,7 +21,7 @@
 /*
   File:      gifimage.cpp
   Version:   $Rev$
-  Author(s): Marco Piovanelli, Ovolabs (marco)
+  Author(s): Marco Piovanelli, Ovolab (marco)
   History:   26-Feb-2007, marco: created
  */
 // *****************************************************************************

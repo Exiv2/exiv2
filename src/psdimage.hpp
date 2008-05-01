@@ -23,7 +23,7 @@
   @brief   Photoshop image, implemented using the following references:
            <a href="http://www.fine-view.com/jp/lab/doc/ps6ffspecsv2.pdf">Adobe Photoshop 6.0 File Format Specification</a> by Adobe<br>
   @version $Rev$
-  @author  Marco Piovanelli, Ovolabs (marco)
+  @author  Marco Piovanelli, Ovolab (marco)
            <a href="mailto:marco.piovanelli@pobox.com">marco.piovanelli@pobox.com</a>
   @date    05-Mar-2007, marco: created
  */

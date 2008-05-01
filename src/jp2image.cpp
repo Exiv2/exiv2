@@ -21,7 +21,7 @@
 /*
   File:      jp2image.cpp
   Version:   $Rev$
-  Author(s): Marco Piovanelli, Ovolabs (marco)
+  Author(s): Marco Piovanelli, Ovolab (marco)
   History:   12-Mar-2007, marco: created
  */
 // *****************************************************************************
