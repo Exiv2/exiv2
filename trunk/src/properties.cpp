@@ -427,7 +427,7 @@ namespace Exiv2 {
         { "PrimaryChromaticities",     N_("Primary Chromaticities"),     "seq Rational",                 xmpSeq,  xmpInternal, N_("TIFF tag 319, 0x13F. Chromaticity of the three primary colors.") },
         { "YCbCrCoefficients",         N_("YCbCr Coefficients"),         "seq Rational",                 xmpSeq,  xmpInternal, N_("TIFF tag 529, 0x211. Matrix coefficients for RGB to YCbCr transformation.") },
         { "ReferenceBlackWhite",       N_("Reference Black White"),      "seq Rational",                 xmpSeq,  xmpInternal, N_("TIFF tag 532, 0x214. Reference black and white point values.") },
-        { "DateTime",                  N_("Date and Time"),                  "Date",                         date,    xmpInternal, N_("TIFF tag 306, 0x132 (primary) and EXIF tag 37520, "
+        { "DateTime",                  N_("Date and Time"),              "Date",                         xmpText, xmpInternal, N_("TIFF tag 306, 0x132 (primary) and EXIF tag 37520, "
                                                                                                                                   "0x9290 (subseconds). Date and time of image creation "
                                                                                                                                   "(no time zone in EXIF), stored in ISO 8601 format, not "
                                                                                                                                   "the original EXIF format. This property includes the "
