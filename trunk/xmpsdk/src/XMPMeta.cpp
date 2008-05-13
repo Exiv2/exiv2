@@ -76,7 +76,7 @@ static const char * kTenSpaces = "          ";
 
 #define OutProcString(str)	{ status = (*outProc) ( refCon, (str).c_str(), (str).size() );  if ( status != 0 ) goto EXIT; }
 
-#define OutProcDecInt(num)	{ snprintf ( buffer, sizeof(buffer), "%d", (num) ); /* AUDIT: Using sizeof for snprintf length is safe */	\
+#define OutProcULong(num)	{ snprintf ( buffer, sizeof(buffer), "%lu", (num) ); /* AUDIT: Using sizeof for snprintf length is safe */ \
 							  status = (*outProc) ( refCon, buffer, strlen(buffer) );  if ( status != 0 ) goto EXIT; }
 
 #define OutProcHexInt(num)	{ snprintf ( buffer, sizeof(buffer), "%lX", (num) ); /* AUDIT: Using sizeof for snprintf length is safe */	\
@@ -214,7 +214,7 @@ DumpPropertyTree ( const XMP_Node *	  currNode,
 		OutProcString ( currNode->name );
 	} else {
 		OutProcNChars ( "[", 1 );
-		OutProcDecInt ( itemIndex );
+		OutProcULong ( static_cast<unsigned long>(itemIndex) );
 		OutProcNChars ( "]", 1 );
 	}
 
