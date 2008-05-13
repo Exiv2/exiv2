@@ -156,7 +156,7 @@ AddNodeOffspring ( IterInfo & info, IterNode & iterParent, const XMP_Node * xmpP
 				currPath += xmpChild->name;
 			} else {
 				char buffer [32];	// AUDIT: Using sizeof(buffer) below for snprintf length is safe.
-				snprintf ( buffer, sizeof(buffer), "[%u]", childNum+1 );	// ! XPath indices are one-based.
+				snprintf ( buffer, sizeof(buffer), "[%lu]", static_cast<unsigned long>(childNum+1) );	// ! XPath indices are one-based.
 				currPath += buffer;
 			}
 			iterParent.children.push_back ( IterNode ( xmpChild->options, currPath, leafOffset ) );
