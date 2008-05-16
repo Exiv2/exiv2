@@ -1,28 +1,23 @@
-# List of source files which contain translatable strings.
-# Note: after to have added a new file in this list, please run 'make update-po'.
-
-# Common Library implementation.
+# List of source files with translatable strings, generated with
+# $ grep -l '[N ]_(' src/*.cpp src/*.hpp | sort
+# Note: Please run 'make update-po' after changing this list
 
 src/actions.cpp
-src/cr2image.cpp
+src/canonmn.cpp
 src/crwimage.cpp
 src/datasets.cpp
-src/exiv2.cpp
 src/error.cpp
-src/ifd.cpp
-src/properties.cpp
-src/tags.cpp
-src/tiffimage.cpp
-src/tiffvisitor.cpp
-
-# Makernotes parser.
-
-src/canonmn.cpp
+src/exiv2.cpp
 src/fujimn.cpp
+src/ifd.cpp
 src/minoltamn.cpp
 src/nikonmn.cpp
 src/olympusmn.cpp
 src/panasonicmn.cpp
 src/pentaxmn.cpp
+src/properties.cpp
 src/sigmamn.cpp
 src/sonymn.cpp
+src/tags.cpp
+src/tiffimage.cpp
+src/tiffvisitor.cpp
