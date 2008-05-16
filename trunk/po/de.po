@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
 "POT-Creation-Date: 2008-05-16 11:05+0800\n"
-"PO-Revision-Date: 2008-05-16 17:23+0200\n"
+"PO-Revision-Date: 2008-05-16 20:57+0200\n"
 "Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
 "Language-Team: german <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -1347,11 +1347,11 @@ msgstr "Manuell (M)"
 
 #: src/canonmn.cpp:386
 msgid "A-DEP"
-msgstr ""
+msgstr "A-DEP"
 
 #: src/canonmn.cpp:387
 msgid "M-DEP"
-msgstr ""
+msgstr "M-DEP"
 
 #: src/canonmn.cpp:392 src/minoltamn.cpp:407 src/minoltamn.cpp:479
 #: src/minoltamn.cpp:837 src/minoltamn.cpp:1020 src/nikonmn.cpp:116
@@ -1406,11 +1406,11 @@ msgstr "Belichtungskompensation"
 
 #: src/canonmn.cpp:419 src/pentaxmn.cpp:934 src/pentaxmn.cpp:935
 msgid "AE lock"
-msgstr ""
+msgstr "Automatische Belichtungssperre"
 
 #: src/canonmn.cpp:420
 msgid "AE lock + exposure compensation"
-msgstr ""
+msgstr "Automatische Belichtungssperre + Belichtungskompensation"
 
 #: src/canonmn.cpp:421
 msgid "No AE"
@@ -1458,15 +1458,15 @@ msgstr "Blitzmodus"
 
 #: src/canonmn.cpp:448
 msgid "Flash mode setting"
-msgstr "Blitzeinstellungen"
+msgstr "Blitzmodus-Einstellungen"
 
 #: src/canonmn.cpp:449 src/minoltamn.cpp:626 src/sigmamn.cpp:70
 msgid "Drive Mode"
-msgstr ""
+msgstr "Antriebsmodus"
 
 #: src/canonmn.cpp:449
 msgid "Drive mode setting"
-msgstr ""
+msgstr "Antriebsmodus-Einstellungen"
 
 #: src/canonmn.cpp:451 src/fujimn.cpp:217 src/minoltamn.cpp:743
 #: src/minoltamn.cpp:898 src/minoltamn.cpp:1172 src/nikonmn.cpp:459
@@ -1555,11 +1555,11 @@ msgstr "ISO Geschwindigkeitseinstellung"
 #: src/canonmn.cpp:461 src/minoltamn.cpp:629 src/minoltamn.cpp:1145
 #: src/properties.cpp:481 src/sigmamn.cpp:87 src/tags.cpp:773
 msgid "Metering Mode"
-msgstr "Messmodus"
+msgstr "Belichtungsmessungsmodus"
 
 #: src/canonmn.cpp:461
 msgid "Metering mode setting"
-msgstr ""
+msgstr "Belichtungsmessungsmodus-Einstellungen"
 
 #: src/canonmn.cpp:462
 msgid "Focus Type"
@@ -1594,7 +1594,7 @@ msgstr "Linse"
 msgid ""
 "'long' and 'short' focal length of lens (in 'focal units') and 'focal units' "
 "per mm"
-msgstr ""
+msgstr "Brennweite der Linse, 'lang' und 'kurz', in Brennweiteneinheiten und Brennweiteeinheit in mm"
 
 #: src/canonmn.cpp:472
 msgid "Flash Activity"
@@ -1622,11 +1622,11 @@ msgstr "Einstellung des kontinuierlichen Fokus"
 
 #: src/canonmn.cpp:477
 msgid "AESetting"
-msgstr ""
+msgstr "Automatische Belichtung-Einstellungen"
 
 #: src/canonmn.cpp:477
 msgid "AE setting"
-msgstr ""
+msgstr "Automatische Belichtung-Einstellungen"
 
 #: src/canonmn.cpp:478 src/minoltamn.cpp:269 src/minoltamn.cpp:959
 #: src/minoltamn.cpp:1199 src/nikonmn.cpp:771
@@ -1648,19 +1648,19 @@ msgstr "Blende anzeigen"
 
 #: src/canonmn.cpp:480
 msgid "Zoom Source Width"
-msgstr ""
+msgstr "Quellweite zoomen"
 
 #: src/canonmn.cpp:480
 msgid "Zoom source width"
-msgstr ""
+msgstr "Quellweite zoomen"
 
 #: src/canonmn.cpp:481
 msgid "Zoom Target Width"
-msgstr ""
+msgstr "Zielweite zoomen"
 
 #: src/canonmn.cpp:481
 msgid "Zoom target width"
-msgstr ""
+msgstr "Zielweite zoomen"
 
 #: src/canonmn.cpp:484
 msgid "Photo Effect"
@@ -1680,7 +1680,7 @@ msgstr "Farbton"
 
 #: src/canonmn.cpp:488
 msgid "Unknown Canon Camera Settings 1 tag"
-msgstr ""
+msgstr "Unbekanntes Feld in den Canon-Kameraeinstellungen 1"
 
 #: src/canonmn.cpp:499
 msgid "Sunny"
@@ -1701,7 +1701,7 @@ msgstr "Wolframlicht"
 #: src/minoltamn.cpp:1012 src/nikonmn.cpp:434 src/pentaxmn.cpp:271
 #: src/tags.cpp:559
 msgid "Fluorescent"
-msgstr "Leuchstoffröhre"
+msgstr "Leuchtstoffröhre"
 
 #: src/canonmn.cpp:505 src/minoltamn.cpp:58
 msgid "Black & White"
@@ -1730,7 +1730,7 @@ msgstr "PC Satz 3"
 
 #: src/canonmn.cpp:511
 msgid "Daylight Fluorescent"
-msgstr "Tageslicht fluoreszent"
+msgstr "Flursozierendes Tageslicht"
 
 #: src/canonmn.cpp:512
 msgid "Custom 1"
@@ -1826,7 +1826,7 @@ msgstr "Verschlussgeschwindigkeit"
 
 #: src/canonmn.cpp:574
 msgid "Unknown Canon Camera Settings 2 tag"
-msgstr ""
+msgstr "Unbekanntes Feld in den Canon-Kameraeinstellungen 2"
 
 #: src/canonmn.cpp:584 src/olympusmn.cpp:499
 msgid "Left to right"
@@ -1866,7 +1866,7 @@ msgstr "Pamoramarichtung"
 
 #: src/canonmn.cpp:596
 msgid "Unknown Canon Panorama tag"
-msgstr ""
+msgstr "Unbekanntes Canon-Panoramafeld"
 
 #: src/canonmn.cpp:606 src/minoltamn.cpp:952 src/minoltamn.cpp:1196
 #: src/nikonmn.cpp:717 src/olympusmn.cpp:368
@@ -1887,11 +1887,11 @@ msgstr ""
 
 #: src/canonmn.cpp:608
 msgid "Mirror Lockup"
-msgstr ""
+msgstr "Spiegelvorauslösung"
 
 #: src/canonmn.cpp:608
 msgid "Mirror lockup"
-msgstr ""
+msgstr "Spiegelvorauslösung"
 
 #: src/canonmn.cpp:609
 msgid "Exposure Level Increments"
@@ -1991,7 +1991,7 @@ msgstr ""
 
 #: src/canonmn.cpp:622
 msgid "Unknown Canon Custom Function tag"
-msgstr ""
+msgstr "Unbekanntes Feld in den benutzerdefinierten Funktionen von Canon"
 
 #: src/canonmn.cpp:633
 msgid "mid-right"
@@ -2076,7 +2076,7 @@ msgstr "Benutzter Autofokus Punkt (20D)"
 
 #: src/canonmn.cpp:663
 msgid "Unknown Canon Picture Info tag"
-msgstr ""
+msgstr "Unbekanntes Feld in der Canon-Bildinfo"
 
 #: src/crwimage.cpp:601
 msgid "Header, offset"
@@ -3935,7 +3935,7 @@ msgstr "Nachtszene"
 
 #: src/fujimn.cpp:127 src/pentaxmn.cpp:446 src/pentaxmn.cpp:453
 msgid "Program AE"
-msgstr ""
+msgstr "Program \"automatische Belichtung\""
 
 #: src/fujimn.cpp:128
 msgid "Natural light"
@@ -3943,7 +3943,7 @@ msgstr "Natürliches Licht"
 
 #: src/fujimn.cpp:129
 msgid "Anti-blur"
-msgstr ""
+msgstr "Anti-Unschärfe"
 
 #: src/fujimn.cpp:130 src/minoltamn.cpp:430 src/pentaxmn.cpp:434
 msgid "Sunset"
@@ -4049,7 +4049,7 @@ msgstr "Version"
 
 #: src/fujimn.cpp:187
 msgid "Fujifilm Makernote version"
-msgstr ""
+msgstr "Version der Fujifilm Herstellerbemerkung"
 
 #: src/fujimn.cpp:190 src/panasonicmn.cpp:227
 msgid ""
@@ -4068,7 +4068,7 @@ msgstr "Farbe"
 
 #: src/fujimn.cpp:203
 msgid "Chroma saturation setting"
-msgstr ""
+msgstr "Chroma-Sättigungseinstellungen"
 
 #: src/fujimn.cpp:205
 msgid "Tone"
@@ -4132,11 +4132,11 @@ msgstr "Fuji FinePix Farbeinstellung"
 
 #: src/fujimn.cpp:244
 msgid "Blur Warning"
-msgstr ""
+msgstr "Unschärfewarnung"
 
 #: src/fujimn.cpp:245
 msgid "Blur warning status"
-msgstr ""
+msgstr "Unschärfewarnung-Status"
 
 #: src/fujimn.cpp:247
 msgid "Focus Warning"
@@ -4144,7 +4144,7 @@ msgstr "Fokuswarnung"
 
 #: src/fujimn.cpp:248
 msgid "Auto Focus warning status"
-msgstr ""
+msgstr "Status der Auto-Fokuswarnung"
 
 #: src/fujimn.cpp:250
 msgid "Exposure Warning"
@@ -4152,7 +4152,7 @@ msgstr "Belichtungswarnung"
 
 #: src/fujimn.cpp:251
 msgid "Auto exposure warning status"
-msgstr ""
+msgstr "Status der Auto-Belichtungswarnung"
 
 #: src/fujimn.cpp:253
 msgid "Dynamic Range"
@@ -4332,19 +4332,19 @@ msgstr ""
 
 #: src/minoltamn.cpp:236
 msgid "Camera Settings (Std Old)"
-msgstr ""
+msgstr "Kameraeinstellungen(Alter Standard)"
 
 #: src/minoltamn.cpp:237
 msgid "Standard Camera settings (Old Camera models like D5, D7, S304, and S404)"
-msgstr ""
+msgstr "Standard-Kameraeinstellungen (für alte Kameras wie z.B. D5, D7, S304 und S404)"
 
 #: src/minoltamn.cpp:239
 msgid "Camera Settings (Std New)"
-msgstr ""
+msgstr "Kameraeinstellungen(Neuer Standard)"
 
 #: src/minoltamn.cpp:240
 msgid "Standard Camera settings (New Camera Models like D7u, D7i, and D7hi)"
-msgstr ""
+msgstr "Standard-Kameraeinstellungen (für neue Kameras wie z.B. D7u, D7i und D7hi)"
 
 #: src/minoltamn.cpp:242
 msgid "Camera Settings (7D)"
@@ -4372,15 +4372,15 @@ msgstr "Komprimierte Bildgröße"
 
 #: src/minoltamn.cpp:252
 msgid "Jpeg thumbnail 640x480 pixels"
-msgstr ""
+msgstr "Jpeg-Vorschau 640x480 Pixel"
 
 #: src/minoltamn.cpp:254 src/olympusmn.cpp:359
 msgid "Thumbnail Offset"
-msgstr ""
+msgstr "Bildvorschauoffset"
 
 #: src/minoltamn.cpp:255
 msgid "Offset of the thumbnail"
-msgstr ""
+msgstr "Offset der Bildvorschau"
 
 #: src/minoltamn.cpp:257 src/olympusmn.cpp:362
 msgid "Thumbnail Length"
@@ -4423,11 +4423,11 @@ msgstr "Farbtemperatur"
 
 #: src/minoltamn.cpp:278
 msgid "Lens ID"
-msgstr ""
+msgstr "Linsen-ID"
 
 #: src/minoltamn.cpp:279
 msgid "Lens identifier"
-msgstr ""
+msgstr "Linsen-Identifizierung"
 
 #: src/minoltamn.cpp:281
 msgid "Camera Settings (5D)"
@@ -4483,7 +4483,7 @@ msgstr "Drahtlos"
 
 #: src/minoltamn.cpp:328
 msgid "Fluorescent 2"
-msgstr ""
+msgstr "Fluroszierend 2"
 
 #: src/minoltamn.cpp:330
 msgid "Custom 3"
@@ -4495,11 +4495,11 @@ msgstr "Volle Größe"
 
 #: src/minoltamn.cpp:347
 msgid "Super fine"
-msgstr ""
+msgstr "Superfein"
 
 #: src/minoltamn.cpp:351
 msgid "Extra fine"
-msgstr ""
+msgstr "Extrafein"
 
 #: src/minoltamn.cpp:358
 msgid "Self-timer"
@@ -4527,7 +4527,7 @@ msgstr "Mehr-Segment"
 
 #: src/minoltamn.cpp:381
 msgid "Electronic magnification"
-msgstr ""
+msgstr "Elektronische Vergrößerung"
 
 #: src/minoltamn.cpp:395 src/minoltamn.cpp:825 src/nikonmn.cpp:74
 #: src/pentaxmn.cpp:206
@@ -4653,7 +4653,7 @@ msgstr "Eingebettet"
 
 #: src/minoltamn.cpp:524
 msgid "Text + ID#"
-msgstr ""
+msgstr "Text + ID#"
 
 #: src/minoltamn.cpp:529
 msgid "ADI (Advanced Distance Integration)"
@@ -4680,7 +4680,7 @@ msgstr "Blitzmodus"
 #: src/minoltamn.cpp:627 src/pentaxmn.cpp:910 src/pentaxmn.cpp:911
 #: src/sigmamn.cpp:71
 msgid "Drive mode"
-msgstr ""
+msgstr "Antriebsmodus"
 
 #: src/minoltamn.cpp:632
 msgid "Exposure Speed"
@@ -4775,11 +4775,11 @@ msgstr "Maximale Blende"
 
 #: src/minoltamn.cpp:677
 msgid "File Number Memory"
-msgstr ""
+msgstr "Dateinummerspeicher"
 
 #: src/minoltamn.cpp:678
 msgid "File number memory"
-msgstr ""
+msgstr "Dateinummerspeicher"
 
 #: src/minoltamn.cpp:683
 msgid "Color Balance Red"
@@ -4938,7 +4938,7 @@ msgstr ""
 
 #: src/minoltamn.cpp:764
 msgid "Unknown Minolta Camera Settings tag"
-msgstr ""
+msgstr "Unbekanntes Feld in den Minolta-Kameraeinstellungen"
 
 #: src/minoltamn.cpp:782
 msgid "Program-shift A"
@@ -5041,7 +5041,7 @@ msgstr ""
 
 #: src/minoltamn.cpp:968
 msgid "Unknown Minolta Camera Settings 7D tag"
-msgstr ""
+msgstr "Unbekanntes Feld in den Minolta-Kameraeinstellungen für 7D"
 
 #: src/minoltamn.cpp:986
 msgid "Connected copying"
@@ -5125,7 +5125,7 @@ msgstr "AF Modus"
 
 #: src/minoltamn.cpp:1211
 msgid "Unknown Minolta Camera Settings 5D tag"
-msgstr ""
+msgstr "Unbekanntes Feld in den Minolta-Kameraeinstellungen für 5D"
 
 #: src/nikonmn.cpp:60 src/nikonmn.cpp:1030
 msgid "Single area"
@@ -5229,7 +5229,7 @@ msgstr ""
 
 #: src/nikonmn.cpp:144
 msgid "On for ISO 1600/3200"
-msgstr ""
+msgstr "An für ISO 1600/3200"
 
 #: src/nikonmn.cpp:145 src/pentaxmn.cpp:651
 msgid "Weak"
@@ -5241,7 +5241,7 @@ msgstr "Stark"
 
 #: src/nikonmn.cpp:164 src/nikonmn.cpp:580
 msgid "Nikon Makernote version"
-msgstr ""
+msgstr "Version der Herstellerbemerkung von Nikon"
 
 #: src/nikonmn.cpp:166 src/nikonmn.cpp:453 src/nikonmn.cpp:582
 #: src/olympusmn.cpp:200
@@ -6370,7 +6370,7 @@ msgstr "Optio S50"
 
 #: src/pentaxmn.cpp:95
 msgid "*ist DS"
-msgstr ""
+msgstr "*ist DS"
 
 #: src/pentaxmn.cpp:96
 msgid "Optio MX4"
@@ -6394,7 +6394,7 @@ msgstr "Optio S5z"
 
 #: src/pentaxmn.cpp:101
 msgid "*ist DL"
-msgstr ""
+msgstr "*ist DL"
 
 #: src/pentaxmn.cpp:102
 msgid "Optio S60"
@@ -6418,7 +6418,7 @@ msgstr "BenQ DC X600"
 
 #: src/pentaxmn.cpp:107
 msgid "*ist DS2"
-msgstr ""
+msgstr "*ist DS2"
 
 #: src/pentaxmn.cpp:108
 msgid "Samsung GX-1S"
@@ -6430,7 +6430,7 @@ msgstr "Optio A10"
 
 #: src/pentaxmn.cpp:110
 msgid "*ist DL2"
-msgstr ""
+msgstr "*ist DL2"
 
 #: src/pentaxmn.cpp:111
 msgid "Samsung GX-1L"
@@ -9038,19 +9038,19 @@ msgstr "Einstellungen des Kameraprofils."
 
 #: src/properties.cpp:360
 msgid "Chromatic Aberration Blue"
-msgstr ""
+msgstr "Chromatische Aberration Blau"
 
 #: src/properties.cpp:360
 msgid "\"Chromatic Aberration, Fix Blue/Yellow Fringe\" setting. Range -100 to +100."
-msgstr ""
+msgstr "Einstellung \"Chromatische Aberration, Blau/Gelb-Ränder korrigieren\". Bereich von -100 bis +100."
 
 #: src/properties.cpp:361
 msgid "Chromatic Aberration Red"
-msgstr ""
+msgstr "Chromatische Aberration Rot"
 
 #: src/properties.cpp:361
 msgid "\"Chromatic Aberration, Fix Red/Cyan Fringe\" setting. Range -100 to +100."
-msgstr ""
+msgstr "Einstellung \"Chromatische Aberration, Rot/Cyan-Ränder korrigieren\". Bereich von -100 bis +100."
 
 #: src/properties.cpp:362
 msgid "Color Noise Reduction"
@@ -9415,7 +9415,7 @@ msgstr "Weißpunkt"
 
 #: src/properties.cpp:426
 msgid "TIFF tag 318, 0x13E. Chromaticity of white point."
-msgstr ""
+msgstr "TIFF-Feld 318, 0x13E. Chromatizität des Weißpunktes."
 
 #: src/properties.cpp:427 src/tags.cpp:373
 msgid "Primary Chromaticities"
@@ -9423,7 +9423,7 @@ msgstr "Primäre Chromazität"
 
 #: src/properties.cpp:427
 msgid "TIFF tag 319, 0x13F. Chromaticity of the three primary colors."
-msgstr ""
+msgstr "TIFF-Feld 319, 0x13F. Chromatizität der drei Primärfarben."
 
 #: src/properties.cpp:428 src/tags.cpp:399
 msgid "YCbCr Coefficients"
@@ -12608,7 +12608,7 @@ msgstr "Zugehörige Bildlänge"
 
 #: src/tags.cpp:1210 src/tags.cpp:1211
 msgid "Unknown Exif Interoperability tag"
-msgstr ""
+msgstr "Unbekanntes Exif-Kompatibilitätsfeld"
 
 #: src/tags.cpp:1221 src/tags.cpp:1222
 msgid "Unknown tag"
