@@ -43,7 +43,7 @@ EXIV2_RCSID("@(#) $Id$")
 # define TXMP_STRING_TYPE std::string
 # include <XMP.hpp>
 # include <XMP.incl_cpp>
-# include <../src/MD5.h>
+# include <MD5.h>
 #endif // EXV_HAVE_XMP_TOOLKIT
 
 // + standard includes
