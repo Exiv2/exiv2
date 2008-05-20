@@ -38,6 +38,10 @@ EXIV2_RCSID("@(#) $Id$")
 #include "xmp.hpp"
 #include "convert.hpp"
 
+// + standard includes
+#include <iostream>
+#include <iomanip>
+
 // Adobe XMP Toolkit
 #ifdef EXV_HAVE_XMP_TOOLKIT
 # define TXMP_STRING_TYPE std::string
@@ -45,16 +49,6 @@ EXIV2_RCSID("@(#) $Id$")
 # include <XMP.incl_cpp>
 # include <MD5.h>
 #endif // EXV_HAVE_XMP_TOOLKIT
-
-// + standard includes
-
-#include <iostream>
-#include <iomanip>
-
-// *****************************************************************************
-namespace {
-
-}
 
 // *****************************************************************************
 // class member definitions
@@ -73,11 +67,11 @@ namespace Exiv2 {
         typedef void (Converter::*ConvertFct)(const char* from, const char* to);
         //! Structure to define conversions between two keys.
         struct Conversion {
-            MetadataId  metadataId; //!< Type of metadata for the first key.
-            const char* key1;       //!< First metadata key.
-            const char* key2;       //!< Second metadata key (always an XMP key for now).
-            ConvertFct  key1ToKey2; //!< Conversion from first to second key.
-            ConvertFct  key2ToKey1; //!< Conversion from second to first key.
+            MetadataId  metadataId_; //!< Type of metadata for the first key.
+            const char* key1_;       //!< First metadata key.
+            const char* key2_;       //!< Second metadata key (always an XMP key for now).
+            ConvertFct  key1ToKey2_; //!< Conversion from first to second key.
+            ConvertFct  key2ToKey1_; //!< Conversion from second to first key.
         };
     public:
         //! @name Creators
@@ -87,11 +81,12 @@ namespace Exiv2 {
         //! Constructor for Iptc tags and XMP properties.
         Converter(IptcData& iptcData, XmpData& xmpData);
         //@}
+
         //! @name Manipulators
         //@{
-        //! Convert Exif or Iptc tags to XMP properties according to the conversion table.
+        //! Convert Exif tags or IPTC datasets to XMP properties according to the conversion table.
         void cnvToXmp();
-        //! Convert XMP properties to Exif or Iptc tags according to the conversion table.
+        //! Convert XMP properties to Exif tags or IPTC datasets according to the conversion table.
         void cnvFromXmp();
         /*!
           @brief Set the erase flag.
@@ -106,6 +101,7 @@ namespace Exiv2 {
          */
         void setOverwrite(bool onoff =true) { overwrite_ = onoff; }
         //@}
+
         //! @name Conversion functions (manipulators)
         //@{
         /*!
@@ -117,41 +113,41 @@ namespace Exiv2 {
         /*!
           @brief Converts Exif tag with multiple components to XMP array.
 
-          Converts Exif tag with multiple components to XMP array. This function is 
-	  used for ComponentsConfiguration tag.
+          Converts Exif tag with multiple components to XMP array. This function is
+          used for ComponentsConfiguration tag.
          */
         void cnvExifArray(const char* from, const char* to);
         /*!
           @brief Exif date to XMP conversion function.
 
           Sets the XMP property to an XmpText value containing date and time. This function
-	  combines values from multiple Exif tags as described in XMP specification. It
-	  is used for DateTime, DateTimeOriginal, DateTimeDigitized and GPSTimeStamp.
+          combines values from multiple Exif tags as described in XMP specification. It
+          is used for DateTime, DateTimeOriginal, DateTimeDigitized and GPSTimeStamp.
          */
         void cnvExifDate(const char* from, const char* to);
-	/*!
+        /*!
           @brief Exif version to XMP conversion function.
 
           Converts ExifVersion tag to XmpText value.
          */
         void cnvExifVersion(const char* from, const char* to);
-	/*!
+        /*!
           @brief Exif GPS version to XMP conversion function.
 
           Converts GPSVersionID tag to XmpText value.
          */
         void cnvExifGPSVersion(const char* from, const char* to);
-	/*!
+        /*!
           @brief Exif Flash to XMP conversion function.
 
           Converts Flash tag to XMP structure.
          */
         void cnvExifFlash(const char* from, const char* to);
-	/*!
+        /*!
           @brief Exif GPS coordinate to XMP conversion function.
 
-          Converts GPS coordinates tag to XmpText value. It combines multiple exif tags
-	  as described in XMP specification.
+          Converts GPS coordinates tag to XmpText value. It combines multiple Exif tags
+          as described in XMP specification.
          */
         void cnvExifGPSCoord(const char* from, const char* to);
         /*!
@@ -163,64 +159,71 @@ namespace Exiv2 {
         /*!
           @brief Converts XMP array to Exif tag with multiple components.
 
-          Converts XMP array to Exif tag with multiple components. This function is 
-	  used for ComponentsConfiguration tag.
+          Converts XMP array to Exif tag with multiple components. This function is
+          used for ComponentsConfiguration tag.
          */
         void cnvXmpArray(const char* from, const char* to);
         /*!
           @brief XMP to Exif date conversion function.
 
           Converts the XmpText value to Exif date and time. This function
-	  sets multiple Exif tags as described in XMP specification. It
-	  is used for DateTime, DateTimeOriginal, DateTimeDigitized and GPSTimeStamp.
+          sets multiple Exif tags as described in XMP specification. It
+          is used for DateTime, DateTimeOriginal, DateTimeDigitized and GPSTimeStamp.
          */
         void cnvXmpDate(const char* from, const char* to);
-	/*!
+        /*!
           @brief XMP to Exif version conversion function.
 
           Converts XmpText value to ExifVersion tag.
          */
-	void cnvXmpVersion(const char* from, const char* to);
-	/*!
+        void cnvXmpVersion(const char* from, const char* to);
+        /*!
           @brief XMP to Exif GPS version conversion function.
 
           Converts XmpText value to GPSVersionID tag.
          */
-	void cnvXmpGPSVersion(const char* from, const char* to);
-	/*!
+        void cnvXmpGPSVersion(const char* from, const char* to);
+        /*!
           @brief XMP to Exif Flash conversion function.
 
           Converts XMP structure to Flash tag.
          */
         void cnvXmpFlash(const char* from, const char* to);
-	/*!
+        /*!
           @brief XMP to Exif GPS coordinate conversion function.
 
           Converts XmpText value to GPS coordinates tags. It sets multiple Exif tags
-	  as described in XMP specification.
+          as described in XMP specification.
          */
         void cnvXmpGPSCoord(const char* from, const char* to);
+        /*!
+          @brief IPTC dataset to XMP conversion function.
 
+          Multiple IPTC datasets with the same key are converted to an XMP array.
+         */
+        void cnvIptcValue(const char* from, const char* to);
+        /*!
+          @brief XMP to IPTC dataset conversion function.
 
-	void cnvIptcValue(const char* from, const char* to);
-	void cnvXmpValueToIptc(const char* from, const char* to);
-
-
-	/*!
+          Each array element of an XMP array value is added as one IPTC dataset.
+         */
+        void cnvXmpValueToIptc(const char* from, const char* to);
+        /*!
           @brief Write exif:NativeDigest and tiff:NativeDigest properties to XMP.
 
-	  Compute digests from Exif values and write them to  exif:NativeDigest 
-	  and tiff:NativeDigest properties. This should be compatible with XMP SDK.
+          Compute digests from Exif values and write them to  exif:NativeDigest
+          and tiff:NativeDigest properties. This should be compatible with XMP SDK.
          */
-	void writeExifDigest();
-	/*!
+        void writeExifDigest();
+        /*!
           @brief Copies metadata in appropriate direction.
 
-	  From values of exif:NativeDigest and tiff:NativeDigest detects which of
-	  XMP and Exif was updated more recently and copies metadata in appropriate direction.
+          From values of exif:NativeDigest and tiff:NativeDigest detects which of
+          XMP and Exif was updated more recently and copies metadata in appropriate direction.
          */
-	void syncExifWithXmp();
+        void syncExifWithXmp();
         //@}
+
         //! @name Accessors
         //@{
         //! Get the value of the erase flag, see also setErase(bool on).
@@ -228,23 +231,25 @@ namespace Exiv2 {
         //! Get the value of the overwrite flag, see also setOverwrite(bool on).
         bool overwrite() const { return overwrite_; }
         //@}
+
     private:
-        bool prepareExifTarget(const char* to, bool force = false);
-        bool prepareIptcTarget(const char* to, bool force = false);
-        bool prepareXmpTarget(const char* to, bool force = false);
-	std::string computeExifDigest(bool tiff);
-	std::string computeIptcDigest();
+        bool prepareExifTarget(const char* to, bool force =false);
+        bool prepareIptcTarget(const char* to, bool force =false);
+        bool prepareXmpTarget(const char* to, bool force =false);
+        std::string computeExifDigest(bool tiff);
+        std::string computeIptcDigest();
+
         // DATA
         static const Conversion conversion_[];  //<! Conversion rules
         bool erase_;
-	bool overwrite_;
+        bool overwrite_;
         ExifData *exifData_;
         IptcData *iptcData_;
         XmpData  *xmpData_;
 
     }; // class Converter
 
-    // order is important for computing digests
+    // Order is important for computing digests
     const Converter::Conversion Converter::conversion_[] = {
         { mdExif, "Exif.Image.ImageWidth",                "Xmp.tiff.ImageWidth",                &Converter::cnvExifValue, &Converter::cnvXmpValue },
         { mdExif, "Exif.Image.ImageLength",               "Xmp.tiff.ImageLength",               &Converter::cnvExifValue, &Converter::cnvXmpValue },
@@ -375,12 +380,12 @@ namespace Exiv2 {
     };
 
     Converter::Converter(ExifData& exifData, XmpData& xmpData)
-        : erase_(false), overwrite_(true), exifData_(&exifData), iptcData_(NULL), xmpData_(&xmpData)
+        : erase_(false), overwrite_(true), exifData_(&exifData), iptcData_(0), xmpData_(&xmpData)
     {
     }
 
     Converter::Converter(IptcData& iptcData, XmpData& xmpData)
-        : erase_(false), overwrite_(true), exifData_(NULL), iptcData_(&iptcData), xmpData_(&xmpData)
+        : erase_(false), overwrite_(true), exifData_(0), iptcData_(&iptcData), xmpData_(&xmpData)
     {
     }
 
@@ -388,9 +393,9 @@ namespace Exiv2 {
     {
         for (unsigned int i = 0; i < EXV_COUNTOF(conversion_); ++i) {
             const Conversion& c = conversion_[i];
-            if (   (c.metadataId == mdExif && exifData_)
-                || (c.metadataId == mdIptc && iptcData_)) {
-                EXV_CALL_MEMBER_FN(*this, c.key1ToKey2)(c.key1, c.key2);
+            if (   (c.metadataId_ == mdExif && exifData_)
+                || (c.metadataId_ == mdIptc && iptcData_)) {
+                EXV_CALL_MEMBER_FN(*this, c.key1ToKey2_)(c.key1_, c.key2_);
             }
         }
     }
@@ -399,9 +404,9 @@ namespace Exiv2 {
     {
         for (unsigned int i = 0; i < EXV_COUNTOF(conversion_); ++i) {
             const Conversion& c = conversion_[i];
-            if (   (c.metadataId == mdExif && exifData_)
-                || (c.metadataId == mdIptc && iptcData_)) {
-                EXV_CALL_MEMBER_FN(*this, c.key2ToKey1)(c.key2, c.key1);
+            if (   (c.metadataId_ == mdExif && exifData_)
+                || (c.metadataId_ == mdIptc && iptcData_)) {
+                EXV_CALL_MEMBER_FN(*this, c.key2ToKey1_)(c.key2_, c.key1_);
             }
         }
     }
@@ -410,28 +415,29 @@ namespace Exiv2 {
     {
         Exiv2::ExifData::iterator pos = exifData_->findKey(ExifKey(to));
         if (pos == exifData_->end()) return true;
-	if (!overwrite_ && !force) return false;
-	exifData_->erase(pos);
-	return true;
+        if (!overwrite_ && !force) return false;
+        exifData_->erase(pos);
+        return true;
     }
 
     bool Converter::prepareIptcTarget(const char* to, bool force)
     {
         Exiv2::IptcData::iterator pos = iptcData_->findKey(IptcKey(to));
         if (pos == iptcData_->end()) return true;
-	if (!overwrite_ && !force) return false;
-	while ((pos = iptcData_->findKey(IptcKey(to))) != iptcData_->end())
-	    iptcData_->erase(pos);
-	return true;
+        if (!overwrite_ && !force) return false;
+        while ((pos = iptcData_->findKey(IptcKey(to))) != iptcData_->end()) {
+            iptcData_->erase(pos);
+        }
+        return true;
     }
 
     bool Converter::prepareXmpTarget(const char* to, bool force)
     {
         Exiv2::XmpData::iterator pos = xmpData_->findKey(XmpKey(to));
         if (pos == xmpData_->end()) return true;
-	if (!overwrite_ && !force) return false;
-	xmpData_->erase(pos);
-	return true;
+        if (!overwrite_ && !force) return false;
+        xmpData_->erase(pos);
+        return true;
     }
 
     void Converter::cnvExifValue(const char* from, const char* to)
@@ -442,10 +448,10 @@ namespace Exiv2 {
         if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
-#endif            
+#endif
             return;
         }
-	if (!prepareXmpTarget(to)) return;
+        if (!prepareXmpTarget(to)) return;
         (*xmpData_)[to] = value;
         if (erase_) exifData_->erase(pos);
     }
@@ -454,18 +460,17 @@ namespace Exiv2 {
     {
         Exiv2::ExifData::iterator pos = exifData_->findKey(ExifKey(from));
         if (pos == exifData_->end()) return;
-	if (!prepareXmpTarget(to)) return;
-	int i;
-	for (i = 0; i < pos->value().count(); i++) {
-	    std::string value = pos->value().toString(i);
-	    if (!pos->value().ok()) {
+        if (!prepareXmpTarget(to)) return;
+        for (int i = 0; i < pos->value().count(); ++i) {
+            std::string value = pos->value().toString(i);
+            if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
-        	std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
-#endif            
-        	return;
-	    }
-	    (*xmpData_)[to] = value;
-	}
+                std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+#endif
+                return;
+            }
+            (*xmpData_)[to] = value;
+        }
         if (erase_) exifData_->erase(pos);
     }
 
@@ -473,95 +478,96 @@ namespace Exiv2 {
     {
         Exiv2::ExifData::iterator pos = exifData_->findKey(ExifKey(from));
         if (pos == exifData_->end()) return;
-	if (!prepareXmpTarget(to)) return;
-	int year, month, day, hour, min, sec;
+        if (!prepareXmpTarget(to)) return;
+        int year, month, day, hour, min, sec;
         std::string subsec = "";
-	char buf[30];
+        char buf[30];
 
-	if (std::string(from) != "Exif.GPSInfo.GPSTimeStamp") {
-	    std::string value = pos->value().toString();
-	    if (!pos->value().ok()) {
+        if (std::string(from) != "Exif.GPSInfo.GPSTimeStamp") {
+            std::string value = pos->value().toString();
+            if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
-		std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
-#endif            
-		return;
-	    }
-	    if (sscanf(value.c_str(), "%d:%d:%d %d:%d:%d", &year, &month, &day, &hour, &min, &sec) != 6) {
+                std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+#endif
+                return;
+            }
+            if (sscanf(value.c_str(), "%d:%d:%d %d:%d:%d", &year, &month, &day, &hour, &min, &sec) != 6) {
 #ifndef SUPPRESS_WARNINGS
-		std::cerr << "Warning: Failed to convert " << from << " to " << to 
-			  << ", unable to parse '" << value << "'\n";
-#endif            
-		return;
-	    }
-	}
-	else { // "Exif.GPSInfo.GPSTimeStamp"
-	    double dhour = pos->value().toFloat(0);
-	    double dmin = pos->value().toFloat(1);
-	    double dsec = pos->value().toFloat(2);
+                std::cerr << "Warning: Failed to convert " << from << " to " << to
+                          << ", unable to parse '" << value << "'\n";
+#endif
+                return;
+            }
+        }
+        else { // "Exif.GPSInfo.GPSTimeStamp"
+            double dhour = pos->value().toFloat(0);
+            double dmin = pos->value().toFloat(1);
+            double dsec = pos->value().toFloat(2);
 
-	    if (!pos->value().ok()) {
+            if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
-		std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
-#endif            
-		return;
-	    }
-	
-	    dsec = dhour * 3600.0 + dmin * 60.0 + dsec;
-	
-	    hour = (int)(dsec / 3600.0);
-	    dsec -= hour * 3600;
-	    min = (int)(dsec / 60.0);
-	    dsec -= min * 60;
-	    sec = (int)dsec;
-	    dsec -= sec;
-	    
-	    snprintf(buf, sizeof(buf), "%.9f", dsec);
-	    buf[sizeof(buf) - 1] = 0;
-	    subsec = buf + 1; 
+                std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+#endif
+                return;
+            }
 
-	    Exiv2::ExifData::iterator date_pos = exifData_->findKey(ExifKey("Exif.GPSInfo.GPSDateStamp"));
-    	    if (date_pos == exifData_->end())
-		date_pos = exifData_->findKey(ExifKey("Exif.Photo.DateTimeOriginal"));
-    	    if (date_pos == exifData_->end())
-		date_pos = exifData_->findKey(ExifKey("Exif.Photo.DateTimeDigitized"));
-    	    if (date_pos == exifData_->end()) {
+            dsec = dhour * 3600.0 + dmin * 60.0 + dsec;
+
+            hour = static_cast<int>(dsec / 3600.0);
+            dsec -= hour * 3600;
+            min = static_cast<int>(dsec / 60.0);
+            dsec -= min * 60;
+            sec = static_cast<int>(dsec);
+            dsec -= sec;
+
+            snprintf(buf, sizeof(buf), "%.9f", dsec);
+            buf[sizeof(buf) - 1] = 0;
+            subsec = buf + 1;
+
+            Exiv2::ExifData::iterator datePos = exifData_->findKey(ExifKey("Exif.GPSInfo.GPSDateStamp"));
+            if (datePos == exifData_->end()) {
+                datePos = exifData_->findKey(ExifKey("Exif.Photo.DateTimeOriginal"));
+            }
+            if (datePos == exifData_->end()) {
+                datePos = exifData_->findKey(ExifKey("Exif.Photo.DateTimeDigitized"));
+            }
+            if (datePos == exifData_->end()) {
 #ifndef SUPPRESS_WARNINGS
-		std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
-#endif            
-		return;
-	    }
-	    std::string value = date_pos->value().toString();
-	    if (sscanf(value.c_str(), "%d:%d:%d", &year, &month, &day) != 3) {
+                std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+#endif
+                return;
+            }
+            std::string value = datePos->value().toString();
+            if (sscanf(value.c_str(), "%d:%d:%d", &year, &month, &day) != 3) {
 #ifndef SUPPRESS_WARNINGS
-		std::cerr << "Warning: Failed to convert " << from << " to " << to 
-			  << ", unable to parse '" << value << "'\n";
-#endif            
-		return;
-	    }
-	}	     
+                std::cerr << "Warning: Failed to convert " << from << " to " << to
+                          << ", unable to parse '" << value << "'\n";
+#endif
+                return;
+            }
+        }
 
-	const char *subsec_tag = NULL;
-	if (std::string(from) == "Exif.Image.DateTime") {
-	    subsec_tag = "Exif.Photo.SubSecTime";
-	}
-	else if (std::string(from) == "Exif.Photo.DateTimeOriginal") {
-	    subsec_tag = "Exif.Photo.SubSecTimeOriginal";
-	}
-	else if (std::string(from) == "Exif.Photo.DateTimeDigitized") {
-	    subsec_tag = "Exif.Photo.SubSecTimeDigitized";
-	}
+        const char *subsecTag = 0;
+        if (std::string(from) == "Exif.Image.DateTime") {
+            subsecTag = "Exif.Photo.SubSecTime";
+        }
+        else if (std::string(from) == "Exif.Photo.DateTimeOriginal") {
+            subsecTag = "Exif.Photo.SubSecTimeOriginal";
+        }
+        else if (std::string(from) == "Exif.Photo.DateTimeDigitized") {
+            subsecTag = "Exif.Photo.SubSecTimeDigitized";
+        }
 
-	if (subsec_tag) {
-	    Exiv2::ExifData::iterator subsec_pos = exifData_->findKey(ExifKey(subsec_tag));
-    	    if (subsec_pos != exifData_->end() && !subsec_pos->value().toString().empty())
-    		subsec = std::string(".") + subsec_pos->value().toString();
-    	    if (erase_) exifData_->erase(subsec_pos);
-	}
-	
-	
-	snprintf(buf, sizeof(buf), "%4d-%02d-%02dT%02d:%02d:%02d%s", year, month, day, hour, min, sec, subsec.c_str());
-	buf[sizeof(buf) - 1] = 0;
-	
+        if (subsecTag) {
+            Exiv2::ExifData::iterator subsec_pos = exifData_->findKey(ExifKey(subsecTag));
+            if (subsec_pos != exifData_->end() && !subsec_pos->value().toString().empty())
+                subsec = std::string(".") + subsec_pos->value().toString();
+            if (erase_) exifData_->erase(subsec_pos);
+        }
+
+        snprintf(buf, sizeof(buf), "%4d-%02d-%02dT%02d:%02d:%02d%s", year, month, day, hour, min, sec, subsec.c_str());
+        buf[sizeof(buf) - 1] = 0;
+
         (*xmpData_)[to] = buf;
         if (erase_) exifData_->erase(pos);
     }
@@ -570,11 +576,11 @@ namespace Exiv2 {
     {
         Exiv2::ExifData::iterator pos = exifData_->findKey(ExifKey(from));
         if (pos == exifData_->end()) return;
-	if (!prepareXmpTarget(to)) return;
-	int i;
-	std::ostringstream value;
-	for (i=0; i < pos->value().count(); i++)
-	    value << (char)pos->value().toLong(i);
+        if (!prepareXmpTarget(to)) return;
+        std::ostringstream value;
+        for (int i = 0; i < pos->value().count(); ++i) {
+            value << static_cast<char>(pos->value().toLong(i));
+        }
         (*xmpData_)[to] = value.str();
         if (erase_) exifData_->erase(pos);
     }
@@ -583,13 +589,12 @@ namespace Exiv2 {
     {
         Exiv2::ExifData::iterator pos = exifData_->findKey(ExifKey(from));
         if (pos == exifData_->end()) return;
-	if (!prepareXmpTarget(to)) return;
-	int i;
-	std::ostringstream value;
-	for (i=0; i < pos->value().count(); i++) {
-	    if (i > 0) value << '.';
-	    value << pos->value().toLong(i);
-	}
+        if (!prepareXmpTarget(to)) return;
+        std::ostringstream value;
+        for (int i = 0; i < pos->value().count(); ++i) {
+            if (i > 0) value << '.';
+            value << pos->value().toLong(i);
+        }
         (*xmpData_)[to] = value.str();
         if (erase_) exifData_->erase(pos);
     }
@@ -598,20 +603,20 @@ namespace Exiv2 {
     {
         Exiv2::ExifData::iterator pos = exifData_->findKey(ExifKey(from));
         if (pos == exifData_->end()) return;
-	if (!prepareXmpTarget(to)) return;
+        if (!prepareXmpTarget(to)) return;
         int value = pos->value().toLong();
         if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
-#endif            
+#endif
             return;
         }
-	
-	(*xmpData_)["Xmp.exif.Flash/exif:Fired"] = (bool)(value & 1);
-	(*xmpData_)["Xmp.exif.Flash/exif:Return"] = (value >> 1) & 3;
-	(*xmpData_)["Xmp.exif.Flash/exif:Mode"] = (value >> 3) & 3;
-	(*xmpData_)["Xmp.exif.Flash/exif:Function"] = (bool)((value >> 5) & 1);
-	(*xmpData_)["Xmp.exif.Flash/exif:RedEyeMode"] = (bool)((value >> 6) & 1);
+
+        (*xmpData_)["Xmp.exif.Flash/exif:Fired"] = static_cast<bool>(value & 1);
+        (*xmpData_)["Xmp.exif.Flash/exif:Return"] = (value >> 1) & 3;
+        (*xmpData_)["Xmp.exif.Flash/exif:Mode"] = (value >> 3) & 3;
+        (*xmpData_)["Xmp.exif.Flash/exif:Function"] = static_cast<bool>((value >> 5) & 1);
+        (*xmpData_)["Xmp.exif.Flash/exif:RedEyeMode"] = static_cast<bool>((value >> 6) & 1);
 
         if (erase_) exifData_->erase(pos);
     }
@@ -620,47 +625,47 @@ namespace Exiv2 {
     {
         Exiv2::ExifData::iterator pos = exifData_->findKey(ExifKey(from));
         if (pos == exifData_->end()) return;
-	if (!prepareXmpTarget(to)) return;
+        if (!prepareXmpTarget(to)) return;
         if (pos->value().count() != 3) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
-#endif            
+#endif
             return;
         }
-        Exiv2::ExifData::iterator ref_pos = exifData_->findKey(ExifKey(std::string(from) + "Ref"));
-        if (ref_pos == exifData_->end()) return;
+        Exiv2::ExifData::iterator refPos = exifData_->findKey(ExifKey(std::string(from) + "Ref"));
+        if (refPos == exifData_->end()) return;
 
-	double deg = pos->value().toFloat(0);
-	double min = pos->value().toFloat(1);
-	double sec = pos->value().toFloat(2);
-	
-	sec = deg * 3600.0 + min * 60.0 + sec;
-	
-	int ideg = (int)(sec / 3600.0);
-	sec -= ideg * 3600;
-	int imin = (int)(sec / 60.0);
-	sec -= imin * 60;
-	
-	char buf[30];
-	
-	snprintf(buf, sizeof(buf), "%d,%d,%.2f%c", ideg, imin, sec, ref_pos->value().toString().c_str()[0]);
-	buf[sizeof(buf) - 1] = 0;
+        double deg = pos->value().toFloat(0);
+        double min = pos->value().toFloat(1);
+        double sec = pos->value().toFloat(2);
+
+        sec = deg * 3600.0 + min * 60.0 + sec;
+
+        int ideg = static_cast<int>(sec / 3600.0);
+        sec -= ideg * 3600;
+        int imin = static_cast<int>(sec / 60.0);
+        sec -= imin * 60;
+
+        char buf[30];
+
+        snprintf(buf, sizeof(buf), "%d,%d,%.2f%c", ideg, imin, sec, refPos->value().toString().c_str()[0]);
+        buf[sizeof(buf) - 1] = 0;
 
         (*xmpData_)[to] = buf;
         if (erase_) exifData_->erase(pos);
-        if (erase_) exifData_->erase(ref_pos);
+        if (erase_) exifData_->erase(refPos);
     }
 
     void Converter::cnvXmpValue(const char* from, const char* to)
     {
         Exiv2::XmpData::iterator pos = xmpData_->findKey(XmpKey(from));
         if (pos == xmpData_->end()) return;
-	if (!prepareExifTarget(to)) return;
+        if (!prepareExifTarget(to)) return;
         std::string value = pos->value().toString();
         if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
-#endif            
+#endif
             return;
         }
         (*exifData_)[to] = value;
@@ -669,87 +674,95 @@ namespace Exiv2 {
 
     void Converter::cnvXmpArray(const char* from, const char* to)
     {
-	if (!prepareExifTarget(to)) return;
+        if (!prepareExifTarget(to)) return;
         Exiv2::XmpData::iterator pos = xmpData_->findKey(XmpKey(from));
         if (pos == xmpData_->end()) return;
-	int i;
-	std::ostringstream array;
-	
-	for (i = 0; i < pos->value().count(); i++) {
-	    std::string value = pos->value().toString(i);
-	    if (!pos->value().ok()) {
+        std::ostringstream array;
+        for (int i = 0; i < pos->value().count(); ++i) {
+            std::string value = pos->value().toString(i);
+            if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
-		std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
-#endif            
-		return;
-	    }
-	    array << value << " ";
-	}
-	(*exifData_)[to] = array.str();
+                std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+#endif
+                return;
+            }
+            array << value << " ";
+        }
+        (*exifData_)[to] = array.str();
         if (erase_) xmpData_->erase(pos);
     }
 
     void Converter::cnvXmpDate(const char* from, const char* to)
     {
-#ifdef EXV_HAVE_XMP_TOOLKIT	
+#ifdef EXV_HAVE_XMP_TOOLKIT
         Exiv2::XmpData::iterator pos = xmpData_->findKey(XmpKey(from));
         if (pos == xmpData_->end()) return;
-	if (!prepareExifTarget(to)) return;
+        if (!prepareExifTarget(to)) return;
         std::string value = pos->value().toString();
         if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
-#endif            
+#endif
             return;
         }
-	XMP_DateTime datetime;
-	SXMPUtils::ConvertToDate(value, &datetime);
-	
-	char buf[30];
-	
-	if (std::string(to) != "Exif.GPSInfo.GPSTimeStamp") {
+        XMP_DateTime datetime;
+        SXMPUtils::ConvertToDate(value, &datetime);
 
-//	    SXMPUtils::ConvertToLocalTime(&datetime);
-	
-	    snprintf(buf, sizeof(buf), "%4d:%02d:%02d %02d:%02d:%02d", (int)datetime.year, (int)datetime.month, 
-	    	     (int)datetime.day, (int)datetime.hour, (int)datetime.minute, (int)datetime.second);
-	    buf[sizeof(buf) - 1] = 0;
-    	    (*exifData_)[to] = buf;
+        char buf[30];
 
-	    const char *subsec_tag = NULL;
-	    if (std::string(to) == "Exif.Image.DateTime") {
-	        subsec_tag = "Exif.Photo.SubSecTime";
-	    }
-	    else if (std::string(to) == "Exif.Photo.DateTimeOriginal") {
-		subsec_tag = "Exif.Photo.SubSecTimeOriginal";
-	    }
-	    else if (std::string(to) == "Exif.Photo.DateTimeDigitized") {
-		subsec_tag = "Exif.Photo.SubSecTimeDigitized";
-	    }
+        if (std::string(to) != "Exif.GPSInfo.GPSTimeStamp") {
 
-	    if (subsec_tag) {
-		prepareExifTarget(subsec_tag, true);
+//          SXMPUtils::ConvertToLocalTime(&datetime);
 
-		if (datetime.nanoSecond) {
-		    snprintf(buf, sizeof(buf), "%09d", (int)datetime.nanoSecond);
-		    (*exifData_)[subsec_tag] = buf;
-		}
-	    }
-	}
-	else { // "Exif.GPSInfo.GPSTimeStamp"
-	    Rational rhour = floatToRationalCast(datetime.hour);
-	    Rational rmin = floatToRationalCast(datetime.minute);
-	    Rational rsec = floatToRationalCast((float)datetime.second + datetime.nanoSecond / 1000000000.0);
+            snprintf(buf, sizeof(buf),
+                     "%4d:%02d:%02d %02d:%02d:%02d",
+                     static_cast<int>(datetime.year),
+                     static_cast<int>(datetime.month),
+                     static_cast<int>(datetime.day),
+                     static_cast<int>(datetime.hour),
+                     static_cast<int>(datetime.minute),
+                     static_cast<int>(datetime.second));
+            buf[sizeof(buf) - 1] = 0;
+            (*exifData_)[to] = buf;
 
-	    std::ostringstream array;
-	    array << rhour << " " << rmin << " " << rsec;
-	    (*exifData_)[to] = array.str();
+            const char *subsecTag = 0;
+            if (std::string(to) == "Exif.Image.DateTime") {
+                subsecTag = "Exif.Photo.SubSecTime";
+            }
+            else if (std::string(to) == "Exif.Photo.DateTimeOriginal") {
+                subsecTag = "Exif.Photo.SubSecTimeOriginal";
+            }
+            else if (std::string(to) == "Exif.Photo.DateTimeDigitized") {
+                subsecTag = "Exif.Photo.SubSecTimeDigitized";
+            }
 
-	    prepareExifTarget("Exif.GPSInfo.GPSDateStamp", true);
-	    snprintf(buf, sizeof(buf), "%4d:%02d:%02d", (int)datetime.year, (int)datetime.month, (int)datetime.day);
-	    buf[sizeof(buf) - 1] = 0;
-    	    (*exifData_)["Exif.GPSInfo.GPSDateStamp"] = buf;
-	}
+            if (subsecTag) {
+                prepareExifTarget(subsecTag, true);
+
+                if (datetime.nanoSecond) {
+                    snprintf(buf, sizeof(buf), "%09d", static_cast<int>(datetime.nanoSecond));
+                    (*exifData_)[subsecTag] = buf;
+                }
+            }
+        }
+        else { // "Exif.GPSInfo.GPSTimeStamp"
+            Rational rhour = floatToRationalCast(datetime.hour);
+            Rational rmin = floatToRationalCast(datetime.minute);
+            Rational rsec = floatToRationalCast(static_cast<float>(datetime.second) + datetime.nanoSecond / 1000000000.0);
+
+            std::ostringstream array;
+            array << rhour << " " << rmin << " " << rsec;
+            (*exifData_)[to] = array.str();
+
+            prepareExifTarget("Exif.GPSInfo.GPSDateStamp", true);
+            snprintf(buf, sizeof(buf),
+                     "%4d:%02d:%02d",
+                     static_cast<int>(datetime.year),
+                     static_cast<int>(datetime.month),
+                     static_cast<int>(datetime.day));
+            buf[sizeof(buf) - 1] = 0;
+            (*exifData_)["Exif.GPSInfo.GPSDateStamp"] = buf;
+        }
 
         if (erase_) xmpData_->erase(pos);
 #endif
@@ -759,102 +772,103 @@ namespace Exiv2 {
     {
         Exiv2::XmpData::iterator pos = xmpData_->findKey(XmpKey(from));
         if (pos == xmpData_->end()) return;
-	if (!prepareExifTarget(to)) return;
+        if (!prepareExifTarget(to)) return;
         std::string value = pos->value().toString();
         if (!pos->value().ok() || value.length() < 4) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
-#endif            
+#endif
             return;
         }
-	std::ostringstream array;
-	
-	array << (int)value[0] << " " << (int)value[1] << " " << (int)value[2] << " " << (int)value[3];
+        std::ostringstream array;
+
+        array << static_cast<int>(value[0]) << " " 
+              << static_cast<int>(value[1]) << " "
+              << static_cast<int>(value[2]) << " "
+              << static_cast<int>(value[3]);
 
         (*exifData_)[to] = array.str();
         if (erase_) xmpData_->erase(pos);
-	
     }
 
     void Converter::cnvXmpGPSVersion(const char* from, const char* to)
     {
         Exiv2::XmpData::iterator pos = xmpData_->findKey(XmpKey(from));
         if (pos == xmpData_->end()) return;
-	if (!prepareExifTarget(to)) return;
+        if (!prepareExifTarget(to)) return;
         std::string value = pos->value().toString();
         if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
-#endif            
+#endif
             return;
         }
 
-	unsigned i;
-	for (i = 0; i < value.length(); i++)
-	    if (value[i] == '.') value[i] = ' ';
-
+        for (unsigned i = 0; i < value.length(); ++i) {
+            if (value[i] == '.') value[i] = ' ';
+        }
         (*exifData_)[to] = value;
         if (erase_) xmpData_->erase(pos);
-	
+
     }
 
     void Converter::cnvXmpFlash(const char* from, const char* to)
     {
         Exiv2::XmpData::iterator pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:Fired"));
         if (pos == xmpData_->end()) return;
-	if (!prepareExifTarget(to)) return;
-	unsigned short value = 0;
-        
+        if (!prepareExifTarget(to)) return;
+        unsigned short value = 0;
+
         if (pos != xmpData_->end()) {
-	    int fired = pos->value().toLong();
-	    if (pos->value().ok()) 
-		value |= fired & 1;
+            int fired = pos->value().toLong();
+            if (pos->value().ok())
+                value |= fired & 1;
 #ifndef SUPPRESS_WARNINGS
-	    else
-        	std::cerr << "Warning: Failed to convert " << std::string(from) + "/exif:Fired" << " to " << to << "\n";
-#endif            
-	}
+            else
+                std::cerr << "Warning: Failed to convert " << std::string(from) + "/exif:Fired" << " to " << to << "\n";
+#endif
+        }
         pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:Return"));
         if (pos != xmpData_->end()) {
-	    int ret = pos->value().toLong();
-	    if (pos->value().ok()) 
-		value |= (ret & 3) << 1;
+            int ret = pos->value().toLong();
+            if (pos->value().ok())
+                value |= (ret & 3) << 1;
 #ifndef SUPPRESS_WARNINGS
-	    else
-        	std::cerr << "Warning: Failed to convert " << std::string(from) + "/exif:Return" << " to " << to << "\n";
-#endif            
-	}
+            else
+                std::cerr << "Warning: Failed to convert " << std::string(from) + "/exif:Return" << " to " << to << "\n";
+#endif
+        }
         pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:Mode"));
         if (pos != xmpData_->end()) {
-	    int mode = pos->value().toLong();
-	    if (pos->value().ok()) 
-		value |= (mode & 3) << 3;
+            int mode = pos->value().toLong();
+            if (pos->value().ok())
+                value |= (mode & 3) << 3;
 #ifndef SUPPRESS_WARNINGS
-	    else
-        	std::cerr << "Warning: Failed to convert " << std::string(from) + "/exif:Mode" << " to " << to << "\n";
-#endif            
-	}
+            else
+                std::cerr << "Warning: Failed to convert " << std::string(from) + "/exif:Mode" << " to " << to << "\n";
+#endif
+        }
         pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:Function"));
         if (pos != xmpData_->end()) {
-	    int function = pos->value().toLong();
-	    if (pos->value().ok()) 
-		value |= (function & 1) << 5;
+            int function = pos->value().toLong();
+            if (pos->value().ok())
+                value |= (function & 1) << 5;
 #ifndef SUPPRESS_WARNINGS
-	    else
-        	std::cerr << "Warning: Failed to convert " << std::string(from) + "/exif:Function" << " to " << to << "\n";
-#endif            
-	}
+            else
+                std::cerr << "Warning: Failed to convert " << std::string(from) + "/exif:Function" << " to " << to << "\n";
+#endif
+        }
         pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:RedEyeMode"));
         if (pos != xmpData_->end()) {
-	    int red = pos->value().toLong();
-	    if (pos->value().ok()) 
-		value |= (red & 1) << 6;
+            int red = pos->value().toLong();
+            if (pos->value().ok())
+                value |= (red & 1) << 6;
 #ifndef SUPPRESS_WARNINGS
-	    else
-        	std::cerr << "Warning: Failed to convert " << std::string(from) + "/exif:RedEyeMode" << " to " << to << "\n";
-#endif            
-	}
-	
+            else
+                std::cerr << "Warning: Failed to convert " << std::string(from) + "/exif:RedEyeMode" << " to " << to << "\n";
+#endif
+        }
+
         (*exifData_)[to] = value;
         if (erase_) xmpData_->erase(pos);
     }
@@ -863,55 +877,55 @@ namespace Exiv2 {
     {
         Exiv2::XmpData::iterator pos = xmpData_->findKey(XmpKey(from));
         if (pos == xmpData_->end()) return;
-	if (!prepareExifTarget(to)) return;
+        if (!prepareExifTarget(to)) return;
         std::string value = pos->value().toString();
         if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
-#endif            
+#endif
             return;
         }
 
-	float deg, min, sec;
-	char ref, sep1, sep2;
-	
-	ref = value[value.length() - 1];
-	value.erase(value.length() - 1);
-	
-	std::istringstream in(value);
-	
-	in >> deg >> sep1 >> min >> sep2;
-	
-	if (sep2 == ',') {
-	    in >> sec;
-	}
-	else {
-	    sec = (min - (int)min) * 60.0;
-	    min = (int)min;
-	    sep2 = ',';
-	}
+        float deg, min, sec;
+        char ref, sep1, sep2;
 
-        if (in.bad() || 
-	    !(ref == 'N' || ref == 'S' || ref == 'E' || ref == 'W') ||
-	    sep1 != ',' || sep2 != ',' ||
-	    !in.eof()) {
+        ref = value[value.length() - 1];
+        value.erase(value.length() - 1);
+
+        std::istringstream in(value);
+
+        in >> deg >> sep1 >> min >> sep2;
+
+        if (sep2 == ',') {
+            in >> sec;
+        }
+        else {
+            sec = (min - static_cast<int>(min)) * 60.0;
+            min = static_cast<int>(min);
+            sep2 = ',';
+        }
+
+        if (in.bad() ||
+            !(ref == 'N' || ref == 'S' || ref == 'E' || ref == 'W') ||
+            sep1 != ',' || sep2 != ',' ||
+            !in.eof()) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
-#endif            
+#endif
             return;
         }
 
-	    
-	Rational rdeg = floatToRationalCast(deg);
-	Rational rmin = floatToRationalCast(min);
-	Rational rsec = floatToRationalCast(sec);
 
-	std::ostringstream array;
-	array << rdeg << " " << rmin << " " << rsec;
+        Rational rdeg = floatToRationalCast(deg);
+        Rational rmin = floatToRationalCast(min);
+        Rational rsec = floatToRationalCast(sec);
+
+        std::ostringstream array;
+        array << rdeg << " " << rmin << " " << rsec;
         (*exifData_)[to] = array.str();
 
-	prepareExifTarget((std::string(to) + "Ref").c_str(), true);
-	char ref_str[2] = {ref, 0};
+        prepareExifTarget((std::string(to) + "Ref").c_str(), true);
+        char ref_str[2] = {ref, 0};
         (*exifData_)[std::string(to) + "Ref"] = ref_str;
 
         if (erase_) xmpData_->erase(pos);
@@ -921,151 +935,148 @@ namespace Exiv2 {
     {
         Exiv2::IptcData::iterator pos = iptcData_->findKey(IptcKey(from));
         if (pos == iptcData_->end()) return;
-	if (!prepareXmpTarget(to)) return;
-	while (pos != iptcData_->end()) {
-	    if (pos->key() == from) {
-		std::string value = pos->value().toString();
-		if (!pos->value().ok()) {
+        if (!prepareXmpTarget(to)) return;
+        while (pos != iptcData_->end()) {
+            if (pos->key() == from) {
+                std::string value = pos->value().toString();
+                if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
-		    std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
-#endif            
-		    ++pos;
-		    continue;
-		}
-		(*xmpData_)[to] = value;
-		if (erase_) {
-		    pos = iptcData_->erase(pos);
-		    continue;
-		}
-	    }
-	    ++pos;
-	}
+                    std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+#endif
+                    ++pos;
+                    continue;
+                }
+                (*xmpData_)[to] = value;
+                if (erase_) {
+                    pos = iptcData_->erase(pos);
+                    continue;
+                }
+            }
+            ++pos;
+        }
     }
 
     void Converter::cnvXmpValueToIptc(const char* from, const char* to)
     {
         Exiv2::XmpData::iterator pos = xmpData_->findKey(XmpKey(from));
         if (pos == xmpData_->end()) return;
-	if (!prepareIptcTarget(to)) return;
-	int count = pos->value().count();
-	int i;
-	for (i = 0; i < count; i++) {
-    	    std::string value = pos->value().toString();
-    	    if (!pos->value().ok()) {
+        if (!prepareIptcTarget(to)) return;
+        int count = pos->value().count();
+        for (int i = 0; i < count; i++) {
+            std::string value = pos->value().toString();
+            if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
-        	std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
-#endif            
-        	continue;
-	    }
-	    (*iptcData_)[to] = value;
-	}
+                std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+#endif
+                continue;
+            }
+            (*iptcData_)[to] = value;
+        }
         if (erase_) xmpData_->erase(pos);
     }
 
     std::string Converter::computeExifDigest(bool tiff)
     {
-#ifdef EXV_HAVE_XMP_TOOLKIT	
-	std::ostringstream res;
-	MD5_CTX    context;
-	unsigned char digest[16];
+#ifdef EXV_HAVE_XMP_TOOLKIT
+        std::ostringstream res;
+        MD5_CTX    context;
+        unsigned char digest[16];
 
-	MD5Init ( &context );
+        MD5Init ( &context );
         for (unsigned int i = 0; i < EXV_COUNTOF(conversion_); ++i) {
             const Conversion& c = conversion_[i];
-            if (c.metadataId == mdExif) {
-		Exiv2::ExifKey key(c.key1);
-		if (tiff && key.groupName() != "Image") continue;
-		if (!tiff && key.groupName() == "Image") continue;
-		
-		if (!res.str().empty()) res << ',';
-		res << key.tag();
-    		Exiv2::ExifData::iterator pos = exifData_->findKey(key);
-    		if (pos == exifData_->end()) continue;
-		DataBuf data(pos->value().size());
-		pos->value().copy(data.pData_, littleEndian /* FIXME ? */);
-		MD5Update ( &context, data.pData_, data.size_);
+            if (c.metadataId_ == mdExif) {
+                Exiv2::ExifKey key(c.key1_);
+                if (tiff && key.groupName() != "Image") continue;
+                if (!tiff && key.groupName() == "Image") continue;
+
+                if (!res.str().empty()) res << ',';
+                res << key.tag();
+                Exiv2::ExifData::iterator pos = exifData_->findKey(key);
+                if (pos == exifData_->end()) continue;
+                DataBuf data(pos->value().size());
+                pos->value().copy(data.pData_, littleEndian /* FIXME ? */);
+                MD5Update ( &context, data.pData_, data.size_);
             }
         }
-	MD5Final ( digest, &context );
-	res << ';';
-	res << std::setw(2) << std::setfill('0') << std::hex << std::uppercase;
-	int i;
-	for (i = 0; i < 16; i++)
-	    res << (int)digest[i];
-
-	return res.str();	
+        MD5Final(digest, &context);
+        res << ';';
+        res << std::setw(2) << std::setfill('0') << std::hex << std::uppercase;
+        for (int i = 0; i < 16; ++i) {
+            res << static_cast<int>(digest[i]);
+        }
+        return res.str();
 #else
-	return std::string("");
+        return std::string("");
 #endif
     }
 
     void Converter::writeExifDigest()
     {
-#ifdef EXV_HAVE_XMP_TOOLKIT	
-	(*xmpData_)["Xmp.tiff.NativeDigest"] = computeExifDigest(true);
-	(*xmpData_)["Xmp.exif.NativeDigest"] = computeExifDigest(false);
+#ifdef EXV_HAVE_XMP_TOOLKIT
+        (*xmpData_)["Xmp.tiff.NativeDigest"] = computeExifDigest(true);
+        (*xmpData_)["Xmp.exif.NativeDigest"] = computeExifDigest(false);
 #endif
     }
-    
+
     void Converter::syncExifWithXmp()
     {
         Exiv2::XmpData::iterator td = xmpData_->findKey(XmpKey("Xmp.tiff.NativeDigest"));
         Exiv2::XmpData::iterator ed = xmpData_->findKey(XmpKey("Xmp.exif.NativeDigest"));
         if (td != xmpData_->end() && ed != xmpData_->end()) {
-	    if (td->value().toString() == computeExifDigest(true) &&
-	        ed->value().toString() == computeExifDigest(false)) {
-		// we have both digest and the values matches
-		// xmp is up-to-date, we should update exif
-		
-		setOverwrite(true);
-		setErase(false);
-		
-		cnvFromXmp();
-		writeExifDigest();
-		return;
-	    }
-	    else {
-		// we have both digest and the values does not match
-		// exif was modified after xmp, we should update xmp
-		setOverwrite(true);
-		setErase(false);
-		
-		cnvToXmp();
-		writeExifDigest();
-		return;
-	    }
-	}
-	else {
-	    // we don't have digest, it is probably the first conversion to xmp
-	    setOverwrite(false); // to be safe
-	    setErase(false);
-		
-	    cnvToXmp();
-	    writeExifDigest();
-	    return;
-	}
+            if (td->value().toString() == computeExifDigest(true) &&
+                ed->value().toString() == computeExifDigest(false)) {
+                // We have both digests and the values match
+                // XMP is up-to-date, we should update Exif
+                setOverwrite(true);
+                setErase(false);
+
+                cnvFromXmp();
+                writeExifDigest();
+                return;
+            }
+            else {
+                // We have both digests and the values do not match
+                // Exif was modified after XMP, we should update XMP
+                setOverwrite(true);
+                setErase(false);
+
+                cnvToXmp();
+                writeExifDigest();
+                return;
+            }
+        }
+        else {
+            // We don't have both digests, it is probably the first conversion to XMP
+            setOverwrite(false); // to be safe
+            setErase(false);
+
+            cnvToXmp();
+            writeExifDigest();
+            return;
+        }
     }
 
     std::string Converter::computeIptcDigest()
     {
-#ifdef EXV_HAVE_XMP_TOOLKIT	
-	std::ostringstream res;
-	MD5_CTX    context;
-	unsigned char digest[16];
+#ifdef EXV_HAVE_XMP_TOOLKIT
+        std::ostringstream res;
+        MD5_CTX context;
+        unsigned char digest[16];
 
-	MD5Init ( &context );
-	
-	DataBuf data = iptcData_->copy();
-	MD5Update ( &context, data.pData_, data.size_);
-	MD5Final ( digest, &context );
-	res << std::setw(2) << std::setfill('0') << std::hex << std::uppercase;
-	int i;
-	for (i = 0; i < 16; i++)
-	    res << (int)digest[i];
+        MD5Init(&context);
 
-	return res.str();	
+        DataBuf data = iptcData_->copy();
+        MD5Update(&context, data.pData_, data.size_);
+        MD5Final(digest, &context);
+        res << std::setw(2) << std::setfill('0') << std::hex << std::uppercase;
+        int i;
+        for (i = 0; i < 16; i++) {
+            res << static_cast<int>(digest[i]);
+        }
+        return res.str();
 #else
-	return std::string("");
+        return std::string("");
 #endif
     }
 
@@ -1100,7 +1111,7 @@ namespace Exiv2 {
     void syncExifWithXmp(ExifData& exifData, XmpData& xmpData)
     {
         Converter converter(exifData, const_cast<XmpData&>(xmpData));
-	converter.syncExifWithXmp();
+        converter.syncExifWithXmp();
     }
 
     void copyIptcToXmp(const IptcData& iptcData, XmpData& xmpData)
@@ -1130,10 +1141,3 @@ namespace Exiv2 {
     }
 
 }                                       // namespace Exiv2
-
-// *****************************************************************************
-// local definitions
-namespace {
-
-
-}
