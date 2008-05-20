@@ -52,25 +52,25 @@ namespace Exiv2 {
 
     //! Convert (copy) Exif tags to XMP properties.
     void copyExifToXmp(const ExifData& exifData, XmpData& xmpData);
-    //! Convert (move) Exif tags to XMP properties, remove converted properties.
+    //! Convert (move) Exif tags to XMP properties, remove converted Exif tags.
     void moveExifToXmp(ExifData& exifData, XmpData& xmpData);
 
     //! Convert (copy) XMP properties to Exif tags.
     void copyXmpToExif(const XmpData& xmpData, ExifData& exifData);
-    //! Convert (move) XMP properties to Exif tags, remove converted properties.
+    //! Convert (move) XMP properties to Exif tags, remove converted XMP properties.
     void moveXmpToExif(XmpData& xmpData, ExifData& exifData);
 
-    //! Detect which metadata are newer and performs a copy in apropriate direction.
+    //! Detect which metadata are newer and perform a copy in appropriate direction.
     void syncExifWithXmp(ExifData& exifData, XmpData& xmpData);
 
     //! Convert (copy) IPTC datasets to XMP properties.
     void copyIptcToXmp(const IptcData& iptcData, XmpData& xmpData);
-    //! Convert (move) IPTC datasets to XMP properties, remove converted properties.
+    //! Convert (move) IPTC datasets to XMP properties, remove converted IPTC datasets.
     void moveIptcToXmp(IptcData& iptcData, XmpData& xmpData);
 
     //! Convert (copy) XMP properties to IPTC datasets.
     void copyXmpToIptc(const XmpData& xmpData, IptcData& iptcData);
-    //! Convert (move) XMP properties to IPTC tags, remove converted properties.
+    //! Convert (move) XMP properties to IPTC tags, remove converted XMP properties.
     void moveXmpToIptc(XmpData& xmpData, IptcData& iptcData);
 
 }                                       // namespace Exiv2
