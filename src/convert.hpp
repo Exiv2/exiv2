@@ -23,8 +23,11 @@
   @brief   Exif and IPTC conversions to and from XMP
   @version $Rev$
   @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    17-Mar-08, ahu: created
+           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a><BR>
+           Vladimir Nadvornik (vn)
+           <a href="mailto:nadvornik@suse.cz">nadvornik@suse.cz</a>
+  @date    17-Mar-08, ahu: created basic converter framework<BR>
+           20-May-08, vn:  added actual conversion logic
  */
 #ifndef CONVERT_HPP_
 #define CONVERT_HPP_
@@ -56,6 +59,9 @@ namespace Exiv2 {
     void copyXmpToExif(const XmpData& xmpData, ExifData& exifData);
     //! Convert (move) XMP properties to Exif tags, remove converted properties.
     void moveXmpToExif(XmpData& xmpData, ExifData& exifData);
+
+    //! Detect which metadata are newer and performs a copy in apropriate direction.
+    void syncExifWithXmp(ExifData& exifData, XmpData& xmpData);
 
     //! Convert (copy) IPTC datasets to XMP properties.
     void copyIptcToXmp(const IptcData& iptcData, XmpData& xmpData);
