@@ -962,7 +962,7 @@ namespace Exiv2 {
         if (pos == xmpData_->end()) return;
         if (!prepareIptcTarget(to)) return;
         int count = pos->value().count();
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count; ++i) {
             std::string value = pos->value().toString();
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
@@ -1070,8 +1070,7 @@ namespace Exiv2 {
         MD5Update(&context, data.pData_, data.size_);
         MD5Final(digest, &context);
         res << std::setw(2) << std::setfill('0') << std::hex << std::uppercase;
-        int i;
-        for (i = 0; i < 16; i++) {
+        for (int i = 0; i < 16; ++i) {
             res << static_cast<int>(digest[i]);
         }
         return res.str();
