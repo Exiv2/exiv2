@@ -388,8 +388,8 @@ namespace Exiv2 {
     {
         for (unsigned int i = 0; i < EXV_COUNTOF(conversion_); ++i) {
             const Conversion& c = conversion_[i];
-            if (c.metadataId == mdExif && exifData_ ||
-	        c.metadataId == mdIptc && iptcData_) {
+            if (   (c.metadataId == mdExif && exifData_)
+                || (c.metadataId == mdIptc && iptcData_)) {
                 EXV_CALL_MEMBER_FN(*this, c.key1ToKey2)(c.key1, c.key2);
             }
         }
@@ -399,8 +399,8 @@ namespace Exiv2 {
     {
         for (unsigned int i = 0; i < EXV_COUNTOF(conversion_); ++i) {
             const Conversion& c = conversion_[i];
-            if (c.metadataId == mdExif && exifData_ ||
-	        c.metadataId == mdIptc && iptcData_) {
+            if (   (c.metadataId == mdExif && exifData_)
+                || (c.metadataId == mdIptc && iptcData_)) {
                 EXV_CALL_MEMBER_FN(*this, c.key2ToKey1)(c.key2, c.key1);
             }
         }
