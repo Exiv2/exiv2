@@ -11,7 +11,7 @@
 /// \file TXMPMeta.incl_cpp
 /// \brief The implementation of the TXMPMeta template class.
 
-#include "XMP.hpp"
+#include "XMPSDK.hpp"
 #include "client-glue/WXMP_Common.hpp"
 #include "client-glue/WXMPMeta.hpp"
 

@@ -28,7 +28,7 @@
 /// \endcode
 
 
-#include "XMP.hpp" // ! This must be the first include!
+#include "XMPSDK.hpp" // ! This must be the first include!
 
 #define XMP_ClientBuild 1
 
