@@ -10,7 +10,7 @@
 // =================================================================================================
 
 //  ================================================================================================
-/// \file XMP.hpp
+/// \file XMPSDK.hpp
 /// \brief Overall header file for the XMP toolkit.
 ///
 /// This is an overall header file, the only one that C++ clients should #include. The full client

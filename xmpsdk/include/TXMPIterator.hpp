@@ -2,7 +2,7 @@
 #define __TXMPIterator_hpp__ 1
 
 #if ( ! __XMP_hpp__ )
-    #error "Do not directly include, use XMP.hpp"
+    #error "Do not directly include, use XMPSDK.hpp"
 #endif
 
 // =================================================================================================
@@ -37,7 +37,7 @@
 /// are automatically copied and access is fully thread safe.  String objects are only necessary
 /// for output strings. Input string are literals and passed as typical C <tt>const char *</tt>.
 ///
-/// The template parameter, class \c TtStringObj, is described in the XMP.hpp umbrella header.
+/// The template parameter, class \c TtStringObj, is described in the XMPSDK.hpp umbrella header.
 ///
 /// \note Only XMP object iteration is implemented at this time. There are no table iterators yet.
 ///

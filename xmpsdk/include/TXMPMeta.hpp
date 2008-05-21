@@ -2,7 +2,7 @@
 #define __TXMPMeta_hpp__    1
 
 #if ( ! __XMP_hpp__ )
-    #error "Do not directly include, use XMP.hpp"
+    #error "Do not directly include, use XMPSDK.hpp"
 #endif
 
 // =================================================================================================
@@ -33,11 +33,11 @@
 ///
 /// This template wraps a string object class around the raw XMP API. This provides two significant
 /// benefits, output strings are automatically copied and access is fully thread safe. The
-/// umbrella header, \c XMP.hpp, provides an \c SXMPMeta typedef for the instantiated template. String
+/// umbrella header, \c XMPSDK.hpp, provides an \c SXMPMeta typedef for the instantiated template. String
 /// objects are only necessary for output strings. Input string are literals and passed as typical
 /// C <tt>const char *</tt>.
 ///
-/// The template parameter, class \c TtStringObj, is described in the XMP.hpp umbrella header.
+/// The template parameter, class \c TtStringObj, is described in the XMPSDK.hpp umbrella header.
 ///
 /// <b>Be aware that the \c TXMPMeta class is a normal C++ template, it is instantiated and local to
 /// each client executable. As are the other TXMP* classes. Different clients might not even use the

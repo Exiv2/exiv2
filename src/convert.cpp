@@ -45,7 +45,7 @@ EXIV2_RCSID("@(#) $Id$")
 // Adobe XMP Toolkit
 #ifdef EXV_HAVE_XMP_TOOLKIT
 # define TXMP_STRING_TYPE std::string
-# include <XMP.hpp>
+# include <XMPSDK.hpp>
 # include <MD5.h>
 #endif // EXV_HAVE_XMP_TOOLKIT
 
