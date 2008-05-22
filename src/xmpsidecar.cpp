@@ -43,6 +43,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "error.hpp"
 #include "xmp.hpp"
 #include "futils.hpp"
+#include "convert.hpp"
 
 // + standard includes
 #include <string>
@@ -53,22 +54,19 @@ EXIV2_RCSID("@(#) $Id$")
 // class member definitions
 namespace Exiv2 {
 
-    XmpSidecar::XmpSidecar(BasicIo::AutoPtr io)
+    const char* XmpSidecar::xmlHeader_ = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+    const long XmpSidecar::xmlHdrCnt_ = 39;
+
+    XmpSidecar::XmpSidecar(BasicIo::AutoPtr io, bool create)
         : Image(ImageType::xmp, mdXmp, io)
     {
+        if (create) {
+            if (io_->open() == 0) {
+                IoCloser closer(*io_);
+                io_->write(reinterpret_cast<const byte*>(xmlHeader_), xmlHdrCnt_);
+            }
+        }
     } // XmpSidecar::XmpSidecar
-
-    void XmpSidecar::setExifData(const ExifData& /*exifData*/)
-    {
-        // Todo: implement me!
-        throw(Error(32, "Exif metadata", "XMP"));
-    }
-
-    void XmpSidecar::setIptcData(const IptcData& /*iptcData*/)
-    {
-        // Todo: implement me!
-        throw(Error(32, "IPTC metadata", "XMP"));
-    }
 
     void XmpSidecar::setComment(const std::string& /*comment*/)
     {
@@ -106,6 +104,8 @@ namespace Exiv2 {
             std::cerr << "Warning: Failed to decode XMP metadata.\n";
 #endif
         }
+        copyXmpToIptc(xmpData_, iptcData_);
+        copyXmpToExif(xmpData_, exifData_);
     } // XmpSidecar::readMetadata
 
     void XmpSidecar::writeMetadata()
@@ -116,7 +116,10 @@ namespace Exiv2 {
         IoCloser closer(*io_);
 
         if (writeXmpFromPacket() == false) {
-            if (XmpParser::encode(xmpPacket_, xmpData_, XmpParser::omitPacketWrapper|XmpParser::useCompactFormat)) {
+            copyExifToXmp(exifData_, xmpData_);
+            copyIptcToXmp(iptcData_, xmpData_);
+            if (XmpParser::encode(xmpPacket_, xmpData_,
+                                  XmpParser::omitPacketWrapper|XmpParser::useCompactFormat)) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Error: Failed to encode XMP metadata.\n";
 #endif
@@ -124,7 +127,7 @@ namespace Exiv2 {
         }
         if (xmpPacket_.size() > 0) {
             if (xmpPacket_.substr(0, 5)  != "<?xml") {
-                xmpPacket_ = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + xmpPacket_;
+                xmpPacket_ = xmlHeader_ + xmpPacket_;
             }
             BasicIo::AutoPtr tempIo(io_->temporary()); // may throw
             assert(tempIo.get() != 0);
@@ -140,9 +143,9 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newXmpInstance(BasicIo::AutoPtr io, bool /*create*/)
+    Image::AutoPtr newXmpInstance(BasicIo::AutoPtr io, bool create)
     {
-        Image::AutoPtr image(new XmpSidecar(io));
+        Image::AutoPtr image(new XmpSidecar(io, create));
         if (!image->good()) {
             image.reset();
         }

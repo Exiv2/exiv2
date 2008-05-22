@@ -44,6 +44,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "exiv2.hpp"
 #include "image.hpp"
 #include "jpgimage.hpp"
+#include "xmpsidecar.hpp"
 #include "utils.hpp"
 #include "types.hpp"
 #include "exif.hpp"
@@ -1020,10 +1021,11 @@ namespace Action {
         if (Params::instance().target_ & Params::ctThumb) {
             rc = writeThumbnail();
         }
-        if (Params::instance().target_ & Params::ctXmpPacket) {
-            rc = writeXmp();
+        if (Params::instance().target_ & Params::ctXmpSidecar) {
+            rc = writeXmpSidecar();
         }
-        if (Params::instance().target_ & ~Params::ctThumb & ~Params::ctXmpPacket) {
+        if (   !(Params::instance().target_ & Params::ctXmpSidecar)
+            && !(Params::instance().target_ & Params::ctThumb)) {
             std::string exvPath = newFilePath(path_, ".exv");
             if (dontOverwrite(exvPath)) return 0;
             rc = metacopy(path_, exvPath, false);
@@ -1037,7 +1039,7 @@ namespace Action {
         return 1;
     } // Extract::run
 
-    int Extract::writeXmp() const
+    int Extract::writeXmpSidecar() const
     {
         if (!Exiv2::fileExists(path_, true)) {
             std::cerr << path_
@@ -1047,26 +1049,32 @@ namespace Action {
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
         assert(image.get() != 0);
         image->readMetadata();
-        const std::string& xmpPacket = image->xmpPacket();
-        if (xmpPacket.empty()) {
-            return -3;
-        }
-        std::string xmpPath = newFilePath(path_, ".xmp");
-        if (dontOverwrite(xmpPath)) return 0;
+
+        std::string sidecarPath = newFilePath(path_, ".xmp");
+        if (dontOverwrite(sidecarPath)) return 0;
+
+        // Apply any modification commands to the source image on-the-fly
+        Action::Modify::applyCommands(image.get());
+
+        Exiv2::Image::AutoPtr xmpSidecar =
+            Exiv2::ImageFactory::create(Exiv2::ImageType::xmp, sidecarPath);
+        assert(xmpSidecar.get() != 0);
         if (Params::instance().verbose_) {
-            std::cout << _("Writing XMP packet from") << " " << path_
-                      << " " << _("to") << " " << xmpPath << std::endl;
+            std::cout << _("Writing XMP sidecar file ") << " "
+                      << sidecarPath << std::endl;
         }
-        std::ofstream file(xmpPath.c_str());
-        if (!file) {
-            std::cerr << Params::instance().progname() << ": " 
-                      << _("Failed to open file ") << " " << xmpPath << ": "
-                      << Exiv2::strError() << "\n";
-            return 1;
+        if (Params::instance().target_ & Params::ctExif) {
+            xmpSidecar->setExifData(image->exifData());
         }
-        file << xmpPacket;
+        if (Params::instance().target_ & Params::ctIptc) {
+            xmpSidecar->setIptcData(image->iptcData());
+        }
+        if (Params::instance().target_ & Params::ctXmp) {
+            xmpSidecar->setXmpData(image->xmpData());
+        }
+        xmpSidecar->writeMetadata();
         return 0;
-    } // Extract::writeXmp
+    } // Extract::writeXmpSidecar
 
     int Extract::writeThumbnail() const
     {
@@ -1143,7 +1151,7 @@ namespace Action {
             std::string exvPath = newFilePath(path, suffix);
             rc = metacopy(exvPath, path, true);
         }
-        if (0 == rc && Params::instance().target_ & Params::ctXmpPacket) {
+        if (0 == rc && Params::instance().target_ & Params::ctXmpSidecar) {
             rc = insertXmpPacket(path);
         }
         if (Params::instance().preserve_) {
