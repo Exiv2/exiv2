@@ -277,13 +277,13 @@ void Params::help(std::ostream& os) const
        << _("             x : XMP packet\n")
        << _("             c : JPEG comment\n")
        << _("   -i tgt  Insert target(s) for the 'insert' action. Possible targets are\n"
-            "           the same as those for the -d option, plus:\n"
-            "             X : Insert XMP packet from <file>.xmp\n"
+            "           the same as those for the -d option, plus a modifier:\n"
+            "             X : Insert metadata from an XMP sidecar file <file>.xmp\n"
             "           Only JPEG thumbnails can be inserted, they need to be named\n"
             "           <file>-thumb.jpg\n")
        << _("   -e tgt  Extract target(s) for the 'extract' action. Possible targets\n"
-            "           are the same as those for the -i option, plus:\n"
-            "             X : Extract XMP packet to <file>.xmp\n")
+            "           are the same as those for the -d option, plus a modifier:\n"
+            "             X : Extract metadata to an XMP sidecar file <file>.xmp\n")
        << _("   -r fmt  Filename format for the 'rename' action. The format string\n"
             "           follows strftime(3). The following keywords are supported:\n")
        << _("             :basename:   - original filename without extension\n")
@@ -842,11 +842,14 @@ namespace {
             case 'x': target |= Params::ctXmp; break;
             case 'c': target |= Params::ctComment; break;
             case 't': target |= Params::ctThumb; break;
-            case 'X': target |= Params::ctXmpSidecar; // fall-through
             case 'a': target |=   Params::ctExif
                                 | Params::ctIptc
                                 | Params::ctComment
                                 | Params::ctXmp; break;
+            case 'X':
+                target |= Params::ctXmpSidecar;
+                if (optarg == "X") target |= Params::ctExif | Params::ctIptc | Params::ctXmp;
+                break;
             default:
                 std::cerr << Params::instance().progname() << ": " << _("Unrecognized ")
                           << action << " " << _("target") << " `"  << optarg[i] << "'\n";

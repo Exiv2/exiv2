@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "December 23rd, 2007"
+.TH EXIV2 1 "May 22nd, 2008"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -43,15 +43,16 @@ Print image metadata. This is the default action, i.e., the command
 \fIexiv2 image.jpg\fP will print a summary of the image Exif metadata.
 .TP
 .B ex | extract
-Extract metadata to *.exv, *.xmp and thumbnail image files. 
+Extract metadata to *.exv, XMP sidecar (*.xmp) and thumbnail image files. 
 Modification commands can be applied on-the-fly.
 .TP
 .B in | insert
-Insert metadata from corresponding *.exv, *.xmp and thumbnail files.
-Use option \fB\-S\fP \fI.suf\fP to change the suffix of the input
-files. Since files of any supported format can be used as input files,
-this command can be used to copy the metadata between files of
-different formats. Modification commands can be applied on-the-fly.
+Insert metadata from corresponding *.exv, XMP sidecar (*.xmp) and
+thumbnail files.  Use option \fB\-S\fP \fI.suf\fP to change the suffix
+of the input files. Since files of any supported format can be used as
+input files, this command can be used to copy the metadata between
+files of different formats. Modification commands can be applied
+on-the-fly.
 .TP
 .B rm | delete
 Delete image metadata from the files.
@@ -195,18 +196,24 @@ c : JPEG comment
 .TP
 .B \-i \fItgt\fP
 Insert target(s) for the 'insert' action. Possible targets are the
-same as those for the \fB\-d\fP option, plus:
+same as those for the \fB\-d\fP option, plus a modifier:
 .br
-X : Insert XMP packet from <file>.xmp
+X : Insert metadata from an XMP sidecar file <file>.xmp. The remaining
+insert targets determine what metadata to insert from the sidecar
+file. Possible are Exif, IPTC and XMP and the default is all of
+these. Note that the inserted XMP properties include those converted
+to Exif and IPTC.
 .br
 Only JPEG thumbnails can be inserted (not TIFF thumbnails), they need to 
 be named \fIfile\fP\-thumb.jpg.
 .TP
 .B \-e \fItgt\fP
 Extract target(s) for the 'extract' action. Possible targets are the same 
-as those for the \fB\-d\fP option, plus:
+as those for the \fB\-d\fP option, plus a modifier:
 .br
-X : Extract XMP packet to <file>.xmp
+X : Extract metadata to an XMP sidecar file <file>.xmp. The remaining
+extract targets determine what metadata to extract to the sidecar
+file. Possible are Exif, IPTC and XMP and the default is all of these.
 .TP
 .B \-r \fIfmt\fP
 Filename format for the 'rename' action. The format string follows
@@ -348,9 +355,6 @@ Renames img_1234.jpg (taken on 13\-Nov\-05 at 22:58:31) to 20051113_225831.jpg
 exiv2 -r':basename:_%Y%m' rename img_1234.jpg
 Renames img_1234.jpg to img_1234_200511.jpg
 .TP
-exiv2 ex img1.jpg img2.jpg
-Extracts metadata from the two files into files img1.exv and img2.exv.
-.TP
 exiv2 \-et img1.jpg img2.jpg
 Extracts the Exif thumbnails from the two files into img1\-thumb.jpg
 and img2\-thumb.jpg.
@@ -358,6 +362,17 @@ and img2\-thumb.jpg.
 exiv2 \-it img1.jpg img2.jpg
 Inserts (copies) metadata from img1.exv to img1.jpg and from img2.exv
 to img2.jpg.
+.TP
+exiv2 \-eiX image.jpg 
+Extracts IPTC datasets into an XMP sidecar file image.xmp and in the
+process converts them to "IPTC Core" XMP schema.
+.TP
+exiv2 \-iixX image.jpg
+Inserts IPTC and XMP metadata from an XMP sidecar file image.xmp into
+image.jpg.  The resulting IPTC datasets are converted from the "IPTC
+Core" XMP schema properties in the sidecar file to the older IPTC IIM4
+format. The inserted XMP properties include those in the "IPTC Core"
+XMP schema.
 .TP
 .nf
 exiv2 \-M"set Exif.Photo.UserComment charset=Ascii New Exif comment" image.jpg
