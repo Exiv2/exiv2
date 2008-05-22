@@ -55,7 +55,7 @@ EXIV2_RCSID("@(#) $Id$")
 namespace Exiv2 {
 
     const char* XmpSidecar::xmlHeader_ = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-    const long XmpSidecar::xmlHdrCnt_ = 39;
+    const long XmpSidecar::xmlHdrCnt_ = 39; // without the trailing 0-character
 
     XmpSidecar::XmpSidecar(BasicIo::AutoPtr io, bool create)
         : Image(ImageType::xmp, mdXmp, io)

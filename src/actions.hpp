@@ -278,8 +278,6 @@ namespace Action {
                  on the format of the Exif thumbnail image.
          */
         int writeThumbnail() const;
-        //! Write an XMP sidecar file.
-        int writeXmpSidecar() const;
 
     private:
         virtual Extract* clone_() const;

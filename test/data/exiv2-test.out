@@ -88,13 +88,13 @@ Options:
              x : XMP packet
              c : JPEG comment
    -i tgt  Insert target(s) for the 'insert' action. Possible targets are
-           the same as those for the -d option, plus:
-             X : Insert XMP packet from <file>.xmp
+           the same as those for the -d option, plus a modifier:
+             X : Insert metadata from an XMP sidecar file <file>.xmp
            Only JPEG thumbnails can be inserted, they need to be named
            <file>-thumb.jpg
    -e tgt  Extract target(s) for the 'extract' action. Possible targets
-           are the same as those for the -i option, plus:
-             X : Extract XMP packet to <file>.xmp
+           are the same as those for the -d option, plus a modifier:
+             X : Extract metadata to an XMP sidecar file <file>.xmp
    -r fmt  Filename format for the 'rename' action. The format string
            follows strftime(3). The following keywords are supported:
              :basename:   - original filename without extension
