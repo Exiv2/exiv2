@@ -840,9 +840,9 @@ namespace {
             case 'e': target |= Params::ctExif; break;
             case 'i': target |= Params::ctIptc; break;
             case 'x': target |= Params::ctXmp; break;
-            case 'X': target |= Params::ctXmpPacket; break;
             case 'c': target |= Params::ctComment; break;
             case 't': target |= Params::ctThumb; break;
+            case 'X': target |= Params::ctXmpSidecar; // fall-through
             case 'a': target |=   Params::ctExif
                                 | Params::ctIptc
                                 | Params::ctComment

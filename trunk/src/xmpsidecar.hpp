@@ -66,24 +66,16 @@ namespace Exiv2 {
               auto-pointer. Callers should not continue to use the BasicIo
               instance after it is passed to this method. Use the Image::io()
               method to get a temporary reference.
+          @param create Specifies if an existing image should be read (false)
+              or if a new image should be created (true).
          */
-        XmpSidecar(BasicIo::AutoPtr io);
+        XmpSidecar(BasicIo::AutoPtr io, bool create);
         //@}
 
         //! @name Manipulators
         //@{
         void readMetadata();
         void writeMetadata();
-        /*!
-          @brief Todo: Not supported yet, requires conversion from Exif to XMP.
-              Calling this function will throw an instance of Error(32).
-         */
-        void setExifData(const ExifData& exifData);
-        /*!
-          @brief Todo: Not supported yet, requires conversion from IPTC to XMP.
-              Calling this function will throw an instance of Error(32).
-         */
-        void setIptcData(const IptcData& iptcData);
         /*!
           @brief Not supported. XMP sidecar files do not contain a comment.
               Calling this function will throw an instance of Error(32).
@@ -104,6 +96,10 @@ namespace Exiv2 {
         //! Assignment operator
         XmpSidecar& operator=(const XmpSidecar& rhs);
         //@}
+
+        // DATA
+        static const char* xmlHeader_;
+        static const long  xmlHdrCnt_;
 
     }; // class XmpSidecar
 
