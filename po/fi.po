@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2008-05-16 11:05+0800\n"
+"POT-Creation-Date: 2008-05-23 22:36+0800\n"
 "PO-Revision-Date: 2006-12-18 16:08+0200\n"
 "Last-Translator: Mikael Lammentausta\n"
 "Language-Team:  <fi@li.org>\n"
@@ -16,73 +16,73 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: src/actions.cpp:237 src/actions.cpp:602 src/actions.cpp:722
-#: src/actions.cpp:760 src/actions.cpp:798 src/actions.cpp:826
-#: src/actions.cpp:912 src/actions.cpp:1044 src/actions.cpp:1075
-#: src/actions.cpp:1125 src/actions.cpp:1166 src/actions.cpp:1171
-#: src/actions.cpp:1191 src/actions.cpp:1196 src/actions.cpp:1224
-#: src/actions.cpp:1447 src/actions.cpp:1579 src/actions.cpp:1750
+#: src/actions.cpp:241 src/actions.cpp:606 src/actions.cpp:726
+#: src/actions.cpp:764 src/actions.cpp:802 src/actions.cpp:830
+#: src/actions.cpp:916 src/actions.cpp:1051 src/actions.cpp:1101
+#: src/actions.cpp:1143 src/actions.cpp:1148 src/actions.cpp:1168
+#: src/actions.cpp:1173 src/actions.cpp:1201 src/actions.cpp:1424
+#: src/actions.cpp:1556 src/actions.cpp:1728
 msgid "Failed to open the file\n"
 msgstr ""
 
-#: src/actions.cpp:247
+#: src/actions.cpp:251
 msgid "File name"
 msgstr ""
 
-#: src/actions.cpp:253
+#: src/actions.cpp:257
 msgid "File size"
 msgstr ""
 
-#: src/actions.cpp:254 src/actions.cpp:556 src/actions.cpp:1100
+#: src/actions.cpp:258 src/actions.cpp:560 src/actions.cpp:1076
 msgid "Bytes"
 msgstr "tavua"
 
-#: src/actions.cpp:258
+#: src/actions.cpp:262
 #, fuzzy
 msgid "MIME type"
 msgstr "Kuvan laatu"
 
-#: src/actions.cpp:262 src/canonmn.cpp:454 src/minoltamn.cpp:621
+#: src/actions.cpp:266 src/canonmn.cpp:454 src/minoltamn.cpp:621
 #: src/minoltamn.cpp:890 src/minoltamn.cpp:1128 src/pentaxmn.cpp:821
 msgid "Image size"
 msgstr ""
 
-#: src/actions.cpp:267 src/actions.cpp:611 src/actions.cpp:839
-#: src/actions.cpp:1084 src/actions.cpp:1460 src/actions.cpp:1592
+#: src/actions.cpp:271 src/actions.cpp:615 src/actions.cpp:843
+#: src/actions.cpp:1060 src/actions.cpp:1437 src/actions.cpp:1569
 msgid "No Exif data found in the file\n"
 msgstr ""
 
-#: src/actions.cpp:272
+#: src/actions.cpp:276
 msgid "Camera make"
 msgstr "Kameran merkki"
 
-#: src/actions.cpp:275
+#: src/actions.cpp:279
 msgid "Camera model"
 msgstr "Kameran malli"
 
-#: src/actions.cpp:278
+#: src/actions.cpp:282
 msgid "Image timestamp"
 msgstr "Kuvan aikaleima"
 
-#: src/actions.cpp:282 src/canonmn.cpp:197 src/minoltamn.cpp:681
+#: src/actions.cpp:286 src/canonmn.cpp:197 src/minoltamn.cpp:681
 #: src/minoltamn.cpp:950 src/minoltamn.cpp:957 src/minoltamn.cpp:1194
 msgid "Image number"
 msgstr "Kuvan numero"
 
-#: src/actions.cpp:287 src/minoltamn.cpp:636 src/minoltamn.cpp:943
+#: src/actions.cpp:291 src/minoltamn.cpp:636 src/minoltamn.cpp:943
 #: src/minoltamn.cpp:1161 src/pentaxmn.cpp:835 src/pentaxmn.cpp:836
 msgid "Exposure time"
 msgstr "Valotusaika"
 
-#: src/actions.cpp:299 src/canonmn.cpp:567 src/tags.cpp:754
+#: src/actions.cpp:303 src/canonmn.cpp:567 src/tags.cpp:754
 msgid "Aperture"
 msgstr "Aukon koko"
 
-#: src/actions.cpp:309
+#: src/actions.cpp:313
 msgid "Exposure bias"
 msgstr "Valotuksen bias"
 
-#: src/actions.cpp:312 src/canonmn.cpp:503 src/minoltamn.cpp:665
+#: src/actions.cpp:316 src/canonmn.cpp:503 src/minoltamn.cpp:665
 #: src/minoltamn.cpp:904 src/minoltamn.cpp:905 src/minoltamn.cpp:1013
 #: src/minoltamn.cpp:1142 src/minoltamn.cpp:1143 src/panasonicmn.cpp:78
 #: src/pentaxmn.cpp:277 src/properties.cpp:483 src/tags.cpp:561
@@ -90,317 +90,308 @@ msgstr "Valotuksen bias"
 msgid "Flash"
 msgstr "Salama"
 
-#: src/actions.cpp:317 src/canonmn.cpp:561 src/panasonicmn.cpp:224
+#: src/actions.cpp:321 src/canonmn.cpp:561 src/panasonicmn.cpp:224
 msgid "Flash bias"
 msgstr "Salaman bias"
 
-#: src/actions.cpp:332 src/minoltamn.cpp:660
+#: src/actions.cpp:336 src/minoltamn.cpp:660
 msgid "Focal length"
 msgstr ""
 
-#: src/actions.cpp:337
+#: src/actions.cpp:341
 msgid "35 mm equivalent"
 msgstr ""
 
-#: src/actions.cpp:343
+#: src/actions.cpp:347
 msgid "Subject distance"
 msgstr "Kohteen etäisyys"
 
-#: src/actions.cpp:355
+#: src/actions.cpp:359
 msgid "ISO speed"
 msgstr "ISO-arvo"
 
-#: src/actions.cpp:388 src/minoltamn.cpp:612 src/minoltamn.cpp:887
+#: src/actions.cpp:392 src/minoltamn.cpp:612 src/minoltamn.cpp:887
 #: src/minoltamn.cpp:1125 src/sigmamn.cpp:85
 msgid "Exposure mode"
 msgstr "Valotustila"
 
-#: src/actions.cpp:411 src/minoltamn.cpp:630 src/minoltamn.cpp:1146
+#: src/actions.cpp:415 src/minoltamn.cpp:630 src/minoltamn.cpp:1146
 #: src/sigmamn.cpp:88
 msgid "Metering mode"
 msgstr "Mittaustila"
 
-#: src/actions.cpp:415 src/canonmn.cpp:445 src/minoltamn.cpp:642
+#: src/actions.cpp:419 src/canonmn.cpp:445 src/minoltamn.cpp:642
 #: src/olympusmn.cpp:130 src/panasonicmn.cpp:206
 msgid "Macro mode"
 msgstr "Makrotila"
 
-#: src/actions.cpp:439 src/minoltamn.cpp:264 src/minoltamn.cpp:624
+#: src/actions.cpp:443 src/minoltamn.cpp:264 src/minoltamn.cpp:624
 #: src/minoltamn.cpp:893 src/minoltamn.cpp:1131 src/pentaxmn.cpp:818
 msgid "Image quality"
 msgstr "Kuvan laatu"
 
-#: src/actions.cpp:483
+#: src/actions.cpp:487
 msgid "Exif Resolution"
 msgstr ""
 
-#: src/actions.cpp:507 src/minoltamn.cpp:618 src/minoltamn.cpp:896
+#: src/actions.cpp:511 src/minoltamn.cpp:618 src/minoltamn.cpp:896
 #: src/minoltamn.cpp:1134 src/nikonmn.cpp:176 src/nikonmn.cpp:457
 #: src/nikonmn.cpp:592 src/sigmamn.cpp:82
 msgid "White balance"
 msgstr "Valkotasapaino"
 
-#: src/actions.cpp:548 src/minoltamn.cpp:251 src/olympusmn.cpp:356
+#: src/actions.cpp:552 src/minoltamn.cpp:251 src/olympusmn.cpp:356
 msgid "Thumbnail"
 msgstr "Tunnistekuva"
 
-#: src/actions.cpp:551 src/canonmn.cpp:311 src/minoltamn.cpp:426
+#: src/actions.cpp:555 src/canonmn.cpp:311 src/minoltamn.cpp:426
 #: src/minoltamn.cpp:520 src/nikonmn.cpp:136 src/olympusmn.cpp:85
 #: src/olympusmn.cpp:512 src/tags.cpp:670
 msgid "None"
 msgstr "Ei mitään"
 
-#: src/actions.cpp:561 src/datasets.cpp:376 src/properties.cpp:291
+#: src/actions.cpp:565 src/datasets.cpp:376 src/properties.cpp:291
 #: src/properties.cpp:443 src/tags.cpp:460
 msgid "Copyright"
 msgstr ""
 
-#: src/actions.cpp:564
+#: src/actions.cpp:568
 msgid "Exif comment"
 msgstr "Exif-kommentti"
 
-#: src/actions.cpp:683 src/actions.cpp:694 src/actions.cpp:705
+#: src/actions.cpp:687 src/actions.cpp:698 src/actions.cpp:709
 msgid "(Binary value suppressed)"
 msgstr ""
 
-#: src/actions.cpp:731
+#: src/actions.cpp:735
 msgid "No IPTC data found in the file\n"
 msgstr ""
 
-#: src/actions.cpp:769
+#: src/actions.cpp:773
 msgid "No XMP data found in the file\n"
 msgstr ""
 
-#: src/actions.cpp:805
+#: src/actions.cpp:809
 #, fuzzy
 msgid "JPEG comment"
 msgstr "Exif-kommentti"
 
-#: src/actions.cpp:849
+#: src/actions.cpp:853
 msgid "Neither tag"
 msgstr ""
 
-#: src/actions.cpp:850
+#: src/actions.cpp:854
 msgid "nor"
 msgstr ""
 
-#: src/actions.cpp:851
+#: src/actions.cpp:855
 msgid "found in the file"
 msgstr ""
 
-#: src/actions.cpp:856
+#: src/actions.cpp:860
 msgid "Image file creation timestamp not set in the file"
 msgstr ""
 
-#: src/actions.cpp:862 src/actions.cpp:1549
+#: src/actions.cpp:866 src/actions.cpp:1526
 msgid "Failed to parse timestamp"
 msgstr ""
 
-#: src/actions.cpp:863
+#: src/actions.cpp:867
 msgid "in the file"
 msgstr ""
 
-#: src/actions.cpp:874
+#: src/actions.cpp:878
 msgid "Updating timestamp to"
 msgstr ""
 
-#: src/actions.cpp:964
+#: src/actions.cpp:968
 msgid "Erasing"
 msgstr ""
 
-#: src/actions.cpp:965
+#: src/actions.cpp:969
 msgid "Bytes of thumbnail data"
 msgstr ""
 
-#: src/actions.cpp:973
+#: src/actions.cpp:977
 msgid "Erasing Exif data from the file"
 msgstr ""
 
-#: src/actions.cpp:982
+#: src/actions.cpp:986
 msgid "Erasing IPTC data from the file"
 msgstr ""
 
-#: src/actions.cpp:991
+#: src/actions.cpp:995
 msgid "Erasing JPEG comment from the file"
 msgstr ""
 
-#: src/actions.cpp:1000
+#: src/actions.cpp:1004
 msgid "Erasing XMP data from the file"
 msgstr ""
 
-#: src/actions.cpp:1057
-msgid "Writing XMP packet from"
-msgstr ""
-
-#: src/actions.cpp:1058 src/actions.cpp:1568 src/actions.cpp:1775
-#: src/actions.cpp:1783 src/actions.cpp:1791 src/actions.cpp:1800
-#: src/actions.cpp:1901
-msgid "to"
-msgstr ""
-
-#: src/actions.cpp:1063
-msgid "Failed to open file "
-msgstr ""
-
-#: src/actions.cpp:1090
+#: src/actions.cpp:1066
 msgid "Image does not contain an Exif thumbnail\n"
 msgstr ""
 
-#: src/actions.cpp:1098
+#: src/actions.cpp:1074
 msgid "Writing"
 msgstr ""
 
-#: src/actions.cpp:1099
+#: src/actions.cpp:1075
 msgid "thumbnail"
 msgstr ""
 
-#: src/actions.cpp:1100
+#: src/actions.cpp:1076
 msgid "to file"
 msgstr ""
 
-#: src/actions.cpp:1105
+#: src/actions.cpp:1081
 msgid "Exif data doesn't contain a thumbnail\n"
 msgstr ""
 
-#: src/actions.cpp:1257
+#: src/actions.cpp:1234
 #, fuzzy
 msgid "Setting JPEG comment"
 msgstr "Jpeg-kommentti"
 
-#: src/actions.cpp:1293
+#: src/actions.cpp:1270
 msgid "Add"
 msgstr ""
 
-#: src/actions.cpp:1320
+#: src/actions.cpp:1297
 msgid "Set"
 msgstr ""
 
-#: src/actions.cpp:1379
+#: src/actions.cpp:1356
 msgid "Warning"
 msgstr ""
 
-#: src/actions.cpp:1380
+#: src/actions.cpp:1357
 msgid "Failed to read"
 msgstr ""
 
-#: src/actions.cpp:1382
+#: src/actions.cpp:1359
 msgid "value"
 msgstr ""
 
-#: src/actions.cpp:1390
+#: src/actions.cpp:1367
 msgid "Del"
 msgstr ""
 
-#: src/actions.cpp:1422
+#: src/actions.cpp:1399
 msgid "Reg "
 msgstr ""
 
-#: src/actions.cpp:1502
+#: src/actions.cpp:1479
 msgid "Timestamp of metadatum with key"
 msgstr ""
 
-#: src/actions.cpp:1503
+#: src/actions.cpp:1480
 msgid "not set\n"
 msgstr ""
 
-#: src/actions.cpp:1508
+#: src/actions.cpp:1485
 msgid "Adjusting"
 msgstr ""
 
-#: src/actions.cpp:1508
+#: src/actions.cpp:1485
 msgid "by"
 msgstr ""
 
-#: src/actions.cpp:1512 src/actions.cpp:1561
+#: src/actions.cpp:1489 src/actions.cpp:1538
 #, fuzzy
 msgid "years"
 msgstr "tavua"
 
-#: src/actions.cpp:1515
+#: src/actions.cpp:1492
 msgid "year"
 msgstr ""
 
-#: src/actions.cpp:1523
+#: src/actions.cpp:1500
 msgid "months"
 msgstr ""
 
-#: src/actions.cpp:1526
+#: src/actions.cpp:1503
 msgid "month"
 msgstr ""
 
-#: src/actions.cpp:1534
+#: src/actions.cpp:1511
 msgid "days"
 msgstr ""
 
-#: src/actions.cpp:1537
+#: src/actions.cpp:1514
 msgid "day"
 msgstr ""
 
-#: src/actions.cpp:1543
+#: src/actions.cpp:1520
 msgid "s"
 msgstr ""
 
-#: src/actions.cpp:1559
+#: src/actions.cpp:1536
 msgid "Can't adjust timestamp by"
 msgstr ""
 
-#: src/actions.cpp:1600
+#: src/actions.cpp:1545 src/actions.cpp:1752 src/actions.cpp:1760
+#: src/actions.cpp:1768 src/actions.cpp:1777 src/actions.cpp:1878
+msgid "to"
+msgstr ""
+
+#: src/actions.cpp:1577
 msgid "Standard Exif ISO tag exists; not modified\n"
 msgstr ""
 
-#: src/actions.cpp:1629
+#: src/actions.cpp:1606
 msgid "Setting Exif ISO value to"
 msgstr ""
 
-#: src/actions.cpp:1774
+#: src/actions.cpp:1751
 msgid "Writing Exif data from"
 msgstr ""
 
-#: src/actions.cpp:1782
+#: src/actions.cpp:1759
 msgid "Writing IPTC data from"
 msgstr ""
 
-#: src/actions.cpp:1790
+#: src/actions.cpp:1767
 msgid "Writing XMP data from"
 msgstr ""
 
-#: src/actions.cpp:1799
+#: src/actions.cpp:1776
 msgid "Writing JPEG comment from"
 msgstr ""
 
-#: src/actions.cpp:1809
+#: src/actions.cpp:1786
 msgid "Could not write metadata to file"
 msgstr ""
 
-#: src/actions.cpp:1827
+#: src/actions.cpp:1804
 msgid "Filename format yields empty filename for the file"
 msgstr ""
 
-#: src/actions.cpp:1836
+#: src/actions.cpp:1813
 msgid "This file already has the correct name"
 msgstr ""
 
-#: src/actions.cpp:1860 src/exiv2.cpp:150
+#: src/actions.cpp:1837 src/exiv2.cpp:150
 msgid "File"
 msgstr ""
 
-#: src/actions.cpp:1861
+#: src/actions.cpp:1838
 msgid "exists. [O]verwrite, [r]ename or [s]kip?"
 msgstr ""
 
-#: src/actions.cpp:1889
+#: src/actions.cpp:1866
 msgid "Renaming file to"
 msgstr ""
 
-#: src/actions.cpp:1891
+#: src/actions.cpp:1868
 msgid "updating timestamp"
 msgstr ""
 
-#: src/actions.cpp:1900
+#: src/actions.cpp:1877
 msgid "Failed to rename"
 msgstr ""
 
-#: src/actions.cpp:1922
+#: src/actions.cpp:1899
 msgid "Overwrite"
 msgstr ""
 
@@ -3359,8 +3350,8 @@ msgstr ""
 #: src/exiv2.cpp:279
 msgid ""
 "   -i tgt  Insert target(s) for the 'insert' action. Possible targets are\n"
-"           the same as those for the -d option, plus:\n"
-"             X : Insert XMP packet from <file>.xmp\n"
+"           the same as those for the -d option, plus a modifier:\n"
+"             X : Insert metadata from an XMP sidecar file <file>.xmp\n"
 "           Only JPEG thumbnails can be inserted, they need to be named\n"
 "           <file>-thumb.jpg\n"
 msgstr ""
@@ -3368,8 +3359,8 @@ msgstr ""
 #: src/exiv2.cpp:284
 msgid ""
 "   -e tgt  Extract target(s) for the 'extract' action. Possible targets\n"
-"           are the same as those for the -i option, plus:\n"
-"             X : Extract XMP packet to <file>.xmp\n"
+"           are the same as those for the -d option, plus a modifier:\n"
+"             X : Extract metadata to an XMP sidecar file <file>.xmp\n"
 msgstr ""
 
 #: src/exiv2.cpp:287
@@ -3575,35 +3566,35 @@ msgstr ""
 msgid "-T option can only be used with rename action\n"
 msgstr ""
 
-#: src/exiv2.cpp:851
+#: src/exiv2.cpp:854
 msgid "Unrecognized "
 msgstr ""
 
-#: src/exiv2.cpp:852
+#: src/exiv2.cpp:855
 msgid "target"
 msgstr ""
 
-#: src/exiv2.cpp:870
+#: src/exiv2.cpp:873
 msgid "Failed to open command file for reading\n"
 msgstr ""
 
-#: src/exiv2.cpp:883
+#: src/exiv2.cpp:886
 msgid "line"
 msgstr ""
 
-#: src/exiv2.cpp:906
+#: src/exiv2.cpp:909
 msgid "-M option"
 msgstr ""
 
-#: src/exiv2.cpp:927 src/exiv2.cpp:986 src/exiv2.cpp:996
+#: src/exiv2.cpp:930 src/exiv2.cpp:989 src/exiv2.cpp:999
 msgid "Invalid command line"
 msgstr ""
 
-#: src/exiv2.cpp:934
+#: src/exiv2.cpp:937
 msgid "Invalid command"
 msgstr ""
 
-#: src/exiv2.cpp:967
+#: src/exiv2.cpp:970
 msgid "Invalid key"
 msgstr ""
 
