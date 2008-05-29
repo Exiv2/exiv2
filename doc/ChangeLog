@@ -1,3 +1,55 @@
+Changes from version 0.16 to 0.17
+---------------------------------
+
+* Exiv2 utility
+	-          [tools] exiv2 now writes a proper XMP sidecar file (it used to
+	           just dump the XMP packet to a file).
+	-          [tools] exiv2 can now also save Exif and IPTC data in the XMP
+	           sidecar file (conversion of Exif/IPTC to/from XMP).
+
+* Exiv2 library
+	- 0000547: [build environment] exiv2 0.16 fails to compile with gcc 4.3.0.
+	- 0000546: [exif] Exiv2 crashes while converting Nikon lens information
+	           for pretty printing.
+	- 0000541: [translation] French translation mistake.
+	- 0000540: [xmp] Pretty-print functionality for XMP.
+	           (Adrien Bustany for GHOP 98)
+	- 0000539: [xmp] Cannot add XMP properties in a custom namespace.
+	           (Vladimir Nadvornik, S M Ryan)
+	- 0000474: [design] Add a metadatum member to access translated tag values
+	           without the need to use streams.
+	         - [metadata] Added read support for jp2 and psd images, stubs for
+	           gif, bmp and tga images, and pixelWidth and pixelHeight methods on
+	           class Image. (Marco Piovanelli - Ovolab)
+	         - [exif] Updated Nikon lens info to v3.18 of Robert Rottmerhusen's
+	           lens database.
+	         - [exif] Updated Pentax makernote tags. (Michal Cihar)
+	         - [xmp] Added conversions to and from XMP. (Vladimir Nadvornik)
+	         - [xmp] Added support for XMP sidecar files.
+	         - [xmp] Improved XMP-Value toLong, toFloat and toRational using new
+	           functions parseLong, parseFloat and parseRational.
+	           (Vladimir Nadvornik)
+	         - [xmp] Allow format options for XmpParser::encode.
+	           (Vladimir Nadvornik)
+	         - [xmp] Added LangAltValue::toString(const std::string&) to get
+	           the value for a specific language qualifier.
+	           (suggested by Marco Piovanelli)
+	         - [xmp] Fixed XmpKey::tagLabel() for custom keys.
+	           (Reported by Vladimir Nadvornik)
+	         - [miscellaneous] Define pid_t using a typedef instead of #define in
+	           Windows environments. (Robin Mills)
+	         - [translation] Updated German translation.
+	           (Oliver Dörr)
+	         - [translation] Updated French translation.
+	           (Fabien Salvi)
+	         - [translation] Updated Polish translation.
+	           (Piotr Eljasiak)
+	         - [translation] Added Slovak translation.
+	           (helix84)
+
+* MSVC related
+
+
 Changes from version 0.16-pre1 to 0.16
 --------------------------------------
 
