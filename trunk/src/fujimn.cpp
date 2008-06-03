@@ -56,8 +56,6 @@ namespace Exiv2 {
         MakerNoteFactory::registerMakerNote("FUJIFILM", "*", createFujiMakerNote);
         MakerNoteFactory::registerMakerNote(
             fujiIfdId, MakerNote::AutoPtr(new FujiMakerNote));
-
-        ExifTags::registerMakerTagInfo(fujiIfdId, tagInfo_);
     }
     //! @endcond
 

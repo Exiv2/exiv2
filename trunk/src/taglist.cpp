@@ -40,7 +40,7 @@ try {
 
         IfdId ifdId = ExifTags::ifdIdByIfdItem(item);
         if (ExifTags::isMakerIfd(ifdId)) {
-            ExifTags::makerTaglist(std::cout, ifdId);
+            ExifTags::taglist(std::cout, ifdId);
             break;
         }
 

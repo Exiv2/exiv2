@@ -55,8 +55,6 @@ namespace Exiv2 {
         MakerNoteFactory::registerMakerNote("Panasonic", "*", createPanasonicMakerNote);
         MakerNoteFactory::registerMakerNote(
             panasonicIfdId, MakerNote::AutoPtr(new PanasonicMakerNote));
-
-        ExifTags::registerMakerTagInfo(panasonicIfdId, tagInfo_);
     }
     //! @endcond
 

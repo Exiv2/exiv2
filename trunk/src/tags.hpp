@@ -50,13 +50,15 @@ namespace Exiv2 {
 // class declarations
     class Value;
     class Entry;
+    class TagInfo;
 
 // *****************************************************************************
 // type definitions
 
     //! Type for a function pointer for functions interpreting the tag value
     typedef std::ostream& (*PrintFct)(std::ostream&, const Value&);
-
+    //! A function returning a tag list.
+    typedef const TagInfo* (*TagListFct)();
     /*!
       @brief Section identifiers to logically group tags. A section consists
              of nothing more than a name, based on the Exif standard.
@@ -72,18 +74,24 @@ namespace Exiv2 {
 
     //! Contains information pertaining to one IFD
     struct IfdInfo {
-        //! Constructor
-        IfdInfo(IfdId ifdId, const char* name, const char* item);
+        struct Item;
+        bool operator==(IfdId ifdId) const;     //!< Comparison operator for IFD id
+        bool operator==(Item item) const;       //!< Comparison operator for IFD item
         IfdId ifdId_;                           //!< IFD id
         const char* name_;                      //!< IFD name
         //! Related IFD item. This is also an IFD name, unique for each IFD.
         const char* item_;
+        TagListFct tagList_;                    //!< Tag list
+    };
+
+    //! Search key to find an IfdInfo by its IFD item.
+    struct IfdInfo::Item {
+        Item(const std::string& item);          //!< Constructor
+        std::string i_;                         //!< IFD item
     };
 
     //! Contains information pertaining to one section
     struct SectionInfo {
-        //! Constructor
-        SectionInfo(SectionId sectionId, const char* name, const char* desc);
         SectionId sectionId_;                   //!< Section id
         const char* name_;                      //!< Section name (one word)
         const char* desc_;                      //!< Section description
@@ -282,37 +290,22 @@ namespace Exiv2 {
         static const TagInfo* gpsTagList();
         //! Print a list of all standard Exif tags to output stream
         static void taglist(std::ostream& os);
-        //! Print a list of all tags related to one makernote %IfdId
-        static void makerTaglist(std::ostream& os, IfdId ifdId);
-        //! Register an %IfdId with the base IFD %TagInfo list for a makernote
-        static void registerBaseTagInfo(IfdId ifdId);
+        //! Print the list of tags for \em %IfdId
+        static void taglist(std::ostream& os, IfdId ifdId);
         /*!
-          @brief Register an %IfdId and %TagInfo list for a makernote
-
-          @throw Error if the MakerTagInfo registry is full
-         */
-        static void registerMakerTagInfo(IfdId ifdId, const TagInfo* tagInfo);
-        /*!
-          @brief Return true if \em ifdId is an %Ifd Id which is registered
-                 as a makernote %Ifd id. Note: Calling this function with
+          @brief Return true if \em ifdId is an %Ifd id which is 
+                 a makernote %Ifd id. Note: Calling this function with
                  makerIfd returns false.
         */
         static bool isMakerIfd(IfdId ifdId);
 
     private:
-        static int tagInfoIdx(uint16_t tag, IfdId ifdId);
-        static const TagInfo* makerTagInfo(uint16_t tag, IfdId ifdId);
-        static const TagInfo* makerTagInfo(const std::string& tagName,
-                                           IfdId ifdId);
+        static const TagInfo* tagList(IfdId ifdId);
+        static const TagInfo* tagInfo(uint16_t tag, IfdId ifdId);
+        static const TagInfo* tagInfo(const std::string& tagName, IfdId ifdId);
 
-        static const IfdInfo     ifdInfo_[];
-        static const SectionInfo sectionInfo_[];
-
-        static const TagInfo*    tagInfos_[];
-
-        static const int         MAX_MAKER_TAG_INFOS = 64;
-        static const TagInfo*    makerTagInfos_[MAX_MAKER_TAG_INFOS];
-        static IfdId             makerIfdIds_[MAX_MAKER_TAG_INFOS];
+        static const IfdInfo     ifdInfo_[];     //!< All Exif and Makernote tag lists
+        static const SectionInfo sectionInfo_[]; //!< Exif (and one common Makernote) sections
 
     }; // class ExifTags
 

@@ -57,8 +57,6 @@ namespace Exiv2 {
         MakerNoteFactory::registerMakerNote("FOVEON", "*", createSigmaMakerNote);
         MakerNoteFactory::registerMakerNote(
             sigmaIfdId, MakerNote::AutoPtr(new SigmaMakerNote));
-
-        ExifTags::registerMakerTagInfo(sigmaIfdId, tagInfo_);
     }
     //! @endcond
 

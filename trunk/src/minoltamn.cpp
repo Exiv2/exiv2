@@ -1230,12 +1230,6 @@ namespace Exiv2 {
         MakerNoteFactory::registerMakerNote(minoltaCs7DIfdId,  MakerNote::AutoPtr(new MinoltaMakerNote));
         MakerNoteFactory::registerMakerNote(minoltaCsOldIfdId, MakerNote::AutoPtr(new MinoltaMakerNote));
         MakerNoteFactory::registerMakerNote(minoltaCsNewIfdId, MakerNote::AutoPtr(new MinoltaMakerNote));
-
-        ExifTags::registerMakerTagInfo(minoltaIfdId,      tagInfo_);
-        ExifTags::registerMakerTagInfo(minoltaCs5DIfdId,  tagInfoCs5D_);
-        ExifTags::registerMakerTagInfo(minoltaCs7DIfdId,  tagInfoCs7D_);
-        ExifTags::registerMakerTagInfo(minoltaCsOldIfdId, tagInfoCsStd_);
-        ExifTags::registerMakerTagInfo(minoltaCsNewIfdId, tagInfoCsStd_);
     }
     //! @endcond
 
