@@ -60,16 +60,16 @@ try {
     assert(getv1.ok());
 
     const Exiv2::Value &getv2 = xmpData["Xmp.dc.two"].value();
-    assert(isEqual(getv2.toFloat(), 3.1415)); 
+    assert(isEqual(getv2.toFloat(), 3.1415f)); 
     assert(getv2.ok());
     assert(getv2.toLong() == 3);
     assert(getv2.ok());
     Exiv2::Rational R = getv2.toRational();
     assert(getv2.ok());
-    assert(isEqual(static_cast<float>(R.first) / R.second, 3.1415 ));
+    assert(isEqual(static_cast<float>(R.first) / R.second, 3.1415f ));
 
     const Exiv2::Value &getv3 = xmpData["Xmp.dc.three"].value();
-    assert(isEqual(getv3.toFloat(), 5.0/7.0)); 
+    assert(isEqual(getv3.toFloat(), 5.0f/7.0f)); 
     assert(getv3.ok());
     assert(getv3.toLong() == 0);  // long(5.0 / 7.0) 
     assert(getv3.ok());

@@ -41,6 +41,7 @@ EXIV2_RCSID("@(#) $Id$")
 // + standard includes
 #include <iostream>
 #include <iomanip>
+#include <sstream>
 
 // Adobe XMP Toolkit
 #ifdef EXV_HAVE_XMP_TOOLKIT
@@ -479,7 +480,7 @@ namespace Exiv2 {
         if (pos == exifData_->end()) return;
         if (!prepareXmpTarget(to)) return;
         int year, month, day, hour, min, sec;
-        std::string subsec = "";
+        std::string subsec;
         char buf[30];
 
         if (std::string(from) != "Exif.GPSInfo.GPSTimeStamp") {
@@ -519,8 +520,7 @@ namespace Exiv2 {
             sec = static_cast<int>(dsec);
             dsec -= sec;
 
-            snprintf(buf, sizeof(buf), "%.9f", dsec);
-            buf[sizeof(buf) - 1] = 0;
+            sprintf(buf, "%.9f", dsec);
             subsec = buf + 1;
 
             Exiv2::ExifData::iterator datePos = exifData_->findKey(ExifKey("Exif.GPSInfo.GPSDateStamp"));
@@ -546,7 +546,7 @@ namespace Exiv2 {
             }
         }
 
-        const char *subsecTag = 0;
+        const char* subsecTag = 0;
         if (std::string(from) == "Exif.Image.DateTime") {
             subsecTag = "Exif.Photo.SubSecTime";
         }
@@ -559,13 +559,16 @@ namespace Exiv2 {
 
         if (subsecTag) {
             Exiv2::ExifData::iterator subsec_pos = exifData_->findKey(ExifKey(subsecTag));
-            if (subsec_pos != exifData_->end() && !subsec_pos->value().toString().empty())
+            if (   subsec_pos != exifData_->end()
+                && !subsec_pos->value().toString().empty()) {
                 subsec = std::string(".") + subsec_pos->value().toString();
+            }
             if (erase_) exifData_->erase(subsec_pos);
         }
 
-        snprintf(buf, sizeof(buf), "%4d-%02d-%02dT%02d:%02d:%02d%s", year, month, day, hour, min, sec, subsec.c_str());
-        buf[sizeof(buf) - 1] = 0;
+        if (subsec.size() > 10) subsec = subsec.substr(0, 10);
+        sprintf(buf, "%4d-%02d-%02dT%02d:%02d:%02d%s",
+                year, month, day, hour, min, sec, subsec.c_str());
 
         (*xmpData_)[to] = buf;
         if (erase_) exifData_->erase(pos);
@@ -632,25 +635,34 @@ namespace Exiv2 {
             return;
         }
         Exiv2::ExifData::iterator refPos = exifData_->findKey(ExifKey(std::string(from) + "Ref"));
-        if (refPos == exifData_->end()) return;
+        if (refPos == exifData_->end()) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+#endif
+            return;
+        }
+        double deg[3];
+        for (int i = 0; i < 3; ++i) {
+            const int32_t z = pos->value().toRational(i).first;
+            const int32_t d = pos->value().toRational(i).second;
+            if (d == 0.0) {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+#endif
+                return;
+            }
+            // Hack: Need Value::toDouble
+            deg[i] = static_cast<double>(z)/d;
+        }
+        double min = deg[0] * 60.0 + deg[1] + deg[2] / 60.0;
+        int ideg = static_cast<int>(min / 60.0);
+        min -= ideg * 60;
+        std::ostringstream oss;
+        oss << ideg << ","
+            << std::fixed << std::setprecision(7) << min
+            << refPos->value().toString().c_str()[0];
+        (*xmpData_)[to] = oss.str();
 
-        double deg = pos->value().toFloat(0);
-        double min = pos->value().toFloat(1);
-        double sec = pos->value().toFloat(2);
-
-        sec = deg * 3600.0 + min * 60.0 + sec;
-
-        int ideg = static_cast<int>(sec / 3600.0);
-        sec -= ideg * 3600;
-        int imin = static_cast<int>(sec / 60.0);
-        sec -= imin * 60;
-
-        char buf[30];
-
-        snprintf(buf, sizeof(buf), "%d,%d,%.2f%c", ideg, imin, sec, refPos->value().toString().c_str()[0]);
-        buf[sizeof(buf) - 1] = 0;
-
-        (*xmpData_)[to] = buf;
         if (erase_) exifData_->erase(pos);
         if (erase_) exifData_->erase(refPos);
     }
@@ -713,15 +725,13 @@ namespace Exiv2 {
 
 //          SXMPUtils::ConvertToLocalTime(&datetime);
 
-            snprintf(buf, sizeof(buf),
-                     "%4d:%02d:%02d %02d:%02d:%02d",
-                     static_cast<int>(datetime.year),
-                     static_cast<int>(datetime.month),
-                     static_cast<int>(datetime.day),
-                     static_cast<int>(datetime.hour),
-                     static_cast<int>(datetime.minute),
-                     static_cast<int>(datetime.second));
-            buf[sizeof(buf) - 1] = 0;
+            sprintf(buf, "%4d:%02d:%02d %02d:%02d:%02d",
+                    static_cast<int>(datetime.year),
+                    static_cast<int>(datetime.month),
+                    static_cast<int>(datetime.day),
+                    static_cast<int>(datetime.hour),
+                    static_cast<int>(datetime.minute),
+                    static_cast<int>(datetime.second));
             (*exifData_)[to] = buf;
 
             const char *subsecTag = 0;
@@ -739,27 +749,25 @@ namespace Exiv2 {
                 prepareExifTarget(subsecTag, true);
 
                 if (datetime.nanoSecond) {
-                    snprintf(buf, sizeof(buf), "%09d", static_cast<int>(datetime.nanoSecond));
+                    sprintf(buf, "%09d", static_cast<int>(datetime.nanoSecond));
                     (*exifData_)[subsecTag] = buf;
                 }
             }
         }
         else { // "Exif.GPSInfo.GPSTimeStamp"
-            Rational rhour = floatToRationalCast(datetime.hour);
-            Rational rmin = floatToRationalCast(datetime.minute);
-            Rational rsec = floatToRationalCast(static_cast<float>(datetime.second) + datetime.nanoSecond / 1000000000.0);
+            Rational rhour(datetime.hour, 1);
+            Rational rmin(datetime.minute, 1);
+            Rational rsec = floatToRationalCast(static_cast<float>(datetime.second) + datetime.nanoSecond / 1000000000.0f);
 
             std::ostringstream array;
             array << rhour << " " << rmin << " " << rsec;
             (*exifData_)[to] = array.str();
 
             prepareExifTarget("Exif.GPSInfo.GPSDateStamp", true);
-            snprintf(buf, sizeof(buf),
-                     "%4d:%02d:%02d",
-                     static_cast<int>(datetime.year),
-                     static_cast<int>(datetime.month),
-                     static_cast<int>(datetime.day));
-            buf[sizeof(buf) - 1] = 0;
+            sprintf(buf, "%4d:%02d:%02d",
+                    static_cast<int>(datetime.year),
+                    static_cast<int>(datetime.month),
+                    static_cast<int>(datetime.day));
             (*exifData_)["Exif.GPSInfo.GPSDateStamp"] = buf;
         }
 
@@ -885,7 +893,7 @@ namespace Exiv2 {
             return;
         }
 
-        float deg, min, sec;
+        double deg, min, sec;
         char ref, sep1, sep2;
 
         ref = value[value.length() - 1];
@@ -900,24 +908,21 @@ namespace Exiv2 {
         }
         else {
             sec = (min - static_cast<int>(min)) * 60.0;
-            min = static_cast<int>(min);
+            min = static_cast<double>(static_cast<int>(min));
             sep2 = ',';
         }
 
-        if (in.bad() ||
-            !(ref == 'N' || ref == 'S' || ref == 'E' || ref == 'W') ||
-            sep1 != ',' || sep2 != ',' ||
-            !in.eof()) {
+        if (   in.bad() || !(ref == 'N' || ref == 'S' || ref == 'E' || ref == 'W')
+            || sep1 != ',' || sep2 != ',' || !in.eof()) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
 #endif
             return;
         }
 
-
-        Rational rdeg = floatToRationalCast(deg);
-        Rational rmin = floatToRationalCast(min);
-        Rational rsec = floatToRationalCast(sec);
+        Rational rdeg = floatToRationalCast(static_cast<float>(deg));
+        Rational rmin = floatToRationalCast(static_cast<float>(min));
+        Rational rsec = floatToRationalCast(static_cast<float>(sec));
 
         std::ostringstream array;
         array << rdeg << " " << rmin << " " << rsec;

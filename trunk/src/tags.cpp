@@ -2082,7 +2082,7 @@ namespace Exiv2 {
 
         char s[5];
         for (int i = 0; i < 4; ++i) {
-            s[i] = value.toLong(i);
+            s[i] = static_cast<char>(value.toLong(i));
         }
         s[4] = '\0';
 
