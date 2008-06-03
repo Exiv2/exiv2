@@ -57,8 +57,6 @@ namespace Exiv2 {
         MakerNoteFactory::registerMakerNote("PENTAX*", "*", createPentaxMakerNote);
         MakerNoteFactory::registerMakerNote(
             pentaxIfdId, MakerNote::AutoPtr(new PentaxMakerNote));
-
-        ExifTags::registerMakerTagInfo(pentaxIfdId, tagInfo_);
     }
     //! @endcond
 

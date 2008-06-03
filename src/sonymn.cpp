@@ -53,8 +53,6 @@ namespace Exiv2 {
         MakerNoteFactory::registerMakerNote("SONY", "*", createSonyMakerNote);
         MakerNoteFactory::registerMakerNote(
             sonyIfdId, MakerNote::AutoPtr(new SonyMakerNote));
-
-        ExifTags::registerMakerTagInfo(sonyIfdId, tagInfo_);
     }
     //! @endcond
 

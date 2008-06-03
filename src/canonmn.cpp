@@ -69,13 +69,6 @@ namespace Exiv2 {
             canonCfIfdId, MakerNote::AutoPtr(new CanonMakerNote));
         MakerNoteFactory::registerMakerNote(
             canonPiIfdId, MakerNote::AutoPtr(new CanonMakerNote));
-
-        ExifTags::registerMakerTagInfo(canonIfdId, tagInfo_);
-        ExifTags::registerMakerTagInfo(canonCsIfdId, tagInfoCs_);
-        ExifTags::registerMakerTagInfo(canonSiIfdId, tagInfoSi_);
-        ExifTags::registerMakerTagInfo(canonPaIfdId, tagInfoPa_);
-        ExifTags::registerMakerTagInfo(canonCfIfdId, tagInfoCf_);
-        ExifTags::registerMakerTagInfo(canonPiIfdId, tagInfoPi_);
     }
     //! @endcond
 

@@ -153,8 +153,6 @@ namespace Exiv2 {
         MakerNoteFactory::registerMakerNote("NIKON*", "*", createNikonMakerNote);
         MakerNoteFactory::registerMakerNote(
             nikon1IfdId, MakerNote::AutoPtr(new Nikon1MakerNote));
-
-        ExifTags::registerMakerTagInfo(nikon1IfdId, tagInfo_);
     }
     //! @endcond
 
@@ -387,8 +385,6 @@ namespace Exiv2 {
     {
         MakerNoteFactory::registerMakerNote(
             nikon2IfdId, MakerNote::AutoPtr(new Nikon2MakerNote));
-
-        ExifTags::registerMakerTagInfo(nikon2IfdId, tagInfo_);
     }
     //! @endcond
 
@@ -569,8 +565,6 @@ namespace Exiv2 {
     {
         MakerNoteFactory::registerMakerNote(
             nikon3IfdId, MakerNote::AutoPtr(new Nikon3MakerNote));
-
-        ExifTags::registerMakerTagInfo(nikon3IfdId, tagInfo_);
     }
     //! @endcond
 

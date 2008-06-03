@@ -409,8 +409,6 @@ namespace Exiv2 {
     {
         MakerNoteFactory::registerMakerNote("OLYMPUS*", "*", createOlympusMakerNote);
         MakerNoteFactory::registerMakerNote(olympusIfdId, MakerNote::AutoPtr(new OlympusMakerNote));
-
-        ExifTags::registerMakerTagInfo(olympusIfdId, tagInfo_);
     }
     //! @endcond
 

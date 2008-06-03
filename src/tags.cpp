@@ -65,69 +65,69 @@ namespace {
 // class member definitions
 namespace Exiv2 {
 
-    IfdInfo::IfdInfo(IfdId ifdId, const char* name, const char* item)
-        : ifdId_(ifdId), name_(name), item_(item)
+    IfdInfo::Item::Item(const std::string& item)
     {
+        i_ = item;
     }
 
-    // Todo: Allow to register new IfdInfo entries from elsewhere (the makernotes)
+    bool IfdInfo::operator==(IfdId ifdId) const
+    {
+        return ifdId_ == ifdId;
+    }
+
+    bool IfdInfo::operator==(Item item) const
+    {
+        return std::string(item_) == item.i_;
+    }
+
     // Important: IFD item must be unique!
     const IfdInfo ExifTags::ifdInfo_[] = {
-        IfdInfo(ifdIdNotSet, "(Unknown IFD)", "(Unknown item)"),
-        IfdInfo(ifd0Id, "IFD0", "Image"),
-        IfdInfo(exifIfdId, "Exif", "Photo"),  // just to avoid 'Exif.Exif.*' keys
-        IfdInfo(gpsIfdId, "GPSInfo", "GPSInfo"),
-        IfdInfo(iopIfdId, "Iop", "Iop"),
-        IfdInfo(ifd1Id, "IFD1", "Thumbnail"),
-        IfdInfo(canonIfdId, "Makernote", "Canon"),
-        IfdInfo(canonCsIfdId, "Makernote", "CanonCs"),
-        IfdInfo(canonSiIfdId, "Makernote", "CanonSi"),
-        IfdInfo(canonCfIfdId, "Makernote", "CanonCf"),
-        IfdInfo(canonPiIfdId, "Makernote", "CanonPi"),
-        IfdInfo(canonPaIfdId, "Makernote", "CanonPa"),
-        IfdInfo(fujiIfdId, "Makernote", "Fujifilm"),
-        IfdInfo(minoltaIfdId, "Makernote", "Minolta"),
-        IfdInfo(minoltaCs5DIfdId, "Makernote", "MinoltaCs5D"),
-        IfdInfo(minoltaCs7DIfdId, "Makernote", "MinoltaCs7D"),
-        IfdInfo(minoltaCsOldIfdId, "Makernote", "MinoltaCsOld"),
-        IfdInfo(minoltaCsNewIfdId, "Makernote", "MinoltaCsNew"),
-        IfdInfo(nikon1IfdId, "Makernote", "Nikon1"),
-        IfdInfo(nikon2IfdId, "Makernote", "Nikon2"),
-        IfdInfo(nikon3IfdId, "Makernote", "Nikon3"),
-        IfdInfo(olympusIfdId, "Makernote", "Olympus"),
-        IfdInfo(panasonicIfdId, "Makernote", "Panasonic"),
-        IfdInfo(pentaxIfdId, "Makernote", "Pentax"),
-        IfdInfo(sigmaIfdId, "Makernote", "Sigma"),
-        IfdInfo(sonyIfdId, "Makernote", "Sony"),
-        IfdInfo(lastIfdId, "(Last IFD info)", "(Last IFD item)")
+        { ifdIdNotSet,       "(Unknown IFD)", "(Unknown item)", 0 },
+        { ifd0Id,            "IFD0",      "Image",        ExifTags::ifdTagList           },
+        { exifIfdId,         "Exif",      "Photo",        ExifTags::exifTagList          }, // just to avoid 'Exif.Exif.*' keys
+        { gpsIfdId,          "GPSInfo",   "GPSInfo",      ExifTags::gpsTagList           },
+        { iopIfdId,          "Iop",       "Iop",          ExifTags::iopTagList           },
+        { ifd1Id,            "IFD1",      "Thumbnail",    ExifTags::ifdTagList           },
+        { canonIfdId,        "Makernote", "Canon",        CanonMakerNote::tagList        },
+        { canonCsIfdId,      "Makernote", "CanonCs",      CanonMakerNote::tagListCs      },
+        { canonSiIfdId,      "Makernote", "CanonSi",      CanonMakerNote::tagListSi      },
+        { canonCfIfdId,      "Makernote", "CanonCf",      CanonMakerNote::tagListCf      },
+        { canonPiIfdId,      "Makernote", "CanonPi",      CanonMakerNote::tagListPi      },
+        { canonPaIfdId,      "Makernote", "CanonPa",      CanonMakerNote::tagListPa      },
+        { fujiIfdId,         "Makernote", "Fujifilm",     FujiMakerNote::tagList         },
+        { minoltaIfdId,      "Makernote", "Minolta",      MinoltaMakerNote::tagList      },
+        { minoltaCs5DIfdId,  "Makernote", "MinoltaCs5D",  MinoltaMakerNote::tagListCs5D  },
+        { minoltaCs7DIfdId,  "Makernote", "MinoltaCs7D",  MinoltaMakerNote::tagListCs7D  },
+        { minoltaCsOldIfdId, "Makernote", "MinoltaCsOld", MinoltaMakerNote::tagListCsStd },
+        { minoltaCsNewIfdId, "Makernote", "MinoltaCsNew", MinoltaMakerNote::tagListCsStd },
+        { nikon1IfdId,       "Makernote", "Nikon1",       Nikon1MakerNote::tagList       },
+        { nikon2IfdId,       "Makernote", "Nikon2",       Nikon2MakerNote::tagList       },
+        { nikon3IfdId,       "Makernote", "Nikon3",       Nikon3MakerNote::tagList       },
+        { olympusIfdId,      "Makernote", "Olympus",      OlympusMakerNote::tagList      },
+        { panasonicIfdId,    "Makernote", "Panasonic",    PanasonicMakerNote::tagList    },
+        { pentaxIfdId,       "Makernote", "Pentax",       PentaxMakerNote::tagList       },
+        { sigmaIfdId,        "Makernote", "Sigma",        SigmaMakerNote::tagList        },
+        { sonyIfdId,         "Makernote", "Sony",         SonyMakerNote::tagList         },
+        { lastIfdId,         "(Last IFD info)", "(Last IFD item)", 0 }
     };
 
-    SectionInfo::SectionInfo(
-        SectionId sectionId,
-        const char* name,
-        const char* desc
-    )
-        : sectionId_(sectionId), name_(name), desc_(desc)
-    {
-    }
-
     const SectionInfo ExifTags::sectionInfo_[] = {
-        SectionInfo(sectionIdNotSet, "(UnknownSection)", N_("Unknown section")),
-        SectionInfo(imgStruct, "ImageStructure", N_("Image data structure")),
-        SectionInfo(recOffset, "RecordingOffset", N_("Recording offset")),
-        SectionInfo(imgCharacter, "ImageCharacteristics", N_("Image data characteristics")),
-        SectionInfo(otherTags, "OtherTags", N_("Other data")),
-        SectionInfo(exifFormat, "ExifFormat", N_("Exif data structure")),
-        SectionInfo(exifVersion, "ExifVersion", N_("Exif version")),
-        SectionInfo(imgConfig, "ImageConfig", N_("Image configuration")),
-        SectionInfo(userInfo, "UserInfo", N_("User information")),
-        SectionInfo(relatedFile, "RelatedFile", N_("Related file")),
-        SectionInfo(dateTime, "DateTime", N_("Date and time")),
-        SectionInfo(captureCond, "CaptureConditions", N_("Picture taking conditions")),
-        SectionInfo(gpsTags, "GPS", N_("GPS information")),
-        SectionInfo(iopTags, "Interoperability", N_("Interoperability information")),
-        SectionInfo(makerTags, "Makernote", N_("Vendor specific information")),
-        SectionInfo(lastSectionId, "(LastSection)", N_("Last section"))
+        { sectionIdNotSet, "(UnknownSection)",     N_("Unknown section")              },
+        { imgStruct,       "ImageStructure",       N_("Image data structure")         },
+        { recOffset,       "RecordingOffset",      N_("Recording offset")             },
+        { imgCharacter,    "ImageCharacteristics", N_("Image data characteristics")   },
+        { otherTags,       "OtherTags",            N_("Other data")                   },
+        { exifFormat,      "ExifFormat",           N_("Exif data structure")          },
+        { exifVersion,     "ExifVersion",          N_("Exif version")                 },
+        { imgConfig,       "ImageConfig",          N_("Image configuration")          },
+        { userInfo,        "UserInfo",             N_("User information")             },
+        { relatedFile,     "RelatedFile",          N_("Related file")                 },
+        { dateTime,        "DateTime",             N_("Date and time")                },
+        { captureCond,     "CaptureConditions",    N_("Picture taking conditions")    },
+        { gpsTags,         "GPS",                  N_("GPS information")              },
+        { iopTags,         "Interoperability",     N_("Interoperability information") },
+        { makerTags,       "Makernote",            N_("Vendor specific information")  },
+        { lastSectionId,   "(LastSection)",        N_("Last section")                 }
     };
 
     TagInfo::TagInfo(
@@ -1222,96 +1222,47 @@ namespace Exiv2 {
                                     N_("Unknown tag"),
                                     ifdIdNotSet, sectionIdNotSet, asciiString, printValue);
 
-    // Tag lookup lists with tag names, desc and where they (preferably) belong to;
-    // this is an array with pointers to one list per IFD. The IfdId is used as the
-    // index into the array.
-    const TagInfo* ExifTags::tagInfos_[] = {
-        0,
-        ifdTagInfo, exifTagInfo, gpsTagInfo, iopTagInfo, ifdTagInfo,
-        0
-    };
-
-    // Lookup list for registered makernote tag info tables
-    const TagInfo* ExifTags::makerTagInfos_[];
-
-    // All makernote ifd ids, in the same order as the tag infos in makerTagInfos_
-    IfdId ExifTags::makerIfdIds_[];
-
-    void ExifTags::registerBaseTagInfo(IfdId ifdId)
+    const TagInfo* ExifTags::tagList(IfdId ifdId)
     {
-        registerMakerTagInfo(ifdId, ifdTagInfo);
-    }
+        const IfdInfo* ii = find(ifdInfo_, ifdId);
+        if (ii == 0) return 0;
+        return ii->tagList_();
+    } // ExifTags::tagList
 
-    void ExifTags::registerMakerTagInfo(IfdId ifdId, const TagInfo* tagInfo)
+    const TagInfo* ExifTags::tagInfo(uint16_t tag, IfdId ifdId)
     {
-        int i = 0;
-        for (; i < MAX_MAKER_TAG_INFOS; ++i) {
-            if (makerIfdIds_[i] == 0) {
-                makerIfdIds_[i] = ifdId;
-                makerTagInfos_[i] = tagInfo;
-                break;
-            }
+        const TagInfo* ti = tagList(ifdId);
+        if (ti == 0) return 0;
+        for (int idx = 0; ti[idx].tag_ != 0xffff; ++idx) {
+            if (ti[idx].tag_ == tag) return &ti[idx];
         }
-        if (i == MAX_MAKER_TAG_INFOS) throw Error(16);
-    } // ExifTags::registerMakerTagInfo
-
-    int ExifTags::tagInfoIdx(uint16_t tag, IfdId ifdId)
-    {
-        const TagInfo* tagInfo = tagInfos_[ifdId];
-        if (tagInfo == 0) return -1;
-        int idx;
-        for (idx = 0; tagInfo[idx].tag_ != 0xffff; ++idx) {
-            if (tagInfo[idx].tag_ == tag) return idx;
-        }
-        return -1;
-    } // ExifTags::tagInfoIdx
-
-    const TagInfo* ExifTags::makerTagInfo(uint16_t tag, IfdId ifdId)
-    {
-        int i = 0;
-        for (; i < MAX_MAKER_TAG_INFOS && makerIfdIds_[i] != ifdId; ++i) {}
-        if (i == MAX_MAKER_TAG_INFOS) return 0;
-
-        for (int k = 0; makerTagInfos_[i][k].tag_ != 0xffff; ++k) {
-            if (makerTagInfos_[i][k].tag_ == tag) return &makerTagInfos_[i][k];
-        }
-
         return 0;
-    } // ExifTags::makerTagInfo
+    } // ExifTags::tagInfo
 
-    const TagInfo* ExifTags::makerTagInfo(const std::string& tagName,
-                                          IfdId ifdId)
+    const TagInfo* ExifTags::tagInfo(const std::string& tagName, IfdId ifdId)
     {
-        int i = 0;
-        for (; i < MAX_MAKER_TAG_INFOS && makerIfdIds_[i] != ifdId; ++i) {}
-        if (i == MAX_MAKER_TAG_INFOS) return 0;
-
-        for (int k = 0; makerTagInfos_[i][k].tag_ != 0xffff; ++k) {
-            if (makerTagInfos_[i][k].name_ == tagName) {
-                return &makerTagInfos_[i][k];
-            }
+        const TagInfo* ti = tagList(ifdId);
+        if (ti == 0) return 0;
+        for (int idx = 0; ti[idx].tag_ != 0xffff; ++idx) {
+            if (std::string(ti[idx].name_) == tagName) return &ti[idx];
         }
-
         return 0;
-    } // ExifTags::makerTagInfo
+    } // ExifTags::tagInfo
 
     bool ExifTags::isMakerIfd(IfdId ifdId)
     {
-        int i = 0;
-        for (; i < MAX_MAKER_TAG_INFOS && makerIfdIds_[i] != ifdId; ++i) {}
-        return i != MAX_MAKER_TAG_INFOS && makerIfdIds_[i] != IfdId(0);
-    }
+        bool rc = false;
+        const IfdInfo* ii = find(ifdInfo_, ifdId);
+        if (ii != 0 && std::string(ii->name_) == "Makernote") {
+            rc = true;
+        }
+        return rc;
+    } // ExifTags::isMakerIfd
 
     std::string ExifTags::tagName(uint16_t tag, IfdId ifdId)
     {
-        if (isExifIfd(ifdId)) {
-            int idx = tagInfoIdx(tag, ifdId);
-            if (idx != -1) return tagInfos_[ifdId][idx].name_;
-        }
-        if (isMakerIfd(ifdId)) {
-            const TagInfo* tagInfo = makerTagInfo(tag, ifdId);
-            if (tagInfo != 0) return tagInfo->name_;
-        }
+        const TagInfo* ti = tagInfo(tag, ifdId);
+        if (ti != 0) return ti->name_;
         std::ostringstream os;
         os << "0x" << std::setw(4) << std::setfill('0') << std::right
            << std::hex << tag;
@@ -1325,110 +1276,76 @@ namespace Exiv2 {
 
     const char* ExifTags::tagLabel(uint16_t tag, IfdId ifdId)
     {
-        if (isExifIfd(ifdId)) {
-            int idx = tagInfoIdx(tag, ifdId);
-            if (idx == -1) return _(unknownTag.title_);
-            return _(tagInfos_[ifdId][idx].title_);
-        }
-        if (isMakerIfd(ifdId)) {
-            const TagInfo* tagInfo = makerTagInfo(tag, ifdId);
-            if (tagInfo != 0) return _(tagInfo->title_);
-        }
-        return "";
+        const TagInfo* ti = tagInfo(tag, ifdId);
+        if (ti == 0) return "";
+        return _(ti->title_);
     } // ExifTags::tagLabel
 
     const char* ExifTags::tagDesc(uint16_t tag, IfdId ifdId)
     {
-        if (isExifIfd(ifdId)) {
-            int idx = tagInfoIdx(tag, ifdId);
-            if (idx == -1) return _(unknownTag.desc_);
-            return _(tagInfos_[ifdId][idx].desc_);
-        }
-        if (isMakerIfd(ifdId)) {
-            const TagInfo* tagInfo = makerTagInfo(tag, ifdId);
-            if (tagInfo != 0) return _(tagInfo->desc_);
-        }
-        return "";
+        const TagInfo* ti = tagInfo(tag, ifdId);
+        if (ti == 0) return "";
+        return _(ti->desc_);
     } // ExifTags::tagDesc
 
-    const char* ExifTags::sectionName(uint16_t tag, IfdId ifdId)
+    TypeId ExifTags::tagType(uint16_t tag, IfdId ifdId)
     {
-        if (isExifIfd(ifdId)) {
-            int idx = tagInfoIdx(tag, ifdId);
-            if (idx == -1) return sectionInfo_[unknownTag.sectionId_].name_;
-            const TagInfo* tagInfo = tagInfos_[ifdId];
-            return sectionInfo_[tagInfo[idx].sectionId_].name_;
-        }
-        if (isMakerIfd(ifdId)) {
-            const TagInfo* tagInfo = makerTagInfo(tag, ifdId);
-            if (tagInfo != 0) return sectionInfo_[tagInfo->sectionId_].name_;
-        }
-        return "";
-    } // ExifTags::sectionName
-
-    const char* ExifTags::sectionDesc(uint16_t tag, IfdId ifdId)
-    {
-        if (isExifIfd(ifdId)) {
-            int idx = tagInfoIdx(tag, ifdId);
-            if (idx == -1) return _(sectionInfo_[unknownTag.sectionId_].desc_);
-            const TagInfo* tagInfo = tagInfos_[ifdId];
-            return _(sectionInfo_[tagInfo[idx].sectionId_].desc_);
-        }
-        if (isMakerIfd(ifdId)) {
-            const TagInfo* tagInfo = makerTagInfo(tag, ifdId);
-            if (tagInfo != 0) return _(sectionInfo_[tagInfo->sectionId_].desc_);
-        }
-        return "";
-    } // ExifTags::sectionDesc
+        const TagInfo* ti = tagInfo(tag, ifdId);
+        if (ti == 0) return unknownTag.typeId_;
+        return ti->typeId_;
+    } // ExifTags::tagType
 
     uint16_t ExifTags::tag(const std::string& tagName, IfdId ifdId)
     {
-        uint16_t tag = 0xffff;
-        if (isExifIfd(ifdId)) {
-            const TagInfo* tagInfo = tagInfos_[ifdId];
-            if (tagInfo) {
-                int idx;
-                for (idx = 0; tagInfo[idx].tag_ != 0xffff; ++idx) {
-                    if (tagInfo[idx].name_ == tagName) break;
-                }
-                tag = tagInfo[idx].tag_;
-            }
-        }
-        if (isMakerIfd(ifdId)) {
-            const TagInfo* tagInfo = makerTagInfo(tagName, ifdId);
-            if (tagInfo != 0) tag = tagInfo->tag_;
-        }
-        if (tag == 0xffff) {
-            if (!isHex(tagName, 4, "0x")) throw Error(7, tagName, ifdId);
-            std::istringstream is(tagName);
-            is >> std::hex >> tag;
-        }
+        const TagInfo* ti = tagInfo(tagName, ifdId);
+        if (ti != 0) return ti->tag_;
+        if (!isHex(tagName, 4, "0x")) throw Error(7, tagName, ifdId);
+        std::istringstream is(tagName);
+        uint16_t tag;
+        is >> std::hex >> tag;
         return tag;
     } // ExifTags::tag
 
     IfdId ExifTags::ifdIdByIfdItem(const std::string& ifdItem)
     {
-        int i;
-        for (i = int(lastIfdId) - 1; i > 0; --i) {
-            if (ifdInfo_[i].item_ == ifdItem) break;
-        }
-        return IfdId(i);
+        IfdId ifdId = ifdIdNotSet;
+        const IfdInfo* ii = find(ifdInfo_, IfdInfo::Item(ifdItem));
+        if (ii != 0) ifdId = ii->ifdId_;
+        return ifdId;
     }
+
+    const char* ExifTags::sectionName(uint16_t tag, IfdId ifdId)
+    {
+        const TagInfo* ti = tagInfo(tag, ifdId);
+        if (ti == 0) return sectionInfo_[unknownTag.sectionId_].name_;
+        return sectionInfo_[ti->sectionId_].name_;
+    } // ExifTags::sectionName
+
+    const char* ExifTags::sectionDesc(uint16_t tag, IfdId ifdId)
+    {
+        const TagInfo* ti = tagInfo(tag, ifdId);
+        if (ti == 0) return _(sectionInfo_[unknownTag.sectionId_].desc_);
+        return _(sectionInfo_[ti->sectionId_].desc_);
+    } // ExifTags::sectionDesc
 
     const char* ExifTags::ifdName(IfdId ifdId)
     {
-        return ifdInfo_[ifdId].name_;
-    }
+        const IfdInfo* ii = find(ifdInfo_, ifdId);
+        if (ii == 0) return ifdInfo_[0].name_;
+        return ii->name_;
+    } // ExifTags::ifdName
 
     const char* ExifTags::ifdItem(IfdId ifdId)
     {
-        return ifdInfo_[ifdId].item_;
-    }
+        const IfdInfo* ii = find(ifdInfo_, ifdId);
+        if (ii == 0) return ifdInfo_[0].item_;
+        return ii->item_;
+    } // ExifTags::ifdItem
 
     const char* ExifTags::sectionName(SectionId sectionId)
     {
         return sectionInfo_[sectionId].name_;
-    }
+    } // ExifTags::sectionName
 
     SectionId ExifTags::sectionId(const std::string& sectionName)
     {
@@ -1437,20 +1354,7 @@ namespace Exiv2 {
             if (sectionInfo_[i].name_ == sectionName) break;
         }
         return SectionId(i);
-    }
-
-    TypeId ExifTags::tagType(uint16_t tag, IfdId ifdId)
-    {
-        if (isExifIfd(ifdId)) {
-            int idx = tagInfoIdx(tag, ifdId);
-            if (idx != -1) return tagInfos_[ifdId][idx].typeId_;
-        }
-        if (isMakerIfd(ifdId)) {
-            const TagInfo* tagInfo = makerTagInfo(tag, ifdId);
-            if (tagInfo != 0) return tagInfo->typeId_;
-        }
-        return unknownTag.typeId_;
-    }
+    } // ExifTags::sectionId
 
     std::ostream& ExifTags::printTag(std::ostream& os,
                                      uint16_t tag,
@@ -1459,16 +1363,8 @@ namespace Exiv2 {
     {
         if (value.count() == 0) return os;
         PrintFct fct = printValue;
-        if (isExifIfd(ifdId)) {
-            int idx = tagInfoIdx(tag, ifdId);
-            if (idx != -1) {
-                fct = tagInfos_[ifdId][idx].printFct_;
-            }
-        }
-        if (isMakerIfd(ifdId)) {
-            const TagInfo* tagInfo = makerTagInfo(tag, ifdId);
-            if (tagInfo != 0) fct = tagInfo->printFct_;
-        }
+        const TagInfo* ti = tagInfo(tag, ifdId);
+        if (ti != 0) fct = ti->printFct_;
         return fct(os, value);
     } // ExifTags::printTag
 
@@ -1488,17 +1384,15 @@ namespace Exiv2 {
         }
     } // ExifTags::taglist
 
-    void ExifTags::makerTaglist(std::ostream& os, IfdId ifdId)
+    void ExifTags::taglist(std::ostream& os, IfdId ifdId)
     {
-        int i = 0;
-        for (; i < MAX_MAKER_TAG_INFOS && makerIfdIds_[i] != ifdId; ++i) {}
-        if (i != MAX_MAKER_TAG_INFOS) {
-            const TagInfo* mnTagInfo = makerTagInfos_[i];
-            for (int k=0; mnTagInfo[k].tag_ != 0xffff; ++k) {
-                os << mnTagInfo[k] << "\n";
+        const TagInfo* ti = tagList(ifdId);
+        if (ti != 0) {
+            for (int k = 0; ti[k].tag_ != 0xffff; ++k) {
+                os << ti[k] << "\n";
             }
         }
-    } // ExifTags::makerTaglist
+    } // ExifTags::taglist
 
     const char* ExifKey::familyName_ = "Exif";
 
