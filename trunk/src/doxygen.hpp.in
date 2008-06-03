@@ -1,12 +1,15 @@
 // ***************************************************************** -*- C++ -*-
 /*!
-  @file    doxygen.hpp
+  @file    doxygen.hpp.in
   @brief   Additional documentation, this file contains no source code
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    07-Feb-04, ahu: created
  */
+// *****************************************************************************
+// ***    NOTE: doxygen.hpp is a generated file! Only edit doxygen.hpp.in    ***
+// *****************************************************************************
 /*!
   @mainpage Image metadata library and tools v@PACKAGE_VERSION@
 
@@ -17,20 +20,19 @@
   <A HREF="http://www.exiv2.org/">http://www.exiv2.org/</A>.
 
   The %Exiv2 library provides
-  - full read and write access to the Exif, IPTC and XMP metadata of an image
+  - fast read and write access to the Exif, IPTC and XMP metadata of an image
     through %Exiv2 keys and standard C++ iterators
+  - conversion of Exif and IPTC metadata to and from XMP
   - a smart IPTC implementation that does not affect data that programs like
     Photoshop store in the same image segment
   - Exif <A HREF="makernote.html">MakerNote</A> support:
     - %MakerNote tags can be accessed just like any other Exif metadata
-    - a sophisticated write algorithm avoids corrupting the %MakerNote:
-      <br>&nbsp;&nbsp;1) the %MakerNote is not re-located if possible at all, and
-      <br>&nbsp;&nbsp;2) %MakerNote %Ifd offsets are re-calculated if the
-                         %MakerNote needs to be moved (for known %Ifd %MakerNotes)
+    - a sophisticated write algorithm avoids corrupting the %MakerNote
   - extract and delete methods for Exif thumbnails (both, JPEG and TIFF thumbnails)
   - set methods for Exif thumbnails (JPEG only, TIFF thumbnails can be set from
     individual tags)
-  - complete API documentation
+  - an easy to use and
+    <A HREF="doc/index.html" title="Exiv2 API documentation">well documented API</A>
 
   @section getting-started Getting started
 
@@ -75,7 +77,8 @@
   - JPEG
   - <A HREF="crw-mapping.html">Canon CRW</A>
   - TIFF and related RAW formats (Adobe DNG, Canon CR2, Fujifilm RAF, Minolta MRW, Nikon NEF, Olympus ORF, Pentax PEF, Sony ARW and Sony SR2), read-only
-  - PNG, read-only
+  - JP2, PNG, PSD, read-only
+  - XMP sidecar files
 
   @section supp Support
 
