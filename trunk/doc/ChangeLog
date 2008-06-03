@@ -8,6 +8,7 @@ Changes from version 0.16 to 0.17
 	           sidecar file (conversion of Exif/IPTC to/from XMP).
 
 * Exiv2 library
+	- 0000550: [design] Remove "MakerTagInfo registry" and registration logic.
 	- 0000547: [build environment] exiv2 0.16 fails to compile with gcc 4.3.0.
 	- 0000546: [exif] Exiv2 crashes while converting Nikon lens information
 	           for pretty printing.
