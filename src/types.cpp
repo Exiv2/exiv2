@@ -410,7 +410,7 @@ namespace Exiv2 {
         }
 
         bool b = stringTo<bool>(s, ok);
-        if (ok) return b ? 1.0 : 0.0;
+        if (ok) return b ? 1.0f : 0.0f;
 
         // everything failed, return from stringTo<float> is probably the best fit
         return ret;
@@ -441,7 +441,7 @@ namespace Exiv2 {
         if (std::labs(static_cast<long>(f)) > 2147) den = 10000;
         if (std::labs(static_cast<long>(f)) > 214748) den = 100;
         if (std::labs(static_cast<long>(f)) > 21474836) den = 1;
-        const float rnd = f >= 0 ? 0.5 : -0.5;
+        const float rnd = f >= 0 ? 0.5f : -0.5f;
         const int32_t nom = static_cast<int32_t>(f * den + rnd);
         const int32_t g = gcd(nom, den);
 

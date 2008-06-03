@@ -50,7 +50,7 @@ namespace Exiv2 {
 // class declarations
     class Value;
     class Entry;
-    class TagInfo;
+    struct TagInfo;
 
 // *****************************************************************************
 // type definitions
