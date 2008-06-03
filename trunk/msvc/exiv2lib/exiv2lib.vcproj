@@ -117,145 +117,49 @@ copy /y $(TargetPath) $(SolutionDir)\lib\$(TargetFileName)
 				RelativePath="..\..\src\basicio.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\bmpimage.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\canonmn.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\convert.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\cr2image.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\crwimage.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\datasets.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\error.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\exif.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\fujimn.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\futils.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\gifimage.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\ifd.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\image.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\iptc.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\jp2image.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\jpgimage.cpp">
@@ -265,33 +169,9 @@ copy /y $(TargetPath) $(SolutionDir)\lib\$(TargetFileName)
 			</File>
 			<File
 				RelativePath="..\..\src\makernote.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\makernote2.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\metadatum.cpp">
@@ -307,36 +187,12 @@ copy /y $(TargetPath) $(SolutionDir)\lib\$(TargetFileName)
 			</File>
 			<File
 				RelativePath="..\..\src\olympusmn.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\orfimage.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\panasonicmn.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\pentaxmn.cpp">
@@ -345,145 +201,46 @@ copy /y $(TargetPath) $(SolutionDir)\lib\$(TargetFileName)
 				RelativePath="..\..\src\properties.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\psdimage.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\rafimage.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\sigmamn.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\sonymn.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\tags.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\tgaimage.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\tiffcomposite.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\tiffimage.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\tiffparser.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\tiffvisitor.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\types.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\value.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\xmp.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\xmpsidecar.cpp">
 			</File>
 		</Filter>
 		<Filter
@@ -494,10 +251,16 @@ copy /y $(TargetPath) $(SolutionDir)\lib\$(TargetFileName)
 				RelativePath="..\..\src\basicio.hpp">
 			</File>
 			<File
+				RelativePath="..\..\src\bmpimage.hpp">
+			</File>
+			<File
 				RelativePath="..\..\src\canonmn.hpp">
 			</File>
 			<File
 				RelativePath="..\..\config.h">
+			</File>
+			<File
+				RelativePath="..\..\src\convert.hpp">
 			</File>
 			<File
 				RelativePath="..\..\src\cr2image.hpp">
@@ -521,6 +284,9 @@ copy /y $(TargetPath) $(SolutionDir)\lib\$(TargetFileName)
 				RelativePath="..\..\src\futils.hpp">
 			</File>
 			<File
+				RelativePath="..\..\src\gifimage.hpp">
+			</File>
+			<File
 				RelativePath="..\..\src\ifd.hpp">
 			</File>
 			<File
@@ -528,6 +294,9 @@ copy /y $(TargetPath) $(SolutionDir)\lib\$(TargetFileName)
 			</File>
 			<File
 				RelativePath="..\..\src\iptc.hpp">
+			</File>
+			<File
+				RelativePath="..\..\src\jp2image.hpp">
 			</File>
 			<File
 				RelativePath="..\..\src\jpgimage.hpp">
@@ -569,6 +338,9 @@ copy /y $(TargetPath) $(SolutionDir)\lib\$(TargetFileName)
 				RelativePath="..\..\src\properties.hpp">
 			</File>
 			<File
+				RelativePath="..\..\src\psdimage.hpp">
+			</File>
+			<File
 				RelativePath="..\..\src\rafimage.hpp">
 			</File>
 			<File
@@ -582,6 +354,9 @@ copy /y $(TargetPath) $(SolutionDir)\lib\$(TargetFileName)
 			</File>
 			<File
 				RelativePath="..\..\src\tags.hpp">
+			</File>
+			<File
+				RelativePath="..\..\src\tgaimage.hpp">
 			</File>
 			<File
 				RelativePath="..\..\src\tiffcomposite.hpp">
@@ -603,6 +378,9 @@ copy /y $(TargetPath) $(SolutionDir)\lib\$(TargetFileName)
 			</File>
 			<File
 				RelativePath="..\..\src\xmp.hpp">
+			</File>
+			<File
+				RelativePath="..\..\src\xmpsidecar.hpp">
 			</File>
 		</Filter>
 		<Filter
