@@ -31,8 +31,7 @@
   - extract and delete methods for Exif thumbnails (both, JPEG and TIFF thumbnails)
   - set methods for Exif thumbnails (JPEG only, TIFF thumbnails can be set from
     individual tags)
-  - an easy to use and
-    <A HREF="doc/index.html" title="Exiv2 API documentation">well documented API</A>
+  - an easy to use and well documented API
 
   @section getting-started Getting started
 
