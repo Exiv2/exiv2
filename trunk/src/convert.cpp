@@ -111,6 +111,12 @@ namespace Exiv2 {
          */
         void cnvExifValue(const char* from, const char* to);
         /*!
+          @brief Convert the tag Exif.Photo.UserComment to XMP.
+
+          Todo: Convert the Exif comment to UTF-8 if necessary.
+         */
+        void cnvExifComment(const char* from, const char* to);
+        /*!
           @brief Converts Exif tag with multiple components to XMP array.
 
           Converts Exif tag with multiple components to XMP array. This function is
@@ -154,8 +160,15 @@ namespace Exiv2 {
           @brief Simple XMP to Exif conversion function.
 
           Sets the Exif tag according to the XMP property.
+          For LangAlt values, only the x-default entry is used.
+
+          Todo: Escape non-ASCII characters in XMP text values
          */
         void cnvXmpValue(const char* from, const char* to);
+        /*!
+          @brief Convert the tag Xmp.exif.UserComment to Exif.
+         */
+        void cnvXmpComment(const char* from, const char* to);
         /*!
           @brief Converts XMP array to Exif tag with multiple components.
 
@@ -283,7 +296,7 @@ namespace Exiv2 {
         { mdExif, "Exif.Photo.CompressedBitsPerPixel",    "Xmp.exif.CompressedBitsPerPixel",    &Converter::cnvExifValue, &Converter::cnvXmpValue },
         { mdExif, "Exif.Photo.PixelXDimension",           "Xmp.exif.PixelXDimension",           &Converter::cnvExifValue, &Converter::cnvXmpValue },
         { mdExif, "Exif.Photo.PixelYDimension",           "Xmp.exif.PixelYDimension",           &Converter::cnvExifValue, &Converter::cnvXmpValue },
-        { mdExif, "Exif.Photo.UserComment",               "Xmp.exif.UserComment",               &Converter::cnvExifValue, &Converter::cnvXmpValue },
+        { mdExif, "Exif.Photo.UserComment",               "Xmp.exif.UserComment",               &Converter::cnvExifComment, &Converter::cnvXmpComment },
         { mdExif, "Exif.Photo.RelatedSoundFile",          "Xmp.exif.RelatedSoundFile",          &Converter::cnvExifValue, &Converter::cnvXmpValue },
         { mdExif, "Exif.Photo.DateTimeOriginal",          "Xmp.exif.DateTimeOriginal",          &Converter::cnvExifDate,  &Converter::cnvXmpDate  },
         { mdExif, "Exif.Photo.DateTimeDigitized",         "Xmp.exif.DateTimeDigitized",         &Converter::cnvExifDate,  &Converter::cnvXmpDate  },
@@ -453,6 +466,23 @@ namespace Exiv2 {
         }
         if (!prepareXmpTarget(to)) return;
         (*xmpData_)[to] = value;
+        if (erase_) exifData_->erase(pos);
+    }
+
+    void Converter::cnvExifComment(const char* from, const char* to)
+    {
+        Exiv2::ExifData::iterator pos = exifData_->findKey(ExifKey(from));
+        if (pos == exifData_->end()) return;
+        if (!prepareXmpTarget(to)) return;
+        const CommentValue* cv = dynamic_cast<const CommentValue*>(&pos->value());
+        if (cv == 0) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+#endif
+            return;
+        }
+        // Todo: Convert to UTF-8 if necessary
+        (*xmpData_)[to] = cv->comment();
         if (erase_) exifData_->erase(pos);
     }
 
@@ -672,14 +702,47 @@ namespace Exiv2 {
         Exiv2::XmpData::iterator pos = xmpData_->findKey(XmpKey(from));
         if (pos == xmpData_->end()) return;
         if (!prepareExifTarget(to)) return;
-        std::string value = pos->value().toString();
+        std::string value;
+        if (pos->typeId() == langAlt) {
+            // get the default language entry without x-default qualifier
+            value = pos->value().toString(0);
+        }
+        else {
+            value = pos->value().toString();
+        }
         if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
 #endif
             return;
         }
+        // Todo: Escape non-ASCII characters in XMP text values
         (*exifData_)[to] = value;
+        if (erase_) xmpData_->erase(pos);
+    }
+
+    void Converter::cnvXmpComment(const char* from, const char* to)
+    {
+        if (!prepareExifTarget(to)) return;
+        Exiv2::XmpData::iterator pos = xmpData_->findKey(XmpKey(from));
+        if (pos == xmpData_->end()) return;
+
+        std::string value;
+        if (pos->typeId() == langAlt) {
+            // get the default language entry without x-default qualifier
+            value = pos->value().toString(0);
+        }
+        else {
+            value = pos->value().toString();
+        }
+        if (!pos->value().ok()) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+#endif
+            return;
+        }
+        // Assumes the XMP value is encoded in UTF-8, as it should be
+        (*exifData_)[to] = "charset=Unicode " + value;
         if (erase_) xmpData_->erase(pos);
     }
 
