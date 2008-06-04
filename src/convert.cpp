@@ -1028,7 +1028,7 @@ namespace Exiv2 {
         if (pos == xmpData_->end()) return;
         if (!prepareIptcTarget(to)) return;
 
-        if (pos->typeId() == langAlt) {
+        if (pos->typeId() == langAlt || pos->typeId() == xmpText) {
             std::string value;
             if (!getTextValue(value, pos)) {
 #ifndef SUPPRESS_WARNINGS
@@ -1043,7 +1043,7 @@ namespace Exiv2 {
 
         int count = pos->value().count();
         for (int i = 0; i < count; ++i) {
-            std::string value = pos->value().toString();
+            std::string value = pos->value().toString(i);
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
