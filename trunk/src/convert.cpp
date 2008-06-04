@@ -1036,6 +1036,7 @@ namespace Exiv2 {
 #endif
                 return;
             }
+            // Todo: Escape non-ASCII characters in XMP text values
             (*iptcData_)[to] = value;
             if (erase_) xmpData_->erase(pos);
             return;
@@ -1050,6 +1051,7 @@ namespace Exiv2 {
 #endif
                 continue;
             }
+            // Todo: Escape non-ASCII characters in XMP text values
             Iptcdatum id(IptcKey(to), 0);
             id.setValue(value);
             iptcData_->add(id);
