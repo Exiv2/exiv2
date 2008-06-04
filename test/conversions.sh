@@ -59,7 +59,7 @@ $exiv2 -pi j.jpg
 echo
 echo Testcase 4
 echo ==========
-sed 's,<rdf:li xml:lang="de-DE">The Exif image description</rdf:li>,<rdf:li xml:lang="de-DE">The Exif image description</rdf:li>\n     <rdf:li xml:lang="it-IT">Ciao bella</rdf:li>,' j.xmp > k.xmp
+sed 's,<rdf:li xml:lang="de-DE">The Exif image description</rdf:li>,<rdf:li xml:lang="de-DE">The Exif image description</rdf:li><rdf:li xml:lang="it-IT">Ciao bella</rdf:li>,' j.xmp > k.xmp
 \cp $IMG k.jpg
 $exiv2 -iX k.jpg
 $exiv2 -px k.jpg
