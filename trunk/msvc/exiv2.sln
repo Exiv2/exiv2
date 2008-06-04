@@ -114,13 +114,17 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xmpsample", "xmpsample\xmps
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xmpparse", "xmpparse\xmpparse.vcproj", "{948E8E86-7F47-46B0-95B2-ED24805F3CAF}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xmpparser-test", "xmpparser-test\xmpparser-test.vcproj", "{948E8E86-7F47-46B0-95B2-ED24805F3CBF}"
 	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stringto-test", "stringto-test\stringto-test.vcproj", "{156423D3-5FBB-45C6-A7CA-675B32F45C15}"
+	ProjectSection(ProjectDependencies) = postProject
+		{831EF580-92C8-4CA8-B0CE-3D906280A54D} = {831EF580-92C8-4CA8-B0CE-3D906280A54D}
 	EndProjectSection
 EndProject
 Global
@@ -231,6 +235,10 @@ Global
 		{948E8E86-7F47-46B0-95B2-ED24805F3CBF}.Debug.Build.0 = Debug|Win32
 		{948E8E86-7F47-46B0-95B2-ED24805F3CBF}.Release.ActiveCfg = Release|Win32
 		{948E8E86-7F47-46B0-95B2-ED24805F3CBF}.Release.Build.0 = Release|Win32
+		{156423D3-5FBB-45C6-A7CA-675B32F45C15}.Debug.ActiveCfg = Debug|Win32
+		{156423D3-5FBB-45C6-A7CA-675B32F45C15}.Debug.Build.0 = Debug|Win32
+		{156423D3-5FBB-45C6-A7CA-675B32F45C15}.Release.ActiveCfg = Release|Win32
+		{156423D3-5FBB-45C6-A7CA-675B32F45C15}.Release.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
