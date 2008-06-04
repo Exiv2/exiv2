@@ -51,6 +51,20 @@ EXIV2_RCSID("@(#) $Id$")
 #endif // EXV_HAVE_XMP_TOOLKIT
 
 // *****************************************************************************
+// local declarations
+namespace {
+    /*!
+      @brief Get the text value of an XmpDatum \em pos.
+
+      If \em pos refers to a LangAltValue, \em value is set to the default language
+      entry without the x-default qualifier. If there is no default but
+      exactly one entry, \em value is set to this entry, without the qualifier.
+      The return code indicates if the operation was successful.
+     */
+    bool getTextValue(std::string& value, const Exiv2::XmpData::iterator& pos);
+}
+
+// *****************************************************************************
 // class member definitions
 namespace Exiv2 {
 
@@ -703,14 +717,7 @@ namespace Exiv2 {
         if (pos == xmpData_->end()) return;
         if (!prepareExifTarget(to)) return;
         std::string value;
-        if (pos->typeId() == langAlt) {
-            // get the default language entry without x-default qualifier
-            value = pos->value().toString(0);
-        }
-        else {
-            value = pos->value().toString();
-        }
-        if (!pos->value().ok()) {
+        if (!getTextValue(value, pos)) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
 #endif
@@ -726,16 +733,8 @@ namespace Exiv2 {
         if (!prepareExifTarget(to)) return;
         Exiv2::XmpData::iterator pos = xmpData_->findKey(XmpKey(from));
         if (pos == xmpData_->end()) return;
-
         std::string value;
-        if (pos->typeId() == langAlt) {
-            // get the default language entry without x-default qualifier
-            value = pos->value().toString(0);
-        }
-        else {
-            value = pos->value().toString();
-        }
-        if (!pos->value().ok()) {
+        if (!getTextValue(value, pos)) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
 #endif
@@ -1025,9 +1024,23 @@ namespace Exiv2 {
 
     void Converter::cnvXmpValueToIptc(const char* from, const char* to)
     {
-        Exiv2::XmpData::iterator pos = xmpData_->findKey(XmpKey(from));
+        XmpData::iterator pos = xmpData_->findKey(XmpKey(from));
         if (pos == xmpData_->end()) return;
         if (!prepareIptcTarget(to)) return;
+
+        if (pos->typeId() == langAlt) {
+            std::string value;
+            if (!getTextValue(value, pos)) {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+#endif
+                return;
+            }
+            (*iptcData_)[to] = value;
+            if (erase_) xmpData_->erase(pos);
+            return;
+        }
+
         int count = pos->value().count();
         for (int i = 0; i < count; ++i) {
             std::string value = pos->value().toString();
@@ -1037,7 +1050,9 @@ namespace Exiv2 {
 #endif
                 continue;
             }
-            (*iptcData_)[to] = value;
+            Iptcdatum id(IptcKey(to), 0);
+            id.setValue(value);
+            iptcData_->add(id);
         }
         if (erase_) xmpData_->erase(pos);
     }
@@ -1207,3 +1222,36 @@ namespace Exiv2 {
     }
 
 }                                       // namespace Exiv2
+
+// *****************************************************************************
+// local definitions
+namespace {
+
+    bool getTextValue(std::string& value, const Exiv2::XmpData::iterator& pos)
+    {
+        if (pos->typeId() == Exiv2::langAlt) {
+            // get the default language entry without x-default qualifier
+            value = pos->value().toString(0);
+            if (!pos->value().ok() && pos->count() == 1) {
+                // If there is no default but exactly one entry, take that
+                // without the qualifier
+                value = pos->value().toString();
+                if (   pos->value().ok()
+                    && value.length() > 5 && value.substr(0, 5) == "lang=") {
+                    std::string::size_type pos = value.find_first_of(' ');
+                    if (pos != std::string::npos) { 
+                        value = value.substr(pos + 1);
+                    }
+                    else {
+                        value.clear();
+                    }
+                }
+            }
+        }
+        else {
+            value = pos->value().toString();
+        }
+        return pos->value().ok();
+    }
+
+}

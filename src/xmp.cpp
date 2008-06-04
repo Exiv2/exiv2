@@ -50,6 +50,7 @@ EXIV2_RCSID("@(#) $Id$")
 #endif // EXV_HAVE_XMP_TOOLKIT
 
 // *****************************************************************************
+// local declarations
 namespace {
     //! Unary predicate that matches an Xmpdatum by key
     class FindXmpdatum {
