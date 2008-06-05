@@ -436,7 +436,7 @@ public:
     ///
     /// \note As compatibility "tactics" (OK, hacks), a missing date portion or missing TZD are
     /// tolerated. A missing date value may begin with "Thh:" or "hh:"; the year, month, and day are
-    /// all set to zero in the XMP_DateTime value. A missing TZD is assumed to be UTC.
+    /// all set to zero in the XMP_DateTime value. If TZD is missing, assume the time is in local time.
     ///
     /// \param strValue The ISO 8601 string representation of the date/time.
     ///
