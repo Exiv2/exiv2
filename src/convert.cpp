@@ -780,12 +780,10 @@ namespace Exiv2 {
         }
         XMP_DateTime datetime;
         SXMPUtils::ConvertToDate(value, &datetime);
-
         char buf[30];
-
         if (std::string(to) != "Exif.GPSInfo.GPSTimeStamp") {
 
-//          SXMPUtils::ConvertToLocalTime(&datetime);
+            SXMPUtils::ConvertToLocalTime(&datetime);
 
             sprintf(buf, "%4d:%02d:%02d %02d:%02d:%02d",
                     static_cast<int>(datetime.year),
@@ -796,30 +794,29 @@ namespace Exiv2 {
                     static_cast<int>(datetime.second));
             (*exifData_)[to] = buf;
 
-            const char *subsecTag = 0;
-            if (std::string(to) == "Exif.Image.DateTime") {
-                subsecTag = "Exif.Photo.SubSecTime";
-            }
-            else if (std::string(to) == "Exif.Photo.DateTimeOriginal") {
-                subsecTag = "Exif.Photo.SubSecTimeOriginal";
-            }
-            else if (std::string(to) == "Exif.Photo.DateTimeDigitized") {
-                subsecTag = "Exif.Photo.SubSecTimeDigitized";
-            }
-
-            if (subsecTag) {
-                prepareExifTarget(subsecTag, true);
-
-                if (datetime.nanoSecond) {
-                    sprintf(buf, "%09d", static_cast<int>(datetime.nanoSecond));
-                    (*exifData_)[subsecTag] = buf;
+            if (datetime.nanoSecond) {
+                const char* subsecTag = 0;
+                if (std::string(to) == "Exif.Image.DateTime") {
+                    subsecTag = "Exif.Photo.SubSecTime";
+                }
+                else if (std::string(to) == "Exif.Photo.DateTimeOriginal") {
+                    subsecTag = "Exif.Photo.SubSecTimeOriginal";
+                }
+                else if (std::string(to) == "Exif.Photo.DateTimeDigitized") {
+                    subsecTag = "Exif.Photo.SubSecTimeDigitized";
+                }
+                if (subsecTag) {
+                    prepareExifTarget(subsecTag, true);
+                    (*exifData_)[subsecTag] = toString(datetime.nanoSecond);
                 }
             }
         }
         else { // "Exif.GPSInfo.GPSTimeStamp"
             Rational rhour(datetime.hour, 1);
             Rational rmin(datetime.minute, 1);
-            Rational rsec = floatToRationalCast(static_cast<float>(datetime.second) + datetime.nanoSecond / 1000000000.0f);
+            Rational rsec = floatToRationalCast(
+                static_cast<float>(datetime.second + datetime.nanoSecond / 1000000000.0)
+            );
 
             std::ostringstream array;
             array << rhour << " " << rmin << " " << rsec;
@@ -834,7 +831,11 @@ namespace Exiv2 {
         }
 
         if (erase_) xmpData_->erase(pos);
-#endif
+#else
+# ifndef SUPPRESS_WARNINGS
+        std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+# endif
+#endif // !EXV_HAVE_XMP_TOOLKIT
     }
 
     void Converter::cnvXmpVersion(const char* from, const char* to)

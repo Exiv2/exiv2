@@ -2100,8 +2100,8 @@ namespace Exiv2 {
 
     std::ostream& printXmpDate(std::ostream& os, const Value& value)
     {
-        if (value.size() != 20 || value.typeId() != xmpText) {
-            return os << "(" << value << ")";
+        if (!(value.size() == 19 || value.size() == 20) || value.typeId() != xmpText) {
+            return os << value;
         }
 
 	std::string stringValue = value.toString();
