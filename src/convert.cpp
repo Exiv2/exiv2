@@ -546,7 +546,14 @@ namespace Exiv2 {
         else { // "Exif.GPSInfo.GPSTimeStamp"
             double dhour = pos->value().toFloat(0);
             double dmin = pos->value().toFloat(1);
-            double dsec = pos->value().toFloat(2);
+            // Hack: Need Value::toDouble
+            URational r = pos->value().toRational(2);
+            if (r.second == 0) {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+#endif
+            }
+            double dsec = static_cast<double>(r.first)/r.second;
 
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
@@ -812,11 +819,22 @@ namespace Exiv2 {
             }
         }
         else { // "Exif.GPSInfo.GPSTimeStamp"
-            Rational rhour(datetime.hour, 1);
-            Rational rmin(datetime.minute, 1);
-            Rational rsec = floatToRationalCast(
-                static_cast<float>(datetime.second + datetime.nanoSecond / 1000000000.0)
-            );
+
+            // Ignore the time zone, assuming the time is in UTC as it should be
+
+            URational rhour(datetime.hour, 1);
+            URational rmin(datetime.minute, 1);
+            URational rsec(datetime.second, 1);
+            if (datetime.nanoSecond != 0) {
+                if (datetime.second != 0) {
+                    // Add the seconds to rmin so that the ns fit into rsec
+                    rmin.second = 60;
+                    rmin.first *= 60;
+                    rmin.first += datetime.second;
+                }
+                rsec.second = 1000000000;
+                rsec.first = datetime.nanoSecond;
+            }
 
             std::ostringstream array;
             array << rhour << " " << rmin << " " << rsec;
