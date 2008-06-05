@@ -1262,7 +1262,7 @@ XMPUtils::ConvertToFloat ( XMP_StringPtr strValue )
 // Note that ISO 8601 does not seem to allow years less than 1000 or greater than 9999. We allow
 // any year, even negative ones. The year is formatted as "%.4d".
 
-// ! Tolerate missing TZD, assume is UTC. Photoshop 8 writes dates like this for exif:GPSTimeStamp.
+// ! Tolerate missing TZD, assume the time is in local time
 // ! Tolerate missing date portion, in case someone foolishly writes a time-only value that way.
 
 // *** Put the ISO format comments in the header documentation.
@@ -1395,6 +1395,10 @@ XMPUtils::ConvertToDate ( XMP_StringPtr	 strValue,
 		temp = GatherInt ( strValue, &pos, "Invalid time zone minute in date string" ); // Extract the time zone minute.
 		if ( temp > 59 ) XMP_Throw ( "Time zone minute is out of range", kXMPErr_BadParam );
 		binValue->tzMinute = temp;
+
+	} else {
+
+		XMPUtils::SetTimeZone( binValue );
 
 	}
 
