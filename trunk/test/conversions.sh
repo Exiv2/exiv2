@@ -183,12 +183,14 @@ echo Testcase 14
 echo ===========
 \cp $IMG u.jpg
 $exiv2 -M'set Exif.Photo.DateTimeOriginal 2003:12:14 12:01:44' u.jpg
+$exiv2 -M'set Exif.Photo.SubSecTimeOriginal 999999999' u.jpg
 $exiv2 -M'set Exif.Photo.ExifVersion 48 50 50 49' u.jpg
 $exiv2 -M'set Exif.Photo.ComponentsConfiguration 1 2 3 0' u.jpg
 $exiv2 -M'set Exif.Photo.Flash 73' u.jpg
 $exiv2 -M'set Exif.GPSInfo.GPSLatitude 3/1 8/1 29734512/1000000' u.jpg
 $exiv2 -M'set Exif.GPSInfo.GPSLatitudeRef N' u.jpg
 $exiv2 -M'set Exif.GPSInfo.GPSVersionID 2 2 0 1' u.jpg
+$exiv2 -M'set Exif.GPSInfo.GPSTimeStamp 1/1 2/1 999999999/1000000000' u.jpg
 $exiv2 -M'set Iptc.Application2.DateCreated 2007-05-09' u.jpg
 
 $exiv2 -Pkycv u.jpg
@@ -205,6 +207,7 @@ echo Testcase 15
 echo ===========
 \cp $IMG v.jpg
 \cp u.xmp v.xmp
+$exiv2 -M'set Xmp.tiff.DateTime 2003-12-14T12:01:44Z' v.xmp
 $exiv2 -iX v.jpg
 $exiv2 -px v.jpg
 $exiv2 -Pkycv v.jpg
