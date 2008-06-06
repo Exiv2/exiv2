@@ -48,7 +48,7 @@ XMP Toolkit 4.1.1 (xmp_v411_sdk.zip) from
 http://www.adobe.com/devnet/xmp/sdk/eula.html
 
 The following files were copied from the original XMP SDK
-distribution:
+distribution, essentially:
 
 public/include/*        -> xmpsdk/include
 source/common/*         -> xmpsdk/src
@@ -60,7 +60,7 @@ third-party/MD5/MD5.cpp -> xmpsdk/src
 Minor changes were applied to the original XMP SDK, see the SVN for 
 details:
 
-    http://dev.robotbattle.com/~cvsuser/cgi-bin/ns_viewcvs.cgi/exiv2/trunk/xmpsdk/
+    http://dev.robotbattle.com/cgi-bin/viewvc.cgi/exiv2/trunk/xmpsdk/
 
 
 License

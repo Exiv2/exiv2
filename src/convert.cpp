@@ -42,6 +42,10 @@ EXIV2_RCSID("@(#) $Id$")
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <stdio.h> // for snprintf (C99)
+#ifdef _MSC_VER
+# define snprintf _snprintf
+#endif
 
 // Adobe XMP Toolkit
 #ifdef EXV_HAVE_XMP_TOOLKIT
@@ -571,7 +575,8 @@ namespace Exiv2 {
             sec = static_cast<int>(dsec);
             dsec -= sec;
 
-            sprintf(buf, "%.9f", dsec);
+            snprintf(buf, sizeof(buf), "%.9f", dsec);
+            buf[sizeof(buf) - 1] = 0;
             subsec = buf + 1;
 
             Exiv2::ExifData::iterator datePos = exifData_->findKey(ExifKey("Exif.GPSInfo.GPSDateStamp"));
@@ -618,8 +623,9 @@ namespace Exiv2 {
         }
 
         if (subsec.size() > 10) subsec = subsec.substr(0, 10);
-        sprintf(buf, "%4d-%02d-%02dT%02d:%02d:%02d%s",
-                year, month, day, hour, min, sec, subsec.c_str());
+        snprintf(buf, sizeof(buf), "%4d-%02d-%02dT%02d:%02d:%02d%s",
+                 year, month, day, hour, min, sec, subsec.c_str());
+        buf[sizeof(buf) - 1] = 0;
 
         (*xmpData_)[to] = buf;
         if (erase_) exifData_->erase(pos);
@@ -792,13 +798,14 @@ namespace Exiv2 {
 
             SXMPUtils::ConvertToLocalTime(&datetime);
 
-            sprintf(buf, "%4d:%02d:%02d %02d:%02d:%02d",
-                    static_cast<int>(datetime.year),
-                    static_cast<int>(datetime.month),
-                    static_cast<int>(datetime.day),
-                    static_cast<int>(datetime.hour),
-                    static_cast<int>(datetime.minute),
-                    static_cast<int>(datetime.second));
+            snprintf(buf, sizeof(buf), "%4d:%02d:%02d %02d:%02d:%02d",
+                     static_cast<int>(datetime.year),
+                     static_cast<int>(datetime.month),
+                     static_cast<int>(datetime.day),
+                     static_cast<int>(datetime.hour),
+                     static_cast<int>(datetime.minute),
+                     static_cast<int>(datetime.second));
+            buf[sizeof(buf) - 1] = 0;
             (*exifData_)[to] = buf;
 
             if (datetime.nanoSecond) {
@@ -841,10 +848,11 @@ namespace Exiv2 {
             (*exifData_)[to] = array.str();
 
             prepareExifTarget("Exif.GPSInfo.GPSDateStamp", true);
-            sprintf(buf, "%4d:%02d:%02d",
+            snprintf(buf, sizeof(buf), "%4d:%02d:%02d",
                     static_cast<int>(datetime.year),
                     static_cast<int>(datetime.month),
                     static_cast<int>(datetime.day));
+            buf[sizeof(buf) - 1] = 0;
             (*exifData_)["Exif.GPSInfo.GPSDateStamp"] = buf;
         }
 

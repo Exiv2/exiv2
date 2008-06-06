@@ -17,7 +17,7 @@ good="./data/xmpparser-test.out"
 # Main routine
 (
 binpath="$VALGRIND ../../samples"
-exiv2="$VALGRIND ../../src/exiv2"
+exiv2="$VALGRIND exiv2"
 cd ./tmp
 
 # ----------------------------------------------------------------------
