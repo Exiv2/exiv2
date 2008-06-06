@@ -27,7 +27,7 @@ Changes from version 0.16 to 0.17
 	         - [exif] Updated Pentax makernote tags. (Michal Cihar)
 	         - [xmp] Added conversions to and from XMP. (Vladimir Nadvornik)
 	         - [xmp] Added support for XMP sidecar files.
-	         - [xmp] Improved XMP-Value toLong, toFloat and toRational using new
+	         - [xmp] Improved XMP value toLong, toFloat and toRational using new
 	           functions parseLong, parseFloat and parseRational.
 	           (Vladimir Nadvornik)
 	         - [xmp] Allow format options for XmpParser::encode.
@@ -45,10 +45,10 @@ Changes from version 0.16 to 0.17
 	           (Fabien Salvi)
 	         - [translation] Updated Polish translation.
 	           (Piotr Eljasiak)
-	         - [translation] Added Slovak translation.
-	           (helix84)
 	         - [translation] Updated Russian translation.
 	           (Alexandre Prokoudine)
+	         - [translation] Added Slovak translation.
+	           (helix84)
 
 
 Changes from version 0.16-pre1 to 0.16
