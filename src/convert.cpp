@@ -1079,7 +1079,8 @@ namespace Exiv2 {
                 continue;
             }
             // Todo: Escape non-ASCII characters in XMP text values
-            Iptcdatum id(IptcKey(to), 0);
+            IptcKey key(to);
+            Iptcdatum id(key);
             id.setValue(value);
             iptcData_->add(id);
         }
