@@ -984,8 +984,10 @@ namespace Exiv2 {
     std::ostream& CanonMakerNote::printCsLens(std::ostream& os,
                                                 const Value& value)
     {
-        if (value.typeId() != unsignedShort) return os << value;
-        if (value.count() < 3) return os << value;
+        if (   value.count() < 3
+            || value.typeId() != unsignedShort) {
+            return os << "(" << value << ")";
+        }
 
         float fu = value.toFloat(2);
         if (fu == 0.0) return os << value;

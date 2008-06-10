@@ -1067,7 +1067,10 @@ namespace Exiv2 {
                                                const Value& value)
     {
         // Decoded by Robert Rottmerhusen <email@rottmerhusen.com>
-        if (value.size() != 4) return os << "(" << value << ")";
+        if (   value.size() != 4
+            || value.typeId() != undefined) {
+            return os << "(" << value << ")";
+        }
         float a = value.toFloat(0);
         long  b = value.toLong(1);
         long  c = value.toLong(2);

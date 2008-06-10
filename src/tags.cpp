@@ -1225,7 +1225,7 @@ namespace Exiv2 {
     const TagInfo* ExifTags::tagList(IfdId ifdId)
     {
         const IfdInfo* ii = find(ifdInfo_, ifdId);
-        if (ii == 0) return 0;
+        if (ii == 0 || ii->tagList_ == 0) return 0;
         return ii->tagList_();
     } // ExifTags::tagList
 
@@ -1612,6 +1612,7 @@ namespace Exiv2 {
             for (int i = 0; i < n + 1; ++i) {
                 const int32_t z = value.toRational(i).first;
                 const int32_t d = value.toRational(i).second;
+                if (d == 0) return os << "(" << value << ")";
                 // Hack: Need Value::toDouble
                 double b = static_cast<double>(z)/d;
                 const int p = z % d == 0 ? 0 : prec[i];
@@ -1715,6 +1716,7 @@ namespace Exiv2 {
         std::ostringstream oss;
         oss.copyfmt(os);
         const int32_t d = value.toRational().second;
+        if (d == 0) return os << "(" << value << ")";
         const int p = d > 1 ? 1 : 0;
         os << std::fixed << std::setprecision(p) << value.toFloat() << " m";
         os.copyfmt(oss);
@@ -1725,6 +1727,11 @@ namespace Exiv2 {
     std::ostream& print0x0007(std::ostream& os, const Value& value)
     {
         if (value.count() == 3) {
+            for (int i = 0; i < 3; ++i) {
+                if (value.toRational(i).second == 0) {
+                    return os << "(" << value << ")";
+                }
+            }
             std::ostringstream oss;
             oss.copyfmt(os);
             const float sec = 3600 * value.toFloat(0)
@@ -1887,11 +1894,14 @@ namespace Exiv2 {
 
     std::ostream& print0x9202(std::ostream& os, const Value& value)
     {
+        if (   value.count() == 0
+            || value.toRational().second == 0) {
+            return os << "(" << value << ")";
+        }
         std::ostringstream oss;
         oss.copyfmt(os);
         os << "F" << std::setprecision(2) << fnumber(value.toFloat());
         os.copyfmt(oss);
-
         return os;
     }
 
