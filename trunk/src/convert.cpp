@@ -548,15 +548,28 @@ namespace Exiv2 {
             }
         }
         else { // "Exif.GPSInfo.GPSTimeStamp"
+
+            bool ok = true;
+            if (pos->value().count() != 3) ok = false; 
+            if (ok) {
+                for (int i = 0; i < 3; ++i) {
+                    if (pos->value().toRational(i).second == 0) {
+                        ok = false;
+                        break;
+                    }
+                }
+            }
+            if (!ok) {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+#endif
+                return;
+            }
+
             double dhour = pos->value().toFloat(0);
             double dmin = pos->value().toFloat(1);
             // Hack: Need Value::toDouble
             URational r = pos->value().toRational(2);
-            if (r.second == 0) {
-#ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
-#endif
-            }
             double dsec = static_cast<double>(r.first)/r.second;
 
             if (!pos->value().ok()) {
@@ -702,7 +715,7 @@ namespace Exiv2 {
         for (int i = 0; i < 3; ++i) {
             const int32_t z = pos->value().toRational(i).first;
             const int32_t d = pos->value().toRational(i).second;
-            if (d == 0.0) {
+            if (d == 0) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
 #endif
