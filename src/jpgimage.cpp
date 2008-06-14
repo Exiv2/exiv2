@@ -405,11 +405,16 @@ namespace Exiv2 {
                          || marker == sof7_  || marker == sof9_  || marker == sof10_
                          || marker == sof11_ || marker == sof13_ || marker == sof14_
                          || marker == sof15_)) {
-                // we hit a SOFn (start-of-frame) marker
-                if (size < 8) throw Error(15);
+                // We hit a SOFn (start-of-frame) marker
+                if (size < 8) {
+                    rc = 7;
+                    break;
+                }
                 pixelHeight_ = getUShort(buf.pData_ + 3, bigEndian);
                 pixelWidth_ = getUShort(buf.pData_ + 5, bigEndian);
                 if (pixelHeight_ != 0) --search;
+                // Skip the remainder of the segment
+                io_->seek(size-bufRead, BasicIo::cur);
             }
             else {
                 if (size < 2) {
