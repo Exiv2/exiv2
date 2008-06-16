@@ -1,3 +1,14 @@
+Changes from version 0.17 to 0.17.1
+-----------------------------------
+
+* Exiv2 library
+	- 0000559: [exif] Crash when extracting Exif orientation flag from Kodak
+	           DCR raw file. (Reported by Gilles Caulier)
+	- 0000558: [jpeg i/o] "Warning: JPEG format error, rc = 5" for most of my
+	           JPEG files. (Reported with patch by Marcus Holland-Moritz)
+	-          [exif] Fixed several potential division by 0 bugs.
+
+
 Changes from version 0.16 to 0.17
 ---------------------------------
 
@@ -17,6 +28,7 @@ Changes from version 0.16 to 0.17
 	           (Adrien Bustany for GHOP 98)
 	- 0000539: [xmp] Cannot add XMP properties in a custom namespace.
 	           (Vladimir Nadvornik, S M Ryan)
+	- 0000532: [xmp] Added conversions to and from XMP. (Vladimir Nadvornik)
 	- 0000474: [design] Add a metadatum member to access translated tag values
 	           without the need to use streams.
 	         - [metadata] Added read support for jp2 and psd images, stubs for
@@ -25,7 +37,6 @@ Changes from version 0.16 to 0.17
 	         - [exif] Updated Nikon lens info to v3.18 of Robert Rottmerhusen's
 	           lens database.
 	         - [exif] Updated Pentax makernote tags. (Michal Cihar)
-	         - [xmp] Added conversions to and from XMP. (Vladimir Nadvornik)
 	         - [xmp] Added support for XMP sidecar files.
 	         - [xmp] Improved XMP value toLong, toFloat and toRational using new
 	           functions parseLong, parseFloat and parseRational.
