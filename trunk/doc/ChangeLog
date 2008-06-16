@@ -6,6 +6,8 @@ Changes from version 0.17 to 0.17.1
 	           DCR raw file. (Reported by Gilles Caulier)
 	- 0000558: [jpeg i/o] "Warning: JPEG format error, rc = 5" for most of my
 	           JPEG files. (Reported with patch by Marcus Holland-Moritz)
+	- 0000552: [build environment] Build failure under Mac OS X 10.3.9
+	           (Reported by Marius Schamschula)
 	-          [exif] Fixed several potential division by 0 bugs.
 
 
