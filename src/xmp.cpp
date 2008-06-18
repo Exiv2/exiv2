@@ -576,7 +576,10 @@ namespace Exiv2 {
                                 uint16_t     formatFlags,
                                 uint32_t     padding)
     { try {
-        if (xmpData.empty()) return 0;
+        if (xmpData.empty()) {
+            xmpPacket.clear();
+            return 0;
+        }
 
         if (!initialize()) {
 #ifndef SUPPRESS_WARNINGS
