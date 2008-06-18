@@ -2,6 +2,7 @@ Changes from version 0.17 to 0.17.1
 -----------------------------------
 
 * Exiv2 library
+	- 0000560: [xmp] Can't delete (last) XMP tag. (Reported by SerGioGioGio)
 	- 0000559: [exif] Crash when extracting Exif orientation flag from Kodak
 	           DCR raw file. (Reported by Gilles Caulier)
 	- 0000558: [jpeg i/o] "Warning: JPEG format error, rc = 5" for most of my
