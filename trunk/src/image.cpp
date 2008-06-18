@@ -89,9 +89,9 @@ namespace Exiv2 {
         { ImageType::mrw,  newMrwInstance,  isMrwType,  amRead,      amRead,      amRead,      amNone      },
         { ImageType::tiff, newTiffInstance, isTiffType, amRead,      amRead,      amRead,      amNone      },
         { ImageType::orf,  newOrfInstance,  isOrfType,  amRead,      amRead,      amRead,      amNone      },
-  #ifdef EXV_HAVE_LIBZ
-        { ImageType::png,  newPngInstance,  isPngType,  amRead,      amRead,      amRead,      amNone      },
-  #endif // EXV_HAVE_LIBZ
+#ifdef EXV_HAVE_LIBZ
+        { ImageType::png,  newPngInstance,  isPngType,  amRead,      amRead,      amRead,      amRead      },
+#endif // EXV_HAVE_LIBZ
         { ImageType::raf,  newRafInstance,  isRafType,  amRead,      amRead,      amRead,      amNone      },
         { ImageType::xmp,  newXmpInstance,  isXmpType,  amNone,      amNone,      amReadWrite, amNone      },
         { ImageType::gif,  newGifInstance,  isGifType,  amNone,      amNone,      amNone,      amNone      },
