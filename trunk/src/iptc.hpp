@@ -215,15 +215,6 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         /*!
-          @brief Load the IPTC data from a byte buffer. The format must follow
-                 the IPTC IIM4 standard.
-          @param buf Pointer to the data buffer to read from
-          @param len Number of bytes in the data buffer
-          @return 0 if successful;<BR>
-                 5 if IPTC data is invalid or corrupt;<BR>
-         */
-        int load(const byte* buf, long len);
-        /*!
           @brief Returns a reference to the %Iptcdatum that is associated with a
                  particular \em key. If %IptcData does not already contain such
                  an %Iptcdatum, operator[] adds object \em Iptcdatum(key).
@@ -286,13 +277,6 @@ namespace Exiv2 {
         //! End of the metadata
         const_iterator end() const { return iptcMetadata_.end(); }
         /*!
-          @brief Write the IPTC data to a data buffer and return the data buffer.
-                 Caller owns this buffer. The copied data follows the IPTC IIM4
-                 standard.
-          @return Data buffer containing the IPTC data.
-         */
-        DataBuf copy() const;
-        /*!
           @brief Find the first Iptcdatum with the given key, return a const
                  iterator to it.
          */
@@ -314,23 +298,50 @@ namespace Exiv2 {
         //@}
 
     private:
-        /*!
-          @brief Read a single dataset payload and create a new metadata entry
-          @param dataSet DataSet number
-          @param record Record Id
-          @param data Pointer to the first byte of dataset payload
-          @param sizeData Length in bytes of dataset payload
-          @return 0 if successful.
-         */
-        int readData(uint16_t dataSet, uint16_t record,
-                     const byte* data, uint32_t sizeData);
-
-        // Constant data
-        static const byte marker_;          // Dataset marker
-
         // DATA
         IptcMetadata iptcMetadata_;
     }; // class IptcData
+
+    /*!
+      @brief Stateless parser class for IPTC data. Images use this class to
+             decode and encode binary IPTC data.
+     */
+    class IptcParser {
+    public:
+        /*!
+          @brief Decode IPTC data in IPTC IIM4 format from a buffer \em pData
+                 of length \em size to the provided metadata container.
+
+          @param iptcData Metadata container to add the decoded IPTC data to.
+          @param pData    Pointer to the data buffer to read from.
+          @param size     Number of bytes in the data buffer.
+
+          @return 0 if successful;<BR>
+                  5 if the binary IPTC data is invalid or corrupt
+         */
+        static int decode(
+                  IptcData& iptcData,
+            const byte*     pData,
+                  uint32_t  size
+        );
+        /*!
+          @brief Encode metadata from the provided metadata to IPTC IIM4 format.
+
+          Write the IPTC data to a data buffer and return the data buffer.
+          Caller owns this buffer. The copied data follows the IPTC IIM4
+          standard.
+
+          @return Data buffer containing the IPTC data.
+         */
+        static DataBuf encode(
+            const IptcData& iptcData
+        );
+
+    private:
+        // Constant data
+        static const byte marker_;      // Dataset marker
+
+    }; // class IptcParser
 
 }                                       // namespace Exiv2
 

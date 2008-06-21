@@ -33,7 +33,7 @@
 // included header files
 #include "image.hpp"
 #include "basicio.hpp"
-#include "tiffimage.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <string>
@@ -120,28 +120,38 @@ namespace Exiv2 {
     }; // class OrfImage
 
     /*!
-      @brief Olympus ORF header structure.
+      @brief Stateless parser class for data in ORF format. Images use this
+             class to decode and encode ORF data.
+             See class TiffParser for details.
      */
-    class OrfHeader : public TiffHeaderBase {
+    class OrfParser {
     public:
-        //! @name Creators
-        //@{
-        //! Default constructor
-        OrfHeader();
-        //! Destructor.
-        ~OrfHeader();
-        //@}
+        /*!
+          @brief Decode metadata from a buffer \em pData of length \em size
+                 with data in ORF format to the provided metadata containers.
+                 See TiffParser::decode().
+        */
+        static ByteOrder decode(
+                  ExifData& exifData,
+                  IptcData& iptcData,
+                  XmpData&  xmpData,
+            const byte*     pData,
+                  uint32_t  size
+        );
+        /*!
+          @brief Encode metadata from the provided metadata to ORF format.
+                 See TiffParser::encode().
+        */
+        static WriteMethod encode(
+                  Blob&     blob,
+            const byte*     pData,
+                  uint32_t  size,
+            const ExifData& exifData,
+            const IptcData& iptcData,
+            const XmpData&  xmpData
+        );
 
-        //! @name Manipulators
-        //@{
-        bool read(const byte* pData, uint32_t size);
-        //@}
-
-        //! @name Accessors
-        //@{
-        void write(Blob& blob) const;
-        //@}
-    }; // class OrfHeader
+    }; // class OrfParser
 
 // *****************************************************************************
 // template, inline and free functions

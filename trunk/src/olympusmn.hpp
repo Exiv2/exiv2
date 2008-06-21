@@ -40,7 +40,6 @@
 // *****************************************************************************
 // included header files
 #include "types.hpp"
-#include "makernote.hpp"
 #include "tags.hpp"
 
 // + standard includes
@@ -53,107 +52,30 @@
 namespace Exiv2 {
 
 // *****************************************************************************
-// class declarations
-    class Value;
-
-// *****************************************************************************
-// free functions
-
-    /*!
-      @brief Return an auto-pointer to a newly created empty MakerNote
-             initialized to operate in the memory management model indicated.
-             The caller owns this copy and the auto-pointer ensures that it
-             will be deleted.
-
-      @param alloc Memory management model for the new MakerNote. Determines if
-             memory required to store data should be allocated and deallocated
-             (true) or not (false). If false, only pointers to the buffer
-             provided to read() will be kept. See Ifd for more background on
-             this concept.
-      @param buf Pointer to the makernote character buffer (not used).
-      @param len Length of the makernote character buffer (not used).
-      @param byteOrder Byte order in which the Exif data (and possibly the
-             makernote) is encoded (not used).
-      @param offset Offset from the start of the TIFF header of the makernote
-             buffer (not used).
-
-      @return An auto-pointer to a newly created empty MakerNote. The caller
-             owns this copy and the auto-pointer ensures that it will be
-             deleted.
-     */
-    MakerNote::AutoPtr createOlympusMakerNote(bool alloc,
-                                              const byte* buf,
-                                              long len,
-                                              ByteOrder byteOrder,
-                                              long offset);
-
-// *****************************************************************************
 // class definitions
 
     //! MakerNote for Olympus cameras
-    class OlympusMakerNote : public IfdMakerNote {
+    class OlympusMakerNote {
     public:
-        //! Shortcut for a %OlympusMakerNote auto pointer.
-        typedef std::auto_ptr<OlympusMakerNote> AutoPtr;
-
-        //! @name Creators
-        //@{
-        /*!
-          @brief Constructor. Allows to choose whether or not memory management
-                 is required for the makernote entries.
-         */
-        OlympusMakerNote(bool alloc =true);
-        //! Copy constructor
-        OlympusMakerNote(const OlympusMakerNote& rhs);
-        //! Virtual destructor
-        virtual ~OlympusMakerNote() {}
-        //@}
-
-        //! @name Manipulators
-        //@{
-        int readHeader(const byte* buf,
-                       long len,
-                       ByteOrder byteOrder);
-        //@}
-
-        //! @name Accessors
-        //@{
-        int checkHeader() const;
-        AutoPtr create(bool alloc =true) const;
-        AutoPtr clone() const;
         //! Return read-only list of built-in Olympus tags
         static const TagInfo* tagList();
-        //@}
 
         //! @name Print functions for Olympus %MakerNote tags
         //@{
         //! Print 'Special Mode'
-        static std::ostream& print0x0200(std::ostream& os, const Value& value);
+        static std::ostream& print0x0200(std::ostream& os, const Value& value, const ExifData*);
         //! Print Digital Zoom Factor
-        static std::ostream& print0x0204(std::ostream& os, const Value& value);
+        static std::ostream& print0x0204(std::ostream& os, const Value& value, const ExifData*);
         //! Print White Balance Mode
-        static std::ostream& print0x1015(std::ostream& os, const Value& value);
+        static std::ostream& print0x1015(std::ostream& os, const Value& value, const ExifData*);
         //@}
 
-        //! @cond IGNORE
-        // Public only so that we can create a static instance
-        struct RegisterMn {
-            RegisterMn();
-        };
-        //! @endcond
-
     private:
-        //! Internal virtual create function.
-        OlympusMakerNote* create_(bool alloc =true) const;
-        //! Internal virtual copy constructor.
-        OlympusMakerNote* clone_() const;
-
         //! Tag information
         static const TagInfo tagInfo_[];
 
     }; // class OlympusMakerNote
 
-    static OlympusMakerNote::RegisterMn registerOlympusMakerNote;
 }                                       // namespace Exiv2
 
 #endif                                  // #ifndef OLYMPUSMN_HPP_

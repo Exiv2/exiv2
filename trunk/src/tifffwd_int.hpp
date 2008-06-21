@@ -19,15 +19,15 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*!
-  @file    tifffwd.hpp
-  @brief   TIFF parser related typedefs and forward definitions.
+  @file    tifffwd_int.hpp
+  @brief   Internal TIFF parser related typedefs and forward definitions.
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    24-Jun-06, ahu: created
  */
-#ifndef TIFFFWD_HPP_
-#define TIFFFWD_HPP_
+#ifndef TIFFFWD_INT_HPP_
+#define TIFFFWD_INT_HPP_
 
 // *****************************************************************************
 // included header files
@@ -35,14 +35,17 @@
 
 // + standard includes
 #include <memory>
+#include <stack>
 
 // *****************************************************************************
-// namespace extensions
+// Exiv2 namespace extensions
 namespace Exiv2 {
 
-// *****************************************************************************
-// class declarations
+    class Exifdatum;
 
+    namespace Internal {
+
+    class TiffHeaderBase;
     class TiffComponent;
     struct TiffStructure;
     class TiffEntryBase;
@@ -59,25 +62,27 @@ namespace Exiv2 {
 
     class TiffVisitor;
     class TiffFinder;
-    class TiffMetadataDecoder;
+    class TiffDecoder;
+    class TiffEncoder;
     class TiffReader;
     class TiffPrinter;
-    class TiffHeaderBase;
 
     class TiffRwState;
-    struct TiffDecoderInfo;
-
-    class Image;
-    class Value;
+    struct TiffMappingInfo;
 
 // *****************************************************************************
-// class definitions
+// type definitions
 
     /*!
-      @brief Function pointer type for a TiffMetadataDecoder member function
+      @brief Function pointer type for a TiffDecoder member function
              to decode a TIFF component.
      */
-    typedef void (TiffMetadataDecoder::*DecoderFct)(const TiffEntryBase*);
+    typedef void (TiffDecoder::*DecoderFct)(const TiffEntryBase*);
+    /*!
+      @brief Function pointer type for a TiffDecoder member function
+             to decode a TIFF component.
+     */
+    typedef void (TiffEncoder::*EncoderFct)(TiffEntryBase*, const Exifdatum*);
     /*!
       @brief Type for a function pointer for a function to decode a TIFF component.
      */
@@ -85,20 +90,31 @@ namespace Exiv2 {
                                                uint32_t     extendedTag,
                                                uint16_t     group);
     /*!
+      @brief Type for a function pointer for a function to encode a TIFF component.
+     */
+    typedef EncoderFct (*FindEncoderFct)(
+        const std::string& make,
+              uint32_t     extendedTag,
+              uint16_t     group
+    );
+    /*!
       @brief Type for a function pointer for a function to create a TIFF component.
              Use TiffComponent::AutoPtr, it is not used in this declaration only
              to reduce dependencies.
      */
     typedef std::auto_ptr<TiffComponent> (*NewTiffCompFct)(      uint16_t       tag,
                                                            const TiffStructure* ts);
+    //! Stack to hold a path from the TIFF root element to a TIFF entry
+    typedef std::stack<const TiffStructure*> TiffPath;
+
     /*!
       @brief Type for a factory function to create new TIFF components.
              Use TiffComponent::AutoPtr, it is not used in this declaration only
              to reduce dependencies.
      */
-    typedef std::auto_ptr<TiffComponent> (*TiffCompFactoryFct)(uint32_t extendedTag,
-                                                               uint16_t group);
+    typedef std::auto_ptr<Internal::TiffComponent> (*TiffCompFactoryFct)(uint32_t extendedTag,
+                                                                         uint16_t group);
 
-}                                       // namespace Exiv2
+}}                                      // namespace Internal, Exiv2
 
-#endif                                  // #ifndef TIFFFWD_HPP_
+#endif                                  // #ifndef TIFFFWD_INT_HPP_

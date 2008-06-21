@@ -8,5 +8,5 @@ Deleted key "Exif.Image.PrimaryChromaticities"
 0x0115 Image        SamplesPerPixel             Short       1  162
 0x011a Image        XResolution                 SLong       1  -2
 0x011b Image        YResolution                 SRational   1  -2/3
-0x8769 Image        ExifTag                     Long        1  89
+0x8769 Image        ExifTag                     Long        1  90
 0x9003 Photo        DateTimeOriginal            Ascii      20  2000:12:31 23:59:59

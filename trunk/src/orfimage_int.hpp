@@ -19,45 +19,54 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*!
-  @file    fujimn.hpp
-  @brief   Fujifilm MakerNote implemented according to the specification
-           in Appendix 4: Makernote of Fujifilm of the document
-           <a href="http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html">
-           Exif file format</a> by TsuruZoh Tachibanaya<br>
-           <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Fuji.html">Fuji Makernote list</a> by Phil Harvey<br>
+  @file    orfimage_int.hpp
+  @brief   Internal classes to support Olympus RAW image format
   @version $Rev$
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @author  Gilles Caulier (gc)
-           <a href="mailto:caulier dot gilles at kdemail dot net">caulier dot gilles at kdemail dot net</a>
-  @date    11-Feb-04, ahu: created
+  @author  Jeff Costlow
+           <a href="mailto:costlow@gmail.com">costlow@gmail.com</a>
+  @date    31-Jul-07, costlow: created
+           23-Apr-08, ahu: Moved to _int file
  */
-#ifndef FUJIMN_HPP_
-#define FUJIMN_HPP_
+#ifndef ORFIMAGE_INT_HPP_
+#define ORFIMAGE_INT_HPP_
 
 // *****************************************************************************
 // included header files
-#include "tags.hpp"
+#include "tiffimage_int.hpp"
+#include "types.hpp"
 
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
+    namespace Internal {
 
 // *****************************************************************************
 // class definitions
 
-    //! MakerNote for Fujifilm cameras
-    class FujiMakerNote {
+    /*!
+      @brief Olympus ORF header structure.
+     */
+    class OrfHeader : public TiffHeaderBase {
     public:
-        //! Return read-only list of built-in Fujifilm tags
-        static const TagInfo* tagList();
+        //! @name Creators
+        //@{
+        //! Default constructor
+        OrfHeader();
+        //! Destructor.
+        ~OrfHeader();
+        //@}
 
-    private:
-        //! Tag information
-        static const TagInfo tagInfo_[];
+        //! @name Manipulators
+        //@{
+        bool read(const byte* pData, uint32_t size);
+        //@}
 
-    }; // class FujiMakerNote
+        //! @name Accessors
+        //@{
+        uint32_t write(Blob& blob) const;
+        //@}
+    }; // class OrfHeader
 
-}                                       // namespace Exiv2
+}}                                      // namespace Internal, Exiv2
 
-#endif                                  // #ifndef FUJIMN_HPP_
+#endif                                  // #ifndef ORFIMAGE_INT_HPP_

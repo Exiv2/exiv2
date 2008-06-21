@@ -1191,7 +1191,7 @@ namespace Exiv2 {
 
         MD5Init(&context);
 
-        DataBuf data = iptcData_->copy();
+        DataBuf data = IptcParser::encode(*iptcData_);
         MD5Update(&context, data.pData_, data.size_);
         MD5Final(digest, &context);
         res << std::setw(2) << std::setfill('0') << std::hex << std::uppercase;

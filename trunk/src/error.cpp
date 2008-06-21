@@ -65,7 +65,7 @@ namespace Exiv2 {
         ErrMsg( 20, N_("Failed to read input data")),
         ErrMsg( 21, N_("Failed to write image")),
         ErrMsg( 22, N_("Input data does not contain a valid image")),
-        ErrMsg( 23, N_("Failed to create Makernote for ifdId %1")), // %1=ifdId
+        ErrMsg( 23, N_("Invalid ifdId %1")), // %1=ifdId
         ErrMsg( 24, N_("Entry::setValue: Value too large (tag=%1, size=%2, requested=%3)")), // %1=tag, %2=dataSize, %3=required size
         ErrMsg( 25, N_("Entry::setDataArea: Value too large (tag=%1, size=%2, requested=%3)")), // %1=tag, %2=dataAreaSize, %3=required size
         ErrMsg( 26, N_("Offset out of range")),
@@ -91,6 +91,9 @@ namespace Exiv2 {
         ErrMsg( 46, N_("No namespace registered for prefix `%1'")), // %1=prefix
         ErrMsg( 47, N_("Aliases are not supported. Please send this XMP packet to ahuggel@gmx.net `%1', `%2', `%3'")), // %1=namespace, %2=property path, %3=value
         ErrMsg( 48, N_("Invalid XmpText type `%1'")), // %1=type
+        ErrMsg( 49, N_("TIFF directory %1 has too many entries")), // %1=TIFF directory name
+        ErrMsg( 50, N_("Multiple TIFF array element tags %1 in one directory")), // %1=tag number
+        ErrMsg( 51, N_("TIFF array element tag %1 has wrong type or more than one component")), // %1=tag number
 
         // Last error message (message is not used)
         ErrMsg( -2, N_("(Unknown Error)"))

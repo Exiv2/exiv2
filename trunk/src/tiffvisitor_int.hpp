@@ -19,20 +19,21 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*!
-  @file    tiffvisitor.hpp
-  @brief   Operations on a TIFF composite tree, implemented as visitor classes.
+  @file    tiffvisitor_int.hpp
+  @brief   Internal operations on a TIFF composite tree, implemented as visitor
+           classes.
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    11-Apr-06, ahu: created
  */
-#ifndef TIFFVISITOR_HPP_
-#define TIFFVISITOR_HPP_
+#ifndef TIFFVISITOR_INT_HPP_
+#define TIFFVISITOR_INT_HPP_
 
 // *****************************************************************************
 // included header files
 #include "exif.hpp"
-#include "tifffwd.hpp"
+#include "tifffwd_int.hpp"
 #include "types.hpp"
 
 // + standard includes
@@ -45,6 +46,7 @@
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
+    namespace Internal {
 
 // *****************************************************************************
 // class definitions
@@ -66,10 +68,24 @@ namespace Exiv2 {
      */
     class TiffVisitor {
     public:
+        //! Events for the stop/go flag. See setGo(). 
+        enum GoEvent {
+            //! Signal to control traversing of the composite tree.
+            geTraverse       = 0,
+            //! Signal used by TiffReader to signal an unknown makernote.
+            geKnownMakernote = 1
+            // Note: If you add more events here, adjust the events_ constant too!
+        };
+
+    private:
+        static const int events_ = 2;  //!< The number of stop/go flags.
+        bool go_[events_];             //!< Array of stop/go flags. See setGo().
+
+    public:
         //! @name Creators
         //@{
-        //! Default constructor
-        TiffVisitor() : go_(true) {}
+        //! Default constructor. Initialises all stop/go flags to true.
+        TiffVisitor();
         //! Virtual destructor
         virtual ~TiffVisitor() {}
         //@}
@@ -79,19 +95,21 @@ namespace Exiv2 {
         /*!
           @brief Set the stop/go flag: true for go, false for stop.
 
-          This mechanism can be used by concrete visitors to signal certain
-          events. For example, TiffFinder sets the stop flag as soon as it finds
-          the correct component to signal to that the search should be
-          stopped. TiffReader uses it to signal problems reading a makernote.
-          As the flag doesn't carry any information on the type of event which
-          triggered it, it is for each visitor to establish and adhere to
-          conventions about its meaning.
+          This mechanism is used by visitors and components to signal special
+          events. Specifically, TiffFinder sets the geTraverse flag as soon as
+          it finds the correct component to signal to components that the search
+          should be aborted. TiffReader uses geKnownMakernote to signal problems
+          reading a makernote to the TiffMnEntry component. There is an array
+          of flags, one for each defined \em event, so different signals can be
+          used independent of each other.
          */
-        void setGo(bool go) { go_ = go; }
+        void setGo(GoEvent event, bool go);
         //! Operation to perform for a TIFF entry
         virtual void visitEntry(TiffEntry* object) =0;
         //! Operation to perform for a TIFF data entry
         virtual void visitDataEntry(TiffDataEntry* object) =0;
+        //! Operation to perform for a TIFF image entry
+        virtual void visitImageEntry(TiffImageEntry* object) =0;
         //! Operation to perform for a TIFF size entry
         virtual void visitSizeEntry(TiffSizeEntry* object) =0;
         //! Operation to perform for a TIFF directory
@@ -122,12 +140,9 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        //! Check if stop flag is clear, return true if it's clear.
-        bool go() { return go_; }
+        //! Check if stop flag for \em event is clear, return true if it's clear.
+        bool go(GoEvent event) const;
         //@}
-
-    private:
-        bool go_;    //!< Set this to false to abort the iteration
 
     }; // class TiffVisitor
 
@@ -141,7 +156,7 @@ namespace Exiv2 {
     public:
         //! @name Creators
         //@{
-        //! Constructor, taking the image to add the metadata to
+        //! Constructor, taking \em tag and \em group of the component to find.
         TiffFinder(uint16_t tag, uint16_t group)
             : tag_(tag), group_(group), tiffComponent_(0) {}
         //! Virtual destructor
@@ -154,6 +169,8 @@ namespace Exiv2 {
         virtual void visitEntry(TiffEntry* object);
         //! Find tag and group in a TIFF data entry
         virtual void visitDataEntry(TiffDataEntry* object);
+        //! Find tag and group in a TIFF image entry
+        virtual void visitImageEntry(TiffImageEntry* object);
         //! Find tag and group in a TIFF size entry
         virtual void visitSizeEntry(TiffSizeEntry* object);
         //! Find tag and group in a TIFF directory
@@ -196,23 +213,24 @@ namespace Exiv2 {
              pattern). Used by TiffParser to decode the metadata from a
              TIFF composite.
      */
-    class TiffMetadataDecoder : public TiffVisitor {
+    class TiffDecoder : public TiffVisitor {
     public:
         //! @name Creators
         //@{
         /*!
-          @brief Constructor, taking the image to add the metadata to, the root
-                 element of the composite to decode and an optional
-                 threshold. Unknown tags with values larger (in bytes) than the
-                 threshold will be ignored.  Default is not to ignore any
-                 tags (0).
+          @brief Constructor, taking metadata containers to add the metadata to,
+                 the root element of the composite to decode and a FindDecoderFct
+                 function to get the decoder function for each tag.
          */
-        TiffMetadataDecoder(Image* pImage,
-                            TiffComponent* const pRoot,
-                            FindDecoderFct findDecoderFct =0,
-                            uint32_t threshold =0);
+        TiffDecoder(
+            ExifData&            exifData,
+            IptcData&            iptcData,
+            XmpData&             xmpData,
+            TiffComponent* const pRoot,
+            FindDecoderFct       findDecoderFct
+        );
         //! Virtual destructor
-        virtual ~TiffMetadataDecoder() {}
+        virtual ~TiffDecoder() {}
         //@}
 
         //! @name Manipulators
@@ -221,6 +239,8 @@ namespace Exiv2 {
         virtual void visitEntry(TiffEntry* object);
         //! Decode a TIFF data entry
         virtual void visitDataEntry(TiffDataEntry* object);
+        //! Decode a TIFF image entry
+        virtual void visitImageEntry(TiffImageEntry* object);
         //! Decode a TIFF size entry
         virtual void visitSizeEntry(TiffSizeEntry* object);
         //! Decode a TIFF directory
@@ -251,6 +271,8 @@ namespace Exiv2 {
         //@}
 
     private:
+        //! @name Manipulators
+        //@{
         //! Set an Exif tag in the image. Overwrites existing tags
         void setExifTag(const ExifKey& key, const Value* pValue);
         /*!
@@ -266,12 +288,15 @@ namespace Exiv2 {
                         uint16_t             tag,
                         uint16_t             group,
                         const TiffEntryBase* object);
+        //@}
 
+    private:
         // DATA
-        Image* pImage_;              //!< Pointer to the image to which the metadata is added
+        ExifData& exifData_;         //!< Exif metadata container
+        IptcData& iptcData_;         //!< IPTC metadata container
+        XmpData&  xmpData_;          //!< XMP metadata container
         TiffComponent* const pRoot_; //!< Root element of the composite
         const FindDecoderFct findDecoderFct_; //!< Ptr to the function to find special decoding functions
-        const uint32_t threshold_;   //!< Threshold, see constructor documentation.
         std::string make_;           //!< Camera make, determined from the tags to decode
 
         //! Type used to remember tag 0x00fe (NewSubfileType) for each group
@@ -279,7 +304,193 @@ namespace Exiv2 {
         GroupType groupType_;        //!< NewSubfileType for each group
 
         bool decodedIptc_;           //!< Indicates if IPTC has been decoded yet
-    }; // class TiffMetadataDecoder
+    }; // class TiffDecoder
+
+    /*!
+      @brief TIFF composite visitor to encode metadata from an image to the TIFF
+             tree. The metadata containers and root element of the tree are
+             supplied in the constructor. Used by TiffParserWorker to encode the
+             metadata into a TIFF composite.
+
+             For non-intrusive writing, the encoder is used as a visitor (by
+             passing it to the accept() member of a TiffComponent). The
+             composite tree is then traversed and metadata from the image is
+             used to encode each existing component.
+
+             For intrusive writing, add() is called, which loops through the 
+             metadata and creates and populates corresponding TiffComponents
+             as needed.
+     */
+    class TiffEncoder : public TiffVisitor {
+    public:
+        //! @name Creators
+        //@{
+        /*!
+          @brief Constructor, taking the root element of the composite to encode
+                 to, the image with the metadata to encode and a function to
+                 find special encoders.
+         */
+        TiffEncoder(
+            const ExifData&      exifData,
+            const IptcData&      iptcData,
+            const XmpData&       xmpData,
+                  TiffComponent* pRoot,
+                  ByteOrder      byteOrder,
+                  FindEncoderFct findEncoderFct
+        );
+        //! Virtual destructor
+        virtual ~TiffEncoder() {}
+        //@}
+
+        //! @name Manipulators
+        //@{
+        //! Encode a TIFF entry
+        virtual void visitEntry(TiffEntry* object);
+        //! Encode a TIFF data entry
+        virtual void visitDataEntry(TiffDataEntry* object);
+        //! Encode a TIFF image entry
+        virtual void visitImageEntry(TiffImageEntry* object);
+        //! Encode a TIFF size entry
+        virtual void visitSizeEntry(TiffSizeEntry* object);
+        //! Encode a TIFF directory
+        virtual void visitDirectory(TiffDirectory* object);
+        //! Update directory entries
+        virtual void visitDirectoryNext(TiffDirectory* object);
+        //! Encode a TIFF sub-IFD
+        virtual void visitSubIfd(TiffSubIfd* object);
+        //! Encode a TIFF makernote
+        virtual void visitMnEntry(TiffMnEntry* object);
+        //! Encode an IFD makernote
+        virtual void visitIfdMakernote(TiffIfdMakernote* object);
+        //! Reset encoder to its original state, undo makernote specific settings
+        virtual void visitIfdMakernoteEnd(TiffIfdMakernote* object);
+        //! Encode an array entry component
+        virtual void visitArrayEntry(TiffArrayEntry* object);
+        //! Encode an array element
+        virtual void visitArrayElement(TiffArrayElement* object);
+
+        /*!
+          @brief Top level encoder function. Determines how to encode each TIFF
+                 component. This function is called by the visit methods of the
+                 encoder as well as the add() method.
+
+          If no \em datum is provided, search the metadata based on tag and 
+          group of the \em object. This is the case if the function is called
+          from a visit method.
+
+          Then check if a special encoder function is registered for the tag,
+          and if so use it to encode the \em object. Else use the callback
+          encoder function at the object (which results in a double-dispatch to
+          the appropriate encoding function of the encoder.
+
+          @param object Object in the TIFF component tree to encode.
+          @param datum  The corresponding metadatum with the updated value.
+
+          @note Encoder functions may use metadata other than \em datum.
+         */
+        void encodeTiffComponent(
+                  TiffEntryBase* object,
+            const Exifdatum*     datum =0
+        );
+
+        //! Callback encoder function for an array element.
+        void encodeArrayElement(TiffArrayElement* object, const Exifdatum* datum);
+        //! Callback encoder function for an array entry.
+        void encodeArrayEntry(TiffArrayEntry* object, const Exifdatum* datum);
+        //! Callback encoder function for a data entry.
+        void encodeDataEntry(TiffDataEntry* object, const Exifdatum* datum);
+        //! Callback encoder function for a standard TIFF entry
+        void encodeTiffEntry(TiffEntry* object, const Exifdatum* datum);
+        //! Callback encoder function for an image entry.
+        void encodeImageEntry(TiffImageEntry* object, const Exifdatum* datum);
+        //! Callback encoder function for a %Makernote entry.
+        void encodeMnEntry(TiffMnEntry* object, const Exifdatum* datum);
+        //! Callback encoder function for a size entry.
+        void encodeSizeEntry(TiffSizeEntry* object, const Exifdatum* datum);
+        //! Callback encoder function for a sub-IFD entry.
+        void encodeSubIfd(TiffSubIfd* object, const Exifdatum* datum);
+
+        //! Special encoder function for the base part of a TIFF entry.
+        void encodeTiffEntryBase(TiffEntryBase* object, const Exifdatum* datum);
+        //! Special encoder function for an offset entry.
+        void encodeOffsetEntry(TiffEntryBase* object, const Exifdatum* datum);
+        //! Special encoder function to encode an Olympus Thumbnail from the TIFF makernote into IFD1.
+        void encodeOlympThumb(TiffEntryBase* object, const Exifdatum* datum);
+
+        //! Special encoder function to encode SubIFD contents to Image group if it contains primary image data
+        // Todo void encodeNikonSubIfd(TiffEntryBase* object, const Exifdatum* datum);
+
+        //! Special encoder function to encode IPTC data to an IPTCNAA or Photoshop ImageResources tag.
+        void encodeIptc(TiffEntryBase* object, const Exifdatum* datum);
+        //! Special encoder function to encode an XMP packet to an XMLPacket tag.
+        void encodeXmp(TiffEntryBase* object, const Exifdatum* datum);
+        //! Special encoder function for a standard TIFF entry using big endian byte order.
+        void encodeBigEndianEntry(TiffEntryBase* object, const Exifdatum* datum);
+        /*!
+          @brief Add metadata from image to the TIFF composite.
+
+          For each Exif metadatum, the corresponding TiffComponent is created
+          if necessary and populated using encodeTiffComponent(). The add() function
+          is used during intrusive writing, to create a new TIFF structure.
+
+          @note For non-intrusive writing, the encoder is used as a visitor (by 
+          passing it to the accept() member of a TiffComponent). The composite
+          tree is then traversed and metadata from the image is used to encode
+          each existing component.
+        */
+        void add(
+            TiffComponent*     pRootDir, 
+            TiffComponent*     pSourceDir,
+            TiffCompFactoryFct createFct
+        );
+        //! Set the dirty flag and end of traversing signal.
+        void setDirty(bool flag =true);
+        //@}
+
+        //! @name Accessors
+        //@{
+        /*!
+          @brief Return the applicable byte order. May be different for
+                 the Makernote and the rest of the TIFF entries.
+         */
+        ByteOrder byteOrder() const { return byteOrder_; }
+        /*!
+          @brief True if any tag was deleted or allocated in the process of
+                 visiting a TIFF composite tree.
+         */
+        bool dirty() const;
+        //! Return the write method used.
+        WriteMethod writeMethod() const { return writeMethod_; }
+        //@}
+
+    private:
+        //! @name Accessors
+        //@{
+        /*!
+          @brief Update a directory entry. This is called after all directory
+                 entries are encoded. It takes care of type and count changes
+                 and size shrinkage for non-intrusive writing.
+        */
+        uint32_t updateDirEntry(byte* buf,
+                                ByteOrder byteOrder,
+                                TiffComponent* pTiffComponent) const;
+        //@}
+
+    private:
+        // DATA
+        ExifData exifData_;          //!< Copy of the Exif data to encode
+        IptcData iptcData_;          //!< Copy of the IPTC data to encode
+        XmpData  xmpData_;           //!< Copy of the XMP data to encode
+        bool del_;                   //!< Indicates if Exif data entries should be deleted after encoding
+        TiffComponent* pRoot_;       //!< Root element of the composite
+        TiffComponent* pSourceTree_; //!< Parsed source tree for reference
+        ByteOrder byteOrder_;        //!< Byteorder for encoding
+        ByteOrder origByteOrder_;    //!< Byteorder as set in the c'tor
+        const FindEncoderFct findEncoderFct_; //!< Ptr to the function to find special encoding functions
+        std::string make_;           //!< Camera make, determined from the tags to encode
+        bool dirty_;                 //!< Signals if any tag is deleted or allocated
+        WriteMethod writeMethod_;    //!< Write method used.
+    }; // class TiffEncoder
 
     /*!
       @brief Simple state class containing relevant state information for
@@ -355,7 +566,7 @@ namespace Exiv2 {
           @param pData     Pointer to the data buffer, starting with a TIFF header.
           @param size      Number of bytes in the data buffer.
           @param pRoot     Root element of the TIFF composite.
-          @param state     State object for creation function, byteorder and
+          @param state     State object for creation function, byte order and
                            base offset.
          */
         TiffReader(const byte*          pData,
@@ -373,6 +584,8 @@ namespace Exiv2 {
         virtual void visitEntry(TiffEntry* object);
         //! Read a TIFF data entry from the data buffer
         virtual void visitDataEntry(TiffDataEntry* object);
+        //! Read a TIFF image entry from the data buffer
+        virtual void visitImageEntry(TiffImageEntry* object);
         //! Read a TIFF size entry from the data buffer
         virtual void visitSizeEntry(TiffSizeEntry* object);
         //! Read a TIFF directory from the data buffer
@@ -392,6 +605,8 @@ namespace Exiv2 {
 
         //! Read a standard TIFF entry from the data buffer
         void readTiffEntry(TiffEntryBase* object);
+        //! Read a TiffDataEntryBase from the data buffer
+        void readDataEntryBase(TiffDataEntryBase* object);
         //! Set the \em state class. Assumes ownership of the object passed in.
         void changeState(TiffRwState::AutoPtr state);
         //! Reset the state to the original state as set in the constructor.
@@ -407,13 +622,6 @@ namespace Exiv2 {
         //! Create a TIFF component for \em extendedTag and group
         std::auto_ptr<TiffComponent> create(uint32_t extendedTag,
                                             uint16_t group) const;
-        //@}
-
-    private:
-        //! @name Manipulators
-        //@{
-        //! Helper function to set the thumbnail data area
-        void setDataArea(TiffEntryBase* pOffsetEntry, const Value* pSize);
         //@}
 
     private:
@@ -448,6 +656,8 @@ namespace Exiv2 {
         virtual void visitEntry(TiffEntry* object);
         //! Print a TIFF data entry.
         virtual void visitDataEntry(TiffDataEntry* object);
+        //! Print a TIFF image entry.
+        virtual void visitImageEntry(TiffImageEntry* object);
         //! Print a TIFF size entry.
         virtual void visitSizeEntry(TiffSizeEntry* object);
         //! Print a TIFF directory
@@ -490,6 +700,6 @@ namespace Exiv2 {
         static const std::string indent_;       //!< Indent for one level
     }; // class TiffPrinter
 
-}                                       // namespace Exiv2
+}}                                      // namespace Internal, Exiv2
 
-#endif                                  // #ifndef TIFFVISITOR_HPP_
+#endif                                  // #ifndef TIFFVISITOR_INT_HPP_

@@ -1,0 +1,138 @@
+[30mFile Name = mini9.tif
+File Type = TIFF:II
+File Size = 526
+@000000000=0       :  TIFF(II=0x4949) magic=0x002a='*\0' ifd offset = 0xfc/252
+@0x00000fc=252     :  <IFD 0> 17 entries starting at file offset 0xfe=254
+@0x00000fe=254     :    <0x00fe=  254> NewSubFileType              [4 =LONG          1]  = 0 = 'primary'
+@0x000010a=266     :    <0x0100=  256> ImageWidth                  [3 =SHORT         1]  = 9
+@0x0000116=278     :    <0x0101=  257> ImageLength                 [3 =SHORT         1]  = 9
+@0x0000122=290     :    <0x0102=  258> BitsPerSample               [3 =SHORT         3]  = @0x1ce=462
+@0x000012e=302     :    <0x0103=  259> Compression                 [3 =SHORT         1]  = 1 = 'uncompressed'
+@0x000013a=314     :    <0x0106=  262> PhotometricInterpretation   [3 =SHORT         1]  = 2 = 'RGB'
+@0x0000146=326     :    <0x010d=  269> DocumentName                [2 =ASCII        24]  = @0x1d4=468
+@0x0000152=338     :    <0x010e=  270> ImageDescription            [2 =ASCII        18]  = @0x1ec=492
+@0x000015e=350     :    <0x0111=  273> StripOffsets                [4 =LONG          1]  = @8
+@0x000016a=362     :    <0x0112=  274> Orientation                 [3 =SHORT         1]  = 1 = '0,0 is top left'
+@0x0000176=374     :    <0x0115=  277> SamplesPerPixel             [3 =SHORT         1]  = 3
+@0x0000182=386     :    <0x0116=  278> RowsPerStrip                [3 =SHORT         1]  = 64
+@0x000018e=398     :    <0x0117=  279> StripByteCounts             [4 =LONG          1]  = 243
+@0x000019a=410     :    <0x011a=  282> XResolution                 [5 =RATIONAL      1]  = @0x1fe=510
+@0x00001a6=422     :    <0x011b=  283> YResolution                 [5 =RATIONAL      1]  = @0x206=518
+@0x00001b2=434     :    <0x011c=  284> PlanarConfiguration         [3 =SHORT         1]  = 1 = 'chunky/contig'
+@0x00001be=446     :    <0x0128=  296> ResolutionUnit              [3 =SHORT         1]  = 2 = 'pixels per inch'
+@0x00001ca=458     :    **** next IFD offset 0
+@0x00001ce=462     :    ============= VALUES, IFD 0 ============
+@0x00001ce=462     :    BitsPerSample               = 8,8,8
+@0x00001d4=468     :    DocumentName                = '/home/ahuggel/mini9.tif\0'
+@0x00001ec=492     :    ImageDescription            = 'Created with GIMP\0'
+@0x00001fe=510     :    XResolution                 = 72
+@0x0000206=518     :    YResolution                 = 72
+@0x000020d=525     :  </IFD 0>
+@0x0000008=8       :  <=-=-=> Start of  TIFF RGB uncompressed image data for IFD 0, data length 243
+ 0x0000008=8       :      ff 00 00 ff  00 00 ff 00  00 ff 00 00  00 ff 00 00  |................|
+ 0x0000018=24      :      00 ff ff 00  00 ff 00 00  ff 00 00 00  ff 00 00 ff  |................|
+ 0x0000028=40      :      00 00 ff 00  3f 7f bf 3f  7f bf 3f 7f  bf 00 ff 00  |....?..?..?.....|
+ 0x0000038=56      :      00 ff 00 00  ff 00 00 00  ff 00 00 ff  3f 7f bf ff  |............?...| etc...
+@0x00000fa=250     :  </=-=-=> End of image data
+-0x000020d=525     :  END OF FILE
+[90m@0x0000008=8       :  Start of TIFF RGB uncompressed primary image [9x9] length 243 (IFD 0)
+-0x00000fa=250     :    End of TIFF primary image data
+[0m[30mNumber of images = 1
+File Format = TIFFEP
+
+
+Test 1: Writing empty Exif data without original binary data: ok.
+Test 2: Writing empty Exif data with original binary data: ok.
+Test 3: Wrote non-empty Exif data without original binary data:
+Exif.Image.ExifTag                           0x8769 Long        1  26
+Exif.Photo.DateTimeOriginal                  0x9003 Ascii      18  Yesterday at noon
+MIME type:  image/tiff
+Image size: 9 x 9
+Before
+Exif.Image.NewSubfileType                    0x00fe Long        1  0
+Exif.Image.ImageWidth                        0x0100 Short       1  9
+Exif.Image.ImageLength                       0x0101 Short       1  9
+Exif.Image.BitsPerSample                     0x0102 Short       3  8 8 8
+Exif.Image.Compression                       0x0103 Short       1  1
+Exif.Image.PhotometricInterpretation         0x0106 Short       1  2
+Exif.Image.DocumentName                      0x010d Ascii      24  /home/ahuggel/mini9.tif
+Exif.Image.ImageDescription                  0x010e Ascii      18  Created with GIMP
+Exif.Image.StripOffsets                      0x0111 Long        1  8
+Exif.Image.Orientation                       0x0112 Short       1  1
+Exif.Image.SamplesPerPixel                   0x0115 Short       1  3
+Exif.Image.RowsPerStrip                      0x0116 Short       1  64
+Exif.Image.StripByteCounts                   0x0117 Long        1  243
+Exif.Image.XResolution                       0x011a Rational    1  1207959552/16777216
+Exif.Image.YResolution                       0x011b Rational    1  1207959552/16777216
+Exif.Image.PlanarConfiguration               0x011c Short       1  1
+Exif.Image.ResolutionUnit                    0x0128 Short       1  2
+======
+After
+Exif.Image.NewSubfileType                    0x00fe Long        1  0
+Exif.Image.ImageWidth                        0x0100 Short       1  9
+Exif.Image.ImageLength                       0x0101 Short       1  9
+Exif.Image.BitsPerSample                     0x0102 Short       3  8 8 8
+Exif.Image.Compression                       0x0103 Short       1  1
+Exif.Image.PhotometricInterpretation         0x0106 Short       1  2
+Exif.Image.DocumentName                      0x010d Ascii      24  /home/ahuggel/mini9.tif
+Exif.Image.ImageDescription                  0x010e Ascii      18  Created with GIMP
+Exif.Image.StripOffsets                      0x0111 Long        1  8
+Exif.Image.Orientation                       0x0112 Short       1  1
+Exif.Image.SamplesPerPixel                   0x0115 Short       1  3
+Exif.Image.RowsPerStrip                      0x0116 Short       1  64
+Exif.Image.StripByteCounts                   0x0117 Long        1  243
+Exif.Image.XResolution                       0x011a Rational    1  1207959552/16777216
+Exif.Image.YResolution                       0x011b Rational    1  1207959552/16777216
+Exif.Image.PlanarConfiguration               0x011c Short       1  1
+Exif.Image.ResolutionUnit                    0x0128 Short       1  2
+Exif.Photo.DateTimeOriginal                  0x9003 Ascii      18  Yesterday at noon
+[30mFile Name = mini9.tif
+File Type = TIFF:II
+File Size = 573
+@000000000=0       :  TIFF(II=0x4949) magic=0x002a='*\0' ifd offset = 0x8/8
+@0x0000008=8       :  <IFD 0> 18 entries starting at file offset 0xa=10
+@0x000000a=10      :    <0x00fe=  254> NewSubFileType              [4 =LONG          1]  = 0 = 'primary'
+@0x0000016=22      :    <0x0100=  256> ImageWidth                  [3 =SHORT         1]  = 9
+@0x0000022=34      :    <0x0101=  257> ImageLength                 [3 =SHORT         1]  = 9
+@0x000002e=46      :    <0x0102=  258> BitsPerSample               [3 =SHORT         3]  = @0xe6=230
+@0x000003a=58      :    <0x0103=  259> Compression                 [3 =SHORT         1]  = 1 = 'uncompressed'
+@0x0000046=70      :    <0x0106=  262> PhotometricInterpretation   [3 =SHORT         1]  = 2 = 'RGB'
+@0x0000052=82      :    <0x010d=  269> DocumentName                [2 =ASCII        24]  = @0xec=236
+@0x000005e=94      :    <0x010e=  270> ImageDescription            [2 =ASCII        18]  = @0x104=260
+@0x000006a=106     :    <0x0111=  273> StripOffsets                [4 =LONG          1]  = @330
+@0x0000076=118     :    <0x0112=  274> Orientation                 [3 =SHORT         1]  = 1 = '0,0 is top left'
+@0x0000082=130     :    <0x0115=  277> SamplesPerPixel             [3 =SHORT         1]  = 3
+@0x000008e=142     :    <0x0116=  278> RowsPerStrip                [3 =SHORT         1]  = 64
+@0x000009a=154     :    <0x0117=  279> StripByteCounts             [4 =LONG          1]  = 243
+@0x00000a6=166     :    <0x011a=  282> XResolution                 [5 =RATIONAL      1]  = @0x116=278
+@0x00000b2=178     :    <0x011b=  283> YResolution                 [5 =RATIONAL      1]  = @0x11e=286
+@0x00000be=190     :    <0x011c=  284> PlanarConfiguration         [3 =SHORT         1]  = 1 = 'chunky/contig'
+@0x00000ca=202     :    <0x0128=  296> ResolutionUnit              [3 =SHORT         1]  = 2 = 'pixels per inch'
+@0x00000d6=214     :    <0x8769=34665> ExifIFDPointer              [4 =LONG          1]  = @0x126=294
+@0x00000e2=226     :    **** next IFD offset 0
+@0x00000e6=230     :    ============= VALUES, IFD 0 ============
+@0x00000e6=230     :    BitsPerSample               = 8,8,8
+@0x00000ec=236     :    DocumentName                = '/home/ahuggel/mini9.tif\0'
+@0x0000104=260     :    ImageDescription            = 'Created with GIMP\0'
+@0x0000116=278     :    XResolution                 = 72
+@0x000011e=286     :    YResolution                 = 72
+[35m@0x0000126=294     :    <EXIF IFD> (in IFD 0) 1 entries starting at file offset 0x128=296
+@0x0000128=296     :      <0x9003=36867> DateTimeOriginal            [2 =ASCII        18]  = @0x138=312
+@0x0000134=308     :      **** next IFD offset 0
+@0x0000138=312     :      ============= VALUES, EXIF IFD ============
+@0x0000138=312     :      DateTimeOriginal            = 'Yesterday at noon\0'
+-0x0000149=329     :    </EXIF IFD>
+[0m[30m@0x0000149=329     :  </IFD 0>
+@0x000014a=330     :  <=-=-=> Start of  TIFF RGB uncompressed image data for IFD 0, data length 243
+ 0x000014a=330     :      ff 00 00 ff  00 00 ff 00  00 ff 00 00  00 ff 00 00  |................|
+ 0x000015a=346     :      00 ff ff 00  00 ff 00 00  ff 00 00 00  ff 00 00 ff  |................|
+ 0x000016a=362     :      00 00 ff 00  3f 7f bf 3f  7f bf 3f 7f  bf 00 ff 00  |....?..?..?.....|
+ 0x000017a=378     :      00 ff 00 00  ff 00 00 00  ff 00 00 ff  3f 7f bf ff  |............?...| etc...
+@0x000023c=572     :  </=-=-=> End of image data
+-0x000023c=572     :  END OF FILE
+[90m@0x000014a=330     :  Start of TIFF RGB uncompressed primary image [9x9] length 243 (IFD 0)
+-0x000023c=572     :    End of TIFF primary image data
+[0m[30mNumber of images = 1
+File Format = TIFFEP/EXIF
+
+

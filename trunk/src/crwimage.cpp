@@ -1046,8 +1046,8 @@ namespace Exiv2 {
                                     Image&         image,
                                     ByteOrder      /*byteOrder*/)
     {
-        image.exifData().setJpegThumbnail(ciffComponent.pData(),
-                                          ciffComponent.size());
+        ExifThumb exifThumb(image.exifData());
+        exifThumb.setJpegThumbnail(ciffComponent.pData(), ciffComponent.size());
     } // CrwMap::decode0x2008
 
     void CrwMap::decodeBasic(const CiffComponent& ciffComponent,
@@ -1287,7 +1287,8 @@ namespace Exiv2 {
         assert(pCrwMapping != 0);
         assert(pHead != 0);
 
-        DataBuf buf = image.exifData().copyThumbnail();
+        ExifThumbC exifThumb(image.exifData());
+        DataBuf buf = exifThumb.copy();
         if (buf.size_ != 0) {
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
         }
@@ -1355,6 +1356,7 @@ namespace Exiv2 {
 // *****************************************************************************
 // local definitions
 namespace {
+    //! @cond IGNORE
     const RotationMap::OmList RotationMap::omList_[] = {
         { 1,    0 },
         { 3,  180 },
@@ -1390,4 +1392,5 @@ namespace {
         }
         return d;
     }
+    //! @endcond
 }

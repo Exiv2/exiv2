@@ -1552,6 +1552,7 @@ namespace Exiv2 {
     inline long ValueType<Rational>::toLong(long n) const
     {
         ok_ = (value_[n].second != 0);
+        if (!ok_) return 0;
         return value_[n].first / value_[n].second;
     }
     // Specialization for unsigned rational
@@ -1559,6 +1560,7 @@ namespace Exiv2 {
     inline long ValueType<URational>::toLong(long n) const
     {
         ok_ = (value_[n].second != 0);
+        if (!ok_) return 0;
         return value_[n].first / value_[n].second;
     }
     // Default implementation
@@ -1573,6 +1575,7 @@ namespace Exiv2 {
     inline float ValueType<Rational>::toFloat(long n) const
     {
         ok_ = (value_[n].second != 0);
+        if (!ok_) return 0.0f;
         return static_cast<float>(value_[n].first) / value_[n].second;
     }
     // Specialization for unsigned rational
@@ -1580,6 +1583,7 @@ namespace Exiv2 {
     inline float ValueType<URational>::toFloat(long n) const
     {
         ok_ = (value_[n].second != 0);
+        if (!ok_) return 0.0f;
         return static_cast<float>(value_[n].first) / value_[n].second;
     }
     // Default implementation

@@ -817,7 +817,7 @@ namespace Exiv2 {
             const XmpPrintInfo* info = find(xmpPrintInfo, key);
             if (info) fct = info->printFct_;
         }
-        return fct(os, value);
+        return fct(os, value, 0);
     }
 
     //! @cond IGNORE

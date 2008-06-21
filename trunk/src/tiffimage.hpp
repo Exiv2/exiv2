@@ -78,21 +78,7 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         void readMetadata();
-        /*!
-          @brief Todo: Write metadata back to the image. This method is not
-              yet implemented. Calling it will throw an Error(31).
-         */
         void writeMetadata();
-        /*!
-          @brief Todo: Not supported yet, requires writeMetadata(). Calling 
-              this function will throw an Error(32).
-         */
-        void setExifData(const ExifData& exifData);
-        /*!
-          @brief Todo: Not supported yet, requires writeMetadata(). Calling 
-              this function will throw an Error(32).
-         */
-        void setIptcData(const IptcData& iptcData);
         /*!
           @brief Not supported. TIFF format does not contain a comment.
               Calling this function will throw an Error(32).
@@ -119,90 +105,75 @@ namespace Exiv2 {
     }; // class TiffImage
 
     /*!
-      @brief Abstract base class defining the interface of an image header.
-             Used internally by classes for TIFF-based images.  Default
-             implementation is for the regular TIFF header.
+      @brief Stateless parser class for data in TIFF format. Images use this
+             class to decode and encode TIFF data. It is a wrapper of the
+             internal class Internal::TiffParserWorker.
      */
-    class TiffHeaderBase {
+    class TiffParser {
     public:
-        //! @name Constructors
-        //@{
-        //! Constructor taking \em tag, \em size and default \em byteOrder and \em offset.
-        TiffHeaderBase(uint16_t  tag,
-                       uint32_t  size,
-                       ByteOrder byteOrder,
-                       uint32_t  offset);
-        //! Virtual destructor.
-        virtual ~TiffHeaderBase() =0;
-        //@}
-
-        //! @name Manipulators
-        //@{
         /*!
-          @brief Read the image header from a data buffer. Return false if the
-                 data buffer does not contain an image header of the expected
-                 format, else true.
+          @brief Decode metadata from a buffer \em pData of length \em size
+                 with data in TIFF format to the provided metadata containers.
 
-          @param pData Pointer to the data buffer.
-          @param size  Number of bytes in the data buffer.
-         */
-        virtual bool read(const byte* pData, uint32_t size);
-        //! Set the byte order.
-        virtual void setByteOrder(ByteOrder byteOrder);
-        //! Set the offset to the start of the root directory.
-        virtual void setOffset(uint32_t offset);
-        //@}
+          @param exifData Exif metadata container.
+          @param iptcData IPTC metadata container.
+          @param xmpData  XMP metadata container.
+          @param pData    Pointer to the data buffer. Must point to data in TIFF
+                          format; no checks are performed.
+          @param size     Length of the data buffer.
 
-        //! @name Accessors
-        //@{
+          @return Byte order in which the data is encoded.
+        */
+        static ByteOrder decode(
+                  ExifData& exifData,
+                  IptcData& iptcData,
+                  XmpData&  xmpData,
+            const byte*     pData,
+                  uint32_t  size
+        );
         /*!
-          @brief Write the image header to the binary image \em blob.
-                 This method appends to the blob.
+          @brief Encode metadata from the provided metadata to TIFF format.
 
-          @param blob Binary image to add to.
+          The original binary image in the memory block \em pData, \em size is
+          parsed and updated in-place if possible ("non-intrusive" writing).
+          If that is not possible (e.g., if new tags were added), the entire
+          TIFF structure is re-written to the \em blob ("intrusive" writing).<br>
+          The return value indicates which write method was used. If it is
+          \c wmNonIntrusive, the original memory \em pData, \em size contains
+          the result and \em blob is empty. If the return value is
+          \c wmIntrusive, a new TIFF structure was created and returned in
+          \em blob. The memory block \em pData, \em size may be partly updated
+          in this case and should not be used anymore.
 
-          @throw Error If the header cannot be written.
-         */
-        virtual void write(Blob& blob) const;
-        /*!
-          @brief Print debug info for the image header to \em os.
+          @note If there is no metadata to encode, i.e., all metadata
+                containers are empty, then the return value is \c wmIntrusive
+                and the \em blob is empty, i.e., no TIFF header is written.
 
-          @param os Output stream to write to.
-          @param prefix Prefix to be written before each line of output.
-         */
-        virtual void print(std::ostream& os, const std::string& prefix ="") const;
-        //! Return the byte order (little or big endian).
-        virtual ByteOrder byteOrder() const;
-        //! Return the offset to the start of the root directory.
-        virtual uint32_t offset() const;
-        //! Return the size (in bytes) of the image header.
-        virtual uint32_t size() const;
-        //! Return the tag value (magic number) which identifies the buffer as TIFF data
-        virtual uint16_t tag() const;
-        //@}
+          @param blob      Container for the binary image if "intrusive"
+                           writing is necessary. Empty otherwise.
+          @param pData     Pointer to the binary image data buffer. Must
+                           point to data in TIFF format; no checks are
+                           performed. Will be modified if "non-intrusive"
+                           writing is possible.
+          @param size      Length of the data buffer.
+          @param byteOrder Byte order to use.
+          @param exifData  Exif metadata container.
+          @param iptcData  IPTC metadata container.
+          @param xmpData   XMP metadata container.
 
-    private:
-        // DATA
-        const uint16_t tag_;       //!< Tag to identify the buffer as TIFF data
-        const uint32_t size_;      //!< Size of the header
-        ByteOrder      byteOrder_; //!< Applicable byte order
-        uint32_t       offset_;    //!< Offset to the start of the root dir
+          @return Write method used.
+        */
+        static WriteMethod encode(
+                  Blob&     blob,
+            const byte*     pData,
+                  uint32_t  size,
+                  ByteOrder byteOrder,
+            const ExifData& exifData,
+            const IptcData& iptcData,
+            const XmpData&  xmpData
+        );
 
-    }; // class TiffHeaderBase
-
-    /*!
-      @brief Standard TIFF header structure.
-     */
-    class TiffHeade2 : public TiffHeaderBase {
-    public:
-        //! @name Creators
-        //@{
-        //! Default constructor
-        TiffHeade2();
-        //! Destructor
-        ~TiffHeade2();
-        //@}
-    }; // class TiffHeade2
+    }; // class TiffParser
 
 // *****************************************************************************
 // template, inline and free functions
