@@ -96,12 +96,12 @@ Iptc.Application2.LocationName               String     12  Kuala Lumpur
 Testcase 14
 ===========
 Exif.Image.ExifTag                           Long        1  38
-Exif.Image.GPSTag                            Long        1  134
 Exif.Photo.ExifVersion                       Undefined   4  48 50 50 49 
 Exif.Photo.DateTimeOriginal                  Ascii      20  2003:12:14 12:01:44
 Exif.Photo.ComponentsConfiguration           Undefined   4  1 2 3 0 
 Exif.Photo.Flash                             Short       1  73
 Exif.Photo.SubSecTimeOriginal                Ascii      10  999999999
+Exif.Image.GPSTag                            Long        1  134
 Exif.GPSInfo.GPSVersionID                    Byte        4  2 2 0 1 
 Exif.GPSInfo.GPSLatitudeRef                  Ascii       2  N
 Exif.GPSInfo.GPSLatitude                     Rational    3  3/1 8/1 29734512/1000000
@@ -150,12 +150,12 @@ Xmp.tiff.DateTime                            XmpText    20  2003-12-14T12:01:44Z
 Xmp.photoshop.DateCreated                    XmpText    10  2007-05-09
 Exif.Image.DateTime                          Ascii      20  2003:12:14 20:01:44
 Exif.Image.ExifTag                           Long        1  70
-Exif.Image.GPSTag                            Long        1  166
 Exif.Photo.ExifVersion                       Undefined   4  48 50 50 49 
 Exif.Photo.DateTimeOriginal                  Ascii      20  2003:12:14 12:01:44
 Exif.Photo.ComponentsConfiguration           Undefined   4  1 2 3 0 
 Exif.Photo.Flash                             Short       1  73
 Exif.Photo.SubSecTimeOriginal                Ascii      10  999999999
+Exif.Image.GPSTag                            Long        1  166
 Exif.GPSInfo.GPSVersionID                    Byte        4  2 2 0 1 
 Exif.GPSInfo.GPSLatitudeRef                  Ascii       2  N
 Exif.GPSInfo.GPSLatitude                     Rational    3  3/1 8/1 1858407/62500

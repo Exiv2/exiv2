@@ -19,21 +19,20 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*!
-  @file    makernote2.hpp
-  @brief   Makernote TIFF composite class TiffIfdMakernote and classes for
-           various makernote headers.
+  @file    makernote2_int.hpp
+  @brief   Internal Makernote TIFF composite class TiffIfdMakernote and classes
+           for various makernote headers.
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    11-Apr-06, ahu: created
  */
-#ifndef MAKERNOTE2_HPP_
-#define MAKERNOTE2_HPP_
+#ifndef MAKERNOTE2_INT_HPP_
+#define MAKERNOTE2_INT_HPP_
 
 // *****************************************************************************
 // included header files
-#include "tiffcomposite.hpp"
-#include "tiffvisitor.hpp"
+#include "tiffcomposite_int.hpp"
 #include "types.hpp"
 
 // + standard includes
@@ -42,6 +41,7 @@
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
+    namespace Internal {
 
     namespace Group {
         const uint16_t olympmn   = 257; //!< Olympus makernote
@@ -72,7 +72,7 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
-    //! Type for a pointer to a function creating a makernote
+    //! Type for a pointer to a function creating a makernote (image)
     typedef TiffComponent* (*NewMnFct)(uint16_t    tag,
                                        uint16_t    group,
                                        uint16_t    mnGroup,
@@ -80,28 +80,31 @@ namespace Exiv2 {
                                        uint32_t    size,
                                        ByteOrder   byteOrder);
 
+    //! Type for a pointer to a function creating a makernote (group)
+    typedef TiffComponent* (*NewMnFct2)(uint16_t   tag,
+                                        uint16_t   group,
+                                        uint16_t   mnGroup);
+
     //! Makernote registry structure
     struct TiffMnRegistry {
-        struct Key;
+        struct MakeKey;
         /*!
-          @brief Compare a TiffMnRegistry structure with a TiffMnRegistry::Key
-                 The two are equal if TiffMnRegistry::make_ equals a substring
-                 of the key of the same size. E.g., registry = "OLYMPUS",
+          @brief Compare a TiffMnRegistry structure with a key being the make
+                 string from the image. The two are equal if
+                 TiffMnRegistry::make_ equals a substring of the key of the
+                 same size. E.g., registry = "OLYMPUS",
                  key = "OLYMPUS OPTICAL CO.,LTD" (found in the image) match.
          */
-        bool operator==(const Key& key) const;
+        bool operator==(const std::string& key) const;
+
+        //! Compare a TiffMnRegistry structure with a makernote group
+        bool operator==(const uint16_t& key) const;
 
         // DATA
         const char* make_;                      //!< Camera make
-        NewMnFct    newMnFct_;                  //!< Makernote create function
         uint16_t    mnGroup_;                   //!< Group identifier
-    };
-
-    //! Search key for Makernote registry structure.
-    struct TiffMnRegistry::Key {
-        //! Constructor
-        Key(const std::string& make) : make_(make) {}
-        std::string make_;                      //!< Camera make
+        NewMnFct    newMnFct_;                  //!< Makernote create function (image)
+        NewMnFct2   newMnFct2_;                 //!< Makernote create function (group)
     };
 
     /*!
@@ -113,7 +116,8 @@ namespace Exiv2 {
           @brief Create the Makernote for camera \em make and details from
                  the makernote entry itself if needed. Return a pointer to
                  the newly created TIFF component. Set tag and group of the
-                 new component to \em tag and \em group.
+                 new component to \em tag and \em group. This method is used
+                 when a makernote is parsed from the Exif block.
           @note  Ownership for the component is transferred to the caller,
                  who is responsible to delete the component. No smart pointer
                  is used to indicate this transfer here in order to reduce
@@ -125,6 +129,14 @@ namespace Exiv2 {
                                      const byte*        pData,
                                      uint32_t           size,
                                      ByteOrder          byteOrder);
+        /*!
+          @brief Create the Makernote for a given group. This method is used
+                 when a makernote is written back from Exif tags.
+         */
+        static TiffComponent* create(uint16_t           tag,
+                                     uint16_t           group,
+                                     uint16_t           mnGroup);
+
     protected:
         //! Prevent destruction (needed if used as a policy class)
         ~TiffMnCreator() {}
@@ -151,12 +163,15 @@ namespace Exiv2 {
         //@{
         //! Return the size of the header (in bytes).
         virtual uint32_t size() const =0;
+        //! Write the header to a data buffer, return the number of bytes written.
+        virtual uint32_t write(Blob&     blob,
+                               ByteOrder byteOrder) const =0;
         /*!
           @brief Return the offset to the start of the Makernote IFD from
                  the start of the Makernote (= the start of the header).
          */
         virtual uint32_t ifdOffset() const { return 0; }
- 	/*!
+        /*!
           @brief Return the byte order for the makernote. If the return value is
                  invalidByteOrder, this means that the byte order of the the
                  image should be used for the makernote.
@@ -179,7 +194,7 @@ namespace Exiv2 {
              Contains a makernote header (which can be 0) and an IFD and
              implements child mgmt functions to deal with the IFD entries. The
              various makernote weirdnesses are taken care of in the makernote
-             header.
+             header (and possibly in special purpose IFD entries).
      */
     class TiffIfdMakernote : public TiffComponent {
         friend class TiffReader;
@@ -211,12 +226,17 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
+        //! Return the size of the header in bytes.
+        uint32_t sizeHeader() const;
+        //! Write the header to a data buffer, return the number of bytes written.
+        uint32_t writeHeader(Blob& blob, ByteOrder byteOrder) const;
+        //@}
         /*!
           @brief Return the offset to the start of the Makernote IFD from
                  the start of the Makernote.
          */
         uint32_t ifdOffset() const;
- 	/*!
+        /*!
           @brief Return the byte order for the makernote. Default (if there is
                  no header) is invalidByteOrder. This means that the byte order
                  of the the image should be used for the makernote.
@@ -236,9 +256,66 @@ namespace Exiv2 {
     protected:
         //! @name Manipulators
         //@{
-        virtual void doAddChild(TiffComponent::AutoPtr tiffComponent);
-        virtual void doAddNext(TiffComponent::AutoPtr tiffComponent);
+        virtual TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath);
+        virtual TiffComponent* doAddChild(TiffComponent::AutoPtr tiffComponent);
+        virtual TiffComponent* doAddNext(TiffComponent::AutoPtr tiffComponent);
         virtual void doAccept(TiffVisitor& visitor);
+        //@}
+
+        //! @name Write support (Manipulators)
+        //@{
+        /*!
+          @brief Implements write(). Write the Makernote header, TIFF directory,
+                 values and additional data to the blob, return the number of
+                 bytes written.
+         */
+        virtual uint32_t doWrite(Blob&     blob,
+                                 ByteOrder byteOrder,
+                                 int32_t   offset,
+                                 uint32_t  valueIdx,
+                                 uint32_t  dataIdx,
+                                 uint32_t  imageIdx);
+        //@}
+        //! @name Write support (Accessors)
+        //@{
+        /*!
+          @brief This class does not really implement writeData(), it only has
+                 write(). This method must not be called; it commits suicide.
+         */
+        virtual uint32_t doWriteData(Blob&     blob,
+                                     ByteOrder byteOrder,
+                                     int32_t   offset,
+                                     uint32_t  dataIdx,
+                                     uint32_t  imageIdx) const;
+        /*!
+          @brief This class does not really implement writeImage(), it only has
+                 write(). This method must not be called; it commits suicide.
+         */
+        virtual uint32_t doWriteImage(Blob&     blob,
+                                      ByteOrder byteOrder,
+                                      int32_t   offset,
+                                      uint32_t  imageIdx) const;
+        /*!
+          @brief Implements size(). Return the size of the Makernote header,
+                 TIFF directory, values and additional data.
+         */
+        virtual uint32_t doSize() const;
+        /*!
+          @brief Implements count(). Return the number of entries in the IFD
+                 of the Makernote. Does not count entries which are marked as
+                 deleted.
+         */
+        virtual uint32_t doCount() const;
+        /*!
+          @brief This class does not really implement sizeData(), it only has
+                 size(). This method must not be called; it commits suicide.
+         */
+        virtual uint32_t doSizeData() const;
+        /*!
+          @brief This class does not really implement sizeData(), it only has
+                 size(). This method must not be called; it commits suicide.
+         */
+        virtual uint32_t doSizeImage() const;
         //@}
 
     private:
@@ -267,6 +344,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         virtual uint32_t size()      const { return header_.size_; }
+        virtual uint32_t write(Blob& blob, ByteOrder byteOrder) const;
         virtual uint32_t ifdOffset() const { return size_; }
         //@}
 
@@ -296,9 +374,10 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         virtual uint32_t  size()      const { return header_.size_; }
+        virtual uint32_t  write(Blob& blob, ByteOrder byteOrder) const;
         virtual uint32_t  ifdOffset() const { return start_; }
         virtual ByteOrder byteOrder() const { return byteOrder_; }
-        virtual uint32_t baseOffset(uint32_t mnOffset) const { return mnOffset; }
+        virtual uint32_t  baseOffset(uint32_t mnOffset) const { return mnOffset; }
         //@}
 
     private:
@@ -329,6 +408,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         virtual uint32_t size()      const { return size_; }
+        virtual uint32_t write(Blob& blob, ByteOrder byteOrder) const;
         virtual uint32_t ifdOffset() const { return start_; }
         //@}
 
@@ -359,6 +439,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         virtual uint32_t  size()      const { return size_; }
+        virtual uint32_t  write(Blob& blob, ByteOrder byteOrder) const;
         virtual uint32_t  ifdOffset() const { return start_; }
         virtual ByteOrder byteOrder() const { return byteOrder_; }
         virtual uint32_t  baseOffset(uint32_t mnOffset) const { return mnOffset + 10; }
@@ -392,6 +473,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         virtual uint32_t size()      const { return size_; }
+        virtual uint32_t write(Blob& blob, ByteOrder byteOrder) const;
         virtual uint32_t ifdOffset() const { return start_; }
         //@}
 
@@ -422,6 +504,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         virtual uint32_t size()      const { return header_.size_; }
+        virtual uint32_t write(Blob& blob, ByteOrder byteOrder) const;
         virtual uint32_t ifdOffset() const { return size_; }
         //@}
 
@@ -451,6 +534,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         virtual uint32_t size()      const { return size_; }
+        virtual uint32_t write(Blob& blob, ByteOrder byteOrder) const;
         virtual uint32_t ifdOffset() const { return start_; }
         //@}
 
@@ -482,6 +566,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         virtual uint32_t size()      const { return size_; }
+        virtual uint32_t write(Blob& blob, ByteOrder byteOrder) const;
         virtual uint32_t ifdOffset() const { return start_; }
         //@}
 
@@ -496,21 +581,18 @@ namespace Exiv2 {
 // *****************************************************************************
 // template, inline and free functions
 
-    //! Function to create a Canon makernote
-    TiffComponent* newCanonMn(uint16_t    tag,
-                              uint16_t    group,
-                              uint16_t    mnGroup,
-                              const byte* pData,
-                              uint32_t    size,
-                              ByteOrder   byteOrder);
+    //! Function to create a simple IFD makernote (Canon, Minolta, Nikon1)
+    TiffComponent* newIfdMn(uint16_t    tag,
+                            uint16_t    group,
+                            uint16_t    mnGroup,
+                            const byte* pData,
+                            uint32_t    size,
+                            ByteOrder   byteOrder);
 
-    //! Function to create a Minolta makernote
-    TiffComponent* newMinoltaMn(uint16_t    tag,
-                                uint16_t    group,
-                                uint16_t    mnGroup,
-                                const byte* pData,
-                                uint32_t    size,
-                                ByteOrder   byteOrder);
+    //! Function to create a simple IFD makernote (Canon, Minolta, Nikon1)
+    TiffComponent* newIfdMn2(uint16_t tag,
+                             uint16_t group,
+                             uint16_t mnGroup);
 
     //! Function to create an Olympus makernote
     TiffComponent* newOlympusMn(uint16_t    tag,
@@ -520,6 +602,11 @@ namespace Exiv2 {
                                 uint32_t    size,
                                 ByteOrder   byteOrder);
 
+    //! Function to create an Olympus makernote
+    TiffComponent* newOlympusMn2(uint16_t tag,
+                                 uint16_t group,
+                                 uint16_t mnGroup);
+
     //! Function to create a Fujifilm makernote
     TiffComponent* newFujiMn(uint16_t    tag,
                              uint16_t    group,
@@ -527,6 +614,11 @@ namespace Exiv2 {
                              const byte* pData,
                              uint32_t    size,
                              ByteOrder   byteOrder);
+
+    //! Function to create a Fujifilm makernote
+    TiffComponent* newFujiMn2(uint16_t tag,
+                              uint16_t group,
+                              uint16_t mnGroup);
 
     /*!
       @brief Function to create a Nikon makernote. This will create the
@@ -539,6 +631,16 @@ namespace Exiv2 {
                               uint32_t    size,
                               ByteOrder   byteOrder);
 
+    //! Function to create a Nikon2 makernote
+    TiffComponent* newNikon2Mn2(uint16_t tag,
+                                uint16_t group,
+                                uint16_t mnGroup);
+
+    //! Function to create a Nikon3 makernote
+    TiffComponent* newNikon3Mn2(uint16_t tag,
+                                uint16_t group,
+                                uint16_t mnGroup);
+
     //! Function to create a Panasonic makernote
     TiffComponent* newPanasonicMn(uint16_t    tag,
                                   uint16_t    group,
@@ -547,13 +649,23 @@ namespace Exiv2 {
                                   uint32_t    size,
                                   ByteOrder   byteOrder);
 
+    //! Function to create a Panasonic makernote
+    TiffComponent* newPanasonicMn2(uint16_t tag,
+                                   uint16_t group,
+                                   uint16_t mnGroup);
+
     //! Function to create an Pentax makernote
     TiffComponent* newPentaxMn(uint16_t    tag,
-                                uint16_t    group,
-                                uint16_t    mnGroup,
-                                const byte* pData,
-                                uint32_t    size,
-                                ByteOrder   byteOrder);
+                               uint16_t    group,
+                               uint16_t    mnGroup,
+                               const byte* pData,
+                               uint32_t    size,
+                               ByteOrder   byteOrder);
+
+    //! Function to create an Pentax makernote
+    TiffComponent* newPentaxMn2(uint16_t tag,
+                                uint16_t group,
+                                uint16_t mnGroup);
 
     //! Function to create a Sigma makernote
     TiffComponent* newSigmaMn(uint16_t    tag,
@@ -563,6 +675,11 @@ namespace Exiv2 {
                               uint32_t    size,
                               ByteOrder   byteOrder);
 
+    //! Function to create a Sigma makernote
+    TiffComponent* newSigmaMn2(uint16_t tag,
+                               uint16_t group,
+                               uint16_t mnGroup);
+
     //! Function to create a Sony makernote
     TiffComponent* newSonyMn(uint16_t    tag,
                              uint16_t    group,
@@ -571,6 +688,16 @@ namespace Exiv2 {
                              uint32_t    size,
                              ByteOrder   byteOrder);
 
-}                                       // namespace Exiv2
+    //! Function to create a Sony1 makernote
+    TiffComponent* newSony1Mn2(uint16_t tag,
+                               uint16_t group,
+                               uint16_t mnGroup);
 
-#endif                                  // #ifndef MAKERNOTE2_HPP_
+    //! Function to create a Sony2 makernote
+    TiffComponent* newSony2Mn2(uint16_t tag,
+                               uint16_t group,
+                               uint16_t mnGroup);
+
+}}                                      // namespace Internal, Exiv2
+
+#endif                                  // #ifndef MAKERNOTE2_INT_HPP_

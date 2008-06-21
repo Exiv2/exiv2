@@ -58,22 +58,19 @@ BINSRC = addmoddel.cpp        \
          convert-test.cpp     \
          crwedit.cpp          \
          crwparse.cpp         \
-         dataarea-test.cpp    \
          exifcomment.cpp      \
          exifdata-test.cpp    \
          exifprint.cpp        \
-         ifd-test.cpp         \
          iotest.cpp           \
          iptceasy.cpp         \
          iptcprint.cpp        \
          iptctest.cpp         \
          key-test.cpp         \
          largeiptc-test.cpp   \
-         makernote-test.cpp   \
          stringto-test.cpp    \
+         tiff-test.cpp        \
          write-test.cpp       \
          write2-test.cpp      \
-         tiffparse.cpp        \
          xmpparse.cpp         \
          xmpparser-test.cpp   \
          xmpsample.cpp

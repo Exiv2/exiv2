@@ -75,7 +75,7 @@ try {
     ed3["Exif.Photo.DateTimeOriginal"] = "Sunday, 11am";
     ed3["Exif.Photo.MeteringMode"] = uint16_t(1);
     ed3["Exif.Iop.InteroperabilityIndex"] = "123";
-//    ed3["Exif.Thumbnail.Orientation"] = uint16_t(2);
+    ed3["Exif.Thumbnail.Orientation"] = uint16_t(2);
     write(file, ed3);
     print(file);
     std::cout << "----------------------------------------------\n";

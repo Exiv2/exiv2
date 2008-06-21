@@ -57,10 +57,22 @@ SHELL = /bin/sh
 .PHONY: all test clean distclean maintainer-clean
 
 # Add test drivers to this list
-TESTS = addmoddel.sh bugfixes-test.sh crw-test.sh exifdata-test.sh \
-	exiv2-test.sh ifd-test.sh imagetest.sh iotest.sh iptctest.sh \
-	makernote-test.sh modify-test.sh path-test.sh stringto-test.sh \
-        write-test.sh write2-test.sh xmpparser-test.sh conversions.sh
+TESTS = addmoddel.sh      \
+        bugfixes-test.sh  \
+        crw-test.sh       \
+        exifdata-test.sh  \
+        exiv2-test.sh     \
+        imagetest.sh      \
+        iotest.sh         \
+        iptctest.sh       \
+        modify-test.sh    \
+        path-test.sh      \
+        stringto-test.sh  \
+        tiff-test.sh      \
+        write-test.sh     \
+        write2-test.sh    \
+        xmpparser-test.sh \
+        conversions.sh
 
 test:
 	@list='$(TESTS)'; for p in $$list; do \

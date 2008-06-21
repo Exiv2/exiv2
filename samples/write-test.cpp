@@ -17,7 +17,6 @@
 // included header files
 #include <exiv2/image.hpp>
 #include <exiv2/exif.hpp>
-#include <exiv2/makernote.hpp>
 
 #include <iostream>
 #include <sstream>
@@ -195,7 +194,8 @@ void testCase(const std::string& file1,
     exifPrint(ed2);
 
     std::cerr << "---> Writing Exif thumbnail to file " << thumb << ".*\n";
-    ed2.writeThumbnail(thumb);
+    ExifThumbC et2(ed2);
+    et2.writeFile(thumb);
 }
 
 // *****************************************************************************

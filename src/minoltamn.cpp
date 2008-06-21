@@ -35,7 +35,6 @@ EXIV2_RCSID("@(#) $Id$")
 // included header files
 #include "types.hpp"
 #include "minoltamn.hpp"
-#include "makernote.hpp"
 #include "value.hpp"
 #include "tags.hpp"
 #include "i18n.h"                // NLS support.
@@ -531,42 +530,42 @@ namespace Exiv2 {
         { 2, N_("Manual flash control")                }
     };
 
-    std::ostream& MinoltaMakerNote::printMinoltaExposureSpeedStd(std::ostream& os, const Value& value)
+    std::ostream& MinoltaMakerNote::printMinoltaExposureSpeedStd(std::ostream& os, const Value& value, const ExifData*)
     {
         // From the PHP JPEG Metadata Toolkit
         os << (value.toLong()/8)-1;
         return os;
     }
 
-    std::ostream& MinoltaMakerNote::printMinoltaExposureTimeStd(std::ostream& os, const Value& value)
+    std::ostream& MinoltaMakerNote::printMinoltaExposureTimeStd(std::ostream& os, const Value& value, const ExifData*)
     {
         // From the PHP JPEG Metadata Toolkit
         os << (value.toLong()/8)-6;
         return os;
     }
 
-    std::ostream& MinoltaMakerNote::printMinoltaFNumberStd(std::ostream& os, const Value& value)
+    std::ostream& MinoltaMakerNote::printMinoltaFNumberStd(std::ostream& os, const Value& value, const ExifData*)
     {
         // From the PHP JPEG Metadata Toolkit
         os << (value.toLong()/8)-1;
         return os;
     }
 
-    std::ostream& MinoltaMakerNote::printMinoltaExposureCompensationStd(std::ostream& os, const Value& value)
+    std::ostream& MinoltaMakerNote::printMinoltaExposureCompensationStd(std::ostream& os, const Value& value, const ExifData*)
     {
         // From the PHP JPEG Metadata Toolkit
         os << value.toLong()/256;
         return os;
     }
 
-    std::ostream& MinoltaMakerNote::printMinoltaFocalLengthStd(std::ostream& os, const Value& value)
+    std::ostream& MinoltaMakerNote::printMinoltaFocalLengthStd(std::ostream& os, const Value& value, const ExifData*)
     {
         // From the PHP JPEG Metadata Toolkit
         os << (value.toLong()/3)-2;
         return os;
     }
 
-    std::ostream& MinoltaMakerNote::printMinoltaDateStd(std::ostream& os, const Value& value)
+    std::ostream& MinoltaMakerNote::printMinoltaDateStd(std::ostream& os, const Value& value, const ExifData*)
     {
         // From the PHP JPEG Metadata Toolkit
         os << value.toLong() / 65536 << ":" << std::right << std::setw(2) << std::setfill('0')
@@ -575,7 +574,7 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& MinoltaMakerNote::printMinoltaTimeStd(std::ostream& os, const Value& value)
+    std::ostream& MinoltaMakerNote::printMinoltaTimeStd(std::ostream& os, const Value& value, const ExifData*)
     {
         // From the PHP JPEG Metadata Toolkit
         os << std::right << std::setw(2) << std::setfill('0') << value.toLong() / 65536
@@ -585,21 +584,21 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& MinoltaMakerNote::printMinoltaFlashExposureCompStd(std::ostream& os, const Value& value)
+    std::ostream& MinoltaMakerNote::printMinoltaFlashExposureCompStd(std::ostream& os, const Value& value, const ExifData*)
     {
         // From the PHP JPEG Metadata Toolkit
         os << (value.toLong()-6)/3;
         return os;
     }
 
-    std::ostream& MinoltaMakerNote::printMinoltaWhiteBalanceStd(std::ostream& os, const Value& value)
+    std::ostream& MinoltaMakerNote::printMinoltaWhiteBalanceStd(std::ostream& os, const Value& value, const ExifData*)
     {
         // From the PHP JPEG Metadata Toolkit
         os << value.toLong()/256;
         return os;
     }
 
-    std::ostream& MinoltaMakerNote::printMinoltaBrightnessStd(std::ostream& os, const Value& value)
+    std::ostream& MinoltaMakerNote::printMinoltaBrightnessStd(std::ostream& os, const Value& value, const ExifData*)
     {
         // From the PHP JPEG Metadata Toolkit
         os << (value.toLong()/8)-6;
@@ -1096,7 +1095,7 @@ namespace Exiv2 {
     };
 
     //! Method to convert Minolta Dynax 5D exposure manual bias values.
-    std::ostream& MinoltaMakerNote::printMinoltaExposureManualBias5D(std::ostream& os, const Value& value)
+    std::ostream& MinoltaMakerNote::printMinoltaExposureManualBias5D(std::ostream& os, const Value& value, const ExifData*)
     {
         // From Xavier Raynaud: the value is converted from 0:256 to -5.33:5.33
 
@@ -1109,7 +1108,7 @@ namespace Exiv2 {
     }
 
     //! Method to convert Minolta Dynax 5D exposure compensation values.
-    std::ostream& MinoltaMakerNote::printMinoltaExposureCompensation5D(std::ostream& os, const Value& value)
+    std::ostream& MinoltaMakerNote::printMinoltaExposureCompensation5D(std::ostream& os, const Value& value, const ExifData*)
     {
         std::ostringstream oss;
         oss.copyfmt(os);
@@ -1218,307 +1217,5 @@ namespace Exiv2 {
     }
 
     // TODO : Add camera settings tags info "New2"...
-
-    //! @cond IGNORE
-    MinoltaMakerNote::RegisterMn::RegisterMn()
-    {
-        MakerNoteFactory::registerMakerNote("KONICA MINOLTA*", "*", createMinoltaMakerNote);
-        MakerNoteFactory::registerMakerNote("Minolta*", "*", createMinoltaMakerNote);
-
-        MakerNoteFactory::registerMakerNote(minoltaIfdId,      MakerNote::AutoPtr(new MinoltaMakerNote));
-        MakerNoteFactory::registerMakerNote(minoltaCs5DIfdId,  MakerNote::AutoPtr(new MinoltaMakerNote));
-        MakerNoteFactory::registerMakerNote(minoltaCs7DIfdId,  MakerNote::AutoPtr(new MinoltaMakerNote));
-        MakerNoteFactory::registerMakerNote(minoltaCsOldIfdId, MakerNote::AutoPtr(new MinoltaMakerNote));
-        MakerNoteFactory::registerMakerNote(minoltaCsNewIfdId, MakerNote::AutoPtr(new MinoltaMakerNote));
-    }
-    //! @endcond
-
-    int MinoltaMakerNote::read(const byte* buf, long len, long start, ByteOrder byteOrder, long shift)
-    {
-        int rc = IfdMakerNote::read(buf, len, start, byteOrder, shift);
-        if (rc) return rc;
-
-        // Decode Dynax 5D camera settings and add settings as additional entries
-        Entries::iterator cs5D = ifd_.findTag(0x0114);
-
-        if (cs5D != ifd_.end() && cs5D->type() == undefined) {
-            for (uint16_t c = 0; cs5D->count()/2 > c; ++c)  {
-                addCsEntry(minoltaCs5DIfdId, c, cs5D->offset() + c*2, cs5D->data() + c*2, 1);
-            }
-            // Discard the original entry
-            ifd_.erase(cs5D);
-        }
-
-        // Decode Dynax 7D camera settings and add settings as additional entries
-        Entries::iterator cs7D = ifd_.findTag(0x0004);
-
-        if (cs7D != ifd_.end() && cs7D->type() == undefined) {
-            for (uint16_t c = 0; cs7D->count()/2 > c; ++c)  {
-                addCsEntry(minoltaCs7DIfdId, c, cs7D->offset() + c*2, cs7D->data() + c*2, 1);
-            }
-            // Discard the original entry
-            ifd_.erase(cs7D);
-        }
-
-        // Decode Old Std camera settings and add settings as additional entries
-        Entries::iterator csOldStd = ifd_.findTag(0x0001);
-
-        if (csOldStd != ifd_.end() && csOldStd->type() == undefined) {
-            for (uint16_t c = 0; csOldStd->count()/4 > c; ++c)  {
-                addCsStdEntry(minoltaCsOldIfdId, c, csOldStd->offset() + c*4, csOldStd->data() + c*4, 1);
-            }
-            // Discard the original entry
-            ifd_.erase(csOldStd);
-        }
-
-        // Decode New Std camera settings and add settings as additional entries
-        Entries::iterator csNewStd = ifd_.findTag(0x0003);
-
-        if (csNewStd != ifd_.end() && csNewStd->type() == undefined) {
-            for (uint16_t c = 0; csNewStd->count()/4 > c; ++c)  {
-                addCsStdEntry(minoltaCsNewIfdId, c, csNewStd->offset() + c*4, csNewStd->data() + c*4, 1);
-            }
-            // Discard the original entry
-            ifd_.erase(csNewStd);
-        }
-
-        // Copy remaining ifd entries
-        entries_.insert(entries_.begin(), ifd_.begin(), ifd_.end());
-
-        // Set idx
-        int idx = 0;
-        Entries::iterator e = entries_.end();
-        for (Entries::iterator i = entries_.begin(); i != e; ++i) {
-            i->setIdx(++idx);
-        }
-
-        return 0;
-    }
-
-    void MinoltaMakerNote::addCsEntry(IfdId ifdId, uint16_t tag, long offset, const byte* data, int count)
-    {
-        Entry e(false);
-        e.setIfdId(ifdId);
-        e.setTag(tag);
-        e.setOffset(offset);
-        e.setValue(unsignedShort, count, data, 2*count, bigEndian);
-        add(e);
-    }
-
-    void MinoltaMakerNote::addCsStdEntry(IfdId ifdId, uint32_t tag, long offset, const byte* data, int count)
-    {
-        Entry e(false);
-        e.setIfdId(ifdId);
-        e.setTag(tag);
-        e.setOffset(offset);
-        e.setValue(unsignedLong, count, data, 4*count, bigEndian);
-        add(e);
-    }
-
-    void MinoltaMakerNote::add(const Entry& entry)
-    {
-        assert(alloc_ == entry.alloc());
-        assert(   entry.ifdId() == minoltaIfdId
-               || entry.ifdId() == minoltaCs5DIfdId
-               || entry.ifdId() == minoltaCs7DIfdId
-               || entry.ifdId() == minoltaCsOldIfdId
-               || entry.ifdId() == minoltaCsNewIfdId);
-        // allow duplicates
-        entries_.push_back(entry);
-    }
-
-    long MinoltaMakerNote::copy(byte* buf, ByteOrder byteOrder, long offset)
-    {
-        if (byteOrder_ == invalidByteOrder) byteOrder_ = byteOrder;
-
-        assert(ifd_.alloc());
-        ifd_.clear();
-
-        // Add all standard Minolta entries to the IFD
-        Entries::const_iterator end = entries_.end();
-        for (Entries::const_iterator i = entries_.begin(); i != end; ++i) {
-            if (i->ifdId() == minoltaIfdId) {
-                ifd_.add(*i);
-            }
-        }
-
-        // Collect Dynax 5D camera settings entries and add the original Minolta tag
-        Entry cs5D;
-        if (assemble(cs5D, minoltaCs5DIfdId, 0x0114, bigEndian)) {
-            ifd_.erase(0x0114);
-            ifd_.add(cs5D);
-        }
-
-        // Collect Dynax 7D camera settings entries and add the original Minolta tag
-        Entry cs7D;
-        if (assemble(cs7D, minoltaCs7DIfdId, 0x0004, bigEndian)) {
-            ifd_.erase(0x0004);
-            ifd_.add(cs7D);
-        }
-
-        // Collect Old Std camera settings entries and add the original Minolta tag
-        Entry csOldStd;
-        if (assembleStd(csOldStd, minoltaCsOldIfdId, 0x0001, bigEndian)) {
-            ifd_.erase(0x0001);
-            ifd_.add(csOldStd);
-        }
-
-        // Collect New Std camera settings entries and add the original Minolta tag
-        Entry csNewStd;
-        if (assembleStd(csNewStd, minoltaCsNewIfdId, 0x0003, bigEndian)) {
-            ifd_.erase(0x0003);
-            ifd_.add(csNewStd);
-        }
-
-        return IfdMakerNote::copy(buf, byteOrder_, offset);
-    } // MinoltaMakerNote::copy
-
-    void MinoltaMakerNote::updateBase(byte* pNewBase)
-    {
-        byte* pBase = ifd_.updateBase(pNewBase);
-        if (absShift_ && !alloc_) {
-            Entries::iterator end = entries_.end();
-            for (Entries::iterator pos = entries_.begin(); pos != end; ++pos) {
-                pos->updateBase(pBase, pNewBase);
-            }
-        }
-    } // MinoltaMakerNote::updateBase
-
-    long MinoltaMakerNote::size() const
-    {
-        Ifd ifd(minoltaIfdId, 0, alloc_); // offset doesn't matter
-
-        // Add all standard Minolta entries to the IFD
-        Entries::const_iterator end = entries_.end();
-        for (Entries::const_iterator i = entries_.begin(); i != end; ++i) {
-            if (i->ifdId() == minoltaIfdId) {
-                ifd.add(*i);
-            }
-        }
-        // Collect Dynax 5D camera settings entries and add the original Minolta tag
-        Entry cs5D(alloc_);
-        if (assemble(cs5D, minoltaCs5DIfdId, 0x0114, bigEndian)) {
-            ifd.erase(0x0114);
-            ifd.add(cs5D);
-        }
-
-        // Collect Dynax 7D camera settings entries and add the original Minolta tag
-        Entry cs7D(alloc_);
-        if (assemble(cs7D, minoltaCs7DIfdId, 0x0004, bigEndian)) {
-            ifd.erase(0x0004);
-            ifd.add(cs7D);
-        }
-
-        // Collect Old Std camera settings entries and add the original Minolta tag
-        Entry csOldStd(alloc_);
-        if (assembleStd(csOldStd, minoltaCsOldIfdId, 0x0001, bigEndian)) {
-            ifd.erase(0x0001);
-            ifd.add(csOldStd);
-        }
-
-        // Collect New Std camera settings entries and add the original Minolta tag
-        Entry csNewStd(alloc_);
-        if (assembleStd(csNewStd, minoltaCsNewIfdId, 0x0003, bigEndian)) {
-            ifd.erase(0x0003);
-            ifd.add(csNewStd);
-        }
-
-        return headerSize() + ifd.size() + ifd.dataSize();
-    } // MinoltaMakerNote::size
-
-    long MinoltaMakerNote::assemble(Entry& e, IfdId ifdId, uint16_t tag, ByteOrder /*byteOrder*/) const
-    {
-        DataBuf buf(1024);
-        std::memset(buf.pData_, 0x0, 1024);
-        uint16_t len = 0;
-        Entries::const_iterator end = entries_.end();
-        for (Entries::const_iterator i = entries_.begin(); i != end; ++i) {
-            if (i->ifdId() == ifdId) {
-                uint16_t pos = i->tag() * 2;
-                uint16_t size = pos + static_cast<uint16_t>(i->size());
-                assert(size <= 1024);
-                std::memcpy(buf.pData_ + pos, i->data(), i->size());
-                if (len < size) len = size;
-            }
-        }
-        if (len > 0) {
-            e.setIfdId(minoltaIfdId);
-            e.setIdx(0); // don't care
-            e.setTag(tag);
-            e.setOffset(0); // will be calculated when the IFD is written
-            e.setValue(undefined, len, buf.pData_, len * 2);
-        }
-        return len;
-    } // MinoltaMakerNote::assemble
-
-    long MinoltaMakerNote::assembleStd(Entry& e, IfdId ifdId, uint32_t tag, ByteOrder /*byteOrder*/) const
-    {
-        DataBuf buf(1024);
-        std::memset(buf.pData_, 0x0, 1024);
-        uint32_t len = 0;
-        Entries::const_iterator end = entries_.end();
-        for (Entries::const_iterator i = entries_.begin(); i != end; ++i) {
-            if (i->ifdId() == ifdId) {
-                uint32_t pos = i->tag() * 4;
-                uint32_t size = pos + static_cast<uint32_t>(i->size());
-                assert(size <= 1024);
-                std::memcpy(buf.pData_ + pos, i->data(), i->size());
-                if (len < size) len = size;
-            }
-        }
-        if (len > 0) {
-            e.setIfdId(minoltaIfdId);
-            e.setIdx(0); // don't care
-            e.setTag(tag);
-            e.setOffset(0); // will be calculated when the IFD is written
-            e.setValue(undefined, len, buf.pData_, len * 4);
-        }
-        return len;
-    } // MinoltaMakerNote::assembleStd
-
-    Entries::const_iterator MinoltaMakerNote::findIdx(int idx) const
-    {
-        return std::find_if(entries_.begin(), entries_.end(), FindEntryByIdx(idx));
-    }
-
-    MinoltaMakerNote::MinoltaMakerNote(bool alloc)
-        : IfdMakerNote(minoltaIfdId, alloc)
-    {
-    }
-
-    MinoltaMakerNote::MinoltaMakerNote(const MinoltaMakerNote& rhs)
-        : IfdMakerNote(rhs)
-    {
-        entries_ = rhs.entries_;
-    }
-
-    MinoltaMakerNote::AutoPtr MinoltaMakerNote::create(bool alloc) const
-    {
-        return AutoPtr(create_(alloc));
-    }
-
-    MinoltaMakerNote* MinoltaMakerNote::create_(bool alloc) const
-    {
-        return new MinoltaMakerNote(alloc);
-    }
-
-    MinoltaMakerNote::AutoPtr MinoltaMakerNote::clone() const
-    {
-        return AutoPtr(clone_());
-    }
-
-    MinoltaMakerNote* MinoltaMakerNote::clone_() const
-    {
-        return new MinoltaMakerNote(*this);
-    }
-
-// *****************************************************************************
-// free functions
-
-    MakerNote::AutoPtr createMinoltaMakerNote(bool alloc, const byte* /*buf*/, long /*len*/,
-                                              ByteOrder /*byteOrder*/, long /*offset*/)
-    {
-        return MakerNote::AutoPtr(new MinoltaMakerNote(alloc));
-    }
 
 }                                       // namespace Exiv2

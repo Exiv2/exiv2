@@ -8,7 +8,6 @@
   History:   07-Jan-04, ahu: created
  */
 // *****************************************************************************
-#include "makernote.hpp"
 #include "tags.hpp"
 #include "datasets.hpp"
 #include "properties.hpp"

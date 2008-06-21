@@ -36,9 +36,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "tags.hpp"
 #include "error.hpp"
 #include "futils.hpp"
-#include "ifd.hpp"
 #include "value.hpp"
-#include "makernote.hpp"
 #include "mn.hpp"                // To ensure that all makernotes are registered
 #include "i18n.h"                // NLS support.
 
@@ -513,9 +511,9 @@ namespace Exiv2 {
         TagInfo(0x9c9f, "XPSubject", N_("Windows Subject"),
                 N_("Subject tag used by Windows, encoded in UCS2"),
                 ifd0Id, otherTags, unsignedByte, printUcs2), // Windows Tag
-	TagInfo(0xc4a5, "PrintImageMatching", N_("Print Image Matching"),
-		N_("Print Image Matching, descriptiont needed."),
-		ifd0Id, otherTags, undefined, printValue),
+        TagInfo(0xc4a5, "PrintImageMatching", N_("Print Image Matching"),
+                N_("Print Image Matching, descriptiont needed."),
+                ifd0Id, otherTags, undefined, printValue),
         // End of list marker
         TagInfo(0xffff, "(UnknownIfdTag)", N_("Unknown IFD tag"),
                 N_("Unknown IFD tag"),
@@ -1259,6 +1257,20 @@ namespace Exiv2 {
         return rc;
     } // ExifTags::isMakerIfd
 
+    bool ExifTags::isExifIfd(IfdId ifdId)
+    {
+        bool rc;
+        switch (ifdId) {
+        case ifd0Id:    rc = true; break;
+        case exifIfdId: rc = true; break;
+        case gpsIfdId:  rc = true; break;
+        case iopIfdId:  rc = true; break;
+        case ifd1Id:    rc = true; break;
+        default:        rc = false; break;
+        }
+        return rc;
+    } // ExifTags::isExifIfd
+
     std::string ExifTags::tagName(uint16_t tag, IfdId ifdId)
     {
         const TagInfo* ti = tagInfo(tag, ifdId);
@@ -1359,13 +1371,14 @@ namespace Exiv2 {
     std::ostream& ExifTags::printTag(std::ostream& os,
                                      uint16_t tag,
                                      IfdId ifdId,
-                                     const Value& value)
+                                     const Value& value,
+                                     const ExifData* pExifData)
     {
         if (value.count() == 0) return os;
         PrintFct fct = printValue;
         const TagInfo* ti = tagInfo(tag, ifdId);
         if (ti != 0) fct = ti->printFct_;
-        return fct(os, value);
+        return fct(os, value, pExifData);
     } // ExifTags::printTag
 
     void ExifTags::taglist(std::ostream& os)
@@ -1408,21 +1421,12 @@ namespace Exiv2 {
           idx_(0), key_("")
     {
         IfdId ifdId = ExifTags::ifdIdByIfdItem(ifdItem);
-        if (ExifTags::isMakerIfd(ifdId)) {
-            MakerNote::AutoPtr makerNote = MakerNoteFactory::create(ifdId);
-            if (makerNote.get() == 0) throw Error(23, ifdId);
+        if (!ExifTags::isExifIfd(ifdId) && !ExifTags::isMakerIfd(ifdId)) {
+            throw Error(23, ifdId);
         }
         tag_ = tag;
         ifdId_ = ifdId;
         ifdItem_ = ifdItem;
-        makeKey();
-    }
-
-    ExifKey::ExifKey(const Entry& e)
-        : tag_(e.tag()), ifdId_(e.ifdId()),
-          ifdItem_(ExifTags::ifdItem(e.ifdId())),
-          idx_(e.idx()), key_("")
-    {
         makeKey();
     }
 
@@ -1493,9 +1497,8 @@ namespace Exiv2 {
         // Find IfdId
         IfdId ifdId = ExifTags::ifdIdByIfdItem(ifdItem);
         if (ifdId == ifdIdNotSet) throw Error(6, key_);
-        if (ExifTags::isMakerIfd(ifdId)) {
-            MakerNote::AutoPtr makerNote = MakerNoteFactory::create(ifdId);
-            if (makerNote.get() == 0) throw Error(6, key_);
+        if (!ExifTags::isExifIfd(ifdId) && !ExifTags::isMakerIfd(ifdId)) {
+            throw Error(6, key_);
         }
         // Convert tag
         uint16_t tag = ExifTags::tag(tagName, ifdId);
@@ -1518,20 +1521,6 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-
-    bool isExifIfd(IfdId ifdId)
-    {
-        bool rc;
-        switch (ifdId) {
-        case ifd0Id:    rc = true; break;
-        case exifIfdId: rc = true; break;
-        case gpsIfdId:  rc = true; break;
-        case iopIfdId:  rc = true; break;
-        case ifd1Id:    rc = true; break;
-        default:        rc = false; break;
-        }
-        return rc;
-    } // isExifIfd
 
     std::ostream& operator<<(std::ostream& os, const TagInfo& ti)
     {
@@ -1579,26 +1568,26 @@ namespace Exiv2 {
         return is;
     }
 
-    std::ostream& printValue(std::ostream& os, const Value& value)
+    std::ostream& printValue(std::ostream& os, const Value& value, const ExifData*)
     {
         return os << value;
     }
 
-    std::ostream& printLong(std::ostream& os, const Value& value)
+    std::ostream& printLong(std::ostream& os, const Value& value, const ExifData*)
     {
         Rational r = value.toRational();
         if (r.second != 0) return os << static_cast<long>(r.first) / r.second;
         return os << "(" << value << ")";
     } // printLong
 
-    std::ostream& printFloat(std::ostream& os, const Value& value)
+    std::ostream& printFloat(std::ostream& os, const Value& value, const ExifData*)
     {
         Rational r = value.toRational();
         if (r.second != 0) return os << static_cast<float>(r.first) / r.second;
         return os << "(" << value << ")";
     } // printFloat
 
-    std::ostream& printDegrees(std::ostream& os, const Value& value)
+    std::ostream& printDegrees(std::ostream& os, const Value& value, const ExifData*)
     {
         if (value.count() == 3) {
             std::ostringstream oss;
@@ -1628,7 +1617,7 @@ namespace Exiv2 {
         return os;
     } // printDegrees
 
-    std::ostream& printUcs2(std::ostream& os, const Value& value)
+    std::ostream& printUcs2(std::ostream& os, const Value& value, const ExifData*)
     {
 #if defined EXV_HAVE_ICONV && defined EXV_HAVE_PRINTUCS2
         bool go = true;
@@ -1686,12 +1675,12 @@ namespace Exiv2 {
 
     } // printUcs2
 
-    std::ostream& printExifUnit(std::ostream& os, const Value& value)
+    std::ostream& printExifUnit(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(exifUnit)(os, value);
+        return EXV_PRINT_TAG(exifUnit)(os, value, metadata);
     }
 
-    std::ostream& print0x0000(std::ostream& os, const Value& value)
+    std::ostream& print0x0000(std::ostream& os, const Value& value, const ExifData*)
     {
         if (value.size() != 4 || value.typeId() != unsignedByte) {
             return os << value;
@@ -1706,12 +1695,12 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& print0x0005(std::ostream& os, const Value& value)
+    std::ostream& print0x0005(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(exifGPSAltitudeRef)(os, value);
+        return EXV_PRINT_TAG(exifGPSAltitudeRef)(os, value, metadata);
     }
 
-    std::ostream& print0x0006(std::ostream& os, const Value& value)
+    std::ostream& print0x0006(std::ostream& os, const Value& value, const ExifData*)
     {
         std::ostringstream oss;
         oss.copyfmt(os);
@@ -1724,7 +1713,7 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& print0x0007(std::ostream& os, const Value& value)
+    std::ostream& print0x0007(std::ostream& os, const Value& value, const ExifData*)
     {
         if (value.count() == 3) {
             for (int i = 0; i < 3; ++i) {
@@ -1758,42 +1747,42 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& print0x0009(std::ostream& os, const Value& value)
+    std::ostream& print0x0009(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(exifGPSStatus)(os, value);
+        return EXV_PRINT_TAG(exifGPSStatus)(os, value, metadata);
     }
 
-    std::ostream& print0x000a(std::ostream& os, const Value& value)
+    std::ostream& print0x000a(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(exifGPSMeasureMode)(os, value);
+        return EXV_PRINT_TAG(exifGPSMeasureMode)(os, value, metadata);
     }
 
-    std::ostream& print0x000c(std::ostream& os, const Value& value)
+    std::ostream& print0x000c(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(exifGPSSpeedRef)(os, value);
+        return EXV_PRINT_TAG(exifGPSSpeedRef)(os, value, metadata);
     }
 
-    std::ostream& print0x0019(std::ostream& os, const Value& value)
+    std::ostream& print0x0019(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(exifGPSDestDistanceRef)(os, value);
+        return EXV_PRINT_TAG(exifGPSDestDistanceRef)(os, value, metadata);
     }
 
-    std::ostream& print0x001e(std::ostream& os, const Value& value)
+    std::ostream& print0x001e(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(exifGPSDifferential)(os, value);
+        return EXV_PRINT_TAG(exifGPSDifferential)(os, value, metadata);
     }
 
-    std::ostream& print0x0112(std::ostream& os, const Value& value)
+    std::ostream& print0x0112(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(exifOrientation)(os, value);
+        return EXV_PRINT_TAG(exifOrientation)(os, value, metadata);
     }
 
-    std::ostream& print0x0213(std::ostream& os, const Value& value)
+    std::ostream& print0x0213(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(exifYCbCrPositioning)(os, value);
+        return EXV_PRINT_TAG(exifYCbCrPositioning)(os, value, metadata);
     }
 
-    std::ostream& print0x8298(std::ostream& os, const Value& value)
+    std::ostream& print0x8298(std::ostream& os, const Value& value, const ExifData*)
     {
         // Print the copyright information in the format Photographer, Editor
         std::string val = value.toString();
@@ -1813,7 +1802,7 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& print0x829a(std::ostream& os, const Value& value)
+    std::ostream& print0x829a(std::ostream& os, const Value& value, const ExifData*)
     {
         Rational t = value.toRational();
         if (t.first > 1 && t.second > 1 && t.second >= t.first) {
@@ -1835,7 +1824,7 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& print0x829d(std::ostream& os, const Value& value)
+    std::ostream& print0x829d(std::ostream& os, const Value& value, const ExifData*)
     {
         Rational fnumber = value.toRational();
         if (fnumber.second != 0) {
@@ -1851,17 +1840,17 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& print0x8822(std::ostream& os, const Value& value)
+    std::ostream& print0x8822(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(exifExposureProgram)(os, value);
+        return EXV_PRINT_TAG(exifExposureProgram)(os, value, metadata);
     }
 
-    std::ostream& print0x8827(std::ostream& os, const Value& value)
+    std::ostream& print0x8827(std::ostream& os, const Value& value, const ExifData*)
     {
         return os << value.toLong();
     }
 
-    std::ostream& print0x9101(std::ostream& os, const Value& value)
+    std::ostream& print0x9101(std::ostream& os, const Value& value, const ExifData*)
     {
         for (long i = 0; i < value.count(); ++i) {
             long l = value.toLong(i);
@@ -1879,7 +1868,7 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& print0x9201(std::ostream& os, const Value& value)
+    std::ostream& print0x9201(std::ostream& os, const Value& value, const ExifData*)
     {
         Rational r = value.toRational();
         if (!value.ok() || r.second == 0) return os << "(" << value << ")";
@@ -1892,7 +1881,7 @@ namespace Exiv2 {
         return os << " s";
     }
 
-    std::ostream& print0x9202(std::ostream& os, const Value& value)
+    std::ostream& print0x9202(std::ostream& os, const Value& value, const ExifData*)
     {
         if (   value.count() == 0
             || value.toRational().second == 0) {
@@ -1905,7 +1894,7 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& print0x9204(std::ostream& os, const Value& value)
+    std::ostream& print0x9204(std::ostream& os, const Value& value, const ExifData*)
     {
         Rational bias = value.toRational();
         if (bias.second <= 0) {
@@ -1926,7 +1915,7 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& print0x9206(std::ostream& os, const Value& value)
+    std::ostream& print0x9206(std::ostream& os, const Value& value, const ExifData*)
     {
         Rational distance = value.toRational();
         if (distance.first == 0) {
@@ -1949,17 +1938,17 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& print0x9207(std::ostream& os, const Value& value)
+    std::ostream& print0x9207(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(exifMeteringMode)(os, value);
+        return EXV_PRINT_TAG(exifMeteringMode)(os, value, metadata);
     }
 
-    std::ostream& print0x9208(std::ostream& os, const Value& value)
+    std::ostream& print0x9208(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(exifLightSource)(os, value);
+        return EXV_PRINT_TAG(exifLightSource)(os, value, metadata);
     }
 
-    std::ostream& print0x920a(std::ostream& os, const Value& value)
+    std::ostream& print0x920a(std::ostream& os, const Value& value, const ExifData*)
     {
         Rational length = value.toRational();
         if (length.second != 0) {
@@ -1977,7 +1966,7 @@ namespace Exiv2 {
     }
 
     // Todo: Implement this properly
-    std::ostream& print0x9286(std::ostream& os, const Value& value)
+    std::ostream& print0x9286(std::ostream& os, const Value& value, const ExifData*)
     {
         if (value.size() > 8) {
             DataBuf buf(value.size());
@@ -1991,42 +1980,42 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& print0xa001(std::ostream& os, const Value& value)
+    std::ostream& print0xa001(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(exifColorSpace)(os, value);
+        return EXV_PRINT_TAG(exifColorSpace)(os, value, metadata);
     }
 
-    std::ostream& print0xa217(std::ostream& os, const Value& value)
+    std::ostream& print0xa217(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(exifSensingMethod)(os, value);
+        return EXV_PRINT_TAG(exifSensingMethod)(os, value, metadata);
     }
 
-    std::ostream& print0xa300(std::ostream& os, const Value& value)
+    std::ostream& print0xa300(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(exifFileSource)(os, value);
+        return EXV_PRINT_TAG(exifFileSource)(os, value, metadata);
     }
 
-    std::ostream& print0xa301(std::ostream& os, const Value& value)
+    std::ostream& print0xa301(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(exifSceneType)(os, value);
+        return EXV_PRINT_TAG(exifSceneType)(os, value, metadata);
     }
 
-    std::ostream& print0xa401(std::ostream& os, const Value& value)
+    std::ostream& print0xa401(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(exifCustomRendered)(os, value);
+        return EXV_PRINT_TAG(exifCustomRendered)(os, value, metadata);
     }
 
-    std::ostream& print0xa402(std::ostream& os, const Value& value)
+    std::ostream& print0xa402(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(exifExposureMode)(os, value);
+        return EXV_PRINT_TAG(exifExposureMode)(os, value, metadata);
     }
 
-    std::ostream& print0xa403(std::ostream& os, const Value& value)
+    std::ostream& print0xa403(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(exifWhiteBalance)(os, value);
+        return EXV_PRINT_TAG(exifWhiteBalance)(os, value, metadata);
     }
 
-    std::ostream& print0xa404(std::ostream& os, const Value& value)
+    std::ostream& print0xa404(std::ostream& os, const Value& value, const ExifData*)
     {
         Rational zoom = value.toRational();
         if (zoom.second == 0) {
@@ -2042,7 +2031,7 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& print0xa405(std::ostream& os, const Value& value)
+    std::ostream& print0xa405(std::ostream& os, const Value& value, const ExifData*)
     {
         long length = value.toLong();
         if (length == 0) {
@@ -2054,37 +2043,37 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& print0xa406(std::ostream& os, const Value& value)
+    std::ostream& print0xa406(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(exifSceneCaptureType)(os, value);
+        return EXV_PRINT_TAG(exifSceneCaptureType)(os, value, metadata);
     }
 
-    std::ostream& print0xa407(std::ostream& os, const Value& value)
+    std::ostream& print0xa407(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(exifGainControl)(os, value);
+        return EXV_PRINT_TAG(exifGainControl)(os, value, metadata);
     }
 
-    std::ostream& print0xa409(std::ostream& os, const Value& value)
+    std::ostream& print0xa409(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(exifSaturation)(os, value);
+        return EXV_PRINT_TAG(exifSaturation)(os, value, metadata);
     }
 
-    std::ostream& print0xa40c(std::ostream& os, const Value& value)
+    std::ostream& print0xa40c(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(exifSubjectDistanceRange)(os, value);
+        return EXV_PRINT_TAG(exifSubjectDistanceRange)(os, value, metadata);
     }
 
-    std::ostream& printGPSDirRef(std::ostream& os, const Value& value)
+    std::ostream& printGPSDirRef(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(exifGPSDirRef)(os, value);
+        return EXV_PRINT_TAG(exifGPSDirRef)(os, value, metadata);
     }
 
-    std::ostream& printNormalSoftHard(std::ostream& os, const Value& value)
+    std::ostream& printNormalSoftHard(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(exifNormalSoftHard)(os, value);
+        return EXV_PRINT_TAG(exifNormalSoftHard)(os, value, metadata);
     }
 
-    std::ostream& printExifVersion(std::ostream& os, const Value& value)
+    std::ostream& printExifVersion(std::ostream& os, const Value& value, const ExifData*)
     {
         if (value.size() != 4 || value.typeId() != undefined) {
             return os << "(" << value << ")";
@@ -2099,7 +2088,7 @@ namespace Exiv2 {
         return printVersion(os, s);
     }
 
-    std::ostream& printXmpVersion(std::ostream& os, const Value& value)
+    std::ostream& printXmpVersion(std::ostream& os, const Value& value, const ExifData*)
     {
         if (value.size() != 4 || value.typeId() != xmpText) {
             return os << "(" << value << ")";
@@ -2108,7 +2097,7 @@ namespace Exiv2 {
         return printVersion(os, value.toString());
     }
 
-    std::ostream& printXmpDate(std::ostream& os, const Value& value)
+    std::ostream& printXmpDate(std::ostream& os, const Value& value, const ExifData*)
     {
         if (!(value.size() == 19 || value.size() == 20) || value.typeId() != xmpText) {
             return os << value;

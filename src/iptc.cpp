@@ -42,6 +42,27 @@ EXIV2_RCSID("@(#) $Id$")
 #include <algorithm>
 
 // *****************************************************************************
+namespace {
+    /*!
+      @brief Read a single dataset payload and create a new metadata entry.
+
+      @param iptcData IPTC metadata container to add the dataset to
+      @param dataSet  DataSet number
+      @param record   Record Id
+      @param data     Pointer to the first byte of dataset payload
+      @param sizeData Length in bytes of dataset payload
+      @return 0 if successful.
+     */
+    int readData(
+              Exiv2::IptcData& iptcData,
+              uint16_t         dataSet,
+              uint16_t         record,
+        const Exiv2::byte*     data,
+              uint32_t         sizeData
+    );
+}
+
+// *****************************************************************************
 // class member definitions
 namespace Exiv2 {
 
@@ -123,8 +144,6 @@ namespace Exiv2 {
         value_->read(value);
     }
 
-    const byte IptcData::marker_ = 0x1C;          // Dataset marker
-
     Iptcdatum& IptcData::operator[](const std::string& key)
     {
         IptcKey iptcKey(key);
@@ -135,124 +154,6 @@ namespace Exiv2 {
         }
         return *pos;
     }
-
-    int IptcData::load(const byte* buf, long len)
-    {
-#ifdef DEBUG
-        std::cerr << "IptcData::load, len = " << len << "\n";
-#endif
-        const byte* pRead = buf;
-        iptcMetadata_.clear();
-
-        uint16_t record = 0;
-        uint16_t dataSet = 0;
-        uint32_t sizeData = 0;
-        byte extTest = 0;
-
-        while (pRead + 3 < buf + len) {
-            // First byte should be a marker. If it isn't, scan forward and skip
-            // the chunk bytes present in some images. This deviates from the
-            // standard, which advises to treat such cases as errors.
-            if (*pRead++ != marker_) continue;
-            record = *pRead++;
-            dataSet = *pRead++;
-
-            extTest = *pRead;
-            if (extTest & 0x80) {
-                // extended dataset
-                uint16_t sizeOfSize = (getUShort(pRead, bigEndian) & 0x7FFF);
-                if (sizeOfSize > 4) return 5;
-                pRead += 2;
-                sizeData = 0;
-                for (; sizeOfSize > 0; --sizeOfSize) {
-                    sizeData |= *pRead++ << (8 *(sizeOfSize-1));
-                }
-            }
-            else {
-                // standard dataset
-                sizeData = getUShort(pRead, bigEndian);
-                pRead += 2;
-            }
-            if (pRead + sizeData <= buf + len) {
-                int rc = 0;
-                if ((rc = readData(dataSet, record, pRead, sizeData)) != 0) {
-#ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Warning: "
-                              << "Failed to read IPTC dataset "
-                              << IptcKey(dataSet, record)
-                              << " (rc = " << rc << "); skipped.\n";
-#endif
-                }
-            }
-#ifndef SUPPRESS_WARNINGS
-            else {
-                std::cerr << "Warning: "
-                          << "IPTC dataset " << IptcKey(dataSet, record)
-                          << " has invalid size " << sizeData << "; skipped.\n";
-            }
-#endif
-            pRead += sizeData;
-        }
-
-        return 0;
-    } // IptcData::load
-
-    int IptcData::readData(uint16_t dataSet, uint16_t record,
-                           const byte* data, uint32_t sizeData)
-    {
-        Value::AutoPtr value;
-        TypeId type = IptcDataSets::dataSetType(dataSet, record);
-        value = Value::create(type);
-        int rc = value->read(data, sizeData, bigEndian);
-        if (0 == rc) {
-            IptcKey key(dataSet, record);
-            add(key, value.get());
-        }
-        else if (1 == rc) {
-            // If the first attempt failed, try with a string value
-            value = Value::create(string);
-            rc = value->read(data, sizeData, bigEndian);
-            if (0 == rc) {
-                IptcKey key(dataSet, record);
-                add(key, value.get());
-            }
-        }
-        return rc;
-    }
-
-    DataBuf IptcData::copy() const
-    {
-        DataBuf buf(size());
-        byte *pWrite = buf.pData_;
-
-        const_iterator iter = iptcMetadata_.begin();
-        const_iterator end = iptcMetadata_.end();
-        for ( ; iter != end; ++iter) {
-            // marker, record Id, dataset num
-            *pWrite++ = marker_;
-            *pWrite++ = static_cast<byte>(iter->record());
-            *pWrite++ = static_cast<byte>(iter->tag());
-
-            // extended or standard dataset?
-            long dataSize = iter->size();
-            if (dataSize > 32767) {
-                // always use 4 bytes for extended length
-                uint16_t sizeOfSize = 4 | 0x8000;
-                us2Data(pWrite, sizeOfSize, bigEndian);
-                pWrite += 2;
-                ul2Data(pWrite, dataSize, bigEndian);
-                pWrite += 4;
-            }
-            else {
-                us2Data(pWrite, static_cast<uint16_t>(dataSize), bigEndian);
-                pWrite += 2;
-            }
-
-            pWrite += iter->value().copy(pWrite, bigEndian);
-        }
-
-        return buf;
-    } // IptcData::copy
 
     long IptcData::size() const
     {
@@ -328,4 +229,138 @@ namespace Exiv2 {
         return iptcMetadata_.erase(pos);
     }
 
+    const byte IptcParser::marker_ = 0x1C;          // Dataset marker
+
+    int IptcParser::decode(
+              IptcData& iptcData,
+        const byte*     pData,
+              uint32_t  size
+    )
+    {
+#ifdef DEBUG
+        std::cerr << "IptcParser::decode, size = " << size << "\n";
+#endif
+        const byte* pRead = pData;
+        iptcData.clear();
+
+        uint16_t record = 0;
+        uint16_t dataSet = 0;
+        uint32_t sizeData = 0;
+        byte extTest = 0;
+
+        while (pRead + 3 < pData + size) {
+            // First byte should be a marker. If it isn't, scan forward and skip
+            // the chunk bytes present in some images. This deviates from the
+            // standard, which advises to treat such cases as errors.
+            if (*pRead++ != marker_) continue;
+            record = *pRead++;
+            dataSet = *pRead++;
+
+            extTest = *pRead;
+            if (extTest & 0x80) {
+                // extended dataset
+                uint16_t sizeOfSize = (getUShort(pRead, bigEndian) & 0x7FFF);
+                if (sizeOfSize > 4) return 5;
+                pRead += 2;
+                sizeData = 0;
+                for (; sizeOfSize > 0; --sizeOfSize) {
+                    sizeData |= *pRead++ << (8 *(sizeOfSize-1));
+                }
+            }
+            else {
+                // standard dataset
+                sizeData = getUShort(pRead, bigEndian);
+                pRead += 2;
+            }
+            if (pRead + sizeData <= pData + size) {
+                int rc = 0;
+                if ((rc = readData(iptcData, dataSet, record, pRead, sizeData)) != 0) {
+#ifndef SUPPRESS_WARNINGS
+                    std::cerr << "Warning: "
+                              << "Failed to read IPTC dataset "
+                              << IptcKey(dataSet, record)
+                              << " (rc = " << rc << "); skipped.\n";
+#endif
+                }
+            }
+#ifndef SUPPRESS_WARNINGS
+            else {
+                std::cerr << "Warning: "
+                          << "IPTC dataset " << IptcKey(dataSet, record)
+                          << " has invalid size " << sizeData << "; skipped.\n";
+            }
+#endif
+            pRead += sizeData;
+        }
+
+        return 0;
+    } // IptcParser::decode
+
+    DataBuf IptcParser::encode(const IptcData& iptcData)
+    {
+        DataBuf buf(iptcData.size());
+        byte *pWrite = buf.pData_;
+
+        IptcData::const_iterator iter = iptcData.begin();
+        IptcData::const_iterator end = iptcData.end();
+        for ( ; iter != end; ++iter) {
+            // marker, record Id, dataset num
+            *pWrite++ = marker_;
+            *pWrite++ = static_cast<byte>(iter->record());
+            *pWrite++ = static_cast<byte>(iter->tag());
+
+            // extended or standard dataset?
+            long dataSize = iter->size();
+            if (dataSize > 32767) {
+                // always use 4 bytes for extended length
+                uint16_t sizeOfSize = 4 | 0x8000;
+                us2Data(pWrite, sizeOfSize, bigEndian);
+                pWrite += 2;
+                ul2Data(pWrite, dataSize, bigEndian);
+                pWrite += 4;
+            }
+            else {
+                us2Data(pWrite, static_cast<uint16_t>(dataSize), bigEndian);
+                pWrite += 2;
+            }
+            pWrite += iter->value().copy(pWrite, bigEndian);
+        }
+
+        return buf;
+    } // IptcParser::encode
+
 }                                       // namespace Exiv2
+
+// *****************************************************************************
+// local definitions
+namespace {
+
+    int readData(
+              Exiv2::IptcData& iptcData,
+              uint16_t         dataSet,
+              uint16_t         record,
+        const Exiv2::byte*     data,
+              uint32_t         sizeData
+    )
+    {
+        Exiv2::Value::AutoPtr value;
+        Exiv2::TypeId type = Exiv2::IptcDataSets::dataSetType(dataSet, record);
+        value = Exiv2::Value::create(type);
+        int rc = value->read(data, sizeData, Exiv2::bigEndian);
+        if (0 == rc) {
+            Exiv2::IptcKey key(dataSet, record);
+            iptcData.add(key, value.get());
+        }
+        else if (1 == rc) {
+            // If the first attempt failed, try with a string value
+            value = Exiv2::Value::create(Exiv2::string);
+            rc = value->read(data, sizeData, Exiv2::bigEndian);
+            if (0 == rc) {
+                Exiv2::IptcKey key(dataSet, record);
+                iptcData.add(key, value.get());
+            }
+        }
+        return rc;
+    }
+
+}

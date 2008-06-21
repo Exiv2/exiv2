@@ -63,7 +63,6 @@ CCHDR =  exv_conf.h           \
          exv_msvc.h           \
          mn.hpp               \
          rcsid.hpp            \
-         tifffwd.hpp          \
          version.hpp
 
 # Add library C++ source files to this list
@@ -79,12 +78,10 @@ CCSRC =  basicio.cpp          \
 	 futils.cpp           \
 	 fujimn.cpp           \
 	 gifimage.cpp         \
-	 ifd.cpp              \
 	 image.cpp            \
 	 iptc.cpp             \
 	 jp2image.cpp         \
 	 jpgimage.cpp         \
-	 makernote.cpp        \
 	 makernote2.cpp       \
 	 metadatum.cpp        \
 	 minoltamn.cpp        \
@@ -106,7 +103,6 @@ CCSRC += psdimage.cpp         \
 	 tgaimage.cpp         \
 	 tiffcomposite.cpp    \
 	 tiffimage.cpp        \
-	 tiffparser.cpp       \
 	 tiffvisitor.cpp      \
 	 types.cpp            \
 	 value.cpp            \

@@ -32,11 +32,9 @@
 // *****************************************************************************
 // included header files
 #include "metadatum.hpp"
-#include "types.hpp"
-#include "error.hpp"
-#include "value.hpp"
-#include "ifd.hpp"
 #include "tags.hpp"
+#include "value.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <string>
@@ -47,16 +45,13 @@
 // namespace extensions
 /*!
   @brief Provides classes and functions to encode and decode Exif and Iptc data.
-         This namespace corresponds to the <b>libexiv2</b> library.
-
+         The <b>libexiv2</b> API consists of the objects of this namespace.
  */
 namespace Exiv2 {
 
 // *****************************************************************************
 // class declarations
     class ExifData;
-    class MakerNote;
-    class TiffHeader;
 
 // *****************************************************************************
 // class definitions
@@ -82,8 +77,6 @@ namespace Exiv2 {
           @throw Error if the key cannot be parsed and converted.
          */
         explicit Exifdatum(const ExifKey& key, const Value* pValue =0);
-        //! Constructor to build an %Exifdatum from an IFD entry.
-        Exifdatum(const Entry& e, ByteOrder byteOrder);
         //! Copy constructor
         Exifdatum(const Exifdatum& rhs);
         //! Destructor
@@ -142,10 +135,6 @@ namespace Exiv2 {
                  created. An AsciiValue is created for unknown tags.
          */
         void setValue(const std::string& value);
-        /*!
-          @brief Set the value from an IFD entry.
-         */
-        void setValue(const Entry& e, ByteOrder byteOrder);
         /*!
           @brief Set the data area by copying (cloning) the buffer pointed to
                  by \em buf.
@@ -258,154 +247,168 @@ namespace Exiv2 {
     }; // class Exifdatum
 
     /*!
-      @brief Set the value of \em exifDatum to \em value. If the object already
-             has a value, it is replaced. Otherwise a new ValueType\<T\> value
-             is created and set to \em value.
+      @brief Access to a Exif %thumbnail image. This class provides higher level
+             accessors to the thumbnail image that is optionally embedded in IFD1
+             of the Exif data. These methods do not write to the Exif metadata.
+             Manipulators are provided in subclass ExifThumb.
 
-      This is a helper function, called from Exifdatum members. It is meant to
-      be used with T = (u)int16_t, (u)int32_t or (U)Rational. Do not use directly.
-    */
-    template<typename T>
-    Exifdatum& setValue(Exifdatum& exifDatum, const T& value);
-
-    /*!
-      @brief Exif %Thumbnail image. This abstract base class provides the
-             interface for the thumbnail image that is optionally embedded in
-             the Exif data. This class is used internally by ExifData, it is
-             probably not useful for a client as a standalone class.  Instead,
-             use an instance of ExifData to access the Exif thumbnail image.
+      @note Various other preview and thumbnail images may be contained in an 
+            image, depending on its format and the camera make and model. This
+            class only provides access to the Exif thumbnail as specified in the
+            Exif standard.
      */
-    class Thumbnail {
+    class ExifThumbC {
     public:
-        //! Shortcut for a %Thumbnail auto pointer.
-        typedef std::auto_ptr<Thumbnail> AutoPtr;
-
         //! @name Creators
         //@{
-        //! Virtual destructor
-        virtual ~Thumbnail() {}
+        //! Constructor.
+        ExifThumbC(const ExifData& exifData);
         //@}
 
         //! @name Accessors
         //@{
-        /*!
-          @brief Set the image data as data area of the appropriate Exif
-                 metadatum. Read the thumbnail image data from data buffer
-                 \em buf. Return 0 if successful.
-
-          @param exifData Exif data corresponding to the data buffer.
-          @param pIfd1 Corresponding raw IFD1.
-          @param buf Data buffer containing the thumbnail data. The buffer must
-                 start with the TIFF header.
-          @param len Number of bytes in the data buffer.
-          @return 0 if successful;<BR>
-                  1 in case of inconsistent thumbnail Exif data; or<BR>
-                  2 if the data area is outside of the data buffer
-         */
-        virtual int setDataArea(ExifData& exifData,
-                                Ifd* pIfd1,
-                                const byte* buf,
-                                long len) const =0;
         /*!
           @brief Return the thumbnail image in a %DataBuf. The caller owns the
                  data buffer and %DataBuf ensures that it will be deleted.
          */
-        virtual DataBuf copy(const ExifData& exifData) const =0;
+        DataBuf copy() const;
         /*!
-          @brief Return a short string for the format of the thumbnail
-                 ("TIFF", "JPEG").
+          @brief Write the thumbnail image to a file.
+
+          A filename extension is appended to \em path according to the image
+          type of the thumbnail, so \em path should not include an extension.
+          The function will overwrite an existing file of the same name.
+
+          @param path File name of the thumbnail without extension.
+          @return The number of bytes written.
+        */
+        long writeFile(const std::string& path) const;
+        /*!
+          @brief Return the MIME type of the thumbnail, either \c "image/tiff"
+                 or \c "image/jpeg".
          */
-        virtual const char* format() const =0;
+        const char* mimeType() const;
         /*!
           @brief Return the file extension for the format of the thumbnail
-                 (".tif", ".jpg").
+                 (".tif" or ".jpg").
          */
-        virtual const char* extension() const =0;
+        const char* extension() const;
         //@}
 
-    protected:
+    private:
+        const ExifData& exifData_; //!< Const reference to the Exif metadata.
+
+    }; // class ExifThumb
+
+    /*!
+      @brief Access and modify an Exif %thumbnail image. This class implements
+             manipulators to set and erase the thumbnail image that is optionally
+             embedded in IFD1 of the Exif data. Accessors are provided by the
+             base class, ExifThumbC.
+
+      @note Various other preview and thumbnail images may be contained in an 
+            image, depending on its format and the camera make and model. This
+            class only provides access to the Exif thumbnail as specified in the
+            Exif standard.
+     */
+    class ExifThumb : public ExifThumbC {
+    public:
+        //! @name Creators
+        //@{
+        //! Constructor.
+        ExifThumb(ExifData& exifData);
+        //@}
+
         //! @name Manipulators
         //@{
         /*!
-          @brief Assignment operator. Protected so that it can only be used
-                 by subclasses but not directly.
+          @brief Set the Exif thumbnail to the JPEG image \em path. Set
+                 XResolution, YResolution and ResolutionUnit to \em xres,
+                 \em yres and \em unit, respectively.
+
+          This results in the minimal thumbnail tags being set for a JPEG
+          thumbnail, as mandated by the Exif standard.
+
+          @throw Error if reading the file fails.
+
+          @note  No checks on the file format or size are performed.
+          @note  Additional existing Exif thumbnail tags are not modified.
+          @note  The JPEG image inserted as thumbnail image should not
+                 itself contain Exif data (or other metadata), as existing
+                 applications may have problems with that. (The preview
+                 application that comes with OS X for one.) - David Harvey.
          */
-        Thumbnail& operator=(const Thumbnail& rhs);
+        void setJpegThumbnail(
+            const std::string& path,
+                  URational    xres, 
+                  URational    yres,
+                  uint16_t     unit
+        );
+        /*!
+          @brief Set the Exif thumbnail to the JPEG image pointed to by \em buf,
+                 and size \em size. Set XResolution, YResolution and
+                 ResolutionUnit to \em xres, \em yres and \em unit, respectively.
+
+          This results in the minimal thumbnail tags being set for a JPEG
+          thumbnail, as mandated by the Exif standard.
+
+          @throw Error if reading the file fails.
+
+          @note  No checks on the image format or size are performed.
+          @note  Additional existing Exif thumbnail tags are not modified.
+          @note  The JPEG image inserted as thumbnail image should not
+                 itself contain Exif data (or other metadata), as existing
+                 applications may have problems with that. (The preview
+                 application that comes with OS X for one.) - David Harvey.
+         */
+        void setJpegThumbnail(
+            const byte*     buf,
+                  long      size,
+                  URational xres,
+                  URational yres,
+                  uint16_t  unit
+        );
+        /*!
+          @brief Set the Exif thumbnail to the JPEG image \em path.
+
+          This sets only the Compression, JPEGInterchangeFormat and
+          JPEGInterchangeFormatLength tags, which is not all the thumbnail
+          Exif information mandatory according to the Exif standard. (But it's
+          enough to work with the thumbnail.)
+
+          @throw Error if reading the file fails.
+
+          @note  No checks on the file format or size are performed.
+          @note  Additional existing Exif thumbnail tags are not modified.
+         */
+        void setJpegThumbnail(const std::string& path);
+        /*!
+          @brief Set the Exif thumbnail to the JPEG image pointed to by \em buf,
+                 and size \em size.
+
+          This sets only the Compression, JPEGInterchangeFormat and
+          JPEGInterchangeFormatLength tags, which is not all the thumbnail
+          Exif information mandatory according to the Exif standard. (But it's
+          enough to work with the thumbnail.)
+
+          @note  No checks on the image format or size are performed.
+          @note  Additional existing Exif thumbnail tags are not modified.
+         */
+        void setJpegThumbnail(const byte* buf, long size);
+        /*!
+          @brief Delete the thumbnail from the Exif data. Removes all
+                 Exif.%Thumbnail.*, i.e., Exif IFD1 tags.
+         */
+        void erase();
         //@}
 
-    }; // class Thumbnail
+    private:
+        ExifData& exifData_;    //!< Reference to the related Exif metadata.
 
-    //! Exif thumbnail image in TIFF format
-    class TiffThumbnail : public Thumbnail {
-    public:
-        //! Shortcut for a %TiffThumbnail auto pointer.
-        typedef std::auto_ptr<TiffThumbnail> AutoPtr;
-
-        //! @name Manipulators
-        //@{
-        //! Assignment operator.
-        TiffThumbnail& operator=(const TiffThumbnail& rhs);
-        //@}
-
-        //! @name Accessors
-        //@{
-        int setDataArea(ExifData& exifData,
-                        Ifd* pIfd1,
-                        const byte* buf,
-                        long len) const;
-        DataBuf copy(const ExifData& exifData) const;
-        const char* format() const;
-        const char* extension() const;
-        //@}
-
-    }; // class TiffThumbnail
-
-    //! Exif thumbnail image in JPEG format
-    class JpegThumbnail : public Thumbnail {
-    public:
-        //! Shortcut for a %JpegThumbnail auto pointer.
-        typedef std::auto_ptr<JpegThumbnail> AutoPtr;
-
-        //! @name Manipulators
-        //@{
-        //! Assignment operator.
-        JpegThumbnail& operator=(const JpegThumbnail& rhs);
-        //@}
-
-        //! @name Accessors
-        //@{
-        int setDataArea(ExifData& exifData,
-                        Ifd* pIfd1,
-                        const byte* buf,
-                        long len) const;
-        DataBuf copy(const ExifData& exifData) const;
-        const char* format() const;
-        const char* extension() const;
-        //@}
-
-    }; // class JpegThumbnail
+    }; // class ExifThumb
 
     //! Container type to hold all metadata
     typedef std::vector<Exifdatum> ExifMetadata;
-
-    //! Unary predicate that matches a Exifdatum with a given ifd id and idx
-    class FindMetadatumByIfdIdIdx {
-    public:
-        //! Constructor, initializes the object with the ifd id and idx to look for
-        FindMetadatumByIfdIdIdx(IfdId ifdId, int idx)
-            : ifdId_(ifdId), idx_(idx) {}
-        /*!
-          @brief Returns true if the ifd id and idx of the argument
-                 \em exifdatum is equal to that of the object.
-        */
-        bool operator()(const Exifdatum& exifdatum) const
-            { return ifdId_ == exifdatum.ifdId() && idx_ == exifdatum.idx(); }
-
-    private:
-        IfdId ifdId_;
-        int idx_;
-
-    }; // class FindMetadatumByIfdIdIdx
 
     /*!
       @brief A container for Exif data.  This is a top-level class of the %Exiv2
@@ -426,53 +429,8 @@ namespace Exiv2 {
         //! ExifMetadata const iterator type
         typedef ExifMetadata::const_iterator const_iterator;
 
-        //! @name Creators
-        //@{
-        //! Default constructor
-        ExifData();
-        //! Copy constructor (Todo: copy image data also)
-        ExifData(const ExifData& rhs);
-        //! Destructor
-        ~ExifData();
-        //@}
-
         //! @name Manipulators
         //@{
-        //! Assignment operator (Todo: assign image data also)
-        ExifData& operator=(const ExifData& rhs);
-        /*!
-          @brief Load the Exif data from a byte buffer. The data buffer
-                 must start with the TIFF header. This method is deprecated.
-                 Use ImageFactory::open() instead.
-          @param buf Pointer to the data buffer to read from
-          @param len Number of bytes in the data buffer
-          @return 0 if successful.
-         */
-        int load(const byte* buf, long len);
-        /*!
-          @brief Write the Exif data to a data buffer, which is returned.  The
-                 caller owns this copy and %DataBuf ensures that it will be
-                 deleted. The copied data starts with the TIFF header.
-
-          Tries to update the original data buffer and write it back with
-          minimal changes, in a 'non-intrusive' fashion, if possible. In this
-          case, tag data that ExifData does not understand stand a good chance
-          to remain valid. (In particular, if the Exif data contains a
-          Makernote in IFD format, the offsets in its IFD will remain valid.)
-          <BR>
-          If 'non-intrusive' writing is not possible, the Exif data will be
-          re-built from scratch, in which case the absolute position of the
-          metadata entries within the data buffer may (and in most cases will)
-          be different from their original position. Furthermore, in this case,
-          the Exif data is updated with the metadata from the actual thumbnail
-          image (overriding existing metadata).
-
-          @note If there is no Exif data to write, the buffer is empty, i.e.,
-          no TIFF header is written in this case.
-
-          @return A %DataBuf containing the Exif data.
-         */
-        DataBuf copy();
         /*!
           @brief Returns a reference to the %Exifdatum that is associated with a
                  particular \em key. If %ExifData does not already contain such
@@ -482,15 +440,6 @@ namespace Exiv2 {
                  member function.
          */
         Exifdatum& operator[](const std::string& key);
-        /*!
-          @brief Add all (IFD) entries in the range from iterator position begin
-                 to iterator position end to the Exif metadata. No duplicate
-                 checks are performed, i.e., it is possible to add multiple
-                 metadata with the same key.
-         */
-        void add(Entries::const_iterator begin,
-                 Entries::const_iterator end,
-                 ByteOrder byteOrder);
         /*!
           @brief Add an Exifdatum from the supplied key and value pair.  This
                  method copies (clones) key and value. No duplicate checks are
@@ -520,8 +469,6 @@ namespace Exiv2 {
         void clear();
         //! Sort metadata by key
         void sortByKey();
-        //! Sort metadata by tag
-        void sortByTag();
         //! Begin of the metadata
         iterator begin() { return exifMetadata_.begin(); }
         //! End of the metadata
@@ -531,98 +478,6 @@ namespace Exiv2 {
                  iterator to it.
          */
         iterator findKey(const ExifKey& key);
-        /*!
-          @brief Find the first Exifdatum with the given \em ifdId and \em idx,
-                 return an iterator to it.
-
-          This method can be used to uniquely identify an exifdatum that was
-          created from an IFD or from the makernote (with idx greater than
-          0). Metadata created by an application (not read from an IFD or a
-          makernote) all have their idx field set to 0, i.e., they cannot be
-          uniquely identified with this method.
-         */
-        iterator findIfdIdIdx(IfdId ifdId, int idx);
-        /*!
-          @brief Set the Exif thumbnail to the Jpeg image \em path. Set
-                 XResolution, YResolution and ResolutionUnit to \em xres,
-                 \em yres and \em unit, respectively.
-
-          This results in the minimal thumbnail tags being set for a Jpeg
-          thumbnail, as mandated by the Exif standard.
-
-          @throw Error if reading the file fails.
-
-          @note  No checks on the file format or size are performed.
-          @note  Additional existing Exif thumbnail tags are not modified.
-          @note  The Jpeg image inserted as thumbnail image should not
-                 itself contain Exif data (or other metadata), as existing
-                 applications may have problems with that. (The preview
-                 application that comes with OS X for one.) - David Harvey.
-         */
-        void setJpegThumbnail(const std::string& path,
-                              URational xres, URational yres, uint16_t unit);
-        /*!
-          @brief Set the Exif thumbnail to the Jpeg image pointed to by \em buf,
-                 and size \em size. Set XResolution, YResolution and
-                 ResolutionUnit to \em xres, \em yres and \em unit, respectively.
-
-          This results in the minimal thumbnail tags being set for a Jpeg
-          thumbnail, as mandated by the Exif standard.
-
-          @throw Error if reading the file fails.
-
-          @note  No checks on the image format or size are performed.
-          @note  Additional existing Exif thumbnail tags are not modified.
-          @note  The Jpeg image inserted as thumbnail image should not
-                 itself contain Exif data (or other metadata), as existing
-                 applications may have problems with that. (The preview
-                 application that comes with OS X for one.) - David Harvey.
-         */
-        void setJpegThumbnail(const byte* buf, long size,
-                              URational xres, URational yres, uint16_t unit);
-        /*!
-          @brief Set the Exif thumbnail to the Jpeg image \em path.
-
-          This sets only the Compression, JPEGInterchangeFormat and
-          JPEGInterchangeFormatLength tags, which is not all the thumbnail
-          Exif information mandatory according to the Exif standard. (But it's
-          enough to work with the thumbnail.)
-
-          @throw Error if reading the file fails.
-
-          @note  No checks on the file format or size are performed.
-          @note  Additional existing Exif thumbnail tags are not modified.
-         */
-        void setJpegThumbnail(const std::string& path);
-        /*!
-          @brief Set the Exif thumbnail to the Jpeg image pointed to by \em buf,
-                 and size \em size.
-
-          This sets only the Compression, JPEGInterchangeFormat and
-          JPEGInterchangeFormatLength tags, which is not all the thumbnail
-          Exif information mandatory according to the Exif standard. (But it's
-          enough to work with the thumbnail.)
-
-          @note  No checks on the image format or size are performed.
-          @note  Additional existing Exif thumbnail tags are not modified.
-         */
-        void setJpegThumbnail(const byte* buf, long size);
-        /*!
-          @brief Delete the thumbnail from the Exif data. Removes all
-                 Exif.%Thumbnail.*, i.e., IFD1 metadata.
-
-          @return The number of bytes of thumbnail data erased from the original
-                  Exif data. Note that the original image size may differ from
-                  the size of the image after deleting the thumbnail by more
-                  than this number. This is the case if the Exif data contains
-                  extra bytes (often at the end of the Exif block) or gaps and
-                  the thumbnail is not located at the end of the Exif block so
-                  that non-intrusive writing of a truncated Exif block is not
-                  possible. Instead it is in this case necessary to write the
-                  Exif data, without the thumbnail, from the metadata and all
-                  extra bytes and gaps are lost, resulting in a smaller image.
-         */
-        long eraseThumbnail();
         //@}
 
         //! @name Accessors
@@ -636,215 +491,73 @@ namespace Exiv2 {
                  iterator to it.
          */
         const_iterator findKey(const ExifKey& key) const;
-        /*!
-          @brief Find the first Exifdatum with the given \em ifdId and \em idx,
-                 return an iterator to it.
-
-          This method can be used to uniquely identify a Exifdatum that was
-          created from an IFD or from the makernote (with idx greater than
-          0). Metadata created by an application (not read from an IFD or a
-          makernote) all have their idx field set to 0, i.e., they cannot be
-          uniquely identified with this method.
-         */
-        const_iterator findIfdIdIdx(IfdId ifdId, int idx) const;
         //! Return true if there is no Exif metadata
         bool empty() const { return count() == 0; }
         //! Get the number of metadata entries
         long count() const { return static_cast<long>(exifMetadata_.size()); }
-        /*!
-          @brief Returns the byte order. Default is little endian.
-         */
-        ByteOrder byteOrder() const;
-        /*!
-          @brief Write the thumbnail image to a file. A filename extension
-                 is appended to \em path according to the image type of the
-                 thumbnail, so \em path should not include an extension.
-                 This will overwrite an existing file of the same name.
-
-          @param  path Path of the filename without image type extension
-
-          @throw Error if writing to the file fails.
-
-          @return 0 if successful;<BR>
-                  8 if the Exif data does not contain a thumbnail.
-         */
-        int writeThumbnail(const std::string& path) const;
-        /*!
-          @brief Return the thumbnail image in a %DataBuf. The caller owns the
-                 data buffer and %DataBuf ensures that it will be deleted.
-         */
-        DataBuf copyThumbnail() const;
-        /*!
-          @brief Return a short string describing the format of the Exif
-                 thumbnail ("TIFF", "JPEG").
-         */
-        const char* thumbnailFormat() const;
-        /*!
-          @brief Return the file extension for the Exif thumbnail depending
-                 on the format (".tif", ".jpg").
-         */
-        const char* thumbnailExtension() const;
-        /*!
-          @brief Return a thumbnail object of the correct type, corresponding to
-                 the current Exif data. Caller owns this object and the auto
-                 pointer ensures that it will be deleted.
-         */
-        Thumbnail::AutoPtr getThumbnail() const;
         //@}
 
     private:
-        //! @name Manipulators
-        //@{
-        /*!
-          @brief Read the thumbnail from the data buffer. Assigns the thumbnail
-                 data area with the appropriate Exif tags. Return 0 if successful,
-                 i.e., if there is a thumbnail.
-         */
-        int readThumbnail();
-        /*!
-          @brief Check if the metadata changed and update the internal IFDs and
-                 the MakerNote if the changes are compatible with the existing
-                 data (non-intrusive write support).
-
-          @return True if only compatible changes were detected in the metadata
-                  and the internal IFDs and MakerNote (and thus the data buffer)
-                  were updated successfully. Return false, if non-intrusive
-                  writing is not possible. The internal IFDs and the MakerNote
-                  (and thus the data buffer) may or may not be modified in this
-                  case.
-         */
-        bool updateEntries();
-        /*!
-          @brief Update the metadata for a range of entries. Called by
-                 updateEntries() for each of the internal IFDs and the MakerNote
-                 (if any).
-         */
-        bool updateRange(const Entries::iterator& begin,
-                         const Entries::iterator& end,
-                         ByteOrder byteOrder);
-        /*!
-          @brief Write the Exif data to a data buffer the hard way, return the
-                 data buffer. The caller owns this data buffer and %DataBuf
-                 ensures that it will be deleted.
-
-          Rebuilds the Exif data from scratch, using the TIFF header, metadata
-          container and thumbnail. In particular, the internal IFDs and the
-          original data buffer are not used. Furthermore, this method updates
-          the Exif data with the metadata from the actual thumbnail image
-          (overriding existing metadata).
-
-          @return A %DataBuf containing the Exif data.
-         */
-        DataBuf copyFromMetadata();
-        //@}
-
-        //! @name Accessors
-        //@{
-        /*!
-          @brief Check if the metadata is compatible with the internal IFDs for
-                 non-intrusive writing. Return true if compatible, false if not.
-
-          @note This function does not detect deleted metadata as incompatible,
-                although the deletion of metadata is not (yet) a supported
-                non-intrusive write operation.
-         */
-        bool compatible() const;
-        /*!
-          @brief Find the IFD or makernote entry corresponding to ifd id and idx.
-
-          @return A pair of which the first part determines if a match was found
-                  and, if true, the second contains an iterator to the entry.
-         */
-        std::pair<bool, Entries::const_iterator>
-        findEntry(IfdId ifdId, int idx) const;
-        //! Return a pointer to the internal IFD identified by its IFD id
-        const Ifd* getIfd(IfdId ifdId) const;
-        /*!
-          @brief Check if IFD1, the IFD1 data and thumbnail data are located at
-                 the end of the Exif data. Return true, if they are or if there
-                 is no thumbnail at all, else return false.
-         */
-        bool stdThumbPosition() const;
-        //@}
-
         // DATA
         ExifMetadata exifMetadata_;
 
-        // The pointers below are used only if Exif data is read from a
-        // raw data buffer
-        TiffHeader* pTiffHeader_;      //! Pointer to the TIFF header
-        Ifd* pIfd0_;                   //! Pointer to Ifd0
-        Ifd* pExifIfd_;                //! Pointer to ExifIfd
-        Ifd* pIopIfd_;                 //! Pointer to IopIfd
-        Ifd* pGpsIfd_;                 //! Pointer to GpsIfd
-        Ifd* pIfd1_;                   //! Pointer to Ifd1
-        MakerNote* pMakerNote_;        //! Pointer to the MakerNote, if any
-
-        long size_;                    //!< Size of the Exif raw data in bytes
-        byte* pData_;                  //!< Exif raw data buffer
-
-        /*!
-          Can be set to false to indicate that non-intrusive writing is not
-          possible. If it is true (the default), then the compatibility checks
-          will be performed to determine which writing method to use.
-         */
-        bool compatible_;
-
     }; // class ExifData
 
-// *****************************************************************************
-// template, inline and free functions
+    /*!
+      @brief Stateless parser class for Exif data. Images use this class to
+             decode and encode binary Exif data. See class TiffParser for details.
+     */
+    class ExifParser {
+    public:
+        /*!
+          @brief Decode metadata from a buffer \em pData of length \em size
+                 with binary Exif data to the provided metadata container.
+                 Return byte order in which the data is encoded.
+                 See TiffParser::decode().
+        */
+        static ByteOrder decode(
+                  ExifData& exifData,
+            const byte*     pData,
+                  uint32_t  size
+        );
+        /*!
+          @brief Encode metadata from the provided metadata to Exif format.
+                 See TiffParser::encode().
+        */
+        static WriteMethod encode(
+                  Blob&     blob,
+            const byte*     pData,
+                  uint32_t  size,
+                  ByteOrder byteOrder,
+            const ExifData& exifData
+        );
+        /*!
+          @brief Encode metadata from the provided metadata to Exif format.
+                 See TiffParser::encode().
 
-    template<typename T>
-    Exifdatum& setValue(Exifdatum& exifDatum, const T& value)
-    {
-        std::auto_ptr<ValueType<T> > v
-            = std::auto_ptr<ValueType<T> >(new ValueType<T>);
-        v->value_.push_back(value);
-        exifDatum.value_ = v;
-        return exifDatum;
-    }
-    /*!
-      @brief Returns the IfdId of the first Exif makernote tag it finds in the
-             Exif metadata or ifdIdNotSet if there is no Exif makernote tag.
-    */
-    IfdId hasMakerNote(const ExifData& exifData);
-    /*!
-      @brief Add all metadata in the range from iterator position begin to
-             iterator position end, which have an IFD id matching that of the
-             IFD to the list of directory entries of ifd.  No duplicate checks
-             are performed, i.e., it is possible to add multiple metadata with
-             the same key to an IFD.
-     */
-    void addToIfd(Ifd& ifd,
-                  ExifMetadata::const_iterator begin,
-                  ExifMetadata::const_iterator end,
-                  ByteOrder byteOrder);
-    /*!
-      @brief Add the Exifdatum to the IFD.  No duplicate checks are performed,
-             i.e., it is possible to add multiple metadata with the same key to
-             an IFD.
-     */
-    void addToIfd(Ifd& ifd, const Exifdatum& exifdatum, ByteOrder byteOrder);
-    /*!
-      @brief Add all metadata in the range from iterator position begin to
-             iterator position end with IFD id 'makerIfd' to the list of
-             makernote entries of the object pointed to be makerNote.  No
-             duplicate checks are performed, i.e., it is possible to add
-             multiple metadata with the same key to a makernote.
-     */
-    void addToMakerNote(MakerNote* makerNote,
-                        ExifMetadata::const_iterator begin,
-                        ExifMetadata::const_iterator end,
-                        ByteOrder byteOrder);
-    /*!
-      @brief Add the Exifdatum to makerNote, encoded in byte order byteOrder.
-             No duplicate checks are performed, i.e., it is possible to add
-             multiple metadata with the same key to a makernote.
-     */
-    void addToMakerNote(MakerNote* makerNote,
-                        const Exifdatum& exifdatum,
-                        ByteOrder byteOrder);
+          Encode Exif metadata from the \em ExifData container to binary format
+          in the \em blob encoded in \em byteOrder.
+
+          This simpler encode method uses "intrusive" writing, i.e., it builds
+          the binary representation of the metadata from scratch. It does not
+          attempt "non-intrusive", i.e., in-place updating. It's better to use
+          the other encode() method, if the metadata is already available in
+          binary format, in order to allow for "non-intrusive" updating of the
+          existing binary representation.
+
+          This is just an inline wrapper for
+          ExifParser::encode(blob, 0, 0, byteOrder, exifData).
+        */
+        static void encode(
+                  Blob&     blob,
+                  ByteOrder byteOrder,
+            const ExifData& exifData
+        )
+        {
+            encode(blob, 0, 0, byteOrder, exifData);
+        }
+
+    }; // class ExifParser
 
 }                                       // namespace Exiv2
 

@@ -38,7 +38,8 @@ EXIV2_RCSID("@(#) $Id$")
 #endif
 
 #include "orfimage.hpp"
-#include "tiffparser.hpp"
+#include "orfimage_int.hpp"
+#include "tiffimage_int.hpp"
 #include "image.hpp"
 #include "basicio.hpp"
 #include "error.hpp"
@@ -53,6 +54,8 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
+
+    using namespace Internal;
 
     OrfImage::OrfImage(BasicIo::AutoPtr io, bool /*create*/)
         : Image(ImageType::orf, mdExif | mdIptc, io)
@@ -112,10 +115,12 @@ namespace Exiv2 {
             throw Error(3, "ORF");
         }
         clearMetadata();
-        OrfHeader orfHeader;
-        TiffParser::decode(this, io_->mmap(), io_->size(),
-                           TiffCreator::create, TiffDecoder::findDecoder,
-                           &orfHeader);
+        ByteOrder bo = OrfParser::decode(exifData_,
+                                         iptcData_,
+                                         xmpData_,
+                                         io_->mmap(),
+                                         io_->size());
+        setByteOrder(bo);
     } // OrfImage::readMetadata
 
     void OrfImage::writeMetadata()
@@ -124,38 +129,47 @@ namespace Exiv2 {
         throw(Error(31, "ORF"));
     } // OrfImage::writeMetadata
 
-    OrfHeader::OrfHeader()
-        : TiffHeaderBase('O'<< 8 | 'R', 8, littleEndian, 0x00000008)
+    ByteOrder OrfParser::decode(
+              ExifData& exifData,
+              IptcData& iptcData,
+              XmpData&  xmpData,
+        const byte*     pData,
+              uint32_t  size
+    )
     {
+        OrfHeader orfHeader;
+        return TiffParserWorker::decode(exifData,
+                                        iptcData,
+                                        xmpData,
+                                        pData,
+                                        size,
+                                        TiffCreator::create,
+                                        TiffMapping::findDecoder,
+                                        &orfHeader);
     }
 
-    OrfHeader::~OrfHeader()
+    WriteMethod OrfParser::encode(
+              Blob&     blob,
+        const byte*     pData,
+              uint32_t  size,
+        const ExifData& exifData,
+        const IptcData& iptcData,
+        const XmpData&  xmpData
+    )
     {
-    }
+        /* Todo: Implement me!
 
-    bool OrfHeader::read(const byte* pData, uint32_t size)
-    {
-        if (size < 8) return false;
-
-        if (pData[0] == 0x49 && pData[1] == 0x49) {
-            setByteOrder(littleEndian);
-        }
-        else if (pData[0] == 0x4d && pData[1] == 0x4d) {
-            setByteOrder(bigEndian);
-        }
-        else {
-            return false;
-        }
-        if (tag() != getUShort(pData + 2, byteOrder())) return false;
-        setOffset(getULong(pData + 4, byteOrder()));
-        if (offset() != 0x00000008) return false;
-
-        return true;
-    } // OrfHeader::read
-
-    void OrfHeader::write(Blob& blob) const
-    {
-        // Todo: Implement me!
+        return TiffParserWorker::encode(blob,
+                                 pData,
+                                 size,
+                                 exifData,
+                                 iptcData,
+                                 xmpData,
+                                 TiffCreator::create,
+                                 TiffMapping::findEncoder);
+        */
+        blob.clear();
+        return wmIntrusive;
     }
 
     // *************************************************************************
@@ -186,3 +200,43 @@ namespace Exiv2 {
     }
 
 }                                       // namespace Exiv2
+
+namespace Exiv2 {
+    namespace Internal {
+
+    OrfHeader::OrfHeader()
+        : TiffHeaderBase('O'<< 8 | 'R', 8, littleEndian, 0x00000008)
+    {
+    }
+
+    OrfHeader::~OrfHeader()
+    {
+    }
+
+    bool OrfHeader::read(const byte* pData, uint32_t size)
+    {
+        if (size < 8) return false;
+
+        if (pData[0] == 0x49 && pData[1] == 0x49) {
+            setByteOrder(littleEndian);
+        }
+        else if (pData[0] == 0x4d && pData[1] == 0x4d) {
+            setByteOrder(bigEndian);
+        }
+        else {
+            return false;
+        }
+        if (tag() != getUShort(pData + 2, byteOrder())) return false;
+        setOffset(getULong(pData + 4, byteOrder()));
+        if (offset() != 0x00000008) return false;
+
+        return true;
+    } // OrfHeader::read
+
+    uint32_t OrfHeader::write(Blob& blob) const
+    {
+        // Todo: Implement me!
+        return 0;
+    }
+
+}}                                      // namespace Internal, Exiv2

@@ -197,7 +197,7 @@ namespace Exiv2 {
             append(psBlob, pPsData, sizeFront);
         }
         // Write new iptc record if we have it
-        DataBuf rawIptc(iptcData.copy());
+        DataBuf rawIptc = IptcParser::encode(iptcData);
         if (rawIptc.size_ > 0) {
             byte tmpBuf[12];
             std::memcpy(tmpBuf, Photoshop::bimId_, 4);
@@ -315,7 +315,9 @@ namespace Exiv2 {
                 DataBuf rawExif(size - 8);
                 io_->read(rawExif.pData_, rawExif.size_);
                 if (io_->error() || io_->eof()) throw Error(14);
-                if (exifData_.load(rawExif.pData_, rawExif.size_)) {
+                ByteOrder bo = ExifParser::decode(exifData_, rawExif.pData_, rawExif.size_);
+                setByteOrder(bo);
+                if (rawExif.size_ > 0 && byteOrder() == invalidByteOrder) {
 #ifndef SUPPRESS_WARNINGS
                     std::cerr << "Warning: Failed to decode Exif metadata.\n";
 #endif
@@ -422,7 +424,7 @@ namespace Exiv2 {
                     break;
                 }
                 // Skip the remainder of the unknown segment
-                if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(14);
+                if (io_->seek(size - bufRead, BasicIo::cur)) throw Error(14);
             }
             // Read the beginning of the next segment
             marker = advanceToMarker();
@@ -433,7 +435,7 @@ namespace Exiv2 {
         } // while there are segments to process
 
         if (   iptcBlob.size() > 0
-            && iptcData_.load(&iptcBlob[0], static_cast<long>(iptcBlob.size()))) {
+               && IptcParser::decode(iptcData_, &iptcBlob[0], iptcBlob.size())) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: Failed to decode IPTC metadata.\n";
 #endif
@@ -484,6 +486,7 @@ namespace Exiv2 {
         int skipApp13Ps3 = -1;
         int skipCom = -1;
         DataBuf psData;
+        DataBuf rawExif;
 
         // Write image header
         if (writeHeader(outIo)) throw Error(21);
@@ -510,7 +513,11 @@ namespace Exiv2 {
                 if (size < 8) throw Error(22);
                 skipApp1Exif = count;
                 ++search;
-                if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(22);
+                // Seek to beginning and read the current Exif data
+                io_->seek(8 - bufRead, BasicIo::cur);
+                rawExif.alloc(size - 8);
+                io_->read(rawExif.pData_, rawExif.size_);
+                if (io_->error() || io_->eof()) throw Error(22);
             }
             else if (marker == app1_ && memcmp(buf.pData_ + 2, xmpId_, 29) == 0) {
                 if (size < 31) throw Error(22);
@@ -589,20 +596,36 @@ namespace Exiv2 {
                     --search;
                 }
                 if (exifData_.count() > 0) {
-                    DataBuf rawExif = exifData_.copy();
-                    if (rawExif.size_ > 0) {
+                    Blob blob;
+                    ByteOrder bo = byteOrder();
+                    if (bo == invalidByteOrder) {
+                        bo = littleEndian;
+                        setByteOrder(bo);
+                    }
+                    WriteMethod wm = ExifParser::encode(blob,
+                                                        rawExif.pData_,
+                                                        rawExif.size_,
+                                                        bo,
+                                                        exifData_);
+                    const byte* pExifData = rawExif.pData_;
+                    uint32_t exifSize = rawExif.size_;
+                    if (wm == wmIntrusive) {
+                        pExifData = &blob[0];
+                        exifSize = blob.size();
+                    }
+                    if (exifSize > 0) {
                         // Write APP1 marker, size of APP1 field, Exif id and Exif data
                         tmpBuf[0] = 0xff;
                         tmpBuf[1] = app1_;
 
-                        if (rawExif.size_ + 8 > 0xffff) throw Error(37, "Exif");
-                        us2Data(tmpBuf + 2, static_cast<uint16_t>(rawExif.size_ + 8), bigEndian);
+                        if (exifSize + 8 > 0xffff) throw Error(37, "Exif");
+                        us2Data(tmpBuf + 2, static_cast<uint16_t>(exifSize + 8), bigEndian);
                         std::memcpy(tmpBuf + 4, exifId_, 6);
                         if (outIo.write(tmpBuf, 10) != 10) throw Error(21);
 
                         // Write new Exif data buffer
-                        if (   outIo.write(rawExif.pData_, rawExif.size_)
-                            != rawExif.size_) throw Error(21);
+                        if (   outIo.write(pExifData, exifSize)
+                            != static_cast<long>(exifSize)) throw Error(21);
                         if (outIo.error()) throw Error(21);
                         --search;
                     }

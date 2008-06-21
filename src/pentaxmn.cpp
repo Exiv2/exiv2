@@ -36,7 +36,6 @@ EXIV2_RCSID("@(#) $Id$")
 // included header files
 #include "types.hpp"
 #include "pentaxmn.hpp"
-#include "makernote.hpp"
 #include "value.hpp"
 #include "i18n.h"                // NLS support.
 
@@ -50,15 +49,6 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-
-    //! @cond IGNORE
-    PentaxMakerNote::RegisterMn::RegisterMn()
-    {
-        MakerNoteFactory::registerMakerNote("PENTAX*", "*", createPentaxMakerNote);
-        MakerNoteFactory::registerMakerNote(
-            pentaxIfdId, MakerNote::AutoPtr(new PentaxMakerNote));
-    }
-    //! @endcond
 
     //! ShootingMode, tag 0x0001
     extern const TagDetails pentaxShootingMode[] = {
@@ -650,7 +640,7 @@ namespace Exiv2 {
         {   3, N_("Strong") },
     };
 
-    std::ostream& PentaxMakerNote::printPentaxVersion(std::ostream& os, const Value& value)
+    std::ostream& PentaxMakerNote::printPentaxVersion(std::ostream& os, const Value& value, const ExifData*)
     {
         std::string val = value.toString();
         size_t i;
@@ -661,7 +651,7 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& PentaxMakerNote::printPentaxResolution(std::ostream& os, const Value& value)
+    std::ostream& PentaxMakerNote::printPentaxResolution(std::ostream& os, const Value& value, const ExifData*)
     {
         std::string val = value.toString();
         size_t i;
@@ -672,7 +662,7 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& PentaxMakerNote::printPentaxDate(std::ostream& os, const Value& value)
+    std::ostream& PentaxMakerNote::printPentaxDate(std::ostream& os, const Value& value, const ExifData*)
     {
         /* I choose same format as is used inside EXIF itself */
         os << ((value.toLong(0) << 8) + value.toLong(1));
@@ -683,7 +673,7 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& PentaxMakerNote::printPentaxTime(std::ostream& os, const Value& value)
+    std::ostream& PentaxMakerNote::printPentaxTime(std::ostream& os, const Value& value, const ExifData*)
     {
         os << std::setw(2) << std::setfill('0') << value.toLong(0);
         os << ":";
@@ -693,20 +683,20 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& PentaxMakerNote::printPentaxExposure(std::ostream& os, const Value& value)
+    std::ostream& PentaxMakerNote::printPentaxExposure(std::ostream& os, const Value& value, const ExifData*)
     {
         os << static_cast<float>(value.toLong()) / 100 << " ms";
         return os;
     }
 
-    std::ostream& PentaxMakerNote::printPentaxFValue(std::ostream& os, const Value& value)
+    std::ostream& PentaxMakerNote::printPentaxFValue(std::ostream& os, const Value& value, const ExifData*)
     {
         os << "F" << std::setprecision(2)
            << static_cast<float>(value.toLong()) / 10;
         return os;
     }
 
-    std::ostream& PentaxMakerNote::printPentaxFocalLength(std::ostream& os, const Value& value)
+    std::ostream& PentaxMakerNote::printPentaxFocalLength(std::ostream& os, const Value& value, const ExifData*)
     {
         os << std::fixed << std::setprecision(1)
            << static_cast<float>(value.toLong()) / 100
@@ -714,7 +704,7 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& PentaxMakerNote::printPentaxCompensation(std::ostream& os, const Value& value)
+    std::ostream& PentaxMakerNote::printPentaxCompensation(std::ostream& os, const Value& value, const ExifData*)
     {
         os << std::setprecision(2)
            << (static_cast<float>(value.toLong()) - 50) / 10
@@ -722,13 +712,13 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& PentaxMakerNote::printPentaxTemperature(std::ostream& os, const Value& value)
+    std::ostream& PentaxMakerNote::printPentaxTemperature(std::ostream& os, const Value& value, const ExifData*)
     {
         os << value.toLong() << " C";
         return os;
     }
 
-    std::ostream& PentaxMakerNote::printPentaxFlashCompensation(std::ostream& os, const Value& value)
+    std::ostream& PentaxMakerNote::printPentaxFlashCompensation(std::ostream& os, const Value& value, const ExifData*)
     {
         os << std::setprecision(2)
            << static_cast<float>(value.toLong()) / 256
@@ -736,7 +726,7 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& PentaxMakerNote::printPentaxBracketing(std::ostream& os, const Value& value)
+    std::ostream& PentaxMakerNote::printPentaxBracketing(std::ostream& os, const Value& value, const ExifData*)
     {
         long l0 = value.toLong(0);
 
@@ -1034,79 +1024,6 @@ namespace Exiv2 {
     const TagInfo* PentaxMakerNote::tagList()
     {
         return tagInfo_;
-    }
-
-    PentaxMakerNote::PentaxMakerNote(bool alloc)
-        : IfdMakerNote(pentaxIfdId, alloc)
-    {
-        byte buf[] = {
-            'A', 'O', 'C', 0x00, 'M', 'M'
-        };
-        readHeader(buf, 6, byteOrder_);
-    }
-
-    PentaxMakerNote::PentaxMakerNote(const PentaxMakerNote& rhs)
-        : IfdMakerNote(rhs)
-    {
-    }
-
-    int PentaxMakerNote::readHeader(const byte* buf,
-                                    long len,
-                                    ByteOrder /*byteOrder*/)
-    {
-        if (len < 6) return 1;
-
-        header_.alloc(6);
-        std::memcpy(header_.pData_, buf, header_.size_);
-        start_ = 6;
-        return 0;
-    }
-
-    int PentaxMakerNote::checkHeader() const
-    {
-        int rc = 0;
-        // Check the AOC prefix
-        if (   header_.size_ < 6
-            || std::string(reinterpret_cast<char*>(header_.pData_), 3)
-                    != std::string("AOC", 3)) {
-            rc = 2;
-        }
-        return rc;
-    }
-
-    PentaxMakerNote::AutoPtr PentaxMakerNote::create(bool alloc) const
-    {
-        return AutoPtr(create_(alloc));
-    }
-
-    PentaxMakerNote* PentaxMakerNote::create_(bool alloc) const
-    {
-        AutoPtr makerNote(new PentaxMakerNote(alloc));
-        assert(makerNote.get() != 0);
-        makerNote->readHeader(header_.pData_, header_.size_, byteOrder_);
-        return makerNote.release();
-    }
-
-    PentaxMakerNote::AutoPtr PentaxMakerNote::clone() const
-    {
-        return AutoPtr(clone_());
-    }
-
-    PentaxMakerNote* PentaxMakerNote::clone_() const
-    {
-        return new PentaxMakerNote(*this);
-    }
-
-// *****************************************************************************
-// free functions
-
-    MakerNote::AutoPtr createPentaxMakerNote(bool        alloc,
-                                           const byte* /*buf*/,
-                                           long        /*len*/,
-                                           ByteOrder   /*byteOrder*/,
-                                           long        /*offset*/)
-    {
-        return MakerNote::AutoPtr(new PentaxMakerNote(alloc));
     }
 
 }                                       // namespace Exiv2

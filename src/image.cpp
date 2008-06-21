@@ -117,10 +117,11 @@ namespace Exiv2 {
           imageType_(imageType),
           supportedMetadata_(supportedMetadata),
 #ifdef EXV_HAVE_XMP_TOOLKIT
-          writeXmpFromPacket_(false)
+          writeXmpFromPacket_(false),
 #else 
-          writeXmpFromPacket_(true)
+          writeXmpFromPacket_(true),
 #endif
+          byteOrder_(invalidByteOrder)
     {
     }
 
@@ -201,6 +202,11 @@ namespace Exiv2 {
     void Image::setComment(const std::string& comment)
     {
         comment_ = comment;
+    }
+
+    void Image::setByteOrder(ByteOrder byteOrder)
+    {
+        byteOrder_ = byteOrder;
     }
 
     bool Image::good() const
@@ -340,47 +346,6 @@ namespace Exiv2 {
         }
         return Image::AutoPtr();
     } // ImageFactory::create
-
-    TiffHeader::TiffHeader(ByteOrder byteOrder)
-        : byteOrder_(byteOrder), tag_(0x002a), offset_(0x00000008)
-    {
-    }
-
-    int TiffHeader::read(const byte* buf)
-    {
-        if (buf[0] == 0x49 && buf[1] == 0x49) {
-            byteOrder_ = littleEndian;
-        }
-        else if (buf[0] == 0x4d && buf[1] == 0x4d) {
-            byteOrder_ = bigEndian;
-        }
-        else {
-            return 1;
-        }
-        tag_ = getUShort(buf+2, byteOrder_);
-        offset_ = getULong(buf+4, byteOrder_);
-        return 0;
-    }
-
-    long TiffHeader::copy(byte* buf) const
-    {
-        switch (byteOrder_) {
-        case littleEndian:
-            buf[0] = 0x49;
-            buf[1] = 0x49;
-            break;
-        case bigEndian:
-            buf[0] = 0x4d;
-            buf[1] = 0x4d;
-            break;
-        case invalidByteOrder:
-            // do nothing
-            break;
-        }
-        us2Data(buf+2, 0x002a, byteOrder_);
-        ul2Data(buf+4, 0x00000008, byteOrder_);
-        return size();
-    } // TiffHeader::copy
 
 // *****************************************************************************
 // template, inline and free functions

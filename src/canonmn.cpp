@@ -34,9 +34,7 @@ EXIV2_RCSID("@(#) $Id$")
 // included header files
 #include "types.hpp"
 #include "canonmn.hpp"
-#include "makernote.hpp"
 #include "value.hpp"
-#include "ifd.hpp"
 #include "i18n.h"                // NLS support.
 
 // + standard includes
@@ -51,26 +49,6 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-
-    //! @cond IGNORE
-    CanonMakerNote::RegisterMn::RegisterMn()
-    {
-        MakerNoteFactory::registerMakerNote("Canon", "*", createCanonMakerNote);
-
-        MakerNoteFactory::registerMakerNote(
-            canonIfdId, MakerNote::AutoPtr(new CanonMakerNote));
-        MakerNoteFactory::registerMakerNote(
-            canonCsIfdId, MakerNote::AutoPtr(new CanonMakerNote));
-        MakerNoteFactory::registerMakerNote(
-            canonSiIfdId, MakerNote::AutoPtr(new CanonMakerNote));
-        MakerNoteFactory::registerMakerNote(
-            canonPaIfdId, MakerNote::AutoPtr(new CanonMakerNote));
-        MakerNoteFactory::registerMakerNote(
-            canonCfIfdId, MakerNote::AutoPtr(new CanonMakerNote));
-        MakerNoteFactory::registerMakerNote(
-            canonPiIfdId, MakerNote::AutoPtr(new CanonMakerNote));
-    }
-    //! @endcond
 
     //! ModelId, tag 0x0010
     extern const TagDetails canonModelId[] = {
@@ -265,7 +243,7 @@ namespace Exiv2 {
         { 6, N_("Medium 2") },
         { 7, N_("Medium 3") }
     };
-
+ 
     //! EasyMode, tag 0x000b
     extern const TagDetails canonCsEasyMode[] = {
         {  0, N_("Full auto")        },
@@ -661,293 +639,9 @@ namespace Exiv2 {
         return tagInfoPi_;
     }
 
-    int CanonMakerNote::read(const byte* buf,
-                             long len,
-                             long start,
-                             ByteOrder byteOrder,
-                             long shift)
-    {
-        int rc = IfdMakerNote::read(buf, len, start, byteOrder, shift);
-        if (rc) return rc;
-
-        // Decode camera settings 1 and add settings as additional entries
-        Entries::iterator cs = ifd_.findTag(0x0001);
-        if (cs != ifd_.end() && cs->type() == unsignedShort) {
-            for (uint16_t c = 1; cs->count() > c; ++c) {
-                if (c == 23 && cs->count() > 25) {
-                    // Pack related lens info into one tag
-                    addCsEntry(canonCsIfdId, c, cs->offset() + c*2,
-                               cs->data() + c*2, 3);
-                    c += 2;
-                }
-                else {
-                    addCsEntry(canonCsIfdId, c, cs->offset() + c*2,
-                               cs->data() + c*2, 1);
-                }
-            }
-            // Discard the original entry
-            ifd_.erase(cs);
-        }
-
-        // Decode camera settings 2 and add settings as additional entries
-        cs = ifd_.findTag(0x0004);
-        if (cs != ifd_.end() && cs->type() == unsignedShort) {
-            for (uint16_t c = 1; cs->count() > c; ++c) {
-                addCsEntry(canonSiIfdId, c, cs->offset() + c*2,
-                           cs->data() + c*2, 1);
-            }
-            // Discard the original entry
-            ifd_.erase(cs);
-        }
-
-        // Decode panorama information and add each as an additional entry
-        cs = ifd_.findTag(0x0005);
-        if (cs != ifd_.end() && cs->type() == unsignedShort) {
-            for (uint16_t c = 1; cs->count() > c; ++c) {
-                addCsEntry(canonPaIfdId, c, cs->offset() + c*2,
-                           cs->data() + c*2, 1);
-            }
-            // Discard the original entry
-            ifd_.erase(cs);
-        }
-
-        // Decode custom functions and add each as an additional entry
-        cs = ifd_.findTag(0x000f);
-        if (cs != ifd_.end() && cs->type() == unsignedShort) {
-            for (uint16_t c = 1; cs->count() > c; ++c) {
-                addCsEntry(canonCfIfdId, c, cs->offset() + c*2,
-                           cs->data() + c*2, 1);
-            }
-            // Discard the original entry
-            ifd_.erase(cs);
-        }
-
-        // Decode picture info and add each as an additional entry
-        cs = ifd_.findTag(0x0012);
-        if (cs != ifd_.end() && cs->type() == unsignedShort) {
-            for (uint16_t c = 1; cs->count() > c; ++c) {
-                addCsEntry(canonPiIfdId, c, cs->offset() + c*2,
-                           cs->data() + c*2, 1);
-            }
-            // Discard the original entry
-            ifd_.erase(cs);
-        }
-
-        // Copy remaining ifd entries
-        entries_.insert(entries_.begin(), ifd_.begin(), ifd_.end());
-
-        // Set idx
-        int idx = 0;
-        Entries::iterator e = entries_.end();
-        for (Entries::iterator i = entries_.begin(); i != e; ++i) {
-            i->setIdx(++idx);
-        }
-
-        return 0;
-    }
-
-    void CanonMakerNote::addCsEntry(IfdId ifdId,
-                                    uint16_t tag,
-                                    long offset,
-                                    const byte* data,
-                                    int count)
-    {
-        Entry e(false);
-        e.setIfdId(ifdId);
-        e.setTag(tag);
-        e.setOffset(offset);
-        e.setValue(unsignedShort, count, data, 2*count);
-        add(e);
-    }
-
-    void CanonMakerNote::add(const Entry& entry)
-    {
-        assert(alloc_ == entry.alloc());
-        assert(   entry.ifdId() == canonIfdId
-               || entry.ifdId() == canonCsIfdId
-               || entry.ifdId() == canonSiIfdId
-               || entry.ifdId() == canonPaIfdId
-               || entry.ifdId() == canonCfIfdId
-               || entry.ifdId() == canonPiIfdId);
-        // allow duplicates
-        entries_.push_back(entry);
-    }
-
-    long CanonMakerNote::copy(byte* buf, ByteOrder byteOrder, long offset)
-    {
-        if (byteOrder_ == invalidByteOrder) byteOrder_ = byteOrder;
-
-        assert(ifd_.alloc());
-        ifd_.clear();
-
-        // Add all standard Canon entries to the IFD
-        Entries::const_iterator end = entries_.end();
-        for (Entries::const_iterator i = entries_.begin(); i != end; ++i) {
-            if (i->ifdId() == canonIfdId) {
-                ifd_.add(*i);
-            }
-        }
-        // Collect camera settings entries and add the original Canon tag
-        Entry cs;
-        if (assemble(cs, canonCsIfdId, 0x0001, byteOrder_)) {
-            ifd_.erase(0x0001);
-            ifd_.add(cs);
-        }
-        // Collect shot info entries and add the original Canon tag
-        Entry si;
-        if (assemble(si, canonSiIfdId, 0x0004, byteOrder_)) {
-            ifd_.erase(0x0004);
-            ifd_.add(si);
-        }
-        // Collect panorama entries and add the original Canon tag
-        Entry pa;
-        if (assemble(pa, canonPaIfdId, 0x0005, byteOrder_)) {
-            ifd_.erase(0x0005);
-            ifd_.add(pa);
-        }
-        // Collect custom function entries and add the original Canon tag
-        Entry cf;
-        if (assemble(cf, canonCfIfdId, 0x000f, byteOrder_)) {
-            ifd_.erase(0x000f);
-            ifd_.add(cf);
-        }
-        // Collect picture info entries and add the original Canon tag
-        Entry pi;
-        if (assemble(pi, canonPiIfdId, 0x0012, byteOrder_)) {
-            ifd_.erase(0x0012);
-            ifd_.add(pi);
-        }
-
-        return IfdMakerNote::copy(buf, byteOrder_, offset);
-    } // CanonMakerNote::copy
-
-    void CanonMakerNote::updateBase(byte* pNewBase)
-    {
-        byte* pBase = ifd_.updateBase(pNewBase);
-        if (absShift_ && !alloc_) {
-            Entries::iterator end = entries_.end();
-            for (Entries::iterator pos = entries_.begin(); pos != end; ++pos) {
-                pos->updateBase(pBase, pNewBase);
-            }
-        }
-    } // CanonMakerNote::updateBase
-
-    long CanonMakerNote::size() const
-    {
-        Ifd ifd(canonIfdId, 0, alloc_); // offset doesn't matter
-
-        // Add all standard Canon entries to the IFD
-        Entries::const_iterator end = entries_.end();
-        for (Entries::const_iterator i = entries_.begin(); i != end; ++i) {
-            if (i->ifdId() == canonIfdId) {
-                ifd.add(*i);
-            }
-        }
-        // Collect camera settings entries and add the original Canon tag
-        Entry cs(alloc_);
-        if (assemble(cs, canonCsIfdId, 0x0001, littleEndian)) {
-            ifd.erase(0x0001);
-            ifd.add(cs);
-        }
-        // Collect shot info entries and add the original Canon tag
-        Entry si(alloc_);
-        if (assemble(si, canonSiIfdId, 0x0004, littleEndian)) {
-            ifd.erase(0x0004);
-            ifd.add(si);
-        }
-        // Collect panorama entries and add the original Canon tag
-        Entry pa(alloc_);
-        if (assemble(pa, canonPaIfdId, 0x0005, littleEndian)) {
-            ifd.erase(0x0005);
-            ifd.add(pa);
-        }
-        // Collect custom function entries and add the original Canon tag
-        Entry cf(alloc_);
-        if (assemble(cf, canonCfIfdId, 0x000f, littleEndian)) {
-            ifd.erase(0x000f);
-            ifd.add(cf);
-        }
-        // Collect picture info entries and add the original Canon tag
-        Entry pi(alloc_);
-        if (assemble(pi, canonPiIfdId, 0x0012, littleEndian)) {
-            ifd.erase(0x0012);
-            ifd.add(pi);
-        }
-
-        return headerSize() + ifd.size() + ifd.dataSize();
-    } // CanonMakerNote::size
-
-    long CanonMakerNote::assemble(Entry& e,
-                                  IfdId ifdId,
-                                  uint16_t tag,
-                                  ByteOrder byteOrder) const
-    {
-        DataBuf buf(1024);
-        std::memset(buf.pData_, 0x0, 1024);
-        uint16_t len = 0;
-        Entries::const_iterator end = entries_.end();
-        for (Entries::const_iterator i = entries_.begin(); i != end; ++i) {
-            if (i->ifdId() == ifdId) {
-                uint16_t pos = i->tag() * 2;
-                uint16_t size = pos + static_cast<uint16_t>(i->size());
-                assert(size <= 1024);
-                std::memcpy(buf.pData_ + pos, i->data(), i->size());
-                if (len < size) len = size;
-            }
-        }
-        if (len > 0) {
-            // Number of shorts in the buffer (rounded up)
-            uint16_t s = (len+1) / 2;
-            us2Data(buf.pData_, s*2, byteOrder);
-
-            e.setIfdId(canonIfdId);
-            e.setIdx(0); // don't care
-            e.setTag(tag);
-            e.setOffset(0); // will be calculated when the IFD is written
-            e.setValue(unsignedShort, s, buf.pData_, s*2);
-        }
-        return len;
-    } // CanonMakerNote::assemble
-
-    Entries::const_iterator CanonMakerNote::findIdx(int idx) const
-    {
-        return std::find_if(entries_.begin(), entries_.end(),
-                            FindEntryByIdx(idx));
-    }
-
-    CanonMakerNote::CanonMakerNote(bool alloc)
-        : IfdMakerNote(canonIfdId, alloc)
-    {
-    }
-
-    CanonMakerNote::CanonMakerNote(const CanonMakerNote& rhs)
-        : IfdMakerNote(rhs)
-    {
-        entries_ = rhs.entries_;
-    }
-
-    CanonMakerNote::AutoPtr CanonMakerNote::create(bool alloc) const
-    {
-        return AutoPtr(create_(alloc));
-    }
-
-    CanonMakerNote* CanonMakerNote::create_(bool alloc) const
-    {
-        return new CanonMakerNote(alloc);
-    }
-
-    CanonMakerNote::AutoPtr CanonMakerNote::clone() const
-    {
-        return AutoPtr(clone_());
-    }
-
-    CanonMakerNote* CanonMakerNote::clone_() const
-    {
-        return new CanonMakerNote(*this);
-    }
-
     std::ostream& CanonMakerNote::print0x0008(std::ostream& os,
-                                              const Value& value)
+                                              const Value& value,
+                                              const ExifData*)
     {
         std::string n = value.toString();
         if (n.length() < 4) return os << "(" << n << ")";
@@ -956,7 +650,8 @@ namespace Exiv2 {
     }
 
     std::ostream& CanonMakerNote::print0x000c(std::ostream& os,
-                                              const Value& value)
+                                              const Value& value,
+                                              const ExifData*)
     {
         std::istringstream is(value.toString());
         uint32_t l;
@@ -968,7 +663,8 @@ namespace Exiv2 {
     }
 
     std::ostream& CanonMakerNote::printCs0x0002(std::ostream& os,
-                                                 const Value& value)
+                                                const Value& value,
+                                                const ExifData*)
     {
         if (value.typeId() != unsignedShort) return os << value;
         long l = value.toLong();
@@ -982,7 +678,8 @@ namespace Exiv2 {
     }
 
     std::ostream& CanonMakerNote::printCsLens(std::ostream& os,
-                                                const Value& value)
+                                              const Value& value,
+                                              const ExifData*)
     {
         if (   value.count() < 3
             || value.typeId() != unsignedShort) {
@@ -1006,14 +703,16 @@ namespace Exiv2 {
     }
 
     std::ostream& CanonMakerNote::printSi0x0002(std::ostream& os,
-                                                 const Value& value)
+                                                const Value& value,
+                                                const ExifData*)
     {
         // Ported from Exiftool by Will Stokes
         return os << exp(canonEv(value.toLong()) * log(2.0)) * 100.0 / 32.0;
     }
 
     std::ostream& CanonMakerNote::printSi0x0009(std::ostream& os,
-                                                 const Value& value)
+                                                const Value& value,
+                                                const ExifData*)
     {
         if (value.typeId() != unsignedShort) return os << value;
         long l = value.toLong();
@@ -1023,7 +722,8 @@ namespace Exiv2 {
     }
 
     std::ostream& CanonMakerNote::printSi0x000e(std::ostream& os,
-                                                 const Value& value)
+                                                const Value& value,
+                                                const ExifData* pExifData)
     {
         if (value.typeId() != unsignedShort) return os << value;
         long l = value.toLong();
@@ -1034,14 +734,15 @@ namespace Exiv2 {
             os << "none";
         }
         else {
-            EXV_PRINT_TAG_BITMASK(canonSiAFPointUsed)(os, value);
+            EXV_PRINT_TAG_BITMASK(canonSiAFPointUsed)(os, value, pExifData);
         }
         os << " used";
         return os;
     }
 
     std::ostream& CanonMakerNote::printSi0x0013(std::ostream& os,
-                                                 const Value& value)
+                                                const Value& value,
+                                                const ExifData*)
     {
         if (value.typeId() != unsignedShort) return os << value;
         long l = value.toLong();
@@ -1055,7 +756,8 @@ namespace Exiv2 {
     }
 
     std::ostream& CanonMakerNote::printSi0x0015(std::ostream& os,
-                                                 const Value& value)
+                                                const Value& value,
+                                                const ExifData*)
     {
         if (value.typeId() != unsignedShort) return os << value;
 
@@ -1069,7 +771,8 @@ namespace Exiv2 {
     }
 
     std::ostream& CanonMakerNote::printSi0x0016(std::ostream& os,
-                                                 const Value& value)
+                                                const Value& value,
+                                                const ExifData*)
     {
         if (value.typeId() != unsignedShort) return os << value;
 
@@ -1083,15 +786,6 @@ namespace Exiv2 {
 
 // *****************************************************************************
 // free functions
-
-    MakerNote::AutoPtr createCanonMakerNote(      bool      alloc,
-                                            const byte*     /*buf*/,
-                                                  long      /*len*/,
-                                                  ByteOrder /*byteOrder*/,
-                                                  long      /*offset*/)
-    {
-        return MakerNote::AutoPtr(new CanonMakerNote(alloc));
-    }
 
     float canonEv(long val)
     {
