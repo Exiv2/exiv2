@@ -398,6 +398,11 @@ namespace Exiv2 {
         exifMetadata_.clear();
     }
 
+    void ExifData::sortByKey()
+    {
+        // TODO
+    }
+
     ExifData::iterator ExifData::erase(ExifData::iterator pos)
     {
         return exifMetadata_.erase(pos);
