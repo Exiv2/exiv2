@@ -400,7 +400,12 @@ namespace Exiv2 {
 
     void ExifData::sortByKey()
     {
-        // TODO
+        std::sort(exifMetadata_.begin(), exifMetadata_.end(), cmpMetadataByKey);
+    }
+
+    void ExifData::sortByTag()
+    {
+        std::sort(exifMetadata_.begin(), exifMetadata_.end(), cmpMetadataByTag);
     }
 
     ExifData::iterator ExifData::erase(ExifData::iterator pos)
