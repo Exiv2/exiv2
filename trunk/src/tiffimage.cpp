@@ -374,6 +374,10 @@ namespace Exiv2 {
         { Tag::next, Group::panamn,    Group::ignr,      0x927c,    Group::exif,      newTiffDirectory },
         {  Tag::all, Group::panamn,    Group::panamn,    0x927c,    Group::exif,      newTiffEntry },
 
+        // Pentax makernote
+        { Tag::next, Group::pentaxmn,  Group::ignr,      0x927c,    Group::exif,      newTiffDirectory },
+        {  Tag::all, Group::pentaxmn,  Group::pentaxmn,  0x927c,    Group::exif,      newTiffEntry },
+
         // Sigma/Foveon makernote
         { Tag::next, Group::sigmamn,   Group::ignr,      0x927c,    Group::exif,      newTiffDirectory },
         {  Tag::all, Group::sigmamn,   Group::sigmamn,   0x927c,    Group::exif,      newTiffEntry },
