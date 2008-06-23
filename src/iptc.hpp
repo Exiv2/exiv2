@@ -309,10 +309,10 @@ namespace Exiv2 {
     class IptcParser {
     public:
         /*!
-          @brief Decode IPTC data in IPTC IIM4 format from a buffer \em pData
+          @brief Decode binary IPTC data in IPTC IIM4 format from a buffer \em pData
                  of length \em size to the provided metadata container.
 
-          @param iptcData Metadata container to add the decoded IPTC data to.
+          @param iptcData Metadata container to add the decoded IPTC datasets to.
           @param pData    Pointer to the data buffer to read from.
           @param size     Number of bytes in the data buffer.
 
@@ -325,13 +325,13 @@ namespace Exiv2 {
                   uint32_t  size
         );
         /*!
-          @brief Encode metadata from the provided metadata to IPTC IIM4 format.
+          @brief Encode the IPTC datasets from \em iptcData to a binary
+                 representation in IPTC IIM4 format.
 
-          Write the IPTC data to a data buffer and return the data buffer.
-          Caller owns this buffer. The copied data follows the IPTC IIM4
-          standard.
+          Convert the IPTC datasets to binary format and return it.  Caller owns
+          the returned buffer. The copied data follows the IPTC IIM4 standard.
 
-          @return Data buffer containing the IPTC data.
+          @return Data buffer containing the binary IPTC data in IPTC IIM4 format.
          */
         static DataBuf encode(
             const IptcData& iptcData
