@@ -469,6 +469,8 @@ namespace Exiv2 {
         void clear();
         //! Sort metadata by key
         void sortByKey();
+        //! Sort metadata by tag
+        void sortByTag();
         //! Begin of the metadata
         iterator begin() { return exifMetadata_.begin(); }
         //! End of the metadata
