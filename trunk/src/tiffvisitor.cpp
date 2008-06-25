@@ -416,6 +416,9 @@ namespace Exiv2 {
     {
         assert(pRoot != 0);
 
+        encodeIptc();
+        encodeXmp();
+
         // Find camera make
         ExifKey key("Exif.Image.Make");
         ExifData::const_iterator pos = exifData_.findKey(key);
@@ -431,6 +434,72 @@ namespace Exiv2 {
             }
         }
     }
+
+    void TiffEncoder::encodeIptc()
+    {
+        // Update IPTCNAA Exif tag, if it exists. Delete the tag if there
+        // is no IPTC data anymore.
+        // If there is new IPTC data and Exif.Image.ImageResources does
+        // not exist, create a new IPTCNAA Exif tag.
+        bool del = false;
+        const ExifKey iptcNaaKey("Exif.Image.IPTCNAA");
+        ExifData::iterator pos = exifData_.findKey(iptcNaaKey);
+        if (pos != exifData_.end()) {
+            exifData_.erase(pos);
+            del = true;
+        }
+        DataBuf rawIptc = IptcParser::encode(iptcData_);
+        const ExifKey irbKey("Exif.Image.ImageResources");
+        pos = exifData_.findKey(irbKey);
+        if (rawIptc.size_ != 0 && (del || pos == exifData_.end())) {
+            Value::AutoPtr value = Value::create(unsignedLong);
+            value->read(rawIptc.pData_, rawIptc.size_, byteOrder_);
+
+// Todo remove me!
+std::cerr << "Writing IPTCNAA datum, size = " << value->size() << "\n";
+
+            Exifdatum iptcDatum(iptcNaaKey, value.get());
+            exifData_.add(iptcDatum);
+            pos = exifData_.findKey(irbKey); // needed after add()
+        }
+        // Also update IPTC IRB in Exif.Image.ImageResources if it exists,
+        // but don't create it if not.
+        if (pos != exifData_.end()) {
+            DataBuf irbBuf(pos->value().size());
+            pos->value().copy(irbBuf.pData_, invalidByteOrder);
+            irbBuf = Photoshop::setIptcIrb(irbBuf.pData_, irbBuf.size_, iptcData_);
+            exifData_.erase(pos);
+            if (irbBuf.size_ != 0) {
+                Value::AutoPtr value = Value::create(undefined);
+                value->read(irbBuf.pData_, irbBuf.size_, invalidByteOrder);
+                Exifdatum iptcDatum(irbKey, value.get());
+                exifData_.add(iptcDatum);
+            }
+        }
+    } // TiffEncoder::encodeIptc
+
+    void TiffEncoder::encodeXmp()
+    {
+        const ExifKey xmpKey("Exif.Image.XMLPacket");
+        // Remove any existing XMP Exif tag
+        ExifData::iterator pos = exifData_.findKey(xmpKey);
+        if (pos != exifData_.end()) {
+            exifData_.erase(pos);
+        }
+        std::string xmpPacket;
+        if (XmpParser::encode(xmpPacket, xmpData_)) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Error: Failed to encode XMP metadata.\n";
+#endif
+        }
+        if (!xmpPacket.empty()) {
+            // Set the XMP Exif tag to the new value
+            Value::AutoPtr value = Value::create(unsignedByte);
+            value->read(reinterpret_cast<const byte*>(&xmpPacket[0]), xmpPacket.size(), invalidByteOrder);
+            Exifdatum xmpDatum(xmpKey, value.get());
+            exifData_.add(xmpDatum);
+        }
+    } // TiffEncoder::encodeXmp
 
     void TiffEncoder::setDirty(bool flag)
     {
@@ -772,16 +841,6 @@ namespace Exiv2 {
     } // TiffEncoder::encodeOffsetEntry
 
     void TiffEncoder::encodeOlympThumb(TiffEntryBase* object, const Exifdatum* datum)
-    {
-        // Todo
-    }
-
-    void TiffEncoder::encodeIptc(TiffEntryBase* object, const Exifdatum* datum)
-    {
-        // Todo
-    }
-
-    void TiffEncoder::encodeXmp(TiffEntryBase* object, const Exifdatum* datum)
     {
         // Todo
     }

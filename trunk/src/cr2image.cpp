@@ -211,9 +211,9 @@ namespace Exiv2 {
         { "*",         0x011a, Group::ifd0,    0, 0 },
         { "*",         0x011b, Group::ifd0,    0, 0 },
         { "*",         0x0128, Group::ifd0,    0, 0 },
-        { "*",         0x02bc, Group::ifd0,    &TiffDecoder::decodeXmp,    &TiffEncoder::encodeXmp    },
-        { "*",         0x83bb, Group::ifd0,    &TiffDecoder::decodeIptc,   &TiffEncoder::encodeIptc   },
-        { "*",         0x8649, Group::ifd0,    &TiffDecoder::decodeIptc,   &TiffEncoder::encodeIptc   }
+        { "*",         0x02bc, Group::ifd0,    &TiffDecoder::decodeXmp,    0 /*Todo*/ },
+        { "*",         0x83bb, Group::ifd0,    &TiffDecoder::decodeIptc,   0 /*Todo*/ },
+        { "*",         0x8649, Group::ifd0,    &TiffDecoder::decodeIptc,   0 /*Todo*/ }
     };
 
     DecoderFct Cr2Mapping::findDecoder(const std::string& make,

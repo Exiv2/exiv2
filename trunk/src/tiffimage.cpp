@@ -418,9 +418,9 @@ namespace Exiv2 {
         { "*",         0x014a, Group::ifd0,    0, 0 }, // Todo: Controversial, causes problems with Exiftool
         { "*",       Tag::all, Group::sub0_0,  &TiffDecoder::decodeSubIfd,       0 /*Todo*/                         },
         { "*",       Tag::all, Group::sub0_1,  &TiffDecoder::decodeSubIfd,       0 /*Todo*/                         },
-        { "*",         0x02bc, Group::ifd0,    &TiffDecoder::decodeXmp,          &TiffEncoder::encodeXmp            },
-        { "*",         0x83bb, Group::ifd0,    &TiffDecoder::decodeIptc,         &TiffEncoder::encodeIptc           },
-        { "*",         0x8649, Group::ifd0,    &TiffDecoder::decodeIptc,         &TiffEncoder::encodeIptc           },
+        { "*",         0x02bc, Group::ifd0,    &TiffDecoder::decodeXmp,          0 /*done before the tree is traversed*/ },
+        { "*",         0x83bb, Group::ifd0,    &TiffDecoder::decodeIptc,         0 /*done before the tree is traversed*/ },
+        { "*",         0x8649, Group::ifd0,    &TiffDecoder::decodeIptc,         0 /*done before the tree is traversed*/ },
         // Minolta makernote entries which need to be encoded in big endian byte order
         { "*",       Tag::all, Group::minocso, &TiffDecoder::decodeStdTiffEntry, &TiffEncoder::encodeBigEndianEntry },
         { "*",       Tag::all, Group::minocso, &TiffDecoder::decodeStdTiffEntry, &TiffEncoder::encodeBigEndianEntry },
