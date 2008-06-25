@@ -422,8 +422,6 @@ namespace Exiv2 {
 
         //! Special encoder function to encode IPTC data to an IPTCNAA or Photoshop ImageResources tag.
         void encodeIptc(TiffEntryBase* object, const Exifdatum* datum);
-        //! Special encoder function to encode an XMP packet to an XMLPacket tag.
-        void encodeXmp(TiffEntryBase* object, const Exifdatum* datum);
         //! Special encoder function for a standard TIFF entry using big endian byte order.
         void encodeBigEndianEntry(TiffEntryBase* object, const Exifdatum* datum);
         /*!
@@ -464,6 +462,21 @@ namespace Exiv2 {
         //@}
 
     private:
+        //! @name Manipulators
+        //@{
+        /*!
+          Encode IPTC data. Updates or adds tag Exif.Image.IPTCNAA, updates but
+          never adds tag Exif.Image.ImageResources.
+          This method is called from the constructor.
+         */
+        void encodeIptc();
+        /*!
+          Encode XMP data. Adds tag Exif.Image.XMLPacket with the XMP packet.
+          This method is called from the constructor.
+         */
+        void encodeXmp();
+        //@}
+
         //! @name Accessors
         //@{
         /*!
