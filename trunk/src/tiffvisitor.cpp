@@ -454,10 +454,6 @@ namespace Exiv2 {
         if (rawIptc.size_ != 0 && (del || pos == exifData_.end())) {
             Value::AutoPtr value = Value::create(unsignedLong);
             value->read(rawIptc.pData_, rawIptc.size_, byteOrder_);
-
-// Todo remove me!
-std::cerr << "Writing IPTCNAA datum, size = " << value->size() << "\n";
-
             Exifdatum iptcDatum(iptcNaaKey, value.get());
             exifData_.add(iptcDatum);
             pos = exifData_.findKey(irbKey); // needed after add()
