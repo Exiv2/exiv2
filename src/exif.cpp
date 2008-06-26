@@ -445,13 +445,25 @@ namespace Exiv2 {
         const ExifData& exifData
     )
     {
+        static const char* filteredTags[] = {
+            "Exif.Image.StripOffsets",
+            "Exif.Image.RowsPerStrip",
+            "Exif.Image.StripByteCounts"
+        };
+
+        ExifData ed = exifData;
+        for (unsigned int i = 0; i < EXV_COUNTOF(filteredTags); ++i) {
+            ExifData::iterator pos = ed.findKey(ExifKey(filteredTags[i]));
+            if (pos != ed.end()) ed.erase(pos);
+        }
+
         const IptcData iptcData;
         const XmpData  xmpData;
         return TiffParser::encode(blob,
                                   pData,
                                   size,
                                   byteOrder,
-                                  exifData,
+                                  ed,
                                   iptcData,
                                   xmpData);
     } // ExifParser::encode
