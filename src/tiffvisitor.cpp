@@ -52,6 +52,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include <iostream>
 #include <iomanip>
 #include <cassert>
+#include <set>
 
 // *****************************************************************************
 // class member definitions
@@ -340,7 +341,7 @@ namespace Exiv2 {
         // Todo: ExifKey should have an appropriate c'tor, it should not be
         //       necessary to use groupName here
         ExifKey key(object->tag(), tiffGroupName(Group::ifd0));
-        setExifTag(key, object->pValue());
+        setExifTag(key, object->pValue(), pvHigh);
 
     }
 
@@ -365,22 +366,38 @@ namespace Exiv2 {
     void TiffDecoder::decodeStdTiffEntry(const TiffEntryBase* object)
     {
         assert(object !=0);
-        // "Normal" tag has low priority: only decode if it doesn't exist yet.
-        // Todo: This also filters duplicates (common in some makernotes)
         // Todo: ExifKey should have an appropriate c'tor, it should not be
         //       necessary to use groupName here
         ExifKey key(object->tag(), tiffGroupName(object->group()));
-        ExifData::iterator pos = exifData_.findKey(key);
-        if (pos == exifData_.end()) {
-            exifData_.add(key, object->pValue());
-        }
+        setExifTag(key, object->pValue(), pvNormal);
+
     } // TiffDecoder::decodeTiffEntry
 
-    void TiffDecoder::setExifTag(const ExifKey& key, const Value* pValue)
+    void TiffDecoder::setExifTag(const ExifKey& key, const Value* pValue, Prio prio)
     {
-        ExifData::iterator pos = exifData_.findKey(key);
-        if (pos != exifData_.end()) exifData_.erase(pos);
-        exifData_.add(key, pValue);
+        typedef std::set<std::string> PriorityKeys;
+        static PriorityKeys priorityKeys;
+
+        bool isRegPrioTag = (priorityKeys.find(key.key()) != priorityKeys.end());
+
+        switch (prio) {
+        case pvNormal:
+            // If key is not registered as high prio tag, add it
+            if (!isRegPrioTag) exifData_.add(key, pValue);
+            break;
+        case pvHigh:
+            // Register the key as a high prio tag, erase low prio tags, add this
+            if (!isRegPrioTag) {
+                priorityKeys.insert(key.key());
+                ExifData::iterator pos = exifData_.findKey(key);
+                while (pos != exifData_.end()) {
+                    exifData_.erase(pos);
+                    pos = exifData_.findKey(key);
+                }
+            }
+            exifData_.add(key, pValue);
+            break;
+        }
 
     } // TiffDecoder::setExifTag
 
