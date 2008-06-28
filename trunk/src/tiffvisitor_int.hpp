@@ -271,10 +271,13 @@ namespace Exiv2 {
         //@}
 
     private:
+        //! Tag priorities
+        enum Prio { pvNormal, pvHigh };
+
         //! @name Manipulators
         //@{
-        //! Set an Exif tag in the image. Overwrites existing tags
-        void setExifTag(const ExifKey& key, const Value* pValue);
+        //! Set an Exif tag in the image.
+        void setExifTag(const ExifKey& key, const Value* pValue, Prio prio);
         /*!
           @brief Get the data for a \em tag and \em group, either from the
                  \em object provided, if it matches or from the matching element
