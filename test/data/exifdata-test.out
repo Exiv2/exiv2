@@ -174,7 +174,7 @@ Exif.Image.YResolution                        0x011b IFD0         Rational    1 
 Exif.Image.ResolutionUnit                     0x0128 IFD0         Short       1 2
 Exif.Image.DateTime                           0x0132 IFD0         Ascii      13 Sunday, 11am
 Exif.Image.YCbCrPositioning                   0x0213 IFD0         Short       1 1
-Exif.Image.ExifTag                            0x8769 IFD0         Long        1 178
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 196
 Exif.Photo.ExposureTime                       0x829a Exif         Rational    1 1/500
 Exif.Photo.FNumber                            0x829d Exif         Rational    1 49/10
 Exif.Photo.ExifVersion                        0x9000 Exif         Undefined   4 48 50 50 48 
@@ -189,8 +189,7 @@ Exif.Photo.MaxApertureValue                   0x9205 Exif         Rational    1 
 Exif.Photo.MeteringMode                       0x9207 Exif         Short       1 1
 Exif.Photo.Flash                              0x9209 Exif         Short       1 24
 Exif.Photo.FocalLength                        0x920a Exif         Rational    1 682/32
-Exif.Canon.0x0000                             0x0000 Makernote    Short       6 0 0 0 0 0 0
-Exif.Canon.0x0000                             0x0000 Makernote    Short       4 0 0 0 0
+Exif.CanonCs.0x0000                           0x0000 Makernote    Short       1 80
 Exif.CanonCs.Macro                            0x0001 Makernote    Short       1 2
 Exif.CanonCs.Selftimer                        0x0002 Makernote    Short       1 0
 Exif.CanonCs.Quality                          0x0003 Makernote    Short       1 5
@@ -230,6 +229,7 @@ Exif.CanonCs.0x0026                           0x0026 Makernote    Short       1 
 Exif.CanonCs.0x0027                           0x0027 Makernote    Short       1 1
 Exif.Canon.0x0002                             0x0002 Makernote    Short       4 2 682 286 215
 Exif.Canon.0x0003                             0x0003 Makernote    Short       4 0 0 0 0
+Exif.CanonSi.0x0000                           0x0000 Makernote    Short       1 54
 Exif.CanonSi.0x0001                           0x0001 Makernote    Short       1 0
 Exif.CanonSi.ISOSpeed                         0x0002 Makernote    Short       1 160
 Exif.CanonSi.0x0003                           0x0003 Makernote    Short       1 276
@@ -256,18 +256,20 @@ Exif.CanonSi.0x0017                           0x0017 Makernote    Short       1 
 Exif.CanonSi.0x0018                           0x0018 Makernote    Short       1 0
 Exif.CanonSi.0x0019                           0x0019 Makernote    Short       1 0
 Exif.CanonSi.0x001a                           0x001a Makernote    Short       1 250
+Exif.Canon.0x0000                             0x0000 Makernote    Short       6 0 0 0 0 0 0
+Exif.Canon.0x0000                             0x0000 Makernote    Short       4 0 0 0 0
 Exif.Canon.ImageType                          0x0006 Makernote    Ascii      32 IMG:PowerShot S40 JPEG
 Exif.Canon.FirmwareVersion                    0x0007 Makernote    Ascii      24 Firmware Version 1.10
 Exif.Canon.ImageNumber                        0x0008 Makernote    Long        1 1171771
 Exif.Canon.OwnerName                          0x0009 Makernote    Ascii      32 Andreas Huggel
-Exif.Canon.0x000d                             0x000d Makernote    Short      21 42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
 Exif.Canon.ModelID                            0x0010 Makernote    Long        1 17891328
+Exif.Canon.0x000d                             0x000d Makernote    Short      21 42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
 Exif.Photo.UserComment                        0x9286 Exif         Undefined 264                                                                                                                                                                                                                                                                 
 Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 48 49 48 48 
 Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 1
 Exif.Photo.PixelXDimension                    0xa002 Exif         Short       1 2272
 Exif.Photo.PixelYDimension                    0xa003 Exif         Short       1 1704
-Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 1372
+Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 1416
 Exif.Iop.InteroperabilityIndex                0x0001 Iop          Ascii       4 123
 Exif.Iop.InteroperabilityVersion              0x0002 Iop          Undefined   4 48 49 48 48 
 Exif.Iop.RelatedImageWidth                    0x1001 Iop          Short       1 2272
@@ -286,7 +288,7 @@ Exif.Thumbnail.Compression                    0x0103 IFD1         Short       1 
 Exif.Thumbnail.XResolution                    0x011a IFD1         Rational    1 180/1
 Exif.Thumbnail.YResolution                    0x011b IFD1         Rational    1 180/1
 Exif.Thumbnail.ResolutionUnit                 0x0128 IFD1         Short       1 2
-Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 1520
+Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 2036
 Exif.Thumbnail.JPEGInterchangeFormatLength    0x0202 IFD1         Long        1 5448
 ----------------------------------------------
 Copy construction, intrusive changes
@@ -315,6 +317,7 @@ Exif.Photo.Flash                              0x9209 Exif         Short       1 
 Exif.Photo.FocalLength                        0x920a Exif         Rational    1 682/32
 Exif.Canon.0x0000                             0x0000 Makernote    Short       6 0 0 0 0 0 0
 Exif.Canon.0x0000                             0x0000 Makernote    Short       4 0 0 0 0
+Exif.CanonCs.0x0000                           0x0000 Makernote    Short       1 80
 Exif.CanonCs.Macro                            0x0001 Makernote    Short       1 2
 Exif.CanonCs.Selftimer                        0x0002 Makernote    Short       1 0
 Exif.CanonCs.Quality                          0x0003 Makernote    Short       1 5
@@ -354,6 +357,7 @@ Exif.CanonCs.0x0026                           0x0026 Makernote    Short       1 
 Exif.CanonCs.0x0027                           0x0027 Makernote    Short       1 1
 Exif.Canon.0x0002                             0x0002 Makernote    Short       4 2 682 286 215
 Exif.Canon.0x0003                             0x0003 Makernote    Short       4 0 0 0 0
+Exif.CanonSi.0x0000                           0x0000 Makernote    Short       1 54
 Exif.CanonSi.0x0001                           0x0001 Makernote    Short       1 0
 Exif.CanonSi.ISOSpeed                         0x0002 Makernote    Short       1 160
 Exif.CanonSi.0x0003                           0x0003 Makernote    Short       1 276
@@ -391,7 +395,7 @@ Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 
 Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 1
 Exif.Photo.PixelXDimension                    0xa002 Exif         Short       1 2272
 Exif.Photo.PixelYDimension                    0xa003 Exif         Short       1 1704
-Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 1424
+Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 1444
 Exif.Iop.InteroperabilityIndex                0x0001 Iop          Ascii       5 1234
 Exif.Iop.InteroperabilityVersion              0x0002 Iop          Undefined   4 48 49 48 48 
 Exif.Iop.RelatedImageWidth                    0x1001 Iop          Short       1 2272
@@ -411,7 +415,7 @@ Exif.Thumbnail.Orientation                    0x0112 IFD1         Short       5 
 Exif.Thumbnail.XResolution                    0x011a IFD1         Rational    1 180/1
 Exif.Thumbnail.YResolution                    0x011b IFD1         Rational    1 180/1
 Exif.Thumbnail.ResolutionUnit                 0x0128 IFD1         Short       1 2
-Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 1600
+Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 1620
 Exif.Thumbnail.JPEGInterchangeFormatLength    0x0202 IFD1         Long        1 5448
 ----------------------------------------------
 Assignment, non-intrusive changes
@@ -440,6 +444,7 @@ Exif.Photo.Flash                              0x9209 Exif         Short       1 
 Exif.Photo.FocalLength                        0x920a Exif         Rational    1 682/32
 Exif.Canon.0x0000                             0x0000 Makernote    Short       6 0 0 0 0 0 0
 Exif.Canon.0x0000                             0x0000 Makernote    Short       4 0 0 0 0
+Exif.CanonCs.0x0000                           0x0000 Makernote    Short       1 80
 Exif.CanonCs.Macro                            0x0001 Makernote    Short       1 2
 Exif.CanonCs.Selftimer                        0x0002 Makernote    Short       1 0
 Exif.CanonCs.Quality                          0x0003 Makernote    Short       1 5
@@ -479,6 +484,7 @@ Exif.CanonCs.0x0026                           0x0026 Makernote    Short       1 
 Exif.CanonCs.0x0027                           0x0027 Makernote    Short       1 1
 Exif.Canon.0x0002                             0x0002 Makernote    Short       4 2 682 286 215
 Exif.Canon.0x0003                             0x0003 Makernote    Short       4 0 0 0 0
+Exif.CanonSi.0x0000                           0x0000 Makernote    Short       1 54
 Exif.CanonSi.0x0001                           0x0001 Makernote    Short       1 0
 Exif.CanonSi.ISOSpeed                         0x0002 Makernote    Short       1 160
 Exif.CanonSi.0x0003                           0x0003 Makernote    Short       1 276
@@ -516,7 +522,7 @@ Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 
 Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 1
 Exif.Photo.PixelXDimension                    0xa002 Exif         Short       1 2272
 Exif.Photo.PixelYDimension                    0xa003 Exif         Short       1 1704
-Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 1424
+Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 1444
 Exif.Iop.InteroperabilityIndex                0x0001 Iop          Ascii       4 123
 Exif.Iop.InteroperabilityVersion              0x0002 Iop          Undefined   4 48 49 48 48 
 Exif.Iop.RelatedImageWidth                    0x1001 Iop          Short       1 2272
@@ -536,7 +542,7 @@ Exif.Thumbnail.Orientation                    0x0112 IFD1         Short       1 
 Exif.Thumbnail.XResolution                    0x011a IFD1         Rational    1 180/1
 Exif.Thumbnail.YResolution                    0x011b IFD1         Rational    1 180/1
 Exif.Thumbnail.ResolutionUnit                 0x0128 IFD1         Short       1 2
-Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 1600
+Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 1620
 Exif.Thumbnail.JPEGInterchangeFormatLength    0x0202 IFD1         Long        1 5448
 ----------------------------------------------
 Assignment, intrusive changes
@@ -565,6 +571,7 @@ Exif.Photo.Flash                              0x9209 Exif         Short       1 
 Exif.Photo.FocalLength                        0x920a Exif         Rational    1 682/32
 Exif.Canon.0x0000                             0x0000 Makernote    Short       6 0 0 0 0 0 0
 Exif.Canon.0x0000                             0x0000 Makernote    Short       4 0 0 0 0
+Exif.CanonCs.0x0000                           0x0000 Makernote    Short       1 80
 Exif.CanonCs.Macro                            0x0001 Makernote    Short       1 2
 Exif.CanonCs.Selftimer                        0x0002 Makernote    Short       1 0
 Exif.CanonCs.Quality                          0x0003 Makernote    Short       1 5
@@ -604,6 +611,7 @@ Exif.CanonCs.0x0026                           0x0026 Makernote    Short       1 
 Exif.CanonCs.0x0027                           0x0027 Makernote    Short       1 1
 Exif.Canon.0x0002                             0x0002 Makernote    Short       4 2 682 286 215
 Exif.Canon.0x0003                             0x0003 Makernote    Short       4 0 0 0 0
+Exif.CanonSi.0x0000                           0x0000 Makernote    Short       1 54
 Exif.CanonSi.0x0001                           0x0001 Makernote    Short       1 0
 Exif.CanonSi.ISOSpeed                         0x0002 Makernote    Short       1 160
 Exif.CanonSi.0x0003                           0x0003 Makernote    Short       1 276
@@ -641,7 +649,7 @@ Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 
 Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 1
 Exif.Photo.PixelXDimension                    0xa002 Exif         Short       1 2272
 Exif.Photo.PixelYDimension                    0xa003 Exif         Short       1 1704
-Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 1412
+Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 1432
 Exif.Iop.InteroperabilityIndex                0x0001 Iop          Ascii       4 123
 Exif.Iop.InteroperabilityVersion              0x0002 Iop          Undefined   4 48 49 48 48 
 Exif.Iop.RelatedImageWidth                    0x1001 Iop          Short       1 2272
@@ -661,7 +669,7 @@ Exif.Thumbnail.Orientation                    0x0112 IFD1         Short       1 
 Exif.Thumbnail.XResolution                    0x011a IFD1         Rational    1 180/1
 Exif.Thumbnail.YResolution                    0x011b IFD1         Rational    1 180/1
 Exif.Thumbnail.ResolutionUnit                 0x0128 IFD1         Short       1 2
-Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 1572
+Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 1592
 Exif.Thumbnail.JPEGInterchangeFormatLength    0x0202 IFD1         Long        1 5448
 Copy construction, non-intrusive changes
 Exif.Image.Make                               0x010f IFD0         Ascii      18 NIKON CORPORATION
