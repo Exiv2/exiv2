@@ -13,15 +13,20 @@ Exif.Photo.DateTimeOriginal                   0x9003 Exif         Ascii       7 
 Exif.Image.Make                               0x010f IFD0         Ascii       6 Canon
 Exif.Image.Model                              0x0110 IFD0         Ascii      20 Canon PowerShot S40
 Exif.Image.ExifTag                            0x8769 IFD0         Long        1 76
+Exif.CanonCs.0x0000                           0x0000 Makernote    Short       1 6
 Exif.CanonCs.Macro                            0x0001 Makernote    Short       1 0
 Exif.CanonCs.Selftimer                        0x0002 Makernote    Short       1 41
+Exif.CanonSi.0x0000                           0x0000 Makernote    Short       1 12
 Exif.CanonSi.0x0001                           0x0001 Makernote    Short       1 0
 Exif.CanonSi.ISOSpeed                         0x0002 Makernote    Short       1 0
 Exif.CanonSi.0x0003                           0x0003 Makernote    Short       1 0
 Exif.CanonSi.TargetAperture                   0x0004 Makernote    Short       1 0
 Exif.CanonSi.TargetShutterSpeed               0x0005 Makernote    Short       1 42
+Exif.CanonPa.0x0000                           0x0000 Makernote    Short       1 4
 Exif.CanonPa.0x0001                           0x0001 Makernote    Short       1 45
+Exif.CanonCf.0x0000                           0x0000 Makernote    Short       1 4
 Exif.CanonCf.NoiseReduction                   0x0001 Makernote    Short       1 43
+Exif.CanonPi.0x0000                           0x0000 Makernote    Short       1 4
 Exif.CanonPi.0x0001                           0x0001 Makernote    Short       1 44
 Exif.Canon.0xabcd                             0xabcd Makernote    Ascii      22 A Canon makernote tag
 
@@ -29,40 +34,45 @@ Exif.Canon.0xabcd                             0xabcd Makernote    Ascii      22 
 Exif.Image.Make                               0x010f IFD0         Ascii       6 Canon
 Exif.Image.Model                              0x0110 IFD0         Ascii      20 Canon PowerShot S40
 Exif.Image.ExifTag                            0x8769 IFD0         Long        1 76
+Exif.CanonCs.0x0000                           0x0000 Makernote    Short       1 6
 Exif.CanonCs.Macro                            0x0001 Makernote    Short       1 88
 Exif.CanonCs.Selftimer                        0x0002 Makernote    Short       1 41
+Exif.CanonSi.0x0000                           0x0000 Makernote    Short       1 12
 Exif.CanonSi.0x0001                           0x0001 Makernote    Short       1 0
 Exif.CanonSi.ISOSpeed                         0x0002 Makernote    Short       1 0
 Exif.CanonSi.0x0003                           0x0003 Makernote    Short       1 0
 Exif.CanonSi.TargetAperture                   0x0004 Makernote    Short       1 99
 Exif.CanonSi.TargetShutterSpeed               0x0005 Makernote    Short       1 42
+Exif.CanonPa.0x0000                           0x0000 Makernote    Short       1 4
 Exif.CanonPa.0x0001                           0x0001 Makernote    Short       1 45
+Exif.CanonCf.0x0000                           0x0000 Makernote    Short       1 4
 Exif.CanonCf.NoiseReduction                   0x0001 Makernote    Short       1 43
+Exif.CanonPi.0x0000                           0x0000 Makernote    Short       1 4
 Exif.CanonPi.0x0001                           0x0001 Makernote    Short       1 44
 Exif.Canon.0xabcd                             0xabcd Makernote    Ascii      22 A Canon makernote tag
 
 ----- One Fujifilm MakerNote tag
 Exif.Image.Make                               0x010f IFD0         Ascii       9 FUJIFILM
 Exif.Image.Model                              0x0110 IFD0         Ascii      13 FinePixS2Pro
-Exif.Image.ExifTag                            0x8769 IFD0         Long        1 72
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 74
 Exif.Fujifilm.Quality                         0x1000 Makernote    Ascii      23 A Fujifilm QUALITY tag
 
 ----- One Sigma/Foveon MakerNote tag
 Exif.Image.Make                               0x010f IFD0         Ascii       6 SIGMA
 Exif.Image.Model                              0x0110 IFD0         Ascii      11 SIGMA SD10
-Exif.Image.ExifTag                            0x8769 IFD0         Long        1 67
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 68
 Exif.Sigma.Software                           0x0018 Makernote    Ascii      17 Software? Exiv2!
 
 ----- One Nikon1 MakerNote tag
 Exif.Image.Make                               0x010f IFD0         Ascii       6 NIKON
 Exif.Image.Model                              0x0110 IFD0         Ascii       5 E990
-Exif.Image.ExifTag                            0x8769 IFD0         Long        1 61
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 62
 Exif.Nikon1.ImageAdjustment                   0x0080 Makernote    Ascii      25 ImageAdjustment by Exiv2
 
 ----- One Nikon2 MakerNote tag
 Exif.Image.Make                               0x010f IFD0         Ascii       6 NIKON
 Exif.Image.Model                              0x0110 IFD0         Ascii       5 E950
-Exif.Image.ExifTag                            0x8769 IFD0         Long        1 61
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 62
 Exif.Nikon2.0xffff                            0xffff Makernote    Ascii      22 An obscure Nikon2 tag
 
 ----- One Nikon3 MakerNote tag
@@ -86,7 +96,7 @@ Exif.Panasonic.Quality                        0x0001 Makernote    Short       1 
 ----- One Sony MakerNote tag
 Exif.Image.Make                               0x010f IFD0         Ascii       5 SONY
 Exif.Image.Model                              0x0110 IFD0         Ascii       7 DSC-W7
-Exif.Image.ExifTag                            0x8769 IFD0         Long        1 62
+Exif.Image.ExifTag                            0x8769 IFD0         Long        1 64
 Exif.Sony.0x2000                              0x2000 Makernote    Undefined   6 0 1 2 3 4 5 
 
 ----- One IOP tag
