@@ -42,6 +42,7 @@
 #include <iomanip>
 #include <cassert>
 #include <map>
+#include <set>
 
 // *****************************************************************************
 // namespace extensions
@@ -307,6 +308,11 @@ namespace Exiv2 {
         GroupType groupType_;        //!< NewSubfileType for each group
 
         bool decodedIptc_;           //!< Indicates if IPTC has been decoded yet
+
+        //! Type used as the container for "priority keys"
+        typedef std::set<std::string> PriorityKeys;
+        PriorityKeys priorityKeys_;  //!< Priority keys
+
     }; // class TiffDecoder
 
     /*!
