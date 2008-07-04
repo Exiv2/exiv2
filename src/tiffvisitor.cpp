@@ -52,7 +52,6 @@ EXIV2_RCSID("@(#) $Id$")
 #include <iostream>
 #include <iomanip>
 #include <cassert>
-#include <set>
 
 // *****************************************************************************
 // class member definitions
@@ -375,10 +374,7 @@ namespace Exiv2 {
 
     void TiffDecoder::setExifTag(const ExifKey& key, const Value* pValue, Prio prio)
     {
-        typedef std::set<std::string> PriorityKeys;
-        static PriorityKeys priorityKeys;
-
-        bool isRegPrioTag = (priorityKeys.find(key.key()) != priorityKeys.end());
+        bool isRegPrioTag = (priorityKeys_.find(key.key()) != priorityKeys_.end());
 
         switch (prio) {
         case pvNormal:
@@ -388,7 +384,7 @@ namespace Exiv2 {
         case pvHigh:
             // Register the key as a high prio tag, erase low prio tags, add this
             if (!isRegPrioTag) {
-                priorityKeys.insert(key.key());
+                priorityKeys_.insert(key.key());
                 ExifData::iterator pos = exifData_.findKey(key);
                 while (pos != exifData_.end()) {
                     exifData_.erase(pos);
