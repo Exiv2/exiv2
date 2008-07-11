@@ -93,7 +93,7 @@ namespace Exiv2 {
         ErrMsg( 48, N_("Invalid XmpText type `%1'")), // %1=type
         ErrMsg( 49, N_("TIFF directory %1 has too many entries")), // %1=TIFF directory name
         ErrMsg( 50, N_("Multiple TIFF array element tags %1 in one directory")), // %1=tag number
-        ErrMsg( 51, N_("TIFF array element tag %1 has wrong type or more than one component")), // %1=tag number
+        ErrMsg( 51, N_("TIFF array element tag %1 has wrong type")), // %1=tag number
 
         // Last error message (message is not used)
         ErrMsg( -2, N_("(Unknown Error)"))
