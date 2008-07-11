@@ -1021,8 +1021,8 @@ namespace Exiv2 {
     }; // class TiffMnEntry
 
     /*!
-      @brief Composite to model an array of tags, each consisting of one value
-             of a given type. Canon and Minolta makernotes use such tags.  The
+      @brief Composite to model an array of tags, each consisting of values
+             of a given type. Canon and Minolta makernotes use such tags. The
              elements of this component are of type TiffArrayElement.
      */
     class TiffArrayEntry : public TiffEntryBase {
@@ -1097,9 +1097,8 @@ namespace Exiv2 {
     }; // class TiffArrayEntry
 
     /*!
-      @brief Element of a TiffArrayEntry. The value is exactly one component of
-             a given type and all elements of a TiffArrayEntry have the same
-             type. Canon and Minolta makernotes use such arrays.
+      @brief Element of a TiffArrayEntry. The value of all elements of a TiffArrayEntry
+             must be of the same type. Canon and Minolta makernotes use such arrays.
      */
     class TiffArrayElement : public TiffEntryBase {
     public:
@@ -1134,8 +1133,8 @@ namespace Exiv2 {
         //@{
         /*!
           @brief Implements write(). Write the value using the element specific
-                 byte order, if any. Make sure the value has only one component
-                 and that it is of the correct type, else throw Error(51).
+                 byte order, if any. Make sure the value is of the correct type,
+                 else throw Error(51).
          */
         virtual uint32_t doWrite(Blob&     blob,
                                  ByteOrder byteOrder,

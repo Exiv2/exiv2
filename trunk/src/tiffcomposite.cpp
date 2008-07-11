@@ -651,7 +651,9 @@ namespace Exiv2 {
 
         uint16_t maxTag = 0;
         for (Components::const_iterator i = elements_.begin(); i != elements_.end(); ++i) {
-            if ((*i)->tag() > maxTag) maxTag = (*i)->tag();
+            uint32_t mt = (*i)->tag();
+            if ((*i)->count() > 1) mt += (*i)->count() - 1;
+            if (mt > maxTag) maxTag = mt;
         }
         return maxTag + 1;
     }
@@ -986,6 +988,7 @@ namespace Exiv2 {
             }
             idx += (*i)->write(blob, byteOrder, offset + idx, valueIdx, dataIdx, imageIdx);
             nextTag = (*i)->tag() + 1;
+            if ((*i)->count() > 1) nextTag += (*i)->count() - 1;
         }
         return idx;
     } // TiffArrayEntry::doWrite
@@ -999,7 +1002,7 @@ namespace Exiv2 {
     {
         Value const* pv = pValue();
         if (!pv || pv->count() == 0) return 0;
-        if (!(pv->count() == 1 && pv->typeId() == elTypeId_)) {
+        if (pv->typeId() != elTypeId_) {
             throw Error(51, tag());
         }
         DataBuf buf(pv->size());
