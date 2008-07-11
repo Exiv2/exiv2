@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*!
-  @file    doxygen.hpp.in
+  @file    doxygen.hpp
   @brief   Additional documentation, this file contains no source code
   @version $Rev$
   @author  Andreas Huggel (ahu)
