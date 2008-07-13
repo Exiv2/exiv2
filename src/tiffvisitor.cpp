@@ -1413,13 +1413,17 @@ namespace Exiv2 {
 
         readTiffEntry(object);
         // Todo: size here is that of the data area
-        uint16_t s = static_cast<uint16_t>(object->size_ / object->elSize());
-        for (uint16_t i = 0; i < s; ++i) {
+        const uint16_t sz = static_cast<uint16_t>(object->size_ / object->elSize());
+        for (uint16_t i = 0; i < sz; ++i) {
             uint16_t tag = i;
             TiffComponent::AutoPtr tc = create(tag, object->elGroup());
             assert(tc.get());
             tc->setStart(object->pData() + i * object->elSize());
             object->addChild(tc);
+            // Hack: Exif.CanonCs.Lens has 3 components
+            if (object->elGroup() == Group::canoncs && tag == 0x0017) {
+                i += 2;
+            }
         }
 
     } // TiffReader::visitArrayEntry
@@ -1430,6 +1434,10 @@ namespace Exiv2 {
 
         uint16_t type = object->elTypeId();
         uint32_t size = TypeInfo::typeSize(TypeId(type));
+        // Hack: Exif.CanonCs.Lens has 3 components
+        if (object->group() == Group::canoncs && object->tag() == 0x0017) {
+            size *= 3;
+        }
         byte* pData   = object->start();
         assert(pData >= pData_);
 
