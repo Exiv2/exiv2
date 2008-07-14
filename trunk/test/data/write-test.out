@@ -16,7 +16,7 @@ Case 2: Non-intrusive change to the makernote metadata
 ---> Writing Exif data to file test2.jpg
 ---> Reading file test2.jpg
 ---> Writing Exif thumbnail to file thumb2.*
-98c98
+96c96
 < Exif.Canon.OwnerName                         0x0009 Ascii      32  Andreas Huggel
 ---
 > Exif.Canon.OwnerName                         0x0009 Ascii      13  Chan YeeSend
@@ -49,18 +49,18 @@ Case 4: Intrusive change to the standard Exif metadata
 23a24,25
 > Exif.Canon.0x0000                            0x0000 Short       6  0 0 0 0 0 0
 > Exif.Canon.0x0000                            0x0000 Short       4  0 0 0 0
-93,94d94
+91,92d92
 < Exif.Canon.0x0000                            0x0000 Short       6  0 0 0 0 0 0
 < Exif.Canon.0x0000                            0x0000 Short       4  0 0 0 0
-99d98
+97d96
 < Exif.Canon.ModelID                           0x0010 Long        1  17891328
-100a100
+98a98
 > Exif.Canon.ModelID                           0x0010 Long        1  17891328
-106c106
+104c104
 < Exif.Photo.InteroperabilityTag               0xa005 Long        1  1416
 ---
 > Exif.Photo.InteroperabilityTag               0xa005 Long        1  1424
-125c125
+123c123
 < Exif.Thumbnail.JPEGInterchangeFormat         0x0201 Long        1  2036
 ---
 > Exif.Thumbnail.JPEGInterchangeFormat         0x0201 Long        1  1572
@@ -78,21 +78,21 @@ Case 5: Intrusive change to the Canon makernote metadata
 23a24,25
 > Exif.Canon.0x0000                            0x0000 Short       6  0 0 0 0 0 0
 > Exif.Canon.0x0000                            0x0000 Short       4  0 0 0 0
-93,94d94
+91,92d92
 < Exif.Canon.0x0000                            0x0000 Short       6  0 0 0 0 0 0
 < Exif.Canon.0x0000                            0x0000 Short       4  0 0 0 0
-98,99c98
+96,97c96
 < Exif.Canon.OwnerName                         0x0009 Ascii      32  Andreas Huggel
 < Exif.Canon.ModelID                           0x0010 Long        1  17891328
 ---
 > Exif.Canon.OwnerName                         0x0009 Ascii      42  Frau Chan YeeSend und Herr Andreas Huggel
-100a100
+98a98
 > Exif.Canon.ModelID                           0x0010 Long        1  17891328
-106c106
+104c104
 < Exif.Photo.InteroperabilityTag               0xa005 Long        1  1416
 ---
 > Exif.Photo.InteroperabilityTag               0xa005 Long        1  1414
-125c125
+123c123
 < Exif.Thumbnail.JPEGInterchangeFormat         0x0201 Long        1  2036
 ---
 > Exif.Thumbnail.JPEGInterchangeFormat         0x0201 Long        1  1562
