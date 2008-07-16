@@ -672,7 +672,7 @@ namespace Exiv2 {
     void TiffHeaderBase::print(std::ostream& os, const std::string& prefix) const
     {
         os << prefix
-           << _("TIFF header, offset") << " = 0x" 
+           << _("TIFF header, offset") << " = 0x"
            << std::setw(8) << std::setfill('0') << std::hex << std::right
            << offset_;
 

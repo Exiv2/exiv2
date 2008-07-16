@@ -80,13 +80,13 @@ namespace Exiv2 {
 #ifdef DEBUG
         std::cerr << "Exiv2::TgaImage::readMetadata: Reading TARGA file " << io_->path() << "\n";
 #endif
-        if (io_->open() != 0) 
+        if (io_->open() != 0)
         {
             throw Error(9, io_->path(), strError());
         }
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
-        if (!isTgaType(*io_, false)) 
+        if (!isTgaType(*io_, false))
         {
             if (io_->error() || io_->eof()) throw Error(14);
             throw Error(3, "TGA");
@@ -134,7 +134,7 @@ namespace Exiv2 {
     Image::AutoPtr newTgaInstance(BasicIo::AutoPtr io, bool /*create*/)
     {
         Image::AutoPtr image(new TgaImage(io));
-        if (!image->good()) 
+        if (!image->good())
         {
             image.reset();
         }
@@ -153,12 +153,12 @@ namespace Exiv2 {
         byte buf[26];
         long curPos = iIo.tell();
         iIo.seek(-26, BasicIo::end);
-        if (iIo.error() || iIo.eof()) 
+        if (iIo.error() || iIo.eof())
         {
             return false;
         }
         iIo.read(buf, sizeof(buf));
-        if (iIo.error()) 
+        if (iIo.error())
         {
             return false;
         }

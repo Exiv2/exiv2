@@ -261,7 +261,7 @@ namespace Exiv2 {
         /*!
           @brief Find special encoder function for a key.
 
-          If the returned pointer is 0, the tag should be encoded with the 
+          If the returned pointer is 0, the tag should be encoded with the
           encoder function of the TIFF component, else the encoder function
           should be used.
 

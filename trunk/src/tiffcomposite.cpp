@@ -244,7 +244,7 @@ namespace Exiv2 {
         type_  = static_cast<uint16_t>(value->typeId());
         count_ = value->count();
         delete pValue_;
-        pValue_ = value.release();        
+        pValue_ = value.release();
     } // TiffEntryBase::setValue
 
     void TiffDataEntry::setStrips(const Value* pSize,
@@ -322,7 +322,7 @@ namespace Exiv2 {
                           << "Directory " << tiffGroupName(group())
                           << ", entry 0x" << std::setw(4)
                           << std::setfill('0') << std::hex << tag()
-                          << ": Strip " << i 
+                          << ": Strip " << i
                           << " is outside of the data area; ignored.\n";
             }
 #endif
@@ -780,7 +780,7 @@ namespace Exiv2 {
         // No assertion (sizeData may not be available, see above)
         // assert(idx == sizeDir + sizeValue + sizeData);
 
-        // 4th: Write next-IFD 
+        // 4th: Write next-IFD
         if (pNext_ && sizeNext) {
             idx += pNext_->write(blob, byteOrder, offset + idx, uint32_t(-1), uint32_t(-1), imageIdx);
         }

@@ -212,7 +212,7 @@ namespace Exiv2 {
           @brief Return the <EM>n</EM>-th component of the value converted to
                  a string. The behaviour of the method is undefined if there
                  is no <EM>n</EM>-th component.
-         */        
+         */
         virtual std::string toString(long n) const =0;
         /*!
           @brief Return the <EM>n</EM>-th component of the value converted to long.

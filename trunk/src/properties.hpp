@@ -66,7 +66,7 @@ namespace Exiv2 {
         const char*   name_;            //!< Property name
         const char*   title_;           //!< Property title or label
         const char*   xmpValueType_;    //!< XMP value type (for info only)
-        TypeId        typeId_;          //!< Exiv2 default type for the property 
+        TypeId        typeId_;          //!< Exiv2 default type for the property
         XmpCategory   xmpCategory_;     //!< Category (internal or external)
         const char*   desc_;            //!< Property description
     };
@@ -84,14 +84,14 @@ namespace Exiv2 {
     struct XmpNsInfo {
         //! For comparison with prefix
         struct Prefix {
-            //! Constructor. 
+            //! Constructor.
             Prefix(const std::string& prefix);
             //! The prefix string.
             std::string prefix_;
         };
         //! For comparison with namespace
         struct Ns {
-            //! Constructor. 
+            //! Constructor.
             Ns(const std::string& ns);
             //! The namespace string
             std::string ns_;
@@ -120,14 +120,14 @@ namespace Exiv2 {
         /*!
           @brief Return the title (label) of the property.
           @param key The property key
-          @return The title (label) of the property, 0 if the 
+          @return The title (label) of the property, 0 if the
                  key is of an unknown property.
          */
         static const char* propertyTitle(const XmpKey& key);
         /*!
           @brief Return the description of the property.
           @param key The property key
-          @return The description of the property, 0 if the 
+          @return The description of the property, 0 if the
                  key is of an unknown property.
          */
         static const char* propertyDesc(const XmpKey& key);
@@ -141,7 +141,7 @@ namespace Exiv2 {
         /*!
           @brief Return information for the property for key.
           @param key The property key
-          @return A pointer to the property information, 0 if the 
+          @return A pointer to the property information, 0 if the
                  key is of an unknown property.
          */
         static const XmpPropertyInfo* propertyInfo(const XmpKey& key);
@@ -164,7 +164,7 @@ namespace Exiv2 {
         /*!
           @brief Return read-only list of built-in properties for \em prefix.
           @param prefix Prefix
-          @return Pointer to the built-in properties for prefix, may be 0 if 
+          @return Pointer to the built-in properties for prefix, may be 0 if
                   none is configured in the namespace info.
           @throw Error if no namespace is registered with \em prefix.
          */

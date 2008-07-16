@@ -252,7 +252,7 @@ namespace Exiv2 {
              of the Exif data. These methods do not write to the Exif metadata.
              Manipulators are provided in subclass ExifThumb.
 
-      @note Various other preview and thumbnail images may be contained in an 
+      @note Various other preview and thumbnail images may be contained in an
             image, depending on its format and the camera make and model. This
             class only provides access to the Exif thumbnail as specified in the
             Exif standard.
@@ -306,7 +306,7 @@ namespace Exiv2 {
              embedded in IFD1 of the Exif data. Accessors are provided by the
              base class, ExifThumbC.
 
-      @note Various other preview and thumbnail images may be contained in an 
+      @note Various other preview and thumbnail images may be contained in an
             image, depending on its format and the camera make and model. This
             class only provides access to the Exif thumbnail as specified in the
             Exif standard.
@@ -340,7 +340,7 @@ namespace Exiv2 {
          */
         void setJpegThumbnail(
             const std::string& path,
-                  URational    xres, 
+                  URational    xres,
                   URational    yres,
                   uint16_t     unit
         );

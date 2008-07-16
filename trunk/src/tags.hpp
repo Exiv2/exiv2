@@ -294,7 +294,7 @@ namespace Exiv2 {
         //! Print the list of tags for \em %IfdId
         static void taglist(std::ostream& os, IfdId ifdId);
         /*!
-          @brief Return true if \em ifdId is an %Ifd id which is 
+          @brief Return true if \em ifdId is an %Ifd id which is
                  a makernote %Ifd id. Note: Calling this function with
                  makerIfd returns false.
         */

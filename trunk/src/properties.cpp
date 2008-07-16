@@ -80,7 +80,7 @@ namespace Exiv2 {
         { "http://ns.adobe.com/tiff/1.0/",                "tiff",         xmpTiffInfo,      N_("Exif Schema for TIFF Properties")           },
         { "http://ns.adobe.com/exif/1.0/",                "exif",         xmpExifInfo,      N_("Exif schema for Exif-specific Properties")  },
         { "http://ns.adobe.com/exif/1.0/aux/",            "aux",          xmpAuxInfo,       N_("Exif schema for Additional Exif Properties")},
-        { "http://iptc.org/std/Iptc4xmpCore/1.0/xmlns/",  "iptc",         xmpIptcInfo,      N_("IPTC Core schema")                          }, 
+        { "http://iptc.org/std/Iptc4xmpCore/1.0/xmlns/",  "iptc",         xmpIptcInfo,      N_("IPTC Core schema")                          },
                                                                                              // NOTE: 'Iptc4xmpCore' is just too long
 
         // Structures
@@ -587,7 +587,7 @@ namespace Exiv2 {
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
 
-    extern const XmpPrintInfo xmpPrintInfo[] = { 
+    extern const XmpPrintInfo xmpPrintInfo[] = {
         {"Xmp.crs.CropUnits",                 EXV_PRINT_TAG(xmpCrsCropUnits)},
         {"Xmp.exif.ApertureValue",            print0x9202                   },
         {"Xmp.exif.BrightnessValue",          printFloat                    },
@@ -909,7 +909,7 @@ namespace Exiv2 {
     }
 
     std::string XmpKey::tagName() const
-    { 
+    {
         return p_->property_;
     }
 

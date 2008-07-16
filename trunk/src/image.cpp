@@ -108,7 +108,7 @@ namespace Exiv2 {
         return imageType == imageType_;
     }
 
-    Image::Image(int              imageType, 
+    Image::Image(int              imageType,
                  uint16_t         supportedMetadata,
                  BasicIo::AutoPtr io)
         : io_(io),
@@ -118,7 +118,7 @@ namespace Exiv2 {
           supportedMetadata_(supportedMetadata),
 #ifdef EXV_HAVE_XMP_TOOLKIT
           writeXmpFromPacket_(false),
-#else 
+#else
           writeXmpFromPacket_(true),
 #endif
           byteOrder_(invalidByteOrder)
@@ -190,7 +190,7 @@ namespace Exiv2 {
     void Image::writeXmpFromPacket(bool flag)
     {
 #ifdef EXV_HAVE_XMP_TOOLKIT
-        writeXmpFromPacket_ = flag; 
+        writeXmpFromPacket_ = flag;
 #endif
     }
 

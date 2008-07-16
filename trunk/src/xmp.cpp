@@ -165,7 +165,7 @@ namespace Exiv2 {
 
     std::string Xmpdatum::key() const
     {
-        return p_->key_.get() == 0 ? "" : p_->key_->key(); 
+        return p_->key_.get() == 0 ? "" : p_->key_->key();
     }
 
     std::string Xmpdatum::groupName() const
@@ -225,7 +225,7 @@ namespace Exiv2 {
 
     float Xmpdatum::toFloat(long n) const
     {
-        return p_->value_.get() == 0 ? -1 : p_->value_->toFloat(n); 
+        return p_->value_.get() == 0 ? -1 : p_->value_->toFloat(n);
     }
 
     Rational Xmpdatum::toRational(long n) const
@@ -235,7 +235,7 @@ namespace Exiv2 {
 
     Value::AutoPtr Xmpdatum::getValue() const
     {
-        return p_->value_.get() == 0 ? Value::AutoPtr(0) : p_->value_->clone(); 
+        return p_->value_.get() == 0 ? Value::AutoPtr(0) : p_->value_->clone();
     }
 
     const Value& Xmpdatum::value() const
@@ -329,17 +329,17 @@ namespace Exiv2 {
         std::sort(xmpMetadata_.begin(), xmpMetadata_.end(), cmpMetadataByKey);
     }
 
-    XmpData::const_iterator XmpData::begin() const 
+    XmpData::const_iterator XmpData::begin() const
     {
-        return xmpMetadata_.begin(); 
+        return xmpMetadata_.begin();
     }
 
     XmpData::const_iterator XmpData::end() const
     {
-        return xmpMetadata_.end(); 
+        return xmpMetadata_.end();
     }
 
-    bool XmpData::empty() const 
+    bool XmpData::empty() const
     {
         return count() == 0;
     }
@@ -390,7 +390,7 @@ namespace Exiv2 {
     }
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
-    bool XmpParser::registerNs(const std::string& ns, 
+    bool XmpParser::registerNs(const std::string& ns,
                                const std::string& prefix)
     {
         try {
@@ -402,7 +402,7 @@ namespace Exiv2 {
         }
     } // XmpParser::registerNs
 #else
-    bool XmpParser::registerNs(const std::string& /*ns*/, 
+    bool XmpParser::registerNs(const std::string& /*ns*/,
                                const std::string& /*prefix*/)
     {
         initialize();
@@ -450,7 +450,7 @@ namespace Exiv2 {
                 continue;
             }
             if (XMP_NodeIsSchema(opt)) {
-                // Register unknown namespaces with Exiv2 
+                // Register unknown namespaces with Exiv2
                 // (Namespaces are automatically registered with the XMP Toolkit)
                 if (XmpProperties::prefix(schemaNs).empty()) {
                     std::string prefix;

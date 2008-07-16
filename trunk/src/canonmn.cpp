@@ -243,7 +243,7 @@ namespace Exiv2 {
         { 6, N_("Medium 2") },
         { 7, N_("Medium 3") }
     };
- 
+
     //! EasyMode, tag 0x000b
     extern const TagDetails canonCsEasyMode[] = {
         {  0, N_("Full auto")        },

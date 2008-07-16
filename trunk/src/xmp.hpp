@@ -110,7 +110,7 @@ namespace Exiv2 {
           @brief Set the value to the string \em value. Uses Value::read(const
                  std::string&).  If the %Xmpdatum does not have a Value yet,
                  then a %Value of the correct type for this %Xmpdatum is
-                 created. If the key is unknown, a XmpTextValue is used as 
+                 created. If the key is unknown, a XmpTextValue is used as
                  default.
          */
         void setValue(const std::string& value);
@@ -303,7 +303,7 @@ namespace Exiv2 {
         /*!
           @brief Initialize the XMP Toolkit.
 
-          Calling this method is usually not needed, as encode() and 
+          Calling this method is usually not needed, as encode() and
           decode() will initialize the XMP Toolkit if necessary.
 
           @return True if the initialization was successful, else false.

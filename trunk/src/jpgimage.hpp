@@ -140,10 +140,10 @@ namespace Exiv2 {
               valid image of the calling subclass.
           @param dataSize Size of initData in bytes.
          */
-        JpegBase(int              type, 
-                 BasicIo::AutoPtr io, 
+        JpegBase(int              type,
+                 BasicIo::AutoPtr io,
                  bool             create,
-                 const byte       initData[], 
+                 const byte       initData[],
                  long             dataSize);
         //@}
 

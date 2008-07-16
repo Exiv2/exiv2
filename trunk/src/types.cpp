@@ -392,7 +392,7 @@ namespace Exiv2 {
         if (ok) return b ? 1 : 0;
 
         // everything failed, return from stringTo<long> is probably the best fit
-        return ret; 
+        return ret;
     }
 
     float parseFloat(const std::string& s, bool& ok)

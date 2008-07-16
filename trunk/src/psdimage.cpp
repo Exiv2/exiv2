@@ -73,7 +73,7 @@ enum {
     kPhotoshopResourceID_AlphaChannelsNames        = 0x03ee, // as a series of Pstrings
     kPhotoshopResourceID_DisplayInfo               = 0x03ef, // see appendix A in Photoshop SDK
     kPhotoshopResourceID_PStringCaption            = 0x03f0, // [optional] the caption, as a Pstring
-    kPhotoshopResourceID_BorderInformation         = 0x03f1, // border width and units 
+    kPhotoshopResourceID_BorderInformation         = 0x03f1, // border width and units
     kPhotoshopResourceID_BackgroundColor           = 0x03f2, // see additional Adobe information
     kPhotoshopResourceID_PrintFlags                = 0x03f3, // labels, crop marks, colour bars, ecc...
     kPhotoshopResourceID_BWHalftoningInfo          = 0x03f4, // Gray-scale and multich. half-toning info
@@ -156,13 +156,13 @@ namespace Exiv2 {
 #ifdef DEBUG
         std::cerr << "Exiv2::PsdImage::readMetadata: Reading Photoshop file " << io_->path() << "\n";
 #endif
-        if (io_->open() != 0) 
+        if (io_->open() != 0)
         {
             throw Error(9, io_->path(), strError());
         }
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
-        if (!isPsdType(*io_, false)) 
+        if (!isPsdType(*io_, false))
         {
             if (io_->error() || io_->eof()) throw Error(14);
             throw Error(3, "Photoshop");
@@ -171,7 +171,7 @@ namespace Exiv2 {
 
         /*
           The Photoshop header goes as follows -- all numbers are in big-endian byte order:
-        
+
           offset  length   name       description
           ======  =======  =========  =========
            0      4 bytes  signature  always '8BPS'
@@ -313,7 +313,7 @@ namespace Exiv2 {
     Image::AutoPtr newPsdInstance(BasicIo::AutoPtr io, bool /*create*/)
     {
         Image::AutoPtr image(new PsdImage(io));
-        if (!image->good()) 
+        if (!image->good())
         {
             image.reset();
         }
@@ -326,12 +326,12 @@ namespace Exiv2 {
         const unsigned char PsdHeader[6] = { '8', 'B', 'P', 'S', 0, 1 };
         byte buf[len];
         iIo.read(buf, len);
-        if (iIo.error() || iIo.eof()) 
+        if (iIo.error() || iIo.eof())
         {
             return false;
         }
         bool matched = (memcmp(buf, PsdHeader, len) == 0);
-        if (!advance || !matched) 
+        if (!advance || !matched)
         {
             iIo.seek(-len, BasicIo::cur);
         }

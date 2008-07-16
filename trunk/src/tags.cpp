@@ -2093,7 +2093,7 @@ namespace Exiv2 {
         if (value.size() != 4 || value.typeId() != xmpText) {
             return os << "(" << value << ")";
         }
-        
+
         return printVersion(os, value.toString());
     }
 

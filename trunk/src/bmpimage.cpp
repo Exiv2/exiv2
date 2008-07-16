@@ -80,13 +80,13 @@ namespace Exiv2 {
 #ifdef DEBUG
         std::cerr << "Exiv2::BmpImage::readMetadata: Reading Windows bitmap file " << io_->path() << "\n";
 #endif
-        if (io_->open() != 0) 
+        if (io_->open() != 0)
         {
             throw Error(9, io_->path(), strError());
         }
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
-        if (!isBmpType(*io_, false)) 
+        if (!isBmpType(*io_, false))
         {
             if (io_->error() || io_->eof()) throw Error(14);
             throw Error(3, "BMP");
@@ -95,7 +95,7 @@ namespace Exiv2 {
 
         /*
           The Windows bitmap header goes as follows -- all numbers are in little-endian byte order:
-        
+
           offset  length   name                   description
           ======  =======  =====================  =======
            0      2 bytes  signature              always 'BM'
@@ -133,7 +133,7 @@ namespace Exiv2 {
     Image::AutoPtr newBmpInstance(BasicIo::AutoPtr io, bool /*create*/)
     {
         Image::AutoPtr image(new BmpImage(io));
-        if (!image->good()) 
+        if (!image->good())
         {
             image.reset();
         }
@@ -146,12 +146,12 @@ namespace Exiv2 {
         const unsigned char BmpImageId[2] = { 'B', 'M' };
         byte buf[len];
         iIo.read(buf, len);
-        if (iIo.error() || iIo.eof()) 
+        if (iIo.error() || iIo.eof())
         {
             return false;
         }
         bool matched = (memcmp(buf, BmpImageId, len) == 0);
-        if (!advance || !matched) 
+        if (!advance || !matched)
         {
             iIo.seek(-len, BasicIo::cur);
         }

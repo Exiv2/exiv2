@@ -74,7 +74,7 @@ namespace Exiv2 {
     bool TiffVisitor::go(GoEvent event) const
     {
         assert(event >= 0 && event < events_);
-        return go_[event]; 
+        return go_[event];
     }
 
     void TiffFinder::init(uint16_t tag, uint16_t group)
@@ -862,7 +862,7 @@ namespace Exiv2 {
     }
 
     void TiffEncoder::add(
-        TiffComponent*     pRootDir, 
+        TiffComponent*     pRootDir,
         TiffComponent*     pSourceDir,
         TiffCompFactoryFct createFct
     )

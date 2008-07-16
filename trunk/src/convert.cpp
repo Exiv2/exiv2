@@ -550,7 +550,7 @@ namespace Exiv2 {
         else { // "Exif.GPSInfo.GPSTimeStamp"
 
             bool ok = true;
-            if (pos->value().count() != 3) ok = false; 
+            if (pos->value().count() != 3) ok = false;
             if (ok) {
                 for (int i = 0; i < 3; ++i) {
                     if (pos->value().toRational(i).second == 0) {
@@ -891,7 +891,7 @@ namespace Exiv2 {
         }
         std::ostringstream array;
 
-        array << static_cast<int>(value[0]) << " " 
+        array << static_cast<int>(value[0]) << " "
               << static_cast<int>(value[1]) << " "
               << static_cast<int>(value[2]) << " "
               << static_cast<int>(value[3]);
@@ -1282,7 +1282,7 @@ namespace {
                 if (   pos->value().ok()
                     && value.length() > 5 && value.substr(0, 5) == "lang=") {
                     std::string::size_type pos = value.find_first_of(' ');
-                    if (pos != std::string::npos) { 
+                    if (pos != std::string::npos) {
                         value = value.substr(pos + 1);
                     }
                     else {
