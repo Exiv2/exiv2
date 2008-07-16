@@ -895,9 +895,9 @@ namespace Exiv2 {
 #ifdef DEBUG
             if (object == 0) {
                 std::cerr << "Warning: addPath() didn't add an entry for "
-                          << tiffGroupId(i->groupName())
+                          << i->groupName()
                           << " tag 0x" << std::setw(4) << std::setfill('0')
-                          << i->tag() << "\n";
+                          << std::hex << i->tag() << "\n";
             }
 #endif
             if (object != 0) {
@@ -1331,8 +1331,7 @@ namespace Exiv2 {
             std::cerr << "Error: Directory " << tiffGroupName(object->group())
                       << ", entry 0x" << std::setw(4)
                       << std::setfill('0') << std::hex << object->tag()
-                      << " has an invalid type:\n"
-                      << "Type = " << std::dec << type
+                      << " has an invalid type " << std::dec << type
                       << "; skipping entry.\n";
 #endif
             return;
@@ -1361,7 +1360,7 @@ namespace Exiv2 {
                           << "directory " << tiffGroupName(object->group())
                           << ", entry 0x" << std::setw(4)
                           << std::setfill('0') << std::hex << object->tag()
-                          << " is out of bounds:\n"
+                          << " is out of bounds: "
                           << "Offset = 0x" << std::setw(8)
                           << std::setfill('0') << std::hex << offset
                           << "; truncating the entry\n";
@@ -1375,7 +1374,7 @@ namespace Exiv2 {
                           << "directory " << tiffGroupName(object->group())
                           << ", entry 0x" << std::setw(4)
                           << std::setfill('0') << std::hex << object->tag()
-                          << " is out of bounds:\n"
+                          << " is out of bounds: "
                           << "Offset = 0x" << std::setw(8)
                           << std::setfill('0') << std::hex << offset
                           << ", size = " << std::dec << size

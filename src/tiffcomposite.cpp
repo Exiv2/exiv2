@@ -340,6 +340,8 @@ namespace Exiv2 {
         assert(!tiffPath.empty());
         const TiffStructure* ts = tiffPath.top();
         assert(ts != 0);
+        // Prevent dangling subIFD tags: Do not add a subIFD tag if it has no child
+        if (tiffPath.size() == 1 && ts->newTiffCompFct_ == newTiffSubIfd) return 0;
         TiffComponent* tc = 0;
         // To allow duplicate entries, we only check if the new component already
         // exists if there is still at least one composite tag on the stack
