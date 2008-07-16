@@ -625,7 +625,7 @@ namespace Exiv2 {
         {    4, N_("Vibrant") },
         {    5, N_("Monochrome") },
     };
-    
+
     //! DynamicRangeExpansion, tag 0x0069
     extern const TagDetails pentaxDynamicRangeExpansion[] = {
         {   0, N_("Off") },

@@ -51,7 +51,7 @@
 #define EXIV2_MAKE_VERSION(major,minor,patch) \
     (((major) << 16) | ((minor) << 8) | (patch))
 /*!
-  @brief The %Exiv2 version number of the library used at compile-time as 
+  @brief The %Exiv2 version number of the library used at compile-time as
          an integer number for easy comparison.
  */
 #define EXIV2_VERSION \
@@ -59,7 +59,7 @@
 /*!
   @brief Deprecated version check macro. Do not use.
 
-  This macro has flaws and only remains for backward compatibility. 
+  This macro has flaws and only remains for backward compatibility.
   Use EXIV2_TEST_VERSION and testVersion() instead.
  */
 #define EXIV2_CHECK_VERSION(major,minor,patch) \
@@ -75,9 +75,9 @@
   // <exiv2/types.hpp>. Early Exiv2 versions didn't have version.hpp and the macros.
 
   #include <exiv2/types.hpp>
-  
+
   // Make sure an EXIV2_TEST_VERSION macro exists:
-  
+
   #ifdef EXIV2_VERSION
   # ifndef EXIV2_TEST_VERSION
   # define EXIV2_TEST_VERSION(major,minor,patch) \
@@ -86,14 +86,14 @@
   #else
   # define EXIV2_TEST_VERSION(major,minor,patch) (false)
   #endif
-  
+
   std::cout << "Compiled with Exiv2 version " << EXV_PACKAGE_VERSION << "\n"
             << "Runtime Exiv2 version is    " << Exiv2::version()    << "\n";
-  
+
   // Test the Exiv2 version available at runtime but compile the if-clause only if
   // the compile-time version is at least 0.15. Earlier versions didn't have a
   // testVersion() function:
-  
+
   #if EXIV2_TEST_VERSION(0,15,0)
   if (Exiv2::testVersion(0,13,0)) {
       std::cout << "Available Exiv2 version is equal to or greater than 0.13\n";
@@ -121,19 +121,19 @@ namespace Exiv2 {
     */
     const char* version();
     /*!
-      @brief Test the version of the available %Exiv2 library at runtime. Return 
+      @brief Test the version of the available %Exiv2 library at runtime. Return
              true if it is the same as or newer than the passed-in version.
-    
+
       Versions are denoted using a triplet of integers: \em major.minor.patch .
-    
+
       @code
       // Don't include the <exiv2/version.hpp> file directly, it is included by
       // <exiv2/types.hpp>. Early Exiv2 versions didn't have version.hpp and the macros.
 
       #include <exiv2/types.hpp>
-    
+
       // Make sure an EXIV2_TEST_VERSION macro exists:
-      
+
       #ifdef EXIV2_VERSION
       # ifndef EXIV2_TEST_VERSION
       # define EXIV2_TEST_VERSION(major,minor,patch) \
@@ -142,10 +142,10 @@ namespace Exiv2 {
       #else
       # define EXIV2_TEST_VERSION(major,minor,patch) (false)
       #endif
-    
+
       std::cout << "Compiled with Exiv2 version " << EXV_PACKAGE_VERSION << "\n"
                 << "Runtime Exiv2 version is    " << Exiv2::version()    << "\n";
-    
+
       // Test the Exiv2 version available at runtime but compile the if-clause only if
       // the compile-time version is at least 0.15. Earlier versions didn't have a
       // testVersion() function:

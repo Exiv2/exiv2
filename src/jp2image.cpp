@@ -115,13 +115,13 @@ namespace Exiv2 {
 #ifdef DEBUG
         std::cerr << "Exiv2::Jp2Image::readMetadata: Reading JPEG-2000 file " << io_->path() << "\n";
 #endif
-        if (io_->open() != 0) 
+        if (io_->open() != 0)
         {
             throw Error(9, io_->path(), strError());
         }
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
-        if (!isJp2Type(*io_, true)) 
+        if (!isJp2Type(*io_, true))
         {
             if (io_->error() || io_->eof()) throw Error(14);
             throw Error(3, "JPEG-2000");
@@ -240,7 +240,7 @@ namespace Exiv2 {
     Image::AutoPtr newJp2Instance(BasicIo::AutoPtr io, bool /*create*/)
     {
         Image::AutoPtr image(new Jp2Image(io));
-        if (!image->good()) 
+        if (!image->good())
         {
             image.reset();
         }
@@ -254,12 +254,12 @@ namespace Exiv2 {
         const unsigned char Jp2Header[len] = { 0x00, 0x00, 0x00, 0x0c, 0x6a, 0x50, 0x20, 0x20, 0x0d, 0x0a, 0x87, 0x0a };
         byte buf[len];
         iIo.read(buf, len);
-        if (iIo.error() || iIo.eof()) 
+        if (iIo.error() || iIo.eof())
         {
             return false;
         }
         bool matched = (memcmp(buf, Jp2Header, len) == 0);
-        if (!advance || !matched) 
+        if (!advance || !matched)
         {
             iIo.seek(-len, BasicIo::cur);
         }

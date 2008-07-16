@@ -52,7 +52,7 @@ namespace Exiv2 {
         const int tga = 13; //!< Truevision TARGA (tga) image type (see class TgaImage)
     }
 
-    /*! 
+    /*!
       @brief Class to access raw TARGA images. This is just a stub - we only
           read width and height.
      */

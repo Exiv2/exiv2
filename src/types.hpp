@@ -329,7 +329,7 @@ namespace Exiv2 {
     const char* exvGettext(const char* str);
 
     /*!
-      @brief Return a \em long set to the value represented by \em s. 
+      @brief Return a \em long set to the value represented by \em s.
 
       Besides strings that represent \em long values, the function also
       handles \em float, \em Rational and boolean
@@ -343,7 +343,7 @@ namespace Exiv2 {
     long parseLong(const std::string& s, bool& ok);
 
     /*!
-      @brief Return a \em float set to the value represented by \em s. 
+      @brief Return a \em float set to the value represented by \em s.
 
       Besides strings that represent \em float values, the function also
       handles \em long, \em Rational and boolean
@@ -355,9 +355,9 @@ namespace Exiv2 {
               to \c true if the conversion was successful or \c false if not.
     */
     float parseFloat(const std::string& s, bool& ok);
-    
+
     /*!
-      @brief Return a \em Rational set to the value represented by \em s. 
+      @brief Return a \em Rational set to the value represented by \em s.
 
       Besides strings that represent \em Rational values, the function also
       handles \em long, \em float and boolean
@@ -456,7 +456,7 @@ namespace Exiv2 {
 
       @param  s  String to convert
       @param  ok Output variable indicating the success of the operation.
-      @return Returns the converted value and sets \em ok to \c true if the 
+      @return Returns the converted value and sets \em ok to \c true if the
               conversion was successful or \c false if not.
      */
     template<typename T>
@@ -475,7 +475,7 @@ namespace Exiv2 {
       @brief Specialization of stringTo(const std::string& s, bool& ok) for \em bool.
 
       Handles the same string values as the XMP SDK. Converts the string to lowercase
-      and returns \c true if it is "true", "t" or "1", and \c false if it is 
+      and returns \c true if it is "true", "t" or "1", and \c false if it is
       "false", "f" or "0".
      */
     template<>

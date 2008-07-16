@@ -69,7 +69,7 @@ namespace Exiv2 {
      */
     class TiffVisitor {
     public:
-        //! Events for the stop/go flag. See setGo(). 
+        //! Events for the stop/go flag. See setGo().
         enum GoEvent {
             //! Signal to control traversing of the composite tree.
             geTraverse       = 0,
@@ -326,7 +326,7 @@ namespace Exiv2 {
              composite tree is then traversed and metadata from the image is
              used to encode each existing component.
 
-             For intrusive writing, add() is called, which loops through the 
+             For intrusive writing, add() is called, which loops through the
              metadata and creates and populates corresponding TiffComponents
              as needed.
      */
@@ -383,7 +383,7 @@ namespace Exiv2 {
                  component. This function is called by the visit methods of the
                  encoder as well as the add() method.
 
-          If no \em datum is provided, search the metadata based on tag and 
+          If no \em datum is provided, search the metadata based on tag and
           group of the \em object. This is the case if the function is called
           from a visit method.
 
@@ -440,13 +440,13 @@ namespace Exiv2 {
           if necessary and populated using encodeTiffComponent(). The add() function
           is used during intrusive writing, to create a new TIFF structure.
 
-          @note For non-intrusive writing, the encoder is used as a visitor (by 
+          @note For non-intrusive writing, the encoder is used as a visitor (by
           passing it to the accept() member of a TiffComponent). The composite
           tree is then traversed and metadata from the image is used to encode
           each existing component.
         */
         void add(
-            TiffComponent*     pRootDir, 
+            TiffComponent*     pRootDir,
             TiffComponent*     pSourceDir,
             TiffCompFactoryFct createFct
         );

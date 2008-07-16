@@ -80,13 +80,13 @@ namespace Exiv2 {
 #ifdef DEBUG
         std::cerr << "Exiv2::GifImage::readMetadata: Reading GIF file " << io_->path() << "\n";
 #endif
-        if (io_->open() != 0) 
+        if (io_->open() != 0)
         {
             throw Error(9, io_->path(), strError());
         }
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
-        if (!isGifType(*io_, true)) 
+        if (!isGifType(*io_, true))
         {
             if (io_->error() || io_->eof()) throw Error(14);
             throw Error(3, "GIF");
@@ -112,7 +112,7 @@ namespace Exiv2 {
     Image::AutoPtr newGifInstance(BasicIo::AutoPtr io, bool /*create*/)
     {
         Image::AutoPtr image(new GifImage(io));
-        if (!image->good()) 
+        if (!image->good())
         {
             image.reset();
         }
@@ -126,13 +126,13 @@ namespace Exiv2 {
         const unsigned char Gif89aId[8] = { 'G', 'I', 'F', '8', '9', 'a' };
         byte buf[len];
         iIo.read(buf, len);
-        if (iIo.error() || iIo.eof()) 
+        if (iIo.error() || iIo.eof())
         {
             return false;
         }
-        bool matched =    (memcmp(buf, Gif87aId, len) == 0) 
+        bool matched =    (memcmp(buf, Gif87aId, len) == 0)
                        || (memcmp(buf, Gif89aId, len) == 0);
-        if (!advance || !matched) 
+        if (!advance || !matched)
         {
             iIo.seek(-len, BasicIo::cur);
         }

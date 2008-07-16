@@ -619,10 +619,10 @@ namespace Exiv2 {
         return os;
     }
 
-    std::string XmpArrayValue::toString(long n) const 
+    std::string XmpArrayValue::toString(long n) const
     {
         ok_ = true;
-        return value_[n]; 
+        return value_[n];
     }
 
     long XmpArrayValue::toLong(long n) const
@@ -701,12 +701,12 @@ namespace Exiv2 {
         return os;
     }
 
-    std::string LangAltValue::toString(long /*n*/) const 
+    std::string LangAltValue::toString(long /*n*/) const
     {
         return toString("x-default");
     }
 
-    std::string LangAltValue::toString(const std::string& qualifier) const 
+    std::string LangAltValue::toString(const std::string& qualifier) const
     {
         ValueType::const_iterator i = value_.find(qualifier);
         if (i != value_.end()) {
@@ -740,11 +740,11 @@ namespace Exiv2 {
         return new LangAltValue(*this);
     }
 
-    DateValue::DateValue() 
+    DateValue::DateValue()
         : Value(date)
     {
     }
-    
+
     DateValue::DateValue(int year, int month, int day)
         : Value(date)
     {
@@ -846,7 +846,7 @@ namespace Exiv2 {
         return l;
     }
 
-    TimeValue::TimeValue() 
+    TimeValue::TimeValue()
         : Value(time)
     {
     }

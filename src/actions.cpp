@@ -261,7 +261,7 @@ namespace Action {
             std::cout << buf.st_size << " " << _("Bytes") << std::endl;
         }
 
-        // MIME type 
+        // MIME type
         printLabel(_("MIME type"));
         std::cout << image->mimeType() << "\n";
 
@@ -1358,7 +1358,7 @@ namespace Action {
         else {
             std::cerr << _("Warning") << ": " << modifyCmd.key_ << ": "
                       << _("Failed to read") << " "
-                      << Exiv2::TypeInfo::typeName(value->typeId()) 
+                      << Exiv2::TypeInfo::typeName(value->typeId())
                       << " " << _("value")
                       << " \"" << modifyCmd.value_ << "\"\n";
         }
@@ -1399,7 +1399,7 @@ namespace Action {
     void Modify::regNamespace(const ModifyCmd& modifyCmd)
     {
         if (Params::instance().verbose_) {
-            std::cout << _("Reg ") << modifyCmd.key_ << "=\"" 
+            std::cout << _("Reg ") << modifyCmd.key_ << "=\""
                       << modifyCmd.value_ << "\"" << std::endl;
         }
         // Registration has been done immediately after parsing the command.
@@ -1888,11 +1888,11 @@ namespace {
         return 0;
     } // renameFile
 
-    std::string newFilePath(const std::string& path, const std::string& ext) 
+    std::string newFilePath(const std::string& path, const std::string& ext)
     {
         std::string directory = Params::instance().directory_;
         if (directory.empty()) directory = Util::dirname(path);
-        std::string newPath =   directory + EXV_SEPERATOR_STR 
+        std::string newPath =   directory + EXV_SEPERATOR_STR
                               + Util::basename(path, true) + ext;
         return newPath;
     }

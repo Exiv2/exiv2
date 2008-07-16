@@ -144,7 +144,7 @@ int main(int argc, char* const argv[])
     int n = 1;
     int s = static_cast<int>(params.files_.size());
     int w = s > 9 ? s > 99 ? 3 : 2 : 1;
-    for (Params::Files::const_iterator i = params.files_.begin(); 
+    for (Params::Files::const_iterator i = params.files_.begin();
          i != params.files_.end(); ++i) {
         if (params.verbose_) {
             std::cout << _("File") << " " << std::setw(w) << std::right << n++ << "/" << s << ": "
@@ -168,7 +168,7 @@ Params* Params::instance_ = 0;
 const Params::YodAdjust Params::emptyYodAdjust_[] = {
     { false, "-Y", 0 },
     { false, "-O", 0 },
-    { false, "-D", 0 },            
+    { false, "-D", 0 },
 };
 
 Params& Params::instance()
@@ -356,8 +356,8 @@ int Params::evalRename(int opt, const std::string& optarg)
     case Action::none:
         action_ = Action::rename;
         switch (opt) {
-        case 'r': 
-            format_ = optarg; 
+        case 'r':
+            format_ = optarg;
             formatSet_ = true;
             break;
         case 't': timestamp_ = true; break;
@@ -370,7 +370,7 @@ int Params::evalRename(int opt, const std::string& optarg)
                       << ": " << _("Ignoring surplus option") << " -r \"" << optarg << "\"\n";
         }
         else {
-            format_ = optarg; 
+            format_ = optarg;
             formatSet_ = true;
         }
         break;

@@ -336,7 +336,7 @@ namespace Exiv2 {
         //! Type used to store the data.
         typedef std::vector<byte> ValueType;
         // DATA
-        ValueType value_;                       //!< Stores the data value 
+        ValueType value_;                       //!< Stores the data value
 
     }; // class DataValue
 
@@ -677,7 +677,7 @@ namespace Exiv2 {
         //@}
 
         /*!
-          @brief Return XMP array type for an array Value TypeId, xaNone if 
+          @brief Return XMP array type for an array Value TypeId, xaNone if
                  \em typeId is not an XMP array value type.
          */
         static XmpArrayType xmpArrayType(TypeId typeId);
@@ -697,7 +697,7 @@ namespace Exiv2 {
     }; // class XmpValue
 
     /*!
-      @brief %Value type suitable for simple XMP properties and 
+      @brief %Value type suitable for simple XMP properties and
              XMP nodes of complex types which are not parsed into
              specific values.
 
@@ -722,7 +722,7 @@ namespace Exiv2 {
         /*!
           @brief Read a simple property value from \em buf to set the value.
 
-          Sets the value to the contents of \em buf. A optional keyword, 
+          Sets the value to the contents of \em buf. A optional keyword,
           \em type is supported to set the XMP value type. This is useful for
           complex value types for which Exiv2 does not have direct support.
 
@@ -778,8 +778,8 @@ namespace Exiv2 {
 
     /*!
       @brief %Value type for simple arrays. Each item in the array is a simple
-             value, without qualifiers. The array may be an ordered (\em seq), 
-             unordered (\em bag) or alternative array (\em alt). The array 
+             value, without qualifiers. The array may be an ordered (\em seq),
+             unordered (\em bag) or alternative array (\em alt). The array
              items must not contain qualifiers. For language alternatives use
              LangAltValue.
 
@@ -800,11 +800,11 @@ namespace Exiv2 {
         //@{
         using XmpValue::read;
         /*!
-          @brief Read a simple property value from \em buf and append it 
+          @brief Read a simple property value from \em buf and append it
                  to the value.
 
           Appends \em buf to the value after the last existing array element.
-          Subsequent calls will therefore populate multiple array elements in 
+          Subsequent calls will therefore populate multiple array elements in
           the order they are read.
 
           @return 0 if successful.
@@ -847,7 +847,7 @@ namespace Exiv2 {
     }; // class XmpArrayValue
 
     /*!
-      @brief %Value type for XMP language alternative properties. 
+      @brief %Value type for XMP language alternative properties.
 
       A language alternative is an array consisting of simple text values,
       each of which has a language qualifier.
@@ -869,18 +869,18 @@ namespace Exiv2 {
         //@{
         using XmpValue::read;
         /*!
-          @brief Read a simple property value from \em buf and append it 
+          @brief Read a simple property value from \em buf and append it
                  to the value.
 
           Appends \em buf to the value after the last existing array element.
-          Subsequent calls will therefore populate multiple array elements in 
+          Subsequent calls will therefore populate multiple array elements in
           the order they are read.
 
           The format of \em buf is:
           <BR>
           <CODE>[lang=["]language code["] ]text</CODE>
           <BR>
-          The XMP default language code <CODE>x-default</CODE> is used if 
+          The XMP default language code <CODE>x-default</CODE> is used if
           \em buf doesn't start with the keyword <CODE>lang</CODE>.
 
           @return 0 if successful.
@@ -930,7 +930,7 @@ namespace Exiv2 {
           @brief Map to store the language alternative values. The language
                  qualifier is used as the key for the map entries.
          */
-        ValueType value_; 
+        ValueType value_;
 
     }; // class LangAltValue
 
