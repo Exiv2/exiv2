@@ -210,7 +210,12 @@ namespace Exiv2 {
                  the original object is modified.
          */
         DataBuf& operator=(DataBuf& rhs);
-        //! Allocate a data buffer of the given size
+        /*!
+          Allocate a data buffer of at least the given size
+          
+          Note that if the requested \em size is less than the current buffer
+          size, no new memory is allocated and the buffer size doesn't change.
+         */
         void alloc(long size);
         /*!
           @brief Release ownership of the buffer to the caller. Returns the
