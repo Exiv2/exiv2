@@ -39,12 +39,7 @@ EXIV2_RCSID("@(#) $Id: pngchunk.cpp 823 2006-06-23 07:35:00Z cgilles $")
 
 //#define DEBUG 1
 
-// some defines to make it easier
-#define PNG_CHUNK_TYPE(data, index)  &data[index+4]
-#define PNG_CHUNK_DATA(data, index, offset) data[8+index+offset]
-#define PNG_CHUNK_HEADER_SIZE 12
-
-// To uncompress text chunck
+// To uncompress or compress text chunk
 #include <zlib.h>
 
 #include "pngchunk.hpp"
@@ -64,200 +59,144 @@ EXIV2_RCSID("@(#) $Id: pngchunk.cpp 823 2006-06-23 07:35:00Z cgilles $")
 
 URLs to find informations about PNG chunks :
 
-tEXt and zTXt chuncks : http://www.vias.org/pngguide/chapter11_04.html
-iTXt chunck           : http://www.vias.org/pngguide/chapter11_05.html
-PNG tags              : http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/PNG.html#TextualData
+tEXt and zTXt chunks : http://www.vias.org/pngguide/chapter11_04.html
+iTXt chunk           : http://www.vias.org/pngguide/chapter11_05.html
+PNG tags             : http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/PNG.html#TextualData
 
 */
 
 // *****************************************************************************
-// local declarations
-namespace {
-    // Return the checked length of a PNG chunk
-    long chunkLength(const Exiv2::byte* pData, long index);
-}
-
-// *****************************************************************************
 // class member definitions
-namespace Exiv2 {
-
-    void PngChunk::decode(Image*      pImage,
-                          const byte* pData,
-                          long        size,
-                          int*        outWidth,
-                          int*        outHeight)
+namespace Exiv2 
+{
+    void PngChunk::decodeIHDRChunk(const DataBuf& data,
+                                   int*           outWidth,
+                                   int*           outHeight)
     {
-        assert(pImage != 0);
-        assert(pData != 0);
-        assert(outWidth != 0);
-        assert(outHeight != 0);
+        // Extract image width and height from IHDR chunk.
 
-        long index = 8;
+        *outWidth  = getLong((const byte*)data.pData_,     bigEndian);
+        *outHeight = getLong((const byte*)data.pData_ + 4, bigEndian);
 
-        // extract width and height from IHDR chunk, which *must* be the first chunk in the PNG file
-        if (strncmp((const char *)PNG_CHUNK_TYPE(pData, index), "IHDR", 4) == 0)
-        {
-            *outWidth = getLong((const byte*)&PNG_CHUNK_DATA(pData, index, 0), bigEndian);
-            *outHeight = getLong((const byte*)&PNG_CHUNK_DATA(pData, index, 4), bigEndian);
-        }
+    } // PngChunk::decodeIHDRChunk
 
-        // look for a tEXt chunk
-        index += chunkLength(pData, index) + PNG_CHUNK_HEADER_SIZE;
-
-        while(index < size-PNG_CHUNK_HEADER_SIZE)
-        {
-            while (index < size-PNG_CHUNK_HEADER_SIZE &&
-                   strncmp((char*)PNG_CHUNK_TYPE(pData, index), "tEXt", 4) &&
-                   strncmp((char*)PNG_CHUNK_TYPE(pData, index), "zTXt", 4) &&
-                   strncmp((char*)PNG_CHUNK_TYPE(pData, index), "iTXt", 4))
-            {
-                if (!strncmp((char*)PNG_CHUNK_TYPE(pData, index), "IEND", 4))
-                    throw Error(14);
-
-                index += chunkLength(pData, index) + PNG_CHUNK_HEADER_SIZE;
-            }
-
-            if (index < size-PNG_CHUNK_HEADER_SIZE)
-            {
-                // we found a tEXt, zTXt, or iTXt field
-
-                // get the key, it's a null terminated string at the chunk start
-                const byte *key = &PNG_CHUNK_DATA(pData, index, 0);
-
-                int keysize=0;
-                for ( ; key[keysize] != 0 ; keysize++)
-                {
-                    // look if we reached the end of the file (it might be corrupted)
-                    if (8+index+keysize >= size)
-                        throw Error(14);
-                }
-
-                DataBuf arr = parsePngChunk(pData, size, index, keysize);
+    void PngChunk::decodeTXTChunk(Image*         pImage,
+                                  const DataBuf& data,
+                                  TxtChunkType   type)
+    {
+        DataBuf key = keyTXTChunk(data);
 
 #ifdef DEBUG
-                std::cerr << "Exiv2::PngChunk::decode: Found PNG chunk: "
-                          << std::string((const char*)key) << " :: "
-                          << std::string((const char*)arr.pData_, 32) << "\n";
+        std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk key: " 
+                  << std::string((const char*)key.pData_) << "\n";
 #endif
+        DataBuf arr = parseTXTChunk(data, key.size_, type);
 
-                parseChunkContent(pImage, key, arr);
+#ifdef DEBUG
+        std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk data: " 
+                  << std::string((const char*)arr.pData_, 32) << "\n";
+#endif
+        parseChunkContent(pImage, key.pData_, arr);
 
-                index += chunkLength(pData, index) + PNG_CHUNK_HEADER_SIZE;
-            }
+    } // PngChunk::decodeTXTChunk
+
+    DataBuf PngChunk::keyTXTChunk(const DataBuf& data, bool stripHeader)
+    {
+        // From a tEXt, zTXt, or iTXt chunk,
+        // we get the key, it's a null terminated string at the chunk start
+
+        const byte *key = data.pData_ + (stripHeader ? 8 : 0);
+
+        // Find null string at end of key.
+        int keysize=0;
+        for ( ; key[keysize] != 0 ; keysize++)
+        {
+            // look if keysize is valid.
+            if (keysize >= data.size_)
+                throw Error(14);
         }
 
-    } // PngChunk::decode
+        return DataBuf(key, keysize);
 
-    DataBuf PngChunk::parsePngChunk(const byte* pData, long size, long& index, int keysize)
+    } // PngChunk::keyTXTChunk
+
+    DataBuf PngChunk::parseTXTChunk(const DataBuf& data, 
+                                    int            keysize, 
+                                    TxtChunkType   type)
     {
         DataBuf arr;
 
-        if(!strncmp((char*)PNG_CHUNK_TYPE(pData, index), "zTXt", 4))
+        if(type == zTXt_Chunk)
         {
             // Extract a deflate compressed Latin-1 text chunk
 
-#ifdef DEBUG
-            std::cerr << "Exiv2::PngChunk::parsePngChunk: We found a zTXt field\n";
-#endif
             // we get the compression method after the key
-            const byte* compressionMethod = &PNG_CHUNK_DATA(pData, index, keysize+1);
+            const byte* compressionMethod = data.pData_ + keysize + 1;
             if ( *compressionMethod != 0x00 )
             {
                 // then it isn't zlib compressed and we are sunk
 #ifdef DEBUG
-                std::cerr << "Exiv2::PngChunk::parsePngChunk: Non-standard zTXt compression method.\n";
+                std::cerr << "Exiv2::PngChunk::parseTXTChunk: Non-standard zTXt compression method.\n";
 #endif
                 throw Error(14);
             }
 
             // compressed string after the compression technique spec
-            const byte* compressedText      = &PNG_CHUNK_DATA(pData, index, keysize+2);
-            unsigned int compressedTextSize = getLong(&pData[index], bigEndian)-keysize-2;
-
-            // security check, also considering overflow wraparound from the addition --
-            // we may endup with a /smaller/ index if we wrap all the way around
-            long firstIndex       = (long)(compressedText - pData);
-            long onePastLastIndex = firstIndex + compressedTextSize;
-            if ( onePastLastIndex > size || onePastLastIndex <= firstIndex)
-                throw Error(14);
+            const byte* compressedText      = data.pData_ + keysize + 2;
+            unsigned int compressedTextSize = data.size_  - keysize - 2;
 
             zlibUncompress(compressedText, compressedTextSize, arr);
         }
-        else if (!strncmp((char*)PNG_CHUNK_TYPE(pData, index), "tEXt", 4))
+        else if(type == tEXt_Chunk)
         {
             // Extract a non-compressed Latin-1 text chunk
-#ifdef DEBUG
-            std::cerr << "Exiv2::PngChunk::parsePngChunk: We found a tEXt field\n";
-#endif
+
             // the text comes after the key, but isn't null terminated
-            const byte* text = &PNG_CHUNK_DATA(pData, index, keysize+1);
-            long textsize    = getLong(&pData[index], bigEndian)-keysize-1;
-
-            // security check, also considering overflow wraparound from the addition --
-            // we may endup with a /smaller/ index if we wrap all the way around
-            long firstIndex       = (long)(text - pData);
-            long onePastLastIndex = firstIndex + textsize;
-
-            if ( onePastLastIndex > size || onePastLastIndex <= firstIndex)
-                throw Error(14);
+            const byte* text = data.pData_ + keysize + 1;
+            long textsize    = data.size_  - keysize - 1;
 
             arr.alloc(textsize);
             arr = DataBuf(text, textsize);
         }
-        else if(!strncmp((char*)PNG_CHUNK_TYPE(pData, index), "iTXt", 4))
+        else if(type == iTXt_Chunk)
         {
             // Extract a deflate compressed or uncompressed UTF-8 text chunk
 
             // we get the compression flag after the key
-            const byte* compressionFlag = &PNG_CHUNK_DATA(pData, index, keysize+1);
+            const byte* compressionFlag   = data.pData_ + keysize + 1;
             // we get the compression method after the compression flag
-            const byte* compressionMethod = &PNG_CHUNK_DATA(pData, index, keysize+1);
+            const byte* compressionMethod = data.pData_ + keysize + 2;
             // language description string after the compression technique spec
-            const byte* languageText      = &PNG_CHUNK_DATA(pData, index, keysize+1);
-            unsigned int languageTextSize = getLong(&pData[index], bigEndian)-keysize-1;
+            std::string languageText((const char*)(data.pData_ + keysize + 3));
+            unsigned int languageTextSize = languageText.size();
             // translated keyword string after the language description
-            const byte* translatedKeyText      = &PNG_CHUNK_DATA(pData, index, keysize+1);
-            unsigned int translatedKeyTextSize = getLong(&pData[index], bigEndian)-keysize-1;
+            std::string translatedKeyText((const char*)(data.pData_ + keysize + 3 + languageTextSize));
+            unsigned int translatedKeyTextSize = translatedKeyText.size();
 
-            if ( *compressionFlag == 0x00 )
+            if ( compressionFlag[0] == 0x00 )
             {
                 // then it's an uncompressed iTXt chunk
 #ifdef DEBUG
-                std::cerr << "Exiv2::PngChunk::parsePngChunk: We found an uncompressed iTXt field\n";
+                std::cout << "Exiv2::PngChunk::parseTXTChunk: We found an uncompressed iTXt field\n";
 #endif
 
                 // the text comes after the translated keyword, but isn't null terminated
-                const byte* text = &PNG_CHUNK_DATA(pData, index, keysize+1);
-                long textsize    = getLong(&pData[index], bigEndian)-keysize-1;
-
-                // security check, also considering overflow wraparound from the addition --
-                // we may endup with a /smaller/ index if we wrap all the way around
-                long firstIndex       = (long)(text - pData);
-                long onePastLastIndex = firstIndex + textsize;
-
-                if ( onePastLastIndex > size || onePastLastIndex <= firstIndex)
-                    throw Error(14);
+                const byte* text = data.pData_ + keysize + 3 + languageTextSize + translatedKeyTextSize;
+                long textsize    = data.size_ - (keysize + 3 + languageTextSize + translatedKeyTextSize);
 
                 arr.alloc(textsize);
                 arr = DataBuf(text, textsize);
             }
-            else if ( *compressionMethod == 0x00 )
+            else if ( compressionFlag[0] == 0x01 && compressionMethod[0] == 0x00 )
             {
                 // then it's a zlib compressed iTXt chunk
 #ifdef DEBUG
-                std::cerr << "Exiv2::PngChunk::parsePngChunk: We found a zlib compressed iTXt field\n";
+                std::cout << "Exiv2::PngChunk::parseTXTChunk: We found a zlib compressed iTXt field\n";
 #endif
 
                 // the compressed text comes after the translated keyword, but isn't null terminated
-                const byte* compressedText = &PNG_CHUNK_DATA(pData, index, keysize+1);
-                long compressedTextSize    = getLong(&pData[index], bigEndian)-keysize-1;
-
-                // security check, also considering overflow wraparound from the addition --
-                // we may endup with a /smaller/ index if we wrap all the way around
-                long firstIndex       = (long)(compressedText - pData);
-                long onePastLastIndex = firstIndex + compressedTextSize;
-                if ( onePastLastIndex > size || onePastLastIndex <= firstIndex)
-                    throw Error(14);
+                const byte* compressedText = data.pData_ + keysize + 3 + languageTextSize + 1 + translatedKeyTextSize + 1;
+                long compressedTextSize    = data.size_ - (keysize + 3 + languageTextSize + 1 + translatedKeyTextSize + 1);
 
                 zlibUncompress(compressedText, compressedTextSize, arr);
             }
@@ -265,7 +204,7 @@ namespace Exiv2 {
             {
                 // then it isn't zlib compressed and we are sunk
 #ifdef DEBUG
-                std::cerr << "Exiv2::PngChunk::parsePngChunk: Non-standard iTXt compression method.\n";
+                std::cerr << "Exiv2::PngChunk::parseTXTChunk: Non-standard iTXt compression method.\n";
 #endif
                 throw Error(14);
             }
@@ -273,12 +212,12 @@ namespace Exiv2 {
         else
         {
 #ifdef DEBUG
-            std::cerr << "Exiv2::PngChunk::parsePngChunk: We found a field, not expected though\n";
+            std::cerr << "Exiv2::PngChunk::parseTXTChunk: We found a field, not expected though\n";
 #endif
             throw Error(14);
         }
 
-    return arr;
+        return arr;
 
     } // PngChunk::parsePngChunk
 
@@ -314,7 +253,7 @@ namespace Exiv2 {
                 if (pos !=-1)
                 {
 #ifdef DEBUG
-                    std::cerr << "Exiv2::PngChunk::decode: Exif header found at position " << pos << "\n";
+                    std::cout << "Exiv2::PngChunk::decode: Exif header found at position " << pos << "\n";
 #endif
                     pos = pos + sizeof(exifHeader);
                     ByteOrder bo = TiffParser::decode(pImage->exifData(),
@@ -360,7 +299,7 @@ namespace Exiv2 {
 #endif
                     xmpPacket = xmpPacket.substr(idx);
                 }
-                if (XmpParser::decode(pImage->xmpData(), xmpPacket))
+                if (XmpParser::decode(pImage->xmpData(), xmpPacket)) 
                 {
 #ifndef SUPPRESS_WARNINGS
                     std::cerr << "Warning: Failed to decode XMP metadata.\n";
@@ -387,7 +326,7 @@ namespace Exiv2 {
 #endif
                     xmpPacket = xmpPacket.substr(idx);
                 }
-                if (XmpParser::decode(pImage->xmpData(), xmpPacket))
+                if (XmpParser::decode(pImage->xmpData(), xmpPacket)) 
                 {
 #ifndef SUPPRESS_WARNINGS
                     std::cerr << "Warning: Failed to decode XMP metadata.\n";
@@ -406,6 +345,254 @@ namespace Exiv2 {
         }
 
     } // PngChunk::parseChunkContent
+
+    DataBuf PngChunk::makeMetadataChunk(const DataBuf& metadata, MetadataType type, bool compress)
+    {
+        if (type == comment_Data)
+        {
+            DataBuf key(11);
+            memcpy(key.pData_, "Description", 11);
+            DataBuf rawData = makeUtf8TxtChunk(key, metadata, compress);
+            return rawData;
+        }
+        else if (type == exif_Data)
+        {
+            DataBuf tmp(4);
+            memcpy(tmp.pData_, "exif", 4);
+            DataBuf rawProfile = writeRawProfile(metadata, tmp);
+            DataBuf key(17 + tmp.size_);
+            memcpy(key.pData_,      "Raw profile type ", 17);
+            memcpy(key.pData_ + 17, tmp.pData_, tmp.size_);
+            DataBuf rawData = makeAsciiTxtChunk(key, rawProfile, compress);
+            return rawData;
+        }
+        else if (type == iptc_Data)
+        {
+            DataBuf tmp(4);
+            memcpy(tmp.pData_, "iptc", 4);
+            DataBuf rawProfile = writeRawProfile(metadata, tmp);
+            DataBuf key(17 + tmp.size_);
+            memcpy(key.pData_,      "Raw profile type ", 17);
+            memcpy(key.pData_ + 17, tmp.pData_, tmp.size_);
+            DataBuf rawData = makeAsciiTxtChunk(key, rawProfile, compress);
+            return rawData;
+        }
+        else if (type == xmp_Data)
+        {
+            DataBuf key(17);
+            memcpy(key.pData_, "XML:com.adobe.xmp", 17);
+            DataBuf rawData = makeUtf8TxtChunk(key, metadata, compress);
+            return rawData;
+        }
+
+        return DataBuf();
+
+    } // PngChunk::makeMetadataChunk
+
+    void PngChunk::zlibUncompress(const byte*  compressedText, 
+                                  unsigned int compressedTextSize, 
+                                  DataBuf&     arr)
+    {
+        uLongf uncompressedLen = compressedTextSize * 2; // just a starting point
+        int zlibResult;
+
+        do
+        {
+            arr.alloc(uncompressedLen);
+            zlibResult = uncompress((Bytef*)arr.pData_, &uncompressedLen,
+                                    compressedText, compressedTextSize);
+
+            if (zlibResult == Z_OK)
+            {
+                // then it is all OK
+                arr.alloc(uncompressedLen);
+            }
+            else if (zlibResult == Z_BUF_ERROR)
+            {
+                // the uncompressedArray needs to be larger
+#ifdef DEBUG
+                std::cout << "Exiv2::PngChunk::parsePngChunk: doubling size for decompression.\n";
+#endif
+                uncompressedLen *= 2;
+
+                // DoS protection. can't be bigger than 64k
+                if ( uncompressedLen > 131072 )
+                    break;
+            }
+            else
+            {
+                // something bad happened
+                throw Error(14);
+            }
+        }
+        while (zlibResult == Z_BUF_ERROR);
+
+        if (zlibResult != Z_OK)
+            throw Error(14);
+
+    } // PngChunk::zlibUncompress
+
+    void PngChunk::zlibCompress(const byte*  text, 
+                                unsigned int textSize, 
+                                DataBuf&     arr)
+    {
+        uLongf compressedLen = textSize * 2; // just a starting point
+        int zlibResult;
+
+        do
+        {
+            arr.alloc(compressedLen);
+            zlibResult = compress2((Bytef*)arr.pData_, &compressedLen,
+                                   text, textSize, Z_BEST_COMPRESSION);
+
+            if (zlibResult == Z_OK)
+            {
+                // then it is all OK
+                arr.alloc(compressedLen);
+            }
+            else if (zlibResult == Z_BUF_ERROR)
+            {
+                // the compressedArray needs to be larger
+#ifdef DEBUG
+                std::cout << "Exiv2::PngChunk::parsePngChunk: doubling size for compression.\n";
+#endif
+                compressedLen *= 2;
+
+                // DoS protection. can't be bigger than 64k
+                if ( compressedLen > 131072 )
+                    break;
+            }
+            else
+            {
+                // something bad happened
+                throw Error(14);
+            }
+        }
+        while (zlibResult == Z_BUF_ERROR);
+
+        if (zlibResult != Z_OK)
+            throw Error(14);
+
+    } // PngChunk::zlibCompress
+
+    DataBuf PngChunk::makeAsciiTxtChunk(const DataBuf& key, const DataBuf& data, bool compress)
+    {
+        DataBuf type(4);
+        DataBuf data4crc;
+        DataBuf chunkData;
+        byte    chunkDataSize[4];
+        byte    chunkCRC[4];
+
+        if (compress)
+        {
+            // Compressed text chunk using ZLib.
+            // Data format    : key ("zTXt") + 0x00 + compression type (0x00) + compressed data
+            // Chunk structure: data lenght (4 bytes) + chunk type (4 bytes) + compressed data + CRC (4 bytes)
+
+            memcpy(type.pData_, "zTXt", 4);
+
+            DataBuf compressedData;
+            zlibCompress(data.pData_, data.size_, compressedData);
+
+            data4crc.alloc(key.size_ + 1 + 1 + compressedData.size_);
+            memcpy(data4crc.pData_,                 key.pData_,            key.size_);
+            memcpy(data4crc.pData_ + key.size_,     "\0\0",                 2);
+            memcpy(data4crc.pData_ + key.size_ + 2, compressedData.pData_, compressedData.size_);
+
+            uLong crc = crc32(0L, Z_NULL, 0);
+            crc       = crc32(crc, data4crc.pData_, data4crc.size_);
+
+            ul2Data(chunkCRC, crc, Exiv2::bigEndian);
+            ul2Data(chunkDataSize, data4crc.size_, Exiv2::bigEndian);
+
+            chunkData.alloc(4 + type.size_ + data4crc.size_ + 4);
+            memcpy(chunkData.pData_,                                   chunkDataSize,   4);
+            memcpy(chunkData.pData_ + 4,                               type.pData_,     type.size_);
+            memcpy(chunkData.pData_ + 4 + type.size_,                  data4crc.pData_, data4crc.size_);
+            memcpy(chunkData.pData_ + 4 + type.size_ + data4crc.size_, chunkCRC,        4);
+        }
+        else
+        {
+            // Not Compressed text chunk.
+            // Data Format    : key ("tEXt") + 0x00 + data
+            // Chunk Structure: data lenght (4 bytes) + chunk type (4 bytes) + data + CRC (4 bytes)
+
+            memcpy(type.pData_, "tEXt", 4);
+
+            data4crc.alloc(key.size_ + 1 + data.size_);
+            memcpy(data4crc.pData_,                 key.pData_,  key.size_);
+            memcpy(data4crc.pData_ + key.size_,     "\0",        1);
+            memcpy(data4crc.pData_ + key.size_ + 1, data.pData_, data.size_);
+
+            uLong crc = crc32(0L, Z_NULL, 0);
+            crc       = crc32(crc, data4crc.pData_, data4crc.size_);
+
+            ul2Data(chunkCRC, crc, Exiv2::bigEndian);
+            ul2Data(chunkDataSize, data4crc.size_, Exiv2::bigEndian);
+
+            chunkData.alloc(4 + type.size_ + data4crc.size_ + 4);
+            memcpy(chunkData.pData_,                                   chunkDataSize,   4);
+            memcpy(chunkData.pData_ + 4,                               type.pData_,     type.size_);
+            memcpy(chunkData.pData_ + 4 + type.size_,                  data4crc.pData_, data4crc.size_);
+            memcpy(chunkData.pData_ + 4 + type.size_ + data4crc.size_, chunkCRC,        4);
+        }
+
+        return chunkData;
+
+    } // PngChunk::makeAsciiTxtChunk
+
+    DataBuf PngChunk::makeUtf8TxtChunk(const DataBuf& key, const DataBuf& data, bool compress)
+    {
+        DataBuf type(4);
+        DataBuf textData;        // text compressed or not.
+        DataBuf data4crc;
+        DataBuf chunkData;
+        byte    chunkDataSize[4];
+        byte    chunkCRC[4];
+
+        // Compressed text chunk using ZLib.
+        // Data format    : key ("iTXt") + 0x00 + compression flag (0x00: uncompressed - 0x01: compressed) + 
+        //                  compression method (0x00) + language id (null) + 0x00 + 
+        //                  translated key (null) + 0x00 + text (compressed or not)
+        // Chunk structure: data lenght (4 bytes) + chunk type (4 bytes) + data + CRC (4 bytes)
+
+        memcpy(type.pData_, "iTXt", 4);
+
+        if (compress)
+        {
+            const unsigned char flags[] = {0x00, 0x01, 0x00, 0x00, 0x00};
+
+            zlibCompress(data.pData_, data.size_, textData);
+            data4crc.alloc(key.size_ + 5 + textData.size_);
+            memcpy(data4crc.pData_, key.pData_, key.size_);
+            memcpy(data4crc.pData_ + key.size_, flags, 5);
+        }
+        else
+        {
+            const unsigned char flags[] = {0x00, 0x00, 0x00, 0x00, 0x00};
+
+            textData = DataBuf(data.pData_, data.size_);
+            data4crc.alloc(key.size_ + 5 + textData.size_);
+            memcpy(data4crc.pData_, key.pData_, key.size_);
+            memcpy(data4crc.pData_ + key.size_, flags, 5);
+        }
+        memcpy(data4crc.pData_ + key.size_ + 5, textData.pData_, textData.size_);
+
+        uLong crc = crc32(0L, Z_NULL, 0);
+        crc       = crc32(crc, data4crc.pData_, data4crc.size_);
+
+        ul2Data(chunkCRC, crc, Exiv2::bigEndian);
+        ul2Data(chunkDataSize, data4crc.size_, Exiv2::bigEndian);
+
+        chunkData.alloc(4 + type.size_ + data4crc.size_ + 4);
+        memcpy(chunkData.pData_,                                   chunkDataSize,   4);
+        memcpy(chunkData.pData_ + 4,                               type.pData_,     type.size_);
+        memcpy(chunkData.pData_ + 4 + type.size_,                  data4crc.pData_, data4crc.size_);
+        memcpy(chunkData.pData_ + 4 + type.size_ + data4crc.size_, chunkCRC,        4);
+
+        return chunkData;
+
+    } // PngChunk::makeUtf8TxtChunk
 
     DataBuf PngChunk::readRawProfile(const DataBuf& text)
     {
@@ -489,164 +676,65 @@ namespace Exiv2 {
 
     } // PngChunk::readRawProfile
 
-    void PngChunk::zlibUncompress(const byte*  compressedText,
-                                  unsigned int compressedTextSize,
-                                  DataBuf&     arr)
+    DataBuf PngChunk::writeRawProfile(const DataBuf& profile_data, const DataBuf& profile_type)
     {
-        uLongf uncompressedLen = compressedTextSize * 2; // just a starting point
-        int zlibResult;
-
-        do
-        {
-            arr.alloc(uncompressedLen);
-            zlibResult = uncompress((Bytef*)arr.pData_, &uncompressedLen,
-                                    compressedText, compressedTextSize);
-
-            if (zlibResult == Z_OK)
-            {
-                // then it is all OK
-                arr.alloc(uncompressedLen);
-            }
-            else if (zlibResult == Z_BUF_ERROR)
-            {
-                // the uncompressedArray needs to be larger
-#ifdef DEBUG
-                std::cerr << "Exiv2::PngChunk::parsePngChunk: doubling size for decompression.\n";
-#endif
-                uncompressedLen *= 2;
-
-                // DoS protection. can't be bigger than 64k
-                if ( uncompressedLen > 131072 )
-                    break;
-            }
-            else
-            {
-                // something bad happened
-                throw Error(14);
-            }
-        }
-        while (zlibResult == Z_BUF_ERROR);
-
-        if (zlibResult != Z_OK)
-            throw Error(14);
-
-    } // PngChunk::zlibUncompress
-
-/* TODO : code backported from digiKam. Not yet adapted and used.
-
-    void PngChunk::writeRawProfile(png_struct *ping,
-                                   png_info*   ping_info,
-                                   char*       profile_type,
-                                   char*       profile_data,
-                                   png_uint_32 length)
-    {
-        png_textp      text;
-
         register long  i;
 
-        uchar         *sp;
+        char          *sp=0;
+        char          *dp=0;
+        char          *text=0;
 
-        png_charp      dp;
+        uint           allocated_length, description_length, text_length;
 
-        png_uint_32    allocated_length, description_length;
+        unsigned char  hex[16] = {'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
 
-        const uchar hex[16] = {'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
+        DataBuf        formatedData;
 
-        DDebug() << "Writing Raw profile: type=" << profile_type << ", length=" << length << endl;
+        description_length = profile_type.size_;
+        allocated_length   = profile_data.size_*2 + (profile_data.size_ >> 5) + 20 + description_length;
 
-        text               = (png_textp) png_malloc(ping, (png_uint_32) sizeof(png_text));
-        description_length = std::strlen((const char *) profile_type);
-        allocated_length   = (png_uint_32) (length*2 + (length >> 5) + 20 + description_length);
+        text = new char[allocated_length];
 
-        text[0].text   = (png_charp) png_malloc(ping, allocated_length);
-        text[0].key    = (png_charp) png_malloc(ping, (png_uint_32) 80);
-        text[0].key[0] = '\0';
-
-        concatenateString(text[0].key, "Raw profile type ", 4096);
-        concatenateString(text[0].key, (const char *) profile_type, 62);
-
-        sp = (uchar*)profile_data;
-        dp = text[0].text;
+        sp = (char*)profile_data.pData_;
+        dp = text;
         *dp++='\n';
 
-        copyString(dp, (const char *) profile_type, allocated_length);
+        copyString(dp, (const char *)profile_type.pData_, allocated_length);
 
         dp += description_length;
         *dp++='\n';
 
-        formatString(dp, allocated_length-strlen(text[0].text), "%8lu ", length);
+        formatString(dp, allocated_length - strlen(text), "%8lu ", profile_data.size_);
 
         dp += 8;
 
-        for (i=0; i < (long) length; i++)
+        for (i=0; i < (long)profile_data.size_; i++)
         {
             if (i%36 == 0)
                 *dp++='\n';
 
             *(dp++)=(char) hex[((*sp >> 4) & 0x0f)];
-            *(dp++)=(char) hex[((*sp++ ) & 0x0f)];
+            *(dp++)=(char) hex[((*sp++)    & 0x0f)];
         }
 
         *dp++='\n';
         *dp='\0';
-        text[0].text_length = (png_size_t) (dp-text[0].text);
-        text[0].compression = -1;
 
-        if (text[0].text_length <= allocated_length)
-            png_set_text(ping, ping_info,text, 1);
+        text_length = (uint)(dp-text);
 
-        png_free(ping, text[0].text);
-        png_free(ping, text[0].key);
-        png_free(ping, text);
+        if (text_length <= allocated_length)
+        {
+            formatedData.alloc(text_length);
+            memcpy(formatedData.pData_, text, text_length);
+        }
+
+        delete [] text;
+        return formatedData;
 
     } // PngChunk::writeRawProfile
 
-    size_t PngChunk::concatenateString(char*        destination,
-                                       const char*  source,
-                                       const size_t length)
-    {
-        register char       *q;
-
-        register const char *p;
-
-        register size_t      i;
-
-        size_t               count;
-
-        if ( !destination || !source || length == 0 )
-            return 0;
-
-        p = source;
-        q = destination;
-        i = length;
-
-        while ((i-- != 0) && (*q != '\0'))
-            q++;
-
-        count = (size_t) (q-destination);
-        i     = length-count;
-
-        if (i == 0)
-            return(count+strlen(p));
-
-        while (*p != '\0')
-        {
-            if (i != 1)
-            {
-                *q++=(*p);
-                i--;
-            }
-            p++;
-        }
-
-        *q='\0';
-
-        return(count+(p-source));
-
-    } // PngChunk::concatenateString
-
-    size_t PngChunk::copyString(char* destination,
-                                const char* source,
+    size_t PngChunk::copyString(char* destination, 
+                                const char* source, 
                                 const size_t length)
     {
         register char       *q;
@@ -668,7 +756,7 @@ namespace Exiv2 {
             {
                 if ((*q++=(*p++)) == '\0')
                     break;
-            }
+            } 
             while (--i != 0);
         }
 
@@ -684,9 +772,9 @@ namespace Exiv2 {
 
     } // PngChunk::copyString
 
-    long PngChunk::formatString(char*        string,
-                                const size_t length,
-                                const char*  format,
+    long PngChunk::formatString(char*        string, 
+                                const size_t length, 
+                                const char*  format, 
                                 ...)
     {
         long n;
@@ -700,9 +788,9 @@ namespace Exiv2 {
 
     } // PngChunk::formatString
 
-    long PngChunk::formatStringList(char*        string,
-                                    const size_t length,
-                                    const char*  format,
+    long PngChunk::formatStringList(char*        string, 
+                                    const size_t length, 
+                                    const char*  format, 
                                     va_list      operands)
     {
         int n = vsnprintf(string, length, format, operands);
@@ -711,18 +799,7 @@ namespace Exiv2 {
             string[length-1] = '\0';
 
         return((long) n);
+
     } // PngChunk::formatStringList
-*/
 
 }                                       // namespace Exiv2
-
-// *****************************************************************************
-// local definitions
-namespace {
-    long chunkLength(const Exiv2::byte* pData, long index)
-    {
-        uint32_t length = Exiv2::getULong(&pData[index], Exiv2::bigEndian);
-        if (length > 0x7FFFFFFF) throw Exiv2::Error(14);
-        return static_cast<long>(length);
-    }
-}

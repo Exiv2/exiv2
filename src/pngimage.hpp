@@ -43,13 +43,15 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2 {
+namespace Exiv2 
+{
 
 // *****************************************************************************
 // class definitions
 
     // Add PNG to the supported image formats
-    namespace ImageType {
+    namespace ImageType 
+    {
         const int png = 6;          //!< PNG image type (see class PngImage)
     }
 
@@ -57,7 +59,9 @@ namespace Exiv2 {
       @brief Class to access PNG images. Exif and IPTC metadata are supported
           directly.
      */
-    class PngImage : public Image {
+    class PngImage : public Image 
+    {
+
     public:
         //! @name Creators
         //@{
@@ -82,26 +86,7 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         void readMetadata();
-        /*!
-          @brief Todo: Write metadata back to the image. This method is not
-              yet implemented. Calling it will throw an Error(31).
-         */
         void writeMetadata();
-        /*!
-          @brief Todo: Not supported yet, requires writeMetadata(). Calling
-              this function will throw an Error(32).
-         */
-        void setExifData(const ExifData& exifData);
-        /*!
-          @brief Todo: Not supported yet, requires writeMetadata(). Calling
-              this function will throw an Error(32).
-         */
-        void setIptcData(const IptcData& iptcData);
-        /*!
-          @brief Todo: Not supported yet, requires writeMetadata(). Calling
-              this function will throw an Error(32).
-         */
-        void setComment(const std::string& comment);
         //@}
 
         //! @name Accessors
@@ -116,8 +101,15 @@ namespace Exiv2 {
         PngImage(const PngImage& rhs);
         //! Assignment operator
         PngImage& operator=(const PngImage& rhs);
-        //@}
+        /*!
+          @brief Provides the main implementation of writeMetadata() by
+                writing all buffered metadata to the provided BasicIo.
+          @param oIo BasicIo instance to write to (a temporary location).
 
+          @return 4 if opening or writing to the associated BasicIo fails
+         */
+        void doWriteMetadata(BasicIo& oIo);
+        //@}
     }; // class PngImage
 
 // *****************************************************************************
