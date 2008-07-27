@@ -305,6 +305,15 @@ namespace Exiv2
                     }
                 }
 
+                if (writeXmpFromPacket() == false) 
+                {
+                    if (XmpParser::encode(xmpPacket_, xmpData_)) 
+                    {
+#ifndef SUPPRESS_WARNINGS
+                        std::cerr << "Error: Failed to encode XMP metadata.\n";
+#endif
+                    }
+                }
                 if (xmpPacket_.size() > 0) 
                 {
                     // Update Xmp data to a new uncompressed iTXt PNG chunk
