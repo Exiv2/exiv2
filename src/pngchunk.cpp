@@ -170,7 +170,7 @@ namespace Exiv2
             std::string languageText((const char*)(data.pData_ + keysize + 3));
             unsigned int languageTextSize = languageText.size();
             // translated keyword string after the language description
-            std::string translatedKeyText((const char*)(data.pData_ + keysize + 3 + languageTextSize));
+            std::string translatedKeyText((const char*)(data.pData_ + keysize + 3 + languageTextSize +1));
             unsigned int translatedKeyTextSize = translatedKeyText.size();
 
             if ( compressionFlag[0] == 0x00 )
@@ -181,8 +181,8 @@ namespace Exiv2
 #endif
 
                 // the text comes after the translated keyword, but isn't null terminated
-                const byte* text = data.pData_ + keysize + 3 + languageTextSize + translatedKeyTextSize;
-                long textsize    = data.size_ - (keysize + 3 + languageTextSize + translatedKeyTextSize);
+                const byte* text = data.pData_ + keysize + 3 + languageTextSize + 1 + translatedKeyTextSize + 1;
+                long textsize    = data.size_ - (keysize + 3 + languageTextSize + 1 + translatedKeyTextSize + 1);
 
                 arr.alloc(textsize);
                 arr = DataBuf(text, textsize);
