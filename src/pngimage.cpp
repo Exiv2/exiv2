@@ -85,7 +85,6 @@ namespace Exiv2
         clearMetadata();
 
         DataBuf cheaderBuf(8);       // Chunk header size : 4 bytes (data size) + 4 bytes (chunk type).
-        DataBuf cdataBuf;            // Chunk data size (not fixed size - can be null).
 
         while(!io_->eof())
         {
@@ -117,7 +116,7 @@ namespace Exiv2
             {
                 // Extract chunk data. 
 
-                cdataBuf.alloc(dataOffset);
+                DataBuf cdataBuf(dataOffset);
                 bufRead = io_->read(cdataBuf.pData_, dataOffset);
                 if (io_->error()) throw Error(14);
                 if (bufRead != (long)dataOffset) throw Error(20);
