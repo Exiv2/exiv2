@@ -22,13 +22,16 @@
   File:      jp2image.cpp
   Version:   $Rev$
   Author(s): Marco Piovanelli, Ovolab (marco)
+  Author(s): Gilles Caulier (cgilles) <caulier dot gilles at gmail dot com>
   History:   12-Mar-2007, marco: created
  */
 // *****************************************************************************
 #include "rcsid.hpp"
 EXIV2_RCSID("@(#) $Id$")
 
-//#define DEBUG 1
+// *****************************************************************************
+
+#define DEBUG 1
 
 // *****************************************************************************
 // included header files
@@ -47,6 +50,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include <string>
 #include <cstring>
 #include <iostream>
+#include <cassert>
 
 // JPEG-2000 box types
 const uint32_t kJp2BoxTypeJp2Header   = 0x6a703268; // 'jp2h'
@@ -61,13 +65,18 @@ const char* const kJp2UuidExif = "JpgTiffExif->JP2";
 const char* const kJp2UuidIptc = "\x33\xc7\xa4\xd2\xb8\x1d\x47\x23\xa0\xba\xf1\xa3\xe0\x97\xad\x38";
 const char* const kJp2UuidXmp  = "\xbe\x7a\xcf\xcb\x97\xa9\x42\xe8\x9c\x71\x99\x94\x91\xe3\xaf\xac";
 
+// See section B.1.1 (JPEG 2000 Signature box) of JPEG-2000 specification
+const unsigned char Jp2Signature[12] = { 0x00, 0x00, 0x00, 0x0c, 0x6a, 0x50, 0x20, 0x20, 0x0d, 0x0a, 0x87, 0x0a };
+
 //! @cond IGNORE
-struct Jp2BoxHeader {
+struct Jp2BoxHeader 
+{
     uint32_t boxLength;
     uint32_t boxType;
 };
 
-struct Jp2ImageHeaderBox {
+struct Jp2ImageHeaderBox 
+{
     uint32_t imageHeight;
     uint32_t imageWidth;
     uint16_t componentCount;
@@ -78,37 +87,27 @@ struct Jp2ImageHeaderBox {
     uint16_t compressionTypeProfile;
 };
 
-struct Jp2UuidBox {
+struct Jp2UuidBox 
+{
     uint8_t  uuid[16];
 };
 //! @endcond
 
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 {
+namespace Exiv2 
+{
 
-    Jp2Image::Jp2Image(BasicIo::AutoPtr io)
-        : Image(ImageType::jp2, mdExif | mdIptc | mdXmp, io)
+    Jp2Image::Jp2Image(BasicIo::AutoPtr io, bool /*create*/)
+            : Image(ImageType::jp2, mdExif | mdIptc | mdXmp, io)
     {
     } // Jp2Image::Jp2Image
-
-    void Jp2Image::setExifData(const ExifData& /*exifData*/)
-    {
-        // Todo: implement me!
-        throw(Error(32, "Exif metadata", "JP2"));
-    }
-
-    void Jp2Image::setIptcData(const IptcData& /*iptcData*/)
-    {
-        // Todo: implement me!
-        throw(Error(32, "IPTC metadata", "JP2"));
-    }
 
     void Jp2Image::setComment(const std::string& /*comment*/)
     {
         // Todo: implement me!
         throw(Error(32, "Image comment", "JP2"));
-    }
+    } // Jp2Image::setComment
 
     void Jp2Image::readMetadata()
     {
@@ -127,39 +126,58 @@ namespace Exiv2 {
             throw Error(3, "JPEG-2000");
         }
 
+        long              position  = 0;
         Jp2BoxHeader      box       = {0,0};
         Jp2BoxHeader      subBox    = {0,0};
         Jp2ImageHeaderBox ihdr      = {0,0,0,0,0,0,0,0};
         Jp2UuidBox        uuid      = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
-        long              curOffset = io_->tell();
 
         while (io_->read((byte*)&box, sizeof(box)) == sizeof(box))
         {
+            position      = io_->tell();
             box.boxLength = getLong((byte*)&box.boxLength, bigEndian);
-            box.boxType = getLong((byte*)&box.boxType, bigEndian);
+#ifdef DEBUG
+            std::cout << "Exiv2::Jp2Image::readMetadata: Position: " << position << "\n";
+            std::cout << "Exiv2::Jp2Image::readMetadata: Find box type: " << std::string((const char*)&box.boxType) 
+                      << " lenght: " << box.boxLength << "\n";
+#endif
+            box.boxType   = getLong((byte*)&box.boxType, bigEndian);
 
             if (box.boxLength == 0)
             {
-                break;
+#ifdef DEBUG
+                std::cout << "Exiv2::Jp2Image::readMetadata: Null Box size has been found. "
+                             "This is the last box of file.\n";
+#endif
+                return;
             }
 
             switch(box.boxType)
             {
                 case kJp2BoxTypeJp2Header:
                 {
+#ifdef DEBUG
+                    std::cout << "Exiv2::Jp2Image::readMetadata: JP2Header box found\n";
+#endif
+
                     if (io_->read((byte*)&subBox, sizeof(subBox)) == sizeof(subBox))
                     {
                         subBox.boxLength = getLong((byte*)&subBox.boxLength, bigEndian);
-                        subBox.boxType = getLong((byte*)&subBox.boxType, bigEndian);
+                        subBox.boxType   = getLong((byte*)&subBox.boxType, bigEndian);
 
-                        if((subBox.boxType == kJp2BoxTypeImageHeader) && (io_->read((byte*)&ihdr, sizeof(ihdr)) == sizeof(ihdr)))
+                        if((subBox.boxType == kJp2BoxTypeImageHeader) && 
+                           (io_->read((byte*)&ihdr, sizeof(ihdr)) == sizeof(ihdr)))
                         {
-                            ihdr.imageHeight = getLong((byte*)&ihdr.imageHeight, bigEndian);
-                            ihdr.imageWidth = getLong((byte*)&ihdr.imageWidth, bigEndian);
-                            ihdr.componentCount = getShort((byte*)&ihdr.componentCount, bigEndian);
+#ifdef DEBUG
+                           std::cout << "Exiv2::Jp2Image::readMetadata: Ihdr data found\n";
+#endif
+
+                            ihdr.imageHeight            = getLong((byte*)&ihdr.imageHeight, bigEndian);
+                            ihdr.imageWidth             = getLong((byte*)&ihdr.imageWidth, bigEndian);
+                            ihdr.componentCount         = getShort((byte*)&ihdr.componentCount, bigEndian);
                             ihdr.compressionTypeProfile = getShort((byte*)&ihdr.compressionTypeProfile, bigEndian);
 
-                            pixelWidth_ = ihdr.imageWidth;
+                            pixelWidth_  = ihdr.imageWidth;
                             pixelHeight_ = ihdr.imageHeight;
                         }
                     }
@@ -168,17 +186,26 @@ namespace Exiv2 {
 
                 case kJp2BoxTypeUuid:
                 {
+#ifdef DEBUG
+                    std::cout << "Exiv2::Jp2Image::readMetadata: UUID box found\n";
+#endif
+
                     if (io_->read((byte*)&uuid, sizeof(uuid)) == sizeof(uuid))
                     {
                         if(memcmp(uuid.uuid, kJp2UuidExif, sizeof(uuid)) == 0)
                         {
+#ifdef DEBUG
+                           std::cout << "Exiv2::Jp2Image::readMetadata: Exif data found\n";
+#endif
+
                             // we've hit an embedded Exif block
                             DataBuf rawExif(box.boxLength - (sizeof(box) + sizeof(uuid)));
                             io_->read(rawExif.pData_, rawExif.size_);
                             if (io_->error() || io_->eof()) throw Error(14);
                             ByteOrder bo = ExifParser::decode(exifData_, rawExif.pData_, rawExif.size_);
                             setByteOrder(bo);
-                            if (rawExif.size_ > 0 && byteOrder() == invalidByteOrder) {
+                            if (rawExif.size_ > 0 && byteOrder() == invalidByteOrder)  
+                            {
 #ifndef SUPPRESS_WARNINGS
                                 std::cerr << "Warning: Failed to decode Exif metadata.\n";
 #endif
@@ -188,10 +215,14 @@ namespace Exiv2 {
                         else if(memcmp(uuid.uuid, kJp2UuidIptc, sizeof(uuid)) == 0)
                         {
                             // we've hit an embedded IPTC block
+#ifdef DEBUG
+                           std::cout << "Exiv2::Jp2Image::readMetadata: Iptc data found\n";
+#endif
                             DataBuf rawIPTC(box.boxLength - (sizeof(box) + sizeof(uuid)));
                             io_->read(rawIPTC.pData_, rawIPTC.size_);
                             if (io_->error() || io_->eof()) throw Error(14);
-                            if (IptcParser::decode(iptcData_, rawIPTC.pData_, rawIPTC.size_)) {
+                            if (IptcParser::decode(iptcData_, rawIPTC.pData_, rawIPTC.size_)) 
+                            {
 #ifndef SUPPRESS_WARNINGS
                                 std::cerr << "Warning: Failed to decode IPTC metadata.\n";
 #endif
@@ -201,11 +232,16 @@ namespace Exiv2 {
                         else if(memcmp(uuid.uuid, kJp2UuidXmp, sizeof(uuid)) == 0)
                         {
                             // we've hit an embedded XMP block
+#ifdef DEBUG
+                           std::cout << "Exiv2::Jp2Image::readMetadata: Xmp data found\n";
+#endif
+
                             DataBuf xmpPacket(box.boxLength - (sizeof(box) + sizeof(uuid)));
                             io_->read(xmpPacket.pData_, xmpPacket.size_);
                             if (io_->error() || io_->eof()) throw Error(14);
                             xmpPacket_.assign(reinterpret_cast<char *>(xmpPacket.pData_), xmpPacket.size_);
-                            if (xmpPacket_.size() > 0 && XmpParser::decode(xmpData_, xmpPacket_)) {
+                            if (xmpPacket_.size() > 0 && XmpParser::decode(xmpData_, xmpPacket_)) 
+                            {
 #ifndef SUPPRESS_WARNINGS
                                 std::cerr << "Warning: Failed to decode XMP metadata.\n";
 #endif
@@ -221,25 +257,244 @@ namespace Exiv2 {
                 }
             }
 
-            curOffset += box.boxLength;
-            if(io_->seek(curOffset, BasicIo::beg) != 0)
-            {
-                break;        // Todo: should throw an error here
-            }
+            // Move to the next box.
+
+            io_->seek(position - sizeof(box) + box.boxLength, BasicIo::beg);
+            if (io_->error() || io_->eof()) throw Error(14);
         }
+
     } // Jp2Image::readMetadata
 
     void Jp2Image::writeMetadata()
     {
-        // Todo: implement me!
-        throw(Error(31, "JP2"));
+        if (io_->open() != 0) 
+        {
+            throw Error(9, io_->path(), strError());
+        }
+        IoCloser closer(*io_);
+        BasicIo::AutoPtr tempIo(io_->temporary()); // may throw
+        assert (tempIo.get() != 0);
+
+        doWriteMetadata(*tempIo); // may throw
+        io_->close();
+        io_->transfer(*tempIo); // may throw
+
     } // Jp2Image::writeMetadata
+
+    void Jp2Image::doWriteMetadata(BasicIo& outIo)
+    {
+        if (!io_->isopen()) throw Error(20);
+        if (!outIo.isopen()) throw Error(21);
+
+#ifdef DEBUG
+        std::cout << "Exiv2::Jp2Image::doWriteMetadata: Writing JPEG-2000 file " << io_->path() << "\n";
+        std::cout << "Exiv2::Jp2Image::doWriteMetadata: tmp file created " << outIo.path() << "\n";
+#endif
+
+        // Ensure that this is the correct image type
+        if (!isJp2Type(*io_, true))
+        {
+            if (io_->error() || io_->eof()) throw Error(20);
+            throw Error(22);
+        }
+
+        // Write JPEG2000 Signature.
+        if (outIo.write(Jp2Signature, 12) != 12) throw Error(21);
+
+        Jp2BoxHeader      box       = {0,0};
+        Jp2BoxHeader      subBox    = {0,0};
+        Jp2ImageHeaderBox ihdr      = {0,0,0,0,0,0,0,0};
+        Jp2UuidBox        uuid      = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+
+        byte    boxDataSize[4];
+        DataBuf bheaderBuf(8);     // Box header : 4 bytes (data size) + 4 bytes (box type).
+
+        // FIXME: Andreas, why the loop do not stop when EOF is taken from _io. The loop go out by an exception 
+        // generated by a zero size data read.
+
+        while(!io_->eof())
+        {
+#ifdef DEBUG
+            std::cout << "Exiv2::Jp2Image::doWriteMetadata: Position: " << io_->tell() << "\n";
+#endif
+
+            // Read chunk header.
+
+            std::memset(bheaderBuf.pData_, 0x00, bheaderBuf.size_);
+            long bufRead = io_->read(bheaderBuf.pData_, bheaderBuf.size_);
+            if (io_->error()) throw Error(14);
+            if (bufRead != bheaderBuf.size_) throw Error(20);
+
+            // Decode box header.
+
+            box.boxLength = getLong(bheaderBuf.pData_,     bigEndian);
+            box.boxType   = getLong(bheaderBuf.pData_ + 4, bigEndian);
+
+#ifdef DEBUG
+            std::cout << "Exiv2::Jp2Image::doWriteMetadata: Find box type: " << bheaderBuf.pData_ + 4 
+                      << " lenght: " << box.boxLength << "\n";
+#endif
+
+            if (box.boxLength == 0)
+            {
+#ifdef DEBUG
+                std::cout << "Exiv2::Jp2Image::doWriteMetadata: Null Box size has been found. "
+                             "This is the last box of file.\n";
+#endif
+                box.boxLength = io_->size() - io_->tell() + 8;
+            }
+
+            // Read whole box : Box header + Box data (not fixed size - can be null).
+
+            DataBuf boxBuf(box.boxLength);                             // Box header (8 bytes) + box data.
+            memcpy(boxBuf.pData_, bheaderBuf.pData_, 8);               // Copy header.
+            bufRead = io_->read(boxBuf.pData_ + 8, box.boxLength - 8); // Extract box data.
+            if (io_->error()) throw Error(14);
+            if (bufRead != (long)(box.boxLength - 8)) throw Error(20);
+
+            switch(box.boxType)
+            {
+                case kJp2BoxTypeJp2Header:
+                {
+
+#ifdef DEBUG
+                    std::cout << "Exiv2::Jp2Image::doWriteMetadata: Write JP2Header box (lenght: " << box.boxLength << ")\n";
+#endif
+                    if (outIo.write(boxBuf.pData_, boxBuf.size_) != boxBuf.size_) throw Error(21);
+
+                    // Write all updated metadata here, just after JP2Header.
+
+                    if (exifData_.count() > 0) 
+                    {
+                        // Update Exif data to a new UUID box
+
+                        Blob blob;
+                        ExifParser::encode(blob, littleEndian, exifData_);
+                        if (blob.size()) 
+                        {
+                            const unsigned char ExifHeader[] = {0x45, 0x78, 0x69, 0x66, 0x00, 0x00};
+
+                            DataBuf rawExif(sizeof(ExifHeader) + blob.size());
+                            memcpy(rawExif.pData_, ExifHeader, sizeof(ExifHeader));
+                            memcpy(rawExif.pData_ + sizeof(ExifHeader), &blob[0], blob.size());
+
+                            DataBuf boxData(8 + sizeof(kJp2UuidExif) + rawExif.size_);
+                            ul2Data(boxDataSize, boxData.size_, Exiv2::bigEndian);
+                            memcpy(boxData.pData_,                            boxDataSize,      4);
+                            memcpy(boxData.pData_ + 4,                        &kJp2BoxTypeUuid, 4);
+                            memcpy(boxData.pData_ + 8,                        kJp2UuidExif,     sizeof(kJp2UuidExif));
+                            memcpy(boxData.pData_ + 8 + sizeof(kJp2UuidExif), rawExif.pData_,   rawExif.size_);
+
+#ifdef DEBUG
+                            std::cout << "Exiv2::Jp2Image::doWriteMetadata: Write box with Exif metadata (lenght: " 
+                                      << boxData.size_ << ")\n";
+#endif
+                            if (outIo.write(boxData.pData_, boxData.size_) != boxData.size_) throw Error(21);
+                        }
+                    }
+
+                    if (iptcData_.count() > 0) 
+                    {
+                        // Update Iptc data to a new UUID box
+
+                        DataBuf rawIptc = IptcParser::encode(iptcData_);
+                        if (rawIptc.size_ > 0) 
+                        {
+                            DataBuf boxData(8 + sizeof(kJp2UuidIptc) + rawIptc.size_);
+                            ul2Data(boxDataSize, boxData.size_, Exiv2::bigEndian);
+                            memcpy(boxData.pData_,                            boxDataSize,      4);
+                            memcpy(boxData.pData_ + 4,                        &kJp2BoxTypeUuid, 4);
+                            memcpy(boxData.pData_ + 8,                        kJp2UuidIptc,     sizeof(kJp2UuidIptc));
+                            memcpy(boxData.pData_ + 8 + sizeof(kJp2UuidIptc), rawIptc.pData_,   rawIptc.size_);
+
+#ifdef DEBUG
+                            std::cout << "Exiv2::Jp2Image::doWriteMetadata: Write box with Iptc metadata (lenght: " 
+                                      << boxData.size_ << ")\n";
+#endif
+                            if (outIo.write(boxData.pData_, boxData.size_) != boxData.size_) throw Error(21);
+                        }
+                    }
+
+                    if (writeXmpFromPacket() == false) 
+                    {
+                        if (XmpParser::encode(xmpPacket_, xmpData_)) 
+                        {
+#ifndef SUPPRESS_WARNINGS
+                            std::cerr << "Error: Failed to encode XMP metadata.\n";
+#endif
+                        }
+                    }
+                    if (xmpPacket_.size() > 0) 
+                    {
+                        // Update Xmp data to a new UUID box 
+
+                        DataBuf xmp(reinterpret_cast<const byte*>(xmpPacket_.data()), static_cast<long>(xmpPacket_.size()));
+                        DataBuf boxData(8 + sizeof(kJp2UuidXmp) + xmp.size_);
+                        ul2Data(boxDataSize, boxData.size_, Exiv2::bigEndian);
+                        memcpy(boxData.pData_,                           boxDataSize,      4);
+                        memcpy(boxData.pData_ + 4,                       &kJp2BoxTypeUuid, 4);
+                        memcpy(boxData.pData_ + 8,                       kJp2UuidXmp,      sizeof(kJp2UuidXmp));
+                        memcpy(boxData.pData_ + 8 + sizeof(kJp2UuidXmp), xmp.pData_,       xmp.size_);
+
+#ifdef DEBUG
+                        std::cout << "Exiv2::Jp2Image::doWriteMetadata: Write box with XMP metadata (lenght: " 
+                                  << boxData.size_ << ")\n";
+#endif
+                        if (outIo.write(boxData.pData_, boxData.size_) != boxData.size_) throw Error(21);
+                    }
+
+                    break;
+                }
+
+                case kJp2BoxTypeUuid:
+                {
+                    if(memcmp(boxBuf.pData_ + 8, kJp2UuidExif, sizeof(16)) == 0)
+                    {
+#ifdef DEBUG
+                        std::cout << "Exiv2::Jp2Image::doWriteMetadata: strip Exif Uuid box\n";
+#endif
+                    }
+                    else if(memcmp(boxBuf.pData_ + 8, kJp2UuidIptc, sizeof(16)) == 0)
+                    {
+#ifdef DEBUG
+                        std::cout << "Exiv2::Jp2Image::doWriteMetadata: strip Iptc Uuid box\n";
+#endif
+                    }
+                    else if(memcmp(boxBuf.pData_ + 8, kJp2UuidXmp,  sizeof(16)) == 0)
+                    {
+#ifdef DEBUG
+                        std::cout << "Exiv2::Jp2Image::doWriteMetadata: strip Xmp Uuid box\n";
+#endif
+                    }
+                    else
+                    {
+#ifdef DEBUG
+                        std::cout << "Exiv2::Jp2Image::doWriteMetadata: write Uuid box (lenght: " << box.boxLength << ")\n";
+#endif
+                        if (outIo.write(boxBuf.pData_, boxBuf.size_) != boxBuf.size_) throw Error(21);
+                    }
+                    break;
+                }
+
+                default:
+                {
+#ifdef DEBUG
+                    std::cout << "Exiv2::Jp2Image::doWriteMetadata: write box (lenght: " << box.boxLength << ")\n";
+#endif
+                    if (outIo.write(boxBuf.pData_, boxBuf.size_) != boxBuf.size_) throw Error(21);
+
+                    break;
+                }
+            }
+        }
+
+    } // Jp2Image::doWriteMetadata
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newJp2Instance(BasicIo::AutoPtr io, bool /*create*/)
+    Image::AutoPtr newJp2Instance(BasicIo::AutoPtr io, bool create)
     {
-        Image::AutoPtr image(new Jp2Image(io));
+        Image::AutoPtr image(new Jp2Image(io, create));
         if (!image->good())
         {
             image.reset();
@@ -249,16 +504,14 @@ namespace Exiv2 {
 
     bool isJp2Type(BasicIo& iIo, bool advance)
     {
-        // see section B.1.1 (JPEG 2000 Signature box) of JPEG-2000 specification
         const int32_t len = 12;
-        const unsigned char Jp2Header[len] = { 0x00, 0x00, 0x00, 0x0c, 0x6a, 0x50, 0x20, 0x20, 0x0d, 0x0a, 0x87, 0x0a };
         byte buf[len];
         iIo.read(buf, len);
         if (iIo.error() || iIo.eof())
         {
             return false;
         }
-        bool matched = (memcmp(buf, Jp2Header, len) == 0);
+        bool matched = (memcmp(buf, Jp2Signature, len) == 0);
         if (!advance || !matched)
         {
             iIo.seek(-len, BasicIo::cur);

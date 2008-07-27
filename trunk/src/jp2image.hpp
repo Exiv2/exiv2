@@ -23,6 +23,8 @@
   @brief   JPEG-2000 image, implemented using the following references:
            <a href="http://jpeg.org/public/fcd15444-6.pdf">ISO/IEC JTC 1/SC 29/WG1 N2401: JPEG 2000 Part 6 FCD 15444-6</a><br>
   @version $Rev$
+  @author  Gilles Caulier (cgilles)
+           <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a>
   @author  Marco Piovanelli, Ovolab (marco)
            <a href="mailto:marco.piovanelli@pobox.com">marco.piovanelli@pobox.com</a>
   @date    12-Mar-2007, marco: created
@@ -41,27 +43,23 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2 {
+namespace Exiv2 
+{
 
 // *****************************************************************************
 // class definitions
 
     // Add JPEG-2000 to the supported image formats
-    namespace ImageType {
+    namespace ImageType 
+    {
         const int jp2 = 15;                     //!< JPEG-2000 image type
     }
 
     /*!
       @brief Class to access JPEG-2000 images.
      */
-    class Jp2Image : public Image {
-        //! @name NOT Implemented
-        //@{
-        //! Copy constructor
-        Jp2Image(const Jp2Image& rhs);
-        //! Assignment operator
-        Jp2Image& operator=(const Jp2Image& rhs);
-        //@}
+    class Jp2Image : public Image 
+    {
 
     public:
         //! @name Creators
@@ -78,27 +76,13 @@ namespace Exiv2 {
               instance after it is passed to this method.  Use the Image::io()
               method to get a temporary reference.
          */
-        Jp2Image(BasicIo::AutoPtr io);
+        Jp2Image(BasicIo::AutoPtr io, bool create);
         //@}
 
         //! @name Manipulators
         //@{
         void readMetadata();
-        /*!
-          @brief Todo: Write metadata back to the image. This method is not
-              yet implemented. Calling it will throw an Error(31).
-         */
         void writeMetadata();
-        /*!
-          @brief Todo: Not supported yet. Calling this function will throw
-              an instance of Error(32).
-         */
-        void setExifData(const ExifData& exifData);
-        /*!
-          @brief Todo: Not supported yet. Calling this function will throw
-              an instance of Error(32).
-         */
-        void setIptcData(const IptcData& iptcData);
         /*!
           @brief Todo: Not supported yet(?). Calling this function will throw
               an instance of Error(32).
@@ -109,6 +93,23 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         std::string mimeType() const { return "image/jp2"; }
+        //@}
+
+    private:
+        //! @name NOT Implemented
+        //@{
+        //! Copy constructor
+        Jp2Image(const Jp2Image& rhs);
+        //! Assignment operator
+        Jp2Image& operator=(const Jp2Image& rhs);
+        /*!
+          @brief Provides the main implementation of writeMetadata() by
+                writing all buffered metadata to the provided BasicIo.
+          @param oIo BasicIo instance to write to (a temporary location).
+
+          @return 4 if opening or writing to the associated BasicIo fails
+         */
+        void doWriteMetadata(BasicIo& oIo);
         //@}
 
     }; // class Jp2Image
