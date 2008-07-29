@@ -257,7 +257,7 @@ namespace Exiv2
                 if (pos !=-1)
                 {
 #ifdef DEBUG
-                    std::cout << "Exiv2::PngChunk::decode: Exif header found at position " << pos << "\n";
+                    std::cout << "Exiv2::PngChunk::parseChunkContent: Exif header found at position " << pos << "\n";
 #endif
                     pos = pos + sizeof(exifHeader);
                     ByteOrder bo = TiffParser::decode(pImage->exifData(),
@@ -266,6 +266,13 @@ namespace Exiv2
                                                       exifData.pData_ + pos,
                                                       length - pos);
                     pImage->setByteOrder(bo);
+                }
+                else
+                {
+#ifndef SUPPRESS_WARNINGS
+                    std::cerr << "Exiv2::PngChunk::parseChunkContent: Failed to decode Exif metadata.\n";
+#endif
+                    pImage->exifData().clear();
                 }
             }
         }
@@ -298,15 +305,15 @@ namespace Exiv2
                 if (idx != std::string::npos && idx > 0)
                 {
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Warning: Removing " << idx << " characters "
-                              << "from the beginning of the XMP packet\n";
+                    std::cerr << "Exiv2::PngChunk::parseChunkContent: Removing " << idx 
+                              << " characters from the beginning of the XMP packet\n";
 #endif
                     xmpPacket = xmpPacket.substr(idx);
                 }
                 if (XmpParser::decode(pImage->xmpData(), xmpPacket)) 
                 {
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Warning: Failed to decode XMP metadata.\n";
+                    std::cerr << "Exiv2::PngChunk::parseChunkContent: Failed to decode XMP metadata.\n";
 #endif
                 }
             }
