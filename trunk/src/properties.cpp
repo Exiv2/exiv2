@@ -51,6 +51,7 @@ EXIV2_RCSID("@(#) $Id$")
 namespace Exiv2 {
 
     extern const XmpPropertyInfo xmpDcInfo[];
+    extern const XmpPropertyInfo xmpDigikamInfo[];
     extern const XmpPropertyInfo xmpXmpInfo[];
     extern const XmpPropertyInfo xmpXmpRightsInfo[];
     extern const XmpPropertyInfo xmpXmpMMInfo[];
@@ -69,13 +70,14 @@ namespace Exiv2 {
     extern const XmpNsInfo xmpNsInfo[] = {
         // Schemas
         { "http://purl.org/dc/elements/1.1/",             "dc",             xmpDcInfo,        N_("Dublin Core schema")                        },
+        { "http://www.digikam.org/ns/1.0/",               "digiKam",        xmpDigikamInfo,   N_("digiKam Photo Management schema")           },
         { "http://ns.adobe.com/xap/1.0/",                 "xmp",            xmpXmpInfo,       N_("XMP Basic schema")                          },
         { "http://ns.adobe.com/xap/1.0/rights/",          "xmpRights",      xmpXmpRightsInfo, N_("XMP Rights Management schema")              },
         { "http://ns.adobe.com/xap/1.0/mm/",              "xmpMM",          xmpXmpMMInfo,     N_("XMP Media Management schema")               },
         { "http://ns.adobe.com/xap/1.0/bj/",              "xmpBJ",          xmpXmpBJInfo,     N_("XMP Basic Job Ticket schema")               },
         { "http://ns.adobe.com/xap/1.0/t/pg/",            "xmpTPg",         xmpXmpTPgInfo,    N_("XMP Paged-Text schema")                     },
         { "http://ns.adobe.com/xmp/1.0/DynamicMedia/",    "xmpDM",          xmpXmpDMInfo,     N_("XMP Dynamic Media schema")                  },
-        { "http://ns.microsoft.com/Photo/1.0",            "MicrosoftPhoto", xmpMicrosoftInfo, N_("Microsoft Photo schema")                  },
+        { "http://ns.microsoft.com/Photo/1.0",            "MicrosoftPhoto", xmpMicrosoftInfo, N_("Microsoft Photo schema")                    },
         { "http://ns.adobe.com/pdf/1.3/",                 "pdf",            xmpPdfInfo,       N_("Adobe PDF schema")                          },
         { "http://ns.adobe.com/photoshop/1.0/",           "photoshop",      xmpPhotoshopInfo, N_("Adobe photoshop schema")                    },
         { "http://ns.adobe.com/camera-raw-settings/1.0/", "crs",            xmpCrsInfo,       N_("Camera Raw schema")                         },
@@ -126,6 +128,13 @@ namespace Exiv2 {
         { "title",            N_("Title"),            "Lang Alt",        langAlt,      xmpExternal, N_("The title of the document, or the name given to the resource. Typically, it will be "
                                                                                                        "a name by which the resource is formally known.")                                      },
         { "type",             N_("Type"),             "bag open Choice", xmpBag,       xmpExternal, N_("A document type; for example, novel, poem, or working paper.")                         },
+        // End of list marker
+        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+    };
+
+    extern const XmpPropertyInfo xmpDigikamInfo[] = {
+        { "TagsList", N_("Tags List"), "seq Text", xmpSeq, xmpExternal, N_("The list of complete tags path as string. The path hierarchy is separated by '/' character (ex.: \"City/Paris/Monument/Eiffel Tower\".") },
+
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
