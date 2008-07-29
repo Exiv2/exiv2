@@ -39,8 +39,11 @@ EXIV2_RCSID("@(#) $Id: pngchunk.cpp 823 2006-06-23 07:35:00Z cgilles $")
 
 //#define DEBUG 1
 
+extern "C"
+{
 // To uncompress or compress text chunk
 #include <zlib.h>
+}
 
 #include "pngchunk.hpp"
 #include "tiffimage.hpp"
@@ -54,6 +57,7 @@ EXIV2_RCSID("@(#) $Id: pngchunk.cpp 823 2006-06-23 07:35:00Z cgilles $")
 #include <cstring>
 #include <iostream>
 #include <cassert>
+#include <cstdarg>
 
 /*
 
@@ -756,7 +760,7 @@ namespace Exiv2
             {
                 if ((*q++=(*p++)) == '\0')
                     break;
-            } 
+            }
             while (--i != 0);
         }
 
@@ -765,6 +769,9 @@ namespace Exiv2
             if (length != 0)
                 *q='\0';
 
+            do
+            {
+            }
             while (*p++ != '\0');
         }
 
