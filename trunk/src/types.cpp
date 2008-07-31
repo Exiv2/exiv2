@@ -51,55 +51,64 @@ EXIV2_RCSID("@(#) $Id$")
 // class member definitions
 namespace Exiv2 {
 
-    TypeInfoTable::TypeInfoTable(TypeId typeId, const char* name, long size)
-        : typeId_(typeId), name_(name), size_(size)
-    {
-    }
-
     //! Lookup list of supported IFD type information
     const TypeInfoTable TypeInfo::typeInfoTable_[] = {
-        TypeInfoTable(invalidTypeId,    "Invalid",     0),
-        TypeInfoTable(unsignedByte,     "Byte",        1),
-        TypeInfoTable(asciiString,      "Ascii",       1),
-        TypeInfoTable(unsignedShort,    "Short",       2),
-        TypeInfoTable(unsignedLong,     "Long",        4),
-        TypeInfoTable(unsignedRational, "Rational",    8),
-        TypeInfoTable(signedByte,       "SByte",       1),
-        TypeInfoTable(undefined,        "Undefined",   1),
-        TypeInfoTable(signedShort,      "SShort",      2),
-        TypeInfoTable(signedLong,       "SLong",       4),
-        TypeInfoTable(signedRational,   "SRational",   8),
-        TypeInfoTable(string,           "String",      1),
-        TypeInfoTable(date,             "Date",        8),
-        TypeInfoTable(time,             "Time",       11),
-        TypeInfoTable(comment,          "Comment",     1),
-        TypeInfoTable(directory,        "Directory",   1),
-        TypeInfoTable(xmpText,          "XmpText",     1),
-        TypeInfoTable(xmpAlt,           "XmpAlt",      1),
-        TypeInfoTable(xmpBag,           "XmpBag",      1),
-        TypeInfoTable(xmpSeq,           "XmpSeq",      1),
-        TypeInfoTable(langAlt,          "LangAlt",     1),
+        { invalidTypeId,    "Invalid",     0 },
+        { unsignedByte,     "Byte",        1 },
+        { asciiString,      "Ascii",       1 },
+        { unsignedShort,    "Short",       2 },
+        { unsignedLong,     "Long",        4 },
+        { unsignedRational, "Rational",    8 },
+        { signedByte,       "SByte",       1 },
+        { undefined,        "Undefined",   1 },
+        { signedShort,      "SShort",      2 },
+        { signedLong,       "SLong",       4 },
+        { signedRational,   "SRational",   8 },
+        { tiffFloat,        "Float",       4 },
+        { tiffDouble,       "Double",      8 },
+        { string,           "String",      1 },
+        { date,             "Date",        8 },
+        { time,             "Time",       11 },
+        { comment,          "Comment",     1 },
+        { directory,        "Directory",   1 },
+        { xmpText,          "XmpText",     1 },
+        { xmpAlt,           "XmpAlt",      1 },
+        { xmpBag,           "XmpBag",      1 },
+        { xmpSeq,           "XmpSeq",      1 },
+        { langAlt,          "LangAlt",     1 },
         // End of list marker
-        TypeInfoTable(lastTypeId,       "(Unknown)",   0)
+        { lastTypeId,       "(Unknown)",   0 }
     };
+
+    bool TypeInfoTable::operator==(TypeId typeId) const
+    {
+        return typeId_ == typeId;
+    }
+
+    bool TypeInfoTable::operator==(const std::string& name) const
+    {
+        return std::string(name_) == name;
+    }
 
     const char* TypeInfo::typeName(TypeId typeId)
     {
-        return typeInfoTable_[ typeId < lastTypeId ? typeId : 0 ].name_;
+        const TypeInfoTable* tit = find(typeInfoTable_, typeId);
+        if (!tit) return 0;
+        return tit->name_;
     }
 
     TypeId TypeInfo::typeId(const std::string& typeName)
     {
-        int i = 0;
-        for (;    typeInfoTable_[i].typeId_ != lastTypeId
-               && typeInfoTable_[i].name_ != typeName; ++i) {}
-        return typeInfoTable_[i].typeId_ == lastTypeId ?
-               invalidTypeId : typeInfoTable_[i].typeId_;
+        const TypeInfoTable* tit = find(typeInfoTable_, typeName);
+        if (!tit) return invalidTypeId;
+        return tit->typeId_;
     }
 
     long TypeInfo::typeSize(TypeId typeId)
     {
-        return typeInfoTable_[ typeId < lastTypeId ? typeId : 0 ].size_;
+        const TypeInfoTable* tit = find(typeInfoTable_, typeId);
+        if (!tit) return 0;
+        return tit->size_;
     }
 
     DataBuf::DataBuf(DataBuf& rhs)

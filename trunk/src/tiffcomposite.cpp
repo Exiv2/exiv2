@@ -145,31 +145,31 @@ namespace Exiv2 {
     {
     }
 
-    TiffEntryBase::TiffEntryBase(uint16_t tag, uint16_t group, TypeId typeId)
+    TiffEntryBase::TiffEntryBase(uint16_t tag, uint16_t group, TiffType tiffType)
         : TiffComponent(tag, group),
-          type_(typeId), count_(0), offset_(0),
+          tiffType_(tiffType), count_(0), offset_(0),
           size_(0), pData_(0), isMalloced_(false),
           pValue_(0)
     {
     }
 
     TiffSubIfd::TiffSubIfd(uint16_t tag, uint16_t group, uint16_t newGroup)
-        : TiffEntryBase(tag, group, unsignedLong), newGroup_(newGroup)
+        : TiffEntryBase(tag, group, ttUnsignedLong), newGroup_(newGroup)
     {
     }
 
     TiffMnEntry::TiffMnEntry(uint16_t tag, uint16_t group, uint16_t mnGroup)
-        : TiffEntryBase(tag, group, undefined), mnGroup_(mnGroup), mn_(0)
+        : TiffEntryBase(tag, group, ttUndefined), mnGroup_(mnGroup), mn_(0)
     {
     }
 
     TiffArrayEntry::TiffArrayEntry(uint16_t tag,
                                    uint16_t group,
                                    uint16_t elGroup,
-                                   TypeId   elTypeId,
+                                   TiffType elTiffType,
                                    bool     addSizeElement)
-        : TiffEntryBase(tag, group, elTypeId),
-          elSize_(static_cast<uint16_t>(TypeInfo::typeSize(elTypeId))),
+        : TiffEntryBase(tag, group, elTiffType),
+          elSize_(static_cast<uint16_t>(TypeInfo::typeSize(toTypeId(elTiffType, 0, elGroup)))),
           elGroup_(elGroup),
           addSizeElement_(addSizeElement)
     {
@@ -241,7 +241,7 @@ namespace Exiv2 {
 
     void TiffEntryBase::setValue(Value::AutoPtr value)
     {
-        type_  = static_cast<uint16_t>(value->typeId());
+        tiffType_  = toTiffType(value->typeId());
         count_ = value->count();
         delete pValue_;
         pValue_ = value.release();
@@ -643,7 +643,7 @@ namespace Exiv2 {
     uint32_t TiffMnEntry::doCount() const
     {
         // Count of tag Exif.Photo.MakerNote is the size of the Makernote in bytes
-        assert(typeId() == undefined);
+        assert(tiffType() == ttUndefined);
         return size();
     }
 
@@ -809,9 +809,9 @@ namespace Exiv2 {
         TiffEntryBase* pDirEntry = dynamic_cast<TiffEntryBase*>(pTiffComponent);
         assert(pDirEntry);
         byte buf[8];
-        us2Data(buf,     pDirEntry->tag(),    byteOrder);
-        us2Data(buf + 2, pDirEntry->typeId(), byteOrder);
-        ul2Data(buf + 4, pDirEntry->count(),  byteOrder);
+        us2Data(buf,     pDirEntry->tag(),      byteOrder);
+        us2Data(buf + 2, pDirEntry->tiffType(), byteOrder);
+        ul2Data(buf + 4, pDirEntry->count(),    byteOrder);
         append(blob, buf, 8);
         if (pDirEntry->size() > 4) {
             pDirEntry->setOffset(offset + static_cast<int32_t>(valueIdx));
@@ -851,18 +851,18 @@ namespace Exiv2 {
 
     uint32_t TiffEntryBase::writeOffset(byte*     buf,
                                         int32_t   offset,
-                                        TypeId    type,
+                                        TiffType  tiffType,
                                         ByteOrder byteOrder)
     {
         uint32_t rc = 0;
-        switch(type) {
-        case unsignedShort:
-        case signedShort:
+        switch(tiffType) {
+        case ttUnsignedShort:
+        case ttSignedShort:
             if (static_cast<uint32_t>(offset) > 0xffff) throw Error(26);
             rc = s2Data(buf, static_cast<int16_t>(offset), byteOrder);
             break;
-        case unsignedLong:
-        case signedLong:
+        case ttUnsignedLong:
+        case ttSignedLong:
             rc = l2Data(buf, static_cast<int32_t>(offset), byteOrder);
             break;
         default:
@@ -889,7 +889,7 @@ namespace Exiv2 {
                                     + static_cast<long>(dataIdx);
             idx += writeOffset(buf.pData_ + idx,
                                offset + newDataIdx,
-                               typeId(),
+                               tiffType(),
                                byteOrder);
         }
         append(blob, buf.pData_, buf.size_);
@@ -906,7 +906,7 @@ namespace Exiv2 {
         DataBuf buf(strips_.size() * 4);
         uint32_t idx = 0;
         for (Strips::const_iterator i = strips_.begin(); i != strips_.end(); ++i) {
-            idx += writeOffset(buf.pData_ + idx, offset + imageIdx, typeId(), byteOrder);
+            idx += writeOffset(buf.pData_ + idx, offset + imageIdx, tiffType(), byteOrder);
             imageIdx += i->second;
         }
         append(blob, buf.pData_, buf.size_);
@@ -923,7 +923,7 @@ namespace Exiv2 {
         DataBuf buf(ifds_.size() * 4);
         uint32_t idx = 0;
         for (Ifds::const_iterator i = ifds_.begin(); i != ifds_.end(); ++i) {
-            idx += writeOffset(buf.pData_ + idx, offset + dataIdx, typeId(), byteOrder);
+            idx += writeOffset(buf.pData_ + idx, offset + dataIdx, tiffType(), byteOrder);
             dataIdx += (*i)->size();
         }
         append(blob, buf.pData_, buf.size_);
@@ -1004,7 +1004,7 @@ namespace Exiv2 {
     {
         Value const* pv = pValue();
         if (!pv || pv->count() == 0) return 0;
-        if (pv->typeId() != elTypeId_) {
+        if (toTiffType(pv->typeId()) != elTiffType_) {
             throw Error(51, tag());
         }
         DataBuf buf(pv->size());
@@ -1235,6 +1235,29 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
+
+    TypeId toTypeId(TiffType tiffType, uint16_t tag, uint16_t group)
+    {
+        TypeId ti = TypeId(tiffType);
+        // On the fly type conversion for Exif.Photo.UserComment        
+        if (tag == 0x9286 && group == Group::exif && ti == undefined) {
+            ti = comment;
+        }
+        return ti;
+    }
+
+    TiffType toTiffType(TypeId typeId)
+    {
+        if (static_cast<uint32_t>(typeId) > 0xffff) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Error: '" << TypeInfo::typeName(typeId)
+                      << "' is not a valid Exif (TIFF) type; using type '"
+                      << TypeInfo::typeName(undefined) << "'.\n";
+#endif
+            return undefined;
+        }
+        return static_cast<uint16_t>(typeId);
+    }
 
     bool cmpTagLt(TiffComponent const* lhs, TiffComponent const* rhs)
     {

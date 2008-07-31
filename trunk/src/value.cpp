@@ -68,10 +68,11 @@ namespace Exiv2 {
         AutoPtr value;
         switch (typeId) {
         case invalidTypeId:
-            value = AutoPtr(new DataValue(invalidTypeId));
-            break;
+        case signedByte:
         case unsignedByte:
-            value = AutoPtr(new DataValue(unsignedByte));
+        case tiffFloat:
+        case tiffDouble:
+            value = AutoPtr(new DataValue(typeId));
             break;
         case asciiString:
             value = AutoPtr(new AsciiValue);
@@ -84,9 +85,6 @@ namespace Exiv2 {
             break;
         case unsignedRational:
             value = AutoPtr(new ValueType<URational>);
-            break;
-        case signedByte:
-            value = AutoPtr(new DataValue(signedByte));
             break;
         case undefined:
             value = AutoPtr(new DataValue);

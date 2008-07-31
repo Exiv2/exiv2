@@ -665,8 +665,16 @@ namespace Action {
             if (Params::instance().printItems_ & Params::prType) {
                 if (!first) std::cout << " ";
                 first = false;
-                std::cout << std::setw(9) << std::setfill(' ') << std::left
-                          << md->typeName();
+                std::cout << std::setw(9) << std::setfill(' ') << std::left;
+                const char* tn = md->typeName();
+                if (tn) {
+                    std::cout << tn;
+                }
+                else {
+                    std::ostringstream os;
+                    os << "0x" << std::setw(4) << std::setfill('0') << std::hex << md->typeId();
+                    std::cout << os.str();
+                }
             }
             if (Params::instance().printItems_ & Params::prCount) {
                 if (!first) std::cout << " ";
