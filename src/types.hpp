@@ -99,15 +99,38 @@ namespace Exiv2 {
     //! An identifier for each mode of metadata support
     enum AccessMode { amNone=0, amRead=1, amWrite=2, amReadWrite=3 };
 
-    //! Type identifiers for IFD format types
-    enum TypeId { invalidTypeId, unsignedByte, asciiString, unsignedShort,
-                  unsignedLong, unsignedRational, signedByte, undefined,
-                  signedShort, signedLong, signedRational,
-                  string, date, time,
-                  comment,
-                  directory,
-                  xmpText, xmpAlt, xmpBag, xmpSeq, langAlt,
-                  lastTypeId };
+    /*!
+      @brief %Exiv2 value type identifiers.
+
+      Used primarily as identifiers when creating %Exiv2 Value instances.
+      See Value::create. 0x0000 to 0xffff are reserved for TIFF (Exif) types.
+     */
+    enum TypeId {
+        unsignedByte       = 1, //!< Exif BYTE type, 8-bit unsigned integer.
+        asciiString        = 2, //!< Exif ASCII type, 8-bit byte.
+        unsignedShort      = 3, //!< Exif SHORT type, 16-bit (2-byte) unsigned integer.
+        unsignedLong       = 4, //!< Exif LONG type, 32-bit (4-byte) unsigned integer.
+        unsignedRational   = 5, //!< Exif RATIONAL type, two LONGs: numerator and denumerator of a fraction.
+        signedByte         = 6, //!< Exif SBYTE type, an 8-bit signed (twos-complement) integer.
+        undefined          = 7, //!< Exif UNDEFINED type, an 8-bit byte that may contain anything.
+        signedShort        = 8, //!< Exif SSHORT type, a 16-bit (2-byte) signed (twos-complement) integer.
+        signedLong         = 9, //!< Exif SLONG type, a 32-bit (4-byte) signed (twos-complement) integer.
+        signedRational     =10, //!< Exif SRATIONAL type, two SLONGs: numerator and denumerator of a fraction.
+        tiffFloat          =11, //!< TIFF FLOAT type, single precision (4-byte) IEEE format.
+        tiffDouble         =12, //!< TIFF DOUBLE type, double precision (8-byte) IEEE format.
+        string        =0x10000, //!< IPTC string type.
+        date          =0x10001, //!< IPTC date type.
+        time          =0x10002, //!< IPTC time type.
+        comment       =0x10003, //!< %Exiv2 type for the Exif user comment.
+        directory     =0x10004, //!< %Exiv2 type for a CIFF directory.
+        xmpText       =0x10005, //!< XMP text type.
+        xmpAlt        =0x10006, //!< XMP alternative type.
+        xmpBag        =0x10007, //!< XMP bag type.
+        xmpSeq        =0x10008, //!< XMP sequence type.
+        langAlt       =0x10009, //!< XMP language alternative type.
+        invalidTypeId =0x1fffe, //!< Invalid type id.
+        lastTypeId    =0x1ffff  //!< Last type id.
+    };
 
     // Todo: decentralize IfdId, so that new ids can be defined elsewhere
     //! Type to specify the IFD to which a metadata belongs
@@ -133,13 +156,15 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
-    //! Information pertaining to the defined types
+    //! Information pertaining to the defined %Exiv2 value type identifiers.
     struct TypeInfoTable {
-        //! Constructor
-        TypeInfoTable(TypeId typeId, const char* name, long size);
         TypeId typeId_;                         //!< Type id
         const char* name_;                      //!< Name of the type
         long size_;                             //!< Bytes per data entry
+        //! Comparison operator for \em typeId
+        bool operator==(TypeId typeId) const;
+        //! Comparison operator for \em name
+        bool operator==(const std::string& name) const;
     }; // struct TypeInfoTable
 
     //! Type information lookup functions. Implemented as a static class.

@@ -333,8 +333,8 @@ namespace Exiv2 {
 
         // Olympus makernote - some Olympus cameras use Minolta structures
         // Todo: Adding such tags will not work (maybe result in a Minolta makernote), need separate groups
-        {    0x0001, Group::olympmn,   Group::minocso,   0x927c,    Group::exif,      newTiffArrayEntry<unsignedLong, false> },
-        {    0x0003, Group::olympmn,   Group::minocsn,   0x927c,    Group::exif,      newTiffArrayEntry<unsignedLong, false> },
+        {    0x0001, Group::olympmn,   Group::minocso,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedLong, false> },
+        {    0x0003, Group::olympmn,   Group::minocsn,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedLong, false> },
         { Tag::next, Group::olympmn,   Group::ignr,      0x927c,    Group::exif,      newTiffDirectory },
         {  Tag::all, Group::olympmn,   Group::olympmn,   0x927c,    Group::exif,      newTiffEntry },
 
@@ -343,20 +343,20 @@ namespace Exiv2 {
         {  Tag::all, Group::fujimn,    Group::fujimn,    0x927c,    Group::exif,      newTiffEntry },
 
         // Canon makernote
-        {    0x0001, Group::canonmn,   Group::canoncs,   0x927c,    Group::exif,      newTiffArrayEntry<unsignedShort, true> },
-        {    0x0004, Group::canonmn,   Group::canonsi,   0x927c,    Group::exif,      newTiffArrayEntry<unsignedShort, true> },
-        {    0x0005, Group::canonmn,   Group::canonpa,   0x927c,    Group::exif,      newTiffArrayEntry<unsignedShort, true> },
-        {    0x000f, Group::canonmn,   Group::canoncf,   0x927c,    Group::exif,      newTiffArrayEntry<unsignedShort, true> },
-        {    0x0012, Group::canonmn,   Group::canonpi,   0x927c,    Group::exif,      newTiffArrayEntry<unsignedShort, true> },
+        {    0x0001, Group::canonmn,   Group::canoncs,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedShort, true> },
+        {    0x0004, Group::canonmn,   Group::canonsi,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedShort, true> },
+        {    0x0005, Group::canonmn,   Group::canonpa,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedShort, true> },
+        {    0x000f, Group::canonmn,   Group::canoncf,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedShort, true> },
+        {    0x0012, Group::canonmn,   Group::canonpi,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedShort, true> },
         { Tag::next, Group::canonmn,   Group::ignr,      0x927c,    Group::exif,      newTiffDirectory },
         {  Tag::all, Group::canonmn,   Group::canonmn,   0x927c,    Group::exif,      newTiffEntry },
 
         // Canon makernote composite tags
-        {  Tag::all, Group::canoncs,   Group::canoncs,   0x0001,    Group::canonmn,   newTiffArrayElement<unsignedShort> },
-        {  Tag::all, Group::canonsi,   Group::canonsi,   0x0004,    Group::canonmn,   newTiffArrayElement<unsignedShort> },
-        {  Tag::all, Group::canonpa,   Group::canonpa,   0x0005,    Group::canonmn,   newTiffArrayElement<unsignedShort> },
-        {  Tag::all, Group::canoncf,   Group::canoncf,   0x000f,    Group::canonmn,   newTiffArrayElement<unsignedShort> },
-        {  Tag::all, Group::canonpi,   Group::canonpi,   0x0012,    Group::canonmn,   newTiffArrayElement<unsignedShort> },
+        {  Tag::all, Group::canoncs,   Group::canoncs,   0x0001,    Group::canonmn,   newTiffArrayElement<ttUnsignedShort> },
+        {  Tag::all, Group::canonsi,   Group::canonsi,   0x0004,    Group::canonmn,   newTiffArrayElement<ttUnsignedShort> },
+        {  Tag::all, Group::canonpa,   Group::canonpa,   0x0005,    Group::canonmn,   newTiffArrayElement<ttUnsignedShort> },
+        {  Tag::all, Group::canoncf,   Group::canoncf,   0x000f,    Group::canonmn,   newTiffArrayElement<ttUnsignedShort> },
+        {  Tag::all, Group::canonpi,   Group::canonpi,   0x0012,    Group::canonmn,   newTiffArrayElement<ttUnsignedShort> },
 
         // Nikon1 makernote
         { Tag::next, Group::nikon1mn,  Group::ignr,      0x927c,    Group::exif,      newTiffDirectory },
@@ -391,20 +391,20 @@ namespace Exiv2 {
         {  Tag::all, Group::sony2mn,   Group::sony2mn,   0x927c,    Group::exif,      newTiffEntry },
 
         // Minolta makernote
-        {    0x0001, Group::minoltamn, Group::minocso,   0x927c,    Group::exif,      newTiffArrayEntry<unsignedLong, false>  },
-        {    0x0003, Group::minoltamn, Group::minocsn,   0x927c,    Group::exif,      newTiffArrayEntry<unsignedLong, false>  },
-        {    0x0004, Group::minoltamn, Group::minocs7,   0x927c,    Group::exif,      newTiffArrayEntry<unsignedShort, false> },
+        {    0x0001, Group::minoltamn, Group::minocso,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedLong, false>  },
+        {    0x0003, Group::minoltamn, Group::minocsn,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedLong, false>  },
+        {    0x0004, Group::minoltamn, Group::minocs7,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedShort, false> },
         {    0x0088, Group::minoltamn, Group::minoltamn, 0x927c,    Group::exif,      newTiffThumbData<0x0089, Group::minoltamn> },
         {    0x0089, Group::minoltamn, Group::minoltamn, 0x927c,    Group::exif,      newTiffThumbSize<0x0088, Group::minoltamn> },
-        {    0x0114, Group::minoltamn, Group::minocs5,   0x927c,    Group::exif,      newTiffArrayEntry<unsignedShort, false> },
+        {    0x0114, Group::minoltamn, Group::minocs5,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedShort, false> },
         { Tag::next, Group::minoltamn, Group::ignr,      0x927c,    Group::exif,      newTiffDirectory },
         {  Tag::all, Group::minoltamn, Group::minoltamn, 0x927c,    Group::exif,      newTiffEntry },
 
         // Minolta makernote composite tags
-        {  Tag::all, Group::minocso,   Group::minocso,   0x0001,    Group::minoltamn, newTiffArrayElement<unsignedLong,  bigEndian> },
-        {  Tag::all, Group::minocsn,   Group::minocsn,   0x0003,    Group::minoltamn, newTiffArrayElement<unsignedLong,  bigEndian> },
-        {  Tag::all, Group::minocs7,   Group::minocs7,   0x0004,    Group::minoltamn, newTiffArrayElement<unsignedShort, bigEndian> },
-        {  Tag::all, Group::minocs5,   Group::minocs5,   0x0114,    Group::minoltamn, newTiffArrayElement<unsignedShort, bigEndian> },
+        {  Tag::all, Group::minocso,   Group::minocso,   0x0001,    Group::minoltamn, newTiffArrayElement<ttUnsignedLong,  bigEndian> },
+        {  Tag::all, Group::minocsn,   Group::minocsn,   0x0003,    Group::minoltamn, newTiffArrayElement<ttUnsignedLong,  bigEndian> },
+        {  Tag::all, Group::minocs7,   Group::minocs7,   0x0004,    Group::minoltamn, newTiffArrayElement<ttUnsignedShort, bigEndian> },
+        {  Tag::all, Group::minocs5,   Group::minocs5,   0x0114,    Group::minoltamn, newTiffArrayElement<ttUnsignedShort, bigEndian> },
 
         // Tags which are not de/encoded
         { Tag::next, Group::ignr,      Group::ignr,      Tag::none, Group::none,      newTiffDirectory },

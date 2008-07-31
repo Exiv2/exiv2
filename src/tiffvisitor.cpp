@@ -348,8 +348,11 @@ namespace Exiv2 {
     {
         assert(object != 0);
 
+        // Don't decode the entry if value is not set
+        if (!object->pValue()) return;
+
         // Remember NewSubfileType
-        if (object->tag() == 0x00fe && object->pValue()) {
+        if (object->tag() == 0x00fe) {
             groupType_[object->group()] = object->pValue()->toLong();
         }
 
@@ -567,8 +570,8 @@ namespace Exiv2 {
         assert(pTiffComponent);
         TiffEntryBase* pTiffEntry = dynamic_cast<TiffEntryBase*>(pTiffComponent);
         assert(pTiffEntry);
-        us2Data(buf + 2, pTiffEntry->typeId(), byteOrder);
-        ul2Data(buf + 4, pTiffEntry->count(),  byteOrder);
+        us2Data(buf + 2, pTiffEntry->tiffType(), byteOrder);
+        ul2Data(buf + 4, pTiffEntry->count(),    byteOrder);
         // Move data to offset field, if it fits and is not yet there.
         if (pTiffEntry->size() <= 4 && buf + 8 != pTiffEntry->pData()) {
 #ifdef DEBUG
@@ -997,7 +1000,7 @@ namespace Exiv2 {
         os_ << px << tiffGroupName(object->group())
             << " " << _("tag") << " 0x" << std::setw(4) << std::setfill('0')
             << std::hex << std::right << object->tag()
-            << ", " << _("type") << " " << TypeInfo::typeName(object->typeId())
+            << ", " << _("type") << " 0x" << std::hex << object->tiffType()
             << ", " << std::dec << object->count() << " "<< _("component");
         if (object->count() > 1) os_ << "s";
         os_ << " in " << object->size() << " " << _("bytes");
@@ -1212,8 +1215,8 @@ namespace Exiv2 {
         assert(object != 0);
 
         readTiffEntry(object);
-        if ((object->typeId() == unsignedLong || object->typeId() == signedLong)
-             && object->count() >= 1) {
+        if (   (object->tiffType() == ttUnsignedLong || object->tiffType() == ttSignedLong)
+            && object->count() >= 1) {
             for (uint32_t i = 0; i < object->count(); ++i) {
                 int32_t offset = getLong(object->pData() + 4*i, byteOrder());
                 if (   baseOffset() + offset > size_
@@ -1302,8 +1305,7 @@ namespace Exiv2 {
 
     void TiffReader::visitIfdMakernoteEnd(TiffIfdMakernote* /*object*/)
     {
-        // Reset state (byte order, create function, offset) back to that
-        // for the image
+        // Reset state (byte order, create function, offset) back to that for the image
         resetState();
     } // TiffReader::visitIfdMakernoteEnd
 
@@ -1324,17 +1326,18 @@ namespace Exiv2 {
         }
         // Component already has tag
         p += 2;
-        uint16_t type = getUShort(p, byteOrder());
-        long typeSize = TypeInfo::typeSize(TypeId(type));
+        TiffType tiffType = getUShort(p, byteOrder());
+        TypeId typeId = toTypeId(tiffType, object->tag(), object->group());
+        long typeSize = TypeInfo::typeSize(typeId);
         if (0 == typeSize) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Error: Directory " << tiffGroupName(object->group())
+            std::cerr << "Warning: Directory " << tiffGroupName(object->group())
                       << ", entry 0x" << std::setw(4)
                       << std::setfill('0') << std::hex << object->tag()
-                      << " has an invalid type " << std::dec << type
-                      << "; skipping entry.\n";
+                      << " has unknown Exif (TIFF) type " << std::dec << tiffType
+                      << "; setting type size 1.\n";
 #endif
-            return;
+            typeSize = 1;
         }
         p += 2;
         uint32_t count = getULong(p, byteOrder());
@@ -1353,8 +1356,7 @@ namespace Exiv2 {
         uint32_t size = typeSize * count;
         uint32_t offset = getLong(p, byteOrder());
         byte* pData = p;
-        if (size > 4) {
-            if (baseOffset() + offset >= size_) {
+        if (size > 4 && baseOffset() + offset >= size_) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Error: Offset of "
                           << "directory " << tiffGroupName(object->group())
@@ -1365,12 +1367,13 @@ namespace Exiv2 {
                           << std::setfill('0') << std::hex << offset
                           << "; truncating the entry\n";
 #endif
-                return;
-            }
+                size = 0;
+        }
+        if (size > 4) {
             pData = const_cast<byte*>(pData_) + baseOffset() + offset;
             if (size > static_cast<uint32_t>(pLast_ - pData)) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: Upper boundary of data for "
+                std::cerr << "Error: Upper boundary of data for "
                           << "directory " << tiffGroupName(object->group())
                           << ", entry 0x" << std::setw(4)
                           << std::setfill('0') << std::hex << object->tag()
@@ -1387,16 +1390,7 @@ namespace Exiv2 {
                 // Todo: adjust count, make size a multiple of typeSize
             }
         }
-        // On the fly type conversion for Exif.Photo.UserComment
-        // Todo: This should be somewhere else, maybe in a Value factory
-        //       which takes a Key and Type
-        TypeId t = TypeId(type);
-        if (   object->tag()   == 0x9286
-            && object->group() == Group::exif
-            && t               == undefined) {
-            t = comment;
-        }
-        Value::AutoPtr v = Value::create(t);
+        Value::AutoPtr v = Value::create(typeId);
         assert(v.get());
         v->read(pData, size, byteOrder());
 
@@ -1431,8 +1425,8 @@ namespace Exiv2 {
     {
         assert(object != 0);
 
-        uint16_t type = object->elTypeId();
-        uint32_t size = TypeInfo::typeSize(TypeId(type));
+        TypeId typeId = toTypeId(object->elTiffType(), object->tag(), object->group());
+        uint32_t size = TypeInfo::typeSize(typeId);
         // Hack: Exif.CanonCs.Lens has 3 components
         if (object->group() == Group::canoncs && object->tag() == 0x0017) {
             size *= 3;
@@ -1452,7 +1446,7 @@ namespace Exiv2 {
 
         ByteOrder bo = object->elByteOrder();
         if (bo == invalidByteOrder) bo = byteOrder();
-        Value::AutoPtr v = Value::create(TypeId(type));
+        Value::AutoPtr v = Value::create(typeId);
         assert(v.get());
         v->read(pData, size, bo);
 

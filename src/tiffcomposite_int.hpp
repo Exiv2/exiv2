@@ -49,6 +49,27 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
+    //! TIFF value type.
+    typedef uint16_t TiffType;
+
+    const TiffType ttUnsignedByte     = 1; //!< Exif BYTE type
+    const TiffType ttAsciiString      = 2; //!< Exif ASCII type
+    const TiffType ttUnsignedShort    = 3; //!< Exif SHORT type
+    const TiffType ttUnsignedLong     = 4; //!< Exif LONG type
+    const TiffType ttUnsignedRational = 5; //!< Exif RATIONAL type
+    const TiffType ttSignedByte       = 6; //!< Exif SBYTE type
+    const TiffType ttUndefined        = 7; //!< Exif UNDEFINED type
+    const TiffType ttSignedShort      = 8; //!< Exif SSHORT type
+    const TiffType ttSignedLong       = 9; //!< Exif SLONG type
+    const TiffType ttSignedRational   =10; //!< Exif SRATIONAL type
+    const TiffType ttTiffFloat        =11; //!< TIFF FLOAT type
+    const TiffType ttTiffDouble       =12; //!< TIFF DOUBLE type
+
+    //! Convert the \em tiffType of a \em tag and \em group to an Exiv2 \em typeId.
+    TypeId toTypeId(TiffType tiffType, uint16_t tag, uint16_t group);
+    //! Convert the %Exiv2 \em typeId to a TIFF value type.
+    TiffType toTiffType(TypeId typeId);
+
     /*!
       Known TIFF groups
 
@@ -362,7 +383,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        TiffEntryBase(uint16_t tag, uint16_t group, TypeId typeId =invalidTypeId);
+        TiffEntryBase(uint16_t tag, uint16_t group, TiffType tiffType =ttUndefined);
         //! Virtual destructor.
         virtual ~TiffEntryBase();
         //@}
@@ -396,8 +417,8 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        //! Return the Exiv2 type which corresponds to the field type
-        TypeId   typeId()        const { return TypeId(type_); }
+        //! Return the TIFF type
+        TiffType tiffType()      const { return tiffType_; }
         /*!
           @brief Return the offset to the data area relative to the base
                  for the component (usually the start of the TIFF header)
@@ -470,7 +491,7 @@ namespace Exiv2 {
         //! Helper function to write an \em offset to a preallocated binary buffer
         static uint32_t writeOffset(byte*     buf,
                                     int32_t   offset,
-                                    TypeId    type,
+                                    TiffType  tiffType,
                                     ByteOrder byteOrder);
 
     private:
@@ -481,8 +502,8 @@ namespace Exiv2 {
         //@}
 
         // DATA
-        uint16_t type_;       //!< Field Type
-        uint32_t count_;      //!< The number of values of the indicated Type
+        TiffType tiffType_;   //!< Field TIFF type
+        uint32_t count_;      //!< The number of values of the indicated type
         int32_t  offset_;     //!< Offset to the data area
         /*!
           Size of the data buffer holding the value in bytes, there is no
@@ -1033,7 +1054,7 @@ namespace Exiv2 {
         TiffArrayEntry(uint16_t tag,
                        uint16_t group,
                        uint16_t elGroup,
-                       TypeId   elTypeId,
+                       TiffType elTiffType,
                        bool     addSizeElement);
         //! Virtual destructor
         virtual ~TiffArrayEntry();
@@ -1041,7 +1062,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        //! Return the type for the array elements
+        //! Return the size of the array elements
         uint16_t  elSize()  const { return elSize_; }
         //! Return the group for the array elements
         uint16_t  elGroup() const { return elGroup_; }
@@ -1107,10 +1128,10 @@ namespace Exiv2 {
         //! Constructor
         TiffArrayElement(uint16_t  tag,
                          uint16_t  group,
-                         TypeId    elTypeId,
+                         TiffType  elTiffType,
                          ByteOrder elByteOrder)
             : TiffEntryBase(tag, group),
-              elTypeId_(elTypeId),
+              elTiffType_(elTiffType),
               elByteOrder_(elByteOrder) {}
         //! Virtual destructor.
         virtual ~TiffArrayElement() {}
@@ -1118,7 +1139,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        TypeId    elTypeId()    const { return elTypeId_; }
+        TiffType  elTiffType()  const { return elTiffType_; }
         ByteOrder elByteOrder() const { return elByteOrder_; }
         //@}
 
@@ -1151,7 +1172,7 @@ namespace Exiv2 {
 
     private:
         // DATA
-        TypeId    elTypeId_;      //!< Type of the element
+        TiffType  elTiffType_;    //!< TIFF type of the element
         ByteOrder elByteOrder_;   //!< Byte order to read/write the element
 
     }; // class TiffArrayElement
@@ -1188,30 +1209,30 @@ namespace Exiv2 {
                                           const TiffStructure* ts);
 
     //! Function to create and initialize a new array entry
-    template<TypeId typeId, bool addSizeElement>
+    template<TiffType tiffType, bool addSizeElement>
     TiffComponent::AutoPtr newTiffArrayEntry(uint16_t tag,
                                              const TiffStructure* ts)
     {
         assert(ts);
         return TiffComponent::AutoPtr(
-            new TiffArrayEntry(tag, ts->group_, ts->newGroup_, typeId, addSizeElement));
+            new TiffArrayEntry(tag, ts->group_, ts->newGroup_, tiffType, addSizeElement));
     }
 
     //! Function to create and initialize a new array element
-    template<TypeId typeId, ByteOrder byteOrder>
+    template<TiffType tiffType, ByteOrder byteOrder>
     TiffComponent::AutoPtr newTiffArrayElement(uint16_t tag,
                                                const TiffStructure* ts)
     {
         assert(ts);
         return TiffComponent::AutoPtr(
-            new TiffArrayElement(tag, ts->group_, typeId, byteOrder));
+            new TiffArrayElement(tag, ts->group_, tiffType, byteOrder));
     }
 
-    template<TypeId typeId>
+    template<TiffType tiffType>
     TiffComponent::AutoPtr newTiffArrayElement(uint16_t tag,
                                                const TiffStructure* ts)
     {
-        return newTiffArrayElement<typeId, invalidByteOrder>(tag, ts);
+        return newTiffArrayElement<tiffType, invalidByteOrder>(tag, ts);
     }
 
     //! Function to create and initialize a new TIFF entry for a thumbnail (data)
