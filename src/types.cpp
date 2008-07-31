@@ -51,7 +51,7 @@ EXIV2_RCSID("@(#) $Id$")
 // class member definitions
 namespace Exiv2 {
 
-    //! Lookup list of supported IFD type information
+    //! Lookup list with information of Exiv2 types
     const TypeInfoTable TypeInfo::typeInfoTable_[] = {
         { invalidTypeId,    "Invalid",     0 },
         { unsignedByte,     "Byte",        1 },
@@ -75,9 +75,7 @@ namespace Exiv2 {
         { xmpAlt,           "XmpAlt",      1 },
         { xmpBag,           "XmpBag",      1 },
         { xmpSeq,           "XmpSeq",      1 },
-        { langAlt,          "LangAlt",     1 },
-        // End of list marker
-        { lastTypeId,       "(Unknown)",   0 }
+        { langAlt,          "LangAlt",     1 }
     };
 
     bool TypeInfoTable::operator==(TypeId typeId) const

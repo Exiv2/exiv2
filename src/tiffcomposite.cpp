@@ -229,6 +229,7 @@ namespace Exiv2 {
 
     void TiffEntryBase::updateValue(Value::AutoPtr value, ByteOrder byteOrder)
     {
+        if (value.get() == 0) return;
         uint32_t newSize = value->size();
         if (newSize > size_) {
             allocData(newSize);
@@ -241,6 +242,7 @@ namespace Exiv2 {
 
     void TiffEntryBase::setValue(Value::AutoPtr value)
     {
+        if (value.get() == 0) return;
         tiffType_  = toTiffType(value->typeId());
         count_ = value->count();
         delete pValue_;
