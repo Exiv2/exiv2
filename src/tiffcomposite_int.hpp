@@ -400,6 +400,7 @@ namespace Exiv2 {
         void encode(TiffEncoder& encoder, const Exifdatum* datum);
         //! Set the offset
         void setOffset(int32_t offset) { offset_ = offset; }
+        //! Set pointer and size of the entry's data.
         void setData(byte* pData, int32_t size);
         /*!
           @brief Update the value. Takes ownership of the pointer passed in.

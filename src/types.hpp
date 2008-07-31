@@ -204,8 +204,7 @@ namespace Exiv2 {
       @brief Utility class containing a character array. All it does is to take
              care of memory allocation and deletion. Its primary use is meant to
              be as a stack variable in functions that need a temporary data
-             buffer. Todo: this should be some sort of smart pointer,
-             essentially an std::auto_ptr for a character array. But it isn't...
+             buffer. 
      */
     class DataBuf {
     public:
@@ -236,10 +235,9 @@ namespace Exiv2 {
          */
         DataBuf& operator=(DataBuf& rhs);
         /*!
-          Allocate a data buffer of at least the given size
-          
-          Note that if the requested \em size is less than the current buffer
-          size, no new memory is allocated and the buffer size doesn't change.
+          @brief Allocate a data buffer of at least the given size. Note that if
+                 the requested \em size is less than the current buffer size, no
+                 new memory is allocated and the buffer size doesn't change.
          */
         void alloc(long size);
         /*!
