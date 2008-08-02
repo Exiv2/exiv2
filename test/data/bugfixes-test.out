@@ -739,3 +739,7 @@ Xmp.xmpBJ.JobRef[1]/stJob:name               XmpText    12  Photographer
 Xmp.xmpMM.DocumentID                         XmpText    58  adobe:docid:photoshop:84d4dba8-9b11-11d6-895d-c4d063a70fb0
 Xmp.xmpRights.Marked                         XmpText     4  True
 Xmp.xmpRights.WebStatement                   XmpText    16  www.freefoto.com
+File 1/1: exiv2-bug554.jpg
+Set Exif.Image.DateTime "2007-05-27" (Date)
+Error: 'Date' is not a valid Exif (TIFF) type; using type 'Undefined'.
+Exif.Image.DateTime                          Undefined   8  50 48 48 55 48 53 50 55 
