@@ -345,9 +345,9 @@ namespace Exiv2 {
         // Canon makernote
         {    0x0001, Group::canonmn,   Group::canoncs,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedShort, true> },
         {    0x0004, Group::canonmn,   Group::canonsi,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedShort, true> },
-        {    0x0005, Group::canonmn,   Group::canonpa,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedShort, true> },
+        {    0x0005, Group::canonmn,   Group::canonpa,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedShort, false> },
         {    0x000f, Group::canonmn,   Group::canoncf,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedShort, true> },
-        {    0x0012, Group::canonmn,   Group::canonpi,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedShort, true> },
+        {    0x0012, Group::canonmn,   Group::canonpi,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedShort, false> },
         { Tag::next, Group::canonmn,   Group::ignr,      0x927c,    Group::exif,      newTiffDirectory },
         {  Tag::all, Group::canonmn,   Group::canonmn,   0x927c,    Group::exif,      newTiffEntry },
 
