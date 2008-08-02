@@ -75,6 +75,9 @@ namespace Exiv2
               auto-pointer. Callers should not continue to use the BasicIo
               instance after it is passed to this method.  Use the Image::io()
               method to get a temporary reference.
+          @param create Specifies if an existing image should be read (false)
+              or if a new file should be created (true). 
+              This option is not yet implemented.
          */
         Jp2Image(BasicIo::AutoPtr io, bool create);
         //@}
