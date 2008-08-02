@@ -82,9 +82,20 @@ num=501
 filename=`prep_file $num`
 $exiv2 -pi $filename
 
+num=528
+filename=`prep_file $num`
+$exiv2 -pt $filename
+$exiv2 -v -M"set Exif.Image.Software GI" $filename
+
 num=540
 filename=`prep_file $num`
 $exiv2 -px $filename
+
+num=554
+filename=exiv2-bug$num.jpg
+cp -f ../data/exiv2-empty.jpg $filename
+$exiv2 -v -M"set Exif.Image.DateTime Date 2007-05-27" $filename
+$exiv2 -pt $filename
 
 ) > $results 2>&1
 
