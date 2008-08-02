@@ -64,7 +64,9 @@ namespace Exiv2
     {
     public:
 
-    // Text Chunk types.
+    /*!
+      @brief Text Chunk types.
+     */
     enum TxtChunkType
     {
         tEXt_Chunk = 0,
@@ -72,7 +74,9 @@ namespace Exiv2
         iTXt_Chunk = 2
     };
 
-    // Metadata Chunk types.
+    /*!
+      @brief Metadata Chunk types.
+     */
     enum MetadataType
     {
         exif_Data    = 0,
@@ -87,7 +91,7 @@ namespace Exiv2
           @brief Decode PNG IHDR chunk data from a data buffer
                  \em data and return image size to \em outWidth and \em outHeight.
 
-          @param pData     PNG Chunk data buffer.
+          @param data      PNG Chunk data buffer.
           @param outWidth  Integer pointer to be set to the width of the image.
           @param outHeight Integer pointer to be set to the height of the image.
         */
@@ -117,9 +121,9 @@ namespace Exiv2
 
         /*!
           @brief Return a complete PNG chunk data compressed or not as buffer. Data returned is formated 
-                 accordingly with metadata \em type to host passed by \em data.
+                 accordingly with metadata \em type to host passed by \em metadata.
 
-          @param data        metadata buffer.
+          @param metadata    metadata buffer.
           @param type        metadata type.
           @param compress    compress or not metadata.
         */
