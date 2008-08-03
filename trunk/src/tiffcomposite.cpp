@@ -99,7 +99,7 @@ namespace Exiv2 {
         { 277, "CanonPi"      },
         { 278, "CanonPa"      },
         { 279, "Pentax"       },
-        { 280, "Nikon3Preview"}
+        { 280, "NikonPreview" }
     };
 
     bool TiffGroupInfo::operator==(const uint16_t& group) const

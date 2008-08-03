@@ -67,7 +67,7 @@ namespace Exiv2 {
         const uint16_t canonpi   = 277; //!< Canon picture info
         const uint16_t canonpa   = 278; //!< Canon panorama
         const uint16_t pentaxmn  = 279; //!< Pentax makernote
-        const uint16_t nikon3pv  = 280; //!< Nikon3 preview sub-IFD
+        const uint16_t nikonpv   = 280; //!< Nikon preview sub-IFD
     }
 
 // *****************************************************************************

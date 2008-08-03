@@ -711,6 +711,13 @@ Exif.Nikon3.WhiteBalanceBias                  0x000b Makernote    SShort      1 
 Exif.Nikon3.ProgramShift                      0x000d Makernote    Undefined   4 0 1 6 0 
 Exif.Nikon3.ExposureDiff                      0x000e Makernote    Undefined   4 0 1 12 0 
 Exif.Nikon3.Preview                           0x0011 Makernote    Long        1 1430
+Exif.NikonPreview.Compression                 0x0103 Makernote    Short       1 6
+Exif.NikonPreview.XResolution                 0x011a Makernote    Rational    1 300/1
+Exif.NikonPreview.YResolution                 0x011b Makernote    Rational    1 300/1
+Exif.NikonPreview.ResolutionUnit              0x0128 Makernote    Short       1 2
+Exif.NikonPreview.JPEGInterchangeFormat       0x0201 Makernote    Long        1 1538
+Exif.NikonPreview.JPEGInterchangeFormatLength 0x0202 Makernote    Long        1 27773
+Exif.NikonPreview.YCbCrPositioning            0x0213 Makernote    Short       1 2
 Exif.Nikon3.FlashComp                         0x0012 Makernote    Undefined   4 0 1 6 0 
 Exif.Nikon3.ISOSettings                       0x0013 Makernote    Short       2 0 200
 Exif.Nikon3.ImageBoundary                     0x0016 Makernote    Short       4 0 0 3008 2000
@@ -815,7 +822,14 @@ Exif.Nikon3.FlashDevice                       0x0009 Makernote    Ascii      13
 Exif.Nikon3.WhiteBalanceBias                  0x000b Makernote    SShort      1 0
 Exif.Nikon3.ProgramShift                      0x000d Makernote    Undefined   4 0 1 6 0 
 Exif.Nikon3.ExposureDiff                      0x000e Makernote    Undefined   4 0 1 12 0 
-Exif.Nikon3.Preview                           0x0011 Makernote    Long        1 1430
+Exif.Nikon3.Preview                           0x0011 Makernote    Long        1 1414
+Exif.NikonPreview.Compression                 0x0103 Makernote    Short       1 6
+Exif.NikonPreview.XResolution                 0x011a Makernote    Rational    1 300/1
+Exif.NikonPreview.YResolution                 0x011b Makernote    Rational    1 300/1
+Exif.NikonPreview.ResolutionUnit              0x0128 Makernote    Short       1 2
+Exif.NikonPreview.JPEGInterchangeFormat       0x0201 Makernote    Long        1 1520
+Exif.NikonPreview.JPEGInterchangeFormatLength 0x0202 Makernote    Long        1 27773
+Exif.NikonPreview.YCbCrPositioning            0x0213 Makernote    Short       1 2
 Exif.Nikon3.FlashComp                         0x0012 Makernote    Undefined   4 0 1 6 0 
 Exif.Nikon3.ISOSettings                       0x0013 Makernote    Short       2 0 200
 Exif.Nikon3.ImageBoundary                     0x0016 Makernote    Short       4 0 0 3008 2000
@@ -854,7 +868,7 @@ Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 
 Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 65535
 Exif.Photo.PixelXDimension                    0xa002 Exif         Short       1 3008
 Exif.Photo.PixelYDimension                    0xa003 Exif         Short       1 2000
-Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 2438
+Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 30318
 Exif.Iop.InteroperabilityIndex                0x0001 Iop          Ascii       5 1234
 Exif.Iop.InteroperabilityVersion              0x0002 Iop          Undefined   4 48 49 48 48 
 Exif.Photo.SensingMethod                      0xa217 Exif         Short       1 2
@@ -878,7 +892,7 @@ Exif.Thumbnail.Orientation                    0x0112 IFD1         Short       5 
 Exif.Thumbnail.XResolution                    0x011a IFD1         Rational    1 300/1
 Exif.Thumbnail.YResolution                    0x011b IFD1         Rational    1 300/1
 Exif.Thumbnail.ResolutionUnit                 0x0128 IFD1         Short       1 2
-Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 2602
+Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 30482
 Exif.Thumbnail.JPEGInterchangeFormatLength    0x0202 IFD1         Long        1 8930
 Exif.Thumbnail.YCbCrPositioning               0x0213 IFD1         Short       1 2
 ----------------------------------------------
@@ -921,7 +935,14 @@ Exif.Nikon3.FlashDevice                       0x0009 Makernote    Ascii      13
 Exif.Nikon3.WhiteBalanceBias                  0x000b Makernote    SShort      1 0
 Exif.Nikon3.ProgramShift                      0x000d Makernote    Undefined   4 0 1 6 0 
 Exif.Nikon3.ExposureDiff                      0x000e Makernote    Undefined   4 0 1 12 0 
-Exif.Nikon3.Preview                           0x0011 Makernote    Long        1 1430
+Exif.Nikon3.Preview                           0x0011 Makernote    Long        1 1414
+Exif.NikonPreview.Compression                 0x0103 Makernote    Short       1 6
+Exif.NikonPreview.XResolution                 0x011a Makernote    Rational    1 300/1
+Exif.NikonPreview.YResolution                 0x011b Makernote    Rational    1 300/1
+Exif.NikonPreview.ResolutionUnit              0x0128 Makernote    Short       1 2
+Exif.NikonPreview.JPEGInterchangeFormat       0x0201 Makernote    Long        1 1520
+Exif.NikonPreview.JPEGInterchangeFormatLength 0x0202 Makernote    Long        1 27773
+Exif.NikonPreview.YCbCrPositioning            0x0213 Makernote    Short       1 2
 Exif.Nikon3.FlashComp                         0x0012 Makernote    Undefined   4 0 1 6 0 
 Exif.Nikon3.ISOSettings                       0x0013 Makernote    Short       2 0 200
 Exif.Nikon3.ImageBoundary                     0x0016 Makernote    Short       4 0 0 3008 2000
@@ -960,7 +981,7 @@ Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 
 Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 65535
 Exif.Photo.PixelXDimension                    0xa002 Exif         Short       1 3008
 Exif.Photo.PixelYDimension                    0xa003 Exif         Short       1 2000
-Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 2438
+Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 30318
 Exif.Iop.InteroperabilityIndex                0x0001 Iop          Ascii       4 123
 Exif.Iop.InteroperabilityVersion              0x0002 Iop          Undefined   4 48 49 48 48 
 Exif.Photo.SensingMethod                      0xa217 Exif         Short       1 2
@@ -984,7 +1005,7 @@ Exif.Thumbnail.Orientation                    0x0112 IFD1         Short       1 
 Exif.Thumbnail.XResolution                    0x011a IFD1         Rational    1 300/1
 Exif.Thumbnail.YResolution                    0x011b IFD1         Rational    1 300/1
 Exif.Thumbnail.ResolutionUnit                 0x0128 IFD1         Short       1 2
-Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 2602
+Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 30482
 Exif.Thumbnail.JPEGInterchangeFormatLength    0x0202 IFD1         Long        1 8930
 Exif.Thumbnail.YCbCrPositioning               0x0213 IFD1         Short       1 2
 ----------------------------------------------
@@ -1027,7 +1048,14 @@ Exif.Nikon3.FlashDevice                       0x0009 Makernote    Ascii      13
 Exif.Nikon3.WhiteBalanceBias                  0x000b Makernote    SShort      1 0
 Exif.Nikon3.ProgramShift                      0x000d Makernote    Undefined   4 0 1 6 0 
 Exif.Nikon3.ExposureDiff                      0x000e Makernote    Undefined   4 0 1 12 0 
-Exif.Nikon3.Preview                           0x0011 Makernote    Long        1 1430
+Exif.Nikon3.Preview                           0x0011 Makernote    Long        1 1414
+Exif.NikonPreview.Compression                 0x0103 Makernote    Short       1 6
+Exif.NikonPreview.XResolution                 0x011a Makernote    Rational    1 300/1
+Exif.NikonPreview.YResolution                 0x011b Makernote    Rational    1 300/1
+Exif.NikonPreview.ResolutionUnit              0x0128 Makernote    Short       1 2
+Exif.NikonPreview.JPEGInterchangeFormat       0x0201 Makernote    Long        1 1520
+Exif.NikonPreview.JPEGInterchangeFormatLength 0x0202 Makernote    Long        1 27773
+Exif.NikonPreview.YCbCrPositioning            0x0213 Makernote    Short       1 2
 Exif.Nikon3.FlashComp                         0x0012 Makernote    Undefined   4 0 1 6 0 
 Exif.Nikon3.ISOSettings                       0x0013 Makernote    Short       2 0 200
 Exif.Nikon3.ImageBoundary                     0x0016 Makernote    Short       4 0 0 3008 2000
@@ -1066,7 +1094,7 @@ Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 
 Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 65535
 Exif.Photo.PixelXDimension                    0xa002 Exif         Short       1 3008
 Exif.Photo.PixelYDimension                    0xa003 Exif         Short       1 2000
-Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 2426
+Exif.Photo.InteroperabilityTag                0xa005 Exif         Long        1 30306
 Exif.Iop.InteroperabilityIndex                0x0001 Iop          Ascii       4 123
 Exif.Iop.InteroperabilityVersion              0x0002 Iop          Undefined   4 48 49 48 48 
 Exif.Photo.SensingMethod                      0xa217 Exif         Short       1 2
@@ -1090,6 +1118,6 @@ Exif.Thumbnail.Orientation                    0x0112 IFD1         Short       1 
 Exif.Thumbnail.XResolution                    0x011a IFD1         Rational    1 300/1
 Exif.Thumbnail.YResolution                    0x011b IFD1         Rational    1 300/1
 Exif.Thumbnail.ResolutionUnit                 0x0128 IFD1         Short       1 2
-Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 2574
+Exif.Thumbnail.JPEGInterchangeFormat          0x0201 IFD1         Long        1 30454
 Exif.Thumbnail.JPEGInterchangeFormatLength    0x0202 IFD1         Long        1 8930
 Exif.Thumbnail.YCbCrPositioning               0x0213 IFD1         Short       1 2
