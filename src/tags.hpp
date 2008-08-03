@@ -72,7 +72,7 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
-    //! Contains information pertaining to one IFD
+    //! The details of an IFD.
     struct IfdInfo {
         struct Item;
         bool operator==(IfdId ifdId) const;     //!< Comparison operator for IFD id
@@ -90,7 +90,7 @@ namespace Exiv2 {
         std::string i_;                         //!< IFD item
     };
 
-    //! Contains information pertaining to one section
+    //! The details of a section.
     struct SectionInfo {
         SectionId sectionId_;                   //!< Section id
         const char* name_;                      //!< Section name (one word)
@@ -190,7 +190,7 @@ namespace Exiv2 {
 //! Shortcut for the printTagBitmask template which requires typing the array name only once.
 #define EXV_PRINT_TAG_BITMASK(array) printTagBitmask<EXV_COUNTOF(array), array>
 
-    //! Container for Exif tag information. Implemented as a static class.
+    //! Exif tag reference, implemented as a static class.
     class ExifTags {
         //! Prevent construction: not implemented.
         ExifTags();

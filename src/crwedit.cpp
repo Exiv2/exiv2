@@ -2,17 +2,18 @@
 // crwedit.cpp, $Rev$
 // Print the CIFF structure of a CRW file
 
-#include <exiv2/crwimage.hpp>
-#include <exiv2/futils.hpp>
+#include "crwimage.hpp"
+#include "crwimage_int.hpp"
+#include "futils.hpp"
 
 #include <iostream>
 #include <string>
 #include <cstring>
 
-void remove(Exiv2::CiffHeader* pHead);
-void add(Exiv2::CiffHeader* pHead);
+void remove(Exiv2::Internal::CiffHeader* pHead);
+void add(Exiv2::Internal::CiffHeader* pHead);
 void help();
-void write(const std::string& filename, const Exiv2::CiffHeader* pHead);
+void write(const std::string& filename, const Exiv2::Internal::CiffHeader* pHead);
 
 int main(int argc, char* const argv[])
 try {
@@ -42,7 +43,7 @@ try {
     if (io.error() || io.eof()) throw Exiv2::Error(14);
 
     // Parse the image, starting with a CIFF header component
-    Exiv2::CiffHeader::AutoPtr parseTree(new Exiv2::CiffHeader);
+    Exiv2::Internal::CiffHeader::AutoPtr parseTree(new Exiv2::Internal::CiffHeader);
     parseTree->read(buf.pData_, buf.size_);
 
     // Allow user to make changes
@@ -68,7 +69,7 @@ catch (Exiv2::AnyError& e) {
     return -1;
 }
 
-void write(const std::string& filename, const Exiv2::CiffHeader* pHead)
+void write(const std::string& filename, const Exiv2::Internal::CiffHeader* pHead)
 {
     Exiv2::Blob blob;
     pHead->write(blob);
@@ -83,7 +84,7 @@ void write(const std::string& filename, const Exiv2::CiffHeader* pHead)
     io.close();
 }
 
-void remove(Exiv2::CiffHeader* pHead)
+void remove(Exiv2::Internal::CiffHeader* pHead)
 {
     uint16_t crwTag, crwDir;
     std::cout << "crwTag> 0x";
@@ -102,7 +103,7 @@ void remove(Exiv2::CiffHeader* pHead)
     }
 }
 
-void add(Exiv2::CiffHeader* pHead)
+void add(Exiv2::Internal::CiffHeader* pHead)
 {
     uint16_t crwTag, crwDir;
     uint32_t size;

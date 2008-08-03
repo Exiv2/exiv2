@@ -16,7 +16,7 @@ fi
 # ----------------------------------------------------------------------
 # Main routine
 (
-binpath="$VALGRIND ../../samples"
+binpath="$VALGRIND ../../src"
 exiv2="$VALGRIND exiv2"
 cmdfile=cmdfile
 crwfile=exiv2-canon-powershot-s40.crw

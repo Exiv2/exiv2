@@ -71,15 +71,6 @@ namespace Exiv2 {
         const char*   desc_;            //!< Property description
     };
 
-    //! Struct used in the lookup table for pretty print functions
-    struct XmpPrintInfo {
-        //! Comparison operator for key
-        bool operator==(const std::string& key) const;
-
-        const char* key_;               //!< XMP key
-        PrintFct printFct_;             //!< Print function
-    };
-
     //! Structure mapping XMP namespaces and (preferred) prefixes.
     struct XmpNsInfo {
         //! For comparison with prefix
@@ -107,7 +98,7 @@ namespace Exiv2 {
         const char* desc_;              //!< Brief description of the namespace
     };
 
-    //! Container for XMP property information. Implemented as a static class.
+    //! XMP property reference, implemented as a static class.
     class XmpProperties {
         //! Prevent construction: not implemented.
         XmpProperties();

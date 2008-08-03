@@ -94,7 +94,8 @@ ifdef HAVE_LIBZ
 CCSRC += pngimage.cpp         \
 	 pngchunk.cpp
 endif
-CCSRC += psdimage.cpp         \
+CCSRC += properties.cpp       \
+	 psdimage.cpp         \
 	 rafimage.cpp         \
 	 sigmamn.cpp          \
 	 pentaxmn.cpp         \
@@ -107,7 +108,6 @@ CCSRC += psdimage.cpp         \
 	 types.cpp            \
 	 value.cpp            \
 	 version.cpp          \
-	 properties.cpp       \
 	 xmp.cpp              \
 	 xmpsidecar.cpp
 
@@ -117,7 +117,9 @@ CSRC =   localtime.c
 endif
 
 # Add source files of simple applications to this list
-BINSRC = taglist.cpp
+BINSRC = crwedit.cpp          \
+	 crwparse.cpp         \
+	 taglist.cpp
 
 # Source files for the Exiv2 application
 EXIV2MAIN = exiv2.cpp

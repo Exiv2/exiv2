@@ -49,8 +49,8 @@ namespace Exiv2 {
 // class definitions
 
     /*!
-      @brief Information related to one IPTC dataset. An IPTC metadatum consists
-             of an IptcKey and a Value and provides methods to manipulate these.
+      @brief An IPTC metadatum ("dataset"), consisting of an IptcKey and a
+             Value and methods to manipulate these.
      */
     class Iptcdatum : public Metadatum {
     public:
