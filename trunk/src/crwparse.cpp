@@ -2,8 +2,9 @@
 // crwparse.cpp, $Rev$
 // Print the CIFF structure of a CRW file
 
-#include <exiv2/crwimage.hpp>
-#include <exiv2/futils.hpp>
+#include "crwimage.hpp"
+#include "crwimage_int.hpp"
+#include "futils.hpp"
 
 #include <iostream>
 
@@ -34,7 +35,7 @@ try {
     if (io.error() || io.eof()) throw Exiv2::Error(14);
 
     // Parse the image, starting with a CIFF header component
-    Exiv2::CiffHeader::AutoPtr parseTree(new Exiv2::CiffHeader);
+    Exiv2::Internal::CiffHeader::AutoPtr parseTree(new Exiv2::Internal::CiffHeader);
     parseTree->read(buf.pData_, buf.size_);
     parseTree->print(std::cout);
 

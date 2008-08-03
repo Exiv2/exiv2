@@ -46,7 +46,7 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
-    //! Helper structure defining an error message
+    //! Helper structure defining an error message.
     struct ErrMsg {
         //! Constructor
         ErrMsg(int code, const char* message)

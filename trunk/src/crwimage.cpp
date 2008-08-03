@@ -42,6 +42,7 @@ EXIV2_RCSID("@(#) $Id$")
 #endif
 
 #include "crwimage.hpp"
+#include "crwimage_int.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 #include "value.hpp"
@@ -86,6 +87,153 @@ namespace {
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
+
+    using namespace Internal;
+
+    CrwImage::CrwImage(BasicIo::AutoPtr io, bool /*create*/)
+        : Image(ImageType::crw, mdExif | mdComment, io)
+    {
+    } // CrwImage::CrwImage
+
+    int CrwImage::pixelWidth() const
+    {
+        Exiv2::ExifData::const_iterator widthIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
+        return (widthIter == exifData_.end()) ? 0 : widthIter->toLong();
+    }
+
+    int CrwImage::pixelHeight() const
+    {
+        Exiv2::ExifData::const_iterator heightIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
+        return (heightIter == exifData_.end()) ? 0 : heightIter->toLong();
+    }
+
+    void CrwImage::setIptcData(const IptcData& /*iptcData*/)
+    {
+        // not supported
+        throw(Error(32, "IPTC metadata", "CRW"));
+    }
+
+    void CrwImage::readMetadata()
+    {
+#ifdef DEBUG
+        std::cerr << "Reading CRW file " << io_->path() << "\n";
+#endif
+        if (io_->open() != 0) {
+            throw Error(9, io_->path(), strError());
+        }
+        IoCloser closer(*io_);
+        // Ensure that this is the correct image type
+        if (!isCrwType(*io_, false)) {
+            if (io_->error() || io_->eof()) throw Error(14);
+            throw Error(33);
+        }
+        clearMetadata();
+        CrwParser::decode(this, io_->mmap(), io_->size());
+
+    } // CrwImage::readMetadata
+
+    void CrwImage::writeMetadata()
+    {
+#ifdef DEBUG
+        std::cerr << "Writing CRW file " << io_->path() << "\n";
+#endif
+        // Read existing image
+        DataBuf buf;
+        if (io_->open() == 0) {
+            IoCloser closer(*io_);
+            // Ensure that this is the correct image type
+            if (isCrwType(*io_, false)) {
+                // Read the image into a memory buffer
+                buf.alloc(io_->size());
+                io_->read(buf.pData_, buf.size_);
+                if (io_->error() || io_->eof()) {
+                    buf.reset();
+                }
+            }
+        }
+
+        Blob blob;
+        CrwParser::encode(blob, buf.pData_, buf.size_, this);
+
+        // Write new buffer to file
+        BasicIo::AutoPtr tempIo(io_->temporary()); // may throw
+        assert(tempIo.get() != 0);
+        tempIo->write(&blob[0], static_cast<long>(blob.size()));
+        io_->close();
+        io_->transfer(*tempIo); // may throw
+
+    } // CrwImage::writeMetadata
+
+    void CrwParser::decode(CrwImage* pCrwImage, const byte* pData, uint32_t size)
+    {
+        assert(pCrwImage != 0);
+        assert(pData != 0);
+
+        // Parse the image, starting with a CIFF header component
+        CiffHeader::AutoPtr head(new CiffHeader);
+        head->read(pData, size);
+#ifdef DEBUG
+        head->print(std::cerr);
+#endif
+        head->decode(*pCrwImage);
+
+    } // CrwParser::decode
+
+    void CrwParser::encode(
+              Blob&     blob,
+        const byte*     pData,
+              uint32_t  size,
+        const CrwImage* pCrwImage
+    )
+    {
+        // Parse image, starting with a CIFF header component
+        CiffHeader::AutoPtr head(new CiffHeader);
+        if (size != 0) {
+            head->read(pData, size);
+        }
+
+        // Encode Exif tags from image into the CRW parse tree and write the
+        // structure to the binary image blob
+        CrwMap::encode(head.get(), *pCrwImage);
+        head->write(blob);
+
+    } // CrwParser::encode
+
+    // *************************************************************************
+    // free functions
+    Image::AutoPtr newCrwInstance(BasicIo::AutoPtr io, bool create)
+    {
+        Image::AutoPtr image(new CrwImage(io, create));
+        if (!image->good()) {
+            image.reset();
+        }
+        return image;
+    }
+
+    bool isCrwType(BasicIo& iIo, bool advance)
+    {
+        bool result = true;
+        byte tmpBuf[14];
+        iIo.read(tmpBuf, 14);
+        if (iIo.error() || iIo.eof()) {
+            return false;
+        }
+        if (!(   ('I' == tmpBuf[0] && 'I' == tmpBuf[1])
+              || ('M' == tmpBuf[0] && 'M' == tmpBuf[1]))) {
+            result = false;
+        }
+        if (   true == result
+            && std::memcmp(tmpBuf + 6, CiffHeader::signature(), 8) != 0) {
+            result = false;
+        }
+        if (!advance || !result) iIo.seek(-14, BasicIo::cur);
+        return result;
+    }
+
+}                                       // namespace Exiv2
+
+namespace Exiv2 {
+    namespace Internal {
 
     /*
       Mapping table used to decode and encode CIFF tags to/from Exif tags.  Only
@@ -164,113 +312,6 @@ namespace Exiv2 {
         // End of list marker
         { 0xffff, 0xffff }
     };
-
-    CrwImage::CrwImage(BasicIo::AutoPtr io, bool /*create*/)
-        : Image(ImageType::crw, mdExif | mdComment, io)
-    {
-    } // CrwImage::CrwImage
-
-    int CrwImage::pixelWidth() const
-    {
-        Exiv2::ExifData::const_iterator widthIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
-        return (widthIter == exifData_.end()) ? 0 : widthIter->toLong();
-    }
-
-    int CrwImage::pixelHeight() const
-    {
-        Exiv2::ExifData::const_iterator heightIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
-        return (heightIter == exifData_.end()) ? 0 : heightIter->toLong();
-    }
-
-    void CrwImage::setIptcData(const IptcData& /*iptcData*/)
-    {
-        // not supported
-        throw(Error(32, "IPTC metadata", "CRW"));
-    }
-
-    void CrwImage::readMetadata()
-    {
-#ifdef DEBUG
-        std::cerr << "Reading CRW file " << io_->path() << "\n";
-#endif
-        if (io_->open() != 0) {
-            throw Error(9, io_->path(), strError());
-        }
-        IoCloser closer(*io_);
-        // Ensure that this is the correct image type
-        if (!isCrwType(*io_, false)) {
-            if (io_->error() || io_->eof()) throw Error(14);
-            throw Error(33);
-        }
-        clearMetadata();
-        CrwParser::decode(this, io_->mmap(), io_->size());
-
-    } // CrwImage::readMetadata
-
-    void CrwImage::writeMetadata()
-    {
-#ifdef DEBUG
-        std::cerr << "Writing CRW file " << io_->path() << "\n";
-#endif
-        // Read existing image
-        DataBuf buf;
-        if (io_->open() == 0) {
-            IoCloser closer(*io_);
-            // Ensure that this is the correct image type
-            if (isCrwType(*io_, false)) {
-                // Read the image into a memory buffer
-                buf.alloc(io_->size());
-                io_->read(buf.pData_, buf.size_);
-                if (io_->error() || io_->eof()) {
-                    buf.reset();
-                }
-            }
-        }
-
-        // Parse image, starting with a CIFF header component
-        CiffHeader::AutoPtr head(new CiffHeader);
-        if (buf.size_ != 0) {
-            head->read(buf.pData_, buf.size_);
-        }
-
-        Blob blob;
-        CrwParser::encode(blob, head.get(), this);
-
-        // Write new buffer to file
-        BasicIo::AutoPtr tempIo(io_->temporary()); // may throw
-        assert (tempIo.get() != 0);
-        tempIo->write(&blob[0], static_cast<long>(blob.size()));
-        io_->close();
-        io_->transfer(*tempIo); // may throw
-
-    } // CrwImage::writeMetadata
-
-    void CrwParser::decode(CrwImage* pCrwImage, const byte* pData, uint32_t size)
-    {
-        assert(pCrwImage != 0);
-        assert(pData != 0);
-
-        // Parse the image, starting with a CIFF header component
-        CiffHeader::AutoPtr head(new CiffHeader);
-        head->read(pData, size);
-#ifdef DEBUG
-        head->print(std::cerr);
-#endif
-        head->decode(*pCrwImage);
-
-    } // CrwParser::decode
-
-    void CrwParser::encode(Blob& blob, CiffHeader* pHead, const CrwImage* pCrwImage)
-    {
-        assert(pCrwImage != 0);
-        assert(pHead != 0);
-
-        // Encode Exif tags from image into the Crw parse tree and write the structure
-        // to the binary image blob
-        CrwMap::encode(pHead, *pCrwImage);
-        pHead->write(blob);
-
-    } // CrwParser::encode
 
     const char CiffHeader::signature_[] = "HEAPCCDR";
 
@@ -1299,35 +1340,6 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newCrwInstance(BasicIo::AutoPtr io, bool create)
-    {
-        Image::AutoPtr image(new CrwImage(io, create));
-        if (!image->good()) {
-            image.reset();
-        }
-        return image;
-    }
-
-    bool isCrwType(BasicIo& iIo, bool advance)
-    {
-        bool result = true;
-        byte tmpBuf[14];
-        iIo.read(tmpBuf, 14);
-        if (iIo.error() || iIo.eof()) {
-            return false;
-        }
-        if (!(   ('I' == tmpBuf[0] && 'I' == tmpBuf[1])
-              || ('M' == tmpBuf[0] && 'M' == tmpBuf[1]))) {
-            result = false;
-        }
-        if (   true == result
-            && std::memcmp(tmpBuf + 6, CiffHeader::signature(), 8) != 0) {
-            result = false;
-        }
-        if (!advance || !result) iIo.seek(-14, BasicIo::cur);
-        return result;
-    }
-
     DataBuf packIfdId(const ExifData& exifData,
                             IfdId     ifdId,
                             ByteOrder byteOrder)
@@ -1351,7 +1363,7 @@ namespace Exiv2 {
         return buf;
     }
 
-}                                       // namespace Exiv2
+}}                                       // namespace Internal, Exiv2
 
 // *****************************************************************************
 // local definitions

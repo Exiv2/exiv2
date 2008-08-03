@@ -46,7 +46,7 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
-    //! Contains information about one record
+    //! Details of an IPTC record.
     struct RecordInfo {
         //! Constructor
         RecordInfo(uint16_t recordId, const char* name, const char* desc);
@@ -55,7 +55,7 @@ namespace Exiv2 {
         const char* desc_;                      //!< Record description
     };
 
-    //! Dataset information
+    //! Details of an IPTC dataset.
     struct DataSet {
         //! Constructor
         DataSet(
@@ -84,7 +84,7 @@ namespace Exiv2 {
         const char* photoshop_;                 //!< Photoshop string
     }; // struct DataSet
 
-    //! Container for IPTC dataset information. Implemented as a static class.
+    //! IPTC dataset reference, implemented as a static class.
     class IptcDataSets {
     public:
         /*!

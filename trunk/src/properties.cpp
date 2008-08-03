@@ -47,9 +47,27 @@ EXIV2_RCSID("@(#) $Id$")
 #include <cstdlib>
 
 // *****************************************************************************
+namespace {
+
+    //! Struct used in the lookup table for pretty print functions
+    struct XmpPrintInfo {
+        //! Comparison operator for key
+        bool operator==(const std::string& key) const
+        {
+            return std::string(key_) == key;
+        }
+
+        const char* key_;               //!< XMP key
+        Exiv2::PrintFct printFct_;             //!< Print function
+    };
+
+}
+
+// *****************************************************************************
 // class member definitions
 namespace Exiv2 {
 
+    //! @cond IGNORE
     extern const XmpPropertyInfo xmpDcInfo[];
     extern const XmpPropertyInfo xmpDigikamInfo[];
     extern const XmpPropertyInfo xmpXmpInfo[];
@@ -690,11 +708,6 @@ namespace Exiv2 {
         return n == name;
     }
 
-    bool XmpPrintInfo::operator==(const std::string& key) const
-    {
-        return std::string(key_) == key;
-    }
-
     XmpProperties::NsRegistry XmpProperties::nsRegistry_;
 
     const XmpNsInfo* XmpProperties::lookupNsRegistry(const XmpNsInfo::Prefix& prefix)
@@ -985,5 +998,6 @@ namespace Exiv2 {
                   << ( property.xmpCategory_ == xmpExternal ? "External" : "Internal" ) << ",\t"
                   << property.desc_                       << "\n";
     }
+    //! @endcond
 
 }                                       // namespace Exiv2

@@ -132,7 +132,6 @@ namespace Exiv2 {
         lastTypeId    =0x1ffff  //!< Last type id.
     };
 
-    // Todo: decentralize IfdId, so that new ids can be defined elsewhere
     //! Type to specify the IFD to which a metadata belongs
     enum IfdId { ifdIdNotSet,
                  ifd0Id, exifIfdId, gpsIfdId, iopIfdId, ifd1Id,
@@ -144,11 +143,6 @@ namespace Exiv2 {
                  nikon1IfdId, nikon2IfdId, nikon3IfdId, nikonPvIfdId,
                  olympusIfdId, panasonicIfdId, pentaxIfdId, sigmaIfdId, sonyIfdId,
                  lastIfdId };
-
-    //! Type to identify where the data is stored in a directory
-    enum DataLocId { invalidDataLocId,
-                     valueData, directoryData,
-                     lastDataLocId };
 
     //! Container for binary data
     typedef std::vector<byte> Blob;

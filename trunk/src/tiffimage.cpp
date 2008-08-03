@@ -59,7 +59,6 @@ EXIV2_RCSID("@(#) $Id$")
 
    Todo:
 
-   + Support all TIFF data types
    + Review boundary checking, is it better to check the offsets?
    + Define and implement consistent error handling for recursive hierarchy
    + Make TiffImage a template StandardImage, which can be parametrized with
@@ -83,9 +82,6 @@ EXIV2_RCSID("@(#) $Id$")
    + Fix CiffHeader according to TiffHeade2
    + Combine Error(15) and Error(33), add format argument %1
    + Search crwimage for todos, fix writeMetadata comment
-   + Add Ciff components to TIFF component hierarchy
-   + rename all Ciff stuff to Crw for easier reference - not needed when CIFF
-     components are part of the TIFF hierarchy
    + rename loadStack to getPath for consistency
 
    -------------------------------------------------------------------------- */

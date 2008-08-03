@@ -57,8 +57,8 @@ namespace Exiv2 {
 // class definitions
 
     /*!
-      @brief Information related to one Exif tag. An Exif metadatum consists of
-             an ExifKey and a Value and provides methods to manipulate these.
+      @brief An Exif metadatum, consisting of an ExifKey and a Value and
+             methods to manipulate these.
      */
     class Exifdatum : public Metadatum {
         template<typename T> friend Exifdatum& setValue(Exifdatum&, const T&);
