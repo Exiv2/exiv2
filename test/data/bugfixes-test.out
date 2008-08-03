@@ -208,6 +208,7 @@ Set Exif.Photo.UserComment "A comment" (Comment)
 Exif.Image.ExifTag                           Long        1  26
 Exif.Photo.UserComment                       Undefined  17  A comment
 ------> Bug 447 <-------
+Error: Directory NikonPreview with 8224 entries considered invalid; not read.
 Warning: Directory Photo, entry 0x9286 has unknown Exif (TIFF) type 14; setting type size 1.
 Iptc.Application2.Caption                    String      0  
 Iptc.Application2.DateCreated                Date        8  2005-08-09

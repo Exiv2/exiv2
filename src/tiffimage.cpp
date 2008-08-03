@@ -368,14 +368,14 @@ namespace Exiv2 {
 
         // Nikon3 makernote
         { Tag::next, Group::nikon3mn,  Group::ignr,      0x927c,    Group::exif,      newTiffDirectory },
-        {    0x0011, Group::nikon3mn,  Group::nikon3pv,  0x927c,    Group::exif,      newTiffSubIfd },
+        {    0x0011, Group::nikon3mn,  Group::nikonpv,   0x927c,    Group::exif,      newTiffSubIfd },
         {  Tag::all, Group::nikon3mn,  Group::nikon3mn,  0x927c,    Group::exif,      newTiffEntry },
 
         // Nikon3 makernote preview sub-IFD
-        {    0x0201, Group::nikon3pv,  Group::nikon3pv,  0x0011,    Group::nikon3mn,  newTiffThumbData<0x0202, Group::nikon3pv> },
-        {    0x0202, Group::nikon3pv,  Group::nikon3pv,  0x0011,    Group::nikon3mn,  newTiffThumbSize<0x0201, Group::nikon3pv> },
-        { Tag::next, Group::nikon3pv,  Group::ignr,      0x0011,    Group::nikon3mn,  newTiffDirectory },
-        {  Tag::all, Group::nikon3pv,  Group::nikon3pv,  0x0011,    Group::nikon3mn,  newTiffEntry },
+        {    0x0201, Group::nikonpv,   Group::nikonpv,   0x0011,    Group::nikon3mn,  newTiffThumbData<0x0202, Group::nikonpv> },
+        {    0x0202, Group::nikonpv,   Group::nikonpv,   0x0011,    Group::nikon3mn,  newTiffThumbSize<0x0201, Group::nikonpv> },
+        { Tag::next, Group::nikonpv,   Group::ignr,      0x0011,    Group::nikon3mn,  newTiffDirectory },
+        {  Tag::all, Group::nikonpv,   Group::nikonpv,   0x0011,    Group::nikon3mn,  newTiffEntry },
 
         // Panasonic makernote
         { Tag::next, Group::panamn,    Group::ignr,      0x927c,    Group::exif,      newTiffDirectory },
