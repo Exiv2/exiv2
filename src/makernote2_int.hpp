@@ -275,7 +275,7 @@ namespace Exiv2 {
                                  int32_t   offset,
                                  uint32_t  valueIdx,
                                  uint32_t  dataIdx,
-                                 uint32_t  imageIdx);
+                                 uint32_t& imageIdx);
         //@}
         //! @name Write support (Accessors)
         //@{
@@ -287,15 +287,13 @@ namespace Exiv2 {
                                      ByteOrder byteOrder,
                                      int32_t   offset,
                                      uint32_t  dataIdx,
-                                     uint32_t  imageIdx) const;
+                                     uint32_t& imageIdx) const;
         /*!
-          @brief This class does not really implement writeImage(), it only has
-                 write(). This method must not be called; it commits suicide.
+          @brief Implements writeImage(). Write the image data of the IFD of
+                 the Makernote. Return the number of bytes written.
          */
         virtual uint32_t doWriteImage(Blob&     blob,
-                                      ByteOrder byteOrder,
-                                      int32_t   offset,
-                                      uint32_t  imageIdx) const;
+                                      ByteOrder byteOrder) const;
         /*!
           @brief Implements size(). Return the size of the Makernote header,
                  TIFF directory, values and additional data.
@@ -313,8 +311,8 @@ namespace Exiv2 {
          */
         virtual uint32_t doSizeData() const;
         /*!
-          @brief This class does not really implement sizeData(), it only has
-                 size(). This method must not be called; it commits suicide.
+          @brief Implements sizeImage(). Return the total image data size of the
+                 makernote IFD.
          */
         virtual uint32_t doSizeImage() const;
         //@}
