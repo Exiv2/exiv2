@@ -775,18 +775,7 @@ namespace Exiv2 {
 
         // 3rd: Write data - may contain offsets too (eg sub-IFD)
         dataIdx = sizeDir + sizeValue;
-        for (Components::const_iterator i = components_.begin(); i != components_.end(); ++i) {
-            uint32_t sd = (*i)->writeData(blob, byteOrder, offset, dataIdx, imageIdx);
-            assert((*i)->sizeData() == sd);
-            if ((sd & 1) == 1) {
-                blob.push_back(0x0);        // Align data to word boundary
-                sd += 1;
-            }
-            idx += sd;
-            dataIdx += sd;
-        }
-        // No assertion (sizeData may not be available, see above)
-        // assert(idx == sizeDir + sizeValue + sizeData);
+        idx += writeData(blob, byteOrder, offset, dataIdx, imageIdx);
 
         // 4th: Write next-IFD
         if (pNext_ && sizeNext) {
@@ -1033,15 +1022,17 @@ namespace Exiv2 {
         return doWriteData(blob, byteOrder, offset, dataIdx, imageIdx);
     } // TiffComponent::writeData
 
-    uint32_t TiffDirectory::doWriteData(Blob&     /*blob*/,
-                                        ByteOrder /*byteOrder*/,
-                                        int32_t   /*offset*/,
-                                        uint32_t  /*dataIdx*/,
-                                        uint32_t& /*imageIdx*/) const
+    uint32_t TiffDirectory::doWriteData(Blob&     blob,
+                                        ByteOrder byteOrder,
+                                        int32_t   offset,
+                                        uint32_t  dataIdx,
+                                        uint32_t& imageIdx) const
     {
-        // We don't expect this method to be called. This makes it obvious.
-        assert(false);
-        return 0;
+        uint32_t len = 0;
+        for (Components::const_iterator i = components_.begin(); i != components_.end(); ++i) {
+            len += (*i)->writeData(blob, byteOrder, offset, dataIdx + len, imageIdx);
+        }
+        return len;
     } // TiffDirectory::doWriteData
 
     uint32_t TiffEntryBase::doWriteData(Blob&     /*blob*/,
@@ -1063,7 +1054,11 @@ namespace Exiv2 {
 
         DataBuf buf = pValue()->dataArea();
         append(blob, buf.pData_, buf.size_);
-        return buf.size_;
+        // Align data to word boundary
+        uint32_t align = (buf.size_ & 1);
+        if (align) blob.push_back(0x0);
+
+        return buf.size_ + align;
     } // TiffDataEntry::doWriteData
 
     uint32_t TiffSubIfd::doWriteData(Blob&     blob,
@@ -1076,7 +1071,11 @@ namespace Exiv2 {
         for (Ifds::const_iterator i = ifds_.begin(); i != ifds_.end(); ++i) {
             len  += (*i)->write(blob, byteOrder, offset + dataIdx + len, uint32_t(-1), uint32_t(-1), imageIdx);
         }
-        return len;
+        // Align data to word boundary
+        uint32_t align = (len & 1);
+        if (align) blob.push_back(0x0);
+
+        return len + align;
     } // TiffSubIfd::doWriteData
 
     uint32_t TiffComponent::writeImage(Blob&     blob,
@@ -1112,7 +1111,7 @@ namespace Exiv2 {
             len  += (*i)->writeImage(blob, byteOrder);
         }
         return len;
-    } // TiffSubIfd::doWriteData
+    } // TiffSubIfd::doWriteImage
 
     uint32_t TiffImageEntry::doWriteImage(Blob&     blob,
                                           ByteOrder /*byteOrder*/) const
@@ -1124,11 +1123,8 @@ namespace Exiv2 {
             blob.reserve(size + sz + 65536);
         }
         // Align image data to word boundary
-        uint32_t align = 0;
-        if ((blob.size() & 1) == 1) {
-            blob.push_back(0x0);
-            align = 1;
-        }
+        uint32_t align = (blob.size() & 1);
+        if (align) blob.push_back(0x0);
 
         uint32_t len = pValue()->sizeDataArea();
         if (len > 0) {
