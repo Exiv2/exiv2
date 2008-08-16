@@ -135,6 +135,7 @@ namespace Exiv2 {
     //! Type to specify the IFD to which a metadata belongs
     enum IfdId { ifdIdNotSet,
                  ifd0Id, exifIfdId, gpsIfdId, iopIfdId, ifd1Id,
+                 subImage1Id, subImage2Id, subImage3Id, subImage4Id,
                  canonIfdId, canonCsIfdId, canonSiIfdId, canonCfIfdId,
                  canonPiIfdId, canonPaIfdId,
                  fujiIfdId,

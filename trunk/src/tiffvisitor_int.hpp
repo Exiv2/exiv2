@@ -263,8 +263,6 @@ namespace Exiv2 {
         void decodeStdTiffEntry(const TiffEntryBase* object);
         //! Decode Olympus Thumbnail from the TIFF makernote into IFD1
         void decodeOlympThumb(const TiffEntryBase* object);
-        //! Decode SubIFD contents to Image group if it contains primary image data
-        void decodeSubIfd(const TiffEntryBase* object);
         //! Decode IPTC data from an IPTCNAA tag or Photoshop ImageResources
         void decodeIptc(const TiffEntryBase* object);
         //! Decode XMP packet from an XMLPacket tag
@@ -272,13 +270,8 @@ namespace Exiv2 {
         //@}
 
     private:
-        //! Tag priorities
-        enum Prio { pvNormal, pvHigh };
-
         //! @name Manipulators
         //@{
-        //! Set an Exif tag in the image.
-        void setExifTag(const ExifKey& key, const Value* pValue, Prio prio);
         /*!
           @brief Get the data for a \em tag and \em group, either from the
                  \em object provided, if it matches or from the matching element
@@ -308,10 +301,6 @@ namespace Exiv2 {
         GroupType groupType_;        //!< NewSubfileType for each group
 
         bool decodedIptc_;           //!< Indicates if IPTC has been decoded yet
-
-        //! Type used as the container for "priority keys"
-        typedef std::set<std::string> PriorityKeys;
-        PriorityKeys priorityKeys_;  //!< Priority keys
 
     }; // class TiffDecoder
 

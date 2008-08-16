@@ -288,22 +288,43 @@ namespace Exiv2 {
         {    0x8825, Group::ifd0,      Group::gps,       Tag::root, Group::none,      newTiffSubIfd },
         {    0x0111, Group::ifd0,      Group::ifd0,      Tag::root, Group::none,      newTiffImageData<0x0117, Group::ifd0> },
         {    0x0117, Group::ifd0,      Group::ifd0,      Tag::root, Group::none,      newTiffImageSize<0x0111, Group::ifd0> },
-        // SubIfd found in NEF images (up to 3 sub directories seen, groups sub0_0, sub0_1, sub0_2)
-        {    0x014a, Group::ifd0,      Group::sub0_0,    Tag::root, Group::none,      newTiffSubIfd },
+        {    0x0201, Group::ifd0,      Group::ifd0,      Tag::root, Group::ifd0,      newTiffImageData<0x0202, Group::ifd0> },
+        {    0x0202, Group::ifd0,      Group::ifd0,      Tag::root, Group::ifd0,      newTiffImageSize<0x0201, Group::ifd0> },
+        {    0x014a, Group::ifd0,      Group::subimg1,   Tag::root, Group::none,      newTiffSubIfd },
         { Tag::next, Group::ifd0,      Group::ifd1,      Tag::root, Group::none,      newTiffDirectory },
         {  Tag::all, Group::ifd0,      Group::ifd0,      Tag::root, Group::none,      newTiffEntry },
 
-        // Subdir sub0_0
-        { Tag::next, Group::sub0_0,    Group::ignr,      0x014a,    Group::ifd0,      newTiffDirectory },
-        {  Tag::all, Group::sub0_0,    Group::sub0_0,    0x014a,    Group::ifd0,      newTiffEntry },
+        // Subdir subimg1
+        {    0x0111, Group::subimg1,   Group::subimg1,   0x014a,    Group::ifd0,      newTiffImageData<0x0117, Group::subimg1> },
+        {    0x0117, Group::subimg1,   Group::subimg1,   0x014a,    Group::ifd0,      newTiffImageSize<0x0111, Group::subimg1> },
+        {    0x0201, Group::subimg1,   Group::subimg1,   0x014a,    Group::ifd0,      newTiffImageData<0x0202, Group::subimg1> },
+        {    0x0202, Group::subimg1,   Group::subimg1,   0x014a,    Group::ifd0,      newTiffImageSize<0x0201, Group::subimg1> },
+        { Tag::next, Group::subimg1,   Group::ignr,      0x014a,    Group::ifd0,      newTiffDirectory },
+        {  Tag::all, Group::subimg1,   Group::subimg1,   0x014a,    Group::ifd0,      newTiffEntry },
 
-        // Subdir sub0_1
-        { Tag::next, Group::sub0_1,    Group::ignr,      0x014a,    Group::ifd0,      newTiffDirectory },
-        {  Tag::all, Group::sub0_1,    Group::sub0_1,    0x014a,    Group::ifd0,      newTiffEntry },
+        // Subdir subimg2
+        {    0x0111, Group::subimg2,   Group::subimg2,   0x014a,    Group::ifd0,      newTiffImageData<0x0117, Group::subimg2> },
+        {    0x0117, Group::subimg2,   Group::subimg2,   0x014a,    Group::ifd0,      newTiffImageSize<0x0111, Group::subimg2> },
+        {    0x0201, Group::subimg2,   Group::subimg2,   0x014a,    Group::ifd0,      newTiffImageData<0x0202, Group::subimg2> },
+        {    0x0202, Group::subimg2,   Group::subimg2,   0x014a,    Group::ifd0,      newTiffImageSize<0x0201, Group::subimg2> },
+        { Tag::next, Group::subimg2,   Group::ignr,      0x014a,    Group::ifd0,      newTiffDirectory },
+        {  Tag::all, Group::subimg2,   Group::subimg2,   0x014a,    Group::ifd0,      newTiffEntry },
 
-        // Subdir sub0_2
-        { Tag::next, Group::sub0_2,    Group::ignr,      0x014a,    Group::ifd0,      newTiffDirectory },
-        {  Tag::all, Group::sub0_2,    Group::sub0_2,    0x014a,    Group::ifd0,      newTiffEntry },
+        // Subdir subimg3
+        {    0x0111, Group::subimg3,   Group::subimg3,   0x014a,    Group::ifd0,      newTiffImageData<0x0117, Group::subimg3> },
+        {    0x0117, Group::subimg3,   Group::subimg3,   0x014a,    Group::ifd0,      newTiffImageSize<0x0111, Group::subimg3> },
+        {    0x0201, Group::subimg3,   Group::subimg3,   0x014a,    Group::ifd0,      newTiffImageData<0x0202, Group::subimg3> },
+        {    0x0202, Group::subimg3,   Group::subimg3,   0x014a,    Group::ifd0,      newTiffImageSize<0x0201, Group::subimg3> },
+        { Tag::next, Group::subimg3,   Group::ignr,      0x014a,    Group::ifd0,      newTiffDirectory },
+        {  Tag::all, Group::subimg3,   Group::subimg3,   0x014a,    Group::ifd0,      newTiffEntry },
+
+        // Subdir subimg4
+        {    0x0111, Group::subimg4,   Group::subimg4,   0x014a,    Group::ifd0,      newTiffImageData<0x0117, Group::subimg4> },
+        {    0x0117, Group::subimg4,   Group::subimg4,   0x014a,    Group::ifd0,      newTiffImageSize<0x0111, Group::subimg4> },
+        {    0x0201, Group::subimg4,   Group::subimg4,   0x014a,    Group::ifd0,      newTiffImageData<0x0202, Group::subimg4> },
+        {    0x0202, Group::subimg4,   Group::subimg4,   0x014a,    Group::ifd0,      newTiffImageSize<0x0201, Group::subimg4> },
+        { Tag::next, Group::subimg4,   Group::ignr,      0x014a,    Group::ifd0,      newTiffDirectory },
+        {  Tag::all, Group::subimg4,   Group::subimg4,   0x014a,    Group::ifd0,      newTiffEntry },
 
         // Exif subdir
         {    0xa005, Group::exif,      Group::iop,       0x8769,    Group::ifd0,      newTiffSubIfd },
@@ -418,9 +439,6 @@ namespace Exiv2 {
     const TiffMappingInfo TiffMapping::tiffMappingInfo_[] = {
         { "*",       Tag::all, Group::ignr,    0, 0 }, // Do not decode tags with group == Group::ignr
         { "OLYMPUS",   0x0100, Group::olympmn, &TiffDecoder::decodeOlympThumb,   &TiffEncoder::encodeOlympThumb     },
-        { "*",         0x014a, Group::ifd0,    0, 0 }, // Todo: Controversial, causes problems with Exiftool
-        { "*",       Tag::all, Group::sub0_0,  &TiffDecoder::decodeSubIfd,       0 /*Todo*/                         },
-        { "*",       Tag::all, Group::sub0_1,  &TiffDecoder::decodeSubIfd,       0 /*Todo*/                         },
         { "*",         0x02bc, Group::ifd0,    &TiffDecoder::decodeXmp,          0 /*done before the tree is traversed*/ },
         { "*",         0x83bb, Group::ifd0,    &TiffDecoder::decodeIptc,         0 /*done before the tree is traversed*/ },
         { "*",         0x8649, Group::ifd0,    &TiffDecoder::decodeIptc,         0 /*done before the tree is traversed*/ },
@@ -578,7 +596,8 @@ namespace Exiv2 {
             encoder.add(createdTree.get(), parsedTree.get(), createFct);
             // Write binary representation from the composite tree
             uint32_t offset = pHeader->write(blob);
-            uint32_t len = createdTree->write(blob, pHeader->byteOrder(), offset, uint32_t(-1), uint32_t(-1), uint32_t(-1));
+            uint32_t imageIdx(-1);
+            uint32_t len = createdTree->write(blob, pHeader->byteOrder(), offset, uint32_t(-1), uint32_t(-1), imageIdx);
             // Avoid writing just the header if there is no IFD data
             if (len == 0) blob.clear();
 #ifdef DEBUG

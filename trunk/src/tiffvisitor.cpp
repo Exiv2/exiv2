@@ -325,25 +325,6 @@ namespace Exiv2 {
         }
     } // TiffMetadataDecoder::decodeIptc
 
-    void TiffDecoder::decodeSubIfd(const TiffEntryBase* object)
-    {
-        assert(object);
-
-        // Only applicable if ifd0 NewSubfileType is Thumbnail/Preview image
-        GroupType::const_iterator i = groupType_.find(Group::ifd0);
-        if (i == groupType_.end() || (i->second & 1) == 0) return;
-
-        // Only applicable if subIFD NewSubfileType is Primary image
-        i = groupType_.find(object->group());
-        if (i == groupType_.end() || (i->second & 1) == 1) return;
-
-        // Todo: ExifKey should have an appropriate c'tor, it should not be
-        //       necessary to use groupName here
-        ExifKey key(object->tag(), tiffGroupName(Group::ifd0));
-        setExifTag(key, object->pValue(), pvHigh);
-
-    }
-
     void TiffDecoder::decodeTiffEntry(const TiffEntryBase* object)
     {
         assert(object != 0);
@@ -371,34 +352,9 @@ namespace Exiv2 {
         // Todo: ExifKey should have an appropriate c'tor, it should not be
         //       necessary to use groupName here
         ExifKey key(object->tag(), tiffGroupName(object->group()));
-        setExifTag(key, object->pValue(), pvNormal);
+        exifData_.add(key, object->pValue());
 
     } // TiffDecoder::decodeTiffEntry
-
-    void TiffDecoder::setExifTag(const ExifKey& key, const Value* pValue, Prio prio)
-    {
-        bool isRegPrioTag = (priorityKeys_.find(key.key()) != priorityKeys_.end());
-
-        switch (prio) {
-        case pvNormal:
-            // If key is not registered as high prio tag, add it
-            if (!isRegPrioTag) exifData_.add(key, pValue);
-            break;
-        case pvHigh:
-            // Register the key as a high prio tag, erase low prio tags, add this
-            if (!isRegPrioTag) {
-                priorityKeys_.insert(key.key());
-                ExifData::iterator pos = exifData_.findKey(key);
-                while (pos != exifData_.end()) {
-                    exifData_.erase(pos);
-                    pos = exifData_.findKey(key);
-                }
-            }
-            exifData_.add(key, pValue);
-            break;
-        }
-
-    } // TiffDecoder::setExifTag
 
     void TiffDecoder::visitArrayEntry(TiffArrayEntry* /*object*/)
     {

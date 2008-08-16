@@ -186,7 +186,7 @@ namespace Exiv2 {
                                        int32_t   offset,
                                        uint32_t  /*valueIdx*/,
                                        uint32_t  /*dataIdx*/,
-                                       uint32_t  imageIdx)
+                                       uint32_t& imageIdx)
     {
         if (this->byteOrder() != invalidByteOrder) {
             byteOrder = this->byteOrder();
@@ -203,19 +203,20 @@ namespace Exiv2 {
                                            ByteOrder /*byteOrder*/,
                                            int32_t   /*offset*/,
                                            uint32_t  /*dataIdx*/,
-                                           uint32_t  /*imageIdx*/) const
+                                           uint32_t& /*imageIdx*/) const
     {
         assert(false);
         return 0;
     } // TiffIfdMakernote::doWriteData
 
-    uint32_t TiffIfdMakernote::doWriteImage(Blob&     /*blob*/,
-                                            ByteOrder /*byteOrder*/,
-                                            int32_t   /*offset*/,
-                                            uint32_t  /*imageIdx*/) const
+    uint32_t TiffIfdMakernote::doWriteImage(Blob&     blob,
+                                            ByteOrder byteOrder) const
     {
-        assert(false);
-        return 0;
+        if (this->byteOrder() != invalidByteOrder) {
+            byteOrder = this->byteOrder();
+        }
+        uint32_t len = ifd_.writeImage(blob, byteOrder);
+        return len;
     } // TiffIfdMakernote::doWriteImage
 
     uint32_t TiffIfdMakernote::doSize() const
@@ -236,8 +237,7 @@ namespace Exiv2 {
 
     uint32_t TiffIfdMakernote::doSizeImage() const
     {
-        assert(false);
-        return 0;
+        return ifd_.sizeImage();
     } // TiffIfdMakernote::doSizeImage
 
     const byte OlympusMnHeader::signature_[] = {

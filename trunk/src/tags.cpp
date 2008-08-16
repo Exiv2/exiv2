@@ -86,6 +86,10 @@ namespace Exiv2 {
         { gpsIfdId,          "GPSInfo",   "GPSInfo",      ExifTags::gpsTagList           },
         { iopIfdId,          "Iop",       "Iop",          ExifTags::iopTagList           },
         { ifd1Id,            "IFD1",      "Thumbnail",    ExifTags::ifdTagList           },
+        { subImage1Id,       "SubImage1", "SubImage1",    ExifTags::ifdTagList           },
+        { subImage2Id,       "SubImage2", "SubImage2",    ExifTags::ifdTagList           },
+        { subImage3Id,       "SubImage3", "SubImage3",    ExifTags::ifdTagList           },
+        { subImage4Id,       "SubImage4", "SubImage4",    ExifTags::ifdTagList           },
         { canonIfdId,        "Makernote", "Canon",        CanonMakerNote::tagList        },
         { canonCsIfdId,      "Makernote", "CanonCs",      CanonMakerNote::tagListCs      },
         { canonSiIfdId,      "Makernote", "CanonSi",      CanonMakerNote::tagListSi      },
@@ -1262,12 +1266,16 @@ namespace Exiv2 {
     {
         bool rc;
         switch (ifdId) {
-        case ifd0Id:    rc = true; break;
-        case exifIfdId: rc = true; break;
-        case gpsIfdId:  rc = true; break;
-        case iopIfdId:  rc = true; break;
-        case ifd1Id:    rc = true; break;
-        default:        rc = false; break;
+        case ifd0Id:
+        case exifIfdId:
+        case gpsIfdId:
+        case iopIfdId:
+        case ifd1Id:
+        case subImage1Id:
+        case subImage2Id:
+        case subImage3Id:
+        case subImage4Id: rc = true; break;
+        default:          rc = false; break;
         }
         return rc;
     } // ExifTags::isExifIfd

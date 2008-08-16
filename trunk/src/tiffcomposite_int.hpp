@@ -84,10 +84,10 @@ namespace Exiv2 {
         const uint16_t exif    =   3; //!< Exif IFD
         const uint16_t gps     =   4; //!< GPS IFD
         const uint16_t iop     =   5; //!< Interoperability IFD
-        const uint16_t sub0_0  =   6; //!< Tiff SubIFD 0 in IFD0
-        const uint16_t sub0_1  =   7; //!< Tiff SubIFD 1 in IFD0
-        const uint16_t sub0_2  =   8; //!< Tiff SubIFD 2 in IFD0
-        const uint16_t sub0_3  =   9; //!< Tiff SubIFD 3 in IFD0
+        const uint16_t subimg1 =   6; //!< 1st TIFF SubIFD in IFD0
+        const uint16_t subimg2 =   7; //!< 2nd TIFF SubIFD in IFD0
+        const uint16_t subimg3 =   8; //!< 3rd TIFF SubIFD in IFD0
+        const uint16_t subimg4 =   9; //!< 4th TIFF SubIFD in IFD0
         const uint16_t mn      = 256; //!< Makernote
         const uint16_t ignr    = 511; //!< Read but do not decode
     }
@@ -198,7 +198,7 @@ namespace Exiv2 {
                        int32_t   offset,
                        uint32_t  valueIdx,
                        uint32_t  dataIdx,
-                       uint32_t  imageIdx);
+                       uint32_t& imageIdx);
         //@}
 
         //! @name Write support (Accessors)
@@ -212,16 +212,14 @@ namespace Exiv2 {
                            ByteOrder byteOrder,
                            int32_t   offset,
                            uint32_t  dataIdx,
-                           uint32_t  imageIdx) const;
+                           uint32_t& imageIdx) const;
         /*!
           @brief Write the image data of this component to a binary image.
-                 Return the number of bytes written. Components derived from
-                 TiffEntryBase implement this method if needed.
+                 Return the number of bytes written. TIFF components implement
+                 this method if needed.
          */
         uint32_t writeImage(Blob&     blob,
-                            ByteOrder byteOrder,
-                            int32_t   offset,
-                            uint32_t  imageIdx) const;
+                            ByteOrder byteOrder) const;
         /*!
           @brief Return the size in bytes of the IFD value of this component
                  when written to a binary image.
@@ -239,10 +237,10 @@ namespace Exiv2 {
          */
         uint32_t sizeData() const;
         /*!
-          @brief Return the size in bytes of the image data of this component when
-                 written to a binary image.  This is a support function for
-                 write(). Components derived from TiffEntryBase implement this
-                 method corresponding to their implementation of writeImage().
+          @brief Return the size in bytes of the image data of this component
+                 when written to a binary image.  This is a support function for
+                 write(). TIFF components implement this method corresponding to
+                 their implementation of writeImage().
          */
         uint32_t sizeImage() const;
         //@}
@@ -269,7 +267,7 @@ namespace Exiv2 {
                                  int32_t   offset,
                                  uint32_t  valueIdx,
                                  uint32_t  dataIdx,
-                                 uint32_t  imageIdx) =0;
+                                 uint32_t& imageIdx) =0;
         //@}
 
         //! @name Write support (Accessors)
@@ -279,12 +277,10 @@ namespace Exiv2 {
                                      ByteOrder byteOrder,
                                      int32_t   offset,
                                      uint32_t  dataIdx,
-                                     uint32_t  imageIdx) const =0;
+                                     uint32_t& imageIdx) const =0;
         //! Implements writeImage().
         virtual uint32_t doWriteImage(Blob&     blob,
-                                      ByteOrder byteOrder,
-                                      int32_t   offset,
-                                      uint32_t  imageIdx) const =0;
+                                      ByteOrder byteOrder) const =0;
         //! Implements size().
         virtual uint32_t doSize() const =0;
         //! Implements count().
@@ -460,7 +456,7 @@ namespace Exiv2 {
                                  int32_t   offset,
                                  uint32_t  valueIdx,
                                  uint32_t  dataIdx,
-                                 uint32_t  imageIdx);
+                                 uint32_t& imageIdx);
         //@}
         //! @name Write support (Accessors)
         //@{
@@ -472,15 +468,13 @@ namespace Exiv2 {
                                      ByteOrder byteOrder,
                                      int32_t   offset,
                                      uint32_t  dataIdx,
-                                     uint32_t  imageIdx) const;
+                                     uint32_t& imageIdx) const;
         /*!
           @brief Implements writeImage(). Standard TIFF entries have no image data:
                  write nothing and return 0.
          */
         virtual uint32_t doWriteImage(Blob&     blob,
-                                      ByteOrder byteOrder,
-                                      int32_t   offset,
-                                      uint32_t  imageIdx) const;
+                                      ByteOrder byteOrder) const;
         //! Implements size(). Return the size of a standard TIFF entry
         virtual uint32_t doSize() const;
         //! Implements sizeData(). Return 0.
@@ -648,7 +642,7 @@ namespace Exiv2 {
                                  int32_t   offset,
                                  uint32_t  valueIdx,
                                  uint32_t  dataIdx,
-                                 uint32_t  imageIdx);
+                                 uint32_t& imageIdx);
         //@}
         //! @name Write support (Accessors)
         //@{
@@ -660,7 +654,7 @@ namespace Exiv2 {
                                      ByteOrder byteOrder,
                                      int32_t   offset,
                                      uint32_t  dataIdx,
-                                     uint32_t  imageIdx) const;
+                                     uint32_t& imageIdx) const;
         // Using doWriteImage from base class
         // Using doSize() from base class
         //! Implements sizeData(). Return the size of the data area.
@@ -726,7 +720,7 @@ namespace Exiv2 {
                                  int32_t   offset,
                                  uint32_t  valueIdx,
                                  uint32_t  dataIdx,
-                                 uint32_t  imageIdx);
+                                 uint32_t& imageIdx);
         //@}
         //! @name Write support (Accessors)
         //@{
@@ -736,9 +730,7 @@ namespace Exiv2 {
                  Return the number of bytes written.
          */
         virtual uint32_t doWriteImage(Blob&     blob,
-                                      ByteOrder byteOrder,
-                                      int32_t   offset,
-                                      uint32_t  imageIdx) const;
+                                      ByteOrder byteOrder) const;
         //! Implements size(). Return the size of the strip pointers.
         virtual uint32_t doSize() const;
         // Using doSizeData from base class
@@ -838,7 +830,7 @@ namespace Exiv2 {
                                  int32_t   offset,
                                  uint32_t  valueIdx,
                                  uint32_t  dataIdx,
-                                 uint32_t  imageIdx);
+                                 uint32_t& imageIdx);
         //@}
         //! @name Write support (Accessors)
         //@{
@@ -850,15 +842,15 @@ namespace Exiv2 {
                                      ByteOrder byteOrder,
                                      int32_t   offset,
                                      uint32_t  dataIdx,
-                                     uint32_t  imageIdx) const;
+                                     uint32_t& imageIdx) const;
         /*!
-          @brief This class does not really implement writeImage(), it only has
-                 write(). This method must not be called; it commits suicide.
+          @brief Implements writeImage(). Write the image data of the TIFF
+                 directory to the blob by forwarding the call to each component
+                 as well as the next-IFD, if there is any. Return the number of
+                 bytes written.
          */
         virtual uint32_t doWriteImage(Blob&     blob,
-                                      ByteOrder byteOrder,
-                                      int32_t   offset,
-                                      uint32_t  imageIdx) const;
+                                      ByteOrder byteOrder) const;
         /*!
           @brief Implements size(). Return the size of the TIFF directory,
                  values and additional data, including the next-IFD, if any.
@@ -875,8 +867,8 @@ namespace Exiv2 {
          */
         virtual uint32_t doSizeData() const;
         /*!
-          @brief This class does not really implement sizeImage(), it only has
-                 size(). This method must not be called; it commits suicide.
+          @brief Implements sizeImage(). Return the sum of the image sizes of 
+                 all components plus that of the next-IFD, if there is any.
          */
         virtual uint32_t doSizeImage() const;
         //@}
@@ -891,7 +883,7 @@ namespace Exiv2 {
                                TiffComponent* pTiffComponent,
                                uint32_t       valueIdx,
                                uint32_t       dataIdx,
-                               uint32_t       imageIdx) const;
+                               uint32_t&      imageIdx) const;
         //@}
 
     private:
@@ -941,7 +933,7 @@ namespace Exiv2 {
                                  int32_t   offset,
                                  uint32_t  valueIdx,
                                  uint32_t  dataIdx,
-                                 uint32_t  imageIdx);
+                                 uint32_t& imageIdx);
         //@}
         //! @name Write support (Accessors)
         //@{
@@ -953,13 +945,19 @@ namespace Exiv2 {
                                      ByteOrder byteOrder,
                                      int32_t   offset,
                                      uint32_t  dataIdx,
-                                     uint32_t  imageIdx) const;
-        // Using doWriteImage from base class
+                                     uint32_t& imageIdx) const;
+        /*!
+          @brief Implements writeImage(). Write the image data of each sub-IFD to
+                 the blob. Return the number of bytes written.
+         */
+        virtual uint32_t doWriteImage(Blob&     blob,
+                                      ByteOrder byteOrder) const;
         //! Implements size(). Return the size of the sub-Ifd pointers.
         uint32_t doSize() const;
         //! Implements sizeData(). Return the sum of the sizes of all sub-IFDs.
         virtual uint32_t doSizeData() const;
-        // Using doSizeImage from base class
+        //! Implements sizeImage(). Return the sum of the image sizes of all sub-IFDs.
+        virtual uint32_t doSizeImage() const;
         //@}
 
     private:
@@ -1020,7 +1018,7 @@ namespace Exiv2 {
                                  int32_t   offset,
                                  uint32_t  valueIdx,
                                  uint32_t  dataIdx,
-                                 uint32_t  imageIdx);
+                                 uint32_t& imageIdx);
         //@}
         //! @name Write support (Accessors)
         //@{
@@ -1096,7 +1094,7 @@ namespace Exiv2 {
                                  int32_t   offset,
                                  uint32_t  valueIdx,
                                  uint32_t  dataIdx,
-                                 uint32_t  imageIdx);
+                                 uint32_t& imageIdx);
         //@}
         //! @name Write support (Accessors)
         //@{
@@ -1163,7 +1161,7 @@ namespace Exiv2 {
                                  int32_t   offset,
                                  uint32_t  valueIdx,
                                  uint32_t  dataIdx,
-                                 uint32_t  imageIdx);
+                                 uint32_t& imageIdx);
         //@}
         // Using doWriteData from base class
         // Using doWriteImage from base class
