@@ -88,7 +88,7 @@ Exif.Image.ResolutionUnit                    0x0128 Short       1  2
 Exif.Photo.DateTimeOriginal                  0x9003 Ascii      18  Yesterday at noon
 [30mFile Name = mini9.tif
 File Type = TIFF:II
-File Size = 573
+File Size = 574
 @000000000=0       :  TIFF(II=0x4949) magic=0x002a='*\0' ifd offset = 0x8/8
 @0x0000008=8       :  <IFD 0> 18 entries starting at file offset 0xa=10
 @0x000000a=10      :    <0x00fe=  254> NewSubFileType              [4 =LONG          1]  = 0 = 'primary'
@@ -129,7 +129,7 @@ File Size = 573
  0x000016a=362     :      00 00 ff 00  3f 7f bf 3f  7f bf 3f 7f  bf 00 ff 00  |....?..?..?.....|
  0x000017a=378     :      00 ff 00 00  ff 00 00 00  ff 00 00 ff  3f 7f bf ff  |............?...| etc...
 @0x000023c=572     :  </=-=-=> End of image data
--0x000023c=572     :  END OF FILE
+-0x000023d=573     :  END OF FILE
 [90m@0x000014a=330     :  Start of TIFF RGB uncompressed primary image [9x9] length 243 (IFD 0)
 -0x000023c=572     :    End of TIFF primary image data
 [0m[30mNumber of images = 1
