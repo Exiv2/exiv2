@@ -125,16 +125,16 @@ namespace Exiv2 {
     /*!
       @brief Standard TIFF header structure.
      */
-    class TiffHeade2 : public TiffHeaderBase {
+    class TiffHeader : public TiffHeaderBase {
     public:
         //! @name Creators
         //@{
         //! Default constructor
-        TiffHeade2(ByteOrder byteOrder =littleEndian);
+        TiffHeader(ByteOrder byteOrder =littleEndian);
         //! Destructor
-        ~TiffHeade2();
+        ~TiffHeader();
         //@}
-    }; // class TiffHeade2
+    }; // class TiffHeader
 
     /*!
       @brief TIFF component factory for standard TIFF components.
@@ -172,7 +172,7 @@ namespace Exiv2 {
                  \em size into the provided metadata containers.
 
           This is the entry point to access image data in TIFF format. The
-          parser uses classes TiffHeade2 and the TiffComponent and TiffVisitor
+          parser uses classes TiffHeader and the TiffComponent and TiffVisitor
           hierarchies.
 
           @param exifData  Exif metadata container.

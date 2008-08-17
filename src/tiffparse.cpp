@@ -38,7 +38,7 @@ try {
     io.read(buf.pData_, len);
     if (io.error() || io.eof()) throw Error(14);
 
-    TiffHeade2 tiffHeader;
+    TiffHeader tiffHeader;
     if (!tiffHeader.read(buf.pData_, buf.size_)) throw Error(3, "TIFF");
 
     TiffCompFactoryFct createFct = TiffCreator::create;

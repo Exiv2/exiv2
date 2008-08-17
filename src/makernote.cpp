@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*
-  File:      makernote2.cpp
+  File:      makernote.cpp
   Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   11-Apr-06, ahu: created
@@ -36,7 +36,7 @@ EXIV2_RCSID("@(#) $Id$")
 # include "exv_conf.h"
 #endif
 
-#include "makernote2_int.hpp"
+#include "makernote_int.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffvisitor_int.hpp"
 #include "tiffimage.hpp"
@@ -367,7 +367,7 @@ namespace Exiv2 {
         if (0 != memcmp(pData, signature_, 6)) return false;
         buf_.alloc(size_);
         std::memcpy(buf_.pData_, pData, buf_.size_);
-        TiffHeade2 th;
+        TiffHeader th;
         if (!th.read(buf_.pData_ + 10, 8)) return false;
         byteOrder_ = th.byteOrder();
         start_ = 10 + th.offset();
@@ -583,7 +583,7 @@ namespace Exiv2 {
         }
         // If the "Nikon" string is not followed by a TIFF header, we assume
         // Nikon2 format
-        TiffHeade2 tiffHeader;
+        TiffHeader tiffHeader;
         if (   size < 18
             || !tiffHeader.read(pData + 10, size - 10)
             || tiffHeader.tag() != 0x002a) {

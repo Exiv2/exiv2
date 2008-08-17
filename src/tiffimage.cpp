@@ -41,7 +41,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "tiffimage_int.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffvisitor_int.hpp"
-#include "makernote2_int.hpp"
+#include "makernote_int.hpp"
 #include "image.hpp"
 #include "error.hpp"
 #include "futils.hpp"
@@ -79,7 +79,7 @@ EXIV2_RCSID("@(#) $Id$")
 
    in crwimage.* :
 
-   + Fix CiffHeader according to TiffHeade2
+   + Fix CiffHeader according to TiffHeader
    + Combine Error(15) and Error(33), add format argument %1
    + Search crwimage for todos, fix writeMetadata comment
    + rename loadStack to getPath for consistency
@@ -162,7 +162,7 @@ namespace Exiv2 {
                 if (io_->error() || io_->eof()) {
                     buf.reset();
                 }
-                TiffHeade2 tiffHeader;
+                TiffHeader tiffHeader;
                 if (0 == tiffHeader.read(buf.pData_, 8)) {
                     bo = tiffHeader.byteOrder();
                 }
@@ -223,7 +223,7 @@ namespace Exiv2 {
         const XmpData&  xmpData
     )
     {
-        std::auto_ptr<TiffHeaderBase> header(new TiffHeade2(byteOrder));
+        std::auto_ptr<TiffHeaderBase> header(new TiffHeader(byteOrder));
         return TiffParserWorker::encode(blob,
                                         pData,
                                         size,
@@ -254,7 +254,7 @@ namespace Exiv2 {
         if (iIo.error() || iIo.eof()) {
             return false;
         }
-        TiffHeade2 tiffHeader;
+        TiffHeader tiffHeader;
         bool rc = tiffHeader.read(buf, len);
         if (!advance || !rc) {
             iIo.seek(-len, BasicIo::cur);
@@ -532,7 +532,7 @@ namespace Exiv2 {
         // Create standard TIFF header if necessary
         std::auto_ptr<TiffHeaderBase> ph;
         if (!pHeader) {
-            ph = std::auto_ptr<TiffHeaderBase>(new TiffHeade2);
+            ph = std::auto_ptr<TiffHeaderBase>(new TiffHeader);
             pHeader = ph.get();
         }
         TiffComponent::AutoPtr rootDir = parse(pData, size, createFct, pHeader);
@@ -736,12 +736,12 @@ namespace Exiv2 {
         return tag_;
     }
 
-    TiffHeade2::TiffHeade2(ByteOrder byteOrder)
+    TiffHeader::TiffHeader(ByteOrder byteOrder)
         : TiffHeaderBase(42, 8, byteOrder, 0x00000008)
     {
     }
 
-    TiffHeade2::~TiffHeade2()
+    TiffHeader::~TiffHeader()
     {
     }
 

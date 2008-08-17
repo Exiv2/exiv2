@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*!
-  @file    makernote2_int.hpp
+  @file    makernote_int.hpp
   @brief   Internal Makernote TIFF composite class TiffIfdMakernote and classes
            for various makernote headers.
   @version $Rev$
@@ -27,8 +27,8 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    11-Apr-06, ahu: created
  */
-#ifndef MAKERNOTE2_INT_HPP_
-#define MAKERNOTE2_INT_HPP_
+#ifndef MAKERNOTE_INT_HPP_
+#define MAKERNOTE_INT_HPP_
 
 // *****************************************************************************
 // included header files
@@ -699,4 +699,4 @@ namespace Exiv2 {
 
 }}                                      // namespace Internal, Exiv2
 
-#endif                                  // #ifndef MAKERNOTE2_INT_HPP_
+#endif                                  // #ifndef MAKERNOTE_INT_HPP_
