@@ -66,7 +66,7 @@ namespace Exiv2 {
     enum SectionId { sectionIdNotSet,
                      imgStruct, recOffset, imgCharacter, otherTags, exifFormat,
                      exifVersion, imgConfig, userInfo, relatedFile, dateTime,
-                     captureCond, gpsTags, iopTags, makerTags,
+                     captureCond, gpsTags, iopTags, makerTags, dngTags,
                      lastSectionId };
 
 // *****************************************************************************
