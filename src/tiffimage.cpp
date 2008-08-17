@@ -288,6 +288,8 @@ namespace Exiv2 {
         {    0x8825, Group::ifd0,      Group::gps,       Tag::root, Group::none,      newTiffSubIfd },
         {    0x0111, Group::ifd0,      Group::ifd0,      Tag::root, Group::none,      newTiffImageData<0x0117, Group::ifd0> },
         {    0x0117, Group::ifd0,      Group::ifd0,      Tag::root, Group::none,      newTiffImageSize<0x0111, Group::ifd0> },
+        {    0x0144, Group::ifd0,      Group::ifd0,      Tag::root, Group::none,      newTiffImageData<0x0145, Group::ifd0> },
+        {    0x0145, Group::ifd0,      Group::ifd0,      Tag::root, Group::none,      newTiffImageSize<0x0144, Group::ifd0> },
         {    0x0201, Group::ifd0,      Group::ifd0,      Tag::root, Group::ifd0,      newTiffImageData<0x0202, Group::ifd0> },
         {    0x0202, Group::ifd0,      Group::ifd0,      Tag::root, Group::ifd0,      newTiffImageSize<0x0201, Group::ifd0> },
         {    0x014a, Group::ifd0,      Group::subimg1,   Tag::root, Group::none,      newTiffSubIfd },
@@ -297,6 +299,8 @@ namespace Exiv2 {
         // Subdir subimg1
         {    0x0111, Group::subimg1,   Group::subimg1,   0x014a,    Group::ifd0,      newTiffImageData<0x0117, Group::subimg1> },
         {    0x0117, Group::subimg1,   Group::subimg1,   0x014a,    Group::ifd0,      newTiffImageSize<0x0111, Group::subimg1> },
+        {    0x0144, Group::subimg1,   Group::subimg1,   0x014a,    Group::ifd0,      newTiffImageData<0x0145, Group::subimg1> },
+        {    0x0145, Group::subimg1,   Group::subimg1,   0x014a,    Group::ifd0,      newTiffImageSize<0x0144, Group::subimg1> },
         {    0x0201, Group::subimg1,   Group::subimg1,   0x014a,    Group::ifd0,      newTiffImageData<0x0202, Group::subimg1> },
         {    0x0202, Group::subimg1,   Group::subimg1,   0x014a,    Group::ifd0,      newTiffImageSize<0x0201, Group::subimg1> },
         { Tag::next, Group::subimg1,   Group::ignr,      0x014a,    Group::ifd0,      newTiffDirectory },
@@ -305,6 +309,8 @@ namespace Exiv2 {
         // Subdir subimg2
         {    0x0111, Group::subimg2,   Group::subimg2,   0x014a,    Group::ifd0,      newTiffImageData<0x0117, Group::subimg2> },
         {    0x0117, Group::subimg2,   Group::subimg2,   0x014a,    Group::ifd0,      newTiffImageSize<0x0111, Group::subimg2> },
+        {    0x0144, Group::subimg2,   Group::subimg2,   0x014a,    Group::ifd0,      newTiffImageData<0x0145, Group::subimg2> },
+        {    0x0145, Group::subimg2,   Group::subimg2,   0x014a,    Group::ifd0,      newTiffImageSize<0x0144, Group::subimg2> },
         {    0x0201, Group::subimg2,   Group::subimg2,   0x014a,    Group::ifd0,      newTiffImageData<0x0202, Group::subimg2> },
         {    0x0202, Group::subimg2,   Group::subimg2,   0x014a,    Group::ifd0,      newTiffImageSize<0x0201, Group::subimg2> },
         { Tag::next, Group::subimg2,   Group::ignr,      0x014a,    Group::ifd0,      newTiffDirectory },
@@ -313,6 +319,8 @@ namespace Exiv2 {
         // Subdir subimg3
         {    0x0111, Group::subimg3,   Group::subimg3,   0x014a,    Group::ifd0,      newTiffImageData<0x0117, Group::subimg3> },
         {    0x0117, Group::subimg3,   Group::subimg3,   0x014a,    Group::ifd0,      newTiffImageSize<0x0111, Group::subimg3> },
+        {    0x0144, Group::subimg3,   Group::subimg3,   0x014a,    Group::ifd0,      newTiffImageData<0x0145, Group::subimg3> },
+        {    0x0145, Group::subimg3,   Group::subimg3,   0x014a,    Group::ifd0,      newTiffImageSize<0x0144, Group::subimg3> },
         {    0x0201, Group::subimg3,   Group::subimg3,   0x014a,    Group::ifd0,      newTiffImageData<0x0202, Group::subimg3> },
         {    0x0202, Group::subimg3,   Group::subimg3,   0x014a,    Group::ifd0,      newTiffImageSize<0x0201, Group::subimg3> },
         { Tag::next, Group::subimg3,   Group::ignr,      0x014a,    Group::ifd0,      newTiffDirectory },
@@ -321,6 +329,8 @@ namespace Exiv2 {
         // Subdir subimg4
         {    0x0111, Group::subimg4,   Group::subimg4,   0x014a,    Group::ifd0,      newTiffImageData<0x0117, Group::subimg4> },
         {    0x0117, Group::subimg4,   Group::subimg4,   0x014a,    Group::ifd0,      newTiffImageSize<0x0111, Group::subimg4> },
+        {    0x0144, Group::subimg4,   Group::subimg4,   0x014a,    Group::ifd0,      newTiffImageData<0x0145, Group::subimg4> },
+        {    0x0145, Group::subimg4,   Group::subimg4,   0x014a,    Group::ifd0,      newTiffImageSize<0x0144, Group::subimg4> },
         {    0x0201, Group::subimg4,   Group::subimg4,   0x014a,    Group::ifd0,      newTiffImageData<0x0202, Group::subimg4> },
         {    0x0202, Group::subimg4,   Group::subimg4,   0x014a,    Group::ifd0,      newTiffImageSize<0x0201, Group::subimg4> },
         { Tag::next, Group::subimg4,   Group::ignr,      0x014a,    Group::ifd0,      newTiffDirectory },

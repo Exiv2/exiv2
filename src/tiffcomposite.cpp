@@ -906,8 +906,8 @@ namespace Exiv2 {
         for (Strips::const_iterator i = strips_.begin(); i != strips_.end(); ++i) {
             idx += writeOffset(buf.pData_ + idx, imageIdx, tiffType(), byteOrder);
             imageIdx += i->second;
+            imageIdx += i->second & 1;      // Align strip data to word boundary
         }
-        imageIdx += sizeImage() & 1;                // Align image data to word boundary
         append(blob, buf.pData_, buf.size_);
         return buf.size_;
     } // TiffImageEntry::doWrite
@@ -1122,9 +1122,6 @@ namespace Exiv2 {
         if (blob.capacity() - size < sz) {
             blob.reserve(size + sz + 65536);
         }
-        // Align image data to word boundary
-        uint32_t align = (blob.size() & 1);
-        if (align) blob.push_back(0x0);
 
         uint32_t len = pValue()->sizeDataArea();
         if (len > 0) {
@@ -1135,6 +1132,9 @@ namespace Exiv2 {
 #endif
             DataBuf buf = pValue()->dataArea();
             append(blob, buf.pData_, buf.size_);
+            uint32_t align = len & 1;       // Align image data to word boundary
+            if (align) blob.push_back(0x0);
+            len += align;
         }
         else {
 #ifdef DEBUG
@@ -1146,12 +1146,15 @@ namespace Exiv2 {
             for (Strips::const_iterator i = strips_.begin(); i != strips_.end(); ++i) {
                 append(blob, i->first, i->second);
                 len += i->second;
+                uint32_t align = i->second & 1; // Align strip data to word boundary
+                if (align) blob.push_back(0x0);
+                len += align;
             }
         }
 #ifdef DEBUG
         std::cerr << ", len = " << len << " bytes\n";
 #endif
-        return len + align;
+        return len;
     } // TiffImageEntry::doWriteImage
 
     uint32_t TiffComponent::size() const
