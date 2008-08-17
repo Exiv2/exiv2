@@ -39,7 +39,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "tiffcomposite_int.hpp" // Do not change the order of these 2 includes,
 #include "tiffvisitor_int.hpp"   // see bug #487
 #include "tiffimage_int.hpp"
-#include "makernote2_int.hpp"
+#include "makernote_int.hpp"
 #include "exif.hpp"
 #include "iptc.hpp"
 #include "value.hpp"

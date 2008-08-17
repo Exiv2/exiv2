@@ -82,7 +82,7 @@ CCSRC =  basicio.cpp          \
 	 iptc.cpp             \
 	 jp2image.cpp         \
 	 jpgimage.cpp         \
-	 makernote2.cpp       \
+	 makernote.cpp        \
 	 metadatum.cpp        \
 	 minoltamn.cpp        \
 	 mrwimage.cpp         \

@@ -38,7 +38,7 @@ EXIV2_RCSID("@(#) $Id$")
 
 #include "tiffcomposite_int.hpp"
 #include "tiffvisitor_int.hpp"
-#include "makernote2_int.hpp"
+#include "makernote_int.hpp"
 #include "value.hpp"
 #include "error.hpp"
 
