@@ -130,6 +130,7 @@ namespace Exiv2 {
         { gpsTags,         "GPS",                  N_("GPS information")              },
         { iopTags,         "Interoperability",     N_("Interoperability information") },
         { makerTags,       "Makernote",            N_("Vendor specific information")  },
+        { dngTags,         "DngTags",              N_("Adobe DNG tags")               },
         { lastSectionId,   "(LastSection)",        N_("Last section")                 }
     };
 
@@ -235,6 +236,15 @@ namespace Exiv2 {
     extern const TagDetails exifYCbCrPositioning[] = {
         { 1, N_("Centered") },
         { 2, N_("Co-sited") }
+    };
+
+    //! CFALayout, tag 0xc617
+    extern const TagDetails exifCfaLayout[] = {
+        { 1, N_("Rectangular (or square) layout") },
+        { 2, N_("Staggered layout A: even columns are offset down by 1/2 row")  },
+        { 3, N_("Staggered layout B: even columns are offset up by 1/2 row")    },
+        { 4, N_("Staggered layout C: even rows are offset right by 1/2 column") },
+        { 5, N_("Staggered layout D: even rows are offset left by 1/2 column")  }
     };
 
     //! Base IFD Tags (IFD0 and IFD1)
@@ -378,6 +388,22 @@ namespace Exiv2 {
                 "Normally this tag is not necessary, since colorspace is "
                 "specified in the colorspace information tag (<ColorSpace>)."),
                 ifd0Id, imgCharacter, unsignedRational, printValue),
+        TagInfo(0x0142, "TileWidth", N_("Tile Width"),
+                N_("The tile width in pixels. This is the number of columns in each tile."),
+                ifd0Id, recOffset, unsignedShort, printValue), // TIFF tag
+        TagInfo(0x0143, "TileLength", N_("Tile Length"),
+                N_("The tile length (height) in pixels. This is the number of rows in each tile."),
+                ifd0Id, recOffset, unsignedShort, printValue), // TIFF tag
+        TagInfo(0x0144, "TileOffsets", N_("Tile Offsets"),
+                N_("For each tile, the byte offset of that tile, as compressed and "
+                   "stored on disk. The offset is specified with respect to the "
+                   "beginning of the TIFF file. Note that this implies that each "
+                   "tile has a location independent of the locations of other tiles."),
+                ifd0Id, recOffset, unsignedShort, printValue), // TIFF tag
+        TagInfo(0x0145, "TileByteCounts", N_("Tile Byte Counts"),
+                N_("For each tile, the number of (compressed) bytes in that tile. See "
+                   "TileOffsets for a description of how the byte counts are ordered."),
+                ifd0Id, recOffset, unsignedShort, printValue), // TIFF tag
         TagInfo(0x014a, "SubIFDs", N_("SubIFD Offsets"),
                 N_("Defined by Adobe Corporation to enable TIFF Trees within a TIFF file."),
                 ifd0Id, otherTags, unsignedLong, printValue),
@@ -519,6 +545,348 @@ namespace Exiv2 {
         TagInfo(0xc4a5, "PrintImageMatching", N_("Print Image Matching"),
                 N_("Print Image Matching, descriptiont needed."),
                 ifd0Id, otherTags, undefined, printValue),
+        TagInfo(0xc612, "DNGVersion", N_("DNG version"),
+                N_("This tag encodes the DNG four-tier version number. For files "
+                   "compliant with version 1.1.0.0 of the DNG specification, this "
+                   "tag should contain the bytes: 1, 1, 0, 0."),
+                ifd0Id, dngTags, unsignedByte, printValue), // DNG tag
+        TagInfo(0xc613, "DNGBackwardVersion", N_("DNG backward version"),
+                N_("This tag specifies the oldest version of the Digital Negative "
+                   "specification for which a file is compatible. Readers should"
+                   "not attempt to read a file if this tag specifies a version "
+                   "number that is higher than the version number of the specification "
+                   "the reader was based on.  In addition to checking the version tags, "
+                   "readers should, for all tags, check the types, counts, and values, "
+                   "to verify it is able to correctly read the file."),
+                ifd0Id, dngTags, unsignedByte, printValue), // DNG tag
+        TagInfo(0xc614, "UniqueCameraModel", N_("Unique Camera Model"),
+                N_("Defines a unique, non-localized name for the camera model that "
+                   "created the image in the raw file. This name should include the "
+                   "manufacturer's name to avoid conflicts, and should not be localized, "
+                   "even if the camera name itself is localized for different markets "
+                   "(see LocalizedCameraModel). This string may be used by reader "
+                   "software to index into per-model preferences and replacement profiles."),
+                ifd0Id, dngTags, asciiString, printValue), // DNG tag
+        TagInfo(0xc615, "LocalizedCameraModel", N_("Localized Camera Model"),
+                N_("Similar to the UniqueCameraModel field, except the name can be "
+                   "localized for different markets to match the localization of the "
+                   "camera name."),
+                ifd0Id, dngTags, unsignedByte, printValue), // DNG tag
+        TagInfo(0xc616, "CFAPlaneColor", N_("CFA Plane Color"),
+                N_("Provides a mapping between the values in the CFAPattern tag and the "
+                   "plane numbers in LinearRaw space. This is a required tag for non-RGB "
+                   "CFA images."),
+                ifd0Id, dngTags, unsignedByte, printValue), // DNG tag
+        TagInfo(0xc617, "CFALayout", N_("CFA Layout"),
+                N_("Describes the spatial layout of the CFA."),
+                ifd0Id, dngTags, unsignedShort, EXV_PRINT_TAG(exifCfaLayout)), // DNG tag
+        TagInfo(0xc618, "LinearizationTable", N_("Linearization Table"),
+                N_("Describes a lookup table that maps stored values into linear values. "
+                   "This tag is typically used to increase compression ratios by storing "
+                   "the raw data in a non-linear, more visually uniform space with fewer "
+                   "total encoding levels. If SamplesPerPixel is not equal to one, this "
+                   "single table applies to all the samples for each pixel."),
+                ifd0Id, dngTags, unsignedShort, printValue), // DNG tag
+        TagInfo(0xc619, "BlackLevelRepeatDim", N_("Black Level Repeat Dim"),
+                N_("Specifies repeat pattern size for the BlackLevel tag."),
+                ifd0Id, dngTags, unsignedShort, printValue), // DNG tag
+        TagInfo(0xc61a, "BlackLevel", N_("Black Level"),
+                N_("Specifies the zero light (a.k.a. thermal black or black current) "
+                   "encoding level, as a repeating pattern. The origin of this pattern "
+                   "is the top-left corner of the ActiveArea rectangle. The values are "
+                   "stored in row-column-sample scan order."),
+                ifd0Id, dngTags, unsignedRational, printValue), // DNG tag
+        TagInfo(0xc61b, "BlackLevelDeltaH", N_("Black Level Delta H"),
+                N_("If the zero light encoding level is a function of the image column, "
+                   "BlackLevelDeltaH specifies the difference between the zero light "
+                   "encoding level for each column and the baseline zero light encoding "
+                   "level. If SamplesPerPixel is not equal to one, this single table "
+                   "applies to all the samples for each pixel."),
+                ifd0Id, dngTags, signedRational, printValue), // DNG tag
+        TagInfo(0xc61c, "BlackLevelDeltaV", N_("Black Level Delta V"),
+                N_("If the zero light encoding level is a function of the image row, "
+                   "this tag specifies the difference between the zero light encoding "
+                   "level for each row and the baseline zero light encoding level. If "
+                   "SamplesPerPixel is not equal to one, this single table applies to "
+                   "all the samples for each pixel."),
+                ifd0Id, dngTags, signedRational, printValue), // DNG tag
+        TagInfo(0xc61d, "WhiteLevel", N_("White Level"),
+                N_("This tag specifies the fully saturated encoding level for the raw "
+                   "sample values. Saturation is caused either by the sensor itself "
+                   "becoming highly non-linear in response, or by the camera's analog "
+                   "to digital converter clipping."),
+                ifd0Id, dngTags, unsignedShort, printValue), // DNG tag
+        TagInfo(0xc61e, "DefaultScale", N_("Default Scale"),
+                N_("DefaultScale is required for cameras with non-square pixels. It "
+                   "specifies the default scale factors for each direction to convert "
+                   "the image to square pixels. Typically these factors are selected "
+                   "to approximately preserve total pixel count. For CFA images that "
+                   "use CFALayout equal to 2, 3, 4, or 5, such as the Fujifilm SuperCCD, "
+                   "these two values should usually differ by a factor of 2.0."),
+                ifd0Id, dngTags, unsignedRational, printValue), // DNG tag
+        TagInfo(0xc61f, "DefaultCropOrigin", N_("Default Crop Origin"),
+                N_("Raw images often store extra pixels around the edges of the final "
+                   "image. These extra pixels help prevent interpolation artifacts near "
+                   "the edges of the final image. DefaultCropOrigin specifies the origin "
+                   "of the final image area, in raw image coordinates (i.e., before the "
+                   "DefaultScale has been applied), relative to the top-left corner of "
+                   "the ActiveArea rectangle."),
+                ifd0Id, dngTags, unsignedShort, printValue), // DNG tag
+        TagInfo(0xc620, "DefaultCropSize", N_("Default Crop Size"),
+                N_("Raw images often store extra pixels around the edges of the final "
+                   "image. These extra pixels help prevent interpolation artifacts near "
+                   "the edges of the final image. DefaultCropSize specifies the size of "
+                   "the final image area, in raw image coordinates (i.e., before the "
+                   "DefaultScale has been applied)."),
+                ifd0Id, dngTags, unsignedShort, printValue), // DNG tag
+        TagInfo(0xc621, "ColorMatrix1", N_("Color Matrix 1"),
+                N_("ColorMatrix1 defines a transformation matrix that converts XYZ "
+                   "values to reference camera native color space values, under the "
+                   "first calibration illuminant. The matrix values are stored in row "
+                   "scan order. The ColorMatrix1 tag is required for all non-monochrome "
+                   "DNG files."),
+                ifd0Id, dngTags, signedRational, printValue), // DNG tag
+        TagInfo(0xc622, "ColorMatrix2", N_("Color Matrix 2"),
+                N_("ColorMatrix2 defines a transformation matrix that converts XYZ "
+                   "values to reference camera native color space values, under the "
+                   "second calibration illuminant. The matrix values are stored in row "
+                   "scan order."),
+                ifd0Id, dngTags, signedRational, printValue), // DNG tag
+        TagInfo(0xc623, "CameraCalibration1", N_("Camera Calibration 1"),
+                N_("CameraClalibration1 defines a calibration matrix that transforms "
+                   "reference camera native space values to individual camera native "
+                   "space values under the first calibration illuminant. The matrix is "
+                   "stored in row scan order. This matrix is stored separately from the "
+                   "matrix specified by the ColorMatrix1 tag to allow raw converters to "
+                   "swap in replacement color matrices based on UniqueCameraModel tag, "
+                   "while still taking advantage of any per-individual camera calibration "
+                   "performed by the camera manufacturer."),
+                ifd0Id, dngTags, signedRational, printValue), // DNG tag
+        TagInfo(0xc624, "CameraCalibration2", N_("Camera Calibration 2"),
+                N_("CameraCalibration2 defines a calibration matrix that transforms "
+                   "reference camera native space values to individual camera native "
+                   "space values under the second calibration illuminant. The matrix is "
+                   "stored in row scan order. This matrix is stored separately from the "
+                   "matrix specified by the ColorMatrix2 tag to allow raw converters to "
+                   "swap in replacement color matrices based on UniqueCameraModel tag, "
+                   "while still taking advantage of any per-individual camera calibration "
+                   "performed by the camera manufacturer."),
+                ifd0Id, dngTags, signedRational, printValue), // DNG tag
+        TagInfo(0xc625, "ReductionMatrix1", N_("Reduction Matrix 1"),
+                N_("ReductionMatrix1 defines a dimensionality reduction matrix for use as "
+                   "the first stage in converting color camera native space values to XYZ "
+                   "values, under the first calibration illuminant. This tag may only be "
+                   "used if ColorPlanes is greater than 3. The matrix is stored in row "
+                   "scan order."),
+                ifd0Id, dngTags, signedRational, printValue), // DNG tag
+        TagInfo(0xc626, "ReductionMatrix2", N_("Reduction Matrix 2"),
+                N_("ReductionMatrix2 defines a dimensionality reduction matrix for use as "
+                   "the first stage in converting color camera native space values to XYZ "
+                   "values, under the second calibration illuminant. This tag may only be "
+                   "used if ColorPlanes is greater than 3. The matrix is stored in row "
+                   "scan order."),
+                ifd0Id, dngTags, signedRational, printValue), // DNG tag
+        TagInfo(0xc627, "AnalogBalance", N_("Analog Balance"),
+                N_("Normally the stored raw values are not white balanced, since any "
+                   "digital white balancing will reduce the dynamic range of the final "
+                   "image if the user decides to later adjust the white balance; "
+                   "however, if camera hardware is capable of white balancing the color "
+                   "channels before the signal is digitized, it can improve the dynamic "
+                   "range of the final image. AnalogBalance defines the gain, either "
+                   "analog (recommended) or digital (not recommended) that has been "
+                   "applied the stored raw values."),
+                ifd0Id, dngTags, unsignedRational, printValue), // DNG tag
+        TagInfo(0xc628, "AsShotNeutral", N_("As Shot Neutral"),
+                N_("Specifies the selected white balance at time of capture, encoded as "
+                   "the coordinates of a perfectly neutral color in linear reference "
+                   "space values. The inclusion of this tag precludes the inclusion of "
+                   "the AsShotWhiteXY tag."),
+                ifd0Id, dngTags, unsignedShort, printValue), // DNG tag
+        TagInfo(0xc629, "AsShotWhiteXY", N_("As Shot White XY"),
+                N_("Specifies the selected white balance at time of capture, encoded as "
+                   "x-y chromaticity coordinates. The inclusion of this tag precludes "
+                   "the inclusion of the AsShotNeutral tag."),
+                ifd0Id, dngTags, unsignedRational, printValue), // DNG tag
+        TagInfo(0xc62a, "BaselineExposure", N_("Baseline Exposure"),
+                N_("Camera models vary in the trade-off they make between highlight "
+                   "headroom and shadow noise. Some leave a significant amount of "
+                   "highlight headroom during a normal exposure. This allows significant "
+                   "negative exposure compensation to be applied during raw conversion, "
+                   "but also means normal exposures will contain more shadow noise. Other "
+                   "models leave less headroom during normal exposures. This allows for "
+                   "less negative exposure compensation, but results in lower shadow "
+                   "noise for normal exposures. Because of these differences, a raw "
+                   "converter needs to vary the zero point of its exposure compensation "
+                   "control from model to model. BaselineExposure specifies by how much "
+                   "(in EV units) to move the zero point. Positive values result in "
+                   "brighter default results, while negative values result in darker "
+                   "default results."),
+                ifd0Id, dngTags, signedRational, printValue), // DNG tag
+        TagInfo(0xc62b, "BaselineNoise", N_("Baseline Noise"),
+                N_("Specifies the relative noise level of the camera model at a baseline "
+                   "ISO value of 100, compared to a reference camera model. Since noise "
+                   "levels tend to vary approximately with the square root of the ISO "
+                   "value, a raw converter can use this value, combined with the current "
+                   "ISO, to estimate the relative noise level of the current image."),
+                ifd0Id, dngTags, unsignedRational, printValue), // DNG tag
+        TagInfo(0xc62c, "BaselineSharpness", N_("Baseline Sharpness"),
+                N_("Specifies the relative amount of sharpening required for this camera "
+                   "model, compared to a reference camera model. Camera models vary in "
+                   "the strengths of their anti-aliasing filters. Cameras with weak or "
+                   "no filters require less sharpening than cameras with strong "
+                   "anti-aliasing filters."),
+                ifd0Id, dngTags, unsignedRational, printValue), // DNG tag
+        TagInfo(0xc62d, "BayerGreenSplit", N_("Bayer Green Split"),
+                N_("Only applies to CFA images using a Bayer pattern filter array. This "
+                   "tag specifies, in arbitrary units, how closely the values of the "
+                   "green pixels in the blue/green rows track the values of the green "
+                   "pixels in the red/green rows. A value of zero means the two kinds "
+                   "of green pixels track closely, while a non-zero value means they "
+                   "sometimes diverge. The useful range for this tag is from 0 (no "
+                   "divergence) to about 5000 (quite large divergence)."),
+                ifd0Id, dngTags, unsignedLong, printValue), // DNG tag
+        TagInfo(0xc62e, "LinearResponseLimit", N_("Linear Response Limit"),
+                N_("Some sensors have an unpredictable non-linearity in their response "
+                   "as they near the upper limit of their encoding range. This "
+                   "non-linearity results in color shifts in the highlight areas of the "
+                   "resulting image unless the raw converter compensates for this effect. "
+                   "LinearResponseLimit specifies the fraction of the encoding range "
+                   "above which the response may become significantly non-linear."),
+                ifd0Id, dngTags, unsignedRational, printValue), // DNG tag
+        TagInfo(0xc62f, "CameraSerialNumber", N_("Camera Serial Number"),
+                N_("CameraSerialNumber contains the serial number of the camera or camera "
+                   "body that captured the image."),
+                ifd0Id, dngTags, asciiString, printValue), // DNG tag
+        TagInfo(0xc630, "LensInfo", N_("Lens Info"),
+                N_("Contains information about the lens that captured the image. If the "
+                   "minimum f-stops are unknown, they should be encoded as 0/0."),
+                ifd0Id, dngTags, unsignedRational, printValue), // DNG tag
+        TagInfo(0xc631, "ChromaBlurRadius", N_("Chroma Blur Radius"),
+                N_("ChromaBlurRadius provides a hint to the DNG reader about how much "
+                   "chroma blur should be applied to the image. If this tag is omitted, "
+                   "the reader will use its default amount of chroma blurring. "
+                   "Normally this tag is only included for non-CFA images, since the "
+                   "amount of chroma blur required for mosaic images is highly dependent "
+                   "on the de-mosaic algorithm, in which case the DNG reader's default "
+                   "value is likely optimized for its particular de-mosaic algorithm."),
+                ifd0Id, dngTags, unsignedRational, printValue), // DNG tag
+        TagInfo(0xc632, "AntiAliasStrength", N_("Anti Alias Strength"),
+                N_("Provides a hint to the DNG reader about how strong the camera's "
+                   "anti-alias filter is. A value of 0.0 means no anti-alias filter "
+                   "(i.e., the camera is prone to aliasing artifacts with some subjects), "
+                   "while a value of 1.0 means a strong anti-alias filter (i.e., the "
+                   "camera almost never has aliasing artifacts)."),
+                ifd0Id, dngTags, unsignedRational, printValue), // DNG tag
+        TagInfo(0xc633, "ShadowScale", N_("Shadow Scale"),
+                N_("This tag is used by Adobe Camera Raw to control the sensitivity of "
+                   "its 'Shadows' slider."),
+                ifd0Id, dngTags, signedRational, printValue), // DNG tag
+        TagInfo(0xc634, "DNGPrivateData", N_("DNG Private Data"),
+                N_("Provides a way for camera manufacturers to store private data in the "
+                   "DNG file for use by their own raw converters, and to have that data "
+                   "preserved by programs that edit DNG files."),
+                ifd0Id, dngTags, unsignedByte, printValue), // DNG tag
+        TagInfo(0xc635, "MakerNoteSafety", N_("MakerNote Safety"),
+                N_("MakerNoteSafety lets the DNG reader know whether the EXIF MakerNote "
+                   "tag is safe to preserve along with the rest of the EXIF data. File "
+                   "browsers and other image management software processing an image "
+                   "with a preserved MakerNote should be aware that any thumbnail "
+                   "image embedded in the MakerNote may be stale, and may not reflect "
+                   "the current state of the full size image."),
+                ifd0Id, dngTags, unsignedShort, printValue), // DNG tag
+        TagInfo(0xc65a, "CalibrationIlluminant1", N_("Calibration Illuminant 1"),
+                N_("The illuminant used for the first set of color calibration tags "
+                   "(ColorMatrix1, CameraCalibration1, ReductionMatrix1). The legal "
+                   "values for this tag are the same as the legal values for the "
+                   "LightSource EXIF tag."),
+                ifd0Id, dngTags, unsignedShort, printValue), // DNG tag
+        TagInfo(0xc65b, "CalibrationIlluminant2", N_("Calibration Illuminant 2"),
+                N_("The illuminant used for an optional second set of color calibration "
+                   "tags (ColorMatrix2, CameraCalibration2, ReductionMatrix2). The legal "
+                   "values for this tag are the same as the legal values for the "
+                   "CalibrationIlluminant1 tag; however, if both are included, neither "
+                   "is allowed to have a value of 0 (unknown)."),
+                ifd0Id, dngTags, unsignedShort, printValue), // DNG tag
+        TagInfo(0xc65c, "BestQualityScale", N_("Best Quality Scale"),
+                N_("For some cameras, the best possible image quality is not achieved "
+                   "by preserving the total pixel count during conversion. For example, "
+                   "Fujifilm SuperCCD images have maximum detail when their total pixel "
+                   "count is doubled. This tag specifies the amount by which the values "
+                   "of the DefaultScale tag need to be multiplied to achieve the best "
+                   "quality image size."),
+                ifd0Id, dngTags, unsignedRational, printValue), // DNG tag
+        TagInfo(0xc65d, "RawDataUniqueID", N_("Raw Data Unique ID"),
+                N_("This tag contains a 16-byte unique identifier for the raw image data "
+                   "in the DNG file. DNG readers can use this tag to recognize a "
+                   "particular raw image, even if the file's name or the metadata "
+                   "contained in the file has been changed. If a DNG writer creates such "
+                   "an identifier, it should do so using an algorithm that will ensure "
+                   "that it is very unlikely two different images will end up having the "
+                   "same identifier."),
+                ifd0Id, dngTags, unsignedByte, printValue), // DNG tag
+        TagInfo(0xc68b, "OriginalRawFileName", N_("Original Raw File Name"),
+                N_("If the DNG file was converted from a non-DNG raw file, then this tag "
+                   "contains the file name of that original raw file."),
+                ifd0Id, dngTags, unsignedByte, printValue), // DNG tag
+        TagInfo(0xc68c, "OriginalRawFileData", N_("Original Raw File Data"),
+                N_("If the DNG file was converted from a non-DNG raw file, then this tag "
+                   "contains the compressed contents of that original raw file. The "
+                   "contents of this tag always use the big-endian byte order. The tag "
+                   "contains a sequence of data blocks. Future versions of the DNG "
+                   "specification may define additional data blocks, so DNG readers "
+                   "should ignore extra bytes when parsing this tag. DNG readers should "
+                   "also detect the case where data blocks are missing from the end of "
+                   "the sequence, and should assume a default value for all the missing "
+                   "blocks. There are no padding or alignment bytes between data blocks."),
+                ifd0Id, dngTags, undefined, printValue), // DNG tag
+        TagInfo(0xc68d, "ActiveArea", N_("Active Area"),
+                N_("This rectangle defines the active (non-masked) pixels of the sensor. "
+                   "The order of the rectangle coordinates is: top, left, bottom, right."),
+                ifd0Id, dngTags, unsignedShort, printValue), // DNG tag
+        TagInfo(0xc68e, "MaskedAreas", N_("Masked Areas"),
+                N_("This tag contains a list of non-overlapping rectangle coordinates of "
+                   "fully masked pixels, which can be optionally used by DNG readers "
+                   "to measure the black encoding level. The order of each rectangle's "
+                   "coordinates is: top, left, bottom, right. If the raw image data has "
+                   "already had its black encoding level subtracted, then this tag should "
+                   "not be used, since the masked pixels are no longer useful."),
+                ifd0Id, dngTags, unsignedShort, printValue), // DNG tag
+        TagInfo(0xc68f, "AsShotICCProfile", N_("As-Shot ICC Profile"),
+                N_("This tag contains an ICC profile that, in conjunction with the "
+                   "AsShotPreProfileMatrix tag, provides the camera manufacturer with a "
+                   "way to specify a default color rendering from camera color space "
+                   "coordinates (linear reference values) into the ICC profile connection "
+                   "space. The ICC profile connection space is an output referred "
+                   "colorimetric space, whereas the other color calibration tags in DNG "
+                   "specify a conversion into a scene referred colorimetric space. This "
+                   "means that the rendering in this profile should include any desired "
+                   "tone and gamut mapping needed to convert between scene referred "
+                   "values and output referred values."),
+                ifd0Id, dngTags, undefined, printValue), // DNG tag
+        TagInfo(0xc690, "AsShotPreProfileMatrix", N_("As-Shot Pre-Profile Matrix"),
+                N_("This tag is used in conjunction with the AsShotICCProfile tag. It "
+                   "specifies a matrix that should be applied to the camera color space "
+                   "coordinates before processing the values through the ICC profile "
+                   "specified in the AsShotICCProfile tag. The matrix is stored in the "
+                   "row scan order. If ColorPlanes is greater than three, then this "
+                   "matrix can (but is not required to) reduce the dimensionality of the "
+                   "color data down to three components, in which case the AsShotICCProfile "
+                   "should have three rather than ColorPlanes input components."),
+                ifd0Id, dngTags, signedRational, printValue), // DNG tag
+        TagInfo(0xc691, "CurrentICCProfile", N_("Current ICC Profile"),
+                N_("This tag is used in conjunction with the CurrentPreProfileMatrix tag. "
+                   "The CurrentICCProfile and CurrentPreProfileMatrix tags have the same "
+                   "purpose and usage as the AsShotICCProfile and AsShotPreProfileMatrix "
+                   "tag pair, except they are for use by raw file editors rather than "
+                   "camera manufacturers."),
+                ifd0Id, dngTags, undefined, printValue), // DNG tag
+        TagInfo(0xc692, "CurrentPreProfileMatrix", N_("Current Pre-Profile Matrix"),
+                N_("This tag is used in conjunction with the CurrentICCProfile tag. "
+                   "The CurrentICCProfile and CurrentPreProfileMatrix tags have the same "
+                   "purpose and usage as the AsShotICCProfile and AsShotPreProfileMatrix "
+                   "tag pair, except they are for use by raw file editors rather than "
+                   "camera manufacturers."),
+                ifd0Id, dngTags, signedRational, printValue), // DNG tag
         // End of list marker
         TagInfo(0xffff, "(UnknownIfdTag)", N_("Unknown IFD tag"),
                 N_("Unknown IFD tag"),
