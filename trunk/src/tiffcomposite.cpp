@@ -69,13 +69,14 @@ namespace Exiv2 {
     extern const TiffGroupInfo tiffGroupInfo[] = {
         {   1, "Image"        },
         {   2, "Thumbnail"    },
-        {   3, "Photo"        },
-        {   4, "GPSInfo"      },
-        {   5, "Iop"          },
-        {   6, "SubImage1"    },
-        {   7, "SubImage2"    },
-        {   8, "SubImage3"    },
-        {   9, "SubImage4"    },
+        {   3, "Image2"       },
+        {   4, "Photo"        },
+        {   5, "GPSInfo"      },
+        {   6, "Iop"          },
+        {   7, "SubImage1"    },
+        {   8, "SubImage2"    },
+        {   9, "SubImage3"    },
+        {  10, "SubImage4"    },
         { 257, "Olympus"      },
         { 258, "Fujifilm"     },
         { 259, "Canon"        },
@@ -897,7 +898,8 @@ namespace Exiv2 {
                                      uint32_t& imageIdx)
     {
 #ifdef DEBUG
-        std::cerr << "TiffImageEntry, tag 0x" << std::setw(4) 
+        std::cerr << "TiffImageEntry, Directory " << tiffGroupName(group())
+                  << ", entry 0x" << std::setw(4)
                   << std::setfill('0') << std::hex << tag() << std::dec
                   << ": Writing offset " << imageIdx << "\n";
 #endif
@@ -1088,8 +1090,18 @@ namespace Exiv2 {
                                          ByteOrder byteOrder) const
     {
         uint32_t len = 0;
+        TiffComponent* pSubIfd = 0;
         for (Components::const_iterator i = components_.begin(); i != components_.end(); ++i) {
+            if ((*i)->tag() == 0x014a) {
+                // Hack: delay writing of sub-IFD image data to get the order correct
+                assert(pSubIfd == 0);
+                pSubIfd = *i;
+                continue;
+            }
             len += (*i)->writeImage(blob, byteOrder);
+        }
+        if (pSubIfd) {
+            len += pSubIfd->writeImage(blob, byteOrder);
         }
         if (pNext_) {
             len += pNext_->writeImage(blob, byteOrder);
@@ -1126,7 +1138,8 @@ namespace Exiv2 {
         uint32_t len = pValue()->sizeDataArea();
         if (len > 0) {
 #ifdef DEBUG
-            std::cerr << "TiffImageEntry, tag 0x" << std::setw(4) 
+            std::cerr << "TiffImageEntry, Directory " << tiffGroupName(group())
+                      << ", entry 0x" << std::setw(4)
                       << std::setfill('0') << std::hex << tag() << std::dec
                       << ": Writing data area, blob-size = " << blob.size();
 #endif
@@ -1138,7 +1151,8 @@ namespace Exiv2 {
         }
         else {
 #ifdef DEBUG
-            std::cerr << "TiffImageEntry, tag 0x" << std::setw(4) 
+            std::cerr << "TiffImageEntry, Directory " << tiffGroupName(group())
+                      << ", entry 0x" << std::setw(4)
                       << std::setfill('0') << std::hex << tag() << std::dec
                       << ": Writing data area, blob-size = " << blob.size();
 #endif
