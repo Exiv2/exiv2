@@ -81,13 +81,14 @@ namespace Exiv2 {
         const uint16_t none    =   0; //!< Dummy group
         const uint16_t ifd0    =   1; //!< Exif IFD0
         const uint16_t ifd1    =   2; //!< Thumbnail IFD
-        const uint16_t exif    =   3; //!< Exif IFD
-        const uint16_t gps     =   4; //!< GPS IFD
-        const uint16_t iop     =   5; //!< Interoperability IFD
-        const uint16_t subimg1 =   6; //!< 1st TIFF SubIFD in IFD0
-        const uint16_t subimg2 =   7; //!< 2nd TIFF SubIFD in IFD0
-        const uint16_t subimg3 =   8; //!< 3rd TIFF SubIFD in IFD0
-        const uint16_t subimg4 =   9; //!< 4th TIFF SubIFD in IFD0
+        const uint16_t ifd2    =   3; //!< IFD2
+        const uint16_t exif    =   4; //!< Exif IFD
+        const uint16_t gps     =   5; //!< GPS IFD
+        const uint16_t iop     =   6; //!< Interoperability IFD
+        const uint16_t subimg1 =   7; //!< 1st TIFF SubIFD in IFD0
+        const uint16_t subimg2 =   8; //!< 2nd TIFF SubIFD in IFD0
+        const uint16_t subimg3 =   9; //!< 3rd TIFF SubIFD in IFD0
+        const uint16_t subimg4 =  10; //!< 4th TIFF SubIFD in IFD0
         const uint16_t mn      = 256; //!< Makernote
         const uint16_t ignr    = 511; //!< Read but do not decode
     }

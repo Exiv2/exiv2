@@ -290,8 +290,8 @@ namespace Exiv2 {
         {    0x0117, Group::ifd0,      Group::ifd0,      Tag::root, Group::none,      newTiffImageSize<0x0111, Group::ifd0> },
         {    0x0144, Group::ifd0,      Group::ifd0,      Tag::root, Group::none,      newTiffImageData<0x0145, Group::ifd0> },
         {    0x0145, Group::ifd0,      Group::ifd0,      Tag::root, Group::none,      newTiffImageSize<0x0144, Group::ifd0> },
-        {    0x0201, Group::ifd0,      Group::ifd0,      Tag::root, Group::ifd0,      newTiffImageData<0x0202, Group::ifd0> },
-        {    0x0202, Group::ifd0,      Group::ifd0,      Tag::root, Group::ifd0,      newTiffImageSize<0x0201, Group::ifd0> },
+        {    0x0201, Group::ifd0,      Group::ifd0,      Tag::root, Group::none,      newTiffImageData<0x0202, Group::ifd0> },
+        {    0x0202, Group::ifd0,      Group::ifd0,      Tag::root, Group::none,      newTiffImageSize<0x0201, Group::ifd0> },
         {    0x014a, Group::ifd0,      Group::subimg1,   Tag::root, Group::none,      newTiffSubIfd },
         { Tag::next, Group::ifd0,      Group::ifd1,      Tag::root, Group::none,      newTiffDirectory },
         {  Tag::all, Group::ifd0,      Group::ifd0,      Tag::root, Group::none,      newTiffEntry },
@@ -355,8 +355,16 @@ namespace Exiv2 {
         {    0x0117, Group::ifd1,      Group::ifd1,      Tag::next, Group::ifd0,      newTiffThumbSize<0x0111, Group::ifd1> },
         {    0x0201, Group::ifd1,      Group::ifd1,      Tag::next, Group::ifd0,      newTiffThumbData<0x0202, Group::ifd1> },
         {    0x0202, Group::ifd1,      Group::ifd1,      Tag::next, Group::ifd0,      newTiffThumbSize<0x0201, Group::ifd1> },
-        { Tag::next, Group::ifd1,      Group::ignr,      Tag::next, Group::ifd0,      newTiffDirectory },
+        { Tag::next, Group::ifd1,      Group::ifd2,      Tag::next, Group::ifd0,      newTiffDirectory },
         {  Tag::all, Group::ifd1,      Group::ifd1,      Tag::next, Group::ifd0,      newTiffEntry },
+
+        // IFD2 (eg, in Pentax PEF files)
+        {    0x0111, Group::ifd2,      Group::ifd2,      Tag::next, Group::ifd1,      newTiffImageData<0x0117, Group::ifd2> },
+        {    0x0117, Group::ifd2,      Group::ifd2,      Tag::next, Group::ifd1,      newTiffImageSize<0x0111, Group::ifd2> },
+        {    0x0201, Group::ifd2,      Group::ifd2,      Tag::next, Group::ifd1,      newTiffImageData<0x0202, Group::ifd2> },
+        {    0x0202, Group::ifd2,      Group::ifd2,      Tag::next, Group::ifd1,      newTiffImageSize<0x0201, Group::ifd2> },
+        { Tag::next, Group::ifd2,      Group::ignr,      Tag::next, Group::ifd1,      newTiffDirectory },
+        {  Tag::all, Group::ifd2,      Group::ifd2,      Tag::next, Group::ifd1,      newTiffEntry },
 
         // Olympus makernote - some Olympus cameras use Minolta structures
         // Todo: Adding such tags will not work (maybe result in a Minolta makernote), need separate groups
@@ -409,6 +417,8 @@ namespace Exiv2 {
         {  Tag::all, Group::panamn,    Group::panamn,    0x927c,    Group::exif,      newTiffEntry },
 
         // Pentax makernote
+        {    0x0003, Group::pentaxmn,  Group::pentaxmn,  0x927c,    Group::exif,      newTiffThumbSize<0x0004, Group::pentaxmn> },
+        {    0x0004, Group::pentaxmn,  Group::pentaxmn,  0x927c,    Group::exif,      newTiffThumbData<0x0003, Group::pentaxmn> },
         { Tag::next, Group::pentaxmn,  Group::ignr,      0x927c,    Group::exif,      newTiffDirectory },
         {  Tag::all, Group::pentaxmn,  Group::pentaxmn,  0x927c,    Group::exif,      newTiffEntry },
 

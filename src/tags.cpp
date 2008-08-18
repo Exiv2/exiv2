@@ -86,6 +86,7 @@ namespace Exiv2 {
         { gpsIfdId,          "GPSInfo",   "GPSInfo",      ExifTags::gpsTagList           },
         { iopIfdId,          "Iop",       "Iop",          ExifTags::iopTagList           },
         { ifd1Id,            "IFD1",      "Thumbnail",    ExifTags::ifdTagList           },
+        { ifd2Id,            "IFD2",      "Image2",       ExifTags::ifdTagList           },
         { subImage1Id,       "SubImage1", "SubImage1",    ExifTags::ifdTagList           },
         { subImage2Id,       "SubImage2", "SubImage2",    ExifTags::ifdTagList           },
         { subImage3Id,       "SubImage3", "SubImage3",    ExifTags::ifdTagList           },
@@ -1639,6 +1640,7 @@ namespace Exiv2 {
         case gpsIfdId:
         case iopIfdId:
         case ifd1Id:
+        case ifd2Id:
         case subImage1Id:
         case subImage2Id:
         case subImage3Id:
