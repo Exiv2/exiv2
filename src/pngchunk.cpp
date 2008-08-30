@@ -695,7 +695,7 @@ namespace Exiv2
         char          *dp=0;
         char          *text=0;
 
-        uint           allocated_length, description_length, text_length;
+        unsigned int   allocated_length, description_length, text_length;
 
         unsigned char  hex[16] = {'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
 
@@ -731,7 +731,7 @@ namespace Exiv2
         *dp++='\n';
         *dp='\0';
 
-        text_length = (uint)(dp-text);
+        text_length = (unsigned int)(dp-text);
 
         if (text_length <= allocated_length)
         {
