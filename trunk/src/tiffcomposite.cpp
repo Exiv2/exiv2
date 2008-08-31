@@ -259,6 +259,27 @@ namespace Exiv2 {
         assert(pSize);
         assert(pValue());
 
+        if (pValue()->count() == 0) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Warning: "
+                      << "Directory " << tiffGroupName(group())
+                      << ", entry 0x" << std::setw(4)
+                      << std::setfill('0') << std::hex << tag()
+                      << ": Data offset entry value is empty, ignoring it.\n";
+#endif
+            return;
+        }
+        if (pValue()->count() != pSize->count()) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Warning: "
+                      << "Directory " << tiffGroupName(group())
+                      << ", entry 0x" << std::setw(4)
+                      << std::setfill('0') << std::hex << tag()
+                      << ": Size and data offset entries have different"
+                      << " number of components, ignoring them.\n";
+#endif
+            return;
+        }
         long size = 0;
         for (long i = 0; i < pSize->count(); ++i) {
             size += pSize->toLong(i);
@@ -873,7 +894,7 @@ namespace Exiv2 {
                                     uint32_t  dataIdx,
                                     uint32_t& /*imageIdx*/)
     {
-        if (!pValue()) return 0;
+        if (!pValue() || pValue()->count() == 0) return 0;
 
         DataBuf buf(pValue()->size());
         uint32_t idx = 0;
