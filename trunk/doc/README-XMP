@@ -54,11 +54,10 @@ public/include/*        -> xmpsdk/include
 source/common/*         -> xmpsdk/src
 source/XMPCore/*        -> xmpsdk/src
 build/XMP_BuildInfo.h   -> xmpsdk/src
-third-party/MD5/MD5.h   -> xmpsdk/include
-third-party/MD5/MD5.cpp -> xmpsdk/src
 
-Minor changes were applied to the original XMP SDK, see the SVN for 
-details:
+The MD5 functions included with XMP SDK were replaced with an
+equivalent implementation which is in the public domain. For other
+changes applied to the original XMP SDK, refer to SVN for details:
 
     http://dev.robotbattle.com/cgi-bin/viewvc.cgi/exiv2/trunk/xmpsdk/
 
@@ -67,6 +66,5 @@ License
 =======
 
 Copyright (c) 1999 - 2007, Adobe Systems Incorporated
-Copyright (c) 1991-2, RSA Data Security, Inc.
 
-See the file doc/COPYING-XMPSDK for the XMP Toolkit license agreements.
+See the file doc/COPYING-XMPSDK for the XMP Toolkit license agreement.
