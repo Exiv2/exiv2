@@ -59,7 +59,7 @@ namespace Exiv2 {
       string or data buffer.  For other tasks, like modifying values you may
       need to downcast it to a specific subclass to access its interface.
      */
-    class Value {
+    class EXIV2API Value {
     public:
         //! Shortcut for a %Value auto pointer.
         typedef std::auto_ptr<Value> AutoPtr;
@@ -260,7 +260,7 @@ namespace Exiv2 {
     }
 
     //! %Value for an undefined data type.
-    class DataValue : public Value {
+    class EXIV2API DataValue : public Value {
     public:
         //! Shortcut for a %DataValue auto pointer.
         typedef std::auto_ptr<DataValue> AutoPtr;
@@ -332,7 +332,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        virtual DataValue* clone_() const;
+        EXV_DLLLOCAL virtual DataValue* clone_() const;
 
     public:
         //! Type used to store the data.
@@ -348,7 +348,7 @@ namespace Exiv2 {
       Uses a std::string to store the value and implements defaults for
       most operations.
      */
-    class StringValueBase : public Value {
+    class EXIV2API StringValueBase : public Value {
     public:
         //! Shortcut for a %StringValueBase auto pointer.
         typedef std::auto_ptr<StringValueBase> AutoPtr;
@@ -434,7 +434,7 @@ namespace Exiv2 {
       left to caller to decode and encode the string to and from readable
       text if that is required.
     */
-    class StringValue : public StringValueBase {
+    class EXIV2API StringValue : public StringValueBase {
     public:
         //! Shortcut for a %StringValue auto pointer.
         typedef std::auto_ptr<StringValue> AutoPtr;
@@ -458,7 +458,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        virtual StringValue* clone_() const;
+        EXV_DLLLOCAL virtual StringValue* clone_() const;
 
     }; // class StringValue
 
@@ -468,7 +468,7 @@ namespace Exiv2 {
       This class is for null terminated single byte Ascii strings.
       This class also ensures that the string is null terminated.
      */
-    class AsciiValue : public StringValueBase {
+    class EXIV2API AsciiValue : public StringValueBase {
     public:
         //! Shortcut for a %AsciiValue auto pointer.
         typedef std::auto_ptr<AsciiValue> AutoPtr;
@@ -509,7 +509,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        virtual AsciiValue* clone_() const;
+        EXV_DLLLOCAL virtual AsciiValue* clone_() const;
 
     }; // class AsciiValue
 
@@ -521,7 +521,7 @@ namespace Exiv2 {
       undefined), but this is not checked. It is left to caller to decode and
       encode the string to and from readable text if that is required.
     */
-    class CommentValue : public StringValueBase {
+    class EXIV2API CommentValue : public StringValueBase {
     public:
         //! Character set identifiers for the character sets defined by %Exif
         enum CharsetId { ascii, jis, unicode, undefined,
@@ -607,14 +607,14 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        virtual CommentValue* clone_() const;
+        EXV_DLLLOCAL virtual CommentValue* clone_() const;
 
     }; // class CommentValue
 
     /*!
       @brief Base class for all Exiv2 values used to store XMP property values.
      */
-    class XmpValue : public Value {
+    class EXIV2API XmpValue : public Value {
     public:
         //! Shortcut for a %XmpValue auto pointer.
         typedef std::auto_ptr<XmpValue> AutoPtr;
@@ -705,7 +705,7 @@ namespace Exiv2 {
 
       Uses a std::string to store the value.
      */
-    class XmpTextValue : public XmpValue {
+    class EXIV2API XmpTextValue : public XmpValue {
     public:
         //! Shortcut for a %XmpTextValue auto pointer.
         typedef std::auto_ptr<XmpTextValue> AutoPtr;
@@ -770,7 +770,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        virtual XmpTextValue* clone_() const;
+        EXV_DLLLOCAL virtual XmpTextValue* clone_() const;
 
     public:
         // DATA
@@ -787,7 +787,7 @@ namespace Exiv2 {
 
       Uses a vector of std::string to store the value(s).
      */
-    class XmpArrayValue : public XmpValue {
+    class EXIV2API XmpArrayValue : public XmpValue {
     public:
         //! Shortcut for a %XmpArrayValue auto pointer.
         typedef std::auto_ptr<XmpArrayValue> AutoPtr;
@@ -838,7 +838,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        virtual XmpArrayValue* clone_() const;
+        EXV_DLLLOCAL virtual XmpArrayValue* clone_() const;
 
     public:
         //! Type used to store XMP array elements.
@@ -854,7 +854,7 @@ namespace Exiv2 {
       A language alternative is an array consisting of simple text values,
       each of which has a language qualifier.
      */
-    class LangAltValue : public XmpValue {
+    class EXIV2API LangAltValue : public XmpValue {
     public:
         //! Shortcut for a %LangAltValue auto pointer.
         typedef std::auto_ptr<LangAltValue> AutoPtr;
@@ -922,7 +922,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        virtual LangAltValue* clone_() const;
+        EXV_DLLLOCAL virtual LangAltValue* clone_() const;
 
     public:
         //! Type used to store language alternative arrays.
@@ -942,7 +942,7 @@ namespace Exiv2 {
       This class is limited to parsing simple date strings in the ISO 8601
       format CCYYMMDD (century, year, month, day).
      */
-    class DateValue : public Value {
+    class EXIV2API DateValue : public Value {
     public:
         //! Shortcut for a %DateValue auto pointer.
         typedef std::auto_ptr<DateValue> AutoPtr;
@@ -1031,7 +1031,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        virtual DateValue* clone_() const;
+        EXV_DLLLOCAL virtual DateValue* clone_() const;
 
         // DATA
         Date date_;
@@ -1046,7 +1046,7 @@ namespace Exiv2 {
      seconds and ±HHMM refers to hours and minutes ahead or behind
      Universal Coordinated Time.
      */
-    class TimeValue : public Value {
+    class EXIV2API TimeValue : public Value {
     public:
         //! Shortcut for a %TimeValue auto pointer.
         typedef std::auto_ptr<TimeValue> AutoPtr;
@@ -1151,7 +1151,7 @@ namespace Exiv2 {
           @param format Format string for sscanf().
           @return 0 if successful, else 1.
          */
-        int scanTime3(const char* buf, const char* format);
+        EXV_DLLLOCAL int scanTime3(const char* buf, const char* format);
         /*!
           @brief Set time from \em buf if it conforms to \em format
                  (6 input items).
@@ -1162,13 +1162,13 @@ namespace Exiv2 {
           @param format Format string for sscanf().
           @return 0 if successful, else 1.
          */
-        int scanTime6(const char* buf, const char* format);
+        EXV_DLLLOCAL int scanTime6(const char* buf, const char* format);
         //@}
 
         //! @name Accessors
         //@{
         //! Internal virtual copy constructor.
-        virtual TimeValue* clone_() const;
+        EXV_DLLLOCAL virtual TimeValue* clone_() const;
         //@}
 
         // DATA

@@ -48,37 +48,47 @@ EXIV2_RCSID("@(#) $Id$")
 #include <cstring>
 
 // *****************************************************************************
-// class member definitions
-namespace Exiv2 {
+namespace {
+
+    //! Information pertaining to the defined %Exiv2 value type identifiers.
+    struct TypeInfoTable {
+        Exiv2::TypeId typeId_;                  //!< Type id
+        const char* name_;                      //!< Name of the type
+        long size_;                             //!< Bytes per data entry
+        //! Comparison operator for \em typeId
+        bool operator==(Exiv2::TypeId typeId) const;
+        //! Comparison operator for \em name
+        bool operator==(const std::string& name) const;
+    }; // struct TypeInfoTable
 
     //! Lookup list with information of Exiv2 types
-    const TypeInfoTable TypeInfo::typeInfoTable_[] = {
-        { invalidTypeId,    "Invalid",     0 },
-        { unsignedByte,     "Byte",        1 },
-        { asciiString,      "Ascii",       1 },
-        { unsignedShort,    "Short",       2 },
-        { unsignedLong,     "Long",        4 },
-        { unsignedRational, "Rational",    8 },
-        { signedByte,       "SByte",       1 },
-        { undefined,        "Undefined",   1 },
-        { signedShort,      "SShort",      2 },
-        { signedLong,       "SLong",       4 },
-        { signedRational,   "SRational",   8 },
-        { tiffFloat,        "Float",       4 },
-        { tiffDouble,       "Double",      8 },
-        { string,           "String",      1 },
-        { date,             "Date",        8 },
-        { time,             "Time",       11 },
-        { comment,          "Comment",     1 },
-        { directory,        "Directory",   1 },
-        { xmpText,          "XmpText",     1 },
-        { xmpAlt,           "XmpAlt",      1 },
-        { xmpBag,           "XmpBag",      1 },
-        { xmpSeq,           "XmpSeq",      1 },
-        { langAlt,          "LangAlt",     1 }
+    const TypeInfoTable typeInfoTable[] = {
+        { Exiv2::invalidTypeId,    "Invalid",     0 },
+        { Exiv2::unsignedByte,     "Byte",        1 },
+        { Exiv2::asciiString,      "Ascii",       1 },
+        { Exiv2::unsignedShort,    "Short",       2 },
+        { Exiv2::unsignedLong,     "Long",        4 },
+        { Exiv2::unsignedRational, "Rational",    8 },
+        { Exiv2::signedByte,       "SByte",       1 },
+        { Exiv2::undefined,        "Undefined",   1 },
+        { Exiv2::signedShort,      "SShort",      2 },
+        { Exiv2::signedLong,       "SLong",       4 },
+        { Exiv2::signedRational,   "SRational",   8 },
+        { Exiv2::tiffFloat,        "Float",       4 },
+        { Exiv2::tiffDouble,       "Double",      8 },
+        { Exiv2::string,           "String",      1 },
+        { Exiv2::date,             "Date",        8 },
+        { Exiv2::time,             "Time",       11 },
+        { Exiv2::comment,          "Comment",     1 },
+        { Exiv2::directory,        "Directory",   1 },
+        { Exiv2::xmpText,          "XmpText",     1 },
+        { Exiv2::xmpAlt,           "XmpAlt",      1 },
+        { Exiv2::xmpBag,           "XmpBag",      1 },
+        { Exiv2::xmpSeq,           "XmpSeq",      1 },
+        { Exiv2::langAlt,          "LangAlt",     1 }
     };
 
-    bool TypeInfoTable::operator==(TypeId typeId) const
+    bool TypeInfoTable::operator==(Exiv2::TypeId typeId) const
     {
         return typeId_ == typeId;
     }
@@ -88,23 +98,29 @@ namespace Exiv2 {
         return std::string(name_) == name;
     }
 
+}
+
+// *****************************************************************************
+// class member definitions
+namespace Exiv2 {
+
     const char* TypeInfo::typeName(TypeId typeId)
     {
-        const TypeInfoTable* tit = find(typeInfoTable_, typeId);
+        const TypeInfoTable* tit = find(typeInfoTable, typeId);
         if (!tit) return 0;
         return tit->name_;
     }
 
     TypeId TypeInfo::typeId(const std::string& typeName)
     {
-        const TypeInfoTable* tit = find(typeInfoTable_, typeName);
+        const TypeInfoTable* tit = find(typeInfoTable, typeName);
         if (!tit) return invalidTypeId;
         return tit->typeId_;
     }
 
     long TypeInfo::typeSize(TypeId typeId)
     {
-        const TypeInfoTable* tit = find(typeInfoTable_, typeId);
+        const TypeInfoTable* tit = find(typeInfoTable, typeId);
         if (!tit) return 0;
         return tit->size_;
     }

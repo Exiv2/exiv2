@@ -39,6 +39,7 @@
 // *****************************************************************************
 // included header files
 #include "tags.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <iosfwd>
@@ -51,7 +52,7 @@ namespace Exiv2 {
 // class definitions
 
     //! MakerNote for Minolta cameras
-    class MinoltaMakerNote {
+    class EXIV2API MinoltaMakerNote {
     public:
         //! Return read-only list of built-in Minolta tags
         static const TagInfo* tagList();

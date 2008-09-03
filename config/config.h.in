@@ -126,6 +126,12 @@
    slash. */
 #undef LSTAT_FOLLOWS_SLASHED_SYMLINK
 
+/* Define if g++ supports C++ visibility features */
+#undef HAVE_GXXCLASSVISIBILITY
+
+/* Define if we have / are building a shared library (DLL) */
+#undef HAVE_DLL
+
 /* Define to the address where bug reports for this package should be sent. */
 #undef PACKAGE_BUGREPORT
 
@@ -192,3 +198,34 @@
 #define SEPERATOR_STR "/"
 #define SEPERATOR_CHR '/'
 #endif
+
+/* Shared library support, see http://gcc.gnu.org/wiki/Visibility */
+#ifdef WIN32
+# define EXV_IMPORT __declspec(dllimport)
+# define EXV_EXPORT __declspec(dllexport)
+# define EXV_DLLLOCAL
+# define EXV_DLLPUBLIC
+#else
+# ifdef EXV_HAVE_GXXCLASSVISIBILITY
+#  define EXV_IMPORT __attribute__ ((visibility("default")))
+#  define EXV_EXPORT __attribute__ ((visibility("default")))
+#  define EXV_DLLLOCAL __attribute__ ((visibility("hidden")))
+#  define EXV_DLLPUBLIC __attribute__ ((visibility("default")))
+# else
+#  define EXV_IMPORT
+#  define EXV_EXPORT
+#  define EXV_DLLLOCAL
+#  define EXV_DLLPUBLIC
+# endif /* ! EXV_HAVE_GXXCLASSVISIBILITY */
+#endif /* ! WIN32 */
+
+/* Define EXIV2API for DLL builds */
+#ifdef EXV_HAVE_DLL
+# ifdef EXV_BUILDING_LIB
+#  define EXIV2API EXV_EXPORT
+# else
+#  define EXIV2API EXV_IMPORT
+# endif /* ! EXV_BUILDING_LIB */
+#else
+# define EXIV2API
+#endif /* ! EXV_HAVE_DLL */

@@ -38,6 +38,7 @@
 // *****************************************************************************
 // included header files
 #include "tags.hpp"
+#include "types.hpp"
 
 // *****************************************************************************
 // namespace extensions
@@ -47,7 +48,7 @@ namespace Exiv2 {
 // class definitions
 
     //! MakerNote for Fujifilm cameras
-    class FujiMakerNote {
+    class EXIV2API FujiMakerNote {
     public:
         //! Return read-only list of built-in Fujifilm tags
         static const TagInfo* tagList();

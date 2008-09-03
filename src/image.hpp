@@ -20,7 +20,7 @@
  */
 /*!
   @file    image.hpp
-  @brief   Class JpegImage to access JPEG images
+  @brief   Class Image, defining the interface for all Image subclasses.
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
@@ -68,7 +68,7 @@ namespace Exiv2 {
       ImageFactory method. The Image class can then be used to to read, write,
       and save metadata.
      */
-    class Image {
+    class EXIV2API Image {
     public:
         //! Image auto_ptr type
         typedef std::auto_ptr<Image> AutoPtr;
@@ -425,7 +425,7 @@ namespace Exiv2 {
 
       The factory is implemented as a static class.
     */
-    class ImageFactory {
+    class EXIV2API ImageFactory {
         friend bool Image::good() const;
     public:
         /*!
@@ -559,21 +559,6 @@ namespace Exiv2 {
         static bool checkType(int type, BasicIo& io, bool advance);
 
     private:
-        //! Struct for storing image types and function pointers.
-        struct Registry {
-            //! Comparison operator to compare a Registry structure with an image type
-            bool operator==(const int& imageType) const;
-
-            // DATA
-            int            imageType_;
-            NewInstanceFct newInstance_;
-            IsThisTypeFct  isThisType_;
-            AccessMode     exifSupport_;
-            AccessMode     iptcSupport_;
-            AccessMode     xmpSupport_;
-            AccessMode     commentSupport_;
-        };
-
         //! @name Creators
         //@{
         //! Prevent construction: not implemented.
@@ -582,9 +567,6 @@ namespace Exiv2 {
         ImageFactory(const ImageFactory& rhs);
         //@}
 
-        // DATA
-        //! List of image types, creation functions and access modes
-        static const Registry registry_[];
     }; // class ImageFactory
 
 // *****************************************************************************

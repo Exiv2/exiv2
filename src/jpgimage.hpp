@@ -35,6 +35,7 @@
 // included header files
 #include "image.hpp"
 #include "basicio.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <string>
@@ -56,7 +57,7 @@ namespace Exiv2 {
       @brief Helper class, has methods to deal with %Photoshop "Information
              Resource Blocks" (IRBs).
      */
-    struct Photoshop {
+    struct EXIV2API Photoshop {
         // Todo: Public for now
         static const char     ps3Id_[]; //!< %Photoshop marker
         static const char     bimId_[]; //!< %Photoshop marker
@@ -111,7 +112,7 @@ namespace Exiv2 {
     /*!
       @brief Abstract helper base class to access JPEG images.
      */
-    class JpegBase : public Image {
+    class EXIV2API JpegBase : public Image {
     public:
         //! @name Manipulators
         //@{
@@ -226,7 +227,7 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
                   4 if the image can not be written to.
          */
-        int initImage(const byte initData[], long dataSize);
+        EXV_DLLLOCAL int initImage(const byte initData[], long dataSize);
         /*!
           @brief Provides the main implementation of writeMetadata() by
                 writing all buffered metadata to the provided BasicIo.
@@ -234,7 +235,7 @@ namespace Exiv2 {
 
           @return 4 if opening or writing to the associated BasicIo fails
          */
-        void doWriteMetadata(BasicIo& oIo);
+        EXV_DLLLOCAL void doWriteMetadata(BasicIo& oIo);
         //@}
 
         //! @name Accessors
@@ -247,7 +248,7 @@ namespace Exiv2 {
           @return the next Jpeg segment marker if successful;<BR>
                  -1 if a maker was not found before EOF
          */
-        int advanceToMarker() const;
+        EXV_DLLLOCAL int advanceToMarker() const;
         //@}
 
     }; // class JpegBase
@@ -255,7 +256,7 @@ namespace Exiv2 {
     /*!
       @brief Class to access JPEG images
      */
-    class JpegImage : public JpegBase {
+    class EXIV2API JpegImage : public JpegBase {
         friend bool isJpegType(BasicIo& iIo, bool advance);
     public:
         //! @name Creators
@@ -299,6 +300,7 @@ namespace Exiv2 {
          */
         int writeHeader(BasicIo& oIo) const;
         //@}
+
     private:
         // Constant data
         static const byte soi_;          // SOI marker
@@ -311,10 +313,11 @@ namespace Exiv2 {
         JpegImage(const JpegImage& rhs);
         //! Assignment operator
         JpegImage& operator=(const JpegImage& rhs);
+
     }; // class JpegImage
 
     //! Helper class to access %Exiv2 files
-    class ExvImage : public JpegBase {
+    class EXIV2API ExvImage : public JpegBase {
         friend bool isExvType(BasicIo& iIo, bool advance);
     public:
         //! @name Creators
@@ -350,6 +353,7 @@ namespace Exiv2 {
         //@{
         int writeHeader(BasicIo& oIo) const;
         //@}
+
     private:
         // Constant data
         static const char exiv2Id_[];    // EXV identifier
@@ -362,6 +366,7 @@ namespace Exiv2 {
         ExvImage(const ExvImage& rhs);
         //! Assignment operator
         ExvImage& operator=(const ExvImage& rhs);
+
     }; // class ExvImage
 
 // *****************************************************************************
@@ -374,17 +379,17 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    Image::AutoPtr newJpegInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::AutoPtr newJpegInstance(BasicIo::AutoPtr io, bool create);
     //! Check if the file iIo is a JPEG image.
-    bool isJpegType(BasicIo& iIo, bool advance);
+    EXIV2API bool isJpegType(BasicIo& iIo, bool advance);
     /*!
       @brief Create a new ExvImage instance and return an auto-pointer to it.
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    Image::AutoPtr newExvInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::AutoPtr newExvInstance(BasicIo::AutoPtr io, bool create);
     //! Check if the file iIo is an EXV file
-    bool isExvType(BasicIo& iIo, bool advance);
+    EXIV2API bool isExvType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
 

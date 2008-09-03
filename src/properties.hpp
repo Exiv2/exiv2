@@ -59,7 +59,7 @@ namespace Exiv2 {
     enum XmpCategory { xmpInternal, xmpExternal };
 
     //! Information about one XMP property.
-    struct XmpPropertyInfo {
+    struct EXIV2API XmpPropertyInfo {
         //! Comparison operator for name
         bool operator==(const std::string& name) const;
 
@@ -72,7 +72,7 @@ namespace Exiv2 {
     };
 
     //! Structure mapping XMP namespaces and (preferred) prefixes.
-    struct XmpNsInfo {
+    struct EXIV2API XmpNsInfo {
         //! For comparison with prefix
         struct Prefix {
             //! Constructor.
@@ -99,7 +99,7 @@ namespace Exiv2 {
     };
 
     //! XMP property reference, implemented as a static class.
-    class XmpProperties {
+    class EXIV2API XmpProperties {
         //! Prevent construction: not implemented.
         XmpProperties();
         //! Prevent copy-construction: not implemented.
@@ -182,7 +182,6 @@ namespace Exiv2 {
         static std::ostream& printProperty(std::ostream& os,
                                            const std::string& key,
                                            const Value& value);
-
         /*!
           @brief Register namespace \em ns with preferred prefix \em prefix.
 
@@ -221,7 +220,7 @@ namespace Exiv2 {
     /*!
       @brief Concrete keys for XMP metadata.
      */
-    class XmpKey : public Key {
+    class EXIV2API XmpKey : public Key {
     public:
         //! Shortcut for an %XmpKey auto pointer.
         typedef std::auto_ptr<XmpKey> AutoPtr;
@@ -282,7 +281,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        virtual XmpKey* clone_() const;
+        EXV_DLLLOCAL virtual XmpKey* clone_() const;
 
     private:
         // Pimpl idiom
@@ -295,7 +294,7 @@ namespace Exiv2 {
 // free functions
 
     //! Output operator for property info
-    std::ostream& operator<<(std::ostream& os, const XmpPropertyInfo& propertyInfo);
+    EXIV2API std::ostream& operator<<(std::ostream& os, const XmpPropertyInfo& propertyInfo);
 
 }                                       // namespace Exiv2
 

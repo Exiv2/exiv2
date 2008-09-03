@@ -33,6 +33,7 @@
 // included header files
 #include "image.hpp"
 #include "basicio.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <string>
@@ -53,7 +54,7 @@ namespace Exiv2 {
       @brief Class to access TIFF images. Exif metadata is
           supported directly, IPTC is read from the Exif data, if present.
      */
-    class TiffImage : public Image {
+    class EXIV2API TiffImage : public Image {
     public:
         //! @name Creators
         //@{
@@ -109,7 +110,7 @@ namespace Exiv2 {
              class to decode and encode TIFF data. It is a wrapper of the
              internal class Internal::TiffParserWorker.
      */
-    class TiffParser {
+    class EXIV2API TiffParser {
     public:
         /*!
           @brief Decode metadata from a buffer \em pData of length \em size
@@ -185,10 +186,10 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    Image::AutoPtr newTiffInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::AutoPtr newTiffInstance(BasicIo::AutoPtr io, bool create);
 
     //! Check if the file iIo is a TIFF image.
-    bool isTiffType(BasicIo& iIo, bool advance);
+    EXIV2API bool isTiffType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
 

@@ -37,6 +37,7 @@
 #include "exif.hpp"
 #include "iptc.hpp"
 #include "image.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <string>
@@ -58,9 +59,7 @@ namespace Exiv2
     /*!
       @brief Class to access JPEG-2000 images.
      */
-    class Jp2Image : public Image 
-    {
-
+    class EXIV2API Jp2Image : public Image {
     public:
         //! @name Creators
         //@{
@@ -112,7 +111,7 @@ namespace Exiv2
 
           @return 4 if opening or writing to the associated BasicIo fails
          */
-        void doWriteMetadata(BasicIo& oIo);
+        EXV_DLLLOCAL void doWriteMetadata(BasicIo& oIo);
         //@}
 
     }; // class Jp2Image
@@ -127,10 +126,10 @@ namespace Exiv2
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    Image::AutoPtr newJp2Instance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::AutoPtr newJp2Instance(BasicIo::AutoPtr io, bool create);
 
     //! Check if the file iIo is a JPEG-2000 image.
-    bool isJp2Type(BasicIo& iIo, bool advance);
+    EXIV2API bool isJp2Type(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
 

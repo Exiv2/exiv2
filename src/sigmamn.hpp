@@ -33,8 +33,8 @@
 
 // *****************************************************************************
 // included header files
-#include "types.hpp"
 #include "tags.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <string>
@@ -49,7 +49,7 @@ namespace Exiv2 {
 // class definitions
 
     //! MakerNote for Sigma (Foveon) cameras
-    class SigmaMakerNote {
+    class EXIV2API SigmaMakerNote {
     public:
         //! Return read-only list of built-in Sigma tags
         static const TagInfo* tagList();

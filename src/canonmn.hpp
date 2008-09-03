@@ -35,8 +35,8 @@
 
 // *****************************************************************************
 // included header files
-#include "types.hpp"
 #include "tags.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <string>
@@ -55,7 +55,7 @@ namespace Exiv2 {
 // class definitions
 
     //! MakerNote for Canon cameras
-    class CanonMakerNote {
+    class EXIV2API CanonMakerNote {
     public:
         //! Return read-only list of built-in Canon tags
         static const TagInfo* tagList();
@@ -125,7 +125,7 @@ namespace Exiv2 {
        128 -> 4
        143 -> 4.46875
      */
-    float canonEv(long val);
+    EXIV2API float canonEv(long val);
 
 }                                       // namespace Exiv2
 

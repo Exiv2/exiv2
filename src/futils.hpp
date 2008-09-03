@@ -32,6 +32,12 @@
 
 // *********************************************************************
 // included header files
+#ifdef _MSC_VER
+# include "exv_msvc.h"
+#else
+# include "exv_conf.h"
+#endif
+
 // + standard includes
 #include <string>
 
@@ -54,12 +60,12 @@ namespace Exiv2 {
       and its type, see stat(2). <b>errno</b> is left unchanged
       in case of an error.
      */
-    bool fileExists(const std::string& path, bool ct =false);
+    EXIV2API bool fileExists(const std::string& path, bool ct =false);
     /*!
       @brief Return a system error message and the error code (errno).
              See %strerror(3).
      */
-    std::string strError();
+    EXIV2API std::string strError();
 
 }                                       // namespace Exiv2
 

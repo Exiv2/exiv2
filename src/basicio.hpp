@@ -52,8 +52,7 @@ namespace Exiv2 {
       operations. Subclasses should all behave the same so that they can be
       interchanged.
      */
-    class BasicIo
-    {
+    class EXIV2API BasicIo {
     public:
         //! BasicIo auto_ptr type
         typedef std::auto_ptr<BasicIo> AutoPtr;
@@ -243,7 +242,7 @@ namespace Exiv2 {
           ensure BasicIo instances get closed. Useful when functions return
           errors from many locations.
      */
-    class IoCloser {
+    class EXIV2API IoCloser {
     public:
         //! @name Creators
         //@{
@@ -261,7 +260,8 @@ namespace Exiv2 {
 
         // DATA
         //! The BasicIo reference
-        BasicIo &bio_;
+        BasicIo& bio_;
+
     private:
         // Not implemented
         //! Copy constructor
@@ -275,8 +275,7 @@ namespace Exiv2 {
       @brief Provides binary file IO by implementing the BasicIo
           interface.
      */
-    class FileIo : public BasicIo
-    {
+    class EXIV2API FileIo : public BasicIo {
     public:
         //! @name Creators
         //@{
@@ -481,7 +480,7 @@ namespace Exiv2 {
           @param opMode The mode to switch to.
           @return 0 if successful
          */
-        int switchMode(OpMode opMode);
+        EXV_DLLLOCAL int switchMode(OpMode opMode);
 
     }; // class FileIo
 
@@ -497,8 +496,7 @@ namespace Exiv2 {
           creating a specialized readonly class or changing this one to
           have a readonly mode.
      */
-    class MemIo : public BasicIo
-    {
+    class EXIV2API MemIo : public BasicIo {
     public:
         //! @name Creators
         //@{
@@ -658,6 +656,7 @@ namespace Exiv2 {
          */
         virtual BasicIo::AutoPtr temporary() const;
         //@}
+
     private:
         // NOT IMPLEMENTED
         //! Copy constructor
@@ -674,17 +673,17 @@ namespace Exiv2 {
         bool eof_;
 
         // METHODS
-        void reserve(long wcount);
+        EXV_DLLLOCAL void reserve(long wcount);
     }; // class MemIo
 
 // *****************************************************************************
 // template, inline and free functions
 
     //! Read file \em path into a DataBuf, which is returned.
-    DataBuf readFile(const std::string& path);
+    EXIV2API DataBuf readFile(const std::string& path);
 
     //! Write DataBuf \em buf to file \em path. Return the number of bytes written.
-    long writeFile(const DataBuf& buf, const std::string& path);
+    EXIV2API long writeFile(const DataBuf& buf, const std::string& path);
 
 }                                       // namespace Exiv2
 

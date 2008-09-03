@@ -41,7 +41,7 @@ EXIV2_RCSID("@(#) $Id: pngimage.cpp 823 2006-06-12 07:35:00Z cgilles $")
 # include "exv_conf.h"
 #endif
 
-#include "pngchunk.hpp"
+#include "pngchunk_int.hpp"
 #include "pngimage.hpp"
 #include "image.hpp"
 #include "basicio.hpp"
@@ -59,8 +59,10 @@ const unsigned char pngSignature[8] = { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A
 
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 
-{
+namespace Exiv2 {
+
+    using namespace Internal;
+
     PngImage::PngImage(BasicIo::AutoPtr io, bool /*create*/)
             : Image(ImageType::png, mdExif | mdIptc | mdComment, io)
     {

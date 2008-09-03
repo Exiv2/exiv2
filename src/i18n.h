@@ -39,7 +39,7 @@
 # include <libintl.h>
 
 // Definition is in types.cpp
-const char* _exvGettext(const char* str);
+EXIV2API const char* _exvGettext(const char* str);
 
 # define _(String) _exvGettext(String)
 # define N_(String) String

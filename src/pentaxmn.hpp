@@ -34,8 +34,8 @@
 
 // *****************************************************************************
 // included header files
-#include "types.hpp"
 #include "tags.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <string>
@@ -51,7 +51,7 @@ namespace Exiv2 {
 // class definitions
 
     //! MakerNote for Pentaxfilm cameras
-    class PentaxMakerNote {
+    class EXIV2API PentaxMakerNote {
     public:
         //! Return read-only list of built-in Pentaxfilm tags
         static const TagInfo* tagList();

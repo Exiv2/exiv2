@@ -53,7 +53,7 @@ namespace Exiv2 {
       @brief Abstract base class defining the %Key of a metadatum.
              Keys are used to identify and group metadata.
     */
-    class Key {
+    class EXIV2API Key {
     public:
         //! Shortcut for a %Key auto pointer.
         typedef std::auto_ptr<Key> AutoPtr;
@@ -110,7 +110,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        virtual Key* clone_() const =0;
+        EXV_DLLLOCAL virtual Key* clone_() const =0;
 
     }; // class Key
 
@@ -124,7 +124,7 @@ namespace Exiv2 {
       @brief Abstract base class defining the interface to access information
              related to one metadata tag.
      */
-    class Metadatum {
+    class EXIV2API Metadatum {
     public:
         //! @name Creators
         //@{
@@ -281,7 +281,7 @@ namespace Exiv2 {
     }; // class Metadatum
 
     //! Unary predicate that matches a Exifdatum with a given key
-    class FindMetadatumByKey {
+    class EXIV2API FindMetadatumByKey {
     public:
         //! Constructor, initializes the object with the tag to look for
         FindMetadatumByKey(const std::string& key) : key_(key) {}
@@ -310,12 +310,12 @@ namespace Exiv2 {
       @brief Compare two metadata by tag. Return true if the tag of metadatum
              lhs is less than that of rhs.
      */
-    bool cmpMetadataByTag(const Metadatum& lhs, const Metadatum& rhs);
+    EXIV2API bool cmpMetadataByTag(const Metadatum& lhs, const Metadatum& rhs);
     /*!
       @brief Compare two metadata by key. Return true if the key of metadatum
              lhs is less than that of rhs.
      */
-    bool cmpMetadataByKey(const Metadatum& lhs, const Metadatum& rhs);
+    EXIV2API bool cmpMetadataByKey(const Metadatum& lhs, const Metadatum& rhs);
 
 }                                       // namespace Exiv2
 

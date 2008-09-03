@@ -59,7 +59,6 @@ SHELL = /bin/sh
 # Add test drivers to this list
 TESTS = addmoddel.sh      \
         bugfixes-test.sh  \
-        crw-test.sh       \
         exifdata-test.sh  \
         exiv2-test.sh     \
         imagetest.sh      \

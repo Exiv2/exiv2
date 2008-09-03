@@ -115,11 +115,11 @@ namespace Exiv2 {
     /*!
       @brief Return the version of %Exiv2 available at runtime as an integer.
     */
-    int versionNumber();
+    EXIV2API int versionNumber();
     /*!
       @brief Return the version of %Exiv2 available at runtime as a string.
     */
-    const char* version();
+    EXIV2API const char* version();
     /*!
       @brief Test the version of the available %Exiv2 library at runtime. Return
              true if it is the same as or newer than the passed-in version.
@@ -162,6 +162,6 @@ namespace Exiv2 {
       #endif
       @endcode
      */
-    bool testVersion(int major, int minor, int patch);
+    EXIV2API bool testVersion(int major, int minor, int patch);
 }                                       // namespace Exiv2
 #endif                                  // VERSION_HPP_

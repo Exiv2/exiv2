@@ -54,7 +54,7 @@ namespace Exiv2 {
       @brief Class to access raw Olympus ORF images. Exif metadata is supported
              directly, IPTC is read from the Exif data, if present.
      */
-    class OrfImage : public Image {
+    class EXIV2API OrfImage : public Image {
     public:
         //! @name Creators
         //@{
@@ -124,7 +124,7 @@ namespace Exiv2 {
              class to decode and encode ORF data.
              See class TiffParser for details.
      */
-    class OrfParser {
+    class EXIV2API OrfParser {
     public:
         /*!
           @brief Decode metadata from a buffer \em pData of length \em size
@@ -163,10 +163,10 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    Image::AutoPtr newOrfInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::AutoPtr newOrfInstance(BasicIo::AutoPtr io, bool create);
 
     //! Check if the file iIo is an ORF image.
-    bool isOrfType(BasicIo& iIo, bool advance);
+    EXIV2API bool isOrfType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
 

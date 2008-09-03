@@ -53,7 +53,7 @@ namespace Exiv2 {
              easier for library users (they have the option of catching most
              things via std::exception).
      */
-    class AnyError : public std::exception {
+    class EXIV2API AnyError : public std::exception {
     public:
         //! @name Creators
         //@{
@@ -79,7 +79,7 @@ namespace Exiv2 {
       @brief Simple error class used for exceptions. An output operator is
              provided to print errors to a stream.
      */
-    class Error : public AnyError {
+    class EXIV2API Error : public AnyError {
     public:
         //! @name Creators
         //@{

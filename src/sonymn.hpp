@@ -31,8 +31,8 @@
 
 // *****************************************************************************
 // included header files
-#include "types.hpp"
 #include "tags.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <string>
@@ -46,7 +46,7 @@ namespace Exiv2 {
 // class definitions
 
     //! MakerNote for Sony cameras
-    class SonyMakerNote {
+    class EXIV2API SonyMakerNote {
     public:
         //! Return read-only list of built-in Sony tags
         static const TagInfo* tagList();
