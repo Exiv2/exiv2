@@ -33,6 +33,7 @@
 // included header files
 #include "image.hpp"
 #include "basicio.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <string>
@@ -53,7 +54,7 @@ namespace Exiv2 {
       @brief Class to access raw Fujifilm RAF images. Exif metadata is
           supported directly, IPTC is read from the Exif data, if present.
      */
-    class RafImage : public Image {
+    class EXIV2API RafImage : public Image {
     public:
         //! @name Creators
         //@{
@@ -128,10 +129,10 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    Image::AutoPtr newRafInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::AutoPtr newRafInstance(BasicIo::AutoPtr io, bool create);
 
     //! Check if the file iIo is a RAF image.
-    bool isRafType(BasicIo& iIo, bool advance);
+    EXIV2API bool isRafType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
 

@@ -37,6 +37,7 @@
 // included header files
 #include "image.hpp"
 #include "basicio.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <string>
@@ -59,9 +60,7 @@ namespace Exiv2
       @brief Class to access PNG images. Exif and IPTC metadata are supported
           directly.
      */
-    class PngImage : public Image 
-    {
-
+    class EXIV2API PngImage : public Image {
     public:
         //! @name Creators
         //@{
@@ -109,8 +108,9 @@ namespace Exiv2
 
           @return 4 if opening or writing to the associated BasicIo fails
          */
-        void doWriteMetadata(BasicIo& oIo);
+        EXV_DLLLOCAL void doWriteMetadata(BasicIo& oIo);
         //@}
+
     }; // class PngImage
 
 // *****************************************************************************
@@ -123,10 +123,10 @@ namespace Exiv2
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    Image::AutoPtr newPngInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::AutoPtr newPngInstance(BasicIo::AutoPtr io, bool create);
 
     //! Check if the file iIo is a PNG image.
-    bool isPngType(BasicIo& iIo, bool advance);
+    EXIV2API bool isPngType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
 

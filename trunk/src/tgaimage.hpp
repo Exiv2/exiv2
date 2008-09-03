@@ -36,6 +36,7 @@
 #include "exif.hpp"
 #include "iptc.hpp"
 #include "image.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <string>
@@ -56,7 +57,7 @@ namespace Exiv2 {
       @brief Class to access raw TARGA images. This is just a stub - we only
           read width and height.
      */
-    class TgaImage : public Image {
+    class EXIV2API TgaImage : public Image {
         //! @name NOT Implemented
         //@{
         //! Copy constructor
@@ -125,10 +126,10 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    Image::AutoPtr newTgaInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::AutoPtr newTgaInstance(BasicIo::AutoPtr io, bool create);
 
     //! Check if the file iIo is a Targa v2 image.
-    bool isTgaType(BasicIo& iIo, bool advance);
+    EXIV2API bool isTgaType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
 

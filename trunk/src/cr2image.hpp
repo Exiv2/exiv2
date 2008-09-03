@@ -54,7 +54,7 @@ namespace Exiv2 {
       @brief Class to access raw Canon CR2 images.  Exif metadata
           is supported directly, IPTC is read from the Exif data, if present.
      */
-    class Cr2Image : public Image {
+    class EXIV2API Cr2Image : public Image {
     public:
         //! @name Creators
         //@{
@@ -124,7 +124,7 @@ namespace Exiv2 {
              class to decode and encode CR2 data.
              See class TiffParser for details.
      */
-    class Cr2Parser {
+    class EXIV2API Cr2Parser {
     public:
         /*!
           @brief Decode metadata from a buffer \em pData of length \em size
@@ -163,10 +163,10 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    Image::AutoPtr newCr2Instance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::AutoPtr newCr2Instance(BasicIo::AutoPtr io, bool create);
 
     //! Check if the file iIo is a CR2 image.
-    bool isCr2Type(BasicIo& iIo, bool advance);
+    EXIV2API bool isCr2Type(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
 

@@ -39,13 +39,11 @@ EXIV2_RCSID("@(#) $Id: pngchunk.cpp 823 2006-06-23 07:35:00Z cgilles $")
 
 //#define DEBUG 1
 
-extern "C"
-{
-// To uncompress or compress text chunk
-#include <zlib.h>
+extern "C" {
+#include <zlib.h>     // To uncompress or compress text chunk
 }
 
-#include "pngchunk.hpp"
+#include "pngchunk_int.hpp"
 #include "tiffimage.hpp"
 #include "exif.hpp"
 #include "iptc.hpp"
@@ -71,8 +69,9 @@ PNG tags             : http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/PNG
 
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 
-{
+namespace Exiv2 {
+    namespace Internal {
+
     void PngChunk::decodeIHDRChunk(const DataBuf& data,
                                    int*           outWidth,
                                    int*           outHeight)
@@ -816,4 +815,4 @@ namespace Exiv2
 
     } // PngChunk::formatStringList
 
-}                                       // namespace Exiv2
+}}                                      // namespace Internal, Exiv2

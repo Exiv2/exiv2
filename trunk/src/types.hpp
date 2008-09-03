@@ -151,21 +151,10 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
-    //! Information pertaining to the defined %Exiv2 value type identifiers.
-    struct TypeInfoTable {
-        TypeId typeId_;                         //!< Type id
-        const char* name_;                      //!< Name of the type
-        long size_;                             //!< Bytes per data entry
-        //! Comparison operator for \em typeId
-        bool operator==(TypeId typeId) const;
-        //! Comparison operator for \em name
-        bool operator==(const std::string& name) const;
-    }; // struct TypeInfoTable
-
     //! Type information lookup functions. Implemented as a static class.
-    class TypeInfo {
+    class EXIV2API TypeInfo {
         //! Prevent construction: not implemented.
-        TypeInfo() {}
+        TypeInfo();
         //! Prevent copy-construction: not implemented.
         TypeInfo(const TypeInfo& rhs);
         //! Prevent assignment: not implemented.
@@ -179,8 +168,6 @@ namespace Exiv2 {
         //! Return the size in bytes of one element of this type
         static long typeSize(TypeId typeId);
 
-    private:
-        static const TypeInfoTable typeInfoTable_[];
     };
 
     /*!
@@ -188,7 +175,7 @@ namespace Exiv2 {
              std::auto_ptr_ref. See http://www.josuttis.com/libbook/auto_ptr.html
              for a discussion.
      */
-    struct DataBufRef {
+    struct EXIV2API DataBufRef {
         //! Constructor
         DataBufRef(std::pair<byte*, long> rhs) : p(rhs) {}
         //! Pointer to a byte array and its size
@@ -201,7 +188,7 @@ namespace Exiv2 {
              be as a stack variable in functions that need a temporary data
              buffer. 
      */
-    class DataBuf {
+    class EXIV2API DataBuf {
     public:
         //! @name Creators
         //@{
@@ -270,71 +257,71 @@ namespace Exiv2 {
 // free functions
 
     //! Read a 2 byte unsigned short value from the data buffer
-    uint16_t getUShort(const byte* buf, ByteOrder byteOrder);
+    EXIV2API uint16_t getUShort(const byte* buf, ByteOrder byteOrder);
     //! Read a 4 byte unsigned long value from the data buffer
-    uint32_t getULong(const byte* buf, ByteOrder byteOrder);
+    EXIV2API uint32_t getULong(const byte* buf, ByteOrder byteOrder);
     //! Read an 8 byte unsigned rational value from the data buffer
-    URational getURational(const byte* buf, ByteOrder byteOrder);
+    EXIV2API URational getURational(const byte* buf, ByteOrder byteOrder);
     //! Read a 2 byte signed short value from the data buffer
-    int16_t getShort(const byte* buf, ByteOrder byteOrder);
+    EXIV2API int16_t getShort(const byte* buf, ByteOrder byteOrder);
     //! Read a 4 byte signed long value from the data buffer
-    int32_t getLong(const byte* buf, ByteOrder byteOrder);
+    EXIV2API int32_t getLong(const byte* buf, ByteOrder byteOrder);
     //! Read an 8 byte signed rational value from the data buffer
-    Rational getRational(const byte* buf, ByteOrder byteOrder);
+    EXIV2API Rational getRational(const byte* buf, ByteOrder byteOrder);
 
     //! Output operator for our fake rational
-    std::ostream& operator<<(std::ostream& os, const Rational& r);
+    EXIV2API std::ostream& operator<<(std::ostream& os, const Rational& r);
     //! Input operator for our fake rational
-    std::istream& operator>>(std::istream& is, Rational& r);
+    EXIV2API std::istream& operator>>(std::istream& is, Rational& r);
     //! Output operator for our fake unsigned rational
-    std::ostream& operator<<(std::ostream& os, const URational& r);
+    EXIV2API std::ostream& operator<<(std::ostream& os, const URational& r);
     //! Input operator for our fake unsigned rational
-    std::istream& operator>>(std::istream& is, URational& r);
+    EXIV2API std::istream& operator>>(std::istream& is, URational& r);
 
     /*!
       @brief Convert an unsigned short to data, write the data to the buffer,
              return number of bytes written.
      */
-    long us2Data(byte* buf, uint16_t s, ByteOrder byteOrder);
+    EXIV2API long us2Data(byte* buf, uint16_t s, ByteOrder byteOrder);
     /*!
       @brief Convert an unsigned long to data, write the data to the buffer,
              return number of bytes written.
      */
-    long ul2Data(byte* buf, uint32_t l, ByteOrder byteOrder);
+    EXIV2API long ul2Data(byte* buf, uint32_t l, ByteOrder byteOrder);
     /*!
       @brief Convert an unsigned rational to data, write the data to the buffer,
              return number of bytes written.
      */
-    long ur2Data(byte* buf, URational l, ByteOrder byteOrder);
+    EXIV2API long ur2Data(byte* buf, URational l, ByteOrder byteOrder);
     /*!
       @brief Convert a signed short to data, write the data to the buffer,
              return number of bytes written.
      */
-    long s2Data(byte* buf, int16_t s, ByteOrder byteOrder);
+    EXIV2API long s2Data(byte* buf, int16_t s, ByteOrder byteOrder);
     /*!
       @brief Convert a signed long to data, write the data to the buffer,
              return number of bytes written.
      */
-    long l2Data(byte* buf, int32_t l, ByteOrder byteOrder);
+    EXIV2API long l2Data(byte* buf, int32_t l, ByteOrder byteOrder);
     /*!
       @brief Convert a signed rational to data, write the data to the buffer,
              return number of bytes written.
      */
-    long r2Data(byte* buf, Rational l, ByteOrder byteOrder);
+    EXIV2API long r2Data(byte* buf, Rational l, ByteOrder byteOrder);
 
     /*!
       @brief Print len bytes from buf in hex and ASCII format to the given
              stream, prefixed with the position in the buffer adjusted by
              offset.
      */
-    void hexdump(std::ostream& os, const byte* buf, long len, long offset =0);
+    EXIV2API void hexdump(std::ostream& os, const byte* buf, long len, long offset =0);
 
     /*!
       @brief Return true if str is a hex number starting with prefix followed
              by size hex digits, false otherwise. If size is 0, any number of
              digits is allowed and all are checked.
      */
-    bool isHex(const std::string& str,
+    EXIV2API bool isHex(const std::string& str,
                size_t size =0,
                const std::string& prefix ="");
 
@@ -343,13 +330,13 @@ namespace Exiv2 {
              "2007:05:24 12:31:55" to broken down time format,
              returns 0 if successful, else 1.
      */
-    int exifTime(const char* buf, struct tm* tm);
+    EXIV2API int exifTime(const char* buf, struct tm* tm);
 
     /*!
       @brief Translate a string using the gettext framework. This wrapper hides
              all the implementation details from the interface.
      */
-    const char* exvGettext(const char* str);
+    EXIV2API const char* exvGettext(const char* str);
 
     /*!
       @brief Return a \em long set to the value represented by \em s.
@@ -363,7 +350,7 @@ namespace Exiv2 {
       @return Returns the \em long value represented by \em s and sets \em ok
               to \c true if the conversion was successful or \c false if not.
     */
-    long parseLong(const std::string& s, bool& ok);
+    EXIV2API long parseLong(const std::string& s, bool& ok);
 
     /*!
       @brief Return a \em float set to the value represented by \em s.
@@ -377,7 +364,7 @@ namespace Exiv2 {
       @return Returns the \em float value represented by \em s and sets \em ok
               to \c true if the conversion was successful or \c false if not.
     */
-    float parseFloat(const std::string& s, bool& ok);
+    EXIV2API float parseFloat(const std::string& s, bool& ok);
 
     /*!
       @brief Return a \em Rational set to the value represented by \em s.
@@ -393,7 +380,7 @@ namespace Exiv2 {
       @return Returns the \em Rational value represented by \em s and sets \em ok
               to \c true if the conversion was successful or \c false if not.
     */
-    Rational parseRational(const std::string& s, bool& ok);
+    EXIV2API Rational parseRational(const std::string& s, bool& ok);
 
     /*!
       @brief Very simple conversion of a \em float to a \em Rational.
@@ -401,7 +388,7 @@ namespace Exiv2 {
       Test it with the values that you expect and check the implementation
       to see if this is really what you want!
      */
-    Rational floatToRationalCast(float f);
+    EXIV2API Rational floatToRationalCast(float f);
 
 // *****************************************************************************
 // template and inline definitions

@@ -76,10 +76,26 @@ EXIV2_RCSID("@(#) $Id$")
 #endif
 
 // *****************************************************************************
-// class member definitions
-namespace Exiv2 {
+namespace {
 
-    const ImageFactory::Registry ImageFactory::registry_[] = {
+    using namespace Exiv2;
+
+    //! Struct for storing image types and function pointers.
+    struct Registry {
+        //! Comparison operator to compare a Registry structure with an image type
+        bool operator==(const int& imageType) const { return imageType == imageType_; }
+
+        // DATA
+        int            imageType_;
+        NewInstanceFct newInstance_;
+        IsThisTypeFct  isThisType_;
+        AccessMode     exifSupport_;
+        AccessMode     iptcSupport_;
+        AccessMode     xmpSupport_;
+        AccessMode     commentSupport_;
+    };
+
+    const Registry registry[] = {
         //image type       creation fct     type check  Exif mode    IPTC mode    XMP mode     Comment mode
         //---------------  ---------------  ----------  -----------  -----------  -----------  ------------
         { ImageType::jpeg, newJpegInstance, isJpegType, amReadWrite, amReadWrite, amReadWrite, amReadWrite },
@@ -103,10 +119,11 @@ namespace Exiv2 {
         { ImageType::none, 0,               0,          amNone,      amNone,      amNone,      amNone      }
     };
 
-    bool ImageFactory::Registry::operator==(const int& imageType) const
-    {
-        return imageType == imageType_;
-    }
+}
+
+// *****************************************************************************
+// class member definitions
+namespace Exiv2 {
 
     Image::Image(int              imageType,
                  uint16_t         supportedMetadata,
@@ -228,7 +245,7 @@ namespace Exiv2 {
 
     AccessMode ImageFactory::checkMode(int type, MetadataId metadataId)
     {
-        const Registry* r = find(registry_, type);
+        const Registry* r = find(registry, type);
         if (!r) throw Error(13, type);
         AccessMode am = amNone;
         switch (metadataId) {
@@ -253,7 +270,7 @@ namespace Exiv2 {
 
     bool ImageFactory::checkType(int type, BasicIo& io, bool advance)
     {
-        const Registry* r = find(registry_, type);
+        const Registry* r = find(registry, type);
         if (0 != r) {
             return r->isThisType_(io, advance);
         }
@@ -276,9 +293,9 @@ namespace Exiv2 {
     {
         if (io.open() != 0) return ImageType::none;
         IoCloser closer(io);
-        for (unsigned int i = 0; registry_[i].imageType_ != ImageType::none; ++i) {
-            if (registry_[i].isThisType_(io, false)) {
-                return registry_[i].imageType_;
+        for (unsigned int i = 0; registry[i].imageType_ != ImageType::none; ++i) {
+            if (registry[i].isThisType_(io, false)) {
+                return registry[i].imageType_;
             }
         }
         return ImageType::none;
@@ -305,9 +322,9 @@ namespace Exiv2 {
         if (io->open() != 0) {
             throw Error(9, io->path(), strError());
         }
-        for (unsigned int i = 0; registry_[i].imageType_ != ImageType::none; ++i) {
-            if (registry_[i].isThisType_(*io, false)) {
-                return registry_[i].newInstance_(io, false);
+        for (unsigned int i = 0; registry[i].imageType_ != ImageType::none; ++i) {
+            if (registry[i].isThisType_(*io, false)) {
+                return registry[i].newInstance_(io, false);
             }
         }
         return Image::AutoPtr();
@@ -340,7 +357,7 @@ namespace Exiv2 {
                                         BasicIo::AutoPtr io)
     {
         // BasicIo instance does not need to be open
-        const Registry* r = find(registry_, type);
+        const Registry* r = find(registry, type);
         if (0 != r) {
             return r->newInstance_(io, true);
         }

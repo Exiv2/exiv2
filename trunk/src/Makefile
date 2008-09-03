@@ -117,9 +117,8 @@ CSRC =   localtime.c
 endif
 
 # Add source files of simple applications to this list
-BINSRC = crwedit.cpp          \
-	 crwparse.cpp         \
-	 taglist.cpp
+# Todo: How can we still support crwedit.cpp, crwparse.cpp
+BINSRC = taglist.cpp
 
 # Source files for the Exiv2 application
 EXIV2MAIN = exiv2.cpp
@@ -189,12 +188,12 @@ endif
 # ******************************************************************************
 # Rules
 $(CCOBJ): %.o: %.cpp
-	@$(LIBTOOL) --mode=compile $(COMPILE.cc) -o $@ $<
+	@$(LIBTOOL) --mode=compile $(COMPILE.cc) -DEXV_BUILDING_LIB=1 -o $@ $<
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)
 
 $(COBJ): %.o: %.c
-	@$(LIBTOOL) --mode=compile $(COMPILE.c) -o $@ $<
+	@$(LIBTOOL) --mode=compile $(COMPILE.c) -DEXV_BUILDING_LIB=1 -o $@ $<
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)
 
@@ -210,7 +209,7 @@ $(sort $(BINOBJ) $(EXIV2OBJ) $(MCOBJ) path-test.o): %.o: %.cpp
 
 %.ii: %.cpp
 	set -e; \
-	$(CXXCPP) $(CPPFLAGS) $< | sed '/^[ 	]*$$/d' > $@
+	$(CXXCPP) $(CPPFLAGS) -DEXV_BUILDING_LIB=1 $< | sed '/^[ 	]*$$/d' > $@
 
 # ******************************************************************************
 # Targets

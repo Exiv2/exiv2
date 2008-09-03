@@ -33,6 +33,7 @@
 // included header files
 #include "image.hpp"
 #include "basicio.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <string>
@@ -52,7 +53,7 @@ namespace Exiv2 {
     /*!
       @brief Class to access XMP sidecar files. They contain only XMP metadata.
      */
-    class XmpSidecar : public Image {
+    class EXIV2API XmpSidecar : public Image {
     public:
         //! @name Creators
         //@{
@@ -113,10 +114,10 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    Image::AutoPtr newXmpInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::AutoPtr newXmpInstance(BasicIo::AutoPtr io, bool create);
 
     //! Check if the file iIo is an XMP sidecar file.
-    bool isXmpType(BasicIo& iIo, bool advance);
+    EXIV2API bool isXmpType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
 

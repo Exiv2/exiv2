@@ -34,6 +34,7 @@
 #include "exif.hpp"
 #include "iptc.hpp"
 #include "image.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <string>
@@ -54,7 +55,7 @@ namespace Exiv2 {
       @brief Class to access Windows bitmaps. This is just a stub - we only
           read width and height.
      */
-    class BmpImage : public Image {
+    class EXIV2API BmpImage : public Image {
         //! @name NOT Implemented
         //@{
         //! Copy constructor
@@ -123,10 +124,10 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    Image::AutoPtr newBmpInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::AutoPtr newBmpInstance(BasicIo::AutoPtr io, bool create);
 
     //! Check if the file iIo is a Windows Bitmap image.
-    bool isBmpType(BasicIo& iIo, bool advance);
+    EXIV2API bool isBmpType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
 

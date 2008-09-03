@@ -39,8 +39,8 @@
 
 // *****************************************************************************
 // included header files
-#include "types.hpp"
 #include "tags.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <string>
@@ -55,7 +55,7 @@ namespace Exiv2 {
 // class definitions
 
     //! MakerNote for Olympus cameras
-    class OlympusMakerNote {
+    class EXIV2API OlympusMakerNote {
     public:
         //! Return read-only list of built-in Olympus tags
         static const TagInfo* tagList();

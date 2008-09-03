@@ -51,7 +51,7 @@ namespace Exiv2 {
       @brief Information related to an XMP property. An XMP metadatum consists
              of an XmpKey and a Value and provides methods to manipulate these.
      */
-    class Xmpdatum : public Metadatum {
+    class EXIV2API Xmpdatum : public Metadatum {
     public:
         //! @name Creators
         //@{
@@ -171,7 +171,7 @@ namespace Exiv2 {
       - add, modify and delete metadata
       - serialize XMP data to an XML block
     */
-    class XmpData {
+    class EXIV2API XmpData {
     public:
         //! XmpMetadata iterator type
         typedef XmpMetadata::iterator iterator;
@@ -250,7 +250,7 @@ namespace Exiv2 {
              class to parse and serialize XMP packets. The parser uses
              the XMP toolkit to do the job.
      */
-    class XmpParser {
+    class EXIV2API XmpParser {
         friend void XmpProperties::registerNs(const std::string&, const std::string&);
         friend void XmpProperties::unregisterNs(const std::string&);
     public:

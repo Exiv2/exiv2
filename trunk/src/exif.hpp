@@ -60,7 +60,7 @@ namespace Exiv2 {
       @brief An Exif metadatum, consisting of an ExifKey and a Value and
              methods to manipulate these.
      */
-    class Exifdatum : public Metadatum {
+    class EXIV2API Exifdatum : public Metadatum {
         template<typename T> friend Exifdatum& setValue(Exifdatum&, const T&);
     public:
         //! @name Creators
@@ -257,7 +257,7 @@ namespace Exiv2 {
             class only provides access to the Exif thumbnail as specified in the
             Exif standard.
      */
-    class ExifThumbC {
+    class EXIV2API ExifThumbC {
     public:
         //! @name Creators
         //@{
@@ -296,6 +296,7 @@ namespace Exiv2 {
         //@}
 
     private:
+        // DATA
         const ExifData& exifData_; //!< Const reference to the Exif metadata.
 
     }; // class ExifThumb
@@ -311,7 +312,7 @@ namespace Exiv2 {
             class only provides access to the Exif thumbnail as specified in the
             Exif standard.
      */
-    class ExifThumb : public ExifThumbC {
+    class EXIV2API ExifThumb : public ExifThumbC {
     public:
         //! @name Creators
         //@{
@@ -403,6 +404,7 @@ namespace Exiv2 {
         //@}
 
     private:
+        // DATA
         ExifData& exifData_;    //!< Reference to the related Exif metadata.
 
     }; // class ExifThumb
@@ -422,7 +424,7 @@ namespace Exiv2 {
       - extract Exif metadata to files, insert from these files
       - extract and delete Exif thumbnail (JPEG and TIFF thumbnails)
     */
-    class ExifData {
+    class EXIV2API ExifData {
     public:
         //! ExifMetadata iterator type
         typedef ExifMetadata::iterator iterator;
@@ -509,7 +511,7 @@ namespace Exiv2 {
       @brief Stateless parser class for Exif data. Images use this class to
              decode and encode binary Exif data. See class TiffParser for details.
      */
-    class ExifParser {
+    class EXIV2API ExifParser {
     public:
         /*!
           @brief Decode metadata from a buffer \em pData of length \em size

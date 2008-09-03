@@ -35,6 +35,7 @@
 #include "exif.hpp"
 #include "iptc.hpp"
 #include "image.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <string>
@@ -54,7 +55,7 @@ namespace Exiv2 {
     /*!
       @brief Class to access raw Photoshop images.
      */
-    class PsdImage : public Image {
+    class EXIV2API PsdImage : public Image {
         //! @name NOT Implemented
         //@{
         //! Copy constructor
@@ -125,7 +126,7 @@ namespace Exiv2 {
     private:
         //! @name Manipulators
         //@{
-        void processResourceBlock(uint16_t resourceId, uint32_t resourceSize);
+        EXV_DLLLOCAL void processResourceBlock(uint16_t resourceId, uint32_t resourceSize);
         //@}
 
     }; // class PsdImage
@@ -140,10 +141,10 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    Image::AutoPtr newPsdInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::AutoPtr newPsdInstance(BasicIo::AutoPtr io, bool create);
 
     //! Check if the file iIo is a Photoshop image.
-    bool isPsdType(BasicIo& iIo, bool advance);
+    EXIV2API bool isPsdType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
 

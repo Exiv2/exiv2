@@ -43,6 +43,7 @@
 // *****************************************************************************
 // included header files
 #include "tags.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <string>
@@ -57,7 +58,7 @@ namespace Exiv2 {
 // class definitions
 
     //! A MakerNote format used by Nikon cameras, such as the E990 and D1.
-    class Nikon1MakerNote {
+    class EXIV2API Nikon1MakerNote {
     public:
         //! Return read-only list of built-in Nikon1 tags
         static const TagInfo* tagList();
@@ -86,7 +87,7 @@ namespace Exiv2 {
       @brief A second MakerNote format used by Nikon cameras, including the
              E700, E800, E900, E900S, E910, E950
      */
-    class Nikon2MakerNote {
+    class EXIV2API Nikon2MakerNote {
     public:
         //! Return read-only list of built-in Nikon2 tags
         static const TagInfo* tagList();
@@ -104,7 +105,7 @@ namespace Exiv2 {
     }; // class Nikon2MakerNote
 
     //! A third MakerNote format used by Nikon cameras, e.g., E5400, SQ, D2H, D70
-    class Nikon3MakerNote {
+    class EXIV2API Nikon3MakerNote {
     public:
         //! Return read-only list of built-in Nikon3 tags
         static const TagInfo* tagList();

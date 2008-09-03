@@ -34,6 +34,11 @@
 
 // *****************************************************************************
 // included header files
+#ifdef _MSC_VER
+# include "exv_msvc.h"
+#else
+# include "exv_conf.h"
+#endif
 
 // + standard includes
 
@@ -51,27 +56,27 @@ namespace Exiv2 {
 // free functions, template and inline definitions
 
     //! Convert (copy) Exif tags to XMP properties.
-    void copyExifToXmp(const ExifData& exifData, XmpData& xmpData);
+    EXIV2API void copyExifToXmp(const ExifData& exifData, XmpData& xmpData);
     //! Convert (move) Exif tags to XMP properties, remove converted Exif tags.
-    void moveExifToXmp(ExifData& exifData, XmpData& xmpData);
+    EXIV2API void moveExifToXmp(ExifData& exifData, XmpData& xmpData);
 
     //! Convert (copy) XMP properties to Exif tags.
-    void copyXmpToExif(const XmpData& xmpData, ExifData& exifData);
+    EXIV2API void copyXmpToExif(const XmpData& xmpData, ExifData& exifData);
     //! Convert (move) XMP properties to Exif tags, remove converted XMP properties.
-    void moveXmpToExif(XmpData& xmpData, ExifData& exifData);
+    EXIV2API void moveXmpToExif(XmpData& xmpData, ExifData& exifData);
 
     //! Detect which metadata are newer and perform a copy in appropriate direction.
-    void syncExifWithXmp(ExifData& exifData, XmpData& xmpData);
+    EXIV2API void syncExifWithXmp(ExifData& exifData, XmpData& xmpData);
 
     //! Convert (copy) IPTC datasets to XMP properties.
-    void copyIptcToXmp(const IptcData& iptcData, XmpData& xmpData);
+    EXIV2API void copyIptcToXmp(const IptcData& iptcData, XmpData& xmpData);
     //! Convert (move) IPTC datasets to XMP properties, remove converted IPTC datasets.
-    void moveIptcToXmp(IptcData& iptcData, XmpData& xmpData);
+    EXIV2API void moveIptcToXmp(IptcData& iptcData, XmpData& xmpData);
 
     //! Convert (copy) XMP properties to IPTC datasets.
-    void copyXmpToIptc(const XmpData& xmpData, IptcData& iptcData);
+    EXIV2API void copyXmpToIptc(const XmpData& xmpData, IptcData& iptcData);
     //! Convert (move) XMP properties to IPTC tags, remove converted XMP properties.
-    void moveXmpToIptc(XmpData& xmpData, IptcData& iptcData);
+    EXIV2API void moveXmpToIptc(XmpData& xmpData, IptcData& iptcData);
 
 }                                       // namespace Exiv2
 

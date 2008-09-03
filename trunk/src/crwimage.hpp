@@ -62,7 +62,7 @@ namespace Exiv2 {
       @brief Class to access raw Canon CRW images. Only Exif metadata and a
              comment are supported. CRW format does not contain IPTC metadata.
      */
-    class CrwImage : public Image {
+    class EXIV2API CrwImage : public Image {
     public:
         //! @name Creators
         //@{
@@ -116,7 +116,7 @@ namespace Exiv2 {
     /*!
       Stateless parser class for Canon CRW images (Ciff format).
     */
-    class CrwParser {
+    class EXIV2API CrwParser {
     public:
         /*!
           @brief Decode metadata from a Canon CRW image in data buffer \em pData
@@ -167,10 +167,10 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    Image::AutoPtr newCrwInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::AutoPtr newCrwInstance(BasicIo::AutoPtr io, bool create);
 
     //! Check if the file iIo is a CRW image.
-    bool isCrwType(BasicIo& iIo, bool advance);
+    EXIV2API bool isCrwType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
 

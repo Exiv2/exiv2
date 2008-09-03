@@ -52,7 +52,7 @@ namespace Exiv2 {
       @brief An IPTC metadatum ("dataset"), consisting of an IptcKey and a
              Value and methods to manipulate these.
      */
-    class Iptcdatum : public Metadatum {
+    class EXIV2API Iptcdatum : public Metadatum {
     public:
         //! @name Creators
         //@{
@@ -174,7 +174,7 @@ namespace Exiv2 {
     typedef std::vector<Iptcdatum> IptcMetadata;
 
     //! Unary predicate that matches an Iptcdatum with given record and dataset
-    class FindMetadatumById {
+    class EXIV2API FindMetadatumById {
     public:
         //! Constructor, initializes the object with the record and dataset id
         FindMetadatumById(uint16_t dataset, uint16_t record)
@@ -187,6 +187,7 @@ namespace Exiv2 {
             { return dataset_ == iptcdatum.tag() && record_ == iptcdatum.record(); }
 
     private:
+        // DATA
         uint16_t dataset_;
         uint16_t record_;
 
@@ -203,7 +204,7 @@ namespace Exiv2 {
       - write IPTC data to JPEG files
       - extract IPTC metadata to files, insert from these files
     */
-    class IptcData {
+    class EXIV2API IptcData {
     public:
         //! IptcMetadata iterator type
         typedef IptcMetadata::iterator iterator;
@@ -306,7 +307,7 @@ namespace Exiv2 {
       @brief Stateless parser class for IPTC data. Images use this class to
              decode and encode binary IPTC data.
      */
-    class IptcParser {
+    class EXIV2API IptcParser {
     public:
         /*!
           @brief Decode binary IPTC data in IPTC IIM4 format from a buffer \em pData

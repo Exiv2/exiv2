@@ -73,7 +73,7 @@ namespace Exiv2 {
 // class definitions
 
     //! The details of an IFD.
-    struct IfdInfo {
+    struct EXIV2API IfdInfo {
         struct Item;
         bool operator==(IfdId ifdId) const;     //!< Comparison operator for IFD id
         bool operator==(Item item) const;       //!< Comparison operator for IFD item
@@ -85,20 +85,20 @@ namespace Exiv2 {
     };
 
     //! Search key to find an IfdInfo by its IFD item.
-    struct IfdInfo::Item {
+    struct EXIV2API IfdInfo::Item {
         Item(const std::string& item);          //!< Constructor
         std::string i_;                         //!< IFD item
     };
 
     //! The details of a section.
-    struct SectionInfo {
+    struct EXIV2API SectionInfo {
         SectionId sectionId_;                   //!< Section id
         const char* name_;                      //!< Section name (one word)
         const char* desc_;                      //!< Section description
     };
 
     //! Tag information
-    struct TagInfo {
+    struct EXIV2API TagInfo {
         //! Constructor
         TagInfo(
             uint16_t tag,
@@ -124,7 +124,7 @@ namespace Exiv2 {
       @brief Helper structure for lookup tables for translations of numeric
              tag values to human readable labels.
      */
-    struct TagDetails {
+    struct EXIV2API TagDetails {
         long val_;                              //!< Tag value
         const char* label_;                     //!< Translation of the tag value
 
@@ -136,7 +136,7 @@ namespace Exiv2 {
       @brief Helper structure for lookup tables for translations of bitmask
              values to human readable labels.
      */
-    struct TagDetailsBitmask {
+    struct EXIV2API TagDetailsBitmask {
         uint32_t mask_;                         //!< Bitmask value
         const char* label_;                     //!< Description of the tag value
     }; // struct TagDetailsBitmask
@@ -191,7 +191,7 @@ namespace Exiv2 {
 #define EXV_PRINT_TAG_BITMASK(array) printTagBitmask<EXV_COUNTOF(array), array>
 
     //! Exif tag reference, implemented as a static class.
-    class ExifTags {
+    class EXIV2API ExifTags {
         //! Prevent construction: not implemented.
         ExifTags();
         //! Prevent copy-construction: not implemented.
@@ -320,7 +320,7 @@ namespace Exiv2 {
     /*!
       @brief Concrete keys for Exif metadata.
      */
-    class ExifKey : public Key {
+    class EXIV2API ExifKey : public Key {
     public:
         //! Shortcut for an %ExifKey auto pointer.
         typedef std::auto_ptr<ExifKey> AutoPtr;
@@ -405,7 +405,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        virtual ExifKey* clone_() const;
+        EXV_DLLLOCAL virtual ExifKey* clone_() const;
 
         // DATA
         static const char* familyName_;
@@ -421,115 +421,115 @@ namespace Exiv2 {
 // free functions
 
     //! Output operator for TagInfo
-    std::ostream& operator<<(std::ostream& os, const TagInfo& ti);
+    EXIV2API std::ostream& operator<<(std::ostream& os, const TagInfo& ti);
 
     //! @name Functions printing interpreted tag values
     //@{
     //! Default print function, using the Value output operator
-    std::ostream& printValue(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& printValue(std::ostream& os, const Value& value, const ExifData*);
     //! Print the value converted to a long
-    std::ostream& printLong(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& printLong(std::ostream& os, const Value& value, const ExifData*);
     //! Print a Rational or URational value in floating point format
-    std::ostream& printFloat(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& printFloat(std::ostream& os, const Value& value, const ExifData*);
     //! Print a longitude or latitude value
-    std::ostream& printDegrees(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& printDegrees(std::ostream& os, const Value& value, const ExifData*);
     //! Print function converting from UCS-2LE to UTF-8
-    std::ostream& printUcs2(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& printUcs2(std::ostream& os, const Value& value, const ExifData*);
     //! Print function for Exif units
-    std::ostream& printExifUnit(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& printExifUnit(std::ostream& os, const Value& value, const ExifData*);
     //! Print GPS version
-    std::ostream& print0x0000(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0x0000(std::ostream& os, const Value& value, const ExifData*);
     //! Print GPS altitude ref
-    std::ostream& print0x0005(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0x0005(std::ostream& os, const Value& value, const ExifData*);
     //! Print GPS altitude
-    std::ostream& print0x0006(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0x0006(std::ostream& os, const Value& value, const ExifData*);
     //! Print GPS timestamp
-    std::ostream& print0x0007(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0x0007(std::ostream& os, const Value& value, const ExifData*);
     //! Print GPS status
-    std::ostream& print0x0009(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0x0009(std::ostream& os, const Value& value, const ExifData*);
     //! Print GPS measurement mode
-    std::ostream& print0x000a(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0x000a(std::ostream& os, const Value& value, const ExifData*);
     //! Print GPS speed ref
-    std::ostream& print0x000c(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0x000c(std::ostream& os, const Value& value, const ExifData*);
     //! Print GPS destination distance ref
-    std::ostream& print0x0019(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0x0019(std::ostream& os, const Value& value, const ExifData*);
     //! Print GPS differential correction
-    std::ostream& print0x001e(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0x001e(std::ostream& os, const Value& value, const ExifData*);
     //! Print orientation
-    std::ostream& print0x0112(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0x0112(std::ostream& os, const Value& value, const ExifData*);
     //! Print YCbCrPositioning
-    std::ostream& print0x0213(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0x0213(std::ostream& os, const Value& value, const ExifData*);
     //! Print the copyright
-    std::ostream& print0x8298(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0x8298(std::ostream& os, const Value& value, const ExifData*);
     //! Print the exposure time
-    std::ostream& print0x829a(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0x829a(std::ostream& os, const Value& value, const ExifData*);
     //! Print the f-number
-    std::ostream& print0x829d(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0x829d(std::ostream& os, const Value& value, const ExifData*);
     //! Print exposure program
-    std::ostream& print0x8822(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0x8822(std::ostream& os, const Value& value, const ExifData*);
     //! Print ISO speed ratings
-    std::ostream& print0x8827(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0x8827(std::ostream& os, const Value& value, const ExifData*);
     //! Print components configuration specific to compressed data
-    std::ostream& print0x9101(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0x9101(std::ostream& os, const Value& value, const ExifData*);
     //! Print exposure time converted from APEX shutter speed value
-    std::ostream& print0x9201(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0x9201(std::ostream& os, const Value& value, const ExifData*);
     //! Print f-number converted from APEX aperture value
-    std::ostream& print0x9202(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0x9202(std::ostream& os, const Value& value, const ExifData*);
     //! Print the exposure bias value
-    std::ostream& print0x9204(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0x9204(std::ostream& os, const Value& value, const ExifData*);
     //! Print the subject distance
-    std::ostream& print0x9206(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0x9206(std::ostream& os, const Value& value, const ExifData*);
     //! Print metering mode
-    std::ostream& print0x9207(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0x9207(std::ostream& os, const Value& value, const ExifData*);
     //! Print light source
-    std::ostream& print0x9208(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0x9208(std::ostream& os, const Value& value, const ExifData*);
     //! Print the actual focal length of the lens
-    std::ostream& print0x920a(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0x920a(std::ostream& os, const Value& value, const ExifData*);
     //! Print the user comment
-    std::ostream& print0x9286(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0x9286(std::ostream& os, const Value& value, const ExifData*);
     //! Print color space
-    std::ostream& print0xa001(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0xa001(std::ostream& os, const Value& value, const ExifData*);
     //! Print sensing method
-    std::ostream& print0xa217(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0xa217(std::ostream& os, const Value& value, const ExifData*);
     //! Print file source
-    std::ostream& print0xa300(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0xa300(std::ostream& os, const Value& value, const ExifData*);
     //! Print scene type
-    std::ostream& print0xa301(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0xa301(std::ostream& os, const Value& value, const ExifData*);
     //! Print custom rendered
-    std::ostream& print0xa401(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0xa401(std::ostream& os, const Value& value, const ExifData*);
     //! Print exposure mode
-    std::ostream& print0xa402(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0xa402(std::ostream& os, const Value& value, const ExifData*);
     //! Print white balance
-    std::ostream& print0xa403(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0xa403(std::ostream& os, const Value& value, const ExifData*);
     //! Print digital zoom ratio
-    std::ostream& print0xa404(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0xa404(std::ostream& os, const Value& value, const ExifData*);
     //! Print 35mm equivalent focal length
-    std::ostream& print0xa405(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0xa405(std::ostream& os, const Value& value, const ExifData*);
     //! Print scene capture type
-    std::ostream& print0xa406(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0xa406(std::ostream& os, const Value& value, const ExifData*);
     //! Print gain control
-    std::ostream& print0xa407(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0xa407(std::ostream& os, const Value& value, const ExifData*);
     //! Print saturation
-    std::ostream& print0xa409(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0xa409(std::ostream& os, const Value& value, const ExifData*);
     //! Print subject distance range
-    std::ostream& print0xa40c(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& print0xa40c(std::ostream& os, const Value& value, const ExifData*);
     //! Print GPS direction ref
-    std::ostream& printGPSDirRef(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& printGPSDirRef(std::ostream& os, const Value& value, const ExifData*);
     //! Print contrast, sharpness (normal, soft, hard)
-    std::ostream& printNormalSoftHard(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& printNormalSoftHard(std::ostream& os, const Value& value, const ExifData*);
     //! Print any version packed in 4 Bytes format : major major minor minor
-    std::ostream& printExifVersion(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& printExifVersion(std::ostream& os, const Value& value, const ExifData*);
     //! Print any version encoded in the ASCII string majormajorminorminor
-    std::ostream& printXmpVersion(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& printXmpVersion(std::ostream& os, const Value& value, const ExifData*);
     //! Print a date following the format YYYY-MM-DDTHH:MM:SSZ
-    std::ostream& printXmpDate(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& printXmpDate(std::ostream& os, const Value& value, const ExifData*);
     //@}
 
     //! Calculate F number from an APEX aperture value
-    float fnumber(float apertureValue);
+    EXIV2API float fnumber(float apertureValue);
 
     //! Calculate the exposure time from an APEX shutter speed value
-    URational exposureTime(float shutterSpeedValue);
+    EXIV2API URational exposureTime(float shutterSpeedValue);
 
 }                                       // namespace Exiv2
 

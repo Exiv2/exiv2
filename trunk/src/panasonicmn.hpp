@@ -36,8 +36,8 @@
 
 // *****************************************************************************
 // included header files
-#include "types.hpp"
 #include "tags.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <string>
@@ -51,7 +51,7 @@ namespace Exiv2 {
 // class definitions
 
     //! MakerNote for Panasonic cameras
-    class PanasonicMakerNote {
+    class EXIV2API PanasonicMakerNote {
     public:
         //! Return read-only list of built-in Panasonic tags
         static const TagInfo* tagList();

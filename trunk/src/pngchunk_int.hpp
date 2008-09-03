@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*!
-  @file    pngchunk.hpp
+  @file    pngchunk_int.hpp
   @brief   Class PngChunk to parse PNG chunk data implemented using the following references:<br>
            <a href="http://www.vias.org/pngguide/chapter11_05.html">PNG iTXt chunk structure</a> from PNG definitive guide,<br>
            <a href="http://www.vias.org/pngguide/chapter11_04.html">PNG tTXt and zTXt chunks structures</a> from PNG definitive guide,<br>
@@ -32,8 +32,8 @@
            <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a>
   @date    12-Jun-06, gc: submitted
  */
-#ifndef PNGCHUNK_HPP_
-#define PNGCHUNK_HPP_
+#ifndef PNGCHUNK_INT_HPP_
+#define PNGCHUNK_INT_HPP_
 
 // *****************************************************************************
 // included header files
@@ -45,13 +45,13 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2 
-{
+namespace Exiv2 {
 
 // *****************************************************************************
 // class declarations
-
     class Image;
+
+    namespace Internal {
 
 // *****************************************************************************
 // class definitions
@@ -60,33 +60,27 @@ namespace Exiv2
       @brief Stateless parser class for data in PNG chunk format. Images use this
              class to decode and encode PNG-based data.
      */
-    class PngChunk 
-    {
+    class PngChunk {
     public:
-
-    /*!
-      @brief Text Chunk types.
-     */
-    enum TxtChunkType
-    {
-        tEXt_Chunk = 0,
-        zTXt_Chunk = 1,
-        iTXt_Chunk = 2
-    };
-
-    /*!
-      @brief Metadata Chunk types.
-     */
-    enum MetadataType
-    {
-        exif_Data    = 0,
-        iptc_Data    = 1,
-        xmp_Data     = 2,
-        comment_Data = 3
-    };
+        /*!
+          @brief Text Chunk types.
+        */
+        enum TxtChunkType {
+            tEXt_Chunk = 0,
+            zTXt_Chunk = 1,
+            iTXt_Chunk = 2
+        };
+        /*!
+          @brief Metadata Chunk types.
+        */
+        enum MetadataType {
+            exif_Data    = 0,
+            iptc_Data    = 1,
+            xmp_Data     = 2,
+            comment_Data = 3
+        };
 
     public:
-
         /*!
           @brief Decode PNG IHDR chunk data from a data buffer
                  \em data and return image size to \em outWidth and \em outHeight.
@@ -130,10 +124,6 @@ namespace Exiv2
         static DataBuf makeMetadataChunk(const DataBuf& metadata, MetadataType type, bool compress);
 
     private:
-
-        //! @name Accessors
-        //@{
-
         /*!
           @brief Parse PNG Text chunk to determine type and extract content. 
                  Supported Chunk types are tTXt, zTXt, and iTXt.
@@ -212,10 +202,9 @@ namespace Exiv2
                                      const size_t length, 
                                      const char *format, 
                                      va_list operands);
-        //@}
 
     }; // class PngChunk
 
-}                                       // namespace Exiv2
+}}                                      // namespace Internal, Exiv2
 
-#endif                                  // #ifndef PNGCHUNK_HPP_
+#endif                                  // #ifndef PNGCHUNK_INT_HPP_
