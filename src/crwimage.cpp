@@ -98,13 +98,19 @@ namespace Exiv2 {
     int CrwImage::pixelWidth() const
     {
         Exiv2::ExifData::const_iterator widthIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
-        return (widthIter == exifData_.end()) ? 0 : widthIter->toLong();
+        if (widthIter != exifData_.end() && widthIter->count() > 0) {
+            return widthIter->toLong();
+        }
+        return 0;
     }
 
     int CrwImage::pixelHeight() const
     {
         Exiv2::ExifData::const_iterator heightIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
-        return (heightIter == exifData_.end()) ? 0 : heightIter->toLong();
+        if (heightIter != exifData_.end() && heightIter->count() > 0) {
+            return heightIter->toLong();
+        }
+        return 0;
     }
 
     void CrwImage::setIptcData(const IptcData& /*iptcData*/)
@@ -1310,7 +1316,7 @@ namespace Exiv2 {
                 edY->copy(buf.pData_ + 4, pHead->byteOrder());
             }
             int32_t d = 0;
-            if (edO != edEnd && edO->typeId() == unsignedShort) {
+            if (edO != edEnd && edO->count() > 0 && edO->typeId() == unsignedShort) {
                 d = RotationMap::degrees(static_cast<uint16_t>(edO->toLong()));
             }
             l2Data(buf.pData_ + 12, d, pHead->byteOrder());

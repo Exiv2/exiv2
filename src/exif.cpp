@@ -481,6 +481,7 @@ namespace {
         const Exiv2::ExifKey k1("Exif.Thumbnail.Compression");
         Exiv2::ExifData::const_iterator pos = exifData.findKey(k1);
         if (pos != exifData.end()) {
+            if (pos->count() == 0) return thumbnail;
             long compression = pos->toLong();
             if (compression == 6) {
                 thumbnail = Thumbnail::AutoPtr(new JpegThumbnail);

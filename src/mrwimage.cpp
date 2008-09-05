@@ -61,9 +61,8 @@ namespace Exiv2 {
 
     int MrwImage::pixelWidth() const
     {
-        ExifData::const_iterator imageWidth;
-        if ((imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.Image.ImageWidth"))) != exifData_.end())
-        {
+        ExifData::const_iterator imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.Image.ImageWidth"));
+        if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
             return imageWidth->toLong();
         }
         return 0;
@@ -71,9 +70,8 @@ namespace Exiv2 {
 
     int MrwImage::pixelHeight() const
     {
-        ExifData::const_iterator imageHeight;
-        if ((imageHeight = exifData_.findKey(Exiv2::ExifKey("Exif.Image.ImageLength"))) != exifData_.end())
-        {
+        ExifData::const_iterator imageHeight = exifData_.findKey(Exiv2::ExifKey("Exif.Image.ImageLength"));
+        if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
             return imageHeight->toLong();
         }
         return 0;

@@ -494,14 +494,14 @@ namespace Action {
         if (md == exifData.end()) {
             md = exifData.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
         }
-        if (md != exifData.end()) {
+        if (md != exifData.end() && md->count() > 0) {
             xdim = md->toLong();
         }
         md = exifData.findKey(Exiv2::ExifKey("Exif.Image.ImageLength"));
         if (md == exifData.end()) {
             md = exifData.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
         }
-        if (md != exifData.end()) {
+        if (md != exifData.end() && md->count() > 0) {
             ydim = md->toLong();
         }
         if (xdim != 0 && ydim != 0) {

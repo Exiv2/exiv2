@@ -295,11 +295,6 @@ namespace Exiv2 {
         TiffComponent* const pRoot_; //!< Root element of the composite
         const FindDecoderFct findDecoderFct_; //!< Ptr to the function to find special decoding functions
         std::string make_;           //!< Camera make, determined from the tags to decode
-
-        //! Type used to remember tag 0x00fe (NewSubfileType) for each group
-        typedef std::map<uint16_t, uint32_t> GroupType;
-        GroupType groupType_;        //!< NewSubfileType for each group
-
         bool decodedIptc_;           //!< Indicates if IPTC has been decoded yet
 
     }; // class TiffDecoder
