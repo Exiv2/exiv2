@@ -332,11 +332,6 @@ namespace Exiv2 {
         // Don't decode the entry if value is not set
         if (!object->pValue()) return;
 
-        // Remember NewSubfileType
-        if (object->tag() == 0x00fe) {
-            groupType_[object->group()] = object->pValue()->toLong();
-        }
-
         const DecoderFct decoderFct = findDecoderFct_(make_,
                                                       object->tag(),
                                                       object->group());

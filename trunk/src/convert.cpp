@@ -475,7 +475,7 @@ namespace Exiv2 {
     {
         Exiv2::ExifData::iterator pos = exifData_->findKey(ExifKey(from));
         if (pos == exifData_->end()) return;
-        std::string value = pos->value().toString();
+        std::string value = pos->toString();
         if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
@@ -509,8 +509,8 @@ namespace Exiv2 {
         Exiv2::ExifData::iterator pos = exifData_->findKey(ExifKey(from));
         if (pos == exifData_->end()) return;
         if (!prepareXmpTarget(to)) return;
-        for (int i = 0; i < pos->value().count(); ++i) {
-            std::string value = pos->value().toString(i);
+        for (int i = 0; i < pos->count(); ++i) {
+            std::string value = pos->toString(i);
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
@@ -532,7 +532,7 @@ namespace Exiv2 {
         char buf[30];
 
         if (std::string(from) != "Exif.GPSInfo.GPSTimeStamp") {
-            std::string value = pos->value().toString();
+            std::string value = pos->toString();
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
@@ -550,10 +550,10 @@ namespace Exiv2 {
         else { // "Exif.GPSInfo.GPSTimeStamp"
 
             bool ok = true;
-            if (pos->value().count() != 3) ok = false;
+            if (pos->count() != 3) ok = false;
             if (ok) {
                 for (int i = 0; i < 3; ++i) {
-                    if (pos->value().toRational(i).second == 0) {
+                    if (pos->toRational(i).second == 0) {
                         ok = false;
                         break;
                     }
@@ -566,10 +566,10 @@ namespace Exiv2 {
                 return;
             }
 
-            double dhour = pos->value().toFloat(0);
-            double dmin = pos->value().toFloat(1);
+            double dhour = pos->toFloat(0);
+            double dmin = pos->toFloat(1);
             // Hack: Need Value::toDouble
-            URational r = pos->value().toRational(2);
+            URational r = pos->toRational(2);
             double dsec = static_cast<double>(r.first)/r.second;
 
             if (!pos->value().ok()) {
@@ -605,7 +605,7 @@ namespace Exiv2 {
 #endif
                 return;
             }
-            std::string value = datePos->value().toString();
+            std::string value = datePos->toString();
             if (sscanf(value.c_str(), "%d:%d:%d", &year, &month, &day) != 3) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Warning: Failed to convert " << from << " to " << to
@@ -629,8 +629,8 @@ namespace Exiv2 {
         if (subsecTag) {
             Exiv2::ExifData::iterator subsec_pos = exifData_->findKey(ExifKey(subsecTag));
             if (   subsec_pos != exifData_->end()
-                && !subsec_pos->value().toString().empty()) {
-                subsec = std::string(".") + subsec_pos->value().toString();
+                && !subsec_pos->toString().empty()) {
+                subsec = std::string(".") + subsec_pos->toString();
             }
             if (erase_) exifData_->erase(subsec_pos);
         }
@@ -650,8 +650,8 @@ namespace Exiv2 {
         if (pos == exifData_->end()) return;
         if (!prepareXmpTarget(to)) return;
         std::ostringstream value;
-        for (int i = 0; i < pos->value().count(); ++i) {
-            value << static_cast<char>(pos->value().toLong(i));
+        for (int i = 0; i < pos->count(); ++i) {
+            value << static_cast<char>(pos->toLong(i));
         }
         (*xmpData_)[to] = value.str();
         if (erase_) exifData_->erase(pos);
@@ -663,9 +663,9 @@ namespace Exiv2 {
         if (pos == exifData_->end()) return;
         if (!prepareXmpTarget(to)) return;
         std::ostringstream value;
-        for (int i = 0; i < pos->value().count(); ++i) {
+        for (int i = 0; i < pos->count(); ++i) {
             if (i > 0) value << '.';
-            value << pos->value().toLong(i);
+            value << pos->toLong(i);
         }
         (*xmpData_)[to] = value.str();
         if (erase_) exifData_->erase(pos);
@@ -674,9 +674,9 @@ namespace Exiv2 {
     void Converter::cnvExifFlash(const char* from, const char* to)
     {
         Exiv2::ExifData::iterator pos = exifData_->findKey(ExifKey(from));
-        if (pos == exifData_->end()) return;
+        if (pos == exifData_->end() || pos->count() == 0) return;
         if (!prepareXmpTarget(to)) return;
-        int value = pos->value().toLong();
+        int value = pos->toLong();
         if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
@@ -698,7 +698,7 @@ namespace Exiv2 {
         Exiv2::ExifData::iterator pos = exifData_->findKey(ExifKey(from));
         if (pos == exifData_->end()) return;
         if (!prepareXmpTarget(to)) return;
-        if (pos->value().count() != 3) {
+        if (pos->count() != 3) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
 #endif
@@ -713,8 +713,8 @@ namespace Exiv2 {
         }
         double deg[3];
         for (int i = 0; i < 3; ++i) {
-            const int32_t z = pos->value().toRational(i).first;
-            const int32_t d = pos->value().toRational(i).second;
+            const int32_t z = pos->toRational(i).first;
+            const int32_t d = pos->toRational(i).second;
             if (d == 0) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
@@ -730,7 +730,7 @@ namespace Exiv2 {
         std::ostringstream oss;
         oss << ideg << ","
             << std::fixed << std::setprecision(7) << min
-            << refPos->value().toString().c_str()[0];
+            << refPos->toString().c_str()[0];
         (*xmpData_)[to] = oss.str();
 
         if (erase_) exifData_->erase(pos);
@@ -777,8 +777,8 @@ namespace Exiv2 {
         Exiv2::XmpData::iterator pos = xmpData_->findKey(XmpKey(from));
         if (pos == xmpData_->end()) return;
         std::ostringstream array;
-        for (int i = 0; i < pos->value().count(); ++i) {
-            std::string value = pos->value().toString(i);
+        for (int i = 0; i < pos->count(); ++i) {
+            std::string value = pos->toString(i);
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
@@ -797,7 +797,7 @@ namespace Exiv2 {
         Exiv2::XmpData::iterator pos = xmpData_->findKey(XmpKey(from));
         if (pos == xmpData_->end()) return;
         if (!prepareExifTarget(to)) return;
-        std::string value = pos->value().toString();
+        std::string value = pos->toString();
         if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
@@ -882,7 +882,7 @@ namespace Exiv2 {
         Exiv2::XmpData::iterator pos = xmpData_->findKey(XmpKey(from));
         if (pos == xmpData_->end()) return;
         if (!prepareExifTarget(to)) return;
-        std::string value = pos->value().toString();
+        std::string value = pos->toString();
         if (!pos->value().ok() || value.length() < 4) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
@@ -905,7 +905,7 @@ namespace Exiv2 {
         Exiv2::XmpData::iterator pos = xmpData_->findKey(XmpKey(from));
         if (pos == xmpData_->end()) return;
         if (!prepareExifTarget(to)) return;
-        std::string value = pos->value().toString();
+        std::string value = pos->toString();
         if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
@@ -928,8 +928,8 @@ namespace Exiv2 {
         if (!prepareExifTarget(to)) return;
         unsigned short value = 0;
 
-        if (pos != xmpData_->end()) {
-            int fired = pos->value().toLong();
+        if (pos != xmpData_->end() && pos->count() > 0) {
+            int fired = pos->toLong();
             if (pos->value().ok())
                 value |= fired & 1;
 #ifndef SUPPRESS_WARNINGS
@@ -938,8 +938,8 @@ namespace Exiv2 {
 #endif
         }
         pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:Return"));
-        if (pos != xmpData_->end()) {
-            int ret = pos->value().toLong();
+        if (pos != xmpData_->end() && pos->count() > 0) {
+            int ret = pos->toLong();
             if (pos->value().ok())
                 value |= (ret & 3) << 1;
 #ifndef SUPPRESS_WARNINGS
@@ -948,8 +948,8 @@ namespace Exiv2 {
 #endif
         }
         pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:Mode"));
-        if (pos != xmpData_->end()) {
-            int mode = pos->value().toLong();
+        if (pos != xmpData_->end() && pos->count() > 0) {
+            int mode = pos->toLong();
             if (pos->value().ok())
                 value |= (mode & 3) << 3;
 #ifndef SUPPRESS_WARNINGS
@@ -958,8 +958,8 @@ namespace Exiv2 {
 #endif
         }
         pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:Function"));
-        if (pos != xmpData_->end()) {
-            int function = pos->value().toLong();
+        if (pos != xmpData_->end() && pos->count() > 0) {
+            int function = pos->toLong();
             if (pos->value().ok())
                 value |= (function & 1) << 5;
 #ifndef SUPPRESS_WARNINGS
@@ -968,8 +968,8 @@ namespace Exiv2 {
 #endif
         }
         pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:RedEyeMode"));
-        if (pos != xmpData_->end()) {
-            int red = pos->value().toLong();
+        if (pos != xmpData_->end() && pos->count() > 0) {
+            int red = pos->toLong();
             if (pos->value().ok())
                 value |= (red & 1) << 6;
 #ifndef SUPPRESS_WARNINGS
@@ -987,7 +987,7 @@ namespace Exiv2 {
         Exiv2::XmpData::iterator pos = xmpData_->findKey(XmpKey(from));
         if (pos == xmpData_->end()) return;
         if (!prepareExifTarget(to)) return;
-        std::string value = pos->value().toString();
+        std::string value = pos->toString();
         if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
@@ -1044,7 +1044,7 @@ namespace Exiv2 {
         if (!prepareXmpTarget(to)) return;
         while (pos != iptcData_->end()) {
             if (pos->key() == from) {
-                std::string value = pos->value().toString();
+                std::string value = pos->toString();
                 if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
                     std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
@@ -1082,9 +1082,9 @@ namespace Exiv2 {
             return;
         }
 
-        int count = pos->value().count();
+        int count = pos->count();
         for (int i = 0; i < count; ++i) {
-            std::string value = pos->value().toString(i);
+            std::string value = pos->toString(i);
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
@@ -1119,8 +1119,8 @@ namespace Exiv2 {
                 res << key.tag();
                 Exiv2::ExifData::iterator pos = exifData_->findKey(key);
                 if (pos == exifData_->end()) continue;
-                DataBuf data(pos->value().size());
-                pos->value().copy(data.pData_, littleEndian /* FIXME ? */);
+                DataBuf data(pos->size());
+                pos->copy(data.pData_, littleEndian /* FIXME ? */);
                 MD5Update ( &context, data.pData_, data.size_);
             }
         }
@@ -1274,11 +1274,11 @@ namespace {
     {
         if (pos->typeId() == Exiv2::langAlt) {
             // get the default language entry without x-default qualifier
-            value = pos->value().toString(0);
+            value = pos->toString(0);
             if (!pos->value().ok() && pos->count() == 1) {
                 // If there is no default but exactly one entry, take that
                 // without the qualifier
-                value = pos->value().toString();
+                value = pos->toString();
                 if (   pos->value().ok()
                     && value.length() > 5 && value.substr(0, 5) == "lang=") {
                     std::string::size_type pos = value.find_first_of(' ');
@@ -1292,7 +1292,7 @@ namespace {
             }
         }
         else {
-            value = pos->value().toString();
+            value = pos->toString();
         }
         return pos->value().ok();
     }

@@ -66,14 +66,20 @@ namespace Exiv2 {
 
     int Cr2Image::pixelWidth() const
     {
-        Exiv2::ExifData::const_iterator widthIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
-        return (widthIter == exifData_.end()) ? 0 : widthIter->toLong();
+        ExifData::const_iterator imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
+        if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
+            return imageWidth->toLong();
+        }
+        return 0;
     }
 
     int Cr2Image::pixelHeight() const
     {
-        Exiv2::ExifData::const_iterator heightIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
-        return (heightIter == exifData_.end()) ? 0 : heightIter->toLong();
+        ExifData::const_iterator imageHeight = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
+        if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
+            return imageHeight->toLong();
+        }
+        return 0;
     }
 
     void Cr2Image::setExifData(const ExifData& /*exifData*/)
