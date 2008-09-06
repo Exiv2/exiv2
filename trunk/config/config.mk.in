@@ -111,8 +111,9 @@ EXPAT_CPPFLAGS = @EXPAT_CPPFLAGS@
 EXPAT_LIBS = @EXPAT_LIBS@
 
 # **********************************************************************
-# Libraries and Functions
+# Libraries, include files, functions
 HAVE_LIBZ = @HAVE_LIBZ@
+HAVE_STDINT = @HAVE_STDINT@
 HAVE_TIMEGM = @HAVE_TIMEGM@
 
 # **********************************************************************

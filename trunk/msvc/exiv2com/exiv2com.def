@@ -1,9 +1,0 @@
-; exiv2com.def : Declares the module parameters.
-
-LIBRARY      "exiv2com.DLL"
-
-EXPORTS
-	DllCanUnloadNow		PRIVATE
-	DllGetClassObject	PRIVATE
-	DllRegisterServer	PRIVATE
-	DllUnregisterServer	PRIVATE

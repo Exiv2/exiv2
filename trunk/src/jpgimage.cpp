@@ -435,7 +435,9 @@ namespace Exiv2 {
         } // while there are segments to process
 
         if (   iptcBlob.size() > 0
-               && IptcParser::decode(iptcData_, &iptcBlob[0], iptcBlob.size())) {
+            && IptcParser::decode(iptcData_,
+                                  &iptcBlob[0],
+                                  static_cast<uint32_t>(iptcBlob.size()))) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: Failed to decode IPTC metadata.\n";
 #endif
@@ -611,7 +613,7 @@ namespace Exiv2 {
                     uint32_t exifSize = rawExif.size_;
                     if (wm == wmIntrusive) {
                         pExifData = &blob[0];
-                        exifSize = blob.size();
+                        exifSize = static_cast<uint32_t>(blob.size());
                     }
                     if (exifSize > 0) {
                         // Write APP1 marker, size of APP1 field, Exif id and Exif data

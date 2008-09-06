@@ -421,7 +421,7 @@ namespace Exiv2 {
         if (tc == 0) {
             TiffComponent::AutoPtr atc(new TiffDirectory(dt, ts2->group_));
             tc = addChild(atc);
-            setCount(ifds_.size());
+            setCount(static_cast<uint32_t>(ifds_.size()));
         }
         return tc->addPath(tag, tiffPath);
     } // TiffSubIfd::doAddPath
@@ -469,7 +469,7 @@ namespace Exiv2 {
             TiffComponent::AutoPtr atc(ts->newTiffCompFct_(tg, ts));
             assert(ts->extendedTag_ != Tag::next);
             tc = addChild(atc);
-            setCount(elements_.size());
+            setCount(static_cast<uint32_t>(elements_.size()));
         }
         return tc->addPath(tag, tiffPath);
     } // TiffArrayEntry::doAddPath
@@ -657,7 +657,7 @@ namespace Exiv2 {
 
     uint32_t TiffDirectory::doCount() const
     {
-        return components_.size();
+        return static_cast<uint32_t>(components_.size());
     }
 
     uint32_t TiffEntryBase::doCount() const
@@ -924,7 +924,7 @@ namespace Exiv2 {
                   << std::setfill('0') << std::hex << tag() << std::dec
                   << ": Writing offset " << imageIdx << "\n";
 #endif
-        DataBuf buf(strips_.size() * 4);
+        DataBuf buf(static_cast<long>(strips_.size()) * 4);
         uint32_t idx = 0;
         for (Strips::const_iterator i = strips_.begin(); i != strips_.end(); ++i) {
             idx += writeOffset(buf.pData_ + idx, imageIdx, tiffType(), byteOrder);
@@ -942,7 +942,7 @@ namespace Exiv2 {
                                  uint32_t  dataIdx,
                                  uint32_t& /*imageIdx*/)
     {
-        DataBuf buf(ifds_.size() * 4);
+        DataBuf buf(static_cast<long>(ifds_.size()) * 4);
         uint32_t idx = 0;
         for (Ifds::const_iterator i = ifds_.begin(); i != ifds_.end(); ++i) {
             idx += writeOffset(buf.pData_ + idx, offset + dataIdx, tiffType(), byteOrder);
@@ -1231,12 +1231,12 @@ namespace Exiv2 {
 
     uint32_t TiffImageEntry::doSize() const
     {
-        return strips_.size() * 4;
+        return static_cast<uint32_t>(strips_.size()) * 4;
     } // TiffImageEntry::doSize
 
     uint32_t TiffSubIfd::doSize() const
     {
-        return ifds_.size() * 4;
+        return static_cast<uint32_t>(ifds_.size()) * 4;
     } // TiffSubIfd::doSize
 
     uint32_t TiffMnEntry::doSize() const

@@ -39,16 +39,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "metacopy", "metacopy\metaco
 		{831EF580-92C8-4CA8-B0CE-3D906280A54D} = {831EF580-92C8-4CA8-B0CE-3D906280A54D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ifd-test", "ifd-test\ifd-test.vcproj", "{F96ACB3E-B41C-44FA-BB88-954171D5D0BA}"
-	ProjectSection(ProjectDependencies) = postProject
-		{831EF580-92C8-4CA8-B0CE-3D906280A54D} = {831EF580-92C8-4CA8-B0CE-3D906280A54D}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "makernote-test", "makernote-test\makernote-test.vcproj", "{AB0BA03E-2B09-4DCE-966F-3F5CCA01355C}"
-	ProjectSection(ProjectDependencies) = postProject
-		{831EF580-92C8-4CA8-B0CE-3D906280A54D} = {831EF580-92C8-4CA8-B0CE-3D906280A54D}
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iptcprint", "iptcprint\iptcprint.vcproj", "{52034F65-28AA-4E3F-A44D-C91F6F0922F8}"
 	ProjectSection(ProjectDependencies) = postProject
 		{831EF580-92C8-4CA8-B0CE-3D906280A54D} = {831EF580-92C8-4CA8-B0CE-3D906280A54D}
@@ -84,21 +74,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iptceasy", "iptceasy\iptcea
 		{831EF580-92C8-4CA8-B0CE-3D906280A54D} = {831EF580-92C8-4CA8-B0CE-3D906280A54D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "exiv2com", "exiv2com\exiv2com.vcproj", "{6EEE7BDC-88EE-450D-B752-63DB7E50EA8E}"
-	ProjectSection(ProjectDependencies) = postProject
-		{831EF580-92C8-4CA8-B0CE-3D906280A54D} = {831EF580-92C8-4CA8-B0CE-3D906280A54D}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "exiv2comPS", "exiv2com\exiv2comPS.vcproj", "{E5CADAC3-4276-4231-9626-49464C79682D}"
-	ProjectSection(ProjectDependencies) = postProject
-		{6EEE7BDC-88EE-450D-B752-63DB7E50EA8E} = {6EEE7BDC-88EE-450D-B752-63DB7E50EA8E}
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "exifdata-test", "exifdata-test\exifdata-test.vcproj", "{36F0C797-F6BD-4F5C-8DB2-651D8502872D}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "crwparse", "crwparse\crwparse.vcproj", "{1EB3B69F-6709-42D3-A058-540DE5051800}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject

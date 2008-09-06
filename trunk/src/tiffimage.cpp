@@ -614,7 +614,7 @@ namespace Exiv2 {
             encoder.add(createdTree.get(), parsedTree.get(), createFct);
             // Write binary representation from the composite tree
             uint32_t offset = pHeader->write(blob);
-            uint32_t imageIdx(-1);
+            uint32_t imageIdx(uint32_t(-1));
             uint32_t len = createdTree->write(blob, pHeader->byteOrder(), offset, uint32_t(-1), uint32_t(-1), imageIdx);
             // Avoid writing just the header if there is no IFD data
             if (len == 0) blob.clear();

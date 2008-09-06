@@ -42,6 +42,7 @@
 // + standard includes
 #include <iosfwd>
 #include <cassert>
+#include <cstdarg>
 
 // *****************************************************************************
 // namespace extensions
