@@ -288,7 +288,8 @@ namespace Exiv2
                             if (idx != std::string::npos && idx > 0)
                             {
 #ifndef SUPPRESS_WARNINGS
-                                std::cerr << "Exiv2::Jp2Image::readMetadata: Removing " << idx 
+                                std::cerr << "Exiv2::Jp2Image::readMetadata: Removing " 
+                                          << static_cast<uint32_t>(idx)
                                           << " characters from the beginning of the XMP packet\n";
 #endif
                                 xmpPacket_ = xmpPacket_.substr(idx);
@@ -444,7 +445,7 @@ namespace Exiv2
                         {
                             const unsigned char ExifHeader[] = {0x45, 0x78, 0x69, 0x66, 0x00, 0x00};
 
-                            DataBuf rawExif(sizeof(ExifHeader) + blob.size());
+                            DataBuf rawExif(static_cast<long>(sizeof(ExifHeader) + blob.size()));
                             memcpy(rawExif.pData_, ExifHeader, sizeof(ExifHeader));
                             memcpy(rawExif.pData_ + sizeof(ExifHeader), &blob[0], blob.size());
 

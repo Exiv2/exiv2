@@ -61,6 +61,13 @@ typedef int pid_t;
 #define EXV_SEPERATOR_STR "\\"
 #define EXV_SEPERATOR_CHR '\\'
 
+/* Todo: Shared library support */
+#define EXV_IMPORT
+#define EXV_EXPORT
+#define EXV_DLLLOCAL
+#define EXV_DLLPUBLIC
+#define EXIV2API
+
 /*
   Visual Studio C++ 2005 (8.0)
   Disable warnings about 'deprecated' standard functions

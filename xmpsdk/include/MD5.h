@@ -23,6 +23,16 @@
  * Still in the public domain.
  */
 
+#include <sys/types.h>
+#ifdef EXV_HAVE_STDINT_H
+# include <stdint.h>
+#endif
+
+/* MSVC doesn't provide C99 types, but it has MS specific variants */
+#ifdef _MSC_VER
+typedef unsigned __int32 uint32_t;
+#endif
+
 typedef unsigned char md5byte;
 typedef uint32_t UWORD32;
 

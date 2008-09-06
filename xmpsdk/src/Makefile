@@ -86,6 +86,10 @@ SHELL = /bin/sh
 
 # For a debug build, replace -DNDEBUG=1 with -DDEBUG=1 -D_DEBUG=1
 CPPFLAGS += -I../include -funsigned-char -DNDEBUG=1 $(EXPAT_CPPFLAGS)
+ifdef HAVE_STDINT
+	CPPFLAGS += -DEXV_HAVE_STDINT_H=1
+endif
+
 LDFLAGS += $(EXPAT_LDFLAGS)
 LIBS += $(EXPAT_LIBS)
 

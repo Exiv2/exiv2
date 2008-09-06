@@ -1,7 +1,3 @@
-#include <cstring>
-
-using namespace std;
-
 /*
  * This code implements the MD5 message-digest algorithm.
  * The algorithm is due to Ron Rivest.  This code was
@@ -24,10 +20,11 @@ using namespace std;
  * Still in the public domain.
  */
 
-#include <sys/types.h>
-#include <stdint.h>
+#include <cstring>
 
 #include "MD5.h"
+
+using namespace std;
 
 static void
 byteSwap(UWORD32 *buf, unsigned words)

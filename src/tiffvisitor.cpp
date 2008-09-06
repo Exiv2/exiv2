@@ -458,7 +458,9 @@ namespace Exiv2 {
         if (!xmpPacket.empty()) {
             // Set the XMP Exif tag to the new value
             Value::AutoPtr value = Value::create(unsignedByte);
-            value->read(reinterpret_cast<const byte*>(&xmpPacket[0]), xmpPacket.size(), invalidByteOrder);
+            value->read(reinterpret_cast<const byte*>(&xmpPacket[0]),
+                        static_cast<long>(xmpPacket.size()),
+                        invalidByteOrder);
             Exifdatum xmpDatum(xmpKey, value.get());
             exifData_.add(xmpDatum);
         }

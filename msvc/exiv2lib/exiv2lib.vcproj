@@ -150,9 +150,6 @@ copy /y $(TargetPath) $(SolutionDir)\lib\$(TargetFileName)
 				RelativePath="..\..\src\gifimage.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\ifd.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\image.cpp">
 			</File>
 			<File
@@ -169,9 +166,6 @@ copy /y $(TargetPath) $(SolutionDir)\lib\$(TargetFileName)
 			</File>
 			<File
 				RelativePath="..\..\src\makernote.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\makernote2.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\metadatum.cpp">
@@ -225,9 +219,6 @@ copy /y $(TargetPath) $(SolutionDir)\lib\$(TargetFileName)
 				RelativePath="..\..\src\tiffimage.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\tiffparser.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\tiffvisitor.cpp">
 			</File>
 			<File
@@ -235,6 +226,9 @@ copy /y $(TargetPath) $(SolutionDir)\lib\$(TargetFileName)
 			</File>
 			<File
 				RelativePath="..\..\src\value.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\version.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\xmp.cpp">
@@ -257,16 +251,19 @@ copy /y $(TargetPath) $(SolutionDir)\lib\$(TargetFileName)
 				RelativePath="..\..\src\canonmn.hpp">
 			</File>
 			<File
-				RelativePath="..\..\config.h">
-			</File>
-			<File
 				RelativePath="..\..\src\convert.hpp">
 			</File>
 			<File
 				RelativePath="..\..\src\cr2image.hpp">
 			</File>
 			<File
+				RelativePath="..\..\src\cr2image_int.hpp">
+			</File>
+			<File
 				RelativePath="..\..\src\crwimage.hpp">
+			</File>
+			<File
+				RelativePath="..\..\src\crwimage_int.hpp">
 			</File>
 			<File
 				RelativePath="..\..\src\datasets.hpp">
@@ -278,16 +275,22 @@ copy /y $(TargetPath) $(SolutionDir)\lib\$(TargetFileName)
 				RelativePath="..\..\src\exif.hpp">
 			</File>
 			<File
+				RelativePath="..\..\src\exv_msvc.h">
+			</File>
+			<File
 				RelativePath="..\..\src\fujimn.hpp">
 			</File>
 			<File
 				RelativePath="..\..\src\futils.hpp">
 			</File>
 			<File
+				RelativePath="..\..\src\getopt_win32.h">
+			</File>
+			<File
 				RelativePath="..\..\src\gifimage.hpp">
 			</File>
 			<File
-				RelativePath="..\..\src\ifd.hpp">
+				RelativePath="..\..\src\i18n.h">
 			</File>
 			<File
 				RelativePath="..\..\src\image.hpp">
@@ -302,10 +305,7 @@ copy /y $(TargetPath) $(SolutionDir)\lib\$(TargetFileName)
 				RelativePath="..\..\src\jpgimage.hpp">
 			</File>
 			<File
-				RelativePath="..\..\src\makernote.hpp">
-			</File>
-			<File
-				RelativePath="..\..\src\makernote2.hpp">
+				RelativePath="..\..\src\makernote_int.hpp">
 			</File>
 			<File
 				RelativePath="..\..\src\metadatum.hpp">
@@ -327,6 +327,9 @@ copy /y $(TargetPath) $(SolutionDir)\lib\$(TargetFileName)
 			</File>
 			<File
 				RelativePath="..\..\src\orfimage.hpp">
+			</File>
+			<File
+				RelativePath="..\..\src\orfimage_int.hpp">
 			</File>
 			<File
 				RelativePath="..\..\src\panasonicmn.hpp">
@@ -359,22 +362,28 @@ copy /y $(TargetPath) $(SolutionDir)\lib\$(TargetFileName)
 				RelativePath="..\..\src\tgaimage.hpp">
 			</File>
 			<File
-				RelativePath="..\..\src\tiffcomposite.hpp">
+				RelativePath="..\..\src\tiffcomposite_int.hpp">
+			</File>
+			<File
+				RelativePath="..\..\src\tifffwd_int.hpp">
 			</File>
 			<File
 				RelativePath="..\..\src\tiffimage.hpp">
 			</File>
 			<File
-				RelativePath="..\..\src\tiffparser.hpp">
+				RelativePath="..\..\src\tiffimage_int.hpp">
 			</File>
 			<File
-				RelativePath="..\..\src\tiffvisitor.hpp">
+				RelativePath="..\..\src\tiffvisitor_int.hpp">
 			</File>
 			<File
 				RelativePath="..\..\src\types.hpp">
 			</File>
 			<File
 				RelativePath="..\..\src\value.hpp">
+			</File>
+			<File
+				RelativePath="..\..\src\version.hpp">
 			</File>
 			<File
 				RelativePath="..\..\src\xmp.hpp">
