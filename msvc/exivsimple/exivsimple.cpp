@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2007 Andreas Huggel <ahuggel@gmx.net>
+ * Copyright (C) 2004-2008 Andreas Huggel <ahuggel@gmx.net>
  * 
  * This program is part of the Exiv2 distribution.
  *
@@ -155,20 +155,20 @@ EXIVSIMPLE_API int ImageData(HIMAGE img, BYTE *buffer, unsigned int size)
 EXIVSIMPLE_API void SetThumbnail(HIMAGE img, const BYTE *buffer, unsigned int size)
 {
     ImageWrapper *imgWrap = (ImageWrapper*)img;
-    Exiv2::ExifData &exifData = imgWrap->image->exifData();
-    exifData.setJpegThumbnail(buffer, size);
+    Exiv2::ExifData& exifData = imgWrap->image->exifData();
+    Exiv2::ExifThumb exifThumb(exifData);
+    exifThumb.setJpegThumbnail(buffer, size);
 }
 
 EXIVSIMPLE_API unsigned int GetThumbnail(HIMAGE img, BYTE *buffer, unsigned int size)
 {
     ImageWrapper *imgWrap = (ImageWrapper*)img;
-    Exiv2::ExifData &exifData = imgWrap->image->exifData();
-    Exiv2::Thumbnail::AutoPtr thumbnail;
-    thumbnail = exifData.getThumbnail();
-    if (thumbnail.get() == 0) {
+    Exiv2::ExifData& exifData = imgWrap->image->exifData();
+    Exiv2::ExifThumb exifThumb(exifData);
+    Exiv2::DataBuf buf = exifThumb.copy();
+    if (buf.size_ == 0) {
         return 0;
     }
-    Exiv2::DataBuf buf = thumbnail->copy(exifData);
     if (buf.size_ > (long)size) {
         return unsigned int(-1);
     }
