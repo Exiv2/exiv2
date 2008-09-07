@@ -1,3 +1,33 @@
+Changes from version 0.17.1 to 0.18-pre1
+----------------------------------------
+
+* Exiv2 library
+	- 0000568: [metadata] exiv2 -ps crash for some jpeg files. (Reported by
+	           aurelien)
+	- 0000566: [miscellaneous] RSA licensed MD5.cpp file in exiv2 0.16.
+	           (Reported with fix by Dirk Mueller)
+	- 0000565: [exif] IFDs and IFD offsets need to be aligned to word
+	           boundaries. (Reported by iplabs.de)
+	- 0000554: [exif] Setting "Exif.Image.DateTime Date" gives "Value too
+	           large" exception. (Debian Bug #426274)
+	- 0000553: [design] [U]Rational::toLong() and toFloat() should not divide
+	           by 0.
+	- 0000528: [miscellaneous] typeSize is meant for Exif metadata only.
+	- 0000526: [metadata] Adding GPS info removes preview image from Nikon
+	           Coolpix JPGs. (Reported by paulb)
+	- 0000524: [design] Publish only API objects in the installed header files.
+	- 0000523: [miscellaneous] C++ symbol visibility support for gcc builds.
+	- 0000464: [metadata] Write support for PNG images. (Gilles Caulier)
+	- 0000462: [exif] Write support for TIFF format ("New TIFF parser").
+	- 0000405: [design] Separate metadata parsing from metadata storage.
+	-          [metadata] Write support for JPEG2000 format.
+	-          [exif] Updated Nikon lens info to v3.25 of Robert Rottmerhusen's
+	           lens database.
+	-          [xmp] Added Microsoft Photo and digiKam XMP schemas.
+	           (Gilles Caulier)
+	-          [exif] Added DNG tags.
+
+
 Changes from version 0.17 to 0.17.1
 -----------------------------------
 
