@@ -79,8 +79,7 @@ namespace Exiv2 {
         bool operator==(Item item) const;       //!< Comparison operator for IFD item
         IfdId ifdId_;                           //!< IFD id
         const char* name_;                      //!< IFD name
-        //! Related IFD item. This is also an IFD name, unique for each IFD.
-        const char* item_;
+        const char* item_; //!< Related IFD item. This is also an IFD name, unique for each IFD.
         TagListFct tagList_;                    //!< Tag list
     };
 

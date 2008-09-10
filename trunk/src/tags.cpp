@@ -63,10 +63,12 @@ namespace {
 // class member definitions
 namespace Exiv2 {
 
+    //! @cond IGNORE
     IfdInfo::Item::Item(const std::string& item)
     {
         i_ = item;
     }
+    //! @endcond
 
     bool IfdInfo::operator==(IfdId ifdId) const
     {
