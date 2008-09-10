@@ -56,20 +56,20 @@ TABLES = Exif \
          Sigma \
          Sony
 
-SCHEMA = dc \
-         xmp \
-         xmpRights \
-         xmpMM \
-         xmpBJ \
-         xmpTPg \
-         xmpDM \
-         pdf \
-         photoshop \
-         crs \
-         tiff \
-         exif \
-         aux \
-         iptc
+SCHEMA = xmp_dc \
+         xmp_xmp \
+         xmp_xmpRights \
+         xmp_xmpMM \
+         xmp_xmpBJ \
+         xmp_xmpTPg \
+         xmp_xmpDM \
+         xmp_pdf \
+         xmp_photoshop \
+         xmp_crs \
+         xmp_tiff \
+         xmp_exif \
+         xmp_aux \
+         xmp_iptc
 
 TAGLIST = ../../src/taglist
 
@@ -108,12 +108,12 @@ Iptc: $(TAGLIST)
 	@rm -f $@.tmp
 
 $(SCHEMA): $(TAGLIST)
-	@echo Generating xmp_$@ table...
-	@$(TAGLIST) $@ | sed -e"s/</\&lt;/g" -e"s/>/\&gt;/g" | awk -f xmp.awk > xmp_$@.xml
-	@xsltproc xmp.xsl xmp_$@.xml > xmp_$@.tmp
-	@sed "s/report1/xmp_$@/" xmp_$@.tmp > __xmp_$@__
-	@touch xmp_$@
-	@rm -f xmp_$@.tmp
+	@echo Generating $@ table...
+	@echo $@ | sed "s/xmp_//" | xargs $(TAGLIST) | sed -e"s/</\&lt;/g" -e"s/>/\&gt;/g" | awk -f xmp.awk > $@.xml
+	@xsltproc xmp.xsl $@.xml > $@.tmp
+	@sed "s/report1/$@/" $@.tmp > __$@__
+	@touch $@
+	@rm -f $@.tmp
 
 $(TAGLIST): 
 	$(error File $(TAGLIST) does not exist. Did you build the library and programs in the src/ directory?)
@@ -124,9 +124,8 @@ mostlyclean:
 
 clean: mostlyclean
 	rm -f $(TABLES:%=__%__) __Iptc__
-	rm -f $(TABLES) Iptc
-	rm -f $(SCHEMA:%=__xmp_%__)
-	rm -f $(SCHEMA:%=xmp_%)
+	rm -f $(SCHEMA:%=__%__)
+	rm -f $(TABLES) $(SCHEMA) Iptc
 	rm -f *.html
 
 distclean: clean
