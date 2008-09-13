@@ -8,8 +8,8 @@ write Exif, IPTC and XMP image metadata. The homepage of Exiv2 is:
 
 See doc/ChangeLog for a list of recent changes to Exiv2.
 
-The complete Exiv2 documentation is online at http://www.exiv2.org/doc
-or you can download or build it and point your browser to doc/index.html
+Exiv2 API and tag reference documentation is at http://www.exiv2.org/doc
+or you can build it and point your browser to doc/index.html.
 
 For more information on XMP support in Exiv2, see doc/README-XMP.
 
