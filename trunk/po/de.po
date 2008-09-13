@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
 "POT-Creation-Date: 2008-09-10 22:50+0800\n"
-"PO-Revision-Date: 2008-05-25 08:14+0200\n"
+"PO-Revision-Date: 2008-09-13 22:42+0200\n"
 "Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
 "Language-Team: german <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -194,8 +194,7 @@ msgstr "wurde in der Datei gefunden"
 
 #: src/actions.cpp:872
 msgid "Image file creation timestamp not set in the file"
-msgstr ""
-"Der Erstellungszeitstempel der Bilddatei ist nicht in der Datei gesetzt."
+msgstr "Der Erstellungszeitstempel der Bilddatei ist nicht in der Datei gesetzt."
 
 #: src/actions.cpp:878 src/actions.cpp:1537
 msgid "Failed to parse timestamp"
@@ -210,9 +209,8 @@ msgid "Updating timestamp to"
 msgstr "Aktualisiere den Zeitstempel auf"
 
 #: src/actions.cpp:980
-#, fuzzy
 msgid "Erasing thumbnail data"
-msgstr "Bytes der Bildvorschau"
+msgstr "Die Vorschaudaten werden gelöscht."
 
 #: src/actions.cpp:988
 msgid "Erasing Exif data from the file"
@@ -235,9 +233,8 @@ msgid "Image does not contain an Exif thumbnail\n"
 msgstr "Das Bild enthält keine Exif-Bildvorschau.\n"
 
 #: src/actions.cpp:1086
-#, fuzzy
 msgid "Writing thumbnail"
-msgstr "Vorschau"
+msgstr "Die Vorschau wird geschrieben."
 
 #: src/actions.cpp:1087
 msgid "to file"
@@ -334,8 +331,7 @@ msgstr "nach"
 
 #: src/actions.cpp:1588
 msgid "Standard Exif ISO tag exists; not modified\n"
-msgstr ""
-"Es existiert ein Standard-Exif-ISO-Feld exists; dies wird nicht geändert\n"
+msgstr "Es existiert ein Standard-Exif-ISO-Feld exists; dies wird nicht geändert\n"
 
 #: src/actions.cpp:1617
 msgid "Setting Exif ISO value to"
@@ -2622,8 +2618,7 @@ msgid "Reference Date"
 msgstr "Referenzdatum"
 
 #: src/datasets.cpp:284
-msgid ""
-"Identifies the date of a prior envelope to which the current object refers."
+msgid "Identifies the date of a prior envelope to which the current object refers."
 msgstr ""
 "Gibt das Datum eines vorangegangenen Umschlags an, auf den das aktuelle "
 "Objekt verweist."
@@ -2846,8 +2841,7 @@ msgid "Headline"
 msgstr "Schlagzeile"
 
 #: src/datasets.cpp:364
-msgid ""
-"A publishable entry providing a synopsis of the contents of the object data."
+msgid "A publishable entry providing a synopsis of the contents of the object data."
 msgstr ""
 "Ein veröffentlichbarer Eintrag, der eine Zusammenfassung des Inhalts der "
 "Objektdaten zur Verfügung stellt."
@@ -3133,9 +3127,8 @@ msgid "Input data does not contain a valid image"
 msgstr "Die Eingabedaten enthalten kein gültiges Bild."
 
 #: src/error.cpp:73
-#, fuzzy
 msgid "Invalid ifdId %1"
-msgstr "Ungültiger Schlüssel \"%1\""
+msgstr "Ungültige IFD-ID %1"
 
 #: src/error.cpp:74
 msgid "Entry::setValue: Value too large (tag=%1, size=%2, requested=%3)"
@@ -3207,8 +3200,7 @@ msgstr "Fehler des XMP-Werkzeugsatzes %1: %2"
 
 #: src/error.cpp:91
 msgid "Failed to decode Lang Alt property %1 with opt=%2"
-msgstr ""
-"Fehler beim Dekodieren der alternativen Spracheigenschaft %1 mit opt=%2"
+msgstr "Fehler beim Dekodieren der alternativen Spracheigenschaft %1 mit opt=%2"
 
 #: src/error.cpp:92
 msgid "Failed to decode Lang Alt qualifier %1 with opt=%2"
@@ -3246,15 +3238,15 @@ msgstr "Ungültiger Xmp-Texttyp `%1'"
 
 #: src/error.cpp:99
 msgid "TIFF directory %1 has too many entries"
-msgstr ""
+msgstr "Der TIFF Ordner %1 hat zu viele Einträge"
 
 #: src/error.cpp:100
 msgid "Multiple TIFF array element tags %1 in one directory"
-msgstr ""
+msgstr "Mehrfache TIFF-Feldelemente %1 in einem Ordner"
 
 #: src/error.cpp:101
 msgid "TIFF array element tag %1 has wrong type"
-msgstr ""
+msgstr "Das TIFF-Feldelement %1 hat den falschen Typ"
 
 #: src/error.cpp:103
 msgid "(Unknown Error)"
@@ -3352,8 +3344,7 @@ msgstr ""
 "Eingabedateien zu ändern.\n"
 
 #: src/exiv2.cpp:226
-msgid ""
-"  ex | extract  Extract metadata to *.exv, *.xmp and thumbnail image files.\n"
+msgid "  ex | extract  Extract metadata to *.exv, *.xmp and thumbnail image files.\n"
 msgstr ""
 "  ex | extract  Extrahiert die Metadaten in *.exv, *.xmp und "
 "Bildvorschaudateien.\n"
@@ -3425,8 +3416,7 @@ msgid "   -k      Preserve file timestamps (keep).\n"
 msgstr "   -k      Bewahrt die Dateizeitstempel (keep).\n"
 
 #: src/exiv2.cpp:242
-msgid ""
-"   -t      Also set the file timestamp in 'rename' action (overrides -k).\n"
+msgid "   -t      Also set the file timestamp in 'rename' action (overrides -k).\n"
 msgstr ""
 "   -t      Setzt beim \"Umbennenen\" auch die Zeitstempel der Datei "
 "(überschreibt -k).\n"
@@ -3476,20 +3466,17 @@ msgstr "   -p mode Druckmodus für die Aktion 'Drucken'. Mögliche Modi sind:\n"
 
 #: src/exiv2.cpp:253
 msgid "             s : print a summary of the Exif metadata (the default)\n"
-msgstr ""
-"             s : druckt eine Zusammenfassung der Exif-Metadaten (Standard)\n"
+msgstr "             s : druckt eine Zusammenfassung der Exif-Metadaten (Standard)\n"
 
 #: src/exiv2.cpp:254
-msgid ""
-"             t : interpreted (translated) Exif data (shortcut for -Pkyct)\n"
+msgid "             t : interpreted (translated) Exif data (shortcut for -Pkyct)\n"
 msgstr ""
 "             t : interpretiert (übersetzt) die Exif-Daten (Kurzform für -"
 "Pkyct)\n"
 
 #: src/exiv2.cpp:255
 msgid "             v : plain Exif data values (shortcut for -Pxgnycv)\n"
-msgstr ""
-"             v : Vollständige Exif-Datenwerte (Kurzform für -Pxgnycv)\n"
+msgstr "             v : Vollständige Exif-Datenwerte (Kurzform für -Pxgnycv)\n"
 
 #: src/exiv2.cpp:256
 msgid "             h : hexdump of the Exif data (shortcut for -Pxgnycsh)\n"
@@ -3508,8 +3495,7 @@ msgid "             c : JPEG comment\n"
 msgstr "             c : JPEG-Kommentar\n"
 
 #: src/exiv2.cpp:260
-msgid ""
-"   -P cols Print columns for the Exif taglist ('print' action). Valid are:\n"
+msgid "   -P cols Print columns for the Exif taglist ('print' action). Valid are:\n"
 msgstr ""
 "   -P cols Druckt Spalten für die Exif-Feldliste (Aktion 'Drucken' action). "
 "Gültig sind:\n"
@@ -3559,8 +3545,7 @@ msgid "             h : hexdump of the data\n"
 msgstr "             h : Hexdump der Daten\n"
 
 #: src/exiv2.cpp:272
-msgid ""
-"   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n"
+msgid "   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n"
 msgstr "   -d ziel  Ziele für die Aktion \"Löschen\". Mögliche Ziele sind:\n"
 
 #: src/exiv2.cpp:273
@@ -3624,10 +3609,8 @@ msgid "             :basename:   - original filename without extension\n"
 msgstr "             :basename:   - Originaldateiname ohne Erweiterung\n"
 
 #: src/exiv2.cpp:290
-msgid ""
-"             :dirname:    - name of the directory holding the original file\n"
-msgstr ""
-"             :dirname:    - Name des Ordners in dem die Originaldatei liegt\n"
+msgid "             :dirname:    - name of the directory holding the original file\n"
+msgstr "             :dirname:    - Name des Ordners in dem die Originaldatei liegt\n"
 
 #: src/exiv2.cpp:291
 msgid "             :parentname: - name of parent directory\n"
@@ -4308,11 +4291,11 @@ msgstr "Benutzte ISO-Einstellungen"
 
 #: src/minoltamn.cpp:85
 msgid "High Key"
-msgstr ""
+msgstr "Hoher Schlüssel"
 
 #: src/minoltamn.cpp:86
 msgid "Low Key"
-msgstr ""
+msgstr "Niedriger Schlüssel"
 
 #: src/minoltamn.cpp:232
 msgid "Makernote Version"
@@ -4327,8 +4310,7 @@ msgid "Camera Settings (Std Old)"
 msgstr "Kameraeinstellungen(Alter Standard)"
 
 #: src/minoltamn.cpp:236
-msgid ""
-"Standard Camera settings (Old Camera models like D5, D7, S304, and S404)"
+msgid "Standard Camera settings (Old Camera models like D5, D7, S304, and S404)"
 msgstr ""
 "Standard-Kameraeinstellungen (für alte Kameras wie z.B. D5, D7, S304 und "
 "S404)"
@@ -4339,8 +4321,7 @@ msgstr "Kameraeinstellungen(Neuer Standard)"
 
 #: src/minoltamn.cpp:239
 msgid "Standard Camera settings (New Camera Models like D7u, D7i, and D7hi)"
-msgstr ""
-"Standard-Kameraeinstellungen (für neue Kameras wie z.B. D7u, D7i und D7hi)"
+msgstr "Standard-Kameraeinstellungen (für neue Kameras wie z.B. D7u, D7i und D7hi)"
 
 #: src/minoltamn.cpp:241
 msgid "Camera Settings (7D)"
@@ -4403,11 +4384,11 @@ msgstr "Bildqualität"
 
 #: src/minoltamn.cpp:271
 msgid "Zone Matching"
-msgstr ""
+msgstr "Zonenabgleich"
 
 #: src/minoltamn.cpp:272
 msgid "Zone matching"
-msgstr ""
+msgstr "Zonenabgleich"
 
 #: src/minoltamn.cpp:274 src/minoltamn.cpp:930 src/minoltamn.cpp:1174
 msgid "Color Temperature"
@@ -4872,27 +4853,27 @@ msgstr "Helligkeit"
 
 #: src/minoltamn.cpp:733
 msgid "Spot Focus Point X"
-msgstr ""
+msgstr "Punktschärfe X-Wert"
 
 #: src/minoltamn.cpp:734
 msgid "Spot focus point X"
-msgstr ""
+msgstr "Punktschärfe X-Wert"
 
 #: src/minoltamn.cpp:736
 msgid "Spot Focus Point Y"
-msgstr ""
+msgstr "Punktschärfe Y-Wert"
 
 #: src/minoltamn.cpp:737
 msgid "Spot focus point Y"
-msgstr ""
+msgstr "Punktschärfe Y-Wert"
 
 #: src/minoltamn.cpp:739
 msgid "Wide Focus Zone"
-msgstr ""
+msgstr "Weite Fokuszone"
 
 #: src/minoltamn.cpp:740
 msgid "Wide focus zone"
-msgstr ""
+msgstr "Weite Fokuszone"
 
 #: src/minoltamn.cpp:743 src/minoltamn.cpp:898 src/minoltamn.cpp:1172
 #: src/nikonmn.cpp:170 src/nikonmn.cpp:413 src/nikonmn.cpp:481
@@ -5005,12 +4986,12 @@ msgstr "Farbraum"
 #: src/minoltamn.cpp:927 src/minoltamn.cpp:945 src/minoltamn.cpp:1165
 #: src/minoltamn.cpp:1183
 msgid "Free Memory Card Images"
-msgstr ""
+msgstr "Freie Bilder auf der Speicherkarte"
 
 #: src/minoltamn.cpp:928 src/minoltamn.cpp:946 src/minoltamn.cpp:1166
 #: src/minoltamn.cpp:1184
 msgid "Free memory card images"
-msgstr ""
+msgstr "Freie Bilder auf der Speicherkarte"
 
 #: src/minoltamn.cpp:933
 msgid "Hue"
@@ -5029,11 +5010,11 @@ msgstr "Rauschreduktion"
 
 #: src/minoltamn.cpp:961
 msgid "Zone Matching On"
-msgstr ""
+msgstr "Zonenabgleich eingeschaltet"
 
 #: src/minoltamn.cpp:962
 msgid "Zone matching on"
-msgstr ""
+msgstr "Zonenabgleich eingeschaltet"
 
 #: src/minoltamn.cpp:967
 msgid "Unknown Minolta Camera Settings 7D tag"
@@ -5045,11 +5026,11 @@ msgstr ""
 
 #: src/minoltamn.cpp:1039
 msgid "200 (Zone Matching High)"
-msgstr ""
+msgstr "200 (Zonenabgleich Hoch)"
 
 #: src/minoltamn.cpp:1040
 msgid "80 (Zone Matching Low)"
-msgstr ""
+msgstr "80 (Zonenabgleich Niedrig)"
 
 #: src/minoltamn.cpp:1065
 msgid "Central"
@@ -5097,11 +5078,11 @@ msgstr "Fokusbereich"
 
 #: src/minoltamn.cpp:1168
 msgid "Exposure Revision"
-msgstr ""
+msgstr "Belichtungs-Revision"
 
 #: src/minoltamn.cpp:1169
 msgid "Exposure revision"
-msgstr ""
+msgstr "Belichtungs-Revision"
 
 #: src/minoltamn.cpp:1186
 msgid "Exposure Manual Bias"
@@ -5177,19 +5158,19 @@ msgstr "sRGB"
 
 #: src/nikonmn.cpp:116
 msgid "Fire, manual"
-msgstr ""
+msgstr "Ausgelöst, manuell"
 
 #: src/nikonmn.cpp:117
 msgid "Fire, external"
-msgstr ""
+msgstr "Ausgelöst, extern"
 
 #: src/nikonmn.cpp:118
 msgid "Fire, commander mode"
-msgstr ""
+msgstr "Ausgelöst, Kommandomodus"
 
 #: src/nikonmn.cpp:119
 msgid "Fire, TTL mode"
-msgstr ""
+msgstr "Ausgelöst, TTL-Modus"
 
 #: src/nikonmn.cpp:125
 msgid "Delay"
@@ -5217,11 +5198,11 @@ msgstr "IR Kontrolle"
 
 #: src/nikonmn.cpp:136
 msgid "Auto release"
-msgstr ""
+msgstr "Automatisch ausgelöst"
 
 #: src/nikonmn.cpp:137
 msgid "Manual release"
-msgstr ""
+msgstr "Manuell ausgelöst"
 
 #: src/nikonmn.cpp:143
 msgid "On for ISO 1600/3200"
@@ -5290,11 +5271,11 @@ msgstr "Bildanpassung-Einstellung"
 
 #: src/nikonmn.cpp:187 src/nikonmn.cpp:421 src/nikonmn.cpp:549
 msgid "Auxiliary Lens"
-msgstr ""
+msgstr "Zusatzlinse"
 
 #: src/nikonmn.cpp:188 src/nikonmn.cpp:422 src/nikonmn.cpp:550
 msgid "Auxiliary lens (adapter)"
-msgstr ""
+msgstr "Zusatzlinse (Adapter)"
 
 #: src/nikonmn.cpp:191 src/nikonmn.cpp:559 src/olympusmn.cpp:233
 msgid "Manual focus distance"
@@ -5382,7 +5363,7 @@ msgstr "Voreinstellung"
 
 #: src/nikonmn.cpp:389
 msgid "Speedlight"
-msgstr ""
+msgstr "Speedlight"
 
 #: src/nikonmn.cpp:429
 msgid "Unknown Nikon2MakerNote tag"
@@ -5430,7 +5411,7 @@ msgstr "Belichtungsabstand"
 
 #: src/nikonmn.cpp:510 src/pentaxmn.cpp:794
 msgid "Pointer to a preview image"
-msgstr ""
+msgstr "Zeiger auf ein Vorschaubild"
 
 #: src/nikonmn.cpp:511 src/pentaxmn.cpp:795
 msgid "Offset to an IFD containing a preview image"
@@ -7621,9 +7602,8 @@ msgid "Dublin Core schema"
 msgstr "Dublin-Hauptschema"
 
 #: src/properties.cpp:91
-#, fuzzy
 msgid "digiKam Photo Management schema"
-msgstr "XMP-Rechteverwaltungsschema"
+msgstr "digiKam-Fotoverwaltungsschema"
 
 #: src/properties.cpp:92
 msgid "XMP Basic schema"
@@ -7651,7 +7631,7 @@ msgstr "XMP-Dynamisches Medienschema"
 
 #: src/properties.cpp:98
 msgid "Microsoft Photo schema"
-msgstr ""
+msgstr "Microsoft-Fotoschema"
 
 #: src/properties.cpp:99
 msgid "Adobe PDF schema"
@@ -7740,8 +7720,7 @@ msgid "Creator"
 msgstr "Ersteller"
 
 #: src/properties.cpp:126
-msgid ""
-"The authors of the resource (listed in order of precedence, if significant)."
+msgid "The authors of the resource (listed in order of precedence, if significant)."
 msgstr "Die Autoren der Ressource in der Ordnung Ihres Beitrags."
 
 #: src/properties.cpp:127
@@ -7786,8 +7765,7 @@ msgstr ""
 
 #: src/properties.cpp:134
 msgid "An unordered array specifying the languages used in the resource."
-msgstr ""
-"Eine unsortierte Liste die die in der Ressource benutzten Sprachen aufzählt."
+msgstr "Eine unsortierte Liste die die in der Ressource benutzten Sprachen aufzählt."
 
 #: src/properties.cpp:135
 msgid "Publisher"
@@ -7917,8 +7895,7 @@ msgstr "Erstellungsdatum"
 
 #: src/properties.cpp:169
 msgid "The date and time the resource was originally created."
-msgstr ""
-"Das Datum und die Uhrzeit an dem die Ressource im Original erstellt wurde."
+msgstr "Das Datum und die Uhrzeit an dem die Ressource im Original erstellt wurde."
 
 #: src/properties.cpp:170
 msgid "Creator Tool"
@@ -8335,18 +8312,15 @@ msgstr "Maximale Seitengröße"
 msgid ""
 "The size of the largest page in the document (including any in contained "
 "documents)."
-msgstr ""
-"Die Größe der größten Seite, inklusive aller eingebetten Seiten, im Dokument."
+msgstr "Die Größe der größten Seite, inklusive aller eingebetten Seiten, im Dokument."
 
 #: src/properties.cpp:265
 msgid "Number of Pages"
 msgstr "Anzahl der Seiten"
 
 #: src/properties.cpp:265
-msgid ""
-"The number of pages in the document (including any in contained documents)."
-msgstr ""
-"Die Anzahl der Seiten, inklusive aller eingebetten Seiten, des Dokuments."
+msgid "The number of pages in the document (including any in contained documents)."
+msgstr "Die Anzahl der Seiten, inklusive aller eingebetten Seiten, des Dokuments."
 
 #: src/properties.cpp:266
 msgid "Fonts"
@@ -8407,8 +8381,7 @@ msgstr "Video-Bildgröße"
 
 #: src/properties.cpp:276
 msgid "The frame size. For example: w:720, h: 480, unit:pixels"
-msgstr ""
-"Die Größe des Video Bildes, z.B. Breite: 720, Höhe: 480, Einheit: Pixel"
+msgstr "Die Größe des Video Bildes, z.B. Breite: 720, Höhe: 480, Einheit: Pixel"
 
 #: src/properties.cpp:277
 msgid "Video Pixel Aspect Ratio"
@@ -8502,8 +8475,7 @@ msgid "Audio Sample Rate"
 msgstr "Audio-Abtastrate"
 
 #: src/properties.cpp:290
-msgid ""
-"The audio sample rate. Can be any value, but commonly 32000, 41100, or 48000."
+msgid "The audio sample rate. Can be any value, but commonly 32000, 41100, or 48000."
 msgstr ""
 "Die Audio-Abtastrate kann ein beliebiger Wert sein. Empfohlen sind die Werte "
 "32000, 41100, oder 48000."
@@ -8820,8 +8792,7 @@ msgstr "Schleife"
 
 #: src/properties.cpp:329
 msgid "When true, the clip can be looped seemlessly."
-msgstr ""
-"Wenn dieser gesetzt ist, dann kann der Clip nahtlos in einer Schleife laufen."
+msgstr "Wenn dieser gesetzt ist, dann kann der Clip nahtlos in einer Schleife laufen."
 
 #: src/properties.cpp:330
 msgid "Number Of Beats"
@@ -8836,8 +8807,7 @@ msgid "Key"
 msgstr "Schlüssel"
 
 #: src/properties.cpp:331
-msgid ""
-"The audio's musical key. One of: C, C#, D, D#, E, F, F#, G, G#, A, A#, B."
+msgid "The audio's musical key. One of: C, C#, D, D#, E, F, F#, G, G#, A, A#, B."
 msgstr ""
 "Der musikalische Schlüssel des Audios. Dies ist einer aus : C, C#, D, D#, E, "
 "F, F#, G, G#, A, A#, B."
@@ -8902,44 +8872,36 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:344 src/tags.cpp:759
-#, fuzzy
 msgid "Camera Serial Number"
 msgstr "Kamera-Seriennummer"
 
 #: src/properties.cpp:344
-#, fuzzy
 msgid "Camera Serial Number."
-msgstr "Kamera-Seriennummer"
+msgstr "Kamera-Seriennummer."
 
 #: src/properties.cpp:345
-#, fuzzy
 msgid "Date Acquired"
-msgstr "Erstellungsdatum"
+msgstr "Erwerbungsdatum"
 
 #: src/properties.cpp:345
-#, fuzzy
 msgid "Date Acquired."
-msgstr "Erstellungsdatum"
+msgstr "Erwerbungsdatum."
 
 #: src/properties.cpp:346
-#, fuzzy
 msgid "Flash Manufacturer"
-msgstr "Hersteller"
+msgstr "Hersteller des Blitzes."
 
 #: src/properties.cpp:346
-#, fuzzy
 msgid "Flash Manufacturer."
-msgstr "Hersteller"
+msgstr "Hersteller des Blitzes."
 
 #: src/properties.cpp:347
-#, fuzzy
 msgid "Flash Model"
-msgstr "Blitzmodus"
+msgstr "Blitzmodell"
 
 #: src/properties.cpp:347
-#, fuzzy
 msgid "Flash Model."
-msgstr "Blitzmodus"
+msgstr "Blitzmodell."
 
 #: src/properties.cpp:348
 msgid "Last Keyword IPTC"
@@ -8954,39 +8916,32 @@ msgid "Last Keyword XMP"
 msgstr ""
 
 #: src/properties.cpp:349
-#, fuzzy
 msgid "Last Keyword XMP."
-msgstr "Schlüsselbegriffe."
+msgstr ""
 
 #: src/properties.cpp:350
-#, fuzzy
 msgid "Lens Manufacturer"
-msgstr "Hersteller"
+msgstr "Linsen-Hersteller"
 
 #: src/properties.cpp:350
-#, fuzzy
 msgid "Lens Manufacturer."
-msgstr "Hersteller"
+msgstr "Linsen-Hersteller."
 
 #: src/properties.cpp:351
-#, fuzzy
 msgid "Lens Model"
-msgstr "Szenenmodus"
+msgstr "Linsenmodell"
 
 #: src/properties.cpp:351
-#, fuzzy
 msgid "Lens Model."
-msgstr "Szenenmodus"
+msgstr "Linsenmodell."
 
 #: src/properties.cpp:352
-#, fuzzy
 msgid "Rating Percent"
-msgstr "Windows-Bewertung in Prozent"
+msgstr "Bewertung in Prozent"
 
 #: src/properties.cpp:352
-#, fuzzy
 msgid "Rating Percent."
-msgstr "Windows-Bewertung in Prozent"
+msgstr "Bewertung in Prozent."
 
 #: src/properties.cpp:358
 msgid "Keywords."
@@ -9099,8 +9054,7 @@ msgstr "Automatische Helligkeit"
 
 #: src/properties.cpp:395
 msgid "When true, \"Brightness\" is automatically adjusted."
-msgstr ""
-"Wenn diese Option gesetzt ist, dann wird die Helligkeit automatisch justiert."
+msgstr "Wenn diese Option gesetzt ist, dann wird die Helligkeit automatisch justiert."
 
 #: src/properties.cpp:396
 msgid "Auto Contrast"
@@ -9108,8 +9062,7 @@ msgstr "Autokontrast"
 
 #: src/properties.cpp:396
 msgid "When true, \"Contrast\" is automatically adjusted."
-msgstr ""
-"Wenn diese Option gesetzt ist, dann wird der kontrast automatisch justiert."
+msgstr "Wenn diese Option gesetzt ist, dann wird der kontrast automatisch justiert."
 
 #: src/properties.cpp:397
 msgid "Auto Exposure"
@@ -9117,8 +9070,7 @@ msgstr "Automatische Belichtung"
 
 #: src/properties.cpp:397
 msgid "When true, \"Exposure\" is automatically adjusted."
-msgstr ""
-"Wenn diese Option gesetzt ist, dann wird die Belichtung automatisch justiert."
+msgstr "Wenn diese Option gesetzt ist, dann wird die Belichtung automatisch justiert."
 
 #: src/properties.cpp:398
 msgid "Auto Shadows"
@@ -9126,8 +9078,7 @@ msgstr "Automatisch (Schatten)"
 
 #: src/properties.cpp:398
 msgid "When true,\"Shadows\" is automatically adjusted."
-msgstr ""
-"Wenn diese Option gesetzt ist, dann werden die Schatten automatisch justiert."
+msgstr "Wenn diese Option gesetzt ist, dann werden die Schatten automatisch justiert."
 
 #: src/properties.cpp:399
 msgid "Blue Hue"
@@ -9162,8 +9113,7 @@ msgid "Chromatic Aberration Blue"
 msgstr "Chromatische Aberration Blau"
 
 #: src/properties.cpp:403
-msgid ""
-"\"Chromatic Aberration, Fix Blue/Yellow Fringe\" setting. Range -100 to +100."
+msgid "\"Chromatic Aberration, Fix Blue/Yellow Fringe\" setting. Range -100 to +100."
 msgstr ""
 "Einstellung \"Chromatische Aberration, Blau/Gelb-Ränder korrigieren\". "
 "Bereich von -100 bis +100."
@@ -9173,8 +9123,7 @@ msgid "Chromatic Aberration Red"
 msgstr "Chromatische Aberration Rot"
 
 #: src/properties.cpp:404
-msgid ""
-"\"Chromatic Aberration, Fix Red/Cyan Fringe\" setting. Range -100 to +100."
+msgid "\"Chromatic Aberration, Fix Red/Cyan Fringe\" setting. Range -100 to +100."
 msgstr ""
 "Einstellung \"Chromatische Aberration, Rot/Cyan-Ränder korrigieren\". "
 "Bereich von -100 bis +100."
@@ -9185,8 +9134,7 @@ msgstr "Farbrauschunterdrückung"
 
 #: src/properties.cpp:405
 msgid "\"Color Noise Reducton\" setting. Range 0 to +100."
-msgstr ""
-"Einstellung der \"Farbrauschunterdrückung\". Im Bereich von 0 bis +100."
+msgstr "Einstellung der \"Farbrauschunterdrückung\". Im Bereich von 0 bis +100."
 
 #: src/properties.cpp:406
 msgid "\"Contrast\" setting. Range -50 to +100."
@@ -9294,8 +9242,7 @@ msgstr "Wurde zugeschnitten"
 
 #: src/properties.cpp:418
 msgid "When true, image has a cropping rectangle."
-msgstr ""
-"Wenn die Option gesetzt ist, dann hat das Bild ein zuschneidendes Rechteck."
+msgstr "Wenn die Option gesetzt ist, dann hat das Bild ein zuschneidendes Rechteck."
 
 #: src/properties.cpp:419
 msgid "Has Settings"
@@ -9399,8 +9346,7 @@ msgstr "Vignettierungsmenge"
 
 #: src/properties.cpp:434
 msgid "\"Vignetting Amount\" setting. Range -100 to +100."
-msgstr ""
-"Einstellungen der \"Vignettierungsmenge\". Im Bereich von -100 bis +100."
+msgstr "Einstellungen der \"Vignettierungsmenge\". Im Bereich von -100 bis +100."
 
 #: src/properties.cpp:435
 msgid "Vignette Midpoint"
@@ -9408,8 +9354,7 @@ msgstr "Vignettierungsmittelpunkt"
 
 #: src/properties.cpp:435
 msgid "\"Vignetting Midpoint\" setting. Range 0 to +100."
-msgstr ""
-"Einstellung des \"Vignettierungsmittelpunkt\". Im Bereich von -150 bis +150."
+msgstr "Einstellung des \"Vignettierungsmittelpunkt\". Im Bereich von -150 bis +150."
 
 #: src/properties.cpp:436
 msgid ""
@@ -9443,8 +9388,7 @@ msgstr "Kompression"
 
 #: src/properties.cpp:446
 msgid "TIFF tag 259, 0x103. Compression scheme: 1 = uncompressed; 6 = JPEG."
-msgstr ""
-"TIFF-Feld 259, 0x103: Kompressionsschema: 1 = keine Kompression; 6 = JPEG."
+msgstr "TIFF-Feld 259, 0x103: Kompressionsschema: 1 = keine Kompression; 6 = JPEG."
 
 #: src/properties.cpp:447 src/tags.cpp:283
 msgid "Photometric Interpretation"
@@ -9562,8 +9506,7 @@ msgid "YCbCr Coefficients"
 msgstr "YCbCr Koeffizienten"
 
 #: src/properties.cpp:471
-msgid ""
-"TIFF tag 529, 0x211. Matrix coefficients for RGB to YCbCr transformation."
+msgid "TIFF tag 529, 0x211. Matrix coefficients for RGB to YCbCr transformation."
 msgstr ""
 
 #: src/properties.cpp:472
@@ -9715,10 +9658,8 @@ msgid "Related Sound File"
 msgstr "Zugehörige Audiodatei"
 
 #: src/properties.cpp:503
-msgid ""
-"EXIF tag 40964, 0xA004. An \"8.3\" file name for the related sound file."
-msgstr ""
-"Exif-Feld 40964, 0xA004. Ein \"8.3\" Dateiname für die zugehörige Sounddatei."
+msgid "EXIF tag 40964, 0xA004. An \"8.3\" file name for the related sound file."
+msgstr "Exif-Feld 40964, 0xA004. Ein \"8.3\" Dateiname für die zugehörige Sounddatei."
 
 #: src/properties.cpp:504
 msgid "Date and Time Original"
@@ -10110,8 +10051,7 @@ msgid "GPS Latitude"
 msgstr "GPS-Breitengrad"
 
 #: src/properties.cpp:561
-msgid ""
-"GPS tag 2, 0x02 (position) and 1, 0x01 (North/South). Indicates latitude."
+msgid "GPS tag 2, 0x02 (position) and 1, 0x01 (North/South). Indicates latitude."
 msgstr ""
 
 #: src/properties.cpp:562 src/tags.cpp:1425
@@ -10119,8 +10059,7 @@ msgid "GPS Longitude"
 msgstr "GPS-Längengrad"
 
 #: src/properties.cpp:562
-msgid ""
-"GPS tag 4, 0x04 (position) and 3, 0x03 (East/West). Indicates longitude."
+msgid "GPS tag 4, 0x04 (position) and 3, 0x03 (East/West). Indicates longitude."
 msgstr ""
 
 #: src/properties.cpp:563 src/tags.cpp:1433
@@ -10128,8 +10067,7 @@ msgid "GPS Altitude Reference"
 msgstr "GPS-Höhenreferenz"
 
 #: src/properties.cpp:563
-msgid ""
-"GPS tag 5, 0x5. Indicates whether the altitude is above or below sea level."
+msgid "GPS tag 5, 0x5. Indicates whether the altitude is above or below sea level."
 msgstr ""
 
 #: src/properties.cpp:564 src/tags.cpp:1441
@@ -10215,8 +10153,7 @@ msgid "GPS Track"
 msgstr "GPS-Spur"
 
 #: src/properties.cpp:578
-msgid ""
-"GPS tag 15, 0x0F. Direction of GPS movement, values range from 0 to 359.99."
+msgid "GPS tag 15, 0x0F. Direction of GPS movement, values range from 0 to 359.99."
 msgstr ""
 
 #: src/properties.cpp:579 src/tags.cpp:1485
@@ -10314,8 +10251,7 @@ msgid "GPS Area Information"
 msgstr "GPS Bereichsinformation"
 
 #: src/properties.cpp:589
-msgid ""
-"GPS tag 28, 0x1C. A character string recording the name of the GPS area."
+msgid "GPS tag 28, 0x1C. A character string recording the name of the GPS area."
 msgstr ""
 
 #: src/properties.cpp:590 src/tags.cpp:1548
@@ -10339,8 +10275,7 @@ msgid "SerialNumber"
 msgstr "Seriennummer"
 
 #: src/properties.cpp:597
-msgid ""
-"The serial number of the camera or camera body used to take the photograph."
+msgid "The serial number of the camera or camera body used to take the photograph."
 msgstr ""
 "Die Seriennummer der Kamera oder des Kamerakörpers mit dem das Foto gemacht "
 "wurde."
@@ -10630,9 +10565,8 @@ msgid "Vendor specific information"
 msgstr "Hersteller spezifische Informationen"
 
 #: src/tags.cpp:136
-#, fuzzy
 msgid "Adobe DNG tags"
-msgstr "Adobe RGB"
+msgstr "Adobe DNG -Felder"
 
 #: src/tags.cpp:137
 msgid "Last section"
@@ -11218,28 +11152,24 @@ msgstr ""
 "Informationsfeld <ColorSpace> angeben wurde."
 
 #: src/tags.cpp:394
-#, fuzzy
 msgid "Tile Width"
-msgstr "Bildbreite"
+msgstr "Kachelbreite"
 
 #: src/tags.cpp:395
 msgid "The tile width in pixels. This is the number of columns in each tile."
 msgstr ""
 
 #: src/tags.cpp:397
-#, fuzzy
 msgid "Tile Length"
-msgstr "Bildvorschaulänge"
+msgstr "Kachellänge"
 
 #: src/tags.cpp:398
-msgid ""
-"The tile length (height) in pixels. This is the number of rows in each tile."
+msgid "The tile length (height) in pixels. This is the number of rows in each tile."
 msgstr ""
 
 #: src/tags.cpp:400
-#, fuzzy
 msgid "Tile Offsets"
-msgstr "Strip Offsets"
+msgstr "Kachel-Offsets"
 
 #: src/tags.cpp:401
 msgid ""
@@ -11250,9 +11180,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:406
-#, fuzzy
 msgid "Tile Byte Counts"
-msgstr "Strip Byte Anzahl"
+msgstr "Kachel-Byte-Anzahl"
 
 #: src/tags.cpp:407
 msgid ""
@@ -11571,9 +11500,8 @@ msgid "Print Image Matching, descriptiont needed."
 msgstr ""
 
 #: src/tags.cpp:551
-#, fuzzy
 msgid "DNG version"
-msgstr "PDF-Version"
+msgstr "DNG-Version"
 
 #: src/tags.cpp:552
 msgid ""
@@ -11583,9 +11511,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:556
-#, fuzzy
 msgid "DNG backward version"
-msgstr "Firmware Version"
+msgstr "DNG-Rückversion"
 
 #: src/tags.cpp:557
 msgid ""
@@ -11598,9 +11525,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:565
-#, fuzzy
 msgid "Unique Camera Model"
-msgstr "Kameramodell"
+msgstr "Eindeutiges Kameramodell"
 
 #: src/tags.cpp:566
 msgid ""
@@ -11613,9 +11539,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:573
-#, fuzzy
 msgid "Localized Camera Model"
-msgstr "Kameramodell"
+msgstr "Lokalisiertes Kameramodell"
 
 #: src/tags.cpp:574
 msgid ""
@@ -11624,9 +11549,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:578
-#, fuzzy
 msgid "CFA Plane Color"
-msgstr "FinePix Farbe"
+msgstr "CFA Ebenenfarbe"
 
 #: src/tags.cpp:579
 msgid ""
@@ -11643,9 +11567,8 @@ msgid "Describes the spatial layout of the CFA."
 msgstr ""
 
 #: src/tags.cpp:586
-#, fuzzy
 msgid "Linearization Table"
-msgstr "Digitalisierungsdatum"
+msgstr "Linearisierungstabelle"
 
 #: src/tags.cpp:587
 msgid ""
@@ -11657,16 +11580,14 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:593
-#, fuzzy
 msgid "Black Level Repeat Dim"
-msgstr "Schwarzlevel"
+msgstr ""
 
 #: src/tags.cpp:594
 msgid "Specifies repeat pattern size for the BlackLevel tag."
 msgstr ""
 
 #: src/tags.cpp:596
-#, fuzzy
 msgid "Black Level"
 msgstr "Schwarzlevel"
 
@@ -11679,9 +11600,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:602
-#, fuzzy
 msgid "Black Level Delta H"
-msgstr "Schwarzlevel"
+msgstr "Schwarzlevel Delta H"
 
 #: src/tags.cpp:603
 msgid ""
@@ -11693,9 +11613,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:609
-#, fuzzy
 msgid "Black Level Delta V"
-msgstr "Schwarzlevel"
+msgstr "Schwarzlevel Delta V"
 
 #: src/tags.cpp:610
 msgid ""
@@ -11706,9 +11625,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:616
-#, fuzzy
 msgid "White Level"
-msgstr "Batteriestatus"
+msgstr "Weißlevel"
 
 #: src/tags.cpp:617
 msgid ""
@@ -11718,9 +11636,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:622
-#, fuzzy
 msgid "Default Scale"
-msgstr "Standard"
+msgstr "Standard-Skalierung"
 
 #: src/tags.cpp:623
 msgid ""
@@ -11758,9 +11675,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:645
-#, fuzzy
 msgid "Color Matrix 1"
-msgstr "Farbmatrix"
+msgstr "Farbmatrix 1"
 
 #: src/tags.cpp:646
 msgid ""
@@ -11771,9 +11687,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:652
-#, fuzzy
 msgid "Color Matrix 2"
-msgstr "Farbmatrix"
+msgstr "Farbmatrix 2"
 
 #: src/tags.cpp:653
 msgid ""
@@ -11783,9 +11698,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:658
-#, fuzzy
 msgid "Camera Calibration 1"
-msgstr "Kameraeinstellungen (Z1)"
+msgstr "Kamerakalibrierung 1"
 
 #: src/tags.cpp:659
 msgid ""
@@ -11800,7 +11714,7 @@ msgstr ""
 
 #: src/tags.cpp:668
 msgid "Camera Calibration 2"
-msgstr ""
+msgstr "Kamerakalibrierung 2"
 
 #: src/tags.cpp:669
 msgid ""
@@ -11838,9 +11752,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:692
-#, fuzzy
 msgid "Analog Balance"
-msgstr "Blauabgleich"
+msgstr "Analogabgleich"
 
 #: src/tags.cpp:693
 msgid ""
@@ -11854,9 +11767,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:702
-#, fuzzy
 msgid "As Shot Neutral"
-msgstr "Neutral"
+msgstr "Neutral wie aufgenommen"
 
 #: src/tags.cpp:703
 msgid ""
@@ -11867,7 +11779,7 @@ msgstr ""
 
 #: src/tags.cpp:708
 msgid "As Shot White XY"
-msgstr ""
+msgstr "Weiß XY wie aufgenommen "
 
 #: src/tags.cpp:709
 msgid ""
@@ -11877,9 +11789,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:713
-#, fuzzy
 msgid "Baseline Exposure"
-msgstr "Mehrfache Belichtung"
+msgstr ""
 
 #: src/tags.cpp:714
 msgid ""
@@ -11910,9 +11821,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:735
-#, fuzzy
 msgid "Baseline Sharpness"
-msgstr "Schärfe"
+msgstr ""
 
 #: src/tags.cpp:736
 msgid ""
@@ -11951,16 +11861,12 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:760
-#, fuzzy
 msgid ""
 "CameraSerialNumber contains the serial number of the camera or camera body "
 "that captured the image."
-msgstr ""
-"Die Seriennummer der Kamera oder des Kamerakörpers mit dem das Foto gemacht "
-"wurde."
+msgstr "CameraSerialNumber enthält die Seriennummer der Kamera oder des Kamerakörpers mit dem das Foto gemacht wurde."
 
 #: src/tags.cpp:763
-#, fuzzy
 msgid "Lens Info"
 msgstr "Linseninformation"
 
@@ -11986,9 +11892,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:776
-#, fuzzy
 msgid "Anti Alias Strength"
-msgstr "Blitzstärke"
+msgstr ""
 
 #: src/tags.cpp:777
 msgid ""
@@ -12000,9 +11905,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:783
-#, fuzzy
 msgid "Shadow Scale"
-msgstr "Schatten"
+msgstr "Schatten-Skalierung"
 
 #: src/tags.cpp:784
 msgid ""
@@ -12011,9 +11915,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:787
-#, fuzzy
 msgid "DNG Private Data"
-msgstr "Vorschaudaten"
+msgstr "DNG-Privatdaten"
 
 #: src/tags.cpp:788
 msgid ""
@@ -12023,9 +11926,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:792
-#, fuzzy
 msgid "MakerNote Safety"
-msgstr "Anmerkungen des Herstellers"
+msgstr ""
 
 #: src/tags.cpp:793
 msgid ""
@@ -12074,9 +11976,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:821
-#, fuzzy
 msgid "Raw Data Unique ID"
-msgstr "Eindeutige Bildnummer"
+msgstr "Eindeutige ID der Rohdaten"
 
 #: src/tags.cpp:822
 msgid ""
@@ -12089,9 +11990,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:830
-#, fuzzy
 msgid "Original Raw File Name"
-msgstr "Rohdateiname"
+msgstr "Originaler Rohdateiname"
 
 #: src/tags.cpp:831
 msgid ""
@@ -12117,9 +12017,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:845
-#, fuzzy
 msgid "Active Area"
-msgstr "Motivbereich"
+msgstr "Aktiver Bereich"
 
 #: src/tags.cpp:846
 msgid ""
@@ -12128,9 +12027,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:849
-#, fuzzy
 msgid "Masked Areas"
-msgstr "Markierungen"
+msgstr "Maskierte Bereiche"
 
 #: src/tags.cpp:850
 msgid ""
@@ -12176,9 +12074,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:879
-#, fuzzy
 msgid "Current ICC Profile"
-msgstr "Farbprofile"
+msgstr "Aktuelles ICC-Profil"
 
 #: src/tags.cpp:880
 msgid ""
@@ -12374,13 +12271,11 @@ msgstr "Blitz ausgelöst, fester Modus, Rote-Augen-Reduktion"
 
 #: src/tags.cpp:976
 msgid "Yes, compulsory, red-eye reduction, return light not detected"
-msgstr ""
-"Blitz ausgelöst, fester Modus, Rote-Augen-Reduktion, keine Reflektion erkannt"
+msgstr "Blitz ausgelöst, fester Modus, Rote-Augen-Reduktion, keine Reflektion erkannt"
 
 #: src/tags.cpp:977
 msgid "Yes, compulsory, red-eye reduction, return light detected"
-msgstr ""
-"Blitz ausgelöst, fester Modus, Rote-Augen-Reduktion, Reflektion erkannt"
+msgstr "Blitz ausgelöst, fester Modus, Rote-Augen-Reduktion, Reflektion erkannt"
 
 #: src/tags.cpp:978
 msgid "No, red-eye reduction"
@@ -12556,8 +12451,7 @@ msgstr "Datum und Uhrzeit (digitalisiert)"
 
 #: src/tags.cpp:1108
 msgid "The date and time when the image was stored as digital data."
-msgstr ""
-"Das Datum und die Uhrzeit der Speicherung des Bildes als digitale Daten."
+msgstr "Das Datum und die Uhrzeit der Speicherung des Bildes als digitale Daten."
 
 #: src/tags.cpp:1111
 msgid ""
@@ -12647,8 +12541,7 @@ msgid "The kind of light source."
 msgstr "Die Art der Lichtquelle."
 
 #: src/tags.cpp:1154
-msgid ""
-"This tag is recorded when an image is taken using a strobe light (flash)."
+msgid "This tag is recorded when an image is taken using a strobe light (flash)."
 msgstr ""
 "Dieser Eintrag wird aufgezeichnet, wenn das Bild mit einem Blitz gemacht "
 "wurde."
@@ -12665,8 +12558,7 @@ msgstr ""
 msgid ""
 "This tag indicates the location and area of the main subject in the overall "
 "scene."
-msgstr ""
-"Dieses Feld gibt die Position und Größe des Hauptmotivs in der Szene an."
+msgstr "Dieses Feld gibt die Position und Größe des Hauptmotivs in der Szene an."
 
 #: src/tags.cpp:1164
 msgid "Maker Note"
@@ -12702,8 +12594,7 @@ msgid "Sub-seconds Time Original"
 msgstr "Sekundenbruchteile (original)"
 
 #: src/tags.cpp:1177
-msgid ""
-"A tag used to record fractions of seconds for the <DateTimeOriginal> tag."
+msgid "A tag used to record fractions of seconds for the <DateTimeOriginal> tag."
 msgstr ""
 "Das Feld wird benutzt um Sekundenbruchteile für des <DateTimeOriginal>-Feld "
 "zu erfassen."
@@ -12713,8 +12604,7 @@ msgid "Sub-seconds Time Digitized"
 msgstr "Sekundenbruchteile (digitalisiert)"
 
 #: src/tags.cpp:1180
-msgid ""
-"A tag used to record fractions of seconds for the <DateTimeDigitized> tag."
+msgid "A tag used to record fractions of seconds for the <DateTimeDigitized> tag."
 msgstr ""
 "Das Feld wird benutzt um Sekundenbruchteile für das <DateTimeDigitized>-Feld "
 "zu erfassen."
@@ -12930,8 +12820,7 @@ msgstr ""
 
 #: src/tags.cpp:1287
 msgid "This tag indicates the white balance mode set when the image was shot."
-msgstr ""
-"Dieses Feld enthält den Weißabgleichsmodus, der zur Aufnahme eingestellt war."
+msgstr "Dieses Feld enthält den Weißabgleichsmodus, der zur Aufnahme eingestellt war."
 
 #: src/tags.cpp:1290
 msgid ""
@@ -13400,8 +13289,7 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:1549
-msgid ""
-"Indicates whether differential correction is applied to the GPS receiver."
+msgid "Indicates whether differential correction is applied to the GPS receiver."
 msgstr ""
 
 #: src/tags.cpp:1552 src/tags.cpp:1553
@@ -13523,40 +13411,13 @@ msgstr "Feldeintrag"
 
 #: src/tiffvisitor.cpp:973
 msgid "with"
-msgstr ""
+msgstr "mit"
 
 #: src/tiffvisitor.cpp:975
 msgid "elements"
-msgstr ""
+msgstr "Elementen"
 
 #: src/tiffvisitor.cpp:976
-#, fuzzy
 msgid "element"
-msgstr "8-Segment"
+msgstr "Element"
 
-#~ msgid "Erasing"
-#~ msgstr "Lösche"
-
-#~ msgid "Writing"
-#~ msgstr "Schreibe"
-
-#~ msgid "MakerTagInfo registry full"
-#~ msgstr "Die Rgistrierung für das HerstellerfeldInfo ist voll"
-
-#~ msgid "Failed to create Makernote for ifdId %1"
-#~ msgstr "Fehler beim Erstellen der Herstellerbemerkung für die iFD-ID %1"
-
-#~ msgid "IFD Offset"
-#~ msgstr "IFD Offset"
-
-#~ msgid "IFD Entries"
-#~ msgstr "IFD Einträge"
-
-#~ msgid "Entry     Tag  Format   (Bytes each)  Number  Offset\n"
-#~ msgstr "Eintrag     Feld  Format   (Bytes Jeweilig)  Nummer  Offset\n"
-
-#~ msgid "Next IFD"
-#~ msgstr "Nächster IFD"
-
-#~ msgid "Data of entry"
-#~ msgstr "Daten des Eintrags"
