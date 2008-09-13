@@ -9,7 +9,7 @@ Changes from version 0.17.1 to 0.18-pre1
 	- 0000565: [exif] IFDs and IFD offsets need to be aligned to word
 	           boundaries. (Reported by iplabs.de)
 	- 0000554: [exif] Setting "Exif.Image.DateTime Date" gives "Value too
-	           large" exception. (Debian Bug #426274)
+	           large" exception. (Debian Bug 426274)
 	- 0000553: [design] [U]Rational::toLong() and toFloat() should not divide
 	           by 0.
 	- 0000528: [miscellaneous] typeSize is meant for Exif metadata only.
