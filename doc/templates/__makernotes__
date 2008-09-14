@@ -39,9 +39,9 @@
     <td>Not supported by Exiv2 yet</td>
    </tr>
    <tr class="OddRow"> 
-    <td>FUJIFILM</td>
+    <td>FUJI</td>
     <td>IFD, usually at offset 12</td>
-    <td>Starts with the string &quot;FUJIFILM&quot; 
+    <td>Starts with the string &quot;FUJI&quot; 
     and a 4 byte pointer to the IFD</td>
     <td>Little-endian (II)</td>
     <td>Relative to the beginning of the makernote</td>
