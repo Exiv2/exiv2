@@ -608,6 +608,10 @@ namespace Exiv2 {
     {
     }
 
+    IptcKey::~IptcKey()
+    {
+    }
+
     IptcKey& IptcKey::operator=(const IptcKey& rhs)
     {
         if (this == &rhs) return *this;
