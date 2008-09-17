@@ -43,6 +43,10 @@ EXIV2_RCSID("@(#) $Id$")
 // class member definitions
 namespace Exiv2 {
 
+    Key::~Key()
+    {
+    }
+    
     Key::AutoPtr Key::clone() const
     {
         return AutoPtr(clone_());

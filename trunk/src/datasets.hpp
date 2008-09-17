@@ -298,6 +298,8 @@ namespace Exiv2 {
         IptcKey(uint16_t tag, uint16_t record);
         //! Copy constructor
         IptcKey(const IptcKey& rhs);
+        //! Destructor
+        virtual ~IptcKey();
         //@}
 
         //! @name Manipulators

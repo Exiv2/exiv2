@@ -69,7 +69,7 @@ namespace Exiv2 {
         //! Constructor, taking a type id to initialize the base class with
         explicit Value(TypeId typeId);
         //! Virtual destructor.
-        virtual ~Value() {}
+        virtual ~Value();
         //@}
         //! @name Manipulators
         //@{
@@ -268,14 +268,13 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor.
-        explicit DataValue(TypeId typeId =undefined) : Value(typeId) {}
+        explicit DataValue(TypeId typeId =undefined);
         //! Constructor
         DataValue(const byte* buf,
                   long len, ByteOrder byteOrder =invalidByteOrder,
-                  TypeId typeId =undefined)
-            : Value(typeId) { read(buf, len, byteOrder); }
+                  TypeId typeId =undefined);
         //! Virtual destructor.
-        virtual ~DataValue() {}
+        virtual ~DataValue();
         //@}
 
         //! @name Manipulators
