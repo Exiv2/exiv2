@@ -57,6 +57,12 @@ namespace Exiv2 {
         {  1, N_("On")  }
     };
 
+    //! NoYes, multiple tags
+    extern const TagDetails olympusNoYes[] = {
+        {  0, N_("No") },
+        {  1, N_("Yes")  }
+    };
+
     //! Quality, tag 0x0201
     extern const TagDetails olympusQuality[] = {
         { 1, N_("Standard Quality (SQ)")    },
@@ -401,6 +407,35 @@ namespace Exiv2 {
     const TagInfo* OlympusMakerNote::tagList()
     {
         return tagInfo_;
+    }
+
+    //! ExposureMode, tag 0x0200
+    extern const TagDetails olympusExposureMode[] = {
+        { 1, N_("Manual")                    },
+        { 2, N_("Program")                   },
+        { 3, N_("Aperture-priority AE")      },
+        { 4, N_("Shutter speed priority AE") },
+        { 5, N_("Program-shift")             }
+    };
+
+    const TagInfo OlympusMakerNote::tagInfoCs_[] = {
+        TagInfo(0x0000, "CameraSettingsVersion", N_("Camera Settings Version"), N_("Camera settings version"), olympusCsIfdId, makerTags, undefined, printValue),
+        TagInfo(0x0100, "PreviewImageValid", N_("PreviewImage Valid"), N_("Preview image valid"), olympusCsIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(olympusNoYes)),
+        TagInfo(0x0101, "PreviewImageStart", N_("PreviewImage Start"), N_("Preview image start"), olympusCsIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x0102, "PreviewImageLength", N_("PreviewImage Length"), N_("Preview image length"), olympusCsIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x0200, "ExposureMode", N_("Exposure Mode"), N_("Exposure mode"), olympusCsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusExposureMode)),
+        TagInfo(0x0201, "AELock", N_("AE Lock"), N_("Auto exposure lock"), olympusCsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusOffOn)),
+        // Todo: add remaining tags...
+
+        // End of list marker
+        TagInfo(0xffff, "(UnknownOlympusCsTag)", "(UnknownOlympusCsTag)",
+                N_("Unknown OlympusCs tag"),
+                olympusCsIfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* OlympusMakerNote::tagListCs()
+    {
+        return tagInfoCs_;
     }
 
     std::ostream& OlympusMakerNote::print0x0200(std::ostream& os, const Value& value, const ExifData*)

@@ -371,10 +371,10 @@ namespace Exiv2 {
         { Tag::next, Group::olymp1mn,  Group::ignr,      0x927c,    Group::exif,      newTiffDirectory },
         {  Tag::all, Group::olymp1mn,  Group::olymp1mn,  0x927c,    Group::exif,      newTiffEntry },
 
-        // Olympus makernote - some Olympus cameras use Minolta structures
-        // Todo: Adding such tags will not work (maybe result in a Minolta makernote), need separate groups
+        // Olympus2 makernote
         {    0x0001, Group::olymp2mn,  Group::minocso,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedLong, false> },
         {    0x0003, Group::olymp2mn,  Group::minocsn,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedLong, false> },
+        {    0x2020, Group::olymp2mn,  Group::olympcs,   0x927c,    Group::exif,      newTiffSubIfd },
         { Tag::next, Group::olymp2mn,  Group::ignr,      0x927c,    Group::exif,      newTiffDirectory },
         {  Tag::all, Group::olymp2mn,  Group::olymp2mn,  0x927c,    Group::exif,      newTiffEntry },
 
