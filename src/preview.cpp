@@ -44,7 +44,23 @@ EXIV2_RCSID("@(#) $Id$")
 #include "image.hpp"
 #include "cr2image.hpp"
 
+// *****************************************************************************
+namespace {
+    /*!
+      @brief Compare two preview images by length. Return true if the 
+             lhs is smaller than rhs.
+     */
+    bool cmpPreviewProperties(
+        const Exiv2::PreviewProperties& lhs,
+        const Exiv2::PreviewProperties& rhs
+    )
+    {
+        return lhs.length_ < rhs.length_;
+    }
+}
 
+// *****************************************************************************
+// class member definitions
 namespace Exiv2 {
 
     /*!
@@ -53,13 +69,13 @@ namespace Exiv2 {
      */
     class Loader {
     protected:
-        Loader(PreviewProperties::PreviewId id, const Image &image);
+        Loader(PreviewId id, const Image &image);
 
     public:
         typedef std::auto_ptr<Loader> AutoPtr;
 
         //! Create a Loader subclass for requested id
-        static Loader::AutoPtr create(PreviewProperties::PreviewId id, const Image &image);
+        static Loader::AutoPtr create(PreviewId id, const Image &image);
 
         //! Check if a preview image with given params exists in the image
         virtual bool valid() const = 0;
@@ -71,10 +87,10 @@ namespace Exiv2 {
         virtual DataBuf getData() const = 0;
 
         //! A number of image loaders configured in the loaderList_ table
-        static PreviewProperties::PreviewId getNumLoaders();
+        static PreviewId getNumLoaders();
         
     protected:
-        typedef AutoPtr (*CreateFunc)(PreviewProperties::PreviewId id, const Image &image, int parIdx);
+        typedef AutoPtr (*CreateFunc)(PreviewId id, const Image &image, int parIdx);
 
         struct LoaderList {
             const char *imageMimeType_; //!< Image type for which is the loader valid, NULL matches all images
@@ -85,7 +101,7 @@ namespace Exiv2 {
 
         static const LoaderList loaderList_[]; // PreviewId is an index to this table
 
-        PreviewProperties::PreviewId id_;
+        PreviewId id_;
         const Image &image_;
     };
 
@@ -93,7 +109,7 @@ namespace Exiv2 {
     //! Loader for Jpeg previews that are not read into ExifData directly
     class LoaderExifJpeg : public Loader {
     public:
-        LoaderExifJpeg(PreviewProperties::PreviewId id, const Image &image, int parIdx);
+        LoaderExifJpeg(PreviewId id, const Image &image, int parIdx);
 
         virtual bool valid() const;
         virtual PreviewProperties getProperties() const;
@@ -117,13 +133,13 @@ namespace Exiv2 {
         ExifKey lengthKey_;
     };
 
-    Loader::AutoPtr createLoaderExifJpeg(PreviewProperties::PreviewId id, const Image &image, int parIdx);
+    Loader::AutoPtr createLoaderExifJpeg(PreviewId id, const Image &image, int parIdx);
 
 
     //! Loader for standard Exif thumbnail - just a wrapper around ExifThumbC
     class LoaderExifThumbC : public Loader {
     public:
-        LoaderExifThumbC(PreviewProperties::PreviewId id, const Image &image);
+        LoaderExifThumbC(PreviewId id, const Image &image);
 
         virtual bool valid() const;
         virtual PreviewProperties getProperties() const;
@@ -133,7 +149,7 @@ namespace Exiv2 {
 	ExifThumbC thumb_;
     };
 
-    Loader::AutoPtr createLoaderExifThumbC(PreviewProperties::PreviewId id, const Image &image, int parIdx);
+    Loader::AutoPtr createLoaderExifThumbC(PreviewId id, const Image &image, int parIdx);
 
 // *****************************************************************************
 // class member definitions
@@ -193,7 +209,7 @@ namespace Exiv2 {
         return properties_.length_;
     }
 
-    Loader::AutoPtr Loader::create(PreviewProperties::PreviewId id, const Image &image)
+    Loader::AutoPtr Loader::create(PreviewId id, const Image &image)
     {
             if (id < 0 || id >= Loader::getNumLoaders())
                 return AutoPtr();
@@ -208,7 +224,7 @@ namespace Exiv2 {
             return loader;
     }
 
-    Loader::Loader(PreviewProperties::PreviewId id, const Image &image)
+    Loader::Loader(PreviewId id, const Image &image)
             : id_(id), image_(image)
     {
     }
@@ -220,19 +236,19 @@ namespace Exiv2 {
         return prop;
     }
 
-    PreviewProperties::PreviewId Loader::getNumLoaders()
+    PreviewId Loader::getNumLoaders()
     {
-        return (PreviewProperties::PreviewId)EXV_COUNTOF(loaderList_);
+        return (PreviewId)EXV_COUNTOF(loaderList_);
     }
 
-    LoaderExifJpeg::LoaderExifJpeg(PreviewProperties::PreviewId id, const Image &image, int parIdx)
+    LoaderExifJpeg::LoaderExifJpeg(PreviewId id, const Image &image, int parIdx)
             : Loader(id, image), 
               offsetKey_(param_[parIdx].offsetKey_),
               lengthKey_(param_[parIdx].lengthKey_)
     {
     }
 
-    Loader::AutoPtr createLoaderExifJpeg(PreviewProperties::PreviewId id, const Image &image, int parIdx)
+    Loader::AutoPtr createLoaderExifJpeg(PreviewId id, const Image &image, int parIdx)
     {
             return Loader::AutoPtr(new LoaderExifJpeg(id, image, parIdx));
     }
@@ -295,13 +311,13 @@ namespace Exiv2 {
     }
 
 
-    LoaderExifThumbC::LoaderExifThumbC(PreviewProperties::PreviewId id, const Image &image)
+    LoaderExifThumbC::LoaderExifThumbC(PreviewId id, const Image &image)
             : Loader(id, image), 
               thumb_(image_.exifData())
     {
     }
 
-    Loader::AutoPtr createLoaderExifThumbC(PreviewProperties::PreviewId id, const Image &image, int /* parIdx */)
+    Loader::AutoPtr createLoaderExifThumbC(PreviewId id, const Image &image, int /* parIdx */)
     {
         return Loader::AutoPtr(new LoaderExifThumbC(id, image));
     }
@@ -325,11 +341,6 @@ namespace Exiv2 {
         return thumb_.copy();
     }
 
-    bool cmpPreviewProperties(const PreviewProperties& lhs, const PreviewProperties& rhs)
-    {
-        return lhs.length_ < rhs.length_;
-    }
-
     PreviewImageLoader::PreviewImageLoader(const Image& image)
             : image_(image)
     {
@@ -339,7 +350,7 @@ namespace Exiv2 {
     {
         PreviewPropertiesList list;
         // go through the loader table and store all successfuly created loaders in the list
-        for (PreviewProperties::PreviewId id = 0; id < Loader::getNumLoaders(); id++) {
+        for (PreviewId id = 0; id < Loader::getNumLoaders(); id++) {
             Loader::AutoPtr loader = Loader::create(id, image_);
             if (loader.get()) {
                 list.push_back(loader->getProperties());

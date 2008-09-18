@@ -42,15 +42,13 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
+    //! Type of preview image.
+    typedef int PreviewId;
+
     /*!
       @brief Preview image properties.
      */
-    struct PreviewProperties
-    {
-    public:
-        //! type of preview image.
-        typedef int PreviewId;
-    
+    struct PreviewProperties {
         //! Preview image mime type.
         const char* mimeType_;
 
@@ -60,18 +58,12 @@ namespace Exiv2 {
         //! Preview image length in bytes.
         long length_;
 
-        //! identifies type of preview image.
+        //! Identifies type of preview image.
         PreviewId id_;
     };
 
     //! Container type to hold all preview images metadata.
     typedef std::vector<PreviewProperties> PreviewPropertiesList;
-
-    /*!
-      @brief Compare two preview images by length. Return true if the 
-             lhs is smaller than rhs.
-     */
-    bool cmpPreviewProperties(const PreviewProperties& lhs, const PreviewProperties& rhs);
 
     /*!
       @brief Class that holds preview image properties and data buffer.
@@ -106,12 +98,12 @@ namespace Exiv2 {
         */
         long writeFile(const std::string& path) const;
         /*!
-          @brief Return the MIME type of the thumbnail, either \c "image/tiff"
-                 or \c "image/jpeg".
+          @brief Return the MIME type of the preview image, usually either
+                 \c "image/tiff" or \c "image/jpeg".
          */
         const char* mimeType() const;
         /*!
-          @brief Return the file extension for the format of the thumbnail
+          @brief Return the file extension for the format of the preview image
                  (".tif" or ".jpg").
          */
         const char* extension() const;
