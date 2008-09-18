@@ -46,49 +46,6 @@ namespace Exiv2 {
 // class definitions
 
     /*!
-      @brief Table of CR2 decoding functions and find function. See
-             TiffMapping for details.
-     */
-    class Cr2Mapping {
-    public:
-        /*!
-          @brief Find the decoder function for a key.
-
-          If the returned pointer is 0, the tag should not be decoded,
-          else the decoder function should be used.
-
-          @param make Camera make
-          @param extendedTag Extended tag
-          @param group %Group
-
-          @return Pointer to the decoder function
-         */
-        static DecoderFct findDecoder(const std::string& make,
-                                            uint32_t     extendedTag,
-                                            uint16_t     group);
-
-        /*!
-          @brief Find the encoder function for a key.
-
-          If the returned pointer is 0, the tag should not be encoded,
-          else the encoder function should be used.
-
-          @param make Camera make
-          @param extendedTag Extended tag
-          @param group %Group
-
-          @return Pointer to the encoder function
-         */
-        static EncoderFct findEncoder(const std::string& make,
-                                            uint32_t     extendedTag,
-                                            uint16_t     group);
-
-    private:
-        static const TiffMappingInfo cr2MappingInfo_[]; //<! CR2 mapping table
-
-    }; // class Cr2Mapping
-
-    /*!
       @brief Canon CR2 header structure.
      */
     class Cr2Header : public TiffHeaderBase {
