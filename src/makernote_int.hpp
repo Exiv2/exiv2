@@ -44,7 +44,7 @@ namespace Exiv2 {
     namespace Internal {
 
     namespace Group {
-        const uint16_t olympmn   = 257; //!< Olympus makernote
+        const uint16_t olympmn   = 257; //!< any Olympus makernote
         const uint16_t fujimn    = 258; //!< Fujifilm makernote
         const uint16_t canonmn   = 259; //!< Canon makernote
         const uint16_t canoncs   = 260; //!< Canon camera settings
@@ -68,6 +68,8 @@ namespace Exiv2 {
         const uint16_t canonpa   = 278; //!< Canon panorama
         const uint16_t pentaxmn  = 279; //!< Pentax makernote
         const uint16_t nikonpv   = 280; //!< Nikon preview sub-IFD
+        const uint16_t olymp1mn  = 281; //!< Olympus makernote
+        const uint16_t olymp2mn  = 282; //!< Olympus II makernote
     }
 
 // *****************************************************************************
@@ -354,6 +356,37 @@ namespace Exiv2 {
 
     }; // class OlympusMnHeader
 
+    //! Header of an Olympus II Makernote
+    class Olympus2MnHeader : public MnHeader {
+    public:
+        //! @name Creators
+        //@{
+        //! Default constructor
+        Olympus2MnHeader();
+        //! Virtual destructor.
+        virtual ~Olympus2MnHeader() {}
+        //@}
+        //! @name Manipulators
+        //@{
+        virtual bool read(const byte* pData,
+                          uint32_t    size,
+                          ByteOrder   byteOrder);
+        //@}
+        //! @name Accessors
+        //@{
+        virtual uint32_t size()      const { return header_.size_; }
+        virtual uint32_t write(Blob& blob, ByteOrder byteOrder) const;
+        virtual uint32_t ifdOffset() const { return size_; }
+        virtual uint32_t baseOffset(uint32_t mnOffset) const { return mnOffset; }
+        //@}
+
+    private:
+        DataBuf header_;                //!< Data buffer for the makernote header
+        static const byte signature_[]; //!< Olympus makernote header signature
+        static const uint32_t size_;    //!< Size of the signature
+
+    }; // class Olympus2MnHeader
+
     //! Header of a Fujifilm Makernote
     class FujiMnHeader : public MnHeader {
     public:
@@ -603,6 +636,11 @@ namespace Exiv2 {
 
     //! Function to create an Olympus makernote
     TiffComponent* newOlympusMn2(uint16_t tag,
+                                 uint16_t group,
+                                 uint16_t mnGroup);
+
+    //! Function to create an Olympus II makernote
+    TiffComponent* newOlympus2Mn2(uint16_t tag,
                                  uint16_t group,
                                  uint16_t mnGroup);
 
