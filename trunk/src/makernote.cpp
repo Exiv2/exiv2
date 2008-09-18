@@ -58,7 +58,7 @@ namespace Exiv2 {
         { "KONICA MINOLTA", Group::minoltamn, newIfdMn,       newIfdMn2       },
         { "Minolta",        Group::minoltamn, newIfdMn,       newIfdMn2       },
         { "NIKON",          Group::nikonmn,   newNikonMn,     0               },
-        { "OLYMPUS",        Group::olympmn,   newOlympusMn,   newOlympusMn2   },
+        { "OLYMPUS",        Group::olympmn,   newOlympusMn,   0               },
         { "Panasonic",      Group::panamn,    newPanasonicMn, newPanasonicMn2 },
         { "PENTAX",         Group::pentaxmn,  newPentaxMn,    newPentaxMn2    },
         { "SIGMA",          Group::sigmamn,   newSigmaMn,     newSigmaMn2     },
@@ -68,7 +68,9 @@ namespace Exiv2 {
         { "-",              Group::nikon2mn,  0,              newNikon2Mn2    },
         { "-",              Group::nikon3mn,  0,              newNikon3Mn2    },
         { "-",              Group::sony1mn,   0,              newSony1Mn2     },
-        { "-",              Group::sony2mn,   0,              newSony2Mn2     }
+        { "-",              Group::sony2mn,   0,              newSony2Mn2     },
+        { "-",              Group::olymp1mn,  0,              newOlympusMn2   },
+        { "-",              Group::olymp2mn,  0,              newOlympus2Mn2  }
     };
 
     bool TiffMnRegistry::operator==(const std::string& key) const
@@ -261,7 +263,7 @@ namespace Exiv2 {
         header_.alloc(size_);
         std::memcpy(header_.pData_, pData, header_.size_);
         if (   static_cast<uint32_t>(header_.size_) < size_
-            || 0 != memcmp(header_.pData_, signature_, 5)) {
+            || 0 != memcmp(header_.pData_, signature_, 6)) {
             return false;
         }
         return true;
@@ -273,6 +275,41 @@ namespace Exiv2 {
         append(blob, signature_, size_);
         return size_;
     } // OlympusMnHeader::write
+
+    const byte Olympus2MnHeader::signature_[] = {
+        'O', 'L', 'Y', 'M', 'P', 'U', 'S', 0x00, 'I', 'I', 0x03, 0x00
+    };
+    const uint32_t Olympus2MnHeader::size_ = 12;
+
+    Olympus2MnHeader::Olympus2MnHeader()
+    {
+        read(signature_, size_, invalidByteOrder);
+    }
+
+    bool Olympus2MnHeader::read(const byte* pData,
+                                uint32_t size,
+                                ByteOrder /*byteOrder*/)
+    {
+        assert (pData != 0);
+
+        if (size < size_) return false;
+
+        header_.alloc(size_);
+        std::memcpy(header_.pData_, pData, header_.size_);
+        if (   static_cast<uint32_t>(header_.size_) < size_
+            || 0 != memcmp(header_.pData_, signature_, 10)) {
+            return false;
+        }
+        return true;
+    } // Olympus2MnHeader::read
+
+    uint32_t Olympus2MnHeader::write(Blob&     blob,
+                                    ByteOrder /*byteOrder*/) const
+    {
+        append(blob, signature_, size_);
+        return size_;
+    } // Olympus2MnHeader::write
+
 
     const byte FujiMnHeader::signature_[] = {
         'F', 'U', 'J', 'I', 'F', 'I', 'L', 'M', 0x0c, 0x00, 0x00, 0x00
@@ -538,11 +575,15 @@ namespace Exiv2 {
     TiffComponent* newOlympusMn(uint16_t    tag,
                                 uint16_t    group,
                                 uint16_t    mnGroup,
-                                const byte* /*pData*/,
-                                uint32_t    /*size*/,
+                                const byte* pData,
+                                uint32_t    size,
                                 ByteOrder   /*byteOrder*/)
     {
-        return newOlympusMn2(tag, group, mnGroup);
+        if (size < 10 ||   std::string(reinterpret_cast<const char*>(pData), 10)
+                        != std::string("OLYMPUS\0II", 10)) {
+            return newOlympusMn2(tag, group, Group::olymp1mn);
+        }
+        return newOlympus2Mn2(tag, group, Group::olymp2mn);
     }
 
     TiffComponent* newOlympusMn2(uint16_t tag,
@@ -550,6 +591,13 @@ namespace Exiv2 {
                                  uint16_t mnGroup)
     {
         return new TiffIfdMakernote(tag, group, mnGroup, new OlympusMnHeader);
+    }
+
+    TiffComponent* newOlympus2Mn2(uint16_t tag,
+                                 uint16_t group,
+                                 uint16_t mnGroup)
+    {
+        return new TiffIfdMakernote(tag, group, mnGroup, new Olympus2MnHeader);
     }
 
     TiffComponent* newFujiMn(uint16_t    tag,

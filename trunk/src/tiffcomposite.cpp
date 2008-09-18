@@ -77,7 +77,7 @@ namespace Exiv2 {
         {   8, "SubImage2"    },
         {   9, "SubImage3"    },
         {  10, "SubImage4"    },
-        { 257, "Olympus"      },
+        // { 257, "Olympus"      },
         { 258, "Fujifilm"     },
         { 259, "Canon"        },
         { 260, "CanonCs"      },
@@ -100,7 +100,9 @@ namespace Exiv2 {
         { 277, "CanonPi"      },
         { 278, "CanonPa"      },
         { 279, "Pentax"       },
-        { 280, "NikonPreview" }
+        { 280, "NikonPreview" },
+        { 281, "Olympus"      },
+        { 282, "Olympus"      }
     };
 
     bool TiffGroupInfo::operator==(const uint16_t& group) const

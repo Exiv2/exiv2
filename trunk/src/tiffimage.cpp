@@ -366,10 +366,17 @@ namespace Exiv2 {
 
         // Olympus makernote - some Olympus cameras use Minolta structures
         // Todo: Adding such tags will not work (maybe result in a Minolta makernote), need separate groups
-        {    0x0001, Group::olympmn,   Group::minocso,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedLong, false> },
-        {    0x0003, Group::olympmn,   Group::minocsn,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedLong, false> },
-        { Tag::next, Group::olympmn,   Group::ignr,      0x927c,    Group::exif,      newTiffDirectory },
-        {  Tag::all, Group::olympmn,   Group::olympmn,   0x927c,    Group::exif,      newTiffEntry },
+        {    0x0001, Group::olymp1mn,  Group::minocso,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedLong, false> },
+        {    0x0003, Group::olymp1mn,  Group::minocsn,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedLong, false> },
+        { Tag::next, Group::olymp1mn,  Group::ignr,      0x927c,    Group::exif,      newTiffDirectory },
+        {  Tag::all, Group::olymp1mn,  Group::olymp1mn,  0x927c,    Group::exif,      newTiffEntry },
+
+        // Olympus makernote - some Olympus cameras use Minolta structures
+        // Todo: Adding such tags will not work (maybe result in a Minolta makernote), need separate groups
+        {    0x0001, Group::olymp2mn,  Group::minocso,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedLong, false> },
+        {    0x0003, Group::olymp2mn,  Group::minocsn,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedLong, false> },
+        { Tag::next, Group::olymp2mn,  Group::ignr,      0x927c,    Group::exif,      newTiffDirectory },
+        {  Tag::all, Group::olymp2mn,  Group::olymp2mn,  0x927c,    Group::exif,      newTiffEntry },
 
         // Fujifilm makernote
         { Tag::next, Group::fujimn,    Group::ignr,      0x927c,    Group::exif,      newTiffDirectory },
@@ -456,7 +463,8 @@ namespace Exiv2 {
     // TIFF mapping table for special decoding and encoding requirements
     const TiffMappingInfo TiffMapping::tiffMappingInfo_[] = {
         { "*",       Tag::all, Group::ignr,    0, 0 }, // Do not decode tags with group == Group::ignr
-        { "OLYMPUS",   0x0100, Group::olympmn, &TiffDecoder::decodeOlympThumb,   &TiffEncoder::encodeOlympThumb     },
+        { "OLYMPUS",   0x0100, Group::olymp1mn,&TiffDecoder::decodeOlympThumb,   &TiffEncoder::encodeOlympThumb     },
+        { "OLYMPUS",   0x0100, Group::olymp2mn,&TiffDecoder::decodeOlympThumb,   &TiffEncoder::encodeOlympThumb     },
         { "*",         0x02bc, Group::ifd0,    &TiffDecoder::decodeXmp,          0 /*done before the tree is traversed*/ },
         { "*",         0x83bb, Group::ifd0,    &TiffDecoder::decodeIptc,         0 /*done before the tree is traversed*/ },
         { "*",         0x8649, Group::ifd0,    &TiffDecoder::decodeIptc,         0 /*done before the tree is traversed*/ },
