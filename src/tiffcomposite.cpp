@@ -65,7 +65,8 @@ namespace Exiv2 {
     };
 
     // Todo: This mapping table probably belongs somewhere else - move it
-    //! List of groups and their names
+    // Note: Names must be unique!
+    //! List of groups and their names.
     extern const TiffGroupInfo tiffGroupInfo[] = {
         {   1, "Image"        },
         {   2, "Thumbnail"    },
@@ -77,7 +78,7 @@ namespace Exiv2 {
         {   8, "SubImage2"    },
         {   9, "SubImage3"    },
         {  10, "SubImage4"    },
-        // { 257, "Olympus"      },
+        // 257 not needed (olympmn)
         { 258, "Fujifilm"     },
         { 259, "Canon"        },
         { 260, "CanonCs"      },
@@ -91,7 +92,7 @@ namespace Exiv2 {
         { 268, "Sigma"        },
         // 269 not needed (sonymn)
         { 270, "Sony"         },
-        { 271, "Sony"         },
+        { 271, "Sony"         }, // Todo: Need second Sony group!
         { 272, "Minolta"      },
         { 273, "MinoltaCsOld" },
         { 274, "MinoltaCsNew" },
@@ -102,7 +103,8 @@ namespace Exiv2 {
         { 279, "Pentax"       },
         { 280, "NikonPreview" },
         { 281, "Olympus"      },
-        { 282, "Olympus"      }
+        { 282, "Olympus2"     },
+        { 283, "OlympusCs"    }
     };
 
     bool TiffGroupInfo::operator==(const uint16_t& group) const

@@ -70,6 +70,7 @@ namespace Exiv2 {
         const uint16_t nikonpv   = 280; //!< Nikon preview sub-IFD
         const uint16_t olymp1mn  = 281; //!< Olympus makernote
         const uint16_t olymp2mn  = 282; //!< Olympus II makernote
+        const uint16_t olympcs   = 283; //!< Olympus camera settings
     }
 
 // *****************************************************************************

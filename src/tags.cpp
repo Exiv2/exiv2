@@ -110,6 +110,8 @@ namespace Exiv2 {
         { nikon3IfdId,       "Makernote", "Nikon3",       Nikon3MakerNote::tagList       },
         { nikonPvIfdId,      "Makernote", "NikonPreview", ExifTags::ifdTagList           },
         { olympusIfdId,      "Makernote", "Olympus",      OlympusMakerNote::tagList      },
+        { olympus2IfdId,     "Makernote", "Olympus2",     OlympusMakerNote::tagList      },
+        { olympusCsIfdId,    "Makernote", "OlympusCs",    OlympusMakerNote::tagListCs    },
         { panasonicIfdId,    "Makernote", "Panasonic",    PanasonicMakerNote::tagList    },
         { pentaxIfdId,       "Makernote", "Pentax",       PentaxMakerNote::tagList       },
         { sigmaIfdId,        "Makernote", "Sigma",        SigmaMakerNote::tagList        },
