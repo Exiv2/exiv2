@@ -48,7 +48,7 @@ namespace Exiv2 {
     /*!
       @brief Preview image properties.
      */
-    struct PreviewProperties {
+    struct EXIV2API PreviewProperties {
         //! Preview image mime type.
         const char* mimeType_;
 
@@ -68,7 +68,7 @@ namespace Exiv2 {
     /*!
       @brief Class that holds preview image properties and data buffer.
      */
-    class PreviewImage {
+    class EXIV2API PreviewImage {
     public:
         //@{
         //! Constructor.
@@ -122,7 +122,7 @@ namespace Exiv2 {
     /*!
       @brief Class for extracting preview images from image metadata.
      */
-    class PreviewImageLoader {
+    class EXIV2API PreviewImageLoader {
     public:
         //@{
         //! Constructor.
