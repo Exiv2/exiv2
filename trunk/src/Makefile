@@ -94,7 +94,8 @@ ifdef HAVE_LIBZ
 CCSRC += pngimage.cpp         \
 	 pngchunk.cpp
 endif
-CCSRC += properties.cpp       \
+CCSRC += preview.cpp          \
+	 properties.cpp       \
 	 psdimage.cpp         \
 	 rafimage.cpp         \
 	 sigmamn.cpp          \
