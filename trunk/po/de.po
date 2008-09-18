@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
 "POT-Creation-Date: 2008-09-10 22:50+0800\n"
-"PO-Revision-Date: 2008-09-13 22:42+0200\n"
+"PO-Revision-Date: 2008-09-18 23:18+0200\n"
 "Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
 "Language-Team: german <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -182,7 +182,7 @@ msgstr "JPEG-Kommentar"
 
 #: src/actions.cpp:865
 msgid "Neither tag"
-msgstr "Weder das Feld"
+msgstr "Keins der Stichwörter"
 
 #: src/actions.cpp:866
 msgid "nor"
@@ -331,7 +331,7 @@ msgstr "nach"
 
 #: src/actions.cpp:1588
 msgid "Standard Exif ISO tag exists; not modified\n"
-msgstr "Es existiert ein Standard-Exif-ISO-Feld exists; dies wird nicht geändert\n"
+msgstr "Es existiert ein Standard-Exif-ISO-Stichwort; dies wird nicht geändert\n"
 
 #: src/actions.cpp:1617
 msgid "Setting Exif ISO value to"
@@ -1936,7 +1936,7 @@ msgstr "Automatische Verringerung des Aufhellblitzes"
 
 #: src/canonmn.cpp:587
 msgid "Menu Button Return"
-msgstr ""
+msgstr "Menüknopf \"Eingabe\""
 
 #: src/canonmn.cpp:587
 msgid "Menu button return position"
@@ -2703,9 +2703,7 @@ msgstr "Programmversion"
 
 #: src/datasets.cpp:314
 msgid "Used to identify the version of the program mentioned in tag <Program>."
-msgstr ""
-"Gibt die Version des Programmes an, dass mit dem Feld <Program> angegeben "
-"wurde."
+msgstr "Gibt die Version des Programms an, dass mit dem Feld <Program> angegeben swurde."
 
 #: src/datasets.cpp:316
 msgid "Object Cycle"
@@ -4492,11 +4490,11 @@ msgstr "Intervall"
 
 #: src/minoltamn.cpp:360
 msgid "UHS continuous"
-msgstr ""
+msgstr "UHS fortlaufend"
 
 #: src/minoltamn.cpp:361
 msgid "HS continuous"
-msgstr ""
+msgstr "HS fortlaufend"
 
 #: src/minoltamn.cpp:366 src/minoltamn.cpp:1025 src/tags.cpp:924
 msgid "Multi-segment"
@@ -4907,11 +4905,11 @@ msgstr ""
 
 #: src/minoltamn.cpp:757
 msgid "Flash Metering"
-msgstr ""
+msgstr "Blitzdosierung"
 
 #: src/minoltamn.cpp:758
 msgid "Flash metering"
-msgstr ""
+msgstr "Blitzdosierung"
 
 #: src/minoltamn.cpp:763
 msgid "Unknown Minolta Camera Settings tag"
@@ -5190,7 +5188,7 @@ msgstr ""
 
 #: src/nikonmn.cpp:129
 msgid "White balance bracketing"
-msgstr ""
+msgstr "Weißabgleichsauslöser"
 
 #: src/nikonmn.cpp:130
 msgid "IR control"
@@ -5503,11 +5501,11 @@ msgstr "Aufnahmemodus"
 
 #: src/nikonmn.cpp:573
 msgid "Auto Bracket Release"
-msgstr ""
+msgstr "Auslöser der Automatische Erfassung"
 
 #: src/nikonmn.cpp:574
 msgid "Auto bracket release"
-msgstr ""
+msgstr "Auslöser der Automatische Erfassung"
 
 #: src/nikonmn.cpp:576 src/nikonmn.cpp:577
 msgid "Lens FStops"
@@ -5515,11 +5513,11 @@ msgstr "Blendeneinstellung der Linse"
 
 #: src/nikonmn.cpp:579 src/properties.cpp:430
 msgid "Tone Curve"
-msgstr ""
+msgstr "Farbtonkurve"
 
 #: src/nikonmn.cpp:580
 msgid "Tone curve"
-msgstr ""
+msgstr "Farbtonkurve"
 
 #: src/nikonmn.cpp:585
 msgid "Scene Mode"
@@ -5935,7 +5933,7 @@ msgstr "Seriennummer 2"
 
 #: src/olympusmn.cpp:302 src/pentaxmn.cpp:929 src/pentaxmn.cpp:930
 msgid "Flash exposure compensation"
-msgstr ""
+msgstr "Blitzbelichtungskompensation"
 
 #: src/olympusmn.cpp:310
 msgid "External Flash Bounce"
@@ -6283,7 +6281,7 @@ msgstr "Optio S"
 
 #: src/pentaxmn.cpp:67
 msgid "*ist D"
-msgstr ""
+msgstr "*ist D"
 
 #: src/pentaxmn.cpp:68
 msgid "Optio 33L"
@@ -7455,7 +7453,7 @@ msgstr "Helligkeitswert"
 
 #: src/pentaxmn.cpp:889
 msgid "Camera calculated light value, includes exposure compensation"
-msgstr ""
+msgstr "Der von der Kamera berechnete Helligkeitswert inklusive Belichtungskompensation"
 
 #: src/pentaxmn.cpp:895 src/pentaxmn.cpp:896
 msgid "Picture mode"
@@ -7847,13 +7845,13 @@ msgstr "En Dokumenttyp wie z.B. Roman, Gedicht oder Arbeitspapier."
 
 #: src/properties.cpp:154
 msgid "Tags List"
-msgstr ""
+msgstr "Felderliste"
 
 #: src/properties.cpp:154
 msgid ""
 "The list of complete tags path as string. The path hierarchy is separated by "
 "'/' character (ex.: \"City/Paris/Monument/Eiffel Tower\"."
-msgstr ""
+msgstr "Die Liste des kompletten Stichwortpfads als Zeichenkette. Die Teile der Zeichenkette werden durch das Zeichen \"/\" getrennt, wie z.B. in \"Stadt/Paris/Monument/Eiffelturm\"."
 
 #: src/properties.cpp:161
 msgid "Advisory"
@@ -8905,19 +8903,19 @@ msgstr "Blitzmodell."
 
 #: src/properties.cpp:348
 msgid "Last Keyword IPTC"
-msgstr ""
+msgstr "Letzter IPTC-Schlüsselbegriff"
 
 #: src/properties.cpp:348
 msgid "Last Keyword IPTC."
-msgstr ""
+msgstr "Letzter IPTC-Schlüsselbegriff."
 
 #: src/properties.cpp:349
 msgid "Last Keyword XMP"
-msgstr ""
+msgstr "Letzter XMP-Schlüsselbegriff"
 
 #: src/properties.cpp:349
 msgid "Last Keyword XMP."
-msgstr ""
+msgstr "Letzter XMP-Schlüsselbegriff."
 
 #: src/properties.cpp:350
 msgid "Lens Manufacturer"
@@ -8993,7 +8991,7 @@ msgstr "Land/Primäre Lokation."
 
 #: src/properties.cpp:371
 msgid "Credit."
-msgstr ""
+msgstr "Danksagungen."
 
 #: src/properties.cpp:372
 msgid ""
@@ -9324,17 +9322,17 @@ msgstr "Einstellungen der \"Tinte\". Im Bereich von -150 bis +150."
 
 #: src/properties.cpp:430
 msgid "Array of points (Integer, Integer) defining a \"Tone Curve\"."
-msgstr ""
+msgstr "Vektor von Punkten (Ganzzahlig, Ganzzahlig) der eine \"Farbtonkurve\" beschreibt."
 
 #: src/properties.cpp:431
 msgid "Tone Curve Name"
-msgstr ""
+msgstr "Name der Farbtonkurve"
 
 #: src/properties.cpp:431
 msgid ""
 "The name of the Tone Curve described by ToneCurve. One of: Linear, Medium "
 "Contrast, Strong Contrast, Custom or a user-defined preset name."
-msgstr ""
+msgstr "Der Name der Farbtonkurve ist einer der folgenden: Linear, Mittler Kontrast, Starker Kontrast, Anwendungsspezifisch oder ein benutzerdefinierter voreingestellter Name."
 
 #: src/properties.cpp:433
 msgid "Version of Camera Raw plugin."
