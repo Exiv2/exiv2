@@ -144,7 +144,7 @@ namespace Exiv2 {
                                         pData,
                                         size,
                                         TiffCreator::create,
-                                        Cr2Mapping::findDecoder,
+                                        TiffMapping::findDecoder,
                                         &cr2Header);
     }
 
@@ -203,52 +203,6 @@ namespace Exiv2 {
 
 namespace Exiv2 {
     namespace Internal {
-
-    // CR2 mapping table for special CR2 decoding requirements
-    const TiffMappingInfo Cr2Mapping::cr2MappingInfo_[] = {
-        { "*",       Tag::all, Group::ignr,    0, 0 }, // Do not decode tags with group == Group::ignr
-        { "*",         0x014a, Group::ifd0,    0, 0 }, // Todo: Controversial, causes problems with Exiftool
-        { "*",         0x0100, Group::ifd0,    0, 0 }, // CR2 IFD0 refers to a preview image, ignore these tags
-        { "*",         0x0101, Group::ifd0,    0, 0 },
-        { "*",         0x0102, Group::ifd0,    0, 0 },
-        { "*",         0x0103, Group::ifd0,    0, 0 },
-        { "*",         0x0111, Group::ifd0,    0, 0 },
-        { "*",         0x0117, Group::ifd0,    0, 0 },
-        { "*",         0x011a, Group::ifd0,    0, 0 },
-        { "*",         0x011b, Group::ifd0,    0, 0 },
-        { "*",         0x0128, Group::ifd0,    0, 0 },
-        { "*",         0x02bc, Group::ifd0,    &TiffDecoder::decodeXmp,    0 /*Todo*/ },
-        { "*",         0x83bb, Group::ifd0,    &TiffDecoder::decodeIptc,   0 /*Todo*/ },
-        { "*",         0x8649, Group::ifd0,    &TiffDecoder::decodeIptc,   0 /*Todo*/ }
-    };
-
-    DecoderFct Cr2Mapping::findDecoder(const std::string& make,
-                                             uint32_t     extendedTag,
-                                             uint16_t     group)
-    {
-        DecoderFct decoderFct = &TiffDecoder::decodeStdTiffEntry;
-        const TiffMappingInfo* td = find(cr2MappingInfo_,
-                                         TiffMappingInfo::Key(make, extendedTag, group));
-        if (td) {
-            // This may set decoderFct to 0, meaning that the tag should not be decoded
-            decoderFct = td->decoderFct_;
-        }
-        return decoderFct;
-    }
-
-    EncoderFct Cr2Mapping::findEncoder(const std::string& make,
-                                             uint32_t     extendedTag,
-                                             uint16_t     group)
-    {
-        EncoderFct encoderFct = 0;
-        const TiffMappingInfo* td = find(cr2MappingInfo_,
-                                         TiffMappingInfo::Key(make, extendedTag, group));
-        if (td) {
-            // Returns 0 if no special encoder function is found
-            encoderFct = td->encoderFct_;
-        }
-        return encoderFct;
-    }
 
     const char* Cr2Header::cr2sig_ = "CR\2\0";
 
