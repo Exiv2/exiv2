@@ -378,6 +378,11 @@ namespace Exiv2 {
         { Tag::next, Group::olymp2mn,  Group::ignr,      0x927c,    Group::exif,      newTiffDirectory },
         {  Tag::all, Group::olymp2mn,  Group::olymp2mn,  0x927c,    Group::exif,      newTiffEntry },
 
+        // Olympus2 camera settings subdir
+        {    0x0101, Group::olympcs,   Group::olympcs,   0x2020,    Group::olymp2mn,  newTiffImageData<0x0102, Group::olympcs> },
+        {    0x0102, Group::olympcs,   Group::olympcs,   0x2020,    Group::olymp2mn,  newTiffImageSize<0x0101, Group::olympcs> },
+        {  Tag::all, Group::olympcs,   Group::olympcs,   0x2020,    Group::olymp2mn,  newTiffEntry },
+
         // Fujifilm makernote
         { Tag::next, Group::fujimn,    Group::ignr,      0x927c,    Group::exif,      newTiffDirectory },
         {  Tag::all, Group::fujimn,    Group::fujimn,    0x927c,    Group::exif,      newTiffEntry },
@@ -411,7 +416,7 @@ namespace Exiv2 {
         {    0x0011, Group::nikon3mn,  Group::nikonpv,   0x927c,    Group::exif,      newTiffSubIfd },
         {  Tag::all, Group::nikon3mn,  Group::nikon3mn,  0x927c,    Group::exif,      newTiffEntry },
 
-        // Nikon3 makernote preview sub-IFD
+        // Nikon3 makernote preview subdir
         {    0x0201, Group::nikonpv,   Group::nikonpv,   0x0011,    Group::nikon3mn,  newTiffThumbData<0x0202, Group::nikonpv> },
         {    0x0202, Group::nikonpv,   Group::nikonpv,   0x0011,    Group::nikon3mn,  newTiffThumbSize<0x0201, Group::nikonpv> },
         { Tag::next, Group::nikonpv,   Group::ignr,      0x0011,    Group::nikon3mn,  newTiffDirectory },
