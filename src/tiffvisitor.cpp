@@ -1120,6 +1120,8 @@ namespace Exiv2 {
             }
             uint16_t tag = getUShort(p, byteOrder());
             TiffComponent::AutoPtr tc = create(tag, object->group());
+            // The assertion typically fails if a component is not configured in
+            // the TIFF structure table
             assert(tc.get());
             tc->setStart(p);
             object->addChild(tc);
@@ -1168,7 +1170,8 @@ namespace Exiv2 {
         assert(object != 0);
 
         readTiffEntry(object);
-        if (   (object->tiffType() == ttUnsignedLong || object->tiffType() == ttSignedLong)
+        if (   (object->tiffType() == ttUnsignedLong || object->tiffType() == ttSignedLong
+                || object->tiffType() == ttTiffIfd)
             && object->count() >= 1) {
             for (uint32_t i = 0; i < object->count(); ++i) {
                 int32_t offset = getLong(object->pData() + 4*i, byteOrder());

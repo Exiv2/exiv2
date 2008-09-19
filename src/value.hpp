@@ -219,6 +219,7 @@ namespace Exiv2 {
           <TR><TD class="indexkey">signedRational</TD><TD class="indexvalue">%ValueType &lt; Rational &gt;</TD></TR>
           <TR><TD class="indexkey">tiffFloat</TD><TD class="indexvalue">%DataValue(tiffFloat)</TD></TR>
           <TR><TD class="indexkey">tiffDouble</TD><TD class="indexvalue">%DataValue(tiffDouble)</TD></TR>
+          <TR><TD class="indexkey">tiffIfd</TD><TD class="indexvalue">%ValueType &lt; uint32_t &gt;</TD></TR>
           <TR><TD class="indexkey">date</TD><TD class="indexvalue">%DateValue</TD></TR>
           <TR><TD class="indexkey">time</TD><TD class="indexvalue">%TimeValue</TD></TR>
           <TR><TD class="indexkey">comment</TD><TD class="indexvalue">%CommentValue</TD></TR>

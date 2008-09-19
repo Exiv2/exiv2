@@ -85,6 +85,7 @@ namespace Exiv2 {
             value = AutoPtr(new ValueType<uint16_t>);
             break;
         case unsignedLong:
+        case tiffIfd:
             value = AutoPtr(new ValueType<uint32_t>);
             break;
         case unsignedRational:

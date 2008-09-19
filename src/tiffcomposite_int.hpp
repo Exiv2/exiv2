@@ -64,6 +64,7 @@ namespace Exiv2 {
     const TiffType ttSignedRational   =10; //!< Exif SRATIONAL type
     const TiffType ttTiffFloat        =11; //!< TIFF FLOAT type
     const TiffType ttTiffDouble       =12; //!< TIFF DOUBLE type
+    const TiffType ttTiffIfd          =13; //!< TIFF IFD type
 
     //! Convert the \em tiffType of a \em tag and \em group to an Exiv2 \em typeId.
     TypeId toTypeId(TiffType tiffType, uint16_t tag, uint16_t group);

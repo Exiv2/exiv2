@@ -310,7 +310,6 @@ namespace Exiv2 {
         return size_;
     } // Olympus2MnHeader::write
 
-
     const byte FujiMnHeader::signature_[] = {
         'F', 'U', 'J', 'I', 'F', 'I', 'L', 'M', 0x0c, 0x00, 0x00, 0x00
     };
