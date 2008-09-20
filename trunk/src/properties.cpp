@@ -764,7 +764,8 @@ namespace Exiv2 {
     std::string XmpProperties::prefix(const std::string& ns)
     {
         std::string ns2 = ns;
-        if (ns2.substr(ns2.size() - 1, 1) != "/") ns2 += "/";
+        if (   ns2.substr(ns2.size() - 1, 1) != "/"
+            && ns2.substr(ns2.size() - 1, 1) != "#") ns2 += "/";
         NsRegistry::const_iterator i = nsRegistry_.find(ns2);
         std::string p;
         if (i != nsRegistry_.end()) {
