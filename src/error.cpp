@@ -83,7 +83,7 @@ namespace {
         { 33, N_("This does not look like a CRW image") },
         { 34, N_("%1: Not supported") }, // %1=function
         { 35, N_("No namespace info available for XMP prefix `%1'") }, // %1=prefix
-        { 36, N_("No prefix registered for namespace `%1'") }, // %1=namespace
+        { 36, N_("No prefix registered for namespace `%2', needed for property path `%1')") }, // %1=namespace
         { 37, N_("Size of %1 JPEG segment is larger than 65535 bytes") }, // %1=type of metadata (Exif, IPTC, JPEG comment)
         { 38, N_("Unhandled Xmpdatum %1 of type %2") }, // %1=key, %2=value type
         { 39, N_("Unhandled XMP node %1 with opt=%2") }, // %1=key, %2=XMP Toolkit option flags
