@@ -124,6 +124,9 @@ namespace Exiv2 {
 
         /* TODO:
            add Minolta makenotes tags here (0x0000-0x0103). See Exiftool database.*/
+        TagInfo(0x0100, "ThumbnailImage", N_("Thumbnail Image"),
+                N_("Thumbnail image"),
+                olympusIfdId, makerTags, undefined, printValue),
 
         TagInfo(0x0200, "SpecialMode", N_("Special Mode"),
                 N_("Picture taking mode"),
