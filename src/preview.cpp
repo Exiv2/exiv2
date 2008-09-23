@@ -478,7 +478,7 @@ namespace Exiv2 {
             // this saves one copying of the buffer
             uint32_t offset = dataValue.toLong(0);
             uint32_t length = sizes.toLong(0);
-            if (offset + length <= io.size())
+            if (offset + length <= static_cast<uint32_t>(io.size()))
                 dataValue.setDataArea(base + offset, length);
         }
         else {
@@ -488,7 +488,7 @@ namespace Exiv2 {
             for (int i = 0; i < sizes.count(); i++) {
                 uint32_t offset = dataValue.toLong(i);
                 uint32_t length = sizes.toLong(i);
-                if (offset + length <= io.size())
+                if (offset + length <= static_cast<uint32_t>(io.size()))
                     memcpy(pos, base + offset, length);
                 pos += length;
             }
