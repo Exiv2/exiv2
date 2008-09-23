@@ -468,8 +468,6 @@ namespace Exiv2 {
     // TIFF mapping table for special decoding and encoding requirements
     const TiffMappingInfo TiffMapping::tiffMappingInfo_[] = {
         { "*",       Tag::all, Group::ignr,    0, 0 }, // Do not decode tags with group == Group::ignr
-        { "OLYMPUS",   0x0100, Group::olymp1mn,&TiffDecoder::decodeOlympThumb,   &TiffEncoder::encodeOlympThumb     },
-        { "OLYMPUS",   0x0100, Group::olymp2mn,&TiffDecoder::decodeOlympThumb,   &TiffEncoder::encodeOlympThumb     },
         { "*",         0x02bc, Group::ifd0,    &TiffDecoder::decodeXmp,          0 /*done before the tree is traversed*/ },
         { "*",         0x83bb, Group::ifd0,    &TiffDecoder::decodeIptc,         0 /*done before the tree is traversed*/ },
         { "*",         0x8649, Group::ifd0,    &TiffDecoder::decodeIptc,         0 /*done before the tree is traversed*/ },
