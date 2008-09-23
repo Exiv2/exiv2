@@ -211,20 +211,6 @@ namespace Exiv2 {
         // Nothing to do
     }
 
-    void TiffDecoder::decodeOlympThumb(const TiffEntryBase* object)
-    {
-        const DataValue* v = dynamic_cast<const DataValue*>(object->pValue());
-        if (v != 0) {
-            exifData_["Exif.Thumbnail.Compression"] = uint16_t(6);
-            DataBuf buf(v->size());
-            v->copy(buf.pData_);
-            Exifdatum& ed = exifData_["Exif.Thumbnail.JPEGInterchangeFormat"];
-            ed = uint32_t(0);
-            ed.setDataArea(buf.pData_, buf.size_);
-            exifData_["Exif.Thumbnail.JPEGInterchangeFormatLength"] = uint32_t(buf.size_);
-        }
-    }
-
     void TiffDecoder::getObjData(byte const*& pData,
                                  long& size,
                                  uint16_t tag,
@@ -804,11 +790,6 @@ namespace Exiv2 {
         }
 
     } // TiffEncoder::encodeOffsetEntry
-
-    void TiffEncoder::encodeOlympThumb(TiffEntryBase* object, const Exifdatum* datum)
-    {
-        // Todo
-    }
 
     void TiffEncoder::encodeBigEndianEntry(TiffEntryBase* object, const Exifdatum* datum)
     {

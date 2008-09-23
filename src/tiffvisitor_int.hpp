@@ -261,8 +261,6 @@ namespace Exiv2 {
         void decodeTiffEntry(const TiffEntryBase* object);
         //! Decode a standard TIFF entry
         void decodeStdTiffEntry(const TiffEntryBase* object);
-        //! Decode Olympus Thumbnail from the TIFF makernote into IFD1
-        void decodeOlympThumb(const TiffEntryBase* object);
         //! Decode IPTC data from an IPTCNAA tag or Photoshop ImageResources
         void decodeIptc(const TiffEntryBase* object);
         //! Decode XMP packet from an XMLPacket tag
@@ -407,8 +405,6 @@ namespace Exiv2 {
         void encodeTiffEntryBase(TiffEntryBase* object, const Exifdatum* datum);
         //! Special encoder function for an offset entry.
         void encodeOffsetEntry(TiffEntryBase* object, const Exifdatum* datum);
-        //! Special encoder function to encode an Olympus Thumbnail from the TIFF makernote into IFD1.
-        void encodeOlympThumb(TiffEntryBase* object, const Exifdatum* datum);
 
         //! Special encoder function to encode SubIFD contents to Image group if it contains primary image data
         // Todo void encodeNikonSubIfd(TiffEntryBase* object, const Exifdatum* datum);
