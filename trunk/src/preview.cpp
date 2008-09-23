@@ -43,6 +43,7 @@ EXIV2_RCSID("@(#) $Id$")
 
 #include "image.hpp"
 #include "cr2image.hpp"
+#include "tiffimage.hpp"
 
 // *****************************************************************************
 namespace {
@@ -151,11 +152,43 @@ namespace Exiv2 {
 
     Loader::AutoPtr createLoaderExifThumbC(PreviewId id, const Image &image, int parIdx);
 
+    //! Loader for Tiff previews
+    class LoaderTiff : public Loader {
+    public:
+        LoaderTiff(PreviewId id, const Image &image, int parIdx);
+
+        virtual bool valid() const;
+        virtual PreviewProperties getProperties() const;
+        virtual DataBuf getData() const;
+
+    protected:
+        const char *group_;
+        long length_;
+        bool valid_;
+        std::string offsetTag_;
+        std::string sizeTag_;
+
+        // this table lists possible groups
+        // parIdx is an index to this table
+        
+        struct Param {
+            const char* group_;  
+        };
+        static const Param param_[];
+
+
+    };
+
+    Loader::AutoPtr createLoaderTiff(PreviewId id, const Image &image, int parIdx);
+
 // *****************************************************************************
 // class member definitions
 
     const Loader::LoaderList Loader::loaderList_[] = {
         { NULL,                 createLoaderExifThumbC, 0},
+        { NULL,                 createLoaderTiff, 0},
+        { NULL,                 createLoaderTiff, 1},
+        { NULL,                 createLoaderTiff, 2},
         { NULL,                 createLoaderExifJpeg, 0},
         { NULL,                 createLoaderExifJpeg, 1},
         { NULL,                 createLoaderExifJpeg, 2},
@@ -171,6 +204,11 @@ namespace Exiv2 {
         { "Exif.Image.StripOffsets",                    "Exif.Image.StripByteCounts",                   }, // 4
         };
 
+    const LoaderTiff::Param LoaderTiff::param_[] = {
+        { "Image" }, // 0
+        { "SubImage1" }, // 1
+        { "SubImage2" }, // 2
+        };
 
     PreviewImage::PreviewImage(const PreviewProperties &properties, DataBuf &data)
             : properties_(properties), data_(data)
@@ -340,6 +378,131 @@ namespace Exiv2 {
     {
         return thumb_.copy();
     }
+
+    LoaderTiff::LoaderTiff(PreviewId id, const Image &image, int parIdx)
+            : Loader(id, image),
+              group_(param_[parIdx].group_),
+              length_(0), valid_(false)
+    {
+        const ExifData &exifData = image_.exifData();
+
+        int offsetCount = 0;
+
+        // check if the group_ contains a preview image
+
+        ExifData::const_iterator pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + ".NewSubfileType"));
+        if (pos == image_.exifData().end() || pos->value().toLong() != 1) {
+            return;
+        }
+
+        pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + ".StripOffsets"));
+        if (pos != image_.exifData().end()) {
+            offsetTag_ = "StripOffsets";
+            sizeTag_ = "StripByteCounts";
+            offsetCount = pos->value().count();
+        } 
+        else {
+            pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + ".TileOffsets"));
+            if (pos != image_.exifData().end()) {
+                offsetTag_ = "TileOffsets";
+                sizeTag_ = "TileByteCounts";
+                offsetCount = pos->value().count();
+            }
+            else {
+                return;
+            }
+        }
+
+        pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + '.' + sizeTag_));
+        if (pos != image_.exifData().end()) {
+            if (offsetCount != pos->value().count()) return;
+            for (int i = 0; i < offsetCount; i++)
+                length_ += pos->value().toLong(i);
+        }
+        else return;
+
+        if (length_ == 0) return;
+
+        valid_ = true;
+    }
+
+    Loader::AutoPtr createLoaderTiff(PreviewId id, const Image &image, int parIdx)
+    {
+        return Loader::AutoPtr(new LoaderTiff(id, image, parIdx));
+    }
+
+    bool LoaderTiff::valid() const
+    {
+        return valid_;
+    }
+
+    PreviewProperties LoaderTiff::getProperties() const
+    {
+        PreviewProperties prop = Loader::getProperties();
+        prop.length_ = length_;
+        prop.mimeType_ = "image/tiff";
+        prop.extension_ = ".tif";
+        return prop;
+    }
+
+    DataBuf LoaderTiff::getData() const
+    {
+        const ExifData &exifData = image_.exifData();
+
+        ExifData preview;
+
+        // copy tags
+        for (ExifData::const_iterator pos = exifData.begin(); pos != exifData.end(); ++pos) {
+            if (pos->groupName() == group_) {
+                if (pos->tagName() == "NewSubfileType")
+                    continue;
+
+                preview.add(ExifKey("Exif.Image." + pos->tagName()), &pos->value());
+            }
+        }
+
+        // read image data
+        BasicIo &io = image_.io();
+
+        if (io.open() != 0) {
+            throw Error(9, io.path(), strError());
+        }
+        IoCloser closer(io);
+
+        const byte *base = io.mmap();
+
+        Value &dataValue = const_cast<Value&>(preview["Exif.Image." + offsetTag_].value());
+        const Value &sizes = preview["Exif.Image." + sizeTag_].value();
+
+        if (sizes.count() == 1) {
+            // this saves one copying of the buffer
+            uint32_t offset = dataValue.toLong(0);
+            uint32_t length = sizes.toLong(0);
+            if (offset + length <= io.size())
+                dataValue.setDataArea(base + offset, length);
+        }
+        else {
+            // FIXME: the buffer is probably copied twice, it should be optimized
+            DataBuf buf(length_);
+            byte *pos = buf.pData_;
+            for (int i = 0; i < sizes.count(); i++) {
+                uint32_t offset = dataValue.toLong(i);
+                uint32_t length = sizes.toLong(i);
+                if (offset + length <= io.size())
+                    memcpy(pos, base + offset, length);
+                pos += length;
+            }
+            dataValue.setDataArea(buf.pData_, buf.size_);
+        }
+
+        // write new image
+        Blob blob;
+        const IptcData emptyIptc;
+        const XmpData  emptyXmp;
+        TiffParser::encode(blob, 0, 0, Exiv2::littleEndian, preview, emptyIptc, emptyXmp);
+        return DataBuf(&blob[0], static_cast<long>(blob.size()));
+    }
+
 
     PreviewImageLoader::PreviewImageLoader(const Image& image)
             : image_(image)
