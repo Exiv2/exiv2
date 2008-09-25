@@ -203,7 +203,8 @@ namespace Exiv2 {
 
     void TiffDecoder::visitMnEntry(TiffMnEntry* object)
     {
-        if (!object->mn_) decodeTiffEntry(object);
+        // Always decode binary makernote tag
+        decodeTiffEntry(object);
     }
 
     void TiffDecoder::visitIfdMakernote(TiffIfdMakernote* /*object*/)
@@ -532,7 +533,15 @@ namespace Exiv2 {
     void TiffEncoder::visitMnEntry(TiffMnEntry* object)
     {
         // Test is required here as well as in the callback encoder function
-        if (!object->mn_) encodeTiffComponent(object);
+        if (!object->mn_) {
+            encodeTiffComponent(object);
+        }
+        else if (del_) {
+            // The makernote is made up of decoded tags, delete binary tag
+            ExifKey key(object->tag(), tiffGroupName(object->group()));
+            ExifData::iterator pos = exifData_.findKey(key);
+            if (pos != exifData_.end()) exifData_.erase(pos);
+        }
     }
 
     void TiffEncoder::visitIfdMakernote(TiffIfdMakernote* object)
