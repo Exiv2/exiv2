@@ -47,6 +47,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include <cstdlib>
 #include <cassert>
 #include <cmath>
+#include <cstring>
 
 #ifdef EXV_HAVE_ICONV
 # include <iconv.h>
@@ -75,9 +76,11 @@ namespace Exiv2 {
         return ifdId_ == ifdId;
     }
 
-    bool IfdInfo::operator==(Item item) const
+    bool IfdInfo::operator==(const Item& item) const
     {
-        return std::string(item_) == item.i_;
+        const char* i = item.i_.c_str();
+        if (i == 0) return false;
+        return (strlen(i) == strlen(item_) && 0 == strcmp(i, item_));
     }
 
     // Important: IFD item must be unique!
@@ -1619,8 +1622,13 @@ namespace Exiv2 {
     {
         const TagInfo* ti = tagList(ifdId);
         if (ti == 0) return 0;
+        const char* tn = tagName.c_str();
+        if (tn == 0) return 0;
         for (int idx = 0; ti[idx].tag_ != 0xffff; ++idx) {
-            if (std::string(ti[idx].name_) == tagName) return &ti[idx];
+            if (   strlen(ti[idx].name_) == strlen(tn)
+                && strcmp(ti[idx].name_, tn) == 0) {
+                return &ti[idx];
+            }
         }
         return 0;
     } // ExifTags::tagInfo

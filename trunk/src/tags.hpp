@@ -76,7 +76,7 @@ namespace Exiv2 {
     struct EXIV2API IfdInfo {
         struct Item;
         bool operator==(IfdId ifdId) const;     //!< Comparison operator for IFD id
-        bool operator==(Item item) const;       //!< Comparison operator for IFD item
+        bool operator==(const Item& item) const;       //!< Comparison operator for IFD item
         IfdId ifdId_;                           //!< IFD id
         const char* name_;                      //!< IFD name
         const char* item_; //!< Related IFD item. This is also an IFD name, unique for each IFD.
