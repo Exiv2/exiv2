@@ -638,7 +638,7 @@ namespace Exiv2 {
         std::string::size_type pos1 = key_.find('.');
         if (pos1 == std::string::npos) throw Error(6, key_);
         std::string familyName = key_.substr(0, pos1);
-        if (familyName != std::string(familyName_)) {
+        if (0 != strcmp(familyName.c_str(), familyName_)) {
             throw Error(6, key_);
         }
         std::string::size_type pos0 = pos1 + 1;
