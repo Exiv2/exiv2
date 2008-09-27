@@ -80,7 +80,7 @@ namespace Exiv2 {
     {
         const char* i = item.i_.c_str();
         if (i == 0) return false;
-        return (strlen(i) == strlen(item_) && 0 == strcmp(i, item_));
+        return 0 == strcmp(i, item_);
     }
 
     // Important: IFD item must be unique!
@@ -1625,8 +1625,7 @@ namespace Exiv2 {
         const char* tn = tagName.c_str();
         if (tn == 0) return 0;
         for (int idx = 0; ti[idx].tag_ != 0xffff; ++idx) {
-            if (   strlen(ti[idx].name_) == strlen(tn)
-                && strcmp(ti[idx].name_, tn) == 0) {
+            if (0 == strcmp(ti[idx].name_, tn)) {
                 return &ti[idx];
             }
         }
@@ -1874,7 +1873,7 @@ namespace Exiv2 {
         std::string::size_type pos1 = key_.find('.');
         if (pos1 == std::string::npos) throw Error(6, key_);
         std::string familyName = key_.substr(0, pos1);
-        if (familyName != std::string(familyName_)) {
+        if (0 != strcmp(familyName.c_str(), familyName_)) {
             throw Error(6, key_);
         }
         std::string::size_type pos0 = pos1 + 1;

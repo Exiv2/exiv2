@@ -54,7 +54,7 @@ namespace {
         //! Comparison operator for key
         bool operator==(const std::string& key) const
         {
-            return std::string(key_) == key;
+            return 0 == strcmp(key_, key.c_str());
         }
 
         const char* key_;               //!< XMP key
@@ -809,7 +809,7 @@ namespace Exiv2 {
         if (!pl) return 0;
         const XmpPropertyInfo* pi = 0;
         for (int i = 0; pl[i].name_ != 0; ++i) {
-            if (std::string(pl[i].name_) == key.tagName()) {
+            if (0 == strcmp(pl[i].name_, key.tagName().c_str()) {
                 pi = pl + i;
                 break;
             }
@@ -970,7 +970,7 @@ namespace Exiv2 {
         std::string::size_type pos1 = key.find('.');
         if (pos1 == std::string::npos) throw Error(6, key);
         std::string familyName = key.substr(0, pos1);
-        if (familyName != std::string(familyName_)) {
+        if (0 != strcmp(familyName.c_str(), familyName_)) {
             throw Error(6, key);
         }
         std::string::size_type pos0 = pos1 + 1;
