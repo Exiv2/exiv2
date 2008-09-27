@@ -809,7 +809,7 @@ namespace Exiv2 {
         if (!pl) return 0;
         const XmpPropertyInfo* pi = 0;
         for (int i = 0; pl[i].name_ != 0; ++i) {
-            if (0 == strcmp(pl[i].name_, key.tagName().c_str()) {
+            if (0 == strcmp(pl[i].name_, key.tagName().c_str())) {
                 pi = pl + i;
                 break;
             }
