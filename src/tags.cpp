@@ -96,6 +96,7 @@ namespace Exiv2 {
         { subImage2Id,       "SubImage2", "SubImage2",    ExifTags::ifdTagList           },
         { subImage3Id,       "SubImage3", "SubImage3",    ExifTags::ifdTagList           },
         { subImage4Id,       "SubImage4", "SubImage4",    ExifTags::ifdTagList           },
+        { mnIfdId,           "Makernote", "MakerNote",    ExifTags::mnTagList            },
         { canonIfdId,        "Makernote", "Canon",        CanonMakerNote::tagList        },
         { canonCsIfdId,      "Makernote", "CanonCs",      CanonMakerNote::tagListCs      },
         { canonSiIfdId,      "Makernote", "CanonSi",      CanonMakerNote::tagListSi      },
@@ -1594,6 +1595,22 @@ namespace Exiv2 {
     const TagInfo* ExifTags::iopTagList()
     {
         return iopTagInfo;
+    }
+
+    // Exiv2 Makernote info Tags
+    static const TagInfo mnTagInfo[] = {
+        TagInfo(0x0001, "Offset", N_("Offset"),
+                N_("Offset of the makernote from the start of the TIFF header."),
+                mnIfdId, makerTags, unsignedLong, printValue),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownMnTag)", N_("Unknown Exiv2 Makernote info tag"),
+                N_("Unknown Exiv2 Makernote info tag"),
+                ifdIdNotSet, sectionIdNotSet, invalidTypeId, printValue)
+    };
+
+    const TagInfo* ExifTags::mnTagList()
+    {
+        return mnTagInfo;
     }
 
     // Unknown Tag

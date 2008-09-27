@@ -14,6 +14,7 @@ Exif.Image.Make                               0x010f IFD0         Ascii       6 
 Exif.Image.Model                              0x0110 IFD0         Ascii      20 Canon PowerShot S40
 Exif.Image.ExifTag                            0x8769 IFD0         Long        1 76
 Exif.Photo.MakerNote                          0x927c Exif         Undefined 118 6 0 1 0 3 0 3 0 0 0 172 0 0 0 4 0 3 0 6 0 0 0 178 0 0 0 5 0 3 0 2 0 0 0 0 0 45 0 15 0 3 0 2 0 0 0 4 0 43 0 18 0 3 0 2 0 0 0 0 0 44 0 205 171 2 0 22 0 0 0 190 0 0 0 0 0 0 0 6 0 0 0 41 0 12 0 0 0 0 0 0 0 0 0 42 0 65 32 67 97 110 111 110 32 109 97 107 101 114 110 111 116 101 32 116 97 103 0 
+Exif.MakerNote.Offset                         0x0001 Makernote    Long        1 94
 Exif.CanonCs.0x0000                           0x0000 Makernote    Short       1 6
 Exif.CanonCs.Macro                            0x0001 Makernote    Short       1 0
 Exif.CanonCs.Selftimer                        0x0002 Makernote    Short       1 41
@@ -36,6 +37,7 @@ Exif.Image.Make                               0x010f IFD0         Ascii       6 
 Exif.Image.Model                              0x0110 IFD0         Ascii      20 Canon PowerShot S40
 Exif.Image.ExifTag                            0x8769 IFD0         Long        1 76
 Exif.Photo.MakerNote                          0x927c Exif         Undefined 118 6 0 1 0 3 0 3 0 0 0 172 0 0 0 4 0 3 0 6 0 0 0 178 0 0 0 5 0 3 0 2 0 0 0 0 0 45 0 15 0 3 0 2 0 0 0 4 0 43 0 18 0 3 0 2 0 0 0 0 0 44 0 205 171 2 0 22 0 0 0 190 0 0 0 0 0 0 0 6 0 88 0 41 0 12 0 0 0 0 0 0 0 99 0 42 0 65 32 67 97 110 111 110 32 109 97 107 101 114 110 111 116 101 32 116 97 103 0 
+Exif.MakerNote.Offset                         0x0001 Makernote    Long        1 94
 Exif.CanonCs.0x0000                           0x0000 Makernote    Short       1 6
 Exif.CanonCs.Macro                            0x0001 Makernote    Short       1 88
 Exif.CanonCs.Selftimer                        0x0002 Makernote    Short       1 41
@@ -58,6 +60,7 @@ Exif.Image.Make                               0x010f IFD0         Ascii       9 
 Exif.Image.Model                              0x0110 IFD0         Ascii      13 FinePixS2Pro
 Exif.Image.ExifTag                            0x8769 IFD0         Long        1 74
 Exif.Photo.MakerNote                          0x927c Exif         Undefined  54 70 85 74 73 70 73 76 77 12 0 0 0 1 0 0 16 2 0 23 0 0 0 30 0 0 0 0 0 0 0 65 32 70 117 106 105 102 105 108 109 32 81 85 65 76 73 84 89 32 116 97 103 0 0 
+Exif.MakerNote.Offset                         0x0001 Makernote    Long        1 92
 Exif.Fujifilm.Quality                         0x1000 Makernote    Ascii      23 A Fujifilm QUALITY tag
 
 ----- One Sigma/Foveon MakerNote tag
@@ -65,6 +68,7 @@ Exif.Image.Make                               0x010f IFD0         Ascii       6 
 Exif.Image.Model                              0x0110 IFD0         Ascii      11 SIGMA SD10
 Exif.Image.ExifTag                            0x8769 IFD0         Long        1 68
 Exif.Photo.MakerNote                          0x927c Exif         Undefined  46 83 73 71 77 65 0 0 0 1 0 1 0 24 0 2 0 17 0 0 0 114 0 0 0 0 0 0 0 83 111 102 116 119 97 114 101 63 32 69 120 105 118 50 33 0 0 
+Exif.MakerNote.Offset                         0x0001 Makernote    Long        1 86
 Exif.Sigma.Software                           0x0018 Makernote    Ascii      17 Software? Exiv2!
 
 ----- One Nikon1 MakerNote tag
@@ -72,6 +76,7 @@ Exif.Image.Make                               0x010f IFD0         Ascii       6 
 Exif.Image.Model                              0x0110 IFD0         Ascii       5 E990
 Exif.Image.ExifTag                            0x8769 IFD0         Long        1 62
 Exif.Photo.MakerNote                          0x927c Exif         Undefined  44 1 0 128 0 2 0 25 0 0 0 98 0 0 0 0 0 0 0 73 109 97 103 101 65 100 106 117 115 116 109 101 110 116 32 98 121 32 69 120 105 118 50 0 0 
+Exif.MakerNote.Offset                         0x0001 Makernote    Long        1 80
 Exif.Nikon1.ImageAdjustment                   0x0080 Makernote    Ascii      25 ImageAdjustment by Exiv2
 
 ----- One Nikon2 MakerNote tag
@@ -79,6 +84,7 @@ Exif.Image.Make                               0x010f IFD0         Ascii       6 
 Exif.Image.Model                              0x0110 IFD0         Ascii       5 E950
 Exif.Image.ExifTag                            0x8769 IFD0         Long        1 62
 Exif.Photo.MakerNote                          0x927c Exif         Undefined  48 78 105 107 111 110 0 1 0 1 0 255 255 2 0 22 0 0 0 106 0 0 0 0 0 0 0 65 110 32 111 98 115 99 117 114 101 32 78 105 107 111 110 50 32 116 97 103 0 
+Exif.MakerNote.Offset                         0x0001 Makernote    Long        1 80
 Exif.Nikon2.0xffff                            0xffff Makernote    Ascii      22 An obscure Nikon2 tag
 
 ----- One Nikon3 MakerNote tag
@@ -86,6 +92,7 @@ Exif.Image.Make                               0x010f IFD0         Ascii      18 
 Exif.Image.Model                              0x0110 IFD0         Ascii      10 NIKON D70
 Exif.Image.ExifTag                            0x8769 IFD0         Long        1 78
 Exif.Photo.MakerNote                          0x927c Exif         Undefined  64 78 105 107 111 110 0 2 16 0 0 77 77 0 42 0 0 0 8 0 1 0 4 0 2 0 0 0 28 0 0 0 26 0 0 0 0 65 32 98 111 114 105 110 103 32 78 105 107 111 110 51 32 81 117 97 108 105 116 121 32 116 97 103 0 
+Exif.MakerNote.Offset                         0x0001 Makernote    Long        1 96
 Exif.Nikon3.Quality                           0x0004 Makernote    Ascii      28 A boring Nikon3 Quality tag
 
 ----- One Olympus MakerNote tag
@@ -93,6 +100,7 @@ Exif.Image.Make                               0x010f IFD0         Ascii      20 
 Exif.Image.Model                              0x0110 IFD0         Ascii       8 C8080WZ
 Exif.Image.ExifTag                            0x8769 IFD0         Long        1 78
 Exif.Photo.MakerNote                          0x927c Exif         Undefined  26 79 76 89 77 80 0 1 0 1 0 1 2 3 0 1 0 0 0 1 0 0 0 0 0 0 0 
+Exif.MakerNote.Offset                         0x0001 Makernote    Long        1 96
 Exif.Olympus.Quality                          0x0201 Makernote    Short       1 1
 
 ----- One Panasonic MakerNote tag
@@ -100,6 +108,7 @@ Exif.Image.Make                               0x010f IFD0         Ascii      10 
 Exif.Image.Model                              0x0110 IFD0         Ascii       8 DMC-FZ5
 Exif.Image.ExifTag                            0x8769 IFD0         Long        1 68
 Exif.Photo.MakerNote                          0x927c Exif         Undefined  26 80 97 110 97 115 111 110 105 99 0 0 0 1 0 1 0 3 0 1 0 0 0 1 0 0 0 
+Exif.MakerNote.Offset                         0x0001 Makernote    Long        1 86
 Exif.Panasonic.Quality                        0x0001 Makernote    Short       1 1
 
 ----- One Sony MakerNote tag
@@ -107,6 +116,7 @@ Exif.Image.Make                               0x010f IFD0         Ascii       5 
 Exif.Image.Model                              0x0110 IFD0         Ascii       7 DSC-W7
 Exif.Image.ExifTag                            0x8769 IFD0         Long        1 64
 Exif.Photo.MakerNote                          0x927c Exif         Undefined  32 83 79 78 89 32 68 83 67 32 0 0 0 1 0 0 32 7 0 6 0 0 0 108 0 0 0 0 1 2 3 4 5 
+Exif.MakerNote.Offset                         0x0001 Makernote    Long        1 82
 Exif.Sony.0x2000                              0x2000 Makernote    Undefined   6 0 1 2 3 4 5 
 
 ----- One IOP tag

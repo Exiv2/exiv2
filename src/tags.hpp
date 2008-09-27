@@ -288,6 +288,8 @@ namespace Exiv2 {
         static const TagInfo* iopTagList();
         //! Return read-only list of built-in GPS tags
         static const TagInfo* gpsTagList();
+        //! Return read-only list of built-in Exiv2 Makernote info tags
+        static const TagInfo* mnTagList();
         //! Print a list of all standard Exif tags to output stream
         static void taglist(std::ostream& os);
         //! Print the list of tags for \em %IfdId
