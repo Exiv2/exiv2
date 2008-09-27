@@ -78,6 +78,7 @@ namespace Exiv2 {
         {   8, "SubImage2"    },
         {   9, "SubImage3"    },
         {  10, "SubImage4"    },
+        { 256, "MakerNote"    },
         // 257 not needed (olympmn)
         { 258, "Fujifilm"     },
         { 259, "Canon"        },

@@ -213,7 +213,8 @@ namespace Exiv2 {
                          bool      hasNext =true)
             : TiffComponent(tag, group),
               pHeader_(pHeader),
-              ifd_(tag, mnGroup, hasNext) {}
+              ifd_(tag, mnGroup, hasNext),
+              mnOffset_(0) {}
         //! Virtual destructor
         virtual ~TiffIfdMakernote();
         //@}
@@ -234,10 +235,15 @@ namespace Exiv2 {
         uint32_t sizeHeader() const;
         //! Write the header to a data buffer, return the number of bytes written.
         uint32_t writeHeader(Blob& blob, ByteOrder byteOrder) const;
-        //@}
+        /*!
+          @brief Return the offset to the makernote from the start of the
+                 TIFF header.
+        */
+        uint32_t mnOffset() const;
         /*!
           @brief Return the offset to the start of the Makernote IFD from
                  the start of the Makernote.
+                 Returns 0 if there is no header.
          */
         uint32_t ifdOffset() const;
         /*!
@@ -247,14 +253,11 @@ namespace Exiv2 {
          */
         ByteOrder byteOrder() const;
         /*!
-          @brief Return the base offset for the makernote IFD entries relative
-                 to the start of the TIFF header. The default, if there is no
-                 header, is 0.
-
-          @param mnOffset Offset to the makernote from the start of the
-                 TIFF header.
+          @brief Return the base offset for use with the makernote IFD entries
+                 relative to the start of the TIFF header.
+                 Returns 0 if there is no header.
          */
-        uint32_t baseOffset (uint32_t mnOffset) const;
+        uint32_t baseOffset() const;
         //@}
 
     protected:
@@ -324,6 +327,7 @@ namespace Exiv2 {
         // DATA
         MnHeader*     pHeader_;                 //!< Makernote header
         TiffDirectory ifd_;                     //!< Makernote IFD
+        uint32_t      mnOffset_;                //!< Makernote offset
 
     }; // class TiffIfdMakernote
 

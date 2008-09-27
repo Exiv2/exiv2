@@ -135,10 +135,15 @@ namespace Exiv2 {
         return pHeader_->byteOrder();
     }
 
-    uint32_t TiffIfdMakernote::baseOffset(uint32_t mnOffset) const
+    uint32_t TiffIfdMakernote::mnOffset() const
+    {
+        return mnOffset_;
+    }
+
+    uint32_t TiffIfdMakernote::baseOffset() const
     {
         if (!pHeader_) return 0;
-        return pHeader_->baseOffset(mnOffset);
+        return pHeader_->baseOffset(mnOffset_);
     }
 
     bool TiffIfdMakernote::readHeader(const byte* pData,
@@ -190,12 +195,13 @@ namespace Exiv2 {
                                        uint32_t  /*dataIdx*/,
                                        uint32_t& imageIdx)
     {
+        mnOffset_ = offset;
         if (this->byteOrder() != invalidByteOrder) {
             byteOrder = this->byteOrder();
         }
         uint32_t len = writeHeader(blob, byteOrder);
         len += ifd_.write(blob, byteOrder,
-                          offset - baseOffset(offset) + len,
+                          offset - baseOffset() + len,
                           uint32_t(-1), uint32_t(-1),
                           imageIdx);
         return len;
@@ -573,7 +579,7 @@ namespace Exiv2 {
 
     TiffComponent* newOlympusMn(uint16_t    tag,
                                 uint16_t    group,
-                                uint16_t    mnGroup,
+                                uint16_t    /*mnGroup*/,
                                 const byte* pData,
                                 uint32_t    size,
                                 ByteOrder   /*byteOrder*/)

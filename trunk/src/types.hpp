@@ -137,6 +137,7 @@ namespace Exiv2 {
     enum IfdId { ifdIdNotSet,
                  ifd0Id, exifIfdId, gpsIfdId, iopIfdId, ifd1Id, ifd2Id,
                  subImage1Id, subImage2Id, subImage3Id, subImage4Id,
+                 mnIfdId,
                  canonIfdId, canonCsIfdId, canonSiIfdId, canonCfIfdId,
                  canonPiIfdId, canonPaIfdId,
                  fujiIfdId,

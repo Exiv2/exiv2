@@ -207,9 +207,9 @@ namespace Exiv2 {
         decodeTiffEntry(object);
     }
 
-    void TiffDecoder::visitIfdMakernote(TiffIfdMakernote* /*object*/)
+    void TiffDecoder::visitIfdMakernote(TiffIfdMakernote* object)
     {
-        // Nothing to do
+        exifData_["Exif.MakerNote.Offset"] = object->mnOffset();
     }
 
     void TiffDecoder::getObjData(byte const*& pData,
@@ -547,7 +547,12 @@ namespace Exiv2 {
     void TiffEncoder::visitIfdMakernote(TiffIfdMakernote* object)
     {
         assert(object != 0);
-
+        if (del_) {
+            // Remove synthesized tags
+            ExifKey key("Exif.MakerNote.Offset");
+            ExifData::iterator pos = exifData_.findKey(key);
+            if (pos != exifData_.end()) exifData_.erase(pos);
+        }
         // Modify encoder for Makernote peculiarities, byte order
         if (object->byteOrder() != invalidByteOrder) {
             byteOrder_ = object->byteOrder();
@@ -824,6 +829,10 @@ namespace Exiv2 {
         for (ExifData::const_iterator i = exifData_.begin();
              i != exifData_.end(); ++i) {
 
+            uint16_t group = tiffGroupId(i->groupName());
+            // Skip synthesized info tags
+            if (group == Group::mn) continue;
+
             // Assumption is that the corresponding TIFF entry doesn't exist
 
             // Todo: This takes tag and group straight from the Exif datum.
@@ -835,7 +844,7 @@ namespace Exiv2 {
             //       how to get it through to here???
 
             TiffPath tiffPath;
-            TiffCreator::getPath(tiffPath, i->tag(), tiffGroupId(i->groupName()));
+            TiffCreator::getPath(tiffPath, i->tag(), group);
             TiffComponent* tc = pRootDir->addPath(i->tag(), tiffPath);
             TiffEntryBase* object = dynamic_cast<TiffEntryBase*>(tc);
 #ifdef DEBUG
@@ -1240,12 +1249,15 @@ namespace Exiv2 {
             setGo(geKnownMakernote, false);
             return;
         }
+
+        object->ifd_.setStart(object->start() + object->ifdOffset());
+        object->mnOffset_ = static_cast<uint32_t>(object->start() - pData_);
+
         // Modify reader for Makernote peculiarities, byte order and offset
         TiffRwState::AutoPtr state(
-            new TiffRwState(object->byteOrder(),
-                            object->baseOffset(static_cast<uint32_t>(object->start() - pData_))));
+            new TiffRwState(object->byteOrder(), object->baseOffset())
+        );
         changeState(state);
-        object->ifd_.setStart(object->start() + object->ifdOffset());
 
     } // TiffReader::visitIfdMakernote
 
