@@ -109,7 +109,7 @@ namespace Exiv2 {
         }
         byte const* pData = io_->mmap();
         long size = io_->size();
-        if (size < 84 + 4) throw Error(14); // includes the test for -1
+        if (size < 88 + 4) throw Error(14); // includes the test for -1
         uint32_t const start = getULong(pData + 84, bigEndian) + 12;
         if (static_cast<uint32_t>(size) < start) throw Error(14);
         clearMetadata();
@@ -118,6 +118,10 @@ namespace Exiv2 {
                                           xmpData_,
                                           pData + start,
                                           size - start);
+
+        exifData_["Exif.Image2.JPEGInterchangeFormat"] = getULong(pData + 84, bigEndian);
+        exifData_["Exif.Image2.JPEGInterchangeFormatLength"] = getULong(pData + 88, bigEndian);
+
         setByteOrder(bo);
     } // RafImage::readMetadata
 

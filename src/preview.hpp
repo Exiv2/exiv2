@@ -58,6 +58,15 @@ namespace Exiv2 {
         //! Preview image length in bytes.
         long length_;
 
+        //! Preview image width in pixels or 0 for unknown width.
+        int width_;
+        
+        //! Preview image height in pixels or 0 for unknown height.
+        int height_;
+        
+        //! Preview image compression - true means uncompressed image.
+        bool uncompressed_;
+
         //! Identifies type of preview image.
         PreviewId id_;
     };
@@ -132,11 +141,17 @@ namespace Exiv2 {
           @brief Return list of preview properties.
          */
         PreviewPropertiesList getPreviewPropertiesList() const;
+
         /*!
           @brief Return image data for given properties.
          */
         PreviewImage getPreviewImage(const PreviewProperties &properties) const;
 
+        /*!
+          @brief Read image dimensions if they are not available directly.
+         */
+        bool readDimensions(PreviewProperties &properties) const;
+        
         //@}
 
     private:
