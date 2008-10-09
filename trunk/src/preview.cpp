@@ -56,7 +56,15 @@ namespace {
         const Exiv2::PreviewProperties& rhs
     )
     {
-        return lhs.length_ < rhs.length_;
+        static const long compressionFactor = 10;
+    
+        long l = (long)lhs.width_ * lhs.height_;
+        if (l == 0) l = lhs.uncompressed_ ? lhs.length_ : lhs.length_ * compressionFactor;
+        
+        long r = (long)rhs.width_ * rhs.height_;
+        if (r == 0) r = rhs.uncompressed_ ? rhs.length_ : rhs.length_ * compressionFactor;
+        
+        return l < r;
     }
 }
 
@@ -79,13 +87,16 @@ namespace Exiv2 {
         static Loader::AutoPtr create(PreviewId id, const Image &image);
 
         //! Check if a preview image with given params exists in the image
-        virtual bool valid() const = 0;
+        virtual bool valid() const {return valid_;};
 
         //! Get properties of a preview image with given params
         virtual PreviewProperties getProperties() const;
 
         //! Get properties of a preview image with given params
         virtual DataBuf getData() const = 0;
+
+        //! Read preview image dimensions when they are not available directly
+        virtual bool readDimensions() {return true;};
 
         //! A number of image loaders configured in the loaderList_ table
         static PreviewId getNumLoaders();
@@ -104,6 +115,12 @@ namespace Exiv2 {
 
         PreviewId id_;
         const Image &image_;
+
+        int width_;
+        int height_;
+        bool uncompressed_;
+        long length_;
+        bool valid_;
     };
 
 
@@ -112,9 +129,9 @@ namespace Exiv2 {
     public:
         LoaderExifJpeg(PreviewId id, const Image &image, int parIdx);
 
-        virtual bool valid() const;
         virtual PreviewProperties getProperties() const;
         virtual DataBuf getData() const;
+        virtual bool readDimensions();
 
         long getOffset() const;
         long getLength() const;
@@ -132,39 +149,49 @@ namespace Exiv2 {
         
         ExifKey offsetKey_;
         ExifKey lengthKey_;
+        
+        long offset_;
     };
 
     Loader::AutoPtr createLoaderExifJpeg(PreviewId id, const Image &image, int parIdx);
 
-
-    //! Loader for standard Exif thumbnail - just a wrapper around ExifThumbC
-    class LoaderExifThumbC : public Loader {
+    //! Loader for Jpeg previews that are read into ExifData
+    class LoaderExifDataJpeg : public Loader {
     public:
-        LoaderExifThumbC(PreviewId id, const Image &image);
+        LoaderExifDataJpeg(PreviewId id, const Image &image, int parIdx);
 
-        virtual bool valid() const;
         virtual PreviewProperties getProperties() const;
         virtual DataBuf getData() const;
+        virtual bool readDimensions();
 
     protected:
-	ExifThumbC thumb_;
+    
+        // this table lists possible offset/length key pairs
+        // parIdx is an index to this table
+        
+        struct Param {
+            const char* dataKey_;  
+            const char* lengthKey_;
+        };
+        static const Param param_[];
+        
+        ExifKey dataKey_;
+        ExifKey lengthKey_;
     };
 
-    Loader::AutoPtr createLoaderExifThumbC(PreviewId id, const Image &image, int parIdx);
+    Loader::AutoPtr createLoaderExifDataJpeg(PreviewId id, const Image &image, int parIdx);
 
-    //! Loader for Tiff previews
+
+    //! Loader for Tiff previews - it can get image data from ExifData or image_.io() as needed
     class LoaderTiff : public Loader {
     public:
         LoaderTiff(PreviewId id, const Image &image, int parIdx);
 
-        virtual bool valid() const;
         virtual PreviewProperties getProperties() const;
         virtual DataBuf getData() const;
 
     protected:
         const char *group_;
-        long length_;
-        bool valid_;
         std::string offsetTag_;
         std::string sizeTag_;
 
@@ -185,29 +212,49 @@ namespace Exiv2 {
 // class member definitions
 
     const Loader::LoaderList Loader::loaderList_[] = {
-        { NULL,                 createLoaderExifThumbC, 0},
+        { NULL,                 createLoaderExifDataJpeg, 0},
+        { NULL,                 createLoaderExifDataJpeg, 1},
+        { NULL,                 createLoaderExifDataJpeg, 2},
+        { NULL,                 createLoaderExifDataJpeg, 3},
         { NULL,                 createLoaderTiff, 0},
         { NULL,                 createLoaderTiff, 1},
         { NULL,                 createLoaderTiff, 2},
+        { NULL,                 createLoaderTiff, 3},
+        { NULL,                 createLoaderTiff, 4},
+        { NULL,                 createLoaderTiff, 5},
         { NULL,                 createLoaderExifJpeg, 0},
         { NULL,                 createLoaderExifJpeg, 1},
         { NULL,                 createLoaderExifJpeg, 2},
         { NULL,                 createLoaderExifJpeg, 3},
-        { "image/x-canon-cr2",  createLoaderExifJpeg, 4} // FIXME: this needs to be fixed (enabled) in cr2image.cpp
+        { NULL,                 createLoaderExifJpeg, 4},
+        { NULL,                 createLoaderExifJpeg, 5},
+        { "image/x-canon-cr2",  createLoaderExifJpeg, 6}
         };
 
     const LoaderExifJpeg::Param LoaderExifJpeg::param_[] = {
         { "Exif.Image.JPEGInterchangeFormat",           "Exif.Image.JPEGInterchangeFormatLength"        }, // 0
-        { "Exif.SubImage1.JPEGInterchangeFormat",       "Exif.SubImage1.JPEGInterchangeFormatLength",   }, // 1
-        { "Exif.SubImage2.JPEGInterchangeFormat",       "Exif.SubImage2.JPEGInterchangeFormatLength",   }, // 2
-        { "Exif.Image2.JPEGInterchangeFormat",          "Exif.Image2.JPEGInterchangeFormatLength",      }, // 3
-        { "Exif.Image.StripOffsets",                    "Exif.Image.StripByteCounts",                   }, // 4
+        { "Exif.SubImage1.JPEGInterchangeFormat",       "Exif.SubImage1.JPEGInterchangeFormatLength"    }, // 1
+        { "Exif.SubImage2.JPEGInterchangeFormat",       "Exif.SubImage2.JPEGInterchangeFormatLength"    }, // 2
+        { "Exif.SubImage3.JPEGInterchangeFormat",       "Exif.SubImage3.JPEGInterchangeFormatLength"    }, // 3
+        { "Exif.SubImage4.JPEGInterchangeFormat",       "Exif.SubImage4.JPEGInterchangeFormatLength"    }, // 4
+        { "Exif.Image2.JPEGInterchangeFormat",          "Exif.Image2.JPEGInterchangeFormatLength"       }, // 5
+        { "Exif.Image.StripOffsets",                    "Exif.Image.StripByteCounts"                    }  // 6
+        };
+
+    const LoaderExifDataJpeg::Param LoaderExifDataJpeg::param_[] = {
+        { "Exif.Thumbnail.JPEGInterchangeFormat",       "Exif.Thumbnail.JPEGInterchangeFormatLength"    }, // 0
+        { "Exif.NikonPreview.JPEGInterchangeFormat",    "Exif.NikonPreview.JPEGInterchangeFormatLength" }, // 1
+        { "Exif.Pentax.PreviewOffset",                  "Exif.Pentax.PreviewLength"                     }, // 2
+        { "Exif.Minolta.ThumbnailOffset",               "Exif.Minolta.ThumbnailLength"                  }  // 3
         };
 
     const LoaderTiff::Param LoaderTiff::param_[] = {
-        { "Image" }, // 0
+        { "Image" },     // 0
         { "SubImage1" }, // 1
         { "SubImage2" }, // 2
+        { "SubImage3" }, // 3
+        { "SubImage4" }, // 4
+        { "Thumbnail" }  // 5
         };
 
     PreviewImage::PreviewImage(const PreviewProperties &properties, DataBuf &data)
@@ -263,7 +310,11 @@ namespace Exiv2 {
     }
 
     Loader::Loader(PreviewId id, const Image &image)
-            : id_(id), image_(image)
+            : id_(id), image_(image),
+            width_(0), height_(0),
+            uncompressed_(false),
+            length_(0),
+            valid_(false)
     {
     }
 
@@ -271,6 +322,10 @@ namespace Exiv2 {
     {
         PreviewProperties prop;
         prop.id_ = id_;
+        prop.length_ = length_;
+        prop.width_ = width_;
+        prop.height_ = height_;
+        prop.uncompressed_ = uncompressed_;
         return prop;
     }
 
@@ -284,6 +339,13 @@ namespace Exiv2 {
               offsetKey_(param_[parIdx].offsetKey_),
               lengthKey_(param_[parIdx].lengthKey_)
     {
+        offset_ = getOffset();
+        length_ = getLength();
+
+        if (offset_ == 0 || length_ == 0) return;
+        if (offset_ + length_ > image_.io().size()) return;
+        
+        valid_ = true;
     }
 
     Loader::AutoPtr createLoaderExifJpeg(PreviewId id, const Image &image, int parIdx)
@@ -311,22 +373,11 @@ namespace Exiv2 {
         return offset;
     }
 
-    bool LoaderExifJpeg::valid() const
-    {
-        long offset = getOffset();
-        long length = getLength();
-
-        if (offset == 0 || length == 0) return false;
-        if (offset + length > image_.io().size()) return false;
-        return true;
-    }
-
     PreviewProperties LoaderExifJpeg::getProperties() const
     {
         PreviewProperties prop = Loader::getProperties();
         prop.mimeType_ = "image/jpeg";
         prop.extension_ = ".jpg";
-        prop.length_ = getLength(); 
         return prop;
     }
 
@@ -340,49 +391,109 @@ namespace Exiv2 {
         }
         IoCloser closer(io);
 
-        long offset = getOffset();
-        long length = getLength();
+        const byte *base = io.mmap();
+
+        return DataBuf(base + offset_, length_);
+    }
+
+    bool LoaderExifJpeg::readDimensions()
+    {
+        if (!valid()) return false;
+        if (width_ || height_) return true;
+        
+        BasicIo &io = image_.io();
+
+        if (io.open() != 0) {
+            throw Error(9, io.path(), strError());
+        }
+        IoCloser closer(io);
 
         const byte *base = io.mmap();
 
-        return DataBuf(base + offset, length);
+        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(base + offset_, length_);
+        if (image.get() == 0) return false;
+        image->readMetadata();
+
+        width_ = image->pixelWidth();
+        height_ = image->pixelHeight();
+
+        return true;
     }
 
 
-    LoaderExifThumbC::LoaderExifThumbC(PreviewId id, const Image &image)
+    LoaderExifDataJpeg::LoaderExifDataJpeg(PreviewId id, const Image &image, int parIdx)
             : Loader(id, image), 
-              thumb_(image_.exifData())
+              dataKey_(param_[parIdx].dataKey_),
+              lengthKey_(param_[parIdx].lengthKey_)
     {
+        ExifData::const_iterator pos = image_.exifData().findKey(dataKey_);
+        if (pos != image_.exifData().end()) {
+            length_ = pos->sizeDataArea();
+        }
+
+        if (length_ == 0) return;
+
+        valid_ = true;
     }
 
-    Loader::AutoPtr createLoaderExifThumbC(PreviewId id, const Image &image, int /* parIdx */)
+    Loader::AutoPtr createLoaderExifDataJpeg(PreviewId id, const Image &image, int parIdx)
     {
-        return Loader::AutoPtr(new LoaderExifThumbC(id, image));
+            return Loader::AutoPtr(new LoaderExifDataJpeg(id, image, parIdx));
     }
 
-    bool LoaderExifThumbC::valid() const
-    {
-        return thumb_.copy().size_ > 0; // FIXME: this is inefficient
-    }
-
-    PreviewProperties LoaderExifThumbC::getProperties() const
+    PreviewProperties LoaderExifDataJpeg::getProperties() const
     {
         PreviewProperties prop = Loader::getProperties();
-        prop.length_ = thumb_.copy().size_; // FIXME: this is inefficient
-        prop.mimeType_ = thumb_.mimeType();
-        prop.extension_ = thumb_.extension();
+        prop.mimeType_ = "image/jpeg";
+        prop.extension_ = ".jpg";
         return prop;
     }
 
-    DataBuf LoaderExifThumbC::getData() const
+    DataBuf LoaderExifDataJpeg::getData() const
     {
-        return thumb_.copy();
+        if (!valid()) return DataBuf();
+
+        ExifData::const_iterator pos = image_.exifData().findKey(dataKey_);
+        if (pos != image_.exifData().end()) {
+            DataBuf buf = pos->dataArea();
+
+            buf.pData_[0] = 0xff; // fix Minolta thumbnails with invalid jpeg header
+            return buf;
+        }
+
+        return DataBuf();
     }
+
+    bool LoaderExifDataJpeg::readDimensions()
+    {
+        if (!valid()) return false;
+
+        ExifData::const_iterator pos = image_.exifData().findKey(dataKey_);
+        if (pos == image_.exifData().end()) return false;
+
+        DataBuf buf = pos->dataArea();
+
+        buf.pData_[0] = 0xff; // fix Minolta thumbnails with invalid jpeg header
+
+        try {
+            Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(buf.pData_, buf.size_);
+            if (image.get() == 0) return false;
+            image->readMetadata();
+
+            width_ = image->pixelWidth();
+            height_ = image->pixelHeight();
+        }
+        catch (const Exiv2::AnyError& error) {
+            return false;
+        }
+
+        return true;
+    }
+
 
     LoaderTiff::LoaderTiff(PreviewId id, const Image &image, int parIdx)
             : Loader(id, image),
-              group_(param_[parIdx].group_),
-              length_(0), valid_(false)
+              group_(param_[parIdx].group_)
     {
         const ExifData &exifData = image_.exifData();
 
@@ -391,19 +502,19 @@ namespace Exiv2 {
         // check if the group_ contains a preview image
 
         ExifData::const_iterator pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + ".NewSubfileType"));
-        if (pos == image_.exifData().end() || pos->value().toLong() != 1) {
+        if (pos == exifData.end() || pos->value().toLong() != 1) {
             return;
         }
 
         pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + ".StripOffsets"));
-        if (pos != image_.exifData().end()) {
+        if (pos != exifData.end()) {
             offsetTag_ = "StripOffsets";
             sizeTag_ = "StripByteCounts";
             offsetCount = pos->value().count();
         } 
         else {
             pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + ".TileOffsets"));
-            if (pos != image_.exifData().end()) {
+            if (pos != exifData.end()) {
                 offsetTag_ = "TileOffsets";
                 sizeTag_ = "TileByteCounts";
                 offsetCount = pos->value().count();
@@ -414,7 +525,7 @@ namespace Exiv2 {
         }
 
         pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + '.' + sizeTag_));
-        if (pos != image_.exifData().end()) {
+        if (pos != exifData.end()) {
             if (offsetCount != pos->value().count()) return;
             for (int i = 0; i < offsetCount; i++)
                 length_ += pos->value().toLong(i);
@@ -423,6 +534,23 @@ namespace Exiv2 {
 
         if (length_ == 0) return;
 
+        pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + ".ImageWidth"));
+        if (pos != exifData.end()) {
+            width_ = pos->value().toLong();
+        }
+
+        pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + ".ImageLength"));
+        if (pos != exifData.end()) {
+            height_ = pos->value().toLong();
+        }
+        
+        if (width_ == 0 || height_ == 0) return;
+
+        pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + ".Compression"));
+        if (pos != exifData.end()) {
+            uncompressed_ = (pos->value().toLong() == 1);
+        }
+        
         valid_ = true;
     }
 
@@ -431,15 +559,9 @@ namespace Exiv2 {
         return Loader::AutoPtr(new LoaderTiff(id, image, parIdx));
     }
 
-    bool LoaderTiff::valid() const
-    {
-        return valid_;
-    }
-
     PreviewProperties LoaderTiff::getProperties() const
     {
         PreviewProperties prop = Loader::getProperties();
-        prop.length_ = length_;
         prop.mimeType_ = "image/tiff";
         prop.extension_ = ".tif";
         return prop;
@@ -461,38 +583,41 @@ namespace Exiv2 {
             }
         }
 
-        // read image data
-        BasicIo &io = image_.io();
-
-        if (io.open() != 0) {
-            throw Error(9, io.path(), strError());
-        }
-        IoCloser closer(io);
-
-        const byte *base = io.mmap();
-
         Value &dataValue = const_cast<Value&>(preview["Exif.Image." + offsetTag_].value());
-        const Value &sizes = preview["Exif.Image." + sizeTag_].value();
 
-        if (sizes.count() == 1) {
-            // this saves one copying of the buffer
-            uint32_t offset = dataValue.toLong(0);
-            uint32_t length = sizes.toLong(0);
-            if (offset + length <= static_cast<uint32_t>(io.size()))
-                dataValue.setDataArea(base + offset, length);
-        }
-        else {
-            // FIXME: the buffer is probably copied twice, it should be optimized
-            DataBuf buf(length_);
-            byte *pos = buf.pData_;
-            for (int i = 0; i < sizes.count(); i++) {
-                uint32_t offset = dataValue.toLong(i);
-                uint32_t length = sizes.toLong(i);
-                if (offset + length <= static_cast<uint32_t>(io.size()))
-                    memcpy(pos, base + offset, length);
-                pos += length;
+        if (dataValue.sizeDataArea() == 0) {
+            // image data are not available via exifData, read them from image_.io()
+            BasicIo &io = image_.io();
+
+            if (io.open() != 0) {
+                throw Error(9, io.path(), strError());
             }
-            dataValue.setDataArea(buf.pData_, buf.size_);
+            IoCloser closer(io);
+
+            const byte *base = io.mmap();
+
+            const Value &sizes = preview["Exif.Image." + sizeTag_].value();
+
+            if (sizes.count() == 1) {
+                // this saves one copying of the buffer
+                uint32_t offset = dataValue.toLong(0);
+                uint32_t length = sizes.toLong(0);
+                if (offset + length <= static_cast<uint32_t>(io.size()))
+                    dataValue.setDataArea(base + offset, length);
+            }
+            else {
+                // FIXME: the buffer is probably copied twice, it should be optimized
+                DataBuf buf(length_);
+                byte *pos = buf.pData_;
+                for (int i = 0; i < sizes.count(); i++) {
+                    uint32_t offset = dataValue.toLong(i);
+                    uint32_t length = sizes.toLong(i);
+                    if (offset + length <= static_cast<uint32_t>(io.size()))
+                        memcpy(pos, base + offset, length);
+                    pos += length;
+                }
+                dataValue.setDataArea(buf.pData_, buf.size_);
+            }
         }
 
         // write new image
@@ -531,6 +656,20 @@ namespace Exiv2 {
             buf = loader->getData();
         }
         return PreviewImage(properties, buf);
+    }
+
+    bool PreviewImageLoader::readDimensions(PreviewProperties &properties) const
+    {
+        if (properties.width_ || properties.height_) return true;
+        
+        Loader::AutoPtr loader = Loader::create(properties.id_, image_);
+        if (!loader.get()) return false;
+        
+        if (loader->readDimensions()) {
+            properties = loader->getProperties();
+            return true;
+        }
+        return false;
     }
 
 }                                       // namespace Exiv2

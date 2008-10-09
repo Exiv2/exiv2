@@ -27,11 +27,16 @@ try {
 
     for (Exiv2::PreviewPropertiesList::iterator pos = list.begin(); pos != list.end(); pos++)
     {
-        char buf[50];
+        loader.readDimensions(*pos);
+        std::cout << "found preview " << pos->id_ 
+                  << ", length: " << pos->length_ 
+                  << ", " << pos->width_ << 'x' << pos->height_
+                  << "\n";
+
         Exiv2::PreviewImage image = loader.getPreviewImage(*pos);
-        sprintf(buf, "%ld", image.length());
+        char buf[50];
+        sprintf(buf, "%dx%d",pos->width_, pos->height_);
         image.writeFile(std::string(argv[1]) + "_" + buf);
-        std::cout << "found preview " << pos->id_ << ", length: " << pos->length_ << "\n";
     }
     
     return 0;
