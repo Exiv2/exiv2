@@ -29,7 +29,7 @@ try {
     {
         loader.readDimensions(*pos);
         std::cout << "found preview " << pos->id_ 
-                  << ", length: " << pos->length_ 
+                  << ", size: " << pos->size_ 
                   << ", " << pos->width_ << 'x' << pos->height_
                   << "\n";
 

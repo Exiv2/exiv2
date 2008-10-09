@@ -48,22 +48,24 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 namespace {
     /*!
-      @brief Compare two preview images by length. Return true if the 
-             lhs is smaller than rhs.
+      @brief Compare two preview images by number of pixels, if width and height
+             of both lhs and rhs are available or else by size.
+             Return true if lhs is smaller than rhs.
      */
     bool cmpPreviewProperties(
         const Exiv2::PreviewProperties& lhs,
         const Exiv2::PreviewProperties& rhs
     )
     {
-        static const long compressionFactor = 10;
-    
-        long l = (long)lhs.width_ * lhs.height_;
-        if (l == 0) l = lhs.uncompressed_ ? lhs.length_ : lhs.length_ * compressionFactor;
-        
-        long r = (long)rhs.width_ * rhs.height_;
-        if (r == 0) r = rhs.uncompressed_ ? rhs.length_ : rhs.length_ * compressionFactor;
-        
+        static const uint16_t compressionFactor = 10;
+
+        uint32_t l = lhs.width_ * lhs.height_;
+        uint32_t r = rhs.width_ * rhs.height_;
+        if (l == 0 || r == 0) {
+            l = lhs.uncompressed_ ? lhs.size_ : lhs.size_ * compressionFactor;
+            r = rhs.uncompressed_ ? rhs.size_ : rhs.size_ * compressionFactor;
+        }
+
         return l < r;
     }
 }
@@ -87,7 +89,7 @@ namespace Exiv2 {
         static Loader::AutoPtr create(PreviewId id, const Image &image);
 
         //! Check if a preview image with given params exists in the image
-        virtual bool valid() const {return valid_;};
+        virtual bool valid() const { return valid_; }
 
         //! Get properties of a preview image with given params
         virtual PreviewProperties getProperties() const;
@@ -96,7 +98,7 @@ namespace Exiv2 {
         virtual DataBuf getData() const = 0;
 
         //! Read preview image dimensions when they are not available directly
-        virtual bool readDimensions() {return true;};
+        virtual bool readDimensions() { return true; }
 
         //! A number of image loaders configured in the loaderList_ table
         static PreviewId getNumLoaders();
@@ -108,7 +110,6 @@ namespace Exiv2 {
             const char *imageMimeType_; //!< Image type for which is the loader valid, NULL matches all images
             CreateFunc create_;         //!< Function that creates particular loader instance
             int parIdx_;                //!< Parameter that is passed into CreateFunc
-
         };
 
         static const LoaderList loaderList_[]; // PreviewId is an index to this table
@@ -116,10 +117,10 @@ namespace Exiv2 {
         PreviewId id_;
         const Image &image_;
 
-        int width_;
-        int height_;
+        uint32_t width_;
+        uint32_t height_;
         bool uncompressed_;
-        long length_;
+        uint32_t size_;
         bool valid_;
     };
 
@@ -133,24 +134,24 @@ namespace Exiv2 {
         virtual DataBuf getData() const;
         virtual bool readDimensions();
 
-        long getOffset() const;
-        long getLength() const;
+        uint32_t getOffset() const;
+        uint32_t getSize() const;
 
     protected:
     
-        // this table lists possible offset/length key pairs
+        // this table lists possible offset/size key pairs
         // parIdx is an index to this table
         
         struct Param {
             const char* offsetKey_;  
-            const char* lengthKey_;
+            const char* sizeKey_;
         };
         static const Param param_[];
         
         ExifKey offsetKey_;
-        ExifKey lengthKey_;
+        ExifKey sizeKey_;
         
-        long offset_;
+        uint32_t offset_;
     };
 
     Loader::AutoPtr createLoaderExifJpeg(PreviewId id, const Image &image, int parIdx);
@@ -166,17 +167,17 @@ namespace Exiv2 {
 
     protected:
     
-        // this table lists possible offset/length key pairs
+        // this table lists possible offset/size key pairs
         // parIdx is an index to this table
         
         struct Param {
             const char* dataKey_;  
-            const char* lengthKey_;
+            const char* sizeKey_;
         };
         static const Param param_[];
         
         ExifKey dataKey_;
-        ExifKey lengthKey_;
+        ExifKey sizeKey_;
     };
 
     Loader::AutoPtr createLoaderExifDataJpeg(PreviewId id, const Image &image, int parIdx);
@@ -203,7 +204,6 @@ namespace Exiv2 {
         };
         static const Param param_[];
 
-
     };
 
     Loader::AutoPtr createLoaderTiff(PreviewId id, const Image &image, int parIdx);
@@ -229,7 +229,7 @@ namespace Exiv2 {
         { NULL,                 createLoaderExifJpeg, 4},
         { NULL,                 createLoaderExifJpeg, 5},
         { "image/x-canon-cr2",  createLoaderExifJpeg, 6}
-        };
+    };
 
     const LoaderExifJpeg::Param LoaderExifJpeg::param_[] = {
         { "Exif.Image.JPEGInterchangeFormat",           "Exif.Image.JPEGInterchangeFormatLength"        }, // 0
@@ -239,14 +239,14 @@ namespace Exiv2 {
         { "Exif.SubImage4.JPEGInterchangeFormat",       "Exif.SubImage4.JPEGInterchangeFormatLength"    }, // 4
         { "Exif.Image2.JPEGInterchangeFormat",          "Exif.Image2.JPEGInterchangeFormatLength"       }, // 5
         { "Exif.Image.StripOffsets",                    "Exif.Image.StripByteCounts"                    }  // 6
-        };
+    };
 
     const LoaderExifDataJpeg::Param LoaderExifDataJpeg::param_[] = {
         { "Exif.Thumbnail.JPEGInterchangeFormat",       "Exif.Thumbnail.JPEGInterchangeFormatLength"    }, // 0
         { "Exif.NikonPreview.JPEGInterchangeFormat",    "Exif.NikonPreview.JPEGInterchangeFormatLength" }, // 1
         { "Exif.Pentax.PreviewOffset",                  "Exif.Pentax.PreviewLength"                     }, // 2
         { "Exif.Minolta.ThumbnailOffset",               "Exif.Minolta.ThumbnailLength"                  }  // 3
-        };
+    };
 
     const LoaderTiff::Param LoaderTiff::param_[] = {
         { "Image" },     // 0
@@ -255,18 +255,17 @@ namespace Exiv2 {
         { "SubImage3" }, // 3
         { "SubImage4" }, // 4
         { "Thumbnail" }  // 5
-        };
+    };
 
     PreviewImage::PreviewImage(const PreviewProperties &properties, DataBuf &data)
-            : properties_(properties), data_(data)
+        : properties_(properties), data_(data)
     {
     }
 
     PreviewImage::PreviewImage(const PreviewImage &src)
-            : properties_(src.properties_), data_(const_cast<DataBuf&>(src.data_))
+        : properties_(src.properties_), data_(const_cast<DataBuf&>(src.data_))
     {
     }
-
 
     long PreviewImage::writeFile(const std::string& path) const
     {
@@ -289,32 +288,32 @@ namespace Exiv2 {
         return properties_.extension_;
     }
 
-    long PreviewImage::length() const
+    uint32_t PreviewImage::size() const
     {
-        return properties_.length_;
+        return properties_.size_;
     }
 
     Loader::AutoPtr Loader::create(PreviewId id, const Image &image)
     {
-            if (id < 0 || id >= Loader::getNumLoaders())
-                return AutoPtr();
+        if (id < 0 || id >= Loader::getNumLoaders())
+            return AutoPtr();
 
-            if (loaderList_[id].imageMimeType_ &&
-                std::string(loaderList_[id].imageMimeType_) != std::string(image.mimeType()))
-                return AutoPtr();
+        if (loaderList_[id].imageMimeType_ &&
+            std::string(loaderList_[id].imageMimeType_) != std::string(image.mimeType()))
+            return AutoPtr();
 
-            AutoPtr loader = loaderList_[id].create_(id, image, loaderList_[id].parIdx_);
+        AutoPtr loader = loaderList_[id].create_(id, image, loaderList_[id].parIdx_);
 
-            if (loader.get() && !loader->valid()) loader.reset();
-            return loader;
+        if (loader.get() && !loader->valid()) loader.reset();
+        return loader;
     }
 
     Loader::Loader(PreviewId id, const Image &image)
-            : id_(id), image_(image),
-            width_(0), height_(0),
-            uncompressed_(false),
-            length_(0),
-            valid_(false)
+        : id_(id), image_(image),
+          width_(0), height_(0),
+          uncompressed_(false),
+          size_(0),
+          valid_(false)
     {
     }
 
@@ -322,7 +321,7 @@ namespace Exiv2 {
     {
         PreviewProperties prop;
         prop.id_ = id_;
-        prop.length_ = length_;
+        prop.size_ = size_;
         prop.width_ = width_;
         prop.height_ = height_;
         prop.uncompressed_ = uncompressed_;
@@ -335,37 +334,37 @@ namespace Exiv2 {
     }
 
     LoaderExifJpeg::LoaderExifJpeg(PreviewId id, const Image &image, int parIdx)
-            : Loader(id, image), 
-              offsetKey_(param_[parIdx].offsetKey_),
-              lengthKey_(param_[parIdx].lengthKey_)
+        : Loader(id, image), 
+          offsetKey_(param_[parIdx].offsetKey_),
+          sizeKey_(param_[parIdx].sizeKey_)
     {
         offset_ = getOffset();
-        length_ = getLength();
+        size_ = getSize();
 
-        if (offset_ == 0 || length_ == 0) return;
-        if (offset_ + length_ > image_.io().size()) return;
+        if (offset_ == 0 || size_ == 0) return;
+        if (offset_ + size_ > static_cast<uint32_t>(image_.io().size())) return;
         
         valid_ = true;
     }
 
     Loader::AutoPtr createLoaderExifJpeg(PreviewId id, const Image &image, int parIdx)
     {
-            return Loader::AutoPtr(new LoaderExifJpeg(id, image, parIdx));
+        return Loader::AutoPtr(new LoaderExifJpeg(id, image, parIdx));
     }
 
-    long LoaderExifJpeg::getLength() const
+    uint32_t LoaderExifJpeg::getSize() const
     {
-        long length = 0;
-        ExifData::const_iterator pos = image_.exifData().findKey(lengthKey_);
+        uint32_t size = 0;
+        ExifData::const_iterator pos = image_.exifData().findKey(sizeKey_);
         if (pos != image_.exifData().end()) {
-            length = pos->toLong();
+            size = pos->toLong();
         }
-        return length;
+        return size;
     }
 
-    long LoaderExifJpeg::getOffset() const
+    uint32_t LoaderExifJpeg::getOffset() const
     {
-        long offset = 0;
+        uint32_t offset = 0;
         ExifData::const_iterator pos = image_.exifData().findKey(offsetKey_);
         if (pos != image_.exifData().end()) {
             offset = pos->toLong();
@@ -393,7 +392,7 @@ namespace Exiv2 {
 
         const byte *base = io.mmap();
 
-        return DataBuf(base + offset_, length_);
+        return DataBuf(base + offset_, size_);
     }
 
     bool LoaderExifJpeg::readDimensions()
@@ -410,7 +409,7 @@ namespace Exiv2 {
 
         const byte *base = io.mmap();
 
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(base + offset_, length_);
+        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(base + offset_, size_);
         if (image.get() == 0) return false;
         image->readMetadata();
 
@@ -420,25 +419,24 @@ namespace Exiv2 {
         return true;
     }
 
-
     LoaderExifDataJpeg::LoaderExifDataJpeg(PreviewId id, const Image &image, int parIdx)
-            : Loader(id, image), 
-              dataKey_(param_[parIdx].dataKey_),
-              lengthKey_(param_[parIdx].lengthKey_)
+        : Loader(id, image), 
+          dataKey_(param_[parIdx].dataKey_),
+          sizeKey_(param_[parIdx].sizeKey_)
     {
         ExifData::const_iterator pos = image_.exifData().findKey(dataKey_);
         if (pos != image_.exifData().end()) {
-            length_ = pos->sizeDataArea();
+            size_ = pos->sizeDataArea();
         }
 
-        if (length_ == 0) return;
+        if (size_ == 0) return;
 
         valid_ = true;
     }
 
     Loader::AutoPtr createLoaderExifDataJpeg(PreviewId id, const Image &image, int parIdx)
     {
-            return Loader::AutoPtr(new LoaderExifDataJpeg(id, image, parIdx));
+        return Loader::AutoPtr(new LoaderExifDataJpeg(id, image, parIdx));
     }
 
     PreviewProperties LoaderExifDataJpeg::getProperties() const
@@ -492,8 +490,8 @@ namespace Exiv2 {
 
 
     LoaderTiff::LoaderTiff(PreviewId id, const Image &image, int parIdx)
-            : Loader(id, image),
-              group_(param_[parIdx].group_)
+        : Loader(id, image),
+          group_(param_[parIdx].group_)
     {
         const ExifData &exifData = image_.exifData();
 
@@ -528,11 +526,11 @@ namespace Exiv2 {
         if (pos != exifData.end()) {
             if (offsetCount != pos->value().count()) return;
             for (int i = 0; i < offsetCount; i++)
-                length_ += pos->value().toLong(i);
+                size_ += pos->value().toLong(i);
         }
         else return;
 
-        if (length_ == 0) return;
+        if (size_ == 0) return;
 
         pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + ".ImageWidth"));
         if (pos != exifData.end()) {
@@ -601,20 +599,20 @@ namespace Exiv2 {
             if (sizes.count() == 1) {
                 // this saves one copying of the buffer
                 uint32_t offset = dataValue.toLong(0);
-                uint32_t length = sizes.toLong(0);
-                if (offset + length <= static_cast<uint32_t>(io.size()))
-                    dataValue.setDataArea(base + offset, length);
+                uint32_t size = sizes.toLong(0);
+                if (offset + size <= static_cast<uint32_t>(io.size()))
+                    dataValue.setDataArea(base + offset, size);
             }
             else {
                 // FIXME: the buffer is probably copied twice, it should be optimized
-                DataBuf buf(length_);
+                DataBuf buf(size_);
                 byte *pos = buf.pData_;
                 for (int i = 0; i < sizes.count(); i++) {
                     uint32_t offset = dataValue.toLong(i);
-                    uint32_t length = sizes.toLong(i);
-                    if (offset + length <= static_cast<uint32_t>(io.size()))
-                        memcpy(pos, base + offset, length);
-                    pos += length;
+                    uint32_t size = sizes.toLong(i);
+                    if (offset + size <= static_cast<uint32_t>(io.size()))
+                        memcpy(pos, base + offset, size);
+                    pos += size;
                 }
                 dataValue.setDataArea(buf.pData_, buf.size_);
             }
@@ -628,9 +626,8 @@ namespace Exiv2 {
         return DataBuf(&blob[0], static_cast<long>(blob.size()));
     }
 
-
     PreviewImageLoader::PreviewImageLoader(const Image& image)
-            : image_(image)
+        : image_(image)
     {
     }
 
