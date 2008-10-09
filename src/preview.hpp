@@ -55,14 +55,14 @@ namespace Exiv2 {
         //! Preview image extension.
         const char* extension_;
 
-        //! Preview image length in bytes.
-        long length_;
+        //! Preview image size in bytes.
+        uint32_t size_;
 
         //! Preview image width in pixels or 0 for unknown width.
-        int width_;
+        uint32_t width_;
         
         //! Preview image height in pixels or 0 for unknown height.
-        int height_;
+        uint32_t height_;
         
         //! Preview image compression - true means uncompressed image.
         bool uncompressed_;
@@ -81,10 +81,10 @@ namespace Exiv2 {
     public:
         //@{
         //! Constructor.
-        PreviewImage(const PreviewProperties &properties, DataBuf &data);
+        PreviewImage(const PreviewProperties& properties, DataBuf& data);
 
         //! Copy constructor
-        PreviewImage(const PreviewImage &src);
+        PreviewImage(const PreviewImage& src);
         //@}
 
         //! @name Accessors
@@ -93,7 +93,7 @@ namespace Exiv2 {
         /*!
           @brief Return a reference to image data.
          */
-        DataBuf &data();
+        DataBuf& data();
 
         /*!
           @brief Write the thumbnail image to a file.
@@ -118,9 +118,9 @@ namespace Exiv2 {
         const char* extension() const;
 
         /*!
-          @brief Return the thumbnail length in bytes.
+          @brief Return the size of the preview image in bytes.
          */
-        long length() const;
+        uint32_t size() const;
         //@}
 
     private:
@@ -145,17 +145,17 @@ namespace Exiv2 {
         /*!
           @brief Return image data for given properties.
          */
-        PreviewImage getPreviewImage(const PreviewProperties &properties) const;
+        PreviewImage getPreviewImage(const PreviewProperties& properties) const;
 
         /*!
           @brief Read image dimensions if they are not available directly.
          */
-        bool readDimensions(PreviewProperties &properties) const;
+        bool readDimensions(PreviewProperties& properties) const;
         
         //@}
 
     private:
-	const Image &image_;
+	const Image& image_;
 
     }; // class PreviewImageLoader
 }                                       // namespace Exiv2
