@@ -214,7 +214,8 @@ namespace Exiv2 {
             : TiffComponent(tag, group),
               pHeader_(pHeader),
               ifd_(tag, mnGroup, hasNext),
-              mnOffset_(0) {}
+              mnOffset_(0),
+              byteOrder_(invalidByteOrder) {}
         //! Virtual destructor
         virtual ~TiffIfdMakernote();
         //@}
@@ -247,9 +248,14 @@ namespace Exiv2 {
          */
         uint32_t ifdOffset() const;
         /*!
-          @brief Return the byte order for the makernote. Default (if there is
-                 no header) is invalidByteOrder. This means that the byte order
-                 of the the image should be used for the makernote.
+          @brief Return the byte order for the makernote.
+
+          After the makernote has been read, this returns the actual byte order
+          of the makernote, either \c bigEndian or \c littleEndian.  Before
+          that, it returns the byte order set in the header
+          (\c invalidByteOrder if there is no header). In this case, the return
+          value \c invalidByteOrder means that the byte order of the the image
+          should be used for the makernote.
          */
         ByteOrder byteOrder() const;
         /*!
@@ -328,6 +334,7 @@ namespace Exiv2 {
         MnHeader*     pHeader_;                 //!< Makernote header
         TiffDirectory ifd_;                     //!< Makernote IFD
         uint32_t      mnOffset_;                //!< Makernote offset
+        ByteOrder     byteOrder_;               //!< Byte order of the makernote
 
     }; // class TiffIfdMakernote
 

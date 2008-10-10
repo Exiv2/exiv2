@@ -129,8 +129,9 @@ namespace Exiv2 {
         return pHeader_->ifdOffset();
     }
 
-    ByteOrder TiffIfdMakernote::byteOrder () const
+    ByteOrder TiffIfdMakernote::byteOrder() const
     {
+        if (byteOrder_ != invalidByteOrder) return byteOrder_;
         if (!pHeader_) return invalidByteOrder;
         return pHeader_->byteOrder();
     }
