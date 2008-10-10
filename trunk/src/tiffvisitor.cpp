@@ -209,7 +209,20 @@ namespace Exiv2 {
 
     void TiffDecoder::visitIfdMakernote(TiffIfdMakernote* object)
     {
+        assert(object != 0);
+
         exifData_["Exif.MakerNote.Offset"] = object->mnOffset();
+        switch (object->byteOrder()) {
+        case littleEndian:
+            exifData_["Exif.MakerNote.ByteOrder"] = "II";
+            break;
+        case bigEndian:
+            exifData_["Exif.MakerNote.ByteOrder"] = "MM";
+            break;
+        case invalidByteOrder:
+            assert(object->byteOrder() != invalidByteOrder);
+            break;
+        }
     }
 
     void TiffDecoder::getObjData(byte const*& pData,
@@ -549,9 +562,14 @@ namespace Exiv2 {
         assert(object != 0);
         if (del_) {
             // Remove synthesized tags
-            ExifKey key("Exif.MakerNote.Offset");
-            ExifData::iterator pos = exifData_.findKey(key);
-            if (pos != exifData_.end()) exifData_.erase(pos);
+            static const char* synthesizedTags[] = {
+                "Exif.MakerNote.Offset",
+                "Exif.MakerNote.ByteOrder",
+            };
+            for (unsigned int i = 0; i < EXV_COUNTOF(synthesizedTags); ++i) {
+                ExifData::iterator pos = exifData_.findKey(ExifKey(synthesizedTags[i]));
+                if (pos != exifData_.end()) exifData_.erase(pos);
+            }
         }
         // Modify encoder for Makernote peculiarities, byte order
         if (object->byteOrder() != invalidByteOrder) {
@@ -1251,13 +1269,15 @@ namespace Exiv2 {
         }
 
         object->ifd_.setStart(object->start() + object->ifdOffset());
-        object->mnOffset_ = static_cast<uint32_t>(object->start() - pData_);
 
         // Modify reader for Makernote peculiarities, byte order and offset
+        object->mnOffset_ = static_cast<uint32_t>(object->start() - pData_);
         TiffRwState::AutoPtr state(
             new TiffRwState(object->byteOrder(), object->baseOffset())
         );
         changeState(state);
+
+        object->byteOrder_ = byteOrder(); // set the actual byte order of the makernote
 
     } // TiffReader::visitIfdMakernote
 

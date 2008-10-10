@@ -1597,11 +1597,14 @@ namespace Exiv2 {
         return iopTagInfo;
     }
 
-    // Exiv2 Makernote info Tags
+    // Synthesized Exiv2 Makernote info Tags (read-only)
     static const TagInfo mnTagInfo[] = {
         TagInfo(0x0001, "Offset", N_("Offset"),
                 N_("Offset of the makernote from the start of the TIFF header."),
                 mnIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x0002, "ByteOrder", N_("Byte Order"),
+                N_("Byte order used to encode MakerNote tags, 'MM' (big-endian) or 'II' (little-endian)."),
+                mnIfdId, makerTags, asciiString, printValue),
         // End of list marker
         TagInfo(0xffff, "(UnknownMnTag)", N_("Unknown Exiv2 Makernote info tag"),
                 N_("Unknown Exiv2 Makernote info tag"),
