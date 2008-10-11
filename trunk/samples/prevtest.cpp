@@ -27,7 +27,6 @@ try {
 
     for (Exiv2::PreviewPropertiesList::iterator pos = list.begin(); pos != list.end(); pos++)
     {
-        loader.readDimensions(*pos);
         std::cout << "found preview " << pos->id_ 
                   << ", size: " << pos->size_ 
                   << ", " << pos->width_ << 'x' << pos->height_

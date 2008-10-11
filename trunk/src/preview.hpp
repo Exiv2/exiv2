@@ -64,9 +64,6 @@ namespace Exiv2 {
         //! Preview image height in pixels or 0 for unknown height.
         uint32_t height_;
         
-        //! Preview image compression - true means uncompressed image.
-        bool uncompressed_;
-
         //! Identifies type of preview image.
         PreviewId id_;
     };
@@ -147,11 +144,6 @@ namespace Exiv2 {
          */
         PreviewImage getPreviewImage(const PreviewProperties& properties) const;
 
-        /*!
-          @brief Read image dimensions if they are not available directly.
-         */
-        bool readDimensions(PreviewProperties& properties) const;
-        
         //@}
 
     private:

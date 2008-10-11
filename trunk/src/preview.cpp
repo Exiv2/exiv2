@@ -57,14 +57,8 @@ namespace {
         const Exiv2::PreviewProperties& rhs
     )
     {
-        static const uint16_t compressionFactor = 10;
-
         uint32_t l = lhs.width_ * lhs.height_;
         uint32_t r = rhs.width_ * rhs.height_;
-        if (l == 0 || r == 0) {
-            l = lhs.uncompressed_ ? lhs.size_ : lhs.size_ * compressionFactor;
-            r = rhs.uncompressed_ ? rhs.size_ : rhs.size_ * compressionFactor;
-        }
 
         return l < r;
     }
@@ -80,9 +74,11 @@ namespace Exiv2 {
      */
     class Loader {
     protected:
+        //! Constructor. Sets all image properies to unknown.
         Loader(PreviewId id, const Image &image);
 
     public:
+        //! Loader auto pointer
         typedef std::auto_ptr<Loader> AutoPtr;
 
         //! Create a Loader subclass for requested id
@@ -94,7 +90,7 @@ namespace Exiv2 {
         //! Get properties of a preview image with given params
         virtual PreviewProperties getProperties() const;
 
-        //! Get properties of a preview image with given params
+        //! Get a buffer that contains the preview image
         virtual DataBuf getData() const = 0;
 
         //! Read preview image dimensions when they are not available directly
@@ -104,23 +100,35 @@ namespace Exiv2 {
         static PreviewId getNumLoaders();
         
     protected:
+        //! Functions that creates a loader from given parameters
         typedef AutoPtr (*CreateFunc)(PreviewId id, const Image &image, int parIdx);
 
+        //! Structure to list possible loaders
         struct LoaderList {
             const char *imageMimeType_; //!< Image type for which is the loader valid, NULL matches all images
             CreateFunc create_;         //!< Function that creates particular loader instance
             int parIdx_;                //!< Parameter that is passed into CreateFunc
         };
 
-        static const LoaderList loaderList_[]; // PreviewId is an index to this table
+        //! Table that lists possible loaders.  PreviewId is an index to this table.
+        static const LoaderList loaderList_[];
 
+        //! Identifies preview image type
         PreviewId id_;
+        
+        //! Source image reference
         const Image &image_;
 
+        //! Preview image width
         uint32_t width_;
+
+        //! Preview image length
         uint32_t height_;
-        bool uncompressed_;
+        
+        //! Preview image size in bytes
         uint32_t size_;
+        
+        //! True if the source image contains a preview image of given type
         bool valid_;
     };
 
@@ -128,84 +136,119 @@ namespace Exiv2 {
     //! Loader for Jpeg previews that are not read into ExifData directly
     class LoaderExifJpeg : public Loader {
     public:
+    
+        //! Constructor
         LoaderExifJpeg(PreviewId id, const Image &image, int parIdx);
 
+        //! Get properties of a preview image with given params
         virtual PreviewProperties getProperties() const;
+
+        //! Get a buffer that contains the preview image
         virtual DataBuf getData() const;
+
+        //! Read preview image dimensions
         virtual bool readDimensions();
 
-        uint32_t getOffset() const;
-        uint32_t getSize() const;
-
     protected:
+
+        //! Returns value of offset key
+        uint32_t getOffset() const;
+
+        //! Returns value of size key
+        uint32_t getSize() const;
     
-        // this table lists possible offset/size key pairs
-        // parIdx is an index to this table
-        
+        //! Structure that lists offset/size tag pairs
         struct Param {
-            const char* offsetKey_;  
-            const char* sizeKey_;
+            const char* offsetKey_; //!< Offset tag
+            const char* sizeKey_; //!< Size tag
         };
+
+        //! Table that holds all possible offset/size pairs. parIdx is an index to this table
         static const Param param_[];
-        
+
+        //! Key that contains the offset of the JPEG preview in image file
         ExifKey offsetKey_;
+
+        //! Key that contains the JPEG preview size
         ExifKey sizeKey_;
-        
+
+        //! Offset value
         uint32_t offset_;
     };
 
+    //! Function to create new LoaderExifJpeg
     Loader::AutoPtr createLoaderExifJpeg(PreviewId id, const Image &image, int parIdx);
 
     //! Loader for Jpeg previews that are read into ExifData
     class LoaderExifDataJpeg : public Loader {
     public:
+        //! Constructor
         LoaderExifDataJpeg(PreviewId id, const Image &image, int parIdx);
 
+        //! Get properties of a preview image with given params
         virtual PreviewProperties getProperties() const;
+
+        //! Get a buffer that contains the preview image
         virtual DataBuf getData() const;
+
+        //! Read preview image dimensions
         virtual bool readDimensions();
 
     protected:
-    
-        // this table lists possible offset/size key pairs
-        // parIdx is an index to this table
-        
+
+        //! Structure that lists data/size tag pairs
         struct Param {
-            const char* dataKey_;  
-            const char* sizeKey_;
+            const char* dataKey_; //!< Data tag
+            const char* sizeKey_; //!< Size tag
         };
+
+        //! Table that holds all possible data/size pairs. parIdx is an index to this table
         static const Param param_[];
         
+        //! Key that points to the Value that contains the JPEG preview in data area
         ExifKey dataKey_;
+
+        //! Key that contains the JPEG preview size
         ExifKey sizeKey_;
     };
 
+    //! Function to create new LoaderExifDataJpeg
     Loader::AutoPtr createLoaderExifDataJpeg(PreviewId id, const Image &image, int parIdx);
 
 
     //! Loader for Tiff previews - it can get image data from ExifData or image_.io() as needed
     class LoaderTiff : public Loader {
     public:
+        //! Constructor
         LoaderTiff(PreviewId id, const Image &image, int parIdx);
 
+        //! Get properties of a preview image with given params
         virtual PreviewProperties getProperties() const;
+
+        //! Get a buffer that contains the preview image
         virtual DataBuf getData() const;
 
     protected:
+        //! Name of the group that contains the preview image
         const char *group_;
+        
+        //! Tag that contains image data. Possible values are "StripOffsets" or "TileOffsets"
         std::string offsetTag_;
+
+        //! Tag that contains data sizes. Possible values are "StripByteCountss" or "TileByteCounts"
         std::string sizeTag_;
 
-        // this table lists possible groups
-        // parIdx is an index to this table
-        
+        //! Structure that lists preview groups
         struct Param {
-            const char* group_;  
+            const char* group_; //!< Group name
         };
+
+        //! Table that holds all possible groups. parIdx is an index to this table.
         static const Param param_[];
 
     };
 
+    //! Function to create new LoaderTiff
     Loader::AutoPtr createLoaderTiff(PreviewId id, const Image &image, int parIdx);
 
 // *****************************************************************************
@@ -311,7 +354,6 @@ namespace Exiv2 {
     Loader::Loader(PreviewId id, const Image &image)
         : id_(id), image_(image),
           width_(0), height_(0),
-          uncompressed_(false),
           size_(0),
           valid_(false)
     {
@@ -324,7 +366,6 @@ namespace Exiv2 {
         prop.size_ = size_;
         prop.width_ = width_;
         prop.height_ = height_;
-        prop.uncompressed_ = uncompressed_;
         return prop;
     }
 
@@ -399,22 +440,26 @@ namespace Exiv2 {
     {
         if (!valid()) return false;
         if (width_ || height_) return true;
-        
+
         BasicIo &io = image_.io();
 
         if (io.open() != 0) {
             throw Error(9, io.path(), strError());
         }
         IoCloser closer(io);
-
         const byte *base = io.mmap();
 
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(base + offset_, size_);
-        if (image.get() == 0) return false;
-        image->readMetadata();
+        try {
+            Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(base + offset_, size_);
+            if (image.get() == 0) return false;
+            image->readMetadata();
 
-        width_ = image->pixelWidth();
-        height_ = image->pixelHeight();
+            width_ = image->pixelWidth();
+            height_ = image->pixelHeight();
+        }
+        catch (const Exiv2::AnyError& error) {
+            return false;
+        }
 
         return true;
     }
@@ -544,11 +589,6 @@ namespace Exiv2 {
         
         if (width_ == 0 || height_ == 0) return;
 
-        pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + ".Compression"));
-        if (pos != exifData.end()) {
-            uncompressed_ = (pos->value().toLong() == 1);
-        }
-        
         valid_ = true;
     }
 
@@ -637,7 +677,7 @@ namespace Exiv2 {
         // go through the loader table and store all successfuly created loaders in the list
         for (PreviewId id = 0; id < Loader::getNumLoaders(); id++) {
             Loader::AutoPtr loader = Loader::create(id, image_);
-            if (loader.get()) {
+            if (loader.get() && loader->readDimensions()) {
                 list.push_back(loader->getProperties());
             }
         }
@@ -654,19 +694,4 @@ namespace Exiv2 {
         }
         return PreviewImage(properties, buf);
     }
-
-    bool PreviewImageLoader::readDimensions(PreviewProperties &properties) const
-    {
-        if (properties.width_ || properties.height_) return true;
-        
-        Loader::AutoPtr loader = Loader::create(properties.id_, image_);
-        if (!loader.get()) return false;
-        
-        if (loader->readDimensions()) {
-            properties = loader->getProperties();
-            return true;
-        }
-        return false;
-    }
-
 }                                       // namespace Exiv2
