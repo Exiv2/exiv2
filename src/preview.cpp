@@ -450,14 +450,14 @@ namespace Exiv2 {
         const byte *base = io.mmap();
 
         try {
-            Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(base + offset_, size_);
+            Image::AutoPtr image = ImageFactory::open(base + offset_, size_);
             if (image.get() == 0) return false;
             image->readMetadata();
 
             width_ = image->pixelWidth();
             height_ = image->pixelHeight();
         }
-        catch (const Exiv2::AnyError& error) {
+        catch (const AnyError& error) {
             return false;
         }
 
@@ -519,20 +519,19 @@ namespace Exiv2 {
         buf.pData_[0] = 0xff; // fix Minolta thumbnails with invalid jpeg header
 
         try {
-            Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(buf.pData_, buf.size_);
+            Image::AutoPtr image = ImageFactory::open(buf.pData_, buf.size_);
             if (image.get() == 0) return false;
             image->readMetadata();
 
             width_ = image->pixelWidth();
             height_ = image->pixelHeight();
         }
-        catch (const Exiv2::AnyError& error) {
+        catch (const AnyError& error) {
             return false;
         }
 
         return true;
     }
-
 
     LoaderTiff::LoaderTiff(PreviewId id, const Image &image, int parIdx)
         : Loader(id, image),
