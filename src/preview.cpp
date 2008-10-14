@@ -105,7 +105,7 @@ namespace Exiv2 {
 
         //! Structure to list possible loaders
         struct LoaderList {
-            const char *imageMimeType_; //!< Image type for which is the loader valid, NULL matches all images
+            const char *imageMimeType_; //!< Image type for which the loader is valid, 0 matches all images
             CreateFunc create_;         //!< Function that creates particular loader instance
             int parIdx_;                //!< Parameter that is passed into CreateFunc
         };
@@ -150,27 +150,15 @@ namespace Exiv2 {
         virtual bool readDimensions();
 
     protected:
-
-        //! Returns value of offset key
-        uint32_t getOffset() const;
-
-        //! Returns value of size key
-        uint32_t getSize() const;
-    
         //! Structure that lists offset/size tag pairs
         struct Param {
-            const char* offsetKey_; //!< Offset tag
-            const char* sizeKey_; //!< Size tag
+            const char* offsetKey_;         //!< Offset tag
+            const char* sizeKey_;           //!< Size tag
+            const char* baseOffsetKey_;     //!< Tag that holds base offset or 0
         };
 
         //! Table that holds all possible offset/size pairs. parIdx is an index to this table
         static const Param param_[];
-
-        //! Key that contains the offset of the JPEG preview in image file
-        ExifKey offsetKey_;
-
-        //! Key that contains the JPEG preview size
-        ExifKey sizeKey_;
 
         //! Offset value
         uint32_t offset_;
@@ -207,9 +195,6 @@ namespace Exiv2 {
         
         //! Key that points to the Value that contains the JPEG preview in data area
         ExifKey dataKey_;
-
-        //! Key that contains the JPEG preview size
-        ExifKey sizeKey_;
     };
 
     //! Function to create new LoaderExifDataJpeg
@@ -241,6 +226,8 @@ namespace Exiv2 {
         //! Structure that lists preview groups
         struct Param {
             const char* group_; //!< Group name
+            const char* checkTag_; //!< Tag to check or NULL
+            const char* checkValue_; //!< The preview image is valid only if the checkTag_ has this value
         };
 
         //! Table that holds all possible groups. parIdx is an index to this table.
@@ -255,49 +242,55 @@ namespace Exiv2 {
 // class member definitions
 
     const Loader::LoaderList Loader::loaderList_[] = {
-        { NULL,                 createLoaderExifDataJpeg, 0},
-        { NULL,                 createLoaderExifDataJpeg, 1},
-        { NULL,                 createLoaderExifDataJpeg, 2},
-        { NULL,                 createLoaderExifDataJpeg, 3},
-        { NULL,                 createLoaderTiff, 0},
-        { NULL,                 createLoaderTiff, 1},
-        { NULL,                 createLoaderTiff, 2},
-        { NULL,                 createLoaderTiff, 3},
-        { NULL,                 createLoaderTiff, 4},
-        { NULL,                 createLoaderTiff, 5},
-        { NULL,                 createLoaderExifJpeg, 0},
-        { NULL,                 createLoaderExifJpeg, 1},
-        { NULL,                 createLoaderExifJpeg, 2},
-        { NULL,                 createLoaderExifJpeg, 3},
-        { NULL,                 createLoaderExifJpeg, 4},
-        { NULL,                 createLoaderExifJpeg, 5},
-        { "image/x-canon-cr2",  createLoaderExifJpeg, 6}
+        { 0,                   createLoaderExifDataJpeg, 0 },
+        { 0,                   createLoaderExifDataJpeg, 1 },
+        { 0,                   createLoaderExifDataJpeg, 2 },
+        { 0,                   createLoaderExifDataJpeg, 3 },
+        { 0,                   createLoaderExifDataJpeg, 4 },
+        { 0,                   createLoaderExifDataJpeg, 5 },
+        { 0,                   createLoaderTiff,         0 },
+        { 0,                   createLoaderTiff,         1 },
+        { 0,                   createLoaderTiff,         2 },
+        { 0,                   createLoaderTiff,         3 },
+        { 0,                   createLoaderTiff,         4 },
+        { 0,                   createLoaderTiff,         5 },
+        { 0,                   createLoaderExifJpeg,     0 },
+        { 0,                   createLoaderExifJpeg,     1 },
+        { 0,                   createLoaderExifJpeg,     2 },
+        { 0,                   createLoaderExifJpeg,     3 },
+        { 0,                   createLoaderExifJpeg,     4 },
+        { 0,                   createLoaderExifJpeg,     5 },
+        { "image/x-canon-cr2", createLoaderExifJpeg,     6 },
+        { 0,                   createLoaderExifJpeg,     7 }
     };
 
     const LoaderExifJpeg::Param LoaderExifJpeg::param_[] = {
-        { "Exif.Image.JPEGInterchangeFormat",           "Exif.Image.JPEGInterchangeFormatLength"        }, // 0
-        { "Exif.SubImage1.JPEGInterchangeFormat",       "Exif.SubImage1.JPEGInterchangeFormatLength"    }, // 1
-        { "Exif.SubImage2.JPEGInterchangeFormat",       "Exif.SubImage2.JPEGInterchangeFormatLength"    }, // 2
-        { "Exif.SubImage3.JPEGInterchangeFormat",       "Exif.SubImage3.JPEGInterchangeFormatLength"    }, // 3
-        { "Exif.SubImage4.JPEGInterchangeFormat",       "Exif.SubImage4.JPEGInterchangeFormatLength"    }, // 4
-        { "Exif.Image2.JPEGInterchangeFormat",          "Exif.Image2.JPEGInterchangeFormatLength"       }, // 5
-        { "Exif.Image.StripOffsets",                    "Exif.Image.StripByteCounts"                    }  // 6
+        { "Exif.Image.JPEGInterchangeFormat",     "Exif.Image.JPEGInterchangeFormatLength",     0 }, // 0
+        { "Exif.SubImage1.JPEGInterchangeFormat", "Exif.SubImage1.JPEGInterchangeFormatLength", 0 }, // 1
+        { "Exif.SubImage2.JPEGInterchangeFormat", "Exif.SubImage2.JPEGInterchangeFormatLength", 0 }, // 2
+        { "Exif.SubImage3.JPEGInterchangeFormat", "Exif.SubImage3.JPEGInterchangeFormatLength", 0 }, // 3
+        { "Exif.SubImage4.JPEGInterchangeFormat", "Exif.SubImage4.JPEGInterchangeFormatLength", 0 }, // 4
+        { "Exif.Image2.JPEGInterchangeFormat",    "Exif.Image2.JPEGInterchangeFormatLength",    0 }, // 5
+        { "Exif.Image.StripOffsets",              "Exif.Image.StripByteCounts",                 0 }, // 6
+        { "Exif.OlympusCs.PreviewImageStart",     "Exif.OlympusCs.PreviewImageLength",            "Exif.MakerNote.Offset"}  // 7
     };
 
     const LoaderExifDataJpeg::Param LoaderExifDataJpeg::param_[] = {
-        { "Exif.Thumbnail.JPEGInterchangeFormat",       "Exif.Thumbnail.JPEGInterchangeFormatLength"    }, // 0
-        { "Exif.NikonPreview.JPEGInterchangeFormat",    "Exif.NikonPreview.JPEGInterchangeFormatLength" }, // 1
-        { "Exif.Pentax.PreviewOffset",                  "Exif.Pentax.PreviewLength"                     }, // 2
-        { "Exif.Minolta.ThumbnailOffset",               "Exif.Minolta.ThumbnailLength"                  }  // 3
+        { "Exif.Thumbnail.JPEGInterchangeFormat",    "Exif.Thumbnail.JPEGInterchangeFormatLength"    }, // 0
+        { "Exif.NikonPreview.JPEGInterchangeFormat", "Exif.NikonPreview.JPEGInterchangeFormatLength" }, // 1
+        { "Exif.Pentax.PreviewOffset",               "Exif.Pentax.PreviewLength"                     }, // 2
+        { "Exif.Minolta.ThumbnailOffset",            "Exif.Minolta.ThumbnailLength"                  }, // 3
+        { "Exif.Olympus.ThumbnailImage",             0                                               }, // 4
+        { "Exif.Olympus2.ThumbnailImage",            0                                               }  // 5
     };
 
     const LoaderTiff::Param LoaderTiff::param_[] = {
-        { "Image" },     // 0
-        { "SubImage1" }, // 1
-        { "SubImage2" }, // 2
-        { "SubImage3" }, // 3
-        { "SubImage4" }, // 4
-        { "Thumbnail" }  // 5
+        { "Image",     "Exif.Image.NewSubfileType",     "1" },  // 0
+        { "SubImage1", "Exif.SubImage1.NewSubfileType", "1" },  // 1
+        { "SubImage2", "Exif.SubImage2.NewSubfileType", "1" },  // 2
+        { "SubImage3", "Exif.SubImage3.NewSubfileType", "1" },  // 3
+        { "SubImage4", "Exif.SubImage4.NewSubfileType", "1" },  // 4
+        { "Thumbnail", 0,                               0   }   // 5
     };
 
     PreviewImage::PreviewImage(const PreviewProperties &properties, DataBuf &data)
@@ -375,14 +368,29 @@ namespace Exiv2 {
     }
 
     LoaderExifJpeg::LoaderExifJpeg(PreviewId id, const Image &image, int parIdx)
-        : Loader(id, image), 
-          offsetKey_(param_[parIdx].offsetKey_),
-          sizeKey_(param_[parIdx].sizeKey_)
+        : Loader(id, image)
     {
-        offset_ = getOffset();
-        size_ = getSize();
+        offset_ = 0;
+        ExifData::const_iterator pos = image_.exifData().findKey(ExifKey(param_[parIdx].offsetKey_));
+        if (pos != image_.exifData().end()) {
+            offset_ = pos->toLong();
+        }
+
+        size_ = 0;
+        pos = image_.exifData().findKey(ExifKey(param_[parIdx].sizeKey_));
+        if (pos != image_.exifData().end()) {
+            size_ = pos->toLong();
+        }
 
         if (offset_ == 0 || size_ == 0) return;
+        
+        if (param_[parIdx].baseOffsetKey_) {
+            pos = image_.exifData().findKey(ExifKey(param_[parIdx].baseOffsetKey_));
+            if (pos != image_.exifData().end()) {
+                offset_ += pos->toLong();
+            }
+        }
+
         if (offset_ + size_ > static_cast<uint32_t>(image_.io().size())) return;
         
         valid_ = true;
@@ -391,26 +399,6 @@ namespace Exiv2 {
     Loader::AutoPtr createLoaderExifJpeg(PreviewId id, const Image &image, int parIdx)
     {
         return Loader::AutoPtr(new LoaderExifJpeg(id, image, parIdx));
-    }
-
-    uint32_t LoaderExifJpeg::getSize() const
-    {
-        uint32_t size = 0;
-        ExifData::const_iterator pos = image_.exifData().findKey(sizeKey_);
-        if (pos != image_.exifData().end()) {
-            size = pos->toLong();
-        }
-        return size;
-    }
-
-    uint32_t LoaderExifJpeg::getOffset() const
-    {
-        uint32_t offset = 0;
-        ExifData::const_iterator pos = image_.exifData().findKey(offsetKey_);
-        if (pos != image_.exifData().end()) {
-            offset = pos->toLong();
-        }
-        return offset;
     }
 
     PreviewProperties LoaderExifJpeg::getProperties() const
@@ -466,12 +454,13 @@ namespace Exiv2 {
 
     LoaderExifDataJpeg::LoaderExifDataJpeg(PreviewId id, const Image &image, int parIdx)
         : Loader(id, image), 
-          dataKey_(param_[parIdx].dataKey_),
-          sizeKey_(param_[parIdx].sizeKey_)
+          dataKey_(param_[parIdx].dataKey_)
     {
         ExifData::const_iterator pos = image_.exifData().findKey(dataKey_);
         if (pos != image_.exifData().end()) {
-            size_ = pos->sizeDataArea();
+            size_ = pos->sizeDataArea(); // indirect data
+            if (size_ == 0 && pos->typeId() == undefined)
+                size_ = pos->size(); // direct data
         }
 
         if (size_ == 0) return;
@@ -498,7 +487,12 @@ namespace Exiv2 {
 
         ExifData::const_iterator pos = image_.exifData().findKey(dataKey_);
         if (pos != image_.exifData().end()) {
-            DataBuf buf = pos->dataArea();
+            DataBuf buf = pos->dataArea(); // indirect data
+            
+            if (buf.size_ == 0) { // direct data
+                buf = DataBuf(pos->size());
+                pos->copy(buf.pData_, littleEndian /*does not matter*/);
+            }
 
             buf.pData_[0] = 0xff; // fix Minolta thumbnails with invalid jpeg header
             return buf;
@@ -511,13 +505,9 @@ namespace Exiv2 {
     {
         if (!valid()) return false;
 
-        ExifData::const_iterator pos = image_.exifData().findKey(dataKey_);
-        if (pos == image_.exifData().end()) return false;
-
-        DataBuf buf = pos->dataArea();
-
-        buf.pData_[0] = 0xff; // fix Minolta thumbnails with invalid jpeg header
-
+        DataBuf buf = getData();
+        if (buf.size_ == 0) return false;
+        
         try {
             Image::AutoPtr image = ImageFactory::open(buf.pData_, buf.size_);
             if (image.get() == 0) return false;
@@ -540,12 +530,13 @@ namespace Exiv2 {
         const ExifData &exifData = image_.exifData();
 
         int offsetCount = 0;
-
+        ExifData::const_iterator pos;
+        
         // check if the group_ contains a preview image
-
-        ExifData::const_iterator pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + ".NewSubfileType"));
-        if (pos == exifData.end() || pos->value().toLong() != 1) {
-            return;
+        if (param_[parIdx].checkTag_) {
+            pos = exifData.findKey(ExifKey(param_[parIdx].checkTag_));
+            if (pos == exifData.end()) return;
+            if (param_[parIdx].checkValue_ && pos->toString() != param_[parIdx].checkValue_) return;
         }
 
         pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + ".StripOffsets"));
@@ -613,8 +604,32 @@ namespace Exiv2 {
         // copy tags
         for (ExifData::const_iterator pos = exifData.begin(); pos != exifData.end(); ++pos) {
             if (pos->groupName() == group_) {
-                if (pos->tagName() == "NewSubfileType")
-                    continue;
+
+                /* 
+                   write only the neccessary tags
+                   tags that especially could cause problems are:
+                   "NewSubfileType" - the result is no longer a thumbnail, it is a standalone image
+                   "Orientation" - this tag typically appears only in the "Image" group. Deleting it ensures 
+                                   consistent result for all previews, including JPEG
+                */
+                std::string name = pos->tagName();
+                if (name != "ImageWidth" &&
+                    name != "ImageLength" &&
+                    name != "BitsPerSample" &&
+                    name != "Compression" &&
+                    name != "PhotometricInterpretation" &&
+                    name != "StripOffsets" &&
+                    name != "SamplesPerPixel" &&
+                    name != "RowsPerStrip" &&
+                    name != "StripByteCounts" &&
+                    name != "XResolution" &&
+                    name != "YResolution" &&
+                    name != "ResolutionUnit" &&
+                    name != "ColorMap" &&
+                    name != "TileWidth" &&
+                    name != "TileLength" &&
+                    name != "TileOffsets" &&
+                    name != "TileByteCounts") continue;
 
                 preview.add(ExifKey("Exif.Image." + pos->tagName()), &pos->value());
             }
