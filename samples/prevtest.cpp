@@ -11,32 +11,32 @@
 
 int main(int argc, char* const argv[])
 try {
-
     if (argc != 2) {
         std::cout << "Usage: " << argv[0] << " file\n";
         return 1;
     }
+    std::string filename(argv[1]);
 
-    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(argv[1]);
+    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(filename);
     assert(image.get() != 0);
     image->readMetadata();
 
-    Exiv2::PreviewImageLoader loader(*image);
-    
-    Exiv2::PreviewPropertiesList list = loader.getPreviewPropertiesList();
-
-    for (Exiv2::PreviewPropertiesList::iterator pos = list.begin(); pos != list.end(); pos++)
-    {
-        std::cout << "found preview " << pos->id_ 
+    Exiv2::PreviewManager loader(*image);
+    Exiv2::PreviewPropertiesList list = loader.getPreviewProperties();
+    for (Exiv2::PreviewPropertiesList::iterator pos = list.begin(); pos != list.end(); pos++) {
+        std::cout << "Preview " << pos->id_ 
                   << ", size: " << pos->size_ 
                   << ", " << pos->width_ << 'x' << pos->height_
                   << "\n";
 
-        Exiv2::PreviewImage image = loader.getPreviewImage(*pos);
-        char buf[50];
-        sprintf(buf, "%dx%d",pos->width_, pos->height_);
-        image.writeFile(std::string(argv[1]) + "_" + buf);
+        Exiv2::PreviewImage preview = loader.getPreviewImage(*pos);
+        preview.writeFile(filename + "_"
+                          + Exiv2::toString(pos->width_) + "x"
+                          + Exiv2::toString(pos->height_));
     }
+
+    // Cleanup
+    Exiv2::XmpParser::terminate();
     
     return 0;
 }
