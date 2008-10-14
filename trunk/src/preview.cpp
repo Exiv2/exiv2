@@ -293,33 +293,58 @@ namespace Exiv2 {
         { "Thumbnail", 0,                               0   }   // 5
     };
 
-    PreviewImage::PreviewImage(const PreviewProperties &properties, DataBuf &data)
-        : properties_(properties), data_(data)
+    PreviewImage::PreviewImage(const PreviewProperties& properties, DataBuf data)
+        : properties_(properties)
     {
+        pData_ = data.pData_;
+        size_ = data.size_;
+        data.release();
     }
 
-    PreviewImage::PreviewImage(const PreviewImage &src)
-        : properties_(src.properties_), data_(const_cast<DataBuf&>(src.data_))
+    PreviewImage::~PreviewImage()
     {
+        delete[] pData_;
+    }
+
+    PreviewImage::PreviewImage(const PreviewImage& rhs)
+    {
+        properties_ = rhs.properties_;
+        pData_ = new byte[rhs.size_];
+        memcpy(pData_, rhs.pData_, rhs.size_);
+        size_ = rhs.size_;
+    }
+
+    PreviewImage& PreviewImage::operator=(const PreviewImage& rhs)
+    {
+        if (this == &rhs) return *this;
+        if (rhs.size_ > size_) {
+            delete[] pData_;
+            pData_ = new byte[rhs.size_];
+        }
+        properties_ = rhs.properties_;
+        memcpy(pData_, rhs.pData_, rhs.size_);
+        size_ = rhs.size_;
+        return *this;
     }
 
     long PreviewImage::writeFile(const std::string& path) const
     {
         std::string name = path + extension();
-        return Exiv2::writeFile(data_, name);
+        // Todo: Creating a DataBuf here unnecessarily copies the memory
+        return Exiv2::writeFile(DataBuf(pData_, size_), name);
     }
 
-    DataBuf &PreviewImage::data()
+    DataBuf PreviewImage::copy() const
     {
-        return data_;
+        return DataBuf(pData_, size_);
     }
 
-    const char* PreviewImage::mimeType() const
+    std::string PreviewImage::mimeType() const
     {
         return properties_.mimeType_;
     }
 
-    const char* PreviewImage::extension() const
+    std::string PreviewImage::extension() const
     {
         return properties_.extension_;
     }
@@ -491,7 +516,7 @@ namespace Exiv2 {
             
             if (buf.size_ == 0) { // direct data
                 buf = DataBuf(pos->size());
-                pos->copy(buf.pData_, littleEndian /*does not matter*/);
+                pos->copy(buf.pData_, invalidByteOrder);
             }
 
             buf.pData_[0] = 0xff; // fix Minolta thumbnails with invalid jpeg header
@@ -547,23 +572,18 @@ namespace Exiv2 {
         } 
         else {
             pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + ".TileOffsets"));
-            if (pos != exifData.end()) {
-                offsetTag_ = "TileOffsets";
-                sizeTag_ = "TileByteCounts";
-                offsetCount = pos->value().count();
-            }
-            else {
-                return;
-            }
+            if (pos == exifData.end()) return;
+            offsetTag_ = "TileOffsets";
+            sizeTag_ = "TileByteCounts";
+            offsetCount = pos->value().count();
         }
 
         pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + '.' + sizeTag_));
-        if (pos != exifData.end()) {
-            if (offsetCount != pos->value().count()) return;
-            for (int i = 0; i < offsetCount; i++)
-                size_ += pos->value().toLong(i);
+        if (pos == exifData.end()) return;
+        if (offsetCount != pos->value().count()) return;
+        for (int i = 0; i < offsetCount; i++) {
+            size_ += pos->value().toLong(i);
         }
-        else return;
 
         if (size_ == 0) return;
 
@@ -680,12 +700,12 @@ namespace Exiv2 {
         return DataBuf(&blob[0], static_cast<long>(blob.size()));
     }
 
-    PreviewImageLoader::PreviewImageLoader(const Image& image)
+    PreviewManager::PreviewManager(const Image& image)
         : image_(image)
     {
     }
 
-    PreviewPropertiesList PreviewImageLoader::getPreviewPropertiesList() const
+    PreviewPropertiesList PreviewManager::getPreviewProperties() const
     {
         PreviewPropertiesList list;
         // go through the loader table and store all successfuly created loaders in the list
@@ -699,13 +719,14 @@ namespace Exiv2 {
         return list;
     }
 
-    PreviewImage PreviewImageLoader::getPreviewImage(const PreviewProperties &properties) const
+    PreviewImage PreviewManager::getPreviewImage(const PreviewProperties &properties) const
     {
         Loader::AutoPtr loader = Loader::create(properties.id_, image_);
         DataBuf buf;
         if (loader.get()) {
             buf = loader->getData();
         }
+        
         return PreviewImage(properties, buf);
     }
 }                                       // namespace Exiv2

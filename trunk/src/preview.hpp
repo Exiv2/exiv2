@@ -20,7 +20,7 @@
  */
 /*!
   @file    preview.hpp
-  @brief   Classes to access preview images embedded in an image.
+  @brief   Classes to access all preview images embedded in an image.
   @version $Rev$
   @author  Vladimir Nadvornik (vn)
            <a href="mailto:nadvornik@suse.cz">nadvornik@suse.cz</a>
@@ -34,6 +34,9 @@
 #include "types.hpp"
 #include "image.hpp"
 #include "basicio.hpp"
+
+#include <string>
+#include <vector>
 
 // *****************************************************************************
 // namespace extensions
@@ -50,20 +53,15 @@ namespace Exiv2 {
      */
     struct EXIV2API PreviewProperties {
         //! Preview image mime type.
-        const char* mimeType_;
-
+        std::string mimeType_;
         //! Preview image extension.
-        const char* extension_;
-
+        std::string extension_;
         //! Preview image size in bytes.
         uint32_t size_;
-
         //! Preview image width in pixels or 0 for unknown width.
         uint32_t width_;
-        
         //! Preview image height in pixels or 0 for unknown height.
         uint32_t height_;
-        
         //! Identifies type of preview image.
         PreviewId id_;
     };
@@ -75,31 +73,41 @@ namespace Exiv2 {
       @brief Class that holds preview image properties and data buffer.
      */
     class EXIV2API PreviewImage {
+        friend class PreviewManager;
     public:
+        //! @name Constructors
         //@{
-        //! Constructor.
-        PreviewImage(const PreviewProperties& properties, DataBuf& data);
-
         //! Copy constructor
-        PreviewImage(const PreviewImage& src);
+        PreviewImage(const PreviewImage& rhs);
+        //! Destructor.
+        ~PreviewImage();
+        //@}
+
+        //! @name Manipulators
+        //@{
+        //! Assignment operator
+        PreviewImage& operator=(const PreviewImage& rhs);
         //@}
 
         //! @name Accessors
         //@{
-
         /*!
-          @brief Return a reference to image data.
+          @brief Return a copy of the preview image data. The caller owns
+                 this copy and %DataBuf ensures that it will be deleted.
          */
-        DataBuf& data();
-
+        DataBuf copy() const;
+        /*!
+          @brief Return a pointer to the image data for read-only access.
+         */
+        const byte* pData() const;
         /*!
           @brief Write the thumbnail image to a file.
 
           A filename extension is appended to \em path according to the image
-          type of the thumbnail, so \em path should not include an extension.
+          type of the preview image, so \em path should not include an extension.
           The function will overwrite an existing file of the same name.
 
-          @param path File name of the thumbnail without extension.
+          @param path File name of the preview image without extension.
           @return The number of bytes written.
         */
         long writeFile(const std::string& path) const;
@@ -107,13 +115,12 @@ namespace Exiv2 {
           @brief Return the MIME type of the preview image, usually either
                  \c "image/tiff" or \c "image/jpeg".
          */
-        const char* mimeType() const;
+        std::string mimeType() const;
         /*!
           @brief Return the file extension for the format of the preview image
                  (".tif" or ".jpg").
          */
-        const char* extension() const;
-
+        std::string extension() const;
         /*!
           @brief Return the size of the preview image in bytes.
          */
@@ -121,35 +128,44 @@ namespace Exiv2 {
         //@}
 
     private:
-        PreviewProperties properties_;
-        DataBuf data_;
+        //! Private constructor
+        EXV_DLLLOCAL PreviewImage(const PreviewProperties& properties, DataBuf data);
+
+        PreviewProperties properties_;          //!< Preview image properties
+        byte* pData_;                           //!< Pointer to the preview image data
+        uint32_t size_;                         //!< Size of the preview image data
+
     }; // class PreviewImage
 
     /*!
       @brief Class for extracting preview images from image metadata.
      */
-    class EXIV2API PreviewImageLoader {
+    class EXIV2API PreviewManager {
     public:
+        //! @name Constructors
         //@{
         //! Constructor.
-        PreviewImageLoader(const Image& image);
+        PreviewManager(const Image& image);
+        //@}
 
+        //! @name Accessors
+        //@{
         /*!
-          @brief Return list of preview properties.
+          @brief Return the properties of all preview images in a list
+                 sorted by preview width * height, starting with the smallest
+                 preview image.
          */
-        PreviewPropertiesList getPreviewPropertiesList() const;
-
+        PreviewPropertiesList getPreviewProperties() const;
         /*!
-          @brief Return image data for given properties.
+          @brief Return the preview image for the given preview properties.
          */
         PreviewImage getPreviewImage(const PreviewProperties& properties) const;
-
         //@}
 
     private:
 	const Image& image_;
 
-    }; // class PreviewImageLoader
+    }; // class PreviewManager
 }                                       // namespace Exiv2
 
 #endif                                  // #ifndef PREVIEW_HPP_
