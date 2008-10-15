@@ -250,6 +250,7 @@ namespace Exiv2 {
         { 0,                   createLoaderExifDataJpeg, 3 },
         { 0,                   createLoaderExifDataJpeg, 4 },
         { 0,                   createLoaderExifDataJpeg, 5 },
+        { 0,                   createLoaderExifDataJpeg, 6 },
         { 0,                   createLoaderTiff,         0 },
         { 0,                   createLoaderTiff,         1 },
         { 0,                   createLoaderTiff,         2 },
@@ -283,7 +284,8 @@ namespace Exiv2 {
         { "Exif.Pentax.PreviewOffset",               "Exif.Pentax.PreviewLength"                     }, // 2
         { "Exif.Minolta.ThumbnailOffset",            "Exif.Minolta.ThumbnailLength"                  }, // 3
         { "Exif.Olympus.ThumbnailImage",             0                                               }, // 4
-        { "Exif.Olympus2.ThumbnailImage",            0                                               }  // 5
+        { "Exif.Olympus2.ThumbnailImage",            0                                               }, // 5
+        { "Exif.Minolta.Thumbnail",                  0                                               }  // 6
     };
 
     const LoaderTiff::Param LoaderTiff::param_[] = {
@@ -353,7 +355,7 @@ namespace Exiv2 {
 
     uint32_t PreviewImage::size() const
     {
-        return properties_.size_;
+        return size_;
     }
 
     Loader::AutoPtr Loader::create(PreviewId id, const Image &image)
