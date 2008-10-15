@@ -1955,7 +1955,7 @@ namespace Exiv2 {
     {
         int32_t nominator;
         int32_t denominator;
-        char c;
+        char c('0');
         is >> nominator >> c >> denominator;
         if (c != '/') is.setstate(std::ios::failbit);
         if (is) r = std::make_pair(nominator, denominator);
