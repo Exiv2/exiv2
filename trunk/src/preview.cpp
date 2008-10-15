@@ -73,16 +73,15 @@ namespace Exiv2 {
       and DataBuf.
      */
     class Loader {
-    protected:
-        //! Constructor. Sets all image properies to unknown.
-        Loader(PreviewId id, const Image &image);
-
     public:
+        //! Virtual destructor.
+        virtual ~Loader() {}
+
         //! Loader auto pointer
         typedef std::auto_ptr<Loader> AutoPtr;
 
         //! Create a Loader subclass for requested id
-        static Loader::AutoPtr create(PreviewId id, const Image &image);
+        static AutoPtr create(PreviewId id, const Image &image);
 
         //! Check if a preview image with given params exists in the image
         virtual bool valid() const { return valid_; }
@@ -100,6 +99,9 @@ namespace Exiv2 {
         static PreviewId getNumLoaders();
         
     protected:
+        //! Constructor. Sets all image properies to unknown.
+        Loader(PreviewId id, const Image &image);
+
         //! Functions that creates a loader from given parameters
         typedef AutoPtr (*CreateFunc)(PreviewId id, const Image &image, int parIdx);
 
