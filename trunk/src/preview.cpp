@@ -335,7 +335,8 @@ namespace Exiv2 {
     {
         std::string name = path + extension();
         // Todo: Creating a DataBuf here unnecessarily copies the memory
-        return Exiv2::writeFile(DataBuf(pData_, size_), name);
+        DataBuf buf(pData_, size_);
+        return Exiv2::writeFile(buf, name);
     }
 
     DataBuf PreviewImage::copy() const
