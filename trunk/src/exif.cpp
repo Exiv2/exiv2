@@ -182,9 +182,9 @@ namespace Exiv2 {
         if (rhs.value_.get() != 0) value_ = rhs.value_->clone(); // deep copy
     }
 
-    std::ostream& Exifdatum::write(std::ostream& os) const
+    std::ostream& Exifdatum::write(std::ostream& os, const ExifData* pMetadata) const
     {
-        return ExifTags::printTag(os, tag(), ifdId(), value());
+        return ExifTags::printTag(os, tag(), ifdId(), value(), pMetadata);
     }
 
     const Value& Exifdatum::value() const

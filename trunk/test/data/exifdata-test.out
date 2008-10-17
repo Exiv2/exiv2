@@ -214,10 +214,10 @@ Exif.CanonCs.FocusType                        0x0012 Makernote    Short       1 
 Exif.CanonCs.AFPoint                          0x0013 Makernote    Short       1 12291
 Exif.CanonCs.ExposureProgram                  0x0014 Makernote    Short       1 1
 Exif.CanonCs.0x0015                           0x0015 Makernote    Short       1 65535
-Exif.CanonCs.0x0016                           0x0016 Makernote    Short       1 65535
+Exif.CanonCs.LensType                         0x0016 Makernote    Short       1 65535
 Exif.CanonCs.Lens                             0x0017 Makernote    Short       3 682 227 32
-Exif.CanonCs.0x001a                           0x001a Makernote    Short       1 149
-Exif.CanonCs.0x001b                           0x001b Makernote    Short       1 192
+Exif.CanonCs.MaxAperture                      0x001a Makernote    Short       1 149
+Exif.CanonCs.MinAperture                      0x001b Makernote    Short       1 192
 Exif.CanonCs.FlashActivity                    0x001c Makernote    Short       1 0
 Exif.CanonCs.FlashDetails                     0x001d Makernote    Short       1 0
 Exif.CanonCs.0x001e                           0x001e Makernote    Short       1 0
@@ -345,10 +345,10 @@ Exif.CanonCs.FocusType                        0x0012 Makernote    Short       1 
 Exif.CanonCs.AFPoint                          0x0013 Makernote    Short       1 12291
 Exif.CanonCs.ExposureProgram                  0x0014 Makernote    Short       1 1
 Exif.CanonCs.0x0015                           0x0015 Makernote    Short       1 65535
-Exif.CanonCs.0x0016                           0x0016 Makernote    Short       1 65535
+Exif.CanonCs.LensType                         0x0016 Makernote    Short       1 65535
 Exif.CanonCs.Lens                             0x0017 Makernote    Short       3 682 227 32
-Exif.CanonCs.0x001a                           0x001a Makernote    Short       1 149
-Exif.CanonCs.0x001b                           0x001b Makernote    Short       1 192
+Exif.CanonCs.MaxAperture                      0x001a Makernote    Short       1 149
+Exif.CanonCs.MinAperture                      0x001b Makernote    Short       1 192
 Exif.CanonCs.FlashActivity                    0x001c Makernote    Short       1 0
 Exif.CanonCs.FlashDetails                     0x001d Makernote    Short       1 0
 Exif.CanonCs.0x001e                           0x001e Makernote    Short       1 0
@@ -475,10 +475,10 @@ Exif.CanonCs.FocusType                        0x0012 Makernote    Short       1 
 Exif.CanonCs.AFPoint                          0x0013 Makernote    Short       1 12291
 Exif.CanonCs.ExposureProgram                  0x0014 Makernote    Short       1 1
 Exif.CanonCs.0x0015                           0x0015 Makernote    Short       1 65535
-Exif.CanonCs.0x0016                           0x0016 Makernote    Short       1 65535
+Exif.CanonCs.LensType                         0x0016 Makernote    Short       1 65535
 Exif.CanonCs.Lens                             0x0017 Makernote    Short       3 682 227 32
-Exif.CanonCs.0x001a                           0x001a Makernote    Short       1 149
-Exif.CanonCs.0x001b                           0x001b Makernote    Short       1 192
+Exif.CanonCs.MaxAperture                      0x001a Makernote    Short       1 149
+Exif.CanonCs.MinAperture                      0x001b Makernote    Short       1 192
 Exif.CanonCs.FlashActivity                    0x001c Makernote    Short       1 0
 Exif.CanonCs.FlashDetails                     0x001d Makernote    Short       1 0
 Exif.CanonCs.0x001e                           0x001e Makernote    Short       1 0
@@ -605,10 +605,10 @@ Exif.CanonCs.FocusType                        0x0012 Makernote    Short       1 
 Exif.CanonCs.AFPoint                          0x0013 Makernote    Short       1 12291
 Exif.CanonCs.ExposureProgram                  0x0014 Makernote    Short       1 1
 Exif.CanonCs.0x0015                           0x0015 Makernote    Short       1 65535
-Exif.CanonCs.0x0016                           0x0016 Makernote    Short       1 65535
+Exif.CanonCs.LensType                         0x0016 Makernote    Short       1 65535
 Exif.CanonCs.Lens                             0x0017 Makernote    Short       3 682 227 32
-Exif.CanonCs.0x001a                           0x001a Makernote    Short       1 149
-Exif.CanonCs.0x001b                           0x001b Makernote    Short       1 192
+Exif.CanonCs.MaxAperture                      0x001a Makernote    Short       1 149
+Exif.CanonCs.MinAperture                      0x001b Makernote    Short       1 192
 Exif.CanonCs.FlashActivity                    0x001c Makernote    Short       1 0
 Exif.CanonCs.FlashDetails                     0x001d Makernote    Short       1 0
 Exif.CanonCs.0x001e                           0x001e Makernote    Short       1 0

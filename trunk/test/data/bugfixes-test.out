@@ -127,10 +127,10 @@ Exif.CanonCs.FocusType                       Short       1  Auto
 Exif.CanonCs.AFPoint                         Short       1  Center
 Exif.CanonCs.ExposureProgram                 Short       1  Program (P)
 Exif.CanonCs.0x0015                          Short       1  65535
-Exif.CanonCs.0x0016                          Short       1  65535
+Exif.CanonCs.LensType                        Short       1  (65535)
 Exif.CanonCs.Lens                            Short       3  7.1 - 21.3 mm
-Exif.CanonCs.0x001a                          Short       1  149
-Exif.CanonCs.0x001b                          Short       1  192
+Exif.CanonCs.MaxAperture                     Short       1  F5
+Exif.CanonCs.MinAperture                     Short       1  F8
 Exif.CanonCs.FlashActivity                   Short       1  Did not fire
 Exif.CanonCs.FlashDetails                    Short       1  
 Exif.CanonCs.0x001e                          Short       1  0

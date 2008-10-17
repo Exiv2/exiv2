@@ -190,7 +190,7 @@ namespace Exiv2 {
         */
         long copy(byte* buf, ByteOrder byteOrder) const
             { return value_.get() == 0 ? 0 : value_->copy(buf, byteOrder); }
-        std::ostream& write(std::ostream& os) const;
+        std::ostream& write(std::ostream& os, const ExifData* pMetadata =0) const;
         //! Return the type id of the value
         TypeId typeId() const
             { return value_.get() == 0 ? invalidTypeId : value_->typeId(); }

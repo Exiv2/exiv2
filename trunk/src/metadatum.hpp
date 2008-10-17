@@ -47,6 +47,10 @@
 namespace Exiv2 {
 
 // *****************************************************************************
+// class declarations
+    class ExifData;
+
+// *****************************************************************************
 // class definitions
 
     /*!
@@ -157,9 +161,9 @@ namespace Exiv2 {
         /*!
           @brief Write the interpreted value to a string.
 
-          Implemented in terms of std::ostream& write(std::ostream& os).
+          Implemented in terms of write(), see there.
          */
-        std::string print() const;
+        std::string print(const ExifData* pMetadata =0) const;
         /*!
           @brief Write value to a data buffer and return the number
                  of bytes written.
@@ -176,13 +180,27 @@ namespace Exiv2 {
           @brief Write the interpreted value to an output stream, return
                  the stream.
 
-          You do not usually have to use this function; it is used for the
-          implementation of the output operator for %Metadatum,
-          operator<<(std::ostream &os, const Metadatum &md). See also
-          std::string print() const, which prints the interpreted value
-          to a string.
+          The method takes an optional pointer to a metadata container.
+          Pretty-print functions may use that to refer to other metadata as it
+          is sometimes not sufficient to know only the value of the metadatum
+          that should be interpreted. Thus, it is advisable to always call this
+          method with a pointer to the metadata container if possible.
+
+          This functionality is currently only implemented for Exif tags.
+          The pointer is ignored when used to write IPTC datasets or XMP 
+          properties.
+
+          Without the optional metadata pointer, you do not usually have to use
+          this function; it is used for the implementation of the output
+          operator for %Metadatum,
+          operator<<(std::ostream &os, const Metadatum &md).
+
+          See also print(), which prints the interpreted value to a string.
          */
-        virtual std::ostream& write(std::ostream& os) const =0;
+        virtual std::ostream& write(
+                  std::ostream& os,
+            const ExifData*     pMetadata =0
+        ) const =0;
         /*!
           @brief Return the key of the metadatum. The key is of the form
                  'familyName.ifdItem.tagName'. Note however that the key

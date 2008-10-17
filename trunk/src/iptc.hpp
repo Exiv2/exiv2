@@ -46,6 +46,10 @@
 namespace Exiv2 {
 
 // *****************************************************************************
+// class declarations
+    class ExifData;
+
+// *****************************************************************************
 // class definitions
 
     /*!
@@ -111,7 +115,7 @@ namespace Exiv2 {
         //@{
         long copy(byte* buf, ByteOrder byteOrder) const
             { return value_.get() == 0 ? 0 : value_->copy(buf, byteOrder); }
-        std::ostream& write(std::ostream& os) const;
+        std::ostream& write(std::ostream& os, const ExifData* pMetadata =0) const;
         /*!
           @brief Return the key of the Iptcdatum. The key is of the form
                  '<b>Iptc</b>.recordName.datasetName'. Note however that the key

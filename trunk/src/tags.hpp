@@ -141,7 +141,7 @@ namespace Exiv2 {
     }; // struct TagDetailsBitmask
 
     /*!
-      @brief Generic print function to translate a long value to a description
+      @brief Generic pretty-print function to translate a long value to a description
              by looking up a reference table.
      */
     template <int N, const TagDetails (&array)[N]>
