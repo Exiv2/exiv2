@@ -78,6 +78,8 @@ namespace Exiv2 {
         static std::ostream& print0x000c(std::ostream& os, const Value& value, const ExifData*);
         //! Self timer
         static std::ostream& printCs0x0002(std::ostream& os, const Value& value, const ExifData*);
+        //! Camera lens type. For some values, the exact type can only be determined if \em metadata is provided.
+        static std::ostream& printCsLensType(std::ostream& os, const Value& value, const ExifData* metadata);
         //! Camera lens information
         static std::ostream& printCsLens(std::ostream& os, const Value& value, const ExifData*);
         //! ISO speed used

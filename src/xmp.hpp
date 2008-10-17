@@ -45,6 +45,10 @@
 namespace Exiv2 {
 
 // *****************************************************************************
+// class declarations
+    class ExifData;
+
+// *****************************************************************************
 // class definitions
 
     /*!
@@ -120,7 +124,7 @@ namespace Exiv2 {
         //@{
         //! Not implemented. Calling this method will raise an exception.
         long copy(byte* buf, ByteOrder byteOrder) const;
-        std::ostream& write(std::ostream& os) const;
+        std::ostream& write(std::ostream& os, const ExifData* pMetadata =0) const;
         /*!
           @brief Return the key of the Xmpdatum. The key is of the form
                  '<b>Xmp</b>.prefix.property'. Note however that the

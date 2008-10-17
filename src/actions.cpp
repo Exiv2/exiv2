@@ -341,7 +341,8 @@ namespace Action {
             md = exifData.findKey(
                 Exiv2::ExifKey("Exif.Photo.FocalLengthIn35mmFilm"));
             if (md != exifData.end()) {
-                std::cout << " ("<< _("35 mm equivalent") << ": " << *md << ")";
+                std::cout << " ("<< _("35 mm equivalent") << ": " 
+                          << md->print(&exifData) << ")";
             }
         }
         std::cout << std::endl;
@@ -596,7 +597,7 @@ namespace Action {
         Exiv2::ExifKey ek(key);
         Exiv2::ExifData::const_iterator md = exifData.findKey(ek);
         if (md != exifData.end()) {
-            std::cout << *md;
+            md->write(std::cout, &exifData);
             rc = 1;
         }
         if (!label.empty()) std::cout << std::endl;
@@ -710,7 +711,7 @@ namespace Action {
                     std::cout << _("(Binary value suppressed)") << std::endl;
                     continue;
                 }
-                std::cout << std::dec << *md;
+                std::cout << std::dec << md->print(&exifData);
             }
             if (Params::instance().printItems_ & Params::prHex) {
                 if (!first) std::cout << std::endl;
@@ -1612,7 +1613,7 @@ namespace Action {
         // Copy the proprietary tag to the standard place
         if (md != exifData.end()) {
             std::ostringstream os;
-            os << *md;
+            md->write(os, &exifData);
             if (Params::instance().verbose_) {
                 std::cout << _("Setting Exif ISO value to") << " " << os.str() << "\n";
             }

@@ -84,7 +84,7 @@ namespace Exiv2 {
     {
     }
 
-    std::ostream& Iptcdatum::write(std::ostream& os) const
+    std::ostream& Iptcdatum::write(std::ostream& os, const ExifData*) const
     {
         return os << value();
     }
