@@ -755,7 +755,7 @@ Exif.Nikon3.NoiseReduction                    0x0095 Makernote    Ascii       5 
 Exif.Nikon3.ColorBalance2                     0x0097 Makernote    Undefined 140 48 49 48 51 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 2 4 1 0 1 163 1 0 0 0 1 8 1 0 0 0 0 0 0 112 0 12 0 24 0 3 1 140 255 109 0 7 255 216 1 90 255 206 255 251 255 222 1 39 255 255 255 255 255 255 128 0 0 0 0 0 0 0 0 0 10 0 0 0 2 128 0 0 3 0 0 0 2 128 0 0 0 0 16 16 0 255 0 255 0 77 0 150 0 29 255 204 255 186 0 122 0 127 255 150 255 235 0 0 5 0 0 8 108 18 223 51 5 89 1 63 240 240 0 26 
 Exif.Nikon3.LensData                          0x0098 Makernote    Undefined  31 48 49 48 49 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 
 Exif.Nikon3.SensorPixelSize                   0x009a Makernote    Rational    2 78/10 78/10
-Exif.Nikon3.SerialNumber                      0x00a0 Makernote    Ascii      21 NO= 100005e5        
+Exif.Nikon3.SerialNO                          0x00a0 Makernote    Ascii      21 NO= 100005e5        
 Exif.Nikon3.ImageDataSize                     0x00a2 Makernote    Long        1 2929656
 Exif.Nikon3.0x00a3                            0x00a3 Makernote    Byte        1 0 
 Exif.Nikon3.ShutterCount                      0x00a7 Makernote    Long        1 1193
@@ -870,7 +870,7 @@ Exif.Nikon3.NoiseReduction                    0x0095 Makernote    Ascii       5 
 Exif.Nikon3.ColorBalance2                     0x0097 Makernote    Undefined 140 48 49 48 51 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 2 4 1 0 1 163 1 0 0 0 1 8 1 0 0 0 0 0 0 112 0 12 0 24 0 3 1 140 255 109 0 7 255 216 1 90 255 206 255 251 255 222 1 39 255 255 255 255 255 255 128 0 0 0 0 0 0 0 0 0 10 0 0 0 2 128 0 0 3 0 0 0 2 128 0 0 0 0 16 16 0 255 0 255 0 77 0 150 0 29 255 204 255 186 0 122 0 127 255 150 255 235 0 0 5 0 0 8 108 18 223 51 5 89 1 63 240 240 0 26 
 Exif.Nikon3.LensData                          0x0098 Makernote    Undefined  31 48 49 48 49 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 
 Exif.Nikon3.SensorPixelSize                   0x009a Makernote    Rational    2 78/10 78/10
-Exif.Nikon3.SerialNumber                      0x00a0 Makernote    Ascii      21 NO= 100005e5        
+Exif.Nikon3.SerialNO                          0x00a0 Makernote    Ascii      21 NO= 100005e5        
 Exif.Nikon3.ImageDataSize                     0x00a2 Makernote    Long        1 2929656
 Exif.Nikon3.0x00a3                            0x00a3 Makernote    Byte        1 0 
 Exif.Nikon3.ShutterCount                      0x00a7 Makernote    Long        1 1193
@@ -986,7 +986,7 @@ Exif.Nikon3.NoiseReduction                    0x0095 Makernote    Ascii       5 
 Exif.Nikon3.ColorBalance2                     0x0097 Makernote    Undefined 140 48 49 48 51 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 2 4 1 0 1 163 1 0 0 0 1 8 1 0 0 0 0 0 0 112 0 12 0 24 0 3 1 140 255 109 0 7 255 216 1 90 255 206 255 251 255 222 1 39 255 255 255 255 255 255 128 0 0 0 0 0 0 0 0 0 10 0 0 0 2 128 0 0 3 0 0 0 2 128 0 0 0 0 16 16 0 255 0 255 0 77 0 150 0 29 255 204 255 186 0 122 0 127 255 150 255 235 0 0 5 0 0 8 108 18 223 51 5 89 1 63 240 240 0 26 
 Exif.Nikon3.LensData                          0x0098 Makernote    Undefined  31 48 49 48 49 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 
 Exif.Nikon3.SensorPixelSize                   0x009a Makernote    Rational    2 78/10 78/10
-Exif.Nikon3.SerialNumber                      0x00a0 Makernote    Ascii      21 NO= 100005e5        
+Exif.Nikon3.SerialNO                          0x00a0 Makernote    Ascii      21 NO= 100005e5        
 Exif.Nikon3.ImageDataSize                     0x00a2 Makernote    Long        1 2929656
 Exif.Nikon3.0x00a3                            0x00a3 Makernote    Byte        1 0 
 Exif.Nikon3.ShutterCount                      0x00a7 Makernote    Long        1 1193
@@ -1102,7 +1102,7 @@ Exif.Nikon3.NoiseReduction                    0x0095 Makernote    Ascii       5 
 Exif.Nikon3.ColorBalance2                     0x0097 Makernote    Undefined 140 48 49 48 51 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 2 4 1 0 1 163 1 0 0 0 1 8 1 0 0 0 0 0 0 112 0 12 0 24 0 3 1 140 255 109 0 7 255 216 1 90 255 206 255 251 255 222 1 39 255 255 255 255 255 255 128 0 0 0 0 0 0 0 0 0 10 0 0 0 2 128 0 0 3 0 0 0 2 128 0 0 0 0 16 16 0 255 0 255 0 77 0 150 0 29 255 204 255 186 0 122 0 127 255 150 255 235 0 0 5 0 0 8 108 18 223 51 5 89 1 63 240 240 0 26 
 Exif.Nikon3.LensData                          0x0098 Makernote    Undefined  31 48 49 48 49 23 52 7 0 161 109 80 127 64 45 92 44 52 132 52 23 100 32 99 0 0 0 21 5 0 2 2 
 Exif.Nikon3.SensorPixelSize                   0x009a Makernote    Rational    2 78/10 78/10
-Exif.Nikon3.SerialNumber                      0x00a0 Makernote    Ascii      21 NO= 100005e5        
+Exif.Nikon3.SerialNO                          0x00a0 Makernote    Ascii      21 NO= 100005e5        
 Exif.Nikon3.ImageDataSize                     0x00a2 Makernote    Long        1 2929656
 Exif.Nikon3.0x00a3                            0x00a3 Makernote    Byte        1 0 
 Exif.Nikon3.ShutterCount                      0x00a7 Makernote    Long        1 1193
