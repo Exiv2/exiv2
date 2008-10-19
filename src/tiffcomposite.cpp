@@ -285,32 +285,34 @@ namespace Exiv2 {
 #endif
             return;
         }
-        long size = 0;
-        for (long i = 0; i < pSize->count(); ++i) {
-            size += pSize->toLong(i);
+        uint32_t size = 0;
+        for (int i = 0; i < pSize->count(); ++i) {
+            size += static_cast<uint32_t>(pSize->toLong(i));
         }
-        long offset = pValue()->toLong(0);
+        uint32_t offset = static_cast<uint32_t>(pValue()->toLong(0));
         // Todo: Remove limitation of JPEG writer: strips must be contiguous
         // Until then we check: last offset + last size - first offset == size?
-        if (  pValue()->toLong(pValue()->count()-1)
-            + pSize->toLong(pSize->count()-1)
+        if (  static_cast<uint32_t>(pValue()->toLong(pValue()->count()-1))
+            + static_cast<uint32_t>(pSize->toLong(pSize->count()-1))
             - offset != size) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: "
                       << "Directory " << tiffGroupName(group())
                       << ", entry 0x" << std::setw(4)
                       << std::setfill('0') << std::hex << tag()
-                      << " Data area is not contiguous, ignoring it.\n";
+                      << ": Data area is not contiguous, ignoring it.\n";
 #endif
             return;
         }
-        if (baseOffset + offset + size > sizeData) {
+        if (   offset > sizeData 
+            || size > sizeData
+            || baseOffset + offset > sizeData - size) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: "
                       << "Directory " << tiffGroupName(group())
                       << ", entry 0x" << std::setw(4)
                       << std::setfill('0') << std::hex << tag()
-                      << " Data area exceeds data buffer, ignoring it.\n";
+                      << ": Data area exceeds data buffer, ignoring it.\n";
 #endif
             return;
         }
@@ -339,23 +341,25 @@ namespace Exiv2 {
             return;
         }
         for (int i = 0; i < pValue()->count(); ++i) {
-            const byte* pStrip = pData + baseOffset + pValue()->toLong(i);
-            const uint32_t stripSize = static_cast<uint32_t>(pSize->toLong(i));
-            if (   stripSize > 0
-                && pData + sizeData > pStrip
-                && static_cast<uint32_t>(pData + sizeData - pStrip) >= stripSize) {
-                strips_.push_back(std::make_pair(pStrip, stripSize));
-            }
+            const uint32_t offset = static_cast<uint32_t>(pValue()->toLong(i));
+            const byte* pStrip = pData + baseOffset + offset;
+            const uint32_t size = static_cast<uint32_t>(pSize->toLong(i));
+
+            if (   offset > sizeData 
+                || size > sizeData
+                || baseOffset + offset > sizeData - size) {
 #ifndef SUPPRESS_WARNINGS
-            else {
                 std::cerr << "Warning: "
                           << "Directory " << tiffGroupName(group())
                           << ", entry 0x" << std::setw(4)
                           << std::setfill('0') << std::hex << tag()
                           << ": Strip " << std::dec << i
                           << " is outside of the data area; ignored.\n";
-            }
 #endif
+            }
+            else if (size != 0) {
+                strips_.push_back(std::make_pair(pStrip, size));
+            }
         }
     } // TiffImageEntry::setStrips
 
