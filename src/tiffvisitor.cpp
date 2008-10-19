@@ -1099,12 +1099,29 @@ namespace Exiv2 {
         }
     }
 
+    bool TiffReader::circularReference(const byte* start, uint16_t group)
+    {
+        DirList::const_iterator pos = dirList_.find(start);
+        if (pos != dirList_.end()) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Error: "
+                      << tiffGroupName(group)  << " pointer references previously read "
+                      << tiffGroupName(pos->second) << " directory. Ignored.\n";
+#endif
+            return true;
+        }
+        dirList_[start] = group;
+        return false;
+    }
+
     void TiffReader::visitDirectory(TiffDirectory* object)
     {
         assert(object != 0);
 
         const byte* p = object->start();
         assert(p >= pData_);
+
+        if (circularReference(object->start(), object->group())) return;
 
         if (p + 2 > pLast_) {
 #ifndef SUPPRESS_WARNINGS
