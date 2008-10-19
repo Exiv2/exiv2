@@ -613,6 +613,8 @@ namespace Exiv2 {
         void changeState(TiffRwState::AutoPtr state);
         //! Reset the state to the original state as set in the constructor.
         void resetState();
+        //! Check IFD directory pointer \em start for circular reference
+        bool circularReference(const byte* start, uint16_t group);
         //@}
 
         //! @name Accessors
@@ -627,6 +629,8 @@ namespace Exiv2 {
         //@}
 
     private:
+        typedef std::map<const byte*, uint16_t> DirList;
+
         // DATA
         const byte*          pData_;      //!< Pointer to the memory buffer
         const uint32_t       size_;       //!< Size of the buffer
@@ -634,6 +638,7 @@ namespace Exiv2 {
         TiffComponent* const pRoot_;      //!< Root element of the composite
         TiffRwState*         pState_;     //!< State class
         TiffRwState*         pOrigState_; //!< State class as set in the c'tor
+        DirList              dirList_;    //!< List of IFD pointers and their groups
 
     }; // class TiffReader
 
