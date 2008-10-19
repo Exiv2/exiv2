@@ -20,10 +20,10 @@
  */
 /*!
   @file    nikonmn.hpp
-  @brief   Nikon MakerNote formats.<BR>References:<BR>
+  @brief   Nikon makernote tags.<BR>References:<BR>
   [1] <a href="http://www.tawbaware.com/990exif.htm">MakerNote EXIF Tag of the Nikon 990</a> by Max Lyons<BR>
   [2] <a href="http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html">Exif file format</a> by TsuruZoh Tachibanaya<BR>
-  "EXIFutils Field Reference Guide"<BR>
+  [3] "EXIFutils Field Reference Guide"<BR>
   [3] <a href="http://www.ozhiker.com/electronics/pjmt/jpeg_info/nikon_mn.html#Nikon_Type_3_Tags">Nikon Type 3 Makernote Tags Definition</a> of the PHP JPEG Metadata Toolkit by Evan Hunter<BR>
   [4] <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a> by Phil Harvey<BR>
   [5] Email communication with <a href="http://www.rottmerhusen.com">Robert Rottmerhusen</a><BR>
