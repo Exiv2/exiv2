@@ -561,8 +561,13 @@ namespace Action {
         }
         else {
             Exiv2::DataBuf buf = exifThumb.copy();
-            std::cout << exifThumb.mimeType() << ", "
-                      << buf.size_ << " " << _("Bytes");
+            if (buf.size_ == 0) {
+                std::cout << _("None");
+            }
+            else {
+                std::cout << exifThumb.mimeType() << ", "
+                          << buf.size_ << " " << _("Bytes");
+            }
         }
         std::cout << std::endl;
 
@@ -1084,9 +1089,11 @@ namespace Action {
             if (dontOverwrite(thumbPath)) return 0;
             if (Params::instance().verbose_) {
                 Exiv2::DataBuf buf = exifThumb.copy();
-                std::cout << _("Writing thumbnail") << " (" << exifThumb.mimeType() << ", "
-                          << buf.size_ << " " << _("Bytes") << ") " << _("to file") << " "
-                          << thumbPath << std::endl;
+                if (buf.size_ != 0) {
+                    std::cout << _("Writing thumbnail") << " (" << exifThumb.mimeType() << ", "
+                              << buf.size_ << " " << _("Bytes") << ") " << _("to file") << " "
+                              << thumbPath << std::endl;
+                }
             }
             rc = exifThumb.writeFile(thumb);
             if (rc == 0) {
