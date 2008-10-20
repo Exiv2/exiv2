@@ -653,6 +653,20 @@ namespace Exiv2 {
         return tagInfoCs_;
     }
 
+    const TagInfo OlympusMakerNote::tagInfoEq_[] = {
+        TagInfo(0x0000, "EquipmentVersion", N_("Equipment Version"), N_("Equipment version"), olympusEqIfdId, makerTags, undefined, printExifVersion),
+
+        // Todo: Add Olympus equipment tags
+
+        // End of list marker
+        TagInfo(0xffff, "(UnknownOlympusEqTag)", "(UnknownOlympusEqTag)", N_("Unknown OlympusEq tag"), olympusEqIfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* OlympusMakerNote::tagListEq()
+    {
+        return tagInfoEq_;
+    }
+
     // Gradation
     std::ostream& OlympusMakerNote::print0x050f(std::ostream& os, const Value& value, const ExifData*)
     {
