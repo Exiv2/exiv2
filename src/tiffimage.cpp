@@ -493,9 +493,9 @@ namespace Exiv2 {
         { "*",         0x8649, Group::ifd0,    &TiffDecoder::decodeIptc,         0 /*done before the tree is traversed*/ },
         // Minolta makernote entries which need to be encoded in big endian byte order
         { "*",       Tag::all, Group::minocso, &TiffDecoder::decodeStdTiffEntry, &TiffEncoder::encodeBigEndianEntry },
-        { "*",       Tag::all, Group::minocso, &TiffDecoder::decodeStdTiffEntry, &TiffEncoder::encodeBigEndianEntry },
-        { "*",       Tag::all, Group::minocso, &TiffDecoder::decodeStdTiffEntry, &TiffEncoder::encodeBigEndianEntry },
-        { "*",       Tag::all, Group::minocso, &TiffDecoder::decodeStdTiffEntry, &TiffEncoder::encodeBigEndianEntry }
+        { "*",       Tag::all, Group::minocsn, &TiffDecoder::decodeStdTiffEntry, &TiffEncoder::encodeBigEndianEntry },
+        { "*",       Tag::all, Group::minocs7, &TiffDecoder::decodeStdTiffEntry, &TiffEncoder::encodeBigEndianEntry },
+        { "*",       Tag::all, Group::minocs5, &TiffDecoder::decodeStdTiffEntry, &TiffEncoder::encodeBigEndianEntry }
     };
 
     DecoderFct TiffMapping::findDecoder(const std::string& make,
