@@ -168,6 +168,10 @@ namespace Exiv2 {
     std::ostream& printTagBitmask(std::ostream& os, const Value& value, const ExifData*)
     {
         const uint32_t val = static_cast<uint32_t>(value.toLong());
+        if (val == 0 && N > 0) {
+            const TagDetailsBitmask* td = *(&array);
+            if (td->mask_ == 0) return os << exvGettext(td->label_);
+        }
         bool sep = false;
         for (int i = 0; i < N; i++) {
             // *& acrobatics is a workaround for a MSVC 7.1 bug

@@ -20,11 +20,11 @@
  */
 /*!
   @file    olympusmn.hpp
-  @brief   Olympus MakerNote implemented using the following references:
-           <a href="http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html#APP1">Exif file format, Appendix 1: MakerNote of Olympus Digicams</a> by TsuruZoh Tachibanaya,<br>
-           Olympus.pm of <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a> by Phil Harvey,<br>
-           <a href="http://www.ozhiker.com/electronics/pjmt/jpeg_info/olympus_mn.html">Olympus Makernote Format Specification</a> by Evan Hunter,<br>
-           email communication with <a href="mailto:wstokes@gmail.com">Will Stokes</a>
+  @brief   Olympus makernote tags.<br>References:<br>
+           [1] <a href="http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html#APP1">Exif file format, Appendix 1: MakerNote of Olympus Digicams</a> by TsuruZoh Tachibanaya<br>
+           [2] <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a> by Phil Harvey<br>
+           [3] <a href="http://www.ozhiker.com/electronics/pjmt/jpeg_info/olympus_mn.html">Olympus Makernote Format Specification</a> by Evan Hunter<br>
+           [4] email communication with <a href="mailto:wstokes@gmail.com">Will Stokes</a>
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
@@ -70,6 +70,10 @@ namespace Exiv2 {
         static std::ostream& print0x0204(std::ostream& os, const Value& value, const ExifData*);
         //! Print White Balance Mode
         static std::ostream& print0x1015(std::ostream& os, const Value& value, const ExifData*);
+        //! Print Olympus camera settings Gradation
+        static std::ostream& print0x050f(std::ostream& os, const Value& value, const ExifData*);
+        //! Print Olympus camera settings Noise Filter
+        static std::ostream& print0x0527(std::ostream& os, const Value& value, const ExifData*);
         //@}
 
     private:
