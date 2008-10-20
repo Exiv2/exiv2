@@ -331,6 +331,9 @@ namespace Action {
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Olympus.FlashBias");
         }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.OlympusCs.FlashExposureComp");
+        }
         std::cout << std::endl;
 
         // Actual focal length and 35 mm equivalent
@@ -432,6 +435,9 @@ namespace Action {
             done = 0 != printTag(exifData, "Exif.Olympus.Macro");
         }
         if (!done) {
+            done = 0 != printTag(exifData, "Exif.OlympusCs.MacroMode");
+        }
+        if (!done) {
             done = 0 != printTag(exifData, "Exif.Panasonic.Macro");
         }
         if (!done) {
@@ -466,6 +472,9 @@ namespace Action {
         }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Olympus.Quality");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.OlympusCs.Quality");
         }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Panasonic.Quality");
@@ -536,6 +545,9 @@ namespace Action {
             done = 0 != printTag(exifData, "Exif.Olympus.WhiteBalance");
         }
         if (!done) {
+            done = 0 != printTag(exifData, "Exif.OlympusCs.WhiteBalance");
+        }
+        if (!done) {
             done = 0 != printTag(exifData, "Exif.Panasonic.WhiteBalance");
         }
         if (!done) {
@@ -549,6 +561,9 @@ namespace Action {
         }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.MinoltaCsOld.WhiteBalance");
+        }
+        if (!done) {
+            done = 0 != printTag(exifData, "Exif.Photo.WhiteBalance");
         }
         std::cout << std::endl;
 
