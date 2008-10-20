@@ -63,6 +63,14 @@ namespace Exiv2 {
         static const TagInfo* tagListCs();
         //! Return read-only list of built-in Olympus Equipment tags
         static const TagInfo* tagListEq();
+        //! Return read-only list of built-in Olympus Raw Development tags
+        static const TagInfo* tagListRd();
+        //! Return read-only list of built-in Olympus Raw Development 2 tags
+        static const TagInfo* tagListRd2();
+        //! Return read-only list of built-in Olympus Image Processing tags
+        static const TagInfo* tagListIp();
+        //! Return read-only list of built-in Olympus Focus Info tags
+        static const TagInfo* tagListFi();
 
         //! @name Print functions for Olympus %MakerNote tags
         //@{
@@ -83,6 +91,10 @@ namespace Exiv2 {
         static const TagInfo tagInfo_[];
         static const TagInfo tagInfoCs_[];
         static const TagInfo tagInfoEq_[];
+        static const TagInfo tagInfoRd_[];
+        static const TagInfo tagInfoRd2_[];
+        static const TagInfo tagInfoIp_[];
+        static const TagInfo tagInfoFi_[];
 
     }; // class OlympusMakerNote
 

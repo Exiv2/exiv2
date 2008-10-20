@@ -667,6 +667,62 @@ namespace Exiv2 {
         return tagInfoEq_;
     }
 
+    const TagInfo OlympusMakerNote::tagInfoRd_[] = {
+        TagInfo(0x0000, "RawDevVersion", N_("Raw Development Version"), N_("Raw development version"), olympusRdIfdId, makerTags, undefined, printExifVersion),
+
+        // Todo: Add Olympus raw development tags
+
+        // End of list marker
+        TagInfo(0xffff, "(UnknownOlympusRdTag)", "(UnknownOlympusRdTag)", N_("Unknown OlympusRd tag"), olympusRdIfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* OlympusMakerNote::tagListRd()
+    {
+        return tagInfoRd_;
+    }
+
+    const TagInfo OlympusMakerNote::tagInfoRd2_[] = {
+        TagInfo(0x0000, "RawDev2Version", N_("Raw Development 2 Version"), N_("Raw development 2 version"), olympusRd2IfdId, makerTags, undefined, printExifVersion),
+
+        // Todo: Add Olympus raw development 2 tags
+
+        // End of list marker
+        TagInfo(0xffff, "(UnknownOlympusRd2Tag)", "(UnknownOlympusRd2Tag)", N_("Unknown OlympusRd2 tag"), olympusRd2IfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* OlympusMakerNote::tagListRd2()
+    {
+        return tagInfoRd2_;
+    }
+
+    const TagInfo OlympusMakerNote::tagInfoIp_[] = {
+        TagInfo(0x0000, "ImageProcessingVersion", N_("Image Processing Version"), N_("Image processing version"), olympusIpIfdId, makerTags, undefined, printExifVersion),
+
+        // Todo: Add Olympus image processing tags
+
+        // End of list marker
+        TagInfo(0xffff, "(UnknownOlympusIpTag)", "(UnknownOlympusIpTag)", N_("Unknown OlympusIp tag"), olympusIpIfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* OlympusMakerNote::tagListIp()
+    {
+        return tagInfoIp_;
+    }
+
+    const TagInfo OlympusMakerNote::tagInfoFi_[] = {
+        TagInfo(0x0000, "FocusInfoVersion", N_("Focus Info Version"), N_("Focus info version"), olympusFiIfdId, makerTags, undefined, printExifVersion),
+
+        // Todo: Add Olympus focus info tags
+
+        // End of list marker
+        TagInfo(0xffff, "(UnknownOlympusFiTag)", "(UnknownOlympusFiTag)", N_("Unknown OlympusFi tag"), olympusFiIfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* OlympusMakerNote::tagListFi()
+    {
+        return tagInfoFi_;
+    }
+
     // Gradation
     std::ostream& OlympusMakerNote::print0x050f(std::ostream& os, const Value& value, const ExifData*)
     {
