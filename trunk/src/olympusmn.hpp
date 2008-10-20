@@ -61,6 +61,8 @@ namespace Exiv2 {
         static const TagInfo* tagList();
         //! Return read-only list of built-in Olympus Camera Settings tags
         static const TagInfo* tagListCs();
+        //! Return read-only list of built-in Olympus Equipment tags
+        static const TagInfo* tagListEq();
 
         //! @name Print functions for Olympus %MakerNote tags
         //@{
@@ -80,6 +82,7 @@ namespace Exiv2 {
         //! Tag information
         static const TagInfo tagInfo_[];
         static const TagInfo tagInfoCs_[];
+        static const TagInfo tagInfoEq_[];
 
     }; // class OlympusMakerNote
 

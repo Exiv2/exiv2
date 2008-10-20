@@ -71,6 +71,7 @@ namespace Exiv2 {
         const uint16_t olymp1mn  = 281; //!< Olympus makernote
         const uint16_t olymp2mn  = 282; //!< Olympus II makernote
         const uint16_t olympcs   = 283; //!< Olympus camera settings
+        const uint16_t olympeq   = 284; //!< Olympus equipment tags
     }
 
 // *****************************************************************************
