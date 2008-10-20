@@ -376,16 +376,32 @@ namespace Exiv2 {
         {    0x0003, Group::olymp2mn,  Group::minocsn,   0x927c,    Group::exif,      newTiffArrayEntry<ttUnsignedLong, false> },
         {    0x2010, Group::olymp2mn,  Group::olympeq,   0x927c,    Group::exif,      newTiffSubIfd },
         {    0x2020, Group::olymp2mn,  Group::olympcs,   0x927c,    Group::exif,      newTiffSubIfd },
+        {    0x2030, Group::olymp2mn,  Group::olymprd,   0x927c,    Group::exif,      newTiffSubIfd },
+        {    0x2031, Group::olymp2mn,  Group::olymprd2,  0x927c,    Group::exif,      newTiffSubIfd },
+        {    0x2040, Group::olymp2mn,  Group::olympip,   0x927c,    Group::exif,      newTiffSubIfd },
+        {    0x2050, Group::olymp2mn,  Group::olympfi,   0x927c,    Group::exif,      newTiffSubIfd },
         { Tag::next, Group::olymp2mn,  Group::ignr,      0x927c,    Group::exif,      newTiffDirectory },
         {  Tag::all, Group::olymp2mn,  Group::olymp2mn,  0x927c,    Group::exif,      newTiffEntry },
 
-        // Olympus2 Equipment subdir
+        // Olympus2 equipment subdir
         {  Tag::all, Group::olympeq,   Group::olympeq,   0x2010,    Group::olymp2mn,  newTiffEntry },
 
         // Olympus2 camera settings subdir
         {    0x0101, Group::olympcs,   Group::olympcs,   0x2020,    Group::olymp2mn,  newTiffImageData<0x0102, Group::olympcs> },
         {    0x0102, Group::olympcs,   Group::olympcs,   0x2020,    Group::olymp2mn,  newTiffImageSize<0x0101, Group::olympcs> },
         {  Tag::all, Group::olympcs,   Group::olympcs,   0x2020,    Group::olymp2mn,  newTiffEntry },
+
+        // Olympus2 raw development subdir
+        {  Tag::all, Group::olymprd,   Group::olymprd,   0x2030,    Group::olymp2mn,  newTiffEntry },
+
+        // Olympus2 raw development 2 subdir
+        {  Tag::all, Group::olymprd2,  Group::olymprd2,  0x2031,    Group::olymp2mn,  newTiffEntry },
+
+        // Olympus2 image processing subdir
+        {  Tag::all, Group::olympip,   Group::olympip,   0x2040,    Group::olymp2mn,  newTiffEntry },
+
+        // Olympus2 focus info subdir
+        {  Tag::all, Group::olympfi,   Group::olympfi,   0x2050,    Group::olymp2mn,  newTiffEntry },
 
         // Fujifilm makernote
         { Tag::next, Group::fujimn,    Group::ignr,      0x927c,    Group::exif,      newTiffDirectory },

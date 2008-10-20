@@ -106,7 +106,11 @@ namespace Exiv2 {
         { 281, "Olympus"      },
         { 282, "Olympus2"     },
         { 283, "OlympusCs"    },
-        { 284, "OlympusEq"    }
+        { 284, "OlympusEq"    },
+        { 285, "OlympusRd"    },
+        { 286, "OlympusRd2"   },
+        { 287, "OlympusIp"    },
+        { 288, "OlympusFi"    }
     };
 
     bool TiffGroupInfo::operator==(const uint16_t& group) const
