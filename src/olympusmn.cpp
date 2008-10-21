@@ -653,11 +653,49 @@ namespace Exiv2 {
         return tagInfoCs_;
     }
 
+    //! OlympusEq FlashType, tag 0x1000
+    extern const TagDetails olympusEqFlashType[] = {
+        { 0, N_("None")            },
+        { 2, N_("Simple E-System") },
+        { 3, N_("E-System")        },
+    };
+
+    //! OlympusEq FlashModel, tag 0x1001
+    extern const TagDetails olympusEqFlashModel[] = {
+        { 0, N_("None") },
+        { 1, "FL-20"    },
+        { 2, "FL-50"    },
+        { 3, "RF-11"    },
+        { 4, "TF-22"    },
+        { 5, "FL-36"    },
+        { 6, "FL-50R"   },
+        { 7, "FL-36R"   },
+    };
+
     const TagInfo OlympusMakerNote::tagInfoEq_[] = {
         TagInfo(0x0000, "EquipmentVersion", N_("Equipment Version"), N_("Equipment version"), olympusEqIfdId, makerTags, undefined, printExifVersion),
-
-        // Todo: Add Olympus equipment tags
-
+        TagInfo(0x0100, "CameraType", N_("Camera Type"), N_("Camera type"), olympusEqIfdId, makerTags, asciiString, printValue),
+        TagInfo(0x0101, "SerialNumber", N_("Serial Number"), N_("Serial number"), olympusEqIfdId, makerTags, asciiString, printValue),
+        TagInfo(0x0102, "InternalSerialNumber", N_("Internal Serial Number"), N_("Internal serial number"), olympusEqIfdId, makerTags, asciiString, printValue),
+        TagInfo(0x0103, "FocalPlaneDiagonal", N_("Focal Plane Diagonal"), N_("Focal plane diagonal"), olympusEqIfdId, makerTags, unsignedRational, printValue),
+        TagInfo(0x0104, "BodyFirmwareVersion", N_("Body Firmware Version"), N_("Body firmware version"), olympusEqIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x0201, "LensType", N_("Lens Type"), N_("Lens type"), olympusEqIfdId, makerTags, unsignedByte, printValue),
+        TagInfo(0x0202, "LensSerialNumber", N_("Lens Serial Number"), N_("Lens serial number"), olympusEqIfdId, makerTags, asciiString, printValue),
+        TagInfo(0x0204, "LensFirmwareVersion", N_("Lens Firmware Version"), N_("Lens firmware version"), olympusEqIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x0205, "MaxApertureAtMinFocal", N_("Max Aperture At Min Focal"), N_("Max aperture at min focal"), olympusEqIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0206, "MaxApertureAtMaxFocal", N_("Max Aperture At Max Focal"), N_("Max aperture at max focal"), olympusEqIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0207, "MinFocalLength", N_("Min Focal Length"), N_("Min focal length"), olympusEqIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0208, "MaxFocalLength", N_("Max Focal Length"), N_("Max focal length"), olympusEqIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x020a, "MaxApertureAtCurrentFocal", N_("Max Aperture At Current Focal"), N_("Max aperture at current focal"), olympusEqIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x020b, "LensProperties", N_("Lens Properties"), N_("Lens properties"), olympusEqIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0301, "Extender", N_("Extender"), N_("Extender"), olympusEqIfdId, makerTags, unsignedByte, printValue),
+        TagInfo(0x0302, "ExtenderSerialNumber", N_("Extender Serial Number"), N_("Extender serial number"), olympusEqIfdId, makerTags, asciiString, printValue),
+        TagInfo(0x0303, "ExtenderModel", N_("Extender Model"), N_("Extender model"), olympusEqIfdId, makerTags, asciiString, printValue),
+        TagInfo(0x0304, "ExtenderFirmwareVersion", N_("Extender Firmware Version"), N_("Extender firmwareversion"), olympusEqIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x1000, "FlashType", N_("Flash Type"), N_("Flash type"), olympusEqIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusEqFlashType)),
+        TagInfo(0x1001, "FlashModel", N_("Flash Model"), N_("Flash model"), olympusEqIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusEqFlashModel)),
+        TagInfo(0x1002, "FlashFirmwareVersion", N_("Flash Firmware Version"), N_("Flash firmware version"), olympusEqIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x1003, "FlashSerialNumber", N_("FlashSerialNumber"), N_("FlashSerialNumber"), olympusEqIfdId, makerTags, asciiString, printValue),
         // End of list marker
         TagInfo(0xffff, "(UnknownOlympusEqTag)", "(UnknownOlympusEqTag)", N_("Unknown OlympusEq tag"), olympusEqIfdId, makerTags, invalidTypeId, printValue)
     };
@@ -667,11 +705,63 @@ namespace Exiv2 {
         return tagInfoEq_;
     }
 
+    //! OlympusRd ColorSpace, tag 0x0108
+    extern const TagDetails olympusRdColorSpace[] = {
+        { 0, N_("sRGB")          },
+        { 1, N_("Adobe RGB")     },
+        { 2, N_("Pro Photo RGB") },
+    };
+
+    //! OlympusRd Engine, tag 0x0109
+    extern const TagDetails olympusRdEngine[] = {
+        { 0, N_("High Speed")             },
+        { 1, N_("High Function")          },
+        { 2, N_("Advanced High Speed")    },
+        { 3, N_("Advanced High Function") },
+    };
+
+    //! OlympusRd NoiseReduction, tag 0x010a
+    extern const TagDetailsBitmask olympusRdNoiseReduction[] = {
+        { 0x0001, N_("Noise Reduction")          },
+        { 0x0002, N_("Noise Filter")             },
+        { 0x0004, N_("Noise Filter (ISO Boost)") },
+    };
+
+    //! OlympusRd EditStatus, tag 0x010b
+    extern const TagDetails olympusRdEditStatus[] = {
+        { 0, N_("Original")           },
+        { 1, N_("Edited (Landscape)") },
+        { 6, N_("Edited (Portrait)")  },
+        { 8, N_("Edited (Portrait)")  },
+    };
+
+    //! OlympusRd Settings, tag 0x010c
+    extern const TagDetailsBitmask olympusRdSettings[] = {
+        { 0x0001, N_("WB Color Temp")   },
+        { 0x0004, N_("WB Gray Point")   },
+        { 0x0008, N_("Saturation")      },
+        { 0x0010, N_("Contrast")        },
+        { 0x0020, N_("Sharpness")       },
+        { 0x0040, N_("Color Space")     },
+        { 0x0080, N_("High Function")   },
+        { 0x0100, N_("Noise Reduction") },
+    };
+
     const TagInfo OlympusMakerNote::tagInfoRd_[] = {
         TagInfo(0x0000, "RawDevVersion", N_("Raw Development Version"), N_("Raw development version"), olympusRdIfdId, makerTags, undefined, printExifVersion),
-
-        // Todo: Add Olympus raw development tags
-
+        TagInfo(0x0100, "ExposureBiasValue", N_("Exposure Bias Value"), N_("Exposure bias value"), olympusEqIfdId, makerTags, signedRational, printValue),
+        TagInfo(0x0101, "WhiteBalanceValue", N_("White Balance Value"), N_("White balance value"), olympusEqIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0102, "WBFineAdjustment", N_("WB Fine Adjustment"), N_("WB fine adjustment"), olympusEqIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x0103, "GrayPoint", N_("Gray Point"), N_("Gray point"), olympusEqIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0104, "SaturationEmphasis", N_("Saturation Emphasis"), N_("Saturation emphasis"), olympusEqIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x0105, "MemoryColorEmphasis", N_("Memory Color Emphasis"), N_("Memory color emphasis"), olympusEqIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0106, "ContrastValue", N_("Contrast Value"), N_("Contrast value"), olympusEqIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x0107, "SharpnessValue", N_("Sharpness Value"), N_("Sharpness value"), olympusEqIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x0108, "ColorSpace", N_("Color Space"), N_("Color space"), olympusEqIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusRdColorSpace)),
+        TagInfo(0x0109, "Engine", N_("Engine"), N_("Engine"), olympusEqIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusRdEngine)),
+        TagInfo(0x010a, "NoiseReduction", N_("Noise Reduction"), N_("Noise reduction"), olympusEqIfdId, makerTags, unsignedShort, EXV_PRINT_TAG_BITMASK(olympusRdNoiseReduction)),
+        TagInfo(0x010b, "EditStatus", N_("Edit Status"), N_("Edit status"), olympusEqIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusRdEditStatus)),
+        TagInfo(0x010c, "Settings", N_("Settings"), N_("Settings"), olympusEqIfdId, makerTags, unsignedShort, EXV_PRINT_TAG_BITMASK(olympusRdSettings)),
         // End of list marker
         TagInfo(0xffff, "(UnknownOlympusRdTag)", "(UnknownOlympusRdTag)", N_("Unknown OlympusRd tag"), olympusRdIfdId, makerTags, invalidTypeId, printValue)
     };
