@@ -380,7 +380,8 @@ namespace Exiv2 {
         {   8, "Canon EF 100-300mm f/5.6"                                   }, // 0
         {   8, "Sigma 70-300mm f/4-5.6 DG Macro"                            }, // 1
         {   8, "Tokina AT-X242AF 24-200mm f/3.5-5.6"                        }, // 2
-        {   9, "Canon EF 70-210mm f/4"                                      },
+        {   9, "Canon EF 70-210mm f/4"                                      }, // 0
+        {   9, "Sigma 55-200mm f/4-5.6 DC"                                  }, // 1
         {  10, "Canon EF 50mm f/2.5 Macro"                                  }, // 0
         {  10, "Sigma 50mm f/2.8 EX"                                        }, // 1
         {  10, "Sigma 28mm f/1.8"                                           }, // 2
@@ -575,6 +576,7 @@ namespace Exiv2 {
         {   4, 0                        }, // no known medicine
         {   6, printCsLensByFocalLength },
         {   8, printCsLensByFocalLength },
+        {   9, printCsLensByFocalLength },
         {  10, printCsLensByFocalLength }, // works partly
         {  22, printCsLensByFocalLength },
         {  26, printCsLensByFocalLength }, // works partly
