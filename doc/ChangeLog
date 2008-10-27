@@ -1,3 +1,37 @@
+Changes from version 0.18-pre1 to 0.18-pre2
+-------------------------------------------
+
+* MSVC related
+	- 0000567: Re-wrote MSVC build files. (Robin Mills)
+
+* Exiv2 library
+	- 0000570: Fuji SP-3000 Makernote not recognized.
+	           (Reported by han AT whria DOT net)
+	- 0000516: Print functions need access to other tags.
+	- 0000473: Support Preview images. (Vladimir Nadvornik)
+	         - Fixed non-intrusive encoding for Minolta array elements.
+	         - Fixed test whether data area is outside of the data buffer.
+	         - Added check for circular IFD references to new TIFF parser.
+	         - Added CanonCs.LensType and pretty-print function.
+	         - Added Nikon decryption algorithm and use it to decode lens data. 
+	         - Initialized variable which lead to crash on Windows
+	           (Reported by Robin Mills).
+	         - Added synthesized info tags Exif.MakerNote.Offset and 
+	           Exif.MakerNote.ByteOrder.
+	         - Some performance improvements. (Analysis by Vladimir Nadvornik) 
+	         - Always add Exif.Photo.Makernote tag, even if the makernote
+	           is decoded.
+	         - [xmp] Fixed issue with custom namespaces ending with a #.
+	           (Reported by chrysn)
+	         - [exif] Added Olympus2 makernote support. (Vladimir Nadvornik)
+	         - [translation] Updated German translation.
+	           (Oliver Dörr)
+	         - [translation] Updated Polish translation.
+	           (Piotr Eljasiak)
+	         - Removed inline functions from class hierarchies.
+	           (Patrick Spendrin)
+
+
 Changes from version 0.17.1 to 0.18-pre1
 ----------------------------------------
 
@@ -20,12 +54,12 @@ Changes from version 0.17.1 to 0.18-pre1
 	- 0000464: [metadata] Write support for PNG images. (Gilles Caulier)
 	- 0000462: [exif] Write support for TIFF format ("New TIFF parser").
 	- 0000405: [design] Separate metadata parsing from metadata storage.
-	-          [metadata] Write support for JPEG2000 format.
-	-          [exif] Updated Nikon lens info to v3.25 of Robert Rottmerhusen's
+	         - [metadata] Write support for JPEG2000 format. (Gilles Caulier)
+	         - [exif] Updated Nikon lens info to v3.25 of Robert Rottmerhusen's
 	           lens database.
-	-          [xmp] Added Microsoft Photo and digiKam XMP schemas.
+	         - [xmp] Added Microsoft Photo and digiKam XMP schemas.
 	           (Gilles Caulier)
-	-          [exif] Added DNG tags.
+	         - [exif] Added DNG tags.
 
 
 Changes from version 0.17 to 0.17.1
@@ -39,16 +73,16 @@ Changes from version 0.17 to 0.17.1
 	           JPEG files. (Reported with patch by Marcus Holland-Moritz)
 	- 0000552: [build environment] Build failure under Mac OS X 10.3.9
 	           (Reported by Marius Schamschula)
-	-          [exif] Fixed several potential division by 0 bugs.
+	         - [exif] Fixed several potential division by 0 bugs.
 
 
 Changes from version 0.16 to 0.17
 ---------------------------------
 
 * Exiv2 utility
-	-          [tools] exiv2 now writes a proper XMP sidecar file (it used to
+	         - [tools] exiv2 now writes a proper XMP sidecar file (it used to
 	           just dump the XMP packet to a file).
-	-          [tools] exiv2 can now also save Exif and IPTC data in the XMP
+	         - [tools] exiv2 can now also save Exif and IPTC data in the XMP
 	           sidecar file (conversion of Exif/IPTC to/from XMP).
 
 * Exiv2 library
@@ -103,7 +137,7 @@ Changes from version 0.16-pre1 to 0.16
 	           (Reported by Dave Locke)
 	- 0000477: [tools] Adjust year, month and day of the timestamp.
 	           (Based on a patch by David Grundberg)
-	-          [tools] Modified fixiso action to handle Canon tags as well.
+	         - [tools] Modified fixiso action to handle Canon tags as well.
 	           (Highlighted by Michael Mather)
 
 * Exiv2 library
