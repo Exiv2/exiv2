@@ -53,12 +53,12 @@ namespace Exiv2 {
              easier for library users (they have the option of catching most
              things via std::exception).
      */
-    class EXIV2API AnyError : public std::exception {
+    class AnyError : public std::exception {
     public:
         //! @name Creators
         //@{
         //! Virtual destructor.
-        virtual ~AnyError() throw()
+        virtual EXIV2API ~AnyError() throw()
         {
         }
         //@}
@@ -67,6 +67,7 @@ namespace Exiv2 {
         //@{
         //! Return the error code.
         virtual int code() const throw() =0;
+        //@}
     }; // AnyError
 
     //! %AnyBase output operator
@@ -79,12 +80,12 @@ namespace Exiv2 {
       @brief Simple error class used for exceptions. An output operator is
              provided to print errors to a stream.
      */
-    class EXIV2API Error : public AnyError {
+    class Error : public AnyError {
     public:
         //! @name Creators
         //@{
         //! Constructor taking only an error code
-        explicit Error(int code)
+        explicit EXIV2API Error(int code)
             : code_(code), count_(0)
         {
             setMsg();
@@ -112,26 +113,22 @@ namespace Exiv2 {
         {
             setMsg();
         }
-        //! Virtual destructor.
-        virtual ~Error() throw()
-        {
-        }
         //@}
 
         //! @name Accessors
         //@{
-        virtual int code() const throw() { return code_; }
+        virtual EXIV2API int code() const throw() { return code_; }
         /*!
           @brief Return the error message. The pointer returned by what()
                  is valid only as long as the Error object exists.
          */
-        virtual const char* what() const throw() { return msg_.c_str(); }
+        virtual EXIV2API const char* what() const throw() { return msg_.c_str(); }
         //@}
 
     private:
         //! @name Manipulators
         //@{
-        void setMsg();
+        EXIV2API void setMsg();
         //@}
 
         static int errorIdx(int code);
