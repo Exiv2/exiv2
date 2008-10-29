@@ -41,6 +41,7 @@ EXIV2_RCSID("@(#) $Id: pngimage.cpp 823 2006-06-12 07:35:00Z cgilles $")
 # include "exv_conf.h"
 #endif
 
+#ifdef EXV_HAVE_LIBZ
 #include "pngchunk_int.hpp"
 #include "pngimage.hpp"
 #include "image.hpp"
@@ -54,7 +55,7 @@ EXIV2_RCSID("@(#) $Id: pngimage.cpp 823 2006-06-12 07:35:00Z cgilles $")
 #include <iostream>
 #include <cassert>
 
-// Signature from front of PNG file 
+// Signature from front of PNG file
 const unsigned char pngSignature[8] = { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
 
 // *****************************************************************************
@@ -116,7 +117,7 @@ namespace Exiv2 {
                 !memcmp(cheaderBuf.pData_ + 4, "zTXt", 4) ||
                 !memcmp(cheaderBuf.pData_ + 4, "iTXt", 4))
             {
-                // Extract chunk data. 
+                // Extract chunk data.
 
                 DataBuf cdataBuf(dataOffset);
                 bufRead = io_->read(cdataBuf.pData_, dataOffset);
@@ -176,7 +177,7 @@ namespace Exiv2 {
 
     void PngImage::writeMetadata()
     {
-        if (io_->open() != 0) 
+        if (io_->open() != 0)
         {
             throw Error(9, io_->path(), strError());
         }
@@ -252,7 +253,7 @@ namespace Exiv2 {
 
                 // Write all updated metadata here, just after IHDR.
 
-                if (!comment_.empty()) 
+                if (!comment_.empty())
                 {
                     // Update Comment data to a new compressed iTXt PNG chunk
 
@@ -260,19 +261,19 @@ namespace Exiv2 {
                     DataBuf chunkData = PngChunk::makeMetadataChunk(com, PngChunk::comment_Data, true);
 
 #ifdef DEBUG
-                    std::cout << "Exiv2::PngImage::doWriteMetadata: Write chunk with Comment metadata (lenght: " 
+                    std::cout << "Exiv2::PngImage::doWriteMetadata: Write chunk with Comment metadata (lenght: "
                               << chunkData.size_ << ")\n";
 #endif
                     if (outIo.write(chunkData.pData_, chunkData.size_) != chunkData.size_) throw Error(21);
                 }
 
-                if (exifData_.count() > 0) 
+                if (exifData_.count() > 0)
                 {
                     // Update Exif data to a new zTXt PNG chunk
 
                     Blob blob;
                     ExifParser::encode(blob, littleEndian, exifData_);
-                    if (blob.size()) 
+                    if (blob.size())
                     {
                         const unsigned char ExifHeader[] = {0x45, 0x78, 0x69, 0x66, 0x00, 0x00};
 
@@ -282,40 +283,40 @@ namespace Exiv2 {
                         DataBuf chunkData = PngChunk::makeMetadataChunk(rawExif, PngChunk::exif_Data, true);
 
 #ifdef DEBUG
-                        std::cout << "Exiv2::PngImage::doWriteMetadata: Write chunk with Exif metadata (lenght: " 
+                        std::cout << "Exiv2::PngImage::doWriteMetadata: Write chunk with Exif metadata (lenght: "
                                   << chunkData.size_ << ")\n";
 #endif
                         if (outIo.write(chunkData.pData_, chunkData.size_) != chunkData.size_) throw Error(21);
                     }
                 }
 
-                if (iptcData_.count() > 0) 
+                if (iptcData_.count() > 0)
                 {
                     // Update Iptc data to a new zTXt PNG chunk
 
                     DataBuf rawIptc = IptcParser::encode(iptcData_);
-                    if (rawIptc.size_ > 0) 
+                    if (rawIptc.size_ > 0)
                     {
                         DataBuf chunkData = PngChunk::makeMetadataChunk(rawIptc, PngChunk::iptc_Data, true);
 
 #ifdef DEBUG
-                        std::cout << "Exiv2::PngImage::doWriteMetadata: Write chunk with Iptc metadata (lenght: " 
+                        std::cout << "Exiv2::PngImage::doWriteMetadata: Write chunk with Iptc metadata (lenght: "
                                   << chunkData.size_ << ")\n";
 #endif
                         if (outIo.write(chunkData.pData_, chunkData.size_) != chunkData.size_) throw Error(21);
                     }
                 }
 
-                if (writeXmpFromPacket() == false) 
+                if (writeXmpFromPacket() == false)
                 {
-                    if (XmpParser::encode(xmpPacket_, xmpData_)) 
+                    if (XmpParser::encode(xmpPacket_, xmpData_))
                     {
 #ifndef SUPPRESS_WARNINGS
                         std::cerr << "Error: Failed to encode XMP metadata.\n";
 #endif
                     }
                 }
-                if (xmpPacket_.size() > 0) 
+                if (xmpPacket_.size() > 0)
                 {
                     // Update Xmp data to a new uncompressed iTXt PNG chunk
                     // Note than XMP spec. Ver September 2005, page 97 require an uncompressed chunk to host XMP data
@@ -324,7 +325,7 @@ namespace Exiv2 {
                     DataBuf chunkData = PngChunk::makeMetadataChunk(xmp, PngChunk::xmp_Data, false);
 
 #ifdef DEBUG
-                    std::cout << "Exiv2::PngImage::doWriteMetadata: Write chunk with XMP metadata (lenght: " 
+                    std::cout << "Exiv2::PngImage::doWriteMetadata: Write chunk with XMP metadata (lenght: "
                               << chunkData.size_ << ")\n";
 #endif
                     if (outIo.write(chunkData.pData_, chunkData.size_) != chunkData.size_) throw Error(21);
@@ -343,14 +344,14 @@ namespace Exiv2 {
                     memcmp("Description",           key.pData_, 11) == 0)
                 {
 #ifdef DEBUG
-                    std::cout << "Exiv2::PngImage::doWriteMetadata: strip " << cheaderBuf.pData_ + 4 
+                    std::cout << "Exiv2::PngImage::doWriteMetadata: strip " << cheaderBuf.pData_ + 4
                               << " chunk (key: " << key.pData_ << ")\n";
 #endif
                 }
                 else
                 {
 #ifdef DEBUG
-                    std::cout << "Exiv2::PngImage::doWriteMetadata: write " << cheaderBuf.pData_ + 4 
+                    std::cout << "Exiv2::PngImage::doWriteMetadata: write " << cheaderBuf.pData_ + 4
                               << " chunk (lenght: " << dataOffset << ")\n";
 #endif
                     if (outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_) throw Error(21);
@@ -360,7 +361,7 @@ namespace Exiv2 {
             {
                 // Write all others chunk as well.
 #ifdef DEBUG
-                std::cout << "Exiv2::PngImage::doWriteMetadata: write " << cheaderBuf.pData_ + 4 
+                std::cout << "Exiv2::PngImage::doWriteMetadata: write " << cheaderBuf.pData_ + 4
                           << " chunk (lenght: " << dataOffset << ")\n";
 #endif
                 if (outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_) throw Error(21);
@@ -400,3 +401,4 @@ namespace Exiv2 {
         return rc == 0;
     }
 }                                       // namespace Exiv2
+#endif

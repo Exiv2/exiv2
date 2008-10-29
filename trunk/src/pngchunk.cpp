@@ -38,6 +38,7 @@ EXIV2_RCSID("@(#) $Id: pngchunk.cpp 823 2006-06-23 07:35:00Z cgilles $")
 #endif
 
 //#define DEBUG 1
+#ifdef EXV_HAVE_LIBZ
 
 extern "C" {
 #include <zlib.h>     // To uncompress or compress text chunk
@@ -90,13 +91,13 @@ namespace Exiv2 {
         DataBuf key = keyTXTChunk(data);
 
 #ifdef DEBUG
-        std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk key: " 
+        std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk key: "
                   << std::string((const char*)key.pData_) << "\n";
 #endif
         DataBuf arr = parseTXTChunk(data, key.size_, type);
 
 #ifdef DEBUG
-        std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk data: " 
+        std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk data: "
                   << std::string((const char*)arr.pData_, 32) << "\n";
 #endif
         parseChunkContent(pImage, key.pData_, arr);
@@ -123,8 +124,8 @@ namespace Exiv2 {
 
     } // PngChunk::keyTXTChunk
 
-    DataBuf PngChunk::parseTXTChunk(const DataBuf& data, 
-                                    int            keysize, 
+    DataBuf PngChunk::parseTXTChunk(const DataBuf& data,
+                                    int            keysize,
                                     TxtChunkType   type)
     {
         DataBuf arr;
@@ -304,12 +305,12 @@ namespace Exiv2 {
                 if (idx != std::string::npos && idx > 0)
                 {
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Exiv2::PngChunk::parseChunkContent: Removing " << idx 
+                    std::cerr << "Exiv2::PngChunk::parseChunkContent: Removing " << idx
                               << " characters from the beginning of the XMP packet\n";
 #endif
                     xmpPacket = xmpPacket.substr(idx);
                 }
-                if (XmpParser::decode(pImage->xmpData(), xmpPacket)) 
+                if (XmpParser::decode(pImage->xmpData(), xmpPacket))
                 {
 #ifndef SUPPRESS_WARNINGS
                     std::cerr << "Exiv2::PngChunk::parseChunkContent: Failed to decode XMP metadata.\n";
@@ -336,7 +337,7 @@ namespace Exiv2 {
 #endif
                     xmpPacket = xmpPacket.substr(idx);
                 }
-                if (XmpParser::decode(pImage->xmpData(), xmpPacket)) 
+                if (XmpParser::decode(pImage->xmpData(), xmpPacket))
                 {
 #ifndef SUPPRESS_WARNINGS
                     std::cerr << "Warning: Failed to decode XMP metadata.\n";
@@ -399,8 +400,8 @@ namespace Exiv2 {
 
     } // PngChunk::makeMetadataChunk
 
-    void PngChunk::zlibUncompress(const byte*  compressedText, 
-                                  unsigned int compressedTextSize, 
+    void PngChunk::zlibUncompress(const byte*  compressedText,
+                                  unsigned int compressedTextSize,
                                   DataBuf&     arr)
     {
         uLongf uncompressedLen = compressedTextSize * 2; // just a starting point
@@ -442,8 +443,8 @@ namespace Exiv2 {
 
     } // PngChunk::zlibUncompress
 
-    void PngChunk::zlibCompress(const byte*  text, 
-                                unsigned int textSize, 
+    void PngChunk::zlibCompress(const byte*  text,
+                                unsigned int textSize,
                                 DataBuf&     arr)
     {
         uLongf compressedLen = textSize * 2; // just a starting point
@@ -561,8 +562,8 @@ namespace Exiv2 {
         byte    chunkCRC[4];
 
         // Compressed text chunk using ZLib.
-        // Data format    : key ("iTXt") + 0x00 + compression flag (0x00: uncompressed - 0x01: compressed) + 
-        //                  compression method (0x00) + language id (null) + 0x00 + 
+        // Data format    : key ("iTXt") + 0x00 + compression flag (0x00: uncompressed - 0x01: compressed) +
+        //                  compression method (0x00) + language id (null) + 0x00 +
         //                  translated key (null) + 0x00 + text (compressed or not)
         // Chunk structure: data lenght (4 bytes) + chunk type (4 bytes) + data + CRC (4 bytes)
 
@@ -743,8 +744,8 @@ namespace Exiv2 {
 
     } // PngChunk::writeRawProfile
 
-    size_t PngChunk::copyString(char* destination, 
-                                const char* source, 
+    size_t PngChunk::copyString(char* destination,
+                                const char* source,
                                 const size_t length)
     {
         register char       *q;
@@ -785,9 +786,9 @@ namespace Exiv2 {
 
     } // PngChunk::copyString
 
-    long PngChunk::formatString(char*        string, 
-                                const size_t length, 
-                                const char*  format, 
+    long PngChunk::formatString(char*        string,
+                                const size_t length,
+                                const char*  format,
                                 ...)
     {
         long n;
@@ -801,9 +802,9 @@ namespace Exiv2 {
 
     } // PngChunk::formatString
 
-    long PngChunk::formatStringList(char*        string, 
-                                    const size_t length, 
-                                    const char*  format, 
+    long PngChunk::formatStringList(char*        string,
+                                    const size_t length,
+                                    const char*  format,
                                     va_list      operands)
     {
         int n = vsnprintf(string, length, format, operands);
@@ -816,3 +817,4 @@ namespace Exiv2 {
     } // PngChunk::formatStringList
 
 }}                                      // namespace Internal, Exiv2
+#endif // ifdef EXV_HAVE_LIBZ

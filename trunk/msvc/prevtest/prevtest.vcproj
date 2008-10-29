@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="addmoddel"
-	ProjectGUID="{271E59C4-81F9-4231-85D3-E7DDB2E2BC08}"
-	RootNamespace="addmoddel"
+	Name="prevtest"
+	ProjectGUID="{9D2A443C-93D3-4144-B911-D7CA7CD85DE7}"
+	RootNamespace="prevtest"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -42,8 +42,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../include;../../../zlib;../../src"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
+				AdditionalIncludeDirectories="../include;../../../zlib"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;BUILD_GETOPT"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -68,11 +68,10 @@
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="true"
 				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\exiv2lib\$(ConfigurationName)\libexpatMT.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
-				OutputFile="$(OutDir)/addmoddel.exe"
+				OutputFile="$(OutDir)/prevtest.exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/addmoddel.pdb"
+				ProgramDatabaseFile="$(OutDir)/prevtest.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -129,8 +128,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../include;../../../zlib;../../src"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
+				AdditionalIncludeDirectories="../include;../../../zlib"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;BUILD_GETOPT"
 				RuntimeLibrary="0"
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
@@ -152,7 +151,7 @@
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="true"
 				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\exiv2lib\$(ConfigurationName)\libexpatMT.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
-				OutputFile="$(OutDir)/addmoddel.exe"
+				OutputFile="$(OutDir)/prevtest.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="1"
@@ -197,7 +196,6 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				Description="copy expat binaries"
 				CommandLine="copy/y ..\..\..\expat-2.0.1\win32\bin\$(ConfigurationName)\*.* &quot;$(TargetDir)&quot;"
 			/>
 			<Tool
@@ -215,8 +213,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../include;../../../zlib;../../src"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
+				AdditionalIncludeDirectories="../include;../../../zlib"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;BUILD_GETOPT"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -243,10 +241,10 @@
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="true"
 				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\exiv2lib\$(ConfigurationName)\libexpat.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
-				OutputFile="$(OutDir)/addmoddel.exe"
+				OutputFile="$(OutDir)/prevtest.exe"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/addmoddel.pdb"
+				ProgramDatabaseFile="$(OutDir)/prevtest.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -287,7 +285,6 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				Description="copy expat binaries"
 				CommandLine="copy/y ..\..\..\expat-2.0.1\win32\bin\$(ConfigurationName)\*.* &quot;$(TargetDir)&quot;"
 			/>
 			<Tool
@@ -305,8 +302,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../include;../../../zlib;../../src"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
+				AdditionalIncludeDirectories="../include;../../../zlib"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;BUILD_GETOPT"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -333,10 +330,10 @@
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="true"
 				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\exiv2lib\$(ConfigurationName)\libexpat.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
-				OutputFile="$(OutDir)/addmoddel.exe"
+				OutputFile="$(OutDir)/prevtest.exe"
 				LinkIncremental="2"
 				GenerateDebugInformation="false"
-				ProgramDatabaseFile="$(OutDir)/addmoddel.pdb"
+				ProgramDatabaseFile="$(OutDir)/prevtest.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -377,7 +374,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\samples\addmoddel.cpp"
+				RelativePath="..\..\samples\prevtest.cpp"
 				>
 			</File>
 		</Filter>
@@ -386,6 +383,18 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath="..\..\src\getopt_win32.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\prevtest.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\utils.hpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"

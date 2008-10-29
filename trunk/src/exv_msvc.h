@@ -51,8 +51,29 @@ typedef int pid_t;
 
 #endif /* !EXV_COMMERCIAL_VERSION */
 
-/* Define to 1 if you have the `zlib' library. */
-#undef HAVE_LIBZ
+/* Define as 1 if you have the `zlib' library. (0 to omit zlib) [png support] */
+#define HAVE_LIBZ 1
+
+#if HAVE_LIBZ
+  #define EXV_HAVE_LIBZ
+  #if     EXV_HAVE_DLL
+    #ifdef   _DEBUG
+      #pragma comment(lib,"..\\zlib4exiv2\\DebugDLL\\zlib4exiv2.lib")
+    #else
+      #pragma comment(lib,"..\\zlib4exiv2\\ReleaseDLL\\zlib4exiv2.lib")
+    #endif
+  #else
+    #ifdef   _DEBUG
+      #pragma comment(lib,"..\\zlib4exiv2\\Debug\\zlib4exiv2.lib")
+    #else
+      #pragma comment(lib,"..\\zlib4exiv2\\Release\\zlib4exiv2.lib")
+    #endif
+  #endif
+  // assist VC7.1 to compile vsnprintf
+  #if (_MSC_VER < 1400) && !defined(vsnprintf)
+  #define vsnprintf _vsnprintf
+  #endif
+#endif
 
 /* Define to 1 if you have the Adobe XMP Toolkit. */
 #define EXV_HAVE_XMP_TOOLKIT 1
@@ -61,13 +82,39 @@ typedef int pid_t;
 #define EXV_SEPERATOR_STR "\\"
 #define EXV_SEPERATOR_CHR '\\'
 
-/* Todo: Shared library support */
+
+/* Shared library support */
+#ifdef  EXV_HAVE_DLL
+#define EXV_IMPORT __declspec(dllimport)
+#define EXV_EXPORT __declspec(dllexport)
+#define EXV_DLLLOCAL
+#define EXV_DLLPUBLIC
+#else
 #define EXV_IMPORT
 #define EXV_EXPORT
 #define EXV_DLLLOCAL
 #define EXV_DLLPUBLIC
 #define EXIV2API
+#endif
 
+/* Define EXIV2API for DLL builds */
+#ifdef   EXV_HAVE_DLL
+#  ifdef EXV_BUILDING_LIB
+#    define EXIV2API EXV_EXPORT
+#  else
+#    define EXIV2API EXV_IMPORT
+#  endif /* ! EXV_BUILDING_LIB */
+#else
+#  define EXIV2API
+#endif /* ! EXV_HAVE_DLL */
+
+
+/*
+  Disable warning 4251.  This is warning from std templates about exporting interfaces
+*/
+#ifdef  EXV_HAVE_DLL
+#pragma warning( disable : 4251 )
+#endif
 /*
   Visual Studio C++ 2005 (8.0)
   Disable warnings about 'deprecated' standard functions

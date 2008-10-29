@@ -5,98 +5,151 @@
 	Name="xmpsdk"
 	ProjectGUID="{09877CF4-83B6-44FE-A2E2-629AA5C8093E}"
 	RootNamespace="xmpsdk"
-	Keyword="Win32Proj">
+	Keyword="Win32Proj"
+	>
 	<Platforms>
 		<Platform
-			Name="Win32"/>
+			Name="Win32"
+		/>
 	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="Debug"
 			IntermediateDirectory="Debug"
 			ConfigurationType="4"
-			CharacterSet="2">
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+				CommandLine="xcopy/yesi ..\..\..\expat-2.0.1\win32\bin\debug ..\..\..\expat-2.0.1\win32\bin\DebugDLL"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\expat-2.0.1\lib;..\..\xmpsdk\src;..\..\xmpsdk\include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
-				MinimalRebuild="TRUE"
+				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;XML_STATIC"
+				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="5"
-				BufferSecurityCheck="TRUE"
-				RuntimeTypeInfo="TRUE"
+				RuntimeLibrary="1"
+				BufferSecurityCheck="true"
+				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
 				BrowseInformation="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="TRUE"
-				DebugInformationFormat="4"/>
+				DebugInformationFormat="4"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="libexpat.lib"
 				OutputFile="$(OutDir)/xmpsdk.lib"
-				AdditionalLibraryDirectories="$(SolutionDir)/lib"/>
+				AdditionalLibraryDirectories="..\..\..\expat-2.0.1\win32\bin\$(ConfigurationName)"
+			/>
 			<Tool
-				Name="VCMIDLTool"/>
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="
-"/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
-			<Tool
-				Name="VCResourceCompilerTool"/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"/>
-			<Tool
-				Name="VCManagedWrapperGeneratorTool"/>
-			<Tool
-				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+				Description="copy xmpsdk/Debug to DebugDLL"
+				CommandLine="mkdir DebugDLL&#x0D;&#x0A;copy/y Debug\*.lib DebugDLL&#x0D;&#x0A;"
+			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="Release"
 			IntermediateDirectory="Release"
 			ConfigurationType="4"
-			CharacterSet="2">
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+				CommandLine="xcopy/yesi ..\..\..\expat-2.0.1\win32\bin\release ..\..\..\expat-2.0.1\win32\bin\ReleaseDLL"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				RuntimeLibrary="4"
+				AdditionalIncludeDirectories="..\..\..\expat-2.0.1\lib;..\..\xmpsdk\src;..\..\xmpsdk\include"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;XML_STATIC"
+				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="TRUE"
-				DebugInformationFormat="3"/>
+				DebugInformationFormat="3"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/xmpsdk.lib"/>
+				OutputFile="$(OutDir)/xmpsdk.lib"
+				AdditionalLibraryDirectories="..\..\..\expat-2.0.1\win32\bin\$(ConfigurationName)"
+			/>
 			<Tool
-				Name="VCMIDLTool"/>
+				Name="VCALinkTool"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCXDCMakeTool"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCBscMakeTool"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCFxCopTool"
+			/>
 			<Tool
-				Name="VCResourceCompilerTool"/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"/>
-			<Tool
-				Name="VCManagedWrapperGeneratorTool"/>
-			<Tool
-				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+				Name="VCPostBuildEventTool"
+				Description="copy xmpsdk from Release to ReleaseDLL"
+				CommandLine="mkdir ReleaseDLL&#x0D;&#x0A;copy/y Release\*.lib ReleaseDLL&#x0D;&#x0A;"
+			/>
 		</Configuration>
 	</Configurations>
 	<References>
@@ -105,143 +158,188 @@
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			>
 			<File
-				RelativePath="..\..\xmpsdk\src\ExpatAdapter.cpp">
+				RelativePath="..\..\xmpsdk\src\ExpatAdapter.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\src\MD5.cpp">
+				RelativePath="..\..\xmpsdk\src\MD5.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\src\ParseRDF.cpp">
+				RelativePath="..\..\xmpsdk\src\ParseRDF.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\src\UnicodeConversions.cpp">
+				RelativePath="..\..\xmpsdk\src\UnicodeConversions.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\src\WXMPIterator.cpp">
+				RelativePath="..\..\xmpsdk\src\WXMPIterator.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\src\WXMPMeta.cpp">
+				RelativePath="..\..\xmpsdk\src\WXMPMeta.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\src\WXMPUtils.cpp">
+				RelativePath="..\..\xmpsdk\src\WXMPUtils.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\src\XMPCore_Impl.cpp">
+				RelativePath="..\..\xmpsdk\src\XMPCore_Impl.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\src\XMPIterator.cpp">
+				RelativePath="..\..\xmpsdk\src\XMPIterator.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\src\XMPMeta-GetSet.cpp">
+				RelativePath="..\..\xmpsdk\src\XMPMeta-GetSet.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\src\XMPMeta-Parse.cpp">
+				RelativePath="..\..\xmpsdk\src\XMPMeta-Parse.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\src\XMPMeta-Serialize.cpp">
+				RelativePath="..\..\xmpsdk\src\XMPMeta-Serialize.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\src\XMPMeta.cpp">
+				RelativePath="..\..\xmpsdk\src\XMPMeta.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\src\XMPUtils-FileInfo.cpp">
+				RelativePath="..\..\xmpsdk\src\XMPUtils-FileInfo.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\src\XMPUtils.cpp">
+				RelativePath="..\..\xmpsdk\src\XMPUtils.cpp"
+				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
 			<File
-				RelativePath="..\..\xmpsdk\src\ExpatAdapter.hpp">
+				RelativePath="..\..\xmpsdk\src\ExpatAdapter.hpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\src\MD5.h">
+				RelativePath="..\..\xmpsdk\src\MD5.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\include\TXMPFiles.hpp">
+				RelativePath="..\..\xmpsdk\include\TXMPFiles.hpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\include\client-glue\TXMPFiles.incl_cpp">
+				RelativePath="..\..\xmpsdk\include\client-glue\TXMPFiles.incl_cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\include\TXMPIterator.hpp">
+				RelativePath="..\..\xmpsdk\include\TXMPIterator.hpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\include\client-glue\TXMPIterator.incl_cpp">
+				RelativePath="..\..\xmpsdk\include\client-glue\TXMPIterator.incl_cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\include\TXMPMeta.hpp">
+				RelativePath="..\..\xmpsdk\include\TXMPMeta.hpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\include\client-glue\TXMPMeta.incl_cpp">
+				RelativePath="..\..\xmpsdk\include\client-glue\TXMPMeta.incl_cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\include\TXMPUtils.hpp">
+				RelativePath="..\..\xmpsdk\include\TXMPUtils.hpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\include\client-glue\TXMPUtils.incl_cpp">
+				RelativePath="..\..\xmpsdk\include\client-glue\TXMPUtils.incl_cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\src\UnicodeConversions.hpp">
+				RelativePath="..\..\xmpsdk\src\UnicodeConversions.hpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\include\client-glue\WXMP_Common.hpp">
+				RelativePath="..\..\xmpsdk\include\client-glue\WXMP_Common.hpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\include\client-glue\WXMPFiles.hpp">
+				RelativePath="..\..\xmpsdk\include\client-glue\WXMPFiles.hpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\include\client-glue\WXMPIterator.hpp">
+				RelativePath="..\..\xmpsdk\include\client-glue\WXMPIterator.hpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\include\client-glue\WXMPMeta.hpp">
+				RelativePath="..\..\xmpsdk\include\client-glue\WXMPMeta.hpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\include\client-glue\WXMPUtils.hpp">
+				RelativePath="..\..\xmpsdk\include\client-glue\WXMPUtils.hpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\src\XMLParserAdapter.hpp">
+				RelativePath="..\..\xmpsdk\src\XMLParserAdapter.hpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\include\XMP.hpp">
+				RelativePath="..\..\xmpsdk\include\XMP.hpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\src\XMP_BuildInfo.h">
+				RelativePath="..\..\xmpsdk\src\XMP_BuildInfo.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\include\XMP_Const.h">
+				RelativePath="..\..\xmpsdk\include\XMP_Const.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\include\XMP_Environment.h">
+				RelativePath="..\..\xmpsdk\include\XMP_Environment.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\include\XMP_Version.h">
+				RelativePath="..\..\xmpsdk\include\XMP_Version.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\src\XMPCore_Impl.hpp">
+				RelativePath="..\..\xmpsdk\src\XMPCore_Impl.hpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\src\XMPIterator.hpp">
+				RelativePath="..\..\xmpsdk\src\XMPIterator.hpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\src\XMPMeta.hpp">
+				RelativePath="..\..\xmpsdk\src\XMPMeta.hpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\src\XMPUtils.hpp">
+				RelativePath="..\..\xmpsdk\src\XMPUtils.hpp"
+				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}">
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			>
 		</Filter>
 		<File
-			RelativePath=".\ReadMe.txt">
+			RelativePath=".\ReadMe.txt"
+			>
 		</File>
 	</Files>
 	<Globals>
