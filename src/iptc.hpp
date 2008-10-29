@@ -175,7 +175,7 @@ namespace Exiv2 {
     }; // class Iptcdatum
 
     //! Container type to hold all metadata
-    typedef std::vector<Iptcdatum> IptcMetadata;
+    typedef std::vector<EXIV2API Iptcdatum> IptcMetadata;
 
     //! Unary predicate that matches an Iptcdatum with given record and dataset
     class EXIV2API FindMetadatumById {

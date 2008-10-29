@@ -475,7 +475,7 @@ namespace Exiv2 {
             width_ = image->pixelWidth();
             height_ = image->pixelHeight();
         }
-        catch (const AnyError& error) {
+        catch (const AnyError& /* error */ ) {
             return false;
         }
 
@@ -546,7 +546,7 @@ namespace Exiv2 {
             width_ = image->pixelWidth();
             height_ = image->pixelHeight();
         }
-        catch (const AnyError& error) {
+        catch (const AnyError& /* error */ ) {
             return false;
         }
 

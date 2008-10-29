@@ -257,7 +257,7 @@ namespace Exiv2 {
       @brief Class to access JPEG images
      */
     class EXIV2API JpegImage : public JpegBase {
-        friend bool isJpegType(BasicIo& iIo, bool advance);
+        friend EXIV2API bool isJpegType(BasicIo& iIo, bool advance);
     public:
         //! @name Creators
         //@{
@@ -318,7 +318,7 @@ namespace Exiv2 {
 
     //! Helper class to access %Exiv2 files
     class EXIV2API ExvImage : public JpegBase {
-        friend bool isExvType(BasicIo& iIo, bool advance);
+        friend EXIV2API bool isExvType(BasicIo& iIo, bool advance);
     public:
         //! @name Creators
         //@{
