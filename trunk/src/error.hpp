@@ -113,6 +113,10 @@ namespace Exiv2 {
         {
             setMsg();
         }
+        //! Virtual destructor. (Needed because of throw())
+        virtual EXIV2API ~Error() throw()
+        {
+        }
         //@}
 
         //! @name Accessors
