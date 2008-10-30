@@ -277,7 +277,7 @@ namespace Exiv2 {
     class EXIV2API IptcKey : public Key {
     public:
         //! Shortcut for an %IptcKey auto pointer.
-        typedef std::auto_ptr<EXIV2API IptcKey> AutoPtr;
+        typedef std::auto_ptr<IptcKey> AutoPtr;
 
         //! @name Creators
         //@{
