@@ -329,7 +329,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="true"
-				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\exiv2lib\$(ConfigurationName)\libexpat.lib ..\xmpsdk\release\xmpsdk.lib"
+				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\exiv2lib\$(ConfigurationName)\libexpat.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
 				OutputFile="$(OutDir)/exifprint.exe"
 				LinkIncremental="2"
 				GenerateDebugInformation="false"
