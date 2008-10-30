@@ -336,7 +336,7 @@ namespace Exiv2 {
 
     public:
         //! Type used to store the data.
-        typedef std::vector<EXIV2API byte> ValueType;
+        typedef std::vector<byte> ValueType;
         // DATA
         ValueType value_;                       //!< Stores the data value
 
@@ -842,7 +842,7 @@ namespace Exiv2 {
 
     public:
         //! Type used to store XMP array elements.
-        typedef std::vector<EXIV2API std::string> ValueType;
+        typedef std::vector<std::string> ValueType;
         // DATA
         std::vector<std::string> value_;        //!< Stores the string values.
 

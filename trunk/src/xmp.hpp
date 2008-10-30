@@ -163,7 +163,7 @@ namespace Exiv2 {
     }; // class Xmpdatum
 
     //! Container type to hold all metadata
-    typedef std::vector<EXIV2API Xmpdatum> XmpMetadata;
+    typedef std::vector<Xmpdatum> XmpMetadata;
 
     /*!
       @brief A container for XMP data. This is a top-level class of
