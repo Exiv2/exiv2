@@ -2,7 +2,8 @@ Changes from version 0.18-pre1 to 0.18-pre2
 -------------------------------------------
 
 * MSVC related
-	- 0000567: Re-wrote MSVC build files. (Robin Mills)
+	- 0000567: Re-wrote MSVC build files. Now builds an experimental DLL
+	           among other improvements. (Robin Mills)
 
 * Exiv2 library
 	- 0000570: Fuji SP-3000 Makernote not recognized.
