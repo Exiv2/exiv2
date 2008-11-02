@@ -40,14 +40,8 @@ To uninstall Exiv2 from a UNIX-like system, run:
     $ make uninstall
 
 To build Exiv2 with MSVC 7.1 or later on Windows, use the solution file
-msvc/exiv2.sln.  XMP support is enabled in this solution, so Expat needs
-to be available (see section "Dependencies" below): Get and compile Expat,
-look for the file libexpat.lib and copy it to the directory msvc/lib in
-the Exiv2 source tree.
-MSVC 8 or 9 will convert the project files automatically. After that, you
-will need to manually change the property "Link Library Dependencies" of 
-the exiv2lib project to "Yes" before compiling (exiv2lib project -> 
-Properties -> Librarian).
+msvc\exiv2.sln. See msvc\README-MSVC.txt for details. This requires
+expat and zlib.
 
 To build a commercial version of the Exiv2 library, see also section 
 "Commercial version" at the end of this file.
@@ -70,7 +64,7 @@ Converting Windows XP tags  libiconv  --disable-printucs2
 XMP support                 expat     --disable-xmp
                                       --with-expat=DIR
 
-zlib         http://www.zlib.net/
+zlib         http://zlib.net/
 gettext  *)  http://www.gnu.org/software/gettext/
 libiconv *)  http://www.gnu.org/software/libiconv/
 expat        http://expat.sourceforge.net/
@@ -169,7 +163,6 @@ Exif.Nikon3.LensData values to lens names to build a commercial
 version of the Exiv2 library.
 
 To do this on Windows, compile the library with the preprocessor
-symbol EXV_COMMERCIAL_VERSION defined. See the file src/exv_msvc.h
-for details.
+symbol EXV_COMMERCIAL_VERSION defined in the file src\exv_msvc.h.
 On UNIX-like systems, run the configure script with the options
 --enable-commercial --disable-nls --disable-printucs2 --disable-lensdata
