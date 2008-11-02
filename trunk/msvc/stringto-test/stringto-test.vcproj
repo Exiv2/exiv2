@@ -6,6 +6,7 @@
 	ProjectGUID="{156423D3-5FBB-45C6-A7CA-675B32F45C15}"
 	RootNamespace="stringto-test"
 	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -25,7 +26,6 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="copy/y ..\..\..\expat-2.0.1\win32\bin\$(ConfigurationName)\*.* &quot;$(TargetDir)&quot;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -67,12 +67,14 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="true"
-				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\exiv2lib\$(ConfigurationName)\libexpatMT.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
+				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\..\..\expat-2.0.1\win32\bin\debug\libexpatMT.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
 				OutputFile="$(OutDir)/stringto-test.exe"
-				LinkIncremental="2"
+				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/stringto-test.pdb"
 				SubSystem="1"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -94,9 +96,6 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 				Description="copy target to bin"
 				CommandLine="copy/y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)&quot;"
@@ -112,7 +111,6 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="copy/y ..\..\..\expat-2.0.1\win32\bin\$(ConfigurationName)\*.* &quot;$(TargetDir)&quot;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -147,13 +145,15 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="true"
-				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\exiv2lib\$(ConfigurationName)\libexpatMT.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
+				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\..\..\expat-2.0.1\win32\bin\release\libexpatMT.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
 				OutputFile="$(OutDir)/stringto-test.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -175,9 +175,6 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 				Description="copy target to bin"
 				CommandLine="copy/y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)&quot;"
@@ -193,7 +190,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="copy/y ..\..\..\expat-2.0.1\win32\bin\$(ConfigurationName)\*.* &quot;$(TargetDir)&quot;"
+				CommandLine="copy/y ..\..\..\expat-2.0.1\win32\bin\debug\*.dll &quot;$(TargetDir)&quot;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -211,7 +208,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../include;../../../zlib"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;BUILD_GETOPT"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;BUILD_GETOPT;EXV_HAVE_DLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -237,12 +234,14 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="true"
-				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\exiv2lib\$(ConfigurationName)\libexpat.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
+				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\..\..\expat-2.0.1\win32\bin\debug\libexpat.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
 				OutputFile="$(OutDir)/stringto-test.exe"
-				LinkIncremental="2"
+				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/stringto-test.pdb"
 				SubSystem="1"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -264,9 +263,6 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 				Description="copy target to bin"
 				CommandLine="copy/y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)&quot;"
@@ -282,7 +278,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="copy/y ..\..\..\expat-2.0.1\win32\bin\$(ConfigurationName)\*.* &quot;$(TargetDir)&quot;"
+				CommandLine="copy/y ..\..\..\expat-2.0.1\win32\bin\release\*.dll &quot;$(TargetDir)&quot;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -300,7 +296,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../include;../../../zlib"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;BUILD_GETOPT"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;BUILD_GETOPT;EXV_HAVE_DLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -326,12 +322,14 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="true"
-				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\exiv2lib\$(ConfigurationName)\libexpat.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
+				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\..\..\expat-2.0.1\win32\bin\release\libexpat.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
 				OutputFile="$(OutDir)/stringto-test.exe"
-				LinkIncremental="2"
+				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				ProgramDatabaseFile="$(OutDir)/stringto-test.pdb"
 				SubSystem="1"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -351,9 +349,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"

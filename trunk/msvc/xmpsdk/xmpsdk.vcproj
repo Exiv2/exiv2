@@ -6,6 +6,7 @@
 	ProjectGUID="{09877CF4-83B6-44FE-A2E2-629AA5C8093E}"
 	RootNamespace="xmpsdk"
 	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -25,7 +26,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="xcopy/yesi ..\..\..\expat-2.0.1\win32\bin\debug ..\..\..\expat-2.0.1\win32\bin\DebugDLL"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -96,7 +97,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="xcopy/yesi ..\..\..\expat-2.0.1\win32\bin\release ..\..\..\expat-2.0.1\win32\bin\ReleaseDLL"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"

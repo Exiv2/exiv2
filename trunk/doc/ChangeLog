@@ -2,35 +2,37 @@ Changes from version 0.18-pre1 to 0.18-pre2
 -------------------------------------------
 
 * MSVC related
-	- 0000567: Re-wrote MSVC build files. Now builds an experimental DLL
-	           among other improvements. (Robin Mills)
+       - 0000567: [build environment] Re-wrote MSVC build files. Now builds an
+                  experimental DLL among other improvements. (Robin Mills)
 
 * Exiv2 library
-	- 0000570: Fuji SP-3000 Makernote not recognized.
-	           (Reported by han AT whria DOT net)
-	- 0000516: Print functions need access to other tags.
-	- 0000473: Support Preview images. (Vladimir Nadvornik)
-	         - Fixed non-intrusive encoding for Minolta array elements.
-	         - Fixed test whether data area is outside of the data buffer.
-	         - Added check for circular IFD references to new TIFF parser.
-	         - Added CanonCs.LensType and pretty-print function.
-	         - Added Nikon decryption algorithm and use it to decode lens data. 
-	         - Initialized variable which lead to crash on Windows
-	           (Reported by Robin Mills).
-	         - Added synthesized info tags Exif.MakerNote.Offset and 
-	           Exif.MakerNote.ByteOrder.
-	         - Some performance improvements. (Analysis by Vladimir Nadvornik) 
-	         - Always add Exif.Photo.Makernote tag, even if the makernote
-	           is decoded.
-	         - [xmp] Fixed issue with custom namespaces ending with a #.
-	           (Reported by chrysn)
-	         - [exif] Added Olympus2 makernote support. (Vladimir Nadvornik)
-	         - [translation] Updated German translation.
-	           (Oliver Dörr)
-	         - [translation] Updated Polish translation.
-	           (Piotr Eljasiak)
-	         - Removed inline functions from class hierarchies.
-	           (Patrick Spendrin)
+       - 0000570: [exif] Fuji SP-3000 Makernote not recognized.
+                  (Reported by han AT whria DOT net)
+       - 0000516: [exif] Print functions need access to other tags.
+       - 0000473: [design] Support Preview images. (Vladimir Nadvornik)
+                - [exif] Fixed non-intrusive encoding for Minolta array elements.
+                - [exif] Fixed test whether data area is outside of the data buffer.
+                - [exif] Added check for circular IFD references to new TIFF parser.
+                - [exif] Added Exif.CanonCs.LensType and pretty-print function.
+                - [exif] Added Nikon decryption algorithm and use it to decode
+	          lens data.
+                - [misc] Initialized variable which lead to crash on Windows.
+                  (Reported by Robin Mills).
+                - [exif] Added synthesized info tags Exif.MakerNote.Offset and
+                  Exif.MakerNote.ByteOrder.
+                - [misc] Some performance improvements.
+                  (Analysis by Vladimir Nadvornik)
+                - [exif] Always add Exif.Photo.Makernote tag, even if the
+                  makernote is decoded.
+                - [xmp] Fixed issue with custom namespaces ending with a #.
+                  (Reported by chrysn)
+                - [exif] Added Olympus2 makernote support. (Vladimir Nadvornik)
+                - [translation] Updated German translation.
+                  (Oliver Dörr)
+                - [translation] Updated Polish translation.
+                  (Piotr Eljasiak)
+                - [design] Removed inline functions from class hierarchies.
+                  (Patrick Spendrin)
 
 
 Changes from version 0.17.1 to 0.18-pre1
@@ -222,7 +224,7 @@ Changes from version 0.14 to 0.15
 	- 0000509: [miscellaneous] Since v0.14 the version check macro doesn't work
 	           in a precompiler #if test anymore. (Reported by Udi Fuchs)
 	- 0000449: [jpeg i/o] Uncouple IPTC and Exif reading.
-	         - [exif] Updated Nikon lens info to v2.30 of Robert Rottmerhusen's 
+	         - [exif] Updated Nikon lens info to v2.30 of Robert Rottmerhusen's
 	           lens database.
 	         - [Exif] Added additional values to the Exif.CanonCs.ISOSpeed.
 	           lookup table. (Patrick Markert)
