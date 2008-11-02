@@ -13,9 +13,9 @@ How to build and test
 ---------------------
 
 1)  Dependancies
-    You need expat-2.0.1 AND zlib-1.2.3 which you can download from http://expat.sourceforge.net/
-    and http://zlib.net/, respectively. expat-2.0.1, zlib and exiv2 should be in the same
-    directory
+    You need expat-2.0.1 AND zlib-1.2.3 which you can download from
+    http://expat.sourceforge.net/ and http://zlib.net/, respectively.
+    expat-2.0.1, zlib and exiv2 should be in the same directory
 
     I usually use c:\gnu, however the path 'c:\gnu' does not matter
     nor does it have to be a topmost directory.
@@ -26,10 +26,12 @@ How to build and test
 
 2)  Build expat. See there for details. Something like this usually works:
     Convert expat-2.0.1 VC6 work space your version of DevStudio
-    Open expat-2.0.1\expat.dsw with DevStudio to convert and save the expat project files
+    Open expat-2.0.1\expat.dsw with DevStudio to convert and save the expat
+    project files
     Say "Yes" to everything.
 
-    Build/Batch Build/Select { debug | release } { expat | expat-static } (4 targets) / Build
+    Build/Batch Build/Select { debug | release } { expat | expat-static }
+    (4 targets) / Build
 
     Rattle roll.... less than a minute ...... rattle grrrrrrrr rump.
 	========== Build: 4 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
@@ -45,7 +47,8 @@ How to build and test
 
 	========== Build: 94 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
 
-    The build take 6 minutes on my iMac with a 2.8GHz Duo Core Intel Processor and 4GBytes of Ram. (VS 2005 and VS 2008)
+    The build take 6 minutes on my iMac with a 2.8GHz Duo Core Intel Processor
+    and 4GBytes of Ram. (VS 2005 and VS 2008)
 
     And about 16 minutes on my elderly 2003 laptop (VS 2003 .Net)
     (DeLL Inspiron 8500 2.2GHz Pentium and 1.25GBytes of Ram)
@@ -58,15 +61,15 @@ How to build and test
 
     The total build consumes 1.2GBytes of disk space.
     There are 94 targets.
-    The pdb (debugging) files consume 400MBytes.
-    The debug exiv2 library (exiv2.lib) is 40MBytes
+    The pdb (debugging) files consume 400MB.
+    The debug exiv2 library (exiv2.lib) is 40MB
 
-    A more modest build is to build exiv2 { Debug | Release | DebugDLL | ReleaseDLL }
-    This consumes: 420MBytes
+    A more modest build is to build exiv2 { Debug | Release | DebugDLL 
+    | ReleaseDLL } This consumes: 420MB
     
     A minimum build is to build exiv2/Release
-    This consumes: 100MBytes
-    
+    This consumes: 100MB
+
     I will reduce this by about 10-20% in 0.18final (see appendix)
 
 5)  Test from the Command Line (cmd.exe):
@@ -106,7 +109,8 @@ Debug and Release versions of all targets
 Everything is built as MT (MTd for Debug).
 The objects are built with the Static C runtime Libraries.
 
-DLL targets link dynamically (exiv2.exe requires libexpat.dll, exiv2.dll and zlib4exiv2.dll)
+DLL targets link dynamically (exiv2.exe requires libexpat.dll, exiv2.dll and
+zlib4exiv2.dll)
 Static targets are statically linked (exiv2.exe has no dependancies.
 
 I've added a note at the bottom about zlib4exiv2.dll
