@@ -1,9 +1,6 @@
 Notes about msvc build of exiv2
 -------------------------------
 
-CodeBase: exiv2 /trunk: 1652
-Version : Tuesday 20081030@20:55PDT
-
 Tools
 -----
 
@@ -16,25 +13,27 @@ How to build and test
 ---------------------
 
 1)  Dependancies
-    You need expat-2.0.1 AND zlib which you can download from sourceforge
-    expat-2.0.1, zlib and exiv2 should be in the same directory
+    You need expat-2.0.1 AND zlib-1.2.3 which you can download from http://expat.sourceforge.net/
+    and http://zlib.net/, respectively. expat-2.0.1, zlib and exiv2 should be in the same
+    directory
 
-    I usually use c:\gnu, however the name does not matter
-    nor does it have to be a topmost directory
+    I usually use c:\gnu, however the path 'c:\gnu' does not matter
+    nor does it have to be a topmost directory.
 
     c:\gnu\expat-2.0.1    <---- vanilla expat
     c:\gnu\zlib           <---- vanilla zlib
     c:\gnu\exiv2          <---- this directory
 
-2)  Convert expat-2.0.1 VC6 work space your version of DevStudio
+2)  Build expat. See there for details. Something like this usually works:
+    Convert expat-2.0.1 VC6 work space your version of DevStudio
     Open expat-2.0.1\expat.dsw with DevStudio to convert and save the expat project files
     Say "Yes" to everything.
-    
+
     Build/Batch Build/Select { debug | release } { expat | expat-static } (4 targets) / Build
-    
+
     Rattle roll.... less than a minute ...... rattle grrrrrrrr rump.
 	========== Build: 4 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
-    
+
 3)  Open the sln file exiv2\msvc\exiv2.sln
     On VS2005 and up, the Wizard will offer to upgrade the project files.
     Once more, say yes to everything.
@@ -60,13 +59,13 @@ How to build and test
     The total build consumes 1.2GBytes of disk space.
     There are 94 targets.
     The pdb (debugging) files consume 400MBytes.
-    The debug exiv2 library (exiv2.lib) is 40mBytes
-    
+    The debug exiv2 library (exiv2.lib) is 40MBytes
+
     A more modest build is to build exiv2 { Debug | Release | DebugDLL | ReleaseDLL }
-    This consumes: 420mBytes
+    This consumes: 420MBytes
     
     A minimum build is to build exiv2/Release
-    This consumes: 100mBytes
+    This consumes: 100MBytes
     
     I will reduce this by about 10-20% in 0.18final (see appendix)
 
@@ -159,8 +158,8 @@ To be done (hopefully for 0.18final)
 - Do some debugging (check that it debugs, links, builds OK)
 - Test more 'partial' targets
 - See what happens when expat isn't built!
-3 Make the test program much longer and deeper
-4 Investigate the crashes in the DLLs (see Known Issue)
+3 Investigate the crashes in the DLLs (see Known Issue)
+4 Make the test program much longer and deeper
 5 Build and test pyexiv2 and exiv2net
 - We're not going to distribute pyexiv2 or exiv2net
 - I'd like to test that those work correctly with our builds
@@ -175,7 +174,16 @@ APPENDIX
 zlib4exiv2.dll
 --------------
 
-The 'vanilla' zlib projects build zlib1.dll and zlib1d.dll. (d=debug).  These are built with the MD (and MDd) options.  We are building with MT and MTd.  When we link, we get heart-thumping warnings from the linker about malloc and free.  I don't think it's a good idea to link those.  So, I added a project zlib4exiv2 to build the MT (and MTd) version of zlib.  I resisted the temptation to call those zlib1.dll (and zlib1d.dll) as they are different from the 'vanilla' versions.  While I believe zlib1.dll and zlib4exiv2.dll are probably interchangeable, I decided not to take the risk of breaking another product by redefining a 'standard' dll.  Rule 1 in life 'do no harm'.
+The 'vanilla' zlib projects build zlib1.dll and zlib1d.dll. (d=debug).
+These are built with the MD (and MDd) options.  We are building with
+MT and MTd.  When we link, we get heart-thumping warnings from the
+linker about malloc and free.  I don't think it's a good idea to link
+those.  So, I added a project zlib4exiv2 to build the MT (and MTd)
+version of zlib.  I resisted the temptation to call those zlib1.dll
+(and zlib1d.dll) as they are different from the 'vanilla' versions.
+While I believe zlib1.dll and zlib4exiv2.dll are probably
+interchangeable, I decided not to take the risk of breaking another
+product by redefining a 'standard' dll.  Rule 1 in life 'do no harm'.
 
 I need to do more work in this area.
 
@@ -187,6 +195,6 @@ At the moment, I build every target into it's own directory and then copy it to 
 For example:  exiv2/msvc/exiv2.lib -> debug/exiv2.lib  = copy => exiv2/msvc/bin/debug/exiv2.lib
 
 I did this for a good reasons at the time.  I think I'll revisit this and build into the bin.
-This will save about 100-200mb of disk space on a complete build (10%-20%)
+This will save about 100-200MB of disk space on a complete build (10%-20%)
 
 -- end --
