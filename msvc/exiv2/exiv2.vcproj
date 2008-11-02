@@ -6,6 +6,7 @@
 	ProjectGUID="{07293CAC-00DA-493E-90C9-5D010C2B1B53}"
 	RootNamespace="exiv2"
 	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -25,7 +26,6 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="copy/y ..\..\..\expat-2.0.1\win32\bin\$(ConfigurationName)\*.* &quot;$(TargetDir)&quot;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -67,13 +67,15 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="true"
-				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\exiv2lib\$(ConfigurationName)\libexpatMT.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
+				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\..\..\expat-2.0.1\win32\bin\debug\libexpatMT.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
 				OutputFile="$(OutDir)/exiv2.exe"
-				LinkIncremental="2"
+				LinkIncremental="1"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/exiv2.pdb"
 				SubSystem="1"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -95,9 +97,6 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 				Description="copy target to bin"
 				CommandLine="copy/y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)&quot;"
@@ -113,7 +112,6 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="copy/y ..\..\..\expat-2.0.1\win32\bin\$(ConfigurationName)\*.* &quot;$(TargetDir)&quot;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -151,7 +149,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="true"
-				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\exiv2lib\$(ConfigurationName)\libexpatMT.lib"
+				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\..\..\expat-2.0.1\win32\bin\release\libexpatMT.lib"
 				OutputFile="$(OutDir)/exiv2.exe"
 				LinkIncremental="1"
 				IgnoreDefaultLibraryNames=""
@@ -159,6 +157,8 @@
 				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -180,9 +180,6 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 				Description="copy target to bin"
 				CommandLine="copy/y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)&quot;"
@@ -198,7 +195,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="copy/y ..\..\..\expat-2.0.1\win32\bin\$(ConfigurationName)\*.* &quot;$(TargetDir)&quot;"
+				CommandLine="copy/y ..\..\..\expat-2.0.1\win32\bin\debug\*.dll &quot;$(TargetDir)&quot;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -216,7 +213,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;..\..\src&quot;;&quot;..\..&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;BUILD_GETOPT;EXV_HAVE_DLL"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;BUILD_GETOPT;EXV_HAVE_DLL;EXV_HAVE_DLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -242,12 +239,14 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="true"
-				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\exiv2lib\$(ConfigurationName)\libexpat.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
+				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\..\..\expat-2.0.1\win32\bin\debug\libexpat.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
 				OutputFile="$(OutDir)/exiv2.exe"
-				LinkIncremental="2"
+				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/exiv2.pdb"
 				SubSystem="1"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -269,12 +268,9 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 				Description="copy target to bin"
-				CommandLine="copy/y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)&quot;"
+				CommandLine="copy/y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)&quot;&#x0D;&#x0A;copy/y ..\..\..\expat-2.0.1\win32\bin\Debug\libexpat.dll&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -287,7 +283,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="copy/y ..\..\..\expat-2.0.1\win32\bin\$(ConfigurationName)\*.* &quot;$(TargetDir)&quot;"
+				CommandLine="copy/y ..\..\..\expat-2.0.1\win32\bin\release\*.dll &quot;$(TargetDir)&quot;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -305,7 +301,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;..\..\src&quot;;&quot;..\..&quot;"
-				PreprocessorDefinitions="WIN32;_NDEBUG;_CONSOLE;BUILD_GETOPT;EXV_HAVE_DLL"
+				PreprocessorDefinitions="WIN32;_NDEBUG;_CONSOLE;BUILD_GETOPT;EXV_HAVE_DLL;EXV_HAVE_DLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="0"
 				RuntimeLibrary="0"
@@ -331,12 +327,14 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="true"
-				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\exiv2lib\$(ConfigurationName)\libexpat.lib"
+				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\..\..\expat-2.0.1\win32\bin\release\libexpat.lib"
 				OutputFile="$(OutDir)/exiv2.exe"
-				LinkIncremental="2"
+				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				ProgramDatabaseFile="$(OutDir)/exiv2.pdb"
 				SubSystem="1"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -358,12 +356,9 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 				Description="copy target to bin"
-				CommandLine="copy/y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)&quot;"
+				CommandLine="copy/y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)&quot;&#x0D;&#x0A;copy/y ..\..\..\expat-2.0.1\win32\bin\Release\libexpat.dll"
 			/>
 		</Configuration>
 	</Configurations>

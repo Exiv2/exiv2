@@ -6,6 +6,7 @@
 	ProjectGUID="{831EF580-92C8-4CA8-B0CE-3D906280A54D}"
 	RootNamespace="exiv2lib"
 	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -25,8 +26,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				Description="copy expat and zlib binaries"
-				CommandLine="if exist ..\include\exiv2 goto :jail&#x0D;&#x0A;mkdir ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.h ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.hpp ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\exv_msvc.h ..\include\&#x0D;&#x0A;:jail&#x0D;&#x0A;copy/y ..\..\..\expat-2.0.1\win32\bin\$(ConfigurationName)\*.lib $(OutDir)&#x0D;&#x0A;copy/y ..\zlib4exiv2\$(ConfigurationName)\*.lib $(OutDir)&#x0D;&#x0A;"
+				CommandLine="if exist ..\include\exiv2 goto :jail&#x0D;&#x0A;mkdir ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.h ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.hpp ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\exv_msvc.h ..\include\&#x0D;&#x0A;:jail&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -69,7 +69,7 @@
 				Name="VCLibrarianTool"
 				AdditionalDependencies="libexpatMT.lib xmpsdk.lib"
 				OutputFile="$(OutDir)/exiv2.lib"
-				AdditionalLibraryDirectories="..\xmpsdk\Debug;$(OutDir)"
+				AdditionalLibraryDirectories="..\xmpsdk\Debug;..\..\..\expat-2.0.1\win32\bin\debug"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -100,7 +100,7 @@
 			<Tool
 				Name="VCPreBuildEventTool"
 				Description="copy expat and zlib binaries"
-				CommandLine="if exist ..\include\exiv2 goto :jail&#x0D;&#x0A;mkdir ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.h ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.hpp ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\exv_msvc.h ..\include\&#x0D;&#x0A;:jail&#x0D;&#x0A;copy/y ..\..\..\expat-2.0.1\win32\bin\$(ConfigurationName)\*.lib $(OutDir)&#x0D;&#x0A;copy/y ..\zlib4exiv2\$(ConfigurationName)\*.lib $(OutDir)&#x0D;&#x0A;"
+				CommandLine="if exist ..\include\exiv2 goto :jail&#x0D;&#x0A;mkdir ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.h ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.hpp ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\exv_msvc.h ..\include\&#x0D;&#x0A;:jail&#x0D;&#x0A;&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -139,7 +139,7 @@
 				Name="VCLibrarianTool"
 				AdditionalDependencies="xmpsdk.lib libexpatMT.lib"
 				OutputFile="$(OutDir)/exiv2.lib"
-				AdditionalLibraryDirectories="..\xmpsdk\Release;$(OutDir)"
+				AdditionalLibraryDirectories="..\xmpsdk\Release;..\..\..\expat-2.0.1\win32\bin\release"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -169,8 +169,8 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				Description="copy expat and zlib binaries"
-				CommandLine="if exist ..\include\exiv2 goto :jail&#x0D;&#x0A;mkdir ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.h ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.hpp ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\exv_msvc.h ..\include\&#x0D;&#x0A;:jail&#x0D;&#x0A;copy/y ..\..\..\expat-2.0.1\win32\bin\$(ConfigurationName)\*.dll $(OutDir)&#x0D;&#x0A;copy/y ..\..\..\expat-2.0.1\win32\bin\$(ConfigurationName)\*.lib $(OutDir)&#x0D;&#x0A;copy/y ..\zlib4exiv2\$(ConfigurationName)\*.dll $(OutDir)&#x0D;&#x0A;"
+				Description="copy expat and zlib dlls"
+				CommandLine="if exist ..\include\exiv2 goto :jail&#x0D;&#x0A;mkdir ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.h ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.hpp ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\exv_msvc.h ..\include\&#x0D;&#x0A;:jail&#x0D;&#x0A;copy/y ..\..\..\expat-2.0.1\win32\bin\$(ConfigurationName)\libexpat.dll $(OutDir)&#x0D;&#x0A;copy/y ..\zlib4exiv2\$(ConfigurationName)\*.dll $(OutDir)&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -211,9 +211,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\xmpsdk\DebugDLL\xmpsdk.lib ..\..\..\expat-2.0.1\win32\bin\DebugDLL\libexpat.lib"
+				AdditionalOptions="/LIBPATH:..\..\..\expat-2.0.1\win32\bin\$(ConfigurationName)\"
+				AdditionalDependencies="..\xmpsdk\DebugDLL\xmpsdk.lib ..\..\..\expat-2.0.1\win32\bin\debug\libexpat.lib"
 				OutputFile="$(OutDir)\exiv2.dll"
 				GenerateDebugInformation="true"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				ImportLibrary="$(TargetDir)\exiv2.lib"
 				TargetMachine="1"
 			/>
@@ -236,12 +239,9 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 				Description="create and populate the include and lib (delivery) directories"
-				CommandLine="mkdir &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\$(TargetFileName)&quot;&#x0D;&#x0A;copy/y &quot;$(TargetDir)\*.dll&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;copy/y &quot;$(TargetDir)\*.lib&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;&#x0D;&#x0A;"
+				CommandLine="mkdir &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;copy/y ..\..\..\expat-2.0.1\win32\bin\Debug\libexpat.dll &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\$(TargetFileName)&quot;&#x0D;&#x0A;copy/y &quot;$(TargetDir)\*.dll&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;copy/y &quot;$(TargetDir)\*.lib&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -254,8 +254,8 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				Description="copy expat and zlib binaries"
-				CommandLine="if exist ..\include\exiv2 goto :jail&#x0D;&#x0A;mkdir ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.h ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.hpp ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\exv_msvc.h ..\include\&#x0D;&#x0A;:jail&#x0D;&#x0A;copy/y ..\..\..\expat-2.0.1\win32\bin\$(ConfigurationName)\*.dll $(OutDir)&#x0D;&#x0A;copy/y ..\..\..\expat-2.0.1\win32\bin\$(ConfigurationName)\*.lib $(OutDir)&#x0D;&#x0A;copy/y ..\zlib4exiv2\$(ConfigurationName)\*.dll $(OutDir)&#x0D;&#x0A;"
+				Description="copy expat and zlib dlls"
+				CommandLine="if exist ..\include\exiv2 goto :jail&#x0D;&#x0A;mkdir ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.h ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.hpp ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\exv_msvc.h ..\include\&#x0D;&#x0A;:jail&#x0D;&#x0A;copy/y ..\..\..\expat-2.0.1\win32\bin\$(ConfigurationName)\*.dll $(OutDir)&#x0D;&#x0A;copy/y ..\zlib4exiv2\$(ConfigurationName)\*.dll $(OutDir)&#x0D;&#x0A;&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -296,10 +296,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\xmpsdk\ReleaseDLL\xmpsdk.lib ..\..\..\expat-2.0.1\win32\bin\ReleaseDLL\libexpat.lib"
+				AdditionalOptions="/LIBPATH:..\..\..\expat-2.0.1\win32\bin\$(ConfigurationName)\"
+				AdditionalDependencies="..\xmpsdk\ReleaseDLL\xmpsdk.lib ..\..\..\expat-2.0.1\win32\bin\release\libexpat.lib"
 				ShowProgress="0"
 				OutputFile="$(OutDir)\exiv2.dll"
 				GenerateDebugInformation="false"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				ImportLibrary="$(TargetDir)\exiv2.lib"
 				TargetMachine="1"
 			/>
@@ -322,12 +325,9 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 				Description="create and populate the include and lib (delivery) directories"
-				CommandLine="mkdir &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\$(TargetFileName)&quot;&#x0D;&#x0A;copy/y &quot;$(TargetDir)\*.dll&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;copy/y &quot;$(TargetDir)\*.lib&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;"
+				CommandLine="mkdir &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;copy/y ..\..\..\expat-2.0.1\win32\bin\Release\libexpat.dll &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\$(TargetFileName)&quot;&#x0D;&#x0A;copy/y &quot;$(TargetDir)\*.dll&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;copy/y &quot;$(TargetDir)\*.lib&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>
