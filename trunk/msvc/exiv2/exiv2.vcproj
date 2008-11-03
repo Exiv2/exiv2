@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;..\..\src&quot;;&quot;..\..&quot;"
+				AdditionalIncludeDirectories="../include;../include/exiv2;../../xmpsdk/include;../../xmpsdk/src;../../../expat-2.0.1/lib;../../../zlib-1.2.3;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;BUILD_GETOPT"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -53,7 +53,7 @@
 				BrowseInformation="1"
 				WarningLevel="3"
 				WarnAsError="true"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -127,7 +127,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;..\..\src&quot;;&quot;..\..&quot;"
+				AdditionalIncludeDirectories="../include;../include/exiv2;../../xmpsdk/include;../../xmpsdk/src;../../../expat-2.0.1/lib;../../../zlib-1.2.3;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;BUILD_GETOPT"
 				RuntimeLibrary="0"
 				RuntimeTypeInfo="true"
@@ -212,7 +212,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;..\..\src&quot;;&quot;..\..&quot;"
+				AdditionalIncludeDirectories="../include;../include/exiv2;../../xmpsdk/include;../../xmpsdk/src;../../../expat-2.0.1/lib;../../../zlib-1.2.3;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;BUILD_GETOPT;EXV_HAVE_DLL;EXV_HAVE_DLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -223,7 +223,7 @@
 				BrowseInformation="1"
 				WarningLevel="3"
 				WarnAsError="false"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -300,7 +300,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;..\..\src&quot;;&quot;..\..&quot;"
+				AdditionalIncludeDirectories="../include;../include/exiv2;../../xmpsdk/include;../../xmpsdk/src;../../../expat-2.0.1/lib;../../../zlib-1.2.3;"
 				PreprocessorDefinitions="WIN32;_NDEBUG;_CONSOLE;BUILD_GETOPT;EXV_HAVE_DLL;EXV_HAVE_DLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="0"
@@ -358,7 +358,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="copy target to bin"
-				CommandLine="copy/y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)&quot;&#x0D;&#x0A;copy/y ..\..\..\expat-2.0.1\win32\bin\Release\libexpat.dll"
+				CommandLine="copy/y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)&quot;&#x0D;&#x0A;copy/y ..\..\..\expat-2.0.1\win32\bin\Release\libexpat.dll&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>

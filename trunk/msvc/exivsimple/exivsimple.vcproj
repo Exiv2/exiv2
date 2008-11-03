@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../include;../../../zlib"
+				AdditionalIncludeDirectories="../include;../include/exiv2;../../xmpsdk/include;../../xmpsdk/src;../../../expat-2.0.1/lib;../../../zlib-1.2.3;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;EXIVSIMPLE_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -53,7 +53,7 @@
 				BrowseInformation="1"
 				WarningLevel="3"
 				WarnAsError="true"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -128,7 +128,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="../include;../../../zlib"
+				AdditionalIncludeDirectories="../include;../include/exiv2;../../xmpsdk/include;../../xmpsdk/src;../../../expat-2.0.1/lib;../../../zlib-1.2.3;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;EXIVSIMPLE_EXPORTS"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -214,7 +214,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../include;../../../zlib"
+				AdditionalIncludeDirectories="../include;../include/exiv2;../../xmpsdk/include;../../xmpsdk/src;../../../expat-2.0.1/lib;../../../zlib-1.2.3;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;EXIVSIMPLE_EXPORTS;EXV_HAVE_DLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -225,7 +225,7 @@
 				BrowseInformation="1"
 				WarningLevel="3"
 				WarnAsError="true"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -303,7 +303,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../include;../../../zlib"
+				AdditionalIncludeDirectories="../include;../include/exiv2;../../xmpsdk/include;../../xmpsdk/src;../../../expat-2.0.1/lib;../../../zlib-1.2.3;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;EXIVSIMPLE_EXPORTS;EXV_HAVE_DLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"

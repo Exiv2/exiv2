@@ -1,6 +1,7 @@
 @echo off
 set F=..\..\
 set T=..\..\..\gnu.master\
+set X=exiv2\msvc\README-MSVC.txt                       && copy/y %F%%X% %T%%X%
 set X=exiv2\msvc\runner.txt                            && copy/y %F%%X% %T%%X%
 set X=exiv2\msvc\updater.bat                           && copy/y %F%%X% %T%%X%
 set X=exiv2\msvc\cleaner.bat                           && copy/y %F%%X% %T%%X%
