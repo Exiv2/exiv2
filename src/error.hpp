@@ -39,16 +39,18 @@
 #include <string>
 #include <iosfwd>
 
-// Disable warnings "non - DLL-interface classkey 'identifier' used as base
-// for DLL-interface classkey 'identifier'"
-#pragma warning( disable : 4275 )
-
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
 
 // *****************************************************************************
 // class definitions
+
+#ifdef _MSC_VER
+// Disable MSVC warnings "non - DLL-interface classkey 'identifier' used as base
+// for DLL-interface classkey 'identifier'"
+# pragma warning( disable : 4275 )
+#endif
 
     /*!
       @brief Error class interface. Allows the definition and use of a hierarchy
@@ -151,9 +153,9 @@ namespace Exiv2 {
 
     }; // class Error
 
+#ifdef _MSC_VER
+# pragma warning( default : 4275 )
+#endif
+
 }                                       // namespace Exiv2
-
-// non - DLL-interface classkey 'identifier' used as base for DLL-interface classkey 'identifier'
-#pragma warning( default : 4275 )
-
 #endif                                  // #ifndef ERROR_HPP_
