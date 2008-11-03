@@ -39,6 +39,10 @@
 #include <string>
 #include <iosfwd>
 
+// Disable warnings "non - DLL-interface classkey 'identifier' used as base
+// for DLL-interface classkey 'identifier'"
+#pragma warning( disable : 4275 )
+
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
@@ -53,12 +57,12 @@ namespace Exiv2 {
              easier for library users (they have the option of catching most
              things via std::exception).
      */
-    class AnyError : public std::exception {
+    class EXIV2API AnyError : public std::exception {
     public:
         //! @name Creators
         //@{
         //! Virtual destructor.
-        virtual EXIV2API ~AnyError() throw()
+        virtual ~AnyError() throw()
         {
         }
         //@}
@@ -80,12 +84,12 @@ namespace Exiv2 {
       @brief Simple error class used for exceptions. An output operator is
              provided to print errors to a stream.
      */
-    class Error : public AnyError {
+    class EXIV2API Error : public AnyError {
     public:
         //! @name Creators
         //@{
         //! Constructor taking only an error code
-        explicit EXIV2API Error(int code)
+        explicit Error(int code)
             : code_(code), count_(0)
         {
             setMsg();
@@ -114,25 +118,25 @@ namespace Exiv2 {
             setMsg();
         }
         //! Virtual destructor. (Needed because of throw())
-        virtual EXIV2API ~Error() throw()
+        virtual ~Error() throw()
         {
         }
         //@}
 
         //! @name Accessors
         //@{
-        virtual EXIV2API int code() const throw() { return code_; }
+        virtual int code() const throw() { return code_; }
         /*!
           @brief Return the error message. The pointer returned by what()
                  is valid only as long as the Error object exists.
          */
-        virtual EXIV2API const char* what() const throw() { return msg_.c_str(); }
+        virtual const char* what() const throw() { return msg_.c_str(); }
         //@}
 
     private:
         //! @name Manipulators
         //@{
-        EXIV2API void setMsg();
+        void setMsg();
         //@}
 
         static int errorIdx(int code);
@@ -148,5 +152,8 @@ namespace Exiv2 {
     }; // class Error
 
 }                                       // namespace Exiv2
+
+// non - DLL-interface classkey 'identifier' used as base for DLL-interface classkey 'identifier'
+#pragma warning( default : 4275 )
 
 #endif                                  // #ifndef ERROR_HPP_
