@@ -1,95 +1,6 @@
 Notes about msvc build of exiv2
 -------------------------------
 
-Code base: trunk/1657 
-Sunday 20081101 22:30PST
-
-Changes since 20081101 17.00PST
--------------------------------
-
-1 Don't copy src\*_int.hpp to msvc/include/exiv2 directory
-
-2 Test Builds            2008 2005 2003
-  Batch Build All        Y    Y    Y
-
-3 Partial builds: select target/config + build (clean build)
-  exifprint Debug        Y    Y    Y+W
-            DebugDLL     Y    Y    Y
-            Release      Y    Y    Y+W
-            ReleaseDLL   Y    Y    Y
-            
-  exiv2     Debug        Y    Y    Y+W
-            DebugDLL     Y    Y
-            Release      Y    Y    Y+W
-            ReleaseDLL   Y    Y    Y
-
-  W = Warnings about multiple-defined externals
-      MSVC is linking expat twice.
-
-Changes since 20081030
-----------------------
-
-1) zlib directory
-   zlib now lives in c:\gnu\zlib-1.2.3
-   
-2) Removed unnecessary copying of exv_msvc.h to msvc/include directory
-  
-3) Investigated linker /EDITANDCONTINUE warning
-   For example:  exiv2.lib(xmlparse.obj) : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
-   Cannot fix.  It's coming from expat/expat-static Debug builds
-   Fix is to modify expat/expat-static.vcproj Compiler/Generaral/Debug Information ZI (not Zi)
-
-4) Investigated what happens when expat isn't built!
-   - documented below.
-
-5) Tested more 'partial' target builds
-   Tested:
-   { exiv2   |exiv2print  }
-   { Debug   | Release    | DebugDLL | ReleaseDLL } Manual build (F7)
-   { Debug   | Release    | DebugDLL | ReleaseDLL } using Batch/Build
-   { VS 2003 | 2005       | 2008 }
-   
-   2*3*8 = 48 partial builds
-   (and of course 3 full builds)
-   
-   VC71 (VS 2003) in not good at dependancies.  On a 'clean' directory:
-   If I select exifprint+Debug Build (or Release or DebugDLL or ReleaseDLL)
-   it builds successfully
-   If I use Batch Build/ and select exifprint { Debug etc } all 4 targets fail
-   to build!
-   VC71 is not attempting to build the dependant sub projects.
-   
-   VC8 and VC9 (VS 2005 and 2008) are working fine.  Both report
-   ========== Build: 14 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========   
-   
-   I think the Batch/Build feature in VC71 simply builds (It omits dependancy
-   analysis). I don't intend to do any more work on this on VC71.
-                             
-6) I did some debugging
-   exiv2.exe and exifprint.exe (Debug/DebugDLL on VS/2005)
-   
-   I was surprised when all .exe's relinked when I changed library code
-   (not only the target .exe)
-   I'll have to investigate this.  I'll fix this when I investigate the
-   crashing DLLs
-
-Priorities for 0.18final
-------------------------
-
-1 Remove zlib4exiv2 project           (see note below)
-2 Get rid of the linker warnings with VS/2003
-3 Investigate the crashes in the DLLs (see Known Issue)
-4 Improve the debugging experience
-- dont relink every .exe when library code modified
-5 Reduce the disk footprint           (use less disk space)
-6 Make the test program longer and deeper
-7 Build and test pyexiv2 and exiv2net
-- We're not going to distribute pyexiv2 or exiv2net
-- I'd like to test that those work correctly with our builds
-8 Maybe build and test MD (MDd) libraries
-- this probably quite a lot of work
-- would really like a solid 'customer' request for this
-
 Tools
 -----
 
@@ -286,5 +197,91 @@ For example:  exiv2/msvc/exiv2.lib --outputs--> debug/exiv2.lib ==copies==> exiv
 
 I did this for a good reasons at the time.  I think I'll revisit this and build into the bin.
 This will save about 100-200MB of disk space on a complete build (10%-20%)
+
+Changes since 20081101 17.00PST
+-------------------------------
+
+1 Don't copy src\*_int.hpp to msvc/include/exiv2 directory
+
+2 Test Builds            2008 2005 2003
+  Batch Build All        Y    Y    Y
+
+3 Partial builds: select target/config + build (clean build)
+  exifprint Debug        Y    Y    Y+W
+            DebugDLL     Y    Y    Y
+            Release      Y    Y    Y+W
+            ReleaseDLL   Y    Y    Y
+            
+  exiv2     Debug        Y    Y    Y+W
+            DebugDLL     Y    Y
+            Release      Y    Y    Y+W
+            ReleaseDLL   Y    Y    Y
+
+  W = Warnings about multiple-defined externals
+      MSVC is linking expat twice.
+
+Changes since 20081030
+----------------------
+
+1) zlib directory
+   zlib now lives in c:\gnu\zlib-1.2.3
+   
+2) Removed unnecessary copying of exv_msvc.h to msvc/include directory
+  
+3) Investigated linker /EDITANDCONTINUE warning
+   For example:  exiv2.lib(xmlparse.obj) : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
+   Cannot fix.  It's coming from expat/expat-static Debug builds
+   Fix is to modify expat/expat-static.vcproj Compiler/Generaral/Debug Information ZI (not Zi)
+
+4) Investigated what happens when expat isn't built!
+   - documented below.
+
+5) Tested more 'partial' target builds
+   Tested:
+   { exiv2   |exiv2print  }
+   { Debug   | Release    | DebugDLL | ReleaseDLL } Manual build (F7)
+   { Debug   | Release    | DebugDLL | ReleaseDLL } using Batch/Build
+   { VS 2003 | 2005       | 2008 }
+   
+   2*3*8 = 48 partial builds
+   (and of course 3 full builds)
+   
+   VC71 (VS 2003) in not good at dependancies.  On a 'clean' directory:
+   If I select exifprint+Debug Build (or Release or DebugDLL or ReleaseDLL)
+   it builds successfully
+   If I use Batch Build/ and select exifprint { Debug etc } all 4 targets fail
+   to build!
+   VC71 is not attempting to build the dependant sub projects.
+   
+   VC8 and VC9 (VS 2005 and 2008) are working fine.  Both report
+   ========== Build: 14 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========   
+   
+   I think the Batch/Build feature in VC71 simply builds (It omits dependancy
+   analysis). I don't intend to do any more work on this on VC71.
+                             
+6) I did some debugging
+   exiv2.exe and exifprint.exe (Debug/DebugDLL on VS/2005)
+   
+   I was surprised when all .exe's relinked when I changed library code
+   (not only the target .exe)
+   I'll have to investigate this.  I'll fix this when I investigate the
+   crashing DLLs
+
+Priorities for 0.18final
+------------------------
+
+1 Remove zlib4exiv2 project           (see note below)
+2 Get rid of the linker warnings with VS/2003
+3 Investigate the crashes in the DLLs (see Known Issue)
+4 Improve the debugging experience
+- dont relink every .exe when library code modified
+5 Reduce the disk footprint           (use less disk space)
+6 Make the test program longer and deeper
+7 Build and test pyexiv2 and exiv2net
+- We're not going to distribute pyexiv2 or exiv2net
+- I'd like to test that those work correctly with our builds
+8 Maybe build and test MD (MDd) libraries
+- this probably quite a lot of work
+- would really like a solid 'customer' request for this
 
 -- end --
