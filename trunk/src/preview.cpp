@@ -47,14 +47,17 @@ EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 namespace {
+
+    using namespace Exiv2;
+
     /*!
       @brief Compare two preview images by number of pixels, if width and height
              of both lhs and rhs are available or else by size.
              Return true if lhs is smaller than rhs.
      */
     bool cmpPreviewProperties(
-        const Exiv2::PreviewProperties& lhs,
-        const Exiv2::PreviewProperties& rhs
+        const PreviewProperties& lhs,
+        const PreviewProperties& rhs
     )
     {
         uint32_t l = lhs.width_ * lhs.height_;
@@ -62,11 +65,6 @@ namespace {
 
         return l < r;
     }
-}
-
-// *****************************************************************************
-// class member definitions
-namespace Exiv2 {
 
     /*!
       Base class for image loaders. Provides virtual methods for reading properties
@@ -134,7 +132,6 @@ namespace Exiv2 {
         bool valid_;
     };
 
-
     //! Loader for Jpeg previews that are not read into ExifData directly
     class LoaderExifJpeg : public Loader {
     public:
@@ -201,7 +198,6 @@ namespace Exiv2 {
 
     //! Function to create new LoaderExifDataJpeg
     Loader::AutoPtr createLoaderExifDataJpeg(PreviewId id, const Image &image, int parIdx);
-
 
     //! Loader for Tiff previews - it can get image data from ExifData or image_.io() as needed
     class LoaderTiff : public Loader {
@@ -296,68 +292,6 @@ namespace Exiv2 {
         { "SubImage4", "Exif.SubImage4.NewSubfileType", "1" },  // 4
         { "Thumbnail", 0,                               0   }   // 5
     };
-
-    PreviewImage::PreviewImage(const PreviewProperties& properties, DataBuf data)
-        : properties_(properties)
-    {
-        pData_ = data.pData_;
-        size_ = data.size_;
-        data.release();
-    }
-
-    PreviewImage::~PreviewImage()
-    {
-        delete[] pData_;
-    }
-
-    PreviewImage::PreviewImage(const PreviewImage& rhs)
-    {
-        properties_ = rhs.properties_;
-        pData_ = new byte[rhs.size_];
-        memcpy(pData_, rhs.pData_, rhs.size_);
-        size_ = rhs.size_;
-    }
-
-    PreviewImage& PreviewImage::operator=(const PreviewImage& rhs)
-    {
-        if (this == &rhs) return *this;
-        if (rhs.size_ > size_) {
-            delete[] pData_;
-            pData_ = new byte[rhs.size_];
-        }
-        properties_ = rhs.properties_;
-        memcpy(pData_, rhs.pData_, rhs.size_);
-        size_ = rhs.size_;
-        return *this;
-    }
-
-    long PreviewImage::writeFile(const std::string& path) const
-    {
-        std::string name = path + extension();
-        // Todo: Creating a DataBuf here unnecessarily copies the memory
-        DataBuf buf(pData_, size_);
-        return Exiv2::writeFile(buf, name);
-    }
-
-    DataBuf PreviewImage::copy() const
-    {
-        return DataBuf(pData_, size_);
-    }
-
-    std::string PreviewImage::mimeType() const
-    {
-        return properties_.mimeType_;
-    }
-
-    std::string PreviewImage::extension() const
-    {
-        return properties_.extension_;
-    }
-
-    uint32_t PreviewImage::size() const
-    {
-        return size_;
-    }
 
     Loader::AutoPtr Loader::create(PreviewId id, const Image &image)
     {
@@ -703,6 +637,74 @@ namespace Exiv2 {
         const XmpData  emptyXmp;
         TiffParser::encode(blob, 0, 0, Exiv2::littleEndian, preview, emptyIptc, emptyXmp);
         return DataBuf(&blob[0], static_cast<long>(blob.size()));
+    }
+
+}                                       // namespace
+
+// *****************************************************************************
+// class member definitions
+namespace Exiv2 {
+
+    PreviewImage::PreviewImage(const PreviewProperties& properties, DataBuf data)
+        : properties_(properties)
+    {
+        pData_ = data.pData_;
+        size_ = data.size_;
+        data.release();
+    }
+
+    PreviewImage::~PreviewImage()
+    {
+        delete[] pData_;
+    }
+
+    PreviewImage::PreviewImage(const PreviewImage& rhs)
+    {
+        properties_ = rhs.properties_;
+        pData_ = new byte[rhs.size_];
+        memcpy(pData_, rhs.pData_, rhs.size_);
+        size_ = rhs.size_;
+    }
+
+    PreviewImage& PreviewImage::operator=(const PreviewImage& rhs)
+    {
+        if (this == &rhs) return *this;
+        if (rhs.size_ > size_) {
+            delete[] pData_;
+            pData_ = new byte[rhs.size_];
+        }
+        properties_ = rhs.properties_;
+        memcpy(pData_, rhs.pData_, rhs.size_);
+        size_ = rhs.size_;
+        return *this;
+    }
+
+    long PreviewImage::writeFile(const std::string& path) const
+    {
+        std::string name = path + extension();
+        // Todo: Creating a DataBuf here unnecessarily copies the memory
+        DataBuf buf(pData_, size_);
+        return Exiv2::writeFile(buf, name);
+    }
+
+    DataBuf PreviewImage::copy() const
+    {
+        return DataBuf(pData_, size_);
+    }
+
+    std::string PreviewImage::mimeType() const
+    {
+        return properties_.mimeType_;
+    }
+
+    std::string PreviewImage::extension() const
+    {
+        return properties_.extension_;
+    }
+
+    uint32_t PreviewImage::size() const
+    {
+        return size_;
     }
 
     PreviewManager::PreviewManager(const Image& image)
