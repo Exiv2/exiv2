@@ -660,7 +660,7 @@ namespace Exiv2 {
     extern const TagDetails olympusEqFlashType[] = {
         { 0, N_("None")            },
         { 2, N_("Simple E-System") },
-        { 3, N_("E-System")        },
+        { 3, N_("E-System")        }
     };
 
     //! OlympusEq FlashModel, tag 0x1001
@@ -672,7 +672,7 @@ namespace Exiv2 {
         { 4, "TF-22"    },
         { 5, "FL-36"    },
         { 6, "FL-50R"   },
-        { 7, "FL-36R"   },
+        { 7, "FL-36R"   }
     };
 
     const TagInfo OlympusMakerNote::tagInfoEq_[] = {
@@ -712,7 +712,7 @@ namespace Exiv2 {
     extern const TagDetails olympusRdColorSpace[] = {
         { 0, N_("sRGB")          },
         { 1, N_("Adobe RGB")     },
-        { 2, N_("Pro Photo RGB") },
+        { 2, N_("Pro Photo RGB") }
     };
 
     //! OlympusRd Engine, tag 0x0109
@@ -720,14 +720,7 @@ namespace Exiv2 {
         { 0, N_("High Speed")             },
         { 1, N_("High Function")          },
         { 2, N_("Advanced High Speed")    },
-        { 3, N_("Advanced High Function") },
-    };
-
-    //! OlympusRd NoiseReduction, tag 0x010a
-    extern const TagDetailsBitmask olympusRdNoiseReduction[] = {
-        { 0x0001, N_("Noise Reduction")          },
-        { 0x0002, N_("Noise Filter")             },
-        { 0x0004, N_("Noise Filter (ISO Boost)") },
+        { 3, N_("Advanced High Function") }
     };
 
     //! OlympusRd EditStatus, tag 0x010b
@@ -735,7 +728,7 @@ namespace Exiv2 {
         { 0, N_("Original")           },
         { 1, N_("Edited (Landscape)") },
         { 6, N_("Edited (Portrait)")  },
-        { 8, N_("Edited (Portrait)")  },
+        { 8, N_("Edited (Portrait)")  }
     };
 
     //! OlympusRd Settings, tag 0x010c
@@ -747,7 +740,7 @@ namespace Exiv2 {
         { 0x0020, N_("Sharpness")       },
         { 0x0040, N_("Color Space")     },
         { 0x0080, N_("High Function")   },
-        { 0x0100, N_("Noise Reduction") },
+        { 0x0100, N_("Noise Reduction") }
     };
 
     const TagInfo OlympusMakerNote::tagInfoRd_[] = {
@@ -762,7 +755,7 @@ namespace Exiv2 {
         TagInfo(0x0107, "SharpnessValue", N_("Sharpness Value"), N_("Sharpness value"), olympusRdIfdId, makerTags, signedShort, printValue),
         TagInfo(0x0108, "ColorSpace", N_("Color Space"), N_("Color space"), olympusRdIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusRdColorSpace)),
         TagInfo(0x0109, "Engine", N_("Engine"), N_("Engine"), olympusRdIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusRdEngine)),
-        TagInfo(0x010a, "NoiseReduction", N_("Noise Reduction"), N_("Noise reduction"), olympusRdIfdId, makerTags, unsignedShort, EXV_PRINT_TAG_BITMASK(olympusRdNoiseReduction)),
+        TagInfo(0x010a, "NoiseReduction", N_("Noise Reduction"), N_("Noise reduction"), olympusRdIfdId, makerTags, unsignedShort, EXV_PRINT_TAG_BITMASK(olympusNoiseReduction)),
         TagInfo(0x010b, "EditStatus", N_("Edit Status"), N_("Edit status"), olympusRdIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusRdEditStatus)),
         TagInfo(0x010c, "Settings", N_("Settings"), N_("Settings"), olympusRdIfdId, makerTags, unsignedShort, EXV_PRINT_TAG_BITMASK(olympusRdSettings)),
         // End of list marker
@@ -774,11 +767,76 @@ namespace Exiv2 {
         return tagInfoRd_;
     }
 
+    //! OlympusRd2 WhiteBalance, tag 0x0101
+    extern const TagDetails olympusRd2WhiteBalance[] = {
+        { 1, N_("Color Temperature") },
+        { 2, N_("Gray Point")        }
+    };
+
+    //! OlympusRd2 ColorSpace, tag 0x0109
+    extern const TagDetails olympusRd2ColorSpace[] = {
+        { 0, N_("sRGB")          },
+        { 1, N_("Adobe RGB")     },
+        { 2, N_("Pro Photo RGB") }
+    };
+
+    //! OlympusRd2 Engine, tag 0x010b
+    extern const TagDetails olympusRd2Engine[] = {
+        { 0, N_("High Speed")    },
+        { 1, N_("High Function") }
+    };
+
+    //! OlympusRd2 PictureMode, tag 0x010c
+    extern const TagDetails olympusRd2PictureMode[] = {
+        {   1, N_("Vivid")    },
+        {   2, N_("Natural")  },
+        {   3, N_("Muted")    },
+        { 256, N_("Monotone") },
+        { 512, N_("Sepia")    }
+    };
+
+    //! OlympusRd2 PM_BWFilter, tag 0x0110
+    extern const TagDetails olympusRd2PM_BWFilter[] = {
+        { 1, N_("Neutral") },
+        { 2, N_("Yellow")  },
+        { 3, N_("Orange")  },
+        { 4, N_("Red")     },
+        { 5, N_("Green")   }
+    };
+
+    //! OlympusRd2 PMPictureTone, tag 0x0111
+    extern const TagDetails olympusRd2PMPictureTone[] = {
+        { 1, N_("Neutral") },
+        { 2, N_("Sepia")   },
+        { 3, N_("Blue")    },
+        { 4, N_("Purple")  },
+        { 5, N_("Green")   }
+    };
+
     const TagInfo OlympusMakerNote::tagInfoRd2_[] = {
         TagInfo(0x0000, "RawDev2Version", N_("Raw Development 2 Version"), N_("Raw development 2 version"), olympusRd2IfdId, makerTags, undefined, printExifVersion),
-
-        // Todo: Add Olympus raw development 2 tags
-
+        TagInfo(0x0100, "ExposureBiasValue", N_("Exposure Bias Value"), N_("Exposure bias value"), olympusRd2IfdId, makerTags, signedRational, printValue),
+        TagInfo(0x0101, "WhiteBalance", N_("White Balance"), N_("White balance"), olympusRd2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusRd2WhiteBalance)),
+        TagInfo(0x0102, "WhiteBalanceValue", N_("White Balance Value"), N_("White balance value"), olympusRd2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0103, "WBFineAdjustment", N_("WB Fine Adjustment"), N_("White balance fine adjustment"), olympusRd2IfdId, makerTags, signedShort, printValue),
+        TagInfo(0x0104, "GrayPoint", N_("Gray Point"), N_("Gray point"), olympusRd2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0105, "ContrastValue", N_("Contrast Value"), N_("Contrast value"), olympusRd2IfdId, makerTags, signedShort, printValue),
+        TagInfo(0x0106, "SharpnessValue", N_("Sharpness Value"), N_("Sharpness value"), olympusRd2IfdId, makerTags, signedShort, printValue),
+        TagInfo(0x0107, "SaturationEmphasis", N_("Saturation Emphasis"), N_("Saturation emphasis"), olympusRd2IfdId, makerTags, signedShort, printValue),
+        TagInfo(0x0108, "MemoryColorEmphasis", N_("Memory Color Emphasis"), N_("Memory color emphasis"), olympusRd2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0109, "ColorSpace", N_("Color Space"), N_("Color space"), olympusRd2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusRd2ColorSpace)),
+        TagInfo(0x010a, "NoiseReduction", N_("Noise Reduction"), N_("Noise reduction"), olympusRd2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG_BITMASK(olympusNoiseReduction)),
+        TagInfo(0x010b, "Engine", N_("Engine"), N_("Engine"), olympusRd2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusRd2Engine)),
+        TagInfo(0x010c, "PictureMode", N_("Picture Mode"), N_("Picture mode"), olympusRd2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusRd2PictureMode)),
+        TagInfo(0x010d, "PMSaturation", N_("PM Saturation"), N_("Picture mode saturation"), olympusRd2IfdId, makerTags, signedShort, printValue),
+        TagInfo(0x010e, "PMContrast", N_("PM Contrast"), N_("Picture mode contrast"), olympusRd2IfdId, makerTags, signedShort, printValue),
+        TagInfo(0x010f, "PMSharpness", N_("PM Sharpness"), N_("Picture mode sharpness"), olympusRd2IfdId, makerTags, signedShort, printValue),
+        TagInfo(0x0110, "PM_BWFilter", N_("PM BW Filter"), N_("PM BW filter"), olympusRd2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusRd2PM_BWFilter)),
+        TagInfo(0x0111, "PMPictureTone", N_("PM Picture Tone"), N_("PM picture tone"), olympusRd2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusRd2PMPictureTone)),
+        TagInfo(0x0112, "Gradation", N_("Gradation"), N_("Gradation"), olympusRd2IfdId, makerTags, signedShort, printValue),
+        TagInfo(0x0113, "Saturation", N_("Saturation"), N_("Saturation"), olympusRd2IfdId, makerTags, signedShort, printValue),
+        TagInfo(0x0119, "AutoGradation", N_("Auto Gradation"), N_("Auto gradation"), olympusRd2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusOffOn)),
+        TagInfo(0x0120, "PMNoiseFilter", N_("PM Noise Filter"), N_("Picture mode noise filter"), olympusRd2IfdId, makerTags, unsignedShort, printValue),
         // End of list marker
         TagInfo(0xffff, "(UnknownOlympusRd2Tag)", "(UnknownOlympusRd2Tag)", N_("Unknown OlympusRd2 tag"), olympusRd2IfdId, makerTags, invalidTypeId, printValue)
     };
@@ -790,9 +848,53 @@ namespace Exiv2 {
 
     const TagInfo OlympusMakerNote::tagInfoIp_[] = {
         TagInfo(0x0000, "ImageProcessingVersion", N_("Image Processing Version"), N_("Image processing version"), olympusIpIfdId, makerTags, undefined, printExifVersion),
-
-        // Todo: Add Olympus image processing tags
-
+        TagInfo(0x0100, "WB_RBLevels", N_("WB RB Levels"), N_("WB RB levels"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0102, "WB_RBLevels3000K", N_("WB RB Levels 3000K"), N_("WB RB levels 3000K"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0103, "WB_RBLevels3300K", N_("WB RB Levels 3300K"), N_("WB RB levels 3300K"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0104, "WB_RBLevels3600K", N_("WB RB Levels 3600K"), N_("WB RB levels 3600K"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0105, "WB_RBLevels3900K", N_("WB RB Levels 3900K"), N_("WB RB levels 3900K"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0106, "WB_RBLevels4000K", N_("WB RB Levels 4000K"), N_("WB RB levels 4000K"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0107, "WB_RBLevels4300K", N_("WB RB Levels 4300K"), N_("WB RB levels 4300K"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0108, "WB_RBLevels4500K", N_("WB RB Levels 4500K"), N_("WB RB levels 4500K"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0109, "WB_RBLevels4800K", N_("WB RB Levels 4800K"), N_("WB RB levels 4800K"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x010a, "WB_RBLevels5300K", N_("WB RB Levels 5300K"), N_("WB RB levels 5300K"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x010b, "WB_RBLevels6000K", N_("WB RB Levels 6000K"), N_("WB RB levels 6000K"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x010c, "WB_RBLevels6600K", N_("WB RB Levels 6600K"), N_("WB RB levels 6600K"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x010d, "WB_RBLevels7500K", N_("WB RB Levels 7500K"), N_("WB RB levels 7500K"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x010e, "WB_RBLevelsCWB1", N_("WB RB Levels CWB1"), N_("WB RB levels CWB1"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x010f, "WB_RBLevelsCWB2", N_("WB RB Levels CWB2"), N_("WB RB levels CWB2"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0110, "WB_RBLevelsCWB3", N_("WB RB Levels CWB3"), N_("WB RB levels CWB3"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0111, "WB_RBLevelsCWB4", N_("WB RB Levels CWB4"), N_("WB RB levels CWB4"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0113, "WB_GLevel3000K", N_("WB G Level 3000K"), N_("WB G level 3000K"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0114, "WB_GLevel3300K", N_("WB G Level 3300K"), N_("WB G level 3300K"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0115, "WB_GLevel3600K", N_("WB G Level 3600K"), N_("WB G level 3600K"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0116, "WB_GLevel3900K", N_("WB G Level 3900K"), N_("WB G level 3900K"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0117, "WB_GLevel4000K", N_("WB G Level 4000K"), N_("WB G level 4000K"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0118, "WB_GLevel4300K", N_("WB G Level 4300K"), N_("WB G level 4300K"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0119, "WB_GLevel4500K", N_("WB G Level 4500K"), N_("WB G level 4500K"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x011a, "WB_GLevel4800K", N_("WB G Level 4800K"), N_("WB G level 4800K"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x011b, "WB_GLevel5300K", N_("WB G Level 5300K"), N_("WB G level 5300K"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x011c, "WB_GLevel6000K", N_("WB G Level 6000K"), N_("WB G level 6000K"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x011d, "WB_GLevel6600K", N_("WB G Level 6600K"), N_("WB G level 6600K"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x011e, "WB_GLevel7500K", N_("WB G Level 7500K"), N_("WB G level 7500K"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x011f, "WB_GLevel", N_("WB G Level"), N_("WB G level"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0200, "ColorMatrix", N_("Color Matrix"), N_("Color matrix"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0300, "Enhancer", N_("Enhancer"), N_("Enhancer"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0301, "EnhancerValues", N_("Enhancer Values"), N_("Enhancer values"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0310, "CoringFilter", N_("Coring Filter"), N_("Coring filter"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0311, "CoringValues", N_("Coring Values"), N_("Coring values"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0600, "BlackLevel", N_("Black Level"), N_("Black level"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0610, "GainBase", N_("Gain Base"), N_("Gain base"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0611, "ValidBits", N_("Valid Bits"), N_("Valid bits"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0612, "CropLeft", N_("Crop Left"), N_("Crop left"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0613, "CropTop", N_("Crop Top"), N_("Crop top"), olympusIpIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0614, "CropWidth", N_("Crop Width"), N_("Crop width"), olympusIpIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x0615, "CropHeight", N_("Crop Height"), N_("Crop height"), olympusIpIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x1010, "NoiseReduction", N_("Noise Reduction"), N_("Noise reduction"), olympusIpIfdId, makerTags, unsignedShort, EXV_PRINT_TAG_BITMASK(olympusNoiseReduction)),
+        TagInfo(0x1011, "DistortionCorrection", N_("Distortion Correction"), N_("Distortion correction"), olympusIpIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusOffOn)),
+        TagInfo(0x1012, "ShadingCompensation", N_("Shading Compensation"), N_("Shading compensation"), olympusIpIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusOffOn)),
+        TagInfo(0x1200, "FaceDetect", N_("Face Detect"), N_("Face detect"), olympusIpIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(olympusOffOn)),
+        TagInfo(0x1201, "FaceDetectArea", N_("Face Detect Area"), N_("Face detect area"), olympusIpIfdId, makerTags, signedShort, printValue),
         // End of list marker
         TagInfo(0xffff, "(UnknownOlympusIpTag)", "(UnknownOlympusIpTag)", N_("Unknown OlympusIp tag"), olympusIpIfdId, makerTags, invalidTypeId, printValue)
     };
@@ -802,11 +904,32 @@ namespace Exiv2 {
         return tagInfoIp_;
     }
 
+    //! OlympusFi ExternalFlashBounce, tag 0x1204
+    extern const TagDetails olympusFiExternalFlashBounce[] = {
+        { 0, N_("Bounce or Off") },
+        { 1, N_("Direct") }
+    };
+
     const TagInfo OlympusMakerNote::tagInfoFi_[] = {
         TagInfo(0x0000, "FocusInfoVersion", N_("Focus Info Version"), N_("Focus info version"), olympusFiIfdId, makerTags, undefined, printExifVersion),
-
-        // Todo: Add Olympus focus info tags
-
+        TagInfo(0x0209, "AutoFocus", N_("Auto Focus"), N_("Auto focus"), olympusFiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusOffOn)),
+        TagInfo(0x0210, "SceneDetect", N_("Scene Detect"), N_("Scene detect"), olympusFiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0211, "SceneArea", N_("Scene Area"), N_("Scene area"), olympusFiIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x0212, "SceneDetectData", N_("Scene Detect Data"), N_("Scene detect data"), olympusFiIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x0300, "ZoomStepCount", N_("Zoom Step Count"), N_("Zoom step count"), olympusFiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0301, "FocusStepCount", N_("Focus Step Count"), N_("Focus step count"), olympusFiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0303, "FocusStepInfinity", N_("Focus Step Infinity"), N_("Focus step infinity"), olympusFiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0304, "FocusStepNear", N_("Focus Step Near"), N_("Focus step near"), olympusFiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0305, "FocusDistance", N_("Focus Distance"), N_("Focus distance"), olympusFiIfdId, makerTags, unsignedRational, printValue),
+        TagInfo(0x0308, "AFPoint", N_("AF Point"), N_("AF point"), olympusFiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x1201, "ExternalFlash", N_("External Flash"), N_("External flash"), olympusFiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusOffOn)),
+        TagInfo(0x1203, "ExternalFlashGuideNumber", N_("External Flash Guide Number"), N_("External flash guide number"), olympusFiIfdId, makerTags, signedRational, printValue),
+        TagInfo(0x1204, "ExternalFlashBounce", N_("External Flash Bounce"), N_("External flash bounce"), olympusFiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusFiExternalFlashBounce)),
+        TagInfo(0x1205, "ExternalFlashZoom", N_("External Flash Zoom"), N_("External flash zoom"), olympusFiIfdId, makerTags, unsignedRational, printValue),
+        TagInfo(0x1208, "InternalFlash", N_("Internal Flash"), N_("Internal flash"), olympusFiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusOffOn)),
+        TagInfo(0x1209, "ManualFlash", N_("Manual Flash"), N_("Manual flash"), olympusFiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x1500, "SensorTemperature", N_("Sensor Temperature"), N_("Sensor temperature"), olympusFiIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x1600, "ImageStabilization", N_("Image Stabilization"), N_("Image stabilization"), olympusFiIfdId, makerTags, undefined, printValue),
         // End of list marker
         TagInfo(0xffff, "(UnknownOlympusFiTag)", "(UnknownOlympusFiTag)", N_("Unknown OlympusFi tag"), olympusFiIfdId, makerTags, invalidTypeId, printValue)
     };
