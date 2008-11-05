@@ -344,7 +344,7 @@ namespace Action {
             md = exifData.findKey(
                 Exiv2::ExifKey("Exif.Photo.FocalLengthIn35mmFilm"));
             if (md != exifData.end()) {
-                std::cout << " ("<< _("35 mm equivalent") << ": " 
+                std::cout << " ("<< _("35 mm equivalent") << ": "
                           << md->print(&exifData) << ")";
             }
         }

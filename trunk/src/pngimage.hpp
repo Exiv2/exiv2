@@ -44,14 +44,14 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2 
+namespace Exiv2
 {
 
 // *****************************************************************************
 // class definitions
 
     // Add PNG to the supported image formats
-    namespace ImageType 
+    namespace ImageType
     {
         const int png = 6;          //!< PNG image type (see class PngImage)
     }

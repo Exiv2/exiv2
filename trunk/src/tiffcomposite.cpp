@@ -309,7 +309,7 @@ namespace Exiv2 {
 #endif
             return;
         }
-        if (   offset > sizeData 
+        if (   offset > sizeData
             || size > sizeData
             || baseOffset + offset > sizeData - size) {
 #ifndef SUPPRESS_WARNINGS
@@ -350,7 +350,7 @@ namespace Exiv2 {
             const byte* pStrip = pData + baseOffset + offset;
             const uint32_t size = static_cast<uint32_t>(pSize->toLong(i));
 
-            if (   offset > sizeData 
+            if (   offset > sizeData
                 || size > sizeData
                 || baseOffset + offset > sizeData - size) {
 #ifndef SUPPRESS_WARNINGS
@@ -1345,7 +1345,7 @@ namespace Exiv2 {
     TypeId toTypeId(TiffType tiffType, uint16_t tag, uint16_t group)
     {
         TypeId ti = TypeId(tiffType);
-        // On the fly type conversion for Exif.Photo.UserComment        
+        // On the fly type conversion for Exif.Photo.UserComment
         if (tag == 0x9286 && group == Group::exif && ti == undefined) {
             ti = comment;
         }

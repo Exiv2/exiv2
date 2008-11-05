@@ -53,7 +53,7 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 namespace {
     using namespace Exiv2;
-    /*! 
+    /*!
       @brief Decrypt Nikon data (Ref [4])
       @param pData Pointer to the data to decrypt
       @param size Size of the data buffer
@@ -1100,12 +1100,12 @@ fmountlens[] = {
 {0x80,0x48,0x1A,0x1A,0x24,0x24,0x85,0x06, "Nikon", "AF DX Fisheye-Nikkor 10.5mm f/2.8G ED"},
 {0x81,0x54,0x80,0x80,0x18,0x18,0x86,0x0E, "Nikon", "AF-S VR Nikkor 200mm f/2G IF-ED"},
 {0x82,0x48,0x8E,0x8E,0x24,0x24,0x87,0x0E, "Nikon", "AF-S VR Nikkor 300mm f/2.8G IF-ED"},
-//#83                
-//#84                
-//#85                 
+//#83
+//#84
+//#85
 //#86
 //#87
-//#88                
+//#88
 {0x89,0x3C,0x53,0x80,0x30,0x3C,0x8B,0x06, "Nikon", "AF-S DX Zoom-Nikkor 55-200mm f/4-5.6G ED"},
 {0x8A,0x54,0x6A,0x6A,0x24,0x24,0x8C,0x0E, "Nikon", "AF-S VR Micro-Nikkor 105mm f/2.8G IF-ED"},
 {0x8B,0x40,0x2D,0x80,0x2C,0x3C,0xFD,0x0E, "Nikon", "AF-S DX VR Zoom-Nikkor 18-200mm f/3.5-5.6G IF-ED"},
