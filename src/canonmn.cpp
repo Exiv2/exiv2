@@ -566,7 +566,7 @@ namespace Exiv2 {
     //! A lens id and a pretty-print function for special treatment of the id.
     struct LensIdFct {
         long     id_;                           //!< Lens id
-        PrintFct fct_;                          //!< Pretty-print function 
+        PrintFct fct_;                          //!< Pretty-print function
         //! Comparison operator for find template
         bool operator==(long id) const { return id_ == id; }
     };

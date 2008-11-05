@@ -95,7 +95,7 @@ namespace {
 
         //! A number of image loaders configured in the loaderList_ table
         static PreviewId getNumLoaders();
-        
+
     protected:
         //! Constructor. Sets all image properies to unknown.
         Loader(PreviewId id, const Image &image);
@@ -115,7 +115,7 @@ namespace {
 
         //! Identifies preview image type
         PreviewId id_;
-        
+
         //! Source image reference
         const Image &image_;
 
@@ -124,10 +124,10 @@ namespace {
 
         //! Preview image length
         uint32_t height_;
-        
+
         //! Preview image size in bytes
         uint32_t size_;
-        
+
         //! True if the source image contains a preview image of given type
         bool valid_;
     };
@@ -135,7 +135,7 @@ namespace {
     //! Loader for Jpeg previews that are not read into ExifData directly
     class LoaderExifJpeg : public Loader {
     public:
-    
+
         //! Constructor
         LoaderExifJpeg(PreviewId id, const Image &image, int parIdx);
 
@@ -191,7 +191,7 @@ namespace {
 
         //! Table that holds all possible data/size pairs. parIdx is an index to this table
         static const Param param_[];
-        
+
         //! Key that points to the Value that contains the JPEG preview in data area
         ExifKey dataKey_;
     };
@@ -214,7 +214,7 @@ namespace {
     protected:
         //! Name of the group that contains the preview image
         const char *group_;
-        
+
         //! Tag that contains image data. Possible values are "StripOffsets" or "TileOffsets"
         std::string offsetTag_;
 
@@ -347,7 +347,7 @@ namespace {
         }
 
         if (offset_ == 0 || size_ == 0) return;
-        
+
         if (param_[parIdx].baseOffsetKey_) {
             pos = image_.exifData().findKey(ExifKey(param_[parIdx].baseOffsetKey_));
             if (pos != image_.exifData().end()) {
@@ -356,7 +356,7 @@ namespace {
         }
 
         if (offset_ + size_ > static_cast<uint32_t>(image_.io().size())) return;
-        
+
         valid_ = true;
     }
 
@@ -417,7 +417,7 @@ namespace {
     }
 
     LoaderExifDataJpeg::LoaderExifDataJpeg(PreviewId id, const Image &image, int parIdx)
-        : Loader(id, image), 
+        : Loader(id, image),
           dataKey_(param_[parIdx].dataKey_)
     {
         ExifData::const_iterator pos = image_.exifData().findKey(dataKey_);
@@ -452,7 +452,7 @@ namespace {
         ExifData::const_iterator pos = image_.exifData().findKey(dataKey_);
         if (pos != image_.exifData().end()) {
             DataBuf buf = pos->dataArea(); // indirect data
-            
+
             if (buf.size_ == 0) { // direct data
                 buf = DataBuf(pos->size());
                 pos->copy(buf.pData_, invalidByteOrder);
@@ -471,7 +471,7 @@ namespace {
 
         DataBuf buf = getData();
         if (buf.size_ == 0) return false;
-        
+
         try {
             Image::AutoPtr image = ImageFactory::open(buf.pData_, buf.size_);
             if (image.get() == 0) return false;
@@ -495,7 +495,7 @@ namespace {
 
         int offsetCount = 0;
         ExifData::const_iterator pos;
-        
+
         // check if the group_ contains a preview image
         if (param_[parIdx].checkTag_) {
             pos = exifData.findKey(ExifKey(param_[parIdx].checkTag_));
@@ -508,7 +508,7 @@ namespace {
             offsetTag_ = "StripOffsets";
             sizeTag_ = "StripByteCounts";
             offsetCount = pos->value().count();
-        } 
+        }
         else {
             pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + ".TileOffsets"));
             if (pos == exifData.end()) return;
@@ -535,7 +535,7 @@ namespace {
         if (pos != exifData.end()) {
             height_ = pos->value().toLong();
         }
-        
+
         if (width_ == 0 || height_ == 0) return;
 
         valid_ = true;
@@ -564,11 +564,11 @@ namespace {
         for (ExifData::const_iterator pos = exifData.begin(); pos != exifData.end(); ++pos) {
             if (pos->groupName() == group_) {
 
-                /* 
+                /*
                    write only the neccessary tags
                    tags that especially could cause problems are:
                    "NewSubfileType" - the result is no longer a thumbnail, it is a standalone image
-                   "Orientation" - this tag typically appears only in the "Image" group. Deleting it ensures 
+                   "Orientation" - this tag typically appears only in the "Image" group. Deleting it ensures
                                    consistent result for all previews, including JPEG
                 */
                 std::string name = pos->tagName();
@@ -733,7 +733,7 @@ namespace Exiv2 {
         if (loader.get()) {
             buf = loader->getData();
         }
-        
+
         return PreviewImage(properties, buf);
     }
 }                                       // namespace Exiv2

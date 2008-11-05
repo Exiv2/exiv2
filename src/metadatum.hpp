@@ -187,7 +187,7 @@ namespace Exiv2 {
           method with a pointer to the metadata container if possible.
 
           This functionality is currently only implemented for Exif tags.
-          The pointer is ignored when used to write IPTC datasets or XMP 
+          The pointer is ignored when used to write IPTC datasets or XMP
           properties.
 
           Without the optional metadata pointer, you do not usually have to use

@@ -58,7 +58,7 @@ namespace Exiv2 {
     Value::~Value()
     {
     }
-    
+
     Value& Value::operator=(const Value& rhs)
     {
         if (this == &rhs) return *this;
@@ -151,21 +151,21 @@ namespace Exiv2 {
         return toString();
     }
 
-    DataValue::DataValue(TypeId typeId) : Value(typeId) 
+    DataValue::DataValue(TypeId typeId) : Value(typeId)
     {
     }
-    
+
     DataValue::DataValue(const byte* buf,
               long len, ByteOrder byteOrder,TypeId typeId)
-        : Value(typeId) 
-    { 
-        read(buf, len, byteOrder); 
+        : Value(typeId)
+    {
+        read(buf, len, byteOrder);
     }
-            
-    DataValue::~DataValue() 
+
+    DataValue::~DataValue()
     {
     }
-        
+
     int DataValue::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
     {
         // byteOrder not needed

@@ -435,7 +435,7 @@ namespace Exiv2 {
     };
 
     //! MacroMode
-    extern const TagDetails olympusMacroMode[] = { 
+    extern const TagDetails olympusMacroMode[] = {
         { 0, N_("Off")         },
         { 1, N_("On")          },
         { 2, N_("Super Macro") }
@@ -958,7 +958,7 @@ namespace Exiv2 {
                 case 1: os << ", " << _("Auto-Override"); break;
                 default: os << value.toLong(3); break;
             }
-        }    
+        }
         return os;
     }
 

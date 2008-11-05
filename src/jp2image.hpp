@@ -44,14 +44,14 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2 
+namespace Exiv2
 {
 
 // *****************************************************************************
 // class definitions
 
     // Add JPEG-2000 to the supported image formats
-    namespace ImageType 
+    namespace ImageType
     {
         const int jp2 = 15;                     //!< JPEG-2000 image type
     }
@@ -75,7 +75,7 @@ namespace Exiv2
               instance after it is passed to this method.  Use the Image::io()
               method to get a temporary reference.
           @param create Specifies if an existing image should be read (false)
-              or if a new file should be created (true). 
+              or if a new file should be created (true).
               This option is not yet implemented.
          */
         Jp2Image(BasicIo::AutoPtr io, bool create);

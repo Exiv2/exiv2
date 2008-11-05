@@ -869,7 +869,7 @@ namespace Exiv2 {
          */
         virtual uint32_t doSizeData() const;
         /*!
-          @brief Implements sizeImage(). Return the sum of the image sizes of 
+          @brief Implements sizeImage(). Return the sum of the image sizes of
                  all components plus that of the next-IFD, if there is any.
          */
         virtual uint32_t doSizeImage() const;

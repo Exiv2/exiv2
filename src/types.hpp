@@ -190,7 +190,7 @@ namespace Exiv2 {
       @brief Utility class containing a character array. All it does is to take
              care of memory allocation and deletion. Its primary use is meant to
              be as a stack variable in functions that need a temporary data
-             buffer. 
+             buffer.
      */
     class EXIV2API DataBuf {
     public:

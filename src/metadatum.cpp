@@ -46,7 +46,7 @@ namespace Exiv2 {
     Key::~Key()
     {
     }
-    
+
     Key::AutoPtr Key::clone() const
     {
         return AutoPtr(clone_());
