@@ -185,8 +185,9 @@ namespace Exiv2 {
     void TiffIfdMakernote::doAccept(TiffVisitor& visitor)
     {
         if (visitor.go(TiffVisitor::geTraverse)) visitor.visitIfdMakernote(this);
-        ifd_.accept(visitor);
-        if (visitor.go(TiffVisitor::geTraverse)) visitor.visitIfdMakernoteEnd(this);
+        if (visitor.go(TiffVisitor::geKnownMakernote)) ifd_.accept(visitor);
+        if (   visitor.go(TiffVisitor::geKnownMakernote)
+            && visitor.go(TiffVisitor::geTraverse)) visitor.visitIfdMakernoteEnd(this);
     }
 
     uint32_t TiffIfdMakernote::doWrite(Blob&     blob,
