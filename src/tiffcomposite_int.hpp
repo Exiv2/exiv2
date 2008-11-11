@@ -726,7 +726,19 @@ namespace Exiv2 {
         //@}
         //! @name Write support (Accessors)
         //@{
-        // Using doWriteData from base class
+        /*!
+          @brief Implements writeData(). Write the image data area to the blob.
+                 Return the number of bytes written.
+
+          This function writes the image data to the data area of the current
+          directory. It is used for TIFF image entries in the makernote (large 
+          preview images) so that the image data remains in the makernote IFD.
+         */
+        virtual uint32_t doWriteData(Blob&     blob,
+                                     ByteOrder byteOrder,
+                                     int32_t   offset,
+                                     uint32_t  dataIdx,
+                                     uint32_t& imageIdx) const;
         /*!
           @brief Implements writeImage(). Write the image data area to the blob.
                  Return the number of bytes written.
@@ -735,7 +747,8 @@ namespace Exiv2 {
                                       ByteOrder byteOrder) const;
         //! Implements size(). Return the size of the strip pointers.
         virtual uint32_t doSize() const;
-        // Using doSizeData from base class
+        //! Implements sizeData(). Return the size of the image data area.
+        virtual uint32_t doSizeData() const;
         //! Implements sizeImage(). Return the size of the image data area.
         virtual uint32_t doSizeImage() const;
         //@}
