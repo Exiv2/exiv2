@@ -927,23 +927,30 @@ namespace Exiv2 {
 
     uint32_t TiffImageEntry::doWrite(Blob&     blob,
                                      ByteOrder byteOrder,
-                                     int32_t   /*offset*/,
+                                     int32_t   offset,
                                      uint32_t  /*valueIdx*/,
-                                     uint32_t  /*dataIdx*/,
+                                     uint32_t  dataIdx,
                                      uint32_t& imageIdx)
     {
+        uint32_t o2 = imageIdx;
+        // For makernotes, write TIFF image data to the data area
+        if (group() > Group::mn) o2 = offset + dataIdx;
 #ifdef DEBUG
         std::cerr << "TiffImageEntry, Directory " << tiffGroupName(group())
                   << ", entry 0x" << std::setw(4)
                   << std::setfill('0') << std::hex << tag() << std::dec
-                  << ": Writing offset " << imageIdx << "\n";
+                  << ": Writing offset " << o2 << "\n";
 #endif
         DataBuf buf(static_cast<long>(strips_.size()) * 4);
         uint32_t idx = 0;
         for (Strips::const_iterator i = strips_.begin(); i != strips_.end(); ++i) {
-            idx += writeOffset(buf.pData_ + idx, imageIdx, tiffType(), byteOrder);
-            imageIdx += i->second;
-            imageIdx += i->second & 1;      // Align strip data to word boundary
+            idx += writeOffset(buf.pData_ + idx, o2, tiffType(), byteOrder);
+            o2 += i->second;
+            o2 += i->second & 1;                // Align strip data to word boundary
+            if (!(group() > Group::mn)) {
+                imageIdx += i->second;
+                imageIdx += i->second & 1;      // Align strip data to word boundary
+            }
         }
         append(blob, buf.pData_, buf.size_);
         return buf.size_;
@@ -1080,6 +1087,20 @@ namespace Exiv2 {
     {
         return 0;
     } // TiffEntryBase::doWriteData
+
+    uint32_t TiffImageEntry::doWriteData(Blob&     blob,
+                                         ByteOrder byteOrder,
+                                         int32_t   /*offset*/,
+                                         uint32_t  /*dataIdx*/,
+                                         uint32_t& /*imageIdx*/) const
+    {
+        uint32_t len = 0;
+        // For makernotes, write TIFF image data to the data area
+        if (group() > Group::mn) {
+            len = writeImage(blob, byteOrder);
+        }
+        return len;
+    } // TiffImageEntry::doWriteData
 
     uint32_t TiffDataEntry::doWriteData(Blob&     blob,
                                         ByteOrder /*byteOrder*/,
@@ -1281,6 +1302,16 @@ namespace Exiv2 {
     {
         return 0;
     } // TiffEntryBase::doSizeData
+
+    uint32_t TiffImageEntry::doSizeData() const
+    {
+        uint32_t len = 0;
+        // For makernotes, TIFF image data is written to the data area
+        if (group() > Group::mn) {
+            len = sizeImage();
+        }
+        return len;
+    } // TiffImageEntry::doSizeData
 
     uint32_t TiffDataEntry::doSizeData() const
     {
