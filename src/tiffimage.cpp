@@ -59,12 +59,6 @@ EXIV2_RCSID("@(#) $Id$")
 
    Todo:
 
-   + Review boundary checking, is it better to check the offsets?
-   + Define and implement consistent error handling for recursive hierarchy
-   + Make TiffImage a template StandardImage, which can be parametrized with
-     a parser and the necessary checking functions to cover all types of
-     images which need to be loaded completely.
-   + TiffComponent: should it have end() and setEnd() or pData and size?
    + Can NewTiffCompFct and TiffCompFactoryFct be combined?
    + Create function is repeated when actually only the table changes. Fix it.
    + Is it easier (for writing) to combine all creation tables into one?
@@ -74,8 +68,6 @@ EXIV2_RCSID("@(#) $Id$")
      And maybe no next pointer either.
    + Filtering of large unknown tags: Should be moved to writing/encoding code
      and done only if really needed (i.e., if writing to a Jpeg segment)
-   + Make Tiff parser completely standalone, depending only on very low level
-     stuff from exiv2
 
    in crwimage.* :
 

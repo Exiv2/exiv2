@@ -853,11 +853,6 @@ namespace Exiv2 {
 
             // Assumption is that the corresponding TIFF entry doesn't exist
 
-            // Todo: This takes tag and group straight from the Exif datum.
-            // There is a need for a simple mapping and a provision for quite
-            // sophisticated logic to determine the mapped tag and group to
-            // handle complex cases (eg, NEF sub-IFDs)
-
             // Todo: getPath depends on the Creator class, not the createFct
             //       how to get it through to here???
 
