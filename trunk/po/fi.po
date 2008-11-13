@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2008-11-05 22:41+0800\n"
+"POT-Creation-Date: 2008-11-13 20:20+0800\n"
 "PO-Revision-Date: 2006-12-18 16:08+0200\n"
 "Last-Translator: Mikael Lammentausta\n"
 "Language-Team:  <fi@li.org>\n"
@@ -2126,7 +2126,7 @@ msgstr ""
 msgid "Header, offset"
 msgstr ""
 
-#: src/crwimage.cpp:671 src/tiffvisitor.cpp:971 src/tiffvisitor.cpp:989
+#: src/crwimage.cpp:671 src/tiffvisitor.cpp:966 src/tiffvisitor.cpp:984
 msgid "tag"
 msgstr ""
 
@@ -2134,7 +2134,7 @@ msgstr ""
 msgid "dir"
 msgstr ""
 
-#: src/crwimage.cpp:675 src/tiffvisitor.cpp:973
+#: src/crwimage.cpp:675 src/tiffvisitor.cpp:968
 msgid "type"
 msgstr ""
 
@@ -2142,7 +2142,7 @@ msgstr ""
 msgid "size"
 msgstr ""
 
-#: src/crwimage.cpp:677 src/tiffvisitor.cpp:977
+#: src/crwimage.cpp:677 src/tiffvisitor.cpp:972
 msgid "offset"
 msgstr ""
 
@@ -14050,75 +14050,75 @@ msgstr ""
 msgid "Digital zoom not used"
 msgstr ""
 
-#: src/tiffimage.cpp:746
+#: src/tiffimage.cpp:738
 msgid "TIFF header, offset"
 msgstr ""
 
-#: src/tiffimage.cpp:751
+#: src/tiffimage.cpp:743
 msgid "little endian encoded"
 msgstr ""
 
-#: src/tiffimage.cpp:752
+#: src/tiffimage.cpp:744
 msgid "big endian encoded"
 msgstr ""
 
-#: src/tiffvisitor.cpp:905
+#: src/tiffvisitor.cpp:900
 msgid "Data area"
 msgstr ""
 
-#: src/tiffvisitor.cpp:907
+#: src/tiffvisitor.cpp:902
 msgid "bytes.\n"
 msgstr ""
 
-#: src/tiffvisitor.cpp:925
+#: src/tiffvisitor.cpp:920
 msgid "directory with"
 msgstr ""
 
-#: src/tiffvisitor.cpp:928
+#: src/tiffvisitor.cpp:923
 msgid "entry:\n"
 msgstr ""
 
-#: src/tiffvisitor.cpp:929
+#: src/tiffvisitor.cpp:924
 msgid "entries:\n"
 msgstr ""
 
-#: src/tiffvisitor.cpp:938
+#: src/tiffvisitor.cpp:933
 msgid "Next directory:\n"
 msgstr ""
 
-#: src/tiffvisitor.cpp:939
+#: src/tiffvisitor.cpp:934
 msgid "No next directory\n"
 msgstr ""
 
-#: src/tiffvisitor.cpp:950
+#: src/tiffvisitor.cpp:945
 msgid "Sub-IFD"
 msgstr ""
 
-#: src/tiffvisitor.cpp:957
+#: src/tiffvisitor.cpp:952
 msgid "Makernote"
 msgstr ""
 
-#: src/tiffvisitor.cpp:974
+#: src/tiffvisitor.cpp:969
 msgid "component"
 msgstr ""
 
-#: src/tiffvisitor.cpp:976
+#: src/tiffvisitor.cpp:971
 msgid "bytes"
 msgstr ""
 
-#: src/tiffvisitor.cpp:988
+#: src/tiffvisitor.cpp:983
 msgid "Array Entry"
 msgstr ""
 
-#: src/tiffvisitor.cpp:990
+#: src/tiffvisitor.cpp:985
 msgid "with"
 msgstr ""
 
-#: src/tiffvisitor.cpp:992
+#: src/tiffvisitor.cpp:987
 msgid "elements"
 msgstr ""
 
-#: src/tiffvisitor.cpp:993
+#: src/tiffvisitor.cpp:988
 msgid "element"
 msgstr ""
 

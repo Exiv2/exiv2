@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2008-11-05 22:41+0800\n"
+"POT-Creation-Date: 2008-11-13 20:20+0800\n"
 "PO-Revision-Date: 2008-09-18 23:18+0200\n"
 "Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
 "Language-Team: german <kde-i18n-de@kde.org>\n"
@@ -2116,7 +2116,7 @@ msgstr "Unbekanntes Feld in der Canon-Bildinfo"
 msgid "Header, offset"
 msgstr "Header, offset"
 
-#: src/crwimage.cpp:671 src/tiffvisitor.cpp:971 src/tiffvisitor.cpp:989
+#: src/crwimage.cpp:671 src/tiffvisitor.cpp:966 src/tiffvisitor.cpp:984
 msgid "tag"
 msgstr "Feld"
 
@@ -2124,7 +2124,7 @@ msgstr "Feld"
 msgid "dir"
 msgstr "Ordner"
 
-#: src/crwimage.cpp:675 src/tiffvisitor.cpp:973
+#: src/crwimage.cpp:675 src/tiffvisitor.cpp:968
 msgid "type"
 msgstr "Typ"
 
@@ -2132,7 +2132,7 @@ msgstr "Typ"
 msgid "size"
 msgstr "GrößeVoll"
 
-#: src/crwimage.cpp:677 src/tiffvisitor.cpp:977
+#: src/crwimage.cpp:677 src/tiffvisitor.cpp:972
 msgid "offset"
 msgstr "Offset"
 
@@ -15041,75 +15041,75 @@ msgstr "Unbekanntes Feld"
 msgid "Digital zoom not used"
 msgstr "Digital Zoom wurde nicht benutzt"
 
-#: src/tiffimage.cpp:746
+#: src/tiffimage.cpp:738
 msgid "TIFF header, offset"
 msgstr "TIFF-Header, offset"
 
-#: src/tiffimage.cpp:751
+#: src/tiffimage.cpp:743
 msgid "little endian encoded"
 msgstr "\"Little-Endian\" kodiert"
 
-#: src/tiffimage.cpp:752
+#: src/tiffimage.cpp:744
 msgid "big endian encoded"
 msgstr "\"Big Endian\" kodiert"
 
-#: src/tiffvisitor.cpp:905
+#: src/tiffvisitor.cpp:900
 msgid "Data area"
 msgstr "Datenbereich"
 
-#: src/tiffvisitor.cpp:907
+#: src/tiffvisitor.cpp:902
 msgid "bytes.\n"
 msgstr "Bytes.\n"
 
-#: src/tiffvisitor.cpp:925
+#: src/tiffvisitor.cpp:920
 msgid "directory with"
 msgstr "Ordner mit"
 
-#: src/tiffvisitor.cpp:928
+#: src/tiffvisitor.cpp:923
 msgid "entry:\n"
 msgstr "Eintrag:\n"
 
-#: src/tiffvisitor.cpp:929
+#: src/tiffvisitor.cpp:924
 msgid "entries:\n"
 msgstr "Einträge:\n"
 
-#: src/tiffvisitor.cpp:938
+#: src/tiffvisitor.cpp:933
 msgid "Next directory:\n"
 msgstr "Nächster Ordner:\n"
 
-#: src/tiffvisitor.cpp:939
+#: src/tiffvisitor.cpp:934
 msgid "No next directory\n"
 msgstr "Kein weitere Ordner\n"
 
-#: src/tiffvisitor.cpp:950
+#: src/tiffvisitor.cpp:945
 msgid "Sub-IFD"
 msgstr ""
 
-#: src/tiffvisitor.cpp:957
+#: src/tiffvisitor.cpp:952
 msgid "Makernote"
 msgstr "Herstellerbemerkung"
 
-#: src/tiffvisitor.cpp:974
+#: src/tiffvisitor.cpp:969
 msgid "component"
 msgstr "Komponente"
 
-#: src/tiffvisitor.cpp:976
+#: src/tiffvisitor.cpp:971
 msgid "bytes"
 msgstr "Bytes"
 
-#: src/tiffvisitor.cpp:988
+#: src/tiffvisitor.cpp:983
 msgid "Array Entry"
 msgstr "Feldeintrag"
 
-#: src/tiffvisitor.cpp:990
+#: src/tiffvisitor.cpp:985
 msgid "with"
 msgstr "mit"
 
-#: src/tiffvisitor.cpp:992
+#: src/tiffvisitor.cpp:987
 msgid "elements"
 msgstr "Elementen"
 
-#: src/tiffvisitor.cpp:993
+#: src/tiffvisitor.cpp:988
 msgid "element"
 msgstr "Element"
 
