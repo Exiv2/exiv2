@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2008-11-05 22:41+0800\n"
+"POT-Creation-Date: 2008-11-13 20:20+0800\n"
 "PO-Revision-Date: 2008-04-07 17:20+0100\n"
 "Last-Translator: Ivan Masár <helix84@centrum.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -2149,7 +2149,7 @@ msgstr "Neznámy štítok Canon Picture Info"
 msgid "Header, offset"
 msgstr "Hlavička, ofset"
 
-#: src/crwimage.cpp:671 src/tiffvisitor.cpp:971 src/tiffvisitor.cpp:989
+#: src/crwimage.cpp:671 src/tiffvisitor.cpp:966 src/tiffvisitor.cpp:984
 msgid "tag"
 msgstr "štítok"
 
@@ -2157,7 +2157,7 @@ msgstr "štítok"
 msgid "dir"
 msgstr "priečinok"
 
-#: src/crwimage.cpp:675 src/tiffvisitor.cpp:973
+#: src/crwimage.cpp:675 src/tiffvisitor.cpp:968
 msgid "type"
 msgstr "typ"
 
@@ -2165,7 +2165,7 @@ msgstr "typ"
 msgid "size"
 msgstr "veľkosť"
 
-#: src/crwimage.cpp:677 src/tiffvisitor.cpp:977
+#: src/crwimage.cpp:677 src/tiffvisitor.cpp:972
 msgid "offset"
 msgstr "ofset"
 
@@ -14833,76 +14833,76 @@ msgstr "Neznámy štítok"
 msgid "Digital zoom not used"
 msgstr "Digitálne priblíženie nebolo použité"
 
-#: src/tiffimage.cpp:746
+#: src/tiffimage.cpp:738
 msgid "TIFF header, offset"
 msgstr "Hlavička TIFF, ofset"
 
-#: src/tiffimage.cpp:751
+#: src/tiffimage.cpp:743
 msgid "little endian encoded"
 msgstr ""
 
-#: src/tiffimage.cpp:752
+#: src/tiffimage.cpp:744
 msgid "big endian encoded"
 msgstr ""
 
-#: src/tiffvisitor.cpp:905
+#: src/tiffvisitor.cpp:900
 msgid "Data area"
 msgstr "Oblasť dát"
 
-#: src/tiffvisitor.cpp:907
+#: src/tiffvisitor.cpp:902
 msgid "bytes.\n"
 msgstr "bajtov.\n"
 
-#: src/tiffvisitor.cpp:925
+#: src/tiffvisitor.cpp:920
 msgid "directory with"
 msgstr "adresár s"
 
-#: src/tiffvisitor.cpp:928
+#: src/tiffvisitor.cpp:923
 msgid "entry:\n"
 msgstr "záznam:\n"
 
-#: src/tiffvisitor.cpp:929
+#: src/tiffvisitor.cpp:924
 msgid "entries:\n"
 msgstr "záznamy:\n"
 
-#: src/tiffvisitor.cpp:938
+#: src/tiffvisitor.cpp:933
 msgid "Next directory:\n"
 msgstr "Ďalší priečinok:\n"
 
-#: src/tiffvisitor.cpp:939
+#: src/tiffvisitor.cpp:934
 msgid "No next directory\n"
 msgstr "Žiadny ďalší priečinok\n"
 
-#: src/tiffvisitor.cpp:950
+#: src/tiffvisitor.cpp:945
 msgid "Sub-IFD"
 msgstr "Sub-IFD"
 
-#: src/tiffvisitor.cpp:957
+#: src/tiffvisitor.cpp:952
 msgid "Makernote"
 msgstr "Poznámky zhotoviteľa"
 
-#: src/tiffvisitor.cpp:974
+#: src/tiffvisitor.cpp:969
 msgid "component"
 msgstr "komponent"
 
-#: src/tiffvisitor.cpp:976
+#: src/tiffvisitor.cpp:971
 msgid "bytes"
 msgstr "bajtov"
 
-#: src/tiffvisitor.cpp:988
+#: src/tiffvisitor.cpp:983
 msgid "Array Entry"
 msgstr "položka poľa"
 
-#: src/tiffvisitor.cpp:990
+#: src/tiffvisitor.cpp:985
 msgid "with"
 msgstr ""
 
-#: src/tiffvisitor.cpp:992
+#: src/tiffvisitor.cpp:987
 msgid "elements"
 msgstr ""
 
 # exif-meteringmode-4
-#: src/tiffvisitor.cpp:993
+#: src/tiffvisitor.cpp:988
 #, fuzzy
 msgid "element"
 msgstr "Viacbodový"

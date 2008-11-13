@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2008-11-05 22:41+0800\n"
-"PO-Revision-Date: 2008-09-15 10:35+0100\n"
+"POT-Creation-Date: 2008-11-13 20:20+0800\n"
+"PO-Revision-Date: 2008-11-06 10:43+0100\n"
 "Last-Translator: Piotr Eljasiak <epiotr@use.pl>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -197,9 +197,8 @@ msgid "Image file creation timestamp not set in the file"
 msgstr ""
 
 #: src/actions.cpp:899 src/actions.cpp:1560
-#, fuzzy
 msgid "Failed to parse timestamp"
-msgstr "Błąd podczas parsowania vCard."
+msgstr "Błąd podczas parsowania znacznika czasu"
 
 #: src/actions.cpp:900
 msgid "in the file"
@@ -250,9 +249,8 @@ msgid "to file"
 msgstr "do pliku"
 
 #: src/actions.cpp:1115
-#, fuzzy
 msgid "Exif data doesn't contain a thumbnail\n"
-msgstr "Dane EXIF zawierają miniaturkę (%i bajtów)."
+msgstr "Dane EXIF nie zawierają miniaturki\n"
 
 #: src/actions.cpp:1268
 #, fuzzy
@@ -396,9 +394,8 @@ msgid "exists. [O]verwrite, [r]ename or [s]kip?"
 msgstr "Plik istnieje: (n)adpisać, (d)ołączyć czy (a)nulować?"
 
 #: src/actions.cpp:1902
-#, fuzzy
 msgid "Renaming file to"
-msgstr "Błąd przy zmianie nazwy pliku \"%s\" na \"%s\": %s"
+msgstr "Zmianie nazwy pliku na"
 
 #: src/actions.cpp:1904
 #, fuzzy
@@ -905,11 +902,8 @@ msgid "Serial Number"
 msgstr "Numer seryjny"
 
 #: src/canonmn.cpp:176 src/sigmamn.cpp:55
-#, fuzzy
 msgid "Camera serial number"
-msgstr ""
-"\n"
-"Numer seryjny wystawcy: %s"
+msgstr "Numer seryjny aparatu"
 
 #: src/canonmn.cpp:178
 msgid "Custom Functions"
@@ -1236,7 +1230,7 @@ msgstr "Śnieg"
 #: src/canonmn.cpp:279
 #, fuzzy
 msgid "Kids & pets"
-msgstr "Dzieci i zwierzęta"
+msgstr "Zwierzęta domowe"
 
 #: src/canonmn.cpp:280
 #, fuzzy
@@ -1705,12 +1699,12 @@ msgstr "Największa wartość przysłony"
 #: src/canonmn.cpp:678
 #, fuzzy
 msgid "Min Aperture"
-msgstr "Największa wartość przysłony"
+msgstr "<b>Przesłona:</b>"
 
 #: src/canonmn.cpp:678
 #, fuzzy
 msgid "Min aperture"
-msgstr "Największa wartość przysłony"
+msgstr "<b>Przesłona:</b>"
 
 #: src/canonmn.cpp:679
 #, fuzzy
@@ -1891,14 +1885,12 @@ msgid "right"
 msgstr "prawy"
 
 #: src/canonmn.cpp:755
-#, fuzzy
 msgid "ISO Speed Used"
-msgstr "<b>Wartość ISO:</b>"
+msgstr "Czułość ISO"
 
 #: src/canonmn.cpp:755
-#, fuzzy
 msgid "ISO speed used"
-msgstr "<b>Wartość ISO:</b>"
+msgstr "Czułość ISO"
 
 #: src/canonmn.cpp:757
 #, fuzzy
@@ -1908,12 +1900,12 @@ msgstr "<b>Przesłona:</b>"
 #: src/canonmn.cpp:758
 #, fuzzy
 msgid "Target Shutter Speed"
-msgstr "Szybkość (pikseli/ramkę)"
+msgstr "Czułość ISO"
 
 #: src/canonmn.cpp:758
 #, fuzzy
 msgid "Target shutter speed"
-msgstr "Szybkość (pikseli/ramkę)"
+msgstr "Czułość ISO"
 
 #: src/canonmn.cpp:760 src/fujimn.cpp:187 src/minoltamn.cpp:616
 #: src/minoltamn.cpp:894 src/minoltamn.cpp:1132 src/nikonmn.cpp:183
@@ -2277,7 +2269,7 @@ msgstr "Nieznany znacznik."
 msgid "Header, offset"
 msgstr "Przesunięcie podświetlenia X"
 
-#: src/crwimage.cpp:671 src/tiffvisitor.cpp:971 src/tiffvisitor.cpp:989
+#: src/crwimage.cpp:671 src/tiffvisitor.cpp:966 src/tiffvisitor.cpp:984
 msgid "tag"
 msgstr "znacznik"
 
@@ -2285,7 +2277,7 @@ msgstr "znacznik"
 msgid "dir"
 msgstr "katalog"
 
-#: src/crwimage.cpp:675 src/tiffvisitor.cpp:973
+#: src/crwimage.cpp:675 src/tiffvisitor.cpp:968
 msgid "type"
 msgstr "typ"
 
@@ -2293,7 +2285,7 @@ msgstr "typ"
 msgid "size"
 msgstr "wielkość"
 
-#: src/crwimage.cpp:677 src/tiffvisitor.cpp:977
+#: src/crwimage.cpp:677 src/tiffvisitor.cpp:972
 msgid "offset"
 msgstr "przesunięcie"
 
@@ -2962,7 +2954,6 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:384
-#, fuzzy
 msgid "Caption"
 msgstr "Opis"
 
@@ -3059,7 +3050,6 @@ msgid "Indicates the duration of an audio content."
 msgstr "Właściwości dźwięku - komponent widoku zawartości"
 
 #: src/datasets.cpp:420
-#, fuzzy
 msgid "Audio Outcue"
 msgstr "Komunikat słowny"
 
@@ -4596,7 +4586,7 @@ msgstr "Pełny rozmiar"
 #: src/minoltamn.cpp:346
 #, fuzzy
 msgid "Super fine"
-msgstr "Dobra pogoda"
+msgstr "Bardzo dobra"
 
 #: src/minoltamn.cpp:350
 #, fuzzy
@@ -5848,7 +5838,7 @@ msgstr "Balans kolorów"
 #: src/nikonmn.cpp:627
 #, fuzzy
 msgid "Color balance settings 2"
-msgstr "Importowanie ustawień balansu koloru"
+msgstr "Ustawień balansu koloru 1"
 
 #: src/nikonmn.cpp:629
 #, fuzzy
@@ -5883,7 +5873,7 @@ msgstr "Maks. rozmiar tablicy map pikseli"
 #: src/nikonmn.cpp:644
 #, fuzzy
 msgid "Serial NO"
-msgstr "Numer seryjny"
+msgstr "Brak wyników"
 
 #: src/nikonmn.cpp:645
 msgid "Camera serial number, usually starts with \"NO= \""
@@ -6061,12 +6051,12 @@ msgstr "Przyrostowy"
 #: src/olympusmn.cpp:127
 #, fuzzy
 msgid "Thumbnail Image"
-msgstr "Miniaturka"
+msgstr "Rozmiar miniaturki:"
 
 #: src/olympusmn.cpp:128
 #, fuzzy
 msgid "Thumbnail image"
-msgstr "Odśwież podgląd"
+msgstr "Rozmiar miniaturki:"
 
 #: src/olympusmn.cpp:131
 msgid "Special Mode"
@@ -6458,7 +6448,7 @@ msgstr "Główni programiści"
 #: src/olympusmn.cpp:398
 #, fuzzy
 msgid "Image processing sub-IFD"
-msgstr "Przetwarzanie obrazu"
+msgstr "Wybierz podformat obrazu"
 
 #: src/olympusmn.cpp:400
 #, fuzzy
@@ -6468,7 +6458,7 @@ msgstr "Informacje o opłatac_h:"
 #: src/olympusmn.cpp:401
 #, fuzzy
 msgid "Focus sub-IFD"
-msgstr "Informacje o opłatac_h:"
+msgstr "Wskaźnik Exif IFD"
 
 #: src/olympusmn.cpp:403
 #, fuzzy
@@ -6478,7 +6468,7 @@ msgstr "Informacje o opłatac_h:"
 #: src/olympusmn.cpp:404
 #, fuzzy
 msgid "Raw sub-IFD"
-msgstr "Sublokalizacja"
+msgstr "Wskaźnik Exif IFD"
 
 #: src/olympusmn.cpp:409
 msgid "Unknown OlympusMakerNote tag"
@@ -6495,22 +6485,24 @@ msgid "Center-weighted average"
 msgstr "Wykorzystanie średniej wartości"
 
 #: src/olympusmn.cpp:431
+#, fuzzy
 msgid "ESP"
-msgstr ""
+msgstr "\"ESP\""
 
 #: src/olympusmn.cpp:432
 #, fuzzy
 msgid "Pattern+AF"
-msgstr "Wzór"
+msgstr "Wybór desenia"
 
 #: src/olympusmn.cpp:433
+#, fuzzy
 msgid "Spot+Highlight control"
-msgstr ""
+msgstr "Wyświetlaj punkty kontrolne"
 
 #: src/olympusmn.cpp:434
 #, fuzzy
 msgid "Spot+Shadow control"
-msgstr "Regulacja barwy"
+msgstr "Wyświetlaj punkty kontrolne"
 
 #: src/olympusmn.cpp:441 src/olympusmn.cpp:532
 #, fuzzy
@@ -6520,16 +6512,19 @@ msgstr "Wywołanie makra"
 #: src/olympusmn.cpp:446
 #, fuzzy
 msgid "Single AF"
-msgstr "Pojedynczy"
+msgstr "Powtórz jeden"
 
 #: src/olympusmn.cpp:447
+#, fuzzy
 msgid "Sequential shooting AF"
-msgstr ""
+msgstr "Sekwencyjny obszar koloru"
 
 #: src/olympusmn.cpp:449
 #, fuzzy
 msgid "Multi AF"
-msgstr "Wielopunktowy"
+msgstr ""
+"Multi\n"
+"klawisz"
 
 #: src/olympusmn.cpp:450
 msgid "MF"
@@ -6538,26 +6533,27 @@ msgstr ""
 #: src/olympusmn.cpp:455
 #, fuzzy
 msgid "AF Not Used"
-msgstr "Ostatnio użyty styl"
+msgstr "Nie używane więcej"
 
 #: src/olympusmn.cpp:456
 #, fuzzy
 msgid "AF Used"
-msgstr "Ostatnio użyty styl"
+msgstr "Ostatnio używane"
 
 #: src/olympusmn.cpp:461
 #, fuzzy
 msgid "Not Ready"
-msgstr "Nie używany"
+msgstr "Nie gotowy"
 
 #: src/olympusmn.cpp:462
 #, fuzzy
 msgid "Ready"
-msgstr "Efekt czerwonych oczu"
+msgstr "Gotowy"
 
 #: src/olympusmn.cpp:469
+#, fuzzy
 msgid "Fill-in"
-msgstr ""
+msgstr "Wypełnij puste miejsca"
 
 #: src/olympusmn.cpp:471
 #, fuzzy
@@ -6567,11 +6563,12 @@ msgstr "Powolna synchronizacja"
 #: src/olympusmn.cpp:472
 #, fuzzy
 msgid "Forced On"
-msgstr "Fluorescencja"
+msgstr "Na krawędziach:"
 
 #: src/olympusmn.cpp:473
+#, fuzzy
 msgid "2nd Curtain"
-msgstr ""
+msgstr "Złota kurtyna"
 
 #: src/olympusmn.cpp:479
 msgid "7500K (Fine Weather with Shade)"
@@ -6585,86 +6582,88 @@ msgstr "Pogoda: Pochmurno"
 #: src/olympusmn.cpp:481
 #, fuzzy
 msgid "5300K (Fine Weather)"
-msgstr "Dobra pogoda"
+msgstr "Pogoda: Częściowe zachmurzenie"
 
 #: src/olympusmn.cpp:482
 msgid "3000K (Tungsten light)"
-msgstr ""
+msgstr "3000K (żarówka wolframowa)"
 
 #: src/olympusmn.cpp:483 src/olympusmn.cpp:487
 msgid "3600K (Tungsten light-like)"
 msgstr ""
 
 #: src/olympusmn.cpp:484
-#, fuzzy
 msgid "6600K (Daylight fluorescent)"
-msgstr "Lampa fluorescencyjna (światło dzienne)"
+msgstr "6600K (światło dzienne lampy fluorescencyjnej)"
 
 #: src/olympusmn.cpp:485
 #, fuzzy
 msgid "4500K (Neutral white fluorescent)"
-msgstr "Wybór automatyczny"
+msgstr "Chłodnobiała lampa fluorescencyjna (W 3900 - 4500K)"
 
 #: src/olympusmn.cpp:486
-#, fuzzy
 msgid "4000K (Cool white fluorescent)"
-msgstr "Chłodnobiała lampa fluorescencyjna (W 3900 - 4500K)"
+msgstr "4000K (chłodnobiała lampa fluorescencyjna)"
 
 #: src/olympusmn.cpp:488
 #, fuzzy
 msgid "Custom WB 1"
-msgstr "Użytkownika 1"
+msgstr "WB-BA"
 
 #: src/olympusmn.cpp:489
 #, fuzzy
 msgid "Custom WB 2"
-msgstr "Użytkownika 2"
+msgstr "WB-BA"
 
 #: src/olympusmn.cpp:490
 #, fuzzy
 msgid "Custom WB 3"
-msgstr "Użytkownika 3"
+msgstr "WB-BA"
 
 #: src/olympusmn.cpp:491
 #, fuzzy
 msgid "Custom WB 4"
-msgstr "Użytkownika 1"
+msgstr "WB-BA"
 
 #: src/olympusmn.cpp:492
 #, fuzzy
 msgid "Custom WB 5400K"
-msgstr "Użytkownika 1"
+msgstr "Wybór koloru do koloryzacji"
 
 #: src/olympusmn.cpp:493
 #, fuzzy
 msgid "Custom WB 2900K"
-msgstr "Użytkownika 2"
+msgstr "Wybór koloru do koloryzacji"
 
 #: src/olympusmn.cpp:494
 #, fuzzy
 msgid "Custom WB 8000K"
-msgstr "Użytkownika 1"
+msgstr "Wybór koloru do koloryzacji"
 
 #: src/olympusmn.cpp:500
+#, fuzzy
 msgid "CM1 (Red Enhance)"
-msgstr ""
+msgstr "Filtry poprawiające jakość obrazka"
 
 #: src/olympusmn.cpp:501
+#, fuzzy
 msgid "CM2 (Green Enhance)"
-msgstr ""
+msgstr "Filtry poprawiające jakość obrazka"
 
 #: src/olympusmn.cpp:502
 #, fuzzy
 msgid "CM3 (Blue Enhance)"
-msgstr "Balans niebieskiego"
+msgstr "Filtry poprawiające jakość obrazka"
 
 #: src/olympusmn.cpp:503
+#, fuzzy
 msgid "CM4 (Skin Tones)"
-msgstr ""
+msgstr "Wyłączenie sygnału Guard Tone"
 
 #: src/olympusmn.cpp:510 src/olympusmn.cpp:715 src/olympusmn.cpp:780
+#, fuzzy
 msgid "Pro Photo RGB"
-msgstr ""
+msgstr "Papier fotograficzny Pro"
 
 #: src/olympusmn.cpp:517 src/pentaxmn.cpp:415
 msgid "Sport"
@@ -6673,16 +6672,15 @@ msgstr "Sport"
 #: src/olympusmn.cpp:519 src/olympusmn.cpp:526
 #, fuzzy
 msgid "Landscape+Portrait"
-msgstr "Pejzaż"
+msgstr "Odwrócone pionowo"
 
 #: src/olympusmn.cpp:522
-#, fuzzy
 msgid "Self Portrait"
-msgstr "Portret"
+msgstr "Autoportret"
 
 #: src/olympusmn.cpp:524
 msgid "2 in 1"
-msgstr ""
+msgstr "2-w-1"
 
 #: src/olympusmn.cpp:527
 #, fuzzy
@@ -6694,38 +6692,36 @@ msgid "Food"
 msgstr "Żywność"
 
 #: src/olympusmn.cpp:534
-#, fuzzy
 msgid "Documents"
-msgstr "Identyfikator dokumentu"
+msgstr "Dokumenty"
 
 #: src/olympusmn.cpp:536
 #, fuzzy
 msgid "Shoot & Select"
-msgstr "_Efekt Xach..."
+msgstr "Wybór pliku"
 
 #: src/olympusmn.cpp:537
-#, fuzzy
 msgid "Beach & Snow"
-msgstr "Pogoda: Śnieg"
+msgstr "Plaża i śnieg"
 
 #: src/olympusmn.cpp:538
 #, fuzzy
 msgid "Self Protrait+Timer"
-msgstr "zatrzymaj licznik czasu"
+msgstr "Nie można utworzyć stopera"
 
 #: src/olympusmn.cpp:539
-#, fuzzy
 msgid "Candle"
-msgstr "Światło dzienne"
+msgstr "Świeca"
 
 #: src/olympusmn.cpp:540
 #, fuzzy
 msgid "Available Light"
-msgstr "Światło standardowe A"
+msgstr "Jasne pole"
 
 #: src/olympusmn.cpp:541
+#, fuzzy
 msgid "Behind Glass"
-msgstr ""
+msgstr "obszar szklany"
 
 #: src/olympusmn.cpp:542
 #, fuzzy
@@ -6745,25 +6741,26 @@ msgstr "Podwodny"
 #: src/olympusmn.cpp:545
 #, fuzzy
 msgid "Underwater Macro"
-msgstr "Podwodny"
+msgstr "Wywołanie makra"
 
 #: src/olympusmn.cpp:546
+#, fuzzy
 msgid "Shoot & Select1"
-msgstr ""
+msgstr "<br>Strzelanie: %1"
 
 #: src/olympusmn.cpp:547
+#, fuzzy
 msgid "Shoot & Select2"
-msgstr ""
+msgstr "<br>Strzelanie: %1"
 
 #: src/olympusmn.cpp:549
 #, fuzzy
 msgid "Digital Image Stabilization"
-msgstr "Stabilizacja obrazu"
+msgstr "Wyżłabiany obraz"
 
 #: src/olympusmn.cpp:550
-#, fuzzy
 msgid "Auction"
-msgstr "Auto"
+msgstr "Aukcja"
 
 #: src/olympusmn.cpp:553
 #, fuzzy
@@ -6772,36 +6769,34 @@ msgstr "Podwodny"
 
 #: src/olympusmn.cpp:555
 msgid "Children"
-msgstr ""
+msgstr "Dzieci"
 
 #: src/olympusmn.cpp:557
 #, fuzzy
 msgid "Nature Macro"
-msgstr "Naturalny kolor"
+msgstr "Wywołanie makra"
 
 #: src/olympusmn.cpp:558
-#, fuzzy
 msgid "Underwater Snapshot"
-msgstr "Podwodny"
+msgstr "Zdjęcie podwodne"
 
 #: src/olympusmn.cpp:559
 #, fuzzy
 msgid "Shooting Guide"
-msgstr "Tryb robienia zdjęcia"
+msgstr "Nowa p_rowadnica"
 
 #: src/olympusmn.cpp:565 src/olympusmn.cpp:643
-#, fuzzy
 msgid "Noise Filter"
-msgstr "Filtr"
+msgstr "Filtr szumu"
 
 #: src/olympusmn.cpp:566
+#, fuzzy
 msgid "Noise Filter (ISO Boost)"
-msgstr ""
+msgstr "Redukcja szumów przy długiej ekspozycji"
 
 #: src/olympusmn.cpp:573 src/olympusmn.cpp:793
-#, fuzzy
 msgid "Muted"
-msgstr "użyty"
+msgstr "Wyciszony"
 
 #: src/olympusmn.cpp:575 src/olympusmn.cpp:794
 #, fuzzy
@@ -6810,40 +6805,38 @@ msgstr "Pobranie koloru odcienia temperatury."
 
 #: src/olympusmn.cpp:583 src/olympusmn.cpp:801
 msgid "Yellow"
-msgstr ""
+msgstr "Żółty"
 
 #: src/olympusmn.cpp:584 src/olympusmn.cpp:802
-#, fuzzy
 msgid "Orange"
-msgstr "_Zaznacz zakres:"
+msgstr "Pomarańczowy"
 
 #: src/olympusmn.cpp:585 src/olympusmn.cpp:803
-#, fuzzy
 msgid "Red"
-msgstr "Efekt czerwonych oczu"
+msgstr "Czerwony"
 
 #: src/olympusmn.cpp:586 src/olympusmn.cpp:596 src/olympusmn.cpp:804
 #: src/olympusmn.cpp:813
-#, fuzzy
 msgid "Green"
-msgstr "Nasycenie zielonego"
+msgstr "Zielony"
 
 #: src/olympusmn.cpp:594 src/olympusmn.cpp:811
-#, fuzzy
 msgid "Blue"
-msgstr "wartośc"
+msgstr "Niebieski"
 
 #: src/olympusmn.cpp:595 src/olympusmn.cpp:812
 msgid "Purple"
-msgstr ""
+msgstr "Purpurowy"
 
 #: src/olympusmn.cpp:601
+#, fuzzy
 msgid "SQ"
-msgstr ""
+msgstr "%1 km 2"
 
 #: src/olympusmn.cpp:602
+#, fuzzy
 msgid "HQ"
-msgstr ""
+msgstr "HQ-Video CD"
 
 #: src/olympusmn.cpp:603
 msgid "SHQ"
@@ -6852,17 +6845,17 @@ msgstr ""
 #: src/olympusmn.cpp:608
 #, fuzzy
 msgid "Camera Settings Version"
-msgstr "Pobierz informacje o aparacie..."
+msgstr "Pokaż ustawienia lampy"
 
 #: src/olympusmn.cpp:608
 #, fuzzy
 msgid "Camera settings version"
-msgstr "Pobierz informacje o aparacie..."
+msgstr "Pokaż ustawienia lampy"
 
 #: src/olympusmn.cpp:609
 #, fuzzy
 msgid "PreviewImage Valid"
-msgstr "Odśwież podgląd"
+msgstr "Podpis prawidłowy"
 
 #: src/olympusmn.cpp:609
 #, fuzzy
@@ -6872,22 +6865,22 @@ msgstr "Odśwież podgląd"
 #: src/olympusmn.cpp:610
 #, fuzzy
 msgid "PreviewImage Start"
-msgstr "Podgląd danych"
+msgstr "Indeks początkowy"
 
 #: src/olympusmn.cpp:610
 #, fuzzy
 msgid "Preview image start"
-msgstr "Odśwież podgląd"
+msgstr "Uruchom edytor obrazów"
 
 #: src/olympusmn.cpp:611
 #, fuzzy
 msgid "PreviewImage Length"
-msgstr "Długość obrazu"
+msgstr "Długość słupka"
 
 #: src/olympusmn.cpp:611
 #, fuzzy
 msgid "Preview image length"
-msgstr "Odśwież podgląd"
+msgstr "Powiązana długość obrazu"
 
 #: src/olympusmn.cpp:613
 #, fuzzy
@@ -6897,55 +6890,57 @@ msgstr "Zablo_kuj progi"
 #: src/olympusmn.cpp:613
 #, fuzzy
 msgid "Auto exposure lock"
-msgstr "Ekspozycja automatyczna"
+msgstr "Automatyczne dostosowanie ekspozycji"
 
 #: src/olympusmn.cpp:617
 #, fuzzy
 msgid "Focus Process"
-msgstr "Tryb ogniskowania"
+msgstr "proces potomny"
 
 #: src/olympusmn.cpp:617
 #, fuzzy
 msgid "Focus process"
-msgstr "Przebieg własny"
+msgstr "proces potomny"
 
 #: src/olympusmn.cpp:618
+#, fuzzy
 msgid "AF Search"
-msgstr ""
+msgstr "_Głębokość przeszukiwań:"
 
 #: src/olympusmn.cpp:618
+#, fuzzy
 msgid "AF search"
-msgstr ""
+msgstr "_Głębokość przeszukiwań:"
 
 #: src/olympusmn.cpp:619
 #, fuzzy
 msgid "AF Areas"
-msgstr "obszar rysowania"
+msgstr "Obszary źródłowe:"
 
 #: src/olympusmn.cpp:619
 #, fuzzy
 msgid "AF areas"
-msgstr "obszar rysowania"
+msgstr "Obszary źródłowe:"
 
 #: src/olympusmn.cpp:622
 #, fuzzy
 msgid "White Balance 2"
-msgstr "Balans bieli"
+msgstr "_Balans bieli"
 
 #: src/olympusmn.cpp:622
 #, fuzzy
 msgid "White balance 2"
-msgstr "Balans bieli"
+msgstr "_Balans bieli"
 
 #: src/olympusmn.cpp:623
 #, fuzzy
 msgid "White Balance Temperature"
-msgstr "Ustawienie balansu bieli"
+msgstr "Automatyczny balans bieli"
 
 #: src/olympusmn.cpp:623
 #, fuzzy
 msgid "White balance temperature"
-msgstr "Ustawienie balansu bieli"
+msgstr "Automatyczny balans bieli"
 
 #: src/olympusmn.cpp:624
 #, fuzzy
@@ -6960,25 +6955,24 @@ msgstr "Automatyczny balans bieli"
 #: src/olympusmn.cpp:625
 #, fuzzy
 msgid "Custom Saturation"
-msgstr "Nasycanie niebieskiego"
+msgstr "Nasycenie"
 
 #: src/olympusmn.cpp:625
 #, fuzzy
 msgid "Custom saturation"
-msgstr "Małe nasycenie"
+msgstr "Nasycenie"
 
 #: src/olympusmn.cpp:626
 #, fuzzy
 msgid "Modified Saturation"
-msgstr "Nasycanie czerwieni"
+msgstr "Nasycenie"
 
 #: src/olympusmn.cpp:626
 #, fuzzy
 msgid "Modified saturation"
-msgstr "Nasycanie czerwieni"
+msgstr "Nasycenie"
 
 #: src/olympusmn.cpp:627
-#, fuzzy
 msgid "Contrast Setting"
 msgstr "Ustawienia kontrastu"
 
@@ -6990,12 +6984,12 @@ msgstr "ustawienie czasu %s"
 #: src/olympusmn.cpp:632 src/olympusmn.cpp:894
 #, fuzzy
 msgid "Distortion Correction"
-msgstr "Brak korekcji"
+msgstr "Naprawa zniekształceń"
 
 #: src/olympusmn.cpp:632 src/olympusmn.cpp:894
 #, fuzzy
 msgid "Distortion correction"
-msgstr "Brak korekcji"
+msgstr "Naprawa zniekształceń"
 
 #: src/olympusmn.cpp:633 src/olympusmn.cpp:895
 #, fuzzy
@@ -7010,12 +7004,12 @@ msgstr "Kompensacja tonów"
 #: src/olympusmn.cpp:634
 #, fuzzy
 msgid "Compression Factor"
-msgstr "Współczynnik kompresji"
+msgstr "Współczynnik chromowania"
 
 #: src/olympusmn.cpp:634
 #, fuzzy
 msgid "Compression factor"
-msgstr "Współczynnik kompresji"
+msgstr "Współczynnik chromowania"
 
 #: src/olympusmn.cpp:635 src/olympusmn.cpp:836
 #, fuzzy
@@ -7030,77 +7024,77 @@ msgstr "Tryb zdjęcia"
 #: src/olympusmn.cpp:637
 #, fuzzy
 msgid "Picture Mode Saturation"
-msgstr "Ustawianie %s w tryb audytu."
+msgstr "Częstość nasycenia:"
 
 #: src/olympusmn.cpp:637 src/olympusmn.cpp:831
 #, fuzzy
 msgid "Picture mode saturation"
-msgstr "Ustawianie %s w tryb audytu."
+msgstr "Częstość nasycenia:"
 
 #: src/olympusmn.cpp:638
 #, fuzzy
 msgid "Picture Mode Hue"
-msgstr "Tryb zdjęcia"
+msgstr "Skalowanie odcienia:"
 
 #: src/olympusmn.cpp:638
 #, fuzzy
 msgid "Picture mode hue"
-msgstr "Tryb zdjęcia"
+msgstr "Skalowanie odcienia:"
 
 #: src/olympusmn.cpp:639
 #, fuzzy
 msgid "Picture Mode Contrast"
-msgstr "Tryb zdjęcia"
+msgstr "Rozciąganie kontrastu"
 
 #: src/olympusmn.cpp:639 src/olympusmn.cpp:832
 #, fuzzy
 msgid "Picture mode contrast"
-msgstr "Ustawianie %s w tryb audytu."
+msgstr "Rozciąganie kontrastu"
 
 #: src/olympusmn.cpp:640
 #, fuzzy
 msgid "Picture Mode Sharpness"
-msgstr "Tryb zdjęcia"
+msgstr "Wysokość fazy (ostrość)"
 
 #: src/olympusmn.cpp:640 src/olympusmn.cpp:833
 #, fuzzy
 msgid "Picture mode sharpness"
-msgstr "Ustawianie %s w tryb audytu."
+msgstr "Wysokość fazy (ostrość)"
 
 #: src/olympusmn.cpp:641
 #, fuzzy
 msgid "Picture Mode BW Filter"
-msgstr "Tryb zdjęcia"
+msgstr "Tryb filtrowania plików"
 
 #: src/olympusmn.cpp:641
 #, fuzzy
 msgid "Picture mode BW filter"
-msgstr "Tryb zdjęcia"
+msgstr "Tryb filtrowania plików"
 
 #: src/olympusmn.cpp:642
 #, fuzzy
 msgid "Picture Mode Tone"
-msgstr "Tryb zdjęcia"
+msgstr "Szare pole"
 
 #: src/olympusmn.cpp:642
 #, fuzzy
 msgid "Picture mode tone"
-msgstr "Tryb zdjęcia"
+msgstr "Szare pole"
 
 #: src/olympusmn.cpp:643
 #, fuzzy
 msgid "Noise filter"
-msgstr "_Filtr (wyrażenie regularne)"
+msgstr "Filtr szumu:"
 
 #: src/olympusmn.cpp:645
 #, fuzzy
 msgid "Panorama Mode"
-msgstr "panorama"
+msgstr "Tryb działania:"
 
 #: src/olympusmn.cpp:645
 #, fuzzy
 msgid "Panorama mode"
-msgstr "ramka pulpitu"
+msgstr "Tryb działania:"
 
 #: src/olympusmn.cpp:646
 #, fuzzy
@@ -7113,87 +7107,98 @@ msgid "Image quality 2"
 msgstr "Jakość obrazu"
 
 #: src/olympusmn.cpp:647
+#, fuzzy
 msgid "Manometer Pressure"
-msgstr ""
+msgstr "Czułość nacisku"
 
 #: src/olympusmn.cpp:647
 #, fuzzy
 msgid "Manometer pressure"
-msgstr "Bez kompresji"
+msgstr "Czułość nacisku"
 
 #: src/olympusmn.cpp:648
+#, fuzzy
 msgid "Manometer Reading"
-msgstr ""
+msgstr "Odczytywanie z %s"
 
 #: src/olympusmn.cpp:648
+#, fuzzy
 msgid "Manometer reading"
-msgstr ""
+msgstr "Odczytywanie z %s"
 
 #: src/olympusmn.cpp:649
+#, fuzzy
 msgid "Extended WB Detect"
-msgstr ""
+msgstr "Wykrywanie krawędzi Dog"
 
 #: src/olympusmn.cpp:649
+#, fuzzy
 msgid "Extended WB detect"
-msgstr ""
+msgstr "Wykrywanie krawędzi Dog"
 
 #: src/olympusmn.cpp:651
 #, fuzzy
 msgid "Unknown OlympusCs tag"
-msgstr "Nieznany znacznik OlympusMakerNote"
+msgstr "Nieznany znacznik Exif"
 
 #: src/olympusmn.cpp:662
+#, fuzzy
 msgid "Simple E-System"
-msgstr ""
+msgstr "Prosty monitor systemu"
 
 #: src/olympusmn.cpp:663
+#, fuzzy
 msgid "E-System"
-msgstr ""
+msgstr "L-system"
 
 #: src/olympusmn.cpp:679
 #, fuzzy
 msgid "Equipment Version"
-msgstr "Informacje o opłatac_h:"
+msgstr "Wersja programu"
 
 #: src/olympusmn.cpp:679
 #, fuzzy
 msgid "Equipment version"
-msgstr "Informacje o opłatac_h:"
+msgstr "Wersja programu"
 
 #: src/olympusmn.cpp:680
-#, fuzzy
 msgid "Camera Type"
-msgstr "Producent aparatu"
+msgstr "Rodzaj kamery"
 
 #: src/olympusmn.cpp:680
-#, fuzzy
 msgid "Camera type"
-msgstr "Producent aparatu"
+msgstr "Rodzaj kamery"
 
 #: src/olympusmn.cpp:682
 #, fuzzy
 msgid "Internal Serial Number"
-msgstr "Numer seryjny"
+msgstr ""
+"\n"
+"Numer seryjny wystawcy: %s"
 
 #: src/olympusmn.cpp:682
 #, fuzzy
 msgid "Internal serial number"
-msgstr "Numer seryjny"
+msgstr ""
+"\n"
+"Numer seryjny wystawcy: %s"
 
 #: src/olympusmn.cpp:684
 #, fuzzy
 msgid "Body Firmware Version"
-msgstr "Wersja firmware"
+msgstr "Wersja Gimp-Print "
 
 #: src/olympusmn.cpp:684
 #, fuzzy
 msgid "Body firmware version"
-msgstr "Wersja firmware"
+msgstr "Wersja Gimp-Print "
 
 #: src/olympusmn.cpp:686
 #, fuzzy
 msgid "Lens Serial Number"
-msgstr "Numer seryjny"
+msgstr ""
+"\n"
+"Numer seryjny wystawcy: %s"
 
 #: src/olympusmn.cpp:686
 #, fuzzy
@@ -7205,12 +7210,12 @@ msgstr ""
 #: src/olympusmn.cpp:687
 #, fuzzy
 msgid "Lens Firmware Version"
-msgstr "Wersja firmware"
+msgstr "Wersja Gimp-Print "
 
 #: src/olympusmn.cpp:687
 #, fuzzy
 msgid "Lens firmware version"
-msgstr "Wersja firmware"
+msgstr "Wersja Gimp-Print "
 
 #: src/olympusmn.cpp:688
 #, fuzzy
@@ -7225,12 +7230,12 @@ msgstr "Maksymalna jasność przy maksymalnej ogniskowej"
 #: src/olympusmn.cpp:689
 #, fuzzy
 msgid "Max Aperture At Max Focal"
-msgstr "Maksymalna jasność przy maksymalnej ogniskowej"
+msgstr "Maksymalna szczelina soczewek (f-liczba):"
 
 #: src/olympusmn.cpp:689
 #, fuzzy
 msgid "Max aperture at max focal"
-msgstr "Maksymalna jasność przy maksymalnej ogniskowej"
+msgstr "Maksymalna szczelina soczewek (f-liczba):"
 
 #: src/olympusmn.cpp:690
 #, fuzzy
@@ -7265,22 +7270,24 @@ msgstr "Maksymalna jasność przy maksymalnej ogniskowej"
 #: src/olympusmn.cpp:693
 #, fuzzy
 msgid "Lens Properties"
-msgstr "Temperatura soczewek"
+msgstr "Właściwości obrazu"
 
 #: src/olympusmn.cpp:693
 #, fuzzy
 msgid "Lens properties"
-msgstr "Temperatura soczewek"
+msgstr "Właściwości obrazu"
 
 #: src/olympusmn.cpp:694
 #, fuzzy
 msgid "Extender"
-msgstr "Zewnętrzny"
+msgstr "Yum Extender"
 
 #: src/olympusmn.cpp:695
 #, fuzzy
 msgid "Extender Serial Number"
-msgstr "Numer seryjny"
+msgstr ""
+"\n"
+"Numer seryjny wystawcy: %s"
 
 #: src/olympusmn.cpp:695
 #, fuzzy
@@ -7292,32 +7299,32 @@ msgstr ""
 #: src/olympusmn.cpp:696
 #, fuzzy
 msgid "Extender Model"
-msgstr "Rodzaj sceny"
+msgstr "_Tryb koloru"
 
 #: src/olympusmn.cpp:696
 #, fuzzy
 msgid "Extender model"
-msgstr "Rodzaj sceny"
+msgstr "_Tryb koloru"
 
 #: src/olympusmn.cpp:697
 #, fuzzy
 msgid "Extender Firmware Version"
-msgstr "Wersja firmware"
+msgstr "Wersja Gimp-Print "
 
 #: src/olympusmn.cpp:697
 #, fuzzy
 msgid "Extender firmwareversion"
-msgstr "Wersja oprogramowania drukarki"
+msgstr "Yum Extender"
 
 #: src/olympusmn.cpp:698
 #, fuzzy
 msgid "Flash Type"
-msgstr "Tryb flesza"
+msgstr "według typu"
 
 #: src/olympusmn.cpp:698
 #, fuzzy
 msgid "Flash type"
-msgstr "Tryb flesza"
+msgstr "według typu"
 
 #: src/olympusmn.cpp:699 src/properties.cpp:347
 #, fuzzy
@@ -7327,17 +7334,17 @@ msgstr "_Tryb koloru"
 #: src/olympusmn.cpp:699
 #, fuzzy
 msgid "Flash model"
-msgstr "Tryb flesza"
+msgstr "_Tryb koloru"
 
 #: src/olympusmn.cpp:700
 #, fuzzy
 msgid "Flash Firmware Version"
-msgstr "Wersja firmware"
+msgstr "Wersja Gimp-Print "
 
 #: src/olympusmn.cpp:700
 #, fuzzy
 msgid "Flash firmware version"
-msgstr "Wersja firmware"
+msgstr "Wersja Gimp-Print "
 
 #: src/olympusmn.cpp:701
 #, fuzzy
@@ -7347,17 +7354,17 @@ msgstr "Numer seryjny"
 #: src/olympusmn.cpp:703
 #, fuzzy
 msgid "Unknown OlympusEq tag"
-msgstr "Nieznany znacznik OlympusMakerNote"
+msgstr "Nieznany znacznik Exif"
 
 #: src/olympusmn.cpp:720 src/olympusmn.cpp:785
 #, fuzzy
 msgid "High Speed"
-msgstr "360x360dpi, zwykły papier, duża szybkość"
+msgstr "Duża szybkość"
 
 #: src/olympusmn.cpp:721 src/olympusmn.cpp:742 src/olympusmn.cpp:786
 #, fuzzy
 msgid "High Function"
-msgstr "Duże nasycenie"
+msgstr "Funkcja koloru"
 
 #: src/olympusmn.cpp:722
 #, fuzzy
@@ -7367,41 +7374,42 @@ msgstr "360x360dpi, zwykły papier, duża szybkość"
 #: src/olympusmn.cpp:723
 #, fuzzy
 msgid "Advanced High Function"
-msgstr "Funkcja przejścia"
+msgstr "Funkcja delta z krokiem"
 
 #: src/olympusmn.cpp:728
 #, fuzzy
 msgid "Original"
-msgstr "Data i czas (oryginału)"
+msgstr "Oryginał"
 
 #: src/olympusmn.cpp:729
 #, fuzzy
 msgid "Edited (Landscape)"
-msgstr "Pejzaż"
+msgstr "Odwrócone poziomo"
 
 #: src/olympusmn.cpp:730 src/olympusmn.cpp:731
 #, fuzzy
 msgid "Edited (Portrait)"
-msgstr "Portret nocny"
+msgstr "Odwrócone pionowo"
 
 #: src/olympusmn.cpp:736
 #, fuzzy
 msgid "WB Color Temp"
-msgstr "Pobranie koloru odcienia temperatury."
+msgstr "Tymczasowe ź_ródło"
 
 #: src/olympusmn.cpp:737
+#, fuzzy
 msgid "WB Gray Point"
-msgstr ""
+msgstr "Wybór szarego punktu"
 
 #: src/olympusmn.cpp:747
 #, fuzzy
 msgid "Raw Development Version"
-msgstr "Główni programiści"
+msgstr "Wersja Gimp-Print "
 
 #: src/olympusmn.cpp:747
 #, fuzzy
 msgid "Raw development version"
-msgstr "Informacje o zakraplaczu"
+msgstr "Wersja Gimp-Print "
 
 #: src/olympusmn.cpp:748 src/olympusmn.cpp:818 src/properties.cpp:521
 #, fuzzy
@@ -7416,106 +7424,105 @@ msgstr "Korekta ekspozycji (APEX):"
 #: src/olympusmn.cpp:749 src/olympusmn.cpp:820
 #, fuzzy
 msgid "White Balance Value"
-msgstr "Ustawienie balansu bieli"
+msgstr "Automatyczny balans bieli"
 
 #: src/olympusmn.cpp:749 src/olympusmn.cpp:820
 #, fuzzy
 msgid "White balance value"
-msgstr "Ustawienie balansu bieli"
+msgstr "Automatyczny balans bieli"
 
 #: src/olympusmn.cpp:750 src/olympusmn.cpp:821
 #, fuzzy
 msgid "WB Fine Adjustment"
-msgstr "Dopasowanie poziome"
+msgstr "Maksymalna wartość ustawienia"
 
 #: src/olympusmn.cpp:750
 #, fuzzy
 msgid "WB fine adjustment"
-msgstr "Dopasowanie poziome"
+msgstr "Maksymalna wartość ustawienia"
 
 #: src/olympusmn.cpp:751 src/olympusmn.cpp:773 src/olympusmn.cpp:822
 #, fuzzy
 msgid "Gray Point"
-msgstr "Usuń punkt"
+msgstr "Wybór szarego punktu"
 
 #: src/olympusmn.cpp:751 src/olympusmn.cpp:822
 #, fuzzy
 msgid "Gray point"
-msgstr "Usuń punkt"
+msgstr "Wybór szarego punktu"
 
 #: src/olympusmn.cpp:752 src/olympusmn.cpp:825
 #, fuzzy
 msgid "Saturation Emphasis"
-msgstr "ustawienie czasu %s"
+msgstr "Sine wyróżnienie"
 
 #: src/olympusmn.cpp:752 src/olympusmn.cpp:825
 #, fuzzy
 msgid "Saturation emphasis"
-msgstr "ustawienie czasu %s"
+msgstr "Sine wyróżnienie"
 
 #: src/olympusmn.cpp:753 src/olympusmn.cpp:826
 #, fuzzy
 msgid "Memory Color Emphasis"
-msgstr "Moje kolory"
+msgstr "Kolor przycisków pamięci."
 
 #: src/olympusmn.cpp:753 src/olympusmn.cpp:826
+#, fuzzy
 msgid "Memory color emphasis"
-msgstr ""
+msgstr "Kolor przycisków pamięci."
 
 #: src/olympusmn.cpp:754 src/olympusmn.cpp:823
 #, fuzzy
 msgid "Contrast Value"
-msgstr "Kontrastowość"
+msgstr "Wartość obiektu dostępności"
 
 #: src/olympusmn.cpp:754 src/olympusmn.cpp:823
 #, fuzzy
 msgid "Contrast value"
-msgstr "Kontrastowość"
+msgstr "Wartość obiektu dostępności"
 
 #: src/olympusmn.cpp:755 src/olympusmn.cpp:824
 #, fuzzy
 msgid "Sharpness Value"
-msgstr "Ostrość"
+msgstr "Wartość obiektu dostępności"
 
 #: src/olympusmn.cpp:755 src/olympusmn.cpp:824
 #, fuzzy
 msgid "Sharpness value"
-msgstr "Ostrość"
+msgstr "Wartość obiektu dostępności"
 
 #: src/olympusmn.cpp:757 src/olympusmn.cpp:829
-#, fuzzy
 msgid "Engine"
-msgstr "Pro&gramista"
+msgstr "Silnik"
 
 #: src/olympusmn.cpp:759
 #, fuzzy
 msgid "Edit status"
-msgstr "Status edycji"
+msgstr "Status:"
 
 #: src/olympusmn.cpp:760
-#, fuzzy
 msgid "Settings"
-msgstr "Oszacowania szybkości ISO"
+msgstr "Ustawienia"
 
 #: src/olympusmn.cpp:762
 #, fuzzy
 msgid "Unknown OlympusRd tag"
-msgstr "Nieznany znacznik OlympusMakerNote"
+msgstr "Nieznany znacznik Exif"
 
 #: src/olympusmn.cpp:817
 #, fuzzy
 msgid "Raw Development 2 Version"
-msgstr "Główni programiści"
+msgstr "Wersja Gimp-Print "
 
 #: src/olympusmn.cpp:817
 #, fuzzy
 msgid "Raw development 2 version"
-msgstr "Informacje o zakraplaczu"
+msgstr "Wersja Gimp-Print "
 
 #: src/olympusmn.cpp:821
 #, fuzzy
 msgid "White balance fine adjustment"
-msgstr "Ustawienie balansu bieli"
+msgstr "Automatyczna korekcja balansu bieli"
 
 #: src/olympusmn.cpp:831
 #, fuzzy
@@ -7525,75 +7532,77 @@ msgstr "Nasycenie"
 #: src/olympusmn.cpp:832
 #, fuzzy
 msgid "PM Contrast"
-msgstr "Kontrastowość"
+msgstr "_Cykle kontrastu:"
 
 #: src/olympusmn.cpp:833
 #, fuzzy
 msgid "PM Sharpness"
-msgstr "Ostrość"
+msgstr "Ostrość (stopnie)"
 
 #: src/olympusmn.cpp:834
 #, fuzzy
 msgid "PM BW Filter"
-msgstr "Filtr"
+msgstr "Zastosowywanie filtrów"
 
 #: src/olympusmn.cpp:834
+#, fuzzy
 msgid "PM BW filter"
-msgstr ""
+msgstr "Zastosowywanie filtrów"
 
 #: src/olympusmn.cpp:835
 #, fuzzy
 msgid "PM Picture Tone"
-msgstr "Tryb zdjęcia"
+msgstr "Szare pole"
 
 #: src/olympusmn.cpp:835
 #, fuzzy
 msgid "PM picture tone"
-msgstr "Tryb zdjęcia"
+msgstr "Szare pole"
 
 #: src/olympusmn.cpp:838
 #, fuzzy
 msgid "Auto Gradation"
-msgstr "Czas trwania"
+msgstr "Wybór automatyczny"
 
 #: src/olympusmn.cpp:838
 #, fuzzy
 msgid "Auto gradation"
-msgstr "Czas trwania"
+msgstr "Wybór automatyczny"
 
 #: src/olympusmn.cpp:839
+#, fuzzy
 msgid "PM Noise Filter"
-msgstr ""
+msgstr "Zastosowywanie filtrów"
 
 #: src/olympusmn.cpp:839
 #, fuzzy
 msgid "Picture mode noise filter"
-msgstr "Ustawianie %s w tryb audytu."
+msgstr "Tryb filtrowania plików"
 
 #: src/olympusmn.cpp:841
 #, fuzzy
 msgid "Unknown OlympusRd2 tag"
-msgstr "Nieznany znacznik OlympusMakerNote"
+msgstr "Nieznany znacznik Exif"
 
 #: src/olympusmn.cpp:850
 #, fuzzy
 msgid "Image Processing Version"
-msgstr "Przetwarzanie obrazu"
+msgstr "Błąd podczas przetwarzania zdjęcia"
 
 #: src/olympusmn.cpp:850
 #, fuzzy
 msgid "Image processing version"
-msgstr "Przetwarzanie informacji o pakietach"
+msgstr "Błąd podczas przetwarzania zdjęcia"
 
 #: src/olympusmn.cpp:851
 #, fuzzy
 msgid "WB RB Levels"
-msgstr "WB_RGGBLevelsShade"
+msgstr "Modyfikacja poziomów kolorów"
 
 #: src/olympusmn.cpp:851
 #, fuzzy
 msgid "WB RB levels"
-msgstr "Poziom czerni"
+msgstr "Modyfikacja poziomów kolorów"
 
 #: src/olympusmn.cpp:852
 msgid "WB RB Levels 3000K"
@@ -7732,106 +7741,129 @@ msgid "WB G Level 3000K"
 msgstr ""
 
 #: src/olympusmn.cpp:868
+#, fuzzy
 msgid "WB G level 3000K"
-msgstr ""
+msgstr "Stopień ko_mpresji:"
 
 #: src/olympusmn.cpp:869
+#, fuzzy
 msgid "WB G Level 3300K"
-msgstr ""
+msgstr "Stopień ko_mpresji:"
 
 #: src/olympusmn.cpp:869
+#, fuzzy
 msgid "WB G level 3300K"
-msgstr ""
+msgstr "Stopień ko_mpresji:"
 
 #: src/olympusmn.cpp:870
+#, fuzzy
 msgid "WB G Level 3600K"
-msgstr ""
+msgstr "Stopień ko_mpresji:"
 
 #: src/olympusmn.cpp:870
+#, fuzzy
 msgid "WB G level 3600K"
-msgstr ""
+msgstr "Stopień ko_mpresji:"
 
 #: src/olympusmn.cpp:871
+#, fuzzy
 msgid "WB G Level 3900K"
-msgstr ""
+msgstr "Stopień ko_mpresji:"
 
 #: src/olympusmn.cpp:871
+#, fuzzy
 msgid "WB G level 3900K"
-msgstr ""
+msgstr "Stopień ko_mpresji:"
 
 #: src/olympusmn.cpp:872
+#, fuzzy
 msgid "WB G Level 4000K"
-msgstr ""
+msgstr "Stopień ko_mpresji:"
 
 #: src/olympusmn.cpp:872
+#, fuzzy
 msgid "WB G level 4000K"
-msgstr ""
+msgstr "Stopień ko_mpresji:"
 
 #: src/olympusmn.cpp:873
+#, fuzzy
 msgid "WB G Level 4300K"
-msgstr ""
+msgstr "Stopień ko_mpresji:"
 
 #: src/olympusmn.cpp:873
+#, fuzzy
 msgid "WB G level 4300K"
-msgstr ""
+msgstr "Stopień ko_mpresji:"
 
 #: src/olympusmn.cpp:874
+#, fuzzy
 msgid "WB G Level 4500K"
-msgstr ""
+msgstr "Stopień ko_mpresji:"
 
 #: src/olympusmn.cpp:874
+#, fuzzy
 msgid "WB G level 4500K"
-msgstr ""
+msgstr "Stopień ko_mpresji:"
 
 #: src/olympusmn.cpp:875
+#, fuzzy
 msgid "WB G Level 4800K"
-msgstr ""
+msgstr "Stopień ko_mpresji:"
 
 #: src/olympusmn.cpp:875
+#, fuzzy
 msgid "WB G level 4800K"
-msgstr ""
+msgstr "Stopień ko_mpresji:"
 
 #: src/olympusmn.cpp:876
+#, fuzzy
 msgid "WB G Level 5300K"
-msgstr ""
+msgstr "Stopień ko_mpresji:"
 
 #: src/olympusmn.cpp:876
+#, fuzzy
 msgid "WB G level 5300K"
-msgstr ""
+msgstr "Stopień ko_mpresji:"
 
 #: src/olympusmn.cpp:877
+#, fuzzy
 msgid "WB G Level 6000K"
-msgstr ""
+msgstr "Stopień ko_mpresji:"
 
 #: src/olympusmn.cpp:877
+#, fuzzy
 msgid "WB G level 6000K"
-msgstr ""
+msgstr "Stopień ko_mpresji:"
 
 #: src/olympusmn.cpp:878
+#, fuzzy
 msgid "WB G Level 6600K"
-msgstr ""
+msgstr "Stopień ko_mpresji:"
 
 #: src/olympusmn.cpp:878
+#, fuzzy
 msgid "WB G level 6600K"
-msgstr ""
+msgstr "Stopień ko_mpresji:"
 
 #: src/olympusmn.cpp:879
+#, fuzzy
 msgid "WB G Level 7500K"
-msgstr ""
+msgstr "Stopień ko_mpresji:"
 
 #: src/olympusmn.cpp:879
+#, fuzzy
 msgid "WB G level 7500K"
-msgstr ""
+msgstr "Stopień ko_mpresji:"
 
 #: src/olympusmn.cpp:880
 #, fuzzy
 msgid "WB G Level"
-msgstr "Poziom czerni"
+msgstr "Poziom szczegółów"
 
 #: src/olympusmn.cpp:880
 #, fuzzy
 msgid "WB G level"
-msgstr "Poziom czerni"
+msgstr "Poziom szczegółów"
 
 #: src/olympusmn.cpp:882
 #, fuzzy
@@ -7839,40 +7871,43 @@ msgid "Enhancer"
 msgstr "Pro&gramista"
 
 #: src/olympusmn.cpp:883
+#, fuzzy
 msgid "Enhancer Values"
-msgstr ""
+msgstr "Zwracane wartości"
 
 #: src/olympusmn.cpp:883
+#, fuzzy
 msgid "Enhancer values"
-msgstr ""
+msgstr "Zwracane wartości"
 
 #: src/olympusmn.cpp:884
 #, fuzzy
 msgid "Coring Filter"
-msgstr "Tryb koloru"
+msgstr "_Filtr (wyrażenie regularne)"
 
 #: src/olympusmn.cpp:885
 #, fuzzy
 msgid "Coring Values"
-msgstr "_Filtr (wyrażenie regularne)"
+msgstr "Zwracane wartości"
 
 #: src/olympusmn.cpp:885
 #, fuzzy
 msgid "Coring values"
-msgstr "_Filtr (wyrażenie regularne)"
+msgstr "Zwracane wartości"
 
 #: src/olympusmn.cpp:886 src/tags.cpp:607
-#, fuzzy
 msgid "Black Level"
 msgstr "Poziom czerni"
 
 #: src/olympusmn.cpp:887
+#, fuzzy
 msgid "Gain Base"
-msgstr ""
+msgstr "Kolor podstawy"
 
 #: src/olympusmn.cpp:887
+#, fuzzy
 msgid "Gain base"
-msgstr ""
+msgstr "Kolor podstawy"
 
 #: src/olympusmn.cpp:888
 #, fuzzy
@@ -7920,45 +7955,49 @@ msgid "Crop height"
 msgstr "Zapewni stałą wysokość wycinanego obszaru"
 
 #: src/olympusmn.cpp:896
+#, fuzzy
 msgid "Face Detect"
-msgstr ""
+msgstr "_Wykryj urządzenia"
 
 #: src/olympusmn.cpp:896
+#, fuzzy
 msgid "Face detect"
-msgstr ""
+msgstr "_Wykryj urządzenia"
 
 #: src/olympusmn.cpp:897
 #, fuzzy
 msgid "Face Detect Area"
-msgstr "Nie można odczytać"
+msgstr "Wyświetlaj _uchwyty obszarów"
 
 #: src/olympusmn.cpp:897
 #, fuzzy
 msgid "Face detect area"
-msgstr "Nie można odczytać"
+msgstr "Wyświetlaj _uchwyty obszarów"
 
 #: src/olympusmn.cpp:899
 #, fuzzy
 msgid "Unknown OlympusIp tag"
-msgstr "Nieznany znacznik OlympusMakerNote"
+msgstr "Nieznany znacznik Exif"
 
 #: src/olympusmn.cpp:909
+#, fuzzy
 msgid "Bounce or Off"
-msgstr ""
+msgstr "Odbijanie od ścian"
 
 #: src/olympusmn.cpp:910
+#, fuzzy
 msgid "Direct"
-msgstr ""
+msgstr "Kierowanie"
 
 #: src/olympusmn.cpp:914
 #, fuzzy
 msgid "Focus Info Version"
-msgstr "Dodatkowe informacje"
+msgstr "-v  --version  Wypisanie informacji o wersji."
 
 #: src/olympusmn.cpp:914
 #, fuzzy
 msgid "Focus info version"
-msgstr "Dodatkowe informacje"
+msgstr "-v  --version  Wypisanie informacji o wersji."
 
 #: src/olympusmn.cpp:915
 #, fuzzy
@@ -7968,30 +8007,32 @@ msgstr "Akceptowanie skupienia"
 #: src/olympusmn.cpp:916
 #, fuzzy
 msgid "Scene Detect"
-msgstr "Rodzaj sceny"
+msgstr "_Wykryj urządzenia"
 
 #: src/olympusmn.cpp:916
 #, fuzzy
 msgid "Scene detect"
-msgstr "Rodzaj sceny"
+msgstr "_Wykryj urządzenia"
 
 #: src/olympusmn.cpp:917
 #, fuzzy
 msgid "Scene Area"
-msgstr "Scena"
+msgstr "obszar rysowania"
 
 #: src/olympusmn.cpp:917
 #, fuzzy
 msgid "Scene area"
-msgstr "Zaznaczanie pojedynczego sąsiadującego obszaru"
+msgstr "obszar rysowania"
 
 #: src/olympusmn.cpp:918
+#, fuzzy
 msgid "Scene Detect Data"
-msgstr ""
+msgstr "Pobieranie %s danych obrazu"
 
 #: src/olympusmn.cpp:918
+#, fuzzy
 msgid "Scene detect data"
-msgstr ""
+msgstr "Pobieranie %s danych obrazu"
 
 #: src/olympusmn.cpp:919
 #, fuzzy
@@ -8001,32 +8042,32 @@ msgstr "Krok powiększania"
 #: src/olympusmn.cpp:920
 #, fuzzy
 msgid "Focus Step Count"
-msgstr "Krok wywołania makra podprogramu"
+msgstr "błędna liczba linii %s"
 
 #: src/olympusmn.cpp:920
 #, fuzzy
 msgid "Focus step count"
-msgstr "Krok wywołania makra podprogramu"
+msgstr "błędna liczba linii %s"
 
 #: src/olympusmn.cpp:921
 #, fuzzy
 msgid "Focus Step Infinity"
-msgstr "ustawienie czasu %s"
+msgstr "Przyrost kroku ustawienia"
 
 #: src/olympusmn.cpp:921
 #, fuzzy
 msgid "Focus step infinity"
-msgstr "ustawienie czasu %s"
+msgstr "Przyrost kroku ustawienia"
 
 #: src/olympusmn.cpp:922
 #, fuzzy
 msgid "Focus Step Near"
-msgstr "według typu"
+msgstr "Wychylenie Y małe"
 
 #: src/olympusmn.cpp:922
 #, fuzzy
 msgid "Focus step near"
-msgstr "Odległość: %0.4f"
+msgstr "Wychylenie Y małe"
 
 #: src/olympusmn.cpp:924 src/pentaxmn.cpp:819
 #, fuzzy
@@ -8034,44 +8075,42 @@ msgid "AF point"
 msgstr "Usuń punkt"
 
 #: src/olympusmn.cpp:925
-#, fuzzy
 msgid "External Flash"
 msgstr "Zewnętrzny flesz"
 
 #: src/olympusmn.cpp:926
 #, fuzzy
 msgid "External Flash Guide Number"
-msgstr "Wygląd wyściół_ki płótna:"
+msgstr "Ilość mrugnięć tego sprzężenia zwrotnego"
 
 #: src/olympusmn.cpp:926
 #, fuzzy
 msgid "External flash guide number"
-msgstr "Odbijanie od ścian"
+msgstr "Ilość mrugnięć tego sprzężenia zwrotnego"
 
 #: src/olympusmn.cpp:930
 #, fuzzy
 msgid "Manual Flash"
-msgstr "Ekspozycja ręczna"
+msgstr "Energia flesza"
 
 #: src/olympusmn.cpp:930
 #, fuzzy
 msgid "Manual flash"
-msgstr "Ekspozycja ręczna"
+msgstr "Energia flesza"
 
 #: src/olympusmn.cpp:934
 #, fuzzy
 msgid "Unknown OlympusFi tag"
-msgstr "Nieznany znacznik OlympusMakerNote"
+msgstr "Nieznany znacznik Exif"
 
 #: src/olympusmn.cpp:957 src/pentaxmn.cpp:280
-#, fuzzy
 msgid "User-Selected"
-msgstr "Kasuj zaznaczonego użytkownika."
+msgstr "Wybrane przez użytkownika"
 
 #: src/olympusmn.cpp:958
 #, fuzzy
 msgid "Auto-Override"
-msgstr "Nadpisz"
+msgstr "Wymuś"
 
 #: src/olympusmn.cpp:994
 #, fuzzy
@@ -8151,7 +8190,7 @@ msgstr "Scena"
 #: src/panasonicmn.cpp:101
 #, fuzzy
 msgid "Shutter-speed priority"
-msgstr "Aktualizacje o niskim priorytecie"
+msgstr "Czułość ISO"
 
 #: src/panasonicmn.cpp:104
 #, fuzzy
@@ -9206,9 +9245,8 @@ msgid "Kids"
 msgstr "Dzieci"
 
 #: src/pentaxmn.cpp:425
-#, fuzzy
 msgid "Candlelight"
-msgstr "Światło dzienne"
+msgstr "Światło świecy"
 
 #: src/pentaxmn.cpp:428
 #, fuzzy
@@ -9243,7 +9281,7 @@ msgstr "Tryb działania:"
 #: src/pentaxmn.cpp:436 src/pentaxmn.cpp:446
 #, fuzzy
 msgid "Shutter Speed Priority"
-msgstr "Aktualizacje o niskim priorytecie"
+msgstr "Czułość ISO"
 
 #: src/pentaxmn.cpp:437 src/pentaxmn.cpp:447
 msgid "Aperture Priority"
@@ -9289,7 +9327,6 @@ msgid "Bulb (Off-Auto-Aperture)"
 msgstr "Włącz/wyłącz MPU401.  (0 = wył., 1 = wł., 2 = auto)"
 
 #: src/pentaxmn.cpp:456
-#, fuzzy
 msgid "Shutter Priority"
 msgstr "Priorytet migawki"
 
@@ -9377,7 +9414,6 @@ msgid "A Series Lens"
 msgstr "_Soczewka..."
 
 #: src/pentaxmn.cpp:622
-#, fuzzy
 msgid "Bright"
 msgstr "Jasny"
 
@@ -9478,9 +9514,8 @@ msgid "F-Number"
 msgstr "Liczba F"
 
 #: src/pentaxmn.cpp:829
-#, fuzzy
 msgid "ISO sensitivity"
-msgstr "Czułość (ISO):"
+msgstr "Czułość ISO"
 
 #: src/pentaxmn.cpp:830
 #, fuzzy
@@ -9583,9 +9618,8 @@ msgid "Image tone"
 msgstr "Tonacja sepii"
 
 #: src/pentaxmn.cpp:936 src/pentaxmn.cpp:937
-#, fuzzy
 msgid "Colort temperature"
-msgstr "<b>Temperatura koloru</b>"
+msgstr "Temperatura koloru"
 
 #: src/pentaxmn.cpp:940
 msgid "Shake reduction"
@@ -11101,9 +11135,8 @@ msgid "State"
 msgstr "Stan"
 
 #: src/properties.cpp:379
-#, fuzzy
 msgid "Province/state."
-msgstr "_Stan/Prowincja:"
+msgstr "Prowincja/stan."
 
 #: src/properties.cpp:380
 msgid "Supplemental category."
@@ -11681,7 +11714,7 @@ msgstr "Wersja Exif"
 
 #: src/properties.cpp:493
 msgid "EXIF tag 36864, 0x9000. EXIF version number."
-msgstr ""
+msgstr "Znacznik EXIF 36864, 0x9000. Nemr wersji EXIF."
 
 #: src/properties.cpp:494
 msgid "Flashpix Version"
@@ -11689,7 +11722,7 @@ msgstr "Wersja FlashPix"
 
 #: src/properties.cpp:494
 msgid "EXIF tag 40960, 0xA000. Version of FlashPix."
-msgstr ""
+msgstr "Znacznik EXIF 40960, 0xA000. Wersja FlashPix."
 
 #: src/properties.cpp:495
 msgid "EXIF tag 40961, 0xA001. Color space information"
@@ -11754,7 +11787,6 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:504
-#, fuzzy
 msgid "Date and Time Original"
 msgstr "Data i czas (oryginału)"
 
@@ -11766,7 +11798,6 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:507
-#, fuzzy
 msgid "Date and Time Digitized"
 msgstr "Data i czas (obrazu cyfrowego)"
 
@@ -11808,13 +11839,12 @@ msgid "ISOSpeedRatings"
 msgstr "Oszacowania szybkości ISO"
 
 #: src/properties.cpp:515
-#, fuzzy
 msgid ""
 "EXIF tag 34855, 0x8827. ISO Speed and ISO Latitude of the input device as "
 "specified in ISO 12232."
 msgstr ""
-"Określenie szybkości ISO i szerokości ISO aparatu lub urządzenia wejściowego "
-"zgodne ze specyfikacją ISO 12232."
+"Znacznik EXIF 34855, 0x8827. Czułość ISO i szerokość geograficzna ISO "
+"aparatu lub urządzenia wejściowego zgodne ze specyfikacją ISO 12232."
 
 #: src/properties.cpp:517
 msgid "OECF"
@@ -11849,7 +11879,6 @@ msgid "EXIF tag 37380, 0x9204. Exposure bias, unit is APEX."
 msgstr ""
 
 #: src/properties.cpp:522
-#, fuzzy
 msgid "Maximum Aperture Value"
 msgstr "Największa wartość przysłony"
 
@@ -11858,9 +11887,8 @@ msgid "EXIF tag 37381, 0x9205. Smallest F number of lens, in APEX."
 msgstr ""
 
 #: src/properties.cpp:523
-#, fuzzy
 msgid "EXIF tag 37382, 0x9206. Distance to subject, in meters."
-msgstr "Odległość obiektu podana w metrach"
+msgstr "Znacznik EXIF 37382, 0x9206. Odległość obiektu podana w metrach."
 
 #: src/properties.cpp:524
 msgid "EXIF tag 37383, 0x9207. Metering mode."
@@ -11883,12 +11911,12 @@ msgid "Subject Area"
 msgstr "Obszar obiektu"
 
 #: src/properties.cpp:528
-#, fuzzy
 msgid ""
 "EXIF tag 37396, 0x9214. The location and area of the main subject in the "
 "overall scene."
 msgstr ""
-"Ten znacznik określa położenie i obszar głównego obiektu na całej scenie."
+"Znacznik EXIF 37396, 0x9214. Położenie i obszar głównego obiektu na całej "
+"scenie."
 
 #: src/properties.cpp:529 src/tags.cpp:1236
 msgid "Flash Energy"
@@ -11965,14 +11993,14 @@ msgid "Sensing Method"
 msgstr "Rodzaj czujnika"
 
 #: src/properties.cpp:539
-#, fuzzy
 msgid "EXIF tag 41495, 0xA217. Image sensor type on input device."
 msgstr ""
-"Określenie rodzaju czujnika obrazu w aparacie lub urządzeniu wejściowym."
+"Znacznik EXIF 41495, 0xA217. Rodzaj czujnika obrazu w aparacie lub "
+"urządzeniu wejściowym."
 
 #: src/properties.cpp:540
 msgid "EXIF tag 41728, 0xA300. Indicates image source."
-msgstr ""
+msgstr "Znacznik EXIF 41728, 0xA300. Określa źródło obrazu."
 
 #: src/properties.cpp:541 src/tags.cpp:1276
 msgid "Scene Type"
@@ -11980,7 +12008,7 @@ msgstr "Rodzaj sceny"
 
 #: src/properties.cpp:541
 msgid "EXIF tag 41729, 0xA301. Indicates the type of scene."
-msgstr ""
+msgstr "Znacznik EXIF 41729, 0xA301. Określenie rodzaju sceny."
 
 #: src/properties.cpp:542 src/tags.cpp:492
 msgid "CFA Pattern"
@@ -12011,12 +12039,12 @@ msgstr ""
 "Ten znacznik określa tryb balansu bieli ustawiony przy robieniu zdjęcia."
 
 #: src/properties.cpp:545
-#, fuzzy
 msgid ""
 "EXIF tag 41987, 0xA403. Indicates the white balance mode set when the image "
 "was shot."
 msgstr ""
-"Ten znacznik określa tryb balansu bieli ustawiony przy robieniu zdjęcia."
+"Znacznik EXIF 41987, 0xA403. Określa tryb balansu bieli ustawiony przy "
+"robieniu zdjęcia."
 
 #: src/properties.cpp:546 src/tags.cpp:1300
 msgid "Digital Zoom Ratio"
@@ -12028,22 +12056,23 @@ msgid ""
 "EXIF tag 41988, 0xA404. Indicates the digital zoom ratio when the image was "
 "shot."
 msgstr ""
-"Ten znacznik określa tryb balansu bieli ustawiony przy robieniu zdjęcia."
+"Znacznik EXIF 41988, 0xA404. Określa tryb balansu bieli ustawiony przy "
+"robieniu zdjęcia."
 
 #: src/properties.cpp:547 src/tags.cpp:1305
 msgid "Focal Length In 35mm Film"
 msgstr "Ogniskowa dla filmu 35mm"
 
 #: src/properties.cpp:547
-#, fuzzy
 msgid ""
 "EXIF tag 41989, 0xA405. Indicates the equivalent focal length assuming a "
 "35mm film camera, in mm. A value of 0 means the focal length is unknown. "
 "Note that this tag differs from the FocalLength tag."
 msgstr ""
-"Ten znacznik określa odpowiednik ogniskowej w mm przy założeniu aparatu na "
-"film 35 mm. Wartość 0 oznacza, że ogniskowa jest nieznana. Należy zauważyć, "
-"że ten znacznik różni się od znacznika FocalLength."
+"Znacznik EXIF 41989, 0xA405. Określa odpowiednik ogniskowej w mm przy "
+"założeniu aparatu na film 35 mm. Wartość 0 oznacza, że ogniskowa jest "
+"nieznana. Należy zauważyć, że ten znacznik różni się od znacznika "
+"FocalLength."
 
 #: src/properties.cpp:550 src/tags.cpp:1311
 msgid "Scene Capture Type"
@@ -12058,76 +12087,69 @@ msgid "Gain Control"
 msgstr "Regulacja wzmocnienia"
 
 #: src/properties.cpp:551
-#, fuzzy
 msgid ""
 "EXIF tag 41991, 0xA407. Indicates the degree of overall image gain "
 "adjustment."
-msgstr "Ten znacznik określa stopień wzmocnienia całego obrazu."
+msgstr ""
+"Znacznik EXIF 41991, 0xA407. Określa stopień wzmocnienia całego obrazu."
 
 #: src/properties.cpp:552
-#, fuzzy
 msgid ""
 "EXIF tag 41992, 0xA408. Indicates the direction of contrast processing "
 "applied by the camera."
 msgstr ""
-"Ten znacznik określa kierunek przetwarzania kontrastu wykonanego przez "
-"aparat przy robieniu zdjęcia."
+"Znacznik EXIF 41992, 0xA408. Określa kierunek przetwarzania kontrastu "
+"wykonanego przez aparat przy robieniu zdjęcia."
 
 #: src/properties.cpp:553
-#, fuzzy
 msgid ""
 "EXIF tag 41993, 0xA409. Indicates the direction of saturation processing "
 "applied by the camera."
 msgstr ""
-"Ten znacznik określa kierunek przetwarzania nasycenia wykonanego przez "
-"aparat przy robieniu zdjęcia."
+"Znacznik EXIF 41993, 0xA409. Określa kierunek przetwarzania nasycenia "
+"wykonanego przez aparat przy robieniu zdjęcia."
 
 #: src/properties.cpp:554
-#, fuzzy
 msgid ""
 "EXIF tag 41994, 0xA40A. Indicates the direction of sharpness processing "
 "applied by the camera."
 msgstr ""
-"Ten znacznik określa kierunek przetwarzania ostrości wykonanego przez aparat "
-"przy robieniu zdjęcia."
+"Znacznik EXIF 41994, 0xA40A. Określa kierunek przetwarzania ostrości "
+"wykonanego przez aparat przy robieniu zdjęcia."
 
 #: src/properties.cpp:555 src/tags.cpp:1331
 msgid "Device Setting Description"
 msgstr "Opis ustawień urządzenia"
 
 #: src/properties.cpp:555
-#, fuzzy
 msgid ""
 "EXIF tag 41995, 0xA40B. Indicates information on the picture-taking "
 "conditions of a particular camera model."
 msgstr ""
-"Ten znacznik określa informacje o warunkach robienia zdjęcia dla konkretnego "
-"modelu aparatu. Jest on używany tylko do określenia warunków robienia "
-"zdjęcia przy odczycie."
+"Znacznik EXIF 41995, 0xA40B. Określa informacje o warunkach robienia zdjęcia "
+"dla konkretnego modelu aparatu"
 
 #: src/properties.cpp:556 src/tags.cpp:1336
 msgid "Subject Distance Range"
 msgstr "Zakres odległości obiektu"
 
 #: src/properties.cpp:556
-#, fuzzy
 msgid "EXIF tag 41996, 0xA40C. Indicates the distance to the subject."
-msgstr "Ten znacznik określa odległość od obiektu."
+msgstr "Znacznik EXIF 41996, 0xA40C. Określa odległość od obiektu."
 
 #: src/properties.cpp:557 src/tags.cpp:1339
 msgid "Image Unique ID"
 msgstr "Unikalny identyfikator obrazu"
 
 #: src/properties.cpp:557
-#, fuzzy
 msgid ""
 "EXIF tag 42016, 0xA420. An identifier assigned uniquely to each image. It is "
 "recorded as a 32 character ASCII string, equivalent to hexadecimal notation "
 "and 128-bit fixed length."
 msgstr ""
-"Ten znacznik określa unikalny identyfikator przypisany każdemu zdjęciu. Jest "
-"on zapisany jako łańcuch ASCII odpowiadający notacji szesnastkowej o stałej "
-"długości 128 bitów."
+"Znaczni EXIF 42016, 0xA420.Ten znacznik określa unikalny identyfikator "
+"przypisany każdemu zdjęciu. Jest on zapisany jako 32 znakowy łańcuch ASCII "
+"odpowiadający notacji szesnastkowej o stałej długości 128 bitów."
 
 #: src/properties.cpp:559 src/tags.cpp:1413
 msgid "GPS Version ID"
@@ -12160,9 +12182,8 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:563 src/tags.cpp:1444
-#, fuzzy
 msgid "GPS Altitude Reference"
-msgstr "Niezakończone odniesienie do znaku"
+msgstr "Wyskość odniesienia GPS"
 
 #: src/properties.cpp:563
 msgid ""
@@ -12170,9 +12191,8 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:564 src/tags.cpp:1452
-#, fuzzy
 msgid "GPS Altitude"
-msgstr "Wysokość odniesienia"
+msgstr "Wysokość GPS"
 
 #: src/properties.cpp:564
 #, fuzzy
@@ -12195,9 +12215,8 @@ msgid ""
 msgstr ""
 
 #: src/properties.cpp:571 src/tags.cpp:1461
-#, fuzzy
 msgid "GPS Satellites"
-msgstr "Katalog GPS"
+msgstr "Satelity GPS"
 
 #: src/properties.cpp:571
 msgid "GPS tag 8, 0x08. Satellite information, format is unspecified."
@@ -12557,7 +12576,6 @@ msgid "Resolution Mode"
 msgstr "Tryb rozdzielczości"
 
 #: src/sigmamn.cpp:61
-#, fuzzy
 msgid "Resolution mode"
 msgstr "Tryb rozdzielczości"
 
@@ -12930,7 +12948,6 @@ msgid "RGB Palette"
 msgstr "Paleta RGB"
 
 #: src/tags.cpp:225
-#, fuzzy
 msgid "Transparency Mask"
 msgstr "Maska przezroczystości"
 
@@ -12965,9 +12982,8 @@ msgid "Pixar LogL"
 msgstr "Pixar LogL"
 
 #: src/tags.cpp:233
-#, fuzzy
 msgid "Pixar LogLuv"
-msgstr "Pixar deflate"
+msgstr "Pixar LogLuv"
 
 #: src/tags.cpp:234
 #, fuzzy
@@ -13314,7 +13330,6 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:388
-#, fuzzy
 msgid ""
 "This tag records the name of the camera owner, photographer or image "
 "creator. The detailed format is not specified, but it is recommended that "
@@ -13326,7 +13341,8 @@ msgstr ""
 "Ten znacznik przechowuje nazwę właściciela aparatu, fotografa lub twórcy "
 "obrazu. Szczegółowy format nie jest określony, ale zaleca się naśladowanie "
 "poniższego przykładu dla ułatwienia współpracy. Jeśli pole jest puste, jest "
-"traktowane jako nieznane."
+"traktowane jako nieznane. Np. \"Camera owner, John Smith; Photographer, "
+"Michael Brown; Image creator, Ken James\""
 
 #: src/tags.cpp:396
 msgid ""
@@ -13547,7 +13563,6 @@ msgid "Rating tag used by Windows, value in percent"
 msgstr ""
 
 #: src/tags.cpp:488
-#, fuzzy
 msgid "CFA Repeat Pattern Dimension"
 msgstr ""
 "Rozmiary wzoru geometrycznego CFA (color filter array - tablicy filtrów "
@@ -13560,7 +13575,6 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:493
-#, fuzzy
 msgid ""
 "Indicates the color filter array (CFA) geometric pattern of the image sensor "
 "when a one-chip color area sensor is used. It does not apply to all sensing "
@@ -13568,7 +13582,7 @@ msgid ""
 msgstr ""
 "Oznaczenie wzoru geometrycznego CFA (color filter array - tablicy filtrów "
 "kolorów) czujnika obrazu w przypadku użycia jednoukładowego czujnika obszaru "
-"koloru. Nie odnosi się to do wszystkich metod próbkowania."
+"koloru. Nie odnosi się to do wszystkich metod próbkowania"
 
 #: src/tags.cpp:497
 msgid "Battery Level"
@@ -14340,9 +14354,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:890
-#, fuzzy
 msgid "Current ICC Profile"
-msgstr "Z_modyfikuj bieżący profil..."
+msgstr "Bieżący profil ICC"
 
 #: src/tags.cpp:891
 msgid ""
@@ -14366,9 +14379,8 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:905 src/tags.cpp:906
-#, fuzzy
 msgid "Unknown IFD tag"
-msgstr "Nieznany znacznik Exif"
+msgstr "Nieznany znacznik IFD"
 
 #: src/tags.cpp:917 src/tags.cpp:1005
 msgid "Not defined"
@@ -14414,22 +14426,18 @@ msgid "Cloudy weather"
 msgstr "Pochmurna pogoda"
 
 #: src/tags.cpp:950
-#, fuzzy
 msgid "Daylight fluorescent (D 5700 - 7100K)"
 msgstr "Światło dzienne lampy fluorescencyjnej (D 5700 - 7100K)"
 
 #: src/tags.cpp:951
-#, fuzzy
 msgid "Day white fluorescent (N 4600 - 5400K)"
 msgstr "Biel dnia lampy fluorescencyjnej (N 4600 - 5400K)"
 
 #: src/tags.cpp:952
-#, fuzzy
 msgid "Cool white fluorescent (W 3900 - 4500K)"
 msgstr "Chłodnobiała lampa fluorescencyjna (W 3900 - 4500K)"
 
 #: src/tags.cpp:953
-#, fuzzy
 msgid "White fluorescent (WW 3200 - 3700K)"
 msgstr "Biała lampa fluorescencyjna (WW 3200 - 3700K)"
 
@@ -14536,27 +14544,20 @@ msgid "No flash function"
 msgstr "Brak flesza"
 
 #: src/tags.cpp:982
-#, fuzzy
 msgid "No, no flash function"
 msgstr "Brak flesza"
 
 #: src/tags.cpp:983
-#, fuzzy
 msgid "Yes, red-eye reduction"
-msgstr "Tak, automatycznie, redukcja efektu czerwonych oczu"
+msgstr "Tak, redukcja efektu czerwonych oczu"
 
 #: src/tags.cpp:984
-#, fuzzy
 msgid "Yes, red-eye reduction, return light not detected"
-msgstr ""
-"Flesz się uruchomił w trybie redukcji czerwonych oczu, światło zwrotne nie "
-"wykryte."
+msgstr "Tak, redukcja efektu czerwonych oczu, światło zwrotne nie wykryte."
 
 #: src/tags.cpp:985
-#, fuzzy
 msgid "Yes, red-eye reduction, return light detected"
-msgstr ""
-"Tak, wymuszone, redukcja efektu czerwonych oczu, bez światła powrotnego"
+msgstr "Tak, redukcja efektu czerwonych oczu, światło zwrotne wykryte"
 
 #: src/tags.cpp:986
 #, fuzzy
@@ -14564,11 +14565,9 @@ msgid "Yes, compulsory, red-eye reduction"
 msgstr "Tak, automatycznie, redukcja efektu czerwonych oczu"
 
 #: src/tags.cpp:987
-#, fuzzy
 msgid "Yes, compulsory, red-eye reduction, return light not detected"
 msgstr ""
-"Flesz się uruchomił w trybie pulsującym z redukcją czerwonych oczu, światło "
-"zwrotne nie wykryte"
+"Tak, wymuszone, redukcja efektu czerwonych oczu, światło zwrotne nie wykryte"
 
 #: src/tags.cpp:988
 #, fuzzy
@@ -14578,25 +14577,21 @@ msgstr ""
 "zwrotne wykryte"
 
 #: src/tags.cpp:989
-#, fuzzy
 msgid "No, red-eye reduction"
-msgstr "Tak, automatycznie, redukcja efektu czerwonych oczu"
+msgstr "Nie, redukcja efektu czerwonych oczu"
 
 #: src/tags.cpp:990
-#, fuzzy
 msgid "No, auto, red-eye reduction"
-msgstr "Tak, automatycznie, redukcja efektu czerwonych oczu"
+msgstr "Nie, automatycznie, redukcja efektu czerwonych oczu"
 
 #: src/tags.cpp:991
 msgid "Yes, auto, red-eye reduction"
 msgstr "Tak, automatycznie, redukcja efektu czerwonych oczu"
 
 #: src/tags.cpp:992
-#, fuzzy
 msgid "Yes, auto, red-eye reduction, return light not detected"
 msgstr ""
-"Flesz się uruchomił w trybie automatycznym z redukcją czerwonych oczu, "
-"światło zwrotne nie wykryte."
+"Tak, mymuszone, redukcja efektu czerwonych oczu, światło zwrotne nie wykryte"
 
 #: src/tags.cpp:993
 #, fuzzy
@@ -14622,7 +14617,6 @@ msgid "Three-chip color area"
 msgstr "Trzyukładowy czujnik obszaru koloru"
 
 #: src/tags.cpp:1009
-#, fuzzy
 msgid "Color sequential area"
 msgstr "Sekwencyjny obszar koloru"
 
@@ -14631,23 +14625,20 @@ msgid "Trilinear sensor"
 msgstr "Czujnik trzyliniowy"
 
 #: src/tags.cpp:1011
-#, fuzzy
 msgid "Color sequential linear"
 msgstr "Liniowa sekwencja koloru"
 
 #: src/tags.cpp:1016
-#, fuzzy
 msgid "Film scanner"
-msgstr "skaner negatywów"
+msgstr "Skaner negatywów"
 
 #: src/tags.cpp:1017
 msgid "Reflexion print scanner"
 msgstr "Skaner druku odblaskowego"
 
 #: src/tags.cpp:1018
-#, fuzzy
 msgid "Digital still camera"
-msgstr "aparat cyfrowy"
+msgstr "Aparat cyfrowy"
 
 #: src/tags.cpp:1023
 #, fuzzy
@@ -14703,7 +14694,6 @@ msgstr ""
 "zdjęcia."
 
 #: src/tags.cpp:1097
-#, fuzzy
 msgid ""
 "Indicates the spectral sensitivity of each channel of the camera used. The "
 "tag value is an ASCII string compatible with the standard developed by the "
@@ -14764,7 +14754,6 @@ msgid "Date and Time (digitized)"
 msgstr "Data i czas (obrazu cyfrowego)"
 
 #: src/tags.cpp:1119
-#, fuzzy
 msgid "The date and time when the image was stored as digital data."
 msgstr "Data i czas zapisania obrazu jako danych cyfrowych. "
 
@@ -14797,7 +14786,6 @@ msgstr ""
 "dla skompresowanego obrazu jest określony w jednostkach bitów na piksel."
 
 #: src/tags.cpp:1136
-#, fuzzy
 msgid ""
 "Shutter speed. The unit is the APEX (Additive System of Photographic "
 "Exposure) setting."
@@ -14938,7 +14926,6 @@ msgid "The FlashPix format version supported by a FPXR file."
 msgstr "Wersja formatu FlashPix obsługiwana przez plik FPXR."
 
 #: src/tags.cpp:1197
-#, fuzzy
 msgid ""
 "The color space information tag is always recorded as the color space "
 "specifier. Normally sRGB is used to define the color space based on the PC "
@@ -14947,15 +14934,13 @@ msgid ""
 "treated as sRGB when it is converted to FlashPix."
 msgstr ""
 "Znacznik informacji o przestrzeni kolorów jest zawsze zapisywany w celu "
-"określenia przestrzeni kolorów. Zwykle używane jest sRGB (=1) do określenia "
+"określenia przestrzeni kolorów. Zwykle używane jest sRGB do określenia "
 "przestrzeni kolorów w oparciu o warunki i środowisko monitora PC. Jeśli "
 "użyta jest inna przestrzeń kolorów niż sRGB, ustawiona jest wartość "
-"\"nieskalibrowana\" (Uncalibrated, =FFFF.H). Dane obrazu zapisane jako "
-"nieskalibrowane mogą być traktowane jako sRGB przy konwersji do FlashPix. O "
-"sRGB p. załącznik E."
+"Nieskalibrowana. Dane obrazu zapisane jako Nieskalibrowane mogą być "
+"traktowane jako sRGB przy konwersji do FlashPix."
 
 #: src/tags.cpp:1206
-#, fuzzy
 msgid ""
 "Information specific to compressed data. When a compressed file is recorded, "
 "the valid width of the meaningful image must be recorded in this tag, "
@@ -14969,7 +14954,6 @@ msgstr ""
 "nieskompresowanym."
 
 #: src/tags.cpp:1213
-#, fuzzy
 msgid ""
 "Information specific to compressed data. When a compressed file is recorded, "
 "the valid height of the meaningful image must be recorded in this tag, "
@@ -15161,7 +15145,6 @@ msgstr ""
 "użyto cyfrowego powiększenia."
 
 #: src/tags.cpp:1306
-#, fuzzy
 msgid ""
 "This tag indicates the equivalent focal length assuming a 35mm film camera, "
 "in mm. A value of 0 means the focal length is unknown. Note that this tag "
@@ -15169,18 +15152,17 @@ msgid ""
 msgstr ""
 "Znacznik określa odpowiednik ogniskowej w mm w odniesieniu do aparatu dla "
 "filmów 35 mm. Wartość 0 oznacza nieznaną ogniskową. Znacznik różni się od "
-"znacznika <Exif.FocalLength>."
+"znacznika <FocalLength>."
 
 #: src/tags.cpp:1312
-#, fuzzy
 msgid ""
 "This tag indicates the type of scene that was shot. It can also be used to "
 "record the mode in which the image was shot. Note that this differs from the "
 "<SceneType> tag."
 msgstr ""
 "Znacznik określa rodzaj sceny na zdjęciu. Może być także wykorzystany do "
-"zapisania trybu w którym było robione zdjęcie. Należy zaznaczyć, że ten "
-"znacznik różni się od znacznika <Exif.SceneType>."
+"zapisania trybu, w którym było robione zdjęcie. Należy zaznaczyć, że ten "
+"znacznik różni się od znacznika <SceneType>."
 
 #: src/tags.cpp:1317
 msgid "This tag indicates the degree of overall image gain adjustment."
@@ -15263,9 +15245,8 @@ msgid "Below sea level"
 msgstr "Poniżej poziomu morza"
 
 #: src/tags.cpp:1375
-#, fuzzy
 msgid "Measurement in progress"
-msgstr "Postęp eksportu"
+msgstr "Pomiar w toku"
 
 #: src/tags.cpp:1376
 #, fuzzy
@@ -15553,7 +15534,7 @@ msgid ""
 "and, for example, fractions of minutes are given up to two decimal places, "
 "the format would be ddd/1,mmmm/100,0/1."
 msgstr ""
-"Określenie długości geograficznej. Szerokość jest wyrażona jako trzy "
+"Określenie szerokości geograficznej. Szerokość jest wyrażona jako trzy "
 "wartości RATIONAL (wymierne) podające odpowiednio stopnie, minuty i sekundy. "
 "Kiedy są wyrażone stopnie, minuty i sekundy, format to dd/1,mm/1,ss/1. Kiedy "
 "są wyrażone stopnie i minuty oraz np. ułamki minut są podane z dokładnością "
@@ -15654,9 +15635,8 @@ msgid "Related Image File Format"
 msgstr "Powiązany format pliku"
 
 #: src/tags.cpp:1586
-#, fuzzy
 msgid "File format of image file"
-msgstr "Format zapisu zdjęcia:"
+msgstr "Format zapisu zdjęcia"
 
 #: src/tags.cpp:1588
 msgid "Related Image Width"
@@ -15672,18 +15652,16 @@ msgid "Unknown Exif Interoperability tag"
 msgstr "wg znacznika Exif DateTime"
 
 #: src/tags.cpp:1607
-#, fuzzy
 msgid "Offset"
-msgstr "przesunięcie"
+msgstr "Przesunięcie"
 
 #: src/tags.cpp:1608
 msgid "Offset of the makernote from the start of the TIFF header."
 msgstr ""
 
 #: src/tags.cpp:1610
-#, fuzzy
 msgid "Byte Order"
-msgstr "Kolejność wypełniania"
+msgstr "Kolejność bajtów"
 
 #: src/tags.cpp:1611
 msgid ""
@@ -15705,82 +15683,80 @@ msgstr "Nieznany znacznik"
 msgid "Digital zoom not used"
 msgstr "Udźwiękowienie nie zostanie użyte.\n"
 
-#: src/tiffimage.cpp:746
+#: src/tiffimage.cpp:738
 #, fuzzy
 msgid "TIFF header, offset"
 msgstr "Przesunięcie cienia X"
 
-#: src/tiffimage.cpp:751
+#: src/tiffimage.cpp:743
 #, fuzzy
 msgid "little endian encoded"
 msgstr "Odczytaj jako 'little endian'"
 
-#: src/tiffimage.cpp:752
+#: src/tiffimage.cpp:744
 #, fuzzy
 msgid "big endian encoded"
 msgstr "błędnie zakodowany znak `%s'"
 
-#: src/tiffvisitor.cpp:905
+#: src/tiffvisitor.cpp:900
 msgid "Data area"
 msgstr "Obszar danych"
 
-#: src/tiffvisitor.cpp:907
+#: src/tiffvisitor.cpp:902
 msgid "bytes.\n"
 msgstr "bajtów.\n"
 
-#: src/tiffvisitor.cpp:925
+#: src/tiffvisitor.cpp:920
 msgid "directory with"
 msgstr "katalog z"
 
-#: src/tiffvisitor.cpp:928
+#: src/tiffvisitor.cpp:923
 msgid "entry:\n"
 msgstr "wpis:\n"
 
-#: src/tiffvisitor.cpp:929
+#: src/tiffvisitor.cpp:924
 msgid "entries:\n"
 msgstr "wpisów:\n"
 
-#: src/tiffvisitor.cpp:938
+#: src/tiffvisitor.cpp:933
 msgid "Next directory:\n"
 msgstr "Następny katalog:\n"
 
-#: src/tiffvisitor.cpp:939
+#: src/tiffvisitor.cpp:934
 #, fuzzy
 msgid "No next directory\n"
 msgstr "Nie wybrano katalogu."
 
-#: src/tiffvisitor.cpp:950
+#: src/tiffvisitor.cpp:945
 #, fuzzy
 msgid "Sub-IFD"
 msgstr "Sublokalizacja"
 
-#: src/tiffvisitor.cpp:957
+#: src/tiffvisitor.cpp:952
 msgid "Makernote"
 msgstr "Uwaga producenta"
 
-#: src/tiffvisitor.cpp:974
+#: src/tiffvisitor.cpp:969
 msgid "component"
 msgstr "komponent"
 
-#: src/tiffvisitor.cpp:976
+#: src/tiffvisitor.cpp:971
 msgid "bytes"
 msgstr "bajtów"
 
-#: src/tiffvisitor.cpp:988
-#, fuzzy
+#: src/tiffvisitor.cpp:983
 msgid "Array Entry"
-msgstr "_Usuń pozycję"
+msgstr "Element tablicy"
 
-#: src/tiffvisitor.cpp:990
+#: src/tiffvisitor.cpp:985
 msgid "with"
 msgstr "z"
 
-#: src/tiffvisitor.cpp:992
-#, fuzzy
+#: src/tiffvisitor.cpp:987
 msgid "elements"
-msgstr "pierwiastki"
+msgstr "elementy"
 
-#: src/tiffvisitor.cpp:993
+#: src/tiffvisitor.cpp:988
 msgid "element"
 msgstr "element"
 
