@@ -43,6 +43,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include <cassert>
 #include <cstring>
 #include <ctime>
+#include <cstdio>
 #include <cstdlib>
 #include <ctype.h>
 

@@ -20,6 +20,8 @@
 #include "UnicodeInlines.incl_cpp"
 #include "UnicodeConversions.hpp"
 
+#include <cstdio>
+
 #if XMP_DebugBuild
 	#include <iostream>
 #endif
