@@ -67,6 +67,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="true"
+				AdditionalOptions="/NODEFAULTLIB:MSVCRTD"
 				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\..\..\expat-2.0.1\win32\bin\debug\libexpatMT.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
 				OutputFile="$(OutDir)/exiv2.exe"
 				LinkIncremental="1"
@@ -128,7 +129,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="../include;../include/exiv2;../../xmpsdk/include;../../xmpsdk/src;../../../expat-2.0.1/lib;../../../zlib-1.2.3;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;BUILD_GETOPT"
+				PreprocessorDefinitions="WIN32;_NDEBUG;_CONSOLE;BUILD_GETOPT"
 				RuntimeLibrary="0"
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
@@ -149,6 +150,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="true"
+				AdditionalOptions="/NODEFAULTLIB:MSVCRT"
 				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\..\..\expat-2.0.1\win32\bin\release\libexpatMT.lib"
 				OutputFile="$(OutDir)/exiv2.exe"
 				LinkIncremental="1"
@@ -216,7 +218,7 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;BUILD_GETOPT;EXV_HAVE_DLL;EXV_HAVE_DLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
+				RuntimeLibrary="3"
 				BufferSecurityCheck="true"
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
@@ -239,6 +241,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="true"
+				AdditionalOptions="/NODEFAULTLIB:LIBCMTD"
 				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\..\..\expat-2.0.1\win32\bin\debug\libexpat.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
 				OutputFile="$(OutDir)/exiv2.exe"
 				LinkIncremental="1"
@@ -304,7 +307,7 @@
 				PreprocessorDefinitions="WIN32;_NDEBUG;_CONSOLE;BUILD_GETOPT;EXV_HAVE_DLL;EXV_HAVE_DLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="0"
-				RuntimeLibrary="0"
+				RuntimeLibrary="2"
 				BufferSecurityCheck="true"
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
@@ -328,6 +331,7 @@
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="true"
 				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\..\..\expat-2.0.1\win32\bin\release\libexpat.lib"
+				AdditionalOptions="/NODEFAULTLIB:LIBCMTD"
 				OutputFile="$(OutDir)/exiv2.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"

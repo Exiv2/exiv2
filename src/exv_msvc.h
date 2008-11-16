@@ -58,17 +58,18 @@ typedef int pid_t;
   #define EXV_HAVE_LIBZ
   #if     EXV_HAVE_DLL
     #ifdef   _DEBUG
-      #pragma comment(lib,"..\\zlib4exiv2\\DebugDLL\\zlib4exiv2.lib")
+      #pragma comment(lib,"../../../zlib-1.2.3/projects/visualc6/Win32_DLL_Debug/zlib1d.lib")
     #else
-      #pragma comment(lib,"..\\zlib4exiv2\\ReleaseDLL\\zlib4exiv2.lib")
+      #pragma comment(lib,"../../../zlib-1.2.3/projects/visualc6/Win32_DLL_Release/zlib1.lib")
     #endif
   #else
     #ifdef   _DEBUG
-      #pragma comment(lib,"..\\zlib4exiv2\\Debug\\zlib4exiv2.lib")
+      #pragma comment(lib,"../../../zlib-1.2.3/projects/visualc6/Win32_LIB_Debug/zlibd.lib")
     #else
-      #pragma comment(lib,"..\\zlib4exiv2\\Release\\zlib4exiv2.lib")
+      #pragma comment(lib,"../../../zlib-1.2.3/projects/visualc6/Win32_LIB_Release/zlib.lib")
     #endif
   #endif
+  #define EXV_HAVE_LIBZ
   // assist VC7.1 to compile vsnprintf
   #if (_MSC_VER < 1400) && !defined(vsnprintf)
   #define vsnprintf _vsnprintf
