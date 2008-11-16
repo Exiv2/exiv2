@@ -1,15 +1,12 @@
 @echo off
 set F=..\..\
 set T=..\..\..\gnu.master\
-set X=exiv2\msvc\README-MSVC.txt                       && copy/y %F%%X% %T%%X%
 set X=exiv2\msvc\runner.txt                            && copy/y %F%%X% %T%%X%
 set X=exiv2\msvc\updater.bat                           && copy/y %F%%X% %T%%X%
 set X=exiv2\msvc\cleaner.bat                           && copy/y %F%%X% %T%%X%
 set X=exiv2\msvc\editor.bat                            && copy/y %F%%X% %T%%X%
 set X=exiv2\msvc\test.jpg                              && copy/y %F%%X% %T%%X%
 set X=exiv2\msvc\test.png                              && copy/y %F%%X% %T%%X%
-set X=exiv2\msvc\diff.exe                              && copy/y %F%%X% %T%%X%
-set X=exiv2\msvc\depends1.exe                          && copy/y %F%%X% %T%%X%
 set X=exiv2\msvc\exiv2.sln                             && copy/y %F%%X% %T%%X%
 set X=exiv2\msvc\addmoddel\addmoddel.vcproj            && copy/y %F%%X% %T%%X%
 set X=exiv2\msvc\exifcomment\exifcomment.vcproj        && copy/y %F%%X% %T%%X%
@@ -34,5 +31,4 @@ set X=exiv2\msvc\xmpparse\xmpparse.vcproj              && copy/y %F%%X% %T%%X%
 set X=exiv2\msvc\xmpparser-test\xmpparser-test.vcproj  && copy/y %F%%X% %T%%X%
 set X=exiv2\msvc\xmpsample\xmpsample.vcproj            && copy/y %F%%X% %T%%X%
 set X=exiv2\msvc\xmpsdk\xmpsdk.vcproj                  && copy/y %F%%X% %T%%X%
-set X=exiv2\msvc\zlib4exiv2\zlib4exiv2.vcproj          && copy/y %F%%X% %T%%X%
 
