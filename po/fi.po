@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2008-11-13 20:20+0800\n"
+"POT-Creation-Date: 2008-11-16 13:22+0800\n"
 "PO-Revision-Date: 2006-12-18 16:08+0200\n"
 "Last-Translator: Mikael Lammentausta\n"
 "Language-Team:  <fi@li.org>\n"
@@ -3059,7 +3059,7 @@ msgid "No namespace info available for XMP prefix `%1'"
 msgstr ""
 
 #: src/error.cpp:86
-msgid "No prefix registered for namespace `%2', needed for property path `%1')"
+msgid "No prefix registered for namespace `%2', needed for property path `%1'"
 msgstr ""
 
 #: src/error.cpp:87
@@ -5332,11 +5332,12 @@ msgid "Lens data settings"
 msgstr ""
 
 #: src/nikonmn.cpp:632
-msgid "NEF Thumbnail Size"
-msgstr ""
+#, fuzzy
+msgid "Raw Image Center"
+msgstr "Kuvan numero"
 
 #: src/nikonmn.cpp:633
-msgid "NEF thumbnail size"
+msgid "Raw image center"
 msgstr ""
 
 #: src/nikonmn.cpp:635
@@ -6065,7 +6066,7 @@ msgid "Beach & Snow"
 msgstr ""
 
 #: src/olympusmn.cpp:538
-msgid "Self Protrait+Timer"
+msgid "Self Portrait+Timer"
 msgstr ""
 
 #: src/olympusmn.cpp:539

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2008-11-13 20:20+0800\n"
+"POT-Creation-Date: 2008-11-16 13:22+0800\n"
 "PO-Revision-Date: 2008-04-07 17:20+0100\n"
 "Last-Translator: Ivan Masár <helix84@centrum.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -3108,7 +3108,7 @@ msgstr "Nie sú dostupné informácie mennom priestore XMP predpony „%1“"
 
 #: src/error.cpp:86
 #, fuzzy
-msgid "No prefix registered for namespace `%2', needed for property path `%1')"
+msgid "No prefix registered for namespace `%2', needed for property path `%1'"
 msgstr "Pre menný priestor „%1“ nie je zaregistrovaná predpona"
 
 #: src/error.cpp:87
@@ -5460,12 +5460,14 @@ msgid "Lens data settings"
 msgstr "Nastavenia údajov šošoviek"
 
 #: src/nikonmn.cpp:632
-msgid "NEF Thumbnail Size"
-msgstr "Veľkosť náhľadu NEF"
+#, fuzzy
+msgid "Raw Image Center"
+msgstr "Počet obrázkov"
 
 #: src/nikonmn.cpp:633
-msgid "NEF thumbnail size"
-msgstr "Veľkosť náhľadu NEF"
+#, fuzzy
+msgid "Raw image center"
+msgstr "Zobraziť vložený obrázok"
 
 #: src/nikonmn.cpp:635
 msgid "Sensor Pixel Size"
@@ -6245,7 +6247,7 @@ msgstr "surfovanie & sneh"
 
 #: src/olympusmn.cpp:538
 #, fuzzy
-msgid "Self Protrait+Timer"
+msgid "Self Portrait+Timer"
 msgstr "Samospúšť"
 
 #: src/olympusmn.cpp:539
@@ -14906,6 +14908,12 @@ msgstr ""
 #, fuzzy
 msgid "element"
 msgstr "Viacbodový"
+
+#~ msgid "NEF Thumbnail Size"
+#~ msgstr "Veľkosť náhľadu NEF"
+
+#~ msgid "NEF thumbnail size"
+#~ msgstr "Veľkosť náhľadu NEF"
 
 #~ msgid "Raw information"
 #~ msgstr "Nespracované informácie"

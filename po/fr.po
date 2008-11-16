@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2008-11-13 20:20+0800\n"
+"POT-Creation-Date: 2008-11-16 13:22+0800\n"
 "PO-Revision-Date: 2008-05-28 15:49+0200\n"
 "Last-Translator: Fabien <fabien.ubuntu@gmail.com>\n"
 "Language-Team: français <kde-francophone@kde.org>\n"
@@ -3089,7 +3089,7 @@ msgid "No namespace info available for XMP prefix `%1'"
 msgstr ""
 
 #: src/error.cpp:86
-msgid "No prefix registered for namespace `%2', needed for property path `%1')"
+msgid "No prefix registered for namespace `%2', needed for property path `%1'"
 msgstr ""
 
 #: src/error.cpp:87
@@ -5441,12 +5441,14 @@ msgid "Lens data settings"
 msgstr "Réglage des données de l'objectif"
 
 #: src/nikonmn.cpp:632
-msgid "NEF Thumbnail Size"
-msgstr "Taille aperçu NEF"
+#, fuzzy
+msgid "Raw Image Center"
+msgstr "Comptage d'image"
 
 #: src/nikonmn.cpp:633
-msgid "NEF thumbnail size"
-msgstr "Taille aperçu NEF"
+#, fuzzy
+msgid "Raw image center"
+msgstr "Aperçu embarqué"
 
 #: src/nikonmn.cpp:635
 msgid "Sensor Pixel Size"
@@ -6211,7 +6213,7 @@ msgstr "Surf et Neige"
 
 #: src/olympusmn.cpp:538
 #, fuzzy
-msgid "Self Protrait+Timer"
+msgid "Self Portrait+Timer"
 msgstr "Retardateur"
 
 #: src/olympusmn.cpp:539
@@ -14832,6 +14834,12 @@ msgstr ""
 #, fuzzy
 msgid "element"
 msgstr "8-segments"
+
+#~ msgid "NEF Thumbnail Size"
+#~ msgstr "Taille aperçu NEF"
+
+#~ msgid "NEF thumbnail size"
+#~ msgstr "Taille aperçu NEF"
 
 #~ msgid "Raw information"
 #~ msgstr "Informations brutes"

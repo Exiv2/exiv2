@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2008-11-13 20:20+0800\n"
+"POT-Creation-Date: 2008-11-16 13:22+0800\n"
 "PO-Revision-Date: 2005-03-12 05:43+0100\n"
 "Last-Translator: Fabian Mandelbaum <fabman@mandrakesoft.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -3315,7 +3315,7 @@ msgid "No namespace info available for XMP prefix `%1'"
 msgstr ""
 
 #: src/error.cpp:86
-msgid "No prefix registered for namespace `%2', needed for property path `%1')"
+msgid "No prefix registered for namespace `%2', needed for property path `%1'"
 msgstr ""
 
 #: src/error.cpp:87
@@ -5830,13 +5830,13 @@ msgstr "Contraste"
 
 #: src/nikonmn.cpp:632
 #, fuzzy
-msgid "NEF Thumbnail Size"
-msgstr "Desplazamiento de tira"
+msgid "Raw Image Center"
+msgstr "Longitud de la imagen"
 
 #: src/nikonmn.cpp:633
 #, fuzzy
-msgid "NEF thumbnail size"
-msgstr "Desplazamiento de tira"
+msgid "Raw image center"
+msgstr "Longitud de la imagen"
 
 #: src/nikonmn.cpp:635
 msgid "Sensor Pixel Size"
@@ -6679,7 +6679,7 @@ msgstr ""
 
 #: src/olympusmn.cpp:538
 #, fuzzy
-msgid "Self Protrait+Timer"
+msgid "Self Portrait+Timer"
 msgstr "Centímetro"
 
 #: src/olympusmn.cpp:539
@@ -15738,6 +15738,14 @@ msgid "element"
 msgstr "multi-lugar"
 
 #, fuzzy
+#~ msgid "NEF Thumbnail Size"
+#~ msgstr "Desplazamiento de tira"
+
+#, fuzzy
+#~ msgid "NEF thumbnail size"
+#~ msgstr "Desplazamiento de tira"
+
+#, fuzzy
 #~ msgid "Raw information"
 #~ msgstr "Orientación"
 
@@ -15872,14 +15880,6 @@ msgstr "multi-lugar"
 #, fuzzy
 #~ msgid "Color hue"
 #~ msgstr "Espacio de color"
-
-#, fuzzy
-#~ msgid "Raw Image Center"
-#~ msgstr "Longitud de la imagen"
-
-#, fuzzy
-#~ msgid "Raw image center"
-#~ msgstr "Longitud de la imagen"
 
 #, fuzzy
 #~ msgid "FlashMode"

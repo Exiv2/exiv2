@@ -535,7 +535,7 @@ namespace Exiv2 {
         { 26, N_("Museum")                      },
         { 27, N_("Shoot & Select")              },
         { 28, N_("Beach & Snow")                },
-        { 29, N_("Self Protrait+Timer")         },
+        { 29, N_("Self Portrait+Timer")         },
         { 30, N_("Candle")                      },
         { 31, N_("Available Light")             },
         { 32, N_("Behind Glass")                },
