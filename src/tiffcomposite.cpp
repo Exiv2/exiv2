@@ -382,10 +382,12 @@ namespace Exiv2 {
         // Prevent dangling subIFD tags: Do not add a subIFD tag if it has no child
         if (tiffPath.size() == 1 && ts->newTiffCompFct_ == newTiffSubIfd) return 0;
         TiffComponent* tc = 0;
-        // To allow duplicate entries, we only check if the new component already
-        // exists if there is still at least one composite tag on the stack
-        // Todo: Find a generic way to require subIFDs to be unique tags
-        if (tiffPath.size() > 1 || ts->newTiffCompFct_ == newTiffSubIfd) {
+        // Allow duplicate entries but not for subIFDs and the MakerNote tag. So we
+        // only check if the new component already exists if there is still at least
+        // one composite tag on the stack, or it is a subIFD or the MakerNote tag.
+        if (   tiffPath.size() > 1
+            || ts->newTiffCompFct_ == newTiffSubIfd
+            || (ts->extendedTag_ == 0x927c && ts->group_ == Group::exif)) {
             if (ts->extendedTag_ == Tag::next) {
                 tc = pNext_;
             }

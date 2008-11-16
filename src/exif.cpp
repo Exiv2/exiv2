@@ -141,6 +141,12 @@ namespace {
 
     }; // class JpegThumbnail
 
+    //! Helper function to sum all components of the value of a metadatum
+    long sumToLong(const Exiv2::Exifdatum& md);
+
+    //! Helper function to delete all tags of a specific IFD from the metadata.
+    void eraseIfd(Exiv2::ExifData& ed, const char* ifdItem);
+
 }
 
 // *****************************************************************************
@@ -438,6 +444,14 @@ namespace Exiv2 {
         return bo;
     } // ExifParser::decode
 
+    //! @cond IGNORE
+    enum Ptt { pttLen, pttTag, pttIfd };
+    struct PreviewTags {
+        Ptt ptt_;
+        const char* key_;
+    };
+    //! @endcond
+
     WriteMethod ExifParser::encode(
               Blob&     blob,
         const byte*     pData,
@@ -446,27 +460,153 @@ namespace Exiv2 {
         const ExifData& exifData
     )
     {
-        static const char* filteredTags[] = {
+        ExifData ed = exifData;
+        ed.sortByKey();
+
+        // Delete IFD0 tags that are "not recorded" in compressed images
+        // Reference: Exif 2.2 specs, 4.6.8 Tag Support Levels, section A
+        static const char* filteredIfd0Tags[] = {
+            "Exif.Image.PhotometricInterpretation",
             "Exif.Image.StripOffsets",
             "Exif.Image.RowsPerStrip",
-            "Exif.Image.StripByteCounts"
+            "Exif.Image.StripByteCounts",
+            "Exif.Image.JPEGInterchangeFormat",
+            "Exif.Image.JPEGInterchangeFormatLength",
+            "Exif.Image.SubIFDs"
         };
-
-        ExifData ed = exifData;
-        for (unsigned int i = 0; i < EXV_COUNTOF(filteredTags); ++i) {
-            ExifData::iterator pos = ed.findKey(ExifKey(filteredTags[i]));
-            if (pos != ed.end()) ed.erase(pos);
+        for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfd0Tags); ++i) {
+            ExifData::iterator pos = ed.findKey(ExifKey(filteredIfd0Tags[i]));
+            if (pos != ed.end()) {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Warning: Exif tag " << pos->key() << " not encoded\n";
+#endif
+                ed.erase(pos);
+            }
         }
 
+        // Delete IFDs which do not occur in JPEGs
+        static const char* filteredIfds[] = {
+            "SubImage1",
+            "SubImage2",
+            "SubImage3",
+            "SubImage4",
+            "Image2"
+        };
+        for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfds); ++i) {
+            eraseIfd(ed, filteredIfds[i]);
+        }
+
+        // IPTC and XMP are stored elsewhere, not in the Exif APP1 segment.
         const IptcData iptcData;
         const XmpData  xmpData;
-        return TiffParser::encode(blob,
-                                  pData,
-                                  size,
-                                  byteOrder,
-                                  ed,
-                                  iptcData,
-                                  xmpData);
+
+        // Encode and check if the results fits into a JPEG Exif APP1 segment
+        WriteMethod wm = TiffParser::encode(blob,
+                                            pData,
+                                            size,
+                                            byteOrder,
+                                            ed,
+                                            iptcData,
+                                            xmpData);
+        if (blob.size() <= 65527) return wm;
+
+        // If it doesn't fit, remove additional tags
+        blob.clear();
+
+        // Delete preview tags if the preview is larger than 32kB.
+        // Todo: Enhance preview classes to be able to write and delete previews and use that instead.
+        // Table must be sorted by preview, the first tag in each group is the size
+        static const PreviewTags filteredPvTags[] = {
+            { pttLen, "Exif.Minolta.ThumbnailLength"                  },
+            { pttTag, "Exif.Minolta.ThumbnailOffset"                  },
+            { pttLen, "Exif.Minolta.Thumbnail"                        },
+            { pttLen, "Exif.NikonPreview.JPEGInterchangeFormatLength" },
+            { pttIfd, "NikonPreview"                                  },
+            { pttLen, "Exif.Olympus.ThumbnailLength"                  },
+            { pttTag, "Exif.Olympus.ThumbnailOffset"                  },
+            { pttTag, "Exif.Olympus.ThumbnailImage"                   },
+            { pttTag, "Exif.Olympus.Thumbnail"                        },
+            { pttLen, "Exif.Olympus2.ThumbnailLength"                 },
+            { pttTag, "Exif.Olympus2.ThumbnailOffset"                 },
+            { pttLen, "Exif.Olympus2.ThumbnailImage"                  },
+            { pttLen, "Exif.Olympus2.Thumbnail"                       },
+            { pttLen, "Exif.OlympusCs.PreviewImageLength"             },
+            { pttTag, "Exif.OlympusCs.PreviewImageStart"              },
+            { pttTag, "Exif.OlympusCs.PreviewImageValid"              },
+            { pttLen, "Exif.Pentax.PreviewLength"                     },
+            { pttTag, "Exif.Pentax.PreviewOffset"                     },
+            { pttTag, "Exif.Pentax.PreviewResolution"                 },
+            { pttLen, "Exif.Thumbnail.StripByteCounts"                },
+            { pttIfd, "Thumbnail"                                     },
+            { pttLen, "Exif.Thumbnail.JPEGInterchangeFormatLength"    },
+            { pttIfd, "Thumbnail"                                     }
+        };
+        bool delTags = false;
+        ExifData::iterator pos;
+        for (unsigned int i = 0; i < EXV_COUNTOF(filteredPvTags); ++i) {
+            switch (filteredPvTags[i].ptt_) {
+            case pttLen:
+                delTags = false;
+                pos = ed.findKey(ExifKey(filteredPvTags[i].key_));
+                if (pos != ed.end() && sumToLong(*pos) > 32768) {
+                    delTags = true;
+#ifndef SUPPRESS_WARNINGS
+                    std::cerr << "Warning: Exif tag " << pos->key() << " not encoded\n";
+#endif
+                    ed.erase(pos);
+                }
+                break;
+            case pttTag:
+                if (delTags) {
+                    pos = ed.findKey(ExifKey(filteredPvTags[i].key_));
+                    if (pos != ed.end()) {
+#ifndef SUPPRESS_WARNINGS
+                        std::cerr << "Warning: Exif tag " << pos->key() << " not encoded\n";
+#endif
+                        ed.erase(pos);
+                    }
+                }
+                break;
+            case pttIfd:
+                if (delTags) {
+                    eraseIfd(ed, filteredPvTags[i].key_);
+                }
+                break;
+            }
+        }
+
+        // Delete unknown tags larger than 4kB.
+        for (ExifData::iterator pos = ed.begin(); pos != ed.end(); ) {
+            if (   pos->size() > 4096
+                && pos->tagName().substr(0, 2) == "0x") {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Warning: Exif tag " << pos->key() << " not encoded\n";
+#endif
+                pos = ed.erase(pos);
+            }
+            else {
+                ++pos;
+            }
+        }
+
+        // Encode the remaining Exif tags again, don't care if it fits this time
+        wm = TiffParser::encode(blob,
+                                pData,
+                                size,
+                                byteOrder,
+                                ed,
+                                iptcData,
+                                xmpData);
+#ifdef DEBUG
+        if (wm == wmIntrusive) {
+            std::cerr << "SIZE OF EXIF DATA IS " << std::dec << blob.size() << " BYTES\n";
+        }
+        else {
+            std::cerr << "SIZE DOESN'T MATTER, NON-INTRUSIVE WRITING USED\n";
+        }
+#endif
+        return wm;
+
     } // ExifParser::encode
 
 }                                       // namespace Exiv2
@@ -545,6 +685,32 @@ namespace {
         Exiv2::ExifData::const_iterator format = exifData.findKey(key);
         if (format == exifData.end()) return Exiv2::DataBuf();
         return format->dataArea();
+    }
+
+    long sumToLong(const Exiv2::Exifdatum& md)
+    {
+        long sum = 0;
+        for (int i = 0; i < md.count(); ++i) {
+            sum += md.toLong(i);
+        }
+        return sum;
+    }
+
+    void eraseIfd(Exiv2::ExifData& ed, const char* ifdItem)
+    {
+        // Prerequisite: Exif metadata must be sorted by IFD
+        Exiv2::ExifData::iterator pos;
+        for (pos = ed.begin(); pos != ed.end(); ++pos) {
+            if (0 == strcmp(pos->ifdItem().c_str(), ifdItem)) {
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Warning: Exif IFD " << ifdItem << " not encoded\n";
+#endif
+                break;
+            }
+        }
+        while (pos != ed.end() && 0 == strcmp(pos->ifdItem().c_str(), ifdItem)) {
+            pos = ed.erase(pos);
+        }            
     }
     //! @endcond
 }
