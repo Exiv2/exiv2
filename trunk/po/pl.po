@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2008-11-13 20:20+0800\n"
+"POT-Creation-Date: 2008-11-16 13:22+0800\n"
 "PO-Revision-Date: 2008-11-06 10:43+0100\n"
 "Last-Translator: Piotr Eljasiak <epiotr@use.pl>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -3258,7 +3258,7 @@ msgstr ""
 
 #: src/error.cpp:86
 #, fuzzy
-msgid "No prefix registered for namespace `%2', needed for property path `%1')"
+msgid "No prefix registered for namespace `%2', needed for property path `%1'"
 msgstr "Brak wiązania przestrzeni nazw dla przedrostka %1"
 
 #: src/error.cpp:87
@@ -5852,13 +5852,13 @@ msgstr "Ustawienia obrazu danych."
 
 #: src/nikonmn.cpp:632
 #, fuzzy
-msgid "NEF Thumbnail Size"
-msgstr "(8) : Zwiększanie rozmiaru miniaturki."
+msgid "Raw Image Center"
+msgstr "Długość obrazu"
 
 #: src/nikonmn.cpp:633
 #, fuzzy
-msgid "NEF thumbnail size"
-msgstr "(8) : Zwiększanie rozmiaru miniaturki."
+msgid "Raw image center"
+msgstr "Długość obrazu"
 
 #: src/nikonmn.cpp:635
 #, fuzzy
@@ -6706,7 +6706,7 @@ msgstr "Plaża i śnieg"
 
 #: src/olympusmn.cpp:538
 #, fuzzy
-msgid "Self Protrait+Timer"
+msgid "Self Portrait+Timer"
 msgstr "Nie można utworzyć stopera"
 
 #: src/olympusmn.cpp:539
@@ -15761,6 +15761,14 @@ msgid "element"
 msgstr "element"
 
 #, fuzzy
+#~ msgid "NEF Thumbnail Size"
+#~ msgstr "(8) : Zwiększanie rozmiaru miniaturki."
+
+#, fuzzy
+#~ msgid "NEF thumbnail size"
+#~ msgstr "(8) : Zwiększanie rozmiaru miniaturki."
+
+#, fuzzy
 #~ msgid "Raw information"
 #~ msgstr "Dodatkowe informacje"
 
@@ -15951,14 +15959,6 @@ msgstr "element"
 #, fuzzy
 #~ msgid "Color hue"
 #~ msgstr "Tryb koloru"
-
-#, fuzzy
-#~ msgid "Raw Image Center"
-#~ msgstr "Długość obrazu"
-
-#, fuzzy
-#~ msgid "Raw image center"
-#~ msgstr "Długość obrazu"
 
 #, fuzzy
 #~ msgid "FlashMode"

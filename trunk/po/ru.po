@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2008-11-13 20:20+0800\n"
+"POT-Creation-Date: 2008-11-16 13:22+0800\n"
 "PO-Revision-Date: 2008-05-26 04:03+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -3171,7 +3171,7 @@ msgid "No namespace info available for XMP prefix `%1'"
 msgstr ""
 
 #: src/error.cpp:86
-msgid "No prefix registered for namespace `%2', needed for property path `%1')"
+msgid "No prefix registered for namespace `%2', needed for property path `%1'"
 msgstr ""
 
 #: src/error.cpp:87
@@ -5673,12 +5673,14 @@ msgid "Lens data settings"
 msgstr "Параметры объектива"
 
 #: src/nikonmn.cpp:632
-msgid "NEF Thumbnail Size"
-msgstr ""
+#, fuzzy
+msgid "Raw Image Center"
+msgstr "Номер изображения"
 
 #: src/nikonmn.cpp:633
-msgid "NEF thumbnail size"
-msgstr ""
+#, fuzzy
+msgid "Raw image center"
+msgstr "Версия эскиза"
 
 #: src/nikonmn.cpp:635
 msgid "Sensor Pixel Size"
@@ -6496,7 +6498,7 @@ msgstr ""
 
 #: src/olympusmn.cpp:538
 #, fuzzy
-msgid "Self Protrait+Timer"
+msgid "Self Portrait+Timer"
 msgstr "Серийный номер"
 
 #: src/olympusmn.cpp:539
