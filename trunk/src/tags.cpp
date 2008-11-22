@@ -1867,6 +1867,11 @@ namespace Exiv2 {
         return *this;
     }
 
+    void ExifKey::setIdx(int idx)
+    {
+        idx_ = idx;
+    }
+
     std::string ExifKey::tagName() const
     {
         return ExifTags::tagName(tag_, ifdId_);

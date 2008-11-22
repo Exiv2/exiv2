@@ -66,8 +66,6 @@ EXIV2_RCSID("@(#) $Id$")
      do. What a mess. (That'll become an issue when it comes to writing to CR2)
    + Sony makernotes in RAW files do not seem to have header like those in Jpegs.
      And maybe no next pointer either.
-   + Filtering of large unknown tags: Should be moved to writing/encoding code
-     and done only if really needed (i.e., if writing to a Jpeg segment)
 
    in crwimage.* :
 
