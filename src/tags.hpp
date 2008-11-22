@@ -362,6 +362,8 @@ namespace Exiv2 {
           @brief Assignment operator.
          */
         ExifKey& operator=(const ExifKey& rhs);
+        //! Set the index.
+        void setIdx(int idx);
         //@}
 
         //! @name Accessors
@@ -386,7 +388,7 @@ namespace Exiv2 {
         std::string ifdItem() const { return ifdItem_; }
         //! Return the name of the Exif section (deprecated)
         std::string sectionName() const;
-        //! Return the index (unique id of this key within the original IFD)
+        //! Return the index (unique id of this key within the original Exif data, 0 if not set)
         int idx() const { return idx_; }
         //@}
 
@@ -418,7 +420,7 @@ namespace Exiv2 {
         uint16_t tag_;                  //!< Tag value
         IfdId ifdId_;                   //!< The IFD associated with this tag
         std::string ifdItem_;           //!< The IFD item
-        int idx_;                       //!< Unique id of an entry within one IFD
+        int idx_;                       //!< Unique id of the Exif key in the image
         std::string key_;               //!< Key
     }; // class ExifKey
 

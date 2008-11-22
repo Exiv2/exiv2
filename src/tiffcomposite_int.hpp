@@ -424,6 +424,10 @@ namespace Exiv2 {
          */
         int32_t offset()         const { return offset_; }
         /*!
+          @brief Return the unique id of the entry in the image
+         */
+        int idx()                const { return idx_; }
+        /*!
           @brief Return a pointer to the binary representation of the
                  value of this component.
          */
@@ -439,6 +443,8 @@ namespace Exiv2 {
         virtual void doEncode(TiffEncoder& encoder, const Exifdatum* datum) =0;
         //! Set the number of components in this entry
         void setCount(uint32_t count) { count_ = count; }
+        //! Set the unique id of the entry in the image
+        void setIdx(int idx) { idx_ = idx; }
         //@}
 
         //! @name Accessors
@@ -509,6 +515,7 @@ namespace Exiv2 {
         uint32_t size_;
         byte*    pData_;      //!< Pointer to the data area
         bool     isMalloced_; //!< True if this entry owns the value data
+        int      idx_;        //!< Unique id of the entry in the image
         Value*   pValue_;     //!< Converted data value
 
     }; // class TiffEntryBase

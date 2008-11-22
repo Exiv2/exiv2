@@ -615,6 +615,8 @@ namespace Exiv2 {
         void resetState();
         //! Check IFD directory pointer \em start for circular reference
         bool circularReference(const byte* start, uint16_t group);
+        //! Return the next idx sequence number
+        int nextIdx();
         //@}
 
         //! @name Accessors
@@ -639,6 +641,7 @@ namespace Exiv2 {
         TiffRwState*         pState_;     //!< State class
         TiffRwState*         pOrigState_; //!< State class as set in the c'tor
         DirList              dirList_;    //!< List of IFD pointers and their groups
+        int                  idxSeq_;     //!< Sequence used for the entry's idx
 
     }; // class TiffReader
 

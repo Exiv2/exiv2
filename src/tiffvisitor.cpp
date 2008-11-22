@@ -54,6 +54,22 @@ EXIV2_RCSID("@(#) $Id$")
 #include <cassert>
 
 // *****************************************************************************
+namespace {
+    //! Unary predicate that matches an Exifdatum with a given index.
+    class FindExifdatumByIdx {
+    public:
+        //! Constructor, initializes the object with the index to look for.
+        FindExifdatumByIdx(int idx) : idx_(idx) {}
+        //! Returns true if the index matches.
+        bool operator()(const Exiv2::Exifdatum& md) const { return idx_ == md.idx(); }
+
+    private:
+        int idx_;
+
+    }; // class FindExifdatumByIdx
+}
+
+// *****************************************************************************
 // class member definitions
 namespace Exiv2 {
     namespace Internal {
@@ -347,6 +363,7 @@ namespace Exiv2 {
         // Todo: ExifKey should have an appropriate c'tor, it should not be
         //       necessary to use groupName here
         ExifKey key(object->tag(), tiffGroupName(object->group()));
+        key.setIdx(object->idx());
         exifData_.add(key, object->pValue());
 
     } // TiffDecoder::decodeTiffEntry
@@ -409,15 +426,19 @@ namespace Exiv2 {
         // If there is new IPTC data and Exif.Image.ImageResources does
         // not exist, create a new IPTCNAA Exif tag.
         bool del = false;
-        const ExifKey iptcNaaKey("Exif.Image.IPTCNAA");
+        ExifKey iptcNaaKey("Exif.Image.IPTCNAA");
         ExifData::iterator pos = exifData_.findKey(iptcNaaKey);
         if (pos != exifData_.end()) {
+            iptcNaaKey.setIdx(pos->idx());
             exifData_.erase(pos);
             del = true;
         }
         DataBuf rawIptc = IptcParser::encode(iptcData_);
-        const ExifKey irbKey("Exif.Image.ImageResources");
+        ExifKey irbKey("Exif.Image.ImageResources");
         pos = exifData_.findKey(irbKey);
+        if (pos != exifData_.end()) {
+            irbKey.setIdx(pos->idx());
+        }
         if (rawIptc.size_ != 0 && (del || pos == exifData_.end())) {
             Value::AutoPtr value = Value::create(unsignedLong);
             value->read(rawIptc.pData_, rawIptc.size_, byteOrder_);
@@ -443,10 +464,11 @@ namespace Exiv2 {
 
     void TiffEncoder::encodeXmp()
     {
-        const ExifKey xmpKey("Exif.Image.XMLPacket");
+        ExifKey xmpKey("Exif.Image.XMLPacket");
         // Remove any existing XMP Exif tag
         ExifData::iterator pos = exifData_.findKey(xmpKey);
         if (pos != exifData_.end()) {
+            xmpKey.setIdx(pos->idx());
             exifData_.erase(pos);
         }
         std::string xmpPacket;
@@ -604,11 +626,19 @@ namespace Exiv2 {
         ExifData::iterator pos = exifData_.end();
         const Exifdatum* ed = datum;
         if (ed == 0) {
+            // Attempting non-intrusive writing. Look for the corresponding Exif
+            // datum by index rather than the key to be able to handle duplicate tags.
+            pos = std::find_if(exifData_.begin(), exifData_.end(),
+                               FindExifdatumByIdx(object->idx()));
             ExifKey key(object->tag(), tiffGroupName(object->group()));
-            pos = exifData_.findKey(key);
-            if (pos == exifData_.end()) { // metadatum not found (deleted)
+            if (pos == exifData_.end() || key.key() != pos->key()) {
 #ifdef DEBUG
-                std::cerr << "DELETING          " << key << "\n";
+                if (pos == exifData_.end()) { // metadatum not found
+                    std::cerr << "DELETING          " << key << ", idx = " << object->idx() << "\n";
+                }
+                else {
+                    std::cerr << "KEY/IDX MISMATCH  " << key << ", idx = " << object->idx() << "\n";
+                }
 #endif
                 setDirty();
             }
@@ -792,7 +822,7 @@ namespace Exiv2 {
         ExifKey key(object->tag(), tiffGroupName(object->group()));
         std::cerr << "UPDATING DATA     " << key;
         if (tooLarge) {
-            std::cerr << "\t\t\t ALLOCATED " << object->size_ << " BYTES";
+            std::cerr << "\t\t\t ALLOCATED " << std::dec << object->size_ << " BYTES";
         }
 #endif
     } // TiffEncoder::encodeTiffEntryBase
@@ -1003,7 +1033,8 @@ namespace Exiv2 {
           pLast_(pData + size),
           pRoot_(pRoot),
           pState_(state.release()),
-          pOrigState_(pState_)
+          pOrigState_(pState_),
+          idxSeq_(0)
     {
         assert(pData_);
         assert(size_ > 0);
@@ -1107,6 +1138,11 @@ namespace Exiv2 {
         }
         dirList_[start] = group;
         return false;
+    }
+
+    int TiffReader::nextIdx()
+    {
+        return ++idxSeq_;
     }
 
     void TiffReader::visitDirectory(TiffDirectory* object)
@@ -1387,6 +1423,7 @@ namespace Exiv2 {
         object->setValue(v);
         object->setData(pData, size);
         object->setOffset(offset);
+        object->setIdx(nextIdx());
 
     } // TiffReader::readTiffEntry
 
@@ -1443,6 +1480,7 @@ namespace Exiv2 {
         object->setValue(v);
         object->setData(pData, size);
         object->setOffset(0);
+        object->setIdx(nextIdx());
         object->setCount(1);
 
     } // TiffReader::visitArrayElement

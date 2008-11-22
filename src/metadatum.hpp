@@ -301,7 +301,7 @@ namespace Exiv2 {
     //! Unary predicate that matches a Exifdatum with a given key
     class EXIV2API FindMetadatumByKey {
     public:
-        //! Constructor, initializes the object with the tag to look for
+        //! Constructor, initializes the object with the key to look for
         FindMetadatumByKey(const std::string& key) : key_(key) {}
         /*!
           @brief Returns true if the key of the argument metadatum is equal
@@ -313,7 +313,7 @@ namespace Exiv2 {
     private:
         std::string key_;
 
-    }; // class FindMetadatumByTag
+    }; // class FindMetadatumByKey
 
     /*!
       @brief Output operator for Metadatum types, writing the interpreted
