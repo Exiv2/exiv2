@@ -132,9 +132,10 @@ namespace Exiv2 {
           @brief Set the value to the string \em value.  Uses Value::read(const
                  std::string&).  If the %Exifdatum does not have a Value yet,
                  then a %Value of the correct type for this %Exifdatum is
-                 created. An AsciiValue is created for unknown tags.
+                 created. An AsciiValue is created for unknown tags. Return
+                 0 if the value was read successfully.
          */
-        void setValue(const std::string& value);
+        int setValue(const std::string& value);
         /*!
           @brief Set the data area by copying (cloning) the buffer pointed to
                  by \em buf.

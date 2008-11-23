@@ -750,7 +750,11 @@ namespace Exiv2 {
             return;
         }
         // Todo: Escape non-ASCII characters in XMP text values
-        (*exifData_)[to] = value;
+        ExifKey key(to);
+        Exifdatum ed(key);
+        if (0 == ed.setValue(value)) {
+            exifData_->add(ed);
+        }
         if (erase_) xmpData_->erase(pos);
     }
 
@@ -793,10 +797,10 @@ namespace Exiv2 {
 
     void Converter::cnvXmpDate(const char* from, const char* to)
     {
-#ifdef EXV_HAVE_XMP_TOOLKIT
         Exiv2::XmpData::iterator pos = xmpData_->findKey(XmpKey(from));
         if (pos == xmpData_->end()) return;
         if (!prepareExifTarget(to)) return;
+#ifdef EXV_HAVE_XMP_TOOLKIT
         std::string value = pos->toString();
         if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS

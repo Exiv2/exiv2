@@ -135,13 +135,13 @@ namespace Exiv2 {
         if (pValue) value_ = pValue->clone();
     }
 
-    void Iptcdatum::setValue(const std::string& value)
+    int Iptcdatum::setValue(const std::string& value)
     {
         if (value_.get() == 0) {
             TypeId type = IptcDataSets::dataSetType(tag(), record());
             value_ = Value::create(type);
         }
-        value_->read(value);
+        return value_->read(value);
     }
 
     Iptcdatum& IptcData::operator[](const std::string& key)

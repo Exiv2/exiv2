@@ -115,9 +115,9 @@ namespace Exiv2 {
                  std::string&).  If the %Xmpdatum does not have a Value yet,
                  then a %Value of the correct type for this %Xmpdatum is
                  created. If the key is unknown, a XmpTextValue is used as
-                 default.
+                 default. Return 0 if the value was read successfully.
          */
-        void setValue(const std::string& value);
+        int setValue(const std::string& value);
         //@}
 
         //! @name Accessors

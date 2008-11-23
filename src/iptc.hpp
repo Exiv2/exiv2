@@ -106,9 +106,9 @@ namespace Exiv2 {
                  If the %Iptcdatum does not have a Value yet, then a %Value of
                  the correct type for this %Iptcdatum is created. If that
                  fails (because of an unknown dataset), a StringValue is
-                 created.
+                 created. Return 0 if the value was read successfully.
          */
-        void setValue(const std::string& value);
+        int setValue(const std::string& value);
         //@}
 
         //! @name Accessors

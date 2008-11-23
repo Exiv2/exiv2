@@ -261,13 +261,13 @@ namespace Exiv2 {
         if (pValue) value_ = pValue->clone();
     }
 
-    void Exifdatum::setValue(const std::string& value)
+    int Exifdatum::setValue(const std::string& value)
     {
         if (value_.get() == 0) {
             TypeId type = ExifTags::tagType(tag(), ifdId());
             value_ = Value::create(type);
         }
-        value_->read(value);
+        return value_->read(value);
     }
 
     ExifThumbC::ExifThumbC(const ExifData& exifData)
