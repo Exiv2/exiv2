@@ -477,7 +477,7 @@ namespace Exiv2 {
         for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfd0Tags); ++i) {
             ExifData::iterator pos = ed.findKey(ExifKey(filteredIfd0Tags[i]));
             if (pos != ed.end()) {
-#ifndef SUPPRESS_WARNINGS
+#ifdef DEBUG
                 std::cerr << "Warning: Exif tag " << pos->key() << " not encoded\n";
 #endif
                 ed.erase(pos);
@@ -493,6 +493,9 @@ namespace Exiv2 {
             "Image2"
         };
         for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfds); ++i) {
+#ifdef DEBUG
+            std::cerr << "Warning: Exif IFD " << filteredIfds[i] << " not encoded\n";
+#endif
             eraseIfd(ed, filteredIfds[i]);
         }
 
@@ -569,6 +572,9 @@ namespace Exiv2 {
                 break;
             case pttIfd:
                 if (delTags) {
+#ifndef SUPPRESS_WARNINGS
+                    std::cerr << "Warning: Exif IFD " << filteredPvTags[i].key_ << " not encoded\n";
+#endif
                     eraseIfd(ed, filteredPvTags[i].key_);
                 }
                 break;
@@ -702,9 +708,6 @@ namespace {
         Exiv2::ExifData::iterator pos;
         for (pos = ed.begin(); pos != ed.end(); ++pos) {
             if (0 == strcmp(pos->ifdItem().c_str(), ifdItem)) {
-#ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: Exif IFD " << ifdItem << " not encoded\n";
-#endif
                 break;
             }
         }
