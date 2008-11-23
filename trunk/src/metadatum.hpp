@@ -151,9 +151,9 @@ namespace Exiv2 {
           @brief Set the value to the string buf.
                  Uses Value::read(const std::string& buf). If the metadatum does
                  not have a value yet, then one is created. See subclasses for
-                 more details.
+                 more details. Return 0 if the value was read successfully.
          */
-        virtual void setValue(const std::string& buf) =0;
+        virtual int setValue(const std::string& buf) =0;
         //@}
 
         //! @name Accessors

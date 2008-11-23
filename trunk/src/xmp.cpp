@@ -273,7 +273,7 @@ namespace Exiv2 {
         if (pValue) p_->value_ = pValue->clone();
     }
 
-    void Xmpdatum::setValue(const std::string& value)
+    int Xmpdatum::setValue(const std::string& value)
     {
         if (p_->value_.get() == 0) {
             TypeId type = xmpText;
@@ -282,7 +282,7 @@ namespace Exiv2 {
             }
             p_->value_ = Value::create(type);
         }
-        p_->value_->read(value);
+        return p_->value_->read(value);
     }
 
     Xmpdatum& XmpData::operator[](const std::string& key)
