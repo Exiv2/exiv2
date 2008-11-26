@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2008-11-16 13:22+0800\n"
+"POT-Creation-Date: 2008-11-26 09:46+0800\n"
 "PO-Revision-Date: 2005-03-12 05:43+0100\n"
 "Last-Translator: Fabian Mandelbaum <fabman@mandrakesoft.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -867,7 +867,7 @@ msgstr ""
 #: src/pentaxmn.cpp:267 src/sonymn.cpp:52 src/sonymn.cpp:55 src/sonymn.cpp:58
 #: src/sonymn.cpp:61 src/sonymn.cpp:64 src/sonymn.cpp:67 src/sonymn.cpp:70
 #: src/sonymn.cpp:73 src/sonymn.cpp:76 src/tags.cpp:930 src/tags.cpp:942
-#: src/tags.cpp:1078 src/tags.cpp:2337 src/tags.cpp:2453
+#: src/tags.cpp:1078 src/tags.cpp:2342 src/tags.cpp:2458
 msgid "Unknown"
 msgstr "Desconocido"
 
@@ -1382,7 +1382,7 @@ msgstr ""
 msgid "Far range"
 msgstr "Rango de transferencia"
 
-#: src/canonmn.cpp:342 src/pentaxmn.cpp:182 src/tags.cpp:2340
+#: src/canonmn.cpp:342 src/pentaxmn.cpp:182 src/tags.cpp:2345
 msgid "Infinity"
 msgstr ""
 
@@ -2336,7 +2336,7 @@ msgstr "Desconocido"
 msgid "Header, offset"
 msgstr ""
 
-#: src/crwimage.cpp:671 src/tiffvisitor.cpp:966 src/tiffvisitor.cpp:984
+#: src/crwimage.cpp:671 src/tiffvisitor.cpp:996 src/tiffvisitor.cpp:1014
 #, fuzzy
 msgid "tag"
 msgstr "promedio"
@@ -2345,7 +2345,7 @@ msgstr "promedio"
 msgid "dir"
 msgstr ""
 
-#: src/crwimage.cpp:675 src/tiffvisitor.cpp:968
+#: src/crwimage.cpp:675 src/tiffvisitor.cpp:998
 #, fuzzy
 msgid "type"
 msgstr "Escena nocturna"
@@ -2355,7 +2355,7 @@ msgstr "Escena nocturna"
 msgid "size"
 msgstr "Fuente de archivo"
 
-#: src/crwimage.cpp:677 src/tiffvisitor.cpp:972
+#: src/crwimage.cpp:677 src/tiffvisitor.cpp:1002
 #, fuzzy
 msgid "offset"
 msgstr "Suave"
@@ -15654,85 +15654,85 @@ msgstr "Versión Exif"
 msgid "Unknown tag"
 msgstr "Desconocido"
 
-#: src/tags.cpp:2437
+#: src/tags.cpp:2442
 #, fuzzy
 msgid "Digital zoom not used"
 msgstr "Relación de zoom digital"
 
-#: src/tiffimage.cpp:738
+#: src/tiffimage.cpp:736
 msgid "TIFF header, offset"
 msgstr ""
 
-#: src/tiffimage.cpp:743
+#: src/tiffimage.cpp:741
 msgid "little endian encoded"
 msgstr ""
 
-#: src/tiffimage.cpp:744
+#: src/tiffimage.cpp:742
 msgid "big endian encoded"
 msgstr ""
 
-#: src/tiffvisitor.cpp:900
+#: src/tiffvisitor.cpp:930
 #, fuzzy
 msgid "Data area"
 msgstr "formato planar"
 
-#: src/tiffvisitor.cpp:902
+#: src/tiffvisitor.cpp:932
 #, fuzzy
 msgid "bytes.\n"
 msgstr "Centímetro"
 
-#: src/tiffvisitor.cpp:920
+#: src/tiffvisitor.cpp:950
 msgid "directory with"
 msgstr ""
 
-#: src/tiffvisitor.cpp:923
+#: src/tiffvisitor.cpp:953
 #, fuzzy
 msgid "entry:\n"
 msgstr "Centímetro"
 
-#: src/tiffvisitor.cpp:924
+#: src/tiffvisitor.cpp:954
 msgid "entries:\n"
 msgstr ""
 
-#: src/tiffvisitor.cpp:933
+#: src/tiffvisitor.cpp:963
 msgid "Next directory:\n"
 msgstr ""
 
-#: src/tiffvisitor.cpp:934
+#: src/tiffvisitor.cpp:964
 msgid "No next directory\n"
 msgstr ""
 
-#: src/tiffvisitor.cpp:945
+#: src/tiffvisitor.cpp:975
 msgid "Sub-IFD"
 msgstr ""
 
-#: src/tiffvisitor.cpp:952
+#: src/tiffvisitor.cpp:982
 #, fuzzy
 msgid "Makernote"
 msgstr "Nota del fabricante"
 
-#: src/tiffvisitor.cpp:969
+#: src/tiffvisitor.cpp:999
 msgid "component"
 msgstr ""
 
-#: src/tiffvisitor.cpp:971
+#: src/tiffvisitor.cpp:1001
 #, fuzzy
 msgid "bytes"
 msgstr "Centímetro"
 
-#: src/tiffvisitor.cpp:983
+#: src/tiffvisitor.cpp:1013
 msgid "Array Entry"
 msgstr ""
 
-#: src/tiffvisitor.cpp:985
+#: src/tiffvisitor.cpp:1015
 msgid "with"
 msgstr ""
 
-#: src/tiffvisitor.cpp:987
+#: src/tiffvisitor.cpp:1017
 msgid "elements"
 msgstr ""
 
-#: src/tiffvisitor.cpp:988
+#: src/tiffvisitor.cpp:1018
 #, fuzzy
 msgid "element"
 msgstr "multi-lugar"

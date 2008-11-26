@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2008-11-16 13:22+0800\n"
+"POT-Creation-Date: 2008-11-26 09:46+0800\n"
 "PO-Revision-Date: 2008-11-06 10:43+0100\n"
 "Last-Translator: Piotr Eljasiak <epiotr@use.pl>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -844,7 +844,7 @@ msgstr "EOS Digital Rebel XTi / 400D / Kiss Digital X"
 #: src/pentaxmn.cpp:267 src/sonymn.cpp:52 src/sonymn.cpp:55 src/sonymn.cpp:58
 #: src/sonymn.cpp:61 src/sonymn.cpp:64 src/sonymn.cpp:67 src/sonymn.cpp:70
 #: src/sonymn.cpp:73 src/sonymn.cpp:76 src/tags.cpp:930 src/tags.cpp:942
-#: src/tags.cpp:1078 src/tags.cpp:2337 src/tags.cpp:2453
+#: src/tags.cpp:1078 src/tags.cpp:2342 src/tags.cpp:2458
 msgid "Unknown"
 msgstr "Brak informacji"
 
@@ -1334,7 +1334,7 @@ msgstr "_Zaznacz zakres:"
 msgid "Far range"
 msgstr "_Zaznacz zakres:"
 
-#: src/canonmn.cpp:342 src/pentaxmn.cpp:182 src/tags.cpp:2340
+#: src/canonmn.cpp:342 src/pentaxmn.cpp:182 src/tags.cpp:2345
 msgid "Infinity"
 msgstr "Nieskończoność"
 
@@ -2269,7 +2269,7 @@ msgstr "Nieznany znacznik."
 msgid "Header, offset"
 msgstr "Przesunięcie podświetlenia X"
 
-#: src/crwimage.cpp:671 src/tiffvisitor.cpp:966 src/tiffvisitor.cpp:984
+#: src/crwimage.cpp:671 src/tiffvisitor.cpp:996 src/tiffvisitor.cpp:1014
 msgid "tag"
 msgstr "znacznik"
 
@@ -2277,7 +2277,7 @@ msgstr "znacznik"
 msgid "dir"
 msgstr "katalog"
 
-#: src/crwimage.cpp:675 src/tiffvisitor.cpp:968
+#: src/crwimage.cpp:675 src/tiffvisitor.cpp:998
 msgid "type"
 msgstr "typ"
 
@@ -2285,7 +2285,7 @@ msgstr "typ"
 msgid "size"
 msgstr "wielkość"
 
-#: src/crwimage.cpp:677 src/tiffvisitor.cpp:972
+#: src/crwimage.cpp:677 src/tiffvisitor.cpp:1002
 msgid "offset"
 msgstr "przesunięcie"
 
@@ -15678,85 +15678,85 @@ msgstr "Nieznany znacznik Nikon2MakerNote"
 msgid "Unknown tag"
 msgstr "Nieznany znacznik"
 
-#: src/tags.cpp:2437
+#: src/tags.cpp:2442
 #, fuzzy
 msgid "Digital zoom not used"
 msgstr "Udźwiękowienie nie zostanie użyte.\n"
 
-#: src/tiffimage.cpp:738
+#: src/tiffimage.cpp:736
 #, fuzzy
 msgid "TIFF header, offset"
 msgstr "Przesunięcie cienia X"
 
-#: src/tiffimage.cpp:743
+#: src/tiffimage.cpp:741
 #, fuzzy
 msgid "little endian encoded"
 msgstr "Odczytaj jako 'little endian'"
 
-#: src/tiffimage.cpp:744
+#: src/tiffimage.cpp:742
 #, fuzzy
 msgid "big endian encoded"
 msgstr "błędnie zakodowany znak `%s'"
 
-#: src/tiffvisitor.cpp:900
+#: src/tiffvisitor.cpp:930
 msgid "Data area"
 msgstr "Obszar danych"
 
-#: src/tiffvisitor.cpp:902
+#: src/tiffvisitor.cpp:932
 msgid "bytes.\n"
 msgstr "bajtów.\n"
 
-#: src/tiffvisitor.cpp:920
+#: src/tiffvisitor.cpp:950
 msgid "directory with"
 msgstr "katalog z"
 
-#: src/tiffvisitor.cpp:923
+#: src/tiffvisitor.cpp:953
 msgid "entry:\n"
 msgstr "wpis:\n"
 
-#: src/tiffvisitor.cpp:924
+#: src/tiffvisitor.cpp:954
 msgid "entries:\n"
 msgstr "wpisów:\n"
 
-#: src/tiffvisitor.cpp:933
+#: src/tiffvisitor.cpp:963
 msgid "Next directory:\n"
 msgstr "Następny katalog:\n"
 
-#: src/tiffvisitor.cpp:934
+#: src/tiffvisitor.cpp:964
 #, fuzzy
 msgid "No next directory\n"
 msgstr "Nie wybrano katalogu."
 
-#: src/tiffvisitor.cpp:945
+#: src/tiffvisitor.cpp:975
 #, fuzzy
 msgid "Sub-IFD"
 msgstr "Sublokalizacja"
 
-#: src/tiffvisitor.cpp:952
+#: src/tiffvisitor.cpp:982
 msgid "Makernote"
 msgstr "Uwaga producenta"
 
-#: src/tiffvisitor.cpp:969
+#: src/tiffvisitor.cpp:999
 msgid "component"
 msgstr "komponent"
 
-#: src/tiffvisitor.cpp:971
+#: src/tiffvisitor.cpp:1001
 msgid "bytes"
 msgstr "bajtów"
 
-#: src/tiffvisitor.cpp:983
+#: src/tiffvisitor.cpp:1013
 msgid "Array Entry"
 msgstr "Element tablicy"
 
-#: src/tiffvisitor.cpp:985
+#: src/tiffvisitor.cpp:1015
 msgid "with"
 msgstr "z"
 
-#: src/tiffvisitor.cpp:987
+#: src/tiffvisitor.cpp:1017
 msgid "elements"
 msgstr "elementy"
 
-#: src/tiffvisitor.cpp:988
+#: src/tiffvisitor.cpp:1018
 msgid "element"
 msgstr "element"
 

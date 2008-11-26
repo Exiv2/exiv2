@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2008-11-16 13:22+0800\n"
+"POT-Creation-Date: 2008-11-26 09:46+0800\n"
 "PO-Revision-Date: 2008-05-28 15:49+0200\n"
 "Last-Translator: Fabien <fabien.ubuntu@gmail.com>\n"
 "Language-Team: français <kde-francophone@kde.org>\n"
@@ -828,7 +828,7 @@ msgstr ""
 #: src/pentaxmn.cpp:267 src/sonymn.cpp:52 src/sonymn.cpp:55 src/sonymn.cpp:58
 #: src/sonymn.cpp:61 src/sonymn.cpp:64 src/sonymn.cpp:67 src/sonymn.cpp:70
 #: src/sonymn.cpp:73 src/sonymn.cpp:76 src/tags.cpp:930 src/tags.cpp:942
-#: src/tags.cpp:1078 src/tags.cpp:2337 src/tags.cpp:2453
+#: src/tags.cpp:1078 src/tags.cpp:2342 src/tags.cpp:2458
 msgid "Unknown"
 msgstr "Inconnu"
 
@@ -1290,7 +1290,7 @@ msgstr ""
 msgid "Far range"
 msgstr "Loin"
 
-#: src/canonmn.cpp:342 src/pentaxmn.cpp:182 src/tags.cpp:2340
+#: src/canonmn.cpp:342 src/pentaxmn.cpp:182 src/tags.cpp:2345
 msgid "Infinity"
 msgstr "Infinie"
 
@@ -2119,7 +2119,7 @@ msgstr "Marqueur info image Canon inconnu"
 msgid "Header, offset"
 msgstr "En-tête, décalage"
 
-#: src/crwimage.cpp:671 src/tiffvisitor.cpp:966 src/tiffvisitor.cpp:984
+#: src/crwimage.cpp:671 src/tiffvisitor.cpp:996 src/tiffvisitor.cpp:1014
 msgid "tag"
 msgstr "marqueur"
 
@@ -2127,7 +2127,7 @@ msgstr "marqueur"
 msgid "dir"
 msgstr "section"
 
-#: src/crwimage.cpp:675 src/tiffvisitor.cpp:968
+#: src/crwimage.cpp:675 src/tiffvisitor.cpp:998
 msgid "type"
 msgstr "type"
 
@@ -2135,7 +2135,7 @@ msgstr "type"
 msgid "size"
 msgstr "taille"
 
-#: src/crwimage.cpp:677 src/tiffvisitor.cpp:972
+#: src/crwimage.cpp:677 src/tiffvisitor.cpp:1002
 msgid "offset"
 msgstr "décalage"
 
@@ -14757,80 +14757,80 @@ msgstr "Marqueur 2 de note du fabriquant Nikon inconnu"
 msgid "Unknown tag"
 msgstr "Marqueur inconnu"
 
-#: src/tags.cpp:2437
+#: src/tags.cpp:2442
 msgid "Digital zoom not used"
 msgstr "Zoom numérique non utilisé"
 
-#: src/tiffimage.cpp:738
+#: src/tiffimage.cpp:736
 #, fuzzy
 msgid "TIFF header, offset"
 msgstr "En-tête, décalage"
 
-#: src/tiffimage.cpp:743
+#: src/tiffimage.cpp:741
 msgid "little endian encoded"
 msgstr "encodage petit-boutiste"
 
-#: src/tiffimage.cpp:744
+#: src/tiffimage.cpp:742
 msgid "big endian encoded"
 msgstr "encodage gros-boutiste"
 
-#: src/tiffvisitor.cpp:900
+#: src/tiffvisitor.cpp:930
 msgid "Data area"
 msgstr "Zone de données"
 
-#: src/tiffvisitor.cpp:902
+#: src/tiffvisitor.cpp:932
 msgid "bytes.\n"
 msgstr "octets.\n"
 
-#: src/tiffvisitor.cpp:920
+#: src/tiffvisitor.cpp:950
 msgid "directory with"
 msgstr "répertoire avec"
 
-#: src/tiffvisitor.cpp:923
+#: src/tiffvisitor.cpp:953
 msgid "entry:\n"
 msgstr "entrée :\n"
 
-#: src/tiffvisitor.cpp:924
+#: src/tiffvisitor.cpp:954
 msgid "entries:\n"
 msgstr "entrées :\n"
 
-#: src/tiffvisitor.cpp:933
+#: src/tiffvisitor.cpp:963
 msgid "Next directory:\n"
 msgstr "Répertoire suivant :\n"
 
-#: src/tiffvisitor.cpp:934
+#: src/tiffvisitor.cpp:964
 msgid "No next directory\n"
 msgstr "Pas de répertoire suivant\n"
 
-#: src/tiffvisitor.cpp:945
+#: src/tiffvisitor.cpp:975
 msgid "Sub-IFD"
 msgstr "Sous-IFD"
 
-#: src/tiffvisitor.cpp:952
+#: src/tiffvisitor.cpp:982
 msgid "Makernote"
 msgstr "Note du fabriquant"
 
-#: src/tiffvisitor.cpp:969
+#: src/tiffvisitor.cpp:999
 msgid "component"
 msgstr "composant"
 
-#: src/tiffvisitor.cpp:971
+#: src/tiffvisitor.cpp:1001
 msgid "bytes"
 msgstr "octets"
 
-#: src/tiffvisitor.cpp:983
+#: src/tiffvisitor.cpp:1013
 msgid "Array Entry"
 msgstr ""
 
-#: src/tiffvisitor.cpp:985
+#: src/tiffvisitor.cpp:1015
 msgid "with"
 msgstr ""
 
-#: src/tiffvisitor.cpp:987
+#: src/tiffvisitor.cpp:1017
 msgid "elements"
 msgstr ""
 
-#: src/tiffvisitor.cpp:988
+#: src/tiffvisitor.cpp:1018
 #, fuzzy
 msgid "element"
 msgstr "8-segments"
