@@ -646,6 +646,11 @@ namespace Exiv2 {
                 ed = &(*pos);
             }
         }
+        else {
+            // For intrusive writing, the index is used to preserve the order of
+            // duplicate tags
+            object->idx_ = ed->idx();
+        }
         if (ed) {
             const EncoderFct fct = findEncoderFct_(make_, object->tag(), object->group());
             if (fct) {

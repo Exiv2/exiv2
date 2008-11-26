@@ -1402,7 +1402,8 @@ namespace Exiv2 {
     {
         assert(lhs != 0);
         assert(rhs != 0);
-        return lhs->tag() < rhs->tag();
+        if (lhs->tag() != rhs->tag()) return lhs->tag() < rhs->tag();
+        return lhs->idx() < rhs->idx();
     }
 
     TiffComponent::AutoPtr newTiffDirectory(uint16_t tag,

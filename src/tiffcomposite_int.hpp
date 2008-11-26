@@ -245,6 +245,12 @@ namespace Exiv2 {
                  their implementation of writeImage().
          */
         uint32_t sizeImage() const;
+        /*!
+          @brief Return the unique id of the entry in the image.
+         */
+        // Todo: This is only implemented in TiffEntryBase. It is needed here so that
+        //       we can sort components by tag and idx. Something is not quite right.
+        virtual int idx()        const { return 0; }
         //@}
 
     protected:
@@ -426,7 +432,7 @@ namespace Exiv2 {
         /*!
           @brief Return the unique id of the entry in the image
          */
-        int idx()                const { return idx_; }
+        virtual int idx()        const { return idx_; }
         /*!
           @brief Return a pointer to the binary representation of the
                  value of this component.
