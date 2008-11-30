@@ -734,9 +734,11 @@ namespace Exiv2 {
         // Size of all directory entries, without values and additional data
         const uint32_t sizeDir = 2 + 12 * compCount + (hasNext_ ? 4 : 0);
 
-        // TIFF standard requires IFD entries to be sorted in ascending order by tag
-        std::sort(components_.begin(), components_.end(), cmpTagLt);
-
+        // TIFF standard requires IFD entries to be sorted in ascending order by tag.
+        // Not sorting makernote directories sometimes preserves them better.
+        if (group() < Group::mn) {
+            std::sort(components_.begin(), components_.end(), cmpTagLt);
+        }
         // Size of IFD values and additional data
         uint32_t sizeValue = 0;
         uint32_t sizeData = 0;
@@ -1020,6 +1022,7 @@ namespace Exiv2 {
 
         // Tags must be sorted in ascending order
         std::sort(elements_.begin(), elements_.end(), cmpTagLt);
+
         uint32_t seq = 0;
         for (Components::const_iterator i = elements_.begin(); i != elements_.end(); ++i) {
             // Skip deleted entries at the end of the array

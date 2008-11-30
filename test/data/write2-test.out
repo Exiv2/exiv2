@@ -13,9 +13,10 @@ Exif.Photo.DateTimeOriginal                   0x9003 Exif         Ascii       7 
 Exif.Image.Make                               0x010f IFD0         Ascii       6 Canon
 Exif.Image.Model                              0x0110 IFD0         Ascii      20 Canon PowerShot S40
 Exif.Image.ExifTag                            0x8769 IFD0         Long        1 76
-Exif.Photo.MakerNote                          0x927c Exif         Undefined 118 6 0 1 0 3 0 3 0 0 0 172 0 0 0 4 0 3 0 6 0 0 0 178 0 0 0 5 0 3 0 2 0 0 0 0 0 45 0 15 0 3 0 2 0 0 0 4 0 43 0 18 0 3 0 2 0 0 0 0 0 44 0 205 171 2 0 22 0 0 0 190 0 0 0 0 0 0 0 6 0 0 0 41 0 12 0 0 0 0 0 0 0 0 0 42 0 65 32 67 97 110 111 110 32 109 97 107 101 114 110 111 116 101 32 116 97 103 0 
+Exif.Photo.MakerNote                          0x927c Exif         Undefined 118 6 0 205 171 2 0 22 0 0 0 172 0 0 0 1 0 3 0 3 0 0 0 194 0 0 0 4 0 3 0 6 0 0 0 200 0 0 0 15 0 3 0 2 0 0 0 4 0 43 0 18 0 3 0 2 0 0 0 0 0 44 0 5 0 3 0 2 0 0 0 0 0 45 0 0 0 0 0 65 32 67 97 110 111 110 32 109 97 107 101 114 110 111 116 101 32 116 97 103 0 6 0 0 0 41 0 12 0 0 0 0 0 0 0 0 0 42 0 
 Exif.MakerNote.Offset                         0x0001 Makernote    Long        1 94
 Exif.MakerNote.ByteOrder                      0x0002 Makernote    Ascii       3 II
+Exif.Canon.0xabcd                             0xabcd Makernote    Ascii      22 A Canon makernote tag
 Exif.CanonCs.0x0000                           0x0000 Makernote    Short       1 6
 Exif.CanonCs.Macro                            0x0001 Makernote    Short       1 0
 Exif.CanonCs.Selftimer                        0x0002 Makernote    Short       1 41
@@ -25,21 +26,21 @@ Exif.CanonSi.ISOSpeed                         0x0002 Makernote    Short       1 
 Exif.CanonSi.0x0003                           0x0003 Makernote    Short       1 0
 Exif.CanonSi.TargetAperture                   0x0004 Makernote    Short       1 0
 Exif.CanonSi.TargetShutterSpeed               0x0005 Makernote    Short       1 42
-Exif.CanonPa.0x0000                           0x0000 Makernote    Short       1 0
-Exif.CanonPa.0x0001                           0x0001 Makernote    Short       1 45
 Exif.CanonCf.0x0000                           0x0000 Makernote    Short       1 4
 Exif.CanonCf.NoiseReduction                   0x0001 Makernote    Short       1 43
 Exif.CanonPi.0x0000                           0x0000 Makernote    Short       1 0
 Exif.CanonPi.0x0001                           0x0001 Makernote    Short       1 44
-Exif.Canon.0xabcd                             0xabcd Makernote    Ascii      22 A Canon makernote tag
+Exif.CanonPa.0x0000                           0x0000 Makernote    Short       1 0
+Exif.CanonPa.0x0001                           0x0001 Makernote    Short       1 45
 
 ----- Non-intrusive writing of special Canon MakerNote tags
 Exif.Image.Make                               0x010f IFD0         Ascii       6 Canon
 Exif.Image.Model                              0x0110 IFD0         Ascii      20 Canon PowerShot S40
 Exif.Image.ExifTag                            0x8769 IFD0         Long        1 76
-Exif.Photo.MakerNote                          0x927c Exif         Undefined 118 6 0 1 0 3 0 3 0 0 0 172 0 0 0 4 0 3 0 6 0 0 0 178 0 0 0 5 0 3 0 2 0 0 0 0 0 45 0 15 0 3 0 2 0 0 0 4 0 43 0 18 0 3 0 2 0 0 0 0 0 44 0 205 171 2 0 22 0 0 0 190 0 0 0 0 0 0 0 6 0 88 0 41 0 12 0 0 0 0 0 0 0 99 0 42 0 65 32 67 97 110 111 110 32 109 97 107 101 114 110 111 116 101 32 116 97 103 0 
+Exif.Photo.MakerNote                          0x927c Exif         Undefined 118 6 0 205 171 2 0 22 0 0 0 172 0 0 0 1 0 3 0 3 0 0 0 194 0 0 0 4 0 3 0 6 0 0 0 200 0 0 0 15 0 3 0 2 0 0 0 4 0 43 0 18 0 3 0 2 0 0 0 0 0 44 0 5 0 3 0 2 0 0 0 0 0 45 0 0 0 0 0 65 32 67 97 110 111 110 32 109 97 107 101 114 110 111 116 101 32 116 97 103 0 6 0 88 0 41 0 12 0 0 0 0 0 0 0 99 0 42 0 
 Exif.MakerNote.Offset                         0x0001 Makernote    Long        1 94
 Exif.MakerNote.ByteOrder                      0x0002 Makernote    Ascii       3 II
+Exif.Canon.0xabcd                             0xabcd Makernote    Ascii      22 A Canon makernote tag
 Exif.CanonCs.0x0000                           0x0000 Makernote    Short       1 6
 Exif.CanonCs.Macro                            0x0001 Makernote    Short       1 88
 Exif.CanonCs.Selftimer                        0x0002 Makernote    Short       1 41
@@ -49,13 +50,12 @@ Exif.CanonSi.ISOSpeed                         0x0002 Makernote    Short       1 
 Exif.CanonSi.0x0003                           0x0003 Makernote    Short       1 0
 Exif.CanonSi.TargetAperture                   0x0004 Makernote    Short       1 99
 Exif.CanonSi.TargetShutterSpeed               0x0005 Makernote    Short       1 42
-Exif.CanonPa.0x0000                           0x0000 Makernote    Short       1 0
-Exif.CanonPa.0x0001                           0x0001 Makernote    Short       1 45
 Exif.CanonCf.0x0000                           0x0000 Makernote    Short       1 4
 Exif.CanonCf.NoiseReduction                   0x0001 Makernote    Short       1 43
 Exif.CanonPi.0x0000                           0x0000 Makernote    Short       1 0
 Exif.CanonPi.0x0001                           0x0001 Makernote    Short       1 44
-Exif.Canon.0xabcd                             0xabcd Makernote    Ascii      22 A Canon makernote tag
+Exif.CanonPa.0x0000                           0x0000 Makernote    Short       1 0
+Exif.CanonPa.0x0001                           0x0001 Makernote    Short       1 45
 
 ----- One Fujifilm MakerNote tag
 Exif.Image.Make                               0x010f IFD0         Ascii       9 FUJIFILM
