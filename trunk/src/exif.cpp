@@ -57,6 +57,19 @@ EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 namespace {
+    //! Unary predicate that matches an Exifdatum with a given IfdId.
+    class FindExifdatum {
+    public:
+        //! Constructor, initializes the object with the IfdId to look for.
+        FindExifdatum(Exiv2::IfdId ifdId) : ifdId_(ifdId) {}
+        //! Returns true if IFD id matches.
+        bool operator()(const Exiv2::Exifdatum& md) const { return ifdId_ == md.ifdId(); }
+
+    private:
+        Exiv2::IfdId ifdId_;
+
+    }; // class FindExifdatum
+
     /*!
       @brief Exif %Thumbnail image. This abstract base class provides the
              interface for the thumbnail image that is optionally embedded in
@@ -145,7 +158,7 @@ namespace {
     long sumToLong(const Exiv2::Exifdatum& md);
 
     //! Helper function to delete all tags of a specific IFD from the metadata.
-    void eraseIfd(Exiv2::ExifData& ed, const char* ifdItem);
+    void eraseIfd(Exiv2::ExifData& ed, Exiv2::IfdId ifdId);
 
 }
 
@@ -353,17 +366,7 @@ namespace Exiv2 {
 
     void ExifThumb::erase()
     {
-        // Delete all Exif.Thumbnail.* (IFD1) metadata
-        // Todo: Do it the C++ way(TM)
-        ExifMetadata::iterator i = exifData_.begin();
-        while (i != exifData_.end()) {
-            if (i->ifdId() == ifd1Id) {
-                i = exifData_.erase(i);
-            }
-            else {
-                ++i;
-            }
-        }
+        eraseIfd(exifData_, ifd1Id);
     }
 
     Exifdatum& ExifData::operator[](const std::string& key)
@@ -415,6 +418,11 @@ namespace Exiv2 {
         std::sort(exifMetadata_.begin(), exifMetadata_.end(), cmpMetadataByTag);
     }
 
+    ExifData::iterator ExifData::erase(ExifData::iterator beg, ExifData::iterator end)
+    {
+        return exifMetadata_.erase(beg, end);
+    }
+
     ExifData::iterator ExifData::erase(ExifData::iterator pos)
     {
         return exifMetadata_.erase(pos);
@@ -461,7 +469,6 @@ namespace Exiv2 {
     )
     {
         ExifData ed = exifData;
-        ed.sortByKey();
 
         // Delete IFD0 tags that are "not recorded" in compressed images
         // Reference: Exif 2.2 specs, 4.6.8 Tag Support Levels, section A
@@ -485,12 +492,12 @@ namespace Exiv2 {
         }
 
         // Delete IFDs which do not occur in JPEGs
-        static const char* filteredIfds[] = {
-            "SubImage1",
-            "SubImage2",
-            "SubImage3",
-            "SubImage4",
-            "Image2"
+        static const IfdId filteredIfds[] = {
+            subImage1Id,
+            subImage2Id,
+            subImage3Id,
+            subImage4Id,
+            ifd2Id
         };
         for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfds); ++i) {
 #ifdef DEBUG
@@ -527,8 +534,8 @@ namespace Exiv2 {
             { pttIfd, "NikonPreview"                                  },
             { pttLen, "Exif.Olympus.ThumbnailLength"                  },
             { pttTag, "Exif.Olympus.ThumbnailOffset"                  },
-            { pttTag, "Exif.Olympus.ThumbnailImage"                   },
-            { pttTag, "Exif.Olympus.Thumbnail"                        },
+            { pttLen, "Exif.Olympus.ThumbnailImage"                   },
+            { pttLen, "Exif.Olympus.Thumbnail"                        },
             { pttLen, "Exif.Olympus2.ThumbnailLength"                 },
             { pttTag, "Exif.Olympus2.ThumbnailOffset"                 },
             { pttLen, "Exif.Olympus2.ThumbnailImage"                  },
@@ -575,7 +582,7 @@ namespace Exiv2 {
 #ifndef SUPPRESS_WARNINGS
                     std::cerr << "Warning: Exif IFD " << filteredPvTags[i].key_ << " not encoded\n";
 #endif
-                    eraseIfd(ed, filteredPvTags[i].key_);
+                    eraseIfd(ed, ExifTags::ifdIdByIfdItem(filteredPvTags[i].key_));
                 }
                 break;
             }
@@ -702,18 +709,9 @@ namespace {
         return sum;
     }
 
-    void eraseIfd(Exiv2::ExifData& ed, const char* ifdItem)
+    void eraseIfd(Exiv2::ExifData& ed, Exiv2::IfdId ifdId)
     {
-        // Prerequisite: Exif metadata must be sorted by IFD
-        Exiv2::ExifData::iterator pos;
-        for (pos = ed.begin(); pos != ed.end(); ++pos) {
-            if (0 == strcmp(pos->ifdItem().c_str(), ifdItem)) {
-                break;
-            }
-        }
-        while (pos != ed.end() && 0 == strcmp(pos->ifdItem().c_str(), ifdItem)) {
-            pos = ed.erase(pos);
-        }            
+        ed.erase(std::remove_if(ed.begin(), ed.end(), FindExifdatum(ifdId)), ed.end());
     }
     //! @endcond
 }

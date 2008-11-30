@@ -55,18 +55,23 @@ EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 namespace {
-    //! Unary predicate that matches an Exifdatum with a given index.
-    class FindExifdatumByIdx {
+    //! Unary predicate that matches an Exifdatum with a given group and index.
+    class FindExifdatum {
     public:
-        //! Constructor, initializes the object with the index to look for.
-        FindExifdatumByIdx(int idx) : idx_(idx) {}
-        //! Returns true if the index matches.
-        bool operator()(const Exiv2::Exifdatum& md) const { return idx_ == md.idx(); }
+        //! Constructor, initializes the object with the group and index to look for.
+        FindExifdatum(uint16_t group, int idx)
+            : groupName_(Exiv2::Internal::tiffGroupName(group)), idx_(idx) {}
+        //! Returns true if group and index match.
+        bool operator()(const Exiv2::Exifdatum& md) const
+        {
+            return idx_ == md.idx() && 0 == strcmp(md.ifdItem().c_str(), groupName_);
+        }
 
     private:
+        const char* groupName_;
         int idx_;
 
-    }; // class FindExifdatumByIdx
+    }; // class FindExifdatum
 }
 
 // *****************************************************************************
@@ -626,24 +631,27 @@ namespace Exiv2 {
         ExifData::iterator pos = exifData_.end();
         const Exifdatum* ed = datum;
         if (ed == 0) {
-            // Attempting non-intrusive writing. Look for the corresponding Exif
-            // datum by index rather than the key to be able to handle duplicate tags.
-            pos = std::find_if(exifData_.begin(), exifData_.end(),
-                               FindExifdatumByIdx(object->idx()));
+            // Non-intrusive writing: find matching tag
             ExifKey key(object->tag(), tiffGroupName(object->group()));
-            if (pos == exifData_.end() || key.key() != pos->key()) {
-#ifdef DEBUG
-                if (pos == exifData_.end()) { // metadatum not found
-                    std::cerr << "DELETING          " << key << ", idx = " << object->idx() << "\n";
+            pos = exifData_.findKey(key);
+            if (pos != exifData_.end()) {
+                ed = &(*pos);
+                if (object->idx() != pos->idx()) {
+                    // Try to find exact match (in case of duplicate tags)
+                    ExifData::iterator pos2 =
+                        std::find_if(exifData_.begin(), exifData_.end(),
+                                     FindExifdatum(object->group(), object->idx()));
+                    if (pos2 != exifData_.end() && pos2->key() == key.key()) {
+                        ed = &(*pos2);
+                        pos = pos2; // make sure we delete the correct tag below
+                    }
                 }
-                else {
-                    std::cerr << "KEY/IDX MISMATCH  " << key << ", idx = " << object->idx() << "\n";
-                }
-#endif
-                setDirty();
             }
             else {
-                ed = &(*pos);
+                setDirty();
+#ifdef DEBUG
+                std::cerr << "DELETING          " << key << ", idx = " << object->idx() << "\n";
+#endif
             }
         }
         else {
@@ -669,7 +677,6 @@ namespace Exiv2 {
 #ifdef DEBUG
         std::cerr << "\n";
 #endif
-
     } // TiffEncoder::encodeTiffComponent
 
     void TiffEncoder::encodeArrayElement(TiffArrayElement* object, const Exifdatum* datum)
@@ -1038,8 +1045,7 @@ namespace Exiv2 {
           pLast_(pData + size),
           pRoot_(pRoot),
           pState_(state.release()),
-          pOrigState_(pState_),
-          idxSeq_(0)
+          pOrigState_(pState_)
     {
         assert(pData_);
         assert(size_ > 0);
@@ -1145,9 +1151,9 @@ namespace Exiv2 {
         return false;
     }
 
-    int TiffReader::nextIdx()
+    int TiffReader::nextIdx(uint16_t group)
     {
-        return ++idxSeq_;
+        return ++idxSeq_[group];
     }
 
     void TiffReader::visitDirectory(TiffDirectory* object)
@@ -1428,7 +1434,7 @@ namespace Exiv2 {
         object->setValue(v);
         object->setData(pData, size);
         object->setOffset(offset);
-        object->setIdx(nextIdx());
+        object->setIdx(nextIdx(object->group()));
 
     } // TiffReader::readTiffEntry
 
@@ -1485,7 +1491,7 @@ namespace Exiv2 {
         object->setValue(v);
         object->setData(pData, size);
         object->setOffset(0);
-        object->setIdx(nextIdx());
+        object->setIdx(nextIdx(object->group()));
         object->setCount(1);
 
     } // TiffReader::visitArrayElement

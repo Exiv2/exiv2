@@ -466,6 +466,12 @@ namespace Exiv2 {
          */
         iterator erase(iterator pos);
         /*!
+          @brief Remove all elements of the range \em beg, \em end, return the
+                 position of the next element. Note that iterators into
+                 the metadata are potentially invalidated by this call.
+         */
+        iterator erase(iterator beg, iterator end);
+        /*!
           @brief Delete all Exifdatum instances resulting in an empty container.
                  Note that this also removes thumbnails.
          */
