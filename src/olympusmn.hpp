@@ -71,6 +71,10 @@ namespace Exiv2 {
         static const TagInfo* tagListIp();
         //! Return read-only list of built-in Olympus Focus Info tags
         static const TagInfo* tagListFi();
+        //! Return read-only list of built-in Olympus FE tags
+        static const TagInfo* tagListFe();
+        //! Return read-only list of built-in Olympus Raw Info tags
+        static const TagInfo* tagListRi();
 
         //! @name Print functions for Olympus %MakerNote tags
         //@{
@@ -95,6 +99,8 @@ namespace Exiv2 {
         static const TagInfo tagInfoRd2_[];
         static const TagInfo tagInfoIp_[];
         static const TagInfo tagInfoFi_[];
+        static const TagInfo tagInfoFe_[];
+        static const TagInfo tagInfoRi_[];
 
     }; // class OlympusMakerNote
 

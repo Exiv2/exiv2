@@ -370,6 +370,16 @@ namespace Exiv2 {
         {    0x2031, Group::olymp2mn,  Group::olymprd2,  0x927c,    Group::exif,      newTiffSubIfd },
         {    0x2040, Group::olymp2mn,  Group::olympip,   0x927c,    Group::exif,      newTiffSubIfd },
         {    0x2050, Group::olymp2mn,  Group::olympfi,   0x927c,    Group::exif,      newTiffSubIfd },
+        {    0x2100, Group::olymp2mn,  Group::olympfe1,  0x927c,    Group::exif,      newTiffSubIfd },
+        {    0x2200, Group::olymp2mn,  Group::olympfe2,  0x927c,    Group::exif,      newTiffSubIfd },
+        {    0x2300, Group::olymp2mn,  Group::olympfe3,  0x927c,    Group::exif,      newTiffSubIfd },
+        {    0x2400, Group::olymp2mn,  Group::olympfe4,  0x927c,    Group::exif,      newTiffSubIfd },
+        {    0x2500, Group::olymp2mn,  Group::olympfe5,  0x927c,    Group::exif,      newTiffSubIfd },
+        {    0x2600, Group::olymp2mn,  Group::olympfe6,  0x927c,    Group::exif,      newTiffSubIfd },
+        {    0x2700, Group::olymp2mn,  Group::olympfe7,  0x927c,    Group::exif,      newTiffSubIfd },
+        {    0x2800, Group::olymp2mn,  Group::olympfe8,  0x927c,    Group::exif,      newTiffSubIfd },
+        {    0x2900, Group::olymp2mn,  Group::olympfe9,  0x927c,    Group::exif,      newTiffSubIfd },
+        {    0x3000, Group::olymp2mn,  Group::olympri,   0x927c,    Group::exif,      newTiffSubIfd },
         { Tag::next, Group::olymp2mn,  Group::ignr,      0x927c,    Group::exif,      newTiffDirectory },
         {  Tag::all, Group::olymp2mn,  Group::olymp2mn,  0x927c,    Group::exif,      newTiffEntry },
 
@@ -392,6 +402,36 @@ namespace Exiv2 {
 
         // Olympus2 focus info subdir
         {  Tag::all, Group::olympfi,   Group::olympfi,   0x2050,    Group::olymp2mn,  newTiffEntry },
+
+        // Olympus2 FE 1 subdir
+        {  Tag::all, Group::olympfe1,  Group::olympfe1,  0x2100,    Group::olymp2mn,  newTiffEntry },
+
+        // Olympus2 FE 2 subdir
+        {  Tag::all, Group::olympfe2,  Group::olympfe2,  0x2200,    Group::olymp2mn,  newTiffEntry },
+
+        // Olympus2 FE 3 subdir
+        {  Tag::all, Group::olympfe3,  Group::olympfe3,  0x2300,    Group::olymp2mn,  newTiffEntry },
+
+        // Olympus2 FE 4 subdir
+        {  Tag::all, Group::olympfe4,  Group::olympfe4,  0x2400,    Group::olymp2mn,  newTiffEntry },
+
+        // Olympus2 FE 5 subdir
+        {  Tag::all, Group::olympfe5,  Group::olympfe5,  0x2500,    Group::olymp2mn,  newTiffEntry },
+
+        // Olympus2 FE 6 subdir
+        {  Tag::all, Group::olympfe6,  Group::olympfe6,  0x2600,    Group::olymp2mn,  newTiffEntry },
+
+        // Olympus2 FE 7 subdir
+        {  Tag::all, Group::olympfe7,  Group::olympfe7,  0x2700,    Group::olymp2mn,  newTiffEntry },
+
+        // Olympus2 FE 8 subdir
+        {  Tag::all, Group::olympfe8,  Group::olympfe8,  0x2800,    Group::olymp2mn,  newTiffEntry },
+
+        // Olympus2 FE 9 subdir
+        {  Tag::all, Group::olympfe9,  Group::olympfe9,  0x2900,    Group::olymp2mn,  newTiffEntry },
+
+        // Olympus2 Raw Info subdir
+        {  Tag::all, Group::olympri,   Group::olympri,   0x3000,    Group::olymp2mn,  newTiffEntry },
 
         // Fujifilm makernote
         { Tag::next, Group::fujimn,    Group::ignr,      0x927c,    Group::exif,      newTiffDirectory },
