@@ -51,7 +51,7 @@ TABLES = Exif \
          Minolta MinoltaCsNew MinoltaCs5D MinoltaCs7D \
          Nikon1 Nikon2 Nikon3 \
          Olympus OlympusCs OlympusEq OlympusRd OlympusRd2 \
-         OlympusIp OlympusFi \
+         OlympusIp OlympusFi OlympusFe1 OlympusRi \
 	 Panasonic \
          Pentax \
          Sigma \

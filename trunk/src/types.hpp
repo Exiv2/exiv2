@@ -146,6 +146,9 @@ namespace Exiv2 {
                  nikon1IfdId, nikon2IfdId, nikon3IfdId, nikonPvIfdId,
                  olympusIfdId, olympus2IfdId, olympusCsIfdId, olympusEqIfdId,
                  olympusRdIfdId, olympusRd2IfdId, olympusIpIfdId, olympusFiIfdId,
+                 olympusFe1IfdId, olympusFe2IfdId, olympusFe3IfdId, olympusFe4IfdId,
+                 olympusFe5IfdId, olympusFe6IfdId, olympusFe7IfdId, olympusFe8IfdId,
+                 olympusFe9IfdId, olympusRiIfdId,
                  panasonicIfdId, pentaxIfdId, sigmaIfdId, sonyIfdId,
                  lastIfdId };
 

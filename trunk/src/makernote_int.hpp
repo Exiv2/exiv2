@@ -76,6 +76,16 @@ namespace Exiv2 {
         const uint16_t olymprd2  = 286; //!< Olympus raw development 2 tags
         const uint16_t olympip   = 287; //!< Olympus image processing tags
         const uint16_t olympfi   = 288; //!< Olympus focus info tags
+        const uint16_t olympfe1  = 289; //!< Olympus FE 1 tags
+        const uint16_t olympfe2  = 290; //!< Olympus FE 2 tags
+        const uint16_t olympfe3  = 291; //!< Olympus FE 3 tags
+        const uint16_t olympfe4  = 292; //!< Olympus FE 4 tags
+        const uint16_t olympfe5  = 293; //!< Olympus FE 5 tags
+        const uint16_t olympfe6  = 294; //!< Olympus FE 6 tags
+        const uint16_t olympfe7  = 295; //!< Olympus FE 7 tags
+        const uint16_t olympfe8  = 296; //!< Olympus FE 8 tags
+        const uint16_t olympfe9  = 297; //!< Olympus FE 9 tags
+        const uint16_t olympri   = 298; //!< Olympus raw info tags
     }
 
 // *****************************************************************************

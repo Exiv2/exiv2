@@ -939,6 +939,79 @@ namespace Exiv2 {
         return tagInfoFi_;
     }
 
+    const TagInfo OlympusMakerNote::tagInfoFe_[] = {
+        TagInfo(0x0100, "BodyFirmwareVersion", N_("Body Firmware Version"), N_("Body firmware version"), olympusFe1IfdId, makerTags, asciiString, printValue),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownOlympusFeTag)", "(UnknownOlympusFeTag)", N_("Unknown OlympusFe tag"), olympusFe1IfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* OlympusMakerNote::tagListFe()
+    {
+        return tagInfoFe_;
+    }
+
+    //! OlympusRi LightSource, tag 0x1000
+    extern const TagDetails olympusRiLightSource[] = {
+        {   0, N_("Unknown")                                 },
+        {  16, N_("Shade")                                   },
+        {  17, N_("Cloudy")                                  },
+        {  18, N_("Fine Weather")                            },
+        {  20, N_("Tungsten (incandescent)")                 },
+        {  22, N_("Evening Sunlight")                        },
+        {  33, N_("Daylight Fluorescent (D 5700 - 7100K)")   },
+        {  34, N_("Day White Fluorescent (N 4600 - 5400K)")  },
+        {  35, N_("Cool White Fluorescent (W 3900 - 4500K)") },
+        {  36, N_("White Fluorescent (WW 3200 - 3700K)")     },
+        { 256, N_("One Touch White Balance")                 },
+        { 512, N_("Custom 1-4")                              }
+    };
+
+    const TagInfo OlympusMakerNote::tagInfoRi_[] = {
+        TagInfo(0x0000, "RawInfoVersion", N_("Raw Info Version"), N_("Raw info version"), olympusRiIfdId, makerTags, undefined, printValue),
+        TagInfo(0x0100, "WB_RBLevelsUsed", N_("WB_RB Levels Used"), N_("WB_RB levels used"), olympusRiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0110, "WB_RBLevelsAuto", N_("WB_RB Levels Auto"), N_("WB_RB levels auto"), olympusRiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0120, "WB_RBLevelsShade", N_("WB_RB Levels Shade"), N_("WB_RB levels shade"), olympusRiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0121, "WB_RBLevelsCloudy", N_("WB_RB Levels Cloudy"), N_("WB_RB levels cloudy"), olympusRiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0122, "WB_RBLevelsFineWeather", N_("WB_RB Levels Fine Weather"), N_("WB_RB levels fine weather"), olympusRiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0123, "WB_RBLevelsTungsten", N_("WB_RB Levels Tungsten"), N_("WB_RB levels tungsten"), olympusRiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0124, "WB_RBLevelsEveningSunlight", N_("WB_RB Levels Evening Sunlight"), N_("WB_RB levels evening sunlight"), olympusRiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0130, "WB_RBLevelsDaylightFluor", N_("WB_RB Levels Daylight Fluor"), N_("WB_RB levels daylight fluor"), olympusRiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0131, "WB_RBLevelsDayWhiteFluor", N_("WB_RB Levels Day White Fluor"), N_("WB_RB levels day white fluor"), olympusRiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0132, "WB_RBLevelsCoolWhiteFluor", N_("WB_RB Levels Cool White Fluor"), N_("WB_RB levels cool white fluor"), olympusRiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0133, "WB_RBLevelsWhiteFluorescent", N_("WB_RB Levels White Fluorescent"), N_("WB_RB levels white fluorescent"), olympusRiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0200, "ColorMatrix2", N_("Color Matrix2"), N_("Color matrix 2"), olympusRiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0310, "CoringFilter", N_("Coring Filter"), N_("Coring filter"), olympusRiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0311, "CoringValues", N_("Coring Values"), N_("Coring values"), olympusRiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0600, "BlackLevel2", N_("Black Level 2"), N_("Black level 2"), olympusRiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0601, "YCbCrCoefficients", N_("YCbCr Coefficients"), N_("YCbCr coefficients"), olympusRiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0611, "ValidPixelDepth", N_("Valid Pixel Depth"), N_("Valid pixel depth"), olympusRiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0612, "CropLeft", N_("Crop Left"), N_("Crop left"), olympusRiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0613, "CropTop", N_("Crop Top"), N_("Crop top"), olympusRiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0614, "CropWidth", N_("Crop Width"), N_("Crop width"), olympusRiIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x0615, "CropHeight", N_("Crop Height"), N_("Crop height"), olympusRiIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x1000, "LightSource", N_("Light Source"), N_("Light source"), olympusRiIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(olympusRiLightSource)),
+        TagInfo(0x1001, "WhiteBalanceComp", N_("White Balance Comp"), N_("White balance comp"), olympusRiIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x1010, "SaturationSetting", N_("Saturation Setting"), N_("Saturation setting"), olympusRiIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x1011, "HueSetting", N_("Hue Setting"), N_("Hue setting"), olympusRiIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x1012, "ContrastSetting", N_("Contrast Setting"), N_("Contrast setting"), olympusRiIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x1013, "SharpnessSetting", N_("Sharpness Setting"), N_("Sharpness setting"), olympusRiIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x2000, "CMExposureCompensation", N_("CM Exposure Compensation"), N_("CM exposure compensation"), olympusRiIfdId, makerTags, signedRational, printValue),
+        TagInfo(0x2001, "CMWhiteBalance", N_("CM White Balance"), N_("CM white balance"), olympusRiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x2002, "CMWhiteBalanceComp", N_("CM White Balance Comp"), N_("CM white balance comp"), olympusRiIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x2010, "CMWhiteBalanceGrayPoint", N_("CM White Balance Gray Point"), N_("CM white balance gray point"), olympusRiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x2020, "CMSaturation", N_("CM Saturation"), N_("CM saturation"), olympusRiIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x2021, "CMHue", N_("CM Hue"), N_("CM hue"), olympusRiIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x2022, "CMContrast", N_("CM Contrast"), N_("CM contrast"), olympusRiIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x2023, "CMSharpness", N_("CM Sharpness"), N_("CM sharpness"), olympusRiIfdId, makerTags, signedShort, printValue),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownOlympusRiTag)", "(UnknownOlympusRiTag)", N_("Unknown OlympusRi tag"), olympusRiIfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* OlympusMakerNote::tagListRi()
+    {
+        return tagInfoRi_;
+    }
+
     // Gradation
     std::ostream& OlympusMakerNote::print0x050f(std::ostream& os, const Value& value, const ExifData*)
     {
