@@ -324,8 +324,8 @@ namespace Action {
         typedef std::auto_ptr<Modify> AutoPtr;
         AutoPtr clone() const;
         Modify() {}
-        //! Apply modification commands to the \em pImage
-        static void applyCommands(Exiv2::Image* pImage);
+        //! Apply modification commands to the \em pImage, return 0 if successful.
+        static int applyCommands(Exiv2::Image* pImage);
 
     private:
         virtual Modify* clone_() const;
@@ -333,11 +333,11 @@ namespace Action {
         Modify(const Modify& /*src*/) : Task() {}
 
         //! Add a metadatum to \em pImage according to \em modifyCmd
-        static void addMetadatum(Exiv2::Image* pImage,
-                                 const ModifyCmd& modifyCmd);
+        static int addMetadatum(Exiv2::Image* pImage,
+                                const ModifyCmd& modifyCmd);
         //! Set a metadatum in \em pImage according to \em modifyCmd
-        static void setMetadatum(Exiv2::Image* pImage,
-                                 const ModifyCmd& modifyCmd);
+        static int setMetadatum(Exiv2::Image* pImage,
+                                const ModifyCmd& modifyCmd);
         //! Delete a metadatum from \em pImage according to \em modifyCmd
         static void delMetadatum(Exiv2::Image* pImage,
                                  const ModifyCmd& modifyCmd);
