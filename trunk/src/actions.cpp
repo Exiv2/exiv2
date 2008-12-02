@@ -1243,7 +1243,7 @@ namespace Action {
         assert(image.get() != 0);
         image->readMetadata();
 
-        applyCommands(image.get());
+        int rc = applyCommands(image.get());
 
         // Save both exif and iptc metadata
         image->writeMetadata();
@@ -1251,7 +1251,7 @@ namespace Action {
         if (Params::instance().preserve_) {
             ts.touch(path);
         }
-        return 0;
+        return rc;
     }
     catch(const Exiv2::AnyError& e)
     {
@@ -1261,7 +1261,7 @@ namespace Action {
     }
     } // Modify::run
 
-    void Modify::applyCommands(Exiv2::Image* pImage)
+    int Modify::applyCommands(Exiv2::Image* pImage)
     {
         if (!Params::instance().jpegComment_.empty()) {
             if (Params::instance().verbose_) {
@@ -1277,13 +1277,17 @@ namespace Action {
         ModifyCmds& modifyCmds = Params::instance().modifyCmds_;
         ModifyCmds::const_iterator i = modifyCmds.begin();
         ModifyCmds::const_iterator end = modifyCmds.end();
+        int rc = 0;
+        int ret = 0;
         for (; i != end; ++i) {
             switch (i->cmdId_) {
             case add:
-                addMetadatum(pImage, *i);
+                ret = addMetadatum(pImage, *i);
+                if (rc == 0) rc = ret;
                 break;
             case set:
-                setMetadatum(pImage, *i);
+                ret = setMetadatum(pImage, *i);
+                if (rc == 0) rc = ret;
                 break;
             case del:
                 delMetadatum(pImage, *i);
@@ -1296,9 +1300,10 @@ namespace Action {
                 break;
             }
         }
+        return rc;
     } // Modify::applyCommands
 
-    void Modify::addMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd)
+    int Modify::addMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd)
     {
         if (Params::instance().verbose_) {
             std::cout << _("Add") << " " << modifyCmd.key_ << " \""
@@ -1310,7 +1315,8 @@ namespace Action {
         Exiv2::IptcData& iptcData = pImage->iptcData();
         Exiv2::XmpData&  xmpData  = pImage->xmpData();
         Exiv2::Value::AutoPtr value = Exiv2::Value::create(modifyCmd.typeId_);
-        if (0 == value->read(modifyCmd.value_)) {
+        int rc = value->read(modifyCmd.value_);
+        if (0 == rc) {
             if (modifyCmd.metadataId_ == exif) {
                 exifData.add(Exiv2::ExifKey(modifyCmd.key_), value.get());
             }
@@ -1321,11 +1327,19 @@ namespace Action {
                 xmpData.add(Exiv2::XmpKey(modifyCmd.key_), value.get());
             }
         }
+        else {
+            std::cerr << _("Warning") << ": " << modifyCmd.key_ << ": "
+                      << _("Failed to read") << " "
+                      << Exiv2::TypeInfo::typeName(value->typeId())
+                      << " " << _("value")
+                      << " \"" << modifyCmd.value_ << "\"\n";
+        }
+        return rc;
     }
 
     // This function looks rather complex because we try to avoid adding an
     // empty metadatum if reading the value fails
-    void Modify::setMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd)
+    int Modify::setMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd)
     {
         if (Params::instance().verbose_) {
             std::cout << _("Set") << " " << modifyCmd.key_ << " \""
@@ -1370,7 +1384,8 @@ namespace Action {
                 && modifyCmd.typeId_ != value->typeId())) {
             value = Exiv2::Value::create(modifyCmd.typeId_);
         }
-        if (0 == value->read(modifyCmd.value_)) {
+        int rc = value->read(modifyCmd.value_);
+        if (0 == rc) {
             if (metadatum) {
                 metadatum->setValue(value.get());
             }
@@ -1393,6 +1408,7 @@ namespace Action {
                       << " " << _("value")
                       << " \"" << modifyCmd.value_ << "\"\n";
         }
+        return rc;
     }
 
     void Modify::delMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd)
