@@ -89,8 +89,7 @@ AC_SUBST(HAVE_TIMEGM,$HAVE_TIMEGM)
 # ---------------------------------------------------------------------------
 AC_MSG_CHECKING([whether to enable dependency tracking])
 AC_ARG_ENABLE(dependency-tracking,
-    [  --disable-dependency-tracking  speeds up one-time build
-  --enable-dependency-tracking   do not reject slow dependency extractors],
+    [  --disable-dependency-tracking  speeds up one-time build],
     USE_TRACKING=$enableval, USE_TRACKING=yes)
 AC_MSG_RESULT($USE_TRACKING)
 DEP_TRACKING=
@@ -98,6 +97,22 @@ if test "$USE_TRACKING" = "yes"; then
     DEP_TRACKING=1
 fi
 AC_SUBST(DEP_TRACKING,$DEP_TRACKING)
+
+AC_MSG_CHECKING([whether to enable g++ visibility support])
+AC_ARG_ENABLE(visibility,
+    [  --disable-visibility    do not use g++ visibility support ],
+    GXX_VISIBILITY=$enableval, GXX_VISIBILITY=yes)
+AC_MSG_RESULT($GXX_VISIBILITY)
+if test "$GXX_VISIBILITY" = "yes"; then
+    AX_CXX_CHECK_FLAG(-fvisibility-inlines-hidden,[],[],[GXX_VISIBILITY=yes],[GXX_VISIBILITY=no])
+    if test "$GXX_VISIBILITY" = "yes"; then
+        CXXFLAGS="${CXXFLAGS} -fvisibility=hidden -fvisibility-inlines-hidden"
+        AC_DEFINE(HAVE_GXXCLASSVISIBILITY,1)
+    fi
+    if test "$enable_shared" = "yes"; then
+        AC_DEFINE(HAVE_DLL)
+    fi
+fi
 
 AC_MSG_CHECKING([whether to use the lens database for Exif.Nikon3.LensData])
 AC_ARG_ENABLE(lensdata,
@@ -189,16 +204,6 @@ else
 fi
 AC_SUBST(EXV_LIB_STATIC)
 
-# g++ visibility support
-AX_CXX_CHECK_FLAG(-fvisibility-inlines-hidden,[],[],[GXX_VISIBILITY=yes],[GXX_VISIBILITY=no])
-if test "$GXX_VISIBILITY" = "yes"; then
-    CXXFLAGS="${CXXFLAGS} -fvisibility=hidden -fvisibility-inlines-hidden"
-    AC_DEFINE(HAVE_GXXCLASSVISIBILITY,1)
-fi
-if test "$enable_shared" = "yes"; then
-    AC_DEFINE(HAVE_DLL)
-fi
-
 # ---------------------------------------------------------------------------
 # Create output files.
 # ---------------------------------------------------------------------------
@@ -221,6 +226,11 @@ echo "--"
 case "$enable_shared" in
 yes) echo "-- Build a shared library......... YES" ;;
 *)   echo "-- Build a shared library......... NO" ;;
+esac
+
+case "$GXX_VISIBILITY" in
+yes) echo "-- Use g++ visibility support..... YES" ;;
+*)   echo "-- Use g++ visibility support..... NO" ;;
 esac
 
 case "x$HAVE_LIBZ" in
