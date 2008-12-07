@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "Sept 10th, 2008"
+.TH EXIV2 1 "Dec 7th, 2008"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -152,6 +152,8 @@ i : IPTC data values
 x : XMP properties
 .br
 c : JPEG comment
+.br
+p : list available image previews, sorted by preview image size in pixels
 .TP
 .B \-P \fIcols\fP
 Print columns for the Exif taglist ('print' action), allows detailed
@@ -209,7 +211,13 @@ be named \fIfile\fP\-thumb.jpg.
 .TP
 .B \-e \fItgt\fP
 Extract target(s) for the 'extract' action. Possible targets are the same 
-as those for the \fB\-d\fP option, plus a modifier:
+as those for the \fB\-d\fP option, plus a target to extract preview
+images and a modifier to generate an XMP sidecar file:
+.br
+p[<n>[,<m> ...]] : Extract preview images. The optional comma separated
+list of preview image numbers is used to determine which preview images
+to extract. The available preview images and their numbers are displayed
+with the 'print' option -pp.
 .br
 X : Extract metadata to an XMP sidecar file <file>.xmp. The remaining
 extract targets determine what metadata to extract to the sidecar
@@ -362,6 +370,10 @@ and img2\-thumb.jpg.
 exiv2 \-it img1.jpg img2.jpg
 Inserts (copies) metadata from img1.exv to img1.jpg and from img2.exv
 to img2.jpg.
+.TP
+exiv2 \-ep1,2 image.jpg
+Extracts previews 1 and 2 from the image to the files image\-preview1.jpg
+and image\-preview2.jpg.
 .TP
 exiv2 \-eiX image.jpg 
 Extracts IPTC datasets into an XMP sidecar file image.xmp and in the

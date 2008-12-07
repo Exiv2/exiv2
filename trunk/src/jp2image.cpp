@@ -490,7 +490,7 @@ namespace Exiv2
 
                     if (writeXmpFromPacket() == false)
                     {
-                        if (XmpParser::encode(xmpPacket_, xmpData_))
+                        if (XmpParser::encode(xmpPacket_, xmpData_) > 1)
                         {
 #ifndef SUPPRESS_WARNINGS
                             std::cerr << "Error: Failed to encode XMP metadata.\n";
